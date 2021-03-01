@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
+import ReactHtmlParser from 'react-html-parser'
+import Slider from 'react-slick'
 import Services from '@src/Services'
 import actions from '@src/actions'
-import { capitalize } from '@src/Helpers'
+import { analytics, capitalize } from '@src/Helpers'
 import Spinner from '../Spinner/Spinner'
 import Interaction from './Interaction'
 import ValueInteraction from './ValueInteraction'
 import ExpandCollapse from './ExpandCollapse'
 import SearchInput from './SearchInput'
 import StartEndPage from './StartEndPage'
-import { analytics } from '../../Helpers'
-import ReactHtmlParser from 'react-html-parser'
+
 
 export default function ProductFinderModal(props) {
   const { modalIsOpen, setIsOpen, selectedProduct } = props
@@ -69,6 +70,17 @@ export default function ProductFinderModal(props) {
       scrollOuter.scrollTop = 0
       setScrollShadow()
     }
+  }
+
+  const sliderSettings = {
+    centerMode: true,
+    centerPadding: '20px',
+    dots: true,
+    arrows: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
   }
 
   const saveProduct = (commodityCode, commodityName) => {
@@ -259,7 +271,7 @@ export default function ProductFinderModal(props) {
 
   const sectionFound = (_searchResults) => {
     return (
-      <section className="m-h-s m-b-s body-l">
+      <section className="m-h-s m-b-s">
         <div className="h-m p-b-s">Match found</div>
         <StartEndPage
           commodityCode={_searchResults.hsCode}
@@ -334,6 +346,75 @@ export default function ProductFinderModal(props) {
     return sections
   }
 
+  const infoCards = [
+    {
+      className: 'box box--no-pointer m-t-s',
+      content: (
+        <p>
+          When you search for a product you may have to answer a few questions
+          before you find a match.
+        </p>
+      )
+    },
+    {
+      className: 'box box--no-pointer m-t-s',
+      content: (
+        <>
+          <p className="m-t-0 m-b-xs">
+            This is because we use HS (<span className="body-l-b">harmonised system</span>)
+            codes to classify goods.
+          </p>
+          <p className="m-v-0">
+            Think of it like the folder structure on a computer.
+          </p>
+        </>
+      )
+    },
+    {
+      className: 'box box--no-pointer m-t-s inline-block',
+      content: (
+        <>
+          <div className="c-1-2 p-h-0">
+            <p className="m-t-0 m-b-xs">
+              You might see your product as &quot;delicious green apples from
+              the valley&quot;.
+            </p>
+            <p className="m-v-0">
+              But the system sees &quot;fruits; apples; fresh&quot;.
+            </p>
+          </div>
+          <div className="c-1-2">
+            <img
+              className="w-full"
+              src="/static/images/apples-oranges-with-hs6.svg "
+              alt=""
+            />
+          </div>
+        </>
+      )
+    },
+    {
+      className: 'box box--no-pointer m-t-s',
+      content: (
+        <>
+          <p className="m-t-0 m-b-xs">
+            You don&apos;t have to find a perfect match.
+          </p>
+          <p className="m-v-0">
+            Find a close match, then feel free to relabel it.
+          </p>
+        </>
+      )
+    },
+  ]
+
+  const renderInfoCards = () => {
+    return infoCards.map((card, idx) =>
+      <div key={idx} className={card.className}>
+        {card.content}
+      </div>
+  )}
+
   const searchBox = (error) => {
     return (
       <div className="p-h-s p-t-l">
@@ -360,45 +441,15 @@ export default function ProductFinderModal(props) {
             <i className="fa fa-arrow-right" />
           </button>
         </div>
-        <div className="box box--no-pointer m-t-s">
-          When you search for a product you may have to answer a few questions
-          before you find a match.
+        {/* Desktop rendering with info cards displayed as a stack  */}
+        <div className="only-desktop">
+          {renderInfoCards()}
         </div>
-        <div className="box box--no-pointer m-t-s">
-          <p className="m-t-0 m-b-xs">
-            This is because we use HS (
-            <span className="body-l-b">harmonised system</span>) codes to
-            classify goods.
-          </p>
-          <p className="m-v-0">
-            Think of it like the folder structure on a computer.
-          </p>
-        </div>
-        <div className="box box--no-pointer m-t-s m-h-0 grid">
-          <div className="c-1-2 p-h-0">
-            <p className="m-t-0 m-b-xs">
-              You might see your product as &quot;delicious green apples from
-              the valley&quot;.
-            </p>
-            <p className="m-v-0">
-              But the system sees &quot;fruits; apples; fresh&quot;.
-            </p>
-          </div>
-          <div className="c-1-2">
-            <img
-              className="w-full"
-              src="/static/images/apples-oranges-with-hs6.svg "
-              alt=""
-            />
-          </div>
-        </div>
-        <div className="box box--no-pointer m-t-s">
-          <p className="m-t-0 m-b-xs">
-            You don&apos;t have to find a perfect match.
-          </p>
-          <p className="m-v-0">
-            Find a close match, then feel free to relabel it.
-          </p>
+        {/* Mobile rendering with info cards displayed within a carousel  */}
+        <div className="only-mobile">
+          <Slider {...sliderSettings}>
+            {renderInfoCards()}
+          </Slider>
         </div>
       </div>
     )
@@ -409,7 +460,7 @@ export default function ProductFinderModal(props) {
     // rather than jumping directly into search
     return (
       <div className="p-h-s p-t-l">
-        <section className="m-b-s body-l">
+        <section className="m-b-s">
           <h2 className="h-m p-b-s">Your product</h2>
           <StartEndPage
             commodityCode={selectedProduct.commodity_code || ''}
@@ -472,7 +523,7 @@ export default function ProductFinderModal(props) {
           className="back-button m-f-s m-t-m"
           onClick={backToSearch}
         >
-          <i className="fa fa-arrow-circle-left m-r-xs" />
+          <i className="fa fa-arrow-circle-left" />
           Search again
         </button>
         {searchResults && resultsDisplay(searchResults)}
@@ -490,18 +541,10 @@ export default function ProductFinderModal(props) {
       <ReactModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        className="modal max-modal p-v-s p-h-l"
+        className="modal centre-modal-content p-v-s p-h-l"
         overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
         shouldCloseOnOverlayClick={false}
-        style={{
-          content: {
-            maxWidth: '630px',
-            left: 'auto',
-            right: 'auto',
-            overflow: 'hidden',
-          },
-        }}
       >
         <form className="product-finder text-blue-deep-80">
           <div style={{ height: headerHeight }}>

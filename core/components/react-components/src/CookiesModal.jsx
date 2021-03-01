@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import Modal from 'react-modal'
-import CookieManager from '../../directory_components/static/directory_components/js/dit.components.cookie-notice'
+import CookieManager from '../../static/js/dit.components.cookie-notice'
 
 import styles from './CookiesModal.css'
 

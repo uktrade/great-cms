@@ -2,7 +2,7 @@ import factory
 import factory.fuzzy
 import wagtail_factories
 
-from core import blocks as core_blocks, constants
+from core import blocks as core_blocks, constants, service_urls
 from domestic.models import (
     ArticleListingPage,
     ArticlePage,
@@ -10,6 +10,7 @@ from domestic.models import (
     DomesticDashboard,
     DomesticHomePage,
     MarketsTopicLandingPage,
+    PerformanceDashboardPage,
     TopicLandingPage,
 )
 
@@ -84,3 +85,11 @@ class TopicLandingPageFactory(wagtail_factories.PageFactory):
 class MarketsTopicLandingPageFactory(wagtail_factories.PageFactory):
     class Meta:
         model = MarketsTopicLandingPage
+
+
+class PerformanceDashboardPageFactory(wagtail_factories.PageFactory):
+    product_link = service_urls.SERVICES_GREAT_DOMESTIC
+    description = factory.fuzzy.FuzzyText(length=60)
+
+    class Meta:
+        model = PerformanceDashboardPage

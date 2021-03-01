@@ -96,7 +96,7 @@ def test_multiple_modules(domestic_homepage, client, user):
 
     request = HttpRequest()
     request.user = user
-    request.user.export_plan = {}
+    request.user.export_plan.data = {}
     page1_response = detail_page_1.serve(request)
     page2_response = detail_page_2.serve(request)
     page3_response = detail_page_3.serve(request)
@@ -117,6 +117,189 @@ def test_multiple_modules(domestic_homepage, client, user):
     assert page4_response.context_data.get('next_lesson') is None
     assert page4_response.context_data['current_module'] == module_2
     assert page4_response.context_data.get('next_module') is None  # no next module, even though final lesson
+
+
+@pytest.mark.parametrize(
+    'hs_code,country,region,expected_length, expected_filter_dict',
+    [
+        (
+            '123456',
+            'IN',
+            'Asia',
+            15,
+            [
+                {
+                    'hs_code_tags__name': '123456',
+                    'country_code_tags__name': 'IN',
+                },
+                {
+                    'hs_code_tags__name': '123456',
+                    'region_code_tags__name': 'Asia',
+                },
+                {'hs_code_tags__name': '123456'},
+                {
+                    'hs_code_tags__name': '1234',
+                    'country_code_tags__name': 'IN',
+                },
+                {
+                    'hs_code_tags__name': '1234',
+                    'region_code_tags__name': 'Asia',
+                },
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
+                {
+                    'hs_code_tags__name': '12',
+                    'region_code_tags__name': 'Asia',
+                },
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
+                {'region_code_tags__name': 'Asia'},
+                {'trading_bloc_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
+                {'trading_bloc_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
+                {'trading_bloc_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
+                {'trading_bloc_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
+            ],
+        ),
+        (
+            '1234',
+            'IN',
+            'Asia',
+            12,
+            [
+                {
+                    'hs_code_tags__name': '1234',
+                    'country_code_tags__name': 'IN',
+                },
+                {
+                    'hs_code_tags__name': '1234',
+                    'region_code_tags__name': 'Asia',
+                },
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
+                {
+                    'hs_code_tags__name': '12',
+                    'region_code_tags__name': 'Asia',
+                },
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
+                {'region_code_tags__name': 'Asia'},
+                {'trading_bloc_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
+                {'trading_bloc_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
+                {'trading_bloc_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
+                {'trading_bloc_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
+            ],
+        ),
+        (
+            '12',
+            'IN',
+            'Asia',
+            9,
+            [
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
+                {
+                    'hs_code_tags__name': '12',
+                    'region_code_tags__name': 'Asia',
+                },
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
+                {'region_code_tags__name': 'Asia'},
+                {'trading_bloc_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
+                {'trading_bloc_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
+                {'trading_bloc_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
+                {'trading_bloc_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
+            ],
+        ),
+        (
+            '123456',
+            'IN',
+            None,
+            11,
+            [
+                {
+                    'hs_code_tags__name': '123456',
+                    'country_code_tags__name': 'IN',
+                },
+                {'hs_code_tags__name': '123456'},
+                {
+                    'hs_code_tags__name': '1234',
+                    'country_code_tags__name': 'IN',
+                },
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
+                {'trading_bloc_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
+                {'trading_bloc_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
+                {'trading_bloc_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
+                {'trading_bloc_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
+            ],
+        ),
+        (
+            '1234',
+            'IN',
+            None,
+            9,
+            [
+                {
+                    'hs_code_tags__name': '1234',
+                    'country_code_tags__name': 'IN',
+                },
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
+                {'trading_bloc_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
+                {'trading_bloc_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
+                {'trading_bloc_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
+                {'trading_bloc_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
+            ],
+        ),
+        (
+            '12',
+            'IN',
+            None,
+            7,
+            [
+                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
+                {'hs_code_tags__name': '12'},
+                {'country_code_tags__name': 'IN'},
+                {'trading_bloc_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
+                {'trading_bloc_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
+                {'trading_bloc_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
+                {'trading_bloc_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
+            ],
+        ),
+        (
+            '123456',
+            None,
+            None,
+            3,
+            [
+                {'hs_code_tags__name': '123456'},
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12'},
+            ],
+        ),
+        (
+            '1234',
+            None,
+            None,
+            2,
+            [
+                {'hs_code_tags__name': '1234'},
+                {'hs_code_tags__name': '12'},
+            ],
+        ),
+        ('12', None, None, 1, [{'hs_code_tags__name': '12'}]),
+        (None, None, None, 0, []),
+    ],
+)
+def test_personalised_filter_condition(
+    mock_trading_blocs, hs_code, country, region, expected_length, expected_filter_dict
+):
+    filter_cond = get_personalised_case_study_orm_filter_args(hs_code=hs_code, country=country, region=region)
+    assert filter_cond == expected_filter_dict
+    assert len(filter_cond) == expected_length
 
 
 @pytest.mark.django_db
@@ -174,7 +357,7 @@ def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
 
     request = HttpRequest()
     request.user = user
-    request.user.export_plan = {}
+    request.user.export_plan.data = {}
     page1_response = detail_page_1.serve(request)
     page2_response = detail_page_2.serve(request)
     page3_response = detail_page_3.serve(request)
@@ -195,164 +378,6 @@ def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
     assert page4_response.context_data.get('next_lesson') is None
     assert page4_response.context_data['current_module'] == module_2
     assert page4_response.context_data.get('next_module') is None  # no next module, even though final lesson
-
-
-@pytest.mark.parametrize(
-    'hs_code,country,region,expected_length, expected_filter_dict',
-    [
-        (
-            '123456',
-            'IN',
-            'Asia',
-            11,
-            [
-                {
-                    'hs_code_tags__name': '123456',
-                    'country_code_tags__name': 'IN',
-                },
-                {
-                    'hs_code_tags__name': '123456',
-                    'country_code_tags__name': 'Asia',
-                },
-                {'hs_code_tags__name': '123456'},
-                {
-                    'hs_code_tags__name': '1234',
-                    'country_code_tags__name': 'IN',
-                },
-                {
-                    'hs_code_tags__name': '1234',
-                    'country_code_tags__name': 'Asia',
-                },
-                {'hs_code_tags__name': '1234'},
-                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
-                {
-                    'hs_code_tags__name': '12',
-                    'country_code_tags__name': 'Asia',
-                },
-                {'hs_code_tags__name': '12'},
-                {'country_code_tags__name': 'IN'},
-                {'country_code_tags__name': 'Asia'},
-            ],
-        ),
-        (
-            '1234',
-            'IN',
-            'Asia',
-            8,
-            [
-                {
-                    'hs_code_tags__name': '1234',
-                    'country_code_tags__name': 'IN',
-                },
-                {
-                    'hs_code_tags__name': '1234',
-                    'country_code_tags__name': 'Asia',
-                },
-                {'hs_code_tags__name': '1234'},
-                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
-                {
-                    'hs_code_tags__name': '12',
-                    'country_code_tags__name': 'Asia',
-                },
-                {'hs_code_tags__name': '12'},
-                {'country_code_tags__name': 'IN'},
-                {'country_code_tags__name': 'Asia'},
-            ],
-        ),
-        (
-            '12',
-            'IN',
-            'Asia',
-            5,
-            [
-                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
-                {
-                    'hs_code_tags__name': '12',
-                    'country_code_tags__name': 'Asia',
-                },
-                {'hs_code_tags__name': '12'},
-                {'country_code_tags__name': 'IN'},
-                {'country_code_tags__name': 'Asia'},
-            ],
-        ),
-        (
-            '123456',
-            'IN',
-            None,
-            7,
-            [
-                {
-                    'hs_code_tags__name': '123456',
-                    'country_code_tags__name': 'IN',
-                },
-                {'hs_code_tags__name': '123456'},
-                {
-                    'hs_code_tags__name': '1234',
-                    'country_code_tags__name': 'IN',
-                },
-                {'hs_code_tags__name': '1234'},
-                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
-                {'hs_code_tags__name': '12'},
-                {'country_code_tags__name': 'IN'},
-            ],
-        ),
-        (
-            '1234',
-            'IN',
-            None,
-            5,
-            [
-                {
-                    'hs_code_tags__name': '1234',
-                    'country_code_tags__name': 'IN',
-                },
-                {'hs_code_tags__name': '1234'},
-                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
-                {'hs_code_tags__name': '12'},
-                {'country_code_tags__name': 'IN'},
-            ],
-        ),
-        (
-            '12',
-            'IN',
-            None,
-            3,
-            [
-                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
-                {'hs_code_tags__name': '12'},
-                {'country_code_tags__name': 'IN'},
-            ],
-        ),
-        (
-            '123456',
-            None,
-            None,
-            3,
-            [
-                {'hs_code_tags__name': '123456'},
-                {'hs_code_tags__name': '1234'},
-                {'hs_code_tags__name': '12'},
-            ],
-        ),
-        (
-            '1234',
-            None,
-            None,
-            2,
-            [
-                {'hs_code_tags__name': '1234'},
-                {'hs_code_tags__name': '12'},
-            ],
-        ),
-        ('12', None, None, 1, [{'hs_code_tags__name': '12'}]),
-        (None, None, None, 0, []),
-    ],
-)
-def test_personalised_filter_condition(hs_code, country, region, expected_length, expected_filter_dict):
-    filter_cond = get_personalised_case_study_orm_filter_args(hs_code=hs_code, country=country, region=region)
-
-    assert filter_cond == expected_filter_dict
-    assert len(filter_cond) == expected_length
 
 
 @pytest.mark.parametrize(
@@ -407,7 +432,7 @@ def test_selected_personalised_choices(
 ):
     request = rf.get('/')
     request.user = user
-    request.user.export_plan = mock.MagicMock()
+    request.user.export_plan.data = mock.MagicMock()
     with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
         commodity_code, country, region = get_personalised_choices(mocked_export_plan)
 

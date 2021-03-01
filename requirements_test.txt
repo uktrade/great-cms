@@ -10,9 +10,9 @@ airtable-python-wrapper==0.13.0
     # via -r requirements.in
 alabaster==0.7.12
     # via sphinx
-allure-pytest==2.8.32
+allure-pytest==2.8.33
     # via -r requirements_test.in
-allure-python-commons==2.8.32
+allure-python-commons==2.8.33
     # via allure-pytest
 appdirs==1.4.4
     # via black
@@ -69,7 +69,7 @@ coverage==5.4
     # via
     #   codecov
     #   pytest-cov
-cryptography==3.2
+cryptography==3.3.2
     # via -r requirements.in
 cssselect==1.1.0
     # via pyquery
@@ -83,7 +83,7 @@ decorator==4.4.2
     # via
     #   ipython
     #   traitlets
-directory-api-client==22.12.0
+directory-api-client==22.14.0
     # via -r requirements.in
 directory-client-core==6.3.0
     # via
@@ -169,7 +169,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==5.8.0
+faker==6.0.0
     # via factory-boy
 flake8-blind-except==0.1.1
     # via -r requirements_test.in
@@ -484,7 +484,7 @@ tzlocal==2.1
     # via dateparser
 ua-parser==0.10.0
     # via user-agents
-unidecode==1.1.2
+unidecode==1.2.0
     # via wagtail
 urllib3==1.25.11
     # via

@@ -1,0 +1,64 @@
+{% extends 'domestic/base.html' %}
+
+{% load static from staticfiles %}
+{% load wagtailcore_tags %}
+
+{% block head_css %}
+{{ block.super }}
+<link href="{% static 'styles/default.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'styles/performance-dashboard.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block head_title %}
+Performance dashboard - great.gov.uk
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  {% include 'components/breadcrumbs_cms.html' %}
+</div>
+
+<section>
+  <div class="container">
+    <div class="performance">
+      <p class="font-small subheading">Performance dashboard</p>
+      <h2 class="heading-large">{{ page.heading }}</h2>
+      <div class="grid-row">
+        <div class="column-half">
+          {{ page.description|richtext }}
+          <p>Visit <a href="{{ page.product_link }}" class="link">{{ page.heading }}</a></p>
+        </div>
+      </div>
+      <div class="grid-row performance-stats">
+        {% for data_block in page.body %}
+            {% include_block data_block %}
+        {% endfor %}
+      </div>
+      {% if page.guidance_notes %}
+      <div class="grid-row">
+        <div class="column-half rich-text">
+          {{ page.guidance_notes|richtext }}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    {% if page.landing_dashboard and page.get_child_dashboards %}
+    <div class="other-services">
+      <p class="subheading">Department for International Trade</p>
+      <h2 class="heading-large">Our services</h2>
+      <ul class="list">
+        {% for child_dashboard in page.get_child_dashboards %}
+        <li>
+            <a class="link" href="{{child_dashboard.url}}">
+              {{child_dashboard.heading}}
+            </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

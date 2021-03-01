@@ -33,7 +33,7 @@ export const CountryFinderButton = (props) => {
     <button type="button" 
       className={buttonClass} 
       onClick={openModal} >
-      {(market && market.country_name) || 'add country'}
+      {(market && market.country_name) || 'add place'}
       <i className={`fa ${(market ? 'fa-edit' : 'fa-plus')}`}/>
     </button>
   )

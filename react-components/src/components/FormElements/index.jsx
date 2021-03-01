@@ -5,40 +5,13 @@ import ErrorList from '@src/components/ErrorList'
 import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
 import { Input } from '@src/components/Form/Input'
-import Services from '@src/Services'
-import { useDebounce } from '@src/components/hooks/useDebounce'
 import Spinner from '@src/components/Spinner/Spinner'
-import { analytics, sectionQuestionMapping } from '@src/Helpers'
+import { getLabel, sectionQuestionMapping } from '@src/Helpers'
+import { useUpdateExportPlan } from '@src/components/hooks/useUpdateExportPlan/useUpdateExportPlan'
 
 export const FormElements = memo(({ formData: form, field, formFields }) => {
   const [formData, setFormData] = useState({ ...form })
-  const [pending, setPending] = useState(false)
-  const [showMessage, setShowMessage] = useState(false)
-  const [errors, setErrors] = useState({})
-  const debounceMessage = useDebounce(setShowMessage)
-
-  const update = (data, section = '') => {
-    Services.updateExportPlan({ [field]: data })
-      .then(() => {
-        setShowMessage(true)
-      })
-      .then(() => {
-        analytics({
-          event: 'planSectionSaved',
-          sectionTitle: field.replace(/_/g, '-'),
-          sectionFormField: section,
-        })
-      })
-      .catch((err) => {
-        setErrors(err.message || err)
-      })
-      .finally(() => {
-        setPending(false)
-        debounceMessage(false)
-      })
-  }
-
-  const debounceUpdate = useDebounce(update)
+  const [update, showMessage, pending, errors] = useUpdateExportPlan(field)
 
   const handleChange = (e) => {
     const data = {
@@ -47,8 +20,7 @@ export const FormElements = memo(({ formData: form, field, formFields }) => {
     }
 
     setFormData(data)
-    setPending(true)
-    debounceUpdate(data, sectionQuestionMapping[Object.keys(e)[0]])
+    update({ [field]: data }, sectionQuestionMapping[Object.keys(e)[0]])
   }
 
   return (
@@ -70,12 +42,8 @@ export const FormElements = memo(({ formData: form, field, formFields }) => {
             value={formData[item.name]}
             onChange={handleChange}
             update={handleChange}
-            tooltip={{
-              content: item.tooltip,
-            }}
-            example={{
-              content: item.example,
-            }}
+            tooltip={item.tooltip}
+            example={item.example}
             description={item.description}
             key={item.name}
             prepend={item.currency ? item.currency : null}
@@ -84,10 +52,10 @@ export const FormElements = memo(({ formData: form, field, formFields }) => {
             type={fieldType === 'NumberInput' ? 'number' : 'text'}
             selected={
               formData[item.name] && item.choices
-                ? item.choices.find((x) => x.value === formData[item.name])
-                    .label
+                ? getLabel(item.choices, formData[item.name])
                 : ''
             }
+            lesson={item.lesson}
           />
         )
       })}

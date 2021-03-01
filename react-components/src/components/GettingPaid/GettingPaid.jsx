@@ -1,20 +1,14 @@
 import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { useDebounce } from '@src/components/hooks/useDebounce'
 import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
-import { getLabel, getValue } from '@src/Helpers'
-import Services from '@src/Services'
+import { getLabel, getLabels, getValue, getValues } from '@src/Helpers'
+import { useUpdateExportPlan } from '@src/components/hooks/useUpdateExportPlan/useUpdateExportPlan'
 
 export const GettingPaid = memo(({ formFields, formData, field }) => {
   const [state, setState] = useState(formData)
-
-  const update = (data) => {
-    Services.updateExportPlan(data).then(() => {})
-  }
-
-  const debounceUpdate = useDebounce(update)
+  const [update] = useUpdateExportPlan(field)
 
   const onChange = (updatedField, otherProps, section, isNotes = false) => {
     const note = isNotes ? { notes: updatedField[isNotes] } : updatedField
@@ -27,81 +21,64 @@ export const GettingPaid = memo(({ formFields, formData, field }) => {
       },
     })
 
-    debounceUpdate({ [field]: { [section]: { ...note, ...otherProps } } })
+    update({ [field]: { [section]: { ...note, ...otherProps } } })
   }
 
   return (
-    <section className="container p-t-l m-b-l">
-      <div className="grid">
-        <div className="c-1-4">&nbsp;</div>
-        <div className="c-1-1 c-2-3-m c-1-2-xl">
-          <h3 className="h-l">Your payment methods</h3>
-          <p>
-            Foreign buyers may have different expectations about how and when to
-            pay for their imports.
-          </p>
-          <p>
-            To avoid uncertainty and disappointment, carefully consider the
-            options available.
-          </p>
-          <div className="form-table bg-blue-deep-10 radius p-h-s p-v-xs">
-            <div className="target-market-documents-form">
-              {formFields.map(({ group, field: key }) => {
-                const select = group[0]
-                const textarea = group[1]
-                const options = Array.isArray(select.options)
-                  ? select.options
-                  : Object.keys(select.options).flatMap(
-                      (x) => select.options[x]
-                    )
-                const selected = getLabel(
-                  options,
-                  state[key] ? state[key][select.id] : ''
-                )
+    <div className="target-market-documents-form">
+      {formFields.map(({ group, field: key }) => {
+        const select = group[0]
+        const textarea = group[1]
+        const options = Array.isArray(select.options)
+          ? select.options
+          : Object.keys(select.options).flatMap((x) => select.options[x])
+        const selected = select.multiSelect
+          ? getLabels(options, state[key] ? state[key][select.id] : [])
+          : getLabel(options, state[key] ? state[key][select.id] : '')
 
-                return (
-                  <div className="user-form-group" key={select.id}>
-                    <Select
-                      label={select.label}
-                      id={select.id}
-                      name={select.name}
-                      options={select.options}
-                      selected={selected}
-                      update={(data) =>
-                        onChange(data, { notes: state[textarea.id] }, key)
-                      }
-                    />
-                    <TextArea
-                      onChange={(data) =>
-                        onChange(
-                          data,
-                          { [select.id]: getValue(options, selected) },
-                          key,
-                          textarea.id
-                        )
-                      }
-                      label={textarea.label}
-                      id={textarea.id}
-                      value={state[key] ? state[key].notes : ''}
-                      placeholder={textarea.placeholder}
-                    />
-                  </div>
+        return (
+          <div className="user-form-group" key={select.id}>
+            <Select
+              label={select.label}
+              id={select.id}
+              name={select.name}
+              options={select.options}
+              selected={selected}
+              update={(data) => {
+                onChange(
+                  {
+                    [select.id]: select.multiSelect
+                      ? getValues(select.options, data[select.id])
+                      : data[select.id],
+                  },
+                  { notes: state[key] ? state[key].notes : '' },
+                  key
                 )
-              })}
-              <p className="body-s text-blue-deep-50 m-b-0">
-                Incoterms® and the Incoterms® 2020 logo are trademarks of ICC.
-                Use of these trademarks does not imply association with,
-                approval of or sponsorship by ICC unless specifically stated
-                above. The Incoterms® Rules are protected by copyright owned by
-                ICC. Further information on the Incoterm® Rules may be obtained
-                from the ICC website iccwbo.org.
-              </p>
-            </div>
+              }}
+              multiSelect={select.multiSelect}
+            />
+            <TextArea
+              onChange={(data) =>
+                onChange(
+                  data,
+                  {
+                    [select.id]: select.multiSelect
+                      ? getValues(options, selected)
+                      : getValue(options, selected),
+                  },
+                  key,
+                  textarea.id
+                )
+              }
+              label={textarea.label}
+              id={textarea.id}
+              value={state[key] ? state[key].notes : ''}
+              placeholder={textarea.placeholder}
+            />
           </div>
-        </div>
-        <div className="c-1-12-m c-1-4-xl">&nbsp;</div>
-      </div>
-    </section>
+        )
+      })}
+    </div>
   )
 })
 
@@ -122,7 +99,12 @@ GettingPaid.propTypes = {
   formData: PropTypes.objectOf(
     PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string])),
+      PropTypes.objectOf(
+        PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.arrayOf(PropTypes.string),
+        ])
+      ),
     ])
   ).isRequired,
   field: PropTypes.string.isRequired,

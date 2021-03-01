@@ -68,6 +68,11 @@ def export_plan_data(cost_pricing_data):
             'payment_terms': {'method': ['FFE', 'TMP'], 'notes': 'method 2'},
             'incoterms': {'method': ['RME', 'ECM'], 'notes': 'method 3'},
         },
+        'business_trips': {'note': 'trip 1'},
+        'travel_business_policies': {
+            'travel_information': 'All travel to be business class',
+            'visa_information': {'is_required': True, 'duration': '10 Months'},
+        },
         'pk': 1,
         'funding_credit_options': [{'pk': 1, 'amount': 2.0, 'funding_option': 'p-p', 'companyexportplan': 6}],
     }
@@ -137,6 +142,15 @@ def domestic_site(domestic_homepage, client):
     return SiteFactory(
         root_page=domestic_homepage,
         hostname=client._base_environ()['SERVER_NAME'],
+    )
+
+
+@pytest.fixture
+def magna_site(domestic_homepage, client):
+    return SiteFactory(
+        root_page=domestic_homepage,
+        hostname=client._base_environ()['SERVER_NAME'],
+        is_default_site=True,
     )
 
 
@@ -249,9 +263,9 @@ def mock_get_create_export_plan(patch_get_create_export_plan):
 
 
 @pytest.fixture
-def patch_get_export_plan(export_plan_data):
+def patch_sso_models_get_or_create_export_plan(export_plan_data):
     # TODO merge this and above patch so we use singe unified way of getting export plan
-    yield mock.patch('sso.models.get_exportplan', return_value=export_plan_data)
+    yield mock.patch('sso.models.get_or_create_export_plan', return_value=export_plan_data)
 
 
 @pytest.fixture(autouse=False)
@@ -414,10 +428,10 @@ def patch_set_user_page_view():
 
 
 @pytest.fixture
-def patch_export_plan():
+def patch_export_plan(export_plan_data):
     yield mock.patch(
         'directory_api_client.api_client.exportplan.exportplan_list',
-        return_value=create_response(status_code=200, json_body=[{'id': 1}]),
+        return_value=create_response(status_code=200, json_body=[export_plan_data]),
     ).start()
 
 
@@ -439,5 +453,64 @@ def patch_get_suggested_markets():
     ]
     yield mock.patch(
         'directory_api_client.api_client.dataservices.suggested_countries_by_hs_code',
+        return_value=create_response(status_code=200, json_body=body),
+    ).start()
+
+
+@pytest.fixture
+def mock_trading_blocs():
+    body = [
+        {
+            'membership_code': 'CTTB0124',
+            'iso2': 'IN',
+            'country_territory_name': 'India',
+            'trading_bloc_code': 'TB00020',
+            'trading_bloc_name': 'Regional Comprehensive Economic Partnership (RCEP)',
+            'membership_start_date': None,
+            'membership_end_date': None,
+            'country': 270,
+        },
+        {
+            'membership_code': 'CTTB0127',
+            'iso2': 'IN',
+            'country_territory_name': 'India',
+            'trading_bloc_code': 'TB00023',
+            'trading_bloc_name': 'South Asian Association for Regional Cooperation (SAARC)',
+            'membership_start_date': None,
+            'membership_end_date': None,
+            'country': 270,
+        },
+        {
+            'membership_code': 'CTTB0126',
+            'iso2': 'IN',
+            'country_territory_name': 'India',
+            'trading_bloc_code': 'TB00022',
+            'trading_bloc_name': 'South Asia Free Trade Area (SAFTA)',
+            'membership_start_date': None,
+            'membership_end_date': None,
+            'country': 270,
+        },
+        {
+            'membership_code': 'CTTB0125',
+            'iso2': 'IN',
+            'country_territory_name': 'India',
+            'trading_bloc_code': 'TB00021',
+            'trading_bloc_name': 'Regional Economic Comprehensive Economic Partnership (RCEP)',
+            'membership_start_date': None,
+            'membership_end_date': None,
+            'country': 270,
+        },
+    ]
+    yield mock.patch(
+        'directory_api_client.api_client.dataservices.trading_blocs_by_country',
+        return_value=create_response(status_code=200, json_body=body),
+    ).start()
+
+
+@pytest.fixture
+def mock_no_trading_blocs():
+    body = []
+    yield mock.patch(
+        'directory_api_client.api_client.dataservices.trading_blocs_by_country',
         return_value=create_response(status_code=200, json_body=body),
     ).start()

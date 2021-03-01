@@ -29,7 +29,7 @@ const analytics = (data) => {
 const normaliseValues = (str, places = 1, fixed = false) => {
   const pow = Math.pow(10, places)
   if (str) {
-    var values = String(str).replace(/\d+(\.\d+)?/g, ($0) => {
+    let values = String(str).replace(/\d+(\.\d+)?/g, ($0) => {
       return fixed
         ? parseFloat($0).toFixed(places)
         : Math.round(parseFloat($0) * pow) / pow
@@ -38,12 +38,11 @@ const normaliseValues = (str, places = 1, fixed = false) => {
       return Math.round($0)
     })
     return values.split(/\(([^)]+)\)/)
-  } else {
-    return 'Data not available'
   }
+  return 'Data not available'
 }
 
-let millify = (value) => {
+const millify = (value) => {
   const floatValue = parseFloat(value)
   if (floatValue) {
     const names = ['million', 'billion', 'trillion']
@@ -51,7 +50,7 @@ let millify = (value) => {
     if (oom <= 1) return Math.round(floatValue).toLocaleString()
     return `${(value / Math.pow(10, oom * 3)).toFixed(1)} ${names[oom - 2]}`
   }
-  return value === null ? value : '' + value
+  return value === null ? value : `${value}`
 }
 
 const stripPercentage = (str) => {
@@ -79,7 +78,7 @@ const get = (obj, path, def = null) => {
   // get a value from an object based on dot-separated path
   let out = obj
   const pathSplit = path.split('.')
-  for (var i = 0; i < pathSplit.length; i++) {
+  for (let i = 0; i < pathSplit.length; i++) {
     if (!isObject(out)) {
       return def
     }
@@ -98,7 +97,7 @@ const mapArray = (array, key) => {
 }
 
 const deepAssign = (obj1, obj2) => {
-  let out = { ...obj1 }
+  const out = { ...obj1 }
   Object.keys(obj2).forEach((key) => {
     if (out[key] && isObject(out[key]) && isObject(obj2[key])) {
       out[key] = deepAssign(out[key], obj2[key])
@@ -136,6 +135,16 @@ const getValue = (list, selected) => {
   return selected && hasLabel ? hasLabel.value : ''
 }
 
+const getLabels = (list, items = []) => {
+  const selected = list.filter((x) => items.includes(x.value))
+  return Object.keys(selected).map((y) => selected[y].label)
+}
+
+const getValues = (list, items = []) => {
+  const selected = list.filter((x) => items.includes(x.label))
+  return Object.keys(selected).map((y) => selected[y].value)
+}
+
 const formatLessonLearned = (lesson, section, id) =>
   lesson[section.lessons[id]]
     ? {
@@ -157,6 +166,8 @@ export {
   mapArray,
   getLabel,
   getValue,
+  getLabels,
+  getValues,
   formatLessonLearned,
   millify,
   stripPercentage,

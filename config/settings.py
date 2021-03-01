@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.contrib.modeladmin',
+    'wagtail.contrib.table_block',
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.core',
     'wagtail.contrib.routable_page',
+    'wagtail.contrib.settings',
     'wagtailmedia',
     'wagtailcache',
     'wagtail_personalisation',
@@ -107,6 +109,7 @@ TEMPLATES = [
                 'core.context_processors.javascript_components',
                 'core.context_processors.env_vars',
                 'core.context_processors.analytics_vars',
+                'core.context_processors.migration_support_vars',
                 'great_components.context_processors.analytics',
             ],
         },
@@ -173,7 +176,7 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [
     str(ROOT_DIR('core/static')),
-    str(ROOT_DIR('core/components/directory_components/static')),
+    str(ROOT_DIR('core/components/static')),
     str(ROOT_DIR('domestic/static')),
     str(ROOT_DIR('react-components/dist')),
 ]
@@ -520,3 +523,8 @@ else:
 
 GREAT_SUPPORT_EMAIL = env.str('GREAT_SUPPORT_EMAIL', 'great.support@trade.gov.uk')
 DIT_ON_GOVUK = env.str('DIT_ON_GOVUK', 'www.gov.uk/government/organisations/department-for-international-trade')
+
+# V1 to V2 migration settings
+# (These will be short-lived as we gradually cut over from V1 to V2 for all traffic)
+
+BREADCRUMBS_ROOT_URL = env.bool('BREADCRUMBS_ROOT_URL', 'https://great.gov.uk/')
