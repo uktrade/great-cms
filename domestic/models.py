@@ -5,7 +5,7 @@ from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
-from django.http import HttpResponseNotFound
+from django.http import Http404
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
@@ -194,10 +194,10 @@ class StructuralPage(BaseContentPage):
 
     def serve_preview(self, request, mode_name='dummy'):
         # It doesn't matter what is passed as mode_name - we always HTTP404
-        return HttpResponseNotFound()
+        raise Http404()
 
     def serve(self, request):
-        return HttpResponseNotFound()
+        raise Http404()
 
 
 class GreatDomesticHomePage(
