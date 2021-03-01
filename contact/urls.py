@@ -5,6 +5,7 @@ from . import snippet_slugs
 from .views import DomesticEnquiriesFormView, DomesticFormView, DomesticSuccessView
 
 app_name = 'contact'
+# NB: when reverse()ing a named URL listed below, remember to prepend it with `contact:`
 
 urlpatterns = [
     path(
