@@ -232,9 +232,10 @@ img {
 .logo {
 }
 .logo--cover {
-  /* width: 400pt; */
   height: 350pt;
-  /* zoom: 80%; */
+}
+.logo--great {
+  width: 150pt;
 }
 
 /* Page layouts */
