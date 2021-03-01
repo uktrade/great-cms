@@ -134,6 +134,14 @@ class GetSnippetContentMixin:
 
     """
 
+    @property
+    def slug(self):
+        return self.kwargs['slug']
+
+    @property
+    def snippet_import_path(self):
+        return self.kwargs['snippet_import_path']
+
     def get_snippet_instance(self):
         path, model_name = self.snippet_import_path.rsplit('.', 1)
         module_ = import_module(path)
