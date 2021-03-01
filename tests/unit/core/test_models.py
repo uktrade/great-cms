@@ -5,6 +5,7 @@ import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+from django.http import Http404
 from django.test import RequestFactory, TestCase
 from wagtail.admin.edit_handlers import ObjectList
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
@@ -41,6 +42,7 @@ from .factories import (
     CaseStudyFactory,
     DetailPageFactory,
     LessonPlaceholderPageFactory,
+    StructurePageFactory,
     TopicPageFactory,
 )
 
@@ -454,6 +456,20 @@ def test_placeholder_page_redirects_to_module(
         resp = getattr(placeholder_page, page_method)(request)
 
         assert resp._headers['location'] == ('Location', curated_list_page.url)
+
+
+@pytest.mark.django_db
+def test_structure_page_redirects_to_http404(
+    rf,
+    domestic_homepage,
+    domestic_site,
+):
+    # The structure pages should never render their own content and instead return Http404
+    structure_page = StructurePageFactory(parent=domestic_homepage)
+    for page_method in ('serve', 'serve_preview'):
+        request = rf.get('/foo/')
+        with pytest.raises(Http404):
+            getattr(structure_page, page_method)(request)
 
 
 class DetailPageTests(WagtailPageTests):
