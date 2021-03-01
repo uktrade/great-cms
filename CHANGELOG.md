@@ -106,6 +106,7 @@
 - GP2- 1342 - Added related pages to CaseStudy listing view
 - GP2-1376 - Use relative links to Magna-hosted Markets and Advice pages
 - GP2-1348 - Compare markets - economy/population tab enhancements
+- GP2-1559 - Structural page  for marketing articles
 - GP2-1332 - Markets homepage
 - GP2-1336 - Advice homepage
 - GP2-1363 - Drop custom Django view serving /markets/
