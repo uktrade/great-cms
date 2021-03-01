@@ -35,10 +35,18 @@ urlpatterns += [
     path('admin/cms-extras/', decorator_include(skip_ga360, cms_extras.urls, namespace='cms_extras')),
     path('admin/', decorator_include(skip_ga360, wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),  # NB: doesn't skip GA as we may analytics on this
-    path('contact/', include(contact.urls)),
     path('sso/', include(sso.urls)),
     path('', include(core.urls, namespace='core')),
     path('export-plan/', include(exportplan.urls)),
+]
+
+# Should we show the contact pages we're porting from V1 yet?
+if settings.FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES:
+    urlpatterns += [
+        path('contact/', include(contact.urls)),
+    ]
+
+urlpatterns += [
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:
