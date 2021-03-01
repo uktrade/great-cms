@@ -96,14 +96,14 @@ pdftoc.pdftoclevel2 {
 @font-face {
   /* put in quotes and add # at the beginning */
   font-family: 'FS Lucas';
-  src: url('/static/fonts/FSLucas-Regular.ttf');
+  src: url('http://greatcms.trade.great:8020/static/fonts/FSLucas-Regular.ttf');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   /* put in quotes and add # at the beginning */
   font-family: 'FS Lucas SemiBold';
-  src: url('/static/fonts/FSLucas-SemiBold.ttf');
+  src: url('http://greatcms.trade.great:8020/static/fonts/FSLucas-SemiBold.ttf');
   font-weight: 500;
   font-style: normal;
 }
@@ -117,6 +117,10 @@ a,
 li,
 ul {
   margin: 0;
+}
+strong {
+  font-family: 'FS Lucas SemiBold', Helvetica, Arial, sans-serif;
+  font-weight: 500;
 }
 h1,
 h2,
@@ -223,6 +227,14 @@ a {
 /* Images */
 img {
   zoom: 100%;
+}
+
+.logo {
+}
+.logo--cover {
+  /* width: 400pt; */
+  height: 350pt;
+  /* zoom: 80%; */
 }
 
 /* Page layouts */
