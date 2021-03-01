@@ -205,9 +205,17 @@ class ExportPlanTargetMarketsResearchView(PageTitleMixin, LessonDetailsMixin, Ex
 
             country_data = get_country_data(
                 countries=[self.request.user.export_plan.export_country_code],
-                fields=['GDPPerCapita','ConsumerPriceIndex','Income','CorruptionPerceptionsIndex','EaseOfDoingBusiness']
+                fields=[
+                    'GDPPerCapita',
+                    'ConsumerPriceIndex',
+                    'Income',
+                    'CorruptionPerceptionsIndex',
+                    'EaseOfDoingBusiness',
+                ],
             )
-            insight_data[self.request.user.export_plan.export_country_code]['country_data'] = country_data.get(self.request.user.export_plan.export_country_code)
+            insight_data[self.request.user.export_plan.export_country_code]['country_data'] = country_data.get(
+                self.request.user.export_plan.export_country_code
+            )
             context['insight_data'] = insight_data
 
             context['selected_age_groups'] = (
