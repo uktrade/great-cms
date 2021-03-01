@@ -3,9 +3,33 @@ from unittest import mock
 import django.forms
 import pytest
 from django.conf import settings
+from django.test import override_settings
 from django.urls import reverse
+from django.urls.exceptions import NoReverseMatch
 
 from contact import constants, forms, views
+from tests.helpers import reload_urlconf
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize('contact_views_enabled', (True, False))
+def test_feature_flag_for_contact_section(contact_views_enabled, client):
+    example_url_name = 'contact:contact-us-domestic'
+
+    original_feature_flag_val = settings.FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES
+
+    with override_settings(FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES=contact_views_enabled):
+        reload_urlconf()
+        if contact_views_enabled:
+            resp = client.get(reverse(example_url_name))
+            assert resp.status_code == 200
+        else:
+            with pytest.raises(NoReverseMatch):
+                reverse(example_url_name)
+
+    # As cleanup, ensure the Feature Flag's impact on URLs is reverted to original
+    with override_settings(FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES=original_feature_flag_val):
+        reload_urlconf()
 
 
 @pytest.mark.parametrize(
