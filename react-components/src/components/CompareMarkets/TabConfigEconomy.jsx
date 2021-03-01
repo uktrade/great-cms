@@ -11,7 +11,7 @@ const rankOutOf = (data, key) => {
 }
 
 const sign = (value) => {
-  return ['-', '', '+'][Math.sign(value) + 1]
+  return ['', '', '+'][Math.sign(value) + 1]
 }
 
 const importValueAndChange = (importValue) => {
@@ -27,7 +27,7 @@ const importValueAndChange = (importValue) => {
         <div className="body-m secondary text-black-60">
           {sign(importValue.year_on_year_change)}
           {normaliseValues(importValue.year_on_year_change)}% vs{' '}
-          {importValue.year - 1}
+          {importValue.last_year}
         </div>
       )}
     </>
@@ -80,8 +80,8 @@ export default {
     'avg-income': {
       name: 'Adjusted net national income per capita (USD)',
       className: 'text-align-right',
-      render: (data) => millify(get(data, 'country_data.income.value')),
-      year: (data) => get(data, 'country_data.income.year'),
+      render: (data) => millify(data.Income.value),
+      year: (data) => get(data, 'Income.year'),
       tooltip: {
         position: 'right',
         title: '',
@@ -95,9 +95,8 @@ export default {
     'eod-business': {
       name: 'Ease of doing business rank',
       className: 'text-align-right',
-      render: (data) =>
-        rankOutOf(data.country_data.ease_of_doing_bussiness, 'rank'),
-      year: (data) => get(data, 'country_data.ease_of_doing_bussiness.year'),
+      render: (data) => rankOutOf(data.EaseOfDoingBusiness, 'rank'),
+      year: (data) => get(data, 'EaseOfDoingBusiness.year'),
       tooltip: {
         position: 'right',
         title: '',
@@ -111,10 +110,11 @@ export default {
     cpi: {
       name: 'Corruption Perceptions Index',
       className: 'text-align-right',
-      render: (data) =>
-        rankOutOf(data.country_data.corruption_perceptions_index, 'rank'),
+      render: (data) => {
+        return rankOutOf(data.CorruptionPerceptionsIndex, 'rank')
+      },
       year: (data) =>
-        get(data, 'country_data.corruption_perceptions_index.year'),
+        get(data, 'CorruptionPerceptionsIndex.year'),
       tooltip: {
         position: 'right',
         title: '',
@@ -129,8 +129,9 @@ export default {
   groups: {
     import: {
       dataFunction: Services.getComTradeData,
-      splitCountriesSequential: true,
     },
   },
-  dataFunction: Services.getCountryData,
+  dataFunction: (countries) => {
+    return Services.getCountryData(countries, ['ConsumerPriceIndex','Income','CorruptionPerceptionsIndex','EaseOfDoingBusiness'])
+  },
 }

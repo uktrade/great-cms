@@ -5,13 +5,11 @@ import pytest
 from django.conf import settings
 from django.http import HttpRequest
 from requests.exceptions import HTTPError
-from requests.models import Response
 
 from core import helpers
 from directory_api_client import api_client
 from directory_constants import choices
 from directory_sso_api_client import sso_api_client
-from exportplan import helpers as exportplan_helpers
 from tests.helpers import create_response
 from tests.unit.core.factories import CuratedListPageFactory
 
@@ -421,39 +419,56 @@ def test_millify(amount, expected):
     assert amount == expected
 
 
-@mock.patch.object(api_client.dataservices, 'get_last_year_import_data')
-@mock.patch.object(api_client.dataservices, 'get_last_year_import_data_from_uk')
-@mock.patch.object(exportplan_helpers, 'get_country_data')
+@mock.patch.object(api_client.dataservices, 'get_last_year_import_data_by_country')
 @pytest.mark.django_db
-def test_get_comdtrade_data(mock_country_data, mock_uk_data, mock_world_data, client):
-    res1 = Response()
-    res1.status_code = 200
-    res1._content_consumed = True
-    res1._content = b"""{"last_year_data": {"year": 2019,"trade_value": 1823000000,"country_name": "Germany","year_on_year_change": 1.264}}"""  # noqa
+def test_get_comtrade_data(mock_import_data, client):
+    import_data = {
+        'DE': [
+            {'year': '2019', 'uk_or_world': 'WLD', 'trade_value': '532907699'},
+            {'year': '2018', 'uk_or_world': 'GBR', 'trade_value': '17954090'},
+            {'year': '2018', 'uk_or_world': 'WLD', 'trade_value': '507537056'},
+            {'year': '2017', 'uk_or_world': 'GBR', 'trade_value': '19783671'},
+        ]
+    }
 
-    mock_world_data.return_value = res1
+    mock_import_data.return_value = create_response(status_code=200, json_body=import_data)
 
-    res2 = Response()
-    res2.status_code = 200
-    res2._content_consumed = True
-    res2._content = b"""{"last_year_data": {"year": 2019,"trade_value": 127250000,"country_name": "Germany","year_on_year_change": 1.126}}"""  # noqa
-    mock_uk_data.return_value = res2
-    response = helpers.get_comtrade_data(countries_list=['Germany'], commodity_code='123456')
-    assert 'Germany' in response.keys()
+    response = helpers.get_comtrade_data(countries_list=['DE'], commodity_code='123456')
+    assert 'DE' in response.keys()
+    assert ['import_from_world', 'import_data_from_uk'] == list(response['DE'].keys())
+    assert response['DE']['import_from_world']['trade_value_raw'] == 532907699
+    assert response['DE']['import_from_world']['year'] == '2019'
+    assert response['DE']['import_from_world']['year_on_year_change'] == 4.998776483425872
+    assert response['DE']['import_data_from_uk']['trade_value_raw'] == 17954090
+    assert response['DE']['import_data_from_uk']['year'] == '2018'
+    assert response['DE']['import_data_from_uk']['year_on_year_change'] == -9.247934824633912
 
-    assert ['import_from_world', 'import_data_from_uk'] == list(response['Germany'].keys())
 
-
-@mock.patch.object(exportplan_helpers, 'get_country_data')
+@mock.patch.object(api_client.dataservices, 'get_country_data_by_country')
 @pytest.mark.django_db
 def test_get_country_data(mock_country_data, client):
-    germany_data = {'country_data': {'consumer_price_index': {'value': 112.332}}}
 
-    mock_country_data.return_value = germany_data
-
-    response = helpers.get_country_data(countries_list=['Germany'])
-    assert 'Germany' in response.keys()
-    assert response.get('Germany') == germany_data
+    country_data = {
+        'FR': {
+            'ConsumerPriceIndex': {'value': '110.049', 'year': 2019},
+            'Income': {'year': 2018, 'value': '34835.012'},
+            'CorruptionPerceptionsIndex': {'total': 180, 'cpi_score': 69, 'year': 2020, 'rank': 23},
+            'EaseOfDoingBusiness': {'total': 264, 'year': '2019', 'rank': 32, 'year_2019': 32},
+        },
+        'DE': {
+            'ConsumerPriceIndex': {'value': '112.855', 'year': 2019},
+            'Income': {'year': 2018, 'value': '40284.961', 'country': 645},
+            'CorruptionPerceptionsIndex': {'total': 180, 'cpi_score': 80, 'year': 2020, 'rank': 9},
+            'EaseOfDoingBusiness': {'total': 264, 'rank': 22, 'year_2019': 22},
+        },
+    }
+    mock_country_data.return_value = create_response(status_code=200, json_body=country_data)
+    response = helpers.get_country_data(
+        countries=['Germany'], fields=['ConsumerPriceIndex', 'CorruptionPerceptionsIndex']
+    )
+    assert 'DE' in response.keys()
+    assert response.get('DE') == country_data['DE']
+    assert response.get('FR') == country_data['FR']
 
 
 def test_build_twitter_link(rf):

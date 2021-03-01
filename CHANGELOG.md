@@ -2,6 +2,7 @@
 
 ## Pre-release
 
+- GP2-1430 - Income data for target research page in EP
 - GP2-1575 - Added default text for case study summary_context field
 - GP2-1570 - CaseStudy UI seachability by summary, lead_title and some tags
 - GP2-1575 - Casestudy rename, reorder and tweak style
@@ -15,7 +16,7 @@
 - NO TICKET - fix wagtail checkbox layout issue
 
 ### Implemented enhancements
-
+- GP2-1398 - Data loading performance for compare markets page
 - GP2-1701 - Footer - Account functionality
 - GP2-1553 - floating lesson link
 - GP2-1593 - Business Risks page elements
