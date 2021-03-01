@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import ReactDOM from 'react-dom'
 import ReactHtmlParser from 'react-html-parser'
 import Slider from 'react-slick'
 
-const CaseStudy = ({ content: { heading, company, blocks } }) => {
+const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const toggleCaseStudy = () => {
@@ -120,7 +120,7 @@ const CaseStudy = ({ content: { heading, company, blocks } }) => {
       </div>
     </>
   )
-}
+})
 
 function createCaseStudy({ element, content }) {
   ReactDOM.render(<CaseStudy content={content} />, element)

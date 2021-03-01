@@ -66295,8 +66295,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
-var CaseStudy = function CaseStudy(_ref) {
+var CaseStudy = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var _ref$content = _ref.content,
       heading = _ref$content.heading,
       company = _ref$content.company,
@@ -66380,7 +66379,7 @@ var CaseStudy = function CaseStudy(_ref) {
     className: "button button--small button--tertiary case-study__open m-t-xs",
     onClick: toggleCaseStudy
   }, "Open case study")));
-};
+});
 
 function createCaseStudy(_ref2) {
   var element = _ref2.element,
