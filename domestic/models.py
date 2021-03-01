@@ -5,6 +5,7 @@ from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
+from django.http import Http404
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
@@ -183,6 +184,23 @@ class DomesticDashboard(
     # Panels
     #########
     content_panels = CMSGenericPage.content_panels + [StreamFieldPanel('components')]
+
+
+class StructuralPage(BaseContentPage):
+    """Structural page to return page not found"""
+
+    # `title` field comes from Page->BaseContentPage
+    folder_page = False
+    settings_panels = [
+        FieldPanel('slug'),
+    ]
+
+    def serve_preview(self, request, mode_name='dummy'):
+        # It doesn't matter what is passed as mode_name - we always HTTP404
+        raise Http404()
+
+    def serve(self, request):
+        raise Http404()
 
 
 class GreatDomesticHomePage(
