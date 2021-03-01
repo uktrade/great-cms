@@ -2,6 +2,7 @@ import React, { memo } from 'react'
 import { Stats } from '@src/components/Stats'
 import { notAvailable } from '@src/components/Stats/StatsGroup'
 import PropTypes from 'prop-types'
+import { millify } from '@src/Helpers'
 
 export const ProductData = memo(({ world, local, country }) => (
   <>
@@ -45,7 +46,14 @@ export const ProductData = memo(({ world, local, country }) => (
           />
         </div>
         <div className="c-1-2">
-          <Stats header="Avg income (USD)" data={notAvailable} />
+          <Stats
+            header="Adjusted net national income per capita (USD)"
+            data={
+              country.income.value
+                ? millify(country.income.value)
+                : notAvailable
+            }
+          />
         </div>
       </div>
     </div>
