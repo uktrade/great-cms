@@ -89,14 +89,6 @@ class BaseSuccessView(
     core_mixins.GetSnippetContentMixin,
     TemplateView,
 ):
-    @property
-    def slug(self):
-        return self.kwargs['slug']
-
-    @property
-    def snippet_import_path(self):
-        return self.kwargs['snippet_import_path']
-
     def clear_form_session(self, response):
         self.form_session.clear()
 

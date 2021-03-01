@@ -235,3 +235,75 @@ def test_contact_us_short_form_not_prepopulated_if_logged_out(client, url, user)
 
     assert response.status_code == 200
     assert response.context_data['form'].initial == {}
+
+
+success_view_params = (
+    reverse('contact:contact-us-domestic-success'),
+    # TO BE PORTED IN SUBSEQUENT WORK
+    # reverse('contact:contact-us-events-success'),
+    # reverse('contact:contact-us-dso-success'),
+    # reverse('contact:contact-us-export-advice-success'),
+    # reverse('contact:contact-us-feedback-success'),
+    # reverse('contact:contact-us-international-success'),
+)
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize('url', success_view_params)
+@mock.patch.object(views.FormSessionMixin.form_session_class, 'clear')
+@mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
+def test_ingress_url_cleared_on_success(
+    mock_get_snippet_instance,
+    mock_clear,
+    url,
+    client,
+):
+    mock_clear.return_value = None
+    # given the ingress url is set
+    client.get(
+        # TODO: replace URL name with contact:contact-us-routing-form with
+        # kwargs={'step': 'location'} once that has been ported
+        reverse('contact:contact-us-domestic'),
+        HTTP_REFERER='http://testserver.com/foo/',
+        HTTP_HOST='testserver.com',
+    )
+
+    # when the success page is viewed
+    response = client.get(url, HTTP_HOST='testserver.com')
+
+    # then the referer is exposed to the template
+    assert response.context_data['next_url'] == 'http://testserver.com/foo/'
+    assert response.status_code == 200
+    # and the ingress url is cleared
+    assert mock_clear.call_count == 1
+
+    assert mock_get_snippet_instance.call_count == 1
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize('url', success_view_params)
+@mock.patch.object(views.FormSessionMixin.form_session_class, 'clear')
+@mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
+def test_ingress_url_special_cases_on_success(
+    mock_get_snippet_instance,
+    mock_clear,
+    url,
+    client,
+):
+    mock_clear.return_value = None
+    # /contact/<path> should always return to landing
+    client.get(
+        # TODO: replace URL name with contact:contact-us-routing-form with
+        # kwargs={'step': 'location'} once that has been ported
+        reverse('contact:contact-us-domestic'),
+        HTTP_REFERER='http://testserver.com/contact/',
+        HTTP_HOST='testserver.com',
+    )
+    response = client.get(url, HTTP_HOST='testserver.com')
+    # for contact ingress urls user flow continues to homepage
+    assert response.context_data['next_url'] == '/'
+    assert response.status_code == 200
+    # and the ingress url is cleared
+    assert mock_clear.call_count == 1
+
+    assert mock_get_snippet_instance.call_count == 1
