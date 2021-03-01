@@ -35,7 +35,7 @@ export const Select = memo(
 
     useEffect(() => {
       setInput(selected)
-    }, [selected, isOpen])
+    }, [selected])
 
     const selectedItem = () => {
       if (!input || input.length <= 0) return placeholder
