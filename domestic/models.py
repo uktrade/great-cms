@@ -191,6 +191,9 @@ class StructuralPage(BaseContentPage):
 
     # `title` field comes from Page->BaseContentPage
     folder_page = False
+    settings_panels = [
+        FieldPanel('slug'),
+    ]
 
     def serve_preview(self, request, mode_name='dummy'):
         # It doesn't matter what is passed as mode_name - we always HTTP404
