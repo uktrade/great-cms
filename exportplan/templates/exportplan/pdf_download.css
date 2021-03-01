@@ -55,14 +55,14 @@ $colour-blue-100: #00549f;
     height: 40pt;
   } */
   @frame content_frame {
-    -pdf-frame-border: 1;
+    /* -pdf-frame-border: 1; */
     left: 40pt;
     width: 512pt;
     top: 40pt;
     height: 672pt;
   }
   @frame footer_frame {
-    -pdf-frame-border: 1;
+    /* -pdf-frame-border: 1; */
     -pdf-frame-content: footer_content;
     left: 40pt;
     width: 512pt;
@@ -108,9 +108,15 @@ pdftoc.pdftoclevel2 {
   font-style: normal;
 }
 body {
-  font-family: 'FS Lucas';
+  font-family: 'FS Lucas', Helvetica, Arial, sans-serif;
   color: #4b426d;
   font-size: 12pt;
+}
+p,
+a,
+li,
+ul {
+  margin: 0;
 }
 h1,
 h2,
@@ -118,8 +124,9 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'FS Lucas SemiBold';
+  font-family: 'FS Lucas SemiBold', Helvetica, Arial, sans-serif;
   font-weight: 500;
+  margin: 0;
 }
 h1,
 .title-alpha {
@@ -136,6 +143,8 @@ h4 {
 h5 {
 }
 h6 {
+  font-size: 12pt;
+  font-weight: 300;
 }
 a {
   color: orange;
@@ -160,6 +169,62 @@ a {
   font-weight: 300;
 }
 
+/* Colours */
+.colour-red-150 {
+  color: #b00d23;
+}
+.colour-red-100 {
+  color: #e41f13;
+}
+.colour-red-90 {
+  color: #e93836;
+}
+.colour-red-80 {
+  color: #eb4f4d;
+}
+.colour-red-70 {
+  color: #eb6667;
+}
+.colour-red-60 {
+  color: #ee7c7d;
+}
+.colour-red-50 {
+  color: #f19293;
+}
+.colour-red-40 {
+  color: #f4a7a8;
+}
+.colour-red-30 {
+  color: #f7bdbe;
+}
+.colour-red-20 {
+  color: #f9d3d4;
+}
+.colour-red-10 {
+  color: #fce9e9;
+}
+
+/* Horizontal rules */
+.hr {
+  height: 1pt;
+  border-top-width: 1pt;
+  border-top-style: solid;
+}
+.hr--red-150 {
+  border-top-color: #b00d23;
+}
+.hr--blue-deep-100 {
+  border-top-color: #1e1348;
+}
+.hr--blue-deep-20 {
+  border-top-color: #d2d0da;
+}
+
+/* Images */
+img {
+  zoom: 100%;
+}
+
 /* Page layouts */
 .page {
   width: 512pt;
@@ -167,13 +232,16 @@ a {
 }
 
 /* Table layouts */
+table {
+  -pdf-keep-in-frame-mode: overflow;
+}
 /* Defaults */
 .layout {
 }
 .layout td {
   padding-left: 5pt;
   padding-right: 5pt;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 .layout td:first-child {
   padding-left: 0;
@@ -195,10 +263,19 @@ a {
 .align-bottom {
   vertical-align: bottom;
 }
+.text-align-left {
+  text-align: left;
+}
+.text-align-right {
+  text-align: right;
+}
+.text-align-centre {
+  text-align: center;
+}
 
 /* Col widths */
 /* 10 col */
-.col-10\/1 {
+.col-10-1 {
   width: 51.2pt;
 }
 .col-10-2 {
@@ -234,4 +311,84 @@ a {
 }
 .col-12-6 {
   width: 256pt;
+}
+
+/* Utils */
+.pad-t-0 {
+  padding-top: 0;
+}
+.pad-t-1 {
+  padding-top: 5pt;
+}
+.pad-t-2 {
+  padding-top: 10pt;
+}
+.pad-t-3 {
+  padding-top: 20pt;
+}
+.pad-t-4 {
+  padding-top: 30pt;
+}
+.pad-t-5 {
+  padding-top: 40pt;
+}
+.pad-b-0 {
+  padding-bottom: 0;
+}
+.pad-b-1 {
+  padding-bottom: 5pt;
+}
+.pad-b-2 {
+  padding-bottom: 10pt;
+}
+.pad-b-3 {
+  padding-bottom: 20pt;
+}
+.pad-b-4 {
+  padding-bottom: 30pt;
+}
+.pad-b-5 {
+  padding-bottom: 40pt;
+}
+.pad-y-0 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.pad-y-1 {
+  padding-top: 5pt;
+  padding-bottom: 5pt;
+}
+.pad-y-2 {
+  padding-top: 10pt;
+  padding-bottom: 10pt;
+}
+.pad-y-3 {
+  padding-top: 20pt;
+  padding-bottom: 20pt;
+}
+.pad-y-4 {
+  padding-top: 30pt;
+  padding-bottom: 30pt;
+}
+.pad-y-5 {
+  padding-top: 40pt;
+  padding-bottom: 40pt;
+}
+.pad-r-0 {
+  padding-right: 0;
+}
+.pad-r-1 {
+  padding-right: 5pt;
+}
+.pad-r-2 {
+  padding-right: 10pt;
+}
+.pad-r-3 {
+  padding-right: 20pt;
+}
+.pad-r-4 {
+  padding-right: 30pt;
+}
+.pad-r-5 {
+  padding-right: 40pt;
 }

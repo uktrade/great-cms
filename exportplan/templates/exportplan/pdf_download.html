@@ -17,6 +17,168 @@
 
 <!-- HTML Content -->
 
+<!-- P1 header -->
+<table class="layout layout--three-col">
+  <tr>
+    <td class="col-10-3">
+      <h2>Export Plan</h2>
+    </td>
+    <td class="col-10-4 text-align-centre">
+      <p class="body-alpha">{% now "h:i a" %}</p>
+    </td>
+    <td class="col-10-5">
+     <p class="body-alpha text-align-right">{% now "jS F Y" %}</p>
+    </td>
+  </tr>
+</table>
+
+<!-- P1 overview -->
+<table class="layout">
+  <tr class="text-align-centre">
+    <td class="pad-y-5">[company logo]</td>
+  </tr>
+  <tr class="hr hr--red-150"><td></td></tr>
+  <tr>
+    <td class="col-10-10">
+      <h1 class="pad-t-5">{{ user.company.name|default:"British Maple Ltd" }}</h1>
+      <p class="body-alpha"><strong>Exporting <span class="colour-red-150">{{ export_plan.export_commodity_codes.0.commodity_name }}</span>
+      <br />
+      to <span class="colour-red-150">{{ export_plan.export_countries.0.country_name }}</span></strong></p>
+    </td>
+  </tr>
+  <tr>
+    <td class="col-10-10">
+      <p class="body-alpha pad-t-2">Owner <strong>{{ user.get_full_name|default:user.get_username }}</strong></p>
+    </td>
+  </tr>
+  <tr class="text-align-right">
+    <td class="pad-t-5">[great logo]</td>
+  </tr>
+</table>
+
+<pdf:nextpage>
+
+<!-- P2 sections -->
+<table class="layout layout--two-col">
+  <tr class="hr hr--red-150"><td></td></tr>
+  <tr>
+    <td>
+      <h1 class="pad-y-3">Sections</h1>
+    </td>
+  </tr>
+  {% for section in sections %}
+  <tr class="pad-b-1">
+    <td class="col-10-7">
+      <p class="body-alpha">{{ section }}</p>
+    </td>
+    <td class="col-10-3">
+      <p class="body-alpha"><strong>{{ forloop.counter|add:2}}</strong></p>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<pdf:nextpage>
+
+<!-- P3 summary -->
+<table class="layout layout--two-col">
+  <tr class="hr hr--red-150"><td></td></tr>
+  <tr>
+    <td>
+      <h1 class="pad-y-3">Summary</h1>
+    </td>
+  </tr>
+  <tr class="pad-b-1">
+    <td class="col-10-5">
+      <h6>Company</h6>
+      <h2>{{ user.company.name|default:"British Maple Ltd" }}</h2>
+    </td>
+    <td class="col-10-5">
+      <h6>Product</h6>
+      <h2>{{ export_plan.export_commodity_codes.0.commodity_name }}</h2>
+    </td>
+  </tr>
+  <tr class="pad-b-1">
+    <td class="col-10-5">
+      <h6>Owner</h6>
+      <h2>{{ user.get_full_name|default:user.get_username }}</h2>
+    </td>
+    <td class="col-10-5">
+      <h6>HS Code</h6>
+      <h2>{{ export_plan.export_commodity_codes.0.commodity_code }}</h2>
+    </td>
+  </tr>
+  <tr class="pad-b-1">
+    <td class="col-10-5">
+      <h6>Contact</h6>
+      <h2>{{ user.email|truncatechars:24 }}</h2>
+    </td>
+    <td class="col-10-5">
+      <h6>Exporting to</h6>
+      <h2>{{ export_plan.export_countries.0.country_name }}</h2>
+    </td>
+  </tr>
+  <tr class="hr hr--blue-deep-100"><td></td></tr>
+</table>
+
+<table class="layout layout--two-col pad-t-3">
+  <tr>
+    <!-- Table -->
+    <td class="col-10-8 align-top pad-r-2">
+      <table>
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h2 class="pad-t-0">Who we are</h2>
+            <p class="pad-t-0">Prepopulated text from About your business section on the questions 'How you started?' and 'How you make your products'. Simon came across a book of gin recipes on a visit to The Gin Museum of London.</p>
+          </td>
+        </tr>
+        <tr class="hr hr--blue-deep-20"><td></td></tr>
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h2 class="pad-t-0">Why we want to export</h2>
+            <p class="pad-t-0">Prepopulated text from Business section on the questions 'Why do you want to export'. This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a modern twist.</p>
+          </td>
+        </tr>
+        <tr class="hr hr--blue-deep-20"><td></td></tr>
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h2 class="pad-t-0">Where are we based</h2>
+            <p class="pad-t-0">Prepopulated text from About your business section on the ques- tions 'Where are you based?'.</p>
+          </td>
+        </tr>
+        <tr class="hr hr--blue-deep-20"><td></td></tr>
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h2 class="pad-t-0">What is the demand for our product?</h2>
+            <p class="pad-t-0">Prepopulated text from Target Market Research section on the questions 'Describe the consumer demand for your product.'</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td class="col-10-2 align-top">
+      <h3 class="pad-b-1">Funding</h3>
+      <h6 class="body-gamma pad-y-0">Total cost</h6>
+      <p class="pad-t-0">GBP {{ export_plan.funding_and_credit.funding_amount_required }}</p>
+      <h6 class="body-gamma pad-y-0">Total funding needed</h6>
+      <p class="pad-t-0">GBP {{ total_funding.calculated_total_funding }}</p>
+
+      <h3 class="pad-b-1">Cost and pricing</h3>
+      <h6 class="body-gamma pad-y-0">Direct costs total</h6>
+      <p class="pad-t-0">GBP {{ calculated_pricing.calculated_cost_pricing.total_direct_costs }}</p>
+      <h6 class="body-gamma pad-y-0">Overhead costs total</h6>
+      <p class="pad-t-0">GBP {{ calculated_pricing.calculated_cost_pricing.total_overhead_costs }}</p>
+      
+      <h3 class="pad-b-1">Getting paid</h3>
+      <h6 class="body-gamma pad-y-0">Payment method</h6>
+      <p class="pad-t-0"><strong>{{ getting_paid_payment_method_labe|default:"NA" }}</strong></p>
+      <h6 class="body-gamma pad-y-0">Incoterms</h6>
+      <p class="pad-t-0"><strong>{{ getting_paid_incoterms_transport_labe|default:"NA" }}</strong></p>
+    </td>
+  </tr>
+</table>
+
+<pdf:nextpage>
+
 <table class="layout layout--two-col">
   <tr>
     <td class="col-10-7 align-top">
@@ -34,7 +196,8 @@
 
 <div class="page">
   <p>Export Plan {% now "jS F Y" %} {% now "h:i a" %}</p>
-  <p>Company: {{ user.company.name}}</p>
+  <p>Company: {{ user.company.name }}</p>
+  <p>Company: <span class="colour-red-1">Versuvius Gin</span></p>
   <p>Owner: {{ user.get_full_name|default:user.get_username }}</p>
   <p>Email: {{ user.email}}</p>
   <p>Product: {{ export_plan.export_commodity_codes.0.commodity_name }}</p>
