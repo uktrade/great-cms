@@ -102,13 +102,13 @@ pdftoc.pdftoclevel2 {
 /* Typography */
 @font-face {
   font-family: 'FS Lucas';
-  src: url("{{host_url}}{%  static 'fonts/FSLucas-Regular.ttf' %}");
+  src: url("{{host_url}}{% static 'fonts/FSLucas-Regular.ttf' %}");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'FS Lucas SemiBold';
-  src: url("{{host_url}}{%  static 'fonts/FSLucas-SemiBold.ttf' %}");
+  src: url("{{host_url}}{% static 'fonts/FSLucas-SemiBold.ttf' %}");
   font-weight: 500;
   font-style: normal;
 }
