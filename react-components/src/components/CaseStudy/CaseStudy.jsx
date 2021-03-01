@@ -48,7 +48,7 @@ const CaseStudy = ({ content: { heading, company, blocks } }) => {
             </div>
 
             {/* Mobile rendering with content displayed within a carousel  */}
-            <div className="case-study__mobile body-l">
+            <div className={'case-study__mobile body-l ' + block.type + '-block'}>
               <Slider {...settings}>
                 {content}
               </Slider>

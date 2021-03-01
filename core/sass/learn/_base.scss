@@ -884,54 +884,6 @@ $desktop: 1024px;
       }
     }
 
-    .slick-slide img {
-      margin: -30px 0;
-      max-width: 100%;
-      height: auto;
-    }
-
-    .slick-dots {
-      bottom: -20px;
-      top: unset;
-
-
-      & li  {
-        margin: 0;
-
-        &:before {
-          background-color: transparent;
-        }
-
-        & button:before {
-          font-size: 10px;
-          line-height: 10px;
-        }
-      }
-    }
-
-    .slick-list {
-      margin: 0 -7px;
-      top: 25px;
-
-      & .slick-track {
-        display: flex;
-
-        & .slick-slide {
-          height: inherit;
-          margin-bottom: 45px;
-
-          & > div {
-            padding: 0 10px;
-            height: 95%;
-
-            & > div {
-              height: 100%;
-            }
-          }
-        }
-      }
-    }
-
     &__mobile {
       @include tablet {
         display: none;
