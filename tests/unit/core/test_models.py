@@ -5,7 +5,7 @@ import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
-from django.http import HttpResponseNotFound
+from django.http import Http404
 from django.test import RequestFactory, TestCase
 from wagtail.admin.edit_handlers import ObjectList
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
@@ -468,8 +468,8 @@ def test_structure_page_redirects_to_http404(
     structure_page = StructurePageFactory(parent=domestic_homepage)
     for page_method in ('serve', 'serve_preview'):
         request = rf.get('/foo/')
-        resp = getattr(structure_page, page_method)(request)
-        assert resp.status_code == HttpResponseNotFound.status_code
+        with pytest.raises(Http404):
+            getattr(structure_page, page_method)(request)
 
 
 class DetailPageTests(WagtailPageTests):
