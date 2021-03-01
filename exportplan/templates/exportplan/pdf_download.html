@@ -2,19 +2,15 @@
 <head><meta http-equiv=Content-Type content="text/html; charset=UTF-8">
 <style>
 {% include 'exportplan/pdf_download.css' %}
-
 </style>
-
 </head>
+
 <body>
 
-<!-- Content for Static Frame 'footer_frame' -->
+<!-- Content for static frame 'footer_frame' -->
 <div id="footer_content" class="text-align-right page-footer">
   Page <pdf:pagenumber> of <pdf:pagecount>
 </div>
-
-{% comment %} <pdf:toc /> {% endcomment %}
-{% comment %} <pdf:nexttemplate name="content_frame"> {% endcomment %}
 
 <!-- HTML Content -->
 
@@ -68,7 +64,7 @@
   <tr class="hr hr--red-150"><td></td></tr>
   <tr>
     <td>
-      <h1 class="pad-y-3">Sections</h1>
+      <h1 class="pad-t-3 pad-b-2">Sections</h1>
     </td>
   </tr>
   {% for section in sections %}
@@ -90,7 +86,7 @@
   <tr class="hr hr--red-150"><td></td></tr>
   <tr>
     <td>
-      <h1 class="pad-y-3">Summary</h1>
+      <h1 class="pad-t-3 pad-b-2">Summary</h1>
     </td>
   </tr>
   <tr class="pad-b-1">
@@ -128,8 +124,8 @@
 
 <table class="layout layout--two-col pad-t-3">
   <tr>
-    <!-- Table -->
-    <td class="col-10-8 align-top pad-r-2">
+    <td class="col-10-7 align-top pad-r-2">
+      <!-- Nested table -->
       <table>
         <tr class="pad-b-1">
           <td class="col-10-10">
@@ -159,8 +155,9 @@
           </td>
         </tr>
       </table>
+      <!-- ./Nested table -->
     </td>
-    <td class="col-10-2 align-top">
+    <td class="col-10-3 align-top">
       <h3 class="pad-b-1">Funding</h3>
       <h6 class="body-gamma pad-y-0">Total cost</h6>
       <p class="pad-t-0">GBP {{ export_plan.funding_and_credit.funding_amount_required }}</p>
@@ -184,21 +181,7 @@
 
 <pdf:nextpage>
 
-<table class="layout layout--two-col">
-  <tr>
-    <td class="col-10-7 align-top">
-      <h2>Left col</h2>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
-    </td>
-    <td class="col-10-3 align-top">
-      <h2>Right col</h2>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
-    </td>
-  </tr>
-</table>
-
-<pdf:nextpage>
-
+<!-- Reference -->
 <div class="page">
   <p>Export Plan {% now "jS F Y" %} {% now "h:i a" %}</p>
   <p>Company: {{ user.company.name }}</p>
@@ -208,86 +191,30 @@
   <p>Product: {{ export_plan.export_commodity_codes.0.commodity_name }}</p>
   <p>HS Code: {{ export_plan.export_commodity_codes.0.commodity_code }}</p>
   <p>Exporting to: {{ export_plan.export_countries.0.country_name }}</p>
+
   <h2>Funding</h2>
   <p>Total Costs: GDP {{ export_plan.funding_and_credit.funding_amount_required }}</p>
   <p>Total Funding: GDP {{ total_funding.calculated_total_funding }}</p>
+
   <h2>Cost and Pricing</h2>
   <p>Direct Costs Total: GDP {{ calculated_pricing.calculated_cost_pricing.total_direct_costs }}</p>
   <p>Overhead Costs Total: GDP {{ calculated_pricing.calculated_cost_pricing.total_overhead_costs }}</p>
+
   <h2>Getting Paid</h2>
   <p>Payment Method: {{  getting_paid_payment_method_label }}</p>
   <p>Incoterms: {{  getting_paid_incoterms_transport_label }}</p>
+
+  <h2>Business Objectives</h2>
+  {% for objective in export_plan.company_objectives %}
+    <p>Objective {{ forloop.counter }}</p>
+    <p>Description: {{ objective.description }}</p>
+    <p>Start date: {{ objective.start_date }}</p>
+    <p>End date: {{ objective.end_date }}</p>
+    <p>Owner: {{ objective.owner }}</p>
+    <p>Reviews: {{ objective.planned_reviews }}</p>
+  {% endfor %}
 </div>
 
-<pdf:nextpage>
-
-<div class="page">
-  <h2>Sections</h2>
-  <ul>
-    {% for section in sections %}
-    <li>{{ forloop.counter|add:2}} : {{ section }}</li>
-    {% endfor %}
-  </ul>
-</div>
-
-
-
-  Summary
-  
-  <h2>Getting Paid</h2>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus, est explicabo accusamus soluta deserunt provident minima consectetur accusantium tenetur fuga officiis? Laborum, labore expedita ad autem nulla fugiat nesciunt!</p>
- 
-
-</ul>
-Summary
-<br>
-Company: {{ user.company.name}}
-<br>
-Owner: {{ user.get_full_name|default:user.get_username }}
-<br>
-Email: {{ user.email}}
-<br>
-Product: {{ export_plan.export_commodity_codes.0.commodity_name }}
-<br>
-HS Code: {{ export_plan.export_commodity_codes.0.commodity_code }}
-<br>
-Exporting to: {{ export_plan.export_countries.0.country_name }}
-<h2>Funding</h2>
-<br>
-Total Costs: GDP {{ export_plan.funding_and_credit.funding_amount_required }}
-<br>
-Total Funding: GDP {{ total_funding.calculated_total_funding }}
-<br>
-</body>
-<h2>Cost and Pricing</h2>
-<br>
-Direct Costs Total: GDP {{ calculated_pricing.calculated_cost_pricing.total_direct_costs }}
-<br>
-Overhead Costs Total: GDP {{ calculated_pricing.calculated_cost_pricing.total_overhead_costs }}
-<h2>Getting Paid</h2>
-<br>
-Payment Method: {{  getting_paid_payment_method_label }}
-<br>
-<br>
-Incoterms: {{  getting_paid_incoterms_transport_label }}
-<br>
-<br>
-Business Objectives
-
-{% for objective in export_plan.company_objectives %}
-  Objective  {{ forloop.counter }} <Br>
-{{ objective.description }}<br>
-Start date:  {{ objective.start_date }}<br>
-End date:  {{ objective.end_date }}<br>
-Owner:  {{ objective.owner }}<br>
-<br><br>
-{{ objective.planned_reviews }}<br><br><br><br>
-{% endfor %}
 
 </body>
 </html>

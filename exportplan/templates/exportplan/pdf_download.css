@@ -257,8 +257,8 @@ table {
 .layout {
 }
 .layout td {
-  padding-left: 5pt;
-  padding-right: 5pt;
+  padding-left: 10pt;
+  padding-right: 10pt;
   /* border: 1px solid red; */
 }
 .layout td:first-child {
