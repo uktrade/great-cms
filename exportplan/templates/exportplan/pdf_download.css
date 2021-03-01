@@ -1,3 +1,5 @@
+{% load static %}
+
 /*
 XTML2PDF doesn't support CSS vars, and because of the custom @queries, we can't use SCSS.
 Therefore these `vars` are just for reference.
@@ -101,14 +103,14 @@ pdftoc.pdftoclevel2 {
 @font-face {
   /* put in quotes and add # at the beginning */
   font-family: 'FS Lucas';
-  src: url('http://greatcms.trade.great:8020/static/fonts/FSLucas-Regular.ttf');
+  src: url("{{host_url}}{%  static 'fonts/FSLucas-Regular.ttf' %}");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   /* put in quotes and add # at the beginning */
   font-family: 'FS Lucas SemiBold';
-  src: url('http://greatcms.trade.great:8020/static/fonts/FSLucas-SemiBold.ttf');
+  src: url("{{host_url}}{%  static 'fonts/FSLucas-SemiBold.ttf' %}");
   font-weight: 500;
   font-style: normal;
 }
