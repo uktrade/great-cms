@@ -29,7 +29,10 @@ class CompanySerializer(serializers.Serializer):
 
 
 def _date_format(string):
-    return datetime.strptime(string[0:10], '%Y-%m-%d').strftime('%d %b %Y')
+    try:
+        return datetime.strptime(string[0:10], '%Y-%m-%d').strftime('%d %b %Y')
+    except Exception:
+        return ''
 
 
 def parse_opportunities(results):

@@ -16,7 +16,7 @@
 - NO TICKET - fix wagtail checkbox layout issue
 
 ### Implemented enhancements
-
+- GP2-1398 - Data loading performance for compare markets page
 - GP2-1701 - Footer - Account functionality
 - GP2-1553 - floating lesson link
 - GP2-1593 - Business Risks page elements

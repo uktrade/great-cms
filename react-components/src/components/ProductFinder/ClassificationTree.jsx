@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import Spinner from '../Spinner/Spinner'
@@ -13,9 +13,9 @@ const trimAndCapitalize = (str) => {
 
 function TreeBranch(props) {
   const { level, hsCode } = props
-if (!level) {
-  return null
-}
+  if (!level) {
+    return null
+  }
   if (!level.type || level.type === 'SECTION')
     return <TreeBranch level={level.children[0]} hsCode={hsCode} />
   const arrow = level.type !== 'CHAPTER' && (
@@ -43,15 +43,20 @@ if (!level) {
 export default function ClassificationTree(props) {
   const { hsCode } = props
   const [schedule, setSchedule] = useState()
+  const isMounted = useRef(true)
 
   useEffect(() => {
     if (!schedule) {
       Services.lookupProductSchedule({ hsCode }).then((results) => {
-        setSchedule(results)
-      }
-      )
+        if (isMounted.current) {
+          setSchedule(results)
+        }
+      })
     }
-  }, [hsCode])
+    return () => {
+      isMounted.current = false
+    }
+  }, [])
 
   return (
     <>
@@ -59,7 +64,12 @@ export default function ClassificationTree(props) {
         <div className="classification-tree g-panel m-v-xs">
           <TreeBranch level={schedule} hsCode={hsCode} />
         </div>
-      )) || (schedule &&  <div className="classification-tree m-v-xs form-group-error">Unable to show classification tree</div>) || <Spinner text="" />}
+      )) ||
+        (schedule && (
+          <div className="classification-tree m-v-xs form-group-error">
+            Unable to show classification tree
+          </div>
+        )) || <Spinner text="" />}
     </>
   )
 }
