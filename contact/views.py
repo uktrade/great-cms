@@ -52,12 +52,13 @@ class BaseNotifyFormView(
 
 class PrepopulateShortFormMixin(core_mixins.PrepopulateFormMixin):
     def get_form_initial(self):
+
         if self.request.user.is_authenticated and self.request.user.company:
             return {
                 'email': self.request.user.email,
                 'company_type': constants.LIMITED,
-                'organisation_name': self.request.user.company['name'],
-                'postcode': self.request.user.company['postal_code'],
+                'organisation_name': self.request.user.company.data['name'],
+                'postcode': self.request.user.company.data['postal_code'],
                 'given_name': self.guess_given_name,
                 'family_name': self.guess_family_name,
             }

@@ -111,16 +111,16 @@ class PrepopulateFormMixin:
         if self.request.user.is_authenticated:
             if self.request.user.first_name:
                 return self.request.user.first_name
-            elif self.request.user.company and self.request.user.company['postal_full_name']:
-                name = self.request.user.company['postal_full_name']
+            elif self.request.user.company and self.request.user.company.data['postal_full_name']:
+                name = self.request.user.company.data['postal_full_name']
                 return name.split(' ')[0]
 
     @property
     def guess_family_name(self):
         if self.request.user.last_name:
             return self.request.user.last_name
-        elif self.request.user.company and self.request.user.company['postal_full_name']:
-            names = self.request.user.company['postal_full_name'].split(' ')
+        elif self.request.user.company and self.request.user.company.data['postal_full_name']:
+            names = self.request.user.company.data['postal_full_name'].split(' ')
             return names[-1] if len(names) > 1 else None
 
 

@@ -217,6 +217,9 @@ def client(client, auth_backend, settings):
                     'first_name': user.first_name,
                     'last_name': user.last_name,
                 },
+                # To get `company` data in here, use the `mock_get_company_profile` fixture and
+                # provide an approprate return_value. The full spec of CompanySerializer is in
+                # https://github.com/uktrade/directory-api/blob/master/company/serializers.py
             }
         )
 
