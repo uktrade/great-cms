@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import ReactHtmlParser from 'react-html-parser'
 import Slider from 'react-slick'

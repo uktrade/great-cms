@@ -6,11 +6,14 @@ import { CaseStudy } from '../../src/components/CaseStudy/CaseStudy'
 const openButtonText = 'Open case study'
 const closeButtonText = 'Close'
 const bodyText = 'example body content'
+const mediaBlock = { type: 'media', content: `<div>${bodyText}</div>` }
+const quoteBlock = { type: 'quote', content: `<div>${bodyText}</div>` }
+const textBlock = { type: 'text', content: `<div>${bodyText}</div>` }
 
 const props = {
   heading: 'heading example',
   company: 'example company',
-  body: `<div>${bodyText}</div>`,
+  blocks: [mediaBlock, quoteBlock, textBlock]
 }
 
 const setup = (props) => {
