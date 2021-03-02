@@ -94,7 +94,9 @@ button.button.action-choose.button-small.button-secondary {
 }
 
 #id_tags input[type='checkbox'] {
-  padding-right: 0px;
+  padding-right: 0;
+  vertical-align: middle;
+  margin-top: 0;
 }
 
 #id_tags input[type='checkbox']:before {

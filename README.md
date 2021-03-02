@@ -140,6 +140,15 @@ Make sure to use NodeJS 12.16.1 or greater
 ### Code formatting
 We are using eslint with recommended settings
 
+### Pre-commit hooks
+
+Highly recommended that you install pre-commit hooks. you can take advantage of pre-commit to autoformat and lint/check any code that's staged for commit
+
+To get set up, in your activated virtualenv:
+
+`pip install pre-commit`
+`pre-commit install --install-hooks`
+
 ## FE BAU Development
 
 When working on BAU FE work, note there are seperate FE asset build pipelines. One for domestic pages and another for generic BAU styling(which came across from directory_components).
@@ -193,6 +202,7 @@ AttributeError: 'User' object has no attribute 'session_id'"/'company' et al, yo
 * [Gitflow branching](https://uktrade.atlassian.net/wiki/spaces/ED/pages/737182153/Gitflow+and+releases)
 * [GDS service standards](https://www.gov.uk/service-manual/service-standard)
 * [GDS design principles](https://www.gov.uk/design-principles)
+* [Github Hooks](https://pre-commit.com/hooks)
 
 ## Related projects:
 https://github.com/uktrade?q=directory

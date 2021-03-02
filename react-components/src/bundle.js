@@ -35,6 +35,14 @@ import {
 } from '@src/views/sections/Objectives'
 import { createCostsAndPricing } from '@src/views/sections/CostsAndPricing'
 import {
+  travelPlanSnapshot,
+  travelPlanCultureRules,
+  travelPlanVisaInformation,
+  plannedTravel,
+} from '@src/views/sections/TravelPlan/TravelPlan'
+import { businessRisks } from '@src/views/sections/BusinessRisk/BusinessRisk'
+
+import {
   createDashboard,
   createDisabledButton,
 } from '@src/views/sections/Dashboard'
@@ -75,6 +83,11 @@ export default {
   fundingCreditTotalExportCost,
   fundingCreditHowMuchFunding,
   fundingCreditFundingCreditOptions,
+  travelPlanSnapshot,
+  travelPlanCultureRules,
+  travelPlanVisaInformation,
+  plannedTravel,
+  businessRisks,
   ProductFinderButton,
   CountryFinderButton,
   CompareMarkets,

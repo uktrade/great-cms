@@ -92,6 +92,7 @@ requirements:
 
 install_requirements:
 	pip install -q -r requirements_test.txt
+	pre-commit install --install-hooks
 
 secrets:
 	cp config/env/secrets-template config/env/secrets-do-not-commit; \

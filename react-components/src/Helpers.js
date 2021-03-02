@@ -78,7 +78,7 @@ const get = (obj, path, def = null) => {
   // get a value from an object based on dot-separated path
   let out = obj
   const pathSplit = path.split('.')
-  for (let i = 0; i < pathSplit.length; i++) {
+  for (let i = 0; i < pathSplit.length; i+=1) {
     if (!isObject(out)) {
       return def
     }

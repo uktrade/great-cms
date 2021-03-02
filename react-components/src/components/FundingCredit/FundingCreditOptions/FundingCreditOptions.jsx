@@ -1,14 +1,25 @@
 import React, { memo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
+import { useDebounce } from '@src/components/hooks/useDebounce'
+import { LessonLearn } from '@src/components/LessonLearn'
+import { formatLessonLearned } from '@src/Helpers'
 import { Total } from './Total'
 import { Options } from './Options'
-import { useDebounce } from '@src/components/hooks/useDebounce'
 
 export const FundingCreditOptions = memo(
-  ({ formData, currency, companyexportplan, fundingCreditOptions }) => {
+  ({
+    formData,
+    currency,
+    companyexportplan,
+    fundingCreditOptions,
+    lessonDetails,
+    currentSection,
+  }) => {
     const [funding, setFunding] = useState(formData)
     const [fundingTotal, setFundingTotal] = useState(null)
+    const [toggleLesson, setToggleLesson] = useState(false)
+    const lesson = formatLessonLearned(lessonDetails, currentSection, 1)
 
     const calclatedTotal = () =>
       funding.reduce((acc, curr) => acc + Number(curr.amount), 0)
@@ -64,6 +75,25 @@ export const FundingCreditOptions = memo(
     }
     return (
       <>
+        {Object.keys(lesson).length > 0 && (
+          <>
+            <button
+              className="button-lesson button button--small button--tertiary m-r-xxs m-b-xs"
+              type="button"
+              onClick={() => {
+                setToggleLesson(!toggleLesson)
+              }}
+            >
+              <i
+                className={`fas fa-chevron-${
+                  toggleLesson ? 'up' : 'down'
+                } m-r-xxs`}
+              />
+              Lesson
+            </button>
+            <LessonLearn {...lesson} show={toggleLesson} />
+          </>
+        )}
         <Options
           formData={funding}
           currency={currency}
@@ -93,6 +123,11 @@ FundingCreditOptions.propTypes = {
     name: PropTypes.string.isRequired,
     options: PropTypes.array.isRequired,
     placeholder: PropTypes.string.isRequired,
+  }).isRequired,
+  lessonDetails: PropTypes.oneOfType([PropTypes.string]).isRequired,
+  currentSection: PropTypes.shape({
+    url: PropTypes.string,
+    lessons: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
 }
 

@@ -1,0 +1,95 @@
+{% load to_json %}
+
+{{ block.super }}
+<script type="text/javascript">
+  magna.travelPlanSnapshot({
+    element: document.getElementById('stats-for-target-market'),
+    languages: {{ language_data|safe }},
+    tooltip: {
+      content: `
+        <p>Make sure you know what language business is conducted in in your target market. If you can't speak the language make sure you bring along an interpreter so you can communicate and have a successful trip.</p>
+      `
+    },
+  })
+  magna.travelPlanCultureRules({
+    element: document.getElementById('culture-and-rules'),
+    field: 'travel_business_policies',
+    formData: {{ travel_business_policies|to_json|safe }},
+    formFields: [
+      {
+        description: "Find out about any important travel information by using the Foreign and Commonwealth and Development office travel advice.",
+        field_type: "Textarea",
+        label: "Travel information",
+        name: "travel_information",
+        placeholder: "Add some text",
+      },
+      {
+        description: "To build successful business relationships in your target market, research the culture of the place you are visiting. This will make sure you don't offend potential customers.",
+        field_type: "Textarea",
+        label: "Cultural information",
+        name: "cultural_information",
+        placeholder: "Add some text",
+      },
+    ],
+    companyexportplan: {{ export_plan.pk }},
+    tooltip: {
+      content: `
+        <p>Visit great.gov.uk market guides to find more information about your target market and its business culture.</p>
+      `
+    },
+  })
+  magna.travelPlanVisaInformation({
+    element: document.getElementById('visa-information'),
+    field: 'travel_business_policies',
+    name: "visa_information",
+    formData: {{ travel_business_policies.visa_information|to_json|safe }},
+    travel_advice_link: "{{ travel_advice_foreign }}",
+    formFields: [
+      {
+        field_type: "Textarea",
+        label: "How and where will you get your visa",
+        id: "how_where_visa",
+        name: "how_where_visa",
+        placeholder: "Add some text",
+      },
+      {
+        field_type: "Text",
+        label: "How long will it last",
+        id: "how_long",
+        name: "how_long",
+        placeholder: "",
+      },
+      {
+        field_type: "Textarea",
+        label: "Add notes",
+        id: "notes",
+        name: "notes",
+        placeholder: "Add some text",
+      },
+    ],
+    companyexportplan: {{ export_plan.pk }},
+  })
+  magna.plannedTravel({
+    element: document.getElementById('planned-travel'),
+    formData: {{ business_trips|to_json|safe }},
+    model_name: 'businesstrips',
+    companyexportplan: {{ export_plan.pk }},
+    tooltip: {
+      content: `
+        <p>Make sure you record how often you'll need to visit your chosen market and what actions or events you need to record to have a successful trip.</p>
+        <p>Things you need to think about to make sure you have a successful business trip:</p>
+        <ul>
+          <li>any visas you need</li>
+          <li>trip itinerary</li>
+          <li>flights and hotels</li>
+        </ul>
+      `
+    },
+    lesson: {
+      url: "/",
+      title: "Safety when operating abroad",
+      category: "TBD",
+      duration: "3 minutes",
+    },
+  })
+</script>

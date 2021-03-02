@@ -1,9 +1,11 @@
 from urllib.parse import unquote_plus
 
 from django.conf import settings
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
+from django.http import Http404
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
@@ -15,7 +17,15 @@ from wagtail.core.models import Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from core import blocks as core_blocks, cms_slugs, forms, helpers, mixins, service_urls
+from core import (
+    blocks as core_blocks,
+    cache_keys,
+    cms_slugs,
+    forms as core_forms,
+    helpers,
+    mixins,
+    service_urls,
+)
 from core.constants import (
     ARTICLE_TYPES,
     RICHTEXT_FEATURES__REDUCED,
@@ -27,11 +37,38 @@ from core.fields import single_struct_block_stream_field_factory
 from core.helpers import build_social_links
 from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag
 from directory_constants import choices
-from domestic import cms_panels
+from domestic import cms_panels, forms as domestic_forms
 from domestic.helpers import build_route_context, get_lesson_completion_status
 
 
-class BaseContentPage(Page):
+class DataLayerMixin(
+    Page,
+    mixins.WagtailGA360Mixin,
+    GA360Mixin,  # from great-components, but could be moved into great-cms
+):
+    """Mixin to automatically set the GA360/DataLayer payload on all pages
+    that implement it"""
+
+    class Meta:
+        abstract = True
+
+    def get_context(self, request):
+        context = super().get_context(request)
+
+        self.set_ga360_payload(  # from GA360Mixin
+            page_id=self.id,
+            business_unit=settings.GA360_BUSINESS_UNIT,
+            site_section=self.slug,
+        )
+        self.add_ga360_data_to_payload(request)
+        context['ga360'] = self.ga360_payload
+        return context
+
+
+class BaseContentPage(
+    DataLayerMixin,
+    Page,
+):
     """Minimal abstract base class for pages ported from the V1 Great.gov.uk site"""
 
     promote_panels = []  #  Hide the Promote panel
@@ -87,6 +124,7 @@ class DomesticHomePage(
     mixins.WagtailAdminExclusivePageMixin,
     mixins.EnableTourMixin,
     mixins.AnonymousUserRequired,
+    DataLayerMixin,
     Page,
 ):
     # Note that this is was the original homepage for Magna/V2 MPV.
@@ -119,8 +157,7 @@ class DomesticDashboard(
     mixins.EnableTourMixin,
     mixins.AuthenticatedUserRequired,
     mixins.ExportPlanMixin,
-    mixins.WagtailGA360Mixin,
-    GA360Mixin,
+    DataLayerMixin,
     Page,
 ):
 
@@ -131,7 +168,7 @@ class DomesticDashboard(
         context = super().get_context(request)
         context['visited_already'] = user.has_visited_page(self.slug)
         user.set_page_view(self.slug)
-        context['export_plan_progress_form'] = forms.ExportPlanForm(
+        context['export_plan_progress_form'] = core_forms.ExportPlanForm(
             initial={'step_a': True, 'step_b': True, 'step_c': True}
         )
         context['industry_options'] = [{'value': key, 'label': label} for key, label in choices.SECTORS]
@@ -141,14 +178,6 @@ class DomesticDashboard(
         context['export_plan_in_progress'] = user.has_visited_page(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
         context['routes'] = build_route_context(user, context)
 
-        self.set_ga360_payload(  # from GA360Mixin
-            page_id=self.id,
-            business_unit=settings.GA360_BUSINESS_UNIT,
-            site_section=self.slug,
-        )
-        self.add_ga360_data_to_payload(request)
-        context['ga360'] = self.ga360_payload
-
         return context
 
     #########
@@ -157,7 +186,27 @@ class DomesticDashboard(
     content_panels = CMSGenericPage.content_panels + [StreamFieldPanel('components')]
 
 
-class GreatDomesticHomePage(cms_panels.GreatDomesticHomePagePanels, BaseContentPage):
+class StructuralPage(BaseContentPage):
+    """Structural page to return page not found"""
+
+    # `title` field comes from Page->BaseContentPage
+    folder_page = False
+    settings_panels = [
+        FieldPanel('slug'),
+    ]
+
+    def serve_preview(self, request, mode_name='dummy'):
+        # It doesn't matter what is passed as mode_name - we always HTTP404
+        raise Http404()
+
+    def serve(self, request):
+        raise Http404()
+
+
+class GreatDomesticHomePage(
+    cms_panels.GreatDomesticHomePagePanels,
+    BaseContentPage,
+):
     """This is the main homepge for Great.gov.uk, ported and adapted from V1
 
     It will eventually replace DomesticHomePage (above) in usage.
@@ -247,6 +296,51 @@ class GreatDomesticHomePage(cms_panels.GreatDomesticHomePagePanels, BaseContentP
         null=True,
         blank=True,
     )
+
+    def _get_industry_tag_usage_counts(self, industry_tag):
+        return industry_tag.countryguidepage_set.all().live().count()
+
+    def _get_sector_list_uncached(self):
+        return [
+            {
+                'id': tag.id,
+                'name': tag.name,
+                'icon': tag.icon,
+                'pages_count': self._get_industry_tag_usage_counts(tag),
+            }
+            for tag in IndustryTag.objects.all()
+        ]
+
+    def get_sector_list(self, request):
+        # We don't want to go near the cache if we're previewing, so that we don't poison it
+        if getattr(request, 'is_preview', False) is True:  # set by wagtail.core.models.Page.serve_preview()
+            return self._get_sector_list_uncached()
+
+        # But we do want to leverage the cache if we're in proper servign mode
+        sectors = cache.get(cache_keys.CACHE_KEY_HOMEPAGE_SECTOR_LIST)
+        if not sectors:
+            sectors = self._get_sector_list_uncached()
+            cache.set(
+                cache_keys.CACHE_KEY_HOMEPAGE_SECTOR_LIST,
+                sectors,
+                settings.CACHE_EXPIRE_SECONDS_SHORT,
+            )
+
+        return sectors
+
+    def get_context(self, request):
+        context = super().get_context(request)
+
+        sector_list = self.get_sector_list(request)
+
+        sorted_sectors = sorted(sector_list, key=lambda x: (x['pages_count']), reverse=True)
+        context['sorted_sectors'] = sorted_sectors
+        context['top_sectors'] = sorted_sectors[:6]
+        context['sector_form'] = domestic_forms.SectorPotentialForm(
+            sector_list=sector_list,
+        )
+
+        return context
 
 
 class TopicLandingBasePage(BaseContentPage):

@@ -47,9 +47,12 @@ class CaseStudyAdmin(ModelAdmin):
     # )
     search_fields = (
         'title',
-        'company_name',
-        'country_code_tags__name',
+        'summary_context',
+        'lead_title',
         'hs_code_tags__name',
+        'country_code_tags__name',
+        'region_code_tags__name',
+        'trading_bloc_code_tags__name',
     )
 
     def associated_hs_code_tags(self, obj):

@@ -2,6 +2,7 @@ import React, { memo } from 'react'
 import { Stats } from '@src/components/Stats'
 import { notAvailable } from '@src/components/Stats/StatsGroup'
 import PropTypes from 'prop-types'
+import { millify, normaliseValues } from '@src/Helpers'
 
 export const ProductData = memo(({ world, local, country }) => (
   <>
@@ -10,13 +11,13 @@ export const ProductData = memo(({ world, local, country }) => (
         <div className="c-1-3">
           <Stats
             header={`Total product import value in ${world.year} (USD)`}
-            data={world.trade_value ? world.trade_value : notAvailable}
+            data={world.trade_value_raw ? millify(world.trade_value_raw) : notAvailable}
           />
         </div>
         <div className="c-1-3">
           <Stats
             header={`Total product import value from the UK in ${local.year} (USD)`}
-            data={local.trade_value ? local.trade_value : notAvailable}
+            data={local.trade_value_raw ? millify(local.trade_value_raw) : notAvailable}
           />
         </div>
         <div className="c-1-3">
@@ -24,7 +25,7 @@ export const ProductData = memo(({ world, local, country }) => (
             header="Year-to-year product import value change"
             data={
               world.year_on_year_change
-                ? world.year_on_year_change
+                ? normaliseValues(world.year_on_year_change)
                 : notAvailable
             }
           />
@@ -38,14 +39,21 @@ export const ProductData = memo(({ world, local, country }) => (
           <Stats
             header="GDP per capita (USD)"
             data={
-              country.gdp_per_capita.year_2019
-                ? country.gdp_per_capita.year_2019
+              country.GDPPerCapita && country.GDPPerCapita.year_2019
+                ? country.GDPPerCapita.year_2019
                 : notAvailable
             }
           />
         </div>
         <div className="c-1-2">
-          <Stats header="Avg income (USD)" data={notAvailable} />
+          <Stats
+            header="Adjusted net national income per capita (USD)"
+            data={
+              country.Income && country.Income.value
+                ? millify(country.Income.value)
+                : notAvailable
+            }
+          />
         </div>
       </div>
     </div>

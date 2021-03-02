@@ -265,6 +265,35 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
         return context
 
 
+class CaseStudyQuoteBlock(blocks.StructBlock):
+    quotes = blocks.StreamBlock(
+        [
+            (
+                'quote',
+                blocks.RichTextBlock(
+                    features=RICHTEXT_FEATURES__MINIMAL,
+                ),
+            )
+        ],
+        block_counts={'quote': {'max_num': 10}},
+        required=False,
+    )
+    attribution = blocks.CharBlock(
+        max_length=255,
+        label='Who said it?',
+        required=False,
+    )
+    role = blocks.CharBlock(
+        max_length=255,
+        label='Their role',
+        required=False,
+    )
+
+    class Meta:
+        icon = 'fa-quote-left'
+        template = 'core/includes/_case_study_quote_block.html'
+
+
 def general_statistics_streamfield_validation(value):
     if value and (len(value) < 2 or len(value) > 6):
         raise StreamBlockValidationError(

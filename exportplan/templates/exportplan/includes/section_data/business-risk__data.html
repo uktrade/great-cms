@@ -1,0 +1,38 @@
+{% load to_json %}
+
+{{ block.super }}
+<script type="text/javascript">
+  magna.businessRisks({
+    element: document.getElementById('business-risks'),
+    model_name: 'businessrisks',
+    formFields: {{ business_risks|to_json }},
+    formData: {
+      risk_extras: {
+        tooltip: {
+          content: `<p>Risk notes</p>`
+        },
+        example: {
+          content: "Safety when operating abroad [notes]",
+        },
+      },
+      contingency_plan_extras: {
+        label: "Contingency plan",
+        tooltip: {
+          content: `<p>Contingency plan notes</p>`
+        },
+        example: {
+          content: "Safety when operating abroad [contingency notes]",
+        },
+      },
+    },
+    risk_likelihood_options: {{ risk_likelihood_options|to_json }},
+    risk_impact_options: {{ risk_impact_options|to_json }},
+    companyexportplan: {{ export_plan.pk }},
+    lesson: {
+      url: "/",
+      title: "Safety when operating abroad",
+      category: "TBD",
+      duration: "3 minutes",
+    }
+  })
+</script>

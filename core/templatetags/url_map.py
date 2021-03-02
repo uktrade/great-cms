@@ -22,5 +22,6 @@ def url_map(key):
 def path_match(context, match):
     # match the current path with provided regexp
     request = context.get('request')
-    path = request.path
-    return re.search(match, path)
+    if request:
+        path = request.path
+        return re.search(match, path)
