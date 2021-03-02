@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import { Input } from '@src/components/Form/Input'
 import { useDebounce } from '@src/components/hooks/useDebounce'
+import { formatLessonLearned } from '@src/Helpers'
 
 export const FundingCreditHowMuchFunding = memo(({ ...data }) => {
-  const { formData, currency } = data
+  const { formData, currency, lessonDetails, currentSection } = data
   const [formValue, setFormValue] = useState(formData.funding_amount_required)
 
   const update = (field) => {
@@ -31,6 +32,7 @@ export const FundingCreditHowMuchFunding = memo(({ ...data }) => {
     placeholder: '0',
     type: 'number',
     field: 'funding_amount_required',
+    lesson: formatLessonLearned(lessonDetails, currentSection, 0),
   }
 
   return <Input {...inputData} />
@@ -44,6 +46,11 @@ FundingCreditHowMuchFunding.propTypes = {
     }),
   ]).isRequired,
   currency: PropTypes.string.isRequired,
+  lessonDetails: PropTypes.oneOfType([PropTypes.string]).isRequired,
+  currentSection: PropTypes.shape({
+    url: PropTypes.string,
+    lessons: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
 }
 
 FundingCreditHowMuchFunding.defaultProps = {
