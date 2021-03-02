@@ -108,26 +108,27 @@ export default {
 
   getPopulationByCountryData: (countries) => {
     return get(config.populationByCountryUrl, {
-      countries: countries,
+      countries: countries.map((obj) => obj.country_name),
     }).then((response) => responseHandler(response).json())
   },
 
   getSocietyByCountryData: (countries) => {
     return get(config.societyByCountryUrl, {
-      countries: countries,
+      countries: countries.map((obj) => obj.country_name),
     }).then((response) => responseHandler(response).json())
   },
 
   getComTradeData: (countries, commodity_code) => {
     return get(config.apiComTradeDataUrl, {
-      countries: countries,
+      countries: countries.map((obj) => obj.country_iso2_code),
       commodity_code: commodity_code,
     }).then((response) => responseHandler(response).json())
   },
 
-  getCountryData: (countries) => {
+  getCountryData: (countries, fields) => {
     return get(config.apiCountryDataUrl, {
-      countries: countries,
+      countries: countries.map((obj) => obj.country_iso2_code),
+      fields: fields
     }).then((response) => responseHandler(response).json())
   },
 

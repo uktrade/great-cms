@@ -5,6 +5,11 @@ import Services from '@src/Services'
 import { GettingPaid } from './GettingPaid'
 
 const props = {
+  lessonDetails: {},
+  currentSection: {
+    url: 'wwww.example.com',
+    lessons: [],
+  },
   formFields: [
     {
       field: 'payment_method',
@@ -121,9 +126,21 @@ const props = {
   },
 }
 
-const setup = ({ formFields, field, formData }) => {
+const setup = ({
+  formFields,
+  field,
+  formData,
+  lessonDetails,
+  currentSection,
+}) => {
   const component = render(
-    <GettingPaid field={field} formData={formData} formFields={formFields} />
+    <GettingPaid
+      field={field}
+      formData={formData}
+      formFields={formFields}
+      lessonDetails={lessonDetails}
+      currentSection={currentSection}
+    />
   )
 
   return {

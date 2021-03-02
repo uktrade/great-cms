@@ -110,6 +110,19 @@ def country_data():
     return {'population_data': {'cpi': 100}}
 
 
+@pytest.fixture
+def multiple_country_data():
+    return {
+        'NL': {
+            'GDPPerCapita': {'value': 54321},
+            'ConsumerPriceIndex': {'value': 54321},
+            'Income': {'value': 20000},
+            'CorruptionPerceptionsIndex': {'rank': 10, 'year': '2019'},
+            'EaseOfDoingBusiness': {'rank': 10, 'year': '2019'},
+        }
+    }
+
+
 def get_user():
     return BusinessSSOUser(
         id=1,
@@ -341,10 +354,20 @@ def mock_api_get_country_data(country_data):
     patch.stop()
 
 
+@pytest.fixture(autouse=True)
+def mock_api_get_country_data_by_country(multiple_country_data):
+    patch = mock.patch(
+        'directory_api_client.api_client.dataservices.get_country_data_by_country',
+        return_value=create_response(json_body=multiple_country_data),
+    )
+    yield patch.start()
+    patch.stop()
+
+
 @pytest.fixture()
 def comtrade_data():
     return {
-        'Germany': {
+        'NL': {
             'import_from_world': {
                 'year': 2019,
                 'trade_value': '1.82 billion',
