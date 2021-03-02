@@ -91,7 +91,7 @@ class DomesticDashboardTests(WagtailPageTests):
 
 @pytest.mark.django_db
 @mock.patch.object(sso_api_client.user, 'get_user_page_views')
-@mock.patch.object(api_client.exportplan, 'exportplan_list')
+# @mock.patch.object(api_client.exportplan, 'exportplan_list')
 @mock.patch.object(api_client.personalisation, 'events_by_location_list')
 @mock.patch.object(api_client.personalisation, 'export_opportunities_by_relevance_list')
 @mock.patch.object(sso_api_client.user, 'get_user_lesson_completed')
@@ -100,21 +100,20 @@ def test_dashboard_page_routing(
     mock_get_user_lesson_completed,
     mock_events_by_location_list,
     mock_export_opportunities_by_relevance_list,
-    mock_exportplan_list,
     mock_get_user_page_views,
     patch_set_user_page_view,
     mock_get_company_profile,
+    mock_export_plan_list,
     mock_sso_get_export_plan,
-    mock_get_create_export_plan,
+    patch_sso_get_export_plan,
     client,
     user,
     get_request,
     domestic_homepage,
     domestic_site,
 ):
-    mock_sso_get_export_plan.stop()
-    mock_get_create_export_plan.stop()
-    mock_exportplan_list.return_value = [{}]
+    patch_sso_get_export_plan.stop()
+    mock_export_plan_list.return_value = [{}]
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
     mock_get_user_page_views.return_value = create_response(json_body={'result': 'ok', 'page_views': {}})
@@ -174,7 +173,7 @@ def test_dashboard_page_routing(
 
     # set a country in exportplan and watch plan section disappear
     assert context_data['routes']['target'].value.get('enabled') is True
-    mock_exportplan_list.return_value = create_response(json_body=[{'export_countries': ['France']}])
+    mock_export_plan_list.return_value = create_response(json_body=[{'export_countries': ['France']}])
     context_data = dashboard.get_context(get_request)
     assert context_data['routes']['target'].value.get('enabled') is False
 

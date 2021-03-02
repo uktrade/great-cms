@@ -283,7 +283,7 @@ def patch_get_create_export_plan(export_plan_data):
     yield mock.patch.object(exportplan_helpers, 'get_or_create_export_plan', return_value=export_plan_data)
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture(autouse=False)
 def mock_get_create_export_plan(patch_get_create_export_plan):
     yield patch_get_create_export_plan.start()
     try:
@@ -304,6 +304,24 @@ def mock_sso_get_export_plan(patch_sso_get_export_plan):
     yield patch_sso_get_export_plan.start()
     try:
         patch_sso_get_export_plan.stop()
+    except RuntimeError:
+        # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture
+def patch_export_plan_list(export_plan_data):
+    yield mock.patch(
+        'directory_api_client.api_client.exportplan.exportplan_list',
+        return_value=create_response(status_code=200, json_body=[export_plan_data]),
+    )
+
+
+@pytest.fixture(autouse=False)
+def mock_export_plan_list(patch_export_plan_list):
+    yield patch_export_plan_list.start()
+    try:
+        patch_export_plan_list.stop()
     except RuntimeError:
         # may already be stopped explicitly in a test
         pass
@@ -465,14 +483,6 @@ def patch_set_user_page_view():
     yield mock.patch(
         'directory_sso_api_client.sso_api_client.user.set_user_page_view',
         return_value=create_response(status_code=200, json_body={'result': 'ok'}),
-    ).start()
-
-
-@pytest.fixture
-def patch_export_plan(export_plan_data):
-    yield mock.patch(
-        'directory_api_client.api_client.exportplan.exportplan_list',
-        return_value=create_response(status_code=200, json_body=[export_plan_data]),
     ).start()
 
 
