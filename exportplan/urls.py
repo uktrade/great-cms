@@ -57,10 +57,10 @@ urlpatterns = [
         name='funding-and-credit',
     ),
     path(
-        'section/travel-and-business-policies/',
+        'section/travel-plan/',
         login_required(views.TravelBusinessPoliciesView.as_view(), login_url=LOGIN_URL),
-        {'slug': 'travel-and-business-policies'},
-        name='travel-and-business-policies',
+        {'slug': 'travel-plan'},
+        name='travel-plan',
     ),
     path(
         'section/business-risk/',

@@ -8,6 +8,8 @@
 - GP2-1575 - Casestudy rename, reorder and tweak style
 - NO TICKET - django 2.2.19 upgrade
 - GP2-1436 - Added management command to load countries, region and trading blocs tag from csv
+- GP2-1733 - rename ep options
+- GP2-1735 - update lessons
 
 ### Fixed bugs
 
