@@ -884,12 +884,6 @@ $desktop: 1024px;
       }
     }
 
-    .slick-slide img {
-      margin: -30px 0;
-      max-width: 100%;
-      height: auto;
-    }
-
     &__mobile {
       @include tablet {
         display: none;

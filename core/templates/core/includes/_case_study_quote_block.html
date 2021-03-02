@@ -8,8 +8,15 @@
 <div class="quote bg-white br-xs m-t-xs p-t-xs p-b-xs p-r-xs p-f-l">
     <i class="fas fa-quote-left text-blue-deep-50 block"></i>
     {{quote}}
+    <div class="only-mobile m-t-xs">
+        <span class="body-m-b block">{{value.attribution}}</span>
+
+        {% if value.role %}
+        <span class="body-m block">{{value.role}}</span>
+        {% endif %}
+    </div>
     {% if forloop.last %} {# on last iteration only #}
-    <div class="m-t-xs">
+    <div class="only-desktop m-t-xs">
         <span class="body-m-b block">{{value.attribution}}</span>
 
         {% if value.role %}
