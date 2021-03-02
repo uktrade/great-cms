@@ -332,6 +332,24 @@ table {
 }
 
 /* Utils */
+.pad-0 {
+  padding: 0;
+}
+.pad-1 {
+  padding: 5pt;
+}
+.pad-2 {
+  padding: 10pt;
+}
+.pad-3 {
+  padding: 20pt;
+}
+.pad-4 {
+  padding: 30pt;
+}
+.pad-5 {
+  padding: 40pt;
+}
 .pad-t-0 {
   padding-top: 0;
 }
@@ -392,6 +410,30 @@ table {
   padding-top: 40pt;
   padding-bottom: 40pt;
 }
+.pad-x-0 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.pad-x-1 {
+  padding-left: 5pt;
+  padding-right: 5pt;
+}
+.pad-x-2 {
+  padding-left: 10pt;
+  padding-right: 10pt;
+}
+.pad-x-3 {
+  padding-left: 20pt;
+  padding-right: 20pt;
+}
+.pad-x-4 {
+  padding-left: 30pt;
+  padding-right: 30pt;
+}
+.pad-x-5 {
+  padding-left: 40pt;
+  padding-right: 40pt;
+}
 .pad-r-0 {
   padding-right: 0;
 }
@@ -409,4 +451,22 @@ table {
 }
 .pad-r-5 {
   padding-right: 40pt;
+}
+.pad-l-0 {
+  padding-left: 0;
+}
+.pad-l-1 {
+  padding-left: 5pt;
+}
+.pad-l-2 {
+  padding-left: 10pt;
+}
+.pad-l-3 {
+  padding-left: 20pt;
+}
+.pad-l-4 {
+  padding-left: 30pt;
+}
+.pad-l-5 {
+  padding-left: 40pt;
 }
