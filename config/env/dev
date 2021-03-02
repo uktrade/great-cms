@@ -50,7 +50,7 @@ GOOGLE_TAG_MANAGER_ENV=dev
 UTM_COOKIE_DOMAIN=.great
 
 FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES=True
-CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS=debug@example.com
+CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
 
 # Needed for Wagtail-Transfer local development. Also see env/config/dev-transfer-target
 WAGTAILTRANSFER_SECRET_KEY=local-one
