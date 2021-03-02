@@ -326,7 +326,7 @@ def mock_api_get_country_data(country_data):
 @pytest.fixture()
 def comtrade_data():
     return {
-        'Germany': {
+        'NL': {
             'import_from_world': {
                 'year': 2019,
                 'trade_value': '1.82 billion',

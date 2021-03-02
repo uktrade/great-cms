@@ -194,7 +194,6 @@ class ExportPlanTargetMarketsResearchView(PageTitleMixin, LessonDetailsMixin, Ex
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        return context
         target_age_group_choices = choices_to_key_value(choices.TARGET_AGE_GROUP_CHOICES)
         context['target_age_group_choices'] = target_age_group_choices
         if self.request.user.export_plan.export_country_code and self.request.user.export_plan.export_commodity_code:

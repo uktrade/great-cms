@@ -255,6 +255,7 @@ def test_target_markets_research(mock_get_comtrade_data, client, user):
     client.force_login(user)
 
     response = client.get(url)
+    print('************************', response.context_data)
 
     assert response.context_data['target_age_group_choices']
     assert response.context_data['insight_data'] == mock_get_comtrade_data.return_value
@@ -262,7 +263,7 @@ def test_target_markets_research(mock_get_comtrade_data, client, user):
     assert response.status_code == 200
     assert mock_get_comtrade_data.call_count == 1
 
-    assert mock_get_comtrade_data.call_args == mock.call(commodity_code='220850', countries_list=['Netherlands'])
+    assert mock_get_comtrade_data.call_args == mock.call(commodity_code='220850', countries_list=['NL'])
 
 
 @pytest.mark.django_db
