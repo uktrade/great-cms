@@ -270,7 +270,7 @@ class GettingPaidView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView)
 
 
 class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
-    title = 'Funding And Credit'
+    title = 'Funding and credit'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -287,7 +287,7 @@ class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSection
 
 
 class TravelBusinessPoliciesView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
-    title = '`Travel And Business Policies'
+    title = '`Travel plan'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)

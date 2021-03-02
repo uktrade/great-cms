@@ -196,8 +196,8 @@ def test_business_objectives_has_lessons(mock_get_lesson_details, client, user):
         ('marketing-approach', 'costs-and-pricing'),
         ('costs-and-pricing', 'funding-and-credit'),
         ('funding-and-credit', 'getting-paid'),
-        ('getting-paid', 'travel-and-business-policies'),
-        ('travel-and-business-policies', 'business-risk'),
+        ('getting-paid', 'travel-plan'),
+        ('travel-plan', 'business-risk'),
         ('business-risk', None),
     ),
 )
