@@ -286,6 +286,11 @@ class ExportPlanParser:
             return self.data['export_countries'][0]['country_name']
 
     @property
+    def export_country_code(self):
+        if self.data.get('export_countries'):
+            return self.data['export_countries'][0]['country_iso2_code']
+
+    @property
     def export_commodity_code(self):
         if self.data.get('export_commodity_codes'):
             return self.data['export_commodity_codes'][0]['commodity_code']
