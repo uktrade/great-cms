@@ -1,7 +1,6 @@
 # Changelog
 
 ## Pre-release
-
 - GP2-1430 - Income data for target research page in EP
 - GP2-1575 - Added default text for case study summary_context field
 - GP2-1570 - CaseStudy UI seachability by summary, lead_title and some tags
@@ -18,6 +17,7 @@
 - NO TICKET - fix wagtail checkbox layout issue
 
 ### Implemented enhancements
+- GP2-1441 - Corruption perception index update
 - GP2-1398 - Data loading performance for compare markets page
 - GP2-1701 - Footer - Account functionality
 - GP2-1574 - Case study - Quote surfacing on mobile devices (carousel)
