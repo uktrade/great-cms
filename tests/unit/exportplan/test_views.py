@@ -344,7 +344,7 @@ def test_getting_paid(export_plan_data, client, user):
 def test_download_export_plan(client, user):
     url = reverse('exportplan:pdf-download')
     client.force_login(user)
-    response = client.get(url)
+    response = client.get(url, SERVER_NAME='mydomain.com')
     assert response.status_code == 200
     assert response._content_type_for_repr == ', "application/pdf"'
     assert isinstance(type(response.content), type(bytes)) is True

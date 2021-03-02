@@ -278,16 +278,16 @@ def mock_get_create_export_plan(patch_get_create_export_plan):
 
 
 @pytest.fixture
-def patch_sso_models_get_or_create_export_plan(export_plan_data):
+def patch_sso_get_export_plan(export_plan_data):
     # TODO merge this and above patch so we use singe unified way of getting export plan
     yield mock.patch('sso.models.get_or_create_export_plan', return_value=export_plan_data)
 
 
-@pytest.fixture(autouse=False)
-def mock_api_get_export_plan(patch_get_export_plan):
-    yield patch_get_export_plan.start()
+@pytest.fixture(autouse=True)
+def mock_sso_get_export_plan(patch_sso_get_export_plan):
+    yield patch_sso_get_export_plan.start()
     try:
-        patch_get_export_plan.stop()
+        patch_sso_get_export_plan.stop()
     except RuntimeError:
         # may already be stopped explicitly in a test
         pass
