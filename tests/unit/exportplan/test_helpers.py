@@ -159,6 +159,7 @@ def test_get_export_plan_pdf_context(user, get_request):
     assert pdf_context['calculated_pricing'] is not None
     assert pdf_context['getting_paid_payment_method_label'] == 'Credit or debit card payments, Merchant services'
     assert pdf_context['getting_paid_incoterms_transport_label'] == 'Ex Works (EXW)'
+    assert pdf_context['host_url'] == 'http://testserver'
 
 
 @mock.patch.object(helpers, 'get_exportplan')

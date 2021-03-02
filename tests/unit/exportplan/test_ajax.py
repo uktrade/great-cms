@@ -11,8 +11,7 @@ from exportplan import helpers
 @pytest.mark.django_db
 @freeze_time('2016-11-23 11:21:10')
 @mock.patch.object(helpers, 'update_exportplan')
-@mock.patch.object(helpers, 'get_exportplan')
-def test_ajax_country_data(mock_get_export_plan, mock_update_exportplan, client, user):
+def test_ajax_country_data(mock_update_exportplan, mock_sso_get_export_plan, client, user):
     client.force_login(user)
     url = reverse('exportplan:api-country-data')
 
@@ -23,7 +22,7 @@ def test_ajax_country_data(mock_get_export_plan, mock_update_exportplan, client,
         ]
     }
 
-    mock_get_export_plan.return_value = {
+    mock_sso_get_export_plan.return_value = {
         'pk': 1,
         'target_markets': [
             {'country_name': 'UK'},
@@ -38,8 +37,6 @@ def test_ajax_country_data(mock_get_export_plan, mock_update_exportplan, client,
         },
     )
 
-    assert mock_get_export_plan.call_count == 1
-    assert mock_get_export_plan.call_args == mock.call('123')
     assert response.status_code == 200
 
     assert mock_update_exportplan.call_count == 1
@@ -61,8 +58,7 @@ def test_ajax_country_data_no_country(client, user):
 @pytest.mark.django_db
 @freeze_time('2016-11-23 11:21:10')
 @mock.patch.object(helpers, 'update_exportplan')
-@mock.patch.object(helpers, 'get_exportplan')
-def test_ajax_country_data_remove(mock_get_export_plan, mock_update_exportplan, client, user):
+def test_ajax_country_data_remove(mock_update_exportplan, mock_sso_get_export_plan, client, user):
     client.force_login(user)
     url = reverse('exportplan:api-remove-country-data')
 
@@ -75,7 +71,7 @@ def test_ajax_country_data_remove(mock_get_export_plan, mock_update_exportplan, 
     }
     update_return_data = {'target_markets': [{'country': 'UK'}]}
 
-    mock_get_export_plan.return_value = export_plan_data
+    mock_sso_get_export_plan.return_value = export_plan_data
     mock_update_exportplan.return_value = update_return_data
 
     response = client.get(
@@ -85,8 +81,6 @@ def test_ajax_country_data_remove(mock_get_export_plan, mock_update_exportplan, 
         },
     )
 
-    assert mock_get_export_plan.call_count == 1
-    assert mock_get_export_plan.call_args == mock.call('123')
     assert response.status_code == 200
 
     assert mock_update_exportplan.call_count == 1
@@ -98,21 +92,15 @@ def test_ajax_country_data_remove(mock_get_export_plan, mock_update_exportplan, 
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'update_exportplan')
-@mock.patch.object(helpers, 'get_exportplan')
-def test_ajax_sector_remove(mock_get_export_plan, mock_update_exportplan, client, user):
+def test_ajax_sector_remove(mock_update_exportplan, client, user):
     client.force_login(user)
     url = reverse('exportplan:api-remove-sector')
-
-    export_plan_data = {'pk': 1, 'sectors': ['electrical']}
     update_return_data = {'sectors': []}
 
-    mock_get_export_plan.return_value = export_plan_data
     mock_update_exportplan.return_value = update_return_data
 
     response = client.get(url)
 
-    assert mock_get_export_plan.call_count == 1
-    assert mock_get_export_plan.call_args == mock.call('123')
     assert response.status_code == 200
 
     assert mock_update_exportplan.call_count == 1
@@ -133,22 +121,16 @@ def test_ajax_country_data_remove_no_country(client, user):
 @freeze_time('2016-11-23 11:21:10')
 @mock.patch.object(helpers, 'get_recommended_countries')
 @mock.patch.object(helpers, 'update_exportplan')
-@mock.patch.object(helpers, 'get_exportplan')
-def test_recommended_countries(
-    mock_get_export_plan, mock_update_exportplan, mock_get_recommended_countries, client, user
-):
+def test_recommended_countries(mock_update_exportplan, mock_get_recommended_countries, export_plan_data, client, user):
     client.force_login(user)
     url = reverse('exportplan:ajax-recommended-countries-data')
 
     recommended_countries = [{'country': 'Japan'}, {'country': 'South Korea'}]
 
     mock_get_recommended_countries.return_value = recommended_countries
-    mock_get_export_plan.return_value = {'pk': 1, 'sectors': ['electrical']}
 
     response = client.get(url, {'sectors': 'Automotive,Electrical'})
 
-    assert mock_get_export_plan.call_count == 1
-    assert mock_get_export_plan.call_args == mock.call('123')
     assert response.status_code == 200
 
     assert mock_update_exportplan.call_count == 1

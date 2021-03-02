@@ -104,12 +104,16 @@ def test_dashboard_page_routing(
     mock_get_user_page_views,
     patch_set_user_page_view,
     mock_get_company_profile,
+    mock_sso_get_export_plan,
+    mock_get_create_export_plan,
     client,
     user,
     get_request,
     domestic_homepage,
     domestic_site,
 ):
+    mock_sso_get_export_plan.stop()
+    mock_get_create_export_plan.stop()
     mock_exportplan_list.return_value = [{}]
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
