@@ -20,6 +20,7 @@
 ### Implemented enhancements
 
 - GP2-1441 - Corruption perception index update
+- GP2-1686 - Port /contact/domestic/ and contact/domestic/enquiries/ paths from V1, behind feature flag
 - GP2-1398 - Data loading performance for compare markets page
 - GP2-1701 - Footer - Account functionality
 - GP2-1574 - Case study - Quote surfacing on mobile devices (carousel)
