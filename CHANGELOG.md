@@ -86,7 +86,7 @@
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.1.0...1.2.0)
 
 ### Implemented enhancements
-
+- GP2-1700 - Drop down boxes overlap fix
 - GP2-1333 - Add filtering behaviour to MarketsTopicLandingPage (ported from BAU)
 - GP2-1412 - Update RichtextField features allowed on ArticlePage
 - GP2-1402 - Update content for Funding and Credit section

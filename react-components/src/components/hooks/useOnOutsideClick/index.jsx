@@ -1,11 +1,22 @@
 import { useEffect, useRef } from 'react'
 
-export const useOnOutsideClick = (outsideClick) => {
+export const useOnOutsideClick = (outsideClick, isOpen) => {
   const element = useRef()
 
   const onClick = (event) => {
-    if (!event.target.classList.contains('button--toggle') && (element.current && !element.current.contains(event.target))) {
-      outsideClick()
+    if (
+      !event.target.classList.contains('button--toggle') &&
+      element.current &&
+      !element.current.contains(event.target)
+    ) {
+      outsideClick(false)
+    } else if (
+      event.target.classList.contains('button--toggle') &&
+      !event.target.classList.contains('button--toggled')
+    ) {
+      if (isOpen) {
+        outsideClick(false)
+      }
     }
   }
 
@@ -16,5 +27,5 @@ export const useOnOutsideClick = (outsideClick) => {
     }
   }, [outsideClick, element])
 
-  return [ element ]
+  return [element]
 }
