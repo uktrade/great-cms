@@ -64,9 +64,9 @@ def export_plan_data(cost_pricing_data):
         'objectives': {'rationale': 'business rationale'},
         'funding_and_credit': {'override_estimated_total_cost': '34.23', 'funding_amount_required': '45.99'},
         'getting_paid': {
-            'payment_method': {'method': ['TTE', 'EFG'], 'notes': 'method 1'},
+            'payment_method': {'methods': ['CREDIT_DEBIT', 'MERCHANT_SERVICES']},
             'payment_terms': {'method': ['FFE', 'TMP'], 'notes': 'method 2'},
-            'incoterms': {'method': ['RME', 'ECM'], 'notes': 'method 3'},
+            'incoterms': {'notes': 'nothing', 'transport': 'EX_WORKS'},
         },
         'business_trips': {'note': 'trip 1'},
         'travel_business_policies': {
@@ -283,7 +283,7 @@ def patch_get_create_export_plan(export_plan_data):
     yield mock.patch.object(exportplan_helpers, 'get_or_create_export_plan', return_value=export_plan_data)
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture(autouse=False)
 def mock_get_create_export_plan(patch_get_create_export_plan):
     yield patch_get_create_export_plan.start()
     try:
@@ -294,16 +294,34 @@ def mock_get_create_export_plan(patch_get_create_export_plan):
 
 
 @pytest.fixture
-def patch_sso_models_get_or_create_export_plan(export_plan_data):
+def patch_sso_get_export_plan(export_plan_data):
     # TODO merge this and above patch so we use singe unified way of getting export plan
     yield mock.patch('sso.models.get_or_create_export_plan', return_value=export_plan_data)
 
 
-@pytest.fixture(autouse=False)
-def mock_api_get_export_plan(patch_get_export_plan):
-    yield patch_get_export_plan.start()
+@pytest.fixture(autouse=True)
+def mock_sso_get_export_plan(patch_sso_get_export_plan):
+    yield patch_sso_get_export_plan.start()
     try:
-        patch_get_export_plan.stop()
+        patch_sso_get_export_plan.stop()
+    except RuntimeError:
+        # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture
+def patch_export_plan_list(export_plan_data):
+    yield mock.patch(
+        'directory_api_client.api_client.exportplan.exportplan_list',
+        return_value=create_response(status_code=200, json_body=[export_plan_data]),
+    )
+
+
+@pytest.fixture(autouse=False)
+def mock_export_plan_list(patch_export_plan_list):
+    yield patch_export_plan_list.start()
+    try:
+        patch_export_plan_list.stop()
     except RuntimeError:
         # may already be stopped explicitly in a test
         pass
@@ -465,14 +483,6 @@ def patch_set_user_page_view():
     yield mock.patch(
         'directory_sso_api_client.sso_api_client.user.set_user_page_view',
         return_value=create_response(status_code=200, json_body={'result': 'ok'}),
-    ).start()
-
-
-@pytest.fixture
-def patch_export_plan(export_plan_data):
-    yield mock.patch(
-        'directory_api_client.api_client.exportplan.exportplan_list',
-        return_value=create_response(status_code=200, json_body=[export_plan_data]),
     ).start()
 
 

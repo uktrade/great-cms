@@ -46,6 +46,7 @@
 - GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
 - GP2-1405 - pdf EP Initial boiler plate creation
 - GP2-1705 - fix personalisation ba
+- GP2-1632 - export plan DL BE p1
 
 ## [1.4.0](https://github.com/uktrade/great-cms/releases/tag/1.4.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.3.0...1.4.0)

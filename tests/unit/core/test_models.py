@@ -105,7 +105,7 @@ def test_curated_list_page_has_link_in_context_back_to_parent(
     client,
     domestic_homepage,
     domestic_site,
-    patch_export_plan,
+    mock_export_plan_list,
     patch_get_user_lesson_completed,
     user,
 ):
@@ -491,7 +491,7 @@ def test_redirection_for_unauthenticated_user(
     client,
     domestic_homepage,
     domestic_site,
-    patch_export_plan,
+    mock_export_plan_list,
     patch_get_user_lesson_completed,
     user,
 ):
