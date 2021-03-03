@@ -6,6 +6,7 @@
 - NO TICKET - fix wagtail checkbox layout issue
 
 ### Implemented enhancements
+- GP2-1325 - Footer is not displaying correctly
 - GP2-1430 - Income data for target research page in EP
 - GP2-1575 - Added default text for case study summary_context field
 - GP2-1570 - CaseStudy UI seachability by summary, lead_title and some tags
