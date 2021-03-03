@@ -191,7 +191,7 @@ class StructuralPage(BaseContentPage):
     """Structural page to return page not found"""
 
     # `title` field comes from Page->BaseContentPage
-    folder_page = False
+    folder_page = True
 
     def serve_preview(self, request, mode_name='dummy'):
         # It doesn't matter what is passed as mode_name - we always HTTP404
