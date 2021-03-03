@@ -10,7 +10,7 @@
 - GP2-1436 - Added management command to load countries, region and trading blocs tag from csv
 
 ### Fixed bugs
-
+- Tkt GP2-1760 AMEND structural page to allow articles
 - NO TICKET - add document-link back in as rich-text option
 - NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
 - NO TICKET - fix wagtail checkbox layout issue
