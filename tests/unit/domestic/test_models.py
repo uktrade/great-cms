@@ -26,6 +26,7 @@ from domestic.models import (
     GuidancePage,
     MarketsTopicLandingPage,
     PerformanceDashboardPage,
+    StructuralPage,
     TopicLandingPage,
     industry_accordions_validation,
     main_statistics_validation,
@@ -1143,6 +1144,7 @@ class ArticlePageTests(WagtailPageTests):
             ArticlePage,
             {
                 CountryGuidePage,
+                StructuralPage,
                 ArticleListingPage,
                 TopicLandingPage,
             },
@@ -1662,4 +1664,14 @@ class GreatDomesticHomePageTests(WagtailPageTests):
         self.assertEqual(
             context['sector_form'].fields['sector'].choices,
             expected_sector_form.fields['sector'].choices,
+        )
+
+
+class StructuralPageTests(WagtailPageTests):
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(
+            StructuralPage,
+            {
+                ArticlePage,
+            },
         )
