@@ -34,7 +34,6 @@ from core.constants import (
     VIDEO_TRANSCRIPT_HELP_TEXT,
 )
 from core.fields import single_struct_block_stream_field_factory
-from core.helpers import build_social_links
 from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag
 from directory_constants import choices
 from domestic import cms_panels, forms as domestic_forms
@@ -113,10 +112,10 @@ class SocialLinksPageMixin(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        context['social_links'] = build_social_links(
-            request,
-            self.title,
-        )
+        # context['social_links'] = build_social_links(
+        # request,
+        # self.title,
+        # )
         return context
 
 

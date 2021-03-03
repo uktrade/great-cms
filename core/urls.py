@@ -1,3 +1,4 @@
+from django.conf.urls import url
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
@@ -20,6 +21,9 @@ def anonymous_user_required(function):
 
 
 urlpatterns = [
+    url(r'^triage/(?P<step>.+)/$', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='triage-wizard'),
+    url(r'^triage/$', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='triage-start'),
+    url(r'^custom/$', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='custom-page'),
     path(
         'where-to-export/',
         login_required(views.CompareCountriesView.as_view(), login_url=LOGIN_URL),
@@ -51,6 +55,7 @@ urlpatterns = [
         ),
         name='signup-wizard-export-plan',
     ),
+    path('service-unavailable/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='service-unavailable'),
     path('contact-us/help/', skip_ga360(views.ContactUsHelpFormView.as_view()), name='contact-us-help'),
     path('contact-us/success/', skip_ga360(views.ContactUsHelpSuccessView.as_view()), name='contact-us-success'),
     path('api/update-company/', skip_ga360(views_api.UpdateCompanyAPIView.as_view()), name='api-update-company'),
