@@ -8,6 +8,7 @@ export const SET_NEXT_URL = 'SET_NEXT_URL'
 export const SET_INITIAL_STATE = 'SET_INITIAL_STATE'
 export const SET_PRODUCT = 'SET_PRODUCT'
 export const SET_MARKET = 'SET_MARKET'
+export const SET_LOADED = 'SET_LOADED'
 
 // action creators
 
@@ -70,6 +71,12 @@ const setMarket = function(market) {
   }
 }
 
+const setLoaded = function() {
+  return {
+    type: SET_LOADED
+  }
+}
+
 export default {
   toggleModalIsOpen,
   setProductsExpertise,
@@ -79,4 +86,5 @@ export default {
   setInitialState,
   setProduct,
   setMarket,
+  setLoaded,
 }

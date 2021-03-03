@@ -194,6 +194,9 @@ class StructuralPage(BaseContentPage):
     settings_panels = [
         FieldPanel('slug'),
     ]
+    subpage_types = [
+        'domestic.ArticlePage',
+    ]
 
     def serve_preview(self, request, mode_name='dummy'):
         # It doesn't matter what is passed as mode_name - we always HTTP404
@@ -824,6 +827,7 @@ class ArticlePage(
 
     parent_page_types = [
         'domestic.CountryGuidePage',
+        'domestic.StructuralPage',
         'domestic.ArticleListingPage',
         'domestic.TopicLandingPage',
     ]

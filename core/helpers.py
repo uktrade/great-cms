@@ -19,7 +19,6 @@ from core.serializers import parse_events, parse_opportunities
 from directory_api_client import api_client
 from directory_constants import choices
 from directory_sso_api_client import sso_api_client
-from exportplan import helpers as exportplan_helpers
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
 USER_LOCATION_DETERMINE_ERROR = 'Unable to determine user location'
@@ -344,48 +343,41 @@ def millify(n):
     return '{0:.2f}{unit}'.format(n / 10 ** (3 * mill_idx), unit=mill_names[mill_idx])
 
 
+def process_country_imports(year_rows, from_uk=False):
+    out = {}
+    year_rows.sort(key=lambda row: row.get('year'), reverse=True)
+    for row in year_rows:
+        if row.get('uk_or_world') == ('GBR' if from_uk else 'WLD'):
+            if not out:
+                out = {'trade_value_raw': float(row.get('trade_value')), 'year': row.get('year')}
+            else:
+                # if the previous value is one year earlier
+                if int(out['year']) - int(row.get('year')) == 1:
+                    val = out['trade_value_raw']
+                    last_val = float(row.get('trade_value'))
+                    out['year_on_year_change'] = 100 * (val - last_val) / last_val
+                    out['last_year'] = row.get('year')
+                    out['last_value'] = row.get('trade_value')
+                break
+    return out
+
+
 def get_comtrade_data(countries_list, commodity_code, with_country_data=True):
     response_data = {}
+    comtrade_data = api_client.dataservices.get_last_year_import_data_by_country(
+        countries=countries_list, commodity_code=commodity_code
+    ).json()
     for country in countries_list:
-        json_data = api_client.dataservices.get_last_year_import_data(
-            country=country, commodity_code=commodity_code
-        ).json()
-
-        # Todo: Refactor repeated code
-        import_data = json_data['last_year_data'] if 'last_year_data' in json_data else {}
-        if import_data:
-            if 'trade_value' in import_data and import_data['trade_value']:
-                import_data['trade_value_raw'] = import_data['trade_value']
-                import_data['trade_value'] = millify(import_data['trade_value'])
-
-            if 'year_on_year_change' in import_data and import_data['year_on_year_change']:
-                import_data['year_on_year_change'] = import_data['year_on_year_change']
-        json_data_from_uk = api_client.dataservices.get_last_year_import_data_from_uk(
-            country=country, commodity_code=commodity_code
-        ).json()
-
-        # Todo: Refactor repeated code
-
-        import_data_from_uk = json_data_from_uk['last_year_data'] if 'last_year_data' in json_data_from_uk else {}
-        if import_data_from_uk and 'trade_value' in import_data_from_uk and import_data_from_uk['trade_value']:
-            import_data_from_uk['trade_value_raw'] = import_data_from_uk['trade_value']
-            import_data_from_uk['trade_value'] = millify(import_data_from_uk['trade_value'])
-
-        country_data = exportplan_helpers.get_country_data(country) if with_country_data else {}
         response_data[country] = {
-            'import_from_world': import_data if import_data else {},
-            'import_data_from_uk': import_data_from_uk if import_data_from_uk else {},
-            **country_data,
+            'import_from_world': process_country_imports(comtrade_data.get(country, []), from_uk=False),
+            'import_data_from_uk': process_country_imports(comtrade_data.get(country, []), from_uk=True),
         }
-
     return response_data
 
 
-def get_country_data(countries_list):
-    response_data = {}
-    for country in countries_list:
-        response_data[country] = exportplan_helpers.get_country_data(country)
-    return response_data
+def get_country_data(countries, fields):
+    response = api_client.dataservices.get_country_data_by_country(countries=countries, fields=fields)
+    return response.json()
 
 
 def build_social_link(template, request, title):
