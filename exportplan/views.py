@@ -179,7 +179,7 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['check_duties_link'] = helpers.get_check_duties_link(self.request.user.export_plan.data)
-        # To do pass lanaguage from export_plan object rather then  hardcoded
+        # To do pass language from export_plan object rather then  hardcoded
         context['language_data'] = helpers.get_cia_world_factbook_data(
             country=self.request.user.export_plan.export_country_name, key='people,languages'
         )
@@ -296,7 +296,6 @@ class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSection
             'estimated_costs_per_unit', ''
         )
         context['funding_credit_options'] = self.request.user.export_plan.data.get('funding_credit_options', [])
-
         return context
 
 
@@ -390,7 +389,7 @@ class ExportPlanServicePage(GA360Mixin, TemplateView):
 
 class PDFDownload(View):
     def get(self, request, *args, **kwargs):
-        context = {'export_plan': request.user.export_plan.data}
+        context = helpers.get_export_plan_pdf_context(request)
         pdf = render_to_pdf('exportplan/pdf_download.html', context)
         response = HttpResponse(pdf, content_type='application/pdf')
         filename = 'export_plan.pdf'

@@ -51,7 +51,7 @@ def test_user_specific_redirect_middleware(
     domestic_site,
     client,
     user,
-    patch_export_plan,
+    mock_export_plan_list,
     patch_get_user_lesson_completed,
 ):
     learn_page = factories.LandingPageFactory(parent=domestic_site.root_page, slug='learn')
@@ -81,7 +81,7 @@ def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set
     client,
     user,
     mock_get_company_profile,
-    patch_export_plan,
+    mock_export_plan_list,
     patch_get_user_lesson_completed,
 ):
     exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
