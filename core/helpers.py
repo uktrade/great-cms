@@ -444,3 +444,20 @@ def get_file_from_s3(bucket, key):
 def get_s3_file_stream(file_name, bucket_name=settings.AWS_STORAGE_BUCKET_NAME_DATA_SCIENCE):
     s3_resource = get_file_from_s3(bucket_name, file_name)
     return s3_resource['Body'].read().decode('utf-8')
+
+
+def retrieve_regional_offices(postcode):
+    response = api_client.exporting.lookup_regional_offices_by_postcode(postcode)
+    response.raise_for_status()
+    return response.json()
+
+
+def retrieve_regional_office_email(postcode):
+    try:
+        office_details = retrieve_regional_offices(postcode)
+    except requests.exceptions.RequestException:
+        email = None
+    else:
+        matches = [office for office in office_details if office['is_match']]
+        email = matches[0]['email'] if matches else None
+    return email

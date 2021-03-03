@@ -11,6 +11,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 from wagtail_transfer import urls as wagtailtransfer_urls
 
 import cms_extras.urls
+import contact.urls
 import core.urls
 import exportplan.urls
 import sso.urls
@@ -37,6 +38,15 @@ urlpatterns += [
     path('sso/', include(sso.urls)),
     path('', include(core.urls, namespace='core')),
     path('export-plan/', include(exportplan.urls)),
+]
+
+# Should we show the contact pages we're porting from V1 yet?
+if settings.FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES:
+    urlpatterns += [
+        path('contact/', include(contact.urls)),
+    ]
+
+urlpatterns += [
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:

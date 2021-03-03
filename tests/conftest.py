@@ -217,6 +217,9 @@ def client(client, auth_backend, settings):
                     'first_name': user.first_name,
                     'last_name': user.last_name,
                 },
+                # To get `company` data in here, use the `mock_get_company_profile` fixture and
+                # provide an approprate return_value. The full spec of CompanySerializer is in
+                # https://github.com/uktrade/directory-api/blob/master/company/serializers.py
             }
         )
 
@@ -562,3 +565,32 @@ def mock_no_trading_blocs():
         'directory_api_client.api_client.dataservices.trading_blocs_by_country',
         return_value=create_response(status_code=200, json_body=body),
     ).start()
+
+
+@pytest.fixture
+def company_profile(client, user):
+    client.force_login(user)
+    response = create_response(
+        {
+            'company_type': 'COMPANIES_HOUSE',
+            'number': 1234567,
+            'name': 'Example corp',
+            'postal_code': 'Foo Bar',
+            'sectors': ['AEROSPACE'],
+            'employees': '1-10',
+            'mobile_number': '07171771717',
+            'postal_full_name': 'Foo Example',
+            'address_line_1': '123 Street',
+            'address_line_2': 'Near Fake Town',
+            'country': 'FRANCE',
+            'locality': 'Paris',
+            'summary': 'Makes widgets',
+            'website': 'http://www.example.com',
+        }
+    )
+    stub = mock.patch(
+        'directory_api_client.api_client.company.profile_retrieve',
+        return_value=response,
+    )
+    yield stub.start()
+    stub.stop()

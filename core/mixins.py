@@ -1,3 +1,5 @@
+from importlib import import_module
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import translation
 from great_components import helpers as great_components_helpers
@@ -96,3 +98,52 @@ class PageTitleMixin:
         context.setdefault('page', {})['title'] = self.get_page_title()
 
         return context
+
+
+class PrepopulateFormMixin:
+    def get_form_kwargs(self):
+        form_kwargs = super().get_form_kwargs()
+        form_kwargs['initial'] = self.get_form_initial()
+        return form_kwargs
+
+    @property
+    def guess_given_name(self):
+        if self.request.user.is_authenticated:
+            if self.request.user.first_name:
+                return self.request.user.first_name
+            elif self.request.user.company and self.request.user.company.data['postal_full_name']:
+                name = self.request.user.company.data['postal_full_name']
+                return name.split(' ')[0]
+
+    @property
+    def guess_family_name(self):
+        if self.request.user.last_name:
+            return self.request.user.last_name
+        elif self.request.user.company and self.request.user.company.data['postal_full_name']:
+            names = self.request.user.company.data['postal_full_name'].split(' ')
+            return names[-1] if len(names) > 1 else None
+
+
+class GetSnippetContentMixin:
+    """View mixin to fetch an instance of the appropriate Snippet,
+    identified by self.snippet_import_path and self.slug attributes on any
+    class that implements this mixin
+
+        `snippet_import_path` should be a dot-separated importlib-style path to the relevant class
+        `slug` is a string, mapping to a unique value stored in the snippet's `slug` SlugField
+
+    """
+
+    @property
+    def slug(self):
+        return self.kwargs['slug']
+
+    @property
+    def snippet_import_path(self):
+        return self.kwargs['snippet_import_path']
+
+    def get_snippet_instance(self):
+        path, model_name = self.snippet_import_path.rsplit('.', 1)
+        module_ = import_module(path)
+        snippet_class = getattr(module_, model_name)
+        return snippet_class.objects.get(slug=self.slug)
