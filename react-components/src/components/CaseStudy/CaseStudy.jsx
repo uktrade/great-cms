@@ -1,27 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { memo, useState } from 'react'
 import ReactDOM from 'react-dom'
 import ReactHtmlParser from 'react-html-parser'
-import { createVideoTranscript } from '../VideoTranscript/VideoTranscript'
 import Slider from 'react-slick'
 
-const CaseStudy = ({ content: { heading, company, body, carouselItems } }) => {
+const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
   const [isOpen, setIsOpen] = useState(false)
-
-  console.log(body)
-  useEffect(() => {
-    const videoBlock = document.querySelector('.case-study .block-video')
-
-    if (videoBlock) {
-      videoBlock.appendChild(document.createElement('div'))
-
-      createVideoTranscript({
-        element: document.querySelector('.case-study .block-video > div'),
-        source: document.querySelector(
-          '.case-study .block-video video source[transcript]'
-        ),
-      })
-    }
-  }, [isOpen])
 
   const toggleCaseStudy = () => {
     setIsOpen(!isOpen)
@@ -32,14 +15,69 @@ const CaseStudy = ({ content: { heading, company, body, carouselItems } }) => {
     })
   }
 
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
+  const sliderSettings = {
+    media: {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: false,
+    },
+    quote: {
+      centerMode: true,
+      centerPadding: '20px',
+      dots: true,
+      arrows: false,
+      infinite: false,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+    },
   }
+
+  const responsiveBlock = (block, settings) => {
+    const content = ReactHtmlParser(block.content)
+    return (
+      <>
+        {content && (
+          <>
+            {/* Desktop rendering with content displayed as a stack  */}
+            <div className="case-study__media body-l">
+              {content}
+            </div>
+
+            {/* Mobile rendering with content displayed within a carousel  */}
+            <div className={'case-study__mobile body-l ' + block.type + '-block'}>
+              <Slider {...settings}>
+                {content}
+              </Slider>
+            </div>
+          </>
+        )}
+      </>
+    )
+  }
+
+  const renderMediaBlock = () => {
+    const mediaBlock = blocks.find((block) => block.type === 'media')
+    return responsiveBlock(mediaBlock, sliderSettings.media)
+  }
+
+  const image = renderMediaBlock()
+
+  const body = blocks.map((block) => {
+    return (
+      <>
+        {block.type === 'quote' && (
+          responsiveBlock(block, sliderSettings.quote)
+        )}
+        {block.type === 'text' && (
+          ReactHtmlParser(block.content)
+        )}
+      </>
+    )
+  })
 
   return (
     <>
@@ -63,18 +101,10 @@ const CaseStudy = ({ content: { heading, company, body, carouselItems } }) => {
             <span className="case-study__company text-blue-deep-60 h-s p-0">
               {company}
             </span>
-            <div className="case-study__media m-t-n-xs m-b-s">
-              <Slider {...settings}>{ReactHtmlParser(carouselItems)}</Slider>
-            </div>
-
+            {image}
             {isOpen && (
               <>
-                <div className="case-study__media body-l">
-                  {ReactHtmlParser(body)}
-                </div>
-                <div className="case-study__mobile body-l">
-                  {ReactHtmlParser(body)}
-                </div>
+                {body}
               </>
             )}
           </div>
@@ -90,7 +120,7 @@ const CaseStudy = ({ content: { heading, company, body, carouselItems } }) => {
       </div>
     </>
   )
-}
+})
 
 function createCaseStudy({ element, content }) {
   ReactDOM.render(<CaseStudy content={content} />, element)

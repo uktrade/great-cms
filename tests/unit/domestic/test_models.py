@@ -1535,7 +1535,7 @@ class GreatDomesticHomePageTests(WagtailPageTests):
 
         request = RequestFactory().get('/')
         self.assertEqual(
-            self.great_domestic_homepage.get_sector_list(request),
+            sorted(self.great_domestic_homepage.get_sector_list(request), key=lambda k: k['id']),
             expected_sector_list,
         )
 
