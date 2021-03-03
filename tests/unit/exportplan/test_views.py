@@ -196,8 +196,8 @@ def test_business_objectives_has_lessons(mock_get_lesson_details, client, user):
         ('marketing-approach', 'costs-and-pricing'),
         ('costs-and-pricing', 'funding-and-credit'),
         ('funding-and-credit', 'getting-paid'),
-        ('getting-paid', 'travel-and-business-policies'),
-        ('travel-and-business-policies', 'business-risk'),
+        ('getting-paid', 'travel-plan'),
+        ('travel-plan', 'business-risk'),
         ('business-risk', None),
     ),
 )
@@ -250,19 +250,19 @@ def test_url_with_export_plan_country_selected(mock_get_comtrade_data, export_pl
 
 
 @pytest.mark.django_db
-def test_target_markets_research(mock_get_comtrade_data, client, user):
+def test_target_markets_research(mock_get_comtrade_data, multiple_country_data, client, user):
     url = reverse('exportplan:target-markets-research')
     client.force_login(user)
 
     response = client.get(url)
-
     assert response.context_data['target_age_group_choices']
     assert response.context_data['insight_data'] == mock_get_comtrade_data.return_value
     assert response.context_data['selected_age_groups'] == ['35-40']
     assert response.status_code == 200
     assert mock_get_comtrade_data.call_count == 1
 
-    assert mock_get_comtrade_data.call_args == mock.call(commodity_code='220850', countries_list=['Netherlands'])
+    assert mock_get_comtrade_data.call_args == mock.call(commodity_code='220850', countries_list=['NL'])
+    assert response.context_data['insight_data']['NL']['country_data'] == multiple_country_data['NL']
 
 
 @pytest.mark.django_db

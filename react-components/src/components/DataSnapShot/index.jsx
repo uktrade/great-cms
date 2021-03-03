@@ -7,18 +7,17 @@ import { Table } from './Table'
 import { ProductData } from './ProductData'
 
 export const DataSnapShot = memo(
-  ({ country, groups, insight, selected, currentSection }) => {
-    const { import_from_world, import_data_from_uk, country_data } = insight[
-      country
-    ]
-
+  ({ country, groups, insight, selected, currentSection, country_iso2_code }) => {
+    const { import_from_world, 
+      import_data_from_uk, 
+      country_data } = insight[ country_iso2_code ] || {}
     return (
       <ToggleSnapshot isOpen={false}>
         <div className="m-t-s">
           <ProductData
-            world={import_from_world}
-            local={import_data_from_uk}
-            country={country_data}
+            world={import_from_world || {}}
+            local={import_data_from_uk || {}}
+            country={country_data || {}}
           />
           <ToggleDataTable
             country={country}
