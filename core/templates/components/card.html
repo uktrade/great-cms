@@ -30,6 +30,9 @@
         {% if html_snippet %}
         {{ html_snippet }}
         {% endif %}
+        {% if show_sign_in_required %}
+        <span class="shared-tag">Sign in required</span>
+        {% endif %}
       {% endif %}
       {% endblock %}
     </div>

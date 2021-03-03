@@ -1394,7 +1394,7 @@ a.labelled-card, a.labelled-image-card {
       outline: #ffbf47 solid 4px;
       outline-offset: 0;
       outline-offset: -3px; }
-    
+
     a.labelled-card:focus .card-inner,
     a.labelled-image-card:focus .card-inner {
       border-color: #ffffff; }
@@ -1408,7 +1408,7 @@ a.labelled-card, a.labelled-image-card {
   a.labelled-card .card-header h3,
   a.labelled-image-card .card-header h3 {
     display: inline-block; }
-  
+
   a.labelled-card .card-header h3,
   a.labelled-image-card .card-header h3 {
     font-weight: 700;
@@ -1421,7 +1421,7 @@ a.labelled-card, a.labelled-image-card {
     background-color: #006ccc;
     padding: 10px 30px; }
     @media (min-width: 641px) {
-      
+
       a.labelled-card .card-header h3,
       a.labelled-image-card .card-header h3 {
         font-size: 19px; } }
@@ -4643,3 +4643,24 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
       width: calc(100vw - 8px);
       margin-left: calc(600px - 50vw);
       padding-left: calc((50vw - 600px) + (100% / 9 * 2) + 5px) !important; } }
+
+/* Shared styles across BAU and Magna pages */
+@font-face {
+  font-family: 'FS Lucas';
+  src: url("/static/fonts/FSLucas-Regular.woff2") format("woff2"), url("/static/fonts/FSLucas-Regular.woff") format("woff"), url("/static/fonts/FSLucas-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+
+.shared-tag {
+  height: 28px;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #787191;
+  color: #fff;
+  font-family: "FS Lucas", Arial, Helvetica, Verdana;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 28px;
+  text-align: center;
+  padding: 0 13px; }
