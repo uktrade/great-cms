@@ -17,6 +17,7 @@
 - GP2-1436 - Added management command to load countries, region and trading blocs tag from csv
 - GP2-1733 - rename ep options
 - GP2-1735 - update lessons
+- GP2-1632-generic-ep-pages
 
 ### Fixed bugs
 
