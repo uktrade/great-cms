@@ -16,7 +16,7 @@ from rest_framework.response import Response
 from core import cms_slugs, forms, helpers, serializers
 from core.mixins import PageTitleMixin
 from directory_constants import choices
-from domestic.models import DomesticDashboard
+from domestic.models import DomesticDashboard, TopicLandingPage
 
 logger = logging.getLogger(__name__)
 
@@ -277,3 +277,15 @@ class ContactUsHelpFormView(PageTitleMixin, FormView):
 
 class ContactUsHelpSuccessView(TemplateView):
     template_name = 'core/contact-us-help-form-success.html'
+
+
+class ServiceNoLongerAvailableView(TemplateView):
+    slug = 'advice'
+    template_name = 'domestic/service_no_longer_available.html'
+
+    def get_context_data(self, **kwargs):
+        ADVICE_PAGE_SLUG = 'advice'
+
+        return super().get_context_data(
+            **kwargs, listing_page=TopicLandingPage.objects.filter(slug=ADVICE_PAGE_SLUG).first()
+        )

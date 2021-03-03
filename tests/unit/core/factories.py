@@ -5,6 +5,7 @@ from django.utils.text import slugify
 
 from core import blocks, models
 from domestic import models as domestic_models
+
 from tests.unit.domestic.factories import DomesticHomePageFactory
 
 
@@ -75,6 +76,11 @@ class CuratedListPageFactory(wagtail_factories.PageFactory):
     class Meta:
         model = models.CuratedListPage
         django_get_or_create = ['slug', 'parent']
+
+
+class TopicLandingPageFactory(wagtail_factories.PageFactory):
+    class Meta:
+        model = domestic_models.TopicLandingPage
 
 
 class TopicPageFactory(wagtail_factories.PageFactory):

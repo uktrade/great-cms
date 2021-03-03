@@ -44,6 +44,8 @@ from core import blocks as core_blocks, mixins
 from core.constants import BACKLINK_QUERYSTRING_NAME, RICHTEXT_FEATURES__MINIMAL
 from core.context import get_context_provider
 from core.utils import PageTopicHelper, get_first_lesson
+from domestic import cms_panels
+from domestic.models import TopicLandingBasePage
 from exportplan.data import SECTION_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
 
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
@@ -1361,3 +1363,21 @@ class CaseStudyScoringSettings(BaseSetting):
 
     class Meta:
         verbose_name = 'Case Study Scoring'
+
+
+class TopicLandingPage(
+    cms_panels.TopicLandingPagePanels,
+    TopicLandingBasePage,
+):
+    """Singleton page intended for use as the top of the Advice section"""
+
+    template = 'domestic/topic_landing_pages/generic.html'
+
+    subpage_types = [
+        'domestic.ArticleListingPage',
+        'domestic.ArticlePage',
+    ]
+
+    def child_pages(self):
+        """Gets published, non-private child pages only"""
+        return self.get_children().live().public().specific()
