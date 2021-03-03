@@ -34,7 +34,11 @@
 <table class="layout">
   <tr class="text-align-centre">
     <td class="pad-y-1">
-      <img class="logo logo--cover" src="{{host_url}}{% static 'pdf/pdf_download_logo.jpg' %}"/>
+     {% if not user.company.logo %}
+          <img class="logo logo--cover" src="https://via.placeholder.com/200/dfd5c5?text=Company logo">
+      {% else %}
+          <img class="logo logo--cover" alt="{{ user.company.name }}" src="{{ user.company.logo }}"/>
+      {% endif %}
     </td>
   </tr>
   <tr class="hr hr--red-150"><td></td></tr>
