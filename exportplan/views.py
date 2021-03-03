@@ -2,19 +2,21 @@ import json
 from datetime import datetime
 
 import sentry_sdk
-from django.http import Http404
+from django.conf import settings
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, View
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
 
-from core.helpers import get_comtrade_data
+from core.helpers import get_comtrade_data, get_country_data
 from core.mixins import PageTitleMixin
 from core.utils import choices_to_key_value
 from directory_api_client.client import api_client
 from directory_constants import choices
 from exportplan import data, forms, helpers, serializers
+from exportplan.utils import render_to_pdf
 
 
 class ExportPlanMixin:
@@ -177,7 +179,7 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['check_duties_link'] = helpers.get_check_duties_link(self.request.user.export_plan.data)
-        # To do pass lanaguage from export_plan object rather then  hardcoded
+        # To do pass language from export_plan object rather then  hardcoded
         context['language_data'] = helpers.get_cia_world_factbook_data(
             country=self.request.user.export_plan.export_country_name, key='people,languages'
         )
@@ -194,13 +196,27 @@ class ExportPlanTargetMarketsResearchView(PageTitleMixin, LessonDetailsMixin, Ex
         context = super().get_context_data(*args, **kwargs)
         target_age_group_choices = choices_to_key_value(choices.TARGET_AGE_GROUP_CHOICES)
         context['target_age_group_choices'] = target_age_group_choices
-        if self.request.user.export_plan.export_country_name and self.request.user.export_plan.export_commodity_code:
+        if self.request.user.export_plan.export_country_code and self.request.user.export_plan.export_commodity_code:
             insight_data = get_comtrade_data(
-                countries_list=[self.request.user.export_plan.export_country_name],
+                countries_list=[self.request.user.export_plan.export_country_code],
                 commodity_code=self.request.user.export_plan.export_commodity_code,
             )
 
+            country_data = get_country_data(
+                countries=[self.request.user.export_plan.export_country_code],
+                fields=[
+                    'GDPPerCapita',
+                    'ConsumerPriceIndex',
+                    'Income',
+                    'CorruptionPerceptionsIndex',
+                    'EaseOfDoingBusiness',
+                ],
+            )
+            insight_data[self.request.user.export_plan.export_country_code]['country_data'] = country_data.get(
+                self.request.user.export_plan.export_country_code
+            )
             context['insight_data'] = insight_data
+
             context['selected_age_groups'] = (
                 self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
             )
@@ -268,7 +284,7 @@ class GettingPaidView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView)
 
 
 class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
-    title = 'Funding And Credit'
+    title = 'Funding and credit'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -280,17 +296,32 @@ class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSection
             'estimated_costs_per_unit', ''
         )
         context['funding_credit_options'] = self.request.user.export_plan.data.get('funding_credit_options', [])
-
         return context
 
 
 class TravelBusinessPoliciesView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
-    title = '`Travel And Business Policies'
+    title = '`Travel plan'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['travel_business_policies'] = self.request.user.export_plan.data['travel_business_policies']
         context['business_trips'] = self.request.user.export_plan.data['business_trips']
+        context['language_data'] = helpers.get_cia_world_factbook_data(
+            country=self.request.user.export_plan.export_country_name, key='people,languages'
+        )
+        context['travel_advice_covid19'] = settings.TRAVEL_ADVICE_COVID19
+        context['travel_advice_foreign'] = settings.TRAVEL_ADVICE_FOREIGN
+        return context
+
+
+class BusinessRiskView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
+    title = 'Business Risk'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['risk_likelihood_options'] = choices_to_key_value(choices.RISK_LIKELIHOOD_OPTIONS)
+        context['risk_impact_options'] = choices_to_key_value(choices.RISK_IMPACT_OPTIONS)
+        context['business_risks'] = self.request.user.export_plan.data['business_risks']
         return context
 
 
@@ -354,3 +385,14 @@ class ExportPlanServicePage(GA360Mixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(sections=data.SECTION_URLS, **kwargs)
+
+
+class PDFDownload(View):
+    def get(self, request, *args, **kwargs):
+        context = helpers.get_export_plan_pdf_context(request)
+        pdf = render_to_pdf('exportplan/pdf_download.html', context)
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = 'export_plan.pdf'
+        content = f'inline; filename={filename}'
+        response['Content-Disposition'] = content
+        return response

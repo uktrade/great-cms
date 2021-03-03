@@ -209,6 +209,25 @@ class GettingPaidSerializer(serializers.Serializer):
     incoterms = IncotermsSerializer(required=False)
 
 
+class TravelBusinessPoliciesSerializer(serializers.Serializer):
+    class VisaInformationSerializer(serializers.Serializer):
+        visa_required = serializers.BooleanField(required=False)
+        how_where_visa = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+        how_long = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+        notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+
+    travel_information = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    cultural_information = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    visa_information = VisaInformationSerializer(required=False)
+
+
+class FundingCreditOptionsSerializer(serializers.Serializer):
+    amount = serializers.FloatField(required=False)
+    funding_option = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    companyexportplan = serializers.IntegerField()
+    pk = serializers.IntegerField()
+
+
 class ExportPlanSerializer(serializers.Serializer):
     export_commodity_codes = ExportPlanCommodityCodeSerializer(many=True, required=False)
     export_countries = ExportPlanCountrySerializer(many=True, required=False)
@@ -225,6 +244,8 @@ class ExportPlanSerializer(serializers.Serializer):
     total_cost_and_price = TotalCostAndPriceSerializer(required=False)
     funding_and_credit = FundingAndCreditSerializer(required=False)
     getting_paid = GettingPaidSerializer(required=False)
+    travel_business_policies = TravelBusinessPoliciesSerializer(required=False)
+    funding_credit_options = FundingCreditOptionsSerializer(required=False)
 
     def to_internal_value(self, data):
         internal_val = super().to_internal_value(data)
@@ -269,6 +290,15 @@ class ExportPlanSerializer(serializers.Serializer):
                 self.total_direct_costs
             )
         return estimated_costs_per_unit
+
+    @property
+    def calculate_total_funding(self):
+        self.is_valid()
+        total_funding = 0.00
+        funding_credit_options = self.data.get('funding_credit_options', {})
+        for funding_credit_option in funding_credit_options:
+            total_funding = funding_credit_option.get('amount', 0.00) + total_funding
+        return total_funding
 
     @property
     def calculate_cost_pricing(self):
@@ -369,15 +399,17 @@ class TargetMarketDocumentSerializer(serializers.Serializer):
     pk = serializers.IntegerField()
 
 
-class FundingCreditOptionsSerializer(serializers.Serializer):
-    amount = serializers.FloatField(required=False)
-    funding_option = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+class BusinessTripsSerializer(serializers.Serializer):
+    note = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 
 
-class BusinessTripsSerializer(serializers.Serializer):
-    note = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+class BusinessRisksSerializer(serializers.Serializer):
+    risk = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    contingency_plan = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    risk_likelihood = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    risk_impact = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 
@@ -403,4 +435,8 @@ class PkOnlySerializer(serializers.Serializer):
 
 
 class NewBusinessTripsSerializer(BusinessTripsSerializer):
+    pk = serializers.IntegerField(required=False)
+
+
+class NewBusinessRisksSerializer(BusinessRisksSerializer):
     pk = serializers.IntegerField(required=False)

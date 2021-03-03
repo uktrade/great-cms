@@ -866,16 +866,22 @@ $desktop: 1024px;
         }
       }
 
+      .quote {
+        i {
+          position: relative;
+          left: -40px;
+          top: 25px;
+        }
+
+        p {
+          margin: 0;
+        }
+      }
+
       .c-full {
         float: none;
         margin: 0;
       }
-    }
-
-    .slick-slide img {
-      margin: -30px 0;
-      max-width: 100%;
-      height: auto;
     }
 
     &__mobile {

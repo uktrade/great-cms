@@ -57,10 +57,16 @@ urlpatterns = [
         name='funding-and-credit',
     ),
     path(
-        'section/travel-and-business-policies/',
+        'section/travel-plan/',
         login_required(views.TravelBusinessPoliciesView.as_view(), login_url=LOGIN_URL),
-        {'slug': 'travel-and-business-policies'},
-        name='travel-and-business-policies',
+        {'slug': 'travel-plan'},
+        name='travel-plan',
+    ),
+    path(
+        'section/business-risk/',
+        login_required(views.BusinessRiskView.as_view(), login_url=LOGIN_URL),
+        {'slug': 'business-risk'},
+        name='business-risk',
     ),
     path(
         'section/<slug:slug>/',
@@ -71,6 +77,7 @@ urlpatterns = [
     path(
         'service-page/', login_required(views.ExportPlanServicePage.as_view(), login_url=LOGIN_URL), name='service-page'
     ),
+    path('pdf-download/', login_required(views.PDFDownload.as_view(), login_url=LOGIN_URL), name='pdf-download'),
     path(
         'api/recommended-countries/',
         login_required(skip_ga360(api.ExportPlanRecommendedCountriesDataView.as_view()), login_url=LOGIN_URL),

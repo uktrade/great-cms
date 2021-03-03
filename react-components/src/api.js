@@ -43,6 +43,21 @@ const get = function (url, params) {
   })
 }
 
+async function greatApi(url, data, method = 'GET') {
+  // GET method can't have a body
+  const body = method !== 'GET' ? { body: JSON.stringify(data) } : {}
+  return await fetch(url, {
+    method,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': config.csrfToken,
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+    ...body,
+  })
+}
+
 const responseHandler = function (response) {
   if (response.status == 400) {
     return response.json().then((error) => {
@@ -93,27 +108,28 @@ export default {
 
   getPopulationByCountryData: (countries) => {
     return get(config.populationByCountryUrl, {
-      countries: countries,
+      countries: countries.map((obj) => obj.country_name),
     }).then((response) => responseHandler(response).json())
   },
 
   getSocietyByCountryData: (countries) => {
     return get(config.societyByCountryUrl, {
-      countries: countries,
+      countries: countries.map((obj) => obj.country_name),
     }).then((response) => responseHandler(response).json())
   },
 
   getComTradeData: (countries, commodity_code) => {
     return get(config.apiComTradeDataUrl, {
-      countries: countries,
+      countries: countries.map((obj) => obj.country_iso2_code),
       commodity_code: commodity_code,
     }).then((response) => responseHandler(response).json())
   },
 
-  getCountryData: (countries) => {
+  getCountryData: (countries, fields) => {
     return get(config.apiCountryDataUrl, {
-      countries: countries,
-    }).then((response) => responseHandler(response).json())    
+      countries: countries.map((obj) => obj.country_iso2_code),
+      fields: fields
+    }).then((response) => responseHandler(response).json())
   },
 
   getCountryAgeGroupData: (data) => {
@@ -215,6 +231,14 @@ export default {
     return post(
       config.apiFundingCreditOptionsUpdateUrl,
       data
+    ).then((response) => responseHandler(response).json())
+  },
+
+  apiModelObjectManage: (data, method) => {
+    return greatApi(
+      config.apiModelObjectManageUrl,
+      data,
+      method
     ).then((response) => responseHandler(response).json())
   },
 

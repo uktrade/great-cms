@@ -13,9 +13,9 @@ ADAPTATION_TARGET_MARKET = 'Adaptation for your target market'
 MARKETING_APPROACH = 'Marketing approach'
 COSTS_AND_PRICING = 'Costs and pricing'
 GETTING_PAID = 'Getting paid'
-FUNDING_AND_CREDIT = 'Funding and Credit'
+FUNDING_AND_CREDIT = 'Funding and credit'
 PAYMENT_METHODS = 'Payment methods'
-TRAVEL_AND_BUSINESS_POLICIES = 'Travel and business policies'
+TRAVEL_AND_BUSINESS_POLICIES = 'Travel plan'
 BUSINESS_RISK = 'Business risk'
 
 
@@ -61,6 +61,15 @@ LESSONS = {
         'understand-services-rules-and-regulations',
         'understand-services-rules-and-regulations',
         'managing-exchange-rates',
+    ],
+    FUNDING_AND_CREDIT: [
+        'how-avoid-cashflow-challenges-when-exporting',
+        'funding-and-credit-options-doing-business-across-borders',
+    ],
+    GETTING_PAID: [
+        'payment-methods-exporters',
+        'decide-when-get-paid-export-orders',
+        'incoterms',
     ],
 }
 

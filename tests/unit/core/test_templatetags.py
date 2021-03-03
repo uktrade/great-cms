@@ -195,6 +195,12 @@ def test_path_match(rf, path, expected):
     assert bool(match) == expected
 
 
+def test_path_match_no_path(rf):
+    context = {}
+    match = path_match(context, '')
+    assert match is None
+
+
 @pytest.mark.django_db
 def test_push(user, rf, domestic_site):
 

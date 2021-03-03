@@ -4,23 +4,29 @@ from unittest import mock
 
 import pytest
 from bs4 import BeautifulSoup
-from django.test import RequestFactory
+from django.core.cache import cache
+from django.test import RequestFactory, override_settings
 from django.utils.timezone import now as tz_now
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
+from wagtail.core.models import Page
 from wagtail.tests.utils import WagtailPageTests
 
-from core import mixins, models as core_models, service_urls
+from core import cache_keys, mixins, models as core_models, service_urls
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
+from domestic.forms import SectorPotentialForm
 from domestic.models import (
     ArticleListingPage,
     ArticlePage,
     CountryGuidePage,
+    DataLayerMixin,
     DomesticDashboard,
     DomesticHomePage,
+    GreatDomesticHomePage,
     GuidancePage,
     MarketsTopicLandingPage,
     PerformanceDashboardPage,
+    StructuralPage,
     TopicLandingPage,
     industry_accordions_validation,
     main_statistics_validation,
@@ -39,6 +45,7 @@ from .factories import (
     CountryGuidePageFactory,
     DomesticDashboardFactory,
     DomesticHomePageFactory,
+    GreatDomesticHomePageFactory,
     MarketsTopicLandingPageFactory,
     PerformanceDashboardPageFactory,
     TopicLandingPageFactory,
@@ -46,6 +53,7 @@ from .factories import (
 
 
 class DomesticHomePageTests(WagtailPageTests):
+    # NB: These are tests for the MVP homepage, not the one ported from V1
     def test_page_is_exclusive(self):
         assert issubclass(DomesticHomePage, mixins.WagtailAdminExclusivePageMixin)
 
@@ -72,6 +80,7 @@ class DomesticHomePageTests(WagtailPageTests):
 
 
 class DomesticDashboardTests(WagtailPageTests):
+    # NB: These are tests for the MVP homepage, not the one ported from V1
     def test_page_is_exclusive(self):
         assert issubclass(DomesticDashboard, mixins.WagtailAdminExclusivePageMixin)
 
@@ -82,25 +91,29 @@ class DomesticDashboardTests(WagtailPageTests):
 
 @pytest.mark.django_db
 @mock.patch.object(sso_api_client.user, 'get_user_page_views')
-@mock.patch.object(api_client.exportplan, 'exportplan_list')
+# @mock.patch.object(api_client.exportplan, 'exportplan_list')
 @mock.patch.object(api_client.personalisation, 'events_by_location_list')
 @mock.patch.object(api_client.personalisation, 'export_opportunities_by_relevance_list')
 @mock.patch.object(sso_api_client.user, 'get_user_lesson_completed')
 def test_dashboard_page_routing(
+    # NB: These are tests for the MVP homepage, not the one ported from V1
     mock_get_user_lesson_completed,
     mock_events_by_location_list,
     mock_export_opportunities_by_relevance_list,
-    mock_exportplan_list,
     mock_get_user_page_views,
     patch_set_user_page_view,
     mock_get_company_profile,
+    mock_export_plan_list,
+    mock_sso_get_export_plan,
+    patch_sso_get_export_plan,
     client,
     user,
     get_request,
     domestic_homepage,
     domestic_site,
 ):
-    mock_exportplan_list.return_value = [{}]
+    patch_sso_get_export_plan.stop()
+    mock_export_plan_list.return_value = [{}]
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
     mock_get_user_page_views.return_value = create_response(json_body={'result': 'ok', 'page_views': {}})
@@ -160,7 +173,7 @@ def test_dashboard_page_routing(
 
     # set a country in exportplan and watch plan section disappear
     assert context_data['routes']['target'].value.get('enabled') is True
-    mock_exportplan_list.return_value = create_response(json_body=[{'export_countries': ['France']}])
+    mock_export_plan_list.return_value = create_response(json_body=[{'export_countries': ['France']}])
     context_data = dashboard.get_context(get_request)
     assert context_data['routes']['target'].value.get('enabled') is False
 
@@ -1131,6 +1144,7 @@ class ArticlePageTests(WagtailPageTests):
             ArticlePage,
             {
                 CountryGuidePage,
+                StructuralPage,
                 ArticleListingPage,
                 TopicLandingPage,
             },
@@ -1398,3 +1412,266 @@ def test_performance_dashboard_auto_population(product_link, expected):
 
     for key in ['title', 'heading', 'landing_dashboard', 'slug']:
         assert getattr(dash, key) == expected[key]
+
+
+def test_all_domestic_models_implement_ga360_mixins():
+
+    from domestic import models as domestic_models
+
+    module_attributes = dir(domestic_models)
+    missing_mixin = []
+
+    concrete_models_allowed_not_to_include_mixin = [
+        Page,
+    ]
+
+    for attr in module_attributes:
+        try:
+            klass = getattr(domestic_models, attr)
+            if (
+                Page in klass.mro()
+                and klass not in concrete_models_allowed_not_to_include_mixin  # noqa W503
+                and klass._meta.abstract is not True  # noqa W503
+                and DataLayerMixin not in klass.mro()  # noqa W503
+            ):
+                missing_mixin.append(klass)
+        except AttributeError:
+            pass
+
+    if missing_mixin:
+        assert False, f'These Domestic pages do not implement the DataLayerMixin, but should: {missing_mixin}'
+
+
+@override_settings(API_CACHE_DISABLED=True)
+class GreatDomesticHomePageTests(WagtailPageTests):
+
+    fixtures = ['markets_filtering_fixtures.json']
+
+    def setUp(self):
+        # Ensure we have the expected data loaded (from the fixture)
+        self.assertEqual(core_models.IndustryTag.objects.count(), 42)
+        self.assertEqual(core_models.Region.objects.count(), 22)
+        self.assertEqual(core_models.Country.objects.count(), 269)
+
+        GreatDomesticHomePageFactory(slug='root')
+        self.great_domestic_homepage = GreatDomesticHomePage.objects.get(url_path='/')
+        self.markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        self.great_domestic_homepage.add_child(instance=self.markets_topic_page)
+
+        assert core_models.IndustryTag.objects.exists()
+
+        cache.clear()
+
+    def tearDown(self):
+        cache.clear()
+        return super().tearDown()
+
+    def _make_country_guide_pages_with_industry_tags(self, parent_page, count, tags):
+        _now = tz_now()
+        for i in range(count):
+            tag_idx = i % len(tags)
+            cgp = CountryGuidePageFactory(
+                parent=parent_page,
+                title=f'Test GCP {i}',
+                live=True,
+                last_published_at=_now - timedelta(minutes=i),
+            )
+            cgp.tags.add(tags[tag_idx])
+            cgp.save()
+
+    def test_get_sector_list(self):
+        self._make_country_guide_pages_with_industry_tags(
+            self.markets_topic_page,
+            18,
+            [x for x in core_models.IndustryTag.objects.all()[:4]],
+            # 5 tagged Advanced manufacturing
+            # 5 tagged Aerospace
+            # 4 tagged Agri-technology
+            # 4 tagged Agriculture
+        )
+
+        tag1 = core_models.IndustryTag.objects.get(name='Advanced manufacturing')
+        tag2 = core_models.IndustryTag.objects.get(name='Aerospace')
+        tag3 = core_models.IndustryTag.objects.get(name='Agri-technology')
+        tag4 = core_models.IndustryTag.objects.get(name='Agriculture')
+
+        expected_sector_list = [
+            {
+                'id': tag1.id,
+                'name': tag1.name,
+                'icon': tag1.icon,
+                'pages_count': 5,
+            },
+            {
+                'id': tag2.id,
+                'name': tag2.name,
+                'icon': tag2.icon,
+                'pages_count': 5,
+            },
+            {
+                'id': tag3.id,
+                'name': tag3.name,
+                'icon': tag3.icon,
+                'pages_count': 4,
+            },
+            {
+                'id': tag4.id,
+                'name': tag4.name,
+                'icon': tag4.icon,
+                'pages_count': 4,
+            },
+        ]
+
+        # There are also all the other sectors we haven't set up test data for
+        for tag in core_models.IndustryTag.objects.all()[4:]:
+            expected_sector_list.append(
+                {
+                    'id': tag.id,
+                    'name': tag.name,
+                    'icon': tag.icon,
+                    'pages_count': 0,
+                }
+            )
+        # Quick check our test data is as expected
+        self.assertEqual(
+            len(expected_sector_list),
+            core_models.IndustryTag.objects.count(),
+        )
+
+        request = RequestFactory().get('/')
+        self.assertEqual(
+            sorted(self.great_domestic_homepage.get_sector_list(request), key=lambda k: k['id']),
+            expected_sector_list,
+        )
+
+    @override_settings(
+        CACHES={
+            'default': {
+                'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+                'KEY_PREFIX': 'test',
+            }
+        },
+    )
+    def test_get_sector_list__is_cached(self):
+
+        request = RequestFactory().get('/')
+        self.assertFalse(hasattr(request, 'is_preview'))
+
+        # nothing in cache at start
+        self.assertEqual(
+            cache.get(cache_keys.CACHE_KEY_HOMEPAGE_SECTOR_LIST),
+            None,
+        )
+
+        output = self.great_domestic_homepage.get_sector_list(request)
+        self.assertEqual(
+            len(output),
+            core_models.IndustryTag.objects.count(),
+        )
+        # output will have been cached
+        self.assertEqual(
+            cache.get(cache_keys.CACHE_KEY_HOMEPAGE_SECTOR_LIST),
+            output,
+        )
+
+    @mock.patch('domestic.models.GreatDomesticHomePage._get_sector_list_uncached')
+    def test_get_sector_list__is_not_cached__if_preview(
+        self,
+        mock_get_sector_list_uncached,
+    ):
+
+        mocked_retval = [{'test': 'data'}]
+        mock_get_sector_list_uncached.return_value = mocked_retval
+        request = RequestFactory().get('/')
+        request.is_preview = True  # set by wagtail.core.models.Page.serve_preview()
+
+        self.assertEqual(mock_get_sector_list_uncached.call_count, 0)
+
+        # nothing in cache at start
+        self.assertEqual(
+            cache.get(cache_keys.CACHE_KEY_HOMEPAGE_SECTOR_LIST),
+            None,
+        )
+
+        output = self.great_domestic_homepage.get_sector_list(request)
+
+        self.assertEqual(output, mocked_retval)
+
+        self.assertEqual(mock_get_sector_list_uncached.call_count, 1)
+
+        # nothing in cache at end, because preview mode
+        self.assertEqual(
+            cache.get(cache_keys.CACHE_KEY_HOMEPAGE_SECTOR_LIST),
+            None,
+        )
+
+    @mock.patch('domestic.models.GreatDomesticHomePage.get_sector_list')
+    def test_get_context(self, mock_get_sector_list):
+
+        request = RequestFactory().get('/')
+
+        sector_list_val = [
+            # icon k/v pair not needed in this test
+            {'id': 11, 'name': 'Sector One', 'pages_count': 3},
+            {'id': 2, 'name': 'Sector Two', 'pages_count': 23},
+            {'id': 3, 'name': 'Sector Three', 'pages_count': 3},
+            {'id': 4, 'name': 'Sector Four', 'pages_count': 19},
+            {'id': 5, 'name': 'Sector Five', 'pages_count': 1},
+            {'id': 6, 'name': 'Sector Six', 'pages_count': 1},
+            {'id': 7, 'name': 'Sector Seven', 'pages_count': 2},
+            {'id': 8, 'name': 'Sector Eight', 'pages_count': 2},
+        ]
+
+        mock_get_sector_list.return_value = sector_list_val
+
+        context = self.great_domestic_homepage.get_context(request=request)
+
+        expected_sorted_sectors = [
+            {'id': 2, 'name': 'Sector Two', 'pages_count': 23},
+            {'id': 4, 'name': 'Sector Four', 'pages_count': 19},
+            {'id': 11, 'name': 'Sector One', 'pages_count': 3},
+            {'id': 3, 'name': 'Sector Three', 'pages_count': 3},
+            {'id': 7, 'name': 'Sector Seven', 'pages_count': 2},
+            {'id': 8, 'name': 'Sector Eight', 'pages_count': 2},
+            {'id': 5, 'name': 'Sector Five', 'pages_count': 1},
+            {'id': 6, 'name': 'Sector Six', 'pages_count': 1},
+        ]
+
+        self.assertEqual(context['sorted_sectors'], expected_sorted_sectors)
+
+        expected_top_sectors = [
+            {'id': 2, 'name': 'Sector Two', 'pages_count': 23},
+            {'id': 4, 'name': 'Sector Four', 'pages_count': 19},
+            {'id': 11, 'name': 'Sector One', 'pages_count': 3},
+            {'id': 3, 'name': 'Sector Three', 'pages_count': 3},
+            {'id': 7, 'name': 'Sector Seven', 'pages_count': 2},
+            {'id': 8, 'name': 'Sector Eight', 'pages_count': 2},
+        ]
+        self.assertEqual(context['top_sectors'], expected_top_sectors)
+
+        expected_sector_form = SectorPotentialForm(
+            sector_list=sorted(
+                sector_list_val,
+                key=lambda x: x['name'],
+            ),
+        )
+
+        self.assertEqual(
+            context['sector_form'].__class__,
+            expected_sector_form.__class__,
+        )
+
+        self.assertEqual(
+            context['sector_form'].fields['sector'].choices,
+            expected_sector_form.fields['sector'].choices,
+        )
+
+
+class StructuralPageTests(WagtailPageTests):
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(
+            StructuralPage,
+            {
+                ArticlePage,
+            },
+        )
