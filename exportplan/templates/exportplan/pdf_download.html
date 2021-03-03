@@ -10,10 +10,17 @@
 
 <!-- Content for static frame 'footer_frame' -->
 <div id="footer_content" class="text-align-right page-footer">
-  <p>Created at great.gov.uk &nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp; Page <pdf:pagenumber> of <pdf:pagecount></p>
+  <p class="body-gamma">
+    Created at great.gov.uk 
+    &nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp; 
+    {% now "h:i a" %} {% now "jS F Y" %}
+    &nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp; 
+    Page <pdf:pagenumber> of <pdf:pagecount>
+  </p>
 </div>
 
 <!-- HTML Content -->
+
 
 <!-- P1 header -->
 <table class="layout layout--three-col">
@@ -74,7 +81,7 @@
       <p class="body-alpha">{{ section }}</p>
     </td>
     <td class="col-10-3">
-      <p class="body-alpha"><strong>{{ forloop.counter|add:2}}</strong></p>
+      <p class="body-alpha"><strong>{{ forloop.counter|add:3}}</strong></p>
     </td>
   </tr>
   {% endfor %}
@@ -176,6 +183,145 @@
       <p class="pad-t-0"><strong>{{ getting_paid_payment_method_labe|default:"NA" }}</strong></p>
       <h6 class="body-gamma pad-y-0">Incoterms</h6>
       <p class="pad-t-0"><strong>{{ getting_paid_incoterms_transport_labe|default:"NA" }}</strong></p>
+    </td>
+  </tr>
+</table>
+
+<pdf:nextpage>
+
+<!-- P4 about the business -->
+<table class="layout page-header">
+  <tr>
+    <td>
+      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.export_countries.0.country_name }}</span></strong></p>
+    </td>
+  </tr>
+  <tr class="hr hr--red-150"><td></td></tr>
+</table>
+
+<table class="layout">
+  <tr>
+    <td>
+      <h1 class="pad-t-3 pad-b-2">About the business</h1>
+    </td>
+  </tr>
+  <tr>
+    <td class="col-10-7 align-top pad-r-2">
+      <!-- Nested table -->
+      <table>
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h2 class="pad-t-0">How we started</h2>
+            <p class="pad-t-0">Dove Gin was founded in 2012 when Simon Dove started to dis- till gin in his garage in Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of London. This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a modern twist.</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h2 class="pad-t-0">Where we are based</h2>
+            <p class="pad-t-0">Dove Gin was founded in 2012 when Simon Dove started to dis- till gin in his garage in Shrewsbury.</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h2 class="pad-t-0">How we make our product</h2>
+            <p class="pad-t-0">Dove Gin was founded in 2012 when Simon Dove started to dis- till gin in his garage in Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of London. This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a modern twist. This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a modern twist.</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h2 class="pad-t-0">Our packaging</h2>
+            <p class="pad-t-0">Dove Gin was founded in 2012 when Simon Dove started to dis- till gin in his garage in Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of London.</p>
+          </td>
+        </tr>
+        
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h2 class="pad-t-0">Business performance</h2>
+            <p class="pad-t-0">Dove Gin was founded in 2012 when Simon Dove started to dis- till gin in his garage in Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of London. This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a modern twist. gin recipes on a visit to The Gin Muse- um of London. This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a modern twist.</p>
+          </td>
+        </tr>
+      </table>
+      <!-- ./Nested table -->
+    </td>
+    <td class="col-10-3 align-top">
+    </td>
+  </tr>
+</table>
+
+<pdf:nextpage>
+
+<!-- P5 business objectives -->
+<table class="layout page-header">
+  <tr>
+    <td>
+      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.export_countries.0.country_name }}</span></strong></p>
+    </td>
+  </tr>
+  <tr class="hr hr--red-150"><td></td></tr>
+</table>
+
+<table class="layout">
+  <tr>
+    <td>
+      <h1 class="pad-t-3 pad-b-2">Business objectives</h1>
+    </td>
+  </tr>
+  <tr>
+    <td class="col-10-7 align-top">
+      <!-- Nested table -->
+      <table>
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h2 class="pad-y-0">Why we want to export</h2>
+            <p class="pad-t-0">Dove Gin was founded in 2012 when Simon Dove started to dis- till gin in his garage in Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of London. This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a modern twist.</p>
+          </td>
+        </tr>
+      </table>
+      <!-- ./Nested table -->
+      
+      {% for objective in export_plan.company_objectives %}
+      <!-- Nested table -->
+      <table>
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h2 class="pad-y-0">Objective {{ forloop.counter }}</h2>
+            <p class="pad-t-0">{{ objective.description }}</p>
+          </td>
+        </tr>
+        <tr class="pad-b-3">
+          <td>
+            <!-- Nested table -->
+            <table class="layout">
+              <tr class="pad-b-0">
+                <td class="col-10-4">Start date:</td>
+                <td class="col-10-6"><strong>{{ objective.start_date }}</strong></td>
+              </tr>
+              <tr class="pad-b-0">
+                <td class="col-10-4">End date:</td>
+                <td class="col-10-6"><strong>{{ objective.end_date }}</strong></td>
+              </tr>
+              <tr class="pad-b-0">
+                <td class="col-10-4">Owner:</td>
+                <td class="col-10-6"><strong>{{ objective.owner }}</strong></td>
+              </tr>
+            </table>
+            <!-- ./Nested table -->
+          </td>
+        </tr>
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Planned reviews</h3>
+            <p class="pad-t-0">{{ objective.planned_reviews }}</p>
+          </td>
+        </tr>
+      </table>
+      {% endfor %}
+      <!-- ./Nested table -->
+    </td>
+    <td class="col-10-3 align-top">
     </td>
   </tr>
 </table>
