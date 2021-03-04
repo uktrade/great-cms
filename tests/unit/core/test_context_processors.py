@@ -27,3 +27,4 @@ def test_migration_migration_support_vars(client):
     response = client.get(url)
     assert 'great_support_email' in response.context
     assert response.context['BREADCRUMBS_ROOT_URL'] == 'https://example.com/'
+    assert not response.context['FEATURE_SHOW_REPORT_BARRIER_CONTENT']
