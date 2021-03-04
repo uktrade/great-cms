@@ -2,6 +2,8 @@
 
 ## Pre-release
 
+- GP2-1784 - Stop breadcrumbs showing for Structural Page
+- GP2-1559 - Structural page  for marketing articles
 - GP2-1430 - Income data for target research page in EP
 - GP2-1575 - Added default text for case study summary_context field
 - GP2-1570 - CaseStudy UI seachability by summary, lead_title and some tags
@@ -112,7 +114,6 @@
 - GP2- 1342 - Added related pages to CaseStudy listing view
 - GP2-1376 - Use relative links to Magna-hosted Markets and Advice pages
 - GP2-1348 - Compare markets - economy/population tab enhancements
-- GP2-1559 - Structural page  for marketing articles
 - GP2-1332 - Markets homepage
 - GP2-1336 - Advice homepage
 - GP2-1363 - Drop custom Django view serving /markets/

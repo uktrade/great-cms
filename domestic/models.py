@@ -190,7 +190,7 @@ class StructuralPage(BaseContentPage):
     """Structural page to return page not found"""
 
     # `title` field comes from Page->BaseContentPage
-    folder_page = False
+    folder_page = True
     settings_panels = [
         FieldPanel('slug'),
     ]
