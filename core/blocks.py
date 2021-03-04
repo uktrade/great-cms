@@ -416,7 +416,9 @@ class LinkWithImageAndContentBlockNoSource(blocks.StructBlock):
     text = blocks.CharBlock()
     url = blocks.CharBlock()  # not a URL block to allow relative links
     image = ImageChooserBlock(required=False)  #  alt text lives on the custom Image class
-    content = blocks.RichTextBlock()
+    content = blocks.RichTextBlock(
+        features=RICHTEXT_FEATURES__REDUCED,
+    )
 
 
 class VideoChooserBlock(AbstractMediaChooserBlock):
