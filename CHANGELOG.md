@@ -6,8 +6,10 @@
 - GP2-1559 - Structural page  for marketing articles
 ### Fixed bugs
 - NO TICKET - fix wagtail checkbox layout issue
+- GP2-1784 - Stop breadcrumbs showing for Structural Page
 
 ### Implemented enhancements
+- GP2-1559 - Structural page  for marketing articles
 - GP2-1325 - Footer is not displaying correctly
 - GP2-1430 - Income data for target research page in EP
 - GP2-1575 - Added default text for case study summary_context field
@@ -52,7 +54,6 @@
 ## [1.4.0](https://github.com/uktrade/great-cms/releases/tag/1.4.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.3.0...1.4.0)
 ### Fixed bugs
-- GP2-1784 -  Stop breadcrumbs showing for Structural Page
 - NO TICKET - add document-link back in as rich-text option	- NO TICKET - add document-link back in as rich-text option
 - NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
 ### Implemented enhancements	### Implemented enhancements
