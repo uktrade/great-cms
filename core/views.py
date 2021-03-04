@@ -284,8 +284,8 @@ class ServiceNoLongerAvailableView(TemplateView):
     template_name = 'domestic/service_no_longer_available.html'
 
     def get_context_data(self, **kwargs):
-        ADVICE_PAGE_SLUG = 'advice'
+        advice_page_slug = 'advice'
 
         return super().get_context_data(
-            **kwargs, listing_page=TopicLandingPage.objects.filter(slug=ADVICE_PAGE_SLUG).first()
+            **kwargs, listing_page=TopicLandingPage.objects.filter(slug=advice_page_slug).first()
         )
