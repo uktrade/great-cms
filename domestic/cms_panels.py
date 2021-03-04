@@ -33,7 +33,7 @@ class GreatDomesticHomePagePanels:
             ],
         ),
         MultiFieldPanel(
-            heading='Magna CTAs',
+            heading='Top-of-page CTAs',
             classname='collapsible',
             children=[FieldPanel('magna_ctas_title'), StreamFieldPanel('magna_ctas_columns')],
         ),
