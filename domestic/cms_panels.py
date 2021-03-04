@@ -33,6 +33,11 @@ class GreatDomesticHomePagePanels:
             ],
         ),
         MultiFieldPanel(
+            heading='Magna CTAs',
+            classname='collapsible',
+            children=[FieldPanel('magna_ctas_title'), StreamFieldPanel('magna_ctas_columns')],
+        ),
+        MultiFieldPanel(
             heading='How DIT helps',
             classname='collapsible',
             children=[FieldPanel('how_dit_helps_title'), StreamFieldPanel('how_dit_helps_columns')],
