@@ -1,7 +1,6 @@
 import json
 from datetime import timedelta
 from unittest import mock
-
 import pytest
 from bs4 import BeautifulSoup
 from django.core.cache import cache
