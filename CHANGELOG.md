@@ -52,6 +52,7 @@
 ## [1.4.0](https://github.com/uktrade/great-cms/releases/tag/1.4.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.3.0...1.4.0)
 ### Fixed bugs
+- GP2-1784 -  Stop breadcrumbs showing for Structural Page
 - NO TICKET - add document-link back in as rich-text option	- NO TICKET - add document-link back in as rich-text option
 - NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
 ### Implemented enhancements	### Implemented enhancements
