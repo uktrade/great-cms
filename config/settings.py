@@ -111,6 +111,7 @@ TEMPLATES = [
                 'core.context_processors.env_vars',
                 'core.context_processors.analytics_vars',
                 'core.context_processors.migration_support_vars',
+                'core.context_processors.cms_slug_urls',
                 'great_components.context_processors.analytics',
             ],
         },
