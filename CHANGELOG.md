@@ -92,6 +92,12 @@
 
 ### Implemented enhancements ### Implemented enhancements
 
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.3.0...1.4.0)
+### Fixed bugs
+- GP2-1784 -  Stop breadcrumbs showing for Structural Page
+- NO TICKET - add document-link back in as rich-text option	- NO TICKET - add document-link back in as rich-text option
+- NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
+### Implemented enhancements	### Implemented enhancements
 - GP2-1440 - Ranking calculation for case study
 - GP2-1128 - Product Classifier - Mobile carousel
 - GP2-1551 - Seperated case study tag for trading bloc
