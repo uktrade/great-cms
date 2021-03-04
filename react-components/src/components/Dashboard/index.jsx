@@ -18,69 +18,81 @@ export const Dashboard = ({ sections }) => {
   return (
     <>
       <ComingSoon onClick={() => setModal(false)} isOpen={modal} />
-      {sections.map(({ title, url, disabled, is_complete }) => (
-        <div className="c-1-3-xl c-1-2-m" key={url}>
-          <div
-            className={`bg-white m-b-s section-list__item ${
-              is_complete ? 'section-list__item--is-complete' : ''
-            }`}
-          >
-            {disabled ? (
-              <div
-                className="w-full link section-list__disabled section-list__link"
-                onClick={openComingSoonModal}
-                aria-hidden="true"
-                role="button"
-              >
-                <div className="bg-blue-deep-20 section-list__image-container">
-                  <span
-                    className="section-list__coming bg-blue-deep-80 text-white body-m p-xxs"
-                    data-sectiontitle={title}
-                  >
-                    Coming soon
-                  </span>
-                  <img
-                    className="w-full p-h-s p-t-m p-b-s"
-                    src="/static/images/coming-soon.svg"
-                    alt={title}
-                    data-sectiontitle={title}
-                  />
-                </div>
-                <div className="p-v-s p-h-xs">
-                  <h3
-                    className="h-xs text-blue-deep-80 p-0"
-                    data-sectiontitle={title}
-                  >
-                    {title}
-                  </h3>
-                </div>
-              </div>
-            ) : (
-              <a
-                className="w-full link section-list__link"
-                href={url}
-                title={title}
-              >
+      {sections.map(
+        ({
+          title,
+          url,
+          disabled,
+          is_complete,
+          completed = '0',
+          total = '0',
+        }) => (
+          <div className="c-1-3-xl c-1-2-m" key={url}>
+            <div
+              className={`bg-white m-b-s section-list__item ${
+                is_complete ? 'section-list__item--is-complete' : ''
+              }`}
+            >
+              {disabled ? (
                 <div
-                  className={`${
-                    is_complete ? 'bg-green-30' : 'bg-blue-deep-20'
-                  } section-list__image-container`}
-                  data-complete={is_complete ? 'Complete' : ''}
+                  className="w-full link section-list__disabled section-list__link"
+                  onClick={openComingSoonModal}
+                  aria-hidden="true"
+                  role="button"
                 >
-                  <img
-                    className="w-full p-h-s p-t-m p-b-s"
-                    src="/static/images/ep-placeholder.svg"
-                    alt={title}
-                  />
+                  <div className="bg-blue-deep-20 section-list__image-container">
+                    <span
+                      className="section-list__coming bg-blue-deep-80 text-white body-m p-xxs"
+                      data-sectiontitle={title}
+                    >
+                      Coming soon
+                    </span>
+                    <img
+                      className="w-full p-h-s p-t-m p-b-s"
+                      src="/static/images/coming-soon.svg"
+                      alt={title}
+                      data-sectiontitle={title}
+                    />
+                  </div>
+                  <div className="p-v-s p-h-xs">
+                    <h3
+                      className="h-xs text-blue-deep-80 p-0"
+                      data-sectiontitle={title}
+                    >
+                      {title}
+                    </h3>
+                  </div>
                 </div>
-                <div className="p-v-s p-h-xs">
-                  <h3 className="h-xs text-blue-deep-80 p-0">{title}</h3>
-                </div>
-              </a>
-            )}
+              ) : (
+                <a
+                  className="w-full link section-list__link"
+                  href={url}
+                  title={title}
+                >
+                  <div
+                    className={`${
+                      is_complete ? 'bg-green-30' : 'bg-blue-deep-20'
+                    } section-list__image-container`}
+                    data-complete={is_complete ? 'Complete' : ''}
+                  >
+                    <img
+                      className="w-full p-h-s p-t-m p-b-s"
+                      src="/static/images/ep-placeholder.svg"
+                      alt={title}
+                    />
+                  </div>
+                  <div className="p-t-s p-b-xs p-h-xs">
+                    <h3 className="h-xs text-blue-deep-80 p-0">{title}</h3>
+                    <p className="m-b-0 m-t-xxs">
+                      {completed} out of {total} questions answered
+                    </p>
+                  </div>
+                </a>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        )
+      )}
     </>
   )
 }
@@ -91,6 +103,9 @@ Dashboard.propTypes = {
       title: PropTypes.string,
       url: PropTypes.string,
       disabled: PropTypes.bool,
+      is_complete: PropTypes.bool,
+      completed: PropTypes.string,
+      total: PropTypes.string,
     })
   ).isRequired,
 }
