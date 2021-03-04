@@ -20,14 +20,9 @@ from tests.unit.core.factories import (
     DetailPageFactory,
     LessonPlaceholderPageFactory,
     ListPageFactory,
-    TopicLandingPageFactory,
     TopicPageFactory,
 )
-from tests.unit.domestic.factories import (
-    ArticleListingPageFactory,
-    ArticlePageFactory,
-    DomesticDashboardFactory,
-)
+from tests.unit.domestic.factories import DomesticDashboardFactory
 from tests.unit.learn.factories import LessonPageFactory
 
 BETA_AUTH_TOKEN_PAST = (
@@ -99,23 +94,6 @@ def test_service_removed_page(
     domestic_homepage,
     domestic_site,
 ):
-    # set up an advice topic page, with some article listing pages and articles as children
-    advice_topic_page = TopicLandingPageFactory(
-        title='Advice',
-        parent=domestic_homepage,
-    )
-    listing_page = ArticleListingPageFactory(
-        parent=advice_topic_page,
-        title='Test listing page',
-        landing_page_title='Test Listing Page',
-    )
-    for i in range(5):
-        _title = f'Test Article {i}'
-        ArticlePageFactory(
-            title=_title,
-            article_title=_title,
-            parent=listing_page,
-        )
     # get a path we know will trigger the service-removed view
     response = client.get('/triage/foo/')
     assert response.status_code == 200
