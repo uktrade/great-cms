@@ -1,6 +1,10 @@
+import csv
+
 from django.utils.html import format_html_join
+from wagtail.admin.views.mixins import Echo, SpreadsheetExportMixin
 from wagtail.contrib.modeladmin.helpers import ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
+from wagtail.contrib.modeladmin.views import IndexView
 
 from core.models import CaseStudy
 
@@ -26,6 +30,66 @@ class CaseStudyAdminButtonHelper(ButtonHelper):
         return btns
 
 
+class CaseStudySpreadsheetExportMixin(SpreadsheetExportMixin):
+    export_headings = {
+        'associated_country_code_tags': 'Attribute',
+        'associated_hs_code_tags': 'Association',
+        'associated_region_code_tags': 'Association',
+        'associated_trading_bloc_code_tags': 'Association',
+        'get_related_pages': 'Association',
+        # 'modified': 'Association',
+    }
+
+    extra_heading = {'attribute': 'Attribute', 'association': 'Association'}
+
+    def stream_csv(self, queryset):
+        """ Generate a csv file line by line from queryset, to be used in a StreamingHTTPResponse """
+        writer = csv.DictWriter(Echo(), fieldnames=self.list_export)
+        yield writer.writerow(
+            {
+                field: self.get_heading(queryset, field)
+                for field in self.list_export
+                if field not in self.export_headings.keys()
+            }
+        )
+
+        for item in queryset:
+            yield self.write_csv_row(writer, self.to_row_dict(item))
+
+    def write_csv_row(self, writer, row_dict):
+        processed_row_list = []
+        processed_row = {}
+
+        common_fields = {k: v for k, v in row_dict.items() if k in ['title', 'summary_context', 'lead_title']}
+        for f in self.export_headings.keys():
+            for field, value in common_fields.items():
+                preprocess_function = self.get_preprocess_function(field, value, self.FORMAT_CSV)
+                processed_value = preprocess_function(value) if preprocess_function else value
+                processed_row[field] = processed_value
+
+            if row_dict.get(f):
+
+                if f == 'get_related_pages':
+                    attr_values = row_dict.get(f).split('<br>')
+                else:
+                    attr_values = None if row_dict.get(f) == '-' else row_dict.get(f)
+
+                if attr_values:
+                    for tagged_value in attr_values:
+                        processed_row['attribute'] = tagged_value
+                        processed_row['association'] = f
+                        processed_row_list.append(processed_row)
+
+            else:
+                processed_row_list.append(processed_row)
+
+        return writer.writerows(processed_row_list)
+
+
+class CaseStudyIndexView(CaseStudySpreadsheetExportMixin, IndexView):
+    pass
+
+
 class CaseStudyAdmin(ModelAdmin):
     model = CaseStudy
     add_to_settings_menu = False
@@ -33,18 +97,20 @@ class CaseStudyAdmin(ModelAdmin):
     exclude_from_explorer = False
     menu_icon = 'fa-book'
     export_filename = 'casestudies-export'
+    index_view_class = CaseStudyIndexView
 
     list_export = [
         'title',
         'summary_context',
         'lead_title',
-        'body',
+        'association',
+        'attribute',
         'associated_hs_code_tags',
         'associated_country_code_tags',
         'associated_region_code_tags',
         'associated_trading_bloc_code_tags',
         'get_related_pages',
-        'modified',
+        # 'modified',
     ]
     list_display = (
         '__str__',
@@ -94,6 +160,12 @@ class CaseStudyAdmin(ModelAdmin):
         )
 
     get_related_pages.short_description = 'Associated pages'
+
+    def association(self, obj):
+        pass
+
+    def attribute(self, obj):
+        pass
 
 
 modeladmin_register(CaseStudyAdmin)
