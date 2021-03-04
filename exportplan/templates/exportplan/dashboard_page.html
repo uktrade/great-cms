@@ -11,26 +11,6 @@
 {% block content %}
 
 <section class="export-plan-dashboard__section bg-blue-deep-10">
-  <aside class="export-plan-dashboard__sidebar p-v-m p-r-s p-f-s text-center bg-white">
-    {% if not request.user.company.logo %}
-    <a id="add-image" href="{% url 'exportplan:add-logo' %}"
-      class="link text-center text-blue-deep-80 p-t-xs p-b-s section-upload">
-      <i class="fas fa-upload"></i>
-      <h3 class="m-v-xs bold">Upload your logo</h3>
-      <p class="m-0">Click here.</p>
-      <p class="m-0">PNG or JPG, 270x170 pixels</p>
-    </a>
-    {% else %}
-    <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="w-full" />
-    <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
-    {% endif %}
-    <div id="buttons-disabled" class="m-t-m">
-      <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
-        <i class="fas fa-download"></i>
-        <span class="body-m text-white">Save your plan as a PDF</span>
-      </button>
-    </div>
-  </aside>
   <div class="export-plan-dashboard__container container">
     <div id="section-progress">
       <div class="m-h-s m-t-m">
@@ -72,7 +52,26 @@
       </div>
     </div>
   </div>
-
+  <aside class="export-plan-dashboard__sidebar p-v-m p-r-s p-f-s text-center bg-white">
+    {% if not request.user.company.logo %}
+    <a id="add-image" href="{% url 'exportplan:add-logo' %}"
+       class="link text-center text-blue-deep-80 p-t-xs p-b-s section-upload">
+      <i class="fas fa-upload"></i>
+      <h3 class="m-v-xs bold">Upload your logo</h3>
+      <p class="m-0">Click here.</p>
+      <p class="m-0">PNG or JPG, 270x170 pixels</p>
+    </a>
+    {% else %}
+    <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="w-full" />
+    <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
+    {% endif %}
+    <div id="buttons-disabled" class="m-t-m">
+      <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
+        <i class="fas fa-download"></i>
+        <span class="body-m text-white">Save your plan as a PDF</span>
+      </button>
+    </div>
+  </aside>
 </section>
 
 {% endblock %}
