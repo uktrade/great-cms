@@ -28,3 +28,10 @@ def test_migration_migration_support_vars(client):
     assert 'great_support_email' in response.context
     assert response.context['BREADCRUMBS_ROOT_URL'] == 'https://example.com/'
     assert 'FEATURE_SHOW_REPORT_BARRIER_CONTENT' in response.context
+
+
+@pytest.mark.django_db
+def test_cms_slug_urls(client):
+    url = reverse('core:signup')
+    response = client.get(url)
+    assert response.context['DASHBOARD_URL'] == '/dashboard/'
