@@ -412,6 +412,13 @@ class LinkWithImageAndContentBlock(blocks.StructBlock):
     content = blocks.RichTextBlock()
 
 
+class LinkWithImageAndContentBlockNoSource(blocks.StructBlock):
+    text = blocks.CharBlock()
+    url = blocks.CharBlock()  # not a URL block to allow relative links
+    image = ImageChooserBlock(required=False)  #  alt text lives on the custom Image class
+    content = blocks.RichTextBlock()
+
+
 class VideoChooserBlock(AbstractMediaChooserBlock):
     def render_basic(self, value, context=None):
         """We don't need any HTML rendering"""
