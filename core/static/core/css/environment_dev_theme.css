@@ -16,12 +16,14 @@
   background: darkgray;
 }
 
-#wagtail .content > header::before,
-#wagtail .content > header::after {
+#wagtail .content > header::before
+{
   content: 'This is not the production environment.';
   position: absolute;
   width: 100%;
   text-align: center;
+  text-transform: uppercase;
+  font-weight: bolder;
 }
 
 #wagtail header::before {
