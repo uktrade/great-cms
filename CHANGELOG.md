@@ -7,6 +7,8 @@
 - GP2-1784 - Stop breadcrumbs showing for Structural Page
 
 ### Implemented enhancements
+
+- GP2-1726 - Add ctas to domestic homepage
 - GP2-1559 - Structural page  for marketing articles
 - GP2-1325 - Footer is not displaying correctly
 - GP2-1430 - Income data for target research page in EP
