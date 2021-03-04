@@ -7,7 +7,7 @@ from core.models import CaseStudy
 
 class CaseStudyAdminButtonHelper(ButtonHelper):
 
-    view_button_classnames = ['button-small', 'icon', 'icon-doc']
+    view_button_classnames = ['button-small', 'icon', 'icon-doc', 'btn-group']
 
     def view_button(self, obj):
         """Button to trigger a standalone view of the relevant CaseStudy"""
@@ -32,6 +32,20 @@ class CaseStudyAdmin(ModelAdmin):
     button_helper_class = CaseStudyAdminButtonHelper
     exclude_from_explorer = False
     menu_icon = 'fa-book'
+    export_filename = 'casestudies-export'
+
+    list_export = [
+        'title',
+        'summary_context',
+        'lead_title',
+        'body',
+        'associated_hs_code_tags',
+        'associated_country_code_tags',
+        'associated_region_code_tags',
+        'associated_trading_bloc_code_tags',
+        'get_related_pages',
+        'modified',
+    ]
     list_display = (
         '__str__',
         'associated_hs_code_tags',

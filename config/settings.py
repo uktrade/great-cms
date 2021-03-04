@@ -95,7 +95,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'APP_DIRS': True,
+        'DIRS': [ROOT_DIR('core/templates')],
         'OPTIONS': {
             'debug': True,
             'context_processors': [
@@ -113,6 +113,10 @@ TEMPLATES = [
                 'core.context_processors.migration_support_vars',
                 'core.context_processors.cms_slug_urls',
                 'great_components.context_processors.analytics',
+            ],
+            'loaders': [
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
             ],
         },
     },
