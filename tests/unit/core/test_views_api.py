@@ -5,7 +5,7 @@ from django.shortcuts import reverse
 
 from core import helpers as core_helpers
 from directory_api_client import api_client
-from exportplan import helpers as exportplan_helpers
+from exportplan.core import helpers as exportplan_helpers
 
 
 @mock.patch.object(api_client.dataservices, 'get_last_year_import_data_by_country')
