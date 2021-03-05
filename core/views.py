@@ -280,7 +280,6 @@ class ContactUsHelpSuccessView(TemplateView):
 
 
 class ServiceNoLongerAvailableView(TemplateView):
-    slug = 'advice'
     template_name = 'domestic/service_no_longer_available.html'
 
     def get_context_data(self, **kwargs):

@@ -54,7 +54,6 @@ urlpatterns = [
         ),
         name='signup-wizard-export-plan',
     ),
-    path('service-unavailable/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='service-unavailable'),
     path('contact-us/help/', skip_ga360(views.ContactUsHelpFormView.as_view()), name='contact-us-help'),
     path('contact-us/success/', skip_ga360(views.ContactUsHelpSuccessView.as_view()), name='contact-us-success'),
     path('api/update-company/', skip_ga360(views_api.UpdateCompanyAPIView.as_view()), name='api-update-company'),
