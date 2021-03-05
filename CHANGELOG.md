@@ -4,8 +4,13 @@
 
 ### Fixed bugs
 - NO TICKET - fix wagtail checkbox layout issue
+- GP2-1784 - Stop breadcrumbs showing for Structural Page
 
 ### Implemented enhancements
+
+- GP2-1727 - Add trade barrier feature flag
+- GP2-1726 - Add ctas to domestic homepage
+- GP2-1559 - Structural page  for marketing articles
 - GP2-1325 - Footer is not displaying correctly
 - GP2-1430 - Income data for target research page in EP
 - GP2-1575 - Added default text for case study summary_context field
@@ -125,7 +130,6 @@
 - GP2- 1342 - Added related pages to CaseStudy listing view
 - GP2-1376 - Use relative links to Magna-hosted Markets and Advice pages
 - GP2-1348 - Compare markets - economy/population tab enhancements
-- GP2-1559 - Structural page  for marketing articles
 - GP2-1332 - Markets homepage
 - GP2-1336 - Advice homepage
 - GP2-1363 - Drop custom Django view serving /markets/

@@ -1,0 +1,25 @@
+/* Shared styles across BAU and Magna pages */
+
+@font-face {
+    font-family: 'FS Lucas';
+    src: url('/static/fonts/FSLucas-Regular.woff2') format('woff2'),
+        url('/static/fonts/FSLucas-Regular.woff') format('woff'),
+        url('/static/fonts/FSLucas-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.shared-tag {
+    height: 28px;
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #787191;
+    color: #fff;
+    font-family: "FS Lucas", Arial, Helvetica, Verdana;;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 28px;
+    text-align: center;
+    padding: 0 13px;
+}
