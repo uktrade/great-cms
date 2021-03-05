@@ -98,6 +98,12 @@ def test_service_removed_page(
     response = client.get('/triage/foo/')
     assert response.status_code == 200
 
+    response = client.get('/triage/')
+    assert response.status_code == 200
+
+    response = client.get('/custom/')
+    assert response.status_code == 200
+
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'update_company_profile')
