@@ -77,6 +77,11 @@ class CuratedListPageFactory(wagtail_factories.PageFactory):
         django_get_or_create = ['slug', 'parent']
 
 
+class TopicLandingPageFactory(wagtail_factories.PageFactory):
+    class Meta:
+        model = domestic_models.TopicLandingPage
+
+
 class TopicPageFactory(wagtail_factories.PageFactory):
     title = 'Topic page'
     live = True
