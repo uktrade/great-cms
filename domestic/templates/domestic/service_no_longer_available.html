@@ -1,0 +1,24 @@
+{% extends 'domestic/base.html' %}
+
+{% load static %}
+
+{% block head_title %}This service has been removed{% endblock %}
+
+{% block content %}
+<section class="padding-top-30">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-two-thirds">
+        <h1 class="heading-xlarge">This service has been removed</h1>
+        <p>You can still read our advice on how to sell your goods and services overseas.</p>
+        <p>Read about how to:</p>
+        <ul class="list list-bullet">
+          {% for listing in listing_page.child_pages.live %}
+            <li><a href="{{ listing.full_path }}" class="link">{{ listing.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

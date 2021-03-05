@@ -89,6 +89,23 @@ def contact_form_data(captcha_stub):
 
 
 @pytest.mark.django_db
+def test_service_removed_page(
+    client,
+    domestic_homepage,
+    domestic_site,
+):
+    # get a path we know will trigger the service-removed view
+    response = client.get('/triage/foo/')
+    assert response.status_code == 200
+
+    response = client.get('/triage/')
+    assert response.status_code == 200
+
+    response = client.get('/custom/')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 @mock.patch.object(helpers, 'update_company_profile')
 def test_api_update_company_success(mock_update_company_profile, mock_get_company_profile, client, user, company_data):
     mock_update_company_profile.return_value = create_response()
