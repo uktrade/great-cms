@@ -5,7 +5,6 @@ from django.utils.text import slugify
 
 from core import blocks, models
 from domestic import models as domestic_models
-
 from tests.unit.domestic.factories import DomesticHomePageFactory
 
 
