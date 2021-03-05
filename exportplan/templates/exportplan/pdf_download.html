@@ -133,9 +133,9 @@
             <!-- Nested table -->
             <table class="layout">
               <tr class="pad-b-0 text-align-centre border-y-1-blue-deep-20">
-                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> units</strong></td>
+                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ total_cost_and_price_unit_value|default:"NA" }}</strong></td>
                 <td class="col-12-4 pad-t-05">over the next</td>
-                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> period</strong></td>
+                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ total_cost_and_price_period_label|default:"NA" }}</strong></td>
               </tr>
             </table>
             <!-- ./Nested table -->

@@ -283,6 +283,8 @@ def get_export_plan_pdf_context(request):
         'total_funding': processor.calculate_total_funding(),
         'getting_paid_payment_method_label': request.user.export_plan.getting_paid_payment_method_label,
         'getting_paid_incoterms_transport_label': request.user.export_plan.getting_paid_incoterms_transport_label,
+        'total_cost_and_price_unit_value': request.user.export_plan.total_cost_and_price_unit_value,
+        'total_cost_and_price_period_label': request.user.export_plan.total_cost_and_price_period_label,
     }
 
     return context

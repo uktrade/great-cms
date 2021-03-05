@@ -32,7 +32,8 @@ def cost_pricing_data():
         'total_cost_and_price': {
             'final_cost_per_unit': 16.00,
             'net_price': 22.00,
-            'units_to_export_first_period': {'value': 22.00},
+            'units_to_export_first_period': {'value': 22.00, 'unit': 'm'},
+            'units_to_export_second_period': {'value': 5.00, 'unit': 'd'},
             'duty_per_unit': 15.13,
             'local_tax_charges': 5.23,
         },
@@ -105,7 +106,7 @@ def export_plan_section_progress_data():
         'marketing_approach': {'populated': 1, 'total': 1},
         'objectives': {'populated': 1, 'total': 1},
         'target_markets_research': {'populated': 0, 'total': 5},
-        'total_cost_and_price': {'populated': 5, 'total': 8},
+        'total_cost_and_price': {'populated': 6, 'total': 8},
         'travel_business_policies': {'populated': 3, 'total': 3},
     }
 
