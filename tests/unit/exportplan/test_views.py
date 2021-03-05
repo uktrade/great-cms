@@ -13,7 +13,7 @@ from requests.exceptions import HTTPError
 
 from config import settings
 from directory_api_client.client import api_client
-from exportplan import data, helpers
+from exportplan.core import data, helpers
 from tests.helpers import create_response, reload_urlconf
 from tests.unit.exportplan.factories import ExportPlanDashboardPageFactory
 
@@ -380,7 +380,7 @@ def test_business_risk(export_plan_data, client, user):
 @pytest.mark.django_db
 def test_redirect_to_service_page_for_disabled_urls(client, user):
     settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = ['Costs and pricing', 'About your business']
-    reload_urlconf('exportplan.data')
+    reload_urlconf('exportplan.core.data')
     slug = slugify(data.SECTIONS_DISABLED[0])
     url = reverse('exportplan:section', kwargs={'slug': slug})
     client.force_login(user)
@@ -392,7 +392,7 @@ def test_redirect_to_service_page_for_disabled_urls(client, user):
 @pytest.mark.django_db
 def test_disabled_urls_feature_flag_disabled(client, user):
     settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = []
-    reload_urlconf('exportplan.data')
+    reload_urlconf('exportplan.core.data')
 
     assert len(data.SECTIONS_DISABLED) == 0
     slug = slugify(data.SECTION_TITLES[0])

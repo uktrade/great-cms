@@ -10,7 +10,7 @@ from wagtail_factories import PageFactory, SiteFactory
 import tests.unit.domestic.factories
 import tests.unit.exportplan.factories
 from directory_api_client import api_client
-from exportplan import helpers as exportplan_helpers
+from exportplan.core import helpers as exportplan_helpers
 from sso.models import BusinessSSOUser
 from tests.helpers import create_response
 
@@ -46,7 +46,7 @@ def export_plan_data(cost_pricing_data):
         'commodity_code': '220.850',
         'sectors': ['Automotive'],
         'target_markets': [{'country': 'China'}],
-        'target_markets_research': '',
+        'target_markets_research': {},
         'ui_options': {
             'marketing-approach': {'target_ages': ['25-29', '47-49']},
             'target-markets-research': {'target_ages': ['35-40']},
@@ -55,8 +55,8 @@ def export_plan_data(cost_pricing_data):
         'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
         'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}],
         'timezone': 'Asia/Shanghai',
-        'about_your_business': '',
-        'adaptation_target_market': [],
+        'about_your_business': {'story': 'new story'},
+        'adaptation_target_market': {},
         'target_market_documents': {'document_name': 'test'},
         'route_to_markets': {'route': 'test'},
         'marketing_approach': {'resources': 'xyz'},

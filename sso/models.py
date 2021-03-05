@@ -3,7 +3,8 @@ from django.db import models
 from django.utils.functional import cached_property
 
 from core.helpers import CompanyParser
-from exportplan.helpers import ExportPlanParser, get_or_create_export_plan
+from exportplan.core.helpers import get_or_create_export_plan
+from exportplan.core.parsers import ExportPlanParser
 from sso import helpers
 
 

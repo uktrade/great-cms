@@ -44,7 +44,7 @@ from core import blocks as core_blocks, mixins
 from core.constants import BACKLINK_QUERYSTRING_NAME, RICHTEXT_FEATURES__MINIMAL
 from core.context import get_context_provider
 from core.utils import PageTopicHelper, get_first_lesson
-from exportplan.data import SECTION_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
+from exportplan.core.data import SECTION_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
 
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)

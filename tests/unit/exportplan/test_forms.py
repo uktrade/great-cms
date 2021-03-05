@@ -3,7 +3,8 @@ from unittest.mock import patch
 import pytest
 from django.urls import reverse
 
-from exportplan import forms, helpers
+from exportplan import forms
+from exportplan.core import helpers
 
 
 @pytest.fixture

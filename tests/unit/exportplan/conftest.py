@@ -2,7 +2,7 @@ from unittest import mock
 
 import pytest
 
-from exportplan import helpers as exportplan_helpers
+from exportplan.core import helpers as exportplan_helpers
 
 
 @pytest.fixture(autouse=False)
