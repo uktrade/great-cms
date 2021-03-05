@@ -14,7 +14,7 @@ from core.utils import (
     get_cs_score_by_related_page,
     get_cs_score_by_trading_bloc,
 )
-from exportplan.helpers import ExportPlanParser
+from exportplan.core.parsers import ExportPlanParser
 from tests.unit.core.factories import (
     CaseStudyFactory,
     ContentModuleFactory,
