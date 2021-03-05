@@ -21,7 +21,6 @@
 
 <!-- HTML Content -->
 
-
 <!-- P1 header -->
 <table class="layout layout--three-col">
   <tr>
@@ -40,11 +39,12 @@
 <!-- P1 overview -->
 <table class="layout">
   <tr class="text-align-centre">
-    <td class="pad-y-1">
-     {% if not user.company.logo %}
-          <img class="logo logo--cover" src="https://via.placeholder.com/200/dfd5c5?text=Company logo">
+    <td class="pad-y-3">
+      {% if not user.company.logo %}
+      {% comment %} <img class="logo logo--cover" src="https://via.placeholder.com/600/dfd5c5?text=Company-logo"> {% endcomment %}
+      <img class="logo logo--cover" src="{{host_url}}{% static 'pdf/pdf_download_logo.jpg' %}">
       {% else %}
-          <img class="logo logo--cover" alt="{{ user.company.name }}" src="{{ user.company.logo }}"/>
+      <img class="logo logo--cover" alt="{{ user.company.name }}" src="{{ user.company.logo }}"/>
       {% endif %}
     </td>
   </tr>
@@ -215,35 +215,35 @@
       <table>
         <tr class="pad-b-1">
           <td class="col-10-10">
-            <h2 class="pad-t-0">How we started</h2>
+            <h3 class="pad-t-0">How we started</h3>
             <p class="pad-t-0">{{ export_plan.about_your_business.story }}</p>
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
-            <h2 class="pad-t-0">Where we are based</h2>
+            <h3 class="pad-t-0">Where we are based</h3>
             <p class="pad-t-0">{{ export_plan.about_your_business.location }}</p>
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
-            <h2 class="pad-t-0">How we make our product</h2>
+            <h3 class="pad-t-0">How we make our product</h3>
             <p class="pad-t-0">{{ export_plan.about_your_business.processes }}</p>
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
-            <h2 class="pad-t-0">Our packaging</h2>
+            <h3 class="pad-t-0">Our packaging</h3>
             <p class="pad-t-0">{{ export_plan.about_your_business.packaging }}</p>
           </td>
         </tr>
         
         <tr class="pad-b-1">
           <td class="col-10-10">
-            <h2 class="pad-t-0">Business performance</h2>
+            <h3 class="pad-t-0">Business performance</h3>
             <p class="pad-t-0">GBP {{ export_plan.about_your_business.performance }}</p>
           </td>
         </tr>
@@ -279,7 +279,7 @@
       <table>
         <tr class="pad-b-2">
           <td class="col-10-10">
-            <h2 class="pad-y-0">Why we want to export</h2>
+            <h3 class="pad-y-0">Why we want to export</h3>
             <p class="pad-t-0">Dove Gin was founded in 2012 when Simon Dove started to dis- till gin in his garage in Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of London. This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a modern twist.</p>
           </td>
         </tr>
@@ -317,7 +317,7 @@
         </tr>
         <tr class="pad-b-2">
           <td class="col-10-10">
-            <h3 class="pad-t-0">Planned reviews</h3>
+            <h3 class="pad-y-0">Planned reviews</h3>
             <p class="pad-t-0">{{ objective.planned_reviews }}</p>
           </td>
         </tr>
@@ -326,6 +326,336 @@
       <!-- ./Nested table -->
     </td>
     <td class="col-10-3 align-top">
+    </td>
+  </tr>
+</table>
+
+<pdf:nextpage>
+
+<!-- P6 target market researc -->
+<table class="layout page-header">
+  <tr>
+    <td>
+      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.export_countries.0.country_name }}</span></strong></p>
+    </td>
+  </tr>
+  <tr class="hr hr--red-150"><td></td></tr>
+</table>
+
+<table class="layout">
+  <tr>
+    <td>
+      <h1 class="pad-t-3 pad-b-2">Target market research</h1>
+    </td>
+  </tr>
+  <tr>
+    <td class="col-10-7 align-top pad-r-2">
+      <!-- Nested table -->
+      <table>
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Consumer demand for our product in {{ export_plan.export_countries.0.country_name }}</h3>
+            <p class="pad-t-0">{{ export_plan.target_markets_research.demand }}</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Competitors in the {{ export_plan.export_countries.0.country_name }}</h3>
+            <p class="pad-t-0">{{ export_plan.target_markets_research.competitors }}</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Local product trends</h3>
+            <p class="pad-t-0">{{ export_plan.target_markets_research.trend }}</p>
+          </td>
+        </tr>
+        
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Average price of our product in {{ export_plan.export_countries.0.country_name }}?</h3>
+            <p class="pad-t-0">GBP {{ export_plan.target_markets_research.average_price }}</p>
+          </td>
+        </tr>
+      </table>
+      <!-- ./Nested table -->
+    </td>
+   <td class="col-10-3 align-top">
+      <h3 class="pad-b-1 colour-red-150">Data snapshot</h3>
+      <h6 class="body-gamma pad-y-0">Total product import value in 2018 (USD)</h6>
+      <p class="pad-t-0"><strong></strong></p>
+
+      <h6 class="body-gamma pad-y-0">Total product import value from the in 2018 (USD)</h6>
+      <p class="pad-t-0"><strong></strong></p>
+
+      <h6 class="body-gamma pad-y-0">Year-to-change product import value change</h6>
+      <p class="pad-t-0"><strong>&percnt;</strong></p>
+
+      <h6 class="body-gamma pad-y-0">GDP per capita (USD)</h6>
+      <p class="pad-t-0"><strong></strong></p>
+      
+      <h6 class="body-gamma pad-y-0">Average Income (USD)</h6>
+      <p class="pad-t-0"><strong></strong></p>
+
+      <h3 class="pad-y-1">Target age group</h3>
+      <h6 class="body-gamma pad-y-0">Total population</h6>
+      <p class="pad-t-0"><strong>million</strong></p>
+      <h6 class="body-gamma pad-y-0">Total page population</h6>
+      <p class="pad-t-0"><strong></strong></p>
+    </td>
+  </tr>
+</table>
+
+<pdf:nextpage>
+
+<!-- P7a adaptating your product -->
+<table class="layout page-header">
+  <tr>
+    <td>
+      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.export_countries.0.country_name }}</span></strong></p>
+    </td>
+  </tr>
+  <tr class="hr hr--red-150"><td></td></tr>
+</table>
+
+<table class="layout">
+  <tr>
+    <td>
+      <h1 class="pad-t-3 pad-b-2">Adaptating your product</h1>
+    </td>
+  </tr>
+  <tr>
+    <td class="col-10-7 align-top pad-r-2">
+      <!-- Nested table -->
+      <table>
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Consumer demand for our product in {{ export_plan.export_countries.0.country_name }}</h3>
+            <p class="pad-t-0">{{ export_plan.target_markets_research.demand }}</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">
+              <img class="icon icon--title" src="{{host_url}}{% static 'pdf/pdf-icon_tag.jpg' %}">
+              &nbsp;
+              &nbsp;
+              Labeling
+            </h3>
+            <p class="pad-t-0">{{ export_plan.adaptation_target_market.labelling }}</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">
+              <img class="icon icon--title" src="{{host_url}}{% static 'pdf/pdf-icon_dolly.jpg' %}">
+              &nbsp;
+              &nbsp;
+              Packaging
+            </h3>
+            <p class="pad-t-0">{{ export_plan.adaptation_target_market.packaging }}</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">
+              <img class="icon icon--title" src="{{host_url}}{% static 'pdf/pdf-icon_weight.jpg' %}">
+              &nbsp;
+              &nbsp;
+              Size
+            </h3>
+            <p class="pad-t-0">{{ export_plan.adaptation_target_market.size }}</p>
+          </td>
+        </tr>
+        
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">
+              <img class="icon icon--title" src="{{host_url}}{% static 'pdf/pdf-icon_barcode.jpg' %}">
+              &nbsp;
+              &nbsp;
+              Product changes to comply with standards
+            </h3>
+            <p class="pad-t-0">{{ export_plan.adaptation_target_market.standards }}</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">
+              <img class="icon icon--title" src="{{host_url}}{% static 'pdf/pdf-icon_feather-alt.jpg' %}">
+              &nbsp;
+              &nbsp;
+              Translations
+            </h3>
+            <p class="pad-t-0">{{ export_plan.adaptation_target_market.translations }}</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">
+              <img class="icon icon--title" src="{{host_url}}{% static 'pdf/pdf-icon_money-check.jpg' %}">
+              &nbsp;
+              &nbsp;
+              Other changes
+            </h3>
+            <p class="pad-t-0">{{ export_plan.adaptation_target_market.other_changes }}</p>
+          </td>
+        </tr>
+      </table>
+      <!-- ./Nested table -->
+    </td>
+    <td class="col-10-3 align-top">
+    </td>
+  </tr>
+</table>
+
+<pdf:nextpage>
+
+<!-- P7b adaptating your product -->
+<table class="layout page-header">
+  <tr>
+    <td>
+      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.export_countries.0.country_name }}</span></strong></p>
+    </td>
+  </tr>
+  <tr class="hr hr--red-150"><td></td></tr>
+</table>
+
+<table class="layout">
+  <tr>
+    <td class="col-10-7 align-top pad-r-2">
+      <!-- Nested table -->
+      <table>
+        <tr class="pad-b-2 pad-t-3">
+          <td class="col-10-10">
+            <h2 class="pad-b-0">Documents we need to provide</h2>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Certificate of origin</h3>
+            <p class="pad-t-0">{{ export_plan.adaptation_target_market.certificate_of_origin }}</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Insurance certificate</h3>
+            <p class="pad-t-0">{{ export_plan.adaptation_target_market.insurance_certificate }}</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Commercial invoice</h3>
+            <p class="pad-t-0">{{ export_plan.adaptation_target_market.commercial_invoice }}</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">UK customs declaration</h3>
+            <p class="pad-t-0">{{ export_plan.adaptation_target_market.uk_customs_declaration }}</p>
+          </td>
+        </tr>
+      </table>
+      <!-- ./Nested table -->
+    </td>
+    <td class="col-10-3 align-top">
+    </td>
+  </tr>
+</table>
+
+<pdf:nextpage>
+
+<!-- P8 marketing approach -->
+<table class="layout page-header">
+  <tr>
+    <td>
+      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.export_countries.0.country_name }}</span></strong></p>
+    </td>
+  </tr>
+  <tr class="hr hr--red-150"><td></td></tr>
+</table>
+
+<table class="layout">
+  <tr>
+    <td>
+      <h1 class="pad-t-3 pad-b-2">Marketing approach</h1>
+    </td>
+  </tr>
+  <tr>
+    <td class="col-10-7 align-top">
+      {% for route in export_plan.route_to_markets %}
+      <!-- Nested table -->
+      <table>
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h3 class="pad-y-0">Route to market {{ forloop.counter }}</h3>
+            <p class="pad-t-0">{{ route.route }}</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h3 class="pad-y-0">How do we promote our product?</h3>
+            <p class="pad-t-0">{{ route.promote }}</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h3 class="pad-y-0">What marketing resources we need?</h3>
+            <p class="pad-t-0">{{ route.market_promotional_channel }}</p>
+          </td>
+        </tr>
+      </table>
+      {% endfor %}
+
+      <table>
+        <tr class="pad-b-2">
+          <td class="col-10-10 align-top">
+            <h3 class="pad-y-0">What marketing resources do we need?</h3>
+            <p class="pad-t-0">{{ marketing_approach.resources }}</p>
+          </td>
+        </tr>
+      </table>
+      <!-- ./Nested table -->
+    </td>
+    <td class="col-10-3 align-top">
+      <h3 class="pad-b-1 colour-red-150">Data snapshot</h3>
+
+      <h6 class="body-gamma pad-y-0">Total population</h6>
+      <p class="pad-t-0"><strong></strong></p>
+      <h6 class="body-gamma pad-y-0">Access to internet</h6>
+      <p class="pad-t-0"><strong></strong></p>
+      <h6 class="body-gamma pad-y-0">Consumer pice index</h6>
+      <p class="pad-t-0"><strong></strong></p>
+      <h6 class="body-gamma pad-y-0">The main languages in your chosen market are</h6>
+      <p class="pad-t-0"><strong></strong></p>
+      <h6 class="body-gamma pad-y-0">GDP per capita (USD)</h6>
+      <p class="pad-t-0"><strong></strong></p>
+
+      <h3 class="pad-y-1">Target age group</h3>
+
+      <h6 class="body-gamma pad-y-0">Target age population</h6>
+      <p class="pad-t-0"><strong>million</strong></p>
+      <h6 class="body-gamma pad-y-0">Female in target group</h6>
+      <p class="pad-t-0"><strong>million</strong></p>
+      <h6 class="body-gamma pad-y-0">Male in target group</h6>
+      <p class="pad-t-0"><strong>million</strong></p>
+      <h6 class="body-gamma pad-y-0">Livng in uban areas</h6>
+      <p class="pad-t-0"><strong>&percnt;</strong></p>
+      <h6 class="body-gamma pad-y-0">FLivng in rural areas</h6>
+      <p class="pad-t-0"><strong>&percnt;</strong></p>
     </td>
   </tr>
 </table>

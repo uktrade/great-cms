@@ -145,7 +145,9 @@ h2,
 .title-beta {
   font-size: 18pt;
 }
-h3 {
+h3,
+.title-gamma {
+  font-size: 15pt;
 }
 h4 {
 }
@@ -243,6 +245,15 @@ img {
   width: 150pt;
 }
 
+/* Icons */
+.icon {
+}
+
+.icon--title {
+  width: 20pt;
+  padding-right: 5pt;
+}
+
 /* Page layouts */
 .page {
   width: 512pt;
@@ -251,7 +262,7 @@ img {
 
 /* Table layouts */
 table {
-  -pdf-keep-in-frame-mode: overflow;
+  -pdf-keep-in-frame-mode: shrink;
 }
 /* Defaults */
 .layout {
