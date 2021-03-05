@@ -96,6 +96,21 @@ def export_plan_data(cost_pricing_data):
 
 
 @pytest.fixture
+def export_plan_section_progress_data():
+    return {
+        'about_your_business': {'populated': 1, 'total': 5},
+        'adaptation_target_market': {'populated': 0, 'total': 10},
+        'funding_and_credit': {'populated': 2, 'total': 2},
+        'getting_paid': {'populated': 3, 'total': 3},
+        'marketing_approach': {'populated': 1, 'total': 1},
+        'objectives': {'populated': 1, 'total': 1},
+        'target_markets_research': {'populated': 0, 'total': 5},
+        'total_cost_and_price': {'populated': 5, 'total': 8},
+        'travel_business_policies': {'populated': 3, 'total': 3},
+    }
+
+
+@pytest.fixture
 def population_data():
     return {'population_data': {'target_population': 10000}}
 
