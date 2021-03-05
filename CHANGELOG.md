@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Fixed bugs
+- GP2-1743 - fix Download export plan functionality on mobile
 - NO TICKET - fix wagtail checkbox layout issue
 - GP2-1784 - Stop breadcrumbs showing for Structural Page
 
