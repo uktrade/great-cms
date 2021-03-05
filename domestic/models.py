@@ -190,7 +190,7 @@ class StructuralPage(BaseContentPage):
     """Structural page to return page not found"""
 
     # `title` field comes from Page->BaseContentPage
-    folder_page = False
+    folder_page = True
     settings_panels = [
         FieldPanel('slug'),
     ]
@@ -231,6 +231,16 @@ class GreatDomesticHomePage(
     hero_cta_url = models.CharField(null=True, blank=True, max_length=255)
 
     # EU exit chevrons StreamField WAS here in V1 - no longer the case
+
+    # magna ctas
+    magna_ctas_title = models.TextField(null=True, blank=True)
+    magna_ctas_columns = single_struct_block_stream_field_factory(
+        field_name='columns',
+        block_class_instance=core_blocks.LinkWithImageAndContentBlockNoSource(),
+        max_num=3,
+        null=True,
+        blank=True,
+    )
 
     # how DIT helps
     how_dit_helps_title = models.TextField(null=True, blank=True)
