@@ -297,8 +297,8 @@ def test_cost_and_pricing(cost_pricing_data, client, user):
                 'other_overhead_costs': '',
             },
             'total_cost_and_price': {
-                'units_to_export_first_period': {'unit': '', 'value': 22},
-                'units_to_export_second_period': {'unit': '', 'value': ''},
+                'units_to_export_first_period': {'unit': 'm', 'value': 22},
+                'units_to_export_second_period': {'unit': 'd', 'value': 5},
                 'final_cost_per_unit': '16.00',
                 'average_price_per_unit': '',
                 'net_price': '22.00',

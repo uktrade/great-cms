@@ -6,20 +6,10 @@ from exportplan.core import data, helpers
 from exportplan.core.processor import ExportPlanProcessor
 
 
-def test_calculate_ep_section_progress(export_plan_data):
+def test_calculate_ep_section_progress(export_plan_data, export_plan_section_progress_data):
     progress = ExportPlanProcessor(export_plan_data).calculate_ep_section_progress()
 
-    assert progress == {
-        'about_your_business': {'total': 5, 'populated': 1},
-        'objectives': {'total': 1, 'populated': 1},
-        'target_markets_research': {'total': 5, 'populated': 0},
-        'adaptation_target_market': {'total': 10, 'populated': 0},
-        'marketing_approach': {'total': 1, 'populated': 1},
-        'total_cost_and_price': {'total': 8, 'populated': 5},
-        'getting_paid': {'total': 3, 'populated': 3},
-        'funding_and_credit': {'total': 2, 'populated': 2},
-        'travel_business_policies': {'total': 3, 'populated': 3},
-    }
+    assert progress == export_plan_section_progress_data
 
 
 @pytest.mark.parametrize(
