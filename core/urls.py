@@ -6,7 +6,7 @@ from core import cms_slugs, views, views_api
 
 app_name = 'core'
 
-LOGIN_URL = reverse_lazy('core:login')
+LOGIN_URL = reverse_lazy('core:signup')
 
 
 def anonymous_user_required(function):
