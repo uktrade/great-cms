@@ -4666,7 +4666,6 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
   padding: 0 13px; }
 
 .shared-learning-banner {
-  width: 100%;
   background-color: #4A416E;
   color: #fff;
   display: -webkit-box;
