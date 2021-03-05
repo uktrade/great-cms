@@ -9,6 +9,7 @@
 
 ### Implemented enhancements
 
+- GP2-1731 - Logged out header modifications
 - GP2-1727 - Add trade barrier feature flag
 - GP2-1726 - Add ctas to domestic homepage
 - GP2-1559 - Structural page  for marketing articles

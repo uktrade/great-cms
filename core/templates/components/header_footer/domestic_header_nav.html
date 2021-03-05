@@ -12,9 +12,11 @@
         <a href="{% slugurl 'markets' %}" class="link-heading" id="header-markets-{{ device_type }}" {% if js_tag %}data-js-menu-index=1{% endif %}>Markets</a>
       </li>
 
+      {% comment "Hide until services page is implemented" %}
       <li class="menu-item" data-js-menu-item-container>
         <a href="{{ header_footer_urls.services }}" class="link-heading" id="header-services-{{ device_type }}" {% if js_tag %}data-js-menu-index=2{% endif %}>Services</a>
       </li>
+      {% endcomment %}
 
       {% if features.NEWS_SECTION_ON %}
         <li class="menu-item" data-js-menu-item-container>

@@ -1044,17 +1044,17 @@ def test_markets_page__no_results__page_content(
     ) in body_text
 
     # Brittle tests warning
-    assert str(links[19]) == (
+    assert str(links[16]) == (
         '<a class="link" href="https://www.great.gov.uk/export-opportunities/">'
         'Browse our export opportunities service to find opportunities to sell your product in overseas markets</a>'
     )
 
-    assert str(links[20]) == (
+    assert str(links[17]) == (
         '<a class="link" href="https://www.great.gov.uk/contact/office-finder">'
         'Get in touch with a trade adviser to discuss your export business plan</a>'
     )
 
-    assert str(links[21]) == ('<a class="view-markets link bold margin-top-15" href="/markets/">Clear all filters</a>')
+    assert str(links[18]) == ('<a class="view-markets link bold margin-top-15" href="/markets/">Clear all filters</a>')
 
 
 class ArticleListingPageTests(WagtailPageTests):
