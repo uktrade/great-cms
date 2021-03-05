@@ -196,7 +196,7 @@ def test_dashboard_page_logged_in(
 def test_dashboard_page_not_logged_in(domestic_homepage, domestic_dashboard, client, user):
     response = client.get(cms_slugs.DASHBOARD_URL)
     assert response.status_code == 302
-    assert response.url == cms_slugs.LOGIN_URL
+    assert response.url == cms_slugs.LOGIN_URL + '?next=/dashboard/'
 
 
 @pytest.mark.django_db

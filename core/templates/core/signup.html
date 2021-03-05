@@ -1,6 +1,6 @@
 {% extends 'core/page_no_navigation.html' %}
 {% load breadcrumbs from great_components %}
-{% load url_map %}
+{% load get_intended_destination from url_tags %}
 {% load static %}
 
 {% block inner_content %}
@@ -9,6 +9,8 @@
 
 {% block body_js %}
     {{ block.super }}
+    {% get_intended_destination request as onward_destination %}
+
     <script type="text/javascript">
 		var element = document.getElementById('sign-up');
 		var currentStep = '{% if request.GET.verify %}verification-code{% else %}credentials{% endif %}';
@@ -17,7 +19,7 @@
 			element: element,
 			currentStep: currentStep,
 			email: email,
-			nextUrl: '{% url_map "dashboard" %}',
+			nextUrl: '{{onward_destination}}',
 		})
     </script>
 {% endblock %}
