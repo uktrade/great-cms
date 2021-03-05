@@ -7,7 +7,7 @@
     <div class="container">
       {% block header_logo %}
         {% static 'images/eig-logo-stacked.svg' as logo_image_url %}
-        {% include 'components/header_footer/header_logo.html' with url=services_urls.exred image_source=logo_image_url image_alt_text='Exporting is Great' %}
+        {% include 'components/header_footer/header_logo.html' with url="/" image_source=logo_image_url image_alt_text='Exporting is Great' %}
       {% endblock %}
 
       {% block login_state %}
@@ -19,7 +19,9 @@
       {% include 'components/header_footer/mobile_menu_button.html' %}
 
       {% include 'components/header_footer/domestic_header_nav.html' with id='great-header-desktop-nav' device_type='desktop' js_tag=false %}
+      {% comment "Hide until search is implemented" %}
       {% include 'components/header_footer/search.html' %}
+      {% endcomment %}
     </div>
 
     {% include 'components/header_footer/domestic_header_nav.html' with id='great-header-mobile-nav' device_type='mobile' js_tag=True %}
