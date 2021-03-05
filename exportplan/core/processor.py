@@ -37,7 +37,7 @@ class ExportPlanProcessor:
             if isinstance(field_class, Serializer):
                 total = len(getattr(field_class, 'fields'))
                 for field in getattr(field_class, 'fields'):
-                    if self.seralizer.initial_data[field_map[1]].get(field):
+                    if self.seralizer.initial_data.get(field_map[1], {}).get(field):
                         populated += 1
             progress[field_map[1]] = {'total': total, 'populated': populated}
 
@@ -78,5 +78,6 @@ class ExportPlanProcessor:
                 'sections_completed': len(completed),
                 'sections_total': len(data.SECTION_SLUGS),
                 'percentage_completed': len(completed) / len(data.SECTION_SLUGS) if len(completed) > 0 else 0,
+                'section_progress': self.calculate_ep_section_progress(),
             }
         }

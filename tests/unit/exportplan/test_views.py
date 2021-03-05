@@ -201,7 +201,9 @@ def test_business_objectives_has_lessons(mock_get_lesson_details, client, user):
         ('business-risk', None),
     ),
 )
-def test_export_plan_mixin(export_plan_data, slug, next_slug, mock_update_export_plan_client, client, user):
+def test_export_plan_mixin(
+    export_plan_data, export_plan_section_progress_data, slug, next_slug, mock_update_export_plan_client, client, user
+):
     client.force_login(user)
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
@@ -224,7 +226,12 @@ def test_export_plan_mixin(export_plan_data, slug, next_slug, mock_update_export
     }
     assert response.context_data['export_plan'] == export_plan_data
     assert response.context_data['export_plan_progress'] == {
-        'export_plan_progress': {'sections_total': 10, 'sections_completed': 1, 'percentage_completed': 0.1}
+        'export_plan_progress': {
+            'sections_total': 10,
+            'sections_completed': 1,
+            'percentage_completed': 0.1,
+            'section_progress': export_plan_section_progress_data,
+        }
     }
 
 
@@ -424,6 +431,7 @@ def test_exportplan_dashboard(
     domestic_homepage,
     get_request,
     patch_set_user_page_view,
+    export_plan_section_progress_data,
 ):
     client.force_login(user)
     dashboard = ExportPlanDashboardPageFactory(parent=domestic_homepage, slug='dashboard')
@@ -432,5 +440,10 @@ def test_exportplan_dashboard(
     assert len(context_data.get('sections')) == 10
     assert context_data.get('sections')[0].get('url') == '/export-plan/section/about-your-business/'
     assert context_data['export_plan_progress'] == {
-        'export_plan_progress': {'sections_total': 10, 'sections_completed': 1, 'percentage_completed': 0.1}
+        'export_plan_progress': {
+            'sections_total': 10,
+            'sections_completed': 1,
+            'percentage_completed': 0.1,
+            'section_progress': export_plan_section_progress_data,
+        },
     }
