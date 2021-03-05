@@ -4664,3 +4664,108 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
   line-height: 28px;
   text-align: center;
   padding: 0 13px; }
+
+.shared-learning-banner {
+  background-color: #4A416E;
+  color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  padding: 15px 30px;
+  margin-bottom: 30px; }
+  @media (max-width: 640px) {
+    .shared-learning-banner {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      padding: 20px 30px; } }
+  .shared-learning-banner .tag-label {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: #FFF;
+    font-family: "FS Lucas", Arial, Helvetica, Verdana;
+    font-size: 16px;
+    text-align: center;
+    height: 28px;
+    width: 55px;
+    border-radius: 4px;
+    background-color: #EB4F4D;
+    font-weight: 600;
+    margin-right: 20px; }
+  .shared-learning-banner .content-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column; }
+    @media (max-width: 640px) {
+      .shared-learning-banner .content-container {
+        margin-top: 10px; } }
+    .shared-learning-banner .content-container h3 {
+      font-size: 24px;
+      line-height: 36px;
+      font-family: "Overpass", Arial, Helvetica, Verdana;
+      font-weight: 600; }
+    .shared-learning-banner .content-container p {
+      font-family: "Overpass", Arial, Helvetica, Verdana;
+      font-size: 16px;
+      letter-spacing: 0;
+      line-height: 25px; }
+  .shared-learning-banner .cta-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin-left: auto; }
+    @media (max-width: 640px) {
+      .shared-learning-banner .cta-container {
+        margin-left: 0;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-box-pack: end;
+        -ms-flex-pack: end;
+        justify-content: end; } }
+    .shared-learning-banner .cta-container .cta {
+      padding: 10px 40px;
+      -ms-flex-item-align: end;
+      align-self: flex-end;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      border: 2px solid #FFFFFF;
+      border-radius: 20px;
+      color: #FFFFFF;
+      font-family: "FS Lucas", Arial, Helvetica, Verdana;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0;
+      line-height: 20px;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none; }

@@ -20,6 +20,9 @@ def anonymous_user_required(function):
 
 
 urlpatterns = [
+    path('triage/<slug:step>/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='triage-wizard'),
+    path('triage/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='triage-start'),
+    path('custom/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='custom-page'),
     path(
         'where-to-export/',
         login_required(views.CompareCountriesView.as_view(), login_url=LOGIN_URL),

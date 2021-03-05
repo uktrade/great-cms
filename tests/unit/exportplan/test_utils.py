@@ -1,6 +1,7 @@
 from unittest.mock import Mock, patch
 
-from exportplan import helpers, utils
+from exportplan import utils
+from exportplan.core import helpers
 
 
 def test_format_two_dp():

@@ -9,6 +9,8 @@
 
 ### Implemented enhancements
 
+- GP2-1729 - Add learning banner
+- GP2-1731 - Logged out header modifications
 - GP2-1727 - Add trade barrier feature flag
 - GP2-1726 - Add ctas to domestic homepage
 - GP2-1559 - Structural page  for marketing articles
@@ -22,6 +24,7 @@
 - GP2-1733 - rename ep options
 - GP2-1735 - update lessons
 - GP2-1632-generic-ep-pages
+- GP2-1782 - ep section progress
 
 ### Fixed bugs
 
@@ -366,7 +369,7 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
-
+-GP2-1548  - Added Service Removed Page
 - GP2-1155 - Reduce Sentry noise by skipping GA middleware for Django and Wagtail Admins
 - GP2-1144 - Allow Beta token checks to support sub-paths of allowed paths
 - GP2-1020 - Cleanup of redundant code following topics refactor

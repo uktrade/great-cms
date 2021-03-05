@@ -12,7 +12,7 @@ from core.management.commands.create_tours import defaults as tour_steps
 from core.models import Tour
 from directory_api_client import api_client
 from directory_constants import choices
-from exportplan import helpers as exportplan_helpers
+from exportplan.core import helpers as exportplan_helpers
 from sso import helpers as sso_helpers, models
 from tests.browser.steps import should_not_see_errors
 from tests.helpers import create_response

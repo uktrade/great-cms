@@ -15,7 +15,9 @@ from core.mixins import PageTitleMixin
 from core.utils import choices_to_key_value
 from directory_api_client.client import api_client
 from directory_constants import choices
-from exportplan import data, forms, helpers, serializers
+from exportplan import forms
+from exportplan.core import data, helpers, serializers
+from exportplan.core.processor import ExportPlanProcessor
 from exportplan.utils import render_to_pdf
 
 
@@ -36,6 +38,10 @@ class ExportPlanMixin:
         return super().dispatch(request, *args, **kwargs)
 
     @property
+    def processor(self):
+        return ExportPlanProcessor(self.request.user.export_plan.data)
+
+    @property
     def next_section(self):
         if self.slug == data.SECTION_SLUGS[-1]:
             return None
@@ -43,7 +49,7 @@ class ExportPlanMixin:
 
     @property
     def current_section(self):
-        return self.request.user.export_plan.build_current_url(self.slug)
+        return self.processor.build_current_url(self.slug)
 
     def get_context_data(self, **kwargs):
         industries = [name for _, name in choices.INDUSTRIES]
@@ -51,8 +57,8 @@ class ExportPlanMixin:
         return super().get_context_data(
             next_section=self.next_section,
             current_section=self.current_section,
-            export_plan_progress=self.request.user.export_plan.calculate_ep_progress(),
-            sections=self.request.user.export_plan.build_export_plan_sections(),
+            export_plan_progress=self.processor.calculate_ep_progress(),
+            sections=self.processor.build_export_plan_sections(),
             export_plan=self.request.user.export_plan.data,
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),
@@ -261,7 +267,7 @@ class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionV
         context['costs_and_pricing_data'] = serializers.ExportPlanSerializer().cost_and_pricing_to_json(
             self.request.user.export_plan.data
         )
-        context['calculated_pricing'] = self.request.user.export_plan.calculated_cost_pricing()
+        context['calculated_pricing'] = self.processor.calculated_cost_pricing()
         return context
 
 
@@ -291,7 +297,7 @@ class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSection
         context['funding_options'] = choices_to_key_value(choices.FUNDING_OPTIONS)
         context['funding_and_credit'] = self.request.user.export_plan.data['funding_and_credit']
 
-        calculated_pricing = self.request.user.export_plan.calculated_cost_pricing()
+        calculated_pricing = self.processor.calculated_cost_pricing()
         context['estimated_costs_per_unit'] = calculated_pricing['calculated_cost_pricing'].get(
             'estimated_costs_per_unit', ''
         )
