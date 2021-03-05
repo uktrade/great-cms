@@ -240,6 +240,23 @@ a {
   color: #fce9e9;
 }
 
+.bg-colour-blue-deep-10 {
+  background-color: #e9e7ed
+}
+
+/* Borders */
+.border-t-1-blue-deep-20 {
+  border-top: 1pt solid #d2d0da;
+}
+.border-b-1-blue-deep-20 {
+  border-bottom: 1pt solid #d2d0da;
+}
+.border-y-1-blue-deep-20 {
+  border-top: 1pt solid #d2d0da;
+  border-bottom: 1pt solid #d2d0da;
+}
+
+
 /* Horizontal rules */
 .hr {
   height: 1pt;
@@ -371,6 +388,9 @@ table {
 .pad-0 {
   padding: 0;
 }
+.pad-05 {
+  padding: 2.5pt;
+}
 .pad-1 {
   padding: 5pt;
 }
@@ -392,6 +412,9 @@ table {
 .pad-t-1 {
   padding-top: 5pt;
 }
+.pad-t-05 {
+  padding-top: 2.5pt;
+}
 .pad-t-2 {
   padding-top: 10pt;
 }
@@ -406,6 +429,9 @@ table {
 }
 .pad-b-0 {
   padding-bottom: 0;
+}
+.pad-b-05 {
+  padding-bottom: 2.5pt;
 }
 .pad-b-1 {
   padding-bottom: 5pt;
@@ -425,6 +451,10 @@ table {
 .pad-y-0 {
   padding-top: 0;
   padding-bottom: 0;
+}
+.pad-y-05 {
+  padding-top: 2.5pt;
+  padding-bottom: 2.5pt;
 }
 .pad-y-1 {
   padding-top: 5pt;
@@ -450,6 +480,10 @@ table {
   padding-top: 0;
   padding-bottom: 0;
 }
+.pad-x-05 {
+  padding-left: 2.5pt;
+  padding-right: 2.5pt;
+}
 .pad-x-1 {
   padding-left: 5pt;
   padding-right: 5pt;
@@ -473,6 +507,9 @@ table {
 .pad-r-0 {
   padding-right: 0;
 }
+.pad-r-05 {
+  padding-right: 2.5pt;
+}
 .pad-r-1 {
   padding-right: 5pt;
 }
@@ -493,6 +530,9 @@ table {
 }
 .pad-l-1 {
   padding-left: 5pt;
+}
+.pad-l-05 {
+  padding-left: 2.5pt;
 }
 .pad-l-2 {
   padding-left: 10pt;
