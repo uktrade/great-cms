@@ -4,7 +4,7 @@ from great_components.decorators import skip_ga360
 
 from exportplan import api, views
 
-LOGIN_URL = reverse_lazy('core:login')
+LOGIN_URL = reverse_lazy('core:signup')
 
 app_name = 'exportplan'
 

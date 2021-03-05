@@ -2,7 +2,7 @@
 # If CMS slugs change they should be changed here to prevent 404.
 
 DASHBOARD_URL = '/dashboard/'
-LOGIN_URL = '/login/'
+LOGIN_URL = '/signup/'
 EXPORT_PLAN_DASHBOARD_URL = '/export-plan/dashboard/'
 
 PRIVACY_NOTICE_URL = '/privacy-notice/'
