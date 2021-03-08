@@ -233,12 +233,10 @@ def test_export_plan_mixin(
     }
     assert response.context_data['export_plan'] == export_plan_data
     assert response.context_data['export_plan_progress'] == {
-        'export_plan_progress': {
-            'sections_total': 10,
-            'sections_completed': 1,
-            'percentage_completed': 0.1,
-            'section_progress': export_plan_section_progress_data,
-        }
+        'sections_total': 10,
+        'sections_completed': 1,
+        'percentage_completed': 0.1,
+        'section_progress': export_plan_section_progress_data,
     }
 
 
@@ -447,10 +445,8 @@ def test_exportplan_dashboard(
     assert len(context_data.get('sections')) == 10
     assert context_data.get('sections')[0].get('url') == '/export-plan/section/about-your-business/'
     assert context_data['export_plan_progress'] == {
-        'export_plan_progress': {
-            'sections_total': 10,
-            'sections_completed': 1,
-            'percentage_completed': 0.1,
-            'section_progress': export_plan_section_progress_data,
-        },
+        'sections_total': 10,
+        'sections_completed': 1,
+        'percentage_completed': 0.1,
+        'section_progress': export_plan_section_progress_data,
     }

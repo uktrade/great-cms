@@ -6,12 +6,6 @@ from exportplan.core import data, helpers
 from exportplan.core.processor import ExportPlanProcessor
 
 
-def test_calculate_ep_section_progress(export_plan_data, export_plan_section_progress_data):
-    progress = ExportPlanProcessor(export_plan_data).calculate_ep_section_progress()
-
-    assert progress == export_plan_section_progress_data
-
-
 @pytest.mark.parametrize(
     'ui_progress_data, expected',
     [
@@ -69,7 +63,7 @@ def test_export_plan_processor_calculate_ep_progress(
 ):
     export_plan_data = {'ui_progress': ui_progress_data}
     mock_get_exportplan.return_value = export_plan_data
-    ep_progress = ExportPlanProcessor(export_plan_data).calculate_ep_progress()['export_plan_progress']
+    ep_progress = ExportPlanProcessor(export_plan_data).calculate_ep_progress()
     assert ep_progress['sections_total'] == len(data.SECTION_SLUGS)
     assert ep_progress['sections_completed'] == complete
     assert ep_progress['percentage_completed'] == percentage_complete
@@ -111,5 +105,4 @@ def test_export_plan_processor_get_current_url_country_required(export_plan_data
 
 def test_export_plan_processor_calculate_ep_section_progress(user, export_plan_data, export_plan_section_progress_data):
     export_plan_parser = ExportPlanProcessor(export_plan_data)
-
     assert export_plan_parser.calculate_ep_section_progress() == export_plan_section_progress_data
