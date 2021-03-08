@@ -517,7 +517,7 @@ def test_redirection_for_unauthenticated_user(
     for page in pages:
         response = client.get(page.url, follow=False)
         assert response.status_code == 302
-        assert response._headers['location'] == ('Location', '/login/')
+        assert response._headers['location'] == ('Location', f'/signup/?next={page.url}')
 
     # Show an authenticated user can still get in there
     client.force_login(user)

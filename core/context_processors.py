@@ -1,5 +1,6 @@
 from django.conf import settings
 
+from core import cms_slugs
 from directory_constants import choices, urls
 
 
@@ -30,6 +31,13 @@ def analytics_vars(request):
     return {
         'GOOGLE_TAG_MANAGER_ID': settings.GOOGLE_TAG_MANAGER_ID,
         'GOOGLE_TAG_MANAGER_ENV': settings.GOOGLE_TAG_MANAGER_ENV,
+    }
+
+
+def cms_slug_urls(request):
+    return {
+        'DASHBOARD_URL': cms_slugs.DASHBOARD_URL,
+        'LOGIN_URL': cms_slugs.LOGIN_URL,
     }
 
 
