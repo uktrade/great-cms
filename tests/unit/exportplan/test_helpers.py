@@ -4,7 +4,6 @@ import pytest
 
 from directory_api_client import api_client
 from exportplan.core import helpers
-from exportplan.core.parsers import ExportPlanParser
 from tests.helpers import create_response
 
 
@@ -144,23 +143,13 @@ def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company
     assert exportplan_data == {'target_markets': [{'country': 'China'}]}
 
 
-def test_export_plan_parser_getting_paid_labels(user, export_plan_data):
-    export_plan_parser = ExportPlanParser(export_plan_data)
-    assert export_plan_parser.getting_paid_incoterms_transport_label == 'Ex Works (EXW)'
-    assert export_plan_parser.getting_paid_payment_method_label == 'Credit or debit card payments, Merchant services'
-
-
 def test_get_export_plan_pdf_context(user, get_request):
     pdf_context = helpers.get_export_plan_pdf_context(get_request)
 
-    assert pdf_context['export_plan'] == get_request.user.export_plan.data
+    assert len(pdf_context['export_plan']) == len(get_request.user.export_plan.data)
     assert pdf_context['user'] == get_request.user
     assert pdf_context['sections'] is not None
     assert pdf_context['calculated_pricing'] is not None
-    assert pdf_context['getting_paid_payment_method_label'] == 'Credit or debit card payments, Merchant services'
-    assert pdf_context['getting_paid_incoterms_transport_label'] == 'Ex Works (EXW)'
-    assert pdf_context['total_cost_and_price_unit_value'] == '22.0 metre(s)'
-    assert pdf_context['total_cost_and_price_period_label'] == '5.0 day(s)'
     assert pdf_context['host_url'] == 'http://testserver'
 
 
@@ -510,11 +499,3 @@ def test_update_ui_options_target_ages_not_required(mock_update_export_plan, exp
         sso_session_id=1, target_ages=['21-15'], export_plan=export_plan_data, section_name='target-market'
     )
     assert mock_update_export_plan.call_count == 0
-
-
-def test_export_plan_parser(export_plan_data):
-
-    ep_parser = ExportPlanParser(export_plan_data)
-    assert ep_parser.data == export_plan_data
-    assert ep_parser.export_country_name == export_plan_data['export_countries'][0]['country_name']
-    assert ep_parser.export_commodity_code == export_plan_data['export_commodity_codes'][0]['commodity_code']

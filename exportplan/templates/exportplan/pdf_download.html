@@ -186,9 +186,9 @@
 
       <h3 class="pad-b-1">Getting paid</h3>
       <h6 class="body-gamma pad-y-0">Payment method</h6>
-      <p class="pad-t-0"><strong>{{ getting_paid_payment_method_labe|default:"NA" }}</strong></p>
+      <p class="pad-t-0"><strong>{{ export_plan.getting_paid.payment_method.payment_method_label|default:"NA" }}</strong></p>
       <h6 class="body-gamma pad-y-0">Incoterms</h6>
-      <p class="pad-t-0"><strong>{{ getting_paid_incoterms_transport_labe|default:"NA" }}</strong></p>
+      <p class="pad-t-0"><strong>{{ export_plan.getting_paid.incoterms.incoterms_transport_label|default:"NA" }}</strong></p>
     </td>
   </tr>
 </table>
@@ -602,14 +602,14 @@
         <tr class="pad-b-2">
           <td class="col-10-10">
             <h3 class="pad-y-0">Route to market {{ forloop.counter }}</h3>
-            <p class="pad-t-0">{{ route.route }}</p>
+            <p class="pad-t-0">{{ route.route_label }}</p>
           </td>
         </tr>
 
         <tr class="pad-b-2">
           <td class="col-10-10">
             <h3 class="pad-y-0">How do we promote our product?</h3>
-            <p class="pad-t-0">{{ route.promote }}</p>
+            <p class="pad-t-0">{{ route.promote_label }}</p>
           </td>
         </tr>
 
@@ -776,9 +776,9 @@
             <!-- Nested table -->
             <table class="layout">
               <tr class="pad-b-0 text-align-centre border-y-1-blue-deep-20">
-                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ total_cost_and_price_unit_value|default:"NA" }} units</strong></td>
+                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ export_plan.total_cost_and_price.first_period_period_label|default:"NA" }} units</strong></td>
                 <td class="col-12-4 pad-t-05">over the next</td>
-                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ total_cost_and_price_period_label|default:"NA" }}</strong></td>
+                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ export_plan.total_cost_and_price.second_period_period_label|default:"NA" }}</strong></td>
               </tr>
             </table>
             <!-- ./Nested table -->
@@ -927,7 +927,7 @@
             <table class="layout">
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Payment method</td>
-                <td class="col-10-4 pad-t-05 text-align-right"><strong>{{ export_plan.getting_paid.payment_method.methods }}</strong></td>
+                <td class="col-10-4 pad-t-05 text-align-right"><strong>{{ export_plan.getting_paid.payment_method.payment_method_label }}</strong></td>
               </tr>
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Payment terms</td>
@@ -935,7 +935,7 @@
               </tr>
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Incoterms</td>
-                <td class="col-10-4 pad-t-05 text-align-right"><strong>{{ export_plan.getting_paid.incoterms.transport }}</strong></td>
+                <td class="col-10-4 pad-t-05 text-align-right"><strong>{{ export_plan.getting_paid.incoterms.incoterms_transport_label }}</strong></td>
               </tr>
             </table>
             <!-- ./Nested table -->
