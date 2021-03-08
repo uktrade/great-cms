@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load url_map %}
 
 <footer id="great-footer" class="great-footer light-grey-text background-great-blue" dir="ltr" data-ga-section="footer">
 
@@ -11,22 +12,18 @@
   <nav class="great-footer-links container">
     <ul class="great-footer-site-links">
         <li>
-            <a id="footer-contact" href="{{ services_urls.contact_us }}">{% trans 'Contact us' %}</a>
+            <a href="{% url_map 'privacy' %}">Privacy notice</a>
         </li>
         <li>
-            <a id="footer-privacy-and-cookies" href="{{ header_footer_urls.privacy_and_cookies }}">{% trans 'Privacy and cookies' %}</a>
+            <a href="{% url_map 'terms' %}">Terms and conditions</a>
         </li>
         <li>
-            <a id="footer-terms-and-conditions" href="{{ header_footer_urls.terms_and_conditions }}">{% trans 'Terms and conditions' %}</a>
+            <a href="{% url 'core:contact-us-help' %}">Contact us</a>
         </li>
         <li>
-            <a id="footer-accessibility" href="{{ header_footer_urls.accessibility }}">Accessibility</a>
+            <a class='m-r-m' href="https://{{ dit_on_govuk }}" target="_blank"
+                rel="noopener">Department for International Trade on GOV.UK</a>
         </li>
-        {% block footer_performance_link %}{% endblock %}
-        <li>
-            <a id="footer-dit" href="{{ header_footer_urls.dit }}" title="{% trans 'Opens in a new window' %}" rel="noopener noreferrer" target="_blank">{% trans 'Department for International Trade on GOV.UK' %}</a>
-        </li>
-        {% block footer_domestic_international_link %}{% endblock %}
     </ul>
   </nav>
 

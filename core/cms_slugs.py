@@ -3,6 +3,7 @@
 
 DASHBOARD_URL = '/dashboard/'
 LOGIN_URL = '/login/'
+SIGNUP_URL = '/signup/'
 EXPORT_PLAN_DASHBOARD_URL = '/export-plan/dashboard/'
 
 PRIVACY_NOTICE_URL = '/privacy-notice/'

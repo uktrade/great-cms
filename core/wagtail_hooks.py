@@ -7,6 +7,7 @@ import boto3
 import readtime
 from bs4 import BeautifulSoup
 from django.conf import settings
+from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.files.storage import DefaultStorage
 from django.core.serializers.json import DjangoJSONEncoder
@@ -44,7 +45,12 @@ def anonymous_user_required(page, request, serve_args, serve_kwargs):
 def authenticated_user_required(page, request, serve_args, serve_kwargs):
     if isinstance(page, mixins.AuthenticatedUserRequired):
         if not request.user.is_authenticated:
-            return redirect(page.authenticated_user_required_redirect_url)
+            onward_destination = request.get_full_path()  # this includes any querystrings
+            dest = page.authenticated_user_required_redirect_url
+            if onward_destination:
+                dest += f'?{REDIRECT_FIELD_NAME}={onward_destination}'
+
+            return redirect(dest)
 
 
 @hooks.register('before_serve_page')
