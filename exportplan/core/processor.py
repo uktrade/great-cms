@@ -74,10 +74,8 @@ class ExportPlanProcessor:
         progress_items = self.data.get('ui_progress', {})
         completed = [True for v in progress_items.values() if v.get('is_complete')]
         return {
-            'export_plan_progress': {
-                'sections_completed': len(completed),
-                'sections_total': len(data.SECTION_SLUGS),
-                'percentage_completed': len(completed) / len(data.SECTION_SLUGS) if len(completed) > 0 else 0,
-                'section_progress': self.calculate_ep_section_progress(),
-            }
+            'sections_completed': len(completed),
+            'sections_total': len(data.SECTION_SLUGS),
+            'percentage_completed': len(completed) / len(data.SECTION_SLUGS) if len(completed) > 0 else 0,
+            'section_progress': self.calculate_ep_section_progress(),
         }

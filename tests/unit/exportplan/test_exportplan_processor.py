@@ -79,7 +79,7 @@ def test_export_plan_processor_calculate_ep_progress(
 ):
     export_plan_data = {'ui_progress': ui_progress_data}
     mock_get_exportplan.return_value = export_plan_data
-    ep_progress = ExportPlanProcessor(export_plan_data).calculate_ep_progress()['export_plan_progress']
+    ep_progress = ExportPlanProcessor(export_plan_data).calculate_ep_progress()
     assert ep_progress['sections_total'] == len(data.SECTION_SLUGS)
     assert ep_progress['sections_completed'] == complete
     assert ep_progress['percentage_completed'] == percentage_complete
