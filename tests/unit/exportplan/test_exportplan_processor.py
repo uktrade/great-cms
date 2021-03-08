@@ -111,5 +111,4 @@ def test_export_plan_processor_get_current_url_country_required(export_plan_data
 
 def test_export_plan_processor_calculate_ep_section_progress(user, export_plan_data, export_plan_section_progress_data):
     export_plan_parser = ExportPlanProcessor(export_plan_data)
-
     assert export_plan_parser.calculate_ep_section_progress() == export_plan_section_progress_data

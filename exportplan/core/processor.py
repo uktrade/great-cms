@@ -18,7 +18,6 @@ class ExportPlanProcessor:
         (slugify(data.COSTS_AND_PRICING), 'total_cost_and_price'),
         (slugify(data.GETTING_PAID), 'getting_paid'),
         (slugify(data.FUNDING_AND_CREDIT), 'funding_and_credit'),
-        (slugify(data.PAYMENT_METHODS), 'getting_paid'),
         (slugify(data.TRAVEL_AND_BUSINESS_POLICIES), 'travel_business_policies'),
         (slugify(data.BUSINESS_RISK), 'travel_business_policies'),
     ]
@@ -29,18 +28,19 @@ class ExportPlanProcessor:
         self.seralizer.is_valid()
 
     def calculate_ep_section_progress(self):
-        progress = {}
+        progress = []
+        sections = dict(data.SECTIONS)
         for field_map in self.FIELD_NAME_MAP:
             total = 0
             populated = 0
             field_class = self.seralizer.fields[field_map[1]]
+            section_key = sections[field_map[0]]['url']
             if isinstance(field_class, Serializer):
                 total = len(getattr(field_class, 'fields'))
                 for field in getattr(field_class, 'fields'):
                     if self.seralizer.initial_data.get(field_map[1], {}).get(field):
                         populated += 1
-            progress[field_map[1]] = {'total': total, 'populated': populated}
-
+            progress.append({'total': total, 'populated': populated, 'url': section_key})
         return progress
 
     def build_current_url(self, slug):
