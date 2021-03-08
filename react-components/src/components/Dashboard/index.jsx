@@ -1,32 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { ComingSoon } from '@src/components/Sidebar/ComingSoon'
 import { analytics } from '../../Helpers'
 
-export const Dashboard = ({ sections }) => {
-  const [modal, setModal] = useState(false)
-  const openComingSoonModal = (e) => {
-    setModal(true)
-    // record click on disable section
-    analytics({
-      event: 'ctaFeature',
-      featureTitle: e.target.dataset.sectiontitle,
-    })
-  }
+export const Dashboard = memo(
+  ({ sections, exportPlanProgress: { section_progress } }) => {
+    const [modal, setModal] = useState(false)
+    const openComingSoonModal = (e) => {
+      setModal(true)
+      // record click on disable section
+      analytics({
+        event: 'ctaFeature',
+        featureTitle: e.target.dataset.sectiontitle,
+      })
+    }
 
-  return (
-    <>
-      <ComingSoon onClick={() => setModal(false)} isOpen={modal} />
-      {sections.map(
-        ({
-          title,
-          url,
-          disabled,
-          is_complete,
-          completed = '0',
-          total = '0',
-        }) => (
+    return (
+      <>
+        <ComingSoon onClick={() => setModal(false)} isOpen={modal} />
+        {sections.map(({ title, url, disabled, is_complete }) => (
           <div className="c-1-3-xl c-1-2-m" key={url}>
             <div
               className={`bg-white m-b-s section-list__item ${
@@ -84,18 +77,20 @@ export const Dashboard = ({ sections }) => {
                   <div className="p-t-s p-b-xs p-h-xs">
                     <h3 className="h-xs text-blue-deep-80 p-0">{title}</h3>
                     <p className="m-b-0 m-t-xxs">
-                      {completed} out of {total} questions answered
+                      {section_progress.find((x) => x.url === url).populated}{' '}
+                      out of {section_progress.find((x) => x.url === url).total}{' '}
+                      questions answered
                     </p>
                   </div>
                 </a>
               )}
             </div>
           </div>
-        )
-      )}
-    </>
-  )
-}
+        ))}
+      </>
+    )
+  }
+)
 
 Dashboard.propTypes = {
   sections: PropTypes.arrayOf(
@@ -108,4 +103,13 @@ Dashboard.propTypes = {
       total: PropTypes.string,
     })
   ).isRequired,
+  exportPlanProgress: PropTypes.shape({
+    section_progress: PropTypes.arrayOf(
+      PropTypes.shape({
+        populated: PropTypes.string,
+        total: PropTypes.string,
+        url: PropTypes.string,
+      })
+    ),
+  }).isRequired,
 }
