@@ -31,6 +31,7 @@
       </div>
       {% if page.intro_ctas %}
       <div class="column-quarter-l links">
+        {% if FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS %}
         <div class="panel-vertical-narrow content-list padding-top-30">
           <ul id="country-guide-intro-ctas">
             {% for cta in page.intro_ctas %}
@@ -42,6 +43,7 @@
             {% endfor %}
           </ul>
         </div>
+        {% endif %}
       </div>
       {% endif %}
     </div>
@@ -147,10 +149,13 @@
           {% include 'components/cta_card.html' with with_arrow=True image_url=market_guide_image_url text='Check duties and customs procedures for exporting goods' url=page.duties_and_custom_procedures_cta_link external_link=True %}
         </div>
       {% endif %}
+
+      {% if FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS %}
       <div class="column-full column-half-l column-third-xl margin-bottom-0">
         {% static 'images/country-guide-contact.png' as contact_us_image_url %}
         {% include 'components/cta_card.html' with with_arrow=True image_url=contact_us_image_url text="Get in touch with one of our trade advisers" url=services_urls.office_finder %}
       </div>
+      {% endif %}
     </div>
   </div>
 </section>
