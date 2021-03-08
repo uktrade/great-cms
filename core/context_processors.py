@@ -35,7 +35,10 @@ def analytics_vars(request):
 
 
 def cms_slug_urls(request):
-    return {'DASHBOARD_URL': cms_slugs.DASHBOARD_URL}
+    return {
+        'DASHBOARD_URL': cms_slugs.DASHBOARD_URL,
+        'LOGIN_URL': cms_slugs.LOGIN_URL,
+    }
 
 
 def migration_support_vars(request):

@@ -51,7 +51,7 @@ class AnonymousUserRequired:
 
 class AuthenticatedUserRequired:
     # used by core.wagtail_hooks.authenticated_user_required
-    authenticated_user_required_redirect_url = cms_slugs.LOGIN_URL
+    authenticated_user_required_redirect_url = cms_slugs.SIGNUP_URL
 
 
 class WagtailGA360Mixin:
