@@ -8,7 +8,7 @@
 - GP2-1784 - Stop breadcrumbs showing for Structural Page
 
 ### Implemented enhancements
-
+- GP2-1550 - Added SEO fields for guidance pages
 - GP2-1731 - Logged out header modifications
 - GP2-1727 - Add trade barrier feature flag
 - GP2-1726 - Add ctas to domestic homepage
