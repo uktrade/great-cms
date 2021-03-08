@@ -9,6 +9,7 @@
 
 ### Implemented enhancements
 
+- GP2-1778 - Support post-login and post-signup redirection to original requested destination
 - GP2-1729 - Add learning banner
 - GP2-1731 - Logged out header modifications
 - GP2-1727 - Add trade barrier feature flag
