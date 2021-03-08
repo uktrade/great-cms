@@ -1,7 +1,5 @@
 import csv
 
-from django.core.exceptions import FieldDoesNotExist
-from django.utils.encoding import force_str
 from django.utils.html import format_html_join
 from wagtail.admin.views.mixins import Echo, SpreadsheetExportMixin
 from wagtail.contrib.modeladmin.helpers import ButtonHelper
@@ -12,7 +10,6 @@ from core.models import CaseStudy
 
 
 class CaseStudyAdminButtonHelper(ButtonHelper):
-
     view_button_classnames = ['button-small', 'icon', 'icon-doc', 'btn-group']
 
     def view_button(self, obj):
@@ -33,32 +30,22 @@ class CaseStudyAdminButtonHelper(ButtonHelper):
 
 
 class CaseStudySpreadsheetExportMixin(SpreadsheetExportMixin):
+
     columns_to_convert = [
         'associated_country_code_tags',
         'associated_hs_code_tags',
         'associated_region_code_tags',
         'associated_trading_bloc_code_tags',
         'get_related_pages',
-        # 'modified': 'Association',
+        'modified',
     ]
-    FORMAT_CSV = "csv"
-    FORMATS = (FORMAT_CSV,)
-
-    extra_heading = {'attribute': 'Attribute', 'association': 'Association'}
-
-    def get_heading(self, queryset, field):
-        """ Get the heading label for a given field for a spreadsheet generated from queryset """
-        heading_override = self.export_headings.get(field)
-        if heading_override:
-            return force_str(heading_override)
-        try:
-            return force_str(queryset.model._meta.get_field(field).verbose_name.title())
-        except (AttributeError, FieldDoesNotExist):
-            return force_str(field)
 
     def stream_csv(self, queryset):
         """ Generate a csv file line by line from queryset, to be used in a StreamingHTTPResponse """
-        writer = csv.DictWriter(Echo(), fieldnames=self.list_export)
+        writer = csv.DictWriter(
+            Echo(),
+            fieldnames=[field for field in self.list_export if field not in self.columns_to_convert],
+        )
         yield writer.writerow(
             {
                 field: self.get_heading(queryset, field)
@@ -70,8 +57,35 @@ class CaseStudySpreadsheetExportMixin(SpreadsheetExportMixin):
         for item in queryset:
             yield self.write_csv_row(writer, self.to_row_dict(item))
 
-    def write_csv_row(self, writer, row_dict):
+    def create_row_by_tag(self, row_dict, processed_row):
         processed_row_list = []
+        for f in self.columns_to_convert:
+            # No tagged value then just append row for write
+            attr_values = [] if row_dict.get(f) == '-' else row_dict.get(f)
+            if f == 'get_related_pages':
+                attr_values = [] if row_dict.get(f) in ['-', None] else row_dict.get(f).split('<br>')
+
+            if f == 'modified':
+                tag = {'attribute': attr_values, 'association': f}
+                processed_row_with_tag = dict(processed_row, **tag)
+                processed_row_list.append(processed_row_with_tag)
+                continue
+
+            if attr_values:
+                for tagged_value in attr_values:
+                    tag = {'attribute': tagged_value, 'association': f}
+                    processed_row_with_tag = dict(processed_row, **tag)
+                    processed_row_list.append(processed_row_with_tag)
+        return processed_row_list
+
+    def write_multiple_rows(self, writer, processed_row_list):
+        processed_byte_string = b''
+        for row in processed_row_list:
+            processed_byte_string += writer.writerow(row)
+        return processed_byte_string
+
+    def write_csv_row(self, writer, row_dict):
+
         processed_row = {}
         common_fields = {k: v for k, v in row_dict.items() if k in ['title', 'summary_context', 'lead_title']}
         for field, value in common_fields.items():
@@ -79,20 +93,7 @@ class CaseStudySpreadsheetExportMixin(SpreadsheetExportMixin):
             processed_value = preprocess_function(value) if preprocess_function else value
             processed_row[field] = processed_value
 
-        for f in self.columns_to_convert:
-
-            # No tagged value then just append row for write
-            attr_values = [] if row_dict.get(f) == '-' else row_dict.get(f)
-            if f == 'get_related_pages':
-                attr_values = [] if row_dict.get(f) == '-' else row_dict.get(f).split('<br>')
-            if attr_values:
-                for tagged_value in attr_values:
-                    if tagged_value:
-                        tag = {'attribute': tagged_value, 'association': f}
-                        processed_row_with_tag = dict(processed_row, **tag)
-                        processed_row_list.append(processed_row_with_tag)
-
-        return writer.writerows(processed_row_list)
+        return self.write_multiple_rows(writer, self.create_row_by_tag(row_dict, processed_row))
 
 
 class CaseStudyIndexView(CaseStudySpreadsheetExportMixin, IndexView):
@@ -119,7 +120,7 @@ class CaseStudyAdmin(ModelAdmin):
         'associated_region_code_tags',
         'associated_trading_bloc_code_tags',
         'get_related_pages',
-        # 'modified',
+        'modified',
     ]
     list_display = (
         '__str__',
