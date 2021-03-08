@@ -59,7 +59,7 @@ def export_plan_data(cost_pricing_data):
         'about_your_business': {'story': 'new story'},
         'adaptation_target_market': {},
         'target_market_documents': {'document_name': 'test'},
-        'route_to_markets': {'route': 'test'},
+        'route_to_markets': [{'route': 'DIRECT_SALES', 'promote': 'ONLINE_MARKETING'}],
         'marketing_approach': {'resources': 'xyz'},
         'company_objectives': {},
         'objectives': {'rationale': 'business rationale'},
