@@ -426,6 +426,7 @@ class MarketsTopicLandingPagePanels(TopicLandingPagePanels):
 class GuidancePagePanels:
     content_panels = [
         StreamFieldPanel('body'),
+        SearchEngineOptimisationPanel(),
     ]
     settings_panels = [
         MultiFieldPanel(
