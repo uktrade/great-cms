@@ -5,6 +5,7 @@ from wagtail.admin.views.mixins import Echo, SpreadsheetExportMixin
 from wagtail.contrib.modeladmin.helpers import ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail.contrib.modeladmin.views import IndexView
+from xlsxwriter.workbook import Workbook
 
 from core.models import CaseStudy
 
@@ -85,15 +86,72 @@ class CaseStudySpreadsheetExportMixin(SpreadsheetExportMixin):
         return processed_byte_string
 
     def write_csv_row(self, writer, row_dict):
-
         processed_row = {}
         common_fields = {k: v for k, v in row_dict.items() if k in ['title', 'summary_context', 'lead_title']}
         for field, value in common_fields.items():
             preprocess_function = self.get_preprocess_function(field, value, self.FORMAT_CSV)
             processed_value = preprocess_function(value) if preprocess_function else value
             processed_row[field] = processed_value
-
         return self.write_multiple_rows(writer, self.create_row_by_tag(row_dict, processed_row))
+
+    def write_xlsx_common_fields(self, row_number, worksheet, common_fields):
+        for col_number, (field, value) in enumerate(common_fields.items()):
+            preprocess_function = self.get_preprocess_function(field, value, self.FORMAT_XLSX)
+            processed_value = preprocess_function(value) if preprocess_function else value
+            worksheet.write(row_number, col_number, processed_value)
+
+    def write_xlsx_rows(self, worksheet, row_dict):
+        row_number = 1
+        common_fields = {k: v for k, v in row_dict.items() if k in ['title', 'summary_context', 'lead_title']}
+
+        for f in self.columns_to_convert:
+            # No tagged value then just append row for write
+            attr_values = [] if row_dict.get(f) == '-' else row_dict.get(f)
+            if f == 'get_related_pages':
+                attr_values = [] if row_dict.get(f) in ['-', None] else row_dict.get(f).split('<br>')
+
+            if f == 'modified':
+                row_number += 1
+                self.write_xlsx_common_fields(row_number, worksheet, common_fields)
+                worksheet.write(row_number, 3, f)
+                worksheet.write(row_number, 4, row_dict.get(f))
+                continue
+
+            if attr_values:
+                for tagged_value in attr_values:
+                    row_number += 1
+                    self.write_xlsx_common_fields(row_number, worksheet, common_fields)
+                    worksheet.write(row_number, 3, f)
+                    worksheet.write(row_number, 4, tagged_value)
+            else:
+                self.write_xlsx_common_fields(row_number, worksheet, common_fields)
+                worksheet.write(row_number, 3, '')
+                worksheet.write(row_number, 4, '')
+                row_number += 1
+            row_number += 1
+
+    def write_xlsx(self, queryset, output):
+        """ Write an xlsx workbook from a queryset"""
+        workbook = Workbook(
+            output,
+            {
+                "in_memory": True,
+                "constant_memory": True,
+                "remove_timezone": True,
+                "default_date_format": "dd/mm/yy hh:mm:ss",
+            },
+        )
+        worksheet = workbook.add_worksheet()
+
+        for col_number, field in enumerate(
+            [field for field in self.list_export if field not in self.columns_to_convert]
+        ):
+            worksheet.write(0, col_number, self.get_heading(queryset, field))
+
+        for row_number, item in enumerate(queryset):
+            self.write_xlsx_rows(worksheet, self.to_row_dict(item))
+
+        workbook.close()
 
 
 class CaseStudyIndexView(CaseStudySpreadsheetExportMixin, IndexView):
