@@ -21,135 +21,7 @@
 
 <!-- HTML Content -->
 
-<!-- P9 cost and pricing -->
-<table class="layout page-header">
-  <tr>
-    <td>
-      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
 
-<table class="layout">
-  <tr>
-    <td>
-      <h1 class="pad-t-3 pad-b-2">Cost and pricing</h1>
-    </td>
-  </tr>
-  <tr>
-    <td class="col-10-7 align-top">
-      <!-- Nested table -->
-      <table>
-        <tr class="pad-b-2">
-          <td class="col-10-10">
-            <h2 class="pad-y-0">Direct cost</h2>
-          </td>
-        </tr>
-        <tr class="pad-b-3">
-          <td>
-            <!-- Nested table -->
-            <table class="layout">
-              <tr class="pad-b-0 border-t-1-blue-deep-20">
-                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Product costs</td>
-                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.direct_costs.product_costs|default:"NA" }} per unit</strong></td>
-              </tr>
-              <tr class="pad-b-0">
-                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Labour per unit</td>
-                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.direct_costs.labour_costs|default:"NA" }} per unit</strong></td>
-              </tr>
-              <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
-                <td class="col-10-6 pad-t-05">Direct costs total</td>
-                <td class="col-10-1 pad-t-05"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 text-align-right"><strong>{{ export_plan.total_direct_costs }} per unit</strong></td>
-              </tr>
-            </table>
-            <!-- ./Nested table -->
-          </td>
-        </tr>
-
-        <tr class="pad-b-2">
-          <td class="col-10-10">
-            <h2 class="pad-y-0">Overhead cost</h2>
-          </td>
-        </tr>
-        <tr class="pad-b-3">
-          <td>
-            <!-- Nested table -->
-            <table class="layout ">
-              <tr class="pad-b-0 border-t-1-blue-deep-20">
-                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Product adaptation</td>
-                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.product_adaption|default:"NA" }}</strong></td>
-              </tr>
-              <tr class="pad-b-0">
-                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Packaging and labelling</td>
-                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.uproduct_adaption|default:"NA" }}</strong></td>
-              </tr>
-              <tr class="pad-b-0">
-                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Freight and logistics</td>
-                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.freight_logistics|default:"NA" }}</strong></td>
-              </tr>
-              <tr class="pad-b-0">
-                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Agent and distributor fees</td>
-                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.agent_distributor_fees|default:"NA" }}</strong></td>
-              </tr>
-              <tr class="pad-b-0">
-                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Marketing</td>
-                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.marketing|default:"NA" }}</strong></td>
-              </tr>
-              <tr class="pad-b-0">
-                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Insurance</td>
-                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.insurance|default:"NA" }}</strong></td>
-              </tr>
-              <tr class="pad-b-0">
-                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Other overhead costs</td>
-                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.other_overhead_costs|default:"NA" }}</strong></td>
-              </tr>
-              <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
-                <td class="col-10-6 pad-t-05">Direct costs total</td>
-                <td class="col-10-1 pad-t-05"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 text-align-right"><strong>{{ export_plan.total_overhead_costs|default:"NA" }}</strong></td>
-              </tr>
-            </table>
-            <!-- ./Nested table -->
-          </td>
-        </tr>
-        <tr class="pad-b-2">
-          <td class="col-10-10">
-            <h2 class="pad-y-0">Number of units we want to export</h2>
-          </td>
-        </tr>
-        <tr class="pad-b-3">
-          <td>
-            <!-- Nested table -->
-            <table class="layout">
-              <tr class="pad-b-0 text-align-centre border-y-1-blue-deep-20">
-                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ total_cost_and_price_unit_value|default:"NA" }}</strong></td>
-                <td class="col-12-4 pad-t-05">over the next</td>
-                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ total_cost_and_price_period_label|default:"NA" }}</strong></td>
-              </tr>
-            </table>
-            <!-- ./Nested table -->
-          </td>
-        </tr>
-      </table>
-      <!-- ./Nested table -->
-    </td>
-    <td class="col-10-3 align-top">
-    </td>
-  </tr>
-</table>
-
-<pdf:nextpage>
 
 <!-- P1 header -->
 <table class="layout layout--three-col">
@@ -786,6 +658,403 @@
       <p class="pad-t-0"><strong>&percnt;</strong></p>
       <h6 class="body-gamma pad-y-0">FLivng in rural areas</h6>
       <p class="pad-t-0"><strong>&percnt;</strong></p>
+    </td>
+  </tr>
+</table>
+
+<pdf:nextpage>
+
+<!-- P9a cost and pricing -->
+<table class="layout page-header">
+  <tr>
+    <td>
+      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.export_countries.0.country_name }}</span></strong></p>
+    </td>
+  </tr>
+  <tr class="hr hr--red-150"><td></td></tr>
+</table>
+
+<table class="layout">
+  <tr>
+    <td>
+      <h1 class="pad-t-3 pad-b-2">Cost and pricing</h1>
+    </td>
+  </tr>
+  <tr>
+    <td class="col-10-7 align-top">
+      <!-- Nested table -->
+      <table>
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h2 class="pad-y-0">Direct cost</h2>
+          </td>
+        </tr>
+        <tr class="pad-b-3">
+          <td>
+            <!-- Nested table -->
+            <table class="layout">
+              <tr class="pad-b-0 border-t-1-blue-deep-20">
+                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Product costs</td>
+                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.direct_costs.product_costs|default:"NA" }} per unit</strong></td>
+              </tr>
+              <tr class="pad-b-0">
+                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Labour per unit</td>
+                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.direct_costs.labour_costs|default:"NA" }} per unit</strong></td>
+              </tr>
+              <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
+                <td class="col-10-6 pad-t-05">Direct costs total</td>
+                <td class="col-10-1 pad-t-05"><strong>GBP</strong></td>
+                <td class="col-10-3 pad-t-05 text-align-right"><strong>{{ export_plan.total_direct_costs }} per unit</strong></td>
+              </tr>
+            </table>
+            <!-- ./Nested table -->
+          </td>
+        </tr>
+
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h2 class="pad-y-0">Overhead cost</h2>
+          </td>
+        </tr>
+        <tr class="pad-b-3">
+          <td>
+            <!-- Nested table -->
+            <table class="layout ">
+              <tr class="pad-b-0 border-t-1-blue-deep-20">
+                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Product adaptation</td>
+                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.product_adaption|default:"NA" }}</strong></td>
+              </tr>
+              <tr class="pad-b-0">
+                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Packaging and labelling</td>
+                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.uproduct_adaption|default:"NA" }}</strong></td>
+              </tr>
+              <tr class="pad-b-0">
+                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Freight and logistics</td>
+                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.freight_logistics|default:"NA" }}</strong></td>
+              </tr>
+              <tr class="pad-b-0">
+                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Agent and distributor fees</td>
+                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.agent_distributor_fees|default:"NA" }}</strong></td>
+              </tr>
+              <tr class="pad-b-0">
+                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Marketing</td>
+                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.marketing|default:"NA" }}</strong></td>
+              </tr>
+              <tr class="pad-b-0">
+                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Insurance</td>
+                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.insurance|default:"NA" }}</strong></td>
+              </tr>
+              <tr class="pad-b-0">
+                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Other overhead costs</td>
+                <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.other_overhead_costs|default:"NA" }}</strong></td>
+              </tr>
+              <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
+                <td class="col-10-6 pad-t-05">Direct costs total</td>
+                <td class="col-10-1 pad-t-05"><strong>GBP</strong></td>
+                <td class="col-10-3 pad-t-05 text-align-right"><strong>{{ export_plan.total_overhead_costs|default:"NA" }}</strong></td>
+              </tr>
+            </table>
+            <!-- ./Nested table -->
+          </td>
+        </tr>
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h2 class="pad-y-0">Number of units we want to export</h2>
+          </td>
+        </tr>
+        <tr class="pad-b-3">
+          <td>
+            <!-- Nested table -->
+            <table class="layout">
+              <tr class="pad-b-0 text-align-centre border-y-1-blue-deep-20">
+                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ total_cost_and_price_unit_value|default:"NA" }} units</strong></td>
+                <td class="col-12-4 pad-t-05">over the next</td>
+                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ total_cost_and_price_period_label|default:"NA" }}</strong></td>
+              </tr>
+            </table>
+            <!-- ./Nested table -->
+          </td>
+        </tr>
+      </table>
+      <!-- ./Nested table -->
+    </td>
+    <td class="col-10-3 align-top">
+    </td>
+  </tr>
+</table>
+
+<pdf:nextpage>
+
+<!-- P9b cost and pricing -->
+<table class="layout page-header">
+  <tr>
+    <td>
+      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.export_countries.0.country_name }}</span></strong></p>
+    </td>
+  </tr>
+  <tr class="hr hr--red-150"><td></td></tr>
+</table>
+
+<table class="layout">
+  <tr>
+    <td class="col-10-7 align-top pad-r-2">
+      <!-- Nested table -->
+      <table>
+        <tr class="pad-b-1 pad-t-4">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Final cost per unit</h3>
+            <h2 class="pad-t-0">GBP {{ export_plan.total_cost_and_price.final_cost_per_unit|default:"NA" }}</h2>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Average price per unit in {{ export_plan.export_countries.0.country_name }}</h3>
+            <h2 class="pad-t-0">GBP {{ export_plan.total_cost_and_price.average_price_per_unit|default:"NA" }}</h2>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Our net price in {{ export_plan.export_countries.0.country_name }}</h3>
+            <h2 class="pad-t-0">GBP {{ export_plan.total_cost_and_price.net_price|default:"NA" }}</h2>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Local taxes and charges in {{ export_plan.export_countries.0.country_name }}</h3>
+            <h2 class="pad-t-0">GBP {{ export_plan.total_cost_and_price.local_tax_charges|default:"NA" }}</h2>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Duty per unit</h3>
+            <h2 class="pad-t-0">GBP {{ export_plan.total_cost_and_price.duty_per_unit|default:"NA" }}</h2>
+          </td>
+        </tr>
+      </table>
+      <!-- ./Nested table -->
+    </td>
+    <td class="col-10-3 align-top">
+    </td>
+  </tr>
+</table>
+
+<pdf:nextpage>
+
+<!-- P10 funding and credit -->
+<table class="layout page-header">
+  <tr>
+    <td>
+      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.export_countries.0.country_name }}</span></strong></p>
+    </td>
+  </tr>
+  <tr class="hr hr--red-150"><td></td></tr>
+</table>
+
+<table class="layout">
+  <tr>
+    <td>
+      <h1 class="pad-t-3 pad-b-2">Funding and credit</h1>
+    </td>
+  </tr>
+  <tr>
+    <td class="col-10-7 align-top">
+      <!-- Nested table -->
+      <table>
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Our total cost</h3>
+            <h2 class="pad-t-0">GBP {{ export_plan.funding_and_credit.funding_amount_required|default:"NA" }}</h2>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">How much funding we need in {{ export_plan.export_countries.0.country_name }}</h3>
+            <h2 class="pad-t-0">GBP {{ export_plan.funding_and_credit.funding_amount_required|default:"NA" }}</h2>
+          </td>
+        </tr>
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <!-- Nested table -->
+            <table class="layout">
+              {% for funding in export_plan.funding_credit_options %}
+              <tr class="pad-b-0 border-t-1-blue-deep-20">
+                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">{{ funding.funding_option }}</td>
+                <td class="col-10-4 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ funding.amount|default:"NA" }} GBP per unit</strong></td>
+              </tr>
+              {% endfor %}
+              <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
+                <td class="col-10-6 pad-t-05">Total funding</td>
+                <td class="col-10-4 pad-t-05 text-align-right">
+                  <strong>
+                  {% if not export_plan.funding_and_credit.override_estimated_total_cost %}
+                    {{ export_plan.funding_and_credit.funding_amount_required }} GBP per unit
+                  {% else %}
+                    {{ export_plan.funding_and_credit.funding_amount_required }} GBP per unit
+                  {% endif %}
+                  </strong>
+                </td>
+              </tr>
+            </table>
+            <!-- ./Nested table -->
+          </td>
+        </tr>
+      </table>
+      <!-- ./Nested table -->
+      <!-- Nested table -->
+      <table>
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h1 class="pad-t-3 pad-b-0">Getting paid</h1>
+          </td>
+        </tr>
+        <tr class="pad-b-3">
+          <td>
+            <!-- Nested table -->
+            <table class="layout">
+              <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
+                <td class="col-10-6 pad-t-05">Payment method</td>
+                <td class="col-10-4 pad-t-05 text-align-right"><strong>{{ export_plan.getting_paid.payment_method.methods }}</strong></td>
+              </tr>
+              <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
+                <td class="col-10-6 pad-t-05">Payment terms</td>
+                <td class="col-10-4 pad-t-05 text-align-right"><strong>{{ export_plan.getting_paid.payment_terms.terms }}</strong></td>
+              </tr>
+              <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
+                <td class="col-10-6 pad-t-05">Incoterms</td>
+                <td class="col-10-4 pad-t-05 text-align-right"><strong>{{ export_plan.getting_paid.incoterms.transport }}</strong></td>
+              </tr>
+            </table>
+            <!-- ./Nested table -->
+          </td>
+        </tr>
+      </table>
+      <!-- ./Nested table -->
+    </td>
+    <td class="col-10-3 align-top">
+    </td>
+  </tr>
+</table>
+
+<pdf:nextpage>
+
+<!-- P11 travel plan -->
+<table class="layout page-header">
+  <tr>
+    <td>
+      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.export_countries.0.country_name }}</span></strong></p>
+    </td>
+  </tr>
+  <tr class="hr hr--red-150"><td></td></tr>
+</table>
+
+<table class="layout">
+  <tr>
+    <td>
+      <h1 class="pad-t-3 pad-b-2">Travel plan</h1>
+    </td>
+  </tr>
+  <tr>
+    <td class="col-10-7 align-top pad-r-2">
+      <!-- Nested table -->
+      <table>
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Travel information</h3>
+            <p class="pad-t-0">{{ export_plan.travel_business_policies.travel_information }}</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Cultural information</h3>
+            <p class="pad-t-0">{{ export_plan.travel_business_policies.cultural_information }}</p>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Languages in your target market</h3>
+            <p class="pad-t-0"></p>
+          </td>
+        </tr>
+      </table>
+      <!-- ./Nested table -->
+    </td>
+    <td class="col-10-3 align-top">
+    </td>
+  </tr>
+</table>
+
+<pdf:nextpage>
+
+<!-- P12 business risk -->
+<table class="layout page-header">
+  <tr>
+    <td>
+      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.export_countries.0.country_name }}</span></strong></p>
+    </td>
+  </tr>
+  <tr class="hr hr--red-150"><td></td></tr>
+</table>
+
+<table class="layout">
+  <tr>
+    <td>
+      <h1 class="pad-t-3 pad-b-2">Business risk</h1>
+    </td>
+  </tr>
+  <tr>
+    <td class="col-10-7 align-top">
+      {% for risk in export_plan.business_risks %}
+      <!-- Nested table -->
+      <table>
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h2 class="pad-y-0">Risk {{ forloop.counter }}</h2>
+            <p class="pad-t-0">{{ risk.risk }}</p>
+          </td>
+        </tr>
+        <tr class="pad-b-3">
+          <td>
+            <!-- Nested table -->
+            <table class="layout">
+              <tr class="pad-b-0">
+                <td class="col-10-4">Risk likelihood:</td>
+                <td class="col-10-6"><strong>{{ risk.risk_likelihood|title }}</strong></td>
+              </tr>
+              <tr class="pad-b-0">
+                <td class="col-10-4">Risk impact:</td>
+                <td class="col-10-6"><strong>{{ risk.risk_impact|title }}</strong></td>
+              </tr>
+            </table>
+            <!-- ./Nested table -->
+          </td>
+        </tr>
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h3 class="pad-y-0">Contingency plan</h3>
+            <p class="pad-t-0">{{ risk.contingency_plan }}</p>
+          </td>
+        </tr>
+      </table>
+      {% endfor %}
+      <!-- ./Nested table -->
+    </td>
+    <td class="col-10-3 align-top">
     </td>
   </tr>
 </table>
