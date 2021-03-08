@@ -97,17 +97,18 @@ def export_plan_data(cost_pricing_data):
 
 @pytest.fixture
 def export_plan_section_progress_data():
-    return {
-        'about_your_business': {'populated': 1, 'total': 5},
-        'adaptation_target_market': {'populated': 0, 'total': 10},
-        'funding_and_credit': {'populated': 2, 'total': 2},
-        'getting_paid': {'populated': 3, 'total': 3},
-        'marketing_approach': {'populated': 1, 'total': 1},
-        'objectives': {'populated': 1, 'total': 1},
-        'target_markets_research': {'populated': 0, 'total': 5},
-        'total_cost_and_price': {'populated': 5, 'total': 8},
-        'travel_business_policies': {'populated': 3, 'total': 3},
-    }
+    return [
+        {'total': 5, 'populated': 1, 'url': '/export-plan/section/about-your-business/'},
+        {'total': 1, 'populated': 1, 'url': '/export-plan/section/business-objectives/'},
+        {'total': 5, 'populated': 0, 'url': '/export-plan/section/target-markets-research/'},
+        {'total': 10, 'populated': 0, 'url': '/export-plan/section/adaptation-for-your-target-market/'},
+        {'total': 1, 'populated': 1, 'url': '/export-plan/section/marketing-approach/'},
+        {'total': 8, 'populated': 5, 'url': '/export-plan/section/costs-and-pricing/'},
+        {'total': 3, 'populated': 3, 'url': '/export-plan/section/getting-paid/'},
+        {'total': 2, 'populated': 2, 'url': '/export-plan/section/funding-and-credit/'},
+        {'total': 3, 'populated': 3, 'url': '/export-plan/section/travel-plan/'},
+        {'total': 3, 'populated': 3, 'url': '/export-plan/section/business-risk/'},
+    ]
 
 
 @pytest.fixture
