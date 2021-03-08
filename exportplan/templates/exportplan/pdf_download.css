@@ -158,8 +158,8 @@ h6 {
   font-weight: 300;
 }
 a {
-  color: orange;
   text-decoration: underline;
+  color: #4b426d;
 }
 .body-alpha {
   font-size: 18pt;
@@ -354,6 +354,12 @@ table {
 /* 12 col */
 .col-12-1 {
   width: 42.6pt;
+}
+.col-12-2 {
+  width: 85.2pt;
+}
+.col-12-3 {
+  width: 128pt;
 }
 .col-12-6 {
   width: 256pt;
