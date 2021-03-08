@@ -6,7 +6,7 @@ from core import cms_slugs, views, views_api
 
 app_name = 'core'
 
-LOGIN_URL = reverse_lazy('core:signup')
+SIGNUP_URL = reverse_lazy('core:signup')
 # NB our signup/signin redirection workflow following login_required
 # relies on the value of REDIRECT_FIELD_NAME being the default: 'next'
 # If you change the redirection parameter, other code will need
@@ -31,12 +31,12 @@ urlpatterns = [
     path('custom/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='custom-page'),
     path(
         'where-to-export/',
-        login_required(views.CompareCountriesView.as_view(), login_url=LOGIN_URL),
+        login_required(views.CompareCountriesView.as_view(), login_url=SIGNUP_URL),
         name='compare-countries',
     ),
     path(
         'capability/<str:topic>/<str:chapter>/<str:article>/',
-        login_required(views.ArticleView.as_view(), login_url=LOGIN_URL),
+        login_required(views.ArticleView.as_view(), login_url=SIGNUP_URL),
         name='capability-article',
     ),
     path('login/', anonymous_user_required(views.LoginView.as_view()), name='login'),

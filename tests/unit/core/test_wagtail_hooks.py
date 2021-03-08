@@ -1036,11 +1036,11 @@ def test_case_study_editor_css(mock_static):
 )
 def test_authenticated_user_required__sets_next_param(rf, request_path):
     instance = DetailPage()
-    assert instance.authenticated_user_required_redirect_url == cms_slugs.LOGIN_URL
+    assert instance.authenticated_user_required_redirect_url == cms_slugs.SIGNUP_URL
 
     request = rf.get(request_path)
     request.user = AnonymousUser()
     output = wagtail_hooks.authenticated_user_required(instance, request, [], {})
 
     assert output.status_code == 302
-    assert output._headers['location'] == ('Location', f'{cms_slugs.LOGIN_URL}?next={request_path}')
+    assert output._headers['location'] == ('Location', f'{cms_slugs.SIGNUP_URL}?next={request_path}')
