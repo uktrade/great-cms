@@ -99,21 +99,3 @@ class ExportPlanParser:
     def export_commodity_code(self):
         if self.data.get('export_commodity_codes'):
             return self.data['export_commodity_codes'][0]['commodity_code']
-
-    @property
-    def total_cost_and_price_units_label(self):
-        unit_value = self.data.get('total_cost_and_price', {}).get('units_to_export_second_period', {}).get('value')
-        unit_label = helpers.values_to_labels(
-            values=self.data.get('total_cost_and_price', {}).get('units_to_export_second_period', {}).get('unit') or [],
-            choices=self.EXPORT_UNITS,
-        )
-        return f'{unit_value} {unit_label}'
-
-    @property
-    def total_cost_and_price_period_label(self):
-        unit_value = self.data.get('total_cost_and_price', {}).get('units_to_export_second_period', {}).get('value')
-        unit_label = helpers.values_to_labels(
-            values=self.data.get('total_cost_and_price', {}).get('units_to_export_second_period', {}).get('unit') or [],
-            choices=self.EXPORT_TIMEFRAME,
-        )
-        return f'{unit_value} {unit_label}'
