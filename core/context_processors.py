@@ -46,4 +46,5 @@ def migration_support_vars(request):
     return {
         'BREADCRUMBS_ROOT_URL': settings.BREADCRUMBS_ROOT_URL,
         'FEATURE_SHOW_REPORT_BARRIER_CONTENT': settings.FEATURE_SHOW_REPORT_BARRIER_CONTENT,
+        'FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS': settings.FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS,
     }
