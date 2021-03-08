@@ -1,6 +1,8 @@
-{% if sso_is_logged_in %}
+{% load wagtailcore_tags %}
+{% if not sso_is_logged_in %}
   <li class="anonymous">
-    <a id="header-sign-in-link" href="/login" class="account-link signin">Sign in</a>
+    {% comment %} After LOGIN_URL, we auto-redirect to /dashboard/ because there is no ?next= set {% endcomment %}
+    <a id="header-sign-in-link" href="{{LOGIN_URL}}" class="account-link signin">Sign in</a>
   </li>
 {% else %}
 {% comment "Hide until account section is implemented" %}

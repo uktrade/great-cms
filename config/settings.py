@@ -111,6 +111,7 @@ TEMPLATES = [
                 'core.context_processors.env_vars',
                 'core.context_processors.analytics_vars',
                 'core.context_processors.migration_support_vars',
+                'core.context_processors.cms_slug_urls',
                 'great_components.context_processors.analytics',
             ],
         },
@@ -526,6 +527,7 @@ FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = env.list('FEATURE_EXPORT_PLAN_SECTI
 FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER = env.bool('FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER', False)
 FEATURE_COMPARE_MARKETS_TABS = env.str('FEATURE_COMPARE_MARKETS_TABS', '{ }')
 FEATURE_SHOW_REPORT_BARRIER_CONTENT = env.bool('FEATURE_SHOW_REPORT_BARRIER_CONTENT', False)
+FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS = env.bool('FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS', False)
 
 BETA_ENVIRONMENT = env.str('BETA_TOKEN', default='')
 

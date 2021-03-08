@@ -1,5 +1,7 @@
 from datetime import timedelta
+from html import escape
 from unittest import mock
+from urllib.parse import quote, quote_plus
 
 import pytest
 from django.template import Context, Template
@@ -15,6 +17,7 @@ from core.templatetags.content_tags import (
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
 from core.templatetags.url_map import path_match
+from core.templatetags.url_tags import get_intended_destination
 from core.templatetags.video_tags import render_video
 from tests.unit.core import factories
 
@@ -412,3 +415,45 @@ def test_is_lesson_page(klass, expected):
 )
 def test_is_placeholder_page(klass, expected):
     assert is_placeholder_page(klass()) == expected
+
+
+@pytest.mark.parametrize(
+    'path_info, expected_destination, default_destination',
+    (
+        ('/path/in/', '/dashboard/', None),
+        ('/path/in/?next=/path/to/page/', '/path/to/page/', None),
+        ('/path/in/?next=', '/dashboard/', None),
+        ('/path/in/?next=/login/', '/dashboard/', None),
+        ('/path/in/?next=/signup/', '/dashboard/', None),
+        ('/path/in/', '/foo/', '/foo/'),
+        ('/path/in/?next=/path/to/?token=foo-bar', '/path/to/?token=foo-bar', None),
+        ('/path/in/?next=/path/to/?next=/foo/bar/', '/path/to/?next=/foo/bar/', None),
+        ('/path/in/?next=https://example.com/foo/bar/', '/dashboard/', None),
+        ('/path/in/?next=test', '/dashboard/', None),
+        (quote('/path/in/?next=https://example.com/foo/bar/'), '/dashboard/', None),
+        (quote_plus('/path/in/?next=https://example.com/foo/bar/'), '/dashboard/', None),
+        (escape('/path/in/?next=https://example.com/foo/bar/'), '/dashboard/', None),
+    ),
+    ids=[
+        'simple path - no onward dest',
+        'simple path with next param',
+        'next param is skip-list path: root',
+        'next param is skip-list path: login',
+        'next param is skip-list path: signup',
+        'custom default destination',
+        'next param path with querystring allowed',
+        'next param path with duplicated "next" querystring allowed',
+        'next param path with querysting with hints of full url',
+        'next param is non-relative path',
+        'quoted path with querysting with hints of full url',
+        'plus-quoted path with querysting with hints of full url',
+        'entity-escaped path with querysting with hints of full url',
+    ],
+)
+def test_get_intended_destination(rf, path_info, expected_destination, default_destination):
+
+    request = rf.get(path_info)
+    if default_destination is not None:
+        assert get_intended_destination(request, default_destination) == expected_destination
+    else:
+        assert get_intended_destination(request) == expected_destination
