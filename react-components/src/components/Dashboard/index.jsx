@@ -2,7 +2,7 @@ import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { ComingSoon } from '@src/components/Sidebar/ComingSoon'
-import { analytics } from '../../Helpers'
+import { analytics } from '@src/Helpers'
 
 export const Dashboard = memo(
   ({ sections, exportPlanProgress: { section_progress } }) => {
@@ -106,8 +106,8 @@ Dashboard.propTypes = {
   exportPlanProgress: PropTypes.shape({
     section_progress: PropTypes.arrayOf(
       PropTypes.shape({
-        populated: PropTypes.string,
-        total: PropTypes.string,
+        populated: PropTypes.number,
+        total: PropTypes.number,
         url: PropTypes.string,
       })
     ),
