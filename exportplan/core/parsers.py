@@ -34,9 +34,13 @@ class ExportPlanParser:
             return None
 
     def set_key(self, key, value):
+        set_value = value or ''
         key = key.split('.')
-        my_dict = reduce(dict.get, key[:-1], self.data)
-        my_dict[key[-1]] = value
+        try:
+            my_dict = reduce(dict.get, key[:-1], self.data)
+            my_dict[key[-1]] = set_value
+        except TypeError:
+            return None
 
     def serialize_for_template(self):
         payment_method_label = helpers.values_to_labels(
