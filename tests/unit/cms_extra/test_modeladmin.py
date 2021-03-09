@@ -55,7 +55,7 @@ def test_casestudyadminbuttonhelper(rf, django_user_model):
     )
 
     assert helper.view_button(obj) == {
-        'classname': 'button button-small icon icon-doc',
+        'classname': 'button button-small icon icon-doc btn-group',
         'label': 'View case study',
         'title': 'View case study',
         'url': f'/admin/cms-extras/case-study/{obj.id}/',
@@ -71,7 +71,7 @@ def test_casestudyadminbuttonhelper(rf, django_user_model):
             'url': '/admin/mock-url/path/',
         },
         {
-            'classname': 'button button-small icon icon-doc',
+            'classname': 'button button-small icon icon-doc btn-group',
             'label': 'View case study',
             'title': 'View case study',
             'url': f'/admin/cms-extras/case-study/{obj.id}/',
