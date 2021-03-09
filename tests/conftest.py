@@ -69,7 +69,7 @@ def export_plan_data(cost_pricing_data):
             'payment_terms': {'method': ['FFE', 'TMP'], 'notes': 'method 2'},
             'incoterms': {'notes': 'nothing', 'transport': 'EX_WORKS'},
         },
-        'business_trips': {'note': 'trip 1'},
+        'business_trips': [{'note': 'trip 1'}],
         'travel_business_policies': {
             'travel_information': 'All travel to be business class',
             'cultural_information': 'Lots of culture',

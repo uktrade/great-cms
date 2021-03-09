@@ -24,6 +24,27 @@ class CountryTargetAgeDataSerializer(serializers.Serializer):
         return value[0].split(',')
 
 
+class CompanyObjectiveSerializer(serializers.Serializer):
+    description = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    planned_reviews = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    owner = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    start_date = serializers.CharField(required=False, allow_blank=True, allow_null=True, validators=[no_html])
+    end_date = serializers.CharField(required=False, allow_blank=True, allow_null=True, validators=[no_html])
+    companyexportplan = serializers.IntegerField()
+    pk = serializers.IntegerField()
+
+    # convert empty strings to null values
+    def validate_start_date(self, value):
+        if value == '':
+            return None
+        return value
+
+    def validate_end_date(self, value):
+        if value == '':
+            return None
+        return value
+
+
 class AboutYourBuinessSerializer(serializers.Serializer):
     story = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     location = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
@@ -34,6 +55,7 @@ class AboutYourBuinessSerializer(serializers.Serializer):
 
 class ObjectiveSerializer(serializers.Serializer):
     rationale = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    company_objectives = serializers.ListField(child=CompanyObjectiveSerializer(), required=False)
 
 
 class TargetMarketsResearchSerializer(serializers.Serializer):
@@ -47,8 +69,24 @@ class TargetMarketsResearchSerializer(serializers.Serializer):
     )
 
 
+class RouteToMarketSerializer(serializers.Serializer):
+    route = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    promote = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    market_promotional_channel = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    companyexportplan = serializers.IntegerField()
+    pk = serializers.IntegerField()
+
+
 class MarketingApproachSerializer(serializers.Serializer):
     resources = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    route_markets = serializers.ListField(child=RouteToMarketSerializer(), required=False)
+
+
+class TargetMarketDocumentSerializer(serializers.Serializer):
+    document_name = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    note = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    companyexportplan = serializers.IntegerField()
+    pk = serializers.IntegerField()
 
 
 class AdaptationTargetMarketSerializer(serializers.Serializer):
@@ -62,6 +100,17 @@ class AdaptationTargetMarketSerializer(serializers.Serializer):
     insurance_certificate = serializers.CharField(required=False, allow_null=True, validators=[no_html])
     commercial_invoice = serializers.CharField(required=False, allow_null=True, validators=[no_html])
     uk_customs_declaration = serializers.CharField(required=False, allow_null=True, validators=[no_html])
+
+    target_market_documents = serializers.ListField(child=TargetMarketDocumentSerializer(), required=False)
+
+
+class BusinessRisksSerializer(serializers.Serializer):
+    risk = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    contingency_plan = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    risk_likelihood = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    risk_impact = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    companyexportplan = serializers.IntegerField()
+    pk = serializers.IntegerField()
 
 
 class ExportPlanCountrySerializer(serializers.Serializer):
@@ -98,9 +147,17 @@ class UiProgress(serializers.Serializer):
         exclude = ('ts',)
 
 
+class FundingCreditOptionsSerializer(serializers.Serializer):
+    amount = serializers.FloatField(required=False)
+    funding_option = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    companyexportplan = serializers.IntegerField()
+    pk = serializers.IntegerField()
+
+
 class FundingAndCreditSerializer(serializers.Serializer):
     override_estimated_total_cost = serializers.FloatField(required=False)
     funding_amount_required = serializers.FloatField(required=False)
+    funding_credit_options = serializers.ListField(child=FundingCreditOptionsSerializer(), required=False)
 
 
 class DirectCostsSerializer(serializers.Serializer):
@@ -209,6 +266,12 @@ class GettingPaidSerializer(serializers.Serializer):
     incoterms = IncotermsSerializer(required=False)
 
 
+class BusinessTripsSerializer(serializers.Serializer):
+    note = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    companyexportplan = serializers.IntegerField()
+    pk = serializers.IntegerField()
+
+
 class TravelBusinessPoliciesSerializer(serializers.Serializer):
     class VisaInformationSerializer(serializers.Serializer):
         visa_required = serializers.BooleanField(required=False)
@@ -219,13 +282,7 @@ class TravelBusinessPoliciesSerializer(serializers.Serializer):
     travel_information = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     cultural_information = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     visa_information = VisaInformationSerializer(required=False)
-
-
-class FundingCreditOptionsSerializer(serializers.Serializer):
-    amount = serializers.FloatField(required=False)
-    funding_option = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    companyexportplan = serializers.IntegerField()
-    pk = serializers.IntegerField()
+    business_trips = serializers.ListField(child=BusinessTripsSerializer(), required=False)
 
 
 class ExportPlanSerializer(serializers.Serializer):
@@ -245,7 +302,7 @@ class ExportPlanSerializer(serializers.Serializer):
     funding_and_credit = FundingAndCreditSerializer(required=False)
     getting_paid = GettingPaidSerializer(required=False)
     travel_business_policies = TravelBusinessPoliciesSerializer(required=False)
-    funding_credit_options = FundingCreditOptionsSerializer(required=False)
+    business_risks = serializers.ListField(child=BusinessRisksSerializer(), required=False)
 
     def to_internal_value(self, data):
         internal_val = super().to_internal_value(data)
@@ -361,57 +418,6 @@ class ExportPlanSerializer(serializers.Serializer):
                 return str(obj)
             # Let the base class default method raise the TypeError
             return json.JSONEncoder.default(self, obj)
-
-
-class CompanyObjectiveSerializer(serializers.Serializer):
-    description = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    planned_reviews = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    owner = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    start_date = serializers.CharField(required=False, allow_blank=True, allow_null=True, validators=[no_html])
-    end_date = serializers.CharField(required=False, allow_blank=True, allow_null=True, validators=[no_html])
-    companyexportplan = serializers.IntegerField()
-    pk = serializers.IntegerField()
-
-    # convert empty strings to null values
-    def validate_start_date(self, value):
-        if value == '':
-            return None
-        return value
-
-    def validate_end_date(self, value):
-        if value == '':
-            return None
-        return value
-
-
-class RouteToMarketSerializer(serializers.Serializer):
-    route = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    promote = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    market_promotional_channel = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    companyexportplan = serializers.IntegerField()
-    pk = serializers.IntegerField()
-
-
-class TargetMarketDocumentSerializer(serializers.Serializer):
-    document_name = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    note = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    companyexportplan = serializers.IntegerField()
-    pk = serializers.IntegerField()
-
-
-class BusinessTripsSerializer(serializers.Serializer):
-    note = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    companyexportplan = serializers.IntegerField()
-    pk = serializers.IntegerField()
-
-
-class BusinessRisksSerializer(serializers.Serializer):
-    risk = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    contingency_plan = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    risk_likelihood = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    risk_impact = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    companyexportplan = serializers.IntegerField()
-    pk = serializers.IntegerField()
 
 
 class NewFundingCreditOptionsSerializer(FundingCreditOptionsSerializer):

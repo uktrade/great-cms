@@ -112,3 +112,38 @@ def test_export_plan_processor_get_current_url_country_required(export_plan_data
 def test_export_plan_processor_calculate_ep_section_progress(user, export_plan_data, export_plan_section_progress_data):
     export_plan_parser = ExportPlanProcessor(export_plan_data)
     assert export_plan_parser.calculate_ep_section_progress() == export_plan_section_progress_data
+
+
+@pytest.mark.parametrize(
+    'export_plan_data, url ,expected',
+    [
+        [{'objectives': {'rationale': 'non'}, 'company_objectives': ['a']}, 'business-objectives/', 2],
+        [{'objectives': {'rationale': ''}, 'company_objectives': ['a']}, 'business-objectives/', 1],
+        [{'objectives': {}, 'company_objectives': ['a']}, 'business-objectives/', 1],
+        [
+            {'adaptation_target_market': {'labelling': 'non'}, 'target_market_documents': ['a']},
+            'adaptation-for-your-target-market/',
+            2,
+        ],
+        [{'adaptation_target_market': {}, 'target_market_documents': ['a']}, 'adaptation-for-your-target-market/', 1],
+        [{'marketing_approach': {'resources': 'a'}, 'route_markets': ['a']}, 'marketing-approach/', 2],
+        [{'marketing_approach': {}, 'route_markets': ['a']}, 'marketing-approach/', 1],
+        [
+            {'funding_and_credit': {'override_estimated_total_cost': 'a'}, 'funding_credit_options': ['a']},
+            'funding-and-credit/',
+            2,
+        ],
+        [{'funding_and_credit': {}, 'funding_credit_options': ['a']}, 'funding-and-credit/', 1],
+        [{'travel_business_policies': {'visa_information': 'a'}, 'business_trips': ['a']}, 'travel-plan/', 2],
+        [{'travel_business_policies': {}, 'business_trips': ['a']}, 'travel-plan/', 1],
+        [{'business_trips': []}, 'business-risk/', 0],
+        [{'business_trips': ['1']}, 'business-risk/', 1],
+    ],
+)
+def test_export_plan_processor_calculate_ep_section_progress_lists(user, export_plan_data, url, expected):
+    export_plan_parser = ExportPlanProcessor(export_plan_data)
+    progress = {
+        item['url'].replace('/export-plan/section/', ''): item
+        for item in export_plan_parser.calculate_ep_section_progress()
+    }
+    assert progress[url]['populated'] == expected
