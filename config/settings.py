@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'wagtail.contrib.settings',
     'wagtailmedia',
     'wagtailcache',
-    'wagtail_personalisation',
     'wagtailfontawesome',
     'wagtail_transfer',
     'modelcluster',
@@ -466,13 +465,6 @@ COMMODITY_SEARCH_TOKEN = env.str('CCCE_COMMODITY_SEARCH_TOKEN', '')
 # directory constants
 DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON = env.str('DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON', '')
 DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = 60 * 60 * 30
-
-if env.bool('FEATURE_MOCK_CLIENT_IP_ENABLED'):
-    WAGTAIL_PERSONALISATION_IP_FUNCTION = 'config.settings.get_client_ip'
-
-    def get_client_ip(request):
-        return '51.6.68.120'
-
 
 # directory validators
 VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int('VALIDATOR_MAX_LOGO_SIZE_BYTES', 2 * 1024 * 1024)
