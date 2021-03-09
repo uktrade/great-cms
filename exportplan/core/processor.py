@@ -38,7 +38,7 @@ class ExportPlanProcessor:
             if isinstance(field_class, Serializer):
                 total = len(getattr(field_class, 'fields'))
                 for field in getattr(field_class, 'fields'):
-                    if self.seralizer.initial_data.get(field_map[1], {}).get(field):
+                    if field in self.seralizer.initial_data.get(field_map[1], {}):
                         populated += 1
             progress.append({'total': total, 'populated': populated, 'url': section_key})
         return progress
