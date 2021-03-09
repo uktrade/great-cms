@@ -1,7 +1,7 @@
 import React from 'react'
 import Services from '@src/Services'
 import actions from '@src/actions'
-import { millify } from '../../Helpers'
+import { millify, normaliseValues } from '../../Helpers'
 import Filter from './Filter'
 
 let localActiveFilter = {}
@@ -29,11 +29,27 @@ const filterMapping = {
   },
 }
 
-const populationFiltered = (dataSet) => {
+const valueAndPercentage = (dataSet, gender) => {
+  const value = dataSetByGender(dataSet, gender)
+  const total = dataSetByGender(dataSet, null, null)
+  return (
+    <>
+      <div className="body-l primary">
+        {millify(value)}
+      </div>
+      <div className="body-m secondary text-black-60">
+        {normaliseValues(value*100/total)}%
+      </div>
+    </>
+    )
+}
+
+
+const populationFiltered = (dataSet, filter) => {
   const value = Object.keys(filterMapping).reduce((total, filterGroupKey) => {
     if (
-      !Object.keys(localActiveFilter).length ||
-      localActiveFilter[filterGroupKey]
+      !filter || !Object.keys(filter).length ||
+      filter[filterGroupKey]
     ) {
       return filterMapping[filterGroupKey].groups.reduce(
         (groupTotal, sourceKey) => groupTotal + (dataSet[sourceKey] || 0),
@@ -45,10 +61,10 @@ const populationFiltered = (dataSet) => {
   return value * 1000 // Because the source data are in 1000s
 }
 
-const dataSetByGender = (dataSet, gender) => {
+const dataSetByGender = (dataSet, gender, filter=localActiveFilter) => {
   return dataSet
       .filter((row) => !gender || row.gender === gender)
-      .reduce((total, row) => total + populationFiltered(row), 0)
+      .reduce((total, row) => total + populationFiltered(row, filter), 0)
 }
 
 const yearByGender = (dataSet, gender) => {
@@ -82,19 +98,19 @@ export default {
     total_population: {
       name: 'Target age group population',
       className: 'text-align-right',
-      render: (data) => millify(dataSetByGender(data.PopulationData, null)),
+      render: (data) => valueAndPercentage(data.PopulationData, null),
       year: (data) => yearByGender(data.PopulationData, null),
     },
     female_population: {
       name: 'Females in target group',
       className: 'text-align-right',
-      render: (data) => millify(dataSetByGender(data.PopulationData, 'female')),
+      render: (data) => valueAndPercentage(data.PopulationData, 'female'),
       year: (data) => yearByGender(data.PopulationData, 'female'),
     },
     male_population: {
       name: 'Males in target group',
       className: 'text-align-right',
-      render: (data) => millify(dataSetByGender(data.PopulationData, 'male')),
+      render: (data) => valueAndPercentage(data.PopulationData, 'male'),
       year: (data) => yearByGender(data.PopulationData, 'male'),
     },
   },
