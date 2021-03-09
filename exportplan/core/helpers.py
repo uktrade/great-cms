@@ -281,8 +281,6 @@ def get_export_plan_pdf_context(request):
         'sections': data.SECTION_TITLES,
         'calculated_pricing': processor.calculated_cost_pricing(),
         'total_funding': processor.calculate_total_funding(),
-        'getting_paid_payment_method_label': request.user.export_plan.getting_paid_payment_method_label,
-        'getting_paid_incoterms_transport_label': request.user.export_plan.getting_paid_incoterms_transport_label,
     }
 
     return context
