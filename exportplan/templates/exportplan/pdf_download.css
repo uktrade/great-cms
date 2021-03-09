@@ -61,14 +61,14 @@ $colour-blue-100: #00549f;
     left: 40pt;
     width: 512pt;
     top: 40pt;
-    height: 720pt;
+    height: 740pt;
   }
   @frame footer_frame {
     /* -pdf-frame-border: 1; */
     -pdf-frame-content: footer_content;
     left: 40pt;
     width: 512pt;
-    top: 772pt;
+    top: 790pt;
     height: 30pt;
   }
 
@@ -145,7 +145,9 @@ h2,
 .title-beta {
   font-size: 18pt;
 }
-h3 {
+h3,
+.title-gamma {
+  font-size: 15pt;
 }
 h4 {
 }
@@ -156,8 +158,8 @@ h6 {
   font-weight: 300;
 }
 a {
-  color: orange;
   text-decoration: underline;
+  color: #4b426d;
 }
 .body-alpha {
   font-size: 18pt;
@@ -213,6 +215,23 @@ a {
   color: #fce9e9;
 }
 
+.bg-colour-blue-deep-10 {
+  background-color: #e9e7ed
+}
+
+/* Borders */
+.border-t-1-blue-deep-20 {
+  border-top: 1pt solid #d2d0da;
+}
+.border-b-1-blue-deep-20 {
+  border-bottom: 1pt solid #d2d0da;
+}
+.border-y-1-blue-deep-20 {
+  border-top: 1pt solid #d2d0da;
+  border-bottom: 1pt solid #d2d0da;
+}
+
+
 /* Horizontal rules */
 .hr {
   height: 1pt;
@@ -243,6 +262,15 @@ img {
   width: 150pt;
 }
 
+/* Icons */
+.icon {
+}
+
+.icon--title {
+  width: 20pt;
+  padding-right: 5pt;
+}
+
 /* Page layouts */
 .page {
   width: 512pt;
@@ -251,7 +279,7 @@ img {
 
 /* Table layouts */
 table {
-  -pdf-keep-in-frame-mode: overflow;
+  -pdf-keep-in-frame-mode: shrink;
 }
 /* Defaults */
 .layout {
@@ -327,6 +355,12 @@ table {
 .col-12-1 {
   width: 42.6pt;
 }
+.col-12-2 {
+  width: 85.2pt;
+}
+.col-12-3 {
+  width: 128pt;
+}
 .col-12-6 {
   width: 256pt;
 }
@@ -334,6 +368,9 @@ table {
 /* Utils */
 .pad-0 {
   padding: 0;
+}
+.pad-05 {
+  padding: 2.5pt;
 }
 .pad-1 {
   padding: 5pt;
@@ -356,6 +393,9 @@ table {
 .pad-t-1 {
   padding-top: 5pt;
 }
+.pad-t-05 {
+  padding-top: 2.5pt;
+}
 .pad-t-2 {
   padding-top: 10pt;
 }
@@ -370,6 +410,9 @@ table {
 }
 .pad-b-0 {
   padding-bottom: 0;
+}
+.pad-b-05 {
+  padding-bottom: 2.5pt;
 }
 .pad-b-1 {
   padding-bottom: 5pt;
@@ -389,6 +432,10 @@ table {
 .pad-y-0 {
   padding-top: 0;
   padding-bottom: 0;
+}
+.pad-y-05 {
+  padding-top: 2.5pt;
+  padding-bottom: 2.5pt;
 }
 .pad-y-1 {
   padding-top: 5pt;
@@ -414,6 +461,10 @@ table {
   padding-top: 0;
   padding-bottom: 0;
 }
+.pad-x-05 {
+  padding-left: 2.5pt;
+  padding-right: 2.5pt;
+}
 .pad-x-1 {
   padding-left: 5pt;
   padding-right: 5pt;
@@ -437,6 +488,9 @@ table {
 .pad-r-0 {
   padding-right: 0;
 }
+.pad-r-05 {
+  padding-right: 2.5pt;
+}
 .pad-r-1 {
   padding-right: 5pt;
 }
@@ -457,6 +511,9 @@ table {
 }
 .pad-l-1 {
   padding-left: 5pt;
+}
+.pad-l-05 {
+  padding-left: 2.5pt;
 }
 .pad-l-2 {
   padding-left: 10pt;

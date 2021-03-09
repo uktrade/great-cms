@@ -99,7 +99,14 @@ def test_exportplan_section_marketing_approach(mock_get_country_data, mock_get_c
     client.force_login(user)
     response = client.get(reverse('exportplan:marketing-approach'), {'name': 'France', 'age_range': '30-34'})
     assert response.status_code == 200
-    assert response.context_data['route_to_markets'] == {'route': 'test'}
+    assert response.context_data['route_to_markets'] == [
+        {
+            'promote': 'ONLINE_MARKETING',
+            'promote_label': 'Online marketing',
+            'route': 'DIRECT_SALES',
+            'route_label': 'Direct sales',
+        },
+    ]
     assert response.context_data['route_choices']
     assert response.context_data['promotional_choices']
     assert response.context_data['target_age_group_choices']
@@ -295,8 +302,8 @@ def test_cost_and_pricing(cost_pricing_data, client, user):
                 'other_overhead_costs': '',
             },
             'total_cost_and_price': {
-                'units_to_export_first_period': {'unit': '', 'value': 22},
-                'units_to_export_second_period': {'unit': '', 'value': ''},
+                'units_to_export_first_period': {'unit': 'm', 'value': 22},
+                'units_to_export_second_period': {'unit': 'd', 'value': 5},
                 'final_cost_per_unit': '16.00',
                 'average_price_per_unit': '',
                 'net_price': '22.00',
