@@ -45,7 +45,7 @@ class ExportPlanProcessor:
                         populated += 1
             elif isinstance(field_class, ListField) and self.has_items(field_name):
                 populated += 1
-                progress.append({'total': total, 'populated': populated, 'url': section_key})
+            progress.append({'total': total, 'populated': populated, 'url': section_key})
         return progress
 
     def has_items(self, field_name):
