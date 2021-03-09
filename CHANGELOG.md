@@ -8,6 +8,7 @@
 - GP2-1784 - Stop breadcrumbs showing for Structural Page
 
 ### Implemented enhancements
+- GP2-1811 - Fix SEO title not appearing in meta tags
 - GP2-1550 - Added SEO fields for guidance pages
 - GP2-1778 - Support post-login and post-signup redirection to original requested destination
 - GP2-1738 - Market guide links feature flag
