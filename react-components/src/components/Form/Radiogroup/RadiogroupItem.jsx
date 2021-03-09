@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
@@ -14,7 +15,12 @@ export const RadiogroupItem = memo(
           onChange={() => update(value, group)}
           checked={selected === value}
         />
-        <label htmlFor={id} className="great-radiogroup__label">
+        <label
+          htmlFor={id}
+          className="great-radiogroup__label"
+          tabIndex="0"
+          onKeyUp={(e) => (e.key === 'Enter' ? update(value, group) : null)}
+        >
           {label}
         </label>
       </div>
