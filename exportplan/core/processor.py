@@ -28,25 +28,25 @@ class ExportPlanProcessor:
         self.seralizer = serializers.ExportPlanSerializer(data=self.data)
         self.seralizer.is_valid()
 
-    def calculate_ep_section_progress(self):
-        progress = []
-        sections = dict(data.SECTIONS)
-        for field_map in self.FIELD_NAME_MAP:
-            total = 1
-            populated = 0
-            field_class = self.seralizer.fields[field_map[1]]
-            section_key = sections[field_map[0]]['url']
-            if isinstance(field_class, Serializer):
-                total = len(getattr(field_class, 'fields'))
-                for field_name, field_type in getattr(field_class, 'fields').items():
-                    if isinstance(field_type, ListField) and self.has_items(field_name):
-                        populated += 1
-                    elif self.has_value(field_map[1], field_name):
-                        populated += 1
-            elif isinstance(field_class, ListField) and self.has_items(field_name):
-                populated += 1
-            progress.append({'total': total, 'populated': populated, 'url': section_key})
-        return progress
+     def calculate_ep_section_progress(self):
+      progress = []
+      sections = dict(data.SECTIONS)
+      for field_map in self.FIELD_NAME_MAP:
+          total = 1
+          populated = 0
+          field_class = self.seralizer.fields[field_map[1]]
+          section_key = sections[field_map[0]]['url']
+          if isinstance(field_class, Serializer):
+              total = len(getattr(field_class, 'fields'))
+              for field_name, field_type in getattr(field_class, 'fields').items():
+                  if isinstance(field_type, ListField) and self.has_items(field_name):
+                      populated += 1
+                  elif self.has_value(field_map[1], field_name):
+                      populated += 1
+          elif isinstance(field_class, ListField) and self.has_items(field_name):
+              populated += 1
+          progress.append({'total': total, 'populated': populated, 'url': section_key})
+      return progress
 
     def has_items(self, field_name):
         return True if len(self.seralizer.initial_data.get(field_name, [])) > 0 else False

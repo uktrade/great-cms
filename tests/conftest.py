@@ -32,7 +32,8 @@ def cost_pricing_data():
         'total_cost_and_price': {
             'final_cost_per_unit': 16.00,
             'net_price': 22.00,
-            'units_to_export_first_period': {'value': 22.00},
+            'units_to_export_first_period': {'value': 22.00, 'unit': 'm'},
+            'units_to_export_second_period': {'value': 5.00, 'unit': 'd'},
             'duty_per_unit': 15.13,
             'local_tax_charges': 5.23,
         },
@@ -58,7 +59,7 @@ def export_plan_data(cost_pricing_data):
         'about_your_business': {'story': 'new story'},
         'adaptation_target_market': {},
         'target_market_documents': {'document_name': 'test'},
-        'route_to_markets': [{'route': 'test'}],
+        'route_to_markets': [{'route': 'DIRECT_SALES', 'promote': 'ONLINE_MARKETING'}],
         'marketing_approach': {'resources': 'xyz'},
         'company_objectives': {},
         'objectives': {'rationale': 'business rationale'},
