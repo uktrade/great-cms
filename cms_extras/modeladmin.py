@@ -1,7 +1,7 @@
 import csv
 
 from django.utils.html import format_html_join, strip_tags
-from wagtail.admin.views.mixins import Echo, SpreadsheetExportMixin
+from wagtail.admin.views.mixins import Echo
 from wagtail.contrib.modeladmin.helpers import ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail.contrib.modeladmin.views import IndexView
@@ -29,7 +29,7 @@ class CaseStudyAdminButtonHelper(ButtonHelper):
         return btns
 
 
-class CaseStudySpreadsheetExportMixin(SpreadsheetExportMixin):
+class CaseStudySpreadsheetExportMixin:
 
     columns_to_convert = [
         'associated_country_code_tags',
