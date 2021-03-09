@@ -1,4 +1,5 @@
 from core.context import AbstractPageContextProvider
+from exportplan.core.processor import ExportPlanProcessor
 
 
 class ExportPlanDashboardPageContextProvider(AbstractPageContextProvider):
@@ -7,7 +8,8 @@ class ExportPlanDashboardPageContextProvider(AbstractPageContextProvider):
 
     @staticmethod
     def get_context_data(request, page):
+        processor = ExportPlanProcessor(request.user.export_plan.data)
         return {
-            'sections': request.user.export_plan.build_export_plan_sections(),
-            'export_plan_progress': request.user.export_plan.calculate_ep_progress(),
+            'sections': processor.build_export_plan_sections(),
+            'export_plan_progress': processor.calculate_ep_progress(),
         }

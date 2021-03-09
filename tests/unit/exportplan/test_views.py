@@ -13,7 +13,7 @@ from requests.exceptions import HTTPError
 
 from config import settings
 from directory_api_client.client import api_client
-from exportplan import data, helpers
+from exportplan.core import data, helpers
 from tests.helpers import create_response, reload_urlconf
 from tests.unit.exportplan.factories import ExportPlanDashboardPageFactory
 
@@ -201,7 +201,9 @@ def test_business_objectives_has_lessons(mock_get_lesson_details, client, user):
         ('business-risk', None),
     ),
 )
-def test_export_plan_mixin(export_plan_data, slug, next_slug, mock_update_export_plan_client, client, user):
+def test_export_plan_mixin(
+    export_plan_data, export_plan_section_progress_data, slug, next_slug, mock_update_export_plan_client, client, user
+):
     client.force_login(user)
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
@@ -224,7 +226,10 @@ def test_export_plan_mixin(export_plan_data, slug, next_slug, mock_update_export
     }
     assert response.context_data['export_plan'] == export_plan_data
     assert response.context_data['export_plan_progress'] == {
-        'export_plan_progress': {'sections_total': 10, 'sections_completed': 1, 'percentage_completed': 0.1}
+        'sections_total': 10,
+        'sections_completed': 1,
+        'percentage_completed': 0.1,
+        'section_progress': export_plan_section_progress_data,
     }
 
 
@@ -380,7 +385,7 @@ def test_business_risk(export_plan_data, client, user):
 @pytest.mark.django_db
 def test_redirect_to_service_page_for_disabled_urls(client, user):
     settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = ['Costs and pricing', 'About your business']
-    reload_urlconf('exportplan.data')
+    reload_urlconf('exportplan.core.data')
     slug = slugify(data.SECTIONS_DISABLED[0])
     url = reverse('exportplan:section', kwargs={'slug': slug})
     client.force_login(user)
@@ -392,7 +397,7 @@ def test_redirect_to_service_page_for_disabled_urls(client, user):
 @pytest.mark.django_db
 def test_disabled_urls_feature_flag_disabled(client, user):
     settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = []
-    reload_urlconf('exportplan.data')
+    reload_urlconf('exportplan.core.data')
 
     assert len(data.SECTIONS_DISABLED) == 0
     slug = slugify(data.SECTION_TITLES[0])
@@ -424,6 +429,7 @@ def test_exportplan_dashboard(
     domestic_homepage,
     get_request,
     patch_set_user_page_view,
+    export_plan_section_progress_data,
 ):
     client.force_login(user)
     dashboard = ExportPlanDashboardPageFactory(parent=domestic_homepage, slug='dashboard')
@@ -432,5 +438,8 @@ def test_exportplan_dashboard(
     assert len(context_data.get('sections')) == 10
     assert context_data.get('sections')[0].get('url') == '/export-plan/section/about-your-business/'
     assert context_data['export_plan_progress'] == {
-        'export_plan_progress': {'sections_total': 10, 'sections_completed': 1, 'percentage_completed': 0.1}
+        'sections_total': 10,
+        'sections_completed': 1,
+        'percentage_completed': 0.1,
+        'section_progress': export_plan_section_progress_data,
     }

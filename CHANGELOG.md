@@ -9,6 +9,11 @@
 
 ### Implemented enhancements
 - GP2-1550 - Added SEO fields for guidance pages
+- GP2-1778 - Support post-login and post-signup redirection to original requested destination
+- GP2-1738 - Market guide links feature flag
+- GP2-1783 - Export plan landing page - Number of completed questions
+- GP2-1763 - Logged out footer
+- GP2-1729 - Add learning banner
 - GP2-1731 - Logged out header modifications
 - GP2-1727 - Add trade barrier feature flag
 - GP2-1726 - Add ctas to domestic homepage
@@ -20,9 +25,9 @@
 - GP2-1575 - Casestudy rename, reorder and tweak style
 - NO TICKET - django 2.2.19 upgrade
 - GP2-1436 - Added management command to load countries, region and trading blocs tag from csv
-
 - GP2-1733 - rename ep options
 - GP2-1735 - update lessons
+- GP2-1782 - ep section progress
 
 ### Fixed bugs
 

@@ -5,7 +5,7 @@ from datetime import datetime
 import pytest
 from freezegun import freeze_time
 
-from exportplan import serializers
+from exportplan.core import serializers
 
 
 def test_about_your_business_serializer():

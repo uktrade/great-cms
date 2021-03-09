@@ -14,7 +14,6 @@ MARKETING_APPROACH = 'Marketing approach'
 COSTS_AND_PRICING = 'Costs and pricing'
 GETTING_PAID = 'Getting paid'
 FUNDING_AND_CREDIT = 'Funding and credit'
-PAYMENT_METHODS = 'Payment methods'
 TRAVEL_AND_BUSINESS_POLICIES = 'Travel plan'
 BUSINESS_RISK = 'Business risk'
 
@@ -30,7 +29,6 @@ COUNTRY_REQUIRED = [
     slugify(COSTS_AND_PRICING),
     slugify(GETTING_PAID),
     slugify(FUNDING_AND_CREDIT),
-    slugify(PAYMENT_METHODS),
     slugify(TRAVEL_AND_BUSINESS_POLICIES),
 ]
 
@@ -41,7 +39,6 @@ PRODUCT_REQUIRED = [
     slugify(MARKETING_APPROACH),
     slugify(COSTS_AND_PRICING),
     slugify(FUNDING_AND_CREDIT),
-    slugify(PAYMENT_METHODS),
     slugify(TRAVEL_AND_BUSINESS_POLICIES),
     slugify(BUSINESS_RISK),
 ]
@@ -72,6 +69,7 @@ LESSONS = {
         'incoterms',
     ],
 }
+
 
 SECTIONS = OrderedDict(
     {
