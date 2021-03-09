@@ -58,7 +58,7 @@ def export_plan_data(cost_pricing_data):
         'about_your_business': {'story': 'new story'},
         'adaptation_target_market': {},
         'target_market_documents': {'document_name': 'test'},
-        'route_to_markets': {'route': 'test'},
+        'route_to_markets': [{'route': 'test'}],
         'marketing_approach': {'resources': 'xyz'},
         'company_objectives': {},
         'objectives': {'rationale': 'business rationale'},
@@ -68,7 +68,7 @@ def export_plan_data(cost_pricing_data):
             'payment_terms': {'method': ['FFE', 'TMP'], 'notes': 'method 2'},
             'incoterms': {'notes': 'nothing', 'transport': 'EX_WORKS'},
         },
-        'business_trips': {'note': 'trip 1'},
+        'business_trips': [{'note': 'trip 1'}],
         'travel_business_policies': {
             'travel_information': 'All travel to be business class',
             'cultural_information': 'Lots of culture',
@@ -99,15 +99,15 @@ def export_plan_data(cost_pricing_data):
 def export_plan_section_progress_data():
     return [
         {'total': 5, 'populated': 1, 'url': '/export-plan/section/about-your-business/'},
-        {'total': 1, 'populated': 1, 'url': '/export-plan/section/business-objectives/'},
+        {'total': 2, 'populated': 1, 'url': '/export-plan/section/business-objectives/'},
         {'total': 5, 'populated': 0, 'url': '/export-plan/section/target-markets-research/'},
-        {'total': 10, 'populated': 0, 'url': '/export-plan/section/adaptation-for-your-target-market/'},
-        {'total': 1, 'populated': 1, 'url': '/export-plan/section/marketing-approach/'},
+        {'total': 11, 'populated': 1, 'url': '/export-plan/section/adaptation-for-your-target-market/'},
+        {'total': 2, 'populated': 1, 'url': '/export-plan/section/marketing-approach/'},
         {'total': 8, 'populated': 5, 'url': '/export-plan/section/costs-and-pricing/'},
         {'total': 3, 'populated': 3, 'url': '/export-plan/section/getting-paid/'},
-        {'total': 2, 'populated': 2, 'url': '/export-plan/section/funding-and-credit/'},
-        {'total': 3, 'populated': 3, 'url': '/export-plan/section/travel-plan/'},
-        {'total': 3, 'populated': 3, 'url': '/export-plan/section/business-risk/'},
+        {'total': 3, 'populated': 3, 'url': '/export-plan/section/funding-and-credit/'},
+        {'total': 4, 'populated': 4, 'url': '/export-plan/section/travel-plan/'},
+        {'total': 1, 'populated': 1, 'url': '/export-plan/section/business-risk/'},
     ]
 
 

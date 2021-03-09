@@ -99,7 +99,7 @@ def test_exportplan_section_marketing_approach(mock_get_country_data, mock_get_c
     client.force_login(user)
     response = client.get(reverse('exportplan:marketing-approach'), {'name': 'France', 'age_range': '30-34'})
     assert response.status_code == 200
-    assert response.context_data['route_to_markets'] == {'route': 'test'}
+    assert response.context_data['route_to_markets'] == [{'route': 'test'}]
     assert response.context_data['route_choices']
     assert response.context_data['promotional_choices']
     assert response.context_data['target_age_group_choices']
