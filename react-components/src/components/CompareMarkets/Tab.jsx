@@ -2,15 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 function Tab(props) {
-	const { label, onClick, activeTab } = props
+	const { label, tabId, onClick, activeTab } = props
 
 	return (
 		<button
 			type="button"
 			className={`tab-list-item m-r-s ${
-				activeTab === label ? 'tab-list-active' : ''
+				activeTab === tabId ? 'tab-list-active' : ''
 			}`}
-			onClick={() => onClick(label)}
+			onClick={() => onClick(tabId)}
 		>
 			{label}
 		</button>
@@ -19,6 +19,7 @@ function Tab(props) {
 
 Tab.propTypes = {
 	activeTab: PropTypes.string.isRequired,
+	tabId: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	onClick: PropTypes.func.isRequired,
 }

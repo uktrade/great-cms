@@ -80,8 +80,8 @@ export default {
     'avg-income': {
       name: 'Adjusted net national income per capita (USD)',
       className: 'text-align-right',
-      render: (data) => millify(data.Income.value),
-      year: (data) => get(data, 'Income.year'),
+      render: (data) => millify(data.Income[0].value),
+      year: (data) => data.Income[0].year,
       tooltip: {
         position: 'right',
         title: '',
@@ -95,8 +95,8 @@ export default {
     'eod-business': {
       name: 'Ease of doing business rank',
       className: 'text-align-right',
-      render: (data) => rankOutOf(data.EaseOfDoingBusiness, 'rank'),
-      year: (data) => get(data, 'EaseOfDoingBusiness.year'),
+      render: (data) => rankOutOf(data.EaseOfDoingBusiness[0], 'rank'),
+      year: (data) => data.EaseOfDoingBusiness[0].year,
       tooltip: {
         position: 'right',
         title: '',
@@ -111,10 +111,9 @@ export default {
       name: 'Corruption Perceptions Index',
       className: 'text-align-right',
       render: (data) => {
-        return rankOutOf(data.CorruptionPerceptionsIndex, 'rank')
+        return rankOutOf(data.CorruptionPerceptionsIndex[0], 'rank')
       },
-      year: (data) =>
-        get(data, 'CorruptionPerceptionsIndex.year'),
+      year: (data) => data.CorruptionPerceptionsIndex[0].year,
       tooltip: {
         position: 'right',
         title: '',
@@ -132,6 +131,6 @@ export default {
     },
   },
   dataFunction: (countries) => {
-    return Services.getCountryData(countries, ['ConsumerPriceIndex','Income','CorruptionPerceptionsIndex','EaseOfDoingBusiness'])
+    return Services.getCountryData(countries, JSON.stringify([{model:'Income'},{model:'CorruptionPerceptionsIndex', filter:{year:'2020'}},{model:'EaseOfDoingBusiness'}]))
   },
 }

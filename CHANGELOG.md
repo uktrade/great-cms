@@ -14,6 +14,8 @@
 - GP2-1738 - Market guide links feature flag
 - GP2-1783 - Export plan landing page - Number of completed questions
 - GP2-1763 - Logged out footer
+
+- GP2-1569 - Compare markets page - add age group tab
 - GP2-1729 - Add learning banner
 - GP2-1731 - Logged out header modifications
 - GP2-1727 - Add trade barrier feature flag
