@@ -133,35 +133,35 @@ describe('Compare markets', () => {
       expect(rowGermany.querySelector('.loading')).toBeFalsy()
     })
     const rowGermany = localContainer.querySelector('#market-Germany')
-    expect(getText(rowGermany, '.total_population')).toEqual('99.1 million')
-    expect(getText(rowGermany, '.male_population')).toEqual('44.3 million')
-    expect(getText(rowGermany, '.female_population')).toEqual('54.8 million')
+    expect(getText(rowGermany, '.total_population')).toEqual('99.1 million100%')
+    expect(getText(rowGermany, '.male_population')).toEqual('44.3 million44.7%')
+    expect(getText(rowGermany, '.female_population')).toEqual('54.8 million55.3%')
 
     act(() => {
       const firstButton = localContainer.querySelector('.filter #cb-sector0_14')
       Simulate.click(firstButton)
     })
-    expect(getText(rowGermany, '.total_population')).toEqual('13.6 million')
-    expect(getText(rowGermany, '.male_population')).toEqual('6.1 million')
-    expect(getText(rowGermany, '.female_population')).toEqual('7.6 million')
+    expect(getText(rowGermany, '.total_population')).toEqual('13.6 million13.7%')
+    expect(getText(rowGermany, '.male_population')).toEqual('6.1 million6.1%')
+    expect(getText(rowGermany, '.female_population')).toEqual('7.6 million7.6%')
     act(() => {
       const secondButton = localContainer.querySelector(
         '.filter #cb-sector15_19'
       )
       Simulate.click(secondButton)
     })
-    expect(getText(rowGermany, '.total_population')).toEqual('18.2 million')
+    expect(getText(rowGermany, '.total_population')).toEqual('18.2 million18.4%')
     act(() => {
       const secondButton = localContainer.querySelector(
         '.filter #cb-sector15_19'
       )
       Simulate.click(secondButton)
     })
-    expect(getText(rowGermany, '.total_population')).toEqual('13.6 million')
+    expect(getText(rowGermany, '.total_population')).toEqual('13.6 million13.7%')
     act(() => {
       const firstButton = localContainer.querySelector('.filter #cb-sector0_14')
       Simulate.click(firstButton)
     })
-    expect(getText(rowGermany, '.total_population')).toEqual('99.1 million')
+    expect(getText(rowGermany, '.total_population')).toEqual('99.1 million100%')
   })
 })
