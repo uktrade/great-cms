@@ -72,7 +72,12 @@ class CaseStudySpreadsheetExportMixin:
             # No tagged value then just append row for write
             attr_values = [] if row_dict.get(f) == '-' else row_dict.get(f)
             if f == 'get_related_pages':
-                attr_values = [] if row_dict.get(f) in ['-', None] else strip_tags(row_dict.get(f)).split(',')
+
+                attr_values = (
+                    []
+                    if row_dict.get(f) in ['-', None]
+                    else ([strip_tags(i) for i in row_dict.get(f).split('<br>') if i])
+                )
 
             if f == 'modified':
                 tag = {'attribute': attr_values, 'association': f}
