@@ -12,7 +12,7 @@
 
 <section class="export-plan-dashboard__section bg-blue-deep-10">
   <div class="export-plan-dashboard__container container">
-    {% if export_plan_progress.sections_total %}
+    {% if export_plan_progress.sections_total and export_plan_progress.sections_completed %}
       <div id="section-progress">
         <div class="m-h-s m-t-m">
           <div class="progress-bar progress-bar--white-track">
