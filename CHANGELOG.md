@@ -7,6 +7,7 @@
 ### Fixed bugs
 
 - GP2-1843 - Progress bar resilience
+- GP2-1707 - Accessibility issue - Radio buttons need to have tab functionality
 - NO TICKET - card image bug fix for safari
 - GP2-1743 - fix Download export plan functionality on mobile
 - NO TICKET - fix wagtail checkbox layout issue
