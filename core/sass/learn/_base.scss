@@ -535,7 +535,7 @@ $desktop: 1024px;
     }
 
     ul {
-      @extend .list-bullet;
+      @extend .list-dot;
 
       li {
         list-style-type: none;
