@@ -4,6 +4,7 @@
 
 ### Fixed bugs
 
+- GP2-1842 - Fix absent href in Service Removed Page links
 - GP2-1707 - Accessibility issue - Radio buttons need to have tab functionality
 - NO TICKET - card image bug fix for safari
 - GP2-1743 - fix Download export plan functionality on mobile
