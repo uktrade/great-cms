@@ -9,15 +9,18 @@
 - GP2-1743 - fix Download export plan functionality on mobile
 - NO TICKET - fix wagtail checkbox layout issue
 - GP2-1784 - Stop breadcrumbs showing for Structural Page
+- NO TICKET - add document-link back in as rich-text option
+- NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
+- NO TICKET - fix wagtail checkbox layout issue
 
 ### Implemented enhancements
 
+- GP2-1576 - Export button for Casestudy attributes in Admin UI
 - GP2-1550 - Added SEO fields for guidance pages
 - GP2-1778 - Support post-login and post-signup redirection to original requested destination
 - GP2-1738 - Market guide links feature flag
 - GP2-1783 - Export plan landing page - Number of completed questions
 - GP2-1763 - Logged out footer
-
 - GP2-1569 - Compare markets page - add age group tab
 - GP2-1729 - Add learning banner
 - GP2-1731 - Logged out header modifications
@@ -35,15 +38,6 @@
 - GP2-1735 - update lessons
 - GP2-1632-generic-ep-pages
 - GP2-1782 - ep section progress
-
-### Fixed bugs
-
-- NO TICKET - add document-link back in as rich-text option
-- NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
-- NO TICKET - fix wagtail checkbox layout issue
-
-### Implemented enhancements
-
 - GP2-1441 - Corruption perception index update
 - GP2-1686 - Port /contact/domestic/ and contact/domestic/enquiries/ paths from V1, behind feature flag
 - GP2-1398 - Data loading performance for compare markets page
