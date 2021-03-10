@@ -9,6 +9,7 @@ from django.conf import settings
 from django.http.cookie import SimpleCookie
 from django.urls import reverse
 from formtools.wizard.views import normalize_name
+from pytest_django.asserts import assertTemplateUsed
 from rest_framework import status
 
 from core import cms_slugs, forms, helpers, serializers, views
@@ -22,7 +23,12 @@ from tests.unit.core.factories import (
     ListPageFactory,
     TopicPageFactory,
 )
-from tests.unit.domestic.factories import DomesticDashboardFactory
+from tests.unit.domestic.factories import (
+    ArticleListingPageFactory,
+    ArticlePageFactory,
+    DomesticDashboardFactory,
+    TopicLandingPageFactory,
+)
 from tests.unit.learn.factories import LessonPageFactory
 
 BETA_AUTH_TOKEN_PAST = (
@@ -869,3 +875,55 @@ def test_contact_us_help_notify_save_success(
             template_id=settings.CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID,
         ),
     ]
+
+
+@pytest.mark.django_db
+def test_service_removed_view(
+    client,
+    domestic_site,
+    domestic_homepage,
+):
+
+    advice_topic_page = TopicLandingPageFactory(
+        title='Advice',
+        parent=domestic_homepage,
+    )
+
+    article_listing_page = ArticleListingPageFactory(
+        parent=advice_topic_page,
+        landing_page_title='Listing Page',
+        title='Listing Page',
+    )
+
+    article_page_1 = ArticlePageFactory(
+        article_title='test article 1',
+        parent=advice_topic_page,
+        slug='test-article-1',
+    )
+
+    article_page_2 = ArticlePageFactory(
+        article_title='test article 2',
+        parent=advice_topic_page,
+        slug='test-article-2',
+    )
+
+    article_page_3 = ArticlePageFactory(
+        article_title='test article 3 - child of listing page',
+        parent=article_listing_page,
+        slug='test-article-3',
+    )
+
+    for url_name, args_ in (
+        ('core:triage-wizard', ['foo']),
+        ('core:triage-start', []),
+        ('core:custom-page', []),
+    ):
+        response = client.get(reverse(url_name, args=args_))
+        assert response.status_code == 200
+        assertTemplateUsed(response, 'domestic/service_no_longer_available.html')
+
+        _content = str(response.content)
+        assert article_listing_page.url in _content
+        assert article_page_1.url in _content
+        assert article_page_2.url in _content
+        assert article_page_3.url not in _content  # because a child of the listing page
