@@ -74,7 +74,8 @@ $desktop: 1024px;
 }
 
 .learn__step-block {
-  background: url('/static/img/circle-check-icon.png') no-repeat calc(50% + 15px) 0;
+  background: url('/static/img/circle-check-icon.png') no-repeat
+    calc(50% + 15px) 0;
   padding-top: 88px;
   text-align: center;
 }
@@ -286,11 +287,11 @@ $desktop: 1024px;
   border-bottom: 1px solid $blue-deep-20;
 
   &--placeholder {
-    background-color: rgba($white, .6);
+    background-color: rgba($white, 0.6);
 
     span,
     button {
-      opacity: .6;
+      opacity: 0.6;
     }
 
     button {
@@ -490,7 +491,9 @@ $desktop: 1024px;
 
 .lesson-page {
   .rich-text {
-    h2, h3, h4 {
+    h2,
+    h3,
+    h4 {
       color: $blue-deep-80;
       margin-bottom: 18px;
       padding: 0;
@@ -516,7 +519,8 @@ $desktop: 1024px;
       font-weight: bold;
     }
 
-    p, li {
+    p,
+    li {
       color: $blue-deep-80;
     }
 
@@ -531,7 +535,7 @@ $desktop: 1024px;
     }
 
     ul {
-      @extend .list-dot;
+      @extend .list-bullet;
 
       li {
         list-style-type: none;
@@ -614,7 +618,7 @@ $desktop: 1024px;
       }
 
       ul {
-        @extend .list-dot;
+        @extend .list-bullet;
         margin-bottom: 0;
 
         li {
@@ -624,7 +628,9 @@ $desktop: 1024px;
           padding-left: 17px;
 
           &:before {
-            left: 0;
+            background-color: $blue-deep-80;
+            width: 4px;
+            height: 4px;
           }
         }
       }
@@ -662,7 +668,9 @@ $desktop: 1024px;
   }
 
   .step-by-step {
-    h2, h3, h4 {
+    h2,
+    h3,
+    h4 {
       color: $blue-deep-80;
     }
 
@@ -686,7 +694,8 @@ $desktop: 1024px;
 
   .lesson-hero,
   .media-section {
-    img, video {
+    img,
+    video {
       border-radius: 5px;
       display: block;
       height: auto;
@@ -732,7 +741,9 @@ $desktop: 1024px;
   }
 
   .fictional-example {
-    h2, h3, h4 {
+    h2,
+    h3,
+    h4 {
       margin-bottom: 12px;
     }
 
@@ -845,7 +856,8 @@ $desktop: 1024px;
         position: relative;
       }
 
-      img, video {
+      img,
+      video {
         display: block;
         height: auto;
         margin: 0 auto;
