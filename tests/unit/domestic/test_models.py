@@ -589,7 +589,10 @@ class TopicLandingPageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             TopicLandingPage,
-            {DomesticHomePage},
+            {
+                DomesticHomePage,
+                GreatDomesticHomePage,
+            },
         )
 
     def test_allowed_children(self):
@@ -658,7 +661,10 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             MarketsTopicLandingPage,
-            {DomesticHomePage},
+            {
+                DomesticHomePage,
+                GreatDomesticHomePage,
+            },
         )
 
     def test_allowed_children(self):

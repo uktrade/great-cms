@@ -34,7 +34,7 @@ from core.models import (
     TopicPage,
     case_study_body_validation,
 )
-from domestic.models import DomesticDashboard, DomesticHomePage
+from domestic.models import DomesticDashboard, DomesticHomePage, GreatDomesticHomePage
 from exportplan.models import ExportPlanDashboardPage
 from tests.helpers import make_test_video
 from tests.unit.core import factories
@@ -344,7 +344,13 @@ def test_case_study_body_validation(block_type_values, exception_message):
 
 class LandingPageTests(WagtailPageTests):
     def test_can_be_created_under_homepage(self):
-        self.assertAllowedParentPageTypes(LandingPage, {DomesticHomePage})
+        self.assertAllowedParentPageTypes(
+            LandingPage,
+            {
+                DomesticHomePage,
+                GreatDomesticHomePage,
+            },
+        )
 
     def test_can_be_created_under_landing_page(self):
         self.assertAllowedSubpageTypes(
