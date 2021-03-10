@@ -17,6 +17,7 @@
 
 - GP2-1483 - Remove wagtail-translation from codebase entirely (follow up to GP2-1190)
 - GP2-1576 - Export button for Casestudy attributes in Admin UI
+- GP2-1730 - Where to export Magna banner (signed out) - Market guide pages
 - GP2-1550 - Added SEO fields for guidance pages
 - GP2-1778 - Support post-login and post-signup redirection to original requested destination
 - GP2-1738 - Market guide links feature flag
