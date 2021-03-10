@@ -12,14 +12,16 @@
 
 <section class="export-plan-dashboard__section bg-blue-deep-10">
   <div class="export-plan-dashboard__container container">
-    <div id="section-progress">
-      <div class="m-h-s m-t-m">
-        <div class="progress-bar progress-bar--white-track">
-          <span style="width: {% widthratio export_plan_progress.export_plan_progress.sections_completed export_plan_progress.export_plan_progress.sections_total 100 %}%"></span>
+    {% if export_plan_progress.sections_total %}
+      <div id="section-progress">
+        <div class="m-h-s m-t-m">
+          <div class="progress-bar progress-bar--white-track">
+            <span style="width: {% widthratio export_plan_progress.sections_completed export_plan_progress.sections_total 100 %}%"></span>
+          </div>
+          <p class="body-m-b m-t-xxs m-b-0">{{ export_plan_progress.sections_completed }} out of {{ export_plan_progress.sections_total }} export plan sections complete</p>
         </div>
-        <p class="body-m-b m-t-xxs m-b-0">{{ export_plan_progress.export_plan_progress.sections_completed }} out of {{ export_plan_progress.export_plan_progress.sections_total }} export plan sections complete</p>
       </div>
-    </div>
+    {% endif %}
     <div class="section-list p-v-m p-h-s" id="section-list">
       <div class="media media--middle m-b-l">
         <div class="media__figure">

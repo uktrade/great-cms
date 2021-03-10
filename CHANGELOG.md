@@ -6,7 +6,7 @@
 - GP2-1559 - Structural page  for marketing articles
 ### Fixed bugs
 
-- GP2-1707 - Accessibility issue - Radio buttons need to have tab functionality
+- GP2-1843 - Progress bar resilience
 - NO TICKET - card image bug fix for safari
 - GP2-1743 - fix Download export plan functionality on mobile
 - NO TICKET - fix wagtail checkbox layout issue
@@ -18,6 +18,7 @@
 ### Implemented enhancements
 
 - GP2-1811 - Fix SEO title not appearing in meta tags
+- GP2-1707 - Accessibility issue - Radio buttons need to have tab functionality
 - GP2-1483 - Remove wagtail-translation from codebase entirely (follow up to GP2-1190)
 - GP2-1576 - Export button for Casestudy attributes in Admin UI
 - GP2-1730 - Where to export Magna banner (signed out) - Market guide pages
