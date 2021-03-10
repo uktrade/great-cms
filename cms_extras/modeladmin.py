@@ -87,13 +87,13 @@ class CaseStudySpreadsheetExportMixin:
 
         return processed_row_list
 
-    def write_multiple_rows(self, writer, processed_row_list):
+    def write_multiple_rows(self, writer, processed_row_list) -> bytes:
         processed_byte_string = b''
         for row in processed_row_list:
             processed_byte_string += writer.writerow(row)
         return processed_byte_string
 
-    def write_csv_row(self, writer, row_dict):
+    def write_csv_row(self, writer, row_dict) -> bytes:
         processed_row = {}
         common_fields = {k: v for k, v in row_dict.items() if k in ['title', 'summary_context', 'lead_title']}
         for field, value in common_fields.items():
