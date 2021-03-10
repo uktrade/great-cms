@@ -10,6 +10,7 @@ from core.models import CaseStudy
 
 
 class CaseStudyAdminButtonHelper(ButtonHelper):
+
     view_button_classnames = ['button-small', 'icon', 'icon-doc']
 
     def view_button(self, obj):
@@ -42,6 +43,7 @@ class CaseStudySpreadsheetExportMixin:
 
     def stream_csv(self, queryset):
         """ Generate a csv file line by line from queryset, to be used in a StreamingHTTPResponse """
+
         writer = csv.DictWriter(
             Echo(),
             fieldnames=[field for field in self.list_export if field not in self.columns_to_convert],
@@ -57,7 +59,14 @@ class CaseStudySpreadsheetExportMixin:
         for item in queryset:
             yield self.write_csv_row(writer, self.to_row_dict(item))
 
-    def create_row_by_tag(self, row_dict, processed_row):
+    def create_row_by_tag(self, row_dict, processed_row) -> list:
+        """
+        This is to create number of rows based on how many tag attached to a Case study
+        For example, HS code tag field has value like 12,123456 then we convert to two rows in CSV like below
+        title, summary_context, lead_title, association, attribute
+        <title>, <summary_context>, <lead_title>, associated_hs_tag, 12
+        <title>, <summary_context>, <lead_title>, associated_hs_tag, 123456
+        """
         processed_row_list = []
         for f in self.columns_to_convert:
             # No tagged value then just append row for write
@@ -70,12 +79,12 @@ class CaseStudySpreadsheetExportMixin:
                 processed_row_with_tag = dict(processed_row, **tag)
                 processed_row_list.append(processed_row_with_tag)
                 continue
-
-            if attr_values:
+            elif attr_values:
                 for tagged_value in attr_values:
                     tag = {'attribute': tagged_value, 'association': f}
                     processed_row_with_tag = dict(processed_row, **tag)
                     processed_row_list.append(processed_row_with_tag)
+
         return processed_row_list
 
     def write_multiple_rows(self, writer, processed_row_list):
@@ -170,9 +179,13 @@ class CaseStudyAdmin(ModelAdmin):
     get_related_pages.short_description = 'Associated pages'
 
     def association(self, obj):
+        # This is used in list_export field for CSV download
+        # when define in list_export it verify actual attribute exist for model or not hence creating proxy field here
         pass
 
     def attribute(self, obj):
+        # This is used in list_export field for CSV download
+        # when define in list_export it verify actual attribute exist for model or not hence creating proxy field here
         pass
 
 
