@@ -7,6 +7,7 @@ import { isObject, get } from '../../Helpers'
 import economyTabConfig from './TabConfigEconomy'
 import populationTabConfig from './TabConfigPopulation'
 import societyTabConfig from './TabConfigSociety'
+import ageGroupsTabConfig from './TabConfigAgeGroups'
 
 export default function ComparisonTables(props) {
   const {
@@ -15,7 +16,6 @@ export default function ComparisonTables(props) {
     selectedProduct,
     removeMarket,
     triggerButton,
-    selectedTab,
     cacheVersion,
   } = props
   const [activeTab, setActiveTab] = useState()
@@ -28,25 +28,31 @@ export default function ComparisonTables(props) {
   if (tabs && Object.keys(tabs).length > 0) {
     listOfTabs = Object.keys(tabs).filter((key) => tabs[key])
     if (!activeTab && listOfTabs.length) {
-      setActiveTab(selectedTab || listOfTabs[0].toUpperCase())
+      setActiveTab(listOfTabs[0])
     }
   }
 
   const tabConfig = {
-    population: populationTabConfig,
     economy: economyTabConfig,
+    population: populationTabConfig,
     society: societyTabConfig,
+    agegroups: ageGroupsTabConfig,
   }
 
   return (
     <>
-      <Tabs setActiveTab={setActiveTab} showTabs={!!listOfTabs.length}>
+      <Tabs
+        setActiveTab={setActiveTab}
+        activeTab={activeTab}
+        showTabs={!!listOfTabs.length}
+      >
         {listOfTabs.map((item) => {
           return (
             <div
               key={item}
-              label={item.toUpperCase()}
+              label={tabConfig[item].tabName || item.toUpperCase()}
               className="button button--small button--tertiary"
+              tabId={item}
             />
           )
         })}
@@ -54,17 +60,19 @@ export default function ComparisonTables(props) {
       <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
         {listOfTabs.map(
           (item) =>
-            activeTab === item.toUpperCase() &&
+            activeTab === item &&
             tabConfig[item] && (
-              <DataTable
-                key={item}
-                datasetName={item}
-                config={tabConfig[item]}
-                comparisonMarkets={comparisonMarkets}
-                commodityCode={get(selectedProduct, 'commodity_code')}
-                removeMarket={removeMarket}
-                cacheVersion={cacheVersion}
-              />
+              <React.Fragment key={item}>
+                {tabConfig[item].filter}
+                <DataTable
+                  datasetName={item}
+                  config={tabConfig[item]}
+                  comparisonMarkets={comparisonMarkets}
+                  commodityCode={get(selectedProduct, 'commodity_code')}
+                  removeMarket={removeMarket}
+                  cacheVersion={cacheVersion}
+                />
+              </React.Fragment>
             )
         )}
         {triggerButton}
@@ -82,13 +90,9 @@ ComparisonTables.propTypes = {
   }).isRequired,
   removeMarket: PropTypes.func.isRequired,
   triggerButton: PropTypes.instanceOf(Object).isRequired,
-  selectedTab: PropTypes.string,
   cacheVersion: PropTypes.number,
 }
 
 ComparisonTables.defaultProps = {
-  selectedTab: null,
   cacheVersion: null,
-
 }
-

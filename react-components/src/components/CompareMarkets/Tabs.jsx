@@ -1,14 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Tab from './Tab'
 
 function Tabs(props) {
-  const { setActiveTab, showTabs, children } = props
-
-  const [activeTab, setLocalActiveTab] = useState(children[0] && children[0].props.label)
+  const { setActiveTab, activeTab, showTabs, children } = props
 
   const onClickTabItem = (tab) => {
-    setLocalActiveTab(tab)
     setActiveTab(tab)
   }
 
@@ -16,12 +13,13 @@ function Tabs(props) {
     <div className="tabs">
       <ol className="tab-list body-m m-f-m">
         {children.map((child) => {
-          const { label } = child.props
+          const { label, tabId } = child.props
           return (
             showTabs && (
               <Tab
                 activeTab={activeTab}
                 key={label}
+                tabId={tabId}
                 label={label}
                 onClick={onClickTabItem}
               />
@@ -36,11 +34,13 @@ function Tabs(props) {
 Tabs.propTypes = {
   children: PropTypes.instanceOf(Array).isRequired,
   setActiveTab: PropTypes.func.isRequired,
+  activeTab: PropTypes.string,
   showTabs: PropTypes.bool
 }
 
 Tabs.defaultProps = {
-  showTabs: true
+  showTabs: true,
+  activeTab: null
 }
 
 export default Tabs

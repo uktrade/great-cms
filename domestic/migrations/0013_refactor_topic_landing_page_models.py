@@ -13,7 +13,6 @@ class Migration(migrations.Migration):
         ('wagtailimages', '0022_uploadedimage'),
         ('wagtailforms', '0004_add_verbose_name_plural'),
         ('core', '0049_data_bootstrap_tag_and_industrytag_snippets'),
-        ('wagtail_personalisation', '0025_auto_20190822_0627'),
         ('wagtailredirects', '0006_redirect_increase_max_length'),
         ('wagtailcore', '0052_pagelogentry'),
         ('domestic', '0012_topiclandingpage'),

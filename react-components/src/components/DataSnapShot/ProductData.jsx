@@ -39,8 +39,8 @@ export const ProductData = memo(({ world, local, country }) => (
           <Stats
             header="GDP per capita (USD)"
             data={
-              country.GDPPerCapita && country.GDPPerCapita.year_2019
-                ? country.GDPPerCapita.year_2019
+              country.GDPPerCapita && country.GDPPerCapita[0] && country.GDPPerCapita[0].year_2019
+                ? country.GDPPerCapita[0].year_2019
                 : notAvailable
             }
           />
@@ -49,8 +49,8 @@ export const ProductData = memo(({ world, local, country }) => (
           <Stats
             header="Adjusted net national income per capita (USD)"
             data={
-              country.Income && country.Income.value
-                ? millify(country.Income.value)
+              country.Income && country.Income[0] && country.Income[0].value
+                ? millify(country.Income[0].value)
                 : notAvailable
             }
           />
