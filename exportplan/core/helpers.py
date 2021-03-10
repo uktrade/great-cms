@@ -275,7 +275,7 @@ def values_to_labels(values, choices):
 def get_export_plan_pdf_context(request):
     processor = ExportPlanProcessor(request.user.export_plan.data)
     context = {
-        'host_url': ('https://' if request.is_secure() else 'http://') + request.get_host(),
+        'host_url': '',
         'export_plan': request.user.export_plan.data,
         'user': request.user,
         'sections': data.SECTION_TITLES,
