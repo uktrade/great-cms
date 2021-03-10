@@ -366,7 +366,8 @@ class TopicLandingBasePage(BaseContentPage):
         abstract = True
 
     parent_page_types = [
-        'domestic.DomesticHomePage',
+        'domestic.DomesticHomePage',  # TODO: once we've restructured, remove this permission
+        'domestic.GreatDomesticHomePage',
     ]
 
     # `title` field comes from Page->BaseContentPage
@@ -552,7 +553,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     template = 'domestic/country_guide.html'
 
     parent_page_types = [
-        'domestic.DomesticHomePage',  # TODO: remove this
+        'domestic.DomesticHomePage',  # TODO: once we've restructured, remove this permission
         'domestic.MarketsTopicLandingPage',
     ]
 
