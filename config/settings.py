@@ -9,6 +9,7 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from .utils import get_wagtail_transfer_configuration
 
 ROOT_DIR = environ.Path(__file__) - 2
+CORE_APP_DIR = ROOT_DIR.path('core')
 
 env = environ.Env()
 
@@ -94,6 +95,9 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            CORE_APP_DIR.path('templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'debug': True,
