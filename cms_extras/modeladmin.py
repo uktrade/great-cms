@@ -10,7 +10,7 @@ from core.models import CaseStudy
 
 
 class CaseStudyAdminButtonHelper(ButtonHelper):
-    view_button_classnames = ['button-small', 'icon', 'icon-doc', 'btn-group']
+    view_button_classnames = ['button-small', 'icon', 'icon-doc']
 
     def view_button(self, obj):
         """Button to trigger a standalone view of the relevant CaseStudy"""
