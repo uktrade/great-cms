@@ -1,4 +1,5 @@
 from django.utils.text import slugify
+from rest_framework.fields import ListField
 from rest_framework.serializers import Serializer
 
 from . import data, serializers
@@ -19,7 +20,7 @@ class ExportPlanProcessor:
         (slugify(data.GETTING_PAID), 'getting_paid'),
         (slugify(data.FUNDING_AND_CREDIT), 'funding_and_credit'),
         (slugify(data.TRAVEL_AND_BUSINESS_POLICIES), 'travel_business_policies'),
-        (slugify(data.BUSINESS_RISK), 'travel_business_policies'),
+        (slugify(data.BUSINESS_RISK), 'business_risks'),
     ]
 
     def __init__(self, data):
@@ -31,17 +32,30 @@ class ExportPlanProcessor:
         progress = []
         sections = dict(data.SECTIONS)
         for field_map in self.FIELD_NAME_MAP:
-            total = 0
+            total = 1
             populated = 0
             field_class = self.seralizer.fields[field_map[1]]
             section_key = sections[field_map[0]]['url']
             if isinstance(field_class, Serializer):
                 total = len(getattr(field_class, 'fields'))
-                for field in getattr(field_class, 'fields'):
-                    if field in self.seralizer.initial_data.get(field_map[1], {}):
+                for field_name, field_type in getattr(field_class, 'fields').items():
+                    if isinstance(field_type, ListField) and self.has_items(field_name):
                         populated += 1
+                    elif self.has_value(field_map[1], field_name):
+                        populated += 1
+            elif isinstance(field_class, ListField) and self.has_items(field_name):
+                populated += 1
             progress.append({'total': total, 'populated': populated, 'url': section_key})
         return progress
+
+    def has_items(self, field_name):
+        return True if len(self.seralizer.initial_data.get(field_name, [])) > 0 else False
+
+    def has_value(self, field_name, sub_field_name):
+        field_value = ''
+        if sub_field_name in self.seralizer.initial_data.get(field_name, {}):
+            field_value = self.seralizer.initial_data[field_name][sub_field_name]
+        return False if field_value == '' else True
 
     def build_current_url(self, slug):
         current_url = data.SECTIONS[slug]
