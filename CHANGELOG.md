@@ -3,24 +3,31 @@
 ## Pre-release
 
 ### Fixed bugs
+
+- GP2-1707 - Accessibility issue - Radio buttons need to have tab functionality
 - NO TICKET - card image bug fix for safari
 - GP2-1743 - fix Download export plan functionality on mobile
 - NO TICKET - fix wagtail checkbox layout issue
 - GP2-1784 - Stop breadcrumbs showing for Structural Page
+- NO TICKET - add document-link back in as rich-text option
+- NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
+- NO TICKET - fix wagtail checkbox layout issue
 
 ### Implemented enhancements
+
+- GP2-1483 - Remove wagtail-translation from codebase entirely (follow up to GP2-1190)
+- GP2-1576 - Export button for Casestudy attributes in Admin UI
 - GP2-1550 - Added SEO fields for guidance pages
 - GP2-1778 - Support post-login and post-signup redirection to original requested destination
 - GP2-1738 - Market guide links feature flag
 - GP2-1783 - Export plan landing page - Number of completed questions
 - GP2-1763 - Logged out footer
-
 - GP2-1569 - Compare markets page - add age group tab
 - GP2-1729 - Add learning banner
 - GP2-1731 - Logged out header modifications
 - GP2-1727 - Add trade barrier feature flag
 - GP2-1726 - Add ctas to domestic homepage
-- GP2-1559 - Structural page  for marketing articles
+- GP2-1559 - Structural page for marketing articles
 - GP2-1325 - Footer is not displaying correctly
 - GP2-1430 - Income data for target research page in EP
 - GP2-1575 - Added default text for case study summary_context field
@@ -32,15 +39,6 @@
 - GP2-1735 - update lessons
 - GP2-1632-generic-ep-pages
 - GP2-1782 - ep section progress
-
-### Fixed bugs
-
-- NO TICKET - add document-link back in as rich-text option
-- NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
-- NO TICKET - fix wagtail checkbox layout issue
-
-### Implemented enhancements
-
 - GP2-1441 - Corruption perception index update
 - GP2-1686 - Port /contact/domestic/ and contact/domestic/enquiries/ paths from V1, behind feature flag
 - GP2-1398 - Data loading performance for compare markets page
@@ -66,11 +64,16 @@
 - GP2-1632 - export plan DL BE p1
 
 ## [1.4.0](https://github.com/uktrade/great-cms/releases/tag/1.4.0)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.3.0...1.4.0)
+
 ### Fixed bugs
-- NO TICKET - add document-link back in as rich-text option	- NO TICKET - add document-link back in as rich-text option
+
+- NO TICKET - add document-link back in as rich-text option - NO TICKET - add document-link back in as rich-text option
 - NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
-### Implemented enhancements	### Implemented enhancements
+
+### Implemented enhancements ### Implemented enhancements
+
 - GP2-1440 - Ranking calculation for case study
 - GP2-1128 - Product Classifier - Mobile carousel
 - GP2-1551 - Seperated case study tag for trading bloc
@@ -91,6 +94,7 @@
 - GP2-1344 - added trading bloc logic to search case study
 
 ### Fixed bugs
+
 - GP2-1431 - Country chooser visual defects
 - GP2-1549 - Change text/field used for links to child Performance Dashboards
 - GP2-1446 - Increase input clear button size
@@ -119,6 +123,7 @@
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.1.0...1.2.0)
 
 ### Implemented enhancements
+
 - GP2-1700 - Drop down boxes overlap fix
 - GP2-1333 - Add filtering behaviour to MarketsTopicLandingPage (ported from BAU)
 - GP2-1412 - Update RichtextField features allowed on ArticlePage
@@ -376,7 +381,9 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
--GP2-1548  - Added Service Removed Page
+
+-GP2-1548 - Added Service Removed Page
+
 - GP2-1155 - Reduce Sentry noise by skipping GA middleware for Django and Wagtail Admins
 - GP2-1144 - Allow Beta token checks to support sub-paths of allowed paths
 - GP2-1020 - Cleanup of redundant code following topics refactor
