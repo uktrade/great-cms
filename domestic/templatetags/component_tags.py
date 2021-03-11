@@ -222,3 +222,15 @@ def success_box(**kwargs):
         'heading_level': 'h3',
         **kwargs,
     }
+
+
+@register.inclusion_tag('components/warning_banner.html')
+def warning_banner(**kwargs):
+    return {
+        **kwargs,
+    }
+
+
+@register.simple_tag
+def is_child_of_advice_topic_landing_page(child_page):
+    return child_page.get_parent().slug == 'advice'
