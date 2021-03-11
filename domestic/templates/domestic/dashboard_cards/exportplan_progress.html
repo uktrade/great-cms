@@ -1,0 +1,17 @@
+{% comment %}
+The exporplan progress card.
+Only show if progress has started
+{% endcomment %}
+
+{% load progress_bar %}
+
+{% if export_plan_in_progress %}
+  <div class="g-card p-b-0" id="your-progress-card">
+    {% include "./card_header.html" with title="Export Plan" %}
+      {% progress_bar  export_plan_progress.0.sections_total export_plan_progress.0.sections_completed %}
+      <p class="topics-read-text body-m-b m-t-xxs m-b-0">
+             {{ export_plan_progress.0.sections_completed }} of {{ export_plan_progress.0.sections_total }} Completed
+      </p>
+
+  </div>
+{% endif %}

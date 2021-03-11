@@ -6,6 +6,7 @@ from great_components import helpers as great_components_helpers
 
 from config import settings
 from core import cms_slugs
+from exportplan.core.processor import ExportPlanProcessor
 
 
 class WagtailAdminExclusivePageMixin:
@@ -38,8 +39,10 @@ class ExportPlanMixin:
     # gets export plan data for use by the persionalization bar
     def get_context(self, request):
         context = super().get_context(request)
+        processor = ExportPlanProcessor(request.user.export_plan.data)
         if request.user and hasattr(request.user, 'export_plan'):
             context['export_plan'] = request.user.export_plan.data
+            context['export_plan_progress'] = (processor.calculate_ep_progress(),)
         context['FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER'] = settings.FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER
         return context
 
