@@ -12,6 +12,12 @@ from domestic.templatetags.component_tags import (
     get_pagination_url,
     industry_accordion_case_study_is_viable,
     industry_accordion_is_viable,
+    is_child_of_parent_with_slug,
+)
+from .factories import (
+    ArticleListingPageFactory,
+    ArticlePageFactory,
+    TopicLandingPageFactory,
 )
 
 
@@ -462,3 +468,38 @@ def test_pagination(count, current, expected, rf):
     if soup.findAll('a', {'class': 'pagination-next'}):
         items.append('N')
     assert ' '.join(items) == expected
+
+
+@pytest.mark.django_db
+def test_is_child_of_parent_with_slug(domestic_homepage):
+
+    advice_topic_page = TopicLandingPageFactory(
+        title='Advice',
+        parent=domestic_homepage,
+        slug='advice',
+    )
+
+    article_listing_page = ArticleListingPageFactory(
+        parent=advice_topic_page,
+        landing_page_title='Listing Page',
+        title='Listing Page',
+        slug='article-listing-page',
+    )
+
+    article_page_1 = ArticlePageFactory(
+        article_title='test article 1',
+        parent=advice_topic_page,
+        slug='test-article-1',
+    )
+
+    article_page_2 = ArticlePageFactory(
+        article_title='test article 2',
+        parent=article_listing_page,
+        slug='test-article-2',
+    )
+
+    assert is_child_of_parent_with_slug(article_page_1, 'advice')
+    assert not is_child_of_parent_with_slug(article_page_1, 'test')
+
+    assert not is_child_of_parent_with_slug(article_page_1, 'article-listing-page')
+    assert is_child_of_parent_with_slug(article_page_2, 'article-listing-page')
