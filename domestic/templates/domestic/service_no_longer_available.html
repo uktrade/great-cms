@@ -14,7 +14,7 @@
         <p>Read about how to:</p>
         <ul class="list list-bullet">
           {% for listing in listing_page.child_pages.live %}
-            <li><a href="{{ listing.full_path }}" class="link">{{ listing.title }}</a></li>
+            <li><a href="{{ listing.url }}" class="link">{{ listing.title }}</a></li>
           {% endfor %}
         </ul>
       </div>
