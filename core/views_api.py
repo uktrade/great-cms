@@ -120,6 +120,6 @@ class ComTradeDataView(generics.GenericAPIView):
 class CountryDataView(generics.GenericAPIView):
     def get(self, request):
         countries = request.GET.get('countries', '').split(',')
-        fields = request.GET.get('fields', '').split(',')
-        response_data = helpers.get_country_data(countries=countries, fields=fields)
+        field_string = request.GET.get('fields', '')
+        response_data = helpers.get_country_data(countries=countries, fields=field_string)
         return Response(response_data)
