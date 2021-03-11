@@ -12,7 +12,7 @@
           {% include 'components/social_share_links.html' %}
         </div>
         <div class="column-seven-twelfths">
-          {% is_child_of_advice_topic_landing_page page as show_warning_banner %}
+          {% is_child_of_parent_with_slug page 'advice' as show_warning_banner %}
           {% if show_warning_banner %}
           {% url "core:signup" as link_url %}
           {% include 'components/warning_banner.html' with cta_url=link_url %}
