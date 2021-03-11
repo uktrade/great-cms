@@ -27,6 +27,7 @@
 
 - GP2-1811 - Fix SEO title not appearing in meta tags
 - GP2-1707 - Accessibility issue - Radio buttons need to have tab functionality
+- GP2-1775 - Article page warning banner
 - GP2-1832 - Update page-parent permissons to allow homepage swap
 - GP2-1483 - Remove wagtail-translation from codebase entirely (follow up to GP2-1190)
 - GP2-1576 - Export button for Casestudy attributes in Admin UI
