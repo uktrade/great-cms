@@ -14,6 +14,7 @@
 - NO TICKET - fix wagtail checkbox layout issue
 
 ### Implemented enhancements
+- GP2-1811 - Fix SEO title as main page title if it exists
 - GP2-1811 - Fix SEO title not appearing in meta tags
 
 - GP2-1483 - Remove wagtail-translation from codebase entirely (follow up to GP2-1190)
