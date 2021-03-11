@@ -141,18 +141,17 @@
                 {% include 'components/card_grid.html' with cards=paginated_results  %}
               </div>
               {% pagination pagination_page=paginated_results %}
-
-              {% if number_of_results %}
-                {% url "core:signup" as link_url %}
-                <div class="margin-top-30">
-                  {% include 'components/learning_banner.html' with tag_text="New" heading="Kick start your exporting journey today" sub_heading="Make the right choice by comparing it with data from other countries." cta_text="Sign up" cta_url=link_url cta_alt_text="Sign up" %}
-                </div>
-              {% endif %}
             </div>
           </div>
           <input class="button" type="submit" value="Submit form" />
         </form>
     </div>
+    {% if number_of_results %}
+      {% url "core:signup" as link_url %}
+      <div class="margin-top-30">
+        {% include 'components/learning_banner.html' with tag_text="New" heading="Kick start your exporting journey today" sub_heading="Make the right choice by comparing it with data from other countries." cta_text="Sign up" cta_url=link_url cta_alt_text="Sign up" %}
+      </div>
+    {% endif %}
 </section>
 {% endblock %}
 
