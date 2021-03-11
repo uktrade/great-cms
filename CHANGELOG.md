@@ -22,6 +22,8 @@
 - NO TICKET - fix pdf generation
 
 ### Implemented enhancements
+- GP2-1811 - Fix SEO title as main page title if it exists
+- GP2-1811 - Fix SEO title not appearing in meta tags
 
 - GP2-1811 - Fix SEO title not appearing in meta tags
 - GP2-1707 - Accessibility issue - Radio buttons need to have tab functionality
