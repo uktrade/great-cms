@@ -1,7 +1,8 @@
 import pytest
 
 from contact import snippet_slugs
-from contact.models import ContactSuccessSnippet, NonPageContentSnippetBase
+from contact.models import ContactSuccessSnippet
+from core.cms_snippets import NonPageContentSnippetBase
 
 
 def test_non_page_content_snippet_base_not_implemented_errors():
