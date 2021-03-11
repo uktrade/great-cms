@@ -4769,3 +4769,24 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
       text-align: center;
       cursor: pointer;
       text-decoration: none; }
+
+.shared-warning-banner {
+  background: #fff;
+  border-color: #EB4F4D; }
+  .shared-warning-banner .message-box-icon {
+    background: #EB4F4D;
+    vertical-align: top; }
+    .shared-warning-banner .message-box-icon svg {
+      fill: #fff;
+      width: 24px;
+      height: 24px; }
+  .shared-warning-banner .message-box-content {
+    padding: 25px 25px 20px; }
+    .shared-warning-banner .message-box-content p {
+      font-family: "Overpass", Arial, Helvetica, Verdana;
+      font-size: 16px;
+      letter-spacing: 0;
+      line-height: 25px;
+      margin: 0 0 5px; }
+    .shared-warning-banner .message-box-content a {
+      color: #006ccc; }

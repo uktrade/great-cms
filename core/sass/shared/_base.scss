@@ -114,3 +114,35 @@ $mobile: 640px;
         }
     }
 }
+
+.shared-warning-banner {
+    background: #fff;
+    border-color: #EB4F4D;
+
+    .message-box-icon {
+        background: #EB4F4D;
+        vertical-align: top;
+
+        svg {
+            fill: #fff;
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    .message-box-content {
+        padding: 25px 25px 20px;
+
+        p {
+            font-family: "Overpass", Arial, Helvetica, Verdana;
+            font-size: 16px;
+            letter-spacing: 0;
+            line-height: 25px;
+            margin: 0 0 5px;
+        }
+
+        a {
+            color: #006ccc;
+        }
+    }
+}
