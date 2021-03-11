@@ -61234,6 +61234,8 @@ var Risk = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
       deleteRisk = _ref.deleteRisk,
       risk = _ref.risk,
       risk_extras = _ref.risk_extras,
+      likelihood_extras = _ref.likelihood_extras,
+      impact_extras = _ref.impact_extras,
       contingency_plan = _ref.contingency_plan,
       contingency_plan_extras = _ref.contingency_plan_extras,
       index = _ref.index,
@@ -61264,7 +61266,7 @@ var Risk = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
     update: function update(e) {
       return _onChange(id, e);
     }
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Radiogroup_Radiogroup__WEBPACK_IMPORTED_MODULE_4__["Radiogroup"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_3__["Learning"], likelihood_extras)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Radiogroup_Radiogroup__WEBPACK_IMPORTED_MODULE_4__["Radiogroup"], {
     id: id,
     options: impactOptions,
     selected: selected.risk_impact,
@@ -61273,7 +61275,7 @@ var Risk = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
     update: function update(e) {
       return _onChange(id, e);
     }
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_3__["Learning"], impact_extras)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "form-label m-v-0"
   }, contingency_plan_extras.label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_3__["Learning"], contingency_plan_extras), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_TextArea__WEBPACK_IMPORTED_MODULE_2__["TextArea"], (_React$createElement = {
     id: String(id),
@@ -61316,6 +61318,16 @@ Risk.propTypes = {
       content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
     }),
     label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+      content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+    })
+  }).isRequired,
+  likelihood_extras: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+      content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+    })
+  }).isRequired,
+  impact_extras: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
       content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
     })
@@ -61372,6 +61384,8 @@ var Risks = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
     var pk = _ref2.pk,
         risk = _ref2.risk,
         risk_extras = _ref2.risk_extras,
+        likelihood_extras = _ref2.likelihood_extras,
+        impact_extras = _ref2.impact_extras,
         contingency_plan = _ref2.contingency_plan,
         contingency_plan_extras = _ref2.contingency_plan_extras,
         risk_likelihood = _ref2.risk_likelihood,
@@ -61382,6 +61396,8 @@ var Risks = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
       id: pk,
       risk: risk,
       risk_extras: risk_extras,
+      likelihood_extras: likelihood_extras,
+      impact_extras: impact_extras,
       contingency_plan: contingency_plan,
       contingency_plan_extras: contingency_plan_extras,
       onChange: onChange,
@@ -61422,6 +61438,16 @@ Risks.propTypes = {
       example: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
         content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
       }),
+      tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+        content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+      })
+    }),
+    likelihood_extras: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+      tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+        content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+      })
+    }),
+    impact_extras: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
       tooltip: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
         content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
       })
@@ -64268,7 +64294,8 @@ var Radiogroup = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_r
       type = _ref.type,
       buttonType = _ref.buttonType,
       update = _ref.update,
-      id = _ref.id;
+      id = _ref.id,
+      children = _ref.children;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(selected || null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -64287,8 +64314,8 @@ var Radiogroup = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_r
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, !hideLabel && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "form-label m-v-0"
-  }, label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "\n          great-radiogroup \n          ".concat(type === 'button' ? 'great-radiogroup--button' : '', "\n          ").concat(buttonType === 'temperature' ? 'great-radiogroup--temperature' : '', "\n          ").concat(className, "\n        ")
+  }, label), children, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "\n          great-radiogroup\n          ".concat(type === 'button' ? 'great-radiogroup--button' : '', "\n          ").concat(buttonType === 'temperature' ? 'great-radiogroup--temperature' : '', "\n          ").concat(className, "\n        ")
   }, options.map(function (_ref2) {
     var value = _ref2.value,
         label = _ref2.label;
@@ -64318,14 +64345,16 @@ Radiogroup.propsTypes = {
   type: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   buttonType: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   update: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
-  id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired
+  id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number.isRequired,
+  children: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.node
 };
 Radiogroup.defaultProps = {
   className: 'm-b-xs',
   type: 'button',
   buttonType: '',
   hideLabel: false,
-  label: ''
+  label: '',
+  children: null
 };
 
 /***/ }),
