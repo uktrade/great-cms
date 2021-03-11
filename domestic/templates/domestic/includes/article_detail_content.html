@@ -15,7 +15,7 @@
           {% is_child_of_advice_topic_landing_page page as show_warning_banner %}
           {% if show_warning_banner %}
           {% url "core:signup" as link_url %}
-          {% warning_banner cta_url=link_url %}
+          {% include 'components/warning_banner.html' with cta_url=link_url %}
           {% endif %}
           {% if page.type_of_article %}
             <p class="subheading">{{ page.type_of_article }}</p>
