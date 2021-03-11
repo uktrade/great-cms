@@ -15,26 +15,27 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='matchfirstcountryofinterestrule',
-            name='country',
-        ),
-        migrations.RemoveField(
-            model_name='matchfirstcountryofinterestrule',
-            name='segment',
-        ),
-        migrations.RemoveField(
-            model_name='matchfirstindustryofinterestrule',
-            name='segment',
-        ),
-        migrations.RemoveField(
-            model_name='matchproductexpertise',
-            name='product',
-        ),
-        migrations.RemoveField(
-            model_name='matchproductexpertise',
-            name='segment',
-        ),
+        # DELIBERATELY DISABLED AS PART OF CONTROLLED REMOVAL - NO LONGER CREATED (SEE SQUASHED MIGRATION)
+        # migrations.RemoveField(
+        #     model_name='matchfirstcountryofinterestrule',
+        #     name='country',
+        # ),
+        # migrations.RemoveField(
+        #     model_name='matchfirstcountryofinterestrule',
+        #     name='segment',
+        # ),
+        # migrations.RemoveField(
+        #     model_name='matchfirstindustryofinterestrule',
+        #     name='segment',
+        # ),
+        # migrations.RemoveField(
+        #     model_name='matchproductexpertise',
+        #     name='product',
+        # ),
+        # migrations.RemoveField(
+        #     model_name='matchproductexpertise',
+        #     name='segment',
+        # ),
         migrations.AlterField(
             model_name='detailpage',
             name='body',
@@ -144,16 +145,17 @@ class Migration(migrations.Migration):
                 ]
             ),
         ),
-        migrations.DeleteModel(
-            name='MatchCountryQuerystring',
-        ),
-        migrations.DeleteModel(
-            name='MatchFirstCountryOfInterestRule',
-        ),
-        migrations.DeleteModel(
-            name='MatchFirstIndustryOfInterestRule',
-        ),
-        migrations.DeleteModel(
-            name='MatchProductExpertise',
-        ),
+        # DELIBERATELY DISABLED AS PART OF CONTROLLED REMOVAL - NO LONGER CREATED (SEE SQUASHED MIGRATION)
+        # migrations.DeleteModel(
+        #     name='MatchCountryQuerystring',
+        # ),
+        # migrations.DeleteModel(
+        #     name='MatchFirstCountryOfInterestRule',
+        # ),
+        # migrations.DeleteModel(
+        #     name='MatchFirstIndustryOfInterestRule',
+        # ),
+        # migrations.DeleteModel(
+        #     name='MatchProductExpertise',
+        # ),
     ]
