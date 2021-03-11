@@ -4,6 +4,7 @@
 
 ### Fixed bugs
 
+- GP2-1280 - Bullet styling fix on mobile
 - GP2-1842 - Fix absent href in Service Removed Page links
 - GP2-1843 - Progress bar resilience
 - GP2-1806 - Selects alignment when active on desktop
