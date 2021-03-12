@@ -2,17 +2,21 @@ import React from 'react'
 import Services from '@src/Services'
 import { normaliseValues, get, millify } from '../../Helpers'
 
-const populationPercentActual = (group, population) => {
-  if (group && population) {
-    const percentage = Math.round((group * 100) / population)
-    return (
-      <>
-        <div className="body-l primary">{percentage}%</div>
-        <div className="body-m secondary">{millify(group)} </div>
-      </>
-    )
-  }
-  throw new Error()
+
+const populationPercentActual = (data, urbanRural) => {
+  const population = 1000 * data.reduce((total, row) => total + row.value, 0)
+  const group = 1000 * data.reduce((total, row) => total + (urbanRural == row.urban_rural ? row.value : 0), 0)
+  const percentage = Math.round((group * 100) / population)
+  return (
+    <>
+      <div className="body-l primary">{percentage}%</div>
+      <div className="body-m secondary">{millify(group)} </div>
+    </>
+  )
+}
+
+const totalPopulation = (data) => {
+  return millify(1000 * data.reduce((total, row) => total + row.value, 0))
 }
 
 export default {
@@ -46,36 +50,33 @@ export default {
     total_population: {
       name: 'Total Population',
       className: 'text-align-right',
-      render: (data) => millify(data.total_population_raw),
+      render: (data) => totalPopulation(data.PopulationUrbanRural),
     },
     urban_population: {
       name: 'Living in urban areas',
       className: 'text-align-right',
       render: (data) =>
-        populationPercentActual(
-          data.urban_population_total * 1000,
-          data.total_population_raw
-        ),
+        populationPercentActual(data.PopulationUrbanRural, 'urban'),
     },
     rural_population: {
       name: 'Living in rural areas',
       className: 'text-align-right',
       render: (data) =>
-        populationPercentActual(
-          data.rural_population_total * 1000,
-          data.total_population_raw
-        ),
+        populationPercentActual(data.PopulationUrbanRural, 'rural'),
     },
     internet_usage: {
       name: 'Access to internet',
       className: 'text-align-right',
-      render: (data) => normaliseValues(`${data.internet_usage.value}%`),
+      render: (data) => {
+        const thing = normaliseValues(`${data.InternetUsage[0].value}%`)
+        return thing
+      },
       year: (data) => get(data, 'internet_usage.year'),
     },
     cpi: {
       name: 'Consumer Price Index',
       className: 'text-align-right',
-      render: (data) => data.cpi.value,
+      render: (data) => data.ConsumerPriceIndex[0].value,
       year: (data) => get(data, 'cpi.year'),
       tooltip: {
         position: 'right',
@@ -88,5 +89,8 @@ export default {
       },
     },
   },
-  dataFunction: Services.getPopulationByCountryData,
+  dataFunction: (countries) => Services.getCountryData(countries, JSON.stringify([
+    {model:'InternetUsage'},
+    {model:'ConsumerPriceIndex'},
+    {model:'PopulationUrbanRural',filter:{year:2020}}])),
 }

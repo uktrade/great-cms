@@ -29,7 +29,7 @@ it('Renders a filter', () => {
   const setActiveFilter = jest.fn()
   act(() => {
     ReactDOM.render(
-      <Filter setActiveFilter={setActiveFilter} filters={filters} />,
+      <Filter filterId="test" setActiveFilter={setActiveFilter} filters={filters} />,
       container
     )
   })

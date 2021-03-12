@@ -34,23 +34,17 @@ const valueAndPercentage = (dataSet, gender) => {
   const total = dataSetByGender(dataSet, null, null)
   return (
     <>
-      <div className="body-l primary">
-        {millify(value)}
-      </div>
+      <div className="body-l primary">{millify(value)}</div>
       <div className="body-m secondary text-black-60">
-        {normaliseValues(value*100/total)}%
+        {normaliseValues((value * 100) / total)}%
       </div>
     </>
-    )
+  )
 }
-
 
 const populationFiltered = (dataSet, filter) => {
   const value = Object.keys(filterMapping).reduce((total, filterGroupKey) => {
-    if (
-      !filter || !Object.keys(filter).length ||
-      filter[filterGroupKey]
-    ) {
+    if (!filter || !Object.keys(filter).length || filter[filterGroupKey]) {
       return filterMapping[filterGroupKey].groups.reduce(
         (groupTotal, sourceKey) => groupTotal + (dataSet[sourceKey] || 0),
         total
@@ -61,24 +55,30 @@ const populationFiltered = (dataSet, filter) => {
   return value * 1000 // Because the source data are in 1000s
 }
 
-const dataSetByGender = (dataSet, gender, filter=localActiveFilter) => {
+const dataSetByGender = (dataSet, gender, filter = localActiveFilter) => {
   return dataSet
-      .filter((row) => !gender || row.gender === gender)
-      .reduce((total, row) => total + populationFiltered(row, filter), 0)
+    .filter((row) => !gender || row.gender === gender)
+    .reduce((total, row) => total + populationFiltered(row, filter), 0)
 }
 
 const yearByGender = (dataSet, gender) => {
-  return (dataSet.filter((row) => !gender || row.gender === gender)[0] || {}).year
+  return (dataSet.filter((row) => !gender || row.gender === gender)[0] || {})
+    .year
 }
 
 const setActiveFilter = (activeFilter) => {
   localActiveFilter = activeFilter
   Services.store.dispatch(actions.setLoaded())
 }
+
 const filter = (
   <>
     <div className="body-l-b">Select your target age groups</div>
-    <Filter setActiveFilter={setActiveFilter} filters={filterMapping} />
+    <Filter
+      filterId="age-groups"
+      setActiveFilter={setActiveFilter}
+      filters={filterMapping}
+    />
   </>
 )
 
@@ -116,6 +116,9 @@ export default {
   },
 
   dataFunction: (countries) => {
-    return Services.getCountryData(countries, JSON.stringify([{model:'PopulationData',filter:{year:2020}}]))
+    return Services.getCountryData(
+      countries,
+      JSON.stringify([{ model: 'PopulationData', filter: { year: 2020 } }])
+    )
   },
 }
