@@ -29,6 +29,7 @@
 - GP2-1778 - Support post-login and post-signup redirection to original requested destination
 - GP2-1738 - Market guide links feature flag
 - GP2-1783 - Export plan landing page - Number of completed questions
+- GP2-1732 - Learning banner on advice listing pages
 - GP2-1763 - Logged out footer
 - GP2-1569 - Compare markets page - add age group tab
 - GP2-1729 - Add learning banner
