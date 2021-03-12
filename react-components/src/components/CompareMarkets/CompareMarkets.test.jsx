@@ -51,14 +51,14 @@ const economyApiResponse = {
       trade_value_raw: 21670,
       country_name: 'Germany',
       year_on_year_change: '2.751',
-      last_year:'2016',
+      last_year: '2016',
     },
     import_data_from_uk: {
       year: '2019',
       trade_value_raw: 135150,
       country_name: 'Germany',
       year_on_year_change: '0.736',
-      last_year:'2018',
+      last_year: '2018',
     },
   },
   NE: {
@@ -79,53 +79,69 @@ const economyApiResponse = {
 
 const countryDataApiResponse = {
   DE: {
-      ConsumerPriceIndex: [{
+    ConsumerPriceIndex: [
+      {
         country_name: 'Germany',
         country_code: 'DEU',
         value: '112.855',
         year: 2019,
-      }],
-      CorruptionPerceptionsIndex: [{
+      },
+    ],
+    CorruptionPerceptionsIndex: [
+      {
         total: 180,
         country_name: 'Germany',
         country_code: 'DEU',
         cpi_score_2019: 80,
         rank: 9,
         year: 2017,
-      }],
-      EaseOfDoingBusiness: [{
-        total: 264,
+      },
+    ],
+    EaseOfDoingBusiness: [
+      {
+        max_rank: 264,
         country_name: 'Germany',
         country_code: 'DEU',
         year_2019: 22,
         rank: 22,
         year: 2019,
-      }],
-      GdpPerCapita: [{
+      },
+    ],
+    GdpPerCapita: [
+      {
         country_name: 'Germany',
         country_code: 'DEU',
         year_2019: '46258.878',
-      }],
-      Income: [{
+      },
+    ],
+    Income: [
+      {
         country_name: 'Germany',
         country_code: 'DEU',
         year: 2018,
         value: '7895',
-      }],
+      },
+    ],
   },
   NL: {
-      ConsumerPriceIndex: [{
+    ConsumerPriceIndex: [
+      {
         country_name: 'Netherlands',
         value: '112.855',
         year: 2019,
-      }],
-      Income: [{
+      },
+    ],
+    Income: [
+      {
         country_name: 'Netherlands',
         year: 2018,
         value: '7895',
-      }],
+      },
+    ],
   },
 }
+
+
 
 const economyTabTests = [
   { selector: '#market-Germany .name', expect: 'Germany' },
@@ -323,17 +339,12 @@ describe('Compare markets', () => {
     // check mock directory api data...
     await waitFor(() => {
       expect(localContainer.querySelector('#market-Germany .name')).toBeTruthy()
-      const rowGermany = localContainer.querySelector('#market-Germany')
-      expect(getText(rowGermany,'.total_population')).toMatch('60.5 million')
-      expect(getText(rowGermany,'.internet_usage')).toMatch('74%')
-      expect(getText(rowGermany,'.urban_population .primary')).toMatch('69%')
-      expect(getText(rowGermany,'.urban_population .secondary')).toMatch('42.0 million')
-      expect(getText(rowGermany,'.rural_population .primary')).toMatch('28%')
-      expect(getText(rowGermany,'.rural_population .secondary')).toMatch('17.1 million')
     })
 
     // check economy data
-    const economy_tab = localContainer.querySelector('.tab-list-item:nth-of-type(2)')
+    const economy_tab = localContainer.querySelector(
+      '.tab-list-item:nth-of-type(2)'
+    )
     expect(economy_tab.textContent).toMatch('ECONOMY')
     act(() => {
       Simulate.click(economy_tab)
@@ -342,7 +353,9 @@ describe('Compare markets', () => {
     await waitFor(() => {
       expect(localContainer.querySelector('#market-Germany .name')).toBeTruthy()
       expect(
-        localContainer.querySelector('#market-Germany .world-import-value .primary')
+        localContainer.querySelector(
+          '#market-Germany .world-import-value .primary'
+        )
       ).toBeTruthy()
     })
     economyTabTests.forEach((test) => {
@@ -365,7 +378,9 @@ describe('Compare markets', () => {
     expect(localContainer.querySelectorAll('.tooltip button').length).toEqual(3)
 
     // check society data
-    const society_tab = localContainer.querySelector('.tab-list-item:nth-of-type(3)')
+    const society_tab = localContainer.querySelector(
+      '.tab-list-item:nth-of-type(3)'
+    )
     expect(society_tab.textContent).toMatch('SOCIETY')
     act(() => {
       Simulate.click(society_tab)
