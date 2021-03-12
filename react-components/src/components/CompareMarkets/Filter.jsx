@@ -1,18 +1,19 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
+const localState = {}
+
 function Filter(props) {
-  const { setActiveFilter, filters } = props
-  const [activeGroups, setActiveGroups] = useState({})
+  const { filterId, setActiveFilter, filters } = props
 
   const onClickFilterGroup = (group) => {
-    const groups = { ...activeGroups }
+    const groups = { ...(localState[filterId] || {}) }
     if (groups[group]) {
       delete groups[group]
     } else {
       groups[group] = true
     }
-    setActiveGroups(groups)
+    localState[filterId] = groups
     setActiveFilter(groups)
   }
 
@@ -27,7 +28,7 @@ function Filter(props) {
                 type="checkbox"
                 className="form-control"
                 id={`cb-${groupId}`}
-                defaultChecked={activeGroups[groupId]}
+                defaultChecked={(localState[filterId] || {})[groupId]}
               />
               <label htmlFor={`cb-${groupId}`}>
                 <span className="form-label">{filters[groupId].label}</span>
@@ -41,6 +42,7 @@ function Filter(props) {
 }
 
 Filter.propTypes = {
+  filterId: PropTypes.string.isRequired,
   filters: PropTypes.instanceOf(Object).isRequired,
   setActiveFilter: PropTypes.func.isRequired,
 }
