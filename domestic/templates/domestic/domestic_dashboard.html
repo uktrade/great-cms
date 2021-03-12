@@ -11,7 +11,7 @@
               {% include './dashboard_cards/export_opportunities.html' %}
           </div>
           <div class="c-1-2">
-              {% include_block routes.learn with wide=True button_label_override='Learn'%}
+              {% include './dashboard_cards/exportplan_progress.html' %}
               {% include_block routes.target with wide=True button_label_override='Compare places'%}
           </div>
         {% elif export_plan_in_progress %}
