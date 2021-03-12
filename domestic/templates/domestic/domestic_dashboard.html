@@ -4,117 +4,49 @@
 {% block content %}
   <div class="container">
       <h2 class="h-l m-t-l" id="great-hero-welcome">Hello{% if request.user.first_name %}, {{ request.user.first_name }}{% endif %}</h2>
-      <!-- <div class="flex-grid text-blue-deep-80">
-          {# no activity started yet #}
-          <div class="c-1-3">
-              {% include "core/includes/routing_bar.html" with routes=routes %}
-          </div>
-          <div class="c-1-3">
-              {% include_block routes.target with wide=False button_label_override='Compare places'%}
-          </div>
-          <div class="c-1-3">
-              {% include_block routes.plan with wide=False button_label_override='Make an export plan'%}
-          </div>
-          <div>
-              <div class="c-full m-b-s">
-                  {% include './dashboard_cards/export_opportunities.html' %}
-              </div>
-          </div>
-      </div>
-  -->
-     <!-- Unused for Beta <div class="flex-grid text-blue-deep-80">
-        {# Export plan started #}
+      <div class="grid text-blue-deep-80">
+      {% if lessons_in_progress and export_plan_in_progress %}
           <div class="c-1-2">
-              {% include "core/includes/routing_bar.html" with routes=routes %}
-              <div>{% include './dashboard_cards/export_opportunities.html' %}</div>
+              {% include './dashboard_cards/learning_progress.html' %}
+              {% include './dashboard_cards/export_opportunities.html' %}
           </div>
           <div class="c-1-2">
-            {% include "core/includes/routing_bar.html" with routes=routes wide=True  %}
-            {% include_block routes.plan with wide=True button_label_override='Compare places'%}
+              {% include_block routes.learn with wide=True button_label_override='Learn'%}
+              {% include_block routes.target with wide=True button_label_override='Compare places'%}
           </div>
-      </div>
-  -->
-
-            {% if lessons_in_progress and export_plan_in_progress %}
-                        <div class="flex-grid text-blue-deep-80">
-                          <h1>No lessons_in_progress and export_plan_in_progress</h1>
-                            <div class="c-1-2">
-                                <div>{% include './dashboard_cards/learning_progress.html' %}</div>
-                                <div>{% include './dashboard_cards/export_opportunities.html' %}</div>
-                            </div>
-                            <div class="c-1-2">
-                              <div>
-                                <div>{% include_block routes.learn with wide=False button_label_override='Learn'%}</div>
-                                <div>{% include_block routes.target with wide=False button_label_override='Compare places'%}</div>
-                              </div>
-                            </div>
-                        </div>
-              {% elif export_plan_in_progress %}
-                        <div class="flex-grid text-blue-deep-80">
-                          {# Export plan started #}
-                            <h1>Export plan only</h1>
-                            <div class="c-1-2">
-                                <div>{% include './dashboard_cards/exportplan_progress.html' %}</div>
-                                <div>{% include './dashboard_cards/export_opportunities.html' %}</div>
-                            </div>
-                            <div class="c-1-2">
-                              <div>
-                                <div>{% include_block routes.learn with wide=False button_label_override='Learn'%}</div>
-                                <div>{% include_block routes.target with wide=False button_label_override='Compare places'%}</div>
-                              </div>
-                            </div>
-                        </div>
-              {% elif lessons_in_progress  %}
-             <div class="flex-grid text-blue-deep-80">
-                          <h1>lessons_in_progressn only</h1>
-                            <div class="c-1-2">
-                                <div>{% include './dashboard_cards/learning_progress.html' %}</div>
-                                <div>{% include './dashboard_cards/export_opportunities.html' %}</div>
-                            </div>
-                            <div class="c-1-2">
-                              <div>
-                                <div>{% include_block routes.learn with wide=False button_label_override='Learn'%}</div>
-                                <div>{% include_block routes.target with wide=False button_label_override='Compare places'%}</div>
-                              </div>
-                            </div>
-                        </div>
-            {% else %}
-                    <div class="flex-grid text-blue-deep-80">
-                        <h1>No activity</h1>
-                        <div class="c-1-3">
-                             {% include_block routes.learn with wide=False button_label_override='Learn'%}
-                        </div>
-                        <div class="c-1-3">
-                            {% include_block routes.target with wide=False button_label_override='Compare places'%}
-                        </div>
-                        <div class="c-1-3">
-                            {% include_block routes.plan with wide=False button_label_override='Make an export plan'%}
-                        </div>
-                        <div>
-                            <div class="c-full m-b-s">
-                                {% include './dashboard_cards/export_opportunities.html' %}
-                            </div>
-                        </div>
-                    </div>
-              {% endif %}
-
-
-            <!-- Unused for Beta
+        {% elif export_plan_in_progress %}
             <div class="c-1-2">
-                {% include './dashboard_cards/events.html' %}
-                <div class="g-card" id="your-export-plan-card">
-                    <div class="g-card-header">
-                        <h3 class="h-s p-t-xxs">Your export plan</h3>
-                    </div>
-                    <p class="m-v-s">Get ready to Trade Export plan</p>
-                    <form class="great-mvp-small-checkbox-container">
-                       {{ export_plan_progress_form }}
-                    </form>
-                </div>
-                {% include './dashboard_cards/tariffs.html' %}
-                {% include './dashboard_cards/new_markets.html' %}
+                {% include './dashboard_cards/exportplan_progress.html' %}
+                {% include './dashboard_cards/export_opportunities.html' %}
             </div>
-          -->
+            <div class="c-1-2">
+                {% include_block routes.learn with wide=True button_label_override='Learn'%}
+                {% include_block routes.target with wide=True button_label_override='Compare places'%}
+            </div>
+        {% elif lessons_in_progress  %}
+            <div class="c-1-2">
+                {% include './dashboard_cards/learning_progress.html' %}
+                {% include './dashboard_cards/export_opportunities.html' %}
+            </div>
+            <div class="c-1-2">
+                {% include_block routes.learn with wide=True button_label_override='Learn'%}
+                {% include_block routes.target with wide=True button_label_override='Compare places'%}
+            </div>
+        {% else %}
+            <div class="c-1-3">
+                 {% include_block routes.learn with wide=False button_label_override='Learn'%}
+            </div>
+            <div class="c-1-3">
+                {% include_block routes.target with wide=False button_label_override='Compare places'%}
+            </div>
+            <div class="c-1-3">
+                {% include_block routes.plan with wide=False button_label_override='Make an export plan'%}
+            </div>
+            <div class="c-full m-b-s">
+                {% include './dashboard_cards/export_opportunities.html' %}
+            </div>
+      {% endif %}
+      </div>
   </div>
 {% endblock %}
 
