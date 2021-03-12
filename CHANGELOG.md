@@ -28,6 +28,7 @@
 - GP2-1811 - Fix SEO title not appearing in meta tags
 - GP2-1707 - Accessibility issue - Radio buttons need to have tab functionality
 - GP2-1858 - Change logged out header sign out to dashboard
+- GP2-1724 - WTE population tab using generic endpoints + cleanup
 - GP2-1770 - Business risk content changes.
 - GP2-1775 - Article page warning banner
 - GP2-1770 - Business risk content changes.
