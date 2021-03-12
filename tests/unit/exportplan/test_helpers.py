@@ -57,24 +57,6 @@ def test_get_local_time_not_found():
     assert helpers.get_timezone('XS') is None
 
 
-@mock.patch.object(api_client.dataservices, 'get_last_year_import_data')
-def test_get_comtrade_lastyearimportdata(mock_lastyearimportdata):
-    mock_lastyearimportdata.return_value = create_response(status_code=200, json_body={'lastyear_history': 123})
-    comtrade_data = helpers.get_comtrade_last_year_import_data(commodity_code='220.850', country='Australia')
-    assert mock_lastyearimportdata.call_count == 1
-    assert mock_lastyearimportdata.call_args == mock.call(commodity_code='220.850', country='Australia')
-    assert comtrade_data == {'lastyear_history': 123}
-
-
-@mock.patch.object(api_client.dataservices, 'get_historical_import_data')
-def test_get_comtrade_historicalimportdata(mock_historical_data):
-    mock_historical_data.return_value = create_response(status_code=200, json_body={'history': 123})
-    comtrade_data = helpers.get_comtrade_historical_import_data(commodity_code='220.850', country='Australia')
-    assert mock_historical_data.call_count == 1
-    assert mock_historical_data.call_args == mock.call(commodity_code='220.850', country='Australia')
-    assert comtrade_data == {'history': 123}
-
-
 @mock.patch.object(api_client.exportplan, 'exportplan_list')
 def test_get_export_plan_empty(mock_get_exportplan):
     mock_get_exportplan.return_value = create_response(None)
