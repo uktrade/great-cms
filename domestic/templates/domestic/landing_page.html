@@ -15,7 +15,7 @@
   <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}
 
-{% block head_title %}Welcome to great.gov.uk - export guidance and services{% endblock %}
+{% block head_title %}{% firstof page.seo_title page.title%}- great.gov.uk{% endblock %}
 
 {% block css_layout_class %}landing-page{% endblock %}
 
