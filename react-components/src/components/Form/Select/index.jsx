@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
 import { useOnOutsideClick } from '@src/components/hooks/useOnOutsideClick'
-import { useNoScroll } from '@src/components/hooks/useNoScroll'
 import { Item } from '@src/components/Form/Select/Item'
 import { FormGroup } from '@src/components/Form/FormGroup'
 
@@ -31,7 +30,6 @@ export const Select = memo(
     const [isOpen, setIsOpen] = useState(false)
     const liRef = useRef([])
     const [element] = useOnOutsideClick(() => setIsOpen(false), isOpen)
-    useNoScroll(isOpen)
 
     useEffect(() => {
       setInput(selected)
@@ -169,17 +167,13 @@ export const Select = memo(
                 />
               </button>
             </div>
-            <div
-              className={`select__placeholder text-blue-deep-60 bg-white radius ${
-                !isOpen ? '' : 'hidden'
-              }`}
-            >
+            <div className="select__placeholder text-blue-deep-60 bg-white radius">
               {selectedItem()}
             </div>
             <ul
               role="listbox"
               className={`select__list m-t-0 body-l bg-white radius ${
-                isOpen ? '' : 'hidden'
+                isOpen ? 'select__list--open' : 'hidden'
               }`}
               aria-expanded={isOpen}
               ref={element}

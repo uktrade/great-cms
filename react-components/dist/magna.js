@@ -64472,9 +64472,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_components_hooks_useOnOutsideClick__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/hooks/useOnOutsideClick */ "./react-components/src/components/hooks/useOnOutsideClick/index.jsx");
-/* harmony import */ var _src_components_hooks_useNoScroll__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/hooks/useNoScroll */ "./react-components/src/components/hooks/useNoScroll/index.jsx");
-/* harmony import */ var _src_components_Form_Select_Item__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Form/Select/Item */ "./react-components/src/components/Form/Select/Item.jsx");
-/* harmony import */ var _src_components_Form_FormGroup__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/Form/FormGroup */ "./react-components/src/components/Form/FormGroup/index.jsx");
+/* harmony import */ var _src_components_Form_Select_Item__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Select/Item */ "./react-components/src/components/Form/Select/Item.jsx");
+/* harmony import */ var _src_components_Form_FormGroup__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Form/FormGroup */ "./react-components/src/components/Form/FormGroup/index.jsx");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -64496,7 +64495,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -64541,7 +64539,6 @@ var Select = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) 
       _useOnOutsideClick2 = _slicedToArray(_useOnOutsideClick, 1),
       element = _useOnOutsideClick2[0];
 
-  Object(_src_components_hooks_useNoScroll__WEBPACK_IMPORTED_MODULE_3__["useNoScroll"])(isOpen);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     setInput(selected);
   }, [selected]);
@@ -64651,7 +64648,7 @@ var Select = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) 
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "select ".concat(className)
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_FormGroup__WEBPACK_IMPORTED_MODULE_5__["FormGroup"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_FormGroup__WEBPACK_IMPORTED_MODULE_4__["FormGroup"], {
     label: label,
     id: id || label,
     name: label,
@@ -64678,14 +64675,14 @@ var Select = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) 
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas ".concat(isOpen ? 'fa-times-circle text-blue-deep-60' : 'fa-sort')
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "select__placeholder text-blue-deep-60 bg-white radius ".concat(!isOpen ? '' : 'hidden')
+    className: "select__placeholder text-blue-deep-60 bg-white radius"
   }, selectedItem()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     role: "listbox",
-    className: "select__list m-t-0 body-l bg-white radius ".concat(isOpen ? '' : 'hidden'),
+    className: "select__list m-t-0 body-l bg-white radius ".concat(isOpen ? 'select__list--open' : 'hidden'),
     "aria-expanded": isOpen,
     ref: element
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, placeholder), Array.isArray(options) ? options.map(function (item, i) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select_Item__WEBPACK_IMPORTED_MODULE_4__["Item"], {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select_Item__WEBPACK_IMPORTED_MODULE_3__["Item"], {
       isDisabled: input.includes(item.label),
       key: item.label,
       onClick: function onClick() {
@@ -64709,7 +64706,7 @@ var Select = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) 
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       className: "body-m-b"
     }, category), options[category].map(function (li, index) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select_Item__WEBPACK_IMPORTED_MODULE_4__["Item"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select_Item__WEBPACK_IMPORTED_MODULE_3__["Item"], {
         key: li.label,
         onClick: function onClick() {
           return selectOption(li);
@@ -71486,31 +71483,6 @@ var useDebounce = function useDebounce(func) {
       }
     }, wait);
   }, []);
-};
-
-/***/ }),
-
-/***/ "./react-components/src/components/hooks/useNoScroll/index.jsx":
-/*!*********************************************************************!*\
-  !*** ./react-components/src/components/hooks/useNoScroll/index.jsx ***!
-  \*********************************************************************/
-/*! exports provided: useNoScroll */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useNoScroll", function() { return useNoScroll; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-var useNoScroll = function useNoScroll(show) {
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    if (show) {
-      document.documentElement.classList.add('no-scoll');
-    } else {
-      document.documentElement.classList.remove('no-scoll');
-    }
-  }, [show]);
 };
 
 /***/ }),
