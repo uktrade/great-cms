@@ -6,12 +6,37 @@ Only show if progress has started
 {% load progress_bar %}
 
 {% if export_plan_in_progress %}
-  <div class="g-card p-b-0" id="your-progress-card">
-    {% include "./card_header.html" with title="Export Plan" %}
-      {% progress_bar  export_plan_progress.0.sections_total export_plan_progress.0.sections_completed %}
-      <p class="topics-read-text body-m-b m-t-xxs m-b-0">
-             {{ export_plan_progress.0.sections_completed }} of {{ export_plan_progress.0.sections_total }} Completed
-      </p>
+  <div class="g-card">
+      <div class="g-card-progress {% if not complete %}g-card-progress--complete{% endif %}">
+          <div class="g-card-header d-flex flex-jc-space-between flex-ai-center">
+              <h3 class="h-m p-t-xxs">Export Plan</h3>
+              <a class="button button--tertiary button--small" href="/export-plan/dashboard/" title="Go to export plan">Go to export plan</a>
+          </div>
 
+          {% if complete %}
+              <div class="g-card-body m-b-s p-b-s">
+                  <div class="p-t-s">
+                      {% progress_bar  export_plan_progress.0.sections_total export_plan_progress.0.sections_completed %}
+                  </div>
+                  <p class="topics-read-text body-m-b m-t-xs m-b-0">
+                      {{ export_plan_progress.0.sections_completed }} of {{ export_plan_progress.0.sections_total }} sections Completed
+                  </p>
+              </div>
+              <div class='w-1-2'>
+                  <h3 class="h-xs p-t-xxs">Target market research</h3>
+                  <p class="body-m m-t-0">
+                    2 of 5 sub-sections completed
+                  </p>
+                  <a class="button button--secondary button--small">Continue</a>
+              </div>
+          {% else %}
+              <h3 class="h-s p-t-s">You've completed your export plan</h3>
+              <div class='w-1-2'>
+                  <p class='m-t-xs'>Share it with lenders and potential partners to get started on your exporting journey</p>
+                  <a class="button button--secondary button--small" href='/export-plan/pdf-download/' title='Download as PDF'>Download as PDF</a>
+              </div>
+          {% endif %}
+
+      </div>
   </div>
 {% endif %}
