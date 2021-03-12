@@ -4,6 +4,7 @@
 
 ### Fixed bugs
 
+- GP2-1290 - When drop down list is selected the whole page is moving
 - GP2-1280 - Bullet styling fix on mobile
 - GP2-1842 - Fix absent href in Service Removed Page links
 - GP2-1843 - Progress bar resilience
