@@ -12,7 +12,7 @@ from domestic.templatetags.component_tags import (
     get_pagination_url,
     industry_accordion_case_study_is_viable,
     industry_accordion_is_viable,
-    is_child_of_parent_with_slug,
+    is_descendant_of_parent_with_slug,
 )
 from .factories import (
     ArticleListingPageFactory,
@@ -471,7 +471,7 @@ def test_pagination(count, current, expected, rf):
 
 
 @pytest.mark.django_db
-def test_is_child_of_parent_with_slug(domestic_homepage):
+def test_is_descendant_of_parent_with_slug(domestic_homepage):
 
     advice_topic_page = TopicLandingPageFactory(
         title='Advice',
@@ -498,8 +498,41 @@ def test_is_child_of_parent_with_slug(domestic_homepage):
         slug='test-article-2',
     )
 
-    assert is_child_of_parent_with_slug(article_page_1, 'advice')
-    assert not is_child_of_parent_with_slug(article_page_1, 'test')
+    article_page_3 = ArticlePageFactory(
+        article_title='test article 3',
+        parent=domestic_homepage,
+        slug='test-article-3',
+    )
 
-    assert not is_child_of_parent_with_slug(article_page_1, 'article-listing-page')
-    assert is_child_of_parent_with_slug(article_page_2, 'article-listing-page')
+    # slug comparison for correct parent class
+    assert is_descendant_of_parent_with_slug(
+        article_page_1,
+        'TopicLandingPage',
+        'advice',
+    )
+    assert not is_descendant_of_parent_with_slug(
+        article_page_1,
+        'TopicLandingPage',
+        'test',
+    )
+
+    # different parent page class lookup
+    assert is_descendant_of_parent_with_slug(
+        article_page_2,
+        'ArticleListingPage',
+        'article-listing-page',
+    )
+
+    # unconfigured parent class specified
+    assert not is_descendant_of_parent_with_slug(
+        article_page_1,
+        'DetailPage',
+        'advice',
+    )
+
+    # page not child of specified, configured, parent class
+    assert not is_descendant_of_parent_with_slug(
+        article_page_3,
+        'TopicLandingPage',
+        'advice',
+    )

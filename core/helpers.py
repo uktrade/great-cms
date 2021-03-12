@@ -29,34 +29,6 @@ FEMALE = 'xx'
 logger = getLogger(__name__)
 
 
-with open(settings.ROOT_DIR + 'core/fixtures/countries-populations.csv', 'r') as f:
-    country_population_data = f.read()
-
-
-with open(settings.ROOT_DIR + 'core/fixtures/countries-populations-male.csv', 'r') as f:
-    country_population_data_male = f.read()
-
-
-with open(settings.ROOT_DIR + 'core/fixtures/countries-populations-female.csv', 'r') as f:
-    country_population_data_female = f.read()
-
-
-with open(settings.ROOT_DIR + 'core/fixtures/countries-sectors-export.csv', 'r') as f:
-    countries_sectors = f.read()
-
-
-with open(settings.ROOT_DIR + 'core/fixtures/countries-average-income.csv', 'r') as f:
-    country_average_income_data = f.read()
-
-
-with open(settings.ROOT_DIR + 'core/fixtures/countries-urban-rural.csv', 'r') as f:
-    country_urban_rural_data = f.read()
-
-
-with open(settings.ROOT_DIR + 'core/fixtures/countries-consumer-price-index.csv', 'r') as f:
-    country_consumer_price_index_data = f.read()
-
-
 population_age_range_choices = [
     '0-8',
     '5-9',
@@ -269,10 +241,11 @@ def ccce_import_schedule(hs_code, origin_country='GB', destination_country='CA')
 @functools.lru_cache(maxsize=None)
 def get_popular_export_destinations(sector_label):
     export_destinations = Counter()
-    for row in csv.DictReader(StringIO(countries_sectors), delimiter=','):
-        row_sector_label = row['sector'].split(' :')[0]  # row has multi level delimited by ' :'. Get top level.
-        if is_fuzzy_match(label_a=row_sector_label, label_b=sector_label):
-            export_destinations.update([row['country']])
+    with open(settings.ROOT_DIR + 'core/fixtures/countries-sectors-export.csv', 'r') as f:
+        for row in csv.DictReader(StringIO(f.read()), delimiter=','):
+            row_sector_label = row['sector'].split(' :')[0]  # row has multi level delimited by ' :'. Get top level.
+            if is_fuzzy_match(label_a=row_sector_label, label_b=sector_label):
+                export_destinations.update([row['country']])
     return export_destinations.most_common(5)
 
 

@@ -277,13 +277,6 @@ def mock_get_export_plan_market_data():
 
 
 @pytest.fixture
-def mock_get_comtrade_last_year_import_data():
-    return_value = {'last_year_data_partner': {'Year': 2019, 'value': 16249072}}
-    with patch.object(exportplan_helpers, 'get_comtrade_last_year_import_data', return_value=return_value) as patched:
-        yield patched
-
-
-@pytest.fixture
 def mock_get_export_plan():
     return_value = {
         'pk': 1,
@@ -423,7 +416,6 @@ def mock_dashboard_profile_events_opportunities(
 @pytest.fixture
 def mock_all_dashboard_and_export_plan_requests_and_responses(
     mock_export_plan_dashboard_page_tours,
-    mock_get_comtrade_last_year_import_data,
     mock_get_corruption_perceptions_index,
     mock_get_dashboard_events,
     mock_get_dashboard_export_opportunities,

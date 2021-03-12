@@ -2,10 +2,10 @@ import React from 'react'
 import Services from '@src/Services'
 import { normaliseValues, get, millify } from '../../Helpers'
 
-const rankOutOf = (data, key) => {
+const rankOutOf = (rank,total) => {
   return (
     <>
-      {data[key]} of {data.total}
+      {rank} of {total}
     </>
   )
 }
@@ -95,7 +95,7 @@ export default {
     'eod-business': {
       name: 'Ease of doing business rank',
       className: 'text-align-right',
-      render: (data) => rankOutOf(data.EaseOfDoingBusiness[0], 'rank'),
+      render: (data) => rankOutOf(data.EaseOfDoingBusiness[0].rank,data.EaseOfDoingBusiness[0].max_rank),
       year: (data) => data.EaseOfDoingBusiness[0].year,
       tooltip: {
         position: 'right',
@@ -111,7 +111,7 @@ export default {
       name: 'Corruption Perceptions Index',
       className: 'text-align-right',
       render: (data) => {
-        return rankOutOf(data.CorruptionPerceptionsIndex[0], 'rank')
+        return rankOutOf(data.CorruptionPerceptionsIndex[0].rank,data.CorruptionPerceptionsIndex[0].total)
       },
       year: (data) => data.CorruptionPerceptionsIndex[0].year,
       tooltip: {
@@ -130,7 +130,5 @@ export default {
       dataFunction: Services.getComTradeData,
     },
   },
-  dataFunction: (countries) => {
-    return Services.getCountryData(countries, JSON.stringify([{model:'Income'},{model:'CorruptionPerceptionsIndex', filter:{year:'2020'}},{model:'EaseOfDoingBusiness'}]))
-  },
+  dataFunction: (countries) => Services.getCountryData(countries, JSON.stringify([{model:'Income'},{model:'CorruptionPerceptionsIndex', filter:{year:'2020'}},{model:'EaseOfDoingBusiness'}])),
 }
