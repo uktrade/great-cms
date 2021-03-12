@@ -1,0 +1,18 @@
+{% load static %}
+
+<div class="shared-warning-banner message-box-with-icon border-medium border-{{ border_colour|default:'teal' }} {{ box_class|default:'width-full background-white' }}">
+    <div class="message-box-icon font-large white-text" aria-hidden="true">
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
+        <path class="st0" d="M90.61,71.5c-4.35-4.35-9.74-9.75-9.74-30.87c0-15.51-11.3-28.37-26.11-30.83c0.72-1.04,1.11-2.28,1.11-3.55
+           c0-3.45-2.8-6.25-6.25-6.25c-3.45,0-6.25,2.8-6.25,6.25c0,1.32,0.41,2.54,1.11,3.55c-14.81,2.45-26.11,15.32-26.11,30.83
+           c0,21.12-5.4,26.53-9.74,30.87c-5.89,5.89-1.72,16,6.63,16h21.87c0,6.9,5.6,12.5,12.5,12.5c6.9,0,12.5-5.6,12.5-12.5h21.86
+           C92.31,87.5,96.51,77.4,90.61,71.5z M49.61,95.31c-4.31,0-7.81-3.5-7.81-7.81h3.12c0,2.58,2.1,4.69,4.69,4.69
+           c0.86,0,1.56,0.7,1.56,1.56S50.48,95.31,49.61,95.31z"/>
+       </svg>
+    </div>
+    <div class="message-box-content padding-15 padding-30-m">
+        <p>This page is no longer updated</p>
+        <p>Check out <a href="{{cta_url}}">step-by-step lessons</a> to accelerate your exporting ability.</p>
+    </div>
+</div>
