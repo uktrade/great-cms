@@ -54,18 +54,6 @@ def get_timezone(country_code):
         return pytz.country_timezones(iso3_country_code)[0]
 
 
-def get_comtrade_last_year_import_data(commodity_code, country):
-    response = api_client.dataservices.get_last_year_import_data(commodity_code=commodity_code, country=country)
-    response.raise_for_status()
-    return response.json()
-
-
-def get_comtrade_historical_import_data(commodity_code, country):
-    response = api_client.dataservices.get_historical_import_data(commodity_code=commodity_code, country=country)
-    response.raise_for_status()
-    return response.json()
-
-
 def get_population_data_by_country(countries):
     response = api_client.dataservices.get_population_data_by_country(countries=countries)
     response.raise_for_status()
