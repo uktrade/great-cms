@@ -240,3 +240,8 @@ def is_descendant_of_parent_with_slug(child_page, parent_type_classname, slug_):
                 return True
 
     return False
+
+
+@register.simple_tag
+def is_logged_out(request):
+    return not request.user.is_authenticated
