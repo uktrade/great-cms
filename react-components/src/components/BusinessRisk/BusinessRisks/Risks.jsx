@@ -24,6 +24,8 @@ export const Risks = memo(
                       pk,
                       risk,
                       risk_extras,
+                      likelihood_extras,
+                      impact_extras,
                       contingency_plan,
                       contingency_plan_extras,
                       risk_likelihood,
@@ -37,6 +39,8 @@ export const Risks = memo(
                       id={pk}
                       risk={risk}
                       risk_extras={risk_extras}
+                      likelihood_extras={likelihood_extras}
+                      impact_extras={impact_extras}
                       contingency_plan={contingency_plan}
                       contingency_plan_extras={contingency_plan_extras}
                       onChange={onChange}
@@ -85,6 +89,16 @@ Risks.propTypes = {
         example: PropTypes.shape({
           content: PropTypes.string,
         }),
+        tooltip: PropTypes.shape({
+          content: PropTypes.string,
+        }),
+      }),
+      likelihood_extras: PropTypes.shape({
+        tooltip: PropTypes.shape({
+          content: PropTypes.string,
+        }),
+      }),
+      impact_extras: PropTypes.shape({
         tooltip: PropTypes.shape({
           content: PropTypes.string,
         }),

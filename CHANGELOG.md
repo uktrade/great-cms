@@ -20,6 +20,7 @@
 
 ### Implemented enhancements
 
+- GP2-1770 - Business risk content changes.
 - GP2-1775 - Article page warning banner
 - GP2-1832 - Update page-parent permissons to allow homepage swap
 - GP2-1483 - Remove wagtail-translation from codebase entirely (follow up to GP2-1190)

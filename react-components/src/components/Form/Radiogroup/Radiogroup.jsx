@@ -14,6 +14,7 @@ export const Radiogroup = memo(
     buttonType,
     update,
     id,
+    children,
   }) => {
     const [selectedOption, setSelectedOption] = useState(selected || null)
 
@@ -28,9 +29,10 @@ export const Radiogroup = memo(
     return (
       <>
         {!hideLabel && <p className="form-label m-v-0">{label}</p>}
+        {children}
         <div
           className={`
-          great-radiogroup 
+          great-radiogroup
           ${type === 'button' ? 'great-radiogroup--button' : ''}
           ${buttonType === 'temperature' ? 'great-radiogroup--temperature' : ''}
           ${className}
@@ -71,6 +73,7 @@ Radiogroup.propsTypes = {
   buttonType: PropTypes.string,
   update: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
+  children: PropTypes.node,
 }
 
 Radiogroup.defaultProps = {
@@ -79,4 +82,5 @@ Radiogroup.defaultProps = {
   buttonType: '',
   hideLabel: false,
   label: '',
+  children: null,
 }
