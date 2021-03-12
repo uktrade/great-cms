@@ -21,6 +21,7 @@
 ### Implemented enhancements
 
 - GP2-1724 - WTE population tab using generic endpoints + cleanup
+- GP2-1858 - Change logged out header sign out to dashboard
 - GP2-1770 - Business risk content changes.
 - GP2-1775 - Article page warning banner
 - GP2-1832 - Update page-parent permissons to allow homepage swap
@@ -30,6 +31,7 @@
 - GP2-1778 - Support post-login and post-signup redirection to original requested destination
 - GP2-1738 - Market guide links feature flag
 - GP2-1783 - Export plan landing page - Number of completed questions
+- GP2-1732 - Learning banner on advice listing pages
 - GP2-1763 - Logged out footer
 - GP2-1569 - Compare markets page - add age group tab
 - GP2-1729 - Add learning banner
