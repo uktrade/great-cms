@@ -150,7 +150,7 @@ def test_get_export_plan_pdf_context(user, get_request):
     assert pdf_context['user'] == get_request.user
     assert pdf_context['sections'] is not None
     assert pdf_context['calculated_pricing'] is not None
-    assert pdf_context['host_url'] == 'http://testserver'
+    assert pdf_context['host_url'] == ''
 
 
 @mock.patch.object(helpers, 'get_exportplan')

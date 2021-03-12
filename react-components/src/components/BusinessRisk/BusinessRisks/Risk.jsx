@@ -12,6 +12,8 @@ export const Risk = memo(
     deleteRisk,
     risk,
     risk_extras,
+    likelihood_extras,
+    impact_extras,
     contingency_plan,
     contingency_plan_extras,
     index,
@@ -45,7 +47,9 @@ export const Risk = memo(
               groupName={Object.keys(selected)[0]}
               label="Risk likelihood"
               update={(e) => onChange(id, e)}
-            />
+            >
+              <Learning {...likelihood_extras} />
+            </Radiogroup>
           </td>
         </tr>
         <tr>
@@ -57,7 +61,9 @@ export const Risk = memo(
               groupName={Object.keys(selected)[1]}
               label="Risk impact"
               update={(e) => onChange(id, e)}
-            />
+            >
+              <Learning {...impact_extras} />
+            </Radiogroup>
           </td>
         </tr>
         <tr>
@@ -115,6 +121,16 @@ Risk.propTypes = {
       content: PropTypes.string,
     }),
     label: PropTypes.string,
+    tooltip: PropTypes.shape({
+      content: PropTypes.string,
+    }),
+  }).isRequired,
+  likelihood_extras: PropTypes.shape({
+    tooltip: PropTypes.shape({
+      content: PropTypes.string,
+    }),
+  }).isRequired,
+  impact_extras: PropTypes.shape({
     tooltip: PropTypes.shape({
       content: PropTypes.string,
     }),
