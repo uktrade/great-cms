@@ -222,3 +222,8 @@ def success_box(**kwargs):
         'heading_level': 'h3',
         **kwargs,
     }
+
+
+@register.simple_tag
+def is_child_of_parent_with_slug(child_page, slug_):
+    return child_page.get_parent().slug == slug_

@@ -326,7 +326,10 @@ class CMSGenericPage(
 
 
 class LandingPage(CMSGenericPage):
-    parent_page_types = ['domestic.DomesticHomePage']
+    parent_page_types = [
+        'domestic.DomesticHomePage',  # TODO: once we've restructured, remove this permission
+        'domestic.GreatDomesticHomePage',
+    ]
     subpage_types = [
         'core.ListPage',
         'core.InterstitialPage',

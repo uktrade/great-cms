@@ -4,6 +4,10 @@
 
 ### Fixed bugs
 
+- GP2-1280 - Bullet styling fix on mobile
+- GP2-1842 - Fix absent href in Service Removed Page links
+- GP2-1843 - Progress bar resilience
+- GP2-1806 - Selects alignment when active on desktop
 - GP2-1707 - Accessibility issue - Radio buttons need to have tab functionality
 - NO TICKET - card image bug fix for safari
 - GP2-1743 - fix Download export plan functionality on mobile
@@ -12,11 +16,14 @@
 - NO TICKET - add document-link back in as rich-text option
 - NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
 - NO TICKET - fix wagtail checkbox layout issue
+- NO TICKET - fix pdf generation
 
 ### Implemented enhancements
 - GP2-1811 - Fix SEO title as main page title if it exists
 - GP2-1811 - Fix SEO title not appearing in meta tags
 
+- GP2-1775 - Article page warning banner
+- GP2-1832 - Update page-parent permissons to allow homepage swap
 - GP2-1483 - Remove wagtail-translation from codebase entirely (follow up to GP2-1190)
 - GP2-1576 - Export button for Casestudy attributes in Admin UI
 - GP2-1550 - Added SEO fields for guidance pages
