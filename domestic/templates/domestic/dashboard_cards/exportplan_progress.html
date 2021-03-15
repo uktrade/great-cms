@@ -8,7 +8,7 @@ Only show if progress has started
 {% if export_plan_in_progress %}
   <div class="g-card">
       <div class="g-card-progress {% if export_plan_progress.exportplan_completed %}g-card-progress--complete{% endif %}">
-          <div class="g-card-header d-flex flex-jc-space-between flex-ai-center">
+          <div class="g-card-header flex-jc-space-between flex-ai-center">
               <h3 class="h-m p-t-xxs">Export Plan</h3>
               <a class="button button--tertiary button--small" href="{{export_plan_dashboard_url}}" title="Go to export plan">Go to export plan</a>
           </div>
