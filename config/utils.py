@@ -52,15 +52,17 @@ def get_wagtail_transfer_configuration() -> dict:
     #             'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_BETA')
     #         }
     #     })
-    # TEMPORARILY DISABLED until we're fully rolled out
-    # elif active_environment == BETA:
-    #     # Beta needs to know about Staging, to import FROM it
-    #     config.update({
-    #         STAGING: {
-    #             'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_STAGING'),
-    #             'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_STAGING')
-    #         }
-    #     })
+    # Activated On Beta to transfer case study from staging to Beta
+    elif active_environment == BETA:
+        # Beta needs to know about Staging, to import FROM it
+        config.update(
+            {
+                STAGING: {
+                    'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_STAGING'),
+                    'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_STAGING'),
+                }
+            }
+        )
 
     elif active_environment == LOCAL and env.bool('WAGTAIL_TRANSFER_LOCAL_DEV', default=False):
         # Local needs to know about Dev and Staging and Beta to import FROM them
