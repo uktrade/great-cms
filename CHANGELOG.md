@@ -19,6 +19,7 @@
 - NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
 - NO TICKET - fix wagtail checkbox layout issue
 - NO TICKET - fix pdf generation
+- GP2-1792 - dashboard pages
 
 ### Implemented enhancements
 - GP2-1811 - Fix SEO title as main page title if it exists

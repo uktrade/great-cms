@@ -165,6 +165,7 @@ class DomesticDashboard(
 
     def get_context(self, request):
         user = request.user
+
         context = super().get_context(request)
         context['visited_already'] = user.has_visited_page(self.slug)
         user.set_page_view(self.slug)
@@ -176,8 +177,8 @@ class DomesticDashboard(
         context['export_opportunities'] = helpers.get_dashboard_export_opportunities(user.session_id, user.company)
         context.update(get_lesson_completion_status(user, context))
         context['export_plan_in_progress'] = user.has_visited_page(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
+        context['export_plan_dashboard_url'] = cms_slugs.EXPORT_PLAN_DASHBOARD_URL
         context['routes'] = build_route_context(user, context)
-
         return context
 
     #########

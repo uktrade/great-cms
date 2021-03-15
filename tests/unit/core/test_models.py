@@ -176,7 +176,7 @@ def test_curated_list_page_has_link_in_context_back_to_parent(
     ),
 )
 def test_detail_page_get_context_handles_backlink_querystring_appropriately(
-    rf, domestic_homepage, domestic_site, user, querystring_to_add, expected_backlink_value
+    rf, domestic_homepage, domestic_site, user, querystring_to_add, expected_backlink_value, export_plan_data
 ):
 
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=False)
@@ -190,7 +190,7 @@ def test_detail_page_get_context_handles_backlink_querystring_appropriately(
 
     request = rf.get(lesson_page_url)
     request.user = user
-    request.user.export_plan.data = mock.Mock('mocked-export-plan')
+    request.user.export_plan.data = export_plan_data
 
     context = detail_page.get_context(request)
 
