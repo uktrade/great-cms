@@ -52,7 +52,7 @@ def get_wagtail_transfer_configuration() -> dict:
     #             'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_BETA')
     #         }
     #     })
-    # Activated On Beta to transfer case study from staging to Beta
+    # Activated on Beta: To transfer case study and related content from staging to Beta
     elif active_environment == BETA:
         # Beta needs to know about Staging, to import FROM it
         config.update(
