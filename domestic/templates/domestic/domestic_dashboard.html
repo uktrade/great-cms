@@ -20,7 +20,7 @@
                 {% include './dashboard_cards/export_opportunities.html' %}
             </div>
             <div class="c-1-2">
-                {% include_block routes.learn with wide=True button_label_override='Learn'%}
+                {% include_block routes.learn with wide=True button_label_override='Learn to export'%}
                 {% include_block routes.target with wide=True button_label_override='Compare places'%}
             </div>
         {% elif lessons_in_progress  %}
@@ -29,8 +29,8 @@
                 {% include './dashboard_cards/export_opportunities.html' %}
             </div>
             <div class="c-1-2">
-                {% include_block routes.learn with wide=True button_label_override='Learn'%}
                 {% include_block routes.target with wide=True button_label_override='Compare places'%}
+                {% include_block routes.plan with wide=True button_label_override='Make an export plan'%}
             </div>
         {% else %}
             <div class="c-1-3">

@@ -24,21 +24,31 @@ Only show if progress has started
               </div>
               <div class='w-1-2'>
                   <h3 class="h-xs p-t-xxs">{{ export_plan_progress.next_section.title }}</h3>
-                  <p class="body-m m-t-0">
+
                       {% for p in export_plan_progress.section_progress %}
                         {% if p.url == export_plan_progress.next_section.url %}
+                            <p class="body-m m-t-0">
                             {{ p.populated }} of {{ p.total }} sub-sections completed
+                            </p>
+
+                             <a class="button button--secondary button--small" href='{{export_plan_progress.next_section.url}}'>
+                                 {% if p.populated == 0 %}
+                                    Start
+                                 {% else %}
+                                    Continue
+                                 {% endif %}
+                             </a>
                         {% endif %}
                       {% endfor %}
 
-                  </p>
-                  <a class="button button--secondary button--small" href='{{export_plan_progress.next_section.url}}'>Continue</a>
+
+
               </div>
           {% else %}
               <h3 class="h-s p-t-s">You've completed your export plan</h3>
               <div class='w-1-2'>
                   <p class='m-t-xs'>Share it with lenders and potential partners to get started on your exporting journey</p>
-                  <a class="button button--secondary button--small" href='/export-plan/pdf-download/' title='Download as PDF'>Download as PDF</a>
+                  <a class="button button--secondary button--small" href="{% url 'exportplan:pdf-download' %}" title='Download as PDF'>Download as PDF</a>
               </div>
           {% endif %}
 

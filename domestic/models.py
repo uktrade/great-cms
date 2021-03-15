@@ -178,11 +178,6 @@ class DomesticDashboard(
         context.update(get_lesson_completion_status(user, context))
         context['export_plan_in_progress'] = user.has_visited_page(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
         context['export_plan_dashboard_url'] = cms_slugs.EXPORT_PLAN_DASHBOARD_URL
-        # context['lessons_in_progress'] = True
-        context['export_plan_in_progress'] = False
-        # print(context['lessons_in_progress'])
-        # print(context['export_plan_in_progress'])
-        # print(context['export_plan_progress'])
         context['routes'] = build_route_context(user, context)
         return context
 
