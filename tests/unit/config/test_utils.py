@@ -15,14 +15,12 @@ from config.utils import get_wagtail_transfer_configuration
         (
             'beta',  # can pull from staging,
             False,
-            # TEMPORARILY DISABLED until we're fully rolled out
-            # {
-            #     'staging': {
-            #         'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_STAGING',
-            #         'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_STAGING',
-            #     },
-            # }
-            {},
+            {
+                'staging': {
+                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_STAGING',
+                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_STAGING',
+                },
+            },
         ),
         (
             'staging',  # can pull from beta
