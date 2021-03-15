@@ -1,33 +1,8 @@
-@media print {
-  @page {
-    size: a4 portrait;
-    @frame header_frame {
-      /* Static Frame */
-      -pdf-frame-border: 1;
-      -pdf-frame-content: header_content;
-      left: 40pt;
-      width: 512pt;
-      top: 50pt;
-      height: 40pt;
-    }
-    @frame content_frame {
-      /* Content Frame */
-      -pdf-frame-border: 1;
-      left: 40pt;
-      width: 512pt;
-      top: 90pt;
-      height: 632pt;
-    }
-    @frame footer_frame {
-      /* Another static Frame */
-      -pdf-frame-border: 1;
-      -pdf-frame-content: footer_content;
-      left: 40pt;
-      width: 512pt;
-      top: 772pt;
-      height: 20pt;
-    }
-  }
+{% load static %}
+
+/*
+XTML2PDF doesn't support CSS vars, and because of the custom @queries, we can't use SCSS.
+Therefore these `vars` are just for reference.
 
 // Colours
 $colour-red-deep-100: #b00d23;
