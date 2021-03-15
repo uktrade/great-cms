@@ -127,21 +127,3 @@ body {
     display: flex;
   }
 }
-
-/* need to go in great-styles */
-.g-card-body {
-  border-bottom: 1px solid $blue-deep-30;
-}
-
-.g-card-progress {
-  background: {
-    repeat: no-repeat;
-    position: bottom right;
-    image: url('/static/images/ep-placeholder.svg');
-    size: 210px;
-  }
-
-  &--complete {
-    background-image: url('/static/images/ep-placeholder-complete.png');
-  }
-}
