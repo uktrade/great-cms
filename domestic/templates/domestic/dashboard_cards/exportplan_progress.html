@@ -7,13 +7,13 @@ Only show if progress has started
 
 {% if export_plan_in_progress %}
   <div class="g-card">
-      <div class="g-card-progress {% if not complete %}g-card-progress--complete{% endif %}">
+      <div class="g-card-progress {% if export_plan_progress.exportplan_completed %}g-card-progress--complete{% endif %}">
           <div class="g-card-header d-flex flex-jc-space-between flex-ai-center">
               <h3 class="h-m p-t-xxs">Export Plan</h3>
-              <a class="button button--tertiary button--small" href="/export-plan/dashboard/" title="Go to export plan">Go to export plan</a>
+              <a class="button button--tertiary button--small" href="{{export_plan_dashboard_url}}" title="Go to export plan">Go to export plan</a>
           </div>
 
-          {% if complete %}
+          {% if not export_plan_progress.exportplan_completed %}
               <div class="g-card-body m-b-s p-b-s">
                   <div class="p-t-s">
                       {% progress_bar  export_plan_progress.sections_total export_plan_progress.sections_completed %}
@@ -23,11 +23,16 @@ Only show if progress has started
                   </p>
               </div>
               <div class='w-1-2'>
-                  <h3 class="h-xs p-t-xxs">Target market research</h3>
+                  <h3 class="h-xs p-t-xxs">{{ export_plan_progress.next_section.title }}</h3>
                   <p class="body-m m-t-0">
-                    2 of 5 sub-sections completed
+                      {% for p in export_plan_progress.section_progress %}
+                        {% if p.url == export_plan_progress.next_section.url %}
+                            {{ p.populated }} of {{ p.total }} sub-sections completed
+                        {% endif %}
+                      {% endfor %}
+
                   </p>
-                  <a class="button button--secondary button--small">Continue</a>
+                  <a class="button button--secondary button--small" href='{{export_plan_progress.next_section.url}}'>Continue</a>
               </div>
           {% else %}
               <h3 class="h-s p-t-s">You've completed your export plan</h3>
