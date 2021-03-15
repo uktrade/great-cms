@@ -12,6 +12,9 @@
         {% block sharing_description %}
             <meta name="description" content="{% block meta_description %}{% firstof page.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
         {% endblock %}
+        {% block sharing_title %}
+            <meta name="title" content="{% block meta_title %}{% firstof page.seo_title page.title %} - great.gov.uk{% endblock %}">
+        {% endblock %}
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block head_google_tag_manager %}
             {% if directory_components_analytics %}
@@ -23,7 +26,13 @@
           <meta id="privacyCookieDomain" value=".great.gov.uk" />
         {% endblock %}
         <title>
-            {% block head_title %}{% endblock %}
+            {% block head_title %}
+                {% if page.seo_title %}
+                    {{page.seo_title}}
+                {% else %}
+                    {{page.title}} - great.gov.uk
+                {%endif%}
+            {% endblock %}
         </title>
 
         {% block head_favicon %}

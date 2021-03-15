@@ -101,7 +101,7 @@ class ExportPlanProcessor:
         uncompleted = dict(filter(lambda i: i[1].get('is_complete', False) is False, progress_items.items()))
         exportplan_completed = True if len(completed) == len(data.SECTION_SLUGS) else False
 
-        if len(uncompleted) > 0:
+        if len(uncompleted):
             # Next section is last visited uncompleted page
             next_section_key = list(uncompleted.keys())[0]
         elif len(completed) and not exportplan_completed:

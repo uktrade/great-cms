@@ -20,6 +20,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from core import (
     blocks as core_blocks,
     cache_keys,
+    cms_slugs,
     forms as core_forms,
     helpers,
     mixins,
@@ -175,9 +176,10 @@ class DomesticDashboard(
         context['events'] = helpers.get_dashboard_events(user.session_id)
         context['export_opportunities'] = helpers.get_dashboard_export_opportunities(user.session_id, user.company)
         context.update(get_lesson_completion_status(user, context))
-        # context['export_plan_in_progress'] = user.has_visited_page(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
-        context['lessons_in_progress'] = False
-        context['export_plan_in_progress'] = True
+        context['export_plan_in_progress'] = user.has_visited_page(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
+        context['export_plan_progress'] = {}
+        # context['lessons_in_progress'] = False
+        # context['export_plan_in_progress'] = True
         # print(context['lessons_in_progress'])
         # print(context['export_plan_in_progress'])
         # print(context['export_plan_progress'])
