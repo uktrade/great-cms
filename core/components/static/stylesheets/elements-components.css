@@ -578,6 +578,17 @@ body.js-enabled .great-header-country-select {
     background: #ffbf47;
     color: #1e1348; }
 
+@media (max-width: 768px) {
+  .great-header.expanded:before {
+    content: '';
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1; } }
+
 .great-header,
 .great-sub-header {
   position: relative;
@@ -638,7 +649,9 @@ body.js-enabled .great-header-country-select {
   .great-header .main-nav-container.mobile,
   .great-sub-header .main-nav-container.mobile {
     display: none;
-    margin: 0; }
+    margin: 0;
+    z-index: 1;
+    position: relative; }
     @media (max-width: 768px) {
       .great-header .main-nav-container.mobile,
       .great-sub-header .main-nav-container.mobile {
@@ -842,7 +855,8 @@ body.js-enabled .great-header-country-select {
           outline: #ffbf47 solid 4px;
           outline-offset: 0; }
       .js-mobile-button.expanded {
-        background-color: #006ccc; }
+        background-color: #006ccc;
+        z-index: 1; }
         .js-mobile-button.expanded .burger-icon {
           background-color: transparent; }
           .js-mobile-button.expanded .burger-icon:before, .js-mobile-button.expanded .burger-icon:after {
@@ -864,6 +878,17 @@ body.js-enabled .great-header-country-select {
 #great-domestic-header .main-nav.desktop {
   margin-right: 280px; }
 
+@media (max-width: 768px) {
+  .great-header.expanded:before {
+    content: '';
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1; } }
+
 .great-header,
 .great-sub-header {
   position: relative;
@@ -924,7 +949,9 @@ body.js-enabled .great-header-country-select {
   .great-header .main-nav-container.mobile,
   .great-sub-header .main-nav-container.mobile {
     display: none;
-    margin: 0; }
+    margin: 0;
+    z-index: 1;
+    position: relative; }
     @media (max-width: 768px) {
       .great-header .main-nav-container.mobile,
       .great-sub-header .main-nav-container.mobile {
@@ -1128,7 +1155,8 @@ body.js-enabled .great-header-country-select {
           outline: #ffbf47 solid 4px;
           outline-offset: 0; }
       .js-mobile-button.expanded {
-        background-color: #006ccc; }
+        background-color: #006ccc;
+        z-index: 1; }
         .js-mobile-button.expanded .burger-icon {
           background-color: transparent; }
           .js-mobile-button.expanded .burger-icon:before, .js-mobile-button.expanded .burger-icon:after {
