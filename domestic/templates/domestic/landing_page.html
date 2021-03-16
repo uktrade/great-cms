@@ -20,8 +20,11 @@
 {% block css_layout_class %}landing-page{% endblock %}
 
 {% block content %}
-
-{% include 'components/landing_hero_with_cta.html' with hero_image=page.hero_image heading=page.hero_text cta_text=page.hero_cta_text cta_link=page.hero_cta_url %}
+{% if is_logged_out %}
+  {% include 'components/landing_hero_with_cta.html' with hero_image=page.hero_image heading=page.hero_text cta_text=page.hero_cta_text cta_link=page.hero_cta_url %}
+{% else %}
+  {% include 'components/landing_hero_with_cta.html' with hero_image=page.hero_image heading=page.hero_text_si cta_text=page.hero_cta_text_si cta_link=page.hero_cta_url %}
+{% endif %}
 
 <section class="padding-bottom-15 padding-bottom-30-m padding-top-45 padding-top-60-m">
   <div class="container wrap-tight">
