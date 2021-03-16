@@ -22,6 +22,7 @@
 - GP2-1792 - dashboard pages
 
 ### Implemented enhancements
+- GP2-1849 - Logged out mobile header
 - GP2-1811 - Fix SEO title as main page title if it exists
 - GP2-1811 - Fix SEO title not appearing in meta tags
 

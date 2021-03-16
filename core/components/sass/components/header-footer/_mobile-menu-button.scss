@@ -65,6 +65,7 @@
       background-color: $active-blue;
       z-index: 1;
       top: 60px;
+      transition: top .1s;
 
       .burger-icon {
         background-color: transparent;

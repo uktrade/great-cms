@@ -857,7 +857,9 @@ body.js-enabled .great-header-country-select {
       .js-mobile-button.expanded {
         background-color: #006ccc;
         z-index: 1;
-        top: 60px; }
+        top: 60px;
+        -webkit-transition: top .1s;
+        transition: top .1s; }
         .js-mobile-button.expanded .burger-icon {
           background-color: transparent; }
           .js-mobile-button.expanded .burger-icon:before, .js-mobile-button.expanded .burger-icon:after {
@@ -1158,7 +1160,9 @@ body.js-enabled .great-header-country-select {
       .js-mobile-button.expanded {
         background-color: #006ccc;
         z-index: 1;
-        top: 60px; }
+        top: 60px;
+        -webkit-transition: top .1s;
+        transition: top .1s; }
         .js-mobile-button.expanded .burger-icon {
           background-color: transparent; }
           .js-mobile-button.expanded .burger-icon:before, .js-mobile-button.expanded .burger-icon:after {
