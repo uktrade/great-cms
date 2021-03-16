@@ -14,8 +14,7 @@
         <div class="column-seven-twelfths">
           {% is_descendant_of_parent_with_slug page 'TopicLandingPage' 'advice' as show_warning_banner %}
           {% if show_warning_banner %}
-          {% url "core:signup" as link_url %}
-          {% include 'components/warning_banner.html' with cta_url=link_url %}
+          {% include 'components/warning_banner.html' with cta_url="/learn/categories/" %}
           {% endif %}
           {% if page.type_of_article %}
             <p class="subheading">{{ page.type_of_article }}</p>
