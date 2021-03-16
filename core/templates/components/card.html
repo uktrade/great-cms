@@ -32,7 +32,7 @@
         {% if html_snippet %}
         {{ html_snippet }}
         {% endif %}
-        {% if is_logged_out %}
+        {% if not request.user.is_authenticated %}
         <span class="shared-tag">Sign in required</span>
         {% endif %}
       {% endif %}
