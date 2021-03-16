@@ -3,7 +3,8 @@ from unittest.mock import patch
 import pytest
 from django.urls import reverse
 
-from exportplan import forms, helpers
+from exportplan import forms
+from exportplan.core import helpers
 
 
 @pytest.fixture
@@ -92,7 +93,7 @@ def test_target_markets_research_form_empty_fields():
 
 
 @pytest.mark.django_db
-def test_about_your_business_form_view(export_plan_data, client, user):
+def test_about_your_business_form_view(export_plan_data, about_your_business_form_data, client, user):
     export_plan_data['about_your_business'] = about_your_business_form_data
     url = reverse('exportplan:about-your-business')
     client.force_login(user)

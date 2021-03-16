@@ -165,6 +165,7 @@ class DomesticDashboard(
 
     def get_context(self, request):
         user = request.user
+
         context = super().get_context(request)
         context['visited_already'] = user.has_visited_page(self.slug)
         user.set_page_view(self.slug)
@@ -176,8 +177,8 @@ class DomesticDashboard(
         context['export_opportunities'] = helpers.get_dashboard_export_opportunities(user.session_id, user.company)
         context.update(get_lesson_completion_status(user, context))
         context['export_plan_in_progress'] = user.has_visited_page(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
+        context['export_plan_dashboard_url'] = cms_slugs.EXPORT_PLAN_DASHBOARD_URL
         context['routes'] = build_route_context(user, context)
-
         return context
 
     #########
@@ -231,6 +232,16 @@ class GreatDomesticHomePage(
     hero_cta_url = models.CharField(null=True, blank=True, max_length=255)
 
     # EU exit chevrons StreamField WAS here in V1 - no longer the case
+
+    # magna ctas
+    magna_ctas_title = models.TextField(null=True, blank=True)
+    magna_ctas_columns = single_struct_block_stream_field_factory(
+        field_name='columns',
+        block_class_instance=core_blocks.LinkWithImageAndContentBlockNoSource(),
+        max_num=3,
+        null=True,
+        blank=True,
+    )
 
     # how DIT helps
     how_dit_helps_title = models.TextField(null=True, blank=True)
@@ -356,7 +367,8 @@ class TopicLandingBasePage(BaseContentPage):
         abstract = True
 
     parent_page_types = [
-        'domestic.DomesticHomePage',
+        'domestic.DomesticHomePage',  # TODO: once we've restructured, remove this permission
+        'domestic.GreatDomesticHomePage',
     ]
 
     # `title` field comes from Page->BaseContentPage
@@ -542,7 +554,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     template = 'domestic/country_guide.html'
 
     parent_page_types = [
-        'domestic.DomesticHomePage',  # TODO: remove this
+        'domestic.DomesticHomePage',  # TODO: once we've restructured, remove this permission
         'domestic.MarketsTopicLandingPage',
     ]
 

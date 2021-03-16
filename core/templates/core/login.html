@@ -1,6 +1,6 @@
 {% extends 'core/page_no_navigation.html' %}
 {% load breadcrumbs from great_components %}
-{% load url_map %}
+{% load get_intended_destination from url_tags %}
 {% load static %}
 
 {% block inner_content %}
@@ -9,6 +9,9 @@
 
 {% block body_js %}
     {{ block.super }}
+
+    {% get_intended_destination request as onward_destination %}
+
     <script type="text/javascript">
         var element = document.getElementById('login');
         var email = '{{ request.GET.email }}';
@@ -18,7 +21,7 @@
         magna.createLogin({
             element: element,
             isOpen: true,
-            nextUrl: '{% url_map "dashboard" %}',
+            nextUrl: '{{onward_destination}}',
             email: email,
             errors: (error) ? {'__all__': [error]} : {}
         })

@@ -10,7 +10,7 @@ from wagtail_factories import PageFactory, SiteFactory
 import tests.unit.domestic.factories
 import tests.unit.exportplan.factories
 from directory_api_client import api_client
-from exportplan import helpers as exportplan_helpers
+from exportplan.core import helpers as exportplan_helpers
 from sso.models import BusinessSSOUser
 from tests.helpers import create_response
 
@@ -32,7 +32,8 @@ def cost_pricing_data():
         'total_cost_and_price': {
             'final_cost_per_unit': 16.00,
             'net_price': 22.00,
-            'units_to_export_first_period': {'value': 22.00},
+            'units_to_export_first_period': {'value': 22.00, 'unit': 'm'},
+            'units_to_export_second_period': {'value': 5.00, 'unit': 'd'},
             'duty_per_unit': 15.13,
             'local_tax_charges': 5.23,
         },
@@ -46,29 +47,33 @@ def export_plan_data(cost_pricing_data):
         'commodity_code': '220.850',
         'sectors': ['Automotive'],
         'target_markets': [{'country': 'China'}],
-        'target_markets_research': '',
+        'target_markets_research': {},
         'ui_options': {
             'marketing-approach': {'target_ages': ['25-29', '47-49']},
             'target-markets-research': {'target_ages': ['35-40']},
         },
-        'ui_progress': {'about-your-business': {'is_complete': True, 'date_last_visited': '2012-01-14T03:21:34+00:00'}},
+        'ui_progress': {
+            'about-your-business': {'is_complete': True, 'date_last_visited': '2012-01-14T03:21:34+00:00'},
+            'target-markets-research': {'is_complete': False, 'date_last_visited': '2012-01-25T03:21:34+00:00'},
+            'business-risk': {'is_complete': False, 'date_last_visited': '2012-01-12T03:21:34+00:00'},
+        },
         'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
         'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}],
         'timezone': 'Asia/Shanghai',
-        'about_your_business': '',
-        'adaptation_target_market': [],
+        'about_your_business': {'story': 'new story'},
+        'adaptation_target_market': {},
         'target_market_documents': {'document_name': 'test'},
-        'route_to_markets': {'route': 'test'},
+        'route_to_markets': [{'route': 'DIRECT_SALES', 'promote': 'ONLINE_MARKETING'}],
         'marketing_approach': {'resources': 'xyz'},
         'company_objectives': {},
         'objectives': {'rationale': 'business rationale'},
         'funding_and_credit': {'override_estimated_total_cost': '34.23', 'funding_amount_required': '45.99'},
         'getting_paid': {
-            'payment_method': {'method': ['TTE', 'EFG'], 'notes': 'method 1'},
+            'payment_method': {'methods': ['CREDIT_DEBIT', 'MERCHANT_SERVICES']},
             'payment_terms': {'method': ['FFE', 'TMP'], 'notes': 'method 2'},
-            'incoterms': {'method': ['RME', 'ECM'], 'notes': 'method 3'},
+            'incoterms': {'notes': 'nothing', 'transport': 'EX_WORKS'},
         },
-        'business_trips': {'note': 'trip 1'},
+        'business_trips': [{'note': 'trip 1'}],
         'travel_business_policies': {
             'travel_information': 'All travel to be business class',
             'cultural_information': 'Lots of culture',
@@ -93,6 +98,22 @@ def export_plan_data(cost_pricing_data):
     }
     data.update(cost_pricing_data)
     return data
+
+
+@pytest.fixture
+def export_plan_section_progress_data():
+    return [
+        {'total': 5, 'populated': 1, 'url': '/export-plan/section/about-your-business/'},
+        {'total': 2, 'populated': 1, 'url': '/export-plan/section/business-objectives/'},
+        {'total': 5, 'populated': 0, 'url': '/export-plan/section/target-markets-research/'},
+        {'total': 11, 'populated': 1, 'url': '/export-plan/section/adaptation-for-your-target-market/'},
+        {'total': 2, 'populated': 1, 'url': '/export-plan/section/marketing-approach/'},
+        {'total': 8, 'populated': 6, 'url': '/export-plan/section/costs-and-pricing/'},
+        {'total': 3, 'populated': 3, 'url': '/export-plan/section/getting-paid/'},
+        {'total': 3, 'populated': 3, 'url': '/export-plan/section/funding-and-credit/'},
+        {'total': 4, 'populated': 4, 'url': '/export-plan/section/travel-plan/'},
+        {'total': 1, 'populated': 1, 'url': '/export-plan/section/business-risk/'},
+    ]
 
 
 @pytest.fixture
@@ -217,6 +238,9 @@ def client(client, auth_backend, settings):
                     'first_name': user.first_name,
                     'last_name': user.last_name,
                 },
+                # To get `company` data in here, use the `mock_get_company_profile` fixture and
+                # provide an approprate return_value. The full spec of CompanySerializer is in
+                # https://github.com/uktrade/directory-api/blob/master/company/serializers.py
             }
         )
 
@@ -280,7 +304,7 @@ def patch_get_create_export_plan(export_plan_data):
     yield mock.patch.object(exportplan_helpers, 'get_or_create_export_plan', return_value=export_plan_data)
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture(autouse=False)
 def mock_get_create_export_plan(patch_get_create_export_plan):
     yield patch_get_create_export_plan.start()
     try:
@@ -291,16 +315,34 @@ def mock_get_create_export_plan(patch_get_create_export_plan):
 
 
 @pytest.fixture
-def patch_sso_models_get_or_create_export_plan(export_plan_data):
+def patch_sso_get_export_plan(export_plan_data):
     # TODO merge this and above patch so we use singe unified way of getting export plan
     yield mock.patch('sso.models.get_or_create_export_plan', return_value=export_plan_data)
 
 
-@pytest.fixture(autouse=False)
-def mock_api_get_export_plan(patch_get_export_plan):
-    yield patch_get_export_plan.start()
+@pytest.fixture(autouse=True)
+def mock_sso_get_export_plan(patch_sso_get_export_plan):
+    yield patch_sso_get_export_plan.start()
     try:
-        patch_get_export_plan.stop()
+        patch_sso_get_export_plan.stop()
+    except RuntimeError:
+        # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture
+def patch_export_plan_list(export_plan_data):
+    yield mock.patch(
+        'directory_api_client.api_client.exportplan.exportplan_list',
+        return_value=create_response(status_code=200, json_body=[export_plan_data]),
+    )
+
+
+@pytest.fixture(autouse=False)
+def mock_export_plan_list(patch_export_plan_list):
+    yield patch_export_plan_list.start()
+    try:
+        patch_export_plan_list.stop()
     except RuntimeError:
         # may already be stopped explicitly in a test
         pass
@@ -465,14 +507,6 @@ def patch_set_user_page_view():
     ).start()
 
 
-@pytest.fixture
-def patch_export_plan(export_plan_data):
-    yield mock.patch(
-        'directory_api_client.api_client.exportplan.exportplan_list',
-        return_value=create_response(status_code=200, json_body=[export_plan_data]),
-    ).start()
-
-
 @pytest.fixture(autouse=True)
 def mock_get_export_opportunities(patch_get_dashboard_export_opportunities):
     yield patch_get_dashboard_export_opportunities.start()
@@ -552,3 +586,32 @@ def mock_no_trading_blocs():
         'directory_api_client.api_client.dataservices.trading_blocs_by_country',
         return_value=create_response(status_code=200, json_body=body),
     ).start()
+
+
+@pytest.fixture
+def company_profile(client, user):
+    client.force_login(user)
+    response = create_response(
+        {
+            'company_type': 'COMPANIES_HOUSE',
+            'number': 1234567,
+            'name': 'Example corp',
+            'postal_code': 'Foo Bar',
+            'sectors': ['AEROSPACE'],
+            'employees': '1-10',
+            'mobile_number': '07171771717',
+            'postal_full_name': 'Foo Example',
+            'address_line_1': '123 Street',
+            'address_line_2': 'Near Fake Town',
+            'country': 'FRANCE',
+            'locality': 'Paris',
+            'summary': 'Makes widgets',
+            'website': 'http://www.example.com',
+        }
+    )
+    stub = mock.patch(
+        'directory_api_client.api_client.company.profile_retrieve',
+        return_value=response,
+    )
+    yield stub.start()
+    stub.stop()

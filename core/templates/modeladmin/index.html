@@ -1,0 +1,20 @@
+{% extends "modeladmin/index.html" %}
+{% load i18n modeladmin_tags wagtailadmin_tags %}
+{% block header_extra %}
+    <div class="right">
+        {% if user_can_create %}
+            <div class="actionbutton">
+                {% include 'modeladmin/includes/button.html' with button=view.button_helper.add_button %}
+
+        {% comment %}
+         Added custom download button with actionbutton groups to align with add button
+        {% endcomment %}
+
+        {% if view.list_export %}
+            <div class="dropdown dropdown-button match-width col">
+                <a href="?export=csv&{{ request.GET.urlencode }}" class="button bicolor csv-button button--icon">{% icon name="download" wrapped=1 %}{% trans 'Download CSV' %}</a>
+        {% endif %}
+            </div>
+    {% endif %}
+    </div>
+{% endblock %}

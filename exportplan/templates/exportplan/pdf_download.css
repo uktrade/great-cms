@@ -1,0 +1,529 @@
+{% load static %}
+
+/*
+XTML2PDF doesn't support CSS vars, and because of the custom @queries, we can't use SCSS.
+Therefore these `vars` are just for reference.
+
+// Colours
+$colour-red-deep-100: #b00d23;
+$colour-stone-100: #dfd5c5;
+$colour-purple-100: #4f0b7b;
+$colour-red-100: #e41f13;
+$colour-red-90: #e93836;
+$colour-red-80: #eb4f4d;
+$colour-red-70: #eb6667;
+$colour-red-60: #ee7c7d;
+$colour-red-50: #f19293;
+$colour-red-40: #f4a7a8;
+$colour-red-30: #f7bdbe;
+$colour-red-20: #f9d3d4;
+$colour-red-10: #fce9e9;
+$colour-blue-deep-100: #1e1348;
+$colour-blue-deep-90: #352b5a;
+$colour-blue-deep-80: #4b426d;
+$colour-blue-deep-70: #635a7f;
+$colour-blue-deep-60: #787191;
+$colour-blue-deep-50: #8f89a4;
+$colour-blue-deep-40: #a5a1b6;
+$colour-blue-deep-30: #bcb8c8;
+$colour-blue-deep-20: #d2d0da;
+$colour-blue-deep-10: #e9e7ed;
+$colour-black-100: #000000;
+$colour-black-90: #181818;
+$colour-black-80: #4a4a4a;
+$colour-black-70: #646464;
+$colour-black-60: #7c7c7c;
+$colour-black-50: #959595;
+$colour-black-40: #979797;
+$colour-black-30: #aeaeae;
+$colour-black-20: #c7c7c7;
+$colour-black-10: #e0e0e0;
+$colour-white-100: #ffffff;
+$colour-aqua-100: #007ea3;
+$colour-aqua-20: #cbe5ee;
+$colour-blue-100: #00549f;
+
+*/
+
+/* Core XHTML2PDF layout */
+@page {
+  size: a4 portrait;
+  /* @frame header_frame {
+    -pdf-frame-border: 1;
+    -pdf-frame-content: header_content;
+    left: 40pt;
+    width: 512pt;
+    top: 50pt;
+    height: 40pt;
+  } */
+  @frame content_frame {
+    /* -pdf-frame-border: 1; */
+    left: 40pt;
+    width: 512pt;
+    top: 40pt;
+    height: 740pt;
+  }
+  @frame footer_frame {
+    /* -pdf-frame-border: 1; */
+    -pdf-frame-content: footer_content;
+    left: 40pt;
+    width: 512pt;
+    top: 790pt;
+    height: 30pt;
+  }
+
+  /* @frame cover_frame {
+    -pdf-frame-border: 10;
+    -pdf-frame-content: cover_frame;
+    left: 40pt;
+    width: 512pt;
+    top: 90pt;
+    height: 632pt;
+  } */
+}
+
+.page-footer {
+  border-top: 1pt solid #d2d0da;
+  padding-top: 8pt;
+}
+
+/* pdftoc.pdftoclevel0 {
+  font-weight: bold;
+  margin-top: 0.5em;
+}
+pdftoc.pdftoclevel1 {
+  margin-left: 1em;
+}
+pdftoc.pdftoclevel2 {
+  margin-left: 2em;
+  font-style: italic;
+} */
+
+/* Typography */
+@font-face {
+  font-family: 'FS Lucas';
+  src: url("{{host_url}}{% static 'fonts/FSLucas-Regular.ttf' %}");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'FS Lucas SemiBold';
+  src: url("{{host_url}}{% static 'fonts/FSLucas-SemiBold.ttf' %}");
+  font-weight: 500;
+  font-style: normal;
+}
+body {
+  font-family: 'FS Lucas', Helvetica, Arial, sans-serif;
+  color: #4b426d;
+  font-size: 12pt;
+}
+p,
+a,
+li,
+ul {
+  margin: 0;
+}
+strong {
+  font-family: 'FS Lucas SemiBold', Helvetica, Arial, sans-serif;
+  font-weight: 500;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'FS Lucas SemiBold', Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  margin: 0;
+}
+h1,
+.title-alpha {
+  font-size: 27pt;
+}
+h2,
+.title-beta {
+  font-size: 18pt;
+}
+h3,
+.title-gamma {
+  font-size: 15pt;
+}
+h4 {
+}
+h5 {
+}
+h6 {
+  font-size: 12pt;
+  font-weight: 300;
+}
+a {
+  text-decoration: underline;
+  color: #4b426d;
+}
+.body-alpha {
+  font-size: 18pt;
+}
+.body-beta {
+  font-size: 12pt;
+}
+.body-gamma {
+  font-size: 9pt;
+}
+.weight-bold {
+  font-weight: 700;
+}
+.weight-semi {
+  font-weight: 500;
+}
+.weight-light {
+  font-weight: 300;
+}
+
+/* Colours */
+.colour-red-150 {
+  color: #b00d23;
+}
+.colour-red-100 {
+  color: #e41f13;
+}
+.colour-red-90 {
+  color: #e93836;
+}
+.colour-red-80 {
+  color: #eb4f4d;
+}
+.colour-red-70 {
+  color: #eb6667;
+}
+.colour-red-60 {
+  color: #ee7c7d;
+}
+.colour-red-50 {
+  color: #f19293;
+}
+.colour-red-40 {
+  color: #f4a7a8;
+}
+.colour-red-30 {
+  color: #f7bdbe;
+}
+.colour-red-20 {
+  color: #f9d3d4;
+}
+.colour-red-10 {
+  color: #fce9e9;
+}
+
+.bg-colour-blue-deep-10 {
+  background-color: #e9e7ed
+}
+
+/* Borders */
+.border-t-1-blue-deep-20 {
+  border-top: 1pt solid #d2d0da;
+}
+.border-b-1-blue-deep-20 {
+  border-bottom: 1pt solid #d2d0da;
+}
+.border-y-1-blue-deep-20 {
+  border-top: 1pt solid #d2d0da;
+  border-bottom: 1pt solid #d2d0da;
+}
+
+
+/* Horizontal rules */
+.hr {
+  height: 1pt;
+  border-top-width: 1pt;
+  border-top-style: solid;
+}
+.hr--red-150 {
+  border-top-color: #b00d23;
+}
+.hr--blue-deep-100 {
+  border-top-color: #1e1348;
+}
+.hr--blue-deep-20 {
+  border-top-color: #d2d0da;
+}
+
+/* Images */
+img {
+  zoom: 100%;
+}
+
+.logo {
+}
+.logo--cover {
+  height: 350pt;
+}
+.logo--great {
+  width: 150pt;
+}
+
+/* Icons */
+.icon {
+}
+
+.icon--title {
+  width: 20pt;
+  padding-right: 5pt;
+}
+
+/* Page layouts */
+.page {
+  width: 512pt;
+  height: 632pt;
+}
+
+/* Table layouts */
+table {
+  -pdf-keep-in-frame-mode: shrink;
+}
+/* Defaults */
+.layout {
+}
+.layout td {
+  padding-left: 10pt;
+  padding-right: 10pt;
+  /* border: 1px solid red; */
+}
+.layout td:first-child {
+  padding-left: 0;
+}
+.layout td:last-child {
+  padding-right: 0;
+}
+/* Col layouts */
+.layout--two-col {
+}
+.layout--three-col {
+}
+.align-top {
+  vertical-align: top;
+}
+.align-middle {
+  vertical-align: middle;
+}
+.align-bottom {
+  vertical-align: bottom;
+}
+.text-align-left {
+  text-align: left;
+}
+.text-align-right {
+  text-align: right;
+}
+.text-align-centre {
+  text-align: center;
+}
+
+/* Col widths */
+/* 10 col */
+.col-10-1 {
+  width: 51.2pt;
+}
+.col-10-2 {
+  width: 102.4pt;
+}
+.col-10-3 {
+  width: 153.6pt;
+}
+.col-10-4 {
+  width: 204.8pt;
+}
+.col-10-5 {
+  width: 256pt;
+}
+.col-10-6 {
+  width: 307.2pt;
+}
+.col-10-7 {
+  width: 358.4pt;
+}
+.col-10-8 {
+  width: 409.6pt;
+}
+.col-10-9 {
+  width: 460.8pt;
+}
+.col-10-10 {
+  width: 512pt;
+}
+/* 12 col */
+.col-12-1 {
+  width: 42.6pt;
+}
+.col-12-2 {
+  width: 85.2pt;
+}
+.col-12-3 {
+  width: 128pt;
+}
+.col-12-6 {
+  width: 256pt;
+}
+
+/* Utils */
+.pad-0 {
+  padding: 0;
+}
+.pad-05 {
+  padding: 2.5pt;
+}
+.pad-1 {
+  padding: 5pt;
+}
+.pad-2 {
+  padding: 10pt;
+}
+.pad-3 {
+  padding: 20pt;
+}
+.pad-4 {
+  padding: 30pt;
+}
+.pad-5 {
+  padding: 40pt;
+}
+.pad-t-0 {
+  padding-top: 0;
+}
+.pad-t-1 {
+  padding-top: 5pt;
+}
+.pad-t-05 {
+  padding-top: 2.5pt;
+}
+.pad-t-2 {
+  padding-top: 10pt;
+}
+.pad-t-3 {
+  padding-top: 20pt;
+}
+.pad-t-4 {
+  padding-top: 30pt;
+}
+.pad-t-5 {
+  padding-top: 40pt;
+}
+.pad-b-0 {
+  padding-bottom: 0;
+}
+.pad-b-05 {
+  padding-bottom: 2.5pt;
+}
+.pad-b-1 {
+  padding-bottom: 5pt;
+}
+.pad-b-2 {
+  padding-bottom: 10pt;
+}
+.pad-b-3 {
+  padding-bottom: 20pt;
+}
+.pad-b-4 {
+  padding-bottom: 30pt;
+}
+.pad-b-5 {
+  padding-bottom: 40pt;
+}
+.pad-y-0 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.pad-y-05 {
+  padding-top: 2.5pt;
+  padding-bottom: 2.5pt;
+}
+.pad-y-1 {
+  padding-top: 5pt;
+  padding-bottom: 5pt;
+}
+.pad-y-2 {
+  padding-top: 10pt;
+  padding-bottom: 10pt;
+}
+.pad-y-3 {
+  padding-top: 20pt;
+  padding-bottom: 20pt;
+}
+.pad-y-4 {
+  padding-top: 30pt;
+  padding-bottom: 30pt;
+}
+.pad-y-5 {
+  padding-top: 40pt;
+  padding-bottom: 40pt;
+}
+.pad-x-0 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.pad-x-05 {
+  padding-left: 2.5pt;
+  padding-right: 2.5pt;
+}
+.pad-x-1 {
+  padding-left: 5pt;
+  padding-right: 5pt;
+}
+.pad-x-2 {
+  padding-left: 10pt;
+  padding-right: 10pt;
+}
+.pad-x-3 {
+  padding-left: 20pt;
+  padding-right: 20pt;
+}
+.pad-x-4 {
+  padding-left: 30pt;
+  padding-right: 30pt;
+}
+.pad-x-5 {
+  padding-left: 40pt;
+  padding-right: 40pt;
+}
+.pad-r-0 {
+  padding-right: 0;
+}
+.pad-r-05 {
+  padding-right: 2.5pt;
+}
+.pad-r-1 {
+  padding-right: 5pt;
+}
+.pad-r-2 {
+  padding-right: 10pt;
+}
+.pad-r-3 {
+  padding-right: 20pt;
+}
+.pad-r-4 {
+  padding-right: 30pt;
+}
+.pad-r-5 {
+  padding-right: 40pt;
+}
+.pad-l-0 {
+  padding-left: 0;
+}
+.pad-l-1 {
+  padding-left: 5pt;
+}
+.pad-l-05 {
+  padding-left: 2.5pt;
+}
+.pad-l-2 {
+  padding-left: 10pt;
+}
+.pad-l-3 {
+  padding-left: 20pt;
+}
+.pad-l-4 {
+  padding-left: 30pt;
+}
+.pad-l-5 {
+  padding-left: 40pt;
+}

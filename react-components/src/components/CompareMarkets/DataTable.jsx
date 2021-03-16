@@ -20,9 +20,7 @@ export default function DataTable(props) {
 
   const dataIn = (data) => {
     cache[datasetName] = deepAssign(cache[datasetName], data)
-    Services.store.dispatch(
-      actions.setLoaded()
-    )
+    Services.store.dispatch(actions.setLoaded())
   }
 
   const flagArray = (array, value) => {
@@ -58,14 +56,12 @@ export default function DataTable(props) {
           }
           countries.forEach((country) => {
             const iso2 = country.country_iso2_code
-            outData[iso2] = outData[iso2] || 
-                inData[iso2] ||
-                inData[country.country_name] ||
-                {}
-            outData[iso2].loading = flagArray(
-              columnList,
-              0
-            )
+            outData[iso2] =
+              outData[iso2] ||
+              inData[iso2] ||
+              inData[country.country_name] ||
+              {}
+            outData[iso2].loading = flagArray(columnList, 0)
           })
           dataIn(outData)
           resolve()
@@ -141,7 +137,6 @@ export default function DataTable(props) {
     if (missingCountries.length) {
       getTableData(missingCountries)
     }
-
   }, [commodityCode, comparisonMarkets])
 
   const yearDiv = (year, baseYear) => {
@@ -189,9 +184,13 @@ export default function DataTable(props) {
     if (countryData) {
       Object.values(config.columns).forEach((columnConfig) => {
         if (columnConfig.year) {
-          const year = columnConfig.year(countryData)
-          if (year) {
-            years[year] = (years[year] || 0) + 1
+          try {
+            const year = columnConfig.year(countryData)
+            if (year) {
+              years[year] = (years[year] || 0) + 1
+            }
+          } catch {
+            // no data for year - it doesn't really matter.
           }
         }
       })
@@ -264,7 +263,9 @@ export default function DataTable(props) {
 
   return (
     <span>
-      <table className={`m-v-0 border-blue-deep-20 valign-middle cache-version-${cacheVersion}`}>
+      <table
+        className={`m-v-0 border-blue-deep-20 valign-middle cache-version-${cacheVersion}`}
+      >
         <thead>
           <tr>
             <th className="body-l-b">&nbsp;</th>
@@ -320,5 +321,5 @@ DataTable.propTypes = {
   cacheVersion: PropTypes.number,
 }
 DataTable.defaultProps = {
-  cacheVersion: null
+  cacheVersion: null,
 }

@@ -1,5 +1,6 @@
 from django.conf import settings
 
+from core import cms_slugs
 from directory_constants import choices, urls
 
 
@@ -33,6 +34,17 @@ def analytics_vars(request):
     }
 
 
+def cms_slug_urls(request):
+    return {
+        'DASHBOARD_URL': cms_slugs.DASHBOARD_URL,
+        'LOGIN_URL': cms_slugs.LOGIN_URL,
+    }
+
+
 def migration_support_vars(request):
     # Context vars that help with the migration from Great V1 to V2
-    return {'BREADCRUMBS_ROOT_URL': settings.BREADCRUMBS_ROOT_URL}
+    return {
+        'BREADCRUMBS_ROOT_URL': settings.BREADCRUMBS_ROOT_URL,
+        'FEATURE_SHOW_REPORT_BARRIER_CONTENT': settings.FEATURE_SHOW_REPORT_BARRIER_CONTENT,
+        'FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS': settings.FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS,
+    }

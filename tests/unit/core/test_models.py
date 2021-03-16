@@ -34,7 +34,7 @@ from core.models import (
     TopicPage,
     case_study_body_validation,
 )
-from domestic.models import DomesticDashboard, DomesticHomePage
+from domestic.models import DomesticDashboard, DomesticHomePage, GreatDomesticHomePage
 from exportplan.models import ExportPlanDashboardPage
 from tests.helpers import make_test_video
 from tests.unit.core import factories
@@ -105,7 +105,7 @@ def test_curated_list_page_has_link_in_context_back_to_parent(
     client,
     domestic_homepage,
     domestic_site,
-    patch_export_plan,
+    mock_export_plan_list,
     patch_get_user_lesson_completed,
     user,
 ):
@@ -176,7 +176,7 @@ def test_curated_list_page_has_link_in_context_back_to_parent(
     ),
 )
 def test_detail_page_get_context_handles_backlink_querystring_appropriately(
-    rf, domestic_homepage, domestic_site, user, querystring_to_add, expected_backlink_value
+    rf, domestic_homepage, domestic_site, user, querystring_to_add, expected_backlink_value, export_plan_data
 ):
 
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=False)
@@ -190,7 +190,7 @@ def test_detail_page_get_context_handles_backlink_querystring_appropriately(
 
     request = rf.get(lesson_page_url)
     request.user = user
-    request.user.export_plan.data = mock.Mock('mocked-export-plan')
+    request.user.export_plan.data = export_plan_data
 
     context = detail_page.get_context(request)
 
@@ -344,7 +344,13 @@ def test_case_study_body_validation(block_type_values, exception_message):
 
 class LandingPageTests(WagtailPageTests):
     def test_can_be_created_under_homepage(self):
-        self.assertAllowedParentPageTypes(LandingPage, {DomesticHomePage})
+        self.assertAllowedParentPageTypes(
+            LandingPage,
+            {
+                DomesticHomePage,
+                GreatDomesticHomePage,
+            },
+        )
 
     def test_can_be_created_under_landing_page(self):
         self.assertAllowedSubpageTypes(
@@ -491,7 +497,7 @@ def test_redirection_for_unauthenticated_user(
     client,
     domestic_homepage,
     domestic_site,
-    patch_export_plan,
+    mock_export_plan_list,
     patch_get_user_lesson_completed,
     user,
 ):
@@ -517,7 +523,7 @@ def test_redirection_for_unauthenticated_user(
     for page in pages:
         response = client.get(page.url, follow=False)
         assert response.status_code == 302
-        assert response._headers['location'] == ('Location', '/login/')
+        assert response._headers['location'] == ('Location', f'/signup/?next={page.url}')
 
     # Show an authenticated user can still get in there
     client.force_login(user)

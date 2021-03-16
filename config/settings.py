@@ -9,6 +9,7 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from .utils import get_wagtail_transfer_configuration
 
 ROOT_DIR = environ.Path(__file__) - 2
+CORE_APP_DIR = ROOT_DIR.path('core')
 
 env = environ.Env()
 
@@ -43,7 +44,6 @@ INSTALLED_APPS = [
     'wagtail.contrib.settings',
     'wagtailmedia',
     'wagtailcache',
-    'wagtail_personalisation',
     'wagtailfontawesome',
     'wagtail_transfer',
     'modelcluster',
@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'learn.apps.LearnConfig',
     'captcha',
+    'contact.apps.ContactConfig',
 ]
 
 MIDDLEWARE = [
@@ -94,6 +95,9 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            CORE_APP_DIR.path('templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'debug': True,
@@ -110,6 +114,7 @@ TEMPLATES = [
                 'core.context_processors.env_vars',
                 'core.context_processors.analytics_vars',
                 'core.context_processors.migration_support_vars',
+                'core.context_processors.cms_slug_urls',
                 'great_components.context_processors.analytics',
             ],
         },
@@ -414,6 +419,22 @@ CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID = env.str(
     'CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID', '68030d40-4574-4aa1-b3ff-941320929964'
 )
 
+CONTACT_DOMESTIC_ZENDESK_SUBJECT = env.str(
+    'CONTACT_DOMESTIC_ZENDESK_SUBJECT',
+    'Great.gov.uk contact form',
+)
+CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID',
+    '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7',
+)
+CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS = env.str('CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS')
+CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID', '61c82be6-b140-46fc-aeb2-472df8a94d35'
+)
+
+
+FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES = env.bool('FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES', False)
+
 # geo location
 GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')
 GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
@@ -448,13 +469,6 @@ COMMODITY_SEARCH_TOKEN = env.str('CCCE_COMMODITY_SEARCH_TOKEN', '')
 # directory constants
 DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON = env.str('DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON', '')
 DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = 60 * 60 * 30
-
-if env.bool('FEATURE_MOCK_CLIENT_IP_ENABLED'):
-    WAGTAIL_PERSONALISATION_IP_FUNCTION = 'config.settings.get_client_ip'
-
-    def get_client_ip(request):
-        return '51.6.68.120'
-
 
 # directory validators
 VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int('VALIDATOR_MAX_LOGO_SIZE_BYTES', 2 * 1024 * 1024)
@@ -508,6 +522,9 @@ FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = env.str('FEATURE_FLAG_HARD_CO
 FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = env.list('FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST', default=[])
 FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER = env.bool('FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER', False)
 FEATURE_COMPARE_MARKETS_TABS = env.str('FEATURE_COMPARE_MARKETS_TABS', '{ }')
+FEATURE_SHOW_REPORT_BARRIER_CONTENT = env.bool('FEATURE_SHOW_REPORT_BARRIER_CONTENT', False)
+FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS = env.bool('FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS', False)
+MAX_COMPARE_PLACES_ALLOWED = env.int('MAX_COMPARE_PLACES_ALLOWED', 10)
 
 BETA_ENVIRONMENT = env.str('BETA_TOKEN', default='')
 

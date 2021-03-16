@@ -12,7 +12,7 @@ from core.management.commands.create_tours import defaults as tour_steps
 from core.models import Tour
 from directory_api_client import api_client
 from directory_constants import choices
-from exportplan import helpers as exportplan_helpers
+from exportplan.core import helpers as exportplan_helpers
 from sso import helpers as sso_helpers, models
 from tests.browser.steps import should_not_see_errors
 from tests.helpers import create_response
@@ -277,13 +277,6 @@ def mock_get_export_plan_market_data():
 
 
 @pytest.fixture
-def mock_get_comtrade_last_year_import_data():
-    return_value = {'last_year_data_partner': {'Year': 2019, 'value': 16249072}}
-    with patch.object(exportplan_helpers, 'get_comtrade_last_year_import_data', return_value=return_value) as patched:
-        yield patched
-
-
-@pytest.fixture
 def mock_get_export_plan():
     return_value = {
         'pk': 1,
@@ -423,12 +416,11 @@ def mock_dashboard_profile_events_opportunities(
 @pytest.fixture
 def mock_all_dashboard_and_export_plan_requests_and_responses(
     mock_export_plan_dashboard_page_tours,
-    mock_get_comtrade_last_year_import_data,
     mock_get_corruption_perceptions_index,
     mock_get_dashboard_events,
     mock_get_dashboard_export_opportunities,
     mock_get_ease_of_doing_business,
-    mock_get_export_plan_list,
+    mock_export_plan_list,
     mock_get_export_plan_market_data,
     mock_get_export_plan,
     mock_get_user_context_export_plan,

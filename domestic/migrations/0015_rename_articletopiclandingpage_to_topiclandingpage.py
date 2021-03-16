@@ -9,7 +9,6 @@ class Migration(migrations.Migration):
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('wagtailcore', '0052_pagelogentry'),
-        ('wagtail_personalisation', '0025_auto_20190822_0627'),
         ('core', '0050_casestudyrelatedpages'),
         ('wagtailforms', '0004_add_verbose_name_plural'),
         ('contenttypes', '0002_remove_content_type_name'),

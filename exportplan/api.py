@@ -7,8 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from exportplan import serializers
-from . import helpers
+from exportplan.core import helpers, serializers
+from exportplan.core.processor import ExportPlanProcessor
 
 
 class ExportPlanCountryDataView(APIView):
@@ -140,7 +140,7 @@ class UpdateCalculateCostAndPricingAPIView(generics.GenericAPIView):
                 sso_session_id=self.request.user.session_id, id=export_plan['pk'], data=serializer.data
             )
             # We now need the full export plan to calculate the totals
-            calculated_pricing = helpers.ExportPlanParser(updated_export_plan).calculated_cost_pricing()
+            calculated_pricing = ExportPlanProcessor(updated_export_plan).calculated_cost_pricing()
             return Response(calculated_pricing)
 
 
@@ -303,7 +303,7 @@ class ModelObjectManageAPIView(generics.UpdateAPIView, generics.GenericAPIView):
         'businessrisks': 'BusinessRisks',
     }
 
-    serializer_classes = importlib.import_module('exportplan.serializers')
+    serializer_classes = importlib.import_module('exportplan.core.serializers')
     permission_classes = [IsAuthenticated]
 
     def get_model_name(self):

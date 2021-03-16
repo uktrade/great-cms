@@ -1394,7 +1394,7 @@ a.labelled-card, a.labelled-image-card {
       outline: #ffbf47 solid 4px;
       outline-offset: 0;
       outline-offset: -3px; }
-    
+
     a.labelled-card:focus .card-inner,
     a.labelled-image-card:focus .card-inner {
       border-color: #ffffff; }
@@ -1408,7 +1408,7 @@ a.labelled-card, a.labelled-image-card {
   a.labelled-card .card-header h3,
   a.labelled-image-card .card-header h3 {
     display: inline-block; }
-  
+
   a.labelled-card .card-header h3,
   a.labelled-image-card .card-header h3 {
     font-weight: 700;
@@ -1421,7 +1421,7 @@ a.labelled-card, a.labelled-image-card {
     background-color: #006ccc;
     padding: 10px 30px; }
     @media (min-width: 641px) {
-      
+
       a.labelled-card .card-header h3,
       a.labelled-image-card .card-header h3 {
         font-size: 19px; } }
@@ -4643,3 +4643,150 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
       width: calc(100vw - 8px);
       margin-left: calc(600px - 50vw);
       padding-left: calc((50vw - 600px) + (100% / 9 * 2) + 5px) !important; } }
+
+/* Shared styles across BAU and Magna pages */
+@font-face {
+  font-family: 'FS Lucas';
+  src: url("/static/fonts/FSLucas-Regular.woff2") format("woff2"), url("/static/fonts/FSLucas-Regular.woff") format("woff"), url("/static/fonts/FSLucas-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+
+.shared-tag {
+  height: 28px;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #787191;
+  color: #fff;
+  font-family: "FS Lucas", Arial, Helvetica, Verdana;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 28px;
+  text-align: center;
+  padding: 0 13px; }
+
+.shared-learning-banner {
+  background-color: #4A416E;
+  color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  padding: 15px 30px;
+  margin-bottom: 30px; }
+  @media (max-width: 640px) {
+    .shared-learning-banner {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      padding: 20px 30px; } }
+  .shared-learning-banner .tag-label {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: #FFF;
+    font-family: "FS Lucas", Arial, Helvetica, Verdana;
+    font-size: 16px;
+    text-align: center;
+    height: 28px;
+    width: 55px;
+    border-radius: 4px;
+    background-color: #EB4F4D;
+    font-weight: 600;
+    margin-right: 20px; }
+  .shared-learning-banner .content-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column; }
+    @media (max-width: 640px) {
+      .shared-learning-banner .content-container {
+        margin-top: 10px; } }
+    .shared-learning-banner .content-container h3 {
+      font-size: 24px;
+      line-height: 36px;
+      font-family: "Overpass", Arial, Helvetica, Verdana;
+      font-weight: 600; }
+    .shared-learning-banner .content-container p {
+      font-family: "Overpass", Arial, Helvetica, Verdana;
+      font-size: 16px;
+      letter-spacing: 0;
+      line-height: 25px; }
+  .shared-learning-banner .cta-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin-left: auto; }
+    @media (max-width: 640px) {
+      .shared-learning-banner .cta-container {
+        margin-left: 0;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-box-pack: end;
+        -ms-flex-pack: end;
+        justify-content: end; } }
+    .shared-learning-banner .cta-container .cta {
+      padding: 10px 40px;
+      -ms-flex-item-align: end;
+      align-self: flex-end;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      border: 2px solid #FFFFFF;
+      border-radius: 20px;
+      color: #FFFFFF;
+      font-family: "FS Lucas", Arial, Helvetica, Verdana;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0;
+      line-height: 20px;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none; }
+
+.shared-warning-banner {
+  background: #fff;
+  border-color: #EB4F4D; }
+  .shared-warning-banner .message-box-icon {
+    background: #EB4F4D;
+    vertical-align: top; }
+    .shared-warning-banner .message-box-icon svg {
+      fill: #fff;
+      width: 24px;
+      height: 24px; }
+  .shared-warning-banner .message-box-content {
+    padding: 25px 25px 20px; }
+    .shared-warning-banner .message-box-content p {
+      font-family: "Overpass", Arial, Helvetica, Verdana;
+      font-size: 16px;
+      letter-spacing: 0;
+      line-height: 25px;
+      margin: 0 0 5px; }
+    .shared-warning-banner .message-box-content a {
+      color: #006ccc; }

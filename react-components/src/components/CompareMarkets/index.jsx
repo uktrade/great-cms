@@ -10,15 +10,12 @@ import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import CountryFinderModal from '../ProductFinder/CountryFinderModal'
 import ComparisonTables from './ComparisonTables'
 
-const maxSelectedLength = 3
-
 function CompareMarkets(props) {
-  const { selectedProduct, tabs, ctaContainer, selectedTab, cacheVersion } = props
+  const { selectedProduct, tabs, maxPlaces, ctaContainer, cacheVersion } = props
   const cookieName = `comparisonMarkets_${get(Services, 'config.user.id')}`
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
   const [cookies, setCookie] = useCookies([cookieName])
-
   const openModal = () => {
     setProductModalIsOpen(!selectedProduct)
     setMarketModalIsOpen(!!selectedProduct)
@@ -58,14 +55,14 @@ function CompareMarkets(props) {
     buttonClass = `add-market m-t-xs ${buttonClass}`
     buttonLabel =
       selectedLength > 0
-        ? `Add place ${selectedLength + 1} of ${maxSelectedLength}`
+        ? `Add place ${selectedLength + 1} of ${maxPlaces}`
         : 'Add a place'
   }
   const triggerButton =
-    selectedLength < maxSelectedLength ? (
-      <button 
-        type="button" 
-        className={buttonClass} 
+    selectedLength < maxPlaces ? (
+      <button
+        type="button"
+        className={buttonClass}
         onClick={openModal}
       >
         <i className="fa fa-plus-square" />
@@ -83,7 +80,6 @@ function CompareMarkets(props) {
         selectedProduct={selectedProduct}
         removeMarket={removeMarket}
         triggerButton={triggerButton}
-        selectedTab={selectedTab}
         cacheVersion={cacheVersion}
       />
     )
@@ -127,24 +123,24 @@ CompareMarkets.propTypes = {
   }),
   cacheVersion: PropTypes.number,
   tabs: PropTypes.string.isRequired,
+  maxPlaces: PropTypes.number.isRequired,
   ctaContainer: PropTypes.instanceOf(Element).isRequired,
-  selectedTab: PropTypes.string,
 }
 
 CompareMarkets.defaultProps = {
   selectedProduct: null,
   cacheVersion: null,
-  selectedTab: null
 }
 
 export default function createCompareMarkets({ ...params }) {
-  const tabs = params.element.getAttribute('data-tabs')
+  const tabs = params.element.getAttribute('data-tabs') || '{}'
+  const maxPlaces = params.element.getAttribute('data-max-places-allowed') || 10
   ReactDOM.render(
     <Provider store={Services.store}>
       <ConnectedCompareMarkets
         tabs={tabs}
+        maxPlaces={maxPlaces}
         ctaContainer={params.cta_container}
-        selectedTab={params.selectedTab}
       />
     </Provider>,
     params.element

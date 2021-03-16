@@ -4,83 +4,91 @@ from great_components.decorators import skip_ga360
 
 from exportplan import api, views
 
-LOGIN_URL = reverse_lazy('core:login')
+SIGNUP_URL = reverse_lazy('core:signup')
+# NB our signup/signin redirection workflow following login_required
+# relies on the value of REDIRECT_FIELD_NAME being the default: 'next'
+# If you change the redirection parameter, other code will need
+# updating too such as core.wagtail_hooks.authenticated_user_required,
+# core.templatetags.url_tags.get_intended_destination and the loginUrl
+# and signupUrl in base.html
 
 app_name = 'exportplan'
 
 urlpatterns = [
     path(
         'section/marketing-approach/',
-        login_required(views.ExportPlanMarketingApproachView.as_view(), login_url=LOGIN_URL),
+        login_required(views.ExportPlanMarketingApproachView.as_view(), login_url=SIGNUP_URL),
         name='marketing-approach',
     ),
     path(
         'section/adaptation-for-your-target-market/',
-        login_required(views.ExportPlanAdaptationForTargetMarketView.as_view(), login_url=LOGIN_URL),
+        login_required(views.ExportPlanAdaptationForTargetMarketView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'adaptation-for-your-target-market'},
         name='adaptation-for-your-target-market',
     ),
     path(
         'section/about-your-business/',
-        login_required(views.ExportPlanAboutYourBusinessView.as_view(), login_url=LOGIN_URL),
+        login_required(views.ExportPlanAboutYourBusinessView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'about-your-business'},
         name='about-your-business',
     ),
     path(
         'section/target-markets-research/',
-        login_required(views.ExportPlanTargetMarketsResearchView.as_view(), login_url=LOGIN_URL),
+        login_required(views.ExportPlanTargetMarketsResearchView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'target-markets-research'},
         name='target-markets-research',
     ),
     path(
         'section/business-objectives/',
-        login_required(views.ExportPlanBusinessObjectivesView.as_view(), login_url=LOGIN_URL),
+        login_required(views.ExportPlanBusinessObjectivesView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'business-objectives'},
         name='business-objectives',
     ),
     path(
         'section/costs-and-pricing/',
-        login_required(views.CostsAndPricingView.as_view(), login_url=LOGIN_URL),
+        login_required(views.CostsAndPricingView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'costs-and-pricing'},
         name='costs-and-pricing',
     ),
     path(
         'section/getting-paid/',
-        login_required(views.GettingPaidView.as_view(), login_url=LOGIN_URL),
+        login_required(views.GettingPaidView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'getting-paid'},
         name='getting-paid',
     ),
     path(
         'section/funding-and-credit/',
-        login_required(views.FundingAndCreditView.as_view(), login_url=LOGIN_URL),
+        login_required(views.FundingAndCreditView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'funding-and-credit'},
         name='funding-and-credit',
     ),
     path(
         'section/travel-plan/',
-        login_required(views.TravelBusinessPoliciesView.as_view(), login_url=LOGIN_URL),
+        login_required(views.TravelBusinessPoliciesView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'travel-plan'},
         name='travel-plan',
     ),
     path(
         'section/business-risk/',
-        login_required(views.BusinessRiskView.as_view(), login_url=LOGIN_URL),
+        login_required(views.BusinessRiskView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'business-risk'},
         name='business-risk',
     ),
     path(
         'section/<slug:slug>/',
-        login_required(views.ExportPlanSectionView.as_view(), login_url=LOGIN_URL),
+        login_required(views.ExportPlanSectionView.as_view(), login_url=SIGNUP_URL),
         name='section',
     ),
-    path('logo', login_required(views.LogoFormView.as_view(), login_url=LOGIN_URL), name='add-logo'),
+    path('logo', login_required(views.LogoFormView.as_view(), login_url=SIGNUP_URL), name='add-logo'),
     path(
-        'service-page/', login_required(views.ExportPlanServicePage.as_view(), login_url=LOGIN_URL), name='service-page'
+        'service-page/',
+        login_required(views.ExportPlanServicePage.as_view(), login_url=SIGNUP_URL),
+        name='service-page',
     ),
-    path('pdf-download/$', login_required(views.PDFDownload.as_view(), login_url=LOGIN_URL), name='pdf-download'),
+    path('pdf-download/', login_required(views.PDFDownload.as_view(), login_url=SIGNUP_URL), name='pdf-download'),
     path(
         'api/recommended-countries/',
-        login_required(skip_ga360(api.ExportPlanRecommendedCountriesDataView.as_view()), login_url=LOGIN_URL),
+        login_required(skip_ga360(api.ExportPlanRecommendedCountriesDataView.as_view()), login_url=SIGNUP_URL),
         name='ajax-recommended-countries-data',
     ),
     path('api/export-plan/', skip_ga360(api.UpdateExportPlanAPIView.as_view()), name='api-update-export-plan'),
