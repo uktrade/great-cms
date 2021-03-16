@@ -856,7 +856,8 @@ body.js-enabled .great-header-country-select {
           outline-offset: 0; }
       .js-mobile-button.expanded {
         background-color: #006ccc;
-        z-index: 1; }
+        z-index: 1;
+        top: 60px; }
         .js-mobile-button.expanded .burger-icon {
           background-color: transparent; }
           .js-mobile-button.expanded .burger-icon:before, .js-mobile-button.expanded .burger-icon:after {
@@ -1156,7 +1157,8 @@ body.js-enabled .great-header-country-select {
           outline-offset: 0; }
       .js-mobile-button.expanded {
         background-color: #006ccc;
-        z-index: 1; }
+        z-index: 1;
+        top: 60px; }
         .js-mobile-button.expanded .burger-icon {
           background-color: transparent; }
           .js-mobile-button.expanded .burger-icon:before, .js-mobile-button.expanded .burger-icon:after {
@@ -4818,3 +4820,35 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
       margin: 0 0 5px; }
     .shared-warning-banner .message-box-content a {
       color: #006ccc; }
+
+.shared-nav-container nav.main-nav.mobile {
+  background: #4B426D;
+  padding: 20px 20px 0; }
+  .shared-nav-container nav.main-nav.mobile .nav-list {
+    margin: 0; }
+    .shared-nav-container nav.main-nav.mobile .nav-list li {
+      border-bottom: 1px solid #635A7F; }
+      .shared-nav-container nav.main-nav.mobile .nav-list li:last-child {
+        border-bottom: 0; }
+      .shared-nav-container nav.main-nav.mobile .nav-list li a {
+        color: #fff;
+        font-family: "Overpass", Arial, Helvetica, Verdana;
+        font-size: 18px;
+        letter-spacing: 0;
+        line-height: 16px;
+        padding: 20px 0;
+        font-weight: 100;
+        text-decoration: none; }
+        .shared-nav-container nav.main-nav.mobile .nav-list li a.new:after {
+          background: #EB4F4D;
+          border-radius: 4px;
+          content: 'new';
+          font-family: "FS Lucas", Arial, Helvetica, Verdana;
+          font-size: 16px;
+          padding: 5px 12px;
+          font-weight: 700;
+          line-height: 20px;
+          position: absolute;
+          top: 13px;
+          right: 0;
+          display: inline-block; }

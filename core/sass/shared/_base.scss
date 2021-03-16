@@ -146,3 +146,50 @@ $mobile: 640px;
         }
     }
 }
+
+.shared-nav-container {
+    nav.main-nav.mobile {
+        background: #4B426D;
+        padding: 20px 20px 0;
+
+        .nav-list {
+            margin: 0;
+
+            li {
+                border-bottom: 1px solid #635A7F;
+
+                &:last-child {
+                    border-bottom: 0;
+                }
+
+                a {
+                    color: #fff;
+                    font-family: "Overpass", Arial, Helvetica, Verdana;
+                    font-size: 18px;
+                    letter-spacing: 0;
+                    line-height: 16px;
+                    padding: 20px 0;
+                    font-weight: 100;
+                    text-decoration: none;
+
+                    &.new {
+                        &:after {
+                            background: #EB4F4D;
+                            border-radius: 4px;
+                            content: 'new';
+                            font-family: "FS Lucas", Arial, Helvetica, Verdana;
+                            font-size: 16px;
+                            padding: 5px 12px;
+                            font-weight: 700;
+                            line-height: 20px;
+                            position: absolute;
+                            top: 13px;
+                            right: 0;
+                            display: inline-block;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
