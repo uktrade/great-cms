@@ -141,8 +141,6 @@ const countryDataApiResponse = {
   },
 }
 
-
-
 const economyTabTests = [
   { selector: '#market-Germany .name', expect: 'Germany' },
   {
@@ -274,9 +272,9 @@ describe('Compare markets', () => {
     container.innerHTML =
       '<span id="cta-container"></span><span id="compare-market-container" ></span>'
     const dataTabs = '{ "population": true, "economy": true, "society": true }'
-    container
-      .querySelector('#compare-market-container')
-      .setAttribute('data-tabs', dataTabs)
+    const cm_container = container.querySelector('#compare-market-container')
+    cm_container.setAttribute('data-tabs', dataTabs)
+    cm_container.setAttribute('data-max-places-allowed', 3)
 
     act(() => {
       CompareMarkets({
@@ -327,9 +325,9 @@ describe('Compare markets', () => {
     localContainer.innerHTML =
       '<span id="cta-container"></span><span id="compare-market-container" ></span>'
     const dataTabs = '{ "population": true, "economy": true, "society": true }'
-    localContainer
-      .querySelector('#compare-market-container')
-      .setAttribute('data-tabs', dataTabs)
+    const cm_container = container.querySelector('#compare-market-container')
+    cm_container.setAttribute('data-tabs', dataTabs)
+    cm_container.setAttribute('data-max-places-allowed', 3)
     act(() => {
       CompareMarkets({
         element: localContainer.querySelector('#compare-market-container'),
@@ -406,9 +404,9 @@ describe('Compare markets', () => {
     container.innerHTML =
       '<span id="cta-container"></span><span id="compare-market-container" data-productname="my product" data-productcode="123456"></span><span id="comparison-market-selector"></span>'
     const dataTabs = '{"population":true, "economy":true, "society": true}'
-    container
-      .querySelector('#compare-market-container')
-      .setAttribute('data-tabs', dataTabs)
+    const cm_container = container.querySelector('#compare-market-container')
+    cm_container.setAttribute('data-tabs', dataTabs)
+    cm_container.setAttribute('data-max-places-allowed', 3)
 
     // set up existing product in store
     let selectedProduct = {
