@@ -37,3 +37,4 @@ pylint-django
 codecov
 ipython==7.16.1
 dateparser==0.7.2
+pre-commit

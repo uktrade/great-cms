@@ -2,46 +2,49 @@ from unittest import mock
 
 import pytest
 from django.shortcuts import reverse
-from requests.models import Response
 
+from core import helpers as core_helpers
 from directory_api_client import api_client
 from exportplan import helpers as exportplan_helpers
 
 
-@mock.patch.object(api_client.dataservices, 'get_last_year_import_data')
-@mock.patch.object(api_client.dataservices, 'get_last_year_import_data_from_uk')
+@mock.patch.object(api_client.dataservices, 'get_last_year_import_data_by_country')
 @mock.patch.object(exportplan_helpers, 'get_country_data')
 @pytest.mark.django_db
-def test_com_trade_data_view(mock_country_data, mock_uk_data, mock_world_data, client):
+def test_com_trade_data_view(mock_country_data, mock_import_data_by_country, client):
+
     url = reverse('core:api-comtrade-data')
 
-    res1 = Response()
-    res1.status_code = 200
-    res1._content_consumed = True
-    res1._content = b"""{"last_year_data": {"year": 2019,"trade_value": 1823000000,"country_name": "Germany","year_on_year_change": 1.264}}"""  # noqa
-
-    mock_world_data.return_value = res1
-
-    res2 = Response()
-    res2.status_code = 200
-    res2._content_consumed = True
-    res2._content = b"""{"last_year_data": {"year": 2019,"trade_value": 127250000,"country_name": "Germany","year_on_year_change": 1.126}}"""  # noqa
-    mock_uk_data.return_value = res2
-
-    response = client.get(url + '?countries=Germany,&commodity_code=123456')
+    response = client.get(url + '?countries=DE,&commodity_code=123456')
     json_response = response.json()
 
-    assert 'Germany' in json_response.keys()
+    assert 'DE' in json_response.keys()
 
-    assert ['import_from_world', 'import_data_from_uk'] == list(json_response['Germany'].keys())
+    assert ['import_from_world', 'import_data_from_uk'] == list(json_response['DE'].keys())
 
 
-@mock.patch.object(exportplan_helpers, 'get_country_data')
+@mock.patch.object(core_helpers, 'get_country_data')
 @pytest.mark.django_db
 def test_country_data_view(mock_country_data, client):
-    country_data = {'consumer_price_index': {'value': '112.67'}}
-    mock_country_data.return_value = {'country_data': country_data}
+    country_data = {
+        'FR': {
+            'ConsumerPriceIndex': {'value': '110.049', 'year': 2019},
+            'Income': {'year': 2018, 'value': '34835.012'},
+            'CorruptionPerceptionsIndex': {'total': 180, 'cpi_score': 69, 'year': 2020, 'rank': 23},
+            'EaseOfDoingBusiness': {'total': 264, 'year': '2019', 'rank': 32, 'year_2019': 32},
+        },
+        'DE': {
+            'ConsumerPriceIndex': {'value': '112.855', 'year': 2019},
+            'Income': {'year': 2018, 'value': '40284.961', 'country': 645},
+            'CorruptionPerceptionsIndex': {'total': 180, 'cpi_score': 80, 'year': 2020, 'rank': 9},
+            'EaseOfDoingBusiness': {'total': 264, 'rank': 22, 'year_2019': 22},
+        },
+    }
+    mock_country_data.return_value = country_data
+
     url = reverse('core:api-country-data')
-    json_response = client.get(url + '?countries=Germany,France').json()
-    assert json_response['France']['country_data'] == country_data
-    assert json_response['Germany']['country_data'] == country_data
+    json_response = client.get(
+        url + '?countries=DE&countries=FR&fields=ConsumerPriceIndex&fields=CorruptionPerceptionsIndex'
+    ).json()
+    assert json_response['FR'] == country_data['FR']
+    assert json_response['DE'] == country_data['DE']

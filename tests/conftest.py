@@ -71,8 +71,23 @@ def export_plan_data(cost_pricing_data):
         'business_trips': {'note': 'trip 1'},
         'travel_business_policies': {
             'travel_information': 'All travel to be business class',
-            'visa_information': {'is_required': True, 'duration': '10 Months'},
+            'cultural_information': 'Lots of culture',
+            'visa_information': {
+                'visa_required': True,
+                'how_long': '10 Months',
+                'how_where_visa': 'uk',
+                'notes': 'no notes',
+            },
         },
+        'business_risks': [
+            {
+                'risk': 'new risk',
+                'contingency_plan': 'new contingency',
+                'risk_likelihood': 'LIKELY',
+                'risk_impact': 'MAJOR',
+                'pk': 1,
+            }
+        ],
         'pk': 1,
         'funding_credit_options': [{'pk': 1, 'amount': 2.0, 'funding_option': 'p-p', 'companyexportplan': 6}],
     }
@@ -93,6 +108,19 @@ def cia_factbook_data():
 @pytest.fixture
 def country_data():
     return {'population_data': {'cpi': 100}}
+
+
+@pytest.fixture
+def multiple_country_data():
+    return {
+        'NL': {
+            'GDPPerCapita': {'value': 54321},
+            'ConsumerPriceIndex': {'value': 54321},
+            'Income': {'value': 20000},
+            'CorruptionPerceptionsIndex': {'rank': 10, 'year': '2019'},
+            'EaseOfDoingBusiness': {'rank': 10, 'year': '2019'},
+        }
+    }
 
 
 def get_user():
@@ -308,10 +336,20 @@ def mock_api_get_country_data(country_data):
     patch.stop()
 
 
+@pytest.fixture(autouse=True)
+def mock_api_get_country_data_by_country(multiple_country_data):
+    patch = mock.patch(
+        'directory_api_client.api_client.dataservices.get_country_data_by_country',
+        return_value=create_response(json_body=multiple_country_data),
+    )
+    yield patch.start()
+    patch.stop()
+
+
 @pytest.fixture()
 def comtrade_data():
     return {
-        'Germany': {
+        'NL': {
             'import_from_world': {
                 'year': 2019,
                 'trade_value': '1.82 billion',

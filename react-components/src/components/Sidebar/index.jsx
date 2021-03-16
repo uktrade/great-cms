@@ -12,8 +12,12 @@ export const Sidebar = memo(({ sections, logo, company, currentSection }) => {
   return (
     <>
       <ComingSoon onClick={() => setModal(false)} isOpen={modal} />
-      <CountryNotSelected isOpen={currentSection.country_required} />
       <ProductNotSelected isOpen={currentSection.product_required} />
+      <CountryNotSelected
+        isOpen={
+          currentSection.country_required && !currentSection.product_required
+        }
+      />
       <nav
         className={`sidebar p-h-s p-b-m ${!toggle && 'sidebar__close'}`}
         id="collapseNav"

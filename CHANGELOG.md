@@ -1,10 +1,39 @@
 # Changelog
 
 ## Pre-release
+
+- GP2-1784 - Stop breadcrumbs showing for Structural Page
+- GP2-1559 - Structural page  for marketing articles
+- GP2-1430 - Income data for target research page in EP
+- GP2-1575 - Added default text for case study summary_context field
+- GP2-1570 - CaseStudy UI seachability by summary, lead_title and some tags
+- GP2-1575 - Casestudy rename, reorder and tweak style
+- NO TICKET - django 2.2.19 upgrade
+- GP2-1436 - Added management command to load countries, region and trading blocs tag from csv
+- GP2-1733 - rename ep options
+- GP2-1735 - update lessons
+
 ### Fixed bugs
+
 - NO TICKET - add document-link back in as rich-text option
 - NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
+- NO TICKET - fix wagtail checkbox layout issue
+
 ### Implemented enhancements
+
+- GP2-1441 - Corruption perception index update
+- GP2-1398 - Data loading performance for compare markets page
+- GP2-1701 - Footer - Account functionality
+- GP2-1574 - Case study - Quote surfacing on mobile devices (carousel)
+- GP2-1553 - floating lesson link
+- GP2-1593 - Business Risks page elements
+- GP2-1181 - Business Risks page structure
+- GP2-1571 - Case study - Wagtail quote block
+- GP2-1518 - Backend work to enable markets selection section in middle of GreatDomesticHomePage
+- GP2-1619 - Ensure all pages ported from V1 populate GA360/DataLayer data
+- GP2-1180 - Travel and business policies-page
+- GP2-1404 - Select your product (modal window) - Product and country are not selected
+- GP2-1438 - Random picking for case study if they score same
 - GP2-1440 - Ranking calculation for case study
 - GP2-1128 - Product Classifier - Mobile carousel
 - GP2-1551 - Seperated case study tag for trading bloc
@@ -23,8 +52,18 @@
 - GP2-1468 - Add InfoPage to CMS, to handle ex-BAU legal/guidance/terms content
 - GP2-1439 - CMS admin UI for case study scoring
 - GP2-1344 - added trading bloc logic to search case study
+- GP2-1425 - Cost and pricing - Estimate element
+- GP2-1435 - Split data retrieval on 'Where to export' data table
+- GP2-1426 - Cost and pricing - Change to the title of the tool-tip
+- no-ticket - django version upgraded to 2.2.18
+- GP2-1424 - Cost and pricing page - local taxes section
+- GP2-1423 - Cost and pricing page - content change
+- GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
+- GP2-1405 - pdf EP Initial boiler plate creation
+
 
 ### Fixed bugs
+
 - GP2-1431 - Country chooser visual defects
 - GP2-1549 - Change text/field used for links to child Performance Dashboards
 - GP2-1446 - Increase input clear button size
@@ -38,6 +77,7 @@
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.2.0...1.3.0)
 
 ### Implemented enhancements
+
 - GP2-1240 - Mark sections as complete
 - GP2-1425 - Cost and pricing - Estimate element
 - GP2-1435 - Split data retrieval on 'Where to export' data table
@@ -52,7 +92,7 @@
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.1.0...1.2.0)
 
 ### Implemented enhancements
-
+- GP2-1700 - Drop down boxes overlap fix
 - GP2-1333 - Add filtering behaviour to MarketsTopicLandingPage (ported from BAU)
 - GP2-1412 - Update RichtextField features allowed on ArticlePage
 - GP2-1402 - Update content for Funding and Credit section
@@ -118,6 +158,7 @@
 - GP2-1199 - Mark section as complete
 
 ### Fixed bugs
+
 - GP2-1445 - Typography tweaks for BAU article pages
 - No ticket - fix button styling issue after button refactor work
 - No ticket - Fix ignored BAU react unit tests

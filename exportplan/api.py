@@ -300,6 +300,7 @@ class FundingCreditOptionsDestroyAPIView(generics.GenericAPIView):
 class ModelObjectManageAPIView(generics.UpdateAPIView, generics.GenericAPIView):
     serializer_name_map = {
         'businesstrips': 'BusinessTrips',
+        'businessrisks': 'BusinessRisks',
     }
 
     serializer_classes = importlib.import_module('exportplan.serializers')
