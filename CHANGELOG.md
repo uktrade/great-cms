@@ -48,6 +48,8 @@
 - GP2-1726 - Add ctas to domestic homepage
 - GP2-1559 - Structural page for marketing articles
 - GP2-1325 - Footer is not displaying correctly
+- GP2-1784 - Stop breadcrumbs showing for Structural Page
+- GP2-1559 - Structural page  for marketing articles
 - GP2-1430 - Income data for target research page in EP
 - GP2-1575 - Added default text for case study summary_context field
 - GP2-1570 - CaseStudy UI seachability by summary, lead_title and some tags
@@ -88,11 +90,13 @@
 
 ### Fixed bugs
 
-- NO TICKET - add document-link back in as rich-text option - NO TICKET - add document-link back in as rich-text option
+- NO TICKET - add document-link back in as rich-text option
 - NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
 
-### Implemented enhancements ### Implemented enhancements
 
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.3.0...1.4.0)
+
+### Implemented enhancements
 - GP2-1440 - Ranking calculation for case study
 - GP2-1128 - Product Classifier - Mobile carousel
 - GP2-1551 - Seperated case study tag for trading bloc
@@ -113,7 +117,9 @@
 - GP2-1344 - added trading bloc logic to search case study
 
 ### Fixed bugs
-
+- GP2-1784 -  Stop breadcrumbs showing for Structural Page
+- NO TICKET - add document-link back in as rich-text option	- NO TICKET - add document-link back in as rich-text option
+- NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
 - GP2-1431 - Country chooser visual defects
 - GP2-1549 - Change text/field used for links to child Performance Dashboards
 - GP2-1446 - Increase input clear button size
