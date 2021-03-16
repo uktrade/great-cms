@@ -22,9 +22,10 @@
 - GP2-1792 - dashboard pages
 
 ### Implemented enhancements
+
+- GP2-1724 - Configurable compare country limit
 - GP2-1811 - Fix SEO title as main page title if it exists
 - GP2-1811 - Fix SEO title not appearing in meta tags
-
 - GP2-1724 - WTE population tab using generic endpoints + cleanup
 - GP2-1858 - Change logged out header sign out to dashboard
 - GP2-1770 - Business risk content changes.
