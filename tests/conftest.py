@@ -410,7 +410,7 @@ def comtrade_data():
     }
 
 
-@pytest.fixture(autouse=False)
+@pytest.fixture(autouse=True)
 def mock_get_comtrade_data(comtrade_data):
     yield mock.patch('core.helpers.get_comtrade_data', return_value=comtrade_data).start()
 
