@@ -243,9 +243,3 @@
     color: white;
   }
 }
-
-.select__list {
-  &--open {
-    margin-top: -54px; // (border x 2) + min-height
-  }
-}
