@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category above ======
 
 ### Fixed bugs
+- GP2-1913 - allow user to click anywhere inside the input field to toggle dropdown
 
 ### Enhancements
 
