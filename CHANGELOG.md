@@ -34,6 +34,7 @@
 - NO TICKET - fix wagtail checkbox layout issue
 - NO TICKET - fix pdf generation
 - GP2-1792 - dashboard pages
+- GP2-1630 - add more data
 
 ### Implemented enhancements
 
