@@ -11,6 +11,7 @@ dit.components.header = (new function() {
   self.SUB_MENU_ITEMS_TAG = "js-sub-menu-index";
   self.MENU_ITEM_CONTAINER = "[data-js-menu-item-container]";
   self.SUB_MENU = "[data-js-sub-menu]";
+  self.HEADER = '.great-header';
 
   self.dataAttributeSelector = function(dataAttributeName) {
     return "[data-" + dataAttributeName + "]";
@@ -35,6 +36,7 @@ dit.components.header = (new function() {
     $(self.MENU_BUTTON).addClass('expanded').attr('aria-expanded', 'true');
     $(self.MOBILE_NAV).addClass('expanded').attr('aria-expanded', 'true');
     $(self.SEARCH_WRAPPER).addClass('hidden');
+    $(self.HEADER).addClass('expanded');
 
     self.moveFocusToMenuButton();
   };
@@ -43,6 +45,7 @@ dit.components.header = (new function() {
     $(self.MENU_BUTTON).removeClass('expanded').attr('aria-expanded', 'false');
     $(self.MOBILE_NAV).removeClass('expanded').attr('aria-expanded', 'false');
     $(self.SEARCH_WRAPPER).removeClass('hidden');
+    $(self.HEADER).removeClass('expanded');
 
     self.moveFocusToMenuButton();
   };
@@ -62,7 +65,7 @@ dit.components.header = (new function() {
   self.moveFocusToFirstMenuItem = function() {
     self.getMenuItem(self.MENU_ITEMS_TAG, 0).focus();
   };
-  
+
   self.moveFocusToSubMenu = function(target) {
     var mainMenuItemContainer = $(target).closest(self.MENU_ITEM_CONTAINER);
     mainMenuItemContainer.find(self.dataAttributeSelector(self.SUB_MENU_ITEMS_TAG)).first().focus();
@@ -83,7 +86,7 @@ dit.components.header = (new function() {
       self.getMenuItem(self.MENU_ITEMS_TAG, currentIndex - 1).focus();
     }
   };
-  
+
   self.moveFocusToPreviousSubMenuItem = function(target) {
     var currentIndex = parseInt($(target).data(self.SUB_MENU_ITEMS_TAG));
     if (currentIndex === 0) {
@@ -104,7 +107,7 @@ dit.components.header = (new function() {
      self.moveFocusToFirstMenuItem();
     }
   };
-  
+
   self.moveFocusToNextSubMenuItem = function(target) {
     var currentIndex = parseInt($(target).data(self.SUB_MENU_ITEMS_TAG));
     var subMenu = $(target).closest(self.SUB_MENU);
@@ -148,7 +151,7 @@ dit.components.header = (new function() {
       event.preventDefault();
     }
   };
-  
+
   self.handleSubMenuItemKeyDownEvents = function(event) {
     if (event.key === "Escape" || event.key === "Esc") {
       self.closeMenu();
