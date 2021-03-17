@@ -1,19 +1,17 @@
 # Changelog
 
-## Pre-release
+## Pre-release changes - please put everything in the appropriate category above ======
+
+### Fixed bugs
+
+### Enhancements
+
 
 =======
-- GP2-1784 - Stop breadcrumbs showing for Structural Page
-- GP2-1559 - Structural page  for marketing articles
-- GP2-1430 - Income data for target research page in EP
-- GP2-1575 - Added default text for case study summary_context field
-- GP2-1570 - CaseStudy UI seachability by summary, lead_title and some tags
-- GP2-1575 - Casestudy rename, reorder and tweak style
-- NO TICKET - django 2.2.19 upgrade
-- GP2-1436 - Added management command to load countries, region and trading blocs tag from csv
-- GP2-1733 - rename ep options
-- GP2-1735 - update lessons
 
+## [1.5.0](https://github.com/uktrade/great-cms/releases/tag/1.5.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.4.0...1.5.0)
 ### Fixed bugs
 
 - GP2-1914 - Remove rogue backtick
@@ -39,6 +37,16 @@
 ### Implemented enhancements
 
 - GP2-1849 - Logged out mobile header
+- GP2-1784 - Stop breadcrumbs showing for Structural Page
+- GP2-1559 - Structural page  for marketing articles
+- GP2-1430 - Income data for target research page in EP
+- GP2-1575 - Added default text for case study summary_context field
+- GP2-1570 - CaseStudy UI seachability by summary, lead_title and some tags
+- GP2-1575 - Casestudy rename, reorder and tweak style
+- NO TICKET - django 2.2.19 upgrade
+- GP2-1436 - Added management command to load countries, region and trading blocs tag from csv
+- GP2-1733 - rename ep options
+- GP2-1735 - update lessons
 - GP2-1724 - Configurable compare country limit
 - GP2-1811 - Fix SEO title as main page title if it exists
 - GP2-1811 - Fix SEO title not appearing in meta tags
