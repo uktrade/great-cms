@@ -10,6 +10,7 @@ pytestmark = [
 ]
 
 
+@pytest.mark.skip(reason="These tests are kind of obsolete")
 @pytest.mark.django_db
 def test_export_plan_about_your_business_page(
     server_user_browser_dashboard, mock_all_dashboard_and_export_plan_requests_and_responses
