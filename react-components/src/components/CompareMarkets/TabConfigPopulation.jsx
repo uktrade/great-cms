@@ -5,7 +5,7 @@ import { normaliseValues, get, millify } from '../../Helpers'
 
 const populationPercentActual = (data, urbanRural) => {
   const population = 1000 * data.reduce((total, row) => total + row.value, 0)
-  const group = 1000 * data.reduce((total, row) => total + (urbanRural == row.urban_rural ? row.value : 0), 0)
+  const group = 1000 * data.reduce((total, row) => total + (urbanRural === row.urban_rural ? row.value : 0), 0)
   const percentage = Math.round((group * 100) / population)
   return (
     <>
