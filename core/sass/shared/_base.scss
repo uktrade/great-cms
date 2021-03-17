@@ -192,4 +192,12 @@ $mobile: 640px;
             }
         }
     }
+
+    .mobile-only {
+        display: none;
+
+        @media (max-width: 768px) {
+            display: block;
+        }
+    }
 }

@@ -1,23 +1,24 @@
 {% load i18n %}
 {% load wagtailcore_tags %}
+{% load url_map %}
 
 <div class="shared-nav-container main-nav-container {{ device_type }}">
   <nav id="{{ id }}" class="main-nav {{ device_type }} expanded" aria-label="{% trans 'Main menu' %}">
     <ul class="grid-row nav-list">
       <li class="menu-item" data-js-menu-item-container>
-        <a href="/" class="link-heading" id="header-home-{{ device_type }}" {% if js_tag %}data-js-menu-index=0{% endif %}>Home</a>
+        <a href="/" class="link-heading mobile-only" id="header-home-{{ device_type }}" {% if js_tag %}data-js-menu-index=0{% endif %}>Home</a>
       </li>
 
       <li class="menu-item" data-js-menu-item-container>
-        <a href="/learn/categories" class="link-heading new" id="header-learn-{{ device_type }}" {% if js_tag %}data-js-menu-index=1{% endif %}>Learn to export</a>
+        <a href="{% slugurl 'categories' %}" class="link-heading new mobile-only" id="header-learn-{{ device_type }}" {% if js_tag %}data-js-menu-index=1{% endif %}>Learn to export</a>
       </li>
 
       <li class="menu-item" data-js-menu-item-container>
-        <a href="/where-to-export" class="link-heading new" id="header-where-{{ device_type }}" {% if js_tag %}data-js-menu-index=2{% endif %}>Where to export</a>
+        <a href="{% url 'core:compare-countries' %}" class="link-heading new mobile-only" id="header-where-{{ device_type }}" {% if js_tag %}data-js-menu-index=2{% endif %}>Where to export</a>
       </li>
 
       <li class="menu-item" data-js-menu-item-container>
-        <a href="/export-plan/dashboard" class="link-heading new" id="header-make-{{ device_type }}" {% if js_tag %}data-js-menu-index=3{% endif %}>Make an export plan</a>
+        <a href="{% slugurl 'dashboard' %}" class="link-heading new mobile-only" id="header-make-{{ device_type }}" {% if js_tag %}data-js-menu-index=3{% endif %}>Make an export plan</a>
       </li>
 
       <li class="menu-item" data-js-menu-item-container>
@@ -40,6 +41,6 @@
         </li>
       {% endif %}
     </ul>
-    <a href="/login/" class="button button-blue margin-top-15">Sign in</a>
+    <a href="{% url 'core:login' %}" class="button button-blue margin-top-15 mobile-only">Sign in</a>
   </nav>
 </div>

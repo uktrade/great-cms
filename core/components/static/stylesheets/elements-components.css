@@ -4856,3 +4856,9 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
           top: 13px;
           right: 0;
           display: inline-block; }
+
+.shared-nav-container .mobile-only {
+  display: none; }
+  @media (max-width: 768px) {
+    .shared-nav-container .mobile-only {
+      display: block; } }
