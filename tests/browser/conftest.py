@@ -429,5 +429,6 @@ def mock_all_dashboard_and_export_plan_requests_and_responses(
     mock_update_company_profile,
     mock_update_export_plan,
     mock_user_location_create,
+    mock_get_comtrade_data,
 ):
     yield
