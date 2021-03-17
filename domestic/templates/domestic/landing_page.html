@@ -29,7 +29,7 @@
     <div class="grid-row wrap-tight">
       {% for column_block in page.magna_ctas_columns %}
         <div class="column-third-m column-full">
-          {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=True %}
+          {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True %}
         </div>
       {% endfor %}
     </div>

@@ -43,6 +43,7 @@ class GreatDomesticHomePageFactory(wagtail_factories.PageFactory):
     title = 'homepage'
     live = True
     slug = 'homepage'
+    magna_ctas_columns = []
 
     class Meta:
         model = GreatDomesticHomePage
