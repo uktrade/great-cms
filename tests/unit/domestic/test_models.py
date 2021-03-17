@@ -9,7 +9,9 @@ from django.test import RequestFactory, override_settings
 from django.utils.timezone import now as tz_now
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.models import Page
+from wagtail.core.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
+from wagtail_factories import SiteFactory
 
 from core import cache_keys, mixins, models as core_models, service_urls
 from directory_api_client import api_client
@@ -53,7 +55,7 @@ from .factories import (
 
 
 class DomesticHomePageTests(WagtailPageTests):
-    # NB: These are tests for the MVP homepage, not the one ported from V1
+    # NB: These are DEPRECATED tests for the MVP homepage, not the one ported from V1
     def test_page_is_exclusive(self):
         assert issubclass(DomesticHomePage, mixins.WagtailAdminExclusivePageMixin)
 
@@ -80,7 +82,8 @@ class DomesticHomePageTests(WagtailPageTests):
 
 
 class DomesticDashboardTests(WagtailPageTests):
-    # NB: These are tests for the MVP homepage, not the one ported from V1
+    # NB: These are tests for the MVP homepage, not the richer one ported from V1
+    # see GreatDomesticHomePageTests for the richer-homepage tests
     def test_page_is_exclusive(self):
         assert issubclass(DomesticDashboard, mixins.WagtailAdminExclusivePageMixin)
 
@@ -1463,7 +1466,13 @@ class GreatDomesticHomePageTests(WagtailPageTests):
         self.assertEqual(core_models.Region.objects.count(), 22)
         self.assertEqual(core_models.Country.objects.count(), 269)
 
-        GreatDomesticHomePageFactory(slug='root')
+        GreatDomesticHomePageFactory(
+            slug='root',
+            magna_ctas_columns__columns__0__text='test Magna CTA',
+            magna_ctas_columns__columns__0__url='/learn/categories/',
+            magna_ctas_columns__columns__0__content='<p>Test test</p>',
+            magna_ctas_columns__columns__0__image=None,
+        )
         self.great_domestic_homepage = GreatDomesticHomePage.objects.get(url_path='/')
         self.markets_topic_page = MarketsTopicLandingPage(title='Markets')
         self.great_domestic_homepage.add_child(instance=self.markets_topic_page)
@@ -1675,6 +1684,48 @@ class GreatDomesticHomePageTests(WagtailPageTests):
             context['sector_form'].fields['sector'].choices,
             expected_sector_form.fields['sector'].choices,
         )
+
+
+@pytest.mark.django_db
+def test_great_domestic_homepage_magna_ctas_labels(root_page, client, user):
+
+    # Show that the CTAs to Magna/personalised content only have labels shown
+    # to signed-out users
+    homepage = GreatDomesticHomePageFactory(
+        parent=root_page,
+        slug='root',
+    )
+
+    SiteFactory(
+        root_page=homepage,
+        hostname=client._base_environ()['SERVER_NAME'],
+    )
+
+    homepage.magna_ctas_columns = [
+        (
+            'columns',
+            dict(
+                text='test Magna CTA',
+                url='/learn/categories/',
+                content=RichText('<p>Test test</p>'),
+                image=None,
+            ),
+        )
+    ]
+    homepage.save()
+
+    for user_logged_in in (False, True):
+
+        if user_logged_in:
+            client.force_login(user)
+
+        response = client.get(homepage.url)
+
+        assert b'<p>Test test</p>' in response.content
+        if not user_logged_in:
+            assert b'<span class="shared-tag">Sign in required</span>' in response.content
+        else:
+            assert b'<span class="shared-tag">Sign in required</span>' not in response.content
 
 
 class StructuralPageTests(WagtailPageTests):
