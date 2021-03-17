@@ -21,6 +21,7 @@
 - NO TICKET - fix wagtail checkbox layout issue
 - NO TICKET - fix pdf generation
 - GP2-1792 - dashboard pages
+- GP2-1630 - add more data
 
 ### Implemented enhancements
 - GP2-1811 - Fix SEO title as main page title if it exists

@@ -10,12 +10,12 @@ from django.views.generic import FormView, TemplateView, View
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
 
-from core.helpers import get_comtrade_data, get_country_data
 from core.mixins import PageTitleMixin
 from core.utils import choices_to_key_value
 from directory_api_client.client import api_client
 from directory_constants import choices
 from exportplan import forms
+from exportplan.context import InsightDataContextProvider, PDFContextProvider
 from exportplan.core import data, helpers, serializers
 from exportplan.core.processor import ExportPlanProcessor
 from exportplan.utils import render_to_pdf
@@ -194,7 +194,9 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
         return context
 
 
-class ExportPlanTargetMarketsResearchView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
+class ExportPlanTargetMarketsResearchView(
+    PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView, InsightDataContextProvider
+):
     slug = 'target-markets-research'
     title = 'Target market research'
 
@@ -202,31 +204,13 @@ class ExportPlanTargetMarketsResearchView(PageTitleMixin, LessonDetailsMixin, Ex
         context = super().get_context_data(*args, **kwargs)
         target_age_group_choices = choices_to_key_value(choices.TARGET_AGE_GROUP_CHOICES)
         context['target_age_group_choices'] = target_age_group_choices
-        if self.request.user.export_plan.export_country_code and self.request.user.export_plan.export_commodity_code:
-            insight_data = get_comtrade_data(
-                countries_list=[self.request.user.export_plan.export_country_code],
-                commodity_code=self.request.user.export_plan.export_commodity_code,
-            )
 
-            country_data = get_country_data(
-                countries=[self.request.user.export_plan.export_country_code],
-                fields=[
-                    'GDPPerCapita',
-                    'ConsumerPriceIndex',
-                    'Income',
-                    'CorruptionPerceptionsIndex',
-                    'EaseOfDoingBusiness',
-                ],
-            )
-            insight_data[self.request.user.export_plan.export_country_code]['country_data'] = country_data.get(
-                self.request.user.export_plan.export_country_code
-            )
-            context['insight_data'] = insight_data
-
-            context['selected_age_groups'] = (
-                self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
-            )
+        context['selected_age_groups'] = (
+            self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
+        )
         context['target_markets_research'] = self.request.user.export_plan.data['target_markets_research']
+
+        context = super().get_context_provider_data(self.request, **context)
         return context
 
 
@@ -393,9 +377,9 @@ class ExportPlanServicePage(GA360Mixin, TemplateView):
         return super().get_context_data(sections=data.SECTION_URLS, **kwargs)
 
 
-class PDFDownload(View):
+class PDFDownload(View, PDFContextProvider, InsightDataContextProvider):
     def get(self, request, *args, **kwargs):
-        context = helpers.get_export_plan_pdf_context(request)
+        context = super().get_context_provider_data(request)
         pdf = render_to_pdf('exportplan/pdf_download.html', context)
         response = HttpResponse(pdf, content_type='application/pdf')
         filename = 'export_plan.pdf'

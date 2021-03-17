@@ -355,13 +355,18 @@ def test_getting_paid(export_plan_data, client, user):
 
 
 @pytest.mark.django_db
-def test_download_export_plan(client, user):
+def test_download_export_plan(client, mock_get_comtrade_data, user):
     url = reverse('exportplan:pdf-download')
     client.force_login(user)
     response = client.get(url, SERVER_NAME='mydomain.com')
     assert response.status_code == 200
+
     assert response._content_type_for_repr == ', "application/pdf"'
     assert isinstance(type(response.content), type(bytes)) is True
+    pdf_context = response.context
+    assert len(pdf_context['export_plan']) == len(user.export_plan.data)
+    assert pdf_context['user'] == user
+    assert pdf_context['insight_data'] == mock_get_comtrade_data.return_value
 
 
 @pytest.mark.django_db
