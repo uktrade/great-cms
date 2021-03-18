@@ -47,8 +47,21 @@ table .loading {
   }
 }
 
-.filter .filter-list .multiple-choice {
+.filter .filter-list li.multiple-choice {
   clear: none;
   margin-right: 25px;
   padding: 0 0 0 32px;
+  display: inline-block;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+table.no-bottom-border {
+  tr:last-child {
+    td, th {
+      border: none;
+    }
+  }
 }

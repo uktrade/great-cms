@@ -1,0 +1,155 @@
+import React from 'react'
+import Services from '@src/Services'
+import { normaliseValues, get, millify } from '../../Helpers'
+
+const rankOutOf = (rank,total) => {
+  return (
+    <>
+      {rank} of {total}
+    </>
+  )
+}
+
+const sign = (value) => {
+  return ['', '', '+'][Math.sign(value) + 1]
+}
+
+
+const processComtrade = (data,ukOrWorld) => {
+  const rows = data.ComtradeReport.filter((row) => row.uk_or_world==ukOrWorld)
+  const sorted = rows.sort((rowa,rowb) => rowa.year > rowb.year ? -1:1 )
+  const yearOnYear = sorted.length > 1 && (sorted[0].trade_value/sorted[1].trade_value - 1)
+  return (
+    <>
+      <div className="body-l primary">
+        {millify(sorted[0].trade_value)}
+      </div>
+      {yearOnYear && (
+        <div className="body-m secondary text-black-60">
+          {sign(yearOnYear)}
+          {normaliseValues(yearOnYear*100)}% vs{' '}
+          {sorted[1].year}
+        </div>
+      )}
+    </>
+  )
+}
+
+const importValueAndChange = (importValue) => {
+  if (!importValue.trade_value_raw) {
+    throw new Error();
+  }
+  return (
+    <>
+      <div className="body-l primary">
+        {millify(importValue.trade_value_raw)}
+      </div>
+      {importValue.year_on_year_change && (
+        <div className="body-m secondary text-black-60">
+          {sign(importValue.year_on_year_change)}
+          {normaliseValues(importValue.year_on_year_change)}% vs{' '}
+          {importValue.last_year}
+        </div>
+      )}
+    </>
+  )
+}
+
+export default {
+  sourceAttributions: [
+    {
+      title: 'Trade data',
+      linkText: 'UN Comtrade',
+      linkTarget: 'https://comtrade.un.org/data',
+      text: 'Copyright United Nations 2020.',
+    },
+    {
+      title: 'Adjusted net national income per capita',
+      preLinkText: '(current US$)',
+      linkText: 'World Bank',
+      linkTarget: 'https://data.worldbank.org/indicator/NY.ADJ.NNTY.PC.CD',
+      text: 'CC BY 4.0.',
+    },
+    {
+      title: 'Ease of Doing Business Rank',
+      linkText: 'World Bank',
+      linkTarget: 'https://www.doingbusiness.org/en/data/doing-business-score',
+      text: 'CC BY 4.0.',
+    },
+    {
+      title: 'Corruption Perceptions Index',
+      linkText: 'Transparency International',
+      linkTarget: 'https://www.transparency.org/en/cpi/2019/results/table',
+      text: 'CC BY-ND 4.0',
+    },
+  ],
+  columns: {
+    'world-import-value': {
+      name: 'Worldwide import value (USD)',
+      className: 'text-align-right',
+      render: (data) => processComtrade(data, 'WLD'),
+      year: (data) => get(data, 'import_from_world.year'),
+      group: 'import',
+    },
+    'uk-import-value': {
+      name: 'Import value from the UK (USD)',
+      className: 'text-align-right',
+      render: (data) => processComtrade(data, 'GBR'),
+      year: (data) => get(data, 'import_data_from_uk.year'),
+      group: 'import',
+    },
+    'avg-income': {
+      name: 'Adjusted net national income per capita (USD)',
+      className: 'text-align-right',
+      render: (data) => millify(data.Income[0].value),
+      year: (data) => data.Income[0].year,
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: `
+          <p>Adjusted net national income per capita (ANNIPC) measures the average income of consumers.</p>
+          <p>Each year, the World Bank calculates ANNIPC by taking the gross national income, minus fixed income and natural resource consumption, and dividing it by the total population.</p>
+          <p>ANNIPC gives you an idea of how much consumers earn, whether they can comfortably afford your products and at what price.</p>
+         `,
+      },
+    },
+    'eod-business': {
+      name: 'Ease of doing business rank',
+      className: 'text-align-right',
+      render: (data) => rankOutOf(data.EaseOfDoingBusiness[0].rank,data.EaseOfDoingBusiness[0].max_rank),
+      year: (data) => data.EaseOfDoingBusiness[0].year,
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: `
+          <p>The Ease of Doing Business rank indicates how easy or hard it is to do business somewhere.</p>
+          <p>The rank is from 1 (easy to do business) to 190 (hard to do business).</p>
+          <p>This  can help you decide whether to export somewhere and whether you need professional help to do so.</p>
+         `,
+      },
+    },
+    cpi: {
+      name: 'Corruption Perceptions Index',
+      className: 'text-align-right',
+      render: (data) => {
+        return rankOutOf(data.CorruptionPerceptionsIndex[0].rank,data.CorruptionPerceptionsIndex[0].total)
+      },
+      year: (data) => data.CorruptionPerceptionsIndex[0].year,
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: `
+          <p>The Corruption Perceptions Index is published every year by Transparency International.</p>
+          <p>The index ranks  public-sector corruption  according to experts and business people. Here we use a rank from 1 (clean) to 180 (highly corrupt).</p>
+          <p>This gives you an idea of how easy or difficult it is to deal with local officials and businesses, and to get paid.</p>
+         `,
+      },
+    },
+  },
+  groups: {
+    import: {
+      dataFunction: (countries, commodity_code) => Services.getCountryData(countries, JSON.stringify([{model:'ComtradeReport', filter:{'commodity_code':commodity_code}}])),
+    },
+  },
+  dataFunction: (countries) => Services.getCountryData(countries, JSON.stringify([{model:'Income'},{model:'CorruptionPerceptionsIndex', filter:{year:'2020'}},{model:'EaseOfDoingBusiness'}])),
+}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useWindowSize } from '@src/components/hooks/useWindowSize'
 import DataTable from './DataTable'
 import Tabs from './Tabs'
 import { isObject, get } from '../../Helpers'
@@ -8,6 +9,9 @@ import economyTabConfig from './TabConfigEconomy'
 import populationTabConfig from './TabConfigPopulation'
 import societyTabConfig from './TabConfigSociety'
 import ageGroupsTabConfig from './TabConfigAgeGroups'
+
+
+const mobileBreakpoint = 980
 
 export default function ComparisonTables(props) {
   const {
@@ -38,32 +42,41 @@ export default function ComparisonTables(props) {
     society: societyTabConfig,
     agegroups: ageGroupsTabConfig,
   }
+  const mobile = useWindowSize().width < mobileBreakpoint
+
+  const tabStrip = (
+    <Tabs
+      setActiveTab={setActiveTab}
+      activeTab={activeTab}
+      showTabs={!!listOfTabs.length}
+    >
+      {listOfTabs.map((item) => {
+        return (
+          <div
+            key={item}
+            label={tabConfig[item].tabName || item.toUpperCase()}
+            className="button button--small button--tertiary"
+            tabId={item}
+          />
+        )
+      })}
+    </Tabs>
+  )
 
   return (
     <>
-      <Tabs
-        setActiveTab={setActiveTab}
-        activeTab={activeTab}
-        showTabs={!!listOfTabs.length}
+      {!mobile && (<div className="p-h-m">{tabStrip}</div>)}
+      <div
+        className={`table market-details ${
+          (mobile && 'm-h-0') || 'm-h-m bg-white p-v-s p-b-s p-h-s radius'
+        }`}
       >
-        {listOfTabs.map((item) => {
-          return (
-            <div
-              key={item}
-              label={tabConfig[item].tabName || item.toUpperCase()}
-              className="button button--small button--tertiary"
-              tabId={item}
-            />
-          )
-        })}
-      </Tabs>
-      <div className="table market-details m-h-m bg-white p-v-s p-b-s p-h-s radius">
         {listOfTabs.map(
           (item) =>
             activeTab === item &&
             tabConfig[item] && (
               <React.Fragment key={item}>
-                {tabConfig[item].filter}
+                {!mobile && tabConfig[item].filter}
                 <DataTable
                   datasetName={item}
                   config={tabConfig[item]}
@@ -71,11 +84,14 @@ export default function ComparisonTables(props) {
                   commodityCode={get(selectedProduct, 'commodity_code')}
                   removeMarket={removeMarket}
                   cacheVersion={cacheVersion}
+                  mobile={mobile}
+                  triggerButton={triggerButton}
+                  tabStrip={tabStrip}
                 />
               </React.Fragment>
             )
         )}
-        {triggerButton}
+        {!mobile && triggerButton}
       </div>
     </>
   )
