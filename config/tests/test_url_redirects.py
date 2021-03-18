@@ -38,7 +38,7 @@ country_redirects = get_redirect_mapping_param_values(
 INTERNATIONAL_REDIRECTS_PARAMS = ('url,expected_language', language_redirects + country_redirects)
 
 
-@pytest.mark.skip(reason="No way to test this at the moment")
+@pytest.mark.skip(reason='No way to test this at the moment')
 @pytest.mark.parametrize(*INTERNATIONAL_REDIRECTS_PARAMS)
 def test_international_redirects_no_query_params(url, expected_language, client):
 
@@ -51,7 +51,7 @@ def test_international_redirects_no_query_params(url, expected_language, client)
     assert response.url == '/international/?lang={expected_language}'.format(expected_language=expected_language)
 
 
-@pytest.mark.skip(reason="No way to test this at the moment")
+@pytest.mark.skip(reason='No way to test this at the moment')
 @pytest.mark.parametrize(*INTERNATIONAL_REDIRECTS_PARAMS)
 def test_international_redirects_query_params(url, expected_language, client):
 
@@ -70,7 +70,7 @@ def test_international_redirects_query_params(url, expected_language, client):
     )
 
 
-@pytest.mark.skip(reason="No way to test this at the moment")
+@pytest.mark.skip(reason='No way to test this at the moment')
 @pytest.mark.parametrize('path', TOS_AND_PRIVACY_REDIRECT_LANGUAGES)
 def test_tos_international_redirect(path, client):
     response = client.get('/int/{path}/terms-and-conditions/'.format(path=path))
@@ -394,7 +394,7 @@ redirects = [
 ]
 
 
-@pytest.mark.skip(reason="No way to test this at the moment")
+@pytest.mark.skip(reason='No way to test this at the moment')
 @pytest.mark.parametrize('url,expected', redirects)
 def test_redirects(url, expected, client, settings):
     settings.FEATURE_FLAGS['INTERNATIONAL_CONTACT_TRIAGE_ON'] = True

@@ -315,7 +315,7 @@ class TranslationRedirectView(RedirectView):
             else:
                 concatenation_character = '?'
 
-            url = '{}{}lang={}'.format(url, concatenation_character, self.language)
+            url = '{arg1}{arg2}lang={arg3}'.format(arg1=url, arg2=concatenation_character, arg3=self.language)
 
         return url
 
@@ -330,6 +330,6 @@ class OpportunitiesRedirectView(RedirectView):
 
         query_string = self.request.META.get('QUERY_STRING')
         if query_string:
-            redirect_url = "{redirect_url}?{query_string}".format(redirect_url=redirect_url, query_string=query_string)
+            redirect_url = '{redirect_url}?{query_string}'.format(redirect_url=redirect_url, query_string=query_string)
 
         return redirect_url
