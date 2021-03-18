@@ -647,7 +647,12 @@
         <h6 class="body-gamma pad-y-0">Consumer price index</h6>
         <p class="pad-t-0"><strong>{{ insight.country_data.ConsumerPriceIndex.0.value }}</strong></p>
         <h6 class="body-gamma pad-y-0">The main languages in your chosen market are</h6>
-        <p class="pad-t-0"><strong></strong></p>
+        <p class="pad-t-0">
+          <strong>
+          {% for lang in language_data.cia_factbook_data.languages.language %}
+                 {{ lang.name }}
+              {% endfor %}
+          </strong></p>
         <h6 class="body-gamma pad-y-0">GDP per capita (USD)</h6>
         <p class="pad-t-0"><strong>{{ insight.country_data.GDPPerCapita.0.year_2019 }}</strong></p>
 
@@ -994,7 +999,11 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Languages in your target market</h3>
-            <p class="pad-t-0"></p>
+            <p class="pad-t-0">
+              {% for lang in language_data.cia_factbook_data.languages.language %}
+                 {{ lang.name }}
+              {% endfor %}
+            </p>
           </td>
         </tr>
       </table>

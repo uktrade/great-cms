@@ -5,7 +5,7 @@ from django.utils.text import slugify
 from core import helpers
 from core.context import AbstractPageContextProvider
 from exportplan.core import data
-from exportplan.core.helpers import get_population_data
+from exportplan.core.helpers import get_cia_world_factbook_data, get_population_data
 from exportplan.core.processor import ExportPlanProcessor
 
 
@@ -54,6 +54,16 @@ class InsightDataContextProvider(AbstractContextProvider):
             )
 
         return super().get_context_provider_data(request, insight_data=insight_data, **kwargs)
+
+
+class FactbookDataContextProvider(AbstractContextProvider):
+    def get_context_provider_data(self, request, **kwargs):
+        language_data = {}
+        country_name = request.user.export_plan.export_country_name
+        if country_name:
+            language_data = get_cia_world_factbook_data(country=country_name, key='people,languages')
+
+        return super().get_context_provider_data(request, language_data=language_data, **kwargs)
 
 
 class TargetAgeDataContextProvider(AbstractContextProvider):
