@@ -35,6 +35,7 @@
 - NO TICKET - fix pdf generation
 - GP2-1792 - dashboard pages
 - GP2-1630 - add more data
+- Noticket pdf external datasources
 
 ### Implemented enhancements
 

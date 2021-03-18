@@ -7,6 +7,7 @@ def test_export_plan_parser(export_plan_data):
     assert ep_parser.data == export_plan_data
     assert ep_parser.export_country_name == export_plan_data['export_countries'][0]['country_name']
     assert ep_parser.export_commodity_code == export_plan_data['export_commodity_codes'][0]['commodity_code']
+    assert ep_parser.country_iso2_code == export_plan_data['export_commodity_codes'][0]['country_iso2_code']
 
 
 def test_serialize_for_template(export_plan_data):
