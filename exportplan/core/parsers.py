@@ -12,11 +12,13 @@ class ExportPlanParser:
     """
 
     PAYMENT_METHOD_OPTIONS = dict(choices.PAYMENT_METHOD_OPTIONS)
+    PAYMENT_TERM_OPTIONS = dict(choices.PAYMENT_TERM_OPTIONS)
     ALL_TRANSPORT_OPTIONS = dict(choices.TRANSPORT_OPTIONS + choices.WATER_TRANSPORT_OPTIONS)
     EXPORT_UNITS = dict(choices.EXPORT_UNITS)
     EXPORT_TIMEFRAME = dict(choices.EXPORT_TIMEFRAME)
     MARKET_ROUTES = dict(choices.MARKET_ROUTE_CHOICES)
     PRODUCT_PROMOTIONS = dict(choices.PRODUCT_PROMOTIONAL_CHOICES)
+    FUNDING_OPTIONS = dict(choices.FUNDING_OPTIONS)
 
     def __init__(self, data):
         self.data = data
@@ -55,6 +57,14 @@ class ExportPlanParser:
         )
         self.set_key('getting_paid.incoterms.incoterms_transport_label', incoterms_transport_label)
 
+        self.set_key(
+            'getting_paid.payment_terms.terms_label',
+            helpers.values_to_labels(
+                values=[self.get_key('getting_paid.payment_terms.terms')],
+                choices=self.PAYMENT_TERM_OPTIONS,
+            ),
+        )
+
         unit_value = self.get_key('total_cost_and_price.units_to_export_first_period.value')
         unit_label = helpers.values_to_labels(
             values=self.get_key('total_cost_and_price.units_to_export_first_period.unit') or [],
@@ -84,6 +94,13 @@ class ExportPlanParser:
                 route['route_label'] = route_label
             if promote_label:
                 route['promote_label'] = promote_label
+
+        for funding in self.data.get('funding_credit_options', []):
+            funding_label = helpers.values_to_labels(
+                values=[funding.get('funding_option')] or [], choices=self.FUNDING_OPTIONS
+            )
+            if funding_label:
+                funding['funding_option_label'] = funding_label
 
     @property
     def export_country_name(self):

@@ -898,7 +898,7 @@
             <table class="layout">
               {% for funding in export_plan.funding_credit_options %}
               <tr class="pad-b-0 border-t-1-blue-deep-20">
-                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">{{ funding.funding_option }}</td>
+                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">{{ funding.funding_option_label }}</td>
                 <td class="col-10-4 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ funding.amount|default:"NA" }} GBP per unit</strong></td>
               </tr>
               {% endfor %}
@@ -937,7 +937,7 @@
               </tr>
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Payment terms</td>
-                <td class="col-10-4 pad-t-05 text-align-right"><strong>{{ export_plan.getting_paid.payment_terms.terms }}</strong></td>
+                <td class="col-10-4 pad-t-05 text-align-right"><strong>{{ export_plan.getting_paid.payment_terms.terms_label }}</strong></td>
               </tr>
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Incoterms</td>
