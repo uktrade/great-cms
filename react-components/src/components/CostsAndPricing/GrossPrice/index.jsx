@@ -59,7 +59,7 @@ export const GrossPrice = memo(
             </p>
             <div className="grid m-t-xs">
               <div className="w-full">
-                <div className="c-1-6 m-r-xs">
+                <div className="c-5-12-m c-1-3-l m-r-xs">
                   <Select
                     label={select.label}
                     id={select.id}
@@ -85,7 +85,7 @@ export const GrossPrice = memo(
                     selected={select.value}
                   />
                 </div>
-                <div className="c-1-3">
+                <div className="c-5-12-m c-1-3-l ">
                   <Input
                     onChange={(x) => {
                       const postData = input.field({
