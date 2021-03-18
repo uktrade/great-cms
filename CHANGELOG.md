@@ -3,9 +3,12 @@
 ## Pre-release changes - please put everything in the appropriate category above ======
 
 ### Fixed bugs
+
+- GP2-1930 - text changes, and update data structure whilst at it.
 - GP2-1913 - allow user to click anywhere inside the input field to toggle dropdown
 
 ### Enhancements
+
 GP2-1849 - Feature flag magna links in logged out mobile header
 
 =======
@@ -13,6 +16,7 @@ GP2-1849 - Feature flag magna links in logged out mobile header
 ## [1.5.0](https://github.com/uktrade/great-cms/releases/tag/1.5.0)
 
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.4.0...1.5.0)
+
 ### Fixed bugs
 
 - GP2-1914 - Remove rogue backtick
@@ -40,7 +44,7 @@ GP2-1849 - Feature flag magna links in logged out mobile header
 
 - GP2-1849 - Logged out mobile header
 - GP2-1784 - Stop breadcrumbs showing for Structural Page
-- GP2-1559 - Structural page  for marketing articles
+- GP2-1559 - Structural page for marketing articles
 - GP2-1430 - Income data for target research page in EP
 - GP2-1575 - Added default text for case study summary_context field
 - GP2-1570 - CaseStudy UI seachability by summary, lead_title and some tags
