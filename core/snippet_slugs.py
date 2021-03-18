@@ -15,4 +15,4 @@ HELP_FORM_SUCCESS_INTERNATIONAL = 'contact-international-success-form'
 HELP_FORM_SUCCESS_SOO = 'contact-soo-success-form'
 
 
-GREAT_GET_FINANCE = 'get-finance'
+GREAT_TRADE_FINANCE = 'trade-finance'

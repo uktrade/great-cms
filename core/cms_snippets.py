@@ -34,6 +34,9 @@ class NonPageContentSnippetBase(models.Model):
         editable=False,
     )
 
+    def __str__(self):
+        return self.internal_title
+
     def save(self, *args, **kwargs):
         if not self.slug_options:
             raise NotImplementedError('The subclass must have slug_options defined.')

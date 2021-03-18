@@ -1,5 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from wagtail.core import blocks
+from wagtail.core.blocks.field_block import RichTextBlock
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
@@ -439,3 +440,11 @@ class CampaignBlock(blocks.StructBlock):
 
     class Meta:
         icon = 'media'
+
+
+class AdvantageBlock(blocks.StructBlock):
+    icon = ImageChooserBlock()
+    content = RichTextBlock(features=RICHTEXT_FEATURES__REDUCED)
+
+    class Meta:
+        icon = 'plus'
