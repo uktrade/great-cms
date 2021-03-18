@@ -1,0 +1,67 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block head_css %}
+	{{ block.super }}
+	<link href="{% static 'styles/ukef-country-cover-page.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block head_title %}UK Export Finance - Check our Country Cover{% endblock %}
+
+{% block css_layout_class %}uk-export-country-cover{% endblock %}
+
+{% block content %}
+
+{% static 'images/finance_export_hero_image.jpg' as finance_export_hero_image %}
+
+{% include 'components/hero.html' with image=finance_export_hero_image hero_text='Check our country cover'%}
+
+	<div class="container">
+		{% breadcrumbs 'Check our country cover' %}
+			<a href="/">great.gov.uk</a>
+			<a href="{% url 'get-finance' %}">UKEF</a>
+			<a href="{% url 'project-finance' %}">Project Finance</a>
+		{% endbreadcrumbs %}
+	</div>
+
+	<section id="teaser-section" class="teaser-section padding-top-30">
+		<div class="container">
+			<div class="grid-row">
+				<div class="column-two-thirds">
+					<div class="grid-row">
+						<div class="font-medium">
+							<p>
+								Our market risk appetite is the total amount of risk exposure we would be willing to support for new business in a particular country.
+							</p>
+							<p>
+								For foreign exchange earning projects with robust financing structures and strong risk mitigants, we may be able to exceed the market risk appetite specified. We make these decisions on a case by case basis.
+							</p>
+
+							<a class="link country-cover-link margin-top-15 border-grey" href="https://www.gov.uk/guidance/country-cover-policy-and-indicators#a-to-z-list-of-country-cover-policies-and-indicators" rel="noopener noreferrer" target="_blank">
+								A to Z list of country cover policies and indicators
+							</a>
+							<p class="block font-xsmall margin-top-45"><strong class="bold-xsmall">Disclaimer: </strong>This information is for guidance only. It may change at any time, and no commitment on our part can be assumed or inferred. The information given in no way commits us to providing cover for a particular contract. The country cover indications are not indicative of the nature of the risks of doing business in any individual country. They should not be taken to mean that doing business in the country in question is risk free, and you should carry out your own due diligence.</p>
+						</div>
+					</div>
+				</div>
+				<div class="column-quarter float-right">
+					<div class="panel-vertical-narrow">
+						<ul>
+							<li>
+								<h3 class="heading-small margin-top-0"><a href="{% url 'how-we-assess-your-project' %}" class="link">How we assess your project</a></h3>
+							</li>
+							<li>
+								<h3 class="heading-small"><a href="{% url 'what-we-offer-you' %}" class="link">What we offer you</a></h3>
+							</li>
+							<li>
+								<h3 class="heading-small"><a href="{% url 'uk-export-contact' %}" class="link">Get in touch</a></h3>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+{% endblock %}
