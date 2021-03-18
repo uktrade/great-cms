@@ -91,6 +91,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF_REDIRECTS = 'config.url_redirects'
+
 
 TEMPLATES = [
     {
@@ -443,6 +445,9 @@ MAXMIND_LICENCE_KEY = env.str('MAXMIND_LICENCE_KEY')
 GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
     'GEOLOCATION_MAXMIND_DATABASE_FILE_URL', 'https://download.maxmind.com/app/geoip_download'
 )
+
+# feature flags
+FEATURE_FLAGS = {'INTERNATIONAL_CONTACT_TRIAGE_ON': env.bool('FEATURE_INTERNATIONAL_CONTACT_TRIAGE_ENABLED', False)}
 
 # directory-api
 DIRECTORY_API_CLIENT_BASE_URL = env.str('DIRECTORY_API_CLIENT_BASE_URL')

@@ -37,7 +37,7 @@
 - GP2-1630 - add more data
 
 ### Implemented enhancements
-
+- GP2- 1900 - port redirects from BAU
 - GP2-1849 - Logged out mobile header
 - GP2-1784 - Stop breadcrumbs showing for Structural Page
 - GP2-1559 - Structural page  for marketing articles
