@@ -4,7 +4,9 @@
 
 ### Fixed bugs
 
+- GP2-1931 - add placeholder text
 - GP2-1930 - text changes, and update data structure whilst at it.
+- GP2-1948 - section complete copy
 - GP2-1913 - allow user to click anywhere inside the input field to toggle dropdown
 
 ### Enhancements
