@@ -1,8 +1,4 @@
-from wagtail.contrib.modeladmin.options import (
-    ModelAdmin,
-    ModelAdminGroup,
-    modeladmin_register,
-)
+from wagtail.contrib.modeladmin.options import ModelAdmin
 
 from .models import ContactSuccessSnippet
 
@@ -16,11 +12,4 @@ class ContactSuccessSnippetAdmin(ModelAdmin):
     ]
 
 
-class NonCMSContentGroup(ModelAdminGroup):
-    menu_label = 'Non-page content'
-    menu_icon = 'folder-open-inverse'  # change as required
-    menu_order = 200
-    items = (ContactSuccessSnippetAdmin,)
-
-
-modeladmin_register(NonCMSContentGroup)
+# registered via cms_extras.modeladmin
