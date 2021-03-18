@@ -4,6 +4,7 @@
 
 ### Fixed bugs
 
+- GP2-1710 - C&P units copy change, currency width and copy change.
 - GP2-1931 - add placeholder text
 - GP2-1930 - text changes, and update data structure whilst at it.
 - GP2-1948 - section complete copy
