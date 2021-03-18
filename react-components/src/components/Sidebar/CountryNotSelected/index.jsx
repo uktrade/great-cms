@@ -41,6 +41,7 @@ export const CountryNotSelected = memo(({ isOpen }) => {
         modalIsOpen={modalIsOpen}
         setIsOpen={setIsOpen}
         selectCountry={selectCountry}
+        onCloseRedirect="/export-plan/dashboard/"
       />
     </>
   )
