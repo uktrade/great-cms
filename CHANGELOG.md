@@ -11,6 +11,8 @@
 
 ### Enhancements
 
+GP2-1849 - Feature flag magna links in logged out mobile header
+
 =======
 
 ## [1.5.0](https://github.com/uktrade/great-cms/releases/tag/1.5.0)
