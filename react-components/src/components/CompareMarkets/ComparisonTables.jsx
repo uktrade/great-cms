@@ -65,7 +65,7 @@ export default function ComparisonTables(props) {
 
   return (
     <>
-      {!mobile && (<div className="p-h-m">{tabStrip}</div>)}
+      {!mobile && (<div className="p-h-m p-t-l">{tabStrip}</div>)}
       <div
         className={`table market-details ${
           (mobile && 'm-h-0') || 'm-h-m bg-white p-v-s p-b-s p-h-s radius'
