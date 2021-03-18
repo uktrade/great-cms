@@ -201,3 +201,128 @@ $mobile: 640px;
         }
     }
 }
+
+.shared-magna-header {
+    background: #1E1348;
+    height: 110px;
+
+    nav {
+        position: relative;
+    }
+
+    #header-logo-link {
+        margin: 20px 30px 10px 0;
+
+        .header-logo {
+            height: 75px;
+        }
+    }
+
+    #header-link-user-profile {
+        margin-bottom: 6px;
+        margin-right: 0;
+        margin-left: 15px;
+    }
+
+    .header-links {
+        li {
+            align-items: flex-end;
+            margin: 0 16px;
+        }
+
+        a {
+            color: #fff;
+            font-family: "Overpass", Arial, Helvetica, Verdana;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 0;
+            line-height: 25px;
+            margin-bottom: 13px;
+            text-decoration: none;
+        }
+
+        button {
+            box-sizing: border-box;
+            height: 40px;
+            width: 114px;
+            border: 2px solid #fff;
+            background-color: #1E1348;
+            color: #fff;
+            font-family: "Overpass", Arial, Helvetica, Verdana;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 0;
+            text-align: left;
+            padding: 5px 14px;
+
+            &.active {
+                .burger-icon {
+                    background-color: transparent;
+
+                    &:before,
+                    &:after {
+                        width: 25px;
+                        margin-right: -3px;
+                    }
+
+                    &:before {
+                        transform: rotate(45deg);
+                        margin-top: 0;
+                    }
+
+                    &:after {
+                        transform: rotate(-45deg);
+                        margin-top: -12px;
+                    }
+                }
+            }
+
+            .burger-icon {
+                clear: right;
+                content: "";
+                float: right;
+                height: 2px;
+                margin: 12px 0 10px 10px;
+                width: 20px;
+
+                &:before,
+                &:after {
+                    background-color: #fff;
+                    transition: all .2s ease;
+                    clear: right;
+                    content: "";
+                    float: right;
+                    height: 2px;
+                    margin: 0 0 10px 10px;
+                    width: 20px;
+                }
+
+                &:before {
+                    margin-top: -6px;
+                }
+            }
+        }
+    }
+
+    .extra-links {
+        display: block;
+        position: absolute;
+        top: 24px;
+        right: 0;
+
+        li {
+            margin: 0;
+        }
+
+        a {
+            color: #fff;
+            font-family: "Overpass", Arial, Helvetica, Verdana;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 0;
+            line-height: 25px;
+            text-align: right;
+            text-decoration: none;
+        }
+    }
+}

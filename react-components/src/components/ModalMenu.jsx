@@ -142,10 +142,11 @@ export function Menu(props) {
     <div style={{ lineHeight: 0 }}>
       <button
         type="button"
-        className={`avatar${modalIsOpen ? ' active' : ''}`}
+        className={modalIsOpen ? 'active' : ''}
         onClick={openModal}
       >
-        {avatarElement}
+        Menu
+        <span className="burger-icon"></span>
         <span className="visually-hidden">User menu</span>
       </button>
       <ReactModal
