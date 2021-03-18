@@ -33,6 +33,7 @@ export const Risk = memo(
               hideLabel
               label={`Risk ${index} label`}
               value={risk}
+              placeholder={risk_extras.placeholder}
               onChange={(e) => onChange(id, { key: 'risk', value: e[id] })}
               formGroupClassName="m-b-0"
             />
@@ -75,8 +76,8 @@ export const Risk = memo(
               type="textarea"
               hideLabel
               label={contingency_plan_extras.label}
-              hideLabel
               value={contingency_plan}
+              placeholder={contingency_plan_extras.placeholder}
               onChange={(e) =>
                 onChange(id, {
                   key: 'contingency_plan',
@@ -109,6 +110,7 @@ Risk.propTypes = {
   risk: PropTypes.string.isRequired,
   contingency_plan: PropTypes.string.isRequired,
   risk_extras: PropTypes.shape({
+    placeholder: PropTypes.string,
     example: PropTypes.shape({
       content: PropTypes.string,
     }),
@@ -121,6 +123,7 @@ Risk.propTypes = {
       content: PropTypes.string,
     }),
     label: PropTypes.string,
+    placeholder: PropTypes.string,
     tooltip: PropTypes.shape({
       content: PropTypes.string,
     }),
