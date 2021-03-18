@@ -6,7 +6,7 @@
 - GP2-1913 - allow user to click anywhere inside the input field to toggle dropdown
 
 ### Enhancements
-
+GP2-1849 - Feature flag magna links in logged out mobile header
 
 =======
 
