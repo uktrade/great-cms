@@ -1,15 +1,8 @@
 {% load to_json %}
 
 <script type="text/javascript">
-  var element = document.getElementById('adapt-to-target-market');
-  /*magna.adaptToTargetMarketForm({
-    element: element,
-    field: 'adaptation_target_market',
-    formData: {{ form_initial|safe }},
-    companyexportplan: {{ export_plan.pk }}
-  })*/
   magna.adaptToTargetMarketForm({
-    element: element,
+    element: document.getElementById('adapt-to-target-market'),
     field: 'adaptation_target_market',
     formData: {{ form_initial|safe }},
     formFields: [
@@ -76,18 +69,16 @@
     companyexportplan: {{ export_plan.pk }}
   })
 
-  element = document.getElementById('documents-for-target-market');
   magna.documentsForTargetMarketForm({
-    element: element,
+    element: document.getElementById('documents-for-target-market'),
     field: 'adaptation_target_market',
     formData: {{ form_initial|safe }},
     formDataUserDocs: {{ target_market_documents|to_json }},
     companyexportplan: {{ export_plan.pk }}
   })
 
-  element = document.getElementById('stats-for-target-market');
   magna.statsForYourTargetMarket({
-    element: element,
+    element: document.getElementById('stats-for-target-market'),
     languages: {{ language_data|safe }},
     infoMomenent: `To find out what product alterations and documents you might need to visit <a href="{{ check_duties_link|safe }}" target="_blank"
                 rel="noopener noreferrer">Check how to export goods</a> service and choose the commodity code that best matches your product.`,
