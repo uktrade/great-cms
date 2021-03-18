@@ -92,12 +92,13 @@ const renderColumnHeader = (columnConfig, mobile) => (
 const renderCountryRowHeader = (market, removeMarket) => {
   // A row header in normal or mobile mode is the country label. In mobile mode there is no 'remove' button
   return (
-    <th className={`p-v-xs  ${removeMarket && 'p-f-l' || ''} name relative`}>
+    <th className={`p-v-xs name`}>
+      <div className='flex-center'>
       {(removeMarket && (
         <button
           type="button"
           onClick={removeMarket || (() => null)}
-          className="button button--only-icon button--tertiary button--small f-l"
+          className="button button--only-icon button--tertiary button--small m-r-xxs"
           data-id={market.country_iso2_code}
           aria-label={`Remove ${market.country_name}`}
         >
@@ -107,6 +108,7 @@ const renderCountryRowHeader = (market, removeMarket) => {
         ''}
       <div className="body-l-b country-name" id={`marketheader-${market.country_name}`}>
         {market.country_name}
+      </div>
       </div>
     </th>
   )
