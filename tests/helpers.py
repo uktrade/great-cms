@@ -54,6 +54,6 @@ class SetUpLocaleMixin:
     pytest equivalent is the `en_locale` fixture
     """
 
-    def setUp(self):
+    def _fixture_setup(self):
         Locale.objects.get_or_create(language_code='en-gb')
-        return super().setUp()
+        return super()._fixture_setup()
