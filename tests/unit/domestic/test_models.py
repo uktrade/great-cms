@@ -190,7 +190,6 @@ def test_dashboard_page_routing(
     assert context_data['export_plan_progress']['sections_total'] == 10
     assert context_data['export_plan_progress']['exportplan_completed'] is False
     assert context_data['export_plan_progress']['exportplan_completed'] is False
-    assert context_data['export_plan_dashboard_url'] == '/export-plan/dashboard/'
 
 
 @pytest.mark.django_db
