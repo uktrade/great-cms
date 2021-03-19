@@ -45,6 +45,9 @@ class BusinessSSOUser(AbstractUser):
     def user_profile(self):
         return helpers.get_user_profile(self.session_id)
 
+    def create_user_profile(self, data):
+        return helpers.create_user_profile(self.session_id, data)
+
     def update_user_profile(self, data):
         return helpers.update_user_profile(self.session_id, data)
 

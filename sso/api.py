@@ -22,3 +22,13 @@ class LessonCompletedAPIView(generics.GenericAPIView):
         session_id = request.user.session_id
         response = helpers.delete_lesson_completed(session_id, kwargs['lesson'])
         return Response(status=status.HTTP_204_NO_CONTENT, data=response)
+
+
+class UserProfileAPIView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        session_id = request.user.session_id
+        response = helpers.update_user_profile(session_id, request.data)
+
+        return Response(status=200, data=response)
