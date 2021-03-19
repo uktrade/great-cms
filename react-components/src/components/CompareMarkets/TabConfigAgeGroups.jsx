@@ -29,19 +29,6 @@ const filterMapping = {
   },
 }
 
-const valueAndPercentage = (dataSet, gender) => {
-  const value = dataSetByGender(dataSet, gender)
-  const total = dataSetByGender(dataSet, null, null)
-  return (
-    <>
-      <div className="body-l primary">{millify(value)}</div>
-      <div className="body-m secondary text-black-60">
-        {normaliseValues((value * 100) / total)}%
-      </div>
-    </>
-  )
-}
-
 const populationFiltered = (dataSet, filter) => {
   const value = Object.keys(filterMapping).reduce((total, filterGroupKey) => {
     if (!filter || !Object.keys(filter).length || filter[filterGroupKey]) {
@@ -61,6 +48,21 @@ const dataSetByGender = (dataSet, gender, filter = localActiveFilter) => {
     .reduce((total, row) => total + populationFiltered(row, filter), 0)
 }
 
+const valueAndPercentage = (dataSet, gender) => {
+  const value = dataSetByGender(dataSet, gender)
+  const total = dataSetByGender(dataSet, null, null)
+  return (
+    <>
+      <div className="body-l primary">{millify(value)}</div>
+      <div className="body-m secondary text-black-60">
+        {normaliseValues((value * 100) / total)}%
+      </div>
+    </>
+  )
+}
+
+
+
 const yearByGender = (dataSet, gender) => {
   return (dataSet.filter((row) => !gender || row.gender === gender)[0] || {})
     .year
@@ -72,14 +74,14 @@ const setActiveFilter = (activeFilter) => {
 }
 
 const filter = (
-  <>
+  <div className="overflow-hidden">
     <div className="body-l-b">Select your target age groups</div>
     <Filter
       filterId="age-groups"
       setActiveFilter={setActiveFilter}
       filters={filterMapping}
     />
-  </>
+  </div>
 )
 
 export default {
