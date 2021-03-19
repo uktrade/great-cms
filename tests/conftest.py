@@ -157,13 +157,18 @@ def get_user():
 
 
 @pytest.mark.django_db
+@pytest.fixture()
+def en_locale():
+    return Locale.objects.get_or_create(language_code='en-gb')
+
+
+@pytest.mark.django_db
 @pytest.fixture
-def root_page():
+def root_page(en_locale):
     """
     On start Wagtail provides one page with ID=1 and it's called "Root page"
     """
     Page.objects.all().delete()
-    Locale.objects.create(language_code='en-gb')
     return PageFactory(title='root', slug='root')
 
 
