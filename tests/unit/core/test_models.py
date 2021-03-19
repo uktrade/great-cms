@@ -36,7 +36,7 @@ from core.models import (
 )
 from domestic.models import DomesticDashboard, DomesticHomePage, GreatDomesticHomePage
 from exportplan.models import ExportPlanDashboardPage
-from tests.helpers import make_test_video
+from tests.helpers import SetUpLocaleMixin, make_test_video
 from tests.unit.core import factories
 from .factories import (
     CaseStudyFactory,
@@ -238,7 +238,11 @@ def test_detail_page_get_context_handles_backlink_querystring_appropriately(
         'backlink for a non-existent page',
     ),
 )
-def test_detail_page_get_context_gets_backlink_title_based_on_backlink(backlink_path, expected):
+def test_detail_page_get_context_gets_backlink_title_based_on_backlink(
+    backlink_path,
+    expected,
+    en_locale,
+):
     detail_page = factories.DetailPageFactory(template='learn/detail_page.html')
     assert detail_page._get_backlink_title(backlink_path) == expected
 
@@ -478,7 +482,7 @@ def test_structure_page_redirects_to_http404(
             getattr(structure_page, page_method)(request)
 
 
-class DetailPageTests(WagtailPageTests):
+class DetailPageTests(SetUpLocaleMixin, WagtailPageTests):
     def test_parent_page_types(self):
         self.assertAllowedParentPageTypes(DetailPage, {TopicPage})
 
@@ -667,7 +671,7 @@ class TestSmallSnippets(TestCase):
         self.assertEqual(f'{tag}', 'Test IndustryTag')  #  tests __str__
 
 
-class TestMagnaPageChooserPanel(TestCase):
+class TestMagnaPageChooserPanel(SetUpLocaleMixin, TestCase):
     def setUp(self):
         self.request = RequestFactory().get('/')
         user = AnonymousUser()  # technically, Anonymous users cannot access the admin

@@ -159,6 +159,7 @@ def get_user():
 @pytest.mark.django_db
 @pytest.fixture()
 def en_locale():
+    # Equivalent for unittest is in tests.helpers.SetUpLocaleMixin
     return Locale.objects.get_or_create(language_code='en-gb')
 
 

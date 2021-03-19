@@ -6,7 +6,7 @@ from django.conf import settings
 from django.core.files import File
 from django.core.files.base import ContentFile
 from django.urls import clear_url_caches
-from wagtail.core.models import Collection
+from wagtail.core.models import Collection, Locale
 from wagtailmedia import models as wagtailmedia_models
 
 
@@ -47,3 +47,13 @@ def make_test_video(
     media.transcript = transcript
 
     return media
+
+
+class SetUpLocaleMixin:
+    """Ensures a default locale is in the database
+    pytest equivalent is the `en_locale` fixture
+    """
+
+    def setUp(self):
+        Locale.objects.get_or_create(language_code='en-gb')
+        return super().setUp()
