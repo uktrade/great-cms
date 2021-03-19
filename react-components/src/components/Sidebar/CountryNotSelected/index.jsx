@@ -7,7 +7,7 @@ import CountryFinderModal from '@src/components/ProductFinder/CountryFinderModal
 import Services from '@src/Services'
 import actions from '@src/actions'
 
-export const CountryNotSelected = memo(({ isOpen }) => {
+export const CountryNotSelected = memo(({ isOpen, backUrl }) => {
   const [modal, setModal] = useState(isOpen)
   const [modalIsOpen, setIsOpen] = useState(false)
 
@@ -29,7 +29,7 @@ export const CountryNotSelected = memo(({ isOpen }) => {
         contentLabel="Modal"
       >
         <Modal
-          backUrl="/export-plan/dashboard/"
+          backUrl={backUrl}
           header="Add your target market"
           content="You will need to choose a target market before you can complete this section"
           onClick={openCountryFinder}
@@ -41,7 +41,7 @@ export const CountryNotSelected = memo(({ isOpen }) => {
         modalIsOpen={modalIsOpen}
         setIsOpen={setIsOpen}
         selectCountry={selectCountry}
-        onCloseRedirect="/export-plan/dashboard/"
+        onCloseRedirect={backUrl}
       />
     </>
   )
@@ -49,4 +49,5 @@ export const CountryNotSelected = memo(({ isOpen }) => {
 
 CountryNotSelected.propTypes = {
   isOpen: PropTypes.bool.isRequired,
+  backUrl: PropTypes.string.isRequired,
 }

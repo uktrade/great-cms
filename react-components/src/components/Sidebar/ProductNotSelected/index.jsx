@@ -5,7 +5,7 @@ import ReactModal from 'react-modal'
 import { Modal } from '@src/components/Modal'
 import ProductFinderModal from '@src/components/ProductFinder/ProductFinderModal'
 
-export const ProductNotSelected = memo(({ isOpen }) => {
+export const ProductNotSelected = memo(({ isOpen, backUrl }) => {
   const [modal, setModal] = useState(isOpen)
   const [modalIsOpen, setIsOpen] = useState(false)
 
@@ -23,7 +23,7 @@ export const ProductNotSelected = memo(({ isOpen }) => {
         contentLabel="Modal"
       >
         <Modal
-          backUrl="/export-plan/dashboard/"
+          backUrl={backUrl}
           header="Add your product"
           content="You will need to choose a product before you can complete this section"
           onClick={openProductFinder}
@@ -34,7 +34,7 @@ export const ProductNotSelected = memo(({ isOpen }) => {
       <ProductFinderModal
         modalIsOpen={modalIsOpen}
         setIsOpen={setIsOpen}
-        onCloseRedirect="/export-plan/dashboard/"
+        onCloseRedirect={backUrl}
       />
     </>
   )
@@ -42,4 +42,5 @@ export const ProductNotSelected = memo(({ isOpen }) => {
 
 ProductNotSelected.propTypes = {
   isOpen: PropTypes.bool.isRequired,
+  backUrl: PropTypes.string.isRequired,
 }
