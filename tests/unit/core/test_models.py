@@ -535,7 +535,7 @@ def test_redirection_for_unauthenticated_user(
 class TestImageAltRendition(TestCase, WagtailTestUtils):
     def setUp(self):
         self.login()
-        root_collection = Collection.objects.create(name='Root', depth=0)
+        root_collection, _ = Collection.objects.get_or_create(name='Root', depth=0)
         great_image_collection = root_collection.add_child(name='Great Images')
 
         # Create an image with alt text
