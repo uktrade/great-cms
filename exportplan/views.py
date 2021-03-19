@@ -19,7 +19,7 @@ from exportplan.context import (
     FactbookDataContextProvider,
     InsightDataContextProvider,
     PDFContextProvider,
-    TargetAgeDataContextProvider,
+    PopulationAgeDataContextProvider,
 )
 from exportplan.core import data, helpers, serializers
 from exportplan.core.processor import ExportPlanProcessor
@@ -383,7 +383,7 @@ class ExportPlanServicePage(GA360Mixin, TemplateView):
 
 
 class PDFDownload(
-    View, PDFContextProvider, InsightDataContextProvider, TargetAgeDataContextProvider, FactbookDataContextProvider
+    View, PDFContextProvider, InsightDataContextProvider, PopulationAgeDataContextProvider, FactbookDataContextProvider
 ):
     def get(self, request, *args, **kwargs):
         context = super().get_context_provider_data(request)

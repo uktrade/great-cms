@@ -403,7 +403,7 @@
       <h6 class="body-gamma pad-y-0">Average Income (USD)</h6>
       <p class="pad-t-0"><strong>{{ insight.country_data.Income.0.value }}</strong></p>
     {% endwith %}
-     {% with market_research=target_age_data|get_item:'target-markets-research' %}
+     {% with market_research=population_age_data|get_item:'target-markets-research' %}
       <h3 class="pad-y-1">Target age group</h3>
       <h6 class="body-gamma pad-y-0">Total population</h6>
       <p class="pad-t-0"><strong>{{ market_research.population_data.total_population }}</strong></p>
@@ -636,7 +636,7 @@
       </table>
       <!-- ./Nested table -->
     </td>
-    {% with marketing_approach=target_age_data|get_item:'marketing-approach' insight=insight_data|get_item:my_export_plan.country_iso2_code %}
+    {% with marketing_approach=population_age_data|get_item:'marketing-approach' insight=insight_data|get_item:my_export_plan.country_iso2_code %}
       <td class="col-10-3 align-top">
         <h3 class="pad-b-1 colour-red-150">Data snapshot</h3>
 

@@ -355,7 +355,9 @@ def test_getting_paid(export_plan_data, client, user):
 
 
 @pytest.mark.django_db
-def test_download_export_plan(client, mock_get_comtrade_data, user):
+def test_download_export_plan(
+    client, mock_get_comtrade_data, mock_get_population_data, mock_cia_world_factbook_data, user
+):
     url = reverse('exportplan:pdf-download')
     client.force_login(user)
     response = client.get(url, SERVER_NAME='mydomain.com')
@@ -367,6 +369,9 @@ def test_download_export_plan(client, mock_get_comtrade_data, user):
     assert len(pdf_context['export_plan']) == len(user.export_plan.data)
     assert pdf_context['user'] == user
     assert pdf_context['insight_data'] == mock_get_comtrade_data.return_value
+    assert pdf_context['population_age_data']['marketing-approach'] == mock_get_population_data.return_value
+    assert pdf_context['population_age_data']['target-markets-research'] == mock_get_population_data.return_value
+    assert pdf_context['language_data'] == mock_cia_world_factbook_data.return_value
 
 
 @pytest.mark.django_db
