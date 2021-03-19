@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 const customStyles = {
   overlay: {
     zIndex: '3',
-    background: 'transparent',
+    background: 'rgba(0, 0, 0, 0.6)',
     position: 'absolute',
   },
   content: {
@@ -25,10 +25,10 @@ export function Menu(props) {
     const position = evt.target.getClientRects()[0] || { top: 0, height: 0 }
     const bodyWidth = evt.target.closest('body').clientWidth
     customStyles.content.top = `${
-      position.top + position.height + window.scrollY
+      (position.top + position.height + window.scrollY) - 15
     }px`
     customStyles.content.right = `${
-      bodyWidth - (position.left + position.right) / 2
+      (bodyWidth - (position.left + position.right) / 2) - 27
     }px`
 
     setIsOpen(true)
@@ -65,7 +65,7 @@ export function Menu(props) {
   )
 
   const greeting = authenticated ? (
-    <div className="h-xs p-t-xxs">Hi {userName || 'there'}</div>
+    <div className="h-xs p-t-xxs user-greeting">Hi {userName || 'there'}</div>
   ) : (
     ''
   )
@@ -74,43 +74,34 @@ export function Menu(props) {
     authenticated: (
       <ul className="menu-items">
         <li>
-          <a href="/dashboard/" className="link">
-            <i className="fa fa-tachometer-alt" />
+          <a href="/dashboard/" className="link" id="first_link">
             <span>Dashboard</span>
           </a>
         </li>
         <li>
           <a href="/learn/categories/" className="link">
-            <i className="fa fa-book" />
             <span>Learn to export</span>
+            <strong className="tag tag--small">new</strong>
           </a>
         </li>
         <li>
           <a href="/where-to-export/" className="link">
-            <i className="fa fa-map-marker-alt" />
             <span>Where to export</span>
+            <strong className="tag tag--small">new</strong>
           </a>
         </li>
         <li>
           <a href="/export-plan/dashboard/" className="link">
-            <i className="fa fa-folder" />
             <span>Make an export plan</span>
-          </a>
-        </li>
-        <hr className="m-v-xxs" />
-        <li>
-          <a
-            href="/contact-us/help/"
-            rel="noopener noreferrer"
-            className="link"
-          >
-            <i className="fa fa-comment" />
-            <span>Send a feedback email</span>
+            <strong className="tag tag--small">new</strong>
           </a>
         </li>
         <li>
-          <button type="button" className="link" onClick={logout}>
-            <i className="fa fa-arrow-right" />
+          <button type="button" className="link" onClick={logout} onBlur={() => {
+            if (document.getElementById('menu_button')) {
+              document.getElementById('menu_button').focus();
+            }
+          }}>
             <span>Sign out</span>
           </button>
         </li>
@@ -124,13 +115,11 @@ export function Menu(props) {
             rel="noopener noreferrer"
             className="link"
           >
-            <i className="fa fa-comment" />
             <span>Send a feedback email</span>
           </a>
         </li>
         <li>
           <a href="/login/" className="link">
-            <i className="fa fa-pencil-alt" />
             <span>Sign up / Log in</span>
           </a>
         </li>
@@ -142,8 +131,14 @@ export function Menu(props) {
     <div style={{ lineHeight: 0 }}>
       <button
         type="button"
+        id="menu_button"
         className={modalIsOpen ? 'active' : ''}
-        onClick={openModal}
+        onClick={modalIsOpen ? closeModal : openModal}
+        onBlur={() => {
+          if (document.getElementById('first_link')) {
+            document.getElementById('first_link').focus();
+          }
+        }}
       >
         Menu
         <span className="burger-icon"></span>
@@ -158,7 +153,7 @@ export function Menu(props) {
           modalContent = _modalContent
           return modalContent
         }}
-        className="modal-menu"
+        className="modal-menu shared-modal-menu"
       >
         {greeting}
         {menu[authenticated ? 'authenticated' : 'non_authenticated']}

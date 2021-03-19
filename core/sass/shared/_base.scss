@@ -205,6 +205,7 @@ $mobile: 640px;
 .shared-magna-header {
     background: #1E1348;
     height: 110px;
+    z-index: auto;
 
     nav {
         position: relative;
@@ -256,6 +257,10 @@ $mobile: 640px;
             padding: 5px 14px;
 
             &.active {
+                background-color: #006ccc;
+                position: relative;
+                z-index: 4;
+
                 .burger-icon {
                     background-color: transparent;
 
@@ -323,6 +328,57 @@ $mobile: 640px;
             line-height: 25px;
             text-align: right;
             text-decoration: none;
+        }
+    }
+}
+
+.shared-modal-menu {
+    background: #4B426D;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    min-width: 290px;
+
+    &:before, &:after {
+        content: none;
+    }
+
+    .user-greeting {
+        background:#006ccc;
+        color: #fff;
+        font-family: "Overpass", Arial, Helvetica, Verdana;
+        padding: 20px;
+    }
+
+    .menu-items {
+        padding: 0 20px 20px;
+
+        li {
+            border-bottom: 1px solid #635A7F;
+            font-family: "Overpass", Arial, Helvetica, Verdana;
+            padding: 0;
+
+            &:last-child {
+                border-bottom: 0;
+            }
+
+            a, button {
+                color: #fff;
+                font-size: 18px;
+                padding: 15px 0;
+                position: relative;
+
+                strong {
+                    position: absolute;
+                    top: 14px;
+                    right: 0;
+                }
+            }
+        }
+
+        li a > span,
+        li button > span {
+            padding: 0;
         }
     }
 }
