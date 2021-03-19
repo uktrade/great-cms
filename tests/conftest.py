@@ -4,7 +4,7 @@ from unittest import mock
 
 import pytest
 from django.test.client import RequestFactory
-from wagtail.core.models import Page
+from wagtail.core.models import Locale, Page
 from wagtail_factories import PageFactory, SiteFactory
 
 import tests.unit.domestic.factories
@@ -163,6 +163,7 @@ def root_page():
     On start Wagtail provides one page with ID=1 and it's called "Root page"
     """
     Page.objects.all().delete()
+    Locale.objects.create(language_code='en-gb')
     return PageFactory(title='root', slug='root')
 
 
