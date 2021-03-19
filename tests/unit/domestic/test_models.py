@@ -829,7 +829,7 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
                 )
 
 
-class MarketsTopicLandingPageFilteringTests(WagtailPageTests):
+class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
 
     fixtures = ['markets_filtering_fixtures.json']
 
@@ -1151,7 +1151,7 @@ class ArticleListingPageTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(listing_page.get_articles_count(), 4)
 
 
-class ArticlePageTests(WagtailPageTests):
+class ArticlePageTests(SetUpLocaleMixin, WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             ArticlePage,

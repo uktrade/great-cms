@@ -251,6 +251,7 @@ def test_delete_lesson_completed(
     assert response.status_code == 204
 
 
+@pytest.mark.django_db
 @mock.patch.object(sso_api_client.user, 'get_user_lesson_completed')
 def test_has_lesson_completed_get_fail(
     mock_get_user_lesson_completed,
