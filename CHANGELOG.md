@@ -12,6 +12,7 @@
 
 ### Enhancements
 
+- GP2-1927 - Modal window Issues--Export plan pages
 GP2-1849 - Feature flag magna links in logged out mobile header
 - GP2-1616 - Port UKEF pages from V1 (not including /get-finance/* yet)
 
