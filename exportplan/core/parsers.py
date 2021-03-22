@@ -52,7 +52,7 @@ class ExportPlanParser:
         self.set_key('getting_paid.payment_method.payment_method_label', payment_method_label)
 
         incoterms_transport_label = helpers.values_to_labels(
-            values=[self.get_key('getting_paid.incoterms.transport')] or [],
+            values=[self.get_key('getting_paid.incoterms.transport')],
             choices=self.ALL_TRANSPORT_OPTIONS,
         )
         self.set_key('getting_paid.incoterms.incoterms_transport_label', incoterms_transport_label)
@@ -87,9 +87,7 @@ class ExportPlanParser:
 
         for route in self.data.get('route_to_markets', []):
             route_label = helpers.values_to_labels(values=[route.get('route')] or [], choices=self.MARKET_ROUTES)
-            promote_label = helpers.values_to_labels(
-                values=[route.get('promote')] or [], choices=self.PRODUCT_PROMOTIONS
-            )
+            promote_label = helpers.values_to_labels(values=[route.get('promote')], choices=self.PRODUCT_PROMOTIONS)
             if route_label:
                 route['route_label'] = route_label
             if promote_label:
@@ -97,7 +95,7 @@ class ExportPlanParser:
 
         for funding in self.data.get('funding_credit_options', []):
             funding_label = helpers.values_to_labels(
-                values=[funding.get('funding_option')] or [], choices=self.FUNDING_OPTIONS
+                values=[funding.get('funding_option')], choices=self.FUNDING_OPTIONS
             )
             if funding_label:
                 funding['funding_option_label'] = funding_label
