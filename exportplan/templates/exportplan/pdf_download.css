@@ -82,22 +82,30 @@ $colour-blue-100: #00549f;
   } */
 }
 
+pdftoc h1 {
+  -pdf-outline: true;
+  -pdf-level: 0;
+}
+
+.toc-name {
+  size: 0pt;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+pdftoc {
+}
+pdftoc.pdftoclevel0 {
+  font-size: 18pt;
+  margin-top: 0.5em;
+}
+
+
 .page-footer {
   border-top: 1pt solid #d2d0da;
   padding-top: 8pt;
 }
-
-/* pdftoc.pdftoclevel0 {
-  font-weight: bold;
-  margin-top: 0.5em;
-}
-pdftoc.pdftoclevel1 {
-  margin-left: 1em;
-}
-pdftoc.pdftoclevel2 {
-  margin-left: 2em;
-  font-style: italic;
-} */
 
 /* Typography */
 @font-face {
