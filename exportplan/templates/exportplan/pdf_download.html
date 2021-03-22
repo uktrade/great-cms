@@ -284,7 +284,7 @@
         <tr class="pad-b-2">
           <td class="col-10-10">
             <h3 class="pad-y-0">Why we want to export</h3>
-            <p class="pad-t-0">Dove Gin was founded in 2012 when Simon Dove started to dis- till gin in his garage in Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of London. This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a modern twist.</p>
+            <p class="pad-t-0">{{ export_plan.objectives.rationale }}</p>
           </td>
         </tr>
       </table>
@@ -1393,51 +1393,6 @@
   </tr>
   <tr>
     <td class="col-10-10 pad-b-1"></td>
-  </tr>
-</table>
-
-<pdf:nextpage>
-
-<!-- Reference -->
-<table class="layout pad-b-0">
-  <tr>
-    <td>
-      <h1 class="pad-t-3 pad-b-2">Reference</h1>
-    </td>
-  </tr>
-  <tr>
-    <td class="col-10-10 pad-b-1">
-      <p>Export Plan {% now "jS F Y" %} {% now "h:i a" %}</p>
-      <p>Company: {{ user.company.name }}</p>
-      <p>Company: <span class="colour-red-1">Versuvius Gin</span></p>
-      <p>Owner: {{ user.get_full_name|default:user.get_username }}</p>
-      <p>Email: {{ user.email}}</p>
-      <p>Product: {{ export_plan.export_commodity_codes.0.commodity_name }}</p>
-      <p>HS Code: {{ export_plan.export_commodity_codes.0.commodity_code }}</p>
-      <p>Exporting to: {{ export_plan.export_countries.0.country_name }}</p>
-
-      <h2>Funding</h2>
-      <p>Total Costs: GDP {{ export_plan.funding_and_credit.funding_amount_required }}</p>
-      <p>Total Funding: GDP {{ total_funding.calculated_total_funding }}</p>
-
-      <h2>Cost and Pricing</h2>
-      <p>Direct Costs Total: GDP {{ calculated_pricing.calculated_cost_pricing.total_direct_costs }}</p>
-      <p>Overhead Costs Total: GDP {{ calculated_pricing.calculated_cost_pricing.total_overhead_costs }}</p>
-
-      <h2>Getting Paid</h2>
-      <p>Payment Method: {{  getting_paid_payment_method_label }}</p>
-      <p>Incoterms: {{  getting_paid_incoterms_transport_label }}</p>
-
-      <h2>Business Objectives</h2>
-      {% for objective in export_plan.company_objectives %}
-      <p>Objective {{ forloop.counter }}</p>
-      <p>Description: {{ objective.description }}</p>
-      <p>Start date: {{ objective.start_date }}</p>
-      <p>End date: {{ objective.end_date }}</p>
-      <p>Owner: {{ objective.owner }}</p>
-      <p>Reviews: {{ objective.planned_reviews }}</p>
-      {% endfor %}
-    </td>
   </tr>
 </table>
 
