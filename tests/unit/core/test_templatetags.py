@@ -228,7 +228,6 @@ def test_push(user, rf, domestic_site):
         ({'1': 'bar'}, 1, None),
         ({1: 'bar'}, '1', None),
         ('a string has no get attr', 'foo', ''),
-        ({'foo': 'bar'}, 'FOO', 'bar'),
     ),
 )
 def test_get_item(data, key, expected):

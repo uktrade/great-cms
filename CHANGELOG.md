@@ -45,6 +45,7 @@ GP2-1849 - Feature flag magna links in logged out mobile header
 - NO TICKET - fix pdf generation
 - GP2-1792 - dashboard pages
 - GP2-1630 - add more data
+- Noticket pdf external datasources
 
 ### Implemented enhancements
 
