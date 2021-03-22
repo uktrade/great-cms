@@ -31,8 +31,8 @@
         {% if html_snippet %}
         {{ html_snippet }}
         {% endif %}
-        {% if not request.user.is_authenticated %}
-        <span class="shared-tag">Sign in required</span>
+        {% if show_sign_in_required and not request.user.is_authenticated %}
+          <span class="shared-tag">Sign in required</span>
         {% endif %}
       {% endif %}
       {% endblock %}
