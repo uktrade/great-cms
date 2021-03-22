@@ -292,3 +292,31 @@ def test_has_lesson_completed_delete_fail(
     )
     with pytest.raises(APIException):
         helpers.delete_lesson_completed(123, lesson=lesson.pk)
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_api_client.user, 'update_user_profile')
+def test_api_update_user_profile(mock_update_user_profile, client, user):
+    mock_response = create_response(
+        status_code=200,
+        json_body={
+            'id': 1,
+            'email': 'jim@example.com',
+            'hashed_uuid': '',
+            'user_profile': {
+                'first_name': 'Jim',
+                'last_name': 'Cross',
+                'job_title': None,
+                'mobile_phone_number': '55512345',
+                'segment': 'CHALLENGE',
+                'profile_image': None,
+                'social_account': 'email',
+            },
+        },
+    )
+    client.force_login(user)
+    mock_update_user_profile.return_value = mock_response
+
+    response = client.post(reverse('sso:user-profile-api'), {'segment': 'CHALLENGE'})
+    assert response.status_code == 200
+    assert response.data['user_profile']['segment'] == 'CHALLENGE'
