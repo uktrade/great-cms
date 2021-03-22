@@ -13,9 +13,8 @@ import ExpandCollapse from './ExpandCollapse'
 import SearchInput from './SearchInput'
 import StartEndPage from './StartEndPage'
 
-
 export default function ProductFinderModal(props) {
-  const { modalIsOpen, setIsOpen, selectedProduct } = props
+  const { modalIsOpen, setIsOpen, selectedProduct, onCloseRedirect } = props
 
   let scrollOuter
   const [isSearching, setSearching] = useState(false)
@@ -41,6 +40,9 @@ export default function ProductFinderModal(props) {
     setIsOpen(false)
     setSearching(false)
     setSearchResults()
+    if (onCloseRedirect && !selectedProduct) {
+      window.location.href = onCloseRedirect
+    }
   }
 
   const modalAfterOpen = () => {
@@ -354,21 +356,22 @@ export default function ProductFinderModal(props) {
           When you search for a product you may have to answer a few questions
           before you find a match.
         </p>
-      )
+      ),
     },
     {
       className: 'box box--no-pointer m-t-s',
       content: (
         <>
           <p className="m-t-0 m-b-xs">
-            This is because we use HS (<span className="body-l-b">harmonised system</span>)
-            codes to classify goods.
+            This is because we use HS (
+            <span className="body-l-b">harmonised system</span>) codes to
+            classify goods.
           </p>
           <p className="m-v-0">
             Think of it like the folder structure on a computer.
           </p>
         </>
-      )
+      ),
     },
     {
       className: 'box box--no-pointer m-t-s inline-block',
@@ -391,7 +394,7 @@ export default function ProductFinderModal(props) {
             />
           </div>
         </>
-      )
+      ),
     },
     {
       className: 'box box--no-pointer m-t-s',
@@ -404,16 +407,17 @@ export default function ProductFinderModal(props) {
             Find a close match, then feel free to relabel it.
           </p>
         </>
-      )
+      ),
     },
   ]
 
   const renderInfoCards = () => {
-    return infoCards.map((card, idx) =>
+    return infoCards.map((card, idx) => (
       <div key={idx} className={card.className}>
         {card.content}
       </div>
-  )}
+    ))
+  }
 
   const searchBox = (error) => {
     return (
@@ -442,14 +446,10 @@ export default function ProductFinderModal(props) {
           </button>
         </div>
         {/* Desktop rendering with info cards displayed as a stack  */}
-        <div className="only-desktop">
-          {renderInfoCards()}
-        </div>
+        <div className="only-desktop">{renderInfoCards()}</div>
         {/* Mobile rendering with info cards displayed within a carousel  */}
         <div className="only-mobile">
-          <Slider {...sliderSettings}>
-            {renderInfoCards()}
-          </Slider>
+          <Slider {...sliderSettings}>{renderInfoCards()}</Slider>
         </div>
       </div>
     )
@@ -585,7 +585,9 @@ ProductFinderModal.propTypes = {
     commodity_name: PropTypes.string,
     commodity_code: PropTypes.string,
   }),
+  onCloseRedirect: PropTypes.string,
 }
 ProductFinderModal.defaultProps = {
   selectedProduct: null,
+  onCloseRedirect: '',
 }

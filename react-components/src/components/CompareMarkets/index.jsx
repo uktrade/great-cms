@@ -123,7 +123,10 @@ CompareMarkets.propTypes = {
   }),
   cacheVersion: PropTypes.number,
   tabs: PropTypes.string.isRequired,
-  maxPlaces: PropTypes.number.isRequired,
+  maxPlaces: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string]
+      ).isRequired,
   ctaContainer: PropTypes.instanceOf(Element).isRequired,
 }
 
