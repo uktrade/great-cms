@@ -15,7 +15,12 @@ from core.utils import choices_to_key_value
 from directory_api_client.client import api_client
 from directory_constants import choices
 from exportplan import forms
-from exportplan.context import InsightDataContextProvider, PDFContextProvider
+from exportplan.context import (
+    FactbookDataContextProvider,
+    InsightDataContextProvider,
+    PDFContextProvider,
+    PopulationAgeDataContextProvider,
+)
 from exportplan.core import data, helpers, serializers
 from exportplan.core.processor import ExportPlanProcessor
 from exportplan.utils import render_to_pdf
@@ -377,7 +382,9 @@ class ExportPlanServicePage(GA360Mixin, TemplateView):
         return super().get_context_data(sections=data.SECTION_URLS, **kwargs)
 
 
-class PDFDownload(View, PDFContextProvider, InsightDataContextProvider):
+class PDFDownload(
+    View, PDFContextProvider, InsightDataContextProvider, PopulationAgeDataContextProvider, FactbookDataContextProvider
+):
     def get(self, request, *args, **kwargs):
         context = super().get_context_provider_data(request)
         pdf = render_to_pdf('exportplan/pdf_download.html', context)
