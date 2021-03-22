@@ -392,5 +392,4 @@ class PDFDownload(
         filename = 'export_plan.pdf'
         content = f'inline; filename={filename}'
         response['Content-Disposition'] = content
-        # print(context)
         return response
