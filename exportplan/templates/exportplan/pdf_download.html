@@ -23,8 +23,6 @@
 
 <!-- HTML Content -->
 
-
-
 <!-- P1 header -->
 <table class="layout layout--three-col">
   <tr>
@@ -76,6 +74,20 @@
 <pdf:nextpage>
 
 <!-- P2 sections -->
+<div>
+  <table class="layout layout--two-col">
+  <tr class="hr hr--red-150"><td></td></tr>
+  <tr>
+    <td>
+      <h1 class="pad-t-3 pad-b-2">Sections</h1>
+    </td>
+  </tr>
+  </table>
+
+  <pdf:toc />
+</div>
+
+{% comment %}
 <table class="layout layout--two-col">
   <tr class="hr hr--red-150"><td></td></tr>
   <tr>
@@ -94,10 +106,12 @@
   </tr>
   {% endfor %}
 </table>
+{% endcomment %}
 
 <pdf:nextpage>
 
 <!-- P3 summary -->
+<h1 class="toc-name">Summary</h1>
 <table class="layout layout--two-col">
   <tr class="hr hr--red-150"><td></td></tr>
   <tr>
@@ -198,6 +212,7 @@
 <pdf:nextpage>
 
 <!-- P4 about the business -->
+<h1 class="toc-name">About the business</h1>
 <table class="layout page-header">
   <tr>
     <td>
@@ -262,6 +277,7 @@
 <pdf:nextpage>
 
 <!-- P5 business objectives -->
+<h1 class="toc-name">Business objectives</h1>
 {% for objective in export_plan.company_objectives %}
 <table class="layout page-header">
   <tr>
@@ -336,7 +352,8 @@
 {% endfor %}
 
 
-<!-- P6 target market researc -->
+<!-- P6 target market research -->
+<h1 class="toc-name">Target market research</h1>
 <table class="layout page-header">
   <tr>
     <td>
@@ -418,6 +435,7 @@
 <pdf:nextpage>
 
 <!-- P7a adaptating your product -->
+<h1 class="toc-name">Adaptating your product</h1>
 <table class="layout page-header">
   <tr>
     <td>
@@ -584,6 +602,7 @@
 <pdf:nextpage>
 
 <!-- P8 marketing approach -->
+<h1 class="toc-name">Marketing approach</h1>
 {% for route in export_plan.route_to_markets %}
 <table class="layout page-header">
   <tr>
@@ -679,6 +698,7 @@
 {% endfor %}
 
 <!-- P9a cost and pricing -->
+<h1 class="toc-name">Cost and pricing</h1>
 <table class="layout page-header">
   <tr>
     <td>
@@ -868,6 +888,7 @@
 <pdf:nextpage>
 
 <!-- P10 funding and credit -->
+<h1 class="toc-name">Funding and credit</h1>
 <table class="layout page-header">
   <tr>
     <td>
@@ -966,6 +987,7 @@
 <pdf:nextpage>
 
 <!-- P11 travel plan -->
+<h1 class="toc-name">Travel plan</h1>
 <table class="layout page-header">
   <tr>
     <td>
@@ -1020,6 +1042,7 @@
 <pdf:nextpage>
 
 <!-- P12 business risk -->
+<h1 class="toc-name">Business risk</h1>
 {% for risk in export_plan.business_risks %}
 <table class="layout page-header">
   <tr>
@@ -1079,6 +1102,7 @@
 {% endfor %}
 
 <!-- P13a compared countries data -->
+<h1 class="toc-name">Compared countries data</h1>
 <table class="layout page-header">
   <tr>
     <td>
@@ -1228,6 +1252,7 @@
 <pdf:nextpage>
 
 <!-- P13b compared countries data -->
+<h1 class="toc-name">Society</h1>
 <table class="layout page-header">
   <tr>
     <td>
@@ -1349,6 +1374,8 @@
 <pdf:nextpage>
 
 <!-- P14 dit cheatsheet -->
+<h1 class="toc-name">DIT cheat sheet</h1>
+<h1 class="toc-name">Contact infornation</h1>
 <table class="layout page-header">
   <tr class="hr hr--red-150"><td></td></tr>
 </table>
@@ -1379,6 +1406,7 @@
 <pdf:nextpage>
 
 <!-- P15 marketing materials page -->
+<h1 class="toc-name">Marketing materials page</h1>
 <table class="layout page-header">
   <tr class="hr hr--red-150"><td></td></tr>
 </table>
