@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 {% load object_tags %}
 <html>
 <head><meta http-equiv=Content-Type content="text/html; charset=UTF-8">
@@ -88,7 +89,7 @@
       <p class="body-alpha">{{ section }}</p>
     </td>
     <td class="col-10-3">
-      <p class="body-alpha"><strong>{{ forloop.counter|add:3}}</strong></p>
+      <p class="body-alpha"><strong>{{ forloop.counter|add:3 }}</strong></p>
     </td>
   </tr>
   {% endfor %}
@@ -175,15 +176,15 @@
     <td class="col-10-3 align-top">
       <h3 class="pad-b-1">Funding</h3>
       <h6 class="body-gamma pad-y-0">Total cost</h6>
-      <p class="pad-t-0">GBP {{ export_plan.funding_and_credit.funding_amount_required }}</p>
+      <p class="pad-t-0">GBP {{ export_plan.funding_and_credit.funding_amount_required|floatformat:2|intcomma }}</p>
       <h6 class="body-gamma pad-y-0">Total funding needed</h6>
-      <p class="pad-t-0">GBP {{ total_funding.calculated_total_funding }}</p>
+      <p class="pad-t-0">GBP {{ total_funding.calculated_total_funding|floatformat:2|intcomma }}</p>
 
       <h3 class="pad-b-1">Cost and pricing</h3>
       <h6 class="body-gamma pad-y-0">Direct costs total</h6>
-      <p class="pad-t-0">GBP {{ calculated_pricing.calculated_cost_pricing.total_direct_costs }}</p>
+      <p class="pad-t-0">GBP {{ calculated_pricing.calculated_cost_pricing.total_direct_costs|floatformat:2|intcomma }}</p>
       <h6 class="body-gamma pad-y-0">Overhead costs total</h6>
-      <p class="pad-t-0">GBP {{ calculated_pricing.calculated_cost_pricing.total_overhead_costs }}</p>
+      <p class="pad-t-0">GBP {{ calculated_pricing.calculated_cost_pricing.total_overhead_costs|floatformat:2|intcomma }}</p>
 
       <h3 class="pad-b-1">Getting paid</h3>
       <h6 class="body-gamma pad-y-0">Payment method</h6>
@@ -389,26 +390,26 @@
    <td class="col-10-3 align-top">
       <h3 class="pad-b-1 colour-red-150">Data snapshot</h3>
       <h6 class="body-gamma pad-y-0">Total product import value in {{ insight.import_from_world.last_year }} (USD)</h6>
-      <p class="pad-t-0"><strong>{{ insight.import_from_world.last_value }}</strong></p>
+      <p class="pad-t-0"><strong>${{ insight.import_from_world.last_value|floatformat:0|intcomma }}</strong></p>
 
       <h6 class="body-gamma pad-y-0">Total product import value in {{ insight.import_from_world.year}} (USD)</h6>
-      <p class="pad-t-0"><strong>{{ insight.import_from_world.trade_value_raw}}</strong></p>
+      <p class="pad-t-0"><strong>${{ insight.import_from_world.trade_value_raw|floatformat:0|intcomma }}</strong></p>
 
       <h6 class="body-gamma pad-y-0">Year-to-change product import value change</h6>
-      <p class="pad-t-0"><strong>{{ insight.import_from_world.year_on_year_change}}&percnt;</strong></p>
+      <p class="pad-t-0"><strong>{{ insight.import_from_world.year_on_year_change|floatformat:2 }}&percnt;</strong></p>
 
       <h6 class="body-gamma pad-y-0">GDP per capita (USD)</h6>
-      <p class="pad-t-0"><strong>{{ insight.country_data.GDPPerCapita.0.year_2019 }}</strong></p>
+      <p class="pad-t-0"><strong>${{ insight.country_data.GDPPerCapita.0.year_2019|floatformat:0|intcomma }}</strong></p>
 
       <h6 class="body-gamma pad-y-0">Average Income (USD)</h6>
-      <p class="pad-t-0"><strong>{{ insight.country_data.Income.0.value }}</strong></p>
+      <p class="pad-t-0"><strong>${{ insight.country_data.Income.0.value|floatformat:0|intcomma }}</strong></p>
     {% endwith %}
      {% with market_research=population_age_data|get_item:'target-markets-research' %}
       <h3 class="pad-y-1">Target age group</h3>
       <h6 class="body-gamma pad-y-0">Total population</h6>
-      <p class="pad-t-0"><strong>{{ market_research.population_data.total_population }}</strong></p>
+      <p class="pad-t-0"><strong>{{ market_research.population_data.total_population|intcomma }}</strong></p>
       <h6 class="body-gamma pad-y-0">Total age population</h6>
-      <p class="pad-t-0"><strong>{{ market_research.population_data.total_target_age_population }}</strong></p>
+      <p class="pad-t-0"><strong>{{ market_research.population_data.total_target_age_population|intcomma }}</strong></p>
     </td>
     {% endwith %}
   </tr>
@@ -641,33 +642,36 @@
         <h3 class="pad-b-1 colour-red-150">Data snapshot</h3>
 
         <h6 class="body-gamma pad-y-0">Total population</h6>
-        <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_population }}</strong></p>
+        <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_population|intcomma }}</strong></p>
         <h6 class="body-gamma pad-y-0">Access to internet</h6>
-        <p class="pad-t-0"><strong>{{ insight.country_data.InternetUsage.0.value }}</strong></p>
+        <p class="pad-t-0"><strong>{{ insight.country_data.InternetUsage.0.value|floatformat:0 }}&percnt;</strong></p>
         <h6 class="body-gamma pad-y-0">Consumer price index</h6>
         <p class="pad-t-0"><strong>{{ insight.country_data.ConsumerPriceIndex.0.value }}</strong></p>
         <h6 class="body-gamma pad-y-0">The main languages in your chosen market are</h6>
         <p class="pad-t-0">
           <strong>
           {% for lang in language_data.cia_factbook_data.languages.language %}
-                 {{ lang.name }}
-              {% endfor %}
-          </strong></p>
+            {{ lang.name }},
+          {% endfor %}
+          </strong>
+        </p>
         <h6 class="body-gamma pad-y-0">GDP per capita (USD)</h6>
-        <p class="pad-t-0"><strong>{{ insight.country_data.GDPPerCapita.0.year_2019 }}</strong></p>
+        <p class="pad-t-0"><strong>${{ insight.country_data.GDPPerCapita.0.year_2019|floatformat:0|intcomma }}</strong></p>
 
         <h3 class="pad-y-1">Target age group</h3>
 
         <h6 class="body-gamma pad-y-0">Target age population</h6>
-        <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_target_age_population }}</strong></p>
+        <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_target_age_population|intcomma }}</strong></p>
         <h6 class="body-gamma pad-y-0">Female in target group</h6>
-        <p class="pad-t-0"><strong>{{ marketing_approach.population_data.female_target_age_population }}</strong></p>
+        <p class="pad-t-0"><strong>{{ marketing_approach.population_data.female_target_age_population|intcomma }}</strong></p>
         <h6 class="body-gamma pad-y-0">Male in target group</h6>
-        <p class="pad-t-0"><strong>{{ marketing_approach.population_data.male_target_age_population }}</strong></p>
+        <p class="pad-t-0"><strong>{{ marketing_approach.population_data.male_target_age_population|intcomma }}</strong></p>
         <h6 class="body-gamma pad-y-0">Livng in uban areas</h6>
-        <p class="pad-t-0"><strong> {{ marketing_approach.population_data.urban_percentage }} &percnt;</strong></p>
+        <p class="pad-t-0"><strong> {% widthratio marketing_approach.population_data.urban_percentage 1 100 %}&percnt;</strong></p>
+
+
         <h6 class="body-gamma pad-y-0">Living in rural areas</h6>
-        <p class="pad-t-0"><strong>{{ marketing_approach.population_data.rural_percentage}} &percnt;</strong></p>
+        <p class="pad-t-0"><strong>{% widthratio marketing_approach.population_data.rural_percentage 1 100 %}&percnt;</strong></p>
       </td>
     {% endwith %}
   </tr>
@@ -707,17 +711,17 @@
               <tr class="pad-b-0 border-t-1-blue-deep-20">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Product costs</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.direct_costs.product_costs|default:"NA" }} per unit</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.direct_costs.product_costs|floatformat:2|intcomma|default:"NA" }} per unit</strong></td>
               </tr>
               <tr class="pad-b-0">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Labour per unit</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.direct_costs.labour_costs|default:"NA" }} per unit</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.direct_costs.labour_costs|floatformat:2|intcomma|default:"NA" }} per unit</strong></td>
               </tr>
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Direct costs total</td>
                 <td class="col-10-1 pad-t-05"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 text-align-right"><strong>{{ export_plan.total_direct_costs }} per unit</strong></td>
+                <td class="col-10-3 pad-t-05 text-align-right"><strong>{{ export_plan.total_direct_costs|floatformat:2|intcomma|default:"NA" }} per unit</strong></td>
               </tr>
             </table>
             <!-- ./Nested table -->
@@ -736,42 +740,42 @@
               <tr class="pad-b-0 border-t-1-blue-deep-20">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Product adaptation</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.product_adaption|default:"NA" }}</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.product_adaption|floatformat:2|intcomma|default:"NA" }}</strong></td>
               </tr>
               <tr class="pad-b-0">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Packaging and labelling</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.uproduct_adaption|default:"NA" }}</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.uproduct_adaption|floatformat:2|intcomma|default:"NA" }}</strong></td>
               </tr>
               <tr class="pad-b-0">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Freight and logistics</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.freight_logistics|default:"NA" }}</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.freight_logistics|floatformat:2|intcomma|default:"NA" }}</strong></td>
               </tr>
               <tr class="pad-b-0">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Agent and distributor fees</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.agent_distributor_fees|default:"NA" }}</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.agent_distributor_fees|floatformat:2|intcomma|default:"NA" }}</strong></td>
               </tr>
               <tr class="pad-b-0">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Marketing</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.marketing|default:"NA" }}</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.marketing|floatformat:2|intcomma|default:"NA" }}</strong></td>
               </tr>
               <tr class="pad-b-0">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Insurance</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.insurance|default:"NA" }}</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.insurance|floatformat:2|intcomma|default:"NA" }}</strong></td>
               </tr>
               <tr class="pad-b-0">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Other overhead costs</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.other_overhead_costs|default:"NA" }}</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.overhead_costs.other_overhead_costs|floatformat:2|intcomma|default:"NA" }}</strong></td>
               </tr>
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Direct costs total</td>
                 <td class="col-10-1 pad-t-05"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 text-align-right"><strong>{{ export_plan.total_overhead_costs|default:"NA" }}</strong></td>
+                <td class="col-10-3 pad-t-05 text-align-right"><strong>{{ export_plan.total_overhead_costs|floatformat:2|intcomma|default:"NA" }}</strong></td>
               </tr>
             </table>
             <!-- ./Nested table -->
@@ -787,9 +791,9 @@
             <!-- Nested table -->
             <table class="layout">
               <tr class="pad-b-0 text-align-centre border-y-1-blue-deep-20">
-                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ export_plan.total_cost_and_price.first_period_period_label|default:"NA" }} units</strong></td>
+                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ export_plan.total_cost_and_price.first_period_period_label|intcomma|default:"NA" }} units</strong></td>
                 <td class="col-12-4 pad-t-05">over the next</td>
-                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ export_plan.total_cost_and_price.second_period_period_label|default:"NA" }}</strong></td>
+                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ export_plan.total_cost_and_price.second_period_period_label|intcomma|default:"NA" }}</strong></td>
               </tr>
             </table>
             <!-- ./Nested table -->
@@ -823,35 +827,35 @@
         <tr class="pad-b-1 pad-t-4">
           <td class="col-10-10">
             <h3 class="pad-t-0">Final cost per unit</h3>
-            <h2 class="pad-t-0">GBP {{ export_plan.total_cost_and_price.final_cost_per_unit|default:"NA" }}</h2>
+            <h2 class="pad-t-0">GBP {{ export_plan.total_cost_and_price.final_cost_per_unit|floatformat:2|intcomma|default:"NA" }}</h2>
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Average price per unit in {{ export_plan.export_countries.0.country_name }}</h3>
-            <h2 class="pad-t-0">GBP {{ export_plan.total_cost_and_price.average_price_per_unit|default:"NA" }}</h2>
+            <h2 class="pad-t-0">GBP {{ export_plan.total_cost_and_price.average_price_per_unit|floatformat:2|intcomma|default:"NA" }}</h2>
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Our net price in {{ export_plan.export_countries.0.country_name }}</h3>
-            <h2 class="pad-t-0">GBP {{ export_plan.total_cost_and_price.net_price|default:"NA" }}</h2>
+            <h2 class="pad-t-0">GBP {{ export_plan.total_cost_and_price.net_price|floatformat:2|intcomma|default:"NA" }}</h2>
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Local taxes and charges in {{ export_plan.export_countries.0.country_name }}</h3>
-            <h2 class="pad-t-0">GBP {{ export_plan.total_cost_and_price.local_tax_charges|default:"NA" }}</h2>
+            <h2 class="pad-t-0">GBP {{ export_plan.total_cost_and_price.local_tax_charges|floatformat:2|intcomma|default:"NA" }}</h2>
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Duty per unit</h3>
-            <h2 class="pad-t-0">GBP {{ export_plan.total_cost_and_price.duty_per_unit|default:"NA" }}</h2>
+            <h2 class="pad-t-0">GBP {{ export_plan.total_cost_and_price.duty_per_unit|floatformat:2|intcomma|default:"NA" }}</h2>
           </td>
         </tr>
       </table>
@@ -887,14 +891,14 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Our total cost</h3>
-            <h2 class="pad-t-0">GBP {{ export_plan.funding_and_credit.funding_amount_required|default:"NA" }}</h2>
+            <h2 class="pad-t-0">GBP {{ export_plan.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"NA" }}</h2>
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">How much funding we need in {{ export_plan.export_countries.0.country_name }}</h3>
-            <h2 class="pad-t-0">GBP {{ export_plan.funding_and_credit.funding_amount_required|default:"NA" }}</h2>
+            <h2 class="pad-t-0">GBP {{ export_plan.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"NA" }}</h2>
           </td>
         </tr>
         <tr class="pad-b-1">
@@ -903,18 +907,18 @@
             <table class="layout">
               {% for funding in export_plan.funding_credit_options %}
               <tr class="pad-b-0 border-t-1-blue-deep-20">
-                <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">{{ funding.funding_option_label }}</td>
-                <td class="col-10-4 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ funding.amount|default:"NA" }} GBP per unit</strong></td>
+                <td class="col-10-5 pad-t-05 border-b-1-blue-deep-20">{{ funding.funding_option_label }}</td>
+                <td class="col-10-5 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ funding.amount|floatformat:2|intcomma|default:"NA" }} GBP per unit</strong></td>
               </tr>
               {% endfor %}
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
-                <td class="col-10-6 pad-t-05">Total funding</td>
-                <td class="col-10-4 pad-t-05 text-align-right">
+                <td class="col-10-5 pad-t-05">Total funding</td>
+                <td class="col-10-5 pad-t-05 text-align-right">
                   <strong>
                   {% if not export_plan.funding_and_credit.override_estimated_total_cost %}
-                    {{ export_plan.funding_and_credit.funding_amount_required }} GBP per unit
+                    {{ export_plan.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"NA" }} GBP per unit
                   {% else %}
-                    {{ export_plan.funding_and_credit.funding_amount_required }} GBP per unit
+                    {{ export_plan.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"NA" }} GBP per unit
                   {% endif %}
                   </strong>
                 </td>
@@ -1134,7 +1138,7 @@
             <span class="body-gamma">+18.2&percnt; vs <strong>2018</strong></span>
           </td>
 
-          <td class="col-12-2 align-top">kk
+          <td class="col-12-2 align-top">
             62,794
           </td>
 
