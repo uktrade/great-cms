@@ -262,6 +262,7 @@
 <pdf:nextpage>
 
 <!-- P5 business objectives -->
+{% for objective in export_plan.company_objectives %}
 <table class="layout page-header">
   <tr>
     <td>
@@ -290,7 +291,6 @@
       </table>
       <!-- ./Nested table -->
 
-      {% for objective in export_plan.company_objectives %}
       <!-- Nested table -->
       <table>
         <tr class="pad-b-2">
@@ -326,15 +326,15 @@
           </td>
         </tr>
       </table>
-      {% endfor %}
       <!-- ./Nested table -->
     </td>
     <td class="col-10-3 align-top">
     </td>
   </tr>
 </table>
-
 <pdf:nextpage>
+{% endfor %}
+
 
 <!-- P6 target market researc -->
 <table class="layout page-header">
@@ -584,6 +584,7 @@
 <pdf:nextpage>
 
 <!-- P8 marketing approach -->
+{% for route in export_plan.route_to_markets %}
 <table class="layout page-header">
   <tr>
     <td>
@@ -601,7 +602,6 @@
   </tr>
   <tr>
     <td class="col-10-7 align-top">
-      {% for route in export_plan.route_to_markets %}
       <!-- Nested table -->
       <table>
         <tr class="pad-b-2">
@@ -625,7 +625,6 @@
           </td>
         </tr>
       </table>
-      {% endfor %}
 
       <table>
         <tr class="pad-b-2">
@@ -676,8 +675,8 @@
     {% endwith %}
   </tr>
 </table>
-
 <pdf:nextpage>
+{% endfor %}
 
 <!-- P9a cost and pricing -->
 <table class="layout page-header">
@@ -1021,6 +1020,7 @@
 <pdf:nextpage>
 
 <!-- P12 business risk -->
+{% for risk in export_plan.business_risks %}
 <table class="layout page-header">
   <tr>
     <td>
@@ -1038,7 +1038,6 @@
   </tr>
   <tr>
     <td class="col-10-7 align-top">
-      {% for risk in export_plan.business_risks %}
       <!-- Nested table -->
       <table>
         <tr class="pad-b-2">
@@ -1070,15 +1069,14 @@
           </td>
         </tr>
       </table>
-      {% endfor %}
       <!-- ./Nested table -->
     </td>
     <td class="col-10-3 align-top">
     </td>
   </tr>
 </table>
-
 <pdf:nextpage>
+{% endfor %}
 
 <!-- P13a compared countries data -->
 <table class="layout page-header">
