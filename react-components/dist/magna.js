@@ -74855,7 +74855,6 @@ function Segmentation(props) {
       setIsInProgress = _useState4[1];
 
   var segmentQuestion = {
-    type: 'RadioButtons',
     name: 'segment',
     title: 'Which best describes you?',
     content: "We're asking our newest users one quick question to help us better understand their exporting experience."

@@ -140,13 +140,17 @@ def test_get_company_profile_200(mock_profile_retrieve, patch_get_company_profil
 
 
 @mock.patch.object(sso_api_client.user, 'get_session_user')
-def test_get_user_profile(mock_get_session_user):
+@mock.patch.object(sso_api_client.user, 'create_user_profile')
+def test_get_user_profile(mock_create_user_profile, mock_get_session_user):
+    mock_create_user_profile.return_value = create_response(status_code=201)
     mock_get_session_user.return_value = create_response(status_code=200, json_body=test_response)
     assert helpers.get_user_profile(123) == test_response
 
 
 @mock.patch.object(sso_api_client.user, 'get_session_user')
-def test_get_user_profile_fail(mock_get_session_user):
+@mock.patch.object(sso_api_client.user, 'create_user_profile')
+def test_get_user_profile_fail(mock_create_user_profile, mock_get_session_user):
+    mock_create_user_profile.return_value = create_response(status_code=201)
     mock_get_session_user.return_value = create_response(status_code=400, json_body=test_response)
     with pytest.raises(APIException):
         helpers.get_user_profile(123)

@@ -10,7 +10,6 @@ export default function Segmentation(props) {
   const [isInProgress, setIsInProgress] = useState()
 
   const segmentQuestion = {
-    type: 'RadioButtons',
     name: 'segment',
     title: 'Which best describes you?',
     content: "We're asking our newest users one quick question to help us better understand their exporting experience."

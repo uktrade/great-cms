@@ -55,7 +55,7 @@ def test_object_hash():
 
 
 @pytest.mark.django_db
-def test_detail_page_can_mark_as_read(client, domestic_homepage, user, domestic_site):
+def test_detail_page_can_mark_as_read(client, domestic_homepage, user, domestic_site, mock_get_user_profile):
     # given the user has not read a lesson
     client.force_login(user)
 
@@ -73,7 +73,7 @@ def test_detail_page_can_mark_as_read(client, domestic_homepage, user, domestic_
 
 
 @pytest.mark.django_db
-def test_detail_page_cannot_mark_as_read(client, domestic_homepage, user, domestic_site):
+def test_detail_page_cannot_mark_as_read(client, domestic_homepage, user, domestic_site, mock_get_user_profile):
     # given the user has not read a lesson
     client.force_login(user)
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=False)
@@ -88,7 +88,7 @@ def test_detail_page_cannot_mark_as_read(client, domestic_homepage, user, domest
 
 
 @pytest.mark.django_db
-def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, domestic_site):
+def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, domestic_site, mock_get_user_profile):
     # given the user has not read a lesson
     clp = factories.CuratedListPageFactory(parent=domestic_homepage)
     topic_page = factories.TopicPageFactory(parent=clp)
@@ -108,6 +108,7 @@ def test_curated_list_page_has_link_in_context_back_to_parent(
     mock_export_plan_list,
     patch_get_user_lesson_completed,
     user,
+    mock_get_user_profile,
 ):
 
     list_page = factories.ListPageFactory(
@@ -504,6 +505,7 @@ def test_redirection_for_unauthenticated_user(
     mock_export_plan_list,
     patch_get_user_lesson_completed,
     user,
+    mock_get_user_profile,
 ):
 
     landing_page = factories.LandingPageFactory(parent=domestic_homepage)

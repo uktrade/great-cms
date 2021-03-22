@@ -149,6 +149,7 @@ def visit_signup_page(live_server, browser, domestic_site_browser_tests):
 @pytest.fixture
 def server_user_browser_dashboard(
     mock_get_company_profile,
+    mock_get_user_profile,
     server_user_browser,
     settings,
     domestic_site_browser_tests,
@@ -407,6 +408,7 @@ def mock_get_markets_page_title():
 def mock_dashboard_profile_events_opportunities(
     mock_get_markets_page_title,
     mock_get_company_profile_with_expertise,
+    mock_get_user_profile,
     mock_get_dashboard_events,
     mock_get_dashboard_export_opportunities,
 ):
@@ -430,5 +432,6 @@ def mock_all_dashboard_and_export_plan_requests_and_responses(
     mock_update_export_plan,
     mock_user_location_create,
     mock_get_comtrade_data,
+    mock_get_user_profile,
 ):
     yield
