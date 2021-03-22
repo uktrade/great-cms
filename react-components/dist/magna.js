@@ -71532,6 +71532,10 @@ function Menu(props) {
       modalIsOpen = _useState2[0],
       setIsOpen = _useState2[1];
 
+  var firstMenuItem = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
+  var lastMenuItem = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
+  var menuItem = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
+
   var openModal = function openModal(evt) {
     var position = evt.target.getClientRects()[0] || {
       top: 0,
@@ -71574,14 +71578,28 @@ function Menu(props) {
   var greeting = authenticated ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "h-xs p-t-xxs user-greeting"
   }, "Hi ", userName || 'there') : '';
+
+  var focusMenuItem = function focusMenuItem(e, test, cb) {
+    if (test) {
+      e.preventDefault();
+      cb();
+    }
+  };
+
   var menu = {
     authenticated: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
       className: "menu-items"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      href: "/dashboard/",
+      href: "/",
       className: "link",
-      id: "first_link"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Dashboard"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      ref: firstMenuItem,
+      onKeyDown: function onKeyDown(e) {
+        if (e.keyCode && e.shiftKey) {
+          e.preventDefault();
+          menuItem.current.focus();
+        }
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Home"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       href: "/learn/categories/",
       className: "link"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Learn to export"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
@@ -71596,13 +71614,27 @@ function Menu(props) {
       className: "link"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Make an export plan"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
       className: "tag tag--small"
-    }, "new"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    }, "new"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      href: "/advice",
+      className: "link"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Advice"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      href: "/markets",
+      className: "link"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Markets"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      href: "/services",
+      className: "link"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Services"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      href: "/account",
+      className: "link"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Account"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       type: "button",
       className: "link",
+      ref: lastMenuItem,
       onClick: logout,
-      onBlur: function onBlur() {
-        if (document.getElementById('menu_button')) {
-          document.getElementById('menu_button').focus();
+      onKeyDown: function onKeyDown(e) {
+        if (e.keyCode && !e.shiftKey) {
+          e.preventDefault();
+          menuItem.current.focus();
         }
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Sign out")))),
@@ -71623,12 +71655,13 @@ function Menu(props) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
-    id: "menu_button",
+    ref: menuItem,
     className: modalIsOpen ? 'active' : '',
     onClick: modalIsOpen ? closeModal : openModal,
-    onBlur: function onBlur() {
-      if (document.getElementById('first_link')) {
-        document.getElementById('first_link').focus();
+    onKeyDown: function onKeyDown(e) {
+      if (modalIsOpen && e.keyCode == 9) {
+        e.preventDefault();
+        e.shiftKey ? lastMenuItem.current.focus() : firstMenuItem.current.focus();
       }
     }
   }, "Menu", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {

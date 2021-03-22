@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import Services from '@src/Services'
@@ -20,6 +20,9 @@ export function Menu(props) {
   let modalContent
   const { avatar, authenticated, userName } = props
   const [modalIsOpen, setIsOpen] = useState(false)
+  const firstMenuItem = useRef(null)
+  const lastMenuItem = useRef(null)
+  const menuItem = useRef(null)
 
   const openModal = (evt) => {
     const position = evt.target.getClientRects()[0] || { top: 0, height: 0 }
@@ -70,12 +73,24 @@ export function Menu(props) {
     ''
   )
 
+  const focusMenuItem = (e, test, cb) => {
+    if (test) {
+      e.preventDefault();
+      cb()
+    }
+  }
+
   const menu = {
     authenticated: (
       <ul className="menu-items">
         <li>
-          <a href="/dashboard/" className="link" id="first_link">
-            <span>Dashboard</span>
+          <a href="/" className="link" ref={firstMenuItem} onKeyDown={(e) => {
+            if (e.keyCode && e.shiftKey) {
+              e.preventDefault();
+              menuItem.current.focus();
+            }
+          }}>
+            <span>Home</span>
           </a>
         </li>
         <li>
@@ -97,9 +112,30 @@ export function Menu(props) {
           </a>
         </li>
         <li>
-          <button type="button" className="link" onClick={logout} onBlur={() => {
-            if (document.getElementById('menu_button')) {
-              document.getElementById('menu_button').focus();
+          <a href="/advice" className="link">
+            <span>Advice</span>
+          </a>
+        </li>
+        <li>
+          <a href="/markets" className="link">
+            <span>Markets</span>
+          </a>
+        </li>
+        <li>
+          <a href="/services" className="link">
+            <span>Services</span>
+          </a>
+        </li>
+        <li>
+          <a href="/account" className="link">
+            <span>Account</span>
+          </a>
+        </li>
+        <li>
+          <button type="button" className="link" ref={lastMenuItem} onClick={logout} onKeyDown={(e) => {
+            if (e.keyCode && !e.shiftKey) {
+              e.preventDefault();
+              menuItem.current.focus();
             }
           }}>
             <span>Sign out</span>
@@ -131,12 +167,13 @@ export function Menu(props) {
     <div style={{ lineHeight: 0 }}>
       <button
         type="button"
-        id="menu_button"
+        ref={menuItem}
         className={modalIsOpen ? 'active' : ''}
         onClick={modalIsOpen ? closeModal : openModal}
-        onBlur={() => {
-          if (document.getElementById('first_link')) {
-            document.getElementById('first_link').focus();
+        onKeyDown={(e) => {
+          if (modalIsOpen && e.keyCode == 9) {
+            e.preventDefault();
+            e.shiftKey ? lastMenuItem.current.focus() : firstMenuItem.current.focus();
           }
         }}
       >
