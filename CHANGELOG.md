@@ -11,7 +11,8 @@
 
 ### Enhancements
 
-GP2-1849 - Feature flag magna links in logged out mobile header
+- GP2-1849 - Feature flag magna links in logged out mobile header
+- GP2-1840 - Logged in magna desktop header
 
 =======
 

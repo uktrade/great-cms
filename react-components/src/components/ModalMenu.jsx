@@ -73,13 +73,6 @@ export function Menu(props) {
     ''
   )
 
-  const focusMenuItem = (e, test, cb) => {
-    if (test) {
-      e.preventDefault();
-      cb()
-    }
-  }
-
   const menu = {
     authenticated: (
       <ul className="menu-items">
@@ -119,16 +112,6 @@ export function Menu(props) {
         <li>
           <a href="/markets" className="link">
             <span>Markets</span>
-          </a>
-        </li>
-        <li>
-          <a href="/services" className="link">
-            <span>Services</span>
-          </a>
-        </li>
-        <li>
-          <a href="/account" className="link">
-            <span>Account</span>
           </a>
         </li>
         <li>

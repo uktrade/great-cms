@@ -240,6 +240,11 @@ $mobile: 640px;
             line-height: 25px;
             margin-bottom: 13px;
             text-decoration: none;
+
+            &:hover,
+            &.active {
+                text-decoration: underline;
+            }
         }
 
         button {
@@ -255,6 +260,10 @@ $mobile: 640px;
             letter-spacing: 0;
             text-align: left;
             padding: 5px 14px;
+
+            &:hover {
+                text-decoration: underline;
+            }
 
             &.active {
                 background-color: #006ccc;
@@ -328,7 +337,16 @@ $mobile: 640px;
             line-height: 25px;
             text-align: right;
             text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
         }
+    }
+
+    .container-fluid {
+        max-width: 100%;
+        margin: 0 30px;
     }
 }
 
@@ -367,6 +385,10 @@ $mobile: 640px;
                 font-size: 18px;
                 padding: 13px 0 9px;
                 position: relative;
+
+                &:hover {
+                    text-decoration: underline;
+                }
 
                 strong {
                     position: absolute;
