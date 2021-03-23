@@ -1,6 +1,7 @@
-{% extends 'core/base.html' %}
+{% extends 'domestic/base.html' %}
 
 {% load static %}
+{% load breadcrumbs from component_tags %}
 
 {% block head_css %}
 	{{ block.super }}
@@ -15,13 +16,13 @@
 
 {% static 'images/finance_export_hero_image.jpg' as finance_export_hero_image %}
 
-{% include 'components/hero.html' with image=finance_export_hero_image hero_text='Check our country cover'%}
+{% include 'components/hero.html' with image_url=finance_export_hero_image hero_text='Check our country cover'%}
 
 	<div class="container">
 		{% breadcrumbs 'Check our country cover' %}
 			<a href="/">great.gov.uk</a>
-			<a href="{% url 'get-finance' %}">UKEF</a>
-			<a href="{% url 'project-finance' %}">Project Finance</a>
+			<a href="{% url 'domestic:get-finance' %}">UKEF</a>
+			<a href="{% url 'domestic:project-finance' %}">Project Finance</a>
 		{% endbreadcrumbs %}
 	</div>
 
@@ -49,13 +50,13 @@
 					<div class="panel-vertical-narrow">
 						<ul>
 							<li>
-								<h3 class="heading-small margin-top-0"><a href="{% url 'how-we-assess-your-project' %}" class="link">How we assess your project</a></h3>
+								<h3 class="heading-small margin-top-0"><a href="{% url 'domestic:how-we-assess-your-project' %}" class="link">How we assess your project</a></h3>
 							</li>
 							<li>
-								<h3 class="heading-small"><a href="{% url 'what-we-offer-you' %}" class="link">What we offer you</a></h3>
+								<h3 class="heading-small"><a href="{% url 'domestic:what-we-offer-you' %}" class="link">What we offer you</a></h3>
 							</li>
 							<li>
-								<h3 class="heading-small"><a href="{% url 'uk-export-contact' %}" class="link">Get in touch</a></h3>
+								<h3 class="heading-small"><a href="{% url 'domestic:uk-export-contact' %}" class="link">Get in touch</a></h3>
 							</li>
 						</ul>
 					</div>

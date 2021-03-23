@@ -1,7 +1,6 @@
 {% extends 'domestic/base.html' %}
 
 {% load static %}
-{% load article_tags %}
 {% load breadcrumbs from component_tags %}
 
 {% block head_title %}UK Export Finance - How we assess your project{% endblock %}
@@ -17,8 +16,8 @@
 <div class="container">
 	{% breadcrumbs 'How we assess your project' %}
 		<a href="/">great.gov.uk</a>
-		<a href="{% url 'get-finance' %}">UKEF</a>
-		<a href="{% url 'project-finance' %}">Project Finance</a>
+		<a href="{% url 'domestic:get-finance' %}">UKEF</a>
+		<a href="{% url 'domestic:project-finance' %}">Project Finance</a>
 	{% endbreadcrumbs %}
 </div>
 
@@ -35,7 +34,7 @@
 								<div class="font-medium">
 									<p>
 										We assess the eligibility of all potential transactions before terms are drawn up. We understand that no two transactions are alike, so you should treat this as indicative guidance of UKEF’s processes.
-										Please <a href="{% url 'uk-export-contact' %}" class="link">contact our team</a> to discuss our eligibility requirements in more detail.
+										Please <a href="{% url 'domestic:uk-export-contact' %}" class="link">contact our team</a> to discuss our eligibility requirements in more detail.
 									</p>
 								</div>
 							</div>
@@ -80,10 +79,10 @@
 					<div class="panel-vertical-narrow">
 						<ul>
 							<li>
-								<h3 class="heading-small"><a href="{% url 'what-we-offer-you' %}" class="link">What we offer you</a></h3>
+								<h3 class="heading-small"><a href="{% url 'domestic:what-we-offer-you' %}" class="link">What we offer you</a></h3>
 							</li>
 							<li>
-								<h3 class="heading-small"><a href="{% url 'country-cover' %}" class="link">Check our country cover</a></h3>
+								<h3 class="heading-small"><a href="{% url 'domestic:country-cover' %}" class="link">Check our country cover</a></h3>
 							</li>
 						</ul>
 					</div>
@@ -103,7 +102,7 @@
 								<p class="text small">Contact us about your project.</p>
 							</div>
 							<div class="column-full">
-								<a href="{% url 'uk-export-contact' %}" class="button">Get in touch</a>
+								<a href="{% url 'domestic:uk-export-contact' %}" class="button">Get in touch</a>
 							</div>
 						</div>
 					</div>

@@ -21,8 +21,7 @@
 
     {% breadcrumbs content_snippet.breadcrumbs_label %}
       <a href="/">great.gov.uk</a>
-      {% comment "TODO: REINSTATE ME as {% url 'get-finance' %} when it's ported to Magna" %}{% endcomment %}
-      <a href="/get-finance/">UKEF</a>
+      <a href="{% url 'domestic:get-finance' %}">UKEF</a>
     {% endbreadcrumbs %}
 
     <img src="{% static 'images/UKEF-logo.png' %}" alt="UK Export Finance" class="ukef-logo float-right" width="148">

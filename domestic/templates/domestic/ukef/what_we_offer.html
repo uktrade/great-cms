@@ -1,7 +1,6 @@
 {% extends 'domestic/base.html' %}
 
 {% load static %}
-{% load article_tags %}
 {% load breadcrumbs from component_tags %}
 
 {% block head_title %}UK Export Finance - What we offer you{% endblock %}
@@ -15,8 +14,8 @@
   <div class="container">
     {% breadcrumbs 'What we offer you' %}
       <a href="/">great.gov.uk</a>
-      <a href="{% url 'get-finance' %}">UKEF</a>
-      <a href="{% url 'project-finance' %}">Project Finance</a>
+      <a href="{% url 'domestic:get-finance' %}">UKEF</a>
+      <a href="{% url 'domestic:project-finance' %}">Project Finance</a>
     {% endbreadcrumbs %}
   </div>
   <section id="article-what-we-offer">
@@ -83,10 +82,10 @@
             <div class="panel-vertical-narrow">
               <ul>
                 <li class="heading-small">
-                  <a href="{% url 'how-we-assess-your-project' %}" class="link">How we assess your project</a>
+                  <a href="{% url 'domestic:how-we-assess-your-project' %}" class="link">How we assess your project</a>
                 </li>
                 <li class="heading-small">
-                  <a href="{% url 'country-cover' %}" class="link">Check our country cover</a>
+                  <a href="{% url 'domestic:country-cover' %}" class="link">Check our country cover</a>
                 </li>
                 <li class="heading-small">
                   <a href="https://www.gov.uk/government/collections/uk-export-finance-products-and-services" class="link" rel="noopener noreferrer" target="_blank" title="Opens in a new window">UKEF services and products</a>
@@ -109,7 +108,7 @@
                 <p class="text small">Contact us about your project.</p>
               </div>
               <div class="column-full">
-                <a href="{% url 'uk-export-contact' %}" class="button">Get in touch</a>
+                <a href="{% url 'domestic:uk-export-contact' %}" class="button">Get in touch</a>
               </div>
             </div>
           </div>

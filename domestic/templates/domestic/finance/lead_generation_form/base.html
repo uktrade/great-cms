@@ -42,7 +42,7 @@
                                 <button type="submit" class="button button">{% block submit_button_label %}Continue{% endblock %}</button>
                             </div>
                             {% if wizard.steps.prev %}
-                                <a id="previous-button" class="link" href="{% url 'uk-export-finance-lead-generation-form' step=wizard.steps.prev %}">Back</a>
+                                <a id="previous-button" class="link" href="{% url 'domestic:uk-export-finance-lead-generation-form' step=wizard.steps.prev %}">Back</a>
                             {% endif %}
                         </div>
                     </form>

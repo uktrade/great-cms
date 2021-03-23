@@ -1,4 +1,5 @@
 {% extends 'domestic/base.html' %}
+{% load breadcrumbs from component_tags %}
 
 {% load static %}
 
@@ -15,7 +16,7 @@
 
   {% static 'images/finance/get-finance-hero-xlarge.jpg' as hero_xlarge %}
 
-  {% include 'components/hero.html' with image=hero_xlarge hero_text='Get finance' %}
+  {% include 'components/hero.html' with image_url=hero_xlarge hero_text='Get finance' %}
 
 
 	<div class="container">
@@ -39,13 +40,13 @@
 		<div class="container">
 			<div class="flex-grid margin-top-30">
 				<div class="column-half-l column-full">
-					{% url 'trade-finance' as trade_finance %}
+					{% url 'domestic:trade-finance' as trade_finance %}
 					{% static 'images/offer_section_image.png' as offer_section_image %}
 					{% include 'domestic/ukef/includes/card.html' with id='small-and-medium-businesses' url=trade_finance img_src=offer_section_image title='Trade finance for UK exporters' description='When it comes to exporting, having a great product or service is only half the story: you need to have the right finance and insurance in place. Our trade finance offer includes:' bullets=trade_finance_bullets %}
 				</div>
 
 				<div class="column-half-l column-full">
-					{% url 'project-finance' as project_finance %}
+					{% url 'domestic:project-finance' as project_finance %}
 					{% static 'images/large_corporations.jpg' as large_corporations %}
 					{% include 'domestic/ukef/includes/card.html' with id='large-corporations-card' url=project_finance img_src=large_corporations title='Finance for international projects' description='We support UK exports with attractive financing terms for buyers. Find out more about lending to overseas buyers and the guarantees we offer to financial institutions.' bullets=project_finance_bullets %}
 				</div>

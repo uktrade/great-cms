@@ -1,7 +1,7 @@
 {% extends 'domestic/base.html' %}
 
 {% load static %}
-{% load directory_components %}
+{% load breadcrumbs from component_tags %}
 
 {% block head_css %}
   {{ block.super }}
@@ -16,12 +16,12 @@
 
 {% static 'images/large-corporations-hero.jpg' as project_finance_hero_image %}
 
-{% include 'components/hero.html' with image=project_finance_hero_image hero_text='The UK’s export credit agency' %}
+{% include 'components/hero.html' with image_url=project_finance_hero_image hero_text='The UK’s export credit agency' %}
 
   <div class="container">
     {% breadcrumbs 'Project Finance' %}
       <a href="/">great.gov.uk</a>
-      <a href="{% url 'get-finance' %}">UKEF</a>
+      <a href="{% url 'domestic:get-finance' %}">UKEF</a>
     {% endbreadcrumbs %}
   </div>
 
@@ -39,16 +39,16 @@
             <h2 class="heading heading-medium margin-top-15 margin-bottom-15">More about UKEF</h2>
             <ul>
               <li>
-								<a href="{% url 'country-cover' %}" class="link body-text bold">Check our country cover</a>
+								<a href="{% url 'domestic:country-cover' %}" class="link body-text bold">Check our country cover</a>
               </li>
               <li>
-								<a href="{% url 'what-we-offer-you' %}" class="link body-text bold">What we offer you</a>
+								<a href="{% url 'domestic:what-we-offer-you' %}" class="link body-text bold">What we offer you</a>
               </li>
               <li>
-								<a href="{% url 'how-we-assess-your-project' %}" class="link body-text bold">How we assess your projects</a>
+								<a href="{% url 'domestic:how-we-assess-your-project' %}" class="link body-text bold">How we assess your projects</a>
               </li>
               <li>
-                <a href="{% url 'uk-export-contact' %}" class="link body-text bold">Get in touch</a>
+                <a href="{% url 'domestic:uk-export-contact' %}" class="link body-text bold">Get in touch</a>
               </li>
             </ul>
           </div>
@@ -102,13 +102,13 @@
 					<p class="body-text">
 						If you are unable to obtain support from your bank, or if the cost is
 						too high, you can work with them to
-						<a href="{% url 'what-we-offer-you' %}" class="link">explore financing options</a> with UKEF.
+						<a href="{% url 'domestic:what-we-offer-you' %}" class="link">explore financing options</a> with UKEF.
 					</p>
 					<h2 class="heading-medium">Examining eligibility</h2>
 					<p class="body-text">
 						UKEF support is on a first come first serve basis subject to
 						<a href="https://www.gov.uk/guidance/country-cover-policy-and-indicators#a-to-z-list-of-country-cover-policies-and-indicators" class="link" rel="noopener noreferrer" target="_blank" title="Opens in a new window">country limits</a>,
-						and to meeting <a href="{% url 'how-we-assess-your-project' %}" class="link">eligibility criteria</a>.
+						and to meeting <a href="{% url 'domestic:how-we-assess-your-project' %}" class="link">eligibility criteria</a>.
 						These include minimum risk standards, UK content, anti-bribery and corruption and due
 						diligence around environmental, social and human rights standards.
 					</p>
@@ -137,17 +137,17 @@
           <h2 class="heading heading-large padding-bottom-30 margin-top-0">About us and our services</h2>
         </div>
         <div class="column-third column-full">
-          {% url 'what-we-offer-you' as what_we_offer_you %}
+          {% url 'domestic:what-we-offer-you' as what_we_offer_you %}
           {% include 'components/card.html' with title='What we offer you' description='We can offer lending, guarantees, and insurance to help make international projects happen.' url=what_we_offer_you %}
         </div>
 
         <div class="column-third column-full">
-          {% url 'how-we-assess-your-project' as how_we_assess_your_project %}
+          {% url 'domestic:how-we-assess-your-project' as how_we_assess_your_project %}
           {% include 'components/card.html' with title='How we assess your project' description='How we assess the eligibility of all potential transactions, including our UK content requirements.' url=how_we_assess_your_project %}
         </div>
 
         <div class="column-third column-full">
-          {% url 'country-cover' as country_cover %}
+          {% url 'domestic:country-cover' as country_cover %}
           {% include 'components/card.html' with  title='Check our country cover' description='Our market risk appetite and information on the countries we cover.' url=country_cover %}
         </div>
       </div>
@@ -162,7 +162,7 @@
 					<h2 class="heading-large">Speak to us</h2>
 					<p class="font-small margin-bottom-45">Our teams are located in UK embassies, high commissions and consulates in cities around the world.</p>
 					<div>
-						<a href="{% url 'uk-export-contact' %}" class="button button-arrow-small">Get in touch</a>
+						<a href="{% url 'domestic:uk-export-contact' %}" class="button button-arrow-small">Get in touch</a>
 					</div>
 				</div>
 			</div>

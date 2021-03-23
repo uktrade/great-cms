@@ -26,8 +26,8 @@
   <div class="container">
       {% breadcrumbs 'Get in touch' %}
           <a href="/">great.gov.uk</a>
-          <a href="{% url 'get-finance' %}">UKEF</a>
-          <a href="{% url 'project-finance' %}">Project Finance</a>
+          <a href="{% url 'domestic:get-finance' %}">UKEF</a>
+          <a href="{% url 'domestic:project-finance' %}">Project Finance</a>
       {% endbreadcrumbs %}
   </div>
 
@@ -46,7 +46,7 @@
         <div class="column-quarter">
           <div class="panel-vertical-narrow">
             <h2 class="heading heading-medium margin-top-0 margin-bottom-15">Looking for trade finance?</h2>
-            <a href="{% url 'trade-finance' %}" class="link">Trade finance for UK exporters</a>
+            <a href="{% url 'domestic:trade-finance' %}" class="link">Trade finance for UK exporters</a>
             <p>How we help UK exporters access working capital and bond support, as well as credit insurance.</p>
           </div>
         </div>
