@@ -53,6 +53,7 @@ def test_user_specific_redirect_middleware(
     user,
     mock_export_plan_list,
     patch_get_user_lesson_completed,
+    mock_get_user_profile,
 ):
     learn_page = factories.LandingPageFactory(parent=domestic_site.root_page, slug='learn')
     introduction_page = factories.ListPageFactory(
@@ -83,6 +84,7 @@ def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set
     mock_get_company_profile,
     mock_export_plan_list,
     patch_get_user_lesson_completed,
+    mock_get_user_profile,
 ):
     exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
     exportplan_dashboard_page = ExportPlanPseudoDashboardPageFactory(parent=exportplan_page, slug='dashboard')
@@ -102,7 +104,9 @@ def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set
 
 
 @pytest.mark.django_db
-def test_user_product_expertise_middleware(domestic_site, client, mock_update_company_profile, user):
+def test_user_product_expertise_middleware(
+    domestic_site, client, mock_update_company_profile, user, mock_get_user_profile
+):
     client.force_login(user)
 
     list_page = factories.ListPageFactory(parent=domestic_site.root_page)
@@ -122,7 +126,12 @@ def test_user_product_expertise_middleware(domestic_site, client, mock_update_co
 
 @pytest.mark.django_db
 def test_user_product_expertise_middleware_no_company(
-    domestic_site, client, mock_update_company_profile, user, mock_get_company_profile
+    domestic_site,
+    client,
+    mock_update_company_profile,
+    user,
+    mock_get_company_profile,
+    mock_get_user_profile,
 ):
     mock_get_company_profile.return_value = None
     client.force_login(user)
@@ -156,7 +165,9 @@ def test_user_product_expertise_middleware_not_logged_in(domestic_site, client, 
 
 
 @pytest.mark.django_db
-def test_user_product_expertise_middleware_not_store(domestic_site, client, mock_update_company_profile, user):
+def test_user_product_expertise_middleware_not_store(
+    domestic_site, client, mock_update_company_profile, user, mock_get_user_profile
+):
     client.force_login(user)
 
     list_page = factories.ListPageFactory(parent=domestic_site.root_page)
@@ -169,7 +180,11 @@ def test_user_product_expertise_middleware_not_store(domestic_site, client, mock
 
 @pytest.mark.django_db
 def test_user_product_expertise_middleware_not_store_idempotent(
-    domestic_site, client, mock_update_company_profile, user
+    domestic_site,
+    client,
+    mock_update_company_profile,
+    user,
+    mock_get_user_profile,
 ):
     client.force_login(user)
 

@@ -110,6 +110,10 @@ def create_user(email, password):
 
 
 def get_user_profile(sso_session_id):
+    # Create an empty profile if there is none, otherwise NOP
+    new_profile_response = sso_api_client.user.create_user_profile(sso_session_id, {})
+    new_profile_response.raise_for_status()
+
     response = sso_api_client.user.get_session_user(sso_session_id)
     if response.status_code == 400:
         raise APIException(detail=response.json(), code=response.status_code)
