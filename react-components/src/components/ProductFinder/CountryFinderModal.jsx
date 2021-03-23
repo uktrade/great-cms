@@ -8,7 +8,15 @@ import { analytics } from '../../Helpers'
 
 export default function CountryFinderModal(props) {
   let scrollOuter
-  const { modalIsOpen, setIsOpen, commodityCode, selectCountry, isCompareCountries } = props
+  const {
+    modalIsOpen,
+    setIsOpen,
+    commodityCode,
+    selectCountry,
+    isCompareCountries,
+    market,
+    onCloseRedirect,
+  } = props
   const [countryList, setCountryList] = useState()
   const [suggestedCountries, setSuggestedCountries] = useState([])
   const [isScrolled, setIsScrolled] = useState(false)
@@ -31,6 +39,9 @@ export default function CountryFinderModal(props) {
     setExpandRegion(false)
     setIsOpen(false)
     setMobilePage('initial')
+    if (onCloseRedirect && !market.country_name) {
+      window.location.href = onCloseRedirect
+    }
   }
 
   const setScrollShadow = () => {
@@ -98,9 +109,9 @@ export default function CountryFinderModal(props) {
     }
     if (!isCompareCountries) {
       analytics({
-        'event': 'addMarketSuccess',
-        'suggestMarket': country.suggested ? country.country_name : '',
-        'listMarket': country.suggested ? '' : country.country_name
+        event: 'addMarketSuccess',
+        suggestMarket: country.suggested ? country.country_name : '',
+        listMarket: country.suggested ? '' : country.country_name,
       })
     }
     selectCountry(country)
@@ -172,9 +183,7 @@ export default function CountryFinderModal(props) {
           data-suggested
         >
           {country.country_name}
-          <i
-            className="fa fa-plus"
-          />
+          <i className="fa fa-plus" />
         </button>
       )
     })
@@ -197,12 +206,10 @@ export default function CountryFinderModal(props) {
       <div className="grid">
         <div className="c-full">
           <p className="m-v-xs">
-            Compare data for different places to make an informed choice about where to export.
+            Compare data for different places to make an informed choice about
+            where to export.
           </p>
-          <a
-            href="/where-to-export/"
-            className="button button--secondary"
-          >
+          <a href="/where-to-export/" className="button button--secondary">
             Compare places
           </a>
         </div>
@@ -221,7 +228,11 @@ export default function CountryFinderModal(props) {
       </p>
       <div className="grid">
         <div className="c-1-3 m-b-xxs">
-          <SearchInput onChange={searchChange} iconClass="fa-search" placeholder="Search places"/>
+          <SearchInput
+            onChange={searchChange}
+            iconClass="fa-search"
+            placeholder="Search places"
+          />
         </div>
       </div>
       <div className="grid">
@@ -250,15 +261,13 @@ export default function CountryFinderModal(props) {
           <h2 className="h-l m-t-s p-b-xs">
             {!isCompareCountries
               ? 'Choose a place'
-              : 'Choose a place to compare'
-            }
+              : 'Choose a place to compare'}
           </h2>
         </div>
         <p>
           {!isCompareCountries
             ? 'There are 3 ways to choose a target export market'
-            : 'There are 2 ways to choose a place to compare'
-          }
+            : 'There are 2 ways to choose a place to compare'}
         </p>
         <button
           type="button"
@@ -323,9 +332,7 @@ export default function CountryFinderModal(props) {
               {/* Desktop rendering with all sections available */}
               <div className="only-desktop">
                 <div>
-                  <h2 className="h-l m-t-s p-b-xs">
-                    Choose a place
-                  </h2>
+                  <h2 className="h-l m-t-s p-b-xs">Choose a place</h2>
                 </div>
                 {suggestedSection}
                 <hr className="hr bg-red-deep-100" />
@@ -365,9 +372,17 @@ CountryFinderModal.propTypes = {
   commodityCode: PropTypes.string,
   selectCountry: PropTypes.func.isRequired,
   isCompareCountries: PropTypes.bool,
+  onCloseRedirect: PropTypes.string,
+  market: PropTypes.shape({
+    country_name: PropTypes.string,
+    country_iso2_code: PropTypes.string,
+    region: PropTypes.string,
+  }),
 }
 CountryFinderModal.defaultProps = {
   modalIsOpen: false,
   commodityCode: '',
   isCompareCountries: false,
+  onCloseRedirect: '',
+  market: {},
 }

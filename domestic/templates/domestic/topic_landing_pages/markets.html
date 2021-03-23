@@ -147,13 +147,11 @@
         </form>
 
     </div>
-    {% if not request.user.is_authenticated %}
       <div class="container">
         <div class="margin-top-30">
-          {% include 'components/learning_banner.html' with tag_text="New" heading="Kick start your exporting journey today" sub_heading="Learn how to export, find the right market and develop an export plan." cta_text="Get Started" cta_url="/where-to-export/" cta_alt_text="Get Started" %}
+          {% include 'components/learning_banner.html' with tag_text="New" heading="Kick start your exporting journey today" sub_heading="Learn how to export, find the right market and develop an export plan." cta_text="Get Started" cta_url="/dashboard/" cta_alt_text="Get Started" %}
         </div>
       </div>
-    {% endif %}
 
 </section>
 {% endblock %}
