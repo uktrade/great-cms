@@ -2,8 +2,8 @@ import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
-export const ConfirmModal = memo(({ isOpen, action, valid }) => {
-  const [modal, setModal] = useState(isOpen)
+export const ConfirmModal = memo(({ action, hasData }) => {
+  const [modal, setModal] = useState(false)
 
   return (
     <>
@@ -11,7 +11,7 @@ export const ConfirmModal = memo(({ isOpen, action, valid }) => {
         type="button"
         className="button--only-icon button button--small button--delete bg-white m-v-xs"
         onClick={() => {
-          if (valid) {
+          if (hasData) {
             setModal(true)
           } else {
             action()
@@ -61,6 +61,6 @@ export const ConfirmModal = memo(({ isOpen, action, valid }) => {
 })
 
 ConfirmModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
+  hasData: PropTypes.bool.isRequired,
   action: PropTypes.func.isRequired,
 }

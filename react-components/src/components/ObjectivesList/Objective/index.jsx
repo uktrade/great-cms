@@ -84,9 +84,8 @@ export const Objective = memo(
           <div className="text-center">
             <hr className="hr hr--light" />
             <ConfirmModal
-              isOpen={false}
               action={onDelete}
-              valid={Object.values(rest).some((x) => x !== '')}
+              hasData={Object.values(rest).some((x) => x !== '')}
             />
           </div>
         </div>
