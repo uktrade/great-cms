@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.conf.urls import url
-from django.urls import reverse_lazy
 from django.views.generic.base import RedirectView
 
+from core.cms_slugs import PRIVACY_POLICY_URL, TERMS_URL
 from core.views import (
     OpportunitiesRedirectView,
     QuerystringRedirectView,
@@ -30,12 +30,16 @@ redirects = [
     ),
     url(
         r'^eu-exit-news/contact/$',
-        QuerystringRedirectView.as_view(pattern_name='brexit-contact-form'),
+        QuerystringRedirectView.as_view(
+            url='/transition-period/contact/'
+        ),  # TODO: update to named url when we have migrated it
         name='eu-exit-brexit-contact-redirect',
     ),
     url(
         r'^eu-exit-news/contact/success/$',
-        QuerystringRedirectView.as_view(pattern_name='brexit-contact-form-success'),
+        QuerystringRedirectView.as_view(
+            url='/transition-period/contact/success/'
+        ),  # TODO: update to named url when we have migrated it
         name='eu-exit-brexit-contact-success-redirect',
     ),
     url(
@@ -52,7 +56,7 @@ redirects = [
     ),
     url(
         r'^story/online-marketplaces-propel-freestyle-xtreme-sales/$',
-        QuerystringRedirectView.as_view(pattern_name='landing-page'),
+        QuerystringRedirectView.as_view(url='/'),
         name='casestudy-online-marketplaces',
     ),
     url(
@@ -70,7 +74,7 @@ redirects = [
         r'^TRSkorea/$',
         QuerystringRedirectView.as_view(url='https://eu.eventscloud.com/korea-uk-tech-rocketship-awards-kr'),
     ),
-    url(r'^ukti/$(?i)', QuerystringRedirectView.as_view(pattern_name='landing-page')),
+    url(r'^ukti/$(?i)', QuerystringRedirectView.as_view(url='/')),
     url(
         r'^future/$',
         QuerystringRedirectView.as_view(
@@ -135,7 +139,8 @@ redirects = [
     ),
     url(
         r'^exporting-edge/$',
-        RedirectView.as_view(pattern_name='get-finance'),
+        RedirectView.as_view(url='/get-finance/'),
+        # TODO: move back to pattern_name='get-finance' when it's migrated
     ),
     url(
         r'^invest/$',
@@ -221,7 +226,7 @@ redirects = [
     ),
     url(
         r'^export/$',
-        QuerystringRedirectView.as_view(pattern_name='landing-page'),
+        QuerystringRedirectView.as_view(url='/'),
     ),
     url(
         r'^export/new/$',
@@ -273,15 +278,15 @@ redirects = [
     ),
     url(
         r'^uk/privacy-policy/$',
-        QuerystringRedirectView.as_view(pattern_name='privacy-and-cookies'),
+        QuerystringRedirectView.as_view(url=PRIVACY_POLICY_URL),
     ),
     url(
         r'^uk/terms-and-conditions/$',
-        QuerystringRedirectView.as_view(pattern_name='terms-and-conditions'),
+        QuerystringRedirectView.as_view(url=TERMS_URL),
     ),
     url(
         r'^uk/$',
-        TranslationRedirectView.as_view(pattern_name='landing-page'),
+        TranslationRedirectView.as_view(url='/'),
     ),
     url(
         r'^int/$',
@@ -336,7 +341,7 @@ redirects = [
     ),
 ]
 
-if settings.FEATURE_FLAGS['INTERNATIONAL_CONTACT_TRIAGE_ON']:
+if settings.FEATURE_FLAG_INTERNATIONAL_CONTACT_TRIAGE_ENABLED:
     redirects += [
         url(
             r'^contact/triage/international/$',
@@ -394,7 +399,7 @@ tos_redirects = [
     url(
         r'^int/{path}/terms-and-conditions/$'.format(path=language),
         QuerystringRedirectView.as_view(
-            pattern_name='terms-and-conditions',
+            url=TERMS_URL,
         ),
     )
     for language in TOS_AND_PRIVACY_REDIRECT_LANGUAGES
@@ -404,62 +409,76 @@ privacy_redirects = [
     url(
         r'^int/{path}/privacy-policy/$'.format(path=language),
         QuerystringRedirectView.as_view(
-            pattern_name='privacy-and-cookies',
+            url=PRIVACY_POLICY_URL,
         ),
     )
     for language in TOS_AND_PRIVACY_REDIRECT_LANGUAGES
 ]
 
+# TODO: once the contact app has been migrated from v1 into v2, we can
+# swap the following hard-coded URLs back to reverse_lazy
 
+# /contact/feedback/ -> reverse_lazy('contact-us-feedback')
+# /contact/triage/great-account/ -> reverse_lazy('contact-us-routing-form', kwargs={'step': 'great-account'})
+# /contact/triage/domestic/ -> reverse_lazy('contact-us-routing-form', kwargs={'step': 'domestic'})
+# /contact/triage/location/ -> reverse_lazy('contact-us-routing-form', kwargs={'step': 'location'})
 contact_redirects = [
     url(
         r'^legacy/contact/(?P<service>[-\w\d]+)/FeedbackForm/$',
-        QuerystringRedirectView.as_view(url=reverse_lazy('contact-us-feedback')),
+        QuerystringRedirectView.as_view(url='/contact/feedback/'),
     ),
     url(
         r'^legacy/contact/feedback/(?P<service>[-\w\d]+)/$',
-        QuerystringRedirectView.as_view(url=reverse_lazy('contact-us-feedback')),
+        QuerystringRedirectView.as_view(url='/contact/feedback/'),
     ),
     url(
         r'^legacy/contact/feedback/$',
-        QuerystringRedirectView.as_view(url=reverse_lazy('contact-us-feedback')),
+        QuerystringRedirectView.as_view(url='/contact/feedback/'),
     ),
     url(
         r'^legacy/contact/(?P<service>[-\w\d]+)/feedback/$',
-        QuerystringRedirectView.as_view(url=reverse_lazy('contact-us-feedback')),
+        QuerystringRedirectView.as_view(url='/contact/feedback/'),
     ),
     url(
         r'^legacy/contact/single_sign_on/$',
-        QuerystringRedirectView.as_view(url=reverse_lazy('contact-us-routing-form', kwargs={'step': 'great-account'})),
+        QuerystringRedirectView.as_view(url='/contact/triage/great-account/'),
     ),
     url(
         r'^legacy/contact/selling_online_overseas/$',
-        QuerystringRedirectView.as_view(url=reverse_lazy('contact-us-routing-form', kwargs={'step': 'domestic'})),
+        QuerystringRedirectView.as_view(url='/contact/triage/domestic/'),
     ),
     url(
         r'^legacy/contact/export_ops/$',
-        QuerystringRedirectView.as_view(url=reverse_lazy('contact-us-routing-form', kwargs={'step': 'domestic'})),
+        QuerystringRedirectView.as_view(url='/contact/triage/domestic/'),
     ),
     url(
         r'^legacy/contact/export_opportunities/$',
-        QuerystringRedirectView.as_view(url=reverse_lazy('contact-us-routing-form', kwargs={'step': 'domestic'})),
+        QuerystringRedirectView.as_view(url='/contact/triage/domestic/'),
     ),
     url(
         r'^legacy/contact/cookies/$',
-        QuerystringRedirectView.as_view(pattern_name='privacy-and-cookies'),
+        QuerystringRedirectView.as_view(url=PRIVACY_POLICY_URL),
     ),
     url(
         r'^legacy/contact/terms-and-conditions/$',
-        QuerystringRedirectView.as_view(pattern_name='terms-and-conditions'),
+        QuerystringRedirectView.as_view(url=TERMS_URL),
     ),
     # catch everything not covered above but not interfere with trailing slash
     # redirects
     url(
         r'^legacy/contact/(.*/)?$',
-        QuerystringRedirectView.as_view(url=reverse_lazy('contact-us-routing-form', kwargs={'step': 'location'})),
+        QuerystringRedirectView.as_view(url='/contact/triage/location/'),
     ),
-    url(r'^brexit/contact/$', QuerystringRedirectView.as_view(url=reverse_lazy('brexit-contact-form'))),
-    url(r'^brexit/contact/success/$', QuerystringRedirectView.as_view(url=reverse_lazy('brexit-contact-form-success'))),
+    url(
+        r'^brexit/contact/$',
+        QuerystringRedirectView.as_view(url='/transition-period/contact/'),
+        # TODO: move back to reverse_lazy('brexit-contact-form') when migrated
+    ),
+    url(
+        r'^brexit/contact/success/$',
+        QuerystringRedirectView.as_view(url='/transition-period/contact/success/'),
+        # TODO: move back to reverse_lazy('brexit-contact-form-success') when migrated
+    ),
 ]
 
 articles_redirects = [

@@ -1,6 +1,7 @@
 import http
 
 import pytest
+from django.test import override_settings
 from django.urls import reverse
 
 from config.url_redirects import (
@@ -8,7 +9,10 @@ from config.url_redirects import (
     INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING,
     TOS_AND_PRIVACY_REDIRECT_LANGUAGES,
 )
+from core.cms_slugs import PRIVACY_POLICY_URL, TERMS_URL
 from core.tests.helpers import reload_urlconf, reload_urlconf_redirects
+
+pytestmark = pytest.mark.django_db
 
 UTM_QUERY_PARAMS = '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
 
@@ -30,7 +34,13 @@ def get_redirect_mapping_param_values(redirect_mapping, url_patterns):
 # trailing slash
 language_redirects = get_redirect_mapping_param_values(
     redirect_mapping=INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING,
-    url_patterns=('/int/{path}/', '/int/{path}', '/{path}/', '/{path}'),
+    url_patterns=(
+        '/int/{path}/',
+        '/int/{path}',
+        # SJ: I'm _assuming_ the /int prefix above is legacy from some previous path convention...
+        '/{path}/',
+        '/{path}',
+    ),
 )
 country_redirects = get_redirect_mapping_param_values(
     redirect_mapping=INTERNATIONAL_COUNTRY_REDIRECTS_MAPPING, url_patterns=('/{path}/', '/{path}')
@@ -38,7 +48,6 @@ country_redirects = get_redirect_mapping_param_values(
 INTERNATIONAL_REDIRECTS_PARAMS = ('url,expected_language', language_redirects + country_redirects)
 
 
-@pytest.mark.skip(reason='No way to test this at the moment')
 @pytest.mark.parametrize(*INTERNATIONAL_REDIRECTS_PARAMS)
 def test_international_redirects_no_query_params(url, expected_language, client):
 
@@ -51,7 +60,6 @@ def test_international_redirects_no_query_params(url, expected_language, client)
     assert response.url == '/international/?lang={expected_language}'.format(expected_language=expected_language)
 
 
-@pytest.mark.skip(reason='No way to test this at the moment')
 @pytest.mark.parametrize(*INTERNATIONAL_REDIRECTS_PARAMS)
 def test_international_redirects_query_params(url, expected_language, client):
 
@@ -70,22 +78,20 @@ def test_international_redirects_query_params(url, expected_language, client):
     )
 
 
-@pytest.mark.skip(reason='No way to test this at the moment')
 @pytest.mark.parametrize('path', TOS_AND_PRIVACY_REDIRECT_LANGUAGES)
 def test_tos_international_redirect(path, client):
     response = client.get('/int/{path}/terms-and-conditions/'.format(path=path))
 
     assert response.status_code == http.client.FOUND
-    # assert response.url == reverse('terms-and-conditions')
+    assert response.url == TERMS_URL
 
 
-@pytest.mark.skip
 @pytest.mark.parametrize('path', TOS_AND_PRIVACY_REDIRECT_LANGUAGES)
 def test_privacy_international_redirect(path, client):
     response = client.get('/int/{path}/privacy-policy/'.format(path=path))
 
     assert response.status_code == http.client.FOUND
-    assert response.url == reverse('privacy-and-cookies')
+    assert response.url == '/privacy-and-cookies/'
 
 
 # the first element needs to end with a slash
@@ -94,12 +100,8 @@ redirects = [
     ('/jpm/', 'https://www.events.great.gov.uk/ehome/200197163/'),
     ('/brexit/', '/transition/'),
     ('/transition/', '/international/content/invest/how-to-setup-in-the-uk/transition-period/'),
-    # (
-    #    '/eu-exit-news/contact/', reverse('brexit-contact-form')
-    # ),
-    # (
-    #    '/eu-exit-news/contact/success/', reverse('brexit-contact-form-success')
-    # ),
+    ('/eu-exit-news/contact/', '/transition-period/contact/'),
+    ('/eu-exit-news/contact/success/', '/transition-period/contact/success/'),
     ('/redarrows/', 'https://www.events.great.gov.uk/red-arrows-north-america-tour/'),
     (
         '/new-zealand-event-calendar/',
@@ -143,7 +145,7 @@ redirects = [
     ('/int/ar/invest/', '/international/invest'),
     ('/study/', 'https://study-uk.britishcouncil.org'),
     ('/visit/', 'https://www.visitbritain.com/gb/en'),
-    ('/export/', 'landing-page'),
+    ('/export/', '/'),
     ('/export/new/', '/advice/'),
     ('/export/occasional/', '/advice/'),
     ('/export/regular/', '/advice/'),
@@ -211,10 +213,10 @@ redirects = [
     ),
     ('/export/find-a-buyer/', '/find-a-buyer/'),
     ('/export/selling-online-overseas/', '/selling-online-overseas/'),
-    # ('/uk/privacy-policy/', 'privacy-and-cookies'),
-    # ('/uk/terms-and-conditions/', 'terms-and-conditions'),
+    ('/uk/privacy-policy/', '/privacy-and-cookies/'),
+    ('/uk/terms-and-conditions/', '/terms-and-conditions/'),
     ('/int/', '/international/'),
-    ('/uk/', 'landing-page'),
+    ('/uk/', '/'),
     ('/in/', '/international/'),
     ('/us/', '/international/'),
     ('/innovation/', ('https://www.events.trade.gov.uk/' 'the-great-festival-of-innovation-hong-kong-2018/')),
@@ -227,140 +229,170 @@ redirects = [
             '?utm_source=print&utm_campaign=korean_winter_olympics_invest'
         ),
     ),
-    # (
-    #    '/legacy/contact/',
-    #    reverse('contact-us-routing-form', kwargs={'step': 'location'})
-    # ),
-    # (
-    #    '/legacy/contact/contact/',
-    #    reverse('contact-us-routing-form', kwargs={'step': 'location'})
-    # ),
-    # (
-    #    '/legacy/contact/directory/',
-    #    reverse('contact-us-routing-form', kwargs={'step': 'location'})
-    # ),
-    # (
-    #    '/legacy/contact/directory/FeedbackForm/',
-    #    reverse('contact-us-feedback')
-    # ),
-    # (
-    #    '/legacy/contact/eig/',
-    #    reverse('contact-us-routing-form', kwargs={'step': 'location'})
-    # ),
-    # (
-    #    '/legacy/contact/export-opportunities/FeedbackForm/',
-    #    reverse('contact-us-feedback')
-    # ),
-    # (
-    #    '/legacy/contact/export_opportunities/',
-    #    reverse('contact-us-routing-form', kwargs={'step': 'domestic'})
-    # ),
-    # (
-    #    '/legacy/contact/export_opportunities/FeedbackForm/',
-    #    reverse('contact-us-feedback')
-    # ),
-    # (
-    #    '/legacy/contact/export_ops/',
-    #    reverse('contact-us-routing-form', kwargs={'step': 'domestic'})
-    # ),
-    # (
-    #    '/legacy/contact/export_readiness/FeedbackForm/',
-    #    reverse('contact-us-feedback')
-    # ),
-    # ('/legacy/contact/feedback/', reverse('contact-us-feedback')),
-    # ('/legacy/contact/feedback/datahub/', reverse('contact-us-feedback')),
-    # ('/legacy/contact/feedback/directory/', reverse('contact-us-feedback')),
-    # ('/legacy/contact/feedback/e_navigator/', reverse('contact-us-feedback')),
-    # ('/legacy/contact/feedback/eig/', reverse('contact-us-feedback')),
-    # ('/legacy/contact/feedback/export_ops/', reverse('contact-us-feedback')),
-    # (
-    #    '/legacy/contact/feedback/exportingisgreat/',
-    #    reverse('contact-us-feedback')
-    # ),
-    # (
-    #    '/legacy/contact/feedback/exportopportunities/',
-    #    reverse('contact-us-feedback')
-    # ),
-    # ('/legacy/contact/feedback/invest/', reverse('contact-us-feedback')),
-    # (
-    #    '/legacy/contact/feedback/opportunities/',
-    #    reverse('contact-us-feedback')
-    # ),
-    # (
-    #    '/legacy/contact/feedback/selling-online-overseas/',
-    #    reverse('contact-us-feedback')
-    # ),
-    # (
-    #    '/legacy/contact/feedback/selling_online_overseas/',
-    #    reverse('contact-us-feedback')
-    # ),
-    # (
-    #    '/legacy/contact/feedback/single_sign_on/',
-    #    reverse('contact-us-feedback')
-    # ),
-    # ('/legacy/contact/feedback/soo/', reverse('contact-us-feedback')),
-    # ('/legacy/contact/feedback/sso/', reverse('contact-us-feedback')),
-    # ('/legacy/contact/invest/FeedbackForm/', reverse('contact-us-feedback')),
-    # (
-    #    '/legacy/contact/opportunities/FeedbackForm/',
-    #    reverse('contact-us-feedback')
-    # ),
-    # (
-    #    '/legacy/contact/selling_online_overseas/',
-    #    reverse('contact-us-routing-form', kwargs={'step': 'domestic'})
-    # ),
-    # (
-    #    '/legacy/contact/selling_online_overseas/FeedbackForm/',
-    #    reverse('contact-us-feedback')
-    # ),
-    # (
-    #    '/legacy/contact/single_sign_on/',
-    #    reverse('contact-us-routing-form', kwargs={'step': 'great-account'})
-    # ),
-    # (
-    #    '/legacy/contact/single_sign_on/FeedbackForm/',
-    #    reverse('contact-us-feedback')
-    # ),
-    # (
-    #    '/legacy/contact/soo/feedback/',
-    #    reverse('contact-us-feedback')
-    # ),
-    # (
-    #    '/legacy/contact/soo/FeedbackForm/',
-    #    reverse('contact-us-feedback')
-    # ),
-    # (
-    #    '/legacy/contact/soo/Triage/',
-    #    reverse('contact-us-routing-form', kwargs={'step': 'location'}),
-    # ),
-    # (
-    #    '/legacy/contact/soo/TriageForm/',
-    #    reverse('contact-us-routing-form', kwargs={'step': 'location'}),
-    # ),
-    # (
-    #    '/legacy/contact/triage/',
-    #    reverse('contact-us-routing-form', kwargs={'step': 'location'}),
-    # ),
-    # (
-    #    '/legacy/contact/triage/directory/',
-    #    reverse('contact-us-routing-form', kwargs={'step': 'location'}),
-    # ),
-    # (
-    #    '/legacy/contact/triage/soo/',
-    #    reverse('contact-us-routing-form', kwargs={'step': 'location'}),
-    # ),
-    # (
-    #    '/legacy/contact/triage/sso/',
-    #    reverse('contact-us-routing-form', kwargs={'step': 'location'}),
-    # ),
-    # (
-    #    '/legacy/contact/cookies/',
-    #    reverse('privacy-and-cookies')
-    # ),
-    # (
-    #    '/legacy/contact/terms-and-conditions/',
-    #    reverse('terms-and-conditions')
-    # ),
+    (
+        '/legacy/contact/',
+        '/contact/triage/location/',
+    ),
+    (
+        '/legacy/contact/contact/',
+        '/contact/triage/location/',
+    ),
+    (
+        '/legacy/contact/directory/',
+        '/contact/triage/location/',
+    ),
+    (
+        '/legacy/contact/directory/FeedbackForm/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/eig/',
+        '/contact/triage/location/',
+    ),
+    (
+        '/legacy/contact/export-opportunities/FeedbackForm/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/export_opportunities/',
+        '/contact/triage/domestic/',
+    ),
+    (
+        '/legacy/contact/export_opportunities/FeedbackForm/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/export_ops/',
+        '/contact/triage/domestic/',
+    ),
+    (
+        '/legacy/contact/export_readiness/FeedbackForm/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/feedback/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/feedback/datahub/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/feedback/directory/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/feedback/e_navigator/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/feedback/eig/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/feedback/export_ops/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/feedback/exportingisgreat/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/feedback/exportopportunities/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/feedback/invest/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/feedback/opportunities/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/feedback/selling-online-overseas/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/feedback/selling_online_overseas/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/feedback/single_sign_on/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/feedback/soo/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/feedback/sso/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/invest/FeedbackForm/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/opportunities/FeedbackForm/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/selling_online_overseas/',
+        '/contact/triage/domestic/',
+    ),
+    (
+        '/legacy/contact/selling_online_overseas/FeedbackForm/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/single_sign_on/',
+        '/contact/triage/great-account/',
+    ),
+    (
+        '/legacy/contact/single_sign_on/FeedbackForm/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/soo/feedback/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/soo/FeedbackForm/',
+        '/contact/feedback/',
+    ),
+    (
+        '/legacy/contact/soo/Triage/',
+        '/contact/triage/location/',
+    ),
+    (
+        '/legacy/contact/soo/TriageForm/',
+        '/contact/triage/location/',
+    ),
+    (
+        '/legacy/contact/triage/',
+        '/contact/triage/location/',
+    ),
+    (
+        '/legacy/contact/triage/directory/',
+        '/contact/triage/location/',
+    ),
+    (
+        '/legacy/contact/triage/soo/',
+        '/contact/triage/location/',
+    ),
+    (
+        '/legacy/contact/triage/sso/',
+        '/contact/triage/location/',
+    ),
+    (
+        '/legacy/contact/cookies/',
+        PRIVACY_POLICY_URL,
+    ),
+    (
+        '/legacy/contact/terms-and-conditions/',
+        TERMS_URL,
+    ),
     # CMS-1410 redirects for updated 'export advice' articles
     (
         '/advice/find-an-export-market/plan-export-market-research/',
@@ -390,14 +422,16 @@ redirects = [
         '/advice/get-export-finance-and-funding/raise-money-with-investment/',  # NOQA
         '/advice/get-export-finance-and-funding/get-export-finance/',
     ),
-    ('/contact/triage/international/', '/international/contact/'),
+    (
+        '/contact/triage/international/',
+        '/international/contact/',
+    ),
 ]
 
 
-@pytest.mark.skip(reason='No way to test this at the moment')
+@override_settings(FEATURE_FLAG_INTERNATIONAL_CONTACT_TRIAGE_ENABLED=True)
 @pytest.mark.parametrize('url,expected', redirects)
 def test_redirects(url, expected, client, settings):
-    settings.FEATURE_FLAGS['INTERNATIONAL_CONTACT_TRIAGE_ON'] = True
     reload_urlconf_redirects()
     reload_urlconf()
 
