@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import Services from '@src/Services'
@@ -7,12 +7,12 @@ import PropTypes from 'prop-types'
 const customStyles = {
   overlay: {
     zIndex: '3',
-    background: 'transparent',
+    background: 'rgba(0, 0, 0, 0.6)',
     position: 'absolute',
   },
   content: {
-    marginRight: '-29px',
-    marginTop: '15px',
+    marginRight: '-57px',
+    marginTop: '0',
   },
 }
 
@@ -20,15 +20,18 @@ export function Menu(props) {
   let modalContent
   const { avatar, authenticated, userName } = props
   const [modalIsOpen, setIsOpen] = useState(false)
+  const firstMenuItem = useRef(null)
+  const lastMenuItem = useRef(null)
+  const menuItem = useRef(null)
 
   const openModal = (evt) => {
     const position = evt.target.getClientRects()[0] || { top: 0, height: 0 }
     const bodyWidth = evt.target.closest('body').clientWidth
     customStyles.content.top = `${
-      position.top + position.height + window.scrollY
+      (position.top + position.height + window.scrollY)
     }px`
     customStyles.content.right = `${
-      bodyWidth - (position.left + position.right) / 2
+      (bodyWidth - (position.left + position.right) / 2)
     }px`
 
     setIsOpen(true)
@@ -64,8 +67,8 @@ export function Menu(props) {
     avatarElement
   )
 
-  const greeting = authenticated ? (
-    <div className="h-xs p-t-xxs">Hi {userName || 'there'}</div>
+  const greeting = authenticated && userName ? (
+    <div className="h-xs p-t-xxs user-greeting">Hi {userName}</div>
   ) : (
     ''
   )
@@ -74,43 +77,50 @@ export function Menu(props) {
     authenticated: (
       <ul className="menu-items">
         <li>
-          <a href="/dashboard/" className="link">
-            <i className="fa fa-tachometer-alt" />
-            <span>Dashboard</span>
+          <a href="/" className="link" ref={firstMenuItem} onKeyDown={(e) => {
+            if (e.keyCode && e.shiftKey) {
+              e.preventDefault();
+              menuItem.current.focus();
+            }
+          }}>
+            <span>Home</span>
           </a>
         </li>
         <li>
           <a href="/learn/categories/" className="link">
-            <i className="fa fa-book" />
             <span>Learn to export</span>
+            <strong className="tag tag--small">new</strong>
           </a>
         </li>
         <li>
           <a href="/where-to-export/" className="link">
-            <i className="fa fa-map-marker-alt" />
             <span>Where to export</span>
+            <strong className="tag tag--small">new</strong>
           </a>
         </li>
         <li>
           <a href="/export-plan/dashboard/" className="link">
-            <i className="fa fa-folder" />
             <span>Make an export plan</span>
-          </a>
-        </li>
-        <hr className="m-v-xxs" />
-        <li>
-          <a
-            href="/contact-us/help/"
-            rel="noopener noreferrer"
-            className="link"
-          >
-            <i className="fa fa-comment" />
-            <span>Send a feedback email</span>
+            <strong className="tag tag--small">new</strong>
           </a>
         </li>
         <li>
-          <button type="button" className="link" onClick={logout}>
-            <i className="fa fa-arrow-right" />
+          <a href="/advice" className="link">
+            <span>Advice</span>
+          </a>
+        </li>
+        <li>
+          <a href="/markets" className="link">
+            <span>Markets</span>
+          </a>
+        </li>
+        <li>
+          <button type="button" className="link" ref={lastMenuItem} onClick={logout} onKeyDown={(e) => {
+            if (e.keyCode && !e.shiftKey) {
+              e.preventDefault();
+              menuItem.current.focus();
+            }
+          }}>
             <span>Sign out</span>
           </button>
         </li>
@@ -124,13 +134,11 @@ export function Menu(props) {
             rel="noopener noreferrer"
             className="link"
           >
-            <i className="fa fa-comment" />
             <span>Send a feedback email</span>
           </a>
         </li>
         <li>
           <a href="/login/" className="link">
-            <i className="fa fa-pencil-alt" />
             <span>Sign up / Log in</span>
           </a>
         </li>
@@ -142,10 +150,18 @@ export function Menu(props) {
     <div style={{ lineHeight: 0 }}>
       <button
         type="button"
-        className={`avatar${modalIsOpen ? ' active' : ''}`}
-        onClick={openModal}
+        ref={menuItem}
+        className={modalIsOpen ? 'active' : ''}
+        onClick={modalIsOpen ? closeModal : openModal}
+        onKeyDown={(e) => {
+          if (modalIsOpen && e.keyCode == 9) {
+            e.preventDefault();
+            e.shiftKey ? lastMenuItem.current.focus() : firstMenuItem.current.focus();
+          }
+        }}
       >
-        {avatarElement}
+        Menu
+        <span className="burger-icon"></span>
         <span className="visually-hidden">User menu</span>
       </button>
       <ReactModal
@@ -157,7 +173,7 @@ export function Menu(props) {
           modalContent = _modalContent
           return modalContent
         }}
-        className="modal-menu"
+        className="modal-menu shared-modal-menu"
       >
         {greeting}
         {menu[authenticated ? 'authenticated' : 'non_authenticated']}

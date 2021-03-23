@@ -244,6 +244,7 @@ def client(client, auth_backend, settings):
                     'mobile_phone_number': user.mobile_phone_number,
                     'first_name': user.first_name,
                     'last_name': user.last_name,
+                    'segment': 'CHALLENGE',
                 },
                 # To get `company` data in here, use the `mock_get_company_profile` fixture and
                 # provide an approprate return_value. The full spec of CompanySerializer is in
@@ -454,6 +455,20 @@ def mock_get_company_profile(patch_get_company_profile):
         patch_get_company_profile.stop()
     except RuntimeError:
         # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture
+def patch_get_user_profile():
+    yield mock.patch('sso.helpers.get_user_profile', return_value=None)
+
+
+@pytest.fixture(autouse=False)
+def mock_get_user_profile(patch_get_user_profile):
+    yield patch_get_user_profile.start()
+    try:
+        patch_get_user_profile.stop()
+    except RuntimeError:
         pass
 
 

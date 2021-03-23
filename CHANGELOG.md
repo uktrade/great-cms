@@ -12,11 +12,14 @@
 
 ### Enhancements
 
+- GP2-1840 - Logged in magna desktop header
+- GP2-1849 - Feature flag magna links in logged out mobile header
 - GP2-1927 - Modal window Issues--Export plan pages
-GP2-1849 - Feature flag magna links in logged out mobile header
 - GP2-1616 - Port UKEF pages from V1 (not including /get-finance/* yet)
+- GP2-1719 - Segmentation question
 
 =======
+
 
 ## [1.5.0](https://github.com/uktrade/great-cms/releases/tag/1.5.0)
 
@@ -49,6 +52,7 @@ GP2-1849 - Feature flag magna links in logged out mobile header
 ### Implemented enhancements
 - GP2- 1900 - port redirects from BAU
 
+- GP2-2044 - CTA's only show sign in label by criteria
 - GP2-1852 - WTE responsive format
 - GP2-1849 - Logged out mobile header
 - GP2-1784 - Stop breadcrumbs showing for Structural Page
