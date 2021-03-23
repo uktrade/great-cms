@@ -127,22 +127,25 @@
         },
       })
 
-      magna.LaunchModal({
-        modals: [
-          {
-            factory: magna.SegmentationModal,
-            params: {
-              segment: {{ request.user.user_profile.user_profile.segment|to_json }}
+      const loggedInUser = {% if request.user.is_authenticated %}true{%else %}false{% endif %};
+      if (loggedInUser) {
+        magna.LaunchModal({
+          modals: [
+            {
+              factory: magna.SegmentationModal,
+              params: {
+                segment: {{ request.user.user_profile.user_profile.segment|to_json }}
+              },
             },
-          },
-          {
-            factory: magna.Tour,
-            params: {
-              tour: {{ tour|to_json }},
-              disableTourCookieName: 'disable-tour-{{ page.content_type }}',
+            {
+              factory: magna.Tour,
+              params: {
+                tour: {{ tour|to_json }},
+                disableTourCookieName: 'disable-tour-{{ page.content_type }}',
+              },
             },
-          },
-        ]
-      })
+          ]
+        })
+      }
   </script>
 {% endblock %}
