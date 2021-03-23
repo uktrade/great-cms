@@ -8,7 +8,7 @@ export function PageModalManager(props) {
 
   const nextModal = () => {
     const currentIndex = modals.indexOf(currentModal)
-    setCurrentModal(modals[currentIndex + 1] || modals[currentIndex])
+    setCurrentModal(modals[currentIndex + 1] || currentModal)
   }
 
   let Component = currentModal.factory
