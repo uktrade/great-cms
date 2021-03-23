@@ -43,8 +43,10 @@
   <tr class="text-align-centre">
     <td class="pad-y-3">
       {% if not user.company.logo %}
-      {% comment %} <img class="logo logo--cover" src="https://via.placeholder.com/600/dfd5c5?text=Company-logo"> {% endcomment %}
+      <img class="logo logo--cover" src="https://via.placeholder.com/600/dfd5c5?text=Company%20logo">
+      {% comment %}
       <img class="logo logo--cover" src="{{host_url}}{% static 'pdf/pdf_download_logo.jpg' %}">
+      {% endcomment %}
       {% else %}
       <img class="logo logo--cover" alt="{{ user.company.name }}" src="{{ user.company.logo }}"/>
       {% endif %}
@@ -86,27 +88,6 @@
 
   <pdf:toc />
 </div>
-
-{% comment %}
-<table class="layout layout--two-col">
-  <tr class="hr hr--red-150"><td></td></tr>
-  <tr>
-    <td>
-      <h1 class="pad-t-3 pad-b-2">Sections</h1>
-    </td>
-  </tr>
-  {% for section in sections %}
-  <tr class="pad-b-1">
-    <td class="col-10-7">
-      <p class="body-alpha">{{ section }}</p>
-    </td>
-    <td class="col-10-3">
-      <p class="body-alpha"><strong>{{ forloop.counter|add:3 }}</strong></p>
-    </td>
-  </tr>
-  {% endfor %}
-</table>
-{% endcomment %}
 
 <pdf:nextpage>
 
@@ -296,6 +277,7 @@
   </tr>
   <tr>
     <td class="col-10-7 align-top">
+      {% if forloop.first %}
       <!-- Nested table -->
       <table>
         <tr class="pad-b-2">
@@ -306,7 +288,7 @@
         </tr>
       </table>
       <!-- ./Nested table -->
-
+      {% endif %}
       <!-- Nested table -->
       <table>
         <tr class="pad-b-2">
@@ -404,7 +386,7 @@
       <!-- ./Nested table -->
     </td>
     {% with insight=insight_data|get_item:export_plan.country_iso2_code %}
-   <td class="col-10-3 align-top">
+    <td class="col-10-3 align-top">
       <h3 class="pad-b-1 colour-red-150">Data snapshot</h3>
       <h6 class="body-gamma pad-y-0">Total product import value in {{ insight.import_from_world.last_year }} (USD)</h6>
       <p class="pad-t-0"><strong>${{ insight.import_from_world.last_value|floatformat:0|intcomma }}</strong></p>
@@ -421,7 +403,7 @@
       <h6 class="body-gamma pad-y-0">Average Income (USD)</h6>
       <p class="pad-t-0"><strong>${{ insight.country_data.Income.0.value|floatformat:0|intcomma }}</strong></p>
     {% endwith %}
-     {% with market_research=population_age_data|get_item:'target-markets-research' %}
+    {% with market_research=population_age_data|get_item:'target-markets-research' %}
       <h3 class="pad-y-1">Target age group</h3>
       <h6 class="body-gamma pad-y-0">Total population</h6>
       <p class="pad-t-0"><strong>{{ market_research.population_data.total_population|intcomma }}</strong></p>
@@ -655,43 +637,43 @@
       </table>
       <!-- ./Nested table -->
     </td>
+    {% if forloop.first %}
     {% with marketing_approach=population_age_data|get_item:'marketing-approach' insight=insight_data|get_item:export_plan.country_iso2_code %}
-      <td class="col-10-3 align-top">
-        <h3 class="pad-b-1 colour-red-150">Data snapshot</h3>
+    <td class="col-10-3 align-top">
+      <h3 class="pad-b-1 colour-red-150">Data snapshot</h3>
 
-        <h6 class="body-gamma pad-y-0">Total population</h6>
-        <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_population|intcomma }}</strong></p>
-        <h6 class="body-gamma pad-y-0">Access to internet</h6>
-        <p class="pad-t-0"><strong>{{ insight.country_data.InternetUsage.0.value|floatformat:0 }}&percnt;</strong></p>
-        <h6 class="body-gamma pad-y-0">Consumer price index</h6>
-        <p class="pad-t-0"><strong>{{ insight.country_data.ConsumerPriceIndex.0.value }}</strong></p>
-        <h6 class="body-gamma pad-y-0">The main languages in your chosen market are</h6>
-        <p class="pad-t-0">
-          <strong>
-          {% for lang in language_data.cia_factbook_data.languages.language %}
-            {{ lang.name }},
-          {% endfor %}
-          </strong>
-        </p>
-        <h6 class="body-gamma pad-y-0">GDP per capita (USD)</h6>
-        <p class="pad-t-0"><strong>${{ insight.country_data.GDPPerCapita.0.year_2019|floatformat:0|intcomma }}</strong></p>
+      <h6 class="body-gamma pad-y-0">Total population</h6>
+      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_population|intcomma }}</strong></p>
+      <h6 class="body-gamma pad-y-0">Access to internet</h6>
+      <p class="pad-t-0"><strong>{{ insight.country_data.InternetUsage.0.value|floatformat:0 }}&percnt;</strong></p>
+      <h6 class="body-gamma pad-y-0">Consumer price index</h6>
+      <p class="pad-t-0"><strong>{{ insight.country_data.ConsumerPriceIndex.0.value }}</strong></p>
+      <h6 class="body-gamma pad-y-0">The main languages in your chosen market are</h6>
+      <p class="pad-t-0">
+        <strong>
+        {% for lang in language_data.cia_factbook_data.languages.language %}
+          {{ lang.name }},
+        {% endfor %}
+        </strong>
+      </p>
+      <h6 class="body-gamma pad-y-0">GDP per capita (USD)</h6>
+      <p class="pad-t-0"><strong>${{ insight.country_data.GDPPerCapita.0.year_2019|floatformat:0|intcomma }}</strong></p>
 
-        <h3 class="pad-y-1">Target age group</h3>
+      <h3 class="pad-y-1">Target age group</h3>
 
-        <h6 class="body-gamma pad-y-0">Target age population</h6>
-        <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_target_age_population|intcomma }}</strong></p>
-        <h6 class="body-gamma pad-y-0">Female in target group</h6>
-        <p class="pad-t-0"><strong>{{ marketing_approach.population_data.female_target_age_population|intcomma }}</strong></p>
-        <h6 class="body-gamma pad-y-0">Male in target group</h6>
-        <p class="pad-t-0"><strong>{{ marketing_approach.population_data.male_target_age_population|intcomma }}</strong></p>
-        <h6 class="body-gamma pad-y-0">Livng in uban areas</h6>
-        <p class="pad-t-0"><strong> {% widthratio marketing_approach.population_data.urban_percentage 1 100 %}&percnt;</strong></p>
-
-
-        <h6 class="body-gamma pad-y-0">Living in rural areas</h6>
-        <p class="pad-t-0"><strong>{% widthratio marketing_approach.population_data.rural_percentage 1 100 %}&percnt;</strong></p>
-      </td>
+      <h6 class="body-gamma pad-y-0">Target age population</h6>
+      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_target_age_population|intcomma }}</strong></p>
+      <h6 class="body-gamma pad-y-0">Female in target group</h6>
+      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.female_target_age_population|intcomma }}</strong></p>
+      <h6 class="body-gamma pad-y-0">Male in target group</h6>
+      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.male_target_age_population|intcomma }}</strong></p>
+      <h6 class="body-gamma pad-y-0">Livng in uban areas</h6>
+      <p class="pad-t-0"><strong> {% widthratio marketing_approach.population_data.urban_percentage 1 100 %}&percnt;</strong></p>
+      <h6 class="body-gamma pad-y-0">Living in rural areas</h6>
+      <p class="pad-t-0"><strong>{% widthratio marketing_approach.population_data.rural_percentage 1 100 %}&percnt;</strong></p>
+    </td>
     {% endwith %}
+    {% endif %}
   </tr>
 </table>
 <pdf:nextpage>
