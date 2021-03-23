@@ -1,7 +1,7 @@
 from django.urls import path
 from great_components.decorators import skip_ga360
 
-from . import snippet_slugs
+from core import snippet_slugs
 from .views import DomesticEnquiriesFormView, DomesticFormView, DomesticSuccessView
 
 app_name = 'contact'

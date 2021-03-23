@@ -3,10 +3,16 @@ import csv
 from django.utils.html import format_html_join, strip_tags
 from wagtail.admin.views.mixins import Echo
 from wagtail.contrib.modeladmin.helpers import ButtonHelper
-from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
+from wagtail.contrib.modeladmin.options import (
+    ModelAdmin,
+    ModelAdminGroup,
+    modeladmin_register,
+)
 from wagtail.contrib.modeladmin.views import IndexView
 
+from contact.modeladmin import ContactSuccessSnippetAdmin
 from core.models import CaseStudy
+from domestic.models import TradeFinanceSnippet
 
 
 class CaseStudyAdminButtonHelper(ButtonHelper):
@@ -195,3 +201,28 @@ class CaseStudyAdmin(ModelAdmin):
 
 
 modeladmin_register(CaseStudyAdmin)
+
+
+class TradeFinanceSnippetAdmin(ModelAdmin):
+    model = TradeFinanceSnippet
+    exclude_from_explorer = False
+    menu_icon = 'fa-check'
+    list_display = [
+        'internal_title',
+    ]
+
+
+class NonCMSContentGroup(ModelAdminGroup):
+    """All of the snippets used for hybrid-content pages
+    should be registered as part of this group"""
+
+    menu_label = 'Non-page content'
+    menu_icon = 'folder-open-inverse'  # change as required
+    menu_order = 200
+    items = (
+        ContactSuccessSnippetAdmin,
+        TradeFinanceSnippetAdmin,
+    )
+
+
+modeladmin_register(NonCMSContentGroup)

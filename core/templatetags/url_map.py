@@ -13,6 +13,7 @@ def url_map(key):
         'DASHBOARD': cms_slugs.DASHBOARD_URL,
         'PRIVACY': cms_slugs.PRIVACY_NOTICE_URL,
         'TERMS': cms_slugs.TERMS_URL,
+        'EXPORTPLAN_DASHBOARD': cms_slugs.EXPORT_PLAN_DASHBOARD_URL,
     }
 
     return url_mapping.get(key.upper())

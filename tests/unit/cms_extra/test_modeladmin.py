@@ -8,7 +8,7 @@ from tests.unit.core import factories
 
 
 @pytest.mark.django_db
-def test_case_study_modeladmin_list_display_methods():
+def test_case_study_modeladmin_list_display_methods(en_locale):
     admin = CaseStudyAdmin()
     obj = factories.CaseStudyFactory()
     detail_page = factories.DetailPageFactory()

@@ -261,7 +261,7 @@ def test_get_popular_export_destinations_fuzzy_match(mock_is_fuzzy):
 
 
 @pytest.mark.django_db
-def test_get_module_completion_progress():
+def test_get_module_completion_progress(en_locale):
 
     clp_1 = CuratedListPageFactory()
     clp_2 = CuratedListPageFactory()
@@ -305,7 +305,7 @@ def test_get_module_completion_progress():
 
 
 @pytest.mark.django_db
-def test_get_high_level_completion_progress():
+def test_get_high_level_completion_progress(en_locale):
 
     clp_1 = CuratedListPageFactory()
     clp_2 = CuratedListPageFactory()

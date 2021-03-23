@@ -228,7 +228,6 @@ def test_push(user, rf, domestic_site):
         ({'1': 'bar'}, 1, None),
         ({1: 'bar'}, '1', None),
         ('a string has no get attr', 'foo', ''),
-        ({'foo': 'bar'}, 'FOO', 'bar'),
     ),
 )
 def test_get_item(data, key, expected):
@@ -376,7 +375,12 @@ def _build_lesson_completion_data(spec, topic_page):  # noqa C901  # is less co
         ),
     ),
 )
-def test_get_lesson_progress_for_topic(lesson_completion_data_spec, lesson_and_placeholder_spec_data, expected):
+def test_get_lesson_progress_for_topic(
+    lesson_completion_data_spec,
+    lesson_and_placeholder_spec_data,
+    expected,
+    en_locale,
+):
     topic_page = factories.TopicPageFactory(title='test-topic')
 
     _build_lesson_and_placeholder_spec(lesson_and_placeholder_spec_data, topic_page)
