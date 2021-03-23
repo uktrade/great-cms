@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import Services from '@src/Services'
@@ -6,8 +6,14 @@ import Interaction from './Interaction'
 
 export default function Segmentation(props) {
   const { segment, handleModalClose } = props
-  const [isOpen, setIsOpen] = useState(!!segment)
+  const [isOpen, setIsOpen] = useState(!segment)
   const [isInProgress, setIsInProgress] = useState()
+
+  useEffect(() => {
+    if (!isOpen) {
+      handleModalClose()
+    }
+  }, [isOpen])
 
   const segmentQuestion = {
     name: 'segment',
@@ -96,6 +102,11 @@ export default function Segmentation(props) {
 }
 
 Segmentation.propTypes = {
-  segment: PropTypes.string.isRequired,
+  segment: PropTypes.string,
   handleModalClose: PropTypes.func,
+}
+
+Segmentation.defaultProps = {
+  segment: '',
+  handleModalClose: null,
 }
