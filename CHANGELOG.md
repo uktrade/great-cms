@@ -15,6 +15,7 @@
 - GP2-1927 - Modal window Issues--Export plan pages
 GP2-1849 - Feature flag magna links in logged out mobile header
 - GP2-1616 - Port UKEF pages from V1 (not including /get-finance/* yet)
+- GP2-1719 - Segmentation question
 
 =======
 
@@ -44,6 +45,7 @@ GP2-1849 - Feature flag magna links in logged out mobile header
 - NO TICKET - fix pdf generation
 - GP2-1792 - dashboard pages
 - GP2-1630 - add more data
+- Noticket pdf external datasources
 
 ### Implemented enhancements
 - GP2-2044 - CTA's only show sign in label by criteria
