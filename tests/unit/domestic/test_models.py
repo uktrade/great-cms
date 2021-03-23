@@ -1685,7 +1685,6 @@ class GreatDomesticHomePageTests(SetUpLocaleMixin, WagtailPageTests):
         )
 
 
-# @pytest.mark.skip(reason='no way of currently testing this')
 @pytest.mark.django_db
 def test_great_domestic_homepage_magna_ctas_labels(root_page, client, user):
 
