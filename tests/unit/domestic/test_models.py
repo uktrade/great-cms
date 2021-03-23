@@ -114,6 +114,7 @@ def test_dashboard_page_routing(
     get_request,
     domestic_homepage,
     domestic_site,
+    mock_get_user_profile,
 ):
     patch_sso_get_export_plan.stop()
     mock_export_plan_list.return_value = [{}]

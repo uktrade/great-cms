@@ -1,5 +1,4 @@
 import api from '@src/api'
-import { analytics } from '@src/Helpers'
 import {
   SET_MODAL_IS_OPEN,
   SET_INITIAL_STATE,

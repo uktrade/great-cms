@@ -1,7 +1,9 @@
+import LaunchModal from '@src/components/PageModalManager'
 import Signup from '@src/views/Signup/Container'
 import SignupModal from '@src/views/SignupModal/Container'
 
 import { createLogin } from '@src/views/Login'
+import SegmentationModal from '@src/components/Segmentation'
 import Tour from '@src/views/Tour/Container'
 import ProductFinderButton from '@src/components/ProductFinder/ProductFinderButton'
 import CountryFinderButton from '@src/components/ProductFinder/CountryFinderButton'
@@ -96,10 +98,12 @@ export default {
   createLogin,
   setConfig,
   setInitialState: Services.setInitialState,
+  LaunchModal,
   Signup,
   SignupModal,
   STEP_CREDENTIALS,
   STEP_VERIFICATION_CODE,
+  SegmentationModal,
   Tour,
   sectionSidebar,
   sectionComplete,
