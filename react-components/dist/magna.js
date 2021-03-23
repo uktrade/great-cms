@@ -74946,6 +74946,10 @@ Segmentation.propTypes = {
   segment: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   handleModalClose: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func
 };
+Segmentation.defaultProps = {
+  segment: '',
+  handleModalClose: null
+};
 
 /***/ }),
 

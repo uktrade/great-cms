@@ -105,3 +105,8 @@ Segmentation.propTypes = {
   segment: PropTypes.string,
   handleModalClose: PropTypes.func,
 }
+
+Segmentation.defaultProps = {
+  segment: '',
+  handleModalClose: null,
+}
