@@ -169,7 +169,7 @@ export const Select = memo(
             </div>
             <div className="select__placeholder text-blue-deep-60 bg-white radius">
               <div
-                className="select__placeholder-input"
+                className="select__placeholder--input"
                 onClick={() => setIsOpen(!isOpen)}
               />
               <div className="select__placeholder--value">{selectedItem()}</div>
