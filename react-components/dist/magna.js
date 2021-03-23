@@ -72174,8 +72174,7 @@ function PageModalManager(props) {
     setCurrentModal(modals[currentIndex + 1] || modals[currentIndex]);
   };
 
-  var Component;
-  Component = currentModal.factory;
+  var Component = currentModal.factory;
   return currentModal && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Component, _extends({}, currentModal.params, {
     handleModalClose: nextModal
   }));

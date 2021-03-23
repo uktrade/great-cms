@@ -11,8 +11,7 @@ export function PageModalManager(props) {
     setCurrentModal(modals[currentIndex + 1] || modals[currentIndex])
   }
 
-  let Component
-  Component = currentModal.factory
+  let Component = currentModal.factory
   return (
     currentModal && (
       <Component
