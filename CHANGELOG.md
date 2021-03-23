@@ -46,6 +46,7 @@ GP2-1849 - Feature flag magna links in logged out mobile header
 - GP2-1630 - add more data
 
 ### Implemented enhancements
+- GP2-2044 - amended to only show on homepage
 - GP2-2044 - CTA's only show sign in label by criteria
 - GP2-1852 - WTE responsive format
 - GP2-1849 - Logged out mobile header

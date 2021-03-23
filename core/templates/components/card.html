@@ -32,7 +32,9 @@
         {{ html_snippet }}
         {% endif %}
         {% if show_sign_in_required and not request.user.is_authenticated %}
-          <span class="shared-tag">Sign in required</span>
+          {% if request.path == '/' %}
+            <span class="shared-tag">Sign in required</span>
+          {% endif %}
         {% endif %}
       {% endif %}
       {% endblock %}
