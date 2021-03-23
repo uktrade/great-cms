@@ -67,8 +67,8 @@ export function Menu(props) {
     avatarElement
   )
 
-  const greeting = authenticated ? (
-    <div className="h-xs p-t-xxs user-greeting">Hi {userName || 'there'}</div>
+  const greeting = authenticated && userName ? (
+    <div className="h-xs p-t-xxs user-greeting">Hi {userName}</div>
   ) : (
     ''
   )
