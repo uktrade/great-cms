@@ -11,8 +11,8 @@ const customStyles = {
     position: 'absolute',
   },
   content: {
-    marginRight: '-29px',
-    marginTop: '15px',
+    marginRight: '-57px',
+    marginTop: '0',
   },
 }
 
@@ -28,10 +28,10 @@ export function Menu(props) {
     const position = evt.target.getClientRects()[0] || { top: 0, height: 0 }
     const bodyWidth = evt.target.closest('body').clientWidth
     customStyles.content.top = `${
-      (position.top + position.height + window.scrollY) - 15
+      (position.top + position.height + window.scrollY)
     }px`
     customStyles.content.right = `${
-      (bodyWidth - (position.left + position.right) / 2) - 27
+      (bodyWidth - (position.left + position.right) / 2)
     }px`
 
     setIsOpen(true)
