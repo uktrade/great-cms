@@ -5,17 +5,20 @@ import ReactTour from 'reactour'
 import { slugify } from '../../Helpers'
 
 export default function Tour(props) {
-  const steps = props.steps.map((step) => {
+  const steps = [].map((step) => {
     return {
       ...step,
       content: (
         <>
-          <h2 className="h-s p-v-0" id={'page-tour-step-' + slugify(step.title)}>
+          <h2
+            className="h-s p-v-0"
+            id={'page-tour-step-' + slugify(step.title)}
+          >
             {step.title}
           </h2>
           <p>{step.body}</p>
         </>
-      )
+      ),
     }
   })
 
@@ -35,12 +38,18 @@ export default function Tour(props) {
       onRequestClose={props.handleClose}
       showNumber={false}
       lastStepNextButton={
-        <button className="button button--primary p-v-xxs p-h-xs" id="page-tour-start-now">
+        <button
+          className="button button--primary p-v-xxs p-h-xs"
+          id="page-tour-start-now"
+        >
           Start now
         </button>
       }
       nextButton={
-        <button className="button button--primary p-v-xxs p-h-xs" id="page-tour-next-step">
+        <button
+          className="button button--primary p-v-xxs p-h-xs"
+          id="page-tour-next-step"
+        >
           Next
         </button>
       }
