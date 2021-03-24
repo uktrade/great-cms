@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-
+import { dateFormat } from '@src/Helpers'
 import { FormGroup } from '../FormGroup'
 
 export const Input = memo(
@@ -36,11 +36,14 @@ export const Input = memo(
       lesson={lesson}
       formGroupClassName={formGroupClassName}
     >
-      <div className="flex-center">
+      <div className={`flex-center ${type === 'date' ? 'select-date' : ''}`}>
         {prepend && (
           <span className="bg-blue-deep-10 text-blue-deep-60 bold prepend">
             {prepend}
           </span>
+        )}
+        {type === 'date' && (
+          <span className="select-date__friendly">{dateFormat(value)}</span>
         )}
         <input
           className={`form-control ${
