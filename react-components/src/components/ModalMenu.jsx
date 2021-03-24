@@ -49,7 +49,7 @@ export function Menu(props) {
 
   const logout = () => {
     Services.logout().finally(() => {
-      window.location.reload()
+      window.location = '/';
     })
   }
 
