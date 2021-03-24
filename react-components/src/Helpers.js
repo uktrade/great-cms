@@ -1,4 +1,6 @@
-const dateFormat = (date) => {
+const dateNowISO = () => new Date().toISOString().slice(0, 10)
+
+const dateFormat = (date = dateNowISO()) => {
   // Requires ISO formatted date: YYYY-MM-DD
   const [year, month, day] = date.split('-')
   const months = {
@@ -15,6 +17,7 @@ const dateFormat = (date) => {
     11: 'Nov',
     12: 'Dec',
   }
+
   return `${day} ${months[month]} ${year}`
 }
 
@@ -175,6 +178,7 @@ const formatLessonLearned = (lesson, section, id) =>
 
 export {
   dateFormat,
+  dateNowISO,
   slugify,
   addItemToList,
   capitalize,
