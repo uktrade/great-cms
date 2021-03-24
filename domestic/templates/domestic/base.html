@@ -10,10 +10,10 @@
     <head>
         <meta charset="utf-8" />
         {% block sharing_description %}
-            <meta name="description" content="{% block meta_description %}{% firstof page.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
+            <meta name="description" content="{% block meta_description %}{% firstof page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}">
         {% endblock %}
         {% block sharing_title %}
-            <meta name="title" content="{% block meta_title %}{% firstof page.seo_title page.title%}{% endblock %}">
+            <meta name="title" content="{% block meta_title %}{% firstof page.seo_title page.title content_snippet.seo_title content_snippet.title %}{% endblock %}">
         {% endblock %}
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block head_google_tag_manager %}

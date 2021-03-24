@@ -57,24 +57,6 @@ def test_get_local_time_not_found():
     assert helpers.get_timezone('XS') is None
 
 
-@mock.patch.object(api_client.dataservices, 'get_last_year_import_data')
-def test_get_comtrade_lastyearimportdata(mock_lastyearimportdata):
-    mock_lastyearimportdata.return_value = create_response(status_code=200, json_body={'lastyear_history': 123})
-    comtrade_data = helpers.get_comtrade_last_year_import_data(commodity_code='220.850', country='Australia')
-    assert mock_lastyearimportdata.call_count == 1
-    assert mock_lastyearimportdata.call_args == mock.call(commodity_code='220.850', country='Australia')
-    assert comtrade_data == {'lastyear_history': 123}
-
-
-@mock.patch.object(api_client.dataservices, 'get_historical_import_data')
-def test_get_comtrade_historicalimportdata(mock_historical_data):
-    mock_historical_data.return_value = create_response(status_code=200, json_body={'history': 123})
-    comtrade_data = helpers.get_comtrade_historical_import_data(commodity_code='220.850', country='Australia')
-    assert mock_historical_data.call_count == 1
-    assert mock_historical_data.call_args == mock.call(commodity_code='220.850', country='Australia')
-    assert comtrade_data == {'history': 123}
-
-
 @mock.patch.object(api_client.exportplan, 'exportplan_list')
 def test_get_export_plan_empty(mock_get_exportplan):
     mock_get_exportplan.return_value = create_response(None)
@@ -141,16 +123,6 @@ def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company
 
     exportplan_data = helpers.serialize_exportplan_data(user)
     assert exportplan_data == {'target_markets': [{'country': 'China'}]}
-
-
-def test_get_export_plan_pdf_context(user, get_request):
-    pdf_context = helpers.get_export_plan_pdf_context(get_request)
-
-    assert len(pdf_context['export_plan']) == len(get_request.user.export_plan.data)
-    assert pdf_context['user'] == get_request.user
-    assert pdf_context['sections'] is not None
-    assert pdf_context['calculated_pricing'] is not None
-    assert pdf_context['host_url'] == ''
 
 
 @mock.patch.object(helpers, 'get_exportplan')

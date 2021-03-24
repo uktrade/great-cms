@@ -30,6 +30,9 @@ class GreatDomesticHomePagePanels:
                 FieldPanel('hero_text'),
                 FieldPanel('hero_cta_text'),
                 FieldPanel('hero_cta_url'),
+                # Signed in fields
+                FieldPanel('hero_text_si'),
+                FieldPanel('hero_cta_text_si'),
             ],
         ),
         MultiFieldPanel(
@@ -458,3 +461,65 @@ class PerformanceDashboardPagePanels:
         ),
         FieldPanel('guidance_notes'),
     ]
+
+
+class TradeFinanceSnippetPanels:
+
+    panels = [
+        MultiFieldPanel(
+            heading='Purpose',
+            children=[
+                FieldPanel('slug', widget=Select),
+            ],
+        ),
+        FieldPanel('breadcrumbs_label'),
+        MultiFieldPanel(
+            heading='Banner',
+            children=[
+                ImageChooserPanel('hero_image'),
+                FieldPanel('hero_text'),
+                ImageChooserPanel('ukef_logo'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Contact us',
+            children=[
+                FieldRowPanel(
+                    children=[
+                        FieldPanel('contact_proposition'),
+                        FieldPanel('contact_button'),
+                    ]
+                )
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Advantages',
+            children=[
+                FieldPanel('advantages_title'),
+                StreamFieldPanel('advantages'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Evidence',
+            children=[
+                FieldRowPanel(
+                    children=[
+                        FieldPanel('evidence'),
+                        FieldPanel(
+                            'evidence_video',
+                            widget=AdminMediaChooser,
+                        ),
+                    ]
+                )
+            ],
+        ),
+        SearchEngineOptimisationPanel(),
+    ]
+
+    MultiFieldPanel(
+        heading='Internal details',
+        children=[
+            FieldPanel('title'),
+            FieldPanel('slug'),
+        ],
+    )

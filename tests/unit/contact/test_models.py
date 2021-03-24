@@ -1,20 +1,22 @@
 import pytest
 
-from contact import snippet_slugs
-from contact.models import ContactSuccessSnippet, NonPageContentSnippetBase
+from contact.models import ContactSuccessSnippet
+from core import snippet_slugs
+from core.cms_snippets import NonPageContentSnippetBase
 
 
-def test_non_page_content_snippet_base_not_implemented_errors():
-    class TestModelWithNoSlugField(NonPageContentSnippetBase):
+def test_non_page_content_snippet_base_no_slug_options():
+    class TestModelWithNoSlugOptions(NonPageContentSnippetBase):
         class Meta:
             app_label = 'contact'
 
-    test_instance_no_slug_field = TestModelWithNoSlugField()
+    test_instance_no_slug_options = TestModelWithNoSlugOptions()
+    assert test_instance_no_slug_options.slug_options == {}
 
     with pytest.raises(NotImplementedError) as exc_info:
-        test_instance_no_slug_field.save()
+        test_instance_no_slug_options.save()
 
-    assert exc_info.value.args[0] == 'The subclass must have a slug field.'
+    assert exc_info.value.args[0] == 'The subclass must have slug_options defined.'
 
 
 def test_contact_success_snippet_no_slug_set():

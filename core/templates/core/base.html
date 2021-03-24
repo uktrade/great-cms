@@ -32,6 +32,7 @@
       magna.setConfig({
           apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
           apiLogoutUrl: '{% url "sso:business-sso-logout-api" %}',
+          apiUserProfileUpdateUrl: '{% url "sso:user-profile-api" %}',
           apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
           apiLookupProductScheduleUrl: '{% url "core:api-lookup-product-schedule" %}',
           apiCountriesUrl: '{% url "core:api-countries" %}',
@@ -126,18 +127,25 @@
         },
       })
 
-      {% if tour %}
-        var element = document.createElement('div');
-        document.body.appendChild(element);
-        magna.Tour({
-          element: element,
-          isOpenModal: true,
-          steps: {{ tour.steps|safe }},
-          title: '{{ tour.title }}',
-          body: "{% autoescape off %}{{ tour.body }}{% endautoescape %}",
-          buttonText: '{{ tour.button_text }}',
-          disableTourCookieName: 'disable-tour-{{ page.content_type }}'
+      const loggedInUser = {% if request.user.is_authenticated %}true{%else %}false{% endif %};
+      if (loggedInUser) {
+        magna.LaunchModal({
+          modals: [
+            {
+              factory: magna.SegmentationModal,
+              params: {
+                segment: {{ request.user.user_profile.user_profile.segment|to_json }}
+              },
+            },
+            {
+              factory: magna.Tour,
+              params: {
+                tour: {{ tour|to_json }},
+                disableTourCookieName: 'disable-tour-{{ page.content_type }}',
+              },
+            },
+          ]
         })
-    {% endif %}
+      }
   </script>
 {% endblock %}

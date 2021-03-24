@@ -1,3 +1,6 @@
+from collections import OrderedDict
+
+from dateutil import parser
 from django.utils.text import slugify
 from rest_framework.fields import ListField
 from rest_framework.serializers import Serializer
@@ -85,11 +88,39 @@ class ExportPlanProcessor:
         return {'calculated_total_funding': total_funding}
 
     def calculate_ep_progress(self):
-        progress_items = self.data.get('ui_progress', {})
-        completed = [True for v in progress_items.values() if v.get('is_complete')]
+        progress_items = OrderedDict(
+            sorted(
+                self.data.get('ui_progress', {}).items(),
+                reverse=True,
+                key=lambda item: parser.parse(
+                    item[1].get('date_last_visited', '1970-01-01'),
+                ),
+            )
+        )
+        completed = dict(filter(lambda i: i[1].get('is_complete', False) is True, progress_items.items()))
+        uncompleted = dict(filter(lambda i: i[1].get('is_complete', False) is False, progress_items.items()))
+        exportplan_completed = True if len(completed) == len(data.SECTION_SLUGS) else False
+
+        if len(uncompleted):
+            # Next section is last visited uncompleted page
+            next_section_key = list(uncompleted.keys())[0]
+        elif len(completed) and not exportplan_completed:
+            # Lets find next section in export plan
+            for section in data.SECTION_SLUGS:
+                if not completed.get(section):
+                    next_section_key = section
+                    break
+        else:
+            # Default to first page in export plan
+            next_section_key = data.SECTION_SLUGS[0]
+
+        next_section = data.SECTIONS.get(next_section_key, {})
+
         return {
             'sections_completed': len(completed),
+            'exportplan_completed': exportplan_completed,
             'sections_total': len(data.SECTION_SLUGS),
             'percentage_completed': len(completed) / len(data.SECTION_SLUGS) if len(completed) > 0 else 0,
             'section_progress': self.calculate_ep_section_progress(),
+            'next_section': {'title': next_section.get('title', ''), 'url': next_section.get('url', '')},
         }

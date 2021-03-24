@@ -1,7 +1,6 @@
 from unittest.mock import Mock, patch
 
 from exportplan import utils
-from exportplan.core import helpers
 
 
 def test_format_two_dp():
@@ -12,7 +11,12 @@ def test_format_two_dp():
 
 
 def test_render_to_pdf_error(user, get_request):
-    pdf_context = helpers.get_export_plan_pdf_context(get_request)
+    pdf_context = {
+        'export_plan': get_request.user.export_plan.data,
+        'my_export_plan': get_request.user.export_plan,
+        'user': get_request.user,
+    }
+
     with patch('exportplan.utils.pisa.pisaDocument') as pisadocument:
         pisadocument.return_value = Mock(status_code=500, **{'json.return_value': {}})
         pdf = utils.render_to_pdf('exportplan/pdf_download.html', pdf_context)

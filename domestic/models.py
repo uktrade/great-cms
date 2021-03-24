@@ -16,6 +16,7 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.snippets.models import register_snippet
 
 from core import (
     blocks as core_blocks,
@@ -25,7 +26,10 @@ from core import (
     helpers,
     mixins,
     service_urls,
+    snippet_slugs,
 )
+from core.blocks import AdvantageBlock
+from core.cms_snippets import NonPageContentSEOMixin, NonPageContentSnippetBase
 from core.constants import (
     ARTICLE_TYPES,
     RICHTEXT_FEATURES__REDUCED,
@@ -165,6 +169,7 @@ class DomesticDashboard(
 
     def get_context(self, request):
         user = request.user
+
         context = super().get_context(request)
         context['visited_already'] = user.has_visited_page(self.slug)
         user.set_page_view(self.slug)
@@ -177,7 +182,6 @@ class DomesticDashboard(
         context.update(get_lesson_completion_status(user, context))
         context['export_plan_in_progress'] = user.has_visited_page(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
         context['routes'] = build_route_context(user, context)
-
         return context
 
     #########
@@ -229,7 +233,9 @@ class GreatDomesticHomePage(
     hero_text = models.TextField(null=True, blank=True)
     hero_cta_text = models.CharField(null=True, blank=True, max_length=255)
     hero_cta_url = models.CharField(null=True, blank=True, max_length=255)
-
+    # Signed in versions
+    hero_text_si = models.TextField(null=True, blank=True)
+    hero_cta_text_si = models.CharField(null=True, blank=True, max_length=255)
     # EU exit chevrons StreamField WAS here in V1 - no longer the case
 
     # magna ctas
@@ -1270,3 +1276,78 @@ class PerformanceDashboardPage(
     def get_child_dashboards(self):
         # Get any live, public dashboards that hang off this page
         return PerformanceDashboardPage.objects.descendant_of(self).specific().live().public()
+
+
+@register_snippet
+class TradeFinanceSnippet(
+    NonPageContentSEOMixin,
+    NonPageContentSnippetBase,
+    cms_panels.TradeFinanceSnippetPanels,
+):
+    slug_options = {
+        # This limits the slugs and URL paths that can be configured for this snippet.
+        # It follows a common pattern from the V1 site.
+        # For now, there is only ONE permitted slug path for this snippet
+        snippet_slugs.GREAT_TRADE_FINANCE: {
+            'title': 'Trade Finance',
+        },
+    }
+    slug = models.CharField(
+        choices=[(key, val['title']) for key, val in slug_options.items()],
+        max_length=255,
+        unique=True,
+        verbose_name='Purpose',
+        help_text='Select the use-case for this snippet from a fixed list of choices',
+    )
+
+    breadcrumbs_label = models.CharField(
+        max_length=50,
+    )
+    hero_text = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED__ALLOW_H1,
+    )
+    hero_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    ukef_logo = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+
+    contact_proposition = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        blank=False,
+    )
+    contact_button = models.CharField(max_length=500)
+
+    advantages_title = models.CharField(max_length=500)
+    advantages = StreamField(
+        StreamBlock(
+            [
+                (
+                    'advantage',
+                    AdvantageBlock(),
+                ),
+            ],
+            min_num=3,
+            max_num=3,
+        )
+    )
+
+    evidence = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+    )
+    evidence_video = models.ForeignKey(
+        'core.GreatMedia',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )

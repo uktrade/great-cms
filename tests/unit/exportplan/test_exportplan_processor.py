@@ -48,18 +48,47 @@ def test_export_plan_processor_get_current_url_product_required_not_in_check():
 
 
 @pytest.mark.parametrize(
-    'ui_progress_data, complete, percentage_complete',
+    'ui_progress_data, complete, percentage_complete, ep_completed, next_section',
     [
-        [{}, 0, 0],
-        [{'a': {}}, 0, 0],
-        [{'a': {'is_complete': False}}, 0, 0],
-        [{'a': {'is_complete': True}}, 1, 0.1],
-        [{'b': {'is_complete': True}, 'c': {'is_complete': True}}, 2, 0.2],
+        [{}, 0, 0, False, {'title': 'About your business', 'url': '/export-plan/section/about-your-business/'}],
+        [
+            {'about-your-business': {}},
+            0,
+            0,
+            False,
+            {'title': 'About your business', 'url': '/export-plan/section/about-your-business/'},
+        ],
+        [
+            {'about-your-business': {'is_complete': False, 'date_last_visited': '2012-01-14T03:21:34+00:00'}},
+            0,
+            0,
+            False,
+            {'title': 'About your business', 'url': '/export-plan/section/about-your-business/'},
+        ],
+        [
+            {'about-your-business': {'is_complete': True, 'date_last_visited': '2012-01-14T03:21:34+00:00'}},
+            1,
+            0.1,
+            False,
+            {'title': 'Business objectives', 'url': '/export-plan/section/business-objectives/'},
+        ],
+        [
+            {
+                'about-your-business': {'is_complete': True, 'date_last_visited': '2012-01-14T03:21:34+00:00'},
+                'getting-paid': {'is_complete': True, 'date_last_visited': '2012-01-21T03:21:34+00:00'},
+                'target-markets-research': {'is_complete': False, 'date_last_visited': '2012-01-25T03:21:34+00:00'},
+                'business-risk': {'is_complete': False, 'date_last_visited': '2012-01-12T03:21:34+00:00'},
+            },
+            2,
+            0.2,
+            False,
+            {'title': 'Target markets research', 'url': '/export-plan/section/target-markets-research/'},
+        ],
     ],
 )
 @mock.patch.object(helpers, 'get_exportplan')
 def test_export_plan_processor_calculate_ep_progress(
-    mock_get_exportplan, ui_progress_data, complete, percentage_complete
+    mock_get_exportplan, ui_progress_data, complete, percentage_complete, ep_completed, next_section
 ):
     export_plan_data = {'ui_progress': ui_progress_data}
     mock_get_exportplan.return_value = export_plan_data
@@ -67,6 +96,28 @@ def test_export_plan_processor_calculate_ep_progress(
     assert ep_progress['sections_total'] == len(data.SECTION_SLUGS)
     assert ep_progress['sections_completed'] == complete
     assert ep_progress['percentage_completed'] == percentage_complete
+    assert ep_progress['exportplan_completed'] is ep_completed
+    assert ep_progress['next_section'] == next_section
+
+
+@mock.patch.object(helpers, 'get_exportplan')
+def test_export_plan_processor_calculate_ep_progress_complete(mock_get_exportplan):
+    export_plan_data = {
+        'ui_progress': {
+            s: {'is_complete': True, 'date_last_visited': '2012-01-14T03:21:34+00:00'} for s in data.SECTION_SLUGS
+        }
+    }
+    mock_get_exportplan.return_value = export_plan_data
+    ep_progress = ExportPlanProcessor(export_plan_data).calculate_ep_progress()
+
+    assert ep_progress['sections_total'] == len(data.SECTION_SLUGS)
+    assert ep_progress['sections_completed'] == len(data.SECTION_SLUGS)
+    assert ep_progress['percentage_completed'] == 1.0
+    assert ep_progress['exportplan_completed'] is True
+    assert ep_progress['next_section'] == {
+        'title': 'About your business',
+        'url': '/export-plan/section/about-your-business/',
+    }
 
 
 def test_export_plan_processor_build_export_plan_sections(export_plan_data):

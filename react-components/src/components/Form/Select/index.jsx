@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
 import { useOnOutsideClick } from '@src/components/hooks/useOnOutsideClick'
-import { useNoScroll } from '@src/components/hooks/useNoScroll'
 import { Item } from '@src/components/Form/Select/Item'
 import { FormGroup } from '@src/components/Form/FormGroup'
 
@@ -31,7 +30,6 @@ export const Select = memo(
     const [isOpen, setIsOpen] = useState(false)
     const liRef = useRef([])
     const [element] = useOnOutsideClick(() => setIsOpen(false), isOpen)
-    useNoScroll(isOpen)
 
     useEffect(() => {
       setInput(selected)
@@ -169,55 +167,55 @@ export const Select = memo(
                 />
               </button>
             </div>
-            <div
-              className={`select__placeholder text-blue-deep-60 bg-white radius ${
-                !isOpen ? '' : 'hidden'
-              }`}
-            >
-              {selectedItem()}
-            </div>
-            <ul
-              role="listbox"
-              className={`select__list m-t-0 body-l bg-white radius ${
-                isOpen ? '' : 'hidden'
-              }`}
-              aria-expanded={isOpen}
-              ref={element}
-            >
-              <li>{placeholder}</li>
+            <div className="select__placeholder text-blue-deep-60 bg-white radius">
+              <div
+                className="select__placeholder--input"
+                onClick={() => setIsOpen(!isOpen)}
+              />
+              <div className="select__placeholder--value">{selectedItem()}</div>
+              <ul
+                role="listbox"
+                className={`select__list m-t-0 body-l bg-white radius ${
+                  isOpen ? 'select__list--open' : 'hidden'
+                }`}
+                aria-expanded={isOpen}
+                ref={element}
+              >
+                <li>{placeholder}</li>
 
-              {Array.isArray(options)
-                ? options.map((item, i) => (
-                    <Item
-                      isDisabled={input.includes(item.label)}
-                      key={item.label}
-                      onClick={() => selectOption(item)}
-                      onKeyDown={(e) => focusNext(e, i, item)}
-                      selected={item.label === input}
-                      label={item.label}
-                      forwardedRef={(el) => (liRef.current[i] = el)}
-                    />
-                  ))
-                : Object.keys(options).map((category, i) => (
-                    <li className="sub-section" key={category}>
-                      <ul className="m-0">
-                        <li className="body-m-b">{category}</li>
-                        {options[category].map((li, index) => (
-                          <Item
-                            key={li.label}
-                            onClick={() => selectOption(li)}
-                            onKeyDown={(e) => focusNext(e, index + 1, li, i)}
-                            selected={li.label === input}
-                            label={li.label}
-                            forwardedRef={(el) => (liRef.current[index] = el)}
-                          >
-                            {li.label}
-                          </Item>
-                        ))}
-                      </ul>
-                    </li>
-                  ))}
-            </ul>
+                {Array.isArray(options)
+                  ? options.map((item, i) => (
+                      <Item
+                        isDisabled={input.includes(item.label)}
+                        key={item.label}
+                        onClick={() => selectOption(item)}
+                        onKeyDown={(e) => focusNext(e, i, item)}
+                        selected={item.label === input}
+                        label={item.label}
+                        forwardedRef={(el) => (liRef.current[i] = el)}
+                      />
+                    ))
+                  : Object.keys(options).map((category, i) => (
+                      <li className="sub-section" key={category}>
+                        <ul className="m-0">
+                          <li className="body-m-b">{category}</li>
+                          {options[category].map((li, index) => (
+                            <Item
+                              key={li.label}
+                              onClick={() => selectOption(li)}
+                              onKeyDown={(e) => focusNext(e, index + 1, li, i)}
+                              selected={li.label === input}
+                              label={li.label}
+                              forwardedRef={(el) => (liRef.current[index] = el)}
+                            >
+                              {li.label}
+                            </Item>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
+              </ul>
+            </div>
           </>
         </FormGroup>
       </div>

@@ -14,9 +14,9 @@
 </div>
 {% endblock %}
 
-{% if page.slug|lower == "article" %}
+{% if page.slug|lower == "advice" %}
   <div class="container">
-    {% include 'components/learning_banner.html' with tag_text="New" heading="Turn advice into action" sub_heading="Get exporting lessons from trade experts" cta_text="Upskill now" cta_url="#" cta_alt_text="Upskill now" %}
+    {% include 'components/learning_banner.html' with tag_text="New" heading="Turn advice into action" sub_heading="Get exporting lessons from trade experts" cta_text="Upskill now" cta_url="/learn/categories/" cta_alt_text="Upskill now" %}
   </div>
 {% endif %}
 

@@ -4,8 +4,6 @@ from iso3166 import countries_by_alpha3
 from core import models
 from core.templatetags.content_tags import format_timedelta
 from directory_api_client import api_client
-from exportplan.core.processor import ExportPlanProcessor
-from . import data
 
 
 def create_export_plan(sso_session_id, exportplan_data):
@@ -52,18 +50,6 @@ def get_timezone(country_code):
     iso3_country_code = country_code_iso3_to_iso2(country_code)
     if iso3_country_code and pytz.country_timezones(iso3_country_code):
         return pytz.country_timezones(iso3_country_code)[0]
-
-
-def get_comtrade_last_year_import_data(commodity_code, country):
-    response = api_client.dataservices.get_last_year_import_data(commodity_code=commodity_code, country=country)
-    response.raise_for_status()
-    return response.json()
-
-
-def get_comtrade_historical_import_data(commodity_code, country):
-    response = api_client.dataservices.get_historical_import_data(commodity_code=commodity_code, country=country)
-    response.raise_for_status()
-    return response.json()
 
 
 def get_population_data_by_country(countries):
@@ -270,17 +256,3 @@ def delete_model_object(sso_session_id, model_name, data):
 
 def values_to_labels(values, choices):
     return ', '.join([choices.get(item) for item in values if item in choices])
-
-
-def get_export_plan_pdf_context(request):
-    processor = ExportPlanProcessor(request.user.export_plan.data)
-    context = {
-        'host_url': '',
-        'export_plan': request.user.export_plan.data,
-        'user': request.user,
-        'sections': data.SECTION_TITLES,
-        'calculated_pricing': processor.calculated_cost_pricing(),
-        'total_funding': processor.calculate_total_funding(),
-    }
-
-    return context

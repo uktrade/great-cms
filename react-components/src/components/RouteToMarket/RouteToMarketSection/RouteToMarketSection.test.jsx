@@ -141,14 +141,18 @@ describe('RouteToMarketSection', () => {
   describe('Select', () => {
     it('Should have selected values', () => {
       const { container } = setup({ ...props })
-      const selected = container.getElementsByClassName('select__placeholder')
+      const selected = container.getElementsByClassName(
+        'select__placeholder--value'
+      )
       expect(selected[0].textContent).toEqual('Joint ventures')
     })
 
     describe('Should have no selected values', () => {
       it('field empty', () => {
         const { container } = setup({ ...props, field: {} })
-        const selected = container.getElementsByClassName('select__placeholder')
+        const selected = container.getElementsByClassName(
+          'select__placeholder--value'
+        )
         expect(selected[0].textContent).toEqual('Select one')
       })
 
@@ -163,7 +167,9 @@ describe('RouteToMarketSection', () => {
             pk: 48,
           },
         })
-        const selected = container.getElementsByClassName('select__placeholder')
+        const selected = container.getElementsByClassName(
+          'select__placeholder--value'
+        )
         expect(selected[0].textContent).toEqual('Select one')
       })
     })

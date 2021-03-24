@@ -1,28 +1,44 @@
 {% load i18n %}
 {% load wagtailcore_tags %}
+{% load url_map %}
 
-<div class="main-nav-container {{ device_type }}">
+<div class="shared-nav-container main-nav-container {{ device_type }}">
   <nav id="{{ id }}" class="main-nav {{ device_type }} expanded" aria-label="{% trans 'Main menu' %}">
     <ul class="grid-row nav-list">
+      {% if FEATURE_SHOW_MAGNA_LINKS_IN_HEADER %}
       <li class="menu-item" data-js-menu-item-container>
-        <a href="{% slugurl 'advice' %}" class="link-heading" id="header-advice-{{ device_type }}" {% if js_tag %}data-js-menu-index=0{% endif %}>Advice</a>
+        <a href="{% slugurl 'categories' %}" class="link-heading new mobile-only" id="header-learn-{{ device_type }}" {% if js_tag %}data-js-menu-index=0{% endif %}>Learn to export</a>
       </li>
 
       <li class="menu-item" data-js-menu-item-container>
-        <a href="{% slugurl 'markets' %}" class="link-heading" id="header-markets-{{ device_type }}" {% if js_tag %}data-js-menu-index=1{% endif %}>Markets</a>
+        <a href="{% url 'core:compare-countries' %}" class="link-heading new mobile-only" id="header-where-{{ device_type }}" {% if js_tag %}data-js-menu-index=1{% endif %}>Where to export</a>
+      </li>
+
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="{% slugurl 'dashboard' %}" class="link-heading new mobile-only" id="header-make-{{ device_type }}" {% if js_tag %}data-js-menu-index=2{% endif %}>Make an export plan</a>
+      </li>
+      {% endif %}
+
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="{% slugurl 'advice' %}" class="link-heading" id="header-advice-{{ device_type }}" {% if js_tag %}data-js-menu-index=3{% endif %}>Advice</a>
+      </li>
+
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="{% slugurl 'markets' %}" class="link-heading" id="header-markets-{{ device_type }}" {% if js_tag %}data-js-menu-index=4{% endif %}>Markets</a>
       </li>
 
       {% comment "Hide until services page is implemented" %}
       <li class="menu-item" data-js-menu-item-container>
-        <a href="{{ header_footer_urls.services }}" class="link-heading" id="header-services-{{ device_type }}" {% if js_tag %}data-js-menu-index=2{% endif %}>Services</a>
+        <a href="{{ header_footer_urls.services }}" class="link-heading" id="header-services-{{ device_type }}" {% if js_tag %}data-js-menu-index=6{% endif %}>Services</a>
       </li>
       {% endcomment %}
 
       {% if features.NEWS_SECTION_ON %}
         <li class="menu-item" data-js-menu-item-container>
-          <a href="{{ header_footer_urls.domestic_news }}" class="link-heading" id="header-news-{{ device_type }}" {% if js_tag %}data-js-menu-index=3{% endif %}>News and events</a>
+          <a href="{{ header_footer_urls.domestic_news }}" class="link-heading" id="header-news-{{ device_type }}" {% if js_tag %}data-js-menu-index=7{% endif %}>News and events</a>
         </li>
       {% endif %}
     </ul>
+    <a href="{% url 'core:login' %}" class="button button-blue margin-top-15 mobile-only">Sign in</a>
   </nav>
 </div>

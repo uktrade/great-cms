@@ -1,0 +1,32 @@
+@import 'helpers/colours';
+
+.segmentation-modal {
+    @include breakpoint(sm) {
+      width: 450px;
+      height: auto;
+    }
+
+  .multiple-choice {
+    label {
+      line-height: unset;
+      font-weight: unset;
+      padding-left: 5px;
+    }
+
+    [type='radio'] + label {
+      @include breakpoint(sm_lt) {
+        position: unset;
+      }
+    }
+
+    [type=radio] + label::before {
+      top: 4px;
+      border-color: $light-grey;
+    }
+
+    [type=radio] + label::after {
+      top: 10px;
+      border-color: $lightened-great-blue;
+    }
+  }
+}
