@@ -12,11 +12,12 @@ def test_pdf_context_provider(get_request):
 
     pdf_context = PDFContextProvider().get_context_provider_data(get_request)
 
-    assert len(pdf_context['export_plan']) == len(get_request.user.export_plan.data)
+    assert len(pdf_context['export_plan'].data) == len(get_request.user.export_plan.data)
     assert pdf_context['user'] == get_request.user
     assert pdf_context['sections'] is not None
     assert pdf_context['calculated_pricing'] is not None
-    assert pdf_context['host_url'] == ''
+    assert pdf_context['contact_detail'] == {'email': 'great.support@trade.gov.uk'}
+    assert pdf_context['host_url'] == 'testserver'
 
 
 def test_insightdata_context_provider(mock_get_comtrade_data, multiple_country_data, get_request):
