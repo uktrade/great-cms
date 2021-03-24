@@ -389,7 +389,7 @@ international_redirects += [
 
 # TOS and privacy-and-cookies are no longer translated, instead we redirect to
 # the ENG version
-TOS_AND_PRIVACY_REDIRECT_LANGUAGES = ('zh', 'ja', r'es', 'pt', 'ar', 'de')
+TOS_AND_PRIVACY_REDIRECT_LANGUAGES = ('zh', 'ja', 'es', 'pt', 'ar', 'de')
 
 tos_redirects = [
     url(
