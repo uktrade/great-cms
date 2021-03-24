@@ -1,0 +1,119 @@
+{% extends 'domestic/base.html' %}
+
+{% load static %}
+{% load breadcrumbs from component_tags %}
+
+{% block head_title %}UK Export Finance - What we offer you{% endblock %}
+
+{% block meta_description %}{% endblock %}
+
+{% block css_layout_class %}article-detail-page ukef-article-detail-page{% endblock css_layout_class %}
+
+{% block content %}
+
+  <div class="container">
+    {% breadcrumbs 'What we offer you' %}
+      <a href="/">great.gov.uk</a>
+      <a href="{% url 'domestic:get-finance' %}">UKEF</a>
+      <a href="{% url 'domestic:project-finance' %}">Project Finance</a>
+    {% endbreadcrumbs %}
+  </div>
+  <section id="article-what-we-offer">
+    <article class="article-main what-we-offer-you-article">
+      <div class="container">
+        <header>
+          <div class="grid-row">
+            <div class="column-three-quarters article-hero-text">
+              <div class="grid-row">
+                <div class="column-seven-ninths">
+                  <h1 class="heading-xlarge">What we offer you</h1>
+                  <div class="text">
+                    <p class="font-medium">
+                      We support complex international projects through financing, export credits and insurance. Buyers of goods and services from the UK can also benefit from longer repayment tenors than may otherwise be available.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="grid-row">
+          <div class="column-three-quarters">
+            <img src="{% static 'images/what-we-offer-you-hero.jpg' %}" alt="" class="width-full">
+
+            <section class="grid-row">
+              <div class="column-seven-ninths article-content padding-bottom-0">
+                <h2 class="heading-medium">Project financing</h2>
+                <p>
+                  Through our <a href="https://www.gov.uk/guidance/buyer-credit-facility" class="link" rel="noopener noreferrer" target="_blank" title="Opens in a new window">Buyer Credit</a> and <a
+                  href="https://www.gov.uk/guidance/supplier-credit-financing-facility" class="link" rel="noopener noreferrer" target="_blank">Supplier Credit</a> facilities,
+									UKEF offers financial guarantees to banks, where they may otherwise be unwilling to lend. This gives real reassurance to all sides of international
+									trade deals, and allows overseas buyers to benefit from the UK’s credit rating.
+                </p>
+                <p>
+                  We’re flexible: we provide support in over 60 local currencies and work within a wide variety of contractual and finance structures.
+									These include lines of credit, limited recourse project financing, public-private partnerships and Shariah-compliant (Islamic Sukuk) finance.
+                </p>
+                <p>
+                  Where banks can’t or won’t offer support, our <a href="https://www.gov.uk/guidance/direct-lending-scheme" class="link" rel="noopener noreferrer" target="_blank" title="Opens in a new window">Direct Lending</a>
+									facility lends directly to overseas buyers or brokers alternative fixed-rate source of funding.
+                </p>
+
+                <h2 class="heading-medium">Support to fulfil contracts</h2>
+                <p>
+                  UKEF can help exporters and their direct suppliers in fulfilling their contracts either
+									through the provision of working capital or by providing support for the issuance of contract bonds.
+                </p>
+
+                <h2 class="heading-medium">Insurance for UK exporters</h2>
+                <p>
+                  If you’re working in challenging markets, our insurance products let you manage risk, where the private market is unable to step in.
+                  <a href="https://www.gov.uk/guidance/export-insurance-policy" class="link" rel="noopener noreferrer" target="_blank" title="Opens in a new window">UKEF’s Export Insurance Policy</a> and
+                  <a href="https://www.gov.uk/guidance/bond-insurance-policy" class="link" rel="noopener noreferrer" target="_blank" title="Opens in a new window">Bond Insurance Policy</a> cover you in the event of
+                  non-payment or demand for payment under a bond, which is either unfair or caused by political events.
+                </p>
+                <h2 class="heading-medium">UKEF premiums</h2>
+                <p>We can give you an <a href="https://www.gov.uk/government/publications/sovereign-premium-indicator-tool" class="link" rel="noopener noreferrer" target="_blank" title="Opens in a new window">indicative premium rate</a> for medium or long-term transactions, where we will be supporting an overseas sovereign buyer as the risk entity.</p>
+              </div>
+            </section>
+          </div>
+          <div class="column-quarter">
+            <div class="panel-vertical-narrow">
+              <ul>
+                <li class="heading-small">
+                  <a href="{% url 'domestic:how-we-assess-your-project' %}" class="link">How we assess your project</a>
+                </li>
+                <li class="heading-small">
+                  <a href="{% url 'domestic:country-cover' %}" class="link">Check our country cover</a>
+                </li>
+                <li class="heading-small">
+                  <a href="https://www.gov.uk/government/collections/uk-export-finance-products-and-services" class="link" rel="noopener noreferrer" target="_blank" title="Opens in a new window">UKEF services and products</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section id="contact-us-section" class="contact-us-section padding-vertical-60 background-stone-30">
+    <div class="container">
+      <div class="grid-row">
+        <div class="column-three-quarters">
+          <div class="grid-row">
+            <div class="column-seven-ninths padding-0">
+              <div class="column-full padding-bottom-30">
+                <p class="text small">Contact us about your project.</p>
+              </div>
+              <div class="column-full">
+                <a href="{% url 'domestic:uk-export-contact' %}" class="button">Get in touch</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
