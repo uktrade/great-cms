@@ -21,7 +21,7 @@
 
 {% block content %}
 
-{% if is_logged_out %}
+{% if not request.user.is_authenticated %}
   {% include 'components/landing_hero_with_cta.html' with hero_image=page.hero_image heading=page.hero_text cta_text=page.hero_cta_text cta_link=page.hero_cta_url %}
 {% else %}
   {% include 'components/landing_hero_with_cta.html' with hero_image=page.hero_image heading=page.hero_text_signedin cta_text=page.hero_cta_text_signedin cta_link=page.hero_cta_url_signedin %}
