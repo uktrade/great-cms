@@ -18,8 +18,8 @@
 - GP2-1927 - Modal window Issues--Export plan pages
 - GP2-1616 - Port UKEF pages from V1 (not including /get-finance/* yet)
 - GP2-1719 - Segmentation question
+- GP2-1934 - download exportplan plan enhancements
 
-=======
 
 
 ## [1.5.0](https://github.com/uktrade/great-cms/releases/tag/1.5.0)
