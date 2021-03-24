@@ -133,8 +133,8 @@ describe('ObjectivesList', () => {
     queryByLabelText('Objective 3')
     await waitFor(() => {
       expect(Services.deleteObjective).toHaveBeenCalledTimes(1)
-      // expect(Services.deleteObjective).toHaveBeenCalledWith(3)
-      // expect(queryByLabelText('Objective 3')).not.toBeInTheDocument()
+      expect(Services.deleteObjective).toHaveBeenCalledWith(3)
+      expect(queryByLabelText('Objective 3')).not.toBeInTheDocument()
     })
   })
 })
