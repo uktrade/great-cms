@@ -14,6 +14,8 @@ export const Objective = memo(
       })
     }
 
+    const ISONow = new Date().toISOString().slice(0, 10)
+
     const onDelete = () => {
       deleteObjective(data.pk)
     }
@@ -39,7 +41,7 @@ export const Objective = memo(
                   id="start_date"
                   type="date"
                   label="Start date"
-                  minDate={data.start_date}
+                  minDate={ISONow}
                   value={data.start_date}
                   onChange={onChange}
                   errors={[]}
