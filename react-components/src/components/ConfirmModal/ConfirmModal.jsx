@@ -2,7 +2,7 @@ import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
-export const ConfirmModal = memo(({ action, hasData }) => {
+export const ConfirmModal = memo(({ deleteItem, hasData }) => {
   const [modal, setModal] = useState(false)
 
   return (
@@ -14,11 +14,11 @@ export const ConfirmModal = memo(({ action, hasData }) => {
           if (hasData) {
             setModal(true)
           } else {
-            action()
+            deleteItem()
           }
         }}
       >
-        <i className="fas fa-trash-alt" />
+        <i className="fas fa-trash-alt" title="delete Objective" />
       </button>
       <ReactModal
         isOpen={modal}
@@ -38,7 +38,7 @@ export const ConfirmModal = memo(({ action, hasData }) => {
                 type="button"
                 className="button button--icon inline m-r-xs"
                 onClick={() => {
-                  action()
+                  deleteItem()
                   setModal(false)
                 }}
               >
@@ -62,5 +62,5 @@ export const ConfirmModal = memo(({ action, hasData }) => {
 
 ConfirmModal.propTypes = {
   hasData: PropTypes.bool.isRequired,
-  action: PropTypes.func.isRequired,
+  deleteItem: PropTypes.func.isRequired,
 }

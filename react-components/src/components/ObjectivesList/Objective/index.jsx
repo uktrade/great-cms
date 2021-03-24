@@ -83,7 +83,10 @@ export const Objective = memo(
           </div>
           <div className="text-center">
             <hr className="hr hr--light" />
-            <ConfirmModal action={onDelete} hasData={objectHasValue(fields)} />
+            <ConfirmModal
+              deleteItem={onDelete}
+              hasData={objectHasValue(fields)}
+            />
           </div>
         </div>
         <ErrorList errors={errors.__all__ || []} />
