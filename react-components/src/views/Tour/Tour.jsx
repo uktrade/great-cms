@@ -1,11 +1,12 @@
 /* eslint-disable */
 import React from 'react'
+import PropTypes from 'prop-types'
 import ReactTour from 'reactour'
 
 import { slugify } from '../../Helpers'
 
-export default function Tour(props) {
-  const steps = [].map((step) => {
+export default function Tour({ steps, isOpen, handleClose }) {
+  const stepsArr = steps.map((step) => {
     return {
       ...step,
       content: (
@@ -33,9 +34,9 @@ export default function Tour(props) {
       onBeforeClose={() => {
         document.body.style.overflowY = 'auto'
       }}
-      steps={steps}
-      isOpen={props.isOpen}
-      onRequestClose={props.handleClose}
+      steps={stepsArr}
+      isOpen={isOpen}
+      onRequestClose={handleClose}
       showNumber={false}
       lastStepNextButton={
         <button
@@ -58,4 +59,14 @@ export default function Tour(props) {
       rounded={4}
     />
   )
+}
+
+Tour.protoTypes = {
+  steps: PropTypes.array,
+  isOpen: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+}
+
+Tour.defaultProps = {
+  steps: [],
 }
