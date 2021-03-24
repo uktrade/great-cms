@@ -13,6 +13,7 @@
 
 ### Enhancements
 
+- GP2-800 - Objectives page Date picker
 - GP2-1869 - Logged in magna mobile header
 - GP2-1840 - Logged in magna desktop header
 - GP2-1849 - Feature flag magna links in logged out mobile header
