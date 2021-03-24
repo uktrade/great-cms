@@ -23,6 +23,7 @@ export const Input = memo(
     prepend,
     className,
     formGroupClassName,
+    minDate,
   }) => (
     <FormGroup
       errors={errors}
@@ -47,6 +48,7 @@ export const Input = memo(
           } ${className}`}
           id={id}
           type={type}
+          min={minDate}
           name={id}
           disabled={disabled}
           onChange={(e) => onChange({ [id]: e.target.value })}
@@ -66,6 +68,7 @@ Input.propTypes = {
   disabled: PropTypes.bool,
   id: PropTypes.string.isRequired,
   type: PropTypes.string,
+  minDate: PropTypes.string,
   placeholder: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
@@ -106,4 +109,5 @@ Input.defaultProps = {
   prepend: '',
   className: '',
   formGroupClassName: '',
+  minDate: '',
 }

@@ -15194,6 +15194,12 @@ var Tooltip = ({
     setTooltipOpen(false);
   };
 
+  var onKeyClose = key => {
+    if (key === 'Enter') {
+      onClickClose();
+    }
+  };
+
   (0, _react.useEffect)(() => {
     if (isComponentVisible && !mount) {
       updatePositionOffset(ref);
@@ -15225,7 +15231,9 @@ var Tooltip = ({
   }, /*#__PURE__*/_react.default.createElement("span", {
     className: "tooltip__close",
     title: "Click or press Escape to close Educational moment",
-    onClick: onClickClose
+    onClick: onClickClose,
+    onKeyUp: e => onKeyClose(e.key),
+    tabIndex: "0"
   }, /*#__PURE__*/_react.default.createElement("i", {
     className: "fas fa-times text-blue-deep-80"
   })), title && /*#__PURE__*/_react.default.createElement("div", {
@@ -66383,7 +66391,7 @@ var CaseStudy = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_re
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, content && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "case-study__media body-l"
     }, content), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "case-study__mobile body-l"
+      className: 'case-study__mobile body-l ' + block.type + '-block'
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_slick__WEBPACK_IMPORTED_MODULE_3___default.a, settings, content))));
   };
 
@@ -66399,7 +66407,7 @@ var CaseStudy = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_re
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, block.type === 'quote' && responsiveBlock(block, sliderSettings.quote), block.type === 'text' && react_html_parser__WEBPACK_IMPORTED_MODULE_2___default()(block.content));
   });
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "case-study p-t-xs p-b-s"
+    className: "case-study p-t-m p-b-s"
   }, isOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "case-study__close",
     onClick: toggleCaseStudy,
@@ -69400,7 +69408,8 @@ var Input = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
       lesson = _ref.lesson,
       prepend = _ref.prepend,
       className = _ref.className,
-      formGroupClassName = _ref.formGroupClassName;
+      formGroupClassName = _ref.formGroupClassName,
+      minDate = _ref.minDate;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_FormGroup__WEBPACK_IMPORTED_MODULE_2__["FormGroup"], {
     errors: errors,
     label: label,
@@ -69419,6 +69428,7 @@ var Input = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
     className: "form-control ".concat(prepend ? 'form-control-prepend' : '', " ").concat(className),
     id: id,
     type: type,
+    min: minDate,
     name: id,
     disabled: disabled,
     onChange: function onChange(e) {
@@ -69436,6 +69446,7 @@ Input.propTypes = {
   disabled: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
   id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
   type: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  minDate: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   placeholder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   onChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
@@ -69474,7 +69485,8 @@ Input.defaultProps = {
   lesson: {},
   prepend: '',
   className: '',
-  formGroupClassName: ''
+  formGroupClassName: '',
+  minDate: ''
 };
 
 /***/ }),
@@ -71690,7 +71702,7 @@ function Menu(props) {
 
   var logout = function logout() {
     _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].logout()["finally"](function () {
-      window.location = '/';
+      window.location.reload();
     });
   };
 
@@ -71884,6 +71896,7 @@ var Objective = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_re
     id: "start_date",
     type: "date",
     label: "Start date",
+    minDate: data.start_date,
     value: data.start_date,
     onChange: _onChange,
     errors: []
@@ -71893,6 +71906,7 @@ var Objective = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_re
     id: "end_date",
     type: "date",
     label: "End date",
+    minDate: data.start_date,
     value: data.end_date,
     onChange: _onChange,
     errors: []
@@ -74887,7 +74901,7 @@ function Segmentation(props) {
     label: 'I have exported before but not in the last 12 months',
     value: 'REASSURE'
   }, {
-    label: 'I have never exported but have a product or service that is suitable or that could be developed for export',
+    label: 'I have never exported but have a product suitable or that could be developed for export',
     value: 'PROMOTE'
   }, {
     label: 'I do not have a product or service for export',
@@ -78217,10 +78231,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Tour; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var reactour__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! reactour */ "./node_modules/reactour/dist/reactour.esm.js");
-/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var reactour__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! reactour */ "./node_modules/reactour/dist/reactour.esm.js");
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -78231,20 +78243,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
-function Tour(_ref) {
-  var steps = _ref.steps,
-      isOpen = _ref.isOpen,
-      handleClose = _ref.handleClose;
-  var stepsArr = steps.map(function (step) {
+function Tour(props) {
+  var steps = [].map(function (step) {
     return _objectSpread(_objectSpread({}, step), {}, {
       content: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
         className: "h-s p-v-0",
-        id: 'page-tour-step-' + Object(_Helpers__WEBPACK_IMPORTED_MODULE_3__["slugify"])(step.title)
+        id: 'page-tour-step-' + Object(_Helpers__WEBPACK_IMPORTED_MODULE_2__["slugify"])(step.title)
       }, step.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, step.body))
     });
   });
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactour__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactour__WEBPACK_IMPORTED_MODULE_1__["default"], {
     onAfterOpen: function onAfterOpen() {
       document.body.style.overflowY = 'hidden';
     },
@@ -78254,9 +78262,9 @@ function Tour(_ref) {
     onBeforeClose: function onBeforeClose() {
       document.body.style.overflowY = 'auto';
     },
-    steps: stepsArr,
-    isOpen: isOpen,
-    onRequestClose: handleClose,
+    steps: steps,
+    isOpen: props.isOpen,
+    onRequestClose: props.handleClose,
     showNumber: false,
     lastStepNextButton: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "button button--primary p-v-xxs p-h-xs",
@@ -78271,14 +78279,6 @@ function Tour(_ref) {
     rounded: 4
   });
 }
-Tour.protoTypes = {
-  steps: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.array,
-  isOpen: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool.isRequired,
-  handleClose: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
-};
-Tour.defaultProps = {
-  steps: []
-};
 
 /***/ }),
 
