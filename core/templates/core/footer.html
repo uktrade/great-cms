@@ -1,25 +1,33 @@
 {% load static %}
 {% load wagtailcore_tags %}
 {% load url_map %}
-<footer class="magna-footer" id="footer">
+<footer class="magna-footer shared-footer" id="footer">
   <nav class="magna-footer__nav bg-blue-deep-90 text-white">
     <ul class="magna-footer__links footer-links">
       <li>
-        <a href="{% url_map 'privacy' %}">Privacy notice</a>
+        <a href="{% url 'core:contact-us-help' %}">Contact us</a>
+      </li>
+      <li>
+        <a href="{% url_map 'privacy' %}">Privacy and cookies</a>
       </li>
       <li>
         <a href="{% url_map 'terms' %}">Terms and conditions</a>
       </li>
       <li>
-        <a href="{% url 'core:contact-us-help' %}">Contact us</a>
+        <a href="{% url_map 'accessibility-statement' %}">Accessibility</a>
       </li>
       <li>
-        <a class='m-r-m' href="https://{{ dit_on_govuk }}" target="_blank"
+        <a href="{% url_map 'performance-dashboard' %}">Performance</a>
+      </li>
+      <li>
+        <a href="https://{{ dit_on_govuk }}" target="_blank"
           rel="noopener">Department for International Trade on GOV.UK</a>
       </li>
+      {% if FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK %}
       <li>
-        <a href="#">Account</a>
+        <a href="#">Go to the page for international business</a>
       </li>
+      {% endif %}
     </ul>
     <div class="magna-footer__great-logo">
       <a href="/">
