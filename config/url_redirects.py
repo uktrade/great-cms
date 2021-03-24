@@ -70,10 +70,6 @@ redirects = [
         r'^trskorea/$(?i)',
         QuerystringRedirectView.as_view(url='https://eu.eventscloud.com/korea-uk-tech-rocketship-awards-kr'),
     ),
-    url(
-        r'^TRSkorea/$',
-        QuerystringRedirectView.as_view(url='https://eu.eventscloud.com/korea-uk-tech-rocketship-awards-kr'),
-    ),
     url(r'^ukti/$(?i)', QuerystringRedirectView.as_view(url='/')),
     url(
         r'^future/$',
