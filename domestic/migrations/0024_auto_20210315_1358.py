@@ -12,12 +12,17 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='greatdomestichomepage',
-            name='hero_cta_text_si',
+            name='hero_cta_text_signedin',
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
         migrations.AddField(
             model_name='greatdomestichomepage',
-            name='hero_text_si',
+            name='hero_text_signedin',
             field=models.TextField(blank=True, null=True),
+        ),
+        migrations.AddField(
+            model_name='greatdomestichomepage',
+            name='hero_cta_url_signedin',
+            field=models.CharField(blank=True, max_length=255, null=True),
         ),
     ]
