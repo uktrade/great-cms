@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import { TextArea } from '@src/components/Form/TextArea'
 import { Input } from '@src/components/Form/Input'
+import { dateNowISO } from '@src/Helpers'
 import ErrorList from '../../ErrorList'
 
 export const Objective = memo(
@@ -14,7 +15,7 @@ export const Objective = memo(
       })
     }
 
-    const ISONow = new Date().toISOString().slice(0, 10)
+    const ISONow = dateNowISO()
 
     const onDelete = () => {
       deleteObjective(data.pk)
