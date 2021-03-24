@@ -1,9 +1,24 @@
+{% comment %}
+
+Optional params
+
+    * image_url:string -  absolute URL for an image (eg from /static/)
+    * image:Image - Wagtail image instance, from which we need to make a rendition
+
+If both are available, `image_url` will be used over `image`
+
+{% endcomment %}
+
 {% load wagtailimages_tags %}
 
+{% if not image_url %}
 {% image image original as rendition %}
-<section class="great-hero {% if not rendition %}great-hero-no-image{% endif %}"
+{% endif %}
+{% firstof image_url rendition.url as image_url %}
+
+<section class="great-hero {% if not image_url %}great-hero-no-image{% endif %}"
     id="hero"
-    {% if image %}style="background-image: url({{ rendition.url }})"{% endif %}>
+    {% if image_url %}style="background-image: url({{ image_url }})"{% endif %}>
   <div class="container">
     <div class="great-hero-title">
       {% if hero_subheading %}
