@@ -43,15 +43,11 @@ const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
         {content && (
           <>
             {/* Desktop rendering with content displayed as a stack  */}
-            <div className="case-study__media body-l">
-              {content}
-            </div>
+            <div className="case-study__media body-l">{content}</div>
 
             {/* Mobile rendering with content displayed within a carousel  */}
-            <div className={'case-study__mobile body-l ' + block.type + '-block'}>
-              <Slider {...settings}>
-                {content}
-              </Slider>
+            <div className="case-study__mobile body-l">
+              <Slider {...settings}>{content}</Slider>
             </div>
           </>
         )}
@@ -69,19 +65,15 @@ const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
   const body = blocks.map((block) => {
     return (
       <>
-        {block.type === 'quote' && (
-          responsiveBlock(block, sliderSettings.quote)
-        )}
-        {block.type === 'text' && (
-          ReactHtmlParser(block.content)
-        )}
+        {block.type === 'quote' && responsiveBlock(block, sliderSettings.quote)}
+        {block.type === 'text' && ReactHtmlParser(block.content)}
       </>
     )
   })
 
   return (
     <>
-      <div className="case-study p-t-m p-b-s">
+      <div className="case-study p-t-xs p-b-s">
         {isOpen && (
           <button
             className="case-study__close"
@@ -102,11 +94,7 @@ const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
               {company}
             </span>
             {image}
-            {isOpen && (
-              <>
-                {body}
-              </>
-            )}
+            {isOpen && <>{body}</>}
           </div>
         </div>
         {!isOpen && (
