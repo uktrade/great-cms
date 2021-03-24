@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { TextArea } from '@src/components/Form/TextArea'
 import { Input } from '@src/components/Form/Input'
 import { ConfirmModal } from '@src/components/ConfirmModal/ConfirmModal'
+import { objectHasValue } from '@src/Helpers'
 import ErrorList from '../../ErrorList'
 
 export const Objective = memo(
@@ -19,7 +20,7 @@ export const Objective = memo(
       deleteObjective(data.pk)
     }
 
-    const { companyexportplan, start_date, end_date, pk, ...rest } = data
+    const { companyexportplan, start_date, end_date, pk, ...fields } = data
 
     return (
       <>
@@ -70,7 +71,6 @@ export const Objective = memo(
               />
             </div>
             <div className="c-full">
-              <hr className="hr hr--light" />
               <TextArea
                 id="planned_reviews"
                 placeholder="Add some text"
@@ -83,10 +83,7 @@ export const Objective = memo(
           </div>
           <div className="text-center">
             <hr className="hr hr--light" />
-            <ConfirmModal
-              action={onDelete}
-              hasData={Object.values(rest).some((x) => x !== '')}
-            />
+            <ConfirmModal action={onDelete} hasData={objectHasValue(fields)} />
           </div>
         </div>
         <ErrorList errors={errors.__all__ || []} />
