@@ -4,6 +4,7 @@
 
 ### Fixed bugs
 
+- GP2-2074 - redirect user to homepage after signout
 - GP2-1277 - Videos not displaying correctly for case studies
 - GP2-1710 - C&P units copy change, currency width and copy change.
 - GP2-1931 - add placeholder text
@@ -21,8 +22,6 @@
 - GP2-1927 - Modal window Issues--Export plan pages
 - GP2-1616 - Port UKEF pages from V1
 - GP2-1719 - Segmentation question
-
-=======
 
 ## [1.5.0](https://github.com/uktrade/great-cms/releases/tag/1.5.0)
 
