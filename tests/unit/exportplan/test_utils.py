@@ -12,8 +12,7 @@ def test_format_two_dp():
 
 def test_render_to_pdf_error(user, get_request):
     pdf_context = {
-        'export_plan': get_request.user.export_plan.data,
-        'my_export_plan': get_request.user.export_plan,
+        'export_plan': get_request.user.export_plan,
         'user': get_request.user,
     }
 
