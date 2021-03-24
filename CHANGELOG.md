@@ -12,6 +12,7 @@
 
 ### Enhancements
 
+- GP2-1869 - Logged in magna mobile header
 - GP2-1840 - Logged in magna desktop header
 - GP2-1849 - Feature flag magna links in logged out mobile header
 - GP2-1927 - Modal window Issues--Export plan pages
