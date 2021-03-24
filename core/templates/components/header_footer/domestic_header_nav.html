@@ -39,6 +39,32 @@
         </li>
       {% endif %}
     </ul>
-    <a href="{% url 'core:login' %}" class="button button-blue margin-top-15 mobile-only">Sign in</a>
+    {% if request.user.is_authenticated %}
+      <button class="button button-blue margin-top-15 mobile-only" id="sign_out_button_{{ device_type }}">Sign out</button>
+    {% else %}
+      <a href="/login" class="button button-blue margin-top-15 mobile-only">Sign in</a>
+    {% endif %}
   </nav>
 </div>
+<script>
+  {% url 'sso:business-sso-logout-api' as sign_out_endpoint %}
+  var signOutButton = document.getElementById('sign_out_button_mobile');
+
+  if (signOutButton) {
+    signOutButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      fetch('{{ sign_out_endpoint }}', {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: JSON.stringify({})
+      }).then(function() {
+        window.location.reload();
+      });
+    });
+  }
+</script>
