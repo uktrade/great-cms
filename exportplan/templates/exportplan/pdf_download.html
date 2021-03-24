@@ -45,7 +45,7 @@
       {% if not user.company.logo %}
       <img class="logo logo--cover" src="https://via.placeholder.com/600/dfd5c5?text=Company%20logo">
       {% comment %}
-      <img class="logo logo--cover" src="{{host_url}}{% static 'pdf/pdf_download_logo.jpg' %}">
+      <img class="logo logo--cover" src="{{pdf_statics_url}}pdf/pdf_download_logo.jpg">
       {% endcomment %}
       {% else %}
       <img class="logo logo--cover" alt="{{ user.company.name }}" src="{{ user.company.logo }}"/>
@@ -68,7 +68,7 @@
   </tr>
   <tr class="text-align-right">
     <td class="pad-t-4">
-      <img class="logo logo--great" src="{{host_url}}{% static 'pdf/pdf_download_great-logo.jpg' %}" alt="NA" />
+      <img class="logo logo--great" src="{{pdf_statics_url}}pdf/pdf_download_great-logo.jpg" alt="NA" />
     </td>
   </tr>
 </table>
@@ -447,7 +447,7 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">
-              <img class="icon icon--title" src="{{host_url}}{% static 'pdf/pdf-icon_tag.jpg' %}">
+              <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_tag.jpg">
               &nbsp;
               &nbsp;
               Labeling
@@ -459,7 +459,7 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">
-              <img class="icon icon--title" src="{{host_url}}{% static 'pdf/pdf-icon_dolly.jpg' %}">
+              <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_dolly.jpg">
               &nbsp;
               &nbsp;
               Packaging
@@ -471,7 +471,7 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">
-              <img class="icon icon--title" src="{{host_url}}{% static 'pdf/pdf-icon_weight.jpg' %}">
+              <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_weight.jpg">
               &nbsp;
               &nbsp;
               Size
@@ -483,7 +483,7 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">
-              <img class="icon icon--title" src="{{host_url}}{% static 'pdf/pdf-icon_barcode.jpg' %}">
+              <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_barcode.jpg">
               &nbsp;
               &nbsp;
               Product changes to comply with standards
@@ -495,7 +495,7 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">
-              <img class="icon icon--title" src="{{host_url}}{% static 'pdf/pdf-icon_feather-alt.jpg' %}">
+              <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_feather-alt.jpg">
               &nbsp;
               &nbsp;
               Translations
@@ -507,7 +507,7 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">
-              <img class="icon icon--title" src="{{host_url}}{% static 'pdf/pdf-icon_money-check.jpg' %}">
+              <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_money-check.jpg">
               &nbsp;
               &nbsp;
               Other changes

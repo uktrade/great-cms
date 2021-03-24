@@ -18,9 +18,7 @@
 - GP2-1927 - Modal window Issues--Export plan pages
 - GP2-1616 - Port UKEF pages from V1 (not including /get-finance/* yet)
 - GP2-1719 - Segmentation question
-
-=======
-
+- NOTICKET - Fix pdf static images
 
 ## [1.5.0](https://github.com/uktrade/great-cms/releases/tag/1.5.0)
 

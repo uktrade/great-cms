@@ -195,9 +195,9 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = str(ROOT_DIR('media'))
 MEDIA_URL = '/media/'  # NB: this is overriden later, if/when AWS is set up
+PDF_STATIC_URL = ''  # NB: overriiden by AWS public s3 if setup
 
 # Wagtail settings
-
 WAGTAIL_SITE_NAME = 'Great CMS MVP'
 WAGTAIL_FRONTEND_LOGIN_URL = reverse_lazy('core:login')
 
@@ -343,6 +343,9 @@ if USER_MEDIA_ON_S3 and (AWS_STORAGE_BUCKET_NAME or AWS_S3_CUSTOM_DOMAIN):
         hostname = f'{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_HOST}'
     MEDIA_URL = f'{AWS_S3_URL_PROTOCOL}//{hostname}/'
 
+# PDF statics need to be stored on public s3 drive for access
+if AWS_STORAGE_BUCKET_NAME:
+    PDF_STATIC_URL = f'{AWS_S3_URL_PROTOCOL}//{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_HOST}/export_plan_pdf_statics/'
 
 if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
