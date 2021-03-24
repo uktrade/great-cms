@@ -2,11 +2,10 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import actions from '@src/actions'
-import { Tooltip } from '@components/tooltip/Tooltip'
 import { isArray, mapArray, deepAssign } from '../../Helpers'
+import blocks from './blocks'
 
 let cache = {}
-const DATA_NA = 'Data not available'
 
 export default function DataTable(props) {
   const {
@@ -16,6 +15,9 @@ export default function DataTable(props) {
     commodityCode,
     removeMarket,
     cacheVersion,
+    mobile,
+    triggerButton,
+    tabStrip,
   } = props
 
   const dataIn = (data) => {
@@ -139,82 +141,91 @@ export default function DataTable(props) {
     }
   }, [commodityCode, comparisonMarkets])
 
-  const yearDiv = (year, baseYear) => {
-    return (
-      year &&
-      String(year) !== baseYear && (
-        <div className="body-m text-black-60 display-year">{year}</div>
-      )
+  const setBaseYear = (dataSet, markets, tabConfig) => {
+    // Calculate base year
+    const years = {}
+    Object.values(markets).forEach((market) => {
+      const countryData = dataSet && dataSet[market.country_iso2_code]
+      if (countryData) {
+        Object.values(tabConfig.columns).forEach((columnConfig) => {
+          if (columnConfig.year) {
+            try {
+              const year = columnConfig.year(countryData)
+              if (year) {
+                years[year] = (years[year] || 0) + 1
+              }
+            } catch {
+              // no data for year - it doesn't really matter.
+            }
+          }
+        })
+      }
+    })
+    blocks.setBaseYear(
+      Object.keys(years).sort((a, b) => {
+        return years[a] < years[b] ? 1 : -1
+      })[0]
     )
   }
 
-  const sourceAttribution = (attributions) => {
+  setBaseYear(cache[datasetName], comparisonMarkets, config)
+
+  if (mobile) {
     return (
-      <p className="source-attribution body-s m-r-s m-v-xs">
-        {attributions.map((attribution) => {
+      <>
+        <div className="bg-blue-deep-80 p-h-xs p-v-xs selected-places">
+          <h2 className="h-xs text-white p-v-0">Selected places</h2>
+          <div className="bg-white radius overflow-hidden p-h-s">
+            <table className="m-v-0 border-blue-deep-20 no-bottom-border">
+              <tbody>
+                {Object.values(comparisonMarkets).map((market) => {
+                  return (
+                    <tr key={market.country_iso2_code}>
+                      {blocks.renderCountryRowHeader(market, removeMarket)}
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+          {triggerButton}
+        </div>
+        <div className="p-h-s">{tabStrip}</div>
+        {config.filter && <div className="p-h-s">{config.filter}</div>}
+        {Object.keys(config.columns).map((columnKey) => {
+          const cellConfig = config.columns[columnKey]
           return (
-            <React.Fragment key={`attr-${attribution.title}`}>
-              <strong className="body-s-b">{attribution.title}</strong>
-              {attribution.preLinkText && (
-                <>&nbsp;{attribution.preLinkText}&nbsp;</>
-              )}
-              :&nbsp;
-              {attribution.linkTarget && (
-                <a
-                  href={attribution.linkTarget}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  {attribution.linkText}
-                </a>
-              )}
-              {attribution.text && <>&nbsp;{attribution.text}</>}
-              &nbsp;
-            </React.Fragment>
+            <div
+              key={columnKey}
+              className={`${columnKey} p-h-s m-t-xs ${
+                cellConfig.className || ''
+              }`}
+            >
+              <div className="text-align-left body-l-b p-v-xs">
+                {blocks.renderColumnHeader(cellConfig, mobile)}
+              </div>
+              <div className="bg-white radius overflow-hidden p-h-s">
+                <table className="m-v-0 border-blue-deep-20 no-bottom-border">
+                  <tbody>
+                    {blocks.renderMobileBlock(
+                      cache[datasetName],
+                      comparisonMarkets,
+                      columnKey,
+                      cellConfig
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           )
         })}
-      </p>
+        {config.sourceAttributions && (
+          <div className="bg-white radius overflow-hidden p-h-s m-t-s m-h-s">
+            {blocks.sourceAttribution(config.sourceAttributions)}
+          </div>
+        )}
+      </>
     )
-  }
-
-  const years = {}
-  Object.values(comparisonMarkets).forEach((market) => {
-    const countryData =
-      cache[datasetName] && cache[datasetName][market.country_iso2_code]
-    if (countryData) {
-      Object.values(config.columns).forEach((columnConfig) => {
-        if (columnConfig.year) {
-          try {
-            const year = columnConfig.year(countryData)
-            if (year) {
-              years[year] = (years[year] || 0) + 1
-            }
-          } catch {
-            // no data for year - it doesn't really matter.
-          }
-        }
-      })
-    }
-  })
-  const baseYear = Object.keys(years).sort((a, b) => {
-    return years[a] < years[b] ? 1 : -1
-  })[0]
-
-  const renderCell = (cellConfig, countryData) => {
-    try {
-      const value = cellConfig.render(countryData)
-      if (!value) {
-        throw new Error()
-      }
-      return (
-        <>
-          {value}
-          {yearDiv((cellConfig.year || (() => null))(countryData), baseYear)}
-        </>
-      )
-    } catch {
-      return DATA_NA
-    }
   }
 
   const tableBody = Object.values(comparisonMarkets).map((market) => {
@@ -229,7 +240,7 @@ export default function DataTable(props) {
         >
           {countryData &&
           (!countryData.loading || !countryData.loading[columnKey]) ? (
-            <>{renderCell(cellConfig, countryData)}</>
+            <>{blocks.renderCell(cellConfig, countryData)}</>
           ) : (
             <div className="loading">&nbsp;</div>
           )}
@@ -242,20 +253,7 @@ export default function DataTable(props) {
         key={`market-${market.country_iso2_code}`}
         id={`market-${market.country_name}`}
       >
-        <th className="p-v-xs  p-f-l name relative">
-          <button
-            type="button"
-            onClick={removeMarket}
-            className="button button--only-icon button--tertiary button--small f-l"
-            data-id={market.country_iso2_code}
-            aria-label={`Remove ${market.country_name}`}
-          >
-            <i className="fa fa-trash-alt icon--border" />
-          </button>
-          <div className="body-l-b" id={`market-${market.country_name}`}>
-            {market.country_name}
-          </div>
-        </th>
+        {blocks.renderCountryRowHeader(market, removeMarket)}
         {countryRow}
       </tr>
     )
@@ -278,17 +276,7 @@ export default function DataTable(props) {
                   }`}
                   key={columnKey}
                 >
-                  {config.columns[columnKey].name}
-                  {config.columns[columnKey].tooltip && (
-                    <div>
-                      <Tooltip
-                        title={cellConfig.tooltip.title}
-                        content={cellConfig.tooltip.content}
-                        position={cellConfig.tooltip.position}
-                        className="text-align-left body-m"
-                      />
-                    </div>
-                  )}
+                  {blocks.renderColumnHeader(cellConfig)}
                 </th>
               )
             })}
@@ -296,13 +284,7 @@ export default function DataTable(props) {
         </thead>
         <tbody>{tableBody}</tbody>
       </table>
-      {baseYear && (
-        <div className="base-year body-m m-t-xs">
-          Displaying data from {baseYear} unless otherwise indicated.
-        </div>
-      )}
-      {config.sourceAttributions &&
-        sourceAttribution(config.sourceAttributions)}
+      {blocks.sourceAttribution(config.sourceAttributions)}
     </span>
   )
 }
@@ -315,11 +297,16 @@ DataTable.propTypes = {
     sourceAttributions: PropTypes.instanceOf(Array),
     dataFunction: PropTypes.func,
     groups: PropTypes.instanceOf(Object),
+    filter: PropTypes.element,
   }).isRequired,
   commodityCode: PropTypes.string.isRequired,
   removeMarket: PropTypes.func.isRequired,
   cacheVersion: PropTypes.number,
+  mobile: PropTypes.bool,
+  triggerButton: PropTypes.element.isRequired,
+  tabStrip: PropTypes.element.isRequired,
 }
 DataTable.defaultProps = {
   cacheVersion: null,
+  mobile: false,
 }

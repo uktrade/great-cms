@@ -3,43 +3,9 @@ from django.forms import Select
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtail.snippets.models import register_snippet
 
+from core import snippet_slugs
 from core.cms_panels import SearchEngineOptimisationPanel
-from . import snippet_slugs
-
-
-class NonPageContentSnippetBase(models.Model):
-    # Ensures all ContentSnippets have the minimum reqired fields, such as `slug`
-    class Meta:
-        abstract = True
-
-    def save(self, *args, **kwargs):
-        if not hasattr(self, 'slug'):
-            raise NotImplementedError('The subclass must have a slug field.')
-
-        if not self.slug:
-            raise NotImplementedError('The subclass must set a value for self.slug before during save()')
-
-        return super().save()
-
-
-class NonPageContentSEOMixin(models.Model):
-    """Provides the SEO panels/fields that pages usually have, but for Snippets that
-    are used to provide editable content chunks slotted inot Django views/wizards"""
-
-    class Meta:
-        abstract = True
-
-    seo_title = models.CharField(
-        max_length=255,
-        verbose_name='Page title',
-        help_text="Optional. 'Search Engine Friendly' title. This will appear at the top of the browser window.",
-        blank=True,
-    )
-
-    search_description = models.TextField(
-        verbose_name='Search description',
-        blank=True,
-    )
+from core.cms_snippets import NonPageContentSEOMixin, NonPageContentSnippetBase
 
 
 @register_snippet
@@ -48,7 +14,7 @@ class ContactSuccessSnippet(
     NonPageContentSnippetBase,
 ):
 
-    topic_mapping = {
+    slug_options = {
         # This limits the slugs and URL paths that can be configured for these snippets.
         # It follows a common pattern from the V1 site
         snippet_slugs.HELP_FORM_SUCCESS: {
@@ -85,28 +51,17 @@ class ContactSuccessSnippet(
         },
         snippet_slugs.HELP_FORM_SUCCESS_BEIS: {
             'title': 'Contact BEIS form success',
-            'page_path': 'contact/department-for-business-energy-and-industrial-strategy/success/',
+            'page_path': '/contact/department-for-business-energy-and-industrial-strategy/success/',
         },
         snippet_slugs.HELP_FORM_SUCCESS_DEFRA: {
             'title': 'Contact DEFRA form success',
-            'page_path': 'contact/department-for-environment-food-and-rural-affairs/success/',
+            'page_path': '/contact/department-for-environment-food-and-rural-affairs/success/',
         },
     }
 
-    # slug comes from NonPageContentSnippetBase
+    # slug field comes from NonPageContentSnippetBase
+    # internal_title field comes from NonPageContentSnippetBase
 
-    slug = models.CharField(
-        choices=[(key, val['title']) for key, val in topic_mapping.items()],
-        max_length=255,
-        unique=True,
-        verbose_name='Purpose',
-        help_text='Select the use-case for this snippet from a fixed list of choices',
-    )
-    internal_title = models.CharField(
-        max_length=255,
-        verbose_name='Title (internal use only - not publicly shown)',
-        editable=False,
-    )
     heading = models.CharField(
         max_length=255,
         verbose_name='Title',
@@ -150,8 +105,3 @@ class ContactSuccessSnippet(
 
     def __str__(self):
         return f'Contact Success Snippet: {self.internal_title}'
-
-    def save(self, *args, **kwargs):
-        field_values = self.topic_mapping.get(self.slug, {})
-        self.internal_title = field_values.get('title')
-        return super().save(*args, **kwargs)

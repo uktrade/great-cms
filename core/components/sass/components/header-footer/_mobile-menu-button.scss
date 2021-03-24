@@ -63,6 +63,9 @@
     // When expanded, the icon changes to an 'X', by rotating the top and bottom lines, and removing the middle one.
     &.expanded {
       background-color: $active-blue;
+      z-index: 1;
+      top: 60px;
+      transition: top .1s;
 
       .burger-icon {
         background-color: transparent;
@@ -86,4 +89,3 @@
     }
   }
 }
-

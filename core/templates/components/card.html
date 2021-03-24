@@ -1,6 +1,5 @@
 {% load i18n wagtailimages_tags %}
 {% load component_tags %}
-
 <div class="card{% if title and not description and not html_content %} only-title{% endif %}{% if no_padding_card %} no-padding-card{% endif %}{% if transparent_card %} transparent-card{% endif %}"
   {% if card_id %}id="{{ card_id }}"{% endif %}
 >
@@ -32,8 +31,10 @@
         {% if html_snippet %}
         {{ html_snippet }}
         {% endif %}
-        {% if is_logged_out %}
-        <span class="shared-tag">Sign in required</span>
+        {% if show_sign_in_required and not request.user.is_authenticated %}
+          {% if request.path == '/' %}
+            <span class="shared-tag">Sign in required</span>
+          {% endif %}
         {% endif %}
       {% endif %}
       {% endblock %}

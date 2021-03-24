@@ -67,12 +67,11 @@
   </div>
 </section>
 
-{% url "core:signup" as link_url %}
-<section id="country-guide-learning-banner" class="padding-vertical-30">
-  <div class="container">
-   {% include 'components/learning_banner.html' with tag_text="New" heading="Is this market right for you?" sub_heading="Make the right choice by comparing it with data from other countries." cta_text="Compare now" cta_url=link_url cta_alt_text="Compare now" %}
-  </div>
-</section>
+  <section id="country-guide-learning-banner" class="padding-vertical-30">
+    <div class="container">
+      {% include 'components/learning_banner.html' with tag_text="New" heading="Is this market right for you?" sub_heading="Make the right choice by comparing it with data from other countries." cta_text="Compare now" cta_url="/where-to-export/" cta_alt_text="Compare now" %}
+    </div>
+  </section>
 
 {% if page.section_two_heading %}
   <section id="country-guide-section-two" class="section-two padding-vertical-60">

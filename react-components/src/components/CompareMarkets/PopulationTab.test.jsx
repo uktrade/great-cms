@@ -124,4 +124,57 @@ describe('Compare markets - population tab', () => {
       '18.6 million'
     )
   })
+
+  it('Compare markets - Mobile layout', async () => {
+    // set a little window
+    Object.assign(window, { innerWidth: 600 });
+    // set up existing product in store
+
+    let selectedProduct = {
+      commodity_code: '123456',
+      commodity_name: 'my product',
+    }
+
+    const localContainer = container
+
+    Object.defineProperty(window.document, 'cookie', {
+      writable: true,
+      value: encodeURI(
+        `comparisonMarkets_6=${JSON.stringify({
+          NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
+          DE: { country_name: 'Germany', country_iso2_code: 'DE' },
+        })}`
+      ),
+    })
+
+    Services.store.dispatch(
+      actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
+    )
+
+    localContainer.innerHTML =
+      '<span id="cta-container"></span><span id="compare-market-container" ></span>'
+    const dataTabs = '{ "population": true }'
+    localContainer
+      .querySelector('#compare-market-container')
+      .setAttribute('data-tabs', dataTabs)
+    act(() => {
+      CompareMarkets({
+        element: localContainer.querySelector('#compare-market-container'),
+        cta_container: localContainer.querySelector('#cta-container'),
+      })
+    })
+    // check mock directory api data...
+    await waitFor(() => {
+      expect(getText(localContainer, '.market-details .selected-places')).toBeTruthy()
+    })
+    const selectedPlaces = localContainer.querySelector('.market-details .selected-places')
+    expect(getText(selectedPlaces, 'div')).toMatch('NetherlandsGermany')
+    expect(getText(selectedPlaces, 'button.add-market')).toMatch('Add place 3 of 10')
+    const rows = localContainer.querySelectorAll('.market-details .total_population tr')
+    expect(rows.length).toEqual(2)
+    expect(getText(rows[0], ' .country-name')).toMatch('Netherlands')
+    expect(getText(rows[0], 'td')).toMatch('17.2 million')
+    expect(getText(rows[1], ' .country-name')).toMatch('Germany')
+    expect(getText(rows[1], 'td')).toMatch('82.5 million')
+  })
 })

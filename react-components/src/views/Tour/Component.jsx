@@ -27,8 +27,8 @@ export default function Component(props) {
 Component.propTypes = {
   body: PropTypes.string.isRequired,
   buttonText: PropTypes.string.isRequired,
-  handleSkipTour: PropTypes.func.isRequired,
-  handleStartTour: PropTypes.func.isRequired,
+  handleSkip: PropTypes.func.isRequired,
+  handleStart: PropTypes.func.isRequired,
   handleTourClose: PropTypes.func.isRequired,
   handleDisable: PropTypes.func.isRequired,
   isOpen: PropTypes.bool,

@@ -123,7 +123,6 @@ class TargetAgeCountryPopulationData(APIView):
             export_plan=self.request.user.export_plan.data,
             section_name=section_name,
         )
-
         population_data = helpers.get_population_data(country=country, target_ages=target_ages)
         return Response(population_data)
 
