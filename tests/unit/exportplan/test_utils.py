@@ -11,7 +11,10 @@ def test_format_two_dp():
 
 
 def test_render_to_pdf_error(user, get_request):
-    pdf_context = {'export_plan': get_request.user.export_plan.data, 'user': get_request.user}
+    pdf_context = {
+        'export_plan': get_request.user.export_plan,
+        'user': get_request.user,
+    }
 
     with patch('exportplan.utils.pisa.pisaDocument') as pisadocument:
         pisadocument.return_value = Mock(status_code=500, **{'json.return_value': {}})

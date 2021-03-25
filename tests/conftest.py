@@ -4,7 +4,7 @@ from unittest import mock
 
 import pytest
 from django.test.client import RequestFactory
-from wagtail.core.models import Page
+from wagtail.core.models import Locale, Page
 from wagtail_factories import PageFactory, SiteFactory
 
 import tests.unit.domestic.factories
@@ -157,8 +157,15 @@ def get_user():
 
 
 @pytest.mark.django_db
+@pytest.fixture()
+def en_locale():
+    # Equivalent for unittest is in tests.helpers.SetUpLocaleMixin
+    return Locale.objects.get_or_create(language_code='en-gb')
+
+
+@pytest.mark.django_db
 @pytest.fixture
-def root_page():
+def root_page(en_locale):
     """
     On start Wagtail provides one page with ID=1 and it's called "Root page"
     """
@@ -237,6 +244,7 @@ def client(client, auth_backend, settings):
                     'mobile_phone_number': user.mobile_phone_number,
                     'first_name': user.first_name,
                     'last_name': user.last_name,
+                    'segment': 'CHALLENGE',
                 },
                 # To get `company` data in here, use the `mock_get_company_profile` fixture and
                 # provide an approprate return_value. The full spec of CompanySerializer is in
@@ -358,10 +366,30 @@ def mock_api_get_population_data(population_data):
     patch.stop()
 
 
+@pytest.fixture(autouse=False)
+def mock_get_population_data(population_data):
+    patch = mock.patch(
+        'export_plan.core.helpers.get_population_data',
+        return_value=create_response(json_body=population_data),
+    )
+    yield patch.start()
+    patch.stop()
+
+
 @pytest.fixture(autouse=True)
 def mock_api_get_cia_world_factbook_data(cia_factbook_data):
     patch = mock.patch(
         'directory_api_client.api_client.dataservices.get_cia_world_factbook_data',
+        return_value=create_response(json_body=cia_factbook_data),
+    )
+    yield patch.start()
+    patch.stop()
+
+
+@pytest.fixture(autouse=False)
+def mock_cia_world_factbook_data(cia_factbook_data):
+    patch = mock.patch(
+        'exportplan.core.helpers.get_cia_world_factbook_data',
         return_value=create_response(json_body=cia_factbook_data),
     )
     yield patch.start()
@@ -427,6 +455,20 @@ def mock_get_company_profile(patch_get_company_profile):
         patch_get_company_profile.stop()
     except RuntimeError:
         # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture
+def patch_get_user_profile():
+    yield mock.patch('sso.helpers.get_user_profile', return_value=None)
+
+
+@pytest.fixture(autouse=False)
+def mock_get_user_profile(patch_get_user_profile):
+    yield patch_get_user_profile.start()
+    try:
+        patch_get_user_profile.stop()
+    except RuntimeError:
         pass
 
 

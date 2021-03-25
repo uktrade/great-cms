@@ -11,7 +11,7 @@ from tests.unit.learn import factories
 
 
 @pytest.mark.django_db
-def test_topic_view(client, domestic_homepage, user, domestic_site):
+def test_topic_view(client, domestic_homepage, user, domestic_site, mock_get_user_profile):
     # given the user has not read a lesson
     client.force_login(user)
     topic = CuratedListPageFactory(parent=domestic_homepage)
@@ -22,7 +22,9 @@ def test_topic_view(client, domestic_homepage, user, domestic_site):
 
 
 @pytest.mark.django_db
-def test_lesson_page_products(client, domestic_homepage, domestic_site, user, mock_export_plan_list):
+def test_lesson_page_products(
+    client, domestic_homepage, domestic_site, user, mock_export_plan_list, mock_get_user_profile
+):
     client.force_login(user)
 
     # given the user has not read a lesson
@@ -36,7 +38,7 @@ def test_lesson_page_products(client, domestic_homepage, domestic_site, user, mo
 
 
 @pytest.mark.django_db
-def test_tour_page(client, domestic_homepage, domestic_site, user):
+def test_tour_page(client, domestic_homepage, domestic_site, user, mock_get_user_profile):
     client.force_login(user)
 
     list_page = ListPageFactory(parent=domestic_homepage, record_read_progress=True)

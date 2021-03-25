@@ -1,4 +1,6 @@
 {% load to_json %}
+{% load url_map %}
+
 <div id="sidebar-content">
     <nav class="sidebar p-h-s p-b-m">
         <div class="sidebar-sticky">
@@ -22,13 +24,13 @@
 
 {% block body_js %}
     <script type="text/javascript">
-        var element = document.getElementById('sidebar-content');
         magna.sectionSidebar({
-            element: element,
+            element: document.getElementById('sidebar-content'),
             sections: {{ sections|to_json}},
             currentSection: {{ current_section|to_json}},
             logo: '{{ request.user.company.logo|default_if_none:"" }}',
-            company: '{{ request.user.company.name }}'
+            company: '{{ request.user.company.name }}',
+            backUrl: '{% url_map "exportplan_dashboard" %}'
         })
     </script>
 {% endblock %}
