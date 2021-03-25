@@ -15,7 +15,6 @@
 
 ### Enhancements
 
-- GP2-800 - Objectives page Date picker
 - GP2-1900 - port redirects from BAU
 - GP2-800 - Objectives page Date picker
 - GP2-1869 - Logged in magna mobile header
