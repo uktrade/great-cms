@@ -1,4 +1,6 @@
 import {
+  dateNowISO,
+  dateFormat,
   slugify,
   addItemToList,
   capitalize,
@@ -98,6 +100,12 @@ describe('addItemToList', () => {
   describe('no params', () => {
     expect(addItemToList()).toEqual([{}])
   })
+})
+
+test('dateFormat', () => {
+  const now = dateFormat()
+  expect(dateFormat()).toMatch(now)
+  expect(dateFormat('1981-10-15')).toMatch('15 Oct 1981')
 })
 
 test('capitalize', () => {
