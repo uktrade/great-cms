@@ -145,9 +145,6 @@ describe('Objective', () => {
       end_date: '',
       companyexportplan: 1,
       pk: 1,
-      showSavedMessage: false,
-      isLoading: false,
-      errors: { __all__: [] },
     }
 
     const wrapper = Enzyme.mount(
