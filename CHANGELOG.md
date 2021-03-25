@@ -4,6 +4,7 @@
 
 ### Fixed bugs
 
+- GP2-2078 - Make magna header and personalisation bar full width
 - GP2-2076 - Add sign out button to logged out header
 - GP2-2074 - redirect user to homepage after signout
 - GP2-1277 - Videos not displaying correctly for case studies
