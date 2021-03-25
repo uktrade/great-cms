@@ -47,6 +47,16 @@ class ExportPlanMixin:
         return context
 
 
+class EnableSegmentationMixin:
+    # used by the page modal manager React component
+    def get_context(self, request):
+        context = super().get_context(request)
+        if request.user.is_authenticated and request.user.user_profile:
+            context['segment'] = request.user.user_profile['user_profile']['segment']
+
+        return context
+
+
 class AnonymousUserRequired:
     # used by core.wagtail_hooks.anonymous_user_required
     anonymous_user_required_redirect_url = cms_slugs.DASHBOARD_URL

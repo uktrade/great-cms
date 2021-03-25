@@ -159,6 +159,7 @@ class DomesticHomePage(
 class DomesticDashboard(
     mixins.WagtailAdminExclusivePageMixin,
     mixins.EnableTourMixin,
+    mixins.EnableSegmentationMixin,
     mixins.AuthenticatedUserRequired,
     mixins.ExportPlanMixin,
     DataLayerMixin,
