@@ -176,6 +176,9 @@ const formatLessonLearned = (lesson, section, id) =>
       }
     : {}
 
+const objectHasValue = (object = {}) =>
+  Object.values(object).some((x) => x !== '')
+
 export {
   dateFormat,
   dateNowISO,
@@ -197,4 +200,5 @@ export {
   millify,
   stripPercentage,
   deepAssign,
+  objectHasValue,
 }
