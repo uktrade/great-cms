@@ -14,7 +14,7 @@
 - GP2-1913 - allow user to click anywhere inside the input field to toggle dropdown
 
 ### Enhancements
-
+- GP2-1935 - add confirmation modal - business objectives
 - GP2-1900 - port redirects from BAU
 - GP2-1869 - Logged in magna mobile header
 - GP2-1840 - Logged in magna desktop header
