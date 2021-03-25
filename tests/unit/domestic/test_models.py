@@ -33,7 +33,7 @@ from domestic.models import (
     industry_accordions_validation,
     main_statistics_validation,
 )
-from tests.helpers import create_response
+from tests.helpers import SetUpLocaleMixin, create_response
 from tests.unit.core.factories import (
     CuratedListPageFactory,
     DetailPageFactory,
@@ -54,7 +54,7 @@ from .factories import (
 )
 
 
-class DomesticHomePageTests(WagtailPageTests):
+class DomesticHomePageTests(SetUpLocaleMixin, WagtailPageTests):
     # NB: These are DEPRECATED tests for the MVP homepage, not the one ported from V1
     def test_page_is_exclusive(self):
         assert issubclass(DomesticHomePage, mixins.WagtailAdminExclusivePageMixin)
@@ -81,7 +81,7 @@ class DomesticHomePageTests(WagtailPageTests):
         self.assertEqual(retrieved_page.slug, 'events')
 
 
-class DomesticDashboardTests(WagtailPageTests):
+class DomesticDashboardTests(SetUpLocaleMixin, WagtailPageTests):
     # NB: These are tests for the MVP homepage, not the richer one ported from V1
     # see GreatDomesticHomePageTests for the richer-homepage tests
     def test_page_is_exclusive(self):
@@ -114,6 +114,7 @@ def test_dashboard_page_routing(
     get_request,
     domestic_homepage,
     domestic_site,
+    mock_get_user_profile,
 ):
     patch_sso_get_export_plan.stop()
     mock_export_plan_list.return_value = [{}]
@@ -190,7 +191,6 @@ def test_dashboard_page_routing(
     assert context_data['export_plan_progress']['sections_total'] == 10
     assert context_data['export_plan_progress']['exportplan_completed'] is False
     assert context_data['export_plan_progress']['exportplan_completed'] is False
-    assert context_data['export_plan_dashboard_url'] == '/export-plan/dashboard/'
 
 
 @pytest.mark.django_db
@@ -592,7 +592,7 @@ def test_base_content_page__get_breadcrumbs__using_breadcrumbs_label_field():
     pass
 
 
-class TopicLandingPageTests(WagtailPageTests):
+class TopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             TopicLandingPage,
@@ -664,7 +664,7 @@ class TopicLandingPageTests(WagtailPageTests):
         )
 
 
-class MarketsTopicLandingPageTests(WagtailPageTests):
+class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             MarketsTopicLandingPage,
@@ -829,7 +829,7 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
                 )
 
 
-class MarketsTopicLandingPageFilteringTests(WagtailPageTests):
+class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
 
     fixtures = ['markets_filtering_fixtures.json']
 
@@ -1071,7 +1071,7 @@ def test_markets_page__no_results__page_content(
     assert str(links[20]) == ('<a class="view-markets link bold margin-top-15" href="/markets/">Clear all filters</a>')
 
 
-class ArticleListingPageTests(WagtailPageTests):
+class ArticleListingPageTests(SetUpLocaleMixin, WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             ArticleListingPage,
@@ -1151,7 +1151,7 @@ class ArticleListingPageTests(WagtailPageTests):
         self.assertEqual(listing_page.get_articles_count(), 4)
 
 
-class ArticlePageTests(WagtailPageTests):
+class ArticlePageTests(SetUpLocaleMixin, WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             ArticlePage,
@@ -1310,7 +1310,7 @@ def test_article_body_pull_quote_block(
         assert organisation_link not in rendered_block
 
 
-class PerformanceDashboardPageTests(WagtailPageTests):
+class PerformanceDashboardPageTests(SetUpLocaleMixin, WagtailPageTests):
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
             PerformanceDashboardPage,
@@ -1420,7 +1420,7 @@ class PerformanceDashboardPageTests(WagtailPageTests):
         ),
     ),
 )
-def test_performance_dashboard_auto_population(product_link, expected):
+def test_performance_dashboard_auto_population(product_link, expected, en_locale):
     dash = PerformanceDashboardPageFactory(product_link=product_link)
 
     for key in ['title', 'heading', 'landing_dashboard', 'slug']:
@@ -1456,7 +1456,7 @@ def test_all_domestic_models_implement_ga360_mixins():
 
 
 @override_settings(API_CACHE_DISABLED=True)
-class GreatDomesticHomePageTests(WagtailPageTests):
+class GreatDomesticHomePageTests(SetUpLocaleMixin, WagtailPageTests):
 
     fixtures = ['markets_filtering_fixtures.json']
 

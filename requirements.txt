@@ -10,7 +10,9 @@ airtable-python-wrapper==0.13.0
     # via -r requirements.in
 alabaster==0.7.12
     # via sphinx
-arabic-reshaper==2.1.1
+anyascii==0.1.7
+    # via wagtail
+arabic-reshaper==2.1.3
     # via xhtml2pdf
 attrs==20.3.0
     # via jsonschema
@@ -58,7 +60,7 @@ directory-forms-api-client==5.3.0
     # via -r requirements.in
 directory-sso-api-client==6.5.3
     # via -r requirements.in
-directory-validators==6.0.4
+directory-validators==6.0.5
     # via -r requirements.in
 django-decorator-include==3.0
     # via -r requirements.in
@@ -128,7 +130,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==6.6.1
+faker==6.6.2
     # via factory-boy
 freezegun==0.1.5
     # via -r requirements.in
@@ -162,8 +164,10 @@ jsonschema==3.2.0
     # via great-components
 l18n==2020.6.1
     # via wagtail
-lxml==4.6.2
-    # via pyquery
+lxml==4.6.3
+    # via
+    #   -r requirements.in
+    #   pyquery
 markdown2==2.3.9
     # via
     #   -r requirements.in
@@ -184,7 +188,7 @@ openpyxl==3.0.7
     # via tablib
 packaging==20.9
     # via sphinx
-pillow==7.2.0
+pillow==8.1.2
     # via
     #   -r requirements.in
     #   directory-validators
@@ -230,7 +234,7 @@ redis==3.5.3
     # via django-redis
 regex==2021.3.17
     # via dateparser
-reportlab==3.5.65
+reportlab==3.5.66
     # via xhtml2pdf
 requests-oauthlib==1.3.0
     # via django-staff-sso-client
@@ -243,7 +247,7 @@ requests==2.25.1
     #   requests-oauthlib
     #   sphinx
     #   wagtail
-s3transfer==0.3.4
+s3transfer==0.3.6
     # via boto3
 sentry-sdk==0.13.5
     # via -r requirements.in
@@ -264,7 +268,7 @@ six==1.15.0
     #   xhtml2pdf
 snowballstemmer==2.1.0
     # via sphinx
-soupsieve==2.2
+soupsieve==2.2.1
     # via beautifulsoup4
 sphinx==1.8.5
     # via -r requirements.in
@@ -298,7 +302,7 @@ wagtail-factories==2.0.1
     # via -r requirements.in
 wagtail-transfer==0.7.1
     # via -r requirements.in
-wagtail==2.10.2
+wagtail==2.11.6
     # via
     #   -r requirements.in
     #   wagtail-cache

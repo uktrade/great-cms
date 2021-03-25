@@ -1,21 +1,25 @@
 /* eslint-disable */
 import React from 'react'
+import PropTypes from 'prop-types'
 import ReactTour from 'reactour'
 
 import { slugify } from '../../Helpers'
 
-export default function Tour(props) {
-  const steps = props.steps.map((step) => {
+export default function Tour({ steps, isOpen, handleClose }) {
+  const stepsArr = steps.map((step) => {
     return {
       ...step,
       content: (
         <>
-          <h2 className="h-s p-v-0" id={'page-tour-step-' + slugify(step.title)}>
+          <h2
+            className="h-s p-v-0"
+            id={'page-tour-step-' + slugify(step.title)}
+          >
             {step.title}
           </h2>
           <p>{step.body}</p>
         </>
-      )
+      ),
     }
   })
 
@@ -30,17 +34,23 @@ export default function Tour(props) {
       onBeforeClose={() => {
         document.body.style.overflowY = 'auto'
       }}
-      steps={steps}
-      isOpen={props.isOpen}
-      onRequestClose={props.handleClose}
+      steps={stepsArr}
+      isOpen={isOpen}
+      onRequestClose={handleClose}
       showNumber={false}
       lastStepNextButton={
-        <button className="button button--primary p-v-xxs p-h-xs" id="page-tour-start-now">
+        <button
+          className="button button--primary p-v-xxs p-h-xs"
+          id="page-tour-start-now"
+        >
           Start now
         </button>
       }
       nextButton={
-        <button className="button button--primary p-v-xxs p-h-xs" id="page-tour-next-step">
+        <button
+          className="button button--primary p-v-xxs p-h-xs"
+          id="page-tour-next-step"
+        >
           Next
         </button>
       }
@@ -49,4 +59,14 @@ export default function Tour(props) {
       rounded={4}
     />
   )
+}
+
+Tour.protoTypes = {
+  steps: PropTypes.array,
+  isOpen: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+}
+
+Tour.defaultProps = {
+  steps: [],
 }

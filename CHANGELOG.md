@@ -4,6 +4,9 @@
 
 ### Fixed bugs
 
+- GP2-2076 - Add sign out button to logged out header
+- GP2-2074 - redirect user to homepage after signout
+- GP2-1277 - Videos not displaying correctly for case studies
 - GP2-1710 - C&P units copy change, currency width and copy change.
 - GP2-1931 - add placeholder text
 - GP2-1930 - text changes, and update data structure whilst at it.
@@ -11,11 +14,15 @@
 - GP2-1913 - allow user to click anywhere inside the input field to toggle dropdown
 
 ### Enhancements
-
-GP2-1849 - Feature flag magna links in logged out mobile header
-- GP2-1616 - Port UKEF pages from V1 (not including /get-finance/* yet)
-
-=======
+- GP2-1935 - add confirmation modal - business objectives
+- GP2-1900 - port redirects from BAU
+- GP2-800 - Objectives page Date picker
+- GP2-1869 - Logged in magna mobile header
+- GP2-1840 - Logged in magna desktop header
+- GP2-1849 - Feature flag magna links in logged out mobile header
+- GP2-1927 - Modal window Issues--Export plan pages
+- GP2-1616 - Port UKEF pages from V1
+- GP2-1719 - Segmentation question
 
 ## [1.5.0](https://github.com/uktrade/great-cms/releases/tag/1.5.0)
 
@@ -43,9 +50,11 @@ GP2-1849 - Feature flag magna links in logged out mobile header
 - NO TICKET - fix pdf generation
 - GP2-1792 - dashboard pages
 - GP2-1630 - add more data
+- Noticket pdf external datasources
 
 ### Implemented enhancements
 - GP2-1648 - Port Geolocation redirects from Bau UI
+- GP2-2044 - CTA's only show sign in label by criteria
 - GP2-1852 - WTE responsive format
 - GP2-1849 - Logged out mobile header
 - GP2-1784 - Stop breadcrumbs showing for Structural Page

@@ -3,8 +3,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
-import Services from '@src/Services'
-
 const modalStyles = {
   content: {
     background: '#fff',
@@ -69,6 +67,5 @@ export default function Modal(props) {
 Modal.propTypes = {
   handleSkip: PropTypes.func.isRequired,
   handleStart: PropTypes.func.isRequired,
-  handleTourClose: PropTypes.func.isRequired,
   handleDisable: PropTypes.func.isRequired
 }

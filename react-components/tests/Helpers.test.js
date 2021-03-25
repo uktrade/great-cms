@@ -1,4 +1,6 @@
 import {
+  dateNowISO,
+  dateFormat,
   slugify,
   addItemToList,
   capitalize,
@@ -13,6 +15,7 @@ import {
   stripPercentage,
   getLabels,
   getValues,
+  objectHasValue,
 } from '@src/Helpers'
 
 test('slugify', (done) => {
@@ -98,6 +101,12 @@ describe('addItemToList', () => {
   describe('no params', () => {
     expect(addItemToList()).toEqual([{}])
   })
+})
+
+test('dateFormat', () => {
+  const now = dateFormat()
+  expect(dateFormat()).toMatch(now)
+  expect(dateFormat('1981-10-15')).toMatch('15 Oct 1981')
 })
 
 test('capitalize', () => {
@@ -295,5 +304,16 @@ describe('formatLessonLearned', () => {
   it('Should have no lesson', () => {
     expect(formatLessonLearned(lesson, section, 1)).toEqual({})
     expect(formatLessonLearned(lesson, { lessons: [] }, 1)).toEqual({})
+  })
+})
+
+describe('objectHasValue', () => {
+  it('Should return false, no values', () => {
+    expect(objectHasValue({})).toBeFalsy()
+    expect(objectHasValue({ bar: '', foo: '' })).toBeFalsy()
+  })
+  it('Should return true, has values', () => {
+    expect(objectHasValue({ bar: 'bar' })).toBeTruthy()
+    expect(objectHasValue({ bar: '', foo: 'asdasd' })).toBeTruthy()
   })
 })
