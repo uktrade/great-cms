@@ -4,6 +4,7 @@
 
 ### Fixed bugs
 
+- GP2-2076 - Add sign out button to logged out header
 - GP2-1277 - Videos not displaying correctly for case studies
 - GP2-1710 - C&P units copy change, currency width and copy change.
 - GP2-1931 - add placeholder text
