@@ -435,6 +435,10 @@ CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID = env.str(
 
 FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES = env.bool('FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES', False)
 
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(PROJECT_ROOT)
+
 # geo location
 GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')
 GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'

@@ -97,6 +97,11 @@ HEADLESS=false make ARGUMENTS="-k test_anonymous_user_should" pytest
  It creates the Great domestic empty homepage and assigns it to the site root.
  It also creates a superuser `test` with password `password`, for local development.
 
+## Geolocation data
+Maxmind geolite2 is used to determine the country the user is from via their IP address. The geolocation dataset must be updated to stay fresh. To update the geolocation data run:
+
+```
+make manage download_geolocation_data
 ### Wagtail Transfer
 
 We use a third-party app to manage content import from one environment to another. There are specific docs on Wagtail Transer :doc:`here <./wagtail_transfer>`. PLEASE at last read the "GOTCHAS for developers"
