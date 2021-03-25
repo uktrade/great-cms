@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { TextArea } from '@src/components/Form/TextArea'
 import { Input } from '@src/components/Form/Input'
 import { ConfirmModal } from '@src/components/ConfirmModal/ConfirmModal'
-import { objectHasValue } from '@src/Helpers'
+import { objectHasValue, dateNowISO } from '@src/Helpers'
 import ErrorList from '../../ErrorList'
 
 export const Objective = memo(
@@ -15,6 +15,8 @@ export const Objective = memo(
         ...item,
       })
     }
+
+    const ISONow = dateNowISO()
 
     const onDelete = () => {
       deleteObjective(data.pk)
@@ -43,6 +45,7 @@ export const Objective = memo(
                   id="start_date"
                   type="date"
                   label="Start date"
+                  minDate={ISONow}
                   value={data.start_date}
                   onChange={onChange}
                   errors={[]}
@@ -53,6 +56,7 @@ export const Objective = memo(
                   id="end_date"
                   type="date"
                   label="End date"
+                  minDate={data.start_date}
                   value={data.end_date}
                   onChange={onChange}
                   errors={[]}

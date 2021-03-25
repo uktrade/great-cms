@@ -16,14 +16,13 @@
 ### Enhancements
 - GP2-1935 - add confirmation modal - business objectives
 - GP2-1900 - port redirects from BAU
+- GP2-800 - Objectives page Date picker
 - GP2-1869 - Logged in magna mobile header
 - GP2-1840 - Logged in magna desktop header
 - GP2-1849 - Feature flag magna links in logged out mobile header
 - GP2-1927 - Modal window Issues--Export plan pages
 - GP2-1616 - Port UKEF pages from V1
 - GP2-1719 - Segmentation question
-
-=======
 
 ## [1.5.0](https://github.com/uktrade/great-cms/releases/tag/1.5.0)
 
