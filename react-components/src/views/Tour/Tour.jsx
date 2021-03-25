@@ -5,8 +5,8 @@ import ReactTour from 'reactour'
 
 import { slugify } from '../../Helpers'
 
-export default function Tour(props) {
-  const steps = [].map((step) => {
+export default function Tour({ steps, isOpen, handleClose }) {
+  const stepsArr = steps.map((step) => {
     return {
       ...step,
       content: (
