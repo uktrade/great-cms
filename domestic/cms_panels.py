@@ -31,8 +31,9 @@ class GreatDomesticHomePagePanels:
                 FieldPanel('hero_cta_text'),
                 FieldPanel('hero_cta_url'),
                 # Signed in fields
-                FieldPanel('hero_text_si'),
-                FieldPanel('hero_cta_text_si'),
+                FieldPanel('hero_text_signedin'),
+                FieldPanel('hero_cta_text_signedin'),
+                FieldPanel('hero_cta_url_signedin'),
             ],
         ),
         MultiFieldPanel(

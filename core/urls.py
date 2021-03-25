@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
 
+from config.url_redirects import redirects
 from core import cms_slugs, views, views_api
 
 app_name = 'core'
@@ -80,3 +81,4 @@ urlpatterns = [
     path('api/data-service/comtrade/', skip_ga360(views_api.ComTradeDataView.as_view()), name='api-comtrade-data'),
     path('api/data-service/countrydata/', skip_ga360(views_api.CountryDataView.as_view()), name='api-country-data'),
 ]
+urlpatterns += redirects
