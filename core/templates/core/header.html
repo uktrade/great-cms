@@ -3,7 +3,7 @@
 {% load url_map %}
 <header class="magna-header shared-magna-header text-white grid" id="header" dir="ltr" data-ga-section="header">
   {% path_match "^\/export-plan\/" as in_exportplan %}
-  <div class="container {% if in_exportplan %}container-fluid{% endif %}">
+  <div class="container container-fluid">
     <nav>
       <a id="header-logo-link" href="/">
         <img class="header-logo" src="{% static 'images/logo.svg' %}" alt="Exporting is Great" id="header-logo-exporting-is-great">
