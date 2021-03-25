@@ -3,9 +3,16 @@
 {% load url_map %}
 
 <div class="shared-nav-container main-nav-container {{ device_type }}">
-  <nav id="{{ id }}" class="main-nav {{ device_type }} expanded" aria-label="{% trans 'Main menu' %}">
+  {% if request.user.is_authenticated and request.user.first_name %}
+  <div class="user-greeting">{{ request.user.first_name }}</div>
+  {% endif %}
+  <nav id="{{ id }}" class="main-nav {{ device_type }} expanded {% if request.user.is_authenticated %}signed-in{% endif %}" aria-label="{% trans 'Main menu' %}">
     <ul class="grid-row nav-list">
-      {% if FEATURE_SHOW_MAGNA_LINKS_IN_HEADER %}
+      {% if request.user.is_authenticated %}
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="/" class="link-heading mobile-only" id="header-learn-{{ device_type }}" {% if js_tag %}data-js-menu-index=0{% endif %}>Home</a>
+      </li>
+
       <li class="menu-item" data-js-menu-item-container>
         <a href="{% slugurl 'categories' %}" class="link-heading new mobile-only" id="header-learn-{{ device_type }}" {% if js_tag %}data-js-menu-index=0{% endif %}>Learn to export</a>
       </li>
@@ -38,7 +45,38 @@
           <a href="{{ header_footer_urls.domestic_news }}" class="link-heading" id="header-news-{{ device_type }}" {% if js_tag %}data-js-menu-index=7{% endif %}>News and events</a>
         </li>
       {% endif %}
+
+      {% if request.user.is_authenticated %}
+      <li class="menu-item" data-js-menu-item-container>
+          <button class="link-heading mobile-only margin-bottom-15" id="sign_out_button_{{ device_type }}">Sign out</button>
+      </li>
+      {% endif %}
     </ul>
-    <a href="{% url 'core:login' %}" class="button button-blue margin-top-15 mobile-only">Sign in</a>
+
+    {% if not request.user.is_authenticated %}
+    <a href="/login" class="button button-blue margin-top-15 mobile-only">Sign in</a>
+    {% endif %}
   </nav>
 </div>
+<script>
+  {% url 'sso:business-sso-logout-api' as sign_out_endpoint %}
+  var signOutButton = document.getElementById('sign_out_button_mobile');
+
+  if (signOutButton) {
+    signOutButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      fetch('{{ sign_out_endpoint }}', {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: JSON.stringify({})
+      }).then(function() {
+        window.location = '/';
+      });
+    });
+  }
+</script>

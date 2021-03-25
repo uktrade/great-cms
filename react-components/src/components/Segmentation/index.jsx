@@ -31,7 +31,7 @@ export default function Segmentation(props) {
       value: 'REASSURE',
     },
     {
-      label: 'I have never exported but have a product suitable or that could be developed for export',
+      label: 'I have never exported but have a product or service that is suitable or that could be developed for export',
       value: 'PROMOTE',
     },
     {

@@ -127,14 +127,13 @@
         },
       })
 
-      const loggedInUser = {% if request.user.is_authenticated %}true{%else %}false{% endif %};
-      if (loggedInUser) {
+      {% if tour %}
         magna.LaunchModal({
           modals: [
             {
               factory: magna.SegmentationModal,
               params: {
-                segment: {{ request.user.user_profile.user_profile.segment|to_json }}
+                segment: {{ segment|to_json }}
               },
             },
             {
@@ -146,6 +145,6 @@
             },
           ]
         })
-      }
+      {% endif %}
   </script>
 {% endblock %}
