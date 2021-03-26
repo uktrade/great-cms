@@ -15,7 +15,9 @@ from core.management.commands.download_geolocation_data import (
 
 
 class GeolocationBadLocalFileArchive(GeolocationLocalFileArchive):
-    location = os.path.join(settings.PROJECT_ROOT, '../core/management/commands/tests/missing-database-file.tar.gz')
+    location = os.path.join(
+        settings.PROJECT_ROOT, '../tests/unit/core/management/commands/tests/missing-database-file.tar.gz'
+    )
 
 
 @pytest.mark.parametrize(
