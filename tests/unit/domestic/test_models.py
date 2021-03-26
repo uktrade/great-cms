@@ -30,6 +30,7 @@ from domestic.models import (
     PerformanceDashboardPage,
     StructuralPage,
     TopicLandingPage,
+    TradeFinancePage,
     industry_accordions_validation,
     main_statistics_validation,
 )
@@ -1734,5 +1735,21 @@ class StructuralPageTests(WagtailPageTests):
             StructuralPage,
             {
                 ArticlePage,
+            },
+        )
+
+
+class TradeFinancePageTests(WagtailPageTests):
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(
+            TradeFinancePage,
+            {},
+        )
+
+    def test_allowed_parents(self):
+        self.assertAllowedParentPageTypes(
+            TradeFinancePage,
+            {
+                GreatDomesticHomePage,
             },
         )
