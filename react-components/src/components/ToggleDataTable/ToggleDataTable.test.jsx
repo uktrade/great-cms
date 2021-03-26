@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react'
 import { mount } from 'enzyme'
 import { ToggleDataTable } from '@src/components/ToggleDataTable'
@@ -52,7 +51,7 @@ describe('ToggleDataTable', () => {
 
   test('Should fetch country data', () => {
     expect(Services.getCountryAgeGroupData).toHaveBeenCalledWith({
-      country_iso2_code: "NL",
+      country_iso2_code: 'NL',
       section_name: '/export-plan',
       target_age_groups: ['30'],
     })
@@ -93,18 +92,5 @@ describe('ToggleDataTable', () => {
 
     expect(wrapper.find('form').length).toEqual(0)
     expect(wrapper.find('.table').length).toEqual(1)
-  })
-})
-
-describe('utils', () => {
-  test('mapData', () => {
-    expect(populationData(mockResponse.population_data)).toEqual({
-      population: 0.2,
-      urban: 40,
-      rural: 60,
-      female: 0.1,
-      male: 0.2,
-      targetPopulation: 1,
-    })
   })
 })
