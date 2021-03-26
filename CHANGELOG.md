@@ -4,6 +4,8 @@
 
 ### Fixed bugs
 
+- NOTICKET - Add background colour support for example component
+- GP2-2075 - Fix header menu positioning bug
 - GP2-2076 - Display correct mobile header links
 - GP2-2078 - Make magna header and personalisation bar full width
 - GP2-2076 - Add sign out button to logged out header
@@ -16,6 +18,7 @@
 - GP2-1913 - allow user to click anywhere inside the input field to toggle dropdown
 
 ### Enhancements
+
 - GP2-1935 - add confirmation modal - business objectives
 - GP2-1900 - port redirects from BAU
 - GP2-800 - Objectives page Date picker
