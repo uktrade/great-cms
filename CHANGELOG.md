@@ -4,6 +4,7 @@
 
 ### Fixed bugs
 
+- GP2-1901 - use slugurl for footer links
 - GP2-2096 - Target market country data
 - NOTICKET - Add background colour support for example component
 - GP2-2075 - Fix header menu positioning bug
