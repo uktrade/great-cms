@@ -774,3 +774,38 @@ def test_video_chooser_block__render_basic():
     mock_value.file.url = 'mocked url attr'
 
     assert vcblock.render_basic(mock_value) == 'mocked url attr'
+
+
+@pytest.mark.django_db
+def test_case_study_with_no_country_selected(mock_trading_blocs, rf, user, magna_site):
+    case_study = CaseStudyFactory()
+    case_study.hs_code_tags.add('123456', '1234')
+    case_study.country_code_tags.add('IN')
+    case_study.trading_bloc_code_tags.add('South Asia Free Trade Area (SAFTA)', 'IN')
+    case_study.save()
+
+    detail_page = DetailPageFactory()
+    topic_page = TopicPageFactory()
+    module_page = CuratedListPageFactory()
+
+    CaseStudyRelatedPages.objects.create(page=detail_page, case_study=case_study)
+
+    mocked_export_plan = {
+        'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Something'}],
+        'export_countries': [],
+    }
+
+    request = rf.get('/')
+    request.user = user
+    request.user.export_plan = mock.MagicMock()
+    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
+        context = {
+            'request': request,
+            'export_plan': request.user.export_plan,
+            'current_lesson': detail_page,
+            'current_module': module_page,
+            'current_topic': topic_page,
+        }
+        block = core_blocks.CaseStudyStaticBlock()
+        context = block._annotate_with_case_study(context)
+        assert 'case_study' in context

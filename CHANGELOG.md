@@ -4,6 +4,7 @@
 
 ### Fixed bugs
 
+- GP2-2051 - Fix bug of lesson page when no country is selected
 - GP2-1901 - use slugurl for footer links
 - GP2-2096 - Target market country data
 - NOTICKET - Add background colour support for example component
