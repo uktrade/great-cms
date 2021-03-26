@@ -330,6 +330,7 @@ $mobile: 640px;
                 height: 2px;
                 margin: 12px 0 10px 10px;
                 width: 20px;
+                pointer-events: none;
 
                 &:before,
                 &:after {

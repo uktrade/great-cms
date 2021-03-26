@@ -5,6 +5,7 @@
 ### Fixed bugs
 
 - NOTICKET - Add background colour support for example component
+- GP2-2075 - Fix header menu positioning bug
 - GP2-2076 - Display correct mobile header links
 - GP2-2078 - Make magna header and personalisation bar full width
 - GP2-2076 - Add sign out button to logged out header
