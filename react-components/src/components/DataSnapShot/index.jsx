@@ -52,11 +52,11 @@ DataSnapShot.propTypes = {
       year: PropTypes.string,
       trade_value: PropTypes.string,
       year_on_year_change: PropTypes.string,
-    }).isRequired,
+    }),
     importFromUk: PropTypes.shape({
       year: PropTypes.string,
       trade_value: PropTypes.string,
-    }).isRequired,
+    }),
     countryData: PropTypes.shape({
       gdp_per_capita: PropTypes.shape({
         year_2019: PropTypes.string,

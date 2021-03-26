@@ -26,6 +26,10 @@ export const Table = memo(({ totalPopulation, totalTargetAgePopulation }) => (
 ))
 
 Table.propTypes = {
-  totalPopulation: PropTypes.number.isRequired,
-  totalTargetAgePopulation: PropTypes.number.isRequired,
+  totalPopulation: PropTypes.number,
+  totalTargetAgePopulation: PropTypes.number,
+}
+Table.defaultProps = {
+  totalPopulation: null,
+  totalTargetAgePopulation: null,
 }

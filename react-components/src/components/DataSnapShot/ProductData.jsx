@@ -78,19 +78,21 @@ ProductData.propTypes = {
     commodity_name: PropTypes.string,
   }).isRequired,
   world: PropTypes.shape({
-    year: PropTypes.string,
-    trade_value_raw: PropTypes.string,
-    year_on_year_change: PropTypes.string,
-    last_year: PropTypes.string,
+    year: PropTypes.int,
+    trade_value_raw: PropTypes.int,
+    year_on_year_change: PropTypes.number,
+    last_year: PropTypes.int,
   }).isRequired,
   local: PropTypes.shape({
-    year: PropTypes.string,
-    trade_value_raw: PropTypes.string,
+    year: PropTypes.int,
+    trade_value_raw: PropTypes.int,
   }).isRequired,
   country: PropTypes.shape({
-    GDPPerCapita: PropTypes.shape({
-      year_2019: PropTypes.string,
-    }),
+    GDPPerCapita: PropTypes.arrayOf(
+      PropTypes.shape({
+        year_2019: PropTypes.string,
+      })
+    ),
     Income: PropTypes.arrayOf(
       PropTypes.shape({
         value: PropTypes.string,
