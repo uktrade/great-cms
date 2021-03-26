@@ -2,6 +2,11 @@ import React, { memo } from 'react'
 import { Stats } from '@src/components/Stats'
 import { notAvailable, StatsGroup } from '@src/components/Stats/StatsGroup'
 import PropTypes from 'prop-types'
+import { millify, normaliseValues } from '@src/Helpers'
+
+const formatNumber = (val) => val ? millify(val*1000) : notAvailable
+
+const formatPercentage = (val, total) => val ? `${normaliseValues(100*val/total)}%` : notAvailable
 
 export const AgeGroupData = memo(
   ({ targetPopulation, female, male, urban, rural }) => (
@@ -14,28 +19,26 @@ export const AgeGroupData = memo(
           <div className="c-1-3">
             <Stats
               header="Target age population"
-              data={
-                targetPopulation ? `${targetPopulation} million` : notAvailable
-              }
+              data={formatNumber(targetPopulation)}
             />
           </div>
 
           <div className="c-2-3 flex-direction-column">
             <StatsGroup
               headerLeft="Female in your target group"
-              dataLeft={female ? `${female} million` : ''}
+              dataLeft={formatNumber(female)}
               headerRight="Male in your target group"
-              dataRight={female ? `${male} million` : ''}
+              dataRight={formatNumber(male)}
               statPercentage={(female / targetPopulation) * 100}
               hasStat={!!(female && female !== 0)}
               className="stat-group--cols stat-group--percentage"
             />
             <StatsGroup
               headerLeft="Living in urban areas"
-              dataLeft={urban ? `${urban}%` : ''}
+              dataLeft={formatPercentage(rural, rural+urban)}
               headerRight="Living in rural areas"
-              dataRight={urban ? `${rural}%` : ''}
-              statPercentage={urban}
+              dataRight={formatPercentage(urban, rural+urban)}
+              statPercentage={rural / (urban+rural)*100}
               hasStat={!!(urban && urban !== 0)}
               className="stat-group--cols stat-group--percentage"
             />

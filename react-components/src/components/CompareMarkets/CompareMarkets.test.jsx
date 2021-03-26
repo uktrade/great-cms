@@ -53,7 +53,7 @@ const economyApiResponse = {
       year_on_year_change: '2.751',
       last_year: '2016',
     },
-    import_data_from_uk: {
+    import_from_uk: {
       year: '2019',
       trade_value_raw: 135150,
       country_name: 'Germany',
@@ -68,7 +68,7 @@ const economyApiResponse = {
       country_name: 'Netherlands',
       year_on_year_change: '2.751',
     },
-    import_data_from_uk: {
+    import_from_uk: {
       year: '2019',
       trade_value_raw: 135150,
       country_name: 'Netherlands',

@@ -182,12 +182,6 @@ def get_country_data(country):
     return response.json()
 
 
-def get_global_demographic_data(country):
-    country_data = get_country_data(country)
-    factbook_data = get_cia_world_factbook_data(country=country, key='people,languages')
-    return {**country_data, **factbook_data}
-
-
 def get_cia_world_factbook_data(country, key):
     response = api_client.dataservices.get_cia_world_factbook_data(country=country, data_key=key)
     response.raise_for_status()

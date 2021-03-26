@@ -1,26 +1,33 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-
+import { useSelector } from 'react-redux'
+import { getProducts, getMarkets } from '@src/reducers'
+import { camelizeObject } from '@src/Helpers'
 import { ToggleDataTable } from '@src/components/ToggleDataTable'
 import { ToggleSnapshot } from '@src/components/ToggleSnapshot'
 import { Table } from './Table'
 import { ProductData } from './ProductData'
 
+
 export const DataSnapShot = memo(
-  ({ country, groups, insight, selected, currentSection, country_iso2_code }) => {
-    const { import_from_world, 
-      import_data_from_uk, 
-      country_data } = insight[ country_iso2_code ] || {}
+  ({ groups, insight, selected, currentSection }) => {
+    const product = useSelector((state) => getProducts(state))
+    const country = useSelector((state) => getMarkets(state))
+    const { importFromWorld, importFromUk, countryData } = camelizeObject(
+      insight[country.country_iso2_code] || {}
+    )
+
     return (
       <ToggleSnapshot isOpen={false}>
         <div className="m-t-s">
           <ProductData
-            world={import_from_world || {}}
-            local={import_data_from_uk || {}}
-            country={country_data || {}}
+            world={importFromWorld || {}}
+            local={importFromUk || {}}
+            country={countryData || {}}
+            product={product}
           />
           <ToggleDataTable
-            country={country}
+            countryIso2Code={country.country_iso2_code}
             groups={groups}
             selectedGroups={selected}
             url={currentSection.url}
@@ -34,7 +41,6 @@ export const DataSnapShot = memo(
 )
 
 DataSnapShot.propTypes = {
-  country: PropTypes.string.isRequired,
   groups: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
@@ -42,16 +48,16 @@ DataSnapShot.propTypes = {
     })
   ),
   insight: PropTypes.shape({
-    import_from_world: PropTypes.shape({
+    importFromWorld: PropTypes.shape({
       year: PropTypes.string,
       trade_value: PropTypes.string,
       year_on_year_change: PropTypes.string,
     }).isRequired,
-    import_data_from_uk: PropTypes.shape({
+    importFromUk: PropTypes.shape({
       year: PropTypes.string,
       trade_value: PropTypes.string,
     }).isRequired,
-    country_data: PropTypes.shape({
+    countryData: PropTypes.shape({
       gdp_per_capita: PropTypes.shape({
         year_2019: PropTypes.string,
       }),

@@ -1,7 +1,7 @@
+/* eslint-disable */
 import React from 'react'
 import { mount } from 'enzyme'
 import { ToggleDataTable } from '@src/components/ToggleDataTable'
-import { populationData } from '@src/components/ToggleDataTable/utils'
 import Services from '@src/Services'
 import { act } from 'react-dom/test-utils'
 
@@ -35,7 +35,7 @@ describe('ToggleDataTable', () => {
     wrapper = mount(
       <ToggleDataTable
         groups={mockGroups}
-        country="netherlands"
+        countryIso2Code="NL"
         selectedGroups={['30']}
         url="/export-plan"
       >
@@ -52,7 +52,7 @@ describe('ToggleDataTable', () => {
 
   test('Should fetch country data', () => {
     expect(Services.getCountryAgeGroupData).toHaveBeenCalledWith({
-      country: 'netherlands',
+      country_iso2_code: "NL",
       section_name: '/export-plan',
       target_age_groups: ['30'],
     })

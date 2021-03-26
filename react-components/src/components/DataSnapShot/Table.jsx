@@ -3,20 +3,22 @@ import PropTypes from 'prop-types'
 
 import { Stats } from '@src/components/Stats'
 import { notAvailable } from '@src/components/Stats/StatsGroup'
+import { millify } from '@src/Helpers'
 
-export const Table = memo(({ population, targetPopulation }) => (
+const formatNumber = (val) => val ? millify(val*1000) : notAvailable
+export const Table = memo(({ totalPopulation, totalTargetAgePopulation }) => (
   <div className="m-t-s">
     <div className="grid stat-group">
       <div className="c-1-2">
         <Stats
           header="Total population"
-          data={population ? `${population} million` : notAvailable}
+          data={formatNumber(totalPopulation)}
         />
       </div>
       <div className="c-1-2">
         <Stats
           header="Target age population"
-          data={targetPopulation ? `${targetPopulation} million` : notAvailable}
+          data={formatNumber(totalTargetAgePopulation)}
         />
       </div>
     </div>
@@ -24,6 +26,6 @@ export const Table = memo(({ population, targetPopulation }) => (
 ))
 
 Table.propTypes = {
-  population: PropTypes.number.isRequired,
-  targetPopulation: PropTypes.number.isRequired,
+  totalPopulation: PropTypes.number.isRequired,
+  totalTargetAgePopulation: PropTypes.number.isRequired,
 }
