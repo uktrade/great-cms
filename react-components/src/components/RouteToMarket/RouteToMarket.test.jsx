@@ -155,7 +155,25 @@ describe('RouteToMarket', () => {
 
   it('Should delete a route to market', async () => {
     Services.deleteRouteToMarket = jest.fn(() => Promise.resolve())
-    const { container, getByText, queryByText } = setup({ ...props })
+    const { container, getByText, queryByText } = setup({
+      ...props,
+      fields: [
+        {
+          route: '',
+          promote: '',
+          market_promotional_channel: '',
+          companyexportplan: 3,
+          pk: 47,
+        },
+        {
+          route: 'MARKETING_AT_EVENTS',
+          promote: 'INTERNATIONAL_E_COMMERCE',
+          market_promotional_channel: 'ddddddddd',
+          companyexportplan: 3,
+          pk: 45,
+        },
+      ],
+    })
     const button = container.querySelectorAll('.button--delete')[0]
     fireEvent.click(button)
     expect(getByText('Route to market 2'))
