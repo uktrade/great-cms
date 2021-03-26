@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Select } from '@src/components/Form/Select'
 import { TextArea } from '@src/components/Form/TextArea'
 import { getLabel } from '@src/Helpers'
+import { ConfirmModal } from '@src/components/ConfirmModal/ConfirmModal'
 
 export const RouteToMarketSection = memo(
   ({ data, label, example, name, onChange, deleteTable, field, lesson }) => {
@@ -32,13 +33,10 @@ export const RouteToMarketSection = memo(
         />
         <div className="text-center">
           <hr className="hr hr--light" />
-          <button
-            type="button"
-            className="button--only-icon button button--small button--delete bg-white m-v-xs"
-            onClick={() => deleteTable(field.pk)}
-          >
-            <i className="fas fa-trash-alt" />
-          </button>
+          <ConfirmModal
+            hasData={!!field[name] || !!field.promote || !!field.route}
+            deleteItem={() => deleteTable(field.pk)}
+          />
         </div>
       </div>
     )
