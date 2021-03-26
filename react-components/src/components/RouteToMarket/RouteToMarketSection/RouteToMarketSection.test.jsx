@@ -109,7 +109,16 @@ describe('RouteToMarketSection', () => {
   })
 
   it('Should fire deleteTable', () => {
-    const { actions, container } = setup({ ...props })
+    const { actions, container } = setup({
+      ...props,
+      field: {
+        route: '',
+        promote: '',
+        market_promotional_channel: '',
+        companyexportplan: 3,
+        pk: 48,
+      },
+    })
     fireEvent.click(container.querySelector('.button--delete'))
     expect(actions.deleteTable).toHaveBeenCalledTimes(1)
     expect(actions.deleteTable).toHaveBeenCalledWith(props.field.pk)
