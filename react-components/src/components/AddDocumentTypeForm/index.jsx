@@ -21,9 +21,7 @@ export const AddDocumentTypeForm = (props) => {
       .catch(() => {})
   }
 
-  const deleteDocument = (id, event) => {
-    event.preventDefault()
-
+  const deleteDocument = (id) => {
     Services.deleteAdaptTarketMarketDocumentList(id)
       .then(() => {
         setDocuments(documents.filter((document) => document.pk !== id))
