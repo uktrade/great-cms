@@ -40,7 +40,7 @@
             content: '<p>There are already over 100 craft gin distilleries in Australia. The main trend seems to be using native Australian ingredients to create a modern twist on traditional gin flavours.</p> <p>The market is fairly similar to the UK in terms of consumption and age. Gin bars are on the increase in the main cities. Online gin clubs that offer monthly gin subscriptions to their members are also popular.</p>'
           },
           description:
-            'Describe what you know about the product market in the Spain. What’s popular right now? Are there new products on the market? Where do people buy it?',
+            'Describe what you know about the product market in {{ export_plan.export_countries.0.country_name }}. What’s popular right now? Are there new products on the market? Where do people buy it?',
           lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 2),
         },
         {
@@ -52,7 +52,7 @@
             content: 'Dove Gin’s historic backstory is definitely appealing and will make us stand out from the competition. We also know our product design is very appealing and unique.',
           },
           description:
-            'Explain your product’s particular appeal to consumers in the Spain. Why would they buy it rather than another brand?',
+            'Explain your product’s particular appeal to consumers in {{ export_plan.export_countries.0.country_name }}. Why would they buy it rather than another brand?',
         },
         {
           name: 'average_price',
