@@ -12,7 +12,6 @@ from wagtail.contrib.modeladmin.views import IndexView
 
 from contact.modeladmin import ContactSuccessSnippetAdmin
 from core.models import CaseStudy
-from domestic.models import TradeFinanceSnippet
 
 
 class CaseStudyAdminButtonHelper(ButtonHelper):
@@ -203,15 +202,6 @@ class CaseStudyAdmin(ModelAdmin):
 modeladmin_register(CaseStudyAdmin)
 
 
-class TradeFinanceSnippetAdmin(ModelAdmin):
-    model = TradeFinanceSnippet
-    exclude_from_explorer = False
-    menu_icon = 'fa-check'
-    list_display = [
-        'internal_title',
-    ]
-
-
 class NonCMSContentGroup(ModelAdminGroup):
     """All of the snippets used for hybrid-content pages
     should be registered as part of this group"""
@@ -221,7 +211,7 @@ class NonCMSContentGroup(ModelAdminGroup):
     menu_order = 200
     items = (
         ContactSuccessSnippetAdmin,
-        TradeFinanceSnippetAdmin,
+        # Add more here
     )
 
 

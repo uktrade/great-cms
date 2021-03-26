@@ -1,5 +1,6 @@
 {% extends 'domestic/base.html' %}
 {% load breadcrumbs from component_tags %}
+{% load wagtailcore_tags %}
 {% load static %}
 
 {% block head_css %}
@@ -46,7 +47,7 @@
         <div class="column-quarter">
           <div class="panel-vertical-narrow">
             <h2 class="heading heading-medium margin-top-0 margin-bottom-15">Looking for trade finance?</h2>
-            <a href="{% url 'domestic:trade-finance' %}" class="link">Trade finance for UK exporters</a>
+            <a href="{% slugurl 'trade-finance' %}" class="link">Trade finance for UK exporters</a>
             <p>How we help UK exporters access working capital and bond support, as well as credit insurance.</p>
           </div>
         </div>
