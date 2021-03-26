@@ -29,6 +29,7 @@
 - GP2-1616 - Port UKEF pages from V1
 - GP2-1719 - Segmentation question
 - NOTICKET - Fix pdf static images
+- GP2-1295 - integration business profile
 
 ## [1.5.0](https://github.com/uktrade/great-cms/releases/tag/1.5.0)
 
