@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Input } from '@src/components/Form/Input'
 import { TextArea } from '@src/components/Form/TextArea'
+import { ConfirmModal } from '@src/components/ConfirmModal/ConfirmModal'
 
 export const DocumentList = ({ documents, deleteDocument, updateDocument }) => {
   return (
@@ -32,13 +33,10 @@ export const DocumentList = ({ documents, deleteDocument, updateDocument }) => {
                 placeholder="Add notes"
               />
               <div className="form-delete m-b-xs">
-                <button
-                  title="Click to delete this document and its notes."
-                  className="button button--delete button--small button--only-icon button--tertiary"
-                  onClick={(e) => deleteDocument(doc.pk, e)}
-                >
-                  <i className="fas fa-trash-alt" />
-                </button>
+                <ConfirmModal
+                  hasData={!!doc.document_name || !!doc.note}
+                  deleteItem={() => deleteDocument(doc.pk)}
+                />
               </div>
             </div>
           ))
