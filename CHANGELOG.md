@@ -4,6 +4,7 @@
 
 ### Fixed bugs
 
+- GP2-2096 - Target market country data
 - NOTICKET - Add background colour support for example component
 - GP2-2075 - Fix header menu positioning bug
 - GP2-2076 - Display correct mobile header links
