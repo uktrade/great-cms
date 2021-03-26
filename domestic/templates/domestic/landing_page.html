@@ -15,13 +15,17 @@
   <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}
 
-{% block head_title %}{% firstof page.seo_title page.title %} - great.gov.uk{% endblock %}
+{% block head_title %}{% firstof page.seo_title page.title %}{% endblock %}
 
 {% block css_layout_class %}landing-page{% endblock %}
 
 {% block content %}
 
-{% include 'components/landing_hero_with_cta.html' with hero_image=page.hero_image heading=page.hero_text cta_text=page.hero_cta_text cta_link=page.hero_cta_url %}
+{% if not request.user.is_authenticated %}
+  {% include 'components/landing_hero_with_cta.html' with hero_image=page.hero_image heading=page.hero_text cta_text=page.hero_cta_text cta_link=page.hero_cta_url %}
+{% else %}
+  {% include 'components/landing_hero_with_cta.html' with hero_image=page.hero_image heading=page.hero_text_signedin cta_text=page.hero_cta_text_signedin cta_link=page.hero_cta_url_signedin %}
+{% endif %}
 
 <section class="padding-bottom-15 padding-bottom-30-m padding-top-45 padding-top-60-m">
   <div class="container wrap-tight">

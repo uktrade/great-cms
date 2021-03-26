@@ -1,8 +1,14 @@
+import abc
 from unittest import mock
 
 import pytest
 
-from core.mixins import GetSnippetContentMixin, PrepopulateFormMixin
+from core.mixins import (
+    EnableSegmentationMixin,
+    GetSnippetContentMixin,
+    PrepopulateFormMixin,
+)
+from directory_sso_api_client import sso_api_client
 from domestic.models import DomesticHomePage
 from sso.models import BusinessSSOUser
 from tests.helpers import create_response
@@ -94,3 +100,21 @@ def test_retrieve_company_profile_mixin_name_guessing_user(
 
     assert mixin.guess_given_name == first_name
     assert mixin.guess_family_name == last_name
+
+
+@mock.patch.object(sso_api_client.user, 'get_session_user')
+@mock.patch.object(sso_api_client.user, 'create_user_profile')
+def test_enable_segmentation_mixin(mock_create_user_profile, mock_get_session_user, rf, user):
+    class PageContextProvider(abc.ABC):
+        def get_context(self, request):
+            return {}
+
+    class DummyPage(EnableSegmentationMixin, PageContextProvider):
+        pass
+
+    request = rf.get('/')
+    request.user = user
+    page = DummyPage()
+    context = page.get_context(request)
+
+    assert context['segment'] is not None

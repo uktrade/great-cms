@@ -1,5 +1,7 @@
 from unittest import mock
 
+from django.conf import settings
+
 from exportplan.context import (
     FactbookDataContextProvider,
     InsightDataContextProvider,
@@ -12,11 +14,18 @@ def test_pdf_context_provider(get_request):
 
     pdf_context = PDFContextProvider().get_context_provider_data(get_request)
 
-    assert len(pdf_context['export_plan']) == len(get_request.user.export_plan.data)
+    assert len(pdf_context['export_plan'].data) == len(get_request.user.export_plan.data)
     assert pdf_context['user'] == get_request.user
     assert pdf_context['sections'] is not None
     assert pdf_context['calculated_pricing'] is not None
-    assert pdf_context['host_url'] == ''
+    assert pdf_context['contact_detail'] == {'email': 'great.support@trade.gov.uk'}
+    assert pdf_context['pdf_statics_url'] == 'http://testserver/static/'
+
+
+def test_pdf_context_pdf_statics_url_s3(get_request):
+    settings.PDF_STATIC_URL = 'http://my_bucket.aws.my.region/pdf/'
+    pdf_context = PDFContextProvider().get_context_provider_data(get_request)
+    assert pdf_context['pdf_statics_url'] == 'http://my_bucket.aws.my.region/pdf/'
 
 
 def test_insightdata_context_provider(mock_get_comtrade_data, multiple_country_data, get_request):

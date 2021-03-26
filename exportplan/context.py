@@ -1,5 +1,6 @@
 import abc
 
+from django.conf import settings
 from django.utils.text import slugify
 
 from core import helpers as core_helpers
@@ -84,14 +85,22 @@ class PDFContextProvider(AbstractContextProvider):
     def get_context_provider_data(self, request, **kwargs):
         export_plan = request.user.export_plan
         processor = ExportPlanProcessor(export_plan.data)
+        contact_dict = {'email': settings.GREAT_SUPPORT_EMAIL}
+        if settings.PDF_STATIC_URL:
+            # Based on AWS public dir
+            pdf_statics_url = settings.PDF_STATIC_URL
+        else:
+            # Mostly used for local host
+            host = request.get_host()
+            pdf_statics_url = f'http://{host}{settings.STATIC_URL}'
         return super().get_context_provider_data(
             request,
-            host_url='',
-            export_plan=export_plan.data,
-            my_export_plan=export_plan,
+            pdf_statics_url=pdf_statics_url,
+            export_plan=export_plan,
             user=request.user,
             sections=data.SECTION_TITLES,
             calculated_pricing=processor.calculated_cost_pricing(),
             total_funding=processor.calculate_total_funding,
+            contact_detail=contact_dict,
             **kwargs,
         )

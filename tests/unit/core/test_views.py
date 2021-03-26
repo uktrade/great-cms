@@ -341,6 +341,7 @@ def test_dashboard_apis_ok(
     patch_get_user_page_views,
     patch_get_user_lesson_completed,
     domestic_homepage,
+    mock_get_user_profile,
 ):
     patch_get_dashboard_events.stop()
     patch_get_dashboard_export_opportunities.stop()
@@ -441,6 +442,7 @@ def test_dashboard_apis_fail(
     patch_get_user_page_views,
     patch_get_user_lesson_completed,
     domestic_homepage,
+    mock_get_user_profile,
 ):
     patch_get_dashboard_events.stop()
     patch_get_dashboard_export_opportunities.stop()

@@ -148,9 +148,17 @@ $mobile: 640px;
 }
 
 .shared-nav-container {
+    &.main-nav-container.mobile {
+        flex-direction: column;
+    }
+
     nav.main-nav.mobile {
         background: #4B426D;
-        padding: 20px 20px 0;
+        padding: 20px;
+
+        &.signed-in {
+            padding-top: 0;
+        }
 
         .nav-list {
             margin: 0;
@@ -162,7 +170,9 @@ $mobile: 640px;
                     border-bottom: 0;
                 }
 
-                a {
+                a, button {
+                    background: none;
+                    border: 0;
                     color: #fff;
                     font-family: "Overpass", Arial, Helvetica, Verdana;
                     font-size: 18px;
@@ -189,6 +199,13 @@ $mobile: 640px;
                         }
                     }
                 }
+
+                button {
+                    cursor: pointer;
+                    width: 100%;
+                    text-align: left;
+                    border-radius: 0;
+                }
             }
         }
     }
@@ -199,6 +216,21 @@ $mobile: 640px;
         @media (max-width: 768px) {
             display: block;
         }
+    }
+
+    .user-greeting {
+        background: #006ccc;
+        color: #fff;
+        display: none;
+        font-family: "Overpass", Arial, Helvetica, Verdana;
+        font-size: 20px;
+        padding: 15px 20px;
+    }
+}
+
+.great-header.expanded {
+    .user-greeting {
+        display: block;
     }
 }
 
@@ -433,4 +465,9 @@ $mobile: 640px;
     .magna-footer__great-logo img {
         width: auto;
     }
+}
+
+.shared-personalisation-bar {
+    max-width: 100%;
+    margin: 0 30px;
 }
