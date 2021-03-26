@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Input } from '@src/components/Form/Input'
 import { Select } from '@src/components/Form/Select'
+import { ConfirmModal } from '@src/components/ConfirmModal/ConfirmModal'
 
 export const Option = memo(
   ({
@@ -51,14 +52,10 @@ export const Option = memo(
         </tr>
         <tr>
           <td className="text-center" colSpan="2">
-            <button
-              type="button"
-              title="Click to delete this funding option and its data."
-              className="button button--delete button--small button--only-icon button--tertiary"
-              onClick={() => deleteFunding(id)}
-            >
-              <i className="fas fa-trash-alt"></i>
-            </button>
+            <ConfirmModal
+              hasData={!!selectedOption || !!value}
+              deleteItem={() => deleteFunding(id)}
+            />
           </td>
         </tr>
       </>
