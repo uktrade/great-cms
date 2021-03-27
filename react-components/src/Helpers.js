@@ -106,13 +106,9 @@ const get = (obj, path, def = null) => {
   let out = obj
   const pathSplit = path.split('.')
   for (let i = 0; i < pathSplit.length; i += 1) {
-<<<<<<< HEAD
-    if (!isObject(out)) {
-=======
     if (isObject(out) || isArray(out)) {
       out = out[pathSplit[i]]
     } else {
->>>>>>> GP2-1915_align_EP_data_snapshots
       return def
     }
   }
