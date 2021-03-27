@@ -168,6 +168,8 @@ def test_retrieve_marketing_target_age_data(
             'urban_population_total': 100,
             'rural_population_total': 200,
             'cpi': 32682,
+            'internet_data': 34.7,
+            'languages': 'Dutch',
             'year': '2020',
         }
     }
@@ -185,7 +187,6 @@ def test_retrieve_marketing_target_age_data(
         )
     ]
     mock_update_ui_options.return_value = None
-    # mock_api_get_country_data_by_country.return_value = create_response(json_body=population_data)
 
     client.force_login(user)
     url = reverse('exportplan:api-target-age-country-population-data')

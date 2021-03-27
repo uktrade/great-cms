@@ -141,6 +141,8 @@ def multiple_country_data():
             'Income': {'value': 20000},
             'CorruptionPerceptionsIndex': [{'rank': 10, 'year': '2019'}],
             'EaseOfDoingBusiness': {'rank': 10, 'year': '2019'},
+            'InternetUsage': [{'value': 34.7}],
+            'CIAFactbook': [{'languages': 'Dutch'}],
             'PopulationData': [
                 {'gender': 'male', '0-4': 1, '5-9': 2, '10-14': 3, '15-19': 4, '20-25': 5, 'year': '2020'},
                 {'gender': 'female', '0-4': 1, '5-9': 2, '10-14': 3, '15-19': 4, '20-25': 5, 'year': '2020'},
