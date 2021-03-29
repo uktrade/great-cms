@@ -1,7 +1,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import { ToggleDataTable } from '@src/components/ToggleDataTable'
-import { populationData } from '@src/components/ToggleDataTable/utils'
 import Services from '@src/Services'
 import { act } from 'react-dom/test-utils'
 
@@ -35,7 +34,7 @@ describe('ToggleDataTable', () => {
     wrapper = mount(
       <ToggleDataTable
         groups={mockGroups}
-        country="netherlands"
+        countryIso2Code="NL"
         selectedGroups={['30']}
         url="/export-plan"
       >
@@ -52,7 +51,7 @@ describe('ToggleDataTable', () => {
 
   test('Should fetch country data', () => {
     expect(Services.getCountryAgeGroupData).toHaveBeenCalledWith({
-      country: 'netherlands',
+      country_iso2_code: 'NL',
       section_name: '/export-plan',
       target_age_groups: ['30'],
     })
@@ -60,13 +59,13 @@ describe('ToggleDataTable', () => {
 
   test('renders heading and select button initially', () => {
     expect(wrapper.find('h3').length).toEqual(1)
-    expect(wrapper.find('.button--icon').length).toEqual(1)
+    expect(wrapper.find('.button--tiny-toggle').length).toEqual(1)
     expect(wrapper.find('form').length).toEqual(0)
     expect(wrapper.find('.table').length).toEqual(0)
   })
 
   test('renders form', () => {
-    wrapper.find('.button--icon').simulate('click', { type: 'click' })
+    wrapper.find('.button--tiny-toggle').simulate('click', { type: 'click' })
     expect(wrapper.find('form').length).toEqual(1)
     expect(wrapper.find('.table').length).toEqual(0)
   })
@@ -76,7 +75,7 @@ describe('ToggleDataTable', () => {
       Promise.resolve(mockResponse)
     )
 
-    wrapper.find('.button--icon').simulate('click', { type: 'click' })
+    wrapper.find('.button--tiny-toggle').simulate('click', { type: 'click' })
     wrapper
       .find('form input')
       .first()
@@ -93,18 +92,5 @@ describe('ToggleDataTable', () => {
 
     expect(wrapper.find('form').length).toEqual(0)
     expect(wrapper.find('.table').length).toEqual(1)
-  })
-})
-
-describe('utils', () => {
-  test('mapData', () => {
-    expect(populationData(mockResponse.population_data)).toEqual({
-      population: 0.2,
-      urban: 40,
-      rural: 60,
-      female: 0.1,
-      male: 0.2,
-      targetPopulation: 1,
-    })
   })
 })

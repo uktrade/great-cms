@@ -65,6 +65,10 @@ const normaliseValues = (str, places = 1, fixed = false) => {
   return 'Data not available'
 }
 
+const numberWithSign = (value) => {
+  return Number.isFinite(value-0) ? `${['-', '', '+'][Math.sign(value) + 1]}${Math.abs(value)}` : value
+}
+
 const millify = (value) => {
   const floatValue = parseFloat(value)
   if (floatValue) {
@@ -102,10 +106,11 @@ const get = (obj, path, def = null) => {
   let out = obj
   const pathSplit = path.split('.')
   for (let i = 0; i < pathSplit.length; i += 1) {
-    if (!isObject(out)) {
+    if (isObject(out) || isArray(out)) {
+      out = out[pathSplit[i]]
+    } else {
       return def
     }
-    out = out[pathSplit[i]]
   }
   return out
 }
@@ -129,6 +134,23 @@ const deepAssign = (obj1, obj2) => {
     }
   })
   return out
+}
+
+const camelize = (str) => {
+  return (str)
+    .split('_')
+    .reduce(
+      (acc, part) =>
+        acc ? `${acc}${part.charAt(0).toUpperCase()}${part.slice(1)}` : part,
+      ''
+    )
+}
+
+const camelizeObject = (obj) => {
+  return Object.keys(obj).reduce((out, key) => {
+    out[camelize(key)] = obj[key]
+    return out
+  }, {})
 }
 
 const sectionQuestionMapping = {
@@ -201,4 +223,7 @@ export {
   stripPercentage,
   deepAssign,
   objectHasValue,
+  numberWithSign,
+  camelize,
+  camelizeObject,
 }

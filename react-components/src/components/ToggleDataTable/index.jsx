@@ -2,10 +2,10 @@ import React, { memo, useState, cloneElement, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import Services from '@src/Services'
-import { populationData } from '@src/components/ToggleDataTable/utils'
+import { camelizeObject } from '@src/Helpers'
 
 export const ToggleDataTable = memo(
-  ({ country, groups, selectedGroups: selected, children, url }) => {
+  ({ countryIso2Code, groups, selectedGroups: selected, children, url }) => {
     const [isOpen, setIsOPen] = useState(false)
     const [selectedGroups, setSelectedGroups] = useState(selected)
     const [data, setData] = useState({})
@@ -13,19 +13,17 @@ export const ToggleDataTable = memo(
       .filter((group) => selectedGroups.includes(group.key))
       .map((group) => group.label)
     const showTable = Object.keys(data).length >= 1 && !isOpen
-
     const getCountryData = () => {
       Services.getCountryAgeGroupData({
-        country,
+        country_iso2_code: countryIso2Code,
         target_age_groups: selectedGroups,
         section_name: url,
       })
-        .then(({ population_data }) => {
-          setData(populationData(population_data))
+        .then((result) => {
+          setData(camelizeObject(camelizeObject(result).populationData))
         })
         .catch((error) => console.log(error))
     }
-
     useEffect(() => {
       if (selectedGroups.length > 0) {
         getCountryData()
@@ -47,24 +45,33 @@ export const ToggleDataTable = memo(
 
       setSelectedGroups(updatedSelectedGroups)
     }
-
     return (
       <>
         <h3 className="body-l-b">Select target age groups</h3>
-        <button
-          className="button button--secondary button--icon m-t-xs m-r-xs"
-          type="button"
-          onClick={() => setIsOPen(!isOpen)}
-        >
-          <i className={`fa fa-chevron-circle-${isOpen ? 'up' : 'down'}`} />
-          <span>{isOpen ? 'close' : 'open'}</span>
-        </button>
+        <div className="selected-groups">
+          <div className="selected-groups__button">
+            <button
+              className="button button--tiny-toggle"
+              type="button"
+              onClick={() => setIsOPen(!isOpen)}
+            >
+              <i className={`fa fa-chevron-circle-${isOpen ? 'up' : 'down'}`} />
+            </button>
+          </div>
+          <ul className="selected-groups__items">
+            {!isOpen &&
+              selectedGroups.map((item) => (
+                <li key={item} className="selected-groups__item">
+                  {item} years old
+                </li>
+              ))}
+          </ul>
+        </div>
         {targetGroupLabels.map((i) => (
           <span className="statistic-label body-m-b bg-blue-deep-20" key={i}>
             {i}
           </span>
         ))}
-
         {isOpen && (
           <form onSubmit={submitForm}>
             <ul className="form-group m-b-0">
@@ -94,7 +101,7 @@ export const ToggleDataTable = memo(
 )
 
 ToggleDataTable.propTypes = {
-  country: PropTypes.string.isRequired,
+  countryIso2Code: PropTypes.string.isRequired,
   groups: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.string.isRequired,

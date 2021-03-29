@@ -115,10 +115,6 @@ def test_exportplan_section_marketing_approach(
     assert response.context_data['route_choices']
     assert response.context_data['promotional_choices']
     assert response.context_data['target_age_group_choices']
-    assert response.context_data['demographic_data'] == {
-        **mock_get_country_data.return_value,
-        **mock_get_cia_world_factbook_data.return_value,
-    }
     assert response.context_data['selected_age_groups'] == ['25-29', '47-49']
 
 
@@ -290,7 +286,17 @@ def test_target_markets_research(mock_get_comtrade_data, multiple_country_data, 
     assert mock_get_comtrade_data.call_count == 1
 
     assert mock_get_comtrade_data.call_args == mock.call(commodity_code='220850', countries_list=['NL'])
-    assert response.context_data['insight_data']['NL']['country_data'] == multiple_country_data['NL']
+    for fieldname in [
+        'GDPPerCapita',
+        'ConsumerPriceIndex',
+        'Income',
+        'CorruptionPerceptionsIndex',
+        'EaseOfDoingBusiness',
+        'InternetUsage',
+    ]:
+        assert response.context_data['insight_data']['NL']['country_data'].get('fieldname') == multiple_country_data[
+            'NL'
+        ].get('feldname')
 
 
 @pytest.mark.django_db

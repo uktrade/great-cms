@@ -162,3 +162,26 @@
     }
   }
 }
+
+.selected-groups {
+  display: flex;
+  align-items: baseline;
+  margin-top: 10px;
+  &__button {
+    margin-right: 10px;
+  }
+  &__items {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    margin: 0;
+  }
+  &__item {
+    @extend .body-m;
+    background-color: $blue-deep-20;
+    border-radius: 100px;
+    padding: 6px 15px 3px;
+    line-height: 1.2;
+    margin: 5px;
+  }
+}

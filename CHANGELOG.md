@@ -2,8 +2,14 @@
 
 ## Pre-release changes - please put everything in the appropriate category above ======
 
+### Enhancements
 ### Fixed bugs
 
+## [1.6.0](https://github.com/uktrade/great-cms/releases/tag/1.6.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.5.0...1.6.0)
+### Fixed bugs
+
+- GP2-2123 - Add new group select styling and layout
 - GP2-2110 - Use Django-based Contact Us view for now, after all - reverts part of GP2-1901
 - GP2-2051 - Fix bug of lesson page when no country is selected
 - GP2-1901 - use slugurl for footer links
@@ -20,10 +26,10 @@
 - GP2-1930 - text changes, and update data structure whilst at it.
 - GP2-1948 - section complete copy
 - GP2-1913 - allow user to click anywhere inside the input field to toggle dropdown
-
 ### Enhancements
 
 - GP2-1977 - asset path for CSS fonts
+- GP2-1915 - Align EP data snapshots with WTE
 - GP2-1935 - add confirmation modal - business objectives
 - GP2-1900 - port redirects from BAU
 - GP2-800 - Objectives page Date picker
@@ -36,7 +42,6 @@
 - NOTICKET - Fix pdf static images
 
 ## [1.5.0](https://github.com/uktrade/great-cms/releases/tag/1.5.0)
-
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.4.0...1.5.0)
 
 ### Fixed bugs

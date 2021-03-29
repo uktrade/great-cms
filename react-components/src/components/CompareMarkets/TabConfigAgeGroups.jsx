@@ -55,7 +55,7 @@ const valueAndPercentage = (dataSet, gender) => {
     <>
       <div className="body-l primary">{millify(value)}</div>
       <div className="body-m secondary text-black-60">
-        {normaliseValues((value * 100) / total)}%
+        {normaliseValues((value * 100) / total, 0)}%
       </div>
     </>
   )
@@ -120,7 +120,7 @@ export default {
   dataFunction: (countries) => {
     return Services.getCountryData(
       countries,
-      JSON.stringify([{ model: 'PopulationData', filter: { year: 2020 } }])
+      JSON.stringify([{ model: 'PopulationData', filter: { year: 2020 }}])
     )
   },
 }

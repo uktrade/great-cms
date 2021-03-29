@@ -16,6 +16,10 @@ import {
   getLabels,
   getValues,
   objectHasValue,
+  deepAssign,
+  camelize,
+  camelizeObject,
+  numberWithSign,
 } from '@src/Helpers'
 
 test('slugify', (done) => {
@@ -315,5 +319,36 @@ describe('objectHasValue', () => {
   it('Should return true, has values', () => {
     expect(objectHasValue({ bar: 'bar' })).toBeTruthy()
     expect(objectHasValue({ bar: '', foo: 'asdasd' })).toBeTruthy()
+  })
+})
+
+describe('Utilities ', () => {
+  it('Should deepAssign object', () => {
+    const obj1 = { one: 1, two: { twoOne: 21, twoTwo: 22 } }
+    const obj2 = { three: 3, two: { twoTwo: 'updated', twoThree: 23 } }
+    const obj = deepAssign(obj1, obj2)
+    expect(obj.one).toEqual(1)
+    expect(obj.two).toEqual({ twoOne: 21, twoTwo: 'updated', twoThree: 23 })
+    expect(obj.three).toEqual(3)
+  })
+  it('Should camelize a string', () => {
+    expect(camelize('one')).toEqual('one')
+    expect(camelize('one_two_three')).toEqual('oneTwoThree')
+    expect(camelize('')).toEqual('')
+  })
+  it('Should camelize an object', () => {
+    expect(camelizeObject({ one: 1, two_three: 23 })).toEqual({
+      one: 1,
+      twoThree: 23,
+    })
+  })
+  it('Should render number sign', () => {
+    expect(numberWithSign(0)).toEqual('0')
+    expect(numberWithSign(-23)).toEqual('-23')
+    expect(numberWithSign(23)).toEqual('+23')
+    expect(numberWithSign('0')).toEqual('0')
+    expect(numberWithSign('-23')).toEqual('-23')
+    expect(numberWithSign('23')).toEqual('+23')
+    expect(numberWithSign('Data not available')).toEqual('Data not available')
   })
 })
