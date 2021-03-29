@@ -20,7 +20,7 @@ def test_com_trade_data_view(mock_country_data, mock_import_data_by_country, cli
 
     assert 'DE' in json_response.keys()
 
-    assert ['import_from_world', 'import_data_from_uk'] == list(json_response['DE'].keys())
+    assert ['import_from_world', 'import_from_uk'] == list(json_response['DE'].keys())
 
 
 @mock.patch.object(core_helpers, 'get_country_data')

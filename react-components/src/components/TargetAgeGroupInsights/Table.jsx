@@ -6,50 +6,54 @@ import { DemoData } from './DemoData'
 
 export const Table = memo(
   ({
-    population,
+    totalPopulation,
     cpi,
     internetData,
     languages,
-    urban,
-    rural,
-    female,
-    male,
-    targetPopulation,
+    urbanPopulationTotal,
+    ruralPopulationTotal,
+    femaleTargetAgePopulation,
+    maleTargetAgePopulation,
+    totalTargetAgePopulation,
   }) => (
     <div className="m-t-m">
       <DemoData
-        population={population}
+        population={totalPopulation}
         internetData={internetData}
         cpi={cpi}
         languages={languages}
       />
       <AgeGroupData
-        targetPopulation={targetPopulation}
-        female={female}
-        male={male}
-        urban={urban}
-        rural={rural}
+        targetPopulation={totalTargetAgePopulation}
+        female={femaleTargetAgePopulation}
+        male={maleTargetAgePopulation}
+        urban={urbanPopulationTotal}
+        rural={ruralPopulationTotal}
       />
     </div>
   )
 )
 
 Table.propTypes = {
-  population: PropTypes.string.isRequired,
-  cpi: PropTypes.string.isRequired,
-  urban: PropTypes.number,
-  rural: PropTypes.number,
-  female: PropTypes.number,
-  male: PropTypes.number,
-  internetData: PropTypes.string.isRequired,
-  targetPopulation: PropTypes.number,
-  languages: PropTypes.string.isRequired,
+  totalPopulation: PropTypes.number,
+  totalTargetAgePopulation: PropTypes.number,
+  cpi: PropTypes.number,
+  internetData: PropTypes.number,
+  urbanPopulationTotal: PropTypes.number,
+  ruralPopulationTotal: PropTypes.number,
+  femaleTargetAgePopulation: PropTypes.number,
+  maleTargetAgePopulation: PropTypes.number,
+  languages: PropTypes.string,
 }
 
 Table.defaultProps = {
-  urban: '',
-  rural: '',
-  female: '',
-  male: '',
-  targetPopulation: '',
+  totalPopulation: '',
+  totalTargetAgePopulation: '',
+  cpi: '',
+  internetData: '',
+  urbanPopulationTotal: '',
+  ruralPopulationTotal: '',
+  femaleTargetAgePopulation: '',
+  maleTargetAgePopulation: '',
+  languages: '',
 }

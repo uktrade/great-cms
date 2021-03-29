@@ -29,6 +29,7 @@
 ### Enhancements
 
 - GP2-1977 - asset path for CSS fonts
+- GP2-1915 - Align EP data snapshots with WTE
 - GP2-1935 - add confirmation modal - business objectives
 - GP2-1900 - port redirects from BAU
 - GP2-800 - Objectives page Date picker

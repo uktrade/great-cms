@@ -2,12 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { useCookies } from 'react-cookie'
+import ReactHtmlParser from 'react-html-parser'
+
 import Services from '@src/Services'
 import { connect, Provider } from 'react-redux'
 import actions from '@src/actions'
 import { getMarkets } from '@src/reducers'
 import { analytics, get } from '../../Helpers'
-import ReactHtmlParser from 'react-html-parser'
+
 
 function SelectMarket(props) {
   const cookieName = `comparisonMarkets_${get(Services, 'config.user.id')}`

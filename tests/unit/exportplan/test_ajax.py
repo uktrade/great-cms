@@ -1,3 +1,4 @@
+import json
 from collections import OrderedDict
 from unittest import mock
 
@@ -156,25 +157,46 @@ def test_recommended_countries_no_country(client, user):
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'update_ui_options_target_ages')
 def test_retrieve_marketing_target_age_data(
-    mock_update_ui_options, mock_get_population_data, export_plan_data, client, user
+    mock_update_ui_options, mock_api_get_country_data_by_country, export_plan_data, client, user
 ):
+    expected_response = {
+        'population_data': {
+            'female_target_age_population': 10,
+            'male_target_age_population': 10,
+            'total_population': 30,
+            'total_target_age_population': 20,
+            'urban_population_total': 100,
+            'rural_population_total': 200,
+            'cpi': 32682,
+            'internet_data': 34.7,
+            'languages': 'Dutch',
+            'year': '2020',
+        }
+    }
+
+    request_parameters = {'country_iso2_code': 'NL', 'target_age_groups': '0-14,15-25', 'section_name': 'test-section'}
+    expected_dataservices_request = [
+        json.dumps(
+            [
+                {'model': 'PopulationData', 'filter': {'year': '2020'}},
+                {'model': 'PopulationUrbanRural', 'filter': {'year': '2021'}},
+                {'model': 'ConsumerPriceIndex', 'latest_only': True},
+                {'model': 'InternetUsage', 'latest_only': True},
+                {'model': 'CIAFactbook', 'latest_only': True},
+            ]
+        )
+    ]
+    mock_update_ui_options.return_value = None
+
     client.force_login(user)
-
     url = reverse('exportplan:api-target-age-country-population-data')
-    response = client.get(url, {'country': 'Canada', 'target_age_groups': '0-5,5-25', 'section_name': 'test-section'})
-
-    assert mock_get_population_data.call_count == 1
+    response = client.get(url, request_parameters)
     assert mock_update_ui_options.call_count == 1
-
-    assert mock_get_population_data.call_args == mock.call(country='Canada', target_ages=['0-5', '5-25'])
-    assert mock_update_ui_options.call_args == mock.call(
-        export_plan=export_plan_data,
-        sso_session_id='123',
-        target_ages=['0-5', '5-25'],
-        section_name='test-section',
+    assert mock_api_get_country_data_by_country.call_count == 1
+    assert mock_api_get_country_data_by_country.call_args == mock.call(
+        countries=['NL'], fields=expected_dataservices_request
     )
-
-    assert response.json() == mock_get_population_data.return_value
+    assert response.json() == expected_response
 
 
 @pytest.mark.django_db

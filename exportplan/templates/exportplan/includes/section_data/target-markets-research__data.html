@@ -67,8 +67,6 @@
     magna.createDataSnapShot({
       element: document.getElementById('target-age-groups'),
       groups: {{ target_age_group_choices|safe }},
-      country: '{{ export_plan.export_countries.0.country_name }}',
-      country_iso2_code: '{{ export_plan.export_countries.0.country_iso2_code }}',
       insight: {{ insight_data|to_json|safe }},
       selected: {{ selected_age_groups|to_json|safe}},
       currentSection: {{ current_section|to_json}},
