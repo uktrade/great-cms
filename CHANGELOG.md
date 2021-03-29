@@ -4,6 +4,7 @@
 
 ### Fixed bugs
 
+- GP2-2123 - Add new group select styling and layout
 - GP2-2110 - Use Django-based Contact Us view for now, after all - reverts part of GP2-1901
 - GP2-2051 - Fix bug of lesson page when no country is selected
 - GP2-1901 - use slugurl for footer links

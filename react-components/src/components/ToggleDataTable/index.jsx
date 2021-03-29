@@ -51,20 +51,30 @@ export const ToggleDataTable = memo(
     return (
       <>
         <h3 className="body-l-b">Select target age groups</h3>
-        <button
-          className="button button--secondary button--icon m-t-xs m-r-xs"
-          type="button"
-          onClick={() => setIsOPen(!isOpen)}
-        >
-          <i className={`fa fa-chevron-circle-${isOpen ? 'up' : 'down'}`} />
-          <span>{isOpen ? 'close' : 'open'}</span>
-        </button>
+        <div className="selected-groups">
+          <div className="selected-groups__button">
+            <button
+              className="button button--tiny-toggle"
+              type="button"
+              onClick={() => setIsOPen(!isOpen)}
+            >
+              <i className={`fa fa-chevron-circle-${isOpen ? 'up' : 'down'}`} />
+            </button>
+          </div>
+          <ul className="selected-groups__items">
+            {!isOpen &&
+              selectedGroups.map((item) => (
+                <li key={item} className="selected-groups__item">
+                  {item} years old
+                </li>
+              ))}
+          </ul>
+        </div>
         {targetGroupLabels.map((i) => (
           <span className="statistic-label body-m-b bg-blue-deep-20" key={i}>
             {i}
           </span>
         ))}
-
         {isOpen && (
           <form onSubmit={submitForm}>
             <ul className="form-group m-b-0">

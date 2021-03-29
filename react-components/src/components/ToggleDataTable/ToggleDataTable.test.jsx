@@ -60,13 +60,13 @@ describe('ToggleDataTable', () => {
 
   test('renders heading and select button initially', () => {
     expect(wrapper.find('h3').length).toEqual(1)
-    expect(wrapper.find('.button--icon').length).toEqual(1)
+    expect(wrapper.find('.button--tiny-toggle').length).toEqual(1)
     expect(wrapper.find('form').length).toEqual(0)
     expect(wrapper.find('.table').length).toEqual(0)
   })
 
   test('renders form', () => {
-    wrapper.find('.button--icon').simulate('click', { type: 'click' })
+    wrapper.find('.button--tiny-toggle').simulate('click', { type: 'click' })
     expect(wrapper.find('form').length).toEqual(1)
     expect(wrapper.find('.table').length).toEqual(0)
   })
@@ -76,7 +76,7 @@ describe('ToggleDataTable', () => {
       Promise.resolve(mockResponse)
     )
 
-    wrapper.find('.button--icon').simulate('click', { type: 'click' })
+    wrapper.find('.button--tiny-toggle').simulate('click', { type: 'click' })
     wrapper
       .find('form input')
       .first()
