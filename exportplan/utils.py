@@ -1,5 +1,3 @@
-import os
-import ssl
 from io import BytesIO
 
 from django.http import HttpResponse
@@ -12,10 +10,6 @@ def format_two_dp(num):
 
 
 def render_to_pdf(template_src, context_dict):
-    # This is required to solve SSL error
-    if not os.environ.get('PYTHONHTTPSVERIFY', '') and getattr(ssl, '_create_unverified_context', None):
-        ssl._create_default_https_context = ssl._create_unverified_context
-
     template = get_template(template_src)
     html = template.render(context_dict)
     result = BytesIO()

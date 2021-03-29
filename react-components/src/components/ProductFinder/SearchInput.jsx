@@ -60,11 +60,10 @@ export default function SearchInput(props) {
     }
   }
 
-  const clearSearchInput = () => {
-    if (isFocussed) {
+  const clearSearchInput = (evt) => {
+      evt.preventDefault()
       setInputValue('')
       searchInput.focus()
-    }
   }
 
   return (

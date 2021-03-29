@@ -210,7 +210,7 @@ export default function CountryFinderModal(props) {
     </div>
   )
 
-  /* Filtered list of markets */
+  /* Filtered list of places */
   const marketListSection = (
     <div>
       <h3 className="h-s p-t-xs">List of places</h3>
@@ -221,7 +221,7 @@ export default function CountryFinderModal(props) {
       </p>
       <div className="grid">
         <div className="c-1-3 m-b-xxs">
-          <SearchInput onChange={searchChange} iconClass="fa-search" placeholder="Search markets"/>
+          <SearchInput onChange={searchChange} iconClass="fa-search" placeholder="Search places"/>
         </div>
       </div>
       <div className="grid">

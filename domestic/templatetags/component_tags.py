@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 from django import template
 from django.templatetags import static
 
+from domestic.models import ArticleListingPage, TopicLandingPage
+
 register = template.Library()
 
 META_DESCRIPTION_TEXT_LENGTH = 150
@@ -208,3 +210,33 @@ def pagination(context, pagination_page, page_param_name='page'):
         'url': pagination_url,
         'pages_after_current': paginator.num_pages - pagination_page.number,
     }
+
+
+@register.inclusion_tag('components/message_box.html')
+def message_box(**kwargs):
+    return kwargs
+
+
+@register.inclusion_tag('components/message_box_with_icon.html')
+def success_box(**kwargs):
+    return {
+        'icon': '✓',
+        'heading_level': 'h3',
+        **kwargs,
+    }
+
+
+@register.simple_tag
+def is_descendant_of_parent_with_slug(child_page, parent_type_classname, slug_):
+
+    parent_class = {
+        'TopicLandingPage': TopicLandingPage,
+        'ArticleListingPage': ArticleListingPage,
+    }.get(parent_type_classname)
+
+    if parent_class:
+        for page_ in child_page.get_ancestors().specific():
+            if page_.__class__ == parent_class and page_.slug == slug_:
+                return True
+
+    return False

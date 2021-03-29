@@ -62,15 +62,14 @@
 }
 
 .export-plan-dashboard__section {
-  display: flex;
-  flex-direction: row-reverse;
+  @include breakpoint(md) {
+    display: flex;
+  }
 }
 
 .export-plan-dashboard__sidebar {
-  display: none;
   @include breakpoint(md) {
     flex: 0 0 330px;
-    display: unset;
   }
 
   .section-upload {

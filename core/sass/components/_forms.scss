@@ -213,6 +213,10 @@
     border: 2px solid transparent;
     background-color: white;
     padding: var(--button-padding-v) 0;
+
+    &:focus {
+      outline: 6px solid $focus-yellow;
+    }
   }
 }
 
@@ -237,5 +241,11 @@
 
   .great-radiogroup__input:checked + .great-radiogroup__label {
     color: white;
+  }
+}
+
+.select__list {
+  &--open {
+    margin-top: -54px; // (border x 2) + min-height
   }
 }

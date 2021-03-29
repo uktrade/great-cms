@@ -3,7 +3,7 @@
 {% load wagtailcore_tags %}
 
 {% block content %}
-  <div id="where-to-export"">
+  <div id="where-to-export">
       <section class="bg-white">
           <div class="container p-t-m p-b-m">
               <div class="grid">
@@ -40,7 +40,8 @@
     <div id="open-product-finder" class="m-v-l"
       data-productname="{{ request.user.export_plan.data.export_commodity_codes.0.commodity_name }}"
       data-productcode="{{ request.user.export_plan.data.export_commodity_codes.0.commodity_code }}"
-      data-tabs="{{ data_tabs_enabled }}">
+      data-tabs="{{ data_tabs_enabled }}"
+      data-max-places-allowed="{{ max_compare_places_allowed }}">
     </div>
 
     <div id="comparison-market-selector" class="p-v-l m-v-l" />
@@ -49,7 +50,6 @@
       magna.CompareMarkets({
         element: document.querySelector("#open-product-finder"),
         cta_container: document.querySelector("#cta-container"),
-        selectedTab:'POPULATION',
       })
       magna.SelectComparisonMarket({
         element: document.querySelector("#comparison-market-selector")

@@ -11,35 +11,17 @@
 {% block content %}
 
 <section class="export-plan-dashboard__section bg-blue-deep-10">
-  <aside class="export-plan-dashboard__sidebar p-v-m p-r-s p-f-s text-center bg-white">
-    {% if not request.user.company.logo %}
-    <a id="add-image" href="{% url 'exportplan:add-logo' %}"
-      class="link text-center text-blue-deep-80 p-t-xs p-b-s section-upload">
-      <i class="fas fa-upload"></i>
-      <h3 class="m-v-xs bold">Upload your logo</h3>
-      <p class="m-0">Click here.</p>
-      <p class="m-0">PNG or JPG, 270x170 pixels</p>
-    </a>
-    {% else %}
-    <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="w-full" />
-    <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
-    {% endif %}
-    <div id="buttons-disabled" class="m-t-m">
-      <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
-        <i class="fas fa-download"></i>
-        <span class="body-m text-white">Save your plan as a PDF</span>
-      </button>
-    </div>
-  </aside>
   <div class="export-plan-dashboard__container container">
-    <div id="section-progress">
-      <div class="m-h-s m-t-m">
-        <div class="progress-bar progress-bar--white-track">
-          <span style="width: {% widthratio export_plan_progress.export_plan_progress.sections_completed export_plan_progress.export_plan_progress.sections_total 100 %}%"></span>
+    {% if export_plan_progress.sections_total and export_plan_progress.sections_completed %}
+      <div id="section-progress">
+        <div class="m-h-s m-t-m">
+          <div class="progress-bar progress-bar--white-track">
+            <span style="width: {% widthratio export_plan_progress.sections_completed export_plan_progress.sections_total 100 %}%"></span>
+          </div>
+          <p class="body-m-b m-t-xxs m-b-0">{{ export_plan_progress.sections_completed }} out of {{ export_plan_progress.sections_total }} export plan sections complete</p>
         </div>
-        <p class="body-m-b m-t-xxs m-b-0">{{ export_plan_progress.export_plan_progress.sections_completed }} out of {{ export_plan_progress.export_plan_progress.sections_total }} export plan sections complete</p>
       </div>
-    </div>
+    {% endif %}
     <div class="section-list p-v-m p-h-s" id="section-list">
       <div class="media media--middle m-b-l">
         <div class="media__figure">
@@ -72,7 +54,26 @@
       </div>
     </div>
   </div>
-
+  <aside class="export-plan-dashboard__sidebar p-v-m p-r-s p-f-s text-center bg-white">
+    {% if not request.user.company.logo %}
+    <a id="add-image" href="{% url 'exportplan:add-logo' %}"
+       class="link text-center text-blue-deep-80 p-t-xs p-b-s section-upload">
+      <i class="fas fa-upload"></i>
+      <h3 class="m-v-xs bold">Upload your logo</h3>
+      <p class="m-0">Click here.</p>
+      <p class="m-0">PNG or JPG, 270x170 pixels</p>
+    </a>
+    {% else %}
+    <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="w-full" />
+    <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
+    {% endif %}
+    <div id="buttons-disabled" class="m-t-m">
+      <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
+        <i class="fas fa-download"></i>
+        <span class="body-m text-white">Save your plan as a PDF</span>
+      </button>
+    </div>
+  </aside>
 </section>
 
 {% endblock %}
@@ -84,7 +85,7 @@
     magna.createDashboard({
       element: element,
       sections: {{ sections|to_json}},
-      export_plan_progress: {{ export_plan_progress|to_json }},
+      exportPlanProgress: {{ export_plan_progress|to_json }},
     })
 
     var buttonsDisabled = document.getElementById('buttons-disabled');

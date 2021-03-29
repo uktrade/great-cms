@@ -16,7 +16,7 @@ from rest_framework.response import Response
 from core import cms_slugs, forms, helpers, serializers
 from core.mixins import PageTitleMixin
 from directory_constants import choices
-from domestic.models import DomesticDashboard
+from domestic.models import DomesticDashboard, TopicLandingPage
 
 logger = logging.getLogger(__name__)
 
@@ -106,6 +106,7 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView):
         if self.request.user and hasattr(self.request.user, 'export_plan'):
             context['export_plan'] = self.request.user.export_plan.data
             context['data_tabs_enabled'] = json.dumps(settings.FEATURE_COMPARE_MARKETS_TABS)
+            context['max_compare_places_allowed'] = settings.MAX_COMPARE_PLACES_ALLOWED
             context['dashboard_components'] = dashboard.components if dashboard else None
             context['no_refresh_on_market_change'] = True
         return context
@@ -277,3 +278,14 @@ class ContactUsHelpFormView(PageTitleMixin, FormView):
 
 class ContactUsHelpSuccessView(TemplateView):
     template_name = 'core/contact-us-help-form-success.html'
+
+
+class ServiceNoLongerAvailableView(TemplateView):
+    template_name = 'domestic/service_no_longer_available.html'
+
+    def get_context_data(self, **kwargs):
+        advice_page_slug = 'advice'
+
+        return super().get_context_data(
+            **kwargs, listing_page=TopicLandingPage.objects.filter(slug=advice_page_slug).first()
+        )

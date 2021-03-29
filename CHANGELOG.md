@@ -1,6 +1,40 @@
 # Changelog
 
-## Pre-release
+## Pre-release changes - please put everything in the appropriate category above ======
+
+### Fixed bugs
+
+### Enhancements
+
+
+=======
+
+## [1.5.0](https://github.com/uktrade/great-cms/releases/tag/1.5.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.4.0...1.5.0)
+### Fixed bugs
+
+- GP2-1914 - Remove rogue backtick
+- GP2-1563 - Input clear button on mobile
+- GP2-1775 - fix warning banner url
+- GP2-1290 - When drop down list is selected the whole page is moving
+- GP2-1280 - Bullet styling fix on mobile
+- GP2-1842 - Add magna banner markets homepage
+- GP2-1842 - Fix absent href in Service Removed Page links
+- GP2-1843 - Progress bar resilience
+- GP2-1806 - Selects alignment when active on desktop
+- GP2-1707 - Accessibility issue - Radio buttons need to have tab functionality
+- NO TICKET - card image bug fix for safari
+- GP2-1743 - fix Download export plan functionality on mobile
+- NO TICKET - fix wagtail checkbox layout issue
+- GP2-1784 - Stop breadcrumbs showing for Structural Page
+- NO TICKET - add document-link back in as rich-text option
+- NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
+- NO TICKET - fix wagtail checkbox layout issue
+- NO TICKET - fix pdf generation
+- GP2-1792 - dashboard pages
+
+### Implemented enhancements
 
 - GP2-1784 - Stop breadcrumbs showing for Structural Page
 - GP2-1559 - Structural page  for marketing articles
@@ -12,16 +46,44 @@
 - GP2-1436 - Added management command to load countries, region and trading blocs tag from csv
 - GP2-1733 - rename ep options
 - GP2-1735 - update lessons
-
-### Fixed bugs
-
-- NO TICKET - add document-link back in as rich-text option
-- NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
-- NO TICKET - fix wagtail checkbox layout issue
-
-### Implemented enhancements
-
+- GP2-1724 - Configurable compare country limit
+- GP2-1811 - Fix SEO title as main page title if it exists
+- GP2-1811 - Fix SEO title not appearing in meta tags
+- GP2-1724 - WTE population tab using generic endpoints + cleanup
+- GP2-1858 - Change logged out header sign out to dashboard
+- GP2-1770 - Business risk content changes.
+- GP2-1775 - Article page warning banner
+- GP2-1832 - Update page-parent permissons to allow homepage swap
+- GP2-1483 - Remove wagtail-translation from codebase entirely (follow up to GP2-1190)
+- GP2-1576 - Export button for Casestudy attributes in Admin UI
+- GP2-1730 - Where to export Magna banner (signed out) - Market guide pages
+- GP2-1550 - Added SEO fields for guidance pages
+- GP2-1778 - Support post-login and post-signup redirection to original requested destination
+- GP2-1738 - Market guide links feature flag
+- GP2-1783 - Export plan landing page - Number of completed questions
+- GP2-1732 - Learning banner on advice listing pages
+- GP2-1763 - Logged out footer
+- GP2-1569 - Compare markets page - add age group tab
+- GP2-1729 - Add learning banner
+- GP2-1731 - Logged out header modifications
+- GP2-1727 - Add trade barrier feature flag
+- GP2-1726 - Add ctas to domestic homepage
+- GP2-1559 - Structural page for marketing articles
+- GP2-1325 - Footer is not displaying correctly
+- GP2-1784 - Stop breadcrumbs showing for Structural Page
+- GP2-1559 - Structural page for marketing articles
+- GP2-1430 - Income data for target research page in EP
+- GP2-1575 - Added default text for case study summary_context field
+- GP2-1570 - CaseStudy UI seachability by summary, lead_title and some tags
+- GP2-1575 - Casestudy rename, reorder and tweak style
+- NO TICKET - django 2.2.19 upgrade
+- GP2-1436 - Added management command to load countries, region and trading blocs tag from csv
+- GP2-1733 - rename ep options
+- GP2-1735 - update lessons
+- GP2-1632-generic-ep-pages
+- GP2-1782 - ep section progress
 - GP2-1441 - Corruption perception index update
+- GP2-1686 - Port /contact/domestic/ and contact/domestic/enquiries/ paths from V1, behind feature flag
 - GP2-1398 - Data loading performance for compare markets page
 - GP2-1701 - Footer - Account functionality
 - GP2-1574 - Case study - Quote surfacing on mobile devices (carousel)
@@ -34,6 +96,29 @@
 - GP2-1180 - Travel and business policies-page
 - GP2-1404 - Select your product (modal window) - Product and country are not selected
 - GP2-1438 - Random picking for case study if they score same
+- GP2-1435 - Split data retrieval on 'Where to export' data table
+- GP2-1426 - Cost and pricing - Change to the title of the tool-tip
+- no-ticket - django version upgraded to 2.2.18
+- GP2-1424 - Cost and pricing page - local taxes section
+- GP2-1423 - Cost and pricing page - content change
+- GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
+- GP2-1405 - pdf EP Initial boiler plate creation
+- GP2-1705 - fix personalisation ba
+- GP2-1632 - export plan DL BE p1
+
+## [1.4.0](https://github.com/uktrade/great-cms/releases/tag/1.4.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.3.0...1.4.0)
+
+### Fixed bugs
+
+- NO TICKET - add document-link back in as rich-text option
+- NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.3.0...1.4.0)
+
+### Implemented enhancements
+
 - GP2-1440 - Ranking calculation for case study
 - GP2-1128 - Product Classifier - Mobile carousel
 - GP2-1551 - Seperated case study tag for trading bloc
@@ -52,18 +137,12 @@
 - GP2-1468 - Add InfoPage to CMS, to handle ex-BAU legal/guidance/terms content
 - GP2-1439 - CMS admin UI for case study scoring
 - GP2-1344 - added trading bloc logic to search case study
-- GP2-1425 - Cost and pricing - Estimate element
-- GP2-1435 - Split data retrieval on 'Where to export' data table
-- GP2-1426 - Cost and pricing - Change to the title of the tool-tip
-- no-ticket - django version upgraded to 2.2.18
-- GP2-1424 - Cost and pricing page - local taxes section
-- GP2-1423 - Cost and pricing page - content change
-- GP2-1411 - Refactor ArticlePage to use a StreamField with new PullQuoteBlock
-- GP2-1405 - pdf EP Initial boiler plate creation
-
 
 ### Fixed bugs
 
+- GP2-1784 - Stop breadcrumbs showing for Structural Page
+- NO TICKET - add document-link back in as rich-text option - NO TICKET - add document-link back in as rich-text option
+- NO TICKET - further document-link backfills in as rich-text option, in fields missing from above
 - GP2-1431 - Country chooser visual defects
 - GP2-1549 - Change text/field used for links to child Performance Dashboards
 - GP2-1446 - Increase input clear button size
@@ -92,6 +171,7 @@
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.1.0...1.2.0)
 
 ### Implemented enhancements
+
 - GP2-1700 - Drop down boxes overlap fix
 - GP2-1333 - Add filtering behaviour to MarketsTopicLandingPage (ported from BAU)
 - GP2-1412 - Update RichtextField features allowed on ArticlePage
@@ -349,6 +429,8 @@
 - GP2-315 - route to market backend integration
 
 ### Implemented enhancements
+
+-GP2-1548 - Added Service Removed Page
 
 - GP2-1155 - Reduce Sentry noise by skipping GA middleware for Django and Wagtail Admins
 - GP2-1144 - Allow Beta token checks to support sub-paths of allowed paths

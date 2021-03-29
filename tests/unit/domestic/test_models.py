@@ -91,7 +91,7 @@ class DomesticDashboardTests(WagtailPageTests):
 
 @pytest.mark.django_db
 @mock.patch.object(sso_api_client.user, 'get_user_page_views')
-@mock.patch.object(api_client.exportplan, 'exportplan_list')
+# @mock.patch.object(api_client.exportplan, 'exportplan_list')
 @mock.patch.object(api_client.personalisation, 'events_by_location_list')
 @mock.patch.object(api_client.personalisation, 'export_opportunities_by_relevance_list')
 @mock.patch.object(sso_api_client.user, 'get_user_lesson_completed')
@@ -100,17 +100,20 @@ def test_dashboard_page_routing(
     mock_get_user_lesson_completed,
     mock_events_by_location_list,
     mock_export_opportunities_by_relevance_list,
-    mock_exportplan_list,
     mock_get_user_page_views,
     patch_set_user_page_view,
     mock_get_company_profile,
+    mock_export_plan_list,
+    mock_sso_get_export_plan,
+    patch_sso_get_export_plan,
     client,
     user,
     get_request,
     domestic_homepage,
     domestic_site,
 ):
-    mock_exportplan_list.return_value = [{}]
+    patch_sso_get_export_plan.stop()
+    mock_export_plan_list.return_value = [{}]
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
     mock_get_user_page_views.return_value = create_response(json_body={'result': 'ok', 'page_views': {}})
@@ -170,7 +173,7 @@ def test_dashboard_page_routing(
 
     # set a country in exportplan and watch plan section disappear
     assert context_data['routes']['target'].value.get('enabled') is True
-    mock_exportplan_list.return_value = create_response(json_body=[{'export_countries': ['France']}])
+    mock_export_plan_list.return_value = create_response(json_body=[{'export_countries': ['France']}])
     context_data = dashboard.get_context(get_request)
     assert context_data['routes']['target'].value.get('enabled') is False
 
@@ -181,6 +184,10 @@ def test_dashboard_page_routing(
     )
     context_data = dashboard.get_context(get_request)
     assert context_data['routes']['plan'].value.get('enabled') is False
+    assert context_data['export_plan_progress']['sections_total'] == 10
+    assert context_data['export_plan_progress']['exportplan_completed'] is False
+    assert context_data['export_plan_progress']['exportplan_completed'] is False
+    assert context_data['export_plan_dashboard_url'] == '/export-plan/dashboard/'
 
 
 @pytest.mark.django_db
@@ -586,7 +593,10 @@ class TopicLandingPageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             TopicLandingPage,
-            {DomesticHomePage},
+            {
+                DomesticHomePage,
+                GreatDomesticHomePage,
+            },
         )
 
     def test_allowed_children(self):
@@ -655,7 +665,10 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             MarketsTopicLandingPage,
-            {DomesticHomePage},
+            {
+                DomesticHomePage,
+                GreatDomesticHomePage,
+            },
         )
 
     def test_allowed_children(self):
@@ -1042,17 +1055,17 @@ def test_markets_page__no_results__page_content(
     ) in body_text
 
     # Brittle tests warning
-    assert str(links[19]) == (
+    assert str(links[16]) == (
         '<a class="link" href="https://www.great.gov.uk/export-opportunities/">'
         'Browse our export opportunities service to find opportunities to sell your product in overseas markets</a>'
     )
 
-    assert str(links[20]) == (
+    assert str(links[17]) == (
         '<a class="link" href="https://www.great.gov.uk/contact/office-finder">'
         'Get in touch with a trade adviser to discuss your export business plan</a>'
     )
 
-    assert str(links[21]) == ('<a class="view-markets link bold margin-top-15" href="/markets/">Clear all filters</a>')
+    assert str(links[18]) == ('<a class="view-markets link bold margin-top-15" href="/markets/">Clear all filters</a>')
 
 
 class ArticleListingPageTests(WagtailPageTests):

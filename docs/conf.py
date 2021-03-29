@@ -180,5 +180,4 @@ intersphinx_mapping = {
     'python': ('https://docs.python.org/', None),
     'django': ('https://docs.djangoproject.com/en/stable/', 'https://docs.djangoproject.com/en/stable/_objects/'),
     'wagtail': ('https://docs.wagtail.io/en/stable/', None),
-    'wagxperience': ('https://wagtail-personalisation.readthedocs.io/en/latest/', None),
 }

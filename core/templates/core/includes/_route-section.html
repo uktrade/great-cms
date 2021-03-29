@@ -14,11 +14,11 @@
 		    </a>
       {% endif %}
 		</div>
-		<div class="{% if wide %}c-1-2{% else %}c-full{% endif %}">
-			<div class="g-card-image">
-				{% image value.image max-700x300 %}
-			</div>
-		</div>
+    <div class="{% if wide %}c-1-2{% else %}c-full p-f-0 p-b-xs p-t-s{% endif %}">
+      <div class="g-card-image">
+        {% image value.image max-700x300 %}
+      </div>
+    </div>
     {% if wide %}
       <div class="c-full p-h-0">
         <a class="button button--secondary button--small" icon="" theme="secondary" href="{% if value.button.link %}{{value.button.link.internal_link.get_url|default:value.button.link.external_link}}{% endif %}">
