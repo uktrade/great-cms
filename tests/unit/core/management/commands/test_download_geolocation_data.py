@@ -52,6 +52,10 @@ def test_handles_remote_invalid_archive(settings, requests_mock):
         geolocation_archive.decompress(
             file_name=settings.GEOIP_COUNTRY, destination=os.path.join(settings.GEOIP_PATH, 'test')
         )
+    with pytest.raises(tarfile.ReadError):
+        geolocation_archive.decompress(
+            file_name=settings.GEOIP_CITY, destination=os.path.join(settings.GEOIP_PATH, 'test')
+        )
 
 
 def test_handles_missing_database_file():
