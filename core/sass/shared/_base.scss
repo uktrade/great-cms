@@ -443,6 +443,31 @@ $mobile: 640px;
     }
 }
 
+.shared-footer {
+    .magna-footer__links {
+        max-width: 70%;
+        flex-wrap: wrap;
+
+        @include mobile {
+            max-width: 100%;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+    }
+
+    .magna-footer__nav {
+        @include mobile {
+            flex-direction: column-reverse;
+        }
+    }
+
+    .magna-footer__great-logo img {
+        width: auto;
+    }
+}
+
 .shared-personalisation-bar {
     max-width: 100%;
     margin: 0 30px;

@@ -4,6 +4,9 @@
 
 ### Fixed bugs
 
+- GP2-2051 - Fix bug of lesson page when no country is selected
+- GP2-1901 - use slugurl for footer links
+- GP2-2096 - Target market country data
 - NOTICKET - Add background colour support for example component
 - GP2-2075 - Fix header menu positioning bug
 - GP2-2076 - Display correct mobile header links
@@ -19,6 +22,7 @@
 
 ### Enhancements
 
+- GP2-1977 - asset path for CSS fonts
 - GP2-1935 - add confirmation modal - business objectives
 - GP2-1900 - port redirects from BAU
 - GP2-800 - Objectives page Date picker

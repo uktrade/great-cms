@@ -16,7 +16,6 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.snippets.models import register_snippet
 
 from core import (
     blocks as core_blocks,
@@ -26,10 +25,8 @@ from core import (
     helpers,
     mixins,
     service_urls,
-    snippet_slugs,
 )
 from core.blocks import AdvantageBlock
-from core.cms_snippets import NonPageContentSEOMixin, NonPageContentSnippetBase
 from core.constants import (
     ARTICLE_TYPES,
     RICHTEXT_FEATURES__REDUCED,
@@ -1286,27 +1283,17 @@ class PerformanceDashboardPage(
         return PerformanceDashboardPage.objects.descendant_of(self).specific().live().public()
 
 
-@register_snippet
-class TradeFinanceSnippet(
-    NonPageContentSEOMixin,
-    NonPageContentSnippetBase,
-    cms_panels.TradeFinanceSnippetPanels,
+class TradeFinancePage(
+    cms_panels.TradeFinancePagePanels,
+    BaseContentPage,
 ):
-    slug_options = {
-        # This limits the slugs and URL paths that can be configured for this snippet.
-        # It follows a common pattern from the V1 site.
-        # For now, there is only ONE permitted slug path for this snippet
-        snippet_slugs.GREAT_TRADE_FINANCE: {
-            'title': 'Trade Finance',
-        },
-    }
-    slug = models.CharField(
-        choices=[(key, val['title']) for key, val in slug_options.items()],
-        max_length=255,
-        unique=True,
-        verbose_name='Purpose',
-        help_text='Select the use-case for this snippet from a fixed list of choices',
-    )
+
+    parent_page_types = [
+        'domestic.GreatDomesticHomePage',
+    ]
+    subpage_types = []  # ie, no child page allowed
+
+    template = 'domestic/finance/trade_finance.html'
 
     breadcrumbs_label = models.CharField(
         max_length=50,

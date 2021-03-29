@@ -58,7 +58,7 @@
       <h1 class="pad-t-5">{{ user.company.name|default:"British Maple Ltd" }}</h1>
       <p class="body-alpha"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span>
       <br />
-      to <span class="colour-red-150">{{ export_plan.export_countries.0.country_name }}</span></strong></p>
+      to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
     </td>
   </tr>
   <tr>
@@ -113,7 +113,7 @@
   <tr class="pad-b-1">
     <td class="col-10-5">
       <h6>Owner</h6>
-      <h2>{{ user.get_full_name|default:user.get_username }}</h2>
+      <h2>{{ user.get_full_name|default:user.get_username|truncatechars:24 }}</h2>
     </td>
     <td class="col-10-5">
       <h6>HS Code</h6>

@@ -13,6 +13,3 @@ HELP_FORM_SUCCESS_FEEDBACK = 'contact-feedback-success-form'
 HELP_FORM_SUCCESS_FIND_COMPANIES = 'contact-find-companies-success-form'
 HELP_FORM_SUCCESS_INTERNATIONAL = 'contact-international-success-form'
 HELP_FORM_SUCCESS_SOO = 'contact-soo-success-form'
-
-
-GREAT_TRADE_FINANCE = 'trade-finance'
