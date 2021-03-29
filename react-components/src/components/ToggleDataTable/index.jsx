@@ -64,7 +64,9 @@ export const ToggleDataTable = memo(
           <ul className="selected-groups__items">
             {!isOpen &&
               selectedGroups.map((item) => (
-                <li className="selected-groups__item">{item} years old</li>
+                <li key={item} className="selected-groups__item">
+                  {item} years old
+                </li>
               ))}
           </ul>
         </div>
