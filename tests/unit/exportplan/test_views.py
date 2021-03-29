@@ -370,7 +370,7 @@ def test_getting_paid(export_plan_data, client, user, mock_get_user_profile):
 
 @pytest.mark.django_db
 def test_download_export_plan(
-    client, mock_get_comtrade_data, mock_get_population_data, mock_cia_world_factbook_data, user
+    client, mock_get_comtrade_data, mock_get_population_data, mock_cia_world_factbook_data, user, mock_get_user_profile
 ):
     url = reverse('exportplan:pdf-download')
     client.force_login(user)
