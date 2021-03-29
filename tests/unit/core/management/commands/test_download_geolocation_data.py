@@ -1,13 +1,14 @@
 import os
 import shutil
 import tarfile
-from unittest.mock import call, patch
+from unittest.mock import Mock, PropertyMock, call, patch
 
 import pytest
 import requests.exceptions
 from django.conf import settings
 from django.core.management import call_command
 
+from core import helpers
 from core.management.commands.download_geolocation_data import (
     GeolocationArchiveNegotiator,
     GeolocationLocalFileArchive,
@@ -91,3 +92,85 @@ def test_call_command(mock_geolocation_navigator, settings):
         file_name=settings.GEOIP_COUNTRY,
         destination=settings.GEOIP_PATH,
     )
+
+
+@patch('core.helpers.get_client_ip', Mock(return_value=(None, False)))
+def test_geolocation_redirector_unroutable(rf):
+    request = rf.get('/')
+    redirector = helpers.GeoLocationRedirector(request)
+
+    assert redirector.should_redirect is False
+
+
+@patch('core.helpers.get_client_ip', Mock(return_value=('8.8.8.8', True)))
+def test_geolocation_redirector_cookie_set(rf):
+    request = rf.get('/')
+    request.COOKIES[helpers.GeoLocationRedirector.COOKIE_NAME] = True
+    redirector = helpers.GeoLocationRedirector(request)
+
+    assert redirector.should_redirect is False
+
+
+@patch('core.helpers.get_client_ip', Mock(return_value=('8.8.8.8', True)))
+def test_geolocation_redirector_language_param(rf):
+    request = rf.get('/', {'lang': 'en-gb'})
+    redirector = helpers.GeoLocationRedirector(request)
+
+    assert redirector.should_redirect is False
+
+
+@patch('core.helpers.get_client_ip', Mock(return_value=('8.8.8.8', True)))
+@patch('core.helpers.GeoLocationRedirector.country_code', PropertyMock(return_value=None))
+def test_geolocation_redirector_unknown_country(rf):
+    request = rf.get('/', {'lang': 'en-gb'})
+    redirector = helpers.GeoLocationRedirector(request)
+
+    assert redirector.should_redirect is False
+
+
+@patch('core.helpers.get_client_ip', Mock(return_value=('8.8.8.8', True)))
+@patch('core.helpers.GeoLocationRedirector.country_code', new_callable=PropertyMock)
+@pytest.mark.parametrize('country_code', helpers.GeoLocationRedirector.DOMESTIC_COUNTRY_CODES)
+def test_geolocation_redirector_is_domestic(mock_country_code, rf, country_code):
+    mock_country_code.return_value = country_code
+
+    request = rf.get('/', {'lang': 'en-gb'})
+    redirector = helpers.GeoLocationRedirector(request)
+
+    assert redirector.should_redirect is False
+
+
+@patch('core.helpers.get_client_ip', Mock(return_value=('8.8.8.8', True)))
+@patch('core.helpers.GeoLocationRedirector.country_code', new_callable=PropertyMock)
+@pytest.mark.parametrize('country_code', helpers.GeoLocationRedirector.COUNTRY_TO_LANGUAGE_MAP)
+def test_geolocation_redirector_is_international(mock_country_code, rf, country_code):
+    mock_country_code.return_value = country_code
+
+    request = rf.get('/')
+    redirector = helpers.GeoLocationRedirector(request)
+
+    assert redirector.should_redirect is True
+
+
+@pytest.mark.parametrize(
+    'ip_address,language',
+    (
+        ('221.194.47.204', 'zh-hans'),
+        ('144.76.204.44', 'de'),
+        ('195.12.50.155', 'es'),
+        ('110.50.243.6', 'ja'),
+    ),
+)
+def test_geolocation_end_to_end(rf, ip_address, language, settings):
+    request = rf.get('/', {'a': 'b'}, REMOTE_ADDR=ip_address)
+
+    archive = GeolocationLocalFileArchive()
+    archive.decompress(file_name=settings.GEOIP_COUNTRY, destination=settings.GEOIP_PATH)
+
+    redirector = helpers.GeoLocationRedirector(request)
+
+    assert redirector.should_redirect is True
+    url, querysrtring = redirector.get_response().url.split('?')
+    assert url == '/international/'
+    assert 'lang=' + language in querysrtring
+    assert 'a=b' in querysrtring
