@@ -99,7 +99,21 @@ describe('PlannedTravel', () => {
 
   it('Should delete a trip', async () => {
     Services.apiModelObjectManage = jest.fn(() => Promise.resolve())
-    const { container, getByText, queryByText } = setup({ ...props })
+    const { container, getByText, queryByText } = setup({
+      ...props,
+      formData: [
+        {
+          note: '',
+          companyexportplan: 1,
+          pk: 50,
+        },
+        {
+          note: '',
+          companyexportplan: 1,
+          pk: 51,
+        },
+      ],
+    })
     const button = container.querySelectorAll('.button--delete')[0]
     fireEvent.click(button)
     expect(getByText('Trip 2'))
