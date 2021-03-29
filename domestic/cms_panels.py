@@ -464,15 +464,10 @@ class PerformanceDashboardPagePanels:
     ]
 
 
-class TradeFinanceSnippetPanels:
+class TradeFinancePagePanels:
 
-    panels = [
-        MultiFieldPanel(
-            heading='Purpose',
-            children=[
-                FieldPanel('slug', widget=Select),
-            ],
-        ),
+    content_panels = [
+        FieldPanel('title'),
         FieldPanel('breadcrumbs_label'),
         MultiFieldPanel(
             heading='Banner',
@@ -517,10 +512,6 @@ class TradeFinanceSnippetPanels:
         SearchEngineOptimisationPanel(),
     ]
 
-    MultiFieldPanel(
-        heading='Internal details',
-        children=[
-            FieldPanel('title'),
-            FieldPanel('slug'),
-        ],
-    )
+    settings_panels = [
+        FieldPanel('slug'),
+    ]

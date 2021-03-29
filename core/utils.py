@@ -172,10 +172,13 @@ def get_most_ranked_case_study(cs_queryset, context):
         if hs_code:
             cs_score[cs_obj] += get_cs_score_by_hs_codes(cs_obj=cs_obj, setting=setting, hs_code=hs_code)
         # scoring by region
-        if country and region:
-            cs_score[cs_obj] += get_cs_score_by_region(cs_obj=cs_obj, setting=setting, country=country, region=region)
-        # scoring by trading bloc
-        cs_score[cs_obj] += get_cs_score_by_trading_bloc(cs_obj=cs_obj, setting=setting, country=country)
+        if country:
+            if region:
+                cs_score[cs_obj] += get_cs_score_by_region(
+                    cs_obj=cs_obj, setting=setting, country=country, region=region
+                )
+            # scoring by trading bloc
+            cs_score[cs_obj] += get_cs_score_by_trading_bloc(cs_obj=cs_obj, setting=setting, country=country)
         # recency score
         cs_score[cs_obj] += get_cs_score_by_recency(cs_obj=cs_obj, setting=setting)
 
@@ -199,7 +202,6 @@ def get_cs_score_by_trading_bloc(cs_obj, setting, country):
 
     score = 0
     trading_bloc_names = get_trading_blocs_name(country)
-
     if not trading_bloc_names:
         return score
 

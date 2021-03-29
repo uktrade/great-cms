@@ -15,11 +15,11 @@
 {% block css_layout_class %}get-finance{% endblock %}
 
 {% block content %}
-{% image content_snippet.hero_image original as hero_image_rendition %}
+{% image page.hero_image original as hero_image_rendition %}
 <section id="get-finance-hero" class="get-finance-hero white-text padding-top-0 padding-bottom-30" style="background-image: url({{ hero_image_rendition.url }})">
   <div class="container">
 
-    {% breadcrumbs content_snippet.breadcrumbs_label %}
+    {% breadcrumbs page.breadcrumbs_label %}
       <a href="/">great.gov.uk</a>
       <a href="{% url 'domestic:get-finance' %}">UKEF</a>
     {% endbreadcrumbs %}
@@ -28,7 +28,7 @@
 
     <div class="grid-row">
       <div class="column-two-thirds wrap-tight margin-top-30 padding-bottom-30 rich-text">
-        {{ content_snippet.hero_text|richtext }}
+        {{ page.hero_text|richtext }}
       </div>
     </div>
   </div>
@@ -42,11 +42,11 @@
     <div class="container">
         <div class="grid-row">
             <div class="column-two-thirds">
-                <h2 class="heading-large margin-top-30 margin-bottom-45">{{ content_snippet.advantages_title }}</h2>
+                <h2 class="heading-large margin-top-30 margin-bottom-45">{{ page.advantages_title }}</h2>
             </div>
         </div>
         <div class="flex-grid advantages-list-container">
-            {% for advantage_block in content_snippet.advantages %}
+            {% for advantage_block in page.advantages %}
             <div class="column-half-l column-third-xl service-card padding-bottom-30">
               <div class="image-container">
                 {% image advantage_block.value.icon original as advantage_icon_rendition %}
@@ -66,11 +66,11 @@
   <div class="container">
     <div class="flex-grid reverse-columns-s">
       <div class="column-half-l wrap-tight evidence-section rich-text">
-        {{ content_snippet.evidence|richtext }}
+        {{ page.evidence|richtext }}
       </div>
       <div class="column-half-l video-container">
         <video controls controlsList="nodownload">
-          <source src="{{ content_snippet.evidence_video.url }}" type="video/{{ content_snippet.evidence_video.file_extension|default:'mp4' }}">
+          <source src="{{ page.evidence_video.url }}" type="video/{{ page.evidence_video.file_extension|default:'mp4' }}">
         </video>
       </div>
     </div>
