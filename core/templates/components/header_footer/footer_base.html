@@ -13,13 +13,13 @@
   <nav class="great-footer-links container">
     <ul class="great-footer-site-links">
         <li>
-            <a href="{% slugurl 'contact' %}" title="Contact us">Contact us</a>
+            <a href="{% url 'core:contact-us-help' %}" title="Contact us">Contact us</a>
         </li>
         <li>
             <a href="{% slugurl 'privacy-and-cookies' %}" title="Privacy and cookies">Privacy and cookies</a>
         </li>
         <li>
-            <a href="{% url_map 'terms' %}"  title="Terms and conditions">Terms and conditions</a>
+            <a href="{% slugurl 'terms-and-conditions' %}"  title="Terms and conditions">Terms and conditions</a>
         </li>
         <li>
             <a href="{% slugurl 'accessibility-statement' %}" title="Accessibility">Accessibility</a>
