@@ -66,7 +66,7 @@ const normaliseValues = (str, places = 1, fixed = false) => {
 }
 
 const numberWithSign = (value) => {
-  return `${['-', '', '+'][Math.sign(value) + 1]}${Math.abs(value)}`
+  return Number.isFinite(value-0) ? `${['-', '', '+'][Math.sign(value) + 1]}${Math.abs(value)}` : value
 }
 
 const millify = (value) => {

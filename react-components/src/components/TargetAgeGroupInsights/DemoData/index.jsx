@@ -5,14 +5,10 @@ import { Stats } from '@src/components/Stats'
 import { notAvailable } from '@src/components/Stats/StatsGroup'
 import PropTypes from 'prop-types'
 import { millify, normaliseValues, get } from '@src/Helpers'
+import { formatLanguages } from '@src/components/TargetAgeGroupInsights/utils'
 
-const formatNumber = (val) => Number(val) ? millify(Number(val)*1000) : notAvailable
-
-const formatLanguages = (languages) => {
-  const languageList = get(languages,'language',[]).map((language) => language.name)
-  return languageList.join(',')
-
-}
+const formatNumber = (val) =>
+  Number(val) ? millify(Number(val) * 1000) : notAvailable
 
 export const DemoData = memo(({ population, cpi, internetData, languages }) => {
   return (
@@ -21,19 +17,27 @@ export const DemoData = memo(({ population, cpi, internetData, languages }) => {
       <div className="stat-group">
         <div className="grid">
           <div className="c-1-3">
-            <Stats
-              header="Total population"
-              data={formatNumber(population)}
-            />
+            <Stats header="Total population" data={formatNumber(population)} />
           </div>
           <div className="c-1-3">
             <Stats
               header="Access to the internet (total)"
-              data={internetData ? `${normaliseValues(internetData)}% <div class="body-m">(${millify(internetData*population*10)})</div>` : notAvailable}
+              data={
+                internetData
+                  ? `${normaliseValues(
+                      internetData
+                    )}% <div class="body-m">(${millify(
+                      internetData * population * 10
+                    )})</div>`
+                  : notAvailable
+              }
             />
           </div>
           <div className="c-1-3">
-            <Stats header="Consumer Price Index" data={normaliseValues(cpi) || notAvailable}>
+            <Stats
+              header="Consumer Price Index"
+              data={normaliseValues(cpi) || notAvailable}
+            >
               <Tooltip
                 className="f-r"
                 id="corruption-perception-index-tooltip"
@@ -50,7 +54,11 @@ export const DemoData = memo(({ population, cpi, internetData, languages }) => {
           <div className="c-full">
             <Stats
               header="Languages in your target market"
-              data={languages ? formatLanguages(languages) : notAvailable}
+              data={
+                languages
+                  ? formatLanguages(get(languages, 'language', []))
+                  : notAvailable
+              }
             />
           </div>
         </div>
