@@ -2,6 +2,7 @@ import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { TextArea } from '@src/components/Form/TextArea'
+import { ConfirmModal } from '@src/components/ConfirmModal/ConfirmModal'
 
 export const Trip = memo(({ id, note, onChange, deleteTrip, index }) => {
   return (
@@ -12,7 +13,7 @@ export const Trip = memo(({ id, note, onChange, deleteTrip, index }) => {
           <TextArea
             id={id.toString()}
             type="text"
-            label={'label'}
+            label="label"
             hideLabel
             value={note}
             onChange={(e) => onChange(id, e[id])}
@@ -22,14 +23,7 @@ export const Trip = memo(({ id, note, onChange, deleteTrip, index }) => {
       </tr>
       <tr>
         <td className="text-center" colSpan="2">
-          <button
-            type="button"
-            title="Click to delete this funding option and its data."
-            className="button button--delete button--small button--only-icon button--tertiary"
-            onClick={() => deleteTrip(id)}
-          >
-            <i className="fas fa-trash-alt"></i>
-          </button>
+          <ConfirmModal hasData={!!note} deleteItem={() => deleteTrip(id)} />
         </td>
       </tr>
     </>
