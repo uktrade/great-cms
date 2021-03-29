@@ -2,6 +2,11 @@
 
 ## Pre-release changes - please put everything in the appropriate category above ======
 
+### Enhancements
+### Fixed bugs
+
+## [1.6.0](https://github.com/uktrade/great-cms/releases/tag/1.6.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.5.0...1.6.0)
 ### Fixed bugs
 
 - GP2-2123 - Add new group select styling and layout
@@ -21,7 +26,6 @@
 - GP2-1930 - text changes, and update data structure whilst at it.
 - GP2-1948 - section complete copy
 - GP2-1913 - allow user to click anywhere inside the input field to toggle dropdown
-
 ### Enhancements
 
 - GP2-1977 - asset path for CSS fonts
@@ -38,7 +42,6 @@
 - NOTICKET - Fix pdf static images
 
 ## [1.5.0](https://github.com/uktrade/great-cms/releases/tag/1.5.0)
-
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.4.0...1.5.0)
 
 ### Fixed bugs
