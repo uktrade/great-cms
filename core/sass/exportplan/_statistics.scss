@@ -185,19 +185,3 @@
     margin: 5px;
   }
 }
-
-.button--tiny-toggle {
-  background-color: unset;
-  padding: 0;
-  min-width: unset;
-  color: $blue-deep-80;
-
-  &:hover,
-  &:focus,
-  &:active,
-  &:focus:active {
-    background-color: unset;
-    color: $colour-blue-deep-100;
-    border-color: transparent;
-  }
-}
