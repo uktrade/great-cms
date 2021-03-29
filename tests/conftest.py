@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import logging
 from unittest import mock
 
@@ -136,10 +137,17 @@ def multiple_country_data():
     return {
         'NL': {
             'GDPPerCapita': {'value': 54321},
-            'ConsumerPriceIndex': {'value': 54321},
+            'ConsumerPriceIndex': [{'value': 32682}],
             'Income': {'value': 20000},
-            'CorruptionPerceptionsIndex': {'rank': 10, 'year': '2019'},
+            'CorruptionPerceptionsIndex': [{'rank': 10, 'year': '2019'}],
             'EaseOfDoingBusiness': {'rank': 10, 'year': '2019'},
+            'InternetUsage': [{'value': 34.7}],
+            'CIAFactbook': [{'languages': 'Dutch'}],
+            'PopulationData': [
+                {'gender': 'male', '0-4': 1, '5-9': 2, '10-14': 3, '15-19': 4, '20-25': 5, 'year': '2020'},
+                {'gender': 'female', '0-4': 1, '5-9': 2, '10-14': 3, '15-19': 4, '20-25': 5, 'year': '2020'},
+            ],
+            'PopulationUrbanRural': [{'urban_rural': 'urban', 'value': 100}, {'urban_rural': 'rural', 'value': 200}],
         }
     }
 
@@ -408,9 +416,20 @@ def mock_api_get_country_data(country_data):
 
 @pytest.fixture(autouse=True)
 def mock_api_get_country_data_by_country(multiple_country_data):
+    # this mock simulates the behaviour of the real endpoint, so the correct parameters must be supplied
+    def process_response(*args, **kwargs):
+        out = {}
+        country = kwargs.get('countries', [])[0]
+        fields = kwargs.get('fields', [])
+        if (type(fields[0]) == str) and ('[' in fields[0]):
+            fields = json.loads(fields[0])
+        for field in fields:
+            fieldname = field if type(field) == str else field.get('model')
+            out[fieldname] = multiple_country_data.get(country, {}).get(fieldname)
+        return create_response(json_body={country: out})
+
     patch = mock.patch(
-        'directory_api_client.api_client.dataservices.get_country_data_by_country',
-        return_value=create_response(json_body=multiple_country_data),
+        'directory_api_client.api_client.dataservices.get_country_data_by_country', side_effect=process_response
     )
     yield patch.start()
     patch.stop()
@@ -427,7 +446,7 @@ def comtrade_data():
                 'country_name': 'Germany',
                 'year_on_year_change': 1.264,
             },
-            'import_data_from_uk': {
+            'import_from_uk': {
                 'year': 2019,
                 'trade_value': '127.25 million',
                 'trade_value_raw': 127252345,

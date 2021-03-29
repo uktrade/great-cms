@@ -34,7 +34,17 @@ def test_insightdata_context_provider(mock_get_comtrade_data, multiple_country_d
     assert mock_get_comtrade_data.call_count == 1
     assert mock_get_comtrade_data.call_args == mock.call(commodity_code='220850', countries_list=['NL'])
     assert context['insight_data'] == mock_get_comtrade_data.return_value
-    assert context['insight_data']['NL']['country_data'] == multiple_country_data['NL']
+    for fieldname in [
+        'GDPPerCapita',
+        'ConsumerPriceIndex',
+        'Income',
+        'CorruptionPerceptionsIndex',
+        'EaseOfDoingBusiness',
+        'InternetUsage',
+    ]:
+        assert context['insight_data']['NL']['country_data'].get('fieldname') == multiple_country_data['NL'].get(
+            'feldname'
+        )
 
 
 def test_population_age_data_context_provider(mock_get_population_data, get_request):
