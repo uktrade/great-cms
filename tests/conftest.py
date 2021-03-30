@@ -107,7 +107,7 @@ def export_plan_section_progress_data():
         {'total': 5, 'populated': 1, 'url': '/export-plan/section/about-your-business/'},
         {'total': 2, 'populated': 1, 'url': '/export-plan/section/business-objectives/'},
         {'total': 5, 'populated': 0, 'url': '/export-plan/section/target-markets-research/'},
-        {'total': 11, 'populated': 1, 'url': '/export-plan/section/adaptation-for-your-target-market/'},
+        {'total': 11, 'populated': 1, 'url': '/export-plan/section/adapting-your-product/'},
         {'total': 2, 'populated': 1, 'url': '/export-plan/section/marketing-approach/'},
         {'total': 8, 'populated': 6, 'url': '/export-plan/section/costs-and-pricing/'},
         {'total': 3, 'populated': 3, 'url': '/export-plan/section/getting-paid/'},

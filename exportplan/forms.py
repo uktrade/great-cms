@@ -85,7 +85,7 @@ class ExportPlanAboutYourBusinessForm(forms.Form):
     )
 
 
-class ExportPlanAdaptationForTargetMarketForm(forms.Form):
+class ExportPlanAdaptingYourProductForm(forms.Form):
     labelling = forms.CharField(
         label='Labelling',
         required=False,

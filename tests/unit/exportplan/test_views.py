@@ -161,7 +161,7 @@ def test_adaption_for_target_markets_context(mock_get_factbook_data, client, use
     client.force_login(user)
 
     mock_get_factbook_data.return_value = {'language': 'Dutch', 'note': 'Many other too'}
-    slug = slugify('Adaptation for your target market')
+    slug = slugify('Adapting your product')
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
     assert response.status_code == 200
@@ -199,8 +199,8 @@ def test_business_objectives_has_lessons(mock_get_lesson_details, client, user, 
     (
         ('about-your-business', 'business-objectives'),
         ('business-objectives', 'target-markets-research'),
-        ('target-markets-research', 'adaptation-for-your-target-market'),
-        ('adaptation-for-your-target-market', 'marketing-approach'),
+        ('target-markets-research', 'adapting-your-product'),
+        ('adapting-your-product', 'marketing-approach'),
         ('marketing-approach', 'costs-and-pricing'),
         ('costs-and-pricing', 'funding-and-credit'),
         ('funding-and-credit', 'getting-paid'),
