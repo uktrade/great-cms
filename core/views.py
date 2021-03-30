@@ -7,6 +7,7 @@ from django.conf import settings
 from django.template.response import TemplateResponse
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
+from django.views.generic.base import RedirectView
 from formtools.wizard.views import NamedUrlSessionWizardView
 from great_components.mixins import GA360Mixin
 from rest_framework import generics
@@ -289,3 +290,46 @@ class ServiceNoLongerAvailableView(TemplateView):
         return super().get_context_data(
             **kwargs, listing_page=TopicLandingPage.objects.filter(slug=advice_page_slug).first()
         )
+
+
+class QuerystringRedirectView(RedirectView):
+    query_string = True
+
+
+class TranslationRedirectView(RedirectView):
+    language = None
+    permanent = False
+    query_string = True
+
+    def get_redirect_url(self, *args, **kwargs):
+        """
+        Return the URL redirect
+        """
+        url = super().get_redirect_url(*args, **kwargs)
+
+        if self.language:
+            # Append 'lang' to query params
+            if self.request.META.get('QUERY_STRING'):
+                concatenation_character = '&'
+            # Add 'lang' query param
+            else:
+                concatenation_character = '?'
+
+            url = '{arg1}{arg2}lang={arg3}'.format(arg1=url, arg2=concatenation_character, arg3=self.language)
+
+        return url
+
+
+class OpportunitiesRedirectView(RedirectView):
+    permanent = False
+
+    def get_redirect_url(self, *args, **kwargs):
+        redirect_url = '{export_opportunities_url}{slug}/'.format(
+            export_opportunities_url=('/export-opportunities/'), slug=kwargs.get('slug', '')
+        )
+
+        query_string = self.request.META.get('QUERY_STRING')
+        if query_string:
+            redirect_url = '{redirect_url}?{query_string}'.format(redirect_url=redirect_url, query_string=query_string)
+
+        return redirect_url

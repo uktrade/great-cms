@@ -56,9 +56,9 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
           <div className="learning__content">
             {hasExample && (
               <dl
-                className={`form-group-example bg-blue-deep-10 p-xs m-b-xs ${
-                  toggleExample ? '' : 'hidden'
-                }`}
+                className={`form-group-example bg-${
+                  example.bgColour ? example.bgColour : 'blue-deep-10'
+                } p-xs m-b-xs ${toggleExample ? '' : 'hidden'}`}
               >
                 <dt className="body-l-b">
                   {example.header
@@ -87,6 +87,7 @@ Learning.propTypes = {
     buttonTitle: PropTypes.string,
     header: PropTypes.string,
     content: PropTypes.string,
+    bgColour: PropTypes.string,
   }),
   lesson: PropTypes.shape({
     url: PropTypes.string,

@@ -2,11 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { useCookies } from 'react-cookie'
+import ReactHtmlParser from 'react-html-parser'
+
 import Services from '@src/Services'
 import { connect, Provider } from 'react-redux'
 import actions from '@src/actions'
 import { getMarkets } from '@src/reducers'
 import { analytics, get } from '../../Helpers'
+
 
 function SelectMarket(props) {
   const cookieName = `comparisonMarkets_${get(Services, 'config.user.id')}`
@@ -48,34 +51,31 @@ function SelectMarket(props) {
     )
   })
 
-  /* eslint-disable react/no-danger */
   const nextSteps = isComparisonMarketSelected ? (
     <section className="bg-red-90 p-h-xl p-v-s">
       <h2 className="h-s text-white p-t-0 p-b-xs">Next steps</h2>
-      <div
-        className="flex-grid"
-        dangerouslySetInnerHTML={{
-          __html: document.getElementById('next-steps').innerHTML,
-        }}
-      />
+      <div className="flex-grid">
+        {ReactHtmlParser(document.getElementById('next-steps').innerHTML)}
+      </div>
     </section>
   ) : (
     ''
   )
-  /* eslint-enable react/no-danger */
 
   return Object.keys(marketList).length ? (
     <div>
       <section className="grid bg-blue-deep-100 text-white">
         <div className="c-1-4">&nbsp;</div>
         <div className="c-1-2 p-v-m">
-          <h2 className="h-m text-white">Ready to choose a country?</h2>
-          <p>
-            Choosing a country for your profile tailors your lessons and Export
-            Plan for a better overall experience.
-          </p>
-          <p>Don&apos;t worry, you can change this at any time.</p>
-          <ul className="m-b-n-xs">{marketList}</ul>
+          <div className="p-h-xs">
+            <h2 className="h-m text-white">Ready to choose a country?</h2>
+            <p>
+              Choosing a country for your profile tailors your lessons and
+              Export Plan for a better overall experience.
+            </p>
+            <p>Don&apos;t worry, you can change this at any time.</p>
+            <ul className="m-b-n-xs">{marketList}</ul>
+          </div>
         </div>
       </section>
       {nextSteps}

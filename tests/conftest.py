@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+import json
 import logging
 from unittest import mock
 
 import pytest
 from django.test.client import RequestFactory
-from wagtail.core.models import Page
+from wagtail.core.models import Locale, Page
 from wagtail_factories import PageFactory, SiteFactory
 
 import tests.unit.domestic.factories
@@ -136,10 +137,17 @@ def multiple_country_data():
     return {
         'NL': {
             'GDPPerCapita': {'value': 54321},
-            'ConsumerPriceIndex': {'value': 54321},
+            'ConsumerPriceIndex': [{'value': 32682}],
             'Income': {'value': 20000},
-            'CorruptionPerceptionsIndex': {'rank': 10, 'year': '2019'},
+            'CorruptionPerceptionsIndex': [{'rank': 10, 'year': '2019'}],
             'EaseOfDoingBusiness': {'rank': 10, 'year': '2019'},
+            'InternetUsage': [{'value': 34.7}],
+            'CIAFactbook': [{'languages': 'Dutch'}],
+            'PopulationData': [
+                {'gender': 'male', '0-4': 1, '5-9': 2, '10-14': 3, '15-19': 4, '20-25': 5, 'year': '2020'},
+                {'gender': 'female', '0-4': 1, '5-9': 2, '10-14': 3, '15-19': 4, '20-25': 5, 'year': '2020'},
+            ],
+            'PopulationUrbanRural': [{'urban_rural': 'urban', 'value': 100}, {'urban_rural': 'rural', 'value': 200}],
         }
     }
 
@@ -157,8 +165,15 @@ def get_user():
 
 
 @pytest.mark.django_db
+@pytest.fixture()
+def en_locale():
+    # Equivalent for unittest is in tests.helpers.SetUpLocaleMixin
+    return Locale.objects.get_or_create(language_code='en-gb')
+
+
+@pytest.mark.django_db
 @pytest.fixture
-def root_page():
+def root_page(en_locale):
     """
     On start Wagtail provides one page with ID=1 and it's called "Root page"
     """
@@ -237,6 +252,7 @@ def client(client, auth_backend, settings):
                     'mobile_phone_number': user.mobile_phone_number,
                     'first_name': user.first_name,
                     'last_name': user.last_name,
+                    'segment': 'CHALLENGE',
                 },
                 # To get `company` data in here, use the `mock_get_company_profile` fixture and
                 # provide an approprate return_value. The full spec of CompanySerializer is in
@@ -358,10 +374,30 @@ def mock_api_get_population_data(population_data):
     patch.stop()
 
 
+@pytest.fixture(autouse=False)
+def mock_get_population_data(population_data):
+    patch = mock.patch(
+        'export_plan.core.helpers.get_population_data',
+        return_value=create_response(json_body=population_data),
+    )
+    yield patch.start()
+    patch.stop()
+
+
 @pytest.fixture(autouse=True)
 def mock_api_get_cia_world_factbook_data(cia_factbook_data):
     patch = mock.patch(
         'directory_api_client.api_client.dataservices.get_cia_world_factbook_data',
+        return_value=create_response(json_body=cia_factbook_data),
+    )
+    yield patch.start()
+    patch.stop()
+
+
+@pytest.fixture(autouse=False)
+def mock_cia_world_factbook_data(cia_factbook_data):
+    patch = mock.patch(
+        'exportplan.core.helpers.get_cia_world_factbook_data',
         return_value=create_response(json_body=cia_factbook_data),
     )
     yield patch.start()
@@ -380,9 +416,20 @@ def mock_api_get_country_data(country_data):
 
 @pytest.fixture(autouse=True)
 def mock_api_get_country_data_by_country(multiple_country_data):
+    # this mock simulates the behaviour of the real endpoint, so the correct parameters must be supplied
+    def process_response(*args, **kwargs):
+        out = {}
+        country = kwargs.get('countries', [])[0]
+        fields = kwargs.get('fields', [])
+        if (type(fields[0]) == str) and ('[' in fields[0]):
+            fields = json.loads(fields[0])
+        for field in fields:
+            fieldname = field if type(field) == str else field.get('model')
+            out[fieldname] = multiple_country_data.get(country, {}).get(fieldname)
+        return create_response(json_body={country: out})
+
     patch = mock.patch(
-        'directory_api_client.api_client.dataservices.get_country_data_by_country',
-        return_value=create_response(json_body=multiple_country_data),
+        'directory_api_client.api_client.dataservices.get_country_data_by_country', side_effect=process_response
     )
     yield patch.start()
     patch.stop()
@@ -399,7 +446,7 @@ def comtrade_data():
                 'country_name': 'Germany',
                 'year_on_year_change': 1.264,
             },
-            'import_data_from_uk': {
+            'import_from_uk': {
                 'year': 2019,
                 'trade_value': '127.25 million',
                 'trade_value_raw': 127252345,
@@ -410,9 +457,9 @@ def comtrade_data():
     }
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture(autouse=False)
 def mock_get_comtrade_data(comtrade_data):
-    yield mock.patch('exportplan.views.get_comtrade_data', return_value=comtrade_data).start()
+    yield mock.patch('core.helpers.get_comtrade_data', return_value=comtrade_data).start()
 
 
 @pytest.fixture
@@ -427,6 +474,20 @@ def mock_get_company_profile(patch_get_company_profile):
         patch_get_company_profile.stop()
     except RuntimeError:
         # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture
+def patch_get_user_profile():
+    yield mock.patch('sso.helpers.get_user_profile', return_value=None)
+
+
+@pytest.fixture(autouse=False)
+def mock_get_user_profile(patch_get_user_profile):
+    yield patch_get_user_profile.start()
+    try:
+        patch_get_user_profile.stop()
+    except RuntimeError:
         pass
 
 

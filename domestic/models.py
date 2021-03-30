@@ -26,6 +26,7 @@ from core import (
     mixins,
     service_urls,
 )
+from core.blocks import AdvantageBlock
 from core.constants import (
     ARTICLE_TYPES,
     RICHTEXT_FEATURES__REDUCED,
@@ -155,6 +156,7 @@ class DomesticHomePage(
 class DomesticDashboard(
     mixins.WagtailAdminExclusivePageMixin,
     mixins.EnableTourMixin,
+    mixins.EnableSegmentationMixin,
     mixins.AuthenticatedUserRequired,
     mixins.ExportPlanMixin,
     DataLayerMixin,
@@ -177,7 +179,6 @@ class DomesticDashboard(
         context['export_opportunities'] = helpers.get_dashboard_export_opportunities(user.session_id, user.company)
         context.update(get_lesson_completion_status(user, context))
         context['export_plan_in_progress'] = user.has_visited_page(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
-        context['export_plan_dashboard_url'] = cms_slugs.EXPORT_PLAN_DASHBOARD_URL
         context['routes'] = build_route_context(user, context)
         return context
 
@@ -230,7 +231,10 @@ class GreatDomesticHomePage(
     hero_text = models.TextField(null=True, blank=True)
     hero_cta_text = models.CharField(null=True, blank=True, max_length=255)
     hero_cta_url = models.CharField(null=True, blank=True, max_length=255)
-
+    # Signed in versions
+    hero_text_signedin = models.TextField(null=True, blank=True)
+    hero_cta_text_signedin = models.CharField(null=True, blank=True, max_length=255)
+    hero_cta_url_signedin = models.CharField(null=True, blank=True, max_length=255)
     # EU exit chevrons StreamField WAS here in V1 - no longer the case
 
     # magna ctas
@@ -1271,3 +1275,68 @@ class PerformanceDashboardPage(
     def get_child_dashboards(self):
         # Get any live, public dashboards that hang off this page
         return PerformanceDashboardPage.objects.descendant_of(self).specific().live().public()
+
+
+class TradeFinancePage(
+    cms_panels.TradeFinancePagePanels,
+    BaseContentPage,
+):
+
+    parent_page_types = [
+        'domestic.GreatDomesticHomePage',
+    ]
+    subpage_types = []  # ie, no child page allowed
+
+    template = 'domestic/finance/trade_finance.html'
+
+    breadcrumbs_label = models.CharField(
+        max_length=50,
+    )
+    hero_text = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED__ALLOW_H1,
+    )
+    hero_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    ukef_logo = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+
+    contact_proposition = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        blank=False,
+    )
+    contact_button = models.CharField(max_length=500)
+
+    advantages_title = models.CharField(max_length=500)
+    advantages = StreamField(
+        StreamBlock(
+            [
+                (
+                    'advantage',
+                    AdvantageBlock(),
+                ),
+            ],
+            min_num=3,
+            max_num=3,
+        )
+    )
+
+    evidence = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+    )
+    evidence_video = models.ForeignKey(
+        'core.GreatMedia',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )

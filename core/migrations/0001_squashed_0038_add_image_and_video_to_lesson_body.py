@@ -25,6 +25,10 @@ import core.models
 
 class Migration(migrations.Migration):
 
+    run_before = [
+        ('wagtailcore', '0053_locale_model'),  # added for Wagtail 2.11 compatibility
+    ]
+
     replaces = [
         ('core', '0001_initial'),
         ('core', '0002_tour_tourstep'),

@@ -285,4 +285,10 @@ export default {
     post(config.updateCalculateCostAndPricing, data).then((response) =>
       responseHandler(response).json()
     ),
+
+  updateUserProfileSegment: (segment) => {
+    return post(config.apiUserProfileUpdateUrl, { segment: segment }).then((response) =>
+      responseHandler(response).json()
+    )
+  },
 }

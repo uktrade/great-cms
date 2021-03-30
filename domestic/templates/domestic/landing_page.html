@@ -15,13 +15,17 @@
   <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}
 
-{% block head_title %}{% firstof page.seo_title page.title %} - great.gov.uk{% endblock %}
+{% block head_title %}{% firstof page.seo_title page.title %}{% endblock %}
 
 {% block css_layout_class %}landing-page{% endblock %}
 
 {% block content %}
 
-{% include 'components/landing_hero_with_cta.html' with hero_image=page.hero_image heading=page.hero_text cta_text=page.hero_cta_text cta_link=page.hero_cta_url %}
+{% if not request.user.is_authenticated %}
+  {% include 'components/landing_hero_with_cta.html' with hero_image=page.hero_image heading=page.hero_text cta_text=page.hero_cta_text cta_link=page.hero_cta_url %}
+{% else %}
+  {% include 'components/landing_hero_with_cta.html' with hero_image=page.hero_image heading=page.hero_text_signedin cta_text=page.hero_cta_text_signedin cta_link=page.hero_cta_url_signedin %}
+{% endif %}
 
 <section class="padding-bottom-15 padding-bottom-30-m padding-top-45 padding-top-60-m">
   <div class="container wrap-tight">
@@ -42,7 +46,7 @@
     <div class="grid-row wrap-tight">
       {% for column_block in page.how_dit_helps_columns %}
           <div class="column-third-m column-full">
-            {% include 'components/card.html' with title=column_block.value.text subheading=column_block.value.source url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True %}
+            {% include 'components/card.html' with title=column_block.value.text subheading=column_block.value.source url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False %}
           </div>
         {% endfor %}
     </div>
@@ -144,7 +148,7 @@
     <div class="grid-row">
       {% for link_block in page.what_is_new_pages %}
           <div class="column-third-m column-full">
-            {% include 'components/card.html' with title=link_block.value.text subheading=link_block.value.source url=link_block.value.url card_image=link_block.value.image html_snippet=link_block.value.content no_padding_card=True transparent_card=True %}
+            {% include 'components/card.html' with title=link_block.value.text subheading=link_block.value.source url=link_block.value.url card_image=link_block.value.image html_snippet=link_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False %}
           </div>
       {% endfor %}
     </div>

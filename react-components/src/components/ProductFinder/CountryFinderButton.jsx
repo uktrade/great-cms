@@ -11,7 +11,6 @@ import Services from '@src/Services'
 import Confirmation from './MessageConfirmation'
 import CountryFinderModal from './CountryFinderModal'
 
-
 export const CountryFinderButton = (props) => {
   const { commodityCode, market, setMarket } = props
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -30,11 +29,9 @@ export const CountryFinderButton = (props) => {
   const buttonClass = `tag ${!market ? 'tag--tertiary' : ''} tag--icon `
 
   const triggerButton = (
-    <button type="button" 
-      className={buttonClass} 
-      onClick={openModal} >
+    <button type="button" className={buttonClass} onClick={openModal}>
       {(market && market.country_name) || 'add place'}
-      <i className={`fa ${(market ? 'fa-edit' : 'fa-plus')}`}/>
+      <i className={`fa ${market ? 'fa-edit' : 'fa-plus'}`} />
     </button>
   )
 
@@ -46,6 +43,7 @@ export const CountryFinderButton = (props) => {
         setIsOpen={setIsOpen}
         commodityCode={commodityCode}
         selectCountry={setMarket}
+        market={market}
       />
       <Confirmation
         buttonClass={buttonClass}
@@ -64,28 +62,33 @@ CountryFinderButton.propTypes = {
   market: PropTypes.shape({
     country_name: PropTypes.string,
     country_iso2_code: PropTypes.string,
-    region: PropTypes.string
+    region: PropTypes.string,
   }),
-  setMarket: PropTypes.func.isRequired
+  setMarket: PropTypes.func.isRequired,
 }
 CountryFinderButton.defaultProps = {
   commodityCode: '',
-  market: null
+  market: null,
 }
 
 const mapStateToProps = (state) => {
   return {
-    market: getMarkets(state)
+    market: getMarkets(state),
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setMarket: market => { dispatch(actions.setMarket(market)) }
+    setMarket: (market) => {
+      dispatch(actions.setMarket(market))
+    },
   }
 }
 
-const ConnectedContainer = connect(mapStateToProps, mapDispatchToProps)(CountryFinderButton)
+const ConnectedContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CountryFinderButton)
 
 export default function createCountryFinderButton({ ...params }) {
   const mainElement = document.createElement('span')
@@ -93,10 +96,9 @@ export default function createCountryFinderButton({ ...params }) {
   ReactModal.setAppElement(mainElement)
   const commodityCode = params.element.getAttribute('data-commodity-code')
   ReactDOM.render(
-    (<Provider store={Services.store}>
-        <ConnectedContainer 
-          commodityCode={commodityCode}
-        />
-      </Provider>), params.element
+    <Provider store={Services.store}>
+      <ConnectedContainer commodityCode={commodityCode} />
+    </Provider>,
+    params.element
   )
 }

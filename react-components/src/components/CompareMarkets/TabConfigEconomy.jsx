@@ -1,6 +1,6 @@
 import React from 'react'
 import Services from '@src/Services'
-import { normaliseValues, get, millify } from '../../Helpers'
+import { normaliseValues, get, millify, numberWithSign } from '../../Helpers'
 
 const rankOutOf = (rank,total) => {
   return (
@@ -8,10 +8,6 @@ const rankOutOf = (rank,total) => {
       {rank} of {total}
     </>
   )
-}
-
-const sign = (value) => {
-  return ['', '', '+'][Math.sign(value) + 1]
 }
 
 const importValueAndChange = (importValue) => {
@@ -25,8 +21,7 @@ const importValueAndChange = (importValue) => {
       </div>
       {importValue.year_on_year_change && (
         <div className="body-m secondary text-black-60">
-          {sign(importValue.year_on_year_change)}
-          {normaliseValues(importValue.year_on_year_change)}% vs{' '}
+          {numberWithSign(normaliseValues(importValue.year_on_year_change))}% vs{' '}
           {importValue.last_year}
         </div>
       )}
@@ -73,8 +68,8 @@ export default {
     'uk-import-value': {
       name: 'Import value from the UK (USD)',
       className: 'text-align-right',
-      render: (data) => importValueAndChange(data.import_data_from_uk),
-      year: (data) => get(data, 'import_data_from_uk.year'),
+      render: (data) => importValueAndChange(data.import_from_uk),
+      year: (data) => get(data, 'import_from_uk.year'),
       group: 'import',
     },
     'avg-income': {

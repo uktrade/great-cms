@@ -1,37 +1,37 @@
 /* eslint-disable */
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
-
 import { useCookies } from 'react-cookie'
-import ReactModal from 'react-modal'
-
 import Component from './Component'
 
-export function Container(props) {
-  const [cookies, setCookie] = useCookies([props.disableTourCookieName])
-  const [isOpenModal, setIsOpenModal] = React.useState(cookies[props.disableTourCookieName] !== 'true')
+export default function Container(props) {
+  const { tour, disableTourCookieName, handleModalClose } = props
+  const [cookies, setCookie] = useCookies([disableTourCookieName])
+  const [isOpenModal, setIsOpenModal] = React.useState(cookies[disableTourCookieName] !== 'true')
   const [isOpenTour, setIsOpenTour] = React.useState()
 
-  function handleSkipTour(error) {
+  const handleSkipTour = () => {
     setIsOpenModal(false)
     setIsOpenTour(false)
+    handleModalClose()
   }
 
-  function handleStartTour(nextStep) {
+  const handleStartTour = (nextStep) => {
     setIsOpenModal(false)
     setIsOpenTour(true)
   }
 
-  function handleTourClose() {
+  const handleTourClose = () => {
     setIsOpenModal(false)
     setIsOpenTour(false)
+    handleModalClose()
   }
 
-  function handleTourDisable() {
-    setCookie(props.disableTourCookieName, 'true')
+  const handleTourDisable = () => {
+    setCookie(disableTourCookieName, 'true')
     setIsOpenModal(false)
     setIsOpenTour(false)
+    handleModalClose()
   }
 
   return (
@@ -40,26 +40,28 @@ export function Container(props) {
       handleStart={handleStartTour}
       handleDisable={handleTourDisable}
       isOpenModal={isOpenModal}
-      buttonText={props.buttonText}
-      title={props.title}
-      body={props.body}
+      buttonText={tour.button_text}
+      title={tour.title}
+      body={tour.body}
       isOpenTour={isOpenTour}
       handleTourClose={handleTourClose}
-      steps={props.steps}
+      steps={tour.steps}
     />
   )
 }
 
 Container.propTypes = {
-  isOpen: PropTypes.bool
+  tour: PropTypes.shape({
+    title: PropTypes.string,
+    button_text: PropTypes.string,
+    body: PropTypes.string,
+    steps: PropTypes.array,
+  }),
+  disableTourCookieName: PropTypes.string.isRequired,
+  handleModalClose: PropTypes.func,
 }
 
 Container.defaultProps = {
   isOpenTour: false,
   isOpenModal: false
-}
-
-export default function createModal({ element, ...params }) {
-  ReactModal.setAppElement(element)
-  ReactDOM.render(<Container {...params} />, element)
 }

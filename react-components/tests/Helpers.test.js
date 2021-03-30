@@ -1,4 +1,6 @@
 import {
+  dateNowISO,
+  dateFormat,
   slugify,
   addItemToList,
   capitalize,
@@ -13,6 +15,11 @@ import {
   stripPercentage,
   getLabels,
   getValues,
+  objectHasValue,
+  deepAssign,
+  camelize,
+  camelizeObject,
+  numberWithSign,
 } from '@src/Helpers'
 
 test('slugify', (done) => {
@@ -98,6 +105,12 @@ describe('addItemToList', () => {
   describe('no params', () => {
     expect(addItemToList()).toEqual([{}])
   })
+})
+
+test('dateFormat', () => {
+  const now = dateFormat()
+  expect(dateFormat()).toMatch(now)
+  expect(dateFormat('1981-10-15')).toMatch('15 Oct 1981')
 })
 
 test('capitalize', () => {
@@ -295,5 +308,47 @@ describe('formatLessonLearned', () => {
   it('Should have no lesson', () => {
     expect(formatLessonLearned(lesson, section, 1)).toEqual({})
     expect(formatLessonLearned(lesson, { lessons: [] }, 1)).toEqual({})
+  })
+})
+
+describe('objectHasValue', () => {
+  it('Should return false, no values', () => {
+    expect(objectHasValue({})).toBeFalsy()
+    expect(objectHasValue({ bar: '', foo: '' })).toBeFalsy()
+  })
+  it('Should return true, has values', () => {
+    expect(objectHasValue({ bar: 'bar' })).toBeTruthy()
+    expect(objectHasValue({ bar: '', foo: 'asdasd' })).toBeTruthy()
+  })
+})
+
+describe('Utilities ', () => {
+  it('Should deepAssign object', () => {
+    const obj1 = { one: 1, two: { twoOne: 21, twoTwo: 22 } }
+    const obj2 = { three: 3, two: { twoTwo: 'updated', twoThree: 23 } }
+    const obj = deepAssign(obj1, obj2)
+    expect(obj.one).toEqual(1)
+    expect(obj.two).toEqual({ twoOne: 21, twoTwo: 'updated', twoThree: 23 })
+    expect(obj.three).toEqual(3)
+  })
+  it('Should camelize a string', () => {
+    expect(camelize('one')).toEqual('one')
+    expect(camelize('one_two_three')).toEqual('oneTwoThree')
+    expect(camelize('')).toEqual('')
+  })
+  it('Should camelize an object', () => {
+    expect(camelizeObject({ one: 1, two_three: 23 })).toEqual({
+      one: 1,
+      twoThree: 23,
+    })
+  })
+  it('Should render number sign', () => {
+    expect(numberWithSign(0)).toEqual('0')
+    expect(numberWithSign(-23)).toEqual('-23')
+    expect(numberWithSign(23)).toEqual('+23')
+    expect(numberWithSign('0')).toEqual('0')
+    expect(numberWithSign('-23')).toEqual('-23')
+    expect(numberWithSign('23')).toEqual('+23')
+    expect(numberWithSign('Data not available')).toEqual('Data not available')
   })
 })

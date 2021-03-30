@@ -4,8 +4,6 @@ from iso3166 import countries_by_alpha3
 from core import models
 from core.templatetags.content_tags import format_timedelta
 from directory_api_client import api_client
-from exportplan.core.processor import ExportPlanProcessor
-from . import data
 
 
 def create_export_plan(sso_session_id, exportplan_data):
@@ -184,12 +182,6 @@ def get_country_data(country):
     return response.json()
 
 
-def get_global_demographic_data(country):
-    country_data = get_country_data(country)
-    factbook_data = get_cia_world_factbook_data(country=country, key='people,languages')
-    return {**country_data, **factbook_data}
-
-
 def get_cia_world_factbook_data(country, key):
     response = api_client.dataservices.get_cia_world_factbook_data(country=country, data_key=key)
     response.raise_for_status()
@@ -258,17 +250,3 @@ def delete_model_object(sso_session_id, model_name, data):
 
 def values_to_labels(values, choices):
     return ', '.join([choices.get(item) for item in values if item in choices])
-
-
-def get_export_plan_pdf_context(request):
-    processor = ExportPlanProcessor(request.user.export_plan.data)
-    context = {
-        'host_url': '',
-        'export_plan': request.user.export_plan.data,
-        'user': request.user,
-        'sections': data.SECTION_TITLES,
-        'calculated_pricing': processor.calculated_cost_pricing(),
-        'total_funding': processor.calculate_total_funding(),
-    }
-
-    return context

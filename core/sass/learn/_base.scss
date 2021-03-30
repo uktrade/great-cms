@@ -803,14 +803,10 @@ $desktop: 1024px;
   .case-study {
     position: relative;
 
-    &:before {
-      background: $blue-deep-10;
-      content: '';
-      top: 0;
-      position: absolute;
-      left: -1000px;
-      right: -1000px;
-      bottom: 0;
+    border-top: 10px solid $blue-deep-10;
+
+    @include breakpoint(sm) {
+      border-top: unset;
     }
 
     &__content,

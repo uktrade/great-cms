@@ -125,7 +125,27 @@ describe('BusinessRisks', () => {
 
   it('Should delete a risk', async () => {
     Services.apiModelObjectManage = jest.fn(() => Promise.resolve())
-    const { container, getByText, queryByText } = setup({ ...props })
+    const { container, getByText, queryByText } = setup({
+      ...props,
+      formFields: [
+        {
+          companyexportplan: 1,
+          contingency_plan: '',
+          pk: 60,
+          risk: '',
+          risk_impact: '',
+          risk_likelihood: '',
+        },
+        {
+          companyexportplan: 1,
+          contingency_plan: '',
+          pk: 61,
+          risk: '',
+          risk_impact: '',
+          risk_likelihood: '',
+        },
+      ],
+    })
     const button = container.querySelectorAll('.button--delete')[0]
     fireEvent.click(button)
     expect(getByText('Risk 2'))

@@ -23,8 +23,10 @@ def test_user_save():
 
 
 @mock.patch.object(sso_api_client.user, 'get_session_user')
-def test_get_user_profile(mock_get_session_user):
+@mock.patch.object(sso_api_client.user, 'create_user_profile')
+def test_get_user_profile(mock_create_user_profile, mock_get_session_user):
     user = get_user()
+    mock_create_user_profile.return_value = create_response(status_code=201)
     mock_get_session_user.return_value = create_response({'firstname': 'Ann', 'lastname': 'Elk'})
     assert user.user_profile == {'firstname': 'Ann', 'lastname': 'Elk'}
 

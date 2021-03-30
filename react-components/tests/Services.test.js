@@ -14,6 +14,7 @@ describe('Services', () => {
       googleUrl: 'http://www.example.com/oauth2/google/',
       termsUrl: 'https://www.great.gov.uk/terms-and-conditions/',
       enrolCompanyUrl: 'https://www.great.gov.uk/enrol/',
+      apiUserProfileUpdateUrl: '/user-profile/',
     })
   })
 
@@ -88,6 +89,29 @@ describe('Services', () => {
           'X-Requested-With': 'XMLHttpRequest',
         },
         body: "{\"proddesc\":\"foo\"}",
+      })
+      done()
+    })
+  })
+
+  test('updateUserProfileSegment passes params', (done) => {
+    // given the form submission will result in success.getDOMNodeful login
+    fetchMock.post(Services.config.apiUserProfileUpdateUrl, 200)
+
+    Services.updateUserProfileSegment('foo')
+
+    fetchMock.flush().then(() => {
+      const calls = fetchMock.calls()
+      expect(calls.length).toEqual(1)
+      expect(calls[0][1]).toEqual({
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': Services.config.csrfToken,
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: "{\"segment\":\"foo\"}",
       })
       done()
     })

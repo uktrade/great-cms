@@ -53,7 +53,9 @@ def mock_update_company():
 
 
 @pytest.mark.django_db
-def test_export_plan_landing_page(client, exportplan_homepage, user, mock_get_company_profile, company_profile_data):
+def test_export_plan_landing_page(
+    client, exportplan_homepage, user, mock_get_company_profile, company_profile_data, mock_get_user_profile
+):
     mock_get_company_profile.return_value = company_profile_data
     client.force_login(user)
 
@@ -69,6 +71,7 @@ def test_export_plan_builder_landing_page(
     mock_get_company_profile,
     company_profile_data,
     export_plan_data,
+    mock_get_user_profile,
 ):
     mock_get_company_profile.return_value = company_profile_data
 
@@ -88,14 +91,16 @@ def test_export_plan_builder_landing_page(
 @pytest.mark.django_db
 @pytest.mark.parametrize('slug', set(data.SECTIONS.keys()) - {'marketing-approach', 'objectives'})
 @mock.patch.object(helpers, 'get_lesson_details', return_value={})
-def test_exportplan_sections(mock_get_lessons, slug, client, user):
+def test_exportplan_sections(mock_get_lessons, mock_get_comtrade_data, slug, client, user, mock_get_user_profile):
     client.force_login(user)
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_exportplan_section_marketing_approach(mock_get_country_data, mock_get_cia_world_factbook_data, client, user):
+def test_exportplan_section_marketing_approach(
+    mock_get_country_data, mock_get_cia_world_factbook_data, client, user, mock_get_user_profile
+):
     client.force_login(user)
     response = client.get(reverse('exportplan:marketing-approach'), {'name': 'France', 'age_range': '30-34'})
     assert response.status_code == 200
@@ -110,10 +115,6 @@ def test_exportplan_section_marketing_approach(mock_get_country_data, mock_get_c
     assert response.context_data['route_choices']
     assert response.context_data['promotional_choices']
     assert response.context_data['target_age_group_choices']
-    assert response.context_data['demographic_data'] == {
-        **mock_get_country_data.return_value,
-        **mock_get_cia_world_factbook_data.return_value,
-    }
     assert response.context_data['selected_age_groups'] == ['25-29', '47-49']
 
 
@@ -138,7 +139,7 @@ def test_edit_logo_page_submmit_success(client, mock_update_company, user):
 
 
 @pytest.mark.django_db
-def test_edit_logo_page_submmit_error(client, mock_update_company, user):
+def test_edit_logo_page_submmit_error(client, mock_update_company, user, mock_get_user_profile):
     client.force_login(user)
     url = reverse('exportplan:add-logo')
     data = {
@@ -156,7 +157,7 @@ def test_edit_logo_page_submmit_error(client, mock_update_company, user):
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'get_cia_world_factbook_data')
-def test_adaption_for_target_markets_context(mock_get_factbook_data, client, user):
+def test_adaption_for_target_markets_context(mock_get_factbook_data, client, user, mock_get_user_profile):
     client.force_login(user)
 
     mock_get_factbook_data.return_value = {'language': 'Dutch', 'note': 'Many other too'}
@@ -175,7 +176,7 @@ def test_adaption_for_target_markets_context(mock_get_factbook_data, client, use
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'get_lesson_details')
-def test_business_objectives_has_lessons(mock_get_lesson_details, client, user):
+def test_business_objectives_has_lessons(mock_get_lesson_details, client, user, mock_get_user_profile):
     client.force_login(user)
 
     slug = slugify('Business objectives')
@@ -209,7 +210,14 @@ def test_business_objectives_has_lessons(mock_get_lesson_details, client, user):
     ),
 )
 def test_export_plan_mixin(
-    export_plan_data, export_plan_section_progress_data, slug, next_slug, mock_update_export_plan_client, client, user
+    export_plan_data,
+    export_plan_section_progress_data,
+    slug,
+    next_slug,
+    mock_update_export_plan_client,
+    client,
+    user,
+    mock_get_user_profile,
 ):
     client.force_login(user)
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
@@ -243,7 +251,7 @@ def test_export_plan_mixin(
 
 
 @pytest.mark.django_db
-def test_404_when_invalid_section_slug(client, user):
+def test_404_when_invalid_section_slug(client, user, mock_get_user_profile):
     url = reverse('exportplan:section', kwargs={'slug': 'foo'})
     client.force_login(user)
     response = client.get(url)
@@ -251,7 +259,9 @@ def test_404_when_invalid_section_slug(client, user):
 
 
 @pytest.mark.django_db
-def test_url_with_export_plan_country_selected(mock_get_comtrade_data, export_plan_data, client, user):
+def test_url_with_export_plan_country_selected(
+    mock_get_comtrade_data, export_plan_data, client, user, mock_get_user_profile
+):
     # Remove countries selection
     user.export_plan.data.update({'export_countries': None})
     url = reverse('exportplan:target-markets-research')
@@ -264,7 +274,7 @@ def test_url_with_export_plan_country_selected(mock_get_comtrade_data, export_pl
 
 
 @pytest.mark.django_db
-def test_target_markets_research(mock_get_comtrade_data, multiple_country_data, client, user):
+def test_target_markets_research(mock_get_comtrade_data, multiple_country_data, client, user, mock_get_user_profile):
     url = reverse('exportplan:target-markets-research')
     client.force_login(user)
 
@@ -276,11 +286,21 @@ def test_target_markets_research(mock_get_comtrade_data, multiple_country_data, 
     assert mock_get_comtrade_data.call_count == 1
 
     assert mock_get_comtrade_data.call_args == mock.call(commodity_code='220850', countries_list=['NL'])
-    assert response.context_data['insight_data']['NL']['country_data'] == multiple_country_data['NL']
+    for fieldname in [
+        'GDPPerCapita',
+        'ConsumerPriceIndex',
+        'Income',
+        'CorruptionPerceptionsIndex',
+        'EaseOfDoingBusiness',
+        'InternetUsage',
+    ]:
+        assert response.context_data['insight_data']['NL']['country_data'].get('fieldname') == multiple_country_data[
+            'NL'
+        ].get('feldname')
 
 
 @pytest.mark.django_db
-def test_cost_and_pricing(cost_pricing_data, client, user):
+def test_cost_and_pricing(cost_pricing_data, client, user, mock_get_user_profile):
     url = reverse('exportplan:costs-and-pricing')
     client.force_login(user)
     response = client.get(url)
@@ -329,7 +349,7 @@ def test_cost_and_pricing(cost_pricing_data, client, user):
 
 
 @pytest.mark.django_db
-def test_getting_paid(export_plan_data, client, user):
+def test_getting_paid(export_plan_data, client, user, mock_get_user_profile):
     url = reverse('exportplan:getting-paid')
     client.force_login(user)
     response = client.get(url)
@@ -355,17 +375,27 @@ def test_getting_paid(export_plan_data, client, user):
 
 
 @pytest.mark.django_db
-def test_download_export_plan(client, user):
+def test_download_export_plan(
+    client, mock_get_comtrade_data, mock_get_population_data, mock_cia_world_factbook_data, user, mock_get_user_profile
+):
     url = reverse('exportplan:pdf-download')
     client.force_login(user)
     response = client.get(url, SERVER_NAME='mydomain.com')
     assert response.status_code == 200
+
     assert response._content_type_for_repr == ', "application/pdf"'
     assert isinstance(type(response.content), type(bytes)) is True
+    pdf_context = response.context
+    assert len(pdf_context['export_plan'].data) == len(user.export_plan.data)
+    assert pdf_context['user'] == user
+    assert pdf_context['insight_data'] == mock_get_comtrade_data.return_value
+    assert pdf_context['population_age_data']['marketing-approach'] == mock_get_population_data.return_value
+    assert pdf_context['population_age_data']['target-markets-research'] == mock_get_population_data.return_value
+    assert pdf_context['language_data'] == mock_cia_world_factbook_data.return_value
 
 
 @pytest.mark.django_db
-def test_funding_and_credit(export_plan_data, client, user):
+def test_funding_and_credit(export_plan_data, client, user, mock_get_user_profile):
     url = reverse('exportplan:funding-and-credit')
     client.force_login(user)
     response = client.get(url)
@@ -379,7 +409,7 @@ def test_funding_and_credit(export_plan_data, client, user):
 
 
 @pytest.mark.django_db
-def test_business_risk(export_plan_data, client, user):
+def test_business_risk(export_plan_data, client, user, mock_get_user_profile):
     url = reverse('exportplan:business-risk')
     client.force_login(user)
     response = client.get(url)
@@ -404,7 +434,7 @@ def test_redirect_to_service_page_for_disabled_urls(client, user):
 
 
 @pytest.mark.django_db
-def test_disabled_urls_feature_flag_disabled(client, user):
+def test_disabled_urls_feature_flag_disabled(client, user, mock_get_user_profile):
     settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = []
     reload_urlconf('exportplan.core.data')
 
@@ -417,7 +447,7 @@ def test_disabled_urls_feature_flag_disabled(client, user):
 
 
 @pytest.mark.django_db
-def test_service_page_context(client, user):
+def test_service_page_context(client, user, mock_get_user_profile):
     client.force_login(user)
     url = reverse('exportplan:service-page')
     response = client.get(url)

@@ -1,3 +1,26 @@
+const dateNowISO = () => new Date().toISOString().slice(0, 10)
+
+const dateFormat = (date = dateNowISO()) => {
+  // Requires ISO formatted date: YYYY-MM-DD
+  const [year, month, day] = date.split('-')
+  const months = {
+    '01': 'Jan',
+    '02': 'Feb',
+    '03': 'Mar',
+    '04': 'Apr',
+    '05': 'May',
+    '06': 'Jun',
+    '07': 'Jul',
+    '08': 'Aug',
+    '09': 'Sep',
+    10: 'Oct',
+    11: 'Nov',
+    12: 'Dec',
+  }
+
+  return `${day} ${months[month]} ${year}`
+}
+
 const slugify = (string) => {
   return string
     .toLowerCase()
@@ -42,6 +65,10 @@ const normaliseValues = (str, places = 1, fixed = false) => {
   return 'Data not available'
 }
 
+const numberWithSign = (value) => {
+  return Number.isFinite(value-0) ? `${['-', '', '+'][Math.sign(value) + 1]}${Math.abs(value)}` : value
+}
+
 const millify = (value) => {
   const floatValue = parseFloat(value)
   if (floatValue) {
@@ -78,11 +105,12 @@ const get = (obj, path, def = null) => {
   // get a value from an object based on dot-separated path
   let out = obj
   const pathSplit = path.split('.')
-  for (let i = 0; i < pathSplit.length; i+=1) {
-    if (!isObject(out)) {
+  for (let i = 0; i < pathSplit.length; i += 1) {
+    if (isObject(out) || isArray(out)) {
+      out = out[pathSplit[i]]
+    } else {
       return def
     }
-    out = out[pathSplit[i]]
   }
   return out
 }
@@ -106,6 +134,23 @@ const deepAssign = (obj1, obj2) => {
     }
   })
   return out
+}
+
+const camelize = (str) => {
+  return (str)
+    .split('_')
+    .reduce(
+      (acc, part) =>
+        acc ? `${acc}${part.charAt(0).toUpperCase()}${part.slice(1)}` : part,
+      ''
+    )
+}
+
+const camelizeObject = (obj) => {
+  return Object.keys(obj).reduce((out, key) => {
+    out[camelize(key)] = obj[key]
+    return out
+  }, {})
 }
 
 const sectionQuestionMapping = {
@@ -153,7 +198,12 @@ const formatLessonLearned = (lesson, section, id) =>
       }
     : {}
 
+const objectHasValue = (object = {}) =>
+  Object.values(object).some((x) => x !== '')
+
 export {
+  dateFormat,
+  dateNowISO,
   slugify,
   addItemToList,
   capitalize,
@@ -172,4 +222,8 @@ export {
   millify,
   stripPercentage,
   deepAssign,
+  objectHasValue,
+  numberWithSign,
+  camelize,
+  camelizeObject,
 }

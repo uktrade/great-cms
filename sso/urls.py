@@ -1,7 +1,7 @@
 from django.urls import path
 from great_components.decorators import skip_ga360
 
-from sso.api import LessonCompletedAPIView
+from sso.api import LessonCompletedAPIView, UserProfileAPIView
 from sso.views import (
     SSOBusinessUserCreateView,
     SSOBusinessUserLoginView,
@@ -27,5 +27,10 @@ urlpatterns = [
     ),
     path(
         'api/v1/lesson-completed/<int:lesson>/', skip_ga360(LessonCompletedAPIView.as_view()), name='lesson-completed'
+    ),
+    path(
+        'api/v1/user-profile/',
+        skip_ga360(UserProfileAPIView.as_view()),
+        name='user-profile-api',
     ),
 ]

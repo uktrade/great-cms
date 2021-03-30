@@ -30,6 +30,10 @@ class GreatDomesticHomePagePanels:
                 FieldPanel('hero_text'),
                 FieldPanel('hero_cta_text'),
                 FieldPanel('hero_cta_url'),
+                # Signed in fields
+                FieldPanel('hero_text_signedin'),
+                FieldPanel('hero_cta_text_signedin'),
+                FieldPanel('hero_cta_url_signedin'),
             ],
         ),
         MultiFieldPanel(
@@ -457,4 +461,57 @@ class PerformanceDashboardPagePanels:
             heading='Data columns',
         ),
         FieldPanel('guidance_notes'),
+    ]
+
+
+class TradeFinancePagePanels:
+
+    content_panels = [
+        FieldPanel('title'),
+        FieldPanel('breadcrumbs_label'),
+        MultiFieldPanel(
+            heading='Banner',
+            children=[
+                ImageChooserPanel('hero_image'),
+                FieldPanel('hero_text'),
+                ImageChooserPanel('ukef_logo'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Contact us',
+            children=[
+                FieldRowPanel(
+                    children=[
+                        FieldPanel('contact_proposition'),
+                        FieldPanel('contact_button'),
+                    ]
+                )
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Advantages',
+            children=[
+                FieldPanel('advantages_title'),
+                StreamFieldPanel('advantages'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Evidence',
+            children=[
+                FieldRowPanel(
+                    children=[
+                        FieldPanel('evidence'),
+                        FieldPanel(
+                            'evidence_video',
+                            widget=AdminMediaChooser,
+                        ),
+                    ]
+                )
+            ],
+        ),
+        SearchEngineOptimisationPanel(),
+    ]
+
+    settings_panels = [
+        FieldPanel('slug'),
     ]

@@ -33,9 +33,11 @@ export const SectionComplete = ({ current_section }) => {
           type="checkbox"
           id="checkbox_complete"
           onChange={toggleComplete}
-          checked={isComplete ? true : false}
+          checked={isComplete}
         />
-        <label htmlFor="checkbox_complete">Yes</label>
+        <label htmlFor="checkbox_complete">
+          {isComplete ? 'Great! Progress saved' : 'Yes'}
+        </label>
       </div>
     </>
   )

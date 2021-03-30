@@ -10,7 +10,7 @@ const populationPercentActual = (data, urbanRural) => {
   return (
     <>
       <div className="body-l primary">{percentage}%</div>
-      <div className="body-m secondary">{millify(group)} </div>
+      <div className="body-m text-black-60 secondary">{millify(group)} </div>
     </>
   )
 }
@@ -76,7 +76,7 @@ export default {
     cpi: {
       name: 'Consumer Price Index',
       className: 'text-align-right',
-      render: (data) => data.ConsumerPriceIndex[0].value,
+      render: (data) => normaliseValues(data.ConsumerPriceIndex[0].value, 2),
       year: (data) => get(data, 'cpi.year'),
       tooltip: {
         position: 'right',

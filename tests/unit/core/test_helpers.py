@@ -261,7 +261,7 @@ def test_get_popular_export_destinations_fuzzy_match(mock_is_fuzzy):
 
 
 @pytest.mark.django_db
-def test_get_module_completion_progress():
+def test_get_module_completion_progress(en_locale):
 
     clp_1 = CuratedListPageFactory()
     clp_2 = CuratedListPageFactory()
@@ -305,7 +305,7 @@ def test_get_module_completion_progress():
 
 
 @pytest.mark.django_db
-def test_get_high_level_completion_progress():
+def test_get_high_level_completion_progress(en_locale):
 
     clp_1 = CuratedListPageFactory()
     clp_2 = CuratedListPageFactory()
@@ -437,13 +437,13 @@ def test_get_comtrade_data(mock_import_data, client):
 
     response = helpers.get_comtrade_data(countries_list=['DE'], commodity_code='123456')
     assert 'DE' in response.keys()
-    assert ['import_from_world', 'import_data_from_uk'] == list(response['DE'].keys())
+    assert ['import_from_world', 'import_from_uk'] == list(response['DE'].keys())
     assert response['DE']['import_from_world']['trade_value_raw'] == 532907699
     assert response['DE']['import_from_world']['year'] == '2019'
     assert response['DE']['import_from_world']['year_on_year_change'] == 4.998776483425872
-    assert response['DE']['import_data_from_uk']['trade_value_raw'] == 17954090
-    assert response['DE']['import_data_from_uk']['year'] == '2018'
-    assert response['DE']['import_data_from_uk']['year_on_year_change'] == -9.247934824633912
+    assert response['DE']['import_from_uk']['trade_value_raw'] == 17954090
+    assert response['DE']['import_from_uk']['year'] == '2018'
+    assert response['DE']['import_from_uk']['year_on_year_change'] == -9.247934824633912
 
 
 @mock.patch.object(api_client.dataservices, 'get_country_data_by_country')
@@ -643,3 +643,17 @@ def test_retrieve_regional_office_email_success(requests_mock):
     email = helpers.retrieve_regional_office_email('ABC123')
 
     assert email == 'region@example.com'
+
+
+@pytest.mark.parametrize(
+    'mapping,expected',
+    [
+        [['0-14'], ['0-4', '5-9', '10-14']],
+        [['25-29'], ['25-29']],
+        [['65+'], ['65-69', '70-74', '75-79', '80-84', '85-89', '90-94', '95-99', '100+']],
+        [[], []],
+        [['10-12'], ['10-14']],
+    ],
+)
+def test_age_group_mapping(mapping, expected):
+    assert helpers.age_group_mapping(mapping) == expected
