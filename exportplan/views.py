@@ -179,7 +179,7 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
 
     form_class = forms.ExportPlanAdaptationForTargetMarketForm
     success_url = reverse_lazy('exportplan:adaptation-for-your-target-market')
-    title = 'Adaptation for your target market'
+    title = 'Adapting your product'
 
     def get_initial(self):
         return self.request.user.export_plan.data['adaptation_target_market']
