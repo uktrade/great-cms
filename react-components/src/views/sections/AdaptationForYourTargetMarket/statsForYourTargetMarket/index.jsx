@@ -20,13 +20,10 @@ export const Table = memo(({ languages, infoMomenent, tooltip }) => {
             <Stats
               header="The main languages in your chosen market are:"
               data={formatedLanguages || notAvailable}
+              childPosition="bottom"
             >
               {tooltip && (
-                <Tooltip
-                  id="languages-in-target-market-tooltip"
-                  title={tooltip.heading}
-                  content={`<p>${tooltip.description}</p>`}
-                />
+                <Tooltip id="languages-in-target-market-tooltip" {...tooltip} />
               )}
             </Stats>
             <hr className="hr hr--light" />
@@ -43,15 +40,23 @@ export const Table = memo(({ languages, infoMomenent, tooltip }) => {
   )
 })
 
-Table.defaultProps = {
-  tooltip: null,
-}
-
 Table.propTypes = {
-  languages: PropTypes.object.isRequired,
+  languages: PropTypes.shape({
+    date: PropTypes.string,
+    language: PropTypes.arrayOf({
+      name: PropTypes.string,
+      note: PropTypes.string,
+      percent: PropTypes.number,
+    }),
+  }),
   infoMomenent: PropTypes.string.isRequired,
   tooltip: PropTypes.shape({
-    heading: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    content: PropTypes.string.isRequired,
   }),
+}
+
+Table.defaultProps = {
+  tooltip: {},
+  languages: [],
 }
