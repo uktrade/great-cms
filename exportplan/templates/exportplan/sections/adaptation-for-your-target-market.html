@@ -34,27 +34,7 @@ your target market.
   <div class="container">
     <div class="grid flex-grid">
       <div class="c-1-1 c-2-3-l c-1-2-xl m-h-auto">
-        <h2 class="h-xs p-t-l p-b-s">
-          Data Snapshot: exporting {{ export_plan.export_commodity_codes.0.commodity_name }} to
-          {{ export_plan.export_countries.0.country_name }}
-        </h2>
-        <div id="stats-for-target-market" class="flex-direction-column">
-          <div class="statistic">
-            <dl>
-              <dt class="statistic__caption">The main languages in your chosen market are:</dt>
-              <dd>
-                <ul class="h-m p-0 m-0">
-                  {% for language in language_data.cia_factbook_data.languages.language %}
-                  <li class="inline-block">
-                    {{language.name}} {% if language.note == 'official' and language.percent %} (official:
-                    {{language.percent}}%) {% elif language.note == 'official' %} (Official) {% elif language.percent %}
-                    ({{language.percent}}%) {% endif %} {% if not forloop.last %} , {% endif %}
-                  </li>
-                  {% endfor %}
-                </ul>
-              </dd>
-          </div>
-        </div>
+        <div id="stats-for-target-market" class="flex-direction-column"></div>
       </div>
     </div>
   </div>
@@ -63,9 +43,9 @@ your target market.
   <div class="grid">
     <div class="c-1-4-l">&nbsp;</div>
     <div class="c-1-1 c-1-2-l">
-      <small class="body-s text-blue-deep-50">Population statistics – <a href="#">United Nations</a>; Access to
-        Internet,Consumer Price Index - <a href="#">World Bank</a>; Languages - <a href="#">CIA World
-          Factbook</a>;</small>
+      <small class="body-s text-blue-deep-50"><strong class="body-s-b">Population statistics: </strong><a href="#">United Nations</a>.
+        <strong class="body-s-b">Access to Internet,Consumer Price Index: </strong><a href="#">World Bank</a> <strong class="body-s-b">Languages: </strong>
+        <a href="#">CIA World Factbook</a>.</small>
     </div>
   </div>
 </section>

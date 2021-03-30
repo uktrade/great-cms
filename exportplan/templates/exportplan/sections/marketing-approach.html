@@ -23,9 +23,7 @@
     <div class="grid">
       <div class="c-1-4">&nbsp;</div>
       <div class="c-1-1 c-2-3-m c-1-2-xl">
-        <h2 class="h-xs p-t-l p-b-s">Facts and figures about {{ export_plan.export_countries.0.country_name }} to get you started</h2>
         <div id="target-age-groups" class="m-b-s">
-          {% include "exportplan/includes/insight.html" %}
         </div>
       </div>
       <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
@@ -37,7 +35,14 @@
   <div class="grid">
     <div class="c-1-4">&nbsp;</div>
     <div class="c-1-1 c-2-3-m c-1-2-xl">
-      <p class="m-0 body-s">Population statistics – <a href="https://www.un.org/en/" title="United Nations">United Nations</a>; Access to Internet,Consumer Price Index - <a href="https://www.worldbank.org/" title="World Bank">World Bank</a>;  Languages -  <a href="https://www.cia.gov/library/publications/the-world-factbook/" title="CIA World Factbook">CIA World Factbook</a>;</p>
+      <p class="m-0 body-s">
+        <strong class="body-s-b">Population statistics:</strong>:
+        <a href="https://www.un.org/en/" title="United Nations">United Nations</a>.
+        <strong class="body-s-b">Access to Internet,Consumer Price Index:</strong>:
+        <a href="https://www.worldbank.org/" title="World Bank">World Bank</a>.
+        <strong class="body-s-b">Languages:</strong>
+        <a href="https://www.cia.gov/library/publications/the-world-factbook/" title="CIA World Factbook">CIA World Factbook</a>.
+      </p>
       <p class="m-0 body-s">*Data not available* will show where our sources have missing data. We're always working on adding more data sources.</p>
     </div>
     <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
@@ -48,7 +53,7 @@
   <div class="grid">
     <div class="c-1-4">&nbsp;</div>
     <div class="c-1-1 c-2-3-m c-1-2-xl">
-      <h2 class="h-m m-b-xs">How will you get your product to customers in {{ export_plan.export_countries.0.country_name }}?</h2>
+      <h2 class="h-m m-b-xs">How will you get your product to customers in <span class="country-name-updatable">{{ export_plan.export_countries.0.country_name }}</span>?</h2>
       <p>Make a list of the ways you'll get your product to customers by using the following dropdown list.</p>
       <p>You can choose more than one option.</p>
       <div id="route-to-market"></div>

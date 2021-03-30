@@ -89,9 +89,10 @@ const baseReducers = (state = initialState, action) => {
 
 const exportPlanReducer = (state, action) => {
   const newState = { ...state }
+  let codeChanged
   switch (action.type) {
     case SET_PRODUCT:
-      const codeChanged =
+      codeChanged =
         (newState.products &&
           newState.products[0] &&
           newState.products[0].commodity_code) !== action.payload.commodity_code
@@ -107,12 +108,21 @@ const exportPlanReducer = (state, action) => {
       }
       break
     case SET_MARKET:
+      newState.markets = [action.payload]
       saveToExportPlan({ export_countries: [action.payload] }).then(() => {
-        newState.markets = [action.payload]
         if (config.refreshOnMarketChange) {
           window.location.reload()
+        } else {
+          // Here we have some nasty non-Reactish code to update any country names that lie outside listening react components
+          document.body.querySelectorAll('.country-name-updatable').forEach((element) => {
+            /* eslint-disable no-param-reassign */
+            element.textContent = (action.payload || {}).country_name
+            /* eslint-enable no-param-reassign */
+          })
         }
       })
+      break
+      default:
   }
   return newState
 }
@@ -153,14 +163,14 @@ export const getCacheVersion = (state) =>
 
 
 const rootReducer = (state, action) => {
-  state = baseReducers(state, action)
-  state = setInitialStateReducer(state, action)
+  let localState = baseReducers(state, action)
+  localState = setInitialStateReducer(localState, action)
   return combineReducers({
     exportPlan: exportPlanReducer,
     modalIsOpen: setModalIsOpen,
     dataLoader: dataCacheReducer,
     costAndPricing,
-  })(state, action)
+  })(localState, action)
 }
 
 export default rootReducer
