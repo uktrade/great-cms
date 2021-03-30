@@ -378,20 +378,22 @@ def test_getting_paid(export_plan_data, client, user, mock_get_user_profile):
 def test_download_export_plan(
     client, mock_get_comtrade_data, mock_get_population_data, mock_cia_world_factbook_data, user, mock_get_user_profile
 ):
-    url = reverse('exportplan:pdf-download')
-    client.force_login(user)
-    response = client.get(url, SERVER_NAME='mydomain.com')
-    assert response.status_code == 200
+    with mock.patch('exportplan.utils.pisa.pisaDocument') as pdf_pisa_doc:
+        pdf_pisa_doc.retturn_value = BytesIO()
+        url = reverse('exportplan:pdf-download')
+        client.force_login(user)
+        response = client.get(url, SERVER_NAME='127.0.0.1')
+        assert response.status_code == 200
 
-    assert response._content_type_for_repr == ', "application/pdf"'
-    assert isinstance(type(response.content), type(bytes)) is True
-    pdf_context = response.context
-    assert len(pdf_context['export_plan'].data) == len(user.export_plan.data)
-    assert pdf_context['user'] == user
-    assert pdf_context['insight_data'] == mock_get_comtrade_data.return_value
-    assert pdf_context['population_age_data']['marketing-approach'] == mock_get_population_data.return_value
-    assert pdf_context['population_age_data']['target-markets-research'] == mock_get_population_data.return_value
-    assert pdf_context['language_data'] == mock_cia_world_factbook_data.return_value
+        assert response._content_type_for_repr == ', "application/pdf"'
+        assert isinstance(type(response.content), type(bytes)) is True
+        pdf_context = response.context
+        assert len(pdf_context['export_plan'].data) == len(user.export_plan.data)
+        assert pdf_context['user'] == user
+        assert pdf_context['insight_data'] == mock_get_comtrade_data.return_value
+        assert pdf_context['population_age_data']['marketing-approach'] == mock_get_population_data.return_value
+        assert pdf_context['population_age_data']['target-markets-research'] == mock_get_population_data.return_value
+        assert pdf_context['language_data'] == mock_cia_world_factbook_data.return_value
 
 
 @pytest.mark.django_db
