@@ -76,6 +76,10 @@ FormElements.propTypes = {
       label: PropTypes.string.isRequired,
       placeholder: PropTypes.string.isRequired,
       field_type: PropTypes.string.isRequired,
+      tooltip: PropTypes.shape({
+        content: PropTypes.string,
+        title: PropTypes.string,
+      }),
     })
   ).isRequired,
   field: PropTypes.string.isRequired,
