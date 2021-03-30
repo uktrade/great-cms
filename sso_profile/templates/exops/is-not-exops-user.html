@@ -1,0 +1,20 @@
+{% extends 'exops/base.html' %}
+{% block head_title %}Export Opportunities - Account - great.gov.uk{% endblock %}
+{% block tab_content_main %}
+	<div class="grid-row" id="tab-content">
+		<div class="column-one-quarter">&nbsp;</div>
+		<div class="column-two-thirds">
+			<section id="not-exops-user">
+				<h2 class="heading-large">Applications</h2>
+				<p class="body-text">Start applying for export opportunities. You can quickly and easily:</p>
+				<ul class="list list-bullet">
+					<li>find thousands of exporting opportunities</li>
+					<li>search for opportunities within your industry or in a specific country</li>
+					<li>sign up for email alerts so you're the first to know of new opportunities</li>
+					<li>apply for any export opportunity and track your applications</li>
+				</ul>
+				<a class="button" href="{{ EXPORTING_OPPORTUNITIES_SEARCH_URL }}">Find and apply</a>
+			</section>
+		</div>
+	</div>
+{% endblock tab_content_main %}

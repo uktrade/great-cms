@@ -1,0 +1,32 @@
+{% extends 'enrolment/base.html' %}
+
+{% load static from staticfiles %}
+{% load message_box_with_icon breadcrumbs from great_components %}
+
+{% block content %}
+  <section class="container">
+    {% breadcrumbs 'Create a great.gov.uk account' %}
+        <a href="{{ services_urls.great_domestic }}">Home</a>
+    {% endbreadcrumbs %}
+    <div class="grid-row">
+        <div class="column-two-thirds">
+            <div id="success-message-container">
+                {% message_box_with_icon heading="Complete" description="Your account has been created." heading_level='h2' heading_class='teal-text margin-bottom-0' %}
+            </div>
+        </div>
+    </div>
+  </section>
+  <section class="container">
+    <h2 class="heading-medium margin-0">What you can do next</h2>
+    <p>Now you are registered you can:</p>
+    <ul class="list list-bullet">
+      <li><a href="{{ services_urls.soo }}" id="next-events">find the right digital marketplace for your products</a> so you can sell online overseas and reach the best markets for your business whenever they are</li>
+      <li><a href="{{ services_urls.events }}/ehome/index.php?eventid=200183029">apply to take part in events and visits</a> that will help you generate new leads and opportunities to grow your business</li>
+    </ul>
+    {% if ingress_url %}
+      <p>Continue to <a href="{{ ingress_url }}">great.gov.uk</a></p>
+    {% else %}
+      <p>Return to the <a href="{% url 'index' %}">home page</p>
+    {% endif %}
+  </section>
+{% endblock %}

@@ -2,10 +2,15 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.functional import cached_property
 
-from core.helpers import CompanyParser
+from directory_constants import user_roles
 from exportplan.core.helpers import get_or_create_export_plan
 from exportplan.core.parsers import ExportPlanParser
 from sso import helpers
+from sso_profile.business_profile.helpers import (
+    CompanyParser,
+    get_company_profile,
+    get_supplier_profile,
+)
 
 
 class BusinessSSOUser(AbstractUser):
@@ -23,7 +28,7 @@ class BusinessSSOUser(AbstractUser):
 
     @cached_property
     def company(self):
-        company = helpers.get_company_profile(self.session_id)
+        company = get_company_profile(self.session_id)
         if company:
             return CompanyParser(company)
 
@@ -56,3 +61,22 @@ class BusinessSSOUser(AbstractUser):
 
     def has_visited_page(self, page):
         return helpers.has_visited_page(self.session_id, page)
+
+    @cached_property
+    def supplier(self):
+        return get_supplier_profile(self.id)
+
+    @cached_property
+    def role(self):
+        return self.supplier['role'] if self.supplier else None
+
+    @property
+    def is_company_admin(self):
+        if not self.supplier:
+            return False
+        return self.supplier['role'] == user_roles.ADMIN
+
+    @property
+    def full_name(self):
+        if self.first_name and self.last_name:
+            return f'{self.first_name} {self.last_name}'

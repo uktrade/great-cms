@@ -1,0 +1,47 @@
+{% extends 'enrolment/wizard.html' %}
+
+{% load static from static %}
+
+{% block above_form %}
+    {% include 'enrolment/information_box_companies_type.html'  with is_in_companies_house=True %}
+    <div id="form-step-body-text" id="business-details-information-box">
+        <h1 class="heading-xlarge margin-top-60">Enter your business details</h1>
+    </div>
+{% endblock %}
+
+{% block below_form %}
+	<details closed>
+		<summary>I cannot find my business name</summary>
+		<p class="border-light-grey" id="cannot-find-business-text">
+			Double check your business type and company name above.
+			If you still need help, <a href="{{ contact_us_url }}">contact us.</a>
+		</p>
+	</details>
+{% endblock %}
+
+
+{% block body_js %}
+    {{ block.super }}
+    <script src="{% static 'great_components/js/dit.components.company-lookup.js' %}"></script>
+    <script type="text/javascript">
+      var companyName = document.getElementById('id_company-search-company_name');
+      var companyNumber = document.getElementById('id_company-search-company_number');
+
+      $(companyName).on("keydown.SelectiveLookup", function(event) {
+        if (event.keyCode == 13) {
+          event.stopImmediatePropagation();
+          return false;
+        }
+      });
+
+      $(document.body).on(
+        "click.SelectiveLookupCloseAll",
+        dit.components.lookup.SelectiveLookup.closeAll
+      );
+      new dit.components.lookup.CompaniesHouseNameLookup(
+        $(companyName),
+        $(companyNumber),
+        '{% url "api:companies-house-search" %}'
+       );
+    </script>
+{% endblock %}

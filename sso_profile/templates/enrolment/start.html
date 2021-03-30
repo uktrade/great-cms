@@ -1,0 +1,38 @@
+{% extends 'enrolment/base.html' %}
+
+{% load breadcrumbs from great_components %}
+
+{% block content %}
+    <section class="container">
+        {% breadcrumbs 'Create a great.gov.uk account' %}
+            <a href="{{ services_urls.great_domestic }}">Home</a>
+        {% endbreadcrumbs %}
+        <div class="width-two-thirds">
+            {% if request.user.is_authenticated %}
+                <h1 class="heading-xlarge">{{ user_journey_verb|capfirst }}</h1>
+            {% else %}
+                <h1 class="heading-xlarge">{{ user_journey_verb|capfirst}}</h1>
+                <p>We'll email you a confirmation code while creating your account. Make sure you have access to your email.</p>
+                <p><a href="{{ sso_login_url }}">Sign in</a> if you have an account.</p>
+            {% endif %}
+            <div class="steps-progress-indicator font-medium padding-left-30" id="start-page-progress-indicator" aria-label="Process steps">
+              <p id="steps-progress-explanation" class="visually-hidden">List of steps required to complete the process:</p>
+              <ol aria-labelledby="steps-progress-explanation">
+                {% for label in step_labels %}
+                    {% if step_number == forloop.counter %}
+                        <li class="current">
+                            <span class="visually-hidden">Current:</span>
+                            <span>
+                                {{ label }}
+                                <a id="start-now-button" class="button margin-top-15" href="{% url 'sso_profile:enrolment-business-type' %}">Start</a>
+                            </span>
+                        </li>
+                    {% else %}
+                        <li><span>{{ label }}</span></li>
+                    {% endif %}
+                {% endfor %}
+              </ol>
+            </div>
+        </div>
+    </section>
+{% endblock %}

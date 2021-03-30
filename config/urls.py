@@ -16,6 +16,7 @@ import core.urls
 import domestic.urls
 import exportplan.urls
 import sso.urls
+import sso_profile.urls
 
 urlpatterns = []
 
@@ -40,6 +41,7 @@ urlpatterns += [
     path('', include(domestic.urls, namespace='domestic')),
     path('', include(core.urls, namespace='core')),
     path('export-plan/', include(exportplan.urls)),
+    path('profile/', include(sso_profile.urls)),
 ]
 
 # Should we show the contact pages we're porting from V1 yet?

@@ -8,7 +8,6 @@ from io import StringIO
 from logging import getLogger
 
 import boto3
-import great_components.helpers
 import requests
 from django.conf import settings
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
@@ -17,7 +16,6 @@ from ipware import get_client_ip
 from core.models import CuratedListPage
 from core.serializers import parse_events, parse_opportunities
 from directory_api_client import api_client
-from directory_constants import choices
 from directory_sso_api_client import sso_api_client
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
@@ -131,53 +129,6 @@ def get_canonical_sector_label(label):
 def is_fuzzy_match(label_a, label_b):
     match = SequenceMatcher(None, get_canonical_sector_label(label_a), get_canonical_sector_label(label_b))
     return match.ratio() > 0.9
-
-
-class CompanyParser(great_components.helpers.CompanyParser):
-
-    INDUSTRIES = dict(choices.SECTORS)  # defaults to choices.INDUSTRIES
-
-    def __init__(self, data):
-        data = {**data}
-        data.setdefault('expertise_products_services', {})
-        data.setdefault('expertise_countries', [])
-        data.setdefault('expertise_industries', [])
-        if settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE:
-            data['expertise_industries'] = ['SL10017']  # food and drink
-        super().__init__(data=data)
-
-    def __getattr__(self, name):
-        return self.data.get(name)
-
-    @property
-    def expertise_industries_labels(self):
-        if self.data['expertise_industries']:
-            return values_to_labels(values=self.data['expertise_industries'], choices=self.INDUSTRIES)
-        return []
-
-    @property
-    def expertise_countries_labels(self):
-        return (
-            values_to_labels(values=self.data['expertise_countries'], choices=self.COUNTRIES)
-            if self.data.get('expertise_countries')
-            else []
-        )
-
-    @property
-    def expertise_countries_value_label_pairs(self):
-        if self.data['expertise_countries']:
-            return values_to_value_label_pairs(values=self.data['expertise_countries'], choices=self.COUNTRIES)
-        return []
-
-    @property
-    def expertise_industries_value_label_pairs(self):
-        if self.data['expertise_industries']:
-            return values_to_value_label_pairs(values=self.data['expertise_industries'], choices=self.INDUSTRIES)
-        return []
-
-    @property
-    def expertise_products_services(self):
-        return self.data['expertise_products_services'].get('other', [])
 
 
 def values_to_labels(values, choices):
