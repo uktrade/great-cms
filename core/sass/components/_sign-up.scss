@@ -1,58 +1,117 @@
-.sign-up {
-
-  &--wrapper {
-    background: {
-      image: url('/static/images/sign-up-right.png'), url('/static/images/sign-up-left.png');
-      position: right bottom, left bottom;
-      repeat: no-repeat, no-repeat;
-      size: 273px;
+.signup {
+  &__container {
+    width: 100%;
+    display: flex;
+    .form-label {
+      @include body-m;
+      @include p-t-0;
+      color: #4c436e;
+      margin-bottom: -10px;
     }
-    height: 216px;
-    margin: auto;
-    width: 1030px;
+
+    .form-control {
+      @include m-t-0;
+    }
+  }
+  &__steps-panel {
+    color: #4c436e;
+    min-height: 100vh;
+    width: 514px;
+    margin-left: 20px;
+    padding: 30px 70px;
+    background-color: #fff;
+    flex-shrink: 0;
+    @media (max-width: 768px) {
+      margin-left: 0;
+      width: 100%;
+      padding: 30px 30px;
+    }
+    p > a {
+      color: inherit;
+    }
   }
 
-  &--inner {
-    border-radius: 10px;
-  }
+  &__form {
+    .h-s {
+      margin-top: 15px;
+    }
 
-  &--header {
-    height: 330px;
-  }
+    .vertical-seperator {
+      margin-top: 20px;
+      margin-bottom: 20px;
 
-  &--header__single {
-
-    .sign-up--wrapper {
-      background: {
-        image: url('/static/images/welcome.png');
-        position: center bottom;
-        size: 365px;
+      span {
+        display: inline-block;
+        font-size: 19px;
+        width: 20%;
+        text-align: center;
+        margin: 0;
       }
-      position: relative;
-      width: 630px;
 
-      &:before {
-        background-color: rgba(255,255,255, 0.1);
-        bottom: 0;
-        border-top-right-radius: 10px;
-        border-top-left-radius: 10px;
-        content: '';
-        left: 0;
-        right: 0;
-        position: absolute;
-        top: 40px;
+      hr {
+        display: inline-block;
+        height: 2px;
+        margin: 0;
+        vertical-align: middle;
+        width: 40%;
       }
     }
-
-    .form--sign-up {
-      top: 216px;
-      position: relative;
-      width: 630px;
-    }
-
-    .sign-up--inner {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
+  }
+  &__questions-panel {
+    font-size: 16px;
+    color: #000;
+    a {
+      color: inherit;
+      font-weight: bold;
+      text-decoration: none;
     }
   }
+  &__right-panel {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 120px;
+    @media (max-width: 768px) {
+      display: none;
+    }
+    img {
+      margin-top: 40px;
+      max-width: 100%;
+    }
+
+    h1 {
+      color: #fff;
+      font-size: 56px;
+    }
+    &__headings {
+      max-width: 650px;
+    }
+    &__subheadings {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      h2,
+      i {
+        color: #fff;
+      }
+      i {
+        font-size: 40px;
+      }
+      h2 {
+        font-size: 28px;
+        margin-left: 30px;
+      }
+    }
+  }
+
+  &__confirmation {
+    .fa-info-circle {
+      font-size: 40px;
+    }
+    .form-label {
+      font-size: 19px;
+    }
+  }
+
 }

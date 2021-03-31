@@ -3,6 +3,8 @@
 ## Pre-release changes - please put everything in the appropriate category above ======
 
 ### Enhancements
+- GP2-1903 - New sign up page design implemented
+
 ### Fixed bugs
 - GP2-2050 - Update incorrect learning banner copy
 
