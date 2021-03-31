@@ -106,7 +106,7 @@ Maxmind GeoLite2 is used to determine the city or country the user is from via t
 make manage download_geolocation_data
 ```
 
-and then commit the changed files
+and then delete the downloaded, unexpanded archives (*.gz) before commiting the changed *.mmdb files.
 
 
 ### Wagtail Transfer
