@@ -20,7 +20,7 @@ export const ProductData = ({ country, product }) => {
       ]))
         .then((result) => {
           const out = result && result[country.country_iso2_code] || {}
-          out['comTrade'] = out['ComtradeReport']
+          out['comTrade'] = (out['ComtradeReport'] || [])
             .sort((rowa, rowb) => rowa.year>rowb.year ? -1 : 1 )
             .reduce((acc, row) => {
               const out = {...acc}
