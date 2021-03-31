@@ -1,72 +1,128 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Form } from '@src/components/Signup/Form'
-import { Confirmation } from '@src/components/Signup/Confirmation'
-import { Complete } from '@src/components/Signup/Complete'
+import Form from './Form'
+import Confirmation from './Confirmation'
+import Complete from './Complete'
 
 export const STEP_CREDENTIALS = 'credentials'
 export const STEP_VERIFICATION_CODE = 'verification-code'
 export const STEP_COMPLETE = 'complete'
 
+const subHeadings = [
+  'Create your forever free account',
+  'Get tailored content just for you and your business',
+  'Learn how to export with a library of brand new lessons',
+  'Decide where to export by comparing countries',
+  'Make a plan and start exporting',
+]
 
 export const Signup = (props) => {
-  const asideTitle = (props.products.length > 0 || props.countries.length > 0) ? 'Sign up so we can save your settings' : ''
+  const { errors, disabled, email, showTitle, isInProgress } = props
+  const asideTitle =
+    props.products.length > 0 || props.countries.length > 0
+      ? 'Sign up so we can save your settings'
+      : ''
 
   function getAside() {
-    if (props.products.length > 0 || props.countries.length > 0){
+    if (props.products.length > 0 || props.countries.length > 0) {
       return (
-        <aside className='c-1-2'>
-          <h2 className='h-l'>{ asideTitle }</h2>
-          { props.products.length > 0 && <p className='p-xxs m-r-m'>{props.products.map((item, i) => <span key={i}>{item.label}</span>) }</p> }
-          { props.countries.length > 0 && <p className='p-xxs m-r-m'>{props.countries.map((item, i) => <span key={i}>{item.label}</span>) }</p> }
+        <aside className="c-1-2">
+          <h2 className="h-l">{asideTitle}</h2>
+          {props.products.length > 0 && (
+            <p className="p-xxs m-r-m">
+              {props.products.map((item, i) => (
+                <span key={i}>{item.label}</span>
+              ))}
+            </p>
+          )}
+          {props.countries.length > 0 && (
+            <p className="p-xxs m-r-m">
+              {props.countries.map((item, i) => (
+                <span key={i}>{item.label}</span>
+              ))}
+            </p>
+          )}
         </aside>
       )
     }
   }
 
-  function getStep() {
+  const sharedStepProps = {
+    errors,
+    disabled,
+    email,
+    showTitle,
+    isInProgress,
+  }
+
+  function renderStep() {
     if (props.currentStep === STEP_CREDENTIALS) {
       return (
         <Form
-          errors={props.errors}
-          disabled={props.isInProgress}
-          handleSubmit={props.handleStepCredentialsSubmit}
+          {...sharedStepProps}
           handleEmailChange={props.setEmail}
           handlePasswordChange={props.setPassword}
-          email={props.email}
           password={props.password}
           linkedinLoginUrl={props.linkedinLoginUrl}
           googleLoginUrl={props.googleLoginUrl}
-          showTitle={props.showTitle}
+          handleSubmit={props.handleStepCredentialsSubmit}
         />
       )
     } else if (props.currentStep === STEP_VERIFICATION_CODE) {
       return (
         <Confirmation
-          errors={props.errors}
+          {...sharedStepProps}
           handleSubmit={props.handleStepCodeSubmit}
-          disabled={props.isInProgress}
           handleCodeChange={props.setCode}
-          email={props.email}
           code={props.code}
-          showTitle={props.showTitle}
         />
       )
     } else if (props.currentStep === STEP_COMPLETE) {
-      return (
-        <Complete nextUrl={props.nextUrl} showTitle={props.showTitle} />
-      )
+      return <Complete nextUrl={props.nextUrl} showTitle={props.showTitle} />
     }
   }
 
-  const aside = getAside()
-
   return (
-    <div className='grid'>
-      { aside }
-      <div className={aside ? 'c-1-2' : 'c-full'}>
-        {getStep()}
+    <div className="bg-blue-deep-80 signup signup__container">
+      <div className="signup__steps-panel">
+        <a href="/" alt="Exporting is GREAT">
+          <img
+            class="m-f-auto m-r-auto"
+            src="/static/images/logo-filled.svg"
+            alt="Exporting is Great"
+            width="152"
+            height="76"
+          />
+        </a>
+        {renderStep()}
+        <p class="g-panel signup__questions-panel">
+          For any questions, queries or feedback please get in touch with{' '}
+          <a
+            href="mailto:getintouch@digital.trade.gov.uk"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            getintouch@digital.trade.gov.uk
+          </a>
+        </p>
+      </div>
+      <div className="signup__right-panel">
+        <div className="signup__right-panel__headings">
+          <h1>Grow your business</h1>
+          {subHeadings.map((heading) => (
+            <div className="signup__right-panel__subheadings">
+              <i class="fas fa-check-circle"></i>
+              <h2>{heading}</h2>
+            </div>
+          ))}
+        </div>
+
+        <img
+          class="m-f-auto m-r-auto"
+          src="/static/images/learning_simple_ui.png"
+          alt="Exporting is Great"
+        />
       </div>
     </div>
   )
@@ -79,7 +135,6 @@ Signup.propTypes = {
   showTitle: PropTypes.bool,
   products: PropTypes.array,
   countries: PropTypes.array,
-
 }
 
 Signup.defaultProps = {
