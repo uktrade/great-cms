@@ -4,6 +4,7 @@
 
 ### Enhancements
 ### Fixed bugs
+- GP2-2050 - Update incorrect learning banner copy
 
 ## [1.6.0](https://github.com/uktrade/great-cms/releases/tag/1.6.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.5.0...1.6.0)
