@@ -316,6 +316,12 @@ class GreatDomesticHomePage(
         blank=True,
     )
 
+    def serve(self, request, *args, **kwargs):
+        redirector = helpers.GeoLocationRedirector(request)
+        if redirector.should_redirect:
+            return redirector.get_response()
+        return super().serve(request, *args, **kwargs)
+
     def _get_industry_tag_usage_counts(self, industry_tag):
         return industry_tag.countryguidepage_set.all().live().count()
 

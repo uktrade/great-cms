@@ -72,7 +72,7 @@
 - Noticket pdf external datasources
 
 ### Implemented enhancements
-
+- GP2-1648 - Port Geolocation redirects from Bau UI
 - GP2-2044 - CTA's only show sign in label by criteria
 - GP2-1852 - WTE responsive format
 - GP2-1849 - Logged out mobile header
