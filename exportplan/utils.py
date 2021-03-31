@@ -13,7 +13,7 @@ def render_to_pdf(template_src, context_dict):
     template = get_template(template_src)
     html = template.render(context_dict)
     result = BytesIO()
-    pdf = pisa.pisaDocument(BytesIO(html.encode('utf8')), result)
-    if not pdf.err:
+    pisa_status = pisa.pisaDocument(BytesIO(html.encode('utf8')), result)
+    if not pisa_status.err:
         return HttpResponse(result.getvalue(), content_type='application/pdf')
     return None
