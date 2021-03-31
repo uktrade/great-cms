@@ -30,7 +30,7 @@ def test_get_location_unknown_ip(mock_get_client_ip, rf):
 
 @mock.patch.object(helpers.GeoIP2, 'city')
 @mock.patch.object(helpers, 'get_client_ip', return_value=('127.0.0.1', True))
-def test_get_location_unable_to_determine(mock_get_client_ip, mock_city, rf):
+def test_get_location_unable_to_determine__city(mock_get_client_ip, mock_city, rf):
     mock_city.side_effect = helpers.GeoIP2Exception
     request = rf.get('/')
 
@@ -39,6 +39,19 @@ def test_get_location_unable_to_determine(mock_get_client_ip, mock_city, rf):
     assert actual is None
     assert mock_city.call_count == 1
     assert mock_city.call_args == mock.call('127.0.0.1')
+
+
+@mock.patch.object(helpers.GeoIP2, 'country')
+@mock.patch.object(helpers, 'get_client_ip', return_value=('127.0.0.1', True))
+def test_get_location_unable_to_determine__country(mock_get_client_ip, mock_country, rf):
+    mock_country.side_effect = helpers.GeoIP2Exception
+    request = rf.get('/')
+
+    actual = helpers.GeoLocationRedirector(request).country_code
+
+    assert actual is None
+    assert mock_country.call_count == 1
+    assert mock_country.call_args == mock.call('127.0.0.1')
 
 
 @mock.patch.object(helpers.GeoIP2, 'city')
