@@ -186,10 +186,6 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['check_duties_link'] = helpers.get_check_duties_link(self.request.user.export_plan.data)
-        # To do pass language from export_plan object rather then  hardcoded
-        # context['language_data'] = helpers.get_cia_world_factbook_data(
-        #    country=self.request.user.export_plan.export_country_name, key='people,languages'
-        # )
         context['target_market_documents'] = self.request.user.export_plan.data['target_market_documents']
         return context
 
@@ -295,9 +291,6 @@ class TravelBusinessPoliciesView(PageTitleMixin, LessonDetailsMixin, ExportPlanS
         context = super().get_context_data(*args, **kwargs)
         context['travel_business_policies'] = self.request.user.export_plan.data['travel_business_policies']
         context['business_trips'] = self.request.user.export_plan.data['business_trips']
-        # context['language_data'] = helpers.get_cia_world_factbook_data(
-        #    country=self.request.user.export_plan.export_country_name, key='people,languages'
-        # )
         context['travel_advice_covid19'] = settings.TRAVEL_ADVICE_COVID19
         context['travel_advice_foreign'] = settings.TRAVEL_ADVICE_FOREIGN
         return context
