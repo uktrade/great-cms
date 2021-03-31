@@ -13,24 +13,25 @@ export const DataSnapShot = memo(
     const product = useSelector((state) => getProducts(state))
     const country = useSelector((state) => getMarkets(state))
 
-    return (<>
-      <h2 className="h-xs p-t-l p-b-0">Data Snapshot: { country.country_name }</h2>
-      <ToggleSnapshot isOpen={false}>
-        <div className="m-t-s">
-          <ProductData
-            country={country}
-            product={product}
-          />
-          <ToggleDataTable
-            countryIso2Code={country.country_iso2_code}
-            groups={groups}
-            selectedGroups={selected}
-            url={currentSection.url}
-          >
-            <Table />
-          </ToggleDataTable>
-        </div>
-      </ToggleSnapshot>
+    return (
+      <>
+        <h2 className="h-xs p-t-l p-b-0">Data Snapshot: { country.country_name }</h2>
+        <ToggleSnapshot isOpen={false}>
+          <div className="m-t-s">
+            <ProductData
+              country={country}
+              product={product}
+            />
+            <ToggleDataTable
+              countryIso2Code={country.country_iso2_code}
+              groups={groups}
+              selectedGroups={selected}
+              url={currentSection.url}
+            >
+              <Table />
+            </ToggleDataTable>
+          </div>
+        </ToggleSnapshot>
       </>
     )
   }
