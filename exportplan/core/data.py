@@ -68,6 +68,7 @@ LESSONS = {
         'decide-when-get-paid-export-orders',
         'incoterms',
     ],
+    ADAPTATION_TARGET_MARKET: ['understand-how-you-may-need-adapt-your-product-meet-international-standards'],
 }
 
 
