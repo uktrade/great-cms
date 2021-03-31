@@ -3,6 +3,14 @@
     margin-bottom: 100px;
   }
 
+  &--back-to {
+    position: absolute;
+    top: 40px;
+    @include breakpoint(lg) {
+      left: 110px;
+    }
+  }
+
   &--intro-image {
     bottom: -30px;
     position: relative;
