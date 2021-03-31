@@ -175,7 +175,9 @@ class ExportPlanMarketingApproachView(PageTitleMixin, LessonDetailsMixin, Export
         return context
 
 
-class ExportPlanAdaptingYourProductView(PageTitleMixin, FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanAdaptingYourProductView(
+    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
+):
 
     form_class = forms.ExportPlanAdaptingYourProductForm
     success_url = reverse_lazy('exportplan:adapting-your-product')

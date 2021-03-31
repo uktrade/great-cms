@@ -78529,11 +78529,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var AdaptToTargetMarketForm = function AdaptToTargetMarketForm(params) {
-  var lessonDetails = params.lessonDetails;
+  var lesson = params.lesson;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
     className: "h-l"
   }, "Changes to your product"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Write down whether you need to make changes to any of the following and include relevant details."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_2__["Learning"], {
-    lesson: lessonDetails
+    lesson: lesson
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-table bg-blue-deep-10 radius p-h-s p-v-xs"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -78690,7 +78690,7 @@ Table.propTypes = {
   })
 };
 Table.defaultProps = {
-  tooltip: {},
+  tooltip: null,
   languages: []
 };
 

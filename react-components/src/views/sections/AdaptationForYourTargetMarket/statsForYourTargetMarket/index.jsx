@@ -57,6 +57,6 @@ Table.propTypes = {
 }
 
 Table.defaultProps = {
-  tooltip: {},
+  tooltip: null,
   languages: [],
 }
