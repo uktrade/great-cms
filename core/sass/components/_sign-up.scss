@@ -3,14 +3,14 @@
     width: 100%;
     display: flex;
     .form-label {
-      @include body-m;
-      @include p-t-0;
+      @extend .body-m;
+      @extend .p-t-0;
       color: #4c436e;
       margin-bottom: -10px;
     }
 
     .form-control {
-      @include m-t-0;
+      @extend .m-t-0;
     }
   }
   &__steps-panel {
