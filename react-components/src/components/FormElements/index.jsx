@@ -1,5 +1,7 @@
 import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
+import { getMarkets } from '@src/reducers'
+import { useSelector } from 'react-redux'
 
 import ErrorList from '@src/components/ErrorList'
 import { TextArea } from '@src/components/Form/TextArea'
@@ -13,6 +15,14 @@ export const FormElements = memo(
   ({ formData: form, field, formFields, formGroupClassName }) => {
     const [formData, setFormData] = useState({ ...form })
     const [update, showMessage, pending, errors] = useUpdateExportPlan(field)
+
+    let country
+    try { // this is to squash errors if we're not inside a provider
+      country = useSelector((state) => getMarkets(state))
+    }
+    catch {}
+
+    const substituteText = (str) => (str || '').replace('<country-name>',country ? country.country_name : 'your market')
 
     const handleChange = (e) => {
       const data = {
@@ -34,18 +44,17 @@ export const FormElements = memo(
           } else {
             Component = fieldType === 'Select' ? Select : TextArea
           }
-
           return (
             <Component
               id={item.name}
-              label={item.label}
+              label={substituteText(item.label)}
               placeholder={item.placeholder}
               value={formData[item.name]}
               onChange={handleChange}
               update={handleChange}
               tooltip={item.tooltip}
               example={item.example}
-              description={item.description}
+              description={substituteText(item.description)}
               key={item.name}
               prepend={item.currency ? item.currency : null}
               name={item.name}

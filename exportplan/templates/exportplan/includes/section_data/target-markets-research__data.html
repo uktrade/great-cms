@@ -8,7 +8,7 @@
       formFields: [
         {
           name: 'demand',
-          label: 'Describe the consumer demand for your product in {{ export_plan.export_countries.0.country_name }}',
+          label: 'Describe the consumer demand for your product in <country-name>',
           field_type: 'Textarea',
           placeholder: '',
           example: {
@@ -20,7 +20,7 @@
         },
         {
           name: 'competitors',
-          label: 'Who are your competitors in {{ export_plan.export_countries.0.country_name }}?',
+          label: 'Who are your competitors in <country-name>?',
           field_type: 'Textarea',
           placeholder: '',
           example: {
@@ -33,30 +33,30 @@
         },
         {
           name: 'trend',
-          label: 'What are the product trends in {{ export_plan.export_countries.0.country_name }}?',
+          label: 'What are the product trends in <country-name>?',
           field_type: 'Textarea',
           placeholder: '',
           example: {
             content: '<p>There are already over 100 craft gin distilleries in Australia. The main trend seems to be using native Australian ingredients to create a modern twist on traditional gin flavours.</p> <p>The market is fairly similar to the UK in terms of consumption and age. Gin bars are on the increase in the main cities. Online gin clubs that offer monthly gin subscriptions to their members are also popular.</p>'
           },
           description:
-            'Describe what you know about the product market in {{ export_plan.export_countries.0.country_name }}. What’s popular right now? Are there new products on the market? Where do people buy it?',
+            'Describe what you know about the product market in <country-name>. What’s popular right now? Are there new products on the market? Where do people buy it?',
           lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 2),
         },
         {
           name: 'unqiue_selling_proposition',
-          label: 'What’s your unique selling proposition for {{ export_plan.export_countries.0.country_name }}?',
+          label: 'What’s your unique selling proposition for <country-name>?',
           field_type: 'Textarea',
           placeholder: '',
           example: {
             content: 'Dove Gin’s historic backstory is definitely appealing and will make us stand out from the competition. We also know our product design is very appealing and unique.',
           },
           description:
-            'Explain your product’s particular appeal to consumers in {{ export_plan.export_countries.0.country_name }}. Why would they buy it rather than another brand?',
+            'Explain your product’s particular appeal to consumers in <country-name>. Why would they buy it rather than another brand?',
         },
         {
           name: 'average_price',
-          label: 'What’s the avg price for your product in {{ export_plan.export_countries.0.country_name }}?',
+          label: 'What’s the avg price for your product in <country-name>?',
           field_type: 'NumberInput',
           placeholder: '0.00',
           currency: 'GBP',
@@ -67,7 +67,6 @@
     magna.createDataSnapShot({
       element: document.getElementById('target-age-groups'),
       groups: {{ target_age_group_choices|safe }},
-      insight: {{ insight_data|to_json|safe }},
       selected: {{ selected_age_groups|to_json|safe}},
       currentSection: {{ current_section|to_json}},
     })
