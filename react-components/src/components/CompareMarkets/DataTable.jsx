@@ -253,7 +253,7 @@ export default function DataTable(props) {
         key={`market-${market.country_iso2_code}`}
         id={`market-${market.country_name}`}
       >
-        {blocks.renderCountryRowHeader(market, removeMarket)}
+        {blocks.renderCountryRowHeader(market, removeMarket, config)}
         {countryRow}
       </tr>
     )

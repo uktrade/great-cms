@@ -157,18 +157,13 @@ def test_edit_logo_page_submmit_error(client, mock_update_company, user, mock_ge
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_cia_world_factbook_data')
-def test_adaption_for_target_markets_context(mock_get_factbook_data, client, user, mock_get_user_profile):
+def test_adaption_for_target_markets_context(client, user, mock_get_user_profile):
     client.force_login(user)
 
-    mock_get_factbook_data.return_value = {'language': 'Dutch', 'note': 'Many other too'}
     slug = slugify('Adapting your product')
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
     assert response.status_code == 200
-
-    assert mock_get_factbook_data.call_count == 1
-    assert mock_get_factbook_data.call_args == mock.call(country='Netherlands', key='people,languages')
 
     response.context_data['languages'] = {'language': 'Dutch', 'note': 'Many other too'}
     response.context_data['check_duties_link'] = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'

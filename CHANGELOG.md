@@ -36,7 +36,7 @@
 - GP2-1913 - allow user to click anywhere inside the input field to toggle dropdown
 
 ### Enhancements
-
+- GP2-1915 - Ajax load EP data and remove page reload on market update.
 - GP2-1977 - asset path for CSS fonts
 - GP2-1915 - Align EP data snapshots with WTE
 - GP2-1935 - add confirmation modal - business objectives

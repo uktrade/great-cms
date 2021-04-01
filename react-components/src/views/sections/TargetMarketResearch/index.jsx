@@ -7,7 +7,12 @@ import { FormElements } from '@src/components/FormElements'
 import { DataSnapShot } from '@src/components/DataSnapShot'
 
 export const createTargetMarketResearchForm = ({ element, ...params }) => {
-  ReactDOM.render(<FormElements {...params} />, element)
+  ReactDOM.render(
+    <Provider store={Services.store}>
+      <FormElements {...params} />
+    </Provider>,
+    element
+  )
 }
 
 export const createDataSnapShot = ({ element, ...params }) => {
