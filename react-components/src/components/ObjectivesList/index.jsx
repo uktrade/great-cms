@@ -2,10 +2,11 @@ import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import ErrorList from '@src/components/ErrorList'
-import { Objective } from './Objective'
-import Services from '../../Services'
 import { analytics } from '@src/Helpers'
 import { useDebounce } from '@src/components/hooks/useDebounce'
+import { AddButton } from '@src/components/ObjectivesList/AddButton/AddButton'
+import { Objective } from './Objective'
+import Services from '../../Services'
 
 export const ObjectivesList = memo(
   ({ exportPlanID, objectives: initialObjectives }) => {
@@ -13,6 +14,8 @@ export const ObjectivesList = memo(
     const [objectives, setObjectives] = useState(initialObjectives || [])
     const [message, setMessage] = useState(false)
     const debounceMessage = useDebounce(setMessage)
+    const { companyexportplan, start_date, end_date, pk, ...lastField } =
+      objectives.length > 0 ? objectives[objectives.length - 1] : {}
 
     const update = (data) => {
       Services.updateObjective(data)
@@ -61,11 +64,11 @@ export const ObjectivesList = memo(
         })
     }
 
-    const deleteObjective = (pk) => {
-      Services.deleteObjective(pk)
+    const deleteObjective = (id) => {
+      Services.deleteObjective(id)
         .then(() => {
           const updatedObjectives = objectives.filter(
-            (objective) => objective.pk !== pk
+            (objective) => objective.pk !== id
           )
           setObjectives(updatedObjectives)
         })
@@ -99,6 +102,9 @@ export const ObjectivesList = memo(
         {message && <p id="objective-saved-message">Changes saved.</p>}
         {objectives.length !== 5 && (
           <button
+            disabled={
+              objectives.length > 0 ? !objectHasValue(lastField) : false
+            }
             type="button"
             className="button button--add button--large button--icon"
             onClick={createObjective}
