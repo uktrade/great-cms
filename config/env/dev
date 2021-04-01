@@ -61,6 +61,7 @@ WAGTAIL_TRANSFER_LOCAL_DEV=False
 # your secrets-do-not-commit file, but needs to be defined here, because it needs to be defined
 # outside of secrets-do-not-commit else the same value will be used for both source and target sites
 # for Wagtail-Transfer. Sorry.
+AWS_S3_URL_PROTOCOL = env.str('AWS_S3_URL_PROTOCOL', 'http:')
 AWS_STORAGE_BUCKET_NAME=great-local-bucket-one
 RECAPTCHA_PUBLIC_KEY=test_key
 RECAPTCHA_PRIVATE_KEY=test_key

@@ -54,18 +54,19 @@ export const DataSnapshot = memo(({ infoMoment, tooltip }) => {
                 {tooltip && (
                   <Tooltip
                     id="languages-in-target-market-tooltip"
-                    title={tooltip.heading}
-                    content={`<p>${tooltip.description}</p>`}
+                    {...tooltip}
                   />
                 )}
               </Stats>
               <hr className="hr hr--light" />
-              { infoMoment && <Stats
-                data={infoMoment || notAvailable}
-                descriptionClassName="body-l"
-              >
-                <div className="fas fa-lg fa-info-circle text-blue-deep-30" />
-              </Stats> }
+              {infoMoment && (
+                <Stats
+                  data={infoMoment || notAvailable}
+                  descriptionClassName="body-l"
+                >
+                  <div className="fas fa-lg fa-info-circle text-blue-deep-30" />
+                </Stats>
+              )}
             </div>
           </div>
         </div>
@@ -74,21 +75,22 @@ export const DataSnapshot = memo(({ infoMoment, tooltip }) => {
   )
 })
 
-export const Table = memo(({ infoMoment, tooltip }) => (
-  <Provider store={Services.store}>
-    <DataSnapshot infoMoment={infoMoment} tooltip={tooltip} />
-  </Provider>
-))
+export const Table = memo(({ infoMoment, tooltip }) => {
+  return (
+    <Provider store={Services.store}>
+      <DataSnapshot infoMoment={infoMoment} tooltip={tooltip} />
+    </Provider>
+  )
+})
+
+Table.propTypes = {
+  infoMoment: PropTypes.string.isRequired,
+  tooltip: PropTypes.shape({
+    title: PropTypes.string,
+    content: PropTypes.string.isRequired,
+  }),
+}
 
 Table.defaultProps = {
   tooltip: null,
-}
-
-Table.propTypes = {
-  languages: PropTypes.object.isRequired,
-  infoMoment: PropTypes.string.isRequired,
-  tooltip: PropTypes.shape({
-    heading: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-  }),
 }

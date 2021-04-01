@@ -174,11 +174,13 @@ class ExportPlanMarketingApproachView(PageTitleMixin, LessonDetailsMixin, Export
         return context
 
 
-class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanAdaptingYourProductView(
+    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
+):
 
-    form_class = forms.ExportPlanAdaptationForTargetMarketForm
-    success_url = reverse_lazy('exportplan:adaptation-for-your-target-market')
-    title = 'Adaptation for your target market'
+    form_class = forms.ExportPlanAdaptingYourProductForm
+    success_url = reverse_lazy('exportplan:adapting-your-product')
+    title = 'Adapting your product'
 
     def get_initial(self):
         return self.request.user.export_plan.data['adaptation_target_market']

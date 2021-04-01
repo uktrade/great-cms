@@ -167,10 +167,10 @@ def test_export_plan_processor_calculate_ep_section_progress(user, export_plan_d
         [{'objectives': {}, 'company_objectives': ['a']}, 'business-objectives/', 1],
         [
             {'adaptation_target_market': {'labelling': 'non'}, 'target_market_documents': ['a']},
-            'adaptation-for-your-target-market/',
+            'adapting-your-product/',
             2,
         ],
-        [{'adaptation_target_market': {}, 'target_market_documents': ['a']}, 'adaptation-for-your-target-market/', 1],
+        [{'adaptation_target_market': {}, 'target_market_documents': ['a']}, 'adapting-your-product/', 1],
         [{'marketing_approach': {'resources': 'a'}, 'route_markets': ['a']}, 'marketing-approach/', 2],
         [{'marketing_approach': {}, 'route_markets': ['a']}, 'marketing-approach/', 1],
         [

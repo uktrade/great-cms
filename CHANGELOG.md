@@ -3,13 +3,18 @@
 ## Pre-release changes - please put everything in the appropriate category above ======
 
 ### Enhancements
+
 - GP2-1903 - New sign up page design implemented
 
 ### Fixed bugs
+
+- GP2-2120 - Change to adapting your product. Fix tooltips. Add learning. Update data.
 - GP2-2050 - Update incorrect learning banner copy
 
 ## [1.6.0](https://github.com/uktrade/great-cms/releases/tag/1.6.0)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.5.0...1.6.0)
+
 ### Fixed bugs
 
 - GP2-2123 - Add new group select styling and layout
@@ -29,6 +34,7 @@
 - GP2-1930 - text changes, and update data structure whilst at it.
 - GP2-1948 - section complete copy
 - GP2-1913 - allow user to click anywhere inside the input field to toggle dropdown
+
 ### Enhancements
 - GP2-1915 - Ajax load EP data and remove page reload on market update.
 - GP2-1977 - asset path for CSS fonts
@@ -45,6 +51,7 @@
 - NOTICKET - Fix pdf static images
 
 ## [1.5.0](https://github.com/uktrade/great-cms/releases/tag/1.5.0)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.4.0...1.5.0)
 
 ### Fixed bugs
@@ -72,6 +79,7 @@
 - Noticket pdf external datasources
 
 ### Implemented enhancements
+
 - GP2-1648 - Port Geolocation redirects from Bau UI
 - GP2-2044 - CTA's only show sign in label by criteria
 - GP2-1852 - WTE responsive format

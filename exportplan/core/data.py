@@ -9,7 +9,7 @@ from config import settings
 ABOUT_YOUR_BUSINESS = 'About your business'
 OBJECTIVES = 'Business objectives'
 TARGET_MARKETS_RESEARCH = 'Target markets research'
-ADAPTATION_TARGET_MARKET = 'Adaptation for your target market'
+ADAPTATION_TARGET_MARKET = 'Adapting your product'
 MARKETING_APPROACH = 'Marketing approach'
 COSTS_AND_PRICING = 'Costs and pricing'
 GETTING_PAID = 'Getting paid'
@@ -68,6 +68,7 @@ LESSONS = {
         'decide-when-get-paid-export-orders',
         'incoterms',
     ],
+    ADAPTATION_TARGET_MARKET: ['understand-how-you-may-need-adapt-your-product-meet-international-standards'],
 }
 
 
