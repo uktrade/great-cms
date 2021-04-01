@@ -97,6 +97,18 @@ HEADLESS=false make ARGUMENTS="-k test_anonymous_user_should" pytest
  It creates the Great domestic empty homepage and assigns it to the site root.
  It also creates a superuser `test` with password `password`, for local development.
 
+## Geolocation data
+This project includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com/
+
+Maxmind GeoLite2 is used to determine the city or country the user is from via their IP address. The geolocation dataset must be updated to stay fresh. To pull a fresh version of the geolocation data, ensure you have MAXMIND_LICENCE_KEY set to a valid key, then run:
+
+```
+make manage download_geolocation_data
+```
+
+and then delete the downloaded, unexpanded archives (*.gz) before commiting the changed *.mmdb files.
+
+
 ### Wagtail Transfer
 
 We use a third-party app to manage content import from one environment to another. There are specific docs on Wagtail Transer :doc:`here <./wagtail_transfer>`. PLEASE at last read the "GOTCHAS for developers"
