@@ -15,6 +15,7 @@ import contact.urls
 import core.urls
 import domestic.urls
 import exportplan.urls
+import search.urls
 import sso.urls
 from activitystream.views import ActivityStreamView
 
@@ -38,6 +39,7 @@ urlpatterns += [
     path('admin/', decorator_include(skip_ga360, wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),  # NB: doesn't skip GA as we may analytics on this
     path('sso/', include(sso.urls)),
+    path('search/', include(search.urls)),
     path('', include(domestic.urls, namespace='domestic')),
     path('', include(core.urls, namespace='core')),
     path('export-plan/', include(exportplan.urls)),

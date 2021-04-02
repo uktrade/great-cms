@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'captcha',
     'contact.apps.ContactConfig',
     'activitystream.apps.ActivityStreamConfig',
+    'search.apps.SearchConfig',
 ]
 
 MIDDLEWARE = [
