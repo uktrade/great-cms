@@ -27,20 +27,20 @@ class CountryGuidePageSerializer(serializers.Serializer):
 
 
 class ArticlePageSerializer(serializers.Serializer):
+    expected_block_types = ['text', 'pull_quote']
+
     def _get_article_body_content_for_search(self, obj: ArticlePage) -> str:
         """Selectively extract streamfield data from the ArticlePage's 'text' blocks,
         skipping pull quotes entirely.
 
         Strips markup from RichText objects, too."""
 
-        expected_block_types = ('text', 'pull_quote')
-
         streamfield_content = getattr(obj, 'article_body')
 
         searchable_items = []
 
         for streamchild in streamfield_content:
-            if streamchild.block_type not in expected_block_types:
+            if streamchild.block_type not in self.expected_block_types:
                 logger.error(
                     f'Unhandled block type {streamchild.block_type} in '
                     'ArticlePage.body_text - leaving out of search index.'

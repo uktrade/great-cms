@@ -3,7 +3,21 @@ import json
 import pytest
 
 from activitystream.serializers import ArticlePageSerializer
+from domestic.models import ArticlePage
 from tests.unit.domestic.factories import ArticlePageFactory
+
+
+@pytest.mark.django_db
+def test_articleserializer_is_aware_of_all_streamfield_blocks(en_locale):
+
+    available_blocks_for_article_body = [
+        x.name for x in ArticlePage.article_body.field.stream_block.sorted_child_blocks()
+    ]
+
+    serializer = ArticlePageSerializer()
+    # If this test fails, ArticlePageSerializer._get_article_body_content_for_search needs to be extended
+    # to know what to do with StreamField blocks which have been added to ArticlePage.article_body
+    assert sorted(serializer.expected_block_types) == sorted(available_blocks_for_article_body)
 
 
 @pytest.mark.django_db
