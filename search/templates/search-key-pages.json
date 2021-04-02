@@ -7,96 +7,96 @@
   ],
   "orderedItems": [
     {
-      "dit:application": "greatDomesticUi",
-      "id": "dit:greatDomesticUi:KeyPages:1:Update",
+      "dit:application": "greatCms",
+      "id": "dit:greatCms:KeyPages:1:Update",
       "type": "Update",
       "object": {
-        "id": "dit:greatDomesticUi:KeyPages:1",
-        "type": ["Document", "dit:Service", "Service"],
+        "id": "dit:greatCms:KeyPages:1",
+        "type": "dit:greatCms:Service",
         "name": "Get finance - Homepage",
         "content": "When it comes to exporting, having a great product or service is only half the story. Putting the right finance and insurance in place can make the difference, helping you to win contracts, fulfil orders and get paid.",
         "keywords": "Financial help Financial aid finance Export finance Insurance Export insurance",
-        "url": "https://www.great.gov.uk/get-finance/"
+        "url": "{{base_url}}/get-finance/"
       }
     },{
-      "dit:application": "greatDomesticUi",
-      "id": "dit:greatDomesticUi:KeyPages:2:Update",
+      "dit:application": "greatCms",
+      "id": "dit:greatCms:KeyPages:2:Update",
       "type": "Update",
       "object": {
-        "id": "dit:greatDomesticUi:KeyPages:2",
-        "type": ["Document", "dit:Service", "Service"],
+        "id": "dit:greatCms:KeyPages:2",
+        "type": "dit:greatCms:Service",
         "name": "Department for International Trade - Homepage",
         "content": "Thousands of businesses like yours have increased their sales, growth and stability by selling overseas. Explore the potential of exporting with guidance, services and support from the Department for International Trade.",
         "keywords": "",
-        "url": "https://www.great.gov.uk/"
+        "url": "{{base_url}}/"
       }
     },{
-      "dit:application": "greatDomesticUi",
-      "id": "dit:greatDomesticUi:KeyPages:3:Update",
+      "dit:application": "greatCms",
+      "id": "dit:greatCms:KeyPages:3:Update",
       "type": "Update",
       "object": {
-        "id": "dit:greatDomesticUi:KeyPages:3",
-        "type": ["Document", "dit:Service", "Service"],
+        "id": "dit:greatCms:KeyPages:3",
+        "type": "dit:greatCms:Service",
         "name": "Find Export Opportunities - Homepage",
         "content": "Search 18,024 export sales leads and pitch your company to overseas buyers who are looking for products and services like yours.",
         "keywords": "Opportunities Opportunity Business opportunities Business opportunity Export opportunities Export opportunity Exporting",
         "url": "https://opportunities.export.great.gov.uk/"
       }
     }, {
-      "dit:application": "greatDomesticUi",
-      "id": "dit:greatDomesticUi:KeyPages:4:Update",
+      "dit:application": "greatCms",
+      "id": "dit:greatCms:KeyPages:4:Update",
       "type": "Update",
       "object": {
-        "id": "dit:greatDomesticUi:KeyPages:4",
-        "type": ["Document", "dit:Service", "Service"],
+        "id": "dit:greatCms:KeyPages:4",
+        "type": "dit:greatCms:Service",
         "name": "DIT Events - Homepage",
         "content": "Events are one of the most effective ways to support companies looking for trade opportunities. DIT's calendar of events is updated regularly with both UK and overseas events as well as overseas missions, and opportunities across the Tradeshow Access Programme (TAP).",
         "keywords": "Event events export seminar Events DIT exporting seminars Trade show shows",
         "url": "https://www.events.great.gov.uk/ehome/index.php?eventid=200183029&"
       }
     },{
-      "dit:application": "greatDomesticUi",
-      "id": "dit:greatDomesticUi:KeyPages:5:Update",
+      "dit:application": "greatCms",
+      "id": "dit:greatCms:KeyPages:5:Update",
       "type": "Update",
       "object": {
-        "id": "dit:greatDomesticUi:KeyPages:5",
-        "type": ["Document", "dit:Service", "Service"],
+        "id": "dit:greatCms:KeyPages:5",
+        "type": "dit:greatCms:Service",
         "name": "Selling Online Overseas - Homepage",
         "content": "Find online global marketplaces. Identify and apply to sell with marketplaces to reach international consumers",
         "keywords": "Selling online overseas sales export exporting Ecommerce E-commerce Online marketplaces Amazon Ebay Royal Mail Rakuten Trade me Flipkart Onbuy Fruugo Catch.com.au Kaola 1688 1688.com ttHigo Cdiscount Newegg Linio Newegg Newegg business Newegg Canada La Redoute Bol JD Worldwide Fnac Shangpin Spartoo ManoMano Goxip SF Best Darty ePrice Privalia",
-        "url": "https://www.great.gov.uk/selling-online-overseas/"
+        "url": "{{base_url}}/selling-online-overseas/"
       }
     },{
-      "dit:application": "greatDomesticUi",
-      "id": "dit:greatDomesticUi:KeyPages:6:Update",
+      "dit:application": "greatCms",
+      "id": "dit:greatCms:KeyPages:6:Update",
       "type": "Update",
       "object": {
-        "id": "dit:greatDomesticUi:KeyPages:6",
-        "type": ["Document", "dit:Service", "Service"],
+        "id": "dit:greatCms:KeyPages:6",
+        "type": "dit:greatCms:Service",
         "name": "Business Profiles (Find a Buyer) - Homepage",
         "content": "Your business profile on great.gov.uk will let buyers find you. Give companies looking to buy from your industry an easy way to find you. Showcase your company. Highlight your company's projects and experience to give buyers insight into what you do. Pull in the right leads. Attract more business by connecting with the right international buyers.",
         "keywords": "Business profile Business Profiles Trade profile Trade profiles Profile Profiles My business Find buyer",
-        "url": "https://www.great.gov.uk/find-a-buyer/"
+        "url": "{{base_url}}/find-a-buyer/"
       }
     },{
-      "dit:application": "greatDomesticUi",
-      "id": "dit:greatDomesticUi:KeyPages:7:Update",
+      "dit:application": "greatCms",
+      "id": "dit:greatCms:KeyPages:7:Update",
       "type": "Update",
       "object": {
-        "id": "dit:greatDomesticUi:KeyPages:7",
-        "type": ["Document", "dit:Service", "Service"],
+        "id": "dit:greatCms:KeyPages:7",
+        "type": "dit:greatCms:Service",
         "name": "Advice - Homepage",
         "content": "Explore the potential of exporting with guidance and support from the Department for International Trade.",
         "keywords": "Advice News Article Support Guidance",
-        "url": "https://www.great.gov.uk/advice/"
+        "url": "{{base_url}}/advice/"
       }
     },{
-      "dit:application": "greatDomesticUi",
-      "id": "dit:greatDomesticUi:KeyPages:8:Update",
+      "dit:application": "greatCms",
+      "id": "dit:greatCms:KeyPages:8:Update",
       "type": "Update",
       "object": {
-        "id": "dit:greatDomesticUi:KeyPages:8",
-        "type": ["Document", "dit:Article", "Article"],
+        "id": "dit:greatCms:KeyPages:8",
+        "type": "dit:greatCms:Article",
         "name": "Guidance on how to prepare for Brexit",
         "content": "The United Kingdom (UK) is leaving the European Union (EU). Leaving the EU means a number of changes that will affect businesses and individual citizens. Use the information below to find out how to prepare and the steps you may need to take.",
         "keywords": "Brexit Brexit leave european union euexit",
@@ -104,29 +104,29 @@
         "boost": "boost"
       }
     },{
-      "dit:application": "greatDomesticUi",
-      "id": "dit:greatDomesticUi:KeyPages:9:Update",
+      "dit:application": "greatCms",
+      "id": "dit:greatCms:KeyPages:9:Update",
       "type": "Update",
       "object": {
-        "id": "dit:greatDomesticUi:KeyPages:9",
+        "id": "dit:greatCms:KeyPages:9",
         "type": "Service",
-        "type": ["Document", "dit:Service", "Service"],
+        "type": "dit:greatCms:Service",
         "name": "Brexit enquiry form",
         "content": "See our guidance on the transition period and preparing your businessfor 2021. If you can’t see the information you’re looking for, complete the form below and one of our experts will try to help you.",
         "keywords": "Brexit Brexit leave european union euexit",
-        "url": "https://www.great.gov.uk/eu-exit-news/contact/"
+        "url": "{{base_url}}/eu-exit-news/contact/"
       }
     },{
-      "dit:application": "greatDomesticUi",
-      "id": "dit:greatDomesticUi:KeyPages:10:Update",
+      "dit:application": "greatCms",
+      "id": "dit:greatCms:KeyPages:10:Update",
       "type": "Update",
       "object": {
-        "id": "dit:greatDomesticUi:KeyPages:10",
-        "type": ["Document", "dit:Service", "Service"],
+        "id": "dit:greatCms:KeyPages:10",
+        "type": "dit:greatCms:Service",
         "name": "Report a trade barrier",
         "content": "Tell us if you think you’re facing a trade barrier. We might be able to help you resolve it.",
         "keywords": "Brexit trade barrier barriers report tariff restrictions restrictions tarriffs regulation regulations",
-        "url": "https://www.great.gov.uk/report-trade-barrier/"
+        "url": "{{base_url}}/report-trade-barrier/"
       }
     }
   ]
