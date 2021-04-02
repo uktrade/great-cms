@@ -30,9 +30,7 @@ class ArticlePageSerializer(serializers.Serializer):
     expected_block_types = ['text', 'pull_quote']
 
     def _get_article_body_content_for_search(self, obj: ArticlePage) -> str:
-        """Selectively extract streamfield data from the ArticlePage's 'text' blocks,
-        skipping pull quotes entirely.
-
+        """Selectively extract streamfield data from the blocks in ArticlePage's article_body streamfield.
         Strips markup from RichText objects, too."""
 
         streamfield_content = getattr(obj, 'article_body')
@@ -50,6 +48,11 @@ class ArticlePageSerializer(serializers.Serializer):
             block_value = streamchild.value
             if type(block_value) == RichText:
                 searchable_items.append(get_text_for_indexing(block_value.__html__()))
+
+            if streamchild.block_type == 'pull_quote':
+                pull_quote_items = block_value.values()
+                if any(pull_quote_items):
+                    searchable_items.append(get_text_for_indexing(' '.join(pull_quote_items)))
 
         return ' '.join(searchable_items)
 

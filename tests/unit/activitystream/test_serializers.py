@@ -45,7 +45,7 @@ def test_articleserializer__get_article_body_content_for_search__simple(en_local
 
 
 @pytest.mark.django_db
-def test_articleserializer__get_article_body_content_for_search__show_pull_quotes_skipped(en_locale):
+def test_articleserializer__get_article_body_content_for_search__pull_quote_entirely_included(en_locale):
 
     article_instance = ArticlePageFactory(
         article_title='article test',
@@ -61,11 +61,11 @@ def test_articleserializer__get_article_body_content_for_search__show_pull_quote
             {
                 'type': 'pull_quote',
                 'value': {
-                    'quote': 'dummy_quote',
-                    'attribution': 'dummy_attribution',
-                    'role': 'dummy_role',
-                    'organisation': 'dummy_organisation',
-                    'organisation_link': 'dummy_organisation_link',
+                    'quote': 'dummy quotestring',
+                    'attribution': 'dummy attribution string',
+                    'role': 'dummy role string',
+                    'organisation': 'dummy organisation string',
+                    'organisation_link': 'https://example.com/dummy-org-link',
                 },
             },
         ]
@@ -75,7 +75,10 @@ def test_articleserializer__get_article_body_content_for_search__show_pull_quote
     serializer = ArticlePageSerializer()
     searchable_content = serializer._get_article_body_content_for_search(article_instance)
 
-    assert searchable_content == 'Hello, World!'
+    assert searchable_content == (
+        'Hello, World! dummy quotestring dummy attribution string dummy role string '
+        'dummy organisation string https://example.com/dummy-org-link'
+    )
 
 
 @pytest.mark.django_db
@@ -95,11 +98,11 @@ def test_articleserializer__get_article_body_content_for_search__more_complex_co
             {
                 'type': 'pull_quote',
                 'value': {
-                    'quote': 'dummy_quote',
-                    'attribution': 'dummy_attribution',
-                    'role': 'dummy_role',
-                    'organisation': 'dummy_organisation',
-                    'organisation_link': 'dummy_organisation_link',
+                    'quote': 'dummy quotestring',
+                    'attribution': 'dummy attribution string',
+                    'role': 'dummy role string',
+                    'organisation': 'dummy organisation string',
+                    'organisation_link': 'https://example.com/dummy-org-link',
                 },
             },
             {
@@ -113,7 +116,11 @@ def test_articleserializer__get_article_body_content_for_search__more_complex_co
     serializer = ArticlePageSerializer()
     searchable_content = serializer._get_article_body_content_for_search(article_instance)
 
-    assert searchable_content == 'Hello, World! Goodbye, World! Lorem ipsum dolor sit amet.'
+    assert searchable_content == (
+        'Hello, World! dummy quotestring dummy attribution string dummy role string '
+        'dummy organisation string https://example.com/dummy-org-link '
+        'Goodbye, World! Lorem ipsum dolor sit amet.'
+    )
 
 
 @pytest.mark.django_db
