@@ -177,7 +177,12 @@ def _set_article_body_on_article(article_instance, content):
 
 @override_settings(BASE_URL='https://great.test/')
 @pytest.mark.django_db
-def test_lists_live_articles_in_stream(api_client, en_locale, domestic_site, domestic_homepage):
+def test_lists_live_articles_in_stream(
+    api_client,
+    en_locale,
+    domestic_site,
+    domestic_homepage,
+):
 
     # Create the articles
     with freeze_time('2020-01-14 12:00:01'):

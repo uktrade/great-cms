@@ -43,7 +43,7 @@ urlpatterns += [
     path('export-plan/', include(exportplan.urls)),
     path(
         'activity-stream/v1/',  # v1 refers to OUR version of the endpoint we're making available
-        ActivityStreamView.as_view(),
+        skip_ga360(ActivityStreamView.as_view()),
         name='activity-stream',
     ),
 ]

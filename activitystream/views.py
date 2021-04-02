@@ -1,3 +1,4 @@
+import django_filters.rest_framework
 from django.utils.decorators import decorator_from_middleware
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
@@ -20,6 +21,11 @@ class ActivityStreamView(ListAPIView):
 
     authentication_classes = (ActivityStreamAuthentication,)
     permission_classes = ()
+    filter_backends = [
+        # This was a default project-wide setting in V1, but used selectively here to avoid
+        # risking breaking other DRF usage
+        django_filters.rest_framework.DjangoFilterBackend,
+    ]
 
     @staticmethod
     def _build_after(request, after_ts, after_id):
