@@ -283,6 +283,7 @@ def test_lists_live_articles_in_stream(
     assert len(items) == 6
 
     assert article_attribute(items[0], 'name') == 'Article A'
+    assert article_attribute(items[0], 'type') == 'dit:greatCms:Article'
     assert article_attribute(items[0], 'id') == id_prefix + str(article_a.id)
     assert article_attribute(items[0], 'summary') == 'Descriptive text'
     assert article_attribute(items[0], 'content') == 'Body Text for Article A'
@@ -290,22 +291,27 @@ def test_lists_live_articles_in_stream(
     assert items[0]['published'] == '2020-01-14T12:00:01+00:00'
 
     assert article_attribute(items[1], 'name') == 'Article B'
+    assert article_attribute(items[0], 'type') == 'dit:greatCms:Article'
     assert article_attribute(items[1], 'id') == id_prefix + str(article_b.id)
     assert items[1]['published'] == '2020-01-14T12:00:01+00:00'
 
     assert article_attribute(items[2], 'name') == 'Marketing Article One'
+    assert article_attribute(items[0], 'type') == 'dit:greatCms:Article'
     assert article_attribute(items[2], 'id') == id_prefix + str(marketing_article_1.id)
     assert items[2]['published'] == '2020-01-14T12:00:01+00:00'
 
     assert article_attribute(items[3], 'name') == 'Article C'
+    assert article_attribute(items[0], 'type') == 'dit:greatCms:Article'
     assert article_attribute(items[3], 'id') == id_prefix + str(article_c.id)
     assert items[3]['published'] == '2020-01-14T12:00:02+00:00'
 
     assert article_attribute(items[4], 'name') == 'Marketing Article Two'
+    assert article_attribute(items[0], 'type') == 'dit:greatCms:Article'
     assert article_attribute(items[4], 'id') == id_prefix + str(marketing_article_2.id)
     assert items[4]['published'] == '2020-01-14T12:00:02+00:00'
 
     assert article_attribute(items[5], 'name') == 'Market Page E'
+    assert article_attribute(items[0], 'type') == 'dit:greatCms:Article'
     assert article_attribute(items[5], 'id') == id_prefix + str(country_guide_page_e.id)
     assert items[5]['published'] == '2020-01-14T12:00:02+00:00'
     assert article_attribute(items[5], 'keywords') == 'tag1 tag2'

@@ -15,7 +15,7 @@ class CountryGuidePageSerializer(serializers.Serializer):
             'type': 'Update',
             'published': obj.last_published_at.isoformat('T'),
             'object': {
-                'type': 'Article',
+                'type': 'dit:greatCms:Article',
                 'id': 'dit:greatCms:Article:' + str(obj.id),
                 'name': obj.heading,
                 'summary': obj.sub_heading,
@@ -63,7 +63,7 @@ class ArticlePageSerializer(serializers.Serializer):
             'type': 'Update',
             'published': obj.last_published_at.isoformat('T'),
             'object': {
-                'type': 'Article',
+                'type': 'dit:greatCms:Article',
                 'id': 'dit:greatCms:Article:' + str(obj.id),
                 'name': obj.article_title,
                 'summary': obj.article_teaser,
