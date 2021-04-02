@@ -132,8 +132,6 @@ factory-boy==2.12.0
     #   wagtail-factories
 faker==8.0.0
     # via factory-boy
-freezegun==0.1.5
-    # via -r requirements.in
 future==0.18.2
     # via arabic-reshaper
 geoip2==2.9.0
@@ -150,6 +148,11 @@ idna==2.10
     # via requests
 imagesize==1.2.0
     # via sphinx
+<<<<<<< HEAD
+=======
+importlib-metadata==3.10.0
+    # via jsonschema
+>>>>>>> GP2-1850: Initial pass at porting activitystream app from v1 to v2 - 98% complete
 iso3166==1.0.1
     # via -r requirements.in
 jinja2==2.11.3
@@ -216,7 +219,6 @@ python-dateutil==2.8.1
     #   botocore
     #   dateparser
     #   faker
-    #   freezegun
 pytz==2020.1
     # via
     #   babel
@@ -250,7 +252,9 @@ s3transfer==0.3.6
 sentry-sdk==0.13.5
     # via -r requirements.in
 sigauth==4.3.0
-    # via directory-client-core
+    # via
+    #   -r requirements.in
+    #   directory-client-core
 six==1.15.0
     # via
     #   airtable-python-wrapper
@@ -259,6 +263,7 @@ six==1.15.0
     #   html5lib
     #   jsonschema
     #   l18n
+    #   mohawk
     #   python-bidi
     #   python-dateutil
     #   sphinx

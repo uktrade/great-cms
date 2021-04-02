@@ -16,6 +16,7 @@ import core.urls
 import domestic.urls
 import exportplan.urls
 import sso.urls
+from activitystream.views import ActivityStreamView
 
 urlpatterns = []
 
@@ -40,6 +41,11 @@ urlpatterns += [
     path('', include(domestic.urls, namespace='domestic')),
     path('', include(core.urls, namespace='core')),
     path('export-plan/', include(exportplan.urls)),
+    path(
+        'activity-stream/v1/',  # v1 refers to OUR version of the endpoint we're making available
+        ActivityStreamView.as_view(),
+        name='activity-stream',
+    ),
 ]
 
 # Should we show the contact pages we're porting from V1 yet?
