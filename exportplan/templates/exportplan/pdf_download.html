@@ -101,13 +101,13 @@
     </td>
   </tr>
   <tr class="pad-b-1">
-    <td class="col-10-5">
+    <td class="col-10-5 align-top">
       <h6>Company</h6>
-      <h2>{{ user.company.name|default:"British Maple Ltd" }}</h2>
+      {% include "exportplan/includes/pdf_blank.html" with data=user.company.name tag="h2" lines=1 %}
     </td>
     <td class="col-10-5">
       <h6>Product</h6>
-      <h2>{{ export_plan.data.export_commodity_codes.0.commodity_name }}</h2>
+      {% include "exportplan/includes/pdf_blank.html" with data=export_plan.data.export_commodity_codes.0.commodity_name tag="h2" lines=1 %}
     </td>
   </tr>
   <tr class="pad-b-1">
@@ -117,7 +117,7 @@
     </td>
     <td class="col-10-5">
       <h6>HS Code</h6>
-      <h2>{{ export_plan.data.export_commodity_codes.0.commodity_code }}</h2>
+      {% include "exportplan/includes/pdf_blank.html" with data=export_plan.export_commodity_code tag="h2" lines=1 %}
     </td>
   </tr>
   <tr class="pad-b-1">
@@ -127,7 +127,7 @@
     </td>
     <td class="col-10-5">
       <h6>Exporting to</h6>
-      <h2>{{ export_plan.data.export_countries.0.country_name }}</h2>
+      {% include "exportplan/includes/pdf_blank.html" with data=export_plan.export_country_name tag="h2" lines=1 %}
     </td>
   </tr>
   <tr class="hr hr--blue-deep-100"><td></td></tr>
@@ -141,34 +141,41 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h2 class="pad-t-0">Who we are</h2>
-            <p class="pad-t-0">Prepopulated text from About your business section on the questions 'How you started?' and 'How you make your products'. Simon came across a book of gin recipes on a visit to The Gin Museum of London.</p>
+            {% include "exportplan/includes/pdf_blank.html" with data=export_plan.data.about_your_business.story tag="p" lines=5 tag_class="pad-t-0" %}
           </td>
         </tr>
+        {% if export_plan.data.about_your_business.story %}
         <tr class="hr hr--blue-deep-20"><td></td></tr>
+        {% endif %}
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h2 class="pad-t-0">Why we want to export</h2>
-            <p class="pad-t-0">Prepopulated text from Business section on the questions 'Why do you want to export'. This inspired him to recreate gin distilled in the midlands 200 hundred years ago, with a modern twist.</p>
+            {% include "exportplan/includes/pdf_blank.html" with data=export_plan.data.objectives.rationale tag="p" lines=5 tag_class="pad-t-0" %}
           </td>
         </tr>
+        {% if export_plan.data.objectives.rationale %}
         <tr class="hr hr--blue-deep-20"><td></td></tr>
+        {% endif %}
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h2 class="pad-t-0">Where are we based</h2>
-            <p class="pad-t-0">Prepopulated text from About your business section on the ques- tions 'Where are you based?'.</p>
+            {% include "exportplan/includes/pdf_blank.html" with data=export_plan.data.about_your_business.location tag="p" lines=5 tag_class="pad-t-0" %}
           </td>
         </tr>
+        {% if export_plan.data.about_your_business.location %}
         <tr class="hr hr--blue-deep-20"><td></td></tr>
+        {% endif %}
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h2 class="pad-t-0">What is the demand for our product?</h2>
-            <p class="pad-t-0">Prepopulated text from Target Market Research section on the questions 'Describe the consumer demand for your product.'</p>
+            {% include "exportplan/includes/pdf_blank.html" with data=export_plan.data.target_markets_research.demand tag="p" lines=5 tag_class="pad-t-0" %}
           </td>
         </tr>
       </table>
       <!-- ./Nested table -->
     </td>
     <td class="col-10-3 align-top">
+      {% if export_plan.data.funding_and_credit.funding_amount_required or total_funding.calculated_total_funding or calculated_pricing.calculated_cost_pricing.total_direct_costs or calculated_pricing.calculated_cost_pricing.total_overhead_costs or export_plan.data.getting_paid.payment_method.payment_method_label or export_plan.data.getting_paid.incoterms.incoterms_transport_label %}
       <h3 class="pad-b-1">Funding</h3>
       <h6 class="body-gamma pad-y-0">Total cost</h6>
       <p class="pad-t-0">GBP {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma }}</p>
@@ -186,6 +193,7 @@
       <p class="pad-t-0"><strong>{{ export_plan.data.getting_paid.payment_method.payment_method_label|default:"NA" }}</strong></p>
       <h6 class="body-gamma pad-y-0">Incoterms</h6>
       <p class="pad-t-0"><strong>{{ export_plan.data.getting_paid.incoterms.incoterms_transport_label|default:"NA" }}</strong></p>
+      {% endif %}
     </td>
   </tr>
 </table>
