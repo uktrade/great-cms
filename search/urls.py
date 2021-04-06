@@ -6,7 +6,7 @@ import search.views
 urlpatterns = [
     path(
         r'key-pages/',
-        skip_ga360(search.views.key_pages),
+        skip_ga360(search.views.key_pages_for_indexing),
         name='search-key-pages',
     )
 ]
