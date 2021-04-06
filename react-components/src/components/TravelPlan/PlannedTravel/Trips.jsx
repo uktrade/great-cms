@@ -5,8 +5,9 @@ import { AddButton } from '@src/components/ObjectivesList/AddButton/AddButton'
 import { Trip } from './Trip'
 
 export const Trips = memo(({ formData, onChange, deleteTrip, addTrip }) => {
-  const isDisabled =
-    formData.length > 0 ? !formData[formData.length - 1].note : false
+  const isDisabled = formData.length
+    ? !formData[formData.length - 1].note
+    : false
   return (
     <>
       {formData.length !== 0 && (

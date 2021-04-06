@@ -14,8 +14,13 @@ export const ObjectivesList = memo(
     const [objectives, setObjectives] = useState(initialObjectives || [])
     const [message, setMessage] = useState(false)
     const debounceMessage = useDebounce(setMessage)
-    const { companyexportplan, start_date, end_date, pk, ...lastField } =
-      objectives.length > 0 ? objectives[objectives.length - 1] : {}
+    const {
+      companyexportplan,
+      start_date,
+      end_date,
+      pk,
+      ...lastField
+    } = objectives.length ? objectives[objectives.length - 1] : {}
     const limit = 5
 
     const update = (data) => {
@@ -102,9 +107,7 @@ export const ObjectivesList = memo(
         ))}
         {message && <p id="objective-saved-message">Changes saved.</p>}
         <AddButton
-          isDisabled={
-            objectives.length > 0 ? !objectHasValue(lastField) : false
-          }
+          isDisabled={objectives.length ? !objectHasValue(lastField) : false}
           numberOfItems={objectives.length}
           add={createObjective}
           field={lastField}
