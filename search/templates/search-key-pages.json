@@ -109,7 +109,6 @@
       "type": "Update",
       "object": {
         "id": "dit:greatCms:KeyPages:9",
-        "type": "Service",
         "type": "dit:greatCms:Service",
         "name": "Brexit enquiry form",
         "content": "See our guidance on the transition period and preparing your businessfor 2021. If you can’t see the information you’re looking for, complete the form below and one of our experts will try to help you.",
