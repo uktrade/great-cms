@@ -1,0 +1,15 @@
+{% load int_to_range %}
+
+{% if not data %}
+<table class="blank-lines {{ line_class|default:'' }}">
+{% for i in lines|int_to_range %}
+  <tr class="">
+    <td class="pad-t-2"></td>
+  </tr>
+{% endfor %}
+</table>
+{% else %}
+<{{ tag }} class="{{ tag_class|default:'' }}">
+  {{ data }}
+</{{ tag }}>
+{% endif %}
