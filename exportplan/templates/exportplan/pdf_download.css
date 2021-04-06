@@ -62,6 +62,10 @@ pdftoc.pdftoclevel0 {
   padding-top: 8pt;
 }
 
+.blank-lines tr td {
+  border-bottom: 1pt solid #d2d0da;
+}
+
 /* Typography */
 @font-face {
   font-family: 'FS Lucas';
