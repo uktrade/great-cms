@@ -4,6 +4,7 @@
 
 ### Enhancements
 - GP2-2224 - Python upgrade to 3.9.1
+- GP2-2084 - Table (Add element functionality) - All pages
 - GP2-1902 - New sign in page design implemented
 - GP2-1903 - New sign up page design implemented
 
