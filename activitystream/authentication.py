@@ -32,6 +32,10 @@ class ActivityStreamAuthentication(BaseAuthentication):
         if 'HTTP_AUTHORIZATION' not in request.META:
             raise AuthenticationFailed(NO_CREDENTIALS_MESSAGE)
 
+        # Required to make mohawk auth work locally, and no harm in production,
+        # so saves having to have it as a temporary monkey-patch
+        request.META['CONTENT_TYPE'] = b''
+
         try:
             hawk_receiver = authorise(request)
         except HawkFail as e:
