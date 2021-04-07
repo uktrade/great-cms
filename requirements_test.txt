@@ -88,13 +88,7 @@ dateparser==0.7.2
     #   -r requirements.in
     #   -r requirements_test.in
 decorator==5.0.5
-<<<<<<< HEAD
     # via ipython
-=======
-    # via
-    #   ipython
-    #   traitlets
->>>>>>> GP2-1850: Initial pass at porting activitystream app from v1 to v2 - 98% complete
 directory-api-client==22.15.0
     # via -r requirements.in
 directory-client-core==6.3.0
@@ -243,22 +237,6 @@ idna==2.10
     # via requests
 imagesize==1.2.0
     # via sphinx
-<<<<<<< HEAD
-=======
-importlib-metadata==3.10.0
-    # via
-    #   flake8
-    #   jsonschema
-    #   pep517
-    #   pluggy
-    #   pre-commit
-    #   pytest
-    #   virtualenv
-importlib-resources==5.1.2
-    # via
-    #   pre-commit
-    #   virtualenv
->>>>>>> GP2-1850: Initial pass at porting activitystream app from v1 to v2 - 98% complete
 iniconfig==1.1.1
     # via pytest
 ipdb==0.13.7
@@ -463,7 +441,7 @@ requests==2.25.1
     #   wagtail
 ruamel.yaml.clib==0.2.2
     # via ruamel.yaml
-ruamel.yaml==0.17.2
+ruamel.yaml==0.17.4
     # via pre-commit-hooks
 s3transfer==0.3.6
     # via boto3

@@ -148,11 +148,6 @@ idna==2.10
     # via requests
 imagesize==1.2.0
     # via sphinx
-<<<<<<< HEAD
-=======
-importlib-metadata==3.10.0
-    # via jsonschema
->>>>>>> GP2-1850: Initial pass at porting activitystream app from v1 to v2 - 98% complete
 iso3166==1.0.1
     # via -r requirements.in
 jinja2==2.11.3
