@@ -99,7 +99,9 @@ def format_query(query, page):
                             'terms': {
                                 'type': [
                                     'Opportunity',
+                                    'dit:Opportunity',
                                     'Market',
+                                    'dit:Market',
                                     'dit:greatCms:Article',
                                     'dit:greatCms:Service',
                                 ]
