@@ -5,16 +5,16 @@ version: 2
 ###############################################################################
 
 python: &python
-  image: circleci/python:3.6.6
+  image: circleci/python:3.9.1
 
 python_node_browsers: &python_node_browsers
-  image: circleci/python:3.6.6-node-browsers
+  image: circleci/python:3.9.1-node-browsers
 
 node: &node
   image: circleci/node:12
 
 postgres: &postgres
-  - image: circleci/postgres:9.6.16-alpine-ram
+  - image: circleci/postgres:9.6.16-alpine
     environment:
       POSTGRES_USER: debug
       POSTGRES_PASSWORD: debug
@@ -33,7 +33,7 @@ install_postgresql_client: &install_postgresql_client
     name: Install PostgreSQL Client
     command: |
       sudo apt-get update
-      sudo apt-get install postgresql-client-9.6
+      sudo apt-get install postgresql-client
 
 create_virtualenv_and_install_dependencies: &create_virtualenv_and_install_dependencies
   run:
