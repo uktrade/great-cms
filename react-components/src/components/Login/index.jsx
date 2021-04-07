@@ -56,6 +56,7 @@ export const Login = (props) => {
         <p>Don't have an account?</p>
         <a href={Services.config.signupUrl} className="button">Sign up</a>
       </div>
+      <img src="/static/images/sign-in.png" alt="" />
     </div>
   </div>)
 

@@ -8,14 +8,24 @@
     }
 
     .signup__right-panel {
+      position: relative;
+
       h1 {
         text-align: center;
         line-height: 50px;
+      }
+
+      img {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        right: -30px;
       }
     }
 
     .signup__right-panel__headings {
       text-align: center;
+      z-index: 1;
 
       h1 {
         line-height: 52px;
