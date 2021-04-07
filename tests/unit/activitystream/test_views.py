@@ -37,7 +37,7 @@ def article_attribute(activity, attribute):
 
 def auth_sender(
     key_id=settings.ACTIVITY_STREAM_ACCESS_KEY_ID,
-    secret_key=settings.ACTIVITY_STREAM_SECRET_ACCESS_KEY,
+    secret_key=settings.ACTIVITY_STREAM_SECRET_KEY,
     url=URL,
     method='GET',
     content='',

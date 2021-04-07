@@ -121,30 +121,30 @@ def search_with_activitystream(query):
     """
     request = requests.Request(
         method='GET',
-        url=settings.ACTIVITY_STREAM_API_URL,
+        url=settings.ACTIVITY_STREAM_URL,
         data=query,
     ).prepare()
 
     auth = Sender(
         {
-            'id': settings.ACTIVITY_STREAM_API_ACCESS_KEY,
-            'key': settings.ACTIVITY_STREAM_API_SECRET_KEY,
+            'id': settings.ACTIVITY_STREAM_ACCESS_KEY_ID,
+            'key': settings.ACTIVITY_STREAM_SECRET_KEY,
             'algorithm': 'sha256',
         },
-        settings.ACTIVITY_STREAM_API_URL,
+        settings.ACTIVITY_STREAM_URL,
         'GET',
         content=query,
         content_type='application/json',
     ).request_header
 
     # Note that the X-Forwarded-* items are overridden by Gov PaaS values
-    # in production, and thus the value of ACTIVITY_STREAM_API_IP_WHITELIST
+    # in production, and thus the value of ACTIVITY_STREAM_IP_ALLOWLIST
     # in production is irrelivant. It is included here to allow the app to
     # run locally or outside of Gov PaaS.
     request.headers.update(
         {
             'X-Forwarded-Proto': 'https',
-            'X-Forwarded-For': settings.ACTIVITY_STREAM_API_IP_WHITELIST,
+            'X-Forwarded-For': settings.ACTIVITY_STREAM_IP_ALLOWLIST,
             'Authorization': auth,
             'Content-Type': 'application/json',
         }
