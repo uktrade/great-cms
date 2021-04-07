@@ -105,11 +105,13 @@ class BaseContentPage(
         return retval
 
     def get_absolute_url(self):
+
         base_url = settings.BASE_URL
         if base_url[-1] == '/':
             base_url = base_url[:-1]
 
-        return base_url + self.get_url()
+        path = self.get_url()
+        return base_url + path if path else ''
 
 
 class SocialLinksPageMixin(Page):
