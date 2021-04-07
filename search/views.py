@@ -40,9 +40,9 @@ class TestSearchAPIView(TemplateView):
 
     Due to shifts in the search order provided, we need to
     set up tests for the search order. The challenge is that
-    all GDUI does is send an elasticsearch query to the elasticsearch
+    all great-cms does is send an elasticsearch query to the elasticsearch
     database which sits inside the Activity Stream project. Therefore we
-    can’t create fixtures in the DB. Also, f we mock the
+    can’t create fixtures in the DB. Also, if we mock the
     database response, then the test doesn’t test anything.
 
     Another approach would be to test against the staging or
