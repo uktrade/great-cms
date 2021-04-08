@@ -19,7 +19,7 @@ export const Options = memo(
               <Option
                 key={pk}
                 id={pk}
-                value={Number(amount)}
+                value={amount}
                 selectedOption={funding_option}
                 currency={currency}
                 selectData={selectData}
