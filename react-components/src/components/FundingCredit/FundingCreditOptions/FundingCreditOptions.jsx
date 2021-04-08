@@ -32,7 +32,6 @@ export const FundingCreditOptions = memo(
     const addFunding = () => {
       const newFunding = {}
       newFunding.companyexportplan = companyexportplan
-      newFunding.amount = 0
 
       Services.createFundingCreditOption({ ...newFunding })
         .then((data) => setFunding([...funding, data]))
