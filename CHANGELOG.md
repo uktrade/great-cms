@@ -5,10 +5,15 @@
 ### Enhancements
 
 - GP2-2170 - PDF Download, with blank support
+- GP2-1904 - New sign in page mobile
+- GP2-2224 - Python upgrade to 3.9.1
+- GP2-2084 - Table (Add element functionality) - All pages
+- GP2-1902 - New sign in page design implemented
 - GP2-1903 - New sign up page design implemented
 
 ### Fixed bugs
 
+- GP2-2215 - Fix privacy policy sign up link
 - GP2-2120 - Change to adapting your product. Fix tooltips. Add learning. Update data.
 - GP2-2050 - Update incorrect learning banner copy
 

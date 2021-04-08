@@ -23,7 +23,7 @@
 
 ### Requirements
 
-* [Python 3.6](https://www.python.org/downloads/release/python-368/)
+* [Python 3.9](https://www.python.org/downloads/release/python-391/)
 * [Postgres 10](https://www.postgresql.org/)
 * [Redis](https://redis.io/)
 * Any [browser based on Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium) and [Chrome driver](https://chromedriver.chromium.org/)

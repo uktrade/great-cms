@@ -31,9 +31,9 @@ const props = {
       errors: {},
     },
     {
-      description: '',
-      owner: '',
-      planned_reviews: '',
+      description: 'Some text',
+      owner: 'Jane Doe',
+      planned_reviews: 'Lorem ipsum',
       start_date: '',
       end_date: '',
       companyexportplan: 1,
@@ -59,6 +59,7 @@ beforeEach(() => {
 
 afterEach(() => {
   jest.useRealTimers()
+  Services.createObjective.mockClear()
   cleanup()
 })
 
@@ -97,36 +98,46 @@ describe('ObjectivesList', () => {
     })
   })
 
-  it('should add an objective', async () => {
-    Services.createObjective = jest.fn(() =>
-      Promise.resolve({
-        json: () =>
-          Promise.resolve({
-            companyexportplan: 3,
-            description: '',
-            end_date: '2020-12-11',
-            owner: '',
-            pk: 53,
-            planned_reviews: '',
-            start_date: '2020-12-11',
-          }),
-      })
-    )
-
-    const { getByText, queryByLabelText } = setup({ ...props })
-    fireEvent.click(getByText('Add goal 4 of 5'))
-
-    expect(queryByLabelText('Objective 4')).not.toBeInTheDocument()
-    await waitFor(() => {
-      expect(Services.createObjective).toHaveBeenCalledTimes(1)
-      queryByLabelText('Objective 4')
-      getByText('Add goal 5 of 5')
-    })
-  })
-
   it('Should delete objective', async () => {
     Services.deleteObjective = jest.fn(() => Promise.resolve())
-    const { container, queryByLabelText } = setup({ ...props })
+    const { container, queryByLabelText } = setup({
+      ...props,
+      objectives: [
+        {
+          description: 'Some text',
+          owner: 'Jane Doe',
+          planned_reviews: 'Lorem ipsum',
+          start_date: '',
+          end_date: '',
+          companyexportplan: 1,
+          pk: 1,
+          isLoading: false,
+          showSavedMessage: false,
+          errors: {},
+        },
+        {
+          description: 'Some text',
+          owner: 'Jane Doe',
+          planned_reviews: 'Lorem ipsum',
+          start_date: '',
+          end_date: '',
+          companyexportplan: 1,
+          pk: 2,
+          isLoading: false,
+          showSavedMessage: false,
+          errors: {},
+        },
+        {
+          description: '',
+          owner: '',
+          planned_reviews: '',
+          start_date: '',
+          end_date: '',
+          companyexportplan: 1,
+          pk: 3,
+        },
+      ],
+    })
     const button = container.querySelectorAll('.button--delete')[2]
 
     fireEvent.click(button)
@@ -135,6 +146,73 @@ describe('ObjectivesList', () => {
       expect(Services.deleteObjective).toHaveBeenCalledTimes(1)
       expect(Services.deleteObjective).toHaveBeenCalledWith(3)
       expect(queryByLabelText('Objective 3')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('Add button', () => {
+    describe('should add an objective', () => {
+      Services.createObjective = jest.fn(() =>
+        Promise.resolve({
+          json: () =>
+            Promise.resolve({
+              companyexportplan: 3,
+              description: '',
+              end_date: '2020-12-11',
+              owner: '',
+              pk: 53,
+              planned_reviews: '',
+              start_date: '2020-12-11',
+            }),
+        })
+      )
+      it('initial load', async () => {
+        const { getByText, queryByLabelText } = setup({
+          ...props,
+          objectives: [],
+        })
+        fireEvent.click(getByText('Add goal 1 of 5'))
+
+        expect(queryByLabelText('Objective 1')).not.toBeInTheDocument()
+        await waitFor(() => {
+          expect(Services.createObjective).toHaveBeenCalledTimes(1)
+          queryByLabelText('Objective 1')
+          getByText('Add goal 2 of 5')
+        })
+      })
+
+      it('has multiple element', async () => {
+        const { getByText, queryByLabelText } = setup({ ...props })
+        fireEvent.click(getByText('Add goal 4 of 5'))
+
+        expect(queryByLabelText('Objective 4')).not.toBeInTheDocument()
+        await waitFor(() => {
+          expect(Services.createObjective).toHaveBeenCalledTimes(1)
+          queryByLabelText('Objective 4')
+          getByText('Add goal 5 of 5')
+        })
+      })
+    })
+    it('Should be disabled', async () => {
+      const { getByText, queryByLabelText } = setup({
+        ...props,
+        objectives: [
+          {
+            companyexportplan: 3,
+            description: '',
+            end_date: '2020-12-11',
+            owner: '',
+            pk: 53,
+            planned_reviews: '',
+            start_date: '2020-12-11',
+          },
+        ],
+      })
+      fireEvent.click(getByText('Add goal 2 of 5'))
+
+      expect(queryByLabelText('Objective 2')).not.toBeInTheDocument()
+      await waitFor(() => {
+        expect(Services.createObjective).not.toHaveBeenCalled()
+      })
     })
   })
 })
