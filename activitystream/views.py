@@ -119,7 +119,7 @@ class TestSearchAPIView(TemplateView):
 
     The solution decided on is to feed into the dev database only
     a set of data with an obscure search term (i.e. all have the
-    keyword “query123”). The test runs a search for that query and
+    keyword “querty123”). The test runs a search for that query and
     tests the sort order of the results. Creating the test feed is
     done by creating a test API within Magna, which is this view.
 

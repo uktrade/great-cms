@@ -14,9 +14,9 @@
         "id": "dit:greatCms:TestPages:1",
         "type": "dit:greatCms:Service",
         "name": "Test Service",
-        "content": "Test Content",
+        "content": "Test service content. Expected ONLY for Great V2/great-cms.",
         "keywords": "qwerty123",
-        "url": "www.example.com"
+        "url": "https://www.example.com/test-service/"
       }
     },{
       "dit:application": "greatCms",
@@ -26,9 +26,9 @@
         "id": "dit:greatCms:TestPages:2",
         "type": "dit:greatCms:Article",
         "name": "Test Article",
-        "content": "Test Content",
+        "content": "Test article content. Expected ONLY for Great V2/great-cms.",
         "keywords": "qwerty123",
-        "url": "www.example.com"
+        "url": "https://www.example.com/test-article"
       }
     },{
       "dit:application": "greatCms",
@@ -36,11 +36,11 @@
       "type": "Update",
       "object": {
         "id": "dit:greatCms:TestPages:3",
-        "type": "dit:greatCms:Opportunity",
+        "type": "Opportunity",
         "name": "Test Opportunity",
-        "content": "Test Content",
+        "content": "Test Content for 'Opportunity' type. Expected in results for Great V1 and Great V2/great-cms.",
         "keywords": "qwerty123",
-        "url": "www.example.com"
+        "url": "https://www.example.com/test-opportunity/"
       }
     }, {
       "dit:application": "greatCms",
@@ -48,12 +48,84 @@
       "type": "Update",
       "object": {
         "id": "dit:greatCms:TestPages:4",
-        "type": "dit:greatCms:Market",
+        "type": "Market",
         "name": "Test Market",
-        "content": "Test Content",
+        "content": "Test Content for 'Market' type. Expected in results for Great V1 and Great V2/great-cms.",
         "keywords": "qwerty123",
-        "url": "www.example.com"
+        "url": "https://www.example.com/test-market/"
       }
-    }
+    },{
+        "dit:application": "greatCms",
+        "id": "dit:greatCms:TestPages:5:Update",
+        "type": "Update",
+        "object": {
+          "id": "dit:greatCms:TestPages:5",
+          "type": "Article",
+          "name": "Test Article of type 'Article' that should NOT appear in great-cms results",
+          "content": "Test Content 'Article' type with no greatCms namespace. Expected in results for Great V1 but NOT Great V2/great-cms.",
+          "keywords": "qwerty123",
+          "url": "https://www.example.com/test-article-not-from-great-cms"
+        }
+      },{
+        "dit:application": "greatCms",
+        "id": "dit:greatCms:TestPages:6:Update",
+        "type": "Update",
+        "object": {
+          "id": "dit:greatCms:TestPages:6",
+          "type": "dit:Article",
+          "name": "Test Article of type 'dit:Article' that should NOT appear in great-cms results",
+          "content": "Test Content 'dit:Article' type with no greatCms namespace. Expected in results for Great V1 but NOT Great V2/great-cms.",
+          "keywords": "qwerty123",
+          "url": "https://www.example.com/test-article-not-from-great-cms-2"
+        }
+      },{
+        "dit:application": "greatCms",
+        "id": "dit:greatCms:TestPages:7:Update",
+        "type": "Update",
+        "object": {
+          "id": "dit:greatCms:TestPages:7",
+          "type": "dit:Service",
+          "name": "Test Service of type 'dit:Service' that should NOT appear in great-cms results",
+          "content": "Test Content 'dit:Service' type with no greatCms namespace. Expected in results for Great V1 but NOT Great V2/great-cms.",
+          "keywords": "qwerty123",
+          "url": "https://www.example.com/test-service-not-for-greatcms/"
+        }
+      },{
+        "dit:application": "greatCms",
+        "id": "dit:greatCms:TestPages:8:Update",
+        "type": "Update",
+        "object": {
+          "id": "dit:greatCms:TestPages:8",
+          "type": "Service",
+          "name": "Test Service of type 'Service' that should NOT appear in great-cms results",
+          "content": "Test Content 'Service' type with no greatCms namespace. Expected in results for Great V1 but NOT Great V2/great-cms.",
+          "keywords": "qwerty123",
+          "url": "https://www.example.com/test-service-not-for-greatcms-either/"
+        }
+      },{
+        "dit:application": "greatCms",
+        "id": "dit:greatCms:TestPages:9:Update",
+        "type": "Update",
+        "object": {
+          "id": "dit:greatCms:TestPages:9",
+          "type": "dit:Opportunity",
+          "name": "Test Opportunity",
+          "content": "Test Content of type 'dit:Opportunity'. Expected in results for Great V1 and Great V2/great-cms.",
+          "keywords": "qwerty123",
+          "url": "https://www.example.com/test-opportunity-dit-type/"
+        }
+      },{
+        "dit:application": "greatCms",
+        "id": "dit:greatCms:TestPages:10:Update",
+        "type": "Update",
+        "object": {
+          "id": "dit:greatCms:TestPages:10",
+          "type": "dit:Market",
+          "name": "Test Market",
+          "content": "Test Content of type 'dit:Market'. Expected in results for Great V1 and Great V2/great-cms.",
+          "keywords": "qwerty123",
+          "url": "https://www.example.com/test-market-dit-type/"
+        }
+      }
   ]
 }
