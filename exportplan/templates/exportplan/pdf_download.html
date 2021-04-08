@@ -4,7 +4,7 @@
 <html>
 <head><meta http-equiv=Content-Type content="text/html; charset=UTF-8">
 <style>
-{% include 'exportplan/pdf_download.css' %}
+{% include 'exportplan/includes/pdf/pdf_download.css' %}
 </style>
 </head>
 
@@ -62,6 +62,26 @@
     </td>
   </tr>
   <tr>
+    <td>
+      <table class="layout">
+        <tr>
+          {% for risk in risk_impact_options %}
+          <td class="col-10-2">
+            {{ risk.label }}
+          </td>
+          {% endfor %}
+        </tr>
+        <tr>
+          {% for risk in risk_likelihood_options %}
+          <td class="col-10-2">
+            {{ risk.label }}
+          </td>
+          {% endfor %}
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
     <td class="col-10-10">
       <p class="body-alpha pad-t-2">Owner <strong>{{ user.get_full_name|default:user.get_username }}</strong></p>
     </td>
@@ -103,11 +123,11 @@
   <tr class="pad-b-1">
     <td class="col-10-5 align-top">
       <h6>Company</h6>
-      {% include "exportplan/includes/pdf_blank.html" with data=user.company.name tag="h2" lines=1 %}
+      {% include "exportplan/includes/pdf/pdf_blank.html" with data=user.company.name tag="h2" lines=1 %}
     </td>
     <td class="col-10-5">
       <h6>Product</h6>
-      {% include "exportplan/includes/pdf_blank.html" with data=export_plan.data.export_commodity_codes.0.commodity_name tag="h2" lines=1 %}
+      {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.export_commodity_codes.0.commodity_name tag="h2" lines=1 %}
     </td>
   </tr>
   <tr class="pad-b-1">
@@ -117,7 +137,7 @@
     </td>
     <td class="col-10-5">
       <h6>HS Code</h6>
-      {% include "exportplan/includes/pdf_blank.html" with data=export_plan.export_commodity_code tag="h2" lines=1 %}
+      {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.export_commodity_code tag="h2" lines=1 %}
     </td>
   </tr>
   <tr class="pad-b-1">
@@ -127,7 +147,7 @@
     </td>
     <td class="col-10-5">
       <h6>Exporting to</h6>
-      {% include "exportplan/includes/pdf_blank.html" with data=export_plan.export_country_name tag="h2" lines=1 %}
+      {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.export_country_name tag="h2" lines=1 %}
     </td>
   </tr>
   <tr class="hr hr--blue-deep-100"><td></td></tr>
@@ -141,7 +161,7 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h2 class="pad-t-0">Who we are</h2>
-            {% include "exportplan/includes/pdf_blank.html" with data=export_plan.data.about_your_business.story tag="p" lines=5 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.story tag="p" lines=5 tag_class="pad-t-0" %}
           </td>
         </tr>
         {% if export_plan.data.about_your_business.story %}
@@ -150,7 +170,7 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h2 class="pad-t-0">Why we want to export</h2>
-            {% include "exportplan/includes/pdf_blank.html" with data=export_plan.data.objectives.rationale tag="p" lines=5 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.objectives.rationale tag="p" lines=5 tag_class="pad-t-0" %}
           </td>
         </tr>
         {% if export_plan.data.objectives.rationale %}
@@ -159,7 +179,7 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h2 class="pad-t-0">Where are we based</h2>
-            {% include "exportplan/includes/pdf_blank.html" with data=export_plan.data.about_your_business.location tag="p" lines=5 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.location tag="p" lines=5 tag_class="pad-t-0" %}
           </td>
         </tr>
         {% if export_plan.data.about_your_business.location %}
@@ -168,7 +188,7 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h2 class="pad-t-0">What is the demand for our product?</h2>
-            {% include "exportplan/includes/pdf_blank.html" with data=export_plan.data.target_markets_research.demand tag="p" lines=5 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.target_markets_research.demand tag="p" lines=5 tag_class="pad-t-0" %}
           </td>
         </tr>
       </table>
@@ -224,35 +244,39 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">How we started</h3>
-            <p class="pad-t-0">{{ export_plan.data.about_your_business.story }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.story tag="p" lines=5 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Where we are based</h3>
-            <p class="pad-t-0">{{ export_plan.data.about_your_business.location }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.location tag="p" lines=5 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">How we make our product</h3>
-            <p class="pad-t-0">{{ export_plan.data.about_your_business.processes }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.processes tag="p" lines=5 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Our packaging</h3>
-            <p class="pad-t-0">{{ export_plan.data.about_your_business.packaging }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.packaging tag="p" lines=5 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Business performance</h3>
+            {% if export_plan.data.about_your_business.performance %}
             <p class="pad-t-0">GBP {{ export_plan.data.about_your_business.performance }}</p>
+            {% else %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with lines=5 %}
+            {% endif %}
           </td>
         </tr>
       </table>
@@ -267,79 +291,11 @@
 
 <!-- P5 business objectives -->
 <h1 class="toc-name">Business objectives</h1>
-{% for objective in export_plan.data.company_objectives %}
-<table class="layout page-header">
-  <tr>
-    <td>
-      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
-
-<table class="layout">
-  <tr>
-    <td>
-      <h1 class="pad-t-3 pad-b-2">Business objectives</h1>
-    </td>
-  </tr>
-  <tr>
-    <td class="col-10-7 align-top">
-      {% if forloop.first %}
-      <!-- Nested table -->
-      <table>
-        <tr class="pad-b-2">
-          <td class="col-10-10">
-            <h3 class="pad-y-0">Why we want to export</h3>
-            <p class="pad-t-0">{{ export_plan.data.objectives.rationale }}</p>
-          </td>
-        </tr>
-      </table>
-      <!-- ./Nested table -->
-      {% endif %}
-      <!-- Nested table -->
-      <table>
-        <tr class="pad-b-2">
-          <td class="col-10-10">
-            <h2 class="pad-y-0">Objective {{ forloop.counter }}</h2>
-            <p class="pad-t-0">{{ objective.description }}</p>
-          </td>
-        </tr>
-        <tr class="pad-b-3">
-          <td>
-            <!-- Nested table -->
-            <table class="layout">
-              <tr class="pad-b-0">
-                <td class="col-10-4">Start date:</td>
-                <td class="col-10-6"><strong>{{ objective.start_date }}</strong></td>
-              </tr>
-              <tr class="pad-b-0">
-                <td class="col-10-4">End date:</td>
-                <td class="col-10-6"><strong>{{ objective.end_date }}</strong></td>
-              </tr>
-              <tr class="pad-b-0">
-                <td class="col-10-4">Owner:</td>
-                <td class="col-10-6"><strong>{{ objective.owner }}</strong></td>
-              </tr>
-            </table>
-            <!-- ./Nested table -->
-          </td>
-        </tr>
-        <tr class="pad-b-2">
-          <td class="col-10-10">
-            <h3 class="pad-y-0">Planned reviews</h3>
-            <p class="pad-t-0">{{ objective.planned_reviews }}</p>
-          </td>
-        </tr>
-      </table>
-      <!-- ./Nested table -->
-    </td>
-    <td class="col-10-3 align-top">
-    </td>
-  </tr>
-</table>
-<pdf:nextpage>
-{% endfor %}
+{% if export_plan.data.company_objectives %}
+{% include 'exportplan/includes/pdf/pdf_objectives_populated.html' %}
+{% else %}
+{% include 'exportplan/includes/pdf/pdf_objectives_blank.html' %}
+{% endif %}
 
 
 <!-- P6 target market research -->
@@ -366,28 +322,32 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Consumer demand for our product in {{ export_plan.data.export_countries.0.country_name }}</h3>
-            <p class="pad-t-0">{{ export_plan.data.target_markets_research.demand }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.target_markets_research.demand tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Competitors in the {{ export_plan.data.export_countries.0.country_name }}</h3>
-            <p class="pad-t-0">{{ export_plan.data.target_markets_research.competitors }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.target_markets_research.competitors tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Local product trends</h3>
-            <p class="pad-t-0">{{ export_plan.data.target_markets_research.trend }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.target_markets_research.trend tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Average price of our product in {{ export_plan.data.export_countries.0.country_name }}?</h3>
+            {% if export_plan.data.target_markets_research.average_price %}
             <p class="pad-t-0">GBP {{ export_plan.data.target_markets_research.average_price }}</p>
+            {% else %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with lines=1 %}
+            {% endif %}
           </td>
         </tr>
       </table>
@@ -448,7 +408,7 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Consumer demand for our product in {{ export_plan.data.export_countries.0.country_name }}</h3>
-            <p class="pad-t-0">{{ export_plan.data.target_markets_research.demand }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.target_markets_research.demand tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
@@ -460,7 +420,7 @@
               &nbsp;
               Labeling
             </h3>
-            <p class="pad-t-0">{{ export_plan.data.adaptation_target_market.labelling }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.labelling tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
@@ -472,7 +432,7 @@
               &nbsp;
               Packaging
             </h3>
-            <p class="pad-t-0">{{ export_plan.data.adaptation_target_market.packaging }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.packaging tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
@@ -484,7 +444,7 @@
               &nbsp;
               Size
             </h3>
-            <p class="pad-t-0">{{ export_plan.data.adaptation_target_market.size }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.size tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
@@ -496,7 +456,7 @@
               &nbsp;
               Product changes to comply with standards
             </h3>
-            <p class="pad-t-0">{{ export_plan.data.adaptation_target_market.standards }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.standards tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
@@ -508,7 +468,7 @@
               &nbsp;
               Translations
             </h3>
-            <p class="pad-t-0">{{ export_plan.data.adaptation_target_market.translations }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.translations tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
@@ -520,7 +480,7 @@
               &nbsp;
               Other changes
             </h3>
-            <p class="pad-t-0">{{ export_plan.data.adaptation_target_market.other_changes }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.other_changes tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
       </table>
@@ -557,28 +517,28 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Certificate of origin</h3>
-            <p class="pad-t-0">{{ export_plan.data.adaptation_target_market.certificate_of_origin }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.certificate_of_origin tag="p" lines=3 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Insurance certificate</h3>
-            <p class="pad-t-0">{{ export_plan.data.adaptation_target_market.insurance_certificate }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.insurance_certificate tag="p" lines=3 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Commercial invoice</h3>
-            <p class="pad-t-0">{{ export_plan.data.adaptation_target_market.commercial_invoice }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.commercial_invoice tag="p" lines=3 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">UK customs declaration</h3>
-            <p class="pad-t-0">{{ export_plan.data.adaptation_target_market.uk_customs_declaration }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.uk_customs_declaration tag="p" lines=3 tag_class="pad-t-0" %}
           </td>
         </tr>
       </table>
@@ -593,99 +553,11 @@
 
 <!-- P8 marketing approach -->
 <h1 class="toc-name">Marketing approach</h1>
-{% for route in export_plan.data.route_to_markets %}
-<table class="layout page-header">
-  <tr>
-    <td>
-      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
-
-<table class="layout">
-  <tr>
-    <td>
-      <h1 class="pad-t-3 pad-b-2">Marketing approach</h1>
-    </td>
-  </tr>
-  <tr>
-    <td class="col-10-7 align-top">
-      <!-- Nested table -->
-      <table>
-        <tr class="pad-b-2">
-          <td class="col-10-10">
-            <h3 class="pad-y-0">Route to market {{ forloop.counter }}</h3>
-            <p class="pad-t-0">{{ route.route_label }}</p>
-          </td>
-        </tr>
-
-        <tr class="pad-b-2">
-          <td class="col-10-10">
-            <h3 class="pad-y-0">How do we promote our product?</h3>
-            <p class="pad-t-0">{{ route.promote_label }}</p>
-          </td>
-        </tr>
-
-        <tr class="pad-b-2">
-          <td class="col-10-10">
-            <h3 class="pad-y-0">Why we selected this route to market and promotional channel</h3>
-            <p class="pad-t-0">{{ route.market_promotional_channel }}</p>
-          </td>
-        </tr>
-      </table>
-
-      <table>
-        <tr class="pad-b-2">
-          <td class="col-10-10 align-top">
-            <h3 class="pad-y-0">What marketing resources do we need?</h3>
-            <p class="pad-t-0">{{ export_plan.data.marketing_approach.resources }}</p>
-          </td>
-        </tr>
-      </table>
-      <!-- ./Nested table -->
-    </td>
-    {% if forloop.first %}
-    {% with marketing_approach=population_age_data|get_item:'marketing-approach' insight=insight_data|get_item:export_plan.country_iso2_code %}
-    <td class="col-10-3 align-top">
-      <h3 class="pad-b-1 colour-red-150">Data snapshot</h3>
-
-      <h6 class="body-gamma pad-y-0">Total population</h6>
-      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_population|intcomma }}</strong></p>
-      <h6 class="body-gamma pad-y-0">Access to internet</h6>
-      <p class="pad-t-0"><strong>{{ insight.country_data.InternetUsage.0.value|floatformat:0 }}&percnt;</strong></p>
-      <h6 class="body-gamma pad-y-0">Consumer price index</h6>
-      <p class="pad-t-0"><strong>{{ insight.country_data.ConsumerPriceIndex.0.value }}</strong></p>
-      <h6 class="body-gamma pad-y-0">The main languages in your chosen market are</h6>
-      <p class="pad-t-0">
-        <strong>
-        {% for lang in language_data.cia_factbook_data.languages.language %}
-          {{ lang.name }},
-        {% endfor %}
-        </strong>
-      </p>
-      <h6 class="body-gamma pad-y-0">GDP per capita (USD)</h6>
-      <p class="pad-t-0"><strong>${{ insight.country_data.GDPPerCapita.0.year_2019|floatformat:0|intcomma }}</strong></p>
-
-      <h3 class="pad-y-1">Target age group</h3>
-
-      <h6 class="body-gamma pad-y-0">Target age population</h6>
-      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_target_age_population|intcomma }}</strong></p>
-      <h6 class="body-gamma pad-y-0">Female in target group</h6>
-      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.female_target_age_population|intcomma }}</strong></p>
-      <h6 class="body-gamma pad-y-0">Male in target group</h6>
-      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.male_target_age_population|intcomma }}</strong></p>
-      <h6 class="body-gamma pad-y-0">Livng in uban areas</h6>
-      <p class="pad-t-0"><strong> {% widthratio marketing_approach.population_data.urban_percentage 1 100 %}&percnt;</strong></p>
-      <h6 class="body-gamma pad-y-0">Living in rural areas</h6>
-      <p class="pad-t-0"><strong>{% widthratio marketing_approach.population_data.rural_percentage 1 100 %}&percnt;</strong></p>
-    </td>
-    {% endwith %}
-    {% endif %}
-  </tr>
-</table>
-<pdf:nextpage>
-{% endfor %}
+{% if export_plan.data.route_to_markets %}
+{% include 'exportplan/includes/pdf/pdf_marketing_approach_populated.html' %}
+{% else %}
+{% include 'exportplan/includes/pdf/pdf_marketing_approach_blank.html' %}
+{% endif %}
 
 <!-- P9a cost and pricing -->
 <h1 class="toc-name">Cost and pricing</h1>
@@ -720,17 +592,19 @@
               <tr class="pad-b-0 border-t-1-blue-deep-20">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Product costs</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.direct_costs.product_costs|floatformat:2|intcomma|default:"NA" }} per unit</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right">
+                  <strong>{{ export_plan.data.direct_costs.product_costs.test|floatformat:2|intcomma|default:"________" }} per unit</strong>
+                </td>
               </tr>
               <tr class="pad-b-0">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Labour per unit</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.direct_costs.labour_costs|floatformat:2|intcomma|default:"NA" }} per unit</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.direct_costs.labour_costs|floatformat:2|intcomma|default:"________" }} per unit</strong></td>
               </tr>
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Direct costs total</td>
                 <td class="col-10-1 pad-t-05"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 text-align-right"><strong>{{ export_plan.data.total_direct_costs|floatformat:2|intcomma|default:"NA" }} per unit</strong></td>
+                <td class="col-10-3 pad-t-05 text-align-right"><strong>{{ export_plan.data.total_direct_costs|floatformat:2|intcomma|default:"________" }} per unit</strong></td>
               </tr>
             </table>
             <!-- ./Nested table -->
@@ -749,42 +623,42 @@
               <tr class="pad-b-0 border-t-1-blue-deep-20">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Product adaptation</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.product_adaption|floatformat:2|intcomma|default:"NA" }}</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.product_adaption|floatformat:2|intcomma|default:"__________" }}</strong></td>
               </tr>
               <tr class="pad-b-0">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Packaging and labelling</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.uproduct_adaption|floatformat:2|intcomma|default:"NA" }}</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.uproduct_adaption|floatformat:2|intcomma|default:"__________" }}</strong></td>
               </tr>
               <tr class="pad-b-0">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Freight and logistics</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.freight_logistics|floatformat:2|intcomma|default:"NA" }}</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.freight_logistics|floatformat:2|intcomma|default:"__________" }}</strong></td>
               </tr>
               <tr class="pad-b-0">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Agent and distributor fees</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.agent_distributor_fees|floatformat:2|intcomma|default:"NA" }}</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.agent_distributor_fees|floatformat:2|intcomma|default:"__________" }}</strong></td>
               </tr>
               <tr class="pad-b-0">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Marketing</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.marketing|floatformat:2|intcomma|default:"NA" }}</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.marketing|floatformat:2|intcomma|default:"__________" }}</strong></td>
               </tr>
               <tr class="pad-b-0">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Insurance</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.insurance|floatformat:2|intcomma|default:"NA" }}</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.insurance|floatformat:2|intcomma|default:"__________" }}</strong></td>
               </tr>
               <tr class="pad-b-0">
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Other overhead costs</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.other_overhead_costs|floatformat:2|intcomma|default:"NA" }}</strong></td>
+                <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.other_overhead_costs|floatformat:2|intcomma|default:"__________" }}</strong></td>
               </tr>
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Direct costs total</td>
                 <td class="col-10-1 pad-t-05"><strong>GBP</strong></td>
-                <td class="col-10-3 pad-t-05 text-align-right"><strong>{{ export_plan.data.total_overhead_costs|floatformat:2|intcomma|default:"NA" }}</strong></td>
+                <td class="col-10-3 pad-t-05 text-align-right"><strong>{{ export_plan.data.total_overhead_costs|floatformat:2|intcomma|default:"__________" }}</strong></td>
               </tr>
             </table>
             <!-- ./Nested table -->
@@ -800,9 +674,9 @@
             <!-- Nested table -->
             <table class="layout">
               <tr class="pad-b-0 text-align-centre border-y-1-blue-deep-20">
-                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ export_plan.data.total_cost_and_price.first_period_period_label|intcomma|default:"NA" }} units</strong></td>
+                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ export_plan.data.total_cost_and_price.first_period_period_label|intcomma|default:"________" }} units</strong></td>
                 <td class="col-12-4 pad-t-05">over the next</td>
-                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ export_plan.data.total_cost_and_price.second_period_period_label|intcomma|default:"NA" }}</strong></td>
+                <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ export_plan.data.total_cost_and_price.second_period_period_label|intcomma|default:"__________________" }}</strong></td>
               </tr>
             </table>
             <!-- ./Nested table -->
@@ -836,35 +710,35 @@
         <tr class="pad-b-1 pad-t-4">
           <td class="col-10-10">
             <h3 class="pad-t-0">Final cost per unit</h3>
-            <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.final_cost_per_unit|floatformat:2|intcomma|default:"NA" }}</h2>
+            <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.final_cost_per_unit.|floatformat:2|intcomma|default:"______" }}</h2>
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Average price per unit in {{ export_plan.data.export_countries.0.country_name }}</h3>
-            <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.average_price_per_unit|floatformat:2|intcomma|default:"NA" }}</h2>
+            <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.average_price_per_unit|floatformat:2|intcomma|default:"______" }}</h2>
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Our net price in {{ export_plan.data.export_countries.0.country_name }}</h3>
-            <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.net_price|floatformat:2|intcomma|default:"NA" }}</h2>
+            <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.net_price|floatformat:2|intcomma|default:"______" }}</h2>
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Local taxes and charges in {{ export_plan.data.export_countries.0.country_name }}</h3>
-            <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.local_tax_charges|floatformat:2|intcomma|default:"NA" }}</h2>
+            <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.local_tax_charges|floatformat:2|intcomma|default:"______" }}</h2>
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Duty per unit</h3>
-            <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.duty_per_unit|floatformat:2|intcomma|default:"NA" }}</h2>
+            <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.duty_per_unit|floatformat:2|intcomma|default:"______" }}</h2>
           </td>
         </tr>
       </table>
@@ -901,14 +775,14 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Our total cost</h3>
-            <h2 class="pad-t-0">GBP {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"NA" }}</h2>
+            <h2 class="pad-t-0">GBP {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"_______________" }}</h2>
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">How much funding we need in {{ export_plan.data.export_countries.0.country_name }}</h3>
-            <h2 class="pad-t-0">GBP {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"NA" }}</h2>
+            <h2 class="pad-t-0">GBP {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"_______________" }}</h2>
           </td>
         </tr>
         <tr class="pad-b-1">
@@ -918,7 +792,7 @@
               {% for funding in export_plan.data.funding_credit_options %}
               <tr class="pad-b-0 border-t-1-blue-deep-20">
                 <td class="col-10-5 pad-t-05 border-b-1-blue-deep-20">{{ funding.funding_option_label }}</td>
-                <td class="col-10-5 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ funding.amount|floatformat:2|intcomma|default:"NA" }} GBP per unit</strong></td>
+                <td class="col-10-5 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ funding.amount|floatformat:2|intcomma|default:"__________" }} GBP per unit</strong></td>
               </tr>
               {% endfor %}
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
@@ -926,9 +800,9 @@
                 <td class="col-10-5 pad-t-05 text-align-right">
                   <strong>
                   {% if not export_plan.data.funding_and_credit.override_estimated_total_cost %}
-                    {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"NA" }} GBP per unit
+                    {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"__________" }} GBP per unit
                   {% else %}
-                    {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"NA" }} GBP per unit
+                    {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"__________" }} GBP per unit
                   {% endif %}
                   </strong>
                 </td>
@@ -952,15 +826,21 @@
             <table class="layout">
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Payment method</td>
-                <td class="col-10-4 pad-t-05 text-align-right"><strong>{{ export_plan.data.getting_paid.payment_method.payment_method_label }}</strong></td>
+                <td class="col-10-4 pad-t-05 text-align-right">
+                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_method.payment_method_label. tag="strong" line_class="pad-b-3" lines=1 %}
+                </td>
               </tr>
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Payment terms</td>
-                <td class="col-10-4 pad-t-05 text-align-right"><strong>{{ export_plan.data.getting_paid.payment_terms.terms_label }}</strong></td>
+                <td class="col-10-4 pad-t-05 text-align-right">
+                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_terms.terms_label. tag="strong" line_class="pad-b-3" lines=1 %}
+                </td>
               </tr>
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Incoterms</td>
-                <td class="col-10-4 pad-t-05 text-align-right"><strong>{{ export_plan.data.getting_paid.incoterms.incoterms_transport_label }}</strong></td>
+                <td class="col-10-4 pad-t-05 text-align-right">
+                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.incoterms.incoterms_transport_label. tag="strong" line_class="pad-b-3" lines=1 %}
+                </td>
               </tr>
             </table>
             <!-- ./Nested table -->
@@ -1000,14 +880,14 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Travel information</h3>
-            <p class="pad-t-0">{{ export_plan.data.travel_business_policies.travel_information }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.travel_business_policies.travel_information tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Cultural information</h3>
-            <p class="pad-t-0">{{ export_plan.data.travel_business_policies.cultural_information }}</p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.travel_business_policies.cultural_information tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
@@ -1015,9 +895,13 @@
           <td class="col-10-10">
             <h3 class="pad-t-0">Languages in your target market</h3>
             <p class="pad-t-0">
+              {% if language_data.cia_factbook_data.languages.language  %}
               {% for lang in language_data.cia_factbook_data.languages.language %}
-                 {{ lang.name }}
+                {{ lang.name }}{% if not forloop.last %},{% endif %}
               {% endfor %}
+              {% else %}
+              {% include "exportplan/includes/pdf/pdf_blank.html" with lines=5 %}
+              {% endif %}
             </p>
           </td>
         </tr>
@@ -1033,63 +917,11 @@
 
 <!-- P12 business risk -->
 <h1 class="toc-name">Business risk</h1>
-{% for risk in export_plan.data.business_risks %}
-<table class="layout page-header">
-  <tr>
-    <td>
-      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
-
-<table class="layout">
-  <tr>
-    <td>
-      <h1 class="pad-t-3 pad-b-2">Business risk</h1>
-    </td>
-  </tr>
-  <tr>
-    <td class="col-10-7 align-top">
-      <!-- Nested table -->
-      <table>
-        <tr class="pad-b-2">
-          <td class="col-10-10">
-            <h2 class="pad-y-0">Risk {{ forloop.counter }}</h2>
-            <p class="pad-t-0">{{ risk.risk }}</p>
-          </td>
-        </tr>
-        <tr class="pad-b-3">
-          <td>
-            <!-- Nested table -->
-            <table class="layout">
-              <tr class="pad-b-0">
-                <td class="col-10-4">Risk likelihood:</td>
-                <td class="col-10-6"><strong>{{ risk.risk_likelihood|title }}</strong></td>
-              </tr>
-              <tr class="pad-b-0">
-                <td class="col-10-4">Risk impact:</td>
-                <td class="col-10-6"><strong>{{ risk.risk_impact|title }}</strong></td>
-              </tr>
-            </table>
-            <!-- ./Nested table -->
-          </td>
-        </tr>
-        <tr class="pad-b-2">
-          <td class="col-10-10">
-            <h3 class="pad-y-0">Contingency plan</h3>
-            <p class="pad-t-0">{{ risk.contingency_plan }}</p>
-          </td>
-        </tr>
-      </table>
-      <!-- ./Nested table -->
-    </td>
-    <td class="col-10-3 align-top">
-    </td>
-  </tr>
-</table>
-<pdf:nextpage>
-{% endfor %}
+{% if export_plan.data.business_risks. %}
+{% include 'exportplan/includes/pdf/pdf_business_risks_populated.html' %}
+{% else %}
+{% include 'exportplan/includes/pdf/pdf_business_risks_blank.html' %}
+{% endif %}
 
 <!-- P13a compared countries data
 <h1 class="toc-name">Compared countries data</h1>
