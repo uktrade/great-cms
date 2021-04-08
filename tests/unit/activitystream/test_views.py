@@ -379,10 +379,21 @@ def test_pagination(
 
 
 @pytest.mark.django_db
+@override_settings(BASE_URL='https://example.com')
 def test_search_key_pages_view(client):
     response = client.get(reverse('activitystream:search-key-pages'))
     feed_parsed = json.loads(response.content)
     assert feed_parsed['orderedItems'][0]['object']['name'] == 'Get finance - Homepage'
+    assert feed_parsed['orderedItems'][0]['object']['url'] == 'https://example.com/get-finance/'
+
+
+@pytest.mark.django_db
+@override_settings(BASE_URL='https://example.com/')
+def test_search_key_pages_view__trailing_slash_on_base_url(client):
+    response = client.get(reverse('activitystream:search-key-pages'))
+    feed_parsed = json.loads(response.content)
+    assert feed_parsed['orderedItems'][0]['object']['name'] == 'Get finance - Homepage'
+    assert feed_parsed['orderedItems'][0]['object']['url'] == 'https://example.com/get-finance/'
 
 
 @pytest.mark.django_db

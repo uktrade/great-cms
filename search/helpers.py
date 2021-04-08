@@ -14,7 +14,7 @@ RESULTS_PER_PAGE = 10
 def sanitise_page(page):
     try:
         return int(page) if int(page) > 0 else 1
-    except ValueError:
+    except (TypeError, ValueError):
         return 1
 
 
@@ -141,7 +141,7 @@ def search_with_activitystream(query):
 
     # Note that the X-Forwarded-* items are overridden by Gov PaaS values
     # in production, and thus the value of ACTIVITY_STREAM_IP_ALLOWLIST
-    # in production is irrelivant. It is included here to allow the app to
+    # in production is irrelevant. It is included here to allow the app to
     # run locally or outside of Gov PaaS.
     request.headers.update(
         {

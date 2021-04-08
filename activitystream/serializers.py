@@ -40,8 +40,8 @@ class ArticlePageSerializer(serializers.Serializer):
         for streamchild in streamfield_content:
             if streamchild.block_type not in self.expected_block_types:
                 logger.error(
-                    f'Unhandled block type {streamchild.block_type} in '
-                    'ArticlePage.body_text - leaving out of search index.'
+                    f'Unhandled block type "{streamchild.block_type}" in '
+                    'ArticlePage.body_text. Leaving out of search index content.'
                 )
                 continue
 
