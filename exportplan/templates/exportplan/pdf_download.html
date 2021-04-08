@@ -62,26 +62,6 @@
     </td>
   </tr>
   <tr>
-    <td>
-      <table class="layout">
-        <tr>
-          {% for risk in risk_impact_options %}
-          <td class="col-10-2">
-            {{ risk.label }}
-          </td>
-          {% endfor %}
-        </tr>
-        <tr>
-          {% for risk in risk_likelihood_options %}
-          <td class="col-10-2">
-            {{ risk.label }}
-          </td>
-          {% endfor %}
-        </tr>
-      </table>
-    </td>
-  </tr>
-  <tr>
     <td class="col-10-10">
       <p class="body-alpha pad-t-2">Owner <strong>{{ user.get_full_name|default:user.get_username }}</strong></p>
     </td>
@@ -593,7 +573,7 @@
                 <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Product costs</td>
                 <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
                 <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right">
-                  <strong>{{ export_plan.data.direct_costs.product_costs.test|floatformat:2|intcomma|default:"________" }} per unit</strong>
+                  <strong>{{ export_plan.data.direct_costs.product_costs|floatformat:2|intcomma|default:"________" }} per unit</strong>
                 </td>
               </tr>
               <tr class="pad-b-0">
@@ -710,7 +690,7 @@
         <tr class="pad-b-1 pad-t-4">
           <td class="col-10-10">
             <h3 class="pad-t-0">Final cost per unit</h3>
-            <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.final_cost_per_unit.|floatformat:2|intcomma|default:"______" }}</h2>
+            <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.final_cost_per_unit|floatformat:2|intcomma|default:"______" }}</h2>
           </td>
         </tr>
 
@@ -827,19 +807,19 @@
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Payment method</td>
                 <td class="col-10-4 pad-t-05 text-align-right">
-                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_method.payment_method_label. tag="strong" line_class="pad-b-3" lines=1 %}
+                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_method.payment_method_label tag="strong" line_class="pad-b-3" lines=1 %}
                 </td>
               </tr>
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Payment terms</td>
                 <td class="col-10-4 pad-t-05 text-align-right">
-                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_terms.terms_label. tag="strong" line_class="pad-b-3" lines=1 %}
+                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_terms.terms_label tag="strong" line_class="pad-b-3" lines=1 %}
                 </td>
               </tr>
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Incoterms</td>
                 <td class="col-10-4 pad-t-05 text-align-right">
-                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.incoterms.incoterms_transport_label. tag="strong" line_class="pad-b-3" lines=1 %}
+                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.incoterms.incoterms_transport_label tag="strong" line_class="pad-b-3" lines=1 %}
                 </td>
               </tr>
             </table>
@@ -917,7 +897,7 @@
 
 <!-- P12 business risk -->
 <h1 class="toc-name">Business risk</h1>
-{% if export_plan.data.business_risks. %}
+{% if export_plan.data.business_risks %}
 {% include 'exportplan/includes/pdf/pdf_business_risks_populated.html' %}
 {% else %}
 {% include 'exportplan/includes/pdf/pdf_business_risks_blank.html' %}
