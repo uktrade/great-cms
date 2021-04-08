@@ -73,13 +73,9 @@ class ArticlePageSerializer(serializers.Serializer):
         }
 
 
-class MarketingArticlePageSerializer(ArticlePageSerializer):
-    pass
-
-
 class PageSerializer(serializers.Serializer):
     def to_representation(self, obj):
         if isinstance(obj, ArticlePage):
             return ArticlePageSerializer(obj).data
-        else:  # CountryGuidePage
+        else:
             return CountryGuidePageSerializer(obj).data
