@@ -127,24 +127,24 @@
         },
       })
 
-      {% if tour %}
-        magna.LaunchModal({
-          modals: [
-            {
-              factory: magna.SegmentationModal,
-              params: {
-                segment: {{ segment|to_json }}
-              },
+      {% if questionnaire %}
+      magna.LaunchModal({
+        modals: [
+          {
+            factory: magna.Questionnaire,
+            params: {{questionnaire|to_json}},
+          },
+
+          {
+            factory: magna.Tour,
+            params: {
+              tour: {{ tour|to_json }},
+              disableTourCookieName: 'disable-tour-{{ page.content_type }}',
             },
-            {
-              factory: magna.Tour,
-              params: {
-                tour: {{ tour|to_json }},
-                disableTourCookieName: 'disable-tour-{{ page.content_type }}',
-              },
-            },
-          ]
-        })
+          },
+
+        ]
+      })
       {% endif %}
   </script>
 {% endblock %}
