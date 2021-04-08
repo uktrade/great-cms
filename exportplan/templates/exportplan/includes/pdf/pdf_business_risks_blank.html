@@ -19,7 +19,7 @@
     </td>
   </tr>
   <tr>
-    <td class="col-10-7 align-top">
+    <td class="col-10-10 align-top">
       <!-- Nested table -->
       <table>
         <tr class="pad-b-2">
@@ -28,28 +28,45 @@
             {% include "exportplan/includes/pdf/pdf_blank.html" with lines=5 %}
           </td>
         </tr>
+
         <tr class="pad-b-3">
-          <td>
-            <!-- Nested table -->
+          <td class="col-10-10">
             <table class="layout">
-              <tr class="pad-b-0">
+               <tr class="pad-b-0">
                 <td class="col-10-10">
                   <h3 class="pad-y-0">Risk likelihood:</h3>
                 </td>
-                <td class="col-10-10">
-                </td>
               </tr>
-              <tr class="pad-b-0">
+              <tr>
+                {% for risk in risk_likelihood_options %}
+                <td class="col-10-2 pad-y-1">
+                  <div class="button body-beta">{{ risk.label }}</div>
+                </td>
+                {% endfor %}
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr class="pad-b-4">
+          <td class="col-10-10">
+            <table class="layout">
+               <tr class="pad-b-0">
                 <td class="col-10-10">
                   <h3 class="pad-y-0">Risk impact:</h3>
                 </td>
-                <td class="col-10-10">
+              </tr>
+              <tr>
+                {% for risk in risk_impact_options %}
+                <td class="col-10-2 pad-y-1">
+                  <div class="button body-beta">{{ risk.label }}</div>
                 </td>
+                {% endfor %}
               </tr>
             </table>
-            <!-- ./Nested table -->
           </td>
         </tr>
+
         <tr class="pad-b-2">
           <td class="col-10-10">
             <h3 class="pad-y-0">Contingency plan</h3>
@@ -58,8 +75,6 @@
         </tr>
       </table>
       <!-- ./Nested table -->
-    </td>
-    <td class="col-10-3 align-top">
     </td>
   </tr>
 </table>
