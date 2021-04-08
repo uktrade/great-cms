@@ -4,7 +4,9 @@
     flex-direction: row-reverse;
 
     .signup__steps-panel {
-      margin-right: 20px;
+      @media (min-width: 768px) {
+        margin-right: 20px;
+      }
     }
 
     .signup__right-panel {
