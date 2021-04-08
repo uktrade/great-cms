@@ -67,8 +67,11 @@ pdftoc.pdftoclevel0 {
 }
 
 .button {
-  border: 2px solid red;
-  border-radius: 100pt;
+  color: #a5a1b6;
+  border: 2px solid #d2d0da;
+  vertical-align: middle;
+  padding: 15pt 0 10px 0;
+  text-align: center;
 }
 
 /* Typography */
