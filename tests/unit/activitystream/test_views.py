@@ -14,9 +14,9 @@ from rest_framework.test import APIClient
 from tests.unit.core.factories import IndustryTagFactory
 from tests.unit.domestic.factories import ArticlePageFactory, CountryGuidePageFactory
 
-URL = 'http://testserver' + reverse('activity-stream')
-URL_INCORRECT_DOMAIN = 'http://incorrect' + reverse('activity-stream')
-URL_INCORRECT_PATH = 'http://testserver' + reverse('activity-stream') + 'incorrect/'
+URL = 'http://testserver' + reverse('activitystream:cms-content')
+URL_INCORRECT_DOMAIN = 'http://incorrect' + reverse('activitystream:cms-content')
+URL_INCORRECT_PATH = 'http://testserver' + reverse('activitystream:cms-content') + 'incorrect/'
 EMPTY_COLLECTION = {
     '@context': 'https://www.w3.org/ns/activitystreams',
     'type': 'Collection',
@@ -148,7 +148,7 @@ def test_if_61_seconds_in_past_401_returned(api_client, en_locale):
         auth = auth_sender().request_header
 
     response = api_client.get(
-        reverse('activity-stream'),
+        reverse('activitystream:cms-content'),
         content_type='',
         HTTP_AUTHORIZATION=auth,
         HTTP_X_FORWARDED_FOR='1.2.3.4, 123.123.123.123',
@@ -376,3 +376,24 @@ def test_pagination(
     assert len(items) == 50
     assert len(set([item['id'] for item in items])) == 50  # All unique
     assert article_attribute(items[49], 'name') == 'article_24'
+
+
+@pytest.mark.django_db
+def test_search_key_pages_view(client):
+    response = client.get(reverse('activitystream:search-key-pages'))
+    feed_parsed = json.loads(response.content)
+    assert feed_parsed['orderedItems'][0]['object']['name'] == 'Get finance - Homepage'
+
+
+@pytest.mark.django_db
+def test_search_test_api_view__enabled(client):
+    assert settings.FEATURE_FLAG_TEST_SEARCH_API_PAGES_ON is True
+    response = client.get(reverse('activitystream:search-test-api'))
+    assert response.status_code == 200
+
+
+@override_settings(FEATURE_FLAG_TEST_SEARCH_API_PAGES_ON=False)
+@pytest.mark.django_db
+def test_search_test_api_view__disabled(client):
+    response = client.get(reverse('activitystream:search-test-api'))
+    assert response.status_code == 404

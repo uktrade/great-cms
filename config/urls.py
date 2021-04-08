@@ -10,6 +10,7 @@ from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail_transfer import urls as wagtailtransfer_urls
 
+import activitystream.urls
 import cms_extras.urls
 import contact.urls
 import core.urls
@@ -17,7 +18,6 @@ import domestic.urls
 import exportplan.urls
 import search.urls
 import sso.urls
-from activitystream.views import ActivityStreamView
 
 urlpatterns = []
 
@@ -40,14 +40,10 @@ urlpatterns += [
     path('documents/', include(wagtaildocs_urls)),  # NB: doesn't skip GA as we may analytics on this
     path('sso/', include(sso.urls)),
     path('search/', include(search.urls, namespace='search')),
+    path('activity-stream/', include(activitystream.urls, namespace='activitystream')),
     path('', include(domestic.urls, namespace='domestic')),
     path('', include(core.urls, namespace='core')),
     path('export-plan/', include(exportplan.urls)),
-    path(
-        'activity-stream/v1/',  # v1 refers to OUR version of the endpoint we're making available
-        skip_ga360(ActivityStreamView.as_view()),
-        name='activity-stream',
-    ),
 ]
 
 # Should we show the contact pages we're porting from V1 yet?

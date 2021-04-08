@@ -3,8 +3,6 @@ from unittest.mock import Mock, patch
 
 import pytest
 import requests
-from django.conf import settings
-from django.test import override_settings
 from django.urls import reverse
 
 
@@ -123,24 +121,3 @@ def test_search_view(client):
         # This can be handled on the front end as we wish
         assert context['error_message'] == 'Activity Stream connection failed'
         assert context['error_status_code'] == 500
-
-
-@pytest.mark.django_db
-def test_search_key_pages_view(client):
-    response = client.get(reverse('search:search-key-pages'))
-    feed_parsed = json.loads(response.content)
-    assert feed_parsed['orderedItems'][0]['object']['name'] == 'Get finance - Homepage'
-
-
-@pytest.mark.django_db
-def test_search_test_api_view__enabled(client):
-    assert settings.FEATURE_FLAG_TEST_SEARCH_API_PAGES_ON is True
-    response = client.get(reverse('search:search-test-api'))
-    assert response.status_code == 200
-
-
-@override_settings(FEATURE_FLAG_TEST_SEARCH_API_PAGES_ON=False)
-@pytest.mark.django_db
-def test_search_test_api_view__disabled(client):
-    response = client.get(reverse('search:search-test-api'))
-    assert response.status_code == 404
