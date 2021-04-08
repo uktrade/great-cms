@@ -56,3 +56,6 @@ class BusinessSSOUser(AbstractUser):
 
     def has_visited_page(self, page):
         return helpers.has_visited_page(self.session_id, page)
+
+    def get_user_questionnaire(self):
+        return helpers.get_user_questionnaire(self.session_id)

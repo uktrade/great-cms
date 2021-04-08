@@ -179,6 +179,7 @@ class DomesticDashboard(
 
         context = super().get_context(request)
         context['visited_already'] = user.has_visited_page(self.slug)
+        context['questionnaire'] = user.get_user_questionnaire()
         user.set_page_view(self.slug)
         context['export_plan_progress_form'] = core_forms.ExportPlanForm(
             initial={'step_a': True, 'step_b': True, 'step_c': True}
