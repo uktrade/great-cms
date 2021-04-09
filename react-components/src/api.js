@@ -291,4 +291,17 @@ export default {
       responseHandler(response).json()
     )
   },
+
+  getUserQuestionnaire: () => {
+    return get(config.apiUserQuestionnaireUrl).then(
+      (response) => responseHandler(response).json()
+    )
+  },
+
+  setUserQuestionnaireAnswer: (questionId, answer) => {
+    return post(config.apiUserQuestionnaireUrl, { questionId, answer }).then(
+      (response) => responseHandler(response).json()
+    )
+  }
+
 }

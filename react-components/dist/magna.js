@@ -65630,6 +65630,19 @@ var responseHandler = function responseHandler(response) {
     }).then(function (response) {
       return responseHandler(response).json();
     });
+  },
+  getUserQuestionnaire: function getUserQuestionnaire() {
+    return get(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiUserQuestionnaireUrl).then(function (response) {
+      return responseHandler(response).json();
+    });
+  },
+  setUserQuestionnaireAnswer: function setUserQuestionnaireAnswer(questionId, answer) {
+    return post(_src_config__WEBPACK_IMPORTED_MODULE_0__["config"].apiUserQuestionnaireUrl, {
+      questionId: questionId,
+      answer: answer
+    }).then(function (response) {
+      return responseHandler(response).json();
+    });
   }
 });
 
@@ -74978,6 +74991,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_html_parser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-html-parser */ "./node_modules/react-html-parser/lib/index.js");
+/* harmony import */ var react_html_parser__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_html_parser__WEBPACK_IMPORTED_MODULE_2__);
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -74993,9 +75008,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 function RadioButtons(props) {
   var name = props.name,
       choices = props.choices,
+      initialSelection = props.initialSelection,
       valueChange = props.valueChange;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
@@ -75004,9 +75021,14 @@ function RadioButtons(props) {
       setSelection = _useState2[1];
 
   var updateSelection = function updateSelection(_selection) {
-    setSelection(_selection);
+    setSelection(_selection.value);
     valueChange(_selection);
   };
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    console.log('effect');
+    setSelection(initialSelection);
+  }, [name]);
 
   var changeVal = function changeVal(evt) {
     updateSelection({
@@ -75014,10 +75036,11 @@ function RadioButtons(props) {
     });
   };
 
+  console.log('bttns', selection, initialSelection);
   var buttons = choices.map(function (_ref, idx) {
     var label = _ref.label,
         value = _ref.value;
-    var checked = value === (selection && selection.value);
+    var checked = value === selection;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       key: idx,
       className: "multiple-choice p-f-s p-b-xs"
@@ -75032,7 +75055,7 @@ function RadioButtons(props) {
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       htmlFor: idx,
       className: "body-l"
-    }, label));
+    }, react_html_parser__WEBPACK_IMPORTED_MODULE_2___default()(label)));
   });
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "m-b-xs"
@@ -75049,7 +75072,9 @@ RadioButtons.propTypes = {
 function Interaction(props) {
   var question = props.question,
       answers = props.answers,
-      processResponse = props.processResponse;
+      initialSelection = props.initialSelection,
+      processResponse = props.processResponse,
+      goBack = props.goBack;
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
       _useState4 = _slicedToArray(_useState3, 2),
@@ -75058,6 +75083,10 @@ function Interaction(props) {
 
   var clickSave = function clickSave() {
     processResponse(value);
+  };
+
+  var clickBack = function clickBack() {
+    goBack();
   };
 
   var valueChange = function valueChange(newValue) {
@@ -75075,17 +75104,25 @@ function Interaction(props) {
   }, question.content), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RadioButtons, {
     name: question.name,
     choices: answers,
+    initialSelection: initialSelection,
     valueChange: valueChange
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "button button--tertiary m-t-xxs m-b-xs",
+    onClick: goBack,
+    style: {
+      "float": 'left',
+      clear: 'both'
+    }
+  }, "Back"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "button button--primary m-t-xxs m-b-xs",
     disabled: !value || !Object.keys(value).length,
     onClick: clickSave,
     style: {
-      "float": 'left',
-      clear: 'both'
+      "float": 'right'
     }
-  }, "Save")));
+  }, "Next")));
 }
 Interaction.propTypes = {
   question: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
@@ -75120,6 +75157,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var _Interaction__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Interaction */ "./react-components/src/components/Segmentation/Interaction.jsx");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -75137,51 +75175,100 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function Questionnaire(props) {
-  var questions = props.questions,
-      answers = props.answers,
-      handleModalClose = props.handleModalClose;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(true),
+function Questionnaire(props) {
+  var handleModalClose = props.handleModalClose;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
       _useState2 = _slicedToArray(_useState, 2),
-      isOpen = _useState2[0],
-      setIsOpen = _useState2[1];
+      showClose = _useState2[0],
+      setShowClose = _useState2[1];
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
       _useState4 = _slicedToArray(_useState3, 2),
-      isInProgress = _useState4[0],
-      setIsInProgress = _useState4[1];
+      question = _useState4[0],
+      setQuestion = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+      _useState6 = _slicedToArray(_useState5, 2),
+      questions = _useState6[0],
+      setQuestions = _useState6[1];
+
+  var setNextQuestion = function setNextQuestion(questionnaire) {
+    // work out last answered question (may be better in BE)
+    if (questionnaire && questionnaire.questions) {
+      var sorted = questionnaire.questions.sort(function (q1, q2) {
+        return q1.order > q2.order ? 1 : -1;
+      });
+      setQuestions(sorted);
+      var answers = Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["mapArray"])(questionnaire.answers, 'question_id');
+      var firstUnansweredQuestion = sorted.reduce(function (out, question) {
+        var answered = answers[question.id];
+
+        if (answered) {
+          question['answer'] = answered.answer;
+        }
+
+        return out || !answered && question;
+      }, null);
+
+      if (question) {
+        // follwing saving an answer
+        var index = questions.findIndex(function (q) {
+          return q.id == question.id;
+        });
+        setQuestion(questions[index + 1]);
+      } else {
+        // initial
+        setQuestion(firstUnansweredQuestion);
+
+        if (!firstUnansweredQuestion) {
+          closeModal();
+        }
+      }
+    }
+  };
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    if (!isOpen) {
-      handleModalClose();
-    }
-  }, [isOpen]);
-  var segmentQuestion = questions[0];
-  var segmentAnswers = segmentQuestion.choices;
+    _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].getUserQuestionnaire().then(function (questionnaire) {
+      setNextQuestion(questionnaire);
+    });
+  }, []);
 
   var closeModal = function closeModal() {
-    setIsOpen(false);
+    setShowClose(false);
     handleModalClose();
   };
 
-  var modalAfterOpen = function modalAfterOpen() {
-    setIsInProgress(true);
+  var goBack = function goBack() {
+    var index = questions.findIndex(function (q) {
+      return q.id == question.id;
+    });
+    setQuestion(questions[index - 1]);
   };
 
-  var updateUserProfileSegment = function updateUserProfileSegment(selection) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].updateUserProfileSegment(selection.value).then(function () {
-      setIsInProgress(false);
+  var modalAfterOpen = function modalAfterOpen() {};
+
+  var setQuestionAnswer = function setQuestionAnswer(selection) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].setUserQuestionnaireAnswer(question.id, selection.value).then(function (questionnaire) {
+      if (!questionnaire || !questionnaire.answers) {
+        setShowClose(true);
+        setQuestion(null);
+      }
+
+      setNextQuestion(questionnaire);
     })["catch"](function () {});
   };
 
   var content = function content() {
-    if (isInProgress) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Interaction__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      question: segmentQuestion,
-      answers: segmentAnswers,
-      processResponse: updateUserProfileSegment
+    if (question) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Interaction__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      question: question,
+      answers: question.choices,
+      initialSelection: question.answer,
+      processResponse: setQuestionAnswer,
+      goBack: goBack
     });
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    if (showClose) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "c-fullwidth"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
       className: "h-s"
@@ -75200,7 +75287,7 @@ function Questionnaire(props) {
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
-    isOpen: isOpen,
+    isOpen: !!(question || showClose),
     onRequestClose: handleModalClose,
     className: "segmentation-modal modal p-v-xs p-h-s",
     overlayClassName: "modal-overlay center",
