@@ -70,6 +70,8 @@ INSTALLED_APPS = [
     'captcha',
     'contact.apps.ContactConfig',
     'core.templatetags.int_to_range',
+    'activitystream.apps.ActivityStreamConfig',
+    'search.apps.SearchConfig',
 ]
 
 MIDDLEWARE = [
@@ -580,3 +582,16 @@ AWS_ACCESS_KEY_ID_DATA_SCIENCE = env.str('AWS_ACCESS_KEY_ID_DATA_SCIENCE', '')
 AWS_SECRET_ACCESS_KEY_DATA_SCIENCE = env.str('AWS_SECRET_ACCESS_KEY_DATA_SCIENCE', '')
 AWS_STORAGE_BUCKET_NAME_DATA_SCIENCE = env.str('AWS_STORAGE_BUCKET_NAME_DATA_SCIENCE', '')
 AWS_S3_REGION_NAME_DATA_SCIENCE = env.str('AWS_S3_REGION_NAME_DATA_SCIENCE', '')
+
+
+# SEARCH
+FEATURE_FLAG_TEST_SEARCH_API_PAGES_ON = env.bool(
+    'FEATURE_TEST_SEARCH_API_PAGES_ENABLED',
+    False,  # This view is only enabled, via environment configuration, for Dev
+)
+
+# ActivityStream config, for search
+ACTIVITY_STREAM_ACCESS_KEY_ID = env.str('ACTIVITY_STREAM_ACCESS_KEY_ID')
+ACTIVITY_STREAM_SECRET_KEY = env.str('ACTIVITY_STREAM_SECRET_KEY')
+ACTIVITY_STREAM_URL = env.str('ACTIVITY_STREAM_URL')
+ACTIVITY_STREAM_IP_ALLOWLIST = env.str('ACTIVITY_STREAM_IP_ALLOWLIST')
