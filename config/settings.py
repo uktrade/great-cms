@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'learn.apps.LearnConfig',
     'captcha',
     'contact.apps.ContactConfig',
+    'core.templatetags.int_to_range',
     'activitystream.apps.ActivityStreamConfig',
     'search.apps.SearchConfig',
 ]

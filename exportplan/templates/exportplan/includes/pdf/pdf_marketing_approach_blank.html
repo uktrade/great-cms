@@ -1,0 +1,97 @@
+{% load humanize %}
+{% load object_tags %}
+{% load int_to_range %}
+
+{% for i in 2|int_to_range %}
+<table class="layout page-header">
+  <tr>
+    <td>
+      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
+    </td>
+  </tr>
+  <tr class="hr hr--red-150"><td></td></tr>
+</table>
+
+<table class="layout">
+  <tr>
+    <td>
+      <h1 class="pad-t-3 pad-b-2">Marketing approach</h1>
+    </td>
+  </tr>
+  <tr>
+    <td class="col-10-7 align-top">
+      <!-- Nested table -->
+      <table>
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h3 class="pad-y-0">Route to market {{ forloop.counter }}</h3>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with lines=5 %}
+          </td>
+        </tr>
+
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h3 class="pad-y-0">How do we promote our product?</h3>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with lines=5 %}
+          </td>
+        </tr>
+
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h3 class="pad-y-0">Why we selected this route to market and promotional channel</h3>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with lines=5 %}
+          </td>
+        </tr>
+      </table>
+
+      <table>
+        <tr class="pad-b-2">
+          <td class="col-10-10 align-top">
+            <h3 class="pad-y-0">What marketing resources do we need?</h3>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with lines=5 %}
+          </td>
+        </tr>
+      </table>
+      <!-- ./Nested table -->
+    </td>
+    {% if forloop.first %}
+    {% with marketing_approach=population_age_data|get_item:'marketing-approach' insight=insight_data|get_item:export_plan.country_iso2_code %}
+    <td class="col-10-3 align-top">
+      <h3 class="pad-b-1 colour-red-150">Data snapshot</h3>
+
+      <h6 class="body-gamma pad-y-0">Total population</h6>
+      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_population|intcomma }}</strong></p>
+      <h6 class="body-gamma pad-y-0">Access to internet</h6>
+      <p class="pad-t-0"><strong>{{ insight.country_data.InternetUsage.0.value|floatformat:0 }}&percnt;</strong></p>
+      <h6 class="body-gamma pad-y-0">Consumer price index</h6>
+      <p class="pad-t-0"><strong>{{ insight.country_data.ConsumerPriceIndex.0.value }}</strong></p>
+      <h6 class="body-gamma pad-y-0">The main languages in your chosen market are</h6>
+      <p class="pad-t-0">
+        <strong>
+        {% for lang in language_data.cia_factbook_data.languages.language %}
+          {{ lang.name }},
+        {% endfor %}
+        </strong>
+      </p>
+      <h6 class="body-gamma pad-y-0">GDP per capita (USD)</h6>
+      <p class="pad-t-0"><strong>${{ insight.country_data.GDPPerCapita.0.year_2019|floatformat:0|intcomma }}</strong></p>
+
+      <h3 class="pad-y-1">Target age group</h3>
+
+      <h6 class="body-gamma pad-y-0">Target age population</h6>
+      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_target_age_population|intcomma }}</strong></p>
+      <h6 class="body-gamma pad-y-0">Female in target group</h6>
+      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.female_target_age_population|intcomma }}</strong></p>
+      <h6 class="body-gamma pad-y-0">Male in target group</h6>
+      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.male_target_age_population|intcomma }}</strong></p>
+      <h6 class="body-gamma pad-y-0">Livng in uban areas</h6>
+      <p class="pad-t-0"><strong> {% widthratio marketing_approach.population_data.urban_percentage 1 100 %}&percnt;</strong></p>
+      <h6 class="body-gamma pad-y-0">Living in rural areas</h6>
+      <p class="pad-t-0"><strong>{% widthratio marketing_approach.population_data.rural_percentage 1 100 %}&percnt;</strong></p>
+    </td>
+    {% endwith %}
+    {% endif %}
+  </tr>
+</table>
+<pdf:nextpage>
+{% endfor %}
