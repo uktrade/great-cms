@@ -1188,6 +1188,23 @@ class ArticlePageTests(SetUpLocaleMixin, WagtailPageTests):
         assert 'social_links' in output
 
 
+@pytest.mark.django_db
+def test_article_page_get_absolute_url(domestic_site, domestic_homepage, en_locale):
+    page = ArticlePageFactory(
+        title='Test Article Page',
+        article_title='Test Article',
+        parent=domestic_homepage,
+    )
+    assert page.get_url() == '/test-article-page/'
+
+    with override_settings(BASE_URL='https://example.com'):
+        assert page.get_absolute_url() == 'https://example.com/test-article-page/'
+
+    #  also confirm trailing slash on BASE_URL is handled
+    with override_settings(BASE_URL='https://example.com/'):
+        assert page.get_absolute_url() == 'https://example.com/test-article-page/'
+
+
 @pytest.mark.parametrize(
     'related_page_data',
     (

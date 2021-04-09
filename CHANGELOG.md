@@ -1,9 +1,10 @@
 # Changelog
 
-## Pre-release changes - please put everything in the appropriate category above ======
+## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
 - GP2-1904 - New sign in page mobile
+- GP2-1850 - Port Search from V1 to great-cms
 - GP2-2224 - Python upgrade to 3.9.1
 - GP2-2084 - Table (Add element functionality) - All pages
 - GP2-1902 - New sign in page design implemented

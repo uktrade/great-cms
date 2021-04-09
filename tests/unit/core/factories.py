@@ -149,3 +149,11 @@ class CaseStudyFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = models.CaseStudy
+
+
+class IndustryTagFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.IndustryTag
+
+    name = factory.fuzzy.FuzzyText(length=10)
+    icon = factory.SubFactory(wagtail_factories.ImageFactory)
