@@ -33,6 +33,7 @@
           apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
           apiLogoutUrl: '{% url "sso:business-sso-logout-api" %}',
           apiUserProfileUpdateUrl: '{% url "sso:user-profile-api" %}',
+          apiUserQuestionnaireUrl: '{% url "sso:user-questionnaire-api"%}',
           apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
           apiLookupProductScheduleUrl: '{% url "core:api-lookup-product-schedule" %}',
           apiCountriesUrl: '{% url "core:api-countries" %}',
@@ -53,6 +54,7 @@
           apiFundingCreditOptionsUpdateUrl: '{% url "exportplan:api-funding-credit-options-update" %}',
           apiFundingCreditOptionsDeleteUrl: '{% url "exportplan:api-funding-credit-options-delete" %}',
           apiModelObjectManageUrl: '{% url "exportplan:api-model-object-manage" %}',
+
           countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
           apiComTradeDataUrl: '{% url "core:api-comtrade-data" %}',
           apiCountryDataUrl: '{% url "core:api-country-data" %}',
@@ -132,7 +134,7 @@
         modals: [
           {
             factory: magna.Questionnaire,
-            params: {{questionnaire|to_json}},
+            params: {},
           },
 
           {

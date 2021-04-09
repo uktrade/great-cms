@@ -32,3 +32,17 @@ class UserProfileAPIView(generics.GenericAPIView):
         response = helpers.update_user_profile(session_id, request.data)
 
         return Response(status=200, data=response)
+
+
+class QuestionnaireAPIView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        response = request.user.get_user_questionnaire()
+        return Response(status=200, data=response)
+
+    def post(self, request, *args, **kwargs):
+        response = request.user.set_user_questionnaire_answer(
+            question_id=request.data.get('questionId'), answer=request.data.get('answer')
+        )
+        return Response(status=200, data=response)

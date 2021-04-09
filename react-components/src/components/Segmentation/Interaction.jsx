@@ -1,21 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import ReactHtmlParser from 'react-html-parser'
 
 function RadioButtons(props) {
-  const { name, choices, valueChange } = props
+  const { name, choices, initialSelection, valueChange } = props
   const [selection, setSelection] = useState()
 
   const updateSelection = (_selection) => {
-    setSelection(_selection)
+    setSelection(_selection.value)
     valueChange(_selection)
   }
+
+  useEffect(() => {
+    console.log('effect')
+    setSelection(initialSelection)
+  }, [name])
 
   const changeVal = (evt) => {
     updateSelection({ value: evt.target.value })
   }
-
+  console.log('bttns', (selection), initialSelection)
   const buttons = choices.map(({label, value}, idx) => {
-    const checked = value === (selection && selection.value)
+    const checked = value === (selection)
 
     return (
       <div key={idx} className="multiple-choice p-f-s p-b-xs">
@@ -29,7 +35,7 @@ function RadioButtons(props) {
           onChange={changeVal}
         />
         <label htmlFor={idx} className="body-l">
-          {label}
+          {ReactHtmlParser(label)}
         </label>
       </div>
     )
@@ -49,12 +55,16 @@ RadioButtons.propTypes = {
 }
 
 export default function Interaction(props) {
-  const { question, answers, processResponse } = props
+  const { question, answers, initialSelection, processResponse, goBack } = props
 
   const [value, setValue] = useState()
 
   const clickSave = () => {
     processResponse(value)
+  }
+
+  const clickBack = () => {
+    goBack()
   }
 
   const valueChange = (newValue) => {
@@ -73,17 +83,27 @@ export default function Interaction(props) {
         <RadioButtons
           name={question.name}
           choices={answers}
+          initialSelection={initialSelection}
           valueChange={valueChange}
         />
+        <button
+          type="button"
+          className="button button--tertiary m-t-xxs m-b-xs"
+          onClick={goBack}
+          style={{ float: 'left', clear: 'both' }}
+        >
+          Back
+          </button>
         <button
           type="button"
           className="button button--primary m-t-xxs m-b-xs"
           disabled={!value || !Object.keys(value).length}
           onClick={clickSave}
-          style={{ float: 'left', clear: 'both' }}
+          style={{ float: 'right' }}
         >
-          Save
+          Next
           </button>
+
       </div>
     </form>
   )

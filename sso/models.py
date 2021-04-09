@@ -59,3 +59,6 @@ class BusinessSSOUser(AbstractUser):
 
     def get_user_questionnaire(self):
         return helpers.get_user_questionnaire(self.session_id)
+
+    def set_user_questionnaire_answer(self, question_id, answer):
+        return helpers.set_user_questionnaire_answer(self.session_id, question_id, answer)
