@@ -75038,6 +75038,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_html_parser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-html-parser */ "./node_modules/react-html-parser/lib/index.js");
 /* harmony import */ var react_html_parser__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_html_parser__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Select */ "./react-components/src/components/Form/Select/index.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -75049,6 +75050,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -75067,11 +75069,10 @@ function RadioButtons(props) {
 
   var updateSelection = function updateSelection(_selection) {
     setSelection(_selection.value);
-    valueChange(_selection);
+    valueChange(_selection.value);
   };
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    console.log('effect');
     setSelection(initialSelection);
   }, [name]);
 
@@ -75081,7 +75082,6 @@ function RadioButtons(props) {
     });
   };
 
-  console.log('bttns', selection, initialSelection);
   var buttons = choices.map(function (_ref, idx) {
     var label = _ref.label,
         value = _ref.value;
@@ -75116,7 +75116,6 @@ RadioButtons.propTypes = {
 };
 function Interaction(props) {
   var question = props.question,
-      answers = props.answers,
       initialSelection = props.initialSelection,
       processResponse = props.processResponse,
       goBack = props.goBack;
@@ -75134,8 +75133,16 @@ function Interaction(props) {
     goBack();
   };
 
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    setValue(initialSelection);
+  }, [question]);
+
   var valueChange = function valueChange(newValue) {
     setValue(newValue);
+  };
+
+  var selectValueChange = function selectValueChange(value) {
+    valueChange(Object.values(value)[0]);
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
@@ -75146,12 +75153,21 @@ function Interaction(props) {
     className: "h-s"
   }, question.title), question.content && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "body-m m-b-xs text-blue-deep-60"
-  }, question.content), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RadioButtons, {
+  }, question.content), question.type == 'RADIO' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RadioButtons, {
     name: question.name,
-    choices: answers,
+    choices: question.choices.options || question.choices,
     initialSelection: initialSelection,
     valueChange: valueChange
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }) : '', question.type == 'SLCT' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__["Select"], {
+    label: question.title,
+    id: "question-".concat(question.id),
+    update: selectValueChange,
+    name: question.name,
+    options: question.choices.options || question.choices,
+    hideLabel: true,
+    placeholder: question.choices.placeholder || 'Please choose',
+    selected: initialSelection
+  }) : '', goBack ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "button button--tertiary m-t-xxs m-b-xs",
     onClick: goBack,
@@ -75159,10 +75175,10 @@ function Interaction(props) {
       "float": 'left',
       clear: 'both'
     }
-  }, "Back"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, "Back") : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "button button--primary m-t-xxs m-b-xs",
-    disabled: !value || !Object.keys(value).length,
+    disabled: !value,
     onClick: clickSave,
     style: {
       "float": 'right'
@@ -75239,6 +75255,12 @@ function Questionnaire(props) {
       questions = _useState6[0],
       setQuestions = _useState6[1];
 
+  var questionIndex = function questionIndex() {
+    return questions.findIndex(function (q) {
+      return q.id == question.id;
+    });
+  };
+
   var setNextQuestion = function setNextQuestion(questionnaire) {
     // work out last answered question (may be better in BE)
     if (questionnaire && questionnaire.questions) {
@@ -75259,10 +75281,7 @@ function Questionnaire(props) {
 
       if (question) {
         // follwing saving an answer
-        var index = questions.findIndex(function (q) {
-          return q.id == question.id;
-        });
-        setQuestion(questions[index + 1]);
+        setQuestion(questions[questionIndex() + 1]);
       } else {
         // initial
         setQuestion(firstUnansweredQuestion);
@@ -75286,16 +75305,13 @@ function Questionnaire(props) {
   };
 
   var goBack = function goBack() {
-    var index = questions.findIndex(function (q) {
-      return q.id == question.id;
-    });
-    setQuestion(questions[index - 1]);
+    setQuestion(questions[questionIndex() - 1]);
   };
 
   var modalAfterOpen = function modalAfterOpen() {};
 
   var setQuestionAnswer = function setQuestionAnswer(selection) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].setUserQuestionnaireAnswer(question.id, selection.value).then(function (questionnaire) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].setUserQuestionnaireAnswer(question.id, selection).then(function (questionnaire) {
       if (!questionnaire || !questionnaire.answers) {
         setShowClose(true);
         setQuestion(null);
@@ -75308,10 +75324,9 @@ function Questionnaire(props) {
   var content = function content() {
     if (question) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Interaction__WEBPACK_IMPORTED_MODULE_4__["default"], {
       question: question,
-      answers: question.choices,
       initialSelection: question.answer,
       processResponse: setQuestionAnswer,
-      goBack: goBack
+      goBack: questionIndex() > 0 ? goBack : null
     });
     if (showClose) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "c-fullwidth"

@@ -11,6 +11,10 @@ export default function Questionnaire(props) {
   const [question, setQuestion] = useState()
   const [questions, setQuestions] = useState()
 
+  const questionIndex = () => {
+    return questions.findIndex((q) => q.id == question.id)
+  }
+
   const setNextQuestion = (questionnaire) => {
     // work out last answered question (may be better in BE)
     if (questionnaire && questionnaire.questions) {
@@ -28,8 +32,7 @@ export default function Questionnaire(props) {
       }, null)
       if (question) {
         // follwing saving an answer
-        const index = questions.findIndex((q) => q.id == question.id)
-        setQuestion(questions[index + 1])
+        setQuestion(questions[questionIndex() + 1])
       } else {
         // initial
         setQuestion(firstUnansweredQuestion)
@@ -52,14 +55,13 @@ export default function Questionnaire(props) {
   }
 
   const goBack = () => {
-    const index = questions.findIndex((q) => q.id == question.id)
-    setQuestion(questions[index - 1])
+    setQuestion(questions[questionIndex() - 1])
   }
 
   const modalAfterOpen = () => {}
 
   const setQuestionAnswer = (selection) => {
-    Services.setUserQuestionnaireAnswer(question.id, selection.value)
+    Services.setUserQuestionnaireAnswer(question.id, selection)
       .then((questionnaire) => {
         if (!questionnaire || !questionnaire.answers) {
           setShowClose(true)
@@ -75,10 +77,9 @@ export default function Questionnaire(props) {
       return (
         <Interaction
           question={question}
-          answers={question.choices}
           initialSelection={question.answer}
           processResponse={setQuestionAnswer}
-          goBack={goBack}
+          goBack={questionIndex() > 0 ? goBack : null}
         />
       )
     if (showClose)
