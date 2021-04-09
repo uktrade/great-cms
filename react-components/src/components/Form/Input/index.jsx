@@ -54,7 +54,18 @@ export const Input = memo(
           min={minDate}
           name={id}
           disabled={disabled}
-          onChange={(e) => onChange({ [id]: e.target.value })}
+          onChange={(e) => {
+            let { value: updatedValue } = e.target
+            if (type === 'number' && !updatedValue) {
+              updatedValue = null
+            }
+            onChange({ [id]: updatedValue })
+          }}
+          onKeyDown={(e) => {
+            if (type === 'number' && e.key === '0' && !!value === false) {
+              e.preventDefault()
+            }
+          }}
           placeholder={placeholder}
           value={value}
           readOnly={readOnly}
