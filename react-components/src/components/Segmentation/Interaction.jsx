@@ -40,7 +40,7 @@ function RadioButtons(props) {
     )
   })
 
-  return <div className="m-b-xs">{buttons}</div>
+  return <div className="m-b-xs" style={{overflow:'hidden'}}>{buttons}</div>
 }
 
 RadioButtons.propTypes = {
@@ -70,7 +70,6 @@ export default function Interaction(props) {
   return (
     <form className="text-blue-deep-80">
       <div className="c-fullwidth">
-        <h3 className="h-s">{question.title}</h3>
         {question.content && (
           <p className="body-m m-b-xs text-blue-deep-60">{question.content}</p>
         )}
@@ -84,7 +83,7 @@ export default function Interaction(props) {
         ) : (
           ''
         )}
-        {question.type == 'SLCT' ? (
+        {question.type in {'SLCT':1,'SELECT':1} ? (
           <Select
             label=""
             id={`question-${question.id}`}
