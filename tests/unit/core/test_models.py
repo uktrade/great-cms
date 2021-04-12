@@ -36,7 +36,7 @@ from core.models import (
 )
 from domestic.models import DomesticDashboard, DomesticHomePage, GreatDomesticHomePage
 from exportplan.models import ExportPlanDashboardPage
-from tests.helpers import make_test_video
+from tests.helpers import SetUpLocaleMixin, make_test_video
 from tests.unit.core import factories
 from .factories import (
     CaseStudyFactory,
@@ -55,7 +55,7 @@ def test_object_hash():
 
 
 @pytest.mark.django_db
-def test_detail_page_can_mark_as_read(client, domestic_homepage, user, domestic_site):
+def test_detail_page_can_mark_as_read(client, domestic_homepage, user, domestic_site, mock_get_user_profile):
     # given the user has not read a lesson
     client.force_login(user)
 
@@ -73,7 +73,7 @@ def test_detail_page_can_mark_as_read(client, domestic_homepage, user, domestic_
 
 
 @pytest.mark.django_db
-def test_detail_page_cannot_mark_as_read(client, domestic_homepage, user, domestic_site):
+def test_detail_page_cannot_mark_as_read(client, domestic_homepage, user, domestic_site, mock_get_user_profile):
     # given the user has not read a lesson
     client.force_login(user)
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=False)
@@ -88,7 +88,7 @@ def test_detail_page_cannot_mark_as_read(client, domestic_homepage, user, domest
 
 
 @pytest.mark.django_db
-def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, domestic_site):
+def test_detail_page_anon_user_not_marked_as_read(client, domestic_homepage, domestic_site, mock_get_user_profile):
     # given the user has not read a lesson
     clp = factories.CuratedListPageFactory(parent=domestic_homepage)
     topic_page = factories.TopicPageFactory(parent=clp)
@@ -108,6 +108,7 @@ def test_curated_list_page_has_link_in_context_back_to_parent(
     mock_export_plan_list,
     patch_get_user_lesson_completed,
     user,
+    mock_get_user_profile,
 ):
 
     list_page = factories.ListPageFactory(
@@ -238,7 +239,11 @@ def test_detail_page_get_context_handles_backlink_querystring_appropriately(
         'backlink for a non-existent page',
     ),
 )
-def test_detail_page_get_context_gets_backlink_title_based_on_backlink(backlink_path, expected):
+def test_detail_page_get_context_gets_backlink_title_based_on_backlink(
+    backlink_path,
+    expected,
+    en_locale,
+):
     detail_page = factories.DetailPageFactory(template='learn/detail_page.html')
     assert detail_page._get_backlink_title(backlink_path) == expected
 
@@ -478,7 +483,7 @@ def test_structure_page_redirects_to_http404(
             getattr(structure_page, page_method)(request)
 
 
-class DetailPageTests(WagtailPageTests):
+class DetailPageTests(SetUpLocaleMixin, WagtailPageTests):
     def test_parent_page_types(self):
         self.assertAllowedParentPageTypes(DetailPage, {TopicPage})
 
@@ -500,6 +505,7 @@ def test_redirection_for_unauthenticated_user(
     mock_export_plan_list,
     patch_get_user_lesson_completed,
     user,
+    mock_get_user_profile,
 ):
 
     landing_page = factories.LandingPageFactory(parent=domestic_homepage)
@@ -535,7 +541,7 @@ def test_redirection_for_unauthenticated_user(
 class TestImageAltRendition(TestCase, WagtailTestUtils):
     def setUp(self):
         self.login()
-        root_collection = Collection.objects.create(name='Root', depth=0)
+        root_collection, _ = Collection.objects.get_or_create(name='Root', depth=0)
         great_image_collection = root_collection.add_child(name='Great Images')
 
         # Create an image with alt text
@@ -667,7 +673,7 @@ class TestSmallSnippets(TestCase):
         self.assertEqual(f'{tag}', 'Test IndustryTag')  #  tests __str__
 
 
-class TestMagnaPageChooserPanel(TestCase):
+class TestMagnaPageChooserPanel(SetUpLocaleMixin, TestCase):
     def setUp(self):
         self.request = RequestFactory().get('/')
         user = AnonymousUser()  # technically, Anonymous users cannot access the admin

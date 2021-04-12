@@ -11,7 +11,7 @@ function Tabs(props) {
 
   return (
     <div className="tabs">
-      <ol className="tab-list body-m m-f-m">
+      <ol className="tab-list body-m">
         {children.map((child) => {
           const { label, tabId } = child.props
           return (

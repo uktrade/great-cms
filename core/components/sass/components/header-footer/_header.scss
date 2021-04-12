@@ -35,6 +35,21 @@ $menu-margin-s: 20px;
   }
 }
 
+.great-header.expanded {
+  &:before {
+    @media (max-width: 768px) {
+      content: '';
+      background: rgba(0,0,0,0.5);
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+    }
+  }
+}
+
 .great-header,
 .great-sub-header {
   // need to make sure it's not underneath anything
@@ -91,6 +106,8 @@ $menu-margin-s: 20px;
     &.mobile {
       @include mobileOnly;
       margin: 0;
+      z-index: 1;
+      position: relative;
     }
 
     &.desktop {

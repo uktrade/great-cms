@@ -93,7 +93,9 @@ def test_target_markets_research_form_empty_fields():
 
 
 @pytest.mark.django_db
-def test_about_your_business_form_view(export_plan_data, about_your_business_form_data, client, user):
+def test_about_your_business_form_view(
+    export_plan_data, about_your_business_form_data, client, user, mock_get_user_profile
+):
     export_plan_data['about_your_business'] = about_your_business_form_data
     url = reverse('exportplan:about-your-business')
     client.force_login(user)
@@ -106,7 +108,13 @@ def test_about_your_business_form_view(export_plan_data, about_your_business_for
 @patch.object(helpers, 'get_cia_world_factbook_data')
 @patch.object(helpers, 'get_or_create_export_plan')
 def test_market_markets_research_form_view(
-    mock_get_export_plan, mock_cia_factbook_data, target_markets_research_data, client, user
+    mock_get_export_plan,
+    mock_cia_factbook_data,
+    mock_get_comtrade_data,
+    target_markets_research_data,
+    client,
+    user,
+    mock_get_user_profile,
 ):
     mock_get_export_plan.return_value = {
         'pk': 1,

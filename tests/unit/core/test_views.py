@@ -189,6 +189,7 @@ def test_dashboard_page_logged_in(
     domestic_dashboard,
     client,
     user,
+    mock_get_user_profile,
 ):
     mock_get_user_lesson_completed.return_value = create_response(json_body={'results': []})
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
@@ -222,6 +223,7 @@ def test_dashboard_page_lesson_progress(
     get_request,
     domestic_homepage,
     domestic_site,
+    mock_get_user_profile,
 ):
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
@@ -339,6 +341,7 @@ def test_dashboard_apis_ok(
     patch_get_user_page_views,
     patch_get_user_lesson_completed,
     domestic_homepage,
+    mock_get_user_profile,
 ):
     patch_get_dashboard_events.stop()
     patch_get_dashboard_export_opportunities.stop()
@@ -439,6 +442,7 @@ def test_dashboard_apis_fail(
     patch_get_user_page_views,
     patch_get_user_lesson_completed,
     domestic_homepage,
+    mock_get_user_profile,
 ):
     patch_get_dashboard_events.stop()
     patch_get_dashboard_export_opportunities.stop()
@@ -460,7 +464,7 @@ def test_dashboard_apis_fail(
 
 
 @pytest.mark.django_db
-def test_capability_article_logged_in(client, user):
+def test_capability_article_logged_in(client, user, mock_get_user_profile):
     client.force_login(user)
     url = reverse(
         'core:capability-article', kwargs={'topic': 'some topic', 'chapter': 'some chapter', 'article': 'some article'}
@@ -801,7 +805,7 @@ def test_check_view_external_error(mock_search_commodity_by_term, client):
 
 
 @pytest.mark.django_db
-def test_compare_countries_page(mock_export_plan_list, domestic_homepage, client, user):
+def test_compare_countries_page(mock_export_plan_list, domestic_homepage, client, user, mock_get_user_profile):
     client.force_login(user)
     url = reverse('core:compare-countries')
 
@@ -832,7 +836,7 @@ def test_compare_countries_page(mock_export_plan_list, domestic_homepage, client
 
 
 @pytest.mark.django_db
-def test_contact_us_form_prepopualate(client, user):
+def test_contact_us_form_prepopualate(client, user, mock_get_user_profile):
     client.force_login(user)
     url = reverse('core:contact-us-help')
     response = client.get(url)

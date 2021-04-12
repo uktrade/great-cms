@@ -81,7 +81,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'wagtail.core.middleware.SiteMiddleware',
+    'wagtail.contrib.legacy.sitemiddleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     'core.middleware.UserSpecificRedirectMiddleware',
     'core.middleware.UserLocationStoreMiddleware',
@@ -91,6 +91,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF_REDIRECTS = 'config.url_redirects'
+
 
 TEMPLATES = [
     {
@@ -195,9 +197,9 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = str(ROOT_DIR('media'))
 MEDIA_URL = '/media/'  # NB: this is overriden later, if/when AWS is set up
+PDF_STATIC_URL = ''  # NB: overriiden by AWS public s3 if setup
 
 # Wagtail settings
-
 WAGTAIL_SITE_NAME = 'Great CMS MVP'
 WAGTAIL_FRONTEND_LOGIN_URL = reverse_lazy('core:login')
 
@@ -343,6 +345,9 @@ if USER_MEDIA_ON_S3 and (AWS_STORAGE_BUCKET_NAME or AWS_S3_CUSTOM_DOMAIN):
         hostname = f'{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_HOST}'
     MEDIA_URL = f'{AWS_S3_URL_PROTOCOL}//{hostname}/'
 
+# PDF statics need to be stored on public s3 drive for access
+if AWS_STORAGE_BUCKET_NAME:
+    PDF_STATIC_URL = f'{AWS_S3_URL_PROTOCOL}//{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_HOST}/export_plan_pdf_statics/'
 
 if DEBUG:
     INSTALLED_APPS += ['debug_toolbar']
@@ -432,6 +437,17 @@ CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID = env.str(
     'CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID', '61c82be6-b140-46fc-aeb2-472df8a94d35'
 )
 
+# UKEF CONTACT FORM
+UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID', '09677460-1796-4a60-a37c-c1a59068219e'
+)
+UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID', 'e24ba486-6337-46ce-aba3-45d1d3a2aa66'
+)
+UKEF_CONTACT_AGENT_EMAIL_ADDRESS = env.str(
+    'UKEF_CONTACT_AGENT_EMAIL_ADDRESS',
+)
+
 
 FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES = env.bool('FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES', False)
 
@@ -442,6 +458,12 @@ GEOIP_CITY = 'GeoLite2-City.mmdb'
 MAXMIND_LICENCE_KEY = env.str('MAXMIND_LICENCE_KEY')
 GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
     'GEOLOCATION_MAXMIND_DATABASE_FILE_URL', 'https://download.maxmind.com/app/geoip_download'
+)
+
+# redirects
+FEATURE_FLAG_INTERNATIONAL_CONTACT_TRIAGE_ENABLED = env.bool(
+    'FEATURE_INTERNATIONAL_CONTACT_TRIAGE_ENABLED',
+    False,
 )
 
 # directory-api
@@ -524,6 +546,8 @@ FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER = env.bool('FEATURE_ENABLE_PRODUCT_SE
 FEATURE_COMPARE_MARKETS_TABS = env.str('FEATURE_COMPARE_MARKETS_TABS', '{ }')
 FEATURE_SHOW_REPORT_BARRIER_CONTENT = env.bool('FEATURE_SHOW_REPORT_BARRIER_CONTENT', False)
 FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS = env.bool('FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS', False)
+FEATURE_SHOW_MAGNA_LINKS_IN_HEADER = env.bool('FEATURE_SHOW_MAGNA_LINKS_IN_HEADER', False)
+FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK = env.bool('FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK', False)
 MAX_COMPARE_PLACES_ALLOWED = env.int('MAX_COMPARE_PLACES_ALLOWED', 10)
 
 BETA_ENVIRONMENT = env.str('BETA_TOKEN', default='')

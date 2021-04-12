@@ -2,16 +2,48 @@
 
 ## Pre-release changes - please put everything in the appropriate category above ======
 
+### Enhancements
 ### Fixed bugs
 
+## [1.6.0](https://github.com/uktrade/great-cms/releases/tag/1.6.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.5.0...1.6.0)
+### Fixed bugs
+
+- GP2-2123 - Add new group select styling and layout
+- GP2-2110 - Use Django-based Contact Us view for now, after all - reverts part of GP2-1901
+- GP2-2051 - Fix bug of lesson page when no country is selected
+- GP2-1901 - use slugurl for footer links
+- GP2-2096 - Target market country data
+- NOTICKET - Add background colour support for example component
+- GP2-2075 - Fix header menu positioning bug
+- GP2-2076 - Display correct mobile header links
+- GP2-2078 - Make magna header and personalisation bar full width
+- GP2-2076 - Add sign out button to logged out header
+- GP2-2074 - redirect user to homepage after signout
+- GP2-1277 - Videos not displaying correctly for case studies
+- GP2-1710 - C&P units copy change, currency width and copy change.
+- GP2-1931 - add placeholder text
+- GP2-1930 - text changes, and update data structure whilst at it.
+- GP2-1948 - section complete copy
+- GP2-1913 - allow user to click anywhere inside the input field to toggle dropdown
 ### Enhancements
 
-
-=======
+- GP2-1977 - asset path for CSS fonts
+- GP2-1915 - Align EP data snapshots with WTE
+- GP2-1935 - add confirmation modal - business objectives
+- GP2-1900 - port redirects from BAU
+- GP2-800 - Objectives page Date picker
+- GP2-1869 - Logged in magna mobile header
+- GP2-1840 - Logged in magna desktop header
+- GP2-1849 - Feature flag magna links in logged out mobile header
+- GP2-1927 - Modal window Issues--Export plan pages
+- GP2-1616 - Port UKEF pages from V1
+- GP2-1719 - Segmentation question
+- NOTICKET - Fix pdf static images
 
 ## [1.5.0](https://github.com/uktrade/great-cms/releases/tag/1.5.0)
-
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.4.0...1.5.0)
+
 ### Fixed bugs
 
 - GP2-1914 - Remove rogue backtick
@@ -33,11 +65,16 @@
 - NO TICKET - fix wagtail checkbox layout issue
 - NO TICKET - fix pdf generation
 - GP2-1792 - dashboard pages
+- GP2-1630 - add more data
+- Noticket pdf external datasources
 
 ### Implemented enhancements
 
+- GP2-2044 - CTA's only show sign in label by criteria
+- GP2-1852 - WTE responsive format
+- GP2-1849 - Logged out mobile header
 - GP2-1784 - Stop breadcrumbs showing for Structural Page
-- GP2-1559 - Structural page  for marketing articles
+- GP2-1559 - Structural page for marketing articles
 - GP2-1430 - Income data for target research page in EP
 - GP2-1575 - Added default text for case study summary_context field
 - GP2-1570 - CaseStudy UI seachability by summary, lead_title and some tags
@@ -49,6 +86,7 @@
 - GP2-1724 - Configurable compare country limit
 - GP2-1811 - Fix SEO title as main page title if it exists
 - GP2-1811 - Fix SEO title not appearing in meta tags
+- GP2-1839 - Logged in homepage content
 - GP2-1724 - WTE population tab using generic endpoints + cleanup
 - GP2-1858 - Change logged out header sign out to dashboard
 - GP2-1770 - Business risk content changes.

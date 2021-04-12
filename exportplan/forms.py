@@ -2,7 +2,7 @@ import directory_validators.file
 from django.forms import ImageField, NumberInput, Select, Textarea
 from great_components import forms
 
-from core.helpers import population_age_range_choices
+# from core.helpers import population_age_range_choices
 from directory_constants.choices import TURNOVER_CHOICES
 
 
@@ -12,21 +12,6 @@ class LogoForm(forms.Form):
         required=True,
         validators=[directory_validators.file.logo_filesize, directory_validators.file.image_format],
     )
-
-
-class CountryDemographicsForm(forms.Form):
-    COUNTRY_CHOICES = [
-        'Australia',
-        'Brazil',
-        'China',
-        'France',
-        'Germany',
-        'India',
-        'United States',
-    ]
-
-    name = forms.ChoiceField(label='Country name', choices=((i, i) for i in COUNTRY_CHOICES))
-    age_range = forms.ChoiceField(choices=((i, i) for i in population_age_range_choices))
 
 
 class ExportPlanAboutYourBusinessForm(forms.Form):

@@ -9,7 +9,9 @@ from django.test import RequestFactory, override_settings
 from django.utils.timezone import now as tz_now
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.models import Page
+from wagtail.core.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
+from wagtail_factories import SiteFactory
 
 from core import cache_keys, mixins, models as core_models, service_urls
 from directory_api_client import api_client
@@ -28,10 +30,11 @@ from domestic.models import (
     PerformanceDashboardPage,
     StructuralPage,
     TopicLandingPage,
+    TradeFinancePage,
     industry_accordions_validation,
     main_statistics_validation,
 )
-from tests.helpers import create_response
+from tests.helpers import SetUpLocaleMixin, create_response
 from tests.unit.core.factories import (
     CuratedListPageFactory,
     DetailPageFactory,
@@ -52,8 +55,8 @@ from .factories import (
 )
 
 
-class DomesticHomePageTests(WagtailPageTests):
-    # NB: These are tests for the MVP homepage, not the one ported from V1
+class DomesticHomePageTests(SetUpLocaleMixin, WagtailPageTests):
+    # NB: These are DEPRECATED tests for the MVP homepage, not the one ported from V1
     def test_page_is_exclusive(self):
         assert issubclass(DomesticHomePage, mixins.WagtailAdminExclusivePageMixin)
 
@@ -79,8 +82,9 @@ class DomesticHomePageTests(WagtailPageTests):
         self.assertEqual(retrieved_page.slug, 'events')
 
 
-class DomesticDashboardTests(WagtailPageTests):
-    # NB: These are tests for the MVP homepage, not the one ported from V1
+class DomesticDashboardTests(SetUpLocaleMixin, WagtailPageTests):
+    # NB: These are tests for the MVP homepage, not the richer one ported from V1
+    # see GreatDomesticHomePageTests for the richer-homepage tests
     def test_page_is_exclusive(self):
         assert issubclass(DomesticDashboard, mixins.WagtailAdminExclusivePageMixin)
 
@@ -111,6 +115,7 @@ def test_dashboard_page_routing(
     get_request,
     domestic_homepage,
     domestic_site,
+    mock_get_user_profile,
 ):
     patch_sso_get_export_plan.stop()
     mock_export_plan_list.return_value = [{}]
@@ -187,7 +192,6 @@ def test_dashboard_page_routing(
     assert context_data['export_plan_progress']['sections_total'] == 10
     assert context_data['export_plan_progress']['exportplan_completed'] is False
     assert context_data['export_plan_progress']['exportplan_completed'] is False
-    assert context_data['export_plan_dashboard_url'] == '/export-plan/dashboard/'
 
 
 @pytest.mark.django_db
@@ -589,7 +593,7 @@ def test_base_content_page__get_breadcrumbs__using_breadcrumbs_label_field():
     pass
 
 
-class TopicLandingPageTests(WagtailPageTests):
+class TopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             TopicLandingPage,
@@ -661,7 +665,7 @@ class TopicLandingPageTests(WagtailPageTests):
         )
 
 
-class MarketsTopicLandingPageTests(WagtailPageTests):
+class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             MarketsTopicLandingPage,
@@ -826,7 +830,7 @@ class MarketsTopicLandingPageTests(WagtailPageTests):
                 )
 
 
-class MarketsTopicLandingPageFilteringTests(WagtailPageTests):
+class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
 
     fixtures = ['markets_filtering_fixtures.json']
 
@@ -1055,20 +1059,20 @@ def test_markets_page__no_results__page_content(
     ) in body_text
 
     # Brittle tests warning
-    assert str(links[16]) == (
+    assert str(links[18]) == (
         '<a class="link" href="https://www.great.gov.uk/export-opportunities/">'
         'Browse our export opportunities service to find opportunities to sell your product in overseas markets</a>'
     )
 
-    assert str(links[17]) == (
+    assert str(links[19]) == (
         '<a class="link" href="https://www.great.gov.uk/contact/office-finder">'
         'Get in touch with a trade adviser to discuss your export business plan</a>'
     )
 
-    assert str(links[18]) == ('<a class="view-markets link bold margin-top-15" href="/markets/">Clear all filters</a>')
+    assert str(links[20]) == ('<a class="view-markets link bold margin-top-15" href="/markets/">Clear all filters</a>')
 
 
-class ArticleListingPageTests(WagtailPageTests):
+class ArticleListingPageTests(SetUpLocaleMixin, WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             ArticleListingPage,
@@ -1148,7 +1152,7 @@ class ArticleListingPageTests(WagtailPageTests):
         self.assertEqual(listing_page.get_articles_count(), 4)
 
 
-class ArticlePageTests(WagtailPageTests):
+class ArticlePageTests(SetUpLocaleMixin, WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             ArticlePage,
@@ -1307,7 +1311,7 @@ def test_article_body_pull_quote_block(
         assert organisation_link not in rendered_block
 
 
-class PerformanceDashboardPageTests(WagtailPageTests):
+class PerformanceDashboardPageTests(SetUpLocaleMixin, WagtailPageTests):
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
             PerformanceDashboardPage,
@@ -1417,7 +1421,7 @@ class PerformanceDashboardPageTests(WagtailPageTests):
         ),
     ),
 )
-def test_performance_dashboard_auto_population(product_link, expected):
+def test_performance_dashboard_auto_population(product_link, expected, en_locale):
     dash = PerformanceDashboardPageFactory(product_link=product_link)
 
     for key in ['title', 'heading', 'landing_dashboard', 'slug']:
@@ -1453,7 +1457,7 @@ def test_all_domestic_models_implement_ga360_mixins():
 
 
 @override_settings(API_CACHE_DISABLED=True)
-class GreatDomesticHomePageTests(WagtailPageTests):
+class GreatDomesticHomePageTests(SetUpLocaleMixin, WagtailPageTests):
 
     fixtures = ['markets_filtering_fixtures.json']
 
@@ -1463,7 +1467,13 @@ class GreatDomesticHomePageTests(WagtailPageTests):
         self.assertEqual(core_models.Region.objects.count(), 22)
         self.assertEqual(core_models.Country.objects.count(), 269)
 
-        GreatDomesticHomePageFactory(slug='root')
+        GreatDomesticHomePageFactory(
+            slug='root',
+            magna_ctas_columns__columns__0__text='test Magna CTA',
+            magna_ctas_columns__columns__0__url='/learn/categories/',
+            magna_ctas_columns__columns__0__content='<p>Test test</p>',
+            magna_ctas_columns__columns__0__image=None,
+        )
         self.great_domestic_homepage = GreatDomesticHomePage.objects.get(url_path='/')
         self.markets_topic_page = MarketsTopicLandingPage(title='Markets')
         self.great_domestic_homepage.add_child(instance=self.markets_topic_page)
@@ -1677,11 +1687,69 @@ class GreatDomesticHomePageTests(WagtailPageTests):
         )
 
 
+@pytest.mark.django_db
+def test_great_domestic_homepage_magna_ctas_labels(root_page, client, user):
+
+    # Show that the CTAs to Magna/personalised content only have labels shown
+    # to signed-out users
+    homepage = GreatDomesticHomePageFactory(
+        parent=root_page,
+        slug='root',
+    )
+
+    SiteFactory(
+        root_page=homepage,
+        hostname=client._base_environ()['SERVER_NAME'],
+    )
+
+    homepage.magna_ctas_columns = [
+        (
+            'columns',
+            dict(
+                text='test Magna CTA',
+                url='/learn/categories/',
+                content=RichText('<p>Test test</p>'),
+                image=None,
+            ),
+        )
+    ]
+    homepage.save()
+
+    for user_logged_in in (False, True):
+
+        if user_logged_in:
+            client.force_login(user)
+
+        response = client.get(homepage.url)
+
+        assert b'<p>Test test</p>' in response.content
+        if not user_logged_in:
+            assert b'<span class="shared-tag">Sign in required</span>' in response.content
+        else:
+            assert b'<span class="shared-tag">Sign in required</span>' not in response.content
+
+
 class StructuralPageTests(WagtailPageTests):
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
             StructuralPage,
             {
                 ArticlePage,
+            },
+        )
+
+
+class TradeFinancePageTests(WagtailPageTests):
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(
+            TradeFinancePage,
+            {},
+        )
+
+    def test_allowed_parents(self):
+        self.assertAllowedParentPageTypes(
+            TradeFinancePage,
+            {
+                GreatDomesticHomePage,
             },
         )

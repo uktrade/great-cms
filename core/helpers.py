@@ -1,6 +1,7 @@
 import csv
 import functools
 import math
+import re
 import urllib
 from collections import Counter
 from difflib import SequenceMatcher
@@ -29,29 +30,22 @@ FEMALE = 'xx'
 logger = getLogger(__name__)
 
 
-population_age_range_choices = [
-    '0-8',
-    '5-9',
-    '10-14',
-    '15-19',
-    '20-24',
-    '25-29',
-    '30-34',
-    '35-39',
-    '40-44',
-    '45-49',
-    '50-54',
-    '55-59',
-    '60-64',
-    '65-69',
-    '70-74',
-    '75-79',
-    '80-84',
-    '85-89',
-    '90-94',
-    '95-99',
-    '100+',
-]
+def age_group_mapping(target_ages):
+    # Rather than hardcode a mapping - this fn takes an array of input age ranges and outputs
+    # mappings in 5 year sections up to 100 to match world-bank data
+    # e.g. ('35-44','45-54') would map to ['35-39', '40-44', '45-49', '50-54']
+    out = []
+    for range_str in target_ages:
+        range = re.split(r'[-+]', range_str)
+        range[1] = range[1] or '101'
+        start = int(range[0])
+        while start < int(range[1]):
+            if start >= 100:
+                out.append('100+')
+            else:
+                out.append(f'{start}-{start+4}')
+            start += 5
+    return out
 
 
 def get_location(request):
@@ -209,7 +203,6 @@ def search_commodity_by_term(term, json=True):
         },
         headers=ccce_headers(),
     )
-
     response.raise_for_status()
     return response.json() if json else response
 
@@ -343,7 +336,7 @@ def get_comtrade_data(countries_list, commodity_code, with_country_data=True):
     for country in countries_list:
         response_data[country] = {
             'import_from_world': process_country_imports(comtrade_data.get(country, []), from_uk=False),
-            'import_data_from_uk': process_country_imports(comtrade_data.get(country, []), from_uk=True),
+            'import_from_uk': process_country_imports(comtrade_data.get(country, []), from_uk=True),
         }
     return response_data
 

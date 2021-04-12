@@ -1,4 +1,6 @@
 import importlib
+import json
+import re
 from datetime import datetime
 
 from rest_framework import generics
@@ -7,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from core import helpers as core_helpers
 from exportplan.core import helpers, serializers
 from exportplan.core.processor import ExportPlanProcessor
 
@@ -110,10 +113,18 @@ class TargetAgeCountryPopulationData(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.CountryTargetAgeDataSerializer
 
+    def accumulate_agegroups(self, row, age_groups=None):
+        row_total = 0
+        for key, value in row.items():
+            if re.search(r'^\d', key):
+                if not age_groups or key in age_groups:
+                    row_total = row_total + value
+        return row_total
+
     def get(self, request):
         serializer = self.serializer_class(data=self.request.GET)
         serializer.is_valid(raise_exception=True)
-        country = serializer.validated_data['country']
+        country_iso2_code = serializer.validated_data['country_iso2_code']
         target_ages = serializer.validated_data['target_age_groups']
         url = serializer.validated_data['section_name']
         section_name = url.replace('/export-plan/section/', '').replace('/', '')
@@ -124,8 +135,41 @@ class TargetAgeCountryPopulationData(APIView):
             section_name=section_name,
         )
 
-        population_data = helpers.get_population_data(country=country, target_ages=target_ages)
-        return Response(population_data)
+        response = core_helpers.get_country_data(
+            countries=[country_iso2_code],
+            fields=[
+                json.dumps(
+                    [
+                        {'model': 'PopulationData', 'filter': {'year': '2020'}},
+                        {'model': 'PopulationUrbanRural', 'filter': {'year': '2021'}},
+                        {'model': 'ConsumerPriceIndex', 'latest_only': True},
+                        {'model': 'InternetUsage', 'latest_only': True},
+                        {'model': 'CIAFactbook', 'latest_only': True},
+                    ]
+                )
+            ],
+        )
+        mapped_ages = core_helpers.age_group_mapping(target_ages)
+        key_total = 'total_population'
+        key_target = 'total_target_age_population'
+
+        population_data = {key_total: 0, key_target: 0}
+
+        for row in response.get(country_iso2_code, {}).get('PopulationData', []):
+            population_data[key_target] = population_data[key_target] + self.accumulate_agegroups(row, mapped_ages)
+            population_data[key_total] = population_data[key_total] + self.accumulate_agegroups(row)
+            population_data['year'] = population_data.get('year') or row.get('year')
+            population_data[f'{row.get("gender")}_target_age_population'] = self.accumulate_agegroups(row, mapped_ages)
+        for row in response.get(country_iso2_code, {}).get('PopulationUrbanRural') or []:
+            population_data[f'{row.get("urban_rural")}_population_total'] = row.get('value')
+            population_data['year'] = population_data.get('year') or row.get('year')
+        for row in response.get(country_iso2_code, {}).get('ConsumerPriceIndex') or []:
+            population_data['cpi'] = row.get('value')
+        for row in response.get(country_iso2_code, {}).get('InternetUsage') or []:
+            population_data['internet_data'] = row.get('value')
+        for row in response.get(country_iso2_code, {}).get('CIAFactbook') or []:
+            population_data['languages'] = row.get('languages')
+        return Response({'population_data': population_data})
 
 
 class UpdateCalculateCostAndPricingAPIView(generics.GenericAPIView):

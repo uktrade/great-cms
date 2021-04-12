@@ -109,7 +109,16 @@ describe('RouteToMarketSection', () => {
   })
 
   it('Should fire deleteTable', () => {
-    const { actions, container } = setup({ ...props })
+    const { actions, container } = setup({
+      ...props,
+      field: {
+        route: '',
+        promote: '',
+        market_promotional_channel: '',
+        companyexportplan: 3,
+        pk: 48,
+      },
+    })
     fireEvent.click(container.querySelector('.button--delete'))
     expect(actions.deleteTable).toHaveBeenCalledTimes(1)
     expect(actions.deleteTable).toHaveBeenCalledWith(props.field.pk)
@@ -141,14 +150,18 @@ describe('RouteToMarketSection', () => {
   describe('Select', () => {
     it('Should have selected values', () => {
       const { container } = setup({ ...props })
-      const selected = container.getElementsByClassName('select__placeholder')
+      const selected = container.getElementsByClassName(
+        'select__placeholder--value'
+      )
       expect(selected[0].textContent).toEqual('Joint ventures')
     })
 
     describe('Should have no selected values', () => {
       it('field empty', () => {
         const { container } = setup({ ...props, field: {} })
-        const selected = container.getElementsByClassName('select__placeholder')
+        const selected = container.getElementsByClassName(
+          'select__placeholder--value'
+        )
         expect(selected[0].textContent).toEqual('Select one')
       })
 
@@ -163,7 +176,9 @@ describe('RouteToMarketSection', () => {
             pk: 48,
           },
         })
-        const selected = container.getElementsByClassName('select__placeholder')
+        const selected = container.getElementsByClassName(
+          'select__placeholder--value'
+        )
         expect(selected[0].textContent).toEqual('Select one')
       })
     })

@@ -241,7 +241,7 @@
           id: 'export_time_frame',
           label: 'select timeframe',
           name: 'select units',
-          placeholder: 'Select unit',
+          placeholder: 'Select time',
           field: 'total_cost_and_price',
         },
         grossPriceCurrency: {
@@ -260,7 +260,7 @@
           id: 'gross_price_per_unit_currency',
           label: 'select unit',
           name: 'select units',
-          placeholder: 'Select unit',
+          placeholder: 'Select currency',
         },
       },
       exportTimeframe: {{ export_timeframe_choices|safe }},
@@ -273,5 +273,3 @@
     })
   </script>
 {% endblock %}
-
-
