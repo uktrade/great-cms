@@ -29,13 +29,13 @@ export const Login = (props) => {
 
   return (<div className="bg-red-60 signup signup--reverse signup__container">
     <div className="signup__steps-panel">
-      <a href="/" alt="Exporting is GREAT">
+      <a href="/">
         <img
-          className="m-f-auto m-r-auto"
+          className="m-f-auto m-r-auto signup__logo"
           src="/static/images/logo-filled.svg"
           alt="Exporting is Great"
-          width="152"
-          height="76"
+          width="148"
+          height="69"
         />
       </a>
       <Form

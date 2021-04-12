@@ -17,6 +17,7 @@
 - GP2-2215 - Fix privacy policy sign up link
 - GP2-2120 - Change to adapting your product. Fix tooltips. Add learning. Update data.
 - GP2-2050 - Update incorrect learning banner copy
+- NOTICKET - Visual tweaks for sign in/up
 
 ## [1.6.0](https://github.com/uktrade/great-cms/releases/tag/1.6.0)
 

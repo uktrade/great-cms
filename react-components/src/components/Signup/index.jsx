@@ -86,13 +86,13 @@ export const Signup = (props) => {
   return (
     <div className="bg-blue-deep-80 signup signup__container">
       <div className="signup__steps-panel">
-        <a href="/" alt="Exporting is GREAT">
+        <a href="/">
           <img
-            class="m-f-auto m-r-auto"
+            class="m-f-auto m-r-auto signup__logo"
             src="/static/images/logo-filled.svg"
             alt="Exporting is Great"
-            width="152"
-            height="76"
+            width="148"
+            height="69"
           />
         </a>
         {renderStep()}
