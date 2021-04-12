@@ -5,6 +5,12 @@
       width: 630px;
       height: auto;
     }
+    .dialog-close {
+      font-size:42px;
+      top:20px;
+      right: 20px;
+      color: $colour-blue-deep-80
+    }
 
   .multiple-choice {
     label {

@@ -75058,7 +75058,10 @@ function RadioButtons(props) {
     }, react_html_parser__WEBPACK_IMPORTED_MODULE_2___default()(label)));
   });
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "m-b-xs"
+    className: "m-b-xs",
+    style: {
+      overflow: 'hidden'
+    }
   }, buttons);
 }
 
@@ -75090,16 +75093,17 @@ function Interaction(props) {
     className: "text-blue-deep-80"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-fullwidth"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-    className: "h-s"
-  }, question.title), question.content && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }, question.content && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "body-m m-b-xs text-blue-deep-60"
   }, question.content), question.type == 'RADIO' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RadioButtons, {
     name: question.name,
     choices: choices,
     initialSelection: value,
     valueChange: valueChange
-  }) : '', question.type == 'SLCT' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__["Select"], {
+  }) : '', question.type in {
+    'SLCT': 1,
+    'SELECT': 1
+  } ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__["Select"], {
     label: "",
     id: "question-".concat(question.id),
     update: selectValueChange,
@@ -75116,6 +75120,93 @@ Interaction.propTypes = {
     title: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
   }).isRequired
+};
+
+/***/ }),
+
+/***/ "./react-components/src/components/Segmentation/Modal.jsx":
+/*!****************************************************************!*\
+  !*** ./react-components/src/components/Segmentation/Modal.jsx ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Modal; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+function Modal(props) {
+  var format = props.format,
+      title = props.title,
+      body = props.body,
+      primaryButtonLabel = props.primaryButtonLabel,
+      primaryButtonClick = props.primaryButtonClick,
+      primaryButtonDisable = props.primaryButtonDisable,
+      secondaryButtonLabel = props.secondaryButtonLabel,
+      secondaryButtonClick = props.secondaryButtonClick,
+      closeClick = props.closeClick,
+      progressPercentage = props.progressPercentage;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
+    isOpen: true,
+    onRequestClose: closeClick,
+    className: "segmentation-modal modal p-v-xs p-h-s",
+    overlayClassName: "modal-overlay center",
+    shouldCloseOnOverlayClick: false
+  }, closeClick && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    id: "dialog-close",
+    type: "button",
+    "aria-label": "Close",
+    className: "pull-right m-r-0 dialog-close",
+    onClick: closeClick
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-fullwidth"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "h-s"
+  }, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "body-l m-b-xs text-blue-deep-60"
+  }, body), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    style: {
+      display: 'flex',
+      flexFlow: 'row nowrap',
+      alignItems: 'center',
+      justifyContent: 'space-between'
+    }
+  }, progressPercentage != null ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    style: {
+      flex: '4 0'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "progress-bar m-r-m"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    style: {
+      width: "".concat(progressPercentage, "%")
+    }
+  }))) : '', secondaryButtonClick ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "button button--tertiary m-v-xs m-f-xxs",
+    onClick: secondaryButtonClick
+  }, secondaryButtonLabel || 'Exit') : '', primaryButtonClick ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "button button--primary m-v-xs m-f-xxs",
+    disabled: primaryButtonDisable,
+    onClick: primaryButtonClick
+  }, primaryButtonLabel || 'Continue') : '')));
+}
+Modal.propTypes = {
+  primaryButtonDisable: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  progressPercentage: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number
+};
+Modal.defaultProps = {
+  primaryButtonDisable: false,
+  progressPercentage: null
 };
 
 /***/ }),
@@ -75139,6 +75230,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var _Interaction__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Interaction */ "./react-components/src/components/Segmentation/Interaction.jsx");
 /* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Modal */ "./react-components/src/components/Segmentation/Modal.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -75150,6 +75242,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -75245,7 +75338,13 @@ function Questionnaire(props) {
   };
 
   var goBack = function goBack() {
-    setQuestion(questions[questionIndex() - 1]);
+    var newQuestion = questions[questionIndex() - 1];
+
+    if (!newQuestion) {
+      setMode(modes.start);
+    } else {
+      setQuestion(newQuestion);
+    }
   };
 
   var modalAfterOpen = function modalAfterOpen() {};
@@ -75262,98 +75361,47 @@ function Questionnaire(props) {
   };
 
   var progress = question && questions && "".concat(100 * (questionIndex() / questions.length), "%");
-
-  var content = function content() {
-    if (mode == modes.start) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "c-fullwidth body-l text-blue-deep-60"
-    }, !questionIndex() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-      className: "h-s"
-    }, "Help us serve you better"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  if (mode == modes.start) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Modal__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    title: questionIndex() ? 'Survey in progress' : 'Help us serve you better',
+    body: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, !questionIndex() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
       className: "m-v-xs"
-    }, "We\u2019re surveying exporters on Great.gov.uk to better understand their exporting experience and needs. This will help the Department to better support exporters across the country."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-      className: "m-v-xs"
-    }, "It will take about 3-5 minutes to complete.")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-      className: "h-s"
-    }, "You started but didn't finish"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    }, "We're surveying exporters on Great.gov.uk to better understand their exporting experience and needs. This will help the Department to better support exporters across the country.") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
       className: "m-v-xs"
     }, "You left the survey partly completed. It would be a great help to us if you could complete the survey now."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
       className: "m-v-xs"
-    }, "It will take about 3-5 minutes to complete.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      type: "button",
-      className: "button button--tertiary m-t-xxs m-b-xs",
-      disabled: false,
-      onClick: closeModal,
-      style: {
-        "float": 'left',
-        clear: 'both'
-      }
-    }, "Not now"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      type: "button",
-      className: "button button--primary m-t-xxs m-b-xs",
-      disabled: false,
-      onClick: function onClick() {
-        return setMode(modes.question);
-      },
-      style: {
-        "float": 'right'
-      }
-    }, "Continue"));
-    if (mode == modes.question) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Interaction__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    }, "It will take about 3-5 minutes to complete."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      href: "/privacy-policy/"
+    }, "This information is stored and used in compliance with our cookie and privacy policy.")),
+    primaryButtonLabel: "Continue",
+    primaryButtonClick: function primaryButtonClick() {
+      return setMode(modes.question);
+    },
+    secondaryButtonLabel: "Not now",
+    secondaryButtonClick: closeModal,
+    closeClick: closeModal
+  });
+  if (mode == modes.question) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Modal__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    title: question.title,
+    body: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Interaction__WEBPACK_IMPORTED_MODULE_4__["default"], {
       question: question,
       value: value,
       setValue: setValue
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      style: {
-        display: 'flex',
-        flexFlow: 'row nowrap',
-        alignItems: 'center'
-      }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      style: {
-        flex: '4 0'
-      }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "progress-bar m-r-m"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-      style: {
-        width: progress
-      }
-    }))), questionIndex() > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      type: "button",
-      className: "button button--tertiary m-v-xs m-f-xxs",
-      onClick: goBack
-    }, "Back") : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      type: "button",
-      className: "button button--primary m-v-xs m-f-xxs",
-      disabled: !value,
-      onClick: setQuestionAnswer
-    }, "Next")));
-    if (mode == modes.thankyou) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "c-fullwidth"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-      className: "h-s"
-    }, "Thank you"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-      className: "body-m m-b-xs text-blue-deep-60"
-    }, "Thank you for your response."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      type: "button",
-      className: "button button--primary m-t-xxs m-b-xs",
-      disabled: false,
-      onClick: closeModal,
-      style: {
-        "float": 'left',
-        clear: 'both'
-      }
-    }, "Close"));
-  };
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
-    isOpen: mode != modes.closed,
-    onRequestClose: handleModalClose,
-    className: "segmentation-modal modal p-v-xs p-h-s",
-    overlayClassName: "modal-overlay center",
-    onAfterOpen: modalAfterOpen,
-    shouldCloseOnOverlayClick: false
-  }, content());
+    }),
+    progressPercentage: question && questions && 100 * (questionIndex() / questions.length),
+    primaryButtonLabel: "Next",
+    primaryButtonClick: setQuestionAnswer,
+    primaryButtonDisable: !value,
+    secondaryButtonLabel: "Back",
+    secondaryButtonClick: goBack,
+    closeClick: closeModal
+  });
+  if (mode == modes.thankyou) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Modal__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    title: "Thank you",
+    body: "Thank you for your response.",
+    primaryButtonLabel: "Close",
+    primaryButtonClick: closeModal
+  });
+  return null;
 }
 Questionnaire.propTypes = {
   segment: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
