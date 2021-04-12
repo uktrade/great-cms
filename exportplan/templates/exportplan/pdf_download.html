@@ -888,6 +888,18 @@
             <h3 class="pad-t-0">Visa information</h3>
             {% if export_plan.data.travel_business_policies.visa_information.visa_required %}
             <p class="pad-t-0"><strong>Visa required.</strong></p>
+            <p class="pad-t-0"><strong>How and where to get visa:</strong>
+              <br />
+              {{ export_plan.data.travel_business_policies.visa_information.how_where_visa }}.
+            </p>
+            <p class="pad-t-0"><strong>Duration:</strong>
+              <br />
+              {{ export_plan.data.travel_business_policies.visa_information.how_long }}
+            </p>
+            <p class="pad-t-0"><strong>Additional notes:</strong>
+              <br />
+              {{ export_plan.data.travel_business_policies.visa_information.notes }}
+            </p>
             {% else %}
             <p class="pad-t-0"><strong>No need for a visa.</strong></p>
             {% endif %}
@@ -916,8 +928,10 @@
   </tr>
 </table>
 
+<pdf:nextpage>
+
 {% for trip in export_plan.data.business_trips %}
-{% if not forloop.first %}
+{% if forloop.first %}
 <table class="layout page-header">
   <tr>
     <td>
@@ -928,11 +942,13 @@
 </table>
 {% endif %}
 <table class="layout">
+  {% if forloop.first %}
   <tr>
     <td>
       <h2 class="pad-t-3 pad-b-2">Planned travel</h2>
     </td>
   </tr>
+  {% endif %}
   <tr>
     <td class="col-10-7 align-top">
       <!-- Nested table -->
@@ -950,9 +966,6 @@
     </td>
   </tr>
 </table>
-{% if forloop.first %}
-<pdf:nextpage>
-{% endif %}
 {% endfor %}
 
 <pdf:nextpage>
