@@ -1,29 +1,30 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
 export default function Modal(props) {
-  const { format,
+  const {
+    format,
     title,
     body,
     primaryButtonLabel,
-    primaryButtonClick ,
+    primaryButtonClick,
     primaryButtonDisable,
     secondaryButtonLabel,
     secondaryButtonClick,
     closeClick,
-    progressPercentage
+    progressPercentage,
   } = props
 
   return (
     <ReactModal
-      isOpen={true}
+      isOpen
       onRequestClose={closeClick}
       className="segmentation-modal modal p-v-xs p-h-s"
       overlayClassName="modal-overlay center"
       shouldCloseOnOverlayClick={false}
     >
-      { closeClick &&
+      {closeClick && (
         <button
           id="dialog-close"
           type="button"
@@ -31,39 +32,39 @@ export default function Modal(props) {
           className="pull-right m-r-0 dialog-close"
           onClick={closeClick}
         />
-      }
+      )}
       <div className="c-fullwidth">
         <h3 className="h-s">{title}</h3>
-        <div className="body-l m-b-xs text-blue-deep-60">
-        {body}
-        </div>
-          <div
-            style={{
-              display: 'flex',
-              flexFlow: 'row nowrap',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-          { progressPercentage != null ? (
+        <div className="body-l m-b-xs text-blue-deep-60">{body}</div>
+        <div
+          style={{
+            display: 'flex',
+            flexFlow: 'row nowrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          {progressPercentage != null ? (
             <div style={{ flex: '4 0' }}>
               <div className="progress-bar m-r-m">
-                <span style={{ width: `${progressPercentage}%` }}></span>
+                <span style={{ width: `${progressPercentage}%` }}/>
               </div>
             </div>
-            ) : '' }
-          { secondaryButtonClick ? (
-              <button
-                type="button"
-                className="button button--tertiary m-v-xs m-f-xxs"
-                onClick={secondaryButtonClick }
-              >
-                {secondaryButtonLabel || 'Exit'}
-              </button>
-            ) : (
-              ''
-            )}
-            { primaryButtonClick ? (
+          ) : (
+            ''
+          )}
+          {secondaryButtonClick ? (
+            <button
+              type="button"
+              className="button button--tertiary m-v-xs m-f-xxs"
+              onClick={secondaryButtonClick}
+            >
+              {secondaryButtonLabel || 'Exit'}
+            </button>
+          ) : (
+            ''
+          )}
+          {primaryButtonClick ? (
             <button
               type="button"
               className="button button--primary m-v-xs m-f-xxs"
@@ -72,18 +73,35 @@ export default function Modal(props) {
             >
               {primaryButtonLabel || 'Continue'}
             </button>
-            ) : ''}
-          </div>
+          ) : (
+            ''
+          )}
+        </div>
       </div>
     </ReactModal>
   )
 }
 
 Modal.propTypes = {
+  format: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string,
+  primaryButtonLabel: PropTypes.string,
+  primaryButtonClick: PropTypes.func,
   primaryButtonDisable: PropTypes.bool,
+  secondaryButtonLabel: PropTypes.string,
+  secondaryButtonClick: PropTypes.func,
+  closeClick: PropTypes.func,
   progressPercentage: PropTypes.number,
 }
-Modal.defaultProps= {
+Modal.defaultProps = {
+  format: null,
+  body: null,
+  primaryButtonLabel: '<Primary>',
+  primaryButtonClick: null,
+  secondaryButtonLabel: '<Secondary>',
+  secondaryButtonClick: null,
   primaryButtonDisable: false,
-  progressPercentage: null
+  closeClick: null,
+  progressPercentage: null,
 }

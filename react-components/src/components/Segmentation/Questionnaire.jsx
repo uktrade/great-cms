@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import ReactModal from 'react-modal'
 import Services from '@src/Services'
-import Interaction from './Interaction'
 import { mapArray } from '@src/Helpers'
+import Interaction from './Interaction'
 import Modal from './Modal'
 
 export default function Questionnaire(props) {
@@ -14,16 +13,21 @@ export default function Questionnaire(props) {
   const [questions, setQuestions] = useState()
   const [value, setValue] = useState()
 
+  const closeModal = () => {
+    setMode(modes.closed)
+    handleModalClose()
+  }
+
   const questionIndex = () => {
     return (
-      questions && question && questions.findIndex((q) => q.id == question.id)
+      questions && question && questions.findIndex((q) => q.id === question.id)
     )
   }
 
-  const setQuestion = (question) => {
-    if (question && mode == modes.closed) setMode(modes.start)
-    setValue((question && question.answer) || null)
-    _setQuestion(question)
+  const setQuestion = (newQuestion) => {
+    if (newQuestion && mode === modes.closed) setMode(modes.start)
+    setValue((newQuestion && newQuestion.answer) || null)
+    _setQuestion(newQuestion)
   }
 
   const setNextQuestion = (questionnaire) => {
@@ -34,12 +38,12 @@ export default function Questionnaire(props) {
       })
       setQuestions(sorted)
       const answers = mapArray(questionnaire.answers, 'question_id')
-      const firstUnansweredQuestion = sorted.reduce((out, question) => {
-        const answered = answers[question.id]
+      const firstUnansweredQuestion = sorted.reduce((out, _question) => {
+        const answered = answers[_question.id]
         if (answered) {
-          question['answer'] = answered.answer
+          _question.answer = answered.answer
         }
-        return out || (!answered && question)
+        return out || (!answered && _question)
       }, null)
       if (question) {
         // follwing saving an answer
@@ -62,10 +66,7 @@ export default function Questionnaire(props) {
     })
   }, [])
 
-  const closeModal = () => {
-    setMode(modes.closed)
-    handleModalClose()
-  }
+
 
   const goBack = () => {
     const newQuestion = questions[questionIndex() - 1]
@@ -75,8 +76,6 @@ export default function Questionnaire(props) {
       setQuestion(newQuestion)
     }
   }
-
-  const modalAfterOpen = () => {}
 
   const setQuestionAnswer = () => {
     Services.setUserQuestionnaireAnswer(question.id, value)
@@ -90,9 +89,7 @@ export default function Questionnaire(props) {
       .catch(() => {})
   }
 
-  const progress =
-    question && questions && `${100 * (questionIndex() / questions.length)}%`
-  if (mode == modes.start)
+  if (mode === modes.start)
     return (
       <Modal
         title={
@@ -126,12 +123,16 @@ export default function Questionnaire(props) {
       />
     )
 
-  if (mode == modes.question)
+  if (mode === modes.question)
     return (
       <Modal
         title={question.title}
         body={
-          <Interaction question={question} value={value} setValue={setValue} />
+          <Interaction
+            question={question}
+            value={value}
+            setValue={setValue}
+          />
         }
         progressPercentage={
           question && questions && 100 * (questionIndex() / questions.length)
@@ -144,24 +145,25 @@ export default function Questionnaire(props) {
         closeClick={closeModal}
       />
     )
-  if (mode == modes.thankyou)
+  if (mode === modes.thankyou)
     return (
       <Modal
         title="Thank you"
-        body="Thank you for your response."
+        body="Thank you for taking time to respond."
         primaryButtonLabel="Close"
         primaryButtonClick={closeModal}
+        progressPercentage={100}
+        secondaryButtonLabel="Back"
+        secondaryButtonClick={goBack}
       />
     )
   return null
 }
 
 Questionnaire.propTypes = {
-  segment: PropTypes.string,
   handleModalClose: PropTypes.func,
 }
 
 Questionnaire.defaultProps = {
-  segment: '',
   handleModalClose: null,
 }

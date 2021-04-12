@@ -75042,7 +75042,7 @@ function RadioButtons(props) {
         value = _ref.value;
     var checked = value === selection;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      key: idx,
+      key: "option-".concat(value),
       className: "multiple-choice p-f-s p-b-xs"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       id: idx,
@@ -75066,11 +75066,19 @@ function RadioButtons(props) {
 }
 
 RadioButtons.propTypes = {
+  name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  initialSelection: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+  }),
   choices: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
   })).isRequired,
   valueChange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+};
+RadioButtons.defaultProps = {
+  initialSelection: null
 };
 function Interaction(props) {
   var question = props.question,
@@ -75081,13 +75089,13 @@ function Interaction(props) {
     setValue(newValue);
   };
 
-  var selectValueChange = function selectValueChange(value) {
-    valueChange(Object.values(value)[0]);
+  var selectValueChange = function selectValueChange(newValue) {
+    valueChange(Object.values(newValue)[0]);
   };
 
   var choices = question.choices.options || question.choices;
   var selectedChoice = choices.find(function (option) {
-    return option.value == value;
+    return option.value === value;
   });
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     className: "text-blue-deep-80"
@@ -75095,14 +75103,14 @@ function Interaction(props) {
     className: "c-fullwidth"
   }, question.content && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "body-m m-b-xs text-blue-deep-60"
-  }, question.content), question.type == 'RADIO' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RadioButtons, {
+  }, question.content), question.type === 'RADIO' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RadioButtons, {
     name: question.name,
     choices: choices,
     initialSelection: value,
     valueChange: valueChange
   }) : '', question.type in {
-    'SLCT': 1,
-    'SELECT': 1
+    SLCT: 1,
+    SELECT: 1
   } ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__["Select"], {
     label: "",
     id: "question-".concat(question.id),
@@ -75111,15 +75119,25 @@ function Interaction(props) {
     options: choices,
     hideLabel: true,
     placeholder: question.choices.placeholder || 'Please choose',
-    selected: [selectedChoice && selectedChoice.label || '']
+    selected: selectedChoice && selectedChoice.label ? [selectedChoice.label] : []
   }) : ''));
 }
 Interaction.propTypes = {
   question: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    type: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+    id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     title: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-    content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-  }).isRequired
+    content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+    choices: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+      options: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
+        value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+      })),
+      placeHolder: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+    }))
+  }).isRequired,
+  value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  setValue: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
 };
 
 /***/ }),
@@ -75201,11 +75219,26 @@ function Modal(props) {
   }, primaryButtonLabel || 'Continue') : '')));
 }
 Modal.propTypes = {
+  format: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  title: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
+  body: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  primaryButtonLabel: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  primaryButtonClick: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
   primaryButtonDisable: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  secondaryButtonLabel: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  secondaryButtonClick: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
+  closeClick: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
   progressPercentage: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number
 };
 Modal.defaultProps = {
+  format: null,
+  body: null,
+  primaryButtonLabel: '<Primary>',
+  primaryButtonClick: null,
+  secondaryButtonLabel: '<Secondary>',
+  secondaryButtonClick: null,
   primaryButtonDisable: false,
+  closeClick: null,
   progressPercentage: null
 };
 
@@ -75225,12 +75258,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
 /* harmony import */ var _Interaction__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Interaction */ "./react-components/src/components/Segmentation/Interaction.jsx");
-/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
-/* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Modal */ "./react-components/src/components/Segmentation/Modal.jsx");
+/* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Modal */ "./react-components/src/components/Segmentation/Modal.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -75242,7 +75273,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -75279,17 +75309,22 @@ function Questionnaire(props) {
       value = _useState8[0],
       setValue = _useState8[1];
 
+  var closeModal = function closeModal() {
+    setMode(modes.closed);
+    handleModalClose();
+  };
+
   var questionIndex = function questionIndex() {
     return questions && question && questions.findIndex(function (q) {
-      return q.id == question.id;
+      return q.id === question.id;
     });
   };
 
-  var setQuestion = function setQuestion(question) {
-    if (question && mode == modes.closed) setMode(modes.start);
-    setValue(question && question.answer || null);
+  var setQuestion = function setQuestion(newQuestion) {
+    if (newQuestion && mode === modes.closed) setMode(modes.start);
+    setValue(newQuestion && newQuestion.answer || null);
 
-    _setQuestion(question);
+    _setQuestion(newQuestion);
   };
 
   var setNextQuestion = function setNextQuestion(questionnaire) {
@@ -75299,15 +75334,15 @@ function Questionnaire(props) {
         return q1.order > q2.order ? 1 : -1;
       });
       setQuestions(sorted);
-      var answers = Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["mapArray"])(questionnaire.answers, 'question_id');
-      var firstUnansweredQuestion = sorted.reduce(function (out, question) {
-        var answered = answers[question.id];
+      var answers = Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["mapArray"])(questionnaire.answers, 'question_id');
+      var firstUnansweredQuestion = sorted.reduce(function (out, _question) {
+        var answered = answers[_question.id];
 
         if (answered) {
-          question['answer'] = answered.answer;
+          _question.answer = answered.answer;
         }
 
-        return out || !answered && question;
+        return out || !answered && _question;
       }, null);
 
       if (question) {
@@ -75325,17 +75360,12 @@ function Questionnaire(props) {
   };
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].getUserQuestionnaire().then(function (questionnaire) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].getUserQuestionnaire().then(function (questionnaire) {
       if (questionnaire) {
         setNextQuestion(questionnaire);
       }
     });
   }, []);
-
-  var closeModal = function closeModal() {
-    setMode(modes.closed);
-    handleModalClose();
-  };
 
   var goBack = function goBack() {
     var newQuestion = questions[questionIndex() - 1];
@@ -75347,10 +75377,8 @@ function Questionnaire(props) {
     }
   };
 
-  var modalAfterOpen = function modalAfterOpen() {};
-
   var setQuestionAnswer = function setQuestionAnswer() {
-    _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].setUserQuestionnaireAnswer(question.id, value).then(function (questionnaire) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].setUserQuestionnaireAnswer(question.id, value).then(function (questionnaire) {
       if (!questionnaire || !questionnaire.answers) {
         setMode(modes.thankyou);
         setQuestion(null);
@@ -75360,8 +75388,7 @@ function Questionnaire(props) {
     })["catch"](function () {});
   };
 
-  var progress = question && questions && "".concat(100 * (questionIndex() / questions.length), "%");
-  if (mode == modes.start) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Modal__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  if (mode === modes.start) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Modal__WEBPACK_IMPORTED_MODULE_5__["default"], {
     title: questionIndex() ? 'Survey in progress' : 'Help us serve you better',
     body: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, !questionIndex() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
       className: "m-v-xs"
@@ -75380,7 +75407,7 @@ function Questionnaire(props) {
     secondaryButtonClick: closeModal,
     closeClick: closeModal
   });
-  if (mode == modes.question) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Modal__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  if (mode === modes.question) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Modal__WEBPACK_IMPORTED_MODULE_5__["default"], {
     title: question.title,
     body: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Interaction__WEBPACK_IMPORTED_MODULE_4__["default"], {
       question: question,
@@ -75395,20 +75422,21 @@ function Questionnaire(props) {
     secondaryButtonClick: goBack,
     closeClick: closeModal
   });
-  if (mode == modes.thankyou) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Modal__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  if (mode === modes.thankyou) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Modal__WEBPACK_IMPORTED_MODULE_5__["default"], {
     title: "Thank you",
-    body: "Thank you for your response.",
+    body: "Thank you for taking time to respond.",
     primaryButtonLabel: "Close",
-    primaryButtonClick: closeModal
+    primaryButtonClick: closeModal,
+    progressPercentage: 100,
+    secondaryButtonLabel: "Back",
+    secondaryButtonClick: goBack
   });
   return null;
 }
 Questionnaire.propTypes = {
-  segment: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
   handleModalClose: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func
 };
 Questionnaire.defaultProps = {
-  segment: '',
   handleModalClose: null
 };
 

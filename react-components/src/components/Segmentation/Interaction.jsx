@@ -23,7 +23,7 @@ function RadioButtons(props) {
     const checked = value === selection
 
     return (
-      <div key={idx} className="multiple-choice p-f-s p-b-xs">
+      <div key={`option-${value}`} className="multiple-choice p-f-s p-b-xs">
         <input
           id={idx}
           type="radio"
@@ -40,10 +40,19 @@ function RadioButtons(props) {
     )
   })
 
-  return <div className="m-b-xs" style={{overflow:'hidden'}}>{buttons}</div>
+  return (
+    <div className="m-b-xs" style={{ overflow: 'hidden' }}>
+      {buttons}
+    </div>
+  )
 }
 
 RadioButtons.propTypes = {
+  name: PropTypes.string.isRequired,
+  initialSelection: PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+  }),
   choices: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -53,6 +62,10 @@ RadioButtons.propTypes = {
   valueChange: PropTypes.func.isRequired,
 }
 
+RadioButtons.defaultProps = {
+  initialSelection: null
+}
+
 export default function Interaction(props) {
   const { question, value, setValue } = props
 
@@ -60,20 +73,19 @@ export default function Interaction(props) {
     setValue(newValue)
   }
 
-  const selectValueChange = (value) => {
-    valueChange(Object.values(value)[0])
+  const selectValueChange = (newValue) => {
+    valueChange(Object.values(newValue)[0])
   }
 
   const choices = question.choices.options || question.choices
-  const selectedChoice = choices.find((option) => option.value == value)
-
+  const selectedChoice = choices.find((option) => option.value === value)
   return (
     <form className="text-blue-deep-80">
       <div className="c-fullwidth">
         {question.content && (
           <p className="body-m m-b-xs text-blue-deep-60">{question.content}</p>
         )}
-        {question.type == 'RADIO' ? (
+        {question.type === 'RADIO' ? (
           <RadioButtons
             name={question.name}
             choices={choices}
@@ -83,7 +95,7 @@ export default function Interaction(props) {
         ) : (
           ''
         )}
-        {question.type in {'SLCT':1,'SELECT':1} ? (
+        {question.type in { SLCT: 1, SELECT: 1 } ? (
           <Select
             label=""
             id={`question-${question.id}`}
@@ -92,7 +104,11 @@ export default function Interaction(props) {
             options={choices}
             hideLabel
             placeholder={question.choices.placeholder || 'Please choose'}
-            selected={[(selectedChoice && selectedChoice.label) || '']}
+            selected={
+              selectedChoice && selectedChoice.label
+                ? [selectedChoice.label]
+                : []
+            }
           />
         ) : (
           ''
@@ -105,7 +121,17 @@ export default function Interaction(props) {
 Interaction.propTypes = {
   question: PropTypes.shape({
     name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string,
-  }).isRequired
+    choices: PropTypes.arrayOf(PropTypes.shape({
+      options: PropTypes.arrayOf(PropTypes.shape({
+        value: PropTypes.string
+      })),
+      placeHolder: PropTypes.string
+    })),
+  }).isRequired,
+  value: PropTypes.string.isRequired,
+  setValue: PropTypes.func.isRequired,
 }
