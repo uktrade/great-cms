@@ -848,7 +848,7 @@
 
 <pdf:nextpage>
 
-<!-- P11 travel plan -->
+<!-- P11a travel plan -->
 <h1 class="toc-name">Travel plan</h1>
 <table class="layout page-header">
   <tr>
@@ -885,23 +885,20 @@
 
         <tr class="pad-b-1">
           <td class="col-10-10">
-            <h3 class="pad-t-0">Visa information</h3>
             {% if export_plan.data.travel_business_policies.visa_information.visa_required %}
-            <p class="pad-t-0"><strong>Visa required.</strong></p>
-            <p class="pad-t-0"><strong>How and where to get visa:</strong>
-              <br />
-              {{ export_plan.data.travel_business_policies.visa_information.how_where_visa }}.
-            </p>
-            <p class="pad-t-0"><strong>Duration:</strong>
-              <br />
-              {{ export_plan.data.travel_business_policies.visa_information.how_long }}
-            </p>
-            <p class="pad-t-0"><strong>Additional notes:</strong>
-              <br />
-              {{ export_plan.data.travel_business_policies.visa_information.notes }}
-            </p>
+            <h3 class="pad-t-0">Visa required</h3>
+
+            <p class="pad-t-0"><strong>How and where to get visa:</strong></p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.travel_business_policies.visa_informationhow_where_visa. tag="p" lines=4 tag_class="pad-t-0" %}
+
+            <p class="pad-t-0"><strong>Duration:</strong></p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.travel_business_policies.visa_information.how_long tag="p" lines=1 tag_class="pad-t-0" %}
+
+            <p class="pad-t-0"><strong>Additional notes:</strong></p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.travel_business_policies.visa_information.notes tag="p" lines=4 tag_class="pad-t-0" %}
+
             {% else %}
-            <p class="pad-t-0"><strong>No need for a visa.</strong></p>
+            <h3 class="pad-t-0">No need for a visa</h3>
             {% endif %}
           </td>
         </tr>
@@ -930,43 +927,13 @@
 
 <pdf:nextpage>
 
-{% for trip in export_plan.data.business_trips %}
-{% if forloop.first %}
-<table class="layout page-header">
-  <tr>
-    <td>
-      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
+<!-- P11b trips -->
+<h1 class="toc-name">Marketing approach</h1>
+{% if export_plan.data.business_trips %}
+{% include 'exportplan/includes/pdf/pdf_trips_populated.html' %}
+{% else %}
+{% include 'exportplan/includes/pdf/pdf_trips_blank.html' %}
 {% endif %}
-<table class="layout">
-  {% if forloop.first %}
-  <tr>
-    <td>
-      <h2 class="pad-t-3 pad-b-2">Planned travel</h2>
-    </td>
-  </tr>
-  {% endif %}
-  <tr>
-    <td class="col-10-7 align-top">
-      <!-- Nested table -->
-      <table>
-        <tr class="pad-b-2">
-          <td class="col-10-10">
-            <h2 class="pad-y-0">Trip {{ forloop.counter }}</h2>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=trip.note tag="p" tag_class="pad-t-0" lines=3 %}
-          </td>
-        </tr>
-      </table>
-      <!-- ./Nested table -->
-    </td>
-    <td class="col-10-3 align-top">
-    </td>
-  </tr>
-</table>
-{% endfor %}
 
 <pdf:nextpage>
 
