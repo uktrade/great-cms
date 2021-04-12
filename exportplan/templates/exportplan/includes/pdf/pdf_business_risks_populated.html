@@ -1,0 +1,57 @@
+{% for risk in export_plan.data.business_risks %}
+<table class="layout page-header">
+  <tr>
+    <td>
+      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
+    </td>
+  </tr>
+  <tr class="hr hr--red-150"><td></td></tr>
+</table>
+
+<table class="layout">
+  <tr>
+    <td>
+      <h1 class="pad-t-3 pad-b-2">Business risk</h1>
+    </td>
+  </tr>
+  <tr>
+    <td class="col-10-7 align-top">
+      <!-- Nested table -->
+      <table>
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h2 class="pad-y-0">Risk {{ forloop.counter }}</h2>
+            <p class="pad-t-0">{{ risk.risk }}</p>
+          </td>
+        </tr>
+        <tr class="pad-b-3">
+          <td>
+            <!-- Nested table -->
+            <table class="layout">
+              <tr class="pad-b-0">
+                <td class="col-10-4">Risk likelihood:</td>
+                <td class="col-10-6"><strong>{{ risk.risk_likelihood|title }}</strong></td>
+              </tr>
+              <tr class="pad-b-0">
+                <td class="col-10-4">Risk impact:</td>
+                <td class="col-10-6"><strong>{{ risk.risk_impact|title }}</strong></td>
+              </tr>
+            </table>
+            <!-- ./Nested table -->
+          </td>
+        </tr>
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h3 class="pad-y-0">Contingency plan</h3>
+            <p class="pad-t-0">{{ risk.contingency_plan }}</p>
+          </td>
+        </tr>
+      </table>
+      <!-- ./Nested table -->
+    </td>
+    <td class="col-10-3 align-top">
+    </td>
+  </tr>
+</table>
+<pdf:nextpage>
+{% endfor %}

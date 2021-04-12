@@ -1,4 +1,53 @@
 .signup {
+
+  &--reverse {
+    flex-direction: row-reverse;
+
+    .signup__steps-panel {
+      @media (min-width: 768px) {
+        margin-right: 20px;
+      }
+    }
+
+    .signup__right-panel {
+      position: relative;
+
+      h1 {
+        text-align: center;
+        line-height: 50px;
+      }
+
+      img {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        right: -30px;
+      }
+    }
+
+    .signup__right-panel__headings {
+      text-align: center;
+      z-index: 1;
+
+      h1 {
+        line-height: 52px;
+      }
+
+      p {
+        color: #fff;
+        margin-bottom: 8px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      a {
+        color: $red-60;
+        min-width: 230px;
+        background: white;
+      }
+    }
+  }
+
   &__container {
     width: 100%;
     display: flex;

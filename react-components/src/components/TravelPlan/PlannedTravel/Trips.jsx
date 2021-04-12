@@ -1,9 +1,13 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
+import { AddButton } from '@src/components/ObjectivesList/AddButton/AddButton'
 import { Trip } from './Trip'
 
 export const Trips = memo(({ formData, onChange, deleteTrip, addTrip }) => {
+  const isDisabled = formData.length
+    ? !formData[formData.length - 1].note
+    : false
   return (
     <>
       {formData.length !== 0 && (
@@ -24,13 +28,7 @@ export const Trips = memo(({ formData, onChange, deleteTrip, addTrip }) => {
           </table>
         </div>
       )}
-      <button
-        type="button"
-        className="button button--large button--icon"
-        onClick={addTrip}
-      >
-        <i className="fas fa-plus-circle"></i>Add a trip
-      </button>
+      <AddButton add={addTrip} cta="Add a trip" isDisabled={isDisabled} />
     </>
   )
 })
