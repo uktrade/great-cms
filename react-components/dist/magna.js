@@ -75071,26 +75071,8 @@ RadioButtons.propTypes = {
 };
 function Interaction(props) {
   var question = props.question,
-      initialSelection = props.initialSelection,
-      processResponse = props.processResponse,
-      goBack = props.goBack;
-
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-      _useState4 = _slicedToArray(_useState3, 2),
-      value = _useState4[0],
-      setValue = _useState4[1];
-
-  var clickSave = function clickSave() {
-    processResponse(value);
-  };
-
-  var clickBack = function clickBack() {
-    goBack();
-  };
-
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    setValue(initialSelection);
-  }, [question]);
+      value = props.value,
+      setValue = props.setValue;
 
   var valueChange = function valueChange(newValue) {
     setValue(newValue);
@@ -75100,6 +75082,10 @@ function Interaction(props) {
     valueChange(Object.values(value)[0]);
   };
 
+  var choices = question.choices.options || question.choices;
+  var selectedChoice = choices.find(function (option) {
+    return option.value == value;
+  });
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     className: "text-blue-deep-80"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -75110,47 +75096,26 @@ function Interaction(props) {
     className: "body-m m-b-xs text-blue-deep-60"
   }, question.content), question.type == 'RADIO' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RadioButtons, {
     name: question.name,
-    choices: question.choices.options || question.choices,
-    initialSelection: initialSelection,
+    choices: choices,
+    initialSelection: value,
     valueChange: valueChange
   }) : '', question.type == 'SLCT' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__["Select"], {
-    label: question.title,
+    label: "",
     id: "question-".concat(question.id),
     update: selectValueChange,
     name: question.name,
-    options: question.choices.options || question.choices,
+    options: choices,
     hideLabel: true,
     placeholder: question.choices.placeholder || 'Please choose',
-    selected: initialSelection
-  }) : '', goBack ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button button--tertiary m-t-xxs m-b-xs",
-    onClick: goBack,
-    style: {
-      "float": 'left',
-      clear: 'both'
-    }
-  }, "Back") : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button button--primary m-t-xxs m-b-xs",
-    disabled: !value,
-    onClick: clickSave,
-    style: {
-      "float": 'right'
-    }
-  }, "Next")));
+    selected: [selectedChoice && selectedChoice.label || '']
+  }) : ''));
 }
 Interaction.propTypes = {
   question: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     title: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     content: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-  }).isRequired,
-  answers: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
-    label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
-    value: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
-  })).isRequired,
-  processResponse: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
+  }).isRequired
 };
 
 /***/ }),
@@ -75193,31 +75158,49 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 function Questionnaire(props) {
+  var modes = {
+    closed: 'c',
+    start: 's',
+    question: 'q',
+    thankyou: 't'
+  };
   var handleModalClose = props.handleModalClose;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(modes.closed),
       _useState2 = _slicedToArray(_useState, 2),
-      showClose = _useState2[0],
-      setShowClose = _useState2[1];
+      mode = _useState2[0],
+      setMode = _useState2[1];
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
       _useState4 = _slicedToArray(_useState3, 2),
       question = _useState4[0],
-      setQuestion = _useState4[1];
+      _setQuestion = _useState4[1];
 
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
       _useState6 = _slicedToArray(_useState5, 2),
       questions = _useState6[0],
       setQuestions = _useState6[1];
 
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+      _useState8 = _slicedToArray(_useState7, 2),
+      value = _useState8[0],
+      setValue = _useState8[1];
+
   var questionIndex = function questionIndex() {
-    return questions.findIndex(function (q) {
+    return questions && question && questions.findIndex(function (q) {
       return q.id == question.id;
     });
   };
 
+  var setQuestion = function setQuestion(question) {
+    if (question && mode == modes.closed) setMode(modes.start);
+    setValue(question && question.answer || null);
+
+    _setQuestion(question);
+  };
+
   var setNextQuestion = function setNextQuestion(questionnaire) {
-    // work out last answered question (may be better in BE)
+    // Work out last answered question (may be better in BE)
     if (questionnaire && questionnaire.questions) {
       var sorted = questionnaire.questions.sort(function (q1, q2) {
         return q1.order > q2.order ? 1 : -1;
@@ -75250,12 +75233,14 @@ function Questionnaire(props) {
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].getUserQuestionnaire().then(function (questionnaire) {
-      setNextQuestion(questionnaire);
+      if (questionnaire) {
+        setNextQuestion(questionnaire);
+      }
     });
   }, []);
 
   var closeModal = function closeModal() {
-    setShowClose(false);
+    setMode(modes.closed);
     handleModalClose();
   };
 
@@ -75265,10 +75250,10 @@ function Questionnaire(props) {
 
   var modalAfterOpen = function modalAfterOpen() {};
 
-  var setQuestionAnswer = function setQuestionAnswer(selection) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].setUserQuestionnaireAnswer(question.id, selection).then(function (questionnaire) {
+  var setQuestionAnswer = function setQuestionAnswer() {
+    _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].setUserQuestionnaireAnswer(question.id, value).then(function (questionnaire) {
       if (!questionnaire || !questionnaire.answers) {
-        setShowClose(true);
+        setMode(modes.thankyou);
         setQuestion(null);
       }
 
@@ -75276,14 +75261,74 @@ function Questionnaire(props) {
     })["catch"](function () {});
   };
 
+  var progress = question && questions && "".concat(100 * (questionIndex() / questions.length), "%");
+
   var content = function content() {
-    if (question) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Interaction__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    if (mode == modes.start) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "c-fullwidth body-l text-blue-deep-60"
+    }, !questionIndex() ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+      className: "h-s"
+    }, "Help us serve you better"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "m-v-xs"
+    }, "We\u2019re surveying exporters on Great.gov.uk to better understand their exporting experience and needs. This will help the Department to better support exporters across the country."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "m-v-xs"
+    }, "It will take about 3-5 minutes to complete.")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+      className: "h-s"
+    }, "You started but didn't finish"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "m-v-xs"
+    }, "You left the survey partly completed. It would be a great help to us if you could complete the survey now."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "m-v-xs"
+    }, "It will take about 3-5 minutes to complete.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      type: "button",
+      className: "button button--tertiary m-t-xxs m-b-xs",
+      disabled: false,
+      onClick: closeModal,
+      style: {
+        "float": 'left',
+        clear: 'both'
+      }
+    }, "Not now"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      type: "button",
+      className: "button button--primary m-t-xxs m-b-xs",
+      disabled: false,
+      onClick: function onClick() {
+        return setMode(modes.question);
+      },
+      style: {
+        "float": 'right'
+      }
+    }, "Continue"));
+    if (mode == modes.question) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Interaction__WEBPACK_IMPORTED_MODULE_4__["default"], {
       question: question,
-      initialSelection: question.answer,
-      processResponse: setQuestionAnswer,
-      goBack: questionIndex() > 0 ? goBack : null
-    });
-    if (showClose) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      value: value,
+      setValue: setValue
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      style: {
+        display: 'flex',
+        flexFlow: 'row nowrap',
+        alignItems: 'center'
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      style: {
+        flex: '4 0'
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "progress-bar m-r-m"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      style: {
+        width: progress
+      }
+    }))), questionIndex() > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      type: "button",
+      className: "button button--tertiary m-v-xs m-f-xxs",
+      onClick: goBack
+    }, "Back") : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      type: "button",
+      className: "button button--primary m-v-xs m-f-xxs",
+      disabled: !value,
+      onClick: setQuestionAnswer
+    }, "Next")));
+    if (mode == modes.thankyou) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "c-fullwidth"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
       className: "h-s"
@@ -75302,7 +75347,7 @@ function Questionnaire(props) {
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
-    isOpen: !!(question || showClose),
+    isOpen: mode != modes.closed,
     onRequestClose: handleModalClose,
     className: "segmentation-modal modal p-v-xs p-h-s",
     overlayClassName: "modal-overlay center",
