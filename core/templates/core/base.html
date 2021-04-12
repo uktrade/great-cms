@@ -135,16 +135,7 @@
           {
             factory: magna.Questionnaire,
             params: {},
-          },
-
-          {
-            factory: magna.Tour,
-            params: {
-              tour: {{ tour|to_json }},
-              disableTourCookieName: 'disable-tour-{{ page.content_type }}',
-            },
-          },
-
+          }
         ]
       })
       {% endif %}

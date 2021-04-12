@@ -54,21 +54,7 @@ RadioButtons.propTypes = {
 }
 
 export default function Interaction(props) {
-  const { question, initialSelection, processResponse, goBack } = props
-
-  const [value, setValue] = useState()
-
-  const clickSave = () => {
-    processResponse(value)
-  }
-
-  const clickBack = () => {
-    goBack()
-  }
-
-  useEffect(() => {
-    setValue(initialSelection)
-  }, [question])
+  const { question, value, setValue } = props
 
   const valueChange = (newValue) => {
     setValue(newValue)
@@ -77,6 +63,9 @@ export default function Interaction(props) {
   const selectValueChange = (value) => {
     valueChange(Object.values(value)[0])
   }
+
+  const choices = question.choices.options || question.choices
+  const selectedChoice = choices.find((option) => option.value == value)
 
   return (
     <form className="text-blue-deep-80">
@@ -88,8 +77,8 @@ export default function Interaction(props) {
         {question.type == 'RADIO' ? (
           <RadioButtons
             name={question.name}
-            choices={question.choices.options || question.choices}
-            initialSelection={initialSelection}
+            choices={choices}
+            initialSelection={value}
             valueChange={valueChange}
           />
         ) : (
@@ -97,39 +86,18 @@ export default function Interaction(props) {
         )}
         {question.type == 'SLCT' ? (
           <Select
-            label={question.title}
+            label=""
             id={`question-${question.id}`}
             update={selectValueChange}
             name={question.name}
-            options={question.choices.options || question.choices}
+            options={choices}
             hideLabel
             placeholder={question.choices.placeholder || 'Please choose'}
-            selected={initialSelection}
+            selected={[(selectedChoice && selectedChoice.label) || '']}
           />
         ) : (
           ''
         )}
-        {goBack ? (
-          <button
-            type="button"
-            className="button button--tertiary m-t-xxs m-b-xs"
-            onClick={goBack}
-            style={{ float: 'left', clear: 'both' }}
-          >
-            Back
-          </button>
-        ) : (
-          ''
-        )}
-        <button
-          type="button"
-          className="button button--primary m-t-xxs m-b-xs"
-          disabled={!value}
-          onClick={clickSave}
-          style={{ float: 'right' }}
-        >
-          Next
-        </button>
       </div>
     </form>
   )
@@ -140,12 +108,5 @@ Interaction.propTypes = {
     name: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string,
-  }).isRequired,
-  answers: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  processResponse: PropTypes.func.isRequired,
+  }).isRequired
 }
