@@ -750,3 +750,24 @@ def test_retrieve_regional_office_email_success(requests_mock):
 )
 def test_age_group_mapping(mapping, expected):
     assert helpers.age_group_mapping(mapping) == expected
+
+
+@mock.patch.object(api_client.dataservices, 'get_trade_barriers')
+@pytest.mark.django_db
+def test_get_trade_barrier_data(mock_country_data, client):
+    trade_barrier_data = {
+        'id': 'GEOPR9',
+        'title': 'test',
+        'summary': 'test',
+        'status_date': '2019-11-21',
+        'country': {'name': 'Argentina'},
+        'caused_by_trading_bloc': None,
+        'trading_bloc': None,
+        'location': 'China',
+        'sectors': [{'name': 'Aerospace'}],
+    }
+
+    mock_country_data.return_value = create_response(status_code=200, json_body=trade_barrier_data)
+    response = helpers.get_trade_barrier_data(countries_list=['CN'], sectors_list=['Aerospace'])
+    assert response.get('location') == trade_barrier_data['location']
+    assert response.get('sectors') == trade_barrier_data['sectors']
