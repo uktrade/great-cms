@@ -343,6 +343,11 @@ def get_comtrade_data(countries_list, commodity_code, with_country_data=True):
     return response_data
 
 
+def get_trade_barrier_data(countries_list, sectors_list):
+    response = api_client.dataservices.get_trade_barriers(countries=countries_list, sectors=sectors_list)
+    return response.json()
+
+
 def get_country_data(countries, fields):
     response = api_client.dataservices.get_country_data_by_country(countries=countries, fields=fields)
     return response.json()

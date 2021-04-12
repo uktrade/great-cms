@@ -3,8 +3,8 @@
 ## Pre-release changes - please put everything in the appropriate category above ======
 
 ### Enhancements
-
 - GP2-1903 - New sign up page design implemented
+- GP2-1709 - trade barrier integration
 
 ### Fixed bugs
 

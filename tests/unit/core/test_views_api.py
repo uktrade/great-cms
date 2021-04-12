@@ -48,3 +48,14 @@ def test_country_data_view(mock_country_data, client):
     ).json()
     assert json_response['FR'] == country_data['FR']
     assert json_response['DE'] == country_data['DE']
+
+
+@mock.patch.object(core_helpers, 'get_trade_barrier_data')
+@pytest.mark.django_db
+def test_trade_barrier_data_view(mock_get_trade_barrier_data, client):
+
+    mock_get_trade_barrier_data.return_value = {}
+    url = reverse('core:api-trade-barrier-data')
+    client.get(url + '?countries=CN&sectors=Aerospace')
+    assert mock_get_trade_barrier_data.call_count == 1
+    assert mock_get_trade_barrier_data.call_args == mock.call(countries_list=['CN'], sectors_list=['Aerospace'])
