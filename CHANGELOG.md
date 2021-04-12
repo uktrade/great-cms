@@ -19,6 +19,12 @@
 - GP2-2050 - Update incorrect learning banner copy
 - NOTICKET - Visual tweaks for sign in/up
 
+
+
+## [1.7.1](https://github.com/uktrade/great-cms/releases/tag/1.7.1)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.6.0...1.7.1)
+Change log disappeared we lost some how perhaps during staging release. Please refer to above url for file changes.
+
 ## [1.6.0](https://github.com/uktrade/great-cms/releases/tag/1.6.0)
 
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.5.0...1.6.0)
