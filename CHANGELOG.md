@@ -15,6 +15,7 @@
 
 ### Fixed bugs
 
+- GP2-2138 - Fix domestic tab alignment
 - GP2-2250 - Hide top banner when signed in on mobile
 - GP2-2240 - Search tuning
 - GP2-2215 - Fix privacy policy sign up link
