@@ -155,8 +155,8 @@ class FundingCreditOptionsSerializer(serializers.Serializer):
 
 
 class FundingAndCreditSerializer(serializers.Serializer):
-    override_estimated_total_cost = serializers.FloatField(required=False)
-    funding_amount_required = serializers.FloatField(required=False)
+    override_estimated_total_cost = serializers.FloatField(required=False, allow_null=True)
+    funding_amount_required = serializers.FloatField(required=False, allow_null=True)
     funding_credit_options = serializers.ListField(child=FundingCreditOptionsSerializer(), required=False)
 
 
