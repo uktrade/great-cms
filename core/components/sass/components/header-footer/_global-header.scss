@@ -26,5 +26,9 @@
   .great-global-header {
     @include float-clear;
     height: auto;
+
+    &.signed-in {
+      display: none;
+    }
   }
 }

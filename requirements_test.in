@@ -14,8 +14,9 @@ pytest-sugar
 django-debug-toolbar
 requests-mock
 pip-tools
-ipdb==0.13.4
+ipdb
 beautifulsoup4
+freezegun==1.1.0
 
 # Code quality
 # -------------
@@ -35,6 +36,5 @@ flake8-string-format
 pep8-naming
 pylint-django
 codecov
-ipython==7.16.1
 dateparser==0.7.2
 pre-commit

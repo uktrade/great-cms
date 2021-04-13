@@ -30,7 +30,7 @@ sentry-sdk==0.13.*
 # DIT packages
 # ------------
 great-components==1.1.*
-directory-api-client==22.15.*
+directory-api-client==22.17.*
 directory-constants==20.23.*
 directory-forms-api-client==5.3.*
 directory-sso-api-client>=6.5.*
@@ -45,7 +45,6 @@ geoip2==2.9.*
 airtable-python-wrapper==0.13.*
 markdown2==2.3.9
 iso3166==1.0.1
-freezegun==0.1.5
 sphinx==1.8.*
 readtime==1.*
 cryptography==3.3.2
@@ -55,3 +54,4 @@ dateparser==0.7.2
 xhtml2pdf==0.2.*
 pisa==3.0.*
 lxml>=4.6.3
+sigauth==4.3.0

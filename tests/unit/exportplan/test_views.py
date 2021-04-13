@@ -13,6 +13,7 @@ from requests.exceptions import HTTPError
 
 from config import settings
 from directory_api_client.client import api_client
+from exportplan import utils
 from exportplan.core import data, helpers
 from tests.helpers import create_response, reload_urlconf
 from tests.unit.exportplan.factories import ExportPlanDashboardPageFactory
@@ -156,18 +157,13 @@ def test_edit_logo_page_submmit_error(client, mock_update_company, user, mock_ge
 
 
 @pytest.mark.django_db
-@mock.patch.object(helpers, 'get_cia_world_factbook_data')
-def test_adaption_for_target_markets_context(mock_get_factbook_data, client, user, mock_get_user_profile):
+def test_adaption_for_target_markets_context(client, user, mock_get_user_profile):
     client.force_login(user)
 
-    mock_get_factbook_data.return_value = {'language': 'Dutch', 'note': 'Many other too'}
-    slug = slugify('Adaptation for your target market')
+    slug = slugify('Adapting your product')
     response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
 
     assert response.status_code == 200
-
-    assert mock_get_factbook_data.call_count == 1
-    assert mock_get_factbook_data.call_args == mock.call(country='Netherlands', key='people,languages')
 
     response.context_data['languages'] = {'language': 'Dutch', 'note': 'Many other too'}
     response.context_data['check_duties_link'] = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
@@ -199,8 +195,8 @@ def test_business_objectives_has_lessons(mock_get_lesson_details, client, user, 
     (
         ('about-your-business', 'business-objectives'),
         ('business-objectives', 'target-markets-research'),
-        ('target-markets-research', 'adaptation-for-your-target-market'),
-        ('adaptation-for-your-target-market', 'marketing-approach'),
+        ('target-markets-research', 'adapting-your-product'),
+        ('adapting-your-product', 'marketing-approach'),
         ('marketing-approach', 'costs-and-pricing'),
         ('costs-and-pricing', 'funding-and-credit'),
         ('funding-and-credit', 'getting-paid'),
@@ -375,14 +371,26 @@ def test_getting_paid(export_plan_data, client, user, mock_get_user_profile):
 
 
 @pytest.mark.django_db
+@mock.patch.object(utils.pisa, 'pisaDocument')
 def test_download_export_plan(
-    client, mock_get_comtrade_data, mock_get_population_data, mock_cia_world_factbook_data, user, mock_get_user_profile
+    mock_pisa,
+    client,
+    mock_get_comtrade_data,
+    mock_get_population_data,
+    mock_cia_world_factbook_data,
+    user,
+    mock_get_user_profile,
 ):
+    # Must be a better way of mocking a return object
+    class Errordoc:
+        err = False
+
+    mock_pisa.return_value = Errordoc()
     url = reverse('exportplan:pdf-download')
     client.force_login(user)
-    response = client.get(url, SERVER_NAME='mydomain.com')
-    assert response.status_code == 200
+    response = client.get(url, SERVER_NAME='127.0.0.1')
 
+    assert response.status_code == 200
     assert response._content_type_for_repr == ', "application/pdf"'
     assert isinstance(type(response.content), type(bytes)) is True
     pdf_context = response.context

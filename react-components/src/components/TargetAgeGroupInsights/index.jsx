@@ -9,14 +9,17 @@ export const TargetAgeGroupInsights = memo(
   ({ groups, selected, currentSection }) => {
     const country = useSelector((state) => getMarkets(state))
     return (
-      <ToggleDataTable
-        countryIso2Code={country.country_iso2_code}
-        groups={groups}
-        selectedGroups={selected}
-        url={currentSection.url}
-      >
-        <Table />
-      </ToggleDataTable>
+      <>
+        <h2 className="h-xs p-t-l p-b-s">Facts and figures about { country.country_name } to get you started</h2>
+        <ToggleDataTable
+          countryIso2Code={country.country_iso2_code}
+          groups={groups}
+          selectedGroups={selected}
+          url={currentSection.url}
+        >
+          <Table />
+        </ToggleDataTable>
+      </>
     )
   }
 )

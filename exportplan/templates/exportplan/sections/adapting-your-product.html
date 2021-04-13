@@ -1,0 +1,98 @@
+{% extends 'exportplan/section.html' %}
+{% load static %}
+{% load to_json %}
+
+{% block intro_title %}Adapting your product{%endblock %}
+{% block intro_description %}
+Depending on where you're exporting to, you may need to make changes to your product.
+<br />
+<br />
+This page helps you detail what you might need change.
+{% endblock %}
+{% block main_content %}
+<div class="g-panel">
+  <p>
+    Detailing any necessary changes to your product will help you stay on top of things. This can help your product perform better in the market.
+  </p>
+  <p>Some things to think about are:</p>
+  <ul class="list-bullet">
+    <li>language</li>
+    <li>packaging</li>
+    <li>labelling</li>
+    <li>units of measurement</li>
+    <li>export certificates</li>
+    <li>regulations and standards</li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block user_input %}
+<section class="bg-blue-deep-10 m-t-l p-b-m">
+  <div class="container">
+    <div class="grid flex-grid">
+      <div class="c-1-1 c-2-3-l c-1-2-xl m-h-auto">
+        <div id="stats-for-target-market" class="flex-direction-column"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="container m-b-l">
+  <div class="grid">
+    <div class="c-1-4-l">&nbsp;</div>
+    <div class="c-1-1 c-1-2-l">
+      <small class="body-s text-blue-deep-50">
+        <strong class="body-s-b">Languages: </strong><a href="#">CIA World Factbook</a>.
+      </small>
+    </div>
+  </div>
+</section>
+<section class="container m-b-xl">
+  <div class="grid">
+    <div class="c-1-4-l">&nbsp;</div>
+    <div class="c-1-1 c-2-3-m c-1-2-xl">
+      <div id="changes-to-product">
+        <h3 class="h-l">Changes to your product</h3>
+        <p>
+          Write down whether you need to make changes to any of the following and include relevant details.
+        </p>
+        <div class="">
+          <form class="width-full" action="" method="post" id="adapt-to-target-market">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" class="g-button" value="Save" />
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+  </div>
+</section>
+
+<section class="container m-b-xl">
+  <div class="grid">
+    <div class="c-1-4-l">&nbsp;</div>
+    <div class="c-1-1 c-2-3-m c-1-2-xl">
+      <h3 class="h-l">Certificates and documentation</h3>
+      <p>
+        Depnding on what you're exporting and where you're sending it to, you may need certain certification. Write down whether you need any of the below and include relevant details.
+      </p>
+      <p>
+        Having the right paperwork minimises delays and other issues.
+      </p>
+      <div class="">
+        <form class="width-full" action="" method="post" id="documents-for-target-market">
+          {% csrf_token %}
+          {{ form }}
+          <input type="submit" class="g-button" value="Save" />
+        </form>
+      </div>
+    </div>
+    <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
+  </div>
+</section>
+{% endblock %}
+
+{% block body_js %}
+{{ block.super }}
+{% include 'exportplan/includes/section_data/adapting-your-product__data.html' %}
+{% endblock %}

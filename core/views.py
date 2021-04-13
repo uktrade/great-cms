@@ -73,7 +73,7 @@ class LoginView(GA360Mixin, PageTitleMixin, TemplateView):
         )
 
     template_name = 'core/login.html'
-    title = 'Log in'
+    title = 'Sign in'
 
 
 class SignupView(GA360Mixin, PageTitleMixin, TemplateView):

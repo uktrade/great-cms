@@ -1,12 +1,37 @@
 # Changelog
 
-## Pre-release changes - please put everything in the appropriate category above ======
+## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+
+- GP2-2170 - PDF Download, with blank support
+- GP2-1904 - New sign in page mobile
+- GP2-1850 - Port Search from V1 to great-cms
+- GP2-2224 - Python upgrade to 3.9.1
+- GP2-2084 - Table (Add element functionality) - All pages
+- GP2-1902 - New sign in page design implemented
+- GP2-1903 - New sign up page design implemented
+- GP2-1709 - trade barrier integration
+
 ### Fixed bugs
 
+- GP2-2250 - Hide top banner when signed in on mobile
+- GP2-2240 - Search tuning
+- GP2-2215 - Fix privacy policy sign up link
+- GP2-2120 - Change to adapting your product. Fix tooltips. Add learning. Update data.
+- GP2-2050 - Update incorrect learning banner copy
+- NOTICKET - Visual tweaks for sign in/up
+
+
+
+## [1.7.1](https://github.com/uktrade/great-cms/releases/tag/1.7.1)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.6.0...1.7.1)
+Change log disappeared we lost some how perhaps during staging release. Please refer to above url for file changes.
+
 ## [1.6.0](https://github.com/uktrade/great-cms/releases/tag/1.6.0)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.5.0...1.6.0)
+
 ### Fixed bugs
 
 - GP2-2123 - Add new group select styling and layout
@@ -26,8 +51,10 @@
 - GP2-1930 - text changes, and update data structure whilst at it.
 - GP2-1948 - section complete copy
 - GP2-1913 - allow user to click anywhere inside the input field to toggle dropdown
+
 ### Enhancements
 
+- GP2-1915 - Ajax load EP data and remove page reload on market update.
 - GP2-1977 - asset path for CSS fonts
 - GP2-1915 - Align EP data snapshots with WTE
 - GP2-1935 - add confirmation modal - business objectives
@@ -42,6 +69,7 @@
 - NOTICKET - Fix pdf static images
 
 ## [1.5.0](https://github.com/uktrade/great-cms/releases/tag/1.5.0)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.4.0...1.5.0)
 
 ### Fixed bugs
@@ -70,6 +98,7 @@
 
 ### Implemented enhancements
 
+- GP2-1648 - Port Geolocation redirects from Bau UI
 - GP2-2044 - CTA's only show sign in label by criteria
 - GP2-1852 - WTE responsive format
 - GP2-1849 - Logged out mobile header

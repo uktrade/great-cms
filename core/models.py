@@ -794,7 +794,7 @@ class DetailPage(CMSGenericPage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request)
-
+        context['refresh_on_market_change'] = True
         # Prepare backlink to the export plan if we detect one and can validate it
         _backlink = self._get_backlink(request)
         if _backlink:

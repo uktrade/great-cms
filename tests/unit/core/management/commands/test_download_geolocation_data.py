@@ -28,6 +28,11 @@ def test_handles_remote_invalid_archive(settings, requests_mock):
             file_like_object=archive.retrieve_file(edition_id='GeoLite2-Country'),
             file_name=settings.GEOIP_COUNTRY,
         )
+    with pytest.raises(tarfile.ReadError):
+        archive.decompress(
+            file_like_object=archive.retrieve_file(edition_id='GeoLite2-Country'),
+            file_name=settings.GEOIP_CITY,
+        )
 
 
 def test_handles_missing_database_file():
@@ -37,6 +42,12 @@ def test_handles_missing_database_file():
         archive.decompress(
             file_like_object=archive.retrieve_file(edition_id='GeoLite2-Country'),
             file_name=settings.GEOIP_COUNTRY,
+        )
+
+    with pytest.raises(ValueError):
+        archive.decompress(
+            file_like_object=archive.retrieve_file(edition_id='GeoLite2-City'),
+            file_name=settings.GEOIP_CITY,
         )
 
 

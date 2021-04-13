@@ -4,8 +4,7 @@ import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import { camelizeObject } from '@src/Helpers'
 
-export const ToggleDataTable = memo(
-  ({ countryIso2Code, groups, selectedGroups: selected, children, url }) => {
+export const ToggleDataTable = ({ countryIso2Code, groups, selectedGroups: selected, children, url }) => {
     const [isOpen, setIsOPen] = useState(false)
     const [selectedGroups, setSelectedGroups] = useState(selected)
     const [data, setData] = useState({})
@@ -28,7 +27,7 @@ export const ToggleDataTable = memo(
       if (selectedGroups.length > 0) {
         getCountryData()
       }
-    }, [])
+    }, [countryIso2Code])
 
     const submitForm = (event) => {
       event.preventDefault()
@@ -98,7 +97,7 @@ export const ToggleDataTable = memo(
       </>
     )
   }
-)
+
 
 ToggleDataTable.propTypes = {
   countryIso2Code: PropTypes.string.isRequired,

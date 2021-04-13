@@ -1,0 +1,169 @@
+{% load to_json %}
+
+<script type="text/javascript">
+  magna.adaptToTargetMarketForm({
+    element: document.getElementById('changes-to-product'),
+    field: 'adaptation_target_market',
+    formData: {{ form_initial|safe }},
+    formFields: [
+      {
+        name: 'labelling',
+        label: 'Labelling',
+        field_type: 'Textarea',
+        placeholder: 'Describe changes',
+        tooltip: {
+          content:
+          `<p>
+            Some countries speak more than one language. Depending on your target demographic you may need to translate your product labels, packages and other material.
+            <br />
+            Avoid word-for-word translations and consider culturally sensitive terms.
+          </p>`
+        },
+      },
+      {
+        name: 'packaging',
+        label: 'Packaging',
+        field_type: 'Textarea',
+        placeholder: 'Describe changes',
+        tooltip: {
+          content:
+          `<p>
+            Packaging protects your product but can also be an extension of the labelling; communicating things to your customers.
+            <br />
+            Some countries have strict laws on how goods are packaged. Look into the guidelines for your target country to avoid your products getting damaged, lost or rejected.
+          </p>`,
+        },
+      },
+      {
+        name: 'size',
+        label: 'Size',
+        field_type: 'Textarea',
+        placeholder: 'Describe changes',
+        tooltip: {
+          content:
+          `<p>
+            Labelling communicates important things about the product. There may be local guidelines on label warnings and text size that you must follow.
+            <br />
+            To appeal to locals, you may want to change your product name or label design. For example, in China, the colour red has s strong positive connotations and cultural significance.
+          </p>`,
+        },
+      },
+      {
+        name: 'standards',
+        label: 'Product changes to comply with standards',
+        field_type: 'Textarea',
+        placeholder: 'Describe changes',
+        tooltip: {
+          content:
+          `<p>
+            Standard sizes for products vary depending on things like buying habits.
+            <br />
+            Investigate the standard size and unit of measurement so that you can meet customers' needs.
+          </p>`,
+        },
+      },
+      {
+        name: 'translations',
+        label: 'Translations',
+        field_type: 'Textarea',
+        placeholder: 'Describe changes',
+        tooltip: {
+          content:
+          `<p>
+            If your product doesn't not comply with local standards, it can't be sold.
+            <br />
+            Some countries ban goods containing illegal or offensive materials, and it isn't always obvious what that might be.
+          </p>`,
+        },
+      },
+      {
+        name: 'other_changes',
+        label: 'Other changes',
+        field_type: 'Textarea',
+        placeholder: 'Describe changes',
+      },
+    ],
+    companyexportplan: {{ export_plan.pk }},
+    lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 0),
+  })
+
+  magna.documentsForTargetMarketForm({
+    element: document.getElementById('documents-for-target-market'),
+    field: 'adaptation_target_market',
+    formData: {{ form_initial|safe }},
+    formFields: [
+      {
+        name: 'certificate_of_origin',
+        label: 'Certificate of origin',
+        field_type: 'Textarea',
+        placeholder: 'Add note',
+        tooltip: {
+          content: `<p>
+            The certificate of origin is a document that declares which country a product comes from and where it is going.
+            <br />
+            It helps customs officials decide if a product can be imported or if it is subject to duties costs.
+          </p>`,
+        },
+      },
+      {
+        name: 'insurance_certificate',
+        label: 'Insurance certificate',
+        field_type: 'Textarea',
+        placeholder: 'Add note',
+        tooltip: {
+          content: `<p>
+            Export insurance insures an exporter against the risk of not being paid or not being able to recover costs of a contract.
+            <br />
+            You will have to research exporter insurance to find out what insurance is best for you and your product.
+          </p>`,
+        },
+      },
+      {
+        name: 'commercial_invoice',
+        label: 'Commercial invoice',
+        field_type: 'Textarea',
+        placeholder: 'Add note',
+        tooltip: {
+          content: `
+          <p>A commercial invoice is a document that contains information about:</p>
+          <ul>
+            <li>the goods you are exporting</li>
+            <li>tariff codes</li>
+            <li>the value of your goods</li>
+            <li>the country of origin</li>
+            <li>incoterms (standardised commercial terms)</li>
+            <li>transaction numbers</li>
+          </ul>
+          <p>It is one of the main documents used by customs officials to calculate duties and taxes and it also makes sure you get paid on time.</p>`,
+        },
+      },
+      {
+        name: 'uk_customs_declaration',
+        label: 'UK customs declaration',
+        field_type: 'Textarea',
+        placeholder: 'Add note',
+        tooltip: {
+          content: `<p>
+            An export declaration is a form submitted at the port when goods are leaving the country. The form has details about the goods and where they are heading.
+            <br />
+            It is needed on all goods that are being exported.
+          </p>`,
+        },
+      },
+    ],
+    formDataUserDocs: {{ target_market_documents|to_json }},
+    companyexportplan: {{ export_plan.pk }},
+  })
+
+  magna.statsForYourTargetMarket({
+    element: document.getElementById('stats-for-target-market'),
+    infoMoment: `
+      <a href="{{ check_duties_link|safe }}" target="_blank" rel="noopener noreferrer">Check how to export goods</a> is a GOV.UK online tool that gives exporters information about what is needed in order to export goods to their chosen markets. It has information on:
+      <ul class="list-bullet m-v-xs">
+        <li>rules and restrictions</li>
+        <li>tax and duty rates</li>
+        <li>what exporting documents you need</li>
+      </ul>
+    `,
+  })
+</script>

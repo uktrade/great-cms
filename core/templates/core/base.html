@@ -78,7 +78,7 @@
             isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
           },
           verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
-          refreshOnMarketChange: {% if no_refresh_on_market_change %}false{%else%}true{% endif %},
+          refreshOnMarketChange: {% if refresh_on_market_change %}true{%else%}false{% endif %},
           urlCostsAndPricing: '{% url "exportplan:costs-and-pricing"%}'
       });
     </script>

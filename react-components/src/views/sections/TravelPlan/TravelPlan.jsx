@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { TravelPlanStats } from '@src/components/TravelPlan/TravelPlanStats/TravelPlanStats'
 import { PlannedTravel } from '@src/components/TravelPlan/PlannedTravel/PlannedTravel'
 import { CultureRules } from '@src/components/TravelPlan/CultureRules/CultureRules'
 import { VisaInformation } from '@src/components/TravelPlan/VisaInformation/VisaInformation'
+import { Table } from '@src/views/sections/AdaptationForYourTargetMarket/statsForYourTargetMarket'
 
 export const travelPlanSnapshot = ({ element, ...params }) => {
-  ReactDOM.render(<TravelPlanStats {...params} />, element)
+  ReactDOM.render(<Table {...params} />, element)
 }
 
 export const travelPlanCultureRules = ({ element, ...params }) => {

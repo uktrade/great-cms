@@ -171,15 +171,16 @@ class ExportPlanMarketingApproachView(PageTitleMixin, LessonDetailsMixin, Export
             self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
         )
         context['marketing_approach'] = self.request.user.export_plan.data['marketing_approach']
-
         return context
 
 
-class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, ExportPlanSectionView, FormView):
+class ExportPlanAdaptingYourProductView(
+    PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
+):
 
-    form_class = forms.ExportPlanAdaptationForTargetMarketForm
-    success_url = reverse_lazy('exportplan:adaptation-for-your-target-market')
-    title = 'Adaptation for your target market'
+    form_class = forms.ExportPlanAdaptingYourProductForm
+    success_url = reverse_lazy('exportplan:adapting-your-product')
+    title = 'Adapting your product'
 
     def get_initial(self):
         return self.request.user.export_plan.data['adaptation_target_market']
@@ -187,12 +188,7 @@ class ExportPlanAdaptationForTargetMarketView(PageTitleMixin, FormContextMixin, 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['check_duties_link'] = helpers.get_check_duties_link(self.request.user.export_plan.data)
-        # To do pass language from export_plan object rather then  hardcoded
-        context['language_data'] = helpers.get_cia_world_factbook_data(
-            country=self.request.user.export_plan.export_country_name, key='people,languages'
-        )
         context['target_market_documents'] = self.request.user.export_plan.data['target_market_documents']
-
         return context
 
 
@@ -271,7 +267,6 @@ class GettingPaidView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView)
         context['transport_choices'] = transport_choices
 
         context['getting_paid_data'] = self.request.user.export_plan.data['getting_paid']
-
         return context
 
 
@@ -298,9 +293,6 @@ class TravelBusinessPoliciesView(PageTitleMixin, LessonDetailsMixin, ExportPlanS
         context = super().get_context_data(*args, **kwargs)
         context['travel_business_policies'] = self.request.user.export_plan.data['travel_business_policies']
         context['business_trips'] = self.request.user.export_plan.data['business_trips']
-        context['language_data'] = helpers.get_cia_world_factbook_data(
-            country=self.request.user.export_plan.export_country_name, key='people,languages'
-        )
         context['travel_advice_covid19'] = settings.TRAVEL_ADVICE_COVID19
         context['travel_advice_foreign'] = settings.TRAVEL_ADVICE_FOREIGN
         return context
@@ -384,6 +376,8 @@ class PDFDownload(
 ):
     def get(self, request, *args, **kwargs):
         context = super().get_context_provider_data(request)
+        context['risk_impact_options'] = choices_to_key_value(choices.RISK_IMPACT_OPTIONS)
+        context['risk_likelihood_options'] = choices_to_key_value(choices.RISK_LIKELIHOOD_OPTIONS)
         pdf = render_to_pdf('exportplan/pdf_download.html', context)
         response = HttpResponse(pdf, content_type='application/pdf')
         filename = 'export_plan.pdf'

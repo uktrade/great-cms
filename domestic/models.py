@@ -104,6 +104,15 @@ class BaseContentPage(
 
         return retval
 
+    def get_absolute_url(self):
+
+        base_url = settings.BASE_URL
+        if base_url[-1] == '/':
+            base_url = base_url[:-1]
+
+        path = self.get_url()
+        return base_url + path if path else ''
+
 
 class SocialLinksPageMixin(Page):
     """Abstract base class that adds social sharing links to the context
@@ -315,6 +324,12 @@ class GreatDomesticHomePage(
         null=True,
         blank=True,
     )
+
+    def serve(self, request, *args, **kwargs):
+        redirector = helpers.GeoLocationRedirector(request)
+        if redirector.should_redirect:
+            return redirector.get_response()
+        return super().serve(request, *args, **kwargs)
 
     def _get_industry_tag_usage_counts(self, industry_tag):
         return industry_tag.countryguidepage_set.all().live().count()

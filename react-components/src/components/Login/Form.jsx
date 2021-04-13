@@ -19,13 +19,14 @@ export const Form = ({
 }) => (
   <>
     <form
+      className="signup__form"
       onSubmit={(event) => {
         event.preventDefault()
         handleSubmit()
       }}
     >
-      <legend className='h-s text-blue-deep-80 p-t-xs'>Log in</legend>
-      <p className='m-b-s'>Do not have an account? <a href={Services.config.signupUrl} className='text-red-80 inline-block'>Sign up</a></p>
+      <legend className='h-s text-blue-deep-80 p-t-xs'>Sign in</legend>
+      <p className='m-b-s'>Don't have an account? <a href={Services.config.signupUrl} className='text-red-80 inline-block'>Sign up</a></p>
       <ErrorList errors={errors.__all__ || []} className="m-b-s" />
       <Input
         label='Email address'
@@ -54,15 +55,14 @@ export const Form = ({
         id='signup-modal-submit'
         className='button button--primary button--full-width m-t-xs'
         disabled={disabled}
-      >Log in</button>
+      >Sign in</button>
+      <div className="vertical-seperator">
+        <hr className="bg-blue-deep-10" />
+        <span>or</span>
+        <hr className="bg-blue-deep-10" />
+      </div>
+      <SocialLoginButtons linkedinUrl={linkedinLoginUrl} googleUrl={googleLoginUrl} action="Sign in" />
     </form>
-
-    <div className='vertical-separator'>
-      <hr />
-      <span>or</span>
-      <hr />
-    </div>
-    <SocialLoginButtons linkedinUrl={linkedinLoginUrl} googleUrl={googleLoginUrl} />
   </>
 )
 
