@@ -24,14 +24,20 @@ export const Input = memo(
     className,
     formGroupClassName,
     minDate,
+    decimal,
   }) => {
-    const IsValidNumber = (e) => {
+    const IsValidNumber = (e, rule = decimal) => {
       const t = parseInt(e.key, 10)
+      const isInteger = Number.isInteger(t)
+      const validateNumber =
+        rule === 2
+          ? isInteger && !validation.twoDecimal(value + t)
+          : (isInteger || e.key === '.') && !validation.wholeNumber(value + t)
 
       if (type === 'number') {
-        if (t === 0 && value.length === 1) {
+        if (validation.onlyOneZero(t, value)) {
           e.preventDefault()
-        } else if (Number.isInteger(t) && !validation.twoDecimal(value + t)) {
+        } else if (validateNumber) {
           e.preventDefault()
         }
       }
@@ -117,6 +123,7 @@ Input.propTypes = {
   prepend: PropTypes.string,
   className: PropTypes.string,
   formGroupClassName: PropTypes.string,
+  decimal: PropTypes.oneOf([2, 0]),
 }
 
 Input.defaultProps = {
@@ -136,4 +143,5 @@ Input.defaultProps = {
   className: '',
   formGroupClassName: '',
   minDate: '',
+  decimal: 2,
 }
