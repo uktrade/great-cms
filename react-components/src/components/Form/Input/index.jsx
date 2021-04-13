@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import { dateFormat } from '@src/Helpers'
+import { dateFormat, validation } from '@src/Helpers'
 import { FormGroup } from '../FormGroup'
 
 export const Input = memo(
@@ -12,7 +12,7 @@ export const Input = memo(
     type,
     placeholder,
     value,
-    onChange,
+    onChange: update,
     description,
     tooltip,
     example,
@@ -24,56 +24,68 @@ export const Input = memo(
     className,
     formGroupClassName,
     minDate,
-  }) => (
-    <FormGroup
-      errors={errors}
-      label={label}
-      description={description}
-      tooltip={tooltip}
-      example={example}
-      id={id}
-      hideLabel={hideLabel}
-      lesson={lesson}
-      formGroupClassName={formGroupClassName}
-    >
-      <div className={`flex-center ${type === 'date' ? 'select-date' : ''}`}>
-        {prepend && (
-          <span className="bg-blue-deep-10 text-blue-deep-60 bold prepend">
-            {prepend}
-          </span>
-        )}
-        {type === 'date' && (
-          <span className="select-date__friendly">{dateFormat(value)}</span>
-        )}
-        <input
-          className={`form-control ${
-            prepend ? 'form-control-prepend' : ''
-          } ${className}`}
-          id={id}
-          type={type}
-          min={minDate}
-          name={id}
-          disabled={disabled}
-          onChange={(e) => {
-            let { value: updatedValue } = e.target
-            if (type === 'number' && !updatedValue) {
-              updatedValue = null
-            }
-            onChange({ [id]: updatedValue })
-          }}
-          onKeyDown={(e) => {
-            if (type === 'number' && e.key === '0' && !!value === false) {
-              e.preventDefault()
-            }
-          }}
-          placeholder={placeholder}
-          value={value}
-          readOnly={readOnly}
-          tabIndex={tabIndex}
-        />
-      </div>
-    </FormGroup>
-  )
+  }) => {
+    const IsValidNumber = (e) => {
+      const t = parseInt(e.key, 10)
+
+      if (type === 'number') {
+        if (t === 0 && value.length === 1) {
+          e.preventDefault()
+        } else if (Number.isInteger(t) && !validation.twoDecimal(value + t)) {
+          e.preventDefault()
+        }
+      }
+    }
+
+    const onChange = (e) => {
+      let { value: updatedValue } = e.target
+      if (type === 'number' && !updatedValue) {
+        updatedValue = null
+      }
+      update({ [id]: updatedValue })
+    }
+
+    return (
+      <FormGroup
+        errors={errors}
+        label={label}
+        description={description}
+        tooltip={tooltip}
+        example={example}
+        id={id}
+        hideLabel={hideLabel}
+        lesson={lesson}
+        formGroupClassName={formGroupClassName}
+      >
+        <div className={`flex-center ${type === 'date' ? 'select-date' : ''}`}>
+          {prepend && (
+            <span className="bg-blue-deep-10 text-blue-deep-60 bold prepend">
+              {prepend}
+            </span>
+          )}
+          {type === 'date' && (
+            <span className="select-date__friendly">{dateFormat(value)}</span>
+          )}
+          <input
+            className={`form-control ${
+              prepend ? 'form-control-prepend' : ''
+            } ${className}`}
+            id={id}
+            type={type}
+            min={minDate}
+            name={id}
+            disabled={disabled}
+            onChange={onChange}
+            onKeyDown={IsValidNumber}
+            placeholder={placeholder}
+            value={value}
+            readOnly={readOnly}
+            tabIndex={tabIndex}
+          />
+        </div>
+      </FormGroup>
+    )
+  }
 )
 
 Input.propTypes = {

@@ -202,6 +202,13 @@ const formatLessonLearned = (lesson, section, id) =>
 
 const objectHasValue = (object = {}) => Object.values(object).some((x) => x)
 
+const validation = {
+  twoDecimal: (number) => {
+    const regx = /^[0-9]*(\.[0-9][0-9]?)?$/g
+    return regx.test(number)
+  },
+}
+
 export {
   dateFormat,
   dateNowISO,
@@ -227,4 +234,5 @@ export {
   numberWithSign,
   camelize,
   camelizeObject,
+  validation,
 }

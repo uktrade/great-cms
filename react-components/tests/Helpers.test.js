@@ -1,5 +1,4 @@
 import {
-  dateNowISO,
   dateFormat,
   slugify,
   addItemToList,
@@ -20,7 +19,10 @@ import {
   camelize,
   camelizeObject,
   numberWithSign,
+  validation,
 } from '@src/Helpers'
+
+const { twoDecimal } = validation
 
 test('slugify', (done) => {
   const testStrings = [
@@ -351,5 +353,33 @@ describe('Utilities ', () => {
     expect(numberWithSign('-23')).toEqual('-23')
     expect(numberWithSign('23')).toEqual('+23')
     expect(numberWithSign('Data not available')).toEqual('Data not available')
+  })
+})
+
+describe('Validation', () => {
+  describe('twoDecimal', () => {
+    it.each`
+      a          | expected
+      ${2}       | ${true}
+      ${0}       | ${true}
+      ${'0'}     | ${true}
+      ${'2.00'}  | ${true}
+      ${'2.21'}  | ${true}
+      ${'22.21'} | ${true}
+      ${'0.50'}  | ${true}
+      ${'0.01'}  | ${true}
+      ${6666666} | ${true}
+      ${200}     | ${true}
+    `('Should be valid - $a', ({ a, expected }) => {
+      expect(twoDecimal(a)).toEqual(expected)
+    })
+    it.each`
+      a            | expected
+      ${1.5033}    | ${false}
+      ${'1.000'}   | ${false}
+      ${'33.3333'} | ${false}
+    `('Should be invalid - $a', ({ a, expected }) => {
+      expect(twoDecimal(a)).toEqual(expected)
+    })
   })
 })
