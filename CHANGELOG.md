@@ -11,6 +11,7 @@
 - GP2-2084 - Table (Add element functionality) - All pages
 - GP2-1902 - New sign in page design implemented
 - GP2-1903 - New sign up page design implemented
+- GP2-1709 - trade barrier integration
 
 ### Fixed bugs
 
