@@ -16,6 +16,7 @@
 ### Fixed bugs
 
 - GP2-2250 - Hide top banner when signed in on mobile
+- GP2-2240 - Search tuning
 - GP2-2215 - Fix privacy policy sign up link
 - GP2-2120 - Change to adapting your product. Fix tooltips. Add learning. Update data.
 - GP2-2050 - Update incorrect learning banner copy
