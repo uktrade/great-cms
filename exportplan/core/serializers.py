@@ -161,33 +161,33 @@ class FundingAndCreditSerializer(serializers.Serializer):
 
 
 class DirectCostsSerializer(serializers.Serializer):
-    product_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    labour_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    other_direct_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    product_costs = serializers.FloatField(required=False, allow_null=True)
+    labour_costs = serializers.FloatField(required=False, allow_null=True)
+    other_direct_costs = serializers.FloatField(required=False, allow_null=True)
 
     @property
     def total_direct_costs(self):
         self.is_valid()
         total = 0.00
         for field in self.get_fields().keys():
-            total = total + float(self.data.get(field, 0.00))
+            total += float(self.data.get(field, 0.00) or 0.00)
         return total
 
 
 class OverheadCostsSerializer(serializers.Serializer):
-    product_adaption = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    freight_logistics = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    agent_distributor_fees = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    marketing = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    insurance = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    other_overhead_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    product_adaption = serializers.FloatField(required=False, allow_null=True)
+    freight_logistics = serializers.FloatField(required=False, allow_null=True)
+    agent_distributor_fees = serializers.FloatField(required=False, allow_null=True)
+    marketing = serializers.FloatField(required=False, allow_null=True)
+    insurance = serializers.FloatField(required=False, allow_null=True)
+    other_overhead_costs = serializers.FloatField(required=False, allow_null=True)
 
     @property
     def total_overhead_costs(self):
         self.is_valid()
         total = 0.00
         for field in self.get_fields().keys():
-            total = total + float(self.data.get(field, 0.00))
+            total += float(self.data.get(field, 0.00) or 0.00)
         return total
 
 
@@ -203,7 +203,7 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
 
     class UnitRecordDecimal(serializers.Serializer):
         unit = serializers.CharField(required=False, default='', allow_blank=True)
-        value = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, initial=0)
+        value = serializers.FloatField(required=False, allow_null=True)
 
         def to_internal_value(self, data):
             if data.get('value') == '':
@@ -212,11 +212,11 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
 
     units_to_export_first_period = UnitRecordInt(required=False)
     units_to_export_second_period = UnitRecordInt(required=False)
-    final_cost_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    average_price_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    net_price = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    local_tax_charges = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    duty_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    final_cost_per_unit = serializers.FloatField(required=False, allow_null=True)
+    average_price_per_unit = serializers.FloatField(required=False, allow_null=True)
+    net_price = serializers.FloatField(required=False, allow_null=True)
+    local_tax_charges = serializers.FloatField(required=False, allow_null=True)
+    duty_per_unit = serializers.FloatField(required=False, allow_null=True)
     gross_price_per_unit_invoicing_currency = UnitRecordDecimal(required=False)
 
     @property
@@ -230,9 +230,9 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
     @property
     def gross_price_per_unit(self):
         self.is_valid()
-        duty_per_unit = self.data.get('duty_per_unit', 0.00)
-        net_price = self.data.get('net_price', 0.00)
-        local_tax_charges = self.data.get('local_tax_charges', 0.00)
+        duty_per_unit = self.data.get('duty_per_unit', 0.00) or 0.00
+        net_price = self.data.get('net_price', 0.00) or 0.00
+        local_tax_charges = self.data.get('local_tax_charges', 0.00) or 0.00
         gross_price_per_unit = float(duty_per_unit) + float(local_tax_charges) + float(net_price)
 
         return gross_price_per_unit
