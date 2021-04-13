@@ -768,7 +768,9 @@ body.js-enabled .great-header-country-select {
     .great-global-header:after {
       display: block;
       content: '';
-      clear: both; } }
+      clear: both; }
+    .great-global-header.signed-in {
+      display: none; } }
 
 .great-header-logo {
   height: 80px;
@@ -1071,7 +1073,9 @@ body.js-enabled .great-header-country-select {
     .great-global-header:after {
       display: block;
       content: '';
-      clear: both; } }
+      clear: both; }
+    .great-global-header.signed-in {
+      display: none; } }
 
 .great-header-logo {
   height: 80px;
@@ -5034,6 +5038,26 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
     .shared-modal-menu .menu-items li a > span,
     .shared-modal-menu .menu-items li button > span {
       padding: 0; }
+
+.shared-footer .magna-footer__links {
+  max-width: 70%;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap; }
+  @media (max-width: 640px) {
+    .shared-footer .magna-footer__links {
+      max-width: 100%; } }
+  .shared-footer .magna-footer__links li {
+    margin-bottom: 10px; }
+
+@media (max-width: 640px) {
+  .shared-footer .magna-footer__nav {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+    -ms-flex-direction: column-reverse;
+    flex-direction: column-reverse; } }
+
+.shared-footer .magna-footer__great-logo img {
+  width: auto; }
 
 .shared-personalisation-bar {
   max-width: 100%;
