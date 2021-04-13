@@ -22,7 +22,7 @@ import {
   validation,
 } from '@src/Helpers'
 
-const { twoDecimal } = validation
+const { twoDecimal, wholeNumber, onlyOneZero } = validation
 
 test('slugify', (done) => {
   const testStrings = [
@@ -380,6 +380,47 @@ describe('Validation', () => {
       ${'33.3333'} | ${false}
     `('Should be invalid - $a', ({ a, expected }) => {
       expect(twoDecimal(a)).toEqual(expected)
+    })
+  })
+  describe('wholeNumber', () => {
+    it.each`
+      a          | expected
+      ${2}       | ${true}
+      ${0}       | ${true}
+      ${'0'}     | ${true}
+      ${'200'}   | ${true}
+      ${'2221'}  | ${true}
+      ${6666666} | ${true}
+      ${200}     | ${true}
+    `('Should be valid - $a', ({ a, expected }) => {
+      expect(wholeNumber(a)).toEqual(expected)
+    })
+    it.each`
+      a            | expected
+      ${1.1}       | ${false}
+      ${1.5033}    | ${false}
+      ${'1.000'}   | ${false}
+      ${'33.3333'} | ${false}
+    `('Should be invalid - $a', ({ a, expected }) => {
+      expect(wholeNumber(a)).toEqual(expected)
+    })
+  })
+  describe('onlyOneZero', () => {
+    it.each`
+      a    | b      | expected
+      ${0} | ${'0'} | ${true}
+    `('Should be invalid - $a and $b', ({ a, b, expected }) => {
+      expect(onlyOneZero(a, b)).toEqual(expected)
+    })
+    it.each`
+      a    | b       | expected
+      ${0} | ${'1'}  | ${false}
+      ${0} | ${'.'}  | ${false}
+      ${0} | ${'22'} | ${false}
+      ${1} | ${'0'}  | ${false}
+      ${1} | ${'30'} | ${false}
+    `('Should be valid - $a and $b', ({ a, b, expected }) => {
+      expect(onlyOneZero(a, b)).toEqual(expected)
     })
   })
 })
