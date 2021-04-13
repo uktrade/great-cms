@@ -148,7 +148,7 @@ class UiProgress(serializers.Serializer):
 
 
 class FundingCreditOptionsSerializer(serializers.Serializer):
-    amount = serializers.FloatField(required=False)
+    amount = serializers.FloatField(required=False, allow_null=True)
     funding_option = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
