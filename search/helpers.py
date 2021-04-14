@@ -75,45 +75,94 @@ def format_query(query, page):
 
     """
     from_result = (page - 1) * RESULTS_PER_PAGE
-    return json.dumps(
-        {
-            'query': {
-                'bool': {
-                    'must': {
-                        'bool': {
-                            'should': [
-                                {'match': {'name': {'query': query, 'minimum_should_match': '2<75%'}}},
-                                {'match': {'content': {'query': query, 'minimum_should_match': '2<75%'}}},
-                                {'match': {'keywords': query}},
-                                {'match': {'type': query}},
-                            ]
-                        }
-                    },
-                    'should': [
-                        {'match': {'type': {'query': 'Market', 'boost': 10000}}},
-                        {'match': {'type': {'query': 'dit:greatCms:Article', 'boost': 10000}}},
-                        {'match': {'type': {'query': 'dit:greatCms:Service', 'boost': 20000}}},
-                    ],
-                    'filter': [
-                        {
-                            'terms': {
-                                'type': [
-                                    'Opportunity',
-                                    'dit:Opportunity',
-                                    'Market',
-                                    'dit:Market',
-                                    'dit:greatCms:Article',
-                                    'dit:greatCms:Service',
+    formatted_query = {
+        'query': {
+            'function_score': {
+                'query': {
+                    'bool': {
+                        'must': {
+                            'bool': {
+                                'should': [
+                                    {
+                                        'match': {
+                                            'name': {
+                                                'query': query,
+                                                'minimum_should_match': '2<75%',
+                                            }
+                                        }
+                                    },
+                                    {
+                                        'match': {
+                                            'content': {
+                                                'query': query,
+                                                'minimum_should_match': '2<75%',
+                                            }
+                                        }
+                                    },
+                                    {
+                                        'match': {
+                                            'keywords': query,
+                                        }
+                                    },
+                                    {
+                                        'match': {
+                                            'type': query,
+                                        }
+                                    },
                                 ]
                             }
-                        }
-                    ],
-                }
-            },
-            'from': from_result,
-            'size': RESULTS_PER_PAGE,
-        }
-    )
+                        },
+                        'filter': [
+                            {
+                                'terms': {
+                                    'type': [
+                                        'Opportunity',
+                                        'dit:Opportunity',
+                                        'Market',
+                                        'dit:Market',
+                                        'dit:greatCms:Article',
+                                        'dit:greatCms:Service',
+                                    ]
+                                }
+                            }
+                        ],
+                    }
+                },
+                'functions': [
+                    {
+                        'filter': {
+                            'terms': {
+                                'type': ['dit:greatCms:Service'],
+                            }
+                        },
+                        'weight': 4000,
+                    },
+                    {
+                        'filter': {
+                            'terms': {
+                                'type': ['dit:greatCms:Article'],
+                            }
+                        },
+                        'weight': 200,
+                    },
+                    {
+                        'filter': {
+                            'terms': {
+                                'type': ['Market', 'dit:Market'],
+                            }
+                        },
+                        'weight': 200,
+                    },
+                ],
+                'boost': 10,
+                'boost_mode': 'multiply',
+            }
+        },
+        'from': from_result,
+        'size': RESULTS_PER_PAGE,
+    }
+
+    return json.dumps(formatted_query)
 
 
 def search_with_activitystream(query):
