@@ -149,6 +149,7 @@ $mobile: 640px;
 
 .shared-nav-container {
     &.main-nav-container.mobile {
+        display: block;
         flex-direction: column;
     }
 
@@ -229,6 +230,7 @@ $mobile: 640px;
 }
 
 .great-header.expanded {
+    position: static;
     .user-greeting {
         display: block;
     }
