@@ -35,4 +35,8 @@
       border-color: $lightened-great-blue;
     }
   }
+  .select__list {
+    max-height: 350px;
+    overflow-y: auto;
+  }
 }

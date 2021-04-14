@@ -51,9 +51,10 @@ class EnableSegmentationMixin:
     # used by the page modal manager React component
     def get_context(self, request):
         context = super().get_context(request)
+        if request.user.is_authenticated and 'start-survey' in request.GET:
+            request.user.set_user_questionnaire_answer(0, 'in-progress')
         if request.user.is_authenticated and request.user.user_profile:
             context['segment'] = request.user.user_profile['user_profile']['segment']
-
         return context
 
 
