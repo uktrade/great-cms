@@ -208,17 +208,17 @@ def test_cost_and_pricing_serializers():
     serializer = serializers.ExportPlanSerializer(data=data)
     assert serializer.is_valid()
 
-    assert serializer.data['direct_costs'] == OrderedDict([('product_costs', '12.02'), ('labour_costs', '13.02')])
+    assert serializer.validated_data['direct_costs'] == OrderedDict([('product_costs', 12.02), ('labour_costs', 13.02)])
 
-    assert serializer.data['overhead_costs'] == OrderedDict(
-        [('product_adaption', '13.02'), ('other_overhead_costs', '19.23')]
+    assert serializer.validated_data['overhead_costs'] == OrderedDict(
+        [('product_adaption', 13.02), ('other_overhead_costs', 19.23)]
     )
-    assert serializer.data['total_cost_and_price'] == OrderedDict(
+    assert serializer.validated_data['total_cost_and_price'] == OrderedDict(
         [
             ('units_to_export_first_period', OrderedDict([('unit', 'kg'), ('value', 10)])),
-            ('average_price_per_unit', '23.44'),
-            ('duty_per_unit', '23.00'),
-            ('gross_price_per_unit_invoicing_currency', OrderedDict([('unit', 'EUR'), ('value', '23.40')])),
+            ('average_price_per_unit', 23.44),
+            ('duty_per_unit', 23.0),
+            ('gross_price_per_unit_invoicing_currency', OrderedDict([('unit', 'EUR'), ('value', 23.4)])),
         ]
     )
 
