@@ -320,3 +320,18 @@ def test_api_update_user_profile(mock_update_user_profile, client, user):
     response = client.post(reverse('sso:user-profile-api'), {'segment': 'CHALLENGE'})
     assert response.status_code == 200
     assert response.data['user_profile']['segment'] == 'CHALLENGE'
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_api_client.user, 'get_user_questionnaire')
+def test_get_questionnaire(
+    mock_get_user_questionnaire,
+    client,
+    user,
+):
+    questionnaire_data = {'questions': [{'title': 'Question1'}]}
+    client.force_login(user)
+    mock_get_user_questionnaire.return_value = create_response(status_code=200, json_body=questionnaire_data)
+    response = client.get(reverse('sso:user-questionnaire-api'))
+    assert response.status_code == 200
+    assert response.json() == questionnaire_data
