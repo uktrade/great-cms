@@ -118,3 +118,37 @@ def test_enable_segmentation_mixin(mock_create_user_profile, mock_get_session_us
     context = page.get_context(request)
 
     assert context['segment'] is not None
+
+
+@pytest.mark.parametrize(
+    'url,expected_callcount',
+    (
+        ('/', 0),
+        ('/?startsurvey', 1),
+    ),
+)
+@mock.patch.object(sso_api_client.user, 'get_session_user')
+@mock.patch.object(sso_api_client.user, 'create_user_profile')
+@mock.patch.object(sso_api_client.user, 'set_user_questionnaire_answer')
+def test_enable_segmentation_mixin_trigger_questionnaire(
+    mock_set_user_questionnaire_answer,
+    mock_create_user_profile,
+    mock_get_session_user,
+    rf,
+    user,
+    url,
+    expected_callcount,
+):
+    class PageContextProvider(abc.ABC):
+        def get_context(self, request):
+            return {}
+
+    class DummyPage(EnableSegmentationMixin, PageContextProvider):
+        pass
+
+    request = rf.get(url)
+    request.user = user
+    page = DummyPage()
+    context = page.get_context(request)
+    assert context['segment'] is not None
+    assert mock_set_user_questionnaire_answer.call_count == expected_callcount
