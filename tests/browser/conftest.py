@@ -344,13 +344,6 @@ def mock_get_ease_of_doing_business():
 
 
 @pytest.fixture
-def mock_get_last_year_import_data():
-    return_value = create_response(status_code=200, json_body={'lastyear_history': 123})
-    with patch.object(api_client.dataservices, 'get_last_year_import_data', return_value=return_value) as patched:
-        yield patched
-
-
-@pytest.fixture
 def mock_update_export_plan():
     return_value = {}
     with patch.object(exportplan_helpers, 'update_exportplan', return_value=return_value) as patched:
@@ -426,7 +419,6 @@ def mock_all_dashboard_and_export_plan_requests_and_responses(
     mock_get_export_plan_market_data,
     mock_get_export_plan,
     mock_get_user_context_export_plan,
-    mock_get_last_year_import_data,
     mock_get_recommended_countries,
     mock_update_company_profile,
     mock_update_export_plan,

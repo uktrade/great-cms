@@ -49,7 +49,7 @@ def test_search_with_activitystream(mock_session_send):
     issued_request = mock_session_send.call_args_list[0][0][0]
 
     for key, val in {
-        'Content-Length': '666',
+        'Content-Length': '760',
         'X-Forwarded-Proto': 'https',
         'X-Forwarded-For': 'debug',
         # 'Authorization': 'Hawk mac="8z+txQ3WIkigNHZbfCNLEFdFdOEa2y1fxELboX0Vgpg=", hash="1fsYlfW1YnvyKz7s1HJwjDVq3ys9o6ofYaWyAs6YHDI=", id="debug", ts="1579003201", nonce="o3TJ7i"',  # noqa
