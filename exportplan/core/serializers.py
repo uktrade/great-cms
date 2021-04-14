@@ -194,7 +194,7 @@ class OverheadCostsSerializer(serializers.Serializer):
 class TotalCostAndPriceSerializer(serializers.Serializer):
     class UnitRecordInt(serializers.Serializer):
         unit = serializers.CharField(required=False, default='', allow_blank=True)
-        value = serializers.IntegerField(required=False)
+        value = serializers.IntegerField(required=False, allow_null=True)
 
         def to_internal_value(self, data):
             if data.get('value') == '':
@@ -240,7 +240,7 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
     @property
     def potential_total_profit(self):
         self.is_valid()
-        no_of_unit = self.data.get('units_to_export_first_period', {}).get('value')
+        no_of_unit = self.data.get('units_to_export_first_period', {}).get('value') or 0
         profit_per_unit = self.profit_per_unit
         potential_total_profit = 0.00
         if no_of_unit and profit_per_unit:
@@ -329,7 +329,9 @@ class ExportPlanSerializer(serializers.Serializer):
     @property
     def total_export_costs(self):
         self.is_valid()
-        units_to_export = self.data.get('total_cost_and_price', {}).get('units_to_export_first_period', {}).get('value')
+        units_to_export = (
+            self.data.get('total_cost_and_price', {}).get('units_to_export_first_period', {}).get('value') or 0
+        )
         total_export_costs = 0.00
         if units_to_export:
             total_export_costs = (self.total_direct_costs * float(units_to_export)) + self.total_overhead_costs
@@ -339,12 +341,12 @@ class ExportPlanSerializer(serializers.Serializer):
     def estimated_costs_per_unit(self):
         self.is_valid()
         units_to_export = float(
-            self.data.get('total_cost_and_price', {}).get('units_to_export_first_period', {}).get('value', 0.00)
+            self.data.get('total_cost_and_price', {}).get('units_to_export_first_period', {}).get('value', 0.00) or 0
         )
-        estimated_costs_per_unit = float(self.total_direct_costs)
+        estimated_costs_per_unit = float(self.total_direct_costs or 0)
         if self.total_overhead_costs > 0.00 and units_to_export > 0.00:
-            estimated_costs_per_unit = (self.total_overhead_costs / float(units_to_export)) + float(
-                self.total_direct_costs
+            estimated_costs_per_unit = (self.total_overhead_costs / units_to_export) + float(
+                self.total_direct_costs or 0
             )
         return estimated_costs_per_unit
 
