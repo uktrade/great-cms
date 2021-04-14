@@ -128,7 +128,7 @@ export default {
   getCountryData: (countries, fields) => {
     return get(config.apiCountryDataUrl, {
       countries: countries.map((obj) => obj.country_iso2_code),
-      fields: fields
+      fields: fields,
     }).then((response) => responseHandler(response).json())
   },
 
@@ -287,8 +287,21 @@ export default {
     ),
 
   updateUserProfileSegment: (segment) => {
-    return post(config.apiUserProfileUpdateUrl, { segment: segment }).then((response) =>
+    return post(config.apiUserProfileUpdateUrl, {
+      segment: segment,
+    }).then((response) => responseHandler(response).json())
+  },
+
+  getUserQuestionnaire: () => {
+    return get(config.apiUserQuestionnaireUrl).then((response) =>
       responseHandler(response).json()
     )
+  },
+
+  setUserQuestionnaireAnswer: (questionId, answer) => {
+    return post(config.apiUserQuestionnaireUrl, {
+      questionId,
+      answer,
+    }).then((response) => responseHandler(response).json())
   },
 }

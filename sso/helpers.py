@@ -183,6 +183,17 @@ def has_visited_page(sso_session_id, page):
     return result and result.get('page_views') if result else None
 
 
+def get_user_questionnaire(sso_session_id):
+    response = sso_api_client.user.get_user_questionnaire(sso_session_id, SERVICE_NAME)
+    return response.json()
+
+
+def set_user_questionnaire_answer(sso_session_id, question_id, answer):
+    response = sso_api_client.user.set_user_questionnaire_answer(sso_session_id, SERVICE_NAME, question_id, answer)
+    response.raise_for_status()
+    return response.json()
+
+
 def get_company_profile(sso_session_id):
     response = api_client.company.profile_retrieve(sso_session_id)
 

@@ -109,7 +109,6 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView):
             context['data_tabs_enabled'] = json.dumps(settings.FEATURE_COMPARE_MARKETS_TABS)
             context['max_compare_places_allowed'] = settings.MAX_COMPARE_PLACES_ALLOWED
             context['dashboard_components'] = dashboard.components if dashboard else None
-            context['no_refresh_on_market_change'] = True
         return context
 
 
