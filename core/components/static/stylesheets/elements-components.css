@@ -770,7 +770,10 @@ body.js-enabled .great-header-country-select {
       content: '';
       clear: both; }
     .great-global-header.signed-in {
-      display: none; } }
+      display: none; }
+  #great-global-header-domestic-link {
+    text-align: left;
+    padding-left: 15px; } }
 
 .great-header-logo {
   height: 80px;
@@ -1075,7 +1078,10 @@ body.js-enabled .great-header-country-select {
       content: '';
       clear: both; }
     .great-global-header.signed-in {
-      display: none; } }
+      display: none; }
+  #great-global-header-domestic-link {
+    text-align: left;
+    padding-left: 15px; } }
 
 .great-header-logo {
   height: 80px;
