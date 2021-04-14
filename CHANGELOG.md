@@ -4,6 +4,7 @@
 
 ### Enhancements
 
+- GP2-2086 - Date picker selectable ranges
 - GP2-2088 - Form validation - Numerical fields
 - GP2-2087 - Form validation - Numerical fields (cost/price)
 - GP2-2170 - PDF Download, with blank support
@@ -25,9 +26,8 @@
 - GP2-2050 - Update incorrect learning banner copy
 - NOTICKET - Visual tweaks for sign in/up
 
-
-
 ## [1.7.1](https://github.com/uktrade/great-cms/releases/tag/1.7.1)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.6.0...1.7.1)
 Change log disappeared we lost some how perhaps during staging release. Please refer to above url for file changes.
 
