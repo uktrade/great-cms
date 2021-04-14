@@ -28,6 +28,7 @@ export const Units = memo(({ update, input, select, description }) => {
               type={input.type}
               value={input.value}
               placeholder={input.placeholder}
+              decimal={0}
             />
           </div>
           <div className="c-1-3">
