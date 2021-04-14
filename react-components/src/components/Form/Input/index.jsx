@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import { dateFormat } from '@src/Helpers'
+import { dateFormat, validation } from '@src/Helpers'
 import { FormGroup } from '../FormGroup'
 
 export const Input = memo(
@@ -12,7 +12,7 @@ export const Input = memo(
     type,
     placeholder,
     value,
-    onChange,
+    onChange: update,
     description,
     tooltip,
     example,
@@ -25,46 +25,75 @@ export const Input = memo(
     formGroupClassName,
     minDate,
     maxDate,
-  }) => (
-    <FormGroup
-      errors={errors}
-      label={label}
-      description={description}
-      tooltip={tooltip}
-      example={example}
-      id={id}
-      hideLabel={hideLabel}
-      lesson={lesson}
-      formGroupClassName={formGroupClassName}
-    >
-      <div className={`flex-center ${type === 'date' ? 'select-date' : ''}`}>
-        {prepend && (
-          <span className="bg-blue-deep-10 text-blue-deep-60 bold prepend">
-            {prepend}
-          </span>
-        )}
-        {type === 'date' && (
-          <span className="select-date__friendly">{dateFormat(value)}</span>
-        )}
-        <input
-          className={`form-control ${
-            prepend ? 'form-control-prepend' : ''
-          } ${className}`}
-          id={id}
-          type={type}
-          min={minDate}
-          max={maxDate}
-          name={id}
-          disabled={disabled}
-          onChange={(e) => onChange({ [id]: e.target.value })}
-          placeholder={placeholder}
-          value={value}
-          readOnly={readOnly}
-          tabIndex={tabIndex}
-        />
-      </div>
-    </FormGroup>
-  )
+    decimal,
+  }) => {
+    const IsValidNumber = (e, rule = decimal) => {
+      const t = parseInt(e.key, 10)
+      const isInteger = Number.isInteger(t)
+      const validateNumber =
+        rule === 2
+          ? isInteger && !validation.twoDecimal(value + t)
+          : (isInteger || e.key === '.') && !validation.wholeNumber(value + t)
+
+      if (type === 'number') {
+        if (validation.onlyOneZero(t, value)) {
+          e.preventDefault()
+        } else if (validateNumber) {
+          e.preventDefault()
+        }
+      }
+    }
+
+    const onChange = (e) => {
+      let { value: updatedValue } = e.target
+      if (type === 'number' && !updatedValue) {
+        updatedValue = null
+      }
+      update({ [id]: updatedValue })
+    }
+
+    return (
+      <FormGroup
+        errors={errors}
+        label={label}
+        description={description}
+        tooltip={tooltip}
+        example={example}
+        id={id}
+        hideLabel={hideLabel}
+        lesson={lesson}
+        formGroupClassName={formGroupClassName}
+      >
+        <div className={`flex-center ${type === 'date' ? 'select-date' : ''}`}>
+          {prepend && (
+            <span className="bg-blue-deep-10 text-blue-deep-60 bold prepend">
+              {prepend}
+            </span>
+          )}
+          {type === 'date' && (
+            <span className="select-date__friendly">{dateFormat(value)}</span>
+          )}
+          <input
+            className={`form-control ${
+              prepend ? 'form-control-prepend' : ''
+            } ${className}`}
+            id={id}
+            type={type}
+            min={minDate}
+            max={maxDate}
+            name={id}
+            disabled={disabled}
+            onChange={onChange}
+            onKeyDown={IsValidNumber}
+            placeholder={placeholder}
+            value={value}
+            readOnly={readOnly}
+            tabIndex={tabIndex}
+          />
+        </div>
+      </FormGroup>
+    )
+  }
 )
 
 Input.propTypes = {
@@ -97,6 +126,7 @@ Input.propTypes = {
   prepend: PropTypes.string,
   className: PropTypes.string,
   formGroupClassName: PropTypes.string,
+  decimal: PropTypes.oneOf([2, 0]),
 }
 
 Input.defaultProps = {
@@ -117,4 +147,5 @@ Input.defaultProps = {
   formGroupClassName: '',
   minDate: '',
   maxDate: '',
+  decimal: 2,
 }

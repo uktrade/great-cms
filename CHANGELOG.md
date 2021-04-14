@@ -5,6 +5,8 @@
 ### Enhancements
 
 - GP2-2086 - Date picker selectable ranges
+- GP2-2088 - Form validation - Numerical fields
+- GP2-2087 - Form validation - Numerical fields (cost/price)
 - GP2-2170 - PDF Download, with blank support
 - GP2-1904 - New sign in page mobile
 - GP2-1850 - Port Search from V1 to great-cms
