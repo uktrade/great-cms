@@ -317,26 +317,25 @@ def test_estimated_costs_per_unit(cost_pricing_data):
 
 def test_json_to_presentaion(cost_pricing_data):
     json_data = serializers.ExportPlanSerializer().cost_and_pricing_to_json(cost_pricing_data)
-
     assert json_data == json.dumps(
         {
-            'direct_costs': {'product_costs': '10.00', 'labour_costs': '5.00', 'other_direct_costs': ''},
+            'direct_costs': {'product_costs': 10.0, 'labour_costs': 5.00, 'other_direct_costs': None},
             'overhead_costs': {
-                'product_adaption': '',
-                'freight_logistics': '',
-                'agent_distributor_fees': '',
-                'marketing': '1345.00',
-                'insurance': '10.00',
-                'other_overhead_costs': '',
+                'product_adaption': None,
+                'freight_logistics': None,
+                'agent_distributor_fees': None,
+                'marketing': 1345.00,
+                'insurance': 10.00,
+                'other_overhead_costs': None,
             },
             'total_cost_and_price': {
                 'units_to_export_first_period': {'unit': 'm', 'value': 22},
                 'units_to_export_second_period': {'unit': 'd', 'value': 5},
-                'final_cost_per_unit': '16.00',
-                'average_price_per_unit': '',
-                'net_price': '22.00',
-                'local_tax_charges': '5.23',
-                'duty_per_unit': '15.13',
+                'final_cost_per_unit': 16.00,
+                'average_price_per_unit': None,
+                'net_price': 22.00,
+                'local_tax_charges': 5.23,
+                'duty_per_unit': 15.13,
                 'gross_price_per_unit_invoicing_currency': {'unit': '', 'value': ''},
             },
         }
