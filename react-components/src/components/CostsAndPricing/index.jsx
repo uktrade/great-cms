@@ -39,6 +39,13 @@ export const CostsAndPricing = memo(
     },
   }) => {
     useState(() => {
+      console.log({
+        ...totals,
+        ...initialData,
+        units,
+        currencies,
+        timeframe: exportTimeframe,
+      })
       init({
         ...totals,
         ...initialData,
@@ -51,7 +58,7 @@ export const CostsAndPricing = memo(
     const onChange = (updateField, input) => {
       update(updateField, {
         [input.field]: {
-          [input.id]: Number(updateField[input.id]).toFixed(2),
+          [input.id]: updateField[input.id],
         },
       })
     }

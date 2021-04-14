@@ -24,6 +24,7 @@ export const Input = memo(
     className,
     formGroupClassName,
     minDate,
+    maxDate,
     decimal,
   }) => {
     const IsValidNumber = (e, rule = decimal) => {
@@ -79,6 +80,7 @@ export const Input = memo(
             id={id}
             type={type}
             min={minDate}
+            max={maxDate}
             name={id}
             disabled={disabled}
             onChange={onChange}
@@ -101,6 +103,7 @@ Input.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.string,
   minDate: PropTypes.string,
+  maxDate: PropTypes.string,
   placeholder: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
@@ -143,5 +146,6 @@ Input.defaultProps = {
   className: '',
   formGroupClassName: '',
   minDate: '',
+  maxDate: '',
   decimal: 2,
 }
