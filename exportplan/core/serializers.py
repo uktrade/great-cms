@@ -196,19 +196,9 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
         unit = serializers.CharField(required=False, default='', allow_blank=True)
         value = serializers.IntegerField(required=False, allow_null=True)
 
-        def to_internal_value(self, data):
-            if data.get('value') == '':
-                data['value'] = 0
-            return super().to_internal_value(data)
-
     class UnitRecordDecimal(serializers.Serializer):
         unit = serializers.CharField(required=False, default='', allow_blank=True)
         value = serializers.FloatField(required=False, allow_null=True)
-
-        def to_internal_value(self, data):
-            if data.get('value') == '':
-                data['value'] = 0.00
-            return super().to_internal_value(data)
 
     units_to_export_first_period = UnitRecordInt(required=False)
     units_to_export_second_period = UnitRecordInt(required=False)
@@ -354,7 +344,7 @@ class ExportPlanSerializer(serializers.Serializer):
     def calculate_total_funding(self):
         self.is_valid()
         total_funding = 0.00
-        funding_credit_options = self.data.get('funding_credit_options', {})
+        funding_credit_options = self.data.get('funding_and_credit', {}).get('funding_credit_options') or []
         for funding_credit_option in funding_credit_options:
             total_funding = funding_credit_option.get('amount', 0.00) + total_funding
         return total_funding
