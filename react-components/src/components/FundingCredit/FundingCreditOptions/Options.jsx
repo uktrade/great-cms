@@ -1,10 +1,16 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
+import { AddButton } from '@src/components/ObjectivesList/AddButton/AddButton'
+import { objectHasValue } from '@src/Helpers'
 import { Option } from './Option'
 
 export const Options = memo(
   ({ formData, currency, selectData, onChange, deleteFunding, addFunding }) => {
+    const { companyexportplan, pk, ...lastField } = formData.length
+      ? formData[formData.length - 1]
+      : {}
+
     return (
       <div className="costs costs--funding bg-blue-deep-10 p-v-s">
         <table className="m-b-0">
@@ -13,7 +19,7 @@ export const Options = memo(
               <Option
                 key={pk}
                 id={pk}
-                value={Number(amount)}
+                value={amount}
                 selectedOption={funding_option}
                 currency={currency}
                 selectData={selectData}
@@ -25,14 +31,14 @@ export const Options = memo(
           <tfoot>
             <tr>
               <td colSpan="2">
-                <button
-                  type="button"
-                  className="button button--secondary button--icon button--small button--add"
-                  onClick={addFunding}
-                >
-                  <i className="fas fa-plus-circle" />
-                  <span>Add a funding option</span>
-                </button>
+                <AddButton
+                  isDisabled={
+                    formData.length ? !objectHasValue(lastField) : false
+                  }
+                  add={addFunding}
+                  btnClass="button--small button--secondary button--inherit"
+                  cta="Add a funding option"
+                />
               </td>
             </tr>
           </tfoot>

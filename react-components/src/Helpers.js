@@ -66,7 +66,9 @@ const normaliseValues = (str, places = 1, fixed = false) => {
 }
 
 const numberWithSign = (value) => {
-  return Number.isFinite(value-0) ? `${['-', '', '+'][Math.sign(value) + 1]}${Math.abs(value)}` : value
+  return Number.isFinite(value - 0)
+    ? `${['-', '', '+'][Math.sign(value) + 1]}${Math.abs(value)}`
+    : value
 }
 
 const millify = (value) => {
@@ -137,7 +139,7 @@ const deepAssign = (obj1, obj2) => {
 }
 
 const camelize = (str) => {
-  return (str)
+  return str
     .split('_')
     .reduce(
       (acc, part) =>
@@ -198,8 +200,7 @@ const formatLessonLearned = (lesson, section, id) =>
       }
     : {}
 
-const objectHasValue = (object = {}) =>
-  Object.values(object).some((x) => x !== '')
+const objectHasValue = (object = {}) => Object.values(object).some((x) => x)
 
 export {
   dateFormat,

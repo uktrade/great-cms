@@ -65045,7 +65045,7 @@ var formatLessonLearned = function formatLessonLearned(lesson, section, id) {
 var objectHasValue = function objectHasValue() {
   var object = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   return Object.values(object).some(function (x) {
-    return x !== '';
+    return x;
   });
 };
 
@@ -65860,7 +65860,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
 /* harmony import */ var _src_components_FormElements__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/FormElements */ "./react-components/src/components/FormElements/index.jsx");
-/* harmony import */ var _DocumentList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./DocumentList */ "./react-components/src/components/AddDocumentTypeForm/DocumentList.jsx");
+/* harmony import */ var _src_components_ObjectivesList_AddButton_AddButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/ObjectivesList/AddButton/AddButton */ "./react-components/src/components/ObjectivesList/AddButton/AddButton.jsx");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _DocumentList__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./DocumentList */ "./react-components/src/components/AddDocumentTypeForm/DocumentList.jsx");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -65874,6 +65876,10 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -65892,11 +65898,18 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
 var AddDocumentTypeForm = function AddDocumentTypeForm(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.formDataUserDocs),
       _useState2 = _slicedToArray(_useState, 2),
       documents = _useState2[0],
       setDocuments = _useState2[1];
+
+  var _ref = documents.length ? documents[documents.length - 1] : {},
+      companyexportplan = _ref.companyexportplan,
+      pk = _ref.pk,
+      lastField = _objectWithoutProperties(_ref, ["companyexportplan", "pk"]);
 
   var addDocument = function addDocument() {
     var document = {};
@@ -65933,17 +65946,16 @@ var AddDocumentTypeForm = function AddDocumentTypeForm(props) {
     debounceUpdate(field, property);
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormElements__WEBPACK_IMPORTED_MODULE_3__["FormElements"], props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DocumentList__WEBPACK_IMPORTED_MODULE_4__["DocumentList"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_FormElements__WEBPACK_IMPORTED_MODULE_3__["FormElements"], props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DocumentList__WEBPACK_IMPORTED_MODULE_6__["DocumentList"], {
     documents: documents,
     deleteDocument: deleteDocument,
     updateDocument: updateDocument
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "button button--small button--secondary button--inherit button--icon m-t-s m-b-s",
-    type: "button",
-    onClick: addDocument
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-plus-circle"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Add another document")));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ObjectivesList_AddButton_AddButton__WEBPACK_IMPORTED_MODULE_4__["AddButton"], {
+    isDisabled: documents.length ? !Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["objectHasValue"])(lastField) : false,
+    add: addDocument,
+    btnClass: "button--small button--secondary button--inherit  m-t-s m-b-s",
+    cta: "Add another document"
+  }));
 };
 
 /***/ }),
@@ -70673,7 +70685,6 @@ var FundingCreditOptions = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(fu
   var addFunding = function addFunding() {
     var newFunding = {};
     newFunding.companyexportplan = companyexportplan;
-    newFunding.amount = 0;
     _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].createFundingCreditOption(_objectSpread({}, newFunding)).then(function (data) {
       return setFunding([].concat(_toConsumableArray(funding), [data]));
     }).then(function () {
@@ -70816,6 +70827,7 @@ var Option = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) 
     type: "number",
     hideLabel: true,
     label: selectData.name,
+    placeholder: 0,
     value: value,
     prepend: currency,
     onChange: function onChange(e) {
@@ -70862,7 +70874,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Option__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Option */ "./react-components/src/components/FundingCredit/FundingCreditOptions/Option.jsx");
+/* harmony import */ var _src_components_ObjectivesList_AddButton_AddButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/ObjectivesList/AddButton/AddButton */ "./react-components/src/components/ObjectivesList/AddButton/AddButton.jsx");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _Option__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Option */ "./react-components/src/components/FundingCredit/FundingCreditOptions/Option.jsx");
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
 
 
 
@@ -70873,18 +70893,24 @@ var Options = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref)
       onChange = _ref.onChange,
       deleteFunding = _ref.deleteFunding,
       addFunding = _ref.addFunding;
+
+  var _ref2 = formData.length ? formData[formData.length - 1] : {},
+      companyexportplan = _ref2.companyexportplan,
+      pk = _ref2.pk,
+      lastField = _objectWithoutProperties(_ref2, ["companyexportplan", "pk"]);
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "costs costs--funding bg-blue-deep-10 p-v-s"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "m-b-0"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, formData.map(function (_ref2) {
-    var pk = _ref2.pk,
-        amount = _ref2.amount,
-        funding_option = _ref2.funding_option;
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Option__WEBPACK_IMPORTED_MODULE_2__["Option"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, formData.map(function (_ref3) {
+    var pk = _ref3.pk,
+        amount = _ref3.amount,
+        funding_option = _ref3.funding_option;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Option__WEBPACK_IMPORTED_MODULE_4__["Option"], {
       key: pk,
       id: pk,
-      value: Number(amount),
+      value: amount,
       selectedOption: funding_option,
       currency: currency,
       selectData: selectData,
@@ -70893,13 +70919,12 @@ var Options = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref)
     });
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tfoot", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
     colSpan: "2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button button--secondary button--icon button--small button--add",
-    onClick: addFunding
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-plus-circle"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Add a funding option")))))));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ObjectivesList_AddButton_AddButton__WEBPACK_IMPORTED_MODULE_2__["AddButton"], {
+    isDisabled: formData.length ? !Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["objectHasValue"])(lastField) : false,
+    add: addFunding,
+    btnClass: "button--small button--secondary button--inherit",
+    cta: "Add a funding option"
+  }))))));
 });
 Options.propTypes = {
   formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
@@ -71636,14 +71661,13 @@ var Login = function Login(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "signup__steps-panel"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "/",
-    alt: "Exporting is GREAT"
+    href: "/"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    className: "m-f-auto m-r-auto",
+    className: "m-f-auto m-r-auto signup__logo",
     src: "/static/images/logo-filled.svg",
     alt: "Exporting is Great",
-    width: "152",
-    height: "76"
+    width: "148",
+    height: "69"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Login_Form__WEBPACK_IMPORTED_MODULE_3__["Form"], {
     disabled: isInProgress,
     errors: errors,
@@ -72099,6 +72123,55 @@ function createMenu(_ref) {
 
 /***/ }),
 
+/***/ "./react-components/src/components/ObjectivesList/AddButton/AddButton.jsx":
+/*!********************************************************************************!*\
+  !*** ./react-components/src/components/ObjectivesList/AddButton/AddButton.jsx ***!
+  \********************************************************************************/
+/*! exports provided: AddButton */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AddButton", function() { return AddButton; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var AddButton = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
+  var numberOfItems = _ref.numberOfItems,
+      add = _ref.add,
+      limit = _ref.limit,
+      cta = _ref.cta,
+      isDisabled = _ref.isDisabled,
+      btnClass = _ref.btnClass;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, numberOfItems !== limit && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    disabled: isDisabled,
+    type: "button",
+    className: "button button--icon ".concat(btnClass),
+    onClick: add
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-plus-circle"
+  }), cta));
+});
+AddButton.propTypes = {
+  numberOfItems: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  isDisabled: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool.isRequired,
+  add: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired,
+  limit: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  cta: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  btnClass: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+};
+AddButton.defaultProps = {
+  numberOfItems: 0,
+  limit: 5,
+  cta: 'Add',
+  btnClass: 'button--add button--large'
+};
+
+/***/ }),
+
 /***/ "./react-components/src/components/ObjectivesList/Objective/index.jsx":
 /*!****************************************************************************!*\
   !*** ./react-components/src/components/ObjectivesList/Objective/index.jsx ***!
@@ -72272,10 +72345,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_components_ErrorList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/ErrorList */ "./react-components/src/components/ErrorList.jsx");
-/* harmony import */ var _Objective__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Objective */ "./react-components/src/components/ObjectivesList/Objective/index.jsx");
-/* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
-/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
+/* harmony import */ var _src_components_ObjectivesList_AddButton_AddButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/ObjectivesList/AddButton/AddButton */ "./react-components/src/components/ObjectivesList/AddButton/AddButton.jsx");
+/* harmony import */ var _Objective__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Objective */ "./react-components/src/components/ObjectivesList/Objective/index.jsx");
+/* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Services */ "./react-components/src/Services.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -72290,6 +72364,10 @@ function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.it
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -72301,6 +72379,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -72328,13 +72407,22 @@ var ObjectivesList = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function
       message = _useState6[0],
       setMessage = _useState6[1];
 
-  var debounceMessage = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_6__["useDebounce"])(setMessage);
+  var debounceMessage = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__["useDebounce"])(setMessage);
+
+  var _ref2 = objectives.length ? objectives[objectives.length - 1] : {},
+      companyexportplan = _ref2.companyexportplan,
+      start_date = _ref2.start_date,
+      end_date = _ref2.end_date,
+      pk = _ref2.pk,
+      lastField = _objectWithoutProperties(_ref2, ["companyexportplan", "start_date", "end_date", "pk"]);
+
+  var limit = 5;
 
   var update = function update(data) {
-    _Services__WEBPACK_IMPORTED_MODULE_4__["default"].updateObjective(data).then(function () {
+    _Services__WEBPACK_IMPORTED_MODULE_7__["default"].updateObjective(data).then(function () {
       setMessage(true);
     }).then(function () {
-      Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["analytics"])({
+      Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["analytics"])({
         event: 'planSectionSaved',
         sectionTitle: 'Objectives'
       });
@@ -72346,12 +72434,12 @@ var ObjectivesList = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function
     });
   };
 
-  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_6__["useDebounce"])(update);
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__["useDebounce"])(update);
 
   var createObjective = function createObjective() {
     var date = new Date();
     var today = "".concat(date.getFullYear().toString(), "-").concat((date.getMonth() + 1).toString().padStart(2, 0), "-").concat(date.getDate().toString().padStart(2, 0));
-    _Services__WEBPACK_IMPORTED_MODULE_4__["default"].createObjective({
+    _Services__WEBPACK_IMPORTED_MODULE_7__["default"].createObjective({
       description: '',
       owner: '',
       planned_reviews: '',
@@ -72370,10 +72458,10 @@ var ObjectivesList = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function
     });
   };
 
-  var deleteObjective = function deleteObjective(pk) {
-    _Services__WEBPACK_IMPORTED_MODULE_4__["default"].deleteObjective(pk).then(function () {
+  var deleteObjective = function deleteObjective(id) {
+    _Services__WEBPACK_IMPORTED_MODULE_7__["default"].deleteObjective(id).then(function () {
       var updatedObjectives = objectives.filter(function (objective) {
-        return objective.pk !== pk;
+        return objective.pk !== id;
       });
       setObjectives(updatedObjectives);
     })["catch"](function (err) {
@@ -72394,7 +72482,7 @@ var ObjectivesList = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-table bg-white br-xs m-b-m"
   }, objectives.map(function (objective, i) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Objective__WEBPACK_IMPORTED_MODULE_3__["Objective"], {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Objective__WEBPACK_IMPORTED_MODULE_6__["Objective"], {
       key: objective.pk,
       id: i,
       isLoading: objective.isLoading,
@@ -72406,13 +72494,13 @@ var ObjectivesList = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function
     });
   }), message && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     id: "objective-saved-message"
-  }, "Changes saved."), objectives.length !== 5 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button button--add button--large button--icon",
-    onClick: createObjective
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-plus-circle"
-  }), "Add goal ", objectives.length + 1, " of 5"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, "Changes saved."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ObjectivesList_AddButton_AddButton__WEBPACK_IMPORTED_MODULE_5__["AddButton"], {
+    isDisabled: objectives.length ? !Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["objectHasValue"])(lastField) : false,
+    numberOfItems: objectives.length,
+    add: createObjective,
+    field: lastField,
+    cta: "Add goal ".concat(objectives.length + 1, " of ").concat(limit)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ErrorList__WEBPACK_IMPORTED_MODULE_2__["default"], {
     errors: errors.__all__ || [],
     className: "m-0"
   }));
@@ -74765,6 +74853,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
 /* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
+/* harmony import */ var _src_components_ObjectivesList_AddButton_AddButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/components/ObjectivesList/AddButton/AddButton */ "./react-components/src/components/ObjectivesList/AddButton/AddButton.jsx");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -74781,6 +74870,10 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -74792,6 +74885,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -74813,6 +74907,11 @@ var RouteToMarket = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function 
       _useState4 = _slicedToArray(_useState3, 2),
       pushedAnalytic = _useState4[0],
       setPushedAnalytic = _useState4[1];
+
+  var _ref2 = routes.length ? routes[routes.length - 1] : {},
+      companyexportplan = _ref2.companyexportplan,
+      pk = _ref2.pk,
+      lastField = _objectWithoutProperties(_ref2, ["companyexportplan", "pk"]);
 
   var addTable = function addTable() {
     _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].createRouteToMarket(_objectSpread({}, formFields)).then(function (data) {
@@ -74869,13 +74968,11 @@ var RouteToMarket = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function 
       onChange: onChange,
       deleteTable: deleteTable
     }));
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button button--large button--icon",
-    onClick: addTable
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-plus-circle"
-  }), "Add route to market"));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ObjectivesList_AddButton_AddButton__WEBPACK_IMPORTED_MODULE_6__["AddButton"], {
+    add: addTable,
+    isDisabled: routes.length ? !Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["objectHasValue"])(lastField) : false,
+    cta: "Add route to market"
+  }));
 });
 RouteToMarket.propTypes = {
   fields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number])).isRequired).isRequired,
@@ -76122,7 +76219,7 @@ var Form = function Form(_ref) {
   }, "By signing up, you agree to our ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "/terms-and-conditions/"
   }, "terms and conditions"), " and", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "/privacy-policy/"
+    href: "/privacy-and-cookies/"
   }, "privacy notice")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "submit",
     id: "signup-modal-submit",
@@ -76265,14 +76362,13 @@ var Signup = function Signup(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "signup__steps-panel"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "/",
-    alt: "Exporting is GREAT"
+    href: "/"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    "class": "m-f-auto m-r-auto",
+    "class": "m-f-auto m-r-auto signup__logo",
     src: "/static/images/logo-filled.svg",
     alt: "Exporting is Great",
-    width: "152",
-    height: "76"
+    width: "148",
+    height: "69"
   })), renderStep(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     "class": "g-panel signup__questions-panel"
   }, "For any questions, queries or feedback please get in touch with", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -77385,7 +77481,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Trip__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Trip */ "./react-components/src/components/TravelPlan/PlannedTravel/Trip.jsx");
+/* harmony import */ var _src_components_ObjectivesList_AddButton_AddButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/ObjectivesList/AddButton/AddButton */ "./react-components/src/components/ObjectivesList/AddButton/AddButton.jsx");
+/* harmony import */ var _Trip__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Trip */ "./react-components/src/components/TravelPlan/PlannedTravel/Trip.jsx");
+
 
 
 
@@ -77394,6 +77492,7 @@ var Trips = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
       onChange = _ref.onChange,
       deleteTrip = _ref.deleteTrip,
       addTrip = _ref.addTrip;
+  var isDisabled = formData.length ? !formData[formData.length - 1].note : false;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, formData.length !== 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "costs costs--trips bg-blue-deep-10 p-v-s m-b-s"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
@@ -77401,7 +77500,7 @@ var Trips = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, formData.map(function (_ref2, i) {
     var pk = _ref2.pk,
         note = _ref2.note;
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Trip__WEBPACK_IMPORTED_MODULE_2__["Trip"], {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Trip__WEBPACK_IMPORTED_MODULE_3__["Trip"], {
       index: i + 1,
       key: pk,
       id: pk,
@@ -77409,13 +77508,11 @@ var Trips = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
       onChange: onChange,
       deleteTrip: deleteTrip
     });
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "button button--large button--icon",
-    onClick: addTrip
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-plus-circle"
-  }), "Add a trip"));
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ObjectivesList_AddButton_AddButton__WEBPACK_IMPORTED_MODULE_2__["AddButton"], {
+    add: addTrip,
+    cta: "Add a trip",
+    isDisabled: isDisabled
+  }));
 });
 Trips.propTypes = {
   formData: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({

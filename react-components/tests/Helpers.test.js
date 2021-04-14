@@ -315,6 +315,7 @@ describe('objectHasValue', () => {
   it('Should return false, no values', () => {
     expect(objectHasValue({})).toBeFalsy()
     expect(objectHasValue({ bar: '', foo: '' })).toBeFalsy()
+    expect(objectHasValue({ bar: '', foo: null })).toBeFalsy()
   })
   it('Should return true, has values', () => {
     expect(objectHasValue({ bar: 'bar' })).toBeTruthy()

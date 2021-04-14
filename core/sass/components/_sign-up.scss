@@ -4,14 +4,15 @@
     flex-direction: row-reverse;
 
     .signup__steps-panel {
-      margin-right: 20px;
+      @media (min-width: 768px) {
+        margin-right: 20px;
+      }
     }
 
     .signup__right-panel {
       position: relative;
 
       h1 {
-        text-align: center;
         line-height: 50px;
       }
 
@@ -46,6 +47,12 @@
     }
   }
 
+  &__logo {
+    @media (max-width: 768px) {
+      max-width: 132px;
+    }
+  }
+
   &__container {
     width: 100%;
     display: flex;
@@ -53,6 +60,7 @@
       @extend .body-m;
       @extend .p-t-0;
       color: #4c436e;
+      font-size: 19px;
       margin-bottom: -10px;
     }
 
@@ -130,6 +138,7 @@
     h1 {
       color: #fff;
       font-size: 56px;
+      text-align: center;
     }
     &__headings {
       max-width: 650px;

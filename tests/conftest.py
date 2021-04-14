@@ -275,7 +275,6 @@ def mock_user_location_create():
 @pytest.fixture
 @pytest.mark.django_db(transaction=True)
 @mock.patch.object(exportplan_helpers, 'get_exportplan_marketdata')
-@mock.patch.object(api_client.dataservices, 'get_last_year_import_data')
 @mock.patch.object(api_client.dataservices, 'get_corruption_perceptions_index')
 @mock.patch.object(api_client.dataservices, 'get_ease_of_doing_business')
 @mock.patch.object(api_client.exportplan, 'exportplan_list')
@@ -283,7 +282,6 @@ def mock_export_plan_requests(
     mock_export_plan_list,
     mock_ease_of_doing_business,
     mock_get_corruption_perceptions_index,
-    mock_get_last_year_import_data,
     mock_get_export_plan_market_data,
 ):
     data = [{'export_countries': ['UK'], 'export_commodity_codes': [100], 'rules_regulations': {'rule1': 'AAA'}}]
@@ -307,8 +305,6 @@ def mock_export_plan_requests(
         'rank': 80,
     }
     mock_get_corruption_perceptions_index.return_value = create_response(status_code=200, json_body=cpi_data)
-
-    mock_get_last_year_import_data.return_value = create_response(status_code=200, json_body={'lastyear_history': 123})
 
     mock_get_export_plan_market_data.return_value = {
         'timezone': 'Asia/Shanghai',

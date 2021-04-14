@@ -3,10 +3,16 @@ import React, { useState } from 'react'
 import Services from '@src/Services'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { FormElements } from '@src/components/FormElements'
+import { AddButton } from '@src/components/ObjectivesList/AddButton/AddButton'
+import { objectHasValue } from '@src/Helpers'
 import { DocumentList } from './DocumentList'
 
 export const AddDocumentTypeForm = (props) => {
   const [documents, setDocuments] = useState(props.formDataUserDocs)
+
+  const { companyexportplan, pk, ...lastField } = documents.length
+    ? documents[documents.length - 1]
+    : {}
 
   const addDocument = () => {
     const document = {}
@@ -53,14 +59,12 @@ export const AddDocumentTypeForm = (props) => {
         deleteDocument={deleteDocument}
         updateDocument={updateDocument}
       />
-      <button
-        className="button button--small button--secondary button--inherit button--icon m-t-s m-b-s"
-        type="button"
-        onClick={addDocument}
-      >
-        <i className="fas fa-plus-circle" />
-        <span>Add another document</span>
-      </button>
+      <AddButton
+        isDisabled={documents.length ? !objectHasValue(lastField) : false}
+        add={addDocument}
+        btnClass="button--small button--secondary button--inherit  m-t-s m-b-s"
+        cta="Add another document"
+      />
     </>
   )
 }

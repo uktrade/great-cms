@@ -123,3 +123,13 @@ class CountryDataView(generics.GenericAPIView):
         field_string = request.GET.get('fields', '')
         response_data = helpers.get_country_data(countries=countries, fields=field_string)
         return Response(response_data)
+
+
+class TradeBarrierDataView(generics.GenericAPIView):
+    permission_classes = []
+
+    def get(self, request):
+        countries_list = request.GET.get('countries').split(',')
+        sectors_list = request.GET.get('sectors').split(',')
+        response_data = helpers.get_trade_barrier_data(countries_list=countries_list, sectors_list=sectors_list)
+        return Response(response_data)

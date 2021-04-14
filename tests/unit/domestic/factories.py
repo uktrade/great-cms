@@ -1,6 +1,7 @@
 import factory
 import factory.fuzzy
 import wagtail_factories
+from django.utils import timezone
 
 from core import blocks as core_blocks, constants, service_urls
 from domestic.models import (
@@ -84,6 +85,7 @@ class ArticleListingPageFactory(wagtail_factories.PageFactory):
 class ArticlePageFactory(wagtail_factories.PageFactory):
 
     type_of_article = constants.ARTICLE_TYPES[1][0]
+    last_published_at = timezone.now()
 
     class Meta:
         model = ArticlePage

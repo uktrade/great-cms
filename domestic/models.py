@@ -104,6 +104,15 @@ class BaseContentPage(
 
         return retval
 
+    def get_absolute_url(self):
+
+        base_url = settings.BASE_URL
+        if base_url[-1] == '/':
+            base_url = base_url[:-1]
+
+        path = self.get_url()
+        return base_url + path if path else ''
+
 
 class SocialLinksPageMixin(Page):
     """Abstract base class that adds social sharing links to the context
@@ -170,6 +179,7 @@ class DomesticDashboard(
 
         context = super().get_context(request)
         context['visited_already'] = user.has_visited_page(self.slug)
+        context['questionnaire'] = user.get_user_questionnaire()
         user.set_page_view(self.slug)
         context['export_plan_progress_form'] = core_forms.ExportPlanForm(
             initial={'step_a': True, 'step_b': True, 'step_c': True}
