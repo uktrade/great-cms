@@ -7,6 +7,7 @@ export default function Modal(props) {
     format,
     title,
     body,
+    className,
     primaryButtonLabel,
     primaryButtonClick,
     primaryButtonDisable,
@@ -15,12 +16,11 @@ export default function Modal(props) {
     closeClick,
     progressPercentage,
   } = props
-
   return (
     <ReactModal
       isOpen
       onRequestClose={closeClick}
-      className="segmentation-modal modal p-v-xs p-h-s"
+      className={`${className} format-${format} modal p-v-xs p-h-s`}
       overlayClassName="modal-overlay center"
       shouldCloseOnOverlayClick={false}
     >
@@ -79,7 +79,8 @@ export default function Modal(props) {
 Modal.propTypes = {
   format: PropTypes.string,
   title: PropTypes.string.isRequired,
-  body: PropTypes.string,
+  body: PropTypes.element,
+  className: PropTypes.string,
   primaryButtonLabel: PropTypes.string,
   primaryButtonClick: PropTypes.func,
   primaryButtonDisable: PropTypes.bool,
@@ -89,8 +90,9 @@ Modal.propTypes = {
   progressPercentage: PropTypes.number,
 }
 Modal.defaultProps = {
-  format: null,
+  format: '',
   body: null,
+  className: '',
   primaryButtonLabel: '<Primary>',
   primaryButtonClick: null,
   secondaryButtonLabel: '<Secondary>',

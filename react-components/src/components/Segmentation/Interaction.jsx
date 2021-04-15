@@ -32,6 +32,7 @@ function RadioButtons(props) {
           value={value}
           checked={checked}
           onChange={changeVal}
+          onClick={changeVal}
         />
         <label htmlFor={idx} className="body-l">
           {ReactHtmlParser(label)}
@@ -40,11 +41,7 @@ function RadioButtons(props) {
     )
   })
 
-  return (
-    <div className="m-b-xs">
-      {buttons}
-    </div>
-  )
+  return <div className="m-b-xs radio-block">{buttons}</div>
 }
 
 RadioButtons.propTypes = {
@@ -63,7 +60,7 @@ RadioButtons.propTypes = {
 }
 
 RadioButtons.defaultProps = {
-  initialSelection: null
+  initialSelection: null,
 }
 
 export default function Interaction(props) {
@@ -95,7 +92,8 @@ export default function Interaction(props) {
         ) : (
           ''
         )}
-        {question.type in { SLCT: 1, SELECT: 1 } ? (
+        {question.type in
+        { SLCT: 1, SELECT: 1, SELECTOR: 1, SELECTOR_MULTI: 1 } ? (
           <Select
             label=""
             id={`question-${question.id}`}
@@ -103,6 +101,7 @@ export default function Interaction(props) {
             name={question.name}
             options={choices}
             hideLabel
+            multiSelect={question.type === 'SELECTOR_MULTI'}
             placeholder={question.choices.placeholder || 'Please choose'}
             selected={
               selectedChoice && selectedChoice.label
@@ -122,16 +121,28 @@ Interaction.propTypes = {
   question: PropTypes.shape({
     name: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string,
-    choices: PropTypes.arrayOf(PropTypes.shape({
-      options: PropTypes.arrayOf(PropTypes.shape({
-        value: PropTypes.string
-      })),
-      placeHolder: PropTypes.string
-    })),
+    choices: PropTypes.oneOfType([
+      PropTypes.shape({
+        options: PropTypes.arrayOf(
+          PropTypes.shape({
+            value: PropTypes.string,
+          })
+        ),
+        placeHolder: PropTypes.string,
+      }),
+      PropTypes.arrayOf(
+        PropTypes.shape({
+          value: PropTypes.string,
+        })
+      ),
+    ]),
   }).isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   setValue: PropTypes.func.isRequired,
+}
+Interaction.defaultProps = {
+  value: null,
 }

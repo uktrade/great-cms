@@ -38,12 +38,12 @@ export default function Questionnaire(props) {
       })
       setQuestions(sorted)
       const answers = mapArray(questionnaire.answers, 'question_id')
-      const firstUnansweredQuestion = sorted.reduce((out, _question) => {
-        const answered = answers[_question.id]
+      const firstUnansweredQuestion = sorted.reduce((out, loopQuestion) => {
+        const answered = answers[loopQuestion.id]
         if (answered) {
-          _question.answer = answered.answer
+          loopQuestion.answer = answered.answer
         }
-        return out || (!answered && _question)
+        return out || (!answered && loopQuestion)
       }, null)
       if (question) {
         // follwing saving an answer
@@ -65,8 +65,6 @@ export default function Questionnaire(props) {
       }
     })
   }, [])
-
-
 
   const goBack = () => {
     const newQuestion = questions[questionIndex() - 1]
@@ -92,6 +90,7 @@ export default function Questionnaire(props) {
   if (mode === modes.start)
     return (
       <Modal
+        className="segmentation-modal"
         title={
           questionIndex() ? 'Survey in progress' : 'Help us serve you better'
         }
@@ -112,7 +111,10 @@ export default function Questionnaire(props) {
             <p className="m-v-xs">
               It will take about 3-5 minutes to complete.
             </p>
-            <a href='/privacy-policy/'>This information is stored and used in compliance with our cookie and privacy policy.</a>
+            <a href="/privacy-policy/">
+              This information is stored and used in compliance with our cookie
+              and privacy policy.
+            </a>
           </>
         }
         primaryButtonLabel="Continue"
@@ -126,6 +128,7 @@ export default function Questionnaire(props) {
   if (mode === modes.question)
     return (
       <Modal
+        className="segmentation-modal"
         title={question.title}
         body={
           <Interaction
@@ -148,6 +151,7 @@ export default function Questionnaire(props) {
   if (mode === modes.thankyou)
     return (
       <Modal
+        className="segmentation-modal"
         title="Thank you"
         body="Thank you for taking time to respond."
         primaryButtonLabel="Close"
