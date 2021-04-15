@@ -44,17 +44,27 @@ dit.components.header = new (function() {
 
     self.moveFocusToMenuButton()
 
-    var b = $('#mobile-menu-button')[0]
-    var m = $('.shared-nav-container.mobile')
-    var w = window.innerWidth >= 768
+    var mobileMenuButton = document.querySelector('#mobile-menu-button')
+    var mobileNavMenu = document.querySelector('.shared-nav-container.mobile')
+    var isDesktop = window.innerWidth >= 768
+    var shouldUpdateMenuPosition =
+      mobileMenuButton && mobileNavMenu && isDesktop
 
-    if (b && m && w) {
-      var box = b.getBoundingClientRect()
-      m.css({
-        position: 'absolute',
-        top: '100px',
-        width: '290px',
-        left: box.right - 290,
+    function updateMenuPosition() {
+      var box = mobileMenuButton.getBoundingClientRect()
+      mobileNavMenu.style.position = 'absolute'
+      mobileNavMenu.style.top = '100px'
+      mobileNavMenu.style.width = '290px'
+      mobileNavMenu.style.left = box.right - 290 + 'px'
+    }
+
+    if (shouldUpdateMenuPosition) {
+      updateMenuPosition()
+
+      $(window).resize(function() {
+        if (isDesktop) {
+          updateMenuPosition()
+        }
       })
     }
   }
@@ -71,8 +81,7 @@ dit.components.header = new (function() {
 
     self.moveFocusToMenuButton()
 
-    var m = $('.shared-nav-container.mobile')[0]
-    m.style = ''
+    document.querySelector('.shared-nav-container.mobile').style = ''
   }
 
   self.moveFocusToMenuButton = function() {

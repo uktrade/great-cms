@@ -4897,7 +4897,8 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
         cursor: pointer;
         width: 100%;
         text-align: left;
-        border-radius: 0; }
+        border-radius: 0;
+        padding-bottom: 0; }
 
 .shared-nav-container .mobile-only {
   display: none; }
