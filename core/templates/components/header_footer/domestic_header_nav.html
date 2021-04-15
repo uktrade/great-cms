@@ -4,7 +4,7 @@
 
 <div class="shared-nav-container main-nav-container {{ device_type }}">
   {% if request.user.is_authenticated and request.user.first_name %}
-  <div class="user-greeting">{{ request.user.first_name }}</div>
+  <div class="user-greeting">Hi {{ request.user.first_name }}</div>
   {% endif %}
   <nav id="{{ id }}" class="main-nav {{ device_type }} expanded {% if request.user.is_authenticated %}signed-in{% endif %}" aria-label="{% trans 'Main menu' %}">
     <ul class="grid-row nav-list">
