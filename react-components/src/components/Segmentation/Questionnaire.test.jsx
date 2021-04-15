@@ -160,5 +160,24 @@ describe('VFM Questionnaire', () => {
     expect(
       window.getComputedStyle(modal.querySelector('.progress-bar span')).width
     ).toEqual('50%')
+    // Go back
+    act(() => {
+      Simulate.click(modal.querySelector('.button--tertiary'))
+    })
+    await waitFor(() => {
+      expect(document.body.querySelector('h3').textContent).toMatch('Question 1?')
+    })
+    // Go back to start
+    act(() => {
+      Simulate.click(modal.querySelector('.button--tertiary'))
+    })
+    expect(document.body.querySelector('h3').textContent).toMatch('Help us serve you better')
+    // close
+    act(() => {
+      Simulate.click(modal.querySelector('.dialog-close'))
+    })
+    await waitFor(() => {
+      expect(document.body.querySelector('.segmentation-modal')).toBeFalsy()
+    })
   })
 })
