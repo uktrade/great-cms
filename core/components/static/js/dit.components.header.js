@@ -1,197 +1,251 @@
-var dit = dit || {};
-dit.components = dit.components || {};
+var dit = dit || {}
+dit.components = dit.components || {}
 
-dit.components.header = (new function() {
-  var self = this;
+dit.components.header = new (function() {
+  var self = this
 
-  self.MENU_BUTTON = "#mobile-menu-button";
-  self.MOBILE_NAV = "#great-header-mobile-nav";
-  self.SEARCH_WRAPPER = "#great-header-search-wrapper";
-  self.MENU_ITEMS_TAG = "js-menu-index";
-  self.SUB_MENU_ITEMS_TAG = "js-sub-menu-index";
-  self.MENU_ITEM_CONTAINER = "[data-js-menu-item-container]";
-  self.SUB_MENU = "[data-js-sub-menu]";
-  self.HEADER = '.great-header';
+  self.MENU_BUTTON = '#mobile-menu-button'
+  self.MOBILE_NAV = '#great-header-mobile-nav'
+  self.SEARCH_WRAPPER = '#great-header-search-wrapper'
+  self.MENU_ITEMS_TAG = 'js-menu-index'
+  self.SUB_MENU_ITEMS_TAG = 'js-sub-menu-index'
+  self.MENU_ITEM_CONTAINER = '[data-js-menu-item-container]'
+  self.SUB_MENU = '[data-js-sub-menu]'
+  self.HEADER = '.great-header'
 
   self.dataAttributeSelector = function(dataAttributeName) {
-    return "[data-" + dataAttributeName + "]";
-  };
+    return '[data-' + dataAttributeName + ']'
+  }
 
   self.showButton = function() {
-    $('#mobile-menu-button').addClass('ready');
-  };
+    $('#mobile-menu-button').addClass('ready')
+  }
 
   self.toggleMenu = function() {
-    var nav = $('#great-header-mobile-nav');
-    var isCurrentlyExpanded = nav.attr('aria-expanded');
+    var nav = $('#great-header-mobile-nav')
+    var isCurrentlyExpanded = nav.attr('aria-expanded')
 
     if (isCurrentlyExpanded === 'true') {
-      self.closeMenu();
+      self.closeMenu()
     } else {
-      self.openMenu();
+      self.openMenu()
     }
-  };
+  }
 
   self.openMenu = function() {
-    $(self.MENU_BUTTON).addClass('expanded').attr('aria-expanded', 'true');
-    $(self.MOBILE_NAV).addClass('expanded').attr('aria-expanded', 'true');
-    $(self.SEARCH_WRAPPER).addClass('hidden');
-    $(self.HEADER).addClass('expanded');
+    $(self.MENU_BUTTON)
+      .addClass('expanded')
+      .attr('aria-expanded', 'true')
+    $(self.MOBILE_NAV)
+      .addClass('expanded')
+      .attr('aria-expanded', 'true')
+    $(self.SEARCH_WRAPPER).addClass('hidden')
+    $(self.HEADER).addClass('expanded')
 
-    self.moveFocusToMenuButton();
-  };
+    self.moveFocusToMenuButton()
+
+    var mobileMenuButton = document.querySelector('#mobile-menu-button')
+    var mobileNavMenu = document.querySelector('.shared-nav-container.mobile')
+    var isDesktop = window.innerWidth >= 768
+    var shouldUpdateMenuPosition =
+      mobileMenuButton && mobileNavMenu && isDesktop
+
+    function updateMenuPosition() {
+      var box = mobileMenuButton.getBoundingClientRect()
+      mobileNavMenu.style.position = 'absolute'
+      mobileNavMenu.style.top = '100px'
+      mobileNavMenu.style.width = '290px'
+      mobileNavMenu.style.left = box.right - 290 + 'px'
+    }
+
+    if (shouldUpdateMenuPosition) {
+      updateMenuPosition()
+
+      $(window).resize(function() {
+        if (isDesktop) {
+          updateMenuPosition()
+        }
+      })
+    }
+  }
 
   self.closeMenu = function() {
-    $(self.MENU_BUTTON).removeClass('expanded').attr('aria-expanded', 'false');
-    $(self.MOBILE_NAV).removeClass('expanded').attr('aria-expanded', 'false');
-    $(self.SEARCH_WRAPPER).removeClass('hidden');
-    $(self.HEADER).removeClass('expanded');
+    $(self.MENU_BUTTON)
+      .removeClass('expanded')
+      .attr('aria-expanded', 'false')
+    $(self.MOBILE_NAV)
+      .removeClass('expanded')
+      .attr('aria-expanded', 'false')
+    $(self.SEARCH_WRAPPER).removeClass('hidden')
+    $(self.HEADER).removeClass('expanded')
 
-    self.moveFocusToMenuButton();
-  };
+    self.moveFocusToMenuButton()
+
+    document.querySelector('.shared-nav-container.mobile').style = ''
+  }
 
   self.moveFocusToMenuButton = function() {
-    $(self.MENU_BUTTON).focus();
-  };
+    $(self.MENU_BUTTON).focus()
+  }
 
   self.getMenuItem = function(tag, index) {
-    return $('[data-' + tag + '=' + index + ']');
-  };
+    return $('[data-' + tag + '=' + index + ']')
+  }
 
   self.getSubMenuItem = function(container, tag, index) {
-    return container.find('[data-' + tag + '=' + index + ']').first();
-  };
+    return container.find('[data-' + tag + '=' + index + ']').first()
+  }
 
   self.moveFocusToFirstMenuItem = function() {
-    self.getMenuItem(self.MENU_ITEMS_TAG, 0).focus();
-  };
+    self.getMenuItem(self.MENU_ITEMS_TAG, 0).focus()
+  }
 
   self.moveFocusToSubMenu = function(target) {
-    var mainMenuItemContainer = $(target).closest(self.MENU_ITEM_CONTAINER);
-    mainMenuItemContainer.find(self.dataAttributeSelector(self.SUB_MENU_ITEMS_TAG)).first().focus();
-  };
+    var mainMenuItemContainer = $(target).closest(self.MENU_ITEM_CONTAINER)
+    mainMenuItemContainer
+      .find(self.dataAttributeSelector(self.SUB_MENU_ITEMS_TAG))
+      .first()
+      .focus()
+  }
 
   self.moveFocusToMainMenu = function(target) {
-    var mainMenuItemContainer = $(target).closest(self.MENU_ITEM_CONTAINER);
-    var mainMenuItem = mainMenuItemContainer.find(self.dataAttributeSelector(self.MENU_ITEMS_TAG)).first();
-    mainMenuItem.focus();
-    return mainMenuItem;
-  };
+    var mainMenuItemContainer = $(target).closest(self.MENU_ITEM_CONTAINER)
+    var mainMenuItem = mainMenuItemContainer
+      .find(self.dataAttributeSelector(self.MENU_ITEMS_TAG))
+      .first()
+    mainMenuItem.focus()
+    return mainMenuItem
+  }
 
   self.moveFocusToPreviousMenuItem = function(target) {
-    var currentIndex = parseInt($(target).data(self.MENU_ITEMS_TAG));
+    var currentIndex = parseInt($(target).data(self.MENU_ITEMS_TAG))
     if (currentIndex === 0) {
       self.closeMenu()
     } else {
-      self.getMenuItem(self.MENU_ITEMS_TAG, currentIndex - 1).focus();
+      self.getMenuItem(self.MENU_ITEMS_TAG, currentIndex - 1).focus()
     }
-  };
+  }
 
   self.moveFocusToPreviousSubMenuItem = function(target) {
-    var currentIndex = parseInt($(target).data(self.SUB_MENU_ITEMS_TAG));
+    var currentIndex = parseInt($(target).data(self.SUB_MENU_ITEMS_TAG))
     if (currentIndex === 0) {
-      self.moveFocusToMainMenu(target);
+      self.moveFocusToMainMenu(target)
     } else {
-      var subMenu = $(target).closest(self.SUB_MENU);
-      self.getSubMenuItem(subMenu, self.SUB_MENU_ITEMS_TAG, currentIndex - 1).focus();
+      var subMenu = $(target).closest(self.SUB_MENU)
+      self
+        .getSubMenuItem(subMenu, self.SUB_MENU_ITEMS_TAG, currentIndex - 1)
+        .focus()
     }
-  };
+  }
 
   self.moveFocusToNextMenuItem = function(target) {
-    var currentIndex = parseInt($(target).data(self.MENU_ITEMS_TAG));
-    var nextItem = self.getMenuItem(self.MENU_ITEMS_TAG, currentIndex + 1);
+    var currentIndex = parseInt($(target).data(self.MENU_ITEMS_TAG))
+    var nextItem = self.getMenuItem(self.MENU_ITEMS_TAG, currentIndex + 1)
     if (nextItem.length) {
-      nextItem.focus();
+      nextItem.focus()
     } else {
       // at the end of the menu, loop back to the top
-     self.moveFocusToFirstMenuItem();
+      self.moveFocusToFirstMenuItem()
     }
-  };
+  }
 
   self.moveFocusToNextSubMenuItem = function(target) {
-    var currentIndex = parseInt($(target).data(self.SUB_MENU_ITEMS_TAG));
-    var subMenu = $(target).closest(self.SUB_MENU);
-    var nextItem = self.getSubMenuItem(subMenu, self.SUB_MENU_ITEMS_TAG, currentIndex + 1);
+    var currentIndex = parseInt($(target).data(self.SUB_MENU_ITEMS_TAG))
+    var subMenu = $(target).closest(self.SUB_MENU)
+    var nextItem = self.getSubMenuItem(
+      subMenu,
+      self.SUB_MENU_ITEMS_TAG,
+      currentIndex + 1
+    )
     if (nextItem.length) {
-      nextItem.focus();
+      nextItem.focus()
     } else {
       // at the end of the sub menu, return to the next item in the main menu.
-      var mainMenuItem = self.moveFocusToMainMenu(target);
-      self.moveFocusToNextMenuItem(mainMenuItem);
+      var mainMenuItem = self.moveFocusToMainMenu(target)
+      self.moveFocusToNextMenuItem(mainMenuItem)
     }
-  };
+  }
 
   self.handleMenuButtonKeyDownEvents = function(event) {
-      if (event.key === "Escape" || event.key === "ArrowUp" || event.key === "Esc" || event.key === "Up") {
-        self.closeMenu();
-        event.preventDefault();
-      }
-      if (event.key === "ArrowDown" || event.key === "Down") {
-        self.openMenu();
-        self.moveFocusToFirstMenuItem();
-        event.preventDefault();
-      }
-  };
+    if (
+      event.key === 'Escape' ||
+      event.key === 'ArrowUp' ||
+      event.key === 'Esc' ||
+      event.key === 'Up'
+    ) {
+      self.closeMenu()
+      event.preventDefault()
+    }
+    if (event.key === 'ArrowDown' || event.key === 'Down') {
+      self.openMenu()
+      self.moveFocusToFirstMenuItem()
+      event.preventDefault()
+    }
+  }
 
   self.handleMenuItemKeyDownEvents = function(event) {
-    if (event.key === "Escape" || event.key === "Esc") {
-      self.closeMenu();
-      event.preventDefault();
+    if (event.key === 'Escape' || event.key === 'Esc') {
+      self.closeMenu()
+      event.preventDefault()
     }
-    if (event.key === "ArrowUp" || event.key === "Up") {
-      self.moveFocusToPreviousMenuItem(event.target);
-      event.preventDefault();
+    if (event.key === 'ArrowUp' || event.key === 'Up') {
+      self.moveFocusToPreviousMenuItem(event.target)
+      event.preventDefault()
     }
-    if (event.key === "ArrowDown" || event.key === "Down") {
-      self.moveFocusToNextMenuItem(event.target);
-      event.preventDefault();
+    if (event.key === 'ArrowDown' || event.key === 'Down') {
+      self.moveFocusToNextMenuItem(event.target)
+      event.preventDefault()
     }
-    if (event.key === "ArrowRight" || event.key === "Right") {
-      self.moveFocusToSubMenu(event.target);
-      event.preventDefault();
+    if (event.key === 'ArrowRight' || event.key === 'Right') {
+      self.moveFocusToSubMenu(event.target)
+      event.preventDefault()
     }
-  };
+  }
 
   self.handleSubMenuItemKeyDownEvents = function(event) {
-    if (event.key === "Escape" || event.key === "Esc") {
-      self.closeMenu();
-      event.preventDefault();
+    if (event.key === 'Escape' || event.key === 'Esc') {
+      self.closeMenu()
+      event.preventDefault()
     }
-    if (event.key === "ArrowUp" || event.key === "Up") {
-      self.moveFocusToPreviousSubMenuItem(event.target);
-      event.preventDefault();
+    if (event.key === 'ArrowUp' || event.key === 'Up') {
+      self.moveFocusToPreviousSubMenuItem(event.target)
+      event.preventDefault()
     }
-    if (event.key === "ArrowDown" || event.key === "Down") {
-      self.moveFocusToNextSubMenuItem(event.target);
-      event.preventDefault();
+    if (event.key === 'ArrowDown' || event.key === 'Down') {
+      self.moveFocusToNextSubMenuItem(event.target)
+      event.preventDefault()
     }
-    if (event.key === "ArrowLeft" || event.key === "Left") {
-      self.moveFocusToMainMenu(event.target);
-      event.preventDefault();
+    if (event.key === 'ArrowLeft' || event.key === 'Left') {
+      self.moveFocusToMainMenu(event.target)
+      event.preventDefault()
     }
-  };
+  }
 
   self.setupEventListeners = function() {
     $(self.MENU_BUTTON)
-        .on("click", self.toggleMenu)
-        .on("keydown", self.handleMenuButtonKeyDownEvents);
+      .on('click', self.toggleMenu)
+      .on('keydown', self.handleMenuButtonKeyDownEvents)
 
-    $(self.dataAttributeSelector(self.MENU_ITEMS_TAG))
-        .on("keydown", self.handleMenuItemKeyDownEvents);
+    $(self.dataAttributeSelector(self.MENU_ITEMS_TAG)).on(
+      'keydown',
+      self.handleMenuItemKeyDownEvents
+    )
 
-    $(self.dataAttributeSelector(self.SUB_MENU_ITEMS_TAG))
-        .on("keydown", self.handleSubMenuItemKeyDownEvents);
-  };
+    $(self.dataAttributeSelector(self.SUB_MENU_ITEMS_TAG)).on(
+      'keydown',
+      self.handleSubMenuItemKeyDownEvents
+    )
+  }
 
   self.init = function() {
-    self.setupEventListeners();
+    self.setupEventListeners()
 
     // menu should start closed
-    self.closeMenu();
-    self.showButton();
+    self.closeMenu()
+    self.showButton()
   }
-});
+})()
 
 $(document).ready(function() {
-  dit.components.header.init();
-});
+  dit.components.header.init()
+})
