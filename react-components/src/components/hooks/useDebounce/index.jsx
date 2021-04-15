@@ -1,6 +1,8 @@
 import { useCallback, useEffect } from 'react'
 
-export const useDebounce = (func, wait = 2000) => {
+const waitTime = 2000
+
+export const useDebounce = (func, wait = waitTime) => {
   let timeout
   let unmounted = false
 
@@ -19,4 +21,15 @@ export const useDebounce = (func, wait = 2000) => {
       }
     }, wait)
   }, [])
+}
+
+export const debounce = (func, wait = waitTime) => {
+  let timeout
+  return (...args) => {
+    if (timeout) clearTimeout(timeout)
+    timeout = setTimeout(() => {
+      timeout = null
+      func(...args)
+    }, wait)
+  }
 }
