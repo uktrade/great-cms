@@ -149,6 +149,7 @@ $mobile: 640px;
 
 .shared-nav-container {
     &.main-nav-container.mobile {
+        display: block;
         flex-direction: column;
     }
 
@@ -205,6 +206,7 @@ $mobile: 640px;
                     width: 100%;
                     text-align: left;
                     border-radius: 0;
+                    padding-bottom: 0;
                 }
             }
         }
@@ -229,6 +231,7 @@ $mobile: 640px;
 }
 
 .great-header.expanded {
+    position: static;
     .user-greeting {
         display: block;
     }
