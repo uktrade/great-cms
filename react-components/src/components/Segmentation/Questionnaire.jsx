@@ -157,8 +157,6 @@ export default function Questionnaire(props) {
         primaryButtonLabel="Close"
         primaryButtonClick={closeModal}
         progressPercentage={100}
-        secondaryButtonLabel="Back"
-        secondaryButtonClick={goBack}
       />
     )
   return null
