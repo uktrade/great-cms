@@ -4852,7 +4852,6 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
       color: #006ccc; }
 
 .shared-nav-container.main-nav-container.mobile {
-  display: block;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;

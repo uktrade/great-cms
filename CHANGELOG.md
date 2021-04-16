@@ -22,6 +22,7 @@
 
 ### Fixed bugs
 
+- NOTICKET - Fixes header menu flickering
 - GP2-2138 - Fix domestic tab alignment
 - GP2-2250 - Hide top banner when signed in on mobile
 - GP2-2240 - Search tuning

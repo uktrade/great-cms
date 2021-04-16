@@ -56,6 +56,7 @@ dit.components.header = new (function() {
       mobileNavMenu.style.top = '100px'
       mobileNavMenu.style.width = '290px'
       mobileNavMenu.style.left = box.right - 290 + 'px'
+      mobileNavMenu.style.display = 'block'
     }
 
     if (shouldUpdateMenuPosition) {
