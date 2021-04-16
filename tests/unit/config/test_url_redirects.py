@@ -620,6 +620,8 @@ def test_redirects_no_trailing_slash(url, expected, client):
             '/today/',
             '/international/content/capital-invest/',
         ),
+        ('/trade/some-term/', '/international/trade/incoming/some-term/'),
+        ('/investment-support-directory/some-term/', '/international/investment-support-directory/some-term/'),
     ],
 )
 def redirect_articles(incoming_url, expected_url, client):

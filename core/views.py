@@ -332,3 +332,21 @@ class OpportunitiesRedirectView(RedirectView):
             redirect_url = '{redirect_url}?{query_string}'.format(redirect_url=redirect_url, query_string=query_string)
 
         return redirect_url
+
+
+class TradeRedirectView(QuerystringRedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        redirect_url = '{trade_url}{searchterm}/'.format(
+            trade_url=('/international/trade/incoming/'), searchterm=kwargs.get('searchterm', '')
+        )
+
+        return redirect_url
+
+
+class InvestmentSupportDirectoryRedirectView(QuerystringRedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        redirect_url = '{isd_url}{searchterm}/'.format(
+            isd_url=('/international/investment-support-directory/'), searchterm=kwargs.get('searchterm', '')
+        )
+
+        return redirect_url

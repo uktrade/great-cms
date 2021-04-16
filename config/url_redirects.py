@@ -4,8 +4,10 @@ from django.views.generic.base import RedirectView
 
 from core.cms_slugs import PRIVACY_POLICY_URL, TERMS_URL
 from core.views import (
+    InvestmentSupportDirectoryRedirectView,
     OpportunitiesRedirectView,
     QuerystringRedirectView,
+    TradeRedirectView,
     TranslationRedirectView,
 )
 
@@ -797,6 +799,11 @@ articles_redirects = [
             url='/advice/prepare-for-export-procedures-and-logistics/documentation-international-trade/'
         ),
     ),
+    url(
+        r'^trade/(?P<searchterm>[-\w]+)/$',
+        TradeRedirectView.as_view(),
+    ),
+    url(r'^investment-support-directory/(?P<searchterm>[-\w]+)/$', InvestmentSupportDirectoryRedirectView.as_view()),
 ]
 
 
