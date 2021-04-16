@@ -130,6 +130,12 @@ You can test this works by attempting to visit http://greatcms.trade.great:8020/
 
 Signed cookies are used as the session backend to avoid using a database. We therefore must avoid storing non-trivial data in the session, because the browser will be exposed to the data.
 
+## Javascript file paths
+
+Currently, the React component are built into Magna.js, while some javascript ported from Great V1 are collected from directories named javascript/.
+
+IMPORTANT: If you build great-components or something else and end up with code in /js/ it will NOT be accessible on a deployed environment while we are running a hybrid V1 (great-domestic-ui) + V2 (great-cms) system.
+
 ## React components
 
 To add new react components:
