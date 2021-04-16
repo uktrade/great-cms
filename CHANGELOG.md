@@ -3,7 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
-
+- GP2-1253 - Export plan - Learning linking components
 - GP2-2214 - Signed in magna header (BAU pages)
 - GP2-1887 - VFM questionnaire
 - GP2-2086 - Date picker selectable ranges
