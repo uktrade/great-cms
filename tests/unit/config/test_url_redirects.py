@@ -620,8 +620,12 @@ def test_redirects_no_trailing_slash(url, expected, client):
             '/today/',
             '/international/content/capital-invest/',
         ),
+        ('/trade/', '/international/trade/incoming/'),
         ('/trade/some-term/', '/international/trade/incoming/some-term/'),
+        ('/investment-support-directory/', '/international/investment-support-directory/'),
         ('/investment-support-directory/some-term/', '/international/investment-support-directory/some-term/'),
+        ('/story/york-bag-retailer-goes-global-via-e-commerce/', '/success-stories/york-bag-retailer-goes-global/'),
+        ('/story/hello-babys-rapid-online-growth/', '/success-stories/hello-babys-rapid-online-growth/'),
     ],
 )
 def redirect_articles(incoming_url, expected_url, client):

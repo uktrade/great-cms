@@ -800,10 +800,26 @@ articles_redirects = [
         ),
     ),
     url(
+        r'^trade/$',
+        QuerystringRedirectView.as_view(url='/international/trade/incoming/'),
+    ),
+    url(
         r'^trade/(?P<searchterm>[-\w]+)/$',
         TradeRedirectView.as_view(),
     ),
+    url(
+        r'^investment-support-directory/$',
+        QuerystringRedirectView.as_view(url='/international/investment-support-directory/'),
+    ),
     url(r'^investment-support-directory/(?P<searchterm>[-\w]+)/$', InvestmentSupportDirectoryRedirectView.as_view()),
+    url(
+        r'^/story/york-bag-retailer-goes-global-via-e-commerce/$',
+        QuerystringRedirectView.as_view(url='/success-stories/york-bag-retailer-goes-global/'),
+    ),
+    url(
+        r'^/story/hello-babys-rapid-online-growth/$',
+        QuerystringRedirectView.as_view(url='/success-stories/hello-babys-rapid-online-growth/'),
+    ),
 ]
 
 
