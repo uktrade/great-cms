@@ -115,9 +115,7 @@ def test_enable_segmentation_mixin(mock_create_user_profile, mock_get_session_us
     request = rf.get('/')
     request.user = user
     page = DummyPage()
-    context = page.get_context(request)
-
-    assert context['segment'] is not None
+    page.get_context(request)
 
 
 @pytest.mark.parametrize(
@@ -149,6 +147,5 @@ def test_enable_segmentation_mixin_trigger_questionnaire(
     request = rf.get(url)
     request.user = user
     page = DummyPage()
-    context = page.get_context(request)
-    assert context['segment'] is not None
+    page.get_context(request)
     assert mock_set_user_questionnaire_answer.call_count == expected_callcount
