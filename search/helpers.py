@@ -143,7 +143,7 @@ def format_query(query, page):
                                 'type': ['dit:greatCms:Article'],
                             }
                         },
-                        'weight': 200,
+                        'weight': 400,
                     },
                     {
                         'filter': {
