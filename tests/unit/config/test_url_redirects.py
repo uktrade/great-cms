@@ -468,11 +468,11 @@ def test_redirects_no_trailing_slash(url, expected, client):
         ('/market-research/visit-a-trade-show/', '/advice/find-an-export-market/trade-shows/'),
         (
             '/market-research/doing-business-with-integrity/',
-            '/advice/manage-legal-and-ethical-compliance/understand-business-risks-in-overseas-markets/',  # NOQA
+            'advice/manage-risk-bribery-corruption-and-abuse-human-rights/bribery-and-corruption-understand-risks/',  # NOQA
         ),
         (
             '/market-research/know-the-relevant-legislation/',
-            '/advice/manage-legal-and-ethical-compliance/understand-business-risks-in-overseas-markets/',  # NOQA
+            'advice/manage-risk-bribery-corruption-and-abuse-human-rights/bribery-and-corruption-understand-risks/',  # NOQA
         ),
         ('/business-planning/', '/advice/define-route-to-market/'),
         ('/business-planning/make-an-export-plan/', '/advice/create-an-export-plan/how-to-create-an-export-plan/'),
@@ -521,12 +521,12 @@ def test_redirects_no_trailing_slash(url, expected, client):
             '/advice/manage-payment-for-export-orders/payment-methods-for-exporters/',  # NOQA
         ),
         (
-            '/getting-paid/consider-how-youll-get-paid/',
+            '/getting-paid/consider-how-to-get-paid/',
             '/advice/manage-payment-for-export-orders/how-to-create-an-export-invoice/',  # NOQA
         ),
         (
-            '/getting-paid/decide-when-youll-get-paid/',
-            '/advice/manage-payment-for-export-orders/decide-when-youll-get-paid-for-export-orders/',  # NOQA
+            '/getting-paid/decide-when-to-get-paid/',
+            '/advice/manage-payment-for-export-orders/decide-when-to-get-paid-for-export-orders/',  # NOQA
         ),
         (
             '/getting-paid/payment-methods/',
@@ -543,7 +543,7 @@ def test_redirects_no_trailing_slash(url, expected, client):
         ),
         (
             '/customer-insight/know-your-customers/',
-            '/advice/manage-legal-and-ethical-compliance/understand-business-risks-in-overseas-markets/',  # NOQA
+            '/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets/',  # NOQA
         ),
         (
             '/customer-insight/manage-language-differences/',
@@ -602,12 +602,12 @@ def test_redirects_no_trailing_slash(url, expected, client):
             '/operations-and-compliance/use-incoterms-in-contracts/',
             '/advice/prepare-for-export-procedures-and-logistics/use-incoterms-in-contracts/',  # NOQA
         ),
-        ('/new/next-steps/', '/advice'),
-        ('/occasional/next-steps/', '/advice'),
-        ('/regular/next-steps/', '/advice'),
-        ('/new/', '/advice'),
-        ('/occasional/', '/advice'),
-        ('/regular/', '/advice'),
+        ('/new/next-steps/', '/advice/'),
+        ('/occasional/next-steps/', '/advice/'),
+        ('/regular/next-steps/', '/advice/'),
+        ('/new/', '/advice/'),
+        ('/occasional/', '/advice/'),
+        ('/regular/', '/advice/'),
         (
             '/brexit/contact/',
             '/transition-period/contact/',
@@ -628,7 +628,7 @@ def test_redirects_no_trailing_slash(url, expected, client):
         ('/story/hello-babys-rapid-online-growth/', '/success-stories/hello-babys-rapid-online-growth/'),
     ],
 )
-def redirect_articles(incoming_url, expected_url, client):
+def test_redirect_articles(incoming_url, expected_url, client):
     response = client.get(incoming_url)
     assert response.status_code == 302
     assert response.url == expected_url
