@@ -27,6 +27,7 @@
         label: "Cultural information",
         name: "cultural_information",
         placeholder: "Add some text",
+        lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 0),
       },
     ],
     companyexportplan: {{ export_plan.pk }},
