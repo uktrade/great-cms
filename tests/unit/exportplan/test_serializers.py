@@ -421,3 +421,11 @@ def test_business_risks_serializer(export_plan_data):
             ('pk', 1),
         ]
     )
+
+
+def test_export_plan_serializer_calculate_total_funding(export_plan_data):
+    # To tidy all collections should be contained within the page they're loaded
+    export_plan_data['funding_and_credit']['funding_credit_options'] = export_plan_data['funding_credit_options']
+    serializer = serializers.ExportPlanSerializer(data=export_plan_data)
+    serializer.is_valid()
+    assert serializer.calculate_total_funding == 2.0
