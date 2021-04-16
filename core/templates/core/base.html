@@ -33,6 +33,7 @@
           apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
           apiLogoutUrl: '{% url "sso:business-sso-logout-api" %}',
           apiUserProfileUpdateUrl: '{% url "sso:user-profile-api" %}',
+          apiUserQuestionnaireUrl: '{% url "sso:user-questionnaire-api"%}',
           apiLookupProductUrl: '{% url "core:api-lookup-product" %}',
           apiLookupProductScheduleUrl: '{% url "core:api-lookup-product-schedule" %}',
           apiCountriesUrl: '{% url "core:api-countries" %}',
@@ -127,24 +128,13 @@
         },
       })
 
-      {% if tour %}
-        magna.LaunchModal({
-          modals: [
-            {
-              factory: magna.SegmentationModal,
-              params: {
-                segment: {{ segment|to_json }}
-              },
-            },
-            {
-              factory: magna.Tour,
-              params: {
-                tour: {{ tour|to_json }},
-                disableTourCookieName: 'disable-tour-{{ page.content_type }}',
-              },
-            },
-          ]
-        })
-      {% endif %}
+      magna.LaunchModal({
+        modals: [
+          {
+            factory: magna.Questionnaire,
+            params: {},
+          }
+        ]
+      })
   </script>
 {% endblock %}

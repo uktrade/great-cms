@@ -5,6 +5,7 @@
 ### Enhancements
 
 - GP2-2214 - Signed in magna header (BAU pages)
+- GP2-1887 - VFM questionnaire
 - GP2-2086 - Date picker selectable ranges
 - GP2-2088 - Form validation - Numerical fields
 - GP2-2087 - Form validation - Numerical fields (cost/price)
