@@ -13,7 +13,7 @@ export function CookiesModal(props) {
 
   function handleAcceptAllCookies(event) {
     CookieManager.acceptAllCookiesAndShowSuccess(event);
-    window.location.reload(false);
+    // window.location.reload(); // disabled to avoid the page reloading before the user can see the banner
     setIsOpen(false);
   }
 
