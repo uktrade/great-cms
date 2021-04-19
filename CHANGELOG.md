@@ -3,8 +3,8 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2283 - Remove "Some features are not available" from the export plan landing page
 - GP2-1253 - Export plan - Learning linking components
-
 - GP2-2275 - Rename 'js' directory to 'javascript' directory across project
 - GP2-2214 - Signed in magna header (BAU pages)
 - GP2-1887 - VFM questionnaire
