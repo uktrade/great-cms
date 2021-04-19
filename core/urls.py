@@ -27,6 +27,13 @@ def anonymous_user_required(function):
 
 
 urlpatterns = [
+    path(
+        'cookies/',
+        skip_ga360(
+            views.CookiePreferencesPageView.as_view(),
+        ),
+        name='cookie-preferences',
+    ),
     path('triage/<slug:step>/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='triage-wizard'),
     path('triage/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='triage-start'),
     path('custom/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='custom-page'),
