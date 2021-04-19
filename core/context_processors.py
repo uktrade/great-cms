@@ -31,6 +31,13 @@ def analytics_vars(request):
     return {
         'GOOGLE_TAG_MANAGER_ID': settings.GOOGLE_TAG_MANAGER_ID,
         'GOOGLE_TAG_MANAGER_ENV': settings.GOOGLE_TAG_MANAGER_ENV,
+        'UTM_COOKIE_DOMAIN': settings.UTM_COOKIE_DOMAIN,
+    }
+
+
+def cookie_management_vars(request):
+    return {
+        'PRIVACY_COOKIE_DOMAIN': settings.PRIVACY_COOKIE_DOMAIN,
     }
 
 
@@ -38,6 +45,7 @@ def cms_slug_urls(request):
     return {
         'DASHBOARD_URL': cms_slugs.DASHBOARD_URL,
         'LOGIN_URL': cms_slugs.LOGIN_URL,
+        'PRIVACY_POLICY_URL': cms_slugs.PRIVACY_POLICY_URL,
     }
 
 

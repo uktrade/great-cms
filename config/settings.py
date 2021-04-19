@@ -120,6 +120,7 @@ TEMPLATES = [
                 'core.context_processors.analytics_vars',
                 'core.context_processors.migration_support_vars',
                 'core.context_processors.cms_slug_urls',
+                'core.context_processors.cookie_management_vars',
                 'great_components.context_processors.analytics',
             ],
         },
