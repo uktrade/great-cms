@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        'reactComponents': './react-components/src/bundle.js',
+        'reactComponents': './core/components/react-components/src/bundle.js',
     },
     output: {
         path: path.resolve(__dirname, '../static/javascript/'),
