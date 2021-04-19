@@ -11,7 +11,7 @@ export function CookiesModal(props) {
   const [isOpen, setIsOpen] = React.useState(props.isOpen)
   const focusTrap = React.useRef(false);
 
-  function hanleAcceptAllCookies(event) {
+  function handleAcceptAllCookies(event) {
     CookieManager.acceptAllCookiesAndShowSuccess(event);
     window.location.reload(false);
     setIsOpen(false);
@@ -49,7 +49,7 @@ export function CookiesModal(props) {
         >cookies to collect information</a> about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services.
       </p>
       <div className={styles.buttonContainer}>
-        <a className={`${styles.button} button`} href="#" onClick={hanleAcceptAllCookies}>Accept all cookies</a>
+        <a className={`${styles.button} button`} href="#" onClick={handleAcceptAllCookies}>Accept all cookies</a>
         <span className={styles.buttonSeperator}></span>
         <a className={`${styles.button} button`} href={props.preferencesUrl + window.location.search}>Set cookie preferences</a>
       </div>
