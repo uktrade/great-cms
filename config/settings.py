@@ -120,6 +120,7 @@ TEMPLATES = [
                 'core.context_processors.analytics_vars',
                 'core.context_processors.migration_support_vars',
                 'core.context_processors.cms_slug_urls',
+                'core.context_processors.cookie_management_vars',
                 'great_components.context_processors.analytics',
             ],
         },
@@ -396,6 +397,8 @@ GOOGLE_TAG_MANAGER_ID = env.str('GOOGLE_TAG_MANAGER_ID')
 GOOGLE_TAG_MANAGER_ENV = env.str('GOOGLE_TAG_MANAGER_ENV', '')
 UTM_COOKIE_DOMAIN = env.str('UTM_COOKIE_DOMAIN')
 GA360_BUSINESS_UNIT = 'GreatMagna'
+
+PRIVACY_COOKIE_DOMAIN = env.str('PRIVACY_COOKIE_DOMAIN', UTM_COOKIE_DOMAIN)
 
 REST_FRAMEWORK = {'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',)}
 

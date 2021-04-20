@@ -1,0 +1,201 @@
+{% extends "domestic/base.html" %}
+
+{% load static from staticfiles %}
+{% load wagtailcore_tags %}
+{% load breadcrumbs success_box from component_tags %}
+
+{% block head_title %}Cookies on great.gov.uk{% endblock %}
+
+{% block content %}
+   {% block breadcrumbs %}
+        <div class="container">
+        {% breadcrumbs 'Cookies' %}
+            <a href="/">great.gov.uk</a>
+        {% endbreadcrumbs %}
+        </div>
+    {% endblock %}
+
+    <div class="container">
+        <div class="grid-row">
+            <div class="column-two-thirds">
+                <div class="confirmation-banner display-none">
+                {% success_box heading="Your cookie settings were saved" description="Government services may set additional cookies and, if so, will have their own cookie policy and banner.<br/><a href='#' id='back-from-preferences' class='link go-back margin-top-15 block'>Go back to the page you were looking at</a>" %}
+                </div>
+                <h1 class="heading-xlarge margin-bottom-60-m">Cookies on great.gov.uk</h1>
+                    <div class="margin-bottom-30 margin-bottom-60-m">
+                        <p>Cookies are files saved on your phone, tablet or computer when you visit a website.</p>
+                        <p>We use cookies to store information about how you use the great.gov.uk website, such as the pages you visit.</p>
+                    </div>
+                <div class="display-only-no-js">
+                    <p>We use Javascript to set most of our cookies. Unfortunately Javascript is not running on your browser, so you cannot change your settings. You can try:</p>
+                    <ul class="list list-bullet">
+                        <li>reloading the page</li>
+                        <li>turning on Javascript in your browser</li>
+                    </ul>
+                </div>
+                <div class="form-wrapper display-only-js">
+                    <form id="cookie-preferences-form">
+                        <h2 class="heading-large">Cookie settings</h2>
+                            <div class="margin-bottom-30 margin-bottom-60-m">
+                                <p>We use 4 types of cookie. You can choose which cookies you're happy for us to use.</p>
+                                <h3 class="heading-medium">Cookies that measure website use</h3>
+                                <p>We use Google Analytics to measure how you use the website so we can improve it based on user needs. Google Analytics sets cookies that store anonymised information about:</p>
+                                <ul class="list list-bullet">
+                                    <li>how you got to the site</li>
+                                    <li>the pages you visit on great.gov.uk and government digital services, and how long you spend on each page</li>
+                                    <li>what you click on while you're visiting the site</li>
+                                </ul>
+                                <p>We do not allow Google to use or share the data about how you use this site.</p>
+                                <fieldset>
+                                    <ul>
+                                        <li class="multiple-choice clear-none margin-right-30">
+                                            <input type="radio" name="cookies-usage" value="on" id="cookies-usage-on">
+                                            <label for="cookies-usage-on" class="form-label">
+                                                On
+                                            </label>
+                                        </li>
+                                        <li class="multiple-choice clear-none">
+                                            <input type="radio" name="cookies-usage" value="off" id="cookies-usage-off">
+                                            <label for="cookies-usage-off" class="form-label">
+                                                Off
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </fieldset>
+                            </div>
+                            <h3 class="heading-medium">Cookies that help with our communications and marketing</h3>
+                            <p>These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on great.gov.uk.</p>
+                            <fieldset>
+                                <ul>
+                                    <li class="multiple-choice clear-none margin-right-30">
+                                        <input type="radio" name="cookies-campaigns" value="on" id="cookies-campaigns-on">
+                                        <label for="cookies-campaigns-on" class="form-label">
+                                            On
+                                        </label>
+                                    </li>
+                                    <li class="multiple-choice clear-none">
+                                        <input type="radio" name="cookies-campaigns" value="off" id="cookies-campaigns-off">
+                                        <label for="cookies-campaigns-off" class="form-label">
+                                            Off
+                                        </label>
+                                    </li>
+                                </ul>
+                            </fieldset>
+                            <h3 class="heading-medium">Cookies that remember your settings</h3>
+                            <p>These cookies do things like remember your preferences and the choices you make, to personalise your experience of using the site.</p>
+                            <fieldset>
+                                <ul>
+                                    <li class="multiple-choice clear-none margin-right-30">
+                                        <input type="radio" name="cookies-settings" value="on" id="cookies-settings-on">
+                                        <label for="cookies-settings-on" class="form-label">
+                                            On
+                                        </label>
+                                    </li>
+                                    <li class="multiple-choice clear-none">
+                                        <input type="radio" name="cookies-settings" value="off" id="cookies-settings-off">
+                                        <label for="cookies-settings-off" class="form-label">
+                                            Off
+                                        </label>
+                                    </li>
+                                </ul>
+                            </fieldset>
+                        <h3 class="heading-medium">Strictly necessary cookies</h3>
+                        <p>These essential cookies do things like </p>
+                        <ul class="list-bullet margin-bottom-30">
+                            <li>remember the notifications you've seen so you we do not show them to you again</li>
+                            <li>remember your progress through a form (for example a licence application)</li>
+                        </ul>
+                        <p>They always need to be on.</p>
+
+                        <p class="margin-top-45 margin-bottom-45 margin-bottom-90-m">
+                            <a href="{% slugurl 'privacy-and-cookies' %}" class="link">Find out more about cookies on great.gov.uk</a>
+                        </p>
+                        <p>
+                            <button class="button button-blue" type="submit">Save changes</button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block body_js %}
+<script>
+'use strict'
+
+  function bindCookiePolicyForm (formSelector, confirmationSelector, radioButtons) {
+
+    if (typeof radioButtons !== 'object') {
+      throw 'expected an object with radio button selectors';
+    }
+
+    var form = document.querySelector(formSelector);
+    if (!form) {
+      throw formSelector + ' was not found';
+    }
+
+    var confirmation = document.querySelectorAll(confirmationSelector)[0];
+    if (!confirmation) {
+      throw confirmationSelector + ' was not found';
+    }
+
+    var policy = dit.components.cookieNotice.getPolicyOrDefault();
+
+    for (var cookieType in policy) {
+        var radioButton;
+        if(cookieType !== 'essential') {
+            if (policy[cookieType]) {
+                radioButton = document.querySelector('input[name=cookies-' + cookieType + '][value=on]');
+            } else {
+                radioButton = document.querySelector('input[name=cookies-' + cookieType + '][value=off]');
+            }
+            radioButton.checked = true;
+        }
+    }
+
+    form[radioButtons.usage].value = policy.usage ? 'on' : 'off';
+    form[radioButtons.settings].value = policy.settings ? 'on' : 'off';
+    form[radioButtons.campaigns].value = policy.campaigns ? 'on' : 'off';
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var settings = form[radioButtons.settings].value === 'on';
+      var usage = form[radioButtons.usage].value === 'on';
+      var campaigns = form[radioButtons.campaigns].value === 'on';
+
+      dit.components.cookieNotice.createPoliciesCookie(settings, usage, campaigns);
+      dit.components.cookieNotice.setPreferencesCookie();
+
+      confirmation.classList.add('display-block');
+      window.scrollTo(0, 0);
+
+      return false;
+    });
+
+  }
+
+$(function() {
+    bindCookiePolicyForm(
+        '#cookie-preferences-form',
+        '.confirmation-banner',
+        {
+          usage: 'cookies-usage',
+          campaigns: 'cookies-campaigns',
+          settings: 'cookies-settings'
+        });
+
+    document.querySelectorAll('a.go-back')[0].addEventListener('click', function(e) {
+        e.preventDefault();
+        window.history.back();
+    });
+
+    if(document.referrer === document.location.href || document.referrer.indexOf(document.location.hostname) === -1) {
+        document.querySelectorAll('a.go-back')[0].classList.add('display-none')
+    }
+});
+
+</script>
+{% endblock %}
