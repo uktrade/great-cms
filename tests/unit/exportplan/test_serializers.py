@@ -15,10 +15,10 @@ def test_about_your_business_serializer():
         'location': 'Consectetur adipisicing elit',
         'packaging': 'Dolor sit amet',
         'processes': 'Sed do eiusmod tempor incididunt',
+        'performance': '<83k',
     }
 
     serializer = serializers.AboutYourBuinessSerializer(data=data)
-
     assert serializer.is_valid()
     assert serializer.data == data
 
@@ -360,9 +360,9 @@ def test_payment_method_serializer():
 
     data = {
         'getting_paid': {
-            'payment_method': {'methods': ['BACS', 'BT'], 'notes': 'method 1'},
-            'payment_terms': {'terms': 'TMP', 'notes': 'method 2'},
-            'incoterms': {'transport': 'RME', 'notes': 'method 3'},
+            'payment_method': {'methods': ['CREDIT_DEBIT', 'MERCHANT_SERVICES'], 'notes': 'method 1'},
+            'payment_terms': {'terms': 'PAYMENT_IN_ADVANCE', 'notes': 'method 2'},
+            'incoterms': {'transport': 'EX_WORKS', 'notes': 'method 3'},
         }
     }
     serializer = serializers.ExportPlanSerializer(data=data)
@@ -374,9 +374,12 @@ def test_payment_method_serializer():
                 'getting_paid',
                 OrderedDict(
                     [
-                        ('payment_method', OrderedDict([('methods', ['BACS', 'BT']), ('notes', 'method 1')])),
-                        ('payment_terms', OrderedDict([('terms', 'TMP'), ('notes', 'method 2')])),
-                        ('incoterms', OrderedDict([('transport', 'RME'), ('notes', 'method 3')])),
+                        (
+                            'payment_method',
+                            OrderedDict([('methods', ['CREDIT_DEBIT', 'MERCHANT_SERVICES']), ('notes', 'method 1')]),
+                        ),
+                        ('payment_terms', OrderedDict([('terms', 'PAYMENT_IN_ADVANCE'), ('notes', 'method 2')])),
+                        ('incoterms', OrderedDict([('transport', 'EX_WORKS'), ('notes', 'method 3')])),
                     ]
                 ),
             )
