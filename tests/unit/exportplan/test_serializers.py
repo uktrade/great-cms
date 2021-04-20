@@ -365,6 +365,7 @@ def test_payment_method_serializer():
             'incoterms': {'transport': 'EX_WORKS', 'notes': 'method 3'},
         }
     }
+
     serializer = serializers.ExportPlanSerializer(data=data)
     assert serializer.is_valid(raise_exception=True)
 
