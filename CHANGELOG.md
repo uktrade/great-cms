@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- No ticket - wagtail upgrade to 2.11.7 and other packages including reportlab lib
 - GP2-2283 - Remove "Some features are not available" from the export plan landing page
 - GP2-1253 - Export plan - Learning linking components
 - GP2-2275 - Rename 'js' directory to 'javascript' directory across project
