@@ -7,6 +7,7 @@ from urllib.parse import urlencode
 import pytest
 from django.conf import settings
 from django.http.cookie import SimpleCookie
+from django.test import override_settings
 from django.urls import reverse
 from formtools.wizard.views import normalize_name
 from pytest_django.asserts import assertTemplateUsed
@@ -931,3 +932,39 @@ def test_service_removed_view(
         assert article_page_1.url in _content
         assert article_page_2.url in _content
         assert article_page_3.url not in _content  # because a child of the listing page
+
+
+@pytest.mark.parametrize(
+    'base_url, expected_sitemap_url',
+    (
+        (
+            'https://great.gov.uk',
+            'https://great.gov.uk/sitemap.xml',
+        ),
+        (
+            'https://great.gov.uk/',
+            'https://great.gov.uk/sitemap.xml',
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_robots_txt(client, base_url, expected_sitemap_url):
+
+    with override_settings(BASE_URL=base_url):
+
+        resp = client.get(reverse('core:robots'))
+        assert resp.status_code == 200
+
+        assert resp.content == b''.join(
+            [
+                b'User-agent: *\n',
+                b'\n',
+                b'Disallow: /admin/\n',
+                b'Disallow: /django-admin/\n',
+                b'Disallow: /api/\n',
+                b'Disallow: /activity-stream/\n',
+                b'Disallow: /sso/\n',
+                b'\n',
+                f'Sitemap: {expected_sitemap_url}\n'.encode(),
+            ]
+        )

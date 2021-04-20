@@ -28,6 +28,11 @@ def anonymous_user_required(function):
 
 urlpatterns = [
     path(
+        'robots.txt',
+        skip_ga360(views.RobotsView.as_view()),
+        name='robots',
+    ),
+    path(
         'cookies/',
         skip_ga360(
             views.CookiePreferencesPageView.as_view(),
