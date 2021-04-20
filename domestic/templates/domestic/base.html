@@ -1,6 +1,7 @@
 {% load static from staticfiles %}
 {% load i18n %}
 {% load static_absolute from component_tags %}
+{% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 
@@ -17,13 +18,13 @@
         {% endblock %}
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block head_google_tag_manager %}
-            {% if directory_components_analytics %}
-                <meta id="utmCookieDomain" value=".great.gov.uk" />
+            {% if UTM_COOKIE_DOMAIN %}
+                <meta id="utmCookieDomain" value="{{UTM_COOKIE_DOMAIN}}" />
             {% endif %}
             {% include 'components/google_tag_manager_head.html' %}
         {% endblock %}
         {% block cookie_domain_meta %}
-          <meta id="privacyCookieDomain" value=".great.gov.uk" />
+          <meta id="privacyCookieDomain" value="{{PRIVACY_COOKIE_DOMAIN}}" />
         {% endblock %}
         <title>
             {% block head_title %}
@@ -65,8 +66,8 @@
 
         {% block head_js %}
             <script src="{% static 'javascript/dit.js' %}"></script>
-            {% comment "Disabled because cookie behaviour needs attention" %} <script src="{% static 'javascript/dit.components.cookie-notice.js' %}"></script> {% endcomment %}
-            {% comment "Disabled because cookie behaviour needs attention" %} <script src="{% static 'javascript/reactComponents.js' %}"></script> {% endcomment %}
+            <script src="{% static 'javascript/dit.components.cookie-notice.js' %}"></script>
+            <script src="{% static 'javascript/reactComponents.js' %}"></script>
             <script>
               // Safari saves a snapshot of a page as it was when the user left, so upon going "back" it doesn’t have to reload and instead it loads the saved snapshot state. That has an unwanted side effect that cookie modal is shown when clicking "go back to the page you came from".
               window.onpageshow = function (event) {
@@ -161,19 +162,19 @@
         {% endblock %}
 
         {% block body_js %}
-            {% if request.resolver_match.url_name != 'privacy-and-cookies' %}
-                {{ block.super }}
+            {% slugurl "privacy-and-cookies" as privacy_and_cookies_path %}
+            {% if request.path != privacy_and_cookies_path %}
+            <script>
+                var element = document.createElement('div');
+                document.body.appendChild(element);
+                reactComponents.CookiesModal({
+                    element: element,
+                    privacyCookiesUrl: {{privacy_and_cookies_path}},
+                    preferencesUrl: '{% url "core:cookie-preferences" %}',
+                    isOpen: dit.components.cookieNotice.getPreferencesCookie() === null
+                })
+            </script>
             {% endif %}
-          <script>
-            var element = document.createElement('div');
-            document.body.appendChild(element);
-            {% comment "Disabled because cookie behaviour needs attention" %} reactComponents.CookiesModal({
-              element: element,
-              privacyCookiesUrl: '{{ header_footer_urls.privacy_and_cookies }}',
-              preferencesUrl: '{{ header_footer_urls.cookie_preference_settings }}',
-              isOpen: dit.components.cookieNotice.getPreferencesCookie() === null
-            }) {% endcomment %}
-          </script>
         {% endblock %}
     </body>
 </html>

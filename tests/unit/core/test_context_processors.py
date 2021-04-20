@@ -38,3 +38,19 @@ def test_cms_slug_urls(client):
     url = reverse('core:signup')
     response = client.get(url)
     assert response.context['DASHBOARD_URL'] == '/dashboard/'
+
+
+@pytest.mark.django_db
+def test_analytics_vars(client):
+    url = reverse('core:signup')
+    response = client.get(url)
+    assert 'GOOGLE_TAG_MANAGER_ID' in response.context
+    assert 'GOOGLE_TAG_MANAGER_ENV' in response.context
+    assert 'UTM_COOKIE_DOMAIN' in response.context
+
+
+@pytest.mark.django_db
+def test_cookie_management_vars(client):
+    url = reverse('core:signup')
+    response = client.get(url)
+    assert 'PRIVACY_COOKIE_DOMAIN' in response.context

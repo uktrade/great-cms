@@ -8,6 +8,8 @@
     "watch": "webpack --watch --config react-components/webpack.config.js --mode development",
     "build-dev": "webpack --config react-components/webpack.config.js --mode development",
     "build": "npm install great-styles; webpack --config react-components/webpack.config.js --mode production",
+    "build-domestic-components-dev": "webpack --config core/components/react-components/webpack.config.js --mode development",
+    "build-domestic-components": "webpack --config core/components/react-components/webpack.config.js --mode production",
     "storybook": "start-storybook",
     "storybook-publish": "dsm-storybook publish",
     "storybook-build": "build-storybook"

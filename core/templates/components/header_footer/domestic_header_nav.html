@@ -36,17 +36,19 @@
       </li>
       {% endif %}
 
-      {% comment "Hide until services page is implemented" %}
+      {% comment "Hide until services page is implemented ALSO header_footer_urls is not for use in in greatcms" %}
       <li class="menu-item" data-js-menu-item-container>
         <a href="{{ header_footer_urls.services }}" class="link-heading" id="header-services-{{ device_type }}" {% if js_tag %}data-js-menu-index=6{% endif %}>Services</a>
       </li>
       {% endcomment %}
 
+      {% comment "TODO remove me when confirmed redundant" %}
       {% if features.NEWS_SECTION_ON %}
         <li class="menu-item" data-js-menu-item-container>
           <a href="{{ header_footer_urls.domestic_news }}" class="link-heading" id="header-news-{{ device_type }}" {% if js_tag %}data-js-menu-index=7{% endif %}>News and events</a>
         </li>
       {% endif %}
+      {% endcomment %}
 
       {% if request.user.is_authenticated %}
       <li class="menu-item" data-js-menu-item-container>

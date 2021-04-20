@@ -350,3 +350,8 @@ class InvestmentSupportDirectoryRedirectView(QuerystringRedirectView):
         )
 
         return redirect_url
+
+
+class CookiePreferencesPageView(TemplateView):
+    # NB: template currently bears the ex-V1 styling, so comes from great-cms/domestic/templates/domestic/
+    template_name = 'domestic/cookie-preferences.html'
