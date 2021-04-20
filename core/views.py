@@ -350,3 +350,23 @@ class InvestmentSupportDirectoryRedirectView(QuerystringRedirectView):
         )
 
         return redirect_url
+
+
+class CookiePreferencesPageView(TemplateView):
+    # NB: template currently bears the ex-V1 styling, so comes from great-cms/domestic/templates/domestic/
+    template_name = 'domestic/cookie-preferences.html'
+
+
+class RobotsView(TemplateView):
+    template_name = 'robots.txt'
+    content_type = 'text/plain'
+
+    def get_context_data(self, **kwargs):
+        base_url = settings.BASE_URL
+        if base_url[-1] == '/':
+            base_url = base_url[:-1]
+
+        return super().get_context_data(
+            **kwargs,
+            base_url=base_url,
+        )
