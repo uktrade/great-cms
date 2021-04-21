@@ -50,7 +50,7 @@ export default function Modal(props) {
           {secondaryButtonClick ? (
             <button
               type="button"
-              className="button button--tertiary m-v-xs m-f-xxs"
+              className="button button--tertiary m-v-xs"
               onClick={secondaryButtonClick}
             >
               {secondaryButtonLabel || 'Exit'}

@@ -29,6 +29,9 @@
       border-color: $lightened-great-blue;
     }
   }
+  .autocomplete .select__list {
+    margin-top: 50px;
+  }
   .select__list {
     max-height: 350px;
     overflow-y: auto;

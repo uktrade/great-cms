@@ -4,6 +4,7 @@ import Services from '@src/Services'
 import { mapArray } from '@src/Helpers'
 import Interaction from './Interaction'
 import Modal from './Modal'
+import CompanyNameModal from './CompanyNameModal'
 
 export default function Questionnaire(props) {
   const modes = { closed: 'c', start: 's', question: 'q', thankyou: 't' }
@@ -111,7 +112,13 @@ export default function Questionnaire(props) {
             <p className="m-v-xs">
               It will take about 3-5 minutes to complete.
             </p>
-            <a href="/privacy-policy/">
+            <a
+              href="/privacy-and-cookies/"
+              target="_blank"
+              title="Opens in a new window"
+              rel="noopener noreferrer"
+              className="link link--underline"
+            >
               This information is stored and used in compliance with our cookie
               and privacy policy.
             </a>
@@ -125,16 +132,16 @@ export default function Questionnaire(props) {
       />
     )
 
-  if (mode === modes.question)
+  if (mode === modes.question && question.type !== 'COMPANY_LOOKUP')
     return (
       <Modal
         className="segmentation-modal"
         title={question.title}
         body={
           <Interaction
-            question={question}
-            value={value}
-            setValue={setValue}
+          question={question}
+          value={value}
+          setValue={setValue}
           />
         }
         progressPercentage={
@@ -146,6 +153,20 @@ export default function Questionnaire(props) {
         secondaryButtonLabel="Back"
         secondaryButtonClick={goBack}
         closeClick={closeModal}
+      />
+    )
+  if (mode === modes.question && question.type === 'COMPANY_LOOKUP')
+    return (
+      <CompanyNameModal
+        question={question}
+        value={value}
+        setValue={setValue}
+        nextButtonClick={setQuestionAnswer}
+        backButtonClick={goBack}
+        closeClick={closeModal}
+        progressPercentage={
+          question && questions && 100 * (questionIndex() / questions.length)
+        }
       />
     )
   if (mode === modes.thankyou)
