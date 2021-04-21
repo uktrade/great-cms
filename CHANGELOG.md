@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2155 - Add/Port /healthcheck/ views
 - GP2-2156 - Add robots.txt
 - GP2-2069 - Replicate the Cookie management behaviour from V1.
 - No ticket - wagtail upgrade to 2.11.7 and other packages including reportlab lib

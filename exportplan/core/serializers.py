@@ -241,7 +241,7 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
 
 class ListMultipleChoiceField(serializers.MultipleChoiceField):
     def to_internal_value(self, data):
-        return list(super().to_internal_value(data))
+        return sorted(list(super().to_internal_value(data)))
 
 
 class GettingPaidSerializer(serializers.Serializer):
