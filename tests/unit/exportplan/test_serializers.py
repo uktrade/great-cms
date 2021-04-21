@@ -368,7 +368,6 @@ def test_payment_method_serializer():
 
     serializer = serializers.ExportPlanSerializer(data=data)
     assert serializer.is_valid(raise_exception=True)
-
     assert serializer.validated_data == OrderedDict(
         [
             (
