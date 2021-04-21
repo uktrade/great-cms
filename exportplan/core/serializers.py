@@ -5,6 +5,7 @@ import json
 from directory_validators.string import no_html
 from rest_framework import serializers
 
+from directory_constants import choices
 from exportplan.utils import format_two_dp
 
 
@@ -50,7 +51,7 @@ class AboutYourBuinessSerializer(serializers.Serializer):
     location = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     processes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     packaging = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    performance = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    performance = serializers.ChoiceField(required=False, choices=choices.TURNOVER_CHOICES)
 
 
 class ObjectiveSerializer(serializers.Serializer):
@@ -70,8 +71,8 @@ class TargetMarketsResearchSerializer(serializers.Serializer):
 
 
 class RouteToMarketSerializer(serializers.Serializer):
-    route = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    promote = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    route = serializers.ChoiceField(required=False, choices=choices.MARKET_ROUTE_CHOICES)
+    promote = serializers.ChoiceField(required=False, choices=choices.PRODUCT_PROMOTIONAL_CHOICES)
     market_promotional_channel = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
@@ -107,8 +108,8 @@ class AdaptationTargetMarketSerializer(serializers.Serializer):
 class BusinessRisksSerializer(serializers.Serializer):
     risk = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     contingency_plan = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    risk_likelihood = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    risk_impact = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    risk_likelihood = serializers.ChoiceField(required=False, choices=choices.RISK_LIKELIHOOD_OPTIONS)
+    risk_impact = serializers.ChoiceField(required=False, choices=choices.RISK_IMPACT_OPTIONS)
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 
@@ -149,7 +150,7 @@ class UiProgress(serializers.Serializer):
 
 class FundingCreditOptionsSerializer(serializers.Serializer):
     amount = serializers.FloatField(required=False, allow_null=True)
-    funding_option = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    funding_option = serializers.ChoiceField(required=False, choices=choices.FUNDING_OPTIONS)
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 
@@ -238,17 +239,24 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
         return potential_total_profit
 
 
+class ListMultipleChoiceField(serializers.MultipleChoiceField):
+    def to_internal_value(self, data):
+        return sorted(list(super().to_internal_value(data)))
+
+
 class GettingPaidSerializer(serializers.Serializer):
     class PaymentMethodSerializer(serializers.Serializer):
-        methods = serializers.ListField(child=serializers.CharField(), required=False)
+        methods = ListMultipleChoiceField(required=False, choices=choices.PAYMENT_METHOD_OPTIONS)
         notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
 
     class PaymentTermsSerializer(serializers.Serializer):
-        terms = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+        terms = serializers.ChoiceField(required=False, choices=choices.PAYMENT_TERM_OPTIONS)
         notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
 
     class IncotermsSerializer(serializers.Serializer):
-        transport = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+        transport = serializers.ChoiceField(
+            required=False, choices=choices.TRANSPORT_OPTIONS + choices.WATER_TRANSPORT_OPTIONS
+        )
         notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
 
     payment_method = PaymentMethodSerializer(required=False)

@@ -3,10 +3,13 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2298 - Added header missing menu items (search, services)
+- GP2-2155 - Add/Port /healthcheck/ views
 - GP2-2156 - Add robots.txt
 - GP2-2069 - Replicate the Cookie management behaviour from V1.
 - No ticket - wagtail upgrade to 2.11.7 and other packages including reportlab lib
 - GP2-2283 - Remove "Some features are not available" from the export plan landing page
+- GP2-2154 - Redirects BAU to magna
 - GP2-1253 - Export plan - Learning linking components
 - GP2-2275 - Rename 'js' directory to 'javascript' directory across project
 - GP2-2214 - Signed in magna header (BAU pages)
@@ -22,9 +25,10 @@
 - GP2-1902 - New sign in page design implemented
 - GP2-1903 - New sign up page design implemented
 - GP2-1709 - trade barrier integration
+- GP2-2302 - ep dropdown validation
 
 ### Fixed bugs
-
+- GP2-2234 - Sign up / in page tablet design
 - NOTICKET - Fixes header menu flickering
 - GP2-2138 - Fix domestic tab alignment
 - GP2-2250 - Hide top banner when signed in on mobile

@@ -39,10 +39,10 @@ $mobile: 640px;
     color: #fff;
     display: flex;
     flex-direction: row;
-    padding: 15px 30px;
+    padding: 20px 30px;
     margin-bottom: 30px;
 
-    @include mobile {
+    @media (max-width: 960px) {
         flex-direction: column;
         padding: 20px 30px;
     }
@@ -61,6 +61,7 @@ $mobile: 640px;
         background-color: #EB4F4D;
         font-weight: 600;
         margin-right:20px;
+        margin-bottom: 15px;
 
     }
     .content-container {
@@ -72,9 +73,10 @@ $mobile: 640px;
 
         h3 {
             font-size: 24px;
-            line-height: 36px;
+            line-height: 24px;
             font-family: "Overpass", Arial, Helvetica, Verdana;
             font-weight: 600;
+            padding-bottom: 10px;
         }
         p {
             font-family: "Overpass", Arial, Helvetica, Verdana;
@@ -90,7 +92,7 @@ $mobile: 640px;
         justify-content: center;
         margin-left: auto;
 
-        @include mobile {
+        @media (max-width: 960px) {
             margin-left: 0;
             flex-direction: row;
             justify-content: end;
@@ -278,6 +280,51 @@ $mobile: 640px;
             &:hover,
             &.active {
                 text-decoration: underline;
+            }
+        }
+
+        #magna-header-search-form {
+            width: 240px;
+            float: right;
+            margin-left: 15px;
+            padding: 8px 0px;
+
+            input {
+                height: 42px;
+                float:left;
+                width:200px;
+                padding-left:15px;
+            }
+
+            button {
+                margin: 0;
+                width: auto;
+                overflow: visible;
+                background: transparent;
+                color: inherit;
+                cursor: pointer;
+                font: inherit;
+                line-height: normal;
+                -webkit-font-smoothing: inherit;
+                -moz-osx-font-smoothing: inherit;
+                -webkit-appearance: none;
+                color: #fff;
+                border: 0;
+                font-size: 0;
+                height: 42px;
+                width: 40px;
+                background-repeat: no-repeat;
+                background-position: 50%;
+                background-color: #006ccc;
+                background-image: url(/static/images/search.svg);
+                background-size: 20px;
+                padding: 0;
+                position: absolute;
+                margin-bottom: 5px;
+
+                &.active {
+                    background-color: #ffbf47;
+                }
             }
         }
 
