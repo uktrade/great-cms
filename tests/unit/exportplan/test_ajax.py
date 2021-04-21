@@ -324,7 +324,7 @@ def test_update_route_to_market_api_view(mock_update_route_to_market, client, us
 
     url = reverse('exportplan:api-route-to-markets-update')
 
-    data = {'pk': 1, 'route': 'Some text', 'companyexportplan': 1}
+    data = {'pk': 1, 'route': 'DIRECT_SALES', 'companyexportplan': 1}
 
     mock_update_route_to_market.return_value = data
 
@@ -342,7 +342,7 @@ def test_create_route_to_market_api_view(mock_create_route_to_market, client, us
 
     url = reverse('exportplan:api-route-to-markets-create')
 
-    data = {'route': 'Some text', 'companyexportplan': 1}
+    data = {'route': 'DIRECT_SALES', 'companyexportplan': 1}
 
     mock_create_route_to_market.return_value = {'pk': 1, **data}
 
@@ -754,7 +754,7 @@ def test_update_funding_credit_options_api_view(mock_update_funding_credit_optio
 
     url = reverse('exportplan:api-funding-credit-options-update')
 
-    funding_option_data = {'pk': 1, 'amount': '2.23', 'funding_option': 'government', 'companyexportplan': 1}
+    funding_option_data = {'pk': 1, 'amount': '2.23', 'funding_option': 'BANK_LOAN', 'companyexportplan': 1}
 
     mock_update_funding_credit_option.return_value = funding_option_data
 
@@ -764,7 +764,7 @@ def test_update_funding_credit_options_api_view(mock_update_funding_credit_optio
     assert response.status_code == 200
 
     assert mock_update_funding_credit_option.call_args == mock.call(
-        '123', OrderedDict([('amount', 2.23), ('funding_option', 'government'), ('companyexportplan', 1), ('pk', 1)])
+        '123', OrderedDict([('amount', 2.23), ('funding_option', 'BANK_LOAN'), ('companyexportplan', 1), ('pk', 1)])
     )
 
 
@@ -775,7 +775,7 @@ def test_create_funding_credit_options_api_view(mock_create_funding_credit_optio
 
     url = reverse('exportplan:api-funding-credit-options-create')
 
-    funding_option_data = {'pk': 1, 'amount': '2.23', 'funding_option': 'government', 'companyexportplan': 1}
+    funding_option_data = {'pk': 1, 'amount': '2.23', 'funding_option': 'BANK_LOAN', 'companyexportplan': 1}
 
     mock_create_funding_credit_option.return_value = {'pk': 1, **funding_option_data}
 
@@ -784,7 +784,7 @@ def test_create_funding_credit_options_api_view(mock_create_funding_credit_optio
     assert mock_create_funding_credit_option.call_count == 1
 
     assert mock_create_funding_credit_option.call_args == mock.call(
-        '123', OrderedDict([('amount', 2.23), ('funding_option', 'government'), ('companyexportplan', 1), ('pk', 1)])
+        '123', OrderedDict([('amount', 2.23), ('funding_option', 'BANK_LOAN'), ('companyexportplan', 1), ('pk', 1)])
     )
 
 
