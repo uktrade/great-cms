@@ -26,7 +26,6 @@
           <li id="header-link-user-profile">
           </li>
 
-
           <script type="text/javascript">
           magna.ModalMenu({
             element: document.querySelector("#header-link-user-profile"),
@@ -37,9 +36,7 @@
             authenticated: '{{ request.user.is_authenticated }}'
           })
           </script>
-
         </ul>
-
       </div>
       <ul class="extra-links">
         <li><a href="{% slugurl 'dashboard' %}">Dashboard</a></li>

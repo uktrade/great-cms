@@ -1452,7 +1452,7 @@ a.labelled-card, a.labelled-image-card {
       outline: #ffbf47 solid 4px;
       outline-offset: 0;
       outline-offset: -3px; }
-    
+
     a.labelled-card:focus .card-inner,
     a.labelled-image-card:focus .card-inner {
       border-color: #ffffff; }
@@ -1466,7 +1466,7 @@ a.labelled-card, a.labelled-image-card {
   a.labelled-card .card-header h3,
   a.labelled-image-card .card-header h3 {
     display: inline-block; }
-  
+
   a.labelled-card .card-header h3,
   a.labelled-image-card .card-header h3 {
     font-weight: 700;
@@ -1479,7 +1479,7 @@ a.labelled-card, a.labelled-image-card {
     background-color: #006ccc;
     padding: 10px 30px; }
     @media (min-width: 641px) {
-      
+
       a.labelled-card .card-header h3,
       a.labelled-image-card .card-header h3 {
         font-size: 19px; } }
@@ -4948,6 +4948,43 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
     text-decoration: none; }
     .shared-magna-header .header-links a:hover, .shared-magna-header .header-links a.active {
       text-decoration: underline; }
+  .shared-magna-header .header-links #magna-header-search-form {
+    width: 240px;
+    float: right;
+    margin-left: 15px;
+    padding: 8px 0px; }
+    .shared-magna-header .header-links #magna-header-search-form input {
+      height: 42px;
+      float: left;
+      width: 200px;
+      padding-left: 15px; }
+    .shared-magna-header .header-links #magna-header-search-form button {
+      margin: 0;
+      width: auto;
+      overflow: visible;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      line-height: normal;
+      -webkit-font-smoothing: inherit;
+      -moz-osx-font-smoothing: inherit;
+      -webkit-appearance: none;
+      color: #fff;
+      border: 0;
+      font-size: 0;
+      height: 42px;
+      width: 40px;
+      background-repeat: no-repeat;
+      background-position: 50%;
+      background-color: #006ccc;
+      background-image: url(/static/images/search.svg);
+      background-size: 20px;
+      padding: 0;
+      position: absolute;
+      margin-bottom: 5px; }
+      .shared-magna-header .header-links #magna-header-search-form button.active {
+        background-color: #ffbf47; }
   .shared-magna-header .header-links button {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
