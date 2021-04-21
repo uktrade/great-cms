@@ -20,10 +20,9 @@ SSO_PROXY_LOGIN_URL=http://sso.trade.great:8004/sso/accounts/login/
 SSO_PROXY_LOGOUT_URL=http://sso.trade.great:8004/sso/accounts/logout/?next=http://gcms.trade.great:8020/thing/
 SSO_PROXY_PASSWORD_RESET_URL=http://sso.trade.great:8004/sso/accounts/password/reset/
 SSO_PROXY_REDIRECT_FIELD_NAME=next
-SSO_PROXY_SIGNUP_URL=http://sso.trade.great:8004/sso/accounts/signup/?next=http://gcms.trade.great:8020/=http://sso.trade.great:8004/sso/accounts/login/via-linkedin//profile/
-SSO_PROFILE_URL=http://greatcms.trade.great:8020/profile/
+SSO_PROXY_SIGNUP_URL=http://sso.trade.great:8004/sso/accounts/signup/?next=http://gcms.trade.great:8020/thing/
+SSO_OAUTH2_LINKEDIN_URL=http://sso.trade.great:8004/sso/accounts/login/via-linkedin/
 SSO_OAUTH2_GOOGLE_URL=debug
-SSO_OAUTH2_LINKEDIN_URL=debug
 DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011
 DIRECTORY_FORMS_DEFAULT_TIMEOUT=30
 DIRECTORY_API_CLIENT_BASE_URL=http://api.trade.great:8000

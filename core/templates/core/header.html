@@ -15,8 +15,17 @@
           <li class="lg-only"><a id="header-link-learning" class="{% if in_learning %}active{% endif %}" href="/learn/categories/">Learn to export</a></li>
           <li class="lg-only"><a id="header-link-markets" class="{% if in_targetmarkets %}active{% endif %}" href="{% url 'core:compare-countries'%}">Where to export</a></li>
           <li class="lg-only"><a id="header-link-exporting-plan" class="{% if in_exportplan %}active{% endif %}" href="/export-plan/dashboard/">Make an export plan</a></li>
+          <li>
+            <div id="magna-header-search-form-wrapper">
+              <form id="magna-header-search-form" action="{% url 'search:search' %}" method="GET">
+                <input id="magna-header-search-box" type="text" name="q" placeholder="Search" aria-label="Search">
+                <button type="submit">Search</button>
+              </form>
+            </div>
+          </li>
           <li id="header-link-user-profile">
           </li>
+
 
           <script type="text/javascript">
           magna.ModalMenu({
@@ -30,10 +39,12 @@
           </script>
 
         </ul>
+
       </div>
       <ul class="extra-links">
         <li><a href="{% slugurl 'dashboard' %}">Dashboard</a></li>
       </ul>
     </nav>
+
   </div>
 </header>

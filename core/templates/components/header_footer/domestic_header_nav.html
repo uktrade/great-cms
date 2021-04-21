@@ -28,7 +28,7 @@
 
       {% if not request.user.is_authenticated or device_type == 'mobile' %}
       <li class="menu-item" data-js-menu-item-container>
-        <a href="{{ sso_profile_url }}" class="link-heading" id="header-advice-{{ device_type }}" {% if js_tag %}data-js-menu-index=3{% endif %}>Account</a>
+        <a href="/profile" class="link-heading" id="header-advice-{{ device_type }}" {% if js_tag %}data-js-menu-index=3{% endif %}>Account</a>
       </li>
       <li class="menu-item" data-js-menu-item-container>
         <a href="{% slugurl 'advice' %}" class="link-heading" id="header-advice-{{ device_type }}" {% if js_tag %}data-js-menu-index=3{% endif %}>Advice</a>
