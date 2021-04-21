@@ -4735,9 +4735,9 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
   -webkit-box-direction: normal;
   -ms-flex-direction: row;
   flex-direction: row;
-  padding: 15px 30px;
+  padding: 20px 30px;
   margin-bottom: 30px; }
-  @media (max-width: 640px) {
+  @media (max-width: 960px) {
     .shared-learning-banner {
       -webkit-box-orient: vertical;
       -webkit-box-direction: normal;
@@ -4765,7 +4765,8 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
     border-radius: 4px;
     background-color: #EB4F4D;
     font-weight: 600;
-    margin-right: 20px; }
+    margin-right: 20px;
+    margin-bottom: 15px; }
   .shared-learning-banner .content-container {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -4779,9 +4780,10 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
         margin-top: 10px; } }
     .shared-learning-banner .content-container h3 {
       font-size: 24px;
-      line-height: 36px;
+      line-height: 24px;
       font-family: "Overpass", Arial, Helvetica, Verdana;
-      font-weight: 600; }
+      font-weight: 600;
+      padding-bottom: 10px; }
     .shared-learning-banner .content-container p {
       font-family: "Overpass", Arial, Helvetica, Verdana;
       font-size: 16px;
@@ -4799,7 +4801,7 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
     -ms-flex-pack: center;
     justify-content: center;
     margin-left: auto; }
-    @media (max-width: 640px) {
+    @media (max-width: 960px) {
       .shared-learning-banner .cta-container {
         margin-left: 0;
         -webkit-box-orient: horizontal;
