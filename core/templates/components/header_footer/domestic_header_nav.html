@@ -28,24 +28,27 @@
 
       {% if not request.user.is_authenticated or device_type == 'mobile' %}
       <li class="menu-item" data-js-menu-item-container>
+        <a href="{{ sso_profile_url }}" class="link-heading" id="header-advice-{{ device_type }}" {% if js_tag %}data-js-menu-index=3{% endif %}>Account</a>
+      </li>
+      <li class="menu-item" data-js-menu-item-container>
         <a href="{% slugurl 'advice' %}" class="link-heading" id="header-advice-{{ device_type }}" {% if js_tag %}data-js-menu-index=3{% endif %}>Advice</a>
       </li>
 
       <li class="menu-item" data-js-menu-item-container>
         <a href="{% slugurl 'markets' %}" class="link-heading" id="header-markets-{{ device_type }}" {% if js_tag %}data-js-menu-index=4{% endif %}>Markets</a>
       </li>
-      {% endif %}
 
       <li class="menu-item" data-js-menu-item-container>
         <a href="{{ header_footer_urls.services }}" class="link-heading" id="header-services-{{ device_type }}" {% if js_tag %}data-js-menu-index=6{% endif %}>Services</a>
       </li>
-
+      {% endif %}
+      {% comment "TODO remove me when confirmed redundant" %}
       {% if features.NEWS_SECTION_ON %}
         <li class="menu-item" data-js-menu-item-container>
           <a href="{{ header_footer_urls.domestic_news }}" class="link-heading" id="header-news-{{ device_type }}" {% if js_tag %}data-js-menu-index=7{% endif %}>News and events</a>
         </li>
       {% endif %}
-
+      {% endcomment %}
       {% if request.user.is_authenticated %}
       <li class="menu-item" data-js-menu-item-container>
           <button class="link-heading {% if device_type != 'mobile' %}mobile-only{% endif %} margin-bottom-15" id="sign_out_button_{{ device_type }}">Sign out</button>
@@ -57,6 +60,7 @@
     <a href="/login" class="button button-blue margin-top-15 mobile-only">Sign in</a>
     {% endif %}
   </nav>
+  {% include 'components/header_footer/search.html' %}
 </div>
 <script>
   {% url 'sso:business-sso-logout-api' as sign_out_endpoint %}
