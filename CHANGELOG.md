@@ -3,6 +3,8 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+
+- GP2-2265 - pdf design changes
 - GP2-2298 - Added header missing menu items (search, services)
 - GP2-2155 - Add/Port /healthcheck/ views
 - GP2-2156 - Add robots.txt
@@ -28,6 +30,7 @@
 - GP2-2302 - ep dropdown validation
 
 ### Fixed bugs
+
 - GP2-2234 - Sign up / in page tablet design
 - NOTICKET - Fixes header menu flickering
 - GP2-2138 - Fix domestic tab alignment
