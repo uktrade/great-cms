@@ -3,6 +3,8 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+
+- GP2-2265 - pdf design changes
 - GP2-2156 - Add robots.txt
 - GP2-2069 - Replicate the Cookie management behaviour from V1.
 - No ticket - wagtail upgrade to 2.11.7 and other packages including reportlab lib
@@ -25,6 +27,7 @@
 - GP2-2302 - ep dropdown validation
 
 ### Fixed bugs
+
 - GP2-2234 - Sign up / in page tablet design
 - NOTICKET - Fixes header menu flickering
 - GP2-2138 - Fix domestic tab alignment
