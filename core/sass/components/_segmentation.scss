@@ -2,7 +2,7 @@
 
 .segmentation-modal {
   .radio-block {
-    overflow:hidden;
+    overflow: hidden;
     margin-left: -5px;
     padding-left: 5px; // so the focus outline doesn't get clipped
   }
@@ -29,8 +29,13 @@
       border-color: $lightened-great-blue;
     }
   }
-  .autocomplete .select__list {
-    margin-top: 50px;
+  .autocomplete {
+    .select__list {
+      margin-top: 50px;
+    }
+    .select__button {
+      display: none;
+    }
   }
   .select__list {
     max-height: 350px;
@@ -53,11 +58,18 @@
   }
   .modal-button-bar {
     display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
+    flex-flow: column;
+
     justify-content: space-between;
-    .progress-section {
-      flex: 4 0;
+    @include breakpoint(md) {
+      flex-flow: row nowrap;
+      align-items: center;
+      .progress-section {
+        flex: 1 0;
+      }
+      .progress-bar {
+        margin-right: 20px;
+      }
     }
   }
 }

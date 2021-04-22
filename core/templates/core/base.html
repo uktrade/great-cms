@@ -90,8 +90,6 @@
   {% include 'core/header.html' %}
   {% if request.user.is_authenticated %}
     {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
-  {% elif FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER %}
-    {% include "core/includes/personalisation_bar.html" %}
   {% endif %}
 {% endblock %}
 
@@ -128,15 +126,5 @@
           markets: {{request.user.export_plan.data.export_countries|to_json }}
         },
       })
-      {% if request.user.is_authenticated %}
-      magna.LaunchModal({
-        modals: [
-          {
-            factory: magna.Questionnaire,
-            params: {},
-          }
-        ]
-      })
-      {% endif %}
   </script>
 {% endblock %}
