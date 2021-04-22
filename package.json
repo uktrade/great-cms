@@ -103,7 +103,6 @@
     "great-styles": "github:uktrade/great-styles",
     "prop-types": "15.7.2",
     "react": "16.13.1",
-    "react-autocomplete": "^1.8.1",
     "react-cookie": "4.0.3",
     "react-cookies": "0.1.1",
     "react-dom": "16.13.1",
