@@ -41,7 +41,7 @@ export const Select = memo(
     const selectedItem = () => {
       if (!input || input.length <= 0) return placeholder
       if (multiSelect) {
-        const out = input.map((item) => (
+        return input.map((item) => (
           <button
             className="tag tag--icon tag--secondary tag--small m-r-xs"
             type="button"
@@ -55,7 +55,6 @@ export const Select = memo(
             {item} <i className="fas fa-times-circle" />
           </button>
         ))
-        return out
       }
       return input
     }
@@ -180,6 +179,7 @@ export const Select = memo(
               >
                 {autoComplete ? (
                   <input
+                    role="combobox"
                     className="form-control"
                     placeholder={placeholder}
                     value={inputValue}
