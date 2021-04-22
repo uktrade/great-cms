@@ -10,7 +10,7 @@
     <ul class="grid-row nav-list">
       {% if request.user.is_authenticated %}
       <li class="menu-item" data-js-menu-item-container>
-        <a href="/" class="link-heading mobile-only" id="header-learn-{{ device_type }}" {% if js_tag %}data-js-menu-index=0{% endif %}>Home</a>
+        <a href="/" class="link-heading" id="header-learn-{{ device_type }}" {% if js_tag %}data-js-menu-index=0{% endif %}>Home</a>
       </li>
 
       <li class="menu-item" data-js-menu-item-container>
@@ -38,7 +38,7 @@
       </li>
 
       <li class="menu-item" data-js-menu-item-container>
-        <a href="{{ header_footer_urls.services }}" class="link-heading" id="header-services-{{ device_type }}" {% if js_tag %}data-js-menu-index=6{% endif %}>Services</a>
+        <a href="/services/" class="link-heading" id="header-services-{{ device_type }}" {% if js_tag %}data-js-menu-index=6{% endif %}>Services</a>
       </li>
       {% endif %}
       {% comment "TODO remove me when confirmed redundant" %}

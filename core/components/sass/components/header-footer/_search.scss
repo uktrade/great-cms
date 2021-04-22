@@ -65,6 +65,10 @@
   margin: 0 auto;
   max-width: 1200px;
   margin-left: 25px;
+
+  &.signed-in {
+    margin-right: 130px;
+  }
 }
 
 @media (max-width: 768px) {

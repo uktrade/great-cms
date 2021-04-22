@@ -1,5 +1,5 @@
 <div id="great-header-search-wrapper" class="great-header-search-wrapper">
-  <div class="great-header-search-container">
+  <div class="great-header-search-container {% if sso_is_logged_in %}signed-in{% endif %}">
     <form id="great-header-search-form" action="{% url 'search:search' %}" method="GET">
       <input id="great-header-search-box" type="text" name="q" placeholder="Search" aria-label="Search">
       <button type="submit">Search</button>
