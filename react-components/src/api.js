@@ -164,6 +164,12 @@ export default {
     }).then((response) => responseHandler(response).json())
   },
 
+  companiesHouseApi: (parameters) => {
+    return get(config.apiCompaniesHouseUrl, parameters).then((response) =>
+      responseHandler(response).json()
+    )
+  },
+
   getLessonComplete: (endpoint) => {
     return get(endpoint).then(responseHandler)
   },

@@ -63,6 +63,19 @@
       });
     </script>
   {% endif %}
+  {% comment %} Load VFM survey {% endcomment %}
+  {% if request.user.is_authenticated %}
+    <script>
+      magna.LaunchModal({
+        modals: [
+          {
+            factory: magna.Questionnaire,
+            params: {},
+          }
+        ]
+      })
+    </script>
+  {% endif %}
   {{ block.super }}
 {% endblock %}
 

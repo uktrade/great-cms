@@ -34,13 +34,13 @@ export default function Modal(props) {
         />
       )}
       <div className="c-fullwidth">
-        <h3 className="h-s">{title}</h3>
+        <h3 className="h-s m-b-xs m-r-s">{title}</h3>
         <div className="modal-body body-l m-b-xs text-blue-deep-60">{body}</div>
         <div className="modal-button-bar"
         >
           {progressPercentage != null ? (
             <div className="progress-section">
-              <div className="progress-bar m-r-m">
+              <div className="progress-bar">
                 <span style={{ width: `${progressPercentage}%` }}/>
               </div>
             </div>
@@ -50,7 +50,7 @@ export default function Modal(props) {
           {secondaryButtonClick ? (
             <button
               type="button"
-              className="button button--tertiary m-v-xs m-f-xxs"
+              className="button button--tertiary m-v-xs"
               onClick={secondaryButtonClick}
             >
               {secondaryButtonLabel || 'Exit'}

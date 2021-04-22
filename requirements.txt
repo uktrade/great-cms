@@ -47,9 +47,12 @@ dateparser==0.7.2
     # via -r requirements.in
 directory-api-client==22.17.0
     # via -r requirements.in
+directory-ch-client==2.1.0
+    # via -r requirements.in
 directory-client-core==6.3.0
     # via
     #   directory-api-client
+    #   directory-ch-client
     #   directory-forms-api-client
     #   directory-sso-api-client
 directory-constants==20.23.0
@@ -100,6 +103,7 @@ django==2.2.20
     # via
     #   -r requirements.in
     #   directory-api-client
+    #   directory-ch-client
     #   directory-client-core
     #   directory-constants
     #   directory-healthcheck
@@ -180,7 +184,9 @@ maxminddb==2.0.3
 mohawk==1.1.0
     # via sigauth
 monotonic==1.6
-    # via directory-client-core
+    # via
+    #   directory-ch-client
+    #   directory-client-core
 oauthlib==3.1.0
     # via requests-oauthlib
 olefile==0.46
@@ -242,6 +248,7 @@ requests==2.25.1
     # via
     #   airtable-python-wrapper
     #   directory-api-client
+    #   directory-ch-client
     #   directory-client-core
     #   geoip2
     #   requests-oauthlib

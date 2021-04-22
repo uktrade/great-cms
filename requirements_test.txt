@@ -20,8 +20,6 @@ appdirs==1.4.4
     # via
     #   black
     #   virtualenv
-appnope==0.1.2
-    # via ipython
 arabic-reshaper==2.1.3
     # via xhtml2pdf
 astroid==2.5.3
@@ -91,9 +89,12 @@ decorator==5.0.7
     # via ipython
 directory-api-client==22.17.0
     # via -r requirements.in
+directory-ch-client==2.1.0
+    # via -r requirements.in
 directory-client-core==6.3.0
     # via
     #   directory-api-client
+    #   directory-ch-client
     #   directory-forms-api-client
     #   directory-sso-api-client
 directory-constants==20.23.0
@@ -148,6 +149,7 @@ django==2.2.20
     # via
     #   -r requirements.in
     #   directory-api-client
+    #   directory-ch-client
     #   directory-client-core
     #   directory-constants
     #   directory-healthcheck
@@ -236,7 +238,7 @@ html5lib==1.1
     # via
     #   wagtail
     #   xhtml2pdf
-identify==2.2.3
+identify==2.2.4
     # via pre-commit
 idna==2.10
     # via requests
@@ -295,7 +297,9 @@ mccabe==0.6.1
 mohawk==1.1.0
     # via sigauth
 monotonic==1.6
-    # via directory-client-core
+    # via
+    #   directory-ch-client
+    #   directory-client-core
 msgpack==1.0.2
     # via locust
 mypy-extensions==0.4.3
@@ -437,6 +441,7 @@ requests==2.25.1
     #   airtable-python-wrapper
     #   codecov
     #   directory-api-client
+    #   directory-ch-client
     #   directory-client-core
     #   geoip2
     #   locust
