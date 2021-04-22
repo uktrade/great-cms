@@ -427,6 +427,39 @@ class MarketsTopicLandingPagePanels(TopicLandingPagePanels):
     pass
 
 
+class ManuallyConfigurableTopicLandingPagePanels(TopicLandingPagePanels):
+    content_panels = [
+        FieldPanel('title'),
+        MultiFieldPanel(
+            heading='Hero',
+            children=[
+                ImageChooserPanel('hero_image'),
+                FieldPanel('hero_teaser'),
+            ],
+        ),
+        FieldPanel(
+            'banner_text',
+            help_text='Use this field to change the text displayed in the banner, if the page has one.',
+        ),
+        FieldPanel('teaser'),
+        HelpPanel(
+            content=(
+                '<b>Child pages of this topic page are NOT automatically included in '
+                'the items shown in the page</b>, so will need to be manually added '
+                'to PANELS, below:'
+            ),
+        ),
+        StreamFieldPanel(
+            'panels',
+        ),
+        SearchEngineOptimisationPanel(),
+    ]
+
+    settings_panels = [
+        FieldPanel('slug'),
+    ]
+
+
 class GuidancePagePanels:
     content_panels = [
         StreamFieldPanel('body'),
