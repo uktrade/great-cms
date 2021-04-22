@@ -448,3 +448,12 @@ class AdvantageBlock(blocks.StructBlock):
 
     class Meta:
         icon = 'plus'
+
+
+class TopicPageCardBlock(blocks.StructBlock):
+    """Used in ManuallyConfigurableTopicPage """
+
+    link_text = blocks.CharBlock()
+    link_url = blocks.CharBlock()  # not a URL block to allow relative links
+    image = ImageChooserBlock(required=False)  #  alt text lives on the custom Image class
+    description = blocks.TextBlock()
