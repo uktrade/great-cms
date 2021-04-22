@@ -1,3 +1,4 @@
+import directory_healthcheck.views
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
@@ -38,6 +39,16 @@ urlpatterns = [
             views.CookiePreferencesPageView.as_view(),
         ),
         name='cookie-preferences',
+    ),
+    path(
+        'healthcheck/',
+        skip_ga360(directory_healthcheck.views.HealthcheckView.as_view()),
+        name='healthcheck',
+    ),
+    path(
+        'healthcheck/ping/',
+        skip_ga360(directory_healthcheck.views.PingView.as_view()),
+        name='ping',
     ),
     path('triage/<slug:step>/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='triage-wizard'),
     path('triage/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='triage-start'),

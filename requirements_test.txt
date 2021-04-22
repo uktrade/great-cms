@@ -20,6 +20,8 @@ appdirs==1.4.4
     # via
     #   black
     #   virtualenv
+appnope==0.1.2
+    # via ipython
 arabic-reshaper==2.1.3
     # via xhtml2pdf
 astroid==2.5.3
@@ -100,6 +102,8 @@ directory-constants==20.23.0
     #   great-components
 directory-forms-api-client==5.3.0
     # via -r requirements.in
+directory-healthcheck==2.0.0
+    # via -r requirements.in
 directory-sso-api-client==6.5.4
     # via -r requirements.in
 directory-validators==6.0.5
@@ -120,6 +124,8 @@ django-filter==2.2.0
     #   wagtail
 django-formtools==2.3
     # via -r requirements.in
+django-health-check==3.8.0
+    # via directory-healthcheck
 django-ipware==2.1.0
     # via -r requirements.in
 django-modelcluster==5.1
@@ -144,6 +150,7 @@ django==2.2.20
     #   directory-api-client
     #   directory-client-core
     #   directory-constants
+    #   directory-healthcheck
     #   directory-validators
     #   django-debug-toolbar
     #   django-decorator-include
@@ -518,7 +525,7 @@ urllib3==1.25.11
     #   requests
     #   selenium
     #   sentry-sdk
-virtualenv==20.4.3
+virtualenv==20.4.4
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core

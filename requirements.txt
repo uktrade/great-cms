@@ -58,6 +58,8 @@ directory-constants==20.23.0
     #   great-components
 directory-forms-api-client==5.3.0
     # via -r requirements.in
+directory-healthcheck==2.0.0
+    # via -r requirements.in
 directory-sso-api-client==6.5.4
     # via -r requirements.in
 directory-validators==6.0.5
@@ -74,6 +76,8 @@ django-filter==2.2.0
     #   wagtail
 django-formtools==2.3
     # via -r requirements.in
+django-health-check==3.8.0
+    # via directory-healthcheck
 django-ipware==2.1.0
     # via -r requirements.in
 django-modelcluster==5.1
@@ -98,6 +102,7 @@ django==2.2.20
     #   directory-api-client
     #   directory-client-core
     #   directory-constants
+    #   directory-healthcheck
     #   directory-validators
     #   django-decorator-include
     #   django-filter

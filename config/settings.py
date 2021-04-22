@@ -1,11 +1,13 @@
 import os
 import sys
 
+import directory_healthcheck.backends
 import environ
 import sentry_sdk
 from django.urls import reverse_lazy
 from sentry_sdk.integrations.django import DjangoIntegration
 
+import healthcheck.backends
 from .utils import get_wagtail_transfer_configuration
 
 ROOT_DIR = environ.Path(__file__) - 2
@@ -72,6 +74,8 @@ INSTALLED_APPS = [
     'core.templatetags.int_to_range',
     'activitystream.apps.ActivityStreamConfig',
     'search.apps.SearchConfig',
+    'directory_healthcheck',
+    'healthcheck.apps.HealthcheckAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -324,6 +328,7 @@ CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE', True)
 X_FRAME_OPTIONS = 'DENY'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
+
 
 # django-storages
 AWS_STORAGE_BUCKET_NAME = env.str('AWS_STORAGE_BUCKET_NAME', '')
@@ -592,6 +597,18 @@ FEATURE_FLAG_TEST_SEARCH_API_PAGES_ON = env.bool(
     'FEATURE_TEST_SEARCH_API_PAGES_ENABLED',
     False,  # This view is only enabled, via environment configuration, for Dev
 )
+
+# Healthcheck: https://github.com/uktrade/directory-healthcheck/
+DIRECTORY_HEALTHCHECK_TOKEN = env.str('HEALTH_CHECK_TOKEN')
+DIRECTORY_HEALTHCHECK_BACKENDS = [
+    directory_healthcheck.backends.APIBackend,
+    directory_healthcheck.backends.SingleSignOnBackend,
+    directory_healthcheck.backends.FormsAPIBackend,
+]
+
+if FEATURE_FLAG_TEST_SEARCH_API_PAGES_ON:
+    DIRECTORY_HEALTHCHECK_BACKENDS.append(healthcheck.backends.SearchSortBackend)
+
 
 # ActivityStream config, for search
 ACTIVITY_STREAM_ACCESS_KEY_ID = env.str('ACTIVITY_STREAM_ACCESS_KEY_ID')
