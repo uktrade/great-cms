@@ -334,24 +334,6 @@ class OpportunitiesRedirectView(RedirectView):
         return redirect_url
 
 
-class TradeRedirectView(QuerystringRedirectView):
-    def get_redirect_url(self, *args, **kwargs):
-        redirect_url = '{trade_url}{searchterm}/'.format(
-            trade_url=('/international/trade/incoming/'), searchterm=kwargs.get('searchterm', '')
-        )
-
-        return redirect_url
-
-
-class InvestmentSupportDirectoryRedirectView(QuerystringRedirectView):
-    def get_redirect_url(self, *args, **kwargs):
-        redirect_url = '{isd_url}{searchterm}/'.format(
-            isd_url=('/international/investment-support-directory/'), searchterm=kwargs.get('searchterm', '')
-        )
-
-        return redirect_url
-
-
 class CookiePreferencesPageView(TemplateView):
     # NB: template currently bears the ex-V1 styling, so comes from great-cms/domestic/templates/domestic/
     template_name = 'domestic/cookie-preferences.html'
