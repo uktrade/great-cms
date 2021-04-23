@@ -72438,8 +72438,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
 /* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
 /* harmony import */ var _src_components_ObjectivesList_AddButton_AddButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/ObjectivesList/AddButton/AddButton */ "./react-components/src/components/ObjectivesList/AddButton/AddButton.jsx");
-/* harmony import */ var _Objective__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Objective */ "./react-components/src/components/ObjectivesList/Objective/index.jsx");
-/* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_components_hooks_useUpdate_useUpdate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/components/hooks/useUpdate/useUpdate */ "./react-components/src/components/hooks/useUpdate/useUpdate.jsx");
+/* harmony import */ var _Objective__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Objective */ "./react-components/src/components/ObjectivesList/Objective/index.jsx");
+/* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Services */ "./react-components/src/Services.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -72478,6 +72479,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var ObjectivesList = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var exportPlanID = _ref.exportPlanID,
       initialObjectives = _ref.objectives,
@@ -72493,12 +72495,12 @@ var ObjectivesList = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function
       objectives = _useState4[0],
       setObjectives = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState6 = _slicedToArray(_useState5, 2),
-      message = _useState6[0],
-      setMessage = _useState6[1];
-
-  var debounceMessage = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__["useDebounce"])(setMessage);
+  var _useUpdate = Object(_src_components_hooks_useUpdate_useUpdate__WEBPACK_IMPORTED_MODULE_6__["useUpdate"])('Objectives'),
+      _useUpdate2 = _slicedToArray(_useUpdate, 4),
+      update = _useUpdate2[0],
+      create = _useUpdate2[1],
+      message = _useUpdate2[2],
+      pending = _useUpdate2[3];
 
   var _ref2 = objectives.length ? objectives[objectives.length - 1] : {},
       companyexportplan = _ref2.companyexportplan,
@@ -72509,30 +72511,18 @@ var ObjectivesList = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function
 
   var limit = 5;
 
-  var update = function update(data) {
-    _Services__WEBPACK_IMPORTED_MODULE_7__["default"].apiModelObjectManage(_objectSpread({
+  var request = function request(data) {
+    return update(_objectSpread({
       model_name: model_name
-    }, data), 'PATCH').then(function () {
-      setMessage(true);
-    }).then(function () {
-      Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["analytics"])({
-        event: 'planSectionSaved',
-        sectionTitle: 'Objectives'
-      });
-    })["catch"](function (err) {
-      setErrors(err);
-    })["finally"](function () {
-      setErrors({});
-      debounceMessage(false);
-    });
+    }, data));
   };
 
-  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__["useDebounce"])(update);
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__["useDebounce"])(request);
 
   var createObjective = function createObjective() {
     var date = new Date();
     var today = "".concat(date.getFullYear().toString(), "-").concat((date.getMonth() + 1).toString().padStart(2, 0), "-").concat(date.getDate().toString().padStart(2, 0));
-    _Services__WEBPACK_IMPORTED_MODULE_7__["default"].apiModelObjectManage({
+    create({
       description: '',
       owner: '',
       planned_reviews: '',
@@ -72540,20 +72530,13 @@ var ObjectivesList = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function
       end_date: today,
       companyexportplan: exportPlanID,
       model_name: model_name
-    }, 'POST').then(function (response) {
-      response.json().then(function (data) {
-        setObjectives([].concat(_toConsumableArray(objectives), [_objectSpread({}, data)]));
-        setErrors({});
-      });
-    })["catch"](function (err) {
-      setErrors({
-        err: err
-      });
+    }).then(function (data) {
+      setObjectives([].concat(_toConsumableArray(objectives), [_objectSpread({}, data)]));
     });
   };
 
   var deleteObjective = function deleteObjective(id) {
-    _Services__WEBPACK_IMPORTED_MODULE_7__["default"].apiModelObjectManage({
+    _Services__WEBPACK_IMPORTED_MODULE_8__["default"].apiModelObjectManage({
       pk: id,
       model_name: model_name
     }).then(function () {
@@ -72579,7 +72562,7 @@ var ObjectivesList = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-table bg-white br-xs m-b-m"
   }, objectives.map(function (objective, i) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Objective__WEBPACK_IMPORTED_MODULE_6__["Objective"], {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Objective__WEBPACK_IMPORTED_MODULE_7__["Objective"], {
       key: objective.pk,
       id: i,
       isLoading: objective.isLoading,
@@ -78114,6 +78097,93 @@ var useOnOutsideClick = function useOnOutsideClick(outsideClick, isOpen) {
     };
   }, [outsideClick, element]);
   return [element];
+};
+
+/***/ }),
+
+/***/ "./react-components/src/components/hooks/useUpdate/useUpdate.jsx":
+/*!***********************************************************************!*\
+  !*** ./react-components/src/components/hooks/useUpdate/useUpdate.jsx ***!
+  \***********************************************************************/
+/*! exports provided: useUpdate */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useUpdate", function() { return useUpdate; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+var useUpdate = function useUpdate(field) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      pending = _useState2[0],
+      setPending = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      message = _useState4[0],
+      setMessage = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+      _useState6 = _slicedToArray(_useState5, 2),
+      errors = _useState6[0],
+      setErrors = _useState6[1];
+
+  var debounceMessage = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__["useDebounce"])(setMessage);
+
+  var update = function update(data) {
+    var section = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+    setPending(true);
+    return _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].apiModelObjectManage(data, 'PATCH').then(function () {
+      setMessage(true);
+    }).then(function () {
+      Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["analytics"])({
+        event: 'planSectionSaved',
+        sectionTitle: field.replace(/_/g, '-'),
+        sectionFormField: section
+      });
+    })["catch"](function (err) {
+      setErrors(err.message || err);
+    })["finally"](function () {
+      setPending(false);
+      debounceMessage(false);
+    });
+  };
+
+  var create = function create(object) {
+    setPending(true);
+    return _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].apiModelObjectManage(object, 'POST')["catch"](function (err) {
+      setErrors({
+        err: err
+      });
+    }).then(function (response) {
+      return response;
+    })["finally"](function () {
+      setPending(false);
+      debounceMessage(false);
+    });
+  };
+
+  return [update, create, message, pending, errors];
 };
 
 /***/ }),

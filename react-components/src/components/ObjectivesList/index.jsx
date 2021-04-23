@@ -5,6 +5,7 @@ import ErrorList from '@src/components/ErrorList'
 import { analytics, objectHasValue } from '@src/Helpers'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { AddButton } from '@src/components/ObjectivesList/AddButton/AddButton'
+import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
 import { Objective } from './Objective'
 import Services from '../../Services'
 
@@ -12,8 +13,7 @@ export const ObjectivesList = memo(
   ({ exportPlanID, objectives: initialObjectives, model_name }) => {
     const [errors, setErrors] = useState({})
     const [objectives, setObjectives] = useState(initialObjectives || [])
-    const [message, setMessage] = useState(false)
-    const debounceMessage = useDebounce(setMessage)
+    const [update, create, message, pending] = useUpdate('Objectives')
     const {
       companyexportplan,
       start_date,
@@ -23,27 +23,8 @@ export const ObjectivesList = memo(
     } = objectives.length ? objectives[objectives.length - 1] : {}
     const limit = 5
 
-    const update = (data) => {
-      Services.apiModelObjectManage({ model_name, ...data }, 'PATCH')
-        .then(() => {
-          setMessage(true)
-        })
-        .then(() => {
-          analytics({
-            event: 'planSectionSaved',
-            sectionTitle: 'Objectives',
-          })
-        })
-        .catch((err) => {
-          setErrors(err)
-        })
-        .finally(() => {
-          setErrors({})
-          debounceMessage(false)
-        })
-    }
-
-    const debounceUpdate = useDebounce(update)
+    const request = (data) => update({ model_name, ...data })
+    const debounceUpdate = useDebounce(request)
 
     const createObjective = () => {
       const date = new Date()
@@ -51,27 +32,17 @@ export const ObjectivesList = memo(
         .toString()
         .padStart(2, 0)}-${date.getDate().toString().padStart(2, 0)}`
 
-      Services.apiModelObjectManage(
-        {
-          description: '',
-          owner: '',
-          planned_reviews: '',
-          start_date: today,
-          end_date: today,
-          companyexportplan: exportPlanID,
-          model_name,
-        },
-        'POST'
-      )
-        .then((response) => {
-          response.json().then((data) => {
-            setObjectives([...objectives, { ...data }])
-            setErrors({})
-          })
-        })
-        .catch((err) => {
-          setErrors({ err })
-        })
+      create({
+        description: '',
+        owner: '',
+        planned_reviews: '',
+        start_date: today,
+        end_date: today,
+        companyexportplan: exportPlanID,
+        model_name,
+      }).then((data) => {
+        setObjectives([...objectives, { ...data }])
+      })
     }
 
     const deleteObjective = (id) => {
