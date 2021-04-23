@@ -258,6 +258,8 @@ details.great-accordion[open] summary:before {
     clear: both; }
   .great-header-search-container.signed-in {
     margin-right: 130px; }
+  .great-header-search-container.mobile-only {
+    margin: 10px 10px; }
 
 @media (max-width: 768px) {
   .great-header .great-header-search-wrapper form {

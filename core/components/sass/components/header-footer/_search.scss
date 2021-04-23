@@ -69,6 +69,10 @@
   &.signed-in {
     margin-right: 130px;
   }
+
+  &.mobile-only {
+    margin:10px 10px;
+  }
 }
 
 @media (max-width: 768px) {
