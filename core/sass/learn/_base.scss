@@ -809,6 +809,17 @@ $desktop: 1024px;
       border-top: unset;
     }
 
+    &:before {
+      content: '';
+      position: absolute;
+      left: -2000px;
+      right: -2000px;
+      top: 0;
+      bottom: 0;
+      background: $blue-deep-10;
+      z-index: 0;
+    }
+
     &__content,
     &__open {
       position: relative;
