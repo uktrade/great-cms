@@ -205,7 +205,7 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
 
 
 class ObjectivesCreateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.NewObjectiveSerializer
+    serializer_class = serializers.NewCompanyObjectiveSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
@@ -347,6 +347,10 @@ class ModelObjectManageAPIView(generics.UpdateAPIView, generics.GenericAPIView):
     serializer_name_map = {
         'businesstrips': 'BusinessTrips',
         'businessrisks': 'BusinessRisks',
+        'companyobjective': 'CompanyObjective',
+        'routetomarket': 'RouteToMarket',
+        'targetmarketdocument': 'TargetMarketDocument',
+        'fundingcreditoptions': 'FundingCreditOptions',
     }
 
     serializer_classes = importlib.import_module('exportplan.core.serializers')

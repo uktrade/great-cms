@@ -432,7 +432,7 @@ class NewRouteToMarketSerializer(RouteToMarketSerializer):
     pk = serializers.IntegerField(required=False)
 
 
-class NewObjectiveSerializer(CompanyObjectiveSerializer):
+class NewCompanyObjectiveSerializer(CompanyObjectiveSerializer):
     pk = serializers.IntegerField(required=False)
 
 

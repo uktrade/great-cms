@@ -358,6 +358,19 @@ def test_create_route_to_market_api_view(mock_create_route_to_market, client, us
     [
         [{'note': 'update note', 'companyexportplan': 1, 'model_name': 'businesstrips', 'pk': 1}, 'BusinessTrips'],
         [{'risk': 'update risk', 'companyexportplan': 1, 'model_name': 'businessrisks', 'pk': 1}, 'BusinessRisks'],
+        [
+            {'description': 'Some text', 'companyexportplan': 1, 'model_name': 'companyobjective', 'pk': 1},
+            'CompanyObjective',
+        ],
+        [{'route': 'DIRECT_SALES', 'companyexportplan': 1, 'model_name': 'routetomarket', 'pk': 1}, 'RouteToMarket'],
+        [
+            {'document_name': 'doc2', 'companyexportplan': 1, 'model_name': 'targetmarketdocument', 'pk': 1},
+            'TargetMarketDocument',
+        ],
+        [
+            {'amount': 2.23, 'companyexportplan': 1, 'model_name': 'fundingcreditoptions', 'pk': 1},
+            'FundingCreditOptions',
+        ],
     ],
 )
 @pytest.mark.django_db
@@ -385,6 +398,19 @@ def test_model_object_update_api_view(mock_update_model_object, model_object_dat
     [
         [{'note': 'Some text', 'companyexportplan': 1, 'model_name': 'businesstrips'}, 'BusinessTrips'],
         [{'risk': 'new risk', 'companyexportplan': 1, 'model_name': 'businessrisks'}, 'BusinessRisks'],
+        [
+            {'description': 'create new', 'companyexportplan': 1, 'model_name': 'companyobjective', 'pk': 1},
+            'CompanyObjective',
+        ],
+        [{'route': 'DIRECT_SALES', 'companyexportplan': 1, 'model_name': 'routetomarket', 'pk': 1}, 'RouteToMarket'],
+        [
+            {'document_name': 'new doc', 'companyexportplan': 1, 'model_name': 'targetmarketdocument', 'pk': 1},
+            'TargetMarketDocument',
+        ],
+        [
+            {'amount': 2.25, 'companyexportplan': 1, 'model_name': 'fundingcreditoptions', 'pk': 1},
+            'FundingCreditOptions',
+        ],
     ],
 )
 @pytest.mark.django_db
@@ -409,6 +435,10 @@ def test_model_object_create_api_view(mock_create_model_object, model_object_dat
     [
         [{'pk': 1, 'model_name': 'BusinessTRIPS'}, 'BusinessTrips'],
         [{'pk': 1, 'model_name': 'BusinessRISKS'}, 'BusinessRisks'],
+        [{'pk': 1, 'model_name': 'Companyobjective'}, 'CompanyObjective'],
+        [{'pk': 1, 'model_name': 'ROUTETOMARKET'}, 'RouteToMarket'],
+        [{'pk': 1, 'model_name': 'TargetMarketDocument'}, 'TargetMarketDocument'],
+        [{'pk': 1, 'model_name': 'FundingCreditOptions'}, 'FundingCreditOptions'],
     ],
 )
 @pytest.mark.django_db
@@ -433,7 +463,12 @@ def test_model_object_delete_api_view(mock_delete_model_object, model_object_dat
     'model_object_data, error',
     (
         ({}, ['Incorrect or no model_name provided']),
+        ({'model_name': 'BusinessTRIPS'}, {'pk': ['This field is required.']}),
         ({'model_name': 'businesstrips'}, {'pk': ['This field is required.']}),
+        ({'model_name': 'Companyobjective'}, {'pk': ['This field is required.']}),
+        ({'model_name': 'ROUTETOMARKET'}, {'pk': ['This field is required.']}),
+        ({'model_name': 'TargetMarketDocument'}, {'pk': ['This field is required.']}),
+        ({'model_name': 'FundingCreditOptions'}, {'pk': ['This field is required.']}),
     ),
 )
 @pytest.mark.django_db
@@ -457,7 +492,12 @@ def test_model_objects_validation_delete(mock_delete_model_object, model_object_
     'model_object_data, error',
     (
         ({}, ['Incorrect or no model_name provided']),
+        ({'model_name': 'BusinessTRIPS'}, {'companyexportplan': ['This field is required.']}),
         ({'model_name': 'businesstrips'}, {'companyexportplan': ['This field is required.']}),
+        ({'model_name': 'Companyobjective'}, {'companyexportplan': ['This field is required.']}),
+        ({'model_name': 'ROUTETOMARKET'}, {'companyexportplan': ['This field is required.']}),
+        ({'model_name': 'TargetMarketDocument'}, {'companyexportplan': ['This field is required.']}),
+        ({'model_name': 'FundingCreditOptions'}, {'companyexportplan': ['This field is required.']}),
     ),
 )
 @pytest.mark.django_db
@@ -482,7 +522,12 @@ def test_model_objects_validation_update(mock_update_model_object, model_object_
     'model_object_data, error',
     (
         ({}, ['Incorrect or no model_name provided']),
+        ({'model_name': 'BusinessTRIPS'}, {'companyexportplan': ['This field is required.']}),
         ({'model_name': 'businesstrips'}, {'companyexportplan': ['This field is required.']}),
+        ({'model_name': 'Companyobjective'}, {'companyexportplan': ['This field is required.']}),
+        ({'model_name': 'ROUTETOMARKET'}, {'companyexportplan': ['This field is required.']}),
+        ({'model_name': 'TargetMarketDocument'}, {'companyexportplan': ['This field is required.']}),
+        ({'model_name': 'FundingCreditOptions'}, {'companyexportplan': ['This field is required.']}),
     ),
 )
 @pytest.mark.django_db
