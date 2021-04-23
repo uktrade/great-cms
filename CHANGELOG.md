@@ -31,6 +31,7 @@
 - GP2-1903 - New sign up page design implemented
 - GP2-1709 - trade barrier integration
 - GP2-2302 - ep dropdown validation
+- GP2-2336 - collapse api object
 
 ### Fixed bugs
 
