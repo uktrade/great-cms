@@ -97,15 +97,13 @@ const exportPlanReducer = (state, action) => {
           newState.products[0] &&
           newState.products[0].commodity_code) !== action.payload.commodity_code
       newState.products = [action.payload]
-      if (codeChanged) {
-        saveToExportPlan({ export_commodity_codes: [action.payload] }).then(
-          () => {
-            if (config.refreshOnMarketChange) {
-              window.location.reload()
-            }
+      saveToExportPlan({ export_commodity_codes: [action.payload] }).then(
+        () => {
+          if (codeChanged && config.refreshOnMarketChange) {
+            window.location.reload()
           }
-        )
-      }
+        }
+      )
       break
     case SET_MARKET:
       newState.markets = [action.payload]
