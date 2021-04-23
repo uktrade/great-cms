@@ -35,6 +35,7 @@
 
 ### Fixed bugs
 
+- GP2-2262 - Case study background
 - GP2-2234 - Sign up / in page tablet design
 - NOTICKET - Fixes header menu flickering
 - GP2-2138 - Fix domestic tab alignment
