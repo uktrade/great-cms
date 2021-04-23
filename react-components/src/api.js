@@ -310,4 +310,6 @@ export default {
       answer,
     }).then((response) => responseHandler(response).json())
   },
+
+  reloadPage: () => window.location.reload(),
 }
