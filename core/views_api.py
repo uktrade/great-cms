@@ -2,6 +2,7 @@ import datetime
 import logging
 import math
 
+from directory_ch_client.client import ch_search_api_client
 from django.conf import settings
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
@@ -133,3 +134,18 @@ class TradeBarrierDataView(generics.GenericAPIView):
         sectors_list = request.GET.get('sectors').split(',')
         response_data = helpers.get_trade_barrier_data(countries_list=countries_list, sectors_list=sectors_list)
         return Response(response_data)
+
+
+class CompaniesHouseAPIView(generics.GenericAPIView):
+    permission_classes = []
+
+    def get(self, request, *args, **kwargs):
+        service = request.GET.get('service')
+        if service == 'search':
+            response = ch_search_api_client.company.search_companies(query=request.GET.get('term'))
+        elif service == 'profile':
+            response = ch_search_api_client.company.get_company_profile(
+                company_number=request.GET.get('company_number')
+            )
+        response.raise_for_status()
+        return Response(response.json())

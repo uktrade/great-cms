@@ -3,7 +3,13 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+
+- GP2-2326 - header style fix
+- GP2-2265 - pdf design changes
+- GP2-2279 - The progress bar is not displayed on the export plan landing page
+- GP2-2137 - VFM Companies house lookup
 - GP2-2298 - Added header missing menu items (search, services)
+- GP2-2308 - Add new CMS page type that can be used for Services landing page
 - GP2-2155 - Add/Port /healthcheck/ views
 - GP2-2156 - Add robots.txt
 - GP2-2069 - Replicate the Cookie management behaviour from V1.
@@ -28,6 +34,7 @@
 - GP2-2302 - ep dropdown validation
 
 ### Fixed bugs
+
 - GP2-2234 - Sign up / in page tablet design
 - NOTICKET - Fixes header menu flickering
 - GP2-2138 - Fix domestic tab alignment

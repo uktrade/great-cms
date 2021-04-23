@@ -10,7 +10,7 @@
     <ul class="grid-row nav-list">
       {% if request.user.is_authenticated %}
       <li class="menu-item" data-js-menu-item-container>
-        <a href="/" class="link-heading mobile-only" id="header-learn-{{ device_type }}" {% if js_tag %}data-js-menu-index=0{% endif %}>Home</a>
+        <a href="/" class="link-heading" id="header-learn-{{ device_type }}" {% if js_tag %}data-js-menu-index=0{% endif %}>Home</a>
       </li>
 
       <li class="menu-item" data-js-menu-item-container>
@@ -24,12 +24,11 @@
       <li class="menu-item" data-js-menu-item-container>
         <a href="{% slugurl 'dashboard' %}" class="link-heading new" id="header-make-{{ device_type }}" {% if js_tag %}data-js-menu-index=2{% endif %}>Make an export plan</a>
       </li>
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="/profile/" class="link-heading {% if device_type != 'mobile' %}mobile-only{% endif %}" id="header-advice-{{ device_type }}" {% if js_tag %}data-js-menu-index=3{% endif %}>Account</a>
       {% endif %}
 
       {% if not request.user.is_authenticated or device_type == 'mobile' %}
-      <li class="menu-item" data-js-menu-item-container>
-        <a href="/profile" class="link-heading" id="header-advice-{{ device_type }}" {% if js_tag %}data-js-menu-index=3{% endif %}>Account</a>
-      </li>
       <li class="menu-item" data-js-menu-item-container>
         <a href="{% slugurl 'advice' %}" class="link-heading" id="header-advice-{{ device_type }}" {% if js_tag %}data-js-menu-index=3{% endif %}>Advice</a>
       </li>
@@ -39,7 +38,7 @@
       </li>
 
       <li class="menu-item" data-js-menu-item-container>
-        <a href="{{ header_footer_urls.services }}" class="link-heading" id="header-services-{{ device_type }}" {% if js_tag %}data-js-menu-index=6{% endif %}>Services</a>
+        <a href="{% slugurl 'services' %} " class="link-heading" id="header-services-{{ device_type }}" {% if js_tag %}data-js-menu-index=6{% endif %}>Services</a>
       </li>
       {% endif %}
       {% comment "TODO remove me when confirmed redundant" %}

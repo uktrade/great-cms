@@ -108,5 +108,6 @@ urlpatterns = [
         skip_ga360(views_api.TradeBarrierDataView.as_view()),
         name='api-trade-barrier-data',
     ),
+    path('api/companies-house/', skip_ga360(views_api.CompaniesHouseAPIView.as_view()), name='api-companies-house'),
 ]
 urlpatterns += redirects

@@ -85,6 +85,23 @@ describe('Select', () => {
     })
   })
 
+  describe('AutoComplete', () => {
+    // The only special thing about autocomplete, is that there is a text input
+    it('Should have input', () => {
+      const inputChange = jest.fn()
+      const { actions, getByText, getByRole } = setup({
+        ...props,
+        autoComplete: true,
+        inputChange,
+        inputValue: 'initial value',
+      })
+      const input = getByRole('combobox')
+      expect(input.value).toMatch('initial value')
+      fireEvent.change(input, { target: { value: 'new value' } })
+      expect(inputChange).toHaveBeenCalledTimes(1)
+    })
+  })
+
   describe('with categories', () => {
     it('Should show dropdown with 2 categories', async () => {
       const { queryByRole, getByText, getByRole } = setup({

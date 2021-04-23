@@ -4,7 +4,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils import translation
 from great_components import helpers as great_components_helpers
 
-from config import settings
 from core import cms_slugs
 from exportplan.core.processor import ExportPlanProcessor
 
@@ -43,7 +42,6 @@ class ExportPlanMixin:
             processor = ExportPlanProcessor(request.user.export_plan.data)
             context['export_plan'] = request.user.export_plan.data
             context['export_plan_progress'] = processor.calculate_ep_progress()
-        context['FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER'] = settings.FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER
         return context
 
 
