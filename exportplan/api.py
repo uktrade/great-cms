@@ -205,7 +205,7 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
 
 
 class ObjectivesCreateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.NewCompanyObjectiveSerializer
+    serializer_class = serializers.NewCompanyObjectivesSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
@@ -216,7 +216,7 @@ class ObjectivesCreateAPIView(generics.GenericAPIView):
 
 
 class ObjectivesUpdateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.CompanyObjectiveSerializer
+    serializer_class = serializers.CompanyObjectivesSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
@@ -239,7 +239,7 @@ class ObjectivesDestroyAPIView(generics.GenericAPIView):
 
 
 class RouteToMarketsCreateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.NewRouteToMarketSerializer
+    serializer_class = serializers.NewRouteToMarketsSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
@@ -251,7 +251,7 @@ class RouteToMarketsCreateAPIView(generics.GenericAPIView):
 
 
 class RouteToMarketsUpdateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.RouteToMarketSerializer
+    serializer_class = serializers.RouteToMarketsSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
@@ -275,7 +275,7 @@ class RouteToMarketsDestroyAPIView(generics.GenericAPIView):
 
 
 class TargetMarketDocumentsCreateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.NewTargetMarketDocumentSerializer
+    serializer_class = serializers.NewTargetMarketDocumentsSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
@@ -286,7 +286,7 @@ class TargetMarketDocumentsCreateAPIView(generics.GenericAPIView):
 
 
 class TargetMarketDocumentUpdateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.TargetMarketDocumentSerializer
+    serializer_class = serializers.TargetMarketDocumentsSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
@@ -347,9 +347,9 @@ class ModelObjectManageAPIView(generics.UpdateAPIView, generics.GenericAPIView):
     serializer_name_map = {
         'businesstrips': 'BusinessTrips',
         'businessrisks': 'BusinessRisks',
-        'companyobjective': 'CompanyObjective',
-        'routetomarket': 'RouteToMarket',
-        'targetmarketdocument': 'TargetMarketDocument',
+        'companyobjectives': 'CompanyObjectives',
+        'routetomarkets': 'RouteToMarkets',
+        'targetmarketdocuments': 'TargetMarketDocuments',
         'fundingcreditoptions': 'FundingCreditOptions',
     }
 

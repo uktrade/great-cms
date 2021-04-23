@@ -58,7 +58,7 @@ def test_objective_serializer():
         'pk': 2,
     }
 
-    serializer = serializers.CompanyObjectiveSerializer(data=data)
+    serializer = serializers.CompanyObjectivesSerializer(data=data)
 
     assert serializer.is_valid()
     assert serializer.data == data
@@ -75,7 +75,7 @@ def test_objective_serializer_empty_date_fields():
         'companyexportplan': 1,
     }
 
-    serializer = serializers.NewObjectiveSerializer(data=data)
+    serializer = serializers.NewCompanyObjectivesSerializer(data=data)
 
     assert serializer.is_valid()
     assert serializer.data == {
@@ -99,7 +99,7 @@ def test_new_objective_serializer():
         'companyexportplan': 1,
     }
 
-    serializer = serializers.NewObjectiveSerializer(data=data)
+    serializer = serializers.NewCompanyObjectivesSerializer(data=data)
 
     assert serializer.is_valid()
     assert serializer.data == data
