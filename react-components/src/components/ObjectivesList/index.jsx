@@ -9,7 +9,7 @@ import { Objective } from './Objective'
 import Services from '../../Services'
 
 export const ObjectivesList = memo(
-  ({ exportPlanID, objectives: initialObjectives }) => {
+  ({ exportPlanID, objectives: initialObjectives, model_name }) => {
     const [errors, setErrors] = useState({})
     const [objectives, setObjectives] = useState(initialObjectives || [])
     const [message, setMessage] = useState(false)
@@ -24,7 +24,7 @@ export const ObjectivesList = memo(
     const limit = 5
 
     const update = (data) => {
-      Services.updateObjective(data)
+      Services.apiModelObjectManage({ model_name, ...data }, 'PATCH')
         .then(() => {
           setMessage(true)
         })
@@ -51,14 +51,18 @@ export const ObjectivesList = memo(
         .toString()
         .padStart(2, 0)}-${date.getDate().toString().padStart(2, 0)}`
 
-      Services.createObjective({
-        description: '',
-        owner: '',
-        planned_reviews: '',
-        start_date: today,
-        end_date: today,
-        companyexportplan: exportPlanID,
-      })
+      Services.apiModelObjectManage(
+        {
+          description: '',
+          owner: '',
+          planned_reviews: '',
+          start_date: today,
+          end_date: today,
+          companyexportplan: exportPlanID,
+          model_name,
+        },
+        'POST'
+      )
         .then((response) => {
           response.json().then((data) => {
             setObjectives([...objectives, { ...data }])
@@ -71,7 +75,7 @@ export const ObjectivesList = memo(
     }
 
     const deleteObjective = (id) => {
-      Services.deleteObjective(id)
+      Services.apiModelObjectManage({ pk: id, model_name })
         .then(() => {
           const updatedObjectives = objectives.filter(
             (objective) => objective.pk !== id
@@ -136,6 +140,7 @@ ObjectivesList.propTypes = {
     }).isRequired
   ),
   exportPlanID: PropTypes.number.isRequired,
+  model_name: PropTypes.string.isRequired,
 }
 
 ObjectivesList.defaultProps = {
