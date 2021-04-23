@@ -34,7 +34,7 @@
 - GP2-2302 - ep dropdown validation
 
 ### Fixed bugs
-
+- GP2-2292 - Save product on name change only
 - GP2-2262 - Case study background
 - GP2-2234 - Sign up / in page tablet design
 - NOTICKET - Fixes header menu flickering
