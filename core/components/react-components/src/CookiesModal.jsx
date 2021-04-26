@@ -40,18 +40,18 @@ export function CookiesModal(props) {
       isOpen={isOpen}
       contentLabel="Cookies consent manager"
     >
-      <h2 className={`${styles.heading} heading-medium`}>Tell us whether you accept cookies</h2>
+      <h2 className={`${styles.heading} heading-medium`}>Accept cookies or set preferences</h2>
       <p className={`${styles.synopsis} body-text`} >
         We use <a
           className="link"
           href={props.privacyCookiesUrl}
           ref={(_firstLink) => (firstLink = _firstLink)}
-        >cookies to collect information</a> about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services.
+        >cookies to give you a better experience</a> on great.gov.uk. We also use cookies to improve government services.
       </p>
       <div className={styles.buttonContainer}>
-        <a className={`${styles.button} button`} href="#" onClick={handleAcceptAllCookies}>Accept all cookies</a>
+        <a className={`${styles.button} button`} href="#" onClick={handleAcceptAllCookies}>Accept cookies</a>
         <span className={styles.buttonSeperator}></span>
-        <a className={`${styles.button} button`} href={props.preferencesUrl + window.location.search}>Set cookie preferences</a>
+        <a className={`${styles.button} button`} href={props.preferencesUrl + window.location.search}>Set preferences</a>
       </div>
     </Modal>
   )
