@@ -95,12 +95,18 @@ const props = {
   },
 }
 
-const setup = ({ formFields, fields, formData }) => {
+const setup = ({
+  formFields,
+  fields,
+  formData,
+  model_name = 'routeToMarket',
+}) => {
   const component = render(
     <RouteToMarket
       fields={fields}
       formData={formData}
       formFields={formFields}
+      model_name={model_name}
     />
   )
 
@@ -126,7 +132,7 @@ describe('RouteToMarket', () => {
   })
 
   it('Should add a route to market', async () => {
-    Services.createRouteToMarket = jest.fn(() =>
+    Services.apiModelObjectManage = jest.fn(() =>
       Promise.resolve({
         companyexportplan: 3,
         market_promotional_channel: '',
@@ -143,9 +149,10 @@ describe('RouteToMarket', () => {
 
     expect(queryByText('Route to market 3')).not.toBeInTheDocument()
     await waitFor(() => {
-      expect(Services.createRouteToMarket).toHaveBeenCalledTimes(1)
-      expect(Services.createRouteToMarket).toHaveBeenCalledWith(
-        props.formFields
+      expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
+      expect(Services.apiModelObjectManage).toHaveBeenCalledWith(
+        props.formFields,
+        'POST'
       )
       expect(getByText('Route to market 1'))
       expect(getByText('Route to market 2'))
@@ -154,7 +161,7 @@ describe('RouteToMarket', () => {
   })
 
   it('Should delete a route to market', async () => {
-    Services.deleteRouteToMarket = jest.fn(() => Promise.resolve())
+    Services.apiModelObjectManage = jest.fn(() => Promise.resolve())
     const { container, getByText, queryByText } = setup({
       ...props,
       fields: [
@@ -178,14 +185,20 @@ describe('RouteToMarket', () => {
     fireEvent.click(button)
     expect(getByText('Route to market 2'))
     await waitFor(() => {
-      expect(Services.deleteRouteToMarket).toHaveBeenCalledTimes(1)
-      expect(Services.deleteRouteToMarket).toHaveBeenCalledWith(47)
+      expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
+      expect(Services.apiModelObjectManage).toHaveBeenCalledWith(
+        {
+          pk: 47,
+          model_name: 'routeToMarket',
+        },
+        'DELETE'
+      )
       expect(queryByText('Route to market 2')).not.toBeInTheDocument()
     })
   })
 
   it('Should update a route to market', async () => {
-    Services.updateRouteToMarket = jest.fn(() => Promise.resolve())
+    Services.apiModelObjectManage = jest.fn(() => Promise.resolve())
     const { container } = setup({ ...props })
     const textarea = container.querySelectorAll('textarea')[0]
     fireEvent.change(textarea, {
@@ -193,14 +206,18 @@ describe('RouteToMarket', () => {
     })
 
     await waitFor(() => {
-      expect(Services.updateRouteToMarket).toHaveBeenCalledTimes(1)
-      expect(Services.updateRouteToMarket).toHaveBeenCalledWith({
-        route: 'INTERNATIONAL_E_COMMERCE',
-        promote: 'ONLINE_MARKETING',
-        market_promotional_channel: 'new route',
-        companyexportplan: 3,
-        pk: 47,
-      })
+      expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
+      expect(Services.apiModelObjectManage).toHaveBeenCalledWith(
+        {
+          route: 'INTERNATIONAL_E_COMMERCE',
+          promote: 'ONLINE_MARKETING',
+          market_promotional_channel: 'new route',
+          companyexportplan: 3,
+          pk: 47,
+          model_name: 'routeToMarket',
+        },
+        'PATCH'
+      )
       expect(textarea.value).toEqual('new route')
     })
   })

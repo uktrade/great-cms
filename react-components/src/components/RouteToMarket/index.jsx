@@ -22,8 +22,10 @@ export const RouteToMarket = memo(
         .then(() => {
           const newElement = document.getElementById(
             `Route to market ${routes.length + 1}`
-          ).parentNode
-          newElement.scrollIntoView()
+          )
+          if (newElement) {
+            newElement.parentNode.scrollIntoView()
+          }
         })
     }
 
