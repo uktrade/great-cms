@@ -204,40 +204,6 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
             return Response(serializer.validated_data)
 
 
-class FundingCreditOptionsCreateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.NewFundingCreditOptionsSerializer
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            response = helpers.create_funding_credit_options(self.request.user.session_id, serializer.validated_data)
-            return Response(response)
-
-
-class FundingCreditOptionsUpdateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.FundingCreditOptionsSerializer
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            response = helpers.update_funding_credit_options(self.request.user.session_id, serializer.validated_data)
-            return Response(response)
-
-
-class FundingCreditOptionsDestroyAPIView(generics.GenericAPIView):
-    serializer_class = serializers.PkOnlySerializer
-    permission_classes = [IsAuthenticated]
-
-    def delete(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-
-        if serializer.is_valid(raise_exception=True):
-            helpers.delete_funding_credit_options(self.request.user.session_id, serializer.validated_data)
-            return Response({})
-
-
 class ModelObjectManageAPIView(generics.UpdateAPIView, generics.GenericAPIView):
     serializer_name_map = {
         'businesstrips': 'BusinessTrips',

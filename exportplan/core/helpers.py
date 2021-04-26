@@ -98,26 +98,6 @@ def get_or_create_export_plan(user):
     return export_plan
 
 
-def create_funding_credit_options(sso_session_id, data):
-    response = api_client.exportplan.funding_credit_options_create(sso_session_id=sso_session_id, data=data)
-    response.raise_for_status()
-    return response.json()
-
-
-def update_funding_credit_options(sso_session_id, data):
-    response = api_client.exportplan.funding_credit_options_update(
-        sso_session_id=sso_session_id, id=data['pk'], data=data
-    )
-    response.raise_for_status()
-    return response.json()
-
-
-def delete_funding_credit_options(sso_session_id, data):
-    response = api_client.exportplan.funding_credit_options_delete(sso_session_id=sso_session_id, id=data['pk'])
-    response.raise_for_status()
-    return response
-
-
 def get_country_data(country):
     response = api_client.dataservices.get_country_data(country)
     response.raise_for_status()
