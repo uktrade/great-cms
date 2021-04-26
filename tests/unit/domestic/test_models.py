@@ -1188,6 +1188,23 @@ class ArticlePageTests(SetUpLocaleMixin, WagtailPageTests):
         assert 'social_links' in output
 
 
+@pytest.mark.django_db
+def test_article_page_get_absolute_url(domestic_site, domestic_homepage, en_locale):
+    page = ArticlePageFactory(
+        title='Test Article Page',
+        article_title='Test Article',
+        parent=domestic_homepage,
+    )
+    assert page.get_url() == '/test-article-page/'
+
+    with override_settings(BASE_URL='https://example.com'):
+        assert page.get_absolute_url() == 'https://example.com/test-article-page/'
+
+    #  also confirm trailing slash on BASE_URL is handled
+    with override_settings(BASE_URL='https://example.com/'):
+        assert page.get_absolute_url() == 'https://example.com/test-article-page/'
+
+
 @pytest.mark.parametrize(
     'related_page_data',
     (
@@ -1685,6 +1702,41 @@ class GreatDomesticHomePageTests(SetUpLocaleMixin, WagtailPageTests):
             context['sector_form'].fields['sector'].choices,
             expected_sector_form.fields['sector'].choices,
         )
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'ip,expected_target_lang',
+    (
+        ('221.194.47.204', 'zh-hans'),
+        ('144.76.204.44', 'de'),
+        ('195.12.50.155', 'es'),
+        ('110.50.243.6', 'ja'),
+        ('213.121.43.1', None),  # a UK IP address (bt.com)
+    ),
+)
+def test_great_domestic_homepage_geo_redirection__integration(
+    root_page,
+    client,
+    ip,
+    expected_target_lang,
+):
+    homepage = GreatDomesticHomePageFactory(
+        parent=root_page,
+        slug='root',
+    )
+    SiteFactory(
+        root_page=homepage,
+        hostname=client._base_environ()['SERVER_NAME'],
+    )
+
+    response = client.get(homepage.url, REMOTE_ADDR=ip)
+
+    if expected_target_lang is not None:
+        assert response.status_code == 302
+        assert response._headers['location'] == ('Location', f'/international/?lang={expected_target_lang}')
+    else:
+        assert response.status_code == 200
 
 
 @pytest.mark.django_db

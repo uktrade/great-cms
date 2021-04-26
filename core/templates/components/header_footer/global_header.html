@@ -1,7 +1,7 @@
 {% load static %}
 {% load i18n %}
 
-<div id="great-global-header" class="great-global-header-footer great-global-header {{ header_class }}">
+<div id="great-global-header" class="great-global-header-footer great-global-header {{ header_class }} {% if sso_is_logged_in %}signed-in{% endif %}">
   <div class="container">
     <img id="great-global-header-logo" class="great-global-header-footer-logo" height="21" alt="Department for International Trade" src="{% static 'images/dit-logo.svg' %}">
     <div class="great-domestic-international-links">

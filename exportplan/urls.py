@@ -21,10 +21,10 @@ urlpatterns = [
         name='marketing-approach',
     ),
     path(
-        'section/adaptation-for-your-target-market/',
-        login_required(views.ExportPlanAdaptationForTargetMarketView.as_view(), login_url=SIGNUP_URL),
-        {'slug': 'adaptation-for-your-target-market'},
-        name='adaptation-for-your-target-market',
+        'section/adapting-your-product/',
+        login_required(views.ExportPlanAdaptingYourProductView.as_view(), login_url=SIGNUP_URL),
+        {'slug': 'adapting-your-product'},
+        name='adapting-your-product',
     ),
     path(
         'section/about-your-business/',

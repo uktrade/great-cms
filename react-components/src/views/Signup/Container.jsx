@@ -1,20 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import { connect, Provider } from 'react-redux'
 
-import {Signup, STEP_COMPLETE, STEP_VERIFICATION_CODE } from '@src/components/Signup'
+import {
+  Signup,
+  STEP_COMPLETE,
+  STEP_VERIFICATION_CODE,
+} from '@src/components/Signup'
 import Services from '@src/Services'
-import { getCountriesExpertise, getProductsExpertise, getNextUrl } from '@src/reducers'
+import {
+  getCountriesExpertise,
+  getProductsExpertise,
+  getNextUrl,
+} from '@src/reducers'
 
-export function Container(props){
-
-  const [errors, setErrors] = React.useState(props.errors)
-  const [isInProgress, setIsInProgress] = React.useState(props.isInProgress)
-  const [currentStep, setCurrentStep] = React.useState(props.currentStep)
-  const [email, setEmail] = React.useState(props.email)
-  const [password, setPassword] = React.useState(props.password)
-  const [code, setCode] = React.useState('')
+export function Container(props) {
+  const [errors, setErrors] = useState(props.errors)
+  const [isInProgress, setIsInProgress] = useState(props.isInProgress)
+  const [currentStep, setCurrentStep] = useState(props.currentStep)
+  const [email, setEmail] = useState(props.email)
+  const [password, setPassword] = useState(props.password)
+  const [code, setCode] = useState('')
 
   function handleError(error) {
     setErrors(error.message || error)
@@ -30,20 +37,20 @@ export function Container(props){
   function handleStepCredentialsSubmit() {
     setErrors({})
     setIsInProgress(true)
-    Services.createUser({email, password})
+    Services.createUser({ email, password })
       .then(() => handleSuccess(STEP_VERIFICATION_CODE))
       .catch(handleError)
   }
 
-  function handleStepCodeSubmit(){
+  function handleStepCodeSubmit() {
     setErrors({})
     setIsInProgress(true)
-    Services.checkVerificationCode({email, code})
+    Services.checkVerificationCode({ email, code })
       .then(() => handleSuccess(STEP_COMPLETE))
       .catch(handleError)
   }
 
-  const next = encodeURIComponent(`${location.origin}${props.nextUrl}`);
+  const next = encodeURIComponent(`${location.origin}${props.nextUrl}`)
   const linkedinLoginUrl = `${Services.config.linkedInUrl}?next=${next}`
   const googleLoginUrl = `${Services.config.googleUrl}?next=${next}`
 
@@ -68,20 +75,23 @@ export function Container(props){
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     products: getProductsExpertise(state),
     countries: getCountriesExpertise(state),
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {}
 }
 
-export const ConnectedContainer = connect(mapStateToProps, mapDispatchToProps)(Container)
+export const ConnectedContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Container)
 
-export default function({ element, ...params }) {
+export default function ({ element, ...params }) {
   ReactModal.setAppElement(element)
   ReactDOM.render(
     <Provider store={Services.store}>

@@ -27,19 +27,38 @@ export const Login = (props) => {
   const linkedinLoginUrl = `${Services.config.linkedInUrl}?next=${next}`
   const googleLoginUrl = `${Services.config.googleUrl}?next=${next}`
 
-  return (
-    <Form
-      disabled={isInProgress}
-      errors={errors}
-      handlePasswordChange={setPassword}
-      handleSubmit={handleSubmit}
-      handleEmailChange={setEmail}
-      password={password}
-      email={email}
-      linkedinLoginUrl={linkedinLoginUrl}
-      googleLoginUrl={googleLoginUrl}
-    />
-  )
+  return (<div className="bg-red-60 signup signup--reverse signup__container">
+    <div className="signup__steps-panel">
+      <a href="/">
+        <img
+          className="m-f-auto m-r-auto signup__logo"
+          src="/static/images/logo-filled.svg"
+          alt="Exporting is Great"
+          width="148"
+          height="69"
+        />
+      </a>
+      <Form
+        disabled={isInProgress}
+        errors={errors}
+        handlePasswordChange={setPassword}
+        handleSubmit={handleSubmit}
+        handleEmailChange={setEmail}
+        password={password}
+        email={email}
+        linkedinLoginUrl={linkedinLoginUrl}
+        googleLoginUrl={googleLoginUrl}
+      />
+    </div>
+    <div className="signup__right-panel">
+      <div className="signup__right-panel__headings">
+        <h1>Sign in to continue your exporting journey</h1>
+        <p>Don't have an account?</p>
+        <a href={Services.config.signupUrl} className="button">Sign up</a>
+      </div>
+      <img src="/static/images/sign-in.png" alt="" />
+    </div>
+  </div>)
 
 }
 

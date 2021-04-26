@@ -43,6 +43,7 @@ export const Option = memo(
               type="number"
               hideLabel
               label={selectData.name}
+              placeholder={0}
               value={value}
               prepend={currency}
               onChange={(e) => onChange('input', id, e)}

@@ -3,12 +3,17 @@ import PropTypes from 'prop-types'
 
 import { RouteToMarketSection } from '@src/components/RouteToMarket/RouteToMarketSection'
 import Services from '@src/Services'
-import { analytics } from '@src/Helpers'
+import { analytics, objectHasValue } from '@src/Helpers'
 import { useDebounce } from '@src/components/hooks/useDebounce'
+import { AddButton } from '@src/components/ObjectivesList/AddButton/AddButton'
 
 export const RouteToMarket = memo(({ fields, formData, formFields }) => {
   const [routes, setRoutes] = useState(fields)
   const [pushedAnalytic, setPushedAnalytic] = useState(false)
+
+  const { companyexportplan, pk, ...lastField } = routes.length
+    ? routes[routes.length - 1]
+    : {}
 
   const addTable = () => {
     Services.createRouteToMarket({ ...formFields })
@@ -71,14 +76,11 @@ export const RouteToMarket = memo(({ fields, formData, formFields }) => {
             deleteTable={deleteTable}
           />
         ))}
-      <button
-        type="button"
-        className="button button--large button--icon"
-        onClick={addTable}
-      >
-        <i className="fas fa-plus-circle" />
-        Add route to market
-      </button>
+      <AddButton
+        add={addTable}
+        isDisabled={routes.length ? !objectHasValue(lastField) : false}
+        cta="Add route to market"
+      />
     </>
   )
 })

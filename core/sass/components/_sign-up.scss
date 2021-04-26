@@ -1,58 +1,173 @@
-.sign-up {
+.signup {
 
-  &--wrapper {
-    background: {
-      image: url('/static/images/sign-up-right.png'), url('/static/images/sign-up-left.png');
-      position: right bottom, left bottom;
-      repeat: no-repeat, no-repeat;
-      size: 273px;
-    }
-    height: 216px;
-    margin: auto;
-    width: 1030px;
-  }
+  &--reverse {
+    flex-direction: row-reverse;
 
-  &--inner {
-    border-radius: 10px;
-  }
-
-  &--header {
-    height: 330px;
-  }
-
-  &--header__single {
-
-    .sign-up--wrapper {
-      background: {
-        image: url('/static/images/welcome.png');
-        position: center bottom;
-        size: 365px;
+    .signup__steps-panel {
+      @media (min-width: 768px) {
+        margin-right: 20px;
       }
-      position: relative;
-      width: 630px;
+    }
 
-      &:before {
-        background-color: rgba(255,255,255, 0.1);
-        bottom: 0;
-        border-top-right-radius: 10px;
-        border-top-left-radius: 10px;
-        content: '';
-        left: 0;
-        right: 0;
+    .signup__right-panel {
+      position: relative;
+
+      h1 {
+        line-height: 50px;
+      }
+
+      img {
+        width: 100%;
         position: absolute;
-        top: 40px;
+        bottom: 0;
+        right: -30px;
       }
     }
 
-    .form--sign-up {
-      top: 216px;
-      position: relative;
-      width: 630px;
-    }
+    .signup__right-panel__headings {
+      text-align: center;
+      z-index: 1;
 
-    .sign-up--inner {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
+      h1 {
+        line-height: 52px;
+      }
+
+      p {
+        color: #fff;
+        margin-bottom: 8px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      a {
+        color: $red-60;
+        min-width: 230px;
+        background: white;
+      }
     }
   }
+
+  &__logo {
+    @media (max-width: 768px) {
+      max-width: 132px;
+    }
+  }
+
+  &__container {
+    width: 100%;
+    display: flex;
+    .form-label {
+      @extend .body-m;
+      @extend .p-t-0;
+      color: #4c436e;
+      font-size: 19px;
+      margin-bottom: -10px;
+    }
+
+    .form-control {
+      @extend .m-t-0;
+    }
+  }
+  &__steps-panel {
+    color: #4c436e;
+    min-height: 100vh;
+    width: 514px;
+    margin-left: 20px;
+    padding: 30px 70px;
+    background-color: #fff;
+    flex-shrink: 0;
+    @media (max-width: 768px) {
+      margin-left: 0;
+      width: 100%;
+      padding: 30px 30px;
+    }
+    p > a {
+      color: inherit;
+    }
+  }
+
+  &__form {
+    .h-s {
+      margin-top: 15px;
+    }
+
+    .vertical-seperator {
+      margin-top: 20px;
+      margin-bottom: 20px;
+
+      span {
+        display: inline-block;
+        font-size: 19px;
+        width: 20%;
+        text-align: center;
+        margin: 0;
+      }
+
+      hr {
+        display: inline-block;
+        height: 2px;
+        margin: 0;
+        vertical-align: middle;
+        width: 40%;
+      }
+    }
+  }
+  &__questions-panel {
+    font-size: 16px;
+    color: #000;
+    a {
+      color: inherit;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  }
+  &__right-panel {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 120px;
+    @media (max-width: 768px) {
+      display: none;
+    }
+    img {
+      margin-top: 40px;
+      max-width: 100%;
+    }
+
+    h1 {
+      color: #fff;
+      font-size: 56px;
+      text-align: center;
+    }
+    &__headings {
+      max-width: 650px;
+    }
+    &__subheadings {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      h2,
+      i {
+        color: #fff;
+      }
+      i {
+        font-size: 40px;
+      }
+      h2 {
+        font-size: 28px;
+        margin-left: 30px;
+      }
+    }
+  }
+
+  &__confirmation {
+    .fa-info-circle {
+      font-size: 40px;
+    }
+    .form-label {
+      font-size: 19px;
+    }
+  }
+
 }

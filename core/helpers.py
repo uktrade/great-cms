@@ -13,6 +13,8 @@ import great_components.helpers
 import requests
 from django.conf import settings
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
+from django.shortcuts import redirect
+from django.utils.functional import cached_property
 from ipware import get_client_ip
 
 from core.models import CuratedListPage
@@ -341,6 +343,11 @@ def get_comtrade_data(countries_list, commodity_code, with_country_data=True):
     return response_data
 
 
+def get_trade_barrier_data(countries_list, sectors_list):
+    response = api_client.dataservices.get_trade_barriers(countries=countries_list, sectors=sectors_list)
+    return response.json()
+
+
 def get_country_data(countries, fields):
     response = api_client.dataservices.get_country_data_by_country(countries=countries, fields=fields)
     return response.json()
@@ -427,3 +434,56 @@ def retrieve_regional_office_email(postcode):
         matches = [office for office in office_details if office['is_match']]
         email = matches[0]['email'] if matches else None
     return email
+
+
+class GeoLocationRedirector:
+    DOMESTIC_COUNTRY_CODES = ['GB', 'IE']
+    COUNTRY_TO_LANGUAGE_MAP = {
+        'CN': 'zh-hans',
+        'DE': 'de',
+        'ES': 'es',
+        'JP': 'ja',
+    }
+    COOKIE_NAME = 'disable_geoloaction'
+    LANGUAGE_PARAM = 'lang'
+
+    def __init__(self, request):
+        self.request = request
+
+    @cached_property
+    def country_code(self):
+        client_ip, is_routable = get_client_ip(self.request)
+        if client_ip and is_routable:
+            try:
+                response = GeoIP2().country(client_ip)
+            except GeoIP2Exception:
+                pass
+            else:
+                return response['country_code']
+
+    @property
+    def country_language(self):
+        return self.COUNTRY_TO_LANGUAGE_MAP.get(self.country_code, settings.LANGUAGE_CODE)
+
+    @property
+    def should_redirect(self):
+        return (
+            self.COOKIE_NAME not in self.request.COOKIES  # noqa W503
+            and self.LANGUAGE_PARAM not in self.request.GET  # noqa W503
+            and self.country_code is not None  # noqa W503
+            and self.country_code not in self.DOMESTIC_COUNTRY_CODES  # noqa W503
+        )
+
+    def get_response(self):
+        params = self.request.GET.dict()
+        params[self.LANGUAGE_PARAM] = self.country_language
+        url = '{url}?{querystring}'.format(url='/international/', querystring=urllib.parse.urlencode(params))
+        response = redirect(url)
+        response.set_cookie(
+            key=self.COOKIE_NAME,
+            value='true',
+            max_age=settings.LANGUAGE_COOKIE_AGE,
+            path=settings.LANGUAGE_COOKIE_PATH,
+            domain=settings.LANGUAGE_COOKIE_DOMAIN,
+        )
+        return response

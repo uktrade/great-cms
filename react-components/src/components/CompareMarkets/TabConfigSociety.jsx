@@ -136,5 +136,6 @@ export default {
       },
     },
   },
+  headingClass: 'vertical-align-top',
   dataFunction: Services.getSocietyByCountryData,
 }

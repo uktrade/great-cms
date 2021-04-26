@@ -23,6 +23,9 @@
       }
     }
   }
+  .vertical-align-top {
+    vertical-align: top;
+  }
 }
 
 table .loading {
@@ -55,7 +58,8 @@ table .loading {
 
 table.no-bottom-border {
   tr:last-child {
-    td, th {
+    td,
+    th {
       border: none;
     }
   }
