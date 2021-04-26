@@ -227,63 +227,6 @@ describe('Number formats', () => {
   })
 })
 
-describe('Select Helpers', () => {
-  describe('Single Select', () => {
-    const list = [
-      { value: 'd', label: 'days' },
-      { value: 'm', label: 'months' },
-    ]
-    describe('getLabel', () => {
-      it('Should return a label', () => {
-        expect(getLabel(list, 'd')).toEqual('days')
-      })
-
-      it('Should have no label', () => {
-        expect(getLabel(list, 'n')).toEqual('')
-        expect(getLabel(list, '')).toEqual('')
-      })
-    })
-
-    describe('getValue', () => {
-      it('Should return a value', () => {
-        expect(getValue(list, 'days')).toEqual('d')
-      })
-
-      it('Should have no value', () => {
-        expect(getValue(list, 'hour')).toEqual('')
-        expect(getValue(list, '')).toEqual('')
-      })
-    })
-  })
-  describe('Multi Select', () => {
-    const list = [
-      { value: 'd', label: 'days' },
-      { value: 'm', label: 'months' },
-    ]
-    describe('getLabels', () => {
-      it('Should return a list of labels', () => {
-        expect(getLabels(list, ['d', 'm'])).toEqual(['days', 'months'])
-      })
-
-      it('Should have no label', () => {
-        expect(getLabels(list, [])).toEqual([])
-        expect(getLabels(list, '')).toEqual([])
-      })
-    })
-
-    describe('getValues', () => {
-      it('Should return a list values', () => {
-        expect(getValues(list, ['days', 'months'])).toEqual(['d', 'm'])
-      })
-
-      it('Should have no value', () => {
-        expect(getValues(list, [])).toEqual([])
-        expect(getValues(list, '')).toEqual([])
-      })
-    })
-  })
-})
-
 describe('formatLessonLearned', () => {
   const lesson = {
     'managing-exchange-rates': {

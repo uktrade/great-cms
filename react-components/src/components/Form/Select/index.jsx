@@ -38,6 +38,16 @@ export const Select = memo(
       setInput(selected)
     }, [selected])
 
+    const optionByValue = (value) => {
+      return (
+        Object.values(Array.isArray(options) ? { x: options } : options).reduce(
+          (running, section) => {
+            return running || section.find((option) => option.value === value)
+          },
+          null
+        ) || {}
+      )
+    }
     const selectedItem = () => {
       if (!input || input.length <= 0) return placeholder
       if (multiSelect) {
@@ -52,16 +62,17 @@ export const Select = memo(
               update({ [name]: items })
             }}
           >
-            {item} <i className="fas fa-times-circle" />
+            {options.find((option) => item === option.value).label}{' '}
+            <i className="fas fa-times-circle" />
           </button>
         ))
       }
-      return input
+      return optionByValue(input).label || placeholder
     }
 
     const selectOption = (item) => {
       if (multiSelect) {
-        const items = [...new Set([...input, item.label])]
+        const items = [...new Set([...input, item.value])]
         setInput(items)
         update({ [name]: items })
       } else {
@@ -201,18 +212,24 @@ export const Select = memo(
                 {!autoComplete ? <li>{placeholder}</li> : ''}
 
                 {Array.isArray(options)
-                  ? options.map((item, i) => (
-                      <Item
-                        isDisabled={input.includes(item.label)}
-                        key={item.value}
-                        onClick={() => selectOption(item)}
-                        onKeyDown={(e) => focusNext(e, i, item)}
-                        selected={item.label === input}
-                        label={item.label}
-                        forwardedRef={(el) => (liRef.current[i] = el)}
-                        isError={item.isError}
-                      />
-                    ))
+                  ? options.map((item, i) => {
+                      return (
+                        <Item
+                          isDisabled={
+                            Array.isArray(input)
+                              ? input.includes(item.value)
+                              : input === item.value
+                          }
+                          key={item.value}
+                          onClick={() => selectOption(item)}
+                          onKeyDown={(e) => focusNext(e, i, item)}
+                          selected={item.value === input}
+                          label={item.label}
+                          forwardedRef={(el) => (liRef.current[i] = el)}
+                          isError={item.isError}
+                        />
+                      )
+                    })
                   : Object.keys(options).map((category, i) => (
                       <li className="sub-section" key={category}>
                         <ul className="m-0">
@@ -222,7 +239,7 @@ export const Select = memo(
                               key={li.value}
                               onClick={() => selectOption(li)}
                               onKeyDown={(e) => focusNext(e, index + 1, li, i)}
-                              selected={li.label === input}
+                              selected={li.value === input}
                               label={li.label}
                               forwardedRef={(el) => (liRef.current[index] = el)}
                             >

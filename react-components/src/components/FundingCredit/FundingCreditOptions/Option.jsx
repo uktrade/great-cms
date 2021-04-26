@@ -25,13 +25,7 @@ export const Option = memo(
               label={selectData.name}
               name={selectData.name}
               placeholder={selectData.placeholder}
-              selected={
-                selectedOption &&
-                selectData.options.find((x) => x.value === selectedOption)
-                  ? selectData.options.find((x) => x.value === selectedOption)
-                      .label
-                  : ''
-              }
+              selected={selectedOption}
               hideLabel
               className="m-b-0"
               update={(x) => onChange('select', id, x)}
