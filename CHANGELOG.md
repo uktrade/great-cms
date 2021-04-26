@@ -24,6 +24,21 @@
 - GP2-2086 - Date picker selectable ranges
 - GP2-2088 - Form validation - Numerical fields
 - GP2-2087 - Form validation - Numerical fields (cost/price)
+- GP2-2302 - ep dropdown validation
+
+### Fixed bugs
+- GP2-2292 - Save product on name change only
+- GP2-2262 - Case study background
+- GP2-2234 - Sign up / in page tablet design
+- NOTICKET - Fixes header menu flickering
+- GP2-2138 - Fix domestic tab alignment
+
+
+## [1.8.0](https://github.com/uktrade/great-cms/releases/tag/1.8.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.7.1...1.8.0)
+### Enhancements
+
 - GP2-2170 - PDF Download, with blank support
 - GP2-1904 - New sign in page mobile
 - GP2-1850 - Port Search from V1 to great-cms
@@ -36,17 +51,15 @@
 - GP2-2336 - collapse api object
 
 ### Fixed bugs
-- GP2-2292 - Save product on name change only
-- GP2-2262 - Case study background
-- GP2-2234 - Sign up / in page tablet design
-- NOTICKET - Fixes header menu flickering
-- GP2-2138 - Fix domestic tab alignment
+
 - GP2-2250 - Hide top banner when signed in on mobile
 - GP2-2240 - Search tuning
 - GP2-2215 - Fix privacy policy sign up link
 - GP2-2120 - Change to adapting your product. Fix tooltips. Add learning. Update data.
 - GP2-2050 - Update incorrect learning banner copy
 - NOTICKET - Visual tweaks for sign in/up
+
+
 
 ## [1.7.1](https://github.com/uktrade/great-cms/releases/tag/1.7.1)
 
