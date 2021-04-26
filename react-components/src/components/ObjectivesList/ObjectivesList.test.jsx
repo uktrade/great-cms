@@ -41,11 +41,16 @@ const props = {
     },
   ],
   exportPlanID: 10,
+  model_name: 'objectives',
 }
 
-const setup = ({ exportPlanID, objectives }) => {
+const setup = ({ exportPlanID, objectives, model_name = 'objectives' }) => {
   const component = render(
-    <ObjectivesList exportPlanID={exportPlanID} objectives={objectives} />
+    <ObjectivesList
+      exportPlanID={exportPlanID}
+      objectives={objectives}
+      model_name={model_name}
+    />
   )
 
   return {
@@ -59,7 +64,7 @@ beforeEach(() => {
 
 afterEach(() => {
   jest.useRealTimers()
-  Services.createObjective.mockClear()
+  Services.apiModelObjectManage.mockClear()
   cleanup()
 })
 
@@ -72,7 +77,7 @@ describe('ObjectivesList', () => {
   })
 
   it('should update an objective', async () => {
-    Services.updateObjective = jest.fn(() => Promise.resolve())
+    Services.apiModelObjectManage = jest.fn(() => Promise.resolve())
     const { container } = setup({ ...props })
 
     const textarea = container.querySelectorAll('textarea')[0]
@@ -81,25 +86,29 @@ describe('ObjectivesList', () => {
     })
 
     await waitFor(() => {
-      expect(Services.updateObjective).toHaveBeenCalledTimes(1)
-      expect(Services.updateObjective).toHaveBeenLastCalledWith({
-        description: 'new plan',
-        owner: 'Jane Doe',
-        planned_reviews: 'Lorem ipsum',
-        start_date: '',
-        end_date: '',
-        companyexportplan: 1,
-        pk: 1,
-        isLoading: false,
-        showSavedMessage: false,
-        errors: {},
-      })
+      expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
+      expect(Services.apiModelObjectManage).toHaveBeenLastCalledWith(
+        {
+          description: 'new plan',
+          owner: 'Jane Doe',
+          planned_reviews: 'Lorem ipsum',
+          start_date: '',
+          end_date: '',
+          companyexportplan: 1,
+          pk: 1,
+          isLoading: false,
+          showSavedMessage: false,
+          errors: {},
+          model_name: 'objectives',
+        },
+        'PATCH'
+      )
       expect(textarea.value).toEqual('new plan')
     })
   })
 
   it('Should delete objective', async () => {
-    Services.deleteObjective = jest.fn(() => Promise.resolve())
+    Services.apiModelObjectManage = jest.fn(() => Promise.resolve())
     const { container, queryByLabelText } = setup({
       ...props,
       objectives: [
@@ -143,15 +152,21 @@ describe('ObjectivesList', () => {
     fireEvent.click(button)
     queryByLabelText('Objective 3')
     await waitFor(() => {
-      expect(Services.deleteObjective).toHaveBeenCalledTimes(1)
-      expect(Services.deleteObjective).toHaveBeenCalledWith(3)
+      expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
+      expect(Services.apiModelObjectManage).toHaveBeenCalledWith(
+        {
+          pk: 3,
+          model_name: 'objectives',
+        },
+        'DELETE'
+      )
       expect(queryByLabelText('Objective 3')).not.toBeInTheDocument()
     })
   })
 
   describe('Add button', () => {
     describe('should add an objective', () => {
-      Services.createObjective = jest.fn(() =>
+      Services.apiModelObjectManage = jest.fn(() =>
         Promise.resolve({
           json: () =>
             Promise.resolve({
@@ -174,7 +189,7 @@ describe('ObjectivesList', () => {
 
         expect(queryByLabelText('Objective 1')).not.toBeInTheDocument()
         await waitFor(() => {
-          expect(Services.createObjective).toHaveBeenCalledTimes(1)
+          expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
           queryByLabelText('Objective 1')
           getByText('Add goal 2 of 5')
         })
@@ -186,7 +201,7 @@ describe('ObjectivesList', () => {
 
         expect(queryByLabelText('Objective 4')).not.toBeInTheDocument()
         await waitFor(() => {
-          expect(Services.createObjective).toHaveBeenCalledTimes(1)
+          expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
           queryByLabelText('Objective 4')
           getByText('Add goal 5 of 5')
         })
@@ -211,7 +226,7 @@ describe('ObjectivesList', () => {
 
       expect(queryByLabelText('Objective 2')).not.toBeInTheDocument()
       await waitFor(() => {
-        expect(Services.createObjective).not.toHaveBeenCalled()
+        expect(Services.apiModelObjectManage).not.toHaveBeenCalled()
       })
     })
   })
