@@ -182,24 +182,6 @@ export default {
     return httpDelete(endpoint).then(responseHandler)
   },
 
-  createRouteToMarket: (data) => {
-    return post(config.apiRouteToMarketCreateUrl, data).then((response) =>
-      responseHandler(response).json()
-    )
-  },
-
-  deleteRouteToMarket: (pk) => {
-    return httpDelete(config.apiRouteToMarketDeleteUrl, { pk: pk }).then(
-      responseHandler
-    )
-  },
-
-  updateRouteToMarket: (data) => {
-    return post(config.apiRouteToMarketUpdateUrl, data).then((response) =>
-      responseHandler(response).json()
-    )
-  },
-
   createAdaptTarketMarketDocumentList: (data) => {
     return post(
       config.apiTargetMarketDocumentsCreateUrl,
@@ -220,46 +202,12 @@ export default {
     ).then((response) => responseHandler(response).json())
   },
 
-  createFundingCreditOption: (data) => {
-    return post(
-      config.apiFundingCreditOptionsCreateUrl,
-      data
-    ).then((response) => responseHandler(response).json())
-  },
-
-  deleteFundingCreditOption: (pk) => {
-    return httpDelete(config.apiFundingCreditOptionsDeleteUrl, {
-      pk: pk,
-    }).then(responseHandler)
-  },
-
-  updateFundingCreditOption: (data) => {
-    return post(
-      config.apiFundingCreditOptionsUpdateUrl,
-      data
-    ).then((response) => responseHandler(response).json())
-  },
-
   apiModelObjectManage: (data, method) => {
     return greatApi(
       config.apiModelObjectManageUrl,
       data,
       method
     ).then((response) => responseHandler(response).json())
-  },
-
-  createObjective: (data) => {
-    return post(config.apiObjectivesCreateUrl, data).then(responseHandler)
-  },
-
-  deleteObjective: (pk) => {
-    return httpDelete(config.apiObjectivesDeleteUrl, { pk: pk }).then(
-      responseHandler
-    )
-  },
-
-  updateObjective: (data) => {
-    return post(config.apiObjectivesUpdateUrl, data).then(responseHandler)
   },
 
   createUser: ({ email, password }) => {
