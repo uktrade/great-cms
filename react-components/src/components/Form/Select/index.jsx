@@ -212,24 +212,22 @@ export const Select = memo(
                 {!autoComplete ? <li>{placeholder}</li> : ''}
 
                 {Array.isArray(options)
-                  ? options.map((item, i) => {
-                      return (
-                        <Item
-                          isDisabled={
-                            Array.isArray(input)
-                              ? input.includes(item.value)
-                              : input === item.value
-                          }
-                          key={item.value}
-                          onClick={() => selectOption(item)}
-                          onKeyDown={(e) => focusNext(e, i, item)}
-                          selected={item.value === input}
-                          label={item.label}
-                          forwardedRef={(el) => (liRef.current[i] = el)}
-                          isError={item.isError}
-                        />
-                      )
-                    })
+                  ? options.map((item, i) => (
+                      <Item
+                        isDisabled={
+                          Array.isArray(input)
+                            ? input.includes(item.value)
+                            : input === item.value
+                        }
+                        key={item.value}
+                        onClick={() => selectOption(item)}
+                        onKeyDown={(e) => focusNext(e, i, item)}
+                        selected={item.value === input}
+                        label={item.label}
+                        forwardedRef={(el) => (liRef.current[i] = el)}
+                        isError={item.isError}
+                      />
+                    ))
                   : Object.keys(options).map((category, i) => (
                       <li className="sub-section" key={category}>
                         <ul className="m-0">

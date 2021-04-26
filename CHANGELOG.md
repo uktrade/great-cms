@@ -4,6 +4,7 @@
 
 ### Enhancements
 
+- GP2-2176 - VFM Multiselect
 - GP2-2326 - header style fix
 - GP2-2265 - pdf design changes
 - GP2-2279 - The progress bar is not displayed on the export plan landing page
