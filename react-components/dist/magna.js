@@ -74921,10 +74921,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_components_RouteToMarket_RouteToMarketSection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/RouteToMarket/RouteToMarketSection */ "./react-components/src/components/RouteToMarket/RouteToMarketSection/index.jsx");
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
-/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
-/* harmony import */ var _src_components_ObjectivesList_AddButton_AddButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/components/ObjectivesList/AddButton/AddButton */ "./react-components/src/components/ObjectivesList/AddButton/AddButton.jsx");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
+/* harmony import */ var _src_components_ObjectivesList_AddButton_AddButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/ObjectivesList/AddButton/AddButton */ "./react-components/src/components/ObjectivesList/AddButton/AddButton.jsx");
+/* harmony import */ var _src_components_hooks_useUpdate_useUpdate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/components/hooks/useUpdate/useUpdate */ "./react-components/src/components/hooks/useUpdate/useUpdate.jsx");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -74967,53 +74967,52 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var RouteToMarket = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var fields = _ref.fields,
       formData = _ref.formData,
-      formFields = _ref.formFields;
+      formFields = _ref.formFields,
+      model_name = _ref.model_name;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(fields),
       _useState2 = _slicedToArray(_useState, 2),
       routes = _useState2[0],
       setRoutes = _useState2[1];
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState4 = _slicedToArray(_useState3, 2),
-      pushedAnalytic = _useState4[0],
-      setPushedAnalytic = _useState4[1];
-
   var _ref2 = routes.length ? routes[routes.length - 1] : {},
       companyexportplan = _ref2.companyexportplan,
       pk = _ref2.pk,
       lastField = _objectWithoutProperties(_ref2, ["companyexportplan", "pk"]);
 
+  var _useUpdate = Object(_src_components_hooks_useUpdate_useUpdate__WEBPACK_IMPORTED_MODULE_6__["useUpdate"])('route-to-market'),
+      _useUpdate2 = _slicedToArray(_useUpdate, 3),
+      update = _useUpdate2[0],
+      create = _useUpdate2[1],
+      deleteItem = _useUpdate2[2];
+
   var addTable = function addTable() {
-    _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].createRouteToMarket(_objectSpread({}, formFields)).then(function (data) {
+    create(_objectSpread({}, formFields)).then(function (data) {
       return setRoutes([].concat(_toConsumableArray(routes), [data]));
     }).then(function () {
       var newElement = document.getElementById("Route to market ".concat(routes.length + 1)).parentNode;
       newElement.scrollIntoView();
-    })["catch"](function () {});
+    });
   };
 
   var deleteTable = function deleteTable(id) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].deleteRouteToMarket(id).then(function () {
+    deleteItem({
+      pk: id,
+      model_name: model_name
+    }).then(function () {
       setRoutes(routes.filter(function (x) {
         return x.pk !== id;
       }));
-    })["catch"](function () {});
+    });
   };
 
-  var update = function update(field, selected) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].updateRouteToMarket(_objectSpread(_objectSpread({}, field), selected)).then(function () {
-      if (!pushedAnalytic) {
-        Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["analytics"])({
-          event: 'planSectionSaved',
-          sectionTitle: 'route-to-market'
-        });
-        setPushedAnalytic(true);
-      }
-    })["catch"](function () {});
+  var request = function request(field, selected) {
+    return update(_objectSpread(_objectSpread(_objectSpread({}, field), selected), {}, {
+      model_name: model_name
+    }));
   };
 
-  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_5__["useDebounce"])(update);
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__["useDebounce"])(request);
 
   var onChange = function onChange(id, selected) {
     var field = routes.find(function (x) {
@@ -75039,9 +75038,9 @@ var RouteToMarket = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function 
       onChange: onChange,
       deleteTable: deleteTable
     }));
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ObjectivesList_AddButton_AddButton__WEBPACK_IMPORTED_MODULE_6__["AddButton"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_ObjectivesList_AddButton_AddButton__WEBPACK_IMPORTED_MODULE_5__["AddButton"], {
     add: addTable,
-    isDisabled: routes.length ? !Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["objectHasValue"])(lastField) : false,
+    isDisabled: routes.length ? !Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["objectHasValue"])(lastField) : false,
     cta: "Add route to market"
   }));
 });
@@ -75060,7 +75059,8 @@ RouteToMarket.propTypes = {
     label: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,
     name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
   }).isRequired,
-  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number])).isRequired
+  formFields: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.objectOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string, prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number])).isRequired,
+  model_name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
 };
 
 /***/ }),
