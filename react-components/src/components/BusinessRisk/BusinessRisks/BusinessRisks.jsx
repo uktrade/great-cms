@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { Learning } from '@src/components/Learning/Learning'
+import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
 import { Risks } from './Risks'
 
 export const BusinessRisks = memo(
@@ -16,32 +17,26 @@ export const BusinessRisks = memo(
     model_name,
   }) => {
     const [risks, setRisks] = useState(formFields)
+    const [update, create, deleteItem] = useUpdate('business-risk')
+
     const addRisk = () => {
       const newRisk = {
         companyexportplan,
         model_name,
       }
 
-      Services.apiModelObjectManage({ ...newRisk }, 'POST')
-        .then((data) => setRisks([...risks, data]))
-        .catch(() => {})
+      create({ ...newRisk }).then((data) => setRisks([...risks, data]))
     }
 
     const deleteRisk = (id) => {
-      Services.apiModelObjectManage({ model_name, pk: id }, 'DELETE')
-        .then(() => {
-          setRisks(risks.filter((x) => x.pk !== id))
-        })
-        .catch(() => {})
+      deleteItem({ model_name, pk: id }).then(() => {
+        setRisks(risks.filter((x) => x.pk !== id))
+      })
     }
 
-    const update = (field, value) => {
-      Services.apiModelObjectManage({ model_name, ...field, ...value }, 'PATCH')
-        .then(() => {})
-        .catch(() => {})
-    }
+    const request = (field, value) => update({ model_name, ...field, ...value })
 
-    const debounceUpdate = useDebounce(update)
+    const debounceUpdate = useDebounce(request)
 
     const onChange = (id, { key, value }) => {
       const field = risks.find((x) => x.pk === id)

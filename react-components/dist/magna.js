@@ -66006,7 +66006,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
 /* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
 /* harmony import */ var _src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Learning/Learning */ "./react-components/src/components/Learning/Learning.jsx");
-/* harmony import */ var _Risks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Risks */ "./react-components/src/components/BusinessRisk/BusinessRisks/Risks.jsx");
+/* harmony import */ var _src_components_hooks_useUpdate_useUpdate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/hooks/useUpdate/useUpdate */ "./react-components/src/components/hooks/useUpdate/useUpdate.jsx");
+/* harmony import */ var _Risks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Risks */ "./react-components/src/components/BusinessRisk/BusinessRisks/Risks.jsx");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -66039,6 +66040,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var BusinessRisks = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var formFields = _ref.formFields,
       formData = _ref.formData,
@@ -66053,34 +66055,40 @@ var BusinessRisks = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function 
       risks = _useState2[0],
       setRisks = _useState2[1];
 
+  var _useUpdate = Object(_src_components_hooks_useUpdate_useUpdate__WEBPACK_IMPORTED_MODULE_5__["useUpdate"])('business-risk'),
+      _useUpdate2 = _slicedToArray(_useUpdate, 3),
+      update = _useUpdate2[0],
+      create = _useUpdate2[1],
+      deleteItem = _useUpdate2[2];
+
   var addRisk = function addRisk() {
     var newRisk = {
       companyexportplan: companyexportplan,
       model_name: model_name
     };
-    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].apiModelObjectManage(_objectSpread({}, newRisk), 'POST').then(function (data) {
+    create(_objectSpread({}, newRisk)).then(function (data) {
       return setRisks([].concat(_toConsumableArray(risks), [data]));
-    })["catch"](function () {});
+    });
   };
 
   var deleteRisk = function deleteRisk(id) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].apiModelObjectManage({
+    deleteItem({
       model_name: model_name,
       pk: id
-    }, 'DELETE').then(function () {
+    }).then(function () {
       setRisks(risks.filter(function (x) {
         return x.pk !== id;
       }));
-    })["catch"](function () {});
+    });
   };
 
-  var update = function update(field, value) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].apiModelObjectManage(_objectSpread(_objectSpread({
+  var request = function request(field, value) {
+    return update(_objectSpread(_objectSpread({
       model_name: model_name
-    }, field), value), 'PATCH').then(function () {})["catch"](function () {});
+    }, field), value));
   };
 
-  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__["useDebounce"])(update);
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__["useDebounce"])(request);
 
   var onChange = function onChange(id, _ref2) {
     var key = _ref2.key,
@@ -66102,7 +66110,7 @@ var BusinessRisks = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function 
     className: "h-m m-b-xs"
   }, "Risks"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Record any risks you think your business may face in the following table."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "These should be specific risks your business faces when exporting."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_4__["Learning"], {
     lesson: lesson
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Risks__WEBPACK_IMPORTED_MODULE_5__["Risks"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Risks__WEBPACK_IMPORTED_MODULE_6__["Risks"], {
     formData: risks.map(function (item) {
       return _objectSpread(_objectSpread({}, item), formData);
     }),
@@ -74990,8 +74998,11 @@ var RouteToMarket = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function 
     create(_objectSpread({}, formFields)).then(function (data) {
       return setRoutes([].concat(_toConsumableArray(routes), [data]));
     }).then(function () {
-      var newElement = document.getElementById("Route to market ".concat(routes.length + 1)).parentNode;
-      newElement.scrollIntoView();
+      var newElement = document.getElementById("Route to market ".concat(routes.length + 1));
+
+      if (newElement) {
+        newElement.parentNode.scrollIntoView();
+      }
     });
   };
 
@@ -77532,9 +77543,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
-/* harmony import */ var _src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/Learning/Learning */ "./react-components/src/components/Learning/Learning.jsx");
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
+/* harmony import */ var _src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Learning/Learning */ "./react-components/src/components/Learning/Learning.jsx");
+/* harmony import */ var _src_components_hooks_useUpdate_useUpdate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/hooks/useUpdate/useUpdate */ "./react-components/src/components/hooks/useUpdate/useUpdate.jsx");
 /* harmony import */ var _Trips__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Trips */ "./react-components/src/components/TravelPlan/PlannedTravel/Trips.jsx");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -77580,35 +77591,41 @@ var PlannedTravel = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function 
       trips = _useState2[0],
       setTrips = _useState2[1];
 
+  var _useUpdate = Object(_src_components_hooks_useUpdate_useUpdate__WEBPACK_IMPORTED_MODULE_4__["useUpdate"])('travel-plan'),
+      _useUpdate2 = _slicedToArray(_useUpdate, 3),
+      update = _useUpdate2[0],
+      create = _useUpdate2[1],
+      deleteItem = _useUpdate2[2];
+
   var addTrip = function addTrip() {
     var newTrip = {
       companyexportplan: companyexportplan,
       model_name: model_name,
       note: ''
     };
-    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].apiModelObjectManage(_objectSpread({}, newTrip), 'POST').then(function (data) {
+    create(_objectSpread({}, newTrip)).then(function (data) {
       return setTrips([].concat(_toConsumableArray(trips), [data]));
-    })["catch"](function () {});
+    });
   };
 
   var deleteTrip = function deleteTrip(id) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].apiModelObjectManage({
+    deleteItem({
       model_name: model_name,
       pk: id
-    }, 'DELETE').then(function () {
+    }).then(function () {
       setTrips(trips.filter(function (x) {
         return x.pk !== id;
       }));
-    })["catch"](function () {});
+    });
   };
 
-  var update = function update(field, value) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].apiModelObjectManage(_objectSpread(_objectSpread({
+  var request = function request(field, value) {
+    update(_objectSpread(_objectSpread({
       model_name: model_name
-    }, field), value), 'PATCH').then(function () {})["catch"](function () {});
+    }, field), value));
   };
 
-  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__["useDebounce"])(update);
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__["useDebounce"])(request);
 
   var onChange = function onChange(id, value) {
     value = {
@@ -77627,7 +77644,7 @@ var PlannedTravel = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function 
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "h-m m-b-xs"
-  }, "Planned travel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "It is likely you will have to go on business trips to your chosen markets to build relationships and seal those all important deals."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Add all your upcoming trips and important information about them in the following tool."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_4__["Learning"], {
+  }, "Planned travel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "It is likely you will have to go on business trips to your chosen markets to build relationships and seal those all important deals."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Add all your upcoming trips and important information about them in the following tool."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Learning_Learning__WEBPACK_IMPORTED_MODULE_3__["Learning"], {
     tooltip: tooltip,
     lesson: lesson
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Trips__WEBPACK_IMPORTED_MODULE_5__["Trips"], {
