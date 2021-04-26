@@ -97,21 +97,20 @@ const exportPlanReducer = (state, action) => {
           newState.products[0] &&
           newState.products[0].commodity_code) !== action.payload.commodity_code
       newState.products = [action.payload]
-      if (codeChanged) {
-        saveToExportPlan({ export_commodity_codes: [action.payload] }).then(
-          () => {
-            if (config.refreshOnMarketChange) {
-              window.location.reload()
-            }
+
+      saveToExportPlan({ export_commodity_codes: [action.payload] }).then(
+        () => {
+          if (codeChanged && config.refreshOnMarketChange) {
+            api.reloadPage()
           }
-        )
-      }
+        }
+      )
       break
     case SET_MARKET:
       newState.markets = [action.payload]
       saveToExportPlan({ export_countries: [action.payload] }).then(() => {
         if (config.refreshOnMarketChange) {
-          window.location.reload()
+          api.reloadPage()
         } else {
           // Here we have some nasty non-Reactish code to update any country names that lie outside listening react components
           document.body.querySelectorAll('.country-name-updatable').forEach((element) => {
