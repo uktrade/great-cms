@@ -1,15 +1,19 @@
+from functools import partial
+from urllib.parse import urljoin
+
 from django.conf import settings
 from django.conf.urls import url
 from django.views.generic.base import RedirectView
 
 from core.cms_slugs import PRIVACY_POLICY_URL, TERMS_URL
 from core.views import (
-    InvestmentSupportDirectoryRedirectView,
     OpportunitiesRedirectView,
     QuerystringRedirectView,
-    TradeRedirectView,
     TranslationRedirectView,
 )
+
+build_great_international_url = partial(urljoin, '/international/')
+
 
 redirects = [
     url(
@@ -801,17 +805,30 @@ articles_redirects = [
     ),
     url(
         r'^trade/$',
-        QuerystringRedirectView.as_view(url='/international/trade/incoming/'),
+        QuerystringRedirectView.as_view(url='/international/trade/'),
+        name='international-trade-home',
     ),
     url(
-        r'^trade/(?P<searchterm>[-\w]+)?/$',
-        TradeRedirectView.as_view(url='/international/trade/incoming/'),
+        r'^trade/(?P<path>[\w\-/]*)/$',
+        QuerystringRedirectView.as_view(
+            url=build_great_international_url('trade/incoming/%(path)s/'),
+            # Note that this then has a FURTHER redirect within great-international-ui
+        ),
+        name='international-trade',
     ),
     url(
         r'^investment-support-directory/$',
         QuerystringRedirectView.as_view(url='/international/investment-support-directory/'),
+        name='international-investment-support-directory-home',
     ),
-    url(r'^investment-support-directory/(?P<searchterm>[-\w]+)/$', InvestmentSupportDirectoryRedirectView.as_view()),
+    url(
+        r'^investment-support-directory/(?P<path>[\w\-/]*)/$',
+        QuerystringRedirectView.as_view(
+            url=build_great_international_url('investment-support-directory/%(path)s/'),
+            # Note that this then has a FURTHER redirect within great-international-ui
+        ),
+        name='international-investment-support-directory',
+    ),
     url(
         r'^story/york-bag-retailer-goes-global-via-e-commerce/$',
         QuerystringRedirectView.as_view(url='/success-stories/york-bag-retailer-goes-global/'),
