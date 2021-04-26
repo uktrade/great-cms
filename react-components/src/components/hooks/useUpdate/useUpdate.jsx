@@ -44,5 +44,11 @@ export const useUpdate = (field) => {
       })
   }
 
-  return [update, create, message, pending, errors]
+  const deleteItem = (data) => {
+    Services.apiModelObjectManage(data, 'DELETE').catch((err) => {
+      setErrors({ err })
+    })
+  }
+
+  return [update, create, deleteItem, message, errors, pending]
 }

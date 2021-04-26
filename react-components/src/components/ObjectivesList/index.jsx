@@ -2,18 +2,18 @@ import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import ErrorList from '@src/components/ErrorList'
-import { analytics, objectHasValue } from '@src/Helpers'
+import { objectHasValue } from '@src/Helpers'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { AddButton } from '@src/components/ObjectivesList/AddButton/AddButton'
 import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
 import { Objective } from './Objective'
-import Services from '../../Services'
 
 export const ObjectivesList = memo(
   ({ exportPlanID, objectives: initialObjectives, model_name }) => {
-    const [errors, setErrors] = useState({})
     const [objectives, setObjectives] = useState(initialObjectives || [])
-    const [update, create, message, pending] = useUpdate('Objectives')
+    const [update, create, deleteItem, message, errors] = useUpdate(
+      'Objectives'
+    )
     const {
       companyexportplan,
       start_date,
@@ -46,16 +46,12 @@ export const ObjectivesList = memo(
     }
 
     const deleteObjective = (id) => {
-      Services.apiModelObjectManage({ pk: id, model_name })
-        .then(() => {
-          const updatedObjectives = objectives.filter(
-            (objective) => objective.pk !== id
-          )
-          setObjectives(updatedObjectives)
-        })
-        .catch((err) => {
-          setErrors({ err })
-        })
+      deleteItem({ pk: id, model_name }).then(() => {
+        const updatedObjectives = objectives.filter(
+          (objective) => objective.pk !== id
+        )
+        setObjectives(updatedObjectives)
+      })
     }
 
     const updateObjective = (data) => {

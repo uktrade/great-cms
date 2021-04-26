@@ -72440,7 +72440,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_components_ObjectivesList_AddButton_AddButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/ObjectivesList/AddButton/AddButton */ "./react-components/src/components/ObjectivesList/AddButton/AddButton.jsx");
 /* harmony import */ var _src_components_hooks_useUpdate_useUpdate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/components/hooks/useUpdate/useUpdate */ "./react-components/src/components/hooks/useUpdate/useUpdate.jsx");
 /* harmony import */ var _Objective__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Objective */ "./react-components/src/components/ObjectivesList/Objective/index.jsx");
-/* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Services */ "./react-components/src/Services.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -72479,28 +72478,23 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
 var ObjectivesList = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) {
   var exportPlanID = _ref.exportPlanID,
       initialObjectives = _ref.objectives,
       model_name = _ref.model_name;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(initialObjectives || []),
       _useState2 = _slicedToArray(_useState, 2),
-      errors = _useState2[0],
-      setErrors = _useState2[1];
-
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(initialObjectives || []),
-      _useState4 = _slicedToArray(_useState3, 2),
-      objectives = _useState4[0],
-      setObjectives = _useState4[1];
+      objectives = _useState2[0],
+      setObjectives = _useState2[1];
 
   var _useUpdate = Object(_src_components_hooks_useUpdate_useUpdate__WEBPACK_IMPORTED_MODULE_6__["useUpdate"])('Objectives'),
-      _useUpdate2 = _slicedToArray(_useUpdate, 4),
+      _useUpdate2 = _slicedToArray(_useUpdate, 5),
       update = _useUpdate2[0],
       create = _useUpdate2[1],
-      message = _useUpdate2[2],
-      pending = _useUpdate2[3];
+      deleteItem = _useUpdate2[2],
+      message = _useUpdate2[3],
+      errors = _useUpdate2[4];
 
   var _ref2 = objectives.length ? objectives[objectives.length - 1] : {},
       companyexportplan = _ref2.companyexportplan,
@@ -72536,7 +72530,7 @@ var ObjectivesList = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function
   };
 
   var deleteObjective = function deleteObjective(id) {
-    _Services__WEBPACK_IMPORTED_MODULE_8__["default"].apiModelObjectManage({
+    deleteItem({
       pk: id,
       model_name: model_name
     }).then(function () {
@@ -72544,10 +72538,6 @@ var ObjectivesList = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function
         return objective.pk !== id;
       });
       setObjectives(updatedObjectives);
-    })["catch"](function (err) {
-      setErrors({
-        err: err
-      });
     });
   };
 
@@ -78183,7 +78173,15 @@ var useUpdate = function useUpdate(field) {
     });
   };
 
-  return [update, create, message, pending, errors];
+  var deleteItem = function deleteItem(data) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].apiModelObjectManage(data, 'DELETE')["catch"](function (err) {
+      setErrors({
+        err: err
+      });
+    });
+  };
+
+  return [update, create, deleteItem, message, errors, pending];
 };
 
 /***/ }),
