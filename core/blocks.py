@@ -451,7 +451,7 @@ class AdvantageBlock(blocks.StructBlock):
 
 
 class TopicPageCardBlock(blocks.StructBlock):
-    """Used in ManuallyConfigurableTopicPage """
+    """Used in ManuallyConfigurableTopicPage"""
 
     link_text = blocks.CharBlock()
     link_url = blocks.CharBlock()  # not a URL block to allow relative links
