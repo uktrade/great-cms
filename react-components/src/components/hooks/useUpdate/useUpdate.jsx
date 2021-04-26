@@ -45,7 +45,7 @@ export const useUpdate = (field) => {
   }
 
   const deleteItem = (data) => {
-    Services.apiModelObjectManage(data, 'DELETE').catch((err) => {
+    return Services.apiModelObjectManage(data, 'DELETE').catch((err) => {
       setErrors({ err })
     })
   }

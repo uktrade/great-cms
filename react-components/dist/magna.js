@@ -78174,7 +78174,7 @@ var useUpdate = function useUpdate(field) {
   };
 
   var deleteItem = function deleteItem(data) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].apiModelObjectManage(data, 'DELETE')["catch"](function (err) {
+    return _src_Services__WEBPACK_IMPORTED_MODULE_1__["default"].apiModelObjectManage(data, 'DELETE')["catch"](function (err) {
       setErrors({
         err: err
       });
