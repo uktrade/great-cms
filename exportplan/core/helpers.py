@@ -98,64 +98,6 @@ def get_or_create_export_plan(user):
     return export_plan
 
 
-def create_objective(sso_session_id, data):
-    response = api_client.exportplan.exportplan_objectives_create(sso_session_id=sso_session_id, data=data)
-    response.raise_for_status()
-    return response.json()
-
-
-def update_objective(sso_session_id, data):
-    response = api_client.exportplan.exportplan_objectives_update(
-        sso_session_id=sso_session_id, id=data['pk'], data=data
-    )
-    response.raise_for_status()
-    return response.json()
-
-
-def delete_objective(sso_session_id, data):
-    response = api_client.exportplan.exportplan_objectives_delete(sso_session_id=sso_session_id, id=data['pk'])
-    response.raise_for_status()
-    return response
-
-
-def create_route_to_market(sso_session_id, data):
-    response = api_client.exportplan.route_to_market_create(sso_session_id=sso_session_id, data=data)
-    response.raise_for_status()
-    return response.json()
-
-
-def update_route_to_market(sso_session_id, data):
-    response = api_client.exportplan.route_to_market_update(sso_session_id=sso_session_id, id=data['pk'], data=data)
-    response.raise_for_status()
-    return response.json()
-
-
-def delete_route_to_market(sso_session_id, data):
-    response = api_client.exportplan.route_to_market_delete(sso_session_id=sso_session_id, id=data['pk'])
-    response.raise_for_status()
-    return response
-
-
-def create_target_market_documents(sso_session_id, data):
-    response = api_client.exportplan.target_market_documents_create(sso_session_id=sso_session_id, data=data)
-    response.raise_for_status()
-    return response.json()
-
-
-def update_target_market_documents(sso_session_id, data):
-    response = api_client.exportplan.target_market_documents_update(
-        sso_session_id=sso_session_id, id=data['pk'], data=data
-    )
-    response.raise_for_status()
-    return response.json()
-
-
-def delete_target_market_documents(sso_session_id, data):
-    response = api_client.exportplan.target_market_documents_delete(sso_session_id=sso_session_id, id=data['pk'])
-    response.raise_for_status()
-    return response
-
-
 def create_funding_credit_options(sso_session_id, data):
     response = api_client.exportplan.funding_credit_options_create(sso_session_id=sso_session_id, data=data)
     response.raise_for_status()
