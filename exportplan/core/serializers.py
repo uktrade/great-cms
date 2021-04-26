@@ -71,8 +71,8 @@ class TargetMarketsResearchSerializer(serializers.Serializer):
 
 
 class RouteToMarketsSerializer(serializers.Serializer):
-    route = serializers.ChoiceField(required=False, choices=choices.MARKET_ROUTE_CHOICES)
-    promote = serializers.ChoiceField(required=False, choices=choices.PRODUCT_PROMOTIONAL_CHOICES)
+    route = serializers.ChoiceField(required=False, allow_blank=True, choices=choices.MARKET_ROUTE_CHOICES)
+    promote = serializers.ChoiceField(required=False, allow_blank=True, choices=choices.PRODUCT_PROMOTIONAL_CHOICES)
     market_promotional_channel = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
