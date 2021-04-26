@@ -30,7 +30,7 @@
             currentSection: {{ current_section|to_json}},
             logo: '{{ request.user.company.logo|default_if_none:"" }}',
             company: '{{ request.user.company.name }}',
-            backUrl: '{% url_map "exportplan_dashboard" %}'
+            backUrl: '{% url_map "export_plan_dashboard_url" %}'
         })
     </script>
 {% endblock %}
