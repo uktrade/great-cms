@@ -200,35 +200,35 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">How we started</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.story. tag="p" lines=4 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.story tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Where we are based</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.location. tag="p" lines=4 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.location tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">How we make our product</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.processes. tag="p" lines=4 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.processes tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Our packaging</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.packaging. tag="p" lines=4 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.packaging tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Business performance</h3>
-            {% if export_plan.data.about_your_business.performance. %}
+            {% if export_plan.data.about_your_business.performance %}
             <p class="pad-t-0">GBP {{ export_plan.data.about_your_business.performance }}</p>
             {% else %}
             {% include "exportplan/includes/pdf/pdf_blank.html" with lines=4 %}
