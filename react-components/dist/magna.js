@@ -70697,10 +70697,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
-/* harmony import */ var _src_components_LessonLearn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/LessonLearn */ "./react-components/src/components/LessonLearn/index.jsx");
-/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
+/* harmony import */ var _src_components_LessonLearn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/LessonLearn */ "./react-components/src/components/LessonLearn/index.jsx");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _src_components_hooks_useUpdate_useUpdate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/components/hooks/useUpdate/useUpdate */ "./react-components/src/components/hooks/useUpdate/useUpdate.jsx");
 /* harmony import */ var _Total__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Total */ "./react-components/src/components/FundingCredit/FundingCreditOptions/Total.jsx");
 /* harmony import */ var _Options__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Options */ "./react-components/src/components/FundingCredit/FundingCreditOptions/Options.jsx");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -70745,7 +70745,8 @@ var FundingCreditOptions = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(fu
       companyexportplan = _ref.companyexportplan,
       fundingCreditOptions = _ref.fundingCreditOptions,
       lessonDetails = _ref.lessonDetails,
-      currentSection = _ref.currentSection;
+      currentSection = _ref.currentSection,
+      model_name = _ref.model_name;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(formData),
       _useState2 = _slicedToArray(_useState, 2),
@@ -70762,7 +70763,13 @@ var FundingCreditOptions = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(fu
       toggleLesson = _useState6[0],
       setToggleLesson = _useState6[1];
 
-  var lesson = Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["formatLessonLearned"])(lessonDetails, currentSection, 1);
+  var lesson = Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["formatLessonLearned"])(lessonDetails, currentSection, 1);
+
+  var _useUpdate = Object(_src_components_hooks_useUpdate_useUpdate__WEBPACK_IMPORTED_MODULE_5__["useUpdate"])('travel-plan'),
+      _useUpdate2 = _slicedToArray(_useUpdate, 3),
+      update = _useUpdate2[0],
+      create = _useUpdate2[1],
+      deleteItem = _useUpdate2[2];
 
   var calclatedTotal = function calclatedTotal() {
     return funding.reduce(function (acc, curr) {
@@ -70778,27 +70785,34 @@ var FundingCreditOptions = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(fu
   var addFunding = function addFunding() {
     var newFunding = {};
     newFunding.companyexportplan = companyexportplan;
-    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].createFundingCreditOption(_objectSpread({}, newFunding)).then(function (data) {
+    create(_objectSpread(_objectSpread({}, newFunding), {}, {
+      model_name: model_name
+    })).then(function (data) {
       return setFunding([].concat(_toConsumableArray(funding), [data]));
     }).then(function () {
       var newElement = document.getElementById("Funding ".concat(funding.length + 1)).parentNode;
       newElement.scrollIntoView();
-    })["catch"](function () {});
+    });
   };
 
   var deleteFunding = function deleteFunding(id) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].deleteFundingCreditOption(id).then(function () {
+    deleteItem({
+      model_name: model_name,
+      pk: id
+    }).then(function () {
       setFunding(funding.filter(function (x) {
         return x.pk !== id;
       }));
-    })["catch"](function () {});
+    });
   };
 
-  var update = function update(field, selected) {
-    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].updateFundingCreditOption(_objectSpread(_objectSpread({}, field), selected)).then(function () {})["catch"](function () {});
+  var request = function request(field, selected) {
+    return update(_objectSpread(_objectSpread(_objectSpread({}, field), selected), {}, {
+      model_name: model_name
+    }));
   };
 
-  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_3__["useDebounce"])(update);
+  var debounceUpdate = Object(_src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_2__["useDebounce"])(request);
 
   var onChange = function onChange(type, id, selected) {
     if (type === 'input') {
@@ -70826,7 +70840,7 @@ var FundingCreditOptions = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(fu
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas fa-chevron-".concat(toggleLesson ? 'up' : 'down', " m-r-xxs")
-  }), "Lesson"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_LessonLearn__WEBPACK_IMPORTED_MODULE_4__["LessonLearn"], _extends({}, lesson, {
+  }), "Lesson"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_LessonLearn__WEBPACK_IMPORTED_MODULE_3__["LessonLearn"], _extends({}, lesson, {
     show: toggleLesson
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Options__WEBPACK_IMPORTED_MODULE_7__["Options"], {
     formData: funding,
@@ -70859,7 +70873,8 @@ FundingCreditOptions.propTypes = {
   currentSection: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
     url: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
     lessons: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string).isRequired
-  }).isRequired
+  }).isRequired,
+  model_name: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
 };
 FundingCreditOptions.defaultProps = {
   formData: []
