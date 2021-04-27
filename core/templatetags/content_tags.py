@@ -93,3 +93,53 @@ def is_lesson_page(page):
 @register.filter
 def is_placeholder_page(page):
     return isinstance(page.specific, LessonPlaceholderPage)
+
+
+@register.filter(name='multiply_by_exponent', is_safe=False)
+def multiply_by_exponent(val, exponent=3, base=10):
+    """
+    Simple template tag that takes an integer and returns new integer of base ** exponent
+
+    Return
+        int
+
+    Params:
+        val: int
+            The integer to be multiplied
+        exponent: int
+            The exponent
+        base: int
+            The base
+    """
+
+    try:
+        int_val = int(val)
+    except ValueError:
+        raise template.TemplateSyntaxError(f'Value must be an integer. {val} is not an integer')
+    return int_val * (base ** exponent)
+
+
+@register.filter(name='friendly_number', is_safe=False)
+def friendly_number(val, precision=2):
+    """
+    Convert numbers to a friendly format e.g: 1 thousand, 123.4 thousand, 1.11 million, 111.42 million.
+    Return
+        str
+            e.g: 1 thousand, 123.4 thousand, 111.42 million
+    Params:
+        val: int
+            The value of view
+        precision: int
+            The precision demanded
+    """
+
+    try:
+        int_val = int(val)
+    except ValueError:
+        raise template.TemplateSyntaxError(f'Value must be an integer. {val} is not an integer')
+    if int_val < 1000:
+        return str(int_val)
+    elif int_val < 1_000_000:
+        return f'{ int_val/1000.0:.{precision}f}'.rstrip('0').rstrip('.') + ' thousand'
+    else:
+        return f'{int_val/1_000_000.0:.{precision}f}'.rstrip('0').rstrip('.') + ' million'

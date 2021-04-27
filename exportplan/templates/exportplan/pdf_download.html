@@ -2,6 +2,7 @@
 {% load humanize %}
 {% load tz %}
 {% load object_tags %}
+{% load content_tags %}
 <html>
 <head><meta http-equiv=Content-Type content="text/html; charset=UTF-8">
 <style>
@@ -345,9 +346,9 @@
         </strong>
       </p>
       <h6 class="body-gamma pad-y-0">Total population</h6>
-      <p class="pad-t-0"><strong>{{ market_research.population_data.total_population|intcomma }} million</strong></p>
+      <p class="pad-t-0"><strong>{{ market_research.population_data.total_population|multiply_by_exponent|friendly_number }}</strong></p>
       <h6 class="body-gamma pad-y-0">Total age population</h6>
-      <p class="pad-t-0"><strong>{{ market_research.population_data.total_target_age_population|intcomma }} million</strong></p>
+      <p class="pad-t-0"><strong>{{ market_research.population_data.total_target_age_population|multiply_by_exponent|friendly_number }}</strong></p>
     </td>
     {% endwith %}
     {% endif %}
