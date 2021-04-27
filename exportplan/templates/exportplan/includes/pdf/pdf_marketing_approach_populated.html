@@ -77,6 +77,16 @@
 
       <h3 class="pad-y-1">Target age group</h3>
 
+      <h6 class="body-gamma pad-y-0">Target age groups</h6>
+      <p class="pad-t-0">
+        <strong>
+          {% with marketing_approach=population_age_data|get_item:'marketing-approach' %}
+          {% for age in marketing_approach.population_data.target_ages %}
+          {{ age }} years{% if not forloop.last %},{% endif %}
+          {% endfor %}
+          {% endwith %}
+        </strong>
+      </p>
       <h6 class="body-gamma pad-y-0">Target age population</h6>
       <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_target_age_population|intcomma }}</strong></p>
       <h6 class="body-gamma pad-y-0">Female in target group</h6>
