@@ -1,5 +1,6 @@
 {% load static %}
 {% load humanize %}
+{% load tz %}
 {% load object_tags %}
 <html>
 <head><meta http-equiv=Content-Type content="text/html; charset=UTF-8">
@@ -15,8 +16,10 @@
   <p class="body-gamma">
     Created at great.gov.uk
     &nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp;
-    {% now "h:i a" %} {% now "jS F Y" %}
+    {% timezone "Europe/London" %}
+    {% now "h:i A" %} {% now "jS F Y" %}
     &nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp;
+    {% endtimezone %}
     Page <pdf:pagenumber> of <pdf:pagecount>
   </p>
 </div>
@@ -30,7 +33,11 @@
       &nbsp;
     </td>
     <td class="col-10-4 text-align-centre">
-      <p class="body-alpha pad-l-5">{% now "h:i A" %}</p>
+      <p class="body-alpha pad-l-5">
+      {% timezone "Europe/London" %}
+        {% now "h:i A" %}
+      {% endtimezone %}
+      </p>
     </td>
     <td class="col-10-5">
      <p class="body-alpha text-align-right">{% now "jS F Y" %}</p>
