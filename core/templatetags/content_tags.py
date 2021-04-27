@@ -7,6 +7,7 @@ from django import template
 from django.utils.http import urlencode
 
 from core.constants import BACKLINK_QUERYSTRING_NAME
+from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
 
 logger = logging.getLogger(__name__)
@@ -120,26 +121,19 @@ def multiply_by_exponent(val, exponent=3, base=10):
 
 
 @register.filter(name='friendly_number', is_safe=False)
-def friendly_number(val, precision=2):
+def friendly_number(val):
     """
     Convert numbers to a friendly format e.g: 1 thousand, 123.4 thousand, 1.11 million, 111.42 million.
     Return
         str
-            e.g: 1 thousand, 123.4 thousand, 111.42 million
+            e.g: 1.02 thousand, 123.43 thousand, 111.42 million
     Params:
         val: int
             The value of view
-        precision: int
-            The precision demanded
     """
 
     try:
         int_val = int(val)
     except ValueError:
         raise template.TemplateSyntaxError(f'Value must be an integer. {val} is not an integer')
-    if int_val < 1000:
-        return str(int_val)
-    elif int_val < 1_000_000:
-        return f'{ int_val/1000.0:.{precision}f}'.rstrip('0').rstrip('.') + ' thousand'
-    else:
-        return f'{int_val/1_000_000.0:.{precision}f}'.rstrip('0').rstrip('.') + ' million'
+    return millify(int_val)
