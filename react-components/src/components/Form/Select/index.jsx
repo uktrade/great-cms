@@ -144,6 +144,17 @@ export const Select = memo(
       }
     }
 
+    const focusFirst = (e) => {
+      setIsOpen(true)
+      switch (e.keyCode) {
+        case DOWN_ARROW_KEY_CODE:
+          e.target
+            .closest('.select__placeholder')
+            .querySelector('ul li')
+            .focus()
+      }
+    }
+
     return (
       <div className={`select ${className}`}>
         <FormGroup
@@ -195,12 +206,19 @@ export const Select = memo(
                     placeholder={placeholder}
                     value={inputValue}
                     onChange={inputChange}
+                    onKeyDown={(e) => focusFirst(e)}
                   />
                 ) : (
                   ''
                 )}
               </div>
-              <div className="select__placeholder--value">{selectedItem()}</div>
+              {!autoComplete ? (
+                <div className="select__placeholder--value">
+                  {selectedItem()}
+                </div>
+              ) : (
+                ''
+              )}
               <ul
                 role="listbox"
                 className={`select__list m-t-0 body-l bg-white radius ${
@@ -215,7 +233,7 @@ export const Select = memo(
                   ? options.map((item, i) => (
                       <Item
                         isDisabled={
-                          Array.isArray(input)
+                          !autoComplete && Array.isArray(input)
                             ? input.includes(item.value)
                             : input === item.value
                         }

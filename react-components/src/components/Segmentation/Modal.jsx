@@ -16,6 +16,7 @@ export default function Modal(props) {
     closeClick,
     progressPercentage,
   } = props
+
   return (
     <ReactModal
       isOpen
@@ -23,6 +24,7 @@ export default function Modal(props) {
       className={`${className} format-${format} modal p-v-xs p-h-s`}
       overlayClassName="modal-overlay center"
       shouldCloseOnOverlayClick={false}
+      onRequestClose={() => false}
     >
       {closeClick && (
         <button
@@ -36,12 +38,11 @@ export default function Modal(props) {
       <div className="c-fullwidth">
         <h3 className="h-s m-b-xs m-r-s">{title}</h3>
         <div className="modal-body body-l m-b-xs text-blue-deep-60">{body}</div>
-        <div className="modal-button-bar"
-        >
+        <div className="modal-button-bar">
           {progressPercentage != null ? (
             <div className="progress-section">
               <div className="progress-bar">
-                <span style={{ width: `${progressPercentage}%` }}/>
+                <span style={{ width: `${progressPercentage}%` }} />
               </div>
             </div>
           ) : (
