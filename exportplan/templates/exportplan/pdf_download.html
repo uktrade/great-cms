@@ -336,11 +336,18 @@
       <p class="pad-t-0"><strong>${{ insight.country_data.Income.0.value|floatformat:0|intcomma }}</strong></p>
     {% endwith %}
     {% with market_research=population_age_data|get_item:'target-markets-research' %}
-      <h3 class="pad-y-1">Target age group</h3>
+      <h6 class="body-gamma pad-y-0">Target age groups</h6>
+      <p class="pad-t-0">
+        <strong>
+          {% for age in market_research.population_data.target_ages %}
+          {{ age }} years{% if not forloop.last %},{% endif %}
+          {% endfor %}
+        </strong>
+      </p>
       <h6 class="body-gamma pad-y-0">Total population</h6>
-      <p class="pad-t-0"><strong>{{ market_research.population_data.total_population|intcomma }}</strong></p>
+      <p class="pad-t-0"><strong>{{ market_research.population_data.total_population|intcomma }} million</strong></p>
       <h6 class="body-gamma pad-y-0">Total age population</h6>
-      <p class="pad-t-0"><strong>{{ market_research.population_data.total_target_age_population|intcomma }}</strong></p>
+      <p class="pad-t-0"><strong>{{ market_research.population_data.total_target_age_population|intcomma }} million</strong></p>
     </td>
     {% endwith %}
     {% endif %}
