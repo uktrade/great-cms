@@ -6,7 +6,7 @@
     <div id="great-hero" class="container p-s">
         <h2 class="h-m">Welcome {{ request.user.first_name|default:request.user.email }}</h2>
         {% breadcrumbs article_name %}
-          <a href="{% url_map 'dashboard_url' %}" id="breadcrumbs-dashboard">Home</a>
+          <a href="{% url_map 'DASHBOARD_URL' %}" id="breadcrumbs-dashboard">Home</a>
           <a href="http://www.example.com" id="breadcrumbs-{{ topic_name|slugify }}">{{ topic_name }}</a>
           <a href="http://www.example.com" id="breadcrumbs-{{ chapter_name|slugify }}">{{ chapter_name }}</a>
         {% endbreadcrumbs %}
