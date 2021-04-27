@@ -1,5 +1,6 @@
 {% load humanize %}
 {% load object_tags %}
+{% load content_tags %}
 
 {% for route in export_plan.data.route_to_markets %}
 <table class="layout page-header">
@@ -88,11 +89,11 @@
         </strong>
       </p>
       <h6 class="body-gamma pad-y-0">Target age population</h6>
-      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_target_age_population|intcomma }} million</strong></p>
+      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_target_age_population|multiply_by_exponent|friendly_number }}</strong></p>
       <h6 class="body-gamma pad-y-0">Female in target group</h6>
-      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.female_target_age_population|intcomma }} million</strong></p>
+      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.female_target_age_population|multiply_by_exponent|friendly_number }}</strong></p>
       <h6 class="body-gamma pad-y-0">Male in target group</h6>
-      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.male_target_age_population|intcomma }} million</strong></p>
+      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.male_target_age_population|multiply_by_exponent|friendly_number }}</strong></p>
       <h6 class="body-gamma pad-y-0">Livng in uban areas</h6>
       <p class="pad-t-0"><strong> {% widthratio marketing_approach.population_data.urban_percentage 1 100 %}&percnt;</strong></p>
       <h6 class="body-gamma pad-y-0">Living in rural areas</h6>
