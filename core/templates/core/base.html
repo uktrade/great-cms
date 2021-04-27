@@ -53,7 +53,7 @@
           societyByCountryUrl: '{% url "exportplan:api-society-data-by-country" %}',
           countryOptions: {{ javascript_components.country_choices|safe }},
           csrfToken: '{{ csrf_token }}',
-          dashboardUrl: '{% url_map "dashboard" %}',
+          dashboardUrl: '{% url_map "DASHBOARD_URL" %}',
           googleUrl: '{{ javascript_components.google_url }}',
           industryOptions: {{ javascript_components.industry_options|safe }},
           linkedInUrl: '{{ javascript_components.linkedin_url }}',
@@ -101,7 +101,7 @@
       magna.setInitialState({
         // prevents modals from opening on page load if user dismissed the modal already
         performSkipFeatureCookieCheck: true,
-        nextUrl: '{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url_map "dashboard" %}{% endif %}',
+        nextUrl: '{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url_map "DASHBOARD_URL" %}{% endif %}',
         modalIsOpen: {
           products: false,
           countries: false,
