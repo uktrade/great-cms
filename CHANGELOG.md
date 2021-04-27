@@ -4,6 +4,41 @@
 
 ### Enhancements
 
+- GP2-2095 - Error page styling and slug tidyup
+- GP2-2326 - header style fix
+- GP2-2265 - pdf design changes
+- GP2-2279 - The progress bar is not displayed on the export plan landing page
+- GP2-2137 - VFM Companies house lookup
+- GP2-2298 - Added header missing menu items (search, services)
+- GP2-2308 - Add new CMS page type that can be used for Services landing page
+- GP2-2155 - Add/Port /healthcheck/ views
+- GP2-2156 - Add robots.txt
+- GP2-2069 - Replicate the Cookie management behaviour from V1.
+- No ticket - wagtail upgrade to 2.11.7 and other packages including reportlab lib
+- GP2-2283 - Remove "Some features are not available" from the export plan landing page
+- GP2-2154 - Redirects BAU to magna
+- GP2-1253 - Export plan - Learning linking components
+- GP2-2275 - Rename 'js' directory to 'javascript' directory across project
+- GP2-2214 - Signed in magna header (BAU pages)
+- GP2-1887 - VFM questionnaire
+- GP2-2086 - Date picker selectable ranges
+- GP2-2088 - Form validation - Numerical fields
+- GP2-2087 - Form validation - Numerical fields (cost/price)
+- GP2-2302 - ep dropdown validation
+
+### Fixed bugs
+- GP2-2292 - Save product on name change only
+- GP2-2262 - Case study background
+- GP2-2234 - Sign up / in page tablet design
+- NOTICKET - Fixes header menu flickering
+- GP2-2138 - Fix domestic tab alignment
+
+
+## [1.8.0](https://github.com/uktrade/great-cms/releases/tag/1.8.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.7.1...1.8.0)
+### Enhancements
+
 - GP2-2170 - PDF Download, with blank support
 - GP2-1904 - New sign in page mobile
 - GP2-1850 - Port Search from V1 to great-cms
@@ -12,6 +47,8 @@
 - GP2-1902 - New sign in page design implemented
 - GP2-1903 - New sign up page design implemented
 - GP2-1709 - trade barrier integration
+- GP2-2302 - ep dropdown validation
+- GP2-2336 - collapse api object
 
 ### Fixed bugs
 
@@ -25,6 +62,7 @@
 
 
 ## [1.7.1](https://github.com/uktrade/great-cms/releases/tag/1.7.1)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.6.0...1.7.1)
 Change log disappeared we lost some how perhaps during staging release. Please refer to above url for file changes.
 

@@ -14,17 +14,15 @@ allure-pytest==2.8.40
     # via -r requirements_test.in
 allure-python-commons==2.8.40
     # via allure-pytest
-anyascii==0.1.7
+anyascii==0.2.0
     # via wagtail
 appdirs==1.4.4
     # via
     #   black
     #   virtualenv
-appnope==0.1.2
-    # via ipython
 arabic-reshaper==2.1.3
     # via xhtml2pdf
-astroid==2.5.3
+astroid==2.5.6
     # via pylint
 attrs==20.3.0
     # via
@@ -41,7 +39,7 @@ beautifulsoup4==4.8.2
     #   great-components
     #   readtime
     #   wagtail
-black==20.8b1
+black==21.4b0
     # via
     #   -r requirements_test.in
     #   blacken-docs
@@ -87,13 +85,16 @@ dateparser==0.7.2
     # via
     #   -r requirements.in
     #   -r requirements_test.in
-decorator==5.0.6
+decorator==5.0.7
     # via ipython
 directory-api-client==22.17.0
+    # via -r requirements.in
+directory-ch-client==2.1.0
     # via -r requirements.in
 directory-client-core==6.3.0
     # via
     #   directory-api-client
+    #   directory-ch-client
     #   directory-forms-api-client
     #   directory-sso-api-client
 directory-constants==20.23.0
@@ -102,13 +103,15 @@ directory-constants==20.23.0
     #   great-components
 directory-forms-api-client==5.3.0
     # via -r requirements.in
+directory-healthcheck==2.0.0
+    # via -r requirements.in
 directory-sso-api-client==6.5.4
     # via -r requirements.in
 directory-validators==6.0.5
     # via -r requirements.in
 distlib==0.3.1
     # via virtualenv
-django-debug-toolbar==3.2
+django-debug-toolbar==3.2.1
     # via -r requirements_test.in
 django-decorator-include==3.0
     # via -r requirements.in
@@ -120,8 +123,10 @@ django-filter==2.2.0
     # via
     #   -r requirements.in
     #   wagtail
-django-formtools==2.2
+django-formtools==2.3
     # via -r requirements.in
+django-health-check==3.8.0
+    # via directory-healthcheck
 django-ipware==2.1.0
     # via -r requirements.in
 django-modelcluster==5.1
@@ -134,7 +139,7 @@ django-staff-sso-client==1.0.1
     # via -r requirements.in
 django-storages[boto3]==1.8
     # via -r requirements.in
-django-taggit==1.3.0
+django-taggit==1.4.0
     # via wagtail
 django-treebeard==4.4
     # via
@@ -144,8 +149,10 @@ django==2.2.20
     # via
     #   -r requirements.in
     #   directory-api-client
+    #   directory-ch-client
     #   directory-client-core
     #   directory-constants
+    #   directory-healthcheck
     #   directory-validators
     #   django-debug-toolbar
     #   django-decorator-include
@@ -173,13 +180,13 @@ docutils==0.15.2
     #   sphinx
 draftjs-exporter==2.1.7
     # via wagtail
-et-xmlfile==1.0.1
+et-xmlfile==1.1.0
     # via openpyxl
 factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==8.0.0
+faker==8.1.1
     # via factory-boy
 filelock==3.0.12
     # via virtualenv
@@ -231,7 +238,7 @@ html5lib==1.1
     # via
     #   wagtail
     #   xhtml2pdf
-identify==2.2.3
+identify==2.2.4
     # via pre-commit
 idna==2.10
     # via requests
@@ -290,7 +297,9 @@ mccabe==0.6.1
 mohawk==1.1.0
     # via sigauth
 monotonic==1.6
-    # via directory-client-core
+    # via
+    #   directory-ch-client
+    #   directory-client-core
 msgpack==1.0.2
     # via locust
 mypy-extensions==0.4.3
@@ -328,7 +337,7 @@ pillow==8.2.0
     #   reportlab
     #   wagtail
     #   xhtml2pdf
-pip-tools==6.0.1
+pip-tools==6.1.0
     # via -r requirements_test.in
 pisa==3.0.33
     # via -r requirements.in
@@ -338,7 +347,7 @@ pluggy==0.13.1
     #   pytest
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
-pre-commit==2.12.0
+pre-commit==2.12.1
     # via -r requirements_test.in
 prompt-toolkit==3.0.18
     # via ipython
@@ -363,11 +372,11 @@ pygments==2.8.1
     # via
     #   ipython
     #   sphinx
-pylint-django==2.4.3
+pylint-django==2.4.4
     # via -r requirements_test.in
 pylint-plugin-utils==0.6
     # via pylint-django
-pylint==2.7.4
+pylint==2.8.1
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -421,7 +430,7 @@ regex==2021.4.4
     # via
     #   black
     #   dateparser
-reportlab==3.5.66
+reportlab==3.5.67
     # via xhtml2pdf
 requests-mock==1.8.0
     # via -r requirements_test.in
@@ -432,6 +441,7 @@ requests==2.25.1
     #   airtable-python-wrapper
     #   codecov
     #   directory-api-client
+    #   directory-ch-client
     #   directory-client-core
     #   geoip2
     #   locust
@@ -443,7 +453,7 @@ ruamel.yaml.clib==0.2.2
     # via ruamel.yaml
 ruamel.yaml==0.17.4
     # via pre-commit-hooks
-s3transfer==0.3.6
+s3transfer==0.3.7
     # via boto3
 selenium==3.141.0
     # via -r requirements_test.in
@@ -505,10 +515,6 @@ toml==0.10.2
     #   pytest
 traitlets==5.0.5
     # via ipython
-typed-ast==1.4.3
-    # via black
-typing-extensions==3.7.4.3
-    # via black
 tzlocal==2.1
     # via dateparser
 unidecode==1.2.0
@@ -520,7 +526,7 @@ urllib3==1.25.11
     #   requests
     #   selenium
     #   sentry-sdk
-virtualenv==20.4.3
+virtualenv==20.4.4
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
@@ -530,7 +536,7 @@ wagtail-factories==2.0.1
     # via -r requirements.in
 wagtail-transfer==0.7.1
     # via -r requirements.in
-wagtail==2.11.6
+wagtail==2.11.7
     # via
     #   -r requirements.in
     #   wagtail-cache
@@ -560,13 +566,13 @@ xhtml2pdf==0.2.5
     # via -r requirements.in
 xlrd==2.0.1
     # via tablib
-xlsxwriter==1.3.8
+xlsxwriter==1.4.0
     # via wagtail
 xlwt==1.3.0
     # via tablib
 zope.event==4.5.0
     # via gevent
-zope.interface==5.3.0
+zope.interface==5.4.0
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:

@@ -7,7 +7,6 @@
 @import '../../partials/mixins';
 
 .great-header-search-wrapper {
-  width: 100%;
   background: transparent;
 
   @media (max-width: 768px) {
@@ -20,7 +19,6 @@
     width: 240px;
     float: right;
     margin-left: 15px;
-    margin-top: -58px;
     padding: 8px 0;
 
     & > * {
@@ -28,7 +26,7 @@
     }
 
     input {
-      height: 40px;
+      height: 42px;
       width: 200px;
       font-family: $brand-font-alternative;
       padding: 0 15px;
@@ -40,7 +38,7 @@
       color: $white;
       border: 0;
       font-size: 0; // hide button text visually but not for screenreaders
-      height: 40px;
+      height: 42px;
       width: 40px;
       background-repeat: no-repeat;
       background-position: 50%;
@@ -66,6 +64,15 @@
   @include float-clear;
   margin: 0 auto;
   max-width: 1200px;
+  margin-left: 25px;
+
+  &.signed-in {
+    margin-right: 130px;
+  }
+
+  &.mobile-only {
+    margin:10px 10px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -97,4 +104,3 @@
     margin: 0 20px;
   }
 }
-

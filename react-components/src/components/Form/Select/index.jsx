@@ -25,6 +25,9 @@ export const Select = memo(
     id,
     className,
     multiSelect,
+    autoComplete,
+    inputChange,
+    inputValue,
   }) => {
     const [input, setInput] = useState(selected)
     const [isOpen, setIsOpen] = useState(false)
@@ -62,9 +65,11 @@ export const Select = memo(
         setInput(items)
         update({ [name]: items })
       } else {
-        setInput(item.label)
-        setIsOpen(false)
-        update({ [name]: item.value })
+        if (!item.isError) {
+          setInput(item.value)
+          setIsOpen(false)
+          update({ [name]: item.value })
+        }
       }
     }
 
@@ -171,7 +176,19 @@ export const Select = memo(
               <div
                 className="select__placeholder--input"
                 onClick={() => setIsOpen(!isOpen)}
-              />
+              >
+                {autoComplete ? (
+                  <input
+                    role="combobox"
+                    className="form-control"
+                    placeholder={placeholder}
+                    value={inputValue}
+                    onChange={inputChange}
+                  />
+                ) : (
+                  ''
+                )}
+              </div>
               <div className="select__placeholder--value">{selectedItem()}</div>
               <ul
                 role="listbox"
@@ -181,18 +198,19 @@ export const Select = memo(
                 aria-expanded={isOpen}
                 ref={element}
               >
-                <li>{placeholder}</li>
+                {!autoComplete ? <li>{placeholder}</li> : ''}
 
                 {Array.isArray(options)
                   ? options.map((item, i) => (
                       <Item
                         isDisabled={input.includes(item.label)}
-                        key={item.label}
+                        key={item.value}
                         onClick={() => selectOption(item)}
                         onKeyDown={(e) => focusNext(e, i, item)}
                         selected={item.label === input}
                         label={item.label}
                         forwardedRef={(el) => (liRef.current[i] = el)}
+                        isError={item.isError}
                       />
                     ))
                   : Object.keys(options).map((category, i) => (
@@ -201,7 +219,7 @@ export const Select = memo(
                           <li className="body-m-b">{category}</li>
                           {options[category].map((li, index) => (
                             <Item
-                              key={li.label}
+                              key={li.value}
                               onClick={() => selectOption(li)}
                               onKeyDown={(e) => focusNext(e, index + 1, li, i)}
                               selected={li.label === input}
@@ -236,14 +254,14 @@ Select.propTypes = {
       PropTypes.arrayOf(
         PropTypes.shape({
           value: PropTypes.string,
-          label: PropTypes.string,
+          label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
         })
       )
     ),
     PropTypes.arrayOf(
       PropTypes.shape({
         value: PropTypes.string,
-        label: PropTypes.string,
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
       })
     ),
   ]).isRequired,
@@ -265,6 +283,9 @@ Select.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
   multiSelect: PropTypes.bool,
+  autoComplete: PropTypes.bool,
+  inputChange: PropTypes.func,
+  inputValue: PropTypes.string,
 }
 
 Select.defaultProps = {
@@ -278,4 +299,7 @@ Select.defaultProps = {
   id: '',
   className: 'm-b-l',
   multiSelect: false,
+  autoComplete: false,
+  inputChange: null,
+  inputValue: null,
 }

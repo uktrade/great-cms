@@ -12,7 +12,7 @@ There are however lots of financing options available to help you export, the ri
 
 {% block main_content %}
 <div class="g-panel">
-  <p>You have already calcuated how much you are going to spend on exporting, now it is time work out if you need funding and if you do, which type of funding is best for you.</p>
+  <p>You have already calculated how much you are going to spend on exporting, now it is time work out if you need funding and if you do, which type of funding is best for you.</p>
   <p>Carefully researching these options will make sure you bridge any gaps in funding, making sure you can export successfully.</p>
 </div>
 {% endblock %}
@@ -59,14 +59,14 @@ There are however lots of financing options available to help you export, the ri
     element: element,
     currency: 'GBP',
     estimated_costs_per_unit: {{ estimated_costs_per_unit }},
-    formData: {{ funding_and_credit|safe }},
+    formData: {{ funding_and_credit|to_json }},
   })
 
   element = document.getElementById('finance-how-much-funding');
   magna.fundingCreditHowMuchFunding({
     element: element,
     currency: 'GBP',
-    formData: {{ funding_and_credit|safe }},
+    formData: {{ funding_and_credit|to_json }},
     currentSection: {{ current_section|to_json}},
     lessonDetails: {{ lesson_details|safe }},
   })
@@ -75,8 +75,9 @@ There are however lots of financing options available to help you export, the ri
   magna.fundingCreditFundingCreditOptions({
     element: element,
     currency: 'GBP',
-    options: {{ funding_options|safe }},
-    formData: {{ funding_credit_options|to_json|safe }},
+    model_name: 'fundingcreditoptions',
+    options: {{ funding_options|to_json }},
+    formData: {{ funding_credit_options|to_json }},
     companyexportplan: {{ export_plan.pk }},
     currentSection: {{ current_section|to_json}},
     lessonDetails: {{ lesson_details|safe }},

@@ -1,11 +1,13 @@
 import os
 import sys
 
+import directory_healthcheck.backends
 import environ
 import sentry_sdk
 from django.urls import reverse_lazy
 from sentry_sdk.integrations.django import DjangoIntegration
 
+import healthcheck.backends
 from .utils import get_wagtail_transfer_configuration
 
 ROOT_DIR = environ.Path(__file__) - 2
@@ -72,6 +74,8 @@ INSTALLED_APPS = [
     'core.templatetags.int_to_range',
     'activitystream.apps.ActivityStreamConfig',
     'search.apps.SearchConfig',
+    'directory_healthcheck',
+    'healthcheck.apps.HealthcheckAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -120,6 +124,7 @@ TEMPLATES = [
                 'core.context_processors.analytics_vars',
                 'core.context_processors.migration_support_vars',
                 'core.context_processors.cms_slug_urls',
+                'core.context_processors.cookie_management_vars',
                 'great_components.context_processors.analytics',
             ],
         },
@@ -324,6 +329,7 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
+
 # django-storages
 AWS_STORAGE_BUCKET_NAME = env.str('AWS_STORAGE_BUCKET_NAME', '')
 AWS_DEFAULT_ACL = None
@@ -396,6 +402,8 @@ GOOGLE_TAG_MANAGER_ID = env.str('GOOGLE_TAG_MANAGER_ID')
 GOOGLE_TAG_MANAGER_ENV = env.str('GOOGLE_TAG_MANAGER_ENV', '')
 UTM_COOKIE_DOMAIN = env.str('UTM_COOKIE_DOMAIN')
 GA360_BUSINESS_UNIT = 'GreatMagna'
+
+PRIVACY_COOKIE_DOMAIN = env.str('PRIVACY_COOKIE_DOMAIN', UTM_COOKIE_DOMAIN)
 
 REST_FRAMEWORK = {'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',)}
 
@@ -475,6 +483,12 @@ DIRECTORY_API_CLIENT_API_KEY = env.str('DIRECTORY_API_CLIENT_API_KEY')
 DIRECTORY_API_CLIENT_SENDER_ID = 'directory'
 DIRECTORY_API_CLIENT_DEFAULT_TIMEOUT = 15
 
+# Companies House Search
+DIRECTORY_CH_SEARCH_CLIENT_BASE_URL = env.str('DIRECTORY_CH_SEARCH_CLIENT_BASE_URL')
+DIRECTORY_CH_SEARCH_CLIENT_API_KEY = env.str('DIRECTORY_CH_SEARCH_CLIENT_API_KEY')
+DIRECTORY_CH_SEARCH_CLIENT_SENDER_ID = env.str('DIRECTORY_CH_SEARCH_CLIENT_SENDER_ID', 'directory')
+DIRECTORY_CH_SEARCH_CLIENT_DEFAULT_TIMEOUT = env.str('DIRECTORY_CH_SEARCH_CLIENT_DEFAULT_TIMEOUT', 5)
+
 MADB_URL = env.str('MADB_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk')
 
 # 3CE commodity classification
@@ -545,7 +559,6 @@ DIT_HELPDESK_URL = env.str('DIT_HELPDESK_URL')
 
 FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = env.str('FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE', False)
 FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = env.list('FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST', default=[])
-FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER = env.bool('FEATURE_ENABLE_PRODUCT_SEARCH_WHEN_NO_USER', False)
 FEATURE_COMPARE_MARKETS_TABS = env.str('FEATURE_COMPARE_MARKETS_TABS', '{ }')
 FEATURE_SHOW_REPORT_BARRIER_CONTENT = env.bool('FEATURE_SHOW_REPORT_BARRIER_CONTENT', False)
 FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS = env.bool('FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS', False)
@@ -589,6 +602,18 @@ FEATURE_FLAG_TEST_SEARCH_API_PAGES_ON = env.bool(
     'FEATURE_TEST_SEARCH_API_PAGES_ENABLED',
     False,  # This view is only enabled, via environment configuration, for Dev
 )
+
+# Healthcheck: https://github.com/uktrade/directory-healthcheck/
+DIRECTORY_HEALTHCHECK_TOKEN = env.str('HEALTH_CHECK_TOKEN')
+DIRECTORY_HEALTHCHECK_BACKENDS = [
+    directory_healthcheck.backends.APIBackend,
+    directory_healthcheck.backends.SingleSignOnBackend,
+    directory_healthcheck.backends.FormsAPIBackend,
+]
+
+if FEATURE_FLAG_TEST_SEARCH_API_PAGES_ON:
+    DIRECTORY_HEALTHCHECK_BACKENDS.append(healthcheck.backends.SearchSortBackend)
+
 
 # ActivityStream config, for search
 ACTIVITY_STREAM_ACCESS_KEY_ID = env.str('ACTIVITY_STREAM_ACCESS_KEY_ID')

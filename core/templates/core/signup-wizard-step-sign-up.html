@@ -23,7 +23,7 @@
     {{ block.super }}
     <script type="text/javascript">
         magna.setInitialState({
-            nextUrl: '{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url_map "dashboard" %}{% endif %}?product={{ product_search_data.products }}&remember-expertise-products-services=true'
+            nextUrl: '{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url_map "DASHBOARD_URL" %}{% endif %}?product={{ product_search_data.products }}&remember-expertise-products-services=true'
         })
         magna.Signup({
             element: document.getElementById('signup-app-root'),

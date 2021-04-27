@@ -27,10 +27,10 @@
 <table class="layout layout--three-col">
   <tr>
     <td class="col-10-3">
-      <h2>Export Plan</h2>
+      &nbsp;
     </td>
     <td class="col-10-4 text-align-centre">
-      <p class="body-alpha">{% now "h:i a" %}</p>
+      <p class="body-alpha pad-l-5">{% now "h:i A" %}</p>
     </td>
     <td class="col-10-5">
      <p class="body-alpha text-align-right">{% now "jS F Y" %}</p>
@@ -43,10 +43,7 @@
   <tr class="text-align-centre">
     <td class="pad-y-3">
       {% if not user.company.logo %}
-      <img class="logo logo--cover" src="https://via.placeholder.com/600/dfd5c5?text=Company%20logo">
-      {% comment %}
-      <img class="logo logo--cover" src="{{pdf_statics_url}}pdf/pdf_download_logo.jpg">
-      {% endcomment %}
+      <img class="logo logo--cover" src="https://via.placeholder.com/600/FFFFFF/FFFFFF?text=Company%20logo">
       {% else %}
       <img class="logo logo--cover" alt="{{ user.company.name }}" src="{{ user.company.logo }}"/>
       {% endif %}
@@ -55,15 +52,10 @@
   <tr class="hr hr--red-150"><td></td></tr>
   <tr>
     <td class="col-10-10">
-      <h1 class="pad-t-5">{{ user.company.name|default:"British Maple Ltd" }}</h1>
+      <h1 class="pad-t-5 pad-b-3">Export Plan</h1>
       <p class="body-alpha"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span>
       <br />
       to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr>
-    <td class="col-10-10">
-      <p class="body-alpha pad-t-2">Owner <strong>{{ user.get_full_name|default:user.get_username }}</strong></p>
     </td>
   </tr>
   <tr class="text-align-right">
@@ -101,33 +93,19 @@
     </td>
   </tr>
   <tr class="pad-b-1">
-    <td class="col-10-5 align-top">
-      <h6>Company</h6>
-      {% include "exportplan/includes/pdf/pdf_blank.html" with data=user.company.name tag="h2" lines=1 %}
-    </td>
     <td class="col-10-5">
       <h6>Product</h6>
       {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.export_commodity_codes.0.commodity_name tag="h2" lines=1 %}
     </td>
-  </tr>
-  <tr class="pad-b-1">
-    <td class="col-10-5">
-      <h6>Owner</h6>
-      <h2>{{ user.get_full_name|default:user.get_username|truncatechars:24 }}</h2>
-    </td>
-    <td class="col-10-5">
-      <h6>HS Code</h6>
-      {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.export_commodity_code tag="h2" lines=1 %}
-    </td>
-  </tr>
-  <tr class="pad-b-1">
-    <td class="col-10-5">
-      <h6>Contact</h6>
-      <h2>{{ user.email|truncatechars:24 }}</h2>
-    </td>
     <td class="col-10-5">
       <h6>Exporting to</h6>
       {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.export_country_name tag="h2" lines=1 %}
+    </td>
+  </tr>
+  <tr class="pad-b-1">
+    <td class="col-10-5">
+      <h6>HS Code</h6>
+      {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.export_commodity_code tag="h2" lines=1 %}
     </td>
   </tr>
   <tr class="hr hr--blue-deep-100"><td></td></tr>
@@ -141,7 +119,7 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h2 class="pad-t-0">Who we are</h2>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.story tag="p" lines=5 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.story tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
         {% if export_plan.data.about_your_business.story %}
@@ -150,7 +128,7 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h2 class="pad-t-0">Why we want to export</h2>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.objectives.rationale tag="p" lines=5 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.objectives.rationale tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
         {% if export_plan.data.objectives.rationale %}
@@ -159,7 +137,7 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h2 class="pad-t-0">Where are we based</h2>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.location tag="p" lines=5 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.location tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
         {% if export_plan.data.about_your_business.location %}
@@ -168,32 +146,30 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h2 class="pad-t-0">What is the demand for our product?</h2>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.target_markets_research.demand tag="p" lines=5 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.target_markets_research.demand tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
       </table>
       <!-- ./Nested table -->
     </td>
     <td class="col-10-3 align-top">
-      {% if export_plan.data.funding_and_credit.funding_amount_required or total_funding.calculated_total_funding or calculated_pricing.calculated_cost_pricing.total_direct_costs or calculated_pricing.calculated_cost_pricing.total_overhead_costs or export_plan.data.getting_paid.payment_method.payment_method_label or export_plan.data.getting_paid.incoterms.incoterms_transport_label %}
       <h3 class="pad-b-1">Funding</h3>
       <h6 class="body-gamma pad-y-0">Total cost</h6>
-      <p class="pad-t-0">GBP {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma }}</p>
+      <p class="pad-t-0">GBP {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"___________________" }}</p>
       <h6 class="body-gamma pad-y-0">Total funding needed</h6>
-      <p class="pad-t-0">GBP {{ total_funding.calculated_total_funding|floatformat:2|intcomma }}</p>
+      <p class="pad-t-0">GBP {{ total_funding.calculated_total_funding|floatformat:2|intcomma|default:"___________________" }}</p>
 
       <h3 class="pad-b-1">Cost and pricing</h3>
       <h6 class="body-gamma pad-y-0">Direct costs total</h6>
-      <p class="pad-t-0">GBP {{ calculated_pricing.calculated_cost_pricing.total_direct_costs|floatformat:2|intcomma }}</p>
+      <p class="pad-t-0">GBP {{ calculated_pricing.calculated_cost_pricing.total_direct_costs|floatformat:2|intcomma|default:"___________________" }}</p>
       <h6 class="body-gamma pad-y-0">Overhead costs total</h6>
-      <p class="pad-t-0">GBP {{ calculated_pricing.calculated_cost_pricing.total_overhead_costs|floatformat:2|intcomma }}</p>
+      <p class="pad-t-0">GBP {{ calculated_pricing.calculated_cost_pricing.total_overhead_costs|floatformat:2|intcomma|default:"___________________" }}</p>
 
       <h3 class="pad-b-1">Getting paid</h3>
       <h6 class="body-gamma pad-y-0">Payment method</h6>
-      <p class="pad-t-0"><strong>{{ export_plan.data.getting_paid.payment_method.payment_method_label|default:"NA" }}</strong></p>
+      {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_method.payment_method_label tag="p" lines=3 tag_class="pad-t-0" rule_class="pad-y-2" tag_wrap_data="strong" %}
       <h6 class="body-gamma pad-y-0">Incoterms</h6>
-      <p class="pad-t-0"><strong>{{ export_plan.data.getting_paid.incoterms.incoterms_transport_label|default:"NA" }}</strong></p>
-      {% endif %}
+      {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.incoterms.incoterms_transport_label tag="p" lines=3 tag_class="pad-t-0" rule_class="pad-y-2" tag_wrap_data="strong" %}
     </td>
   </tr>
 </table>
@@ -224,38 +200,38 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">How we started</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.story tag="p" lines=5 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.story. tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Where we are based</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.location tag="p" lines=5 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.location. tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">How we make our product</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.processes tag="p" lines=5 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.processes. tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Our packaging</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.packaging tag="p" lines=5 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.packaging. tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Business performance</h3>
-            {% if export_plan.data.about_your_business.performance %}
+            {% if export_plan.data.about_your_business.performance. %}
             <p class="pad-t-0">GBP {{ export_plan.data.about_your_business.performance }}</p>
             {% else %}
-            {% include "exportplan/includes/pdf/pdf_blank.html" with lines=5 %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with lines=4 %}
             {% endif %}
           </td>
         </tr>
@@ -333,6 +309,7 @@
       </table>
       <!-- ./Nested table -->
     </td>
+    {% if export_plan.data.export_countries.0.country_name %}
     {% with insight=insight_data|get_item:export_plan.country_iso2_code %}
     <td class="col-10-3 align-top">
       <h3 class="pad-b-1 colour-red-150">Data snapshot</h3>
@@ -359,6 +336,7 @@
       <p class="pad-t-0"><strong>{{ market_research.population_data.total_target_age_population|intcomma }}</strong></p>
     </td>
     {% endwith %}
+    {% endif %}
   </tr>
 </table>
 
@@ -395,9 +373,11 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">
+              {% if content_icons %}
               <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_tag.jpg">
               &nbsp;
               &nbsp;
+              {% endif %}
               Labeling
             </h3>
             {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.labelling tag="p" lines=4 tag_class="pad-t-0" %}
@@ -407,9 +387,11 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">
+              {% if content_icons %}
               <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_dolly.jpg">
               &nbsp;
               &nbsp;
+              {% endif %}
               Packaging
             </h3>
             {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.packaging tag="p" lines=4 tag_class="pad-t-0" %}
@@ -419,9 +401,11 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">
+              {% if content_icons %}
               <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_weight.jpg">
               &nbsp;
               &nbsp;
+              {% endif %}
               Size
             </h3>
             {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.size tag="p" lines=4 tag_class="pad-t-0" %}
@@ -431,9 +415,11 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">
+              {% if content_icons %}
               <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_barcode.jpg">
               &nbsp;
               &nbsp;
+              {% endif %}
               Product changes to comply with standards
             </h3>
             {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.standards tag="p" lines=4 tag_class="pad-t-0" %}
@@ -443,9 +429,11 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">
+              {% if content_icons %}
               <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_feather-alt.jpg">
               &nbsp;
               &nbsp;
+              {% endif %}
               Translations
             </h3>
             {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.translations tag="p" lines=4 tag_class="pad-t-0" %}
@@ -455,9 +443,11 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">
+              {% if content_icons %}
               <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_money-check.jpg">
               &nbsp;
               &nbsp;
+              {% endif %}
               Other changes
             </h3>
             {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.other_changes tag="p" lines=4 tag_class="pad-t-0" %}
@@ -807,19 +797,19 @@
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Payment method</td>
                 <td class="col-10-4 pad-t-05 text-align-right">
-                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_method.payment_method_label tag="strong" line_class="pad-b-3" lines=1 %}
+                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_method.payment_method_label tag="strong" blank_class="pad-b-3" lines=1 %}
                 </td>
               </tr>
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Payment terms</td>
                 <td class="col-10-4 pad-t-05 text-align-right">
-                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_terms.terms_label tag="strong" line_class="pad-b-3" lines=1 %}
+                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_terms.terms_label tag="strong" blank_class="pad-b-3" lines=1 %}
                 </td>
               </tr>
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
                 <td class="col-10-6 pad-t-05">Incoterms</td>
                 <td class="col-10-4 pad-t-05 text-align-right">
-                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.incoterms.incoterms_transport_label tag="strong" line_class="pad-b-3" lines=1 %}
+                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.incoterms.incoterms_transport_label tag="strong" blank_class="pad-b-3" lines=1 %}
                 </td>
               </tr>
             </table>
@@ -836,7 +826,7 @@
 
 <pdf:nextpage>
 
-<!-- P11 travel plan -->
+<!-- P11a travel plan -->
 <h1 class="toc-name">Travel plan</h1>
 <table class="layout page-header">
   <tr>
@@ -873,6 +863,26 @@
 
         <tr class="pad-b-1">
           <td class="col-10-10">
+            {% if export_plan.data.travel_business_policies.visa_information.visa_required %}
+            <h3 class="pad-t-0">Visa required</h3>
+
+            <p class="pad-t-0"><strong>How and where to get visa:</strong></p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.travel_business_policies.visa_information.how_where_visa tag="p" lines=4 tag_class="pad-t-0" %}
+
+            <p class="pad-t-0"><strong>Duration:</strong></p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.travel_business_policies.visa_information.how_long tag="p" lines=1 tag_class="pad-t-0" %}
+
+            <p class="pad-t-0"><strong>Additional notes:</strong></p>
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.travel_business_policies.visa_information.notes tag="p" lines=4 tag_class="pad-t-0" %}
+
+            {% else %}
+            <h3 class="pad-t-0">No need for a visa</h3>
+            {% endif %}
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
             <h3 class="pad-t-0">Languages in your target market</h3>
             <p class="pad-t-0">
               {% if language_data.cia_factbook_data.languages.language  %}
@@ -892,6 +902,16 @@
     </td>
   </tr>
 </table>
+
+<pdf:nextpage>
+
+<!-- P11b trips -->
+<h1 class="toc-name">Marketing approach</h1>
+{% if export_plan.data.business_trips %}
+{% include 'exportplan/includes/pdf/pdf_trips_populated.html' %}
+{% else %}
+{% include 'exportplan/includes/pdf/pdf_trips_blank.html' %}
+{% endif %}
 
 <pdf:nextpage>
 

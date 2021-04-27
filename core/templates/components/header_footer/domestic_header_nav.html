@@ -3,29 +3,32 @@
 {% load url_map %}
 
 <div class="shared-nav-container main-nav-container {{ device_type }}">
-  {% if request.user.is_authenticated and request.user.first_name %}
-  <div class="user-greeting">{{ request.user.first_name }}</div>
+  {% if request.user.is_authenticated and request.user.first_name and device_type == 'mobile' %}
+  <div class="user-greeting">Hi {{ request.user.first_name }}</div>
   {% endif %}
   <nav id="{{ id }}" class="main-nav {{ device_type }} expanded {% if request.user.is_authenticated %}signed-in{% endif %}" aria-label="{% trans 'Main menu' %}">
     <ul class="grid-row nav-list">
       {% if request.user.is_authenticated %}
       <li class="menu-item" data-js-menu-item-container>
-        <a href="/" class="link-heading mobile-only" id="header-learn-{{ device_type }}" {% if js_tag %}data-js-menu-index=0{% endif %}>Home</a>
+        <a href="/" class="link-heading {% if device_type != 'mobile' %}mobile-only{% endif %}" id="header-learn-{{ device_type }}" {% if js_tag %}data-js-menu-index=0{% endif %}>Home</a>
       </li>
 
       <li class="menu-item" data-js-menu-item-container>
-        <a href="{% slugurl 'categories' %}" class="link-heading new mobile-only" id="header-learn-{{ device_type }}" {% if js_tag %}data-js-menu-index=0{% endif %}>Learn to export</a>
+        <a href="{% slugurl 'categories' %}" class="link-heading new" id="header-learn-{{ device_type }}" {% if js_tag %}data-js-menu-index=0{% endif %}>Learn to export</a>
       </li>
 
       <li class="menu-item" data-js-menu-item-container>
-        <a href="{% url 'core:compare-countries' %}" class="link-heading new mobile-only" id="header-where-{{ device_type }}" {% if js_tag %}data-js-menu-index=1{% endif %}>Where to export</a>
+        <a href="{% url 'core:compare-countries' %}" class="link-heading new" id="header-where-{{ device_type }}" {% if js_tag %}data-js-menu-index=1{% endif %}>Where to export</a>
       </li>
 
       <li class="menu-item" data-js-menu-item-container>
-        <a href="{% slugurl 'dashboard' %}" class="link-heading new mobile-only" id="header-make-{{ device_type }}" {% if js_tag %}data-js-menu-index=2{% endif %}>Make an export plan</a>
+        <a href="{% slugurl 'dashboard' %}" class="link-heading new" id="header-make-{{ device_type }}" {% if js_tag %}data-js-menu-index=2{% endif %}>Make an export plan</a>
       </li>
+      <li class="menu-item" data-js-menu-item-container>
+        <a href="/profile/" class="link-heading {% if device_type != 'mobile' %}mobile-only{% endif %}" id="header-advice-{{ device_type }}" {% if js_tag %}data-js-menu-index=3{% endif %}>Account</a>
       {% endif %}
 
+      {% if not request.user.is_authenticated or device_type == 'mobile' %}
       <li class="menu-item" data-js-menu-item-container>
         <a href="{% slugurl 'advice' %}" class="link-heading" id="header-advice-{{ device_type }}" {% if js_tag %}data-js-menu-index=3{% endif %}>Advice</a>
       </li>
@@ -34,21 +37,20 @@
         <a href="{% slugurl 'markets' %}" class="link-heading" id="header-markets-{{ device_type }}" {% if js_tag %}data-js-menu-index=4{% endif %}>Markets</a>
       </li>
 
-      {% comment "Hide until services page is implemented" %}
       <li class="menu-item" data-js-menu-item-container>
-        <a href="{{ header_footer_urls.services }}" class="link-heading" id="header-services-{{ device_type }}" {% if js_tag %}data-js-menu-index=6{% endif %}>Services</a>
+        <a href="{% slugurl 'services' %} " class="link-heading" id="header-services-{{ device_type }}" {% if js_tag %}data-js-menu-index=6{% endif %}>Services</a>
       </li>
-      {% endcomment %}
-
+      {% endif %}
+      {% comment "TODO remove me when confirmed redundant" %}
       {% if features.NEWS_SECTION_ON %}
         <li class="menu-item" data-js-menu-item-container>
           <a href="{{ header_footer_urls.domestic_news }}" class="link-heading" id="header-news-{{ device_type }}" {% if js_tag %}data-js-menu-index=7{% endif %}>News and events</a>
         </li>
       {% endif %}
-
+      {% endcomment %}
       {% if request.user.is_authenticated %}
       <li class="menu-item" data-js-menu-item-container>
-          <button class="link-heading mobile-only margin-bottom-15" id="sign_out_button_{{ device_type }}">Sign out</button>
+          <button class="link-heading {% if device_type != 'mobile' %}mobile-only{% endif %} margin-bottom-15" id="sign_out_button_{{ device_type }}">Sign out</button>
       </li>
       {% endif %}
     </ul>
@@ -57,6 +59,7 @@
     <a href="/login" class="button button-blue margin-top-15 mobile-only">Sign in</a>
     {% endif %}
   </nav>
+  {% include 'components/header_footer/search.html' %}
 </div>
 <script>
   {% url 'sso:business-sso-logout-api' as sign_out_endpoint %}

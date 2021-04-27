@@ -5,6 +5,7 @@ import json
 from directory_validators.string import no_html
 from rest_framework import serializers
 
+from directory_constants import choices
 from exportplan.utils import format_two_dp
 
 
@@ -24,7 +25,7 @@ class CountryTargetAgeDataSerializer(serializers.Serializer):
         return value[0].split(',')
 
 
-class CompanyObjectiveSerializer(serializers.Serializer):
+class CompanyObjectivesSerializer(serializers.Serializer):
     description = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     planned_reviews = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     owner = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
@@ -50,12 +51,12 @@ class AboutYourBuinessSerializer(serializers.Serializer):
     location = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     processes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     packaging = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    performance = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    performance = serializers.ChoiceField(required=False, choices=choices.TURNOVER_CHOICES)
 
 
 class ObjectiveSerializer(serializers.Serializer):
     rationale = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    company_objectives = serializers.ListField(child=CompanyObjectiveSerializer(), required=False)
+    company_objectives = serializers.ListField(child=CompanyObjectivesSerializer(), required=False)
 
 
 class TargetMarketsResearchSerializer(serializers.Serializer):
@@ -69,9 +70,9 @@ class TargetMarketsResearchSerializer(serializers.Serializer):
     )
 
 
-class RouteToMarketSerializer(serializers.Serializer):
-    route = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    promote = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+class RouteToMarketsSerializer(serializers.Serializer):
+    route = serializers.ChoiceField(required=False, allow_blank=True, choices=choices.MARKET_ROUTE_CHOICES)
+    promote = serializers.ChoiceField(required=False, allow_blank=True, choices=choices.PRODUCT_PROMOTIONAL_CHOICES)
     market_promotional_channel = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
@@ -79,10 +80,10 @@ class RouteToMarketSerializer(serializers.Serializer):
 
 class MarketingApproachSerializer(serializers.Serializer):
     resources = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    route_markets = serializers.ListField(child=RouteToMarketSerializer(), required=False)
+    route_markets = serializers.ListField(child=RouteToMarketsSerializer(), required=False)
 
 
-class TargetMarketDocumentSerializer(serializers.Serializer):
+class TargetMarketDocumentsSerializer(serializers.Serializer):
     document_name = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     note = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     companyexportplan = serializers.IntegerField()
@@ -101,14 +102,14 @@ class AdaptationTargetMarketSerializer(serializers.Serializer):
     commercial_invoice = serializers.CharField(required=False, allow_null=True, validators=[no_html])
     uk_customs_declaration = serializers.CharField(required=False, allow_null=True, validators=[no_html])
 
-    target_market_documents = serializers.ListField(child=TargetMarketDocumentSerializer(), required=False)
+    target_market_documents = serializers.ListField(child=TargetMarketDocumentsSerializer(), required=False)
 
 
 class BusinessRisksSerializer(serializers.Serializer):
     risk = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     contingency_plan = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    risk_likelihood = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    risk_impact = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    risk_likelihood = serializers.ChoiceField(required=False, choices=choices.RISK_LIKELIHOOD_OPTIONS)
+    risk_impact = serializers.ChoiceField(required=False, choices=choices.RISK_IMPACT_OPTIONS)
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 
@@ -148,75 +149,65 @@ class UiProgress(serializers.Serializer):
 
 
 class FundingCreditOptionsSerializer(serializers.Serializer):
-    amount = serializers.FloatField(required=False)
-    funding_option = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+    amount = serializers.FloatField(required=False, allow_null=True)
+    funding_option = serializers.ChoiceField(required=False, choices=choices.FUNDING_OPTIONS)
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 
 
 class FundingAndCreditSerializer(serializers.Serializer):
-    override_estimated_total_cost = serializers.FloatField(required=False)
-    funding_amount_required = serializers.FloatField(required=False)
+    override_estimated_total_cost = serializers.FloatField(required=False, allow_null=True)
+    funding_amount_required = serializers.FloatField(required=False, allow_null=True)
     funding_credit_options = serializers.ListField(child=FundingCreditOptionsSerializer(), required=False)
 
 
 class DirectCostsSerializer(serializers.Serializer):
-    product_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    labour_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    other_direct_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    product_costs = serializers.FloatField(required=False, allow_null=True)
+    labour_costs = serializers.FloatField(required=False, allow_null=True)
+    other_direct_costs = serializers.FloatField(required=False, allow_null=True)
 
     @property
     def total_direct_costs(self):
         self.is_valid()
         total = 0.00
         for field in self.get_fields().keys():
-            total = total + float(self.data.get(field, 0.00))
+            total += float(self.data.get(field, 0.00) or 0.00)
         return total
 
 
 class OverheadCostsSerializer(serializers.Serializer):
-    product_adaption = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    freight_logistics = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    agent_distributor_fees = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    marketing = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    insurance = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    other_overhead_costs = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    product_adaption = serializers.FloatField(required=False, allow_null=True)
+    freight_logistics = serializers.FloatField(required=False, allow_null=True)
+    agent_distributor_fees = serializers.FloatField(required=False, allow_null=True)
+    marketing = serializers.FloatField(required=False, allow_null=True)
+    insurance = serializers.FloatField(required=False, allow_null=True)
+    other_overhead_costs = serializers.FloatField(required=False, allow_null=True)
 
     @property
     def total_overhead_costs(self):
         self.is_valid()
         total = 0.00
         for field in self.get_fields().keys():
-            total = total + float(self.data.get(field, 0.00))
+            total += float(self.data.get(field, 0.00) or 0.00)
         return total
 
 
 class TotalCostAndPriceSerializer(serializers.Serializer):
     class UnitRecordInt(serializers.Serializer):
         unit = serializers.CharField(required=False, default='', allow_blank=True)
-        value = serializers.IntegerField(required=False)
-
-        def to_internal_value(self, data):
-            if data.get('value') == '':
-                data['value'] = 0
-            return super().to_internal_value(data)
+        value = serializers.IntegerField(required=False, allow_null=True)
 
     class UnitRecordDecimal(serializers.Serializer):
         unit = serializers.CharField(required=False, default='', allow_blank=True)
-        value = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, initial=0)
-
-        def to_internal_value(self, data):
-            if data.get('value') == '':
-                data['value'] = 0.00
-            return super().to_internal_value(data)
+        value = serializers.FloatField(required=False, allow_null=True)
 
     units_to_export_first_period = UnitRecordInt(required=False)
     units_to_export_second_period = UnitRecordInt(required=False)
-    final_cost_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    average_price_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    net_price = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    local_tax_charges = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
-    duty_per_unit = serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    final_cost_per_unit = serializers.FloatField(required=False, allow_null=True)
+    average_price_per_unit = serializers.FloatField(required=False, allow_null=True)
+    net_price = serializers.FloatField(required=False, allow_null=True)
+    local_tax_charges = serializers.FloatField(required=False, allow_null=True)
+    duty_per_unit = serializers.FloatField(required=False, allow_null=True)
     gross_price_per_unit_invoicing_currency = UnitRecordDecimal(required=False)
 
     @property
@@ -230,9 +221,9 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
     @property
     def gross_price_per_unit(self):
         self.is_valid()
-        duty_per_unit = self.data.get('duty_per_unit', 0.00)
-        net_price = self.data.get('net_price', 0.00)
-        local_tax_charges = self.data.get('local_tax_charges', 0.00)
+        duty_per_unit = self.data.get('duty_per_unit', 0.00) or 0.00
+        net_price = self.data.get('net_price', 0.00) or 0.00
+        local_tax_charges = self.data.get('local_tax_charges', 0.00) or 0.00
         gross_price_per_unit = float(duty_per_unit) + float(local_tax_charges) + float(net_price)
 
         return gross_price_per_unit
@@ -240,7 +231,7 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
     @property
     def potential_total_profit(self):
         self.is_valid()
-        no_of_unit = self.data.get('units_to_export_first_period', {}).get('value')
+        no_of_unit = self.data.get('units_to_export_first_period', {}).get('value') or 0
         profit_per_unit = self.profit_per_unit
         potential_total_profit = 0.00
         if no_of_unit and profit_per_unit:
@@ -248,17 +239,24 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
         return potential_total_profit
 
 
+class ListMultipleChoiceField(serializers.MultipleChoiceField):
+    def to_internal_value(self, data):
+        return sorted(list(super().to_internal_value(data)))
+
+
 class GettingPaidSerializer(serializers.Serializer):
     class PaymentMethodSerializer(serializers.Serializer):
-        methods = serializers.ListField(child=serializers.CharField(), required=False)
+        methods = ListMultipleChoiceField(required=False, choices=choices.PAYMENT_METHOD_OPTIONS)
         notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
 
     class PaymentTermsSerializer(serializers.Serializer):
-        terms = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+        terms = serializers.ChoiceField(required=False, choices=choices.PAYMENT_TERM_OPTIONS)
         notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
 
     class IncotermsSerializer(serializers.Serializer):
-        transport = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
+        transport = serializers.ChoiceField(
+            required=False, choices=choices.TRANSPORT_OPTIONS + choices.WATER_TRANSPORT_OPTIONS
+        )
         notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
 
     payment_method = PaymentMethodSerializer(required=False)
@@ -329,7 +327,9 @@ class ExportPlanSerializer(serializers.Serializer):
     @property
     def total_export_costs(self):
         self.is_valid()
-        units_to_export = self.data.get('total_cost_and_price', {}).get('units_to_export_first_period', {}).get('value')
+        units_to_export = (
+            self.data.get('total_cost_and_price', {}).get('units_to_export_first_period', {}).get('value') or 0
+        )
         total_export_costs = 0.00
         if units_to_export:
             total_export_costs = (self.total_direct_costs * float(units_to_export)) + self.total_overhead_costs
@@ -339,12 +339,12 @@ class ExportPlanSerializer(serializers.Serializer):
     def estimated_costs_per_unit(self):
         self.is_valid()
         units_to_export = float(
-            self.data.get('total_cost_and_price', {}).get('units_to_export_first_period', {}).get('value', 0.00)
+            self.data.get('total_cost_and_price', {}).get('units_to_export_first_period', {}).get('value', 0.00) or 0
         )
-        estimated_costs_per_unit = float(self.total_direct_costs)
+        estimated_costs_per_unit = float(self.total_direct_costs or 0)
         if self.total_overhead_costs > 0.00 and units_to_export > 0.00:
-            estimated_costs_per_unit = (self.total_overhead_costs / float(units_to_export)) + float(
-                self.total_direct_costs
+            estimated_costs_per_unit = (self.total_overhead_costs / units_to_export) + float(
+                self.total_direct_costs or 0
             )
         return estimated_costs_per_unit
 
@@ -352,7 +352,7 @@ class ExportPlanSerializer(serializers.Serializer):
     def calculate_total_funding(self):
         self.is_valid()
         total_funding = 0.00
-        funding_credit_options = self.data.get('funding_credit_options', {})
+        funding_credit_options = self.data.get('funding_and_credit', {}).get('funding_credit_options') or []
         for funding_credit_option in funding_credit_options:
             total_funding = funding_credit_option.get('amount', 0.00) + total_funding
         return total_funding
@@ -424,15 +424,15 @@ class NewFundingCreditOptionsSerializer(FundingCreditOptionsSerializer):
     pk = serializers.IntegerField(required=False)
 
 
-class NewTargetMarketDocumentSerializer(TargetMarketDocumentSerializer):
+class NewTargetMarketDocumentsSerializer(TargetMarketDocumentsSerializer):
     pk = serializers.IntegerField(required=False)
 
 
-class NewRouteToMarketSerializer(RouteToMarketSerializer):
+class NewRouteToMarketsSerializer(RouteToMarketsSerializer):
     pk = serializers.IntegerField(required=False)
 
 
-class NewObjectiveSerializer(CompanyObjectiveSerializer):
+class NewCompanyObjectivesSerializer(CompanyObjectivesSerializer):
     pk = serializers.IntegerField(required=False)
 
 

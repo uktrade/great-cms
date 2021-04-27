@@ -1,10 +1,11 @@
 @import 'helpers/colours';
 
 .segmentation-modal {
-    @include breakpoint(sm) {
-      width: 450px;
-      height: auto;
-    }
+  .radio-block {
+    overflow: hidden;
+    margin-left: -5px;
+    padding-left: 5px; // so the focus outline doesn't get clipped
+  }
 
   .multiple-choice {
     label {
@@ -13,20 +14,71 @@
       padding-left: 5px;
     }
 
-    [type='radio'] + label {
+    [type='radio']+label {
       @include breakpoint(sm_lt) {
         position: unset;
       }
     }
 
-    [type=radio] + label::before {
+    [type='radio']+label::before {
       top: 4px;
       border-color: $light-grey;
     }
 
-    [type=radio] + label::after {
+    [type='radio']+label::after {
       top: 10px;
       border-color: $lightened-great-blue;
+    }
+  }
+
+  .autocomplete {
+    .select__list {
+      margin-top: 50px;
+      max-height: 300px;
+    }
+
+    .select__button {
+      display: none;
+    }
+  }
+
+  .select__list {
+    max-height: 350px;
+    overflow-y: auto;
+  }
+}
+
+.modal {
+  &.format-medium {
+    @include breakpoint(sm) {
+      width: 630px;
+      height: auto;
+    }
+  }
+
+  .dialog-close {
+    font-size: 42px;
+    top: 20px;
+    right: 20px;
+    color: $colour-blue-deep-80;
+  }
+
+  .modal-button-bar {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+
+    @include breakpoint(md) {
+      flex-flow: row nowrap;
+      align-items: center;
+
+      .progress-section {
+        flex: 1 0;
+      }
+
+      .progress-bar {
+        margin-right: 20px;
+      }
     }
   }
 }

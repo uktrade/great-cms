@@ -178,10 +178,11 @@ class UpdateCalculateCostAndPricingAPIView(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
+
         if serializer.is_valid(raise_exception=True):
             export_plan = self.request.user.export_plan.data
             updated_export_plan = helpers.update_exportplan(
-                sso_session_id=self.request.user.session_id, id=export_plan['pk'], data=serializer.data
+                sso_session_id=self.request.user.session_id, id=export_plan['pk'], data=serializer.validated_data
             )
             # We now need the full export plan to calculate the totals
             calculated_pricing = ExportPlanProcessor(updated_export_plan).calculated_cost_pricing()
@@ -193,6 +194,7 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
+
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
             export_plan = self.request.user.export_plan.data
@@ -202,149 +204,14 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
             return Response(serializer.validated_data)
 
 
-class ObjectivesCreateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.NewObjectiveSerializer
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            response = helpers.create_objective(self.request.user.session_id, serializer.validated_data)
-            return Response(response)
-
-
-class ObjectivesUpdateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.CompanyObjectiveSerializer
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            response = helpers.update_objective(self.request.user.session_id, serializer.validated_data)
-            return Response(response)
-
-
-class ObjectivesDestroyAPIView(generics.GenericAPIView):
-    serializer_class = serializers.PkOnlySerializer
-    permission_classes = [IsAuthenticated]
-
-    def delete(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-
-        if serializer.is_valid(raise_exception=True):
-            helpers.delete_objective(self.request.user.session_id, serializer.validated_data)
-            return Response({})
-
-
-class RouteToMarketsCreateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.NewRouteToMarketSerializer
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-
-        if serializer.is_valid(raise_exception=True):
-            response = helpers.create_route_to_market(self.request.user.session_id, serializer.validated_data)
-            return Response(response)
-
-
-class RouteToMarketsUpdateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.RouteToMarketSerializer
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-
-        if serializer.is_valid(raise_exception=True):
-            response = helpers.update_route_to_market(self.request.user.session_id, serializer.validated_data)
-            return Response(response)
-
-
-class RouteToMarketsDestroyAPIView(generics.GenericAPIView):
-    serializer_class = serializers.PkOnlySerializer
-    permission_classes = [IsAuthenticated]
-
-    def delete(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-
-        if serializer.is_valid(raise_exception=True):
-            helpers.delete_route_to_market(self.request.user.session_id, serializer.validated_data)
-            return Response({})
-
-
-class TargetMarketDocumentsCreateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.NewTargetMarketDocumentSerializer
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            response = helpers.create_target_market_documents(self.request.user.session_id, serializer.validated_data)
-            return Response(response)
-
-
-class TargetMarketDocumentUpdateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.TargetMarketDocumentSerializer
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-
-        if serializer.is_valid(raise_exception=True):
-            response = helpers.update_target_market_documents(self.request.user.session_id, serializer.validated_data)
-            return Response(response)
-
-
-class TargetMarketDocumentsDestroyAPIView(generics.GenericAPIView):
-    serializer_class = serializers.PkOnlySerializer
-    permission_classes = [IsAuthenticated]
-
-    def delete(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-
-        if serializer.is_valid(raise_exception=True):
-            helpers.delete_target_market_documents(self.request.user.session_id, serializer.validated_data)
-            return Response({})
-
-
-class FundingCreditOptionsCreateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.NewFundingCreditOptionsSerializer
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            response = helpers.create_funding_credit_options(self.request.user.session_id, serializer.validated_data)
-            return Response(response)
-
-
-class FundingCreditOptionsUpdateAPIView(generics.GenericAPIView):
-    serializer_class = serializers.FundingCreditOptionsSerializer
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            response = helpers.update_funding_credit_options(self.request.user.session_id, serializer.validated_data)
-            return Response(response)
-
-
-class FundingCreditOptionsDestroyAPIView(generics.GenericAPIView):
-    serializer_class = serializers.PkOnlySerializer
-    permission_classes = [IsAuthenticated]
-
-    def delete(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-
-        if serializer.is_valid(raise_exception=True):
-            helpers.delete_funding_credit_options(self.request.user.session_id, serializer.validated_data)
-            return Response({})
-
-
 class ModelObjectManageAPIView(generics.UpdateAPIView, generics.GenericAPIView):
     serializer_name_map = {
         'businesstrips': 'BusinessTrips',
         'businessrisks': 'BusinessRisks',
+        'companyobjectives': 'CompanyObjectives',
+        'routetomarkets': 'RouteToMarkets',
+        'targetmarketdocuments': 'TargetMarketDocuments',
+        'fundingcreditoptions': 'FundingCreditOptions',
     }
 
     serializer_classes = importlib.import_module('exportplan.core.serializers')
