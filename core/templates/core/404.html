@@ -1,15 +1,24 @@
 {% extends 'core/base.html' %}
+{% load url_map %}
 
 {% block head_title %}This page cannot be found{% endblock %}
 
+{% block css_layout_class %}
+  {{ block.super }}
+  bg-white
+{% endblock %}
 {% block content %}
 <section class="p-v-xxl">
-  <div class="container">
+  <div class="container body-l">
     <div class="w-2-3">
       <h1 class="h-l">This page cannot be found</h1>
     </div>
+    <p>If you entered a web address, check that it is correct.</p>
+    <p>If you followed a link here, <a class="link link--underline" href="{% url_map 'CONTACT_URL'%}">let us know</a>.</p>
+    <p>You can <a class="link link--underline" href="/">browse from the homepage</a> or use the search box above to find the information your need.</p>
   </div>
 </section>
 {% endblock %}
+
 
 {% block feedback_reporter %}{% endblock %}
