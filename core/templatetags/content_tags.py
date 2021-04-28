@@ -133,8 +133,9 @@ def friendly_number(val):
             The input value
     """
 
-    try:
+    if type(val) == int:
         int_val = int(val)
-    except ValueError:
-        raise template.TemplateSyntaxError(f'Value must be an integer. {val} is not an integer')
+    else:
+        int_val = 0
+
     return millify(int_val)
