@@ -126,10 +126,10 @@ def friendly_number(val):
     Convert numbers to a friendly format e.g: 1 thousand, 123.4 thousand, 1.11 million, 111.42 million.
     Return
         str
-            e.g: 1.02 thousand, 123.43 thousand, 111.42 million
+            e.g: 1.02 thousand, 123.43 thousand, 111.42 million, 1.14 billion
     Params:
         val: int
-            The value of view
+            The input value
     """
 
     try:
