@@ -28,6 +28,7 @@
 - GP2-2302 - ep dropdown validation
 
 ### Fixed bugs
+- GP2-2368 - Typo on the Funding and credit page
 - GP2-2292 - Save product on name change only
 - GP2-2262 - Case study background
 - GP2-2234 - Sign up / in page tablet design
@@ -53,6 +54,12 @@
 
 ### Fixed bugs
 
+- GP2-2337 - adapting product typos
+- GP2-2292 - Save product on name change only
+- GP2-2262 - Case study background
+- GP2-2234 - Sign up / in page tablet design
+- NOTICKET - Fixes header menu flickering
+- GP2-2138 - Fix domestic tab alignment
 - GP2-2250 - Hide top banner when signed in on mobile
 - GP2-2240 - Search tuning
 - GP2-2215 - Fix privacy policy sign up link
