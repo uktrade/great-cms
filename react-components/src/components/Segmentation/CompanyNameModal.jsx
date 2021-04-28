@@ -208,9 +208,7 @@ export default function CompanyNameModal(props) {
       className="segmentation-modal"
       title={question.title}
       body={
-        <form className="text-blue-deep-80">
-          <div className="c-fullwidth">{getContent()}</div>
-        </form>
+        <div className="c-fullwidth text-blue-deep-80">{getContent()}</div>
       }
       progressPercentage={progressPercentage}
       primaryButtonLabel="Next"

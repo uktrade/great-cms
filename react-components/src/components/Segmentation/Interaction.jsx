@@ -18,7 +18,7 @@ export default function Interaction(props) {
   const choices = isArray(question.choices)
     ? question.choices
     : question.choices.options || []
-  const selectedChoice = choices.find((option) => option.value === value)
+
   return (
     <form className="text-blue-deep-80">
       <div className="c-fullwidth">
@@ -33,7 +33,7 @@ export default function Interaction(props) {
           ''
         )}
         {question.type in
-        { SLCT: 1, SELECT: 1, SELECTOR: 1, SELECTOR_MULTI: 1 } ? (
+        { SELECT: 1, MULTI_SELECT: 1 } ? (
           <Select
             label=""
             id={`question-${question.id}`}
@@ -41,13 +41,9 @@ export default function Interaction(props) {
             name={question.name}
             options={choices}
             hideLabel
-            multiSelect={question.type === 'SELECTOR_MULTI'}
+            multiSelect={question.type === 'MULTI_SELECT'}
             placeholder={question.choices.placeholder || 'Please choose'}
-            selected={
-              selectedChoice && selectedChoice.label
-                ? [selectedChoice.label]
-                : []
-            }
+            selected={value}
           />
         ) : (
           ''
@@ -79,7 +75,10 @@ Interaction.propTypes = {
       ),
     ]),
   }).isRequired,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array
+    ]),
   setValue: PropTypes.func.isRequired,
 }
 Interaction.defaultProps = {

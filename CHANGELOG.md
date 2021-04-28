@@ -4,6 +4,7 @@
 
 ### Enhancements
 
+- GP2-2176 - VFM Multiselect
 - GP2-2095 - Error page styling and slug tidyup
 - GP2-2326 - header style fix
 - GP2-2265 - pdf design changes
@@ -53,6 +54,12 @@
 
 ### Fixed bugs
 
+- GP2-2337 - adapting product typos
+- GP2-2292 - Save product on name change only
+- GP2-2262 - Case study background
+- GP2-2234 - Sign up / in page tablet design
+- NOTICKET - Fixes header menu flickering
+- GP2-2138 - Fix domestic tab alignment
 - GP2-2250 - Hide top banner when signed in on mobile
 - GP2-2240 - Search tuning
 - GP2-2215 - Fix privacy policy sign up link

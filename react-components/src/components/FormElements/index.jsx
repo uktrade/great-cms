@@ -60,11 +60,7 @@ export const FormElements = memo(
               name={item.name}
               options={item.choices}
               type={fieldType === 'NumberInput' ? 'number' : 'text'}
-              selected={
-                formData[item.name] && item.choices
-                  ? getLabel(item.choices, formData[item.name])
-                  : ''
-              }
+              selected={formData[item.name]}
               lesson={item.lesson}
               formGroupClassName={formGroupClassName}
             />
