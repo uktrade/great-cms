@@ -29,7 +29,7 @@ export const Select = memo(
     inputChange,
     inputValue,
   }) => {
-    const [input, setInput] = useState(selected)
+    const [input, setInput] = useState(selected || [])
     const [isOpen, setIsOpen] = useState(false)
     const liRef = useRef([])
     const [element] = useOnOutsideClick(() => setIsOpen(false), isOpen)

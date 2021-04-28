@@ -11,7 +11,7 @@ export default function Questionnaire(props) {
   const { handleModalClose } = props
   const [mode, setMode] = useState(modes.closed)
   const [question, _setQuestion] = useState()
-  const [questions, setQuestions] = useState()
+  const [runningState, setRunningState] = useState({ questions: [] })
   const [value, setValue] = useState()
 
   const closeModal = () => {
@@ -19,56 +19,82 @@ export default function Questionnaire(props) {
     handleModalClose()
   }
 
-  const questionIndex = () => {
-    return (
-      questions && question && questions.findIndex((q) => q.id === question.id)
-    )
-  }
+  const questionOptions = (q) =>
+    (q && q.choices && Array.isArray(q.choices)
+      ? q.choices
+      : q.choices.options) || []
+
+  const questionIndex = () =>
+    question && runningState.questions.findIndex((q) => q.id === question.id)
 
   const setQuestion = (newQuestion) => {
     if (newQuestion && mode === modes.closed) setMode(modes.start)
+    if (!newQuestion) setMode(modes.thankyou)
     setValue((newQuestion && newQuestion.answer) || null)
     _setQuestion(newQuestion)
   }
 
-  const setNextQuestion = (questionnaire) => {
-    // Work out last answered question (may be better in BE)
+  const processAnswers = (questionnaire) => {
     if (questionnaire && questionnaire.questions) {
       const sorted = questionnaire.questions.sort((q1, q2) => {
         return q1.order > q2.order ? 1 : -1
       })
-      setQuestions(sorted)
+      // Work out first unanswered question
       const answers = mapArray(questionnaire.answers, 'question_id')
-      const firstUnansweredQuestion = sorted.reduce((out, loopQuestion) => {
+      const status = sorted.reduce((last, loopQuestion) => {
         const answered = answers[loopQuestion.id]
+        const out = { ...last }
         if (answered) {
+          // We want to decorate the questions with answers so stop eslint moaning
+          /* eslint-disable no-param-reassign */
           loopQuestion.answer = answered.answer
+          /* eslint-enable no-param-reassign */
+          if (!out.jump) {
+            out.lastAnswered = loopQuestion
+            // see if this has a jump answer
+            const choice = questionOptions(loopQuestion).find(
+              (option) => option.value === loopQuestion.answer
+            )
+            out.jump = choice && choice.jump
+          }
+        } else {
+          out.firstUnanswered = out.firstUnanswered || loopQuestion
         }
-        return out || (!answered && loopQuestion)
-      }, null)
-      if (question) {
-        // follwing saving an answer
-        setQuestion(questions[questionIndex() + 1])
-      } else {
-        // initial
-        setQuestion(firstUnansweredQuestion)
-        if (!firstUnansweredQuestion) {
-          closeModal()
-        }
-      }
+        return out
+      }, {})
+      setRunningState({ questions: sorted, ...status, loaded: true })
     }
   }
 
   useEffect(() => {
-    Services.getUserQuestionnaire().then((questionnaire) => {
-      if (questionnaire) {
-        setNextQuestion(questionnaire)
+    // On a change in questionnaire state, set the next question )
+    if (runningState.loaded) {
+      const terminated = runningState.jump === 'end'
+      if (question) {
+        // follwing saving an answer
+        const nextQuestion = runningState.questions[questionIndex() + 1]
+        if (!nextQuestion || terminated) {
+          // Questionnaire completed
+          setQuestion(null)
+        } else {
+          setQuestion(nextQuestion)
+        }
+      } else {
+        setQuestion(!terminated && runningState.firstUnanswered)
       }
-    })
+    }
+  }, [runningState])
+
+  useEffect(() => {
+    Services.getUserQuestionnaire().then(processAnswers)
   }, [])
 
   const goBack = () => {
-    const newQuestion = questions[questionIndex() - 1]
+    let newQuestion = runningState.questions[questionIndex() - 1]
+    if (mode === modes.thankyou) {
+      setMode(modes.question)
+      newQuestion = runningState.lastAnswered
+    }
     if (!newQuestion) {
       setMode(modes.start)
     } else {
@@ -78,16 +104,15 @@ export default function Questionnaire(props) {
 
   const setQuestionAnswer = () => {
     Services.setUserQuestionnaireAnswer(question.id, value)
-      .then((questionnaire) => {
-        if (!questionnaire || !questionnaire.answers) {
-          setMode(modes.thankyou)
-          setQuestion(null)
-        }
-        setNextQuestion(questionnaire)
-      })
+      .then(processAnswers)
       .catch(() => {})
   }
 
+  const completeQuestionnaire = () => {
+    Services.setUserQuestionnaireAnswer(0, 'complete')
+    closeModal()
+  }
+  console.log('REnder question value=', value, Array.isArray(value))
   if (mode === modes.start)
     return (
       <Modal
@@ -139,17 +164,17 @@ export default function Questionnaire(props) {
         title={question.title}
         body={
           <Interaction
-          question={question}
-          value={value}
-          setValue={setValue}
+            question={question}
+            value={value}
+            setValue={setValue}
           />
         }
         progressPercentage={
-          question && questions && 100 * (questionIndex() / questions.length)
+          question && 100 * (questionIndex() / runningState.questions.length)
         }
         primaryButtonLabel="Next"
         primaryButtonClick={setQuestionAnswer}
-        primaryButtonDisable={!value}
+        primaryButtonDisable={!value || !value.length}
         secondaryButtonLabel="Back"
         secondaryButtonClick={goBack}
         closeClick={closeModal}
@@ -165,7 +190,7 @@ export default function Questionnaire(props) {
         backButtonClick={goBack}
         closeClick={closeModal}
         progressPercentage={
-          question && questions && 100 * (questionIndex() / questions.length)
+          question && 100 * (questionIndex() / runningState.questions.length)
         }
       />
     )
@@ -174,9 +199,11 @@ export default function Questionnaire(props) {
       <Modal
         className="segmentation-modal"
         title="Thank you"
-        body="Thank you for taking time to respond."
+        body={<>Thank you for taking time to respond.</>}
         primaryButtonLabel="Close"
-        primaryButtonClick={closeModal}
+        primaryButtonClick={completeQuestionnaire}
+        secondaryButtonLabel="Back"
+        secondaryButtonClick={goBack}
         progressPercentage={100}
       />
     )
