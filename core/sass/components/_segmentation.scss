@@ -40,6 +40,11 @@
     .select__button {
       display: none;
     }
+
+    .select__placeholder input {
+      border: none;
+      background: transparent;
+    }
   }
 
   .select__list {

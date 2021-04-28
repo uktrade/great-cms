@@ -39,13 +39,6 @@ export const CostsAndPricing = memo(
     },
   }) => {
     useState(() => {
-      console.log({
-        ...totals,
-        ...initialData,
-        units,
-        currencies,
-        timeframe: exportTimeframe,
-      })
       init({
         ...totals,
         ...initialData,
@@ -62,7 +55,6 @@ export const CostsAndPricing = memo(
         },
       })
     }
-
     return (
       <>
         <section className="container">

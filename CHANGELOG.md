@@ -4,6 +4,7 @@
 
 ### Enhancements
 
+- GP2-2176 - VFM Multiselect
 - GP2-2095 - Error page styling and slug tidyup
 - GP2-2326 - header style fix
 - GP2-2265 - pdf design changes

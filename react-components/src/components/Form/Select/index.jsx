@@ -38,6 +38,16 @@ export const Select = memo(
       setInput(selected)
     }, [selected])
 
+    const optionByValue = (value) => {
+      return (
+        Object.values(Array.isArray(options) ? { x: options } : options).reduce(
+          (running, section) => {
+            return running || section.find((option) => option.value === value)
+          },
+          null
+        ) || {}
+      )
+    }
     const selectedItem = () => {
       if (!input || input.length <= 0) return placeholder
       if (multiSelect) {
@@ -52,16 +62,17 @@ export const Select = memo(
               update({ [name]: items })
             }}
           >
-            {item} <i className="fas fa-times-circle" />
+            {options.find((option) => item === option.value).label}{' '}
+            <i className="fas fa-times-circle" />
           </button>
         ))
       }
-      return input
+      return optionByValue(input).label || placeholder
     }
 
     const selectOption = (item) => {
       if (multiSelect) {
-        const items = [...new Set([...input, item.label])]
+        const items = [...new Set([...input, item.value])]
         setInput(items)
         update({ [name]: items })
       } else {
@@ -133,6 +144,17 @@ export const Select = memo(
       }
     }
 
+    const focusFirst = (e) => {
+      setIsOpen(true)
+      switch (e.keyCode) {
+        case DOWN_ARROW_KEY_CODE:
+          e.target
+            .closest('.select__placeholder')
+            .querySelector('ul li')
+            .focus()
+      }
+    }
+
     return (
       <div className={`select ${className}`}>
         <FormGroup
@@ -184,12 +206,19 @@ export const Select = memo(
                     placeholder={placeholder}
                     value={inputValue}
                     onChange={inputChange}
+                    onKeyDown={(e) => focusFirst(e)}
                   />
                 ) : (
                   ''
                 )}
               </div>
-              <div className="select__placeholder--value">{selectedItem()}</div>
+              {!autoComplete ? (
+                <div className="select__placeholder--value">
+                  {selectedItem()}
+                </div>
+              ) : (
+                ''
+              )}
               <ul
                 role="listbox"
                 className={`select__list m-t-0 body-l bg-white radius ${
@@ -203,11 +232,15 @@ export const Select = memo(
                 {Array.isArray(options)
                   ? options.map((item, i) => (
                       <Item
-                        isDisabled={input.includes(item.label)}
+                        isDisabled={
+                          !autoComplete && Array.isArray(input)
+                            ? input.includes(item.value)
+                            : input === item.value
+                        }
                         key={item.value}
                         onClick={() => selectOption(item)}
                         onKeyDown={(e) => focusNext(e, i, item)}
-                        selected={item.label === input}
+                        selected={item.value === input}
                         label={item.label}
                         forwardedRef={(el) => (liRef.current[i] = el)}
                         isError={item.isError}
@@ -222,7 +255,7 @@ export const Select = memo(
                               key={li.value}
                               onClick={() => selectOption(li)}
                               onKeyDown={(e) => focusNext(e, index + 1, li, i)}
-                              selected={li.label === input}
+                              selected={li.value === input}
                               label={li.label}
                               forwardedRef={(el) => (liRef.current[index] = el)}
                             >
