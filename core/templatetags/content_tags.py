@@ -113,10 +113,11 @@ def multiply_by_exponent(val, exponent=3, base=10):
             The base
     """
 
-    try:
+    if type(val) == int:
         int_val = int(val)
-    except ValueError:
-        raise template.TemplateSyntaxError(f'Value must be an integer. {val} is not an integer')
+    else:
+        int_val = 0
+
     return int_val * (base ** exponent)
 
 
