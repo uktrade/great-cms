@@ -119,55 +119,7 @@ urlpatterns = [
         skip_ga360(api.UpdateCalculateCostAndPricingAPIView.as_view()),
         name='api-calculate-cost-and-pricing',
     ),
-    path('api/objectives/create/', skip_ga360(api.ObjectivesCreateAPIView.as_view()), name='api-objectives-create'),
-    path('api/objectives/update/', skip_ga360(api.ObjectivesUpdateAPIView.as_view()), name='api-objectives-update'),
-    path('api/objectives/delete/', skip_ga360(api.ObjectivesDestroyAPIView.as_view()), name='api-objectives-delete'),
     path(
         'api/model-object/manage/', skip_ga360(api.ModelObjectManageAPIView.as_view()), name='api-model-object-manage'
-    ),
-    path(
-        'api/route-to-markets/create/',
-        skip_ga360(api.RouteToMarketsCreateAPIView.as_view()),
-        name='api-route-to-markets-create',
-    ),
-    path(
-        'api/route-to-markets/update/',
-        skip_ga360(api.RouteToMarketsUpdateAPIView.as_view()),
-        name='api-route-to-markets-update',
-    ),
-    path(
-        'api/route-to-markets/delete/',
-        skip_ga360(api.RouteToMarketsDestroyAPIView.as_view()),
-        name='api-route-to-markets-delete',
-    ),
-    path(
-        'api/target-markets-documents/create/',
-        skip_ga360(api.TargetMarketDocumentsCreateAPIView.as_view()),
-        name='api-target-markets-documents-create',
-    ),
-    path(
-        'api/target-markets-documents/update/',
-        skip_ga360(api.TargetMarketDocumentUpdateAPIView.as_view()),
-        name='api-target-markets-documents-update',
-    ),
-    path(
-        'api/target-markets-documents/delete/',
-        skip_ga360(api.TargetMarketDocumentsDestroyAPIView.as_view()),
-        name='api-target-markets-documents-delete',
-    ),
-    path(
-        'api/funding-credit-options/create/',
-        skip_ga360(api.FundingCreditOptionsCreateAPIView.as_view()),
-        name='api-funding-credit-options-create',
-    ),
-    path(
-        'api/funding-credit-options/update/',
-        skip_ga360(api.FundingCreditOptionsUpdateAPIView.as_view()),
-        name='api-funding-credit-options-update',
-    ),
-    path(
-        'api/funding-credit-options/delete/',
-        skip_ga360(api.FundingCreditOptionsDestroyAPIView.as_view()),
-        name='api-funding-credit-options-delete',
     ),
 ]

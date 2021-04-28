@@ -25,7 +25,7 @@ class CountryTargetAgeDataSerializer(serializers.Serializer):
         return value[0].split(',')
 
 
-class CompanyObjectiveSerializer(serializers.Serializer):
+class CompanyObjectivesSerializer(serializers.Serializer):
     description = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     planned_reviews = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     owner = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
@@ -56,7 +56,7 @@ class AboutYourBuinessSerializer(serializers.Serializer):
 
 class ObjectiveSerializer(serializers.Serializer):
     rationale = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    company_objectives = serializers.ListField(child=CompanyObjectiveSerializer(), required=False)
+    company_objectives = serializers.ListField(child=CompanyObjectivesSerializer(), required=False)
 
 
 class TargetMarketsResearchSerializer(serializers.Serializer):
@@ -70,9 +70,9 @@ class TargetMarketsResearchSerializer(serializers.Serializer):
     )
 
 
-class RouteToMarketSerializer(serializers.Serializer):
-    route = serializers.ChoiceField(required=False, choices=choices.MARKET_ROUTE_CHOICES)
-    promote = serializers.ChoiceField(required=False, choices=choices.PRODUCT_PROMOTIONAL_CHOICES)
+class RouteToMarketsSerializer(serializers.Serializer):
+    route = serializers.ChoiceField(required=False, allow_blank=True, choices=choices.MARKET_ROUTE_CHOICES)
+    promote = serializers.ChoiceField(required=False, allow_blank=True, choices=choices.PRODUCT_PROMOTIONAL_CHOICES)
     market_promotional_channel = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
@@ -80,10 +80,10 @@ class RouteToMarketSerializer(serializers.Serializer):
 
 class MarketingApproachSerializer(serializers.Serializer):
     resources = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    route_markets = serializers.ListField(child=RouteToMarketSerializer(), required=False)
+    route_markets = serializers.ListField(child=RouteToMarketsSerializer(), required=False)
 
 
-class TargetMarketDocumentSerializer(serializers.Serializer):
+class TargetMarketDocumentsSerializer(serializers.Serializer):
     document_name = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     note = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     companyexportplan = serializers.IntegerField()
@@ -102,7 +102,7 @@ class AdaptationTargetMarketSerializer(serializers.Serializer):
     commercial_invoice = serializers.CharField(required=False, allow_null=True, validators=[no_html])
     uk_customs_declaration = serializers.CharField(required=False, allow_null=True, validators=[no_html])
 
-    target_market_documents = serializers.ListField(child=TargetMarketDocumentSerializer(), required=False)
+    target_market_documents = serializers.ListField(child=TargetMarketDocumentsSerializer(), required=False)
 
 
 class BusinessRisksSerializer(serializers.Serializer):
@@ -424,15 +424,15 @@ class NewFundingCreditOptionsSerializer(FundingCreditOptionsSerializer):
     pk = serializers.IntegerField(required=False)
 
 
-class NewTargetMarketDocumentSerializer(TargetMarketDocumentSerializer):
+class NewTargetMarketDocumentsSerializer(TargetMarketDocumentsSerializer):
     pk = serializers.IntegerField(required=False)
 
 
-class NewRouteToMarketSerializer(RouteToMarketSerializer):
+class NewRouteToMarketsSerializer(RouteToMarketsSerializer):
     pk = serializers.IntegerField(required=False)
 
 
-class NewObjectiveSerializer(CompanyObjectiveSerializer):
+class NewCompanyObjectivesSerializer(CompanyObjectivesSerializer):
     pk = serializers.IntegerField(required=False)
 
 

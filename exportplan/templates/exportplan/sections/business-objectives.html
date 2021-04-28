@@ -67,7 +67,8 @@
     magna.createObjectivesList({
       element: document.getElementById('objectives-form--objectives'),
       objectives: {{ company_objectives|to_json|safe }},
-      exportPlanID: {{ export_plan.pk }}
+      exportPlanID: {{ export_plan.pk }},
+      model_name: 'companyobjectives',
     })
   </script>
 {% endblock %}
