@@ -4,6 +4,8 @@
 
 ### Enhancements
 - GP2-2372 - Disclaimer for the Beta release
+
+- GP2-2358 - Change footer to use /contact/ as contact URL
 - GP2-2353 - VFM final page back button
 - GP2-2176 - VFM Multiselect
 - GP2-2095 - Error page styling and slug tidyup
