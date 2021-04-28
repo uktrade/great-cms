@@ -1,6 +1,8 @@
 {% load static %}
 {% load humanize %}
+{% load tz %}
 {% load object_tags %}
+{% load content_tags %}
 <html>
 <head><meta http-equiv=Content-Type content="text/html; charset=UTF-8">
 <style>
@@ -15,8 +17,10 @@
   <p class="body-gamma">
     Created at great.gov.uk
     &nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp;
-    {% now "h:i a" %} {% now "jS F Y" %}
+    {% timezone "Europe/London" %}
+    {% now "h:i A" %} {% now "jS F Y" %}
     &nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp;
+    {% endtimezone %}
     Page <pdf:pagenumber> of <pdf:pagecount>
   </p>
 </div>
@@ -30,7 +34,11 @@
       &nbsp;
     </td>
     <td class="col-10-4 text-align-centre">
-      <p class="body-alpha pad-l-5">{% now "h:i A" %}</p>
+      <p class="body-alpha pad-l-5">
+      {% timezone "Europe/London" %}
+        {% now "h:i A" %}
+      {% endtimezone %}
+      </p>
     </td>
     <td class="col-10-5">
      <p class="body-alpha text-align-right">{% now "jS F Y" %}</p>
@@ -200,35 +208,35 @@
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">How we started</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.story. tag="p" lines=4 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.story tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Where we are based</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.location. tag="p" lines=4 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.location tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">How we make our product</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.processes. tag="p" lines=4 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.processes tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Our packaging</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.packaging. tag="p" lines=4 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.packaging tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-1">
           <td class="col-10-10">
             <h3 class="pad-t-0">Business performance</h3>
-            {% if export_plan.data.about_your_business.performance. %}
+            {% if export_plan.data.about_your_business.performance %}
             <p class="pad-t-0">GBP {{ export_plan.data.about_your_business.performance }}</p>
             {% else %}
             {% include "exportplan/includes/pdf/pdf_blank.html" with lines=4 %}
@@ -329,11 +337,18 @@
       <p class="pad-t-0"><strong>${{ insight.country_data.Income.0.value|floatformat:0|intcomma }}</strong></p>
     {% endwith %}
     {% with market_research=population_age_data|get_item:'target-markets-research' %}
-      <h3 class="pad-y-1">Target age group</h3>
+      <h6 class="body-gamma pad-y-0">Target age groups</h6>
+      <p class="pad-t-0">
+        <strong>
+          {% for age in market_research.population_data.target_ages %}
+          {{ age }} years{% if not forloop.last %},{% endif %}
+          {% endfor %}
+        </strong>
+      </p>
       <h6 class="body-gamma pad-y-0">Total population</h6>
-      <p class="pad-t-0"><strong>{{ market_research.population_data.total_population|intcomma }}</strong></p>
+      <p class="pad-t-0"><strong>{{ market_research.population_data.total_population|multiply_by_exponent|friendly_number }}</strong></p>
       <h6 class="body-gamma pad-y-0">Total age population</h6>
-      <p class="pad-t-0"><strong>{{ market_research.population_data.total_target_age_population|intcomma }}</strong></p>
+      <p class="pad-t-0"><strong>{{ market_research.population_data.total_target_age_population|multiply_by_exponent|friendly_number }}</strong></p>
     </td>
     {% endwith %}
     {% endif %}
@@ -342,8 +357,8 @@
 
 <pdf:nextpage>
 
-<!-- P7a adaptating your product -->
-<h1 class="toc-name">Adaptating your product</h1>
+<!-- P7a adapting your product -->
+<h1 class="toc-name">Adapting your product</h1>
 <table class="layout page-header">
   <tr>
     <td>
@@ -356,7 +371,7 @@
 <table class="layout">
   <tr>
     <td>
-      <h1 class="pad-t-3 pad-b-2">Adaptating your product</h1>
+      <h1 class="pad-t-3 pad-b-2">Adapting your product</h1>
     </td>
   </tr>
   <tr>
@@ -463,7 +478,7 @@
 
 <pdf:nextpage>
 
-<!-- P7b adaptating your product -->
+<!-- P7b adapting your product -->
 <table class="layout page-header">
   <tr>
     <td>
@@ -922,314 +937,6 @@
 {% else %}
 {% include 'exportplan/includes/pdf/pdf_business_risks_blank.html' %}
 {% endif %}
-
-<!-- P13a compared countries data
-<h1 class="toc-name">Compared countries data</h1>
-<table class="layout page-header">
-  <tr>
-    <td>
-      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
-
-<table class="layout">
-  <tr>
-    <td>
-      <h1 class="pad-t-3 pad-b-2">Compared countries data</h1>
-    </td>
-  </tr>
-  <tr>
-    <td class="col-10-10">
-
-      <table>
-        <tr>
-          <td>
-            <h2 class="pad-t-1 pad-b-2">Economy</h2>
-          </td>
-        </tr>
-        <tr class="pad-b-1 border-b-1-blue-deep-20">
-          <td class="col-12-2 align-top"></td>
-          <td class="col-12-2 align-top">
-            <p class="body-gamma"><strong>Worldwide import value (USD)</strong></p>
-          </td>
-          <td class="col-12-2 align-top">
-            <p class="body-gamma"><strong>Import value from tde UK (USD)</strong></p>
-          </td>
-          <td class="col-12-2 align-top">
-            <p class="body-gamma"><strong>Adjusted net national income per capita (USD)</strong></p>
-          </td>
-          <td class="col-12-2 align-top">
-            <p class="body-gamma"><strong>Ease of doing business rank</strong></p>
-          </td>
-          <td class="col-12-2 align-top">
-            <p class="body-gamma"><strong>Corruption Perception Index</strong></p>
-          </td>
-        </tr>
-        <tr class="pad-y-1 pad-t-05 border-b-1-blue-deep-20">
-          <td class="col-12-2 align-top">
-           <p><strong>United states</strong></p>
-          </td>
-
-          <td class="col-12-2 align-top">
-            415.0 million <br />
-            <span class="body-gamma">+5.5&percnt; vs <strong>2018</strong></span>
-          </td>
-
-          <td class="col-12-2 align-top">
-            263.6 million <br />
-            <span class="body-gamma">+18.2&percnt; vs <strong>2018</strong></span>
-          </td>
-
-          <td class="col-12-2 align-top">
-            62,794
-          </td>
-
-          <td class="col-12-2 align-top">
-            6 of 190 <br />
-            <strong class="body-gamma">2015</strong>
-          </td>
-
-          <td class="col-12-2 align-top">
-            23 of 180
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-
-<table class="layout">
-  <tr>
-    <td class="col-10-10">
-      <table>
-        <tr>
-          <td>
-            <h2 class="pad-t-4 pad-b-2">Population</h2>
-          </td>
-        </tr>
-        <tr class="pad-b-1 border-b-1-blue-deep-20">
-          <td class="col-12-2 align-top"></td>
-          <td class="col-12-2 align-top">
-            <p class="body-gamma"><strong>Total Population</strong></p>
-          </td>
-          <td class="col-12-2 align-top">
-            <p class="body-gamma"><strong>Living in urban areas</strong></p>
-          </td>
-          <td class="col-12-2 align-top">
-            <p class="body-gamma"><strong>Living in rural areas</strong></p>
-          </td>
-          <td class="col-12-2 align-top">
-            <p class="body-gamma"><strong>Access to internet</strong></p>
-          </td>
-          <td class="col-12-2 align-top">
-            <p class="body-gamma"><strong>Consumer price index</strong></p>
-          </td>
-        </tr>
-        <tr class="pad-y-1 pad-t-05 border-b-1-blue-deep-20">
-          <td class="col-12-2 align-top">
-           <p><strong>United states</strong></p>
-          </td>
-
-          <td class="col-12-2 align-top">
-            332.9 million
-          </td>
-
-          <td class="col-12-2 align-top">
-            83&percnt; <br />
-            <span class="body-gamma">276.6 million</span>
-          </td>
-
-          <td class="col-12-2 align-top">
-            17&percnt; <br />
-            <span class="body-gamma">52.6 million</span>
-          </td>
-
-          <td class="col-12-2 align-top">
-            87&percnt;
-          </td>
-
-          <td class="col-12-2 align-top">
-            117.24
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-
-<table class="layout attribution-footer pad-t-5">
-  <tr>
-    <td>
-      <p class="pad-t-0">Displaying data from <strong>2019</strong> unless otherwise indicated.</p>
-      <p class="body-gamma pad-t-0">Population statistics &mdash; <a href="#">United Nations</a>; Access to internet, Consumer Price Idex &mdash; <a href="#">World Bank</a>; Languages &mdash; <a href="#">CIA World Factbook</a></p>
-    </td>
-  </tr>
-</table>
-
-<pdf:nextpage>
--->
-<!-- P13b compared countries data
-<h1 class="toc-name">Society</h1>
-<table class="layout page-header">
-  <tr>
-    <td>
-      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
-
-<table class="layout">
-  <tr>
-    <td class="col-10-10">
-      <table>
-        <tr>
-          <td>
-            <h2 class="pad-t-4 pad-b-2">Society</h2>
-          </td>
-        </tr>
-        <tr class="pad-b-1 border-b-1-blue-deep-20">
-          <td class="col-12-3 align-top"></td>
-          <td class="col-12-3 align-top">
-            <p class="body-gamma"><strong>Religion</strong></p>
-          </td>
-          <td class="col-12-3 align-top">
-            <p class="body-gamma"><strong>Language</strong></p>
-          </td>
-          <td class="col-12-3 align-top">
-            <p class="body-gamma"><strong>Rule of Law Ranking</strong></p>
-          </td>
-        </tr>
-        <tr class="pad-y-2 border-b-1-blue-deep-20">
-          <td class="col-12-3 align-top">
-            <table>
-              <tr class="pad-b-05 pad-t-0">
-                <td class="col-10-10 align-top"><strong>United states</strong></td>
-              </tr>
-            </table>
-          </td>
-          <td class="col-12-3 align-top">
-            <table>
-              <tr class="pad-b-05 pad-t-0">
-                <td class="col-10-7 align-top">Protestant</td>
-                <td class="col-10-3 align-top">47&percnt;</td>
-              </tr>
-              <tr class="pad-b-05 pad-t-0">
-                <td class="col-10-7 align-top">Roman Catholic</td>
-                <td class="col-10-3 align-top">21&percnt;</td>
-              </tr>
-              <tr class="pad-b-05 pad-t-0">
-                <td class="col-10-7 align-top">Jewish</td>
-                <td class="col-10-3 align-top">2&percnt;</td>
-              </tr>
-              <tr class="pad-b-05 pad-t-0">
-                <td class="col-10-10 align-top">
-                  <p class="body-gamma"><strong>2014</strong></p>
-                </td>
-              </tr>
-            </table>
-          </td>
-
-          <td class="col-12-3 align-top">
-            <table>
-              <tr class="pad-b-05 pad-t-0">
-                <td class="col-10-7 align-top">English</td>
-                <td class="col-10-3 align-top">47&percnt;</td>
-              </tr>
-              <tr class="pad-b-05 pad-t-0">
-                <td class="col-10-7 align-top">Spanish</td>
-                <td class="col-10-3 align-top">21&percnt;</td>
-              </tr>
-              <tr class="pad-b-05 pad-t-0">
-                <td class="col-10-7 align-top">Chinese</td>
-                <td class="col-10-3 align-top">2&percnt;</td>
-              </tr>
-              <tr class="pad-b-05 pad-t-0">
-                <td class="col-10-10 align-top">
-                  <p class="body-gamma"><strong>2014</strong></p>
-                </td>
-              </tr>
-            </table>
-          </td>
-
-          <td class="col-12-3 align-top">
-            <table>
-              <tr class="pad-b-05 pad-t-0">
-                <td class="col-10-10 align-top">
-                  19 of 113
-                  <br />
-                  <strong class="body-gamma">2017</strong>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-
-<table class="layout attribution-footer pad-t-5">
-  <tr>
-    <td>
-      <p class="pad-t-0">Displaying data from <strong>2019</strong> unless otherwise indicated.</p>
-      <p class="body-gamma pad-t-0">Population statistics &mdash; <a href="#">United Nations</a>; Access to internet, Consumer Price Idex &mdash; <a href="#">World Bank</a>; Languages &mdash; <a href="#">CIA World Factbook</a></p>
-    </td>
-  </tr>
-</table>
-
-<pdf:nextpage>
--->
-<!-- P14 dit cheatsheet -->
-<h1 class="toc-name">DIT cheat sheet</h1>
-<h1 class="toc-name">Contact infornation</h1>
-<table class="layout page-header">
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
-
-<table class="layout pad-b-0">
-  <tr>
-    <td>
-      <h1 class="pad-t-3 pad-b-2">DIT cheat sheet</h1>
-    </td>
-  </tr>
-  <tr>
-    <td class="col-10-10 pad-b-1"><strong>DIT</strong>: Department for International Trade</td>
-  </tr>
-</table>
-
-<table class="layout">
-  <tr>
-    <td>
-      <h1 class="pad-t-3 pad-b-2 pad-t-5">Contact infornation</h1>
-    </td>
-  </tr>
-  <tr><td class="col-10-10 pad-b-1"><strong>Email</strong>: {{ contact_detail.email }}</td></tr>
-  <tr><td class="col-10-10 pad-b-1"><strong>Phone number</strong>: </td></tr>
-  <tr><td class="col-10-10 pad-b-1"><strong>Website</strong>: </td></tr>
-  <tr><td class="col-10-10 pad-b-1"><strong>Address</strong>: </td></tr>
-</table>
-
-<pdf:nextpage>
-
-<!-- P15 marketing materials page -->
-<h1 class="toc-name">Marketing materials page</h1>
-<table class="layout page-header">
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
-
-<table class="layout pad-b-0">
-  <tr>
-    <td>
-      <h1 class="pad-t-3 pad-b-2">Marketing materials page</h1>
-    </td>
-  </tr>
-  <tr>
-    <td class="col-10-10 pad-b-1"></td>
-  </tr>
-</table>
 
 </body>
 </html>

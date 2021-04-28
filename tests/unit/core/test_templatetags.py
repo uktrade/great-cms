@@ -461,3 +461,35 @@ def test_get_intended_destination(rf, path_info, expected_destination, default_d
         assert get_intended_destination(request, default_destination) == expected_destination
     else:
         assert get_intended_destination(request) == expected_destination
+
+
+@pytest.mark.django_db
+def test_friendly_number():
+    cases = [
+        {'value': 1110000, 'result': '1.11 million'},
+        {'value': 111000, 'result': '111.00 thousand'},
+        {'value': 11100, 'result': '11.10 thousand'},
+    ]
+
+    template = Template('{% load friendly_number from content_tags %}{{ delta|friendly_number }}')
+
+    for case in cases:
+        context = Context({'delta': case.get('value')})
+        html = template.render(context)
+        assert html == case.get('result')
+
+
+@pytest.mark.django_db
+def test_multiply_by_exponent():
+    cases = [
+        {'value': 13000, 'result': '13000000'},
+        {'value': 1, 'result': '1000'},
+        {'value': 130000, 'result': '130000000'},
+    ]
+
+    template = Template('{% load multiply_by_exponent from content_tags %}{{ delta|multiply_by_exponent }}')
+
+    for case in cases:
+        context = Context({'delta': case.get('value')})
+        html = template.render(context)
+        assert html == case.get('result')
