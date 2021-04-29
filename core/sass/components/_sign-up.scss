@@ -78,6 +78,16 @@
     background-color: #fff;
     width: 514px;
     flex-shrink: 0;
+
+    @include breakpoint(lg) {
+      margin-left: 20px;
+    }
+
+    @include breakpoint(lg_lt) {
+      padding: 30px;
+      width: 40%;
+    }
+
     @include breakpoint(md_lt) {
       margin-left: 0;
       padding: 20px;
@@ -88,15 +98,6 @@
       margin-left: 0;
       width: 100%;
       padding: 30px 30px;
-    }
-
-    @include breakpoint(lg_lt) {
-      padding: 30px;
-      width: 40%;
-    }
-
-    @include breakpoint(lg) {
-      margin-left: 20px;
     }
 
     p > a {
