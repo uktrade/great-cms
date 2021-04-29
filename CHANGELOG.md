@@ -3,7 +3,9 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
-
+- GP2-2333 - Make feedback URLs on migrated pages relative not absolute, to avoid referencing prod only
+- GP2-2372 - Disclaimer for the Beta release
+- GP2-2358 - Change footer to use /contact/ as contact URL
 - GP2-2353 - VFM final page back button
 - GP2-2176 - VFM Multiselect
 - GP2-2095 - Error page styling and slug tidyup
@@ -37,6 +39,7 @@
 - GP2-2234 - Sign up / in page tablet design
 - NOTICKET - Fixes header menu flickering
 - GP2-2138 - Fix domestic tab alignment
+- GP2-2234 - Sign up / in tablet
 
 ## [1.8.0](https://github.com/uktrade/great-cms/releases/tag/1.8.0)
 
