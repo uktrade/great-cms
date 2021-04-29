@@ -3,8 +3,8 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2333 - Make feedback URLs on migrated pages relative not absolute, to avoid referencing prod only
 - GP2-2372 - Disclaimer for the Beta release
-
 - GP2-2358 - Change footer to use /contact/ as contact URL
 - GP2-2353 - VFM final page back button
 - GP2-2176 - VFM Multiselect
