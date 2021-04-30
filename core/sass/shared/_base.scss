@@ -11,12 +11,19 @@
 
 // Breakpoints
 $mobile: 640px;
+$tabley: 768px;
 
 @mixin mobile {
     @media (max-width: #{$mobile}) {
         @content;
     }
- }
+}
+
+@mixin tablet {
+    @media (max-width: #{$tablet}) {
+        @content;
+    }
+}
 
 
 .shared-tag {
@@ -216,7 +223,7 @@ $mobile: 640px;
     .mobile-only {
         display: none;
 
-        @media (max-width: 768px) {
+        @include tablet {
             display: block;
         }
     }
@@ -243,8 +250,17 @@ $mobile: 640px;
     height: 110px;
     z-index: auto;
 
+    @include tablet {
+        height: 172px;
+        margin-left: 0;
+    }
+
     nav {
         position: relative;
+
+        @include tablet {
+            display: block;
+        }
     }
 
     #header-logo-link {
@@ -252,6 +268,10 @@ $mobile: 640px;
 
         .header-logo {
             height: 75px;
+
+            @include tablet {
+                height: 60px;
+            }
         }
     }
 
@@ -259,12 +279,34 @@ $mobile: 640px;
         margin-bottom: 6px;
         margin-right: 0;
         margin-left: 15px;
+
+        @include tablet {
+            position: absolute;
+            right: 0px;
+            top: 20px;
+        }
+    }
+
+    .services-area {
+        @include tablet {
+            width: 100%;
+            display: block;
+        }
     }
 
     .header-links {
+        @include tablet {
+            display: block;
+        }
+
         li {
             align-items: flex-end;
             margin: 0 16px;
+
+            @include tablet {
+                display: block;
+                margin: 0;
+            }
         }
 
         a {
@@ -283,17 +325,31 @@ $mobile: 640px;
             }
         }
 
+        #magna-header-search-form-wrapper {
+            @include tablet {
+                margin-top: -4px;
+            }
+        }
+
         #magna-header-search-form {
             width: 240px;
             float: right;
             margin-left: 15px;
-            padding: 8px 0px;
+            padding: 5px 0px;
+
+            @include tablet {
+                width: 100%;
+            }
 
             input {
                 height: 42px;
                 float:left;
                 width:200px;
                 padding-left:15px;
+
+                @include tablet {
+                    width: calc(100% - 40px);
+                }
             }
 
             button {
@@ -406,6 +462,10 @@ $mobile: 640px;
         top: 24px;
         right: 0;
 
+        @include tablet {
+            top: 0;
+        }
+
         li {
             margin: 0;
         }
@@ -429,6 +489,13 @@ $mobile: 640px;
     .container-fluid {
         max-width: 100%;
         margin: 0 30px;
+    }
+
+    .container {
+        @include tablet {
+            margin: 0;
+            padding: 20px;
+        }
     }
 }
 
