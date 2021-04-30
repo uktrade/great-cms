@@ -111,17 +111,10 @@ const exportPlanReducer = (state, action) => {
       saveToExportPlan({ export_countries: [action.payload] }).then(() => {
         if (config.refreshOnMarketChange) {
           api.reloadPage()
-        } else {
-          // Here we have some nasty non-Reactish code to update any country names that lie outside listening react components
-          document.body.querySelectorAll('.country-name-updatable').forEach((element) => {
-            /* eslint-disable no-param-reassign */
-            element.textContent = (action.payload || {}).country_name
-            /* eslint-enable no-param-reassign */
-          })
         }
       })
       break
-      default:
+    default:
   }
   return newState
 }
@@ -158,8 +151,7 @@ export const getProducts = (state) =>
 export const getMarkets = (state) =>
   ((state.exportPlan && state.exportPlan.markets) || [])[0]
 export const getCacheVersion = (state) =>
-  ((state.dataLoader && state.dataLoader.cacheVersion))
-
+  state.dataLoader && state.dataLoader.cacheVersion
 
 const rootReducer = (state, action) => {
   let localState = baseReducers(state, action)
