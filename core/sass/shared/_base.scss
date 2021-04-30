@@ -11,12 +11,19 @@
 
 // Breakpoints
 $mobile: 640px;
+$tabley: 768px;
 
 @mixin mobile {
     @media (max-width: #{$mobile}) {
         @content;
     }
- }
+}
+
+@mixin tablet {
+    @media (max-width: #{$tablet}) {
+        @content;
+    }
+}
 
 
 .shared-tag {
@@ -216,7 +223,7 @@ $mobile: 640px;
     .mobile-only {
         display: none;
 
-        @media (max-width: 768px) {
+        @include tablet {
             display: block;
         }
     }
@@ -243,7 +250,7 @@ $mobile: 640px;
     height: 110px;
     z-index: auto;
 
-    @media (max-width: 768px) {
+    @include tablet {
         height: 172px;
         margin-left: 0;
     }
@@ -251,7 +258,7 @@ $mobile: 640px;
     nav {
         position: relative;
 
-        @media (max-width: 768px) {
+        @include tablet {
             display: block;
         }
     }
@@ -262,7 +269,7 @@ $mobile: 640px;
         .header-logo {
             height: 75px;
 
-            @media (max-width: 768px) {
+            @include tablet {
                 height: 60px;
             }
         }
@@ -273,7 +280,7 @@ $mobile: 640px;
         margin-right: 0;
         margin-left: 15px;
 
-        @media (max-width: 768px) {
+        @include tablet {
             position: absolute;
             right: 0px;
             top: 20px;
@@ -281,14 +288,14 @@ $mobile: 640px;
     }
 
     .services-area {
-        @media (max-width: 768px) {
+        @include tablet {
             width: 100%;
             display: block;
         }
     }
 
     .header-links {
-        @media (max-width: 768px) {
+        @include tablet {
             display: block;
         }
 
@@ -296,7 +303,7 @@ $mobile: 640px;
             align-items: flex-end;
             margin: 0 16px;
 
-            @media (max-width: 768px) {
+            @include tablet {
                 display: block;
                 margin: 0;
             }
@@ -319,7 +326,7 @@ $mobile: 640px;
         }
 
         #magna-header-search-form-wrapper {
-            @media (max-width: 768px) {
+            @include tablet {
                 margin-top: -4px;
             }
         }
@@ -330,7 +337,7 @@ $mobile: 640px;
             margin-left: 15px;
             padding: 5px 0px;
 
-            @media (max-width: 768px) {
+            @include tablet {
                 width: 100%;
             }
 
@@ -340,7 +347,7 @@ $mobile: 640px;
                 width:200px;
                 padding-left:15px;
 
-                @media (max-width: 768px) {
+                @include tablet {
                     width: calc(100% - 40px);
                 }
             }
@@ -455,7 +462,7 @@ $mobile: 640px;
         top: 24px;
         right: 0;
 
-        @media (max-width: 768px) {
+        @include tablet {
             top: 0;
         }
 
@@ -485,7 +492,7 @@ $mobile: 640px;
     }
 
     .container {
-        @media (max-width: 768px) {
+        @include tablet {
             margin: 0;
             padding: 20px;
         }
