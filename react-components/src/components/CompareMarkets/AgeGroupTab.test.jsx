@@ -59,6 +59,14 @@ const countryDataApiResponse = {
   },
 }
 
+// set up the mock of user data with two countries
+const comparisonMarketResponse = {
+  data: {
+      NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
+      DE: { country_name: 'Germany', country_iso2_code: 'DE' },
+  },
+}
+
 const getText = (el, selector) => {
   const target = el && el.querySelector(selector)
   return (target && target.textContent) || ''
@@ -80,9 +88,11 @@ describe('Compare markets', () => {
       csrfToken: '12345',
       populationByCountryUrl: '/export-plan/api/country-data/',
       apiCountryDataUrl: '/api/data-service/countrydata/',
+      apiUserDataUrl: '/sso/api/user-data/',
       user: { id: '6' },
     })
     fetchMock.get(/\/api\/data-service\/countrydata\//, countryDataApiResponse)
+    fetchMock.get(/\/sso\/api\/user-data\//, () => comparisonMarketResponse)
   })
 
   afterEach(() => {
@@ -99,16 +109,6 @@ describe('Compare markets', () => {
     }
 
     const localContainer = container
-
-    Object.defineProperty(window.document, 'cookie', {
-      writable: true,
-      value: encodeURI(
-        `comparisonMarkets_6=${JSON.stringify({
-          NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
-          DE: { country_name: 'Germany', country_iso2_code: 'DE' },
-        })}`
-      ),
-    })
 
     Services.store.dispatch(
       actions.setInitialState({ exportPlan: { products: [selectedProduct] } })

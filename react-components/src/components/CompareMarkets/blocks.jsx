@@ -98,7 +98,7 @@ const renderCountryRowHeader = (market, removeMarket, config) => {
         <button
           type="button"
           onClick={removeMarket || (() => null)}
-          className="button button--only-icon button--tertiary button--small m-r-xxs"
+          className="button button--delete button--only-icon button--small bg-white m-r-xxs"
           data-id={market.country_iso2_code}
           aria-label={`Remove ${market.country_name}`}
         >

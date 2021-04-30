@@ -194,6 +194,16 @@ def set_user_questionnaire_answer(sso_session_id, question_id, answer):
     return response.json()
 
 
+def get_user_data(sso_session_id, name):
+    response = sso_api_client.user.get_user_data(sso_session_id, name)
+    return response.json()
+
+
+def set_user_data(sso_session_id, data, name):
+    response = sso_api_client.user.set_user_data(sso_session_id, data, name)
+    return response.json()
+
+
 def get_company_profile(sso_session_id):
     response = api_client.company.profile_retrieve(sso_session_id)
 
