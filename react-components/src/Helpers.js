@@ -218,3 +218,21 @@ export {
   camelizeObject,
   validation,
 }
+
+export const prependThe = (str) =>
+  [
+    'Central African Republic',
+    'Comoros',
+    'Czechia',
+    'Dominican Republic',
+    'Ivory Coast',
+    'Maldives',
+    'Marshall Islands',
+    'Netherlands',
+    'Philippines',
+    'Solomon Islands',
+    'United Arab Emirates',
+    'United States',
+  ].includes(str)
+    ? `the ${str}`
+    : str

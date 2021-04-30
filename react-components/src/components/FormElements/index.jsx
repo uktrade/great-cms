@@ -8,7 +8,7 @@ import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
 import { Input } from '@src/components/Form/Input'
 import Spinner from '@src/components/Spinner/Spinner'
-import { getLabel, sectionQuestionMapping } from '@src/Helpers'
+import { sectionQuestionMapping, prependThe } from '@src/Helpers'
 import { useUpdateExportPlan } from '@src/components/hooks/useUpdateExportPlan/useUpdateExportPlan'
 
 export const FormElements = memo(
@@ -17,12 +17,16 @@ export const FormElements = memo(
     const [update, showMessage, pending, errors] = useUpdateExportPlan(field)
 
     let country
-    try { // this is to squash errors if we're not inside a provider
+    try {
+      // this is to squash errors if we're not inside a provider
       country = useSelector((state) => getMarkets(state))
-    }
-    catch {}
+    } catch {}
 
-    const substituteText = (str) => (str || '').replace('<country-name>',country ? country.country_name : 'your market')
+    const substituteText = (str) =>
+      (str || '').replace(
+        '<country-name>',
+        country ? prependThe(country.country_name) : 'your market'
+      )
 
     const handleChange = (e) => {
       const data = {
