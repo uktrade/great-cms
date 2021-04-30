@@ -30,11 +30,11 @@
             <table class="layout">
               <tr class="pad-b-0">
                 <td class="col-10-4">Risk likelihood:</td>
-                <td class="col-10-6"><strong>{{ risk.risk_likelihood|title }}</strong></td>
+                <td class="col-10-6"><strong>{{ risk.risk_likelihood|title|default:"______________________________________" }}</strong></td>
               </tr>
               <tr class="pad-b-0">
                 <td class="col-10-4">Risk impact:</td>
-                <td class="col-10-6"><strong>{{ risk.risk_impact|title }}</strong></td>
+                <td class="col-10-6"><strong>{{ risk.risk_impact|title|default:"______________________________________" }}</strong></td>
               </tr>
             </table>
             <!-- ./Nested table -->

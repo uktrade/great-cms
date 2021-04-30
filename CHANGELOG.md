@@ -34,6 +34,8 @@
 - GP2-2302 - ep dropdown validation
 
 ### Fixed bugs
+
+- GP2-2382 - PDF updates
 - GP2-2368 - Typo on the Funding and credit page
 - GP2-2292 - Save product on name change only
 - GP2-2262 - Case study background
@@ -42,10 +44,10 @@
 - GP2-2138 - Fix domestic tab alignment
 - GP2-2234 - Sign up / in tablet
 
-
 ## [1.8.0](https://github.com/uktrade/great-cms/releases/tag/1.8.0)
 
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.7.1...1.8.0)
+
 ### Enhancements
 
 - GP2-2170 - PDF Download, with blank support
@@ -73,8 +75,6 @@
 - GP2-2120 - Change to adapting your product. Fix tooltips. Add learning. Update data.
 - GP2-2050 - Update incorrect learning banner copy
 - NOTICKET - Visual tweaks for sign in/up
-
-
 
 ## [1.7.1](https://github.com/uktrade/great-cms/releases/tag/1.7.1)
 
