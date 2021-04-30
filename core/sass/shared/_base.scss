@@ -243,8 +243,17 @@ $mobile: 640px;
     height: 110px;
     z-index: auto;
 
+    @media (max-width: 768px) {
+        height: 172px;
+        margin-left: 0;
+    }
+
     nav {
         position: relative;
+
+        @media (max-width: 768px) {
+            display: block;
+        }
     }
 
     #header-logo-link {
@@ -252,6 +261,10 @@ $mobile: 640px;
 
         .header-logo {
             height: 75px;
+
+            @media (max-width: 768px) {
+                height: 60px;
+            }
         }
     }
 
@@ -259,12 +272,34 @@ $mobile: 640px;
         margin-bottom: 6px;
         margin-right: 0;
         margin-left: 15px;
+
+        @media (max-width: 768px) {
+            position: absolute;
+            right: 0px;
+            top: 20px;
+        }
+    }
+
+    .services-area {
+        @media (max-width: 768px) {
+            width: 100%;
+            display: block;
+        }
     }
 
     .header-links {
+        @media (max-width: 768px) {
+            display: block;
+        }
+
         li {
             align-items: flex-end;
             margin: 0 16px;
+
+            @media (max-width: 768px) {
+                display: block;
+                margin: 0;
+            }
         }
 
         a {
@@ -283,17 +318,31 @@ $mobile: 640px;
             }
         }
 
+        #magna-header-search-form-wrapper {
+            @media (max-width: 768px) {
+                margin-top: -4px;
+            }
+        }
+
         #magna-header-search-form {
             width: 240px;
             float: right;
             margin-left: 15px;
-            padding: 8px 0px;
+            padding: 5px 0px;
+
+            @media (max-width: 768px) {
+                width: 100%;
+            }
 
             input {
                 height: 42px;
                 float:left;
                 width:200px;
                 padding-left:15px;
+
+                @media (max-width: 768px) {
+                    width: calc(100% - 40px);
+                }
             }
 
             button {
@@ -406,6 +455,10 @@ $mobile: 640px;
         top: 24px;
         right: 0;
 
+        @media (max-width: 768px) {
+            top: 0;
+        }
+
         li {
             margin: 0;
         }
@@ -429,6 +482,13 @@ $mobile: 640px;
     .container-fluid {
         max-width: 100%;
         margin: 0 30px;
+    }
+
+    .container {
+        @media (max-width: 768px) {
+            margin: 0;
+            padding: 20px;
+        }
     }
 }
 
