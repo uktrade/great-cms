@@ -1,3 +1,4 @@
+import json
 import re
 from http import cookiejar
 
@@ -9,7 +10,7 @@ from django.utils.dateparse import parse_datetime
 from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 
-from core.constants import SERVICE_NAME
+from core.constants import SERVICE_NAME, USER_DATA_NAMES
 from core.models import DetailPage
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
@@ -200,8 +201,13 @@ def get_user_data(sso_session_id, name):
 
 
 def set_user_data(sso_session_id, data, name):
-    response = sso_api_client.user.set_user_data(sso_session_id, data, name)
-    return response.json()
+    if name not in USER_DATA_NAMES:
+        raise ValueError(f'Invalid user data name ({name})')
+    if len(json.dumps(data)) > USER_DATA_NAMES[name]:
+        raise ValueError(
+            f'User data value exceeds {USER_DATA_NAMES[name]} bytes (actual - {len(json.dumps(data))} bytes)'
+        )
+    return sso_api_client.user.set_user_data(sso_session_id, data, name).json()
 
 
 def get_company_profile(sso_session_id):
