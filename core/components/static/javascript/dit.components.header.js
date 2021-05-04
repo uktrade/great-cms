@@ -33,7 +33,6 @@ dit.components.header = new (function() {
   }
 
   self.openMenu = function() {
-    console.log('open menu')
     $(self.MENU_BUTTON)
       .addClass('expanded')
       .attr('aria-expanded', 'true')
