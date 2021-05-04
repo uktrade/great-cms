@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2303 - Quick cleanup of niggles related to directory-components template vars
 - GP2-1276 - Scrolling issue on lessons with a case study (mobile)
 - GP2-2329 - Magna mobile header with search
 - GP2-793 - List of countries that need to have "the" before the country name
