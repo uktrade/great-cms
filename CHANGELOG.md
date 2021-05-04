@@ -35,7 +35,7 @@
 - GP2-2302 - ep dropdown validation
 
 ### Fixed bugs
-
+- GP2-2393 - [mobile]- Text alignment on CTA
 - GP2-2382 - PDF updates
 - GP2-2368 - Typo on the Funding and credit page
 - GP2-2292 - Save product on name change only
