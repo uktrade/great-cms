@@ -63,7 +63,7 @@ dit.components.header = new (function() {
       updateMenuPosition()
 
       $(window).resize(function() {
-        if (isDesktop) {
+        if (window.innerWidth >= 768) {
           updateMenuPosition()
         }
       })
@@ -79,9 +79,7 @@ dit.components.header = new (function() {
       .attr('aria-expanded', 'false')
     $(self.SEARCH_WRAPPER).removeClass('hidden')
     $(self.HEADER).removeClass('expanded')
-
     self.moveFocusToMenuButton()
-
     document.querySelector('.shared-nav-container.mobile').style = ''
   }
 

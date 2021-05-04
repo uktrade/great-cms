@@ -6,7 +6,7 @@
   {% if request.user.is_authenticated and request.user.first_name and device_type == 'mobile' %}
   <div class="user-greeting">Hi {{ request.user.first_name }}</div>
   {% endif %}
-  <nav id="{{ id }}" class="main-nav {{ device_type }} expanded {% if request.user.is_authenticated %}signed-in{% endif %}" aria-label="{% trans 'Main menu' %}">
+  <nav id="{{ id }}" class="main-nav {{ device_type }} {% if request.user.is_authenticated %}signed-in{% endif %}" aria-label="{% trans 'Main menu' %}">
     <ul class="grid-row nav-list">
       {% if request.user.is_authenticated %}
       <li class="menu-item" data-js-menu-item-container>

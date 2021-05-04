@@ -11,7 +11,7 @@
 
 // Breakpoints
 $mobile: 640px;
-$tabley: 768px;
+$tablet: 768px;
 
 @mixin mobile {
     @media (max-width: #{$mobile}) {
@@ -159,6 +159,18 @@ $tabley: 768px;
 .shared-nav-container {
     &.main-nav-container.mobile {
         flex-direction: column;
+
+        @include mobile {
+            margin-top: -15px;
+
+            #great-header-mobile-nav {
+                display: none;
+            }
+
+            #great-header-mobile-nav.expanded {
+                display: block;
+            }
+        }
     }
 
     nav.main-nav.mobile {
@@ -242,6 +254,10 @@ $tabley: 768px;
     position: static;
     .user-greeting {
         display: block;
+    }
+
+    .shared-nav-container.mobile .great-header-search-wrapper {
+        display: none;
     }
 }
 
