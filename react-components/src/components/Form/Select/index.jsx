@@ -75,12 +75,10 @@ export const Select = memo(
         const items = [...new Set([...input, item.value])]
         setInput(items)
         update({ [name]: items })
-      } else {
-        if (!item.isError) {
-          setInput(item.value)
-          setIsOpen(false)
-          update({ [name]: item.value })
-        }
+      } else if (!item.isError) {
+        setInput(item.value)
+        setIsOpen(false)
+        update({ [name]: item.value })
       }
     }
 
@@ -95,6 +93,7 @@ export const Select = memo(
           selectOption(item)
           break
         case DOWN_ARROW_KEY_CODE:
+          e.preventDefault()
           if (subSection !== null) {
             const nextSection = element.current.children[section + 1]
             const nextElement = currentElement.children[next]
@@ -104,6 +103,7 @@ export const Select = memo(
           } else if (next < liRef.current.length) liRef.current[next].focus()
           break
         case UP_ARROW_KEY_CODE:
+          e.preventDefault()
           if (subSection !== null) {
             const nextSection = element.current.children[section - 1]
             const nextElement = currentElement.children[prev - 1]
@@ -126,6 +126,7 @@ export const Select = memo(
       const firstElement = element.current.children[1]
       switch (e.keyCode) {
         case DOWN_ARROW_KEY_CODE:
+          e.preventDefault()
           setIsOpen(true)
           if (
             firstElement.children[0] &&
@@ -146,12 +147,8 @@ export const Select = memo(
 
     const focusFirst = (e) => {
       setIsOpen(true)
-      switch (e.keyCode) {
-        case DOWN_ARROW_KEY_CODE:
-          e.target
-            .closest('.select__placeholder')
-            .querySelector('ul li')
-            .focus()
+      if (e.keyCode && DOWN_ARROW_KEY_CODE) {
+        e.target.closest('.select__placeholder').querySelector('ul li').focus()
       }
     }
 
