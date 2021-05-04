@@ -85,7 +85,7 @@ const filter = (
 )
 
 export default {
-  tabName: 'TARGET AGE GROUPS',
+  tabName: 'DEMOGRAPHICS',
   filter,
   sourceAttributions: [
     {
@@ -104,13 +104,13 @@ export default {
       year: (data) => yearByGender(data.PopulationData, null),
     },
     female_population: {
-      name: 'Females in target group',
+      name: 'Females',
       className: 'text-align-right',
       render: (data) => valueAndPercentage(data.PopulationData, 'female'),
       year: (data) => yearByGender(data.PopulationData, 'female'),
     },
     male_population: {
-      name: 'Males in target group',
+      name: 'Males',
       className: 'text-align-right',
       render: (data) => valueAndPercentage(data.PopulationData, 'male'),
       year: (data) => yearByGender(data.PopulationData, 'male'),

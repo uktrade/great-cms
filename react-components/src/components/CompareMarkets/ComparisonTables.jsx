@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import { useWindowSize } from '@src/components/hooks/useWindowSize'
 import DataTable from './DataTable'
 import Tabs from './Tabs'
-import { isObject, get } from '../../Helpers'
+import { isObject, camelizeObject } from '../../Helpers'
 
+import productTabConfig from './TabConfigProduct'
 import economyTabConfig from './TabConfigEconomy'
-import populationTabConfig from './TabConfigPopulation'
+import businessTabConfig from './TabConfigBusiness'
 import societyTabConfig from './TabConfigSociety'
 import ageGroupsTabConfig from './TabConfigAgeGroups'
 
@@ -24,24 +25,28 @@ export default function ComparisonTables(props) {
   } = props
   const [activeTab, setActiveTab] = useState()
 
+  // Note This object dictates the order of tabs displayed
+  const tabConfig = {
+    product: productTabConfig,
+    economy: economyTabConfig,
+    agegroups: ageGroupsTabConfig,
+    society: societyTabConfig,
+    business: businessTabConfig,
+  }
+
   let tabs = JSON.parse(tabsJson)
   if (!isObject(tabs)) {
     tabs = JSON.parse(tabs)
   }
   let listOfTabs = []
   if (tabs && Object.keys(tabs).length > 0) {
-    listOfTabs = Object.keys(tabs).filter((key) => tabs[key])
+    listOfTabs = Object.keys(tabConfig).filter((key) => tabs[key])
     if (!activeTab && listOfTabs.length) {
       setActiveTab(listOfTabs[0])
     }
   }
 
-  const tabConfig = {
-    economy: economyTabConfig,
-    population: populationTabConfig,
-    society: societyTabConfig,
-    agegroups: ageGroupsTabConfig,
-  }
+
   const mobile = useWindowSize().width < mobileBreakpoint
 
   const tabStrip = (
@@ -71,7 +76,7 @@ export default function ComparisonTables(props) {
           mobile ? 'm-h-0' : 'm-h-m bg-white p-v-s p-b-s p-h-s radius'
         }`}
       >
-        {listOfTabs.map(
+        {Object.keys(tabConfig).map(
           (item) =>
             activeTab === item &&
             tabConfig[item] && (
@@ -81,7 +86,7 @@ export default function ComparisonTables(props) {
                   datasetName={item}
                   config={tabConfig[item]}
                   comparisonMarkets={comparisonMarkets}
-                  commodityCode={get(selectedProduct, 'commodity_code')}
+                  product={camelizeObject(selectedProduct)}
                   removeMarket={removeMarket}
                   cacheVersion={cacheVersion}
                   mobile={mobile}

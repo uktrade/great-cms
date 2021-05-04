@@ -1,5 +1,6 @@
 import React from 'react'
 import { Tooltip } from '@components/tooltip/Tooltip'
+import { isFunction } from '@src/Helpers'
 
 const DATA_NA = 'Data not available'
 let baseYear = null
@@ -73,13 +74,13 @@ const sourceAttribution = (attributions) => {
   )
 }
 
-const renderColumnHeader = (columnConfig, mobile) => (
+const renderColumnHeader = (columnConfig, context, mobile) => (
   <>
-    {columnConfig.name}
+    {isFunction(columnConfig.name) ? columnConfig.name(context) : columnConfig.name }
     {columnConfig.tooltip && (
       <div>
         <Tooltip
-          title={columnConfig.tooltip.title}
+          title={columnConfig.tooltip.title }
           content={columnConfig.tooltip.content}
           position={mobile ? 'left' : columnConfig.tooltip.position}
           className="text-align-left body-m"
