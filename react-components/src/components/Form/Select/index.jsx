@@ -147,11 +147,7 @@ export const Select = memo(
 
     const focusFirst = (e) => {
       setIsOpen(true)
-<<<<<<< HEAD
-      if (e.keyCode && DOWN_ARROW_KEY_CODE) {
-=======
       if (e.keyCode === DOWN_ARROW_KEY_CODE) {
->>>>>>> GP2-2353 VFM final page back button fix
         e.target.closest('.select__placeholder').querySelector('ul li').focus()
       }
     }
