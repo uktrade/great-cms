@@ -63,8 +63,11 @@
   &.expanded {
     background-color: $active-blue;
     z-index: 1;
-    top: 60px;
     transition: top .1s;
+
+    @media (max-width: 768px) {
+      top: 45px;
+    }
 
     .burger-icon {
       background-color: transparent;
