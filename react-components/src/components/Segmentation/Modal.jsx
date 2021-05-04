@@ -24,7 +24,6 @@ export default function Modal(props) {
       className={`${className} format-${format} modal p-v-xs p-h-s`}
       overlayClassName="modal-overlay center"
       shouldCloseOnOverlayClick={false}
-      onRequestClose={() => false}
     >
       {closeClick && (
         <button

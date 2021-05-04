@@ -12,7 +12,6 @@ export default function Questionnaire(props) {
   const [mode, setMode] = useState(modes.closed)
   const [question, _setQuestion] = useState()
   const [runningState, setRunningState] = useState({ questions: [] })
-  const [value, setValue] = useState()
 
   const closeModal = () => {
     setMode(modes.closed)
@@ -27,10 +26,13 @@ export default function Questionnaire(props) {
   const questionIndex = () =>
     question && runningState.questions.findIndex((q) => q.id === question.id)
 
+  const setValue = (answer) => {
+    _setQuestion({ ...question, answer })
+  }
+
   const setQuestion = (newQuestion) => {
     if (newQuestion && mode === modes.closed) setMode(modes.start)
     if (!newQuestion) setMode(modes.thankyou)
-    setValue((newQuestion && newQuestion.answer) || null)
     _setQuestion(newQuestion)
   }
 
@@ -103,7 +105,7 @@ export default function Questionnaire(props) {
   }
 
   const setQuestionAnswer = () => {
-    Services.setUserQuestionnaireAnswer(question.id, value)
+    Services.setUserQuestionnaireAnswer(question.id, question.answer)
       .then(processAnswers)
       .catch(() => {})
   }
@@ -112,7 +114,6 @@ export default function Questionnaire(props) {
     Services.setUserQuestionnaireAnswer(0, 'complete')
     closeModal()
   }
-  console.log('REnder question value=', value, Array.isArray(value))
   if (mode === modes.start)
     return (
       <Modal
@@ -162,19 +163,13 @@ export default function Questionnaire(props) {
       <Modal
         className="segmentation-modal"
         title={question.title}
-        body={
-          <Interaction
-            question={question}
-            value={value}
-            setValue={setValue}
-          />
-        }
+        body={<Interaction question={question} setValue={setValue} />}
         progressPercentage={
           question && 100 * (questionIndex() / runningState.questions.length)
         }
         primaryButtonLabel="Next"
         primaryButtonClick={setQuestionAnswer}
-        primaryButtonDisable={!value || !value.length}
+        primaryButtonDisable={!question.answer || !question.answer.length}
         secondaryButtonLabel="Back"
         secondaryButtonClick={goBack}
         closeClick={closeModal}
@@ -184,7 +179,7 @@ export default function Questionnaire(props) {
     return (
       <CompanyNameModal
         question={question}
-        value={value}
+        value={question.answer}
         setValue={setValue}
         nextButtonClick={setQuestionAnswer}
         backButtonClick={goBack}
