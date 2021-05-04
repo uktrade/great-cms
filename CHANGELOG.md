@@ -3,7 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
-
+- GP2-1276 - Scrolling issue on lessons with a case study (mobile)
 - GP2-2329 - Magna mobile header with search
 - GP2-793 - List of countries that need to have "the" before the country name
 - GP2-2333 - Make feedback URLs on migrated pages relative not absolute, to avoid referencing prod only
