@@ -1,26 +1,22 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import { useCookies } from 'react-cookie'
 import ReactHtmlParser from 'react-html-parser'
 
 import Services from '@src/Services'
-import { connect, Provider } from 'react-redux'
+import { connect, Provider, useSelector } from 'react-redux'
 import actions from '@src/actions'
-import { getMarkets } from '@src/reducers'
+import { getMarkets, getComparisonMarkets } from '@src/reducers'
 import { analytics, get } from '../../Helpers'
 
 
-function SelectMarket(props) {
-  const cookieName = `comparisonMarkets_${get(Services, 'config.user.id')}`
-  const { market, setMarket } = props
-  const [cookies] = useCookies([cookieName])
-
-  const comparisonMarkets = Object.values(cookies[cookieName] || {})
+function SelectMarket() {
+  const comparisonMarkets = Object.values(useSelector((state) => getComparisonMarkets(state)).comparisonMarkets || {})
+  const market = useSelector((state) => getMarkets(state))
 
   const clickMarket = (clickedMarket) => {
     const marketNames = comparisonMarkets.map((v) => v.country_name)
-    setMarket(clickedMarket)
+    Services.store.dispatch(actions.setMarket(clickedMarket))
     analytics({
       event: 'addFindMarketSuccess',
       market1: marketNames[0] || 'None',
@@ -85,41 +81,10 @@ function SelectMarket(props) {
   )
 }
 
-SelectMarket.propTypes = {
-  market: PropTypes.shape({
-    country_name: PropTypes.string,
-    country_iso2_code: PropTypes.string,
-    region: PropTypes.string,
-  }),
-  setMarket: PropTypes.func.isRequired,
-}
-SelectMarket.defaultProps = {
-  market: null,
-}
-
-const mapStateToProps = (state) => {
-  return {
-    market: getMarkets(state),
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setMarket: (market) => {
-      dispatch(actions.setMarket(market))
-    },
-  }
-}
-
-const ConnectedContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SelectMarket)
-
 export default function createSelectMarket({ ...params }) {
   ReactDOM.render(
     <Provider store={Services.store}>
-      <ConnectedContainer />
+      <SelectMarket />
     </Provider>,
     params.element
   )

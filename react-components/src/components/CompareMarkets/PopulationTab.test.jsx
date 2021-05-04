@@ -40,6 +40,14 @@ const countryDataApiResponse = {
   },
 }
 
+// set up the mock of user daa with two countries
+const comparisonMarketResponse = {
+  data: {
+      NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
+      DE: { country_name: 'Germany', country_iso2_code: 'DE' },
+  },
+}
+
 const getText = (el, selector) => {
   const target = el && el.querySelector(selector)
   return (target && target.textContent) || ''
@@ -61,9 +69,11 @@ describe('Compare markets - population tab', () => {
       csrfToken: '12345',
       populationByCountryUrl: '/export-plan/api/country-data/',
       apiCountryDataUrl: '/api/data-service/countrydata/',
+      apiUserDataUrl: '/sso/api/user-data/',
       user: { id: '6' },
     })
     fetchMock.get(/\/api\/data-service\/countrydata\//, countryDataApiResponse)
+    fetchMock.get(/\/sso\/api\/user-data\//, () => comparisonMarketResponse)
   })
 
   afterEach(() => {
