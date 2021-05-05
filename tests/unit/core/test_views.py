@@ -815,7 +815,7 @@ def test_compare_countries_page(mock_export_plan_list, domestic_homepage, client
     # Check that the page renders even if there is no dashboard definition in wagtail
     assert response.status_code == 200
     assert response.context_data['dashboard_components'] is None
-    assert re.search(r'\\"population\\":true', response.context_data['data_tabs_enabled'])
+    assert re.search(r'\\"product\\":true', response.context_data['data_tabs_enabled'])
 
     # Populate dashboard with a couple of routes and check context
     DomesticDashboardFactory(

@@ -1,17 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
 import ReactHtmlParser from 'react-html-parser'
 
 import Services from '@src/Services'
-import { connect, Provider, useSelector } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import actions from '@src/actions'
 import { getMarkets, getComparisonMarkets } from '@src/reducers'
-import { analytics, get } from '../../Helpers'
-
+import { analytics } from '../../Helpers'
 
 function SelectMarket() {
-  const comparisonMarkets = Object.values(useSelector((state) => getComparisonMarkets(state)).comparisonMarkets || {})
+  const comparisonMarkets = Object.values(
+    useSelector((state) => getComparisonMarkets(state)).comparisonMarkets || {}
+  )
   const market = useSelector((state) => getMarkets(state))
 
   const clickMarket = (clickedMarket) => {
