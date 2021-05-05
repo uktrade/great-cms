@@ -5,6 +5,7 @@
 ### Enhancements
 
 - GP2-2218 - WTE tab rearrangement
+- GP2-2370 - 3CE attribution on product search and removal of assumptions
 - NOTICKET - Bump python runtime version to suit changed buildpack
 - GP2-2303 - Quick cleanup of niggles related to directory-components template vars
 - GP2-1276 - Scrolling issue on lessons with a case study (mobile)
