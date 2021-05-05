@@ -43,6 +43,7 @@
 
 ### Fixed bugs
 
+- GP2-2442 - WTE - Fix 'Add place' button flicker
 - GP2-2411 - Fix signin/up padding inconsistency
 - GP2-2422 - Export plan - Confirmation modal is too tall
 - GP2-2421 - update content
