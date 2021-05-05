@@ -25,7 +25,7 @@ const Form = ({
       className="signup__form"
     >
       {showTitle && (
-        <legend className="h-s text-blue-deep-80">Create an account</legend>
+        <legend className="h-s text-blue-deep-80 p-t-xs">Create an account</legend>
       )}
       Already have an account? &nbsp;&nbsp;
       <a
