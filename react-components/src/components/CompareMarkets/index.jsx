@@ -5,7 +5,7 @@ import Services from '@src/Services'
 import actions from '@src/actions'
 import { getProducts, getCacheVersion } from '@src/reducers'
 import { connect, Provider } from 'react-redux'
-import { analytics } from '../../Helpers'
+import { analytics, isObject } from '../../Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import CountryFinderModal from '../ProductFinder/CountryFinderModal'
 import ComparisonTables from './ComparisonTables'
@@ -14,7 +14,7 @@ function CompareMarkets(props) {
   const { selectedProduct, tabs, maxPlaces, ctaContainer, cacheVersion } = props
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
-  const [comparisonMarkets, _setComparisonMarkets] = useState({})
+  const [comparisonMarkets, _setComparisonMarkets] = useState(false)
 
   const userDataName = 'ComparisonMarkets'
   const openModal = () => {
@@ -72,7 +72,7 @@ function CompareMarkets(props) {
         : 'Add a place'
   }
   const triggerButton =
-    selectedLength < maxPlaces ? (
+    isObject(comparisonMarkets) && selectedLength < maxPlaces ? (
       <button
         type="button"
         className={buttonClass}
