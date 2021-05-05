@@ -61,8 +61,6 @@ const valueAndPercentage = (dataSet, gender) => {
   )
 }
 
-
-
 const yearByGender = (dataSet, gender) => {
   return (dataSet.filter((row) => !gender || row.gender === gender)[0] || {})
     .year
@@ -102,25 +100,46 @@ export default {
       className: 'text-align-right',
       render: (data) => valueAndPercentage(data.PopulationData, null),
       year: (data) => yearByGender(data.PopulationData, null),
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: `
+          <p>The population of your target age group in the selected countries and territories. This indicates how many potential customers you have.</p>
+         `,
+      },
     },
     female_population: {
       name: 'Females',
       className: 'text-align-right',
       render: (data) => valueAndPercentage(data.PopulationData, 'female'),
       year: (data) => yearByGender(data.PopulationData, 'female'),
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: `
+          <p>The percentage of your target age group that are female.</p>
+         `,
+      },
     },
     male_population: {
       name: 'Males',
       className: 'text-align-right',
       render: (data) => valueAndPercentage(data.PopulationData, 'male'),
       year: (data) => yearByGender(data.PopulationData, 'male'),
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: `
+          <p>The percentage of your target age group that are male.</p>
+         `,
+      },
     },
   },
 
   dataFunction: (countries) => {
     return Services.getCountryData(
       countries,
-      JSON.stringify([{ model: 'PopulationData', filter: { year: 2020 }}])
+      JSON.stringify([{ model: 'PopulationData', filter: { year: 2020 } }])
     )
   },
 }

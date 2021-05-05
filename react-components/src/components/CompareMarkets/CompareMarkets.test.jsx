@@ -242,7 +242,7 @@ describe('Compare markets', () => {
         expect(element.textContent).toMatch(test.expect)
       }
     })
-    expect(localContainer.querySelectorAll('.tooltip button').length).toEqual(2)
+    expect(localContainer.querySelectorAll('.tooltip button').length).toEqual(3)
   })
 
   it('Select market from selection area', async () => {

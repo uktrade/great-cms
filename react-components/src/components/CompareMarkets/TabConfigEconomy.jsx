@@ -62,6 +62,13 @@ export default {
         return thing
       },
       year: (data) => get(data, 'internet_usage.year'),
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: `
+          <p>The percentage of the population that has access to the internet.</p>
+         `,
+      },
     },
   },
   dataFunction: (countries) =>

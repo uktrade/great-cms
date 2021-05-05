@@ -1,7 +1,7 @@
 import React from 'react'
 import Services from '@src/Services'
 
-const rankOutOf = (rank,total) => {
+const rankOutOf = (rank, total) => {
   return (
     <>
       {rank} of {total}
@@ -10,6 +10,7 @@ const rankOutOf = (rank,total) => {
 }
 
 export default {
+  tabName: 'DOING BUSINESS',
   sourceAttributions: [
     {
       title: 'Ease of Doing Business Rank',
@@ -18,15 +19,15 @@ export default {
       text: 'CC BY 4.0.',
     },
     {
+      title: 'Rule of Law ranking',
+      linkText: 'The Global Innovation Index 2020.',
+      linkTarget: 'https://www.globalinnovationindex.org/gii-2020-report',
+    },
+    {
       title: 'Corruption Perceptions Index',
       linkText: 'Transparency International',
       linkTarget: 'https://www.transparency.org/en/cpi/2019/results/table',
       text: 'CC BY-ND 4.0',
-    },
-    {
-      title: 'Rule of law',
-      linkText: 'The Global Innovation Index 2020.',
-      linkTarget: 'https://www.globalinnovationindex.org/gii-2020-report',
     },
   ],
 
@@ -34,7 +35,11 @@ export default {
     'eod-business': {
       name: 'Ease of doing business rank',
       className: 'text-align-right',
-      render: (data) => rankOutOf(data.EaseOfDoingBusiness[0].rank,data.EaseOfDoingBusiness[0].max_rank),
+      render: (data) =>
+        rankOutOf(
+          data.EaseOfDoingBusiness[0].rank,
+          data.EaseOfDoingBusiness[0].max_rank
+        ),
       year: (data) => data.EaseOfDoingBusiness[0].year,
       tooltip: {
         position: 'right',
@@ -49,7 +54,7 @@ export default {
     'rule-of-law': {
       name: 'Rule of Law ranking',
       className: 'text-align-right',
-      render: (data) => rankOutOf(data.RuleOfLaw[0].rank,131),
+      render: (data) => rankOutOf(data.RuleOfLaw[0].rank, 131),
       tooltip: {
         position: 'right',
         title: '',
@@ -64,7 +69,10 @@ export default {
       name: 'Corruption Perceptions Index',
       className: 'text-align-right',
       render: (data) => {
-        return rankOutOf(data.CorruptionPerceptionsIndex[0].rank,data.CorruptionPerceptionsIndex[0].total)
+        return rankOutOf(
+          data.CorruptionPerceptionsIndex[0].rank,
+          data.CorruptionPerceptionsIndex[0].total
+        )
       },
       year: (data) => data.CorruptionPerceptionsIndex[0].year,
       tooltip: {
@@ -78,9 +86,13 @@ export default {
       },
     },
   },
-  dataFunction: (countries) => Services.getCountryData(countries, JSON.stringify([
-    {model:'CorruptionPerceptionsIndex', filter:{year:'2020'}},
-    {model:'EaseOfDoingBusiness'},
-    {model:'RuleOfLaw'},
-    ]))
+  dataFunction: (countries) =>
+    Services.getCountryData(
+      countries,
+      JSON.stringify([
+        { model: 'CorruptionPerceptionsIndex', filter: { year: '2020' } },
+        { model: 'EaseOfDoingBusiness' },
+        { model: 'RuleOfLaw' },
+      ])
+    ),
 }

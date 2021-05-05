@@ -97,9 +97,10 @@ export default {
       linkTarget: 'https://www.cia.gov/the-world-factbook',
     },
     {
-      title: 'Rule of law',
-      linkText: 'The Global Innovation Index 2020.',
-      linkTarget: 'https://www.globalinnovationindex.org/gii-2020-report',
+      title: 'Urban and Rural Populations',
+      linkText: 'United Nations',
+      linkTarget: 'https://population.un.org/wup/Download/',
+      text: 'CC BY 3.0 IGO.',
     },
   ],
 
@@ -108,11 +109,25 @@ export default {
       name: 'Language',
       className: 'align-top',
       render: (data) => language(get(data, 'languages')),
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: `
+          <p>The language(s) used inside and outside of business contextsmost commonly spoken in your selected countries or territories.</p>
+         `,
+      },
     },
     religion: {
       name: 'Religion',
       className: 'align-top',
       render: (data) => religion(get(data, 'religions')),
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: `
+          <p>The religions practiced in the selected countries and territories.</p>
+         `,
+      },
     },
     urban_population: {
       name: 'Urban and Rural population',
@@ -120,6 +135,13 @@ export default {
       group: 'population',
       render: (data) => formatUrbanRural(data.PopulationUrbanRural),
       year: (data) => data.PopulationUrbanRural[0].year,
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: `
+          <p>The percentage of population by urban or rural areas.</p>
+         `,
+      },
     },
   },
   headingClass: 'vertical-align-top',

@@ -41,6 +41,13 @@ export default {
       className: 'text-align-right',
       render: (data) => importValueAndChange(data.import_from_world),
       year: (data) => get(data, 'import_from_world.year'),
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: `
+          <p>This shows how much money the selected countries and territories spent buying your product from around the world.</p>
+         `,
+      },
       group: 'import',
     },
     'uk-import-value': {
@@ -53,6 +60,13 @@ export default {
       render: (data) => importValueAndChange(data.import_from_uk),
       year: (data) => get(data, 'import_from_uk.year'),
       group: 'import',
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: `
+          <p>This shows how much money the selected countries and territories spent buying your product from around the UK.</p>
+         `,
+      },
     },
   },
   groups: {
@@ -60,13 +74,4 @@ export default {
       dataFunction: Services.getComTradeData,
     },
   },
-  dataFunction: (countries) =>
-    Services.getCountryData(
-      countries,
-      JSON.stringify([
-        { model: 'Income' },
-        { model: 'CorruptionPerceptionsIndex', filter: { year: '2020' } },
-        { model: 'EaseOfDoingBusiness' },
-      ])
-    ),
 }
