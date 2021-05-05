@@ -40,6 +40,7 @@
 - GP2-2302 - ep dropdown validation
 
 ### Fixed bugs
+- GP2-2421 - update content
 - GP2-2393 - [mobile]- Text alignment on CTA
 - GP2-2382 - PDF updates
 - GP2-2368 - Typo on the Funding and credit page
