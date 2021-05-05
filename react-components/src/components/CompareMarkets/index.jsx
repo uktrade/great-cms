@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
+import actions from '@src/actions'
 import { getProducts, getCacheVersion } from '@src/reducers'
 import { connect, Provider } from 'react-redux'
-import { useCookies } from 'react-cookie'
 import { analytics, get } from '../../Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import CountryFinderModal from '../ProductFinder/CountryFinderModal'
@@ -12,17 +12,32 @@ import ComparisonTables from './ComparisonTables'
 
 function CompareMarkets(props) {
   const { selectedProduct, tabs, maxPlaces, ctaContainer, cacheVersion } = props
-  const cookieName = `comparisonMarkets_${get(Services, 'config.user.id')}`
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
-  const [cookies, setCookie] = useCookies([cookieName])
+  const [comparisonMarkets, _setComparisonMarkets] = useState({})
+
+  const userDataName = 'ComparisonMarkets'
   const openModal = () => {
     setProductModalIsOpen(!selectedProduct)
     setMarketModalIsOpen(!!selectedProduct)
   }
 
-  const comparisonMarkets = cookies[cookieName] || {}
   const selectedLength = Object.keys(comparisonMarkets).length || 0
+
+  useEffect(() => {
+    Services.getUserData(userDataName).then((result) => {
+      _setComparisonMarkets(result.data || {})
+      Services.store.dispatch(actions.setCompareMarketList(result.data || {}))
+    })
+  }, [])
+
+  const setComparisonMarkets = (newMarkets) => {
+    Services.setUserData(userDataName, newMarkets).then((result) => {
+      _setComparisonMarkets(newMarkets)
+      Services.store.dispatch(actions.setCompareMarketList(newMarkets))
+      pushAnalytics(newMarkets)
+    })
+  }
 
   const pushAnalytics = (markets) => {
     const marketNames = Object.values(markets).map((v) => v.country_name)
@@ -35,18 +50,16 @@ function CompareMarkets(props) {
   }
 
   const addCountry = (country) => {
-    const newComparisonMarkets = cookies[cookieName] || {}
-    newComparisonMarkets[country.country_iso2_code] = country
-    setCookie(cookieName, newComparisonMarkets)
-    pushAnalytics(newComparisonMarkets)
+    const newMarkets = { ...comparisonMarkets }
+    newMarkets[country.country_iso2_code] = country
+    setComparisonMarkets(newMarkets)
   }
 
   const removeMarket = (evt) => {
     const id = evt.target.closest('button').getAttribute('data-id')
-    const tmpMarkets = cookies[cookieName] || {}
-    delete tmpMarkets[id]
-    setCookie(cookieName, tmpMarkets)
-    pushAnalytics(tmpMarkets)
+    const newMarkets = { ...comparisonMarkets }
+    delete newMarkets[id]
+    setComparisonMarkets(newMarkets)
   }
 
   let buttonClass = 'button button--primary button--icon'
@@ -60,11 +73,7 @@ function CompareMarkets(props) {
   }
   const triggerButton =
     selectedLength < maxPlaces ? (
-      <button
-        type="button"
-        className={buttonClass}
-        onClick={openModal}
-      >
+      <button type="button" className={buttonClass} onClick={openModal}>
         <i className="fa fa-plus-square" />
         {buttonLabel}
       </button>
@@ -123,10 +132,8 @@ CompareMarkets.propTypes = {
   }),
   cacheVersion: PropTypes.number,
   tabs: PropTypes.string.isRequired,
-  maxPlaces: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string]
-      ).isRequired,
+  maxPlaces: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    .isRequired,
   ctaContainer: PropTypes.instanceOf(Element).isRequired,
 }
 

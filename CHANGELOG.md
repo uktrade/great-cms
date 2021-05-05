@@ -5,6 +5,8 @@
 ### Enhancements
 - GP2-2303 - Quick cleanup of niggles related to directory-components template vars
 - GP2-1276 - Scrolling issue on lessons with a case study (mobile)
+
+- GP2-2135 - Comparison country api storage
 - GP2-2329 - Magna mobile header with search
 - GP2-793 - List of countries that need to have "the" before the country name
 - GP2-2333 - Make feedback URLs on migrated pages relative not absolute, to avoid referencing prod only

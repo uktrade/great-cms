@@ -259,5 +259,19 @@ export default {
     }).then((response) => responseHandler(response).json())
   },
 
+  getUserData: (name) => {
+    const url = config.apiUserDataUrl.replace('-name-',name)
+    return get(url).then((response) =>
+      responseHandler(response).json()
+    )
+  },
+
+  setUserData: (name, data) => {
+    const url = config.apiUserDataUrl.replace('-name-',name)
+    return post(url, {
+      data
+    }).then((response) => responseHandler(response).json())
+  },
+
   reloadPage: () => window.location.reload(),
 }

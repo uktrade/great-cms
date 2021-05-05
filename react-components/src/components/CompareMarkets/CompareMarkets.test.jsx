@@ -227,6 +227,9 @@ const societyApiResponse = [
   },
 ]
 
+// Simulate use data response
+let comparisonMarketResponse = { data: {} }
+
 const getText = (el, selector) => {
   const target = el && el.querySelector(selector)
   return (target && target.textContent) || ''
@@ -252,14 +255,21 @@ describe('Compare markets', () => {
       apiCountryDataUrl: '/api/data-service/countrydata/',
       apiComTradeDataUrl: '/api/data-service/comtrade/',
       societyByCountryUrl: '/export-plan/api/society-data/',
+      apiUserDataUrl: '/sso/api/user-data/',
       user: { id: '6' },
     })
+    comparisonMarketResponse = { data: {} }
     countriesMock = fetchMock.get(/\/api\/countries\//, mockResponse)
     fetchMock.get(/\/api\/suggestedcountries\//, suggestedResponse)
     fetchMock.get(/\/export-plan\/api\/country-data\//, populationApiResponse)
     fetchMock.get(/\/api\/data-service\/countrydata\//, countryDataApiResponse)
     fetchMock.get(/\/api\/data-service\/comtrade\//, economyApiResponse)
     fetchMock.get(/\/export-plan\/api\/society-data\//, societyApiResponse)
+    fetchMock.get(/\/sso\/api\/user-data\//, () => comparisonMarketResponse)
+    fetchMock.post(/\/sso\/api\/user-data\//, (p1, p2, p3) => {
+      comparisonMarketResponse = JSON.parse(p2.body).data
+      return comparisonMarketResponse
+    })
   })
 
   afterEach(() => {
@@ -308,15 +318,13 @@ describe('Compare markets', () => {
 
     const localContainer = container
 
-    Object.defineProperty(window.document, 'cookie', {
-      writable: true,
-      value: encodeURI(
-        `comparisonMarkets_6=${JSON.stringify({
-          NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
-          DE: { country_name: 'Germany', country_iso2_code: 'DE' },
-        })}`
-      ),
-    })
+    // set up the mock of user data with two countries
+    comparisonMarketResponse = {
+      data: {
+        NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
+        DE: { country_name: 'Germany', country_iso2_code: 'DE' },
+      },
+    }
 
     Services.store.dispatch(
       actions.setInitialState({ exportPlan: { products: [selectedProduct] } })

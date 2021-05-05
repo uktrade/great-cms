@@ -252,10 +252,14 @@ CompanyNameModal.propTypes = {
         PropTypes.arrayOf(PropTypes.string),
       ])
     ),
-  ]).isRequired,
+  ]),
   setValue: PropTypes.func.isRequired,
   nextButtonClick: PropTypes.func.isRequired,
   backButtonClick: PropTypes.func.isRequired,
   closeClick: PropTypes.func.isRequired,
   progressPercentage: PropTypes.number.isRequired,
+}
+
+CompanyNameModal.defaultProps = {
+  value: null
 }

@@ -50,7 +50,7 @@ export const Select = memo(
     }
     const selectedItem = () => {
       if (!input || input.length <= 0) return placeholder
-      if (multiSelect) {
+      if (multiSelect && Array.isArray(input)) {
         return input.map((item) => (
           <button
             className="tag tag--icon tag--secondary tag--small m-r-xs"
@@ -147,11 +147,10 @@ export const Select = memo(
 
     const focusFirst = (e) => {
       setIsOpen(true)
-      if (e.keyCode && DOWN_ARROW_KEY_CODE) {
+      if (e.keyCode === DOWN_ARROW_KEY_CODE) {
         e.target.closest('.select__placeholder').querySelector('ul li').focus()
       }
     }
-
     return (
       <div className={`select ${className}`}>
         <FormGroup
@@ -199,6 +198,8 @@ export const Select = memo(
                 {autoComplete ? (
                   <input
                     role="combobox"
+                    aria-controls="listbox"
+                    aria-expanded={isOpen}
                     className="form-control"
                     placeholder={placeholder}
                     value={inputValue}

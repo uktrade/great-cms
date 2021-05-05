@@ -9,6 +9,7 @@ import {
   SET_PRODUCT,
   SET_MARKET,
   SET_LOADED,
+  SET_COMPARISON_MARKETS,
 } from '@src/actions'
 import { config } from '@src/config'
 import { combineReducers } from 'redux'
@@ -128,6 +129,14 @@ const dataCacheReducer = (state, action) => {
   return newState
 }
 
+const comparisonMarkets = (state, action) => {
+  const newState = { ...state }
+  if (action.type === SET_COMPARISON_MARKETS) {
+    newState.comparisonMarkets = action.payload
+  }
+  return newState
+}
+
 const setInitialStateReducer = (state, action) => {
   if (action.type === SET_INITIAL_STATE) {
     return action.payload
@@ -152,6 +161,7 @@ export const getMarkets = (state) =>
   ((state.exportPlan && state.exportPlan.markets) || [])[0]
 export const getCacheVersion = (state) =>
   state.dataLoader && state.dataLoader.cacheVersion
+export const getComparisonMarkets = (state) => state.comparisonMarkets || []
 
 const rootReducer = (state, action) => {
   let localState = baseReducers(state, action)
@@ -160,6 +170,7 @@ const rootReducer = (state, action) => {
     exportPlan: exportPlanReducer,
     modalIsOpen: setModalIsOpen,
     dataLoader: dataCacheReducer,
+    comparisonMarkets,
     costAndPricing,
   })(localState, action)
 }
