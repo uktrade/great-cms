@@ -42,6 +42,8 @@
 - GP2-2302 - ep dropdown validation
 
 ### Fixed bugs
+
+- GP2-2411 - Fix signin/up padding inconsistency
 - GP2-2422 - Export plan - Confirmation modal is too tall
 - GP2-2421 - update content
 - GP2-2393 - [mobile]- Text alignment on CTA
