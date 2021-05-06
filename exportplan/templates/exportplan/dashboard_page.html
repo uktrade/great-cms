@@ -51,7 +51,7 @@
       <p class="m-0">PNG or JPG, 270x170 pixels</p>
     </a>
     {% else %}
-    <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="w-full" />
+    <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="width-full" />
     <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
     {% endif %}
     <div id="buttons-disabled" class="m-t-m">
