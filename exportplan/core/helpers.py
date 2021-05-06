@@ -172,3 +172,10 @@ def delete_model_object(sso_session_id, model_name, data):
 
 def values_to_labels(values, choices):
     return ', '.join([choices.get(item) for item in values if item in choices])
+
+
+def upload_exportplan_pdf(sso_session_id, exportplan_id, file):
+    data = {'companyexportplan': exportplan_id, 'pdf_file': file}
+    response = api_client.exportplan.pdf_upload(sso_session_id=sso_session_id, data=data)
+    response.raise_for_status()
+    return response.json()
