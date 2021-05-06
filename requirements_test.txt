@@ -89,7 +89,7 @@ dateparser==0.7.2
     #   -r requirements_test.in
 decorator==5.0.7
     # via ipython
-directory-api-client==22.18.0
+directory-api-client==22.19.0
     # via -r requirements.in
 directory-ch-client==2.1.0
     # via -r requirements.in
@@ -232,7 +232,7 @@ geventhttpclient==1.4.4
     # via locust
 great-components==1.1.1
     # via -r requirements.in
-greenlet==1.0.0
+greenlet==1.1.0
     # via gevent
 gunicorn==19.5.0
     # via -r requirements.in
