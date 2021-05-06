@@ -141,7 +141,7 @@ describe('Compare markets', () => {
     jest.clearAllMocks()
   })
 
-  it('Forces product chooser when no product', () => {
+  it('Forces product chooser when no product', async () => {
     container.innerHTML =
       '<span id="cta-container"></span><span id="compare-market-container" ></span>'
     const dataTabs = '{ "population": true, "economy": true, "society": true }'
@@ -156,12 +156,14 @@ describe('Compare markets', () => {
       })
     })
     expect(document.body.querySelector('.product-finder')).toBeFalsy()
-    // Click the button and check it opens product finder
-    const button = container.querySelector('button')
 
-    expect(button.textContent).toMatch('Select product')
+    await waitFor(() => {
+      const button = container.querySelector('button')
+      expect(button.textContent).toMatch('Select product')
+    })
+    // Click the button and check it opens product finder
     act(() => {
-      Simulate.click(button)
+      Simulate.click(container.querySelector('button'))
     })
     const finder = document.body.querySelector('.product-finder')
     expect(document.body.querySelector('.product-finder')).toBeTruthy()
