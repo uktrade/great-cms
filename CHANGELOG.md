@@ -3,6 +3,17 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+
+- GP2-1868 - Feature flag urls
+- GP2-2218 - WTE tab rearrangement
+- GP2-2370 - 3CE attribution on product search and removal of assumptions
+- NOTICKET - Bump python runtime version to suit changed buildpack
+- GP2-2303 - Quick cleanup of niggles related to directory-components template vars
+- GP2-1276 - Scrolling issue on lessons with a case study (mobile)
+
+- GP2-2135 - Comparison country api storage
+- GP2-2329 - Magna mobile header with search
+- GP2-793 - List of countries that need to have "the" before the country name
 - GP2-2333 - Make feedback URLs on migrated pages relative not absolute, to avoid referencing prod only
 - GP2-2372 - Disclaimer for the Beta release
 - GP2-2358 - Change footer to use /contact/ as contact URL
@@ -32,6 +43,15 @@
 - GP2-2401 - pdf save
 
 ### Fixed bugs
+
+- GP2-2396 - [mobile]-Logo upload issue
+- GP2-2130 - Layout tweaks to UKEF pages
+- GP2-2442 - WTE - Fix 'Add place' button flicker
+- GP2-2411 - Fix signin/up padding inconsistency
+- GP2-2422 - Export plan - Confirmation modal is too tall
+- GP2-2421 - update content
+- GP2-2393 - [mobile]- Text alignment on CTA
+- GP2-2382 - PDF updates
 - GP2-2368 - Typo on the Funding and credit page
 - GP2-2292 - Save product on name change only
 - GP2-2262 - Case study background
@@ -39,11 +59,12 @@
 - NOTICKET - Fixes header menu flickering
 - GP2-2138 - Fix domestic tab alignment
 - GP2-2234 - Sign up / in tablet
-
+- GP2-2139 - Menu button moves on mobile after selection
 
 ## [1.8.0](https://github.com/uktrade/great-cms/releases/tag/1.8.0)
 
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.7.1...1.8.0)
+
 ### Enhancements
 
 - GP2-2170 - PDF Download, with blank support
@@ -71,8 +92,6 @@
 - GP2-2120 - Change to adapting your product. Fix tooltips. Add learning. Update data.
 - GP2-2050 - Update incorrect learning banner copy
 - NOTICKET - Visual tweaks for sign in/up
-
-
 
 ## [1.7.1](https://github.com/uktrade/great-cms/releases/tag/1.7.1)
 

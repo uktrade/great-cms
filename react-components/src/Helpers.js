@@ -103,6 +103,10 @@ const isArray = (arr) => {
   return Object.prototype.toString.call(arr) === '[object Array]'
 }
 
+const isFunction = (fn) => {
+  return !!(fn && fn.constructor && fn.call && fn.apply)
+}
+
 const get = (obj, path, def = null) => {
   // get a value from an object based on dot-separated path
   let out = obj
@@ -206,6 +210,7 @@ export {
   normaliseValues,
   isObject,
   isArray,
+  isFunction,
   get,
   mapArray,
   formatLessonLearned,
@@ -218,3 +223,21 @@ export {
   camelizeObject,
   validation,
 }
+
+export const prependThe = (str) =>
+  [
+    'Central African Republic',
+    'Comoros',
+    'Czechia',
+    'Dominican Republic',
+    'Ivory Coast',
+    'Maldives',
+    'Marshall Islands',
+    'Netherlands',
+    'Philippines',
+    'Solomon Islands',
+    'United Arab Emirates',
+    'United States',
+  ].includes(str)
+    ? `the ${str}`
+    : str
