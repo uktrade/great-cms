@@ -26,7 +26,7 @@ arabic-reshaper==2.1.3
     # via xhtml2pdf
 astroid==2.5.6
     # via pylint
-attrs==20.3.0
+attrs==21.1.0
     # via
     #   allure-python-commons
     #   jsonschema
@@ -41,7 +41,7 @@ beautifulsoup4==4.8.2
     #   great-components
     #   readtime
     #   wagtail
-black==21.4b2
+black==21.5b0
     # via
     #   -r requirements_test.in
     #   blacken-docs
@@ -89,7 +89,7 @@ dateparser==0.7.2
     #   -r requirements_test.in
 decorator==5.0.7
     # via ipython
-directory-api-client==22.17.0
+directory-api-client==22.19.0
     # via -r requirements.in
 directory-ch-client==2.1.0
     # via -r requirements.in
@@ -147,7 +147,7 @@ django-treebeard==4.4
     # via
     #   -r requirements.in
     #   wagtail
-django==2.2.21
+django==2.2.22
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -232,7 +232,7 @@ geventhttpclient==1.4.4
     # via locust
 great-components==1.1.1
     # via -r requirements.in
-greenlet==1.0.0
+greenlet==1.1.0
     # via gevent
 gunicorn==19.5.0
     # via -r requirements.in
@@ -252,7 +252,7 @@ ipdb==0.13.7
     # via -r requirements_test.in
 ipython-genutils==0.2.0
     # via traitlets
-ipython==7.23.0
+ipython==7.23.1
     # via ipdb
 iso3166==1.0.1
     # via -r requirements.in
@@ -278,7 +278,7 @@ l18n==2020.6.1
     # via wagtail
 lazy-object-proxy==1.6.0
     # via astroid
-locust==1.5.0
+locust==1.5.1
     # via -r requirements_test.in
 lxml==4.6.3
     # via
@@ -398,7 +398,7 @@ pytest-django==4.2.0
     # via -r requirements_test.in
 pytest-sugar==0.9.4
     # via -r requirements_test.in
-pytest==6.2.3
+pytest==6.2.4
     # via
     #   -r requirements_test.in
     #   allure-pytest
@@ -467,7 +467,7 @@ sigauth==4.3.0
     # via
     #   -r requirements.in
     #   directory-client-core
-six==1.15.0
+six==1.16.0
     # via
     #   airtable-python-wrapper
     #   allure-pytest
@@ -532,7 +532,7 @@ urllib3==1.25.11
     #   requests
     #   selenium
     #   sentry-sdk
-virtualenv==20.4.4
+virtualenv==20.4.6
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core

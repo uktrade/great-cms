@@ -379,8 +379,12 @@ class PDFDownload(
         context['risk_impact_options'] = choices_to_key_value(choices.RISK_IMPACT_OPTIONS)
         context['risk_likelihood_options'] = choices_to_key_value(choices.RISK_LIKELIHOOD_OPTIONS)
         context['content_icons'] = False
-        pdf = render_to_pdf('exportplan/pdf_download.html', context)
-        response = HttpResponse(pdf, content_type='application/pdf')
+        pdf_reponse, pdf_file = render_to_pdf('exportplan/pdf_download.html', context)
+
+        helpers.upload_exportplan_pdf(
+            sso_session_id=request.user.session_id, exportplan_id=request.user.export_plan.data['pk'], file=pdf_file
+        )
+        response = HttpResponse(pdf_reponse, content_type='application/pdf')
         filename = 'export_plan.pdf'
         content = f'inline; filename={filename}'
         response['Content-Disposition'] = content

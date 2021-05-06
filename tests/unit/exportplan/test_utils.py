@@ -1,4 +1,8 @@
+from unittest import mock
 from unittest.mock import Mock, patch
+
+from django.core.files.base import ContentFile
+from django.http import HttpResponse
 
 from exportplan import utils
 
@@ -18,5 +22,22 @@ def test_render_to_pdf_error(user, get_request):
 
     with patch('exportplan.utils.pisa.pisaDocument') as pisadocument:
         pisadocument.return_value = Mock(status_code=500, **{'json.return_value': {}})
-        pdf = utils.render_to_pdf('exportplan/pdf_download.html', pdf_context)
+        pdf, pdf_file = utils.render_to_pdf('exportplan/pdf_download.html', pdf_context)
         assert pdf is None
+
+
+@mock.patch.object(utils.pisa, 'pisaDocument')
+def test_render_to_pdf(mock_pisa, user, get_request):
+    pdf_context = {
+        'export_plan': get_request.user.export_plan,
+        'user': get_request.user,
+    }
+
+    # Must be a better way of mocking a return object
+    class Errordoc:
+        err = False
+
+    mock_pisa.return_value = Errordoc()
+    pdf, pdf_file = utils.render_to_pdf('exportplan/pdf_download.html', pdf_context)
+    assert isinstance(pdf, HttpResponse)
+    assert isinstance(pdf_file, ContentFile)

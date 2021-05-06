@@ -40,6 +40,7 @@
 - GP2-2088 - Form validation - Numerical fields
 - GP2-2087 - Form validation - Numerical fields (cost/price)
 - GP2-2302 - ep dropdown validation
+- GP2-2401 - pdf save
 
 ### Fixed bugs
 
