@@ -4,6 +4,7 @@
 
 ### Enhancements
 
+- GP2-2507 - Remove beta banner
 - GP2-1868 - Feature flag urls
 - GP2-2218 - WTE tab rearrangement
 - GP2-2370 - 3CE attribution on product search and removal of assumptions
