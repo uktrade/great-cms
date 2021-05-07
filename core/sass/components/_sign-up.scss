@@ -2,6 +2,7 @@
 
   &--reverse {
     flex-direction: row-reverse;
+    background: #F5F5F6;
 
     .signup__steps-panel {
       @include breakpoint(lg) {
@@ -23,6 +24,7 @@
 
         @include breakpoint(lg) {
           right: -30px;
+          top: 500px;
         }
       }
     }
@@ -32,20 +34,21 @@
       z-index: 1;
 
       h1 {
+        color: $colour-blue-deep-80;
         line-height: 52px;
+        margin-bottom: 0;
       }
 
       p {
-        color: #fff;
+        color: $colour-blue-deep-80;
         margin-bottom: 8px;
+        margin-top: 18px;
         font-size: 18px;
         font-weight: 600;
       }
 
       a {
-        color: $red-60;
         min-width: 230px;
-        background: white;
       }
     }
   }
@@ -78,6 +81,7 @@
     background-color: #fff;
     width: 514px;
     flex-shrink: 0;
+    z-index: 1;
 
     @include breakpoint(lg) {
       margin-left: 20px;
@@ -150,14 +154,16 @@
       display: none;
     }
     img {
-      margin-top: 40px;
+      margin-top: -145px;
       max-width: 100%;
     }
 
     h1 {
       color: #fff;
       font-size: 56px;
+      line-height: 50px;
       text-align: center;
+      margin-bottom: 60px;
 
       @include breakpoint(lg_lt) {
         font-size: 48px;
@@ -167,12 +173,13 @@
     }
     &__headings {
       max-width: 650px;
-      padding: 0 40px
+      padding: 0 40px;
+      z-index: 1;
     }
     &__subheadings {
       display: flex;
       align-items: center;
-      margin-bottom: 15px;
+      margin-bottom: 45px;
       h2,
       i {
         color: #fff;
@@ -187,6 +194,7 @@
       h2 {
         font-size: 28px;
         margin-left: 30px;
+        line-height: 32px;
 
         @include breakpoint(lg_lt) {
           font-size: 24px;
