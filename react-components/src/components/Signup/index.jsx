@@ -10,11 +10,9 @@ export const STEP_VERIFICATION_CODE = 'verification-code'
 export const STEP_COMPLETE = 'complete'
 
 const subHeadings = [
-  'Create your forever free account',
-  'Get tailored content just for you and your business',
-  'Learn how to export with a library of brand new lessons',
-  'Decide where to export by comparing countries',
-  'Make a plan and start exporting',
+  'Learn how to sell abroad',
+  'Find the best country for your product',
+  'Create an export plan that\'s right for your business',
 ]
 
 export const Signup = (props) => {
@@ -109,7 +107,7 @@ export const Signup = (props) => {
       </div>
       <div className="signup__right-panel">
         <div className="signup__right-panel__headings">
-          <h1>Grow your business</h1>
+          <h1>Find new customers around the world</h1>
           {subHeadings.map((heading) => (
             <div className="signup__right-panel__subheadings">
               <i class="fas fa-check-circle"></i>
@@ -120,7 +118,7 @@ export const Signup = (props) => {
 
         <img
           class="m-f-auto m-r-auto"
-          src="/static/images/learning_simple_ui.png"
+          src="/static/images/sign-up-illustration.svg"
           alt="Exporting is Great"
         />
       </div>

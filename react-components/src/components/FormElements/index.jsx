@@ -50,6 +50,7 @@ export const FormElements = memo(
           }
           return (
             <Component
+              hideLabel={item.hideLabel}
               id={item.name}
               label={substituteText(item.label)}
               placeholder={item.placeholder}
@@ -89,6 +90,7 @@ FormElements.propTypes = {
         content: PropTypes.string,
         title: PropTypes.string,
       }),
+      hideLabel: PropTypes.bool,
     })
   ).isRequired,
   field: PropTypes.string.isRequired,

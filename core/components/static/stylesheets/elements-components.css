@@ -259,7 +259,7 @@ details.great-accordion[open] summary:before {
   .great-header-search-container.signed-in {
     margin-right: 130px; }
   .great-header-search-container.mobile-only {
-    margin: 15px 20px 0; }
+    margin: 15px 30px 0; }
 
 @media (max-width: 768px) {
   .great-header .great-header-search-wrapper form {
@@ -4583,6 +4583,10 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
       line-height: 1.11111;
       margin-top: 1.25em;
       margin-bottom: .83333em; } }
+  @media (min-width: 641px) {
+    .rich-text h2 b,
+    .block-text h2 b {
+      line-height: 1.11111; } }
 
 .rich-text h3,
 .block-text h3 {

@@ -1,42 +1,8 @@
-import React from 'react'
 import Services from '@src/Services'
-import { normaliseValues, get, millify, numberWithSign } from '../../Helpers'
-
-const rankOutOf = (rank,total) => {
-  return (
-    <>
-      {rank} of {total}
-    </>
-  )
-}
-
-const importValueAndChange = (importValue) => {
-  if (!importValue.trade_value_raw) {
-    throw new Error();
-  }
-  return (
-    <>
-      <div className="body-l primary">
-        {millify(importValue.trade_value_raw)}
-      </div>
-      {importValue.year_on_year_change && (
-        <div className="body-m secondary text-black-60">
-          {numberWithSign(normaliseValues(importValue.year_on_year_change))}% vs{' '}
-          {importValue.last_year}
-        </div>
-      )}
-    </>
-  )
-}
+import { normaliseValues, get, millify } from '../../Helpers'
 
 export default {
   sourceAttributions: [
-    {
-      title: 'Trade data',
-      linkText: 'UN Comtrade',
-      linkTarget: 'https://comtrade.un.org/data',
-      text: 'Copyright United Nations 2020.',
-    },
     {
       title: 'Adjusted net national income per capita',
       preLinkText: '(current US$)',
@@ -45,33 +11,19 @@ export default {
       text: 'CC BY 4.0.',
     },
     {
-      title: 'Ease of Doing Business Rank',
-      linkText: 'World Bank',
-      linkTarget: 'https://www.doingbusiness.org/en/data/doing-business-score',
-      text: 'CC BY 4.0.',
+      title: 'Consumer price index',
+      linkText: 'International Monetary Fund',
+      linkTarget:
+        'https://data.imf.org/?sk=4FFB52B2-3653-409A-B471-D47B46D904B5',
     },
     {
-      title: 'Corruption Perceptions Index',
-      linkText: 'Transparency International',
-      linkTarget: 'https://www.transparency.org/en/cpi/2019/results/table',
-      text: 'CC BY-ND 4.0',
+      title: 'Access to internet',
+      linkText: 'International Telecommunications Union.',
+      linkTarget:
+        'https://www.itu-ilibrary.org/science-and-technology/data/world-telecommunication-ict-indicators-database_pub_series/database/2a8478f7-en',
     },
   ],
   columns: {
-    'world-import-value': {
-      name: 'Worldwide import value (USD)',
-      className: 'text-align-right',
-      render: (data) => importValueAndChange(data.import_from_world),
-      year: (data) => get(data, 'import_from_world.year'),
-      group: 'import',
-    },
-    'uk-import-value': {
-      name: 'Import value from the UK (USD)',
-      className: 'text-align-right',
-      render: (data) => importValueAndChange(data.import_from_uk),
-      year: (data) => get(data, 'import_from_uk.year'),
-      group: 'import',
-    },
     'avg-income': {
       name: 'Adjusted net national income per capita (USD)',
       className: 'text-align-right',
@@ -87,43 +39,45 @@ export default {
          `,
       },
     },
-    'eod-business': {
-      name: 'Ease of doing business rank',
+    cpi: {
+      name: 'Consumer Price Index',
       className: 'text-align-right',
-      render: (data) => rankOutOf(data.EaseOfDoingBusiness[0].rank,data.EaseOfDoingBusiness[0].max_rank),
-      year: (data) => data.EaseOfDoingBusiness[0].year,
+      render: (data) => normaliseValues(data.ConsumerPriceIndex[0].value, 2),
+      year: (data) => get(data, 'cpi.year'),
       tooltip: {
         position: 'right',
         title: '',
         content: `
-          <p>The Ease of Doing Business rank indicates how easy or hard it is to do business somewhere.</p>
-          <p>The rank is from 1 (easy to do business) to 190 (hard to do business).</p>
-          <p>This  can help you decide whether to export somewhere and whether you need professional help to do so.</p>
+          <p>Consumer Price Index (or CPI) measures changes in the price of goods and services.</p>
+          <p>A higher number indicates prices are growing quickly and a lower number indicates they’re rising slowly.</p>
+          <p>CPI gives you an idea of the cost of living and how much those costs have changed.</p>
          `,
       },
     },
-    cpi: {
-      name: 'Corruption Perceptions Index',
+    internet_usage: {
+      name: 'Access to internet',
       className: 'text-align-right',
       render: (data) => {
-        return rankOutOf(data.CorruptionPerceptionsIndex[0].rank,data.CorruptionPerceptionsIndex[0].total)
+        const thing = normaliseValues(`${data.InternetUsage[0].value}%`)
+        return thing
       },
-      year: (data) => data.CorruptionPerceptionsIndex[0].year,
+      year: (data) => get(data, 'internet_usage.year'),
       tooltip: {
         position: 'right',
         title: '',
         content: `
-          <p>The Corruption Perceptions Index is published every year by Transparency International.</p>
-          <p>The index ranks  public-sector corruption  according to experts and business people. Here we use a rank from 1 (clean) to 180 (highly corrupt).</p>
-          <p>This gives you an idea of how easy or difficult it is to deal with local officials and businesses, and to get paid.</p>
+          <p>The percentage of the population that has access to the internet.</p>
          `,
       },
     },
   },
-  groups: {
-    import: {
-      dataFunction: Services.getComTradeData,
-    },
-  },
-  dataFunction: (countries) => Services.getCountryData(countries, JSON.stringify([{model:'Income'},{model:'CorruptionPerceptionsIndex', filter:{year:'2020'}},{model:'EaseOfDoingBusiness'}])),
+  dataFunction: (countries) =>
+    Services.getCountryData(
+      countries,
+      JSON.stringify([
+        { model: 'Income' },
+        { model: 'InternetUsage' },
+        { model: 'ConsumerPriceIndex' },
+      ])
+    ),
 }

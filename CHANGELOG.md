@@ -3,6 +3,15 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+
+- GP2-2511 - Sign in / up design updates
+- GP2-2438 - Select control UX enhancements
+- GP2-2507 - Remove beta banner
+- GP2-2415 - Add preload attr and iOS poster/preview trick to video embed
+- GP2-1868 - Feature flag urls
+- GP2-2218 - WTE tab rearrangement
+- GP2-2370 - 3CE attribution on product search and removal of assumptions
+- NOTICKET - Bump python runtime version to suit changed buildpack
 - GP2-2303 - Quick cleanup of niggles related to directory-components template vars
 - GP2-1276 - Scrolling issue on lessons with a case study (mobile)
 
@@ -35,8 +44,17 @@
 - GP2-2088 - Form validation - Numerical fields
 - GP2-2087 - Form validation - Numerical fields (cost/price)
 - GP2-2302 - ep dropdown validation
+- GP2-2401 - pdf save
 
 ### Fixed bugs
+
+- GP2-2513 - Fixes h2 with b tag issue
+- GP2-2396 - [mobile]-Logo upload issue
+- GP2-2130 - Layout tweaks to UKEF pages
+- GP2-2442 - WTE - Fix 'Add place' button flicker
+- GP2-2411 - Fix signin/up padding inconsistency
+- GP2-2422 - Export plan - Confirmation modal is too tall
+- GP2-2421 - update content
 - GP2-2393 - [mobile]- Text alignment on CTA
 - GP2-2382 - PDF updates
 - GP2-2368 - Typo on the Funding and credit page

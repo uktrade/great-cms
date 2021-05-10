@@ -7,14 +7,25 @@ import {
   stripPercentage,
 } from '../../Helpers'
 
-const rankOutOf = (data, key) => {
+const formatUrbanRural = (data) => {
+  const out = data.reduce(
+    (running, row) => {
+      const rowVal = { ...running }
+      rowVal[row.urban_rural] = row.value
+      rowVal.total += row.value
+      return rowVal
+    },
+    { total: 0 }
+  )
   return (
-    data &&
-    data[key] && (
-      <>
-        {data[key]} of {data.total}
-      </>
-    )
+    <>
+      <div className="urban">
+        Urban - {normaliseValues((out.urban * 100) / out.total, 0)}%
+      </div>
+      <div className="rural">
+        Rural - {normaliseValues((out.rural * 100) / out.total, 0)}%
+      </div>
+    </>
   )
 }
 
@@ -73,24 +84,6 @@ const religion = (data) => {
   )
 }
 
-const ruleOfLawRanking = (data) => {
-  // TODO: get these 'total' and 'year' values from API
-  const rankingTotal = 131
-  const year = 2020
-  const decorated = { ...data, total: rankingTotal, year }
-  return data && (
-    <>
-      {rankOutOf(decorated, 'rank')}
-      {decorated.year && (
-        <div className="body-m text-black-60 display-year">
-          {decorated.year}
-        </div>
-      )}
-    </>
-  )
-}
-
-
 export default {
   sourceAttributions: [
     {
@@ -104,38 +97,64 @@ export default {
       linkTarget: 'https://www.cia.gov/the-world-factbook',
     },
     {
-      title: 'Rule of law',
-      linkText: 'The Global Innovation Index 2020.',
-      linkTarget: 'https://www.globalinnovationindex.org/gii-2020-report',
+      title: 'Urban and Rural Populations',
+      linkText: 'United Nations',
+      linkTarget: 'https://population.un.org/wup/Download/',
+      text: 'CC BY 3.0 IGO.',
     },
   ],
 
   columns: {
-    religion: {
-      name: 'Religion',
-      className: 'align-top',
-      render: (data) => religion(get(data, 'religions')),
-    },
     language: {
       name: 'Language',
       className: 'align-top',
       render: (data) => language(get(data, 'languages')),
-    },
-    'rule-of-law': {
-      name: 'Rule of Law ranking',
-      className: 'align-top',
-      render: (data) => ruleOfLawRanking(get(data, 'rule_of_law')),
       tooltip: {
         position: 'right',
         title: '',
         content: `
-          <p>The strength of the law varies from place to place.</p>
-          <p>The rank is from low (law abiding) to high (not law abiding), using factors like contract enforcement, property rights, police, and the courts.</p>
-          <p>This indicates how hard it may be to follow regulations and take legal action if something goes wrong.</p>
+          <p>The language(s) used inside and outside of business contextsmost commonly spoken in your selected countries or territories.</p>
+         `,
+      },
+    },
+    religion: {
+      name: 'Religion',
+      className: 'align-top',
+      render: (data) => religion(get(data, 'religions')),
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: `
+          <p>The religions practiced in the selected countries and territories.</p>
+         `,
+      },
+    },
+    urban_population: {
+      name: 'Urban and Rural population',
+      className: 'align-top',
+      group: 'population',
+      render: (data) => formatUrbanRural(data.PopulationUrbanRural),
+      year: (data) => data.PopulationUrbanRural[0].year,
+      tooltip: {
+        position: 'right',
+        title: '',
+        content: `
+          <p>The percentage of population by urban or rural areas.</p>
          `,
       },
     },
   },
   headingClass: 'vertical-align-top',
   dataFunction: Services.getSocietyByCountryData,
+  groups: {
+    population: {
+      dataFunction: (countries) =>
+        Services.getCountryData(
+          countries,
+          JSON.stringify([
+            { model: 'PopulationUrbanRural', filter: { year: 2020 } },
+          ])
+        ),
+    },
+  },
 }

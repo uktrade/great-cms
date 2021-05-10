@@ -4,6 +4,7 @@ from io import BytesIO
 from unittest import mock
 
 import pytest
+from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from django.utils.text import slugify
@@ -381,12 +382,15 @@ def test_download_export_plan(
     mock_cia_world_factbook_data,
     user,
     mock_get_user_profile,
+    mock_upload_exportplan_pdf,
 ):
+
     # Must be a better way of mocking a return object
     class Errordoc:
         err = False
 
     mock_pisa.return_value = Errordoc()
+
     url = reverse('exportplan:pdf-download')
     client.force_login(user)
     response = client.get(url, SERVER_NAME='127.0.0.1')
@@ -401,6 +405,11 @@ def test_download_export_plan(
     assert pdf_context['population_age_data']['marketing-approach'] == mock_get_population_data.return_value
     assert pdf_context['population_age_data']['target-markets-research'] == mock_get_population_data.return_value
     assert pdf_context['language_data'] == mock_cia_world_factbook_data.return_value
+
+    assert mock_upload_exportplan_pdf.call_count == 1
+    assert mock_upload_exportplan_pdf.call_args.kwargs['sso_session_id'] == '123'
+    assert mock_upload_exportplan_pdf.call_args.kwargs['exportplan_id'] == 1
+    assert isinstance(mock_upload_exportplan_pdf.call_args.kwargs['file'], ContentFile)
 
 
 @pytest.mark.django_db

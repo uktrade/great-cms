@@ -8,6 +8,7 @@ import { AddButton } from '@src/components/ObjectivesList/AddButton/AddButton'
 import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
 import { useSelector } from 'react-redux'
 import { getMarkets } from '@src/reducers'
+import ErrorList from '@src/components/ErrorList'
 
 export const RouteToMarket = memo(
   ({ fields, formData, formFields, model_name }) => {
@@ -17,7 +18,9 @@ export const RouteToMarket = memo(
     const { companyexportplan, pk, ...lastField } = routes.length
       ? routes[routes.length - 1]
       : {}
-    const [update, create, deleteItem] = useUpdate('route-to-market')
+    const [update, create, deleteItem, message, errors] = useUpdate(
+      'route-to-market'
+    )
 
     const addTable = () => {
       create({ ...formFields })
@@ -82,6 +85,7 @@ export const RouteToMarket = memo(
           isDisabled={routes.length ? !objectHasValue(lastField) : false}
           cta="Add route to market"
         />
+        <ErrorList errors={errors.__all__ || []} className="m-0" />
       </>
     )
   }

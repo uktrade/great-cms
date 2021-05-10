@@ -5,7 +5,7 @@ import Services from '@src/Services'
 import actions from '@src/actions'
 import { getProducts, getCacheVersion } from '@src/reducers'
 import { connect, Provider } from 'react-redux'
-import { analytics, get } from '../../Helpers'
+import { analytics, isObject } from '../../Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import CountryFinderModal from '../ProductFinder/CountryFinderModal'
 import ComparisonTables from './ComparisonTables'
@@ -14,7 +14,7 @@ function CompareMarkets(props) {
   const { selectedProduct, tabs, maxPlaces, ctaContainer, cacheVersion } = props
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
-  const [comparisonMarkets, _setComparisonMarkets] = useState({})
+  const [comparisonMarkets, _setComparisonMarkets] = useState(false)
 
   const userDataName = 'ComparisonMarkets'
   const openModal = () => {
@@ -31,14 +31,6 @@ function CompareMarkets(props) {
     })
   }, [])
 
-  const setComparisonMarkets = (newMarkets) => {
-    Services.setUserData(userDataName, newMarkets).then((result) => {
-      _setComparisonMarkets(newMarkets)
-      Services.store.dispatch(actions.setCompareMarketList(newMarkets))
-      pushAnalytics(newMarkets)
-    })
-  }
-
   const pushAnalytics = (markets) => {
     const marketNames = Object.values(markets).map((v) => v.country_name)
     analytics({
@@ -46,6 +38,14 @@ function CompareMarkets(props) {
       market1: marketNames[0] || '',
       market2: marketNames[1] || '',
       market3: marketNames[2] || '',
+    })
+  }
+
+  const setComparisonMarkets = (newMarkets) => {
+    Services.setUserData(userDataName, newMarkets).then(() => {
+      _setComparisonMarkets(newMarkets)
+      Services.store.dispatch(actions.setCompareMarketList(newMarkets))
+      pushAnalytics(newMarkets)
     })
   }
 
@@ -72,9 +72,13 @@ function CompareMarkets(props) {
         : 'Add a place'
   }
   const triggerButton =
-    selectedLength < maxPlaces ? (
-      <button type="button" className={buttonClass} onClick={openModal}>
-        <i className="fa fa-plus-square" />
+    isObject(comparisonMarkets) && selectedLength < maxPlaces ? (
+      <button
+        type="button"
+        className={buttonClass}
+        onClick={openModal}>
+        <i className="fa fa-plus-square"
+      />
         {buttonLabel}
       </button>
     ) : (

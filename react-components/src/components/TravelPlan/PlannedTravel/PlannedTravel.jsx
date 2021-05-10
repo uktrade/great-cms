@@ -3,12 +3,15 @@ import PropTypes from 'prop-types'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { Learning } from '@src/components/Learning/Learning'
 import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
+import ErrorList from '@src/components/ErrorList'
 import { Trips } from './Trips'
 
 export const PlannedTravel = memo(
   ({ formData, companyexportplan, lesson, tooltip, model_name }) => {
     const [trips, setTrips] = useState(formData)
-    const [update, create, deleteItem] = useUpdate('travel-plan')
+    const [update, create, deleteItem, message, errors] = useUpdate(
+      'travel-plan'
+    )
 
     const addTrip = () => {
       const newTrip = {
@@ -60,6 +63,7 @@ export const PlannedTravel = memo(
           onChange={onChange}
           addTrip={addTrip}
         />
+        <ErrorList errors={errors.__all__ || []} className="m-t-s" />
       </>
     )
   }

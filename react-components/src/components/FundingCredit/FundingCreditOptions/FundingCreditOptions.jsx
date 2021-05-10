@@ -4,6 +4,7 @@ import { useDebounce } from '@src/components/hooks/useDebounce'
 import { LessonLearn } from '@src/components/LessonLearn'
 import { formatLessonLearned } from '@src/Helpers'
 import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
+import ErrorList from '@src/components/ErrorList'
 import { Total } from './Total'
 import { Options } from './Options'
 
@@ -21,7 +22,9 @@ export const FundingCreditOptions = memo(
     const [fundingTotal, setFundingTotal] = useState(null)
     const [toggleLesson, setToggleLesson] = useState(false)
     const lesson = formatLessonLearned(lessonDetails, currentSection, 1)
-    const [update, create, deleteItem] = useUpdate('travel-plan')
+    const [update, create, deleteItem, message, errors] = useUpdate(
+      'travel-plan'
+    )
 
     const calclatedTotal = () =>
       funding.reduce((acc, curr) => acc + Number(curr.amount), 0)
@@ -98,6 +101,7 @@ export const FundingCreditOptions = memo(
           addFunding={addFunding}
         />
         <Total label="Total funding" currency={currency} total={fundingTotal} />
+        <ErrorList errors={errors.__all__ || []} className="m-0" />
       </>
     )
   }
