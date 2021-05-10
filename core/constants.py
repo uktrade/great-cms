@@ -69,3 +69,5 @@ CONSENT_CHOICES = (
     (CONSENT_EMAIL, 'I would like to receive additional information by email'),
     (CONSENT_PHONE, ' I would like to receive additional information by telephone'),
 )
+
+USER_DATA_NAMES = {'ComparisonMarkets': 16384}

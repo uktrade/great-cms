@@ -3,7 +3,7 @@ import Signup from '@src/views/Signup/Container'
 import SignupModal from '@src/views/SignupModal/Container'
 
 import { createLogin } from '@src/views/Login'
-import SegmentationModal from '@src/components/Segmentation'
+import Questionnaire from '@src/components/Segmentation/Questionnaire'
 import Tour from '@src/views/Tour/Container'
 import ProductFinderButton from '@src/components/ProductFinder/ProductFinderButton'
 import CountryFinderButton from '@src/components/ProductFinder/CountryFinderButton'
@@ -103,7 +103,7 @@ export default {
   SignupModal,
   STEP_CREDENTIALS,
   STEP_VERIFICATION_CODE,
-  SegmentationModal,
+  Questionnaire,
   Tour,
   sectionSidebar,
   sectionComplete,

@@ -1,3 +1,6 @@
+from functools import partial
+from urllib.parse import urljoin
+
 from django.conf import settings
 from django.conf.urls import url
 from django.views.generic.base import RedirectView
@@ -8,6 +11,9 @@ from core.views import (
     QuerystringRedirectView,
     TranslationRedirectView,
 )
+
+build_great_international_url = partial(urljoin, '/international/')
+
 
 redirects = [
     url(
@@ -502,13 +508,13 @@ articles_redirects = [
     url(
         r'^market-research/doing-business-with-integrity/$',
         QuerystringRedirectView.as_view(
-            url='/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets/'
+            url='advice/manage-risk-bribery-corruption-and-abuse-human-rights/bribery-and-corruption-understand-risks/'
         ),
     ),
     url(
         r'^market-research/know-the-relevant-legislation/$',
         QuerystringRedirectView.as_view(
-            url='/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets/'
+            url='advice/manage-risk-bribery-corruption-and-abuse-human-rights/bribery-and-corruption-understand-risks/'
         ),
     ),
     url(r'^business-planning/$', QuerystringRedirectView.as_view(url='/advice/define-route-to-market/')),
@@ -585,7 +591,6 @@ articles_redirects = [
         r'^finance/raise-money-with-investment/$',
         QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/raise-money-with-investment/'),
     ),
-    url(r'^getting-paid/$', QuerystringRedirectView.as_view(url='/advice/manage-payment-for-export-orders/')),
     url(
         r'^getting-paid/invoice-currency-and-contents/$',
         QuerystringRedirectView.as_view(url='/advice/manage-payment-for-export-orders/payment-methods-for-exporters/'),
@@ -610,6 +615,7 @@ articles_redirects = [
         r'^getting-paid/insure-against-non-payment/$',
         QuerystringRedirectView.as_view(url='/advice/manage-payment-for-export-orders/insure-against-non-payment/'),
     ),
+    url(r'^getting-paid/$', QuerystringRedirectView.as_view(url='/advice/manage-payment-for-export-orders/')),
     url(
         r'^customer-insight/$',
         QuerystringRedirectView.as_view(url='/advice/prepare-to-do-business-in-a-foreign-country/'),
@@ -796,6 +802,40 @@ articles_redirects = [
         QuerystringRedirectView.as_view(
             url='/advice/prepare-for-export-procedures-and-logistics/documentation-international-trade/'
         ),
+    ),
+    url(
+        r'^trade/$',
+        QuerystringRedirectView.as_view(url='/international/trade/'),
+        name='international-trade-home',
+    ),
+    url(
+        r'^trade/(?P<path>[\w\-/]*)/$',
+        QuerystringRedirectView.as_view(
+            url=build_great_international_url('trade/incoming/%(path)s/'),
+            # Note that this then has a FURTHER redirect within great-international-ui
+        ),
+        name='international-trade',
+    ),
+    url(
+        r'^investment-support-directory/$',
+        QuerystringRedirectView.as_view(url='/international/investment-support-directory/'),
+        name='international-investment-support-directory-home',
+    ),
+    url(
+        r'^investment-support-directory/(?P<path>[\w\-/]*)/$',
+        QuerystringRedirectView.as_view(
+            url=build_great_international_url('investment-support-directory/%(path)s/'),
+            # Note that this then has a FURTHER redirect within great-international-ui
+        ),
+        name='international-investment-support-directory',
+    ),
+    url(
+        r'^story/york-bag-retailer-goes-global-via-e-commerce/$',
+        QuerystringRedirectView.as_view(url='/success-stories/york-bag-retailer-goes-global/'),
+    ),
+    url(
+        r'^story/hello-babys-rapid-online-growth/$',
+        QuerystringRedirectView.as_view(url='/success-stories/hello-babys-rapid-online-growth/'),
     ),
 ]
 

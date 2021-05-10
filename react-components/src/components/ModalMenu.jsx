@@ -105,6 +105,11 @@ export function Menu(props) {
           </a>
         </li>
         <li>
+          <a href="/profile" className="link">
+            <span>Account</span>
+          </a>
+        </li>
+        <li>
           <a href="/advice" className="link">
             <span>Advice</span>
           </a>
@@ -114,6 +119,12 @@ export function Menu(props) {
             <span>Markets</span>
           </a>
         </li>
+        <li>
+          <a href="/services" className="link">
+            <span>Services</span>
+          </a>
+        </li>
+
         <li>
           <button type="button" className="link" ref={lastMenuItem} onClick={logout} onKeyDown={(e) => {
             if (e.keyCode && !e.shiftKey) {

@@ -10,6 +10,7 @@ export const SET_INITIAL_STATE = 'SET_INITIAL_STATE'
 export const SET_PRODUCT = 'SET_PRODUCT'
 export const SET_MARKET = 'SET_MARKET'
 export const SET_LOADED = 'SET_LOADED'
+export const SET_COMPARISON_MARKETS = 'SET_COMPARISON_MARKETS'
 
 // action creators
 
@@ -57,6 +58,11 @@ const setLoaded = () => ({
   type: SET_LOADED,
 })
 
+const setCompareMarketList = (marketList) => ({
+  type: SET_COMPARISON_MARKETS,
+  payload: marketList,
+})
+
 export default {
   toggleModalIsOpen,
   setProductsExpertise,
@@ -67,4 +73,5 @@ export default {
   setProduct,
   setMarket,
   setLoaded,
+  setCompareMarketList,
 }

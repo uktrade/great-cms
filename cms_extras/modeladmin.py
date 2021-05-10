@@ -47,7 +47,7 @@ class CaseStudySpreadsheetExportMixin:
     ]
 
     def stream_csv(self, queryset):
-        """ Generate a csv file line by line from queryset, to be used in a StreamingHTTPResponse """
+        """Generate a csv file line by line from queryset, to be used in a StreamingHTTPResponse"""
 
         writer = csv.DictWriter(
             Echo(),

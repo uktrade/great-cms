@@ -19,6 +19,7 @@
             Avoid word-for-word translations and consider culturally sensitive terms.
           </p>`
         },
+        lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 1),
       },
       {
         name: 'packaging',
@@ -33,6 +34,7 @@
             Some countries have strict laws on how goods are packaged. Look into the guidelines for your target country to avoid your products getting damaged, lost or rejected.
           </p>`,
         },
+        lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 2),
       },
       {
         name: 'size',
@@ -44,7 +46,7 @@
           `<p>
             Labelling communicates important things about the product. There may be local guidelines on label warnings and text size that you must follow.
             <br />
-            To appeal to locals, you may want to change your product name or label design. For example, in China, the colour red has s strong positive connotations and cultural significance.
+            To appeal to locals, you may want to change your product name or label design. For example, in China, the colour red has a strong positive connotations and cultural significance.
           </p>`,
         },
       },
@@ -61,6 +63,7 @@
             Investigate the standard size and unit of measurement so that you can meet customers' needs.
           </p>`,
         },
+        lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 3),
       },
       {
         name: 'translations',
@@ -84,7 +87,7 @@
       },
     ],
     companyexportplan: {{ export_plan.pk }},
-    lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 0),
+    lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 4),
   })
 
   magna.documentsForTargetMarketForm({
@@ -136,6 +139,7 @@
           </ul>
           <p>It is one of the main documents used by customs officials to calculate duties and taxes and it also makes sure you get paid on time.</p>`,
         },
+        lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 5),
       },
       {
         name: 'uk_customs_declaration',
@@ -149,6 +153,7 @@
             It is needed on all goods that are being exported.
           </p>`,
         },
+        lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 6),
       },
     ],
     formDataUserDocs: {{ target_market_documents|to_json }},

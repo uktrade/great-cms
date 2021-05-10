@@ -13,7 +13,7 @@
   <nav class="great-footer-links container">
     <ul class="great-footer-site-links">
         <li>
-            <a href="{% url 'core:contact-us-help' %}" title="Contact us">Contact us</a>
+            <a href="{% url_map 'contact_url' %}" title="Contact us">Contact us</a>
         </li>
         <li>
             <a href="{% slugurl 'privacy-and-cookies' %}" title="Privacy and cookies">Privacy and cookies</a>
@@ -32,7 +32,7 @@
         </li>
         {% if FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK %}
         <li>
-            <a href="#" title="International business">Go to the page for international business</a>
+            <a href="/international" title="International business">Go to the page for international business</a>
         </li>
         {% endif %}
     </ul>

@@ -3,19 +3,14 @@ import PropTypes from 'prop-types'
 
 import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
-import {
-  getLabel,
-  getLabels,
-  getValue,
-  getValues,
-  formatLessonLearned,
-} from '@src/Helpers'
+import { formatLessonLearned } from '@src/Helpers'
 import { useUpdateExportPlan } from '@src/components/hooks/useUpdateExportPlan/useUpdateExportPlan'
+import ErrorList from '@src/components/ErrorList'
 
 export const GettingPaid = memo(
   ({ formFields, formData, field, lessonDetails, currentSection }) => {
     const [state, setState] = useState(formData)
-    const [update] = useUpdateExportPlan(field)
+    const [update, showMessage, pending, errors] = useUpdateExportPlan(field)
 
     const onChange = (updatedField, otherProps, section, isNotes = false) => {
       const note = isNotes ? { notes: updatedField[isNotes] } : updatedField
@@ -36,13 +31,9 @@ export const GettingPaid = memo(
         {formFields.map(({ group, field: key }, i) => {
           const select = group[0]
           const textarea = group[1]
-          const options = Array.isArray(select.options)
-            ? select.options
-            : Object.keys(select.options).flatMap((x) => select.options[x])
-          const selected = select.multiSelect
-            ? getLabels(options, state[key] ? state[key][select.id] : [])
-            : getLabel(options, state[key] ? state[key][select.id] : '')
-
+          const selected =
+            (state[key] && state[key][select.id]) ||
+            (select.multiSelect ? [] : '')
           return (
             <div className="user-form-group" key={select.id}>
               <Select
@@ -53,11 +44,7 @@ export const GettingPaid = memo(
                 selected={selected}
                 update={(data) => {
                   onChange(
-                    {
-                      [select.id]: select.multiSelect
-                        ? getValues(select.options, data[select.id])
-                        : data[select.id],
-                    },
+                    { [select.id]: data[select.id] },
                     { notes: state[key] ? state[key].notes : '' },
                     key
                   )
@@ -67,25 +54,18 @@ export const GettingPaid = memo(
               />
               <TextArea
                 onChange={(data) =>
-                  onChange(
-                    data,
-                    {
-                      [select.id]: select.multiSelect
-                        ? getValues(options, selected)
-                        : getValue(options, selected),
-                    },
-                    key,
-                    textarea.id
-                  )
+                  onChange(data, { [select.id]: selected }, key, textarea.id)
                 }
                 label={textarea.label}
                 id={textarea.id}
                 value={state[key] ? state[key].notes : ''}
                 placeholder={textarea.placeholder}
+                lesson={formatLessonLearned(lessonDetails, currentSection, 2)}
               />
             </div>
           )
         })}
+        <ErrorList errors={errors.__all__ || []} className="m-t-s" />
       </div>
     )
   }

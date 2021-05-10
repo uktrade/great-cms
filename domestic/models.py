@@ -426,6 +426,27 @@ class TopicLandingPage(
         return self.get_children().live().public().specific()
 
 
+class ManuallyConfigurableTopicLandingPage(
+    cms_panels.ManuallyConfigurableTopicLandingPagePanels,
+    TopicLandingBasePage,
+):
+    """Version of a topic landing page where the grid of 'child' pages
+    is based on a manually curated set of links/blocks.
+
+    This page CAN have child pages, but they will not be automatically
+    included in the links/blocks on the page
+    """
+
+    template = 'domestic/topic_landing_pages/manually_curated.html'
+
+    panels = single_struct_block_stream_field_factory(
+        field_name='panel',
+        block_class_instance=core_blocks.TopicPageCardBlock(),
+        null=True,
+        blank=True,
+    )
+
+
 class MarketsTopicLandingPage(
     cms_panels.MarketsTopicLandingPagePanels,
     TopicLandingBasePage,
