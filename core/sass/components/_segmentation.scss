@@ -7,36 +7,25 @@
     padding-left: 5px; // so the focus outline doesn't get clipped
   }
 
-  .multiple-choice {
+  .multiple-choice.multiple-choice {
+    padding: 1px 0 19px;
     label {
-      line-height: unset;
+      line-height: 1em;
       font-weight: unset;
-      padding-left: 5px;
-    }
-
-    [type='radio']+label {
-      @include breakpoint(sm_lt) {
-        position: unset;
-      }
-    }
-
-    [type='radio']+label::before {
-      top: 4px;
-      border-color: $light-grey;
-    }
-
-    [type='radio']+label::after {
-      top: 10px;
-      border-color: $lightened-great-blue;
+      padding-left: 35px;
     }
   }
 }
 
 .modal {
   &.format-medium {
+    overflow-y: auto;
+    overflow-x: none;
+    max-height:100%;
     @include breakpoint(sm) {
       width: 630px;
       height: auto;
+      overflow: visible;
     }
   }
 

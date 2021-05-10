@@ -143,7 +143,7 @@ export default function Questionnaire(props) {
               target="_blank"
               title="Opens in a new window"
               rel="noopener noreferrer"
-              className="link link--underline"
+              className="link link--underline body-l"
             >
               This information is stored and used in compliance with our cookie
               and privacy policy.
