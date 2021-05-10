@@ -5,6 +5,7 @@
 ### Enhancements
 
 - GP2-2511 - Sign in / up design updates
+- GP2-2438 - Select control UX enhancements
 - GP2-2507 - Remove beta banner
 - GP2-2415 - Add preload attr and iOS poster/preview trick to video embed
 - GP2-1868 - Feature flag urls
