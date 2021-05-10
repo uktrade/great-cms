@@ -113,10 +113,10 @@ describe('Test company search modal', () => {
     await waitFor(() => {
       expect(getChData.calls().length).toEqual(1)
     })
-    expect(modal.querySelector('ul.select__list').textContent).toMatch(
+    expect(modal.querySelector('.select__list').textContent).toMatch(
       'Company 1'
     )
-    expect(modal.querySelector('ul.select__list').textContent).toMatch(
+    expect(modal.querySelector('.select__list').textContent).toMatch(
       'Company number: 123456789b'
     )
     // Select a company
@@ -127,7 +127,7 @@ describe('Test company search modal', () => {
     )
     //
     act(() => {
-      Simulate.click(modal.querySelector('ul.select__list li'))
+      Simulate.click(modal.querySelector('.select__list li'))
     })
     expect(input.value).toMatch('Company 1')
     // check that the next button is enabled

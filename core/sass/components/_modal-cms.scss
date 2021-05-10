@@ -17,6 +17,10 @@
   right: 0px;
   top: 0px;
   z-index: 1000;
+
+  @include breakpoint(sm_lt) {
+    background-color: $white;
+  }
 }
 
 .ReactModal__Body--open {

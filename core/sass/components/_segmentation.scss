@@ -30,22 +30,6 @@
       border-color: $lightened-great-blue;
     }
   }
-
-  .autocomplete {
-    .select__list {
-      margin-top: 50px;
-      max-height: 300px;
-    }
-
-    .select__button {
-      display: none;
-    }
-  }
-
-  .select__list {
-    max-height: 350px;
-    overflow-y: auto;
-  }
 }
 
 .modal {

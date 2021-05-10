@@ -2,10 +2,12 @@
 
   &--reverse {
     flex-direction: row-reverse;
+    background: #F5F5F6;
 
     .signup__steps-panel {
       @include breakpoint(lg) {
         margin-right: 20px;
+        margin-left: 0;
       }
     }
 
@@ -20,7 +22,10 @@
         width: 100%;
         position: absolute;
         bottom: 0;
-        right: -30px;
+
+        @include breakpoint(lg) {
+          bottom: -200px;
+        }
       }
     }
 
@@ -29,20 +34,21 @@
       z-index: 1;
 
       h1 {
+        color: $colour-blue-deep-80;
         line-height: 52px;
+        margin-bottom: 0;
       }
 
       p {
-        color: #fff;
+        color: $colour-blue-deep-80;
         margin-bottom: 8px;
+        margin-top: 18px;
         font-size: 18px;
         font-weight: 600;
       }
 
       a {
-        color: $red-60;
         min-width: 230px;
-        background: white;
       }
     }
   }
@@ -56,6 +62,7 @@
   &__container {
     width: 100%;
     display: flex;
+    overflow: hidden;
     .form-label {
       @extend .body-m;
       @extend .p-t-0;
@@ -71,11 +78,19 @@
   &__steps-panel {
     color: #4c436e;
     min-height: 100vh;
-    width: 514px;
     margin-left: 20px;
     padding: 30px 70px;
     background-color: #fff;
+    width: 514px;
     flex-shrink: 0;
+    z-index: 1;
+
+    @include breakpoint(lg_lt) {
+      padding: 30px;
+      width: 40%;
+      margin-left: 0;
+    }
+
     @include breakpoint(md_lt) {
       margin-left: 0;
       padding: 20px;
@@ -83,10 +98,11 @@
     }
 
     @include breakpoint(sm_lt) {
-        margin-left: 0;
-        width: 100%;
-        padding: 30px 30px;
+      margin-left: 0;
+      width: 100%;
+      padding: 30px 30px;
     }
+
     p > a {
       color: inherit;
     }
@@ -133,37 +149,63 @@
     flex-direction: column;
     align-items: center;
     padding: 120px 0;
+    position: relative;
+
     @include breakpoint(sm_lt) {
       display: none;
     }
     img {
-      margin-top: 40px;
-      max-width: 100%;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+
+      @include breakpoint(lg) {
+        bottom: -375px;
+      }
     }
 
     h1 {
       color: #fff;
       font-size: 56px;
+      line-height: 50px;
       text-align: center;
+      margin-bottom: 60px;
+
+      @include breakpoint(lg_lt) {
+        font-size: 48px;
+        line-height: 48px;
+        margin-bottom: 30px;
+      }
     }
     &__headings {
       max-width: 650px;
-      padding: 0 40px
+      padding: 0 40px;
+      z-index: 1;
     }
     &__subheadings {
       display: flex;
       align-items: center;
-      margin-bottom: 15px;
+      margin-bottom: 45px;
       h2,
       i {
         color: #fff;
       }
       i {
         font-size: 40px;
+
+        @include breakpoint(lg_lt) {
+          font-size: 35px;
+        }
       }
       h2 {
         font-size: 28px;
         margin-left: 30px;
+        line-height: 32px;
+
+        @include breakpoint(lg_lt) {
+          font-size: 24px;
+          line-height: 34px;
+        }
       }
     }
   }

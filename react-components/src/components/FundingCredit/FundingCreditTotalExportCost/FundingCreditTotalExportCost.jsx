@@ -1,43 +1,24 @@
-import React, { memo, useState, useEffect } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import Services from '@src/Services'
-import { Input } from '@src/components/Form/Input'
-import { useDebounce } from '@src/components/hooks/useDebounce'
+import { FormElements } from '@src/components/FormElements'
 
 export const FundingCreditTotalExportCost = memo(({ ...data }) => {
   const { estimated_costs_per_unit, formData, currency } = data
-  const [formValue, setFormValue] = useState(
-    formData.override_estimated_total_cost
-  )
-
-  const update = (field) => {
-    Services.updateExportPlan(field)
-      .then(() => {})
-      .catch(() => {})
-  }
-
-  const debounceUpdate = useDebounce(update)
 
   const inputData = {
-    onChange: (fieldItem) => {
-      setFormValue(fieldItem.override_estimated_total_cost)
-      debounceUpdate({
-        funding_and_credit: fieldItem,
-      })
-    },
-    value: formValue,
     prepend: currency,
     hideLabel: true,
     label: 'Total export cost',
     id: 'override_estimated_total_cost',
-    placeholder: '0',
-    type: 'number',
+    placeholder: 0,
+    field_type: 'NumberInput',
     field: 'override_estimated_total_cost',
+    name: 'override_estimated_total_cost',
     example:
       estimated_costs_per_unit !== 0
         ? {
             buttonTitle: 'Estimate',
-            header: `Your estimate total export cost is GBP ${formValue}`,
+            header: `Your estimate total export cost is GBP ${formData.override_estimated_total_cost}`,
             content: `<p>
         We calculated this by:
       </p>
@@ -52,7 +33,13 @@ export const FundingCreditTotalExportCost = memo(({ ...data }) => {
         : {},
   }
 
-  return <Input {...inputData} />
+  return (
+    <FormElements
+      formFields={[inputData]}
+      field="funding_and_credit"
+      formData={formData}
+    />
+  )
 })
 
 FundingCreditTotalExportCost.propTypes = {

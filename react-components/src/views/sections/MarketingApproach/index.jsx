@@ -8,7 +8,12 @@ import { TargetAgeGroupInsights } from '@src/components/TargetAgeGroupInsights'
 import { FormElements } from '@src/components/FormElements'
 
 export const createRouteToMarket = ({ element, ...params }) => {
-  ReactDOM.render(<RouteToMarket {...params} />, element)
+  ReactDOM.render(
+    <Provider store={Services.store}>
+      <RouteToMarket {...params} />
+    </Provider>,
+    element
+  )
 }
 
 export const createSpendingAndResources = ({ element, ...params }) => {
@@ -18,8 +23,8 @@ export const createSpendingAndResources = ({ element, ...params }) => {
 export const createTargetAgeGroupInsights = ({ element, ...params }) => {
   ReactDOM.render(
     <Provider store={Services.store}>
-			<TargetAgeGroupInsights {...params} />
-		</Provider>,
+      <TargetAgeGroupInsights {...params} />
+    </Provider>,
     element
   )
 }

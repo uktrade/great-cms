@@ -2,7 +2,12 @@ import React from 'react'
 import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
 
 import Services from '@src/Services'
+import * as redux from 'react-redux'
 import { RouteToMarket } from '.'
+
+jest
+  .spyOn(redux, 'useSelector')
+  .mockReturnValue({ country: { country_name: 'UK' } })
 
 const props = {
   formFields: {

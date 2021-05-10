@@ -4,6 +4,25 @@
 
 ### Enhancements
 
+- GP2-2511 - Sign in / up design updates
+- GP2-2438 - Select control UX enhancements
+- GP2-2507 - Remove beta banner
+- GP2-2415 - Add preload attr and iOS poster/preview trick to video embed
+- GP2-1868 - Feature flag urls
+- GP2-2218 - WTE tab rearrangement
+- GP2-2370 - 3CE attribution on product search and removal of assumptions
+- NOTICKET - Bump python runtime version to suit changed buildpack
+- GP2-2303 - Quick cleanup of niggles related to directory-components template vars
+- GP2-1276 - Scrolling issue on lessons with a case study (mobile)
+
+- GP2-2135 - Comparison country api storage
+- GP2-2329 - Magna mobile header with search
+- GP2-793 - List of countries that need to have "the" before the country name
+- GP2-2333 - Make feedback URLs on migrated pages relative not absolute, to avoid referencing prod only
+- GP2-2372 - Disclaimer for the Beta release
+- GP2-2358 - Change footer to use /contact/ as contact URL
+- GP2-2353 - VFM final page back button
+- GP2-2176 - VFM Multiselect
 - GP2-2095 - Error page styling and slug tidyup
 - GP2-2326 - header style fix
 - GP2-2265 - pdf design changes
@@ -25,18 +44,32 @@
 - GP2-2088 - Form validation - Numerical fields
 - GP2-2087 - Form validation - Numerical fields (cost/price)
 - GP2-2302 - ep dropdown validation
+- GP2-2401 - pdf save
 
 ### Fixed bugs
+
+- GP2-2513 - Fixes h2 with b tag issue
+- GP2-2396 - [mobile]-Logo upload issue
+- GP2-2130 - Layout tweaks to UKEF pages
+- GP2-2442 - WTE - Fix 'Add place' button flicker
+- GP2-2411 - Fix signin/up padding inconsistency
+- GP2-2422 - Export plan - Confirmation modal is too tall
+- GP2-2421 - update content
+- GP2-2393 - [mobile]- Text alignment on CTA
+- GP2-2382 - PDF updates
+- GP2-2368 - Typo on the Funding and credit page
 - GP2-2292 - Save product on name change only
 - GP2-2262 - Case study background
 - GP2-2234 - Sign up / in page tablet design
 - NOTICKET - Fixes header menu flickering
 - GP2-2138 - Fix domestic tab alignment
-
+- GP2-2234 - Sign up / in tablet
+- GP2-2139 - Menu button moves on mobile after selection
 
 ## [1.8.0](https://github.com/uktrade/great-cms/releases/tag/1.8.0)
 
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.7.1...1.8.0)
+
 ### Enhancements
 
 - GP2-2170 - PDF Download, with blank support
@@ -52,14 +85,18 @@
 
 ### Fixed bugs
 
+- GP2-2337 - adapting product typos
+- GP2-2292 - Save product on name change only
+- GP2-2262 - Case study background
+- GP2-2234 - Sign up / in page tablet design
+- NOTICKET - Fixes header menu flickering
+- GP2-2138 - Fix domestic tab alignment
 - GP2-2250 - Hide top banner when signed in on mobile
 - GP2-2240 - Search tuning
 - GP2-2215 - Fix privacy policy sign up link
 - GP2-2120 - Change to adapting your product. Fix tooltips. Add learning. Update data.
 - GP2-2050 - Update incorrect learning banner copy
 - NOTICKET - Visual tweaks for sign in/up
-
-
 
 ## [1.7.1](https://github.com/uktrade/great-cms/releases/tag/1.7.1)
 

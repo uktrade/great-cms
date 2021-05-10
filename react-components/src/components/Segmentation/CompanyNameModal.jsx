@@ -208,9 +208,7 @@ export default function CompanyNameModal(props) {
       className="segmentation-modal"
       title={question.title}
       body={
-        <form className="text-blue-deep-80">
-          <div className="c-fullwidth">{getContent()}</div>
-        </form>
+        <div className="c-fullwidth text-blue-deep-80">{getContent()}</div>
       }
       progressPercentage={progressPercentage}
       primaryButtonLabel="Next"
@@ -254,10 +252,14 @@ CompanyNameModal.propTypes = {
         PropTypes.arrayOf(PropTypes.string),
       ])
     ),
-  ]).isRequired,
+  ]),
   setValue: PropTypes.func.isRequired,
   nextButtonClick: PropTypes.func.isRequired,
   backButtonClick: PropTypes.func.isRequired,
   closeClick: PropTypes.func.isRequired,
   progressPercentage: PropTypes.number.isRequired,
+}
+
+CompanyNameModal.defaultProps = {
+  value: null
 }

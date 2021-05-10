@@ -2,19 +2,25 @@ import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { RouteToMarketSection } from '@src/components/RouteToMarket/RouteToMarketSection'
-import { objectHasValue } from '@src/Helpers'
+import { prependThe, objectHasValue } from '@src/Helpers'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { AddButton } from '@src/components/ObjectivesList/AddButton/AddButton'
 import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
+import { useSelector } from 'react-redux'
+import { getMarkets } from '@src/reducers'
+import ErrorList from '@src/components/ErrorList'
 
 export const RouteToMarket = memo(
   ({ fields, formData, formFields, model_name }) => {
     const [routes, setRoutes] = useState(fields)
+    const country = useSelector((state) => getMarkets(state))
 
     const { companyexportplan, pk, ...lastField } = routes.length
       ? routes[routes.length - 1]
       : {}
-    const [update, create, deleteItem] = useUpdate('route-to-market')
+    const [update, create, deleteItem, message, errors] = useUpdate(
+      'route-to-market'
+    )
 
     const addTable = () => {
       create({ ...formFields })
@@ -52,6 +58,15 @@ export const RouteToMarket = memo(
 
     return (
       <>
+        <h2 className="h-m m-b-xs">
+          How will you get your product to customers in{' '}
+          {prependThe(country.country_name)} ?
+        </h2>
+        <p>
+          Make a list of the ways you'll get your product to customers by using
+          the following dropdown list.
+        </p>
+        <p>You can choose more than one option.</p>
         {routes.length >= 1 &&
           routes.map((field, id) => (
             <RouteToMarketSection
@@ -70,6 +85,7 @@ export const RouteToMarket = memo(
           isDisabled={routes.length ? !objectHasValue(lastField) : false}
           cta="Add route to market"
         />
+        <ErrorList errors={errors.__all__ || []} className="m-0" />
       </>
     )
   }
