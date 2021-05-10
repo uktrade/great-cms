@@ -7,6 +7,7 @@
     .signup__steps-panel {
       @include breakpoint(lg) {
         margin-right: 20px;
+        margin-left: 0;
       }
     }
 
@@ -159,7 +160,7 @@
       bottom: 0;
 
       @include breakpoint(lg) {
-        bottom: -300px;
+        bottom: -375px;
       }
     }
 
