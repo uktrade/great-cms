@@ -128,7 +128,9 @@ describe('FormElements', () => {
 
   it('Should fail to update formdata', async () => {
     Services.updateExportPlan = jest.fn(() =>
-      Promise.reject({ message: { __all__: ['an error has occurred'] } })
+      Promise.reject({
+        message: { __all__: ['An unexpected error has occurred'] },
+      })
     )
     const { container, getByText } = setup({ ...props })
 
@@ -145,7 +147,7 @@ describe('FormElements', () => {
         },
       })
       expect(container.querySelector('textarea').value).toEqual('Good Day')
-      expect(getByText('an error has occurred'))
+      expect(getByText('An unexpected error has occurred'))
     })
   })
 

@@ -8,6 +8,7 @@ export const useUpdate = (field) => {
   const [message, setMessage] = useState(false)
   const [errors, setErrors] = useState({})
   const debounceMessage = useDebounce(setMessage)
+  const debounceErrorMessage = useDebounce(setErrors)
 
   const update = (data, section = '') => {
     setPending(true)
@@ -23,11 +24,25 @@ export const useUpdate = (field) => {
         })
       })
       .catch((err) => {
-        setErrors(err.message || err)
+        if (!window.navigator.onLine) {
+          setErrors(
+            {
+              __all__: [
+                'No internet, please checking the network cables, modem and router',
+              ],
+            } || err
+          )
+        } else {
+          const errorMessage = {
+            __all__: ['An unexpected error has occurred'],
+          }
+          setErrors(errorMessage || err)
+        }
       })
       .finally(() => {
         setPending(false)
         debounceMessage(false)
+        debounceErrorMessage([])
       })
   }
 
@@ -35,19 +50,53 @@ export const useUpdate = (field) => {
     setPending(true)
     return Services.apiModelObjectManage(object, 'POST')
       .catch((err) => {
-        setErrors({ err })
+        if (!window.navigator.onLine) {
+          setErrors(
+            {
+              __all__: [
+                'No internet, please checking the network cables, modem and router',
+              ],
+            } || err
+          )
+        } else {
+          const errorMessage = {
+            __all__: ['An unexpected error has occurred'],
+          }
+          setErrors(errorMessage || err)
+        }
       })
       .then((response) => response)
       .finally(() => {
         setPending(false)
         debounceMessage(false)
+        debounceErrorMessage([])
       })
   }
 
   const deleteItem = (data) => {
-    return Services.apiModelObjectManage(data, 'DELETE').catch((err) => {
-      setErrors({ err })
-    })
+    setPending(true)
+    return Services.apiModelObjectManage(data, 'DELETE')
+      .catch((err) => {
+        if (!window.navigator.onLine) {
+          setErrors(
+            {
+              __all__: [
+                'No internet, please checking the network cables, modem and router',
+              ],
+            } || err
+          )
+        } else {
+          const errorMessage = {
+            __all__: ['An unexpected error has occurred'],
+          }
+          setErrors(errorMessage || err)
+        }
+      })
+      .finally(() => {
+        setPending(false)
+        debounceMessage(false)
+        debounceErrorMessage([])
+      })
   }
 
   return [update, create, deleteItem, message, errors, pending]

@@ -8,6 +8,7 @@ export const useUpdateExportPlan = (field) => {
   const [showMessage, setShowMessage] = useState(false)
   const [errors, setErrors] = useState({})
   const debounceMessage = useDebounce(setShowMessage)
+  const debounceErrorMessage = useDebounce(setErrors)
 
   const request = (data, section = '') => {
     setPending(true)
@@ -23,11 +24,25 @@ export const useUpdateExportPlan = (field) => {
         })
       })
       .catch((err) => {
-        setErrors(err.message || err)
+        if (!window.navigator.onLine) {
+          setErrors(
+            {
+              __all__: [
+                'No internet, please checking the network cables, modem and router',
+              ],
+            } || err
+          )
+        } else {
+          const errorMessage = {
+            __all__: ['An unexpected error has occurred'],
+          }
+          setErrors(errorMessage || err)
+        }
       })
       .finally(() => {
         setPending(false)
         debounceMessage(false)
+        debounceErrorMessage([])
       })
   }
 
