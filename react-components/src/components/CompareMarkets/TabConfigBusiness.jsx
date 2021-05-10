@@ -55,6 +55,7 @@ export default {
       name: 'Rule of Law ranking',
       className: 'text-align-right',
       render: (data) => rankOutOf(data.RuleOfLaw[0].rank, 131),
+      year:(data) => data.RuleOfLaw[0].year,
       tooltip: {
         position: 'right',
         title: '',

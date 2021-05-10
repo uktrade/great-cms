@@ -6,6 +6,7 @@
 
 ### Fixed bugs
 
+- GP2-2266 - Fix year designations in WTE new tabs
 - GP2-2529 - Fix export plan header url
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
