@@ -35,8 +35,12 @@ def test_render_video_tag__with_thumbnail():
     block = dict(video=video_mock)
     html = render_video(block)
 
-    assert '<video controls poster="https://example.com/thumb.png" data-v-duration="120">' in html
-    assert '<source src="/media/foo.mp4" type="video/mp4">' in html
+    assert (
+        # Whitespace in this string is important for matching output
+        '<video preload="metadata" controls\n'
+        '            poster="https://example.com/thumb.png" data-v-duration="120">'
+    ) in html
+    assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
     assert 'Your browser does not support the video tag.' in html
 
 
@@ -48,9 +52,9 @@ def test_render_video_tag__without_thumbnail():
     )
     block = dict(video=video_mock)
     html = render_video(block)
-
-    assert '<video controls data-v-duration="120">' in html
-    assert '<source src="/media/foo.mp4" type="video/mp4">' in html
+    # Whitespace in this string is important for matching output
+    assert '<video preload="metadata" controls\n            data-v-duration="120">' in html
+    assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
     assert 'Your browser does not support the video tag.' in html
 
 

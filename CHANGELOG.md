@@ -6,6 +6,7 @@
 
 - GP2-2511 - Sign in / up design updates
 - GP2-2507 - Remove beta banner
+- GP2-2415 - Add preload attr and iOS poster/preview trick to video embed
 - GP2-1868 - Feature flag urls
 - GP2-2218 - WTE tab rearrangement
 - GP2-2370 - 3CE attribution on product search and removal of assumptions
