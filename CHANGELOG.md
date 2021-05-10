@@ -3,6 +3,13 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+### Fixed bugs
+
+## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.8.0...1.9.0)
+
+### Enhancements
 
 - GP2-2511 - Sign in / up design updates
 - GP2-2438 - Select control UX enhancements
