@@ -10,6 +10,7 @@
 - GP2-2529 - Fix export plan header url
 - GP2-2529 - Fix sign in/up responsive image positioning
 - GP2-2410 - Fix horizontal gap on mobile BAU pages
+- GP2-2550 - remove forgotten password link in Beta
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 
