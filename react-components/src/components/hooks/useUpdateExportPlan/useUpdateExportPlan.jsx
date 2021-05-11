@@ -3,6 +3,11 @@ import Services from '@src/Services'
 import { analytics } from '@src/Helpers'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 
+export const unexpectedError =
+  'An unexpected error has occurred. Please reload the page and try again.'
+export const connectionError =
+  'You’re offline. Reconnect to save your progress and continue'
+
 export const useUpdateExportPlan = (field) => {
   const [pending, setPending] = useState(false)
   const [showMessage, setShowMessage] = useState(false)
@@ -27,14 +32,12 @@ export const useUpdateExportPlan = (field) => {
         if (!window.navigator.onLine) {
           setErrors(
             {
-              __all__: [
-                'No internet, please checking the network cables, modem and router',
-              ],
+              __all__: [connectionError],
             } || err
           )
         } else {
           const errorMessage = {
-            __all__: ['An unexpected error has occurred'],
+            __all__: [unexpectedError],
           }
           setErrors(errorMessage || err)
         }
