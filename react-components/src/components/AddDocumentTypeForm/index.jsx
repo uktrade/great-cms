@@ -5,6 +5,8 @@ import { useDebounce } from '@src/components/hooks/useDebounce'
 import { FormElements } from '@src/components/FormElements'
 import { AddButton } from '@src/components/ObjectivesList/AddButton/AddButton'
 import { objectHasValue } from '@src/Helpers'
+import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
+import ErrorList from '@src/components/ErrorList'
 import { DocumentList } from './DocumentList'
 
 export const AddDocumentTypeForm = (props) => {
@@ -14,32 +16,27 @@ export const AddDocumentTypeForm = (props) => {
     ? documents[documents.length - 1]
     : {}
 
-  const addDocument = () => {
-    const document = {}
-    document.document_name = ''
-    document.note = ''
+  const [update, create, deleteItem, message, errors] = useUpdate(
+    'adapting-your-product'
+  )
 
-    Services.createAdaptTarketMarketDocumentList({
-      ...document,
+  const addDocument = () => {
+    create({
+      document_name: '',
+      note: '',
       companyexportplan: props.companyexportplan,
-    })
-      .then((data) => setDocuments([...documents, data]))
-      .catch(() => {})
+      model_name: props.model_name,
+    }).then((data) => setDocuments([...documents, data]))
   }
 
   const deleteDocument = (id) => {
-    Services.deleteAdaptTarketMarketDocumentList(id)
-      .then(() => {
-        setDocuments(documents.filter((document) => document.pk !== id))
-      })
-      .catch(() => {})
+    deleteItem({ pk: id, model_name: props.model_name }).then(() => {
+      setDocuments(documents.filter((document) => document.pk !== id))
+    })
   }
 
-  const updateApi = (field, property) => {
-    Services.updateAdaptTarketMarketDocumentList({ ...field, ...property })
-      .then(() => {})
-      .catch(() => {})
-  }
+  const updateApi = (field, property) =>
+    update({ ...field, ...property, model_name: props.model_name })
 
   const debounceUpdate = useDebounce(updateApi)
 
@@ -65,6 +62,7 @@ export const AddDocumentTypeForm = (props) => {
         btnClass="button--small button--secondary button--inherit  m-t-s m-b-s"
         cta="Add another document"
       />
+      <ErrorList errors={errors.__all__ || []} className="m-0" />
     </>
   )
 }

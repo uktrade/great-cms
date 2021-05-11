@@ -59,7 +59,7 @@
 - GP2-2401 - pdf save
 
 ### Fixed bugs
-
+- GP2-2488 - Adapting your product / Add another document doesn't work
 - GP2-2513 - Fixes h2 with b tag issue
 - GP2-2443 - and GP2-2444, GP2432 mobile tweaks for VFM
 - GP2-2396 - [mobile]-Logo upload issue
