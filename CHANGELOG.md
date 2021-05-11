@@ -8,6 +8,7 @@
 
 - GP2-2266 - Fix year designations in WTE new tabs
 - GP2-2529 - Fix export plan header url
+- GP2-2529 - Fix sign in/up responsive image positioning
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 

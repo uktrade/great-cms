@@ -23,7 +23,7 @@
         position: absolute;
         bottom: 0;
 
-        @include breakpoint(lg) {
+        @media screen and (min-width: 1400px) {
           bottom: -200px;
         }
       }
@@ -159,8 +159,12 @@
       position: absolute;
       bottom: 0;
 
-      @include breakpoint(lg) {
-        bottom: -375px;
+      @media screen and (min-width: 1200px) and (max-width: 1400px) {
+        bottom: -100px;
+      }
+
+      @media screen and (min-width: 1400px) {
+        bottom: -300px;
       }
     }
 
