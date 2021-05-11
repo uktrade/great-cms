@@ -60,6 +60,7 @@
 ### Fixed bugs
 
 - GP2-2513 - Fixes h2 with b tag issue
+- GP2-2443 - and GP2-2444, GP2432 mobile tweaks for VFM
 - GP2-2396 - [mobile]-Logo upload issue
 - GP2-2130 - Layout tweaks to UKEF pages
 - GP2-2442 - WTE - Fix 'Add place' button flicker
