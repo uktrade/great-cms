@@ -2,6 +2,7 @@ import React from 'react'
 import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
 
 import Services from '@src/Services'
+import { unexpectedError } from '@src/components/hooks/useUpdateExportPlan/useUpdateExportPlan'
 import { FormElements } from '.'
 
 const props = {
@@ -147,7 +148,7 @@ describe('FormElements', () => {
         },
       })
       expect(container.querySelector('textarea').value).toEqual('Good Day')
-      expect(getByText('An unexpected error has occurred'))
+      expect(getByText(unexpectedError))
     })
   })
 
