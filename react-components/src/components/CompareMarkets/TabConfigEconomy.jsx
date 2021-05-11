@@ -43,7 +43,7 @@ export default {
       name: 'Consumer Price Index',
       className: 'text-align-right',
       render: (data) => normaliseValues(data.ConsumerPriceIndex[0].value, 2),
-      year: (data) => get(data, 'cpi.year'),
+      year: (data) => data.ConsumerPriceIndex[0].year,
       tooltip: {
         position: 'right',
         title: '',
@@ -57,11 +57,8 @@ export default {
     internet_usage: {
       name: 'Access to internet',
       className: 'text-align-right',
-      render: (data) => {
-        const thing = normaliseValues(`${data.InternetUsage[0].value}%`)
-        return thing
-      },
-      year: (data) => get(data, 'internet_usage.year'),
+      render: (data) => normaliseValues(`${data.InternetUsage[0].value}%`),
+      year: (data) => data.InternetUsage[0].year,
       tooltip: {
         position: 'right',
         title: '',
