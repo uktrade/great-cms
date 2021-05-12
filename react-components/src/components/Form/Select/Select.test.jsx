@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 
@@ -84,6 +85,44 @@ describe('Select', () => {
       })
     })
   })
+
+  describe('AutoComplete', () => {
+    // The only special thing about autocomplete, is that there is a text input
+    it('Should have input', () => {
+      const inputChange = jest.fn()
+      const { actions, getByText, getByRole } = setup({
+        ...props,
+        autoComplete: true,
+        inputChange,
+        inputValue: 'initial value',
+      })
+      const input = getByRole('combobox')
+      expect(input.value).toMatch('initial value')
+      fireEvent.change(input, { target: { value: 'new value' } })
+      expect(inputChange).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('AutoComplete with keys', () => {
+    // The only special thing about autocomplete, is that there is a text input
+    it('Should have input', () => {
+      const inputChange = jest.fn()
+      const { actions, getByText, getByRole } = setup({
+        ...props,
+        autoComplete: true,
+        inputChange,
+        inputValue: 'initial value',
+      })
+      const input = getByRole('combobox')
+      expect(input.value).toMatch('initial value')
+      // Nothing focussed
+      expect(document.activeElement).toEqual(document.body)
+      // Down arrow should open the drop-down and focus first
+      fireEvent.keyDown(input, { keyCode: 40 })
+      expect(document.activeElement.textContent).toEqual('item one')
+    })
+  })
+
 
   describe('with categories', () => {
     it('Should show dropdown with 2 categories', async () => {

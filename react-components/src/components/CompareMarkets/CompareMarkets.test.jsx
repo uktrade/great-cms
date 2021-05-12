@@ -30,21 +30,7 @@ const suggestedResponse = [
   { hs_code: 4, country_name: 'Sweden', country_iso2: 'SE', region: 'Europe' },
 ]
 
-const populationApiResponse = [
-  {
-    country: 'Germany',
-    internet_usage: { value: '74.39', year: 2018 },
-    rural_population_total: 17125,
-    rural_population_percentage_formatted: '28.32% (17.12 million)',
-    urban_population_total: 42007,
-    urban_population_percentage_formatted: '69.48% (42.01 million)',
-    total_population: '60.46 million',
-    total_population_raw: 60463456,
-    cpi: { value: '110.62', year: 2019 },
-  },
-]
-
-const economyApiResponse = {
+const productApiResponse = {
   DE: {
     import_from_world: {
       year: '2017',
@@ -52,27 +38,6 @@ const economyApiResponse = {
       country_name: 'Germany',
       year_on_year_change: '2.751',
       last_year: '2016',
-    },
-    import_from_uk: {
-      year: '2019',
-      trade_value_raw: 135150,
-      country_name: 'Germany',
-      year_on_year_change: '0.736',
-      last_year: '2018',
-    },
-  },
-  NE: {
-    import_from_world: {
-      year: '2019',
-      trade_value_raw: 21670,
-      country_name: 'Netherlands',
-      year_on_year_change: '2.751',
-    },
-    import_from_uk: {
-      year: '2019',
-      trade_value_raw: 135150,
-      country_name: 'Netherlands',
-      year_on_year_change: '0.736',
     },
   },
 }
@@ -84,26 +49,6 @@ const countryDataApiResponse = {
         country_name: 'Germany',
         country_code: 'DEU',
         value: '112.855',
-        year: 2019,
-      },
-    ],
-    CorruptionPerceptionsIndex: [
-      {
-        total: 180,
-        country_name: 'Germany',
-        country_code: 'DEU',
-        cpi_score_2019: 80,
-        rank: 9,
-        year: 2017,
-      },
-    ],
-    EaseOfDoingBusiness: [
-      {
-        max_rank: 264,
-        country_name: 'Germany',
-        country_code: 'DEU',
-        year_2019: 22,
-        rank: 22,
         year: 2019,
       },
     ],
@@ -134,7 +79,7 @@ const countryDataApiResponse = {
     Income: [
       {
         country_name: 'Netherlands',
-        year: 2018,
+        year: 2019,
         value: '7895',
       },
     ],
@@ -143,89 +88,14 @@ const countryDataApiResponse = {
 
 const economyTabTests = [
   { selector: '#market-Germany .name', expect: 'Germany' },
-  {
-    selector: '#market-Germany .world-import-value .primary',
-    expect: '21,670',
-  },
-  {
-    selector: '#market-Germany .world-import-value .secondary',
-    expect: '+2.8% vs 2016',
-  },
-  { selector: '#market-Germany .uk-import-value .primary', expect: '135,150' },
-  {
-    selector: '#market-Germany .uk-import-value .secondary',
-    expect: '+0.7% vs 2018',
-  },
   { selector: '#market-Germany .avg-income', expect: '7,895' },
   { selector: '#market-Germany .avg-income .display-year', expect: '2018' },
-  { selector: '#market-Germany .cpi', expect: '9' },
-  { selector: '#market-Germany .eod-business', expect: '22 of 264' },
-  { selector: '#market-Germany .eod-business .display-year', fail: true },
-  { selector: '#market-Germany .cpi', expect: '9 of 180' },
-  { selector: '#market-Germany .cpi .display-year', expect: '2017' },
   { selector: '#market-Netherlands .name', expect: 'Netherlands' },
-  {
-    selector: '#market-Netherlands .eod-business',
-    expect: 'Data not available',
-  },
-  { selector: '#market-Netherlands .cpi', expect: 'Data not available' },
   { selector: '.base-year', expect: /\s+2019\s+/ },
 ]
 
-const societyApiResponse = [
-  {
-    country: 'Germany',
-    languages: {
-      date: '2018',
-      note:
-        'Danish, Frisian, Sorbian, and Romani are official minority languages',
-      language: [
-        {
-          name: 'German',
-          note: 'official',
-        },
-      ],
-    },
-    religions: {
-      date: '2018',
-      religion: [
-        {
-          name: 'Roman Catholic',
-          percent: 27.7,
-        },
-        {
-          name: 'Protestant',
-          percent: 25.5,
-        },
-        {
-          name: 'Muslim',
-          percent: 5.1,
-        },
-        {
-          name: 'Orthodox',
-          percent: 1.9,
-        },
-        {
-          name: 'other Christian',
-          percent: 1.1,
-        },
-        {
-          name: 'other .9%',
-        },
-        {
-          name: 'none',
-          percent: 37.8,
-        },
-      ],
-    },
-    rule_of_law: {
-      country_name: 'Germany',
-      iso2: 'DE',
-      rank: 16,
-      score: '89.200',
-    },
-  },
-]
+// Simulate use data response
+let comparisonMarketResponse = { data: {} }
 
 const getText = (el, selector) => {
   const target = el && el.querySelector(selector)
@@ -248,18 +118,21 @@ describe('Compare markets', () => {
       csrfToken: '12345',
       apiCountriesUrl: '/api/countries/',
       apiSuggestedCountriesUrl: '/api/suggestedcountries/',
-      populationByCountryUrl: '/export-plan/api/country-data/',
       apiCountryDataUrl: '/api/data-service/countrydata/',
       apiComTradeDataUrl: '/api/data-service/comtrade/',
-      societyByCountryUrl: '/export-plan/api/society-data/',
+      apiUserDataUrl: '/sso/api/user-data/',
       user: { id: '6' },
     })
+    comparisonMarketResponse = { data: {} }
     countriesMock = fetchMock.get(/\/api\/countries\//, mockResponse)
     fetchMock.get(/\/api\/suggestedcountries\//, suggestedResponse)
-    fetchMock.get(/\/export-plan\/api\/country-data\//, populationApiResponse)
+    fetchMock.get(/\/api\/data-service\/comtrade\//, productApiResponse)
     fetchMock.get(/\/api\/data-service\/countrydata\//, countryDataApiResponse)
-    fetchMock.get(/\/api\/data-service\/comtrade\//, economyApiResponse)
-    fetchMock.get(/\/export-plan\/api\/society-data\//, societyApiResponse)
+    fetchMock.get(/\/sso\/api\/user-data\//, () => comparisonMarketResponse)
+    fetchMock.post(/\/sso\/api\/user-data\//, (p1, p2, p3) => {
+      comparisonMarketResponse = JSON.parse(p2.body).data
+      return comparisonMarketResponse
+    })
   })
 
   afterEach(() => {
@@ -268,7 +141,7 @@ describe('Compare markets', () => {
     jest.clearAllMocks()
   })
 
-  it('Forces product chooser when no product', () => {
+  it('Forces product chooser when no product', async () => {
     container.innerHTML =
       '<span id="cta-container"></span><span id="compare-market-container" ></span>'
     const dataTabs = '{ "population": true, "economy": true, "society": true }'
@@ -283,12 +156,14 @@ describe('Compare markets', () => {
       })
     })
     expect(document.body.querySelector('.product-finder')).toBeFalsy()
-    // Click the button and check it opens product finder
-    const button = container.querySelector('button')
 
-    expect(button.textContent).toMatch('Select product')
+    await waitFor(() => {
+      const button = container.querySelector('button')
+      expect(button.textContent).toMatch('Select product')
+    })
+    // Click the button and check it opens product finder
     act(() => {
-      Simulate.click(button)
+      Simulate.click(container.querySelector('button'))
     })
     const finder = document.body.querySelector('.product-finder')
     expect(document.body.querySelector('.product-finder')).toBeTruthy()
@@ -308,15 +183,13 @@ describe('Compare markets', () => {
 
     const localContainer = container
 
-    Object.defineProperty(window.document, 'cookie', {
-      writable: true,
-      value: encodeURI(
-        `comparisonMarkets_6=${JSON.stringify({
-          NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
-          DE: { country_name: 'Germany', country_iso2_code: 'DE' },
-        })}`
-      ),
-    })
+    // set up the mock of user data with two countries
+    comparisonMarketResponse = {
+      data: {
+        NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
+        DE: { country_name: 'Germany', country_iso2_code: 'DE' },
+      },
+    }
 
     Services.store.dispatch(
       actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
@@ -324,7 +197,7 @@ describe('Compare markets', () => {
 
     localContainer.innerHTML =
       '<span id="cta-container"></span><span id="compare-market-container" ></span>'
-    const dataTabs = '{ "population": true, "economy": true, "society": true }'
+    const dataTabs = '{ "product": true, "economy": true, "society": true }'
     const cm_container = container.querySelector('#compare-market-container')
     cm_container.setAttribute('data-tabs', dataTabs)
     cm_container.setAttribute('data-max-places-allowed', 3)
@@ -351,9 +224,7 @@ describe('Compare markets', () => {
     await waitFor(() => {
       expect(localContainer.querySelector('#market-Germany .name')).toBeTruthy()
       expect(
-        localContainer.querySelector(
-          '#market-Germany .world-import-value .primary'
-        )
+        localContainer.querySelector('#market-Germany .avg-income')
       ).toBeTruthy()
     })
     economyTabTests.forEach((test) => {
@@ -374,30 +245,6 @@ describe('Compare markets', () => {
       }
     })
     expect(localContainer.querySelectorAll('.tooltip button').length).toEqual(3)
-
-    // check society data
-    const society_tab = localContainer.querySelector(
-      '.tab-list-item:nth-of-type(3)'
-    )
-    expect(society_tab.textContent).toMatch('SOCIETY')
-    act(() => {
-      Simulate.click(society_tab)
-    })
-    await waitFor(() => {
-      const rowSocietyGermany = localContainer.querySelector('#market-Germany')
-      expect(rowSocietyGermany.querySelector('.name').textContent).toMatch(
-        'Germany'
-      )
-      expect(rowSocietyGermany.querySelector('.religion').textContent).toMatch(
-        'Roman Catholic - 28%Protestant - 26%Muslim - 5%Orthodox - 2%other Christian - 1%2018'
-      )
-      expect(rowSocietyGermany.querySelector('.language').textContent).toMatch(
-        'German2018. Danish, Frisian, Sorbian, and Romani are official minority languages'
-      )
-      expect(
-        rowSocietyGermany.querySelector('.rule-of-law').textContent
-      ).toMatch('16 of 131')
-    })
   })
 
   it('Select market from selection area', async () => {

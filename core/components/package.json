@@ -10,6 +10,7 @@
   "author": "DIT",
   "license": "MIT",
   "scripts": {
+    "gulp_build": "gulp build",
     "test": "jest react-components/tests/",
     "build": "webpack --config react-components/webpack.config.js --mode production "
   },

@@ -15,77 +15,95 @@
 .js-mobile-button {
   display: none;
 
-  @media (max-width: 768px) {
-    @include button-reset;
+  @include button-reset;
 
-    height: 50px;
+  height: 50px;
+  position: absolute;
+  top: 45px;
+  right: 0;
+  color: $white;
+  background-color: $great-blue;
+  border: 2px solid $white;
+  padding: 10px 45px 10px 10px;
+  cursor: pointer;
+
+  &:focus {
+    @include focus;
+  }
+
+  &.ready {
+    display: block;
+  }
+
+  .burger-icon {
+    // The three burger lines are formed using the span, and its before and after.
+    @include burger-icon-line;
+
     position: absolute;
-    top: 45px;
-    right: 0;
-    color: $white;
-    background-color: $great-blue;
-    border: 2px solid $white;
-    padding: 10px 45px 10px 10px;
-    cursor: pointer;
+    right: 10px;
+    top: 22px;
+    transition: background-color .2s ease;
+    background-color: transparent;
+
+    &:before {
+      @include burger-icon-line;
+      margin-top: -6px;
+    }
+
+    &:after {
+      @include burger-icon-line;
+    }
 
     &:focus {
       @include focus;
     }
+  }
 
-    &.ready {
-      display: block;
+  // When expanded, the icon changes to an 'X', by rotating the top and bottom lines, and removing the middle one.
+  &.expanded {
+    background-color: $active-blue;
+    z-index: 1;
+    transition: top .1s;
+
+    @media (max-width: 768px) {
+      top: 45px;
     }
 
     .burger-icon {
-      // The three burger lines are formed using the span, and its before and after.
-      @include burger-icon-line;
-
-      position: absolute;
-      right: 10px;
-      top: 22px;
-      transition: background-color .2s ease;
       background-color: transparent;
 
+      &:before,
+      &:after {
+        width: 25px;
+        margin-right: -3px;
+      }
+
       &:before {
-        @include burger-icon-line;
-        margin-top: -6px;
+        transform: rotate(45deg);
+        margin-top: 0;
       }
 
       &:after {
-        @include burger-icon-line;
-      }
-
-      &:focus {
-        @include focus;
+        transform: rotate(-45deg);
+        margin-top: -12px;
       }
     }
+  }
 
-    // When expanded, the icon changes to an 'X', by rotating the top and bottom lines, and removing the middle one.
-    &.expanded {
-      background-color: $active-blue;
-      z-index: 1;
-      top: 60px;
-      transition: top .1s;
+  @media (min-width: 768px) {
+    height: 40px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    top: 59px;
 
-      .burger-icon {
-        background-color: transparent;
+    .burger-icon {
+      top: 18px;
+    }
+  }
 
-        &:before,
-        &:after {
-          width: 25px;
-          margin-right: -3px;
-        }
-
-        &:before {
-          transform: rotate(45deg);
-          margin-top: 0;
-        }
-
-        &:after {
-          transform: rotate(-45deg);
-          margin-top: -12px;
-        }
-      }
+  &.mobile-only {
+    @media (min-width: 768px) {
+      display: none;
     }
   }
 }

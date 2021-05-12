@@ -25,7 +25,7 @@ const Form = ({
       className="signup__form"
     >
       {showTitle && (
-        <legend className="h-s text-blue-deep-80">Create an account</legend>
+        <legend className="h-s text-blue-deep-80 p-t-xs">Create an account</legend>
       )}
       Already have an account? &nbsp;&nbsp;
       <a
@@ -39,7 +39,6 @@ const Form = ({
         label="Email address"
         id="email"
         type="email"
-        placeholder="Email address"
         disabled={disabled}
         value={email.toLowerCase()}
         onChange={(item) => handleEmailChange(item.email)}
@@ -49,7 +48,6 @@ const Form = ({
         label="Password"
         id="password"
         type="password"
-        placeholder="Password"
         disabled={disabled}
         value={password}
         onChange={(item) => handlePasswordChange(item.password)}

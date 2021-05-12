@@ -6,9 +6,6 @@ from directory_constants import choices, urls
 
 def javascript_components(request):
     password_reset_url = urls.domestic.SINGLE_SIGN_ON / 'accounts/password/reset/'
-    if settings.BETA_ENVIRONMENT:
-        password_reset_url = 'mailto:great.support@trade.gov.uk?subject=Forgotten password'
-
     data = {
         'linkedin_url': settings.SSO_OAUTH2_LINKEDIN_URL,
         'google_url': settings.SSO_OAUTH2_GOOGLE_URL,
@@ -31,6 +28,13 @@ def analytics_vars(request):
     return {
         'GOOGLE_TAG_MANAGER_ID': settings.GOOGLE_TAG_MANAGER_ID,
         'GOOGLE_TAG_MANAGER_ENV': settings.GOOGLE_TAG_MANAGER_ENV,
+        'UTM_COOKIE_DOMAIN': settings.UTM_COOKIE_DOMAIN,
+    }
+
+
+def cookie_management_vars(request):
+    return {
+        'PRIVACY_COOKIE_DOMAIN': settings.PRIVACY_COOKIE_DOMAIN,
     }
 
 
@@ -38,6 +42,7 @@ def cms_slug_urls(request):
     return {
         'DASHBOARD_URL': cms_slugs.DASHBOARD_URL,
         'LOGIN_URL': cms_slugs.LOGIN_URL,
+        'PRIVACY_POLICY_URL': cms_slugs.PRIVACY_POLICY_URL,
     }
 
 

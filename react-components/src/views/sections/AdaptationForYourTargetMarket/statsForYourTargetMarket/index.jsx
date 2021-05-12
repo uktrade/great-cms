@@ -38,7 +38,7 @@ export const DataSnapshot = memo(({ infoMoment, tooltip }) => {
 
   return (
     <>
-      <h2 class="h-xs p-t-l p-b-s">
+      <h2 className="h-xs p-t-l p-b-s">
         Data Snapshot: exporting {product.commodity_name} to{' '}
         {country.country_name}
       </h2>
@@ -63,6 +63,7 @@ export const DataSnapshot = memo(({ infoMoment, tooltip }) => {
                 <Stats
                   data={infoMoment || notAvailable}
                   descriptionClassName="body-l"
+                  className="statistic--mobile-full"
                 >
                   <div className="fas fa-lg fa-info-circle text-blue-deep-30" />
                 </Stats>

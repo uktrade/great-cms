@@ -35,8 +35,12 @@ def test_render_video_tag__with_thumbnail():
     block = dict(video=video_mock)
     html = render_video(block)
 
-    assert '<video controls poster="https://example.com/thumb.png" data-v-duration="120">' in html
-    assert '<source src="/media/foo.mp4" type="video/mp4">' in html
+    assert (
+        # Whitespace in this string is important for matching output
+        '<video preload="metadata" controls\n'
+        '            poster="https://example.com/thumb.png" data-v-duration="120">'
+    ) in html
+    assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
     assert 'Your browser does not support the video tag.' in html
 
 
@@ -48,9 +52,9 @@ def test_render_video_tag__without_thumbnail():
     )
     block = dict(video=video_mock)
     html = render_video(block)
-
-    assert '<video controls data-v-duration="120">' in html
-    assert '<source src="/media/foo.mp4" type="video/mp4">' in html
+    # Whitespace in this string is important for matching output
+    assert '<video preload="metadata" controls\n            data-v-duration="120">' in html
+    assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
     assert 'Your browser does not support the video tag.' in html
 
 
@@ -434,6 +438,9 @@ def test_is_placeholder_page(klass, expected):
         ('/path/in/?next=/path/to/?next=/foo/bar/', '/path/to/?next=/foo/bar/', None),
         ('/path/in/?next=https://example.com/foo/bar/', '/dashboard/', None),
         ('/path/in/?next=test', '/dashboard/', None),
+        ('/path/in/?next=http://testserver/path/to', 'http://testserver/path/to', None),
+        ('/path/in/?next=https://testserver/path/to', 'https://testserver/path/to', None),
+        ('/path/in/?next=bad_https://testserver/path/to', '/dashboard/', None),
         (quote('/path/in/?next=https://example.com/foo/bar/'), '/dashboard/', None),
         (quote_plus('/path/in/?next=https://example.com/foo/bar/'), '/dashboard/', None),
         (escape('/path/in/?next=https://example.com/foo/bar/'), '/dashboard/', None),
@@ -449,6 +456,9 @@ def test_is_placeholder_page(klass, expected):
         'next param path with duplicated "next" querystring allowed',
         'next param path with querysting with hints of full url',
         'next param is non-relative path',
+        'next param is absolute path with matching domain',
+        'next param is absolute path with https matching domain',
+        'next param is has absolute path with matching domain not at start',
         'quoted path with querysting with hints of full url',
         'plus-quoted path with querysting with hints of full url',
         'entity-escaped path with querysting with hints of full url',
@@ -461,3 +471,35 @@ def test_get_intended_destination(rf, path_info, expected_destination, default_d
         assert get_intended_destination(request, default_destination) == expected_destination
     else:
         assert get_intended_destination(request) == expected_destination
+
+
+@pytest.mark.django_db
+def test_friendly_number():
+    cases = [
+        {'value': 1110000, 'result': '1.11 million'},
+        {'value': 111000, 'result': '111.00 thousand'},
+        {'value': 11100, 'result': '11.10 thousand'},
+    ]
+
+    template = Template('{% load friendly_number from content_tags %}{{ delta|friendly_number }}')
+
+    for case in cases:
+        context = Context({'delta': case.get('value')})
+        html = template.render(context)
+        assert html == case.get('result')
+
+
+@pytest.mark.django_db
+def test_multiply_by_exponent():
+    cases = [
+        {'value': 13000, 'result': '13000000'},
+        {'value': 1, 'result': '1000'},
+        {'value': 130000, 'result': '130000000'},
+    ]
+
+    template = Template('{% load multiply_by_exponent from content_tags %}{{ delta|multiply_by_exponent }}')
+
+    for case in cases:
+        context = Context({'delta': case.get('value')})
+        html = template.render(context)
+        assert html == case.get('result')

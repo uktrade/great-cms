@@ -2,6 +2,7 @@ import React from 'react'
 import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
 
 import Services from '@src/Services'
+import { unexpectedError } from '@src/components/hooks/useUpdateExportPlan/useUpdateExportPlan'
 import { FormElements } from '.'
 
 const props = {
@@ -98,7 +99,7 @@ describe('FormElements', () => {
       const { getByRole, getByLabelText, container } = setup({ ...props })
       expect(getByRole('listbox'))
       expect(getByLabelText('Your business performance'))
-      expect(container.querySelectorAll('li')[1].textContent).toEqual(
+      expect(container.querySelectorAll('li')[0].textContent).toEqual(
         'Below £83,000 (Below VAT registered)'
       )
     })
@@ -128,7 +129,9 @@ describe('FormElements', () => {
 
   it('Should fail to update formdata', async () => {
     Services.updateExportPlan = jest.fn(() =>
-      Promise.reject({ message: { __all__: ['an error has occurred'] } })
+      Promise.reject({
+        message: { __all__: ['An unexpected error has occurred'] },
+      })
     )
     const { container, getByText } = setup({ ...props })
 
@@ -145,7 +148,7 @@ describe('FormElements', () => {
         },
       })
       expect(container.querySelector('textarea').value).toEqual('Good Day')
-      expect(getByText('an error has occurred'))
+      expect(getByText(unexpectedError))
     })
   })
 

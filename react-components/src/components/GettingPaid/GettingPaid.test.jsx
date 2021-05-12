@@ -161,8 +161,8 @@ describe('GettingPaid', () => {
   describe('Should have initial values', () => {
     it('Payments methods', () => {
       const { getAllByText, getByText } = setup({ ...props })
-      expect(getAllByText('International bank transfers')).toHaveLength(2)
-      expect(getAllByText('Credit or debit card payments')).toHaveLength(2)
+      expect(getAllByText('International bank transfers')).toHaveLength(1)
+      expect(getAllByText('Credit or debit card payments')).toHaveLength(1)
       getByText('de')
     })
     it('Payments terms', () => {

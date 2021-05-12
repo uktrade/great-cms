@@ -1,4 +1,5 @@
 import Api from '@src/api'
+import { debounce } from '@src/components/hooks/useDebounce'
 
 export const UPDATE_FIELD = 'UPDATE_FIELD'
 export const FIELD_UPDATE_SUCCESS = 'FIELD_UPDATE_SUCCESS'
@@ -31,3 +32,12 @@ export const postField = (field) => async (dispatch) => {
       dispatch(postFail(err))
     })
 }
+
+export const debouncePostField = (() => {
+  const update = debounce((field, dispatch) => {
+    dispatch(postField(field))
+  })
+  return (field) => (dispatch) => {
+    update(field, dispatch)
+  }
+})()

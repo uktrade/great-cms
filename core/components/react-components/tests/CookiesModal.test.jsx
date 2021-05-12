@@ -8,8 +8,8 @@ import Adapter from 'enzyme-adapter-react-16'
 
 import { CookiesModal } from '../src/CookiesModal'
 
-jest.mock('../../static/js/dit.components.cookie-notice');
-import CookiesManager from '../../static/js/dit.components.cookie-notice'
+jest.mock('../../static/javascript/dit.components.cookie-notice');
+import CookiesManager from '../../static/javascript/dit.components.cookie-notice'
 
 Enzyme.configure({ adapter: new Adapter() })
 

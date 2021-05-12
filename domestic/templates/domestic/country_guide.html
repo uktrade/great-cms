@@ -7,7 +7,7 @@
 
 {% block head_js %}
   {{ block.super }}
-  <script src="{% static 'js/country-guide.js' %}"></script>
+  <script src="{% static 'javascript/country-guide.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -155,7 +155,7 @@
       {% if FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS %}
       <div class="column-full column-half-l column-third-xl margin-bottom-0">
         {% static 'images/country-guide-contact.png' as contact_us_image_url %}
-        {% include 'components/cta_card.html' with with_arrow=True image_url=contact_us_image_url text="Get in touch with one of our trade advisers" url=services_urls.office_finder %}
+        {% include 'components/cta_card.html' with with_arrow=True image_url=contact_us_image_url text="Get in touch with one of our trade advisers" url="/contact/office-finder" %}
       </div>
       {% endif %}
     </div>
@@ -170,9 +170,9 @@
       {% for related_page in page.related_pages %}
         <div class="column-full column-half-l column-third-xl">
           {% if related_page.page_type == 'InternationalArticlePage' %}
-            {% include 'components/card.html' with card_id=related_page.meta.slug url=related_page.url card_image=related_page.article_image sub_heading='Article' title=related_page.title description=related_page.teaser %}
+            {% include 'components/card.html' with card_id=related_page.slug url=related_page.url card_image=related_page.article_image sub_heading='Article' title=related_page.title description=related_page.teaser %}
           {% else %}
-            {% include 'components/card.html' with card_id=related_page.meta.slug url=related_page.url card_image=related_page.article_image sub_heading='Campaign' title=related_page.title description=related_page.teaser %}
+            {% include 'components/card.html' with card_id=related_page.slug url=related_page.url card_image=related_page.article_image sub_heading='Campaign' title=related_page.title description=related_page.teaser %}
           {% endif %}
         </div>
       {% endfor %}

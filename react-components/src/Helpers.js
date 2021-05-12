@@ -103,6 +103,10 @@ const isArray = (arr) => {
   return Object.prototype.toString.call(arr) === '[object Array]'
 }
 
+const isFunction = (fn) => {
+  return !!(fn && fn.constructor && fn.call && fn.apply)
+}
+
 const get = (obj, path, def = null) => {
   // get a value from an object based on dot-separated path
   let out = obj
@@ -172,26 +176,6 @@ const sectionQuestionMapping = {
     'What’s the avg price for your product in the selected country?',
 }
 
-const getLabel = (list, selected) => {
-  const hasValue = list.find((x) => x.value === selected)
-  return selected && hasValue ? hasValue.label : ''
-}
-
-const getValue = (list, selected) => {
-  const hasLabel = list.find((x) => x.label === selected)
-  return selected && hasLabel ? hasLabel.value : ''
-}
-
-const getLabels = (list, items = []) => {
-  const selected = list.filter((x) => items.includes(x.value))
-  return Object.keys(selected).map((y) => selected[y].label)
-}
-
-const getValues = (list, items = []) => {
-  const selected = list.filter((x) => items.includes(x.label))
-  return Object.keys(selected).map((y) => selected[y].value)
-}
-
 const formatLessonLearned = (lesson, section, id) =>
   lesson[section.lessons[id]]
     ? {
@@ -201,6 +185,19 @@ const formatLessonLearned = (lesson, section, id) =>
     : {}
 
 const objectHasValue = (object = {}) => Object.values(object).some((x) => x)
+
+const validation = {
+  onlyOneZero: (t, value) =>
+    value ? t === 0 && value.length === 1 && value.charAt(0) === '0' : false,
+  twoDecimal: (number) => {
+    const regx = /^[0-9]*(\.[0-9][0-9]?)?$/g
+    return regx.test(number)
+  },
+  wholeNumber: (number) => {
+    const regx = /^[\d]*$/g
+    return regx.test(number)
+  },
+}
 
 export {
   dateFormat,
@@ -213,12 +210,9 @@ export {
   normaliseValues,
   isObject,
   isArray,
+  isFunction,
   get,
   mapArray,
-  getLabel,
-  getValue,
-  getLabels,
-  getValues,
   formatLessonLearned,
   millify,
   stripPercentage,
@@ -227,4 +221,23 @@ export {
   numberWithSign,
   camelize,
   camelizeObject,
+  validation,
 }
+
+export const prependThe = (str) =>
+  [
+    'Central African Republic',
+    'Comoros',
+    'Czechia',
+    'Dominican Republic',
+    'Ivory Coast',
+    'Maldives',
+    'Marshall Islands',
+    'Netherlands',
+    'Philippines',
+    'Solomon Islands',
+    'United Arab Emirates',
+    'United States',
+  ].includes(str)
+    ? `the ${str}`
+    : str

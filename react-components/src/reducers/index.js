@@ -9,6 +9,7 @@ import {
   SET_PRODUCT,
   SET_MARKET,
   SET_LOADED,
+  SET_COMPARISON_MARKETS,
 } from '@src/actions'
 import { config } from '@src/config'
 import { combineReducers } from 'redux'
@@ -97,32 +98,24 @@ const exportPlanReducer = (state, action) => {
           newState.products[0] &&
           newState.products[0].commodity_code) !== action.payload.commodity_code
       newState.products = [action.payload]
-      if (codeChanged) {
-        saveToExportPlan({ export_commodity_codes: [action.payload] }).then(
-          () => {
-            if (config.refreshOnMarketChange) {
-              window.location.reload()
-            }
+
+      saveToExportPlan({ export_commodity_codes: [action.payload] }).then(
+        () => {
+          if (codeChanged && config.refreshOnMarketChange) {
+            api.reloadPage()
           }
-        )
-      }
+        }
+      )
       break
     case SET_MARKET:
       newState.markets = [action.payload]
       saveToExportPlan({ export_countries: [action.payload] }).then(() => {
         if (config.refreshOnMarketChange) {
-          window.location.reload()
-        } else {
-          // Here we have some nasty non-Reactish code to update any country names that lie outside listening react components
-          document.body.querySelectorAll('.country-name-updatable').forEach((element) => {
-            /* eslint-disable no-param-reassign */
-            element.textContent = (action.payload || {}).country_name
-            /* eslint-enable no-param-reassign */
-          })
+          api.reloadPage()
         }
       })
       break
-      default:
+    default:
   }
   return newState
 }
@@ -132,6 +125,14 @@ const dataCacheReducer = (state, action) => {
   if (action.type === SET_LOADED) {
     newState.cacheVersion = (newState.cacheVersion || 0) + 1
     return newState
+  }
+  return newState
+}
+
+const comparisonMarkets = (state, action) => {
+  const newState = { ...state }
+  if (action.type === SET_COMPARISON_MARKETS) {
+    newState.comparisonMarkets = action.payload
   }
   return newState
 }
@@ -159,8 +160,8 @@ export const getProducts = (state) =>
 export const getMarkets = (state) =>
   ((state.exportPlan && state.exportPlan.markets) || [])[0]
 export const getCacheVersion = (state) =>
-  ((state.dataLoader && state.dataLoader.cacheVersion))
-
+  state.dataLoader && state.dataLoader.cacheVersion
+export const getComparisonMarkets = (state) => state.comparisonMarkets || []
 
 const rootReducer = (state, action) => {
   let localState = baseReducers(state, action)
@@ -169,6 +170,7 @@ const rootReducer = (state, action) => {
     exportPlan: exportPlanReducer,
     modalIsOpen: setModalIsOpen,
     dataLoader: dataCacheReducer,
+    comparisonMarkets,
     costAndPricing,
   })(localState, action)
 }
