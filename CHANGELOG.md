@@ -14,6 +14,7 @@
 - GP2-2014 - Signup copy tweak
 - GP2-2540 - Update text on updating place warning modal
 - GP2-2539 - Update copy on choose place modal
+- GP2-2538 - Update text on dashboard landing page
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 
