@@ -9,7 +9,9 @@ export const Total = memo(({ total, currency, label }) => {
           <tr>
             <td>{label}</td>
             <td className="total">
-              <span className="text-white m-r-s">{currency}</span>
+              <span className="text-white m-r-s costs--currency">
+                {currency}
+              </span>
               <span className="body-l-b text-white">{total}</span>
             </td>
           </tr>
