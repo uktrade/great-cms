@@ -12,6 +12,7 @@
 - GP2-2410 - Fix horizontal gap on mobile BAU pages
 - GP2-2550 - remove forgotten password link in Beta
 - GP2-2014 - Signup copy tweak
+- GP2-2540 - Update text on updating place warning modal
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 
