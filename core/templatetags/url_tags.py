@@ -35,8 +35,8 @@ def get_intended_destination(
         reverse('core:signup'),
     ]
     root_url = request.get_host()
-    no_full_path = f'://(?!{root_url})'
-    slash_or_absolute = f'^(?:/|http[s]?://{root_url})'
+    full_url_different_domain = f'://(?!{root_url})'
+    slash_or_absolute_for_current_domain = f'^(?:/|http[s]?://{root_url})'
 
     intended_destination = request.GET.get(REDIRECT_FIELD_NAME, '')
     if not intended_destination or any(
@@ -47,13 +47,13 @@ def get_intended_destination(
             unquote_plus(intended_destination) in skip_list,
             unescape(intended_destination) in skip_list,
             # ongoing querystring contains a full url that's not our domain:
-            re.search(no_full_path, unquote(intended_destination)),
-            re.search(no_full_path, unquote_plus(intended_destination)),
-            re.search(no_full_path, unescape(intended_destination)),
+            re.search(full_url_different_domain, unquote(intended_destination)),
+            re.search(full_url_different_domain, unquote_plus(intended_destination)),
+            re.search(full_url_different_domain, unescape(intended_destination)),
             # ongoing querystring is relative:
-            not re.search(slash_or_absolute, unquote(intended_destination)),
-            not re.search(slash_or_absolute, unquote_plus(intended_destination)),
-            not re.search(slash_or_absolute, unescape(intended_destination)),
+            not re.search(slash_or_absolute_for_current_domain, unquote(intended_destination)),
+            not re.search(slash_or_absolute_for_current_domain, unquote_plus(intended_destination)),
+            not re.search(slash_or_absolute_for_current_domain, unescape(intended_destination)),
         ]
     ):
         return default_destination
