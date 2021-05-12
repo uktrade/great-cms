@@ -32,7 +32,6 @@ export const Form = ({
         label='Email address'
         id='email'
         type='email'
-        placeholder='Email address'
         disabled={disabled}
         value={email.toLowerCase()}
         onChange={(item) => handleEmailChange(item.email)}
@@ -42,7 +41,6 @@ export const Form = ({
         label='Password'
         id='password'
         type='password'
-        placeholder='Password'
         disabled={disabled}
         value={password}
         onChange={(item) => handlePasswordChange(item.password)}

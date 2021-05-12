@@ -1,11 +1,13 @@
 from unittest import mock
 
 import pytest
+from directory_ch_client.client import ch_search_api_client
 from django.shortcuts import reverse
 
 from core import helpers as core_helpers
 from directory_api_client import api_client
 from exportplan.core import helpers as exportplan_helpers
+from tests.helpers import create_response
 
 
 @mock.patch.object(api_client.dataservices, 'get_last_year_import_data_by_country')
@@ -48,3 +50,31 @@ def test_country_data_view(mock_country_data, client):
     ).json()
     assert json_response['FR'] == country_data['FR']
     assert json_response['DE'] == country_data['DE']
+
+
+@mock.patch.object(core_helpers, 'get_trade_barrier_data')
+@pytest.mark.django_db
+def test_trade_barrier_data_view(mock_get_trade_barrier_data, client):
+
+    mock_get_trade_barrier_data.return_value = {}
+    url = reverse('core:api-trade-barrier-data')
+    client.get(url + '?countries=CN&sectors=Aerospace')
+    assert mock_get_trade_barrier_data.call_count == 1
+    assert mock_get_trade_barrier_data.call_args == mock.call(countries_list=['CN'], sectors_list=['Aerospace'])
+
+
+@mock.patch.object(ch_search_api_client.company, 'search_companies')
+@mock.patch.object(ch_search_api_client.company, 'get_company_profile')
+@pytest.mark.django_db
+def test_companies_house_api_view(mock_get_company_profile, mock_search_companies, client):
+    url = reverse('core:api-companies-house')
+
+    mock_search_companies.return_value = create_response(status_code=200, json_body={})
+    client.get(url + '?service=search&term=ABC')
+    assert mock_search_companies.call_count == 1
+    assert mock_search_companies.call_args == mock.call(query='ABC')
+
+    mock_get_company_profile.return_value = create_response(status_code=200, json_body={})
+    client.get(url + '?service=profile&company_number=123456789')
+    assert mock_get_company_profile.call_count == 1
+    assert mock_get_company_profile.call_args == mock.call(company_number='123456789')

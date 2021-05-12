@@ -21,7 +21,8 @@ Item.propTypes = {
   onClick: PropTypes.func.isRequired,
   onKeyDown: PropTypes.func.isRequired,
   selected: PropTypes.bool.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
+    .isRequired,
   forwardedRef: PropTypes.elementType.isRequired,
   isDisabled: PropTypes.bool,
 }

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import { Input } from '@src/components/Form/Input'
 import { Select } from '@src/components/Form/Select'
-import { getLabel, getValue } from '@src/Helpers'
 import { LessonLearn } from '@src/components/LessonLearn'
 
 export const GrossPrice = memo(
@@ -20,7 +19,6 @@ export const GrossPrice = memo(
   }) => {
     const [toggleLesson, setToggleLesson] = useState(false)
     const hasLesson = Object.keys(lesson).length > 0
-
     return (
       <>
         {hasLesson && (
@@ -70,10 +68,7 @@ export const GrossPrice = memo(
                       })
                       update(
                         {
-                          [select.id]: getLabel(
-                            select.options,
-                            item[select.name]
-                          ),
+                          [select.id]: item[select.name],
                         },
                         postData
                       )
@@ -89,7 +84,7 @@ export const GrossPrice = memo(
                   <Input
                     onChange={(x) => {
                       const postData = input.field({
-                        unit: getValue(select.options, select.value),
+                        unit: select.value,
                         value: x[input.id],
                       })
                       update(x, postData)

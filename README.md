@@ -130,6 +130,12 @@ You can test this works by attempting to visit http://greatcms.trade.great:8020/
 
 Signed cookies are used as the session backend to avoid using a database. We therefore must avoid storing non-trivial data in the session, because the browser will be exposed to the data.
 
+## Javascript file paths
+
+Currently, the React component are built into Magna.js, while some javascript ported from Great V1 are collected from directories named javascript/.
+
+IMPORTANT: If you build great-components or something else and end up with code in /js/ it will NOT be accessible on a deployed environment while we are running a hybrid V1 (great-domestic-ui) + V2 (great-cms) system.
+
 ## React components
 
 To add new react components:
@@ -210,6 +216,9 @@ LOCUST_FILE=tests/load/mvp_home.py NUM_USERS=10 HATCH_RATE=2 RUN_TIME=30s make t
 AttributeError: 'User' object has no attribute 'session_id'"/'company' et al, you need to go to /django-admin/ and logout from the top right hand side. This is a temporary workaround to resolve an incompatibility between great-cms and directory-sso.
 
 * On ubuntu you may need to run `sudo apt-get install libpq-dev` if after trying to install dependencies you get an error message relating to `psycopg`.
+
+* On latest release of MacOs `make install_requirements` might fail, please run `env LDFLAGS="-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib" make install_requirements`
+
 
 ## Helpful links
 * [Developers Onboarding Checklist](https://uktrade.atlassian.net/wiki/spaces/ED/pages/32243946/Developers+onboarding+checklist)

@@ -14,10 +14,10 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
     <>
       {!!(hasExample || hasLesson || tooltip) && (
         <div className={`learning ${className}`}>
-          <div className="learning__buttons m-b-xs">
+          <div className="learning__buttons">
             {hasExample && (
               <button
-                className="button-example button button--small button--tertiary m-r-xxs"
+                className="button-example button button--small button--tertiary m-r-xxs m-b-xs"
                 type="button"
                 onClick={() => {
                   setToggleExample(!toggleExample)
@@ -34,7 +34,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
             )}
             {hasLesson && (
               <button
-                className="button-lesson button button--small button--tertiary m-r-xxs"
+                className="button-lesson button button--small button--tertiary m-r-xxs m-b-xs"
                 type="button"
                 onClick={() => {
                   setToggleLesson(!toggleLesson)
@@ -50,7 +50,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
               </button>
             )}
             {tooltip.content && (
-              <Tooltip {...tooltip} className="inline-block" />
+              <Tooltip {...tooltip} className="inline-block m-b-xs" />
             )}
           </div>
           <div className="learning__content">

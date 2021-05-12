@@ -7,6 +7,7 @@ from django import template
 from django.utils.http import urlencode
 
 from core.constants import BACKLINK_QUERYSTRING_NAME
+from core.helpers import millify
 from core.models import DetailPage, LessonPlaceholderPage, TopicPage
 
 logger = logging.getLogger(__name__)
@@ -93,3 +94,48 @@ def is_lesson_page(page):
 @register.filter
 def is_placeholder_page(page):
     return isinstance(page.specific, LessonPlaceholderPage)
+
+
+@register.filter(name='multiply_by_exponent', is_safe=False)
+def multiply_by_exponent(val, exponent=3, base=10):
+    """
+    Simple template tag that takes an integer and returns new integer of base ** exponent
+
+    Return
+        int
+
+    Params:
+        val: int
+            The integer to be multiplied
+        exponent: int
+            The exponent
+        base: int
+            The base
+    """
+
+    if type(val) == int:
+        int_val = int(val)
+    else:
+        int_val = 0
+
+    return int_val * (base ** exponent)
+
+
+@register.filter(name='friendly_number', is_safe=False)
+def friendly_number(val):
+    """
+    Convert numbers to a friendly format e.g: 1 thousand, 123.4 thousand, 1.11 million, 111.42 million.
+    Return
+        str
+            e.g: 1.02 thousand, 123.43 thousand, 111.42 million, 1.14 billion
+    Params:
+        val: int
+            The input value
+    """
+
+    if type(val) == int:
+        int_val = int(val)
+    else:
+        int_val = 0
+
+    return millify(int_val)

@@ -15,10 +15,10 @@ def test_about_your_business_serializer():
         'location': 'Consectetur adipisicing elit',
         'packaging': 'Dolor sit amet',
         'processes': 'Sed do eiusmod tempor incididunt',
+        'performance': '<83k',
     }
 
     serializer = serializers.AboutYourBuinessSerializer(data=data)
-
     assert serializer.is_valid()
     assert serializer.data == data
 
@@ -58,7 +58,7 @@ def test_objective_serializer():
         'pk': 2,
     }
 
-    serializer = serializers.CompanyObjectiveSerializer(data=data)
+    serializer = serializers.CompanyObjectivesSerializer(data=data)
 
     assert serializer.is_valid()
     assert serializer.data == data
@@ -75,7 +75,7 @@ def test_objective_serializer_empty_date_fields():
         'companyexportplan': 1,
     }
 
-    serializer = serializers.NewObjectiveSerializer(data=data)
+    serializer = serializers.NewCompanyObjectivesSerializer(data=data)
 
     assert serializer.is_valid()
     assert serializer.data == {
@@ -99,7 +99,7 @@ def test_new_objective_serializer():
         'companyexportplan': 1,
     }
 
-    serializer = serializers.NewObjectiveSerializer(data=data)
+    serializer = serializers.NewCompanyObjectivesSerializer(data=data)
 
     assert serializer.is_valid()
     assert serializer.data == data
@@ -208,17 +208,17 @@ def test_cost_and_pricing_serializers():
     serializer = serializers.ExportPlanSerializer(data=data)
     assert serializer.is_valid()
 
-    assert serializer.data['direct_costs'] == OrderedDict([('product_costs', '12.02'), ('labour_costs', '13.02')])
+    assert serializer.validated_data['direct_costs'] == OrderedDict([('product_costs', 12.02), ('labour_costs', 13.02)])
 
-    assert serializer.data['overhead_costs'] == OrderedDict(
-        [('product_adaption', '13.02'), ('other_overhead_costs', '19.23')]
+    assert serializer.validated_data['overhead_costs'] == OrderedDict(
+        [('product_adaption', 13.02), ('other_overhead_costs', 19.23)]
     )
-    assert serializer.data['total_cost_and_price'] == OrderedDict(
+    assert serializer.validated_data['total_cost_and_price'] == OrderedDict(
         [
             ('units_to_export_first_period', OrderedDict([('unit', 'kg'), ('value', 10)])),
-            ('average_price_per_unit', '23.44'),
-            ('duty_per_unit', '23.00'),
-            ('gross_price_per_unit_invoicing_currency', OrderedDict([('unit', 'EUR'), ('value', '23.40')])),
+            ('average_price_per_unit', 23.44),
+            ('duty_per_unit', 23.0),
+            ('gross_price_per_unit_invoicing_currency', OrderedDict([('unit', 'EUR'), ('value', 23.4)])),
         ]
     )
 
@@ -317,26 +317,25 @@ def test_estimated_costs_per_unit(cost_pricing_data):
 
 def test_json_to_presentaion(cost_pricing_data):
     json_data = serializers.ExportPlanSerializer().cost_and_pricing_to_json(cost_pricing_data)
-
     assert json_data == json.dumps(
         {
-            'direct_costs': {'product_costs': '10.00', 'labour_costs': '5.00', 'other_direct_costs': ''},
+            'direct_costs': {'product_costs': 10.0, 'labour_costs': 5.00, 'other_direct_costs': None},
             'overhead_costs': {
-                'product_adaption': '',
-                'freight_logistics': '',
-                'agent_distributor_fees': '',
-                'marketing': '1345.00',
-                'insurance': '10.00',
-                'other_overhead_costs': '',
+                'product_adaption': None,
+                'freight_logistics': None,
+                'agent_distributor_fees': None,
+                'marketing': 1345.00,
+                'insurance': 10.00,
+                'other_overhead_costs': None,
             },
             'total_cost_and_price': {
                 'units_to_export_first_period': {'unit': 'm', 'value': 22},
                 'units_to_export_second_period': {'unit': 'd', 'value': 5},
-                'final_cost_per_unit': '16.00',
-                'average_price_per_unit': '',
-                'net_price': '22.00',
-                'local_tax_charges': '5.23',
-                'duty_per_unit': '15.13',
+                'final_cost_per_unit': 16.00,
+                'average_price_per_unit': None,
+                'net_price': 22.00,
+                'local_tax_charges': 5.23,
+                'duty_per_unit': 15.13,
                 'gross_price_per_unit_invoicing_currency': {'unit': '', 'value': ''},
             },
         }
@@ -361,23 +360,26 @@ def test_payment_method_serializer():
 
     data = {
         'getting_paid': {
-            'payment_method': {'methods': ['BACS', 'BT'], 'notes': 'method 1'},
-            'payment_terms': {'terms': 'TMP', 'notes': 'method 2'},
-            'incoterms': {'transport': 'RME', 'notes': 'method 3'},
+            'payment_method': {'methods': ['CREDIT_DEBIT', 'MERCHANT_SERVICES'], 'notes': 'method 1'},
+            'payment_terms': {'terms': 'PAYMENT_IN_ADVANCE', 'notes': 'method 2'},
+            'incoterms': {'transport': 'EX_WORKS', 'notes': 'method 3'},
         }
     }
+
     serializer = serializers.ExportPlanSerializer(data=data)
     assert serializer.is_valid(raise_exception=True)
-
     assert serializer.validated_data == OrderedDict(
         [
             (
                 'getting_paid',
                 OrderedDict(
                     [
-                        ('payment_method', OrderedDict([('methods', ['BACS', 'BT']), ('notes', 'method 1')])),
-                        ('payment_terms', OrderedDict([('terms', 'TMP'), ('notes', 'method 2')])),
-                        ('incoterms', OrderedDict([('transport', 'RME'), ('notes', 'method 3')])),
+                        (
+                            'payment_method',
+                            OrderedDict([('methods', ['CREDIT_DEBIT', 'MERCHANT_SERVICES']), ('notes', 'method 1')]),
+                        ),
+                        ('payment_terms', OrderedDict([('terms', 'PAYMENT_IN_ADVANCE'), ('notes', 'method 2')])),
+                        ('incoterms', OrderedDict([('transport', 'EX_WORKS'), ('notes', 'method 3')])),
                     ]
                 ),
             )
@@ -422,3 +424,11 @@ def test_business_risks_serializer(export_plan_data):
             ('pk', 1),
         ]
     )
+
+
+def test_export_plan_serializer_calculate_total_funding(export_plan_data):
+    # To tidy all collections should be contained within the page they're loaded
+    export_plan_data['funding_and_credit']['funding_credit_options'] = export_plan_data['funding_credit_options']
+    serializer = serializers.ExportPlanSerializer(data=export_plan_data)
+    serializer.is_valid()
+    assert serializer.calculate_total_funding == 2.0

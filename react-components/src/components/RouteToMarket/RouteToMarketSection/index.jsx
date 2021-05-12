@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import { Select } from '@src/components/Form/Select'
 import { TextArea } from '@src/components/Form/TextArea'
-import { getLabel } from '@src/Helpers'
 import { ConfirmModal } from '@src/components/ConfirmModal/ConfirmModal'
 
 export const RouteToMarketSection = memo(
@@ -18,7 +17,7 @@ export const RouteToMarketSection = memo(
               name={item.name}
               id={`${item.name}-${field.pk}`}
               options={item.options}
-              selected={getLabel(item.options, field[item.name])}
+              selected={field[item.name]}
               lesson={lesson}
             />
             <hr className="hr hr--light" />
