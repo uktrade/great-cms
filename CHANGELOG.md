@@ -61,6 +61,7 @@
 - GP2-2401 - pdf save
 
 ### Fixed bugs
+- GP2-2399 - [Mobile]-Costs and pricing
 - GP2-2420 - Export plan - CHEG details look strange on mobile
 - GP2-2488 - Adapting your product / Add another document doesn't work
 - GP2-2513 - Fixes h2 with b tag issue
