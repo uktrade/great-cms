@@ -13,6 +13,7 @@
 - GP2-2550 - remove forgotten password link in Beta
 - GP2-2014 - Signup copy tweak
 - GP2-2540 - Update text on updating place warning modal
+- GP2-2539 - Update copy on choose place modal
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 
