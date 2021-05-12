@@ -3,7 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
-
+- GP2-2560 - Allow Lesson/DetailPage hero block to be empty
 ### Fixed bugs
 
 - GP2-2266 - Fix year designations in WTE new tabs
