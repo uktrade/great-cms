@@ -1,41 +1,30 @@
-import React, { memo, useState, useEffect } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import Services from '@src/Services'
-import { Input } from '@src/components/Form/Input'
-import { useDebounce } from '@src/components/hooks/useDebounce'
 import { formatLessonLearned } from '@src/Helpers'
+import { FormElements } from '@src/components/FormElements'
 
 export const FundingCreditHowMuchFunding = memo(({ ...data }) => {
   const { formData, currency, lessonDetails, currentSection } = data
-  const [formValue, setFormValue] = useState(formData.funding_amount_required)
-
-  const update = (field) => {
-    Services.updateExportPlan(field)
-      .then(() => {})
-      .catch(() => {})
-  }
-
-  const debounceUpdate = useDebounce(update)
 
   const inputData = {
-    onChange: (fieldItem) => {
-      setFormValue(fieldItem.funding_amount_required)
-      debounceUpdate({
-        funding_and_credit: fieldItem,
-      })
-    },
-    value: formValue,
     prepend: currency,
     hideLabel: true,
     label: 'How much funding you need',
     id: 'funding_amount_required',
-    placeholder: '0',
-    type: 'number',
+    placeholder: 0,
+    field_type: 'NumberInput',
     field: 'funding_amount_required',
+    name: 'funding_amount_required',
     lesson: formatLessonLearned(lessonDetails, currentSection, 0),
   }
 
-  return <Input {...inputData} />
+  return (
+    <FormElements
+      formFields={[inputData]}
+      field="funding_and_credit"
+      formData={formData}
+    />
+  )
 })
 
 FundingCreditHowMuchFunding.propTypes = {

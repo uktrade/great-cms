@@ -1,9 +1,10 @@
 import React, { memo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import Services from '@src/Services'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { LessonLearn } from '@src/components/LessonLearn'
 import { formatLessonLearned } from '@src/Helpers'
+import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
+import ErrorList from '@src/components/ErrorList'
 import { Total } from './Total'
 import { Options } from './Options'
 
@@ -15,11 +16,15 @@ export const FundingCreditOptions = memo(
     fundingCreditOptions,
     lessonDetails,
     currentSection,
+    model_name,
   }) => {
     const [funding, setFunding] = useState(formData)
     const [fundingTotal, setFundingTotal] = useState(null)
     const [toggleLesson, setToggleLesson] = useState(false)
     const lesson = formatLessonLearned(lessonDetails, currentSection, 1)
+    const [update, create, deleteItem, message, errors] = useUpdate(
+      'travel-plan'
+    )
 
     const calclatedTotal = () =>
       funding.reduce((acc, curr) => acc + Number(curr.amount), 0)
@@ -33,7 +38,7 @@ export const FundingCreditOptions = memo(
       const newFunding = {}
       newFunding.companyexportplan = companyexportplan
 
-      Services.createFundingCreditOption({ ...newFunding })
+      create({ ...newFunding, model_name })
         .then((data) => setFunding([...funding, data]))
         .then(() => {
           const newElement = document.getElementById(
@@ -41,24 +46,18 @@ export const FundingCreditOptions = memo(
           ).parentNode
           newElement.scrollIntoView()
         })
-        .catch(() => {})
     }
 
     const deleteFunding = (id) => {
-      Services.deleteFundingCreditOption(id)
-        .then(() => {
-          setFunding(funding.filter((x) => x.pk !== id))
-        })
-        .catch(() => {})
+      deleteItem({ model_name, pk: id }).then(() => {
+        setFunding(funding.filter((x) => x.pk !== id))
+      })
     }
 
-    const update = (field, selected) => {
-      Services.updateFundingCreditOption({ ...field, ...selected })
-        .then(() => {})
-        .catch(() => {})
-    }
+    const request = (field, selected) =>
+      update({ ...field, ...selected, model_name })
 
-    const debounceUpdate = useDebounce(update)
+    const debounceUpdate = useDebounce(request)
 
     const onChange = (type, id, selected) => {
       if (type === 'input') {
@@ -102,6 +101,7 @@ export const FundingCreditOptions = memo(
           addFunding={addFunding}
         />
         <Total label="Total funding" currency={currency} total={fundingTotal} />
+        <ErrorList errors={errors.__all__ || []} className="m-0" />
       </>
     )
   }
@@ -128,6 +128,7 @@ FundingCreditOptions.propTypes = {
     url: PropTypes.string,
     lessons: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
+  model_name: PropTypes.string.isRequired,
 }
 
 FundingCreditOptions.defaultProps = {

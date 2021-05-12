@@ -27,15 +27,15 @@ export const Login = (props) => {
   const linkedinLoginUrl = `${Services.config.linkedInUrl}?next=${next}`
   const googleLoginUrl = `${Services.config.googleUrl}?next=${next}`
 
-  return (<div className="bg-red-60 signup signup--reverse signup__container">
+  return (<div className="signup signup--reverse signup__container">
     <div className="signup__steps-panel">
-      <a href="/" alt="Exporting is GREAT">
+      <a href="/">
         <img
-          className="m-f-auto m-r-auto"
+          className="m-f-auto m-r-auto signup__logo"
           src="/static/images/logo-filled.svg"
           alt="Exporting is Great"
-          width="152"
-          height="76"
+          width="148"
+          height="69"
         />
       </a>
       <Form
@@ -52,11 +52,11 @@ export const Login = (props) => {
     </div>
     <div className="signup__right-panel">
       <div className="signup__right-panel__headings">
-        <h1>Sign in to continue your exporting journey</h1>
-        <p>Don't have an account?</p>
-        <a href={Services.config.signupUrl} className="button">Sign up</a>
+        <h1 className="text-blue-deep-80">Sign in to continue your exporting journey</h1>
+        <p className="text-blue-deep-80">Don't have an account?</p>
+        <a href={Services.config.signupUrl} className="button button--secondary">Sign up</a>
       </div>
-      <img src="/static/images/sign-in.png" alt="" />
+      <img src="/static/images/sign-in-illustration.svg" alt="" />
     </div>
   </div>)
 

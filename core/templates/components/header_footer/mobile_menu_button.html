@@ -2,7 +2,7 @@
 
 <button
     id="mobile-menu-button"
-    class="js-mobile-button"
+    class="js-mobile-button {% if not request.user.is_authenticated %}mobile-only{% endif %}"
     tabindex="0"
     aria-controls="great-header-mobile-nav"
     aria-haspopup="true"

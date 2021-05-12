@@ -4,6 +4,7 @@ from io import BytesIO
 from unittest import mock
 
 import pytest
+from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from django.utils.text import slugify
@@ -308,25 +309,26 @@ def test_cost_and_pricing(cost_pricing_data, client, user, mock_get_user_profile
     assert response.context_data['export_unit_choices'][0] == {'label': 'metre(s)', 'value': 'm'}
     assert response.context_data['export_timeframe_choices'][0] == {'label': 'day(s)', 'value': 'd'}
     assert response.context_data['currency_choices'][0] == {'label': 'EUR', 'value': 'eur'}
+
     assert response.context_data['costs_and_pricing_data'] == json.dumps(
         {
-            'direct_costs': {'product_costs': '10.00', 'labour_costs': '5.00', 'other_direct_costs': ''},
+            'direct_costs': {'product_costs': 10.00, 'labour_costs': 5.00, 'other_direct_costs': None},
             'overhead_costs': {
-                'product_adaption': '',
-                'freight_logistics': '',
-                'agent_distributor_fees': '',
-                'marketing': '1345.00',
-                'insurance': '10.00',
-                'other_overhead_costs': '',
+                'product_adaption': None,
+                'freight_logistics': None,
+                'agent_distributor_fees': None,
+                'marketing': 1345.00,
+                'insurance': 10.00,
+                'other_overhead_costs': None,
             },
             'total_cost_and_price': {
                 'units_to_export_first_period': {'unit': 'm', 'value': 22},
                 'units_to_export_second_period': {'unit': 'd', 'value': 5},
-                'final_cost_per_unit': '16.00',
-                'average_price_per_unit': '',
-                'net_price': '22.00',
-                'local_tax_charges': '5.23',
-                'duty_per_unit': '15.13',
+                'final_cost_per_unit': 16.00,
+                'average_price_per_unit': None,
+                'net_price': 22.00,
+                'local_tax_charges': 5.23,
+                'duty_per_unit': 15.13,
                 'gross_price_per_unit_invoicing_currency': {'unit': '', 'value': ''},
             },
         }
@@ -380,12 +382,15 @@ def test_download_export_plan(
     mock_cia_world_factbook_data,
     user,
     mock_get_user_profile,
+    mock_upload_exportplan_pdf,
 ):
+
     # Must be a better way of mocking a return object
     class Errordoc:
         err = False
 
     mock_pisa.return_value = Errordoc()
+
     url = reverse('exportplan:pdf-download')
     client.force_login(user)
     response = client.get(url, SERVER_NAME='127.0.0.1')
@@ -400,6 +405,11 @@ def test_download_export_plan(
     assert pdf_context['population_age_data']['marketing-approach'] == mock_get_population_data.return_value
     assert pdf_context['population_age_data']['target-markets-research'] == mock_get_population_data.return_value
     assert pdf_context['language_data'] == mock_cia_world_factbook_data.return_value
+
+    assert mock_upload_exportplan_pdf.call_count == 1
+    assert mock_upload_exportplan_pdf.call_args.kwargs['sso_session_id'] == '123'
+    assert mock_upload_exportplan_pdf.call_args.kwargs['exportplan_id'] == 1
+    assert isinstance(mock_upload_exportplan_pdf.call_args.kwargs['file'], ContentFile)
 
 
 @pytest.mark.django_db

@@ -320,3 +320,79 @@ def test_api_update_user_profile(mock_update_user_profile, client, user):
     response = client.post(reverse('sso:user-profile-api'), {'segment': 'CHALLENGE'})
     assert response.status_code == 200
     assert response.data['user_profile']['segment'] == 'CHALLENGE'
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_api_client.user, 'get_user_questionnaire')
+def test_get_questionnaire(
+    mock_get_user_questionnaire,
+    client,
+    user,
+):
+    questionnaire_data = {'questions': [{'title': 'Question1'}]}
+    client.force_login(user)
+    mock_get_user_questionnaire.return_value = create_response(status_code=200, json_body=questionnaire_data)
+    response = client.get(reverse('sso:user-questionnaire-api'))
+    assert response.status_code == 200
+    assert response.json() == questionnaire_data
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_api_client.user, 'set_user_questionnaire_answer')
+def test_set_questionnaire_answer(
+    mock_set_user_questionnaire_answer,
+    client,
+    user,
+):
+    questionnaire_data = {'questions': [{'title': 'Question1'}]}
+    client.force_login(user)
+    mock_set_user_questionnaire_answer.return_value = create_response(status_code=200, json_body=questionnaire_data)
+    response = client.post(reverse('sso:user-questionnaire-api'))
+    assert response.status_code == 200
+    assert response.json() == questionnaire_data
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_api_client.user, 'get_user_data')
+def test_get_user_data(
+    mock_get_user_data,
+    client,
+    user,
+):
+    test_data = {'data': {'one': 1}}
+    client.force_login(user)
+    mock_get_user_data.return_value = create_response(status_code=200, json_body=test_data)
+    response = client.get(reverse('sso:user-data-api', kwargs={'name': 'data_name'}))
+    assert response.status_code == 200
+    assert response.json() == test_data
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_api_client.user, 'set_user_data')
+def test_set_user_data(
+    mock_set_user_data,
+    client,
+    user,
+):
+    test_data = {'data': {'one': 1}}
+    client.force_login(user)
+    mock_set_user_data.return_value = create_response(status_code=200, json_body=test_data)
+    response = client.post(reverse('sso:user-data-api', kwargs={'name': 'ComparisonMarkets'}), test_data)
+    assert response.status_code == 200
+    assert response.json() == test_data
+
+
+@pytest.mark.django_db
+def test_set_user_data_invalid(
+    client,
+    user,
+):
+    test_data = {'data': 'small'}
+    test_data_long = {'data': 'x' * 16385}
+    client.force_login(user)
+    with pytest.raises(ValueError) as raised_exception:
+        client.post(reverse('sso:user-data-api', kwargs={'name': 'invalid_name'}), test_data)
+    assert 'Invalid user data name (invalid_name)' in str(raised_exception.value)
+    with pytest.raises(ValueError) as raised_exception:
+        client.post(reverse('sso:user-data-api', kwargs={'name': 'ComparisonMarkets'}), test_data_long)
+    assert 'User data value exceeds 16384 bytes (actual - 16387 bytes)' in str(raised_exception.value)

@@ -1,6 +1,7 @@
 from unittest import mock
 
 import pytest
+from django.core.files import File
 
 from directory_api_client import api_client
 from exportplan.core import helpers
@@ -143,106 +144,6 @@ def test_get_or_create_export_plan_created(mock_create_export_plan, mock_get_exp
     assert export_plan == {'export_plan_created'}
 
 
-@mock.patch.object(api_client.exportplan, 'exportplan_objectives_create')
-def test_objective_create(mock_create_objective):
-    data = {
-        'description': 'Lorem ipsum',
-        'planned_reviews': 'Some reviews',
-        'owner': 'John Smith',
-        'start_date': '2020-03-01',
-        'end_date': '2020-12-23',
-        'companyexportplan': 1,
-        'pk': 1,
-    }
-    mock_create_objective.return_value = create_response(data)
-
-    response = helpers.create_objective(123, data)
-
-    assert mock_create_objective.call_count == 1
-    assert mock_create_objective.call_args == mock.call(data=data, sso_session_id=123)
-    assert response == data
-
-
-@mock.patch.object(api_client.exportplan, 'exportplan_objectives_update')
-def test_objective_update(mock_update_objective):
-    data = {
-        'description': 'Lorem ipsum',
-        'planned_reviews': 'Some reviews',
-        'owner': 'John Smith',
-        'start_date': '2020-03-01',
-        'end_date': '2020-12-23',
-        'companyexportplan': 1,
-        'pk': 1,
-    }
-    mock_update_objective.return_value = create_response(data)
-
-    response = helpers.update_objective(123, data)
-
-    assert mock_update_objective.call_count == 1
-    assert mock_update_objective.call_args == mock.call(data=data, id=data['pk'], sso_session_id=123)
-    assert response == data
-
-
-@mock.patch.object(api_client.exportplan, 'exportplan_objectives_delete')
-def test_objective_delete(mock_delete_objective):
-    data = {'pk': 1}
-    mock_delete_objective.return_value = create_response(data)
-
-    response = helpers.delete_objective(123, data)
-
-    assert mock_delete_objective.call_count == 1
-    assert mock_delete_objective.call_args == mock.call(id=data['pk'], sso_session_id=123)
-    assert response.status_code == 200
-
-
-@mock.patch.object(api_client.exportplan, 'route_to_market_create')
-def test_route_to_markets_create(mock_route_to_market_create):
-    data = {
-        'route': 'Shipping',
-        'promote': 'Biscuits',
-        'market_promotional_channel': 'News',
-        'companyexportplan': 1,
-        'pk': 1,
-    }
-    mock_route_to_market_create.return_value = create_response(data)
-
-    response = helpers.create_route_to_market(123, data)
-
-    assert mock_route_to_market_create.call_count == 1
-    assert mock_route_to_market_create.call_args == mock.call(data=data, sso_session_id=123)
-    assert response == data
-
-
-@mock.patch.object(api_client.exportplan, 'route_to_market_update')
-def test_route_to_markets_update(mock_route_to_market_update):
-    data = {
-        'route': 'Shipping',
-        'promote': 'Biscuits',
-        'market_promotional_channel': 'News',
-        'companyexportplan': 1,
-        'pk': 1,
-    }
-    mock_route_to_market_update.return_value = create_response(data)
-
-    response = helpers.update_route_to_market(123, data)
-
-    assert mock_route_to_market_update.call_count == 1
-    assert mock_route_to_market_update.call_args == mock.call(data=data, id=data['pk'], sso_session_id=123)
-    assert response == data
-
-
-@mock.patch.object(api_client.exportplan, 'route_to_market_delete')
-def test_route_to_markets_delete(mock_route_to_market_delete):
-    data = {'pk': 1}
-    mock_route_to_market_delete.return_value = create_response(data)
-
-    response = helpers.delete_route_to_market(123, data)
-
-    assert mock_route_to_market_delete.call_count == 1
-    assert mock_route_to_market_delete.call_args == mock.call(id=data['pk'], sso_session_id=123)
-    assert response.status_code == 200
-
-
 def test_get_country_data(mock_api_get_country_data, country_data):
     response = helpers.get_country_data('United Kingdom')
     assert mock_api_get_country_data.call_count == 1
@@ -265,78 +166,6 @@ def test_get_population_data(mock_api_get_population_data, population_data):
     assert mock_api_get_population_data.call_count == 1
     assert mock_api_get_population_data.call_args == mock.call(country='United Kingdom', target_ages=['25-34', '35-44'])
     assert response == population_data
-
-
-@mock.patch.object(api_client.exportplan, 'target_market_documents_create')
-def test_target_market_documents_create(mock_target_market_documents_create):
-    data = {'document_name': 'doc1', 'note': 'my notes', 'companyexportplan': 1, 'pk': 1}
-    mock_target_market_documents_create.return_value = create_response(data)
-
-    response = helpers.create_target_market_documents(123, data)
-
-    assert mock_target_market_documents_create.call_count == 1
-    assert mock_target_market_documents_create.call_args == mock.call(data=data, sso_session_id=123)
-    assert response == data
-
-
-@mock.patch.object(api_client.exportplan, 'target_market_documents_update')
-def test_target_market_documents_update(mock_target_market_documents_update):
-    data = {'document_name': 'doc1', 'note': 'my notes', 'companyexportplan': 1, 'pk': 1}
-    mock_target_market_documents_update.return_value = create_response(data)
-
-    response = helpers.update_target_market_documents(123, data)
-
-    assert mock_target_market_documents_update.call_count == 1
-    assert mock_target_market_documents_update.call_args == mock.call(data=data, id=data['pk'], sso_session_id=123)
-    assert response == data
-
-
-@mock.patch.object(api_client.exportplan, 'target_market_documents_delete')
-def test_target_market_document_delete(mock_target_market_documents_delete):
-    data = {'pk': 1}
-    mock_target_market_documents_delete.return_value = create_response(data)
-
-    response = helpers.delete_target_market_documents(123, data)
-
-    assert mock_target_market_documents_delete.call_count == 1
-    assert mock_target_market_documents_delete.call_args == mock.call(id=data['pk'], sso_session_id=123)
-    assert response.status_code == 200
-
-
-@mock.patch.object(api_client.exportplan, 'funding_credit_options_create')
-def test_funding_credit_options_create(mock_funding_credit_options_create):
-    data = {'pk': 1, 'amount': '2.23', 'funding_option': 'government', 'companyexportplan': 1}
-    mock_funding_credit_options_create.return_value = create_response(data)
-
-    response = helpers.create_funding_credit_options(123, data)
-
-    assert mock_funding_credit_options_create.call_count == 1
-    assert mock_funding_credit_options_create.call_args == mock.call(data=data, sso_session_id=123)
-    assert response == data
-
-
-@mock.patch.object(api_client.exportplan, 'funding_credit_options_update')
-def test_funding_credit_options_update(mock_funding_credit_options_update):
-    data = {'pk': 1, 'amount': '2.23', 'funding_option': 'government', 'companyexportplan': 1}
-    mock_funding_credit_options_update.return_value = create_response(data)
-
-    response = helpers.update_funding_credit_options(123, data)
-
-    assert mock_funding_credit_options_update.call_count == 1
-    assert mock_funding_credit_options_update.call_args == mock.call(data=data, id=data['pk'], sso_session_id=123)
-    assert response == data
-
-
-@mock.patch.object(api_client.exportplan, 'funding_credit_options_delete')
-def test_funding_credit_options_delete(mock_funding_credit_options_delete):
-    data = {'pk': 1}
-    mock_funding_credit_options_delete.return_value = create_response(data)
-
-    response = helpers.delete_funding_credit_options(123, data)
-
-    assert mock_funding_credit_options_delete.call_count == 1
-    assert mock_funding_credit_options_delete.call_args == mock.call(id=data['pk'], sso_session_id=123)
-    assert response.status_code == 200
 
 
 @mock.patch.object(api_client.exportplan, 'model_object_create')
@@ -463,11 +292,11 @@ def test_update_ui_options_target_ages(mock_update_export_plan, export_plan_data
     )
 
 
-@mock.patch.object(api_client.exportplan, 'exportplan_update')
-def test_update_ui_options_target_ages_not_required(mock_update_export_plan, export_plan_data):
-    ui_options_data = {'target-market': {'target_ages': ['21-15']}}
-    export_plan_data.update({'ui_options': ui_options_data})
-    helpers.update_ui_options_target_ages(
-        sso_session_id=1, target_ages=['21-15'], export_plan=export_plan_data, section_name='target-market'
+@mock.patch.object(api_client.exportplan, 'pdf_upload')
+def test_upload_exportplan_pdf(mock_upload_pdf, export_plan_data):
+    mock_file = mock.Mock(spec=File)
+    helpers.upload_exportplan_pdf(sso_session_id=1, exportplan_id=5, file=mock_file)
+    assert mock_upload_pdf.call_count == 1
+    assert mock_upload_pdf.call_args == mock.call(
+        sso_session_id=1, data={'companyexportplan': 5, 'pdf_file': mock_file}
     )
-    assert mock_update_export_plan.call_count == 0

@@ -51,11 +51,10 @@ export const CostsAndPricing = memo(
     const onChange = (updateField, input) => {
       update(updateField, {
         [input.field]: {
-          [input.id]: Number(updateField[input.id]).toFixed(2),
+          [input.id]: updateField[input.id],
         },
       })
     }
-
     return (
       <>
         <section className="container">

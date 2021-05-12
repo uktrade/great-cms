@@ -1,13 +1,17 @@
 import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
-import Services from '@src/Services'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { Learning } from '@src/components/Learning/Learning'
+import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
+import ErrorList from '@src/components/ErrorList'
 import { Trips } from './Trips'
 
 export const PlannedTravel = memo(
   ({ formData, companyexportplan, lesson, tooltip, model_name }) => {
     const [trips, setTrips] = useState(formData)
+    const [update, create, deleteItem, message, errors] = useUpdate(
+      'travel-plan'
+    )
 
     const addTrip = () => {
       const newTrip = {
@@ -16,26 +20,20 @@ export const PlannedTravel = memo(
         note: '',
       }
 
-      Services.apiModelObjectManage({ ...newTrip }, 'POST')
-        .then((data) => setTrips([...trips, data]))
-        .catch(() => {})
+      create({ ...newTrip }).then((data) => setTrips([...trips, data]))
     }
 
     const deleteTrip = (id) => {
-      Services.apiModelObjectManage({ model_name, pk: id }, 'DELETE')
-        .then(() => {
-          setTrips(trips.filter((x) => x.pk !== id))
-        })
-        .catch(() => {})
+      deleteItem({ model_name, pk: id }).then(() => {
+        setTrips(trips.filter((x) => x.pk !== id))
+      })
     }
 
-    const update = (field, value) => {
-      Services.apiModelObjectManage({ model_name, ...field, ...value }, 'PATCH')
-        .then(() => {})
-        .catch(() => {})
+    const request = (field, value) => {
+      update({ model_name, ...field, ...value })
     }
 
-    const debounceUpdate = useDebounce(update)
+    const debounceUpdate = useDebounce(request)
 
     const onChange = (id, value) => {
       value = { note: value }
@@ -65,6 +63,7 @@ export const PlannedTravel = memo(
           onChange={onChange}
           addTrip={addTrip}
         />
+        <ErrorList errors={errors.__all__ || []} className="m-t-s" />
       </>
     )
   }

@@ -30,11 +30,20 @@ def render_video(block):
 
     video = block['video']
 
-    sources = format_html_join('\n', '<source{0}>', [[flatatt(source)] for source in video.sources])
+    timestamp_to_allow_poster_image_to_work_on_mobile_safari = '#t=0.1'
+
+    sources_data = []
+    for source in video.sources:
+        if 'src' in source:
+            source['src'] += timestamp_to_allow_poster_image_to_work_on_mobile_safari
+        sources_data.append([flatatt(source)])
+
+    sources = format_html_join('\n', '<source{0}>', sources_data)
 
     return format_html(
         f"""
-            <video controls {_get_poster_attribute(video)}{VIDEO_DURATION_DATA_ATTR_NAME}="{video_duration}">
+            <video preload="metadata" controls
+            {_get_poster_attribute(video)}{VIDEO_DURATION_DATA_ATTR_NAME}="{video_duration}">
                 {sources}
                 Your browser does not support the video tag.
             </video>

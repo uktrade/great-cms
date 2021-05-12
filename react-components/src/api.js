@@ -128,7 +128,7 @@ export default {
   getCountryData: (countries, fields) => {
     return get(config.apiCountryDataUrl, {
       countries: countries.map((obj) => obj.country_iso2_code),
-      fields: fields
+      fields: fields,
     }).then((response) => responseHandler(response).json())
   },
 
@@ -164,6 +164,12 @@ export default {
     }).then((response) => responseHandler(response).json())
   },
 
+  companiesHouseApi: (parameters) => {
+    return get(config.apiCompaniesHouseUrl, parameters).then((response) =>
+      responseHandler(response).json()
+    )
+  },
+
   getLessonComplete: (endpoint) => {
     return get(endpoint).then(responseHandler)
   },
@@ -174,24 +180,6 @@ export default {
 
   setLessonIncomplete: (endpoint) => {
     return httpDelete(endpoint).then(responseHandler)
-  },
-
-  createRouteToMarket: (data) => {
-    return post(config.apiRouteToMarketCreateUrl, data).then((response) =>
-      responseHandler(response).json()
-    )
-  },
-
-  deleteRouteToMarket: (pk) => {
-    return httpDelete(config.apiRouteToMarketDeleteUrl, { pk: pk }).then(
-      responseHandler
-    )
-  },
-
-  updateRouteToMarket: (data) => {
-    return post(config.apiRouteToMarketUpdateUrl, data).then((response) =>
-      responseHandler(response).json()
-    )
   },
 
   createAdaptTarketMarketDocumentList: (data) => {
@@ -214,46 +202,12 @@ export default {
     ).then((response) => responseHandler(response).json())
   },
 
-  createFundingCreditOption: (data) => {
-    return post(
-      config.apiFundingCreditOptionsCreateUrl,
-      data
-    ).then((response) => responseHandler(response).json())
-  },
-
-  deleteFundingCreditOption: (pk) => {
-    return httpDelete(config.apiFundingCreditOptionsDeleteUrl, {
-      pk: pk,
-    }).then(responseHandler)
-  },
-
-  updateFundingCreditOption: (data) => {
-    return post(
-      config.apiFundingCreditOptionsUpdateUrl,
-      data
-    ).then((response) => responseHandler(response).json())
-  },
-
   apiModelObjectManage: (data, method) => {
     return greatApi(
       config.apiModelObjectManageUrl,
       data,
       method
     ).then((response) => responseHandler(response).json())
-  },
-
-  createObjective: (data) => {
-    return post(config.apiObjectivesCreateUrl, data).then(responseHandler)
-  },
-
-  deleteObjective: (pk) => {
-    return httpDelete(config.apiObjectivesDeleteUrl, { pk: pk }).then(
-      responseHandler
-    )
-  },
-
-  updateObjective: (data) => {
-    return post(config.apiObjectivesUpdateUrl, data).then(responseHandler)
   },
 
   createUser: ({ email, password }) => {
@@ -287,8 +241,37 @@ export default {
     ),
 
   updateUserProfileSegment: (segment) => {
-    return post(config.apiUserProfileUpdateUrl, { segment: segment }).then((response) =>
+    return post(config.apiUserProfileUpdateUrl, {
+      segment: segment,
+    }).then((response) => responseHandler(response).json())
+  },
+
+  getUserQuestionnaire: () => {
+    return get(config.apiUserQuestionnaireUrl).then((response) =>
       responseHandler(response).json()
     )
   },
+
+  setUserQuestionnaireAnswer: (questionId, answer) => {
+    return post(config.apiUserQuestionnaireUrl, {
+      questionId,
+      answer,
+    }).then((response) => responseHandler(response).json())
+  },
+
+  getUserData: (name) => {
+    const url = config.apiUserDataUrl.replace('-name-',name)
+    return get(url).then((response) =>
+      responseHandler(response).json()
+    )
+  },
+
+  setUserData: (name, data) => {
+    const url = config.apiUserDataUrl.replace('-name-',name)
+    return post(url, {
+      data
+    }).then((response) => responseHandler(response).json())
+  },
+
+  reloadPage: () => window.location.reload(),
 }

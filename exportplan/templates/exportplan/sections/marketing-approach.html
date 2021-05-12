@@ -53,9 +53,6 @@
   <div class="grid">
     <div class="c-1-4">&nbsp;</div>
     <div class="c-1-1 c-2-3-m c-1-2-xl">
-      <h2 class="h-m m-b-xs">How will you get your product to customers in <span class="country-name-updatable">{{ export_plan.export_countries.0.country_name }}</span>?</h2>
-      <p>Make a list of the ways you'll get your product to customers by using the following dropdown list.</p>
-      <p>You can choose more than one option.</p>
       <div id="route-to-market"></div>
     </div>
     <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
@@ -97,26 +94,26 @@
           },
           description:
             '<p class="m-0">To make sure you have the right amount of marketing resources write down:</p><ul class="list-dot"><li>what marketing you can do in-house</li><li>the areas where your business will need support</li><li>external agencies or people you will work with and what they will be doing</li>',
-          lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 0),
         }
       ],
     })
 
     magna.createRouteToMarket({
       element: document.getElementById('route-to-market'),
+      model_name: 'routetomarkets',
       formData: {
         data: [
           {
             label: 'Route to market',
             options: {{ route_choices|to_json }},
             name: 'route',
-            lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 1),
+            lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 0),
           },
           {
-            label: 'How will we promote your product?',
+            label: 'How will you promote your product?',
             options: {{ promotional_choices|to_json }},
             name: 'promote',
-            lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 2),
+            lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 1),
           }
         ],
         example: {
@@ -131,6 +128,7 @@
         promote: '',
         market_promotional_channel: '',
         companyexportplan: {{ export_plan.pk }},
+        model_name: 'routetomarkets',
       }
     })
   </script>

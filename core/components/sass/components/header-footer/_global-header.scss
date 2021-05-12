@@ -26,5 +26,14 @@
   .great-global-header {
     @include float-clear;
     height: auto;
+
+    &.signed-in {
+      display: none;
+    }
+  }
+
+  #great-global-header-domestic-link {
+    text-align: left;
+    padding-left: 15px;
   }
 }
