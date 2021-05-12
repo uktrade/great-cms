@@ -63,6 +63,7 @@
 - GP2-2401 - pdf save
 
 ### Fixed bugs
+- Gp2-2506 - Getting paid page - Content change for default text (Payment methods drop-down)
 - GP2-2399 - [Mobile]-Costs and pricing
 - GP2-2420 - Export plan - CHEG details look strange on mobile
 - GP2-2392 - [mobile]-Where to export X icon
