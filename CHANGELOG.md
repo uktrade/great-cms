@@ -12,6 +12,8 @@
 - GP2-2410 - Fix horizontal gap on mobile BAU pages
 - GP2-2550 - remove forgotten password link in Beta
 - GP2-2014 - Signup copy tweak
+- GP2-2540 - Update text on updating place warning modal
+- GP2-2539 - Update copy on choose place modal
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 
@@ -19,6 +21,7 @@
 
 ### Enhancements
 
+- GP2-2395 - Allow absolute login redirect paths on own domain
 - GP2-2511 - Sign in / up design updates
 - GP2-2438 - Select control UX enhancements
 - GP2-2507 - Remove beta banner
