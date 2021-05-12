@@ -49,10 +49,12 @@ table {
 }
 
 .verbose {
-  overflow: hidden;
   position: absolute;
-  text-indent: -1000px;
-  z-index: -1;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 #content .hidden {
