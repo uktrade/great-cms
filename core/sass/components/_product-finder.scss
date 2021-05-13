@@ -60,6 +60,16 @@
   .interaction-label .expander {
     margin-left: -42px;
   }
+  // Tweak to positioning of radio buttons in mobile view
+  .multiple-choice {
+    [type='radio'] + label {
+      @include breakpoint(sm_lt) {
+        position: relative;
+        left: -30px;
+        top: 4px;
+      }
+    }
+  }
 }
 
 .dialog-close {
@@ -242,15 +252,4 @@
 .p-v-4 {
   padding-top: 4px;
   padding-bottom: 4px;
-}
-
-// Tweak to positioning of radio buttons in mobile view
-.multiple-choice {
-  [type='radio'] + label {
-    @include breakpoint(sm_lt) {
-      position: absolute;
-      left: 0;
-      top: 2px;
-    }
-  }
 }

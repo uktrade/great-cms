@@ -595,6 +595,7 @@ class DetailPage(CMSGenericPage):
             ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_hero_video.html')),
         ],
         null=True,
+        blank=True,
         validators=[hero_singular_validation],
     )
     objective = StreamField(
