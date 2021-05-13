@@ -6,6 +6,7 @@
 - GP2-2466 - Adding logo on export plan
 - GP2-2560 - Allow Lesson/DetailPage hero block to be empty
 ### Fixed bugs
+- GP2-2495 - Export plan - Travel plan - hint box is empty
 - GP2-2417 - Remove unwanted slider dots on case study mobile
 - GP2-2423 - Export plan sections don’t show focus when tabbing (accessibility)
 - GP2-2266 - Fix year designations in WTE new tabs
