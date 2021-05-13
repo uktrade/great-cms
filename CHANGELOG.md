@@ -5,7 +5,7 @@
 ### Enhancements
 - GP2-2560 - Allow Lesson/DetailPage hero block to be empty
 ### Fixed bugs
-
+- GP2-2423 - Export plan sections don’t show focus when tabbing (accessibility)
 - GP2-2266 - Fix year designations in WTE new tabs
 - GP2-2529 - Fix export plan header url
 - GP2-2529 - Fix sign in/up responsive image positioning
