@@ -17,66 +17,69 @@ const Form = ({
   linkedinLoginUrl,
   googleLoginUrl,
 }) => (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault()
-        handleSubmit()
-      }}
-      className="signup__form"
+  <form
+    onSubmit={(event) => {
+      event.preventDefault()
+      handleSubmit()
+    }}
+    className="signup__form"
+  >
+    {showTitle && (
+      <legend className="h-s text-blue-deep-80 p-t-xs">
+        Create an account
+      </legend>
+    )}
+    Already have an account? &nbsp;&nbsp;
+    <a
+      href={Services.config.loginUrl}
+      id="signup-modal-log-in"
+      className="text-red-80 m-b-s inline-block"
     >
-      {showTitle && (
-        <legend className="h-s text-blue-deep-80 p-t-xs">Create an account</legend>
-      )}
-      Already have an account? &nbsp;&nbsp;
-      <a
-        href={Services.config.loginUrl}
-        id="signup-modal-log-in"
-        className="text-red-80 m-b-s inline-block"
-      >
-        Sign in
-      </a>
-      <Input
-        label="Email address"
-        id="email"
-        type="email"
-        disabled={disabled}
-        value={email.toLowerCase()}
-        onChange={(item) => handleEmailChange(item.email)}
-        errors={errors.email || []}
-      />
-      <Input
-        label="Password"
-        id="password"
-        type="password"
-        disabled={disabled}
-        value={password}
-        onChange={(item) => handlePasswordChange(item.password)}
-        errors={errors.password || []}
-      />
-      <p className="signup__conditions">
-        By signing up, you agree to our <a href="/terms-and-conditions/">terms and conditions</a> and{' '}
-        <a href="/privacy-and-cookies/">privacy notice</a>
-      </p>
-      <button
-        type="submit"
-        id="signup-modal-submit"
-        className="button button--primary width-full m-t-xs"
-        disabled={disabled}
-      >
-        Sign up
-      </button>
-      <div className="vertical-seperator">
-        <hr className="bg-blue-deep-10" />
-        <span>or</span>
-        <hr className="bg-blue-deep-10" />
-      </div>
-      <SocialLoginButtons
-        linkedinUrl={linkedinLoginUrl}
-        googleUrl={googleLoginUrl}
-        action="Sign up"
-      />
-
-    </form>
+      Sign in
+    </a>
+    <Input
+      label="Email address"
+      id="email"
+      type="email"
+      disabled={disabled}
+      value={email.toLowerCase()}
+      onChange={(item) => handleEmailChange(item.email)}
+      errors={errors.email || []}
+    />
+    <Input
+      label="Password"
+      id="password"
+      className="form-control--password"
+      type="text"
+      disabled={disabled}
+      value={password}
+      onChange={(item) => handlePasswordChange(item.password)}
+      errors={errors.password || []}
+    />
+    <p className="signup__conditions">
+      By signing up, you agree to our{' '}
+      <a href="/terms-and-conditions/">terms and conditions</a> and{' '}
+      <a href="/privacy-and-cookies/">privacy notice</a>
+    </p>
+    <button
+      type="submit"
+      id="signup-modal-submit"
+      className="button button--primary width-full m-t-xs"
+      disabled={disabled}
+    >
+      Sign up
+    </button>
+    <div className="vertical-seperator">
+      <hr className="bg-blue-deep-10" />
+      <span>or</span>
+      <hr className="bg-blue-deep-10" />
+    </div>
+    <SocialLoginButtons
+      linkedinUrl={linkedinLoginUrl}
+      googleUrl={googleLoginUrl}
+      action="Sign up"
+    />
+  </form>
 )
 
 Form.propTypes = {
