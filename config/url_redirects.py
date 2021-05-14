@@ -342,10 +342,7 @@ redirects = [
         ),
     ),
     url(
-        r'^companion/$',
-        QuerystringRedirectView.as_view(
-            url='https://digital-companion.ava-digi.de/'),
-        name='companion'
+        r'^companion/$', QuerystringRedirectView.as_view(url='https://digital-companion.ava-digi.de/'), name='companion'
     ),
 ]
 
