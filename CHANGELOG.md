@@ -10,6 +10,7 @@
 - GP2-2398 - [mobile]-Costs and pricing Text box alignment
 - GP2-2615 - Incorrect lesson links on the Getting paid page
 - GP2-2495 - Export plan - Travel plan - hint box is empty
+- GP2-2512 - Dashboard - one column on tablet
 - GP2-2417 - Remove unwanted slider dots on case study mobile
 - GP2-2423 - Export plan sections don’t show focus when tabbing (accessibility)
 - GP2-2266 - Fix year designations in WTE new tabs
