@@ -341,6 +341,12 @@ redirects = [
             url='/contact/export-advice/business/',
         ),
     ),
+    url(
+        r'^companion/$',
+        QuerystringRedirectView.as_view(
+            url='https://digital-companion.ava-digi.de/'),
+        name='companion'
+    ),
 ]
 
 if settings.FEATURE_FLAG_INTERNATIONAL_CONTACT_TRIAGE_ENABLED:
