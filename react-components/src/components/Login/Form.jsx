@@ -15,7 +15,7 @@ export const Form = ({
   password,
   handlePasswordChange,
   linkedinLoginUrl,
-  googleLoginUrl
+  googleLoginUrl,
 }) => (
   <>
     <form
@@ -25,51 +25,70 @@ export const Form = ({
         handleSubmit()
       }}
     >
-      <legend className='h-s text-blue-deep-80 p-t-xs'>Sign in</legend>
-      <p className='m-b-s'>Don't have an account? <a href={Services.config.signupUrl} className='text-red-80 inline-block'>Sign up</a></p>
+      <legend className="h-s text-blue-deep-80 p-t-xs">Sign in</legend>
+      <p className="m-b-s">
+        Don't have an account?{' '}
+        <a
+          href={Services.config.signupUrl}
+          className="text-red-80 inline-block"
+        >
+          Sign up
+        </a>
+      </p>
       <ErrorList errors={errors.__all__ || []} className="m-b-s" />
       <Input
-        label='Email address'
-        id='email'
-        type='email'
+        label="Email address"
+        id="email"
+        type="email"
         disabled={disabled}
         value={email.toLowerCase()}
         onChange={(item) => handleEmailChange(item.email)}
         errors={errors.email || []}
       />
       <Input
-        label='Password'
-        id='password'
-        type='password'
+        label="Password"
+        id="password"
+        className="form-control--password"
+        type="text"
         disabled={disabled}
         value={password}
         onChange={(item) => handlePasswordChange(item.password)}
         errors={errors.password || []}
       />
-      <a href={Services.config.passwordResetUrl} className='text-red-80 inline-block'>Forgotten password?</a>
+      <a
+        href={Services.config.passwordResetUrl}
+        className="text-red-80 inline-block"
+      >
+        Forgotten password?
+      </a>
       <br />
       <button
-        type='submit'
-        id='signup-modal-submit'
-        className='button button--primary button--full-width m-t-xs'
+        type="submit"
+        id="signup-modal-submit"
+        className="button button--primary button--full-width m-t-xs"
         disabled={disabled}
-      >Sign in</button>
+      >
+        Sign in
+      </button>
       <div className="vertical-seperator">
         <hr className="bg-blue-deep-10" />
         <span>or</span>
         <hr className="bg-blue-deep-10" />
       </div>
-      <SocialLoginButtons linkedinUrl={linkedinLoginUrl} googleUrl={googleLoginUrl} action="Sign in" />
+      <SocialLoginButtons
+        linkedinUrl={linkedinLoginUrl}
+        googleUrl={googleLoginUrl}
+        action="Sign in"
+      />
     </form>
   </>
 )
-
 
 Form.propTypes = {
   disabled: PropTypes.bool,
   errors: PropTypes.shape({
     email: PropTypes.arrayOf(PropTypes.string),
-    password: PropTypes.arrayOf(PropTypes.string)
+    password: PropTypes.arrayOf(PropTypes.string),
   }),
   handlePasswordChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -77,12 +96,12 @@ Form.propTypes = {
   password: PropTypes.string,
   email: PropTypes.string,
   linkedinLoginUrl: PropTypes.string.isRequired,
-  googleLoginUrl: PropTypes.string.isRequired
+  googleLoginUrl: PropTypes.string.isRequired,
 }
 
 Form.defaultProps = {
   disabled: false,
   errors: {},
   password: '',
-  email: ''
+  email: '',
 }
