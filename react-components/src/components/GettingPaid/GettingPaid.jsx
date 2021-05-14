@@ -61,7 +61,6 @@ export const GettingPaid = memo(
                 id={textarea.id}
                 value={state[key] ? state[key].notes : ''}
                 placeholder={textarea.placeholder}
-                lesson={formatLessonLearned(lessonDetails, currentSection, 2)}
               />
             </div>
           )
