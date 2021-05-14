@@ -49,8 +49,7 @@ const Form = ({
     <Input
       label="Password"
       id="password"
-      className="form-control--password"
-      type="text"
+      type="password"
       disabled={disabled}
       value={password}
       onChange={(item) => handlePasswordChange(item.password)}
