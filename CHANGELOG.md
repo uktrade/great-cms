@@ -8,6 +8,7 @@
 - GBAU-957 - redirect /companion/ to digital-companion.ava-digi.de
 
 ### Fixed bugs
+- GP2-2476 - Delete button hover state
 - GP2-2618 - Enable 'Download export plan" button
 - GP2-2610 - Scrollable personalization bar
 - GP2-2613 - ios password field bug fix

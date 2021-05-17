@@ -56,7 +56,7 @@
     <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="width-full" />
     <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
     {% endif %}
-    <a class="button button--secondary button--full-width button--icon m-b-xs" href="/export-plan/pdf-download/">
+    <a class="button button--secondary button--full-width button--icon m-b-xs" href="{% url 'exportplan:pdf-download' %}" title="Save your plan as a PDF">
       <i class="fas fa-download"></i>
       <span class="body-m text-white">Save your plan as a PDF</span>
     </a>

@@ -60,7 +60,8 @@ export const Risks = memo(
           className="button button--large button--icon"
           onClick={addRisk}
         >
-          <i className="fas fa-plus-circle"></i>Add a risk
+          <i className="fas fa-plus-circle" />
+          Add a risk
         </button>
       </>
     )
