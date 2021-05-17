@@ -56,12 +56,10 @@
     <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="width-full" />
     <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
     {% endif %}
-    <div id="buttons-disabled">
-      <button class="button button--secondary button--full-width button--icon m-b-xs" disabled="disabled">
-        <i class="fas fa-download"></i>
-        <span class="body-m text-white">Save your plan as a PDF</span>
-      </button>
-    </div>
+    <a class="button button--secondary button--full-width button--icon m-b-xs" href="{% url 'exportplan:pdf-download' %}" title="Save your plan as a PDF">
+      <i class="fas fa-download"></i>
+      <span class="body-m text-white">Save your plan as a PDF</span>
+    </a>
   </aside>
 </section>
 
@@ -70,16 +68,10 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript">
-    var element = document.getElementById('export-plan-dashboard');
     magna.createDashboard({
-      element: element,
+      element: document.getElementById('export-plan-dashboard'),
       sections: {{ sections|to_json}},
       exportPlanProgress: {{ export_plan_progress|to_json }},
-    })
-
-    var buttonsDisabled = document.getElementById('buttons-disabled');
-    magna.createDisabledButton({
-      element: buttonsDisabled,
     })
   </script>
 {% endblock %}

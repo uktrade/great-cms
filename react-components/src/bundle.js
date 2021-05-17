@@ -44,10 +44,7 @@ import {
 } from '@src/views/sections/TravelPlan/TravelPlan'
 import { businessRisks } from '@src/views/sections/BusinessRisk/BusinessRisk'
 
-import {
-  createDashboard,
-  createDisabledButton,
-} from '@src/views/sections/Dashboard'
+import { createDashboard } from '@src/views/sections/Dashboard'
 import { sectionSidebar, sectionComplete } from '@src/views/sections'
 import { createMarkLessonAsComplete } from '@src/components/MarkLessonAsComplete/MarkLessonAsComplete'
 import { createVideoTranscript } from '@src/components/VideoTranscript/VideoTranscript'
@@ -79,7 +76,6 @@ export default {
   createObjectivesReasons,
   createVideoTranscript,
   createDashboard,
-  createDisabledButton,
   createCaseStudy,
   createCostsAndPricing,
   fundingCreditTotalExportCost,
