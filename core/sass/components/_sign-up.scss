@@ -73,12 +73,6 @@
     .form-control {
       @extend .m-t-0;
     }
-
-    .form-control--password {
-      -webkit-text-security: disc;
-      -moz-webkit-text-security: disc;
-      -moz-text-security: disc;
-    }
   }
   &__steps-panel {
     color: #4c436e;

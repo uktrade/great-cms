@@ -6,7 +6,7 @@
 - GP2-2466 - Adding logo on export plan
 - GP2-2560 - Allow Lesson/DetailPage hero block to be empty
 ### Fixed bugs
-- GP2-2613 - ios password field bug fix
+
 - GP2-2609 - Sign in/up label spacing
 - GP2-2398 - [mobile]-Costs and pricing Text box alignment
 - GP2-2615 - Incorrect lesson links on the Getting paid page
