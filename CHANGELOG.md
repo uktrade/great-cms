@@ -9,6 +9,7 @@
 
 ### Fixed bugs
 
+- GP2-2707 - EP missing link on Costs and Pricing page
 - GP2-2609 - Sign in/up label spacing
 - GP2-2398 - [mobile]-Costs and pricing Text box alignment
 - GP2-2615 - Incorrect lesson links on the Getting paid page
