@@ -68,6 +68,23 @@ describe('Select', () => {
     })
   })
 
+  describe('Dropdown - click on placeholder', () => {
+    it('Should show dropdown on placeholder click', async () => {
+      const { queryByRole, getByText, container, getByRole } = setup({
+        ...props,
+        selected: '',
+      })
+
+      fireEvent.click(container.querySelector('.select__placeholder--input'))
+
+      await waitFor(() => {
+        expect(queryByRole('listbox')).toBeInTheDocument()
+        expect(getByText(props.options[0].label)).toBeInTheDocument()
+        expect(getByText(props.options[1].label)).toBeInTheDocument()
+      })
+    })
+  })
+
   describe('Update', () => {
     it('Should fire', async () => {
       const { actions, getByText, getByRole } = setup({

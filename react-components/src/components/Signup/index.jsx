@@ -12,7 +12,7 @@ export const STEP_COMPLETE = 'complete'
 const subHeadings = [
   'Learn how to sell abroad',
   'Find the best country for your product',
-  'Create an export plan that\'s right for your business',
+  "Create an export plan that's right for your business",
 ]
 
 export const Signup = (props) => {
@@ -95,13 +95,9 @@ export const Signup = (props) => {
         </a>
         {renderStep()}
         <p class="g-panel signup__questions-panel">
-          For any questions, queries or feedback please get in touch with{' '}
-          <a
-            href="mailto:getintouch@digital.trade.gov.uk"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            getintouch@digital.trade.gov.uk
+          If you have any questions or feedback please{' '}
+          <a href="/contact/feedback/" target="_blank">
+            get in touch
           </a>
         </p>
       </div>

@@ -3,7 +3,26 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2560 - Allow Lesson/DetailPage hero block to be empty
+### Fixed bugs
+- GP2-2423 - Export plan sections don’t show focus when tabbing (accessibility)
+- GP2-2266 - Fix year designations in WTE new tabs
+- GP2-2529 - Fix export plan header url
+- GP2-2529 - Fix sign in/up responsive image positioning
+- GP2-2410 - Fix horizontal gap on mobile BAU pages
+- GP2-2550 - remove forgotten password link in Beta
+- GP2-2014 - Signup copy tweak
+- GP2-2540 - Update text on updating place warning modal
+- GP2-2539 - Update copy on choose place modal
+- GP2-2538 - Update text on dashboard landing page
 
+## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.8.0...1.9.0)
+
+### Enhancements
+
+- GP2-2395 - Allow absolute login redirect paths on own domain
 - GP2-2511 - Sign in / up design updates
 - GP2-2438 - Select control UX enhancements
 - GP2-2507 - Remove beta banner
@@ -47,8 +66,14 @@
 - GP2-2401 - pdf save
 
 ### Fixed bugs
-
+- Gp2-2506 - Getting paid page - Content change for default text (Payment methods drop-down)
+- GP2-2399 - [Mobile]-Costs and pricing
+- GP2-2420 - Export plan - CHEG details look strange on mobile
+- GP2-2392 - [mobile]-Where to export X icon
+- GP2-2488 - Adapting your product / Add another document doesn't work
 - GP2-2513 - Fixes h2 with b tag issue
+- GP2-2443 - and GP2-2444, GP2432 mobile tweaks for VFM
+- GP2-2397 - [mobile]-Costs and pricing spacing required
 - GP2-2396 - [mobile]-Logo upload issue
 - GP2-2130 - Layout tweaks to UKEF pages
 - GP2-2442 - WTE - Fix 'Add place' button flicker

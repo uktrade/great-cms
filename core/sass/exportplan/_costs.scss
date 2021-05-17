@@ -65,6 +65,13 @@
       width: 50%;
     }
   }
+
+  &--currency {
+    @include breakpoint(sm_lt) {
+      display: block;
+      width: 100%;
+    }
+  }
 }
 
 .gross-price {

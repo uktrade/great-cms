@@ -22,7 +22,7 @@ export default function RadioButtons(props) {
     const checked = value === selection
 
     return (
-      <div key={`option-${value}`} className="multiple-choice p-f-s p-b-xs">
+      <div key={`option-${value}`} className="multiple-choice">
         <input
           id={idx}
           type="radio"

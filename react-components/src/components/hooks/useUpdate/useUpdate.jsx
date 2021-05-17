@@ -2,6 +2,10 @@ import { useState } from 'react'
 import Services from '@src/Services'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { analytics } from '@src/Helpers'
+import {
+  connectionError,
+  unexpectedError,
+} from '@src/components/hooks/useUpdateExportPlan/useUpdateExportPlan'
 
 export const useUpdate = (field) => {
   const [pending, setPending] = useState(false)
@@ -27,14 +31,12 @@ export const useUpdate = (field) => {
         if (!window.navigator.onLine) {
           setErrors(
             {
-              __all__: [
-                'No internet, please checking the network cables, modem and router',
-              ],
+              __all__: [connectionError],
             } || err
           )
         } else {
           const errorMessage = {
-            __all__: ['An unexpected error has occurred'],
+            __all__: [unexpectedError],
           }
           setErrors(errorMessage || err)
         }
