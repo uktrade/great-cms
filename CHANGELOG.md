@@ -5,6 +5,8 @@
 ### Enhancements
 - GP2-2466 - Adding logo on export plan
 - GP2-2560 - Allow Lesson/DetailPage hero block to be empty
+- GBAU-957 - redirect /companion/ to digital-companion.ava-digi.de
+
 ### Fixed bugs
 
 - GP2-2609 - Sign in/up label spacing
