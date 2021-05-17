@@ -601,6 +601,10 @@ $tablet: 768px;
 }
 
 .shared-personalisation-bar {
-    max-width: 100%;
-    margin: 0 30px;
+    overflow-x: auto;
+    width: 100%;
+    margin: 0;
+    > nav {
+        white-space: nowrap;
+    }
 }
