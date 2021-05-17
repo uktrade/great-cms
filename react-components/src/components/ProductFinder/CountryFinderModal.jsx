@@ -220,11 +220,9 @@ export default function CountryFinderModal(props) {
   /* Filtered list of places */
   const marketListSection = (
     <div>
-      <h3 className="h-s p-t-xs">List of places</h3>
+      <h3 className="h-s p-t-xs">Countries and territories</h3>
       <p className="m-v-xs">
-        If you have an idea of where you want to export, choose from the list
-        below. <br />
-        You can change this at any time.
+        If you already have an idea of where you want to export to, choose from this list.
       </p>
       <div className="grid">
         <div className="c-1-3 m-b-xxs">
@@ -348,7 +346,7 @@ export default function CountryFinderModal(props) {
               <div className="only-mobile">
                 <button
                   type="button"
-                  className={`pull-left m-t-s button button--secondary button--icon ${
+                  className={`pull-left m-t-s button button--secondary button--icon button--mobile-auto ${
                     mobilePage === 'initial' ? 'hidden' : ''
                   }`}
                   onClick={() => setMobilePage('initial')}

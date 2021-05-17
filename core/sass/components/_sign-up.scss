@@ -23,7 +23,7 @@
         position: absolute;
         bottom: 0;
 
-        @include breakpoint(lg) {
+        @media screen and (min-width: 1400px) {
           bottom: -200px;
         }
       }
@@ -68,7 +68,6 @@
       @extend .p-t-0;
       color: #4c436e;
       font-size: 19px;
-      margin-bottom: -10px;
     }
 
     .form-control {
@@ -139,6 +138,7 @@
     color: #000;
     a {
       color: inherit;
+      display: inline-block;
       font-weight: bold;
       text-decoration: none;
     }
@@ -159,8 +159,12 @@
       position: absolute;
       bottom: 0;
 
-      @include breakpoint(lg) {
-        bottom: -375px;
+      @media screen and (min-width: 1200px) and (max-width: 1400px) {
+        bottom: -100px;
+      }
+
+      @media screen and (min-width: 1400px) {
+        bottom: -300px;
       }
     }
 

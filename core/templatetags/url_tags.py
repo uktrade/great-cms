@@ -1,5 +1,5 @@
 # Templatetags related to URL manipulation
-
+import re
 from html import unescape
 from urllib.parse import unquote, unquote_plus
 
@@ -34,21 +34,26 @@ def get_intended_destination(
         reverse('core:login'),
         reverse('core:signup'),
     ]
-    proto_delimiter = '://'
-    intended_destination = request.GET.get(REDIRECT_FIELD_NAME, '')
+    root_url = request.get_host()
+    full_url_different_domain = f'://(?!{root_url})'
+    slash_or_absolute_for_current_domain = f'^(?:/|http[s]?://{root_url})'
 
+    intended_destination = request.GET.get(REDIRECT_FIELD_NAME, '')
     if not intended_destination or any(
         [
-            intended_destination[0] != '/',  # ie, not a relative url
             # a path we don't want to send people to after login
             intended_destination in skip_list,
             unquote(intended_destination) in skip_list,
             unquote_plus(intended_destination) in skip_list,
             unescape(intended_destination) in skip_list,
-            # eg an ongoing querystring contains a full url:
-            proto_delimiter in unquote(intended_destination),
-            proto_delimiter in unquote_plus(intended_destination),
-            proto_delimiter in unescape(intended_destination),
+            # ongoing querystring contains a full url that's not our domain:
+            re.search(full_url_different_domain, unquote(intended_destination)),
+            re.search(full_url_different_domain, unquote_plus(intended_destination)),
+            re.search(full_url_different_domain, unescape(intended_destination)),
+            # ongoing querystring is relative:
+            not re.search(slash_or_absolute_for_current_domain, unquote(intended_destination)),
+            not re.search(slash_or_absolute_for_current_domain, unquote_plus(intended_destination)),
+            not re.search(slash_or_absolute_for_current_domain, unescape(intended_destination)),
         ]
     ):
         return default_destination

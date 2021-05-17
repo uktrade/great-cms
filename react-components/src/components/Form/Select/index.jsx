@@ -86,7 +86,9 @@ export const Select = memo(
             className="tag tag--icon tag--secondary tag--small m-r-xs"
             type="button"
             key={item}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
               const items = input.filter((x) => x !== item)
               setInput(items)
               update({ [name]: items })
@@ -233,7 +235,8 @@ export const Select = memo(
                 )}
               </div>
               {!autoComplete ? (
-                <div className="select__placeholder--value">
+                <div className="select__placeholder--value"
+                onClick={() => setOpen(!isOpen)}>
                   {selectedItem()}
                 </div>
               ) : (
