@@ -9,6 +9,8 @@
 
 ### Fixed bugs
 
+- GP2-2610 - Scrollable personalization bar
+- GP2-2613 - ios password field bug fix
 - GP2-2609 - Sign in/up label spacing
 - GP2-2398 - [mobile]-Costs and pricing Text box alignment
 - GP2-2615 - Incorrect lesson links on the Getting paid page
