@@ -8,6 +8,7 @@
 - GBAU-957 - redirect /companion/ to digital-companion.ava-digi.de
 
 ### Fixed bugs
+- GBAU-959 - Pentest fix next url filter fix
 - GP2-2707 - EP missing link on Costs and Pricing page
 - GP2-2476 - Delete button hover state
 - GP2-2618 - Enable 'Download export plan" button
