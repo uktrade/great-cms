@@ -4,6 +4,8 @@ import logging
 
 from directory_forms_api_client.helpers import Sender
 from django.conf import settings
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
@@ -16,6 +18,7 @@ from rest_framework.response import Response
 
 from core import cms_slugs, forms, helpers, serializers
 from core.mixins import PageTitleMixin
+from core.models import GreatMedia
 from directory_constants import choices
 from domestic.models import DomesticDashboard, TopicLandingPage
 
@@ -352,3 +355,20 @@ class RobotsView(TemplateView):
             **kwargs,
             base_url=base_url,
         )
+
+
+def serve_subtitles(request, great_media_id, language):
+    """Subtitles are stored along with the core.models.GreatMedia instance
+    but they need to be served via their own dedicated URL.
+    """
+
+    video = get_object_or_404(GreatMedia, id=great_media_id)
+
+    # See if there's a subtitle field for the appropriate languages
+    field_name = f'subtitles_{language}'
+    subtitles = getattr(video, field_name, None)
+    if not bool(subtitles):
+        raise Http404()
+
+    response = HttpResponse(subtitles, content_type='text/vtt')
+    return response

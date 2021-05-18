@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.http import Http404
 from django.test import RequestFactory, TestCase
+from django.urls import reverse
 from wagtail.admin.edit_handlers import ObjectList
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.models import Collection
@@ -583,6 +584,26 @@ class TestGreatMedia(TestCase):
                 }
             ],
         )
+
+    def test_subtitles__present(self):
+        media = make_test_video()
+        media.subtitles_en = 'Dummy subtitles content'
+        media.save()
+        self.assertTrue(media.subtitles_en)
+        expected = [
+            {
+                'srclang': 'en',
+                'label': 'English',
+                'url': reverse('core:subtitles-serve', args=[media.id, 'en']),
+                'default': False,
+            },
+        ]
+        self.assertEqual(media.subtitles, expected)
+
+    def test_subtitles__not_present(self):
+        media = make_test_video()
+        self.assertFalse(media.subtitles_en)
+        self.assertEqual(media.subtitles, [])
 
 
 class TestSmallSnippets(TestCase):

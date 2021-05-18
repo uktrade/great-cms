@@ -8,7 +8,6 @@
       {% if lessons_in_progress and export_plan_in_progress %}
           <div class="c-1-2-xl">
               {% include './dashboard_cards/learning_progress.html' %}
-              {% include './dashboard_cards/export_opportunities.html' %}
           </div>
           <div class="c-1-2-xl">
               {% include './dashboard_cards/exportplan_progress.html' %}
@@ -17,7 +16,6 @@
         {% elif export_plan_in_progress %}
             <div class="c-1-2-xl">
                 {% include './dashboard_cards/exportplan_progress.html' %}
-                {% include './dashboard_cards/export_opportunities.html' %}
             </div>
             <div class="c-1-2-xl">
                 {% include_block routes.learn with wide=True %}
@@ -26,7 +24,6 @@
         {% elif lessons_in_progress  %}
             <div class="c-1-2-xl">
                 {% include './dashboard_cards/learning_progress.html' %}
-                {% include './dashboard_cards/export_opportunities.html' %}
             </div>
             <div class="c-1-2-xl">
                 {% include_block routes.target with wide=True %}
@@ -41,9 +38,6 @@
             </div>
             <div class="c-1-3">
                 {% include_block routes.plan with wide=False %}
-            </div>
-            <div class="c-full m-b-s">
-                {% include './dashboard_cards/export_opportunities.html' %}
             </div>
       {% endif %}
       </div>
