@@ -283,9 +283,9 @@ details.great-accordion[open] summary:before {
     display: block;
     content: '';
     clear: both; }
-  .great-footer-logo-container img:first-child {
+  .great-footer-logo-container a:first-child {
     float: left; }
-  .great-footer-logo-container img:last-child {
+  .great-footer-logo-container a:last-child {
     float: right; }
 
 .great-footer {

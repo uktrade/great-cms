@@ -10,11 +10,11 @@
   @include float-clear;
   padding: 45px 0 30px;
 
-  img:first-child {
+  a:first-child {
     float: left;
   }
 
-  img:last-child {
+  a:last-child {
     float: right;
   }
 }

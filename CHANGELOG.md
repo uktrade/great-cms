@@ -7,6 +7,7 @@
 - GP2-2560 - Allow Lesson/DetailPage hero block to be empty
 - GBAU-957 - redirect /companion/ to digital-companion.ava-digi.de
 - GP2-2708 - Update header logo
+- GP2-2710 - Update footer logo
 
 ### Fixed bugs
 - GP2-2707 - EP missing link on Costs and Pricing page
@@ -31,6 +32,7 @@
 - GP2-2539 - Update copy on choose place modal
 - GP2-2538 - Update text on dashboard landing page
 - GP2-2516 - Fix header layout issues on tablet
+- GP2-2719 - Fix footer logo link issue
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 
