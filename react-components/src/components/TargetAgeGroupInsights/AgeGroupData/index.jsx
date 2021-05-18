@@ -17,7 +17,7 @@ export const AgeGroupData = memo(
     return (
       <>
         <h3 className="body-l-b m-t-s m-b-xs">
-          More details on {country.name}
+          More details on {country.country_name}
         </h3>
         <div className="stat-group radius-top-xs">
           <div className="grid">
