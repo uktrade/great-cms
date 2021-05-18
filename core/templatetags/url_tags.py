@@ -35,7 +35,7 @@ def get_intended_destination(
         reverse('core:signup'),
     ]
     root_url = request.get_host()
-    full_url_different_domain = f'://(?!{root_url})'
+    full_url_different_domain = f'//(?!{root_url})'
     slash_or_absolute_for_current_domain = f'^(?:/|http[s]?://{root_url})'
 
     intended_destination = request.GET.get(REDIRECT_FIELD_NAME, '')
@@ -57,5 +57,4 @@ def get_intended_destination(
         ]
     ):
         return default_destination
-
     return intended_destination
