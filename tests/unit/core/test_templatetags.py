@@ -5,6 +5,7 @@ from urllib.parse import quote, quote_plus
 
 import pytest
 from django.template import Context, Template
+from django.urls import reverse
 
 from core.models import CuratedListPage, DetailPage, LessonPlaceholderPage, TopicPage
 from core.templatetags.content_tags import (
@@ -31,6 +32,7 @@ def test_render_video_tag__with_thumbnail():
         sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
         duration=120,
         thumbnail=mock_thumbnail,
+        subtitles=[],
     )
     block = dict(video=video_mock)
     html = render_video(block)
@@ -49,6 +51,7 @@ def test_render_video_tag__without_thumbnail():
         sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
         duration=120,
         thumbnail=None,
+        subtitles=[],
     )
     block = dict(video=video_mock)
     html = render_video(block)
@@ -56,6 +59,37 @@ def test_render_video_tag__without_thumbnail():
     assert '<video preload="metadata" controls\n            data-v-duration="120">' in html
     assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
     assert 'Your browser does not support the video tag.' in html
+
+
+def test_render_video_tag__with_subtitles():
+
+    video_mock = mock.Mock(
+        sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
+        duration=120,
+        thumbnail=None,
+        subtitles=[
+            {
+                'srclang': 'en',
+                'label': 'English',
+                'url': reverse('core:subtitles-serve', args=[123, 'en']),
+                'default': False,
+            },
+            {
+                'srclang': 'tt',
+                'label': 'TestLang',
+                'url': reverse('core:subtitles-serve', args=[123, 'tt']),
+                'default': True,
+            },
+        ],
+    )
+    block = dict(video=video_mock)
+    html = render_video(block)
+    # Whitespace in this string is important for matching output
+    assert '<video preload="metadata" controls\n            data-v-duration="120">' in html
+    assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
+    assert 'Your browser does not support the video tag.' in html
+    assert '<track label="TestLang" kind="subtitles" srclang="tt" src="/subtitles/123/tt/content.vtt" default>' in html
+    assert '<track label="English" kind="subtitles" srclang="en" src="/subtitles/123/en/content.vtt">' in html
 
 
 def test_empty_block_render_video_tag():
