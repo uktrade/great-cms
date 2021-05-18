@@ -10,6 +10,7 @@
 - GBAU-957 - redirect /companion/ to digital-companion.ava-digi.de
 
 ### Fixed bugs
+- GP2-2400 - [Mobile]-align CTA Text
 - GBAU-959 - Pentest fix next url filter fix
 - GP2-2707 - EP missing link on Costs and Pricing page
 - GP2-2476 - Delete button hover state
