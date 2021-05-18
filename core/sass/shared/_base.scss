@@ -250,6 +250,34 @@ $tablet: 768px;
     }
 }
 
+@media (min-width: 768px) and (max-width: 1098px) {
+    .great-header .main-nav-container.desktop.shared-nav-container,
+    .great-sub-header .main-nav-container.desktop.shared-nav-container {
+        margin-left: 5px;
+        justify-content: end;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 912px) {
+    .great-header-search-container.signed-in {
+        margin-right: 0;
+    }
+
+    .great-header .link-heading, .great-sub-header .link-heading {
+        padding: 15px 10px;
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1150px) {
+    .magna-header.shared-magna-header {
+        height: 180px;
+
+        nav {
+            flex-direction: column;
+        }
+    }
+}
+
 .great-header.expanded {
     position: static;
     .user-greeting {

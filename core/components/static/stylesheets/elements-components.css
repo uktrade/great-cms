@@ -4930,6 +4930,30 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
   font-size: 20px;
   padding: 15px 20px; }
 
+@media (min-width: 768px) and (max-width: 1098px) {
+  .great-header .main-nav-container.desktop.shared-nav-container,
+  .great-sub-header .main-nav-container.desktop.shared-nav-container {
+    margin-left: 5px;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: end; } }
+
+@media (min-width: 768px) and (max-width: 912px) {
+  .great-header-search-container.signed-in {
+    margin-right: 0; }
+  .great-header .link-heading,
+  .great-sub-header .link-heading {
+    padding: 15px 10px; } }
+
+@media (min-width: 1025px) and (max-width: 1150px) {
+  .magna-header.shared-magna-header {
+    height: 180px; }
+    .magna-header.shared-magna-header nav {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column; } }
+
 .great-header.expanded {
   position: static; }
   .great-header.expanded .user-greeting {
@@ -5183,5 +5207,8 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
   width: auto; }
 
 .shared-personalisation-bar {
-  max-width: 100%;
-  margin: 0 30px; }
+  overflow-x: auto;
+  width: 100%;
+  margin: 0; }
+  .shared-personalisation-bar > nav {
+    white-space: nowrap; }
