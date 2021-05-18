@@ -250,9 +250,9 @@ $tablet: 768px;
     }
 }
 
-@media (min-width: 768px) and (max-width: 1098px) {
-    .great-header .main-nav-container.desktop.shared-nav-container,
-    .great-sub-header .main-nav-container.desktop.shared-nav-container {
+@media (min-width: 768px) and (max-width: 1115px) {
+    .great-header .main-nav-container.desktop.shared-nav-container.signed-in,
+    .great-sub-header .main-nav-container.desktop.shared-nav-container.signed-in {
         margin-left: 5px;
         justify-content: end;
     }
