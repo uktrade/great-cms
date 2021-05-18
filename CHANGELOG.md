@@ -11,6 +11,7 @@
 
 ### Fixed bugs
 - GP2-2400 - [Mobile]-align CTA Text
+- GP2-2732 - remove Export opportunities tab for the Dashboard
 - GBAU-959 - Pentest fix next url filter fix
 - GP2-2707 - EP missing link on Costs and Pricing page
 - GP2-2476 - Delete button hover state
