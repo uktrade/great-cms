@@ -10,6 +10,7 @@
 - GBAU-957 - redirect /companion/ to digital-companion.ava-digi.de
 
 ### Fixed bugs
+- GP2-2441 - Labels on EP Target market research page
 - GP2-2400 - [Mobile]-align CTA Text
 - GP2-2732 - remove Export opportunities tab for the Dashboard
 - GBAU-959 - Pentest fix next url filter fix
