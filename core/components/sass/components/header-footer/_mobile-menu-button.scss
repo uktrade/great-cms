@@ -90,7 +90,7 @@
     }
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 769px) {
     height: 40px;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -102,7 +102,7 @@
   }
 
   &.mobile-only {
-    @media (min-width: 768px) {
+    @media (min-width: 769px) {
       display: none;
     }
   }

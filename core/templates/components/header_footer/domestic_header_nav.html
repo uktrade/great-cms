@@ -2,7 +2,7 @@
 {% load wagtailcore_tags %}
 {% load url_map %}
 
-<div class="shared-nav-container main-nav-container {{ device_type }}">
+<div class="shared-nav-container main-nav-container {{ device_type }} {% if request.user.is_authenticated %}signed-in{% else %}signed-out{% endif %}">
   {% if request.user.is_authenticated and request.user.first_name and device_type == 'mobile' %}
   <div class="user-greeting">Hi {{ request.user.first_name }}</div>
   {% endif %}
