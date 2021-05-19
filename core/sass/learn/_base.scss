@@ -337,8 +337,6 @@ $desktop: 1024px;
 }
 
 .learn__lesson-item-link--completed {
-  display: inline-block;
-
   @include tablet {
     float: right;
   }
