@@ -286,7 +286,7 @@ details.great-accordion[open] summary:before {
   .great-footer-logo-container a:first-child {
     float: left; }
   .great-footer-logo-container a:last-child {
-    float: right; }
+    float: left; }
 
 .great-footer {
   font-family: "Overpass", "Roboto", arial, helvetica, verdana; }
@@ -4975,7 +4975,12 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
       .shared-magna-header nav {
         display: block; } }
   .shared-magna-header #header-logo-link {
-    margin: 20px 30px 10px 0; }
+    display: inline-block;
+    margin-top: 20px;
+    margin-left: 0; }
+    @media (max-width: 768px) {
+      .shared-magna-header #header-logo-link {
+        margin-top: 10px; } }
     .shared-magna-header #header-logo-link .header-logo {
       height: 75px; }
       @media (max-width: 768px) {

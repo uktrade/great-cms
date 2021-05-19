@@ -308,7 +308,13 @@ $tablet: 768px;
     }
 
     #header-logo-link {
-        margin: 20px 30px 10px 0;
+        display: inline-block;
+        margin-top: 20px;
+        margin-left: 0;
+
+        @include tablet {
+            margin-top: 10px;
+        }
 
         .header-logo {
             height: 75px;
