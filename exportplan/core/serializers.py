@@ -98,9 +98,13 @@ class AdaptationTargetMarketSerializer(serializers.Serializer):
     translations = serializers.CharField(required=False, allow_null=True, validators=[no_html])
     other_changes = serializers.CharField(required=False, allow_null=True, validators=[no_html])
     certificate_of_origin = serializers.CharField(required=False, allow_null=True, validators=[no_html])
-    insurance_certificate = serializers.CharField(required=False, allow_null=True, validators=[no_html])
-    commercial_invoice = serializers.CharField(required=False, allow_null=True, validators=[no_html])
-    uk_customs_declaration = serializers.CharField(required=False, allow_null=True, validators=[no_html])
+    insurance_certificate = serializers.CharField(
+        required=False, allow_null=True, allow_blank=True, validators=[no_html]
+    )
+    commercial_invoice = serializers.CharField(required=False, allow_null=True, allow_blank=True, validators=[no_html])
+    uk_customs_declaration = serializers.CharField(
+        required=False, allow_null=True, allow_blank=True, validators=[no_html]
+    )
 
     target_market_documents = serializers.ListField(child=TargetMarketDocumentsSerializer(), required=False)
 
