@@ -880,7 +880,7 @@ body.js-enabled .great-header-country-select {
         -webkit-transform: rotate(-45deg);
         transform: rotate(-45deg);
         margin-top: -12px; }
-  @media (min-width: 768px) {
+  @media (min-width: 769px) {
     .js-mobile-button {
       height: 40px;
       padding-top: 5px;
@@ -888,7 +888,7 @@ body.js-enabled .great-header-country-select {
       top: 59px; }
       .js-mobile-button .burger-icon {
         top: 18px; } }
-  @media (min-width: 768px) {
+  @media (min-width: 769px) {
     .js-mobile-button.mobile-only {
       display: none; } }
 
@@ -1195,7 +1195,7 @@ body.js-enabled .great-header-country-select {
         -webkit-transform: rotate(-45deg);
         transform: rotate(-45deg);
         margin-top: -12px; }
-  @media (min-width: 768px) {
+  @media (min-width: 769px) {
     .js-mobile-button {
       height: 40px;
       padding-top: 5px;
@@ -1203,7 +1203,7 @@ body.js-enabled .great-header-country-select {
       top: 59px; }
       .js-mobile-button .burger-icon {
         top: 18px; } }
-  @media (min-width: 768px) {
+  @media (min-width: 769px) {
     .js-mobile-button.mobile-only {
       display: none; } }
 
@@ -4930,6 +4930,30 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
   font-size: 20px;
   padding: 15px 20px; }
 
+@media (min-width: 768px) and (max-width: 1115px) {
+  .great-header .main-nav-container.desktop.shared-nav-container.signed-in,
+  .great-sub-header .main-nav-container.desktop.shared-nav-container.signed-in {
+    margin-left: 5px;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: end; } }
+
+@media (min-width: 768px) and (max-width: 912px) {
+  .great-header-search-container.signed-in {
+    margin-right: 0; }
+  .great-header .link-heading,
+  .great-sub-header .link-heading {
+    padding: 15px 10px; } }
+
+@media (min-width: 1025px) and (max-width: 1150px) {
+  .magna-header.shared-magna-header {
+    height: 180px; }
+    .magna-header.shared-magna-header nav {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column; } }
+
 .great-header.expanded {
   position: static; }
   .great-header.expanded .user-greeting {
@@ -5183,5 +5207,8 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
   width: auto; }
 
 .shared-personalisation-bar {
-  max-width: 100%;
-  margin: 0 30px; }
+  overflow-x: auto;
+  width: 100%;
+  margin: 0; }
+  .shared-personalisation-bar > nav {
+    white-space: nowrap; }
