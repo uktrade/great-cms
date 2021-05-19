@@ -522,8 +522,9 @@ def test_logout_not_logged_in(client):
 
 
 @pytest.mark.django_db
-def test_logout_logged_in_no_next_param(client, user):
+def test_logout_logged_in_no_next_param(client, user, requests_mock):
     client.force_login(user)
+    requests_mock.post(settings.SSO_PROXY_LOGOUT_URL, status_code=302)
     url = reverse('core:logout')
 
     response = client.get(url)
@@ -533,8 +534,9 @@ def test_logout_logged_in_no_next_param(client, user):
 
 
 @pytest.mark.django_db
-def test_logout_logged_in_next_param(client, user):
+def test_logout_logged_in_next_param(client, user, requests_mock):
     client.force_login(user)
+    requests_mock.post(settings.SSO_PROXY_LOGOUT_URL, status_code=302)
     next_url = 'http://example.com/example'
     url = reverse('core:logout') + '?next=' + next_url
 
