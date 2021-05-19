@@ -68,6 +68,15 @@ $desktop: 1024px;
   }
 }
 
+.learn__categories-logo {
+  width: 83px;
+  margin-top: -20px;
+
+  @include tablet {
+    width: 115px;
+  }
+}
+
 .learn__category-header {
   padding-top: 80px;
   margin-bottom: 80px;
