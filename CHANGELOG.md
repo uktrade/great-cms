@@ -3,7 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
-
+- GP2-2729 - Export academy logo on dashboard learning card
 - GP2-2721 - Subtitle support for GreatMedia
 - GP2-2466 - Adding logo on export plan
 - GP2-2560 - Allow Lesson/DetailPage hero block to be empty
