@@ -47,16 +47,17 @@ PRODUCT_REQUIRED = [
 # on the UI page
 
 LESSONS = {
-    OBJECTIVES: ['opportunity-right-you', 'move-accidental-exporting-strategic-exporting'],
-    MARKETING_APPROACH: ['sell-direct-your-customer'],
+    OBJECTIVES: ['move-accidental-exporting-strategic-exporting'],
+    MARKETING_APPROACH: [
+        'choose-right-route-market',
+    ],
     TARGET_MARKETS_RESEARCH: [
         'quantifying-customer-demand-how-much-might-you-sell',
-        'using-what-you-know-to-help-inform-your-positioning-and-competitive-advantage',
-        'understand-market-trends',
+        'understanding-competitor-market-share-and-pricing',
     ],
     COSTS_AND_PRICING: [
-        'understand-services-rules-and-regulations',
-        'understand-services-rules-and-regulations',
+        'understand-duties-and-taxes',
+        'understand-duties-and-taxes',
         'managing-exchange-rates',
     ],
     FUNDING_AND_CREDIT: [
@@ -68,7 +69,17 @@ LESSONS = {
         'decide-when-get-paid-export-orders',
         'incoterms',
     ],
-    ADAPTATION_TARGET_MARKET: ['understand-how-you-may-need-adapt-your-product-meet-international-standards'],
+    ADAPTATION_TARGET_MARKET: [
+        'understand-how-you-may-need-adapt-your-product-meet-international-standards',
+        'labelling-and-packaging',
+        'labelling-and-packaging',
+        'understand-local-market-regulations-products',
+        'understand-export-licensing',
+        'how-create-export-invoice',
+        'how-make-uk-customs-declaration',
+    ],
+    TRAVEL_AND_BUSINESS_POLICIES: ['understand-local-business-culture-your-target-market'],
+    BUSINESS_RISK: ['protect-your-intellectual-property-abroad'],
 }
 
 
