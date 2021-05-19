@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { connect, Provider } from 'react-redux'
 
 import actions from '@src/actions'
-import { getMarkets } from '@src/reducers'
+import { getMarkets, getProducts } from '@src/reducers'
 import Services from '@src/Services'
 
 import Confirmation from './MessageConfirmation'
@@ -72,8 +72,10 @@ CountryFinderButton.defaultProps = {
 }
 
 const mapStateToProps = (state) => {
+  const product = getProducts(state)
   return {
     market: getMarkets(state),
+    commodityCode: product && product.commodity_code,
   }
 }
 
@@ -94,10 +96,9 @@ export default function createCountryFinderButton({ ...params }) {
   const mainElement = document.createElement('span')
   document.body.appendChild(mainElement)
   ReactModal.setAppElement(mainElement)
-  const commodityCode = params.element.getAttribute('data-commodity-code')
   ReactDOM.render(
     <Provider store={Services.store}>
-      <ConnectedContainer commodityCode={commodityCode} />
+      <ConnectedContainer />
     </Provider>,
     params.element
   )

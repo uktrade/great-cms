@@ -14,6 +14,7 @@
 - GP2-2710 - Update footer logo
 
 ### Fixed bugs
+- GP2-2733 - Suggested markets query updated from redux
 - GP2-2441 - Labels on EP Target market research page
 - GP2-2400 - [Mobile]-align CTA Text
 - GP2-2732 - remove Export opportunities tab for the Dashboard
