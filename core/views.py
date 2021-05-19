@@ -21,6 +21,7 @@ from core.mixins import PageTitleMixin
 from core.models import GreatMedia
 from directory_constants import choices
 from domestic.models import DomesticDashboard, TopicLandingPage
+from sso.views import SSOBusinessUserLogoutView
 
 logger = logging.getLogger(__name__)
 
@@ -77,6 +78,16 @@ class LoginView(GA360Mixin, PageTitleMixin, TemplateView):
 
     template_name = 'core/login.html'
     title = 'Sign in'
+
+
+class LogoutView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        if self.request.method == 'GET' and 'next' in self.request.GET:
+            self.url = self.request.GET['next']
+        else:
+            self.url = settings.BASE_URL
+        SSOBusinessUserLogoutView.post(self, self.request)
+        return super().get_redirect_url(*args, **kwargs)
 
 
 class SignupView(GA360Mixin, PageTitleMixin, TemplateView):

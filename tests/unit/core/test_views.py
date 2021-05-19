@@ -513,6 +513,40 @@ def test_login_page_logged_in(client, user):
 
 
 @pytest.mark.django_db
+def test_logout_not_logged_in(client):
+    url = reverse('core:logout')
+
+    response = client.get(url)
+
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_logout_logged_in_no_next_param(client, user, requests_mock):
+    client.force_login(user)
+    requests_mock.post(settings.SSO_PROXY_LOGOUT_URL, status_code=302)
+    url = reverse('core:logout')
+
+    response = client.get(url)
+
+    assert response.status_code == 302
+    assert response.url == settings.BASE_URL
+
+
+@pytest.mark.django_db
+def test_logout_logged_in_next_param(client, user, requests_mock):
+    client.force_login(user)
+    requests_mock.post(settings.SSO_PROXY_LOGOUT_URL, status_code=302)
+    next_url = 'http://example.com/example'
+    url = reverse('core:logout') + '?next=' + next_url
+
+    response = client.get(url)
+
+    assert response.status_code == 302
+    assert response.url == next_url
+
+
+@pytest.mark.django_db
 @mock.patch.object(helpers, 'search_commodity_by_term')
 def test_search_commodity_by_term(mock_search_commodity_by_term, client):
     mock_search_commodity_by_term.return_value = data = [

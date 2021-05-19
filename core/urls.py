@@ -65,6 +65,7 @@ urlpatterns = [
         name='capability-article',
     ),
     path('login/', anonymous_user_required(views.LoginView.as_view()), name='login'),
+    path('logout/', login_required(skip_ga360(views.LogoutView.as_view())), name='logout'),
     path('signup/', anonymous_user_required(views.SignupView.as_view()), name='signup'),
     path(
         'signup/company-name/',
