@@ -217,7 +217,7 @@ AttributeError: 'User' object has no attribute 'session_id'"/'company' et al, yo
 
 * On ubuntu you may need to run `sudo apt-get install libpq-dev` if after trying to install dependencies you get an error message relating to `psycopg`.
 
-* On latest release of MacOs `make install_requirements` might fail, please run `env LDFLAGS="-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib" make install_requirements`
+* On latest release of MacOs `make install_requirements` might fail, please run `brew install openssl` then `env LDFLAGS="-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib" make install_requirements`
 
 
 ## Helpful links
