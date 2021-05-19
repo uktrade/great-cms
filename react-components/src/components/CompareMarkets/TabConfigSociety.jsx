@@ -113,7 +113,7 @@ export default {
         position: 'right',
         title: '',
         content: `
-          <p>The language(s) used inside and outside of business contextsmost commonly spoken in your selected countries or territories.</p>
+          <p>The language(s) used inside and outside of business contexts most commonly spoken in your selected countries or territories.</p>
          `,
       },
     },
