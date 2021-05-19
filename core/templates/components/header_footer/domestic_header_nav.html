@@ -2,11 +2,11 @@
 {% load wagtailcore_tags %}
 {% load url_map %}
 
-<div class="shared-nav-container main-nav-container {{ device_type }}">
+<div class="shared-nav-container main-nav-container {{ device_type }} {% if request.user.is_authenticated %}signed-in{% else %}signed-out{% endif %}">
   {% if request.user.is_authenticated and request.user.first_name and device_type == 'mobile' %}
   <div class="user-greeting">Hi {{ request.user.first_name }}</div>
   {% endif %}
-  <nav id="{{ id }}" class="main-nav {{ device_type }} expanded {% if request.user.is_authenticated %}signed-in{% endif %}" aria-label="{% trans 'Main menu' %}">
+  <nav id="{{ id }}" class="main-nav {{ device_type }} {% if request.user.is_authenticated %}signed-in{% endif %}" aria-label="{% trans 'Main menu' %}">
     <ul class="grid-row nav-list">
       {% if request.user.is_authenticated %}
       <li class="menu-item" data-js-menu-item-container>
@@ -22,7 +22,7 @@
       </li>
 
       <li class="menu-item" data-js-menu-item-container>
-        <a href="{% slugurl 'dashboard' %}" class="link-heading new" id="header-make-{{ device_type }}" {% if js_tag %}data-js-menu-index=2{% endif %}>Make an export plan</a>
+        <a href="/export-plan/dashboard/" class="link-heading new" id="header-make-{{ device_type }}" {% if js_tag %}data-js-menu-index=2{% endif %}>Make an export plan</a>
       </li>
       <li class="menu-item" data-js-menu-item-container>
         <a href="/profile/" class="link-heading {% if device_type != 'mobile' %}mobile-only{% endif %}" id="header-advice-{{ device_type }}" {% if js_tag %}data-js-menu-index=3{% endif %}>Account</a>
@@ -41,13 +41,6 @@
         <a href="{% slugurl 'services' %} " class="link-heading" id="header-services-{{ device_type }}" {% if js_tag %}data-js-menu-index=6{% endif %}>Services</a>
       </li>
       {% endif %}
-      {% comment "TODO remove me when confirmed redundant" %}
-      {% if features.NEWS_SECTION_ON %}
-        <li class="menu-item" data-js-menu-item-container>
-          <a href="{{ header_footer_urls.domestic_news }}" class="link-heading" id="header-news-{{ device_type }}" {% if js_tag %}data-js-menu-index=7{% endif %}>News and events</a>
-        </li>
-      {% endif %}
-      {% endcomment %}
       {% if request.user.is_authenticated %}
       <li class="menu-item" data-js-menu-item-container>
           <button class="link-heading {% if device_type != 'mobile' %}mobile-only{% endif %} margin-bottom-15" id="sign_out_button_{{ device_type }}">Sign out</button>

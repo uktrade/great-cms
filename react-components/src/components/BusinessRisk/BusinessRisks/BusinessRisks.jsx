@@ -4,6 +4,7 @@ import Services from '@src/Services'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { Learning } from '@src/components/Learning/Learning'
 import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
+import ErrorList from '@src/components/ErrorList'
 import { Risks } from './Risks'
 
 export const BusinessRisks = memo(
@@ -17,7 +18,9 @@ export const BusinessRisks = memo(
     model_name,
   }) => {
     const [risks, setRisks] = useState(formFields)
-    const [update, create, deleteItem] = useUpdate('business-risk')
+    const [update, create, deleteItem, message, errors] = useUpdate(
+      'business-risk'
+    )
 
     const addRisk = () => {
       const newRisk = {
@@ -69,6 +72,7 @@ export const BusinessRisks = memo(
           likelihoodOptions={risk_likelihood_options}
           impactOptions={risk_impact_options}
         />
+        <ErrorList errors={errors.__all__ || []} className="m-t-s" />
       </>
     )
   }

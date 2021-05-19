@@ -12,7 +12,7 @@ export default function DataTable(props) {
     datasetName,
     config,
     comparisonMarkets,
-    commodityCode,
+    product,
     removeMarket,
     cacheVersion,
     mobile,
@@ -126,8 +126,8 @@ export default function DataTable(props) {
 
   useEffect(() => {
     // Wipe cache if commodity code changes
-    if (cache.commodityCode !== commodityCode) {
-      cache = { commodityCode }
+    if (cache.commodityCode !== product.commodityCode) {
+      cache = { commodityCode: product.commodityCode }
       cache[datasetName] = {}
     }
     cache[datasetName] = cache[datasetName] || {}
@@ -139,7 +139,7 @@ export default function DataTable(props) {
     if (missingCountries.length) {
       getTableData(missingCountries)
     }
-  }, [commodityCode, comparisonMarkets])
+  }, [product, comparisonMarkets])
 
   const setBaseYear = (dataSet, markets, tabConfig) => {
     // Calculate base year
@@ -202,7 +202,7 @@ export default function DataTable(props) {
               }`}
             >
               <div className="text-align-left body-l-b p-v-xs">
-                {blocks.renderColumnHeader(cellConfig, mobile)}
+                {blocks.renderColumnHeader(cellConfig, props, mobile)}
               </div>
               <div className="bg-white radius overflow-hidden p-h-s">
                 <table className="m-v-0 border-blue-deep-20 no-bottom-border">
@@ -276,7 +276,7 @@ export default function DataTable(props) {
                   }`}
                   key={columnKey}
                 >
-                  {blocks.renderColumnHeader(cellConfig)}
+                  {blocks.renderColumnHeader(cellConfig, props)}
                 </th>
               )
             })}
@@ -299,7 +299,9 @@ DataTable.propTypes = {
     groups: PropTypes.instanceOf(Object),
     filter: PropTypes.element,
   }).isRequired,
-  commodityCode: PropTypes.string.isRequired,
+  product: PropTypes.shape({
+    commodityCode: PropTypes.string,
+  }).isRequired,
   removeMarket: PropTypes.func.isRequired,
   cacheVersion: PropTypes.number,
   mobile: PropTypes.bool,

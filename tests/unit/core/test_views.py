@@ -16,7 +16,7 @@ from rest_framework import status
 from core import cms_slugs, forms, helpers, serializers, views
 from directory_api_client import api_client
 from directory_sso_api_client import sso_api_client
-from tests.helpers import create_response
+from tests.helpers import create_response, make_test_video
 from tests.unit.core.factories import (
     CuratedListPageFactory,
     DetailPageFactory,
@@ -815,7 +815,7 @@ def test_compare_countries_page(mock_export_plan_list, domestic_homepage, client
     # Check that the page renders even if there is no dashboard definition in wagtail
     assert response.status_code == 200
     assert response.context_data['dashboard_components'] is None
-    assert re.search(r'\\"population\\":true', response.context_data['data_tabs_enabled'])
+    assert re.search(r'\\"product\\":true', response.context_data['data_tabs_enabled'])
 
     # Populate dashboard with a couple of routes and check context
     DomesticDashboardFactory(
@@ -968,3 +968,56 @@ def test_robots_txt(client, base_url, expected_sitemap_url):
                 f'Sitemap: {expected_sitemap_url}\n'.encode(),
             ]
         )
+
+
+@pytest.mark.django_db
+def test_serve_subtitles(client, user):
+    media = make_test_video()
+
+    media.subtitles_en = 'Dummy subtitles content'
+    media.save()
+
+    dest = reverse('core:subtitles-serve', args=[media.id, 'en'])
+
+    client.force_login(user)
+    resp = client.get(dest, follow=False)
+
+    assert resp.status_code == 200
+    assert resp.content == b'Dummy subtitles content'
+
+
+@pytest.mark.django_db
+def test_serve_subtitles__missing_media(client, user):
+
+    dest = reverse('core:subtitles-serve', args=[99999, 'en'])
+    client.force_login(user)
+    resp = client.get(dest, follow=False)
+
+    assert resp.status_code == 404
+
+
+@pytest.mark.django_db
+def test_serve_subtitles__none_available(client, user):
+    media = make_test_video()
+    media.save()
+
+    dest = reverse('core:subtitles-serve', args=[media.id, 'en'])
+    client.force_login(user)
+    resp = client.get(dest, follow=False)
+
+    assert resp.status_code == 404
+
+
+@pytest.mark.django_db
+def test_serve_subtitles__login_required(client):
+    media = make_test_video()
+
+    media.subtitles_en = 'Dummy subtitles content'
+    media.save()
+
+    dest = reverse('core:subtitles-serve', args=[media.id, 'en'])
+
+    resp = client.get(dest, follow=False)
+
+    assert resp.status_code == 302
+    assert resp._headers['location'] == ('Location', reverse('core:login') + f'?next={dest}')

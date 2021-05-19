@@ -22,7 +22,7 @@ export default function RadioButtons(props) {
     const checked = value === selection
 
     return (
-      <div key={`option-${value}`} className="multiple-choice p-f-s p-b-xs">
+      <div key={`option-${value}`} className="multiple-choice">
         <input
           id={idx}
           type="radio"
@@ -45,10 +45,13 @@ export default function RadioButtons(props) {
 
 RadioButtons.propTypes = {
   name: PropTypes.string.isRequired,
-  initialSelection: PropTypes.shape({
-    label: PropTypes.string,
-    value: PropTypes.string,
-  }),
+  initialSelection: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    }),
+  ]),
   choices: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,

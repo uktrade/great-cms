@@ -103,6 +103,10 @@ const isArray = (arr) => {
   return Object.prototype.toString.call(arr) === '[object Array]'
 }
 
+const isFunction = (fn) => {
+  return !!(fn && fn.constructor && fn.call && fn.apply)
+}
+
 const get = (obj, path, def = null) => {
   // get a value from an object based on dot-separated path
   let out = obj
@@ -172,26 +176,6 @@ const sectionQuestionMapping = {
     'What’s the avg price for your product in the selected country?',
 }
 
-const getLabel = (list, selected) => {
-  const hasValue = list.find((x) => x.value === selected)
-  return selected && hasValue ? hasValue.label : ''
-}
-
-const getValue = (list, selected) => {
-  const hasLabel = list.find((x) => x.label === selected)
-  return selected && hasLabel ? hasLabel.value : ''
-}
-
-const getLabels = (list, items = []) => {
-  const selected = list.filter((x) => items.includes(x.value))
-  return Object.keys(selected).map((y) => selected[y].label)
-}
-
-const getValues = (list, items = []) => {
-  const selected = list.filter((x) => items.includes(x.label))
-  return Object.keys(selected).map((y) => selected[y].value)
-}
-
 const formatLessonLearned = (lesson, section, id) =>
   lesson[section.lessons[id]]
     ? {
@@ -226,12 +210,9 @@ export {
   normaliseValues,
   isObject,
   isArray,
+  isFunction,
   get,
   mapArray,
-  getLabel,
-  getValue,
-  getLabels,
-  getValues,
   formatLessonLearned,
   millify,
   stripPercentage,
@@ -242,3 +223,21 @@ export {
   camelizeObject,
   validation,
 }
+
+export const prependThe = (str) =>
+  [
+    'Central African Republic',
+    'Comoros',
+    'Czechia',
+    'Dominican Republic',
+    'Ivory Coast',
+    'Maldives',
+    'Marshall Islands',
+    'Netherlands',
+    'Philippines',
+    'Solomon Islands',
+    'United Arab Emirates',
+    'United States',
+  ].includes(str)
+    ? `the ${str}`
+    : str

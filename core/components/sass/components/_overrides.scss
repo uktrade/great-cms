@@ -37,6 +37,12 @@
             margin-top: 1.25em;
             margin-bottom: .83333em;
         }
+
+        b {
+            @media (min-width: 641px) {
+                line-height: 1.11111;
+            }
+        }
     }
 
     h3 {

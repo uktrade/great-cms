@@ -63,8 +63,11 @@
   &.expanded {
     background-color: $active-blue;
     z-index: 1;
-    top: 60px;
     transition: top .1s;
+
+    @media (max-width: 768px) {
+      top: 45px;
+    }
 
     .burger-icon {
       background-color: transparent;
@@ -87,7 +90,7 @@
     }
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 769px) {
     height: 40px;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -99,7 +102,7 @@
   }
 
   &.mobile-only {
-    @media (min-width: 768px) {
+    @media (min-width: 769px) {
       display: none;
     }
   }

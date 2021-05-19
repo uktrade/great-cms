@@ -56,7 +56,17 @@ class GreatMedia(Media):
         verbose_name=_('Transcript'), blank=False, null=True  # left null because was an existing field
     )
 
-    admin_form_fields = Media.admin_form_fields + ('transcript',)
+    subtitles_en = models.TextField(
+        verbose_name=_('English subtitles'),
+        null=True,
+        blank=True,
+        help_text='English-language subtitles for this video, in VTT format',
+    )
+
+    admin_form_fields = Media.admin_form_fields + (
+        'transcript',
+        'subtitles_en',
+    )
 
     @property
     def sources(self):
@@ -67,6 +77,21 @@ class GreatMedia(Media):
                 'transcript': self.transcript,
             }
         ]
+
+    @property
+    def subtitles(self):
+        output = []
+        # TO COME: support for more than just English
+        if self.subtitles_en:
+            output.append(
+                {
+                    'srclang': 'en',
+                    'label': 'English',
+                    'url': reverse('core:subtitles-serve', args=[self.id, 'en']),
+                    'default': False,
+                },
+            )
+        return output
 
 
 class AbstractObjectHash(models.Model):
@@ -595,6 +620,7 @@ class DetailPage(CMSGenericPage):
             ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_hero_video.html')),
         ],
         null=True,
+        blank=True,
         validators=[hero_singular_validation],
     )
     objective = StreamField(

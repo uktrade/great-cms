@@ -13,7 +13,6 @@
 
   &__item {
     border-radius: 4px;
-    overflow: hidden;
   }
 
   &__item--is-complete {
@@ -38,6 +37,13 @@
   &__image-container {
     display: flex;
     flex-flow: column;
+
+    img {
+      border: {
+        top-right-radius: 4px;
+        top-left-radius: 4px;
+      }
+    }
   }
 
   &__link {

@@ -33,7 +33,7 @@ export const Dashboard = memo(
                   aria-hidden="true"
                   role="button"
                 >
-                  <div className="bg-blue-deep-20 section-list__image-container">
+                  <div className="section-list__image-container">
                     <span
                       className="section-list__coming bg-blue-deep-80 text-white body-m p-xxs"
                       data-sectiontitle={title}
@@ -63,13 +63,13 @@ export const Dashboard = memo(
                   title={title}
                 >
                   <div
-                    className={`${
-                      is_complete ? 'bg-green-30' : 'bg-blue-deep-20'
-                    } section-list__image-container`}
+                    className="section-list__image-container"
                     data-complete={is_complete ? 'Complete' : ''}
                   >
                     <img
-                      className="w-full p-h-s p-t-m p-b-s"
+                      className={`w-full p-h-s p-t-m p-b-s ${
+                        is_complete ? 'bg-green-30' : 'bg-blue-deep-20'
+                      }`}
                       src="/static/images/ep-placeholder.svg"
                       alt={title}
                     />

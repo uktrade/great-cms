@@ -337,8 +337,6 @@ $desktop: 1024px;
 }
 
 .learn__lesson-item-link--completed {
-  display: inline-block;
-
   @include tablet {
     float: right;
   }
@@ -453,7 +451,7 @@ $desktop: 1024px;
     top: 0;
 
     h3 {
-      padding-top: 20;
+      padding-top: 20px;
       padding-bottom: 0;
       a.topic-link {
         text-decoration: none;
@@ -812,12 +810,19 @@ $desktop: 1024px;
     &:before {
       content: '';
       position: absolute;
-      left: -2000px;
-      right: -2000px;
+      left: -15px;
+      right: -15px;
       top: 0;
       bottom: 0;
       background: $blue-deep-10;
       z-index: 0;
+    }
+
+    @include breakpoint(sm) {
+      &:before {
+        left: -2000px;
+        right: -2000px;
+      }
     }
 
     &__content,

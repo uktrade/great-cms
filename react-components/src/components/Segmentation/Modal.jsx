@@ -16,6 +16,7 @@ export default function Modal(props) {
     closeClick,
     progressPercentage,
   } = props
+
   return (
     <ReactModal
       isOpen
@@ -36,12 +37,11 @@ export default function Modal(props) {
       <div className="c-fullwidth">
         <h3 className="h-s m-b-xs m-r-s">{title}</h3>
         <div className="modal-body body-l m-b-xs text-blue-deep-60">{body}</div>
-        <div className="modal-button-bar"
-        >
+        <div className="modal-button-bar">
           {progressPercentage != null ? (
             <div className="progress-section">
               <div className="progress-bar">
-                <span style={{ width: `${progressPercentage}%` }}/>
+                <span style={{ width: `${progressPercentage}%` }} />
               </div>
             </div>
           ) : (
@@ -50,7 +50,7 @@ export default function Modal(props) {
           {secondaryButtonClick ? (
             <button
               type="button"
-              className="button button--tertiary m-v-xs"
+              className="button button--tertiary m-v-xs m-r-xxs"
               onClick={secondaryButtonClick}
             >
               {secondaryButtonLabel || 'Exit'}
@@ -61,7 +61,7 @@ export default function Modal(props) {
           {primaryButtonClick ? (
             <button
               type="button"
-              className="button button--primary m-v-xs m-f-xxs"
+              className="button button--primary m-v-xs"
               disabled={primaryButtonDisable}
               onClick={primaryButtonClick}
             >
@@ -90,7 +90,7 @@ Modal.propTypes = {
   progressPercentage: PropTypes.number,
 }
 Modal.defaultProps = {
-  format: '',
+  format: 'medium',
   body: null,
   className: '',
   primaryButtonLabel: '<Primary>',
