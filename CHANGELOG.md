@@ -4,6 +4,7 @@
 
 ### Enhancements
 - GP2-2730 - Export academy logo on learning landing page
+- GP2-2380 - Added sign out view
 - GP2-2729 - Export academy logo on dashboard learning card
 - GP2-2721 - Subtitle support for GreatMedia
 - GP2-2466 - Adding logo on export plan
