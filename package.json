@@ -99,7 +99,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@fortawesome/fontawesome-free": "^5.15.1",
-    "@storybook/react": "^6.0.16",
+    "@storybook/react": "^6.2.9",
     "great-styles": "github:uktrade/great-styles",
     "prop-types": "15.7.2",
     "react": "16.13.1",

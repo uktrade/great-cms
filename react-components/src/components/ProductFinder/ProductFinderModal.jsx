@@ -341,7 +341,9 @@ export default function ProductFinderModal(props) {
             ''
           )}
           {!showingInteraction && sectionProductDetails(known)}
-          {!showingInteraction && sectionAssumptions(assumptions)}
+          <section className="m-h-s body-s">
+            Product classification data API provided by 3CE.
+          </section>
         </div>
       )
 

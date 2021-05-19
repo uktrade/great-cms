@@ -1,5 +1,6 @@
 from django import template
 from django.forms.utils import flatatt
+from django.template.loader import render_to_string
 from django.utils.html import format_html, format_html_join
 
 from core.constants import VIDEO_DURATION_DATA_ATTR_NAME
@@ -30,14 +31,40 @@ def render_video(block):
 
     video = block['video']
 
-    sources = format_html_join('\n', '<source{0}>', [[flatatt(source)] for source in video.sources])
+    timestamp_to_allow_poster_image_to_work_on_mobile_safari = '#t=0.1'
 
-    return format_html(
+    sources_data = []
+    for source in video.sources:
+        if 'src' in source:
+            source['src'] += timestamp_to_allow_poster_image_to_work_on_mobile_safari
+        sources_data.append([flatatt(source)])
+
+    sources = format_html_join('\n', '<source{0}>', sources_data)
+
+    if video.subtitles:
+        rendered_subtitles = []
+        for subtitle_spec in video.subtitles:
+            rendered_subtitles.append(
+                render_to_string(
+                    'core/includes/_video_subtitle.html',
+                    subtitle_spec,
+                )
+            )
+        subtitles = '\n'.join(rendered_subtitles)
+
+    else:
+        subtitles = ''
+
+    rendered = format_html(
         f"""
-            <video controls {_get_poster_attribute(video)}{VIDEO_DURATION_DATA_ATTR_NAME}="{video_duration}">
+            <video preload="metadata" controls
+            {_get_poster_attribute(video)}{VIDEO_DURATION_DATA_ATTR_NAME}="{video_duration}">
                 {sources}
+                {subtitles}
                 Your browser does not support the video tag.
             </video>
             <div class="video-transcript-container"></div>
         """
     )
+
+    return rendered

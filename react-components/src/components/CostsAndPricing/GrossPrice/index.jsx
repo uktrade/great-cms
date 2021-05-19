@@ -55,48 +55,46 @@ export const GrossPrice = memo(
             <p className="m-t-xxs m-b-0">
               Gross price per unit in invoicing currency
             </p>
-            <div className="grid m-t-xs">
-              <div className="w-full">
-                <div className="c-5-12-m c-1-3-l m-r-xs">
-                  <Select
-                    label={select.label}
-                    id={select.id}
-                    update={(item) => {
-                      const postData = input.field({
-                        unit: item[select.name],
-                        value: input.value,
-                      })
-                      update(
-                        {
-                          [select.id]: item[select.name],
-                        },
-                        postData
-                      )
-                    }}
-                    name={select.name}
-                    options={select.options}
-                    hideLabel
-                    placeholder={select.placeholder}
-                    selected={select.value}
-                  />
-                </div>
-                <div className="c-5-12-m c-1-3-l ">
-                  <Input
-                    onChange={(x) => {
-                      const postData = input.field({
-                        unit: select.value,
-                        value: x[input.id],
-                      })
-                      update(x, postData)
-                    }}
-                    label={input.label}
-                    id={input.id}
-                    hideLabel
-                    type={input.type}
-                    value={input.value}
-                    placeholder={input.placeholder}
-                  />
-                </div>
+            <div className="grid c-3-4-l">
+              <div className="c-1-2 m-t-xs">
+                <Select
+                  label={select.label}
+                  id={select.id}
+                  update={(item) => {
+                    const postData = input.field({
+                      unit: item[select.name],
+                      value: input.value,
+                    })
+                    update(
+                      {
+                        [select.id]: item[select.name],
+                      },
+                      postData
+                    )
+                  }}
+                  name={select.name}
+                  options={select.options}
+                  hideLabel
+                  placeholder={select.placeholder}
+                  selected={select.value}
+                />
+              </div>
+              <div className="c-1-2 m-t-xs">
+                <Input
+                  onChange={(x) => {
+                    const postData = input.field({
+                      unit: select.value,
+                      value: x[input.id],
+                    })
+                    update(x, postData)
+                  }}
+                  label={input.label}
+                  id={input.id}
+                  hideLabel
+                  type={input.type}
+                  value={input.value}
+                  placeholder={input.placeholder}
+                />
               </div>
             </div>
           </div>

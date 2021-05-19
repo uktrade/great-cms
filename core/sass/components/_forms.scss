@@ -84,16 +84,6 @@
   align-self: flex-start;
 }
 
-.button--delete {
-  &.button--only-icon {
-    border: 2px solid $colour-blue-deep-80;
-
-    i {
-      color: $colour-blue-deep-80;
-    }
-  }
-}
-
 .great-mvp-error-list {
   li.error-message {
     text-align: left;

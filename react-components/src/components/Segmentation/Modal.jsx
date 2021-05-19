@@ -50,7 +50,7 @@ export default function Modal(props) {
           {secondaryButtonClick ? (
             <button
               type="button"
-              className="button button--tertiary m-v-xs"
+              className="button button--tertiary m-v-xs m-r-xxs"
               onClick={secondaryButtonClick}
             >
               {secondaryButtonLabel || 'Exit'}
@@ -61,7 +61,7 @@ export default function Modal(props) {
           {primaryButtonClick ? (
             <button
               type="button"
-              className="button button--primary m-v-xs m-f-xxs"
+              className="button button--primary m-v-xs"
               disabled={primaryButtonDisable}
               onClick={primaryButtonClick}
             >
@@ -90,7 +90,7 @@ Modal.propTypes = {
   progressPercentage: PropTypes.number,
 }
 Modal.defaultProps = {
-  format: '',
+  format: 'medium',
   body: null,
   className: '',
   primaryButtonLabel: '<Primary>',

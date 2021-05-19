@@ -24,3 +24,10 @@ def mock_get_country_data(country_data):
     patch = mock.patch.object(exportplan_helpers, 'get_country_data', return_value=country_data)
     yield patch.start()
     patch.stop()
+
+
+@pytest.fixture(autouse=False)
+def mock_upload_exportplan_pdf():
+    patch = mock.patch('exportplan.core.helpers.upload_exportplan_pdf', return_value={})
+    yield patch.start()
+    patch.stop()

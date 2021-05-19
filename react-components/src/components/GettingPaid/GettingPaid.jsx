@@ -5,11 +5,12 @@ import { TextArea } from '@src/components/Form/TextArea'
 import { Select } from '@src/components/Form/Select'
 import { formatLessonLearned } from '@src/Helpers'
 import { useUpdateExportPlan } from '@src/components/hooks/useUpdateExportPlan/useUpdateExportPlan'
+import ErrorList from '@src/components/ErrorList'
 
 export const GettingPaid = memo(
   ({ formFields, formData, field, lessonDetails, currentSection }) => {
     const [state, setState] = useState(formData)
-    const [update] = useUpdateExportPlan(field)
+    const [update, showMessage, pending, errors] = useUpdateExportPlan(field)
 
     const onChange = (updatedField, otherProps, section, isNotes = false) => {
       const note = isNotes ? { notes: updatedField[isNotes] } : updatedField
@@ -30,9 +31,6 @@ export const GettingPaid = memo(
         {formFields.map(({ group, field: key }, i) => {
           const select = group[0]
           const textarea = group[1]
-          const options = Array.isArray(select.options)
-            ? select.options
-            : Object.keys(select.options).flatMap((x) => select.options[x])
           const selected =
             (state[key] && state[key][select.id]) ||
             (select.multiSelect ? [] : '')
@@ -51,6 +49,7 @@ export const GettingPaid = memo(
                     key
                   )
                 }}
+                placeholder="select multiple"
                 multiSelect={select.multiSelect}
                 lesson={formatLessonLearned(lessonDetails, currentSection, i)}
               />
@@ -62,11 +61,11 @@ export const GettingPaid = memo(
                 id={textarea.id}
                 value={state[key] ? state[key].notes : ''}
                 placeholder={textarea.placeholder}
-                lesson={formatLessonLearned(lessonDetails, currentSection, 2)}
               />
             </div>
           )
         })}
+        <ErrorList errors={errors.__all__ || []} className="m-t-s" />
       </div>
     )
   }

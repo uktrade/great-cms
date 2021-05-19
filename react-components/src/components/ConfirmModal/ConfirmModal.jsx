@@ -9,7 +9,7 @@ export const ConfirmModal = memo(({ deleteItem, hasData }) => {
     <>
       <button
         type="button"
-        className="button--only-icon button button--small button--delete bg-white m-v-xs"
+        className="button--only-icon button button--small button--delete button--tertiary m-v-xs"
         onClick={() => {
           if (hasData) {
             setModal(true)

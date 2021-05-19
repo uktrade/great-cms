@@ -1,6 +1,7 @@
 from unittest import mock
 
 import pytest
+from django.core.files import File
 
 from directory_api_client import api_client
 from exportplan.core import helpers
@@ -291,11 +292,11 @@ def test_update_ui_options_target_ages(mock_update_export_plan, export_plan_data
     )
 
 
-@mock.patch.object(api_client.exportplan, 'exportplan_update')
-def test_update_ui_options_target_ages_not_required(mock_update_export_plan, export_plan_data):
-    ui_options_data = {'target-market': {'target_ages': ['21-15']}}
-    export_plan_data.update({'ui_options': ui_options_data})
-    helpers.update_ui_options_target_ages(
-        sso_session_id=1, target_ages=['21-15'], export_plan=export_plan_data, section_name='target-market'
+@mock.patch.object(api_client.exportplan, 'pdf_upload')
+def test_upload_exportplan_pdf(mock_upload_pdf, export_plan_data):
+    mock_file = mock.Mock(spec=File)
+    helpers.upload_exportplan_pdf(sso_session_id=1, exportplan_id=5, file=mock_file)
+    assert mock_upload_pdf.call_count == 1
+    assert mock_upload_pdf.call_args == mock.call(
+        sso_session_id=1, data={'companyexportplan': 5, 'pdf_file': mock_file}
     )
-    assert mock_update_export_plan.call_count == 0

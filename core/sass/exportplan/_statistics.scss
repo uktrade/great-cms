@@ -60,6 +60,18 @@
       text-align: left;
     }
   }
+
+  &--mobile-full {
+
+    @include breakpoint(sm_lt) {
+      dl {
+        display: block
+      }
+      .statistic__figure {
+        text-align: left;
+      }
+    }
+  }
 }
 
 .statistic__group {

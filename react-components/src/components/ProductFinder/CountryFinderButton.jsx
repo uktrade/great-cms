@@ -50,7 +50,7 @@ export const CountryFinderButton = (props) => {
         productConfirmation={confirmationRequired}
         handleButtonClick={closeConfirmation}
         messageTitle="Changing target market?"
-        messageBody="if you've created an export plan, make sure you update it to reflect your new market. you can change target market at any time."
+        messageBody="If you've already started creating an export plan, make sure you update it to include your new market. You can change your target market at any time."
         messageButtonText="Got it"
       />
     </span>

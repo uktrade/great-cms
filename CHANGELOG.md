@@ -3,8 +3,57 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2729 - Export academy logo on dashboard learning card
+- GP2-2721 - Subtitle support for GreatMedia
+- GP2-2466 - Adding logo on export plan
+- GP2-2560 - Allow Lesson/DetailPage hero block to be empty
+- GBAU-957 - redirect /companion/ to digital-companion.ava-digi.de
+- GP2-2708 - Update header logo
+- GP2-2710 - Update footer logo
 
+### Fixed bugs
+- GP2-2441 - Labels on EP Target market research page
+- GP2-2400 - [Mobile]-align CTA Text
+- GP2-2732 - remove Export opportunities tab for the Dashboard
+- GBAU-959 - Pentest fix next url filter fix
+- GP2-2707 - EP missing link on Costs and Pricing page
+- GP2-2476 - Delete button hover state
+- GP2-2618 - Enable 'Download export plan" button
+- GP2-2610 - Scrollable personalization bar
+- GP2-2613 - ios password field bug fix
+- GP2-2609 - Sign in/up label spacing
+- GP2-2398 - [mobile]-Costs and pricing Text box alignment
+- GP2-2615 - Incorrect lesson links on the Getting paid page
+- GP2-2495 - Export plan - Travel plan - hint box is empty
+- GP2-2512 - Dashboard - one column on tablet
+- GP2-2417 - Remove unwanted slider dots on case study mobile
+- GP2-2423 - Export plan sections don’t show focus when tabbing (accessibility)
+- GP2-2266 - Fix year designations in WTE new tabs
+- GP2-2529 - Fix export plan header url
+- GP2-2529 - Fix sign in/up responsive image positioning
+- GP2-2410 - Fix horizontal gap on mobile BAU pages
+- GP2-2550 - remove forgotten password link in Beta
+- GP2-2014 - Signup copy tweak
+- GP2-2540 - Update text on updating place warning modal
+- GP2-2539 - Update copy on choose place modal
+- GP2-2538 - Update text on dashboard landing page
+- GP2-2516 - Fix header layout issues on tablet
+- GP2-2719 - Fix footer logo link issue
+
+## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.8.0...1.9.0)
+
+### Enhancements
+
+- GP2-2395 - Allow absolute login redirect paths on own domain
+- GP2-2511 - Sign in / up design updates
+- GP2-2438 - Select control UX enhancements
+- GP2-2507 - Remove beta banner
+- GP2-2415 - Add preload attr and iOS poster/preview trick to video embed
+- GP2-1868 - Feature flag urls
 - GP2-2218 - WTE tab rearrangement
+- GP2-2370 - 3CE attribution on product search and removal of assumptions
 - NOTICKET - Bump python runtime version to suit changed buildpack
 - GP2-2303 - Quick cleanup of niggles related to directory-components template vars
 - GP2-1276 - Scrolling issue on lessons with a case study (mobile)
@@ -38,8 +87,23 @@
 - GP2-2088 - Form validation - Numerical fields
 - GP2-2087 - Form validation - Numerical fields (cost/price)
 - GP2-2302 - ep dropdown validation
+- GP2-2401 - pdf save
 
 ### Fixed bugs
+- Gp2-2506 - Getting paid page - Content change for default text (Payment methods drop-down)
+- GP2-2399 - [Mobile]-Costs and pricing
+- GP2-2420 - Export plan - CHEG details look strange on mobile
+- GP2-2392 - [mobile]-Where to export X icon
+- GP2-2488 - Adapting your product / Add another document doesn't work
+- GP2-2513 - Fixes h2 with b tag issue
+- GP2-2443 - and GP2-2444, GP2432 mobile tweaks for VFM
+- GP2-2397 - [mobile]-Costs and pricing spacing required
+- GP2-2396 - [mobile]-Logo upload issue
+- GP2-2130 - Layout tweaks to UKEF pages
+- GP2-2442 - WTE - Fix 'Add place' button flicker
+- GP2-2411 - Fix signin/up padding inconsistency
+- GP2-2422 - Export plan - Confirmation modal is too tall
+- GP2-2421 - update content
 - GP2-2393 - [mobile]- Text alignment on CTA
 - GP2-2382 - PDF updates
 - GP2-2368 - Typo on the Funding and credit page
