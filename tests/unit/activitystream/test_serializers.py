@@ -1,10 +1,11 @@
 import json
 
 import pytest
+from django.utils import timezone
 
-from activitystream.serializers import ArticlePageSerializer
+from activitystream.serializers import ArticlePageSerializer, CountryGuidePageSerializer
 from domestic.models import ArticlePage
-from tests.unit.domestic.factories import ArticlePageFactory
+from tests.unit.domestic.factories import ArticlePageFactory, CountryGuidePageFactory
 
 
 @pytest.mark.django_db
@@ -205,3 +206,49 @@ def test_articleserializer__get_article_body_content_for_search__skipping_unknow
         'dummy quotestring dummy attribution string dummy role string '
         'dummy organisation string https://example.com/dummy-org-link'
     )
+
+
+@pytest.mark.django_db
+def test_countryguidepageserializer__prep_richtext_for_indexing(domestic_homepage):
+    instance = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        section_one_body=(
+            '<h2>header here</h2><p>Para content here.</p><p></p><h3>h3 content here</h3><p>more text</p>'
+        ),
+    )
+
+    serializer = CountryGuidePageSerializer()
+
+    output = serializer._prep_richtext_for_indexing(instance.section_one_body)
+    assert output == (
+        '<h2>header here</h2> <p>Para content here.</p> <p> </p> <h3>h3 content here</h3> <p>more text</p>'
+    )
+
+
+@pytest.mark.django_db
+def test_countryguidepageserializer(domestic_homepage):
+    instance = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        sub_heading='Here is the subheading',
+        section_one_body=('<h2>header here</h2><p>Para content here.</p>'),
+    )
+    instance.last_published_at = timezone.now()
+    instance.save()
+
+    serializer = CountryGuidePageSerializer()
+
+    output = serializer.to_representation(instance)
+    assert output == {
+        'id': f'dit:greatCms:Article:{instance.id}:Update',
+        'type': 'Update',
+        'published': instance.last_published_at.isoformat('T'),
+        'object': {
+            'type': 'dit:greatCms:Article',
+            'id': f'dit:greatCms:Article:{instance.id}',
+            'name': 'Heading for Country',
+            'summary': 'Here is the subheading',
+            'content': '<h2>header here</h2> <p>Para content here.</p>',
+            'url': instance.get_absolute_url(),
+            'keywords': '',
+        },
+    }
