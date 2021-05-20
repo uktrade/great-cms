@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2774 - Increase header-large size in mobile
 - GP2-2730 - Export academy logo on learning landing page
 - GP2-2380 - Added sign out view
 - GP2-2729 - Export academy logo on dashboard learning card
