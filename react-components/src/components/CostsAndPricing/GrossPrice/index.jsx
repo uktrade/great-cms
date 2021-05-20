@@ -1,9 +1,9 @@
-import React, { memo, useState } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { Input } from '@src/components/Form/Input'
 import { Select } from '@src/components/Form/Select'
-import { LessonLearn } from '@src/components/LessonLearn'
+import { Learning } from '@src/components/Learning/Learning'
 
 export const GrossPrice = memo(
   ({
@@ -17,29 +17,9 @@ export const GrossPrice = memo(
     select,
     lesson,
   }) => {
-    const [toggleLesson, setToggleLesson] = useState(false)
-    const hasLesson = Object.keys(lesson).length > 0
     return (
       <>
-        {hasLesson && (
-          <>
-            <button
-              className="button-lesson button button--small button--tertiary m-r-xxs m-b-xs"
-              type="button"
-              onClick={() => {
-                setToggleLesson(!toggleLesson)
-              }}
-            >
-              <i
-                className={`fas fa-chevron-${
-                  toggleLesson ? 'up' : 'down'
-                } m-r-xxs`}
-              />
-              Lesson
-            </button>
-            <LessonLearn show={toggleLesson} {...lesson} />
-          </>
-        )}
+        <Learning lesson={lesson} />
         <div className="bg-white radius p-xs c-full m-b-s gross-price">
           <div className="">
             <i className="fas fa-tag text-blue-deep-60 fa-lg" />
