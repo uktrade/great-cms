@@ -91,13 +91,15 @@ class TargetMarketDocumentsSerializer(serializers.Serializer):
 
 
 class AdaptationTargetMarketSerializer(serializers.Serializer):
-    labelling = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    packaging = serializers.CharField(required=False, allow_null=True, validators=[no_html])
-    size = serializers.CharField(required=False, allow_null=True, validators=[no_html])
-    standards = serializers.CharField(required=False, allow_null=True, validators=[no_html])
-    translations = serializers.CharField(required=False, allow_null=True, validators=[no_html])
-    other_changes = serializers.CharField(required=False, allow_null=True, validators=[no_html])
-    certificate_of_origin = serializers.CharField(required=False, allow_null=True, validators=[no_html])
+    labelling = serializers.CharField(required=False, allow_null=True, allow_blank=True, validators=[no_html])
+    packaging = serializers.CharField(required=False, allow_null=True, allow_blank=True, validators=[no_html])
+    size = serializers.CharField(required=False, allow_null=True, allow_blank=True, validators=[no_html])
+    standards = serializers.CharField(required=False, allow_null=True, allow_blank=True, validators=[no_html])
+    translations = serializers.CharField(required=False, allow_null=True, allow_blank=True, validators=[no_html])
+    other_changes = serializers.CharField(required=False, allow_null=True, allow_blank=True, validators=[no_html])
+    certificate_of_origin = serializers.CharField(
+        required=False, allow_null=True, allow_blank=True, validators=[no_html]
+    )
     insurance_certificate = serializers.CharField(
         required=False, allow_null=True, allow_blank=True, validators=[no_html]
     )
