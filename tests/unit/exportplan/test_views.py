@@ -85,7 +85,7 @@ def test_export_plan_builder_landing_page(
         'title': 'Business objectives',
         'url': '/export-plan/section/business-objectives/',
         'disabled': False,
-        'lessons': ['opportunity-right-you', 'move-accidental-exporting-strategic-exporting'],
+        'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
     }
 
@@ -233,7 +233,7 @@ def test_export_plan_mixin(
         'title': 'Business objectives',
         'url': '/export-plan/section/business-objectives/',
         'disabled': False,
-        'lessons': ['opportunity-right-you', 'move-accidental-exporting-strategic-exporting'],
+        'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
     }
     assert response.context_data['export_plan'] == export_plan_data
@@ -474,7 +474,7 @@ def test_service_page_context(client, user, mock_get_user_profile):
         'title': 'Business objectives',
         'url': '/export-plan/section/business-objectives/',
         'disabled': False,
-        'lessons': ['opportunity-right-you', 'move-accidental-exporting-strategic-exporting'],
+        'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
     }
 
