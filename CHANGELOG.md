@@ -12,8 +12,10 @@
 - GBAU-957 - redirect /companion/ to digital-companion.ava-digi.de
 - GP2-2708 - Update header logo
 - GP2-2710 - Update footer logo
+- GP2-2777 - Remove DIT footer logos
 
 ### Fixed bugs
+- GP2-2733 - Suggested markets query updated from redux
 - GP2-2441 - Labels on EP Target market research page
 - GP2-2400 - [Mobile]-align CTA Text
 - GP2-2732 - remove Export opportunities tab for the Dashboard
@@ -42,6 +44,8 @@
 - GP2-2516 - Fix header layout issues on tablet
 - GP2-2719 - Fix footer logo link issue
 - GP2-2763 - saving-blank-error
+- GP2-2724 - update-lesson-be
+- GP2-2775 - sav business-risk
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 

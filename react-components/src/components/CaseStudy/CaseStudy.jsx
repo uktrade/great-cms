@@ -88,10 +88,10 @@ const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
           <i className="fa fa-comment" aria-hidden="true"></i>
           <div>
             <h3 className="cast-study__lead_title  h-m m-b-xs p-0">
-              {heading}
+              {ReactHtmlParser(heading)}
             </h3>
             <span className="case-study__company text-blue-deep-60 h-s p-0">
-              {company}
+              {ReactHtmlParser(company)}
             </span>
             {image}
             {isOpen && <>{body}</>}

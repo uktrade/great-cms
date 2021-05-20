@@ -4,7 +4,8 @@
   magna.adaptToTargetMarketForm({
     element: document.getElementById('changes-to-product'),
     field: 'adaptation_target_market',
-    formData: {{ form_initial|safe }},
+    formData: {{ form_initial|to_json }},
+    lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json}}, 0),
     formFields: [
       {
         name: 'labelling',
@@ -19,7 +20,7 @@
             Avoid word-for-word translations and consider culturally sensitive terms.
           </p>`
         },
-        lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 1),
+        lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json}}, 1),
       },
       {
         name: 'packaging',
@@ -34,7 +35,7 @@
             Some countries have strict laws on how goods are packaged. Look into the guidelines for your target country to avoid your products getting damaged, lost or rejected.
           </p>`,
         },
-        lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 2),
+        lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json}}, 1),
       },
       {
         name: 'size',
@@ -63,7 +64,7 @@
             Investigate the standard size and unit of measurement so that you can meet customers' needs.
           </p>`,
         },
-        lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 3),
+        lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json}}, 3),
       },
       {
         name: 'translations',
@@ -87,14 +88,14 @@
       },
     ],
     companyexportplan: {{ export_plan.pk }},
-    lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 4),
   })
 
   magna.documentsForTargetMarketForm({
     element: document.getElementById('documents-for-target-market'),
     field: 'adaptation_target_market',
-    formData: {{ form_initial|safe }},
+    formData: {{ form_initial|to_json }},
     model_name: 'targetmarketdocuments',
+    lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json}}, 4),
     formFields: [
       {
         name: 'certificate_of_origin',
@@ -140,7 +141,7 @@
           </ul>
           <p>It is one of the main documents used by customs officials to calculate duties and taxes and it also makes sure you get paid on time.</p>`,
         },
-        lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 5),
+        lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json}}, 5),
       },
       {
         name: 'uk_customs_declaration',
@@ -154,7 +155,7 @@
             It is needed on all goods that are being exported.
           </p>`,
         },
-        lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 6),
+        lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json}}, 6),
       },
     ],
     formDataUserDocs: {{ target_market_documents|to_json }},
@@ -164,7 +165,7 @@
   magna.statsForYourTargetMarket({
     element: document.getElementById('stats-for-target-market'),
     infoMoment: `
-      <a href="{{ check_duties_link|safe }}" target="_blank" rel="noopener noreferrer">Check how to export goods</a> is a GOV.UK online tool that gives exporters information about what is needed in order to export goods to their chosen markets. It has information on:
+      <a href="{{ check_duties_link|to_json }}" target="_blank" rel="noopener noreferrer">Check how to export goods</a> is a GOV.UK online tool that gives exporters information about what is needed in order to export goods to their chosen markets. It has information on:
       <ul class="list-bullet m-v-xs">
         <li>rules and restrictions</li>
         <li>tax and duty rates</li>
