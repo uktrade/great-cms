@@ -44,6 +44,7 @@
 - GP2-2719 - Fix footer logo link issue
 - GP2-2763 - saving-blank-error
 - GP2-2724 - update-lesson-be
+- GP2-2775 - sav business-risk
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 

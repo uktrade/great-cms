@@ -109,10 +109,14 @@ class AdaptationTargetMarketSerializer(serializers.Serializer):
 
 
 class BusinessRisksSerializer(serializers.Serializer):
-    risk = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    contingency_plan = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    risk_likelihood = serializers.ChoiceField(required=False, choices=choices.RISK_LIKELIHOOD_OPTIONS)
-    risk_impact = serializers.ChoiceField(required=False, choices=choices.RISK_IMPACT_OPTIONS)
+    risk = serializers.CharField(required=False, allow_blank=True, allow_null=True, validators=[no_html])
+    contingency_plan = serializers.CharField(required=False, allow_blank=True, allow_null=True, validators=[no_html])
+    risk_likelihood = serializers.ChoiceField(
+        required=False, allow_blank=True, allow_null=True, choices=choices.RISK_LIKELIHOOD_OPTIONS
+    )
+    risk_impact = serializers.ChoiceField(
+        required=False, allow_blank=True, allow_null=True, choices=choices.RISK_IMPACT_OPTIONS
+    )
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 
@@ -153,7 +157,9 @@ class UiProgress(serializers.Serializer):
 
 class FundingCreditOptionsSerializer(serializers.Serializer):
     amount = serializers.FloatField(required=False, allow_null=True)
-    funding_option = serializers.ChoiceField(required=False, choices=choices.FUNDING_OPTIONS)
+    funding_option = serializers.ChoiceField(
+        required=False, allow_null=True, allow_blank=True, choices=choices.FUNDING_OPTIONS
+    )
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 
@@ -249,11 +255,11 @@ class ListMultipleChoiceField(serializers.MultipleChoiceField):
 
 class GettingPaidSerializer(serializers.Serializer):
     class PaymentMethodSerializer(serializers.Serializer):
-        methods = ListMultipleChoiceField(required=False, choices=choices.PAYMENT_METHOD_OPTIONS)
+        methods = ListMultipleChoiceField(required=False, allow_blank=True, choices=choices.PAYMENT_METHOD_OPTIONS)
         notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
 
     class PaymentTermsSerializer(serializers.Serializer):
-        terms = serializers.ChoiceField(required=False, choices=choices.PAYMENT_TERM_OPTIONS)
+        terms = serializers.ChoiceField(required=False, allow_blank=True, choices=choices.PAYMENT_TERM_OPTIONS)
         notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
 
     class IncotermsSerializer(serializers.Serializer):
@@ -275,7 +281,7 @@ class BusinessTripsSerializer(serializers.Serializer):
 
 class TravelBusinessPoliciesSerializer(serializers.Serializer):
     class VisaInformationSerializer(serializers.Serializer):
-        visa_required = serializers.BooleanField(required=False)
+        visa_required = serializers.BooleanField(required=False, allow_null=True)
         how_where_visa = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
         how_long = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
         notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
