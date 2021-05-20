@@ -12,6 +12,7 @@
 - GBAU-957 - redirect /companion/ to digital-companion.ava-digi.de
 - GP2-2708 - Update header logo
 - GP2-2710 - Update footer logo
+- GP2-2777 - Remove DIT footer logos
 
 ### Fixed bugs
 - GP2-2733 - Suggested markets query updated from redux
