@@ -3,6 +3,8 @@ import json
 import re
 from datetime import datetime
 
+from django.conf import settings
+from django.http import HttpResponse
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
@@ -203,6 +205,18 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
                 sso_session_id=self.request.user.session_id, id=export_plan['pk'], data=serializer.validated_data
             )
             return Response(serializer.validated_data)
+
+
+class SetLogin(generics.GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse('Setting a cookie')
+        response.set_cookie(key=settings.SSO_SESSION_COOKIE, value=request.GET['token'])
+        response.set_cookie(key='sso_display_logged_in', value=True)
+        response.set_cookie(key='cookie_preferences_set', value=True)
+        response.set_cookie(
+            key='cookies_policy', value={'essential': True, 'settings': True, 'usage': True, 'campaigns': True}
+        )
+        return response
 
 
 class ModelObjectManageAPIView(generics.UpdateAPIView, generics.GenericAPIView):

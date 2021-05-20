@@ -15,6 +15,7 @@ SIGNUP_URL = reverse_lazy('core:signup')
 app_name = 'exportplan'
 
 urlpatterns = [
+    path('api/setlogin/', skip_ga360(api.SetLogin.as_view()), name='setlogin'),
     path(
         'section/marketing-approach/',
         login_required(views.ExportPlanMarketingApproachView.as_view(), login_url=SIGNUP_URL),
