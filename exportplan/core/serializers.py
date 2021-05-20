@@ -264,7 +264,7 @@ class GettingPaidSerializer(serializers.Serializer):
 
     class IncotermsSerializer(serializers.Serializer):
         transport = serializers.ChoiceField(
-            required=False, choices=choices.TRANSPORT_OPTIONS + choices.WATER_TRANSPORT_OPTIONS
+            required=False, allow_blank=True, choices=choices.TRANSPORT_OPTIONS + choices.WATER_TRANSPORT_OPTIONS
         )
         notes = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
 
