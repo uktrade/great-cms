@@ -188,8 +188,6 @@ class ExportPlanAdaptingYourProductView(
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['target_market_documents'] = self.request.user.export_plan.data['target_market_documents']
-        context['adaptation_target_market'] = self.request.user.export_plan.data['adaptation_target_market']
-        print(context['adaptation_target_market'])
         return context
 
 
