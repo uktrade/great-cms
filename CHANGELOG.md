@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2773 - Update sign-in & sign-up with new logo
 - no-ticket - add new illustrations - dashboard page
 - GP2-2774 - Increase header-large size in mobile
 - GP2-2779 - Updated export academy logo

@@ -32,10 +32,10 @@ export const Login = (props) => {
       <a href="/">
         <img
           className="m-f-auto m-r-auto signup__logo"
-          src="/static/images/logo-filled.svg"
-          alt="Exporting is Great"
+          src="/static/images/dit_logo_335x160.png"
+          alt="Department for International Trade"
           width="148"
-          height="69"
+          height="71"
         />
       </a>
       <Form
