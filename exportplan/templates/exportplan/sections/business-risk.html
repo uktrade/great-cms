@@ -1,5 +1,10 @@
 {% extends 'exportplan/section.html' %}
 {% load to_json %}
+{% load static %}
+
+{% block banner_image %}
+  {% static 'images/business-risk.png' %}
+{% endblock %}
 
 {% block intro_title %}Business risk{%endblock %}
 {% block intro_description %}

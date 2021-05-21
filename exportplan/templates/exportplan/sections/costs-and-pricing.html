@@ -1,5 +1,11 @@
 {% extends 'exportplan/section.html' %}
 {% load to_json %}
+{% load static %}
+
+{% block banner_image %}
+  {% static 'images/costs-and-pricing.png' %}
+{% endblock %}
+
 {% block intro_title %}Costs and pricing{% endblock %}
 
 {% block intro_description %}To avoid unwanted surprises, it's best to know all the costs involved in exporting your product. <br /><br />This page will help you plan ahead and keep track of the upfront costs.{% endblock %}
