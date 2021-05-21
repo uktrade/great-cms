@@ -50,7 +50,7 @@
 - GP2-2724 - update-lesson be
 - GP2-2775 - sav business risk
 _ GP2-2775 - getting paid error
-
+- gp2765 - content changes
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 
