@@ -68,13 +68,20 @@ $desktop: 1024px;
   }
 }
 
-.learn__categories-logo {
+.learn__export-academy-logo {
   width: 83px;
-  margin-top: -20px;
 
   @include tablet {
     width: 115px;
   }
+
+  &.small {
+    width: 71px;
+  }
+}
+
+.learn__categories-logo {
+  margin-top: -20px;
 }
 
 .learn__category-header {
