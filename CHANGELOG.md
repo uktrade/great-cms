@@ -5,6 +5,7 @@
 ### Enhancements
 - no-ticket - update placeholders
 - GP2-2773 - Update sign-in & sign-up with new logo
+- GP2-2783 - Product search re-label rework
 - no-ticket - add new illustrations - dashboard page
 - GP2-2774 - Increase header-large size in mobile
 - GP2-2779 - Updated export academy logo
