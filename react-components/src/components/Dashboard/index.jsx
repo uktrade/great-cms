@@ -20,7 +20,7 @@ export const Dashboard = memo(
       'about-the-business.png',
       'business-objectives.png',
       'target-market-research.png',
-      'ep-placeholder.svg',
+      'funding-financing-and--getting-paid.png',
       'marketing-approach.png',
       'costs-and-pricing.png',
       'funding-and-credit.png',
