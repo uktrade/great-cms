@@ -4,7 +4,7 @@
   magna.adaptToTargetMarketForm({
     element: document.getElementById('changes-to-product'),
     field: 'adaptation_target_market',
-    formData: {{ form_initial|to_json }},
+    formData: {{ form_initial|safe }},
     lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json}}, 0),
     formFields: [
       {
@@ -85,7 +85,7 @@
   magna.documentsForTargetMarketForm({
     element: document.getElementById('documents-for-target-market'),
     field: 'adaptation_target_market',
-    formData: {{ form_initial|to_json }},
+    formData: {{ form_initial|safe }},
     model_name: 'targetmarketdocuments',
     lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json}}, 4),
     formFields: [
