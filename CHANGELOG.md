@@ -58,6 +58,7 @@
 _ GP2-2775 - getting paid error
 - gp2765 - content changes
 - NOTICKET - error saving ep atm
+- NOTICKET - update pdf logo
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 
