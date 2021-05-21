@@ -262,8 +262,8 @@ class ExportPlanTargetMarketsResearchForm(forms.Form):
         widget=Textarea(
             attrs={
                 'example': (
-                    'Dove Gin’s historic backstory is definitely appealing and will make us stand out from '
-                    'the competition. We also know our product design is very appealing and unique.'
+                    'Dove Gin’s historic backstory is definitely appealing and will make us stand out from the '
+                    'competition. We also know our product design is unusual.'
                 ),
             }
         ),
