@@ -17,6 +17,7 @@
 - GP2-2777 - Remove DIT footer logos
 
 ### Fixed bugs
+- GP2-2759 - remove Share and download icon issues
 - GP2-2704 - Update text -EP - getting paid
 - GP2-2778 - Fix missing space between HTML nodes in rich-text indexed for search
 - GP2-2733 - Suggested markets query updated from redux
