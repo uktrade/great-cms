@@ -98,8 +98,8 @@ export default function ProductFinderModal(props) {
         productKeyword: commodityName,
         productCode: commodityCode,
       })
+      closeModal()
     }
-    closeModal()
   }
 
   const renderSearchResults = (newSearchResults) => {
@@ -279,6 +279,7 @@ export default function ProductFinderModal(props) {
           commodityCode={_searchResults.hsCode}
           defaultCommodityName={capitalize(_searchResults.currentItemName)}
           saveProduct={saveProduct}
+          searchCompletedMode
         />
       </section>
     )
@@ -474,16 +475,11 @@ export default function ProductFinderModal(props) {
             buttonLabel="Update product name"
             allowSaveSameName={false}
           />
-          <p>
-            If you&apos;ve created an Export Plan, make sure you update it to
-            reflect your new product. You can change product at any time.
-          </p>
           <button
             type="button"
-            className="button button--tertiary button--icon"
+            className="button button--primary button--icon m-t-s"
             onClick={backToSearch}
           >
-            <i className="fas fa-arrow-left" />
             Search again
           </button>
         </section>

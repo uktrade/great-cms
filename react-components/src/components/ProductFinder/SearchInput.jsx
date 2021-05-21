@@ -13,6 +13,9 @@ export default function SearchInput(props) {
     iconClass,
     maxWidth,
     validator,
+    onSaveButtonClick,
+    saveButtonDisabled,
+    saveButtonLabel,
   } = props
   const [value, setValue] = useState(defaultValue || '')
   const [isFocussed, setFocussed] = useState(false)
@@ -101,6 +104,17 @@ export default function SearchInput(props) {
             iconClass && <i className={`fas ${iconClass} text-blue-deep-60`} />
           )}
         </div>
+        { onSaveButtonClick ? (
+        <button
+              type="button"
+              aria-label="Save"
+              className="button button--primary m-f-xs"
+              onClick={onSaveButtonClick}
+              disabled={saveButtonDisabled}
+        >
+        {saveButtonLabel}
+        </button>
+        ) : '' }
         <span className="visually-hidden">Search markets</span>
       </div>
     </label>
@@ -118,6 +132,9 @@ SearchInput.propTypes = {
   iconClass: PropTypes.string,
   maxWidth: PropTypes.string,
   validator: PropTypes.func,
+  onSaveButtonClick: PropTypes.func,
+  saveButtonDisabled: PropTypes.bool,
+  saveButtonLabel: PropTypes.string,
 }
 SearchInput.defaultProps = {
   id: 'search-input',
@@ -129,4 +146,7 @@ SearchInput.defaultProps = {
   iconClass: '',
   maxWidth: '200em',
   validator: () => true,
+  onSaveButtonClick: null,
+  saveButtonDisabled: false,
+  saveButtonLabel: 'Save',
 }
