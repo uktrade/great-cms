@@ -16,10 +16,23 @@ export const Dashboard = memo(
       })
     }
 
+    const images = [
+      'about-the-business.png',
+      'business-objectives.png',
+      'target-market-research.png',
+      'funding-financing-and--getting-paid.png',
+      'marketing-approach.png',
+      'costs-and-pricing.png',
+      'funding-and-credit.png',
+      'getting-paid.png',
+      'travel-plan.png',
+      'business-risk.png',
+    ]
+
     return (
       <>
         <ComingSoon onClick={() => setModal(false)} isOpen={modal} />
-        {sections.map(({ title, url, disabled, is_complete }) => (
+        {sections.map(({ title, url, disabled, is_complete }, i) => (
           <div className="c-1-3-xl c-1-2-m" key={url}>
             <div
               className={`bg-white m-b-s section-list__item ${
@@ -70,7 +83,7 @@ export const Dashboard = memo(
                       className={`w-full p-h-s p-t-m p-b-s ${
                         is_complete ? 'bg-green-30' : 'bg-blue-deep-20'
                       }`}
-                      src="/static/images/ep-placeholder.svg"
+                      src={`/static/images/${images[i]}`}
                       alt={title}
                     />
                   </div>

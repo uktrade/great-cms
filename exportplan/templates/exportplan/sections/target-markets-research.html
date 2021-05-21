@@ -2,6 +2,10 @@
 {% load static %}
 {% load to_json %}
 
+{% block banner_image %}
+  {% static 'images/target-market-research.png' %}
+{% endblock %}
+
 {% block intro_title %}Target market research{% endblock %}
 {% block intro_description %}In this part of your Export Plan you'll record what you know about the target country and the market it has for your product.{% endblock %}
 
@@ -28,9 +32,9 @@
     <div class="c-1-4">&nbsp;</div>
     <div class="c-1-1 c-2-3-m c-1-2-xl">
         <p class="m-0 body-s">
-          <strong class="body-s-b">Population statistics: </strong><a href="https://www.un.org/en/" title="United Nations">United Nations</a>.
-          <strong class="body-s-b">Access to Internet,Consumer Price Index: </strong><a href="https://www.worldbank.org/" title="World Bank">World Bank</a>.
-          <strong class="body-s-b">Adjusted net national income per capita:</strong> <a href="https://data.worldbank.org/indicator/NY.ADJ.NNTY.PC.CD" title="World Bank">World Bank</a>.
+          <strong class="body-s-b">Population statistics: </strong><a href="{{ united_nations_url }}" title="United Nations">United Nations</a>.
+          <strong class="body-s-b">Access to Internet,Consumer Price Index: </strong><a href="{{ world_bank_url }}" title="World Bank">World Bank</a>.
+          <strong class="body-s-b">Adjusted net national income per capita:</strong> <a href="{{ data_world_bank_url }}" title="World Bank">World Bank</a>.
         </p>
     </div>
     <div class="c-1-12-m c-1-4-xl">&nbsp;</div>

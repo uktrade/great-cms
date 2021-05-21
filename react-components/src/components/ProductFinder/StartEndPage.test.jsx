@@ -38,11 +38,12 @@ it('Renders a product selection final page', async () => {
 
   act(() => {
       ReactDOM.render(
-      <StartEndPage 
-        commodityCode={hsCode} 
-        defaultCommodityName={commodityName} 
-        saveProduct={saveProduct} 
-      />, 
+      <StartEndPage
+        commodityCode={hsCode}
+        defaultCommodityName={commodityName}
+        saveProduct={saveProduct}
+        searchCompletedMode={true}
+      />,
       container)
   })
   await waitFor(() => {
@@ -59,7 +60,7 @@ it('Renders a product selection final page', async () => {
     nameInput.value=commodityName + '-'
     Simulate.change(nameInput)
   })
-  
+
   const clearButton = container.querySelector('button.clear')
   act(() => {
     Simulate.click(clearButton)

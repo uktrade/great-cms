@@ -4,7 +4,7 @@
   magna.adaptToTargetMarketForm({
     element: document.getElementById('changes-to-product'),
     field: 'adaptation_target_market',
-    formData: {{ form_initial|to_json }},
+    formData: {{ form_initial|safe }},
     lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json}}, 0),
     formFields: [
       {
@@ -15,9 +15,7 @@
         tooltip: {
           content:
           `<p>
-            Some countries speak more than one language. Depending on your target demographic you may need to translate your product labels, packages and other material.
-            <br />
-            Avoid word-for-word translations and consider culturally sensitive terms.
+            Labelling communicates important things about your product. There may be local guidelines on label warnings and text size that you must follow, or you may need to include details and descriptions that are not needed in the UK. To appeal to locals, you could perhaps change your product name or label design. This may include changing colours that have different connotations and cultural significance in different places.
           </p>`
         },
         lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json}}, 1),
@@ -45,9 +43,7 @@
         tooltip: {
           content:
           `<p>
-            Labelling communicates important things about the product. There may be local guidelines on label warnings and text size that you must follow.
-            <br />
-            To appeal to locals, you may want to change your product name or label design. For example, in China, the colour red has a strong positive connotations and cultural significance.
+            Standard sizes for products vary. This is often because of customers’ buying habits. Investigate the standard size and unit of measurement for your product so that you can meet local needs.
           </p>`,
         },
       },
@@ -59,9 +55,7 @@
         tooltip: {
           content:
           `<p>
-            Standard sizes for products vary depending on things like buying habits.
-            <br />
-            Investigate the standard size and unit of measurement so that you can meet customers' needs.
+            If your product does not comply with local standards, it can’t be sold. Some countries ban goods containing illegal or offensive materials, and it isn’t always obvious what they consider illegal or offensive.
           </p>`,
         },
         lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json}}, 3),
@@ -74,10 +68,8 @@
         tooltip: {
           content:
           `<p>
-            If your product doesn't not comply with local standards, it can't be sold.
-            <br />
-            Some countries ban goods containing illegal or offensive materials, and it isn't always obvious what that might be.
-          </p>`,
+            Some countries speak more than one language. Depending on your target demographic you may need to translate your product labels, packages and other material. Avoid word-for-word translations and consider culturally sensitive terms.
+         </p>`,
         },
       },
       {
@@ -93,7 +85,7 @@
   magna.documentsForTargetMarketForm({
     element: document.getElementById('documents-for-target-market'),
     field: 'adaptation_target_market',
-    formData: {{ form_initial|to_json }},
+    formData: {{ form_initial|safe }},
     model_name: 'targetmarketdocuments',
     lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json}}, 4),
     formFields: [
@@ -165,7 +157,7 @@
   magna.statsForYourTargetMarket({
     element: document.getElementById('stats-for-target-market'),
     infoMoment: `
-      <a href="{{ check_duties_link|to_json }}" target="_blank" rel="noopener noreferrer">Check how to export goods</a> is a GOV.UK online tool that gives exporters information about what is needed in order to export goods to their chosen markets. It has information on:
+      <a href="{{ check_duties_url }}" target="_blank" rel="noopener noreferrer">Check how to export goods</a> is a GOV.UK online tool that gives exporters information about what is needed in order to export goods to their chosen markets. It has information on:
       <ul class="list-bullet m-v-xs">
         <li>rules and restrictions</li>
         <li>tax and duty rates</li>

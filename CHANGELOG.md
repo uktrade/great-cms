@@ -3,7 +3,12 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- no-ticket - update placeholders
+- GP2-2773 - Update sign-in & sign-up with new logo
+- GP2-2783 - Product search re-label rework
+- no-ticket - add new illustrations - dashboard page
 - GP2-2774 - Increase header-large size in mobile
+- GP2-2779 - Updated export academy logo
 - GP2-2730 - Export academy logo on learning landing page
 - GP2-2380 - Added sign out view
 - GP2-2729 - Export academy logo on dashboard learning card
@@ -16,6 +21,8 @@
 - GP2-2777 - Remove DIT footer logos
 
 ### Fixed bugs
+- GP2-2759 - remove Share and download icon issues
+- GP2-2704 - Update text -EP - getting paid
 - GP2-2778 - Fix missing space between HTML nodes in rich-text indexed for search
 - GP2-2733 - Suggested markets query updated from redux
 - GP2-2441 - Labels on EP Target market research page
@@ -49,7 +56,8 @@
 - GP2-2724 - update-lesson be
 - GP2-2775 - sav business risk
 _ GP2-2775 - getting paid error
-
+- gp2765 - content changes
+- NOTICKET - error saving ep atm
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 

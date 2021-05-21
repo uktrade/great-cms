@@ -29,7 +29,7 @@ it('Creates an autofocus input', () => {
         onChange={onChange}
         onKeyReturn={search}
         autoFocus
-      />, 
+      />,
       container)
   })
   const input = container.querySelector('input')
@@ -57,7 +57,7 @@ it('Creates an non-autofocus input', () => {
       <SearchInput
         onChange={onChange}
         onKeyReturn={search}
-      />, 
+      />,
       container)
   })
   let input = container.querySelector('input')
@@ -97,11 +97,41 @@ it('Creates an input with label', () => {
         onKeyReturn={search}
         label="test label"
         placeholder="test placeholder"
-      />, 
+      />,
       container)
   })
   const label = container.querySelector('label')
   expect(label.textContent).toMatch(/test label/)
   const input = container.querySelector('input')
   expect(input.getAttribute('placeholder')).toMatch(/test placeholder/)
+})
+
+it('Creates an input with a save button', () => {
+  const onChange = jest.fn()
+  const search = jest.fn()
+  const onSave = jest.fn()
+  const buttonLabel = "label on save button"
+
+  act(() => {
+      ReactDOM.render(
+      <SearchInput
+        onChange={onChange}
+        onKeyReturn={search}
+        label="test label"
+        placeholder="test placeholder"
+        onSaveButtonClick={onSave}
+        saveButtonDisabled={false}
+        saveButtonLabel={buttonLabel}
+      />,
+      container)
+  })
+  const label = container.querySelector('label')
+  expect(label.textContent).toMatch(/test label/)
+  const saveButton = container.querySelector('button.button--primary')
+  expect(saveButton).toBeTruthy()
+  expect(saveButton.textContent).toMatch(buttonLabel)
+  act(() => {
+    Simulate.click(saveButton)
+  })
+  expect(onSave).toHaveBeenCalled()
 })

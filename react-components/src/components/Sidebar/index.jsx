@@ -78,22 +78,6 @@ export const Sidebar = memo(
                 </li>
               ))}
             </ul>
-            <div>
-              <button
-                type="button"
-                className="button button--small button--only-icon button--tertiary m-r-xxs"
-                disabled
-              >
-                <i className="fas fa-share text-blue-deep-60" />
-              </button>
-              <button
-                type="button"
-                className="button button--small button--only-icon button--tertiary"
-                disabled
-              >
-                <i className="fas fa-download text-blue-deep-60" />
-              </button>
-            </div>
           </div>
         </nav>
       </>

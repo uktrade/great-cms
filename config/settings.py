@@ -489,7 +489,14 @@ DIRECTORY_CH_SEARCH_CLIENT_API_KEY = env.str('DIRECTORY_CH_SEARCH_CLIENT_API_KEY
 DIRECTORY_CH_SEARCH_CLIENT_SENDER_ID = env.str('DIRECTORY_CH_SEARCH_CLIENT_SENDER_ID', 'directory')
 DIRECTORY_CH_SEARCH_CLIENT_DEFAULT_TIMEOUT = env.str('DIRECTORY_CH_SEARCH_CLIENT_DEFAULT_TIMEOUT', 5)
 
-MADB_URL = env.str('MADB_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk')
+CHECK_DUTIES_URL = env.str(
+    'CHECK_DUTIES_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk/selectdest'
+)
+CIA_FACTBOOK_URL = env.str('CIA_FACTBOOK_URL', 'https://www.cia.gov/the-world-factbook/')
+WORLD_BANK_URL = env.str('WORLD_BANK_URL', 'https://www.worldbank.org/')
+DATA_WORLD_BANK_URL = env.str('DATA_WORLD_BANK_URL', 'https://data.worldbank.org/indicator/NY.ADJ.NNTY.PC.CD')
+UNITED_NATIONS_URL = env.str('UNITED_NATIONS_URL', 'https://www.un.org/en/')
+
 
 # 3CE commodity classification
 COMMODITY_SEARCH_URL = env.str(

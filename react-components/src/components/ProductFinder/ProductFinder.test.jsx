@@ -133,7 +133,7 @@ describe('Product finder tests', () => {
     expect(interactionName.textContent).toMatch('Current question')
     const definitionExpanders = finder.querySelectorAll('button.info')
     expect(definitionExpanders.length).toEqual(1)
-    const panel = definitionExpanders[0].closest('label').querySelector('.g-panel') 
+    const panel = definitionExpanders[0].closest('label').querySelector('.g-panel')
     expect(panel.textContent).toMatch(/^definition texton two lines$/)
   })
 
@@ -198,9 +198,9 @@ describe('Product finder tests', () => {
   })
 
   it('Opens product view and renames product', async () => {
-    // Populate existing product, check for naming screen (rather than search screen) 
+    // Populate existing product, check for naming screen (rather than search screen)
     // and ability to rename
-    
+
     // set up existing product in store
     let selectedProduct = {
       commodity_code: '123456',
@@ -212,7 +212,7 @@ describe('Product finder tests', () => {
     const setIsOpen = jest.fn()
     // Mock the classification tree request
     Services.setConfig({ apiLookupProductScheduleUrl: '/api/lookup-product-schedule/' })
-    
+
     fetchMock.get(/\/api\/lookup-product-schedule\//, {
       type:'one',
       children:[]
@@ -221,7 +221,7 @@ describe('Product finder tests', () => {
     act(() => {
       ProductFinder({ element: container })
       const button = container.querySelector('button')
-      Simulate.click(button)      
+      Simulate.click(button)
     })
     const finder = document.body.querySelector('.product-finder');
     await waitFor(() => {
@@ -229,8 +229,7 @@ describe('Product finder tests', () => {
       expect(results).toBeTruthy()
     })
     const box = finder.querySelector('.box');
-    expect(box.querySelector('h3').textContent).toMatch('HS6 Code: 123456')
-    expect(box.querySelector('input').getAttribute('value')).toMatch('my product')
+    expect(box.querySelector('h4').textContent).toMatch('HS6 Code: 123456')
+    expect(box.querySelector('h3').textContent).toMatch('my product')
   })
-
 })
