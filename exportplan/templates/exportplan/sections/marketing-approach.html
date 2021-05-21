@@ -1,7 +1,13 @@
 {% extends 'exportplan/section.html' %}
 {% load to_json %}
+{% load static %}
 
 {% load intcomma from humanize %}
+
+{% block banner_image %}
+  {% static 'images/marketing-approach.png' %}
+{% endblock %}
+
 
 {% block intro_title %}Marketing approach{% endblock %}
 {% block intro_description %}There are many ways to market a product or service. This page will help you detail the best marketing approaches for your business.{% endblock %}
