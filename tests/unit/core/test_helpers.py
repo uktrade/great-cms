@@ -213,11 +213,6 @@ def test_create_user_profile_failure(mock_create_user_profile, user, rf):
         helpers.create_user_profile(data=data, sso_session_id='123')
 
 
-def test_get_custom_duties_url():
-    url = helpers.get_custom_duties_url(product_code='8424.10', country='CN')
-    assert url == 'https://www.check-duties-customs-exporting-goods.service.gov.uk/summary?d=CN&pc=8424.10'
-
-
 @mock.patch.object(api_client.company, 'profile_update')
 def test_update_company_profile(mock_profile_update, patch_update_company_profile):
     patch_update_company_profile.stop()

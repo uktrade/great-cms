@@ -167,7 +167,6 @@ def test_adaption_for_target_markets_context(client, user, mock_get_user_profile
     assert response.status_code == 200
 
     response.context_data['languages'] = {'language': 'Dutch', 'note': 'Many other too'}
-    response.context_data['check_duties_link'] = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
     response.context_data['target_market_documents'] = {'document_name': 'test'}
 
 
@@ -303,9 +302,6 @@ def test_cost_and_pricing(cost_pricing_data, client, user, mock_get_user_profile
     response = client.get(url)
 
     assert response.status_code == 200
-    assert (
-        response.context_data['check_duties_link'] == 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
-    )
     assert response.context_data['export_unit_choices'][0] == {'label': 'metre(s)', 'value': 'm'}
     assert response.context_data['export_timeframe_choices'][0] == {'label': 'day(s)', 'value': 'd'}
     assert response.context_data['currency_choices'][0] == {'label': 'EUR', 'value': 'eur'}

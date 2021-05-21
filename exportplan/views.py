@@ -187,7 +187,6 @@ class ExportPlanAdaptingYourProductView(
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['check_duties_link'] = helpers.get_check_duties_link(self.request.user.export_plan.data)
         context['target_market_documents'] = self.request.user.export_plan.data['target_market_documents']
         return context
 
@@ -241,7 +240,6 @@ class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionV
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['check_duties_link'] = helpers.get_check_duties_link(self.request.user.export_plan.data)
         context['export_unit_choices'] = choices_to_key_value(choices.EXPORT_UNITS)
         context['export_timeframe_choices'] = choices_to_key_value(choices.EXPORT_TIMEFRAME)
         currency_choices = (('eur', 'EUR'), ('gbp', 'GBP'), ('usd', 'USD'))
