@@ -9,6 +9,15 @@ logger = logging.getLogger(__name__)
 
 
 class CountryGuidePageSerializer(serializers.Serializer):
+    def _prep_richtext_for_indexing(self, rich_text_value: str) -> str:
+        """Take an input HTML string and prep it for indexing. Specifically:
+        * ensure there's a space between each HTML node, so that we get whitespace
+          between strings that occur <h2>like</h2><p>this....</p>
+        """
+        # This is a super-naive pass, but we can trust that the HTML from a RichTextField
+        # is clean, and a minimal change is good.
+        return rich_text_value.replace('><', '> <')
+
     def to_representation(self, obj):
         return {
             'id': ('dit:greatCms:Article:' + str(obj.id) + ':Update'),
@@ -19,7 +28,7 @@ class CountryGuidePageSerializer(serializers.Serializer):
                 'id': 'dit:greatCms:Article:' + str(obj.id),
                 'name': obj.heading,
                 'summary': obj.sub_heading,
-                'content': obj.section_one_body,
+                'content': self._prep_richtext_for_indexing(obj.section_one_body),
                 'url': obj.get_absolute_url(),
                 'keywords': ' '.join(obj.tags.all().values_list('name', flat=True)),
             },
