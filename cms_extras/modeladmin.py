@@ -156,7 +156,7 @@ class CaseStudyAdmin(ModelAdmin):
         'title',
         'summary_context',
         'lead_title',
-        # DISABLED SLOWNESS also it could be cause or UAT DB crash on 21/05/21
+        # DISABLED DUE TO SLOWNESS, also it could be cause or UAT DB crash on 21/05/21
         # 'hs_code_tags__name',
         # 'country_code_tags__name',
         # 'region_code_tags__name',
