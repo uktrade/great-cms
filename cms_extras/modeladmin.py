@@ -156,10 +156,11 @@ class CaseStudyAdmin(ModelAdmin):
         'title',
         'summary_context',
         'lead_title',
-        'hs_code_tags__name',
-        'country_code_tags__name',
-        'region_code_tags__name',
-        'trading_bloc_code_tags__name',
+        # DISABLED SLOWNESS also it could be cause or UAT DB crash on 21/05/21
+        # 'hs_code_tags__name',
+        # 'country_code_tags__name',
+        # 'region_code_tags__name',
+        # 'trading_bloc_code_tags__name',
     )
 
     def associated_hs_code_tags(self, obj):
