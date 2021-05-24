@@ -39,7 +39,7 @@ def test_render_video_tag__with_thumbnail():
 
     assert (
         # Whitespace in this string is important for matching output
-        '<video preload="metadata" controls\n'
+        '<video preload="metadata" controls\n controlsList="nodownload"'
         '            poster="https://example.com/thumb.png" data-v-duration="120">'
     ) in html
     assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
@@ -56,7 +56,7 @@ def test_render_video_tag__without_thumbnail():
     block = dict(video=video_mock)
     html = render_video(block)
     # Whitespace in this string is important for matching output
-    assert '<video preload="metadata" controls\n            data-v-duration="120">' in html
+    assert '<video preload="metadata" controls\n controlsList="nodownload" data-v-duration="120">' in html
     assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
     assert 'Your browser does not support the video tag.' in html
 
@@ -85,7 +85,7 @@ def test_render_video_tag__with_subtitles():
     block = dict(video=video_mock)
     html = render_video(block)
     # Whitespace in this string is important for matching output
-    assert '<video preload="metadata" controls\n            data-v-duration="120">' in html
+    assert '<video preload="metadata" controls\n controlsList="nodownload" data-v-duration="120">' in html
     assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
     assert 'Your browser does not support the video tag.' in html
     assert '<track label="TestLang" kind="subtitles" srclang="tt" src="/subtitles/123/tt/content.vtt" default>' in html
