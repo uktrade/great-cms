@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2797 - Disabled video downloads
 - no-ticket - update placeholders
 - GP2-2773 - Update sign-in & sign-up with new logo
 - GP2-2783 - Product search re-label rework
