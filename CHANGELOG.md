@@ -63,6 +63,8 @@ _ GP2-2775 - getting paid error
 - NOTICKET - error saving ep atm
 - NOTICKET - update pdf logo
 - NOTICKET - remove lesson
+- NOTICKET - configure APM log server
+
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 
