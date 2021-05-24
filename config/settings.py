@@ -364,10 +364,10 @@ if DEBUG:
     INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
 
 
-ELASTIC_APM_ENABLED = env("ELASTIC_APM_ENABLED", default=not DEBUG)
+ELASTIC_APM_ENABLED = env("ELASTIC_APM_ENABLED", default=False)
 if ELASTIC_APM_ENABLED:
     ELASTIC_APM = {
-        'SERVICE_NAME': 'great-cms',
+        'SERVICE_NAME': env('SERVICE_NAME', default='great-cms'),
         'SECRET_TOKEN': env('ELASTIC_APM_SECRET_TOKEN'),
         'SERVER_URL': env('ELASTIC_APM_URL'),
         'ENVIRONMENT': env('ENVIRONMENT', default='dev'),
