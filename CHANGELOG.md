@@ -3,6 +3,8 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- no-ticket - Disabled case study tagging search ability on Admin UI
+- GP2-2797 - Disabled video downloads
 - no-ticket - update placeholders
 - GP2-2773 - Update sign-in & sign-up with new logo
 - GP2-2783 - Product search re-label rework
@@ -61,6 +63,8 @@ _ GP2-2775 - getting paid error
 - NOTICKET - error saving ep atm
 - NOTICKET - update pdf logo
 - NOTICKET - remove lesson
+- NOTICKET - configure APM log server
+
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 
