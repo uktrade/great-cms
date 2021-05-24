@@ -21,6 +21,7 @@
 - GP2-2777 - Remove DIT footer logos
 
 ### Fixed bugs
+- GP2-2790 - remove Getting paid page tooltip
 - GP2-2759 - remove Share and download icon issues
 - GP2-2704 - Update text -EP - getting paid
 - GP2-2778 - Fix missing space between HTML nodes in rich-text indexed for search
@@ -59,6 +60,7 @@ _ GP2-2775 - getting paid error
 - gp2765 - content changes
 - NOTICKET - error saving ep atm
 - NOTICKET - update pdf logo
+- NOTICKET - remove lesson
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 
