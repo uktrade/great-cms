@@ -57,3 +57,4 @@ xhtml2pdf==0.2.*
 pisa==3.0.*
 lxml>=4.6.3
 sigauth==4.3.0
+elastic-apm==6.1.*
