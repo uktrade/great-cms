@@ -24,7 +24,7 @@
           <p>{% block intro_description %}{% endblock %}</p>
         </div>
         <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
-        <img src={% block banner_image %}{% static 'images/ep-placeholder.svg' %}{% endblock %} alt="" class="section--intro-image m-r-auto m-f-auto" />
+        <img src={% static 'images/' %}{{current_section.image}} alt="" class="section--intro-image m-r-auto m-f-auto" />
       </div>
     </div>
   </section>
