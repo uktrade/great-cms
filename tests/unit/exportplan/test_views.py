@@ -87,6 +87,7 @@ def test_export_plan_builder_landing_page(
         'disabled': False,
         'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
+        'image': 'business-objectives.png',
     }
 
 
@@ -234,6 +235,7 @@ def test_export_plan_mixin(
         'disabled': False,
         'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
+        'image': 'business-objectives.png',
     }
     assert response.context_data['export_plan'] == export_plan_data
     assert response.context_data['export_plan_progress'] == {
@@ -472,6 +474,7 @@ def test_service_page_context(client, user, mock_get_user_profile):
         'disabled': False,
         'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
+        'image': 'business-objectives.png',
     }
 
 
