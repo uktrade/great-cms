@@ -50,27 +50,49 @@ def test_export_plan_processor_get_current_url_product_required_not_in_check():
 @pytest.mark.parametrize(
     'ui_progress_data, complete, percentage_complete, ep_completed, next_section',
     [
-        [{}, 0, 0, False, {'title': 'About your business', 'url': '/export-plan/section/about-your-business/'}],
+        [
+            {},
+            0,
+            0,
+            False,
+            {
+                'title': 'About your business',
+                'url': '/export-plan/section/about-your-business/',
+                'image': 'about-the-business.png',
+            },
+        ],
         [
             {'about-your-business': {}},
             0,
             0,
             False,
-            {'title': 'About your business', 'url': '/export-plan/section/about-your-business/'},
+            {
+                'title': 'About your business',
+                'url': '/export-plan/section/about-your-business/',
+                'image': 'about-the-business.png',
+            },
         ],
         [
             {'about-your-business': {'is_complete': False, 'date_last_visited': '2012-01-14T03:21:34+00:00'}},
             0,
             0,
             False,
-            {'title': 'About your business', 'url': '/export-plan/section/about-your-business/'},
+            {
+                'title': 'About your business',
+                'url': '/export-plan/section/about-your-business/',
+                'image': 'about-the-business.png',
+            },
         ],
         [
             {'about-your-business': {'is_complete': True, 'date_last_visited': '2012-01-14T03:21:34+00:00'}},
             1,
             0.1,
             False,
-            {'title': 'Business objectives', 'url': '/export-plan/section/business-objectives/'},
+            {
+                'title': 'Business objectives',
+                'url': '/export-plan/section/business-objectives/',
+                'image': 'business-objectives.png',
+            },
         ],
         [
             {
@@ -82,7 +104,11 @@ def test_export_plan_processor_get_current_url_product_required_not_in_check():
             2,
             0.2,
             False,
-            {'title': 'Target markets research', 'url': '/export-plan/section/target-markets-research/'},
+            {
+                'title': 'Target markets research',
+                'url': '/export-plan/section/target-markets-research/',
+                'image': 'target-market-research.png',
+            },
         ],
     ],
 )
@@ -117,6 +143,7 @@ def test_export_plan_processor_calculate_ep_progress_complete(mock_get_exportpla
     assert ep_progress['next_section'] == {
         'title': 'About your business',
         'url': '/export-plan/section/about-your-business/',
+        'image': 'about-the-business.png',
     }
 
 

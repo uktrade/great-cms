@@ -244,7 +244,11 @@ def test_export_plan_mixin(
         'sections_completed': 1,
         'percentage_completed': 0.1,
         'section_progress': export_plan_section_progress_data,
-        'next_section': {'title': 'Target markets research', 'url': '/export-plan/section/target-markets-research/'},
+        'next_section': {
+            'title': 'Target markets research',
+            'url': '/export-plan/section/target-markets-research/',
+            'image': 'target-market-research.png',
+        },
     }
 
 
@@ -499,5 +503,9 @@ def test_exportplan_dashboard(
         'sections_completed': 1,
         'percentage_completed': 0.1,
         'section_progress': export_plan_section_progress_data,
-        'next_section': {'title': 'Target markets research', 'url': '/export-plan/section/target-markets-research/'},
+        'next_section': {
+            'title': 'Target markets research',
+            'url': '/export-plan/section/target-markets-research/',
+            'image': 'target-market-research.png',
+        },
     }
