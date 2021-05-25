@@ -23,6 +23,7 @@
 - GP2-2777 - Remove DIT footer logos
 
 ### Fixed bugs
+- GP2-2803 - [UAT]-Export plan dashboard images issues
 - GP2-2790 - remove Getting paid page tooltip
 - GP2-2759 - remove Share and download icon issues
 - GP2-2704 - Update text -EP - getting paid
