@@ -64,6 +64,7 @@ _ GP2-2775 - getting paid error
 - NOTICKET - update pdf logo
 - NOTICKET - remove lesson
 - NOTICKET - configure APM log server
+- NOTICKET - fix image references
 
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)

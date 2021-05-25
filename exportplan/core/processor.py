@@ -122,5 +122,9 @@ class ExportPlanProcessor:
             'sections_total': len(data.SECTION_SLUGS),
             'percentage_completed': len(completed) / len(data.SECTION_SLUGS) if len(completed) > 0 else 0,
             'section_progress': self.calculate_ep_section_progress(),
-            'next_section': {'title': next_section.get('title', ''), 'url': next_section.get('url', '')},
+            'next_section': {
+                'title': next_section.get('title', ''),
+                'url': next_section.get('url', ''),
+                'image': next_section.get('image', ''),
+            },
         }
