@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2816 - Set Wagtaildocs serve method to 'direct' to avoid denial when proxying at PaaS level
 - noticket - remove social buttons
 - no-ticket - Disabled case study tagging search ability on Admin UI
 - GP2-2797 - Disabled video downloads
