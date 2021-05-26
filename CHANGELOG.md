@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- noticket - remove social buttons
 - no-ticket - Disabled case study tagging search ability on Admin UI
 - GP2-2797 - Disabled video downloads
 - no-ticket - update placeholders

@@ -69,16 +69,20 @@ export const Form = ({
       >
         Sign in
       </button>
-      <div className="vertical-seperator">
-        <hr className="bg-blue-deep-10" />
-        <span>or</span>
-        <hr className="bg-blue-deep-10" />
-      </div>
-      <SocialLoginButtons
-        linkedinUrl={linkedinLoginUrl}
-        googleUrl={googleLoginUrl}
-        action="Sign in"
-      />
+      {false && (
+        <div className="vertical-seperator">
+          <hr className="bg-blue-deep-10" />
+          <span>or</span>
+          <hr className="bg-blue-deep-10" />
+        </div>
+      )}
+      {false && (
+        <SocialLoginButtons
+          linkedinUrl={linkedinLoginUrl}
+          googleUrl={googleLoginUrl}
+          action="Sign in"
+        />
+      )}
     </form>
   </>
 )
