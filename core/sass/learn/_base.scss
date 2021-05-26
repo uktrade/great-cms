@@ -68,6 +68,22 @@ $desktop: 1024px;
   }
 }
 
+.learn__export-academy-logo {
+  width: 83px;
+
+  @include tablet {
+    width: 115px;
+  }
+
+  &.small {
+    width: 71px;
+  }
+}
+
+.learn__categories-logo {
+  margin-top: -20px;
+}
+
 .learn__category-header {
   padding-top: 80px;
   margin-bottom: 80px;
@@ -337,8 +353,6 @@ $desktop: 1024px;
 }
 
 .learn__lesson-item-link--completed {
-  display: inline-block;
-
   @include tablet {
     float: right;
   }

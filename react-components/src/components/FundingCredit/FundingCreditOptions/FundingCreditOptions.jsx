@@ -1,7 +1,7 @@
 import React, { memo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useDebounce } from '@src/components/hooks/useDebounce'
-import { LessonLearn } from '@src/components/LessonLearn'
+import { Learning } from '@src/components/Learning/Learning'
 import { formatLessonLearned } from '@src/Helpers'
 import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
 import ErrorList from '@src/components/ErrorList'
@@ -20,7 +20,6 @@ export const FundingCreditOptions = memo(
   }) => {
     const [funding, setFunding] = useState(formData)
     const [fundingTotal, setFundingTotal] = useState(null)
-    const [toggleLesson, setToggleLesson] = useState(false)
     const lesson = formatLessonLearned(lessonDetails, currentSection, 1)
     const [update, create, deleteItem, message, errors] = useUpdate(
       'travel-plan'
@@ -73,25 +72,7 @@ export const FundingCreditOptions = memo(
     }
     return (
       <>
-        {Object.keys(lesson).length > 0 && (
-          <>
-            <button
-              className="button-lesson button button--small button--tertiary m-r-xxs m-b-xs"
-              type="button"
-              onClick={() => {
-                setToggleLesson(!toggleLesson)
-              }}
-            >
-              <i
-                className={`fas fa-chevron-${
-                  toggleLesson ? 'up' : 'down'
-                } m-r-xxs`}
-              />
-              Lesson
-            </button>
-            <LessonLearn {...lesson} show={toggleLesson} />
-          </>
-        )}
+        <Learning lesson={lesson} />
         <Options
           formData={funding}
           currency={currency}

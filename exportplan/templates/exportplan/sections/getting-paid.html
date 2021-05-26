@@ -1,7 +1,9 @@
 {% extends 'exportplan/section.html' %}
 {% load to_json %}
+{% load static %}
+
 {% block intro_title %}Getting paid{% endblock %}
-{% block intro_description %}How and when you get paid directly affects your business cashflow so it's important to get it right. <br /><br /> This page helps you outline your plans for getting paid from abroad.{% endblock %}
+{% block intro_description %}This section will help you to outline your plans for getting paid from abroad.{% endblock %}
 
 {% block main_content %}
 <div class="g-panel">
@@ -32,11 +34,7 @@
       <div class="form-table bg-blue-deep-10 radius p-h-s p-v-xs">
         <div id="getting-paid"></div>
         <p class="body-s text-blue-deep-50 m-b-0">
-          Incoterms® and the Incoterms® 2020 logo are trademarks of ICC. Use of
-          these trademarks does not imply association with, approval of or
-          sponsorship by ICC unless specifically stated above. The Incoterms®
-          Rules are protected by copyright owned by ICC. Further information on
-          the Incoterm® Rules may be obtained from the ICC website iccwbo.org.
+          Incoterms and the Incoterms 2020 logo are trademarks of ICC. Use of these trademarks does not imply association with, approval of, or sponsorship by, ICC unless specifically stated above. The Incoterms Rules are protected by copyright owned by ICC. Visit the ICC website <a href='http://iccwbo.org/' title='ICC website'>iccwbo.org</a> for more information on the Incoterm® Rules.
         </p>
       </div>
     </div>
@@ -65,7 +63,8 @@
                 label: 'Payments methods',
                 field_type: 'Select',
                 options: {{ payment_method_choices|safe }},
-                multiSelect: true
+                placeholder: 'Select multiple',
+                multiSelect: true,
               },
               {
                 name: 'Add notes',
@@ -85,6 +84,7 @@
                 label: 'Payments terms',
                 field_type: 'Select',
                 options: {{ payment_term_choices|safe }},
+                tooltip: {}
               },
               {
                 name: 'Add notes',

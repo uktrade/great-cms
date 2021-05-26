@@ -18,7 +18,7 @@ export const RouteToMarketSection = memo(
               id={`${item.name}-${field.pk}`}
               options={item.options}
               selected={field[item.name]}
-              lesson={lesson}
+              lesson={item.lesson}
             />
             <hr className="hr hr--light" />
           </div>

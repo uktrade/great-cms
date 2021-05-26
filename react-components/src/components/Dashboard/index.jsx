@@ -19,7 +19,7 @@ export const Dashboard = memo(
     return (
       <>
         <ComingSoon onClick={() => setModal(false)} isOpen={modal} />
-        {sections.map(({ title, url, disabled, is_complete }) => (
+        {sections.map(({ title, url, disabled, is_complete, image }, i) => (
           <div className="c-1-3-xl c-1-2-m" key={url}>
             <div
               className={`bg-white m-b-s section-list__item ${
@@ -28,7 +28,7 @@ export const Dashboard = memo(
             >
               {disabled ? (
                 <div
-                  className="w-full link section-list__disabled section-list__link"
+                  className="width-full link section-list__disabled section-list__link"
                   onClick={openComingSoonModal}
                   aria-hidden="true"
                   role="button"
@@ -41,7 +41,7 @@ export const Dashboard = memo(
                       Coming soon
                     </span>
                     <img
-                      className="w-full p-h-s p-t-m p-b-s"
+                      className="width-full p-h-s p-t-m p-b-s"
                       src="/static/images/coming-soon.svg"
                       alt={title}
                       data-sectiontitle={title}
@@ -58,7 +58,7 @@ export const Dashboard = memo(
                 </div>
               ) : (
                 <a
-                  className="w-full link section-list__link"
+                  className="width-full link section-list__link"
                   href={url}
                   title={title}
                 >
@@ -67,10 +67,10 @@ export const Dashboard = memo(
                     data-complete={is_complete ? 'Complete' : ''}
                   >
                     <img
-                      className={`w-full p-h-s p-t-m p-b-s ${
+                      className={`width-full p-h-s p-t-m p-b-s ${
                         is_complete ? 'bg-green-30' : 'bg-blue-deep-20'
                       }`}
-                      src="/static/images/ep-placeholder.svg"
+                      src={`/static/images/${image}`}
                       alt={title}
                     />
                   </div>
@@ -101,6 +101,7 @@ Dashboard.propTypes = {
       is_complete: PropTypes.bool,
       completed: PropTypes.string,
       total: PropTypes.string,
+      image: PropTypes.string,
     })
   ).isRequired,
   exportPlanProgress: PropTypes.shape({

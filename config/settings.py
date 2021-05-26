@@ -363,6 +363,18 @@ if DEBUG:
     MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
     INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
 
+
+ELASTIC_APM_ENABLED = env('ELASTIC_APM_ENABLED', default=False)
+if ELASTIC_APM_ENABLED:
+    ELASTIC_APM = {
+        'SERVICE_NAME': env('SERVICE_NAME', default='great-cms'),
+        'SECRET_TOKEN': env('ELASTIC_APM_SECRET_TOKEN'),
+        'SERVER_URL': env('ELASTIC_APM_URL'),
+        'ENVIRONMENT': env('APP_ENVIRONMENT', default='dev'),
+        'SERVER_TIMEOUT': env('ELASTIC_APM_SERVER_TIMEOUT', default='20s'),
+    }
+    INSTALLED_APPS.append('elasticapm.contrib.django')
+
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 
 ENFORCE_STAFF_SSO_ENABLED = env.bool('ENFORCE_STAFF_SSO_ENABLED', False)
@@ -489,7 +501,14 @@ DIRECTORY_CH_SEARCH_CLIENT_API_KEY = env.str('DIRECTORY_CH_SEARCH_CLIENT_API_KEY
 DIRECTORY_CH_SEARCH_CLIENT_SENDER_ID = env.str('DIRECTORY_CH_SEARCH_CLIENT_SENDER_ID', 'directory')
 DIRECTORY_CH_SEARCH_CLIENT_DEFAULT_TIMEOUT = env.str('DIRECTORY_CH_SEARCH_CLIENT_DEFAULT_TIMEOUT', 5)
 
-MADB_URL = env.str('MADB_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk')
+CHECK_DUTIES_URL = env.str(
+    'CHECK_DUTIES_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk/selectdest'
+)
+CIA_FACTBOOK_URL = env.str('CIA_FACTBOOK_URL', 'https://www.cia.gov/the-world-factbook/')
+WORLD_BANK_URL = env.str('WORLD_BANK_URL', 'https://www.worldbank.org/')
+DATA_WORLD_BANK_URL = env.str('DATA_WORLD_BANK_URL', 'https://data.worldbank.org/indicator/NY.ADJ.NNTY.PC.CD')
+UNITED_NATIONS_URL = env.str('UNITED_NATIONS_URL', 'https://www.un.org/en/')
+
 
 # 3CE commodity classification
 COMMODITY_SEARCH_URL = env.str(
@@ -511,6 +530,10 @@ DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = 60 * 60 * 30
 
 # directory validators
 VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int('VALIDATOR_MAX_LOGO_SIZE_BYTES', 2 * 1024 * 1024)
+
+# CHANGE THIS IF WE START USING PRIVATE DOCUMENTS
+WAGTAILDOCS_SERVE_METHOD = 'direct'  # Don't proxy documents via the PaaS - they are public anyway.
+# CHANGE THIS IF WE START USING PRIVATE DOCUMENTS
 
 # Wagtail customisations
 ENVIRONMENT_CSS_THEME_FILE = env.str('ENVIRONMENT_CSS_THEME_FILE', '')

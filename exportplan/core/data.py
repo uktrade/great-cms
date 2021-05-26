@@ -47,16 +47,17 @@ PRODUCT_REQUIRED = [
 # on the UI page
 
 LESSONS = {
-    OBJECTIVES: ['opportunity-right-you', 'move-accidental-exporting-strategic-exporting'],
-    MARKETING_APPROACH: ['sell-direct-your-customer'],
+    OBJECTIVES: ['move-accidental-exporting-strategic-exporting'],
+    MARKETING_APPROACH: [
+        'choose-right-route-market',
+    ],
     TARGET_MARKETS_RESEARCH: [
         'quantifying-customer-demand-how-much-might-you-sell',
-        'using-what-you-know-to-help-inform-your-positioning-and-competitive-advantage',
-        'understand-market-trends',
+        'understanding-competitor-market-share-and-pricing',
     ],
     COSTS_AND_PRICING: [
-        'understand-services-rules-and-regulations',
-        'understand-services-rules-and-regulations',
+        'understand-duties-and-taxes',
+        'understand-duties-and-taxes',
         'managing-exchange-rates',
     ],
     FUNDING_AND_CREDIT: [
@@ -68,7 +69,17 @@ LESSONS = {
         'decide-when-get-paid-export-orders',
         'incoterms',
     ],
-    ADAPTATION_TARGET_MARKET: ['understand-how-you-may-need-adapt-your-product-meet-international-standards'],
+    ADAPTATION_TARGET_MARKET: [
+        'understand-how-you-may-need-adapt-your-product-meet-international-standards',
+        'labelling-and-packaging',
+        'labelling-and-packaging',
+        'understand-local-market-regulations-products',
+        'understand-export-licensing',
+        'how-create-export-invoice',
+        'how-make-uk-customs-declaration',
+    ],
+    TRAVEL_AND_BUSINESS_POLICIES: ['understand-local-business-culture-your-target-market'],
+    BUSINESS_RISK: ['protect-your-intellectual-property-abroad'],
 }
 
 
@@ -79,60 +90,70 @@ SECTIONS = OrderedDict(
             'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(ABOUT_YOUR_BUSINESS)}),
             'disabled': True if ABOUT_YOUR_BUSINESS in SECTIONS_DISABLED else False,
             'lessons': LESSONS.get(ABOUT_YOUR_BUSINESS, []),
+            'image': 'about-the-business.png',
         },
         slugify(OBJECTIVES): {
             'title': OBJECTIVES,
             'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(OBJECTIVES)}),
             'disabled': True if OBJECTIVES in SECTIONS_DISABLED else False,
             'lessons': LESSONS.get(OBJECTIVES, []),
+            'image': 'business-objectives.png',
         },
         slugify(TARGET_MARKETS_RESEARCH): {
             'title': TARGET_MARKETS_RESEARCH,
             'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(TARGET_MARKETS_RESEARCH)}),
             'disabled': True if TARGET_MARKETS_RESEARCH in SECTIONS_DISABLED else False,
             'lessons': LESSONS.get(TARGET_MARKETS_RESEARCH, []),
+            'image': 'target-market-research.png',
         },
         slugify(ADAPTATION_TARGET_MARKET): {
             'title': ADAPTATION_TARGET_MARKET,
             'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(ADAPTATION_TARGET_MARKET)}),
             'disabled': True if ADAPTATION_TARGET_MARKET in SECTIONS_DISABLED else False,
             'lessons': LESSONS.get(ADAPTATION_TARGET_MARKET, []),
+            'image': 'funding-financing-and--getting-paid.png',
         },
         slugify(MARKETING_APPROACH): {
             'title': MARKETING_APPROACH,
             'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(MARKETING_APPROACH)}),
             'disabled': True if MARKETING_APPROACH in SECTIONS_DISABLED else False,
             'lessons': LESSONS.get(MARKETING_APPROACH, []),
+            'image': 'marketing-approach.png',
         },
         slugify(COSTS_AND_PRICING): {
             'title': COSTS_AND_PRICING,
             'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(COSTS_AND_PRICING)}),
             'disabled': True if COSTS_AND_PRICING in SECTIONS_DISABLED else False,
             'lessons': LESSONS.get(COSTS_AND_PRICING, []),
+            'image': 'costs-and-pricing.png',
         },
         slugify(FUNDING_AND_CREDIT): {
             'title': FUNDING_AND_CREDIT,
             'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(FUNDING_AND_CREDIT)}),
             'disabled': True if FUNDING_AND_CREDIT in SECTIONS_DISABLED else False,
             'lessons': LESSONS.get(FUNDING_AND_CREDIT, []),
+            'image': 'funding-and-credit.png',
         },
         slugify(GETTING_PAID): {
             'title': GETTING_PAID,
             'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(GETTING_PAID)}),
             'disabled': True if GETTING_PAID in SECTIONS_DISABLED else False,
             'lessons': LESSONS.get(GETTING_PAID, []),
+            'image': 'getting-paid.png',
         },
         slugify(TRAVEL_AND_BUSINESS_POLICIES): {
             'title': TRAVEL_AND_BUSINESS_POLICIES,
             'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(TRAVEL_AND_BUSINESS_POLICIES)}),
             'disabled': True if TRAVEL_AND_BUSINESS_POLICIES in SECTIONS_DISABLED else False,
             'lessons': LESSONS.get(TRAVEL_AND_BUSINESS_POLICIES, []),
+            'image': 'travel-plan.png',
         },
         slugify(BUSINESS_RISK): {
             'title': BUSINESS_RISK,
             'url': reverse_lazy('exportplan:section', kwargs={'slug': slugify(BUSINESS_RISK)}),
             'disabled': True if BUSINESS_RISK in SECTIONS_DISABLED else False,
             'lessons': LESSONS.get(BUSINESS_RISK, []),
+            'image': 'business-risk.png',
         },
     }
 )

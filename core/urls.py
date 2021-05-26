@@ -9,6 +9,7 @@ from core import cms_slugs, views, views_api
 app_name = 'core'
 
 SIGNUP_URL = reverse_lazy('core:signup')
+LOGIN_URL = reverse_lazy('core:login')
 # NB our signup/signin redirection workflow following login_required
 # relies on the value of REDIRECT_FIELD_NAME being the default: 'next'
 # If you change the redirection parameter, other code will need
@@ -64,6 +65,7 @@ urlpatterns = [
         name='capability-article',
     ),
     path('login/', anonymous_user_required(views.LoginView.as_view()), name='login'),
+    path('logout/', login_required(skip_ga360(views.LogoutView.as_view())), name='logout'),
     path('signup/', anonymous_user_required(views.SignupView.as_view()), name='signup'),
     path(
         'signup/company-name/',
@@ -109,5 +111,15 @@ urlpatterns = [
         name='api-trade-barrier-data',
     ),
     path('api/companies-house/', skip_ga360(views_api.CompaniesHouseAPIView.as_view()), name='api-companies-house'),
+    path(
+        'subtitles/<int:great_media_id>/<str:language>/content.vtt',
+        login_required(
+            # NB remove/update login_required() if we start serving subtitles for videos in
+            # unauthed pages, but then ideally move to a UUID for the GreatMedia instance
+            skip_ga360(views.serve_subtitles),
+            login_url=LOGIN_URL,
+        ),
+        name='subtitles-serve',
+    ),
 ]
 urlpatterns += redirects

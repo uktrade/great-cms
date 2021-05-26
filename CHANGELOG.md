@@ -3,8 +3,50 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2816 - Set Wagtaildocs serve method to 'direct' to avoid denial when proxying at PaaS level
+- noticket - remove social buttons
+- no-ticket - Disabled case study tagging search ability on Admin UI
+- GP2-2797 - Disabled video downloads
+- no-ticket - update placeholders
+- GP2-2773 - Update sign-in & sign-up with new logo
+- GP2-2783 - Product search re-label rework
+- no-ticket - add new illustrations - dashboard page
+- GP2-2774 - Increase header-large size in mobile
+- GP2-2779 - Updated export academy logo
+- GP2-2730 - Export academy logo on learning landing page
+- GP2-2380 - Added sign out view
+- GP2-2729 - Export academy logo on dashboard learning card
+- GP2-2721 - Subtitle support for GreatMedia
+- GP2-2466 - Adding logo on export plan
 - GP2-2560 - Allow Lesson/DetailPage hero block to be empty
+- GBAU-957 - redirect /companion/ to digital-companion.ava-digi.de
+- GP2-2708 - Update header logo
+- GP2-2710 - Update footer logo
+- GP2-2777 - Remove DIT footer logos
+
 ### Fixed bugs
+- GP2-2805 - Export plan image problem on the dashboard
+- GP2-2803 - [UAT]-Export plan dashboard images issues
+- GP2-2790 - remove Getting paid page tooltip
+- GP2-2759 - remove Share and download icon issues
+- GP2-2704 - Update text -EP - getting paid
+- GP2-2778 - Fix missing space between HTML nodes in rich-text indexed for search
+- GP2-2733 - Suggested markets query updated from redux
+- GP2-2441 - Labels on EP Target market research page
+- GP2-2400 - [Mobile]-align CTA Text
+- GP2-2732 - remove Export opportunities tab for the Dashboard
+- GBAU-959 - Pentest fix next url filter fix
+- GP2-2707 - EP missing link on Costs and Pricing page
+- GP2-2476 - Delete button hover state
+- GP2-2618 - Enable 'Download export plan" button
+- GP2-2610 - Scrollable personalization bar
+- GP2-2613 - ios password field bug fix
+- GP2-2609 - Sign in/up label spacing
+- GP2-2398 - [mobile]-Costs and pricing Text box alignment
+- GP2-2615 - Incorrect lesson links on the Getting paid page
+- GP2-2495 - Export plan - Travel plan - hint box is empty
+- GP2-2512 - Dashboard - one column on tablet
+- GP2-2417 - Remove unwanted slider dots on case study mobile
 - GP2-2423 - Export plan sections don’t show focus when tabbing (accessibility)
 - GP2-2266 - Fix year designations in WTE new tabs
 - GP2-2529 - Fix export plan header url
@@ -15,6 +57,19 @@
 - GP2-2540 - Update text on updating place warning modal
 - GP2-2539 - Update copy on choose place modal
 - GP2-2538 - Update text on dashboard landing page
+- GP2-2516 - Fix header layout issues on tablet
+- GP2-2719 - Fix footer logo link issue
+- GP2-2763 - saving-blank-error
+- GP2-2724 - update-lesson be
+- GP2-2775 - sav business risk
+_ GP2-2775 - getting paid error
+- gp2765 - content changes
+- NOTICKET - error saving ep atm
+- NOTICKET - update pdf logo
+- NOTICKET - remove lesson
+- NOTICKET - configure APM log server
+- NOTICKET - fix image references
+
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 

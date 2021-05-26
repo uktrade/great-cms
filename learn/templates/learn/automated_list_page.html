@@ -7,8 +7,13 @@
 {% load url_map %}
 
 {% block content %}
+
     <section id="learn-root" class="learn__page learn__categories-page container">
         <section class="learn__categories-content container m-t-l">
+        <div class="p-b-s">
+          <img class="f-r learn__export-academy-logo learn__categories-logo" alt="UK Export Academy" src="/static/images/export-academy.svg">
+          <h1 class="h-l text-blue-deep-80">Learn to export</h1>
+        </div>
         {% for learning_module in page.get_children.specific.live %}
         {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
         <a href="{% pageurl learning_module %}" title="{{ page.button_label }}" class="learn__category-link">

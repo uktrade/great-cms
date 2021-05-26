@@ -49,9 +49,10 @@ export const GettingPaid = memo(
                     key
                   )
                 }}
-                placeholder="select multiple"
+                placeholder={select.placeholder}
                 multiSelect={select.multiSelect}
                 lesson={formatLessonLearned(lessonDetails, currentSection, i)}
+                tooltip={select.tooltip}
               />
               <TextArea
                 onChange={(data) =>
@@ -61,7 +62,6 @@ export const GettingPaid = memo(
                 id={textarea.id}
                 value={state[key] ? state[key].notes : ''}
                 placeholder={textarea.placeholder}
-                lesson={formatLessonLearned(lessonDetails, currentSection, 2)}
               />
             </div>
           )

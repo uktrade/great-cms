@@ -5,6 +5,7 @@ from urllib.parse import quote, quote_plus
 
 import pytest
 from django.template import Context, Template
+from django.urls import reverse
 
 from core.models import CuratedListPage, DetailPage, LessonPlaceholderPage, TopicPage
 from core.templatetags.content_tags import (
@@ -31,13 +32,14 @@ def test_render_video_tag__with_thumbnail():
         sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
         duration=120,
         thumbnail=mock_thumbnail,
+        subtitles=[],
     )
     block = dict(video=video_mock)
     html = render_video(block)
 
     assert (
         # Whitespace in this string is important for matching output
-        '<video preload="metadata" controls\n'
+        '<video preload="metadata" controls controlsList="nodownload"\n'
         '            poster="https://example.com/thumb.png" data-v-duration="120">'
     ) in html
     assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
@@ -49,13 +51,45 @@ def test_render_video_tag__without_thumbnail():
         sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
         duration=120,
         thumbnail=None,
+        subtitles=[],
     )
     block = dict(video=video_mock)
     html = render_video(block)
     # Whitespace in this string is important for matching output
-    assert '<video preload="metadata" controls\n            data-v-duration="120">' in html
+    assert '<video preload="metadata" controls controlsList="nodownload"\n            data-v-duration="120">' in html
     assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
     assert 'Your browser does not support the video tag.' in html
+
+
+def test_render_video_tag__with_subtitles():
+
+    video_mock = mock.Mock(
+        sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
+        duration=120,
+        thumbnail=None,
+        subtitles=[
+            {
+                'srclang': 'en',
+                'label': 'English',
+                'url': reverse('core:subtitles-serve', args=[123, 'en']),
+                'default': False,
+            },
+            {
+                'srclang': 'tt',
+                'label': 'TestLang',
+                'url': reverse('core:subtitles-serve', args=[123, 'tt']),
+                'default': True,
+            },
+        ],
+    )
+    block = dict(video=video_mock)
+    html = render_video(block)
+    # Whitespace in this string is important for matching output
+    assert '<video preload="metadata" controls controlsList="nodownload"\n            data-v-duration="120">' in html
+    assert '<source src="/media/foo.mp4#t=0.1" type="video/mp4">' in html
+    assert 'Your browser does not support the video tag.' in html
+    assert '<track label="TestLang" kind="subtitles" srclang="tt" src="/subtitles/123/tt/content.vtt" default>' in html
+    assert '<track label="English" kind="subtitles" srclang="en" src="/subtitles/123/en/content.vtt">' in html
 
 
 def test_empty_block_render_video_tag():
@@ -441,6 +475,8 @@ def test_is_placeholder_page(klass, expected):
         ('/path/in/?next=http://testserver/path/to', 'http://testserver/path/to', None),
         ('/path/in/?next=https://testserver/path/to', 'https://testserver/path/to', None),
         ('/path/in/?next=bad_https://testserver/path/to', '/dashboard/', None),
+        ('/path/in/?next=//badserver/path/to', '/dashboard/', None),
+        ('/path/in/?next=//testserver/path/to', '//testserver/path/to', None),
         (quote('/path/in/?next=https://example.com/foo/bar/'), '/dashboard/', None),
         (quote_plus('/path/in/?next=https://example.com/foo/bar/'), '/dashboard/', None),
         (escape('/path/in/?next=https://example.com/foo/bar/'), '/dashboard/', None),
@@ -458,7 +494,9 @@ def test_is_placeholder_page(klass, expected):
         'next param is non-relative path',
         'next param is absolute path with matching domain',
         'next param is absolute path with https matching domain',
-        'next param is has absolute path with matching domain not at start',
+        'next param has absolute path with matching domain not at start',
+        'next param has double-slash absolute path',
+        'next param has double-slash absolute path with matching domain',
         'quoted path with querysting with hints of full url',
         'plus-quoted path with querysting with hints of full url',
         'entity-escaped path with querysting with hints of full url',

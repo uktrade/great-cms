@@ -4,10 +4,11 @@ Only show if progress has started
 {% endcomment %}
 {% load url_map %}
 {% load progress_bar %}
+{% load static %}
 
 {% if export_plan_in_progress %}
   <div class="g-card">
-      <div class="g-card-progress {% if export_plan_progress.exportplan_completed %}g-card-progress--complete{% endif %}">
+    <div class="g-card-progress {% if export_plan_progress.exportplan_completed %}g-card-progress--complete{% else %}" style="background-image: url({% static 'images/' %}{{export_plan_progress.next_section.image}})" {% endif %}">
           <div class="g-card-header flex-jc-space-between flex-ai-center">
               <h3 class="h-m p-t-xxs">Export Plan</h3>
               <a class="button button--tertiary button--small" href="{% url_map 'EXPORT_PLAN_DASHBOARD_URL' %}" title="Go to export plan">Go to export plan</a>
@@ -19,7 +20,7 @@ Only show if progress has started
                       {% progress_bar  export_plan_progress.sections_total export_plan_progress.sections_completed %}
                   </div>
                   <p class="topics-read-text body-m-b m-t-xs m-b-0">
-                      {{ export_plan_progress.sections_completed }} of {{ export_plan_progress.sections_total }} sections Completed
+                      {{ export_plan_progress.sections_completed }} of {{ export_plan_progress.sections_total }} sections completed
                   </p>
               </div>
               <div class='w-1-2'>

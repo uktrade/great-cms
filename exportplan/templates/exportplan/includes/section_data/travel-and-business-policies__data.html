@@ -4,7 +4,7 @@
   magna.travelPlanSnapshot({
     element: document.getElementById('stats-for-target-market'),
     tooltip: {
-      description: `
+      content: `
         <p>Make sure you know what language business is conducted in in your target market. If you can't speak the language make sure you bring along an interpreter so you can communicate and have a successful trip.</p>
       `
     },
@@ -84,6 +84,5 @@
         </ul>
       `
     },
-    lesson: {{ lesson_details|to_json|safe }},
   })
 </script>

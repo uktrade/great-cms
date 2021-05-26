@@ -1,5 +1,7 @@
 {% extends 'exportplan/section.html' %}
 {% load to_json %}
+{% load static %}
+
 {% block intro_title %}Costs and pricing{% endblock %}
 
 {% block intro_description %}To avoid unwanted surprises, it's best to know all the costs involved in exporting your product. <br /><br />This page will help you plan ahead and keep track of the upfront costs.{% endblock %}
@@ -204,7 +206,7 @@
           type: 'number',
           placeholder: '0',
           description:
-          '<h2 class="h-xs p-t-0 p-b-0">Duty per unit</h2><p class="m-t-xs m-b-0">To find out which duties and charges you might need to pay, visit Check how to export goods and choose the commodity code that best matches your product.</p>',
+          '<h2 class="h-xs p-t-0 p-b-0">Duty per unit</h2><p class="m-t-xs m-b-0">To find out which duties and charges you might need to pay, visit <a href="{{ check_duties_url }}" target="_blank" rel="noopener noreferrer">Check how to export goods</a> and choose the commodity code that best matches your product.</p>',
           field: 'total_cost_and_price',
         },
         unitsToExport: {

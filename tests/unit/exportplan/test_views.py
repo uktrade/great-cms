@@ -85,8 +85,9 @@ def test_export_plan_builder_landing_page(
         'title': 'Business objectives',
         'url': '/export-plan/section/business-objectives/',
         'disabled': False,
-        'lessons': ['opportunity-right-you', 'move-accidental-exporting-strategic-exporting'],
+        'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
+        'image': 'business-objectives.png',
     }
 
 
@@ -167,7 +168,6 @@ def test_adaption_for_target_markets_context(client, user, mock_get_user_profile
     assert response.status_code == 200
 
     response.context_data['languages'] = {'language': 'Dutch', 'note': 'Many other too'}
-    response.context_data['check_duties_link'] = 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
     response.context_data['target_market_documents'] = {'document_name': 'test'}
 
 
@@ -233,8 +233,9 @@ def test_export_plan_mixin(
         'title': 'Business objectives',
         'url': '/export-plan/section/business-objectives/',
         'disabled': False,
-        'lessons': ['opportunity-right-you', 'move-accidental-exporting-strategic-exporting'],
+        'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
+        'image': 'business-objectives.png',
     }
     assert response.context_data['export_plan'] == export_plan_data
     assert response.context_data['export_plan_progress'] == {
@@ -243,7 +244,11 @@ def test_export_plan_mixin(
         'sections_completed': 1,
         'percentage_completed': 0.1,
         'section_progress': export_plan_section_progress_data,
-        'next_section': {'title': 'Target markets research', 'url': '/export-plan/section/target-markets-research/'},
+        'next_section': {
+            'title': 'Target markets research',
+            'url': '/export-plan/section/target-markets-research/',
+            'image': 'target-market-research.png',
+        },
     }
 
 
@@ -303,9 +308,6 @@ def test_cost_and_pricing(cost_pricing_data, client, user, mock_get_user_profile
     response = client.get(url)
 
     assert response.status_code == 200
-    assert (
-        response.context_data['check_duties_link'] == 'https://www.check-duties-customs-exporting-goods.service.gov.uk/'
-    )
     assert response.context_data['export_unit_choices'][0] == {'label': 'metre(s)', 'value': 'm'}
     assert response.context_data['export_timeframe_choices'][0] == {'label': 'day(s)', 'value': 'd'}
     assert response.context_data['currency_choices'][0] == {'label': 'EUR', 'value': 'eur'}
@@ -474,8 +476,9 @@ def test_service_page_context(client, user, mock_get_user_profile):
         'title': 'Business objectives',
         'url': '/export-plan/section/business-objectives/',
         'disabled': False,
-        'lessons': ['opportunity-right-you', 'move-accidental-exporting-strategic-exporting'],
+        'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
+        'image': 'business-objectives.png',
     }
 
 
@@ -500,5 +503,9 @@ def test_exportplan_dashboard(
         'sections_completed': 1,
         'percentage_completed': 0.1,
         'section_progress': export_plan_section_progress_data,
-        'next_section': {'title': 'Target markets research', 'url': '/export-plan/section/target-markets-research/'},
+        'next_section': {
+            'title': 'Target markets research',
+            'url': '/export-plan/section/target-markets-research/',
+            'image': 'target-market-research.png',
+        },
     }

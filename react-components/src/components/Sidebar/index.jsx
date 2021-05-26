@@ -40,7 +40,7 @@ export const Sidebar = memo(
                 className={`fas fa-angle-double-${toggle ? 'left' : 'right'}`}
               />
             </button>
-            <div className="text-center width-full p-t-m">
+            <div className="text-center width-full p-t-m hidden">
               {logo ? (
                 <img
                   src={logo}
@@ -55,7 +55,7 @@ export const Sidebar = memo(
                 />
               )}
             </div>
-            <ul>
+            <ul className="p-t-m">
               {sections.map(({ title, url, disabled }) => (
                 <li className="p-b-xs p-r-xs" key={url}>
                   {disabled ? (
@@ -78,22 +78,6 @@ export const Sidebar = memo(
                 </li>
               ))}
             </ul>
-            <div>
-              <button
-                type="button"
-                className="button button--small button--only-icon button--tertiary m-r-xxs"
-                disabled
-              >
-                <i className="fas fa-share text-blue-deep-60" />
-              </button>
-              <button
-                type="button"
-                className="button button--small button--only-icon button--tertiary"
-                disabled
-              >
-                <i className="fas fa-download text-blue-deep-60" />
-              </button>
-            </div>
           </div>
         </nav>
       </>

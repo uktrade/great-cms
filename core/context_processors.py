@@ -21,6 +21,11 @@ def env_vars(request):
     data = dict()
     data['great_support_email'] = settings.GREAT_SUPPORT_EMAIL
     data['dit_on_govuk'] = settings.DIT_ON_GOVUK
+    data['cia_factbook_url'] = settings.CIA_FACTBOOK_URL
+    data['check_duties_url'] = settings.CHECK_DUTIES_URL
+    data['world_bank_url'] = settings.WORLD_BANK_URL
+    data['data_world_bank_url'] = settings.DATA_WORLD_BANK_URL
+    data['united_nations_url'] = settings.UNITED_NATIONS_URL
     return data
 
 
