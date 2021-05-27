@@ -1,6 +1,16 @@
 # Changelog
 
 ## Pre-release changes - please put everything in the appropriate category below
+### Enhancements
+- NOTICKET - update changelog, post-release
+### Fixed bugs
+- GP2-2831 - fix typo on 404 page
+
+## [1.10.0](https://github.com/uktrade/great-cms/releases/tag/1.10.0)
+
+MAGNA RELEASE
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.9.0...1.10.0)
 
 ### Enhancements
 - GP2-2816 - Set Wagtaildocs serve method to 'direct' to avoid denial when proxying at PaaS level
