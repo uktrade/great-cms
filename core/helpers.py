@@ -453,10 +453,13 @@ class GeoLocationRedirector:
     @cached_property
     def country_code(self):
         client_ip, is_routable = get_client_ip(self.request)
+        logger.error(f'in: country_code -> client_ip: {client_ip}, is_routable: {is_routable}')
         if client_ip and is_routable:
             try:
                 response = GeoIP2().country(client_ip)
+                logger.error(f'in: country_code -> response: {response}')
             except GeoIP2Exception:
+                logger.error('GeoIP2Exception in country_code')
                 pass
             else:
                 return response['country_code']
@@ -467,6 +470,14 @@ class GeoLocationRedirector:
 
     @property
     def should_redirect(self):
+        _msg = (
+            f'in should_redirect -> self.COOKIE_NAME not in self.request.COOKIES {self.COOKIE_NAME not in self.request.COOKIES}\n'  # noqa E501
+            f'in should_redirect -> self.LANGUAGE_PARAM not in self.request.GET {self.LANGUAGE_PARAM not in self.request.GET}\n'  # noqa E501
+            f'in should_redirect -> self.country_code is not None {self.country_code is not None}\n'
+            f'in should_redirect -> self.country_code not in self.DOMESTIC_COUNTRY_CODES {self.country_code not in self.DOMESTIC_COUNTRY_CODES}\n'  # noqa E501
+        )  # noqa W503
+        logger.error(_msg)
+
         return (
             self.COOKIE_NAME not in self.request.COOKIES  # noqa W503
             and self.LANGUAGE_PARAM not in self.request.GET  # noqa W503
