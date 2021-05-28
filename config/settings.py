@@ -95,6 +95,7 @@ MIDDLEWARE = [
     'core.middleware.StoreUserExpertiseMiddleware',
     'wagtailcache.cache.FetchFromCacheMiddleware',
     'core.middleware.CheckGATags',
+    'great_components.middleware.ForceDefaultLocale',
 ]
 
 ROOT_URLCONF = 'config.urls'
