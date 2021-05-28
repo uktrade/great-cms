@@ -95,7 +95,11 @@ MIDDLEWARE = [
     'core.middleware.StoreUserExpertiseMiddleware',
     'wagtailcache.cache.FetchFromCacheMiddleware',
     'core.middleware.CheckGATags',
+    'django.middleware.locale.LocaleMiddleware',
+    'great_components.middleware.LocaleQuerystringMiddleware',
+    'great_components.middleware.PersistLocaleMiddleware',
     'great_components.middleware.ForceDefaultLocale',
+    'great_components.middleware.CountryMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
