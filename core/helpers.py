@@ -470,7 +470,15 @@ class GeoLocationRedirector:
 
     @property
     def should_redirect(self):
+
+        should_redirect = (
+            self.COOKIE_NAME not in self.request.COOKIES  # noqa W503
+            and self.LANGUAGE_PARAM not in self.request.GET  # noqa W503
+            and self.country_code is not None  # noqa W503
+            and self.country_code not in self.DOMESTIC_COUNTRY_CODES  # noqa W503
+        )
         _msg = (
+            f'should_redirect{should_redirect}\n'
             f'self.request.COOKIES {self.request.COOKIES}\n'
             f'self.request.GET {self.request.GET}\n'
             f'self.country_code {self.country_code}\n'
@@ -480,13 +488,7 @@ class GeoLocationRedirector:
             f'in should_redirect -> self.country_code not in self.DOMESTIC_COUNTRY_CODES {self.country_code not in self.DOMESTIC_COUNTRY_CODES}\n'  # noqa E501
         )  # noqa W503
         logger.error(_msg)
-
-        return (
-            self.COOKIE_NAME not in self.request.COOKIES  # noqa W503
-            and self.LANGUAGE_PARAM not in self.request.GET  # noqa W503
-            and self.country_code is not None  # noqa W503
-            and self.country_code not in self.DOMESTIC_COUNTRY_CODES  # noqa W503
-        )
+        return should_redirect
 
     def get_response(self):
         params = self.request.GET.dict()
