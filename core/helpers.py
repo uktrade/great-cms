@@ -471,6 +471,9 @@ class GeoLocationRedirector:
     @property
     def should_redirect(self):
         _msg = (
+            f'self.request.COOKIES {self.request.COOKIES}\n'
+            f'self.request.GET {self.request.GET}\n'
+            f'self.country_code {self.country_code}\n'
             f'in should_redirect -> self.COOKIE_NAME not in self.request.COOKIES {self.COOKIE_NAME not in self.request.COOKIES}\n'  # noqa E501
             f'in should_redirect -> self.LANGUAGE_PARAM not in self.request.GET {self.LANGUAGE_PARAM not in self.request.GET}\n'  # noqa E501
             f'in should_redirect -> self.country_code is not None {self.country_code is not None}\n'
