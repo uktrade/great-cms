@@ -5,6 +5,7 @@
 - NOTICKET - update changelog, post-release
 ### Fixed bugs
 - GP2-2831 - fix typo on 404 page
+- GP2-2881 - Accessibility fix - alert screen readers for text updates
 
 ## [1.10.0](https://github.com/uktrade/great-cms/releases/tag/1.10.0)
 

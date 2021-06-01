@@ -76,7 +76,7 @@ export const ObjectivesList = memo(
             deleteObjective={deleteObjective}
           />
         ))}
-        {message && <p id="objective-saved-message">Changes saved.</p>}
+        {message && <p id="objective-saved-message" role="status">Changes saved.</p>}
         <AddButton
           isDisabled={objectives.length ? !objectHasValue(lastField) : false}
           numberOfItems={objectives.length}
