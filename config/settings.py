@@ -79,7 +79,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'wagtailcache.cache.UpdateCacheMiddleware',
+    # 'wagtailcache.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -93,7 +93,7 @@ MIDDLEWARE = [
     'core.middleware.UserSpecificRedirectMiddleware',
     'core.middleware.UserLocationStoreMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
-    'wagtailcache.cache.FetchFromCacheMiddleware',
+    # 'wagtailcache.cache.FetchFromCacheMiddleware',
     'core.middleware.CheckGATags',
     'django.middleware.locale.LocaleMiddleware',
     'great_components.middleware.LocaleQuerystringMiddleware',
