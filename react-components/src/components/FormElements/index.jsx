@@ -72,7 +72,7 @@ export const FormElements = memo(
           )
         })}
         {pending && <Spinner text="Saving..." />}
-        {showMessage && 'Changes saved.'}
+        {showMessage && <div role="status">Changes saved.</div>}
         <ErrorList errors={errors.__all__ || []} className="m-0" />
       </>
     )

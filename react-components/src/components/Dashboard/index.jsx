@@ -43,7 +43,7 @@ export const Dashboard = memo(
                     <img
                       className="width-full p-h-s p-t-m p-b-s"
                       src="/static/images/coming-soon.svg"
-                      alt={title}
+                      alt=""
                       data-sectiontitle={title}
                     />
                   </div>
@@ -71,7 +71,7 @@ export const Dashboard = memo(
                         is_complete ? 'bg-green-30' : 'bg-blue-deep-20'
                       }`}
                       src={`/static/images/${image}`}
-                      alt={title}
+                      alt=""
                     />
                   </div>
                   <div className="p-t-s p-b-xs p-h-xs">

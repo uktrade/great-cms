@@ -1,6 +1,21 @@
 # Changelog
 
 ## Pre-release changes - please put everything in the appropriate category below
+### Enhancements
+- NOTICKET - update changelog, post-release
+### Fixed bugs
+- GP2-2835 - Disable caching on homepage
+- GP2-2889 - DAC Decorative_Images_01 - clear alt tags on decorative images
+- GP2-2888 - DAC Dialog_01 - aria-modal on confirmation dialogues.
+- GP2-2831 - fix typo on 404 page
+- GP2-2881 - Accessibility fix - alert screen readers for text updates
+- GP2-2883 - Accessibility fix - fix sign out menu button keyboard issues
+
+## [1.10.0](https://github.com/uktrade/great-cms/releases/tag/1.10.0)
+
+MAGNA RELEASE
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.9.0...1.10.0)
 
 ### Enhancements
 - GP2-2816 - Set Wagtaildocs serve method to 'direct' to avoid denial when proxying at PaaS level
