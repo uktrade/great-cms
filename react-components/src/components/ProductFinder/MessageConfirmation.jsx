@@ -16,6 +16,9 @@ export function MessageConfirmation(props) {
         isOpen={productConfirmation}
         className="modal confirmation-modal"
         overlayClassName="modal-overlay center"
+        aria={{
+          modal: true,
+        }}
       >
         <div>
           <h2 className="h-s p-t-xxs">{messageTitle}</h2>
