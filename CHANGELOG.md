@@ -5,6 +5,7 @@
 - NOTICKET - update changelog, post-release
 ### Fixed bugs
 - GP2-2835 - Disable caching on homepage
+- GP2-2889 - DAC Decorative_Images_01 - clear alt tags on decorative images
 - GP2-2888 - DAC Dialog_01 - aria-modal on confirmation dialogues.
 - GP2-2831 - fix typo on 404 page
 - GP2-2881 - Accessibility fix - alert screen readers for text updates
