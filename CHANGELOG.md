@@ -4,6 +4,7 @@
 ### Enhancements
 - NOTICKET - update changelog, post-release
 ### Fixed bugs
+- GP2-2890 - DAC NonText Content 01
 - GP2-2835 - Disable caching on homepage
 - GP2-2889 - DAC Decorative_Images_01 - clear alt tags on decorative images
 - GP2-2888 - DAC Dialog_01 - aria-modal on confirmation dialogues.

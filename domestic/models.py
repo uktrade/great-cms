@@ -16,7 +16,6 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtailcache.cache import WagtailCacheMixin
 
 from core import (
     blocks as core_blocks,
@@ -136,7 +135,6 @@ class DomesticHomePage(
     mixins.EnableTourMixin,
     mixins.AnonymousUserRequired,
     DataLayerMixin,
-    WagtailCacheMixin,
     Page,
 ):
     # Note that this is was the original homepage for Magna/V2 MPV.
@@ -162,10 +160,6 @@ class DomesticHomePage(
         StreamFieldPanel('button'),
         ImageChooserPanel('image'),
     ]
-
-    # Deliberately asking wagtail not to cache homepage
-    def cache_control(self):
-        return 'no-cache'
 
 
 class DomesticDashboard(
