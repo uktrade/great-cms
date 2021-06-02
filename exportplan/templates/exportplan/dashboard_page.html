@@ -53,7 +53,7 @@
       </a>
     </div>
     {% else %}
-    <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="width-full" />
+    <img alt="Your business logo" src="{{ request.user.company.logo }}" class="width-full" />
     <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
     {% endif %}
     <a class="button button--secondary button--full-width button--icon m-b-xs" href="{% url 'exportplan:pdf-download' %}" title="Save your plan as a PDF">
