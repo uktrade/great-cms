@@ -1804,3 +1804,30 @@ class TradeFinancePageTests(WagtailPageTests):
                 GreatDomesticHomePage,
             },
         )
+
+
+@pytest.mark.django_db
+def test_great_domestic_homepage_header_cache(root_page, client, user):
+
+    homepage = GreatDomesticHomePageFactory(
+        parent=root_page,
+        slug='root',
+    )
+
+    SiteFactory(
+        root_page=homepage,
+        hostname=client._base_environ()['SERVER_NAME'],
+    )
+
+    for user_logged_in in (False, True):
+
+        if user_logged_in:
+            client.force_login(user)
+
+        response = client.get(homepage.url)
+
+        assert response.has_header('Cache-Control') is True
+        assert response.get('Cache-Control') == 'no-cache'
+
+        assert response.has_header('X-Wagtail-Cache') is True
+        assert response.get('X-Wagtail-Cache') == 'skip'
