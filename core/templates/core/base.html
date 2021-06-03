@@ -75,6 +75,10 @@
     </script>
 {% endblock %}
 
+{% block skip_link %}
+  <a id="skip-link" href="#content" tabindex="1">Skip to main content</a>
+{% endblock %}
+
 {% block body_header %}
   {% include 'core/header.html' %}
   {% if request.user.is_authenticated %}
