@@ -45,7 +45,7 @@ const MarkLessonAsComplete = ({ endpoint }) => {
 
   return (
     <div className="mark-lesson-as-complete">
-      <h3 className="h-m text-white p-b-s">Lesson complete?</h3>
+      <h2 className="h-m text-white p-b-s">Lesson complete?</h2>
       <div className="great-checkbox great-checkbox--large">
         <input
           type="checkbox"

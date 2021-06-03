@@ -76,7 +76,7 @@ export const Form = ({
           <hr className="bg-blue-deep-10" />
         </div>
       )}
-      {false && (
+      {true && (
         <SocialLoginButtons
           linkedinUrl={linkedinLoginUrl}
           googleUrl={googleLoginUrl}
