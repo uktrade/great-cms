@@ -27,7 +27,7 @@ describe('MarkLessonAsComplete', () => {
   it('renders correct elements', async () => {
     await act(async () => {
       expect(wrapper.find('.mark-lesson-as-complete').length).toEqual(1)
-      expect(wrapper.find('h3').length).toEqual(1)
+      expect(wrapper.find('h2').length).toEqual(1)
       expect(wrapper.find('.great-checkbox').length).toEqual(1)
     })
   })
