@@ -20,8 +20,8 @@ class SearchSortBackend(BaseHealthCheckBackend):
             # the type from  search.serializers._format_display_type()
             if (
                 (len(results) == 6)
-                and (results[0]['type'] == 'Service')  # noqa W503
-                and (results[-1]['type'] == 'Export opportunity')  # noqa W503
+                and (results[0]['type'] == 'Service')  # noqa: W503
+                and (results[-1]['type'] == 'Export opportunity')  # noqa: W503
             ):
                 ordering_success = True
 

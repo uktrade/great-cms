@@ -1,11 +1,13 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
-from django.forms import Select, Textarea
+from django.forms import Select, Textarea, TextInput
 from django.utils.translation import ugettext_lazy as _
 from great_components import forms
 
 from contact.forms import TERMS_LABEL
+from core.forms import ConsentFieldMixin
+from directory_constants import choices
 from directory_constants.choices import COUNTRY_CHOICES
 
 COUNTRIES = COUNTRY_CHOICES.copy()
@@ -119,3 +121,89 @@ class SectorPotentialForm(forms.Form):
         self.fields['sector'].choices = self.SECTOR_CHOICES_BASE + [
             (tag['name'], tag['name']) for tag in sorted_sectors
         ]
+
+
+class CategoryForm(forms.Form):
+    error_css_class = 'input-field-container has-error'
+
+    CATEGORY_CHOICES = (
+        'Securing upfront funding',
+        'Offering competitive but secure payment terms',
+        'Guidance on export finance and insurance',
+    )
+    categories = forms.MultipleChoiceField(
+        label='',
+        widget=forms.CheckboxSelectInlineLabelMultiple(
+            attrs={'id': 'checkbox-multiple'},
+            use_nice_ids=True,
+        ),
+        choices=((choice, choice) for choice in CATEGORY_CHOICES),
+    )
+
+
+class PersonalDetailsForm(forms.Form):
+    error_css_class = 'input-field-container has-error'
+
+    firstname = forms.CharField(label='Your first name')
+    lastname = forms.CharField(label='Your last name')
+    position = forms.CharField(label='Position in company')
+    email = forms.EmailField(label='Email address')
+    phone = forms.CharField(label='Phone')
+
+
+class CompanyDetailsForm(forms.Form):
+
+    EXPORT_CHOICES = (
+        'I have three years of registered accounts',
+        'I have customers outside UK',
+        'I supply companies that sell overseas',
+    )
+    INDUSTRY_CHOICES = (
+        [('', '')]
+        + [(value.replace('_', ' ').title(), label) for (value, label) in choices.INDUSTRIES]  # noqa: W503
+        + [('Other', 'Other')]  # noqa: W503
+    )
+
+    error_css_class = 'input-field-container has-error'
+
+    trading_name = forms.CharField(label='Registered name')
+    company_number = forms.CharField(label='Companies House number', required=False)
+    address_line_one = forms.CharField(label='Building and street')
+    address_line_two = forms.CharField(label='', required=False)
+    address_town_city = forms.CharField(label='Town or city')
+    address_county = forms.CharField(label='County')
+    address_post_code = forms.CharField(label='Postcode')
+    industry = forms.ChoiceField(initial='thing', choices=INDUSTRY_CHOICES)
+    industry_other = forms.CharField(
+        label='Type in your industry',
+        widget=TextInput(attrs={'class': 'js-field-other'}),
+        required=False,
+    )
+
+    export_status = forms.MultipleChoiceField(
+        label='',
+        widget=forms.CheckboxSelectInlineLabelMultiple(
+            attrs={'id': 'checkbox-multiple'},
+            use_nice_ids=True,
+        ),
+        choices=((choice, choice) for choice in EXPORT_CHOICES),
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        return {**cleaned_data, 'not_companies_house': not cleaned_data.get('company_number')}
+
+
+class HelpForm(ConsentFieldMixin, forms.Form):
+    error_css_class = 'input-field-container has-error'
+
+    comment = forms.CharField(
+        label='Tell us about your export experience, including any challenges you are facing.',
+        help_text=(
+            "We're particularly interested in the markets you "
+            'have exported to and whether you have already '
+            'spoken to your bank or a broker. '
+        ),
+        widget=Textarea(attrs={'class': 'margin-top-15'}),
+    )
+    captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
