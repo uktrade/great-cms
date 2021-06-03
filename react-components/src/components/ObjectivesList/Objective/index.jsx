@@ -32,7 +32,7 @@ const fwRefObjective = forwardRef(
           <div className="grid" tabIndex="-1">
             <div className="c-full">
               <TextArea
-                id="description"
+                id={`description-objective-${number}`}
                 placeholder="Add some text"
                 label={`Objective ${number}`}
                 value={data.description}

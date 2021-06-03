@@ -7,6 +7,8 @@
 - GP2-2886 - DAC_Focus_Order_03 - EP Objectives list focus management
 - GP2-2885 - DAC_Focus_Order_02 - Dynamic aria label and focus on WTM page
 - GP2-2884 - DAC Focus Order 01 - tabindex on mobile header
+- GP2-2880 - DAC_Parsing_02 (A)
+- GP2-2884 - DAC Focus Order 01
 - GP2-2893 - DAC Link Purpose 01
 - GP2-2890 - DAC NonText Content 01
 - GP2-2835 - Disable caching on homepage
