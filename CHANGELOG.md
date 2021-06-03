@@ -12,6 +12,12 @@
 - GP2-2881 - Accessibility fix - alert screen readers for text updates
 - GP2-2883 - Accessibility fix - fix sign out menu button keyboard issues
 - GP2-2868 - Tech Debt fix sentry errors
+- GP2-2902 - DAC_Headings_01
+- GP2-2903 - DAC_Headings_02
+- GP2-2904 - DAC_Headings_03
+- GP2-2905 - DAC_Headings_04
+- GP2-2906 - DAC_Headings_05
+- GP2-2907 - DAC_Headings_06
 
 ## [1.10.0](https://github.com/uktrade/great-cms/releases/tag/1.10.0)
 
