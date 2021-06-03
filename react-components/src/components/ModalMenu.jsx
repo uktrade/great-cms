@@ -127,7 +127,7 @@ export function Menu(props) {
 
         <li>
           <button type="button" className="link" ref={lastMenuItem} onClick={logout} onKeyDown={(e) => {
-            if (e.keyCode && !e.shiftKey) {
+            if (e.keyCode && !e.shiftKey && e.keyCode !== 13 && e.keyCode !== 32) {
               e.preventDefault();
               menuItem.current.focus();
             }

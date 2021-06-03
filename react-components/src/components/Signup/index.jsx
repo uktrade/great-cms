@@ -88,7 +88,7 @@ export const Signup = (props) => {
           <img
             className="m-f-auto m-r-auto signup__logo"
             src="/static/images/dit_logo_335x160.png"
-            alt="Exporting is Great"
+            alt=""
             width="148"
             height="71"
           />
@@ -115,7 +115,7 @@ export const Signup = (props) => {
         <img
           class="m-f-auto m-r-auto"
           src="/static/images/sign-up-illustration.svg"
-          alt="Exporting is Great"
+          alt=""
         />
       </div>
     </div>

@@ -28,8 +28,8 @@
             <a class="section-list__link w-1-1 link" href="{% url 'exportplan:section' slug=section.title|slugify %}"
               id="{{ section.title|slugify }}">
               <div class="bg-blue-deep-20 section-list__image-container">
-                <img class="w-full p-h-s p-t-m p-b-s" src="{% static 'images/ep-placeholder.svg' %}"
-                  alt="{{ section.title }}">
+                <img class="width-full p-h-s p-t-m p-b-s" src="{% static 'images/ep-placeholder.svg' %}"
+                  alt="">
               </div>
               <div class="p-v-s p-h-xs">
                 <h3 class="bold body-l-b text-blue-deep-80">{{ section.title }}</h3>
@@ -53,7 +53,7 @@
       </a>
     </div>
     {% else %}
-    <img alt="{{ request.user.company.name }}" src="{{ request.user.company.logo }}" class="width-full" />
+    <img alt="Your business logo" src="{{ request.user.company.logo }}" class="width-full" />
     <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
     {% endif %}
     <a class="button button--secondary button--full-width button--icon m-b-xs" href="{% url 'exportplan:pdf-download' %}" title="Save your plan as a PDF">
