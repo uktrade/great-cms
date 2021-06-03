@@ -123,7 +123,7 @@ describe('Objective', () => {
       />
     )
 
-    const input = wrapper.find('textarea[name="description"]')
+    const input = wrapper.find('textarea[name="description-objective-1"]')
 
     const dummyEvent = {
       target: { name: 'description-objective-1', value: 'Lorem ipsum' },
