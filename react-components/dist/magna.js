@@ -76500,7 +76500,7 @@ var Form = function Form(_ref) {
       handleSubmit();
     },
     className: "signup__form"
-  }, showTitle && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("legend", {
+  }, showTitle && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
     className: "h-s text-blue-deep-80 p-t-xs"
   }, "Create an account"), "Already have an account? \xA0\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].config.loginUrl,
@@ -76680,7 +76680,7 @@ var Signup = function Signup(props) {
     className: "signup__right-panel"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "signup__right-panel__headings"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Find new customers around the world"), subHeadings.map(function (heading) {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Find new customers around the world"), subHeadings.map(function (heading) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "signup__right-panel__subheadings",
       key: heading
