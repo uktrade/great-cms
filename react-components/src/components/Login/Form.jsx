@@ -25,7 +25,7 @@ export const Form = ({
         handleSubmit()
       }}
     >
-      <legend className="h-s text-blue-deep-80 p-t-xs">Sign in</legend>
+      <h2 className="h-s text-blue-deep-80 p-t-xs">Sign in</h2>
       <p className="m-b-s">
         Don't have an account?{' '}
         <a
