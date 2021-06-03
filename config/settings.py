@@ -90,7 +90,6 @@ MIDDLEWARE = [
     'wagtail.contrib.legacy.sitemiddleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     'core.middleware.UserSpecificRedirectMiddleware',
-    'core.middleware.UserLocationStoreMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'core.middleware.CheckGATags',
 ]

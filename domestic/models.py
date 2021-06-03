@@ -184,7 +184,6 @@ class DomesticDashboard(
             initial={'step_a': True, 'step_b': True, 'step_c': True}
         )
         context['industry_options'] = [{'value': key, 'label': label} for key, label in choices.SECTORS]
-        context['events'] = helpers.get_dashboard_events(user.session_id)
         context['export_opportunities'] = helpers.get_dashboard_export_opportunities(user.session_id, user.company)
         context.update(get_lesson_completion_status(user, context))
         context['export_plan_in_progress'] = user.has_visited_page(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
