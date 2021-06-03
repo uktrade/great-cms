@@ -126,7 +126,7 @@ describe('Objective', () => {
     const input = wrapper.find('textarea[name="description"]')
 
     const dummyEvent = {
-      target: { name: 'description', value: 'Lorem ipsum' },
+      target: { name: 'description-objective-1', value: 'Lorem ipsum' },
     }
 
     input.simulate('change', dummyEvent)
