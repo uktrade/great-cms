@@ -94,7 +94,7 @@ export const Signup = (props) => {
           />
         </a>
         {renderStep()}
-        <p class="g-panel signup__questions-panel">
+        <p className="g-panel signup__questions-panel">
           If you have any questions or feedback please{' '}
           <a href="/contact/feedback/" target="_blank">
             get in touch
@@ -105,15 +105,15 @@ export const Signup = (props) => {
         <div className="signup__right-panel__headings">
           <h1>Find new customers around the world</h1>
           {subHeadings.map((heading) => (
-            <div className="signup__right-panel__subheadings">
-              <i class="fas fa-check-circle"></i>
-              <h2>{heading}</h2>
+            <div className="signup__right-panel__subheadings" key={heading}>
+              <i className="fas fa-check-circle" aria-hidden="true"></i>
+              <p>{heading}</p>
             </div>
           ))}
         </div>
 
         <img
-          class="m-f-auto m-r-auto"
+          className="m-f-auto m-r-auto"
           src="/static/images/sign-up-illustration.svg"
           alt=""
         />

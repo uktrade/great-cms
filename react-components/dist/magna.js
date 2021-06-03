@@ -76672,7 +76672,7 @@ var Signup = function Signup(props) {
     width: "148",
     height: "71"
   })), renderStep(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    "class": "g-panel signup__questions-panel"
+    className: "g-panel signup__questions-panel"
   }, "If you have any questions or feedback please", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "/contact/feedback/",
     target: "_blank"
@@ -76682,12 +76682,14 @@ var Signup = function Signup(props) {
     className: "signup__right-panel__headings"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Find new customers around the world"), subHeadings.map(function (heading) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "signup__right-panel__subheadings"
+      className: "signup__right-panel__subheadings",
+      key: heading
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      "class": "fas fa-check-circle"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, heading));
+      className: "fas fa-check-circle",
+      "aria-hidden": "true"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, heading));
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    "class": "m-f-auto m-r-auto",
+    className: "m-f-auto m-r-auto",
     src: "/static/images/sign-up-illustration.svg",
     alt: ""
   })));
