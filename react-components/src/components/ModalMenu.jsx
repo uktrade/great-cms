@@ -166,7 +166,7 @@ export function Menu(props) {
     <div style={{ lineHeight: 0 }}>
       <button
         type="button"
-        tabindex={width < mobileBreakpoint ? '1' : ''}
+        tabIndex={width < mobileBreakpoint ? '1' : ''}
         ref={menuItem}
         className={modalIsOpen ? 'active' : ''}
         onClick={modalIsOpen ? closeModal : openModal}

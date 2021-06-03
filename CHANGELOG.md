@@ -4,7 +4,8 @@
 ### Enhancements
 - NOTICKET - update changelog, post-release
 ### Fixed bugs
-- GP2-2884 - DAC Focus Order 01
+- GP2-2885 - DAC_Focus_Order_02 - Dynamic aria label and focus on WTM page
+- GP2-2884 - DAC Focus Order 01 - tabindex on mobile header
 - GP2-2893 - DAC Link Purpose 01
 - GP2-2890 - DAC NonText Content 01
 - GP2-2835 - Disable caching on homepage
