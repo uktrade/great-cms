@@ -11,7 +11,14 @@ import CountryFinderModal from '../ProductFinder/CountryFinderModal'
 import ComparisonTables from './ComparisonTables'
 
 function CompareMarkets(props) {
-  const { selectedProduct, tabs, maxPlaces, ctaContainer, cacheVersion } = props
+  const {
+    selectedProduct,
+    tabs,
+    maxPlaces,
+    ctaContainer,
+    container,
+    cacheVersion,
+  } = props
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
   const [comparisonMarkets, _setComparisonMarkets] = useState(false)
@@ -24,13 +31,6 @@ function CompareMarkets(props) {
 
   const selectedLength = Object.keys(comparisonMarkets).length || 0
 
-  useEffect(() => {
-    Services.getUserData(userDataName).then((result) => {
-      _setComparisonMarkets(result.data || {})
-      Services.store.dispatch(actions.setCompareMarketList(result.data || {}))
-    })
-  }, [])
-
   const pushAnalytics = (markets) => {
     const marketNames = Object.values(markets).map((v) => v.country_name)
     analytics({
@@ -41,25 +41,44 @@ function CompareMarkets(props) {
     })
   }
 
-  const setComparisonMarkets = (newMarkets) => {
+  const setComparisonMarkets = (markets) => {
+    _setComparisonMarkets(markets)
+    // Create an aria label with a list of selected countries
+    const marketCount = Object.values(markets).length
+    const label = Object.values(markets).reduce((str, market, index) => {
+      const separator = index < marketCount - 1 ? ',' : ' and'
+      return `${str}${index > 0 ? separator : ''} ${market.country_name}`
+    }, 'Comparison information for')
+    container.setAttribute('aria-label', label)
+  }
+
+  useEffect(() => {
+    Services.getUserData(userDataName).then((result) => {
+      setComparisonMarkets(result.data || {})
+      Services.store.dispatch(actions.setCompareMarketList(result.data || {}))
+    })
+  }, [])
+
+  const updateComparisonMarkets = (newMarkets) => {
     Services.setUserData(userDataName, newMarkets).then(() => {
-      _setComparisonMarkets(newMarkets)
+      setComparisonMarkets(newMarkets)
       Services.store.dispatch(actions.setCompareMarketList(newMarkets))
       pushAnalytics(newMarkets)
+      container.focus()
     })
   }
 
   const addCountry = (country) => {
     const newMarkets = { ...comparisonMarkets }
     newMarkets[country.country_iso2_code] = country
-    setComparisonMarkets(newMarkets)
+    updateComparisonMarkets(newMarkets)
   }
 
   const removeMarket = (evt) => {
     const id = evt.target.closest('button').getAttribute('data-id')
     const newMarkets = { ...comparisonMarkets }
     delete newMarkets[id]
-    setComparisonMarkets(newMarkets)
+    updateComparisonMarkets(newMarkets)
   }
 
   let buttonClass = 'button button--primary button--icon'
@@ -76,9 +95,9 @@ function CompareMarkets(props) {
       <button
         type="button"
         className={buttonClass}
-        onClick={openModal}>
-        <i className="fa fa-plus-square"
-      />
+        onClick={openModal}
+      >
+        <i className="fa fa-plus-square" />
         {buttonLabel}
       </button>
     ) : (
@@ -139,6 +158,7 @@ CompareMarkets.propTypes = {
   maxPlaces: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
     .isRequired,
   ctaContainer: PropTypes.instanceOf(Element).isRequired,
+  container: PropTypes.instanceOf(Element).isRequired,
 }
 
 CompareMarkets.defaultProps = {
@@ -155,6 +175,7 @@ export default function createCompareMarkets({ ...params }) {
         tabs={tabs}
         maxPlaces={maxPlaces}
         ctaContainer={params.cta_container}
+        container={params.element}
       />
     </Provider>,
     params.element
