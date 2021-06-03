@@ -19,6 +19,8 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
               <button
                 className="button-example button button--small button--tertiary m-r-xxs m-b-xs"
                 type="button"
+                aria-controls="learning-content-area"
+                aria-expanded={toggleExample}
                 onClick={() => {
                   setToggleExample(!toggleExample)
                   setToggleLesson(false)
@@ -36,6 +38,8 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
               <button
                 className="button-lesson button button--small button--tertiary m-r-xxs m-b-xs"
                 type="button"
+                aria-controls="learning-content-area"
+                aria-expanded={toggleExample}
                 onClick={() => {
                   setToggleLesson(!toggleLesson)
                   setToggleExample(false)
@@ -53,7 +57,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
               <Tooltip {...tooltip} className="inline-block m-b-xs" />
             )}
           </div>
-          <div className="learning__content">
+          <div className="learning__content" id="learning-content-area">
             {hasExample && (
               <dl
                 className={`form-group-example bg-${
