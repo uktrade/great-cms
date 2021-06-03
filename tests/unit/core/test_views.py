@@ -336,7 +336,6 @@ def test_dashboard_apis_ok(
     client,
     user,
     get_request,
-    patch_get_dashboard_events,
     patch_get_dashboard_export_opportunities,
     patch_set_user_page_view,
     patch_get_user_page_views,
@@ -344,7 +343,6 @@ def test_dashboard_apis_ok(
     domestic_homepage,
     mock_get_user_profile,
 ):
-    patch_get_dashboard_events.stop()
     patch_get_dashboard_export_opportunities.stop()
 
     with patch('directory_api_client.api_client.personalisation.events_by_location_list') as events_api_results:
@@ -404,22 +402,6 @@ def test_dashboard_apis_ok(
             dashboard = DomesticDashboardFactory(parent=domestic_homepage, slug='dashboard')
             context_data = dashboard.get_context(get_request)
 
-            assert context_data['events'] == [
-                {
-                    'title': 'Global Aid and Development Directory',
-                    'description': 'DIT is producing a directory of compani…',
-                    'url': 'www.example.com',
-                    'location': 'London',
-                    'date': '06 Jun 2020',
-                },
-                {
-                    'title': 'Less Info',
-                    'description': 'Content',
-                    'url': 'www.example.com',
-                    'location': 'n/a',
-                    'date': 'n/a',
-                },
-            ]
             assert context_data['export_opportunities'] == [
                 {
                     'title': 'French sardines required',
@@ -437,7 +419,6 @@ def test_dashboard_apis_fail(
     client,
     user,
     get_request,
-    patch_get_dashboard_events,
     patch_get_dashboard_export_opportunities,
     patch_set_user_page_view,
     patch_get_user_page_views,
@@ -445,7 +426,6 @@ def test_dashboard_apis_fail(
     domestic_homepage,
     mock_get_user_profile,
 ):
-    patch_get_dashboard_events.stop()
     patch_get_dashboard_export_opportunities.stop()
     patch_get_user_lesson_completed.stop()
     with patch('directory_api_client.api_client.personalisation.events_by_location_list') as events_api_results:
@@ -460,7 +440,6 @@ def test_dashboard_apis_fail(
             dashboard = DomesticDashboardFactory(parent=domestic_homepage, slug='dashboard')
             context_data = dashboard.get_context(get_request)
 
-            assert context_data['events'] == []
             assert context_data['export_opportunities'] == []
 
 
