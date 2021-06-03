@@ -46,6 +46,7 @@
 ### Enhancements
 - NOTICKET - update changelog, post-release
 ### Fixed bugs
+- GP2-2879 - DAC_Parsing_01 (A)
 - GP2-2890 - DAC NonText Content 01
 - GP2-2835 - Redirect fix for initial request for domestic going to international/ Disable caching on homepage
 - GP2-2889 - DAC Decorative_Images_01 - clear alt tags on decorative images
