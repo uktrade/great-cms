@@ -107,12 +107,12 @@ it('Open country finder and type-ahead filter', async () => {
     searchInput.value = 'au'
     Simulate.change(searchInput)
   })
-  expect(finder.querySelector('ul.country-list .open').textContent).toEqual('Austria')
+  expect(finder.querySelector('div.country-list .open').textContent).toEqual('Austria')
   act(() => {
     searchInput.value = ''
     Simulate.change(searchInput)
   })
-  expect(finder.querySelector('ul.country-list .expand-section.open')).toBeFalsy()
+  expect(finder.querySelector('div.country-list .expand-section.open')).toBeFalsy()
   act(() => {
     searchInput.value = 'aub'
     Simulate.change(searchInput)
