@@ -71582,7 +71582,7 @@ var Form = function Form(_ref) {
       event.preventDefault();
       handleSubmit();
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("legend", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "h-s text-blue-deep-80 p-t-xs"
   }, "Sign in"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "m-b-s"
