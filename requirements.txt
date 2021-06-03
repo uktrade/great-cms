@@ -176,7 +176,7 @@ lxml==4.6.3
     # via
     #   -r requirements.in
     #   pyquery
-markdown2==2.3.9
+markdown2==2.4.0
     # via
     #   -r requirements.in
     #   readtime
