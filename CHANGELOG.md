@@ -5,6 +5,7 @@
 ### Enhancements
 - GP2-1617: Port get-finance/UKEF contact form from great-domestic-ui
 ### Fixed bugs
+- GP2-2886 - DAC_Focus_Order_03 - EP Objectives list focus management
 - GP2-2885 - DAC_Focus_Order_02 - Dynamic aria label and focus on WTM page
 - GP2-2884 - DAC Focus Order 01 - tabindex on mobile header
 - GP2-2893 - DAC Link Purpose 01
@@ -15,6 +16,8 @@
 - GP2-2905 - DAC_Headings_04
 - GP2-2906 - DAC_Headings_05
 - GP2-2907 - DAC_Headings_06
+- GP2-2929 - DAC_Accordions_01
+- GP2-2931 - DAC_Accordions_03
 
 ## [1.10.1](https://github.com/uktrade/great-cms/releases/tag/1.10.1)
 ### Enhancements
