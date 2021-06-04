@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 
 import ErrorList from '@src/components/ErrorList'
@@ -14,6 +14,7 @@ export const ObjectivesList = memo(
     const [update, create, deleteItem, message, errors] = useUpdate(
       'Objectives'
     )
+    const objectiveElementList = useRef([])
     const {
       companyexportplan,
       start_date,
@@ -27,11 +28,7 @@ export const ObjectivesList = memo(
     const debounceUpdate = useDebounce(request)
 
     const createObjective = () => {
-      const date = new Date()
-      const today = `${date.getFullYear().toString()}-${(date.getMonth() + 1)
-        .toString()
-        .padStart(2, 0)}-${date.getDate().toString().padStart(2, 0)}`
-
+      const today = new Date().toISOString().substr(0,10)
       create({
         description: '',
         owner: '',
@@ -42,6 +39,7 @@ export const ObjectivesList = memo(
         model_name,
       }).then((data) => {
         setObjectives([...objectives, { ...data }])
+        objectiveElementList.current[objectiveElementList.current.length-1].focus()
       })
     }
 
@@ -74,6 +72,7 @@ export const ObjectivesList = memo(
             number={i + 1}
             handleChange={updateObjective}
             deleteObjective={deleteObjective}
+            ref={(element) => objectiveElementList.current[i] = element}
           />
         ))}
         {message && <p id="objective-saved-message" role="status">Changes saved.</p>}

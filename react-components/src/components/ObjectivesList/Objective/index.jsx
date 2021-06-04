@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 
 import { TextArea } from '@src/components/Form/TextArea'
@@ -7,8 +7,9 @@ import { ConfirmModal } from '@src/components/ConfirmModal/ConfirmModal'
 import { objectHasValue } from '@src/Helpers'
 import ErrorList from '../../ErrorList'
 
-export const Objective = memo(
-  ({ handleChange, deleteObjective, number, id, errors, data }) => {
+export const Objective = forwardRef(
+  (props, ref) => {
+    const { handleChange, deleteObjective, number, id, errors, data } = props
     const onChange = (item) => {
       handleChange({
         ...data,
@@ -23,9 +24,10 @@ export const Objective = memo(
     const { companyexportplan, start_date, end_date, pk, ...fields } = data
 
     return (
-      <>
+      <fieldset id={`objective-${number}`} ref={ref} tabIndex="-1">
+      <legend className="visually-hidden">{`Objective ${number}`}</legend>
         <div className="bg-blue-deep-10 radius p-h-s">
-          <div className="grid">
+          <div className="grid" tabIndex="-1">
             <div className="c-full">
               <TextArea
                 id="description"
@@ -93,7 +95,7 @@ export const Objective = memo(
         </div>
         <ErrorList errors={errors.__all__ || []} />
         <hr />
-      </>
+      </fieldset>
     )
   }
 )
