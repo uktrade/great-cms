@@ -21,6 +21,7 @@
 - GP2-2905 - DAC_Headings_04
 - GP2-2906 - DAC_Headings_05
 - GP2-2907 - DAC_Headings_06
+- GP2-2929 - DAC_Accordions_01
 
 ## [1.10.0](https://github.com/uktrade/great-cms/releases/tag/1.10.0)
 
