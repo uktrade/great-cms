@@ -66,6 +66,7 @@ export const Dashboard = memo(
                     className="section-list__image-container"
                     data-complete={is_complete ? 'Complete' : ''}
                   >
+                    {is_complete && <span className="visually-hidden">Complete</span>}
                     <img
                       className={`width-full p-h-s p-t-m p-b-s ${
                         is_complete ? 'bg-green-30' : 'bg-blue-deep-20'
