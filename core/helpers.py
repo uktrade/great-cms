@@ -468,10 +468,10 @@ class GeoLocationRedirector:
     @property
     def should_redirect(self):
         return (
-            self.COOKIE_NAME not in self.request.COOKIES  # noqa W503
-            and self.LANGUAGE_PARAM not in self.request.GET  # noqa W503
-            and self.country_code is not None  # noqa W503
-            and self.country_code not in self.DOMESTIC_COUNTRY_CODES  # noqa W503
+            self.COOKIE_NAME not in self.request.COOKIES  # noqa: W503
+            and self.LANGUAGE_PARAM not in self.request.GET  # noqa: W503
+            and self.country_code is not None  # noqa: W503
+            and self.country_code not in self.DOMESTIC_COUNTRY_CODES  # noqa: W503
         )
 
     def get_response(self):

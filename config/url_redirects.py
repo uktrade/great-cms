@@ -141,8 +141,7 @@ redirects = [
     ),
     url(
         r'^exporting-edge/$',
-        RedirectView.as_view(url='/get-finance/'),
-        # TODO: move back to pattern_name='get-finance' when it's migrated
+        RedirectView.as_view(pattern_name='domestic:get-finance'),
     ),
     url(
         r'^invest/$',
