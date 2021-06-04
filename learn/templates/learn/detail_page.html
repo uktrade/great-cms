@@ -7,7 +7,7 @@
 {% block content %}
     <div class="lesson-page">
         <a href="{{page.get_parent.get_parent.url}}" class="learn__back-link learn__back-link--top h-m hide-on-mobile">
-            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-left" aria-hidden="true" title="Arrow left"></i>
             <span class="visually-hidden">Back</span>
         </a>
         <div class="bg-white">
@@ -95,9 +95,9 @@
                             <div class="card card--horizontal">
                                 <div class="card__section">
                                     <p class="body-l-b m-0">Your next lesson</p>
-                                    <h3 class="h-m p-t-xxs">
+                                    <h2 class="h-m p-t-xxs">
                                         {{ next_lesson.title }}
-                                    </h3>
+                                    </h2>
                                     {% if next_lesson.estimated_read_duration %}
                                         <p class="text-blue-deep-80 m-t-0 p-t-0 m-b-xs">
                                             <i class="fas fa-clock m-r-xxs"></i>
@@ -135,7 +135,7 @@
                 </div>
             {% endif %}
             <a href="{{page.get_parent.get_parent.url}}" class="learn__back-link learn__back-link--bottom h-m hide-on-mobile">
-                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-left" aria-hidden="true" title="Arrow left"></i>
                 <span class="visually-hidden">Back</span>
             </a>
         </div>

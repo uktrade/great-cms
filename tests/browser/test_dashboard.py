@@ -81,12 +81,12 @@ def test_dashboard_welcome(
         user.first_name = 'TEST USER'
         client.force_login(user)
         visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
-        welcome = browser.find_element_by_css_selector('h2#great-hero-welcome')
+        welcome = browser.find_element_by_css_selector('h1#great-hero-welcome')
         assert welcome.text == 'Hello, TEST USER'
         user.first_name = None
         client.force_login(user)
         visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
-        welcome = browser.find_element_by_css_selector('h2#great-hero-welcome')
+        welcome = browser.find_element_by_css_selector('h1#great-hero-welcome')
         assert welcome.text == 'Hello'
 
     except AssertionError:

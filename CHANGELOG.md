@@ -1,11 +1,34 @@
 # Changelog
 
 ## Pre-release changes - please put everything in the appropriate category below
+
+### Enhancements
+- GP2-1617: Port get-finance/UKEF contact form from great-domestic-ui
+### Fixed bugs
+- GP2-2886 - DAC_Focus_Order_03 - EP Objectives list focus management
+- GP2-2885 - DAC_Focus_Order_02 - Dynamic aria label and focus on WTM page
+- GP2-2884 - DAC Focus Order 01 - tabindex on mobile header
+- GP2-2893 - DAC Link Purpose 01
+- GP2-2868 - Tech Debt fix sentry errors
+- GP2-2902 - DAC_Headings_01
+- GP2-2903 - DAC_Headings_02
+- GP2-2904 - DAC_Headings_03
+- GP2-2905 - DAC_Headings_04
+- GP2-2906 - DAC_Headings_05
+- GP2-2907 - DAC_Headings_06
+- GP2-2929 - DAC_Accordions_01
+- GP2-2931 - DAC_Accordions_03
+- GP2-2916 - DAC_CSS_Content_01
+- GP2-2917 - DAC_CSS_Content_02
+- GP2-2918 - DAC_CSS_Content_03
+- GP2-2919 -DAC_CSS_Content_04
+
+## [1.10.1](https://github.com/uktrade/great-cms/releases/tag/1.10.1)
 ### Enhancements
 - NOTICKET - update changelog, post-release
 ### Fixed bugs
 - GP2-2890 - DAC NonText Content 01
-- GP2-2835 - Disable caching on homepage
+- GP2-2835 - Redirect fix for initial request for domestic going to international/ Disable caching on homepage
 - GP2-2889 - DAC Decorative_Images_01 - clear alt tags on decorative images
 - GP2-2888 - DAC Dialog_01 - aria-modal on confirmation dialogues.
 - GP2-2831 - fix typo on 404 page
@@ -13,6 +36,7 @@
 - GP2-2883 - Accessibility fix - fix sign out menu button keyboard issues
 - GP2-2868 - Tech Debt fix sentry errors
 - GP2-2870 - rename /sso/ path to /great-cms-sso/
+
 
 ## [1.10.0](https://github.com/uktrade/great-cms/releases/tag/1.10.0)
 

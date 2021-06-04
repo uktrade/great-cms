@@ -12,11 +12,30 @@ urlpatterns = [
         skip_ga360(domestic.views.ukef.UKEFHomeView.as_view()),
         name='get-finance',
     ),
-    # 'trade-finance' needs to be added via CMS as a TradeFinancePage
+    path(
+        'get-finance/<slug:step>/',
+        skip_ga360(
+            domestic.views.ukef.GetFinanceLeadGenerationFormView.as_view(
+                url_name='domestic:uk-export-finance-lead-generation-form',
+                done_step_name='finished',
+            )
+        ),
+        name='uk-export-finance-lead-generation-form',
+    ),
+    path(
+        'get-finance/contact/thanks/',
+        skip_ga360(
+            TemplateView.as_view(
+                template_name='domestic/finance/lead_generation_form/success.html',
+            )
+        ),
+        name='uk-export-finance-lead-generation-form-success',
+    ),
+    # 'trade-finance/' is added via CMS as a TradeFinancePage with the slug 'trade-finance'
     path(
         'project-finance/',
         skip_ga360(
-            domestic.views.ukef.TemplateView.as_view(
+            TemplateView.as_view(
                 template_name='domestic/ukef/project_finance.html',
             )
         ),

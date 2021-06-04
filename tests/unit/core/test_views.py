@@ -1034,3 +1034,38 @@ def test_serve_subtitles__login_required(client):
 
     assert resp.status_code == 302
     assert resp._headers['location'] == ('Location', reverse('core:login') + f'?next={dest}')
+
+
+@pytest.mark.django_db
+@patch('directory_ch_client.ch_search_api_client.company.search_companies')
+def test_companies_house_search_internal(mock_search_companies, client):
+    mock_search_companies.return_value = create_response(
+        {
+            'items': [
+                {'name': 'Smashing corp'},
+            ],
+        },
+    )
+    url = reverse('core:api-internal-companies-house-search')
+
+    response = client.get(url, data={'term': 'thing'})
+
+    assert response.status_code == 200
+    assert response.content == b'[{"name": "Smashing corp"}]'
+
+
+@pytest.mark.django_db
+@patch('directory_ch_client.ch_search_api_client.company.search_companies')
+def test_companies_house_search_internal__invalid_form(mock_search_companies, client):
+    mock_search_companies.return_value = create_response(
+        {
+            'items': [
+                {'name': 'Smashing corp'},
+            ],
+        },
+    )
+    url = reverse('core:api-internal-companies-house-search')
+
+    response = client.get(url, data={})
+
+    assert response.status_code == 400

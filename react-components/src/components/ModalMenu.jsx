@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import Services from '@src/Services'
 import PropTypes from 'prop-types'
+import { useWindowSize } from '@src/components/hooks/useWindowSize'
+
+const mobileBreakpoint = 768
 
 const customStyles = {
   overlay: {
@@ -52,6 +55,8 @@ export function Menu(props) {
       window.location = '/';
     })
   }
+
+  const width = useWindowSize().width
 
   let avatarElement = authenticated ? (
     <i className="fas fa-user text-blue-deep-80" />
@@ -161,6 +166,7 @@ export function Menu(props) {
     <div style={{ lineHeight: 0 }}>
       <button
         type="button"
+        tabIndex={width < mobileBreakpoint ? '1' : ''}
         ref={menuItem}
         className={modalIsOpen ? 'active' : ''}
         onClick={modalIsOpen ? closeModal : openModal}

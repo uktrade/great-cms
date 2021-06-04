@@ -1,11 +1,23 @@
+from directory_forms_api_client.actions import PardotAction
+from directory_forms_api_client.helpers import Sender
 from django.conf import settings
 from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.shortcuts import redirect
+from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
+from formtools.wizard.views import NamedUrlSessionWizardView
 
 from contact.views import BaseNotifyFormView
+from core import mixins
 from core.datastructures import NotifySettings
-from domestic.forms import UKEFContactForm
+from domestic.forms import (
+    CompanyDetailsForm,
+    HelpForm,
+    PersonalDetailsForm,
+    UKEFContactForm,
+)
 
 
 class UKEFHomeView(TemplateView):
@@ -53,3 +65,87 @@ class SuccessPageView(TemplateView):
     def get_context_data(self, **kwargs):
         kwargs['user_email'] = self.request.session.get('user_email')
         return super().get_context_data(**kwargs)
+
+
+@method_decorator(never_cache, name='dispatch')
+class GetFinanceLeadGenerationFormView(
+    mixins.PrepopulateFormMixin,
+    mixins.PreventCaptchaRevalidationMixin,
+    NamedUrlSessionWizardView,
+):
+    success_url = reverse_lazy(
+        'domestic:uk-export-finance-lead-generation-form-success',
+    )
+
+    PERSONAL_DETAILS = 'your-details'
+    COMPANY_DETAILS = 'company-details'
+    HELP = 'help'
+
+    form_list = (
+        (PERSONAL_DETAILS, PersonalDetailsForm),
+        (COMPANY_DETAILS, CompanyDetailsForm),
+        (HELP, HelpForm),
+    )
+    templates = {
+        PERSONAL_DETAILS: 'domestic/finance/lead_generation_form/step-personal.html',
+        COMPANY_DETAILS: 'domestic/finance/lead_generation_form/step-company.html',
+        HELP: 'domestic/finance/lead_generation_form/step-help.html',
+    }
+
+    def get_form_kwargs(self, *args, **kwargs):
+        # skipping `PrepopulateFormMixin.get_form_kwargs`
+        return super(mixins.PrepopulateFormMixin, self).get_form_kwargs(*args, **kwargs)
+
+    def get_form_initial(self, step):
+
+        initial = super().get_form_initial(step)
+        if self.request.user.is_authenticated:
+            if step == self.PERSONAL_DETAILS and self.request.user.company:
+                initial.update(
+                    {
+                        'email': self.request.user.email,
+                        'phone': getattr(self.request.user.company, 'mobile_number', ''),
+                        'firstname': self.guess_given_name,
+                        'lastname': self.guess_family_name,
+                    }
+                )
+            elif step == self.COMPANY_DETAILS and self.request.user.company:
+                company = self.request.user.company
+
+                _sectors = getattr(company, 'sectors', [])
+                _industry = _sectors[0] if _sectors else None
+                initial.update(
+                    {
+                        'not_companies_house': False,
+                        'company_number': getattr(company, 'number', ''),
+                        'trading_name': getattr(company, 'name', ''),
+                        'address_line_one': getattr(company, 'address_line_1', ''),
+                        'address_line_two': getattr(company, 'address_line_2', ''),
+                        'address_town_city': getattr(company, 'locality', ''),
+                        'address_post_code': getattr(company, 'postal_code', ''),
+                        'industry': _industry,
+                    }
+                )
+        return initial
+
+    def get_template_names(self):
+        return [self.templates[self.steps.current]]
+
+    def done(self, form_list, **kwargs):
+        form_data = self.serialize_form_list(form_list)
+        sender = Sender(email_address=form_data['email'], country_code=None)
+        action = PardotAction(
+            pardot_url=settings.UKEF_FORM_SUBMIT_TRACKER_URL,
+            form_url=reverse('domestic:uk-export-finance-lead-generation-form', kwargs={'step': self.PERSONAL_DETAILS}),
+            sender=sender,
+        )
+        response = action.save(form_data)
+        response.raise_for_status()
+        return redirect(self.success_url)
+
+    @staticmethod
+    def serialize_form_list(form_list):
+        data = {}
+        for form in form_list:
+            data.update(form.cleaned_data)
+        return data

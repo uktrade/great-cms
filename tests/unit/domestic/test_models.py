@@ -1460,9 +1460,9 @@ def test_all_domestic_models_implement_ga360_mixins():
             klass = getattr(domestic_models, attr)
             if (
                 Page in klass.mro()
-                and klass not in concrete_models_allowed_not_to_include_mixin  # noqa W503
-                and klass._meta.abstract is not True  # noqa W503
-                and DataLayerMixin not in klass.mro()  # noqa W503
+                and klass not in concrete_models_allowed_not_to_include_mixin  # noqa: W503
+                and klass._meta.abstract is not True  # noqa: W503
+                and DataLayerMixin not in klass.mro()  # noqa: W503
             ):
                 missing_mixin.append(klass)
         except AttributeError:

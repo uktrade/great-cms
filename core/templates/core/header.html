@@ -5,9 +5,12 @@
   {% path_match "^\/export-plan\/" as in_exportplan %}
   <div class="container container-fluid">
     <nav>
-      <a id="header-logo-link" href="/">
+      <a id="header-logo-link" href="/" tabindex="1">
         <img class="header-logo" src="{% static 'images/dit-logo.png' %}" alt="Department for International Tradet" id="header-logo-exporting-is-great">
       </a>
+      <ul class="extra-links">
+        <li><a href="{% slugurl 'dashboard' %}" tabindex="1">Dashboard</a></li>
+      </ul>
       <div class="header-links">
         <ul id="services-area" class="services-area">
           {% path_match "^\/learn\/" as in_learning %}
@@ -38,10 +41,6 @@
           </script>
         </ul>
       </div>
-      <ul class="extra-links">
-        <li><a href="{% slugurl 'dashboard' %}">Dashboard</a></li>
-      </ul>
     </nav>
-
   </div>
 </header>

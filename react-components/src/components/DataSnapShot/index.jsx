@@ -17,7 +17,7 @@ export const DataSnapShot = memo(
       <>
         <h2 className="h-xs p-t-l p-b-0">Data Snapshot: { country.country_name }</h2>
         <ToggleSnapshot isOpen={false}>
-          <div className="m-t-s">
+          <div className="m-t-s" id="data-snapshot">
             <ProductData
               country={country}
               product={product}
