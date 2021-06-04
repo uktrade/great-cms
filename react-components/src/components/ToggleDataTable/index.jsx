@@ -1,17 +1,18 @@
-import React, { memo, useState, cloneElement, useEffect } from 'react'
+import React, { useState, cloneElement, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import Services from '@src/Services'
 import { camelizeObject } from '@src/Helpers'
 
 export const ToggleDataTable = ({ countryIso2Code, groups, selectedGroups: selected, children, url }) => {
-    const [isOpen, setIsOPen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
     const [selectedGroups, setSelectedGroups] = useState(selected)
     const [data, setData] = useState({})
     const targetGroupLabels = groups
       .filter((group) => selectedGroups.includes(group.key))
       .map((group) => group.label)
-    const showTable = Object.keys(data).length >= 1 && !isOpen
+    const showTable = Object.keys(data).length >= 1
+
     const getCountryData = () => {
       Services.getCountryAgeGroupData({
         country_iso2_code: countryIso2Code,
@@ -21,19 +22,15 @@ export const ToggleDataTable = ({ countryIso2Code, groups, selectedGroups: selec
         .then((result) => {
           setData(camelizeObject(camelizeObject(result).populationData))
         })
+        /* eslint-disable no-console */
         .catch((error) => console.log(error))
+        /* eslint-enable no-console */
     }
     useEffect(() => {
       if (selectedGroups.length > 0) {
         getCountryData()
       }
-    }, [countryIso2Code])
-
-    const submitForm = (event) => {
-      event.preventDefault()
-      setIsOPen(!isOpen)
-      getCountryData()
-    }
+    }, [countryIso2Code, selectedGroups])
 
     const handleChange = (event) => {
       const { value } = event.target
@@ -52,12 +49,15 @@ export const ToggleDataTable = ({ countryIso2Code, groups, selectedGroups: selec
             <button
               className="button button--tiny-toggle"
               type="button"
-              onClick={() => setIsOPen(!isOpen)}
+              onClick={() => setIsOpen(!isOpen)}
+              aria-expanded={isOpen}
+              aria-controls="target-age-groups"
             >
               <i className={`fa fa-chevron-circle-${isOpen ? 'up' : 'down'}`} />
+              <span className="visually-hidden">{`${isOpen ? 'Close' : 'Open'} target age groups`}</span>
             </button>
           </div>
-          <ul className="selected-groups__items">
+          <ul id="target-age-groups" className="selected-groups__items">
             {!isOpen &&
               selectedGroups.map((item) => (
                 <li key={item} className="selected-groups__item">
@@ -72,7 +72,6 @@ export const ToggleDataTable = ({ countryIso2Code, groups, selectedGroups: selec
           </span>
         ))}
         {isOpen && (
-          <form onSubmit={submitForm}>
             <ul className="form-group m-b-0">
               {groups.map(({ value, label }) => (
                 <li className="great-checkbox width-full m-b-xs" key={value}>
@@ -87,11 +86,6 @@ export const ToggleDataTable = ({ countryIso2Code, groups, selectedGroups: selec
                 </li>
               ))}
             </ul>
-
-            <button className="button button--secondary m-t-s" type="submit">
-              Confirm
-            </button>
-          </form>
         )}
         {showTable && cloneElement(children, { ...data })}
       </>
