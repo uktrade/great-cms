@@ -10,6 +10,8 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
   const [toggleLesson, setToggleLesson] = useState(false)
   const hasLesson = Object.keys(lesson).length > 0
   const hasExample = example.content
+  const controlAreaId = `learning-content-area-${new Date().getTime()}`
+
   return (
     <>
       {!!(hasExample || hasLesson || tooltip) && (
@@ -19,7 +21,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
               <button
                 className="button-example button button--small button--tertiary m-r-xxs m-b-xs"
                 type="button"
-                aria-controls="learning-content-area"
+                aria-controls={controlAreaId}
                 aria-expanded={toggleExample}
                 onClick={() => {
                   setToggleExample(!toggleExample)
@@ -38,7 +40,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
               <button
                 className="button-lesson button button--small button--tertiary m-r-xxs m-b-xs"
                 type="button"
-                aria-controls="learning-content-area"
+                aria-controls={controlAreaId}
                 aria-expanded={toggleExample}
                 onClick={() => {
                   setToggleLesson(!toggleLesson)
@@ -57,7 +59,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
               <Tooltip {...tooltip} className="inline-block m-b-xs" />
             )}
           </div>
-          <div className="learning__content" id="learning-content-area">
+          <div className="learning__content" id={controlAreaId}>
             {hasExample && (
               <dl
                 className={`form-group-example bg-${
