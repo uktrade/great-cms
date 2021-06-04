@@ -110,7 +110,18 @@ urlpatterns = [
         skip_ga360(views_api.TradeBarrierDataView.as_view()),
         name='api-trade-barrier-data',
     ),
-    path('api/companies-house/', skip_ga360(views_api.CompaniesHouseAPIView.as_view()), name='api-companies-house'),
+    path(
+        # THIS IS USED BY EXPORT PLAN / PERSONALISATION
+        'api/companies-house/',
+        skip_ga360(views_api.CompaniesHouseAPIView.as_view()),
+        name='api-companies-house',
+    ),
+    path(
+        # THIS IS USED BY EX-GREAT-DOMESTIC-UI PAGES
+        'api/internal/companies-house-search/',
+        skip_ga360(views.CompaniesHouseSearchApiView.as_view()),
+        name='api-internal-companies-house-search',
+    ),
     path(
         'subtitles/<int:great_media_id>/<str:language>/content.vtt',
         login_required(
