@@ -89,7 +89,7 @@ describe('ObjectivesList', () => {
       expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
       expect(Services.apiModelObjectManage).toHaveBeenLastCalledWith(
         {
-          description: 'new plan',
+          "description-objective-1": "new plan",
           owner: 'Jane Doe',
           planned_reviews: 'Lorem ipsum',
           start_date: '',
