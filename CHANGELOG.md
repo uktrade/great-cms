@@ -34,6 +34,8 @@
 - GP2-2831 - fix typo on 404 page
 - GP2-2881 - Accessibility fix - alert screen readers for text updates
 - GP2-2883 - Accessibility fix - fix sign out menu button keyboard issues
+- GP2-2868 - Tech Debt fix sentry errors
+- GP2-2870 - rename /sso/ path to /great-cms-sso/
 
 
 ## [1.10.0](https://github.com/uktrade/great-cms/releases/tag/1.10.0)
