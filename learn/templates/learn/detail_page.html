@@ -7,7 +7,7 @@
 {% block content %}
     <div class="lesson-page">
         <a href="{{page.get_parent.get_parent.url}}" class="learn__back-link learn__back-link--top h-m hide-on-mobile">
-            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-left" aria-hidden="true" title="Arrow left"></i>
             <span class="visually-hidden">Back</span>
         </a>
         <div class="bg-white">
@@ -135,7 +135,7 @@
                 </div>
             {% endif %}
             <a href="{{page.get_parent.get_parent.url}}" class="learn__back-link learn__back-link--bottom h-m hide-on-mobile">
-                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-left" aria-hidden="true" title="Arrow left"></i>
                 <span class="visually-hidden">Back</span>
             </a>
         </div>
