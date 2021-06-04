@@ -7,7 +7,9 @@ import { ConfirmModal } from '@src/components/ConfirmModal/ConfirmModal'
 import { objectHasValue } from '@src/Helpers'
 import ErrorList from '../../ErrorList'
 
-export const Objective = forwardRef(
+
+
+const fwObjective = forwardRef(
   (props, ref) => {
     const { handleChange, deleteObjective, number, id, errors, data } = props
     const onChange = (item) => {
@@ -99,6 +101,8 @@ export const Objective = forwardRef(
     )
   }
 )
+
+export const Objective = memo(fwObjective)
 
 Objective.propTypes = {
   handleChange: PropTypes.func.isRequired,

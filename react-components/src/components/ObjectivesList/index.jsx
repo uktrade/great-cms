@@ -72,7 +72,7 @@ export const ObjectivesList = memo(
             number={i + 1}
             handleChange={updateObjective}
             deleteObjective={deleteObjective}
-            ref={(element) => objectiveElementList.current[i] = element}
+            ref={(element) => {objectiveElementList.current[i] = element}}
           />
         ))}
         {message && <p id="objective-saved-message" role="status">Changes saved.</p>}
