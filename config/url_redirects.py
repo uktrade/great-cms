@@ -141,7 +141,7 @@ redirects = [
     ),
     url(
         r'^exporting-edge/$',
-        RedirectView.as_view(pattern_name='get-finance'),
+        RedirectView.as_view(pattern_name='domestic:get-finance'),
     ),
     url(
         r'^invest/$',
