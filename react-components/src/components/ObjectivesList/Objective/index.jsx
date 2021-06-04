@@ -9,7 +9,7 @@ import ErrorList from '../../ErrorList'
 
 
 
-const fwObjective = forwardRef(
+const fwRefObjective = forwardRef(
   (props, ref) => {
     const { handleChange, deleteObjective, number, id, errors, data } = props
     const onChange = (item) => {
@@ -102,7 +102,7 @@ const fwObjective = forwardRef(
   }
 )
 
-export const Objective = memo(fwObjective)
+export const Objective = memo(fwRefObjective)
 
 Objective.propTypes = {
   handleChange: PropTypes.func.isRequired,
