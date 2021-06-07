@@ -14,11 +14,14 @@ export const ToggleDataTable = ({ countryIso2Code, groups, selectedGroups: selec
     const showTable = Object.keys(data).length >= 1
 
     const getCountryData = () => {
-      Services.getCountryAgeGroupData({
+      const data = {
         country_iso2_code: countryIso2Code,
-        target_age_groups: selectedGroups,
         section_name: url,
-      })
+      }
+      if(selectedGroups.length) {
+        data['target_age_groups'] = selectedGroups
+      }
+      Services.getCountryAgeGroupData(data)
         .then((result) => {
           setData(camelizeObject(camelizeObject(result).populationData))
         })
@@ -27,9 +30,7 @@ export const ToggleDataTable = ({ countryIso2Code, groups, selectedGroups: selec
         /* eslint-enable no-console */
     }
     useEffect(() => {
-      if (selectedGroups.length > 0) {
-        getCountryData()
-      }
+      getCountryData()
     }, [countryIso2Code, selectedGroups])
 
     const handleChange = (event) => {
