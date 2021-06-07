@@ -1,6 +1,6 @@
 import pytest
 
-from contact.models import ContactSuccessSnippet
+from contact.models import ContactPageContentSnippet, ContactSuccessSnippet
 from core import snippet_slugs
 from core.cms_snippets import NonPageContentSnippetBase
 
@@ -37,9 +37,29 @@ def test_contact_slug_options_are_set():
     assert len(slug_field.choices) > 1
 
 
+@pytest.mark.parametrize(
+    'model_class,slug,expected_str',
+    (
+        (
+            ContactSuccessSnippet,
+            snippet_slugs.HELP_FORM_SUCCESS,
+            'Contact Success Snippet: Contact domestic form success page content',
+        ),
+        (
+            ContactSuccessSnippet,
+            snippet_slugs.EUEXIT_FORM_SUCCESS,
+            'Contact Success Snippet: Transition Period form success page content',
+        ),
+        (
+            ContactPageContentSnippet,
+            snippet_slugs.EUEXIT_DOMESTIC_FORM,
+            'Contact Page Content Snippet: Transition Period form supporting content',
+        ),
+    ),
+)
 @pytest.mark.django_db
-def test_contact_success_snippet_save():
-    snippet = ContactSuccessSnippet(slug=snippet_slugs.HELP_FORM_SUCCESS)
+def test_contact_snippet_save_and_str(model_class, slug, expected_str):
+    snippet = model_class(slug=slug)
     snippet.save()
     snippet.refresh_from_db()
-    assert f'{snippet}' == 'Contact Success Snippet: Contact domestic form success'
+    assert f'{snippet}' == expected_str
