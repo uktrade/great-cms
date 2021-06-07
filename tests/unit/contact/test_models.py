@@ -31,6 +31,13 @@ def test_contact_success_snippet_no_slug_set():
 
 
 @pytest.mark.django_db
+def test_contact_slug_options_are_set():
+    snippet = ContactSuccessSnippet()
+    slug_field = snippet._meta.get_field('slug')
+    assert len(slug_field.choices) > 1
+
+
+@pytest.mark.django_db
 def test_contact_success_snippet_save():
     snippet = ContactSuccessSnippet(slug=snippet_slugs.HELP_FORM_SUCCESS)
     snippet.save()
