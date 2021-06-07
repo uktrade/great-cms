@@ -9,7 +9,9 @@ export const ToggleSnapshot = memo(({
 
   return (
     <>
-      { toggle && children }
+      <div className={toggle ? '' : 'hidden'}>
+      { children }
+      </div>
       <div className='m-t-s'>
         <button
           className='button button--tertiary button--icon'

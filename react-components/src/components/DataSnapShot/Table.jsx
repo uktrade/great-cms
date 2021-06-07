@@ -5,7 +5,7 @@ import { Stats } from '@src/components/Stats'
 import { notAvailable } from '@src/components/Stats/StatsGroup'
 import { millify } from '@src/Helpers'
 
-const formatNumber = (val) => val ? millify(val*1000) : notAvailable
+const formatNumber = (val) => (val-0 === val) ? millify(val*1000) : notAvailable
 export const Table = memo(({ totalPopulation, totalTargetAgePopulation }) => (
   <div className="m-t-s">
     <div className="grid stat-group">

@@ -176,6 +176,7 @@ export function Menu(props) {
             e.shiftKey ? lastMenuItem.current.focus() : firstMenuItem.current.focus();
           }
         }}
+        aria-expanded={modalIsOpen}
       >
         Menu
         <span className="burger-icon"></span>
