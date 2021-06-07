@@ -141,6 +141,17 @@ class GetSnippetContentMixin:
         `snippet_import_path` should be a dot-separated importlib-style path to the relevant class
         `slug` is a string, mapping to a unique value stored in the snippet's `slug` SlugField
 
+    eg
+        path(
+        'domestic/success/',
+        skip_ga360(DomesticSuccessView.as_view()),
+        {
+            'slug': snippet_slugs.HELP_FORM_SUCCESS,
+            'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='contact-us-domestic-success',
+    ),
+
     """
 
     @property
@@ -156,6 +167,12 @@ class GetSnippetContentMixin:
         module_ = import_module(path)
         snippet_class = getattr(module_, model_name)
         return snippet_class.objects.get(slug=self.slug)
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            content_snippet=self.get_snippet_instance(),
+        )
 
 
 class PreventCaptchaRevalidationMixin:
@@ -180,3 +197,17 @@ class PreventCaptchaRevalidationMixin:
         if step == self.steps.last and self.should_ignore_captcha:
             del form.fields['captcha']
         return form
+
+
+class TranslationsMixin:
+    # Ported from great-domestic-ui - TBC whether really used...
+    def dispatch(self, request, *args, **kwargs):
+        if getattr(request, 'LANGUAGE_CODE', None):
+            translation.activate(request.LANGUAGE_CODE)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['LANGUAGE_BIDI'] = translation.get_language_bidi()
+        context['directory_components_html_lang_attribute'] = translation.get_language()
+        return context
