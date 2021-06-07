@@ -23,6 +23,7 @@
 - GP2-2918 - DAC_CSS_Content_03
 - GP2-2919 - DAC_CSS_Content_04
 - GP2-2897 - DAC_Name_Role_Value_01
+- GP2-2899 - DAC_Name_Role_Value_03
 
 ## [1.10.1](https://github.com/uktrade/great-cms/releases/tag/1.10.1)
 ### Enhancements
