@@ -31,7 +31,7 @@ botocore==1.14.17
     # via
     #   boto3
     #   s3transfer
-certifi==2020.12.5
+certifi==2021.5.30
     # via
     #   elastic-apm
     #   requests
@@ -46,7 +46,7 @@ cssselect==1.1.0
     # via pyquery
 dateparser==0.7.2
     # via -r requirements.in
-directory-api-client==22.19.0
+directory-api-client==22.20.0
     # via -r requirements.in
 directory-ch-client==2.1.0
     # via -r requirements.in
@@ -100,7 +100,7 @@ django-treebeard==4.4
     # via
     #   -r requirements.in
     #   wagtail
-django==2.2.23
+django==2.2.24
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -142,7 +142,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==8.2.1
+faker==8.5.1
     # via factory-boy
 future==0.18.2
     # via arabic-reshaper
@@ -190,7 +190,7 @@ monotonic==1.6
     # via
     #   directory-ch-client
     #   directory-client-core
-oauthlib==3.1.0
+oauthlib==3.1.1
     # via requests-oauthlib
 olefile==0.46
     # via directory-validators

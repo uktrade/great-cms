@@ -273,45 +273,6 @@ def mock_user_location_create():
 
 
 @pytest.fixture
-@pytest.mark.django_db(transaction=True)
-@mock.patch.object(exportplan_helpers, 'get_exportplan_marketdata')
-@mock.patch.object(api_client.dataservices, 'get_corruption_perceptions_index')
-@mock.patch.object(api_client.dataservices, 'get_ease_of_doing_business')
-@mock.patch.object(api_client.exportplan, 'exportplan_list')
-def mock_export_plan_requests(
-    mock_export_plan_list,
-    mock_ease_of_doing_business,
-    mock_get_corruption_perceptions_index,
-    mock_get_export_plan_market_data,
-):
-    data = [{'export_countries': ['UK'], 'export_commodity_codes': [100], 'rules_regulations': {'rule1': 'AAA'}}]
-    mock_export_plan_list.return_value = create_response(data)
-
-    ease_of_doing_business_data = {
-        'country_name': 'China',
-        'country_code': 'CHN',
-        'cpi_score_2019': 41,
-        'rank': 80,
-    }
-    mock_ease_of_doing_business.return_value = create_response(
-        status_code=200,
-        json_body=ease_of_doing_business_data,
-    )
-
-    cpi_data = {
-        'country_name': 'China',
-        'country_code': 'CHN',
-        'cpi_score_2019': 41,
-        'rank': 80,
-    }
-    mock_get_corruption_perceptions_index.return_value = create_response(status_code=200, json_body=cpi_data)
-
-    mock_get_export_plan_market_data.return_value = {
-        'timezone': 'Asia/Shanghai',
-    }
-
-
-@pytest.fixture
 def patch_get_create_export_plan(export_plan_data):
     yield mock.patch.object(exportplan_helpers, 'get_or_create_export_plan', return_value=export_plan_data)
 
@@ -395,16 +356,6 @@ def mock_cia_world_factbook_data(cia_factbook_data):
     patch = mock.patch(
         'exportplan.core.helpers.get_cia_world_factbook_data',
         return_value=create_response(json_body=cia_factbook_data),
-    )
-    yield patch.start()
-    patch.stop()
-
-
-@pytest.fixture(autouse=True)
-def mock_api_get_country_data(country_data):
-    patch = mock.patch(
-        'directory_api_client.api_client.dataservices.get_country_data',
-        return_value=create_response(json_body=country_data),
     )
     yield patch.start()
     patch.stop()

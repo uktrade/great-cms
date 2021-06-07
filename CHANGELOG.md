@@ -4,6 +4,8 @@
 
 ### Enhancements
 - GP2-1617: Port get-finance/UKEF contact form from great-domestic-ui
+- GP2-2856  remove unused api calls
+
 ### Fixed bugs
 - GP2-2886 - DAC_Focus_Order_03 - EP Objectives list focus management
 - GP2-2885 - DAC_Focus_Order_02 - Dynamic aria label and focus on WTM page
