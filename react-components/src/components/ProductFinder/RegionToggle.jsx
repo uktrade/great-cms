@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 export default function RegionToggle(props) {
   const [expand, setExpand] = useState(false)
-  const { region, expandAllRegions, countries } = props
+  const { region, expandAllRegions, countries, index } = props
 
   const countryListToggle = () => {
     setExpand(!expand)
@@ -15,7 +15,7 @@ export default function RegionToggle(props) {
     }
   }, [expandAllRegions])
 
-  const controlAreaId = `region-content-area-${new Date().getTime()}`
+  const controlAreaId = `region-content-area-${index}`
 
   return (
     <section className="accordion c-full">
@@ -43,4 +43,5 @@ RegionToggle.propTypes = {
   region: PropTypes.string.isRequired,
   expandAllRegions: PropTypes.bool.isRequired,
   countries: PropTypes.node.isRequired,
+  index: PropTypes.number.isRequired,
 }
