@@ -109,7 +109,6 @@ $desktop: 1024px;
   border-radius: 10px;
   margin-bottom: 30px;
   position: relative;
-  overflow: hidden;
 
   @include tablet {
     padding-left: 30px;
@@ -164,8 +163,14 @@ $desktop: 1024px;
 }
 
 .learn__category-link {
-  display: block;
-  text-decoration: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  &:active:focus {
+    background: transparent;
+  }
 }
 
 .learn__category-details {
