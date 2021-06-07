@@ -120,7 +120,7 @@ export default function CountryFinderModal(props) {
 
   let regions = Object.keys(countryList || {})
     .sort()
-    .map((region) => {
+    .map((region, index) => {
       const countries = (countryList[region] || []).map((country) => {
         if (
           (searchStr && country.name.toUpperCase().indexOf(searchStr) !== 0) ||
@@ -151,6 +151,7 @@ export default function CountryFinderModal(props) {
             expandAllRegions={expandRegion}
             region={region}
             countries={countries}
+            index={index}
           />
         )
       )
