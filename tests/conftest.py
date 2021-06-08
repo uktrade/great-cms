@@ -273,6 +273,16 @@ def mock_user_location_create():
 
 
 @pytest.fixture
+@pytest.mark.django_db(transaction=True)
+@mock.patch.object(api_client.exportplan, 'exportplan_list')
+def mock_export_plan_requests(
+    mock_export_plan_list,
+):
+    data = [{'export_countries': ['UK'], 'export_commodity_codes': [100], 'rules_regulations': {'rule1': 'AAA'}}]
+    mock_export_plan_list.return_value = create_response(data)
+
+
+@pytest.fixture
 def patch_get_create_export_plan(export_plan_data):
     yield mock.patch.object(exportplan_helpers, 'get_or_create_export_plan', return_value=export_plan_data)
 
