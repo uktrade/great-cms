@@ -10,6 +10,8 @@
 - GP2-2915 - DAC_Information_and_Relationships_06 Dynamic caption on WTE
 - GP2-2863 - Skip GA360 on search path
 - GP2-2910 - DAC_Information_and_Relationships_01 Learnin categories links
+- GP2-2911 - DAC_Information_and_Relationships_02 learning blockquotes
+- GP2-2910 - DAC_Information_and_Relationships_01 Learning categories links
 - GP2-2887 - DAC_Focus_Order_04 - EP data snapshot fix
 - GP2-2886 - DAC_Focus_Order_03 - EP Objectives list focus management
 - GP2-2885 - DAC_Focus_Order_02 - Dynamic aria label and focus on WTM page
