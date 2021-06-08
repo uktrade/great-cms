@@ -114,11 +114,11 @@ export default function Interaction(props) {
 
   return (
     <div className="interaction grid m-v-xs" key={attribute.id}>
-      <div className="c-fullwidth">
-        <span className="interaction-name h-s p-t-0">
+      <fieldset className="c-fullwidth" aria-describedby="interaction-details">
+        <legend className="interaction-name h-s p-t-0">
           {capitalize(attribute.label)}
-        </span>
-        <p className="m-v-xs">Select the best match for your product.</p>
+        </legend>
+        <p id="interaction-details" className="m-v-xs">Select the best match for your product.</p>
         <RadioButtons attribute={attribute} valueChange={valueChange} />
         <button
           type="button"
@@ -129,7 +129,7 @@ export default function Interaction(props) {
         >
           Next
         </button>
-      </div>
+      </fieldset>
     </div>
   )
 }
