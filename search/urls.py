@@ -1,4 +1,5 @@
 from django.urls import path
+from great_components.decorators import skip_ga360
 
 import search.views
 
@@ -7,7 +8,7 @@ app_name = 'search'
 urlpatterns = [
     path(
         '',
-        search.views.SearchView.as_view(),
+        skip_ga360(search.views.SearchView.as_view()),
         name='search',
     ),
 ]

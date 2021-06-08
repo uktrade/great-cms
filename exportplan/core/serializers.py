@@ -17,12 +17,14 @@ class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
 
 
 class CountryTargetAgeDataSerializer(serializers.Serializer):
-    target_age_groups = serializers.ListField(child=serializers.CharField())
+    target_age_groups = serializers.ListField(
+        required=False, allow_empty=True, allow_null=True, default=[], child=serializers.CharField()
+    )
     country_iso2_code = serializers.CharField()
     section_name = serializers.CharField()
 
     def validate_target_age_groups(self, value):
-        return value[0].split(',')
+        return value[0].split(',') if len(value) > 0 else []
 
 
 class CompanyObjectivesSerializer(serializers.Serializer):

@@ -20,28 +20,6 @@ def test_create_export_plan(mock_exportplan_create):
     )
 
 
-@mock.patch.object(api_client.dataservices, 'get_corruption_perceptions_index')
-@mock.patch.object(api_client.dataservices, 'get_ease_of_doing_business')
-def test_get_exportplan_marketdata(mock_cpi, mock_easeofdoingbusiness):
-    timezone_data = 'Asia/Shanghai'
-    cpi_data = {'country_name': 'China', 'country_code': 'CHN', 'cpi_score_2019': 41, 'rank': 80}
-    easeofdoingbusiness_data = {'country_name': 'China', 'country_code': 'CHN', 'cpi_score_2019': 41, 'rank': 80}
-
-    mock_easeofdoingbusiness.return_value = create_response(status_code=200, json_body=easeofdoingbusiness_data)
-    mock_cpi.return_value = create_response(status_code=200, json_body=cpi_data)
-
-    exportplan_marketdata = helpers.get_exportplan_marketdata('CHN')
-
-    assert mock_easeofdoingbusiness.call_count == 1
-    assert mock_easeofdoingbusiness.call_args == mock.call('CHN')
-    assert mock_cpi.call_count == 1
-    assert mock_cpi.call_args == mock.call('CHN')
-
-    assert exportplan_marketdata['timezone'] == timezone_data
-    assert exportplan_marketdata['corruption_perceptions_index'] == cpi_data
-    assert exportplan_marketdata['easeofdoingbusiness'] == easeofdoingbusiness_data
-
-
 def test_country_code_iso3_to_iso2():
     assert helpers.country_code_iso3_to_iso2('CHN') == 'CN'
 
@@ -142,13 +120,6 @@ def test_get_or_create_export_plan_created(mock_create_export_plan, mock_get_exp
     assert mock_create_export_plan.call_args == mock.call(exportplan_data={}, sso_session_id='123')
 
     assert export_plan == {'export_plan_created'}
-
-
-def test_get_country_data(mock_api_get_country_data, country_data):
-    response = helpers.get_country_data('United Kingdom')
-    assert mock_api_get_country_data.call_count == 1
-    assert mock_api_get_country_data.call_args == mock.call('United Kingdom')
-    assert response == country_data
 
 
 def test_get_cia_world_factbook_data(mock_api_get_cia_world_factbook_data, cia_factbook_data):

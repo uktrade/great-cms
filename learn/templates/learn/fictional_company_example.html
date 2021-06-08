@@ -1,13 +1,12 @@
 {% load static %}
 
-<div class="fictional-example media-block m-b-m">
-    <img src="{% static 'images/fictional-company-example.png' %}" alt="fictional company image"/>
+<figure class="fictional-example media-block m-b-m">
+    <img src="{% static 'images/fictional-company-example.png' %}" alt=""/>
     <div>
         <div class="box">
-            <div class="rich-text">
+            <blockquote class="rich-text">
                 {{ value.fiction_body }}
-            </div>
+            </blockquote>
         </div>
     </div>
-</div>
-
+</figure>

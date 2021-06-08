@@ -5,7 +5,17 @@
 ### Enhancements
 - GP2-1618: Port legacy EU Exit / transition period forms from V1 into V2
 - GP2-1617: Port get-finance/UKEF contact form from great-domestic-ui
+- GP2-2856  remove unused api calls
+
 ### Fixed bugs
+- GP2-2915 - DAC_Information_and_Relationships_06 Roles on WTE tables
+- GP2-2914 - DAC_Information_and_Relationships_05 Dynamic caption on WTE
+- GP2-2863 - Skip GA360 on search path
+- GP2-2912 - DAC_Information_and_Relationships_03 Radio fieldsets
+- GP2-2910 - DAC_Information_and_Relationships_01 Learnin categories links
+- GP2-2911 - DAC_Information_and_Relationships_02 learning blockquotes
+- GP2-2910 - DAC_Information_and_Relationships_01 Learning categories links
+- GP2-2887 - DAC_Focus_Order_04 - EP data snapshot fix
 - GP2-2886 - DAC_Focus_Order_03 - EP Objectives list focus management
 - GP2-2885 - DAC_Focus_Order_02 - Dynamic aria label and focus on WTM page
 - GP2-2884 - DAC Focus Order 01 - tabindex on mobile header
@@ -22,7 +32,9 @@
 - GP2-2916 - DAC_CSS_Content_01
 - GP2-2917 - DAC_CSS_Content_02
 - GP2-2918 - DAC_CSS_Content_03
-- GP2-2919 -DAC_CSS_Content_04
+- GP2-2919 - DAC_CSS_Content_04
+- GP2-2897 - DAC_Name_Role_Value_01
+- GP2-2899 - DAC_Name_Role_Value_03
 
 ## [1.10.1](https://github.com/uktrade/great-cms/releases/tag/1.10.1)
 ### Enhancements
@@ -35,6 +47,8 @@
 - GP2-2831 - fix typo on 404 page
 - GP2-2881 - Accessibility fix - alert screen readers for text updates
 - GP2-2883 - Accessibility fix - fix sign out menu button keyboard issues
+- GP2-2868 - Tech Debt fix sentry errors
+- GP2-2870 - rename /sso/ path to /great-cms-sso/
 
 
 ## [1.10.0](https://github.com/uktrade/great-cms/releases/tag/1.10.0)
