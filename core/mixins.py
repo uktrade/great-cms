@@ -205,17 +205,3 @@ class PreventCaptchaRevalidationMixin:
         if step == self.steps.last and self.should_ignore_captcha:
             del form.fields['captcha']
         return form
-
-
-class TranslationsMixin:
-    # Ported from great-domestic-ui - TBC whether really used...
-    def dispatch(self, request, *args, **kwargs):
-        if getattr(request, 'LANGUAGE_CODE', None):
-            translation.activate(request.LANGUAGE_CODE)
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context['LANGUAGE_BIDI'] = translation.get_language_bidi()
-        context['directory_components_html_lang_attribute'] = translation.get_language()
-        return context
