@@ -5,6 +5,7 @@
 ### Enhancements
 - GP2-1617: Port get-finance/UKEF contact form from great-domestic-ui
 ### Fixed bugs
+- GP2-2863 - Skip GA360 on search path
 - GP2-2910 - DAC_Information_and_Relationships_01 Learnin categories links
 - GP2-2887 - DAC_Focus_Order_04 - EP data snapshot fix
 - GP2-2886 - DAC_Focus_Order_03 - EP Objectives list focus management
