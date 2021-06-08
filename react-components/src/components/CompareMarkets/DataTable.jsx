@@ -264,6 +264,7 @@ export default function DataTable(props) {
       <table
         className={`m-v-0 border-blue-deep-20 valign-middle cache-version-${cacheVersion}`}
       >
+        {config.caption && config.caption()}
         <thead>
           <tr>
             <th className="body-l-b">&nbsp;</th>

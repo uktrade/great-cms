@@ -10,6 +10,7 @@ import {
   getLabel,
   formatLessonLearned,
   normaliseValues,
+  listJoin,
   millify,
   stripPercentage,
   getLabels,
@@ -224,6 +225,15 @@ describe('Number formats', () => {
     ].forEach((test) => {
       expect(stripPercentage(test.str)).toEqual(test.expect)
     })
+  })
+})
+
+describe('listJoin', () => {
+  it('Should format a list',() => {
+    expect(listJoin([])).toEqual('')
+    expect(listJoin(['one'])).toEqual('one')
+    expect(listJoin(['one','two'])).toEqual('one and two')
+    expect(listJoin(['one','two', 'three'])).toEqual('one, two and three')
   })
 })
 
