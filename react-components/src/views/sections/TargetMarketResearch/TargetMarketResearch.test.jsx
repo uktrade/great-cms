@@ -115,6 +115,7 @@ describe('Target Market research', () => {
       csrfToken: '12345',
       apiUpdateExportPlanUrl: '/api/export-plan/api/update/',
       apiCountryDataUrl: '/api/data-service/countrydata/',
+      countryAgeGroupDataUrl: '/api/data-service/countrydata/',
       user: { id: '6' },
     })
     fetchMock.get(/\/api\/data-service\/countrydata\//, countryDataApiResponse)
@@ -142,7 +143,7 @@ describe('Target Market research', () => {
         currentSection: { url: 'Some url' },
       })
     })
-    const expander = container.querySelector('button')
+    const expander = container.querySelector('button.button--tertiary')
     expect(expander.textContent).toMatch('Open Data Snapshot')
     act(() => {
       Simulate.click(expander)

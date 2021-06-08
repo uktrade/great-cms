@@ -109,7 +109,6 @@ $desktop: 1024px;
   border-radius: 10px;
   margin-bottom: 30px;
   position: relative;
-  overflow: hidden;
 
   @include tablet {
     padding-left: 30px;
@@ -164,8 +163,14 @@ $desktop: 1024px;
 }
 
 .learn__category-link {
-  display: block;
-  text-decoration: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  &:active:focus {
+    background: transparent;
+  }
 }
 
 .learn__category-details {
@@ -788,6 +793,13 @@ $desktop: 1024px;
       margin-top: 12px;
     }
 
+    blockquote {
+      @include tablet {
+        font-size: 24px;
+        line-height: 34px;
+      }
+    }
+
     .g-panel {
       padding-left: 0;
 
@@ -812,6 +824,13 @@ $desktop: 1024px;
         }
       }
     }
+  }
+
+  blockquote {
+    @extend .body-l;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 30px;
   }
 
   .case-study {

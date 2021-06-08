@@ -336,14 +336,6 @@ def mock_get_corruption_perceptions_index():
 
 
 @pytest.fixture
-def mock_get_ease_of_doing_business():
-    data = CHINA['easeofdoingbusiness']
-    return_value = create_response(status_code=200, json_body=data)
-    with patch.object(api_client.dataservices, 'get_ease_of_doing_business', return_value=return_value) as patched:
-        yield patched
-
-
-@pytest.fixture
 def mock_update_export_plan():
     return_value = {}
     with patch.object(exportplan_helpers, 'update_exportplan', return_value=return_value) as patched:
@@ -414,7 +406,6 @@ def mock_all_dashboard_and_export_plan_requests_and_responses(
     mock_get_corruption_perceptions_index,
     mock_get_dashboard_events,
     mock_get_dashboard_export_opportunities,
-    mock_get_ease_of_doing_business,
     mock_export_plan_list,
     mock_get_export_plan_market_data,
     mock_get_export_plan,

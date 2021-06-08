@@ -117,7 +117,7 @@ class TargetAgeCountryPopulationData(APIView):
         row_total = 0
         for key, value in row.items():
             if re.search(r'^\d', key):
-                if not age_groups or key in age_groups:
+                if age_groups is None or key in age_groups:
                     row_total = row_total + value
         return row_total
 
