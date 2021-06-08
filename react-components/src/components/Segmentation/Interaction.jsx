@@ -13,7 +13,8 @@ export default function Interaction(props) {
 
   return (
     <form className="text-blue-deep-80">
-      <div className="c-fullwidth">
+      <fieldset className="c-fullwidth">
+        <legend className="visually-hidden">{question.title}</legend>
         {question.type === 'RADIO' ? (
           <RadioButtons
             name={question.name}
@@ -39,7 +40,7 @@ export default function Interaction(props) {
         ) : (
           ''
         )}
-      </div>
+      </fieldset>
     </form>
   )
 }
