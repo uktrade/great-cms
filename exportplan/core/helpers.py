@@ -26,21 +26,6 @@ def update_exportplan(sso_session_id, id, data):
     return response.json()
 
 
-def get_exportplan_marketdata(country_code):
-    # This is a temp wrapper for MVP as we finalise the source(s) this should move to backend
-    exportplan_marketdata = {}
-    exportplan_marketdata['timezone'] = get_timezone(country_code)
-
-    exportplan_response = api_client.dataservices.get_corruption_perceptions_index(country_code)
-    exportplan_response.raise_for_status()
-    exportplan_marketdata['corruption_perceptions_index'] = exportplan_response.json()
-
-    marketdata_response = api_client.dataservices.get_ease_of_doing_business(country_code)
-    marketdata_response.raise_for_status()
-    exportplan_marketdata['easeofdoingbusiness'] = marketdata_response.json()
-    return exportplan_marketdata
-
-
 def country_code_iso3_to_iso2(iso3_country_code):
     if countries_by_alpha3.get(iso3_country_code):
         return countries_by_alpha3[iso3_country_code].alpha2
@@ -96,12 +81,6 @@ def get_or_create_export_plan(user):
             sso_session_id=user.session_id, exportplan_data=serialize_exportplan_data(user=user)
         )
     return export_plan
-
-
-def get_country_data(country):
-    response = api_client.dataservices.get_country_data(country)
-    response.raise_for_status()
-    return response.json()
 
 
 def get_cia_world_factbook_data(country, key):

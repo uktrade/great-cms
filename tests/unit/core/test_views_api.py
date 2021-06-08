@@ -6,14 +6,12 @@ from django.shortcuts import reverse
 
 from core import helpers as core_helpers
 from directory_api_client import api_client
-from exportplan.core import helpers as exportplan_helpers
 from tests.helpers import create_response
 
 
 @mock.patch.object(api_client.dataservices, 'get_last_year_import_data_by_country')
-@mock.patch.object(exportplan_helpers, 'get_country_data')
 @pytest.mark.django_db
-def test_com_trade_data_view(mock_country_data, mock_import_data_by_country, client):
+def test_com_trade_data_view(mock_import_data_by_country, client):
 
     url = reverse('core:api-comtrade-data')
 
