@@ -93,7 +93,7 @@ const renderColumnHeader = (columnConfig, context, mobile) => (
 const renderCountryRowHeader = (market, removeMarket, config) => {
   // A row header in normal or mobile mode is the country label. In mobile mode there is no 'remove' button
   return (
-    <th className={`p-v-xs name ${(config && config.headingClass) || ''}`}>
+    <th className={`p-v-xs name ${(config && config.headingClass) || ''}`} scope="row">
       <div className='flex-center'>
       {(removeMarket && (
         <button

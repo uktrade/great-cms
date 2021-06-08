@@ -7,7 +7,8 @@
 - GP2-2856  remove unused api calls
 
 ### Fixed bugs
-- GP2-2915 - DAC_Information_and_Relationships_06 Dynamic caption on WTE
+- GP2-2915 - DAC_Information_and_Relationships_06 Roles on WTE tables
+- GP2-2914 - DAC_Information_and_Relationships_05 Dynamic caption on WTE
 - GP2-2863 - Skip GA360 on search path
 - GP2-2912 - DAC_Information_and_Relationships_03 Radio fieldsets
 - GP2-2910 - DAC_Information_and_Relationships_01 Learnin categories links
