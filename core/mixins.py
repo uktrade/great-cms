@@ -1,11 +1,15 @@
+import logging
 from importlib import import_module
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
 from django.utils import translation
 from great_components import helpers as great_components_helpers
 
 from core import cms_slugs
 from exportplan.core.processor import ExportPlanProcessor
+
+logger = logging.getLogger(__name__)
 
 
 class WagtailAdminExclusivePageMixin:
@@ -166,7 +170,11 @@ class GetSnippetContentMixin:
         path, model_name = self.snippet_import_path.rsplit('.', 1)
         module_ = import_module(path)
         snippet_class = getattr(module_, model_name)
-        return snippet_class.objects.get(slug=self.slug)
+        try:
+            return snippet_class.objects.get(slug=self.slug)
+        except snippet_class.DoesNotExist:
+            logger.exception('Non-page CMS snippet is missing: see logged context. Raising 404.')
+            raise Http404()
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(

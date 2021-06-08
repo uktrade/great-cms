@@ -5,25 +5,23 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from core import snippet_slugs
-from core.mixins import GetSnippetContentMixin, PrepopulateFormMixin, TranslationsMixin
+from core.mixins import GetSnippetContentMixin, PrepopulateFormMixin
 from domestic import forms
 
 SESSION_KEY_FORM_INGRESS_URL = 'FORM_INGRESS_URL'
 
 
-class HideLanguageSelectorMixin(TranslationsMixin):
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            hide_language_selector=True,
-            **kwargs,
-        )
+# Note: HideLanguageSelectorMixin was used by both BaseContactView and
+# BaseInternationalContactFormView but doesn't appear needed, so it was
+# not ported from great-domestic-ui. This note is to show it was a deliberate
+# thing, but it's possible later migration work will require it to be ported
 
 
 class BaseInternationalContactFormView(
     GetSnippetContentMixin,
     PrepopulateFormMixin,
-    # CountryDisplayMixin,  # TODO: port from directory-components when we get a page that needs this
-    HideLanguageSelectorMixin,
+    # TODO? port from directory-components/GDUI IF we get a page that needs this, but it seems redundant now
+    # CountryDisplayMixin,
     FormView,
 ):
     page_type = 'ContactPage'
@@ -57,7 +55,6 @@ class BaseInternationalContactFormView(
 
 class BaseContactView(
     GetSnippetContentMixin,
-    HideLanguageSelectorMixin,
     TemplateView,
 ):
     page_type = 'ContactPage'
@@ -74,11 +71,11 @@ class DomesticContactFormView(BaseInternationalContactFormView):
         if self.request.user.is_authenticated and self.request.user.company:
             return {
                 'email': self.request.user.email,
-                'company_name': self.request.user.company['name'],
-                'postcode': self.request.user.company['postal_code'],
+                'company_name': getattr(self.request.user.company, 'name', ''),
+                'postcode': getattr(self.request.user.company, 'postal_code', ''),
                 'first_name': self.guess_given_name,
                 'last_name': self.guess_family_name,
-                'organisation_type': forms.COMPANY,
+                'organisation_type': forms.EUExitDomesticContactForm.COMPANY,
             }
 
 
