@@ -276,6 +276,7 @@ export default function DataTable(props) {
                     cellConfig.className || ''
                   }`}
                   key={columnKey}
+                  scope="col"
                 >
                   {blocks.renderColumnHeader(cellConfig, props)}
                 </th>
