@@ -95,6 +95,17 @@ const stripPercentage = (str) => {
   return str
 }
 
+const listJoin = (arr) => {
+  // Joins an array of strings with commas and a closing 'and'
+  return arr.reduce((acc, str, index) => {
+    let sep = ''
+    if(index) {
+      sep = index === arr.length - 1 ? ' and ' : ', '
+    }
+    return `${acc}${sep}${str}`
+  }, '')
+}
+
 const isObject = (obj) => {
   return Object.prototype.toString.call(obj) === '[object Object]'
 }
@@ -208,6 +219,7 @@ export {
   analytics,
   sectionQuestionMapping,
   normaliseValues,
+  listJoin,
   isObject,
   isArray,
   isFunction,

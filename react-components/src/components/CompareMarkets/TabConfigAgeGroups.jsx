@@ -1,7 +1,7 @@
 import React from 'react'
 import Services from '@src/Services'
 import actions from '@src/actions'
-import { millify, normaliseValues } from '../../Helpers'
+import { millify, normaliseValues, listJoin } from '../../Helpers'
 import Filter from './Filter'
 
 let localActiveFilter = {}
@@ -82,6 +82,14 @@ const filter = (
   </div>
 )
 
+const renderFilter = () => {
+  const filterNames = Object.keys(localActiveFilter).map((filter) => filterMapping[filter].label)
+  if(filterNames.length) {
+    return `Demographics for age groups ${listJoin(filterNames)}`
+  }
+  return 'Demographics for all age groups'
+}
+
 export default {
   tabName: 'DEMOGRAPHICS',
   filter,
@@ -135,7 +143,7 @@ export default {
       },
     },
   },
-
+  caption: () => <caption className="visually-hidden">{renderFilter()}</caption>,
   dataFunction: (countries) => {
     return Services.getCountryData(
       countries,

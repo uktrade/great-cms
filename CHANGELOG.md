@@ -7,6 +7,7 @@
 - GP2-2856  remove unused api calls
 
 ### Fixed bugs
+- GP2-2915 - DAC_Information_and_Relationships_06 Dynamic caption on WTE
 - GP2-2863 - Skip GA360 on search path
 - GP2-2910 - DAC_Information_and_Relationships_01 Learnin categories links
 - GP2-2887 - DAC_Focus_Order_04 - EP data snapshot fix
