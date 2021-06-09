@@ -14,9 +14,8 @@
     <div class="container">
         {% breadcrumbs 'Contact' %}
             <a href="/">great.gov.uk</a>
-            <a href="
-            {% comment "DISABLED FOR UNTIL ROUTE EXISTS "%} {% url 'contact-us-routing-form' step='location' %} {% endcomment %}
-            ">Contact us</a>
+            {% comment "HARD CODING UNTIL ROUTE EXISTS "%} {% url 'contact-us-routing-form' step='location' %} {% endcomment %}
+            <a href="/contact/">Contact us</a>
         {% endbreadcrumbs %}
     </div>
 {% endblock %}

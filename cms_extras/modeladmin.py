@@ -10,7 +10,10 @@ from wagtail.contrib.modeladmin.options import (
 )
 from wagtail.contrib.modeladmin.views import IndexView
 
-from contact.modeladmin import ContactSuccessSnippetAdmin
+from contact.modeladmin import (
+    ContactPageContentSnippetAdmin,
+    ContactSuccessSnippetAdmin,
+)
 from core.models import CaseStudy
 
 
@@ -211,6 +214,7 @@ class NonCMSContentGroup(ModelAdminGroup):
     menu_icon = 'folder-open-inverse'  # change as required
     menu_order = 200
     items = (
+        ContactPageContentSnippetAdmin,
         ContactSuccessSnippetAdmin,
         # Add more here
     )

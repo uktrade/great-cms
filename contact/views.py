@@ -110,8 +110,6 @@ class BaseSuccessView(
         return super().get_context_data(
             **kwargs,
             next_url=self.get_next_url(),
-            # note that this content_snippet is also used for SEO descripton (but not yet title) in base.html
-            content_snippet=self.get_snippet_instance(),
         )
 
 

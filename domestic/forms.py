@@ -1,6 +1,11 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
-from directory_forms_api_client.forms import GovNotifyEmailActionMixin
+from directory_forms_api_client.forms import (
+    GovNotifyEmailActionMixin,
+    ZendeskActionMixin,
+)
+from directory_validators.string import no_html
+from directory_validators.url import not_contains_url_or_email
 from django.forms import Select, Textarea, TextInput
 from django.utils.translation import ugettext_lazy as _
 from great_components import forms
@@ -205,5 +210,59 @@ class HelpForm(ConsentFieldMixin, forms.Form):
             'spoken to your bank or a broker. '
         ),
         widget=Textarea(attrs={'class': 'margin-top-15'}),
+    )
+    captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
+
+
+class SerializeMixin:
+    def __init__(self, ingress_url, *args, **kwargs):
+        self.ingress_url = ingress_url
+        super().__init__(*args, **kwargs)
+
+    @property
+    def serialized_data(self):
+        data = self.cleaned_data.copy()
+        data['ingress_url'] = self.ingress_url
+        del data['captcha']
+        return data
+
+    @property
+    def full_name(self):
+        assert self.is_valid()
+        data = self.cleaned_data
+        return f'{data["first_name"]} {data["last_name"]}'
+
+
+class EUExitDomesticContactForm(
+    SerializeMixin,
+    ZendeskActionMixin,
+    ConsentFieldMixin,
+    forms.Form,
+):
+
+    COMPANY = 'COMPANY'
+
+    COMPANY_CHOICES = (
+        (COMPANY, 'Company'),
+        ('OTHER', 'Other type of organisation'),
+    )
+
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    email = forms.EmailField()
+    organisation_type = forms.ChoiceField(
+        label='Business type',
+        widget=forms.RadioSelect(),
+        choices=COMPANY_CHOICES,
+    )
+    company_name = forms.CharField()
+    comment = forms.CharField(
+        label='Your question',
+        help_text="Please don't share any commercially sensitive information.",
+        widget=Textarea,
+        validators=[
+            no_html,
+            not_contains_url_or_email,
+        ],
     )
     captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
