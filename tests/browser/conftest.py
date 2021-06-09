@@ -313,7 +313,6 @@ def mock_get_export_plan_list():
         {
             'export_countries': ['UK'],
             'export_commodity_codes': [100],
-            'target_markets': [{'country': 'China'}],
             'rules_regulations': {'country_code': 'CHN'},
             'sectors': ['Automotive'],
             'pk': 1,

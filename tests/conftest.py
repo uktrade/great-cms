@@ -46,8 +46,6 @@ def export_plan_data(cost_pricing_data):
     data = {
         'country': 'Australia',
         'commodity_code': '220.850',
-        'sectors': ['Automotive'],
-        'target_markets': [{'country': 'China'}],
         'target_markets_research': {},
         'ui_options': {
             'marketing-approach': {'target_ages': ['25-29', '47-49']},

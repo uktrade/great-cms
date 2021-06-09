@@ -49,37 +49,11 @@ def get_society_data_by_country(countries):
     return response.json()
 
 
-def get_recommended_countries(sso_session_id, sectors):
-    response = api_client.personalisation.recommended_countries_by_sector(sso_session_id=sso_session_id, sector=sectors)
-    response.raise_for_status()
-    parsed = response.json()
-    if parsed:
-        for item in parsed:
-            country = item['country'].title()
-            item['country'] = country
-        return parsed
-    return []
-
-
-def serialize_exportplan_data(user):
-    target_markets = []
-    if user.company and user.company.expertise_countries_labels:
-        target_markets = target_markets + [{'country': c} for c in user.company.expertise_countries_labels]
-        export_plan_data = {
-            'target_markets': target_markets,
-        }
-    else:
-        export_plan_data = {}
-    return export_plan_data
-
-
 def get_or_create_export_plan(user):
     # This is a temp hook to create initial export plan. Once we have a full journey this can be removed
     export_plan = get_exportplan(user.session_id)
     if not export_plan:
-        export_plan = create_export_plan(
-            sso_session_id=user.session_id, exportplan_data=serialize_exportplan_data(user=user)
-        )
+        export_plan = create_export_plan(sso_session_id=user.session_id)
     return export_plan
 
 
