@@ -300,6 +300,7 @@ DataTable.propTypes = {
     dataFunction: PropTypes.func,
     groups: PropTypes.instanceOf(Object),
     filter: PropTypes.element,
+    caption: PropTypes.string,
   }).isRequired,
   product: PropTypes.shape({
     commodityCode: PropTypes.string,

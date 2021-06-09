@@ -1,5 +1,5 @@
 import Services from '@src/Services'
-import { normaliseValues, get, millify } from '../../Helpers'
+import { normaliseValues, millify } from '../../Helpers'
 
 export default {
   sourceAttributions: [
