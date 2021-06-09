@@ -27,7 +27,9 @@
 		<div class="container">
 			<div class="column-full">
 				<div class="exred-triage-form">
-					<form method="post" class="{% block form_class %}lg-6{% endblock %}">
+					<form method="post"
+                        {% comment "breaks layout if included"%} class="{% block form_class %}lg-6{% endblock %}" {% endcomment %}
+                    >
 						{% csrf_token %}
 
 						<fieldset class="margin-bottom-20">
