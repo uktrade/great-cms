@@ -331,3 +331,43 @@ def test_ingress_url_special_cases_on_success(
     assert mock_clear.call_count == 1
 
     assert mock_get_snippet_instance.call_count == 1
+
+
+@pytest.mark.django_db
+@mock.patch.object(views.EcommerceSupportFormPageView, 'form_session_class')
+@mock.patch.object(views.EcommerceSupportFormPageView.form_class, 'save')
+def test_ecommerce_export_form_notify_success(
+    mock_save, mock_form_session, client, valid_request_export_support_form_data
+):
+    url = reverse('contact:ecommerce-export-support-form')
+    response = client.post(url, valid_request_export_support_form_data)
+
+    assert response.status_code == 302
+    assert response.url == reverse('contact:ecommerce-export-support-success')
+    assert mock_save.call_count == 2
+    assert mock_save.call_args_list == [
+        mock.call(
+            email_address=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS,
+            form_session=mock_form_session(),
+            form_url=url,
+            sender={
+                'email_address': 'test@test.com',
+                'country_code': None,
+                'ip_address': None,
+            },
+            template_id=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID,
+        ),
+        mock.call(
+            email_address='test@test.com',
+            form_session=mock_form_session(),
+            form_url=url,
+            template_id=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID,
+        ),
+    ]
+
+
+@pytest.mark.django_db
+def test_ecommerce_success_view(client):
+    url = reverse('contact:ecommerce-export-support-success')
+    response = client.get(url)
+    assert response.status_code == 200
