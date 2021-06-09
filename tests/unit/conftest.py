@@ -67,3 +67,41 @@ def captcha_stub():
     stub.start()
     yield 'PASSED'
     stub.stop()
+
+
+@pytest.fixture
+def valid_request_export_support_form_data(captcha_stub):
+    return {
+        'first_name': 'Test',
+        'last_name': 'Name',
+        'email': 'test@test.com',
+        'phone_number': '+447501234567',
+        'job_title': 'developer',
+        'company_name': 'Limited',
+        'company_postcode': 'sw1 1bb',
+        'employees_number': '1-9',
+        'annual_turnover': '',
+        'currently_export': 'no',
+        'comment': 'some comment',
+        'terms_agreed': True,
+        'g-recaptcha-response': captcha_stub,
+    }
+
+
+@pytest.fixture
+def valid_request_export_support_form_data_with_other_options(captcha_stub):
+    return {
+        'first_name': 'Test',
+        'last_name': 'Name',
+        'email': 'test@test.com',
+        'phone_number': '+447501234567',
+        'job_title': 'developer',
+        'company_name': 'Limited',
+        'company_postcode': 'sw1 1bb',
+        'employees_number': '1-9',
+        'annual_turnover': '',
+        'currently_export': 'no',
+        'comment': 'some comment',
+        'terms_agreed': True,
+        'g-recaptcha-response': captcha_stub,
+    }

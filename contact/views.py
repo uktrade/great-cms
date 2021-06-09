@@ -133,3 +133,18 @@ class DomesticEnquiriesFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
 
 class DomesticSuccessView(BaseSuccessView):
     template_name = 'domestic/contact/submit-success-domestic.html'
+
+
+class EcommerceSupportFormPageView(BaseNotifyFormView):
+    template_name = 'domestic/contact/request-export-support-form.html'
+    form_class = contact_forms.ExportSupportForm
+    success_url = reverse_lazy('contact:ecommerce-export-support-success')
+    notify_settings = NotifySettings(
+        agent_template=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_email=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS,
+        user_template=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID,
+    )
+
+
+class ExportSupportSuccessPageView(TemplateView):
+    template_name = 'domestic/contact/request-export-support-success.html'

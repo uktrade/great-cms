@@ -49,7 +49,7 @@ urlpatterns += [
 # Should we show the contact pages we're porting from V1 yet?
 if settings.FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES:
     urlpatterns += [
-        path('contact/', include(contact.urls)),
+        path('', include(contact.urls)),  # No prefix because not all of them start with /contact/
     ]
 
 urlpatterns += [
