@@ -2,7 +2,9 @@ from django.urls import path
 from django.views.generic import TemplateView
 from great_components.decorators import skip_ga360
 
+import domestic.views.euexit
 import domestic.views.ukef
+from core import snippet_slugs
 
 app_name = 'domestic'
 
@@ -78,5 +80,25 @@ urlpatterns = [
         'uk-export-contact-form-success/',
         skip_ga360(domestic.views.ukef.SuccessPageView.as_view()),
         name='uk-export-contact-success',
+    ),
+    path(
+        'transition-period/contact/',
+        domestic.views.euexit.DomesticContactFormView.as_view(),
+        {
+            'slug': snippet_slugs.EUEXIT_DOMESTIC_FORM,
+            'snippet_import_path': 'contact.models.ContactPageContentSnippet',
+            # see core.mixins.GetSnippetContentMixin
+        },
+        name='brexit-contact-form',
+    ),
+    path(
+        'transition-period/contact/success/',
+        domestic.views.euexit.DomesticContactSuccessView.as_view(),
+        {
+            'slug': snippet_slugs.EUEXIT_FORM_SUCCESS,
+            'snippet_import_path': 'contact.models.ContactSuccessSnippet',
+            # see core.mixins.GetSnippetContentMixin
+        },
+        name='brexit-contact-form-success',
     ),
 ]

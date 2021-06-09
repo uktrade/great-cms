@@ -21,7 +21,6 @@ class NonPageContentSnippetBase(models.Model):
     }
 
     slug = models.CharField(
-        choices=[(key, val['title']) for key, val in slug_options.items()],
         max_length=255,
         unique=True,
         verbose_name='Purpose',
@@ -33,6 +32,12 @@ class NonPageContentSnippetBase(models.Model):
         verbose_name='Title (internal use only - not publicly shown)',
         editable=False,
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        slug_field = self._meta.get_field('slug')
+        slug_field.choices = [(key, val['title']) for key, val in self.slug_options.items()]
 
     def __str__(self):
         return self.internal_title
