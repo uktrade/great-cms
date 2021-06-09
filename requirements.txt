@@ -23,11 +23,11 @@ beautifulsoup4==4.8.2
     #   great-components
     #   readtime
     #   wagtail
-boto3==1.11.17
+boto3==1.17.90
     # via
     #   -r requirements.in
     #   django-storages
-botocore==1.14.17
+botocore==1.20.90
     # via
     #   boto3
     #   s3transfer
@@ -128,10 +128,8 @@ djangorestframework==3.11.2
     #   -r requirements.in
     #   sigauth
     #   wagtail
-docutils==0.15.2
-    # via
-    #   botocore
-    #   sphinx
+docutils==0.17.1
+    # via sphinx
 draftjs-exporter==2.1.7
     # via wagtail
 elastic-apm==6.1.3
@@ -257,7 +255,7 @@ requests==2.25.1
     #   requests-oauthlib
     #   sphinx
     #   wagtail
-s3transfer==0.3.7
+s3transfer==0.4.2
     # via boto3
 sentry-sdk==0.13.5
     # via -r requirements.in
@@ -301,7 +299,7 @@ uk-postcode-utils==1.1
     # via -r requirements.in
 unidecode==1.2.0
     # via wagtail
-urllib3==1.25.11
+urllib3==1.26.5
     # via
     #   botocore
     #   directory-validators

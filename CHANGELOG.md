@@ -7,6 +7,7 @@
 - GP2-1618: Port legacy EU Exit / transition period forms from V1 into V2
 - GP2-1617: Port get-finance/UKEF contact form from great-domestic-ui
 - GP2-2856  remove unused api calls
+- no-ticket - package upgrade
 
 ### Fixed bugs
 - GP2-2915 - DAC_Information_and_Relationships_06 Roles on WTE tables
