@@ -55,6 +55,7 @@ UKEF_FORM_SUBMIT_TRACKER_URL=http://go.pardot.com/l/590031/2018-08-16/5kj25l
 FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES=True
 CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
 UKEF_CONTACT_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
+CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
 
 EU_EXIT_ZENDESK_SUBDOMAIN=debug
 

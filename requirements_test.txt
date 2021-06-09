@@ -525,6 +525,8 @@ traitlets==5.0.5
     #   matplotlib-inline
 tzlocal==2.1
     # via dateparser
+uk-postcode-utils==1.1
+    # via -r requirements.in
 unidecode==1.2.0
     # via wagtail
 urllib3==1.26.5
