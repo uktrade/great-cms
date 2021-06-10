@@ -58,3 +58,4 @@ pisa==3.0.*
 lxml>=4.6.3
 sigauth==4.3.0
 elastic-apm==6.1.*
+uk-postcode-utils==1.1
