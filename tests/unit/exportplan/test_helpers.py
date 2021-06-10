@@ -71,39 +71,6 @@ def test_get_or_create_export_plan_existing(mock_get_exportplan, user):
     assert export_plan.json() == {'export_plan'}
 
 
-@mock.patch.object(api_client.personalisation, 'recommended_countries_by_sector')
-def test_get_recommended_countries(mock_recommended_countries):
-    recommended_countries = [{'country': 'japan'}, {'country': 'south korea'}]
-    mock_recommended_countries.return_value = create_response(status_code=200, json_body=recommended_countries)
-    countries = helpers.get_recommended_countries(sso_session_id=123, sectors=['Automotive'])
-
-    assert mock_recommended_countries.call_count == 1
-    assert mock_recommended_countries.call_args == mock.call(sector=['Automotive'], sso_session_id=123)
-    assert countries == [{'country': 'Japan'}, {'country': 'South Korea'}]
-
-
-@mock.patch.object(api_client.personalisation, 'recommended_countries_by_sector')
-def test_get_recommended_countries_no_return(mock_recommended_countries):
-    mock_recommended_countries.return_value = create_response(status_code=200, json_body=None)
-    countries = helpers.get_recommended_countries(sso_session_id=123, sectors=['Automotive'])
-
-    assert countries == []
-
-
-def test_serialize_exportplan_data(user):
-
-    exportplan_data = helpers.serialize_exportplan_data(user)
-
-    assert exportplan_data == {}
-
-
-def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company_profile):
-    mock_get_company_profile.return_value = {'expertise_countries': ['CN']}
-
-    exportplan_data = helpers.serialize_exportplan_data(user)
-    assert exportplan_data == {'target_markets': [{'country': 'China'}]}
-
-
 @mock.patch.object(helpers, 'get_exportplan')
 @mock.patch.object(helpers, 'create_export_plan')
 def test_get_or_create_export_plan_created(mock_create_export_plan, mock_get_exportplan, user):
@@ -117,7 +84,7 @@ def test_get_or_create_export_plan_created(mock_create_export_plan, mock_get_exp
     assert mock_get_exportplan.call_args == mock.call('123')
 
     assert mock_create_export_plan.call_count == 1
-    assert mock_create_export_plan.call_args == mock.call(exportplan_data={}, sso_session_id='123')
+    assert mock_create_export_plan.call_args == mock.call(sso_session_id='123')
 
     assert export_plan == {'export_plan_created'}
 

@@ -46,8 +46,6 @@ def export_plan_data(cost_pricing_data):
     data = {
         'country': 'Australia',
         'commodity_code': '220.850',
-        'sectors': ['Automotive'],
-        'target_markets': [{'country': 'China'}],
         'target_markets_research': {},
         'ui_options': {
             'marketing-approach': {'target_ages': ['25-29', '47-49']},
@@ -484,21 +482,6 @@ def mock_update_export_plan_client(patch_update_export_plan_client):
     yield patch_update_export_plan_client.start()
     try:
         patch_update_export_plan_client.stop()
-    except RuntimeError:
-        # may already be stopped explicitly in a test
-        pass
-
-
-@pytest.fixture
-def patch_get_dashboard_events():
-    yield mock.patch('core.helpers.get_dashboard_events', return_value=None)
-
-
-@pytest.fixture(autouse=True)
-def mock_get_events(patch_get_dashboard_events):
-    yield patch_get_dashboard_events.start()
-    try:
-        patch_get_dashboard_events.stop()
     except RuntimeError:
         # may already be stopped explicitly in a test
         pass

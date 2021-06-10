@@ -234,19 +234,6 @@ def mock_update_company_profile():
 
 
 @pytest.fixture
-def mock_get_dashboard_events():
-    single_event = {
-        'title': 'Global Aid and Development Directory',
-        'description': 'DIT is producing a directory of companies',
-        'url': 'www.example.com',
-        'location': 'London',
-        'date': '06 Jun 2020',
-    }
-    with patch.object(core_helpers, 'get_dashboard_events', return_value=[single_event]) as patched:
-        yield patched
-
-
-@pytest.fixture
 def mock_get_lessons_completed():
     lessons_read = {'lesson_completed': []}
     with patch.object(sso_helpers, 'get_lesson_completed', return_value=lessons_read) as patched:
@@ -313,7 +300,6 @@ def mock_get_export_plan_list():
         {
             'export_countries': ['UK'],
             'export_commodity_codes': [100],
-            'target_markets': [{'country': 'China'}],
             'rules_regulations': {'country_code': 'CHN'},
             'sectors': ['Automotive'],
             'pk': 1,
@@ -394,7 +380,6 @@ def mock_dashboard_profile_events_opportunities(
     mock_get_markets_page_title,
     mock_get_company_profile_with_expertise,
     mock_get_user_profile,
-    mock_get_dashboard_events,
     mock_get_dashboard_export_opportunities,
 ):
     yield
@@ -404,7 +389,6 @@ def mock_dashboard_profile_events_opportunities(
 def mock_all_dashboard_and_export_plan_requests_and_responses(
     mock_export_plan_dashboard_page_tours,
     mock_get_corruption_perceptions_index,
-    mock_get_dashboard_events,
     mock_get_dashboard_export_opportunities,
     mock_export_plan_list,
     mock_get_export_plan_market_data,
