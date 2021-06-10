@@ -1,6 +1,7 @@
 import logging
 from importlib import import_module
 
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.utils import translation
@@ -205,3 +206,16 @@ class PreventCaptchaRevalidationMixin:
         if step == self.steps.last and self.should_ignore_captcha:
             del form.fields['captcha']
         return form
+
+
+class NotFoundOnDisabledFeature:
+    def dispatch(self, *args, **kwargs):
+        if not self.flag:
+            raise Http404()
+        return super().dispatch(*args, **kwargs)
+
+
+class MarketAccessFeatureFlagMixin(NotFoundOnDisabledFeature):
+    @property
+    def flag(self):
+        return settings.FEATURE_SHOW_REPORT_BARRIER_CONTENT

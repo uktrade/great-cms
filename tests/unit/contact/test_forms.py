@@ -5,8 +5,6 @@ import requests_mock
 from contact import forms
 from directory_api_client.exporting import url_lookup_by_postcode
 
-pytestmark = [pytest.mark.contact]
-
 
 @pytest.fixture
 def domestic_data(captcha_stub):
