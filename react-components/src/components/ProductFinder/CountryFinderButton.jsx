@@ -27,11 +27,12 @@ export const CountryFinderButton = (props) => {
   }
 
   const buttonClass = `tag ${!market ? 'tag--tertiary' : ''} tag--icon `
+  const hasPlace = market && market.country_name
 
   const triggerButton = (
     <button type="button" className={buttonClass} onClick={openModal}>
-      {(market && market.country_name) || 'add place'}
-      <span class="visually-hidden">Edit place</span>
+      {hasPlace || 'add place'}
+      <span class="visually-hidden">{hasPlace ? 'Edit' : 'Add'} place</span>
       <i className={`fa ${market ? 'fa-edit' : 'fa-plus'}`} aria-hidden="true" />
     </button>
   )

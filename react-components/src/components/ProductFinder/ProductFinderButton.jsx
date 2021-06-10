@@ -18,14 +18,14 @@ function ProductFinderButton(props) {
     setIsOpen(true)
   }
   const buttonClass = `tag ${!selectedProduct ? 'tag--tertiary' : ''} tag--icon`
+  const hasProduct = selectedProduct && ReactHtmlParser(selectedProduct.commodity_name)
   const triggerButton = (
     <button type="button"
       className={buttonClass}
       onClick={openModal}
     >
-      {(selectedProduct && ReactHtmlParser(selectedProduct.commodity_name)) ||
-        'add product'}
-      <span class="visually-hidden">Edit product</span>
+      {hasProduct || 'add product'}
+      <span class="visually-hidden">{hasProduct ? 'Edit' : 'Add'} product</span>
       <i className={`fa ${selectedProduct ? 'fa-edit' : 'fa-plus'}`} aria-hidden="true" />
     </button>
   )
