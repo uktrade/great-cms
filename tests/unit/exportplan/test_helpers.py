@@ -84,7 +84,7 @@ def test_get_or_create_export_plan_created(mock_create_export_plan, mock_get_exp
     assert mock_get_exportplan.call_args == mock.call('123')
 
     assert mock_create_export_plan.call_count == 1
-    assert mock_create_export_plan.call_args == mock.call(sso_session_id='123')
+    assert mock_create_export_plan.call_args == mock.call(sso_session_id='123', exportplan_data={})
 
     assert export_plan == {'export_plan_created'}
 
