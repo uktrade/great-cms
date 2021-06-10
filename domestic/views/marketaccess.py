@@ -80,7 +80,7 @@ class ReportMarketAccessBarrierFormView(
             email_address=data['email'],
             full_name=f"{data['firstname']} {data['lastname']}",
             subject=subject,
-            service_name=settings.MARKET_ACCESS_FORMS_API_ZENDESK_SEVICE_NAME,
+            service_name=settings.MARKET_ACCESS_FORMS_API_ZENDESK_SERVICE_NAME,
             subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
             form_url=reverse(
                 'domestic:report-ma-barrier',

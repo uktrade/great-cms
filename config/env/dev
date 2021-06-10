@@ -69,7 +69,7 @@ ACTIVITY_STREAM_URL=debug
 ACTIVITY_STREAM_IP_ALLOWLIST=debug
 FEATURE_TEST_SEARCH_API_PAGES_ENABLED=true
 
-
+FEATURE_SHOW_REPORT_BARRIER_CONTENT=True
 
 #####################################################################
 # Needed for Wagtail-Transfer local development. Also see env/config/dev-transfer-target
