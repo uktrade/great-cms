@@ -488,21 +488,6 @@ def mock_update_export_plan_client(patch_update_export_plan_client):
 
 
 @pytest.fixture
-def patch_get_dashboard_events():
-    yield mock.patch('core.helpers.get_dashboard_events', return_value=None)
-
-
-@pytest.fixture(autouse=True)
-def mock_get_events(patch_get_dashboard_events):
-    yield patch_get_dashboard_events.start()
-    try:
-        patch_get_dashboard_events.stop()
-    except RuntimeError:
-        # may already be stopped explicitly in a test
-        pass
-
-
-@pytest.fixture
 def patch_get_dashboard_export_opportunities():
     yield mock.patch('core.helpers.get_dashboard_export_opportunities', return_value=None)
 
