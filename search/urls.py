@@ -11,4 +11,9 @@ urlpatterns = [
         skip_ga360(search.views.SearchView.as_view()),
         name='search',
     ),
+    path(
+        'feedback/',
+        search.views.SearchFeedbackFormView.as_view(),
+        name='feedback',
+    ),
 ]
