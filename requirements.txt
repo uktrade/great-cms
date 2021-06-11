@@ -23,11 +23,11 @@ beautifulsoup4==4.8.2
     #   great-components
     #   readtime
     #   wagtail
-boto3==1.17.90
+boto3==1.17.92
     # via
     #   -r requirements.in
     #   django-storages
-botocore==1.20.90
+botocore==1.20.92
     # via
     #   boto3
     #   s3transfer
@@ -60,7 +60,7 @@ directory-constants==20.23.0
     # via
     #   -r requirements.in
     #   great-components
-directory-forms-api-client==5.3.0
+directory-forms-api-client==6.1.0
     # via -r requirements.in
 directory-healthcheck==2.0.0
     # via -r requirements.in
