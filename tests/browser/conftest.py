@@ -268,7 +268,6 @@ def mock_get_export_plan_market_data():
 def mock_get_export_plan():
     return_value = {
         'pk': 1,
-        'target_markets': [JAPAN],
         'target_markets_research': {'demand': 'high'},
         'export_countries': [{'country_name': 'China', 'country_iso2_code': 'CN'}],
     }
@@ -280,7 +279,6 @@ def mock_get_export_plan():
 def mock_get_user_context_export_plan():
     return_value = {
         'pk': 1,
-        'target_markets': [JAPAN],
         'target_markets_research': {'demand': 'high'},
     }
     with patch.object(models, 'get_or_create_export_plan', return_value=return_value) as patched:
