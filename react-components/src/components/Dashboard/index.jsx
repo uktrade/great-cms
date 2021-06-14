@@ -1,12 +1,17 @@
-import React, { useState, memo } from 'react'
+import React, { useState, memo, useCallback, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 
 import { ComingSoon } from '@src/components/Sidebar/ComingSoon'
 import { analytics } from '@src/Helpers'
+import DashboardSection from './DashboardSection'
 
 export const Dashboard = memo(
   ({ sections, exportPlanProgress: { section_progress } }) => {
     const [modal, setModal] = useState(false)
+    const [sectionActive, setSectionActive] = useState(0)
+    const [activeUrl, setActiveUrl] = useState('')
+    const [sectionLength, setSectionLength] = useState(sections.length - 1)
+
     const openComingSoonModal = (e) => {
       setModal(true)
       // record click on disable section
@@ -16,77 +21,49 @@ export const Dashboard = memo(
       })
     }
 
+    // Handing user input.
+    const handleUserKeyPress = useCallback(
+      (event) => {
+        const { keyCode } = event
+        if (keyCode === 37) {
+          if (sectionActive <= 0) {
+            return
+          }
+          setSectionActive(sectionActive - 1)
+        } else if (keyCode === 39) {
+          if (sectionActive >= sectionLength) {
+            return
+          }
+          setSectionActive(sectionActive + 1)
+        } else if (keyCode === 13) {
+          console.log(activeUrl)
+          window.open(activeUrl, '_self')
+        }
+      },
+      [sectionActive, activeUrl]
+    )
+
+    // Mount and dismout eventListener.
+    useEffect(() => {
+      window.addEventListener('keydown', handleUserKeyPress)
+      return () => {
+        window.removeEventListener('keydown', handleUserKeyPress)
+      }
+    }, [sections, handleUserKeyPress])
+
     return (
       <>
         <ComingSoon onClick={() => setModal(false)} isOpen={modal} />
-        {sections.map(({ title, url, disabled, is_complete, image }, i) => (
-          <div className="c-1-3-xl c-1-2-m" key={url}>
-            <div
-              className={`bg-white m-b-s section-list__item ${
-                is_complete ? 'section-list__item--is-complete' : ''
-              }`}
-            >
-              {disabled ? (
-                <div
-                  className="width-full link section-list__disabled section-list__link"
-                  onClick={openComingSoonModal}
-                  aria-hidden="true"
-                  role="button"
-                >
-                  <div className="section-list__image-container">
-                    <span
-                      className="section-list__coming bg-blue-deep-80 text-white body-m p-xxs"
-                      data-sectiontitle={title}
-                    >
-                      Coming soon
-                    </span>
-                    <img
-                      className="width-full p-h-s p-t-m p-b-s"
-                      src="/static/images/coming-soon.svg"
-                      alt=""
-                      data-sectiontitle={title}
-                    />
-                  </div>
-                  <div className="p-v-s p-h-xs">
-                    <h3
-                      className="h-xs text-blue-deep-80 p-0"
-                      data-sectiontitle={title}
-                    >
-                      {title}
-                    </h3>
-                  </div>
-                </div>
-              ) : (
-                <a
-                  className="width-full link section-list__link"
-                  href={url}
-                  title={title}
-                >
-                  <div
-                    className="section-list__image-container"
-                    data-complete={is_complete ? 'Complete' : ''}
-                  >
-                    {is_complete && <span className="visually-hidden">Complete</span>}
-                    <img
-                      className={`width-full p-h-s p-t-m p-b-s ${
-                        is_complete ? 'bg-green-30' : 'bg-blue-deep-20'
-                      }`}
-                      src={`/static/images/${image}`}
-                      alt=""
-                    />
-                  </div>
-                  <div className="p-t-s p-b-xs p-h-xs">
-                    <h3 className="h-xs text-blue-deep-80 p-0">{title}</h3>
-                    <p className="m-b-0 m-t-xxs">
-                      {section_progress.find((x) => x.url === url).populated}{' '}
-                      out of {section_progress.find((x) => x.url === url).total}{' '}
-                      questions answered
-                    </p>
-                  </div>
-                </a>
-              )}
-            </div>
-          </div>
+        {sections.map((section, index) => (
+          <DashboardSection
+            key={section.url}
+            {...section}
+            section_progress={section_progress}
+            index={index}
+            openComingSoonModal={openComingSoonModal}
+            sectionActive={sectionActive}
+            setActiveUrl={setActiveUrl}
+          />
         ))}
       </>
     )
