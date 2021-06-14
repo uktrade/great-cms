@@ -74314,7 +74314,7 @@ function ProductFinderModal(props) {
       autoFocus: true,
       iconClass: "fa-search",
       placeholder: "ie: fresh strawberries",
-      ariaDescribedy: "search-hint"
+      ariaDescribedby: "search-hint"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "search-button button button--small button--only-icon m-f-xs",
       disabled: !searchTerm,

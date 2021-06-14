@@ -439,7 +439,7 @@ export default function ProductFinderModal(props) {
             autoFocus
             iconClass="fa-search"
             placeholder="ie: fresh strawberries"
-            ariaDescribedy="search-hint"
+            ariaDescribedby="search-hint"
           />
           <button
             className="search-button button button--small button--only-icon m-f-xs"
