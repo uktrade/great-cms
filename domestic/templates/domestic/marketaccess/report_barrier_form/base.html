@@ -1,0 +1,56 @@
+{% extends 'domestic/base.html' %}
+
+{% load static from staticfiles %}
+{% load breadcrumbs message_box from component_tags %}
+
+{% block head_css %}
+{{ block.super }}
+<link href="{% static 'styles/marketaccess.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block head_title %}
+Report a trade barrier{{block.super}}
+{% endblock %}
+
+{% block sharing_metadata %}{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            {% breadcrumbs 'Report a trade barrier' %}
+                <a href="/">great.gov.uk</a>
+                <a href="{% url 'domestic:market-access' %}">Trade barriers</a>
+            {% endbreadcrumbs %}
+            <div class="grid-row">
+                <div class="column-one-half"></div>
+                    <form method="post" autocomplete="on">
+                        <div class="">
+                            {% csrf_token %}
+                            {% if wizard.form.errors %}
+                                {% message_box heading='There’s a problem' description=formatted_form_errors|safe heading_class='great-black-text' box_class='border-great-red background-white error-message-box' %}
+                            {% endif %}
+                            {% block extra_contents %}{% endblock %}
+                            <div class="input-field-container">
+                                {{ wizard.management_form }}
+                                {% if wizard.form.forms %}
+                                    {{ wizard.form.management_form }}
+                                    {% for form in wizard.form.forms %}
+                                        {{ form }}
+                                    {% endfor %}
+                                {% else %}
+                                    {{ form }}
+                                {% endif %}
+                            </div>
+                            <div>
+                                <button type="submit" class="button">{% block submit_button_label %}Continue{% endblock %}</button>
+                            </div>
+                            {% if wizard.steps.prev %}
+                                <a id="previous-button" class="link" href="{% url 'domestic:report-ma-barrier' step=wizard.steps.prev %}">Back</a>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

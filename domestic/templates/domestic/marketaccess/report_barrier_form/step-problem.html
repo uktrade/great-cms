@@ -1,0 +1,11 @@
+{% extends 'domestic/marketaccess/report_barrier_form/base.html' %}
+
+{% load static from staticfiles %}
+
+{% block extra_contents %}
+    <p>Report a trade barrier</p>
+    <p class="bold-small">
+        Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}
+    </p>
+    <h1 class="heading-large">Describe your problem</h1>
+{% endblock %}

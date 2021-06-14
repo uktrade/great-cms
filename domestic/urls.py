@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from great_components.decorators import skip_ga360
 
 import domestic.views.euexit
+import domestic.views.marketaccess
 import domestic.views.ukef
 from core import snippet_slugs
 
@@ -100,5 +101,29 @@ urlpatterns = [
             # see core.mixins.GetSnippetContentMixin
         },
         name='brexit-contact-form-success',
+    ),
+    path(
+        'report-trade-barrier/',
+        skip_ga360(
+            domestic.views.marketaccess.MarketAccessView.as_view(),
+        ),
+        name='market-access',
+    ),
+    path(
+        'report-trade-barrier/report/success/',
+        skip_ga360(
+            domestic.views.marketaccess.ReportMarketAccessBarrierSuccessView.as_view(),
+        ),
+        name='report-barrier-form-success',
+    ),
+    path(
+        'report-trade-barrier/report/<slug:step>/',
+        skip_ga360(
+            domestic.views.marketaccess.ReportMarketAccessBarrierFormView.as_view(
+                url_name='domestic:report-ma-barrier',
+                done_step_name='finished',
+            )
+        ),
+        name='report-ma-barrier',
     ),
 ]

@@ -53,7 +53,8 @@ def get_or_create_export_plan(user):
     # This is a temp hook to create initial export plan. Once we have a full journey this can be removed
     export_plan = get_exportplan(user.session_id)
     if not export_plan:
-        export_plan = create_export_plan(sso_session_id=user.session_id)
+        # This currently creates an empty export plan
+        export_plan = create_export_plan(sso_session_id=user.session_id, exportplan_data={})
     return export_plan
 
 

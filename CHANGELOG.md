@@ -3,6 +3,8 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2981: Port Search Feedback page from V1 into V2
+- GP2-2980: Port Market Access / 'Report a Trade Barrier' pages from V1 into V2
 - GP2-2977: Port E-Commerce Export Support pages from V1 into V2
 - GP2-1618: Port legacy EU Exit / transition period forms from V1 into V2
 - GP2-1617: Port get-finance/UKEF contact form from great-domestic-ui
