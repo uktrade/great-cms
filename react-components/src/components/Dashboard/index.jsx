@@ -36,7 +36,6 @@ export const Dashboard = memo(
           }
           setSectionActive(sectionActive + 1)
         } else if (keyCode === 13) {
-          console.log(activeUrl)
           window.open(activeUrl, '_self')
         }
       },
