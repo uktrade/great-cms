@@ -43,6 +43,7 @@
 - GP2-2899 - DAC_Name_Role_Value_03
 - GP2-2943 - DAC_Status_Messages_01
 - GP2-2937 - DAC_Nondescriptive_Labels_01
+- GP2-2923 - DAC_CSS_Images_as_Labels_02
 
 ## [1.10.1](https://github.com/uktrade/great-cms/releases/tag/1.10.1)
 ### Enhancements
