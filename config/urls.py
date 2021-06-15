@@ -28,6 +28,8 @@ if settings.ENFORCE_STAFF_SSO_ENABLED:
     ]
 
 
+# WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD ANY
+# URL NAMES TO core.views.StaticViewSitemap
 urlpatterns += [
     path('django-admin/', decorator_include(skip_ga360, admin.site.urls)),
     path(
