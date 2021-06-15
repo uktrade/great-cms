@@ -73168,7 +73168,7 @@ function CountryFinderModal(props) {
   var regions = Object.keys(countryList || {}).sort().map(function (region, index) {
     var countries = (countryList[region] || []).map(function (country) {
       if (searchStr && country.name.toUpperCase().indexOf(searchStr) !== 0 || !region) return '';
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "c-1-5",
         key: country.id
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -74421,7 +74421,9 @@ function RegionToggle(props) {
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: controlAreaId,
     className: "p-t-s ".concat(expand || expandAllRegions ? 'expand-section open' : 'expand-section')
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, countries)));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ol", {
+    className: "m-t-0"
+  }, countries)));
 }
 RegionToggle.propTypes = {
   region: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired,

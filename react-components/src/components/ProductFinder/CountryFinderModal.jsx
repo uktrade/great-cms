@@ -128,7 +128,7 @@ export default function CountryFinderModal(props) {
         )
           return ''
         return (
-          <span className="c-1-5" key={country.id}>
+          <li className="c-1-5" key={country.id}>
             <button
               type="button"
               className="link m-r-s m-b-xs"
@@ -139,7 +139,7 @@ export default function CountryFinderModal(props) {
             >
               {country.name}
             </button>
-          </span>
+          </li>
         )
       })
       return (
