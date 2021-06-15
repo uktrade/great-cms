@@ -5,6 +5,9 @@ import search.views
 
 app_name = 'search'
 
+# WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD THE URL NAME
+# TO core.views.StaticViewSitemap
+
 urlpatterns = [
     path(
         '',

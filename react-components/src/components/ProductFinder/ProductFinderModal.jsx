@@ -425,9 +425,10 @@ export default function ProductFinderModal(props) {
   const searchBox = (error) => {
     return (
       <div className="p-h-s p-t-l">
-        <h3 className="h-m p-t-0 p-b-xxs">Add product</h3>
-        <div>
+        <h3 className="h-m p-t-0 p-b-xxs"><label for="search-input">Add product</label></h3>
+        <div id="search-hint">
           Adding a product personalises lessons and other content for you.
+          <span className="visually-hidden">Type the name of your product eg: fresh strawberries</span>
         </div>
         {error && <div className="form-group-error p-v-xs m-v-xs">{error}</div>}
         <div className="flex-centre m-t-xs search-input">
@@ -438,6 +439,7 @@ export default function ProductFinderModal(props) {
             autoFocus
             iconClass="fa-search"
             placeholder="ie: fresh strawberries"
+            ariaDescribedby="search-hint"
           />
           <button
             className="search-button button button--small button--only-icon m-f-xs"

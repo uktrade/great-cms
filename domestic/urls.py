@@ -9,6 +9,8 @@ from core import snippet_slugs
 
 app_name = 'domestic'
 
+# WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD THE URL NAME
+# TO core.views.StaticViewSitemap.items()
 urlpatterns = [
     path(
         'get-finance/',

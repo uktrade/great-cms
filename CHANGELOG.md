@@ -4,6 +4,7 @@
 
 ### Enhancements
 - GP2-2841: Pinned CF buildpack and upgraded python to 3.9.5
+- GP2-2982: Rebuild sitemap.xml in great-cms
 - GP2-2981: Port Search Feedback page from V1 into V2
 - GP2-2980: Port Market Access / 'Report a Trade Barrier' pages from V1 into V2
 - GP2-2977: Port E-Commerce Export Support pages from V1 into V2
@@ -14,6 +15,11 @@
 - GP2-2856 - remove target market
 
 ### Fixed bugs
+- GP2-2934 - DAC_Custom_Controls_02 Tab management on WTE
+- GP2-2893 - DAC_Link_Purpose_02 Learning backlinks
+- GP2-2901 - DAC_Label_in_Name - Product finder
+- GP2-2900 - DAC_Label_in_Name - Search_inputs
+- GP2-2935 - DAC_Custom_Controls_03 Tooltips
 - GP2-2915 - DAC_Information_and_Relationships_06 Roles on WTE tables
 - GP2-2914 - DAC_Information_and_Relationships_05 Dynamic caption on WTE
 - GP2-2863 - Skip GA360 on search path
@@ -42,6 +48,8 @@
 - GP2-2897 - DAC_Name_Role_Value_01
 - GP2-2899 - DAC_Name_Role_Value_03
 - GP2-2943 - DAC_Status_Messages_01
+- GP2-2937 - DAC_Nondescriptive_Labels_01
+- GP2-2923 - DAC_CSS_Images_as_Labels_02
 
 ## [1.10.1](https://github.com/uktrade/great-cms/releases/tag/1.10.1)
 ### Enhancements

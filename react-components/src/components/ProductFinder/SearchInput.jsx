@@ -16,6 +16,7 @@ export default function SearchInput(props) {
     onSaveButtonClick,
     saveButtonDisabled,
     saveButtonLabel,
+    ariaDescribedby,
   } = props
   const [value, setValue] = useState(defaultValue || '')
   const [isFocussed, setFocussed] = useState(false)
@@ -64,9 +65,9 @@ export default function SearchInput(props) {
   }
 
   const clearSearchInput = (evt) => {
-      evt.preventDefault()
-      setInputValue('')
-      searchInput.focus()
+    evt.preventDefault()
+    setInputValue('')
+    searchInput.focus()
   }
 
   return (
@@ -91,6 +92,7 @@ export default function SearchInput(props) {
           placeholder={placeholder}
           maxLength={50}
           style={{ maxWidth }}
+          aria-describedby={ariaDescribedby}
         />
         <div className="input-icon">
           {isFocussed && value.length ? (
@@ -104,18 +106,19 @@ export default function SearchInput(props) {
             iconClass && <i className={`fas ${iconClass} text-blue-deep-60`} />
           )}
         </div>
-        { onSaveButtonClick ? (
-        <button
-              type="button"
-              aria-label="Save"
-              className="button button--primary button--mobile-auto m-f-xs"
-              onClick={onSaveButtonClick}
-              disabled={saveButtonDisabled}
-        >
-        {saveButtonLabel}
-        </button>
-        ) : '' }
-        <span className="visually-hidden">Search markets</span>
+        {onSaveButtonClick ? (
+          <button
+            type="button"
+            aria-label="Save"
+            className="button button--primary button--mobile-auto m-f-xs"
+            onClick={onSaveButtonClick}
+            disabled={saveButtonDisabled}
+          >
+            {saveButtonLabel}
+          </button>
+        ) : (
+          ''
+        )}
       </div>
     </label>
   )
@@ -135,6 +138,7 @@ SearchInput.propTypes = {
   onSaveButtonClick: PropTypes.func,
   saveButtonDisabled: PropTypes.bool,
   saveButtonLabel: PropTypes.string,
+  ariaDescribedby: PropTypes.string,
 }
 SearchInput.defaultProps = {
   id: 'search-input',
@@ -149,4 +153,5 @@ SearchInput.defaultProps = {
   onSaveButtonClick: null,
   saveButtonDisabled: false,
   saveButtonLabel: 'Save',
+  ariaDescribedby: null,
 }

@@ -11,7 +11,6 @@ import businessTabConfig from './TabConfigBusiness'
 import societyTabConfig from './TabConfigSociety'
 import ageGroupsTabConfig from './TabConfigAgeGroups'
 
-
 const mobileBreakpoint = 980
 
 export default function ComparisonTables(props) {
@@ -46,11 +45,11 @@ export default function ComparisonTables(props) {
     }
   }
 
-
   const mobile = useWindowSize().width < mobileBreakpoint
 
   const tabStrip = (
     <Tabs
+      label="Country comparison data"
       setActiveTab={setActiveTab}
       activeTab={activeTab}
       showTabs={!!listOfTabs.length}
@@ -71,16 +70,21 @@ export default function ComparisonTables(props) {
   return (
     <>
       {mobile ? '' : <div className="p-h-m p-t-l">{tabStrip}</div>}
-      <div
-        className={`table market-details ${
-          mobile ? 'm-h-0' : 'm-h-m bg-white p-v-s p-b-s p-h-s radius'
-        }`}
-      >
-        {Object.keys(tabConfig).map(
-          (item) =>
-            activeTab === item &&
-            tabConfig[item] && (
-              <React.Fragment key={item}>
+
+      {Object.keys(tabConfig).map(
+        (item) =>
+          activeTab === item &&
+          tabConfig[item] && (
+            <React.Fragment key={item}>
+              <div
+                className={`table market-details ${
+                  mobile ? 'm-h-0' : 'm-h-m bg-white p-v-s p-b-s p-h-s radius'
+                }`}
+                id={`${item}-tab`}
+                role="tabpanel"
+                aria-labelledby={item}
+                tabIndex="0"
+              >
                 {!mobile && tabConfig[item].filter}
                 <DataTable
                   datasetName={item}
@@ -93,11 +97,11 @@ export default function ComparisonTables(props) {
                   triggerButton={triggerButton}
                   tabStrip={tabStrip}
                 />
-              </React.Fragment>
-            )
-        )}
-        {!mobile && triggerButton}
-      </div>
+                {!mobile && triggerButton}
+              </div>
+            </React.Fragment>
+          )
+      )}
     </>
   )
 }
