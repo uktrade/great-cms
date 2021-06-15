@@ -208,6 +208,7 @@ _ GP2-2775 - getting paid error
 - GP2-2138 - Fix domestic tab alignment
 - GP2-2234 - Sign up / in tablet
 - GP2-2139 - Menu button moves on mobile after selection
+- NOTICKET - remove disallow sso robots.txt
 
 ## [1.8.0](https://github.com/uktrade/great-cms/releases/tag/1.8.0)
 
