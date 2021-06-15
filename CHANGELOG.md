@@ -13,6 +13,7 @@
 - GP2-2856 - remove target market
 
 ### Fixed bugs
+- GP2-2934 - DAC_Custom_Controls_02 Tab management on WTE
 - GP2-2915 - DAC_Information_and_Relationships_06 Roles on WTE tables
 - GP2-2914 - DAC_Information_and_Relationships_05 Dynamic caption on WTE
 - GP2-2863 - Skip GA360 on search path
