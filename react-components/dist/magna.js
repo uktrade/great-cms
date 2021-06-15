@@ -73313,16 +73313,21 @@ function CountryFinderModal(props) {
 
   var marketListSection = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
     className: "h-s p-t-xs"
-  }, "Countries and territories"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "search-input"
+  }, "Countries and territories")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    id: "search-hint",
     className: "m-v-xs"
   }, "If you already have an idea of where you want to export to, choose from this list."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "grid"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "c-1-3 m-b-xxs"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SearchInput__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    id: "search-input",
     onChange: searchChange,
     iconClass: "fa-search",
-    placeholder: "Search places"
+    placeholder: "Search places",
+    ariaDescribedby: "search-hint"
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "grid"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -74292,7 +74297,13 @@ function ProductFinderModal(props) {
       className: "p-h-s p-t-l"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
       className: "h-m p-t-0 p-b-xxs"
-    }, "Add product"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Adding a product personalises lessons and other content for you."), error && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      "for": "search-input"
+    }, "Add product")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      id: "search-hint"
+    }, "Adding a product personalises lessons and other content for you.", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "visually-hidden"
+    }, "Type the name of your product eg: fresh strawberries")), error && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "form-group-error p-v-xs m-v-xs"
     }, error), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "flex-centre m-t-xs search-input"
@@ -74302,7 +74313,8 @@ function ProductFinderModal(props) {
       onKeyReturn: search,
       autoFocus: true,
       iconClass: "fa-search",
-      placeholder: "ie: fresh strawberries"
+      placeholder: "ie: fresh strawberries",
+      ariaDescribedby: "search-hint"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "search-button button button--small button--only-icon m-f-xs",
       disabled: !searchTerm,
@@ -74541,7 +74553,8 @@ function SearchInput(props) {
       validator = props.validator,
       onSaveButtonClick = props.onSaveButtonClick,
       saveButtonDisabled = props.saveButtonDisabled,
-      saveButtonLabel = props.saveButtonLabel;
+      saveButtonLabel = props.saveButtonLabel,
+      ariaDescribedby = props.ariaDescribedby;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(defaultValue || ''),
       _useState2 = _slicedToArray(_useState, 2),
@@ -74627,7 +74640,8 @@ function SearchInput(props) {
     maxLength: 50,
     style: {
       maxWidth: maxWidth
-    }
+    },
+    "aria-describedby": ariaDescribedby
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "input-icon"
   }, isFocussed && value.length ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -74643,9 +74657,7 @@ function SearchInput(props) {
     className: "button button--primary button--mobile-auto m-f-xs",
     onClick: onSaveButtonClick,
     disabled: saveButtonDisabled
-  }, saveButtonLabel) : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "visually-hidden"
-  }, "Search markets")));
+  }, saveButtonLabel) : ''));
 }
 SearchInput.propTypes = {
   id: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
@@ -74660,7 +74672,8 @@ SearchInput.propTypes = {
   validator: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
   onSaveButtonClick: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
   saveButtonDisabled: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
-  saveButtonLabel: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
+  saveButtonLabel: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string,
+  ariaDescribedby: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
 };
 SearchInput.defaultProps = {
   id: 'search-input',
@@ -74676,7 +74689,8 @@ SearchInput.defaultProps = {
   },
   onSaveButtonClick: null,
   saveButtonDisabled: false,
-  saveButtonLabel: 'Save'
+  saveButtonLabel: 'Save',
+  ariaDescribedby: null
 };
 
 /***/ }),

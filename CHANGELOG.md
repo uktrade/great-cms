@@ -15,6 +15,8 @@
 ### Fixed bugs
 - GP2-2934 - DAC_Custom_Controls_02 Tab management on WTE
 - GP2-2893 - DAC_Link_Purpose_02 Learning backlinks
+- GP2-2901 - DAC_Label_in_Name - Product finder
+- GP2-2900 - DAC_Label_in_Name - Search_inputs
 - GP2-2915 - DAC_Information_and_Relationships_06 Roles on WTE tables
 - GP2-2914 - DAC_Information_and_Relationships_05 Dynamic caption on WTE
 - GP2-2863 - Skip GA360 on search path

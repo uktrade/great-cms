@@ -219,17 +219,18 @@ export default function CountryFinderModal(props) {
   /* Filtered list of places */
   const marketListSection = (
     <div>
-      <h3 className="h-s p-t-xs">Countries and territories</h3>
-      <p className="m-v-xs">
-        If you already have an idea of where you want to export to, choose from
-        this list.
+      <h3 className="h-s p-t-xs"><label htmlFor="search-input">Countries and territories</label></h3>
+      <p id="search-hint" className="m-v-xs">
+        If you already have an idea of where you want to export to, choose from this list.
       </p>
       <div className="grid">
         <div className="c-1-3 m-b-xxs">
           <SearchInput
+            id="search-input"
             onChange={searchChange}
             iconClass="fa-search"
             placeholder="Search places"
+            ariaDescribedby="search-hint"
           />
         </div>
       </div>
