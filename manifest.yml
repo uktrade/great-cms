@@ -1,5 +1,5 @@
 ---
 applications:
   - buildpacks:
-      - python_buildpack
+      - https://github.com/cloudfoundry/python-buildpack/releases/tag/v1.7.35
     timeout: 180
