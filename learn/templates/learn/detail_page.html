@@ -6,22 +6,14 @@
 
 {% block content %}
     <div class="lesson-page">
-        <a href="{{page.get_parent.get_parent.url}}" class="learn__back-link learn__back-link--top h-m hide-on-mobile">
-            <i class="fas fa-arrow-left" aria-hidden="true" title="Arrow left"></i>
-            <span class="visually-hidden">Back</span>
-        </a>
+        {% get_topic_title_for_lesson page as topic_title %}
+        <span class="learn__back-link">
+          {% include "core/includes/backlink.html" with url=page.get_parent.get_parent.url label=topic_title classes="hide-on-mobile"%}
+        </span>
         <div class="bg-white">
             <div class="container">
                 <div class="grid lesson-body p-t-l">
                     <div class="c-1-4">
-                        <div class="m-t-xl p-h-xs hide-on-mobile">
-                            <p class="body-l p-t-s m-v-0">You're in:</p>
-                            {% get_topic_title_for_lesson page as topic_title %}
-                            {% if topic_title %}
-                            <p class="body-l-b m-v-0">{{topic_title}}</p>
-                            {% endif %}
-                            <a href="{{page.get_parent.get_parent.url}}" class="button button--secondary button--small m-t-xs">View all lessons</a>
-                        </div>
                     </div>
                     <div class="c-1-2">
                         <h1 class="h-l" id="lesson-title">{{ page.title }}</h1>
@@ -134,10 +126,9 @@
                     </div>
                 </div>
             {% endif %}
-            <a href="{{page.get_parent.get_parent.url}}" class="learn__back-link learn__back-link--bottom h-m hide-on-mobile">
-                <i class="fas fa-arrow-left" aria-hidden="true" title="Arrow left"></i>
-                <span class="visually-hidden">Back</span>
-            </a>
+            <span class="learn__back-link learn__back-link--bottom">
+              {% include "core/includes/backlink.html" with url=page.get_parent.get_parent.url label=topic_title classes="hide-on-mobile back-link--inverse"%}
+            </span>
         </div>
     </div>
 {% endblock %}

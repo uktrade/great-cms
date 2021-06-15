@@ -110,7 +110,6 @@ export default {
       year: (data) => yearByGender(data.PopulationData, null),
       tooltip: {
         position: 'right',
-        title: '',
         content: `
           <p>The population of your target age group in the selected countries and territories. This indicates how many potential customers you have.</p>
          `,
@@ -123,7 +122,7 @@ export default {
       year: (data) => yearByGender(data.PopulationData, 'female'),
       tooltip: {
         position: 'right',
-        title: '',
+        title: 'What is \'Female population percentage\'?',
         content: `
           <p>The percentage of your target age group that are female.</p>
          `,
@@ -136,7 +135,7 @@ export default {
       year: (data) => yearByGender(data.PopulationData, 'male'),
       tooltip: {
         position: 'right',
-        title: '',
+        title: 'What is \'Male population percentage\'?',
         content: `
           <p>The percentage of your target age group that are male.</p>
          `,
