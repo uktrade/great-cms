@@ -13,6 +13,7 @@ from wagtail.contrib.modeladmin.views import IndexView
 from contact.modeladmin import (
     ContactPageContentSnippetAdmin,
     ContactSuccessSnippetAdmin,
+    ContactUsGuidanceSnippetAdmin,
 )
 from core.models import CaseStudy
 
@@ -216,6 +217,7 @@ class NonCMSContentGroup(ModelAdminGroup):
     items = (
         ContactPageContentSnippetAdmin,
         ContactSuccessSnippetAdmin,
+        ContactUsGuidanceSnippetAdmin,
         # Add more here
     )
 

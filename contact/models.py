@@ -76,6 +76,93 @@ class ContactPageContentSnippet(
         return f'Contact Page Content Snippet: {self.internal_title}'
 
 
+class ContactUsGuidanceSnippet(
+    NonPageContentSEOMixin,
+    NonPageContentSnippetBase,
+):
+    """Rendered content displayed as part of a contact-us journey, such as a
+    description of what action to take, to pre-empt the need to send a message."""
+
+    slug_options = {
+        # This limits the slugs and URL paths that can be configured for these snippets.
+        # It follows a common pattern from the V1 site
+        # (Note that page_path is functionally redundant, but helps us map to real URLs
+        # if we need to trace through where content goes)
+        # TO COME
+        # snippet_slugs.HELP_EXOPP_ALERTS_IRRELEVANT: {
+        #     'title': 'Guidance - Daily alerts are not relevant',
+        #     'page_path': ('/contact/triage/export-opportunities/alerts-not-relevant/'),
+        # },
+        # TO COME
+        # snippet_slugs.HELP_EXOPPS_NO_RESPONSE: {
+        #     'title': 'Guidance - Export Opportunity application no response',
+        #     'page_path': ('/contact/triage/export-opportunities/opportunity-no-response/'),
+        # },
+        snippet_slugs.HELP_MISSING_VERIFY_EMAIL: {
+            'title': 'Guidance - Email verification missing',
+            'page_path': ('/contact/triage/great-account/no-verification-email/'),
+        },
+        snippet_slugs.HELP_PASSWORD_RESET: {
+            'title': 'Guidance - Missing password reset link',
+            'page_path': ('/contact/triage/great-account/password-reset/'),
+        },
+        snippet_slugs.HELP_COMPANIES_HOUSE_LOGIN: {
+            'title': 'Guidance - Companies House login not working',
+            'page_path': ('/contact/triage/great-account/companies-house-login/'),
+        },
+        snippet_slugs.HELP_VERIFICATION_CODE_ENTER: {
+            'title': 'Guidance - Where to enter letter verification code',
+            'page_path': ('/contact/triage/great-account/verification-letter-code/'),
+        },
+        snippet_slugs.HELP_VERIFICATION_CODE_LETTER: {
+            'title': 'Guidance - Verification letter not delivered',
+            'page_path': ('/contact/triage/great-account/no-verification-letter/'),
+        },
+        snippet_slugs.HELP_VERIFICATION_CODE_MISSING: {
+            'title': 'Guidance - Verification code not delivered',
+            'page_path': ('/contact/triage/great-account/verification-missing/'),
+        },
+        snippet_slugs.HELP_ACCOUNT_COMPANY_NOT_FOUND: {
+            'title': 'Guidance - Company not found',
+            'page_path': ('/contact/triage/great-account/company-not-found/'),
+        },
+        # snippet_slugs.HELP_EXPORTING_TO_UK: {
+        #     'title': 'Guidance - Exporting to the UK',
+        #     'page_path': ('contact/triage/international/exporting-to-the-uk/'),
+        # },
+    }
+
+    title = models.CharField(
+        max_length=255,
+        verbose_name='heading',
+    )
+
+    body = RichTextField(
+        verbose_name='Body content',
+        blank=False,
+    )
+
+    panels = [
+        MultiFieldPanel(
+            heading='Purpose',
+            children=[
+                FieldPanel('slug', widget=Select),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Page content',
+            children=[
+                FieldPanel('title'),
+                FieldPanel('body'),
+            ],
+        ),
+        SearchEngineOptimisationPanel(),
+    ]
+
+    def __str__(self):
+        return f'Contact Us Guidance Snippet: {self.internal_title}'
+
+
 @register_snippet
 class ContactSuccessSnippet(
     NonPageContentSEOMixin,
