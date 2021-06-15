@@ -30,8 +30,8 @@ export const Login = (props) => {
   return (
     <div className="signup signup--reverse signup__container">
       <div className="signup__steps-panel">
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <a href="/" style={{ display: 'inline-block', textAlign: 'center' }}>
+        <div className="centre-children">
+          <a href="/" className="inline-block">
             <img
               className="m-f-auto m-r-auto signup__logo"
               src="/static/images/dit_logo_335x160.png"
