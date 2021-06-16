@@ -1,3 +1,5 @@
+from django.urls import reverse_lazy
+
 from core.helpers import retrieve_regional_offices
 
 
@@ -27,3 +29,24 @@ def format_office_details(office_list):
         office = {'address': '\n'.join(address), **office}
         offices.append(office)
     return offices if len(offices) > 0 else None
+
+
+def build_export_opportunites_guidance_url(slug):
+    return reverse_lazy(
+        'contact:contact-us-export-opportunities-guidance',
+        kwargs={'slug': slug},
+    )
+
+
+def build_account_guidance_url(slug):
+    return reverse_lazy(
+        'contact:contact-us-great-account-guidance',
+        kwargs={'slug': slug},
+    )
+
+
+def build_exporting_guidance_url(slug):
+    return reverse_lazy(
+        'contact:contact-us-exporting-to-the-uk-guidance',
+        kwargs={'slug': slug},
+    )

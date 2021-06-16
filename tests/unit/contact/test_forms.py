@@ -2,8 +2,12 @@ import pytest
 import requests
 import requests_mock
 
-from contact import forms
+from contact import forms, views
 from directory_api_client.exporting import url_lookup_by_postcode
+
+routing_steps = [step for step, _ in views.RoutingFormView.form_list]
+
+pytestmark = [pytest.mark.django_db, pytest.mark.contact]
 
 
 @pytest.fixture
