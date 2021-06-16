@@ -22,7 +22,7 @@ snippet_specs = [
         'body': (
             '<p>Check to see if the link is in your spam folder.</p>'
             '<p>If you cannot find the link, please <a href="/sso/accounts/password/reset/">'
-            'request a new link to reset your password</a>.</p>.'
+            'request a new link to reset your password</a>.</p>'
         ),
     },
     {

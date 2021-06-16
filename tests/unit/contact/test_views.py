@@ -7,11 +7,21 @@ from django.test import override_settings
 from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 
-from contact import constants, forms, views
+from contact import constants, forms, helpers, views
+from core import snippet_slugs
 from tests.helpers import reload_urlconf
 
+pytestmark = [pytest.mark.django_db, pytest.mark.contact]
 
-@pytest.mark.django_db
+
+def build_wizard_url(step):
+    return reverse('contact:contact-us-routing-form', kwargs={'step': step})
+
+
+class FakeChoiceForm(django.forms.Form):
+    choice = django.forms.CharField()
+
+
 @pytest.mark.parametrize('contact_views_enabled', (True, False))
 def test_feature_flag_for_contact_section(contact_views_enabled, client):
     example_url_name = 'contact:contact-us-domestic'
@@ -44,29 +54,29 @@ def test_feature_flag_for_contact_section(contact_views_enabled, client):
         ),
         # TO BE PORTED IN SUBSEQUENT WORK
         # (
-        #     reverse('contact-us-feedback'),
-        #     reverse('contact-us-feedback-success'),
+        #     reverse('contact:contact-us-feedback'),
+        #     reverse('contact:contact-us-feedback-success'),
         #     views.FeedbackFormView,
         #     settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
         #     None,
         # ),
         # (
-        #     reverse('contact-us-exporting-to-the-trade-with-uk-app'),
-        #     reverse('contact-us-international-success'),
+        #     reverse('contact:contact-us-exporting-to-the-trade-with-uk-app'),
+        #     reverse('contact:contact-us-international-success'),
         #     views.ExportingToUKFormView,
         #     settings.CONTACT_INTERNATIONAL_ZENDESK_SUBJECT,
         #     None,
         # ),
         # (
-        #     reverse('contact-us-exporting-to-the-uk-import-controls'),
-        #     reverse('contact-us-international-success'),
+        #     reverse('contact:contact-us-exporting-to-the-uk-import-controls'),
+        #     reverse('contact:contact-us-international-success'),
         #     views.ExportingToUKFormView,
         #     settings.CONTACT_INTERNATIONAL_ZENDESK_SUBJECT,
         #     settings.EU_EXIT_ZENDESK_SUBDOMAIN,
         # ),
         # (
-        #     reverse('contact-us-exporting-to-the-uk-other'),
-        #     reverse('contact-us-international-success'),
+        #     reverse('contact:contact-us-exporting-to-the-uk-other'),
+        #     reverse('contact:contact-us-international-success'),
         #     views.ExportingToUKFormView,
         #     settings.CONTACT_INTERNATIONAL_ZENDESK_SUBJECT,
         #     settings.EU_EXIT_ZENDESK_SUBDOMAIN,
@@ -74,7 +84,6 @@ def test_feature_flag_for_contact_section(contact_views_enabled, client):
     ),
 )
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
-@pytest.mark.django_db
 def test_zendesk_submit_success(mock_form_session, client, url, success_url, view_class, subject, settings, subdomain):
     class Form(forms.SerializeDataMixin, django.forms.Form):
         email = django.forms.EmailField()
@@ -100,7 +109,6 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
     )
 
 
-@pytest.mark.django_db
 @pytest.mark.parametrize(
     'url,success_url,view_class,agent_template,user_template,agent_email',
     (
@@ -115,24 +123,24 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
         ),
         # TO BE PORTED IN SUBSEQUENT WORK
         # (
-        #     reverse('contact-us-events-form'),
-        #     reverse('contact-us-events-success'),
+        #     reverse('contact:contact-us-events-form'),
+        #     reverse('contact:contact-us-events-success'),
         #     views.EventsFormView,
         #     settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
         #     settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
         #     settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
         # ),
         # (
-        #     reverse('contact-us-dso-form'),
-        #     reverse('contact-us-dso-success'),
+        #     reverse('contact:contact-us-dso-form'),
+        #     reverse('contact:contact-us-dso-success'),
         #     views.DefenceAndSecurityOrganisationFormView,
         #     settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
         #     settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
         #     settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
         # ),
         # (
-        #     reverse('contact-us-international'),
-        #     reverse('contact-us-international-success'),
+        #     reverse('contact:contact-us-international'),
+        #     reverse('contact:contact-us-international-success'),
         #     views.InternationalFormView,
         #     settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID,
         #     settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
@@ -140,23 +148,23 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
         # ),
         # (
         #     reverse('office-finder-contact', kwargs={'postcode': 'FOO'}),
-        #     reverse('contact-us-office-success', kwargs={'postcode': 'FOO'}),
+        #     reverse('contact:contact-us-office-success', kwargs={'postcode': 'FOO'}),
         #     views.OfficeContactFormView,
         #     settings.CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID,
         #     settings.CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID,
         #     settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
         # ),
         # (
-        #     reverse('contact-us-exporting-to-the-uk-beis'),
-        #     reverse('contact-us-exporting-to-the-uk-beis-success'),
+        #     reverse('contact:contact-us-exporting-to-the-uk-beis'),
+        #     reverse('contact:contact-us-exporting-to-the-uk-beis-success'),
         #     views.ExportingToUKBEISFormView,
         #     settings.CONTACT_BEIS_AGENT_NOTIFY_TEMPLATE_ID,
         #     settings.CONTACT_BEIS_USER_NOTIFY_TEMPLATE_ID,
         #     settings.CONTACT_BEIS_AGENT_EMAIL_ADDRESS,
         # ),
         # (
-        #     reverse('contact-us-exporting-to-the-uk-defra'),
-        #     reverse('contact-us-exporting-to-the-uk-defra-success'),
+        #     reverse('contact:contact-us-exporting-to-the-uk-defra'),
+        #     reverse('contact:contact-us-exporting-to-the-uk-defra-success'),
         #     views.ExportingToUKDERAFormView,
         #     settings.CONTACT_DEFRA_AGENT_NOTIFY_TEMPLATE_ID,
         #     settings.CONTACT_DEFRA_USER_NOTIFY_TEMPLATE_ID,
@@ -212,14 +220,13 @@ contact_urls_for_prefill_tests = (
     reverse('contact:contact-us-domestic'),  # DomesticFormView
     reverse('contact:contact-us-enquiries'),  # DomesticEnquiriesFormView
     # TO COME IN LATER WORK
-    # reverse('contact-us-dso-form'),
-    # reverse('contact-us-events-form'),
+    # reverse('contact:contact-us-dso-form'),
+    # reverse('contact:contact-us-events-form'),
     # reverse('office-finder-contact', kwargs={'postcode': 'FOOBAR'}),
 )
 
 
 @pytest.mark.parametrize('url', contact_urls_for_prefill_tests)
-@pytest.mark.django_db
 @mock.patch('sso.models.get_or_create_export_plan')
 def test_contact_us_short_form_prepopulated_when_logged_in(
     get_or_create_export_plan,
@@ -253,7 +260,6 @@ def test_contact_us_short_form_prepopulated_when_logged_in(
 
 
 @pytest.mark.parametrize('url', contact_urls_for_prefill_tests)
-@pytest.mark.django_db
 def test_contact_us_short_form_not_prepopulated_if_logged_out(client, url, user):
     response = client.get(url)
 
@@ -272,7 +278,6 @@ success_view_params = (
 )
 
 
-@pytest.mark.django_db
 @pytest.mark.parametrize('url', success_view_params)
 @mock.patch.object(views.FormSessionMixin.form_session_class, 'clear')
 @mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
@@ -304,7 +309,6 @@ def test_ingress_url_cleared_on_success(
     assert mock_get_snippet_instance.call_count == 1
 
 
-@pytest.mark.django_db
 @pytest.mark.parametrize('url', success_view_params)
 @mock.patch.object(views.FormSessionMixin.form_session_class, 'clear')
 @mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
@@ -333,7 +337,6 @@ def test_ingress_url_special_cases_on_success(
     assert mock_get_snippet_instance.call_count == 1
 
 
-@pytest.mark.django_db
 @mock.patch.object(views.EcommerceSupportFormPageView, 'form_session_class')
 @mock.patch.object(views.EcommerceSupportFormPageView.form_class, 'save')
 def test_ecommerce_export_form_notify_success(
@@ -366,8 +369,218 @@ def test_ecommerce_export_form_notify_success(
     ]
 
 
-@pytest.mark.django_db
 def test_ecommerce_success_view(client):
     url = reverse('contact:ecommerce-export-support-success')
     response = client.get(url)
     assert response.status_code == 200
+
+
+@pytest.mark.parametrize(
+    'current_step,choice,expected_url',
+    (
+        #     # location step routing
+        #     (
+        #         constants.LOCATION,
+        #         constants.DOMESTIC,
+        #         build_wizard_url(constants.DOMESTIC),
+        #     ),
+        #     (
+        #         constants.LOCATION,
+        #         constants.INTERNATIONAL,
+        #         build_wizard_url(constants.INTERNATIONAL),
+        #     ),
+        #     # domestic step routing
+        #     (
+        #         constants.DOMESTIC,
+        #         constants.TRADE_OFFICE,
+        #         reverse('office-finder'),
+        #     ),
+        #     (
+        #         constants.DOMESTIC,
+        #         constants.EXPORT_ADVICE,
+        #         reverse('contact:contact-us-export-advice', kwargs={'step': 'comment'}),
+        #     ),
+        #     (
+        #         constants.DOMESTIC,
+        #         constants.FINANCE,
+        #         reverse(
+        #             'uk-export-finance-lead-generation-form',
+        #             kwargs={'step': 'contact'},
+        #         ),
+        #     ),
+        #     (
+        #         constants.DOMESTIC,
+        #         constants.EUEXIT,
+        #         reverse('brexit-contact-form'),
+        #     ),
+        #     (
+        #         constants.DOMESTIC,
+        #         constants.EVENTS,
+        #         reverse('contact:contact-us-events-form'),
+        #     ),
+        #     (constants.DOMESTIC, constants.DSO, reverse('contact:contact-us-dso-form')),
+        #     (constants.DOMESTIC, constants.OTHER, reverse('contact:contact-us-enquiries')),
+        #     # great services guidance routing
+        #     (
+        #         constants.GREAT_SERVICES,
+        #         constants.EXPORT_OPPORTUNITIES,
+        #         build_wizard_url(constants.EXPORT_OPPORTUNITIES),
+        #     ),
+        #     (
+        #         constants.GREAT_SERVICES,
+        #         constants.GREAT_ACCOUNT,
+        #         build_wizard_url(constants.GREAT_ACCOUNT),
+        #     ),
+        #     (
+        #         constants.GREAT_SERVICES,
+        #         constants.OTHER,
+        #         reverse('contact:contact-us-domestic'),
+        #     ),
+        # great account
+        (
+            constants.GREAT_ACCOUNT,
+            constants.NO_VERIFICATION_EMAIL,
+            helpers.build_account_guidance_url(snippet_slugs.HELP_MISSING_VERIFY_EMAIL),
+        ),
+        (
+            constants.GREAT_ACCOUNT,
+            constants.COMPANY_NOT_FOUND,
+            helpers.build_account_guidance_url(snippet_slugs.HELP_ACCOUNT_COMPANY_NOT_FOUND),
+        ),
+        (
+            constants.GREAT_ACCOUNT,
+            constants.PASSWORD_RESET,
+            helpers.build_account_guidance_url(snippet_slugs.HELP_PASSWORD_RESET),
+        ),
+        (
+            constants.GREAT_ACCOUNT,
+            constants.COMPANIES_HOUSE_LOGIN,
+            helpers.build_account_guidance_url(snippet_slugs.HELP_COMPANIES_HOUSE_LOGIN),
+        ),
+        (
+            constants.GREAT_ACCOUNT,
+            constants.VERIFICATION_CODE,
+            helpers.build_account_guidance_url(snippet_slugs.HELP_VERIFICATION_CODE_ENTER),
+        ),
+        (
+            constants.GREAT_ACCOUNT,
+            constants.NO_VERIFICATION_LETTER,
+            helpers.build_account_guidance_url(snippet_slugs.HELP_VERIFICATION_CODE_LETTER),
+        ),
+        (
+            constants.GREAT_ACCOUNT,
+            constants.NO_VERIFICATION_MISSING,
+            helpers.build_account_guidance_url(snippet_slugs.HELP_VERIFICATION_CODE_MISSING),
+        ),
+        (
+            constants.GREAT_ACCOUNT,
+            constants.OTHER,
+            reverse('contact:contact-us-domestic'),
+        ),
+        # # Export opportunities guidance routing
+        # (
+        #     constants.EXPORT_OPPORTUNITIES,
+        #     constants.NO_RESPONSE,
+        #     views.build_export_opportunites_guidance_url(snippet_slugs.HELP_EXOPPS_NO_RESPONSE),
+        # ),
+        # (
+        #     constants.EXPORT_OPPORTUNITIES,
+        #     constants.ALERTS,
+        #     views.build_export_opportunites_guidance_url(snippet_slugs.HELP_EXOPP_ALERTS_IRRELEVANT),
+        # ),
+        # (
+        #     constants.EXPORT_OPPORTUNITIES,
+        #     constants.OTHER,
+        #     reverse('contact:contact-us-domestic'),
+        # ),
+        # # international routing
+        # (
+        #     constants.INTERNATIONAL,
+        #     constants.INVESTING,
+        #     settings.INVEST_CONTACT_URL,
+        # ),
+        # (
+        #     constants.INTERNATIONAL,
+        #     constants.EXPORTING_TO_UK,
+        #     views.build_exporting_guidance_url(snippet_slugs.HELP_EXPORTING_TO_UK),
+        # ),
+        # (
+        #     constants.INTERNATIONAL,
+        #     constants.BUYING,
+        #     settings.FIND_A_SUPPLIER_CONTACT_URL,
+        # ),
+        # (
+        #     constants.INTERNATIONAL,
+        #     constants.OTHER,
+        #     reverse('contact:contact-us-international'),
+        # ),
+        # # exporting to the UK routing
+        # (
+        #     constants.EXPORTING_TO_UK,
+        #     constants.HMRC,
+        #     settings.CONTACT_EXPORTING_TO_UK_HMRC_URL,
+        # ),
+        # (constants.EXPORTING_TO_UK, constants.DEFRA, reverse('contact:contact-us-exporting-to-the-uk-defra')),
+        # (constants.EXPORTING_TO_UK, constants.BEIS, reverse('contact:contact-us-exporting-to-the-uk-beis')),
+        # (constants.EXPORTING_TO_UK, constants.IMPORT_CONTROLS, reverse('contact:contact-us-international')),
+        # (constants.EXPORTING_TO_UK, constants.TRADE_WITH_UK_APP, reverse('contact:contact-us-international')),
+        # (
+        #     constants.EXPORTING_TO_UK,
+        #     constants.OTHER,
+        #     reverse('contact:contact-us-international'),
+        # ),
+    ),
+)
+def test_render_next_step(current_step, choice, expected_url):
+    form = FakeChoiceForm(data={'choice': choice})
+
+    view = views.RoutingFormView()
+    view.steps = mock.Mock(current=current_step)
+    view.storage = mock.Mock()
+    view.url_name = 'contact:contact-us-routing-form'
+    view.request = mock.Mock()
+    view.form_session = mock.Mock()
+
+    assert form.is_valid()
+    assert view.render_next_step(form).url == expected_url
+
+
+@pytest.mark.parametrize(
+    'current_step,expected_step',
+    (
+        (constants.DOMESTIC, constants.LOCATION),
+        (constants.INTERNATIONAL, constants.LOCATION),
+        (constants.GREAT_SERVICES, constants.DOMESTIC),
+        (constants.GREAT_ACCOUNT, constants.GREAT_SERVICES),
+        (constants.EXPORT_OPPORTUNITIES, constants.GREAT_SERVICES),
+    ),
+)
+def test_get_previous_step(current_step, expected_step):
+    view = views.RoutingFormView()
+    view.steps = mock.Mock(current=current_step)
+    view.storage = mock.Mock()
+    view.url_name = 'contact:contact-us-routing-form'
+
+    assert view.get_prev_step() == expected_step
+
+
+@pytest.mark.parametrize(
+    'current_step,choice',
+    (
+        (constants.DOMESTIC, constants.TRADE_OFFICE),
+        (constants.INTERNATIONAL, constants.INVESTING),
+        (constants.INTERNATIONAL, constants.BUYING),
+    ),
+)
+@mock.patch.object(views.FormSessionMixin.form_session_class, 'clear')
+def test_ingress_url_cleared_on_redirect_away(mock_clear, current_step, choice):
+    mock_clear.return_value = None
+
+    form = FakeChoiceForm(data={'choice': choice})
+
+    view = views.RoutingFormView()
+    view.steps = mock.Mock(current=current_step)
+    view.storage = mock.Mock()
+    view.url_name = 'contact-us-routing-form'
+
+    assert form.is_valid()
