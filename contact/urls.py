@@ -8,6 +8,8 @@ from .views import (
     DomesticSuccessView,
     EcommerceSupportFormPageView,
     ExportSupportSuccessPageView,
+    GuidanceView,
+    RoutingFormView,
 )
 
 app_name = 'contact'
@@ -42,5 +44,23 @@ urlpatterns = [
         'campaigns/ecommerce-export-support/success/',
         skip_ga360(ExportSupportSuccessPageView.as_view()),
         name='ecommerce-export-support-success',
+    ),
+    path(
+        'contact/triage/<slug:step>/',
+        skip_ga360(
+            RoutingFormView.as_view(
+                url_name='contact:contact-us-routing-form',
+                done_step_name='finished',
+            )
+        ),
+        name='contact-us-routing-form',
+    ),
+    path(
+        'contact/triage/great-account/<slug:slug>/',
+        skip_ga360(GuidanceView.as_view()),
+        {
+            'snippet_import_path': 'contact.models.ContactUsGuidanceSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='contact-us-great-account-guidance',
     ),
 ]
