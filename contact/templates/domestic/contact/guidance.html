@@ -5,7 +5,7 @@
 {% load wagtailcore_tags %}
 
 {% block sharing_metadata %}{% endblock %}
-{% block head_title %}{{content_snippet.title}} - great.gov.uk{% endblock %}
+{% block head_title %}Guidance: {{content_snippet.title}} - great.gov.uk{% endblock %}
 
 {% block head_css %}
     {{ block.super }}
@@ -21,7 +21,7 @@
     </div>
     <div class="container">
         <section>
-            <h1>{{ content_snippet.title }}</h1>
+            <h1 class='heading-xlarge'>{{ content_snippet.title }}</h1>
             {{ content_snippet.body|richtext }}
         </section>
         <p id="further-help-link">Still need help? <a class="link" href="{% url 'contact:contact-us-domestic' %}">Submit an enquiry</a></p>
