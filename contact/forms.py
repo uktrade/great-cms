@@ -8,7 +8,7 @@ from directory_forms_api_client.forms import (
 from django.forms import Textarea, ValidationError
 from great_components import forms
 
-from contact.constants import COMPANY_TYPE_CHOICES, COMPANY_TYPE_OTHER_CHOICES
+from contact import constants
 from contact.helpers import retrieve_regional_office
 from core.forms import TERMS_LABEL, ConsentFieldMixin
 from core.validators import is_valid_uk_postcode
@@ -36,12 +36,12 @@ class BaseShortForm(forms.Form):
         label='Company type',
         label_suffix='',
         widget=forms.RadioSelect(),
-        choices=COMPANY_TYPE_CHOICES,
+        choices=constants.COMPANY_TYPE_CHOICES,
     )
     company_type_other = forms.ChoiceField(
         label='Type of organisation',
         label_suffix='',
-        choices=(('', 'Please select'),) + COMPANY_TYPE_OTHER_CHOICES,
+        choices=(('', 'Please select'),) + constants.COMPANY_TYPE_OTHER_CHOICES,
         required=False,
     )
     organisation_name = forms.CharField()
@@ -193,3 +193,36 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
         employees_number_mapping = dict(self.EMPLOYEES_NUMBER_CHOICES)
         data['employees_number_label'] = employees_number_mapping.get(data['employees_number'])
         return data
+
+
+def great_account_choices():
+    all_choices = (
+        (constants.NO_VERIFICATION_EMAIL, 'I have not received my email confirmation'),
+        (constants.PASSWORD_RESET, 'I need to reset my password'),
+        (constants.COMPANY_NOT_FOUND, 'I cannot find my company'),
+        (constants.COMPANIES_HOUSE_LOGIN, 'My Companies House login is not working'),
+        (constants.VERIFICATION_CODE, 'I do not know where to enter my verification code'),
+        (constants.NO_VERIFICATION_LETTER, 'I have not received my letter containing the verification code'),
+        (constants.NO_VERIFICATION_MISSING, 'I have not received a verification code'),
+        (constants.OTHER, 'Other'),
+    )
+
+    # If we need to feature flag any of these: tis pattern works - see GDUI codebase for choice_is_enabled
+    # return ((value, label) for value, label in all_choices if choice_is_enabled(value))
+    return all_choices
+
+
+class GreatAccountRoutingForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['choice'].choices = great_account_choices()
+
+    choice = forms.ChoiceField(
+        label='',
+        widget=forms.RadioSelect(),
+        choices=[],  # array overridden by constructor
+    )
+
+
+class NoOpForm(forms.Form):
+    pass

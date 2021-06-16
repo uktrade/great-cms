@@ -2,12 +2,14 @@ from urllib.parse import urlparse
 
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 from django.conf import settings
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
+from formtools.wizard.views import NamedUrlSessionWizardView
 
-from contact import constants, forms as contact_forms
-from core import mixins as core_mixins
+from contact import constants, forms as contact_forms, helpers
+from core import mixins as core_mixins, snippet_slugs
 from core.datastructures import NotifySettings
 
 
@@ -148,3 +150,139 @@ class EcommerceSupportFormPageView(BaseNotifyFormView):
 
 class ExportSupportSuccessPageView(TemplateView):
     template_name = 'domestic/contact/request-export-support-success.html'
+
+
+class RoutingFormView(
+    FormSessionMixin,
+    NamedUrlSessionWizardView,
+):
+
+    # given the current step, based on selected  option, where to redirect.
+    redirect_mapping = {
+        # constants.DOMESTIC: {
+        #     constants.TRADE_OFFICE: reverse_lazy('contact:office-finder'),
+        #     constants.EXPORT_ADVICE: reverse_lazy('contact:contact-us-export-advice', kwargs={'step': 'comment'}),
+        #     constants.FINANCE: reverse_lazy(
+        #         'domestic:uk-export-finance-lead-generation-form', kwargs={'step': 'contact'}
+        #     ),
+        #     constants.EUEXIT: reverse_lazy('domestic:brexit-contact-form'),
+        #     constants.EVENTS: reverse_lazy('contact:contact-us-events-form'),
+        #     constants.DSO: reverse_lazy('contact:contact-us-dso-form'),
+        #     constants.OTHER: reverse_lazy('contact:contact-us-enquiries'),
+        # },
+        # constants.INTERNATIONAL: {
+        #     constants.INVESTING: settings.INVEST_CONTACT_URL,
+        #     constants.CAPITAL_INVEST: settings.CAPITAL_INVEST_CONTACT_URL,
+        #     constants.EXPORTING_TO_UK: helpers.build_exporting_guidance_url(slugs.HELP_EXPORTING_TO_UK),
+        #     constants.BUYING: settings.FIND_A_SUPPLIER_CONTACT_URL,
+        #     constants.EUEXIT: settings.EU_EXIT_INTERNATIONAL_CONTACT_URL,
+        #     constants.OTHER: reverse_lazy('contact:contact-us-international'),
+        # },
+        # constants.EXPORT_OPPORTUNITIES: {
+        #     constants.NO_RESPONSE: helpers.build_export_opportunites_guidance_url(slugs.HELP_EXOPPS_NO_RESPONSE),
+        #     constants.ALERTS: helpers.build_export_opportunites_guidance_url(slugs.HELP_EXOPP_ALERTS_IRRELEVANT),
+        #     constants.OTHER: reverse_lazy('contact:contact-us-domestic'),
+        # },
+        # constants.GREAT_SERVICES: {
+        #     constants.OTHER: reverse_lazy('contact:contact-us-domestic'),
+        # },
+        constants.GREAT_ACCOUNT: {
+            constants.NO_VERIFICATION_EMAIL: helpers.build_account_guidance_url(
+                snippet_slugs.HELP_MISSING_VERIFY_EMAIL
+            ),
+            constants.PASSWORD_RESET: helpers.build_account_guidance_url(snippet_slugs.HELP_PASSWORD_RESET),
+            constants.COMPANY_NOT_FOUND: helpers.build_account_guidance_url(
+                snippet_slugs.HELP_ACCOUNT_COMPANY_NOT_FOUND
+            ),
+            constants.COMPANIES_HOUSE_LOGIN: helpers.build_account_guidance_url(
+                snippet_slugs.HELP_COMPANIES_HOUSE_LOGIN
+            ),
+            constants.VERIFICATION_CODE: helpers.build_account_guidance_url(snippet_slugs.HELP_VERIFICATION_CODE_ENTER),
+            constants.NO_VERIFICATION_LETTER: helpers.build_account_guidance_url(
+                snippet_slugs.HELP_VERIFICATION_CODE_LETTER
+            ),
+            constants.NO_VERIFICATION_MISSING: helpers.build_account_guidance_url(
+                snippet_slugs.HELP_VERIFICATION_CODE_MISSING
+            ),
+            constants.OTHER: reverse_lazy('contact:contact-us-domestic'),
+        },
+        # constants.EXPORTING_TO_UK: {
+        #     constants.HMRC: settings.CONTACT_EXPORTING_TO_UK_HMRC_URL,
+        #     constants.DEFRA: reverse_lazy('contact:contact-us-exporting-to-the-uk-defra'),
+        #     constants.BEIS: reverse_lazy('contact:contact-us-exporting-to-the-uk-beis'),
+        #     constants.IMPORT_CONTROLS: (reverse_lazy('contact:contact-us-international')),
+        #     constants.TRADE_WITH_UK_APP: (reverse_lazy('contact:contact-us-international')),
+        #     constants.OTHER: reverse_lazy('contact:contact-us-international'),
+        # },
+    }
+
+    form_list = (
+        # (constants.LOCATION, contact_forms.LocationRoutingForm),
+        # (constants.DOMESTIC, contact_forms.DomesticRoutingForm),
+        # (constants.GREAT_SERVICES, contact_forms.GreatServicesRoutingForm),
+        (constants.GREAT_ACCOUNT, contact_forms.GreatAccountRoutingForm),
+        # (constants.EXPORT_OPPORTUNITIES, contact_forms.ExportOpportunitiesRoutingForm),
+        # (constants.INTERNATIONAL, contact_forms.InternationalRoutingForm),
+        # (constants.EXPORTING_TO_UK, contact_forms.ExportingIntoUKRoutingForm),
+        ('NO-OPERATION', contact_forms.NoOpForm),  # should never be reached
+    )
+    templates = {
+        # constants.LOCATION: 'contact/routing/step-location.html',
+        # constants.DOMESTIC: 'contact/routing/step-domestic.html',
+        # constants.GREAT_SERVICES: 'contact/routing/step-great-services.html',
+        constants.GREAT_ACCOUNT: 'domestic/contact/routing/step-great-account.html',
+        # constants.EXPORT_OPPORTUNITIES: ('contact/routing/step-export-opportunities-service.html'),
+        # constants.INTERNATIONAL: 'contact/routing/step-international.html',
+        # constants.EXPORTING_TO_UK: 'contact/routing/step-exporting.html',
+    }
+
+    # given current step, where to send them back to
+    back_mapping = {
+        # constants.DOMESTIC: constants.LOCATION,
+        # constants.INTERNATIONAL: constants.LOCATION,
+        # constants.GREAT_SERVICES: constants.DOMESTIC,
+        constants.GREAT_ACCOUNT: constants.GREAT_SERVICES,
+        # constants.EXPORT_OPPORTUNITIES: constants.GREAT_SERVICES,
+        # constants.EXPORTING_TO_UK: constants.INTERNATIONAL,
+    }
+
+    def get_template_names(self):
+        return [self.templates[self.steps.current]]
+
+    def get_redirect_url(self, choice):
+        if self.steps.current in self.redirect_mapping:
+            mapping = self.redirect_mapping[self.steps.current]
+            return mapping.get(choice)
+
+    def render_next_step(self, form):
+        self.form_session.funnel_steps.append(self.steps.current)
+        choice = form.cleaned_data['choice']
+        redirect_url = self.get_redirect_url(choice)
+        if redirect_url:
+            # clear the ingress URL when redirecting away from the service as
+            # the "normal way" for clearing it via success page will not be hit
+            # assumed that internal redirects will not contain domain, but be
+            # relative to current site.
+            if urlparse(str(redirect_url)).netloc:
+                self.form_session.clear()
+            return redirect(redirect_url)
+        return self.render_goto_step(choice)
+
+    def get_prev_step(self, step=None):
+        if step is None:
+            step = self.steps.current
+        return self.back_mapping.get(step)
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        parsed_url = urlparse(self.form_session.ingress_url)
+        if parsed_url.netloc == self.request.get_host():
+            context_data['prev_url'] = self.form_session.ingress_url
+        return context_data
+
+
+class GuidanceView(
+    core_mixins.GetSnippetContentMixin,
+    TemplateView,
+):
+    template_name = 'domestic/contact/guidance.html'
