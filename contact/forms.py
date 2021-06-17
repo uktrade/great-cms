@@ -207,9 +207,82 @@ def great_account_choices():
         (constants.OTHER, 'Other'),
     )
 
-    # If we need to feature flag any of these: tis pattern works - see GDUI codebase for choice_is_enabled
+    # If we need to feature flag any of these: this pattern works - see GDUI codebase for choice_is_enabled
     # return ((value, label) for value, label in all_choices if choice_is_enabled(value))
     return all_choices
+
+
+class LocationRoutingForm(forms.Form):
+    CHOICES = (
+        (constants.DOMESTIC, 'The UK'),
+        (constants.INTERNATIONAL, 'Outside the UK'),
+    )
+    choice = forms.ChoiceField(
+        label='',
+        widget=forms.RadioSelect(),
+        choices=CHOICES,
+    )
+
+
+class DomesticRoutingForm(forms.Form):
+
+    CHOICES = (
+        (constants.TRADE_OFFICE, 'Find your local trade office'),
+        (constants.EXPORT_ADVICE, 'Advice to export from the UK'),
+        (constants.GREAT_SERVICES, 'great.gov.uk account and services support'),
+        (constants.FINANCE, 'UK Export Finance (UKEF)'),
+        (constants.EUEXIT, 'The transition period (now that the UK has left the EU)'),
+        (constants.EVENTS, 'Events'),
+        (constants.DSO, 'Defence and Security Organisation (DSO)'),
+        (constants.OTHER, 'Other'),
+    )
+    choice = forms.ChoiceField(
+        label='',
+        widget=forms.RadioSelect(),
+        choices=CHOICES,  # possibly update by mixin
+    )
+
+
+def international_choices():
+
+    all_choices = (
+        (constants.INVESTING, 'Investing in the UK'),
+        (constants.CAPITAL_INVEST, 'Capital investment in the UK'),
+        (constants.EXPORTING_TO_UK, 'Exporting to the UK'),
+        (constants.BUYING, 'Find a UK business partner'),
+        (constants.EUEXIT, 'The transition period (now that the UK has left the EU)'),
+        (constants.OTHER, 'Other'),
+    )
+
+    # If we need to feature flag any of these: this pattern works - see GDUI codebase for choice_is_enabled
+    # return ((value, label) for value, label in all_choices if choice_is_enabled(value))
+    return all_choices
+
+
+class InternationalRoutingForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['choice'].choices = international_choices()
+
+    choice = forms.ChoiceField(
+        label='',
+        widget=forms.RadioSelect(),
+        choices=[],  # array overridden by constructor
+    )
+
+
+class GreatServicesRoutingForm(forms.Form):
+
+    CHOICES = (
+        (constants.EXPORT_OPPORTUNITIES, 'Export opportunities service'),
+        (constants.GREAT_ACCOUNT, 'Your account on great.gov.uk'),
+        (constants.OTHER, 'Other'),
+    )
+    choice = forms.ChoiceField(
+        label='',
+        widget=forms.RadioSelect(),
+        choices=CHOICES,
+    )
 
 
 class GreatAccountRoutingForm(forms.Form):
@@ -226,3 +299,16 @@ class GreatAccountRoutingForm(forms.Form):
 
 class NoOpForm(forms.Form):
     pass
+
+
+class ExportOpportunitiesRoutingForm(forms.Form):
+    CHOICES = (
+        (constants.NO_RESPONSE, "I haven't had a response from the opportunity I applied for"),
+        (constants.ALERTS, 'My daily alerts are not relevant to me'),
+        (constants.OTHER, 'Other'),
+    )
+    choice = forms.ChoiceField(
+        label='',
+        widget=forms.RadioSelect(),
+        choices=CHOICES,
+    )

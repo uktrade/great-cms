@@ -159,17 +159,17 @@ class RoutingFormView(
 
     # given the current step, based on selected  option, where to redirect.
     redirect_mapping = {
-        # constants.DOMESTIC: {
-        #     constants.TRADE_OFFICE: reverse_lazy('contact:office-finder'),
-        #     constants.EXPORT_ADVICE: reverse_lazy('contact:contact-us-export-advice', kwargs={'step': 'comment'}),
-        #     constants.FINANCE: reverse_lazy(
-        #         'domestic:uk-export-finance-lead-generation-form', kwargs={'step': 'contact'}
-        #     ),
-        #     constants.EUEXIT: reverse_lazy('domestic:brexit-contact-form'),
-        #     constants.EVENTS: reverse_lazy('contact:contact-us-events-form'),
-        #     constants.DSO: reverse_lazy('contact:contact-us-dso-form'),
-        #     constants.OTHER: reverse_lazy('contact:contact-us-enquiries'),
-        # },
+        constants.DOMESTIC: {
+            constants.TRADE_OFFICE: reverse_lazy('contact:office-finder'),
+            constants.EXPORT_ADVICE: reverse_lazy('contact:contact-us-export-advice', kwargs={'step': 'comment'}),
+            constants.FINANCE: reverse_lazy(
+                'domestic:uk-export-finance-lead-generation-form', kwargs={'step': 'contact'}
+            ),
+            constants.EUEXIT: reverse_lazy('domestic:brexit-contact-form'),
+            constants.EVENTS: reverse_lazy('contact:contact-us-events-form'),
+            constants.DSO: reverse_lazy('contact:contact-us-dso-form'),
+            constants.OTHER: reverse_lazy('contact:contact-us-enquiries'),
+        },
         # constants.INTERNATIONAL: {
         #     constants.INVESTING: settings.INVEST_CONTACT_URL,
         #     constants.CAPITAL_INVEST: settings.CAPITAL_INVEST_CONTACT_URL,
@@ -183,9 +183,9 @@ class RoutingFormView(
         #     constants.ALERTS: helpers.build_export_opportunites_guidance_url(slugs.HELP_EXOPP_ALERTS_IRRELEVANT),
         #     constants.OTHER: reverse_lazy('contact:contact-us-domestic'),
         # },
-        # constants.GREAT_SERVICES: {
-        #     constants.OTHER: reverse_lazy('contact:contact-us-domestic'),
-        # },
+        constants.GREAT_SERVICES: {
+            constants.OTHER: reverse_lazy('contact:contact-us-domestic'),
+        },
         constants.GREAT_ACCOUNT: {
             constants.NO_VERIFICATION_EMAIL: helpers.build_account_guidance_url(
                 snippet_slugs.HELP_MISSING_VERIFY_EMAIL
@@ -217,19 +217,19 @@ class RoutingFormView(
     }
 
     form_list = (
-        # (constants.LOCATION, contact_forms.LocationRoutingForm),
-        # (constants.DOMESTIC, contact_forms.DomesticRoutingForm),
-        # (constants.GREAT_SERVICES, contact_forms.GreatServicesRoutingForm),
+        (constants.LOCATION, contact_forms.LocationRoutingForm),
+        (constants.DOMESTIC, contact_forms.DomesticRoutingForm),
+        (constants.GREAT_SERVICES, contact_forms.GreatServicesRoutingForm),
         (constants.GREAT_ACCOUNT, contact_forms.GreatAccountRoutingForm),
-        # (constants.EXPORT_OPPORTUNITIES, contact_forms.ExportOpportunitiesRoutingForm),
-        # (constants.INTERNATIONAL, contact_forms.InternationalRoutingForm),
+        (constants.EXPORT_OPPORTUNITIES, contact_forms.ExportOpportunitiesRoutingForm),
+        (constants.INTERNATIONAL, contact_forms.InternationalRoutingForm),
         # (constants.EXPORTING_TO_UK, contact_forms.ExportingIntoUKRoutingForm),
         ('NO-OPERATION', contact_forms.NoOpForm),  # should never be reached
     )
     templates = {
-        # constants.LOCATION: 'contact/routing/step-location.html',
-        # constants.DOMESTIC: 'contact/routing/step-domestic.html',
-        # constants.GREAT_SERVICES: 'contact/routing/step-great-services.html',
+        constants.LOCATION: 'domestic/contact/routing/step-location.html',
+        constants.DOMESTIC: 'domestic/contact/routing/step-domestic.html',
+        constants.GREAT_SERVICES: 'domestic/contact/routing/step-great-services.html',
         constants.GREAT_ACCOUNT: 'domestic/contact/routing/step-great-account.html',
         # constants.EXPORT_OPPORTUNITIES: ('contact/routing/step-export-opportunities-service.html'),
         # constants.INTERNATIONAL: 'contact/routing/step-international.html',
@@ -238,12 +238,12 @@ class RoutingFormView(
 
     # given current step, where to send them back to
     back_mapping = {
-        # constants.DOMESTIC: constants.LOCATION,
-        # constants.INTERNATIONAL: constants.LOCATION,
-        # constants.GREAT_SERVICES: constants.DOMESTIC,
+        constants.DOMESTIC: constants.LOCATION,
+        constants.INTERNATIONAL: constants.LOCATION,
+        constants.GREAT_SERVICES: constants.DOMESTIC,
         constants.GREAT_ACCOUNT: constants.GREAT_SERVICES,
-        # constants.EXPORT_OPPORTUNITIES: constants.GREAT_SERVICES,
-        # constants.EXPORTING_TO_UK: constants.INTERNATIONAL,
+        constants.EXPORT_OPPORTUNITIES: constants.GREAT_SERVICES,
+        constants.EXPORTING_TO_UK: constants.INTERNATIONAL,
     }
 
     def get_template_names(self):
