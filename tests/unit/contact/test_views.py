@@ -530,6 +530,7 @@ def test_render_next_step(current_step, choice, expected_url):
         (constants.GREAT_SERVICES, constants.DOMESTIC),
         (constants.GREAT_ACCOUNT, constants.GREAT_SERVICES),
         (constants.EXPORT_OPPORTUNITIES, constants.GREAT_SERVICES),
+        (constants.EXPORTING_TO_UK, constants.INTERNATIONAL),
     ),
 )
 def test_get_previous_step(current_step, expected_step):
