@@ -57,7 +57,7 @@ def test_get_snippet_content_mixin():
 
 @pytest.mark.django_db
 def test_ga360_mixin(client, domestic_homepage, user, domestic_site, mock_get_user_profile):
-    user.is_staff = True
+    user.is_superuser = True
     client.force_login(user)
 
     list_page = ListPageFactory(parent=domestic_homepage, record_read_progress=True)
