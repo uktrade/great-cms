@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+
 - GP2-2841: Pinned CF buildpack and upgraded python to 3.9.5
 - GP2-2982: Rebuild sitemap.xml in great-cms
 - GP2-2981: Port Search Feedback page from V1 into V2
@@ -10,11 +11,12 @@
 - GP2-2977: Port E-Commerce Export Support pages from V1 into V2
 - GP2-1618: Port legacy EU Exit / transition period forms from V1 into V2
 - GP2-1617: Port get-finance/UKEF contact form from great-domestic-ui
-- GP2-2856  remove unused api calls
+- GP2-2856 remove unused api calls
 - no-ticket - package upgrade
 - GP2-2856 - remove target market
 
 ### Fixed bugs
+
 - GP2-2934 - DAC_Custom_Controls_02 Tab management on WTE
 - GP2-2893 - DAC_Link_Purpose_02 Learning backlinks
 - GP2-2901 - DAC_Label_in_Name - Product finder
@@ -50,11 +52,16 @@
 - GP2-2943 - DAC_Status_Messages_01
 - GP2-2937 - DAC_Nondescriptive_Labels_01
 - GP2-2923 - DAC_CSS_Images_as_Labels_02
+- GP2-2942 - DAC_Focus_Visible_03
 
 ## [1.10.1](https://github.com/uktrade/great-cms/releases/tag/1.10.1)
+
 ### Enhancements
+
 - NOTICKET - update changelog, post-release
+
 ### Fixed bugs
+
 - GP2-2879 - DAC_Parsing_01 (A)
 - GP2-2890 - DAC NonText Content 01
 - GP2-2835 - Redirect fix for initial request for domestic going to international/ Disable caching on homepage
@@ -66,7 +73,6 @@
 - GP2-2868 - Tech Debt fix sentry errors
 - GP2-2870 - rename /sso/ path to /great-cms-sso/
 
-
 ## [1.10.0](https://github.com/uktrade/great-cms/releases/tag/1.10.0)
 
 MAGNA RELEASE
@@ -74,6 +80,7 @@ MAGNA RELEASE
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.9.0...1.10.0)
 
 ### Enhancements
+
 - GP2-2816 - Set Wagtaildocs serve method to 'direct' to avoid denial when proxying at PaaS level
 - noticket - remove social buttons
 - no-ticket - Disabled case study tagging search ability on Admin UI
@@ -96,6 +103,7 @@ MAGNA RELEASE
 - GP2-2777 - Remove DIT footer logos
 
 ### Fixed bugs
+
 - GP2-2805 - Export plan image problem on the dashboard
 - GP2-2803 - [UAT]-Export plan dashboard images issues
 - GP2-2790 - remove Getting paid page tooltip
@@ -133,14 +141,13 @@ MAGNA RELEASE
 - GP2-2763 - saving-blank-error
 - GP2-2724 - update-lesson be
 - GP2-2775 - sav business risk
-_ GP2-2775 - getting paid error
+  \_ GP2-2775 - getting paid error
 - gp2765 - content changes
 - NOTICKET - error saving ep atm
 - NOTICKET - update pdf logo
 - NOTICKET - remove lesson
 - NOTICKET - configure APM log server
 - NOTICKET - fix image references
-
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 
@@ -192,6 +199,7 @@ _ GP2-2775 - getting paid error
 - GP2-2401 - pdf save
 
 ### Fixed bugs
+
 - Gp2-2506 - Getting paid page - Content change for default text (Payment methods drop-down)
 - GP2-2399 - [Mobile]-Costs and pricing
 - GP2-2420 - Export plan - CHEG details look strange on mobile
