@@ -48,12 +48,6 @@ def test_sitemap_includes_expected_django_pages(
         '/contact/international/',
         '/contact/selling-online-overseas/',
         '/contact/selling-online-overseas/organisation/',
-        '/contact/department-for-business-energy-and-industrial-strategy/',
-        '/contact/department-for-environment-food-and-rural-affairs/',
-        '/contact/exporting-to-the-uk/',
-        '/contact/exporting-to-the-uk/import-controls/',
-        '/contact/exporting-to-the-uk/other/',
-        '/contact/exporting-to-the-uk/trade-with-uk-app/',
         '/contact/office-finder/',
         '/robots.txt',
     ]
@@ -75,6 +69,16 @@ def test_sitemap_includes_expected_django_pages(
         '/healthcheck/',
         '/sitemap.xml',
         '/capability/',
+        # These were removed from the V1 sitemap because the pages were 404ing anyway because
+        # FEATURE_EXPORTING_TO_UK_ON_ENABLED was not set on production any more, so the views
+        # ExportingToUKDERAFormView, ExportingToUKBEISFormView and ExportingToUKFormView have
+        # NOT YET been ported to Great V2
+        '/contact/exporting-to-the-uk/',
+        '/contact/exporting-to-the-uk/import-controls/',
+        '/contact/exporting-to-the-uk/other/',
+        '/contact/exporting-to-the-uk/trade-with-uk-app/',
+        '/contact/department-for-business-energy-and-industrial-strategy/',
+        '/contact/department-for-environment-food-and-rural-affairs/',
     ]
 
     url = reverse('core:sitemap')
