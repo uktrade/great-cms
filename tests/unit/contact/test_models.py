@@ -1,8 +1,16 @@
 import pytest
 
-from contact.models import ContactPageContentSnippet, ContactSuccessSnippet
+from contact.models import (
+    ContactPageContentSnippet,
+    ContactSuccessSnippet,
+    ContactUsGuidanceSnippet,
+)
 from core import snippet_slugs
 from core.cms_snippets import NonPageContentSnippetBase
+
+pytestmark = [
+    pytest.mark.contact,
+]
 
 
 def test_non_page_content_snippet_base_no_slug_options():
@@ -54,6 +62,11 @@ def test_contact_slug_options_are_set():
             ContactPageContentSnippet,
             snippet_slugs.EUEXIT_DOMESTIC_FORM,
             'Contact Page Content Snippet: Transition Period form supporting content',
+        ),
+        (
+            ContactUsGuidanceSnippet,
+            snippet_slugs.HELP_ACCOUNT_COMPANY_NOT_FOUND,
+            'Contact Us Guidance Snippet: Guidance - Company not found',
         ),
     ),
 )
