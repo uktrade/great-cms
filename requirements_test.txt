@@ -20,8 +20,6 @@ appdirs==1.4.4
     # via
     #   black
     #   virtualenv
-appnope==0.1.2
-    # via ipython
 arabic-reshaper==2.1.3
     # via xhtml2pdf
 astroid==2.5.6
@@ -47,11 +45,11 @@ black==21.6b0
     #   blacken-docs
 blacken-docs==1.6.0
     # via -r requirements_test.in
-boto3==1.17.92
+boto3==1.17.96
     # via
     #   -r requirements.in
     #   django-storages
-botocore==1.20.92
+botocore==1.20.96
     # via
     #   boto3
     #   s3transfer
@@ -191,7 +189,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==8.6.0
+faker==8.8.1
     # via factory-boy
 filelock==3.0.12
     # via virtualenv
@@ -529,8 +527,6 @@ tzlocal==2.1
     # via dateparser
 uk-postcode-utils==1.1
     # via -r requirements.in
-unidecode==1.2.0
-    # via wagtail
 urllib3==1.26.5
     # via
     #   -r requirements_test.in
@@ -550,7 +546,7 @@ wagtail-factories==2.0.1
     # via -r requirements.in
 wagtail-transfer==0.7.1
     # via -r requirements.in
-wagtail==2.11.7
+wagtail==2.12.5
     # via
     #   -r requirements.in
     #   wagtail-cache
