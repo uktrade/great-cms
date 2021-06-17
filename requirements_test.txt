@@ -356,7 +356,7 @@ pre-commit-hooks==3.3.0
     # via -r requirements_test.in
 pre-commit==2.13.0
     # via -r requirements_test.in
-prompt-toolkit==3.0.19
+prompt-toolkit==3.0.18
     # via ipython
 psutil==5.8.0
     # via locust
