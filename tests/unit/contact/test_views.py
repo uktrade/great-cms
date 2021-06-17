@@ -124,7 +124,7 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
         #     settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
         # ),
         # (
-        #     reverse('office-finder-contact', kwargs={'postcode': 'FOO'}),
+        #     reverse('contact:office-finder-contact', kwargs={'postcode': 'FOO'}),
         #     reverse('contact:contact-us-office-success', kwargs={'postcode': 'FOO'}),
         #     views.OfficeContactFormView,
         #     settings.CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID,
@@ -355,64 +355,64 @@ def test_ecommerce_success_view(client):
 @pytest.mark.parametrize(
     'current_step,choice,expected_url',
     (
-        #     # location step routing
-        #     (
-        #         constants.LOCATION,
-        #         constants.DOMESTIC,
-        #         build_wizard_url(constants.DOMESTIC),
+        # location step routing
+        (
+            constants.LOCATION,
+            constants.DOMESTIC,
+            build_wizard_url(constants.DOMESTIC),
+        ),
+        (
+            constants.LOCATION,
+            constants.INTERNATIONAL,
+            build_wizard_url(constants.INTERNATIONAL),
+        ),
+        # domestic step routing
+        # (
+        #     constants.DOMESTIC,
+        #     constants.TRADE_OFFICE,
+        #     reverse('contact:office-finder'),
+        # ),
+        # (
+        #     constants.DOMESTIC,
+        #     constants.EXPORT_ADVICE,
+        #     reverse('contact:contact-us-export-advice', kwargs={'step': 'comment'}),
+        # ),
+        # (
+        #     constants.DOMESTIC,
+        #     constants.FINANCE,
+        #     reverse(
+        #         'uk-export-finance-lead-generation-form',
+        #         kwargs={'step': 'contact'},
         #     ),
-        #     (
-        #         constants.LOCATION,
-        #         constants.INTERNATIONAL,
-        #         build_wizard_url(constants.INTERNATIONAL),
-        #     ),
-        #     # domestic step routing
-        #     (
-        #         constants.DOMESTIC,
-        #         constants.TRADE_OFFICE,
-        #         reverse('office-finder'),
-        #     ),
-        #     (
-        #         constants.DOMESTIC,
-        #         constants.EXPORT_ADVICE,
-        #         reverse('contact:contact-us-export-advice', kwargs={'step': 'comment'}),
-        #     ),
-        #     (
-        #         constants.DOMESTIC,
-        #         constants.FINANCE,
-        #         reverse(
-        #             'uk-export-finance-lead-generation-form',
-        #             kwargs={'step': 'contact'},
-        #         ),
-        #     ),
-        #     (
-        #         constants.DOMESTIC,
-        #         constants.EUEXIT,
-        #         reverse('brexit-contact-form'),
-        #     ),
-        #     (
-        #         constants.DOMESTIC,
-        #         constants.EVENTS,
-        #         reverse('contact:contact-us-events-form'),
-        #     ),
-        #     (constants.DOMESTIC, constants.DSO, reverse('contact:contact-us-dso-form')),
-        #     (constants.DOMESTIC, constants.OTHER, reverse('contact:contact-us-enquiries')),
-        #     # great services guidance routing
-        #     (
-        #         constants.GREAT_SERVICES,
-        #         constants.EXPORT_OPPORTUNITIES,
-        #         build_wizard_url(constants.EXPORT_OPPORTUNITIES),
-        #     ),
-        #     (
-        #         constants.GREAT_SERVICES,
-        #         constants.GREAT_ACCOUNT,
-        #         build_wizard_url(constants.GREAT_ACCOUNT),
-        #     ),
-        #     (
-        #         constants.GREAT_SERVICES,
-        #         constants.OTHER,
-        #         reverse('contact:contact-us-domestic'),
-        #     ),
+        # ),
+        # (
+        #     constants.DOMESTIC,
+        #     constants.EUEXIT,
+        #     reverse('domestic:brexit-contact-form'),
+        # ),
+        # (
+        #     constants.DOMESTIC,
+        #     constants.EVENTS,
+        #     reverse('contact:contact-us-events-form'),
+        # ),
+        # (constants.DOMESTIC, constants.DSO, reverse('contact:contact-us-dso-form')),
+        # (constants.DOMESTIC, constants.OTHER, reverse('contact:contact-us-enquiries')),
+        # great services guidance routing
+        (
+            constants.GREAT_SERVICES,
+            constants.EXPORT_OPPORTUNITIES,
+            build_wizard_url(constants.EXPORT_OPPORTUNITIES),
+        ),
+        (
+            constants.GREAT_SERVICES,
+            constants.GREAT_ACCOUNT,
+            build_wizard_url(constants.GREAT_ACCOUNT),
+        ),
+        (
+            constants.GREAT_SERVICES,
+            constants.OTHER,
+            reverse('contact:contact-us-domestic'),
+        ),
         # great account
         (
             constants.GREAT_ACCOUNT,

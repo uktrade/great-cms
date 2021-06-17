@@ -337,3 +337,36 @@ def test_great_services_form_routing():
     expected_choice_count = len(choices_expect_next_step) + len(choices_expect_redirect)
 
     assert expected_choice_count == len(choices)
+
+
+def test_form_choices__great_account_routing_form():
+
+    expected = (
+        (constants.NO_VERIFICATION_EMAIL, 'I have not received my email confirmation'),
+        (constants.PASSWORD_RESET, 'I need to reset my password'),
+        (constants.COMPANY_NOT_FOUND, 'I cannot find my company'),
+        (constants.COMPANIES_HOUSE_LOGIN, 'My Companies House login is not working'),
+        (constants.VERIFICATION_CODE, 'I do not know where to enter my verification code'),
+        (constants.NO_VERIFICATION_LETTER, 'I have not received my letter containing the verification code'),
+        (constants.NO_VERIFICATION_MISSING, 'I have not received a verification code'),
+        (constants.OTHER, 'Other'),
+    )
+
+    choices = tuple(forms.GreatAccountRoutingForm().fields['choice'].choices)
+    assert choices == forms.great_account_choices()
+    assert choices == expected
+
+
+def test_form_choices__international_routing_form():
+
+    expected = (
+        (constants.INVESTING, 'Investing in the UK'),
+        (constants.CAPITAL_INVEST, 'Capital investment in the UK'),
+        (constants.EXPORTING_TO_UK, 'Exporting to the UK'),
+        (constants.BUYING, 'Find a UK business partner'),
+        (constants.EUEXIT, 'The transition period (now that the UK has left the EU)'),
+        (constants.OTHER, 'Other'),
+    )
+    choices = tuple(forms.InternationalRoutingForm().fields['choice'].choices)
+    assert choices == forms.international_choices()
+    assert choices == expected
