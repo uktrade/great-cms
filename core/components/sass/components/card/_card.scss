@@ -126,6 +126,9 @@
     p {
       color: black;
     }
+    .subheading {
+      color: $mid-grey;
+    }
     &--focused {
       &:focus {
         display: block;
