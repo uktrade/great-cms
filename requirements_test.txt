@@ -20,8 +20,6 @@ appdirs==1.4.4
     # via
     #   black
     #   virtualenv
-appnope==0.1.2
-    # via ipython
 arabic-reshaper==2.1.3
     # via xhtml2pdf
 astroid==2.5.6
@@ -550,7 +548,7 @@ wagtail-factories==2.0.1
     # via -r requirements.in
 wagtail-transfer==0.7.1
     # via -r requirements.in
-wagtail==2.11.7
+wagtail==2.11.8
     # via
     #   -r requirements.in
     #   wagtail-cache
