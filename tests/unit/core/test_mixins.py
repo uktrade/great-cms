@@ -2,7 +2,6 @@ import abc
 from unittest import mock
 
 import pytest
-from django.utils import translation
 
 from core.mixins import (
     EnableSegmentationMixin,
