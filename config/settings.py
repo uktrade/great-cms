@@ -482,8 +482,6 @@ UKEF_CONTACT_AGENT_EMAIL_ADDRESS = env.str(
 )
 UKEF_FORM_SUBMIT_TRACKER_URL = env.str('UKEF_FORM_SUBMIT_TRACKER_URL')  # A Pardot URL
 
-FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES = env.bool('FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES', False)
-
 # geo location
 GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')
 GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
