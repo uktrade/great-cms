@@ -2,6 +2,7 @@ import abc
 from unittest import mock
 
 import pytest
+from django.utils import translation
 
 from core.mixins import (
     EnableSegmentationMixin,
@@ -12,6 +13,12 @@ from directory_sso_api_client import sso_api_client
 from domestic.models import DomesticHomePage
 from sso.models import BusinessSSOUser
 from tests.helpers import create_response
+from tests.unit.core.factories import (
+    CuratedListPageFactory,
+    DetailPageFactory,
+    ListPageFactory,
+    TopicPageFactory,
+)
 from tests.unit.domestic import factories
 
 
@@ -46,6 +53,26 @@ def test_get_snippet_content_mixin():
         assert test_view.get_snippet_instance() == mock_snippet_instance
 
     mock_snippet_model.objects.get.assert_called_once_with(slug='foo-bar-baz')
+
+
+@pytest.mark.django_db
+def test_ga360_mixin(client, domestic_homepage, user, domestic_site, mock_get_user_profile):
+    user.is_staff = True
+    client.force_login(user)
+
+    list_page = ListPageFactory(parent=domestic_homepage, record_read_progress=True)
+    curated_list_page = CuratedListPageFactory(parent=list_page)
+    topic_page = TopicPageFactory(parent=curated_list_page)
+    detail_page = DetailPageFactory(parent=topic_page)
+
+    with translation.override('de'):
+        response = client.get(detail_page.url)
+
+    assert response.status_code == 200
+    assert response.context_data['ga360']
+    ga360_data = response.context_data['ga360']
+    assert ga360_data['user_id'] == ''
+    assert ga360_data['login_status'] is True
 
 
 @pytest.mark.parametrize(
