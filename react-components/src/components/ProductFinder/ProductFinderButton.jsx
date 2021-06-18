@@ -25,7 +25,7 @@ function ProductFinderButton(props) {
       onClick={openModal}
     >
       {hasProduct || 'add product'}
-      <span class="visually-hidden">{hasProduct ? 'Edit' : 'Add'} product</span>
+      <span className="visually-hidden">{hasProduct ? 'Edit' : 'Add'} product</span>
       <i className={`fa ${selectedProduct ? 'fa-edit' : 'fa-plus'}`} aria-hidden="true" />
     </button>
   )
