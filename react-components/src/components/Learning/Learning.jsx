@@ -5,7 +5,7 @@ import ReactHtmlParser from 'react-html-parser'
 import { Tooltip } from '@components/tooltip/Tooltip'
 import { LessonLearn } from '@src/components/LessonLearn'
 
-export const Learning = memo(({ tooltip, example, lesson, className }) => {
+export const Learning = memo(({ tooltip, example, lesson, className, label }) => {
   const [toggleExample, setToggleExample] = useState(false)
   const [toggleLesson, setToggleLesson] = useState(false)
   const hasLesson = Object.keys(lesson).length > 0
@@ -18,65 +18,71 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
         <div className={`learning ${className}`}>
           <div className="learning__buttons">
             {hasExample && (
-              <button
-                className="button-example button button--small button--tertiary m-r-xxs m-b-xs"
-                type="button"
-                aria-controls={controlAreaId}
-                aria-expanded={toggleExample}
-                onClick={() => {
-                  setToggleExample(!toggleExample)
-                  setToggleLesson(false)
-                }}
-              >
-                <i
-                  className={`fas fa-chevron-${
-                    toggleExample ? 'up' : 'down'
-                  } m-r-xxs`}
-                />
-                {example.buttonTitle ? example.buttonTitle : 'Example'}
-              </button>
+              <>
+                <button
+                  className="button-example button button--small button--tertiary m-r-xxs m-b-xs"
+                  type="button"
+                  aria-controls={controlAreaId}
+                  aria-expanded={toggleExample}
+                  onClick={() => {
+                    setToggleExample(!toggleExample)
+                    setToggleLesson(false)
+                  }}
+                >
+                  <i
+                    className={`fas fa-chevron-${
+                      toggleExample ? 'up' : 'down'
+                    } m-r-xxs`}
+                  />
+                  {example.buttonTitle ? example.buttonTitle : (<>Example{label && (<span className="visually-hidden">&nbsp;for {label}</span>)}</>)}
+                </button>
+
+                <div className="learning__content" id={controlAreaId}>
+                  <dl
+                    className={`form-group-example bg-${
+                      example.bgColour ? example.bgColour : 'blue-deep-10'
+                    } p-xs m-b-xs ${toggleExample ? '' : 'hidden'}`}
+                  >
+                    <dt className="body-l-b">
+                      {example.header
+                        ? example.header
+                        : 'A fictional example to help you complete this section'}
+                    </dt>
+                    <dd className="m-t-xxs body-l">
+                      {ReactHtmlParser(example.content)}
+                    </dd>
+                  </dl>
+                </div>
+              </>
             )}
+
             {hasLesson && (
-              <button
-                className="button-lesson button button--small button--tertiary m-r-xxs m-b-xs"
-                type="button"
-                aria-controls={controlAreaId}
-                aria-expanded={toggleExample}
-                onClick={() => {
-                  setToggleLesson(!toggleLesson)
-                  setToggleExample(false)
-                }}
-              >
-                <i
-                  className={`fas fa-chevron-${
-                    toggleLesson ? 'up' : 'down'
-                  } m-r-xxs`}
-                />
-                Lesson
-              </button>
+              <>
+                <button
+                  className="button-lesson button button--small button--tertiary m-r-xxs m-b-xs"
+                  type="button"
+                  aria-controls={controlAreaId}
+                  aria-expanded={toggleExample}
+                  onClick={() => {
+                    setToggleLesson(!toggleLesson)
+                    setToggleExample(false)
+                  }}
+                >
+                  <i
+                    className={`fas fa-chevron-${
+                      toggleLesson ? 'up' : 'down'
+                    } m-r-xxs`}
+                  />
+                  Lesson
+                </button>
+                <div className="learning__content" id={controlAreaId}>
+                  <LessonLearn {...lesson} show={toggleLesson} />
+                </div>
+              </>
             )}
             {tooltip.content && (
               <Tooltip {...tooltip} className="inline-block m-b-xs" />
             )}
-          </div>
-          <div className="learning__content" id={controlAreaId}>
-            {hasExample && (
-              <dl
-                className={`form-group-example bg-${
-                  example.bgColour ? example.bgColour : 'blue-deep-10'
-                } p-xs m-b-xs ${toggleExample ? '' : 'hidden'}`}
-              >
-                <dt className="body-l-b">
-                  {example.header
-                    ? example.header
-                    : 'A fictional example to help you complete this section'}
-                </dt>
-                <dd className="m-t-xxs body-l">
-                  {ReactHtmlParser(example.content)}
-                </dd>
-              </dl>
-            )}
-            {hasLesson && <LessonLearn {...lesson} show={toggleLesson} />}
           </div>
         </div>
       )}
@@ -101,6 +107,7 @@ Learning.propTypes = {
     category: PropTypes.string,
     duration: PropTypes.string,
   }),
+  label: PropTypes.string,
   className: PropTypes.string,
 }
 
@@ -109,4 +116,5 @@ Learning.defaultProps = {
   example: {},
   lesson: {},
   className: '',
+  label: '',
 }

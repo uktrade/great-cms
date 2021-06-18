@@ -16,6 +16,8 @@
 - GP2-2856 - remove target market
 
 ### Fixed bugs
+- GP2-2939 - DAC_Nondescriptive_Labels_03 Example buttons
+- GP2-2930 - DAC_Accordions_02 Example and learning buttons
 - GP2-2934 - DAC_Custom_Controls_02 Tab management on WTE
 - GP2-2893 - DAC_Link_Purpose_02 Learning backlinks
 - GP2-2901 - DAC_Label_in_Name - Product finder

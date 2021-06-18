@@ -37,7 +37,7 @@ export const FormGroup = memo(
           </div>
         )}
 
-        <Learning tooltip={tooltip} example={example} lesson={lesson} />
+        <Learning tooltip={tooltip} example={example} lesson={lesson} label={label}/>
         <ErrorList errors={errors} />
         {children}
       </div>
