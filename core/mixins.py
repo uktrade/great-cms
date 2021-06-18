@@ -98,7 +98,7 @@ class WagtailGA360Mixin:
         user = great_components_helpers.get_user(request)
         is_logged_in = great_components_helpers.get_is_authenticated(request)
         self.ga360_payload['login_status'] = is_logged_in
-        self.ga360_payload['user_id'] = user.hashed_uuid if is_logged_in else None
+        self.ga360_payload['user_id'] = user.hashed_uuid if (is_logged_in and not user.is_superuser) else None
         self.ga360_payload['site_language'] = translation.get_language()
 
 

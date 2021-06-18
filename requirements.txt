@@ -146,7 +146,7 @@ future==0.18.2
     # via arabic-reshaper
 geoip2==2.9.0
     # via -r requirements.in
-great-components==1.1.1
+great-components==1.1.2
     # via -r requirements.in
 gunicorn==19.5.0
     # via -r requirements.in
