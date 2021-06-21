@@ -56,7 +56,7 @@ FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES=True
 CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
 UKEF_CONTACT_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
 CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
-
+CONTACT_DIT_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
 EU_EXIT_ZENDESK_SUBDOMAIN=debug
 
 RECAPTCHA_PUBLIC_KEY=test_key
