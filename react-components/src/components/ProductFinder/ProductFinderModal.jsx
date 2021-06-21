@@ -565,6 +565,7 @@ export default function ProductFinderModal(props) {
             {spinner}
             <div
               className="scroll-inner p-b-m"
+              tabindex="0"
               ref={(_scrollInner) => {
                 scrollOuter = _scrollInner || scrollOuter
               }}

@@ -69,6 +69,7 @@
 - GP2-2868 - Tech Debt fix sentry errors
 - GP2-2870 - rename /sso/ path to /great-cms-sso/
 
+- GP2-2882 - Accessibility fix - make modal content area keyboard accessible
 
 ## [1.10.0](https://github.com/uktrade/great-cms/releases/tag/1.10.0)
 
