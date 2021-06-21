@@ -11,6 +11,10 @@
 - no-ticket - Fix for case study listing view if empty related page selected in any case study
 - GA2-3054 - Updated GA360 mixin for special exception for authenticated staff users
 - GP2-2841 - Pinned CF buildpack and upgraded python to 3.9.5
+- GP2-1688 - Migrate /contact/office-finder/ pages from V1 into V2
+- GP2-3054 - Updated GA360 mixin for special exception for authenticated staff users
+- GP2-2841 - Pinned CF buildpack and upgraded python to 3.9.5
+- GP2-1653 - Port 'great.gov.uk' account pages from Contact section
 - GP2-2982 - Rebuild sitemap.xml in great-cms
 - GP2-2981 - Port Search Feedback page from V1 into V2
 - GP2-2980 - Port Market Access / 'Report a Trade Barrier' pages from V1 into V2
