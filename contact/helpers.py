@@ -1,6 +1,13 @@
+import requests
 from django.urls import reverse_lazy
 
-from core.helpers import retrieve_regional_offices
+from directory_api_client import api_client
+
+
+def retrieve_regional_offices(postcode):
+    response = api_client.exporting.lookup_regional_offices_by_postcode(postcode)
+    response.raise_for_status()
+    return response.json()
 
 
 def retrieve_regional_office(postcode):
@@ -50,3 +57,14 @@ def build_exporting_guidance_url(slug):
         'contact:contact-us-exporting-to-the-uk-guidance',
         kwargs={'slug': slug},
     )
+
+
+def retrieve_regional_office_email(postcode):
+    try:
+        office_details = retrieve_regional_offices(postcode)
+    except requests.exceptions.RequestException:
+        email = None
+    else:
+        matches = [office for office in office_details if office['is_match']]
+        email = matches[0]['email'] if matches else None
+    return email
