@@ -17,6 +17,7 @@
 
 ### Fixed bugs
 - GP2-2908 - DAC_Headings_07 Learning step headings
+- GP2-2909 - DAC_Headings_08 WTE captions in mobile
 - GP2-2934 - DAC_Custom_Controls_02 Tab management on WTE
 - GP2-2893 - DAC_Link_Purpose_02 Learning backlinks
 - GP2-2901 - DAC_Label_in_Name - Product finder
