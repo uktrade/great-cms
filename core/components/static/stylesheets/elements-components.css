@@ -1400,6 +1400,19 @@ a.labelled-image-card {
     background-color: transparent; }
   .card .description, a.labelled-card .description, a.labelled-image-card .description {
     padding: 0 30px; }
+  .card__link {
+    text-decoration: none; }
+    .card__link h3 {
+      color: #006ccc;
+      -webkit-text-decoration: underline #006ccc;
+      text-decoration: underline #006ccc; }
+    .card__link p {
+      color: black; }
+    .card__link .subheading {
+      color: #666666; }
+    .card__link--focused:focus {
+      display: block;
+      outline: 3px solid #ffbf47; }
 
 @media (max-width: 640px) {
   .card, a.labelled-card, a.labelled-image-card {
