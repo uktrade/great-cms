@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  pgsql:
+    container_name: great_postgres
+    image: postgres:12
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./docker_data/initdb.sh/:/docker-entrypoint-initdb.d/init-user-db.sql
+      - ./docker_data/pgdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    networks:
+      - inside-network
+
+networks:
+  inside-network:
+    driver: bridge
