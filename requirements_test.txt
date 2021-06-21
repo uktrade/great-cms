@@ -47,11 +47,11 @@ black==21.6b0
     #   blacken-docs
 blacken-docs==1.6.0
     # via -r requirements_test.in
-boto3==1.17.92
+boto3==1.17.97
     # via
     #   -r requirements.in
     #   django-storages
-botocore==1.20.92
+botocore==1.20.97
     # via
     #   boto3
     #   s3transfer
@@ -191,7 +191,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==8.6.0
+faker==8.8.1
     # via factory-boy
 filelock==3.0.12
     # via virtualenv
@@ -233,7 +233,7 @@ gevent==21.1.2
     #   locust
 geventhttpclient==1.4.4
     # via locust
-great-components==1.1.1
+great-components==1.1.2
     # via -r requirements.in
 greenlet==1.1.0
     # via gevent
@@ -550,7 +550,7 @@ wagtail-factories==2.0.1
     # via -r requirements.in
 wagtail-transfer==0.7.1
     # via -r requirements.in
-wagtail==2.11.7
+wagtail==2.11.8
     # via
     #   -r requirements.in
     #   wagtail-cache

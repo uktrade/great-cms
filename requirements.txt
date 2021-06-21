@@ -140,13 +140,13 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==8.6.0
+faker==8.8.1
     # via factory-boy
 future==0.18.2
     # via arabic-reshaper
 geoip2==2.9.0
     # via -r requirements.in
-great-components==1.1.1
+great-components==1.1.2
     # via -r requirements.in
 gunicorn==19.5.0
     # via -r requirements.in
@@ -314,7 +314,7 @@ wagtail-factories==2.0.1
     # via -r requirements.in
 wagtail-transfer==0.7.1
     # via -r requirements.in
-wagtail==2.11.7
+wagtail==2.11.8
     # via
     #   -r requirements.in
     #   wagtail-cache
