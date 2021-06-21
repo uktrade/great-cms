@@ -2,17 +2,51 @@ from unittest import mock
 
 import django.forms
 import pytest
+import requests_mock
 from django.conf import settings
 from django.urls import reverse
 
 from contact import constants, forms, helpers, views
 from core import snippet_slugs
+from directory_api_client.exporting import url_lookup_by_postcode
 
 pytestmark = [pytest.mark.django_db, pytest.mark.contact]
 
 
 def build_wizard_url(step):
     return reverse('contact:contact-us-routing-form', kwargs={'step': step})
+
+
+@pytest.fixture()
+def all_office_details():
+    return [
+        {
+            'is_match': True,
+            'region_id': 'east_midlands',
+            'name': 'DIT East Midlands',
+            'address_street': ('The International Trade Centre, ' '5 Merus Court, ' 'Meridian Business Park'),
+            'address_city': 'Leicester',
+            'address_postcode': 'LE19 1RJ',
+            'email': 'test+east_midlands@examoke.com',
+            'phone': '0345 052 4001',
+            'phone_other': '',
+            'phone_other_comment': '',
+            'website': None,
+        },
+        {
+            'is_match': False,
+            'region_id': 'west_midlands',
+            'name': 'DIT West Midlands',
+            'address_street': ('The International Trade Centre, ' '10 New Street, ' 'Midlands Business Park'),
+            'address_city': 'Birmingham',
+            'address_postcode': 'B20 1RJ',
+            'email': 'test+west_midlands@examoke.com',
+            'phone': '0208 555 4001',
+            'phone_other': '',
+            'phone_other_comment': '',
+            'website': None,
+        },
+    ]
 
 
 class FakeChoiceForm(django.forms.Form):
@@ -123,14 +157,14 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
         #     settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
         #     settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
         # ),
-        # (
-        #     reverse('contact:office-finder-contact', kwargs={'postcode': 'FOO'}),
-        #     reverse('contact:contact-us-office-success', kwargs={'postcode': 'FOO'}),
-        #     views.OfficeContactFormView,
-        #     settings.CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID,
-        #     settings.CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID,
-        #     settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
-        # ),
+        (
+            reverse('contact:office-finder-contact', kwargs={'postcode': 'FOO'}),
+            reverse('contact:contact-us-office-success', kwargs={'postcode': 'FOO'}),
+            views.OfficeContactFormView,
+            settings.CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
+        ),
         # (
         #     reverse('contact:contact-us-exporting-to-the-uk-beis'),
         #     reverse('contact:contact-us-exporting-to-the-uk-beis-success'),
@@ -199,7 +233,7 @@ contact_urls_for_prefill_tests = (
     # TO COME IN LATER WORK
     # reverse('contact:contact-us-dso-form'),
     # reverse('contact:contact-us-events-form'),
-    # reverse('office-finder-contact', kwargs={'postcode': 'FOOBAR'}),
+    reverse('contact:office-finder-contact', kwargs={'postcode': 'FOOBAR'}),
 )
 
 
@@ -367,11 +401,11 @@ def test_ecommerce_success_view(client):
             build_wizard_url(constants.INTERNATIONAL),
         ),
         # domestic step routing
-        # (
-        #     constants.DOMESTIC,
-        #     constants.TRADE_OFFICE,
-        #     reverse('contact:office-finder'),
-        # ),
+        (
+            constants.DOMESTIC,
+            constants.TRADE_OFFICE,
+            reverse('contact:office-finder'),
+        ),
         # (
         #     constants.DOMESTIC,
         #     constants.EXPORT_ADVICE,
@@ -562,3 +596,63 @@ def test_ingress_url_cleared_on_redirect_away(mock_clear, current_step, choice):
     view.url_name = 'contact-us-routing-form'
 
     assert form.is_valid()
+
+
+def test_office_finder_valid(all_office_details, client):
+    with requests_mock.mock() as mock:
+        mock.get(url_lookup_by_postcode.format(postcode='LE191RJ'), json=all_office_details)
+        response = client.get(reverse('contact:office-finder'), {'postcode': 'LE19 1RJ'})
+
+    assert response.status_code == 200
+
+    assert response.context_data['office_details'] == {
+        'address': (
+            'The International Trade Centre\n' '5 Merus Court\n' 'Meridian Business Park\n' 'Leicester\n' 'LE19 1RJ'
+        ),
+        'is_match': True,
+        'region_id': 'east_midlands',
+        'name': 'DIT East Midlands',
+        'address_street': ('The International Trade Centre, ' '5 Merus Court, ' 'Meridian Business Park'),
+        'address_city': 'Leicester',
+        'address_postcode': 'LE19 1RJ',
+        'email': 'test+east_midlands@examoke.com',
+        'phone': '0345 052 4001',
+        'phone_other': '',
+        'phone_other_comment': '',
+        'website': None,
+    }
+
+    assert response.context_data['other_offices'] == [
+        {
+            'address': (
+                'The International Trade Centre\n' '10 New Street\n' 'Midlands Business Park\n' 'Birmingham\n' 'B20 1RJ'
+            ),
+            'is_match': False,
+            'region_id': 'west_midlands',
+            'name': 'DIT West Midlands',
+            'address_street': ('The International Trade Centre, ' '10 New Street, ' 'Midlands Business Park'),
+            'address_city': 'Birmingham',
+            'address_postcode': 'B20 1RJ',
+            'email': 'test+west_midlands@examoke.com',
+            'phone': '0208 555 4001',
+            'phone_other': '',
+            'phone_other_comment': '',
+            'website': None,
+        }
+    ]
+
+
+@mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
+def test_contact_us_office_success_next_url(mock_get_snippet_instance, client):
+
+    url = reverse(
+        'contact:contact-us-office-success',
+        kwargs={'postcode': 'FOOBAR'},
+    )
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['next_url'] == '/'
+
+    mock_get_snippet_instance.assert_called_once()
