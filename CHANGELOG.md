@@ -24,7 +24,7 @@
 - GP2-2977: Port E-Commerce Export Support pages from V1 into V2
 - GP2-1618: Port legacy EU Exit / transition period forms from V1 into V2
 - GP2-1617: Port get-finance/UKEF contact form from great-domestic-ui
-- GP2-2856 remove unused api calls
+- GP2-2856  remove unused api calls
 - no-ticket - package upgrade
 - GP2-2856 - remove target market
 
@@ -74,13 +74,9 @@
 - GP2-2944 - DAC_Reflow_01
 
 ## [1.10.1](https://github.com/uktrade/great-cms/releases/tag/1.10.1)
-
 ### Enhancements
-
 - NOTICKET - update changelog, post-release
-
 ### Fixed bugs
-
 - GP2-2879 - DAC_Parsing_01 (A)
 
 - GP2-2890 - DAC NonText Content 01
@@ -102,7 +98,6 @@ MAGNA RELEASE
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.9.0...1.10.0)
 
 ### Enhancements
-
 - GP2-2816 - Set Wagtaildocs serve method to 'direct' to avoid denial when proxying at PaaS level
 - noticket - remove social buttons
 - no-ticket - Disabled case study tagging search ability on Admin UI
@@ -125,7 +120,6 @@ MAGNA RELEASE
 - GP2-2777 - Remove DIT footer logos
 
 ### Fixed bugs
-
 - GP2-2805 - Export plan image problem on the dashboard
 - GP2-2803 - [UAT]-Export plan dashboard images issues
 - GP2-2790 - remove Getting paid page tooltip
@@ -163,13 +157,14 @@ MAGNA RELEASE
 - GP2-2763 - saving-blank-error
 - GP2-2724 - update-lesson be
 - GP2-2775 - sav business risk
-  \_ GP2-2775 - getting paid error
+_ GP2-2775 - getting paid error
 - gp2765 - content changes
 - NOTICKET - error saving ep atm
 - NOTICKET - update pdf logo
 - NOTICKET - remove lesson
 - NOTICKET - configure APM log server
 - NOTICKET - fix image references
+
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 
@@ -221,7 +216,6 @@ MAGNA RELEASE
 - GP2-2401 - pdf save
 
 ### Fixed bugs
-
 - Gp2-2506 - Getting paid page - Content change for default text (Payment methods drop-down)
 - GP2-2399 - [Mobile]-Costs and pricing
 - GP2-2420 - Export plan - CHEG details look strange on mobile
