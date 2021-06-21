@@ -8,6 +8,7 @@ const ENTER_KEY_CODE = 13
 const DOWN_ARROW_KEY_CODE = 40
 const UP_ARROW_KEY_CODE = 38
 const ESCAPE_KEY_CODE = 27
+const SPACE_KEY_CODE = 32
 
 export const Select = memo(
   ({
@@ -43,8 +44,9 @@ export const Select = memo(
       setInput(selected)
     }, [selected])
 
-    const setOpen = (state) => {
+    const setOpen = (state, onComplete) => {
       if (state !== isOpen) {
+        if (!state) placeHolder.current.focus()
         const elStyle = expander.current.style
         elStyle.transition = `height ${openDuration}ms`
         elStyle.display = 'block'
@@ -59,9 +61,19 @@ export const Select = memo(
           setIsOpen(state)
           elStyle.height = null
           elStyle.display = state ? 'block' : 'none'
+          if (onComplete) onComplete()
         }, openDuration)
+      } else if (onComplete) {
+        onComplete()
       }
     }
+
+    useEffect(() => {
+      // automatically open autocomplete
+      if (autoComplete) {
+        setOpen(!!(options && options.length))
+      }
+    }, [options])
 
     useOnOutsideClick(outer, () => {
       setOpen(false)
@@ -92,6 +104,7 @@ export const Select = memo(
               const items = input.filter((x) => x !== item)
               setInput(items)
               update({ [name]: items })
+              placeHolder.current.focus()
             }}
           >
             {options.find((option) => item === option.value).label}{' '}
@@ -107,6 +120,7 @@ export const Select = memo(
         const items = [...new Set([...input, item.value])]
         setInput(items)
         update({ [name]: items })
+        placeHolder.current.focus()
       } else if (!item.isError) {
         setInput(item.value)
         setOpen(false)
@@ -114,72 +128,58 @@ export const Select = memo(
       }
     }
 
-    const focusNext = (e, i, item, subSection = null) => {
-      const next = i + 1
-      const prev = i - 1
-      const section = subSection + 1
-      const currentElement = ulOptions.current.children[section].children[0]
-
-      switch (e.keyCode) {
-        case ENTER_KEY_CODE:
-          selectOption(item)
-          break
-        case DOWN_ARROW_KEY_CODE:
-          e.preventDefault()
-          if (subSection !== null) {
-            const nextSection = ulOptions.current.children[section + 1]
-            const nextElement = currentElement.children[next]
-              ? currentElement.children[next]
-              : nextSection.children[0].children[1]
-            nextElement.focus()
-          } else if (next < liRef.current.length) liRef.current[next].focus()
-          break
-        case UP_ARROW_KEY_CODE:
-          e.preventDefault()
-          if (subSection !== null) {
-            const nextSection = ulOptions.current.children[section - 1]
-            const nextElement = currentElement.children[prev - 1]
-              ? currentElement.children[prev]
-              : nextSection.children[0].children[
-                  nextSection.children[0].children.length - 1
-                ]
-            nextElement.focus()
-          } else if (prev >= 0) liRef.current[prev].focus()
-          break
-        case ESCAPE_KEY_CODE:
-          e.preventDefault()
-          setOpen(false)
-          break
-        default:
-          break
-      }
+    const focusNext = (inc, target) => {
+      const items = Array.from(
+        ulOptions.current.querySelectorAll('li.select__list--item')
+      )
+      const selectedIndex = items.findIndex((item) => item === target) + inc
+      const nextItem = items[selectedIndex]
+      setOpen(selectedIndex >= 0, () => {
+        if (nextItem || selectedIndex < 0) {
+          ;(nextItem || placeHolder.current).focus()
+        }
+      })
     }
 
-    const toggle = (e) => {
-      const firstElement = ulOptions.current.children[0]
+    const keyHandler = (e, item) => {
+      let keyFound = true
       switch (e.keyCode) {
-        case DOWN_ARROW_KEY_CODE:
-          e.preventDefault()
-          setOpen(true)
-          if (
-            firstElement.children[0] &&
-            firstElement.children[0].nodeName === 'UL'
-          ) {
-            firstElement.children[0].children[1].focus()
+        case ENTER_KEY_CODE:
+        case SPACE_KEY_CODE:
+          if (e.target.closest('.tag')) {
+            keyFound = false
+          } else if (item) {
+            selectOption(item)
+          } else if (autoComplete) {
+            keyFound = false
           } else {
-            firstElement.focus()
+            setOpen(!isOpen)
           }
+          break
+        case DOWN_ARROW_KEY_CODE:
+          focusNext(1, e.target)
+          break
+        case UP_ARROW_KEY_CODE:
+          focusNext(-1, e.target)
           break
         case ESCAPE_KEY_CODE:
           setOpen(false)
           break
         default:
+          keyFound = false
           break
+      }
+      if (keyFound) {
+        e.preventDefault()
+        e.stopPropagation()
       }
     }
 
     return (
-      <div className={`select ${className} ${autoComplete ? 'autocomplete' : ''}`} ref={outer}>
+      <div
+        className={`select ${className} ${autoComplete ? 'autocomplete' : ''}`}
+        ref={outer}
+      >
         <FormGroup
           label={label}
           id={id || label}
@@ -192,32 +192,40 @@ export const Select = memo(
           tabIndex="-1"
           hideLabel={hideLabel}
         >
-          <> {!autoComplete ? (
-            <div
-              className={`select__button text-blue-deep-20 ${
-                isOpen ? 'select__button--close' : ''
-              }`}
-              role="region"
-              aria-label={label}
-            >
-              <button
-                aria-haspopup="listbox"
-                tabIndex="0"
-                onKeyDown={toggle}
-                type="button"
-                onClick={() => setOpen(!isOpen)}
-              >
-                <i className={`fas ${'fa-chevron-down'}`} />
-              </button>
-            </div>
-            ) : ''}
+          <>
+            {' '}
             <div
               className="select__placeholder text-blue-deep-60 bg-white radius"
               ref={placeHolder}
+              tabIndex={autoComplete ? -1 : 0}
+              onKeyDown={keyHandler}
+              onFocus={(e) => {
+                if (autoComplete && e.target === placeHolder.current) {
+                  placeHolder.current.querySelector('input').focus()
+                }
+              }}
+              onClick={() => setOpen(!isOpen)}
+              aria-haspopup="listbox"
+              role="button"
             >
+              {!autoComplete ? (
+                <div
+                  className={`select__button text-blue-deep-20 ${
+                    isOpen ? 'select__button--close' : ''
+                  }`}
+                  // onClick={() => setOpen(!isOpen)}
+                  // onKeyDown={keyHandler}
+                  // role="button"
+                  // tabIndex="-1"
+                >
+                  <i className={`fas ${'fa-chevron-down'}`} />
+                </div>
+              ) : (
+                ''
+              )}
               <div
                 className="select__placeholder--input"
-                onClick={() => setOpen(!isOpen)}
+                // onClick={() => setOpen(!isOpen)}
               >
                 {autoComplete ? (
                   <input
@@ -228,15 +236,19 @@ export const Select = memo(
                     placeholder={placeholder}
                     value={inputValue}
                     onChange={inputChange}
-                    onKeyDown={(e) => toggle(e)}
+                    onKeyDown={keyHandler}
+                    aria-label={label}
                   />
                 ) : (
                   ''
                 )}
               </div>
               {!autoComplete ? (
-                <div className="select__placeholder--value"
-                onClick={() => setOpen(!isOpen)}>
+                <div
+                  className="select__placeholder--value"
+                  // onClick={() => setOpen(!isOpen)}
+                  aria-label={label}
+                >
                   {selectedItem()}
                 </div>
               ) : (
@@ -264,7 +276,7 @@ export const Select = memo(
                             }
                             key={item.value}
                             onClick={() => selectOption(item)}
-                            onKeyDown={(e) => focusNext(e, i, item)}
+                            onKeyDown={(e) => keyHandler(e, item)}
                             selected={item.value === input}
                             label={item.label}
                             forwardedRef={(el) => {
@@ -278,13 +290,11 @@ export const Select = memo(
                         <li className="sub-section" key={category}>
                           <ul className="m-0">
                             <li className="body-m-b">{category}</li>
-                            {options[category].map((li, index) => (
+                            {options[category].map((li) => (
                               <Item
                                 key={li.value}
                                 onClick={() => selectOption(li)}
-                                onKeyDown={(e) =>
-                                  focusNext(e, index + 1, li, i)
-                                }
+                                onKeyDown={(e) => keyHandler(e, li)}
                                 selected={li.value === input}
                                 label={li.label}
                                 forwardedRef={(el) => {

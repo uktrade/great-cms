@@ -29,6 +29,8 @@
 - GP2-2856 - remove target market
 
 ### Fixed bugs
+- GP2-2933 - DAC_Custom_Controls_01 Select widget
+- GP2-2924 - DAC_CSS_Images_as_Labels_03 Select widget expander
 - GP2-2908 - DAC_Headings_07 Learning step headings
 - GP2-2909 - DAC_Headings_08 WTE captions in mobile
 - GP2-2920 - DAC_CSS_Content_05 Radio buttons
