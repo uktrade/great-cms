@@ -8,6 +8,9 @@ from contact.views import (
     EcommerceSupportFormPageView,
     ExportSupportSuccessPageView,
     GuidanceView,
+    OfficeContactFormView,
+    OfficeFinderFormView,
+    OfficeSuccessView,
     RoutingFormView,
 )
 from core import snippet_slugs
@@ -16,6 +19,7 @@ from core.views import QuerystringRedirectView
 app_name = 'contact'
 # NB: when reverse()ing a named URL listed below, remember to prepend it with `contact:`
 
+# NB: the paths here are all starting from the root of '/', not '/contact/'...
 urlpatterns = [
     path(
         'contact/',
@@ -74,5 +78,20 @@ urlpatterns = [
         'campaigns/ecommerce-export-support/success/',
         skip_ga360(ExportSupportSuccessPageView.as_view()),
         name='ecommerce-export-support-success',
+    ),
+    path('contact/office-finder/', skip_ga360(OfficeFinderFormView.as_view()), name='office-finder'),
+    path(
+        'contact/office-finder/<str:postcode>/',
+        skip_ga360(OfficeContactFormView.as_view()),
+        name='office-finder-contact',
+    ),
+    path(
+        'contact/office-finder/<str:postcode>/success/',
+        skip_ga360(OfficeSuccessView.as_view()),
+        {
+            'slug': snippet_slugs.HELP_FORM_SUCCESS,
+            'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='contact-us-office-success',
     ),
 ]

@@ -312,3 +312,23 @@ class ExportOpportunitiesRoutingForm(forms.Form):
         widget=forms.RadioSelect(),
         choices=CHOICES,
     )
+
+
+class OfficeFinderForm(forms.Form):
+    MESSAGE_NOT_FOUND = 'The postcode you entered does not exist'
+
+    postcode = forms.CharField(
+        label='Enter your postcode', help_text='For example SW1A 2AA', validators=[is_valid_uk_postcode]
+    )
+
+    def clean_postcode(self):
+        return self.cleaned_data['postcode'].replace(' ', '')
+
+
+class TradeOfficeContactForm(
+    SerializeDataMixin,
+    GovNotifyEmailActionMixin,
+    ConsentFieldMixin,
+    BaseShortForm,
+):
+    pass
