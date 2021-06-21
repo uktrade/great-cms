@@ -1,10 +1,12 @@
 import pytest
+import requests
 
 from contact.helpers import (
     extract_other_offices_details,
     extract_regional_office_details,
     format_office_details,
     retrieve_regional_office,
+    retrieve_regional_office_email,
 )
 from directory_api_client.exporting import url_lookup_by_postcode
 
@@ -169,3 +171,36 @@ def test_retrieve_regional_office__no_match(requests_mock):
     )
 
     assert retrieve_regional_office('ABC123') is None
+
+
+def test_retrieve_regional_office_email_exception(settings, requests_mock):
+    requests_mock.get(
+        url_lookup_by_postcode.format(postcode='ABC123'),
+        exc=requests.exceptions.ConnectTimeout,
+    )
+    email = retrieve_regional_office_email('ABC123')
+
+    assert email is None
+
+
+def test_retrieve_regional_office_email_not_ok(settings, requests_mock):
+    requests_mock.get(
+        url_lookup_by_postcode.format(postcode='ABC123'),
+        status_code=404,
+    )
+    email = retrieve_regional_office_email('ABC123')
+
+    assert email is None
+
+
+def test_retrieve_regional_office_email_success(requests_mock):
+    match_office = [{'is_match': True, 'email': 'region@example.com'}]
+    requests_mock.get(
+        url_lookup_by_postcode.format(postcode='ABC123'),
+        status_code=200,
+        json=match_office,
+    )
+
+    email = retrieve_regional_office_email('ABC123')
+
+    assert email == 'region@example.com'
