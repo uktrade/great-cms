@@ -9,12 +9,15 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
-      - ./docker_data/initdb.sh/:/docker-entrypoint-initdb.d/init-user-db.sql
-      - ./docker_data/pgdata:/var/lib/postgresql/data
+      - ./docker_data/initdb.sh/:/docker-entrypoint-initdb.d/
+      - dbfiles:/var/lib/postgresql/data
     ports:
       - '5432:5432'
     networks:
       - inside-network
+
+volumes:
+  dbfiles:
 
 networks:
   inside-network:
