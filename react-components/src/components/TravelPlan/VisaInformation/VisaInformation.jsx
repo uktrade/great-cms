@@ -40,38 +40,38 @@ export const VisaInformation = memo(
           </a>{' '}
           service. If you do, you'll be able to add the details here.
         </p>
-
-        <div className="great-radio m-b-xs">
-          <input
-            id="need-visa-false"
-            className="great-radio__input"
-            name="need-visa-radio-group"
-            type="radio"
-            value="false"
-            checked={needVisa === false}
-            onChange={(event) => onNeedVisaChange(event)}
-          />
-          <label htmlFor="need-visa-false" className="great-radio__label">
-            I don't need a visa
-          </label>
+        <div className="c-full">
+          <div className="multiple-choice large m-b-xs">
+            <input
+              id="need-visa-false"
+              className="radio m-b-xs"
+              name="need-visa-radio-group"
+              type="radio"
+              value="false"
+              checked={needVisa === false}
+              onChange={(event) => onNeedVisaChange(event)}
+            />
+            <label htmlFor="need-visa-false" className="">
+              I don't need a visa
+            </label>
+          </div>
+          <div className="multiple-choice large">
+            <input
+              id="need-visa-true"
+              className="radio"
+              name="need-visa-radio-group"
+              type="radio"
+              value="true"
+              checked={needVisa === true}
+              onChange={(event) => onNeedVisaChange(event)}
+            />
+            <label htmlFor="need-visa-true" className="">
+              I need a visa
+            </label>
+          </div>
         </div>
-        <div className="great-radio">
-          <input
-            id="need-visa-true"
-            className="great-radio__input"
-            name="need-visa-radio-group"
-            type="radio"
-            value="true"
-            checked={needVisa === true}
-            onChange={(event) => onNeedVisaChange(event)}
-          />
-          <label htmlFor="need-visa-true" className="great-radio__label">
-            I need a visa
-          </label>
-        </div>
-
         {needVisa && (
-          <div className="g-panel g-panel--radio m-b-s">
+          <div className="g-panel m-b-s c-full">
             {formFields.map((item, index) => {
               return (
                 <TextArea
