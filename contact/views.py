@@ -361,3 +361,14 @@ class OfficeSuccessView(DomesticSuccessView):
             **super().get_context_data(**kwargs),
             'next_url': '/',
         }
+
+
+class EventsFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
+    form_class = contact_forms.EventsForm
+    template_name = 'domestic/contact/step.html'
+    success_url = reverse_lazy('contact:contact-us-events-success')
+    notify_settings = NotifySettings(
+        agent_template=settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_email=settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
+        user_template=settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
+    )
