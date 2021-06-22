@@ -6,6 +6,7 @@ from contact.views import (
     DomesticFormView,
     DomesticSuccessView,
     EcommerceSupportFormPageView,
+    EventsFormView,
     ExportSupportSuccessPageView,
     GuidanceView,
     OfficeContactFormView,
@@ -93,5 +94,19 @@ urlpatterns = [
             'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
         },
         name='contact-us-office-success',
+    ),
+    path(
+        'contact/events/',
+        skip_ga360(EventsFormView.as_view()),
+        name='contact-us-events-form',
+    ),
+    path(
+        'contact/events/success/',
+        skip_ga360(DomesticSuccessView.as_view()),
+        {
+            'slug': snippet_slugs.HELP_FORM_SUCCESS_EVENTS,
+            'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='contact-us-events-success',
     ),
 ]

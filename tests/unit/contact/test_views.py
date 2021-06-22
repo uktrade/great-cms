@@ -132,15 +132,15 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
             settings.CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS,
         ),
+        (
+            reverse('contact:contact-us-events-form'),
+            reverse('contact:contact-us-events-success'),
+            views.EventsFormView,
+            settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
+        ),
         # TO BE PORTED IN SUBSEQUENT WORK
-        # (
-        #     reverse('contact:contact-us-events-form'),
-        #     reverse('contact:contact-us-events-success'),
-        #     views.EventsFormView,
-        #     settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
-        #     settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
-        #     settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
-        # ),
         # (
         #     reverse('contact:contact-us-dso-form'),
         #     reverse('contact:contact-us-dso-success'),
@@ -232,7 +232,7 @@ contact_urls_for_prefill_tests = (
     reverse('contact:contact-us-enquiries'),  # DomesticEnquiriesFormView
     # TO COME IN LATER WORK
     # reverse('contact:contact-us-dso-form'),
-    # reverse('contact:contact-us-events-form'),
+    reverse('contact:contact-us-events-form'),
     reverse('contact:office-finder-contact', kwargs={'postcode': 'FOOBAR'}),
 )
 
@@ -424,11 +424,11 @@ def test_ecommerce_success_view(client):
         #     constants.EUEXIT,
         #     reverse('domestic:brexit-contact-form'),
         # ),
-        # (
-        #     constants.DOMESTIC,
-        #     constants.EVENTS,
-        #     reverse('contact:contact-us-events-form'),
-        # ),
+        (
+            constants.DOMESTIC,
+            constants.EVENTS,
+            reverse('contact:contact-us-events-form'),
+        ),
         # (constants.DOMESTIC, constants.DSO, reverse('contact:contact-us-dso-form')),
         # (constants.DOMESTIC, constants.OTHER, reverse('contact:contact-us-enquiries')),
         # great services guidance routing
