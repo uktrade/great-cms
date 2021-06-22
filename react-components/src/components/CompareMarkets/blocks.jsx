@@ -80,18 +80,19 @@ const renderColumnHeader = (columnConfig, context, mobile) => {
     : columnConfig.name
   return (
     <>
-      {columnName}
+      {!mobile ? columnName : ''}
       {columnConfig.tooltip && (
-        <div>
+        <div className={mobile ? 'f-r' : ''}>
           <Tooltip
             title={columnConfig.tooltip.title || `What is '${columnName}'?`}
             content={columnConfig.tooltip.content}
-            position={mobile ? 'left' : columnConfig.tooltip.position}
+            position={mobile ? 'right' : columnConfig.tooltip.position}
             showTitle={columnConfig.tooltip.showTitle || false}
             className="text-align-left body-m"
           />
         </div>
       )}
+      {mobile ? columnName : ''}
     </>
   )
 }
