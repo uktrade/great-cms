@@ -3,7 +3,9 @@ from urllib.parse import urlparse
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 from django.conf import settings
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from django.template.response import TemplateResponse
+from django.urls import reverse, reverse_lazy
+from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -11,6 +13,21 @@ from formtools.wizard.views import NamedUrlSessionWizardView
 from contact import constants, forms as contact_forms, helpers
 from core import mixins as core_mixins, snippet_slugs
 from core.datastructures import NotifySettings
+
+
+class SubmitFormOnGetMixin:
+    # This is an unusual patterm, ported from V1. It is only safe as
+    # long as the POST action of any view which uses it does NOT
+    # update state or trigger a side effect...
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        data = self.request.GET or {}
+        if data:
+            kwargs['data'] = data
+        return kwargs
+
+    def get(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
 
 
 class SendNotifyMessagesMixin:
@@ -286,3 +303,61 @@ class GuidanceView(
     TemplateView,
 ):
     template_name = 'domestic/contact/guidance.html'
+
+
+class OfficeFinderFormView(SubmitFormOnGetMixin, FormView):
+    template_name = 'domestic/contact/office-finder.html'
+    form_class = contact_forms.OfficeFinderForm
+    postcode = ''
+
+    @cached_property
+    def all_offices(self):
+        return helpers.retrieve_regional_offices(self.postcode)
+
+    def form_valid(self, form):
+        self.postcode = form.cleaned_data['postcode']
+        office_details = helpers.extract_regional_office_details(self.all_offices)
+        other_offices = helpers.extract_other_offices_details(self.all_offices)
+        return TemplateResponse(
+            self.request,
+            self.template_name,
+            {
+                'office_details': office_details,
+                'other_offices': other_offices,
+                **self.get_context_data(),
+            },
+        )
+
+
+class OfficeContactFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
+    template_name = 'domestic/contact/step.html'
+    form_class = contact_forms.TradeOfficeContactForm
+
+    @property
+    def agent_email(self):
+        return (
+            helpers.retrieve_regional_office_email(self.kwargs['postcode'])
+            or settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS  # noqa: W503
+        )
+
+    @property
+    def notify_settings(self):
+        return NotifySettings(
+            agent_template=settings.CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID,
+            agent_email=self.agent_email,
+            user_template=settings.CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID,
+        )
+
+    def get_success_url(self):
+        return reverse(
+            'contact:contact-us-office-success',
+            kwargs={'postcode': self.kwargs['postcode']},
+        )
+
+
+class OfficeSuccessView(DomesticSuccessView):
+    def get_context_data(self, **kwargs):
+        return {
+            **super().get_context_data(**kwargs),
+            'next_url': '/',
+        }
