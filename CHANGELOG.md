@@ -26,6 +26,7 @@
 - GP2-2901 - DAC_Label_in_Name - Product finder
 - GP2-2900 - DAC_Label_in_Name - Search_inputs
 - GP2-2935 - DAC_Custom_Controls_03 Tooltips
+
 - GP2-2915 - DAC_Information_and_Relationships_06 Roles on WTE tables
 - GP2-2914 - DAC_Information_and_Relationships_05 Dynamic caption on WTE
 - GP2-2863 - Skip GA360 on search path
@@ -57,12 +58,14 @@
 - GP2-2937 - DAC_Nondescriptive_Labels_01
 - GP2-2923 - DAC_CSS_Images_as_Labels_02
 - GP2-2942 - DAC_Focus_Visible_03
+- GP2-2941 - DAC_Focus_Visible_02 (AA)
 
 ## [1.10.1](https://github.com/uktrade/great-cms/releases/tag/1.10.1)
 ### Enhancements
 - NOTICKET - update changelog, post-release
 ### Fixed bugs
 - GP2-2879 - DAC_Parsing_01 (A)
+
 - GP2-2890 - DAC NonText Content 01
 - GP2-2835 - Redirect fix for initial request for domestic going to international/ Disable caching on homepage
 - GP2-2889 - DAC Decorative_Images_01 - clear alt tags on decorative images
