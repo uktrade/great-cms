@@ -213,20 +213,13 @@ export const Select = memo(
                   className={`select__button text-blue-deep-20 ${
                     isOpen ? 'select__button--close' : ''
                   }`}
-                  // onClick={() => setOpen(!isOpen)}
-                  // onKeyDown={keyHandler}
-                  // role="button"
-                  // tabIndex="-1"
                 >
                   <i className={`fas ${'fa-chevron-down'}`} />
                 </div>
               ) : (
                 ''
               )}
-              <div
-                className="select__placeholder--input"
-                // onClick={() => setOpen(!isOpen)}
-              >
+              <div className="select__placeholder--input">
                 {autoComplete ? (
                   <input
                     role="combobox"
@@ -244,11 +237,7 @@ export const Select = memo(
                 )}
               </div>
               {!autoComplete ? (
-                <div
-                  className="select__placeholder--value"
-                  // onClick={() => setOpen(!isOpen)}
-                  aria-label={label}
-                >
+                <div className="select__placeholder--value" aria-label={label}>
                   {selectedItem()}
                 </div>
               ) : (
