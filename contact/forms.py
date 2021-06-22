@@ -332,3 +332,10 @@ class TradeOfficeContactForm(
     BaseShortForm,
 ):
     pass
+
+
+class EventsForm(
+    ConsentFieldMixin,
+    ShortNotifyForm,
+):
+    pass
