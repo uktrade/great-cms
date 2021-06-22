@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, { memo, useState, useEffect } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
 export const RadiogroupItem = memo(
