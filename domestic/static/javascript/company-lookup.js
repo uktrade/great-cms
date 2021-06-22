@@ -24,7 +24,7 @@ GOVUK.data = (new function() {
       url: url,
       method: "GET",
       success: function(response) {
-        service.response = response;
+        service.response = response && response.items;
       }
     }, configuration || {});
 
@@ -58,7 +58,7 @@ GOVUK.data = (new function() {
 
 
   // Create service to fetch Company from name lookup on Companies House API
-  this.getCompanyByName = new Service("/api/internal/companies-house-search/");
+  this.getCompanyByName = new Service("/api/companies-house/");
 });
 
 GOVUK.components = (new function() {

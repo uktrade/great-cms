@@ -140,7 +140,7 @@ class CompaniesHouseAPIView(generics.GenericAPIView):
     permission_classes = []
 
     def get(self, request, *args, **kwargs):
-        service = request.GET.get('service')
+        service = request.GET.get('service', 'search')
         if service == 'search':
             response = ch_search_api_client.company.search_companies(query=request.GET.get('term'))
         elif service == 'profile':
