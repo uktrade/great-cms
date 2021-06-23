@@ -519,19 +519,12 @@ WORLD_BANK_URL = env.str('WORLD_BANK_URL', 'https://www.worldbank.org/')
 DATA_WORLD_BANK_URL = env.str('DATA_WORLD_BANK_URL', 'https://data.worldbank.org/indicator/NY.ADJ.NNTY.PC.CD')
 UNITED_NATIONS_URL = env.str('UNITED_NATIONS_URL', 'https://www.un.org/en/')
 
-
 # 3CE commodity classification
 CCCE_BASE_URL = env.str('CCCE_BASE_URL', 'https://info.stage.3ceonline.com')
-COMMODITY_SEARCH_URL = env.str(
-    'CCCE_COMMODITY_SEARCH_URL', CCCE_BASE_URL + '/ccce/apis/classify/v1/interactive/classify-start'
-)
-COMMODITY_SEARCH_REFINE_URL = env.str(
-    'CCCE_COMMODITY_SEARCH_REFINE_URL',
-    CCCE_BASE_URL + '/ccce/apis/classify/v1/interactive/classify-continue',
-)
-CCCE_IMPORT_SCHEDULE_URL = env.str('CCCE_TRADE_DATA_URL', CCCE_BASE_URL + '/ccce/apis/tradedata/import/v1/schedule')
-
 COMMODITY_SEARCH_TOKEN = env.str('CCCE_COMMODITY_SEARCH_TOKEN', '')
+COMMODITY_SEARCH_URL = CCCE_BASE_URL + '/ccce/apis/classify/v1/interactive/classify-start'
+COMMODITY_SEARCH_REFINE_URL = CCCE_BASE_URL + '/ccce/apis/classify/v1/interactive/classify-continue'
+CCCE_IMPORT_SCHEDULE_URL = CCCE_BASE_URL + '/ccce/apis/tradedata/import/v1/schedule'
 
 # directory constants
 DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON = env.str('DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON', '')
