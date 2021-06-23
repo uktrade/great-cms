@@ -72,6 +72,7 @@
 - GP2-2942 - DAC_Focus_Visible_03
 - GP2-2941 - DAC_Focus_Visible_02 (AA)
 - GP2-2944 - DAC_Reflow_01
+- GP2-2936 - DAC_Custom_Controls_04
 
 ## [1.10.1](https://github.com/uktrade/great-cms/releases/tag/1.10.1)
 ### Enhancements
