@@ -18,48 +18,58 @@ export const Login = (props) => {
   function handleSubmit() {
     setErrors({})
     setIsInProgress(true)
-    Services.checkCredentials({email, password})
+    Services.checkCredentials({ email, password })
       .then(() => location.assign(props.nextUrl))
       .catch(handleError)
   }
 
-  const next = encodeURIComponent(`${location.origin}${props.nextUrl}`);
+  const next = encodeURIComponent(`${location.origin}${props.nextUrl}`)
   const linkedinLoginUrl = `${Services.config.linkedInUrl}?next=${next}`
   const googleLoginUrl = `${Services.config.googleUrl}?next=${next}`
 
-  return (<div className="signup signup--reverse signup__container">
-    <div className="signup__steps-panel">
-      <a href="/">
-        <img
-          className="m-f-auto m-r-auto signup__logo"
-          src="/static/images/dit_logo_335x160.png"
-          alt="Department for International Trade"
-          width="148"
-          height="71"
+  return (
+    <div className="signup signup--reverse signup__container">
+      <div className="signup__steps-panel">
+        <div className="centre-children">
+          <a href="/" className="inline-block">
+            <img
+              className="m-f-auto m-r-auto signup__logo"
+              src="/static/images/dit_logo_335x160.png"
+              alt="Department for International Trade"
+              width="148"
+              height="71"
+            />
+          </a>
+        </div>
+        <Form
+          disabled={isInProgress}
+          errors={errors}
+          handlePasswordChange={setPassword}
+          handleSubmit={handleSubmit}
+          handleEmailChange={setEmail}
+          password={password}
+          email={email}
+          linkedinLoginUrl={linkedinLoginUrl}
+          googleLoginUrl={googleLoginUrl}
         />
-      </a>
-      <Form
-        disabled={isInProgress}
-        errors={errors}
-        handlePasswordChange={setPassword}
-        handleSubmit={handleSubmit}
-        handleEmailChange={setEmail}
-        password={password}
-        email={email}
-        linkedinLoginUrl={linkedinLoginUrl}
-        googleLoginUrl={googleLoginUrl}
-      />
-    </div>
-    <div className="signup__right-panel">
-      <div className="signup__right-panel__headings">
-        <h1 className="text-blue-deep-80">Sign in to continue your exporting journey</h1>
-        <p className="text-blue-deep-80">Don't have an account?</p>
-        <a href={Services.config.signupUrl} className="button button--secondary">Sign up</a>
       </div>
-      <img src="/static/images/sign-in-illustration.svg" alt="" />
+      <div className="signup__right-panel">
+        <div className="signup__right-panel__headings">
+          <h1 className="text-blue-deep-80">
+            Sign in to continue your exporting journey
+          </h1>
+          <p className="text-blue-deep-80">Don't have an account?</p>
+          <a
+            href={Services.config.signupUrl}
+            className="button button--secondary"
+          >
+            Sign up
+          </a>
+        </div>
+        <img src="/static/images/sign-in-illustration.svg" alt="" />
+      </div>
     </div>
-  </div>)
-
+  )
 }
 
 Login.propTypes = {
@@ -74,5 +84,5 @@ Login.defaultProps = {
   errors: {},
   isInProgress: false,
   email: '',
-  password: ''
+  password: '',
 }
