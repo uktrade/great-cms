@@ -3,8 +3,7 @@
 <div class="container">
     {% breadcrumbs 'Submitted' %}
         <a href="/">great.gov.uk</a>
-        {% comment "HARD CODING UNTIL ROUTE EXISTS "%} {% url 'contact-us-routing-form' step='location' %} {% endcomment %}
-        <a href="/contact/">Contact us</a>
+        <a href="{% url 'contact:contact-us-routing-form' step='location' %}">Contact us</a>
     {% endbreadcrumbs %}
 </div>
 
