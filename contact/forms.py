@@ -346,3 +346,29 @@ class DefenceAndSecurityOrganisationForm(
     ShortNotifyForm,
 ):
     pass
+
+
+class FeedbackForm(
+    SerializeDataMixin,
+    ZendeskActionMixin,
+    forms.Form,
+):
+    name = forms.CharField()
+    email = forms.EmailField()
+    comment = forms.CharField(
+        label='Feedback',
+        widget=Textarea,
+    )
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+        widget=ReCaptchaV3(),
+    )
+    terms_agreed = forms.BooleanField(
+        label=TERMS_LABEL,
+    )
+
+    @property
+    def full_name(self):
+        assert self.is_valid()
+        return self.cleaned_data['name']
