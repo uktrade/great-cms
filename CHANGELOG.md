@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-1655 - Migrate more contact pages (three types) from V1 to V2
 - GP2-1688 - Migrate /contact/office-finder/ pages from V1 into V2
 - GP2-3054 - Updated GA360 mixin for special exception for authenticated staff users
 - GP2-2841 - Pinned CF buildpack and upgraded python to 3.9.5
