@@ -339,3 +339,10 @@ class EventsForm(
     ShortNotifyForm,
 ):
     pass
+
+
+class DefenceAndSecurityOrganisationForm(
+    ConsentFieldMixin,
+    ShortNotifyForm,
+):
+    pass

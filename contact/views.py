@@ -372,3 +372,14 @@ class EventsFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
         agent_email=settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
         user_template=settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
     )
+
+
+class DefenceAndSecurityOrganisationFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
+    form_class = contact_forms.DefenceAndSecurityOrganisationForm
+    template_name = 'domestic/contact/step.html'
+    success_url = reverse_lazy('contact:contact-us-dso-success')
+    notify_settings = NotifySettings(
+        agent_template=settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_email=settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
+        user_template=settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
+    )
