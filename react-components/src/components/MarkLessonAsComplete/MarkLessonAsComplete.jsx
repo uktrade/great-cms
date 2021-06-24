@@ -45,7 +45,9 @@ const MarkLessonAsComplete = ({ endpoint }) => {
 
   return (
     <div className="mark-lesson-as-complete">
-      <h3 className="h-m text-white p-b-s">Lesson complete?</h3>
+      <legend>
+        <h2 className="h-m text-white p-b-s">Lesson complete?</h2>
+      </legend>
       <div className="great-checkbox great-checkbox--large">
         <input
           type="checkbox"
@@ -57,6 +59,7 @@ const MarkLessonAsComplete = ({ endpoint }) => {
           checked={Boolean(isComplete)}
         />
         <label htmlFor="markascomplete_checkbox">{labelText}</label>
+        <div className="visually-hidden" role="status">{isComplete && isChecked && 'Great! Progress saved'}</div>
       </div>
     </div>
   )

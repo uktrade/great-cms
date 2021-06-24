@@ -4,154 +4,8 @@ from unittest import mock
 
 import pytest
 from django.urls import reverse
-from freezegun import freeze_time
 
 from exportplan.core import helpers
-
-
-@pytest.mark.django_db
-@freeze_time('2016-11-23 11:21:10')
-@mock.patch.object(helpers, 'update_exportplan')
-def test_ajax_country_data(mock_update_exportplan, mock_sso_get_export_plan, client, user):
-    client.force_login(user)
-    url = reverse('exportplan:api-country-data')
-
-    update_return_data = {
-        'target_markets': [
-            {'country_name': 'UK'},
-            {'country_name': 'China', 'SomeData': 'xyz'},
-        ]
-    }
-
-    mock_sso_get_export_plan.return_value = {
-        'pk': 1,
-        'target_markets': [
-            {'country_name': 'UK'},
-        ],
-    }
-    mock_update_exportplan.return_value = update_return_data
-
-    response = client.get(
-        url,
-        {
-            'country_name': 'China',
-        },
-    )
-
-    assert response.status_code == 200
-
-    assert mock_update_exportplan.call_count == 1
-    assert mock_update_exportplan.call_args == mock.call(
-        data={'target_markets': [{'country_name': 'UK'}, {'country_name': 'China'}]}, id=1, sso_session_id='123'
-    )
-    assert response.json() == {'datenow': '2016-11-23T11:21:10', 'target_markets': update_return_data['target_markets']}
-
-
-@pytest.mark.django_db
-def test_ajax_country_data_no_country(client, user):
-    client.force_login(user)
-    url = reverse('exportplan:api-country-data')
-    response = client.get(url)
-
-    assert response.status_code == 400
-
-
-@pytest.mark.django_db
-@freeze_time('2016-11-23 11:21:10')
-@mock.patch.object(helpers, 'update_exportplan')
-def test_ajax_country_data_remove(mock_update_exportplan, mock_sso_get_export_plan, client, user):
-    client.force_login(user)
-    url = reverse('exportplan:api-remove-country-data')
-
-    export_plan_data = {
-        'pk': 1,
-        'target_markets': [
-            {'country_name': 'UK'},
-            {'country_name': 'China', 'SomeData': 'xyz'},
-        ],
-    }
-    update_return_data = {'target_markets': [{'country': 'UK'}]}
-
-    mock_sso_get_export_plan.return_value = export_plan_data
-    mock_update_exportplan.return_value = update_return_data
-
-    response = client.get(
-        url,
-        {
-            'country_name': 'China',
-        },
-    )
-
-    assert response.status_code == 200
-
-    assert mock_update_exportplan.call_count == 1
-    assert mock_update_exportplan.call_args == mock.call(
-        data={'target_markets': [{'country_name': 'UK'}]}, id=1, sso_session_id='123'
-    )
-    assert response.json() == {'datenow': '2016-11-23T11:21:10', 'target_markets': update_return_data['target_markets']}
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'update_exportplan')
-def test_ajax_sector_remove(mock_update_exportplan, client, user):
-    client.force_login(user)
-    url = reverse('exportplan:api-remove-sector')
-    update_return_data = {'sectors': []}
-
-    mock_update_exportplan.return_value = update_return_data
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-
-    assert mock_update_exportplan.call_count == 1
-    assert mock_update_exportplan.call_args == mock.call(data={'sectors': []}, id=1, sso_session_id='123')
-    assert response.json() == {'sectors': []}
-
-
-@pytest.mark.django_db
-def test_ajax_country_data_remove_no_country(client, user):
-    client.force_login(user)
-    url = reverse('exportplan:api-remove-country-data')
-    response = client.get(url)
-
-    assert response.status_code == 400
-
-
-@pytest.mark.django_db
-@freeze_time('2016-11-23 11:21:10')
-@mock.patch.object(helpers, 'get_recommended_countries')
-@mock.patch.object(helpers, 'update_exportplan')
-def test_recommended_countries(mock_update_exportplan, mock_get_recommended_countries, export_plan_data, client, user):
-    client.force_login(user)
-    url = reverse('exportplan:ajax-recommended-countries-data')
-
-    recommended_countries = [{'country': 'Japan'}, {'country': 'South Korea'}]
-
-    mock_get_recommended_countries.return_value = recommended_countries
-
-    response = client.get(url, {'sectors': 'Automotive,Electrical'})
-
-    assert response.status_code == 200
-
-    assert mock_update_exportplan.call_count == 1
-    assert mock_update_exportplan.call_args == mock.call(
-        data={'sectors': ['Automotive', 'Electrical']}, id=1, sso_session_id='123'
-    )
-
-    assert mock_get_recommended_countries.call_count == 1
-    assert mock_get_recommended_countries.call_args == mock.call(sso_session_id='123', sectors='Automotive,Electrical')
-
-    assert response.json() == {'countries': recommended_countries}
-
-
-@pytest.mark.django_db
-def test_recommended_countries_no_country(client, user):
-    client.force_login(user)
-    url = reverse('exportplan:ajax-recommended-countries-data')
-    response = client.get(url)
-
-    assert response.status_code == 400
 
 
 @pytest.mark.django_db
@@ -408,15 +262,15 @@ def test_model_objects_validation_create(mock_create_model_object, model_object_
 @mock.patch.object(helpers, 'update_exportplan')
 def test_update_export_plan_api_view(mock_update_exportplan, client, user):
     client.force_login(user)
-    mock_update_exportplan.return_value = {'target_markets': [{'country': 'UK'}]}
+    mock_update_exportplan.return_value = {'marketing_approach': {'resources': 'xyz'}}
     url = reverse('exportplan:api-update-export-plan')
-    response = client.post(url, {'target_markets': ['China', 'India']})
+    response = client.post(url, {'marketing_approach': {'resources': 'new resource'}}, content_type='application/json')
 
     assert response.status_code == 200
 
     assert mock_update_exportplan.call_count == 1
     assert mock_update_exportplan.call_args == mock.call(
-        data=OrderedDict([('target_markets', ['China', 'India'])]), id=1, sso_session_id='123'
+        data={'marketing_approach': {'resources': 'new resource'}}, id=1, sso_session_id='123'
     )
 
 
@@ -454,7 +308,7 @@ def test_update_calculate_cost_and_pricing(mock_update_exportplan, cost_pricing_
 @mock.patch.object(helpers, 'update_exportplan')
 def test_update_export_plan_ui_option_api_view(mock_update_exportplan, client, user):
     client.force_login(user)
-    mock_update_exportplan.return_value = {'target_markets': [{'country': 'UK'}]}
+    mock_update_exportplan.return_value = {'target_market_documents': {'document_name': 'test'}}
 
     url = reverse('exportplan:api-update-export-plan')
 

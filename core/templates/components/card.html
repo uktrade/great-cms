@@ -5,6 +5,7 @@
 >
   {% if url %}
   <a
+    tabindex="-1"
     class="card-link"
     href="{{ url }}"
     {% if card_id %}id="{{ card_id|add:'-link' }}"{% endif %}
@@ -17,27 +18,35 @@
             <img src="{{ thumbnail.url }}" alt="{{ card_image.alt_text }}" class="card-image"{% if card_id %} id="{{ card_id|add:'-image' }}"{% endif %}>
         {% endif %}
     {% endblock %}
-    <div class="card-inner rich-text">
-      {% block content %}
-      {% if html_content %}
-      {{ html_content }}
-      {% else %}
-        {% if subheading %}
-          <p class="subheading">{{ subheading }}</p>
-        {% endif %}
-        {% if title or heading %}
-          <h3 class="heading-large">{% firstof title heading %}</h3>
-        {% endif %}
-        {% if html_snippet %}
-        {{ html_snippet }}
-        {% endif %}
-        {% if show_sign_in_required and not request.user.is_authenticated %}
-          {% if request.path == '/' %}
-            <span class="shared-tag">Sign in required</span>
+    <div>
+      {% if url %}
+        <a href={{url}} class="card__link card__link--focused">
+      {% endif %}
+      <div class="card-inner rich-text">
+        {% block content %}
+        {% if html_content %}
+        {{ html_content }}
+        {% else %}
+          {% if subheading %}
+            <p class="subheading">{{ subheading }}</p>
+          {% endif %}
+          {% if title or heading %}
+              <h3 class="heading-large">{% firstof title heading %}</h3>
+          {% endif %}
+          {% if html_snippet %}
+          {{ html_snippet }}
+          {% endif %}
+          {% if show_sign_in_required and not request.user.is_authenticated %}
+            {% if request.path == '/' %}
+              <span class="shared-tag">Sign in required</span>
+            {% endif %}
           {% endif %}
         {% endif %}
+        {% endblock %}
+      </div>
+      {% if url %}
+        </a>
       {% endif %}
-      {% endblock %}
     </div>
   {% if url %}
   </a>

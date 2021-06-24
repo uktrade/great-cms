@@ -84,32 +84,32 @@ export default function Interaction(props) {
   }
 
   const options = (attribute.attrs || []).map((attr) => {
-    return <ValueItem 
-      key={attr.id} 
-      option={attr} 
+    return <ValueItem
+      key={attr.id}
+      option={attr}
       valueChange={valueChange}
       />
   })
 
   return (
     <div className="interaction grid m-v-xs" key={attribute.id}>
-      <div className="c-fullwidth">
+      <fieldset className="c-fullwidth" aria-describedby="interaction-details">
         <div className={`form-group p-v-0 ${mixedContentError ? 'form-group-error' : ''}`}>
-          <span className="interaction-name h-s p-t-0">{capitalize(attribute.label)}</span>  
-          <p className="m-t-0 m-b-xs">How much of each item is in your product?</p>
+          <legend className="interaction-name h-s p-t-0">{capitalize(attribute.label)}</legend>
+          <p id="interaction-details" className="m-t-0 m-b-xs">How much of each item is in your product?</p>
           { mixedContentError ? (<span className="error-message m-v-xs bold">Total must equal 100%</span>) : '' }
           {options}
         </div>
-        <button 
-          type="button" 
-          className="button button--primary m-t-xxs" 
-          disabled={!buttonEnabled} 
-          onClick={clickNext} 
+        <button
+          type="button"
+          className="button button--primary m-t-xxs"
+          disabled={!buttonEnabled}
+          onClick={clickNext}
           style={{float:'left',clear:'both'}}
         >
         Next
         </button>
-      </div>
+      </fieldset>
     </div>
   )
 }
@@ -117,7 +117,7 @@ export default function Interaction(props) {
 Interaction.propTypes = {
   txId: PropTypes.string.isRequired,
   attribute: PropTypes.shape(
-    { id: PropTypes.string, 
+    { id: PropTypes.string,
       label: PropTypes.string,
       attrs: PropTypes.arrayOf(
         PropTypes.shape({

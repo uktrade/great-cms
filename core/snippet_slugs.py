@@ -13,3 +13,6 @@ HELP_FORM_SUCCESS_FEEDBACK = 'contact-feedback-success-form'
 HELP_FORM_SUCCESS_FIND_COMPANIES = 'contact-find-companies-success-form'
 HELP_FORM_SUCCESS_INTERNATIONAL = 'contact-international-success-form'
 HELP_FORM_SUCCESS_SOO = 'contact-soo-success-form'
+
+EUEXIT_DOMESTIC_FORM = 'eu-exit-domestic'
+EUEXIT_FORM_SUCCESS = 'eu-exit-form-success'

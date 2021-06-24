@@ -9,20 +9,15 @@ from directory_constants import choices
 from exportplan.utils import format_two_dp
 
 
-class ExportPlanRecommendedCountriesSerializer(serializers.Serializer):
-    sectors = serializers.ListField(child=serializers.CharField())
-
-    def validate_sectors(self, value):
-        return value[0].split(',')
-
-
 class CountryTargetAgeDataSerializer(serializers.Serializer):
-    target_age_groups = serializers.ListField(child=serializers.CharField())
+    target_age_groups = serializers.ListField(
+        required=False, allow_empty=True, allow_null=True, default=[], child=serializers.CharField()
+    )
     country_iso2_code = serializers.CharField()
     section_name = serializers.CharField()
 
     def validate_target_age_groups(self, value):
-        return value[0].split(',')
+        return value[0].split(',') if len(value) > 0 else []
 
 
 class CompanyObjectivesSerializer(serializers.Serializer):
@@ -295,7 +290,6 @@ class TravelBusinessPoliciesSerializer(serializers.Serializer):
 class ExportPlanSerializer(serializers.Serializer):
     export_commodity_codes = ExportPlanCommodityCodeSerializer(many=True, required=False)
     export_countries = ExportPlanCountrySerializer(many=True, required=False)
-    target_markets = serializers.ListField(child=serializers.CharField(), required=False)
     about_your_business = AboutYourBuinessSerializer(required=False)
     objectives = ObjectiveSerializer(required=False)
     target_markets_research = TargetMarketsResearchSerializer(required=False)

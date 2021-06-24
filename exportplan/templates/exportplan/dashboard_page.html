@@ -53,8 +53,10 @@
       </a>
     </div>
     {% else %}
-    <img alt="Your business logo" src="{{ request.user.company.logo }}" class="width-full" />
-    <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Edit</a>
+    <div class="m-b-s">
+      <img alt="Your business logo" src="{{ request.user.company.logo }}" class="width-full" />
+      <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Update your logo</a>
+    </div>
     {% endif %}
     <a class="button button--secondary button--full-width button--icon m-b-xs" href="{% url 'exportplan:pdf-download' %}" title="Save your plan as a PDF">
       <i class="fas fa-download"></i>

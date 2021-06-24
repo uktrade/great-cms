@@ -84,17 +84,19 @@ export const Signup = (props) => {
   return (
     <div className="bg-blue-deep-80 signup signup__container">
       <div className="signup__steps-panel">
-        <a href="/">
-          <img
-            className="m-f-auto m-r-auto signup__logo"
-            src="/static/images/dit_logo_335x160.png"
-            alt=""
-            width="148"
-            height="71"
-          />
-        </a>
+        <div className="centre-children">
+          <a href="/" className="inline-block">
+            <img
+              className="m-f-auto m-r-auto signup__logo"
+              src="/static/images/dit_logo_335x160.png"
+              alt=""
+              width="148"
+              height="71"
+            />
+          </a>
+        </div>
         {renderStep()}
-        <p class="g-panel signup__questions-panel">
+        <p className="g-panel signup__questions-panel">
           If you have any questions or feedback please{' '}
           <a href="/contact/feedback/" target="_blank">
             get in touch
@@ -103,17 +105,17 @@ export const Signup = (props) => {
       </div>
       <div className="signup__right-panel">
         <div className="signup__right-panel__headings">
-          <h1>Find new customers around the world</h1>
+          <h2>Find new customers around the world</h2>
           {subHeadings.map((heading) => (
-            <div className="signup__right-panel__subheadings">
-              <i class="fas fa-check-circle"></i>
-              <h2>{heading}</h2>
+            <div className="signup__right-panel__subheadings" key={heading}>
+              <i className="fas fa-check-circle" aria-hidden="true"></i>
+              <p>{heading}</p>
             </div>
           ))}
         </div>
 
         <img
-          class="m-f-auto m-r-auto"
+          className="m-f-auto m-r-auto"
           src="/static/images/sign-up-illustration.svg"
           alt=""
         />

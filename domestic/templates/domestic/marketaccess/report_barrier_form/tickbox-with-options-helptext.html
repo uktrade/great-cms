@@ -1,0 +1,6 @@
+{% include "core/includes/_checkbox_inline_multiple.html" %}
+{% for help_id, help_text in widget.attrs.help_text.items %}
+    {% if help_id == widget.attrs.id %}
+        <p class="form-hint tickbox-with-options-help-text">{{ help_text }}</p>
+    {% endif %}
+{% endfor %}

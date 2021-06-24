@@ -86,19 +86,7 @@ urlpatterns = [
         name='service-page',
     ),
     path('pdf-download/', login_required(views.PDFDownload.as_view(), login_url=SIGNUP_URL), name='pdf-download'),
-    path(
-        'api/recommended-countries/',
-        login_required(skip_ga360(api.ExportPlanRecommendedCountriesDataView.as_view()), login_url=SIGNUP_URL),
-        name='ajax-recommended-countries-data',
-    ),
     path('api/export-plan/', skip_ga360(api.UpdateExportPlanAPIView.as_view()), name='api-update-export-plan'),
-    path(
-        'api/remove-country-data/',
-        skip_ga360(api.ExportPlanRemoveCountryDataView.as_view()),
-        name='api-remove-country-data',
-    ),
-    path('api/remove-sector/', skip_ga360(api.ExportPlanRemoveSectorView.as_view()), name='api-remove-sector'),
-    path('api/country-data/', skip_ga360(api.ExportPlanCountryDataView.as_view()), name='api-country-data'),
     path(
         'api/population-data-by-country/',
         skip_ga360(api.ExportPlanPopulationDataByCountryView.as_view()),

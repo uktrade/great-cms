@@ -10,7 +10,7 @@ Only show if progress has started
   <div class="g-card">
     <div class="g-card-progress {% if export_plan_progress.exportplan_completed %}g-card-progress--complete{% else %}" style="background-image: url({% static 'images/' %}{{export_plan_progress.next_section.image}})" {% endif %}">
           <div class="g-card-header flex-jc-space-between flex-ai-center">
-              <h3 class="h-m p-t-xxs">Export Plan</h3>
+              <h2 class="h-m p-t-xxs">Export Plan</h2>
               <a class="button button--tertiary button--small" href="{% url_map 'EXPORT_PLAN_DASHBOARD_URL' %}" title="Go to export plan">Go to export plan</a>
           </div>
 

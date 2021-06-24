@@ -10,9 +10,9 @@ airtable-python-wrapper==0.13.0
     # via -r requirements.in
 alabaster==0.7.12
     # via sphinx
-allure-pytest==2.9.42
+allure-pytest==2.9.43
     # via -r requirements_test.in
-allure-python-commons==2.9.42
+allure-python-commons==2.9.43
     # via allure-pytest
 anyascii==0.2.0
     # via wagtail
@@ -41,21 +41,21 @@ beautifulsoup4==4.8.2
     #   great-components
     #   readtime
     #   wagtail
-black==21.5b1
+black==21.6b0
     # via
     #   -r requirements_test.in
     #   blacken-docs
 blacken-docs==1.6.0
     # via -r requirements_test.in
-boto3==1.11.17
+boto3==1.17.97
     # via
     #   -r requirements.in
     #   django-storages
-botocore==1.14.17
+botocore==1.20.97
     # via
     #   boto3
     #   s3transfer
-certifi==2020.12.5
+certifi==2021.5.30
     # via
     #   elastic-apm
     #   geventhttpclient
@@ -76,7 +76,7 @@ codecov==2.1.11
     # via -r requirements_test.in
 configargparse==1.4.1
     # via locust
-coverage[toml]==5.5
+coverage==5.5
     # via
     #   codecov
     #   pytest-cov
@@ -89,8 +89,10 @@ dateparser==0.7.2
     #   -r requirements.in
     #   -r requirements_test.in
 decorator==5.0.9
-    # via ipython
-directory-api-client==22.19.0
+    # via
+    #   ipdb
+    #   ipython
+directory-api-client==22.20.0
     # via -r requirements.in
 directory-ch-client==2.1.0
     # via -r requirements.in
@@ -104,7 +106,7 @@ directory-constants==20.23.0
     # via
     #   -r requirements.in
     #   great-components
-directory-forms-api-client==5.3.0
+directory-forms-api-client==6.1.0
     # via -r requirements.in
 directory-healthcheck==2.0.0
     # via -r requirements.in
@@ -112,7 +114,7 @@ directory-sso-api-client==6.5.5
     # via -r requirements.in
 directory-validators==6.0.5
     # via -r requirements.in
-distlib==0.3.1
+distlib==0.3.2
     # via virtualenv
 django-debug-toolbar==3.2.1
     # via -r requirements_test.in
@@ -148,7 +150,7 @@ django-treebeard==4.4
     # via
     #   -r requirements.in
     #   wagtail
-django==2.2.23
+django==2.2.24
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -177,10 +179,8 @@ djangorestframework==3.11.2
     #   -r requirements.in
     #   sigauth
     #   wagtail
-docutils==0.15.2
-    # via
-    #   botocore
-    #   sphinx
+docutils==0.17.1
+    # via sphinx
 draftjs-exporter==2.1.7
     # via wagtail
 elastic-apm==6.1.3
@@ -191,7 +191,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==8.2.1
+faker==8.8.1
     # via factory-boy
 filelock==3.0.12
     # via virtualenv
@@ -233,7 +233,7 @@ gevent==21.1.2
     #   locust
 geventhttpclient==1.4.4
     # via locust
-great-components==1.1.1
+great-components==1.1.2
     # via -r requirements.in
 greenlet==1.1.0
     # via gevent
@@ -243,7 +243,7 @@ html5lib==1.1
     # via
     #   wagtail
     #   xhtml2pdf
-identify==2.2.5
+identify==2.2.10
     # via pre-commit
 idna==2.10
     # via requests
@@ -251,11 +251,11 @@ imagesize==1.2.0
     # via sphinx
 iniconfig==1.1.1
     # via pytest
-ipdb==0.13.7
+ipdb==0.13.9
     # via -r requirements_test.in
 ipython-genutils==0.2.0
     # via traitlets
-ipython==7.23.1
+ipython==7.24.1
     # via ipdb
 iso3166==1.0.1
     # via -r requirements.in
@@ -287,7 +287,7 @@ lxml==4.6.3
     # via
     #   -r requirements.in
     #   pyquery
-markdown2==2.3.9
+markdown2==2.4.0
     # via
     #   -r requirements.in
     #   readtime
@@ -313,7 +313,7 @@ mypy-extensions==0.4.3
     # via black
 nodeenv==1.6.0
     # via pre-commit
-oauthlib==3.1.0
+oauthlib==3.1.1
     # via requests-oauthlib
 olefile==0.46
     # via directory-validators
@@ -383,7 +383,7 @@ pylint-django==2.4.4
     # via -r requirements_test.in
 pylint-plugin-utils==0.6
     # via pylint-django
-pylint==2.8.2
+pylint==2.8.3
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -395,9 +395,9 @@ pyquery==1.4.3
     # via readtime
 pyrsistent==0.17.3
     # via jsonschema
-pytest-cov==2.12.0
+pytest-cov==2.12.1
     # via -r requirements_test.in
-pytest-django==4.3.0
+pytest-django==4.4.0
     # via -r requirements_test.in
 pytest-sugar==0.9.4
     # via -r requirements_test.in
@@ -427,7 +427,7 @@ pytz==2020.1
     #   tzlocal
 pyyaml==5.4.1
     # via pre-commit
-pyzmq==22.0.3
+pyzmq==22.1.0
     # via locust
 readtime==1.1.1
     # via -r requirements.in
@@ -439,7 +439,7 @@ regex==2021.4.4
     #   dateparser
 reportlab==3.5.67
     # via xhtml2pdf
-requests-mock==1.9.2
+requests-mock==1.9.3
     # via -r requirements_test.in
 requests-oauthlib==1.3.0
     # via django-staff-sso-client
@@ -458,9 +458,9 @@ requests==2.25.1
     #   wagtail
 ruamel.yaml.clib==0.2.2
     # via ruamel.yaml
-ruamel.yaml==0.17.4
+ruamel.yaml==0.17.9
     # via pre-commit-hooks
-s3transfer==0.3.7
+s3transfer==0.4.2
     # via boto3
 selenium==3.141.0
     # via -r requirements_test.in
@@ -514,30 +514,33 @@ text-unidecode==1.3
 toml==0.10.2
     # via
     #   black
-    #   coverage
     #   ipdb
     #   pep517
     #   pre-commit
     #   pre-commit-hooks
     #   pylint
     #   pytest
+    #   pytest-cov
 traitlets==5.0.5
     # via
     #   ipython
     #   matplotlib-inline
 tzlocal==2.1
     # via dateparser
+uk-postcode-utils==1.1
+    # via -r requirements.in
 unidecode==1.2.0
     # via wagtail
-urllib3==1.25.11
+urllib3==1.26.5
     # via
+    #   -r requirements_test.in
     #   botocore
     #   directory-validators
     #   elastic-apm
     #   requests
     #   selenium
     #   sentry-sdk
-virtualenv==20.4.6
+virtualenv==20.4.7
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
@@ -547,7 +550,7 @@ wagtail-factories==2.0.1
     # via -r requirements.in
 wagtail-transfer==0.7.1
     # via -r requirements.in
-wagtail==2.11.7
+wagtail==2.11.8
     # via
     #   -r requirements.in
     #   wagtail-cache

@@ -1,0 +1,5 @@
+{% for field in form %}
+    {% if field.errors %}
+        <a href="#{{field.auto_id}}" class="great-red-text">{{ field.errors|striptags }}</a>
+    {% endif %}
+{% endfor %}

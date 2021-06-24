@@ -44,10 +44,8 @@
           apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
           apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" %}',
           apiModelObjectManageUrl: '{% url "exportplan:api-model-object-manage" %}',
-          countriesBySectorsDataUrl: '{% url "exportplan:ajax-recommended-countries-data" %}',
           apiComTradeDataUrl: '{% url "core:api-comtrade-data" %}',
           apiCountryDataUrl: '{% url "core:api-country-data" %}',
-          removeSectorUrl: '{% url "exportplan:api-remove-sector" %}',
           countryAgeGroupDataUrl: '{% url "exportplan:api-target-age-country-population-data" %}',
           populationByCountryUrl: '{% url "exportplan:api-population-data-by-country" %}',
           updateCalculateCostAndPricing: '{% url "exportplan:api-calculate-cost-and-pricing" %}',
@@ -61,7 +59,6 @@
           loginUrl: '{% url "core:login" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}',
           signupUrl: '{% url "core:signup" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}',
           passwordResetUrl: '{{ javascript_components.password_reset_url }}',
-          removeCountryDataUrl: '{% url "exportplan:api-remove-country-data" %}',
           termsUrl: '{{ javascript_components.terms_url }}',
           user: {
             id: '{{ request.user.id }}',
@@ -73,6 +70,10 @@
           urlCostsAndPricing: '{% url "exportplan:costs-and-pricing"%}'
       });
     </script>
+{% endblock %}
+
+{% block skip_link %}
+  <a id="skip-link" href="#content" tabindex="1">Skip to main content</a>
 {% endblock %}
 
 {% block body_header %}

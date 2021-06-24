@@ -39,6 +39,7 @@ export const Sidebar = memo(
               <i
                 className={`fas fa-angle-double-${toggle ? 'left' : 'right'}`}
               />
+              <span className="visually-hidden">{toggle ? 'Close' : 'Expand'}</span>
             </button>
             <div className="text-center width-full p-t-m hidden">
               {logo ? (

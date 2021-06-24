@@ -77,6 +77,10 @@ class CompanyNameForm(forms.Form):
     name = forms.CharField()
 
 
+class CompaniesHouseSearchForm(forms.Form):
+    term = forms.CharField()
+
+
 class ConsentFieldMixin(forms.Form):
     contact_consent = forms.MultipleChoiceField(
         # label is set in init to avoid circular dependency

@@ -120,7 +120,7 @@ export default function CountryFinderModal(props) {
 
   let regions = Object.keys(countryList || {})
     .sort()
-    .map((region) => {
+    .map((region, index) => {
       const countries = (countryList[region] || []).map((country) => {
         if (
           (searchStr && country.name.toUpperCase().indexOf(searchStr) !== 0) ||
@@ -128,20 +128,18 @@ export default function CountryFinderModal(props) {
         )
           return ''
         return (
-          <span className="c-1-5" key={country.id}>
-            <li>
-              <button
-                type="button"
-                className="link m-r-s m-b-xs"
-                data-country={country.name}
-                data-id={country.id}
-                data-region={country.region}
-                onClick={clickCountry}
-              >
-                {country.name}
-              </button>
-            </li>
-          </span>
+          <li className="c-1-5" key={country.id}>
+            <button
+              type="button"
+              className="link m-r-s m-b-xs"
+              data-country={country.name}
+              data-id={country.id}
+              data-region={country.region}
+              onClick={clickCountry}
+            >
+              {country.name}
+            </button>
+          </li>
         )
       })
       return (
@@ -151,6 +149,7 @@ export default function CountryFinderModal(props) {
             expandAllRegions={expandRegion}
             region={region}
             countries={countries}
+            index={index}
           />
         )
       )
@@ -194,7 +193,7 @@ export default function CountryFinderModal(props) {
           These are based on the size of the market for your product, export
           distance, tariffs and costs.
         </p>
-        <ul className="m-v-xs">{suggestedList}</ul>
+        <div className="m-v-xs">{suggestedList}</div>
       </div>
     )
   }
@@ -220,16 +219,18 @@ export default function CountryFinderModal(props) {
   /* Filtered list of places */
   const marketListSection = (
     <div>
-      <h3 className="h-s p-t-xs">Countries and territories</h3>
-      <p className="m-v-xs">
+      <h3 className="h-s p-t-xs"><label htmlFor="search-input">Countries and territories</label></h3>
+      <p id="search-hint" className="m-v-xs">
         If you already have an idea of where you want to export to, choose from this list.
       </p>
       <div className="grid">
         <div className="c-1-3 m-b-xxs">
           <SearchInput
+            id="search-input"
             onChange={searchChange}
             iconClass="fa-search"
             placeholder="Search places"
+            ariaDescribedby="search-hint"
           />
         </div>
       </div>
@@ -245,7 +246,7 @@ export default function CountryFinderModal(props) {
           </button>
         </div>
         <div className="c-full">
-          <ul className="country-list grid m-v-0">{regions}</ul>
+          <div className="country-list grid m-v-0">{regions}</div>
           <hr className="hr hr--light m-v-xxs" />
         </div>
       </div>

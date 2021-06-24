@@ -20,28 +20,6 @@ def test_create_export_plan(mock_exportplan_create):
     )
 
 
-@mock.patch.object(api_client.dataservices, 'get_corruption_perceptions_index')
-@mock.patch.object(api_client.dataservices, 'get_ease_of_doing_business')
-def test_get_exportplan_marketdata(mock_cpi, mock_easeofdoingbusiness):
-    timezone_data = 'Asia/Shanghai'
-    cpi_data = {'country_name': 'China', 'country_code': 'CHN', 'cpi_score_2019': 41, 'rank': 80}
-    easeofdoingbusiness_data = {'country_name': 'China', 'country_code': 'CHN', 'cpi_score_2019': 41, 'rank': 80}
-
-    mock_easeofdoingbusiness.return_value = create_response(status_code=200, json_body=easeofdoingbusiness_data)
-    mock_cpi.return_value = create_response(status_code=200, json_body=cpi_data)
-
-    exportplan_marketdata = helpers.get_exportplan_marketdata('CHN')
-
-    assert mock_easeofdoingbusiness.call_count == 1
-    assert mock_easeofdoingbusiness.call_args == mock.call('CHN')
-    assert mock_cpi.call_count == 1
-    assert mock_cpi.call_args == mock.call('CHN')
-
-    assert exportplan_marketdata['timezone'] == timezone_data
-    assert exportplan_marketdata['corruption_perceptions_index'] == cpi_data
-    assert exportplan_marketdata['easeofdoingbusiness'] == easeofdoingbusiness_data
-
-
 def test_country_code_iso3_to_iso2():
     assert helpers.country_code_iso3_to_iso2('CHN') == 'CN'
 
@@ -93,39 +71,6 @@ def test_get_or_create_export_plan_existing(mock_get_exportplan, user):
     assert export_plan.json() == {'export_plan'}
 
 
-@mock.patch.object(api_client.personalisation, 'recommended_countries_by_sector')
-def test_get_recommended_countries(mock_recommended_countries):
-    recommended_countries = [{'country': 'japan'}, {'country': 'south korea'}]
-    mock_recommended_countries.return_value = create_response(status_code=200, json_body=recommended_countries)
-    countries = helpers.get_recommended_countries(sso_session_id=123, sectors=['Automotive'])
-
-    assert mock_recommended_countries.call_count == 1
-    assert mock_recommended_countries.call_args == mock.call(sector=['Automotive'], sso_session_id=123)
-    assert countries == [{'country': 'Japan'}, {'country': 'South Korea'}]
-
-
-@mock.patch.object(api_client.personalisation, 'recommended_countries_by_sector')
-def test_get_recommended_countries_no_return(mock_recommended_countries):
-    mock_recommended_countries.return_value = create_response(status_code=200, json_body=None)
-    countries = helpers.get_recommended_countries(sso_session_id=123, sectors=['Automotive'])
-
-    assert countries == []
-
-
-def test_serialize_exportplan_data(user):
-
-    exportplan_data = helpers.serialize_exportplan_data(user)
-
-    assert exportplan_data == {}
-
-
-def test_serialize_exportplan_data_with_country_expertise(user, mock_get_company_profile):
-    mock_get_company_profile.return_value = {'expertise_countries': ['CN']}
-
-    exportplan_data = helpers.serialize_exportplan_data(user)
-    assert exportplan_data == {'target_markets': [{'country': 'China'}]}
-
-
 @mock.patch.object(helpers, 'get_exportplan')
 @mock.patch.object(helpers, 'create_export_plan')
 def test_get_or_create_export_plan_created(mock_create_export_plan, mock_get_exportplan, user):
@@ -139,16 +84,9 @@ def test_get_or_create_export_plan_created(mock_create_export_plan, mock_get_exp
     assert mock_get_exportplan.call_args == mock.call('123')
 
     assert mock_create_export_plan.call_count == 1
-    assert mock_create_export_plan.call_args == mock.call(exportplan_data={}, sso_session_id='123')
+    assert mock_create_export_plan.call_args == mock.call(sso_session_id='123', exportplan_data={})
 
     assert export_plan == {'export_plan_created'}
-
-
-def test_get_country_data(mock_api_get_country_data, country_data):
-    response = helpers.get_country_data('United Kingdom')
-    assert mock_api_get_country_data.call_count == 1
-    assert mock_api_get_country_data.call_args == mock.call('United Kingdom')
-    assert response == country_data
 
 
 def test_get_cia_world_factbook_data(mock_api_get_cia_world_factbook_data, cia_factbook_data):

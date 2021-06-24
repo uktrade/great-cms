@@ -78,3 +78,7 @@ $cols-12   : #{($columns * 12)};
 section > .container {
     overflow: inherit;
 }
+
+#next-container > .container {
+  overflow: hidden;
+}

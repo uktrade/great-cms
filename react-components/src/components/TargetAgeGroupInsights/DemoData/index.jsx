@@ -42,7 +42,7 @@ export const DemoData = memo(({ population, cpi, internetData, languages }) => {
                 className="f-r"
                 id="corruption-perception-index-tooltip"
                 position="right"
-                heading="What is the Consumer Price Index?"
+                title="What is the Consumer Price Index?"
                 content="<p>The CPI measures the average change in prices over time that consumers pay for a basket of goods and services for their household, this is also known as inflation. It is used to estimate the change in total cost of this basket and the effect this has on the purchasing power of the country’s unit of currency.</p>"
               />
             </Stats>

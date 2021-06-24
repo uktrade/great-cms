@@ -43,7 +43,7 @@ export default {
       year: (data) => get(data, 'import_from_world.year'),
       tooltip: {
         position: 'right',
-        title: '',
+        title: 'What is international import value?',
         content: `
           <p>This shows how much money the selected countries and territories spent buying your product from around the world.</p>
          `,
@@ -62,7 +62,7 @@ export default {
       group: 'import',
       tooltip: {
         position: 'right',
-        title: '',
+        title: 'What is Import value from the UK?',
         content: `
           <p>This shows how much money the selected countries and territories spent buying your product from around the UK.</p>
          `,

@@ -1,0 +1,64 @@
+{% extends 'domestic/marketaccess/report_barrier_form/base.html' %}
+
+{% load static from staticfiles %}
+{% load wagtailcore_tags %}
+
+{% block extra_contents %}
+    <p>Report a trade barrier</p>
+    <p class="bold-small">
+        Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}
+    </p>
+    <h1 class="heading-large">Summary</h1>
+    <h2 class="heading-medium">About you and your business</h2>
+    <dl>
+        <dt class="bold-small">First name</dt>
+        <dd class="font-small">{{all_cleaned_data.firstname}}</dd>
+        <dt class="bold-small">Last name</dt>
+        <dd class="font-small">{{all_cleaned_data.lastname}}</dd>
+        <dt class="bold-small">Job title</dt>
+        <dd class="font-small">{{all_cleaned_data.jobtitle}}</dd>
+        <dt class="bold-small">Business type</dt>
+        <dd class="font-small">{{all_cleaned_data.business_type}}</dd>
+        {% if all_cleaned_data.business_type == "Other" %}
+            <dt class="bold-small">Tell us about your organisation</dt>
+            <dd class="font-small">{{all_cleaned_data.other_business_type}}</dd>
+        {% endif %}
+        <dt class="bold-small">Business or organisation name</dt>
+        <dd class="font-small">{{all_cleaned_data.company_name}}</dd>
+        <dt class="bold-small">Email address</dt>
+        <dd class="font-small">{{all_cleaned_data.email}}</dd>
+        <dt class="bold-small">Telephone number</dt>
+        <dd class="font-small">{{all_cleaned_data.phone}}</dd>
+    </dl>
+    <a id="previous-button" class="link" href="{% url 'domestic:report-ma-barrier' step='about' %}?from=summary">Change answers</a>
+    <h2 class="heading-medium">Describe your problem</h2>
+    <dl>
+        <dt class="bold-small">Where are you trying to export to or invest in?</dt>
+        <dd class="font-small">{{all_cleaned_data.location_label}}</dd>
+        <dt class="bold-small">What goods or services do you want to export?</dt>
+        <dd class="font-small">{{all_cleaned_data.product_service}}</dd>
+        <dt class="bold-small">Tell us about your problem</dt>
+        <dd class="font-small">{{all_cleaned_data.problem_summary}}</dd>
+        <dt class="bold-small">How has the problem affected your business or industry, or how could it affect it?</dt>
+        <dd class="font-small">{{all_cleaned_data.impact}}</dd>
+        <dt class="bold-small">Tell us about any steps you’ve taken to resolve the problem</dt>
+        <dd class="font-small">{{all_cleaned_data.resolve_summary}}</dd>
+        <dt class="bold-small">Is the problem caused by or related to Brexit or Covid-19?</dt>
+        <dd class="font-small">
+            {% if all_cleaned_data.problem_cause_label %}
+                Yes. {{ all_cleaned_data.problem_cause_label|join:' and ' }}
+            {% else %}
+                No
+            {% endif %}
+        </dd>
+    </dl>
+    <a id="previous-button" class="link" href="{% url 'domestic:report-ma-barrier' step='problem-details' %}?from=summary">Change answers</a>
+
+
+    <h2 class="heading-medium">How we use your information</h2>
+    <p>The Department for International Trade will use the information provided in this form to respond to your enquiry.</p>
+    <p>You can read about how we protect your data in our <a class='link' href='{% slugurl "privacy-and-cookies" %}privacy-notice-report-trade-barrier/'>privacy policy</a>.</p>
+    <h2 class="heading-medium">Additional information</h2>
+    <p>If you would like to receive additional information you can opt in below. You can opt out of these additional updates at any time.</p>
+{% endblock %}
+{% block submit_button_label %}Send report{% endblock %}

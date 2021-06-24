@@ -1,7 +1,6 @@
 import importlib
 import json
 import re
-from datetime import datetime
 
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
@@ -12,62 +11,6 @@ from rest_framework.views import APIView
 from core import helpers as core_helpers
 from exportplan.core import helpers, serializers
 from exportplan.core.processor import ExportPlanProcessor
-
-
-class ExportPlanCountryDataView(APIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = serializers.ExportPlanCountrySerializer
-
-    def get(self, request):
-        serializer = self.serializer_class(data=self.request.GET)
-        serializer.is_valid(raise_exception=True)
-        country = serializer.validated_data['country_name']
-
-        # To make more efficient by removing get
-        export_plan = self.request.user.export_plan.data
-        data = {'target_markets': export_plan['target_markets'] + [{'country_name': country}]}
-        export_plan = helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id, id=export_plan['pk'], data=data
-        )
-        data = {
-            'target_markets': export_plan['target_markets'],
-            'datenow': datetime.now(),
-        }
-
-        return Response(data)
-
-
-class ExportPlanRemoveCountryDataView(APIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = serializers.ExportPlanCountrySerializer
-
-    def get(self, request):
-        serializer = self.serializer_class(data=self.request.GET)
-        serializer.is_valid(raise_exception=True)
-        country = serializer.validated_data['country_name']
-        export_plan = self.request.user.export_plan.data
-        data = [item for item in export_plan['target_markets'] if item['country_name'] != country]
-        export_plan = helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id, id=export_plan['pk'], data={'target_markets': data}
-        )
-        data = {
-            'target_markets': export_plan['target_markets'],
-            'datenow': datetime.now(),
-        }
-
-        return Response(data)
-
-
-class ExportPlanRemoveSectorView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        export_plan = self.request.user.export_plan.data
-        updated_export_plan = helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id, id=export_plan['pk'], data={'sectors': []}
-        )
-        data = {'sectors': updated_export_plan['sectors']}
-        return Response(data)
 
 
 class ExportPlanPopulationDataByCountryView(APIView):
@@ -86,29 +29,6 @@ class ExportPlanSocietyDataByCountryView(APIView):
         return Response(data)
 
 
-class ExportPlanRecommendedCountriesDataView(APIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = serializers.ExportPlanRecommendedCountriesSerializer
-
-    def get(self, request):
-        serializer = self.serializer_class(data=self.request.GET)
-        serializer.is_valid(raise_exception=True)
-        sectors = serializer.validated_data['sectors']
-
-        export_plan = self.request.user.export_plan.data
-        helpers.update_exportplan(
-            sso_session_id=self.request.user.session_id, id=export_plan['pk'], data={'sectors': sectors}
-        )
-        recommended_countries = helpers.get_recommended_countries(
-            sso_session_id=self.request.user.session_id, sectors=','.join(sectors)
-        )
-
-        data = {
-            'countries': recommended_countries,
-        }
-        return Response(data)
-
-
 class TargetAgeCountryPopulationData(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.CountryTargetAgeDataSerializer
@@ -117,7 +37,7 @@ class TargetAgeCountryPopulationData(APIView):
         row_total = 0
         for key, value in row.items():
             if re.search(r'^\d', key):
-                if not age_groups or key in age_groups:
+                if age_groups is None or key in age_groups:
                     row_total = row_total + value
         return row_total
 
@@ -196,7 +116,6 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
 
         serializer = self.serializer_class(data=request.data)
-
         if serializer.is_valid(raise_exception=True):
             export_plan = self.request.user.export_plan.data
             helpers.update_exportplan(
