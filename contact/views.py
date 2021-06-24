@@ -383,3 +383,17 @@ class DefenceAndSecurityOrganisationFormView(PrepopulateShortFormMixin, BaseNoti
         agent_email=settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
         user_template=settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
     )
+
+
+class FeedbackFormView(core_mixins.PrepopulateFormMixin, BaseZendeskFormView):
+    form_class = contact_forms.FeedbackForm
+    template_name = 'domestic/contact/comment-contact.html'
+    success_url = reverse_lazy('contact:contact-us-feedback-success')
+    subject = settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT
+
+    def get_form_initial(self):
+        if self.request.user.is_authenticated:
+            return {
+                'email': self.request.user.email,
+                'name': self.request.user.get_full_name(),
+            }

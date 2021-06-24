@@ -370,3 +370,18 @@ def test_form_choices__international_routing_form():
     choices = tuple(forms.InternationalRoutingForm().fields['choice'].choices)
     assert choices == forms.international_choices()
     assert choices == expected
+
+
+def test_feedback_form_full_name(captcha_stub):
+
+    form_instance = forms.FeedbackForm(
+        data={
+            'name': 'Alice McTest',
+            'email': 'Alice.McTest@example.com',
+            'comment': 'I am Alice McTest and I am using your website',
+            'g-recaptcha-response': captcha_stub,
+            'terms_agreed': True,
+        }
+    )
+
+    assert form_instance.full_name == 'Alice McTest'
