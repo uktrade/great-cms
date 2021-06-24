@@ -2,6 +2,7 @@ from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
 
 from contact.views import (
+    DefenceAndSecurityOrganisationFormView,
     DomesticEnquiriesFormView,
     DomesticFormView,
     DomesticSuccessView,
@@ -108,5 +109,19 @@ urlpatterns = [
             'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
         },
         name='contact-us-events-success',
+    ),
+    path(
+        'contact/defence-and-security-organisation/',
+        skip_ga360(DefenceAndSecurityOrganisationFormView.as_view()),
+        name='contact-us-dso-form',
+    ),
+    path(
+        'contact/defence-and-security-organisation/success/',
+        skip_ga360(DomesticSuccessView.as_view()),
+        {
+            'slug': snippet_slugs.HELP_FORM_SUCCESS_DSO,
+            'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='contact-us-dso-success',
     ),
 ]
