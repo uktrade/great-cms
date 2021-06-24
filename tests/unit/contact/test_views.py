@@ -124,7 +124,7 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
     'url,success_url,view_class,agent_template,user_template,agent_email',
     (
         (
-            # V1 didn't have an explicit test for thixs
+            # V1 didn't have an explicit test for this
             reverse('contact:contact-us-enquiries'),
             reverse('contact:contact-us-domestic-success'),
             views.DomesticEnquiriesFormView,
@@ -140,15 +140,15 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
             settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
         ),
+        (
+            reverse('contact:contact-us-dso-form'),
+            reverse('contact:contact-us-dso-success'),
+            views.DefenceAndSecurityOrganisationFormView,
+            settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
+        ),
         # TO BE PORTED IN SUBSEQUENT WORK
-        # (
-        #     reverse('contact:contact-us-dso-form'),
-        #     reverse('contact:contact-us-dso-success'),
-        #     views.DefenceAndSecurityOrganisationFormView,
-        #     settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
-        #     settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
-        #     settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
-        # ),
         # (
         #     reverse('contact:contact-us-international'),
         #     reverse('contact:contact-us-international-success'),
@@ -228,10 +228,9 @@ def test_notify_form_submit_success(
 
 
 contact_urls_for_prefill_tests = (
-    reverse('contact:contact-us-domestic'),  # DomesticFormView
-    reverse('contact:contact-us-enquiries'),  # DomesticEnquiriesFormView
-    # TO COME IN LATER WORK
-    # reverse('contact:contact-us-dso-form'),
+    reverse('contact:contact-us-domestic'),
+    reverse('contact:contact-us-enquiries'),
+    reverse('contact:contact-us-dso-form'),
     reverse('contact:contact-us-events-form'),
     reverse('contact:office-finder-contact', kwargs={'postcode': 'FOOBAR'}),
 )
@@ -280,9 +279,9 @@ def test_contact_us_short_form_not_prepopulated_if_logged_out(client, url, user)
 
 success_view_params = (
     reverse('contact:contact-us-domestic-success'),
+    reverse('contact:contact-us-events-success'),
+    reverse('contact:contact-us-dso-success'),
     # TO BE PORTED IN SUBSEQUENT WORK
-    # reverse('contact:contact-us-events-success'),
-    # reverse('contact:contact-us-dso-success'),
     # reverse('contact:contact-us-export-advice-success'),
     # reverse('contact:contact-us-feedback-success'),
     # reverse('contact:contact-us-international-success'),
@@ -429,8 +428,16 @@ def test_ecommerce_success_view(client):
             constants.EVENTS,
             reverse('contact:contact-us-events-form'),
         ),
-        # (constants.DOMESTIC, constants.DSO, reverse('contact:contact-us-dso-form')),
-        # (constants.DOMESTIC, constants.OTHER, reverse('contact:contact-us-enquiries')),
+        (
+            constants.DOMESTIC,
+            constants.DSO,
+            reverse('contact:contact-us-dso-form'),
+        ),
+        (
+            constants.DOMESTIC,
+            constants.OTHER,
+            reverse('contact:contact-us-enquiries'),
+        ),
         # great services guidance routing
         (
             constants.GREAT_SERVICES,
@@ -640,6 +647,56 @@ def test_office_finder_valid(all_office_details, client):
             'website': None,
         }
     ]
+
+
+@pytest.mark.parametrize(
+    'url,slug',
+    (
+        (
+            reverse('contact:contact-us-events-success'),
+            snippet_slugs.HELP_FORM_SUCCESS_EVENTS,
+        ),
+        (
+            reverse('contact:contact-us-dso-success'),
+            snippet_slugs.HELP_FORM_SUCCESS_DSO,
+        ),
+        # (
+        #     reverse('contact:contact-us-export-advice-success'),
+        #     snippet_slugs.HELP_FORM_SUCCESS_EXPORT_ADVICE,
+        # ),
+        # (
+        #     reverse('contact:contact-us-feedback-success'),
+        #     snippet_slugs.HELP_FORM_SUCCESS_FEEDBACK,
+        # ),
+        (
+            reverse('contact:contact-us-domestic-success'),
+            snippet_slugs.HELP_FORM_SUCCESS,
+        ),
+        # (
+        #     reverse('contact:contact-us-international-success'),
+        #     snippet_slugs.HELP_FORM_SUCCESS_INTERNATIONAL,
+        # ),
+        (
+            reverse('contact:contact-us-office-success', kwargs={'postcode': 'FOOBAR'}),
+            snippet_slugs.HELP_FORM_SUCCESS,
+        ),
+        # (
+        #     reverse('contact:contact-us-exporting-to-the-uk-beis-success'),
+        #     snippet_slugs.HELP_FORM_SUCCESS_BEIS,
+        # ),
+        # (
+        #     reverse('contact:contact-us-exporting-to-the-uk-defra-success'),
+        #     snippet_slugs.HELP_FORM_SUCCESS_DEFRA,
+        # ),
+    ),
+)
+@mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
+def test_success_view_cms_snippet_data(mock_get_snippet_instance, url, slug, client):
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    mock_get_snippet_instance.assert_called_once()
 
 
 @mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
