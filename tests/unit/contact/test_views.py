@@ -63,14 +63,14 @@ class FakeChoiceForm(django.forms.Form):
             settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
             None,
         ),
+        (
+            reverse('contact:contact-us-feedback'),
+            reverse('contact:contact-us-feedback-success'),
+            views.FeedbackFormView,
+            settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
+            None,
+        ),
         # TO BE PORTED IN SUBSEQUENT WORK
-        # (
-        #     reverse('contact:contact-us-feedback'),
-        #     reverse('contact:contact-us-feedback-success'),
-        #     views.FeedbackFormView,
-        #     settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
-        #     None,
-        # ),
         # (
         #     reverse('contact:contact-us-exporting-to-the-trade-with-uk-app'),
         #     reverse('contact:contact-us-international-success'),
@@ -281,9 +281,9 @@ success_view_params = (
     reverse('contact:contact-us-domestic-success'),
     reverse('contact:contact-us-events-success'),
     reverse('contact:contact-us-dso-success'),
+    reverse('contact:contact-us-feedback-success'),
     # TO BE PORTED IN SUBSEQUENT WORK
     # reverse('contact:contact-us-export-advice-success'),
-    # reverse('contact:contact-us-feedback-success'),
     # reverse('contact:contact-us-international-success'),
 )
 
@@ -664,10 +664,10 @@ def test_office_finder_valid(all_office_details, client):
         #     reverse('contact:contact-us-export-advice-success'),
         #     snippet_slugs.HELP_FORM_SUCCESS_EXPORT_ADVICE,
         # ),
-        # (
-        #     reverse('contact:contact-us-feedback-success'),
-        #     snippet_slugs.HELP_FORM_SUCCESS_FEEDBACK,
-        # ),
+        (
+            reverse('contact:contact-us-feedback-success'),
+            snippet_slugs.HELP_FORM_SUCCESS_FEEDBACK,
+        ),
         (
             reverse('contact:contact-us-domestic-success'),
             snippet_slugs.HELP_FORM_SUCCESS,
@@ -713,3 +713,23 @@ def test_contact_us_office_success_next_url(mock_get_snippet_instance, client):
     assert response.context_data['next_url'] == '/'
 
     mock_get_snippet_instance.assert_called_once()
+
+
+def test_contact_us_feedback_prepopulate(
+    client,
+    user,
+    mock_get_company_profile,
+):
+    client.force_login(user)  #  ensure the user is logged in
+
+    url = reverse('contact:contact-us-feedback')
+    response = client.get(url)
+
+    # Other forms try to pre-populate from the company info as well. This one does not
+    assert not mock_get_company_profile.called
+
+    assert response.status_code == 200
+    assert response.context_data['form'].initial == {
+        'email': user.email,
+        'name': 'Jim Cross',
+    }

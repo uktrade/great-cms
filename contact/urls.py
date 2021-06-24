@@ -9,6 +9,7 @@ from contact.views import (
     EcommerceSupportFormPageView,
     EventsFormView,
     ExportSupportSuccessPageView,
+    FeedbackFormView,
     GuidanceView,
     OfficeContactFormView,
     OfficeFinderFormView,
@@ -123,5 +124,19 @@ urlpatterns = [
             'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
         },
         name='contact-us-dso-success',
+    ),
+    path(
+        'contact/feedback/',
+        skip_ga360(FeedbackFormView.as_view()),
+        name='contact-us-feedback',
+    ),
+    path(
+        'contact/feedback/success/',
+        skip_ga360(DomesticSuccessView.as_view()),
+        {
+            'slug': snippet_slugs.HELP_FORM_SUCCESS_FEEDBACK,
+            'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='contact-us-feedback-success',
     ),
 ]

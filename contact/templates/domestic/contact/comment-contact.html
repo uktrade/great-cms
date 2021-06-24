@@ -1,0 +1,24 @@
+{% extends 'domestic/contact/wizard-domestic.html' %}
+
+{% load static from static %}
+
+{% block head_title %}Tell us how we can help - great.gov.uk{% endblock %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'styles/contact-comment.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+
+{% block step_title %}Tell us how we can help{% endblock %}
+{% block extra_contents %}
+    <div id="form-step-body-text">
+        Provide as much detail as possible below to help us better understand your enquiry.
+    </div>
+{% endblock %}
+
+{% comment %}
+Note that the V1 version of this template included js/dit.components.toggleOther.js
+and some inline JS that targetted some fields which were not present in the form,
+so the JS was removed from this template
+{% endcomment %}
