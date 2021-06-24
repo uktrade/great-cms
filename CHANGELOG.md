@@ -7,6 +7,7 @@
 - no-ticket - Fix for case study listing view if empty related page selected in any case study
 - GA2-3054 - Updated GA360 mixin for special exception for authenticated staff users
 - GP2-2841 - Pinned CF buildpack and upgraded python to 3.9.5
+- GP2-1655 - Migrate more contact pages (three types) from V1 to V2
 - GP2-1688 - Migrate /contact/office-finder/ pages from V1 into V2
 - GP2-3054 - Updated GA360 mixin for special exception for authenticated staff users
 - GP2-2841 - Pinned CF buildpack and upgraded python to 3.9.5
