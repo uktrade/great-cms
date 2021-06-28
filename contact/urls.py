@@ -8,9 +8,12 @@ from contact.views import (
     DomesticSuccessView,
     EcommerceSupportFormPageView,
     EventsFormView,
+    ExportingAdviceFormView,
     ExportSupportSuccessPageView,
     FeedbackFormView,
     GuidanceView,
+    InternationalFormView,
+    InternationalSuccessView,
     OfficeContactFormView,
     OfficeFinderFormView,
     OfficeSuccessView,
@@ -138,5 +141,51 @@ urlpatterns = [
             'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
         },
         name='contact-us-feedback-success',
+    ),
+    path(
+        'contact/export-advice/',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact:contact-us-export-advice',
+                kwargs={'step': 'comment'},
+            )
+        ),
+        name='export-advice-routing-form',
+    ),
+    path(
+        # Note: this was migrated from great-domestic-ui, but ExportingAdviceFormView
+        # does not use it as its success view (and the messaging is the same anyway)
+        'contact/export-advice/success/',
+        skip_ga360(DomesticSuccessView.as_view()),
+        {
+            'slug': snippet_slugs.HELP_FORM_SUCCESS_EXPORT_ADVICE,
+            'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='contact-us-export-advice-success',
+    ),
+    path(
+        # Has to come after the /success/ slug
+        'contact/export-advice/<slug:step>/',
+        skip_ga360(
+            ExportingAdviceFormView.as_view(
+                url_name='contact:contact-us-export-advice',
+                done_step_name='finished',
+            ),
+        ),
+        name='contact-us-export-advice',
+    ),
+    path(
+        'contact/international/',
+        skip_ga360(InternationalFormView.as_view()),
+        name='contact-us-international',
+    ),
+    path(
+        'contact/international/success/',
+        skip_ga360(InternationalSuccessView.as_view()),
+        {
+            'slug': snippet_slugs.HELP_FORM_SUCCESS_INTERNATIONAL,
+            'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='contact-us-international-success',
     ),
 ]

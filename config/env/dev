@@ -59,6 +59,7 @@ CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci
 CONTACT_DIT_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
 CONTACT_EVENTS_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
 CONTACT_DSO_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
+CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
 
 EU_EXIT_ZENDESK_SUBDOMAIN=debug
 
