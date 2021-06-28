@@ -5,14 +5,28 @@ from directory_forms_api_client.forms import (
     GovNotifyEmailActionMixin,
     ZendeskActionMixin,
 )
-from django.forms import Textarea, ValidationError
+from django.forms import Select, Textarea, TextInput, ValidationError
 from great_components import forms
+from great_components.forms import Form as GreatComponentsForm, fields
 
 from contact import constants
 from contact.helpers import retrieve_regional_office
 from core.forms import TERMS_LABEL, ConsentFieldMixin
 from core.validators import is_valid_uk_postcode
+from directory_constants import choices
+from directory_constants.choices import COUNTRY_CHOICES
 from regex import PHONE_NUMBER_REGEX
+
+BLANK_COUNTRY_CHOICE = [('', 'Select a country')]
+COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
+
+
+class CountryForm(GreatComponentsForm):
+    country = fields.ChoiceField(
+        label='Country',
+        widget=Select(attrs={'id': 'great-header-country-select'}),
+        choices=COUNTRIES,
+    )
 
 
 class SerializeDataMixin:
@@ -372,3 +386,102 @@ class FeedbackForm(
     def full_name(self):
         assert self.is_valid()
         return self.cleaned_data['name']
+
+
+class CommentForm(forms.Form):
+    comment = forms.CharField(
+        label='Provide as much detail as possible below to help us better understand your enquiry.',
+        widget=Textarea(attrs={'class': 'margin-top-15'}),
+    )
+
+
+class PersonalDetailsForm(forms.Form):
+
+    first_name = forms.CharField(label='First name')
+    last_name = forms.CharField(label='Last name')
+    position = forms.CharField(label='Position in organisation')
+    email = forms.EmailField(label='Email address')
+    phone = forms.CharField(label='Phone')
+
+
+class BusinessDetailsForm(ConsentFieldMixin, forms.Form):
+    TURNOVER_OPTIONS = (
+        ('', 'Please select'),
+        ('0-25k', 'under £25,000'),
+        ('25k-100k', '£25,000 - £100,000'),
+        ('100k-1m', '£100,000 - £1,000,000'),
+        ('1m-5m', '£1,000,000 - £5,000,000'),
+        ('5m-25m', '£5,000,000 - £25,000,000'),
+        ('25m-50m', '£25,000,000 - £50,000,000'),
+        ('50m+', '£50,000,000+'),
+    )
+
+    company_type = forms.ChoiceField(
+        label_suffix='',
+        widget=forms.RadioSelect(),
+        choices=constants.COMPANY_TYPE_CHOICES,
+    )
+    companies_house_number = forms.CharField(
+        label='Companies House number',
+        required=False,
+    )
+    company_type_other = forms.ChoiceField(
+        label_suffix='',
+        choices=(('', 'Please select'),) + constants.COMPANY_TYPE_OTHER_CHOICES,
+        required=False,
+    )
+    organisation_name = forms.CharField()
+    postcode = forms.CharField()
+    industry = forms.ChoiceField(choices=constants.INDUSTRY_CHOICES)
+    industry_other = forms.CharField(
+        label='Type in your industry',
+        widget=TextInput(attrs={'class': 'js-field-other'}),
+        required=False,
+    )
+    turnover = forms.ChoiceField(
+        label='Annual turnover (optional)',
+        choices=TURNOVER_OPTIONS,
+        required=False,
+    )
+    employees = forms.ChoiceField(
+        label='Number of employees (optional)',
+        choices=(('', 'Please select'),) + choices.EMPLOYEES,
+        required=False,
+    )
+    captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
+
+    def clean_industry(self):
+        industry = self.cleaned_data['industry']
+        self.cleaned_data['industry_label'] = constants.INDUSTRY_MAP[industry]
+        return industry
+
+
+class InternationalContactForm(
+    SerializeDataMixin,
+    GovNotifyEmailActionMixin,
+    forms.Form,
+):
+
+    ORGANISATION_TYPE_CHOICES = (
+        ('COMPANY', 'Company'),
+        ('OTHER', 'Other type of organisation'),
+    )
+
+    given_name = forms.CharField()
+    family_name = forms.CharField()
+    email = forms.EmailField(label='Email address')
+    organisation_type = forms.ChoiceField(
+        label_suffix='', widget=forms.RadioSelect(), choices=ORGANISATION_TYPE_CHOICES
+    )
+    organisation_name = forms.CharField(label='Your organisation name')
+    country_name = forms.ChoiceField(
+        choices=[('', 'Please select')] + choices.COUNTRY_CHOICES,
+    )
+    city = forms.CharField(label='City')
+    comment = forms.CharField(
+        label='Tell us how we can help',
+        help_text=('Do not include personal information or anything of a ' 'sensitive nature'),
+        widget=Textarea,
+    )
+    captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
+    terms_agreed = forms.BooleanField(label=TERMS_LABEL)

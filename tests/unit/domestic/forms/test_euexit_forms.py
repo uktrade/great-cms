@@ -33,7 +33,7 @@ def test_domestic_contact_form_serialize(captcha_stub):
     }
 
 
-# TODO: use this when we port InternationalContactForm as part of contact/international/
+# TODO: use this when we port euexit.forms.InternationalContactForm
 # def test_international_contact_form_serialize(captcha_stub):
 #     form = forms.InternationalContactForm(
 #         # field_attributes as a param was supported in V1 but not in V2
