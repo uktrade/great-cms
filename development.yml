@@ -1,0 +1,150 @@
+version: '3.4'
+
+services:
+  pgsql:
+    container_name: great_postgres
+    build: ./dockerise/postgres/
+    restart: on-failure
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    env_file:
+       - ./config/env/dev-docker
+    volumes:
+      - ./dockerise/postgres/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+      - ./dockerise/dbfiles:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    networks:
+      - inside-network
+
+  directory-api:
+    build: ../directory-api/
+    hostname: api.trade.great
+    container_name: directory_api
+    volumes:
+      - ../directory-api:/app
+    ports:
+      - '8000:8000'
+    env_file:
+      - ../directory-api/conf/env/dev
+      - ../directory-api/conf/env/secrets-do-not-commit
+      - ../directory-api/conf/env/dev-docker
+    networks:
+      - inside-network
+    depends_on:
+      - pgsql
+      - redis
+      - es
+    stdin_open: true
+    tty: true
+    command: "sh /app/start.sh"
+
+  directory-forms-api:
+    build: ../directory-forms-api/
+    hostname: forms.trade.great
+    container_name: directory_forms_api
+    volumes:
+      - ../directory-forms-api:/app
+    ports:
+      - '8011:8011'
+    env_file:
+      - ../directory-forms-api/conf/env/dev
+      - ../directory-forms-api/conf/env/secrets-do-not-commit
+      - ../directory-forms-api/conf/env/dev-docker
+    networks:
+      - inside-network
+    depends_on:
+      - pgsql
+      - redis
+    stdin_open: true
+    tty: true
+    command: "sh /app/start.sh"
+
+  directory-sso:
+    build: ../directory-sso/
+    hostname: sso.trade.great
+    container_name: directory_sso
+    volumes:
+      - ../directory-sso:/app
+    ports:
+      - '8003:8003'
+    env_file:
+      - ../directory-sso/conf/env/dev
+      - ../directory-sso/conf/env/secrets-do-not-commit
+      - ../directory-sso/conf/env/dev-docker
+    networks:
+      - inside-network
+    depends_on:
+      - pgsql
+      - redis
+    stdin_open: true
+    tty: true
+    command: "sh /app/start.sh"
+
+  directory-sso-proxy:
+    build: ../directory-sso-proxy/
+    hostname: sso.proxy.trade.great
+    container_name: directory_sso_proxy
+    volumes:
+      - ../directory-sso-proxy:/app
+    ports:
+      - '8004:8004'
+    env_file:
+      - ../directory-sso-proxy/conf/env/dev
+      - ../directory-sso-proxy/conf/env/secrets-do-not-commit
+    networks:
+      - inside-network
+    depends_on:
+      - directory-sso
+    stdin_open: true
+    tty: true
+    command: "sh /app/start.sh"
+
+
+  great-cms:
+    build: ./
+    hostname: great-cms
+    container_name: great-cms
+    volumes:
+      - .:/app
+    ports:
+      - '8020:8020'
+    env_file:
+      - ./config/env/dev
+      - ./config/env/secrets-do-not-commit
+      - ./config/env/dev-docker
+    networks:
+      - inside-network
+    depends_on:
+      - pgsql
+      - directory-api
+      - directory-forms-api
+      - directory-sso
+      - directory-sso-proxy
+      - redis
+    stdin_open: true
+    tty: true
+    command: "sh /app/start.sh"
+
+  redis:
+    image: redis
+    container_name: great_redis
+    restart: always
+    ports:
+      - '6379:6379'
+    networks:
+      - inside-network
+  es:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
+    container_name: great_es
+    networks:
+      - inside-network
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+
+networks:
+    inside-network:
+        driver: bridge
