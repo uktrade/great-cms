@@ -3,24 +3,44 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2986 - Merge companies-house api views
+- no-ticket - Fix for case study listing view if empty related page selected in any case study
 - GA2-3054 - Updated GA360 mixin for special exception for authenticated staff users
-- GP2-2841: Pinned CF buildpack and upgraded python to 3.9.5
-- GP2-2982: Rebuild sitemap.xml in great-cms
-- GP2-2981: Port Search Feedback page from V1 into V2
-- GP2-2980: Port Market Access / 'Report a Trade Barrier' pages from V1 into V2
-- GP2-2977: Port E-Commerce Export Support pages from V1 into V2
-- GP2-1618: Port legacy EU Exit / transition period forms from V1 into V2
-- GP2-1617: Port get-finance/UKEF contact form from great-domestic-ui
-- GP2-2856  remove unused api calls
+- GP2-2841 - Pinned CF buildpack and upgraded python to 3.9.5
+- GP2-2982 - Rebuild sitemap.xml in great-cms
+- GP2-2981 - Port Search Feedback page from V1 into V2
+- GP2-2980 - Port Market Access / 'Report a Trade Barrier' pages from V1 into V2
+- GP2-2977 - Port E-Commerce Export Support pages from V1 into V2
+- GP2-1618 - Port legacy EU Exit / transition period forms from V1 into V2
+- GP2-1617 - Port get-finance/UKEF contact form from great-domestic-ui
+- GP2-2856 - remove unused api calls
+- GP2-3065 - Simplify 3CE url config
+- no-ticket - Fix for case study listing view if empty related page selected in any case study
+- GA2-3054 - Updated GA360 mixin for special exception for authenticated staff users
+- GP2-2841 - Pinned CF buildpack and upgraded python to 3.9.5
+- GP2-2982 - Rebuild sitemap.xml in great-cms
+- GP2-2981 - Port Search Feedback page from V1 into V2
+- GP2-2980 - Port Market Access / 'Report a Trade Barrier' pages from V1 into V2
+- GP2-2977 - Port E-Commerce Export Support pages from V1 into V2
+- GP2-1618 - Port legacy EU Exit / transition period forms from V1 into V2
+- GP2-1617 - Port get-finance/UKEF contact form from great-domestic-ui
+- GP2-2856 - remove unused api calls
 - no-ticket - package upgrade
 - GP2-2856 - remove target market
 
 ### Fixed bugs
+- GP2-2933 - DAC_Custom_Controls_01 Select widget
+- GP2-2924 - DAC_CSS_Images_as_Labels_03 Select widget expander
+- GP2-2908 - DAC_Headings_07 Learning step headings
+- GP2-2909 - DAC_Headings_08 WTE captions in mobile
+- GP2-2920 - DAC_CSS_Content_05 Radio buttons
+
 - GP2-2934 - DAC_Custom_Controls_02 Tab management on WTE
 - GP2-2893 - DAC_Link_Purpose_02 Learning backlinks
 - GP2-2901 - DAC_Label_in_Name - Product finder
 - GP2-2900 - DAC_Label_in_Name - Search_inputs
 - GP2-2935 - DAC_Custom_Controls_03 Tooltips
+
 - GP2-2915 - DAC_Information_and_Relationships_06 Roles on WTE tables
 - GP2-2914 - DAC_Information_and_Relationships_05 Dynamic caption on WTE
 - GP2-2863 - Skip GA360 on search path
@@ -51,12 +71,17 @@
 - GP2-2943 - DAC_Status_Messages_01
 - GP2-2937 - DAC_Nondescriptive_Labels_01
 - GP2-2923 - DAC_CSS_Images_as_Labels_02
+- GP2-2942 - DAC_Focus_Visible_03
+- GP2-2941 - DAC_Focus_Visible_02 (AA)
+- GP2-2944 - DAC_Reflow_01
+- GP2-2936 - DAC_Custom_Controls_04
 
 ## [1.10.1](https://github.com/uktrade/great-cms/releases/tag/1.10.1)
 ### Enhancements
 - NOTICKET - update changelog, post-release
 ### Fixed bugs
 - GP2-2879 - DAC_Parsing_01 (A)
+
 - GP2-2890 - DAC NonText Content 01
 - GP2-2835 - Redirect fix for initial request for domestic going to international/ Disable caching on homepage
 - GP2-2889 - DAC Decorative_Images_01 - clear alt tags on decorative images
@@ -67,6 +92,7 @@
 - GP2-2868 - Tech Debt fix sentry errors
 - GP2-2870 - rename /sso/ path to /great-cms-sso/
 
+- GP2-2882 - Accessibility fix - make modal content area keyboard accessible
 
 ## [1.10.0](https://github.com/uktrade/great-cms/releases/tag/1.10.0)
 

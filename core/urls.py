@@ -132,12 +132,6 @@ urlpatterns = [
         name='api-companies-house',
     ),
     path(
-        # THIS IS USED BY EX-GREAT-DOMESTIC-UI PAGES
-        'api/internal/companies-house-search/',
-        skip_ga360(views.CompaniesHouseSearchApiView.as_view()),
-        name='api-internal-companies-house-search',
-    ),
-    path(
         'subtitles/<int:great_media_id>/<str:language>/content.vtt',
         login_required(
             # NB remove/update login_required() if we start serving subtitles for videos in

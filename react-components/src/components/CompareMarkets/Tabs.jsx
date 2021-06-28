@@ -24,7 +24,7 @@ function Tabs(props) {
   }
 
   return (
-    <div className="tabs body-m m-b-s"
+    <div className="tabs body-m m-v-s"
     role="tablist"
       aria-label={label}
     >

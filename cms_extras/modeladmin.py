@@ -187,7 +187,7 @@ class CaseStudyAdmin(ModelAdmin):
         return format_html_join(
             '',
             '<strong>{}: </strong> {}<br>',  # noqa
-            ((page_mapping.get(x.page.specific._meta.model_name), x.page) for x in obj.related_pages.all()),
+            ((page_mapping.get(x.page.specific._meta.model_name), x.page) for x in obj.related_pages.all() if x.page),
         )
 
     get_related_pages.short_description = 'Associated pages'

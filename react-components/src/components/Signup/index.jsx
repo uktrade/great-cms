@@ -84,15 +84,17 @@ export const Signup = (props) => {
   return (
     <div className="bg-blue-deep-80 signup signup__container">
       <div className="signup__steps-panel">
-        <a href="/">
-          <img
-            className="m-f-auto m-r-auto signup__logo"
-            src="/static/images/dit_logo_335x160.png"
-            alt=""
-            width="148"
-            height="71"
-          />
-        </a>
+        <div className="centre-children">
+          <a href="/" className="inline-block">
+            <img
+              className="m-f-auto m-r-auto signup__logo"
+              src="/static/images/dit_logo_335x160.png"
+              alt=""
+              width="148"
+              height="71"
+            />
+          </a>
+        </div>
         {renderStep()}
         <p className="g-panel signup__questions-panel">
           If you have any questions or feedback please{' '}

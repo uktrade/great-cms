@@ -5,7 +5,11 @@ import PropTypes from 'prop-types'
 export const RadiogroupItem = memo(
   ({ id, group, value, label, update, selected }) => {
     return (
-      <div className="great-radiogroup__item">
+      <div
+        className="great-radiogroup__item"
+        role="radio"
+        aria-checked={selected === value}
+      >
         <input
           className="great-radiogroup__input"
           type="radio"
