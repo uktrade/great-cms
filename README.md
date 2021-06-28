@@ -228,7 +228,8 @@ AttributeError: 'User' object has no attribute 'session_id'"/'company' et al, yo
 ** https://github.com/directory-sso-proxy
 
 
-* Get env variables from vault and set in file config/env/secrets-do-not-commit. If this files doesn't exist run make secrets in great-cms directory
+* Get env variables from vault and set in file config/env/dev-docker
+* Create initial secrets file so service don't fail create config/env/dev/secrets-do-not-commit run make secrets in great-cms directory
 AWS_*
 DATABASE_DUMP_FILENAME=great-cms-db-23-jun-21.backup (default)
 
