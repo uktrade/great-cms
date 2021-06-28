@@ -447,11 +447,11 @@ INVEST_CONTACT_URL = env.str(
 )
 CAPITAL_INVEST_CONTACT_URL = env.str(
     'CAPITAL_INVEST_CONTACT_URL',
-    'https://great.gov.uk/international/content/capital-invest/contact/',
+    '/international/content/capital-invest/contact/',
 )
 FIND_A_SUPPLIER_CONTACT_URL = env.str(
     'FIND_A_SUPPLIER_CONTACT_URL',
-    'https://trade.great.gov.uk/industries/contact/',
+    '/international/trade/contact/',
 )
 CONTACT_EXPORTING_TO_UK_HMRC_URL = env.str(
     'CONTACT_EXPORTING_TO_UK_HMRC_URL',
