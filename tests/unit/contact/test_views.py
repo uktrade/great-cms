@@ -8,6 +8,8 @@ from django.urls import reverse
 
 from contact import constants, forms, helpers, views
 from core import snippet_slugs
+from core.constants import CONSENT_EMAIL
+from core.tests.helpers import create_response
 from directory_api_client.exporting import url_lookup_by_postcode
 
 pytestmark = [pytest.mark.django_db, pytest.mark.contact]
@@ -17,6 +19,25 @@ def build_wizard_url(step):
     return reverse('contact:contact-us-routing-form', kwargs={'step': step})
 
 
+@pytest.fixture
+def valid_request_export_support_form_data(captcha_stub):
+    return {
+        'first_name': 'Test',
+        'last_name': 'Name',
+        'email': 'test@test.com',
+        'phone_number': '+447501234567',
+        'job_title': 'developer',
+        'company_name': 'Limited',
+        'company_postcode': 'sw1 1bb',
+        'employees_number': '1-9',
+        'annual_turnover': '',
+        'currently_export': 'no',
+        'comment': 'some comment',
+        'terms_agreed': True,
+        'g-recaptcha-response': captcha_stub,
+    }
+
+
 @pytest.fixture()
 def all_office_details():
     return [
@@ -24,7 +45,7 @@ def all_office_details():
             'is_match': True,
             'region_id': 'east_midlands',
             'name': 'DIT East Midlands',
-            'address_street': ('The International Trade Centre, ' '5 Merus Court, ' 'Meridian Business Park'),
+            'address_street': 'The International Trade Centre, 5 Merus Court, Meridian Business Park',
             'address_city': 'Leicester',
             'address_postcode': 'LE19 1RJ',
             'email': 'test+east_midlands@examoke.com',
@@ -37,7 +58,7 @@ def all_office_details():
             'is_match': False,
             'region_id': 'west_midlands',
             'name': 'DIT West Midlands',
-            'address_street': ('The International Trade Centre, ' '10 New Street, ' 'Midlands Business Park'),
+            'address_street': 'The International Trade Centre, 10 New Street, Midlands Business Park',
             'address_city': 'Birmingham',
             'address_postcode': 'B20 1RJ',
             'email': 'test+west_midlands@examoke.com',
@@ -148,15 +169,14 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
             settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
         ),
-        # TO BE PORTED IN SUBSEQUENT WORK
-        # (
-        #     reverse('contact:contact-us-international'),
-        #     reverse('contact:contact-us-international-success'),
-        #     views.InternationalFormView,
-        #     settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID,
-        #     settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
-        #     settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
-        # ),
+        (
+            reverse('contact:contact-us-international'),
+            reverse('contact:contact-us-international-success'),
+            views.InternationalFormView,
+            settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
+        ),
         (
             reverse('contact:office-finder-contact', kwargs={'postcode': 'FOO'}),
             reverse('contact:contact-us-office-success', kwargs={'postcode': 'FOO'}),
@@ -165,6 +185,7 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
             settings.CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
         ),
+        # TO BE PORTED IN SUBSEQUENT WORK
         # (
         #     reverse('contact:contact-us-exporting-to-the-uk-beis'),
         #     reverse('contact:contact-us-exporting-to-the-uk-beis-success'),
@@ -282,9 +303,8 @@ success_view_params = (
     reverse('contact:contact-us-events-success'),
     reverse('contact:contact-us-dso-success'),
     reverse('contact:contact-us-feedback-success'),
-    # TO BE PORTED IN SUBSEQUENT WORK
-    # reverse('contact:contact-us-export-advice-success'),
-    # reverse('contact:contact-us-international-success'),
+    reverse('contact:contact-us-export-advice-success'),
+    reverse('contact:contact-us-international-success'),
 )
 
 
@@ -300,9 +320,7 @@ def test_ingress_url_cleared_on_success(
     mock_clear.return_value = None
     # given the ingress url is set
     client.get(
-        # TODO: replace URL name with contact:contact-us-routing-form with
-        # kwargs={'step': 'location'} once that has been ported
-        reverse('contact:contact-us-domestic'),
+        reverse('contact:contact-us-routing-form', kwargs={'step': 'location'}),
         HTTP_REFERER='http://testserver.com/foo/',
         HTTP_HOST='testserver.com',
     )
@@ -405,24 +423,24 @@ def test_ecommerce_success_view(client):
             constants.TRADE_OFFICE,
             reverse('contact:office-finder'),
         ),
-        # (
-        #     constants.DOMESTIC,
-        #     constants.EXPORT_ADVICE,
-        #     reverse('contact:contact-us-export-advice', kwargs={'step': 'comment'}),
-        # ),
-        # (
-        #     constants.DOMESTIC,
-        #     constants.FINANCE,
-        #     reverse(
-        #         'uk-export-finance-lead-generation-form',
-        #         kwargs={'step': 'contact'},
-        #     ),
-        # ),
-        # (
-        #     constants.DOMESTIC,
-        #     constants.EUEXIT,
-        #     reverse('domestic:brexit-contact-form'),
-        # ),
+        (
+            constants.DOMESTIC,
+            constants.EXPORT_ADVICE,
+            reverse('contact:contact-us-export-advice', kwargs={'step': 'comment'}),
+        ),
+        (
+            constants.DOMESTIC,
+            constants.FINANCE,
+            reverse(
+                'domestic:uk-export-finance-lead-generation-form',
+                kwargs={'step': 'contact'},
+            ),
+        ),
+        (
+            constants.DOMESTIC,
+            constants.EUEXIT,
+            reverse('domestic:brexit-contact-form'),
+        ),
         (
             constants.DOMESTIC,
             constants.EVENTS,
@@ -495,58 +513,74 @@ def test_ecommerce_success_view(client):
             constants.OTHER,
             reverse('contact:contact-us-domestic'),
         ),
-        # # Export opportunities guidance routing
+        # Export opportunities guidance routing
         # (
         #     constants.EXPORT_OPPORTUNITIES,
         #     constants.NO_RESPONSE,
-        #     views.build_export_opportunites_guidance_url(snippet_slugs.HELP_EXOPPS_NO_RESPONSE),
+        #     helpers.build_export_opportunites_guidance_url(snippet_slugs.HELP_EXOPPS_NO_RESPONSE),
         # ),
         # (
         #     constants.EXPORT_OPPORTUNITIES,
         #     constants.ALERTS,
-        #     views.build_export_opportunites_guidance_url(snippet_slugs.HELP_EXOPP_ALERTS_IRRELEVANT),
+        #     helpers.build_export_opportunites_guidance_url(snippet_slugs.HELP_EXOPP_ALERTS_IRRELEVANT),
         # ),
-        # (
-        #     constants.EXPORT_OPPORTUNITIES,
-        #     constants.OTHER,
-        #     reverse('contact:contact-us-domestic'),
-        # ),
-        # # international routing
-        # (
-        #     constants.INTERNATIONAL,
-        #     constants.INVESTING,
-        #     settings.INVEST_CONTACT_URL,
-        # ),
+        (
+            constants.EXPORT_OPPORTUNITIES,
+            constants.OTHER,
+            reverse('contact:contact-us-domestic'),
+        ),
+        # international routing
+        (
+            constants.INTERNATIONAL,
+            constants.INVESTING,
+            settings.INVEST_CONTACT_URL,
+        ),
         # (
         #     constants.INTERNATIONAL,
         #     constants.EXPORTING_TO_UK,
-        #     views.build_exporting_guidance_url(snippet_slugs.HELP_EXPORTING_TO_UK),
+        #     helpers.build_exporting_guidance_url(snippet_slugs.HELP_EXPORTING_TO_UK),
         # ),
-        # (
-        #     constants.INTERNATIONAL,
-        #     constants.BUYING,
-        #     settings.FIND_A_SUPPLIER_CONTACT_URL,
-        # ),
-        # (
-        #     constants.INTERNATIONAL,
-        #     constants.OTHER,
-        #     reverse('contact:contact-us-international'),
-        # ),
-        # # exporting to the UK routing
-        # (
-        #     constants.EXPORTING_TO_UK,
-        #     constants.HMRC,
-        #     settings.CONTACT_EXPORTING_TO_UK_HMRC_URL,
-        # ),
-        # (constants.EXPORTING_TO_UK, constants.DEFRA, reverse('contact:contact-us-exporting-to-the-uk-defra')),
-        # (constants.EXPORTING_TO_UK, constants.BEIS, reverse('contact:contact-us-exporting-to-the-uk-beis')),
-        # (constants.EXPORTING_TO_UK, constants.IMPORT_CONTROLS, reverse('contact:contact-us-international')),
-        # (constants.EXPORTING_TO_UK, constants.TRADE_WITH_UK_APP, reverse('contact:contact-us-international')),
+        (
+            constants.INTERNATIONAL,
+            constants.BUYING,
+            settings.FIND_A_SUPPLIER_CONTACT_URL,
+        ),
+        (
+            constants.INTERNATIONAL,
+            constants.OTHER,
+            reverse('contact:contact-us-international'),
+        ),
+        # exporting to the UK routing
+        (
+            constants.EXPORTING_TO_UK,
+            constants.HMRC,
+            settings.CONTACT_EXPORTING_TO_UK_HMRC_URL,
+        ),
         # (
         #     constants.EXPORTING_TO_UK,
-        #     constants.OTHER,
-        #     reverse('contact:contact-us-international'),
+        #     constants.DEFRA,
+        #     reverse('contact:contact-us-exporting-to-the-uk-defra'),
         # ),
+        # (
+        #     constants.EXPORTING_TO_UK,
+        #     constants.BEIS,
+        #     reverse('contact:contact-us-exporting-to-the-uk-beis'),
+        # ),
+        (
+            constants.EXPORTING_TO_UK,
+            constants.IMPORT_CONTROLS,
+            reverse('contact:contact-us-international'),
+        ),
+        (
+            constants.EXPORTING_TO_UK,
+            constants.TRADE_WITH_UK_APP,
+            reverse('contact:contact-us-international'),
+        ),
+        (
+            constants.EXPORTING_TO_UK,
+            constants.OTHER,
+            reverse('contact:contact-us-international'),
+        ),
     ),
 )
 def test_render_next_step(current_step, choice, expected_url):
@@ -600,7 +634,7 @@ def test_ingress_url_cleared_on_redirect_away(mock_clear, current_step, choice):
     view = views.RoutingFormView()
     view.steps = mock.Mock(current=current_step)
     view.storage = mock.Mock()
-    view.url_name = 'contact-us-routing-form'
+    view.url_name = 'contact:contact-us-routing-form'
 
     assert form.is_valid()
 
@@ -660,10 +694,10 @@ def test_office_finder_valid(all_office_details, client):
             reverse('contact:contact-us-dso-success'),
             snippet_slugs.HELP_FORM_SUCCESS_DSO,
         ),
-        # (
-        #     reverse('contact:contact-us-export-advice-success'),
-        #     snippet_slugs.HELP_FORM_SUCCESS_EXPORT_ADVICE,
-        # ),
+        (
+            reverse('contact:contact-us-export-advice-success'),
+            snippet_slugs.HELP_FORM_SUCCESS_EXPORT_ADVICE,
+        ),
         (
             reverse('contact:contact-us-feedback-success'),
             snippet_slugs.HELP_FORM_SUCCESS_FEEDBACK,
@@ -672,10 +706,10 @@ def test_office_finder_valid(all_office_details, client):
             reverse('contact:contact-us-domestic-success'),
             snippet_slugs.HELP_FORM_SUCCESS,
         ),
-        # (
-        #     reverse('contact:contact-us-international-success'),
-        #     snippet_slugs.HELP_FORM_SUCCESS_INTERNATIONAL,
-        # ),
+        (
+            reverse('contact:contact-us-international-success'),
+            snippet_slugs.HELP_FORM_SUCCESS_INTERNATIONAL,
+        ),
         (
             reverse('contact:contact-us-office-success', kwargs={'postcode': 'FOOBAR'}),
             snippet_slugs.HELP_FORM_SUCCESS,
@@ -732,4 +766,219 @@ def test_contact_us_feedback_prepopulate(
     assert response.context_data['form'].initial == {
         'email': user.email,
         'name': 'Jim Cross',
+    }
+
+
+@mock.patch('captcha.fields.ReCaptchaField.clean')
+@mock.patch('directory_forms_api_client.actions.GovNotifyEmailAction')
+@mock.patch('directory_forms_api_client.actions.EmailAction')
+@mock.patch('contact.helpers.retrieve_regional_office_email')
+@mock.patch.object(views.FormSessionMixin, 'form_session_class')
+def test_exporting_from_uk_contact_form_submission(
+    mock_form_session,
+    mock_retrieve_regional_office_email,
+    mock_email_action,
+    mock_notify_action,
+    mock_clean,
+    client,
+    captcha_stub,
+    company_profile,
+    settings,
+):
+    company_profile.return_value = create_response(status_code=404)
+    mock_retrieve_regional_office_email.return_value = 'regional@example.com'
+
+    url_name = 'contact:contact-us-export-advice'
+    view_name = 'exporting_advice_form_view'
+
+    response = client.post(
+        reverse(url_name, kwargs={'step': 'comment'}),
+        {
+            view_name + '-current_step': 'comment',
+            'comment-comment': 'some comment',
+        },
+    )
+    assert response.status_code == 302
+
+    response = client.post(
+        reverse(url_name, kwargs={'step': 'personal'}),
+        {
+            view_name + '-current_step': 'personal',
+            'personal-first_name': 'test',
+            'personal-last_name': 'test',
+            'personal-position': 'test',
+            'personal-email': 'test@example.com',
+            'personal-phone': 'test',
+        },
+    )
+
+    assert response.status_code == 302
+
+    response = client.post(
+        reverse(url_name, kwargs={'step': 'business'}),
+        {
+            view_name + '-current_step': 'business',
+            'business-company_type': 'LIMITED',
+            'business-companies_house_number': '12345678',
+            'business-organisation_name': 'Example corp',
+            'business-postcode': '1234',
+            'business-industry': 'Aerospace',
+            'business-turnover': '0-25k',
+            'business-employees': '1-10',
+            'business-captcha': captcha_stub,
+            'business-contact_consent': [CONSENT_EMAIL],
+        },
+    )
+    assert response.status_code == 302
+
+    response = client.get(response.url)
+
+    assert response.status_code == 302
+    assert response.url == reverse('contact:contact-us-domestic-success')
+    assert mock_clean.call_count == 1
+    assert mock_notify_action.call_count == 1
+    assert mock_notify_action.call_args == mock.call(
+        template_id=settings.CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID,
+        email_address='test@example.com',
+        form_url='/contact/export-advice/comment/',
+        form_session=mock_form_session(),
+        email_reply_to_id=settings.CONTACT_EXPORTING_USER_REPLY_TO_EMAIL_ID,
+    )
+    assert mock_notify_action().save.call_count == 1
+    assert mock_notify_action().save.call_args == mock.call(
+        {
+            'comment': 'some comment',
+            'first_name': 'test',
+            'last_name': 'test',
+            'position': 'test',
+            'email': 'test@example.com',
+            'phone': 'test',
+            'company_type': 'LIMITED',
+            'companies_house_number': '12345678',
+            'company_type_other': '',
+            'organisation_name': 'Example corp',
+            'postcode': '1234',
+            'industry': 'Aerospace',
+            'industry_label': 'Aerospace',
+            'industry_other': '',
+            'turnover': '0-25k',
+            'employees': '1-10',
+            'region_office_email': 'regional@example.com',
+            'contact_consent': [CONSENT_EMAIL],
+        }
+    )
+
+    assert mock_email_action.call_count == 1
+    assert mock_email_action.call_args == mock.call(
+        recipients=['regional@example.com'],
+        subject=settings.CONTACT_EXPORTING_AGENT_SUBJECT,
+        reply_to=[settings.DEFAULT_FROM_EMAIL],
+        form_url='/contact/export-advice/comment/',
+        form_session=mock_form_session(),
+        sender={'email_address': 'test@example.com', 'country_code': None, 'ip_address': None},
+    )
+    assert mock_email_action().save.call_count == 1
+    assert mock_email_action().save.call_args == mock.call({'text_body': mock.ANY, 'html_body': mock.ANY})
+
+    assert mock_retrieve_regional_office_email.call_count == 1
+    assert mock_retrieve_regional_office_email.call_args == mock.call('1234')
+
+
+@mock.patch('captcha.fields.ReCaptchaField.clean')
+@mock.patch('directory_forms_api_client.actions.GovNotifyEmailAction')
+@mock.patch('directory_forms_api_client.actions.EmailAction')
+@mock.patch('contact.helpers.retrieve_regional_office_email')
+def test_exporting_from_uk_contact_form_initial_data_business(
+    mock_retrieve_regional_office_email,
+    mock_email_action,
+    mock_notify_action,
+    mock_clean,
+    client,
+    captcha_stub,
+    user,
+    mock_get_company_profile,
+):
+
+    mock_get_company_profile.return_value = {
+        # Full spec of CompanySerializer is in
+        # https://github.com/uktrade/directory-api/blob/master/company/serializers.py
+        'mobile_number': '55512345',
+        'number': 1234567,
+        'company_type': constants.LIMITED,
+        'name': 'Example corp',
+        'postal_code': 'Foo Bar',
+        'sectors': [
+            'AEROSPACE',
+            'SOMETHING_ELSE_NOT_SHOWN',
+        ],
+        'employees': '1-10',
+    }
+
+    client.force_login(user)
+
+    mock_retrieve_regional_office_email.return_value = 'regional@example.com'
+
+    url_name = 'contact:contact-us-export-advice'
+
+    response_one = client.get(reverse(url_name, kwargs={'step': 'personal'}))
+
+    assert response_one.context_data['form'].initial == {
+        'email': user.email,
+        'phone': '55512345',
+        'first_name': 'Jim',
+        'last_name': 'Cross',
+    }
+
+    response_two = client.get(reverse(url_name, kwargs={'step': 'business'}))
+
+    assert response_two.context_data['form'].initial == {
+        'company_type': constants.LIMITED,
+        'companies_house_number': 1234567,
+        'organisation_name': 'Example corp',
+        'postcode': 'Foo Bar',
+        'industry': 'AEROSPACE',
+        'employees': '1-10',
+    }
+
+
+def test_marketing_join_form_notify_success(client, valid_request_export_support_form_data):
+    url = reverse('contact:export-advice-routing-form')
+
+    response = client.post(
+        url,
+        valid_request_export_support_form_data,
+    )
+
+    assert response.status_code == 302
+    assert response.url == reverse(
+        'contact:contact-us-export-advice',
+        kwargs={
+            'step': 'comment',
+        },
+    )
+
+
+def test_contact_us_international_prepopualate(client, user, mock_get_company_profile):
+    url = reverse('contact:contact-us-international')
+
+    mock_get_company_profile.return_value = {
+        # Full spec of CompanySerializer is in
+        # https://github.com/uktrade/directory-api/blob/master/company/serializers.py
+        'name': 'Example corp',
+        'locality': 'Paris',
+        'country': 'FRANCE',
+    }
+
+    client.force_login(user)
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['form'].initial == {
+        'email': user.email,
+        'organisation_name': 'Example corp',
+        'country_name': 'FRANCE',
+        'city': 'Paris',
+        'family_name': 'Cross',
+        'given_name': 'Jim',
     }

@@ -1,11 +1,14 @@
 from urllib.parse import urlparse
 
+from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 from django.conf import settings
 from django.shortcuts import redirect
+from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
 from django.utils.functional import cached_property
+from django.utils.html import strip_tags
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -15,19 +18,21 @@ from core import mixins as core_mixins, snippet_slugs
 from core.datastructures import NotifySettings
 
 
-class SubmitFormOnGetMixin:
-    # This is an unusual patterm, ported from V1. It is only safe as
-    # long as the POST action of any view which uses it does NOT
-    # update state or trigger a side effect...
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        data = self.request.GET or {}
-        if data:
-            kwargs['data'] = data
-        return kwargs
+class PrepopulateInternationalFormMixin:
+    # NB must be used with core_mixins.PrepopulateFormMixin
+    # to have guess_given_name and guess_family_name
 
-    def get(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
+    def get_form_initial(self):
+
+        if self.request.user.is_authenticated and self.request.user.company:
+            return {
+                'email': self.request.user.email,
+                'organisation_name': getattr(self.request.user.company, 'name', ''),
+                'country_name': getattr(self.request.user.company, 'country', ''),
+                'city': getattr(self.request.user.company, 'locality', ''),
+                'given_name': self.guess_given_name,
+                'family_name': self.guess_family_name,
+            }
 
 
 class SendNotifyMessagesMixin:
@@ -59,6 +64,21 @@ class SendNotifyMessagesMixin:
         self.send_agent_message(form)
         self.send_user_message(form)
         return super().form_valid(form)
+
+
+class SubmitFormOnGetMixin:
+    # This is an unusual patterm, ported from V1. It is only safe as
+    # long as the POST action of any view which uses it does NOT
+    # update state or trigger a side effect...
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        data = self.request.GET or {}
+        if data:
+            kwargs['data'] = data
+        return kwargs
+
+    def get(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
 
 
 class BaseNotifyFormView(
@@ -154,6 +174,28 @@ class DomesticSuccessView(BaseSuccessView):
     template_name = 'domestic/contact/submit-success-domestic.html'
 
 
+class InternationalFormView(
+    core_mixins.PrepopulateFormMixin,
+    PrepopulateInternationalFormMixin,
+    BaseNotifyFormView,
+):
+    form_class = contact_forms.InternationalContactForm
+    template_name = 'domestic/contact/international/step.html'
+    success_url = reverse_lazy('contact:contact-us-international-success')
+    notify_settings = NotifySettings(
+        agent_template=settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_email=settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
+        user_template=settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
+    )
+
+
+class InternationalSuccessView(
+    # CountryDisplayMixin,  # Omitted in migration as appears to be redundant..
+    BaseSuccessView,
+):
+    template_name = 'domestic/contact/submit-success-international.html'
+
+
 class EcommerceSupportFormPageView(BaseNotifyFormView):
     template_name = 'domestic/contact/request-export-support-form.html'
     form_class = contact_forms.ExportSupportForm
@@ -178,28 +220,38 @@ class RoutingFormView(
     redirect_mapping = {
         constants.DOMESTIC: {
             constants.TRADE_OFFICE: reverse_lazy('contact:office-finder'),
-            constants.EXPORT_ADVICE: reverse_lazy('contact:contact-us-export-advice', kwargs={'step': 'comment'}),
+            constants.EXPORT_ADVICE: reverse_lazy(
+                'contact:contact-us-export-advice',
+                kwargs={'step': 'comment'},
+            ),
             constants.FINANCE: reverse_lazy(
-                'domestic:uk-export-finance-lead-generation-form', kwargs={'step': 'contact'}
+                'domestic:uk-export-finance-lead-generation-form',
+                kwargs={'step': 'contact'},
             ),
             constants.EUEXIT: reverse_lazy('domestic:brexit-contact-form'),
             constants.EVENTS: reverse_lazy('contact:contact-us-events-form'),
             constants.DSO: reverse_lazy('contact:contact-us-dso-form'),
             constants.OTHER: reverse_lazy('contact:contact-us-enquiries'),
         },
-        # constants.INTERNATIONAL: {
-        #     constants.INVESTING: settings.INVEST_CONTACT_URL,
-        #     constants.CAPITAL_INVEST: settings.CAPITAL_INVEST_CONTACT_URL,
-        #     constants.EXPORTING_TO_UK: helpers.build_exporting_guidance_url(slugs.HELP_EXPORTING_TO_UK),
-        #     constants.BUYING: settings.FIND_A_SUPPLIER_CONTACT_URL,
-        #     constants.EUEXIT: settings.EU_EXIT_INTERNATIONAL_CONTACT_URL,
-        #     constants.OTHER: reverse_lazy('contact:contact-us-international'),
-        # },
-        # constants.EXPORT_OPPORTUNITIES: {
-        #     constants.NO_RESPONSE: helpers.build_export_opportunites_guidance_url(slugs.HELP_EXOPPS_NO_RESPONSE),
-        #     constants.ALERTS: helpers.build_export_opportunites_guidance_url(slugs.HELP_EXOPP_ALERTS_IRRELEVANT),
-        #     constants.OTHER: reverse_lazy('contact:contact-us-domestic'),
-        # },
+        constants.INTERNATIONAL: {
+            constants.INVESTING: settings.INVEST_CONTACT_URL,
+            constants.CAPITAL_INVEST: settings.CAPITAL_INVEST_CONTACT_URL,
+            constants.EXPORTING_TO_UK: helpers.build_exporting_guidance_url(
+                snippet_slugs.HELP_EXPORTING_TO_UK,
+            ),
+            constants.BUYING: settings.FIND_A_SUPPLIER_CONTACT_URL,
+            constants.EUEXIT: settings.EU_EXIT_INTERNATIONAL_CONTACT_URL,
+            constants.OTHER: reverse_lazy('contact:contact-us-international'),
+        },
+        constants.EXPORT_OPPORTUNITIES: {
+            constants.NO_RESPONSE: helpers.build_export_opportunites_guidance_url(
+                snippet_slugs.HELP_EXOPPS_NO_RESPONSE,
+            ),
+            constants.ALERTS: helpers.build_export_opportunites_guidance_url(
+                snippet_slugs.HELP_EXOPP_ALERTS_IRRELEVANT,
+            ),
+            constants.OTHER: reverse_lazy('contact:contact-us-domestic'),
+        },
         constants.GREAT_SERVICES: {
             constants.OTHER: reverse_lazy('contact:contact-us-domestic'),
         },
@@ -207,14 +259,18 @@ class RoutingFormView(
             constants.NO_VERIFICATION_EMAIL: helpers.build_account_guidance_url(
                 snippet_slugs.HELP_MISSING_VERIFY_EMAIL
             ),
-            constants.PASSWORD_RESET: helpers.build_account_guidance_url(snippet_slugs.HELP_PASSWORD_RESET),
+            constants.PASSWORD_RESET: helpers.build_account_guidance_url(
+                snippet_slugs.HELP_PASSWORD_RESET,
+            ),
             constants.COMPANY_NOT_FOUND: helpers.build_account_guidance_url(
                 snippet_slugs.HELP_ACCOUNT_COMPANY_NOT_FOUND
             ),
             constants.COMPANIES_HOUSE_LOGIN: helpers.build_account_guidance_url(
                 snippet_slugs.HELP_COMPANIES_HOUSE_LOGIN
             ),
-            constants.VERIFICATION_CODE: helpers.build_account_guidance_url(snippet_slugs.HELP_VERIFICATION_CODE_ENTER),
+            constants.VERIFICATION_CODE: helpers.build_account_guidance_url(
+                snippet_slugs.HELP_VERIFICATION_CODE_ENTER,
+            ),
             constants.NO_VERIFICATION_LETTER: helpers.build_account_guidance_url(
                 snippet_slugs.HELP_VERIFICATION_CODE_LETTER
             ),
@@ -223,14 +279,14 @@ class RoutingFormView(
             ),
             constants.OTHER: reverse_lazy('contact:contact-us-domestic'),
         },
-        # constants.EXPORTING_TO_UK: {
-        #     constants.HMRC: settings.CONTACT_EXPORTING_TO_UK_HMRC_URL,
-        #     constants.DEFRA: reverse_lazy('contact:contact-us-exporting-to-the-uk-defra'),
-        #     constants.BEIS: reverse_lazy('contact:contact-us-exporting-to-the-uk-beis'),
-        #     constants.IMPORT_CONTROLS: (reverse_lazy('contact:contact-us-international')),
-        #     constants.TRADE_WITH_UK_APP: (reverse_lazy('contact:contact-us-international')),
-        #     constants.OTHER: reverse_lazy('contact:contact-us-international'),
-        # },
+        constants.EXPORTING_TO_UK: {
+            constants.HMRC: settings.CONTACT_EXPORTING_TO_UK_HMRC_URL,
+            #     constants.DEFRA: reverse_lazy('contact:contact-us-exporting-to-the-uk-defra'),
+            #     constants.BEIS: reverse_lazy('contact:contact-us-exporting-to-the-uk-beis'),
+            constants.IMPORT_CONTROLS: (reverse_lazy('contact:contact-us-international')),
+            constants.TRADE_WITH_UK_APP: (reverse_lazy('contact:contact-us-international')),
+            constants.OTHER: reverse_lazy('contact:contact-us-international'),
+        },
     }
 
     form_list = (
@@ -249,7 +305,7 @@ class RoutingFormView(
         constants.GREAT_SERVICES: 'domestic/contact/routing/step-great-services.html',
         constants.GREAT_ACCOUNT: 'domestic/contact/routing/step-great-account.html',
         # constants.EXPORT_OPPORTUNITIES: ('contact/routing/step-export-opportunities-service.html'),
-        # constants.INTERNATIONAL: 'contact/routing/step-international.html',
+        constants.INTERNATIONAL: 'contact/routing/step-international.html',
         # constants.EXPORTING_TO_UK: 'contact/routing/step-exporting.html',
     }
 
@@ -397,3 +453,109 @@ class FeedbackFormView(core_mixins.PrepopulateFormMixin, BaseZendeskFormView):
                 'email': self.request.user.email,
                 'name': self.request.user.get_full_name(),
             }
+
+
+class ExportingAdviceFormView(
+    core_mixins.PreventCaptchaRevalidationMixin,
+    FormSessionMixin,
+    core_mixins.PrepopulateFormMixin,
+    NamedUrlSessionWizardView,
+):
+    success_url = reverse_lazy('contact:contact-us-domestic-success')
+
+    COMMENT = 'comment'
+    PERSONAL = 'personal'
+    BUSINESS = 'business'
+
+    form_list = (
+        (COMMENT, contact_forms.CommentForm),
+        (PERSONAL, contact_forms.PersonalDetailsForm),
+        (BUSINESS, contact_forms.BusinessDetailsForm),
+    )
+
+    templates = {
+        COMMENT: 'domestic/contact/exporting/step-comment.html',
+        PERSONAL: 'domestic/contact/exporting/step-personal.html',
+        BUSINESS: 'domestic/contact/exporting/step-business.html',
+    }
+
+    def get_template_names(self):
+        return [self.templates[self.steps.current]]
+
+    def get_form_kwargs(self, *args, **kwargs):
+        # skipping `PrepopulateFormMixin.get_form_kwargs`
+        return super(core_mixins.PrepopulateFormMixin, self).get_form_kwargs(*args, **kwargs)
+
+    def get_form_initial(self, step):
+        initial = super().get_form_initial(step)
+        if self.request.user.is_authenticated and self.request.user.company:
+            if step == self.PERSONAL:
+                initial.update(
+                    {
+                        'email': self.request.user.email,
+                        'phone': getattr(
+                            self.request.user.company,
+                            'mobile_number',
+                            '',
+                        ),
+                        'first_name': self.guess_given_name,
+                        'last_name': self.guess_family_name,
+                    }
+                )
+            elif step == self.BUSINESS:
+                sectors = getattr(self.request.user.company, 'sectors', '')
+                initial.update(
+                    {
+                        'company_type': constants.LIMITED,
+                        'companies_house_number': getattr(self.request.user.company, 'number', ''),
+                        'organisation_name': getattr(self.request.user.company, 'name', ''),
+                        'postcode': getattr(self.request.user.company, 'postal_code', ''),
+                        'industry': sectors[0] if sectors else None,
+                        'employees': getattr(self.request.user.company, 'employees', ''),
+                    }
+                )
+        return initial
+
+    def send_user_message(self, form_data):
+        action = actions.GovNotifyEmailAction(
+            template_id=settings.CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID,
+            email_address=form_data['email'],
+            form_url=reverse('contact:contact-us-export-advice', kwargs={'step': 'comment'}),
+            form_session=self.form_session,
+            email_reply_to_id=settings.CONTACT_EXPORTING_USER_REPLY_TO_EMAIL_ID,
+        )
+        response = action.save(form_data)
+        response.raise_for_status()
+
+    def send_agent_message(self, form_data):
+        sender = Sender(email_address=form_data['email'], country_code=None)
+        action = actions.EmailAction(
+            recipients=[form_data['region_office_email']],
+            subject=settings.CONTACT_EXPORTING_AGENT_SUBJECT,
+            reply_to=[settings.DEFAULT_FROM_EMAIL],  # NB: this default does not appear to be used
+            form_url=reverse('contact:contact-us-export-advice', kwargs={'step': 'comment'}),
+            form_session=self.form_session,
+            sender=sender,
+        )
+        template_name = 'domestic/contact/exporting-from-uk-agent-email.html'
+        html = render_to_string(template_name, {'form_data': form_data})
+        response = action.save({'text_body': strip_tags(html), 'html_body': html})
+        response.raise_for_status()
+
+    def done(self, form_list, **kwargs):
+        form_data = self.serialize_form_list(form_list)
+        self.send_agent_message(form_data)
+        self.send_user_message(form_data)
+        return redirect(self.success_url)
+
+    @staticmethod
+    def get_agent_email(postcode):
+        region_email = helpers.retrieve_regional_office_email(postcode)
+        return region_email or settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS
+
+    def serialize_form_list(self, form_list):
+        data = {}
+        for form in form_list:
+            data.update(form.cleaned_data)
+        data['region_office_email'] = self.get_agent_email(data['postcode'])
+        return data
