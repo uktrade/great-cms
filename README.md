@@ -219,27 +219,28 @@ AttributeError: 'User' object has no attribute 'session_id'"/'company' et al, yo
 
 * On latest release of MacOs `make install_requirements` might fail, please run `brew install openssl` then `env LDFLAGS="-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib" make install_requirements`
 
-## DOCKER SET-UP   '''''''''''''''''''''''''''''''''''''''''''''''''''''
+#  '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 * Ensure docker is setup on your machine
 * Clone the following Repos to the same parent directory
-https://github.com/directory-api
-https://github.com/directory-forms-api
-https://github.com/directory-sso
-https://github.com/directory-sso-proxy
+** https://github.com/directory-api
+** https://github.com/directory-forms-api
+** https://github.com/directory-sso
+** https://github.com/directory-sso-proxy
 
 
-* Get env variables from vault and set in file
+* Get env variables from vault and set in file config/env/secrets-do-not-commit. If this files doesn't exist run make secrets in great-cms directory
 AWS_*
 DATABASE_DUMP_FILENAME=great-cms-db-23-jun-21.backup (default)
 
 run docker
+
 * docker-compose -f development.yml build --no-cache
 Bring up database first to allow set-up/restore
-* docker-compose -f development.yml up pgsql (may need two run twice due to a restore error)
+* docker-compose -f development.yml up pgsql
 run remaining services
-* docker-compose -f development.yml up  
+* docker-compose -f development.yml up
 
-#  '''''''''''''''''''''''''''''''''''''''''''''''''''''
+#  '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 
 ## Helpful links
