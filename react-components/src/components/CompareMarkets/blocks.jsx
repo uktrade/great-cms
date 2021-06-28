@@ -74,42 +74,55 @@ const sourceAttribution = (attributions) => {
   )
 }
 
-const renderColumnHeader = (columnConfig, context, mobile) => (
-  <>
-    {isFunction(columnConfig.name) ? columnConfig.name(context) : columnConfig.name }
-    {columnConfig.tooltip && (
-      <div>
-        <Tooltip
-          title={columnConfig.tooltip.title }
-          content={columnConfig.tooltip.content}
-          position={mobile ? 'left' : columnConfig.tooltip.position}
-          className="text-align-left body-m"
-        />
-      </div>
-    )}
-  </>
-)
+const renderColumnHeader = (columnConfig, context, mobile) => {
+  const columnName = isFunction(columnConfig.name)
+    ? columnConfig.name(context)
+    : columnConfig.name
+  return (
+    <>
+      {!mobile ? columnName : ''}
+      {columnConfig.tooltip && (
+        <div className={mobile ? 'f-r' : ''}>
+          <Tooltip
+            title={columnConfig.tooltip.title || `What is '${columnName}'?`}
+            content={columnConfig.tooltip.content}
+            position={mobile ? 'right' : columnConfig.tooltip.position}
+            showTitle={columnConfig.tooltip.showTitle || false}
+            className="text-align-left body-m"
+          />
+        </div>
+      )}
+      {mobile ? columnName : ''}
+    </>
+  )
+}
 
 const renderCountryRowHeader = (market, removeMarket, config) => {
   // A row header in normal or mobile mode is the country label. In mobile mode there is no 'remove' button
   return (
-    <th className={`p-v-xs name ${(config && config.headingClass) || ''}`}>
-      <div className='flex-center'>
-      {(removeMarket && (
-        <button
-          type="button"
-          onClick={removeMarket || (() => null)}
-          className="button button--only-icon button--tertiary button--small m-r-xxs"
-          data-id={market.country_iso2_code}
-          aria-label={`Remove ${market.country_name}`}
+    <th
+      className={`p-v-xs name ${(config && config.headingClass) || ''}`}
+      scope="row"
+    >
+      <div className="flex-center">
+        {(removeMarket && (
+          <button
+            type="button"
+            onClick={removeMarket || (() => null)}
+            className="button button--only-icon button--tertiary button--small m-r-xxs"
+            data-id={market.country_iso2_code}
+            aria-label={`Remove ${market.country_name}`}
+          >
+            <i className="fa fa-trash-alt icon--border" />
+          </button>
+        )) ||
+          ''}
+        <div
+          className="body-l-b country-name"
+          id={`marketheader-${market.country_name}`}
         >
-          <i className="fa fa-trash-alt icon--border" />
-        </button>
-      )) ||
-        ''}
-      <div className="body-l-b country-name" id={`marketheader-${market.country_name}`}>
-        {market.country_name}
-      </div>
+          {market.country_name}
+        </div>
       </div>
     </th>
   )

@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sitemaps',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.forms',
@@ -90,7 +91,6 @@ MIDDLEWARE = [
     'wagtail.contrib.legacy.sitemiddleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     'core.middleware.UserSpecificRedirectMiddleware',
-    'core.middleware.UserLocationStoreMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'core.middleware.CheckGATags',
 ]
@@ -423,7 +423,7 @@ WAGTAILMEDIA_MEDIA_MODEL = 'core.GreatMedia'
 # Google captcha
 RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY')
 RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY')
-RECAPTCHA_REQUIRED_SCORE = env.int('RECAPTCHA_REQUIRED_SCORE', 0.5)
+RECAPTCHA_REQUIRED_SCORE = env.float('RECAPTCHA_REQUIRED_SCORE', 0.5)
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 
 # directory forms api client
@@ -457,8 +457,20 @@ CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS = env.str('CONTACT_ENQUIRIES_AGENT_EMAIL_A
 CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID = env.str(
     'CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID', '61c82be6-b140-46fc-aeb2-472df8a94d35'
 )
+CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS = env.str(
+    'CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS',
+)
+CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID', 'a56114d3-515e-4ee7-bb1a-9a0ceab04378'
+)
+CONTACT_ECOMMERCE_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_ECOMMERCE_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID',
+    '18d807d2-f4cf-4b93-96c1-0d3169bd0906',
+)
 
-# UKEF CONTACT FORM
+EU_EXIT_ZENDESK_SUBDOMAIN = env.str('EU_EXIT_ZENDESK_SUBDOMAIN')
+
+# UK Export Finance
 UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID = env.str(
     'UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID', '09677460-1796-4a60-a37c-c1a59068219e'
 )
@@ -468,7 +480,7 @@ UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID = env.str(
 UKEF_CONTACT_AGENT_EMAIL_ADDRESS = env.str(
     'UKEF_CONTACT_AGENT_EMAIL_ADDRESS',
 )
-
+UKEF_FORM_SUBMIT_TRACKER_URL = env.str('UKEF_FORM_SUBMIT_TRACKER_URL')  # A Pardot URL
 
 FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES = env.bool('FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES', False)
 
@@ -507,20 +519,12 @@ WORLD_BANK_URL = env.str('WORLD_BANK_URL', 'https://www.worldbank.org/')
 DATA_WORLD_BANK_URL = env.str('DATA_WORLD_BANK_URL', 'https://data.worldbank.org/indicator/NY.ADJ.NNTY.PC.CD')
 UNITED_NATIONS_URL = env.str('UNITED_NATIONS_URL', 'https://www.un.org/en/')
 
-
 # 3CE commodity classification
-COMMODITY_SEARCH_URL = env.str(
-    'CCCE_COMMODITY_SEARCH_URL', 'http://info.dev.3ceonline.com/ccce/apis/classify/v1/interactive/classify-start'
-)
-COMMODITY_SEARCH_REFINE_URL = env.str(
-    'CCCE_COMMODITY_SEARCH_REFINE_URL',
-    'http://info.dev.3ceonline.com/ccce/apis/classify/v1/interactive/classify-continue',
-)
-CCCE_IMPORT_SCHEDULE_URL = env.str(
-    'CCCE_TRADE_DATA_URL', 'http://info.dev.3ceonline.com/ccce/apis/tradedata/import/v1/schedule'
-)
-
+CCCE_BASE_URL = env.str('CCCE_BASE_URL', 'https://info.stage.3ceonline.com')
 COMMODITY_SEARCH_TOKEN = env.str('CCCE_COMMODITY_SEARCH_TOKEN', '')
+COMMODITY_SEARCH_URL = CCCE_BASE_URL + '/ccce/apis/classify/v1/interactive/classify-start'
+COMMODITY_SEARCH_REFINE_URL = CCCE_BASE_URL + '/ccce/apis/classify/v1/interactive/classify-continue'
+CCCE_IMPORT_SCHEDULE_URL = CCCE_BASE_URL + '/ccce/apis/tradedata/import/v1/schedule'
 
 # directory constants
 DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON = env.str('DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON', '')
@@ -616,6 +620,10 @@ AWS_ACCESS_KEY_ID_DATA_SCIENCE = env.str('AWS_ACCESS_KEY_ID_DATA_SCIENCE', '')
 AWS_SECRET_ACCESS_KEY_DATA_SCIENCE = env.str('AWS_SECRET_ACCESS_KEY_DATA_SCIENCE', '')
 AWS_STORAGE_BUCKET_NAME_DATA_SCIENCE = env.str('AWS_STORAGE_BUCKET_NAME_DATA_SCIENCE', '')
 AWS_S3_REGION_NAME_DATA_SCIENCE = env.str('AWS_S3_REGION_NAME_DATA_SCIENCE', '')
+
+# Report a Trade Barrier / "marketaccess"
+MARKET_ACCESS_ZENDESK_SUBJECT = env.str('MARKET_ACCESS_ZENDESK_SUBJECT', 'market access')
+MARKET_ACCESS_FORMS_API_ZENDESK_SERVICE_NAME = env.str('MARKET_ACCESS_FORMS_API_ZENDESK_SERVICE_NAME', 'market_access')
 
 
 # SEARCH

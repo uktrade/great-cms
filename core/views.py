@@ -4,10 +4,11 @@ import logging
 
 from directory_forms_api_client.helpers import Sender
 from django.conf import settings
+from django.contrib.sitemaps import Sitemap as DjangoSitemap
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -15,9 +16,10 @@ from great_components.mixins import GA360Mixin
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from wagtail.contrib.sitemaps import Sitemap as WagtailSitemap
 
 from core import cms_slugs, forms, helpers, serializers
-from core.mixins import PageTitleMixin
+from core.mixins import AuthenticatedUserRequired, PageTitleMixin
 from core.models import GreatMedia
 from directory_constants import choices
 from domestic.models import DomesticDashboard, TopicLandingPage
@@ -383,3 +385,90 @@ def serve_subtitles(request, great_media_id, language):
 
     response = HttpResponse(subtitles, content_type='text/vtt')
     return response
+
+
+class CMSPagesSitemap(WagtailSitemap):
+    """Extend the default Wagtail sitemap generator to skip over pages
+    which use our custom authentication-required mixin.
+    """
+
+    def items(self) -> list:
+        items_qs = super().items()
+        # Unfortunately we have to do some filtering in code, not at the DB.
+        # It's fine for the return value to be an iterable, not a QuerySet:
+        # https://docs.djangoproject.com/en/3.2/ref/contrib/sitemaps/#sitemap-class-reference
+
+        items = [instance for instance in items_qs if AuthenticatedUserRequired not in instance.__class__.mro()]
+
+        return items
+
+
+class StaticViewSitemap(DjangoSitemap):
+    """A manually curated section of the sitemap, focused
+    on Django-rendered views we want search engines to know about"""
+
+    changefreq = 'daily'
+
+    CONTACT_PAGE_PLACEHOLDER = 'CONTACT_PAGE_PLACEHOLDER'
+
+    def items(self):
+        # At the moment, these are deliberately only for unauthenticated pages.
+        url_names = [
+            # TODO: replace pre-resolved URLs, above, with the proper contact view URL names
+            # when they have been ported from V1 into V2
+            '/contact/',
+            '/contact/events/',
+            '/contact/defence-and-security-organisation/',
+            '/contact/export-advice/',
+            '/contact/feedback/',
+            '/contact/domestic/',
+            '/contact/domestic/enquiries/',
+            '/contact/international/',
+            '/contact/selling-online-overseas/',
+            '/contact/selling-online-overseas/organisation/',
+            '/contact/office-finder/',
+            # These were removed from the V1 sitemap because the pages were 404ing anyway because
+            # FEATURE_EXPORTING_TO_UK_ON_ENABLED was not set on production any more, so the views
+            # ExportingToUKDERAFormView, ExportingToUKBEISFormView and ExportingToUKFormView have
+            # NOT YET been ported to Great V2
+            # '/contact/department-for-business-energy-and-industrial-strategy/',
+            # '/contact/department-for-environment-food-and-rural-affairs/',
+            # '/contact/exporting-to-the-uk/',
+            # '/contact/exporting-to-the-uk/import-controls/',
+            # '/contact/exporting-to-the-uk/other/',
+            # '/contact/exporting-to-the-uk/trade-with-uk-app/',
+            # The following are all auto-generated from the urlconf
+            'core:cookie-preferences',
+            'core:login',
+            'core:signup',
+            'core:robots',
+            'domestic:get-finance',
+            'domestic:uk-export-finance-lead-generation-form',  # See location(), below
+            'domestic:project-finance',
+            'domestic:how-we-assess-your-project',
+            'domestic:what-we-offer-you',
+            'domestic:country-cover',
+            'domestic:uk-export-contact',
+            'domestic:brexit-contact-form',
+            'domestic:market-access',
+            'domestic:report-ma-barrier',  # See location(), below
+            'search:search',
+            'search:feedback',
+        ]
+        return url_names
+
+    def changefreq(self, item):
+        # The Django-rendered pages don't change very often and we can always request
+        # a re-crawl if we have something we edit that we want to get out there ASAP.
+        # 'Monthly' seems like a reasonable middle ground, even though it might not be
+        # respected by search engines anyway
+        return 'monthly'
+
+    def location(self, item):
+        if item.startswith('/'):
+            return item
+        elif item == 'domestic:uk-export-finance-lead-generation-form':
+            return reverse(item, kwargs={'step': 'contact'})
+        elif item == 'domestic:report-ma-barrier':
+            return reverse(item, kwargs={'step': 'about'})
+        return reverse(item)

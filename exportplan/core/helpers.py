@@ -26,21 +26,6 @@ def update_exportplan(sso_session_id, id, data):
     return response.json()
 
 
-def get_exportplan_marketdata(country_code):
-    # This is a temp wrapper for MVP as we finalise the source(s) this should move to backend
-    exportplan_marketdata = {}
-    exportplan_marketdata['timezone'] = get_timezone(country_code)
-
-    exportplan_response = api_client.dataservices.get_corruption_perceptions_index(country_code)
-    exportplan_response.raise_for_status()
-    exportplan_marketdata['corruption_perceptions_index'] = exportplan_response.json()
-
-    marketdata_response = api_client.dataservices.get_ease_of_doing_business(country_code)
-    marketdata_response.raise_for_status()
-    exportplan_marketdata['easeofdoingbusiness'] = marketdata_response.json()
-    return exportplan_marketdata
-
-
 def country_code_iso3_to_iso2(iso3_country_code):
     if countries_by_alpha3.get(iso3_country_code):
         return countries_by_alpha3[iso3_country_code].alpha2
@@ -64,44 +49,13 @@ def get_society_data_by_country(countries):
     return response.json()
 
 
-def get_recommended_countries(sso_session_id, sectors):
-    response = api_client.personalisation.recommended_countries_by_sector(sso_session_id=sso_session_id, sector=sectors)
-    response.raise_for_status()
-    parsed = response.json()
-    if parsed:
-        for item in parsed:
-            country = item['country'].title()
-            item['country'] = country
-        return parsed
-    return []
-
-
-def serialize_exportplan_data(user):
-    target_markets = []
-    if user.company and user.company.expertise_countries_labels:
-        target_markets = target_markets + [{'country': c} for c in user.company.expertise_countries_labels]
-        export_plan_data = {
-            'target_markets': target_markets,
-        }
-    else:
-        export_plan_data = {}
-    return export_plan_data
-
-
 def get_or_create_export_plan(user):
     # This is a temp hook to create initial export plan. Once we have a full journey this can be removed
     export_plan = get_exportplan(user.session_id)
     if not export_plan:
-        export_plan = create_export_plan(
-            sso_session_id=user.session_id, exportplan_data=serialize_exportplan_data(user=user)
-        )
+        # This currently creates an empty export plan
+        export_plan = create_export_plan(sso_session_id=user.session_id, exportplan_data={})
     return export_plan
-
-
-def get_country_data(country):
-    response = api_client.dataservices.get_country_data(country)
-    response.raise_for_status()
-    return response.json()
 
 
 def get_cia_world_factbook_data(country, key):

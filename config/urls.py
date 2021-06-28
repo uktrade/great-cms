@@ -28,6 +28,8 @@ if settings.ENFORCE_STAFF_SSO_ENABLED:
     ]
 
 
+# WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD ANY
+# URL NAMES TO core.views.StaticViewSitemap
 urlpatterns += [
     path('django-admin/', decorator_include(skip_ga360, admin.site.urls)),
     path(
@@ -38,7 +40,7 @@ urlpatterns += [
     path('admin/cms-extras/', decorator_include(skip_ga360, cms_extras.urls, namespace='cms_extras')),
     path('admin/', decorator_include(skip_ga360, wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),  # NB: doesn't skip GA as we may analytics on this
-    path('sso/', include(sso.urls)),
+    path('great-cms-sso/', include(sso.urls)),
     path('search/', include(search.urls, namespace='search')),
     path('activity-stream/', include(activitystream.urls, namespace='activitystream')),
     path('', include(domestic.urls, namespace='domestic')),
@@ -49,7 +51,7 @@ urlpatterns += [
 # Should we show the contact pages we're porting from V1 yet?
 if settings.FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES:
     urlpatterns += [
-        path('contact/', include(contact.urls)),
+        path('', include(contact.urls)),  # No prefix because not all of them start with /contact/
     ]
 
 urlpatterns += [

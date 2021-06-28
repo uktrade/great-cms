@@ -18,7 +18,7 @@ from django.utils.functional import cached_property
 from ipware import get_client_ip
 
 from core.models import CuratedListPage
-from core.serializers import parse_events, parse_opportunities
+from core.serializers import parse_opportunities
 from directory_api_client import api_client
 from directory_constants import choices
 from directory_sso_api_client import sso_api_client
@@ -89,13 +89,6 @@ def create_user_profile(data, sso_session_id):
     return response
 
 
-def get_dashboard_events(sso_session_id):
-    results = api_client.personalisation.events_by_location_list(sso_session_id)
-    if results.status_code == 200:
-        return parse_events(results.json()['results'])
-    return []
-
-
 def get_dashboard_export_opportunities(sso_session_id, company):
     sectors = company.expertise_industries_labels if company else []
     search_term = ' '.join(sectors)
@@ -150,14 +143,6 @@ class CompanyParser(great_components.helpers.CompanyParser):
         if self.data['expertise_industries']:
             return values_to_labels(values=self.data['expertise_industries'], choices=self.INDUSTRIES)
         return []
-
-    @property
-    def expertise_countries_labels(self):
-        return (
-            values_to_labels(values=self.data['expertise_countries'], choices=self.COUNTRIES)
-            if self.data.get('expertise_countries')
-            else []
-        )
 
     @property
     def expertise_countries_value_label_pairs(self):
@@ -468,10 +453,10 @@ class GeoLocationRedirector:
     @property
     def should_redirect(self):
         return (
-            self.COOKIE_NAME not in self.request.COOKIES  # noqa W503
-            and self.LANGUAGE_PARAM not in self.request.GET  # noqa W503
-            and self.country_code is not None  # noqa W503
-            and self.country_code not in self.DOMESTIC_COUNTRY_CODES  # noqa W503
+            self.COOKIE_NAME not in self.request.COOKIES  # noqa: W503
+            and self.LANGUAGE_PARAM not in self.request.GET  # noqa: W503
+            and self.country_code is not None  # noqa: W503
+            and self.country_code not in self.DOMESTIC_COUNTRY_CODES  # noqa: W503
         )
 
     def get_response(self):

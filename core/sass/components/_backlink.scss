@@ -1,0 +1,26 @@
+@import 'helpers/colours';
+
+.back-link {
+  color: $blue-deep-80;
+  display: flex;
+  align-items: center;
+
+  &:visited {
+    color: $blue-deep-80;
+  }
+
+  &--inverse {
+    color: $white;
+
+    &:visited {
+      color: $white;
+    }
+    &:hover {
+      color: $white;
+    }
+  }
+
+  i {
+    font-size: 24px;
+  }
+}

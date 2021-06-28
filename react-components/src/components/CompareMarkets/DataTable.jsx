@@ -197,15 +197,15 @@ export default function DataTable(props) {
           return (
             <div
               key={columnKey}
-              className={`${columnKey} p-h-s m-t-xs ${
+              className={`${columnKey} p-h-s m-b-s ${
                 cellConfig.className || ''
               }`}
             >
-              <div className="text-align-left body-l-b p-v-xs">
-                {blocks.renderColumnHeader(cellConfig, props, mobile)}
-              </div>
               <div className="bg-white radius overflow-hidden p-h-s">
                 <table className="m-v-0 border-blue-deep-20 no-bottom-border">
+                  <caption className="text-align-left body-l-b p-v-xs">
+                    {blocks.renderColumnHeader(cellConfig, props, mobile)}
+                  </caption>
                   <tbody>
                     {blocks.renderMobileBlock(
                       cache[datasetName],
@@ -220,7 +220,7 @@ export default function DataTable(props) {
           )
         })}
         {config.sourceAttributions && (
-          <div className="bg-white radius overflow-hidden p-h-s m-t-s m-h-s">
+          <div className="bg-white radius overflow-hidden p-h-s m-b-s m-h-s">
             {blocks.sourceAttribution(config.sourceAttributions)}
           </div>
         )}
@@ -264,6 +264,7 @@ export default function DataTable(props) {
       <table
         className={`m-v-0 border-blue-deep-20 valign-middle cache-version-${cacheVersion}`}
       >
+        {config.caption && config.caption()}
         <thead>
           <tr>
             <th className="body-l-b">&nbsp;</th>
@@ -275,6 +276,7 @@ export default function DataTable(props) {
                     cellConfig.className || ''
                   }`}
                   key={columnKey}
+                  scope="col"
                 >
                   {blocks.renderColumnHeader(cellConfig, props)}
                 </th>
@@ -298,6 +300,7 @@ DataTable.propTypes = {
     dataFunction: PropTypes.func,
     groups: PropTypes.instanceOf(Object),
     filter: PropTypes.element,
+    caption: PropTypes.oneOf([PropTypes.string,PropTypes.func]),
   }).isRequired,
   product: PropTypes.shape({
     commodityCode: PropTypes.string,

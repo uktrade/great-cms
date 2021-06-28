@@ -1,11 +1,16 @@
+import logging
 from importlib import import_module
 
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
 from django.utils import translation
 from great_components import helpers as great_components_helpers
 
 from core import cms_slugs
 from exportplan.core.processor import ExportPlanProcessor
+
+logger = logging.getLogger(__name__)
 
 
 class WagtailAdminExclusivePageMixin:
@@ -93,7 +98,7 @@ class WagtailGA360Mixin:
         user = great_components_helpers.get_user(request)
         is_logged_in = great_components_helpers.get_is_authenticated(request)
         self.ga360_payload['login_status'] = is_logged_in
-        self.ga360_payload['user_id'] = user.hashed_uuid if is_logged_in else None
+        self.ga360_payload['user_id'] = user.hashed_uuid if (is_logged_in and not user.is_superuser) else None
         self.ga360_payload['site_language'] = translation.get_language()
 
 
@@ -141,6 +146,17 @@ class GetSnippetContentMixin:
         `snippet_import_path` should be a dot-separated importlib-style path to the relevant class
         `slug` is a string, mapping to a unique value stored in the snippet's `slug` SlugField
 
+    eg
+        path(
+        'domestic/success/',
+        skip_ga360(DomesticSuccessView.as_view()),
+        {
+            'slug': snippet_slugs.HELP_FORM_SUCCESS,
+            'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='contact-us-domestic-success',
+    ),
+
     """
 
     @property
@@ -155,4 +171,51 @@ class GetSnippetContentMixin:
         path, model_name = self.snippet_import_path.rsplit('.', 1)
         module_ = import_module(path)
         snippet_class = getattr(module_, model_name)
-        return snippet_class.objects.get(slug=self.slug)
+        try:
+            return snippet_class.objects.get(slug=self.slug)
+        except snippet_class.DoesNotExist:
+            logger.exception('Non-page CMS snippet is missing: see logged context. Raising 404.')
+            raise Http404()
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            content_snippet=self.get_snippet_instance(),
+        )
+
+
+class PreventCaptchaRevalidationMixin:
+    """When get_all_cleaned_data() is called the forms are revalidated,
+    which causes captcha to fail becuase the same captcha response from google
+    is posted to google multiple times. This captcha response is a nonce, and
+    so google complains the second time it's seen.
+
+    This is worked around by removing captcha from the form before the view
+    calls get_all_cleaned_data
+
+    """
+
+    should_ignore_captcha = False
+
+    def render_done(self, *args, **kwargs):
+        self.should_ignore_captcha = True
+        return super().render_done(*args, **kwargs)
+
+    def get_form(self, step=None, *args, **kwargs):
+        form = super().get_form(step=step, *args, **kwargs)
+        if step == self.steps.last and self.should_ignore_captcha:
+            del form.fields['captcha']
+        return form
+
+
+class NotFoundOnDisabledFeature:
+    def dispatch(self, *args, **kwargs):
+        if not self.flag:
+            raise Http404()
+        return super().dispatch(*args, **kwargs)
+
+
+class MarketAccessFeatureFlagMixin(NotFoundOnDisabledFeature):
+    @property
+    def flag(self):
+        return settings.FEATURE_SHOW_REPORT_BARRIER_CONTENT

@@ -1,0 +1,19 @@
+{% load wagtailcore_tags %}
+
+<div class="container">
+    <div class="grid-row">
+        <div class="column-one-half">
+            <h1 class="heading-xlarge">{{ content_snippet.heading }}</h1>
+            <p>{{ content_snippet.body_text|richtext }}</p>
+        </div>
+    </div>
+    <div class="grid-row">
+        <div class="column-two-thirds">
+            <form method="post" autocomplete="on">
+                {% csrf_token %}
+                {{ form }}
+                <button class="button">{{ content_snippet.submit_button_text }}</button>
+            </form>
+        </div>
+    </div>
+</div>

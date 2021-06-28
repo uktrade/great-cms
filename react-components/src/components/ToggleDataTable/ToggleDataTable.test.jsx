@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react'
 import { mount } from 'enzyme'
 import { ToggleDataTable } from '@src/components/ToggleDataTable'
@@ -60,37 +61,33 @@ describe('ToggleDataTable', () => {
   test('renders heading and select button initially', () => {
     expect(wrapper.find('h3').length).toEqual(1)
     expect(wrapper.find('.button--tiny-toggle').length).toEqual(1)
-    expect(wrapper.find('form').length).toEqual(0)
     expect(wrapper.find('.table').length).toEqual(0)
   })
 
-  test('renders form', () => {
+  test('renders table', () => {
     wrapper.find('.button--tiny-toggle').simulate('click', { type: 'click' })
-    expect(wrapper.find('form').length).toEqual(1)
-    expect(wrapper.find('.table').length).toEqual(0)
+    expect(wrapper.find('.table').length).toEqual(1)
   })
 
   test('renders table', async () => {
     Services.getCountryAgeGroupData.mockImplementation(() =>
       Promise.resolve(mockResponse)
     )
-
-    wrapper.find('.button--tiny-toggle').simulate('click', { type: 'click' })
-    wrapper
-      .find('form input')
-      .first()
-      .simulate('change', {
-        type: 'change',
-        target: { value: mockGroups[0]['key'] },
-      })
-
+    await act(() => {
+      wrapper.find('.button--tiny-toggle').simulate('click', { type: 'click' })
+    })
+    wrapper.update()
     await act(async () => {
-      wrapper.find('form').simulate('submit', { preventDefault: () => {} })
+      wrapper
+        .find('input')
+        .first()
+        .simulate('change', {
+          type: 'change',
+          target: { value: mockGroups[0]['key'] },
+        })
     })
 
     wrapper.update()
-
-    expect(wrapper.find('form').length).toEqual(0)
     expect(wrapper.find('.table').length).toEqual(1)
   })
 })

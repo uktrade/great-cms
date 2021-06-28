@@ -10,7 +10,10 @@ from wagtail.contrib.modeladmin.options import (
 )
 from wagtail.contrib.modeladmin.views import IndexView
 
-from contact.modeladmin import ContactSuccessSnippetAdmin
+from contact.modeladmin import (
+    ContactPageContentSnippetAdmin,
+    ContactSuccessSnippetAdmin,
+)
 from core.models import CaseStudy
 
 
@@ -184,7 +187,7 @@ class CaseStudyAdmin(ModelAdmin):
         return format_html_join(
             '',
             '<strong>{}: </strong> {}<br>',  # noqa
-            ((page_mapping.get(x.page.specific._meta.model_name), x.page) for x in obj.related_pages.all()),
+            ((page_mapping.get(x.page.specific._meta.model_name), x.page) for x in obj.related_pages.all() if x.page),
         )
 
     get_related_pages.short_description = 'Associated pages'
@@ -211,6 +214,7 @@ class NonCMSContentGroup(ModelAdminGroup):
     menu_icon = 'folder-open-inverse'  # change as required
     menu_order = 200
     items = (
+        ContactPageContentSnippetAdmin,
         ContactSuccessSnippetAdmin,
         # Add more here
     )

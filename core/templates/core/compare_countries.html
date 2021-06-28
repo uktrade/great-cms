@@ -41,8 +41,10 @@
       data-productname="{{ request.user.export_plan.data.export_commodity_codes.0.commodity_name }}"
       data-productcode="{{ request.user.export_plan.data.export_commodity_codes.0.commodity_code }}"
       data-tabs="{{ data_tabs_enabled }}"
-      data-max-places-allowed="{{ max_compare_places_allowed }}">
-    </div>
+      data-max-places-allowed="{{ max_compare_places_allowed }}"
+      role="region"
+      tabindex="-1"
+    />
 
     <div id="comparison-market-selector" class="p-v-l m-v-l" />
 

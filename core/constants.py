@@ -71,3 +71,5 @@ CONSENT_CHOICES = (
 )
 
 USER_DATA_NAMES = {'ComparisonMarkets': 16384}
+
+CONSENT_EMAIL = 'consents_to_email_contact'

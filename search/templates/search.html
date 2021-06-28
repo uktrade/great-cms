@@ -41,10 +41,7 @@
         <p class="added-margin-bottom">No results found. Please try again.</p>
       {% endif %}
 
-      {% comment %}
-      TODO: revert /search/feedback/, below, to {% url 'search-feedback' %} when view has been ported
-      {% endcomment %}
-      <a href="/search/feedback/?page={{ current_page }}&q={{ query }}" class="font-xsmall link">
+      <a href="{% url 'search:feedback' %}?page={{ current_page }}&q={{ query }}" class="font-xsmall link">
         Did you find what you were looking for?
       </a>
 

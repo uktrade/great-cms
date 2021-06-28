@@ -11,6 +11,7 @@ from domestic.models import (
     DomesticDashboard,
     DomesticHomePage,
     GreatDomesticHomePage,
+    ManuallyConfigurableTopicLandingPage,
     MarketsTopicLandingPage,
     PerformanceDashboardPage,
     TopicLandingPage,
@@ -107,3 +108,8 @@ class PerformanceDashboardPageFactory(wagtail_factories.PageFactory):
 
     class Meta:
         model = PerformanceDashboardPage
+
+
+class ManuallyConfigurableTopicLandingPageFactory(wagtail_factories.PageFactory):
+    class Meta:
+        model = ManuallyConfigurableTopicLandingPage

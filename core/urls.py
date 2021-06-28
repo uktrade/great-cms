@@ -2,6 +2,7 @@ import directory_healthcheck.views
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
+from wagtail.contrib.sitemaps.views import sitemap as wagtail_sitemap
 
 from config.url_redirects import redirects
 from core import cms_slugs, views, views_api
@@ -28,7 +29,21 @@ def anonymous_user_required(function):
     return inner(function)
 
 
+available_sitemaps = {
+    'cms-pages': views.CMSPagesSitemap,
+    'static': views.StaticViewSitemap,
+}
+
+
 urlpatterns = [
+    # WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD THE URL NAME
+    # TO core.views.StaticViewSitemap
+    path(
+        'sitemap.xml',
+        skip_ga360(wagtail_sitemap),
+        {'sitemaps': available_sitemaps},
+        name='sitemap',
+    ),
     path(
         'robots.txt',
         skip_ga360(views.RobotsView.as_view()),
@@ -110,7 +125,12 @@ urlpatterns = [
         skip_ga360(views_api.TradeBarrierDataView.as_view()),
         name='api-trade-barrier-data',
     ),
-    path('api/companies-house/', skip_ga360(views_api.CompaniesHouseAPIView.as_view()), name='api-companies-house'),
+    path(
+        # THIS IS USED BY EXPORT PLAN / PERSONALISATION
+        'api/companies-house/',
+        skip_ga360(views_api.CompaniesHouseAPIView.as_view()),
+        name='api-companies-house',
+    ),
     path(
         'subtitles/<int:great_media_id>/<str:language>/content.vtt',
         login_required(
@@ -121,5 +141,7 @@ urlpatterns = [
         ),
         name='subtitles-serve',
     ),
+    # WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD THE URL NAME
+    # TO core.views.StaticViewSitemap
 ]
 urlpatterns += redirects

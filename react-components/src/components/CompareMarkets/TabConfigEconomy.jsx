@@ -1,5 +1,5 @@
 import Services from '@src/Services'
-import { normaliseValues, get, millify } from '../../Helpers'
+import { normaliseValues, millify } from '../../Helpers'
 
 export default {
   sourceAttributions: [
@@ -31,7 +31,7 @@ export default {
       year: (data) => data.Income[0].year,
       tooltip: {
         position: 'right',
-        title: '',
+        title: 'What is Adjusted net national income per capita?',
         content: `
           <p>Adjusted net national income per capita (ANNIPC) measures the average income of consumers.</p>
           <p>Each year, the World Bank calculates ANNIPC by taking the gross national income, minus fixed income and natural resource consumption, and dividing it by the total population.</p>
@@ -46,7 +46,6 @@ export default {
       year: (data) => data.ConsumerPriceIndex[0].year,
       tooltip: {
         position: 'right',
-        title: '',
         content: `
           <p>Consumer Price Index (or CPI) measures changes in the price of goods and services.</p>
           <p>A higher number indicates prices are growing quickly and a lower number indicates they’re rising slowly.</p>
@@ -61,7 +60,6 @@ export default {
       year: (data) => data.InternetUsage[0].year,
       tooltip: {
         position: 'right',
-        title: '',
         content: `
           <p>The percentage of the population that has access to the internet.</p>
          `,

@@ -101,9 +101,7 @@ def test_exportplan_sections(mock_get_lessons, mock_get_comtrade_data, slug, cli
 
 
 @pytest.mark.django_db
-def test_exportplan_section_marketing_approach(
-    mock_get_country_data, mock_get_cia_world_factbook_data, client, user, mock_get_user_profile
-):
+def test_exportplan_section_marketing_approach(mock_get_cia_world_factbook_data, client, user, mock_get_user_profile):
     client.force_login(user)
     response = client.get(reverse('exportplan:marketing-approach'), {'name': 'France', 'age_range': '30-34'})
     assert response.status_code == 200

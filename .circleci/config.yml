@@ -5,10 +5,10 @@ version: 2
 ###############################################################################
 
 python: &python
-  image: circleci/python:3.9.1
+  image: circleci/python:3.9.5
 
 python_node_browsers: &python_node_browsers
-  image: circleci/python:3.9.1-node-browsers
+  image: circleci/python:3.9.5-node-browsers
 
 node: &node
   image: circleci/node:12
