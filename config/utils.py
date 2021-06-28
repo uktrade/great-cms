@@ -8,10 +8,9 @@ for env_file in env.list('ENV_FILES', default=[]):
 ENV_IDENTIFICATION_KEY = 'APP_ENVIRONMENT'
 DEV = 'dev'
 STAGING = 'staging'
-BETA = 'beta'
+UAT = 'uat'
 LOCAL = 'local'
-# # TO COME / TO BE RENAMED:
-# PRODUCTION = 'production'
+PRODUCTION = 'production'
 
 
 def get_wagtail_transfer_configuration() -> dict:
@@ -32,34 +31,33 @@ def get_wagtail_transfer_configuration() -> dict:
         # Dev needs to know about Staging and Beta to import FROM them
         config.update(
             {
-                # TEMPORARILY DISABLED until we're fully rolled out
-                # BETA: {
-                #     'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_BETA'),
-                #     'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_BETA')
-                # },
+                UAT: {
+                    'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_UAT'),
+                    'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_UAT'),
+                },
                 STAGING: {
                     'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_STAGING'),
                     'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_STAGING'),
                 },
             }
         )
-    # TEMPORARILY DISABLED until we're fully rolled out
-    # elif active_environment == STAGING:
-    #     # Staging needs to know about Beta, to import FROM it
-    #     config.update({
-    #         BETA: {
-    #             'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_BETA'),
-    #             'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_BETA')
-    #         }
-    #     })
-    # Activated on Beta: To transfer case study and related content from staging to Beta
-    elif active_environment == BETA:
-        # Beta needs to know about Staging, to import FROM it
+    elif active_environment == STAGING:
+        # Staging needs to know about production, to import FROM it
         config.update(
             {
-                STAGING: {
-                    'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_STAGING'),
-                    'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_STAGING'),
+                PRODUCTION: {
+                    'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_PRODUCTION'),
+                    'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_PRODUCTION'),
+                }
+            }
+        )
+    elif active_environment == UAT:
+        # UAT needs to know about production, to import FROM it
+        config.update(
+            {
+                PRODUCTION: {
+                    'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_PRODUCTION'),
+                    'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_PRODUCTION'),
                 }
             }
         )
