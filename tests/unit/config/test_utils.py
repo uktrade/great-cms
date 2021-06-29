@@ -13,36 +13,33 @@ from config.utils import get_wagtail_transfer_configuration
         ('', True, {}),
         ('unknown', True, {}),
         (
-            'beta',  # can pull from staging,
+            'uat',  # can pull from production,
             False,
             {
-                'staging': {
-                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_STAGING',
-                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_STAGING',
+                'production': {
+                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_PRODUCTION',
+                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_PRODUCTION',
                 },
             },
         ),
         (
-            'staging',  # can pull from beta
-            False,
-            # TEMPORARILY DISABLED until we're fully rolled out
-            # {
-            #     'beta': {
-            #         'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_BETA',
-            #         'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_BETA',
-            #     },
-            # }
-            {},
-        ),
-        (
-            'dev',  # can pull from beta or staging
+            'staging',  # can pull from production
             False,
             {
-                # TEMPORARILY DISABLED until we're fully rolled out
-                # 'beta': {
-                #     'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_BETA',
-                #     'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_BETA',
-                # },
+                'production': {
+                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_PRODUCTION',
+                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_PRODUCTION',
+                },
+            },
+        ),
+        (
+            'dev',  # can pull from UAT or staging
+            False,
+            {
+                'uat': {
+                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_UAT',
+                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_UAT',
+                },
                 'staging': {
                     'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_STAGING',
                     'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_STAGING',
@@ -54,9 +51,9 @@ from config.utils import get_wagtail_transfer_configuration
             True,
             {
                 # TEMPORARILY DISABLED until we're fully rolled out
-                # 'beta': {
-                #     'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_BETA',
-                #     'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_BETA',
+                # 'uat': {
+                #     'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_UAT',
+                #     'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_UAT',
                 # },
                 'staging': {
                     'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_STAGING',
@@ -80,14 +77,12 @@ from config.utils import get_wagtail_transfer_configuration
         (
             'staging',  # can pull from beta
             True,  # Danger! - or thankfully not... we won't act on this unless the env is `local`
-            # TEMPORARILY DISABLED until we're fully rolled out
-            # {
-            #     'beta': {
-            #         'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_BETA',
-            #         'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_BETA',
-            #     },
-            # }
-            {},
+            {
+                'production': {
+                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_PRODUCTION',
+                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_PRODUCTION',
+                },
+            },
         ),
     ),
     ids=(
@@ -95,7 +90,7 @@ from config.utils import get_wagtail_transfer_configuration
         'mismatching identifier',
         'no identifier and local enabled',
         'mismatching identifier and local enabled',
-        'expects config for beta',
+        'expects config for uat',
         'expects config for staging',
         'expects config for dev',
         'expects config for local ENABLED',
