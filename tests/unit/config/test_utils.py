@@ -50,11 +50,10 @@ from config.utils import get_wagtail_transfer_configuration
             'local',  # can pull between local:8020 and local:8030 and from deployed sites
             True,
             {
-                # TEMPORARILY DISABLED until we're fully rolled out
-                # 'uat': {
-                #     'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_UAT',
-                #     'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_UAT',
-                # },
+                'uat': {
+                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_UAT',
+                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_UAT',
+                },
                 'staging': {
                     'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_STAGING',
                     'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_STAGING',

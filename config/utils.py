@@ -28,7 +28,7 @@ def get_wagtail_transfer_configuration() -> dict:
     active_environment = env.str(ENV_IDENTIFICATION_KEY)
 
     if active_environment == DEV:
-        # Dev needs to know about Staging and Beta to import FROM them
+        # Dev needs to know about Staging and UAT to import FROM them
         config.update(
             {
                 UAT: {
@@ -63,11 +63,11 @@ def get_wagtail_transfer_configuration() -> dict:
         )
 
     elif active_environment == LOCAL and env.bool('WAGTAIL_TRANSFER_LOCAL_DEV', default=False):
-        # Local needs to know about Dev and Staging and Beta to import FROM them
+        # Local needs to know about Dev and Staging and UAT to import FROM them
         for env_suffix in [
             DEV,
             STAGING,
-            # BETA,  # TEMPORARILY DISABLED until full rollout
+            UAT,
         ]:
             url_var_name = f'WAGTAILTRANSFER_BASE_URL_{env_suffix}'
             key_var_name = f'WAGTAILTRANSFER_SECRET_KEY_{env_suffix}'
