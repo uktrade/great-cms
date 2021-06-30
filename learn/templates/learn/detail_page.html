@@ -6,13 +6,13 @@
 
 {% block content %}
     <div class="lesson-page">
-        {% get_topic_title_for_lesson page as topic_title %}
+        {% get_category_title_for_lesson page as category_title %}
         <span class="learn__back-link">
-          {% include "core/includes/backlink.html" with url=page.get_parent.get_parent.url label=topic_title classes="hide-on-mobile"%}
+          {% include "core/includes/backlink.html" with url=page.get_parent.get_parent.url label=category_title classes="hide-on-mobile"%}
         </span>
         <div class="bg-white">
             <div class="container">
-                <div class="grid lesson-body p-t-l">
+                <div class="grid lesson-body p-t-xl">
                     <div class="c-1-4">
                     </div>
                     <div class="c-1-2">
@@ -127,7 +127,7 @@
                 </div>
             {% endif %}
             <span class="learn__back-link learn__back-link--bottom">
-              {% include "core/includes/backlink.html" with url=page.get_parent.get_parent.url label=topic_title classes="hide-on-mobile back-link--inverse"%}
+              {% include "core/includes/backlink.html" with url=page.get_parent.get_parent.url label=category_title classes="hide-on-mobile back-link--inverse"%}
             </span>
         </div>
     </div>

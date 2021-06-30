@@ -1,5 +1,9 @@
 @import 'elements/colours';
 
+main#content {
+  overflow: hidden;
+}
+
 label {
   display: block;
 }
@@ -123,7 +127,5 @@ body {
 }
 
 .lesson-body {
-  @include desktop {
     display: flex;
-  }
 }

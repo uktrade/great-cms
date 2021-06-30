@@ -268,15 +268,6 @@ $tablet: 768px;
     }
 }
 
-@media (min-width: 1025px) and (max-width: 1150px) {
-    .magna-header.shared-magna-header {
-        height: 180px;
-
-        nav {
-            flex-direction: column;
-        }
-    }
-}
 
 .great-header.expanded {
     position: static;
@@ -291,11 +282,10 @@ $tablet: 768px;
 
 .shared-magna-header {
     background: #1E1348;
-    height: 110px;
     z-index: auto;
+    overflow: hidden;
 
     @include tablet {
-        height: 172px;
         margin-left: 0;
     }
 
@@ -615,6 +605,7 @@ $tablet: 768px;
 }
 
 .shared-footer {
+    overflow: hidden;
     .magna-footer__links {
         max-width: 70%;
         flex-wrap: wrap;
@@ -641,9 +632,10 @@ $tablet: 768px;
 
 .shared-personalisation-bar {
     overflow-x: auto;
-    width: 100%;
+    width: auto;
     margin: 0;
     > nav {
         white-space: nowrap;
+        width: auto;
     }
 }
