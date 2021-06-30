@@ -329,6 +329,16 @@ def mock_export_plan_list(patch_export_plan_list):
         pass
 
 
+@pytest.fixture(autouse=True)
+def mock_api_get_population_data(population_data):
+    patch = mock.patch(
+        'directory_api_client.api_client.dataservices.get_population_data',
+        return_value=create_response(json_body=population_data),
+    )
+    yield patch.start()
+    patch.stop()
+
+
 @pytest.fixture(autouse=False)
 def mock_get_population_data(population_data):
     patch = mock.patch(
