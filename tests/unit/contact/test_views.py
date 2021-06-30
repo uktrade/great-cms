@@ -514,16 +514,16 @@ def test_ecommerce_success_view(client):
             reverse('contact:contact-us-domestic'),
         ),
         # Export opportunities guidance routing
-        # (
-        #     constants.EXPORT_OPPORTUNITIES,
-        #     constants.NO_RESPONSE,
-        #     helpers.build_export_opportunites_guidance_url(snippet_slugs.HELP_EXOPPS_NO_RESPONSE),
-        # ),
-        # (
-        #     constants.EXPORT_OPPORTUNITIES,
-        #     constants.ALERTS,
-        #     helpers.build_export_opportunites_guidance_url(snippet_slugs.HELP_EXOPP_ALERTS_IRRELEVANT),
-        # ),
+        (
+            constants.EXPORT_OPPORTUNITIES,
+            constants.NO_RESPONSE,
+            helpers.build_export_opportunites_guidance_url(snippet_slugs.HELP_EXOPPS_NO_RESPONSE),
+        ),
+        (
+            constants.EXPORT_OPPORTUNITIES,
+            constants.ALERTS,
+            helpers.build_export_opportunites_guidance_url(snippet_slugs.HELP_EXOPP_ALERTS_IRRELEVANT),
+        ),
         (
             constants.EXPORT_OPPORTUNITIES,
             constants.OTHER,
@@ -982,3 +982,23 @@ def test_contact_us_international_prepopualate(client, user, mock_get_company_pr
         'family_name': 'Cross',
         'given_name': 'Jim',
     }
+
+
+@mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
+def test_guidance_view_cms_retrieval(mock_get_snippet_instance, client):
+
+    mock_snippet = mock.Mock()
+    mock_snippet.body = '<p><b>test text here</b></p>'
+    mock_get_snippet_instance.return_value = mock_snippet
+
+    url = reverse(
+        'contact:contact-us-export-opportunities-guidance',
+        kwargs={'slug': 'the-slug'},
+    )
+
+    response = client.get(url)
+
+    assert mock_snippet.body in response.content.decode('utf-8')
+
+    assert response.status_code == 200
+    assert mock_get_snippet_instance.call_count == 1
