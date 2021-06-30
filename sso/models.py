@@ -68,3 +68,13 @@ class BusinessSSOUser(AbstractUser):
 
     def set_user_data(self, data, name):
         return helpers.set_user_data(self.session_id, data, name)
+
+    def get_mobile_number(self):
+        mobile_number = self.mobile_phone_number
+        if mobile_number in ['', None] and self.company:
+            mobile_number = getattr(self.company, 'mobile_number', None)
+        return mobile_number
+
+    @property
+    def company_type(self):
+        return getattr(self.company, 'company_type', None) if self.company else None
