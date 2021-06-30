@@ -433,74 +433,79 @@ $tablet: 768px;
                 }
             }
         }
+        #header-link-user-profile {
 
-        button {
-            box-sizing: border-box;
-            height: 40px;
-            width: 114px;
-            border: 2px solid #fff;
-            background-color: #1E1348;
-            color: #fff;
-            font-family: "Overpass", Arial, Helvetica, Verdana;
-            font-size: 16px;
-            font-weight: bold;
-            letter-spacing: 0;
-            text-align: left;
-            padding: 5px 14px;
+            button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                box-sizing: border-box;
+                height: 40px;
+                width: 114px;
+                border: 2px solid #fff;
+                background-color: #1E1348;
+                color: #fff;
+                font-family: "Overpass", Arial, Helvetica, Verdana;
+                font-size: 16px;
+                font-weight: bold;
+                letter-spacing: 0;
+                text-align: left;
+                padding: 5px 14px;
 
-            &:hover {
-                text-decoration: underline;
-            }
+                &:hover {
+                    text-decoration: underline;
+                }
 
-            &.active {
-                background-color: #006ccc;
-                position: relative;
-                z-index: 4;
+                &.active {
+                    background-color: #006ccc;
+                    position: relative;
+                    z-index: 4;
 
-                .burger-icon {
-                    background-color: transparent;
+                    .burger-icon {
+                        background-color: transparent;
 
-                    &:before,
-                    &:after {
-                        width: 25px;
-                        margin-right: -3px;
-                    }
+                        &:before,
+                        &:after {
+                            width: 25px;
+                            margin-right: -3px;
+                        }
 
-                    &:before {
-                        transform: rotate(45deg);
-                        margin-top: 0;
-                    }
+                        &:before {
+                            transform: rotate(45deg);
+                            margin-top: 0;
+                        }
 
-                    &:after {
-                        transform: rotate(-45deg);
-                        margin-top: -12px;
+                        &:after {
+                            transform: rotate(-45deg);
+                            margin-top: -12px;
+                        }
                     }
                 }
-            }
 
-            .burger-icon {
-                clear: right;
-                content: "";
-                float: right;
-                height: 2px;
-                margin: 12px 0 10px 10px;
-                width: 20px;
-                pointer-events: none;
-
-                &:before,
-                &:after {
-                    background-color: #fff;
-                    transition: all .2s ease;
+                .burger-icon {
                     clear: right;
                     content: "";
                     float: right;
                     height: 2px;
-                    margin: 0 0 10px 10px;
+                    margin: 9px 0 10px 20px;
                     width: 20px;
-                }
+                    pointer-events: none;
 
-                &:before {
-                    margin-top: -6px;
+                    &:before,
+                    &:after {
+                        background-color: #fff;
+                        transition: all .2s ease;
+                        clear: right;
+                        content: "";
+                        float: right;
+                        height: 2px;
+                        margin: 0 0 10px 10px;
+                        width: 20px;
+                    }
+
+                    &:before {
+                        margin-top: -6px;
+                    }
                 }
             }
         }

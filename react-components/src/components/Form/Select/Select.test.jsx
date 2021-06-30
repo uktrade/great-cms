@@ -122,7 +122,7 @@ describe('Select', () => {
 
   describe('AutoComplete with keys', () => {
     // The only special thing about autocomplete, is that there is a text input
-    it('Should have input', () => {
+    it('Should have input', async () => {
       const inputChange = jest.fn()
       const { actions, getByText, getByRole } = setup({
         ...props,
@@ -136,7 +136,9 @@ describe('Select', () => {
       expect(document.activeElement).toEqual(document.body)
       // Down arrow should open the drop-down and focus first
       fireEvent.keyDown(input, { keyCode: 40 })
-      expect(document.activeElement.textContent).toEqual('item one')
+      await waitFor(() => {
+        expect(document.activeElement.textContent).toEqual('item one')
+      })
     })
   })
 

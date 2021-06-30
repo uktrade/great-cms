@@ -32,7 +32,7 @@ export const CountryFinderButton = (props) => {
   const triggerButton = (
     <button type="button" className={buttonClass} onClick={openModal}>
       {hasPlace || 'add place'}
-      <span class="visually-hidden">{hasPlace ? 'Edit' : 'Add'} place</span>
+      <span className="visually-hidden">{hasPlace ? 'Edit' : 'Add'} place</span>
       <i className={`fa ${market ? 'fa-edit' : 'fa-plus'}`} aria-hidden="true" />
     </button>
   )

@@ -2,15 +2,14 @@ import abc
 import json
 import logging
 
-from directory_ch_client import ch_search_api_client
 from directory_forms_api_client.helpers import Sender
 from django.conf import settings
 from django.contrib.sitemaps import Sitemap as DjangoSitemap
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
-from django.views.generic import FormView, TemplateView, View
+from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView
 from formtools.wizard.views import NamedUrlSessionWizardView
 from great_components.mixins import GA360Mixin
@@ -386,19 +385,6 @@ def serve_subtitles(request, great_media_id, language):
 
     response = HttpResponse(subtitles, content_type='text/vtt')
     return response
-
-
-class CompaniesHouseSearchApiView(View):
-    form_class = forms.CompaniesHouseSearchForm
-
-    def get(self, request, *args, **kwargs):
-        form = self.form_class(data=request.GET)
-        if not form.is_valid():
-            return JsonResponse(form.errors, status=400)
-
-        api_response = ch_search_api_client.company.search_companies(query=form.cleaned_data['term'])
-        api_response.raise_for_status()
-        return JsonResponse(api_response.json()['items'], safe=False)
 
 
 class CMSPagesSitemap(WagtailSitemap):
