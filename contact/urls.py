@@ -38,6 +38,22 @@ urlpatterns = [
         name='contact-us-routing-form-redirect',
     ),
     path(
+        'contact/triage/great-account/<slug:slug>/',
+        skip_ga360(GuidanceView.as_view()),
+        {
+            'snippet_import_path': 'contact.models.ContactUsGuidanceSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='contact-us-great-account-guidance',
+    ),
+    path(
+        'contact/triage/export-opportunities/<slug:slug>/',
+        skip_ga360(GuidanceView.as_view()),
+        {
+            'snippet_import_path': 'contact.models.ContactUsGuidanceSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='contact-us-export-opportunities-guidance',
+    ),
+    path(
         'contact/triage/<slug:step>/',
         skip_ga360(
             RoutingFormView.as_view(
@@ -46,14 +62,6 @@ urlpatterns = [
             )
         ),
         name='contact-us-routing-form',
-    ),
-    path(
-        'contact/triage/great-account/<slug:slug>/',
-        skip_ga360(GuidanceView.as_view()),
-        {
-            'snippet_import_path': 'contact.models.ContactUsGuidanceSnippet',  # see core.mixins.GetSnippetContentMixin
-        },
-        name='contact-us-great-account-guidance',
     ),
     path(
         'contact/domestic/',

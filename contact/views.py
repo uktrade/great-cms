@@ -304,8 +304,8 @@ class RoutingFormView(
         constants.DOMESTIC: 'domestic/contact/routing/step-domestic.html',
         constants.GREAT_SERVICES: 'domestic/contact/routing/step-great-services.html',
         constants.GREAT_ACCOUNT: 'domestic/contact/routing/step-great-account.html',
-        # constants.EXPORT_OPPORTUNITIES: ('contact/routing/step-export-opportunities-service.html'),
-        constants.INTERNATIONAL: 'contact/routing/step-international.html',
+        constants.EXPORT_OPPORTUNITIES: 'domestic/contact/routing/step-export-opportunities-service.html',
+        constants.INTERNATIONAL: 'domestic/contact/routing/step-international.html',
         # constants.EXPORTING_TO_UK: 'contact/routing/step-exporting.html',
     }
 
