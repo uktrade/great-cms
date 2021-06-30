@@ -11,6 +11,8 @@
 - GP2-2938 - DAC_Nondescriptive_Labels_02 Lesson complete checkbox
 - GP2-2952 - DAC_Contrast_Minimum_01 'Next' link
 - GP2-2947 - DAC_Nontext_Contrast_02 (AA) sidebar menu button
+- GP2-1684: Port the contact pages which need users to be signed in (SOO ones) from V1 to V2
+### Fixed bugs
 
 ## [1.11.0](https://github.com/uktrade/great-cms/releases/tag/1.11.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.10.0...1.11.0)

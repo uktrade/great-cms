@@ -5,7 +5,14 @@ from directory_forms_api_client.forms import (
     GovNotifyEmailActionMixin,
     ZendeskActionMixin,
 )
-from django.forms import Select, Textarea, TextInput, ValidationError
+from django.forms import (
+    IntegerField,
+    Select,
+    Textarea,
+    TextInput,
+    TypedChoiceField,
+    ValidationError,
+)
 from great_components import forms
 from great_components.forms import Form as GreatComponentsForm, fields
 
@@ -19,6 +26,14 @@ from regex import PHONE_NUMBER_REGEX
 
 BLANK_COUNTRY_CHOICE = [('', 'Select a country')]
 COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
+
+
+SOO_TURNOVER_OPTIONS = (
+    ('Under 100k', 'Under £100,000'),
+    ('100k-500k', '£100,000 to £500,000'),
+    ('500k-2m', '£500,001 and £2million'),
+    ('2m+', 'More than £2million'),
+)
 
 
 class CountryForm(GreatComponentsForm):
@@ -485,3 +500,174 @@ class InternationalContactForm(
     )
     captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
     terms_agreed = forms.BooleanField(label=TERMS_LABEL)
+
+
+class SellingOnlineOverseasContactDetails(forms.Form):
+    contact_first_name = forms.CharField(
+        label='First name',
+        disabled=True,
+        required=False,
+        container_css_classes='border-active-blue read-only-input-container',
+    )
+    contact_last_name = forms.CharField(
+        label='Last name',
+        disabled=True,
+        required=False,
+        container_css_classes='border-active-blue read-only-input-container',
+    )
+    contact_email = forms.EmailField(
+        label='Your email',
+        disabled=True,
+        required=False,
+        container_css_classes='border-active-blue read-only-input-container padding-bottom-0 margin-bottom-30',
+    )
+    phone = forms.CharField(
+        label='Phone number',
+    )
+    email_pref = forms.BooleanField(
+        label='I prefer to be contacted by email',
+        required=False,
+    )
+
+
+class SellingOnlineOverseasApplicant(forms.Form):
+
+    company_name = forms.CharField(
+        label='Company name',
+        disabled=True,
+        required=False,
+        container_css_classes='border-active-blue read-only-input-container',
+    )
+    company_number = forms.CharField(
+        label='Company number',
+        disabled=True,
+        required=False,
+        container_css_classes='border-active-blue read-only-input-container',
+    )
+    company_address = forms.CharField(
+        label='Address',
+        disabled=True,
+        required=False,
+        container_css_classes='border-active-blue read-only-input-container padding-bottom-0 margin-bottom-30',
+    )
+    website_address = forms.CharField(
+        label='Your business web address',
+        help_text='Website address, where we can see your products online.',
+        max_length=255,
+    )
+    turnover = forms.ChoiceField(
+        label='Your business turnover last year',
+        help_text="You may use 12 months rolling or last year's annual turnover.",
+        choices=SOO_TURNOVER_OPTIONS,
+        widget=forms.RadioSelect(),
+    )
+
+
+class SellingOnlineOverseasApplicantNonCH(forms.Form):
+
+    company_name = forms.CharField(
+        label='Company name',
+        disabled=True,
+        required=False,
+        container_css_classes='border-active-blue read-only-input-container',
+    )
+    company_address = forms.CharField(
+        label='Address',
+        disabled=True,
+        required=False,
+        container_css_classes='border-active-blue read-only-input-container padding-bottom-0 margin-bottom-30',
+    )
+    website_address = forms.CharField(
+        label='Your business web address',
+        help_text='Website address, where we can see your products online.',
+        max_length=255,
+    )
+    turnover = forms.ChoiceField(
+        label='Your business turnover last year',
+        help_text="You may use 12 months rolling or last year's annual turnover.",
+        choices=SOO_TURNOVER_OPTIONS,
+        widget=forms.RadioSelect(),
+    )
+
+
+class SellingOnlineOverseasApplicantIndividual(forms.Form):
+
+    company_name = forms.CharField(
+        label='Business name',
+    )
+    company_number = forms.CharField(
+        label='Companies House number (optional)',
+    )
+    company_address = forms.CharField(
+        label='Address',
+    )
+    company_postcode = forms.CharField(
+        label='Post code',
+    )
+    website_address = forms.CharField(
+        label='Your business web address',
+        help_text='Website address, where we can see your products online.',
+        max_length=255,
+    )
+    turnover = forms.ChoiceField(
+        label='Your business turnover last year',
+        help_text="You may use 12 months rolling or last year's annual turnover.",
+        choices=SOO_TURNOVER_OPTIONS,
+        widget=forms.RadioSelect(),
+    )
+
+
+class SellingOnlineOverseasApplicantProxy(forms.Form):
+    def __new__(cls, company_type, *args, **kwargs):
+        if company_type is None:
+            form_class = SellingOnlineOverseasApplicantIndividual
+        elif company_type == 'COMPANIES_HOUSE':
+            form_class = SellingOnlineOverseasApplicant
+        else:
+            form_class = SellingOnlineOverseasApplicantNonCH
+        return form_class(*args, **kwargs)
+
+
+class SellingOnlineOverseasApplicantDetails(forms.Form):
+
+    sku_count = IntegerField(
+        label='How many stock keeping units (SKUs) do you have?',
+        help_text=(
+            'A stock keeping unit is an individual item, such as a product ' 'or a service that is offered for sale.'
+        ),
+        widget=TextInput(attrs={'class': 'short-field'}),
+    )
+    trademarked = TypedChoiceField(
+        label='Are your products trademarked in your target countries?',
+        help_text=('Some marketplaces will only sell products that are trademarked.'),
+        label_suffix='',
+        coerce=lambda x: x == 'True',
+        choices=[(True, 'Yes'), (False, 'No')],
+        widget=forms.RadioSelect(),
+        required=False,
+    )
+
+
+class SellingOnlineOverseasExperience(forms.Form):
+    EXPERIENCE_OPTIONS = (
+        ('Not yet', 'Not yet'),
+        ('Yes, sometimes', 'Yes, sometimes'),
+        ('Yes, regularly', 'Yes, regularly'),
+    )
+
+    experience = forms.ChoiceField(
+        label='Have you sold products online to customers outside the UK?',
+        choices=EXPERIENCE_OPTIONS,
+        widget=forms.RadioSelect(),
+    )
+
+    description = forms.CharField(
+        label='Pitch your business to this marketplace',
+        help_text=(
+            'Your pitch is important and the information you provide may be '
+            'used to introduce you to the marketplace. You could describe '
+            'your business, including your products, your customers and '
+            'how you market your products in a few paragraphs.'
+        ),
+        widget=Textarea,
+    )

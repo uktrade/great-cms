@@ -3,6 +3,7 @@ from urllib.parse import urlparse
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 from django.conf import settings
+from django.core.cache import cache
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
@@ -16,6 +17,10 @@ from formtools.wizard.views import NamedUrlSessionWizardView
 from contact import constants, forms as contact_forms, helpers
 from core import mixins as core_mixins, snippet_slugs
 from core.datastructures import NotifySettings
+from directory_constants import urls
+
+SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
+SOO_SUBMISSION_CACHE_TIMEOUT = 2592000  # 30 days
 
 
 class PrepopulateInternationalFormMixin:
@@ -559,3 +564,140 @@ class ExportingAdviceFormView(
             data.update(form.cleaned_data)
         data['region_office_email'] = self.get_agent_email(data['postcode'])
         return data
+
+
+class SellingOnlineOverseasFormView(
+    FormSessionMixin,
+    core_mixins.PrepopulateFormMixin,
+    NamedUrlSessionWizardView,
+):
+    success_url = reverse_lazy('contact:contact-us-selling-online-overseas-success')
+    CONTACT_DETAILS = 'contact-details'
+    APPLICANT = 'applicant'
+    APPLICANT_DETAILS = 'applicant-details'
+    EXPERIENCE = 'your-experience'
+
+    form_list = (
+        (CONTACT_DETAILS, contact_forms.SellingOnlineOverseasContactDetails),
+        (APPLICANT, contact_forms.SellingOnlineOverseasApplicantProxy),
+        (APPLICANT_DETAILS, contact_forms.SellingOnlineOverseasApplicantDetails),
+        (EXPERIENCE, contact_forms.SellingOnlineOverseasExperience),
+    )
+
+    templates = {
+        CONTACT_DETAILS: 'domestic/contact/soo/step-contact-details.html',
+        APPLICANT: 'domestic/contact/soo/step-applicant.html',
+        APPLICANT_DETAILS: 'domestic/contact/soo/step-applicant-details.html',
+        EXPERIENCE: 'domestic/contact/soo/step-experience.html',
+    }
+
+    def get(self, *args, **kwargs):
+        market = self.request.GET.get('market')
+        if market:
+            self.request.session[SESSION_KEY_SOO_MARKET] = market
+        return super().get(*args, **kwargs)
+
+    def get_template_names(self):
+        return [self.templates[self.steps.current]]
+
+    def get_form_kwargs(self, step):
+        # skipping `PrepopulateFormMixin.get_form_kwargs` - legacy reason for this is unclear
+        form_kwargs = super(core_mixins.PrepopulateFormMixin, self).get_form_kwargs(step)
+        if step == self.APPLICANT:
+            form_kwargs['company_type'] = self.request.user.company_type
+        return form_kwargs
+
+    def get_cache_prefix(self):
+        return f'selling_online_overseas_form_view_{self.request.user.id}'
+
+    def get_form_data_cache(self):
+        return cache.get(self.get_cache_prefix(), None)
+
+    def set_form_data_cache(self, form_data):
+        cache.set(
+            self.get_cache_prefix(),
+            form_data,
+            SOO_SUBMISSION_CACHE_TIMEOUT,
+        )
+
+    def get_form_initial(self, step):
+        initial = super().get_form_initial(step)
+        if step == self.CONTACT_DETAILS:
+            initial.update(
+                {
+                    'contact_first_name': self.request.user.first_name,
+                    'contact_last_name': self.request.user.last_name,
+                    'contact_email': self.request.user.email,
+                    'phone': self.request.user.get_mobile_number(),
+                }
+            )
+        elif step == self.APPLICANT:
+            if self.request.user.company:
+                address_1 = getattr(self.request.user.company, 'address_line_1', '')
+                address_2 = getattr(self.request.user.company, 'address_line_2', '')
+                address = ', '.join(filter(None, [address_1, address_2]))
+                initial.update(
+                    {
+                        'company_name': getattr(self.request.user.company, 'name', ''),
+                        'company_address': address,
+                        'website_address': getattr(self.request.user.company, 'website', ''),
+                    }
+                )
+                _company_number = getattr(self.request.user.company, 'number', '')
+                if _company_number:
+                    initial.update(
+                        {
+                            'company_number': _company_number,
+                        }
+                    )
+        elif step == self.EXPERIENCE:
+            if self.request.user.company:
+                initial['description'] = getattr(self.request.user.company, 'summary', '')
+
+        return initial
+
+    def serialize_form_list(self, form_list):
+        data = {}
+        for form in form_list:
+            data.update(form.cleaned_data)
+        data['market'] = self.request.session.get(SESSION_KEY_SOO_MARKET)
+        return data
+
+    def get_context_data(self, form, **kwargs):
+        return {
+            'market_name': self.request.session.get(SESSION_KEY_SOO_MARKET),
+            **super().get_context_data(form, **kwargs),
+        }
+
+    def done(self, form_list, **kwargs):
+        form_data = self.serialize_form_list(form_list)
+        sender = Sender(
+            email_address=form_data['contact_email'],
+            country_code=None,
+        )
+        full_name = ('%s %s' % (form_data['contact_first_name'], form_data['contact_last_name'])).strip()
+        action = actions.ZendeskAction(
+            subject=settings.CONTACT_SOO_ZENDESK_SUBJECT,
+            full_name=full_name,
+            email_address=form_data['contact_email'],
+            service_name='soo',
+            form_url=reverse('contact:contact-us-soo', kwargs={'step': 'contact-details'}),
+            form_session=self.form_session,
+            sender=sender,
+        )
+        response = action.save(form_data)
+        response.raise_for_status()
+        self.request.session.pop(SESSION_KEY_SOO_MARKET, None)
+        self.set_form_data_cache(form_data)
+        return redirect(self.success_url)
+
+
+class SellingOnlineOverseasSuccessView(DomesticSuccessView):
+    def get_next_url(self):
+        return urls.domestic.SELLING_OVERSEAS
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            next_url_text='Go back to Selling Online Overseas',
+        )

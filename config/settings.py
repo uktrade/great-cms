@@ -550,6 +550,10 @@ CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID = env.str(
     'CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID',
     'c07d1fb2-dc0c-40ba-a3e0-3113638e69a3',
 )
+CONTACT_SOO_ZENDESK_SUBJECT = env.str(
+    'CONTACT_DOMESTIC_ZENDESK_SUBJECT',
+    'great.gov.uk Selling Online Overseas contact form',
+)
 
 
 # UK Export Finance
