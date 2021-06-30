@@ -88,16 +88,14 @@ class ContactUsGuidanceSnippet(
         # It follows a common pattern from the V1 site
         # (Note that page_path is functionally redundant, but helps us map to real URLs
         # if we need to trace through where content goes)
-        # TO COME
-        # snippet_slugs.HELP_EXOPP_ALERTS_IRRELEVANT: {
-        #     'title': 'Guidance - Daily alerts are not relevant',
-        #     'page_path': ('/contact/triage/export-opportunities/alerts-not-relevant/'),
-        # },
-        # TO COME
-        # snippet_slugs.HELP_EXOPPS_NO_RESPONSE: {
-        #     'title': 'Guidance - Export Opportunity application no response',
-        #     'page_path': ('/contact/triage/export-opportunities/opportunity-no-response/'),
-        # },
+        snippet_slugs.HELP_EXOPP_ALERTS_IRRELEVANT: {
+            'title': 'Guidance - Daily alerts are not relevant',
+            'page_path': ('/contact/triage/export-opportunities/alerts-not-relevant/'),
+        },
+        snippet_slugs.HELP_EXOPPS_NO_RESPONSE: {
+            'title': 'Guidance - Export Opportunity application no response',
+            'page_path': ('/contact/triage/export-opportunities/opportunity-no-response/'),
+        },
         snippet_slugs.HELP_MISSING_VERIFY_EMAIL: {
             'title': 'Guidance - Email verification missing',
             'page_path': ('/contact/triage/great-account/no-verification-email/'),
@@ -126,10 +124,11 @@ class ContactUsGuidanceSnippet(
             'title': 'Guidance - Company not found',
             'page_path': ('/contact/triage/great-account/company-not-found/'),
         },
-        # snippet_slugs.HELP_EXPORTING_TO_UK: {
-        #     'title': 'Guidance - Exporting to the UK',
-        #     'page_path': ('contact/triage/international/exporting-to-the-uk/'),
-        # },
+        snippet_slugs.HELP_EXPORTING_TO_UK: {
+            # NB snippet_slugs.HELP_EXPORTING_TO_UK is NOT bootstrapped via data migration
+            'title': 'Guidance - Exporting to the UK',
+            'page_path': ('contact/triage/international/exporting-to-the-uk/'),
+        },
     }
 
     title = models.CharField(
