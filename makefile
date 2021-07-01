@@ -95,8 +95,11 @@ install_requirements:
 	pre-commit install --install-hooks
 
 secrets:
-	cp config/env/secrets-template config/env/secrets-do-not-commit; \
-	sed -i -e 's/#DO NOT ADD SECRETS TO THIS FILE//g' config/env/secrets-do-not-commit
+	@if [ ! -f ./config/env/secrets-do-not-commit ]; \
+		then sed -e 's/#DO NOT ADD SECRETS TO THIS FILE//g' config/env/secrets-template > config/env/secrets-do-not-commit \
+			&& echo "Created config/env/secrets-do-not-commit"; \
+		else echo "config/env/secrets-do-not-commit already exists. Delete first to recreate it."; \
+	fi
 
 database:
 	PGPASSWORD=debug dropdb --if-exists -h localhost -U debug greatcms
