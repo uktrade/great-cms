@@ -10,6 +10,7 @@ services:
       POSTGRES_PASSWORD: postgres
     env_file:
        - ./config/env/dev-docker
+       - ./config/env/secrets-do-not-commit
     volumes:
       - ./dockerise/postgres/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
       - ./dockerise/dbfiles:/var/lib/postgresql/data
@@ -38,7 +39,7 @@ services:
       - es
     stdin_open: true
     tty: true
-    command: "sh /app/start.sh"
+    command: bash -c 'while !</dev/tcp/pgsql/5432; do echo "Waiting for Postgres to start..."; sleep 1; done; sh /app/start.sh'
 
   directory-forms-api:
     build: ../directory-forms-api/
@@ -59,7 +60,7 @@ services:
       - redis
     stdin_open: true
     tty: true
-    command: "sh /app/start.sh"
+    command: bash -c 'while !</dev/tcp/pgsql/5432; do echo "Waiting for Postgres to start..."; sleep 1; done; sh /app/start.sh'
 
   directory-sso:
     build: ../directory-sso/
@@ -80,7 +81,7 @@ services:
       - redis
     stdin_open: true
     tty: true
-    command: "sh /app/start.sh"
+    command: bash -c 'while !</dev/tcp/pgsql/5432; do echo "Waiting for Postgres to start..."; sleep 1; done; sh /app/start.sh'
 
   directory-sso-proxy:
     build: ../directory-sso-proxy/
@@ -125,7 +126,7 @@ services:
       - redis
     stdin_open: true
     tty: true
-    command: "sh /app/start.sh"
+    command: bash -c 'while !</dev/tcp/pgsql/5432; do echo "Waiting for Postgres to start..."; sleep 1; done; sh /app/start.sh'
 
   redis:
     image: redis
