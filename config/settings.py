@@ -104,6 +104,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             CORE_APP_DIR.path('templates'),
+            ROOT_DIR.path('templates'),  # For overriding templates in dependencies, such as great-components
         ],
         'APP_DIRS': True,
         'OPTIONS': {
