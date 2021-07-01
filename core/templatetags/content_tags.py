@@ -66,6 +66,13 @@ def get_topic_title_for_lesson(detail_page: DetailPage) -> str:
 
 
 @register.simple_tag
+def get_category_title_for_lesson(detail_page: DetailPage) -> str:
+    """For the given lesson, find the category it belongs to and
+    return that category's title"""
+    return detail_page.get_parent().get_parent().title
+
+
+@register.simple_tag
 def get_lesson_progress_for_topic(
     completed_lessons: set,
     topic_id: int,

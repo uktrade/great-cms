@@ -560,6 +560,21 @@ WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
     'core.ContentModule',
     'core.Tour',
     'core.TourStep',
+    'domestic.DomesticHomePage',
+    'domestic.DomesticDashboard',
+    'domestic.StructuralPage',
+    'domestic.GreatDomesticHomePage',
+    'domestic.TopicLandingBasePage',
+    'domestic.TopicLandingPage',
+    'domestic.ManuallyConfigurableTopicLandingPage',
+    'domestic.MarketsTopicLandingPage',
+    'domestic.CountryGuidePage',
+    'domestic.ArticlePage',
+    'domestic.ArticleListingPage',
+    'domestic.CampaignPage',
+    'domestic.GuidancePage',
+    'domestic.PerformanceDashboardPage',
+    'domestic.TradeFinancePage',
 ]
 
 # Give W-T a little more time than the default 5 secs to do things

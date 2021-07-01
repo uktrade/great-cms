@@ -3,6 +3,15 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+
+### Fixed bugs
+- GP2-2938 - DAC_Nondescriptive_Labels_02 Lesson complete checkbox
+
+## [1.11.0](https://github.com/uktrade/great-cms/releases/tag/1.11.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.10.0...1.11.0)
+
+### Enhancements
+- GP2-2524 - Wagtail transfer configuration for staging/UAT
 - GP2-2986 - Merge companies-house api views
 - no-ticket - Fix for case study listing view if empty related page selected in any case study
 - GA2-3054 - Updated GA360 mixin for special exception for authenticated staff users
