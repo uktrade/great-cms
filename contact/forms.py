@@ -6,15 +6,15 @@ from directory_forms_api_client.forms import (
     ZendeskActionMixin,
 )
 from django.forms import (
-    IntegerField,
+    IntegerField as DjangoIntegerField,
     Select,
     Textarea,
     TextInput,
     TypedChoiceField,
     ValidationError,
+    widgets as django_widgets,
 )
 from great_components import forms
-from great_components.forms import Form as GreatComponentsForm, fields
 
 from contact import constants
 from contact.helpers import retrieve_regional_office
@@ -36,8 +36,33 @@ SOO_TURNOVER_OPTIONS = (
 )
 
 
-class CountryForm(GreatComponentsForm):
-    country = fields.ChoiceField(
+class GroupedRadioSelect(
+    forms.widgets.PrettyIDsMixin,
+    django_widgets.ChoiceWidget,
+):
+    # The customised version of RadioSelect in great-components (used in Great V2) is older
+    # than the version of RadioSelect in directory-components (used in Great V1), so this
+    # is a (temporary...?) way to get the appropriate behaviour from directory-component
+    # into great-cms until great-components can be brought up to date. Compare the source in
+    # https://github.com/uktrade/directory-components/blob/master/directory_components/forms/widgets.py
+    # with https://github.com/uktrade/great-components/blob/master/great_components/forms/widgets.py
+
+    template_name = 'great_components/form_widgets/multiple_input.html'
+    option_template_name = 'great_components/form_widgets/radio_option.html'
+    css_class_name = 'select-multiple'
+    input_type = 'radio'
+    is_grouped = True
+
+
+class IntegerField(
+    forms.DirectoryComponentsFieldMixin,
+    DjangoIntegerField,
+):
+    pass
+
+
+class CountryForm(forms.Form):
+    country = forms.fields.ChoiceField(
         label='Country',
         widget=Select(attrs={'id': 'great-header-country-select'}),
         choices=COUNTRIES,
@@ -64,7 +89,7 @@ class BaseShortForm(forms.Form):
     company_type = forms.ChoiceField(
         label='Company type',
         label_suffix='',
-        widget=forms.RadioSelect(),
+        widget=GroupedRadioSelect(),
         choices=constants.COMPANY_TYPE_CHOICES,
     )
     company_type_other = forms.ChoiceField(
@@ -177,13 +202,13 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
             ('£10M to £50M', '£10M to £50M'),
             ('£50M or higher', '£50M or higher'),
         ),
-        widget=forms.RadioSelect,
+        widget=GroupedRadioSelect,
         required=False,
     )
     employees_number = forms.ChoiceField(
         label='Number of employees',
         choices=EMPLOYEES_NUMBER_CHOICES,
-        widget=forms.RadioSelect,
+        widget=GroupedRadioSelect,
         error_messages={
             'required': 'Choose a number',
         },
@@ -191,7 +216,7 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
     currently_export = forms.ChoiceField(
         label='Do you currently export?',
         choices=(('yes', 'Yes'), ('no', 'No')),
-        widget=forms.RadioSelect,
+        widget=GroupedRadioSelect,
         error_messages={'required': 'Please answer this question'},
     )
 
@@ -248,7 +273,7 @@ class LocationRoutingForm(forms.Form):
     )
     choice = forms.ChoiceField(
         label='',
-        widget=forms.RadioSelect(),
+        widget=GroupedRadioSelect(),
         choices=CHOICES,
     )
 
@@ -267,7 +292,7 @@ class DomesticRoutingForm(forms.Form):
     )
     choice = forms.ChoiceField(
         label='',
-        widget=forms.RadioSelect(),
+        widget=GroupedRadioSelect(),
         choices=CHOICES,  # possibly update by mixin
     )
 
@@ -295,7 +320,7 @@ class InternationalRoutingForm(forms.Form):
 
     choice = forms.ChoiceField(
         label='',
-        widget=forms.RadioSelect(),
+        widget=GroupedRadioSelect(),
         choices=[],  # array overridden by constructor
     )
 
@@ -309,7 +334,7 @@ class GreatServicesRoutingForm(forms.Form):
     )
     choice = forms.ChoiceField(
         label='',
-        widget=forms.RadioSelect(),
+        widget=GroupedRadioSelect(),
         choices=CHOICES,
     )
 
@@ -321,7 +346,7 @@ class GreatAccountRoutingForm(forms.Form):
 
     choice = forms.ChoiceField(
         label='',
-        widget=forms.RadioSelect(),
+        widget=GroupedRadioSelect(),
         choices=[],  # array overridden by constructor
     )
 
@@ -338,7 +363,7 @@ class ExportOpportunitiesRoutingForm(forms.Form):
     )
     choice = forms.ChoiceField(
         label='',
-        widget=forms.RadioSelect(),
+        widget=GroupedRadioSelect(),
         choices=CHOICES,
     )
 
@@ -433,7 +458,7 @@ class BusinessDetailsForm(ConsentFieldMixin, forms.Form):
 
     company_type = forms.ChoiceField(
         label_suffix='',
-        widget=forms.RadioSelect(),
+        widget=GroupedRadioSelect(),
         choices=constants.COMPANY_TYPE_CHOICES,
     )
     companies_house_number = forms.CharField(
@@ -486,7 +511,7 @@ class InternationalContactForm(
     family_name = forms.CharField()
     email = forms.EmailField(label='Email address')
     organisation_type = forms.ChoiceField(
-        label_suffix='', widget=forms.RadioSelect(), choices=ORGANISATION_TYPE_CHOICES
+        label_suffix='', widget=GroupedRadioSelect(), choices=ORGANISATION_TYPE_CHOICES
     )
     organisation_name = forms.CharField(label='Your organisation name')
     country_name = forms.ChoiceField(
@@ -559,7 +584,7 @@ class SellingOnlineOverseasApplicant(forms.Form):
         label='Your business turnover last year',
         help_text="You may use 12 months rolling or last year's annual turnover.",
         choices=SOO_TURNOVER_OPTIONS,
-        widget=forms.RadioSelect(),
+        widget=GroupedRadioSelect(),
     )
 
 
@@ -586,7 +611,7 @@ class SellingOnlineOverseasApplicantNonCH(forms.Form):
         label='Your business turnover last year',
         help_text="You may use 12 months rolling or last year's annual turnover.",
         choices=SOO_TURNOVER_OPTIONS,
-        widget=forms.RadioSelect(),
+        widget=GroupedRadioSelect(),
     )
 
 
@@ -613,7 +638,7 @@ class SellingOnlineOverseasApplicantIndividual(forms.Form):
         label='Your business turnover last year',
         help_text="You may use 12 months rolling or last year's annual turnover.",
         choices=SOO_TURNOVER_OPTIONS,
-        widget=forms.RadioSelect(),
+        widget=GroupedRadioSelect(),
     )
 
 
@@ -633,7 +658,7 @@ class SellingOnlineOverseasApplicantDetails(forms.Form):
     sku_count = IntegerField(
         label='How many stock keeping units (SKUs) do you have?',
         help_text=(
-            'A stock keeping unit is an individual item, such as a product ' 'or a service that is offered for sale.'
+            'A stock keeping unit is an individual item, such as a product or a service that is offered for sale.'
         ),
         widget=TextInput(attrs={'class': 'short-field'}),
     )
@@ -643,7 +668,7 @@ class SellingOnlineOverseasApplicantDetails(forms.Form):
         label_suffix='',
         coerce=lambda x: x == 'True',
         choices=[(True, 'Yes'), (False, 'No')],
-        widget=forms.RadioSelect(),
+        widget=GroupedRadioSelect(),
         required=False,
     )
 
@@ -658,7 +683,7 @@ class SellingOnlineOverseasExperience(forms.Form):
     experience = forms.ChoiceField(
         label='Have you sold products online to customers outside the UK?',
         choices=EXPERIENCE_OPTIONS,
-        widget=forms.RadioSelect(),
+        widget=GroupedRadioSelect(),
     )
 
     description = forms.CharField(
