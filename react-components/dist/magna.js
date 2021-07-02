@@ -74933,10 +74933,15 @@ function ServiceFinder(props) {
       sicCodes = _useState8[0],
       setSicCodes = _useState8[1];
 
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
       _useState10 = _slicedToArray(_useState9, 2),
-      company = _useState10[0],
-      setCompany = _useState10[1];
+      chosenSic = _useState10[0],
+      setChosenSic = _useState10[1];
+
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState12 = _slicedToArray(_useState11, 2),
+      company = _useState12[0],
+      setCompany = _useState12[1];
 
   var validateKeys = function validateKeys(inputString) {
     return checkChars.test(inputString);
@@ -75080,11 +75085,54 @@ function ServiceFinder(props) {
     pageContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
       className: "h-s"
     }, "SIC code list"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, (company.sic_codes || []).map(function (code) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_KeyValueList__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        key: code,
+        className: "multiple-choice"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        id: code,
+        type: "radio",
+        className: "radio",
+        name: "sic-code-choice",
+        value: code,
+        onChange: setChosenSic,
+        onClick: setChosenSic
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: code
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_KeyValueList__WEBPACK_IMPORTED_MODULE_7__["default"], {
         item: sicCodes[code],
         mapping: sicSectorDisplayMapping
-      });
-    })));
+      })));
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      key: "no_code",
+      className: "multiple-choice"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      id: "no_code",
+      type: "radio",
+      className: "radio",
+      name: "sic-code-choice",
+      value: "no_code",
+      onChange: setChosenSic,
+      onClick: setChosenSic
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      htmlFor: "no_code"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "g-panel p-t-0 p-b-xxs"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "None of these"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "m-t-s button button--primary",
+      type: "button",
+      disabled: !chosenSic,
+      onClick: function onClick() {
+        setCurrentPage(chosenSic == 'no_code' ? 'search_code' : 'selected_code');
+      }
+    }, "Next"));
+  }
+
+  if (currentPage == 'search_code') {
+    pageContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, "Search for a code");
+  }
+
+  if (currentPage == 'selected_code') {
+    pageContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, "Code Selected");
   }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {

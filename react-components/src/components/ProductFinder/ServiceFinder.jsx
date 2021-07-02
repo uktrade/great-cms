@@ -19,6 +19,7 @@ export default function ServiceFinder(props) {
   const [resultList, setResultList] = useState([])
   const [inputValue, setInputValue] = useState('')
   const [sicCodes, setSicCodes] = useState({})
+  const [chosenSic, setChosenSic] = useState()
 
   const [company, setCompany] = useState(null)
 
@@ -168,11 +169,57 @@ if (currentPage == 'sic_codes') { pageContent = <>
         <h3 className="h-s">SIC code list</h3>
         <ul>
           {(company.sic_codes || []).map((code) => (
+            <li key={code} className="multiple-choice">
+            <input
+          id={code}
+          type="radio"
+          className="radio"
+          name="sic-code-choice"
+          value={code}
+            onChange={setChosenSic}
+            onClick={setChosenSic}
+        />
+            <label htmlFor={code}>
             <KeyValueList item={sicCodes[code]} mapping={sicSectorDisplayMapping}/>
+            </label>
+            </li>
           ))}
+          <li key="no_code" className="multiple-choice">
+            <input
+            id="no_code"
+            type="radio"
+            className="radio"
+            name="sic-code-choice"
+            value="no_code"
+            onChange={setChosenSic}
+            onClick={setChosenSic}
+          />
+          <label htmlFor="no_code">
+          <div className="g-panel p-t-0 p-b-xxs">
+          <p>None of these</p>
+          </div>
+          </label>
+          </li>
         </ul>
+        <button
+          className="m-t-s button button--primary"
+          type="button"
+          disabled={!chosenSic}
+          onClick={() => {setCurrentPage(chosenSic == 'no_code' ? 'search_code' : 'selected_code') }}
+        >
+          Next
+        </button>
       </>
   }
+  if (currentPage == 'search_code') { pageContent = <>
+    Search for a code
+  </>
+}
+  if (currentPage == 'selected_code') { pageContent = <>
+    Code Selected
+  </>
+}
+
   return (
     <>
       <section className="m-h-s m-v-s">
