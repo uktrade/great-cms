@@ -149,3 +149,12 @@ class CompaniesHouseAPIView(generics.GenericAPIView):
             )
         response.raise_for_status()
         return Response(response.json())
+
+
+class ChoicesAPIView(generics.GenericAPIView):
+    permission_classes = []
+
+    def get(self, request, *args, **kwargs):
+        choice = request.GET.get('choice')
+        print('Choice', choice)
+        return Response(getattr(choices, choice))

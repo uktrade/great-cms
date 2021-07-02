@@ -170,6 +170,12 @@ export default {
     )
   },
 
+  choicesApi: (parameters) => {
+    return get(config.apiChoicesUrl, parameters).then((response) =>
+      responseHandler(response).json()
+    )
+  },
+
   getLessonComplete: (endpoint) => {
     return get(endpoint).then(responseHandler)
   },

@@ -71,6 +71,7 @@ export const Select = memo(
     useEffect(() => {
       // automatically open autocomplete
       if (autoComplete) {
+        console.log('*** Autocomplete auto open',!!(options && options.length) )
         setOpen(!!(options && options.length))
       }
     }, [options])
@@ -123,6 +124,7 @@ export const Select = memo(
         placeHolder.current.focus()
       } else if (!item.isError) {
         setInput(item.value)
+        console.log('***  Closing on select')
         setOpen(false)
         update({ [name]: item.value })
       }

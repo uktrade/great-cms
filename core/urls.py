@@ -131,6 +131,7 @@ urlpatterns = [
         skip_ga360(views_api.CompaniesHouseAPIView.as_view()),
         name='api-companies-house',
     ),
+    path('api/choices/', skip_ga360(views_api.ChoicesAPIView.as_view()), name='api-choices'),
     path(
         'subtitles/<int:great_media_id>/<str:language>/content.vtt',
         login_required(

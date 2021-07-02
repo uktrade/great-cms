@@ -12,12 +12,15 @@ import ValueInteraction from './ValueInteraction'
 import ExpandCollapse from './ExpandCollapse'
 import SearchInput from './SearchInput'
 import StartEndPage from './StartEndPage'
+import ServiceFinder from './ServiceFinder'
+import ProductOrService from './ProductOrService'
 
 export default function ProductFinderModal(props) {
   const { modalIsOpen, setIsOpen, selectedProduct, onCloseRedirect } = props
 
   let scrollOuter
-  const [isSearching, setSearching] = useState(false)
+  const [isSearching, setIsSearching] = useState(false)
+  const [isProductOrService, setIsProductOrService] = useState(null)
   const [searchResults, setSearchResults] = useState()
   const [isLoading, setLoading] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -38,7 +41,8 @@ export default function ProductFinderModal(props) {
 
   const closeModal = () => {
     setIsOpen(false)
-    setSearching(false)
+    setIsSearching(false)
+    setIsProductOrService(null)
     setSearchResults()
     if (onCloseRedirect && !selectedProduct) {
       window.location.href = onCloseRedirect
@@ -169,7 +173,8 @@ export default function ProductFinderModal(props) {
   }
 
   const backToSearch = () => {
-    setSearching(true)
+    setIsProductOrService(null)
+    setIsSearching(true)
     renderSearchResults()
     analytics({
       event: 'searchProductAgain',
@@ -425,10 +430,14 @@ export default function ProductFinderModal(props) {
   const searchBox = (error) => {
     return (
       <div className="p-h-s p-t-l">
-        <h3 className="h-m p-t-0 p-b-xxs"><label for="search-input">Add product</label></h3>
+        <h3 className="h-m p-t-0 p-b-xxs">
+          <label for="search-input">Add product</label>
+        </h3>
         <div id="search-hint">
           Adding a product personalises lessons and other content for you.
-          <span className="visually-hidden">Type the name of your product eg: fresh strawberries</span>
+          <span className="visually-hidden">
+            Type the name of your product eg: fresh strawberries
+          </span>
         </div>
         {error && <div className="form-group-error p-v-xs m-v-xs">{error}</div>}
         <div className="flex-centre m-t-xs search-input">
@@ -489,6 +498,11 @@ export default function ProductFinderModal(props) {
     )
   }
 
+  const productOrService = () => {
+    // allow user to choose between product and service
+    return <ProductOrService selectProductOrService={setIsProductOrService} />
+  }
+
   const searchPages = () => {
     // When in searching mode.  If there are searchResults will show a refinement/result page
     // otherwise the search box page.
@@ -536,6 +550,19 @@ export default function ProductFinderModal(props) {
   } ${isScrolled && isScrolled.bottom ? 'scroll-shadow-bottom' : ''}`
   const headerHeight = '0px'
 
+  const currentPage = () => {
+    if (!selectedProduct || isSearching) {
+      if (isProductOrService == 'p') {
+        return searchPages()
+      }
+      if (isProductOrService == 's') {
+        return <ServiceFinder />
+      }
+      if (!isProductOrService) return productOrService()
+    }
+    return showProduct()
+  }
+
   return (
     <span>
       <ReactModal
@@ -570,7 +597,7 @@ export default function ProductFinderModal(props) {
                 scrollOuter = _scrollInner || scrollOuter
               }}
             >
-              {isSearching || !selectedProduct ? searchPages() : showProduct()}
+              {currentPage()}
             </div>
           </div>
         </form>
