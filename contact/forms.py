@@ -530,15 +530,9 @@ class InternationalContactForm(
 class SellingOnlineOverseasContactDetails(forms.Form):
     contact_first_name = forms.CharField(
         label='First name',
-        disabled=True,
-        required=False,
-        container_css_classes='border-active-blue read-only-input-container',
     )
     contact_last_name = forms.CharField(
         label='Last name',
-        disabled=True,
-        required=False,
-        container_css_classes='border-active-blue read-only-input-container',
     )
     contact_email = forms.EmailField(
         label='Your email',
@@ -553,6 +547,25 @@ class SellingOnlineOverseasContactDetails(forms.Form):
         label='I prefer to be contacted by email',
         required=False,
     )
+
+    def _set_name_field_editability(self):
+        # If cetain fields lack content, allow each one to be editable.
+        for fieldname in [
+            'contact_first_name',
+            'contact_last_name',
+        ]:
+            if self.initial.get(fieldname):
+                self.fields[fieldname].required = False
+                self.fields[fieldname].disabled = True
+                # note that we can't set .container_css_classes, but we can do this:
+                self.fields[fieldname]._container_css_classes = 'border-active-blue read-only-input-container'
+            else:
+                self.fields[fieldname].required = True
+                self.fields[fieldname].disabled = False
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._set_name_field_editability()
 
 
 class SellingOnlineOverseasApplicant(forms.Form):
