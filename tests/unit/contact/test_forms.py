@@ -424,3 +424,125 @@ def test_selling_online_overseas_applicant_valid_form_individual():
         }
     )
     assert form.is_valid()
+
+
+def test_selling_online_overseas_contact_details_form__editable_fields():
+
+    form_1 = forms.SellingOnlineOverseasContactDetails(
+        initial={
+            'contact_first_name': 'Alice',
+            'contact_last_name': 'McTest',
+            'contact_email': 'alice@example.com',
+            'phone': '998877665544',
+        }
+    )
+    assert form_1.fields['contact_first_name'].disabled is True
+    assert form_1.fields['contact_first_name'].required is False
+    assert form_1.fields['contact_first_name'].container_css_classes == 'border-active-blue read-only-input-container '
+
+    assert form_1.fields['contact_last_name'].disabled is True
+    assert form_1.fields['contact_last_name'].required is False
+    assert form_1.fields['contact_last_name'].container_css_classes == 'border-active-blue read-only-input-container '
+
+    assert form_1.fields['contact_email'].disabled is True
+    assert form_1.fields['contact_email'].required is False
+    assert form_1.fields['contact_email'].container_css_classes == (
+        'border-active-blue read-only-input-container padding-bottom-0 margin-bottom-30 '
+    )
+
+    assert form_1.fields['phone'].disabled is False
+    assert form_1.fields['phone'].required is True
+    assert form_1.fields['phone'].container_css_classes == 'form-group '
+
+    form_2 = forms.SellingOnlineOverseasContactDetails(
+        initial={
+            'contact_first_name': 'Alice',
+            'contact_email': 'alice@example.com',
+            'phone': '998877665544',
+        }
+    )
+    assert form_2.fields['contact_first_name'].disabled is True
+    assert form_2.fields['contact_first_name'].required is False
+    assert form_2.fields['contact_first_name'].container_css_classes == 'border-active-blue read-only-input-container '
+
+    assert form_2.fields['contact_last_name'].disabled is False
+    assert form_2.fields['contact_last_name'].required is True
+    assert form_2.fields['contact_last_name'].container_css_classes == 'form-group '
+
+    assert form_2.fields['contact_email'].disabled is True
+    assert form_2.fields['contact_email'].required is False
+    assert form_2.fields['contact_email'].container_css_classes == (
+        'border-active-blue read-only-input-container padding-bottom-0 margin-bottom-30 '
+    )
+
+    assert form_2.fields['phone'].disabled is False
+    assert form_2.fields['phone'].required is True
+    assert form_2.fields['phone'].container_css_classes == 'form-group '
+
+    form_3 = forms.SellingOnlineOverseasContactDetails(
+        initial={
+            'contact_last_name': 'McTest',
+            'contact_email': 'alice@example.com',
+            'phone': '998877665544',
+        }
+    )
+    assert form_3.fields['contact_first_name'].disabled is False
+    assert form_3.fields['contact_first_name'].required is True
+    assert form_3.fields['contact_first_name'].container_css_classes == 'form-group '
+
+    assert form_3.fields['contact_last_name'].disabled is True
+    assert form_3.fields['contact_last_name'].required is False
+    assert form_3.fields['contact_last_name'].container_css_classes == 'border-active-blue read-only-input-container '
+
+    assert form_3.fields['contact_email'].disabled is True
+    assert form_3.fields['contact_email'].required is False
+    assert form_3.fields['contact_email'].container_css_classes == (
+        'border-active-blue read-only-input-container padding-bottom-0 margin-bottom-30 '
+    )
+
+    assert form_3.fields['phone'].disabled is False
+    assert form_3.fields['phone'].required is True
+    assert form_3.fields['phone'].container_css_classes == 'form-group '
+
+    form_4 = forms.SellingOnlineOverseasContactDetails(
+        initial={
+            'contact_email': 'alice@example.com',
+            'phone': '998877665544',
+        }
+    )
+    assert form_4.fields['contact_first_name'].disabled is False
+    assert form_4.fields['contact_first_name'].required is True
+    assert form_4.fields['contact_first_name'].container_css_classes == 'form-group '
+
+    assert form_4.fields['contact_last_name'].disabled is False
+    assert form_4.fields['contact_last_name'].required is True
+    assert form_4.fields['contact_last_name'].container_css_classes == 'form-group '
+
+    assert form_4.fields['contact_email'].disabled is True
+    assert form_4.fields['contact_email'].required is False
+    assert form_4.fields['contact_email'].container_css_classes == (
+        'border-active-blue read-only-input-container padding-bottom-0 margin-bottom-30 '
+    )
+
+    assert form_4.fields['phone'].disabled is False
+    assert form_4.fields['phone'].required is True
+    assert form_4.fields['phone'].container_css_classes == 'form-group '
+
+    form_5 = forms.SellingOnlineOverseasContactDetails(initial={})
+    assert form_5.fields['contact_first_name'].disabled is False
+    assert form_5.fields['contact_first_name'].required is True
+    assert form_5.fields['contact_first_name'].container_css_classes == 'form-group '
+
+    assert form_5.fields['contact_last_name'].disabled is False
+    assert form_5.fields['contact_last_name'].required is True
+    assert form_5.fields['contact_last_name'].container_css_classes == 'form-group '
+
+    assert form_5.fields['contact_email'].disabled is True
+    assert form_5.fields['contact_email'].required is False
+    assert form_5.fields['contact_email'].container_css_classes == (
+        'border-active-blue read-only-input-container padding-bottom-0 margin-bottom-30 '
+    )
+
+    assert form_5.fields['phone'].disabled is False
+    assert form_5.fields['phone'].required is True
+    assert form_5.fields['phone'].container_css_classes == 'form-group '
