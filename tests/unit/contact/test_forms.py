@@ -385,3 +385,42 @@ def test_feedback_form_full_name(captcha_stub):
     )
 
     assert form_instance.full_name == 'Alice McTest'
+
+
+def test_selling_online_overseas_applicant_valid_form_ch():
+    form = forms.SellingOnlineOverseasApplicant(
+        data={
+            'company_name': 'Acme',
+            'company_number': '123',
+            'company_address': 'Same Street',
+            'website_address': 'bar',
+            'turnover': 'Under 100k',
+        }
+    )
+    assert form.is_valid()
+
+
+def test_selling_online_overseas_applicant_valid_form_non_ch():
+    form = forms.SellingOnlineOverseasApplicantNonCH(
+        data={
+            'company_name': 'Acme',
+            'company_address': 'Same Street',
+            'website_address': 'bar',
+            'turnover': 'Under 100k',
+        }
+    )
+    assert form.is_valid()
+
+
+def test_selling_online_overseas_applicant_valid_form_individual():
+    form = forms.SellingOnlineOverseasApplicantIndividual(
+        data={
+            'company_name': 'Acme',
+            'company_number': '123',
+            'company_address': 'Same Street',
+            'company_postcode': 'SW1H 0TL',
+            'website_address': 'bar',
+            'turnover': 'Under 100k',
+        }
+    )
+    assert form.is_valid()
