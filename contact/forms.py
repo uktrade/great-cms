@@ -297,34 +297,6 @@ class DomesticRoutingForm(forms.Form):
     )
 
 
-def international_choices():
-
-    all_choices = (
-        (constants.INVESTING, 'Investing in the UK'),
-        (constants.CAPITAL_INVEST, 'Capital investment in the UK'),
-        (constants.EXPORTING_TO_UK, 'Exporting to the UK'),
-        (constants.BUYING, 'Find a UK business partner'),
-        (constants.EUEXIT, 'The transition period (now that the UK has left the EU)'),
-        (constants.OTHER, 'Other'),
-    )
-
-    # If we need to feature flag any of these: this pattern works - see GDUI codebase for choice_is_enabled
-    # return ((value, label) for value, label in all_choices if choice_is_enabled(value))
-    return all_choices
-
-
-class InternationalRoutingForm(forms.Form):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['choice'].choices = international_choices()
-
-    choice = forms.ChoiceField(
-        label='',
-        widget=GroupedRadioSelect(),
-        choices=[],  # array overridden by constructor
-    )
-
-
 class GreatServicesRoutingForm(forms.Form):
 
     CHOICES = (

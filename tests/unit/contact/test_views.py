@@ -99,28 +99,6 @@ def all_office_details():
             settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
             None,
         ),
-        # TO BE PORTED IN SUBSEQUENT WORK
-        # (
-        #     reverse('contact:contact-us-exporting-to-the-trade-with-uk-app'),
-        #     reverse('contact:contact-us-international-success'),
-        #     views.ExportingToUKFormView,
-        #     settings.CONTACT_INTERNATIONAL_ZENDESK_SUBJECT,
-        #     None,
-        # ),
-        # (
-        #     reverse('contact:contact-us-exporting-to-the-uk-import-controls'),
-        #     reverse('contact:contact-us-international-success'),
-        #     views.ExportingToUKFormView,
-        #     settings.CONTACT_INTERNATIONAL_ZENDESK_SUBJECT,
-        #     settings.EU_EXIT_ZENDESK_SUBDOMAIN,
-        # ),
-        # (
-        #     reverse('contact:contact-us-exporting-to-the-uk-other'),
-        #     reverse('contact:contact-us-international-success'),
-        #     views.ExportingToUKFormView,
-        #     settings.CONTACT_INTERNATIONAL_ZENDESK_SUBJECT,
-        #     settings.EU_EXIT_ZENDESK_SUBDOMAIN,
-        # ),
     ),
 )
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
@@ -193,23 +171,6 @@ def test_zendesk_submit_success(mock_form_session, client, url, success_url, vie
             settings.CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
         ),
-        # TO BE PORTED IN SUBSEQUENT WORK
-        # (
-        #     reverse('contact:contact-us-exporting-to-the-uk-beis'),
-        #     reverse('contact:contact-us-exporting-to-the-uk-beis-success'),
-        #     views.ExportingToUKBEISFormView,
-        #     settings.CONTACT_BEIS_AGENT_NOTIFY_TEMPLATE_ID,
-        #     settings.CONTACT_BEIS_USER_NOTIFY_TEMPLATE_ID,
-        #     settings.CONTACT_BEIS_AGENT_EMAIL_ADDRESS,
-        # ),
-        # (
-        #     reverse('contact:contact-us-exporting-to-the-uk-defra'),
-        #     reverse('contact:contact-us-exporting-to-the-uk-defra-success'),
-        #     views.ExportingToUKDERAFormView,
-        #     settings.CONTACT_DEFRA_AGENT_NOTIFY_TEMPLATE_ID,
-        #     settings.CONTACT_DEFRA_USER_NOTIFY_TEMPLATE_ID,
-        #     settings.CONTACT_DEFRA_AGENT_EMAIL_ADDRESS,
-        # )
     ),
 )
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
@@ -663,58 +624,7 @@ def test_ecommerce_success_view(client):
             constants.OTHER,
             reverse('contact:contact-us-domestic'),
         ),
-        # international routing
-        (
-            constants.INTERNATIONAL,
-            constants.INVESTING,
-            settings.INVEST_CONTACT_URL,
-        ),
-        # (
-        #     constants.INTERNATIONAL,
-        #     constants.EXPORTING_TO_UK,
-        #     helpers.build_exporting_guidance_url(snippet_slugs.HELP_EXPORTING_TO_UK),
-        # ),
-        (
-            constants.INTERNATIONAL,
-            constants.BUYING,
-            settings.FIND_A_SUPPLIER_CONTACT_URL,
-        ),
-        (
-            constants.INTERNATIONAL,
-            constants.OTHER,
-            reverse('contact:contact-us-international'),
-        ),
-        # exporting to the UK routing
-        (
-            constants.EXPORTING_TO_UK,
-            constants.HMRC,
-            settings.CONTACT_EXPORTING_TO_UK_HMRC_URL,
-        ),
-        # (
-        #     constants.EXPORTING_TO_UK,
-        #     constants.DEFRA,
-        #     reverse('contact:contact-us-exporting-to-the-uk-defra'),
-        # ),
-        # (
-        #     constants.EXPORTING_TO_UK,
-        #     constants.BEIS,
-        #     reverse('contact:contact-us-exporting-to-the-uk-beis'),
-        # ),
-        (
-            constants.EXPORTING_TO_UK,
-            constants.IMPORT_CONTROLS,
-            reverse('contact:contact-us-international'),
-        ),
-        (
-            constants.EXPORTING_TO_UK,
-            constants.TRADE_WITH_UK_APP,
-            reverse('contact:contact-us-international'),
-        ),
-        (
-            constants.EXPORTING_TO_UK,
-            constants.OTHER,
-            reverse('contact:contact-us-international'),
-        ),
+        # international routing has been removed: it's in great-international-ui
     ),
 )
 def test_render_next_step(current_step, choice, expected_url):
@@ -735,11 +645,10 @@ def test_render_next_step(current_step, choice, expected_url):
     'current_step,expected_step',
     (
         (constants.DOMESTIC, constants.LOCATION),
-        (constants.INTERNATIONAL, constants.LOCATION),
+        # (constants.INTERNATIONAL, constants.LOCATION),  /international/contact/ is run by great-international-ui
         (constants.GREAT_SERVICES, constants.DOMESTIC),
         (constants.GREAT_ACCOUNT, constants.GREAT_SERVICES),
         (constants.EXPORT_OPPORTUNITIES, constants.GREAT_SERVICES),
-        (constants.EXPORTING_TO_UK, constants.INTERNATIONAL),
     ),
 )
 def test_get_previous_step(current_step, expected_step):
@@ -826,14 +735,6 @@ def test_office_finder_valid(all_office_details, client):
             reverse('contact:contact-us-office-success', kwargs={'postcode': 'FOOBAR'}),
             snippet_slugs.HELP_FORM_SUCCESS,
         ),
-        # (
-        #     reverse('contact:contact-us-exporting-to-the-uk-beis-success'),
-        #     snippet_slugs.HELP_FORM_SUCCESS_BEIS,
-        # ),
-        # (
-        #     reverse('contact:contact-us-exporting-to-the-uk-defra-success'),
-        #     snippet_slugs.HELP_FORM_SUCCESS_DEFRA,
-        # ),
     ),
 )
 @mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')

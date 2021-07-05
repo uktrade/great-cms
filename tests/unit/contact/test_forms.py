@@ -275,8 +275,8 @@ def test_location_form_routing():
     field = forms.LocationRoutingForm.base_fields['choice']
     # for each of the choices the form supports
     for choice, _ in field.choices:
-        # the view supports routing the user to that step
-        assert choice in routing_steps
+        # the view supports routing the user to that triage step
+        assert choice in ['domestic', 'international']
 
 
 def test_domestic_form_routing():
@@ -354,21 +354,6 @@ def test_form_choices__great_account_routing_form():
 
     choices = tuple(forms.GreatAccountRoutingForm().fields['choice'].choices)
     assert choices == forms.great_account_choices()
-    assert choices == expected
-
-
-def test_form_choices__international_routing_form():
-
-    expected = (
-        (constants.INVESTING, 'Investing in the UK'),
-        (constants.CAPITAL_INVEST, 'Capital investment in the UK'),
-        (constants.EXPORTING_TO_UK, 'Exporting to the UK'),
-        (constants.BUYING, 'Find a UK business partner'),
-        (constants.EUEXIT, 'The transition period (now that the UK has left the EU)'),
-        (constants.OTHER, 'Other'),
-    )
-    choices = tuple(forms.InternationalRoutingForm().fields['choice'].choices)
-    assert choices == forms.international_choices()
     assert choices == expected
 
 

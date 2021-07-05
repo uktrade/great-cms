@@ -52,13 +52,6 @@ def build_account_guidance_url(slug):
     )
 
 
-def build_exporting_guidance_url(slug):
-    return reverse_lazy(
-        'contact:contact-us-exporting-to-the-uk-guidance',
-        kwargs={'slug': slug},
-    )
-
-
 def retrieve_regional_office_email(postcode):
     try:
         office_details = retrieve_regional_offices(postcode)

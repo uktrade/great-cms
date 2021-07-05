@@ -238,16 +238,13 @@ class RoutingFormView(
             constants.DSO: reverse_lazy('contact:contact-us-dso-form'),
             constants.OTHER: reverse_lazy('contact:contact-us-enquiries'),
         },
-        constants.INTERNATIONAL: {
-            constants.INVESTING: settings.INVEST_CONTACT_URL,
-            constants.CAPITAL_INVEST: settings.CAPITAL_INVEST_CONTACT_URL,
-            constants.EXPORTING_TO_UK: helpers.build_exporting_guidance_url(
-                snippet_slugs.HELP_EXPORTING_TO_UK,
-            ),
-            constants.BUYING: settings.FIND_A_SUPPLIER_CONTACT_URL,
-            constants.EUEXIT: settings.EU_EXIT_INTERNATIONAL_CONTACT_URL,
-            constants.OTHER: reverse_lazy('contact:contact-us-international'),
-        },
+        # V1/great-domestic-ui used to serve the International contact forms at some point
+        # but then stopped when great-international-ui started handling them instead.
+        # So, when this view was ported to V2, the options for constants.INTERNATIONAL
+        # were deliberately left out, because they were not being used. Specifically,
+        # the LocationRoutingForm sends users to /contact/triage/international if
+        # 'Outside the UK' is selected which is then redirected to /international/contact/
+        # via url_redirects.py
         constants.EXPORT_OPPORTUNITIES: {
             constants.NO_RESPONSE: helpers.build_export_opportunites_guidance_url(
                 snippet_slugs.HELP_EXOPPS_NO_RESPONSE,
@@ -284,14 +281,8 @@ class RoutingFormView(
             ),
             constants.OTHER: reverse_lazy('contact:contact-us-domestic'),
         },
-        constants.EXPORTING_TO_UK: {
-            constants.HMRC: settings.CONTACT_EXPORTING_TO_UK_HMRC_URL,
-            #     constants.DEFRA: reverse_lazy('contact:contact-us-exporting-to-the-uk-defra'),
-            #     constants.BEIS: reverse_lazy('contact:contact-us-exporting-to-the-uk-beis'),
-            constants.IMPORT_CONTROLS: (reverse_lazy('contact:contact-us-international')),
-            constants.TRADE_WITH_UK_APP: (reverse_lazy('contact:contact-us-international')),
-            constants.OTHER: reverse_lazy('contact:contact-us-international'),
-        },
+        # Similarly, constants.EXPORTING_TO_UK was the international triage config,
+        # so this was not ported over
     }
 
     form_list = (
@@ -300,8 +291,6 @@ class RoutingFormView(
         (constants.GREAT_SERVICES, contact_forms.GreatServicesRoutingForm),
         (constants.GREAT_ACCOUNT, contact_forms.GreatAccountRoutingForm),
         (constants.EXPORT_OPPORTUNITIES, contact_forms.ExportOpportunitiesRoutingForm),
-        (constants.INTERNATIONAL, contact_forms.InternationalRoutingForm),
-        # (constants.EXPORTING_TO_UK, contact_forms.ExportingIntoUKRoutingForm),
         ('NO-OPERATION', contact_forms.NoOpForm),  # should never be reached
     )
     templates = {
@@ -310,18 +299,14 @@ class RoutingFormView(
         constants.GREAT_SERVICES: 'domestic/contact/routing/step-great-services.html',
         constants.GREAT_ACCOUNT: 'domestic/contact/routing/step-great-account.html',
         constants.EXPORT_OPPORTUNITIES: 'domestic/contact/routing/step-export-opportunities-service.html',
-        constants.INTERNATIONAL: 'domestic/contact/routing/step-international.html',
-        # constants.EXPORTING_TO_UK: 'contact/routing/step-exporting.html',
     }
 
     # given current step, where to send them back to
     back_mapping = {
         constants.DOMESTIC: constants.LOCATION,
-        constants.INTERNATIONAL: constants.LOCATION,
         constants.GREAT_SERVICES: constants.DOMESTIC,
         constants.GREAT_ACCOUNT: constants.GREAT_SERVICES,
         constants.EXPORT_OPPORTUNITIES: constants.GREAT_SERVICES,
-        constants.EXPORTING_TO_UK: constants.INTERNATIONAL,
     }
 
     def get_template_names(self):
