@@ -581,11 +581,6 @@ GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
     'https://download.maxmind.com/app/geoip_download',
 )
 
-# redirects
-FEATURE_FLAG_INTERNATIONAL_CONTACT_TRIAGE_ENABLED = env.bool(
-    'FEATURE_INTERNATIONAL_CONTACT_TRIAGE_ENABLED',
-    False,
-)
 
 # directory-api
 DIRECTORY_API_CLIENT_BASE_URL = env.str('DIRECTORY_API_CLIENT_BASE_URL')
