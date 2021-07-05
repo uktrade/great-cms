@@ -5,7 +5,7 @@
 ### Enhancements
 - GP2-1684: Port the contact pages which need users to be signed in (SOO ones) from V1 to V2
 ### Fixed bugs
-
+- GP2-2988: Make SOO contact form name fields editable if not already populated.
 ## [1.11.0](https://github.com/uktrade/great-cms/releases/tag/1.11.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.10.0...1.11.0)
 
