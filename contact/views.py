@@ -611,9 +611,13 @@ class SellingOnlineOverseasFormView(
         return f'selling_online_overseas_form_view_{self.request.user.id}'
 
     def get_form_data_cache(self):
+        # Note: this _looks_ like dead code – can't see a reference in an superclasses
+        # See 550de82 and then e74d335 in great-domestic-ui.
         return cache.get(self.get_cache_prefix(), None)
 
     def set_form_data_cache(self, form_data):
+        # This code is called, but because self.get_form_data_cache() doesn't appear to
+        # be used, it's effectively redundant.
         cache.set(
             self.get_cache_prefix(),
             form_data,
