@@ -70,10 +70,11 @@ class BusinessSSOUser(AbstractUser):
         return helpers.set_user_data(self.session_id, data, name)
 
     def get_mobile_number(self):
+        empty_vals = ['', None]
         mobile_number = self.mobile_phone_number
-        if mobile_number in ['', None] and self.company:
+        if mobile_number in empty_vals and self.company:
             mobile_number = getattr(self.company, 'mobile_number', None)
-        return mobile_number
+        return mobile_number if mobile_number not in empty_vals else None
 
     @property
     def company_type(self):
