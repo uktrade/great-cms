@@ -128,6 +128,26 @@ def test_domestic_contact_form_serialize_data_office_lookup_none_returned(domest
     assert data['dit_regional_office_email'] == ''
 
 
+def test_feedback_form_serialize_data(captcha_stub):
+    form = forms.FeedbackForm(
+        data={
+            'name': 'Test Example',
+            'email': 'test@example.com',
+            'comment': 'Help please',
+            'g-recaptcha-response': captcha_stub,
+            'terms_agreed': True,
+        }
+    )
+
+    assert form.is_valid()
+    assert form.serialized_data == {
+        'name': 'Test Example',
+        'email': 'test@example.com',
+        'comment': 'Help please',
+    }
+    assert form.full_name == 'Test Example'
+
+
 def test_marketing_form_validations(valid_request_export_support_form_data):
     form = forms.ExportSupportForm(data=valid_request_export_support_form_data)
     assert form.is_valid()
@@ -337,6 +357,16 @@ def test_great_services_form_routing():
     expected_choice_count = len(choices_expect_next_step) + len(choices_expect_redirect)
 
     assert expected_choice_count == len(choices)
+
+
+def test_export_opportunities_form_routing():
+    field = forms.ExportOpportunitiesRoutingForm.base_fields['choice']
+
+    mapping = views.RoutingFormView.redirect_mapping[constants.EXPORT_OPPORTUNITIES]
+
+    for choice, _ in field.choices:
+        assert choice in mapping
+        assert choice not in routing_steps
 
 
 def test_form_choices__great_account_routing_form():
