@@ -32,6 +32,7 @@ export const Select = memo(
   }) => {
     const [input, setInput] = useState(selected || [])
     const [isOpen, setIsOpen] = useState(false)
+    const [optionsHash, setOptionsHash] = useState(0)
     const liRef = useRef([])
     const expander = useRef()
     const outer = useRef()
@@ -70,9 +71,12 @@ export const Select = memo(
 
     useEffect(() => {
       // automatically open autocomplete
-      if (autoComplete) {
-        console.log('*** Autocomplete auto open',!!(options && options.length) )
-        setOpen(!!(options && options.length))
+      if (autoComplete && options && options.length) {
+        const newOptionsHash = options.reduce((hash, option) => {return hash + option.value}, 0)
+        if(newOptionsHash !== optionsHash) {
+          setOptionsHash(newOptionsHash)
+          setOpen(true)
+        }
       }
     }, [options])
 
@@ -124,7 +128,6 @@ export const Select = memo(
         placeHolder.current.focus()
       } else if (!item.isError) {
         setInput(item.value)
-        console.log('***  Closing on select')
         setOpen(false)
         update({ [name]: item.value })
       }

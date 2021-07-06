@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import ReactHtmlParser from 'react-html-parser'
 import ClassificationTree from './ClassificationTree'
+import ClassificationTreeSic from './ClassificationTreeSic'
 import SearchInput from './SearchInput'
 import { analytics } from '../../Helpers'
 
@@ -19,6 +20,7 @@ export default function StartEndPage(props) {
 
   const [commodityName, setCommodityName] = useState(defaultCommodityName)
   const [isEditing, setEditing] = useState(searchCompletedMode)
+  const isSicCode = commodityCode.length != 6
 
   const nameOkToSave = (name) => {
     return (
@@ -84,8 +86,8 @@ export default function StartEndPage(props) {
             </button>
           </h3>
         )}
-        <h4 className="h-xxs p-v-xxs">HS6 Code: {commodityCode}</h4>
-        <ClassificationTree hsCode={commodityCode} />
+        <h4 className="h-xxs p-v-xxs">{isSicCode ? 'SIC Code' : 'HS6 Code'}: {commodityCode}</h4>
+        { isSicCode ? <ClassificationTreeSic sicCode={commodityCode}/> : <ClassificationTree hsCode={commodityCode} /> }
       </div>
       {searchCompletedMode ? (
         <>

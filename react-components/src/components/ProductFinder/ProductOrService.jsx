@@ -20,24 +20,27 @@ export default function ProductOrService(props) {
 
   return (
     <>
-          <div className="p-h-s p-t-l">
+      <div className="p-h-s p-t-l">
         <section className="m-b-s">
-      <h2 className="h-m p-b-s">About your export</h2>
-      <p>Do you intend to export a product or a service?</p>
-      <div className="grid m-v-xs">
-      <RadioButtons
-        name={'p_or_s'}
-        choices={[
-          { label: 'Product', value: 'p' },
-          { label: 'Service', value: 's' },
-        ]}
-        valueChange={setStore}
-      />
-      </div>
-      <button className="button button--primary save-product" type="button" onClick={() => selectProductOrService(store)}>
-        Next
-      </button>
-      </section>
+          <h2 className="h-m p-b-s">About your export</h2>
+          <div className="grid m-v-xs segmentation-modal m-f-0">
+            <RadioButtons
+              name={'p_or_s'}
+              choices={[
+                { label: 'I want to export <b>Products</b>', value: 'p' },
+                { label: 'I want to sell a <b>Service</b> overseas', value: 's' },
+              ]}
+              valueChange={setStore}
+            />
+          </div>
+          <button
+            className="button button--primary save-product"
+            type="button"
+            onClick={() => selectProductOrService(store)}
+          >
+            Next
+          </button>
+        </section>
       </div>
     </>
   )

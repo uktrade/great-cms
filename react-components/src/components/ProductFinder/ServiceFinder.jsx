@@ -5,13 +5,16 @@ import { Select } from '@src/components/Form/Select'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { dateFormat } from '@src/Helpers'
 import Services from '@src/Services'
+import actions from '@src/actions'
+import StartEndPage from './StartEndPage'
+import ServiceSearch from './ServiceSearch'
 import KeyValueList from './KeyValueList'
 
 const checkChars = /^[a-zA-Z0-9\s~!@#£$%°^&*()-_+={}[\]|\\/:;"'<>,.?]*$/
 const testInput = /[a-zA-Z]+/
 
 export default function ServiceFinder(props) {
-  const { selectProductOrService } = props
+  const { closeModal } = props
   const debounceRate = 250
   const minChars = 3
 
@@ -117,25 +120,36 @@ export default function ServiceFinder(props) {
     { key: 'DIT full sector name', name: 'DIT sector' },
   ]
 
+  const saveProduct = (commodityCode, commodityName) => {
+    Services.store.dispatch(
+      actions.setProduct({
+        commodity_name: commodityName,
+        commodity_code: commodityCode,
+      })
+    )
+    closeModal()
+  }
+
   let pageContent
-  if (currentPage == 'company') { pageContent = <>
+  if (currentPage == 'company') {
+    pageContent = (
+      <>
         <div className="autocomplete">
           <p>
             If your company is registered with Companies House, we can find the
             services you offer
-
-          <button
-            className="link m-t-xxs"
-            type="button"
-            onClick={() => setMode(modes.manual)}
-          >
-            <span className="link link--underline body-l">
-              I cannot find my business name OR my business is not registered
-              with Companies House.
-            </span>
-          </button>
-            </p>
-          <div m-v-s>
+            <button
+              className="link m-t-xxs"
+              type="button"
+              onClick={() => setCurrentPage('search_code')}
+            >
+              <span className="link link--underline body-l">
+                I cannot find my business name OR my business is not registered
+                with Companies House.
+              </span>
+            </button>
+          </p>
+          <div className="m-v-s">
             <Select
               autoComplete
               label=""
@@ -151,7 +165,8 @@ export default function ServiceFinder(props) {
             />
           </div>
         </div>
-        {company ? (<KeyValueList item={company} mapping={companyFieldMapping}/>
+        {company ? (
+          <KeyValueList item={company} mapping={companyFieldMapping} />
         ) : (
           ''
         )}
@@ -163,62 +178,85 @@ export default function ServiceFinder(props) {
         >
           Next
         </button>
-      </>}
+      </>
+    )
+  }
 
-if (currentPage == 'sic_codes') { pageContent = <>
-        <h3 className="h-s">SIC code list</h3>
-        <ul>
-          {(company.sic_codes || []).map((code) => (
-            <li key={code} className="multiple-choice">
-            <input
-          id={code}
-          type="radio"
-          className="radio"
-          name="sic-code-choice"
-          value={code}
-            onChange={setChosenSic}
-            onClick={setChosenSic}
-        />
-            <label htmlFor={code}>
-            <KeyValueList item={sicCodes[code]} mapping={sicSectorDisplayMapping}/>
-            </label>
+  if (currentPage == 'sic_codes') {
+    pageContent = (
+      <>
+        <h3 className="h-s">Choose one of your company's SIC codes</h3>
+        <div className="grid segmentation-modal">
+          <ul>
+            {(company.sic_codes || []).map((code) => (
+              <li key={code} className="multiple-choice">
+                <input
+                  id={code}
+                  type="radio"
+                  className="radio"
+                  name="sic-code-choice"
+                  value={code}
+                  onChange={() => setChosenSic(code)}
+                  onClick={() => setChosenSic(code)}
+                />
+                <label htmlFor={code}>
+                   {sicCodes[code] && sicCodes[code]['SIC description']}
+                   &nbsp;<b>({sicCodes[code] && sicCodes[code]['SIC code']})</b>
+                  {/*<KeyValueList
+                    item={sicCodes[code]}
+                    mapping={sicSectorDisplayMapping}
+                  />*/}
+                </label>
+              </li>
+            ))}
+            <li key="no_code" className="multiple-choice">
+              <input
+                id="no_code"
+                type="radio"
+                className="radio"
+                name="sic-code-choice"
+                value="no_code"
+                onChange={() => setChosenSic('no_code')}
+                onClick={() => setChosenSic('no_code')}
+              />
+              <label htmlFor="no_code">
+                Search for another service
+              </label>
             </li>
-          ))}
-          <li key="no_code" className="multiple-choice">
-            <input
-            id="no_code"
-            type="radio"
-            className="radio"
-            name="sic-code-choice"
-            value="no_code"
-            onChange={setChosenSic}
-            onClick={setChosenSic}
-          />
-          <label htmlFor="no_code">
-          <div className="g-panel p-t-0 p-b-xxs">
-          <p>None of these</p>
-          </div>
-          </label>
-          </li>
-        </ul>
+          </ul>
+        </div>
         <button
           className="m-t-s button button--primary"
           type="button"
           disabled={!chosenSic}
-          onClick={() => {setCurrentPage(chosenSic == 'no_code' ? 'search_code' : 'selected_code') }}
+          onClick={() => {
+            if (chosenSic == 'no_code') {
+              setCurrentPage('search_code')
+            } else {
+              setCurrentPage('selected_code')
+              //saveProduct(chosenSic, sicCodes[chosenSic]['SIC description'])
+            }
+          }}
         >
           Next
         </button>
       </>
+    )
   }
-  if (currentPage == 'search_code') { pageContent = <>
-    Search for a code
-  </>
-}
-  if (currentPage == 'selected_code') { pageContent = <>
-    Code Selected
-  </>
-}
+  if (currentPage == 'search_code') {
+    pageContent = <ServiceSearch complete={(sicCode) => {
+      setChosenSic(sicCode)
+      setCurrentPage('selected_code')
+    }}/>
+  }
+  if (currentPage == 'selected_code') {
+    pageContent = <StartEndPage
+          commodityCode={chosenSic}
+          defaultCommodityName={sicCodes[chosenSic]['SIC description']}
+          saveProduct={saveProduct}
+          searchCompletedMode={true}
+        />
+  }
 
   return (
     <>

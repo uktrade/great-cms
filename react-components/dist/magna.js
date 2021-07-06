@@ -70175,6 +70175,11 @@ var Select = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) 
       isOpen = _useState4[0],
       setIsOpen = _useState4[1];
 
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
+      _useState6 = _slicedToArray(_useState5, 2),
+      optionsHash = _useState6[0],
+      setOptionsHash = _useState6[1];
+
   var liRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])([]);
   var expander = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
   var outer = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
@@ -70211,9 +70216,15 @@ var Select = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) 
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // automatically open autocomplete
-    if (autoComplete) {
-      console.log('*** Autocomplete auto open', !!(options && options.length));
-      setOpen(!!(options && options.length));
+    if (autoComplete && options && options.length) {
+      var newOptionsHash = options.reduce(function (hash, option) {
+        return hash + option.value;
+      }, 0);
+
+      if (newOptionsHash !== optionsHash) {
+        setOptionsHash(newOptionsHash);
+        setOpen(true);
+      }
     }
   }, [options]);
   Object(_src_components_hooks_useOnOutsideClick__WEBPACK_IMPORTED_MODULE_2__["useOnOutsideClick"])(outer, function () {
@@ -70269,7 +70280,6 @@ var Select = Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(function (_ref) 
       placeHolder.current.focus();
     } else if (!item.isError) {
       setInput(item.value);
-      console.log('***  Closing on select');
       setOpen(false);
       update(_defineProperty({}, name, item.value));
     }
@@ -72915,6 +72925,91 @@ TreeBranch.propTypes = {
 
 /***/ }),
 
+/***/ "./react-components/src/components/ProductFinder/ClassificationTreeSic.jsx":
+/*!*********************************************************************************!*\
+  !*** ./react-components/src/components/ProductFinder/ClassificationTreeSic.jsx ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ClassificationTreeSic; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Spinner/Spinner */ "./react-components/src/components/Spinner/Spinner.jsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+var trimAndCapitalize = function trimAndCapitalize(str) {
+  var match = /^(?:CHAPTER\s\d+)?\s*-*\s*(.*)$/.exec(str);
+  var locStr = match ? match[1] : str;
+  return locStr && locStr.substr(0, 1).toUpperCase() + locStr.substr(1).toLowerCase();
+};
+
+function TreeBranch(props) {
+  var arr = props.arr;
+  var str = arr.shift();
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "classification-tree__item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fa fa-level-up-alt classification-tree__arrow"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, str), arr.length ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "m-v-xs"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    key: arr.length
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TreeBranch, {
+    arr: arr
+  }))) : '');
+}
+
+function ClassificationTreeSic(props) {
+  var sicCode = props.sicCode;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+      _useState2 = _slicedToArray(_useState, 2),
+      sicCodes = _useState2[0],
+      setSicCodes = _useState2[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].choicesApi({
+      choice: 'SIC_SECTOR_MAPPING'
+    }).then(function (results) {
+      setSicCodes((results || []).reduce(function (out, row) {
+        out[row['SIC code']] = row;
+        return out;
+      }, {}));
+    });
+  }, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, sicCodes && sicCodes[sicCode] ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "classification-tree g-panel m-v-xs"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TreeBranch, {
+    arr: [sicCodes[sicCode]['DIT sector'], sicCodes[sicCode]['DIT full sector name'], sicCodes[sicCode]['SIC description']]
+  })) : '');
+}
+ClassificationTreeSic.propTypes = {
+  sicCode: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string.isRequired
+};
+
+/***/ }),
+
 /***/ "./react-components/src/components/ProductFinder/CountryFinderButton.jsx":
 /*!*******************************************************************************!*\
   !*** ./react-components/src/components/ProductFinder/CountryFinderButton.jsx ***!
@@ -74452,7 +74547,9 @@ function ProductFinderModal(props) {
       }
 
       if (isProductOrService == 's') {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ServiceFinder__WEBPACK_IMPORTED_MODULE_14__["default"], null);
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ServiceFinder__WEBPACK_IMPORTED_MODULE_14__["default"], {
+          closeModal: closeModal
+        });
       }
 
       if (!isProductOrService) return productOrService();
@@ -74569,15 +74666,15 @@ function ProductOrService(props) {
     className: "m-b-s"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "h-m p-b-s"
-  }, "About your export"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Do you intend to export a product or a service?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "grid m-v-xs"
+  }, "About your export"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "grid m-v-xs segmentation-modal m-f-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Segmentation_RadioButtons__WEBPACK_IMPORTED_MODULE_6__["default"], {
     name: 'p_or_s',
     choices: [{
-      label: 'Product',
+      label: 'I want to export <b>Products</b>',
       value: 'p'
     }, {
-      label: 'Service',
+      label: 'I want to sell a <b>Service</b> overseas',
       value: 's'
     }],
     valueChange: setStore
@@ -74879,7 +74976,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
 /* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
-/* harmony import */ var _KeyValueList__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./KeyValueList */ "./react-components/src/components/ProductFinder/KeyValueList.jsx");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
+/* harmony import */ var _StartEndPage__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./StartEndPage */ "./react-components/src/components/ProductFinder/StartEndPage.jsx");
+/* harmony import */ var _ServiceSearch__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ServiceSearch */ "./react-components/src/components/ProductFinder/ServiceSearch.jsx");
+/* harmony import */ var _KeyValueList__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./KeyValueList */ "./react-components/src/components/ProductFinder/KeyValueList.jsx");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -74906,10 +75006,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
+
 var checkChars = /^[a-zA-Z0-9\s~!@#£$%°^&*()-_+={}[\]|\\/:;"'<>,.?]*$/;
 var testInput = /[a-zA-Z]+/;
 function ServiceFinder(props) {
-  var selectProductOrService = props.selectProductOrService;
+  var closeModal = props.closeModal;
   var debounceRate = 250;
   var minChars = 3;
 
@@ -75041,6 +75144,15 @@ function ServiceFinder(props) {
     key: 'DIT full sector name',
     name: 'DIT sector'
   }];
+
+  var saveProduct = function saveProduct(commodityCode, commodityName) {
+    _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].store.dispatch(_src_actions__WEBPACK_IMPORTED_MODULE_7__["default"].setProduct({
+      commodity_name: commodityName,
+      commodity_code: commodityCode
+    }));
+    closeModal();
+  };
+
   var pageContent;
 
   if (currentPage == 'company') {
@@ -75050,12 +75162,12 @@ function ServiceFinder(props) {
       className: "link m-t-xxs",
       type: "button",
       onClick: function onClick() {
-        return setMode(modes.manual);
+        return setCurrentPage('search_code');
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "link link--underline body-l"
     }, "I cannot find my business name OR my business is not registered with Companies House."))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      "m-v-s": true
+      className: "m-v-s"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__["Select"], {
       autoComplete: true,
       label: "",
@@ -75068,7 +75180,7 @@ function ServiceFinder(props) {
       inputChange: inputChange,
       inputValue: inputValue,
       className: "m-b-xs"
-    }))), company ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_KeyValueList__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    }))), company ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_KeyValueList__WEBPACK_IMPORTED_MODULE_10__["default"], {
       item: company,
       mapping: companyFieldMapping
     }) : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -75084,7 +75196,9 @@ function ServiceFinder(props) {
   if (currentPage == 'sic_codes') {
     pageContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
       className: "h-s"
-    }, "SIC code list"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, (company.sic_codes || []).map(function (code) {
+    }, "Choose one of your company's SIC codes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "grid segmentation-modal"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, (company.sic_codes || []).map(function (code) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         key: code,
         className: "multiple-choice"
@@ -75094,14 +75208,15 @@ function ServiceFinder(props) {
         className: "radio",
         name: "sic-code-choice",
         value: code,
-        onChange: setChosenSic,
-        onClick: setChosenSic
+        onChange: function onChange() {
+          return setChosenSic(code);
+        },
+        onClick: function onClick() {
+          return setChosenSic(code);
+        }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: code
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_KeyValueList__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        item: sicCodes[code],
-        mapping: sicSectorDisplayMapping
-      })));
+      }, sicCodes[code] && sicCodes[code]['SIC description'], "\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "(", sicCodes[code] && sicCodes[code]['SIC code'], ")")));
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       key: "no_code",
       className: "multiple-choice"
@@ -75111,28 +75226,44 @@ function ServiceFinder(props) {
       className: "radio",
       name: "sic-code-choice",
       value: "no_code",
-      onChange: setChosenSic,
-      onClick: setChosenSic
+      onChange: function onChange() {
+        return setChosenSic('no_code');
+      },
+      onClick: function onClick() {
+        return setChosenSic('no_code');
+      }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       htmlFor: "no_code"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "g-panel p-t-0 p-b-xxs"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "None of these"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    }, "Search for another service")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "m-t-s button button--primary",
       type: "button",
       disabled: !chosenSic,
       onClick: function onClick() {
-        setCurrentPage(chosenSic == 'no_code' ? 'search_code' : 'selected_code');
+        if (chosenSic == 'no_code') {
+          setCurrentPage('search_code');
+        } else {
+          setCurrentPage('selected_code'); //saveProduct(chosenSic, sicCodes[chosenSic]['SIC description'])
+        }
       }
     }, "Next"));
   }
 
   if (currentPage == 'search_code') {
-    pageContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, "Search for a code");
+    pageContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ServiceSearch__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      complete: function complete(sicCode) {
+        setChosenSic(sicCode);
+        setCurrentPage('selected_code');
+      }
+    });
   }
 
   if (currentPage == 'selected_code') {
-    pageContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, "Code Selected");
+    pageContent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_StartEndPage__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      commodityCode: chosenSic,
+      defaultCommodityName: sicCodes[chosenSic]['SIC description'],
+      saveProduct: saveProduct,
+      searchCompletedMode: true
+    });
   }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
@@ -75142,6 +75273,175 @@ function ServiceFinder(props) {
   }, "Add a service"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "m-v-xs"
   }, pageContent)));
+}
+
+/***/ }),
+
+/***/ "./react-components/src/components/ProductFinder/ServiceSearch.jsx":
+/*!*************************************************************************!*\
+  !*** ./react-components/src/components/ProductFinder/ServiceSearch.jsx ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ServiceSearch; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_html_parser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-html-parser */ "./node_modules/react-html-parser/lib/index.js");
+/* harmony import */ var react_html_parser__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_html_parser__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/components/Form/Select */ "./react-components/src/components/Form/Select/index.jsx");
+/* harmony import */ var _src_components_hooks_useDebounce__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/components/hooks/useDebounce */ "./react-components/src/components/hooks/useDebounce/index.jsx");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @src/actions */ "./react-components/src/actions/index.js");
+/* harmony import */ var _StartEndPage__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./StartEndPage */ "./react-components/src/components/ProductFinder/StartEndPage.jsx");
+/* harmony import */ var _KeyValueList__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./KeyValueList */ "./react-components/src/components/ProductFinder/KeyValueList.jsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+
+
+var checkChars = /^[a-zA-Z0-9\s~!@#£$%°^&*()-_+={}[\]|\\/:;"'<>,.?]*$/;
+var testInput = /[a-zA-Z]+/;
+function ServiceSearch(props) {
+  var complete = props.complete;
+  var debounceRate = 250;
+  var minChars = 3;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('company'),
+      _useState2 = _slicedToArray(_useState, 2),
+      currentPage = _useState2[0],
+      setCurrentPage = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      resultList = _useState4[0],
+      setResultList = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState6 = _slicedToArray(_useState5, 2),
+      inputValue = _useState6[0],
+      setInputValue = _useState6[1];
+
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+      _useState8 = _slicedToArray(_useState7, 2),
+      sicCodes = _useState8[0],
+      setSicCodes = _useState8[1];
+
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+      _useState10 = _slicedToArray(_useState9, 2),
+      chosenSic = _useState10[0],
+      setChosenSic = _useState10[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    _src_Services__WEBPACK_IMPORTED_MODULE_6__["default"].choicesApi({
+      choice: 'SIC_SECTOR_MAPPING'
+    }).then(function (results) {
+      setSicCodes((results || []).reduce(function (out, row) {
+        out[row['SIC code']] = row;
+        return out;
+      }, {}));
+    });
+  }, []);
+
+  var selectValueChange = function selectValueChange(newValue) {
+    var newCode = newValue.service_search;
+    var mapping = sicCodes[newCode];
+    setInputValue(mapping['SIC description']);
+    setChosenSic(newCode);
+  };
+
+  var mapResultsToChoices = function mapResultsToChoices() {
+    // Build structure to show in drop-down
+    if (!resultList || !resultList.length) return '';
+    return resultList.map(function (item) {
+      return {
+        label: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, sicCodes[item.code]['SIC description'], /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "body-m text-blue-deep-60"
+        }, "SIC code: ", item.code)),
+        value: item.code
+      };
+    });
+  };
+
+  var searchService = function searchService(term) {
+    var terms = (term || '').toLowerCase().trim().split(' ').filter(function (str) {
+      return str.length > minChars;
+    });
+    var resultList = Object.keys(sicCodes).reduce(function (out, code) {
+      var description = sicCodes[code]['SIC description'].toLowerCase();
+      var score = terms.filter(function (t) {
+        return description.indexOf(t) >= 0;
+      }).length;
+      if (score) out.push({
+        code: code,
+        score: score
+      });
+      return out;
+    }, []);
+    resultList.sort(function (a, b) {
+      return a.score === b.score ? a.code > b.code ? 1 : -1 : a.score > b.score ? -1 : 1;
+    });
+    console.log(resultList);
+    setResultList(resultList);
+  };
+
+  var inputChange = function inputChange(evt) {
+    // on a change of the text input on search page
+    var newInputValue = evt.target.value;
+    setInputValue(newInputValue);
+    searchService(newInputValue);
+  };
+
+  var formatDate = function formatDate(date) {
+    return date ? Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_5__["dateFormat"])(date) : '';
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "autocomplete"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Type in the name of the service you offer"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "m-v-s"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_components_Form_Select__WEBPACK_IMPORTED_MODULE_3__["Select"], {
+    autoComplete: true,
+    label: "",
+    id: "service_name",
+    update: selectValueChange,
+    name: "service_search",
+    options: mapResultsToChoices(resultList) || [],
+    hideLabel: true,
+    placeholder: "Service name",
+    inputChange: inputChange,
+    inputValue: inputValue,
+    className: "m-b-xs"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "m-t-s button button--primary save-product",
+    type: "button",
+    disabled: !chosenSic,
+    onClick: function onClick() {
+      return complete(chosenSic);
+    }
+  }, "Next"));
 }
 
 /***/ }),
@@ -75163,8 +75463,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_html_parser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-html-parser */ "./node_modules/react-html-parser/lib/index.js");
 /* harmony import */ var react_html_parser__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_html_parser__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _ClassificationTree__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ClassificationTree */ "./react-components/src/components/ProductFinder/ClassificationTree.jsx");
-/* harmony import */ var _SearchInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SearchInput */ "./react-components/src/components/ProductFinder/SearchInput.jsx");
-/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
+/* harmony import */ var _ClassificationTreeSic__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ClassificationTreeSic */ "./react-components/src/components/ProductFinder/ClassificationTreeSic.jsx");
+/* harmony import */ var _SearchInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SearchInput */ "./react-components/src/components/ProductFinder/SearchInput.jsx");
+/* harmony import */ var _Helpers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Helpers */ "./react-components/src/Helpers.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -75176,6 +75477,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -75202,6 +75504,8 @@ function StartEndPage(props) {
       isEditing = _useState4[0],
       setEditing = _useState4[1];
 
+  var isSicCode = commodityCode.length != 6;
+
   var nameOkToSave = function nameOkToSave(name) {
     return testInput.test(name) && (allowSaveSameName || name !== defaultCommodityName);
   };
@@ -75211,7 +75515,7 @@ function StartEndPage(props) {
       saveProduct(commodityCode, commodityName.trim());
 
       if (!allowSaveSameName) {
-        Object(_Helpers__WEBPACK_IMPORTED_MODULE_5__["analytics"])({
+        Object(_Helpers__WEBPACK_IMPORTED_MODULE_6__["analytics"])({
           event: 'updateProductName'
         });
       }
@@ -75231,7 +75535,7 @@ function StartEndPage(props) {
     className: "box box--no-pointer"
   }, isEditing ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group m-0"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SearchInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SearchInput__WEBPACK_IMPORTED_MODULE_5__["default"], {
     id: "input-commodity-name",
     onChange: setCommodityName,
     defaultValue: react_html_parser__WEBPACK_IMPORTED_MODULE_2___default()(commodityName).toString(),
@@ -75254,7 +75558,9 @@ function StartEndPage(props) {
     className: "m-f-xs fas fa-pencil-alt text-blue-deep-60"
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
     className: "h-xxs p-v-xxs"
-  }, "HS6 Code: ", commodityCode), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ClassificationTree__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, isSicCode ? 'SIC Code' : 'HS6 Code', ": ", commodityCode), isSicCode ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ClassificationTreeSic__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    sicCode: commodityCode
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ClassificationTree__WEBPACK_IMPORTED_MODULE_3__["default"], {
     hsCode: commodityCode
   })), searchCompletedMode ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "If you've created an Export Plan, make sure you update it to reflect your new product. You can change product at any time."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "button button--primary save-product",

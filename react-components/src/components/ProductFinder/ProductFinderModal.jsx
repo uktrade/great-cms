@@ -556,7 +556,7 @@ export default function ProductFinderModal(props) {
         return searchPages()
       }
       if (isProductOrService == 's') {
-        return <ServiceFinder />
+        return <ServiceFinder closeModal={closeModal}/>
       }
       if (!isProductOrService) return productOrService()
     }
