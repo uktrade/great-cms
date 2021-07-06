@@ -29,8 +29,8 @@ services:
       - '8000:8000'
     env_file:
       - ../directory-api/conf/env/dev
-      - ../directory-api/conf/env/secrets-do-not-commit
       - ../directory-api/conf/env/dev-docker
+      - ../directory-api/conf/env/secrets-do-not-commit
     networks:
       - inside-network
     depends_on:
@@ -51,8 +51,8 @@ services:
       - '8011:8011'
     env_file:
       - ../directory-forms-api/conf/env/dev
-      - ../directory-forms-api/conf/env/secrets-do-not-commit
       - ../directory-forms-api/conf/env/dev-docker
+      - ../directory-forms-api/conf/env/secrets-do-not-commit
     networks:
       - inside-network
     depends_on:
@@ -72,8 +72,8 @@ services:
       - '8003:8003'
     env_file:
       - ../directory-sso/conf/env/dev
-      - ../directory-sso/conf/env/secrets-do-not-commit
       - ../directory-sso/conf/env/dev-docker
+      - ../directory-sso/conf/env/secrets-do-not-commit
     networks:
       - inside-network
     depends_on:
@@ -113,8 +113,8 @@ services:
       - '8020:8020'
     env_file:
       - ./config/env/dev
-      - ./config/env/secrets-do-not-commit
       - ./config/env/dev-docker
+      - ./config/env/secrets-do-not-commit
     networks:
       - inside-network
     depends_on:
