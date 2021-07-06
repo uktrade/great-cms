@@ -231,7 +231,7 @@ To setup and start Great CMS to run entirely in docker containers, use:
 ./start-docker.sh
 ```
 
-This will clone required repositories (directory-api, directory-forms-api, directory-sso and directory-sso-proxy) into the parent directory, and build the required containers. 
+This will clone required repositories (directory-api, directory-forms-api, directory-sso and directory-sso-proxy) into the parent directory, and build the required containers.
 
 During the process you will be asked to populate some environment variables: contact a team member to get the appropriate values.
 
@@ -242,7 +242,7 @@ You will also need to add the following entries to your hosts file (/etc/hosts):
 127.0.0.1       buyer.trade.great
 127.0.0.1       supplier.trade.great
 127.0.0.1       sso.trade.great
-127.0.0.1       sso.trade.great.com
+127.0.0.1       sso.proxy.trade.great
 127.0.0.1       api.trade.great
 127.0.0.1       profile.trade.great
 ```
