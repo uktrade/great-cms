@@ -6,6 +6,7 @@
 
 ### Fixed bugs
 - GP2-2938 - DAC_Nondescriptive_Labels_02 Lesson complete checkbox
+- GP2-2952 - DAC_Contrast_Minimum_01 'Next' link
 - GP2-2947 - DAC_Nontext_Contrast_02 (AA) sidebar menu button
 
 ## [1.11.0](https://github.com/uktrade/great-cms/releases/tag/1.11.0)

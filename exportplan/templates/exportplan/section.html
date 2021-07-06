@@ -53,7 +53,11 @@
           {% block section_complete %}{% include "exportplan/includes/section_complete.html" %}{% endblock %}
           {% if next_section and not next_section.disabled %}
             <p class="h-xs m-b-0 text-white">Next</p>
-            <a class="text-red-80 link" href="{{ next_section.url }}" title="{{ next_section.title }}"><span class="inline-block h-l text-red-80 link--underline p-0 m-b-xs">{{ next_section.title }}</span> <br /><i class="fas fa-arrow-circle-right text-red-80"></i> </a>
+            <a class="link" href="{{ next_section.url }}" title="{{ next_section.title }}">
+              <span class="inline-block h-l link--underline text-white p-0 m-b-xs">{{ next_section.title }}</span>
+              <br />
+              <i class="fas fa-arrow-circle-right text-white"></i>
+            </a>
           {% endif %}
           {% block back_button %}
             <div class="m-t-l">
