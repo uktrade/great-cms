@@ -1,6 +1,10 @@
 DATABASE_URL=postgres://debug:debug@great_postgres:5432/greatcms
-SSO_API_CLIENT_BASE_URL=http://sso.trade.great:8003/
 DIRECTORY_FORMS_API_SENDER_ID=12345678-1234-1234-1234-123456789012
 DIRECTORY_FORMS_API_API_KEY=01234567890123456789012345678912
 REDIS_URL=redis://great_redis:6379
 DATABASE_DUMP_FILENAME=great-cms-db-23-jun-21.backup
+
+SSO_PROXY_LOGIN_URL=http://sso.proxy.trade.great:8004/sso/accounts/login/
+SSO_PROXY_LOGOUT_URL=http://sso.proxy.trade.great:8004/sso/accounts/logout/?next=http://greatcms.trade.great:8020/
+SSO_PROXY_PASSWORD_RESET_URL=http://sso.proxy.trade.great:8004/sso/accounts/password/reset/
+SSO_PROXY_SIGNUP_URL=http://sso.proxy.trade.great:8004/sso/accounts/signup/?next=http://greatcms.trade.great:8020/
