@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2348 - VFM Return copy update
 
 ### Fixed bugs
 - GP2-2938 - DAC_Nondescriptive_Labels_02 Lesson complete checkbox

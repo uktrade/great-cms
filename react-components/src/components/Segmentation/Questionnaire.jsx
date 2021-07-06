@@ -119,7 +119,7 @@ export default function Questionnaire(props) {
       <Modal
         className="segmentation-modal"
         title={
-          questionIndex() ? 'Survey in progress' : 'Help us serve you better'
+          questionIndex() ? 'Ready to finish the survey?' : 'Help us serve you better'
         }
         body={
           <>
@@ -131,13 +131,9 @@ export default function Questionnaire(props) {
               </p>
             ) : (
               <p className="m-v-xs">
-                You left the survey partly completed. It would be a great help
-                to us if you could complete the survey now.
+                It’ll take less than 3 minutes to finish our short survey, or you can do it next time.
               </p>
             )}
-            <p className="m-v-xs">
-              It will take about 3-5 minutes to complete.
-            </p>
             <a
               href="/privacy-and-cookies/"
               target="_blank"
@@ -152,7 +148,7 @@ export default function Questionnaire(props) {
         }
         primaryButtonLabel="Continue"
         primaryButtonClick={() => setMode(modes.question)}
-        secondaryButtonLabel="Not now"
+        secondaryButtonLabel={!questionIndex() ? "Not now" : "Next time"}
         secondaryButtonClick={closeModal}
         closeClick={closeModal}
       />
