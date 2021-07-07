@@ -766,3 +766,21 @@ def test_get_trade_barrier_data(mock_country_data, client):
     response = helpers.get_trade_barrier_data(countries_list=['CN'], sectors_list=['Aerospace'])
     assert response.get('location') == trade_barrier_data['location']
     assert response.get('sectors') == trade_barrier_data['sectors']
+
+
+def test_is_rate_limit(rf):
+    request = rf.get("/")
+    request.session = {}
+    count = 0
+    while count <= 20:
+        result = helpers.is_rate_limit(request, 10, 5)
+
+        if result:
+            break
+
+        count += 1
+
+    if result:
+        assert True
+    else:
+        assert False

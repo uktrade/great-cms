@@ -59,10 +59,16 @@ class CheckView(generics.GenericAPIView):
 
 
 class ProductLookupView(generics.GenericAPIView):
+
     serializer_class = serializers.ProductLookupSerializer
     permission_classes = []
 
     def post(self, request):
+
+        # If limit has reached then response with 403(5 request withint 10seconds).
+        if helpers.is_rate_limit(request, 10, 5):
+            return Response(status=403)
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         if 'tx_id' in serializer.validated_data:

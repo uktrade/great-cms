@@ -2,6 +2,7 @@ import csv
 import functools
 import math
 import re
+import time
 import urllib
 from collections import Counter
 from difflib import SequenceMatcher
@@ -472,3 +473,26 @@ class GeoLocationRedirector:
             domain=settings.LANGUAGE_COOKIE_DOMAIN,
         )
         return response
+
+
+# Rate limit by using Django sessions. Set how many click per seconds can be done.
+def is_rate_limit(request, time_in_seconds, number_of_clicks):
+    # Rate settings for this route.
+    request.session.setdefault("rate_time_count", time.time())
+    request.session.setdefault("click_numbers", 0)
+
+    session_click_n = request.session["click_numbers"]
+    session_rate_time = request.session["rate_time_count"]
+
+    time_rate_passed = time.time() - session_rate_time
+    request.session["click_numbers"] += 1
+
+    # n max limtit rate per x seconds
+    if time_rate_passed >= time_in_seconds:
+        del request.session["rate_time_count"]
+        del request.session["click_numbers"]
+
+    if session_click_n >= number_of_clicks:
+        return True
+
+    return False
