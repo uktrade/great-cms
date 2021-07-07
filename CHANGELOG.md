@@ -4,6 +4,9 @@
 
 ### Enhancements
 - GP2-2348 - VFM Return copy update
+- GP2-2700 - Export plan/Business risk copy update
+- GP2-2701 - Export plan/Travel plan copy update
+- GP2-2706 - Export plan/Costs and pricing copy update
 
 ### Fixed bugs
 - GP2-2938 - DAC_Nondescriptive_Labels_02 Lesson complete checkbox
