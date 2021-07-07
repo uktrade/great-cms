@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load banner from directory_components %}
+
+{% block content %}
+    <div class="container">
+        {% block breadcrumbs %}{% endblock %}
+        {% if request.user.is_authenticated and not request.user.has_user_profile %}
+            <div class="margin-top-30">
+                {% if not request.user.company %}
+                    {% url 'enrolment-start' as url %}
+                {% else %}
+                    {% url 'business-profile-personal-details' as url %}
+                {% endif %}
+                {% banner banner_content='Complete your profile to help overseas buyers find you. <a href="'|add:url|add:'">Complete Business Profile</a>.</p>' badge_content='Business Profile incomplete' %}
+            </div>
+        {% endif %}
+
+        <div class="grid-row">
+            <div class="column-two-thirds sso-profile-toolbar-labels-container">
+                <h1 class="heading-xlarge margin-top-30 margin-bottom-15" id="tabs-title">Account</h1>
+                {% if request.user.is_authenticated %}
+                    <div>You are signed in as {{ request.user.email }}.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="sso-profile-tab-container margin-top-30 background-stone-90">
+        <div class="container">
+            <div class="grid-row margin-0">
+                <ul class="padding-0">
+                    <li class="{{ exops_tab_classes }}"><a href="{% url 'export-opportunities-applications' %}">Export opportunities</a></li>
+                    <li class="{{ fab_tab_classes }}"><a href="{% url 'business-profile' %}">Business profile</a></li>
+					<li{% if request.resolver_match.namespace == 'personal-profile' %} class="active"{% endif %}><a href="{% url 'personal-profile:display' %}">Personal details</a></li>
+                    <li class="{{ soo_tab_classes }}"><a href="{% url 'selling-online-overseas' %}">Selling online overseas</a></li>
+                    <li class="{{ about_tab_classes }}"><a href="{% url 'about' %}">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        {% block tab_content %}
+        {% endblock tab_content %}
+    </div>
+{% endblock content %}

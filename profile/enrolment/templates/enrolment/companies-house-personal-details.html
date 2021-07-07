@@ -1,0 +1,19 @@
+{% extends 'enrolment/wizard.html' %}
+
+{% load static from static %}
+
+{% block above_form %}
+    {% include 'enrolment/information_box_companies_type.html'  with is_in_companies_house=True  %}
+    <div class="message-box padding-15 padding-30-m border-medium background-stone-30 border-stone grey-text margin-right-15" id="business-details-information-box">
+        <h2 class="box-heading heading-medium heading-small grey-text margin-bottom-0">Your business details</h2>
+        <ul id="business-type" class="box-description">
+            <li id="company-name">{{ company.company_name }}</li>
+            <li id="company-address">{{ company.address }}</li>
+            <li><a href="{% url 'enrolment-companies-house' step='search' %}" class="link" id="change-business-details">Change business details</a></li>
+        <ul>
+    </div>
+
+    <div id="form-step-body-text">
+        <h1 class="heading-xlarge margin-top-60">Enter your personal details</h1>
+    </div>
+{% endblock %}

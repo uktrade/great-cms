@@ -1,0 +1,18 @@
+{% extends 'enrolment/wizard.html' %}
+
+{% load static from static %}
+
+{% block above_form %}
+    {% include 'enrolment/information_box_companies_type.html' with link_url=services_urls.feedback link_text='This is not my business type' is_in_companies_house=company.is_in_companies_house %}
+    <br>
+    <div class="grey-information-box" id="business-details-information-box">
+        <h2 class="heading-medium">Your business details</h2>
+        <p id="company-name">{{ company.name }}</p>
+        <p id="company-address">{{ company.address_line_1 }}, {{ company.address_line_2 }}, {{ company.postal_code }}</p>
+        <a href="{{ services_urls.feedback }}" class="link" id="report-error-with-business-details">These are not my business details</a>
+    </div>
+
+    <div id="form-step-body-text">
+        <h1 class="heading-xlarge margin-top-60">Enter your personal details</h1>
+    </div>
+{% endblock %}

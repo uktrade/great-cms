@@ -1,0 +1,13 @@
+<div class="steps-progress-indicator" aria-label="Process steps">
+  <progress class="visually-hidden" max="{{ wizard.steps.count }}" value="{{ step_number }}">You are on step {{ steps.step1 }} of {{ steps.count }} in this process</progress>
+  <p id="steps-progress-explanation" class="visually-hidden">List of steps required to complete the process:</p>
+  <ol aria-labelledby="steps-progress-explanation">
+    {% for step_label in step_labels %}
+    <li {% if step_number > forloop.counter %}class="complete"{% endif %}" {% if step_number == forloop.counter %}class="current" aria-current="step"{% endif %}">
+      {% if step_number > forloop.counter %}<span class="visually-hidden">Completed:</span>{% endif %}
+      {% if step_number == forloop.counter %}<span class="visually-hidden">Current:</span>{% endif %}
+      <span>{{ step_label }}</span>
+    </li>
+    {% endfor %}
+  </ol>
+</div>

@@ -1,0 +1,23 @@
+{% extends 'core/wizard.html' %}
+
+{% load breadcrumbs from directory_components %}
+{% load static from staticfiles %}
+{% block head_title %}Business profile - Account - great.gov.uk{% endblock %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'css/company-profile.css' %}" media="all" rel="stylesheet" />
+{% endblock %}
+
+{% block form_contents %}
+    {% breadcrumbs 'Business showcase' %}
+        <a href="{% url 'about' %}">Home</a>
+        <a href="{% url 'business-profile' %}">Business profile</a>
+    {% endbreadcrumbs %}
+    <h1 class="heading-large margin-top-0">Image and testimonials</h1>
+    {{ block.super }}
+{% endblock %}
+
+{% block below_submit_button %}
+    <button name="wizard_goto_step" class="previous-step link" type="submit" value="{{ wizard.steps.prev }}">Back</button>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'directory_components/base.html' %}
+
+{% load static from staticfiles %}
+
+{% block head_css %}
+	{{ block.super }}
+	<link href="{% static 'css/profile.css' %}" media="all" rel="stylesheet" />
+	<style type="text/css">
+		.information-breakout {
+		  background-image: url("{% static 'images/EiG_Profile_welcome_pointed_hand_grey.png' %}")
+		}
+		#main-content .pencil-link:before,
+		#edit-image:before {
+			background-image: url({% static 'images/edit.svg' %});
+		}
+
+	</style>
+{% endblock %}
+
+{% block head_title %}Exporting is Great Account - GREAT.gov.uk{% endblock %}

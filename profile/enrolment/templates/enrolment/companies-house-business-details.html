@@ -1,0 +1,75 @@
+{% extends 'enrolment/wizard.html' %}
+
+{% load static from static %}
+
+{% block above_form %}
+    {% include 'enrolment/information_box_companies_type.html' with is_in_companies_house=True %}
+    <div id="form-step-body-text">
+        <h1 class="heading-xlarge margin-top-60">Enter your business details</h1>
+    </div>
+{% endblock %}
+
+
+{% block below_form %}
+    {% if is_enrolled %}
+        <h2 class="heading-medium">Good news, a Business Profile already exists for this company</h2>
+        {% url 'enrolment-companies-house' step='company-search' as company_search_url %}
+  	<p>Save and continue to become a member of the profile. When you do, we'll notify the administrators.</p>
+        <p>Something wrong? <a href="{{ contact_us_url }}">Contact us.</a></p>
+    {% endif %}
+{% endblock %}
+
+
+
+{% block body_js %}
+    {{ block.super }}
+    {% if not form.address.initial %}
+        <script src="{% static 'directory_components/js/dit.components.company-lookup.js' %}"></script>
+        <script type="text/javascript">
+        // insert office finder
+        var postcodeFinderContainer = document.getElementById('id_companies-house-business-details-postal_code-container');
+        var addressFinder = document.getElementById('id_companies-house-business-details-postal_code');
+        var address = document.getElementById('id_companies-house-business-details-address');
+
+        postcodeFinderContainer.style.display = 'block';
+
+        $(document.body).on(
+          "click.SelectiveLookupCloseAll",
+          dit.components.lookup.SelectiveLookup.closeAll
+        );
+
+        function PostcodeLookup($input, $field, url, options) {
+          var instance = this;
+          var service = new dit.data.Service(url);
+          dit.components.lookup.SelectiveLookup.call(this,
+            $input,
+            service,
+            options,
+          );
+          this._private.$field = $field || $input;
+          this._private.$form = $input.parents("form");
+          this._private.$errors = $(".errors", this._private.$form);
+        }
+        PostcodeLookup.prototype = new dit.components.lookup.SelectiveLookup;
+        PostcodeLookup.prototype.bindContentEvents = function() {
+          var instance = this;
+          instance._private.$list.off("click.SelectiveLookupContent");
+          instance._private.$list.on("click.PostcodeLookup", function(event) {
+            var $eventTarget = $(event.target);
+            if($eventTarget.attr("data-value")) {
+              instance._private.$field.val($eventTarget.attr("data-value"));
+            }
+          });
+        }
+        PostcodeLookup.prototype.param = function() {
+          return "postcode=" + this._private.$input.val();
+        }
+        new PostcodeLookup(
+          $(addressFinder),
+          $(address),
+          '{% url "api:postcode-search" %}',
+          {lookupOnCharacter: 5}
+        );
+      </script>
+    {% endif %}
+{% endblock %}

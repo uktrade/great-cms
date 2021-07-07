@@ -1,0 +1,32 @@
+{% extends 'apps-tabs.html' %}
+
+{% load success_box from directory_components %}
+{% block head_title %}Personal details - Account - great.gov.uk{% endblock %}
+
+{% block tab_content %}
+    <div class="grid-row" id="tab-content">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    {% success_box heading=message description='' box_class='width-full background-white margin-top-30 padding-left-0' %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <div class="column-two-thirds">
+            <h2 class="heading-large padding-top-60">Personal Details</h2>
+            <dl>
+                <dt class="body-text margin-bottom-0">Email</dt>
+                <dd class="heading-small margin-bottom-30 margin-top-0">{{ request.user.email|default:"" }}</dd>
+                <dt class="body-text margin-bottom-0">First name</dt>
+                <dd class="heading-small margin-bottom-30 margin-top-0">{{ request.user.first_name|default:"" }}</dd>
+                <dt class="body-text margin-bottom-0">Last name</dt>
+                <dd class="heading-small margin-bottom-30 margin-top-0">{{ request.user.last_name|default:"" }}</dd>
+                <dt class="body-text margin-bottom-0">Job title</dt>
+                <dd class="heading-small margin-bottom-30 margin-top-0">{{ request.user.job_title|default:"" }}</dd>
+                <dt class="body-text margin-bottom-0">Telephone number</dt>
+                <dd class="heading-small margin-bottom-30 margin-top-0">{{ request.user.mobile_phone_number|default:"" }}</dd>
+			</dl>
+            <a class="button padding-left-60 padding-right-60 margin-top-60" href="{% url 'personal-profile:edit' %}">Edit</a>
+        </div>
+    </div>
+{% endblock %}

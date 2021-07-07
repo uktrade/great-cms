@@ -1,0 +1,34 @@
+{% extends 'business_profile/base-form.html' %}
+
+{% load static from staticfiles %}
+{% load breadcrumbs from directory_components %}
+
+{% block form_contents %}
+    {% breadcrumbs 'Add products and services' %}
+        <a href="{% url 'about' %}">Home</a>
+        <a href="{% url 'business-profile' %}">Business profile</a>
+    {% endbreadcrumbs %}
+    <div id="selected-expertise-container">
+        {% for key, values in company.expertise_products_services.items %}
+            {% if values %}
+                <div>
+                    <h2 class="heading-small">{{ key }}</h2>
+                    <p>{{ values }}</p>
+                    <p><a href="{% url 'business-profile-expertise-products-services' category=key|slugify %}">Edit</a></p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <h1 class="heading-large margin-top-0">Add products and services</h1>
+    <div id="business-details-form">
+        {{ block.super }}
+    </div>
+{% endblock %}
+
+{% block form_button %}
+    <button class="button">Continue</button>
+{% endblock %}
+
+{% block back_link %}
+    <a class="link" href="{% url 'business-profile' %}">Back to profile</a>
+{% endblock %}

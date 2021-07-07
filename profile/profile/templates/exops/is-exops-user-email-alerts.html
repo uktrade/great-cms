@@ -1,0 +1,62 @@
+{% extends 'exops/base.html' %}
+{% load parse_date from profile_tags %}
+{% block head_title %}Email alerts - Account - great.gov.uk{% endblock %}
+{% block tab_content_main %}
+	<div class="grid-row" id="sso-profile-eig-container">
+		<div class="column-one-quarter" id="sso-profile-eig-buttons">
+			<div class="column-two-thirds">
+				<div class="sso-profile-eig-button-inactive" id="sso-profile-eig-button-applications">
+					<a href="{% url 'export-opportunities-applications' %}">
+						Applications
+					</a>
+				</div>
+				<div class="sso-profile-eig-button-active">
+					<span>
+						Email alerts
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="column-two-thirds">
+			<h1 class="sso-profile-eig-title heading-xlarge">Email alerts</h1>
+			<br>
+			<div>
+				{% for alert in exops_data.email_alerts %}
+				<div class="sso-profile-eig-email-alert-item">
+					<div class="sso-profile-eig-email-alert-item-search-term-label" >Search term:</div>
+					<div class="sso-profile-eig-email-alert-item-search-term">
+						<span class="sso-profile-pill-button">
+							{% if alert.title %}
+								{{ alert.title }}
+							{% elif alert.term %}
+								{% if alert.countries %}
+									{{ alert.term }} in {{ alert.countries|join:", "  }}
+								{% else %}
+									{{ alert.term }} in all countries
+								{% endif %}
+							{% elif alert.countries %}
+								all opportunities in {{ alert.countries|join:", " }}
+							{% else %}
+								all opportunities
+							{% endif %}
+
+						</span>
+					</div>
+					<div>
+						<strong>Alert created on: </strong><span>{{ alert.created_on|parse_date:"%Y-%m-%dT%H:%M:%S.%fZ"|date:"d F Y" }}</span>
+					</div>
+					<div class="sso-profile-external-links">
+						<a href="{{ EXPORTING_OPPORTUNITIES_SEARCH_URL }}?suppress_subscription_block=true&s={{ alert.term }}&countries[]={{ alert.countries|join:"&countries[]=" }}">See matching opportunities</a>
+						<span class="sso-profile-external-links-seperator">|</span>
+						<a href="{{ alert.unsubscribe_url }}">Unsubscribe from this alert</a>
+					</div>
+				</div>
+				{% empty %}
+					<div>You have no email alerts.</div>
+					<br>
+					<br>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock tab_content_main %}

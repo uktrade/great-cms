@@ -1,0 +1,21 @@
+{% extends 'enrolment/base.html' %}
+
+{% load breadcrumbs from directory_components %}
+
+{% block content %}
+  <section class="container">
+      {% with current_page='Cannot '|add:user_journey_verb %}
+        {% breadcrumbs current_page %}
+          <a href="{{ services_urls.great_domestic }}">Great.gov.uk</a>
+        {% endbreadcrumbs %}
+      {% endwith %}
+      <div class="grid-row margin-top-45">
+          <div class="column-two-thirds">
+              <a href="{% url 'enrolment-business-type' %}" class="link">Back</a>
+              <h1 class="heading-xlarge margin-bottom-15 margin-top-15">You cannot {{ user_journey_verb }}</h1>
+              <p class="margin-bottom-30">great.gov.uk accounts are for UK businesses doing business abroad.</p>
+              <p class="margin-bottom-30">If you're an overseas company, looking to do business with the UK, please <a class="link margin-top-15" href="{{ services_urls.great_international }}">visit our site for international businesses.</a></p>
+          </div>
+      </div>
+  </section>
+{% endblock %}

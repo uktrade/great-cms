@@ -1,0 +1,13 @@
+{% extends 'directory_components/base.html' %}
+
+{% load static from staticfiles %}
+
+{% block css_layout_class %}enrolment-content{% endblock css_layout_class %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'javascripts/index.js' %}"></script>
+    <script type="text/javascript">GOVUK.page.init();</script>
+{% endblock body_js %}
+
+{% block feedback_reporter %}{% endblock %}

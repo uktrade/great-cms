@@ -1,0 +1,69 @@
+{% extends 'business_profile/admin-base.html' %}
+
+{% load static from staticfiles %}
+{% load breadcrumbs from directory_components %}
+
+{% block breadcrumbs %}
+    {% breadcrumbs 'Invite collaborators' %}
+        <a href="{{ services_urls.great_domestic }}">great.gov.uk</a>
+        <a href="{% url 'business-profile' %}">Business profile</a>
+        <a href="{% url 'business-profile-admin-invite-collaborator' %}">Profile settings</a>
+    {% endbreadcrumbs %}
+{% endblock %}
+
+{% block inner_content %}
+    <section class="width-two-thirds">
+        <h2 class="heading-large margin-top-0 margin-bottom-15">Invite collaborators</h2>
+        <p>Invite collaborators and select the role.</p>
+        <form method="post" enctype="multipart/form-data" novalidate="novalidate">
+        {{ form }}
+	    <details closed>
+	        <summary>Help with roles</summary>
+		<p class="border-light-grey" id="help-with-roles-members-text">
+		    Members can use the business profile to apply for export opportunities, apply to sell online overseas and apply for financing.
+		</p>
+	        <p class="border-light-grey" id="help-with-roles-text">
+		    Admins can do everything members can, plus edit, publish and delete the business profile invite, remove and change permissions of colloborators.
+	        </p>
+	    </details>
+             <button class="button padding-left-60 padding-right-60">Send invite</button>
+	</form>
+    </section>
+ 	<section class="width-full">
+        <h2 class="heading-large margin-top-0 margin-bottom-15">Pending collaborator invitations</h2>
+        <p>Collaborators you've invited who haven't accepted yet. You'll get an email when an invite accepts.</p>
+        <table>
+            <thead>
+              <tr>
+                <th class="border-light-grey padding-top-15 padding-bottom-15" scope="col">People</th>
+                <th class="border-light-grey padding-top-15 padding-bottom-15" scope="col">Role</th>
+                <th class="border-light-grey padding-top-15 padding-bottom-15 numeric" scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+	    {% if collaborator_invites %}
+	        {% for invite in collaborator_invites %}
+	            {% if invite.sso_id != request.user.id %}
+		        <tr>
+			    <th class="border-white padding-top-15 padding-bottom-10" scope="row">{{ invite.collaborator_email }}</th>
+			    <td class="border-white padding-top-15 padding-bottom-10">{{ invite.role|title }}</td>
+			    <td class="border-white padding-top-15 padding-bottom-10 numeric">
+			        <form action="{% url 'business-profile-collaboration-invite-delete' %}" method="post" enctype="multipart/form-data" class="no-default-margin">
+			            <input type="hidden" name="invite_key" value="{{ invite.uuid }}" />
+						<input type="hidden" name="action" value="delete" />
+				    	<input type="submit" class="link background-white numeric" value="Delete">
+			        </form>
+			    </td>
+		         </tr>
+		     {% endif %}
+                {% endfor %}
+	    {% else %}
+		<tr>
+		    <th class="border-white padding-top-15 padding-bottom-10" scope="row">You have no pending invitations.</th>
+		</tr>
+	    {% endif %}
+            </tbody>
+          </table>
+	  </section>
+</section>
+{% endblock %}

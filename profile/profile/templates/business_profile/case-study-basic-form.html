@@ -1,0 +1,27 @@
+{% extends 'core/wizard.html' %}
+
+{% load breadcrumbs from directory_components %}
+{% load static from staticfiles %}
+{% block head_title %}Business profile - Account - great.gov.uk{% endblock %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'css/company-profile.css' %}" media="all" rel="stylesheet" />
+{% endblock %}
+
+{% block above_form %}
+    {% breadcrumbs 'Business showcase' %}
+        <a href="{% url 'about' %}">Home</a>
+        <a href="{% url 'business-profile' %}">Business profile</a>
+    {% endbreadcrumbs %}
+    <h1 class="heading-large margin-top-0">Business showcase</h1>
+    <p>Describe something significant your company has done that will be relevant to overseas buyers. For example, you could add details of an important collaboration on a recent international project or a major export deal.</p>
+    {{ block.super }}
+{% endblock %}
+
+{% block below_submit_button %}
+    <div>
+        <br>
+        <a class="link" href="{% url 'business-profile' %}">Back</a>
+    </div>
+{% endblock %}

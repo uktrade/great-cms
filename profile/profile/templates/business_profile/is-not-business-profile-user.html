@@ -1,0 +1,32 @@
+{% extends 'business_profile/base.html' %}
+
+{% load success_box from directory_components %}
+
+
+{% block tab_content_main %}
+    {% if messages %}
+        <div>
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                {% success_box heading=message box_class='width-full background-white margin-top-30' %}
+            {% endif %}
+        {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="grid-row" id="tab-content">
+        <div class="column-full">
+            <section id="profile-required">
+                <h2 class="heading-large">Get a business profile</h2>
+                <p>Get a business profile for your company and you can:</p>
+                <ul class="list list-bullet">
+                    <li>generate new sales leads</li>
+                    <li>promote your business to thousands of overseas buyers</li>
+                    <li>add case studies of your best work to make your company stand out</li>
+                    <li>have buyers contact your sales team directly to get deals moving</li>
+                </ul>
+                <a class="button" href="{% url 'enrolment-start' %}?business-profile-intent=True">Create a business profile</a>
+            </section>
+        </div>
+    </div>
+{% endblock tab_content_main %}

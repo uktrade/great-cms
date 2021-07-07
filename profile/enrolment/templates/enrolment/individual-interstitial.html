@@ -1,0 +1,45 @@
+{% extends 'enrolment/base.html' %}
+
+{% load breadcrumbs from directory_components %}
+
+{% block content %}
+  <section class="container">
+      {% with current_page='Cannot '|add:user_journey_verb %}
+        {% breadcrumbs current_page %}
+          <a href="{{ services_urls.great_domestic }}">Great.gov.uk</a>
+        {% endbreadcrumbs %}
+      {% endwith %}
+      <div class="grid-row margin-top-45">
+          <div class="column-two-thirds">
+              <a href="{% url 'enrolment-business-type' %}" class="link">Back</a>
+              <h1 class="heading-xlarge margin-bottom-15 margin-top-15">You cannot {{ user_journey_verb }}</h1>
+
+              {% if request.user.has_user_profile %}
+                <p class="margin-bottom-30">Only UK business representatives can {{ user_journey_verb }}, but you can still update your details and use other services.</p>
+
+                <ul class="margin-top-30">
+                  <li><a class="link" href="{{ services_urls.exopps }}">apply for export opportunities</a></li>
+                  <li><a class="link" href="{{ services_urls.soo }}">sell online overseas</a></li>
+                  <li><a class="link" href="{{ services_urls.events }}">find events and visits</a></li>
+                </ul>
+
+                <ul class="margin-top-30">
+                  <li><a class="link margin-top-15" href="{% url 'business-profile-personal-details' %}">Update your details</a></li>
+                  <li><a class="link" href="{{ services_urls.great_domestic }}">Go back to great.gov.uk home</a></li>
+                </ul>
+            {% else %}
+                <p class="margin-bottom-30">Only UK business representatives can {{ user_journey_verb }}. You can still create a great.gov.uk account, which will let you:</p>
+                <ul class="margin-top-30">
+                  <li><a class="link" href="{{ services_urls.exopps }}">apply for export opportunities</a></li>
+                  <li><a class="link" href="{{ services_urls.soo }}">sell online overseas</a></li>
+                  <li><a class="link" href="{{ services_urls.events }}">find events and visits</a></li>
+                </ul>
+                <ul class="margin-top-30">
+                  <li><a class="link margin-top-15" href="{% url 'enrolment-individual' step='user-account' %}">Continue creating account for individual</a></li>
+                  <li><a class="link" href="{{ services_urls.great_domestic }}">Go back to great.gov.uk home</a></li>
+                </ul>
+              {% endif %}
+          </div>
+      </div>
+  </section>
+{% endblock %}

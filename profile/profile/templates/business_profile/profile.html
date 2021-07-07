@@ -1,0 +1,360 @@
+{% extends 'apps-tabs.html' %}
+
+{% load static from staticfiles %}
+{% load success_box from directory_components %}
+{% block head_title %}Business profile - Account - great.gov.uk{% endblock %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'css/company-profile.css' %}" media="all" rel="stylesheet" />
+{% endblock %}
+
+
+{% block tab_content %}
+
+    {% if request.user.is_company_admin %}
+    <div id="user-mode-container">
+        <div class="grid-row" >
+            <div class="column-one-half">
+                <a href="{% url 'business-profile-admin-invite-collaborator' %}">Admin tools</a>
+            </div>
+            <div class="column-one-half right-column">
+                {% if company.is_published %}
+                    {% if company.is_published_find_a_supplier %}
+                        <div>
+                            <a href="{{ services_urls.fas }}suppliers/{{ company.number }}/">View Find a Supplier profile</a>
+                        </div>
+                    {% endif %}
+                    {% if company.is_published_investment_support_directory %}
+                        <div>
+                            <a href="{{ services_urls.isd }}{{ company.number }}/">View UK Investment Support Directory profile</a>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        <hr class="margin-top-15 margin-bottom-0 background-mid-grey">
+    </div>
+    {% endif %}
+
+    {% if messages %}
+        <div>
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                {% success_box heading=message description='' box_class='width-full background-white margin-top-30' %}
+            {% endif %}
+        {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if not company.email_address or not company.description or not company.is_verified or not company.is_published %}
+    <div class="width-half">
+        <h3 class="heading-medium">Next steps</h3>
+        {% if not company.is_verified and company.is_identity_check_message_sent %}
+            <p>We will be in contact shortly and have sent you a confirmation email to {{ request.user.email }}</p>
+        {% else %}
+            <p>Now that you've created a user account, complete the last few steps to publish your business profile</p>
+        {% endif %}
+    </div>
+    <div id="alerts-top" class="grid-row alerts-container margin-bottom-15 margin-top-30">
+
+        {% if not company.email_address %}
+            <div class="column-two-thirds flag-red-text">
+                <h2 class="heading-medium margin-0">Add a business email address</h2>
+                <p>Enter the email address you want overseas buyers to use.</p>
+            </div>
+            <div class="column-one-third alerts-button-container">
+                <a class="button button-ghost-white" href="{% url 'business-profile-email' %}">Add a business email address</a>
+            </div>
+        {% elif not company.description %}
+            <div class="column-two-thirds flag-red-text">
+                <h2 class="heading-medium margin-0">Add a business description</h2>
+                <p>Tell buyers more about your business.</p>
+            </div>
+            <div class="column-one-third alerts-button-container">
+                <a class="button button-ghost-white" href="{% url 'business-profile-description' %}">Add a business description</a>
+            </div>
+        {% elif not company.is_verified %}
+            {% if company.is_in_companies_house %}
+                <div class="column-two-thirds flag-red-text">
+                    <h2 class="heading-medium margin-0">Confirm your identity</h2>
+                    <p>For security reasons, we need to check you're who you say you are.</p>
+                </div>
+                <div class="column-one-third alerts-button-container">
+                    {% if company.is_verification_letter_sent %}
+                        <a class="button button-ghost-white" href="{{ services_urls.fab }}verify/letter-confirm/">Enter identity confirmation code</a>
+                    {% else %}
+                        <a class="button button-ghost-white" href="{{ services_urls.fab }}verify/">Confirm your identity</a>
+                    {% endif %}
+
+                </div>
+            {% elif not company.is_identity_check_message_sent %}
+                <div class="column-two-thirds flag-red-text">
+                    <h2 class="heading-medium margin-0">Profile ready to be verified</h2>
+                    <p>Your business profile is ready to be verified</p>
+                </div>
+                <div class="column-one-third alerts-button-container">
+                    <a class="button button-ghost-white" href="{% url 'business-profile-request-to-verify' %}">Request to verify</a>
+                </div>
+            {% endif %}
+        {% elif not company.is_published %}
+            {% if company.is_uk_isd_company %}
+                <div class="column-two-thirds flag-red-text">
+                    <h2 class="heading-medium margin-0">Profile ready to publish</h2>
+                    <p>Your profile is ready to be published on the UK Investment Support Directory.</p>
+                </div>
+                <div class="column-one-third alerts-button-container">
+                    <a class="button button-ghost-white" href="{% url 'business-profile-publish' %}">Publish business profile</a>
+                </div>
+            {% else %}
+                <div class="column-two-thirds flag-red-text">
+                    <h2 class="heading-medium margin-0">Publish business profile</h2>
+                    <p>You can now publish your business profile.</p>
+                </div>
+                <div class="column-one-third alerts-button-container">
+                    <a class="button button-ghost-white" href="{% url 'business-profile-publish' %}">Publish your business profile</a>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+    {% endif %}
+    <div id="main-content" class="grid-row">
+        <div class="column-one-third" id="data-column">
+
+            <div id="logo-container" class="border-thin border-light-grey padding-15">
+                {% if not company.logo %}
+                    <a id="add-image" href="{% url 'business-profile-logo' %}" class="link">Add a business logo</a>
+                {% else %}
+                    <img alt="{{ company.name }}" src="{{ company.logo }}" />
+                    <a id="edit-image" href="{% url 'business-profile-logo' %}" class="link pencil-link">Edit</a>
+                {% endif %}
+
+            </div>
+
+            <div  id="company-name-mobile">
+                <h3 class="heading-medium">{{ company.name }}</h3>
+                <a href="{% url 'business-profile-business-details' %}" class="link pencil-link">Edit</a>
+            </div>
+
+            <div>
+                <div class="grid-row" id="about-company-container">
+                    <h3 class="column-two-thirds heading-medium">Business details</h3>
+                    <div class="column-one-third right-column">
+                        <a href="{% url 'business-profile-business-details' %}" class="link pencil-link">Edit</a>
+                    </div>
+                </div>
+
+                <dl>
+                    {% if company.website %}
+                        <dt>Website</dt>
+                        <dd class="ellipsis">
+                            <a class="link" href="{{ company.website }}">{{ company.website }}</a>
+                        </dd>
+                    {% endif %}
+                    <dt>Business type</dt>
+                    {% if company.is_in_companies_house %}
+                        <dd>UK business registered in Companies House</dd>
+                    {% else %}
+                        <dd>UK business not registered in Companies House</dd>
+                    {% endif %}
+                    {% if company.employees %}
+                        <dt>Number of employees</dt>
+                        <dd>{{ company.employees }} employees</dd>
+                    {% endif %}
+                    {% if company.sectors %}
+                        <dt>Core industry</dt>
+                        <dd>{{ company.sectors|title }}</dd>
+                    {% endif %}
+                    <dt>UK address</dt>
+                    <dd>{{ company.address_line_1 }}, {{ company.address_line_2 }}</dd>
+                </dl>
+
+                {% if not company.website %}
+                    <a href="{% url 'business-profile-website' %}" class="link">Add website</a>
+                {% endif %}
+                <hr>
+
+                <section id="online-profiles">
+                    <div class="grid-row">
+                        <h3 class="column-two-thirds heading-medium">Online profiles</h3>
+                        <div class="column-one-third right-column">
+                            {% if company.facebook_url or company.twitter_url or company.linkedin_url %}
+                                <a href="{% url 'business-profile-social' %}" class="link pencil-link">Edit</a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <ul>
+                        <li>
+
+                            {% if company.facebook_url %}
+                                <a class="link" href="{{ company.facebook_url }}">
+                                    <img alt="with Facebook" height="36px" src="{% static 'images/facebook.png' %}" width="36px" />
+                                    <span class="ellipsis">Visit Company's Facebook</span>
+                                </a>
+                            {% else %}
+                                <a class="link" href="{% url 'business-profile-social' %}">
+                                    <img alt="with Facebook" height="36px" src="{% static 'images/facebook.png' %}" width="36px" />
+                                    <span>Add Facebook</span>
+                                </a>
+                            {% endif %}
+                        </li>
+                        <li>
+                            {% if company.twitter_url %}
+                                <a class="link" href="{{ company.twitter_url }}">
+                                    <img alt="with Twitter" height="36px" src="{% static 'images/twitter.png' %}" width="36px" />
+                                    <span class="ellipsis">Visit Company's Twitter </span>
+                                </a>
+                            {% else %}
+                                <a class="link" href="{% url 'business-profile-social' %}">
+                                    <img alt="with Twitter" height="36px" src="{% static 'images/twitter.png' %}" width="36px" />
+                                    <span>Add Twitter</span>
+                                </a>
+                            {% endif %}
+                        </li>
+                        <li>
+                            {% if company.linkedin_url %}
+                                <a class="link" href="{{ company.linkedin_url }}">
+                                    <img alt="with LinkedIn" height="36px" src="{% static 'images/linkedin.png' %}" width="36px" />
+                                    <span class="ellipsis">Visit Company's LinkedIn</span>
+                                </a>
+                            {% else %}
+                                <a class="link" href="{% url 'business-profile-social' %}">
+                                    <img alt="with LinkedIn" height="36px" src="{% static 'images/linkedin.png' %}" width="36px" />
+                                    <span>Add Linkedin</span>
+                                </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+        <div class="column-two-thirds" id="details-column">
+            <div id="company-name">
+                <h2 class="heading-large">{{ company.name }}</h2>
+                <a href="{% url 'business-profile-business-details' %}" class="link pencil-link">Edit</a>
+            </div>
+            <div class="{% if not company.email_address %}primary-action-required{% endif %} message-box border-medium border-stone background-white">
+              <div class="grid-row">
+                <h3 class="box-heading heading-medium black-text column-one-half">Profile email address</h3>
+                <div class="column-one-half right-column">
+                    {% if company.email_address %}<a href="{% url 'business-profile-email' %}" class="link pencil-link">Edit</a>{% endif %}
+                </div>
+              </div>
+              <p class="mid-grey-text font-xsmall">Add an email address for buyers to contact you.</p>
+              {% if company.email_address %}
+                <span>{{ company.email_address }}</span>
+              {% else %}
+                <a href="{% url 'business-profile-email' %}" class="link">Add email address</a>
+              {% endif %}
+            </div>
+
+            <div class="{% if not company.description %}primary-action-required{% endif %} message-box border-medium border-stone background-white">
+              <div class="grid-row">
+                <h3 class="box-heading heading-medium black-text column-one-half">Business description</h3>
+                <div class="column-one-half right-column">
+                    {% if company.description %}<a href="{% url 'business-profile-description' %}" class="link pencil-link">Edit</a>{% endif %}
+                </div>
+              </div>
+
+              <p class="mid-grey-text font-xsmall">Add a description for your business.</p>
+              {% if company.description %}
+                <span>{{ company.description }}</span>
+              {% else %}
+                <a href="{% url 'business-profile-description' %}" class="link">Add description</a>
+              {% endif %}
+            </div>
+
+            <div id="profile-products-services-container" class="{% if not company.expertise_products_services %}primary-action-required{% endif %} message-box border-medium border-stone background-white">
+              <div class="grid-row">
+                <h3 class="box-heading heading-medium black-text column-one-half">Products and services</h3>
+                <div class="column-one-half right-column">
+                    {% if company.expertise_products_services %}
+                        <a href="{% url 'business-profile-expertise-products-services-routing' %}" class="link pencil-link">Edit</a>
+                    {% endif %}
+                </div>
+              </div>
+              <p class="mid-grey-text font-xsmall">Add some words and phrases that buyers might use when searching for your products and services.</p>
+              {% if company.expertise_products_services %}
+                <dl>
+                  {% for key, values in company.expertise_products_services.items %}
+                    {% if values %}
+                      <dt>{{ key }}</dt>
+                      <dd>{{ values }}</dd>
+                    {% endif %}
+                  {% endfor %}
+                </dl>
+              {% else %}
+                <a href="{% url 'business-profile-expertise-products-services-routing' %}" class="link">Add products and services</a>
+              {% endif %}
+            </div>
+
+            <div id="profile-expertise-container" class="message-box border-medium border-stone background-white">
+              <div class="grid-row">
+                <h3 class="box-heading heading-medium black-text column-one-half">
+                    Expertise
+                </h3>
+                <div class="column-one-half right-column">
+                    {% if company.has_expertise %}<a href="{% url 'business-profile-expertise-routing' %}" class="link pencil-link">Edit</a>{% endif %}
+                </div>
+              </div>
+              <div class="grid-row">
+                  <p class="mid-grey-text font-xsmall">Add some words and phrases associated with your particular expertise.</p>
+                  {% if company.has_expertise %}
+                      <dl>
+                        {% if company.expertise_industries %}
+                            <dt>Industry</dt>
+                            <dd>{{ company.expertise_industries }}</dd>
+                        {% endif %}
+                        {% if company.expertise_regions %}
+                            <dt>Regional</dt>
+                            <dd>{{ company.expertise_regions }}</dd>
+                        {% endif %}
+                        {% if company.expertise_countries %}
+                            <dt>International</dt>
+                            <dd>{{ company.expertise_countries }}</dd>
+                        {% endif %}
+                        {% if company.expertise_languages %}
+                            <dt>Languages</dt>
+                            <dd>{{ company.expertise_languages }}</dd>
+                        {% endif %}
+                    {% else %}
+                      <a href="{% url 'business-profile-expertise-routing' %}" class="link">Add expertise</a>
+                    {% endif %}
+              </div>
+            </div>
+
+            <div class="message-box border-medium border-stone background-white">
+              <div class="grid-row">
+                <h3 class="box-heading heading-medium black-text column-one-half">Business showcase</h3>
+              </div>
+              <div class="grid-row">
+                  <p class="mid-grey-text font-xsmall">Add images and success case studies to promote your products and services.</p>
+              </div>
+              <div class="grid-row">
+                  <ul id="case-studies">
+                      {% for case_study in company.supplier_case_studies %}
+                          <li id="case-study-{{ case_study.pk }}">
+                            <img src="{{ case_study.image_one }}" width="60" />
+                            <span>{{ case_study.title }}</span>
+                            <div class="right-column">
+                                <a id="edit-image-{{ case_study.pk }}" href="{% url 'business-profile-case-study-edit' id=case_study.pk step='basic' %}" class="link pencil-link">Edit</a>
+                            </div>
+                      </li>
+                      {% endfor %}
+                  </ul>
+              </div>
+              <a id="add_case_study" href="{% url 'business-profile-case-study' step='basic' %}" class="link">Add a case study</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block feedback_reporter %}
+    <section class="error-reporting">
+        <div class="container">
+            <a id="error-reporting-section-contact-us" href="{{ services_urls.feedback }}" target="_blank">Is there anything wrong with this page?</a>
+        </div>
+    </section>
+{% endblock %}

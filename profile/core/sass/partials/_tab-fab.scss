@@ -1,0 +1,69 @@
+@import 'partials/colours';
+
+
+/* FAB tab content
+**********************/
+
+#profile-required ul {
+  padding: 0;
+}
+.sso-profile-fab-container {
+  margin-top: 20px;
+  margin-bottom: 100px;
+  margin-left: 0;
+}
+
+.sso-profile-success-message {
+  background: $active-blue;
+  padding: 20px;
+  margin-top: 20px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.sso-profile-fab-logo-container {
+  position: relative;
+}
+
+.sso-profile-fab-logo-edit-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #00549f;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 700;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  &:visited, &:link {
+    color: white;
+  }
+}
+
+.sso-profile-fab-company-name {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.29;
+  color: #4a4a4a;
+}
+
+.sso-profile-external-links {
+  margin-top: 20px;
+}
+
+.sso-profile-external-links a {
+  text-decoration: none;
+}
+
+.sso-profile-fab-company-links-seperator {
+  display: inline-block;
+  font-size: 20px;
+  color: #999999;
+  margin-left: 13px;
+  margin-right: 13px;
+}
