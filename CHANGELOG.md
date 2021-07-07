@@ -27,6 +27,7 @@
 - GP2-2856 - remove unused api calls
 - no-ticket - package upgrade
 - GP2-2856 - remove target market
+- GP2-2871 - Cost Optimisation Product Search Rate limit to API call.
 
 ### Fixed bugs
 - GP2-2933 - DAC_Custom_Controls_01 Select widget
