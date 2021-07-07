@@ -28,7 +28,7 @@ repos:
           # - id: check-added-large-files
           # - id: fix-encoding-pragma
           - id: check-ast
-          - id: check-byte-order-marker
+          - id: fix-byte-order-marker
           - id: check-merge-conflict
           - id: debug-statements
           - id: detect-private-key
