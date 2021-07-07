@@ -769,7 +769,7 @@ def test_get_trade_barrier_data(mock_country_data, client):
 
 
 def test_is_rate_limit(rf):
-    request = rf.get("/")
+    request = rf.get('/')
     request.session = {}
     count = 0
     while count <= 20:
