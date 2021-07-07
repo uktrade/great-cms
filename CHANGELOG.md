@@ -15,6 +15,7 @@
 - GP2-2464 / GP2-2480 - improve button text baseline
 - GP2-2491 - Increase spacing at bottom of forms
 
+- GP2-3087 - migrate directory-sso-profile into great-cms
 ### Fixed bugs
 - GP2-3099 - WTE Selector missing
 - GP2-2428 - Country finder back buttons in mobile

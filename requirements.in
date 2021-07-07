@@ -40,6 +40,9 @@ directory-ch-client==2.1.0
 directory-validators==6.0.5
 django-recaptcha==2.0.6
 
+# Other Python deps
+# -----------------
+
 whitenoise==4.1.*
 psycopg2==2.8.* --no-binary psycopg2
 boto3==1.17.*
@@ -59,3 +62,4 @@ lxml>=4.6.3
 sigauth==4.3.0
 elastic-apm==6.1.*
 uk-postcode-utils==1.1
+urllib3>=1.26.5<2.0.0
