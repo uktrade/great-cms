@@ -3,6 +3,7 @@
 {% load wagtailcore_tags %}
 
 {% block content %}
+
   <div id="where-to-export">
       <section class="bg-white">
           <div class="container p-t-m p-b-m">
@@ -27,6 +28,10 @@
       </section>
   </div>
   {% if data_tabs_enabled %}
+
+
+
+
     <div class="hidden" id="next-steps">
       {% for component in dashboard_components %}
           {% if component.value.route_type == 'learn' or component.value.route_type == 'plan' %}
@@ -37,24 +42,23 @@
       {% endfor %}
     </div>
 
-    <div id="open-product-finder"
+    <div id="compare-markets"
       data-productname="{{ request.user.export_plan.data.export_commodity_codes.0.commodity_name }}"
       data-productcode="{{ request.user.export_plan.data.export_commodity_codes.0.commodity_code }}"
       data-tabs="{{ data_tabs_enabled }}"
       data-max-places-allowed="{{ max_compare_places_allowed }}"
       role="region"
       tabindex="-1"
-    />
-
-    <div id="comparison-market-selector" class="p-v-l m-v-l" />
+    ></div>
+    <div id="comparison-market-selector" class="p-v-l m-v-l" ></div>
 
     <script>
       magna.CompareMarkets({
-        element: document.querySelector("#open-product-finder"),
+        element: document.querySelector("#compare-markets"),
         cta_container: document.querySelector("#cta-container"),
       })
       magna.SelectComparisonMarket({
-        element: document.querySelector("#comparison-market-selector")
+        element: document.querySelector("#comparison-market-selector"),
       })
     </script>
   {% else %}

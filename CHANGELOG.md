@@ -3,11 +3,11 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
-- GP2-2428 - Country finder back buttons in mobile
 - GP2-2348 - VFM Return copy update
 
 ### Fixed bugs
-
+- GP2-3099 - WTE Selector missing
+- GP2-2428 - Country finder back buttons in mobile
 - GP2-2938 - DAC_Nondescriptive_Labels_02 Lesson complete checkbox
 - GP2-2952 - DAC_Contrast_Minimum_01 'Next' link
 - GP2-2947 - DAC_Nontext_Contrast_02 (AA) sidebar menu button
