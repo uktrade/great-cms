@@ -486,12 +486,11 @@ def is_rate_limit(request, time_in_seconds, rate_clicks):
 
     time_rate_passed = time.time() - session_rate_time
     request.session['click_numbers'] += 1
-    print(request.session)
     # n max limtit rate per x seconds
     if time_rate_passed >= time_in_seconds:
         del request.session['rate_time_count']
         del request.session['click_numbers']
-    print(request.session)
+
     if session_click_n >= rate_clicks:
         return True
 
