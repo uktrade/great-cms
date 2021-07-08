@@ -476,7 +476,7 @@ class GeoLocationRedirector:
 
 
 # Rate limit by using Django sessions. Set how many click per seconds can be done.
-def is_rate_limit(request, time_in_seconds, number_of_clicks):
+def is_rate_limit(request, time_in_seconds, rate_clicks):
     # Rate settings for this route.
     request.session.setdefault('rate_time_count', time.time())
     request.session.setdefault('click_numbers', 0)
@@ -486,13 +486,13 @@ def is_rate_limit(request, time_in_seconds, number_of_clicks):
 
     time_rate_passed = time.time() - session_rate_time
     request.session['click_numbers'] += 1
-
+    print(request.session)
     # n max limtit rate per x seconds
     if time_rate_passed >= time_in_seconds:
         del request.session['rate_time_count']
         del request.session['click_numbers']
-
-    if session_click_n >= number_of_clicks:
+    print(request.session)
+    if session_click_n >= rate_clicks:
         return True
 
     return False

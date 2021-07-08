@@ -768,19 +768,25 @@ def test_get_trade_barrier_data(mock_country_data, client):
     assert response.get('sectors') == trade_barrier_data['sectors']
 
 
-def test_is_rate_limit(rf):
+def test_is_rate_limit_hit(rf):
     request = rf.get('/')
     request.session = {}
     count = 0
+
+    # Making 20 fake calls to test clicks rate.
     while count <= 20:
-        result = helpers.is_rate_limit(request, 10, 5)
-
-        if result:
+        is_high_calls = helpers.is_rate_limit(request, 10, 5)
+        if is_high_calls:
             break
-
         count += 1
 
-    if result:
-        assert True
-    else:
-        assert False
+    assert is_high_calls is True
+
+
+def test_is_rate_limit_not_hit(rf):
+    request = rf.get('/')
+    request.session = {}
+    request.session.setdefault('rate_time_count', 10)
+    time_passed = helpers.is_rate_limit(request, 5, 5)
+
+    assert time_passed is False
