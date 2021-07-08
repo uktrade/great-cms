@@ -46,13 +46,8 @@ urlpatterns += [
     path('', include(domestic.urls, namespace='domestic')),
     path('', include(core.urls, namespace='core')),
     path('export-plan/', include(exportplan.urls)),
+    path('', include(contact.urls)),  # No prefix because not all of them start with /contact/
 ]
-
-# Should we show the contact pages we're porting from V1 yet?
-if settings.FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES:
-    urlpatterns += [
-        path('', include(contact.urls)),  # No prefix because not all of them start with /contact/
-    ]
 
 urlpatterns += [
     # For anything not caught by a more specific rule above, hand over to

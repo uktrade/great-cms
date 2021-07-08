@@ -2,14 +2,12 @@ import io
 from unittest import mock
 
 import pytest
-import requests
 from django.conf import settings
 from django.http import HttpRequest
 from requests.exceptions import HTTPError
 
 from core import helpers
 from directory_api_client import api_client
-from directory_api_client.exporting import url_lookup_by_postcode
 from directory_constants import choices
 from directory_sso_api_client import sso_api_client
 from tests.helpers import create_response
@@ -698,39 +696,6 @@ def test_get_s3_file_stream(mocked_boto3):
     stream = helpers.get_s3_file_stream('key')
     assert mocked_boto3.client().get_object.called
     assert stream == 'S3 file contents'
-
-
-def test_retrieve_regional_office_email_exception(settings, requests_mock):
-    requests_mock.get(
-        url_lookup_by_postcode.format(postcode='ABC123'),
-        exc=requests.exceptions.ConnectTimeout,
-    )
-    email = helpers.retrieve_regional_office_email('ABC123')
-
-    assert email is None
-
-
-def test_retrieve_regional_office_email_not_ok(settings, requests_mock):
-    requests_mock.get(
-        url_lookup_by_postcode.format(postcode='ABC123'),
-        status_code=404,
-    )
-    email = helpers.retrieve_regional_office_email('ABC123')
-
-    assert email is None
-
-
-def test_retrieve_regional_office_email_success(requests_mock):
-    match_office = [{'is_match': True, 'email': 'region@example.com'}]
-    requests_mock.get(
-        url_lookup_by_postcode.format(postcode='ABC123'),
-        status_code=200,
-        json=match_office,
-    )
-
-    email = helpers.retrieve_regional_office_email('ABC123')
-
-    assert email == 'region@example.com'
 
 
 @pytest.mark.parametrize(
