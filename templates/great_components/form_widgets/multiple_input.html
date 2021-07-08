@@ -1,0 +1,19 @@
+<div class="form-group">
+{% with id=widget.attrs.id %}
+<ul{% if id %} id="{{ id }}"{% endif %}{% if widget.attrs.class %} class="{{ widget.attrs.class }}"{% endif %}>
+  {% for group, options, index in widget.optgroups %}
+    {% if group %}
+      <li>
+        <ul class="form-group"{% if id %} id="{{ id }}_{{ index }}"{% endif %}>
+          <label{% if id %} id="{{ id }}-{% filter force_escape|lower %}{{ group }}{% endfilter %}-label"{% endif %} class="form-label">{{ group }}</label>
+    {% endif %}
+    {% for option in options %}
+      <li class="multiple-choice">{% include option.template_name with widget=option %}</li>
+    {% endfor %}
+    {% if group %}
+      </ul></li>
+    {% endif %}
+  {% endfor %}
+</ul>
+{% endwith %}
+</div>

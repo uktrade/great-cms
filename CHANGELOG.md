@@ -11,16 +11,25 @@
 - GP2-2938 - DAC_Nondescriptive_Labels_02 Lesson complete checkbox
 - GP2-2952 - DAC_Contrast_Minimum_01 'Next' link
 - GP2-2947 - DAC_Nontext_Contrast_02 (AA) sidebar menu button
-
+- GP2-1684: Port the contact pages which need users to be signed in (SOO ones) from V1 to V2
+### Fixed bugs
+- GP2-2988: Make SOO contact form name fields editable if not already populated.
 ## [1.11.0](https://github.com/uktrade/great-cms/releases/tag/1.11.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.10.0...1.11.0)
 
 ### Enhancements
 - GP2-2524 - Wagtail transfer configuration for staging/UAT
+- GP2-1615 - Migrate Export Opps contact/guidance pages from V1 to V2
+- GP2-1683 - More contact page migration (two types) from V1 to V2
 - GP2-2986 - Merge companies-house api views
 - no-ticket - Fix for case study listing view if empty related page selected in any case study
 - GA2-3054 - Updated GA360 mixin for special exception for authenticated staff users
 - GP2-2841 - Pinned CF buildpack and upgraded python to 3.9.5
+- GP2-1655 - Migrate more contact pages (three types) from V1 to V2
+- GP2-1688 - Migrate /contact/office-finder/ pages from V1 into V2
+- GP2-3054 - Updated GA360 mixin for special exception for authenticated staff users
+- GP2-2841 - Pinned CF buildpack and upgraded python to 3.9.5
+- GP2-1653 - Port 'great.gov.uk' account pages from Contact section
 - GP2-2982 - Rebuild sitemap.xml in great-cms
 - GP2-2981 - Port Search Feedback page from V1 into V2
 - GP2-2980 - Port Market Access / 'Report a Trade Barrier' pages from V1 into V2
@@ -39,6 +48,15 @@
 - GP2-1618 - Port legacy EU Exit / transition period forms from V1 into V2
 - GP2-1617 - Port get-finance/UKEF contact form from great-domestic-ui
 - GP2-2856 - remove unused api calls
+- GP2-2841: Pinned CF buildpack and upgraded python to 3.9.5
+- GP2-1653: Port 'great.gov.uk' account pages from Contact section
+- GP2-2982: Rebuild sitemap.xml in great-cms
+- GP2-2981: Port Search Feedback page from V1 into V2
+- GP2-2980: Port Market Access / 'Report a Trade Barrier' pages from V1 into V2
+- GP2-2977: Port E-Commerce Export Support pages from V1 into V2
+- GP2-1618: Port legacy EU Exit / transition period forms from V1 into V2
+- GP2-1617: Port get-finance/UKEF contact form from great-domestic-ui
+- GP2-2856  remove unused api calls
 - no-ticket - package upgrade
 - GP2-2856 - remove target market
 

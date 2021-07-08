@@ -1,0 +1,9 @@
+<p>Hello,</p>
+
+<p>An Exporting from the UK form was submitted on great.gov.uk:<p>
+
+<ul>
+{% for key, value in form_data.items %}
+	<li>{{ key }}: {{ value }}</li>
+{% endfor %}
+<ul>
