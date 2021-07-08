@@ -6,7 +6,10 @@ from django.template.loader import render_to_string
 from django.utils.html import mark_safe
 from great_components import forms
 
-from core.cms_slugs import PRIVACY_POLICY_URL, TERMS_URL
+from core.cms_slugs import (
+    PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE,
+    TERMS_URL,
+)
 from core.constants import CONSENT_CHOICES
 
 TERMS_LABEL = mark_safe(
@@ -97,7 +100,7 @@ class ConsentFieldMixin(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['contact_consent'].label = render_to_string(
             'core/includes/contact-consent.html',
-            {'privacy_url': PRIVACY_POLICY_URL},
+            {'privacy_url': PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE},
         )
 
     @staticmethod
