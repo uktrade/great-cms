@@ -8,10 +8,6 @@ from contact.models import (
 from core import snippet_slugs
 from core.cms_snippets import NonPageContentSnippetBase
 
-pytestmark = [
-    pytest.mark.contact,
-]
-
 
 def test_non_page_content_snippet_base_no_slug_options():
     class TestModelWithNoSlugOptions(NonPageContentSnippetBase):

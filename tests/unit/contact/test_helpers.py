@@ -10,10 +10,6 @@ from contact.helpers import (
 )
 from directory_api_client.exporting import url_lookup_by_postcode
 
-pytestmark = [
-    pytest.mark.contact,
-]
-
 
 @pytest.fixture()
 def other_offices_formatted():

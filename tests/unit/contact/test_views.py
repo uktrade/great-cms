@@ -14,7 +14,7 @@ from core.constants import CONSENT_EMAIL
 from core.tests.helpers import create_response
 from directory_api_client.exporting import url_lookup_by_postcode
 
-pytestmark = [pytest.mark.django_db, pytest.mark.contact]
+pytestmark = pytest.mark.django_db
 
 
 locmem_cache_spec = {

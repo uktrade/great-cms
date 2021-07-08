@@ -7,7 +7,7 @@ from directory_api_client.exporting import url_lookup_by_postcode
 
 routing_steps = [step for step, _ in views.RoutingFormView.form_list]
 
-pytestmark = [pytest.mark.django_db, pytest.mark.contact]
+pytestmark = pytest.mark.django_db
 
 
 @pytest.fixture

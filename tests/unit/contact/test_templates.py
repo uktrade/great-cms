@@ -2,10 +2,7 @@ import pytest
 from django.template.loader import render_to_string
 from great_components.context_processors import urls_processor
 
-pytestmark = [
-    pytest.mark.django_db,
-    pytest.mark.contact,
-]
+pytestmark = pytest.mark.django_db
 
 
 def test_contact_domestic_descriptive_page_title_override_is_rendered():
