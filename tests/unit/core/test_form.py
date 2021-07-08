@@ -1,4 +1,5 @@
 from core import forms
+from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
 
 
 def test_contact_us_form_empty_fields():
@@ -32,3 +33,8 @@ def test_contact_us_form_non_empty_fields():
     }
     form = forms.ContactUsHelpForm(data)
     assert form.is_valid()
+
+
+def test_consent_field_mixin__privacy_url():
+    instance = forms.ConsentFieldMixin()
+    assert PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE in instance.fields['contact_consent'].label
