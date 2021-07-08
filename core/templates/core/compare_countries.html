@@ -3,7 +3,6 @@
 {% load wagtailcore_tags %}
 
 {% block content %}
-
   <div id="where-to-export">
       <section class="bg-white">
           <div class="container p-t-m p-b-m">
@@ -28,10 +27,6 @@
       </section>
   </div>
   {% if data_tabs_enabled %}
-
-
-
-
     <div class="hidden" id="next-steps">
       {% for component in dashboard_components %}
           {% if component.value.route_type == 'learn' or component.value.route_type == 'plan' %}
