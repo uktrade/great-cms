@@ -21,7 +21,9 @@
     <div class="container">
         <section>
             <h1 class='heading-xlarge'>{{ content_snippet.title }}</h1>
-            {{ content_snippet.body|richtext }}
+            <div class='guidance-content'>
+                {{ content_snippet.body|richtext }}
+            </div>
         </section>
         <p id="further-help-link">Still need help? <a class="link" href="{% url 'contact:contact-us-domestic' %}">Submit an enquiry</a></p>
     </div>
