@@ -377,11 +377,8 @@ $desktop: 1024px;
 .learn__back-link {
   left: 38px;
   top: 15px;
-
-  @include tablet {
-    position: absolute;
-    z-index: 1;
-  }
+  position: absolute;
+  z-index: 1;
 
   &--bottom {
     top: auto;
