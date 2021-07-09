@@ -18,8 +18,16 @@ section {
 	margin-bottom: 50px;
 }
 
+.guidance-content{
+    ol {
+        padding: 0 0 0 20px;
+        list-style-position: outside;
+        list-style-type: decimal;
+        margin-top: 5px;
+        margin-bottom: 20px;
 
-ol {
-    list-style-position: inside;
-    list-style-type: decimal;
+        li {
+            margin-bottom: 5px;
+        }
+    }
 }
