@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2402 - VFM analytics
 - GP2-2348 - VFM Return copy update
 
 ### Fixed bugs
