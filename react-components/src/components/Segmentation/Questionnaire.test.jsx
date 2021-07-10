@@ -29,7 +29,7 @@ const mockResponse = {
           {
             label: 'Option2',
             value: '2',
-            jump:'end',
+            jump: 'end',
           },
         ],
       },
@@ -61,11 +61,22 @@ const mockResponse = {
 const mockResponseAnswer2 = { answers: [{ question_id: 1, answer: '1111' }] }
 const mockResponseAnswer3 = { answers: [{ question_id: 1, answer: '2' }] }
 
-
+const analyticsEvents = {
+  Q1: {
+    event: 'addSurveyPageview',
+    virtualPageUrl: '/vfmsurvey/question 1',
+    virtualPageTitle: 'Question 1?',
+  },
+  Q2: {
+    event: 'addSurveyPageview',
+    virtualPageUrl: '/vfmsurvey/question 2',
+    virtualPageTitle: 'Question 2?',
+  },
+}
 
 describe('VFM Questionnaire', () => {
-
   beforeEach(() => {
+    window.dataLayer = []
     reactModal.setAppElement(document.body)
     container = document.createElement('div')
     document.body.appendChild(container)
@@ -136,6 +147,8 @@ describe('VFM Questionnaire', () => {
         'Question 1?'
       )
     })
+    // Check Analytics
+    expect(window.dataLayer).toEqual([analyticsEvents.Q1])
     // check progress bar
     expect(
       window.getComputedStyle(modal.querySelector('.progress-bar span')).width
@@ -158,6 +171,7 @@ describe('VFM Questionnaire', () => {
       expect(postQuestionnaire.calls().length).toEqual(2)
     })
     expect(document.body.querySelector('h3').textContent).toMatch('Question 2?')
+    expect(window.dataLayer).toEqual([analyticsEvents.Q1,analyticsEvents.Q2])
     expect(
       modal.querySelector('.select__placeholder--value').textContent
     ).toMatch('Select placeholder')
@@ -169,13 +183,17 @@ describe('VFM Questionnaire', () => {
       Simulate.click(modal.querySelector('.button--tertiary'))
     })
     await waitFor(() => {
-      expect(document.body.querySelector('h3').textContent).toMatch('Question 1?')
+      expect(document.body.querySelector('h3').textContent).toMatch(
+        'Question 1?'
+      )
     })
     // Go back to start
     act(() => {
       Simulate.click(modal.querySelector('.button--tertiary'))
     })
-    expect(document.body.querySelector('h3').textContent).toMatch('Help us serve you better')
+    expect(document.body.querySelector('h3').textContent).toMatch(
+      'Help us serve you better'
+    )
     // close
     act(() => {
       Simulate.click(modal.querySelector('.dialog-close'))
@@ -183,6 +201,7 @@ describe('VFM Questionnaire', () => {
     await waitFor(() => {
       expect(document.body.querySelector('.segmentation-modal')).toBeFalsy()
     })
+    expect(window.dataLayer).toEqual([analyticsEvents.Q1,analyticsEvents.Q2,analyticsEvents.Q1])
   })
 
   it('Goes to end and back', async () => {
@@ -232,7 +251,9 @@ describe('VFM Questionnaire', () => {
       Simulate.click(modal.querySelector('.button--tertiary'))
     })
     await waitFor(() => {
-      expect(document.body.querySelector('h3').textContent).toMatch('Question 1?')
+      expect(document.body.querySelector('h3').textContent).toMatch(
+        'Question 1?'
+      )
     })
   })
 })
