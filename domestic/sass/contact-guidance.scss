@@ -17,3 +17,17 @@ section {
 	margin-top: 50px;
 	margin-bottom: 50px;
 }
+
+.guidance-content{
+    ol {
+        padding: 0 0 0 20px;
+        list-style-position: outside;
+        list-style-type: decimal;
+        margin-top: 5px;
+        margin-bottom: 20px;
+
+        li {
+            margin-bottom: 5px;
+        }
+    }
+}
