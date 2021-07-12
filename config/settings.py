@@ -79,10 +79,10 @@ INSTALLED_APPS = [
     'healthcheck.apps.HealthcheckAppConfig',
     'health_check.cache',
     'directory_sso_api_client',
-    'profile.core',
-    'profile.sso',
-    'profile.profile',
-    'profile.enrolment',
+    'sso_profile.common',
+    'sso_profile.sso_data',
+    'sso_profile.profile',
+    'sso_profile.enrolment',
 ]
 
 MIDDLEWARE = [
