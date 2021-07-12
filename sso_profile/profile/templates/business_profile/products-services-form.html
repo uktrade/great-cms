@@ -26,9 +26,9 @@
 {% endblock %}
 
 {% block body_js %}
-  <link href="{% static 'directory_components/js/vendor/accessible-autocomplete.min.css' %}" media="all" rel="stylesheet" />
-  <script type="text/javascript" src="{% static 'directory_components/js/vendor/accessible-autocomplete.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/products-services.js' %}"></script>
+  <link href="{% static 'javascript/vendor/accessible-autocomplete.min.css' %}" media="all" rel="stylesheet" />
+  <script type="text/javascript" src="{% static 'javascript/vendor/accessible-autocomplete.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'javascript/products-services.js' %}"></script>
   <script type="text/javascript">
     var keywordsElement = document.getElementById('id_expertise_products_services');
     var choices = keywordsElement.getAttribute('data-choices');

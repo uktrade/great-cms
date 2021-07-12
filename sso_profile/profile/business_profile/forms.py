@@ -3,10 +3,10 @@ from profile.business_profile import constants, validators
 import directory_validators.file
 import directory_validators.string
 import directory_validators.url
-from directory_components import forms
-from directory_components.helpers import tokenize_keywords
 from django.forms import ImageField, SelectMultiple, Textarea, ValidationError
 from django.utils.safestring import mark_safe
+from great_components import forms
+from great_components.helpers import tokenize_keywords
 
 from directory_constants import choices, expertise, user_roles
 

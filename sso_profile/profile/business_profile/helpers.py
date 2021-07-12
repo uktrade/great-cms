@@ -1,6 +1,6 @@
 import http
 
-import directory_components.helpers
+import great_components.helpers
 from common.helpers import get_company_admins
 from directory_forms_api_client import actions
 from django.conf import settings
@@ -25,7 +25,7 @@ def get_supplier_profile(sso_id):
     return response.json()
 
 
-class CompanyParser(directory_components.helpers.CompanyParser):
+class CompanyParser(great_components.helpers.CompanyParser):
     @property
     def is_in_companies_house(self):
         return self.data.get('company_type') == company_types.COMPANIES_HOUSE

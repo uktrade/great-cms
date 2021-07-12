@@ -25,10 +25,10 @@
               </div>
             {% endif %}
             {% if has_collaborators %}
-                {% include 'directory_components/form_widgets/form_field.html' with field=form.sso_id %}
+                {% include 'great_components/form_widgets/form_field.html' with field=form.sso_id %}
             <p class="bold-small">Or</p>
             {% endif %}
-            {% include 'directory_components/form_widgets/form_field.html' with field=form.collaborator_email %}
+            {% include 'great_components/form_widgets/form_field.html' with field=form.collaborator_email %}
             <button class="button">Send invitation</button>
         </form>
         <a class="link" href="{% url 'business-profile-admin-tools' %}">Cancel</a>

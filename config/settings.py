@@ -203,6 +203,8 @@ STATICFILES_DIRS = [
     str(ROOT_DIR('core/components/static')),
     str(ROOT_DIR('domestic/static')),
     str(ROOT_DIR('react-components/dist')),
+    str(ROOT_DIR('sso_profile/common/static')),
+    str(ROOT_DIR('sso_profile/profile/static')),
 ]
 
 STATICFILES_STORAGE = env.str('STATICFILES_STORAGE', 'whitenoise.storage.CompressedManifestStaticFilesStorage')

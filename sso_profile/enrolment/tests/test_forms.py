@@ -1,8 +1,8 @@
 from unittest import mock
 
 import pytest
-from directory_components.forms import CharField, EmailField
 from enrolment import forms, helpers
+from great_components.forms import CharField, EmailField
 
 
 @pytest.fixture(autouse=True)

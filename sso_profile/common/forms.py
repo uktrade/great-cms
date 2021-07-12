@@ -1,5 +1,5 @@
-from directory_components import forms
 from django.utils.safestring import mark_safe
+from great_components import forms
 
 from directory_constants import urls
 

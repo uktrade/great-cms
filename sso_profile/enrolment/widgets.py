@@ -1,12 +1,12 @@
-import directory_components.forms
 import django.forms
+import great_components.forms
 
 
 class PostcodeInput(django.forms.TextInput):
     template_name = 'enrolment/widgets/postcode.html'
 
 
-class RadioSelect(directory_components.forms.RadioSelect):
+class RadioSelect(great_components.forms.RadioSelect):
 
     option_template_name = 'enrolment/widgets/radio_option.html'
 

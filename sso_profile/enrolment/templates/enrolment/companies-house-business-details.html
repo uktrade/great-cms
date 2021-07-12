@@ -24,7 +24,7 @@
 {% block body_js %}
     {{ block.super }}
     {% if not form.address.initial %}
-        <script src="{% static 'directory_components/js/dit.components.company-lookup.js' %}"></script>
+        <script src="{% static 'javascript/company-lookup.js' %}"></script>
         <script type="text/javascript">
         // insert office finder
         var postcodeFinderContainer = document.getElementById('id_companies-house-business-details-postal_code-container');

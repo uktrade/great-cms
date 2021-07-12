@@ -1,4 +1,4 @@
-from directory_components import forms
+from great_components import forms
 
 
 class PersonalProfileEdit(forms.Form):

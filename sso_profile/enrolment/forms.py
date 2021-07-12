@@ -4,7 +4,6 @@ import re
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
 from common.forms import TERMS_LABEL
-from directory_components import forms
 from django.forms import (
     HiddenInput,
     PasswordInput,
@@ -16,6 +15,7 @@ from django.http.request import QueryDict
 from django.utils.safestring import mark_safe
 from enrolment import constants, helpers
 from enrolment.widgets import PostcodeInput, RadioSelect
+from great_components import forms
 
 from directory_constants import choices
 

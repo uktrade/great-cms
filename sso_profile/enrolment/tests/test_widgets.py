@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
-from directory_components import forms
 from enrolment import widgets
+from great_components import forms
 
 
 def assert_html_equal(expected_html, actual_html):
