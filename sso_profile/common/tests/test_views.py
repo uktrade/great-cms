@@ -2,9 +2,10 @@ from unittest import mock
 
 import pytest
 import requests
-from common import views
-from common.tests.helpers import create_response
 from django.urls import reverse
+
+from sso_profile.common import views
+from sso_profile.common.tests.helpers import create_response
 
 SIGN_OUT_LABEL = '>Sign out<'
 

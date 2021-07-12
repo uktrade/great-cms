@@ -2,8 +2,9 @@ from profile.exops import views
 from profile.exops.helpers import exopps_client
 from unittest.mock import Mock, patch
 
-from common.tests.helpers import create_response
 from django.urls import reverse
+
+from sso_profile.common.tests.helpers import create_response
 
 
 def response_factory(status_code):

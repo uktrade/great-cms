@@ -3,7 +3,6 @@ import re
 
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
-from common.forms import TERMS_LABEL
 from django.forms import (
     HiddenInput,
     PasswordInput,
@@ -18,6 +17,7 @@ from enrolment.widgets import PostcodeInput, RadioSelect
 from great_components import forms
 
 from directory_constants import choices
+from sso_profile.common.forms import TERMS_LABEL
 
 INDUSTRY_CHOICES = (('', 'Please select'),) + choices.INDUSTRIES + (('OTHER', 'Other'),)
 

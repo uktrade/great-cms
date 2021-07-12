@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.functional import cached_property
 
 from core.helpers import CompanyParser
+from directory_constants import user_roles
 from exportplan.core.helpers import get_or_create_export_plan
 from exportplan.core.parsers import ExportPlanParser
 from sso import helpers
@@ -79,3 +80,24 @@ class BusinessSSOUser(AbstractUser):
     @property
     def company_type(self):
         return getattr(self.company, 'company_type', None) if self.company else None
+
+    @cached_property
+    def supplier(self):
+        from sso_profile.profile.business_profile.helpers import get_supplier_profile
+
+        return get_supplier_profile(self.id)
+
+    @cached_property
+    def role(self):
+        return self.supplier['role'] if self.supplier else None
+
+    @property
+    def is_company_admin(self):
+        if not self.supplier:
+            return False
+        return self.supplier['role'] == user_roles.ADMIN
+
+    @property
+    def full_name(self):
+        if self.first_name and self.last_name:
+            return f'{self.first_name} {self.last_name}'

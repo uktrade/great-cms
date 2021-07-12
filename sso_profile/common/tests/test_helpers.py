@@ -1,8 +1,9 @@
 from unittest import mock
 
 import pytest
-from common import helpers
-from common.tests.helpers import create_response
+
+from sso_profile.common import helpers
+from sso_profile.common.tests.helpers import create_response
 
 
 @mock.patch.object(helpers.api_client.supplier, 'profile_update')

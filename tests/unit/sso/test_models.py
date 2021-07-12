@@ -2,6 +2,7 @@ from unittest import mock
 
 import pytest
 
+from directory_constants import user_roles
 from directory_sso_api_client import sso_api_client
 from sso import models
 from tests.helpers import create_response
@@ -132,3 +133,45 @@ def test_company_type(mock_get_company_profile, company_data, expected):
     user = get_user()
 
     assert user.company_type == expected
+
+
+def test_full_name_empty():
+    user = models.BusinessSSOUser()
+
+    assert user.full_name is None
+
+
+def test_full_name():
+    user = models.BusinessSSOUser(first_name='Jim', last_name='Example')
+
+    assert user.full_name == 'Jim Example'
+
+
+@mock.patch.object(models.BusinessSSOUser, 'supplier', new_callable=mock.PropertyMock)
+def test_is_company_admin_no_supplier(mock_supplier):
+    mock_supplier.return_value = None
+    assert models.BusinessSSOUser().is_company_admin is False
+
+
+@pytest.mark.parametrize(
+    'role,expected',
+    (
+        (user_roles.ADMIN, True),
+        (user_roles.EDITOR, False),
+        (user_roles.MEMBER, False),
+    ),
+)
+@mock.patch.object(models.BusinessSSOUser, 'supplier', new_callable=mock.PropertyMock)
+def test_is_company_admin(mock_supplier, role, expected):
+    mock_supplier.return_value = {'role': role}
+    assert models.BusinessSSOUser().is_company_admin is expected
+
+
+@mock.patch('sso.models.get_supplier_profile')
+def test_supplier(mock_get_supplier_profile):
+    user = models.BusinessSSOUser(session_id='1234')
+    user.id = 100
+
+    assert user.supplier
+    assert mock_get_supplier_profile.call_count == 1
+    assert mock_get_supplier_profile.call_args == mock.call(100)

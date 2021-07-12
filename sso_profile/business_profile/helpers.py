@@ -1,12 +1,12 @@
 import http
 
 import great_components.helpers
-from common.helpers import get_company_admins
 from directory_forms_api_client import actions
 from django.conf import settings
 
 from directory_api_client.client import api_client
 from directory_constants import company_types, user_roles
+from sso_profile.common.helpers import get_company_admins
 
 
 def get_company_profile(sso_session_id):

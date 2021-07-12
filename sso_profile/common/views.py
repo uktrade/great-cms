@@ -1,11 +1,12 @@
 import requests
-from common import serializers
 from directory_ch_client.client import ch_search_api_client
 from django.conf import settings
 from django.views.generic import RedirectView, TemplateView
 from requests.auth import HTTPBasicAuth
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
+
+from sso_profile.common import serializers
 
 
 class CompaniesHouseSearchAPIView(GenericAPIView):

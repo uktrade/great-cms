@@ -4,7 +4,6 @@ from profile.business_profile import constants, forms, helpers, views
 from unittest import mock
 
 import pytest
-from common.tests.helpers import create_response, submit_step_factory
 from django.common.files.uploadedfile import SimpleUploadedFile
 from django.forms.forms import NON_FIELD_ERRORS
 from django.urls import reverse
@@ -14,6 +13,7 @@ from requests.exceptions import HTTPError
 
 from directory_api_client.client import api_client
 from directory_constants import urls, user_roles
+from sso_profile.common.tests.helpers import create_response, submit_step_factory
 
 
 def create_test_image(extension):

@@ -1,5 +1,6 @@
-from common import helpers
 from django.utils.functional import cached_property
+
+from sso_profile.common import helpers
 
 
 class PreventCaptchaRevalidationMixin:

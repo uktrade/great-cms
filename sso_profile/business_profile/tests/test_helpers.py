@@ -2,10 +2,10 @@ from profile.business_profile import helpers
 from unittest import mock
 
 import pytest
-from common.tests.helpers import create_response
 
 from directory_api_client import api_client
 from directory_constants import company_types
+from sso_profile.common.tests.helpers import create_response
 
 
 @pytest.mark.parametrize(

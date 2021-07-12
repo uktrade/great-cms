@@ -14,14 +14,16 @@ def clear_cache():
 
 @pytest.fixture
 def sso_user():
-    SSOUser = get_user_model()  # noqa: N806
-    return SSOUser(id=1, pk=1, email='jim@example.com', session_id='123', has_user_profile=False)
+    BusinessSSOUser = get_user_model()  # noqa: N806
+    return BusinessSSOUser(id=1, pk=1, email='jim@example.com', session_id='123', has_user_profile=False)
 
 
 @pytest.fixture
 def sso_user_with_profile():
-    SSOUser = get_user_model()  # noqa: N806
-    return SSOUser(id=1, pk=1, email='jim2@example.com', session_id='123', has_user_profile=True, first_name='No Name')
+    BusinessSSOUser = get_user_model()  # noqa: N806
+    return BusinessSSOUser(
+        id=1, pk=1, email='jim2@example.com', session_id='123', has_user_profile=True, first_name='No Name'
+    )
 
 
 @pytest.fixture(autouse=True)

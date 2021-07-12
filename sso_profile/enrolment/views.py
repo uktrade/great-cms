@@ -2,7 +2,6 @@ from urllib.parse import urlparse
 
 import common.forms
 import common.mixins
-from common.helpers import get_company_admins
 from directory_forms_api_client.helpers import FormSessionMixin
 from django.contrib import messages
 from django.shortcuts import redirect
@@ -14,6 +13,7 @@ from enrolment import constants, forms, helpers, mixins
 from formtools.wizard.views import NamedUrlSessionWizardView
 
 from directory_constants import urls, user_roles
+from sso_profile.common.helpers import get_company_admins
 
 URL_NON_COMPANIES_HOUSE_ENROLMENT = reverse_lazy('enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT})
 URL_COMPANIES_HOUSE_ENROLMENT = reverse_lazy('enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT})

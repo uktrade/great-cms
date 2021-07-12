@@ -78,11 +78,7 @@ INSTALLED_APPS = [
     'directory_healthcheck',
     'healthcheck.apps.HealthcheckAppConfig',
     'health_check.cache',
-    'directory_sso_api_client',
-    'sso_profile.common',
-    'sso_profile.sso_data',
-    'sso_profile.profile',
-    'sso_profile.enrolment',
+    'sso_profile',
 ]
 
 MIDDLEWARE = [
@@ -99,7 +95,7 @@ MIDDLEWARE = [
     'core.middleware.UserSpecificRedirectMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'core.middleware.CheckGATags',
-    'profile.core.middleware.PrefixUrlMiddleware',
+    'sso_profile.common.middleware.PrefixUrlMiddleware',
     'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
 ]
@@ -204,7 +200,7 @@ STATICFILES_DIRS = [
     str(ROOT_DIR('domestic/static')),
     str(ROOT_DIR('react-components/dist')),
     str(ROOT_DIR('sso_profile/common/static')),
-    str(ROOT_DIR('sso_profile/profile/static')),
+    str(ROOT_DIR('sso_profile/static')),
 ]
 
 STATICFILES_STORAGE = env.str('STATICFILES_STORAGE', 'whitenoise.storage.CompressedManifestStaticFilesStorage')
