@@ -30,7 +30,7 @@ export const VisaInformation = memo(
       <div className="m-b-s">
         <h2 className="h-s m-b-xs">Visa information</h2>
         <p>
-          Find out if you need a visa for your trip using gov.uk{' '}
+        You can find out if you need a visa for your trip by using the government's{' '}
           <a
             href={travel_advice_link}
             target="_blank"
@@ -38,7 +38,7 @@ export const VisaInformation = memo(
           >
             Foreign Travel Advice
           </a>{' '}
-          service. If you do, you'll be able to add the details here.
+          service.
         </p>
         <div className="c-full">
           <div className="multiple-choice large m-b-xs">

@@ -8,14 +8,7 @@ export const CultureRules = memo((params) => {
   return (
     <>
       <h2 className="h-m m-b-xs">Culture and rules in your target market</h2>
-      <p>
-        Every country will have different rules you have stick by whilst you are
-        visiting.
-      </p>
-      <p>
-        Record any rules or information you need to conduct business in your
-        target market.
-      </p>
+      <p>Every country will have different rules you have to comply with when you visit.</p>
       <Tooltip {...tooltip} className="inline-block" />
       <FormElements {...params} />
     </>
