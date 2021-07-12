@@ -1687,7 +1687,7 @@ def test_claim_preverified_success_logged_in(
 )
 def test_steps_list_mixin(is_anon, expected, rf, settings, user):
     class TestView(mixins.StepsListMixin, TemplateView):
-        template_name = 'directory_components/base.html'
+        template_name = 'domestic/base.html'
 
         steps_list_labels = [
             constants.PROGRESS_STEP_LABEL_BUSINESS_TYPE,

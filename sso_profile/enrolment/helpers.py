@@ -2,7 +2,7 @@ import collections
 import re
 from http import cookies
 
-import directory_components
+import great_components
 from directory_ch_client import ch_search_api_client
 from directory_forms_api_client import actions
 from django.conf import settings
@@ -137,7 +137,7 @@ def notify_company_admins_member_joined(admins, data, form_url):
         response.raise_for_status()
 
 
-class CompanyParser(directory_components.helpers.CompanyParser):
+class CompanyParser(great_components.helpers.CompanyParser):
 
     SIC_CODES = dict(choices.SIC_CODES)
 
@@ -151,9 +151,7 @@ class CompanyParser(directory_components.helpers.CompanyParser):
 
     @property
     def nature_of_business(self):
-        return directory_components.helpers.values_to_labels(
-            values=self.data.get('sic_codes', []), choices=self.SIC_CODES
-        )
+        return great_components.helpers.values_to_labels(values=self.data.get('sic_codes', []), choices=self.SIC_CODES)
 
     @property
     def address(self):

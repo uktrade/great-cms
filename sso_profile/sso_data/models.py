@@ -1,9 +1,8 @@
-from profile.business_profile import helpers
-
 from django.utils.functional import cached_property
 
 import directory_sso_api_client.models
 from directory_constants import user_roles
+from sso_profile.profile.business_profile import helpers
 
 
 class SSOUser(directory_sso_api_client.models.SSOUser):

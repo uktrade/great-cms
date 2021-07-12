@@ -1,10 +1,10 @@
-from profile.business_profile import helpers
 from unittest import mock
 
 import pytest
 from sso_data import models
 
 from directory_constants import user_roles
+from sso_profile.profile.business_profile import helpers
 
 
 def test_full_name_empty():
