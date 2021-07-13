@@ -49,7 +49,7 @@ class AddressSearchAPIView(GenericAPIView):
 
 
 class LandingPageView(RedirectView):
-    pattern_name = 'about'
+    pattern_name = 'sso_profile:about'
 
 
 class AboutView(TemplateView):

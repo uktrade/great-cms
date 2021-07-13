@@ -76,10 +76,9 @@ urls_personal_profile = [
 
 
 urlpatterns = [
-    path('api/', include((api_urls, 'api'), namespace='api')),
     path('', sso_profile.common.views.LandingPageView.as_view(), name='index'),
     path('about/', sso_profile.common.views.AboutView.as_view(), name='about'),
-    path('about/', sso_profile.common.views.AboutView.as_view(), name='about'),
+    path('api/', include((api_urls, 'api'), namespace='api')),
     path(
         'selling-online-overseas/',
         login_required(sso_profile.soo.views.SellingOnlineOverseasView.as_view()),
@@ -95,7 +94,11 @@ urlpatterns = [
         login_required(sso_profile.exops.views.ExportOpportunitiesEmailAlertsView.as_view()),
         name='export-opportunities-email-alerts',
     ),
-    path('enrol/', sso_profile.enrolment.views.EnrolmentStartView.as_view(), name='enrolment-start'),
+    path(
+        'enrol/',
+        sso_profile.enrolment.views.EnrolmentStartView.as_view(),
+        name='enrolment-start',
+    ),
     path(
         'enrol/business-type/',
         sso_profile.enrolment.views.BusinessTypeRoutingView.as_view(),
@@ -104,14 +107,16 @@ urlpatterns = [
     path(
         'enrol/business-type/companies-house/<str:step>/',
         sso_profile.enrolment.views.CompaniesHouseEnrolmentView.as_view(
-            url_name='sso_profile:enrolment-companies-house', done_step_name='finished'
+            url_name='sso_profile:enrolment-companies-house',
+            done_step_name='finished',
         ),
         name='enrolment-companies-house',
     ),
     path(
         'enrol/business-type/non-companies-house-company/<str:step>/',
         sso_profile.enrolment.views.NonCompaniesHouseEnrolmentView.as_view(
-            url_name='sso_profile:enrolment-sole-trader', done_step_name='finished'
+            url_name='sso_profile:enrolment-sole-trader',
+            done_step_name='finished',
         ),
         name='enrolment-sole-trader',
     ),
@@ -359,6 +364,3 @@ urlpatterns = [
         ),
     ),
 ]
-
-
-urlpatterns = [path('profile/', include(urlpatterns))]
