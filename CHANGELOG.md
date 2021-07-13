@@ -8,6 +8,8 @@
 - GP2-2700 - Export plan/Business risk copy update
 - GP2-2701 - Export plan/Travel plan copy update
 - GP2-2706 - Export plan/Costs and pricing copy update
+- GP2-2472 - Increase padding on example component
+- GP2-2473 - Increase padding on lesson component
 
 ### Fixed bugs
 - GP2-3099 - WTE Selector missing
