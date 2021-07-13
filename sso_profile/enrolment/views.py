@@ -12,6 +12,7 @@ from django.views.generic import FormView, TemplateView
 from enrolment import constants, forms, helpers, mixins
 from formtools.wizard.views import NamedUrlSessionWizardView
 
+from core.mixins import PreventCaptchaRevalidationMixin
 from directory_constants import urls, user_roles
 from sso_profile.common.helpers import get_company_admins
 
@@ -87,8 +88,8 @@ class BaseEnrolmentWizardView(
     mixins.RedirectAlreadyEnrolledMixin,
     FormSessionMixin,
     mixins.RestartOnStepSkipped,
-    common.mixins.PreventCaptchaRevalidationMixin,
     common.mixins.CreateUpdateUserProfileMixin,
+    PreventCaptchaRevalidationMixin,
     mixins.ProgressIndicatorMixin,
     mixins.StepsListMixin,
     mixins.ReadUserIntentMixin,
