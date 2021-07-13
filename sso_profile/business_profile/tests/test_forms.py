@@ -1,7 +1,7 @@
-from profile.business_profile import forms, validators
-
 import pytest
 from django.forms.forms import NON_FIELD_ERRORS
+
+from sso_profile.business_profile import forms, validators
 
 
 def test_description_form_contains_email():

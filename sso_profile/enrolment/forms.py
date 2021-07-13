@@ -12,12 +12,12 @@ from django.forms import (
 )
 from django.http.request import QueryDict
 from django.utils.safestring import mark_safe
-from enrolment import constants, helpers
-from enrolment.widgets import PostcodeInput, RadioSelect
 from great_components import forms
 
 from directory_constants import choices
 from sso_profile.common.forms import TERMS_LABEL
+from sso_profile.enrolment import constants, helpers
+from sso_profile.enrolment.widgets import PostcodeInput, RadioSelect
 
 INDUSTRY_CHOICES = (('', 'Please select'),) + choices.INDUSTRIES + (('OTHER', 'Other'),)
 

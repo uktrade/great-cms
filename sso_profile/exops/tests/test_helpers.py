@@ -1,5 +1,6 @@
-from profile.exops import helpers
 from unittest.mock import patch
+
+from sso_profile.exops import helpers
 
 
 @patch('requests.get')

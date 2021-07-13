@@ -83,7 +83,7 @@ class BusinessSSOUser(AbstractUser):
 
     @cached_property
     def supplier(self):
-        from sso_profile.profile.business_profile.helpers import get_supplier_profile
+        from sso_profile.business_profile.helpers import get_supplier_profile
 
         return get_supplier_profile(self.id)
 

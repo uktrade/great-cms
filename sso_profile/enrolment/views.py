@@ -1,7 +1,5 @@
 from urllib.parse import urlparse
 
-import common.forms
-import common.mixins
 from directory_forms_api_client.helpers import FormSessionMixin
 from django.contrib import messages
 from django.shortcuts import redirect
@@ -9,12 +7,14 @@ from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
 from django.utils.functional import cached_property
 from django.views.generic import FormView, TemplateView
-from enrolment import constants, forms, helpers, mixins
 from formtools.wizard.views import NamedUrlSessionWizardView
 
+import sso_profile.common.forms
+import sso_profile.common.mixins
 from core.mixins import PreventCaptchaRevalidationMixin
 from directory_constants import urls, user_roles
 from sso_profile.common.helpers import get_company_admins
+from sso_profile.enrolment import constants, forms, helpers, mixins
 
 URL_NON_COMPANIES_HOUSE_ENROLMENT = reverse_lazy('enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT})
 URL_COMPANIES_HOUSE_ENROLMENT = reverse_lazy('enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT})
@@ -88,8 +88,8 @@ class BaseEnrolmentWizardView(
     mixins.RedirectAlreadyEnrolledMixin,
     FormSessionMixin,
     mixins.RestartOnStepSkipped,
-    common.mixins.CreateUpdateUserProfileMixin,
     PreventCaptchaRevalidationMixin,
+    sso_profile.common.mixins.CreateUpdateUserProfileMixin,
     mixins.ProgressIndicatorMixin,
     mixins.StepsListMixin,
     mixins.ReadUserIntentMixin,
@@ -174,7 +174,7 @@ class CompaniesHouseEnrolmentView(mixins.CreateBusinessProfileMixin, BaseEnrolme
         (constants.COMPANY_SEARCH, forms.CompaniesHouseCompanySearch),
         (constants.ADDRESS_SEARCH, forms.CompaniesHouseAddressSearch),
         (constants.BUSINESS_INFO, forms.CompaniesHouseBusinessDetails),
-        (constants.PERSONAL_INFO, common.forms.PersonalDetails),
+        (constants.PERSONAL_INFO, sso_profile.common.forms.PersonalDetails),
     )
 
     templates = {
@@ -300,7 +300,7 @@ class NonCompaniesHouseEnrolmentView(mixins.CreateBusinessProfileMixin, BaseEnro
         (constants.USER_ACCOUNT, forms.UserAccount),
         (constants.VERIFICATION, forms.UserAccountVerification),
         (constants.ADDRESS_SEARCH, forms.NonCompaniesHouseSearch),
-        (constants.PERSONAL_INFO, common.forms.PersonalDetails),
+        (constants.PERSONAL_INFO, sso_profile.common.forms.PersonalDetails),
     )
 
     templates = {
@@ -483,7 +483,7 @@ class PreVerifiedEnrolmentView(BaseEnrolmentWizardView):
     form_list = (
         (constants.USER_ACCOUNT, forms.UserAccount),
         (constants.VERIFICATION, forms.UserAccountVerification),
-        (constants.PERSONAL_INFO, common.forms.PersonalDetails),
+        (constants.PERSONAL_INFO, sso_profile.common.forms.PersonalDetails),
     )
 
     templates = {

@@ -1,8 +1,8 @@
-from profile.exops import helpers
-
 from django.conf import settings
 from django.views.generic import TemplateView
 from requests.exceptions import HTTPError
+
+from sso_profile.exops import helpers
 
 
 class ExportOpportunitiesBaseView(TemplateView):

@@ -1,5 +1,3 @@
-from profile.business_profile import constants, validators
-
 import directory_validators.file
 import directory_validators.string
 import directory_validators.url
@@ -9,6 +7,7 @@ from great_components import forms
 from great_components.helpers import tokenize_keywords
 
 from directory_constants import choices, expertise, user_roles
+from sso_profile.business_profile import constants, validators
 
 INDUSTRY_CHOICES = [('', 'Select an industry')] + list(choices.INDUSTRIES)
 EMPLOYEES_CHOICES = [('', 'Select employees')] + list(choices.EMPLOYEES)

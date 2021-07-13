@@ -6,10 +6,10 @@ from django.http import QueryDict
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
-from enrolment import constants, helpers
 from requests.exceptions import HTTPError
 
 from directory_sso_api_client import sso_api_client
+from sso_profile.enrolment import constants, helpers
 
 
 class RestartOnStepSkipped:

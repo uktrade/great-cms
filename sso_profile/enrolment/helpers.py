@@ -9,11 +9,11 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils import formats
 from django.utils.dateparse import parse_datetime
-from enrolment import constants
 
 from directory_api_client import api_client
 from directory_constants import choices, urls
 from directory_sso_api_client import sso_api_client
+from sso_profile.enrolment import constants
 
 COMPANIES_HOUSE_DATE_FORMAT = '%Y-%m-%d'
 CACHE_KEY_COMPANY_PROFILE = 'COMPANY_PROFILE'

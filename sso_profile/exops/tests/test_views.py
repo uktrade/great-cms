@@ -1,10 +1,10 @@
-from profile.exops import views
-from profile.exops.helpers import exopps_client
 from unittest.mock import Mock, patch
 
 from django.urls import reverse
 
 from sso_profile.common.tests.helpers import create_response
+from sso_profile.exops import views
+from sso_profile.exops.helpers import exopps_client
 
 
 def response_factory(status_code):

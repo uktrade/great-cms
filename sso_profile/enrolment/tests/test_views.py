@@ -5,13 +5,13 @@ from django.contrib.auth.models import AnonymousUser
 from django.contrib.sessions.backends import signed_cookies
 from django.urls import resolve, reverse
 from django.views.generic import TemplateView
-from enrolment import constants, forms, helpers, mixins, views
 from formtools.wizard.views import NamedUrlSessionWizardView
 from freezegun import freeze_time
 from requests.exceptions import HTTPError
 
 from directory_constants import urls, user_roles
 from sso_profile.common.tests.helpers import create_response, submit_step_factory
+from sso_profile.enrolment import constants, forms, helpers, mixins, views
 
 enrolment_urls = (
     reverse('enrolment-business-type'),
@@ -548,7 +548,7 @@ def test_companies_house_enrolment_redirect_to_start(client, user):
     assert response.url == reverse('enrolment-business-type')
 
 
-@mock.patch('enrolment.views.helpers.create_company_member')
+@mock.patch('sso_profile.enrolment.views.helpers.create_company_member')
 def test_companies_house_enrolment_submit_end_to_end(
     mock_add_collaborator,
     client,
@@ -615,7 +615,7 @@ def test_companies_house_enrolment_submit_end_to_end(
     )
 
 
-@mock.patch('enrolment.views.helpers.create_company_member')
+@mock.patch('sso_profile.enrolment.views.helpers.create_company_member')
 def test_companies_house_enrolment_submit_end_to_end_logged_in(
     mock_add_collaborator, client, captcha_stub, submit_companies_house_step, mock_enrolment_send, steps_data, user
 ):
@@ -791,7 +791,7 @@ def test_companies_house_enrolment_has_company_error(client, step, mock_user_has
 
 
 @mock.patch('directory_forms_api_client.client.forms_api_client.submit_generic')
-@mock.patch('enrolment.views.helpers.create_company_member')
+@mock.patch('sso_profile.enrolment.views.helpers.create_company_member')
 @mock.patch('sso.models.BusinessSSOUser.role')
 def test_companies_house_enrolment_submit_end_to_end_company_has_account(
     mock_user_role,
@@ -850,10 +850,10 @@ def test_companies_house_enrolment_submit_end_to_end_company_has_account(
 
 
 @mock.patch('directory_forms_api_client.client.forms_api_client.submit_generic')
-@mock.patch('enrolment.views.helpers.create_company_member')
-@mock.patch('enrolment.views.helpers.get_is_enrolled')
-@mock.patch('profile.business_profile.helpers.get_supplier_profile')
-@mock.patch('profile.business_profile.helpers.has_editor_admin_request')
+@mock.patch('sso_profile.enrolment.views.helpers.create_company_member')
+@mock.patch('sso_profile.enrolment.views.helpers.get_is_enrolled')
+@mock.patch('sso_profile.business_profile.helpers.get_supplier_profile')
+@mock.patch('sso_profile.business_profile.helpers.has_editor_admin_request')
 def test_companies_house_enrolment_submit_end_to_end_company_second_user(
     mock_has_editor_admin_request,
     mock_get_supplier_profile,
@@ -922,7 +922,7 @@ def test_companies_house_enrolment_submit_end_to_end_company_second_user(
 
 
 @mock.patch('directory_forms_api_client.client.forms_api_client.submit_generic')
-@mock.patch('enrolment.views.helpers.create_company_member')
+@mock.patch('sso_profile.enrolment.views.helpers.create_company_member')
 @mock.patch('sso.models.BusinessSSOUser.role')
 def test_companies_house_enrolment_submit_end_to_end_company_has_user_profile(
     mock_user_role,

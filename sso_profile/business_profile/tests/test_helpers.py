@@ -1,10 +1,10 @@
-from profile.business_profile import helpers
 from unittest import mock
 
 import pytest
 
 from directory_api_client import api_client
 from directory_constants import company_types
+from sso_profile.business_profile import helpers
 from sso_profile.common.tests.helpers import create_response
 
 
@@ -70,7 +70,7 @@ def test_get_company_profile_not_found(mock_profile_retrieve):
 
 
 @mock.patch('directory_forms_api_client.client.forms_api_client.submit_generic')
-@mock.patch('profile.business_profile.helpers.get_company_admins')
+@mock.patch('sso_profile.business_profile.helpers.get_company_admins')
 def test_collaboration_request_reminder(mock_get_company_admins, mock_notify_email, settings):
 
     mock_get_company_admins.return_value = [{'company_email': 'test@test123.com'}]

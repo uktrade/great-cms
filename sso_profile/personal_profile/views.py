@@ -1,12 +1,14 @@
-from profile.personal_profile import forms
-
-import common.mixins
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
 
+import sso_profile.common.mixins
+from sso_profile.personal_profile import forms
 
-class PersonalProfileEditFormView(common.mixins.CreateUpdateUserProfileMixin, SuccessMessageMixin, FormView):
+
+class PersonalProfileEditFormView(
+    sso_profile.common.mixins.CreateUpdateUserProfileMixin, SuccessMessageMixin, FormView
+):
     template_name = 'personal_profile/personal-profile-edit-form.html'
     form_class = forms.PersonalProfileEdit
     success_url = reverse_lazy('personal-profile:display')

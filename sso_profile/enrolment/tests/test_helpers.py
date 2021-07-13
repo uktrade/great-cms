@@ -3,11 +3,11 @@ from unittest import mock
 import pytest
 from django.conf import settings
 from django.core.cache import cache
-from enrolment import helpers
 from requests.exceptions import HTTPError
 
 from directory_constants import urls, user_roles
 from sso_profile.common.tests.helpers import create_response
+from sso_profile.enrolment import helpers
 
 
 @mock.patch.object(helpers.ch_search_api_client.company, 'get_company_profile')

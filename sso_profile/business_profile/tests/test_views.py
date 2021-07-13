@@ -1,10 +1,9 @@
 import http
 from io import BytesIO
-from profile.business_profile import constants, forms, helpers, views
 from unittest import mock
 
 import pytest
-from django.common.files.uploadedfile import SimpleUploadedFile
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.forms.forms import NON_FIELD_ERRORS
 from django.urls import reverse
 from formtools.wizard.views import normalize_name
@@ -13,6 +12,7 @@ from requests.exceptions import HTTPError
 
 from directory_api_client.client import api_client
 from directory_constants import urls, user_roles
+from sso_profile.business_profile import constants, forms, helpers, views
 from sso_profile.common.tests.helpers import create_response, submit_step_factory
 
 

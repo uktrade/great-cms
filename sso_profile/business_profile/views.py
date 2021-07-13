@@ -1,12 +1,8 @@
-from profile.business_profile import forms, helpers
-
-import common.forms
-import common.mixins
 import sentry_sdk
-from django.common.files.storage import DefaultStorage
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.files.storage import DefaultStorage
 from django.shortcuts import Http404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.functional import cached_property
@@ -14,8 +10,11 @@ from django.views.generic import FormView
 from formtools.wizard.views import NamedUrlSessionWizardView
 from requests.exceptions import HTTPError, RequestException
 
+import sso_profile.common.forms
+import sso_profile.common.mixins
 from directory_api_client.client import api_client
 from directory_constants import urls, user_roles
+from sso_profile.business_profile import forms, helpers
 
 BASIC = 'details'
 MEDIA = 'images'
@@ -597,9 +596,9 @@ class ProductsServicesOtherFormView(BaseFormView):
         }
 
 
-class PersonalDetailsFormView(common.mixins.CreateUpdateUserProfileMixin, SuccessMessageMixin, FormView):
+class PersonalDetailsFormView(sso_profile.common.mixins.CreateUpdateUserProfileMixin, SuccessMessageMixin, FormView):
     template_name = 'business_profile/personal-details-form.html'
-    form_class = common.forms.PersonalDetails
+    form_class = sso_profile.common.forms.PersonalDetails
     success_url = reverse_lazy('business-profile')
     success_message = 'Details updated'
 
