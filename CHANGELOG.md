@@ -4,12 +4,14 @@
 
 ### Enhancements
 - GP2-2402 - VFM analytics
+- GP2-2359 - Relabel CaseStudy expander and make accessible
 - GP2-2348 - VFM Return copy update
 - GP2-2700 - Export plan/Business risk copy update
 - GP2-2701 - Export plan/Travel plan copy update
 - GP2-2706 - Export plan/Costs and pricing copy update
 - GP2-2472 - Increase padding on example component
 - GP2-2473 - Increase padding on lesson component
+- GP2-2471 - Update Tooltip component
 
 ### Fixed bugs
 - GP2-3099 - WTE Selector missing
