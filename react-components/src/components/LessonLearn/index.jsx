@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 
 export const LessonLearn = memo(({ show, url, title, category, duration }) => (
   <a
-    className={`text-white link m-b-xs width-full lesson-learn ${
+    className={`link m-b-xs width-full lesson-learn ${
       show ? 'inline-block' : 'hidden'
     }`}
     href={url}
     title={title}
   >
-    <div className="card bg-blue-deep-80 text-white">
+    <div className="bg-blue-deep-80 text-white p-s radius">
       <h4 className="text-white h-s m-t-0 p-t-0 m-b-xs">{title}</h4>
       <div className="body-m text-white grid">
         <dl className="c-1-3">
