@@ -9,7 +9,7 @@ export const LessonLearn = memo(({ show, url, title, category, duration }) => (
     href={url}
     title={title}
   >
-    <div className="bg-blue-deep-80 text-white p-s radius">
+    <div className="bg-blue-deep-80 p-s radius">
       <h4 className="text-white h-s m-t-0 p-t-0 m-b-xs">{title}</h4>
       <div className="body-m text-white grid">
         <dl className="c-1-3">
