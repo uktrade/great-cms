@@ -101,7 +101,10 @@ urlpatterns = [
     ),
     path(
         'selling-online-overseas/',
-        login_required(sso_profile.soo.views.SellingOnlineOverseasView.as_view()),
+        login_required(
+            sso_profile.soo.views.SellingOnlineOverseasView.as_view(),
+            login_url=SIGNUP_URL,
+        ),
         name='selling-online-overseas',
     ),
     path(

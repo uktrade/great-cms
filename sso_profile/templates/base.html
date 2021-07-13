@@ -1,5 +1,7 @@
 {% extends 'domestic/base.html' %}
 
+{% comment %} This was originally two base templates in directory-sso-profile but was merged when migrating into great-cms {% endcomment %}
+
 {% load static from staticfiles %}
 
 {% block head_css %}
@@ -17,4 +19,14 @@
 	</style>
 {% endblock %}
 
+{% block css_layout_class %}enrolment-content{% endblock css_layout_class %}
+
 {% block head_title %}Exporting is Great Account - GREAT.gov.uk{% endblock %}
+
+{% block feedback_reporter %}{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'javascript/index.js' %}"></script>
+    <script type="text/javascript">GOVUK.page.init();</script>
+{% endblock body_js %}
