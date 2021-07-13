@@ -452,9 +452,7 @@ export default function ProductFinderModal(props) {
             onClick={search}
             aria-label="search item"
           >
-            <inline className="search-button__label--hidden-text">
-              Search product
-            </inline>
+            <inline className="visually-hidden">Search product</inline>
             <i className="fa fa-arrow-right" />
           </button>
         </div>
