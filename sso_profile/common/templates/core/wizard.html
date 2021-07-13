@@ -36,7 +36,7 @@
             {% if step_labels %}
             <div class="column-one-third padding-top-30 overline-flag-red" id="progress-column">
                     <span>Part of:</span>
-                    <a class="link heading-medium margin-0" href="{% url 'enrolment-start' %}">
+                    <a class="link heading-medium margin-0" href="{% url 'sso_profile:enrolment-start' %}">
                         {{ user_journey_verb|capfirst }}
                     </a>
                     {% include 'enrolment/progress.html' %}

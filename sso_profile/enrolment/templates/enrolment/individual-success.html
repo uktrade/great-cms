@@ -26,7 +26,7 @@
     {% if ingress_url %}
       <p>Continue to <a href="{{ ingress_url }}">great.gov.uk</a></p>
     {% else %}
-      <p>Return to the <a href="{% url 'index' %}">home page</p>
+      <p>Return to the <a href="{% url 'sso_profile:index' %}">home page</p>
     {% endif %}
   </section>
 {% endblock %}

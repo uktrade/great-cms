@@ -109,6 +109,9 @@ TEMPLATES = [
         'DIRS': [
             CORE_APP_DIR.path('templates'),
             ROOT_DIR.path('templates'),  # For overriding templates in dependencies, such as great-components
+            ROOT_DIR.path('sso_profile', 'templates'),
+            ROOT_DIR.path('sso_profile', 'common', 'templates'),
+            ROOT_DIR.path('sso_profile', 'enrolment', 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {

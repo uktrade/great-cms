@@ -16,7 +16,7 @@
     <div id="user-mode-container">
         <div class="grid-row" >
             <div class="column-one-half">
-                <a href="{% url 'business-profile-admin-invite-collaborator' %}">Admin tools</a>
+                <a href="{% url 'sso_profile:business-profile-admin-invite-collaborator' %}">Admin tools</a>
             </div>
             <div class="column-one-half right-column">
                 {% if company.is_published %}
@@ -64,7 +64,7 @@
                 <p>Enter the email address you want overseas buyers to use.</p>
             </div>
             <div class="column-one-third alerts-button-container">
-                <a class="button button-ghost-white" href="{% url 'business-profile-email' %}">Add a business email address</a>
+                <a class="button button-ghost-white" href="{% url 'sso_profile:business-profile-email' %}">Add a business email address</a>
             </div>
         {% elif not company.description %}
             <div class="column-two-thirds flag-red-text">
@@ -72,7 +72,7 @@
                 <p>Tell buyers more about your business.</p>
             </div>
             <div class="column-one-third alerts-button-container">
-                <a class="button button-ghost-white" href="{% url 'business-profile-description' %}">Add a business description</a>
+                <a class="button button-ghost-white" href="{% url 'sso_profile:business-profile-description' %}">Add a business description</a>
             </div>
         {% elif not company.is_verified %}
             {% if company.is_in_companies_house %}
@@ -94,7 +94,7 @@
                     <p>Your business profile is ready to be verified</p>
                 </div>
                 <div class="column-one-third alerts-button-container">
-                    <a class="button button-ghost-white" href="{% url 'business-profile-request-to-verify' %}">Request to verify</a>
+                    <a class="button button-ghost-white" href="{% url 'sso_profile:business-profile-request-to-verify' %}">Request to verify</a>
                 </div>
             {% endif %}
         {% elif not company.is_published %}
@@ -104,7 +104,7 @@
                     <p>Your profile is ready to be published on the UK Investment Support Directory.</p>
                 </div>
                 <div class="column-one-third alerts-button-container">
-                    <a class="button button-ghost-white" href="{% url 'business-profile-publish' %}">Publish business profile</a>
+                    <a class="button button-ghost-white" href="{% url 'sso_profile:business-profile-publish' %}">Publish business profile</a>
                 </div>
             {% else %}
                 <div class="column-two-thirds flag-red-text">
@@ -112,7 +112,7 @@
                     <p>You can now publish your business profile.</p>
                 </div>
                 <div class="column-one-third alerts-button-container">
-                    <a class="button button-ghost-white" href="{% url 'business-profile-publish' %}">Publish your business profile</a>
+                    <a class="button button-ghost-white" href="{% url 'sso_profile:business-profile-publish' %}">Publish your business profile</a>
                 </div>
             {% endif %}
         {% endif %}
@@ -123,24 +123,24 @@
 
             <div id="logo-container" class="border-thin border-light-grey padding-15">
                 {% if not company.logo %}
-                    <a id="add-image" href="{% url 'business-profile-logo' %}" class="link">Add a business logo</a>
+                    <a id="add-image" href="{% url 'sso_profile:business-profile-logo' %}" class="link">Add a business logo</a>
                 {% else %}
                     <img alt="{{ company.name }}" src="{{ company.logo }}" />
-                    <a id="edit-image" href="{% url 'business-profile-logo' %}" class="link pencil-link">Edit</a>
+                    <a id="edit-image" href="{% url 'sso_profile:business-profile-logo' %}" class="link pencil-link">Edit</a>
                 {% endif %}
 
             </div>
 
             <div  id="company-name-mobile">
                 <h3 class="heading-medium">{{ company.name }}</h3>
-                <a href="{% url 'business-profile-business-details' %}" class="link pencil-link">Edit</a>
+                <a href="{% url 'sso_profile:business-profile-business-details' %}" class="link pencil-link">Edit</a>
             </div>
 
             <div>
                 <div class="grid-row" id="about-company-container">
                     <h3 class="column-two-thirds heading-medium">Business details</h3>
                     <div class="column-one-third right-column">
-                        <a href="{% url 'business-profile-business-details' %}" class="link pencil-link">Edit</a>
+                        <a href="{% url 'sso_profile:business-profile-business-details' %}" class="link pencil-link">Edit</a>
                     </div>
                 </div>
 
@@ -170,7 +170,7 @@
                 </dl>
 
                 {% if not company.website %}
-                    <a href="{% url 'business-profile-website' %}" class="link">Add website</a>
+                    <a href="{% url 'sso_profile:business-profile-website' %}" class="link">Add website</a>
                 {% endif %}
                 <hr>
 
@@ -179,7 +179,7 @@
                         <h3 class="column-two-thirds heading-medium">Online profiles</h3>
                         <div class="column-one-third right-column">
                             {% if company.facebook_url or company.twitter_url or company.linkedin_url %}
-                                <a href="{% url 'business-profile-social' %}" class="link pencil-link">Edit</a>
+                                <a href="{% url 'sso_profile:business-profile-social' %}" class="link pencil-link">Edit</a>
                             {% endif %}
                         </div>
                     </div>
@@ -193,7 +193,7 @@
                                     <span class="ellipsis">Visit Company's Facebook</span>
                                 </a>
                             {% else %}
-                                <a class="link" href="{% url 'business-profile-social' %}">
+                                <a class="link" href="{% url 'sso_profile:business-profile-social' %}">
                                     <img alt="with Facebook" height="36px" src="{% static 'images/facebook.png' %}" width="36px" />
                                     <span>Add Facebook</span>
                                 </a>
@@ -206,7 +206,7 @@
                                     <span class="ellipsis">Visit Company's Twitter </span>
                                 </a>
                             {% else %}
-                                <a class="link" href="{% url 'business-profile-social' %}">
+                                <a class="link" href="{% url 'sso_profile:business-profile-social' %}">
                                     <img alt="with Twitter" height="36px" src="{% static 'images/twitter.png' %}" width="36px" />
                                     <span>Add Twitter</span>
                                 </a>
@@ -219,7 +219,7 @@
                                     <span class="ellipsis">Visit Company's LinkedIn</span>
                                 </a>
                             {% else %}
-                                <a class="link" href="{% url 'business-profile-social' %}">
+                                <a class="link" href="{% url 'sso_profile:business-profile-social' %}">
                                     <img alt="with LinkedIn" height="36px" src="{% static 'images/linkedin.png' %}" width="36px" />
                                     <span>Add Linkedin</span>
                                 </a>
@@ -232,20 +232,20 @@
         <div class="column-two-thirds" id="details-column">
             <div id="company-name">
                 <h2 class="heading-large">{{ company.name }}</h2>
-                <a href="{% url 'business-profile-business-details' %}" class="link pencil-link">Edit</a>
+                <a href="{% url 'sso_profile:business-profile-business-details' %}" class="link pencil-link">Edit</a>
             </div>
             <div class="{% if not company.email_address %}primary-action-required{% endif %} message-box border-medium border-stone background-white">
               <div class="grid-row">
                 <h3 class="box-heading heading-medium black-text column-one-half">Profile email address</h3>
                 <div class="column-one-half right-column">
-                    {% if company.email_address %}<a href="{% url 'business-profile-email' %}" class="link pencil-link">Edit</a>{% endif %}
+                    {% if company.email_address %}<a href="{% url 'sso_profile:business-profile-email' %}" class="link pencil-link">Edit</a>{% endif %}
                 </div>
               </div>
               <p class="mid-grey-text font-xsmall">Add an email address for buyers to contact you.</p>
               {% if company.email_address %}
                 <span>{{ company.email_address }}</span>
               {% else %}
-                <a href="{% url 'business-profile-email' %}" class="link">Add email address</a>
+                <a href="{% url 'sso_profile:business-profile-email' %}" class="link">Add email address</a>
               {% endif %}
             </div>
 
@@ -253,7 +253,7 @@
               <div class="grid-row">
                 <h3 class="box-heading heading-medium black-text column-one-half">Business description</h3>
                 <div class="column-one-half right-column">
-                    {% if company.description %}<a href="{% url 'business-profile-description' %}" class="link pencil-link">Edit</a>{% endif %}
+                    {% if company.description %}<a href="{% url 'sso_profile:business-profile-description' %}" class="link pencil-link">Edit</a>{% endif %}
                 </div>
               </div>
 
@@ -261,7 +261,7 @@
               {% if company.description %}
                 <span>{{ company.description }}</span>
               {% else %}
-                <a href="{% url 'business-profile-description' %}" class="link">Add description</a>
+                <a href="{% url 'sso_profile:business-profile-description' %}" class="link">Add description</a>
               {% endif %}
             </div>
 
@@ -270,7 +270,7 @@
                 <h3 class="box-heading heading-medium black-text column-one-half">Products and services</h3>
                 <div class="column-one-half right-column">
                     {% if company.expertise_products_services %}
-                        <a href="{% url 'business-profile-expertise-products-services-routing' %}" class="link pencil-link">Edit</a>
+                        <a href="{% url 'sso_profile:business-profile-expertise-products-services-routing' %}" class="link pencil-link">Edit</a>
                     {% endif %}
                 </div>
               </div>
@@ -285,7 +285,7 @@
                   {% endfor %}
                 </dl>
               {% else %}
-                <a href="{% url 'business-profile-expertise-products-services-routing' %}" class="link">Add products and services</a>
+                <a href="{% url 'sso_profile:business-profile-expertise-products-services-routing' %}" class="link">Add products and services</a>
               {% endif %}
             </div>
 
@@ -295,7 +295,7 @@
                     Expertise
                 </h3>
                 <div class="column-one-half right-column">
-                    {% if company.has_expertise %}<a href="{% url 'business-profile-expertise-routing' %}" class="link pencil-link">Edit</a>{% endif %}
+                    {% if company.has_expertise %}<a href="{% url 'sso_profile:business-profile-expertise-routing' %}" class="link pencil-link">Edit</a>{% endif %}
                 </div>
               </div>
               <div class="grid-row">
@@ -319,7 +319,7 @@
                             <dd>{{ company.expertise_languages }}</dd>
                         {% endif %}
                     {% else %}
-                      <a href="{% url 'business-profile-expertise-routing' %}" class="link">Add expertise</a>
+                      <a href="{% url 'sso_profile:business-profile-expertise-routing' %}" class="link">Add expertise</a>
                     {% endif %}
               </div>
             </div>
@@ -338,13 +338,13 @@
                             <img src="{{ case_study.image_one }}" width="60" />
                             <span>{{ case_study.title }}</span>
                             <div class="right-column">
-                                <a id="edit-image-{{ case_study.pk }}" href="{% url 'business-profile-case-study-edit' id=case_study.pk step='basic' %}" class="link pencil-link">Edit</a>
+                                <a id="edit-image-{{ case_study.pk }}" href="{% url 'sso_profile:business-profile-case-study-edit' id=case_study.pk step='basic' %}" class="link pencil-link">Edit</a>
                             </div>
                       </li>
                       {% endfor %}
                   </ul>
               </div>
-              <a id="add_case_study" href="{% url 'business-profile-case-study' step='basic' %}" class="link">Add a case study</a>
+              <a id="add_case_study" href="{% url 'sso_profile:business-profile-case-study' step='basic' %}" class="link">Add a case study</a>
             </div>
         </div>
     </div>

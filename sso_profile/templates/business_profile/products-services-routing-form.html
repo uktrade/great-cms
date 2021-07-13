@@ -5,8 +5,8 @@
 
 {% block form_contents %}
     {% breadcrumbs 'Add products and services' %}
-        <a href="{% url 'about' %}">Home</a>
-        <a href="{% url 'business-profile' %}">Business profile</a>
+        <a href="{% url 'sso_profile:about' %}">Home</a>
+        <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
     {% endbreadcrumbs %}
     <div id="selected-expertise-container">
         {% for key, values in company.expertise_products_services.items %}
@@ -14,7 +14,7 @@
                 <div>
                     <h2 class="heading-small">{{ key }}</h2>
                     <p>{{ values }}</p>
-                    <p><a href="{% url 'business-profile-expertise-products-services' category=key|slugify %}">Edit</a></p>
+                    <p><a href="{% url 'sso_profile:business-profile-expertise-products-services' category=key|slugify %}">Edit</a></p>
                 </div>
             {% endif %}
         {% endfor %}
@@ -30,5 +30,5 @@
 {% endblock %}
 
 {% block back_link %}
-    <a class="link" href="{% url 'business-profile' %}">Back to profile</a>
+    <a class="link" href="{% url 'sso_profile:business-profile' %}">Back to profile</a>
 {% endblock %}

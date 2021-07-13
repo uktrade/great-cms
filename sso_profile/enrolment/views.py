@@ -73,7 +73,7 @@ class BusinessTypeRoutingView(
             url = URL_NON_COMPANIES_HOUSE_ENROLMENT
         elif choice == constants.NOT_COMPANY:
             if self.has_business_profile_intent_in_session():
-                url = reverse('enrolment-individual-interstitial')
+                url = reverse('sso_profile:enrolment-individual-interstitial')
             else:
                 url = URL_INDIVIDUAL_ENROLMENT
         elif choice == constants.OVERSEAS_COMPANY:
@@ -99,7 +99,7 @@ class BaseEnrolmentWizardView(
     def dispatch(self, request, *args, **kwargs):
         is_authentication_required = self.kwargs['step'] not in [constants.USER_ACCOUNT, constants.VERIFICATION]
         if is_authentication_required and request.user.is_anonymous:
-            return redirect(reverse('enrolment-start'))
+            return redirect(reverse('sso_profile:enrolment-start'))
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
@@ -189,7 +189,7 @@ class CompaniesHouseEnrolmentView(mixins.CreateBusinessProfileMixin, BaseEnrolme
 
     @property
     def verification_link_url(self):
-        url = reverse('enrolment-companies-house', kwargs={'step': constants.VERIFICATION})
+        url = reverse('sso_profile:enrolment-companies-house', kwargs={'step': constants.VERIFICATION})
         return self.request.build_absolute_uri(url)
 
     def address_search_condition(self):
@@ -582,7 +582,7 @@ class ResendVerificationCodeView(
         elif choice == constants.NOT_COMPANY:
             url = URL_INDIVIDUAL_ENROLMENT
         else:
-            url = reverse('enrolment-business-type')
+            url = reverse('sso_profile:enrolment-business-type')
         response = self.validate_code(form=form, response=redirect(url))
         return response
 

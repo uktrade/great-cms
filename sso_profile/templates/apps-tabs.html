@@ -6,9 +6,9 @@
         {% if request.user.is_authenticated and not request.user.has_user_profile %}
             <div class="margin-top-30">
                 {% if not request.user.company %}
-                    {% url 'enrolment-start' as url %}
+                    {% url 'sso_profile:enrolment-start' as url %}
                 {% else %}
-                    {% url 'business-profile-personal-details' as url %}
+                    {% url 'sso_profile:business-profile-personal-details' as url %}
                 {% endif %}
                 {% include 'components/banner.html' with banner_content='Complete your profile to help overseas buyers find you. <a href="'|add:url|add:'">Complete Business Profile</a>.</p>' badge_content='Business Profile incomplete' %}
             </div>

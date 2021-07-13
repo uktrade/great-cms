@@ -11,8 +11,8 @@
 
 {% block form_contents %}
     {% breadcrumbs 'Company description' %}
-        <a href="{% url 'about' %}">Home</a>
-        <a href="{% url 'business-profile' %}">Business profile</a>
+        <a href="{% url 'sso_profile:about' %}">Home</a>
+        <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
     {% endbreadcrumbs %}
     <h1 class="heading-large margin-top-0">Company description</h1>
     {{ block.super }}

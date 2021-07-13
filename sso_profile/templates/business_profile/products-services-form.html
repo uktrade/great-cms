@@ -10,8 +10,8 @@
 
 {% block form_contents %}
     {% breadcrumbs 'Products and services' %}
-        <a href="{% url 'about' %}">Home</a>
-        <a href="{% url 'business-profile' %}">Business profile</a>
+        <a href="{% url 'sso_profile:about' %}">Home</a>
+        <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
     {% endbreadcrumbs %}
     <div id="selected-values-container" class="js-enabled-only">
       <h2 class="heading-large">Products and services</h2>
@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block back_link %}
-    <a class="link" href="{% url 'business-profile-expertise-products-services-routing' %}">Back</a>
+    <a class="link" href="{% url 'sso_profile:business-profile-expertise-products-services-routing' %}">Back</a>
 {% endblock %}
 
 {% block body_js %}

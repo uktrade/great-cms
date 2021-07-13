@@ -6,8 +6,8 @@
 {% block breadcrumbs %}
     {% breadcrumbs 'Remove profile from account' %}
         <a href="{{ services_urls.great_domestic }}">great.gov.uk</a>
-        <a href="{% url 'business-profile' %}">Business profile</a>
-		<a href="{% url 'business-profile-admin-invite-collaborator' %}">Profile settings</a>
+        <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
+		<a href="{% url 'sso_profile:business-profile-admin-invite-collaborator' %}">Profile settings</a>
     {% endbreadcrumbs %}
 {% endblock %}
 
@@ -18,7 +18,7 @@
         <div class="width-two-thirds">
             <p>You are the only administrator for this business profile.</p>
             <p>You must choose a new administrator before you can remove this profile from your account</p>
-            <a href="{% url 'business-profile-admin-invite-administrator' %}" class="button margin-top-45 padding-left-60 padding-right-60">Continue</a>
+            <a href="{% url 'sso_profile:business-profile-admin-invite-administrator' %}" class="button margin-top-45 padding-left-60 padding-right-60">Continue</a>
         </div>
     {% else %}
         <p>You will no longer have access to this business profile.</p>
@@ -26,6 +26,6 @@
             {{ form }}
             <button class="button">Remove</button>
         </form>
-        <a class="link" href="{% url 'business-profile-admin-tools' %}">Cancel</a>
+        <a class="link" href="{% url 'sso_profile:business-profile-admin-tools' %}">Cancel</a>
     {% endif %}
 {% endblock %}

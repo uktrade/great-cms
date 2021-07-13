@@ -4,8 +4,8 @@
 
 {% block form_contents %}
     {% breadcrumbs 'Add expertise' %}
-        <a href="{% url 'about' %}">Home</a>
-        <a href="{% url 'business-profile' %}">Business profile</a>
+        <a href="{% url 'sso_profile:about' %}">Home</a>
+        <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
     {% endbreadcrumbs %}
 
     <div id="selected-expertise-container">
@@ -13,28 +13,28 @@
             <div>
                 <h2 class="heading-small">Industry expertise</h2>
                 <p>{{ company.expertise_industries }}</p>
-                <p><a href="{% url 'business-profile-expertise-industries' %}">Edit</a></p>
+                <p><a href="{% url 'sso_profile:business-profile-expertise-industries' %}">Edit</a></p>
             </div>
         {% endif %}
         {% if company.expertise_regions %}
             <div>
                 <h2 class="heading-small">Regional expertise</h2>
                 <p>{{ company.expertise_regions }}</p>
-                <p><a href="{% url 'business-profile-expertise-regional' %}">Edit</a></p>
+                <p><a href="{% url 'sso_profile:business-profile-expertise-regional' %}">Edit</a></p>
             </div>
         {% endif %}
         {% if company.expertise_countries %}
             <div>
                 <h2 class="heading-small">International expertise</h2>
                 <p>{{ company.expertise_countries }}</p>
-                <p><a href="{% url 'business-profile-expertise-countries' %}">Edit</a></p>
+                <p><a href="{% url 'sso_profile:business-profile-expertise-countries' %}">Edit</a></p>
             </div>
         {% endif %}
         {% if company.expertise_languages %}
             <div>
                 <h2 class="heading-small">Language expertise</h2>
                 <p>{{ company.expertise_languages }}</p>
-                <p><a href="{% url 'business-profile-expertise-languages' %}">Edit</a></p>
+                <p><a href="{% url 'sso_profile:business-profile-expertise-languages' %}">Edit</a></p>
             </div>
         {% endif %}
     </div>

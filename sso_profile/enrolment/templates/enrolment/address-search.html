@@ -87,7 +87,7 @@
         new PostcodeLookup(
           $(addressFinder),
           $(address),
-          '{% url "api:postcode-search" %}',
+          '{% url "sso_profile_api:postcode-search" %}',
           {lookupOnCharacter: 5}
         );
     </script>

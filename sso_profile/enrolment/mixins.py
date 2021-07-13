@@ -15,7 +15,7 @@ from sso_profile.enrolment import constants, helpers
 class RestartOnStepSkipped:
     def render(self, *args, **kwargs):
         if self.steps.prev and not self.get_cleaned_data_for_step(self.steps.prev):
-            return redirect(reverse('enrolment-business-type'))
+            return redirect(reverse('sso_profile:enrolment-business-type'))
         return super().render(*args, **kwargs)
 
 

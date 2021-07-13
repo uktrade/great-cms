@@ -6,8 +6,8 @@
 {% block breadcrumbs %}
     {% breadcrumbs 'Collaborators' %}
         <a href="{{ services_urls.great_domestic }}">great.gov.uk</a>
-        <a href="{% url 'business-profile' %}">Business profile</a>
-    <a href="{% url 'business-profile-admin-invite-collaborator' %}">Profile settings</a>
+        <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
+    <a href="{% url 'sso_profile:business-profile-admin-invite-collaborator' %}">Profile settings</a>
     {% endbreadcrumbs %}
 {% endblock %}
 
@@ -29,11 +29,11 @@
             <td class="border-white padding-top-15 padding-bottom-10">{{ collaborator.role|title }}</td>
             {% if collaborator.sso_id == request.user.id %}
                 <td class="border-white padding-top-15 padding-bottom-10 numeric">
-                    <a href="{% url 'business-profile-admin-disconnect' %}" class="link">Remove profile from my account</a>
+                    <a href="{% url 'sso_profile:business-profile-admin-disconnect' %}" class="link">Remove profile from my account</a>
                 </td>
             {% else %}
               <td class="border-white padding-top-15 padding-bottom-10 numeric">
-                  <a href="{% url 'business-profile-admin-collaborator-edit' sso_id=collaborator.sso_id %}" class="link">Edit</a>
+                  <a href="{% url 'sso_profile:business-profile-admin-collaborator-edit' sso_id=collaborator.sso_id %}" class="link">Edit</a>
               </td>
             {% endif %}
           </tr>

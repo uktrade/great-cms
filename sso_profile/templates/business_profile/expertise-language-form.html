@@ -5,8 +5,8 @@
 
 {% block form_contents %}
     {% breadcrumbs 'Add language expertise' %}
-        <a href="{% url 'about' %}">Home</a>
-        <a href="{% url 'business-profile' %}">Business profile</a>
+        <a href="{% url 'sso_profile:about' %}">Home</a>
+        <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
     {% endbreadcrumbs %}
 
     <div id="selected-values-container" class="js-enabled-only">

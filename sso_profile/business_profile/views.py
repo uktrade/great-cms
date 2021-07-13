@@ -52,7 +52,9 @@ class MemberSendAdminRequestMixin:
                         'company_name': self.request.user.company.data['name'],
                         'name': self.request.user.full_name,
                         'email': self.request.user.email,
-                        'login_url': self.request.build_absolute_uri(reverse('business-profile-admin-tools')),
+                        'login_url': self.request.build_absolute_uri(
+                            reverse('sso_profile:business-profile-admin-tools')
+                        ),
                     },
                     form_url=self.request.path,
                 )
@@ -192,13 +194,13 @@ class ExpertiseRoutingFormView(FormView):
 
     def form_valid(self, form):
         if form.cleaned_data['choice'] == form.REGION:
-            url = reverse('business-profile-expertise-regional')
+            url = reverse('sso_profile:business-profile-expertise-regional')
         elif form.cleaned_data['choice'] == form.COUNTRY:
-            url = reverse('business-profile-expertise-countries')
+            url = reverse('sso_profile:business-profile-expertise-countries')
         elif form.cleaned_data['choice'] == form.INDUSTRY:
-            url = reverse('business-profile-expertise-industries')
+            url = reverse('sso_profile:business-profile-expertise-industries')
         elif form.cleaned_data['choice'] == form.LANGUAGE:
-            url = reverse('business-profile-expertise-languages')
+            url = reverse('sso_profile:business-profile-expertise-languages')
         else:
             raise NotImplementedError
         return redirect(url)
@@ -532,7 +534,10 @@ class ProductsServicesRoutingFormView(FormView):
     template_name = 'business_profile/products-services-routing-form.html'
 
     def form_valid(self, form):
-        url = reverse('business-profile-expertise-products-services', kwargs={'category': form.cleaned_data['choice']})
+        url = reverse(
+            'sso_profile:business-profile-expertise-products-services',
+            kwargs={'category': form.cleaned_data['choice']},
+        )
         return redirect(url)
 
     def get_context_data(self, **kwargs):

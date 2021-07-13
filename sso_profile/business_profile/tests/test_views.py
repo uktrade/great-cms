@@ -213,8 +213,8 @@ def case_study_data():
 
 
 def test_find_a_buyer_unauthenticated_enrolment(client):
-    profile_url = reverse('business-profile')
-    enrolment_url = reverse('enrolment-start')
+    profile_url = reverse('sso_profile:business-profile')
+    enrolment_url = reverse('sso_profile:enrolment-start')
     response = client.get(profile_url)
 
     assert response.status_code == http.client.FOUND
@@ -225,7 +225,7 @@ def test_supplier_company_retrieve_found_business_profile_on(mock_retrieve_compa
     client.force_login(user)
     mock_retrieve_company.return_value = create_response(company_profile_data)
 
-    response = client.get(reverse('business-profile'))
+    response = client.get(reverse('sso_profile:business-profile'))
 
     assert response.template_name == ['business_profile/profile.html']
 
@@ -235,21 +235,21 @@ def test_success_message(mock_retrieve_supplier, client, param, user):
     client.force_login(user)
     mock_retrieve_supplier.return_value = create_response({'role': user_roles.EDITOR})
 
-    url = reverse('business-profile')
+    url = reverse('sso_profile:business-profile')
     response = client.get(url, {param: True})
     for message in response.context['messages']:
         assert str(message) == views.BusinessProfileView.SUCCESS_MESSAGES[param]
 
 
 edit_urls = (
-    reverse('business-profile-description'),
-    reverse('business-profile-email'),
-    reverse('business-profile-social'),
-    reverse('business-profile-website'),
-    reverse('business-profile-expertise-regional'),
-    reverse('business-profile-expertise-countries'),
-    reverse('business-profile-expertise-industries'),
-    reverse('business-profile-expertise-languages'),
+    reverse('sso_profile:business-profile-description'),
+    reverse('sso_profile:business-profile-email'),
+    reverse('sso_profile:business-profile-social'),
+    reverse('sso_profile:business-profile-website'),
+    reverse('sso_profile:business-profile-expertise-regional'),
+    reverse('sso_profile:business-profile-expertise-countries'),
+    reverse('sso_profile:business-profile-expertise-industries'),
+    reverse('sso_profile:business-profile-expertise-languages'),
 )
 
 edit_data = (
@@ -278,14 +278,14 @@ def test_edit_page_initial_data(client, url, company_profile_data, user):
 
 
 success_urls = (
-    reverse('business-profile'),
-    reverse('business-profile'),
-    reverse('business-profile'),
-    reverse('business-profile'),
-    reverse('business-profile-expertise-routing'),
-    reverse('business-profile-expertise-routing'),
-    reverse('business-profile-expertise-routing'),
-    reverse('business-profile-expertise-routing'),
+    reverse('sso_profile:business-profile'),
+    reverse('sso_profile:business-profile'),
+    reverse('sso_profile:business-profile'),
+    reverse('sso_profile:business-profile'),
+    reverse('sso_profile:business-profile-expertise-routing'),
+    reverse('sso_profile:business-profile-expertise-routing'),
+    reverse('sso_profile:business-profile-expertise-routing'),
+    reverse('sso_profile:business-profile-expertise-routing'),
 )
 
 
@@ -302,19 +302,24 @@ def test_edit_page_submmit_success(client, mock_update_company, user, url, data,
 
 def test_publish_not_publishable(client, user, mock_retrieve_company, company_profile_data):
     client.force_login(user)
-    mock_retrieve_company.return_value = create_response({**company_profile_data, 'is_publishable': False})
+    mock_retrieve_company.return_value = create_response(
+        {
+            **company_profile_data,
+            'is_publishable': False,
+        }
+    )
 
-    url = reverse('business-profile-publish')
+    url = reverse('sso_profile:business-profile-publish')
 
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
 
 
 def test_publish_publishable(client, user, mock_retrieve_company):
     client.force_login(user)
-    url = reverse('business-profile-publish')
+    url = reverse('sso_profile:business-profile-publish')
 
     response = client.get(url)
 
@@ -323,12 +328,15 @@ def test_publish_publishable(client, user, mock_retrieve_company):
 
 def test_edit_page_submmit_publish_success(client, mock_update_company, user):
     client.force_login(user)
-    url = reverse('business-profile-publish')
-    data = {'is_published_investment_support_directory': True, 'is_published_find_a_supplier': True}
+    url = reverse('sso_profile:business-profile-publish')
+    data = {
+        'is_published_investment_support_directory': True,
+        'is_published_find_a_supplier': True,
+    }
     response = client.post(url, data)
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
     assert mock_update_company.call_count == 1
     assert mock_update_company.call_args == mock.call(sso_session_id=user.session_id, data=data)
 
@@ -337,7 +345,7 @@ def test_edit_page_submmit_publish_context(client, company_profile_data, user):
     client.force_login(user)
     company = helpers.CompanyParser(company_profile_data)
 
-    url = reverse('business-profile-publish')
+    url = reverse('sso_profile:business-profile-publish')
     response = client.get(url)
 
     assert response.status_code == 200
@@ -346,7 +354,7 @@ def test_edit_page_submmit_publish_context(client, company_profile_data, user):
 
 def test_edit_page_logo_submmit_success(client, mock_update_company, user):
     client.force_login(user)
-    url = reverse('business-profile-logo')
+    url = reverse('sso_profile:business-profile-logo')
     data = {
         'logo': SimpleUploadedFile(name='image.png', content=create_test_image('png').read(), content_type='image/png')
     }
@@ -354,7 +362,7 @@ def test_edit_page_logo_submmit_success(client, mock_update_company, user):
     response = client.post(url, data)
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
     assert mock_update_company.call_count == 1
     assert mock_update_company.call_args == mock.call(sso_session_id=user.session_id, data={'logo': mock.ANY})
 
@@ -379,7 +387,7 @@ def test_case_study_create(submit_case_study_create_step, mock_case_study_create
 
     response = client.get(response.url)
 
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
 
     assert mock_case_study_create.call_count == 1
 
@@ -404,7 +412,7 @@ def test_case_study_edit_foo(
 
     response = client.get(response.url)
 
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
     assert mock_case_study_update.call_count == 1
     data = {**default_private_case_study, 'image_one': mock.ANY, 'image_two': mock.ANY}
     del data['image_three']
@@ -416,7 +424,7 @@ def test_case_study_edit_not_found(mock_case_study_retrieve, client, user):
     mock_case_study_retrieve.return_value = create_response(status_code=404)
 
     client.force_login(user)
-    url = reverse('business-profile-case-study-edit', kwargs={'id': '1', 'step': views.BASIC})
+    url = reverse('sso_profile:business-profile-case-study-edit', kwargs={'id': '1', 'step': views.BASIC})
 
     response = client.get(url)
 
@@ -425,7 +433,7 @@ def test_case_study_edit_not_found(mock_case_study_retrieve, client, user):
 
 def test_case_study_edit_found(mock_case_study_retrieve, client, user):
     client.force_login(user)
-    url = reverse('business-profile-case-study-edit', kwargs={'id': '1', 'step': views.BASIC})
+    url = reverse('sso_profile:business-profile-case-study-edit', kwargs={'id': '1', 'step': views.BASIC})
 
     response = client.get(url)
 
@@ -436,7 +444,7 @@ def test_business_details_sole_trader(settings, mock_retrieve_company, client, u
     client.force_login(user)
     mock_retrieve_company.return_value = create_response({'company_type': 'SOLE_TRADER'})
 
-    url = reverse('business-profile-business-details')
+    url = reverse('sso_profile:business-profile-business-details')
 
     response = client.get(url)
 
@@ -448,7 +456,7 @@ def test_business_details_companies_house(settings, client, mock_retrieve_compan
     client.force_login(user)
     mock_retrieve_company.return_value = create_response({'company_type': 'COMPANIES_HOUSE'})
 
-    url = reverse('business-profile-business-details')
+    url = reverse('sso_profile:business-profile-business-details')
 
     response = client.get(url)
 
@@ -459,16 +467,16 @@ def test_business_details_companies_house(settings, client, mock_retrieve_compan
 @pytest.mark.parametrize(
     'choice,expected_url',
     (
-        (forms.ExpertiseRoutingForm.REGION, reverse('business-profile-expertise-regional')),
-        (forms.ExpertiseRoutingForm.COUNTRY, reverse('business-profile-expertise-countries')),
-        (forms.ExpertiseRoutingForm.INDUSTRY, reverse('business-profile-expertise-industries')),
-        (forms.ExpertiseRoutingForm.LANGUAGE, reverse('business-profile-expertise-languages')),
+        (forms.ExpertiseRoutingForm.REGION, reverse('sso_profile:business-profile-expertise-regional')),
+        (forms.ExpertiseRoutingForm.COUNTRY, reverse('sso_profile:business-profile-expertise-countries')),
+        (forms.ExpertiseRoutingForm.INDUSTRY, reverse('sso_profile:business-profile-expertise-industries')),
+        (forms.ExpertiseRoutingForm.LANGUAGE, reverse('sso_profile:business-profile-expertise-languages')),
     ),
 )
 def test_add_expertise_routing(settings, choice, expected_url, client, user):
     client.force_login(user)
 
-    url = reverse('business-profile-expertise-routing')
+    url = reverse('sso_profile:business-profile-expertise-routing')
 
     response = client.post(url, {'choice': choice})
 
@@ -478,7 +486,7 @@ def test_add_expertise_routing(settings, choice, expected_url, client, user):
 
 def test_expertise_routing_form(client, settings, user):
     client.force_login(user)
-    url = reverse('business-profile-expertise-routing')
+    url = reverse('sso_profile:business-profile-expertise-routing')
 
     response = client.get(url)
 
@@ -491,7 +499,7 @@ def test_expertise_products_services_routing_form_context(client, settings, comp
 
     company = helpers.CompanyParser(company_profile_data)
 
-    url = reverse('business-profile-expertise-products-services-routing')
+    url = reverse('sso_profile:business-profile-expertise-products-services-routing')
 
     response = client.get(url)
 
@@ -503,11 +511,14 @@ def test_expertise_products_services_routing_form_context(client, settings, comp
 def test_expertise_products_services_routing_form(choice, client, settings, user):
     client.force_login(user)
 
-    url = reverse('business-profile-expertise-products-services-routing')
+    url = reverse('sso_profile:business-profile-expertise-products-services-routing')
 
     response = client.post(url, {'choice': choice})
 
-    assert response.url == reverse('business-profile-expertise-products-services', kwargs={'category': choice})
+    assert response.url == reverse(
+        'sso_profile:business-profile-expertise-products-services',
+        kwargs={'category': choice},
+    )
 
 
 def test_products_services_form_prepopulate(mock_retrieve_company, company_profile_data, client, user):
@@ -522,7 +533,10 @@ def test_products_services_form_prepopulate(mock_retrieve_company, company_profi
         }
     )
 
-    url = reverse('business-profile-expertise-products-services', kwargs={'category': constants.PUBLICITY})
+    url = reverse(
+        'sso_profile:business-profile-expertise-products-services',
+        kwargs={'category': constants.PUBLICITY},
+    )
     response = client.get(url)
 
     assert response.context_data['form'].initial == {'expertise_products_services': 'Public Relations|Branding'}
@@ -540,7 +554,7 @@ def test_products_services_other_form(mock_retrieve_company, company_profile_dat
         }
     )
 
-    url = reverse('business-profile-expertise-products-services-other')
+    url = reverse('sso_profile:business-profile-expertise-products-services-other')
     response = client.get(url)
 
     assert response.context_data['form'].initial == {'expertise_products_services': 'Foo, Bar'}
@@ -560,7 +574,7 @@ def test_products_services_other_form_update(
         }
     )
 
-    url = reverse('business-profile-expertise-products-services-other')
+    url = reverse('sso_profile:business-profile-expertise-products-services-other')
 
     client.post(url, {'expertise_products_services': 'Baz,Zad'})
 
@@ -588,7 +602,7 @@ def test_products_services_form_update(client, mock_retrieve_company, mock_updat
         }
     )
 
-    url = reverse('business-profile-expertise-products-services', kwargs={'category': constants.PUBLICITY})
+    url = reverse('sso_profile:business-profile-expertise-products-services', kwargs={'category': constants.PUBLICITY})
     client.post(url, {'expertise_products_services': ['Social Media']})
 
     assert mock_update_company.call_count == 1
@@ -606,7 +620,9 @@ def test_products_services_form_update(client, mock_retrieve_company, mock_updat
 def test_products_services_exposes_category(client, user):
     client.force_login(user)
 
-    url = reverse('business-profile-expertise-products-services', kwargs={'category': constants.BUSINESS_SUPPORT})
+    url = reverse(
+        'sso_profile:business-profile-expertise-products-services', kwargs={'category': constants.BUSINESS_SUPPORT}
+    )
     response = client.get(url)
 
     assert response.context_data['category'] == 'business support'
@@ -623,10 +639,10 @@ def test_personal_details(client, mock_create_user_profile, user):
         'confirmed_is_company_representative': True,
         'terms_agreed': True,
     }
-    response = client.post(reverse('business-profile-personal-details'), data)
+    response = client.post(reverse('sso_profile:business-profile-personal-details'), data)
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
     assert mock_create_user_profile.call_count == 1
     assert mock_create_user_profile.call_args == mock.call(
         sso_session_id=user.session_id,
@@ -640,11 +656,11 @@ def test_request_identity_verification(mock_verify_identity_request, client, use
 
     client.force_login(user)
 
-    url = reverse('business-profile-request-to-verify')
+    url = reverse('sso_profile:business-profile-request-to-verify')
 
     response = client.post(url)
     assert response.status_code == 302
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
     assert mock_verify_identity_request.call_count == 1
     assert mock_verify_identity_request.call_args == mock.call(user.session_id)
 
@@ -659,11 +675,11 @@ def test_request_identity_verification_already_sent(mock_verify_identity_request
     user.company.data['is_identity_check_message_sent'] = True
     client.force_login(user)
 
-    url = reverse('business-profile-request-to-verify')
+    url = reverse('sso_profile:business-profile-request-to-verify')
 
     response = client.post(url)
     assert response.status_code == 302
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
     assert mock_verify_identity_request.call_count == 0
 
 
@@ -672,7 +688,7 @@ def test_collaborator_list(mock_collaborator_list, mock_collaboration_request_li
     mock_collaborator_list.return_value = create_response([])
     mock_collaboration_request_list.return_value = create_response([])
 
-    url = reverse('business-profile-admin-tools')
+    url = reverse('sso_profile:business-profile-admin-tools')
     response = client.get(url)
 
     assert response.status_code == 200
@@ -685,18 +701,18 @@ def test_edit_collaborator_not_admin(mock_retrieve_supplier, mock_collaborator_l
     mock_retrieve_supplier.return_value = create_response({'is_company_owner': False, 'role': role})
     client.force_login(user)
 
-    url = reverse('business-profile-admin-collaborator-edit', kwargs={'sso_id': 1234})
+    url = reverse('sso_profile:business-profile-admin-collaborator-edit', kwargs={'sso_id': 1234})
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url.startswith(reverse('business-profile'))
+    assert response.url.startswith(reverse('sso_profile:business-profile'))
     assert mock_collaborator_list.call_count == 0
 
 
 def test_edit_collaborator_edit_not_found(client, user):
     client.force_login(user)
 
-    url = reverse('business-profile-admin-collaborator-edit', kwargs={'sso_id': 43})
+    url = reverse('sso_profile:business-profile-admin-collaborator-edit', kwargs={'sso_id': 43})
     response = client.get(url)
 
     assert response.status_code == 404
@@ -705,17 +721,17 @@ def test_edit_collaborator_edit_not_found(client, user):
 def test_edit_collaborator_edit_self(client, user):
     client.force_login(user)
 
-    url = reverse('business-profile-admin-collaborator-edit', kwargs={'sso_id': user.id})
+    url = reverse('sso_profile:business-profile-admin-collaborator-edit', kwargs={'sso_id': user.id})
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile-admin-tools')
+    assert response.url == reverse('sso_profile:business-profile-admin-tools')
 
 
 def test_edit_collaborator_retrieve(client, user):
     client.force_login(user)
 
-    url = reverse('business-profile-admin-collaborator-edit', kwargs={'sso_id': 1234})
+    url = reverse('sso_profile:business-profile-admin-collaborator-edit', kwargs={'sso_id': 1234})
     response = client.get(url)
 
     assert response.status_code == 200
@@ -731,11 +747,11 @@ def test_edit_collaborator_change_editor_to_other(mock_collaborator_list, client
     )
     client.force_login(user)
 
-    url = reverse('business-profile-admin-collaborator-edit', kwargs={'sso_id': 1234})
+    url = reverse('sso_profile:business-profile-admin-collaborator-edit', kwargs={'sso_id': 1234})
     response = client.post(url, data={'action': action})
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile-admin-tools')
+    assert response.url == reverse('sso_profile:business-profile-admin-tools')
 
 
 @pytest.mark.parametrize('action', [forms.CHANGE_COLLABORATOR_TO_ADMIN])
@@ -748,11 +764,11 @@ def test_edit_collaborator_change_member_to_other(mock_collaborator_list, client
     )
     client.force_login(user)
 
-    url = reverse('business-profile-admin-collaborator-edit', kwargs={'sso_id': 1234})
+    url = reverse('sso_profile:business-profile-admin-collaborator-edit', kwargs={'sso_id': 1234})
     response = client.post(url, data={'action': action})
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile-admin-tools')
+    assert response.url == reverse('sso_profile:business-profile-admin-tools')
 
 
 @pytest.mark.parametrize('action', [forms.CHANGE_COLLABORATOR_TO_MEMBER])
@@ -765,11 +781,11 @@ def test_edit_collaborator_change_admin_to_other(mock_collaborator_list, client,
     )
     client.force_login(user)
 
-    url = reverse('business-profile-admin-collaborator-edit', kwargs={'sso_id': 1234})
+    url = reverse('sso_profile:business-profile-admin-collaborator-edit', kwargs={'sso_id': 1234})
     response = client.post(url, data={'action': action})
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile-admin-tools')
+    assert response.url == reverse('sso_profile:business-profile-admin-tools')
 
 
 @mock.patch.object(api_client.company, 'collaborator_disconnect')
@@ -778,12 +794,12 @@ def test_edit_collaborator_edit_remove_collaborator(mock_collaborator_disconnect
 
     mock_collaborator_disconnect.return_value = create_response()
 
-    url = reverse('business-profile-admin-collaborator-edit', kwargs={'sso_id': 1234})
+    url = reverse('sso_profile:business-profile-admin-collaborator-edit', kwargs={'sso_id': 1234})
 
     response = client.post(url, data={'action': forms.REMOVE_COLLABORATOR})
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile-admin-tools')
+    assert response.url == reverse('sso_profile:business-profile-admin-tools')
     assert mock_collaborator_disconnect.call_count == 1
     assert mock_collaborator_disconnect.call_args == mock.call(sso_session_id=user.session_id, sso_id=1234)
 
@@ -794,7 +810,7 @@ def test_admin_disconnect_remote_validation_error(mock_disconnect_from_company, 
     mock_disconnect_from_company.return_value = create_response(errors, status_code=400)
     client.force_login(user)
 
-    url = reverse('business-profile-admin-disconnect')
+    url = reverse('sso_profile:business-profile-admin-disconnect')
     response = client.post(url)
 
     assert response.status_code == 200
@@ -807,7 +823,7 @@ def test_admin_disconnect_remote_error(mock_disconnect_from_company, client, use
     mock_disconnect_from_company.return_value = create_response(status_code=500)
     client.force_login(user)
 
-    url = reverse('business-profile-admin-disconnect')
+    url = reverse('sso_profile:business-profile-admin-disconnect')
     with pytest.raises(HTTPError):
         client.post(url)
 
@@ -817,11 +833,11 @@ def test_admin_disconnect(mock_disconnect_from_company, client, user):
     mock_disconnect_from_company.return_value = create_response()
     client.force_login(user)
 
-    url = reverse('business-profile-admin-disconnect')
+    url = reverse('sso_profile:business-profile-admin-disconnect')
     response = client.post(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
     assert mock_disconnect_from_company.call_count == 1
     assert mock_disconnect_from_company.call_args == mock.call(user.session_id)
 
@@ -835,7 +851,7 @@ def test_admin_disconnect_is_sole_collaborator(mock_collaborator_list, count, ex
     mock_collaborator_list.return_value = create_response(collaborators[:count])
     client.force_login(user)
 
-    url = reverse('business-profile-admin-disconnect')
+    url = reverse('sso_profile:business-profile-admin-disconnect')
     response = client.get(url)
 
     assert response.status_code == 200
@@ -845,12 +861,12 @@ def test_admin_disconnect_is_sole_collaborator(mock_collaborator_list, count, ex
 def test_products_services_form_incorrect_value(client, user):
     client.force_login(user)
 
-    url = reverse('business-profile-expertise-products-services', kwargs={'category': 'foo'})
+    url = reverse('sso_profile:business-profile-expertise-products-services', kwargs={'category': 'foo'})
 
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile-expertise-products-services-routing')
+    assert response.url == reverse('sso_profile:business-profile-expertise-products-services-routing')
 
 
 @mock.patch.object(api_client.company, 'collaborator_invite_create')
@@ -859,7 +875,7 @@ def test_admin_invite_administrator_remote_validation_error(mock_collaborator_in
     mock_collaborator_invite_create.return_value = create_response({'collaborator_email': errors}, status_code=400)
     client.force_login(user)
 
-    url = reverse('business-profile-admin-invite-administrator')
+    url = reverse('sso_profile:business-profile-admin-invite-administrator')
     response = client.post(url, {'collaborator_email': 'jim@example.com'})
 
     assert response.status_code == 200
@@ -872,7 +888,7 @@ def test_admin_invite_administrator_remote_error(mock_collaborator_invite_create
     mock_collaborator_invite_create.return_value = create_response(status_code=500)
     client.force_login(user)
 
-    url = reverse('business-profile-admin-invite-administrator')
+    url = reverse('sso_profile:business-profile-admin-invite-administrator')
     with pytest.raises(HTTPError):
         client.post(url, {'collaborator_email': 'jim@example.com'})
 
@@ -882,11 +898,11 @@ def test_admin_invite_administrator_new_collaborator(mock_collaborator_invite_cr
     mock_collaborator_invite_create.return_value = create_response(status_code=201)
     client.force_login(user)
 
-    url = reverse('business-profile-admin-invite-administrator')
+    url = reverse('sso_profile:business-profile-admin-invite-administrator')
     response = client.post(url, {'collaborator_email': 'jim@example.com'})
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile-admin-tools')
+    assert response.url == reverse('sso_profile:business-profile-admin-tools')
     assert mock_collaborator_invite_create.call_count == 1
     assert mock_collaborator_invite_create.call_args == mock.call(
         sso_session_id=user.session_id, data={'collaborator_email': 'jim@example.com', 'role': user_roles.ADMIN}
@@ -896,11 +912,11 @@ def test_admin_invite_administrator_new_collaborator(mock_collaborator_invite_cr
 def test_admin_invite_administrator_change_role(mock_collaborator_role_update, client, user, settings):
     client.force_login(user)
 
-    url = reverse('business-profile-admin-invite-administrator')
+    url = reverse('sso_profile:business-profile-admin-invite-administrator')
     response = client.post(url, {'sso_id': '1234'})
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile-admin-tools')
+    assert response.url == reverse('sso_profile:business-profile-admin-tools')
     assert mock_collaborator_role_update.call_count == 1
     assert mock_collaborator_role_update.call_args == mock.call(
         sso_session_id=user.session_id, sso_id='1234', role=user_roles.ADMIN
@@ -910,9 +926,9 @@ def test_admin_invite_administrator_change_role(mock_collaborator_role_update, c
 @pytest.mark.parametrize(
     'url',
     (
-        reverse('business-profile-admin-invite-administrator'),
-        reverse('business-profile-admin-invite-collaborator'),
-        reverse('business-profile-admin-collaborator-edit', kwargs={'sso_id': '123'}),
+        reverse('sso_profile:business-profile-admin-invite-administrator'),
+        reverse('sso_profile:business-profile-admin-invite-collaborator'),
+        reverse('sso_profile:business-profile-admin-collaborator-edit', kwargs={'sso_id': '123'}),
     ),
 )
 def test_admin_not_admin_role(mock_retrieve_supplier, client, user, url):
@@ -922,17 +938,17 @@ def test_admin_not_admin_role(mock_retrieve_supplier, client, user, url):
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url.startswith(reverse('business-profile'))
+    assert response.url.startswith(reverse('sso_profile:business-profile'))
 
 
 @pytest.mark.parametrize(
     'url',
     (
-        reverse('business-profile-admin-invite-administrator'),
-        reverse('business-profile-admin-invite-collaborator'),
-        reverse('business-profile-admin-collaborator-edit', kwargs={'sso_id': '123'}),
-        reverse('business-profile-admin-tools'),
-        reverse('business-profile-admin-disconnect'),
+        reverse('sso_profile:business-profile-admin-invite-administrator'),
+        reverse('sso_profile:business-profile-admin-invite-collaborator'),
+        reverse('sso_profile:business-profile-admin-collaborator-edit', kwargs={'sso_id': '123'}),
+        reverse('sso_profile:business-profile-admin-tools'),
+        reverse('sso_profile:business-profile-admin-disconnect'),
     ),
 )
 def test_admin_anon_user(client, settings, url):
@@ -947,11 +963,11 @@ def test_admin_invite_collaborator(mock_collaborator_invite_create, client, user
     mock_collaborator_invite_create.return_value = create_response(status_code=201)
     client.force_login(user)
 
-    url = reverse('business-profile-admin-invite-collaborator')
+    url = reverse('sso_profile:business-profile-admin-invite-collaborator')
     response = client.post(url, {'collaborator_email': 'jim@example.com', 'role': user_roles.ADMIN})
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile-admin-invite-collaborator')
+    assert response.url == reverse('sso_profile:business-profile-admin-invite-collaborator')
 
     response = client.get(response.url)
     expected = 'We have sent a confirmation to jim@example.com with an invitation to become a collaborator'
@@ -966,7 +982,7 @@ def test_admin_invite_collaborator_remote_validation_error(mock_collaborator_inv
 
     client.force_login(user)
 
-    url = reverse('business-profile-admin-invite-collaborator')
+    url = reverse('sso_profile:business-profile-admin-invite-collaborator')
     response = client.post(url, {'collaborator_email': 'jim@example.com', 'role': user_roles.ADMIN})
 
     assert response.status_code == 200
@@ -980,7 +996,7 @@ def test_admin_invite_collaborator_not_admin_remote_error(mock_collaborator_invi
 
     client.force_login(user)
 
-    url = reverse('business-profile-admin-invite-collaborator')
+    url = reverse('sso_profile:business-profile-admin-invite-collaborator')
     with pytest.raises(HTTPError):
         client.post(url, {'collaborator_email': 'jim@example.com', 'role': user_roles.ADMIN})
 
@@ -990,11 +1006,11 @@ def test_admin_collaborator_invite_delete(mock_collaborator_invite_delete, clien
     mock_collaborator_invite_delete.return_value = create_response()
 
     client.force_login(user)
-    url = reverse('business-profile-collaboration-invite-delete')
+    url = reverse('sso_profile:business-profile-collaboration-invite-delete')
     response = client.post(url, {'invite_key': '1234'})
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile-admin-invite-collaborator')
+    assert response.url == reverse('sso_profile:business-profile-admin-invite-collaborator')
     assert mock_collaborator_invite_delete.call_count == 1
     assert mock_collaborator_invite_delete.call_args == mock.call(sso_session_id=user.session_id, invite_key='1234')
 
@@ -1002,10 +1018,10 @@ def test_admin_collaborator_invite_delete(mock_collaborator_invite_delete, clien
 @mock.patch.object(api_client.company, 'collaboration_request_accept')
 def test_admin_collaboration_request_accept(mock_collaboration_request_accept, client, user):
     mock_collaboration_request_accept.return_value = create_response()
-    admin_tools_url = reverse('business-profile-admin-tools')
+    admin_tools_url = reverse('sso_profile:business-profile-admin-tools')
     client.force_login(user)
 
-    url = reverse('business-profile-admin-tools')
+    url = reverse('sso_profile:business-profile-admin-tools')
     response = client.post(url, {'request_key': '1234', 'action': forms.AdminCollaborationRequestManageForm.APPROVE})
 
     assert response.status_code == 302
@@ -1017,10 +1033,10 @@ def test_admin_collaboration_request_accept(mock_collaboration_request_accept, c
 @mock.patch.object(api_client.company, 'collaboration_request_delete')
 def test_admin_collaboration_request_delete(mock_collaboration_request_delete, client, user):
     mock_collaboration_request_delete.return_value = create_response()
-    admin_tools_url = reverse('business-profile-admin-tools')
+    admin_tools_url = reverse('sso_profile:business-profile-admin-tools')
     client.force_login(user)
 
-    url = reverse('business-profile-admin-tools')
+    url = reverse('sso_profile:business-profile-admin-tools')
     response = client.post(url, {'request_key': '1234', 'action': forms.AdminCollaborationRequestManageForm.DELETE})
 
     assert response.status_code == 302
@@ -1035,10 +1051,12 @@ def test_member_send_admin_request(mock_collaboration_request_create, client, us
 
     client.force_login(user)
 
-    response = client.post(reverse('business-profile'), {'action': forms.MemberCollaborationRequestForm.SEND_REQUEST})
+    response = client.post(
+        reverse('sso_profile:business-profile'), {'action': forms.MemberCollaborationRequestForm.SEND_REQUEST}
+    )
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
 
     assert mock_collaboration_request_create.call_count == 1
     assert mock_collaboration_request_create.call_args == mock.call(
@@ -1052,10 +1070,12 @@ def test_member_send_admin_reminder(mock_collaboration_request_notify, client, u
 
     client.force_login(user)
 
-    response = client.post(reverse('business-profile'), {'action': forms.MemberCollaborationRequestForm.SEND_REMINDER})
+    response = client.post(
+        reverse('sso_profile:business-profile'), {'action': forms.MemberCollaborationRequestForm.SEND_REMINDER}
+    )
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
 
     assert mock_collaboration_request_notify.call_count == 1
     assert mock_collaboration_request_notify.call_args == mock.call(
@@ -1065,7 +1085,7 @@ def test_member_send_admin_reminder(mock_collaboration_request_notify, client, u
             'email': user.email,
             'login_url': 'http://testserver/profile/business-profile/admin/',
         },
-        form_url=reverse('business-profile'),
+        form_url=reverse('sso_profile:business-profile'),
         sso_session_id=user.session_id,
     )
 
@@ -1075,7 +1095,7 @@ def test_member_send_admin_request_error(mock_collaboration_request_create, clie
     mock_collaboration_request_create.return_value = create_response(status_code=500)
     client.force_login(user)
 
-    url = reverse('business-profile')
+    url = reverse('sso_profile:business-profile')
     with pytest.raises(HTTPError):
         client.post(url, {'action': 'send_request'})
 
@@ -1086,7 +1106,7 @@ def test_member_send_admin_request_error_400(mock_collaboration_request_create, 
     mock_collaboration_request_create.return_value = create_response(errors, status_code=400)
     client.force_login(user)
 
-    url = reverse('business-profile')
+    url = reverse('sso_profile:business-profile')
     response = client.post(url, {'action': 'send_request'})
     assert response.status_code == 200
     assert response.context_data['form'].is_valid() is False
@@ -1097,7 +1117,7 @@ def test_business_profile_member_redirect(client, user, mock_retrieve_supplier, 
     client.force_login(user)
     mock_retrieve_supplier.return_value = create_response({'role': user_roles.MEMBER})
 
-    url = reverse('business-profile')
+    url = reverse('sso_profile:business-profile')
     response = client.get(url)
 
     context = response.context_data
@@ -1117,7 +1137,7 @@ def test_business_profile_member_no_company(client, user, mock_retrieve_supplier
     mock_retrieve_supplier.return_value = create_response({'role': user_roles.MEMBER})
     mock_retrieve_company.return_value = create_response(status_code=404)
 
-    url = reverse('business-profile')
+    url = reverse('sso_profile:business-profile')
     response = client.get(url)
 
     context = response.context_data
@@ -1161,7 +1181,7 @@ def test_business_user_disconnect(mock_disconnect_from_company, client, user):
     mock_disconnect_from_company.return_value = create_response()
     client.force_login(user)
 
-    url = reverse('disconnect-account')
+    url = reverse('sso_profile:disconnect-account')
 
     # Quick check of GET
     response = client.get(url)

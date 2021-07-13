@@ -12,6 +12,7 @@ import sso_profile.soo.views
 from directory_constants import urls
 
 app_name = 'sso_profile'
+SIGNUP_URL = reverse_lazy('core:signup')
 
 
 def no_company_required(function):
@@ -30,7 +31,10 @@ def company_required(function):
         reverse_lazy('sso_profile:business-profile'),
         None,
     )
-    return login_required(inner(function))
+    return login_required(
+        inner(function),
+        login_url=SIGNUP_URL,
+    )
 
 
 def company_admin_required(function):
@@ -39,7 +43,10 @@ def company_admin_required(function):
         reverse_lazy('sso_profile:business-profile'),
         None,
     )
-    return login_required(inner(function))
+    return login_required(
+        inner(function),
+        login_url=SIGNUP_URL,
+    )
 
 
 api_urls = [
@@ -62,6 +69,7 @@ urls_personal_profile = [
         '',
         login_required(
             sso_profile.personal_profile.views.PersonalProfileView.as_view(),
+            login_url=SIGNUP_URL,
         ),
         name='display',
     ),
@@ -69,6 +77,7 @@ urls_personal_profile = [
         'edit/',
         login_required(
             sso_profile.personal_profile.views.PersonalProfileEditFormView.as_view(),
+            login_url=SIGNUP_URL,
         ),
         name='edit',
     ),
@@ -76,9 +85,20 @@ urls_personal_profile = [
 
 
 urlpatterns = [
-    path('', sso_profile.common.views.LandingPageView.as_view(), name='index'),
-    path('about/', sso_profile.common.views.AboutView.as_view(), name='about'),
-    path('api/', include((api_urls, 'api'), namespace='api')),
+    path(
+        '',
+        sso_profile.common.views.LandingPageView.as_view(),
+        name='index',
+    ),
+    path(
+        'about/',
+        sso_profile.common.views.AboutView.as_view(),
+        name='about',
+    ),
+    path(
+        'api/',
+        include((api_urls, 'api'), namespace='sso_profile_api'),
+    ),
     path(
         'selling-online-overseas/',
         login_required(sso_profile.soo.views.SellingOnlineOverseasView.as_view()),
@@ -86,12 +106,18 @@ urlpatterns = [
     ),
     path(
         'export-opportunities/applications/',
-        login_required(sso_profile.exops.views.ExportOpportunitiesApplicationsView.as_view()),
+        login_required(
+            sso_profile.exops.views.ExportOpportunitiesApplicationsView.as_view(),
+            login_url=SIGNUP_URL,
+        ),
         name='export-opportunities-applications',
     ),
     path(
         'export-opportunities/email-alerts/',
-        login_required(sso_profile.exops.views.ExportOpportunitiesEmailAlertsView.as_view()),
+        login_required(
+            sso_profile.exops.views.ExportOpportunitiesEmailAlertsView.as_view(),
+            login_url=SIGNUP_URL,
+        ),
         name='export-opportunities-email-alerts',
     ),
     path(
@@ -244,17 +270,24 @@ urlpatterns = [
     ),
     path(
         'business-profile/personal-details/',
-        login_required(sso_profile.business_profile.views.PersonalDetailsFormView.as_view()),
+        login_required(
+            sso_profile.business_profile.views.PersonalDetailsFormView.as_view(),
+            login_url=SIGNUP_URL,
+        ),
         name='business-profile-personal-details',
     ),
     path(
         'business-profile/publish/',
-        company_required(sso_profile.business_profile.views.PublishFormView.as_view()),
+        company_required(
+            sso_profile.business_profile.views.PublishFormView.as_view(),
+        ),
         name='business-profile-publish',
     ),
     path(
         'business-profile/business-details/',
-        company_required(sso_profile.business_profile.views.BusinessDetailsFormView.as_view()),
+        company_required(
+            sso_profile.business_profile.views.BusinessDetailsFormView.as_view(),
+        ),
         name='business-profile-business-details',
     ),
     path(
@@ -350,7 +383,7 @@ urlpatterns = [
         include((urls_personal_profile, 'personal-profile'), namespace='personal-profile'),
     ),
     path(
-        'find-a-buyer/(<slug:path>/',
+        'find-a-buyer/<slug:path>/',
         RedirectView.as_view(
             url=urls.domestic.SINGLE_SIGN_ON_PROFILE / 'business-profile/%(path)s',
             query_string=True,

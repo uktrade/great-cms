@@ -11,7 +11,7 @@
       {% endwith %}
       <div class="grid-row margin-top-45">
           <div class="column-two-thirds">
-              <a href="{% url 'enrolment-business-type' %}" class="link">Back</a>
+              <a href="{% url 'sso_profile:enrolment-business-type' %}" class="link">Back</a>
               <h1 class="heading-xlarge margin-bottom-15 margin-top-15">You cannot {{ user_journey_verb }}</h1>
 
               {% if request.user.has_user_profile %}
@@ -24,7 +24,7 @@
                 </ul>
 
                 <ul class="margin-top-30">
-                  <li><a class="link margin-top-15" href="{% url 'business-profile-personal-details' %}">Update your details</a></li>
+                  <li><a class="link margin-top-15" href="{% url 'sso_profile:business-profile-personal-details' %}">Update your details</a></li>
                   <li><a class="link" href="{{ services_urls.great_domestic }}">Go back to great.gov.uk home</a></li>
                 </ul>
             {% else %}
@@ -35,7 +35,7 @@
                   <li><a class="link" href="{{ services_urls.events }}">find events and visits</a></li>
                 </ul>
                 <ul class="margin-top-30">
-                  <li><a class="link margin-top-15" href="{% url 'enrolment-individual' step='user-account' %}">Continue creating account for individual</a></li>
+                  <li><a class="link margin-top-15" href="{% url 'sso_profile:enrolment-individual' step='user-account' %}">Continue creating account for individual</a></li>
                   <li><a class="link" href="{{ services_urls.great_domestic }}">Go back to great.gov.uk home</a></li>
                 </ul>
               {% endif %}

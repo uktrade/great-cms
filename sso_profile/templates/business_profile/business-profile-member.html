@@ -40,7 +40,7 @@
                         {% if is_profile_published %}
                         You can now view your <a href="{{ FAB_BUSINESS_PROFILE_URL }}">business profile</a> and <a href="{{ export_opportunities_apply_url }}">find export opportunities</a>.
                         {% else %}
-                        Your business profile has not been published yet, but you can now <a href="{{ export_opportunities_apply_url }}">find export opportunities</a> and apply on <a href="{% url 'selling-online-overseas' %}">Selling online overseas</a>.
+                        Your business profile has not been published yet, but you can now <a href="{{ export_opportunities_apply_url }}">find export opportunities</a> and apply on <a href="{% url 'sso_profile:selling-online-overseas' %}">Selling online overseas</a>.
                         {% endif %}
                     </p>
 
@@ -49,7 +49,7 @@
                     </p>
 
                     <p>
-                        Selected the wrong company? <a href="{% url 'disconnect-account' %}">Change or remove the business from your profile</a>.
+                        Selected the wrong company? <a href="{% url 'sso_profile:disconnect-account' %}">Change or remove the business from your profile</a>.
                     </p>
                 </div>
                 {% endif %}

@@ -6,8 +6,8 @@
 {% block breadcrumbs %}
     {% breadcrumbs 'Invite collaborators' %}
         <a href="{{ services_urls.great_domestic }}">great.gov.uk</a>
-        <a href="{% url 'business-profile' %}">Business profile</a>
-        <a href="{% url 'business-profile-admin-invite-collaborator' %}">Profile settings</a>
+        <a href="{% url 'sso_profile:business-profile' %}">Business profile</a>
+        <a href="{% url 'sso_profile:business-profile-admin-invite-collaborator' %}">Profile settings</a>
     {% endbreadcrumbs %}
 {% endblock %}
 
@@ -48,7 +48,7 @@
 			    <th class="border-white padding-top-15 padding-bottom-10" scope="row">{{ invite.collaborator_email }}</th>
 			    <td class="border-white padding-top-15 padding-bottom-10">{{ invite.role|title }}</td>
 			    <td class="border-white padding-top-15 padding-bottom-10 numeric">
-			        <form action="{% url 'business-profile-collaboration-invite-delete' %}" method="post" enctype="multipart/form-data" class="no-default-margin">
+			        <form action="{% url 'sso_profile:business-profile-collaboration-invite-delete' %}" method="post" enctype="multipart/form-data" class="no-default-margin">
 			            <input type="hidden" name="invite_key" value="{{ invite.uuid }}" />
 						<input type="hidden" name="action" value="delete" />
 				    	<input type="submit" class="link background-white numeric" value="Delete">
