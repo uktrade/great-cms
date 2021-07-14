@@ -12,6 +12,7 @@
 - GP2-2472 - Increase padding on example component
 - GP2-2473 - Increase padding on lesson component
 - GP2-2471 - Update Tooltip component
+- GP2-2491 - Increase spacing at bottom of forms
 
 ### Fixed bugs
 - GP2-3099 - WTE Selector missing
