@@ -95,7 +95,7 @@ MIDDLEWARE = [
     'core.middleware.UserSpecificRedirectMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'core.middleware.CheckGATags',
-    'directory_sso_api_client.middleware.AuthenticationMiddleware',
+    # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
 ]
 
