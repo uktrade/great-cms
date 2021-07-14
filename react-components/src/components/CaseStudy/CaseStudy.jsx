@@ -97,7 +97,7 @@ const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
             {/* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
             <button
               type="button"
-              className="button button--small button--tertiary case-study__open m-t-xs"
+              className="button button--small button--tertiary button--icon case-study__open m-t-xs"
               aria-controls={id}
               aria-expanded={isOpen}
               onClick={toggleCaseStudy}
@@ -106,7 +106,7 @@ const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
               }}
             >
               <i
-                className={`fas fa-chevron-${isOpen ? 'up' : 'down'} m-r-xxs`}
+                className={`fas fa-chevron-${isOpen ? 'up' : 'down'}`}
               />
               {isOpen ? 'Collapse case study' : 'Expand case study'}
             </button>
