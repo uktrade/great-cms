@@ -358,7 +358,7 @@ def test_pagination(
     # TODO: Improve performance of page.url, full_url, full_path
     # Since page.url needs to get the slugs of the article's parent
     # pages it is doing a TON of queries each time this endpoint is hit
-    with django_assert_num_queries(71):
+    with django_assert_num_queries(70):
         while next_url:
             num_pages += 1
             sender = auth_sender(url=next_url)
