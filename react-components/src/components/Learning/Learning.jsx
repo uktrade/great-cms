@@ -19,7 +19,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
           <div className="learning__buttons">
             {hasExample && (
               <button
-                className="button-example button button--small button--tertiary m-r-xxs m-b-xs"
+                className="button-example button button--small button--tertiary button--icon m-r-xxs m-b-xs"
                 type="button"
                 aria-controls={controlAreaId}
                 aria-expanded={toggleExample}
@@ -31,14 +31,14 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
                 <i
                   className={`fas fa-chevron-${
                     toggleExample ? 'up' : 'down'
-                  } m-r-xxs`}
+                  }`}
                 />
                 {example.buttonTitle ? example.buttonTitle : 'Example'}
               </button>
             )}
             {hasLesson && (
               <button
-                className="button-lesson button button--small button--tertiary m-r-xxs m-b-xs"
+                className="button-lesson button button--small button--tertiary button--icon m-r-xxs m-b-xs"
                 type="button"
                 aria-controls={controlAreaId}
                 aria-expanded={toggleExample}
@@ -50,7 +50,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
                 <i
                   className={`fas fa-chevron-${
                     toggleLesson ? 'up' : 'down'
-                  } m-r-xxs`}
+                  }`}
                 />
                 Lesson
               </button>

@@ -352,7 +352,7 @@ export default function CountryFinderModal(props) {
                   }`}
                   onClick={() => setMobilePage('initial')}
                 >
-                  <i className="fa fa-arrow-left m-r-xxs" />
+                  <i className="fa fa-arrow-left" />
                   Back
                 </button>
                 {mobileSection[mobilePage]}
