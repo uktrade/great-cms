@@ -39,7 +39,7 @@
 
         $(document.body).on(
           "click.SelectiveLookupCloseAll",
-          dit.components.lookup.SelectiveLookup.closeAll
+          GOVUK.components.SelectiveLookup.closeAll
         );
 
         cannotFindAddress.addEventListener('click', handleToggleAddress)
@@ -47,7 +47,7 @@
         function PostcodeLookup($input, $field, url, options) {
           var instance = this;
           var service = new dit.data.Service(url);
-          dit.components.lookup.SelectiveLookup.call(this,
+          GOVUK.components.SelectiveLookup.call(this,
             $input,
             service,
             options,
@@ -59,7 +59,7 @@
               addressContainer.style.display = 'none';
           })
         }
-        PostcodeLookup.prototype = new dit.components.lookup.SelectiveLookup;
+        PostcodeLookup.prototype = new GOVUK.components.SelectiveLookup;
         PostcodeLookup.prototype.bindContentEvents = function() {
           var instance = this;
           instance._private.$list.off("click.PostcodeLookup");
@@ -87,7 +87,7 @@
         new PostcodeLookup(
           $(addressFinder),
           $(address),
-          '{% url "sso_profile_api:postcode-search" %}',
+          '{% url "sso_profile:api:postcode-search" %}',
           {lookupOnCharacter: 5}
         );
     </script>

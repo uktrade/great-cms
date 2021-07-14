@@ -57,7 +57,7 @@ class EnrolmentStartView(
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             if helpers.user_has_company(request.user.session_id):
-                return redirect('business-profile')
+                return redirect('sso_profile:business-profile')
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -474,7 +474,7 @@ class CollaboratorEnrolmentView(BaseEnrolmentWizardView):
     def done(self, *args, **kwargs):
         self.create_company_profile()
         messages.success(self.request, 'Account created')
-        return redirect('business-profile')
+        return redirect('sso_profile:business-profile')
 
 
 class PreVerifiedEnrolmentView(BaseEnrolmentWizardView):
@@ -548,7 +548,7 @@ class PreVerifiedEnrolmentView(BaseEnrolmentWizardView):
     def done(self, *args, **kwargs):
         self.claim_company({'given_name': self.request.user.first_name, 'family_name': self.request.user.last_name})
         messages.success(self.request, 'Business profile created')
-        return redirect('business-profile')
+        return redirect('sso_profile:business-profile')
 
 
 class ResendVerificationCodeView(

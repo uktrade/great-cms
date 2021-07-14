@@ -36,12 +36,12 @@
 
       $(document.body).on(
         "click.SelectiveLookupCloseAll",
-        dit.components.lookup.SelectiveLookup.closeAll
+        GOVUK.components.SelectiveLookup.closeAll
       );
-      new dit.components.lookup.CompaniesHouseNameLookup(
+      new GOVUK.components.CompaniesHouseNameLookup(
         $(companyName),
         $(companyNumber),
-        '{% url "sso_profile_api:companies-house-search" %}'
+        '{% url "sso_profile:api:companies-house-search" %}'
        );
     </script>
 {% endblock %}

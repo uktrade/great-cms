@@ -10,7 +10,7 @@
                 {% else %}
                     {% url 'sso_profile:business-profile-personal-details' as url %}
                 {% endif %}
-                {% include 'components/banner.html' with banner_content='Complete your profile to help overseas buyers find you. <a href="'|add:url|add:'">Complete Business Profile</a>.</p>' badge_content='Business Profile incomplete' %}
+                {% include 'components/banner.html' with banner_content='Complete your profile to help overseas buyers find you. <a href="'|add:url|add:'">Complete Business Profile</a>.</p>'|safe badge_content='Business Profile incomplete' %}
             </div>
         {% endif %}
 

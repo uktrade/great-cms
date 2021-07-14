@@ -226,6 +226,11 @@ def success_box(**kwargs):
     }
 
 
+@register.inclusion_tag('components/message_box_with_icon.html')
+def message_box_with_icon(**kwargs):
+    return kwargs
+
+
 @register.simple_tag
 def is_descendant_of_parent_with_slug(child_page, parent_type_classname, slug_):
 

@@ -257,7 +257,7 @@ class PublishFormView(BaseFormView):
 
     def dispatch(self, request, *args, **kwargs):
         if not self.request.user.company.is_publishable:
-            return redirect('business-profile')
+            return redirect('sso_profile:business-profile')
         return super().dispatch(request, *args, **kwargs)
 
     def get_form_kwargs(self):
@@ -314,7 +314,7 @@ class CaseStudyWizardEditView(BaseCaseStudyWizardView):
             sso_session_id=self.request.user.session_id,
         )
         response.raise_for_status()
-        return redirect('business-profile')
+        return redirect('sso_profile:business-profile')
 
     def get_step_url(self, step):
         return reverse(self.url_name, kwargs={'step': step, 'id': self.kwargs['id']})
@@ -326,7 +326,7 @@ class CaseStudyWizardCreateView(BaseCaseStudyWizardView):
             sso_session_id=self.request.user.session_id, data=self.serialize_form_list(form_list)
         )
         response.raise_for_status()
-        return redirect('business-profile')
+        return redirect('sso_profile:business-profile')
 
 
 class ManageCollaborationRequestMixin:

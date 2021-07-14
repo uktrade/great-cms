@@ -97,7 +97,7 @@ urlpatterns = [
     ),
     path(
         'api/',
-        include((api_urls, 'api'), namespace='sso_profile_api'),
+        include((api_urls, 'api'), namespace='api'),
     ),
     path(
         'selling-online-overseas/',

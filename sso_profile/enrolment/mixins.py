@@ -27,7 +27,7 @@ class RemotePasswordValidationError(ValueError):
 class RedirectLoggedInMixin:
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect('about')
+            return redirect('sso_profile:about')
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -35,7 +35,7 @@ class RedirectAlreadyEnrolledMixin:
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             if helpers.user_has_company(request.user.session_id):
-                return redirect('about')
+                return redirect('sso_profile:about')
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -273,7 +273,7 @@ class CreateBusinessProfileMixin:
         if self.request.session.get(constants.SESSION_KEY_BUSINESS_PROFILE_INTENT):
             messages.success(self.request, 'Account created')
             del self.request.session[constants.SESSION_KEY_BUSINESS_PROFILE_INTENT]
-            return redirect('business-profile')
+            return redirect('sso_profile:business-profile')
         elif self.request.session.get(constants.SESSION_KEY_EXPORT_OPPORTUNITY_INTENT):
             del self.request.session[constants.SESSION_KEY_EXPORT_OPPORTUNITY_INTENT]
             return redirect(self.form_session.ingress_url)

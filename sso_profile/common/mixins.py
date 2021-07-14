@@ -12,6 +12,9 @@ class PreventCaptchaRevalidationMixin:
     This is worked around by removing captcha from the form before the view
     calls get_all_cleaned_data
 
+    NB: this 'looks' like it can be swapped out for the version in core.mixins
+    but doing so without a further refactor to the views results in an infinite
+    redirect loop, so be aware that it's not necessarily a quick win.
     """
 
     @cached_property
@@ -25,7 +28,7 @@ class PreventCaptchaRevalidationMixin:
     def get_form(self, step=None, *args, **kwargs):
         form = super().get_form(step=step, *args, **kwargs)
         fields = form.fields
-        if 'captcha' in fields and self.steps.index > self.captcha_step_index:
+        if 'captcha' in fields and self.steps.index and self.steps.index > self.captcha_step_index:
             del fields['captcha']
         return form
 
