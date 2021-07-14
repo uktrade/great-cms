@@ -23,7 +23,7 @@ MEDIA = 'images'
 class DisconnectFromCompanyMixin:
     form_class = forms.NoOperationForm
     success_message = 'Business profile removed from account.'
-    success_url = reverse_lazy('business-profile')
+    success_url = reverse_lazy('sso_profile:business-profile')
 
     def form_valid(self, form):
         try:
@@ -39,7 +39,7 @@ class DisconnectFromCompanyMixin:
 
 class MemberSendAdminRequestMixin:
     form_class = forms.MemberCollaborationRequestForm
-    success_url = reverse_lazy('business-profile')
+    success_url = reverse_lazy('sso_profile:business-profile')
 
     def form_valid(self, form):
         try:
@@ -123,7 +123,7 @@ class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, Form
 
 class BaseFormView(FormView):
 
-    success_url = reverse_lazy('business-profile')
+    success_url = reverse_lazy('sso_profile:business-profile')
 
     def get_initial(self):
         return self.request.user.company.serialize_for_form()
@@ -214,28 +214,28 @@ class RegionalExpertiseFormView(BaseFormView):
     form_class = forms.RegionalExpertiseForm
     template_name = 'business_profile/expertise-regions-form.html'
     success_message = None
-    success_url = reverse_lazy('business-profile-expertise-routing')
+    success_url = reverse_lazy('sso_profile:business-profile-expertise-routing')
 
 
 class CountryExpertiseFormView(BaseFormView):
     form_class = forms.CountryExpertiseForm
     template_name = 'business_profile/expertise-countries-form.html'
     success_message = None
-    success_url = reverse_lazy('business-profile-expertise-routing')
+    success_url = reverse_lazy('sso_profile:business-profile-expertise-routing')
 
 
 class IndustryExpertiseFormView(BaseFormView):
     form_class = forms.IndustryExpertiseForm
     template_name = 'business_profile/expertise-industry-form.html'
     success_message = None
-    success_url = reverse_lazy('business-profile-expertise-routing')
+    success_url = reverse_lazy('sso_profile:business-profile-expertise-routing')
 
 
 class LanguageExpertiseFormView(BaseFormView):
     form_class = forms.LanguageExpertiseForm
     template_name = 'business_profile/expertise-language-form.html'
     success_message = None
-    success_url = reverse_lazy('business-profile-expertise-routing')
+    success_url = reverse_lazy('sso_profile:business-profile-expertise-routing')
 
 
 class BusinessDetailsFormView(BaseFormView):
@@ -252,7 +252,7 @@ class BusinessDetailsFormView(BaseFormView):
 class PublishFormView(BaseFormView):
     form_class = forms.PublishForm
     template_name = 'business_profile/business-profile-publish.html'
-    success_url = reverse_lazy('business-profile')
+    success_url = reverse_lazy('sso_profile:business-profile')
     success_message = 'Published status successfully changed'
 
     def dispatch(self, request, *args, **kwargs):
@@ -331,7 +331,7 @@ class CaseStudyWizardCreateView(BaseCaseStudyWizardView):
 
 class ManageCollaborationRequestMixin:
     form_class = forms.AdminCollaborationRequestManageForm
-    success_url = reverse_lazy('business-profile-admin-tools')
+    success_url = reverse_lazy('sso_profile:business-profile-admin-tools')
 
     def form_valid(self, form):
         if form.cleaned_data['action'] == form.DELETE:
@@ -375,7 +375,7 @@ class MemberDisconnectFromCompany(DisconnectFromCompanyMixin, SuccessMessageMixi
 class AdminCollaboratorEditFormView(SuccessMessageMixin, FormView):
     template_name = 'business_profile/admin-collaborator-edit.html'
     form_class = forms.AdminCollaboratorEditForm
-    success_url = reverse_lazy('business-profile-admin-tools')
+    success_url = reverse_lazy('sso_profile:business-profile-admin-tools')
 
     success_messages = {
         forms.REMOVE_COLLABORATOR: 'Collaborator removed',
@@ -432,7 +432,7 @@ class AdminDisconnectFormView(DisconnectFromCompanyMixin, SuccessMessageMixin, F
 class AdminInviteNewAdminFormView(SuccessMessageMixin, FormView):
     template_name = 'business_profile/admin-invite-admin.html'
     form_class = forms.AdminInviteNewAdminForm
-    success_url = reverse_lazy('business-profile-admin-tools')
+    success_url = reverse_lazy('sso_profile:business-profile-admin-tools')
 
     def get_success_message(self, cleaned_data):
         if cleaned_data['collaborator_email']:
@@ -493,7 +493,7 @@ class AdminInviteCollaboratorFormView(SuccessMessageMixin, FormView):
     success_message = (
         'We have sent a confirmation to %(collaborator_email)s with an invitation to become a collaborator'
     )
-    success_url = reverse_lazy('business-profile-admin-invite-collaborator')
+    success_url = reverse_lazy('sso_profile:business-profile-admin-invite-collaborator')
 
     def get_context_data(self, **kwargs):
         collaborator_invites = helpers.collaborator_invite_list(self.request.user.session_id)
@@ -519,7 +519,7 @@ class AdminInviteCollaboratorFormView(SuccessMessageMixin, FormView):
 class AdminInviteCollaboratorDeleteFormView(SuccessMessageMixin, FormView):
     form_class = forms.AdminInviteCollaboratorDeleteForm
     success_message = 'Invitation successfully deleted'
-    success_url = reverse_lazy('business-profile-admin-invite-collaborator')
+    success_url = reverse_lazy('sso_profile:business-profile-admin-invite-collaborator')
 
     def form_valid(self, form):
         helpers.collaborator_invite_delete(
@@ -546,7 +546,7 @@ class ProductsServicesRoutingFormView(FormView):
 
 class ProductsServicesFormView(BaseFormView):
     success_message = None
-    success_url = reverse_lazy('business-profile-expertise-products-services-routing')
+    success_url = reverse_lazy('sso_profile:business-profile-expertise-products-services-routing')
     field_name = 'expertise_products_services'
 
     def dispatch(self, *args, **kwargs):
@@ -582,7 +582,7 @@ class ProductsServicesFormView(BaseFormView):
 
 class ProductsServicesOtherFormView(BaseFormView):
     success_message = None
-    success_url = reverse_lazy('business-profile-expertise-products-services-routing')
+    success_url = reverse_lazy('sso_profile:business-profile-expertise-products-services-routing')
     field_name = 'expertise_products_services'
     form_class = forms.ExpertiseProductsServicesOtherForm
     template_name = 'business_profile/products-services-other-form.html'
@@ -604,7 +604,7 @@ class ProductsServicesOtherFormView(BaseFormView):
 class PersonalDetailsFormView(sso_profile.common.mixins.CreateUpdateUserProfileMixin, SuccessMessageMixin, FormView):
     template_name = 'business_profile/personal-details-form.html'
     form_class = sso_profile.common.forms.PersonalDetails
-    success_url = reverse_lazy('business-profile')
+    success_url = reverse_lazy('sso_profile:business-profile')
     success_message = 'Details updated'
 
     def form_valid(self, form):
@@ -615,7 +615,7 @@ class PersonalDetailsFormView(sso_profile.common.mixins.CreateUpdateUserProfileM
 class IdentityVerificationRequestFormView(SuccessMessageMixin, FormView):
     template_name = 'business_profile/request-verify.html'
     form_class = forms.NoOperationForm
-    success_url = reverse_lazy('business-profile')
+    success_url = reverse_lazy('sso_profile:business-profile')
     success_message = 'Request to verify sent'
 
     def dispatch(self, *args, **kwargs):

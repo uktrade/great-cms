@@ -16,10 +16,25 @@ from directory_constants import urls, user_roles
 from sso_profile.common.helpers import get_company_admins
 from sso_profile.enrolment import constants, forms, helpers, mixins
 
-URL_NON_COMPANIES_HOUSE_ENROLMENT = reverse_lazy('enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT})
-URL_COMPANIES_HOUSE_ENROLMENT = reverse_lazy('enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT})
-URL_INDIVIDUAL_ENROLMENT = reverse_lazy('enrolment-individual', kwargs={'step': constants.USER_ACCOUNT})
-URL_OVERSEAS_BUSINESS_ENROLMNET = reverse_lazy('enrolment-overseas-business')
+URL_NON_COMPANIES_HOUSE_ENROLMENT = reverse_lazy(
+    'sso_profile:enrolment-sole-trader',
+    kwargs={
+        'step': constants.USER_ACCOUNT,
+    },
+)
+URL_COMPANIES_HOUSE_ENROLMENT = reverse_lazy(
+    'sso_profile:enrolment-companies-house',
+    kwargs={
+        'step': constants.USER_ACCOUNT,
+    },
+)
+URL_INDIVIDUAL_ENROLMENT = reverse_lazy(
+    'sso_profile:enrolment-individual',
+    kwargs={'step': constants.USER_ACCOUNT},
+)
+URL_OVERSEAS_BUSINESS_ENROLMENT = reverse_lazy(
+    'sso_profile:enrolment-overseas-business',
+)
 
 
 class EnrolmentStartView(
@@ -77,7 +92,7 @@ class BusinessTypeRoutingView(
             else:
                 url = URL_INDIVIDUAL_ENROLMENT
         elif choice == constants.OVERSEAS_COMPANY:
-            url = URL_OVERSEAS_BUSINESS_ENROLMNET
+            url = URL_OVERSEAS_BUSINESS_ENROLMENT
         else:
             raise NotImplementedError()
         self.request.session[constants.SESSION_KEY_COMPANY_CHOICE] = choice
@@ -263,7 +278,7 @@ class CompaniesHouseEnrolmentView(mixins.CreateBusinessProfileMixin, BaseEnrolme
                     'name': self.request.user.full_name,
                     'email': self.request.user.email,
                     'profile_remove_member_url': (
-                        self.request.build_absolute_uri(reverse('business-profile-admin-tools'))
+                        self.request.build_absolute_uri(reverse('sso_profile:business-profile-admin-tools'))
                     ),
                     'report_abuse_url': urls.domestic.FEEDBACK,
                 },
@@ -271,7 +286,7 @@ class CompaniesHouseEnrolmentView(mixins.CreateBusinessProfileMixin, BaseEnrolme
             )
             if self.request.user.role == user_roles.MEMBER:
                 messages.add_message(self.request, messages.SUCCESS, 'You are now linked to the profile.')
-            return redirect(reverse('business-profile') + '?member_user_linked=true')
+            return redirect(reverse('sso_profile:business-profile') + '?member_user_linked=true')
         else:
             return super().done(form_list, form_dict=form_dict, **kwargs)
 
@@ -313,7 +328,7 @@ class NonCompaniesHouseEnrolmentView(mixins.CreateBusinessProfileMixin, BaseEnro
 
     @property
     def verification_link_url(self):
-        url = reverse('enrolment-sole-trader', kwargs={'step': constants.VERIFICATION})
+        url = reverse('sso_profile:enrolment-sole-trader', kwargs={'step': constants.VERIFICATION})
         return self.request.build_absolute_uri(url)
 
     def get_context_data(self, **kwargs):
@@ -329,7 +344,7 @@ class IndividualUserEnrolmentInterstitialView(mixins.ReadUserIntentMixin, Templa
 
     def dispatch(self, request, *args, **kwargs):
         if not self.has_business_profile_intent_in_session():
-            url = reverse('enrolment-individual', kwargs={'step': constants.PERSONAL_INFO})
+            url = reverse('sso_profile:enrolment-individual', kwargs={'step': constants.PERSONAL_INFO})
             return redirect(url)
         return super().dispatch(request, *args, **kwargs)
 
@@ -371,7 +386,7 @@ class IndividualUserEnrolmentView(BaseEnrolmentWizardView):
 
     @property
     def verification_link_url(self):
-        url = reverse('enrolment-individual', kwargs={'step': constants.VERIFICATION})
+        url = reverse('sso_profile:enrolment-individual', kwargs={'step': constants.VERIFICATION})
         return self.request.build_absolute_uri(url)
 
     def get_template_names(self):
@@ -410,7 +425,7 @@ class CollaboratorEnrolmentView(BaseEnrolmentWizardView):
 
     @property
     def verification_link_url(self):
-        url = reverse('enrolment-collaboration', kwargs={'step': constants.VERIFICATION})
+        url = reverse('sso_profile:enrolment-collaboration', kwargs={'step': constants.VERIFICATION})
         return self.request.build_absolute_uri(url)
 
     def get(self, *args, **kwargs):
@@ -501,7 +516,7 @@ class PreVerifiedEnrolmentView(BaseEnrolmentWizardView):
                 self.storage.extra_data[constants.SESSION_KEY_ENROL_KEY] = key
                 self.request.session.save()
             else:
-                return redirect(reverse('enrolment-start'))
+                return redirect(reverse('sso_profile:enrolment-start'))
         # at this point all the steps will be hidden as the user is logged
         # in and has a user profile, so the normal `get` method fails with
         # IndexError, meaning `done` will not be hit. Working around this:
@@ -509,7 +524,7 @@ class PreVerifiedEnrolmentView(BaseEnrolmentWizardView):
             return self.done()
         if self.steps.current == constants.PERSONAL_INFO:
             if not self.storage.extra_data.get(constants.SESSION_KEY_COMPANY_DATA):
-                return redirect(reverse('enrolment-start'))
+                return redirect(reverse('sso_profile:enrolment-start'))
         return super().get(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
@@ -567,7 +582,7 @@ class ResendVerificationCodeView(
 
     @property
     def verification_link_url(self):
-        url = reverse('resend-verification', kwargs={'step': constants.VERIFICATION})
+        url = reverse('sso_profile:resend-verification', kwargs={'step': constants.VERIFICATION})
         return self.request.build_absolute_uri(url)
 
     def get_template_names(self):

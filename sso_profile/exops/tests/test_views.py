@@ -16,7 +16,7 @@ def test_export_opportunities_applications_exposes_context(client, settings, use
     client.force_login(user)
     settings.EXPORTING_OPPORTUNITIES_SEARCH_URL = 'http://find'
 
-    response = client.get(reverse('export-opportunities-applications'))
+    response = client.get(reverse('sso_profile:export-opportunities-applications'))
     context_data = response.context_data
 
     assert context_data['exops_tab_classes'] == 'active'
@@ -28,7 +28,7 @@ def test_export_opportunities_email_alerts_exposes_context(client, settings, use
     client.force_login(user)
     settings.EXPORTING_OPPORTUNITIES_SEARCH_URL = 'http://find'
 
-    response = client.get(reverse('export-opportunities-email-alerts'))
+    response = client.get(reverse('sso_profile:export-opportunities-email-alerts'))
     context_data = response.context_data
 
     assert context_data['exops_tab_classes'] == 'active'
@@ -36,13 +36,13 @@ def test_export_opportunities_email_alerts_exposes_context(client, settings, use
 
 
 def test_opportunities_applications_unauthenticated(client):
-    response = client.get(reverse('export-opportunities-applications'))
+    response = client.get(reverse('sso_profile:export-opportunities-applications'))
 
     assert response.status_code == 302
 
 
 def test_opportunities_email_alerts_unauthenticated(client):
-    response = client.get(reverse('export-opportunities-email-alerts'))
+    response = client.get(reverse('sso_profile:export-opportunities-email-alerts'))
 
     assert response.status_code == 302
 
@@ -51,7 +51,7 @@ def test_opportunities_email_alerts_unauthenticated(client):
 def test_opportunities_applications_retrieve_not_found(client, user):
     client.force_login(user)
 
-    response = client.get(reverse('export-opportunities-applications'))
+    response = client.get(reverse('sso_profile:export-opportunities-applications'))
 
     assert response.template_name == [views.ExportOpportunitiesApplicationsView.template_name_not_exops_user]
 
@@ -60,7 +60,7 @@ def test_opportunities_applications_retrieve_not_found(client, user):
 def test_opportunities_applications_retrieve_found(client, user):
     client.force_login(user)
 
-    response = client.get(reverse('export-opportunities-applications'))
+    response = client.get(reverse('sso_profile:export-opportunities-applications'))
 
     assert response.template_name == [views.ExportOpportunitiesApplicationsView.template_name_exops_user]
 
@@ -69,7 +69,7 @@ def test_opportunities_applications_retrieve_found(client, user):
 def test_opportunities_applications_retrieve_error(client, user):
     client.force_login(user)
 
-    response = client.get(reverse('export-opportunities-applications'))
+    response = client.get(reverse('sso_profile:export-opportunities-applications'))
 
     assert response.template_name == [views.ExportOpportunitiesApplicationsView.template_name_error]
 
@@ -78,7 +78,7 @@ def test_opportunities_applications_retrieve_error(client, user):
 def test_opportunities_email_alerts_retrieve_not_found(client, user):
     client.force_login(user)
 
-    response = client.get(reverse('export-opportunities-email-alerts'))
+    response = client.get(reverse('sso_profile:export-opportunities-email-alerts'))
 
     assert response.template_name == [views.ExportOpportunitiesEmailAlertsView.template_name_not_exops_user]
 
@@ -87,7 +87,7 @@ def test_opportunities_email_alerts_retrieve_not_found(client, user):
 def test_opportunities_email_alerts_retrieve_found(client, user):
     client.force_login(user)
 
-    response = client.get(reverse('export-opportunities-email-alerts'))
+    response = client.get(reverse('sso_profile:export-opportunities-email-alerts'))
 
     assert response.template_name == [views.ExportOpportunitiesEmailAlertsView.template_name_exops_user]
 
@@ -96,6 +96,6 @@ def test_opportunities_email_alerts_retrieve_found(client, user):
 def test_opportunities_email_alerts_retrieve_error(client, user):
     client.force_login(user)
 
-    response = client.get(reverse('export-opportunities-email-alerts'))
+    response = client.get(reverse('sso_profile:export-opportunities-email-alerts'))
 
     assert response.template_name == [views.ExportOpportunitiesEmailAlertsView.template_name_error]

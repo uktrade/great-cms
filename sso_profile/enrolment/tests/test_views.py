@@ -14,11 +14,11 @@ from sso_profile.common.tests.helpers import create_response, submit_step_factor
 from sso_profile.enrolment import constants, forms, helpers, mixins, views
 
 enrolment_urls = (
-    reverse('enrolment-business-type'),
-    reverse('enrolment-start'),
-    reverse('enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT}),
-    reverse('enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT}),
-    reverse('enrolment-individual', kwargs={'step': constants.USER_ACCOUNT}),
+    reverse('sso_profile:enrolment-business-type'),
+    reverse('sso_profile:enrolment-start'),
+    reverse('sso_profile:enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT}),
+    reverse('sso_profile:enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT}),
+    reverse('sso_profile:enrolment-individual', kwargs={'step': constants.USER_ACCOUNT}),
 )
 company_types = (constants.COMPANIES_HOUSE_COMPANY, constants.NON_COMPANIES_HOUSE_COMPANY)
 BUSINESS_INFO_NON_COMPANIES_HOUSE = 'business-info-non-companies-house'
@@ -369,12 +369,12 @@ def session_client_referrer_factory(client, settings):
     (
         (constants.COMPANIES_HOUSE_COMPANY, views.URL_COMPANIES_HOUSE_ENROLMENT),
         (constants.NON_COMPANIES_HOUSE_COMPANY, views.URL_NON_COMPANIES_HOUSE_ENROLMENT),
-        (constants.OVERSEAS_COMPANY, views.URL_OVERSEAS_BUSINESS_ENROLMNET),
+        (constants.OVERSEAS_COMPANY, views.URL_OVERSEAS_BUSINESS_ENROLMENT),
         (constants.NOT_COMPANY, views.URL_INDIVIDUAL_ENROLMENT),
     ),
 )
 def test_enrolment_routing(client, choice, expected_url):
-    url = reverse('enrolment-business-type')
+    url = reverse('sso_profile:enrolment-business-type')
 
     response = client.post(url, {'choice': choice})
 
@@ -383,15 +383,15 @@ def test_enrolment_routing(client, choice, expected_url):
 
 
 def test_enrolment_routing_individual_business_profile_intent(client, user):
-    response = client.get(reverse('enrolment-business-type'), {'business-profile-intent': True})
+    response = client.get(reverse('sso_profile:enrolment-business-type'), {'business-profile-intent': True})
     assert response.status_code == 200
 
-    url = reverse('enrolment-business-type')
+    url = reverse('sso_profile:enrolment-business-type')
 
     response = client.post(url, {'choice': constants.NOT_COMPANY})
 
     assert response.status_code == 302
-    assert response.url == reverse('enrolment-individual-interstitial')
+    assert response.url == reverse('sso_profile:enrolment-individual-interstitial')
 
 
 def test_enrolment_is_new_enrollement(client, submit_companies_house_step, steps_data, user):
@@ -403,7 +403,7 @@ def test_enrolment_is_new_enrollement(client, submit_companies_house_step, steps
     client.force_login(user)
     response = submit_companies_house_step(steps_data[constants.COMPANY_SEARCH])
     assert response.status_code == 302
-    response = client.get(reverse('enrolment-business-type'), {'new_enrollment': True})
+    response = client.get(reverse('sso_profile:enrolment-business-type'), {'new_enrollment': True})
     assert response.status_code == 200
 
 
@@ -417,7 +417,7 @@ def test_enrolment_is_not_new_enrollement_has_profile(client, submit_companies_h
     client.force_login(user)
     response = submit_companies_house_step(steps_data[constants.COMPANY_SEARCH])
     assert response.status_code == 302
-    response = client.get(reverse('enrolment-business-type'), {'new_enrollment': False})
+    response = client.get(reverse('sso_profile:enrolment-business-type'), {'new_enrollment': False})
     assert response.status_code == 200
 
 
@@ -541,11 +541,11 @@ def test_companies_house_enrolment_expose_company(client, submit_companies_house
 def test_companies_house_enrolment_redirect_to_start(client, user):
     client.force_login(user)
 
-    url = reverse('enrolment-companies-house', kwargs={'step': constants.ADDRESS_SEARCH})
+    url = reverse('sso_profile:enrolment-companies-house', kwargs={'step': constants.ADDRESS_SEARCH})
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('enrolment-business-type')
+    assert response.url == reverse('sso_profile:enrolment-business-type')
 
 
 @mock.patch('sso_profile.enrolment.views.helpers.create_company_member')
@@ -563,7 +563,7 @@ def test_companies_house_enrolment_submit_end_to_end(
 
     # given the ingress url is set
     response = client.get(
-        reverse('enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT}),
+        reverse('sso_profile:enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT}),
         HTTP_REFERER=ingress_url,
         HTTP_HOST='testserver',
     )
@@ -621,7 +621,7 @@ def test_companies_house_enrolment_submit_end_to_end_logged_in(
 ):
     client.force_login(user)
 
-    url = reverse('enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT})
+    url = reverse('sso_profile:enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT})
     response = client.get(url)
     assert response.status_code == 302
 
@@ -679,7 +679,7 @@ def test_companies_house_enrolment_submit_end_to_end_no_address(
         'company_status': 'active',
     }
 
-    url = reverse('enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT})
+    url = reverse('sso_profile:enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT})
     response = client.get(url)
 
     assert response.status_code == 302
@@ -737,7 +737,7 @@ def test_companies_house_enrolment_submit_end_to_end_no_address(
 
 
 def test_companies_house_enrolment_suppress_success_page(client, submit_companies_house_step, steps_data, user):
-    response = client.get(reverse('enrolment-business-type'), {'business-profile-intent': True})
+    response = client.get(reverse('sso_profile:enrolment-business-type'), {'business-profile-intent': True})
     assert response.status_code == 200
 
     response = submit_companies_house_step(steps_data[constants.USER_ACCOUNT])
@@ -762,7 +762,7 @@ def test_companies_house_enrolment_suppress_success_page(client, submit_companie
     response = client.get(response.url)
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
 
 
 @pytest.mark.parametrize('step', [name for name, _ in views.CompaniesHouseEnrolmentView.form_list])
@@ -771,11 +771,11 @@ def test_companies_house_enrolment_has_company(client, step, mock_user_has_compa
 
     mock_user_has_company.return_value = create_response()
 
-    url = reverse('enrolment-companies-house', kwargs={'step': step})
+    url = reverse('sso_profile:enrolment-companies-house', kwargs={'step': step})
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('about')
+    assert response.url == reverse('sso_profile:about')
 
 
 @pytest.mark.parametrize('step', [name for name, _ in views.CompaniesHouseEnrolmentView.form_list])
@@ -784,7 +784,7 @@ def test_companies_house_enrolment_has_company_error(client, step, mock_user_has
 
     mock_user_has_company.return_value = create_response(status_code=500)
 
-    url = reverse('enrolment-companies-house', kwargs={'step': step})
+    url = reverse('sso_profile:enrolment-companies-house', kwargs={'step': step})
 
     with pytest.raises(HTTPError):
         client.get(url)
@@ -988,18 +988,18 @@ def test_user_has_company_redirect_on_start(client, mock_user_has_company, user)
     client.force_login(user)
     mock_user_has_company.return_value = create_response()
 
-    url = reverse('enrolment-start')
+    url = reverse('sso_profile:enrolment-start')
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
 
 
 def test_user_has_no_company_redirect_on_start(client, mock_user_has_company, user):
     client.force_login(user)
     mock_user_has_company.return_value = create_response(status_code=404)
 
-    url = reverse('enrolment-start')
+    url = reverse('sso_profile:enrolment-start')
     response = client.get(url)
 
     assert response.status_code == 200
@@ -1253,7 +1253,7 @@ def test_confirm_user_resend_verification_code_complete(client, submit_resend_ve
         steps_data[constants.VERIFICATION], step_name=resolve(response.url).kwargs['step']
     )
     assert response.status_code == 302
-    assert response.url == reverse('enrolment-business-type')
+    assert response.url == reverse('sso_profile:enrolment-business-type')
 
     assert str(response.cookies['debug_sso_session_cookie']) == (
         'Set-Cookie: debug_sso_session_cookie=foo-bar; Domain=.trade.great; '
@@ -1282,7 +1282,7 @@ def test_confirm_user_resend_verification_code_choice_companies_house(
 
     assert response.status_code == 302
 
-    assert response.url == reverse('enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT})
+    assert response.url == reverse('sso_profile:enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT})
 
     assert str(response.cookies['debug_sso_session_cookie']) == (
         'Set-Cookie: debug_sso_session_cookie=foo-bar; Domain=.trade.great; '
@@ -1311,7 +1311,7 @@ def test_confirm_user_resend_verification_code_choice_non_companies_house(
 
     assert response.status_code == 302
 
-    assert response.url == reverse('enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT})
+    assert response.url == reverse('sso_profile:enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT})
 
     assert str(response.cookies['debug_sso_session_cookie']) == (
         'Set-Cookie: debug_sso_session_cookie=foo-bar; Domain=.trade.great; '
@@ -1340,7 +1340,7 @@ def test_confirm_user_resend_verification_code_choice_individual(
 
     assert response.status_code == 302
 
-    assert response.url == reverse('enrolment-individual', kwargs={'step': constants.USER_ACCOUNT})
+    assert response.url == reverse('sso_profile:enrolment-individual', kwargs={'step': constants.USER_ACCOUNT})
 
     assert str(response.cookies['debug_sso_session_cookie']) == (
         'Set-Cookie: debug_sso_session_cookie=foo-bar; Domain=.trade.great; '
@@ -1356,16 +1356,16 @@ def test_confirm_user_resend_verification_code_choice_individual(
 def test_confirm_user_resend_verification_logged_in(client, user):
     client.force_login(user)
 
-    url = reverse('resend-verification', kwargs={'step': constants.RESEND_VERIFICATION})
+    url = reverse('sso_profile:resend-verification', kwargs={'step': constants.RESEND_VERIFICATION})
 
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('about')
+    assert response.url == reverse('sso_profile:about')
 
 
 def test_confirm_user_resend_verification_context_urls(client):
-    url = reverse('resend-verification', kwargs={'step': constants.RESEND_VERIFICATION})
+    url = reverse('sso_profile:resend-verification', kwargs={'step': constants.RESEND_VERIFICATION})
 
     response = client.get(url)
 
@@ -1404,21 +1404,21 @@ def test_non_companies_house_enrolment_expose_company(client, submit_non_compani
 
 
 def test_anonymouse_user_redirected(client):
-    url = reverse('enrolment-sole-trader', kwargs={'step': constants.PERSONAL_INFO})
+    url = reverse('sso_profile:enrolment-sole-trader', kwargs={'step': constants.PERSONAL_INFO})
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('enrolment-start')
+    assert response.url == reverse('sso_profile:enrolment-start')
 
 
 def test_non_companies_house_enrolment_redirect_to_start(client, user):
     client.force_login(user)
 
-    url = reverse('enrolment-sole-trader', kwargs={'step': constants.PERSONAL_INFO})
+    url = reverse('sso_profile:enrolment-sole-trader', kwargs={'step': constants.PERSONAL_INFO})
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('enrolment-business-type')
+    assert response.url == reverse('sso_profile:enrolment-business-type')
 
 
 def test_non_companies_house_enrolment_submit_end_to_end_logged_in(
@@ -1428,13 +1428,13 @@ def test_non_companies_house_enrolment_submit_end_to_end_logged_in(
 
     # given the ingress url is set
     response = client.get(
-        reverse('enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT}),
+        reverse('sso_profile:enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT}),
         HTTP_REFERER=ingress_url,
         HTTP_HOST='testserver',
     )
 
     client.force_login(user)
-    url = reverse('enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT})
+    url = reverse('sso_profile:enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT})
     response = client.get(url)
 
     assert response.status_code == 302
@@ -1478,7 +1478,7 @@ def test_non_companies_house_enrolment_has_user_profile(client, submit_non_compa
     user.has_user_profile = True
     client.force_login(user)
 
-    url = reverse('enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT})
+    url = reverse('sso_profile:enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT})
     response = client.get(url)
 
     assert response.status_code == 302
@@ -1495,7 +1495,7 @@ def test_non_companies_house_enrolment_has_user_profile(client, submit_non_compa
 
 
 def test_non_companies_house_enrolment_suppress_success(client, submit_non_companies_house_step, steps_data, user):
-    response = client.get(reverse('enrolment-business-type'), {'business-profile-intent': True})
+    response = client.get(reverse('sso_profile:enrolment-business-type'), {'business-profile-intent': True})
     assert response.status_code == 200
 
     response = submit_non_companies_house_step(steps_data[constants.USER_ACCOUNT])
@@ -1515,7 +1515,7 @@ def test_non_companies_house_enrolment_suppress_success(client, submit_non_compa
     response = client.get(response.url)
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
 
 
 NON_COMPANIES_HOUSE_STEPS = [name for name, _ in views.NonCompaniesHouseEnrolmentView.form_list]
@@ -1523,7 +1523,7 @@ NON_COMPANIES_HOUSE_STEPS = [name for name, _ in views.NonCompaniesHouseEnrolmen
 
 def test_non_companies_house_enrolment_exopps_intent(client, submit_non_companies_house_step, steps_data, user):
     client.defaults['HTTP_REFERER'] = 'http://testserver.com/foo/'
-    response = client.get(reverse('enrolment-business-type'), {'export-opportunity-intent': True})
+    response = client.get(reverse('sso_profile:enrolment-business-type'), {'export-opportunity-intent': True})
 
     assert response.status_code == 200
 
@@ -1554,11 +1554,11 @@ def test_non_companies_house_enrolment_has_company(client, step, mock_user_has_c
 
     mock_user_has_company.return_value = create_response()
 
-    url = reverse('enrolment-sole-trader', kwargs={'step': step})
+    url = reverse('sso_profile:enrolment-sole-trader', kwargs={'step': step})
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('about')
+    assert response.url == reverse('sso_profile:about')
 
 
 @pytest.mark.parametrize('step', NON_COMPANIES_HOUSE_STEPS)
@@ -1567,7 +1567,7 @@ def test_non_companies_house_enrolment_has_company_error(client, step, mock_user
 
     mock_user_has_company.return_value = create_response(status_code=500)
 
-    url = reverse('enrolment-sole-trader', kwargs={'step': step})
+    url = reverse('sso_profile:enrolment-sole-trader', kwargs={'step': step})
 
     with pytest.raises(HTTPError):
         client.get(url)
@@ -1582,27 +1582,27 @@ def test_claim_preverified_no_key(client, submit_pre_verified_step, steps_data, 
 
     client.force_login(user)
 
-    url = reverse('enrolment-pre-verified', kwargs={'step': constants.PERSONAL_INFO})
+    url = reverse('sso_profile:enrolment-pre-verified', kwargs={'step': constants.PERSONAL_INFO})
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == reverse('enrolment-start')
+    assert response.url == reverse('sso_profile:enrolment-start')
 
 
 def test_claim_preverified_bad_key(client, mock_retrieve_preverified_company):
     mock_retrieve_preverified_company.return_value = create_response(status_code=404)
 
-    url = reverse('enrolment-pre-verified', kwargs={'step': constants.USER_ACCOUNT})
+    url = reverse('sso_profile:enrolment-pre-verified', kwargs={'step': constants.USER_ACCOUNT})
     response = client.get(url, {'key': '123'})
 
     assert response.status_code == 302
-    assert response.url == reverse('enrolment-start')
+    assert response.url == reverse('sso_profile:enrolment-start')
 
 
 def test_claim_preverified_exposes_company(
     submit_pre_verified_step, mock_claim_company, client, steps_data, preverified_company_data, user
 ):
-    url = reverse('enrolment-pre-verified', kwargs={'step': constants.USER_ACCOUNT})
+    url = reverse('sso_profile:enrolment-pre-verified', kwargs={'step': constants.USER_ACCOUNT})
     response = client.get(url, {'key': 'some-key'})
 
     assert response.status_code == 200
@@ -1615,7 +1615,7 @@ def test_claim_preverified_exposes_company(
 
     client.force_login(user)
 
-    url = reverse('enrolment-pre-verified', kwargs={'step': constants.PERSONAL_INFO})
+    url = reverse('sso_profile:enrolment-pre-verified', kwargs={'step': constants.PERSONAL_INFO})
     response = client.get(url)
 
     assert response.status_code == 200
@@ -1623,7 +1623,7 @@ def test_claim_preverified_exposes_company(
 
 
 def test_claim_preverified_success(submit_pre_verified_step, mock_claim_company, client, steps_data, user):
-    url = reverse('enrolment-pre-verified', kwargs={'step': constants.USER_ACCOUNT})
+    url = reverse('sso_profile:enrolment-pre-verified', kwargs={'step': constants.USER_ACCOUNT})
     response = client.get(url, {'key': 'some-key'})
 
     assert response.status_code == 200
@@ -1647,7 +1647,7 @@ def test_claim_preverified_success(submit_pre_verified_step, mock_claim_company,
     response = client.get(response.url)
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
     assert mock_claim_company.call_count == 1
     assert mock_claim_company.call_args == mock.call(data={'name': 'Foo Example'}, key='some-key', sso_session_id='123')
 
@@ -1660,11 +1660,11 @@ def test_claim_preverified_success_logged_in(
     user.last_name = 'Example'
     client.force_login(user)
 
-    url = reverse('enrolment-pre-verified', kwargs={'step': constants.USER_ACCOUNT})
+    url = reverse('sso_profile:enrolment-pre-verified', kwargs={'step': constants.USER_ACCOUNT})
     response = client.get(url, {'key': 'some-key'})
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
     assert mock_create_user_profile.call_count == 0
     assert mock_claim_company.call_count == 1
     assert mock_claim_company.call_args == mock.call(data={'name': 'Foo Example'}, key='some-key', sso_session_id='123')
@@ -1768,7 +1768,7 @@ def test_individual_enrolment_submit_end_to_end_logged_in(
 ):
     client.force_login(user)
 
-    url = reverse('enrolment-individual', kwargs={'step': constants.USER_ACCOUNT})
+    url = reverse('sso_profile:enrolment-individual', kwargs={'step': constants.USER_ACCOUNT})
     response = client.get(url)
     assert response.status_code == 302
 
@@ -1790,7 +1790,7 @@ def test_individual_enrolment_submit_end_to_end_logged_in(
 
 
 def test_overseas_business_enrolmnet(client):
-    url = reverse('enrolment-overseas-business')
+    url = reverse('sso_profile:enrolment-overseas-business')
 
     response = client.get(url)
 
@@ -1798,8 +1798,8 @@ def test_overseas_business_enrolmnet(client):
 
 
 def test_enrolment_individual_interstitial_anonymous_user(client):
-    expected = reverse('enrolment-individual', kwargs={'step': constants.PERSONAL_INFO})
-    url = reverse('enrolment-individual-interstitial')
+    expected = reverse('sso_profile:enrolment-individual', kwargs={'step': constants.PERSONAL_INFO})
+    url = reverse('sso_profile:enrolment-individual-interstitial')
 
     response = client.get(url)
 
@@ -1808,11 +1808,11 @@ def test_enrolment_individual_interstitial_anonymous_user(client):
 
 
 def test_enrolment_individual_interstitial_create_business_profile_intent(client, user):
-    response = client.get(reverse('enrolment-business-type'), {'business-profile-intent': True})
+    response = client.get(reverse('sso_profile:enrolment-business-type'), {'business-profile-intent': True})
     assert response.status_code == 200
 
-    expected = reverse('enrolment-individual', kwargs={'step': constants.USER_ACCOUNT})
-    url = reverse('enrolment-individual-interstitial')
+    expected = reverse('sso_profile:enrolment-individual', kwargs={'step': constants.USER_ACCOUNT})
+    url = reverse('sso_profile:enrolment-individual-interstitial')
 
     response = client.get(url)
 
@@ -1821,17 +1821,19 @@ def test_enrolment_individual_interstitial_create_business_profile_intent(client
 
 
 expose_user_jourey_urls = (
-    reverse('enrolment-individual', kwargs={'step': constants.USER_ACCOUNT}),
-    reverse('enrolment-pre-verified', kwargs={'step': constants.USER_ACCOUNT}) + '?key=some-key',
-    reverse('enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT}),
-    reverse('enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT}),
-    reverse('enrolment-overseas-business'),
-    reverse('enrolment-business-type'),
-    reverse('enrolment-start'),
+    reverse('sso_profile:enrolment-individual', kwargs={'step': constants.USER_ACCOUNT}),
+    reverse('sso_profile:enrolment-pre-verified', kwargs={'step': constants.USER_ACCOUNT}) + '?key=some-key',
+    reverse('sso_profile:enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT}),
+    reverse('sso_profile:enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT}),
+    reverse('sso_profile:enrolment-overseas-business'),
+    reverse('sso_profile:enrolment-business-type'),
+    reverse('sso_profile:enrolment-start'),
 )
 
 
-@pytest.mark.parametrize('intent_write_url', (reverse('enrolment-business-type'), reverse('enrolment-start')))
+@pytest.mark.parametrize(
+    'intent_write_url', (reverse('sso_profile:enrolment-business-type'), reverse('sso_profile:enrolment-start'))
+)
 @pytest.mark.parametrize(
     'params,verb',
     (
@@ -1859,7 +1861,7 @@ def test_expose_user_journey_intent(intent_write_url, intent_read_url, params, c
     assert response.context_data['user_journey_verb'] == verb
 
 
-@pytest.mark.parametrize('url', expose_user_jourey_urls + (reverse('enrolment-individual-interstitial'),))
+@pytest.mark.parametrize('url', expose_user_jourey_urls + (reverse('sso_profile:enrolment-individual-interstitial'),))
 def test_expose_user_journey_mixin_logged_in(url, client, user):
     client.force_login(user)
 
@@ -1882,7 +1884,7 @@ def test_expose_user_journey_mixin_account_intent(url, client):
 def test_collaborator_enrolment_wrong_invite_key(client, mock_collaborator_invite_retrieve):
     mock_collaborator_invite_retrieve.return_value = create_response(status_code=404)
 
-    url = reverse('enrolment-collaboration', kwargs={'step': constants.USER_ACCOUNT})
+    url = reverse('sso_profile:enrolment-collaboration', kwargs={'step': constants.USER_ACCOUNT})
     response = client.get(f'{url}?invite_key=abc')
 
     assert response.status_code == 200
@@ -1897,7 +1899,7 @@ def test_collaborator_enrolment_submit_end_to_end(
     steps_data,
     mock_collaborator_invite_accept,
 ):
-    url = reverse('enrolment-collaboration', kwargs={'step': constants.USER_ACCOUNT})
+    url = reverse('sso_profile:enrolment-collaboration', kwargs={'step': constants.USER_ACCOUNT})
     client.get(f'{url}?invite_key=abc')
 
     response = submit_collaborator_enrolment_step(steps_data[constants.USER_ACCOUNT])
@@ -1932,10 +1934,10 @@ def test_collaborator_enrolment_submit_end_to_end_logged_in(
 ):
     client.force_login(user)
 
-    url = reverse('enrolment-collaboration', kwargs={'step': constants.USER_ACCOUNT})
+    url = reverse('sso_profile:enrolment-collaboration', kwargs={'step': constants.USER_ACCOUNT})
     client.get(f'{url}?invite_key=abc')
 
-    url = reverse('enrolment-individual', kwargs={'step': constants.USER_ACCOUNT})
+    url = reverse('sso_profile:enrolment-individual', kwargs={'step': constants.USER_ACCOUNT})
     response = client.get(url)
     assert response.status_code == 302
 
@@ -1950,7 +1952,7 @@ def test_collaborator_enrolment_submit_end_to_end_logged_in(
 
     response = client.get(response.url)
     assert response.status_code == 302
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
 
     assert mock_create_user_profile.call_count == 1
     assert mock_create_user_profile.call_args == mock.call(
@@ -1967,11 +1969,11 @@ def test_collaborator_enrolment_submit_end_to_end_already_has_profile(
     user.has_user_profile = True
     client.force_login(user)
 
-    url = reverse('enrolment-collaboration', kwargs={'step': constants.USER_ACCOUNT})
+    url = reverse('sso_profile:enrolment-collaboration', kwargs={'step': constants.USER_ACCOUNT})
     response = client.get(f'{url}?invite_key=abc')
 
     assert response.status_code == 302
-    assert response.url == reverse('business-profile')
+    assert response.url == reverse('sso_profile:business-profile')
     assert mock_create_user_profile.call_count == 0
     assert mock_collaborator_invite_accept.call_count == 1
     assert mock_collaborator_invite_accept.call_args == mock.call(invite_key='abc', sso_session_id='123')

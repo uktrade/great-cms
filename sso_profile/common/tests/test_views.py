@@ -86,14 +86,14 @@ def test_address_lookup_ok(mock_get, client):
 
 
 def test_about_view_exposes_context_and_template(client):
-    response = client.get(reverse('about'))
+    response = client.get(reverse('sso_profile:about'))
 
     assert response.context_data['about_tab_classes'] == 'active'
     assert response.template_name == [views.AboutView.template_name]
 
 
 def test_not_signed_in_does_not_display_email(client):
-    response = client.get(reverse('about'))
+    response = client.get(reverse('sso_profile:about'))
 
     assert 'You are signed in as' not in str(response.content)
     assert SIGN_OUT_LABEL not in str(response.content)
