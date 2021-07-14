@@ -11,7 +11,6 @@ from formtools.wizard.views import NamedUrlSessionWizardView
 
 import sso_profile.common.forms
 import sso_profile.common.mixins
-from core.mixins import PreventCaptchaRevalidationMixin
 from directory_constants import urls, user_roles
 from sso_profile.common.helpers import get_company_admins
 from sso_profile.enrolment import constants, forms, helpers, mixins
@@ -103,7 +102,7 @@ class BaseEnrolmentWizardView(
     mixins.RedirectAlreadyEnrolledMixin,
     FormSessionMixin,
     mixins.RestartOnStepSkipped,
-    PreventCaptchaRevalidationMixin,
+    sso_profile.common.mixins.PreventCaptchaRevalidationMixin,
     sso_profile.common.mixins.CreateUpdateUserProfileMixin,
     mixins.ProgressIndicatorMixin,
     mixins.StepsListMixin,
