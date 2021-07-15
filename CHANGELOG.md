@@ -17,6 +17,7 @@
 - GP2-3082 - Fix gutter size on Export plan homepage
 
 ### Fixed bugs
+- GP2-2619 - Case study quotes - attrributions fall off
 - GP2-3099 - WTE Selector missing
 - GP2-2428 - Country finder back buttons in mobile
 - GP2-2938 - DAC_Nondescriptive_Labels_02 Lesson complete checkbox
