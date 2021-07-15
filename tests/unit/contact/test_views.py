@@ -1051,7 +1051,9 @@ def test_selling_online_overseas_contact_form_organisation_url_redirect(
 @pytest.mark.parametrize('flow', ('CH Company', 'Non-CH Company', 'Individual'))
 @mock.patch('directory_forms_api_client.actions.ZendeskAction')
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
+@mock.patch('contact.views.sso_api_client.user.update_user_profile')
 def test_selling_online_overseas_contact_form_submission(  # noqa: C901
+    mock_sso_call,
     mock_form_session,
     mock_zendesk_action,
     flow,
@@ -1193,6 +1195,10 @@ def test_selling_online_overseas_contact_form_submission(  # noqa: C901
     assert response.status_code == 302
 
     assert response.url == reverse('contact:contact-us-selling-online-overseas-success')
+
+    # check first_name, last_name  sent to directory-sso for profile update
+    assert mock_sso_call.call_count == 1
+    assert mock_sso_call.call_args == mock.call(sso_session_id='123', data={'first_name': 'Jim', 'last_name': 'Cross'})
 
     # Check data sent to Zendesk
     assert mock_zendesk_action.call_count == 1
