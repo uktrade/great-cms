@@ -939,6 +939,13 @@ $desktop: 1024px;
       @include tablet {
         display: none;
       }
+
+      .quote-block {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+      }
     }
   }
 
