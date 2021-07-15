@@ -1,5 +1,7 @@
 'use strict'
 
+const sass = require('gulp-sass')(require('sass'))
+
 const path = require('path')
 const gulp = require('gulp')
 const gutil = require('gulp-util')
@@ -8,7 +10,6 @@ const sourcemaps = require('gulp-sourcemaps')
 const del = require('del')
 const rename = require('gulp-rename')
 const runsequence = require('run-sequence')
-const sass = require('gulp-sass')
 const sassLint = require('gulp-sass-lint')
 const autoprefixer = require('gulp-autoprefixer')
 
@@ -69,58 +70,67 @@ gulp.task(
 // // /static/stylesheets/
 // // ---------------------------------------
 
-// gulp.task('styles:govuk', function () {
-//   return gulp
-//     .src('node_modules/govuk-elements/assets/sass/**/*.scss')
-//     .pipe(sourcemaps.init())
-//     .pipe(
-//       sass({
-//         includePaths: ['node_modules/govuk_frontend_toolkit/stylesheets'],
-//         importer: require('./sass-importer.js'),
-//       }).on('error', sass.logError)
-//     )
-//     .pipe(
-//       autoprefixer({
-//         browsers: ['last 2 versions'],
-//         cascade: false,
-//       })
-//     )
-//     .pipe(gulp.dest('static/stylesheets'))
-//     .pipe(rename({ suffix: '.min' }))
-//     .pipe(cssnano())
-//     .pipe(sourcemaps.write('./maps'))
-//     .pipe(gulp.dest('static/stylesheets'))
-// })
+gulp.task(
+  'styles:govuk',
+  gulp.series(function () {
+    return gulp
+      .src('node_modules/govuk-elements/assets/sass/**/*.scss')
+      .pipe(sourcemaps.init())
+      .pipe(
+        sass({
+          includePaths: ['node_modules/govuk_frontend_toolkit/stylesheets'],
+          importer: require('./sass-importer.js'),
+        }).on('error', sass.logError)
+      )
+      .pipe(
+        autoprefixer({
+          browsers: ['last 2 versions'],
+          cascade: false,
+        })
+      )
+      .pipe(gulp.dest('static/stylesheets'))
+      .pipe(rename({ suffix: '.min' }))
+      .pipe(cssnano())
+      .pipe(sourcemaps.write('./maps'))
+      .pipe(gulp.dest('static/stylesheets'))
+  })
+)
 
 // // Export-elements-specific component styling
 
-// gulp.task('styles:components', () => {
-//   return gulp
-//     .src('sass/components/elements-components.scss')
-//     .pipe(sourcemaps.init())
-//     .pipe(sass().on('error', sass.logError))
-//     .pipe(
-//       autoprefixer({
-//         browsers: ['last 2 versions'],
-//         cascade: false,
-//       })
-//     )
-//     .pipe(gulp.dest('static/stylesheets'))
-//     .pipe(rename({ suffix: '.min' }))
-//     .pipe(cssnano())
-//     .pipe(sourcemaps.write('./maps'))
-//     .pipe(gulp.dest('static/stylesheets'))
-// })
+gulp.task(
+  'styles:components',
+  gulp.series(() => {
+    return gulp
+      .src('sass/components/elements-components.scss')
+      .pipe(sourcemaps.init())
+      .pipe(sass().on('error', sass.logError))
+      .pipe(
+        autoprefixer({
+          browsers: ['last 2 versions'],
+          cascade: false,
+        })
+      )
+      .pipe(gulp.dest('static/stylesheets'))
+      .pipe(rename({ suffix: '.min' }))
+      .pipe(cssnano())
+      .pipe(sourcemaps.write('./maps'))
+      .pipe(gulp.dest('static/stylesheets'))
+  })
+)
 
 // // Flag icons
 
-// gulp.task('flags', function () {
-//   return gulp.src(FLAGS_SRC).pipe(gulp.dest(FLAGS_DEST))
-// })
+gulp.task(
+  'flags',
+  gulp.series(function () {
+    return gulp.src(FLAGS_SRC).pipe(gulp.dest(FLAGS_DEST))
+  })
+)
 
 // // Compile all styles
 
-// gulp.task('styles', ['styles:govuk', 'styles:components'])
+gulp.task('styles', ['styles:govuk', 'styles:components'])
 
 // // Images build task ---------------------
 // // Copies images to /static/images

@@ -1,4 +1,3 @@
-
 // UTILITY CLASSES
 // ================
 
@@ -7,36 +6,36 @@
 // Backgrounds
 
 $colours: (
-  ($black, black),
-  ($grey, grey),
-  ($mid-grey, mid-grey),
-  ($light-grey, light-grey),
-  ($offwhite, offwhite),
-  ($white, white),
-  ($purple, purple),
-  ($great-blue, great-blue),
-  ($dark-navy, dark-navy),
-  ($mid-blue, mid-blue),
-  ($active-blue, active-blue),
-  ($light-blue, light-blue),
-  ($aqua, aqua),
-  ($teal, teal),
-  ($flag-red, flag-red),
-  ($great-red, great-red),
-  ($focus-yellow, focus-yellow),
-  ($stone-10, stone-10),
-  ($stone-20, stone-20),
-  ($stone-30, stone-30),
-  ($stone-40, stone-40),
-  ($stone-50, stone-50),
-  ($stone-60, stone-60),
-  ($stone-70, stone-70),
-  ($stone-80, stone-80),
-  ($stone-90, stone-90),
-  ($stone, stone)
+  ('black', black),
+  ('grey', grey),
+  ('mid-grey', mid-grey),
+  ('light-grey', light-grey),
+  ('offwhite', offwhite),
+  ('white', white),
+  ('purple', purple),
+  ('great-blue', great-blue),
+  ('dark-navy', dark-navy),
+  ('mid-blue', mid-blue),
+  ('active-blue', active-blue),
+  ('light-blue', light-blue),
+  ('aqua', aqua),
+  ('teal', teal),
+  ('flag-red', flag-red),
+  ('great-red', great-red),
+  ('focus-yellow', focus-yellow),
+  ('stone-10', stone-10),
+  ('stone-20', stone-20),
+  ('stone-30', stone-30),
+  ('stone-40', stone-40),
+  ('stone-50', stone-50),
+  ('stone-60', stone-60),
+  ('stone-70', stone-70),
+  ('stone-80', stone-80),
+  ('stone-90', stone-90),
+  ('stone', stone)
 );
 
-@each $colour, $name in $colours {
+@each $name, $colour in $colours {
   .background-#{$name} {
     background-color: $colour;
   }
@@ -44,20 +43,20 @@ $colours: (
 
 // Text colour
 
-@each $colour, $name in $colours {
+@each $name, $colour in $colours {
   .#{$name}-text {
     color: $colour;
   }
 }
 
 // Borders
-@each $colour, $name in $colours {
+@each $name, $colour in $colours {
   .border-#{$name} {
     border-color: $colour;
   }
 }
 
-.border-thick  {
+.border-thick {
   border-style: solid;
   border-width: 6px;
 }
@@ -74,7 +73,7 @@ $colours: (
 
 // Section underline
 
-@each $colour, $name in $colours {
+@each $name, $colour in $colours {
   // needs margin when used on section tag
   section.underline-#{$name} {
     @include container;
@@ -115,7 +114,6 @@ $sizes: (641, m), (769, l), (961, xl);
 $rules: padding, margin;
 
 @each $rule in $rules {
-
   // mobile
   @each $position in $positions {
     @each $spacing, $spacing-name in $spacings {
@@ -147,8 +145,7 @@ $rules: padding, margin;
 
   // tablet, desktop
   @each $size, $size-name in $sizes {
-    @media(min-width: #{$size}px) {
-
+    @media (min-width: #{$size}px) {
       @each $position in $positions {
         @each $spacing, $spacing-name in $spacings {
           .#{$rule}-#{$position}-#{$spacing-name}-#{$size-name} {
@@ -176,14 +173,15 @@ $rules: padding, margin;
           #{$rule}-left: #{$spacing}px;
         }
       }
-
     }
   }
 }
 
 // Text
 
-.uppercase { text-transform: uppercase }
+.uppercase {
+  text-transform: uppercase;
+}
 
 // Layout
 
