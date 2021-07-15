@@ -3,22 +3,28 @@
     li {
       margin: 0;
       padding: 0;
+
       button:before {
         font-size: 10px;
         line-height: 10px;
       }
     }
   }
+
   .slick-list {
     margin: 0 -7px;
     top: 25px;
+
     & .slick-track {
       display: flex;
+
       & .slick-slide {
         height: inherit;
+
         & > div {
           padding: 0 10px;
-          height: 95%;
+          height: 100%;
+
           & > div {
             height: 100%;
           }
@@ -39,9 +45,11 @@
   ul.slick-dots {
     bottom: -20px;
     top: unset;
+
     li {
       padding-left: 0;
       margin-bottom: 0;
+
       &:before {
         background-color: transparent;
       }
@@ -50,8 +58,10 @@
 
   .slick-list {
     top: 0;
+
     .slick-track .slick-slide {
       margin-bottom: 20px;
+
       img {
         margin: -30px 0;
         max-width: 100%;
