@@ -10,37 +10,62 @@ jest.mock('@src/Services')
 let wrapper
 
 const mockGroups = [
-  { value: '0', label: '0-9 year olds' },
-  { value: '10', label: '10-19 year olds' },
-  { value: '20', label: '20-29 year olds' },
-  { value: '30', label: '30-39 year olds' },
+  { value: '0-14', label: '0-14 year olds' },
+  { value: '15-19', label: '15-19 year olds' },
 ]
 
 const mockResponse = {
-  population_data: {
-    female_target_age_population: 100,
-    male_target_age_population: 200,
-    total_population: 200,
-    urban_percentage: 0.4,
-    rural_percentage: 0.6,
-    total_target_age_population: 1000,
+  NL: {
+    PopulationData: [
+      {
+        year: 2020,
+        gender: 'male',
+        '0-4': 2082,
+        '5-9': 1970,
+        '10-14': 1979,
+        '15-19': 2150,
+      },
+      {
+        year: 2020,
+        gender: 'female',
+        '0-4': 1976,
+        '5-9': 1852,
+        '10-14': 1832,
+        '15-19': 1969,
+      },
+    ],
+    PopulationUrbanRural: [
+      { urban_rural: 'urban', value: 64044, year: 2021 },
+      { urban_rural: 'rural', value: 18546, year: 2021 },
+    ],
+    ConsumerPriceIndex: [{ value: '113.427', year: 2020 }],
+    InternetUsage: [{ value: '89.739', year: 2018 }],
+    CIAFactbook: [
+      {
+        languages: {
+          note: 'Danish, Frisian, Sorbian, and Romani are official minority languages; Low German, Danish, North Frisian, Sater Frisian, Lower Sorbian, Upper Sorbian, and Romani are recognized as regional languages under the European Charter for Regional or Minority Languages',
+          language: [{ name: 'German', note: 'official' }],
+        },
+        country_key: 'germany',
+        country_name: 'Germany',
+      },
+    ],
   },
 }
 
 describe('ToggleDataTable', () => {
   beforeEach(() => {
-    Services.getCountryAgeGroupData.mockImplementation(() =>
+    Services.getCountryData.mockImplementation(() =>
       Promise.resolve(mockResponse)
     )
     wrapper = mount(
       <ToggleDataTable
         groups={mockGroups}
         countryIso2Code="NL"
-        selectedGroups={['30']}
+        selectedGroups={['5-9']}
         url="/export-plan"
-      >
-        <div className="table">test</div>
-      </ToggleDataTable>
+        afterTable={[<div className="table">test</div>]}
+      ></ToggleDataTable>
     )
   })
 
@@ -50,30 +75,35 @@ describe('ToggleDataTable', () => {
     jest.clearAllMocks()
   })
 
-  test('Should fetch country data', () => {
-    expect(Services.getCountryAgeGroupData).toHaveBeenCalledWith({
-      country_iso2_code: 'NL',
-      section_name: '/export-plan',
-      target_age_groups: ['30'],
-    })
+  it('Should fetch country data', () => {
+    expect(Services.getCountryData).toHaveBeenCalledWith(
+      [{ country_iso2_code: 'NL' }],
+      JSON.stringify([
+        { model: 'PopulationData', filter: { year: 2020 } },
+        { model: 'PopulationUrbanRural', filter: { year: 2021 } },
+        { model: 'ConsumerPriceIndex', latest_only: true },
+        { model: 'InternetUsage', latest_only: true },
+        { model: 'CIAFactbook', latest_only: true },
+      ])
+    )
   })
 
-  test('renders heading and select button initially', () => {
+  it('renders heading and select button initially', () => {
     expect(wrapper.find('h3').length).toEqual(1)
     expect(wrapper.find('.button--tiny-toggle').length).toEqual(1)
     expect(wrapper.find('.table').length).toEqual(0)
   })
 
-  test('renders table', () => {
+  it('renders table', () => {
     wrapper.find('.button--tiny-toggle').simulate('click', { type: 'click' })
     expect(wrapper.find('.table').length).toEqual(1)
   })
 
-  test('renders table', async () => {
+  it('renders table', async () => {
     Services.getCountryAgeGroupData.mockImplementation(() =>
       Promise.resolve(mockResponse)
     )
-    await act(() => {
+    await act(async () => {
       wrapper.find('.button--tiny-toggle').simulate('click', { type: 'click' })
     })
     wrapper.update()
@@ -83,7 +113,7 @@ describe('ToggleDataTable', () => {
         .first()
         .simulate('change', {
           type: 'change',
-          target: { value: mockGroups[0]['key'] },
+          target: { value: mockGroups[0]['value'] },
         })
     })
 
