@@ -67,6 +67,17 @@
   }
 }
 
+.export-plan-dashboard__container {
+  /*
+  NOTE: at site width + (30px gutter * 2), the container loses its padding,
+  as it is set using margin instead of... padding. This is fine for most
+  pages, but collapses when there is a sidebar.
+  */
+  @media(min-width: 1290px) {
+    padding: 0 30px;
+  }
+}
+
 .export-plan-dashboard__section {
   @include breakpoint(md) {
     display: flex;
