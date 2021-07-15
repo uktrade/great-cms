@@ -47,10 +47,7 @@ export const DemoData = memo(({ population, cpi, internetData, languages }) => {
               />
             </Stats>
           </div>
-        </div>
-      </div>
-      <div className="stat-group radius-bottom-xs">
-        <div className="grid">
+
           <div className="c-full">
             <Stats
               header="Languages in your target market"

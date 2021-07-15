@@ -44,7 +44,7 @@ export const ToggleDataTable = ({ countryIso2Code, groups, selectedGroups: selec
     }
     return (
       <>
-        <h3 className="body-l-b">Select target age groups</h3>
+        <h3 className="body-l-b p-t-l">Select target age groups</h3>
         <div className="selected-groups">
           <div className="selected-groups__button">
             <button
