@@ -6,17 +6,17 @@ import { notAvailable, StatsGroup } from '@src/components/Stats/StatsGroup'
 import PropTypes from 'prop-types'
 import { millify, normaliseValues } from '@src/Helpers'
 
-const formatNumber = (val) => (val ? millify(val * 1000) : notAvailable)
+const formatNumber = (val) => (val ? millify(val) : notAvailable)
 
 const formatPercentage = (val, total) =>
   val ? `${normaliseValues((100 * val) / total)}%` : notAvailable
 
 export const AgeGroupData = memo(
-  ({ targetPopulation, female, male, urban, rural }) => {
+  ({ target, targetfemale, targetmale, urban, rural }) => {
     const country = useSelector((state) => getMarkets(state))
     return (
       <>
-        <h3 className="body-l-b m-t-s m-b-xs">
+        <h3 className="body-l-b m-t-xs m-b-xs">
           More details on {country.country_name}
         </h3>
         <div className="stat-group">
@@ -24,18 +24,18 @@ export const AgeGroupData = memo(
             <div className="c-1-3">
               <Stats
                 header="Target age population"
-                data={formatNumber(targetPopulation)}
+                data={formatNumber(target)}
               />
             </div>
 
             <div className="c-2-3 flex-direction-column">
               <StatsGroup
                 headerLeft="Female in your target group"
-                dataLeft={formatNumber(female)}
+                dataLeft={formatNumber(targetfemale)}
                 headerRight="Male in your target group"
-                dataRight={formatNumber(male)}
-                statPercentage={(female / targetPopulation) * 100}
-                hasStat={!!(female && female !== 0)}
+                dataRight={formatNumber(targetmale)}
+                statPercentage={(targetfemale / target) * 100}
+                hasStat={!!(targetfemale && targetfemale !== 0)}
                 className="stat-group--cols stat-group--percentage"
               />
               <StatsGroup
@@ -64,9 +64,9 @@ AgeGroupData.propTypes = {
 }
 
 AgeGroupData.defaultProps = {
-  urban: '',
-  rural: '',
-  female: '',
-  male: '',
-  targetPopulation: '',
+  urban: null,
+  rural: null,
+  female: null,
+  male: null,
+  targetPopulation: null,
 }

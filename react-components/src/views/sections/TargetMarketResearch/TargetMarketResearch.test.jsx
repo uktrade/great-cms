@@ -70,6 +70,62 @@ const countryDataApiResponse = {
         trade_value: 12,
       },
     ],
+    PopulationData: [
+    {
+      "year": 2020,
+      "gender": "male",
+      "0-4": 2082,
+      "5-9": 1970,
+      "10-14": 1979,
+      "15-19": 2150,
+      "20-24": 2382,
+      "25-29": 2522,
+      "30-34": 2823,
+      "35-39": 2774,
+      "40-44": 2552,
+      "45-49": 2608,
+      "50-54": 3353,
+      "55-59": 3393,
+      "60-64": 2855,
+      "65-69": 2291,
+      "70-74": 1791,
+      "75-79": 1632,
+      "80-84": 1359,
+      "85-89": 613,
+      "90-94": 237,
+      "95-99": 46,
+      "100+": 4
+    },
+    {
+      "year": 2020,
+      "gender": "female",
+      "0-4": 1976,
+      "5-9": 1852,
+      "10-14": 1832,
+      "15-19": 1969,
+      "20-24": 2171,
+      "25-29": 2302,
+      "30-34": 2619,
+      "35-39": 2656,
+      "40-44": 2508,
+      "45-49": 2576,
+      "50-54": 3328,
+      "55-59": 3414,
+      "60-64": 2966,
+      "65-69": 2532,
+      "70-74": 2043,
+      "75-79": 2006,
+      "80-84": 1900,
+      "85-89": 1022,
+      "90-94": 522,
+      "95-99": 159,
+      "100+": 16
+    }],
+    InternetUsage: [{
+        year: 2019,
+        uk_or_world: 'WLD',
+        value: 1234,
+    }],
   },
   NL: {
     ConsumerPriceIndex: [
@@ -115,7 +171,7 @@ describe('Target Market research', () => {
       csrfToken: '12345',
       apiUpdateExportPlanUrl: '/api/export-plan/api/update/',
       apiCountryDataUrl: '/api/data-service/countrydata/',
-      countryAgeGroupDataUrl: '/api/data-service/countrydata/',
+      apiTargetAgeGroups: '/api/data-service/countrydata/',
       user: { id: '6' },
     })
     fetchMock.get(/\/api\/data-service\/countrydata\//, countryDataApiResponse)
@@ -166,6 +222,7 @@ describe('Target Market research', () => {
       'Data not available'
     )
     // Change to a known market on the fly - React should re-render, so wait for correct content
+
     Services.store.dispatch(actions.setMarket(knownMarket))
     await waitFor(() => {
       expect(

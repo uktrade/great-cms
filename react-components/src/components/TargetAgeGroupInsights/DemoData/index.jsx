@@ -8,16 +8,16 @@ import { millify, normaliseValues, get } from '@src/Helpers'
 import { formatLanguages } from '@src/components/TargetAgeGroupInsights/utils'
 
 const formatNumber = (val) =>
-  Number(val) ? millify(Number(val) * 1000) : notAvailable
+  Number(val) ? millify(Number(val)) : notAvailable
 
-export const DemoData = memo(({ population, cpi, internetData, languages }) => {
+export const DemoData = memo(({ totalPopulation, cpi, internetData, languages }) => {
   return (
     <>
-      <h3 className="body-l-b m-b-xs">Global demographic data</h3>
+      <h3 className="body-l-b m-b-xs m-t-s">Global demographic data</h3>
       <div className="stat-group">
         <div className="grid">
           <div className="c-1-3">
-            <Stats header="Total population" data={formatNumber(population)} />
+            <Stats header="Total population" data={formatNumber(totalPopulation)} />
           </div>
           <div className="c-1-3">
             <Stats
@@ -27,7 +27,7 @@ export const DemoData = memo(({ population, cpi, internetData, languages }) => {
                   ? `${normaliseValues(
                       internetData
                     )}% <div class="body-m">(${millify(
-                      internetData * population * 10
+                      internetData * totalPopulation * 10
                     )})</div>`
                   : notAvailable
               }
@@ -65,8 +65,16 @@ export const DemoData = memo(({ population, cpi, internetData, languages }) => {
 })
 
 DemoData.propTypes = {
-  population: PropTypes.string.isRequired,
-  cpi: PropTypes.string.isRequired,
-  internetData: PropTypes.number.isRequired,
-  languages: PropTypes.string.isRequired,
+  totalPopulation: PropTypes.number,
+  cpi: PropTypes.string,
+  internetData: PropTypes.string,
+  languages: PropTypes.shape({
+    language: PropTypes.arrayOf(PropTypes.object)
+  }),
+}
+DemoData.defaultProps = {
+  totalPopulation: null,
+  cpi: '',
+  internetData: '',
+  languages: null,
 }
