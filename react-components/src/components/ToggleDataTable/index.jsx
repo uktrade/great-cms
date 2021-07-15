@@ -111,12 +111,11 @@ export const ToggleDataTable = ({
           </button>
         </div>
         <ul id="target-age-groups" className="selected-groups__items">
-          {!isOpen &&
-            selectedGroups.map((item) => (
-              <li key={item} className="selected-groups__item">
-                {item} years old
-              </li>
-            ))}
+          {selectedGroups.map((item) => (
+            <li key={item} className="selected-groups__item">
+              {item} years old
+            </li>
+          ))}
         </ul>
       </div>
       {targetGroupLabels.map((i) => (
