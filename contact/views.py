@@ -1,4 +1,3 @@
-import logging
 from urllib.parse import urlparse
 
 from directory_forms_api_client import actions
@@ -14,18 +13,15 @@ from django.utils.html import strip_tags
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from formtools.wizard.views import NamedUrlSessionWizardView
-from requests.exceptions import RequestException
 
 from contact import constants, forms as contact_forms, helpers
 from core import mixins as core_mixins, snippet_slugs
 from core.datastructures import NotifySettings
 from directory_constants import urls
-from directory_sso_api_client.client import sso_api_client
+from sso.helpers import update_user_profile
 
-MESSAGE_NOT_SUCCESSFUL = 'SSO did not return a 200 response'
 SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
 SOO_SUBMISSION_CACHE_TIMEOUT = 2592000  # 30 days
-logger = logging.getLogger(__name__)
 
 
 class PrepopulateInternationalFormMixin:
@@ -682,10 +678,8 @@ class SellingOnlineOverseasFormView(
         response = action.save(form_data)
         response.raise_for_status()
         user_profile_data = {'first_name': form_data['contact_first_name'], 'last_name': form_data['contact_last_name']}
-        try:
-            sso_api_client.user.update_user_profile(sso_session_id=self.request.user.session_id, data=user_profile_data)
-        except RequestException:
-            logger.error(MESSAGE_NOT_SUCCESSFUL, exc_info=True)
+        # update sso details
+        update_user_profile(sso_session_id=self.request.user.session_id, data=user_profile_data)
 
         self.request.session.pop(SESSION_KEY_SOO_MARKET, None)
         self.set_form_data_cache(form_data)
