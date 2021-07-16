@@ -12,6 +12,8 @@ const rename = require('gulp-rename')
 const runsequence = require('run-sequence')
 const sassLint = require('gulp-sass-lint')
 const autoprefixer = require('gulp-autoprefixer')
+const { series } = require('gulp')
+const { done } = require('fetch-mock')
 
 const PROJECT_DIR = path.resolve(__dirname)
 const FLAGS_SRC = [
@@ -22,34 +24,35 @@ const FLAGS_DEST = `${PROJECT_DIR}/static/vendor/flag-icons`
 
 // // Sass lint -----------------------------
 
-// gulp.task('lint:sass', function () {
-//   return gulp
-//     .src('/**/*.scss')
-//     .pipe(
-//       sassLint({
-//         options: {
-//           formatter: 'stylish',
-//           'merge-default-rules': true,
-//         },
-//         configFile: 'sass-lint-config.yml',
-//       })
-//     )
-//     .pipe(sassLint.format())
-//     .pipe(sassLint.failOnError())
-// })
+gulp.task(
+  'lint:sass',
+  gulp.series(function () {
+    return gulp
+      .src('./**/*.scss')
+      .pipe(
+        sassLint({
+          options: {
+            formatter: 'stylish',
+            'merge-default-rules': true,
+          },
+          configFile: 'sass-lint-config.yml',
+        })
+      )
+      .pipe(sassLint.format())
+      .pipe(sassLint.failOnError())
+  })
+)
 
 // // Run tests -----------------------------
 
 gulp.task(
   'test',
-  gulp.series(() => {
-    runsequence(['lint:sass'], (cb) => {
-      if (cb) {
-        gutil.log(gutil.colors.red('!!!!!!!! Tests failed !!!!!!!!'))
-      } else {
-        gutil.log(gutil.colors.green('**** Tests finished with no errors ****'))
-      }
-    })
+  gulp.series(['lint:sass'], (cb) => {
+    if (cb) {
+      gutil.log(gutil.colors.red('!!!!!!!! Tests failed !!!!!!!!'))
+    } else {
+      gutil.log(gutil.colors.green('**** Tests finished with no errors ****'))
+    }
   })
 )
 
@@ -130,32 +133,30 @@ gulp.task(
 
 // // Compile all styles
 
-gulp.task('styles', ['styles:govuk', 'styles:components'])
+gulp.task('styles', gulp.series('styles:govuk', 'styles:components'))
 
 // // Images build task ---------------------
 // // Copies images to /static/images
 // // ---------------------------------------
 
-// gulp.task('images', () => {
-//   return gulp
-//     .src([
-//       'node_modules/govuk-elements/assets/images/**/*',
-//       'node_modules/govuk_frontend_toolkit/images/**/*',
-//     ])
-//     .pipe(gulp.dest('static/images'))
-// })
+gulp.task(
+  'images',
+  gulp.series(() => {
+    return gulp
+      .src([
+        'node_modules/govuk-elements/assets/images/**/*',
+        'node_modules/govuk_frontend_toolkit/images/**/*',
+      ])
+      .pipe(gulp.dest('static/images'))
+  })
+)
 
 // // Build task ----------------------------
 // // Runs tasks that copy assets to the
 // // /static/ directory.
 // // ---------------------------------------
 
-// gulp.task(
-//   'build',
-//   gulp.series((cb) => {
-//     runsequence('clean', ['styles', 'images', 'flags'], cb)
-//   })
-// )
+gulp.task('build', gulp.series('clean', 'styles', 'images', 'flags'))
 
 // // Watch task ----------------------------
 // // When a file is changed, re-run the build task.
