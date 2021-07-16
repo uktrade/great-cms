@@ -678,7 +678,7 @@ class SellingOnlineOverseasFormView(
         response = action.save(form_data)
         response.raise_for_status()
         user_profile_data = {'first_name': form_data['contact_first_name'], 'last_name': form_data['contact_last_name']}
-        # update sso details
+        # update details in directory-sso
         update_user_profile(sso_session_id=self.request.user.session_id, data=user_profile_data)
 
         self.request.session.pop(SESSION_KEY_SOO_MARKET, None)
