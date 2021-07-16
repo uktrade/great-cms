@@ -11,6 +11,7 @@ from formtools.wizard.views import NamedUrlSessionWizardView
 
 import sso_profile.common.forms
 import sso_profile.common.mixins
+from core.helpers import CompanyParser
 from directory_constants import urls, user_roles
 from sso_profile.common.helpers import get_company_admins
 from sso_profile.enrolment import constants, forms, helpers, mixins
@@ -233,7 +234,7 @@ class CompaniesHouseEnrolmentView(mixins.CreateBusinessProfileMixin, BaseEnrolme
         elif step == constants.BUSINESS_INFO:
             company_search_step_data = self.get_cleaned_data_for_step(constants.COMPANY_SEARCH)
             company_data = helpers.get_companies_house_profile(company_search_step_data['company_number'])
-            company = helpers.CompanyParser(company_data)
+            company = CompanyParser(company_data)
             form_initial['company_name'] = company.name
             form_initial['company_number'] = company.number
             form_initial['sic'] = company.nature_of_business
@@ -258,6 +259,7 @@ class CompaniesHouseEnrolmentView(mixins.CreateBusinessProfileMixin, BaseEnrolme
 
     def done(self, form_list, form_dict, **kwargs):
         data = self.serialize_form_list(form_list)
+
         if helpers.get_is_enrolled(data['company_number']):
             helpers.create_company_member(
                 sso_session_id=self.request.user.session_id,

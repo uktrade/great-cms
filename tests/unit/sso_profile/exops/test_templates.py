@@ -1,4 +1,7 @@
+import pytest
 from django.template.loader import render_to_string
+
+pytestmark = pytest.mark.django_db
 
 
 def render_html(email_alerts):

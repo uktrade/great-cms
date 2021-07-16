@@ -3,15 +3,26 @@ from unittest import mock
 import pytest
 from django.conf import settings
 from django.core.cache import cache
+from django.test import override_settings
 from requests.exceptions import HTTPError
 
 from directory_constants import urls, user_roles
-from sso_profile.common.tests.helpers import create_response
 from sso_profile.enrolment import helpers
+from ..common.helpers import create_response
+
+pytestmark = pytest.mark.django_db
 
 
+@override_settings(
+    CACHES={
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'KEY_PREFIX': 'test',
+        }
+    },
+)
 @mock.patch.object(helpers.ch_search_api_client.company, 'get_company_profile')
-def test_get_company_profile_ok_saves_to_session(mock_get_company_profile):
+def test_get_company_profile_ok_saves_to_session(mock_get_company_profile, clear_cache):
     data = {
         'company_number': '12345678',
         'company_name': 'Example corp',
@@ -26,8 +37,17 @@ def test_get_company_profile_ok_saves_to_session(mock_get_company_profile):
     assert cache.get('COMPANY_PROFILE-123456') == data
 
 
+@override_settings(
+    CACHES={
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'KEY_PREFIX': 'test',
+        }
+    },
+)
 @mock.patch.object(helpers.ch_search_api_client.company, 'get_company_profile')
-def test_get_company_profile_ok(mock_get_company_profile):
+def test_get_company_profile_ok(mock_get_company_profile, clear_cache):
+
     data = {
         'company_number': '12345678',
         'company_name': 'Example corp',

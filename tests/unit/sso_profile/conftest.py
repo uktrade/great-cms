@@ -1,10 +1,10 @@
 from unittest import mock
 
 import pytest
-from django.contrib.auth import get_user_model
 from django.core.cache import cache
 
 from core.tests.helpers import create_response
+from sso.models import BusinessSSOUser
 
 
 @pytest.fixture(autouse=True)
@@ -13,49 +13,33 @@ def clear_cache():
 
 
 @pytest.fixture
-def sso_user():
-    BusinessSSOUser = get_user_model()  # noqa: N806
-    return BusinessSSOUser(id=1, pk=1, email='jim@example.com', session_id='123', has_user_profile=False)
+def sso_user_no_profile():
+    return BusinessSSOUser(
+        id=1,
+        pk=1,
+        email='jim@example.com',
+        session_id='123',
+        has_user_profile=False,
+    )
 
 
 @pytest.fixture
 def sso_user_with_profile():
-    BusinessSSOUser = get_user_model()  # noqa: N806
     return BusinessSSOUser(
-        id=1, pk=1, email='jim2@example.com', session_id='123', has_user_profile=True, first_name='No Name'
+        id=1,
+        pk=1,
+        email='jim2@example.com',
+        session_id='123',
+        has_user_profile=True,
+        first_name='No Name',
     )
 
 
 @pytest.fixture(autouse=True)
-def feature_flags(settings):
+def sso_profile_feature_flags(settings):
     # solves this issue: https://github.com/pytest-dev/pytest-django/issues/601
-    settings.FEATURE_FLAGS = {**settings.FEATURE_FLAGS}
-    yield settings.FEATURE_FLAGS
-
-
-@pytest.fixture(autouse=True)
-def auth_backend():
-    patch = mock.patch(
-        'directory_sso_api_client.sso_api_client.user.get_session_user', return_value=create_response(404)
-    )
-    yield patch.start()
-    patch.stop()
-
-
-@pytest.fixture
-def client_for_sso_profile(client, auth_backend, settings):
-    def force_login(user):
-        client.cookies[settings.SSO_SESSION_COOKIE] = '123'
-        if user.has_user_profile:
-            user_profile = {'first_name': user.first_name, 'last_name': user.last_name}
-        else:
-            user_profile = {}
-        auth_backend.return_value = create_response(
-            {'id': user.id, 'email': user.email, 'hashed_uuid': user.hashed_uuid, 'user_profile': user_profile}
-        )
-
-    client.force_login = force_login
-    return client
+    settings.SSO_PROFILE_FEATURE_FLAGS = {**settings.SSO_PROFILE_FEATURE_FLAGS}
+    yield settings.SSO_PROFILE_FEATURE_FLAGS
 
 
 @pytest.fixture(autouse=True)

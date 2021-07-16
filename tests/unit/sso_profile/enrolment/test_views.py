@@ -10,8 +10,10 @@ from freezegun import freeze_time
 from requests.exceptions import HTTPError
 
 from directory_constants import urls, user_roles
-from sso_profile.common.tests.helpers import create_response, submit_step_factory
 from sso_profile.enrolment import constants, forms, helpers, mixins, views
+from ..common.helpers import create_response, submit_step_factory
+
+pytestmark = pytest.mark.django_db
 
 enrolment_urls = (
     reverse('sso_profile:enrolment-business-type'),
@@ -29,38 +31,54 @@ ADDRESS_SEARCH_COMPANIES_HOUSE = 'address-search-companies-house'
 @pytest.fixture
 def submit_collaborator_enrolment_step(client):
     return submit_step_factory(
-        client=client, url_name='enrolment-collaboration', view_class=views.CollaboratorEnrolmentView
+        client=client,
+        url_name='sso_profile:enrolment-collaboration',
+        view_class=views.CollaboratorEnrolmentView,
     )
 
 
 @pytest.fixture
 def submit_companies_house_step(client):
     return submit_step_factory(
-        client=client, url_name='enrolment-companies-house', view_class=views.CompaniesHouseEnrolmentView
+        client=client,
+        url_name='sso_profile:enrolment-companies-house',
+        view_class=views.CompaniesHouseEnrolmentView,
     )
 
 
 @pytest.fixture
 def submit_non_companies_house_step(client):
     return submit_step_factory(
-        client=client, url_name='enrolment-sole-trader', view_class=views.NonCompaniesHouseEnrolmentView
+        client=client,
+        url_name='sso_profile:enrolment-sole-trader',
+        view_class=views.NonCompaniesHouseEnrolmentView,
     )
 
 
 @pytest.fixture
 def submit_individual_step(client):
-    return submit_step_factory(client, url_name='enrolment-individual', view_class=views.IndividualUserEnrolmentView)
+    return submit_step_factory(
+        client,
+        url_name='sso_profile:enrolment-individual',
+        view_class=views.IndividualUserEnrolmentView,
+    )
 
 
 @pytest.fixture
 def submit_pre_verified_step(client):
     return submit_step_factory(
-        client=client, url_name='enrolment-pre-verified', view_class=views.PreVerifiedEnrolmentView
+        client=client,
+        url_name='sso_profile:enrolment-pre-verified',
+        view_class=views.PreVerifiedEnrolmentView,
     )
 
 
 @pytest.fixture
-def submit_step_builder(submit_companies_house_step, submit_non_companies_house_step, submit_individual_step):
+def submit_step_builder(
+    submit_companies_house_step,
+    submit_non_companies_house_step,
+    submit_individual_step,
+):
     def inner(choice):
         if choice == constants.COMPANIES_HOUSE_COMPANY:
             return submit_companies_house_step
@@ -75,7 +93,7 @@ def submit_step_builder(submit_companies_house_step, submit_non_companies_house_
 @pytest.fixture
 def submit_resend_verification_house_step(client):
     return submit_step_factory(
-        client=client, url_name='resend-verification', view_class=views.ResendVerificationCodeView
+        client=client, url_name='sso_profile:resend-verification', view_class=views.ResendVerificationCodeView
     )
 
 
@@ -464,7 +482,7 @@ def test_companies_house_enrolment_already_has_profile(client, submit_companies_
     assert response.template_name == views.CompaniesHouseEnrolmentView.templates[constants.FINISHED]
 
 
-@mock.patch('enrolment.helpers.get_is_enrolled')
+@mock.patch('sso_profile.enrolment.helpers.get_is_enrolled')
 def test_companies_house_enrolment_change_company_name(
     mock_get_is_enrolled, client, submit_companies_house_step, steps_data, user
 ):
@@ -504,7 +522,13 @@ def test_companies_house_enrolment_change_company_name(
     assert response.context_data['contact_us_url'] == urls.domestic.CONTACT_US / 'domestic'
 
 
-def test_companies_house_enrolment_expose_company(client, submit_companies_house_step, steps_data, user):
+def test_companies_house_enrolment_expose_company(
+    client,
+    submit_companies_house_step,
+    steps_data,
+    user,
+):
+
     response = submit_companies_house_step(steps_data[constants.USER_ACCOUNT])
     assert response.status_code == 302
 
@@ -1013,7 +1037,14 @@ def test_create_user_enrolment(client, steps_data, submit_step_builder, company_
 
 
 @pytest.mark.parametrize(
-    'company_type,form_url_name', zip(company_types, ['enrolment-companies-house', 'enrolment-sole-trader'])
+    'company_type,form_url_name',
+    zip(
+        company_types,
+        [
+            'sso_profile:enrolment-companies-house',
+            'sso_profile:enrolment-sole-trader',
+        ],
+    ),
 )
 def test_create_user_enrolment_already_exists(
     company_type, form_url_name, steps_data, mock_create_user, submit_step_builder, mock_notify_already_registered
@@ -1031,7 +1062,14 @@ def test_create_user_enrolment_already_exists(
 
 
 @pytest.mark.parametrize(
-    'company_type,form_url_name', zip(company_types, ['enrolment-companies-house', 'enrolment-sole-trader'])
+    'company_type,form_url_name',
+    zip(
+        company_types,
+        [
+            'sso_profile:enrolment-companies-house',
+            'sso_profile:enrolment-sole-trader',
+        ],
+    ),
 )
 def test_create_user_enrolment_bad_password(
     company_type, form_url_name, steps_data, mock_create_user, submit_step_builder, client
@@ -1049,7 +1087,8 @@ def test_create_user_enrolment_bad_password(
 
 
 @pytest.mark.parametrize(
-    'company_type,form_url_name', zip(company_types, ['enrolment-companies-house', 'enrolment-sole-trader'])
+    'company_type,form_url_name',
+    zip(company_types, ['sso_profile:enrolment-companies-house', 'sso_profile:enrolment-sole-trader']),
 )
 def test_create_user_enrolment_bad_then_good_password(
     company_type, form_url_name, steps_data, mock_create_user, submit_step_builder, client
@@ -1719,7 +1758,7 @@ def test_wizard_progress_indicator_mixin(is_anon, rf, settings, client, user):
     request = rf.get('/')
     request.session = client.session
     request.user = AnonymousUser() if is_anon else user
-    view = TestView.as_view(url_name='enrolment-companies-house')
+    view = TestView.as_view(url_name='sso_profile:enrolment-companies-house')
     response = view(request, step=constants.USER_ACCOUNT)
 
     assert response.context_data['step_number'] == 2

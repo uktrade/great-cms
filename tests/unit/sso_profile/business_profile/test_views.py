@@ -5,15 +5,20 @@ from unittest import mock
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.forms.forms import NON_FIELD_ERRORS
+from django.test import override_settings
 from django.urls import reverse
 from formtools.wizard.views import normalize_name
 from PIL import Image, ImageDraw
 from requests.exceptions import HTTPError
 
-from directory_api_client.client import api_client
+from core.helpers import CompanyParser
 from directory_constants import urls, user_roles
+from sso.helpers import api_client
 from sso_profile.business_profile import constants, forms, helpers, views
-from sso_profile.common.tests.helpers import create_response, submit_step_factory
+from sso_profile.urls import SIGNUP_URL
+from ..common.helpers import create_response, submit_step_factory
+
+pytestmark = pytest.mark.django_db
 
 
 def create_test_image(extension):
@@ -95,7 +100,12 @@ def mock_retrieve_supplier():
     patch = mock.patch.object(
         api_client.supplier,
         'retrieve_profile',
-        return_value=create_response({'is_company_owner': True, 'role': user_roles.ADMIN}),
+        return_value=create_response(
+            {
+                'is_company_owner': True,
+                'role': user_roles.ADMIN,
+            }
+        ),
     )
     yield patch.start()
     patch.stop()
@@ -158,13 +168,13 @@ def mock_collaborator_invite_list(user):
 @pytest.fixture
 def submit_case_study_create_step(client):
     return submit_step_factory(
-        client=client, url_name='business-profile-case-study', view_class=views.CaseStudyWizardCreateView
+        client=client, url_name='sso_profile:business-profile-case-study', view_class=views.CaseStudyWizardCreateView
     )
 
 
 @pytest.fixture
 def submit_case_study_edit_step(client):
-    url_name = 'business-profile-case-study-edit'
+    url_name = 'sso_profile:business-profile-case-study-edit'
     view_class = views.CaseStudyWizardEditView
     view_name = normalize_name(view_class.__name__)
     step_names = iter([name for name, form in view_class.form_list])
@@ -221,12 +231,19 @@ def test_find_a_buyer_unauthenticated_enrolment(client):
     assert response.url == f'{enrolment_url}?next={profile_url}'
 
 
-def test_supplier_company_retrieve_found_business_profile_on(mock_retrieve_company, client, company_profile_data, user):
-    client.force_login(user)
-    mock_retrieve_company.return_value = create_response(company_profile_data)
+def test_supplier_company_retrieve_found_business_profile_on(
+    mock_get_company_profile,
+    client,
+    company_profile_data,
+    sso_user_no_profile,
+):
+    client.force_login(sso_user_no_profile)
+
+    mock_get_company_profile.return_value = company_profile_data
 
     response = client.get(reverse('sso_profile:business-profile'))
 
+    assert mock_get_company_profile.call_count == 1
     assert response.template_name == ['business_profile/profile.html']
 
 
@@ -269,9 +286,12 @@ edit_data = (
 
 
 @pytest.mark.parametrize('url', edit_urls)
-def test_edit_page_initial_data(client, url, company_profile_data, user):
+def test_edit_page_initial_data(client, url, company_profile_data, mock_get_company_profile, user):
     client.force_login(user)
-    company = helpers.CompanyParser(company_profile_data)
+    company = CompanyParser(company_profile_data)
+
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
 
     response = client.get(url)
     assert response.context_data['form'].initial == (company.serialize_for_form())
@@ -290,8 +310,21 @@ success_urls = (
 
 
 @pytest.mark.parametrize('url,data,success_url', zip(edit_urls, edit_data, success_urls))
-def test_edit_page_submmit_success(client, mock_update_company, user, url, data, success_url):
+def test_edit_page_submmit_success(
+    client,
+    mock_update_company,
+    user,
+    url,
+    data,
+    success_url,
+    mock_get_company_profile,
+    company_profile_data,
+):
     client.force_login(user)
+
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     response = client.post(url, data)
 
     assert response.status_code == 302
@@ -300,8 +333,12 @@ def test_edit_page_submmit_success(client, mock_update_company, user, url, data,
     assert mock_update_company.call_args == mock.call(sso_session_id=user.session_id, data=data)
 
 
-def test_publish_not_publishable(client, user, mock_retrieve_company, company_profile_data):
+def test_publish_not_publishable(client, user, mock_retrieve_company, company_profile_data, mock_get_company_profile):
     client.force_login(user)
+
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     mock_retrieve_company.return_value = create_response(
         {
             **company_profile_data,
@@ -317,7 +354,10 @@ def test_publish_not_publishable(client, user, mock_retrieve_company, company_pr
     assert response.url == reverse('sso_profile:business-profile')
 
 
-def test_publish_publishable(client, user, mock_retrieve_company):
+def test_publish_publishable(client, user, mock_get_company_profile, company_profile_data):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     client.force_login(user)
     url = reverse('sso_profile:business-profile-publish')
 
@@ -326,7 +366,16 @@ def test_publish_publishable(client, user, mock_retrieve_company):
     assert response.status_code == 200
 
 
-def test_edit_page_submmit_publish_success(client, mock_update_company, user):
+def test_edit_page_submmit_publish_success(
+    client,
+    mock_get_company_profile,
+    company_profile_data,
+    mock_update_company,
+    user,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     client.force_login(user)
     url = reverse('sso_profile:business-profile-publish')
     data = {
@@ -341,9 +390,12 @@ def test_edit_page_submmit_publish_success(client, mock_update_company, user):
     assert mock_update_company.call_args == mock.call(sso_session_id=user.session_id, data=data)
 
 
-def test_edit_page_submmit_publish_context(client, company_profile_data, user):
+def test_edit_page_submmit_publish_context(client, mock_get_company_profile, company_profile_data, user):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     client.force_login(user)
-    company = helpers.CompanyParser(company_profile_data)
+    company = CompanyParser(company_profile_data)
 
     url = reverse('sso_profile:business-profile-publish')
     response = client.get(url)
@@ -352,7 +404,12 @@ def test_edit_page_submmit_publish_context(client, company_profile_data, user):
     assert response.context_data['company'] == company.serialize_for_template()
 
 
-def test_edit_page_logo_submmit_success(client, mock_update_company, user):
+def test_edit_page_logo_submmit_success(
+    client, mock_update_company, mock_get_company_profile, company_profile_data, user
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     client.force_login(user)
     url = reverse('sso_profile:business-profile-logo')
     data = {
@@ -368,7 +425,17 @@ def test_edit_page_logo_submmit_success(client, mock_update_company, user):
 
 
 @pytest.mark.parametrize('url,data', zip(edit_urls, edit_data))
-def test_edit_page_submmit_error(client, mock_update_company, url, data, user):
+def test_edit_page_submmit_error(
+    client,
+    mock_update_company,
+    url,
+    data,
+    user,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
     client.force_login(user)
     mock_update_company.return_value = create_response(status_code=400)
 
@@ -376,7 +443,18 @@ def test_edit_page_submmit_error(client, mock_update_company, url, data, user):
         client.post(url, data)
 
 
-def test_case_study_create(submit_case_study_create_step, mock_case_study_create, case_study_data, client, user):
+def test_case_study_create(
+    submit_case_study_create_step,
+    mock_case_study_create,
+    case_study_data,
+    client,
+    user,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     client.force_login(user)
 
     response = submit_case_study_create_step(case_study_data[views.BASIC])
@@ -401,7 +479,12 @@ def test_case_study_edit_foo(
     default_private_case_study,
     user,
     rf,
+    mock_get_company_profile,
+    company_profile_data,
 ):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     client.force_login(user)
 
     response = submit_case_study_edit_step(case_study_data[views.BASIC])
@@ -417,10 +500,23 @@ def test_case_study_edit_foo(
     data = {**default_private_case_study, 'image_one': mock.ANY, 'image_two': mock.ANY}
     del data['image_three']
 
-    assert mock_case_study_update.call_args == mock.call(case_study_id='1', data=data, sso_session_id='123')
+    assert mock_case_study_update.call_args == mock.call(
+        data=data,
+        case_study_id=1,  # NB: in the original directory-sso-profile repo, this was a string, not an int
+        sso_session_id='123',
+    )
 
 
-def test_case_study_edit_not_found(mock_case_study_retrieve, client, user):
+def test_case_study_edit_not_found(
+    mock_case_study_retrieve,
+    client,
+    user,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     mock_case_study_retrieve.return_value = create_response(status_code=404)
 
     client.force_login(user)
@@ -431,7 +527,16 @@ def test_case_study_edit_not_found(mock_case_study_retrieve, client, user):
     assert response.status_code == 404
 
 
-def test_case_study_edit_found(mock_case_study_retrieve, client, user):
+def test_case_study_edit_found(
+    mock_case_study_retrieve,
+    client,
+    user,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     client.force_login(user)
     url = reverse('sso_profile:business-profile-case-study-edit', kwargs={'id': '1', 'step': views.BASIC})
 
@@ -440,7 +545,17 @@ def test_case_study_edit_found(mock_case_study_retrieve, client, user):
     assert response.status_code == 200
 
 
-def test_business_details_sole_trader(settings, mock_retrieve_company, client, user):
+def test_business_details_sole_trader(
+    settings,
+    mock_retrieve_company,
+    client,
+    user,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     client.force_login(user)
     mock_retrieve_company.return_value = create_response({'company_type': 'SOLE_TRADER'})
 
@@ -452,15 +567,24 @@ def test_business_details_sole_trader(settings, mock_retrieve_company, client, u
     assert isinstance(response.context_data['form'], forms.NonCompaniesHouseBusinessDetailsForm)
 
 
-def test_business_details_companies_house(settings, client, mock_retrieve_company, user):
+def test_business_details_companies_house(
+    settings,
+    client,
+    user,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = {'company_type': 'COMPANIES_HOUSE', **company_profile_data}
+
     client.force_login(user)
-    mock_retrieve_company.return_value = create_response({'company_type': 'COMPANIES_HOUSE'})
 
     url = reverse('sso_profile:business-profile-business-details')
 
     response = client.get(url)
 
     assert response.status_code == 200
+
     assert isinstance(response.context_data['form'], forms.CompaniesHouseBusinessDetailsForm)
 
 
@@ -473,7 +597,18 @@ def test_business_details_companies_house(settings, client, mock_retrieve_compan
         (forms.ExpertiseRoutingForm.LANGUAGE, reverse('sso_profile:business-profile-expertise-languages')),
     ),
 )
-def test_add_expertise_routing(settings, choice, expected_url, client, user):
+def test_add_expertise_routing(
+    settings,
+    choice,
+    expected_url,
+    client,
+    user,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     client.force_login(user)
 
     url = reverse('sso_profile:business-profile-expertise-routing')
@@ -484,7 +619,16 @@ def test_add_expertise_routing(settings, choice, expected_url, client, user):
     assert response.url == expected_url
 
 
-def test_expertise_routing_form(client, settings, user):
+def test_expertise_routing_form(
+    client,
+    settings,
+    user,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     client.force_login(user)
     url = reverse('sso_profile:business-profile-expertise-routing')
 
@@ -494,10 +638,19 @@ def test_expertise_routing_form(client, settings, user):
     assert response.context_data['company']
 
 
-def test_expertise_products_services_routing_form_context(client, settings, company_profile_data, user):
+def test_expertise_products_services_routing_form_context(
+    client,
+    settings,
+    company_profile_data,
+    user,
+    mock_get_company_profile,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     client.force_login(user)
 
-    company = helpers.CompanyParser(company_profile_data)
+    company = CompanyParser(company_profile_data)
 
     url = reverse('sso_profile:business-profile-expertise-products-services-routing')
 
@@ -508,7 +661,16 @@ def test_expertise_products_services_routing_form_context(client, settings, comp
 
 
 @pytest.mark.parametrize('choice', (item for item, _ in forms.ExpertiseProductsServicesRoutingForm.CHOICES if item))
-def test_expertise_products_services_routing_form(choice, client, settings, user):
+def test_expertise_products_services_routing_form(
+    choice,
+    client,
+    settings,
+    user,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
     client.force_login(user)
 
     url = reverse('sso_profile:business-profile-expertise-products-services-routing')
@@ -521,17 +683,22 @@ def test_expertise_products_services_routing_form(choice, client, settings, user
     )
 
 
-def test_products_services_form_prepopulate(mock_retrieve_company, company_profile_data, client, user):
+def test_products_services_form_prepopulate(
+    company_profile_data,
+    client,
+    user,
+    mock_get_company_profile,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = {
+        **company_profile_data,
+        'expertise_products_services': {
+            constants.LEGAL: ['Company incorporation', 'Employment'],
+            constants.PUBLICITY: ['Public Relations', 'Branding'],
+        },
+    }
+
     client.force_login(user)
-    mock_retrieve_company.return_value = create_response(
-        {
-            **company_profile_data,
-            'expertise_products_services': {
-                constants.LEGAL: ['Company incorporation', 'Employment'],
-                constants.PUBLICITY: ['Public Relations', 'Branding'],
-            },
-        }
-    )
 
     url = reverse(
         'sso_profile:business-profile-expertise-products-services',
@@ -542,17 +709,22 @@ def test_products_services_form_prepopulate(mock_retrieve_company, company_profi
     assert response.context_data['form'].initial == {'expertise_products_services': 'Public Relations|Branding'}
 
 
-def test_products_services_other_form(mock_retrieve_company, company_profile_data, client, user):
+def test_products_services_other_form(
+    company_profile_data,
+    client,
+    user,
+    mock_get_company_profile,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = {
+        **company_profile_data,
+        'expertise_products_services': {
+            constants.LEGAL: ['Company incorporation', 'Employment'],
+            constants.OTHER: ['Foo', 'Bar'],
+        },
+    }
+
     client.force_login(user)
-    mock_retrieve_company.return_value = create_response(
-        {
-            **company_profile_data,
-            'expertise_products_services': {
-                constants.LEGAL: ['Company incorporation', 'Employment'],
-                constants.OTHER: ['Foo', 'Bar'],
-            },
-        }
-    )
 
     url = reverse('sso_profile:business-profile-expertise-products-services-other')
     response = client.get(url)
@@ -561,18 +733,23 @@ def test_products_services_other_form(mock_retrieve_company, company_profile_dat
 
 
 def test_products_services_other_form_update(
-    client, mock_retrieve_company, mock_update_company, user, company_profile_data
+    client,
+    mock_retrieve_company,
+    mock_update_company,
+    user,
+    company_profile_data,
+    mock_get_company_profile,
 ):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = {
+        **company_profile_data,
+        'expertise_products_services': {
+            constants.LEGAL: ['Company incorporation', 'Employment'],
+            constants.OTHER: ['Foo', 'Bar'],
+        },
+    }
+
     client.force_login(user)
-    mock_retrieve_company.return_value = create_response(
-        {
-            **company_profile_data,
-            'expertise_products_services': {
-                constants.LEGAL: ['Company incorporation', 'Employment'],
-                constants.OTHER: ['Foo', 'Bar'],
-            },
-        }
-    )
 
     url = reverse('sso_profile:business-profile-expertise-products-services-other')
 
@@ -590,17 +767,24 @@ def test_products_services_other_form_update(
     )
 
 
-def test_products_services_form_update(client, mock_retrieve_company, mock_update_company, user, company_profile_data):
+def test_products_services_form_update(
+    client,
+    mock_retrieve_company,
+    mock_update_company,
+    user,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = {
+        **company_profile_data,
+        'expertise_products_services': {
+            constants.LEGAL: ['Company incorporation', 'Employment'],
+            constants.PUBLICITY: ['Public Relations', 'Branding'],
+        },
+    }
+
     client.force_login(user)
-    mock_retrieve_company.return_value = create_response(
-        {
-            **company_profile_data,
-            'expertise_products_services': {
-                constants.LEGAL: ['Company incorporation', 'Employment'],
-                constants.PUBLICITY: ['Public Relations', 'Branding'],
-            },
-        }
-    )
 
     url = reverse('sso_profile:business-profile-expertise-products-services', kwargs={'category': constants.PUBLICITY})
     client.post(url, {'expertise_products_services': ['Social Media']})
@@ -617,19 +801,39 @@ def test_products_services_form_update(client, mock_retrieve_company, mock_updat
     )
 
 
-def test_products_services_exposes_category(client, user):
+def test_products_services_exposes_category(
+    client,
+    user,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     client.force_login(user)
 
     url = reverse(
-        'sso_profile:business-profile-expertise-products-services', kwargs={'category': constants.BUSINESS_SUPPORT}
+        'sso_profile:business-profile-expertise-products-services',
+        kwargs={
+            'category': constants.BUSINESS_SUPPORT,
+        },
     )
     response = client.get(url)
 
     assert response.context_data['category'] == 'business support'
 
 
-def test_personal_details(client, mock_create_user_profile, user):
-    client.force_login(user)
+def test_personal_details(
+    client,
+    mock_create_user_profile,
+    sso_user_no_profile,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
+    client.force_login(sso_user_no_profile)
 
     data = {
         'given_name': 'Foo',
@@ -645,13 +849,22 @@ def test_personal_details(client, mock_create_user_profile, user):
     assert response.url == reverse('sso_profile:business-profile')
     assert mock_create_user_profile.call_count == 1
     assert mock_create_user_profile.call_args == mock.call(
-        sso_session_id=user.session_id,
+        sso_session_id=sso_user_no_profile.session_id,
         data={'first_name': 'Foo', 'last_name': 'Example', 'job_title': 'Exampler', 'mobile_phone_number': '1232342'},
     )
 
 
 @mock.patch.object(api_client.company, 'verify_identity_request')
-def test_request_identity_verification(mock_verify_identity_request, client, user, settings):
+def test_request_identity_verification(
+    mock_verify_identity_request,
+    client,
+    user,
+    settings,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    mock_get_company_profile.return_value = company_profile_data
+
     mock_verify_identity_request.return_value = create_response()
 
     client.force_login(user)
@@ -671,8 +884,18 @@ def test_request_identity_verification(mock_verify_identity_request, client, use
 
 
 @mock.patch.object(api_client.company, 'verify_identity_request')
-def test_request_identity_verification_already_sent(mock_verify_identity_request, client, user):
-    user.company.data['is_identity_check_message_sent'] = True
+def test_request_identity_verification_already_sent(
+    mock_verify_identity_request,
+    client,
+    user,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    mock_get_company_profile.return_value = {
+        **company_profile_data,
+        'is_identity_check_message_sent': True,
+    }
+
     client.force_login(user)
 
     url = reverse('sso_profile:business-profile-request-to-verify')
@@ -858,10 +1081,21 @@ def test_admin_disconnect_is_sole_collaborator(mock_collaborator_list, count, ex
     assert response.context_data['is_sole_admin'] is expected
 
 
-def test_products_services_form_incorrect_value(client, user):
+def test_products_services_form_incorrect_value(
+    client,
+    user,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     client.force_login(user)
 
-    url = reverse('sso_profile:business-profile-expertise-products-services', kwargs={'category': 'foo'})
+    url = reverse(
+        'sso_profile:business-profile-expertise-products-services',
+        kwargs={'category': 'foo'},
+    )
 
     response = client.get(url)
 
@@ -941,6 +1175,9 @@ def test_admin_not_admin_role(mock_retrieve_supplier, client, user, url):
     assert response.url.startswith(reverse('sso_profile:business-profile'))
 
 
+@override_settings(
+    LOGIN_URL=SIGNUP_URL
+)  # without this, LOGIN_URL uses the SSO_PROXY_LOGIN_URL, which needs to be cleaned up
 @pytest.mark.parametrize(
     'url',
     (
@@ -951,11 +1188,20 @@ def test_admin_not_admin_role(mock_retrieve_supplier, client, user, url):
         reverse('sso_profile:business-profile-admin-disconnect'),
     ),
 )
-def test_admin_anon_user(client, settings, url):
+def test_admin_anon_user(
+    client,
+    settings,
+    url,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url.startswith(settings.LOGIN_URL)
+    assert response.url.startswith(f'{settings.LOGIN_URL}')
 
 
 @mock.patch.object(api_client.company, 'collaborator_invite_create')
@@ -1065,13 +1311,25 @@ def test_member_send_admin_request(mock_collaboration_request_create, client, us
 
 
 @mock.patch.object(helpers, 'notify_company_admins_collaboration_request_reminder')
-def test_member_send_admin_reminder(mock_collaboration_request_notify, client, user):
+def test_member_send_admin_reminder(
+    mock_collaboration_request_notify,
+    client,
+    user,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    # Give the user a company, so they are not redirected by @sso_profiles.urls.company_required
+    mock_get_company_profile.return_value = company_profile_data
+
     mock_collaboration_request_notify.return_value = create_response()
 
     client.force_login(user)
 
     response = client.post(
-        reverse('sso_profile:business-profile'), {'action': forms.MemberCollaborationRequestForm.SEND_REMINDER}
+        reverse('sso_profile:business-profile'),
+        {
+            'action': forms.MemberCollaborationRequestForm.SEND_REMINDER,
+        },
     )
 
     assert response.status_code == 302
@@ -1113,14 +1371,30 @@ def test_member_send_admin_request_error_400(mock_collaboration_request_create, 
     assert response.context_data['form'].errors == {NON_FIELD_ERRORS: errors}
 
 
-def test_business_profile_member_redirect(client, user, mock_retrieve_supplier, company_profile_data):
+def test_business_profile_member_redirect(
+    client,
+    user,
+    mock_retrieve_supplier,
+    mock_get_supplier_profile,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    mock_get_company_profile.return_value = company_profile_data
+
+    mock_get_supplier_profile.return_value = {
+        'role': user_roles.MEMBER,
+        'is_company_owner': True,
+    }
+
     client.force_login(user)
-    mock_retrieve_supplier.return_value = create_response({'role': user_roles.MEMBER})
+    mock_retrieve_supplier.return_value = create_response(company_profile_data)
 
     url = reverse('sso_profile:business-profile')
     response = client.get(url)
 
     context = response.context_data
+
+    assert mock_get_supplier_profile.call_count == 1
 
     assert context['has_admin_request'] is True
     assert context['fab_tab_classes'] == 'active'
@@ -1177,7 +1451,15 @@ def _check_template_use(response, template_name):
 
 
 @mock.patch.object(api_client.supplier, 'disconnect_from_company')
-def test_business_user_disconnect(mock_disconnect_from_company, client, user):
+def test_business_user_disconnect(
+    mock_disconnect_from_company,
+    client,
+    user,
+    mock_get_company_profile,
+    company_profile_data,
+):
+    mock_get_company_profile.return_value = company_profile_data
+
     mock_disconnect_from_company.return_value = create_response()
     client.force_login(user)
 

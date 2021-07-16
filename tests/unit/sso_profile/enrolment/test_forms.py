@@ -5,6 +5,8 @@ from great_components.forms import CharField, EmailField
 
 from sso_profile.enrolment import forms, helpers
 
+pytestmark = pytest.mark.django_db
+
 
 @pytest.fixture(autouse=True)
 def mock_clean():

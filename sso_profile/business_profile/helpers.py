@@ -1,11 +1,10 @@
 import http
 
-import great_components.helpers
 from directory_forms_api_client import actions
 from django.conf import settings
 
 from directory_api_client.client import api_client
-from directory_constants import company_types, user_roles
+from directory_constants import user_roles
 from sso_profile.common.helpers import get_company_admins
 
 
@@ -23,40 +22,6 @@ def get_supplier_profile(sso_id):
         return None
     response.raise_for_status()
     return response.json()
-
-
-class CompanyParser(great_components.helpers.CompanyParser):
-    @property
-    def is_in_companies_house(self):
-        return self.data.get('company_type') == company_types.COMPANIES_HOUSE
-
-    @property
-    def is_identity_check_message_sent(self):
-        return self.data['is_identity_check_message_sent']
-
-    def serialize_for_template(self):
-        if not self.data:
-            return {}
-        return {
-            **self.data,
-            'date_of_creation': self.date_of_creation,
-            'address': self.address,
-            'sectors': self.sectors_label,
-            'keywords': self.keywords,
-            'employees': self.employees_label,
-            'expertise_industries': self.expertise_industries_label,
-            'expertise_regions': self.expertise_regions_label,
-            'expertise_countries': self.expertise_countries_label,
-            'expertise_languages': self.expertise_languages_label,
-            'has_expertise': self.has_expertise,
-            'expertise_products_services': self.expertise_products_services_label,
-            'is_in_companies_house': self.is_in_companies_house,
-        }
-
-    def serialize_for_form(self):
-        if not self.data:
-            return {}
-        return {**self.data, 'date_of_creation': self.date_of_creation, 'address': self.address}
 
 
 def collaborator_list(sso_session_id):

@@ -20,7 +20,7 @@ from ipware import get_client_ip
 from core.models import CuratedListPage
 from core.serializers import parse_opportunities
 from directory_api_client import api_client
-from directory_constants import choices
+from directory_constants import choices, company_types
 from directory_sso_api_client import sso_api_client
 
 USER_LOCATION_CREATE_ERROR = 'Unable to save user location'
@@ -126,6 +126,8 @@ class CompanyParser(great_components.helpers.CompanyParser):
 
     INDUSTRIES = dict(choices.SECTORS)  # defaults to choices.INDUSTRIES
 
+    SIC_CODES = dict(choices.SIC_CODES)
+
     def __init__(self, data):
         data = {**data}
         data.setdefault('expertise_products_services', {})
@@ -159,6 +161,61 @@ class CompanyParser(great_components.helpers.CompanyParser):
     @property
     def expertise_products_services(self):
         return self.data['expertise_products_services'].get('other', [])
+
+    @property
+    def name(self):
+        return self.data['company_name']
+
+    @property
+    def number(self):
+        return self.data['company_number']
+
+    @property
+    def nature_of_business(self):
+        return great_components.helpers.values_to_labels(values=self.data.get('sic_codes', []), choices=self.SIC_CODES)
+
+    @property
+    def is_in_companies_house(self):
+        return self.data.get('company_type') == company_types.COMPANIES_HOUSE
+
+    @property
+    def is_identity_check_message_sent(self):
+        return self.data['is_identity_check_message_sent']
+
+    @property
+    def address(self):
+        address = self.data.get('registered_office_address', {})
+        names = ['address_line_1', 'address_line_2', 'locality', 'postal_code']
+        return ', '.join([address[name] for name in names if name in address])
+
+    @property
+    def postcode(self):
+        if self.data.get('registered_office_address'):
+            return self.data['registered_office_address'].get('postal_code')
+
+    def serialize_for_template(self):
+        if not self.data:
+            return {}
+        return {
+            **self.data,
+            'date_of_creation': self.date_of_creation,
+            'address': self.address,
+            'sectors': self.sectors_label,
+            'keywords': self.keywords,
+            'employees': self.employees_label,
+            'expertise_industries': self.expertise_industries_label,
+            'expertise_regions': self.expertise_regions_label,
+            'expertise_countries': self.expertise_countries_label,
+            'expertise_languages': self.expertise_languages_label,
+            'has_expertise': self.has_expertise,
+            'expertise_products_services': self.expertise_products_services_label,
+            'is_in_companies_house': self.is_in_companies_house,
+        }
+
+    def serialize_for_form(self):
+        if not self.data:
+            return {}
+        return {**self.data, 'date_of_creation': self.date_of_creation, 'address': self.address}
 
 
 def values_to_labels(values, choices):

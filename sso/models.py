@@ -7,6 +7,7 @@ from directory_constants import user_roles
 from exportplan.core.helpers import get_or_create_export_plan
 from exportplan.core.parsers import ExportPlanParser
 from sso import helpers
+from sso_profile.business_profile.helpers import get_supplier_profile
 
 
 class BusinessSSOUser(AbstractUser):
@@ -83,8 +84,6 @@ class BusinessSSOUser(AbstractUser):
 
     @cached_property
     def supplier(self):
-        from sso_profile.business_profile.helpers import get_supplier_profile
-
         return get_supplier_profile(self.id)
 
     @cached_property

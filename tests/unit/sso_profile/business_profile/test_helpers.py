@@ -3,36 +3,10 @@ from unittest import mock
 import pytest
 
 from directory_api_client import api_client
-from directory_constants import company_types
 from sso_profile.business_profile import helpers
-from sso_profile.common.tests.helpers import create_response
+from ..common.helpers import create_response
 
-
-@pytest.mark.parametrize(
-    'value,expected',
-    (
-        (company_types.COMPANIES_HOUSE, True),
-        (company_types.SOLE_TRADER, False),
-        (company_types.CHARITY, False),
-        (company_types.PARTNERSHIP, False),
-    ),
-)
-def test_profile_parser_is_in_companies_house(value, expected):
-    parser = helpers.CompanyParser({'company_type': value})
-
-    assert parser.is_in_companies_house is expected
-
-
-def test_profile_parser_no_data_serialize_for_form():
-    parser = helpers.CompanyParser({})
-
-    assert parser.serialize_for_form() == {}
-
-
-def test_profile_parser_no_data_serialize_for_template():
-    parser = helpers.CompanyParser({})
-
-    assert parser.serialize_for_template() == {}
+pytestmark = pytest.mark.django_db
 
 
 @mock.patch.object(api_client.supplier, 'retrieve_profile')

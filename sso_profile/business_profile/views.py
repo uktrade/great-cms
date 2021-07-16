@@ -110,7 +110,7 @@ class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, Form
                     'export_opportunities_apply_url': urls.domestic.EXPORT_OPPORTUNITIES,
                     'is_profile_published': company['is_published_find_a_supplier'] if company else False,
                     'FAB_BUSINESS_PROFILE_URL': self.get_business_profile_url(),
-                    'FEATURE_ADMIN_REQUESTS_ON': settings.FEATURE_FLAGS['ADMIN_REQUESTS_ON'],
+                    'FEATURE_ADMIN_REQUESTS_ON': settings.SSO_PROFILE_FEATURE_FLAGS['ADMIN_REQUESTS_ON'],
                 }
             )
             if company:

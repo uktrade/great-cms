@@ -3,7 +3,9 @@ from unittest import mock
 import pytest
 
 from sso_profile.common import helpers
-from sso_profile.common.tests.helpers import create_response
+from ..common.helpers import create_response
+
+pytestmark = pytest.mark.django_db
 
 
 @mock.patch.object(helpers.api_client.supplier, 'profile_update')

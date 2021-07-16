@@ -5,9 +5,12 @@ import requests
 from django.urls import reverse
 
 from sso_profile.common import views
-from sso_profile.common.tests.helpers import create_response
+from ..common.helpers import create_response
 
 SIGN_OUT_LABEL = '>Sign out<'
+
+
+pytestmark = pytest.mark.django_db
 
 
 def test_companies_house_search_validation_error(client, settings):

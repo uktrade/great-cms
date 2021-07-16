@@ -1,7 +1,10 @@
+import pytest
 from bs4 import BeautifulSoup
 from great_components import forms
 
 from sso_profile.enrolment import widgets
+
+pytestmark = pytest.mark.django_db
 
 
 def assert_html_equal(expected_html, actual_html):

@@ -2,7 +2,6 @@ import collections
 import re
 from http import cookies
 
-import great_components
 from directory_ch_client import ch_search_api_client
 from directory_forms_api_client import actions
 from django.conf import settings
@@ -11,7 +10,7 @@ from django.utils import formats
 from django.utils.dateparse import parse_datetime
 
 from directory_api_client import api_client
-from directory_constants import choices, urls
+from directory_constants import urls
 from directory_sso_api_client import sso_api_client
 from sso_profile.enrolment import constants
 
@@ -135,34 +134,6 @@ def notify_company_admins_member_joined(admins, data, form_url):
         )
         response = action.save(data)
         response.raise_for_status()
-
-
-class CompanyParser(great_components.helpers.CompanyParser):
-
-    SIC_CODES = dict(choices.SIC_CODES)
-
-    @property
-    def number(self):
-        return self.data['company_number']
-
-    @property
-    def name(self):
-        return self.data['company_name']
-
-    @property
-    def nature_of_business(self):
-        return great_components.helpers.values_to_labels(values=self.data.get('sic_codes', []), choices=self.SIC_CODES)
-
-    @property
-    def address(self):
-        address = self.data.get('registered_office_address', {})
-        names = ['address_line_1', 'address_line_2', 'locality', 'postal_code']
-        return ', '.join([address[name] for name in names if name in address])
-
-    @property
-    def postcode(self):
-        if self.data.get('registered_office_address'):
-            return self.data['registered_office_address'].get('postal_code')
 
 
 def parse_set_cookie_header(cookie_header):

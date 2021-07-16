@@ -1,10 +1,13 @@
 from unittest.mock import Mock, patch
 
+import pytest
 from django.urls import reverse
 
-from sso_profile.common.tests.helpers import create_response
 from sso_profile.exops import views
 from sso_profile.exops.helpers import exopps_client
+from ..common.helpers import create_response
+
+pytestmark = pytest.mark.django_db
 
 
 def response_factory(status_code):

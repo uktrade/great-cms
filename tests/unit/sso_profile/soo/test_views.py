@@ -1,4 +1,7 @@
+import pytest
 from django.urls import reverse
+
+pytestmark = pytest.mark.django_db
 
 
 def test_selling_online_overseas_exposes_context(client, user):

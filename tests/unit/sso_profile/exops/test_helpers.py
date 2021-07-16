@@ -1,6 +1,10 @@
 from unittest.mock import patch
 
+import pytest
+
 from sso_profile.exops import helpers
+
+pytestmark = pytest.mark.django_db
 
 
 @patch('requests.get')

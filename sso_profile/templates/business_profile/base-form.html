@@ -28,6 +28,7 @@
             <div class="column-one-half">
                 {% block form_contents %}
                     <form method="post" enctype="multipart/form-data" novalidate="novalidate">
+                        {% csrf_token %}
                         {% block form %}{{ form }}{% endblock %}
                         {% block form_button %}
                             <button class="button">Save and continue</button>

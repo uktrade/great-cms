@@ -11,7 +11,7 @@ class PersonalProfileEditFormView(
 ):
     template_name = 'personal_profile/personal-profile-edit-form.html'
     form_class = forms.PersonalProfileEdit
-    success_url = reverse_lazy('personal-profile:display')
+    success_url = reverse_lazy('sso_profile:personal-profile:display')
     success_message = 'Personal details updated'
 
     def get_initial(self):

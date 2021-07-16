@@ -3,6 +3,8 @@ from django.forms.forms import NON_FIELD_ERRORS
 
 from sso_profile.business_profile import forms, validators
 
+pytestmark = pytest.mark.django_db
+
 
 def test_description_form_contains_email():
     form = forms.DescriptionForm({'summary': 'contact foo@example.com', 'description': 'contact foo@example.com'})

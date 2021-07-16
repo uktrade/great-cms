@@ -241,22 +241,26 @@ def get_request():
 def client(client, auth_backend, settings):
     def force_login(user):
         client.cookies[settings.SSO_SESSION_COOKIE] = '123'
-        auth_backend.return_value = create_response(
-            {
-                'id': user.id,
-                'email': user.email,
-                'hashed_uuid': user.hashed_uuid,
-                'user_profile': {
-                    'mobile_phone_number': user.mobile_phone_number,
-                    'first_name': user.first_name,
-                    'last_name': user.last_name,
-                    'segment': 'CHALLENGE',
-                },
-                # To get `company` data in here, use the `mock_get_company_profile` fixture and
-                # provide an approprate return_value. The full spec of CompanySerializer is in
-                # https://github.com/uktrade/directory-api/blob/master/company/serializers.py
+        user_data_dict = {
+            'id': user.id,
+            'email': user.email,
+            'hashed_uuid': user.hashed_uuid,
+            # To get `company` data in here, use the `mock_get_company_profile` fixture and
+            # provide an approprate return_value. The full spec of CompanySerializer is in
+            # https://github.com/uktrade/directory-api/blob/master/company/serializers.py
+        }
+        # Some sso_profile tests require a user without a user profile, but by default
+        # we set one. When unsaved, BusinessSSOUser.has_user_profile can be True, False or None
+        # and we only want to skip setting a profile if it is explicitly False
+        if getattr(user, 'has_user_profile', True) is not False:
+            user_data_dict['user_profile'] = {
+                'mobile_phone_number': user.mobile_phone_number,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'segment': 'CHALLENGE',
             }
-        )
+
+        auth_backend.return_value = create_response(user_data_dict)
 
     client.force_login = force_login
     return client
@@ -427,6 +431,21 @@ def mock_get_company_profile(patch_get_company_profile):
     yield patch_get_company_profile.start()
     try:
         patch_get_company_profile.stop()
+    except RuntimeError:
+        # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture
+def patch_get_supplier_profile():
+    yield mock.patch('sso.models.get_supplier_profile', return_value=None)
+
+
+@pytest.fixture(autouse=True)
+def mock_get_supplier_profile(patch_get_supplier_profile):
+    yield patch_get_supplier_profile.start()
+    try:
+        patch_get_supplier_profile.stop()
     except RuntimeError:
         # may already be stopped explicitly in a test
         pass

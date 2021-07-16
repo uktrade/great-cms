@@ -227,6 +227,20 @@ def success_box(**kwargs):
 
 
 @register.inclusion_tag('components/message_box_with_icon.html')
+def error_box(**kwargs):
+    return {
+        'icon': '✕',
+        'border_colour': 'flag-red',
+        'heading_class': 'heading-xlarge flag-red-text',
+        'box_class': 'width-full background-white flag-red-text',
+        'heading': '.heading-large .flag-red-text',
+        'description': '.width-two-thirds .background-white .flag-red-text',
+        'heading_level': 'h3',
+        **kwargs,
+    }
+
+
+@register.inclusion_tag('components/message_box_with_icon.html')
 def message_box_with_icon(**kwargs):
     return kwargs
 
