@@ -145,7 +145,6 @@ section {
   width: 100%;
 }
 
-
 .column-sixth {
   @include grid-column(1 / 6);
   width: 100%;
@@ -169,7 +168,6 @@ section {
 // Medium screen width
 
 @media (min-width: 641px) {
-
   .width-sixth-m {
     width: percentage(1 / 6);
   }
@@ -234,7 +232,6 @@ section {
 // Large screen width
 
 @media (min-width: 769px) {
-
   .width-sixth-l {
     width: percentage(1 / 6);
   }
@@ -299,7 +296,6 @@ section {
 // XLarge screen width
 
 @media (min-width: 961px) {
-
   .width-sixth-xl {
     width: percentage(1 / 6);
   }

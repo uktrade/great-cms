@@ -1,6 +1,7 @@
 'use strict'
 
-const sass = require('gulp-sass')(require('sass'))
+// const sass = require('gulp-sass')(require('sass'))
+const sass = require('gulp-sass')
 
 const path = require('path')
 const gulp = require('gulp')
