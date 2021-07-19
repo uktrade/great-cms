@@ -2,6 +2,7 @@ import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { Risk } from './Risk'
+import { AddButton } from '@src/components/ObjectivesList/AddButton/AddButton'
 
 export const Risks = memo(
   ({
@@ -15,54 +16,43 @@ export const Risks = memo(
     return (
       <>
         {formData.length !== 0 && (
-          <div className="costs costs--risks bg-blue-deep-10 p-v-s m-b-s">
-            <table className="m-v-0">
-              <tbody>
-                {formData.map(
-                  (
-                    {
-                      pk,
-                      risk,
-                      risk_extras,
-                      likelihood_extras,
-                      impact_extras,
-                      contingency_plan,
-                      contingency_plan_extras,
-                      risk_likelihood,
-                      risk_impact,
-                    },
-                    i
-                  ) => (
-                    <Risk
-                      index={i + 1}
-                      key={pk}
-                      id={pk}
-                      risk={risk}
-                      risk_extras={risk_extras}
-                      likelihood_extras={likelihood_extras}
-                      impact_extras={impact_extras}
-                      contingency_plan={contingency_plan}
-                      contingency_plan_extras={contingency_plan_extras}
-                      onChange={onChange}
-                      deleteRisk={deleteRisk}
-                      likelihoodOptions={likelihoodOptions}
-                      impactOptions={impactOptions}
-                      selected={{ risk_likelihood, risk_impact }}
-                    />
-                  )
-                )}
-              </tbody>
-            </table>
+          <div className="costs bg-blue-deep-10 m-b-s">
+            {formData.map(
+              (
+                {
+                  pk,
+                  risk,
+                  risk_extras,
+                  likelihood_extras,
+                  impact_extras,
+                  contingency_plan,
+                  contingency_plan_extras,
+                  risk_likelihood,
+                  risk_impact,
+                },
+                i
+              ) => (
+                <Risk
+                  index={i + 1}
+                  key={pk}
+                  id={pk}
+                  risk={risk}
+                  risk_extras={risk_extras}
+                  likelihood_extras={likelihood_extras}
+                  impact_extras={impact_extras}
+                  contingency_plan={contingency_plan}
+                  contingency_plan_extras={contingency_plan_extras}
+                  onChange={onChange}
+                  deleteRisk={deleteRisk}
+                  likelihoodOptions={likelihoodOptions}
+                  impactOptions={impactOptions}
+                  selected={{ risk_likelihood, risk_impact }}
+                />
+              )
+            )}
           </div>
         )}
-        <button
-          type="button"
-          className="button button--large button--icon"
-          onClick={addRisk}
-        >
-          <i className="fas fa-plus-circle" />
-          Add a risk
-        </button>
+        <AddButton type="button" add={addRisk} cta="Add a risk" />
       </>
     )
   }

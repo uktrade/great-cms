@@ -16,9 +16,9 @@ export const Option = memo(
     selectedOption,
   }) => {
     return (
-      <>
-        <tr className="border-none">
-          <td>
+      <div className="costs__option costs__border">
+        <div className="grid">
+          <div className="c-7-12">
             <Select
               id={id + selectData.name}
               options={selectData.options}
@@ -30,8 +30,8 @@ export const Option = memo(
               className="m-b-0"
               update={(x) => onChange('select', id, x)}
             />
-          </td>
-          <td>
+          </div>
+          <div className="c-5-12">
             <Input
               id={id}
               type="number"
@@ -43,17 +43,15 @@ export const Option = memo(
               onChange={(e) => onChange('input', id, e)}
               formGroupClassName="m-b-0"
             />
-          </td>
-        </tr>
-        <tr>
-          <td className="text-center" colSpan="2">
+          </div>
+          <div className="c-full text-center">
             <ConfirmModal
               hasData={!!selectedOption || !!value}
               deleteItem={() => deleteFunding(id)}
             />
-          </td>
-        </tr>
-      </>
+          </div>
+        </div>
+      </div>
     )
   }
 )

@@ -6,27 +6,23 @@ import { ConfirmModal } from '@src/components/ConfirmModal/ConfirmModal'
 
 export const Trip = memo(({ id, note, onChange, deleteTrip, index }) => {
   return (
-    <>
-      <tr className="border-none">
-        <td>
-          <p className="body-l m-v-xs m-b-s">Trip {index}</p>
-          <TextArea
-            id={id.toString()}
-            type="text"
-            label="label"
-            hideLabel
-            value={note}
-            onChange={(e) => onChange(id, e[id])}
-            formGroupClassName="m-b-0"
-          />
-        </td>
-      </tr>
-      <tr>
-        <td className="text-center" colSpan="2">
-          <ConfirmModal hasData={!!note} deleteItem={() => deleteTrip(id)} />
-        </td>
-      </tr>
-    </>
+    <div className="costs__option costs__option--border">
+      <div className="costs__border">
+        <h3 className="body-l-b">Trip {index}</h3>
+        <TextArea
+          id={id.toString()}
+          type="text"
+          label="label"
+          hideLabel
+          value={note}
+          onChange={(e) => onChange(id, e[id])}
+          formGroupClassName="m-b-0"
+        />
+      </div>
+      <div className="text-center">
+        <ConfirmModal hasData={!!note} deleteItem={() => deleteTrip(id)} />
+      </div>
+    </div>
   )
 })
 
