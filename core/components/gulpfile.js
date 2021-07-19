@@ -1,8 +1,5 @@
 'use strict'
-
-// const sass = require('gulp-sass')(require('sass'))
 const sass = require('gulp-sass')
-
 const path = require('path')
 const gulp = require('gulp')
 const gutil = require('gulp-util')
@@ -10,11 +7,8 @@ const cssnano = require('gulp-cssnano')
 const sourcemaps = require('gulp-sourcemaps')
 const del = require('del')
 const rename = require('gulp-rename')
-const runsequence = require('run-sequence')
 const sassLint = require('gulp-sass-lint')
 const autoprefixer = require('gulp-autoprefixer')
-const { series } = require('gulp')
-const { done } = require('fetch-mock')
 
 const PROJECT_DIR = path.resolve(__dirname)
 const FLAGS_SRC = [
@@ -134,7 +128,7 @@ gulp.task(
 
 // // Compile all styles
 
-gulp.task('styles', gulp.series('styles:govuk', 'styles:components'))
+gulp.task('sass:compile', gulp.series('styles:govuk', 'styles:components'))
 
 // // Images build task ---------------------
 // // Copies images to /static/images
@@ -157,31 +151,35 @@ gulp.task(
 // // /static/ directory.
 // // ---------------------------------------
 
-gulp.task('build', gulp.series('clean', 'styles', 'images', 'flags'))
+gulp.task('build', gulp.series('clean', 'sass:compile', 'images', 'flags'))
 
 // // Watch task ----------------------------
 // // When a file is changed, re-run the build task.
 // // ---------------------------------------
 
-// gulp.task('watch', () => {
-//   return gulp.watch(['./**/*.scss'], ['styles'])
-// })
+gulp.task('sass:watch', () => {
+  gulp.watch(['./**/*.scss'], gulp.series('sass:compile'))
+})
 
 // // Default task --------------------------
 // // Lists out available tasks.
 // // ---------------------------------------
 
-// gulp.task('default', () => {
-//   const cyan = gutil.colors.cyan
-//   const green = gutil.colors.green
+gulp.task(
+  'default',
+  gulp.series((done) => {
+    const cyan = gutil.colors.cyan
+    const green = gutil.colors.green
 
-//   gutil.log(green('----------'))
+    gutil.log(green('----------'))
 
-//   gutil.log('The following main ' + cyan('tasks') + ' are available:')
+    gutil.log('The following main ' + cyan('tasks') + ' are available:')
 
-//   gutil.log(cyan('build') + ': compiles assets.')
-//   gutil.log(cyan('watch') + ': compiles assets and watches for changes.')
-//   gutil.log(cyan('test') + ': runs tests/lint.')
+    gutil.log(cyan('build') + ': compiles assets.')
+    gutil.log(cyan('sass:watch') + ': compiles assets and watches for changes.')
+    gutil.log(cyan('test') + ': runs tests/lint.')
 
-//   gutil.log(green('----------'))
-// })
+    gutil.log(green('----------'))
+    done()
+  })
+)
