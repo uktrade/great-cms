@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-3017 - SOO User profile update to directory-SSO
 - GP2-2402 - VFM analytics
 - GP2-2359 - Relabel CaseStudy expander and make accessible
 - GP2-2348 - VFM Return copy update
@@ -16,6 +17,7 @@
 - GP2-2491 - Increase spacing at bottom of forms
 - GP2-2484 - refactor stats containers for better mobile display
 - GP2-2485 - always show selected age ranges
+- GP2-3082 - Fix gutter size on Export plan homepage
 
 ### Fixed bugs
 - GP2-2619 - Case study quotes - attrributions fall off
