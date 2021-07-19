@@ -5,7 +5,7 @@
   display: block;
   padding: 20px;
 
-  &--funding {
+  &--with-total {
     border-radius: 20px 20px 0 0;
   }
 
@@ -17,20 +17,42 @@
       margin-left: auto;
     }
   }
+}
 
-  &--total {
-    td {
-      padding-top: 20px;
-      display: table-cell;
-      width: 50%;
-    }
+.costs__flex-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @include breakpoint(sm) {
+    flex-direction: row;
+  }
+}
+
+.costs__label {
+  align-self: flex-start;
+  padding-top: 9px;
+  padding-bottom: 20px;
+  padding-right: 10px;
+
+  & .tooltip {
+    margin-top: 15px;
+  }
+}
+
+.costs__input {
+  align-self: flex-start;
+  padding-bottom: 20px;
+  margin-left: auto;
+  width: 100%;
+
+  @include breakpoint(sm) {
+    width: 50%;
+    flex-shrink: 0;
   }
 
-  &--currency {
-    @include breakpoint(sm_lt) {
-      display: block;
-      width: 100%;
-    }
+  & input {
+    text-align: right;
   }
 }
 

@@ -12,7 +12,7 @@ export const Options = memo(
       : {}
 
     return (
-      <div className="costs costs--funding bg-blue-deep-10">
+      <div className="costs costs--with-total bg-blue-deep-10">
         {formData.map(({ pk, amount, funding_option }) => (
           <Option
             key={pk}
