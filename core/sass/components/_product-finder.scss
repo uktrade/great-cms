@@ -70,15 +70,6 @@
       }
     }
   }
-
-  .search-button {
-    &__label--hidden-text {
-      text-indent: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      position: absolute;
-    }
-  }
 }
 
 .dialog-close {
