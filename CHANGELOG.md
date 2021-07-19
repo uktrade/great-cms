@@ -15,6 +15,7 @@
 - GP2-2471 - Update Tooltip component
 - GP2-2464 / GP2-2480 - improve button text baseline
 - GP2-2491 - Increase spacing at bottom of forms
+- GP2-3082 - Fix gutter size on Export plan homepage
 
 ### Fixed bugs
 - GP2-2619 - Case study quotes - attrributions fall off
