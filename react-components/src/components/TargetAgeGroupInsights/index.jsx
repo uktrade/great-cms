@@ -3,22 +3,24 @@ import PropTypes from 'prop-types'
 import { getMarkets } from '@src/reducers'
 import { useSelector } from 'react-redux'
 import { ToggleDataTable } from '@src/components/ToggleDataTable'
-import { Table } from './Table'
+import { AgeGroupData } from './AgeGroupData'
+import { DemoData } from './DemoData'
 
 export const TargetAgeGroupInsights = memo(
   ({ groups, selected, currentSection }) => {
     const country = useSelector((state) => getMarkets(state))
     return (
       <>
-        <h2 className="h-xs p-t-l p-b-s">Facts and figures about { country.country_name } to get you started</h2>
+        <h2 className="h-xs p-t-l p-b-s">
+          Facts and figures about {country.country_name} to get you started
+        </h2>
         <ToggleDataTable
           countryIso2Code={country.country_iso2_code}
           groups={groups}
           selectedGroups={selected}
           url={currentSection.url}
-        >
-          <Table />
-        </ToggleDataTable>
+          afterTable={[<DemoData/>,<AgeGroupData/>]}
+        />
       </>
     )
   }
@@ -27,8 +29,8 @@ export const TargetAgeGroupInsights = memo(
 TargetAgeGroupInsights.propTypes = {
   groups: PropTypes.arrayOf(
     PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
+      value: PropTypes.string,
+      label: PropTypes.string,
     })
   ),
   currentSection: PropTypes.shape({

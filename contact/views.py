@@ -18,6 +18,7 @@ from contact import constants, forms as contact_forms, helpers
 from core import mixins as core_mixins, snippet_slugs
 from core.datastructures import NotifySettings
 from directory_constants import urls
+from sso.helpers import update_user_profile
 
 SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
 SOO_SUBMISSION_CACHE_TIMEOUT = 2592000  # 30 days
@@ -676,6 +677,10 @@ class SellingOnlineOverseasFormView(
         )
         response = action.save(form_data)
         response.raise_for_status()
+        user_profile_data = {'first_name': form_data['contact_first_name'], 'last_name': form_data['contact_last_name']}
+        # update details in directory-sso
+        update_user_profile(sso_session_id=self.request.user.session_id, data=user_profile_data)
+
         self.request.session.pop(SESSION_KEY_SOO_MARKET, None)
         self.set_form_data_cache(form_data)
         return redirect(self.success_url)
