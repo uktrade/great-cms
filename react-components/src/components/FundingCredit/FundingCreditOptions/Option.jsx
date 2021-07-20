@@ -16,7 +16,7 @@ export const Option = memo(
     selectedOption,
   }) => {
     return (
-      <div className="costs__option costs__border">
+      <div className="costs__option costs__option--border">
         <div className="grid">
           <div className="c-7-12">
             <Select

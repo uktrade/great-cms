@@ -25,12 +25,14 @@ export const Options = memo(
             deleteFunding={deleteFunding}
           />
         ))}
-        <AddButton
-          isDisabled={formData.length ? !objectHasValue(lastField) : false}
-          add={addFunding}
-          btnClass="button--small button--secondary button--inherit"
-          cta="Add a funding option"
-        />
+        <div className="costs__option--border">
+          <AddButton
+            isDisabled={formData.length ? !objectHasValue(lastField) : false}
+            add={addFunding}
+            btnClass="button--small button--secondary button--inherit"
+            cta="Add a funding option"
+          />
+        </div>
       </div>
     )
   }
