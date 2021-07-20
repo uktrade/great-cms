@@ -14,6 +14,7 @@
   details.great-accordion:last-child {
     border-bottom: 2px solid $light-grey;
   }
+
 }
 
 details.great-accordion {
@@ -46,7 +47,7 @@ details.great-accordion summary {
 }
 
 // For IE details-polyfill.js
-details.great-accordion[closed] summary:before,
+details.great-accordion[closed] summary:before
 details.great-accordion[open] summary:before {
   display: none;
 }
@@ -57,6 +58,7 @@ details.great-accordion[open] summary:before {
   }
 
   details.great-accordion:not([open]) {
+
     summary:after {
       content: '+';
     }
@@ -69,4 +71,5 @@ details.great-accordion[open] summary:before {
       content: '–';
     }
   }
+
 }

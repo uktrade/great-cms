@@ -1,4 +1,3 @@
-'use strict'
 const sass = require('gulp-sass')
 const path = require('path')
 const gulp = require('gulp')
