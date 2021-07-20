@@ -81,7 +81,7 @@ export const Risk = memo(
             formGroupClassName="m-b-0"
           />
         </div>
-        <div className="text-center">
+        <div className="text-center p-t-xs">
           <ConfirmModal
             hasData={
               !!contingency_plan ||

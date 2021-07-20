@@ -27,7 +27,7 @@ export const Option = memo(
               placeholder={selectData.placeholder}
               selected={selectedOption}
               hideLabel
-              className="m-b-0"
+              className="m-b-xs"
               update={(x) => onChange('select', id, x)}
             />
           </div>
@@ -41,7 +41,7 @@ export const Option = memo(
               value={value}
               prepend={currency}
               onChange={(e) => onChange('input', id, e)}
-              formGroupClassName="m-b-0"
+              formGroupClassName="m-b-xs"
             />
           </div>
           <div className="c-full text-center">

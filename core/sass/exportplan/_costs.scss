@@ -1,5 +1,5 @@
 .costs {
-  --keyline: 2px solid #D2D0DA;
+  --keyline: 2px solid #d2d0da;
 
   border-radius: 20px;
   display: block;
@@ -11,10 +11,17 @@
 
   &--total {
     display: flex;
+    flex-wrap: wrap;
     border-radius: 0 0 20px 20px;
 
     .total {
       margin-left: auto;
+
+      @include breakpoint(sm_lt) {
+        display: flex;
+        flex-basis: 100%;
+        justify-content: space-between;
+      }
     }
   }
 }
@@ -31,18 +38,21 @@
 
 .costs__label {
   align-self: flex-start;
-  padding-top: 9px;
-  padding-bottom: 20px;
-  padding-right: 10px;
+  margin-bottom: 10px;
+
+  @include breakpoint(sm) {
+    margin-bottom: 0;
+    padding-top: 9px;
+    padding-right: 10px;
+  }
 
   & .tooltip {
-    margin-top: 15px;
+    margin-top: 10px;
   }
 }
 
 .costs__input {
   align-self: flex-start;
-  padding-bottom: 20px;
   margin-left: auto;
   width: 100%;
 
@@ -61,9 +71,16 @@
   padding-bottom: 20px;
 }
 
+.costs__option {
+  & .button--delete {
+    margin: 0;
+  }
+}
+
 .costs__option--border:not(:first-child) {
   border-top: var(--keyline);
   padding-top: 20px;
+  margin-top: 20px;
 }
 
 .costs__delete {
