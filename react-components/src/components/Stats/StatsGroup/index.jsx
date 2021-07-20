@@ -13,8 +13,7 @@ export const StatsGroup = memo(
     hasStat,
     className,
   }) => (
-    <div className={`stat-group ${className}`}>
-      <div className="statistic">
+      <div className={`statistic ${className}`}>
         <div className="statistic__group">
           <dl>
             <dt className="statistic__caption">{headerLeft}</dt>
@@ -33,9 +32,8 @@ export const StatsGroup = memo(
             </div>
           )}
         </div>
-        {!hasStat && <span className="h-xs p-t-0">{notAvailable}</span>}
+        {/* {!hasStat && <span className="h-xs p-t-0">{notAvailable}</span>} */}
       </div>
-    </div>
   )
 )
 
