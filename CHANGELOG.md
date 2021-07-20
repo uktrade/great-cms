@@ -4,7 +4,6 @@
 
 ### Enhancements
 - GP2-3017 - SOO User profile update to directory-SSO
-
 - GP2-2402 - VFM analytics
 - GP2-2359 - Relabel CaseStudy expander and make accessible
 - GP2-2348 - VFM Return copy update
@@ -19,28 +18,22 @@
 - GP2-2484 - refactor stats containers for better mobile display
 - GP2-2485 - always show selected age ranges
 - GP2-3082 - Fix gutter size on Export plan homepage
+- GP2-3102 - Vulnerable JS packages in great-cms/domestic/\* need updating
 
 ### Fixed bugs
 - GP2-2619 - Case study quotes - attrributions fall off
-
 - GP2-3099 - WTE Selector missing
 - GP2-2428 - Country finder back buttons in mobile
 - GP2-2938 - DAC_Nondescriptive_Labels_02 Lesson complete checkbox
 - GP2-2952 - DAC_Contrast_Minimum_01 'Next' link
 - GP2-2947 - DAC_Nontext_Contrast_02 (AA) sidebar menu button
 - GP2-1684: Port the contact pages which need users to be signed in (SOO ones) from V1 to V2
-- GP2-3102 - Vulnerable JS packages in great-cms/domestic/\* need updating
-
 ### Fixed bugs
-
 - GP2-2988: Make SOO contact form name fields editable if not already populated.
-
 ## [1.11.0](https://github.com/uktrade/great-cms/releases/tag/1.11.0)
-
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.10.0...1.11.0)
 
 ### Enhancements
-
 - GP2-2524 - Wagtail transfer configuration for staging/UAT
 - GP2-1615 - Migrate Export Opps contact/guidance pages from V1 to V2
 - GP2-1683 - More contact page migration (two types) from V1 to V2
@@ -79,12 +72,11 @@
 - GP2-2977: Port E-Commerce Export Support pages from V1 into V2
 - GP2-1618: Port legacy EU Exit / transition period forms from V1 into V2
 - GP2-1617: Port get-finance/UKEF contact form from great-domestic-ui
-- GP2-2856 remove unused api calls
+- GP2-2856  remove unused api calls
 - no-ticket - package upgrade
 - GP2-2856 - remove target market
 
 ### Fixed bugs
-
 - GP2-2933 - DAC_Custom_Controls_01 Select widget
 - GP2-2924 - DAC_CSS_Images_as_Labels_03 Select widget expander
 - GP2-2908 - DAC_Headings_07 Learning step headings
@@ -133,13 +125,9 @@
 - GP2-2936 - DAC_Custom_Controls_04
 
 ## [1.10.1](https://github.com/uktrade/great-cms/releases/tag/1.10.1)
-
 ### Enhancements
-
 - NOTICKET - update changelog, post-release
-
 ### Fixed bugs
-
 - GP2-2879 - DAC_Parsing_01 (A)
 
 - GP2-2890 - DAC NonText Content 01
@@ -161,7 +149,6 @@ MAGNA RELEASE
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.9.0...1.10.0)
 
 ### Enhancements
-
 - GP2-2816 - Set Wagtaildocs serve method to 'direct' to avoid denial when proxying at PaaS level
 - noticket - remove social buttons
 - no-ticket - Disabled case study tagging search ability on Admin UI
@@ -184,7 +171,6 @@ MAGNA RELEASE
 - GP2-2777 - Remove DIT footer logos
 
 ### Fixed bugs
-
 - GP2-2805 - Export plan image problem on the dashboard
 - GP2-2803 - [UAT]-Export plan dashboard images issues
 - GP2-2790 - remove Getting paid page tooltip
@@ -222,13 +208,14 @@ MAGNA RELEASE
 - GP2-2763 - saving-blank-error
 - GP2-2724 - update-lesson be
 - GP2-2775 - sav business risk
-  \_ GP2-2775 - getting paid error
+_ GP2-2775 - getting paid error
 - gp2765 - content changes
 - NOTICKET - error saving ep atm
 - NOTICKET - update pdf logo
 - NOTICKET - remove lesson
 - NOTICKET - configure APM log server
 - NOTICKET - fix image references
+
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 
@@ -280,7 +267,6 @@ MAGNA RELEASE
 - GP2-2401 - pdf save
 
 ### Fixed bugs
-
 - Gp2-2506 - Getting paid page - Content change for default text (Payment methods drop-down)
 - GP2-2399 - [Mobile]-Costs and pricing
 - GP2-2420 - Export plan - CHEG details look strange on mobile
