@@ -27,6 +27,7 @@
 - GP2-2952 - DAC_Contrast_Minimum_01 'Next' link
 - GP2-2947 - DAC_Nontext_Contrast_02 (AA) sidebar menu button
 - GP2-1684: Port the contact pages which need users to be signed in (SOO ones) from V1 to V2
+- GP2-2928 - DAC CSS Images as Labels 07(A)
 - GP2-2492 Export plan - some pages - value input
 ### Fixed bugs
 - GP2-2988: Make SOO contact form name fields editable if not already populated.
