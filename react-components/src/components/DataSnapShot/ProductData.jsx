@@ -49,7 +49,7 @@ export const ProductData = ({ country, product }) => {
     <>
       <div className="stat-group">
         <div className="grid">
-          <div className="world-trade-value  c-1-3">
+          <div className="world-trade-value c-1-3">
             <Stats
               header={`${product.commodity_name} import value ${
                 get(data, 'comTrade.WLD.year')
@@ -94,11 +94,7 @@ export const ProductData = ({ country, product }) => {
               }
             />
           </div>
-        </div>
-      </div>
 
-      <div className="stat-group m-b-s-s">
-        <div className="grid">
           <div className="gdp-per-capita c-1-2">
             <Stats
               header="GDP per capita (USD)"
@@ -123,7 +119,6 @@ export const ProductData = ({ country, product }) => {
           </div>
         </div>
       </div>
-      <hr className="hr bg-blue-deep-20 m-t-0" />
     </>
   ) : (
     ''

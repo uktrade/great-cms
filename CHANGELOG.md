@@ -15,6 +15,8 @@
 - GP2-2471 - Update Tooltip component
 - GP2-2464 / GP2-2480 - improve button text baseline
 - GP2-2491 - Increase spacing at bottom of forms
+- GP2-2484 - refactor stats containers for better mobile display
+- GP2-2485 - always show selected age ranges
 - GP2-3082 - Fix gutter size on Export plan homepage
 
 ### Fixed bugs
@@ -26,6 +28,7 @@
 - GP2-2947 - DAC_Nontext_Contrast_02 (AA) sidebar menu button
 - GP2-1684: Port the contact pages which need users to be signed in (SOO ones) from V1 to V2
 - GP2-2928 - DAC CSS Images as Labels 07(A)
+- GP2-2492 Export plan - some pages - value input
 ### Fixed bugs
 - GP2-2988: Make SOO contact form name fields editable if not already populated.
 ## [1.11.0](https://github.com/uktrade/great-cms/releases/tag/1.11.0)
