@@ -226,3 +226,9 @@
     color: white;
   }
 }
+
+.form-group {
+  input[type='number']:focus::placeholder {
+    color: transparent;
+  }
+}
