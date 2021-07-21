@@ -16,12 +16,12 @@ BASE_URL=http://greatcms.trade.great:8020
 SSO_API_CLIENT_BASE_URL=http://sso.trade.great:8003/
 SSO_SIGNATURE_SECRET=api_signature_debug
 SSO_SESSION_COOKIE=debug_sso_session_cookie
-SSO_PROXY_LOGIN_URL=http://sso.trade.great:8004/sso/accounts/login/
-SSO_PROXY_LOGOUT_URL=http://sso.trade.great:8004/sso/accounts/logout/?next=http://gcms.trade.great:8020/thing/
-SSO_PROXY_PASSWORD_RESET_URL=http://sso.trade.great:8004/sso/accounts/password/reset/
+SSO_PROXY_LOGIN_URL=http://sso.proxy.trade.great:8004/sso/accounts/login/
+SSO_PROXY_LOGOUT_URL=http://sso.proxy.trade.great:8004/sso/accounts/logout/?next=http://greatcms.trade.great:8020/thing/
+SSO_PROXY_PASSWORD_RESET_URL=http://sso.proxy.trade.great:8004/sso/accounts/password/reset/
 SSO_PROXY_REDIRECT_FIELD_NAME=next
-SSO_PROXY_SIGNUP_URL=http://sso.trade.great:8004/sso/accounts/signup/?next=http://gcms.trade.great:8020/thing/
-SSO_OAUTH2_LINKEDIN_URL=http://sso.trade.great:8004/sso/accounts/login/via-linkedin/
+SSO_PROXY_SIGNUP_URL=http://sso.proxy.trade.great:8004/sso/accounts/signup/?next=http://greatcms.trade.great:8020/thing/
+SSO_OAUTH2_LINKEDIN_URL=http://sso.proxy.trade.great:8004/sso/accounts/login/via-linkedin/
 SSO_OAUTH2_GOOGLE_URL=debug
 DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011
 DIRECTORY_FORMS_DEFAULT_TIMEOUT=30
@@ -33,7 +33,7 @@ ENVIRONMENT_CSS_THEME_FILE=core/css/environment_dev_theme.css
 MAXMIND_LICENCE_KEY=debug
 API_CLIENT_BASE_URL=http://api.trade.great:8000
 API_SIGNATURE_SECRET=debug
-DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON=http://sso.trade.great:8004/
+DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON=http://sso.proxy.trade.great:8004/
 FEATURE_MOCK_CLIENT_IP_ENABLED=True
 API_CACHE_DISABLED=true
 STAFF_SSO_AUTHBROKER_URL=https://www.examole.com
@@ -56,6 +56,10 @@ FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES=True
 CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
 UKEF_CONTACT_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
 CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
+CONTACT_DIT_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
+CONTACT_EVENTS_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
+CONTACT_DSO_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
+CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
 
 EU_EXIT_ZENDESK_SUBDOMAIN=debug
 

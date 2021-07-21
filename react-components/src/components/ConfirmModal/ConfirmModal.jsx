@@ -47,7 +47,7 @@ export const ConfirmModal = memo(({ deleteItem, hasData }) => {
               </button>
               <button
                 type="button"
-                className="button button--secondary button--icon inline m-b-s"
+                className="button button--secondary inline m-b-s"
                 onClick={() => setModal(false)}
               >
                 No

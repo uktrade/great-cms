@@ -14,8 +14,7 @@
     <div class="container">
         {% breadcrumbs 'Contact' %}
             <a href="/">great.gov.uk</a>
-            {% comment "HARD CODING UNTIL ROUTE EXISTS "%} {% url 'contact-us-routing-form' step='location' %} {% endcomment %}
-            <a href="/contact/">Contact us</a>
+            <a href="{% url 'contact:contact-us-routing-form' step='location' %}">Contact us</a>
         {% endbreadcrumbs %}
     </div>
 {% endblock %}
@@ -33,7 +32,7 @@
                         {% if wizard.form.forms %}
                             {{ wizard.form.management_form }}
                             {% for form in wizard.form.forms %}
-                                 {{ form }}
+                                {{ form }}
                             {% endfor %}
                         {% else %}
                             {{ form }}

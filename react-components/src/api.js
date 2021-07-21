@@ -133,7 +133,7 @@ export default {
   },
 
   getCountryAgeGroupData: (data) => {
-    return get(config.countryAgeGroupDataUrl, data).then((response) =>
+    return post(config.apiTargetAgeGroups, data).then((response) =>
       responseHandler(response).json()
     )
   },

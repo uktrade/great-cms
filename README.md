@@ -120,9 +120,11 @@ Local development uses `django.core.files.storage.FileSystemStorage`, but you wi
 
 ### /etc/hosts file entry
 
-UI clients on local expect the CMS to be reachable at the address http://cms.trade.great.
+UI clients on local expect the CMS to be reachable at the address http://greatcms.trade.great. Add the following to your `/etc/hosts` file:
 
-     Add 127.0.0.1 greatcms.trade.great
+```
+127.0.0.1   greatcms.trade.great
+```
 
 You can test this works by attempting to visit http://greatcms.trade.great:8020/admin in your browser.
 
@@ -173,7 +175,7 @@ To get set up, in your activated virtualenv:
 
 When working on BAU FE work, note there are seperate FE asset build pipelines. One for domestic pages and another for generic BAU styling(which came across from directory_components).
 
-If you are working on domestic pages and need to update some domestic specific styling. You need to `cd` into `domestic` and you will see all domestic related styles in a `ssas` folder. To compile the updated sass, `cd` into `domestic` and ensure you are using node version 8 then run `gulp sass`.
+If you are working on domestic pages and need to update some domestic specific styling. You need to `cd` into `domestic` and you will see all domestic related styles in a `sass` folder. To compile the updated sass, `cd` into `domestic` and ensure you are using node version 8 and have `gulp-cli` installed, then run `gulp sass`.
 
 If you need to update some generic BAU styling you need to look in `core/components`. Again you will find a sass folder with all styles in. To compile the updated sass, `cd` into `core/components` and ensure you are using node version 8 then run `gulp build`.
 
@@ -218,6 +220,42 @@ AttributeError: 'User' object has no attribute 'session_id'"/'company' et al, yo
 * On ubuntu you may need to run `sudo apt-get install libpq-dev` if after trying to install dependencies you get an error message relating to `psycopg`.
 
 * On latest release of MacOs `make install_requirements` might fail, please run `brew install openssl` then `env LDFLAGS="-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib" make install_requirements`
+
+___
+
+## Docker setup
+
+To setup and start Great CMS to run entirely in docker containers, use:
+
+```
+./start-docker.sh
+```
+
+This will clone required repositories (directory-api, directory-forms-api, directory-sso and directory-sso-proxy) into the parent directory, and build the required containers.
+
+During the process you will be asked to populate some environment variables: contact a team member to get the appropriate values.
+
+You will also need to add the following entries to your hosts file (/etc/hosts):
+
+```
+127.0.0.1       greatcms.trade.great
+127.0.0.1       buyer.trade.great
+127.0.0.1       supplier.trade.great
+127.0.0.1       sso.trade.great
+127.0.0.1       sso.proxy.trade.great
+127.0.0.1       api.trade.great
+127.0.0.1       profile.trade.great
+```
+
+The site will then be available at http://greatcms.trade.great:8020.
+
+When the above setup has already been run, Great CMS can be started again with:
+
+```
+docker-compose -f development.yml up
+```
+
+___
 
 
 ## Helpful links

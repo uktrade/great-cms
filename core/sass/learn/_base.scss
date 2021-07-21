@@ -377,11 +377,8 @@ $desktop: 1024px;
 .learn__back-link {
   left: 38px;
   top: 15px;
-
-  @include tablet {
-    position: absolute;
-    z-index: 1;
-  }
+  position: absolute;
+  z-index: 1;
 
   &--bottom {
     top: auto;
@@ -941,6 +938,13 @@ $desktop: 1024px;
     &__mobile {
       @include tablet {
         display: none;
+      }
+
+      .quote-block {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
       }
     }
   }

@@ -1,15 +1,21 @@
 import React, { memo, useState } from 'react'
 import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
 import ReactHtmlParser from 'react-html-parser'
 import Slider from 'react-slick'
+import useUniqueId from '@src/components/hooks/useUniqueId'
+import { analytics } from '@src/Helpers'
 
 const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const id = useUniqueId('case-study')
+
+  let expandButton
 
   const toggleCaseStudy = () => {
     setIsOpen(!isOpen)
-    let dataLayer = window.dataLayer || []
-    dataLayer.push({
+    expandButton.focus()
+    analytics({
       event: 'openCaseStudy',
       caseStudy: heading,
     })
@@ -61,31 +67,22 @@ const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
   }
 
   const image = renderMediaBlock()
-
-  const body = blocks.map((block) => {
+  /* eslint-disable react/no-array-index-key */
+  const body = blocks.map((block, index) => {
     return (
-      <>
+      <span key={`block-${index}`}>
         {block.type === 'quote' && responsiveBlock(block, sliderSettings.quote)}
         {block.type === 'text' && ReactHtmlParser(block.content)}
-      </>
+      </span>
     )
   })
+  /* eslint-enable react/no-array-index-key */
 
   return (
     <>
       <div className="case-study p-t-xs p-b-s">
-        {isOpen && (
-          <button
-            className="case-study__close"
-            onClick={toggleCaseStudy}
-            autoFocus
-          >
-            <i className="fas fa-times"></i>
-            <span className="visually-hidden">Close</span>
-          </button>
-        )}
         <div className="case-study__content media-block m-t-s">
-          <i className="fa fa-comment" aria-hidden="true"></i>
+          <i className="fa fa-comment" aria-hidden="true" />
           <div>
             <h3 className="cast-study__lead_title  h-m m-b-xs p-0">
               {ReactHtmlParser(heading)}
@@ -93,22 +90,46 @@ const CaseStudy = memo(({ content: { heading, company, blocks } }) => {
             <span className="case-study__company text-blue-deep-60 h-s p-0">
               {ReactHtmlParser(company)}
             </span>
-            {image}
-            {isOpen && <>{body}</>}
+            {/* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
+            <span onClick={toggleCaseStudy} style={{ cursor: 'pointer' }}>
+              {image}
+            </span>
+            {/* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
+            <button
+              type="button"
+              className="button button--small button--tertiary button--icon case-study__open m-t-xs"
+              aria-controls={id}
+              aria-expanded={isOpen}
+              onClick={toggleCaseStudy}
+              ref={(_expandButton) => {
+                expandButton = _expandButton
+              }}
+            >
+              <i
+                className={`fas fa-chevron-${isOpen ? 'up' : 'down'}`}
+              />
+              {isOpen ? 'Collapse case study' : 'Expand case study'}
+            </button>
+            {isOpen && <span id={id}>{body}</span>}
           </div>
         </div>
-        {!isOpen && (
-          <button
-            className="button button--small button--tertiary case-study__open m-t-xs"
-            onClick={toggleCaseStudy}
-          >
-            Open case study
-          </button>
-        )}
       </div>
     </>
   )
 })
+
+CaseStudy.propTypes = {
+  content: PropTypes.shape({
+    heading: PropTypes.string,
+    company: PropTypes.string,
+    blocks: PropTypes.arrayOf(
+      PropTypes.shape({
+        type: PropTypes.string,
+        content: PropTypes.string,
+      })
+    ),
+  }).isRequired,
+}
 
 function createCaseStudy({ element, content }) {
   ReactDOM.render(<CaseStudy content={content} />, element)

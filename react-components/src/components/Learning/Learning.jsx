@@ -19,7 +19,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
           <div className="learning__buttons">
             {hasExample && (
               <button
-                className="button-example button button--small button--tertiary m-r-xxs m-b-xs"
+                className="button-example button button--small button--tertiary button--icon m-r-xxs m-b-xs"
                 type="button"
                 aria-controls={controlAreaId}
                 aria-expanded={toggleExample}
@@ -31,14 +31,14 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
                 <i
                   className={`fas fa-chevron-${
                     toggleExample ? 'up' : 'down'
-                  } m-r-xxs`}
+                  }`}
                 />
                 {example.buttonTitle ? example.buttonTitle : 'Example'}
               </button>
             )}
             {hasLesson && (
               <button
-                className="button-lesson button button--small button--tertiary m-r-xxs m-b-xs"
+                className="button-lesson button button--small button--tertiary button--icon m-r-xxs m-b-xs"
                 type="button"
                 aria-controls={controlAreaId}
                 aria-expanded={toggleExample}
@@ -50,7 +50,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
                 <i
                   className={`fas fa-chevron-${
                     toggleLesson ? 'up' : 'down'
-                  } m-r-xxs`}
+                  }`}
                 />
                 Lesson
               </button>
@@ -64,7 +64,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
               <dl
                 className={`form-group-example bg-${
                   example.bgColour ? example.bgColour : 'blue-deep-10'
-                } p-xs m-b-xs ${toggleExample ? '' : 'hidden'}`}
+                } p-s m-b-xs radius ${toggleExample ? '' : 'hidden'}`}
               >
                 <dt className="body-l-b">
                   {example.header

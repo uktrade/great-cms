@@ -3,8 +3,8 @@ import { render, waitFor, fireEvent } from '@testing-library/react'
 
 import { CaseStudy } from '../../src/components/CaseStudy/CaseStudy'
 
-const openButtonText = 'Open case study'
-const closeButtonText = 'Close'
+const openButtonText = 'Expand case study'
+const closeButtonText = 'Collapse case study'
 const bodyText = 'example body content'
 const mediaBlock = { type: 'media', content: `<div>${bodyText}</div>` }
 const quoteBlock = { type: 'quote', content: `<div>${bodyText}</div>` }
@@ -13,7 +13,7 @@ const textBlock = { type: 'text', content: `<div>${bodyText}</div>` }
 const props = {
   heading: 'heading example',
   company: 'example company',
-  blocks: [mediaBlock, quoteBlock, textBlock]
+  blocks: [mediaBlock, quoteBlock, textBlock],
 }
 
 const setup = (props) => {
