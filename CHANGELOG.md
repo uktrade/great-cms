@@ -19,6 +19,8 @@
 - GP2-2485 - always show selected age ranges
 - GP2-3082 - Fix gutter size on Export plan homepage
 - GP2-2494 - Refactor multi-add components styles
+- GP2-3084 - Fix spacings on Travel plan
+- GP2-3085 - Fix Business Risk block radio buttons spacing
 
 ### Fixed bugs
 - GP2-2619 - Case study quotes - attrributions fall off
@@ -28,6 +30,8 @@
 - GP2-2952 - DAC_Contrast_Minimum_01 'Next' link
 - GP2-2947 - DAC_Nontext_Contrast_02 (AA) sidebar menu button
 - GP2-1684: Port the contact pages which need users to be signed in (SOO ones) from V1 to V2
+- GP2-2928 - DAC CSS Images as Labels 07(A)
+- GP2-2492 Export plan - some pages - value input
 ### Fixed bugs
 - GP2-2988: Make SOO contact form name fields editable if not already populated.
 ## [1.11.0](https://github.com/uktrade/great-cms/releases/tag/1.11.0)
