@@ -5,27 +5,23 @@ import { Cost } from './Cost'
 
 export const Costs = memo(({ costs, currency, data, update }) => {
   return (
-    <div className="costs bg-blue-deep-10">
-      <table className="m-b-0">
-        <tbody>
-          {costs.map(({ label, id, placeholder, tooltip, type, field }) => (
-            <Cost
-              key={id}
-              label={label}
-              id={id}
-              currency={currency}
-              placeholder={placeholder}
-              tooltip={tooltip}
-              value={data[id]}
-              update={(x) => {
-                const updatedField = type === 'number' ? { [id]: x[id] } : x
-                update(x, { [field]: updatedField })
-              }}
-              type={type}
-            />
-          ))}
-        </tbody>
-      </table>
+    <div className="costs costs--with-total bg-blue-deep-10">
+      {costs.map(({ label, id, placeholder, tooltip, type, field }) => (
+        <Cost
+          key={id}
+          label={label}
+          id={id}
+          currency={currency}
+          placeholder={placeholder}
+          tooltip={tooltip}
+          value={data[id]}
+          update={(x) => {
+            const updatedField = type === 'number' ? { [id]: x[id] } : x
+            update(x, { [field]: updatedField })
+          }}
+          type={type}
+        />
+      ))}
     </div>
   )
 })

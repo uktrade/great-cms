@@ -18,6 +18,7 @@
 - GP2-2484 - refactor stats containers for better mobile display
 - GP2-2485 - always show selected age ranges
 - GP2-3082 - Fix gutter size on Export plan homepage
+- GP2-2494 - Refactor multi-add components styles
 - GP2-3084 - Fix spacings on Travel plan
 - GP2-3085 - Fix Business Risk block radio buttons spacing
 
