@@ -6,6 +6,7 @@ export const SectionComplete = ({ current_section }) => {
   const { is_complete, url } = current_section
   const current_section_slug = url.split('/')[3]
   const [isComplete, setIsComplete] = useState(is_complete)
+  const [isChecked, setIsChecked] = useState(false)
   const toggleComplete = () => {
     const field_obj = {
       ui_progress: {
@@ -25,6 +26,18 @@ export const SectionComplete = ({ current_section }) => {
       .catch(() => {})
   }
 
+  const labelText = isComplete && isChecked ? 'Great! Progress saved' : 'Yes'
+
+  const markCompleted = () => {
+    if (!isComplete) {
+      const dataLayer = (window.dataLayer = window.dataLayer || [])
+      dataLayer.push({
+        event: 'planSectionComplete',
+      })
+    }
+    setIsChecked(true)
+  }
+
   return (
     <>
       <h3 className="h-m text-white m-b-xs">Section complete?</h3>
@@ -33,10 +46,11 @@ export const SectionComplete = ({ current_section }) => {
           type="checkbox"
           id="checkbox_complete"
           onChange={toggleComplete}
+          onClick={markCompleted}
           checked={isComplete}
         />
         <label htmlFor="checkbox_complete">
-          {isComplete ? 'Great! Progress saved' : 'Yes'}
+          {labelText}
         </label>
       </div>
     </>
