@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "",
+    "jsx": "react",
     "paths": {
       "@src/*": ["react-components/src/*"],
       "@components/*": ["/node_modules/great-styles/dist/*"],
