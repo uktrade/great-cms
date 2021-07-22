@@ -751,10 +751,29 @@ def test_profile_parser_is_in_companies_house(value, expected):
 def test_profile_parser_no_data_serialize_for_form():
     parser = helpers.CompanyParser({})
 
-    assert parser.serialize_for_form() == {}
+    assert parser.serialize_for_form() == {
+        'expertise_products_services': {},
+        'expertise_countries': [],
+        'expertise_industries': [],
+        'date_of_creation': None,
+        'address': '',
+    }
 
 
 def test_profile_parser_no_data_serialize_for_template():
     parser = helpers.CompanyParser({})
 
-    assert parser.serialize_for_template() == {}
+    assert parser.serialize_for_template() == {
+        'expertise_products_services': {},
+        'expertise_countries': '',
+        'expertise_industries': '',
+        'date_of_creation': None,
+        'address': '',
+        'sectors': '',
+        'keywords': '',
+        'employees': None,
+        'expertise_regions': '',
+        'expertise_languages': '',
+        'has_expertise': False,
+        'is_in_companies_house': False,
+    }

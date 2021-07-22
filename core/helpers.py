@@ -164,11 +164,12 @@ class CompanyParser(great_components.helpers.CompanyParser):
 
     @property
     def name(self):
-        return self.data['company_name']
+        return self.data['name']
 
     @property
     def number(self):
-        return self.data['company_number']
+        # defaulted to NONE for NON-CH company
+        return self.data.get('number', None)
 
     @property
     def nature_of_business(self):
@@ -215,7 +216,11 @@ class CompanyParser(great_components.helpers.CompanyParser):
     def serialize_for_form(self):
         if not self.data:
             return {}
-        return {**self.data, 'date_of_creation': self.date_of_creation, 'address': self.address}
+        return {
+            **self.data,
+            'date_of_creation': self.date_of_creation,
+            'address': self.address,
+        }
 
 
 def values_to_labels(values, choices):
