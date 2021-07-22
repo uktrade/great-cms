@@ -234,7 +234,9 @@ class RoutingFormView(
                 'domestic:uk-export-finance-lead-generation-form',
                 kwargs={'step': 'contact'},
             ),
-            constants.EUEXIT: reverse_lazy('domestic:brexit-contact-form'),
+            # This next one no longer exists as a view in the codebase, but can be
+            # (and is) redirected at the Wagtail CMS level to a different service.
+            constants.EUEXIT: '/transition-period/contact/',
             constants.EVENTS: reverse_lazy('contact:contact-us-events-form'),
             constants.DSO: reverse_lazy('contact:contact-us-dso-form'),
             constants.OTHER: reverse_lazy('contact:contact-us-enquiries'),

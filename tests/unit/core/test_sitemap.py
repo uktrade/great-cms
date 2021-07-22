@@ -33,7 +33,6 @@ def test_sitemap_includes_expected_django_pages(
         '/what-we-offer-you/',
         '/country-cover/',
         '/uk-export-contact-form/',
-        '/transition-period/contact/',
         '/report-trade-barrier/',
         '/report-trade-barrier/report/about/',
         '/search/',
