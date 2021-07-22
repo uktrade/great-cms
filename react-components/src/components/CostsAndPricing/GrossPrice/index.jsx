@@ -20,8 +20,8 @@ export const GrossPrice = memo(
     return (
       <>
         <Learning lesson={lesson} />
-        <div className="bg-white radius p-xs c-full m-b-s gross-price">
-          <div className="">
+        <div className="m-b-s">
+          <div className="statistic gross-price">
             <i className="fas fa-tag text-blue-deep-60 fa-lg" />
             <p className="m-t-xxs m-b-0">
               Gross price per unit for the {country}
@@ -29,59 +29,63 @@ export const GrossPrice = memo(
             <h3 className="h-s p-t-0 p-b-0">
               {currency} {GrossPriceUnit}
             </h3>
-          </div>
-          <hr className="hr--light m-v-xs" />
-          <div className="">
+
+            <hr className="hr--light m-v-xs" />
+
             <p className="m-t-xxs m-b-0">
               Gross price per unit in invoicing currency
             </p>
-            <div className="grid c-3-4-l">
-              <div className="c-1-2 m-t-xs">
-                <Select
-                  label={select.label}
-                  id={select.id}
-                  update={(item) => {
-                    const postData = input.field({
-                      unit: item[select.name],
-                      value: input.value,
-                    })
-                    update(
-                      {
-                        [select.id]: item[select.name],
-                      },
-                      postData
-                    )
-                  }}
-                  name={select.name}
-                  options={select.options}
-                  hideLabel
-                  placeholder={select.placeholder}
-                  selected={select.value}
-                />
-              </div>
-              <div className="c-1-2 m-t-xs">
-                <Input
-                  onChange={(x) => {
-                    const postData = input.field({
-                      unit: select.value,
-                      value: x[input.id],
-                    })
-                    update(x, postData)
-                  }}
-                  label={input.label}
-                  id={input.id}
-                  hideLabel
-                  type={input.type}
-                  value={input.value}
-                  placeholder={input.placeholder}
-                />
+            <div className="grid">
+              <div className="c-3-4-l">
+                <div className="grid">
+                  <div className="c-1-2 m-t-xs">
+                    <Select
+                      label={select.label}
+                      id={select.id}
+                      update={(item) => {
+                        const postData = input.field({
+                          unit: item[select.name],
+                          value: input.value,
+                        })
+                        update(
+                          {
+                            [select.id]: item[select.name],
+                          },
+                          postData
+                        )
+                      }}
+                      name={select.name}
+                      options={select.options}
+                      hideLabel
+                      placeholder={select.placeholder}
+                      selected={select.value}
+                    />
+                  </div>
+                  <div className="c-1-2 m-t-xs">
+                    <Input
+                      onChange={(x) => {
+                        const postData = input.field({
+                          unit: select.value,
+                          value: x[input.id],
+                        })
+                        update(x, postData)
+                      }}
+                      label={input.label}
+                      id={input.id}
+                      hideLabel
+                      type={input.type}
+                      value={input.value}
+                      placeholder={input.placeholder}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div className="grid">
           <div className="c-1-2 m-b-s">
-            <div className="bg-white radius p-xs">
+            <div className="statistic">
               <i className="fas fa-pound-sign text-blue-deep-60 fa-lg" />
               <p className="m-t-xxs m-b-0">Your profit per unit</p>
               <h3 className="h-s p-t-0 p-b-0">
@@ -90,7 +94,7 @@ export const GrossPrice = memo(
             </div>
           </div>
           <div className="c-1-2 m-b-s">
-            <div className="bg-white radius p-xs">
+            <div className="statistic">
               <i className="fas fa-pound-sign text-blue-deep-60 fa-lg" />
               <p className="m-t-xxs m-b-0">Your potential total profit</p>
               <h3 className="h-s p-t-0 p-b-0">

@@ -5,7 +5,7 @@ import { Learning } from '@src/components/Learning/Learning'
 import { formatLessonLearned } from '@src/Helpers'
 import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
 import ErrorList from '@src/components/ErrorList'
-import { Total } from './Total'
+import { Total } from '../../CostsAndPricing/Costs/Total'
 import { Options } from './Options'
 
 export const FundingCreditOptions = memo(

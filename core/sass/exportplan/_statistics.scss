@@ -1,43 +1,12 @@
 .statistic {
-  // Vars
-  --line-rule: 1px solid #e0e0e0;
-
   @extend .bg-white;
+  @extend .radius;
   display: block;
   padding: 20px;
   width: 100%;
 
-  &:after {
-    content: '';
-    display: block;
-    position: relative;
-    top: 20px;
-    width: 100%;
-    border-bottom: var(--line-rule);
-  }
-
   @include breakpoint(sm) {
-    border-radius: 10px;
-    padding: 20px;
     margin-bottom: 30px;
-
-    &:after {
-      display: none;
-    }
-  }
-
-  div:first-child > & {
-    border-top-left-radius: var(--radius);
-    border-top-right-radius: var(--radius);
-  }
-
-  div:last-child > &:last-child {
-    border-bottom-left-radius: var(--radius);
-    border-bottom-right-radius: var(--radius);
-
-    &:after {
-      display: none;
-    }
   }
 
   .educational-moment--tooltip-container {
@@ -119,6 +88,9 @@
 }
 
 .stat-group {
+  // Vars
+  --line-rule: 1px solid #e0e0e0;
+
   & > .grid,
   & > .grid > div {
     display: flex;
@@ -130,6 +102,27 @@
     @include breakpoint(sm) {
       flex-direction: row;
       flex-wrap: wrap;
+    }
+  }
+
+  @include breakpoint(sm_lt) {
+    & div:not(:last-child) > .statistic {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+
+      &:after {
+        content: '';
+        display: block;
+        position: relative;
+        top: 20px;
+        width: 100%;
+        border-bottom: var(--line-rule);
+      }
+    }
+
+    & div:not(:first-child) > .statistic {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
     }
   }
 }
