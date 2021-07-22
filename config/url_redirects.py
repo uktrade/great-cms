@@ -36,16 +36,12 @@ redirects = [
     ),
     url(
         r'^eu-exit-news/contact/$',
-        QuerystringRedirectView.as_view(
-            url='/transition-period/contact/'
-        ),  # TODO: update to named url when we have migrated it
+        QuerystringRedirectView.as_view(url='/transition-period/contact/'),
         name='eu-exit-brexit-contact-redirect',
     ),
     url(
         r'^eu-exit-news/contact/success/$',
-        QuerystringRedirectView.as_view(
-            url='/transition-period/contact/success/'
-        ),  # TODO: update to named url when we have migrated it
+        QuerystringRedirectView.as_view(url='/transition-period/contact/success/'),
         name='eu-exit-brexit-contact-success-redirect',
     ),
     url(
@@ -492,15 +488,11 @@ contact_redirects = [
     ),
     url(
         r'^brexit/contact/$',
-        QuerystringRedirectView.as_view(
-            url=reverse_lazy('domestic:brexit-contact-form'),
-        ),
+        QuerystringRedirectView.as_view(url='/transition-period/contact/'),
     ),
     url(
         r'^brexit/contact/success/$',
-        QuerystringRedirectView.as_view(
-            url=reverse_lazy('domestic:brexit-contact-form-success'),
-        ),
+        QuerystringRedirectView.as_view(url='/transition-period/contact/success/'),
     ),
 ]
 
