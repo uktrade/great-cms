@@ -1,11 +1,6 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3
-from directory_forms_api_client.forms import (
-    GovNotifyEmailActionMixin,
-    ZendeskActionMixin,
-)
-from directory_validators.string import no_html
-from directory_validators.url import not_contains_url_or_email
+from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.forms import Select, Textarea, TextInput
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
@@ -232,41 +227,6 @@ class SerializeMixin:
         assert self.is_valid()
         data = self.cleaned_data
         return f'{data["first_name"]} {data["last_name"]}'
-
-
-class EUExitDomesticContactForm(
-    SerializeMixin,
-    ZendeskActionMixin,
-    ConsentFieldMixin,
-    forms.Form,
-):
-
-    COMPANY = 'COMPANY'
-
-    COMPANY_CHOICES = (
-        (COMPANY, 'Company'),
-        ('OTHER', 'Other type of organisation'),
-    )
-
-    first_name = forms.CharField()
-    last_name = forms.CharField()
-    email = forms.EmailField()
-    organisation_type = forms.ChoiceField(
-        label='Business type',
-        widget=forms.RadioSelect(),
-        choices=COMPANY_CHOICES,
-    )
-    company_name = forms.CharField()
-    comment = forms.CharField(
-        label='Your question',
-        help_text="Please don't share any commercially sensitive information.",
-        widget=Textarea,
-        validators=[
-            no_html,
-            not_contains_url_or_email,
-        ],
-    )
-    captcha = ReCaptchaField(label='', label_suffix='', widget=ReCaptchaV3())
 
 
 class MarketAccessTickboxWithOptionsHelpText(forms.CheckboxSelectInlineLabelMultiple):

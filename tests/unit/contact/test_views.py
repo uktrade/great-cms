@@ -534,7 +534,9 @@ def test_ecommerce_success_view(client):
         (
             constants.DOMESTIC,
             constants.EUEXIT,
-            reverse('domestic:brexit-contact-form'),
+            # This path no longer exists as a view in the codebase, but can be
+            # (and is) redirected at the Wagtail CMS level to a different service.
+            '/transition-period/contact/',
         ),
         (
             constants.DOMESTIC,

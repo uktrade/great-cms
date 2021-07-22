@@ -35,6 +35,13 @@
 - GP2-2492 Export plan - some pages - value input
 ### Fixed bugs
 - GP2-2988: Make SOO contact form name fields editable if not already populated.
+
+## [1.12.0](https://github.com/uktrade/great-cms/releases/tag/1.12.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.11.0...1.12.0)
+
+### Enhancements
+- GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
+
 ## [1.11.0](https://github.com/uktrade/great-cms/releases/tag/1.11.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.10.0...1.11.0)
 
