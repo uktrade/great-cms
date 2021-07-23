@@ -75305,6 +75305,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -75322,6 +75323,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var SectionComplete = function SectionComplete(_ref) {
   var current_section = _ref.current_section;
   var is_complete = current_section.is_complete,
@@ -75332,11 +75334,6 @@ var SectionComplete = function SectionComplete(_ref) {
       _useState2 = _slicedToArray(_useState, 2),
       isComplete = _useState2[0],
       setIsComplete = _useState2[1];
-
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState4 = _slicedToArray(_useState3, 2),
-      isChecked = _useState4[0],
-      setIsChecked = _useState4[1];
 
   var toggleComplete = function toggleComplete() {
     var field_obj = {
@@ -75350,22 +75347,16 @@ var SectionComplete = function SectionComplete(_ref) {
   var update = function update(field) {
     _src_Services__WEBPACK_IMPORTED_MODULE_2__["default"].updateExportPlan(field).then(function () {
       setIsComplete(!isComplete);
+
+      if (!isComplete) {
+        Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_3__["analytics"])({
+          event: 'planSectionComplete'
+        });
+      }
     })["catch"](function () {});
   };
 
-  var labelText = isComplete && isChecked ? 'Great! Progress saved' : 'Yes';
-
-  var markCompleted = function markCompleted() {
-    if (!isComplete) {
-      var dataLayer = window.dataLayer = window.dataLayer || [];
-      dataLayer.push({
-        event: 'planSectionComplete'
-      });
-    }
-
-    setIsChecked(true);
-  };
-
+  var labelText = isComplete ? 'Great! Progress saved' : 'Yes';
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
     className: "h-m text-white m-b-xs"
   }, "Section complete?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -75374,7 +75365,6 @@ var SectionComplete = function SectionComplete(_ref) {
     type: "checkbox",
     id: "checkbox_complete",
     onChange: toggleComplete,
-    onClick: markCompleted,
     checked: isComplete
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "checkbox_complete"
