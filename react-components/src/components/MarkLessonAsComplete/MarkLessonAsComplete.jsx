@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-
-import Services from '../../Services'
+import Services from '@src/Services'
+import { analytics } from '@src/Helpers'
 
 const MarkLessonAsComplete = ({ endpoint }) => {
   const [isComplete, setIsComplete] = useState(undefined)
@@ -34,11 +34,8 @@ const MarkLessonAsComplete = ({ endpoint }) => {
 
   const markCompleted = () => {
     if (!isComplete) {
-      const dataLayer = (window.dataLayer = window.dataLayer || [])
       // adding tracking once lesson successfully updated as completed
-      dataLayer.push({
-        event: 'lessonComplete',
-      })
+      analytics({ event: 'lessonComplete' })
     }
     setIsChecked(true)
   }
