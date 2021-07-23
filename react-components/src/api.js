@@ -94,6 +94,10 @@ export default {
     return post(config.apiUpdateExportPlanUrl, data).then(responseHandler)
   },
 
+  addUpdateProduct: (data) => {
+    return post(config.apiUserProductUrl, data).then(responseHandler)
+  },
+
   getCountries: () => {
     return get(config.apiCountriesUrl, {}).then((response) =>
       responseHandler(response).json()

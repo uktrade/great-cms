@@ -43,6 +43,7 @@
           apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
           apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
           apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" %}',
+          apiUserProductUrl: '{% url "users:api-user-product" %}',
           apiModelObjectManageUrl: '{% url "exportplan:api-model-object-manage" %}',
           apiComTradeDataUrl: '{% url "core:api-comtrade-data" %}',
           apiCountryDataUrl: '{% url "core:api-country-data" %}',
@@ -78,7 +79,6 @@
 
 {% block body_header %}
   {% include 'core/header.html' %}
-
 {% endblock %}
 
 {% block body_content_container %}
@@ -109,9 +109,9 @@
           login: false,
           signup: false,
         },
-        exportPlan:{
-          products: {{request.user.export_plan.data.export_commodity_codes|to_json}},
-          markets: {{request.user.export_plan.data.export_countries|to_json }}
+        userBasket:{
+          products: [{{request.user.export_plan.data.export_plan_products.0.user_product.product_data|to_json}}],
+          markets: {{request.user.export_plan.data.export_plan_markets|to_json }}
         },
       })
   </script>

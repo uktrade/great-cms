@@ -18,6 +18,7 @@ import domestic.urls
 import exportplan.urls
 import search.urls
 import sso.urls
+import users.urls
 
 urlpatterns = []
 
@@ -43,6 +44,7 @@ urlpatterns += [
     path('great-cms-sso/', include(sso.urls)),
     path('search/', include(search.urls, namespace='search')),
     path('activity-stream/', include(activitystream.urls, namespace='activitystream')),
+    path('users/', include(users.urls)),
     path('', include(domestic.urls, namespace='domestic')),
     path('', include(core.urls, namespace='core')),
     path('export-plan/', include(exportplan.urls)),

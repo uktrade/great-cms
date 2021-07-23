@@ -1,4 +1,5 @@
 import api from '@src/api'
+import { get } from '@src/Helpers'
 import {
   SET_MODAL_IS_OPEN,
   SET_INITIAL_STATE,
@@ -17,6 +18,12 @@ import costAndPricing from '@src/reducers/costsAndPricing'
 
 const saveToExportPlan = (payload) => {
   return api.updateExportPlan(payload).catch(() => {
+    // TODO: Add error confirmation here
+  })
+}
+
+const saveToUserProducts = (payload) => {
+  return api.addUpdateProduct(payload).catch(() => {
     // TODO: Add error confirmation here
   })
 }
@@ -88,7 +95,9 @@ const baseReducers = (state = initialState, action) => {
   }
 }
 
-const exportPlanReducer = (state, action) => {
+
+
+const userBasketReducer = (state, action) => {
   const newState = { ...state }
   let codeChanged
   switch (action.type) {
@@ -99,7 +108,7 @@ const exportPlanReducer = (state, action) => {
           newState.products[0].commodity_code) !== action.payload.commodity_code
       newState.products = [action.payload]
 
-      saveToExportPlan({ export_commodity_codes: [action.payload] }).then(
+      saveToUserProducts(action.payload).then(
         () => {
           if (codeChanged && config.refreshOnMarketChange) {
             api.reloadPage()
@@ -155,10 +164,10 @@ export const getPerformFeatureSKipCookieCheck = (state) =>
   state.performSkipFeatureCookieCheck
 export const getNextUrl = (state) => state.nextUrl
 
-export const getProducts = (state) =>
-  ((state.exportPlan && state.exportPlan.products) || [])[0]
+export const getProducts = (state) => ((state.userBasket && state.userBasket.products) || [])[0] || {}
+
 export const getMarkets = (state) =>
-  ((state.exportPlan && state.exportPlan.markets) || [])[0]
+  ((state.userBasket && state.userBasket.markets) || [])[0]
 export const getCacheVersion = (state) =>
   state.dataLoader && state.dataLoader.cacheVersion
 export const getComparisonMarkets = (state) => state.comparisonMarkets || []
@@ -167,7 +176,7 @@ const rootReducer = (state, action) => {
   let localState = baseReducers(state, action)
   localState = setInitialStateReducer(localState, action)
   return combineReducers({
-    exportPlan: exportPlanReducer,
+    userBasket: userBasketReducer,
     modalIsOpen: setModalIsOpen,
     dataLoader: dataCacheReducer,
     comparisonMarkets,
