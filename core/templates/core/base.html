@@ -44,6 +44,7 @@
           apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
           apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" %}',
           apiUserProductUrl: '{% url "users:api-user-product" %}',
+          apiUserMarketUrl: '{% url "users:api-user-market" %}',
           apiModelObjectManageUrl: '{% url "exportplan:api-model-object-manage" %}',
           apiComTradeDataUrl: '{% url "core:api-comtrade-data" %}',
           apiCountryDataUrl: '{% url "core:api-country-data" %}',
@@ -111,7 +112,7 @@
         },
         userBasket:{
           products: [{{request.user.export_plan.data.export_plan_products.0.user_product.product_data|to_json}}],
-          markets: {{request.user.export_plan.data.export_plan_markets|to_json }}
+          markets: [{{request.user.export_plan.data.export_plan_markets.0.user_market.data|to_json }}]
         },
       })
   </script>

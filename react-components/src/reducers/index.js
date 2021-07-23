@@ -28,6 +28,12 @@ const saveToUserProducts = (payload) => {
   })
 }
 
+const saveToUserMarkets = (payload) => {
+  return api.addUpdateMarket(payload).catch(() => {
+    // TODO: Add error confirmation here
+  })
+}
+
 const initialState = {
   // prevents modals from opening on page load if user dismissed the modal already
   modalIsOpen: {
@@ -118,7 +124,7 @@ const userBasketReducer = (state, action) => {
       break
     case SET_MARKET:
       newState.markets = [action.payload]
-      saveToExportPlan({ export_countries: [action.payload] }).then(() => {
+      saveToUserMarkets(action.payload).then(() => {
         if (config.refreshOnMarketChange) {
           api.reloadPage()
         }
@@ -164,10 +170,9 @@ export const getPerformFeatureSKipCookieCheck = (state) =>
   state.performSkipFeatureCookieCheck
 export const getNextUrl = (state) => state.nextUrl
 
-export const getProducts = (state) => ((state.userBasket && state.userBasket.products) || [])[0] || {}
+export const getProducts = (state) => ((state.userBasket && state.userBasket.products) || [])[0]
+export const getMarkets = (state) => ((state.userBasket && state.userBasket.markets) || [])[0]
 
-export const getMarkets = (state) =>
-  ((state.userBasket && state.userBasket.markets) || [])[0]
 export const getCacheVersion = (state) =>
   state.dataLoader && state.dataLoader.cacheVersion
 export const getComparisonMarkets = (state) => state.comparisonMarkets || []

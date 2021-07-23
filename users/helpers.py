@@ -11,3 +11,15 @@ def get_user_products(sso_session_id):
 def add_update_user_product(sso_session_id, product_data):
     results = api_client.personalisation.add_update_user_product(sso_session_id, product_data)
     return results.json()
+
+
+def get_user_markets(sso_session_id):
+    results = api_client.personalisation.get_user_markets(sso_session_id)
+    if results.status_code == 200:
+        return results.json()
+    return []
+
+
+def add_update_user_market(sso_session_id, market_data):
+    results = api_client.personalisation.add_update_user_market(sso_session_id, market_data)
+    return results.json()

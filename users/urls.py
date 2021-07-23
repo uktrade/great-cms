@@ -13,4 +13,9 @@ urlpatterns = [
         skip_ga360(api.ProductsView.as_view()),
         name='api-user-product',
     ),
+    path(
+        'user-market/',
+        skip_ga360(api.MarketsView.as_view()),
+        name='api-user-market',
+    ),
 ]

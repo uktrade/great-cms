@@ -98,6 +98,10 @@ export default {
     return post(config.apiUserProductUrl, data).then(responseHandler)
   },
 
+  addUpdateMarket: (data) => {
+    return post(config.apiUserMarketUrl, data).then(responseHandler)
+  },
+
   getCountries: () => {
     return get(config.apiCountriesUrl, {}).then((response) =>
       responseHandler(response).json()

@@ -19,3 +19,19 @@ class ProductsView(generics.GenericAPIView):
     def delete(self, request, *args, **kwargs):
         # TODO
         return Response(status=status.HTTP_204_NO_CONTENT, data={})
+
+
+class MarketsView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        data = helpers.get_user_markets(request.user.session_id)
+        return Response(status=200, data=data)
+
+    def post(self, request, *args, **kwargs):
+        data = helpers.add_update_user_market(request.user.session_id, self.request.data)
+        return Response(status=200, data=data)
+
+    def delete(self, request, *args, **kwargs):
+        # TODO
+        return Response(status=status.HTTP_204_NO_CONTENT, data={})
