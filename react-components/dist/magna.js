@@ -71915,7 +71915,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _Services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_Services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @src/Services */ "./react-components/src/Services.js");
+/* harmony import */ var _src_Helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @src/Helpers */ "./react-components/src/Helpers.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -71927,6 +71928,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -71953,7 +71955,7 @@ var MarkLessonAsComplete = function MarkLessonAsComplete(_ref) {
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (isComplete === undefined) {
-      _Services__WEBPACK_IMPORTED_MODULE_3__["default"].getLessonComplete(endpoint).then(function (response) {
+      _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"].getLessonComplete(endpoint).then(function (response) {
         return response.json();
       }).then(function (_ref2) {
         var lesson_completed = _ref2.lesson_completed;
@@ -71964,7 +71966,7 @@ var MarkLessonAsComplete = function MarkLessonAsComplete(_ref) {
         }
       }).then(function () {})["catch"](function () {});
     } else if (persistedIsComplete !== isComplete) {
-      _Services__WEBPACK_IMPORTED_MODULE_3__["default"][isComplete ? 'setLessonComplete' : 'setLessonIncomplete'](endpoint)["finally"](function () {
+      _src_Services__WEBPACK_IMPORTED_MODULE_3__["default"][isComplete ? 'setLessonComplete' : 'setLessonIncomplete'](endpoint)["finally"](function () {
         setPersistedIsComplete(isComplete);
       });
     }
@@ -71973,9 +71975,8 @@ var MarkLessonAsComplete = function MarkLessonAsComplete(_ref) {
 
   var markCompleted = function markCompleted() {
     if (!isComplete) {
-      var dataLayer = window.dataLayer = window.dataLayer || []; // adding tracking once lesson successfully updated as completed
-
-      dataLayer.push({
+      // adding tracking once lesson successfully updated as completed
+      Object(_src_Helpers__WEBPACK_IMPORTED_MODULE_4__["analytics"])({
         event: 'lessonComplete'
       });
     }
