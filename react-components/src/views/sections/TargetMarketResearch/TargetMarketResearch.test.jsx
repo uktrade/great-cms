@@ -169,17 +169,17 @@ describe('Target Market research', () => {
     document.body.appendChild(container)
     Services.setConfig({
       csrfToken: '12345',
-      apiUpdateExportPlanUrl: '/api/export-plan/api/update/',
+      apiUserMarketUrl: '/api/user-products/update/',
       apiCountryDataUrl: '/api/data-service/countrydata/',
       apiTargetAgeGroups: '/api/data-service/countrydata/',
       user: { id: '6' },
     })
     fetchMock.get(/\/api\/data-service\/countrydata\//, countryDataApiResponse)
-    fetchMock.post(/\/api\/export-plan\/api\/update\//, 200)
+    fetchMock.post(/\/api\/user-products\/update\//, 200)
 
     Services.store.dispatch(
       actions.setInitialState({
-        exportPlan: { products: [selectedProduct], markets: [unknownMarket] },
+        userBasket: { products: [selectedProduct], markets: [unknownMarket] },
       })
     )
   })

@@ -426,7 +426,7 @@ export default function ProductFinderModal(props) {
     return (
       <div className="p-h-s p-t-l">
         <h3 className="h-m p-t-0 p-b-xxs">
-          <label for="search-input">Add product</label>
+          <label htmlFor="search-input">Add product</label>
         </h3>
         <div id="search-hint">
           Adding a product personalises lessons and other content for you.
@@ -452,7 +452,7 @@ export default function ProductFinderModal(props) {
             onClick={search}
             aria-label="search item"
           >
-            <inline className="visually-hidden">Search product</inline>
+            <span className="visually-hidden">Search product</span>
             <i className="fa fa-arrow-right" />
           </button>
         </div>
@@ -571,7 +571,7 @@ export default function ProductFinderModal(props) {
             {spinner}
             <div
               className="scroll-inner p-b-m"
-              tabindex="0"
+              tabIndex="0"
               ref={(_scrollInner) => {
                 scrollOuter = _scrollInner || scrollOuter
               }}

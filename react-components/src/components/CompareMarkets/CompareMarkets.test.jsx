@@ -192,7 +192,7 @@ describe('Compare markets', () => {
     }
 
     Services.store.dispatch(
-      actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
+      actions.setInitialState({ userBasket: { products: [selectedProduct] } })
     )
 
     localContainer.innerHTML =
@@ -265,7 +265,7 @@ describe('Compare markets', () => {
       value: 'comparisonMarkets_6=',
     })
     Services.store.dispatch(
-      actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
+      actions.setInitialState({ userBasket: { products: [selectedProduct] } })
     )
 
     act(() => {

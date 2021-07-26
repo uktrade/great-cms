@@ -206,7 +206,7 @@ describe('Product finder tests', () => {
       commodity_code: '123456',
       commodity_name: 'my product'
     }
-    Services.store.dispatch(actions.setInitialState({exportPlan:{products:[selectedProduct]}}))
+    Services.store.dispatch(actions.setInitialState({userBasket:{products:[selectedProduct]}}))
 
 
     const setIsOpen = jest.fn()

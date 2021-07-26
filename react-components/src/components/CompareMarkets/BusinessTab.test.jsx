@@ -86,7 +86,7 @@ describe('Compare markets - Business tab', () => {
     const localContainer = container
 
     Services.store.dispatch(
-      actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
+      actions.setInitialState({ userBasket: { products: [selectedProduct] } })
     )
 
     localContainer.innerHTML =

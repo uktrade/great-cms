@@ -10,12 +10,12 @@ import { getProducts } from '@src/reducers'
 const updateEP = jest.fn()
 
 describe('Reducers', () => {
-  it('tests exportPlanReducer', async () => {
+  it('Test exportPlanReducer', async () => {
     let data = { commodity_name: 'Test product', commodity_code: '123456' }
     Services.setConfig({
       refreshOnMarketChange: true,
     })
-    api.updateExportPlan = (payload) => {
+    api.addUpdateProduct = (payload) => {
       return new Promise((resolve) => {
         resolve(updateEP(payload))
       })

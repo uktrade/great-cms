@@ -16,12 +16,6 @@ import { config } from '@src/config'
 import { combineReducers } from 'redux'
 import costAndPricing from '@src/reducers/costsAndPricing'
 
-const saveToExportPlan = (payload) => {
-  return api.updateExportPlan(payload).catch(() => {
-    // TODO: Add error confirmation here
-  })
-}
-
 const saveToUserProducts = (payload) => {
   return api.addUpdateProduct(payload).catch(() => {
     // TODO: Add error confirmation here

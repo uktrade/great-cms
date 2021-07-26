@@ -21,7 +21,7 @@ beforeEach(() => {
   document.body.appendChild(container)
   container.innerHTML = '<span id="set-country-button" data-text="my country"></span>'
   Services.setConfig({ apiCountriesUrl: '/api/countries/' })
-  Services.setInitialState({exportPlan:{markets:[]}})
+  Services.setInitialState({userBasket:{markets:[]}})
   countriesMock = fetchMock.get(/\/api\/countries\//, mockResponse)
 })
 
@@ -58,7 +58,7 @@ it('Opens and closes country finder', async () => {
 it('Opens with confirmation', async () => {
   // opens country chooser with country already set - check for confirmation dialogue
   act(() => {
-    Services.setInitialState({exportPlan:{
+    Services.setInitialState({userBasket:{
       markets:[{country_name:'Sweden', country_iso2_code:'su'}]
     }})
     createCountryFinder({ element: container })
