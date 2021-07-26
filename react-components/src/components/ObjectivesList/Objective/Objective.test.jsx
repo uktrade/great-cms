@@ -16,8 +16,10 @@ const mockObjectiveData = {
   description: '',
   owner: '',
   planned_reviews: '',
-  start_date: '',
-  end_date: '',
+  start_month: '',
+  start_year: '',
+  end_month: '',
+  end_year: '',
   companyexportplan: 1,
   pk: 1,
 }

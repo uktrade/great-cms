@@ -6,101 +6,137 @@ import { Input } from '@src/components/Form/Input'
 import { ConfirmModal } from '@src/components/ConfirmModal/ConfirmModal'
 import { objectHasValue } from '@src/Helpers'
 import ErrorList from '../../ErrorList'
+import { Select } from '@src/components/Form/Select'
 
+const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+]
 
+const fwRefObjective = forwardRef((props, ref) => {
+  const { handleChange, deleteObjective, number, id, errors, data } = props
 
-const fwRefObjective = forwardRef(
-  (props, ref) => {
-    const { handleChange, deleteObjective, number, id, errors, data } = props
-    const onChange = (item) => {
-      handleChange({
-        ...data,
-        ...item,
-      })
-    }
+  const selectMonths = MONTHS.map((label, i) => ({
+    label,
+    value: `${i + 1}`,
+  }))
 
-    const onDelete = () => {
-      deleteObjective(data.pk)
-    }
+  const onChange = (item) => {
+    handleChange({
+      ...data,
+      ...item,
+    })
+  }
 
-    const { companyexportplan, start_date, end_date, pk, ...fields } = data
+  const onDelete = () => {
+    deleteObjective(data.pk)
+  }
 
-    return (
-      <fieldset id={`objective-${number}`} ref={ref} tabIndex="-1">
+  const {
+    companyexportplan,
+    start_month,
+    start_year,
+    end_month,
+    end_year,
+    pk,
+    ...fields
+  } = data
+
+  return (
+    <fieldset id={`objective-${number}`} ref={ref} tabIndex="-1">
       <legend className="visually-hidden">{`Objective ${number}`}</legend>
-        <div className="bg-blue-deep-10 radius p-h-s">
-          <div className="grid" tabIndex="-1">
-            <div className="c-full">
-              <TextArea
-                id="description"
-                placeholder="Add some text"
-                label={`Objective ${number}`}
-                value={data.description}
-                onChange={onChange}
-                errors={[]}
-              />
-              <hr className="hr hr--light" />
-            </div>
-            <div className="grid">
-              <div className="c-1-2">
-                <Input
-                  id="start_date"
-                  type="date"
-                  label="Start date"
-                  maxDate={data.end_date}
-                  value={data.start_date}
-                  onChange={onChange}
-                  errors={[]}
-                />
-              </div>
-              <div className="c-1-2">
-                <Input
-                  id="end_date"
-                  type="date"
-                  label="End date"
-                  minDate={data.start_date}
-                  value={data.end_date}
-                  onChange={onChange}
-                  errors={[]}
-                />
-              </div>
-            </div>
-            <div className="c-full">
-              <hr className="hr hr--light" />
-              <Input
-                id={`owner-${id}`}
-                placeholder="Add an owner"
-                label="Owner"
-                value={data.owner}
-                onChange={(item) => onChange({ owner: item[`owner-${id}`] })}
-                errors={[]}
-              />
-            </div>
-            <div className="c-full">
-              <TextArea
-                id="planned_reviews"
-                placeholder="Add some text"
-                label="Planned reviews"
-                value={data.planned_reviews}
-                onChange={onChange}
-                errors={[]}
-              />
-            </div>
-          </div>
-          <div className="text-center">
+      <div className="bg-blue-deep-10 radius p-h-s">
+        <div className="grid" tabIndex="-1">
+          <div className="c-full">
+            <TextArea
+              id="description"
+              placeholder="Add some text"
+              label={`Objective ${number}`}
+              value={data.description}
+              onChange={onChange}
+              errors={[]}
+            />
             <hr className="hr hr--light" />
-            <ConfirmModal
-              deleteItem={onDelete}
-              hasData={objectHasValue(fields)}
+          </div>
+          <fieldset>
+            <legend>Start objective in:</legend>
+            <Select
+              label="Month"
+              id={`start-month-${id}`}
+              name={`start-month-${id}`}
+              update={onChange}
+              options={selectMonths}
+              selected={data.start_month}
+            />
+            <Input
+              label="Year"
+              id={`start-year-${id}`}
+              value={data.start_year}
+              onChange={onChange}
+            />
+          </fieldset>
+          <fieldset>
+            <legend>Complete by:</legend>
+            <Select
+              label="Month"
+              id={`end-month-${id}`}
+              name={`end-month-${id}`}
+              update={onChange}
+              options={selectMonths}
+              selected={data.end_month}
+            />
+            <Input
+              label="Year"
+              id={`end-year-${id}`}
+              value={data.end_year}
+              onChange={onChange}
+            />
+          </fieldset>
+          <div className="c-full">
+            <hr className="hr hr--light" />
+            <Input
+              id={`owner-${id}`}
+              placeholder="Add an owner"
+              label="Owner"
+              value={data.owner}
+              onChange={(item) => onChange({ owner: item[`owner-${id}`] })}
+              errors={[]}
+            />
+          </div>
+          <div className="c-full">
+            <TextArea
+              id="planned_reviews"
+              placeholder="Add some text"
+              label="Planned reviews"
+              value={data.planned_reviews}
+              onChange={onChange}
+              errors={[]}
             />
           </div>
         </div>
-        <ErrorList errors={errors.__all__ || []} />
-        <hr />
-      </fieldset>
-    )
-  }
-)
+        <div className="text-center">
+          <hr className="hr hr--light" />
+          <ConfirmModal
+            deleteItem={onDelete}
+            hasData={objectHasValue(fields)}
+          />
+        </div>
+      </div>
+      <ErrorList errors={errors.__all__ || []} />
+      <hr />
+    </fieldset>
+  )
+})
 
 export const Objective = memo(fwRefObjective)
 
@@ -116,8 +152,10 @@ Objective.propTypes = {
     description: PropTypes.string,
     owner: PropTypes.string,
     planned_reviews: PropTypes.string,
-    start_date: PropTypes.string,
-    end_date: PropTypes.string,
+    start_month: PropTypes.string,
+    start_year: PropTypes.string,
+    end_month: PropTypes.string,
+    end_year: PropTypes.string,
     companyexportplan: PropTypes.number.isRequired,
     pk: PropTypes.number.isRequired,
   }).isRequired,
