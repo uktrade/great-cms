@@ -30,15 +30,14 @@ export const ObjectivesList = memo(
     const debounceUpdate = useDebounce(request)
 
     const createObjective = () => {
-      const today = new Date()
       create({
         description: '',
         owner: '',
         planned_reviews: '',
-        start_month: `${today.getMonth()}`,
-        start_year: `${today.getFullYear()}`,
-        end_month: `${today.getMonth()}`,
-        end_year: `${today.getFullYear()}`,
+        start_month: '',
+        start_year: '',
+        end_month: '',
+        end_year: '',
         companyexportplan: exportPlanID,
         model_name,
       }).then((data) => {
@@ -107,8 +106,10 @@ ObjectivesList.propTypes = {
       description: PropTypes.string,
       owner: PropTypes.string,
       planned_reviews: PropTypes.string,
-      start_date: PropTypes.string,
-      end_date: PropTypes.string,
+      start_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      start_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      end_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      end_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       companyexportplan: PropTypes.number,
       pk: PropTypes.number,
       showSavedMessage: PropTypes.bool,

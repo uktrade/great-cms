@@ -74,18 +74,19 @@ const fwRefObjective = forwardRef((props, ref) => {
               <div className="inputgroup__input inputgroup__input--month">
                 <Select
                   label="Month"
-                  id={`start-month-${id}`}
-                  name={`start-month-${id}`}
+                  id="start_month"
+                  name="start_month"
                   update={onChange}
                   options={selectMonths}
-                  selected={data.start_month}
+                  selected={`${data.start_month}`}
                 />
               </div>
               <div className="inputgroup__input">
                 <Input
                   label="Year"
-                  id={`start-year-${id}`}
-                  value={data.start_year}
+                  id="start_year"
+                  type="number"
+                  value={`${data.start_year}`}
                   onChange={onChange}
                 />
               </div>
@@ -97,18 +98,19 @@ const fwRefObjective = forwardRef((props, ref) => {
               <div className="inputgroup__input inputgroup__input--month">
                 <Select
                   label="Month"
-                  id={`end-month-${id}`}
-                  name={`end-month-${id}`}
+                  id="end_month"
+                  name="end_month"
                   update={onChange}
                   options={selectMonths}
-                  selected={data.end_month}
+                  selected={`${data.end_month}`}
                 />
               </div>
               <div className="inputgroup__input inputgroup__input--month">
                 <Input
                   label="Year"
-                  id={`end-year-${id}`}
-                  value={data.end_year}
+                  id="end_year"
+                  type="number"
+                  value={`${data.end_year}`}
                   onChange={onChange}
                 />
               </div>
@@ -163,10 +165,10 @@ Objective.propTypes = {
     description: PropTypes.string,
     owner: PropTypes.string,
     planned_reviews: PropTypes.string,
-    start_month: PropTypes.string,
-    start_year: PropTypes.string,
-    end_month: PropTypes.string,
-    end_year: PropTypes.string,
+    start_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    start_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    end_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    end_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     companyexportplan: PropTypes.number.isRequired,
     pk: PropTypes.number.isRequired,
   }).isRequired,
