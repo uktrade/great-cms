@@ -55,77 +55,89 @@ const fwRefObjective = forwardRef((props, ref) => {
   return (
     <fieldset id={`objective-${number}`} ref={ref} tabIndex="-1">
       <legend className="visually-hidden">{`Objective ${number}`}</legend>
-      <div className="bg-blue-deep-10 radius p-h-s">
-        <div className="grid" tabIndex="-1">
-          <div className="c-full">
-            <TextArea
-              id="description"
-              placeholder="Add some text"
-              label={`Objective ${number}`}
-              value={data.description}
-              onChange={onChange}
-              errors={[]}
-            />
-            <hr className="hr hr--light" />
-          </div>
-          <fieldset>
-            <legend>Start objective in:</legend>
-            <Select
-              label="Month"
-              id={`start-month-${id}`}
-              name={`start-month-${id}`}
-              update={onChange}
-              options={selectMonths}
-              selected={data.start_month}
-            />
-            <Input
-              label="Year"
-              id={`start-year-${id}`}
-              value={data.start_year}
-              onChange={onChange}
-            />
-          </fieldset>
-          <fieldset>
-            <legend>Complete by:</legend>
-            <Select
-              label="Month"
-              id={`end-month-${id}`}
-              name={`end-month-${id}`}
-              update={onChange}
-              options={selectMonths}
-              selected={data.end_month}
-            />
-            <Input
-              label="Year"
-              id={`end-year-${id}`}
-              value={data.end_year}
-              onChange={onChange}
-            />
-          </fieldset>
-          <div className="c-full">
-            <hr className="hr hr--light" />
-            <Input
-              id={`owner-${id}`}
-              placeholder="Add an owner"
-              label="Owner"
-              value={data.owner}
-              onChange={(item) => onChange({ owner: item[`owner-${id}`] })}
-              errors={[]}
-            />
-          </div>
-          <div className="c-full">
-            <TextArea
-              id="planned_reviews"
-              placeholder="Add some text"
-              label="Planned reviews"
-              value={data.planned_reviews}
-              onChange={onChange}
-              errors={[]}
-            />
-          </div>
+      <div className="costs bg-blue-deep-10 m-b-s">
+        <div className="costs__option costs__option--border" tabIndex="-1">
+          <TextArea
+            id="description"
+            placeholder="Add some text"
+            label={`Objective ${number}`}
+            value={data.description}
+            onChange={onChange}
+            errors={[]}
+            formGroupClassName="m-b-0"
+          />
         </div>
-        <div className="text-center">
-          <hr className="hr hr--light" />
+        <div className="costs__option costs__option--border">
+          <fieldset>
+            <legend className="m-b-xs">Start objective in:</legend>
+            <div className="inputgroup">
+              <div className="inputgroup__input inputgroup__input--month">
+                <Select
+                  label="Month"
+                  id={`start-month-${id}`}
+                  name={`start-month-${id}`}
+                  update={onChange}
+                  options={selectMonths}
+                  selected={data.start_month}
+                />
+              </div>
+              <div className="inputgroup__input">
+                <Input
+                  label="Year"
+                  id={`start-year-${id}`}
+                  value={data.start_year}
+                  onChange={onChange}
+                />
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend className="m-b-xs">Complete by:</legend>
+            <div className="inputgroup">
+              <div className="inputgroup__input inputgroup__input--month">
+                <Select
+                  label="Month"
+                  id={`end-month-${id}`}
+                  name={`end-month-${id}`}
+                  update={onChange}
+                  options={selectMonths}
+                  selected={data.end_month}
+                />
+              </div>
+              <div className="inputgroup__input inputgroup__input--month">
+                <Input
+                  label="Year"
+                  id={`end-year-${id}`}
+                  value={data.end_year}
+                  onChange={onChange}
+                />
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div className="costs__option costs__option--border">
+          <Input
+            id={`owner-${id}`}
+            placeholder="Add an owner"
+            label="Owner"
+            value={data.owner}
+            onChange={(item) => onChange({ owner: item[`owner-${id}`] })}
+            errors={[]}
+            formGroupClassName="m-b-0"
+          />
+        </div>
+        <div className="costs__option costs__option--border">
+          <TextArea
+            id="planned_reviews"
+            placeholder="Add some text"
+            label="Planned reviews"
+            value={data.planned_reviews}
+            onChange={onChange}
+            errors={[]}
+            formGroupClassName="m-b-0"
+          />
+        </div>
+        <div className="costs__option costs__option--border text-center">
           <ConfirmModal
             deleteItem={onDelete}
             hasData={objectHasValue(fields)}
@@ -133,7 +145,6 @@ const fwRefObjective = forwardRef((props, ref) => {
         </div>
       </div>
       <ErrorList errors={errors.__all__ || []} />
-      <hr />
     </fieldset>
   )
 })

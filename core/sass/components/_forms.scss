@@ -232,3 +232,20 @@
     color: transparent;
   }
 }
+
+.inputgroup {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-left: -$gutter-small;
+
+  &__input {
+    flex: 0 1 auto;
+    min-width: 5em;
+    margin-left: $gutter-small;
+
+    &--month {
+      min-width: 9em;
+    }
+  }
+}
