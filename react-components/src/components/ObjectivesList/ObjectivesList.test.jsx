@@ -1,4 +1,5 @@
 import React from 'react'
+import MockDate from 'mockdate'
 
 import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
 import { ObjectivesList } from '@src/components/ObjectivesList'
@@ -71,6 +72,7 @@ beforeEach(() => {
 afterEach(() => {
   jest.useRealTimers()
   Services.apiModelObjectManage.mockClear()
+  MockDate.reset()
   cleanup()
 })
 
@@ -197,22 +199,23 @@ describe('ObjectivesList', () => {
         })
       )
 
-      // it('uses current date for initial data', async () => {
-      //   const { getByText } = setup({
-      //     ...props,
-      //     objectives: [],
-      //   })
-      //   fireEvent.click(getByText('Add goal 1 of 5'))
+      it('uses current date for initial data', async () => {
+        MockDate.set('2021-07-27')
+        const { getByText } = setup({
+          ...props,
+          objectives: [],
+        })
+        fireEvent.click(getByText('Add goal 1 of 5'))
 
-      //   await waitFor(() => {
-      //     expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
-      //     const requestData = Services.apiModelObjectManage.mock.calls[0][0]
-      //     expect(requestData.start_month).toBe(7)
-      //     expect(requestData.start_year).toBe(2021)
-      //     expect(requestData.end_month).toBe(7)
-      //     expect(requestData.end_year).toBe(2021)
-      //   })
-      // })
+        await waitFor(() => {
+          expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
+          const requestData = Services.apiModelObjectManage.mock.calls[0][0]
+          expect(requestData.start_month).toBe('7')
+          expect(requestData.start_year).toBe('2021')
+          expect(requestData.end_month).toBe('7')
+          expect(requestData.end_year).toBe('2021')
+        })
+      })
 
       it('initial load', async () => {
         const { getByText, queryByLabelText } = setup({

@@ -30,14 +30,17 @@ export const ObjectivesList = memo(
     const debounceUpdate = useDebounce(request)
 
     const createObjective = () => {
+      const today = new Date()
+      const month = `${today.getMonth() + 1}`
+      const year = `${today.getFullYear()}`
       create({
         description: '',
         owner: '',
         planned_reviews: '',
-        start_month: '',
-        start_year: '',
-        end_month: '',
-        end_year: '',
+        start_month: month,
+        start_year: year,
+        end_month: month,
+        end_year: year,
         companyexportplan: exportPlanID,
         model_name,
       }).then((data) => {
