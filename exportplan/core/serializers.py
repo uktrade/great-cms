@@ -20,8 +20,10 @@ class CompanyObjectivesSerializer(serializers.Serializer):
     description = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     planned_reviews = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     owner = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    start_date = serializers.CharField(required=False, allow_blank=True, allow_null=True, validators=[no_html])
-    end_date = serializers.CharField(required=False, allow_blank=True, allow_null=True, validators=[no_html])
+    start_month = serializers.IntegerField(required=False, allow_null=True, min_value=1, max_value=12)
+    start_year = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
+    end_month = serializers.IntegerField(required=False, allow_null=True, min_value=1, max_value=12)
+    end_year = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 
