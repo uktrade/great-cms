@@ -93,7 +93,7 @@ const fwRefObjective = forwardRef((props, ref) => {
               </div>
             </div>
           </fieldset>
-          <fieldset>
+          <fieldset className="m-t-s">
             <legend className="m-b-xs">Complete by:</legend>
             <div className="inputgroup">
               <div className="inputgroup__input inputgroup__input--month">
@@ -104,6 +104,7 @@ const fwRefObjective = forwardRef((props, ref) => {
                   update={onChange}
                   options={selectMonths}
                   selected={`${data.end_month}`}
+                  className="m-b-0"
                 />
               </div>
               <div className="inputgroup__input inputgroup__input--year">
@@ -114,6 +115,7 @@ const fwRefObjective = forwardRef((props, ref) => {
                   value={`${data.end_year || ''}`}
                   onChange={onChange}
                   size={4}
+                  formGroupClassName="m-b-0"
                 />
               </div>
             </div>
