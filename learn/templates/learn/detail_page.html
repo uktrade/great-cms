@@ -7,11 +7,11 @@
 {% block content %}
     <div class="lesson-page">
         {% get_category_title_for_lesson page as category_title %}
-        <span class="learn__back-link">
-          {% include "core/includes/backlink.html" with url=page.get_parent.get_parent.url label=category_title classes="hide-on-mobile"%}
-        </span>
         <div class="bg-white">
             <div class="container">
+              <div class="learn__back-link m-f-s m-t-s hide-on-mobile">
+                {% include "core/includes/backlink.html" with url=page.get_parent.get_parent.url label=category_title classes="p-v-0"%}
+              </div>
                 <div class="grid lesson-body p-t-xl">
                     <div class="c-1-4">
                     </div>
