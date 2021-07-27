@@ -164,12 +164,12 @@ class CompanyParser(great_components.helpers.CompanyParser):
 
     @property
     def name(self):
-        return self.data['name']
+        return self.data.get('company_name') or self.data.get('name', None)
 
     @property
     def number(self):
         # defaulted to NONE for NON-CH company
-        return self.data.get('number', None)
+        return self.data.get('company_number') or self.data.get('number', None)
 
     @property
     def nature_of_business(self):

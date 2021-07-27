@@ -17,6 +17,7 @@
         <p>You must choose a new administrator before you can remove this profile from your account.</p>
         <p>Invite a new collaborator to become administrator{% if has_collaborators %} or select one of the collaborators below{% endif %}.</p>
         <form method="post" enctype="multipart/form-data" novalidate="novalidate">
+            {% csrf_token %}
             {% if form.non_field_errors %}
               <div class="error-message margin-bottom-30">
                 <div class="{{ form.error_css_class }}">

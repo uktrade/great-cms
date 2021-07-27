@@ -10,6 +10,7 @@ from freezegun import freeze_time
 from requests.exceptions import HTTPError
 
 from directory_constants import urls, user_roles
+from sso.models import BusinessSSOUser
 from sso_profile.enrolment import constants, forms, helpers, mixins, views
 from ..common.helpers import create_response, submit_step_factory
 
@@ -26,6 +27,20 @@ company_types = (constants.COMPANIES_HOUSE_COMPANY, constants.NON_COMPANIES_HOUS
 BUSINESS_INFO_NON_COMPANIES_HOUSE = 'business-info-non-companies-house'
 BUSINESS_INFO_COMPANIES_HOUSE = 'business-info-companies-house'
 ADDRESS_SEARCH_COMPANIES_HOUSE = 'address-search-companies-house'
+
+
+@pytest.fixture
+def user():
+    return BusinessSSOUser(
+        id=1,
+        pk=1,
+        mobile_phone_number='55512345',
+        email='jim@example.com',
+        first_name='Jim',
+        last_name='Cross',
+        session_id='123',
+        has_user_profile=False,
+    )
 
 
 @pytest.fixture
@@ -578,6 +593,7 @@ def test_companies_house_enrolment_submit_end_to_end(
     client,
     submit_companies_house_step,
     mock_enrolment_send,
+    mock_get_supplier_profile,
     steps_data,
     session_client_referrer_factory,
     user,
@@ -631,7 +647,7 @@ def test_companies_house_enrolment_submit_end_to_end(
             'address_line_1': '555 fake street',
             'address_line_2': 'London',
             'sectors': ['AEROSPACE'],
-            'name': user.full_name,
+            'name': None,
             'job_title': 'Exampler',
             'phone_number': '1232342',
             'company_type': 'COMPANIES_HOUSE',
@@ -862,7 +878,7 @@ def test_companies_house_enrolment_submit_end_to_end_company_has_account(
         sso_session_id='123',
         data={
             'sso_id': 1,
-            'name': user.full_name,
+            'name': None,
             'company': '12345678',
             'company_email': 'jim@example.com',
             'mobile_number': '1232342',
@@ -876,11 +892,9 @@ def test_companies_house_enrolment_submit_end_to_end_company_has_account(
 @mock.patch('directory_forms_api_client.client.forms_api_client.submit_generic')
 @mock.patch('sso_profile.enrolment.views.helpers.create_company_member')
 @mock.patch('sso_profile.enrolment.views.helpers.get_is_enrolled')
-@mock.patch('sso_profile.business_profile.helpers.get_supplier_profile')
 @mock.patch('sso_profile.business_profile.helpers.has_editor_admin_request')
 def test_companies_house_enrolment_submit_end_to_end_company_second_user(
     mock_has_editor_admin_request,
-    mock_get_supplier_profile,
     mock_get_is_enrolled,
     mock_add_collaborator,
     mock_gov_notify,
@@ -890,6 +904,7 @@ def test_companies_house_enrolment_submit_end_to_end_company_second_user(
     mock_get_company_admins,
     mock_enrolment_send,
     mock_validate_company_number,
+    mock_retrieve_member_supplier,
     user,
 ):
     mock_validate_company_number.return_value = create_response(status_code=400)
@@ -902,7 +917,6 @@ def test_companies_house_enrolment_submit_end_to_end_company_second_user(
     response = submit_companies_house_step(steps_data[constants.VERIFICATION])
     assert response.status_code == 302
 
-    mock_get_supplier_profile.return_value = {'role': user_roles.MEMBER}
     client.force_login(user)
 
     response = submit_companies_house_step(steps_data[constants.COMPANY_SEARCH])
@@ -920,7 +934,6 @@ def test_companies_house_enrolment_submit_end_to_end_company_second_user(
 
     # Redirects to business profile for 2nd company `member` user
     assert response.status_code == 200
-
     messages = list(str(message) for message in response.context['messages'])
     assert len(messages) == 1
 
@@ -932,7 +945,7 @@ def test_companies_house_enrolment_submit_end_to_end_company_second_user(
         sso_session_id='123',
         data={
             'sso_id': 1,
-            'name': user.full_name,
+            'name': None,
             'company': '12345678',
             'company_email': 'jim@example.com',
             'mobile_number': '1232342',
@@ -1508,7 +1521,7 @@ def test_non_companies_house_enrolment_submit_end_to_end_logged_in(
             'address_line_2': 'London',
             'job_title': 'Exampler',
             'phone_number': '1232342',
-            'name': user.full_name,
+            'name': None,
         }
     )
 
