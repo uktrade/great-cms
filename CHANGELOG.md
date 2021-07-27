@@ -23,6 +23,7 @@
 - GP2-2494 - Refactor multi-add components styles
 - GP2-3084 - Fix spacings on Travel plan
 - GP2-3085 - Fix Business Risk block radio buttons spacing
+- GP2-2896 - Split objective date fields into month and year
 
 ### Fixed bugs
 - GP2-2619 - Case study quotes - attrributions fall off
