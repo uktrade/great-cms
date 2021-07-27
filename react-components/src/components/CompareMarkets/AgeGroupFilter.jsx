@@ -1,10 +1,3 @@
-import React from 'react'
-import Services from '@src/Services'
-import actions from '@src/actions'
-import { millify, normaliseValues, listJoin } from '../../Helpers'
-import Filter from './Filter'
-
-
 export const filterMapping = {
   sector0_14: { label: '0-14', groups: ['0-4', '5-9', '10-14'] },
   sector15_19: { label: '15-19', groups: ['15-19'] },

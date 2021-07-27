@@ -42,7 +42,7 @@ const filter = (
 )
 
 const renderFilter = () => {
-  const filterNames = Object.keys(localActiveFilter).map((filter) => filterMapping[filter].label)
+  const filterNames = Object.keys(localActiveFilter).map((mapFilter) => filterMapping[mapFilter].label)
   if(filterNames.length) {
     return `Demographics for age groups ${listJoin(filterNames)}`
   }

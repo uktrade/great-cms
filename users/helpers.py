@@ -3,9 +3,7 @@ from directory_api_client import api_client
 
 def get_user_products(sso_session_id):
     results = api_client.personalisation.get_user_products(sso_session_id)
-    if results.status_code == 200:
-        return results.json()
-    return []
+    return results.json() if results.status_code == 200 else []
 
 
 def add_update_user_product(sso_session_id, product_data):
@@ -15,9 +13,7 @@ def add_update_user_product(sso_session_id, product_data):
 
 def get_user_markets(sso_session_id):
     results = api_client.personalisation.get_user_markets(sso_session_id)
-    if results.status_code == 200:
-        return results.json()
-    return []
+    return results.json() if results.status_code == 200 else []
 
 
 def add_update_user_market(sso_session_id, market_data):

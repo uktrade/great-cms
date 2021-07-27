@@ -1,4 +1,4 @@
-from rest_framework import generics, status
+from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -16,10 +16,6 @@ class ProductsView(generics.GenericAPIView):
         data = helpers.add_update_user_product(request.user.session_id, self.request.data)
         return Response(status=200, data=data)
 
-    def delete(self, request, *args, **kwargs):
-        # TODO
-        return Response(status=status.HTTP_204_NO_CONTENT, data={})
-
 
 class MarketsView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
@@ -31,7 +27,3 @@ class MarketsView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         data = helpers.add_update_user_market(request.user.session_id, self.request.data)
         return Response(status=200, data=data)
-
-    def delete(self, request, *args, **kwargs):
-        # TODO
-        return Response(status=status.HTTP_204_NO_CONTENT, data={})
