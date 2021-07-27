@@ -81,13 +81,14 @@ const fwRefObjective = forwardRef((props, ref) => {
                   selected={`${data.start_month}`}
                 />
               </div>
-              <div className="inputgroup__input">
+              <div className="inputgroup__input inputgroup__input--year">
                 <Input
                   label="Year"
                   id="start_year"
                   type="number"
-                  value={`${data.start_year}`}
+                  value={`${data.start_year || ''}`}
                   onChange={onChange}
+                  size={4}
                 />
               </div>
             </div>
@@ -105,13 +106,14 @@ const fwRefObjective = forwardRef((props, ref) => {
                   selected={`${data.end_month}`}
                 />
               </div>
-              <div className="inputgroup__input inputgroup__input--month">
+              <div className="inputgroup__input inputgroup__input--year">
                 <Input
                   label="Year"
                   id="end_year"
                   type="number"
-                  value={`${data.end_year}`}
+                  value={`${data.end_year || ''}`}
                   onChange={onChange}
+                  size={4}
                 />
               </div>
             </div>

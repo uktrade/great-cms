@@ -26,6 +26,7 @@ export const Input = memo(
     minDate,
     maxDate,
     decimal,
+    size,
   }) => {
     const IsValidNumber = (e, rule = decimal) => {
       const t = parseInt(e.key, 10)
@@ -89,6 +90,7 @@ export const Input = memo(
             value={value}
             readOnly={readOnly}
             tabIndex={tabIndex}
+            size={size}
           />
         </div>
       </FormGroup>
@@ -127,6 +129,7 @@ Input.propTypes = {
   className: PropTypes.string,
   formGroupClassName: PropTypes.string,
   decimal: PropTypes.oneOf([2, 0]),
+  size: PropTypes.number,
 }
 
 Input.defaultProps = {
