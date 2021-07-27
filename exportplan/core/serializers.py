@@ -27,17 +27,6 @@ class CompanyObjectivesSerializer(serializers.Serializer):
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 
-    # convert empty strings to null values
-    def validate_start_date(self, value):
-        if value == '':
-            return None
-        return value
-
-    def validate_end_date(self, value):
-        if value == '':
-            return None
-        return value
-
 
 class AboutYourBuinessSerializer(serializers.Serializer):
     story = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
