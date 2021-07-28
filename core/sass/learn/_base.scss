@@ -375,8 +375,8 @@ $desktop: 1024px;
 }
 
 .learn__back-link {
-  left: 38px;
-  top: 15px;
+  left: 0px;
+  top: 0px;
   position: absolute;
   z-index: 1;
 
@@ -666,6 +666,10 @@ $desktop: 1024px;
         margin-bottom: 15px;
       }
     }
+  }
+
+  .lesson-body > .c-1-2 {
+    min-width: 320px;
   }
 
   .lesson-body-blocks>.rich-text:first-child {
