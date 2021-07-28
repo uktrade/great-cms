@@ -22,7 +22,7 @@ pytestmark = pytest.mark.django_db
     },
 )
 @mock.patch.object(helpers.ch_search_api_client.company, 'get_company_profile')
-def test_get_company_profile_ok_saves_to_session(mock_get_company_profile, clear_cache):
+def test_get_company_profile_ok_saves_to_session(mock_get_companies_house_profile, clear_cache):
     data = {
         'company_number': '12345678',
         'company_name': 'Example corp',
@@ -31,7 +31,7 @@ def test_get_company_profile_ok_saves_to_session(mock_get_company_profile, clear
         'registered_office_address': {'one': '555', 'two': 'fake street'},
     }
 
-    mock_get_company_profile.return_value = create_response(data)
+    mock_get_companies_house_profile.return_value = create_response(data)
     helpers.get_companies_house_profile('123456')
 
     assert cache.get('COMPANY_PROFILE-123456') == data
@@ -45,7 +45,6 @@ def test_get_company_profile_ok_saves_to_session(mock_get_company_profile, clear
         }
     },
 )
-@mock.patch.object(helpers.ch_search_api_client.company, 'get_company_profile')
 def test_get_company_profile_ok(mock_get_company_profile, clear_cache):
 
     data = {
@@ -56,11 +55,8 @@ def test_get_company_profile_ok(mock_get_company_profile, clear_cache):
         'registered_office_address': {'one': '555', 'two': 'fake street'},
     }
 
-    mock_get_company_profile.return_value = create_response(data)
     result = helpers.get_companies_house_profile('123456')
 
-    assert mock_get_company_profile.call_count == 1
-    assert mock_get_company_profile.call_args == mock.call('123456')
     assert result == data
     assert cache.get('COMPANY_PROFILE-123456') == data
 

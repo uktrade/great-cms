@@ -23,6 +23,7 @@
     {% else %}
         <p>You will no longer have access to this business profile.</p>
         <form method="post" enctype="multipart/form-data" novalidate="novalidate">
+            {% csrf_token %}
             {{ form }}
             <button class="button">Remove</button>
         </form>

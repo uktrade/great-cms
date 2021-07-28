@@ -441,7 +441,7 @@ def patch_get_supplier_profile():
     yield mock.patch('sso.models.get_supplier_profile', return_value=None)
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture
 def mock_get_supplier_profile(patch_get_supplier_profile):
     yield patch_get_supplier_profile.start()
     try:
