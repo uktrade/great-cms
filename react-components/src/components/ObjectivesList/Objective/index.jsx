@@ -6,30 +6,10 @@ import { Input } from '@src/components/Form/Input'
 import { ConfirmModal } from '@src/components/ConfirmModal/ConfirmModal'
 import { objectHasValue } from '@src/Helpers'
 import ErrorList from '../../ErrorList'
-import { Select } from '@src/components/Form/Select'
-
-const MONTHS = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-]
+import { MonthYearInput } from '../../Form/MonthYearInput'
 
 const fwRefObjective = forwardRef((props, ref) => {
   const { handleChange, deleteObjective, number, id, errors, data } = props
-
-  const selectMonths = MONTHS.map((label, i) => ({
-    label,
-    value: `${i + 1}`,
-  }))
 
   const onChange = (item) => {
     handleChange({
@@ -68,58 +48,23 @@ const fwRefObjective = forwardRef((props, ref) => {
           />
         </div>
         <div className="costs__option costs__option--border">
-          <fieldset>
-            <legend className="m-b-xs">Start objective in:</legend>
-            <div className="inputgroup">
-              <div className="inputgroup__input inputgroup__input--month">
-                <Select
-                  label="Month"
-                  id="start_month"
-                  name="start_month"
-                  update={onChange}
-                  options={selectMonths}
-                  selected={`${data.start_month}`}
-                />
-              </div>
-              <div className="inputgroup__input inputgroup__input--year">
-                <Input
-                  label="Year"
-                  id="start_year"
-                  type="number"
-                  value={`${data.start_year || ''}`}
-                  onChange={onChange}
-                  size={4}
-                />
-              </div>
-            </div>
-          </fieldset>
-          <fieldset className="m-t-s">
-            <legend className="m-b-xs">Complete by:</legend>
-            <div className="inputgroup">
-              <div className="inputgroup__input inputgroup__input--month">
-                <Select
-                  label="Month"
-                  id="end_month"
-                  name="end_month"
-                  update={onChange}
-                  options={selectMonths}
-                  selected={`${data.end_month}`}
-                  className="m-b-0"
-                />
-              </div>
-              <div className="inputgroup__input inputgroup__input--year">
-                <Input
-                  label="Year"
-                  id="end_year"
-                  type="number"
-                  value={`${data.end_year || ''}`}
-                  onChange={onChange}
-                  size={4}
-                  formGroupClassName="m-b-0"
-                />
-              </div>
-            </div>
-          </fieldset>
+          <MonthYearInput
+            label="Start objective in:"
+            month_name="start_month"
+            month_value={data.start_month}
+            year_name="start_year"
+            year_value={data.start_year}
+            onChange={onChange}
+          />
+          <MonthYearInput
+            label="Complete by:"
+            month_name="end_month"
+            month_value={data.end_month}
+            year_name="end_year"
+            year_value={data.end_year}
+            onChange={onChange}
+            className="m-t-s"
+          />
         </div>
         <div className="costs__option costs__option--border">
           <Input
