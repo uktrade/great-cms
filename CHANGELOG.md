@@ -25,6 +25,7 @@
 - GP2-3085 - Fix Business Risk block radio buttons spacing
 
 ### Fixed bugs
+- GP2-2893 - Backlink placement in learning
 - GP2-2619 - Case study quotes - attrributions fall off
 - GP2-3099 - WTE Selector missing
 - GP2-2428 - Country finder back buttons in mobile
