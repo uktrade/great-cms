@@ -56,6 +56,7 @@ export const MonthYearInput = memo(
               value={`${year_value || ''}`}
               onChange={onChange}
               size={4}
+              pattern="[0-9]*"
             />
           </div>
         </div>
