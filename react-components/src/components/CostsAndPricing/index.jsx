@@ -1,7 +1,7 @@
 import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Input } from '@src/components/Form/Input'
-import { formatLessonLearned } from '@src/Helpers'
+import { formatLessonLearned, prependThe } from '@src/Helpers'
 
 import { Direct } from './Direct'
 import { Overhead } from './Overhead'
@@ -116,7 +116,7 @@ export const CostsAndPricing = memo(
                 hideLabel
                 prepend={currency}
                 {...averagePrice}
-                description={averagePrice.description(country)}
+                description={averagePrice.description(prependThe(country))}
               />
               <Input
                 onChange={(x) => onChange(x, netPrice)}
@@ -124,7 +124,7 @@ export const CostsAndPricing = memo(
                 hideLabel
                 prepend={currency}
                 {...netPrice}
-                description={netPrice.description(country)}
+                description={netPrice.description(prependThe(country))}
               />
               <Input
                 onChange={(x) => onChange(x, localTaxes)}
@@ -133,7 +133,7 @@ export const CostsAndPricing = memo(
                 prepend={currency}
                 {...localTaxes}
                 lesson={formatLessonLearned(lessonDetails, currentSection, 0)}
-                description={localTaxes.description(country)}
+                description={localTaxes.description(prependThe(country))}
               />
               <Input
                 onChange={(x) => onChange(x, duty)}

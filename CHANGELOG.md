@@ -36,6 +36,8 @@
 - GP2-1684: Port the contact pages which need users to be signed in (SOO ones) from V1 to V2
 - GP2-2928 - DAC CSS Images as Labels 07(A)
 - GP2-2492 Export plan - some pages - value input
+- GP2-3100 - In Costs and pricing, titles dispay "the" prefix before countries that should not have this
+
 ### Fixed bugs
 - GP2-2988: Make SOO contact form name fields editable if not already populated.
 

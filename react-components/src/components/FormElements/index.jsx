@@ -15,20 +15,6 @@ export const FormElements = memo(
   ({ formData: form, field, formFields, formGroupClassName }) => {
     const [formData, setFormData] = useState({ ...form })
     const [update, showMessage, pending, errors] = useUpdateExportPlan(field)
-    const countriesWithThe = [
-      'Central African Republic',
-      'Comoros',
-      'Czechia',
-      'Dominican Republic',
-      'Ivory Coast',
-      'Maldives',
-      'Marshall Islands',
-      'Netherlands',
-      'Philippines',
-      'Solomon Islands',
-      'United Arab Emirates',
-      'United States',
-    ]
 
     let country
     try {
@@ -37,7 +23,7 @@ export const FormElements = memo(
     } catch {}
 
     const substituteText = (str) =>
-      (str || '').replace(
+      (str || '').replaceAll(
         '<country-name>',
         country ? prependThe(country.country_name) : 'your market'
       )
