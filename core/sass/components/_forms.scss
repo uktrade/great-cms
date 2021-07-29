@@ -232,3 +232,27 @@
     color: transparent;
   }
 }
+
+.inputgroup {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-left: -$gutter-small;
+
+  &__input {
+    flex: 0 1 auto;
+    margin-left: $gutter-small;
+
+    &--month {
+      min-width: 7.5em;
+    }
+
+    &--year {
+      width: 4em;
+    }
+  }
+
+  & .form-group, & .select {
+    margin-bottom: 0;
+  }
+}
