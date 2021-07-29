@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "lint": "eslint react-components/",
     "test": "jest -w 1 react-components/",
     "test:dev": "jest --watch",
     "watch": "webpack --watch --config react-components/webpack.config.js --mode development",
@@ -15,7 +16,7 @@
     "storybook-build": "build-storybook"
   },
   "jest": {
-    "globalSetup": "reacy-components/setupJest.js"
+    "globalSetup": "react-components/setupJest.js"
   },
   "engines": {
     "node": ">=12.16.1"
