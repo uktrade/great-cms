@@ -108,8 +108,6 @@ const exportPlanReducer = (state, action) => {
       )
       break
     case SET_MARKET:
-      console.log(action.payload)
-      // action.payload  = {...action.payload, country_name:"the Angola"}
       newState.markets = [action.payload]
       saveToExportPlan({ export_countries: [action.payload] }).then(() => {
         if (config.refreshOnMarketChange) {

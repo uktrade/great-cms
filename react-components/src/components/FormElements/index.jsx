@@ -23,7 +23,7 @@ export const FormElements = memo(
     } catch {}
 
     const substituteText = (str) =>
-      (str || '').replaceAll(
+      (str || '').replace(
         '<country-name>',
         country ? prependThe(country.country_name) : 'your market'
       )
