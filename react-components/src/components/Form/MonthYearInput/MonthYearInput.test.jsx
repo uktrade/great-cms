@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor, fireEvent, getByText } from '@testing-library/react'
+import { render, waitFor, fireEvent } from '@testing-library/react'
 import { MonthYearInput } from '.'
 
 const mockOnChange = jest.fn()
@@ -11,7 +11,7 @@ describe('MonthYearInput', () => {
 
   it('triggers onChange when month or year are changed', async () => {
     const { getByText, getByLabelText } = render(
-      <MonthYearInput onChange={mockOnChange} />
+      <MonthYearInput label='Foo' onChange={mockOnChange} />,
     )
 
     getByText('Select one').click()
@@ -31,10 +31,11 @@ describe('MonthYearInput', () => {
   it('calls onChange with provided field names', async () => {
     const { getByText, getByLabelText } = render(
       <MonthYearInput
+        label='Foo'
         onChange={mockOnChange}
-        month_name="start_month"
-        year_name="start_year"
-      />
+        monthName='start_month'
+        yearName='start_year'
+      />,
     )
 
     getByText('Select one').click()

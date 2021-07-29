@@ -6,14 +6,14 @@ import { Select } from '../Select'
 
 export const MonthYearInput = memo(
   ({
-    label,
-    month_name = 'month',
-    month_value,
-    year_name = 'year',
-    year_value,
-    onChange,
-    className,
-  }) => {
+     label,
+     monthName = 'month',
+     monthValue,
+     yearName = 'year',
+     yearValue,
+     onChange,
+     className,
+   }) => {
     const MONTHS = [
       'January',
       'February',
@@ -29,31 +29,31 @@ export const MonthYearInput = memo(
       'December',
     ]
 
-    const monthsOptions = MONTHS.map((label, i) => ({
-      label,
+    const monthsOptions = MONTHS.map((month, i) => ({
+      label: month,
       value: `${i + 1}`,
     }))
 
     return (
       <fieldset className={className}>
-        <legend className="m-b-xs">{label}</legend>
-        <div className="inputgroup">
-          <div className="inputgroup__input inputgroup__input--month">
+        <legend className='m-b-xs'>{label}</legend>
+        <div className='inputgroup'>
+          <div className='inputgroup__input inputgroup__input--month'>
             <Select
-              label="Month"
-              id={month_name}
-              name={month_name}
+              label='Month'
+              id={monthName}
+              name={monthName}
               update={onChange}
               options={monthsOptions}
-              selected={`${month_value}`}
+              selected={`${monthValue}`}
             />
           </div>
           <div className="inputgroup__input inputgroup__input--year">
             <Input
-              label="Year"
-              id={year_name}
-              type="number"
-              value={`${year_value || ''}`}
+              label='Year'
+              id={yearName}
+              type='number'
+              value={`${yearValue || ''}`}
               onChange={onChange}
               size={4}
               pattern="[0-9]*"
@@ -66,11 +66,21 @@ export const MonthYearInput = memo(
 )
 
 MonthYearInput.propTypes = {
-  label: PropTypes.string,
-  month_name: PropTypes.string,
-  month_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  year_name: PropTypes.string,
-  year_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  label: PropTypes.string.isRequired,
+  monthName: PropTypes.string,
+  monthValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  yearName: PropTypes.string,
+  yearValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
   className: PropTypes.string,
+}
+
+MonthYearInput.defaultProps = {
+  monthName: 'month',
+  monthValue: null,
+  yearName: 'year',
+  yearValue: null,
+  onChange: () => {
+  },
+  className: null,
 }

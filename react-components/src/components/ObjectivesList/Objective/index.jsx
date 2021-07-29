@@ -33,7 +33,8 @@ const fwRefObjective = forwardRef((props, ref) => {
   } = data
 
   return (
-    <fieldset id={`objective-${number}`} ref={ref} tabIndex="-1">
+    <fieldset id={`objective-${number}`} ref={ref}
+tabIndex="-1">
       <legend className="visually-hidden">{`Objective ${number}`}</legend>
       <div className="costs bg-blue-deep-10 m-b-s">
         <div className="costs__option costs__option--border" tabIndex="-1">
@@ -49,21 +50,21 @@ const fwRefObjective = forwardRef((props, ref) => {
         </div>
         <div className="costs__option costs__option--border">
           <MonthYearInput
-            label="Start objective in:"
-            month_name="start_month"
-            month_value={data.start_month}
-            year_name="start_year"
-            year_value={data.start_year}
+            label='Start objective in:'
+            monthName='start_month'
+            monthValue={data.start_month}
+            yearName='start_year'
+            yearValue={data.start_year}
             onChange={onChange}
           />
           <MonthYearInput
-            label="Complete by:"
-            month_name="end_month"
-            month_value={data.end_month}
-            year_name="end_year"
-            year_value={data.end_year}
+            label='Complete by:'
+            monthName='end_month'
+            monthValue={data.end_month}
+            yearName='end_year'
+            yearValue={data.end_year}
             onChange={onChange}
-            className="m-t-s"
+            className='m-t-s'
           />
         </div>
         <div className="costs__option costs__option--border">
