@@ -58,8 +58,8 @@ afterEach(() => {
 describe('PlannedTravel', () => {
   it('Should render 2 trips', () => {
     const { getByText } = setup({ ...props })
-    expect(getByText('Trip 1'))
-    expect(getByText('Trip 2'))
+    expect(getByText('Trip 1')).toBeInTheDocument()
+    expect(getByText('Trip 2')).toBeInTheDocument()
   })
 
   it('Should add a Trip', async () => {
@@ -91,9 +91,9 @@ describe('PlannedTravel', () => {
         },
         'POST'
       )
-      expect(getByText('Trip 1'))
-      expect(getByText('Trip 2'))
-      expect(getByText('Trip 3'))
+      expect(getByText('Trip 1')).toBeInTheDocument()
+      expect(getByText('Trip 2')).toBeInTheDocument()
+      expect(getByText('Trip 3')).toBeInTheDocument()
     })
   })
 
@@ -116,7 +116,7 @@ describe('PlannedTravel', () => {
     })
     const button = container.querySelectorAll('.button--delete')[0]
     fireEvent.click(button)
-    expect(getByText('Trip 2'))
+    expect(getByText('Trip 2')).toBeInTheDocument()
     await waitFor(() => {
       expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
       expect(Services.apiModelObjectManage).toHaveBeenCalledWith(

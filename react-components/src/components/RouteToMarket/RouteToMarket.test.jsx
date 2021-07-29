@@ -132,8 +132,8 @@ afterEach(() => {
 describe('RouteToMarket', () => {
   it('Should render 2 routes to market', () => {
     const { getByText } = setup({ ...props })
-    expect(getByText('Route to market 1'))
-    expect(getByText('Route to market 2'))
+    expect(getByText('Route to market 1')).toBeInTheDocument()
+    expect(getByText('Route to market 2')).toBeInTheDocument()
   })
 
   it('Should add a route to market', async () => {
@@ -159,9 +159,9 @@ describe('RouteToMarket', () => {
         props.formFields,
         'POST'
       )
-      expect(getByText('Route to market 1'))
-      expect(getByText('Route to market 2'))
-      expect(getByText('Route to market 3'))
+      expect(getByText('Route to market 1')).toBeInTheDocument()
+      expect(getByText('Route to market 2')).toBeInTheDocument()
+      expect(getByText('Route to market 3')).toBeInTheDocument()
     })
   })
 
@@ -188,7 +188,7 @@ describe('RouteToMarket', () => {
     })
     const button = container.querySelectorAll('.button--delete')[0]
     fireEvent.click(button)
-    expect(getByText('Route to market 2'))
+    expect(getByText('Route to market 2')).toBeInTheDocument()
     await waitFor(() => {
       expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
       expect(Services.apiModelObjectManage).toHaveBeenCalledWith(

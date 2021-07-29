@@ -29,9 +29,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
                 }}
               >
                 <i
-                  className={`fas fa-chevron-${
-                    toggleExample ? 'up' : 'down'
-                  }`}
+                  className={`fas fa-chevron-${toggleExample ? 'up' : 'down'}`}
                 />
                 {example.buttonTitle ? example.buttonTitle : 'Example'}
               </button>
@@ -48,14 +46,13 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
                 }}
               >
                 <i
-                  className={`fas fa-chevron-${
-                    toggleLesson ? 'up' : 'down'
-                  }`}
+                  className={`fas fa-chevron-${toggleLesson ? 'up' : 'down'}`}
                 />
                 Lesson
               </button>
             )}
             {tooltip.content && (
+              // eslint-disable-next-line react/jsx-props-no-spreading
               <Tooltip {...tooltip} className="inline-block m-b-xs" />
             )}
           </div>

@@ -37,32 +37,31 @@ describe('Learning', () => {
   describe('Should render learning buttons', () => {
     it('Should have a Tooltip button', () => {
       const { container } = setup({ ...props })
-      expect(container.querySelector('tooltip'))
+      expect(container.querySelector('.tooltip')).toBeInTheDocument()
     })
 
     it('Should have an Example button', () => {
       const { container } = setup({ ...props })
-      expect(container.querySelector('button-example'))
+      expect(container.querySelector('.button-example')).toBeInTheDocument()
     })
 
     it('Should have a Lesson button', () => {
       const { container } = setup({ ...props })
-      expect(container.querySelector('button-lesson'))
+      expect(container.querySelector('.button-lesson')).toBeInTheDocument()
     })
   })
 
   describe('Should display learning content', () => {
     it('Should display Tooltip content', async () => {
       const { container } = setup({ ...props })
-      const button = container.querySelectorAll('.tooltip__icon')[0]
-      fireEvent.click(button)
-
-      await waitFor(() => {
-        expect(container.querySelectorAll('.tooltip__text')[0])
-      })
+      /*
+       Tooltip component should be tested itself for show/hide, so we just need
+       to make sure it's being rendered.
+      */
+      expect(container.querySelector('.tooltip')).toBeInTheDocument()
     })
 
-    it('Should display Lesson content', async () => {
+    it('Should display Example content', async () => {
       const { container } = setup({ ...props })
       const button = container.querySelectorAll('.button-example')[0]
       fireEvent.click(button)

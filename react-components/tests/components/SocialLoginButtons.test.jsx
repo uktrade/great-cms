@@ -42,14 +42,14 @@ xtest('SocialLoginButtons should render', () => {
           href={linkedinUrl}
           className="great-mvp-wizard-step-button m-t-0 m-b-xs"
         >
-          <img />
+          <img alt="" />
           <span>Continue with LinkedIn</span>
         </a>
         <a
           href={googleUrl}
           className="great-mvp-wizard-step-button m-t-0 m-b-xs"
         >
-          <img />
+          <img alt="" />
           <span>Continue with Google</span>
         </a>
       </div>

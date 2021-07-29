@@ -30,9 +30,11 @@ const slugify = (string) => {
 
 const addItemToList = (arr = [], i = 0, x = {}) => {
   let newArray = [...arr]
-  arr[i]
-    ? (newArray[i] = { ...newArray[i], ...x })
-    : (newArray = [...newArray, { ...x }])
+  if (arr[i]) {
+    newArray[i] = { ...newArray[i], ...x }
+  } else {
+    newArray = [...newArray, { ...x }]
+  }
   return newArray
 }
 
@@ -57,7 +59,7 @@ const normaliseValues = (str, places = 1, fixed = false) => {
         ? parseFloat($0).toFixed(places)
         : Math.round(parseFloat($0) * pow) / pow
     })
-    values = values.replace(/\d+(\.\d+)?(?=\%)/g, ($0) => {
+    values = values.replace(/\d+(\.\d+)?(?=%)/g, ($0) => {
       return Math.round($0)
     })
     return values.split(/\(([^)]+)\)/)
@@ -88,7 +90,7 @@ const stripPercentage = (str) => {
   // necessarily succeded  by a percent symbol.
   // e.g. 'text.1(+)(%)', 'text .1(+)(%)', 'text 1(+).1(+)(%)' and combinations
   if (str) {
-    const regex = /\s?\<?\>?\.?\d*\.?\d+\%?$/
+    const regex = /\s?<?>?\.?\d*\.?\d+%?$/
     return str.replace(regex, '')
   }
 
@@ -165,6 +167,7 @@ const camelize = (str) => {
 
 const camelizeObject = (obj) => {
   return Object.keys(obj).reduce((out, key) => {
+    // eslint-disable-next-line no-param-reassign
     out[camelize(key)] = obj[key]
     return out
   }, {})

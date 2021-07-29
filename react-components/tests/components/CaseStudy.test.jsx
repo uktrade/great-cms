@@ -10,7 +10,7 @@ const mediaBlock = { type: 'media', content: `<div>${bodyText}</div>` }
 const quoteBlock = { type: 'quote', content: `<div>${bodyText}</div>` }
 const textBlock = { type: 'text', content: `<div>${bodyText}</div>` }
 
-const props = {
+const defaultProps = {
   heading: 'heading example',
   company: 'example company',
   blocks: [mediaBlock, quoteBlock, textBlock],
@@ -26,20 +26,20 @@ const setup = (props) => {
 
 describe('CaseStudy', () => {
   it('Should have a heading', () => {
-    const { getByText } = setup(props)
-    expect(getByText(props.heading)).toBeInTheDocument()
+    const { getByText } = setup(defaultProps)
+    expect(getByText(defaultProps.heading)).toBeInTheDocument()
   })
 
   it('Should have an open case study button', () => {
-    const { getByText } = setup(props)
+    const { getByText } = setup(defaultProps)
     expect(getByText(openButtonText)).toBeInTheDocument()
   })
 
   it('Should toggle body content when buttons clicked', async () => {
-    const { getByText, queryByText } = setup(props)
+    const { getByText } = setup(defaultProps)
 
     await waitFor(() => {
-      expect(getByText(props.company)).toBeInTheDocument()
+      expect(getByText(defaultProps.company)).toBeInTheDocument()
     })
 
     fireEvent.click(getByText(openButtonText))

@@ -87,7 +87,7 @@ describe('LoginModal', () => {
     })
 
     setImmediate(() => {
-      expect(location.assign).toHaveBeenCalled()
+      expect(window.location.assign).toHaveBeenCalled()
       done()
     })
   })

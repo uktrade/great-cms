@@ -64,9 +64,11 @@ afterEach(() => {
 describe('VisaInformation', () => {
   it('Should render 3 textareas', () => {
     const { getByText } = setup({ ...props })
-    expect(getByText('How and where will you get your visa'))
-    expect(getByText('How long will it last'))
-    expect(getByText('Add notes'))
+    expect(
+      getByText('How and where will you get your visa')
+    ).toBeInTheDocument()
+    expect(getByText('How long will it last')).toBeInTheDocument()
+    expect(getByText('Add notes')).toBeInTheDocument()
   })
 
   it('Should render no textareas', async () => {

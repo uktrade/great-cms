@@ -85,20 +85,19 @@ describe('FormElements', () => {
   describe('Should render form elements', () => {
     it('Should have a Textarea', () => {
       const { container } = setup({ ...props })
-      expect(container.querySelector('textarea'))
+      expect(container.querySelector('textarea')).toBeInTheDocument()
     })
 
     it('Should have an Input', () => {
       const { getByLabelText, container } = setup({ ...props })
-      expect(getByLabelText('average'))
-      expect(container.querySelectorAll('input')[0])
+      expect(getByLabelText('average')).toBeInTheDocument()
       expect(container.querySelectorAll('input')[0].id).toEqual('average_price')
     })
 
     it('Should have a Select', () => {
       const { getByRole, getByLabelText, container } = setup({ ...props })
-      expect(getByRole('listbox'))
-      expect(getByLabelText('Your business performance'))
+      expect(getByRole('listbox')).toBeInTheDocument()
+      expect(getByLabelText('Your business performance')).toBeInTheDocument()
       expect(container.querySelectorAll('li')[0].textContent).toEqual(
         'Below £83,000 (Below VAT registered)'
       )
@@ -122,7 +121,7 @@ describe('FormElements', () => {
         },
       })
       expect(container.querySelector('textarea').value).toEqual('Good Day')
-      expect(getByText('Changes saved.'))
+      expect(getByText('Changes saved.')).toBeInTheDocument()
       expect(queryByText('Saving...')).not.toBeInTheDocument()
     })
   })
@@ -148,7 +147,7 @@ describe('FormElements', () => {
         },
       })
       expect(container.querySelector('textarea').value).toEqual('Good Day')
-      expect(getByText(unexpectedError))
+      expect(getByText(unexpectedError)).toBeInTheDocument()
     })
   })
 
@@ -161,7 +160,7 @@ describe('FormElements', () => {
     })
 
     await waitFor(() => {
-      expect(getByText('Saving...'))
+      expect(getByText('Saving...')).toBeInTheDocument()
     })
   })
 })
