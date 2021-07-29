@@ -5,7 +5,11 @@
     "node": true,
     "browser": true
   },
-  "extends": ["airbnb", "prettier", "prettier/react"],
+  "extends": [
+    "airbnb",
+    "prettier",
+    "prettier/react"
+  ],
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 6,
@@ -16,18 +20,11 @@
   },
   "parser": "babel-eslint",
   "rules": {
+    "prettier/prettier": "error",
     "no-console": "warn",
     "import/no-unresolved": "off",
-    "quotes": "error",
-    "react/jsx-max-props-per-line": [
-      2,
-      {
-        "maximum": 2,
-        "when": "always"
-      }
-    ],
     "import/prefer-default-export": "off",
-    "arrow-body-style": 0
+    "arrow-body-style": "off"
   },
   "plugins": ["prettier"],
   "overrides": [
