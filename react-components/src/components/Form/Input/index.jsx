@@ -7,17 +7,13 @@ export const Input = memo(
   ({
     errors,
     label,
-    disabled,
     id,
     type,
-    placeholder,
     value,
     onChange: update,
     description,
     tooltip,
     example,
-    readOnly,
-    tabIndex,
     hideLabel,
     lesson,
     prepend,
@@ -26,8 +22,7 @@ export const Input = memo(
     minDate,
     maxDate,
     decimal,
-    size,
-    pattern,
+    ...inputAttributes
   }) => {
     const IsValidNumber = (e, rule = decimal) => {
       const t = parseInt(e.key, 10)
@@ -84,15 +79,10 @@ export const Input = memo(
             min={minDate}
             max={maxDate}
             name={id}
-            disabled={disabled}
             onChange={onChange}
             onKeyDown={IsValidNumber}
-            placeholder={placeholder}
             value={value}
-            readOnly={readOnly}
-            tabIndex={tabIndex}
-            size={size}
-            pattern={pattern}
+            {...inputAttributes} // eslint-disable-line react/jsx-props-no-spreading
           />
         </div>
       </FormGroup>
@@ -103,12 +93,10 @@ export const Input = memo(
 Input.propTypes = {
   errors: PropTypes.arrayOf(PropTypes.string),
   label: PropTypes.string.isRequired,
-  disabled: PropTypes.bool,
   id: PropTypes.string.isRequired,
   type: PropTypes.string,
   minDate: PropTypes.string,
   maxDate: PropTypes.string,
-  placeholder: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   description: PropTypes.string,
@@ -118,8 +106,6 @@ Input.propTypes = {
     header: PropTypes.string,
     content: PropTypes.string,
   }),
-  readOnly: PropTypes.bool,
-  tabIndex: PropTypes.string,
   hideLabel: PropTypes.bool,
   lesson: PropTypes.shape({
     url: PropTypes.string,
@@ -131,21 +117,15 @@ Input.propTypes = {
   className: PropTypes.string,
   formGroupClassName: PropTypes.string,
   decimal: PropTypes.oneOf([2, 0]),
-  size: PropTypes.number,
-  pattern: PropTypes.string,
 }
 
 Input.defaultProps = {
   errors: [],
-  disabled: false,
   type: 'text',
-  placeholder: '',
   value: '',
   description: '',
   tooltip: {},
   example: {},
-  readOnly: false,
-  tabIndex: '',
   hideLabel: false,
   lesson: {},
   prepend: '',
