@@ -229,11 +229,11 @@ describe('Number formats', () => {
 })
 
 describe('listJoin', () => {
-  it('Should format a list',() => {
+  it('Should format a list', () => {
     expect(listJoin([])).toEqual('')
     expect(listJoin(['one'])).toEqual('one')
-    expect(listJoin(['one','two'])).toEqual('one and two')
-    expect(listJoin(['one','two', 'three'])).toEqual('one, two and three')
+    expect(listJoin(['one', 'two'])).toEqual('one and two')
+    expect(listJoin(['one', 'two', 'three'])).toEqual('one, two and three')
   })
 })
 

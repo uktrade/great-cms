@@ -104,8 +104,8 @@ const setup = ({ data, label, example, name, field, tooltip }) => {
 describe('RouteToMarketSection', () => {
   it('Should render, 2 dropdowns and a textarea', () => {
     const { container, getAllByRole } = setup({ ...props })
-    expect(getAllByRole('listbox').length).toEqual(2)
-    expect(container.querySelectorAll('textarea').length).toEqual(1)
+    expect(getAllByRole('listbox')).toHaveLength(2)
+    expect(container.querySelectorAll('textarea')).toHaveLength(1)
   })
 
   it('Should fire deleteTable', () => {

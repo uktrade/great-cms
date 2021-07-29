@@ -1,3 +1,4 @@
+import Api from '@src/api'
 import {
   updateField,
   postField,
@@ -8,7 +9,6 @@ import {
   FIELD_UPDATE_FAIL,
   INIT_COST_PRICING,
 } from '.'
-import Api from '@src/api'
 
 const dispatch = jest.fn()
 const field = { labour_costs: 4 }

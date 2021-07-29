@@ -24,7 +24,9 @@ test('ErrorList handles no errors', () => {
 
 test('ErrorList handles one error', () => {
   const errors = ['something went wrong']
-  const component = Enzyme.shallow(<ErrorList errors={errors} className="edie" />)
+  const component = Enzyme.shallow(
+    <ErrorList errors={errors} className="edie" />
+  )
 
   expect(
     component.matchesElement(
@@ -39,7 +41,9 @@ test('ErrorList handles one error', () => {
 
 test('ErrorList handles multiple errors', () => {
   const errors = ['something went wrong', 'something else went wrong']
-  const component = Enzyme.shallow(<ErrorList errors={errors} className="edie" />)
+  const component = Enzyme.shallow(
+    <ErrorList errors={errors} className="edie" />
+  )
 
   expect(
     component.containsMatchingElement(

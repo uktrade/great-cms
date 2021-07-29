@@ -1,4 +1,4 @@
-import React from  'react'
+import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 
 import { Sidebar } from '.'
@@ -14,16 +14,15 @@ export const props = {
   currentSection: {
     title: 'test',
     url: '/',
-    disabled: false
-  }
+    disabled: false,
+  },
 }
 
-const setup = ({...data}) => {
-
+const setup = ({ ...data }) => {
   const utils = render(<Sidebar {...data} />)
 
   return {
-    ...utils
+    ...utils,
   }
 }
 
@@ -42,7 +41,7 @@ describe('Sidebar', () => {
     })
   })
 
-  describe( 'logo', () => {
+  describe('logo', () => {
     it('Should company logo', () => {
       const { getByAltText } = setup(props)
       const image = getByAltText('Nike')
@@ -50,7 +49,7 @@ describe('Sidebar', () => {
     })
 
     it('Should display placeholder image', () => {
-      const { getByAltText } = setup({...props, logo: '', company: ''})
+      const { getByAltText } = setup({ ...props, logo: '', company: '' })
       const image = getByAltText('Add a business logo')
       expect(image).toBeInTheDocument()
     })
@@ -65,28 +64,27 @@ describe('Sidebar', () => {
     })
 
     it('Should list sections as buttons', () => {
-
-      const sections = props.sections.map(obj => {
-        if(obj.disabled === false)
+      const sections = props.sections.map((obj) => {
+        if (obj.disabled === false)
           return {
             ...obj,
             disabled: true,
           }
         return obj
-      });
+      })
 
       const { getByRole } = setup({
         ...props,
-        sections
+        sections,
       })
-      expect(getByRole('button',{ name: 'about us'})).toBeInTheDocument()
-      expect(getByRole('button',{ name: 'contact us'})).toBeInTheDocument()
-      expect(getByRole('button',{ name: 'our blog'})).toBeInTheDocument()
+      expect(getByRole('button', { name: 'about us' })).toBeInTheDocument()
+      expect(getByRole('button', { name: 'contact us' })).toBeInTheDocument()
+      expect(getByRole('button', { name: 'our blog' })).toBeInTheDocument()
     })
   })
 
   describe('Should be expanded', () => {
-    it('Should be not have close class and have expanded icon',  async () => {
+    it('Should be not have close class and have expanded icon', async () => {
       const { getAllByRole, getByRole } = setup(props)
       const buttons = getAllByRole('button')
       const toggleButton = buttons[0]

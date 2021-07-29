@@ -1,5 +1,5 @@
-import reducer, { initialState } from '.'
 import { updateField, postSuccess } from '@src/actions/costsAndPricing'
+import reducer, { initialState } from '.'
 
 describe('Costs and Pricing Reducer', () => {
   it('Should have initial state', () => {

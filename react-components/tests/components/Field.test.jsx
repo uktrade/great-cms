@@ -30,7 +30,7 @@ test('Field should use props', () => {
     />
   )
 
-  const errorList = (<ErrorList errors={errors} />)
+  const errorList = <ErrorList errors={errors} />
   const field = (
     <TextInput
       id="id_some-name"
@@ -97,7 +97,7 @@ test('Field should handle default props', () => {
     />
   )
 
-  const errorList = (<ErrorList errors={errors} />)
+  const errorList = <ErrorList errors={errors} />
   const field = (
     <TextInput
       id="id_some-name"

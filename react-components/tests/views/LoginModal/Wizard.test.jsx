@@ -1,7 +1,7 @@
 import React from 'react'
 import { act } from 'react-dom/test-utils'
-import { mount } from 'enzyme'
-import Enzyme from 'enzyme'
+import Enzyme, { mount } from 'enzyme'
+
 import Adapter from 'enzyme-adapter-react-16'
 
 import { Login } from '@src/components/Login'
@@ -63,7 +63,14 @@ describe('LoginModal', () => {
     setImmediate(() => {
       component.update()
       expect(
-        component.containsMatchingElement(<Form disabled={false} email="email" password="password" errors={errors} />)
+        component.containsMatchingElement(
+          <Form
+            disabled={false}
+            email="email"
+            password="password"
+            errors={errors}
+          />
+        )
       ).toEqual(true)
 
       done()

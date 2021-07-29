@@ -99,7 +99,7 @@ const listJoin = (arr) => {
   // Joins an array of strings with commas and a closing 'and'
   return arr.reduce((acc, str, index) => {
     let sep = ''
-    if(index) {
+    if (index) {
       sep = index === arr.length - 1 ? ' and ' : ', '
     }
     return `${acc}${sep}${str}`

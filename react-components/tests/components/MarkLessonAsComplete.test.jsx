@@ -4,10 +4,11 @@ import Adapter from 'enzyme-adapter-react-16'
 import { act } from 'react-dom/test-utils'
 import fetchMock from 'fetch-mock'
 import { MarkLessonAsComplete } from '@src/components/MarkLessonAsComplete/MarkLessonAsComplete'
+
 Enzyme.configure({ adapter: new Adapter() })
 
 const mockResponse = {
-  lesson_completed: [{}, {}]
+  lesson_completed: [{}, {}],
 }
 
 describe('MarkLessonAsComplete', () => {
@@ -16,10 +17,20 @@ describe('MarkLessonAsComplete', () => {
   const tickedText = 'Lesson complete?Great! Progress saved'
 
   beforeEach(() => {
-    fetchMock.get('http://localhost/sso/api/v1/lesson-completed/20/', mockResponse, { overwriteRoutes: false })
-    fetchMock.post('/sso/api/v1/lesson-completed/20/', mockResponse, { overwriteRoutes: false })
-    fetchMock.delete('/sso/api/v1/lesson-completed/20/', mockResponse, { overwriteRoutes: false })
-    wrapper = Enzyme.mount(<MarkLessonAsComplete endpoint="/sso/api/v1/lesson-completed/20/" />)
+    fetchMock.get(
+      'http://localhost/sso/api/v1/lesson-completed/20/',
+      mockResponse,
+      { overwriteRoutes: false }
+    )
+    fetchMock.post('/sso/api/v1/lesson-completed/20/', mockResponse, {
+      overwriteRoutes: false,
+    })
+    fetchMock.delete('/sso/api/v1/lesson-completed/20/', mockResponse, {
+      overwriteRoutes: false,
+    })
+    wrapper = Enzyme.mount(
+      <MarkLessonAsComplete endpoint="/sso/api/v1/lesson-completed/20/" />
+    )
   })
 
   afterEach(() => {
@@ -28,9 +39,9 @@ describe('MarkLessonAsComplete', () => {
 
   it('renders correct elements', async () => {
     await act(async () => {
-      expect(wrapper.find('.mark-lesson-as-complete').length).toEqual(1)
-      expect(wrapper.find('h2').length).toEqual(1)
-      expect(wrapper.find('.great-checkbox').length).toEqual(1)
+      expect(wrapper.find('.mark-lesson-as-complete')).toHaveLength(1)
+      expect(wrapper.find('h2')).toHaveLength(1)
+      expect(wrapper.find('.great-checkbox')).toHaveLength(1)
     })
   })
 
@@ -38,19 +49,13 @@ describe('MarkLessonAsComplete', () => {
     await act(async () => {
       expect(wrapper.find('label').text()).toEqual(nonTickedText)
       await act(async () => {
-        wrapper
-          .find('input')
-          .props()
-          .onChange()
+        wrapper.find('input').props().onChange()
       })
 
       expect(wrapper.find('label').text()).toEqual(nonTickedText)
 
       await act(async () => {
-        wrapper
-          .find('input')
-          .props()
-          .onClick()
+        wrapper.find('input').props().onClick()
       })
 
       expect(wrapper.find('label').text()).toEqual(tickedText)

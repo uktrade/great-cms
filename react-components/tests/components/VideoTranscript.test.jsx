@@ -20,8 +20,10 @@ it('toggles transcript text', () => {
     ReactDOM.render(<VideoTranscript transcript="test transcript" />, container)
   })
 
-  expect(container.querySelectorAll('.video-transcript').length).toEqual(1)
-  expect(container.querySelectorAll('.video-transcript__text-area').length).toEqual(0)
+  expect(container.querySelectorAll('.video-transcript')).toHaveLength(1)
+  expect(
+    container.querySelectorAll('.video-transcript__text-area')
+  ).toHaveLength(0)
 
   const button = container.querySelector('button')
 
@@ -29,11 +31,15 @@ it('toggles transcript text', () => {
     Simulate.click(button)
   })
 
-  expect(container.querySelectorAll('.video-transcript__text-area').length).toEqual(1)
+  expect(
+    container.querySelectorAll('.video-transcript__text-area')
+  ).toHaveLength(1)
 
   act(() => {
     Simulate.click(button)
   })
 
-  expect(container.querySelectorAll('.video-transcript__text-area').length).toEqual(0)
+  expect(
+    container.querySelectorAll('.video-transcript__text-area')
+  ).toHaveLength(0)
 })

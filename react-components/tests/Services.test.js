@@ -31,7 +31,7 @@ describe('Services', () => {
 
     fetchMock.flush().then(() => {
       const calls = fetchMock.calls()
-      expect(calls.length).toEqual(1)
+      expect(calls).toHaveLength(1)
       expect(calls[0][0]).toEqual(Services.config.apiLoginUrl)
       expect(calls[0][1]).toEqual({
         method: 'post',
@@ -55,7 +55,7 @@ describe('Services', () => {
 
     fetchMock.flush().then(() => {
       const calls = fetchMock.calls()
-      expect(calls.length).toEqual(1)
+      expect(calls).toHaveLength(1)
       expect(calls[0][0]).toEqual(Services.config.apiSignupUrl)
       expect(calls[0][1]).toEqual({
         method: 'post',
@@ -79,7 +79,7 @@ describe('Services', () => {
 
     fetchMock.flush().then(() => {
       const calls = fetchMock.calls()
-      expect(calls.length).toEqual(1)
+      expect(calls).toHaveLength(1)
       expect(calls[0][1]).toEqual({
         method: 'post',
         headers: {
@@ -88,7 +88,7 @@ describe('Services', () => {
           'X-CSRFToken': Services.config.csrfToken,
           'X-Requested-With': 'XMLHttpRequest',
         },
-        body: "{\"proddesc\":\"foo\"}",
+        body: '{"proddesc":"foo"}',
       })
       done()
     })
@@ -102,7 +102,7 @@ describe('Services', () => {
 
     fetchMock.flush().then(() => {
       const calls = fetchMock.calls()
-      expect(calls.length).toEqual(1)
+      expect(calls).toHaveLength(1)
       expect(calls[0][1]).toEqual({
         method: 'post',
         headers: {
@@ -111,7 +111,7 @@ describe('Services', () => {
           'X-CSRFToken': Services.config.csrfToken,
           'X-Requested-With': 'XMLHttpRequest',
         },
-        body: "{\"segment\":\"foo\"}",
+        body: '{"segment":"foo"}',
       })
       done()
     })

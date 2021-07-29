@@ -5,14 +5,14 @@ import { ComingSoon } from '.'
 
 export const props = {
   title: 'Example placeholder lesson title',
-  backUrl: '/module-landing-page'
+  backUrl: '/module-landing-page',
 }
 
 const setup = ({ ...data }) => {
   const utils = render(<ComingSoon {...data} />)
 
   return {
-    ...utils
+    ...utils,
   }
 }
 
@@ -20,7 +20,9 @@ describe('ComingSoon', () => {
   it('Modal should be hidden', () => {
     const { getByText, queryByText } = setup(props)
     expect(getByText('Coming soon')).toBeInTheDocument()
-    expect(queryByText('Some lessons aren’t available yet')).not.toBeInTheDocument()
+    expect(
+      queryByText('Some lessons aren’t available yet')
+    ).not.toBeInTheDocument()
   })
 
   it('Modal should be visible', async () => {
