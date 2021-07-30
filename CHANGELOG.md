@@ -26,6 +26,7 @@
 - GP2-2896 - Split objective date fields into month and year
 
 ### Fixed bugs
+- GP2-3164 - Remove vulnerable wct-browser-legacy dev package
 - GP2-2893 - Backlink placement in learning
 - GP2-2619 - Case study quotes - attrributions fall off
 - GP2-3099 - WTE Selector missing
