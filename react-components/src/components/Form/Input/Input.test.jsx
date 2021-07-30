@@ -70,4 +70,24 @@ describe('Input', () => {
       expect(queryByText('an error')).toBeInTheDocument()
     })
   })
+
+  it('should allow any standard input attributes', () => {
+    const { getByLabelText } = setup({
+      ...props,
+      label: 'Input with attributes',
+      placeholder: 'Foo',
+      disabled: true,
+      inputMode: 'numeric',
+      pattern: '[0-9]*',
+      size: 4,
+      readOnly: true,
+    })
+
+    const input = getByLabelText('Input with attributes')
+    expect(input.getAttribute('placeholder')).toBe('Foo')
+    expect(input).toHaveAttribute('disabled')
+    expect(input.getAttribute('inputmode')).toBe('numeric')
+    expect(input.getAttribute('pattern')).toBe('[0-9]*')
+    expect(input.getAttribute('size')).toBe('4')
+  })
 })

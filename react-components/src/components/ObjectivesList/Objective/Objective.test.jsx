@@ -12,6 +12,18 @@ Enzyme.configure({ adapter: new Adapter() })
 
 const dummyFunction = () => {}
 
+const mockObjectiveData = {
+  description: '',
+  owner: '',
+  planned_reviews: '',
+  start_month: '',
+  start_year: '',
+  end_month: '',
+  end_year: '',
+  companyexportplan: 1,
+  pk: 1,
+}
+
 beforeEach(() => {
   jest.useFakeTimers()
   fetchMock.reset()
@@ -33,13 +45,7 @@ afterEach(() => {
 describe('Objective', () => {
   test('should show ErrorList when there are errors', () => {
     const dummyObjective = {
-      description: '',
-      owner: '',
-      planned_reviews: '',
-      start_date: '',
-      end_date: '',
-      companyexportplan: 1,
-      pk: 1,
+      ...mockObjectiveData,
       errors: { __all__: ['Unexpected error', 'Request timed out'] },
     }
 
@@ -66,13 +72,7 @@ describe('Objective', () => {
 
   test('should not show ErrorList when there are no errors', () => {
     const dummyObjective = {
-      description: '',
-      owner: '',
-      planned_reviews: '',
-      start_date: '',
-      end_date: '',
-      companyexportplan: 1,
-      pk: 1,
+      ...mockObjectiveData,
       errors: { __all__: [] },
     }
 
@@ -97,13 +97,7 @@ describe('Objective', () => {
     const mockFunction = jest.fn()
 
     const dummyObjective = {
-      description: '',
-      owner: '',
-      planned_reviews: '',
-      start_date: '',
-      end_date: '',
-      companyexportplan: 1,
-      pk: 1,
+      ...mockObjectiveData,
       showSavedMessage: false,
       isLoading: false,
       errors: { __all__: [] },
@@ -131,20 +125,18 @@ describe('Objective', () => {
 
     input.simulate('change', dummyEvent)
 
-    expect(mockFunction).toHaveBeenCalled()
+    expect(mockFunction).toHaveBeenCalledWith({
+      ...dummyObjective,
+      description: 'Lorem ipsum',
+    })
   })
 
   test('should call function on delete', () => {
     const mockFunction = jest.fn()
 
     const dummyObjective = {
-      description: '',
-      owner: '',
-      planned_reviews: '',
-      start_date: '',
-      end_date: '',
-      companyexportplan: 1,
-      pk: 1,
+      ...mockObjectiveData,
+      pk: 234,
     }
 
     const wrapper = Enzyme.mount(
@@ -165,6 +157,6 @@ describe('Objective', () => {
 
     input.simulate('click', {})
 
-    expect(mockFunction).toHaveBeenCalled()
+    expect(mockFunction).toHaveBeenCalledWith(234)
   })
 })

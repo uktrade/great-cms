@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-3128 - Analytics - section completion
 - GP2-3017 - SOO User profile update to directory-SSO
 - GP2-2402 - VFM analytics
 - GP2-2359 - Relabel CaseStudy expander and make accessible
@@ -23,8 +24,11 @@
 - GP2-2494 - Refactor multi-add components styles
 - GP2-3084 - Fix spacings on Travel plan
 - GP2-3085 - Fix Business Risk block radio buttons spacing
+- GP2-2896 - Split objective date fields into month and year
 
 ### Fixed bugs
+- GP2-3164 - Remove vulnerable wct-browser-legacy dev package
+- GP2-2893 - Backlink placement in learning
 - GP2-2619 - Case study quotes - attrributions fall off
 - GP2-3099 - WTE Selector missing
 - GP2-2428 - Country finder back buttons in mobile
@@ -34,8 +38,17 @@
 - GP2-1684: Port the contact pages which need users to be signed in (SOO ones) from V1 to V2
 - GP2-2928 - DAC CSS Images as Labels 07(A)
 - GP2-2492 Export plan - some pages - value input
+- GP2-3100 - In Costs and pricing, titles dispay "the" prefix before countries that should not have this
+
 ### Fixed bugs
 - GP2-2988: Make SOO contact form name fields editable if not already populated.
+
+## [1.12.0](https://github.com/uktrade/great-cms/releases/tag/1.12.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.11.0...1.12.0)
+
+### Enhancements
+- GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
+
 ## [1.11.0](https://github.com/uktrade/great-cms/releases/tag/1.11.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.10.0...1.11.0)
 
