@@ -401,4 +401,7 @@ class ExportPlanList(GA360Mixin, TemplateView):
     template_name = 'exportplan/exportplan_list.html'
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(sections=data.SECTION_URLS, **kwargs)
+        context = super().get_context_data(sections=data.SECTION_URLS, **kwargs)
+        context['exportplan_list'] = helpers.get_exportplan_list(self.request.user.session_id)
+
+        return context

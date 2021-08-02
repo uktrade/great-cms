@@ -127,3 +127,9 @@ def upload_exportplan_pdf(sso_session_id, exportplan_id, file):
     response = api_client.exportplan.pdf_upload(sso_session_id=sso_session_id, data=data)
     response.raise_for_status()
     return response.json()
+
+
+def get_exportplan_list(sso_session_id):
+    response = api_client.exportplan.exportplan_detail_list(sso_session_id)
+    response.raise_for_status()
+    return response.json()
