@@ -85,6 +85,11 @@ urlpatterns = [
         login_required(views.ExportPlanServicePage.as_view(), login_url=SIGNUP_URL),
         name='service-page',
     ),
+    path(
+        'list/',
+        login_required(views.ExportPlanList.as_view(), login_url=SIGNUP_URL),
+        name='list',
+    ),
     path('pdf-download/', login_required(views.PDFDownload.as_view(), login_url=SIGNUP_URL), name='pdf-download'),
     path('api/export-plan/', skip_ga360(api.UpdateExportPlanAPIView.as_view()), name='api-update-export-plan'),
     path(

@@ -387,3 +387,18 @@ class PDFDownload(
         content = f'inline; filename={filename}'
         response['Content-Disposition'] = content
         return response
+
+
+class ExportPlanList(GA360Mixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='export-plan',
+        )
+
+    template_name = 'exportplan/exportplan_list.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(sections=data.SECTION_URLS, **kwargs)
