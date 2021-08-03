@@ -26,6 +26,7 @@
 - GP2-3085 - Fix Business Risk block radio buttons spacing
 - GP2-2896 - Split objective date fields into month and year
 
+- GP2-3087 - migrate directory-sso-profile into great-cms
 ### Fixed bugs
 - GP2-3164 - Remove vulnerable web-component-tester dev package
 - GP2-2893 - Backlink placement in learning

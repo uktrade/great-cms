@@ -1,0 +1,173 @@
+@import 'partials/base';
+@import 'partials/general';
+@import 'partials/errors';
+@import 'partials/responsive';
+@import 'partials/progress';
+@import 'partials/colours';
+
+
+textarea.form-control {
+  width: 80%;
+}
+
+// remove spinner on input of number
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.hidden-input-container {
+  display: none;
+}
+.read-only-input-container {
+  padding-bottom: 10px;
+  margin-bottom: 0;
+  border-left: 5px solid #0858CD;
+  padding-left: 15px;
+  label {
+    font-weight: bold;
+  }
+  input, textarea {
+    background: transparent;
+    border: 0;
+    padding: 0;
+  }
+  textarea {
+    overflow: hidden;
+    resize: none;
+  }
+}
+
+body.js-enabled {
+  #id_address-container {
+    padding-bottom: 10px;
+    .form-hint {
+      display: none;
+    }
+  }
+}
+
+#content {
+  textarea:focus,
+  textarea:focus:active {
+    outline: 3px solid $focus-yellow;
+    outline-offset: 0;
+  }
+  form {
+    input, select {
+      width: 80%;
+    }
+    #id_verification-code {
+      width: 7ch;
+    }
+    button {
+      margin-top: 40px;
+    }
+  }
+
+  #id_user-account-captcha-container {
+    margin-bottom: 20px;
+  }
+
+  #user-account-verification-header-container {
+    margin-bottom: 50px;
+  }
+  #id_verification-code-container {
+    margin-bottom: 10px;
+  }
+  #id_user-account-password-container{
+    .form-hint {
+        color: $grey;
+    }
+  }
+}
+
+
+.SelectiveLookupDisplay {
+  background-color: #fff;
+  border: #999 solid 1px;
+  max-height: 221px;
+  overflow: scroll;
+  z-index: 2;
+  padding-left: 0;
+  font-size: 16px;
+  margin-top: -1px;
+  margin-left: 1px;
+  font-family: "Roboto", arial, helvetica, sans-serif;
+  overflow-x: hidden;
+  li {
+    cursor: pointer;
+    border-top: #999 solid 1px;
+    padding: 12px 24px;
+    position: relative;
+    top: -1px;
+    &:focus {
+      border-color: #ffbf47;
+      border-style: solid;
+      border-width: 4px 3px 3px 3px;
+      box-shadow: none;
+      outline: 0;
+      padding: 8px 22px;
+      -webkit-box-shadow: none;
+    }
+    &:hover,
+    &:focus {
+      background-color: #007ea3 !important;
+      color: white;
+    }
+  }
+  #company-lookup-name-not-in-companies-house {
+    border-top: 2px solid #999;
+    background: #dedede;
+  }
+}
+
+#start-now-button {
+  display: block;
+  width: 200px;
+  text-align: center;
+  border-radius: 0;
+  &:active {
+    background-color: $mid-blue;
+  }
+}
+
+.multiple-choice {
+  .radio-button-helptext {
+    display: none;
+    margin-left: -20px;
+    border-left-width: 5px;
+    border-style: solid;
+    margin-top: 10px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+  input:checked + label + .radio-button-helptext {
+    display: inline-block;
+  }
+}
+
+.message-box.margin-bottom-5 {
+  margin-bottom: 5px;
+}
+@media (min-width: 769px) {
+  #id_user-account-password-container {
+    ul {
+      margin-left: 30px;
+    }
+  }
+}
+
+@media (min-width: 769px) {
+    #cannot-find-business-text {
+        border-left-width: 5px;
+        border-style: solid;
+        margin: 5px 5px 5px 0px;
+        padding: 5px 5px 5px 20px;
+    }
+}

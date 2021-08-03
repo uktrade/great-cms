@@ -1,0 +1,40 @@
+
+/* Shared tab content
+**********************/
+#tab-content {
+  padding-top: 40px;
+}
+
+#tab-content .span3:first-child {
+  min-height: 1px; /* avoids area appearing to collapse */
+  width: 220px;
+}
+
+#tab-content {
+  ul {
+    margin-bottom: 30px;
+  }
+  h2 {
+    font-size: 36px;
+    line-height: 1.1em;
+    margin-bottom: 20px;
+  }
+  section {
+    margin-bottom: 156px;
+  }
+}
+
+#reset-password {
+  padding-top: 10px;
+  display: inline-block;
+}
+
+@media (max-width: 767px) {
+  .hidden-phone {
+      display: none!important;
+  }
+}
+
+.visible-phone {
+    display: none!important;
+}

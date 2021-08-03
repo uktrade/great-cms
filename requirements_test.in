@@ -23,7 +23,7 @@ freezegun==1.1.0
 black
 blacken-docs==1.6.0
 isort==5.6.4
-flake8==3.8.4
+flake8==3.9.2
 pre-commit-hooks==3.3.0
 
 flake8-quotes
@@ -37,4 +37,3 @@ pylint-django
 codecov
 dateparser==0.7.2
 pre-commit
-urllib3>=1.26.5

@@ -60,3 +60,10 @@ def migration_support_vars(request):
         'FEATURE_SHOW_MAGNA_LINKS_IN_HEADER': settings.FEATURE_SHOW_MAGNA_LINKS_IN_HEADER,
         'FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK': settings.FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK,
     }
+
+
+def feature_flags(request):
+    """General way to make feature flags available in the template"""
+    retval = {'features': {}}
+    retval['features'].update(settings.SSO_PROFILE_FEATURE_FLAGS)
+    return retval
