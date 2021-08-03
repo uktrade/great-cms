@@ -1,0 +1,39 @@
+body {
+  background-color: #ffffff;
+}
+
+#content {
+  max-width: none;
+  padding-bottom: 45px;
+}
+
+#content {
+  form {
+    input {
+      // moves the input box behind the label
+      z-index: -1;
+    }
+  }
+}
+
+nav ul {
+  list-style: none;
+}
+
+
+// like underline, but over
+.overline-flag-red {
+  position : relative;
+  &::before {
+    width: auto;
+    height: 4px;
+    background-color: #b00d23;
+    display: block;
+    content: "";
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    position: absolute;
+  }
+}

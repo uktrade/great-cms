@@ -1,0 +1,11 @@
+{% extends 'enrolment/wizard.html' %}
+
+{% load static from static %}
+
+{% block above_form %}
+    {% include 'enrolment/information_box_companies_type.html' with is_individual=True %}
+
+    <div id="form-step-body-text">
+        <h1 class="heading-xlarge margin-top-60">Enter your personal details</h1>
+    </div>
+{% endblock %}

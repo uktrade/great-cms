@@ -1,4 +1,5 @@
 import React from 'react'
+import MockDate from 'mockdate'
 
 import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
 import { ObjectivesList } from '@src/components/ObjectivesList'
@@ -10,8 +11,10 @@ const props = {
       description: 'Some text',
       owner: 'Jane Doe',
       planned_reviews: 'Lorem ipsum',
-      start_date: '',
-      end_date: '',
+      start_month: '',
+      start_year: '',
+      end_month: '',
+      end_year: '',
       companyexportplan: 1,
       pk: 1,
       isLoading: false,
@@ -22,8 +25,10 @@ const props = {
       description: 'Some text',
       owner: 'Jane Doe',
       planned_reviews: 'Lorem ipsum',
-      start_date: '',
-      end_date: '',
+      start_month: '',
+      start_year: '',
+      end_month: '',
+      end_year: '',
       companyexportplan: 1,
       pk: 2,
       isLoading: false,
@@ -34,8 +39,10 @@ const props = {
       description: 'Some text',
       owner: 'Jane Doe',
       planned_reviews: 'Lorem ipsum',
-      start_date: '',
-      end_date: '',
+      start_month: '',
+      start_year: '',
+      end_month: '',
+      end_year: '',
       companyexportplan: 1,
       pk: 3,
     },
@@ -65,6 +72,7 @@ beforeEach(() => {
 afterEach(() => {
   jest.useRealTimers()
   Services.apiModelObjectManage.mockClear()
+  MockDate.reset()
   cleanup()
 })
 
@@ -92,8 +100,10 @@ describe('ObjectivesList', () => {
           description: 'new plan',
           owner: 'Jane Doe',
           planned_reviews: 'Lorem ipsum',
-          start_date: '',
-          end_date: '',
+          start_month: '',
+          start_year: '',
+          end_month: '',
+          end_year: '',
           companyexportplan: 1,
           pk: 1,
           isLoading: false,
@@ -116,8 +126,10 @@ describe('ObjectivesList', () => {
           description: 'Some text',
           owner: 'Jane Doe',
           planned_reviews: 'Lorem ipsum',
-          start_date: '',
-          end_date: '',
+          start_month: '',
+          start_year: '',
+          end_month: '',
+          end_year: '',
           companyexportplan: 1,
           pk: 1,
           isLoading: false,
@@ -128,8 +140,10 @@ describe('ObjectivesList', () => {
           description: 'Some text',
           owner: 'Jane Doe',
           planned_reviews: 'Lorem ipsum',
-          start_date: '',
-          end_date: '',
+          start_month: '',
+          start_year: '',
+          end_month: '',
+          end_year: '',
           companyexportplan: 1,
           pk: 2,
           isLoading: false,
@@ -140,8 +154,10 @@ describe('ObjectivesList', () => {
           description: '',
           owner: '',
           planned_reviews: '',
-          start_date: '',
-          end_date: '',
+          start_month: '',
+          start_year: '',
+          end_month: '',
+          end_year: '',
           companyexportplan: 1,
           pk: 3,
         },
@@ -172,14 +188,35 @@ describe('ObjectivesList', () => {
             Promise.resolve({
               companyexportplan: 3,
               description: '',
-              end_date: '2020-12-11',
+              start_month: '12',
+              start_year: '2020',
+              end_month: '12',
+              end_year: '2020',
               owner: '',
               pk: 53,
               planned_reviews: '',
-              start_date: '2020-12-11',
             }),
         })
       )
+
+      it('uses current date for initial data', async () => {
+        MockDate.set('2021-07-27')
+        const { getByText } = setup({
+          ...props,
+          objectives: [],
+        })
+        fireEvent.click(getByText('Add goal 1 of 5'))
+
+        await waitFor(() => {
+          expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
+          const requestData = Services.apiModelObjectManage.mock.calls[0][0]
+          expect(requestData.start_month).toBe('7')
+          expect(requestData.start_year).toBe('2021')
+          expect(requestData.end_month).toBe('7')
+          expect(requestData.end_year).toBe('2021')
+        })
+      })
+
       it('initial load', async () => {
         const { getByText, queryByLabelText } = setup({
           ...props,
@@ -214,14 +251,17 @@ describe('ObjectivesList', () => {
           {
             companyexportplan: 3,
             description: '',
-            end_date: '2020-12-11',
+            start_month: '12',
+            start_year: '2020',
+            end_month: '12',
+            end_year: '2020',
             owner: '',
             pk: 53,
             planned_reviews: '',
-            start_date: '2020-12-11',
           },
         ],
       })
+
       fireEvent.click(getByText('Add goal 2 of 5'))
 
       expect(queryByLabelText('Objective 2')).not.toBeInTheDocument()

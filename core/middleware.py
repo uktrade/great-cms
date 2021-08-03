@@ -202,7 +202,7 @@ class CheckGATags(MiddlewareMixin):
         return response
 
 
-class GADataMissingException(Exception):
+class GADataMissingException(Exception):  # noqa
     pass
 
 

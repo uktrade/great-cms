@@ -1,77 +1,95 @@
 .costs {
-  border-radius: 20px 20px 0 0;
+  --keyline: 2px solid #d2d0da;
+
+  border-radius: 20px;
   display: block;
-  padding: 0 20px;
+  padding: 20px;
 
-  &--funding {
-    padding: 1px 20px;
+  &--with-total {
+    border-radius: 20px 20px 0 0;
   }
 
-  &--trips,
-  &--risks {
-    border-radius: 20px;
-  }
+  &--total {
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 0 0 20px 20px;
 
-  td {
-    border: 0;
-    padding: 10px 5px 20px;
-    position: relative;
-    display: block;
-    width: 100%;
+    .total {
+      margin-left: auto;
 
-    @include breakpoint(sm) {
-      display: table-cell;
-      vertical-align: top;
-      width: 50%;
+      @include breakpoint(sm_lt) {
+        display: flex;
+        flex-basis: 100%;
+        justify-content: space-between;
+      }
     }
   }
+}
 
-  .border-none {
-    border: none;
+.costs__flex-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @include breakpoint(sm) {
+    flex-direction: row;
   }
+}
 
-  tr {
-    border-bottom: 2px solid $blue-deep-20;
+.costs__label {
+  align-self: flex-start;
+  margin-bottom: 10px;
 
-    &:last-child {
-      border: 0;
-    }
-  }
-
-  .form-label {
-    @extend .body-l-b;
-  }
-
-  .button--add i {
+  @include breakpoint(sm) {
+    margin-bottom: 0;
+    padding-top: 9px;
     padding-right: 10px;
   }
 
-  &--total {
-    border-radius: 0 0 20px 20px;
+  & .tooltip {
+    margin-top: 10px;
+  }
+}
 
-    .form-label {
-      color: $white;
-    }
+.costs__input {
+  align-self: flex-start;
+  margin-left: auto;
+  width: 100%;
 
-    .total {
-      text-align: right;
-    }
+  @include breakpoint(sm) {
+    width: 50%;
+    flex-shrink: 0;
   }
 
-  &--total {
-    td {
-      padding-top: 20px;
-      display: table-cell;
-      width: 50%;
-    }
+  & input {
+    text-align: right;
   }
+}
 
-  &--currency {
-    @include breakpoint(sm_lt) {
-      display: block;
-      width: 100%;
-    }
+.costs__border {
+  border-bottom: var(--keyline);
+  padding-bottom: 20px;
+}
+
+.costs__option {
+  & .button--delete {
+    margin: 0;
   }
+}
+
+.costs__option--border:not(:first-child) {
+  border-top: var(--keyline);
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+.costs__option .form-label {
+  padding-top: 0;
+  font-weight: 500;
+}
+
+.costs__delete {
+  padding: 20px 0;
 }
 
 .gross-price {

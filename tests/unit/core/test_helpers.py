@@ -8,7 +8,7 @@ from requests.exceptions import HTTPError
 
 from core import helpers
 from directory_api_client import api_client
-from directory_constants import choices
+from directory_constants import choices, company_types
 from directory_sso_api_client import sso_api_client
 from tests.helpers import create_response
 from tests.unit.core.factories import CuratedListPageFactory
@@ -731,3 +731,49 @@ def test_get_trade_barrier_data(mock_country_data, client):
     response = helpers.get_trade_barrier_data(countries_list=['CN'], sectors_list=['Aerospace'])
     assert response.get('location') == trade_barrier_data['location']
     assert response.get('sectors') == trade_barrier_data['sectors']
+
+
+@pytest.mark.parametrize(
+    'value,expected',
+    (
+        (company_types.COMPANIES_HOUSE, True),
+        (company_types.SOLE_TRADER, False),
+        (company_types.CHARITY, False),
+        (company_types.PARTNERSHIP, False),
+    ),
+)
+def test_profile_parser_is_in_companies_house(value, expected):
+    parser = helpers.CompanyParser({'company_type': value})
+
+    assert parser.is_in_companies_house is expected
+
+
+def test_profile_parser_no_data_serialize_for_form():
+    parser = helpers.CompanyParser({})
+
+    assert parser.serialize_for_form() == {
+        'expertise_products_services': {},
+        'expertise_countries': [],
+        'expertise_industries': [],
+        'date_of_creation': None,
+        'address': '',
+    }
+
+
+def test_profile_parser_no_data_serialize_for_template():
+    parser = helpers.CompanyParser({})
+
+    assert parser.serialize_for_template() == {
+        'expertise_products_services': {},
+        'expertise_countries': '',
+        'expertise_industries': '',
+        'date_of_creation': None,
+        'address': '',
+        'sectors': '',
+        'keywords': '',
+        'employees': None,
+        'expertise_regions': '',
+        'expertise_languages': '',
+        'has_expertise': False,
+        'is_in_companies_house': False,
+    }

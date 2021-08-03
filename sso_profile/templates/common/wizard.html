@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load static from staticfiles %}
+
+{% block content %}
+    <section class="container">
+        {% block breadcrumbs %}{% endblock %}
+        <div class="grid-row margin-top-60">
+            <div class="column-two-thirds">
+                <form method="post" enctype="multipart/form-data" novalidate="novalidate">
+                    {% csrf_token %}
+                    {% block above_form %}
+                        <h1 class="heading-xlarge margin-top-0">{% block step_title %}{% endblock %}</h1>
+                    {% endblock %}
+                    <div class="width-two-thirds">
+                        {{ wizard.management_form }}
+                        {% if wizard.form.forms %}
+                            {{ wizard.form.management_form }}
+                            {% for form in wizard.form.forms %}
+                                 {{ form }}
+                            {% endfor %}
+                        {% else %}
+                            {{ form }}
+                        {% endif %}
+                        {% block below_form %}{% endblock %}
+                        {% if wizard.steps.step1 != wizard.steps.count %}
+                            <button type="submit" class="button">{% block button_submit_label %}Save and continue{% endblock %}</button>
+                        {% else %}
+                            <button class="button next" type="submit">{% block button_next_label %}Save and continue{% endblock %}</button>
+                        {% endif %}
+                        {% block below_submit_button %}{% endblock %}
+                    </div>
+                    {% block end_form %}{% endblock %}
+                </form>
+            </div>
+            {% if step_labels %}
+            <div class="column-one-third padding-top-30 overline-flag-red" id="progress-column">
+                    <span>Part of:</span>
+                    <a class="link heading-medium margin-0" href="{% url 'sso_profile:enrolment-start' %}">
+                        {{ user_journey_verb|capfirst }}
+                    </a>
+                    {% include 'enrolment/progress.html' %}
+            </div>
+            {% endif %}
+    </section>
+{% endblock %}

@@ -188,12 +188,14 @@
     align-items: center;
     justify-content: center;
     text-align: center;
+    font-size: var(--button-small-font-size);
+    font-weight: var(--button-font-weight);
     width: 100%;
     border-radius: var(--button-border-radius);
     height: var(--button-small-height);
     border: 2px solid transparent;
     background-color: white;
-    padding: var(--button-padding-v) 0;
+    padding: calc(2px + var(--button-padding-v)) 0 var(--button-padding-v);
 
     &:focus {
       outline: 6px solid $focus-yellow;
@@ -228,5 +230,29 @@
 .form-group {
   input[type='number']:focus::placeholder {
     color: transparent;
+  }
+}
+
+.inputgroup {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-left: -$gutter-small;
+
+  &__input {
+    flex: 0 1 auto;
+    margin-left: $gutter-small;
+
+    &--month {
+      min-width: 7.5em;
+    }
+
+    &--year {
+      width: 4em;
+    }
+  }
+
+  & .form-group, & .select {
+    margin-bottom: 0;
   }
 }

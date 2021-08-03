@@ -7,12 +7,12 @@
 
 {% block content %}
 <div id="learn-root" class="learn__page learn__category-page">
-    <span class="learn__back-link">
-      {% include "core/includes/backlink.html" with url=parent_page_url label="Learn to export home" classes="hide-on-mobile"%}
+    <span class="learn__back-link hide-on-mobile m-f-s m-t-s">
+      {% include "core/includes/backlink.html" with url=parent_page_url label="Learn to export home" classes="p-v-0"%}
     </span>
     {% with high_level_completion_progress|get_item:page.id as module_completion_data %}
     <section class="learn__single-category-header">
-        <div class="learn__single-category-header-wrapper container {% if module_completion_data.completion_count and module_completion_data.total_pages %}learn__single-category-header-wrapper--progress-bar-top{% endif %}">
+        <div class="learn__single-category-header-wrapper container {% if module_completion_data.completion_count and module_completion_data.total_pages %}learn__single-category-header-wrapper--progress-bar-top{% endif %} p-b-xs">
             <div class="grid">
                 <div class="c-1-2-l">
                     <div class="learn__single-category-header-content">

@@ -4958,15 +4958,6 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
   .great-sub-header .link-heading {
     padding: 15px 10px; } }
 
-@media (min-width: 1025px) and (max-width: 1150px) {
-  .magna-header.shared-magna-header {
-    height: 180px; }
-    .magna-header.shared-magna-header nav {
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-      flex-direction: column; } }
-
 .great-header.expanded {
   position: static; }
   .great-header.expanded .user-greeting {
@@ -4976,11 +4967,10 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
 
 .shared-magna-header {
   background: #1E1348;
-  height: 110px;
-  z-index: auto; }
+  z-index: auto;
+  overflow: hidden; }
   @media (max-width: 768px) {
     .shared-magna-header {
-      height: 172px;
       margin-left: 0; } }
   .shared-magna-header nav {
     position: relative; }
@@ -5081,7 +5071,16 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
       margin-bottom: 5px; }
       .shared-magna-header .header-links #magna-header-search-form button.active {
         background-color: #ffbf47; }
-  .shared-magna-header .header-links button {
+  .shared-magna-header .header-links #header-link-user-profile button {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     height: 40px;
@@ -5095,34 +5094,34 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
     letter-spacing: 0;
     text-align: left;
     padding: 5px 14px; }
-    .shared-magna-header .header-links button:hover {
+    .shared-magna-header .header-links #header-link-user-profile button:hover {
       text-decoration: underline; }
-    .shared-magna-header .header-links button.active {
+    .shared-magna-header .header-links #header-link-user-profile button.active {
       background-color: #006ccc;
       position: relative;
       z-index: 4; }
-      .shared-magna-header .header-links button.active .burger-icon {
+      .shared-magna-header .header-links #header-link-user-profile button.active .burger-icon {
         background-color: transparent; }
-        .shared-magna-header .header-links button.active .burger-icon:before, .shared-magna-header .header-links button.active .burger-icon:after {
+        .shared-magna-header .header-links #header-link-user-profile button.active .burger-icon:before, .shared-magna-header .header-links #header-link-user-profile button.active .burger-icon:after {
           width: 25px;
           margin-right: -3px; }
-        .shared-magna-header .header-links button.active .burger-icon:before {
+        .shared-magna-header .header-links #header-link-user-profile button.active .burger-icon:before {
           -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
           margin-top: 0; }
-        .shared-magna-header .header-links button.active .burger-icon:after {
+        .shared-magna-header .header-links #header-link-user-profile button.active .burger-icon:after {
           -webkit-transform: rotate(-45deg);
           transform: rotate(-45deg);
           margin-top: -12px; }
-    .shared-magna-header .header-links button .burger-icon {
+    .shared-magna-header .header-links #header-link-user-profile button .burger-icon {
       clear: right;
       content: "";
       float: right;
       height: 2px;
-      margin: 12px 0 10px 10px;
+      margin: 9px 0 10px 20px;
       width: 20px;
       pointer-events: none; }
-      .shared-magna-header .header-links button .burger-icon:before, .shared-magna-header .header-links button .burger-icon:after {
+      .shared-magna-header .header-links #header-link-user-profile button .burger-icon:before, .shared-magna-header .header-links #header-link-user-profile button .burger-icon:after {
         background-color: #fff;
         -webkit-transition: all .2s ease;
         transition: all .2s ease;
@@ -5132,7 +5131,7 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
         height: 2px;
         margin: 0 0 10px 10px;
         width: 20px; }
-      .shared-magna-header .header-links button .burger-icon:before {
+      .shared-magna-header .header-links #header-link-user-profile button .burger-icon:before {
         margin-top: -6px; }
   .shared-magna-header .extra-links {
     display: block;
@@ -5204,29 +5203,30 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
     .shared-modal-menu .menu-items li button > span {
       padding: 0; }
 
-.shared-footer .magna-footer__links {
-  max-width: 70%;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap; }
+.shared-footer {
+  overflow: hidden; }
+  .shared-footer .magna-footer__links {
+    max-width: 70%;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap; }
+    @media (max-width: 640px) {
+      .shared-footer .magna-footer__links {
+        max-width: 100%; } }
+    .shared-footer .magna-footer__links li {
+      margin-bottom: 10px; }
   @media (max-width: 640px) {
-    .shared-footer .magna-footer__links {
-      max-width: 100%; } }
-  .shared-footer .magna-footer__links li {
-    margin-bottom: 10px; }
-
-@media (max-width: 640px) {
-  .shared-footer .magna-footer__nav {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: reverse;
-    -ms-flex-direction: column-reverse;
-    flex-direction: column-reverse; } }
-
-.shared-footer .magna-footer__great-logo img {
-  width: auto; }
+    .shared-footer .magna-footer__nav {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: reverse;
+      -ms-flex-direction: column-reverse;
+      flex-direction: column-reverse; } }
+  .shared-footer .magna-footer__great-logo img {
+    width: auto; }
 
 .shared-personalisation-bar {
   overflow-x: auto;
-  width: 100%;
+  width: auto;
   margin: 0; }
   .shared-personalisation-bar > nav {
-    white-space: nowrap; }
+    white-space: nowrap;
+    width: auto; }

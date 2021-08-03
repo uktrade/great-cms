@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-3128 - Analytics - section completion
 - GP2-3017 - SOO User profile update to directory-SSO
 - GP2-2402 - VFM analytics
 - GP2-2359 - Relabel CaseStudy expander and make accessible
@@ -18,17 +19,30 @@
 - GP2-2484 - refactor stats containers for better mobile display
 - GP2-2485 - always show selected age ranges
 - GP2-3082 - Fix gutter size on Export plan homepage
+- GP2-3102 - Vulnerable JS packages in great-cms/domestic/\* need updating
+- GP2-2493 - Increase padding on cost/price cards
+- GP2-2494 - Refactor multi-add components styles
+- GP2-3084 - Fix spacings on Travel plan
+- GP2-3085 - Fix Business Risk block radio buttons spacing
+- GP2-2896 - Split objective date fields into month and year
 
+- GP2-3087 - migrate directory-sso-profile into great-cms
 ### Fixed bugs
+- GP2-3164 - Remove vulnerable web-component-tester dev package
+- GP2-2893 - Backlink placement in learning
 - GP2-2619 - Case study quotes - attrributions fall off
 - GP2-3099 - WTE Selector missing
 - GP2-2428 - Country finder back buttons in mobile
 - GP2-2938 - DAC_Nondescriptive_Labels_02 Lesson complete checkbox
 - GP2-2952 - DAC_Contrast_Minimum_01 'Next' link
 - GP2-2947 - DAC_Nontext_Contrast_02 (AA) sidebar menu button
-- GP2-1684: Port the contact pages which need users to be signed in (SOO ones) from V1 to V2
+- GP2-1684 - Port the contact pages which need users to be signed in (SOO ones) from V1 to V2
 - GP2-2928 - DAC CSS Images as Labels 07(A)
 - GP2-2492 Export plan - some pages - value input
+- GP2-3100 - In Costs and pricing, titles dispay "the" prefix before countries that should not have this
+- GP2-2492 - Export plan - some pages - value input
+- GP2-3120 - Append "- great.gov.uk" to all pages by default
+
 ### Fixed bugs
 - GP2-2988: Make SOO contact form name fields editable if not already populated.
 

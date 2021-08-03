@@ -93,24 +93,29 @@ export const Select = memo(
     const selectedItem = () => {
       if (!input || input.length <= 0) return placeholder
       if (multiSelect && Array.isArray(input)) {
-        return input.map((item) => (
-          <button
-            className="tag tag--icon tag--secondary tag--small m-r-xs"
-            type="button"
-            key={item}
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              const items = input.filter((x) => x !== item)
-              setInput(items)
-              update({ [name]: items })
-              placeHolder.current.focus()
-            }}
-          >
-            {options.find((option) => item === option.value).label}{' '}
-            <i className="fas fa-times-circle" />
-          </button>
-        ))
+        return (
+          <ul className="select__selected">
+            {input.map((item) => (
+              <li key={item}>
+                <button
+                  className="tag tag--icon tag--secondary tag--small m-r-xs"
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    const items = input.filter((x) => x !== item)
+                    setInput(items)
+                    update({ [name]: items })
+                    placeHolder.current.focus()
+                  }}
+                >
+                  {options.find((option) => item === option.value).label}{' '}
+                  <i className="fas fa-times-circle" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        )
       }
       return optionByValue(input).label || placeholder
     }

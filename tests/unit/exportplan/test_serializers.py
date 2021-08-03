@@ -52,8 +52,10 @@ def test_objective_serializer():
         'description': 'Lorem ipsum',
         'planned_reviews': 'Some reviews',
         'owner': 'John Smith',
-        'start_date': '2020-03-01',
-        'end_date': '2020-12-23',
+        'start_month': 3,
+        'start_year': 2020,
+        'end_month': 12,
+        'end_year': 2020,
         'companyexportplan': 1,
         'pk': 2,
     }
@@ -70,8 +72,10 @@ def test_objective_serializer_empty_date_fields():
         'description': 'Lorem ipsum',
         'planned_reviews': 'Some reviews',
         'owner': 'John Smith',
-        'start_date': '',
-        'end_date': '',
+        'start_month': None,
+        'start_year': None,
+        'end_month': None,
+        'end_year': None,
         'companyexportplan': 1,
     }
 
@@ -82,8 +86,10 @@ def test_objective_serializer_empty_date_fields():
         'description': 'Lorem ipsum',
         'planned_reviews': 'Some reviews',
         'owner': 'John Smith',
-        'start_date': None,
-        'end_date': None,
+        'start_month': None,
+        'start_year': None,
+        'end_month': None,
+        'end_year': None,
         'companyexportplan': 1,
     }
 
@@ -94,8 +100,10 @@ def test_new_objective_serializer():
         'description': 'Lorem ipsum',
         'planned_reviews': 'Some reviews',
         'owner': 'John Smith',
-        'start_date': '2020-03-01',
-        'end_date': '2020-12-23',
+        'start_month': 7,
+        'start_year': 2021,
+        'end_month': 7,
+        'end_year': 2021,
         'companyexportplan': 1,
     }
 
