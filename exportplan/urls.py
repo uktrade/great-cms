@@ -95,7 +95,7 @@ urlpatterns = [
     path(
         'api/target-age-country-population-data/',
         skip_ga360(api.TargetAgeCountryPopulationData.as_view()),
-        name='api-target-age-country-population-data',
+        name='api-target-age-groups',
     ),
     path(
         'api/society-data-by-country/',

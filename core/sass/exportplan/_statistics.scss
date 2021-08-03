@@ -1,11 +1,8 @@
 .statistic {
-  // Vars
-  --line-rule: 1px solid #e0e0e0;
-
   @extend .bg-white;
   @extend .radius;
   display: block;
-  padding: 10px 20px;
+  padding: 20px;
   width: 100%;
 
   @include breakpoint(sm) {
@@ -26,17 +23,12 @@
   dl {
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
     width: 100%;
 
     @include breakpoint(sm) {
       flex-direction: column;
       width: unset;
-    }
-
-    border-bottom: var(--line-rule);
-    padding-bottom: 10px;
-
-    @include breakpoint(sm) {
       border-bottom: unset;
       padding-bottom: unset;
     }
@@ -62,10 +54,9 @@
   }
 
   &--mobile-full {
-
     @include breakpoint(sm_lt) {
       dl {
-        display: block
+        display: block;
       }
       .statistic__figure {
         text-align: left;
@@ -79,6 +70,10 @@
   justify-content: space-between;
   position: relative;
   flex-flow: wrap;
+
+  & dl:last-of-type {
+    text-align: right;
+  }
 }
 
 .statistic__percentage {
@@ -92,53 +87,42 @@
   }
 }
 
-// Container fix for new design for mobile without refactoring the react components.
 .stat-group {
-  @extend .bg-white;
+  // Vars
+  --line-rule: 1px solid #e0e0e0;
 
-  &:first-of-type {
-    border-top-left-radius: var(--radius);
-    border-top-right-radius: var(--radius);
-
-    div[class^='c-']:first-of-type dl {
-      padding-top: 10px;
-
-      @include breakpoint(sm) {
-        padding-top: unset;
-      }
-    }
-  }
-
-  &:last-of-type {
-    border-bottom-left-radius: var(--radius);
-    border-bottom-right-radius: var(--radius);
-
-    // Last grid col dl
-    div[class^='c-']:last-of-type dl {
-      border-bottom: none;
-    }
-
-    margin-bottom: 20px;
-
-    @include breakpoint(sm) {
-      margin-bottom: unset;
-    }
-  }
-
-  @include breakpoint(sm) {
-    background-color: unset;
-    border-radius: unset;
-  }
-
-  .grid,
-  div[class^='c-'] {
+  & > .grid,
+  & > .grid > div {
     display: flex;
   }
 
   .grid {
     flex-flow: column;
+
     @include breakpoint(sm) {
       flex-direction: row;
+      flex-wrap: wrap;
+    }
+  }
+
+  @include breakpoint(sm_lt) {
+    & div:not(:last-child) > .statistic {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+
+      &:after {
+        content: '';
+        display: block;
+        position: relative;
+        top: 20px;
+        width: 100%;
+        border-bottom: var(--line-rule);
+      }
+    }
+
+    & div:not(:first-child) > .statistic {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
     }
   }
 }
@@ -161,16 +145,6 @@
   dl {
     & + dl {
       align-items: flex-end;
-    }
-  }
-
-  &:first-of-type {
-    .statistic__group {
-      border-bottom: var(--line-rule);
-
-      @include breakpoint(sm) {
-        border-bottom: unset;
-      }
     }
   }
 }

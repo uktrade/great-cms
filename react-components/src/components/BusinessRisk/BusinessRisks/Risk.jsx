@@ -23,86 +23,76 @@ export const Risk = memo(
     selected,
   }) => {
     return (
-      <>
-        <tr>
-          <td>
-            <p className="form-label m-v-0">Risk {index}</p>
-            <Learning {...risk_extras} />
-            <TextArea
-              id={String(id)}
-              type="textarea"
-              hideLabel
-              label={`Risk ${index} label`}
-              value={risk}
-              placeholder={risk_extras.placeholder}
-              onChange={(e) => onChange(id, { key: 'risk', value: e[id] })}
-              formGroupClassName="m-b-0"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <Radiogroup
-              id={id}
-              options={likelihoodOptions}
-              selected={selected.risk_likelihood}
-              groupName={Object.keys(selected)[0]}
-              label="Risk likelihood"
-              update={(e) => onChange(id, e)}
-            >
-              <Learning {...likelihood_extras} />
-            </Radiogroup>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <Radiogroup
-              id={id}
-              options={impactOptions}
-              selected={selected.risk_impact}
-              groupName={Object.keys(selected)[1]}
-              label="Risk impact"
-              update={(e) => onChange(id, e)}
-            >
-              <Learning {...impact_extras} />
-            </Radiogroup>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <p className="form-label m-v-0">{contingency_plan_extras.label}</p>
-            <Learning {...contingency_plan_extras} />
-            <TextArea
-              id={String(id)}
-              type="textarea"
-              hideLabel
-              label={contingency_plan_extras.label}
-              value={contingency_plan}
-              placeholder={contingency_plan_extras.placeholder}
-              onChange={(e) =>
-                onChange(id, {
-                  key: 'contingency_plan',
-                  value: e[id],
-                })
-              }
-              formGroupClassName="m-b-0"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td className="text-center" colSpan="2">
-            <ConfirmModal
-              hasData={
-                !!contingency_plan ||
-                !!selected.risk_impact ||
-                !!selected.risk_likelihood ||
-                !!risk
-              }
-              deleteItem={() => deleteRisk(id)}
-            />
-          </td>
-        </tr>
-      </>
+      <div className="costs__option costs__option--border">
+        <div className="costs__border">
+          <h3 className="h-s p-t-0">Risk {index}</h3>
+          <Learning {...risk_extras} />
+          <TextArea
+            id={String(id)}
+            type="textarea"
+            hideLabel
+            label={`Risk ${index} label`}
+            value={risk}
+            placeholder={risk_extras.placeholder}
+            onChange={(e) => onChange(id, { key: 'risk', value: e[id] })}
+            formGroupClassName="m-b-0"
+          />
+        </div>
+        <div className="costs__border">
+          <Radiogroup
+            id={id}
+            options={likelihoodOptions}
+            selected={selected.risk_likelihood}
+            groupName={Object.keys(selected)[0]}
+            label="Risk likelihood"
+            update={(e) => onChange(id, e)}
+          >
+            <Learning {...likelihood_extras} />
+          </Radiogroup>
+        </div>
+        <div className="costs__border">
+          <Radiogroup
+            id={id}
+            options={impactOptions}
+            selected={selected.risk_impact}
+            groupName={Object.keys(selected)[1]}
+            label="Risk impact"
+            update={(e) => onChange(id, e)}
+          >
+            <Learning {...impact_extras} />
+          </Radiogroup>
+        </div>
+        <div className="costs__border">
+          <p className="form-label m-v-0">{contingency_plan_extras.label}</p>
+          <Learning {...contingency_plan_extras} />
+          <TextArea
+            id={String(id)}
+            type="textarea"
+            hideLabel
+            label={contingency_plan_extras.label}
+            value={contingency_plan}
+            placeholder={contingency_plan_extras.placeholder}
+            onChange={(e) =>
+              onChange(id, {
+                key: 'contingency_plan',
+                value: e[id],
+              })
+            }
+            formGroupClassName="m-b-0"
+          />
+        </div>
+        <div className="text-center p-t-xs">
+          <ConfirmModal
+            hasData={
+              !!contingency_plan ||
+              !!selected.risk_impact ||
+              !!selected.risk_likelihood ||
+              !!risk
+            }
+            deleteItem={() => deleteRisk(id)}
+          />
+        </div>
+      </div>
     )
   }
 )

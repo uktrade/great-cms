@@ -175,9 +175,47 @@ To get set up, in your activated virtualenv:
 
 When working on BAU FE work, note there are seperate FE asset build pipelines. One for domestic pages and another for generic BAU styling(which came across from directory_components).
 
-If you are working on domestic pages and need to update some domestic specific styling. You need to `cd` into `domestic` and you will see all domestic related styles in a `sass` folder. To compile the updated sass, `cd` into `domestic` and ensure you are using node version 8 and have `gulp-cli` installed, then run `gulp sass`.
+If you are working on domestic pages and need to update some domestic specific styling. You need to `cd` into `domestic` and you will see all domestic related styles in a `sass` folder. To compile the updated sass, `cd` into `domestic` and ensure you are using node version 15+
 
-If you need to update some generic BAU styling you need to look in `core/components`. Again you will find a sass folder with all styles in. To compile the updated sass, `cd` into `core/components` and ensure you are using node version 8 then run `gulp build`.
+If you need to update some generic BAU styling you need to look in `core/components`. Again you will find a sass folder with all styles in. To compile the updated sass, `cd` into `core/components` and ensure you are using node version 15+
+
+To check the commands for core/components or domestic being in:
+
+```
+$ rm -rf node_modules
+$ nvm use 15.14.0
+$ npm i
+
+// Check available commands.
+
+$ gulp default
+```
+
+Make changes to sass then:
+
+```
+// Watch changes to the files.
+
+$ gulp watch
+
+// Build for PR.
+
+$ gulp build
+```
+
+Node Sass is the newest package should be compatible with Node 15+
+
+You should not since it is the error for old packages but in case IF you get an error below:
+
+```
+Error: Node Sass does not yet support your current environment: OS X 64-bit with Unsupported runtime (57)
+```
+
+then run the command below:
+
+```
+npm rebuild node-sass
+```
 
 If you are working on '/profile/' pages and need to update some profile-specific styling, you need to `cd` into `profile` and you will see all domestic related styles in a `profile/core/sass` folder. To compile the updated sass, `cd` into `profile` and ensure you are using node version 8, then run `gulp sass`.
 

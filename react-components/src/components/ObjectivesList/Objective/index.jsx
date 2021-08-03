@@ -6,101 +6,100 @@ import { Input } from '@src/components/Form/Input'
 import { ConfirmModal } from '@src/components/ConfirmModal/ConfirmModal'
 import { objectHasValue } from '@src/Helpers'
 import ErrorList from '../../ErrorList'
+import { MonthYearInput } from '../../Form/MonthYearInput'
 
+const fwRefObjective = forwardRef((props, ref) => {
+  const { handleChange, deleteObjective, number, id, errors, data } = props
 
-
-const fwRefObjective = forwardRef(
-  (props, ref) => {
-    const { handleChange, deleteObjective, number, id, errors, data } = props
-    const onChange = (item) => {
-      handleChange({
-        ...data,
-        ...item,
-      })
-    }
-
-    const onDelete = () => {
-      deleteObjective(data.pk)
-    }
-
-    const { companyexportplan, start_date, end_date, pk, ...fields } = data
-
-    return (
-      <fieldset id={`objective-${number}`} ref={ref} tabIndex="-1">
-      <legend className="visually-hidden">{`Objective ${number}`}</legend>
-        <div className="bg-blue-deep-10 radius p-h-s">
-          <div className="grid" tabIndex="-1">
-            <div className="c-full">
-              <TextArea
-                id="description"
-                placeholder="Add some text"
-                label={`Objective ${number}`}
-                value={data.description}
-                onChange={onChange}
-                errors={[]}
-              />
-              <hr className="hr hr--light" />
-            </div>
-            <div className="grid">
-              <div className="c-1-2">
-                <Input
-                  id="start_date"
-                  type="date"
-                  label="Start date"
-                  maxDate={data.end_date}
-                  value={data.start_date}
-                  onChange={onChange}
-                  errors={[]}
-                />
-              </div>
-              <div className="c-1-2">
-                <Input
-                  id="end_date"
-                  type="date"
-                  label="End date"
-                  minDate={data.start_date}
-                  value={data.end_date}
-                  onChange={onChange}
-                  errors={[]}
-                />
-              </div>
-            </div>
-            <div className="c-full">
-              <hr className="hr hr--light" />
-              <Input
-                id={`owner-${id}`}
-                placeholder="Add an owner"
-                label="Owner"
-                value={data.owner}
-                onChange={(item) => onChange({ owner: item[`owner-${id}`] })}
-                errors={[]}
-              />
-            </div>
-            <div className="c-full">
-              <TextArea
-                id="planned_reviews"
-                placeholder="Add some text"
-                label="Planned reviews"
-                value={data.planned_reviews}
-                onChange={onChange}
-                errors={[]}
-              />
-            </div>
-          </div>
-          <div className="text-center">
-            <hr className="hr hr--light" />
-            <ConfirmModal
-              deleteItem={onDelete}
-              hasData={objectHasValue(fields)}
-            />
-          </div>
-        </div>
-        <ErrorList errors={errors.__all__ || []} />
-        <hr />
-      </fieldset>
-    )
+  const onChange = (item) => {
+    handleChange({
+      ...data,
+      ...item,
+    })
   }
-)
+
+  const onDelete = () => {
+    deleteObjective(data.pk)
+  }
+
+  const {
+    companyexportplan,
+    start_month,
+    start_year,
+    end_month,
+    end_year,
+    pk,
+    ...fields
+  } = data
+
+  return (
+    <fieldset id={`objective-${number}`} ref={ref}
+tabIndex="-1">
+      <legend className="visually-hidden">{`Objective ${number}`}</legend>
+      <div className="costs bg-blue-deep-10 m-b-s">
+        <div className="costs__option costs__option--border" tabIndex="-1">
+          <TextArea
+            id="description"
+            placeholder="Add some text"
+            label={`Objective ${number}`}
+            value={data.description}
+            onChange={onChange}
+            errors={[]}
+            formGroupClassName="m-b-0"
+          />
+        </div>
+        <div className="costs__option costs__option--border">
+          <MonthYearInput
+            label='Start objective in:'
+            monthName='start_month'
+            monthValue={data.start_month}
+            yearName='start_year'
+            yearValue={data.start_year}
+            onChange={onChange}
+          />
+          <MonthYearInput
+            label='Complete by:'
+            monthName='end_month'
+            monthValue={data.end_month}
+            yearName='end_year'
+            yearValue={data.end_year}
+            onChange={onChange}
+            className='m-t-s'
+          />
+        </div>
+        <div className="costs__option costs__option--border">
+          <Input
+            id={`owner-${id}`}
+            placeholder="Add an owner"
+            label="Owner"
+            value={data.owner}
+            onChange={(item) => onChange({ owner: item[`owner-${id}`] })}
+            errors={[]}
+            formGroupClassName="m-b-0"
+          />
+        </div>
+        <div className="costs__option costs__option--border">
+          <TextArea
+            id="planned_reviews"
+            placeholder="Add some text"
+            label="Planned reviews"
+            value={data.planned_reviews}
+            onChange={onChange}
+            errors={[]}
+            formGroupClassName="m-b-0"
+          />
+        </div>
+        <div className="costs__option costs__option--border text-center">
+          <ConfirmModal
+            deleteItem={onDelete}
+            hasData={objectHasValue(fields)}
+          />
+        </div>
+      </div>
+      <ErrorList errors={errors.__all__ || []} />
+    </fieldset>
+  )
+})
 
 export const Objective = memo(fwRefObjective)
 
@@ -116,8 +115,10 @@ Objective.propTypes = {
     description: PropTypes.string,
     owner: PropTypes.string,
     planned_reviews: PropTypes.string,
-    start_date: PropTypes.string,
-    end_date: PropTypes.string,
+    start_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    start_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    end_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    end_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     companyexportplan: PropTypes.number.isRequired,
     pk: PropTypes.number.isRequired,
   }).isRequired,
