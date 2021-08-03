@@ -534,7 +534,9 @@ def test_ecommerce_success_view(client):
         (
             constants.DOMESTIC,
             constants.EUEXIT,
-            reverse('domestic:brexit-contact-form'),
+            # This path no longer exists as a view in the codebase, but can be
+            # (and is) redirected at the Wagtail CMS level to a different service.
+            '/transition-period/contact/',
         ),
         (
             constants.DOMESTIC,
@@ -1051,7 +1053,9 @@ def test_selling_online_overseas_contact_form_organisation_url_redirect(
 @pytest.mark.parametrize('flow', ('CH Company', 'Non-CH Company', 'Individual'))
 @mock.patch('directory_forms_api_client.actions.ZendeskAction')
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
+@mock.patch('sso.helpers.sso_api_client.user.update_user_profile')
 def test_selling_online_overseas_contact_form_submission(  # noqa: C901
+    mock_sso_call,
     mock_form_session,
     mock_zendesk_action,
     flow,
@@ -1193,6 +1197,10 @@ def test_selling_online_overseas_contact_form_submission(  # noqa: C901
     assert response.status_code == 302
 
     assert response.url == reverse('contact:contact-us-selling-online-overseas-success')
+
+    # check first_name, last_name  sent to directory-sso for profile update
+    assert mock_sso_call.call_count == 1
+    assert mock_sso_call.call_args == mock.call('123', {'first_name': 'Jim', 'last_name': 'Cross'})
 
     # Check data sent to Zendesk
     assert mock_zendesk_action.call_count == 1

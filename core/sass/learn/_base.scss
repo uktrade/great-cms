@@ -375,8 +375,8 @@ $desktop: 1024px;
 }
 
 .learn__back-link {
-  left: 38px;
-  top: 15px;
+  left: 0px;
+  top: 0px;
   position: absolute;
   z-index: 1;
 
@@ -668,6 +668,10 @@ $desktop: 1024px;
     }
   }
 
+  .lesson-body > .c-1-2 {
+    min-width: 320px;
+  }
+
   .lesson-body-blocks>.rich-text:first-child {
     >p:first-child {
       padding-top: 0;
@@ -938,6 +942,13 @@ $desktop: 1024px;
     &__mobile {
       @include tablet {
         display: none;
+      }
+
+      .quote-block {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
       }
     }
   }

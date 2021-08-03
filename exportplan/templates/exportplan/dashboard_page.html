@@ -13,14 +13,14 @@
 <section class="export-plan-dashboard__section bg-blue-deep-10">
   <div class="export-plan-dashboard__container container">
     <div id="section-progress">
-      <div class="m-h-s m-t-m">
+      <div class="m-t-m">
         <div class="progress-bar progress-bar--white-track">
           <span style="width: {% widthratio export_plan_progress.sections_completed export_plan_progress.sections_total 100 %}%"></span>
         </div>
         <p class="body-m-b m-t-xxs m-b-0">{{ export_plan_progress.sections_completed }} out of {{ export_plan_progress.sections_total }} export plan sections complete</p>
       </div>
     </div>
-    <div class="section-list p-v-m p-h-s" id="section-list">
+    <div class="section-list p-v-m" id="section-list">
       <div class="section-list__grid flex-grid" id="export-plan-dashboard">
         {% for section in sections %}
         <div class="c-1-3-xl c-1-2-m">

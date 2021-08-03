@@ -17,8 +17,10 @@ export const ObjectivesList = memo(
     const objectiveElementList = useRef([])
     const {
       companyexportplan,
-      start_date,
-      end_date,
+      start_month,
+      start_year,
+      end_month,
+      end_year,
       pk,
       ...lastField
     } = objectives.length ? objectives[objectives.length - 1] : {}
@@ -28,18 +30,24 @@ export const ObjectivesList = memo(
     const debounceUpdate = useDebounce(request)
 
     const createObjective = () => {
-      const today = new Date().toISOString().substr(0,10)
+      const today = new Date()
+      const month = `${today.getMonth() + 1}`
+      const year = `${today.getFullYear()}`
       create({
         description: '',
         owner: '',
         planned_reviews: '',
-        start_date: today,
-        end_date: today,
+        start_month: month,
+        start_year: year,
+        end_month: month,
+        end_year: year,
         companyexportplan: exportPlanID,
         model_name,
       }).then((data) => {
         setObjectives([...objectives, { ...data }])
-        objectiveElementList.current[objectiveElementList.current.length-1].focus()
+        objectiveElementList.current[
+          objectiveElementList.current.length - 1
+        ].focus()
       })
     }
 
@@ -72,10 +80,16 @@ export const ObjectivesList = memo(
             number={i + 1}
             handleChange={updateObjective}
             deleteObjective={deleteObjective}
-            ref={(element) => {objectiveElementList.current[i] = element}}
+            ref={(element) => {
+              objectiveElementList.current[i] = element
+            }}
           />
         ))}
-        {message && <p id="objective-saved-message" role="status">Changes saved.</p>}
+        {message && (
+          <p id="objective-saved-message" role="status">
+            Changes saved.
+          </p>
+        )}
         <AddButton
           isDisabled={objectives.length ? !objectHasValue(lastField) : false}
           numberOfItems={objectives.length}
@@ -95,8 +109,10 @@ ObjectivesList.propTypes = {
       description: PropTypes.string,
       owner: PropTypes.string,
       planned_reviews: PropTypes.string,
-      start_date: PropTypes.string,
-      end_date: PropTypes.string,
+      start_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      start_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      end_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      end_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       companyexportplan: PropTypes.number,
       pk: PropTypes.number,
       showSavedMessage: PropTypes.bool,

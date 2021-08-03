@@ -11,9 +11,8 @@
   },
   "devDependencies": {
     "del": "^4.0.0",
-    "gulp": "^4.0.0",
-    "gulp-sass": "^4.0.2",
-    "gulp-sourcemaps": "^2.6.5",
-    "yarn": "^1.22.0"
+    "gulp": "^4.0.2",
+    "gulp-sass": "^4.1.1",
+    "gulp-sourcemaps": "^3.0.0"
   }
 }

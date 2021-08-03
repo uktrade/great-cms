@@ -18,6 +18,7 @@ from contact import constants, forms as contact_forms, helpers
 from core import mixins as core_mixins, snippet_slugs
 from core.datastructures import NotifySettings
 from directory_constants import urls
+from sso.helpers import update_user_profile
 
 SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
 SOO_SUBMISSION_CACHE_TIMEOUT = 2592000  # 30 days
@@ -233,7 +234,9 @@ class RoutingFormView(
                 'domestic:uk-export-finance-lead-generation-form',
                 kwargs={'step': 'contact'},
             ),
-            constants.EUEXIT: reverse_lazy('domestic:brexit-contact-form'),
+            # This next one no longer exists as a view in the codebase, but can be
+            # (and is) redirected at the Wagtail CMS level to a different service.
+            constants.EUEXIT: '/transition-period/contact/',
             constants.EVENTS: reverse_lazy('contact:contact-us-events-form'),
             constants.DSO: reverse_lazy('contact:contact-us-dso-form'),
             constants.OTHER: reverse_lazy('contact:contact-us-enquiries'),
@@ -676,6 +679,10 @@ class SellingOnlineOverseasFormView(
         )
         response = action.save(form_data)
         response.raise_for_status()
+        user_profile_data = {'first_name': form_data['contact_first_name'], 'last_name': form_data['contact_last_name']}
+        # update details in directory-sso
+        update_user_profile(sso_session_id=self.request.user.session_id, data=user_profile_data)
+
         self.request.session.pop(SESSION_KEY_SOO_MARKET, None)
         self.set_form_data_cache(form_data)
         return redirect(self.success_url)

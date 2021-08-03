@@ -27,9 +27,8 @@ export const DataSnapShot = memo(
               groups={groups}
               selectedGroups={selected}
               url={currentSection.url}
-            >
-              <Table />
-            </ToggleDataTable>
+              afterTable={[<Table />]}
+            />
           </div>
         </ToggleSnapshot>
       </>
@@ -40,8 +39,8 @@ export const DataSnapShot = memo(
 DataSnapShot.propTypes = {
   groups: PropTypes.arrayOf(
     PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
+      value: PropTypes.string,
+      label: PropTypes.string,
     })
   ),
   currentSection: PropTypes.shape({

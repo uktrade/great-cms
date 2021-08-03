@@ -7,26 +7,29 @@ import { Tooltip } from '@components/tooltip/Tooltip'
 export const Cost = memo(
   ({ label, id, currency, placeholder, tooltip, value, update, type }) => {
     return (
-      <tr>
-        <td>
-          <label className="form-label p-b-xs" htmlFor={id}>
-            {label}
-          </label>
-          {tooltip.content && <Tooltip {...tooltip} />}
-        </td>
-        <td>
-          <Input
-            label={label}
-            id={id}
-            hideLabel
-            type={type}
-            prepend={currency}
-            value={value}
-            onChange={(field) => update(field)}
-            placeholder={placeholder}
-          />
-        </td>
-      </tr>
+      <div className="costs__option costs__option--border">
+        <div className="costs__flex-row">
+          <div className="costs__label">
+            <label className="body-l-b" htmlFor={id}>
+              {label}
+            </label>
+            {tooltip.content && <Tooltip {...tooltip} />}
+          </div>
+          <div className="costs__input">
+            <Input
+              label={label}
+              id={id}
+              hideLabel
+              type={type}
+              prepend={currency}
+              value={value}
+              onChange={(field) => update(field)}
+              placeholder={placeholder}
+              formGroupClassName="m-b-0"
+            />
+          </div>
+        </div>
+      </div>
     )
   }
 )

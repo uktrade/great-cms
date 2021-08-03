@@ -43,7 +43,7 @@ export const DataSnapshot = memo(({ infoMoment, tooltip }) => {
         {country.country_name}
       </h2>
       <ToggleSnapshot isOpen={false}>
-        <div className="width-full">
+        <div className="stat-group">
           <div className="grid">
             <div className="c-full">
               <Stats
@@ -58,19 +58,31 @@ export const DataSnapshot = memo(({ infoMoment, tooltip }) => {
                   />
                 )}
               </Stats>
-              <hr className="hr hr--light" />
-              {infoMoment && (
-                <Stats
-                  data={infoMoment || notAvailable}
-                  descriptionClassName="body-l"
-                  className="statistic--mobile-full"
-                >
-                  <div className="fas fa-lg fa-info-circle text-blue-deep-30" aria-hidden="true" />
-                </Stats>
-              )}
             </div>
           </div>
         </div>
+
+        {infoMoment && (
+          <>
+            <hr className="hr hr--light" />
+            <div className="stat-group">
+              <div className="grid">
+                <div className="c-ful">
+                  <Stats
+                    data={infoMoment || notAvailable}
+                    descriptionClassName="body-l"
+                    className="statistic--mobile-full"
+                  >
+                    <div
+                      className="fas fa-lg fa-info-circle text-blue-deep-30"
+                      aria-hidden="true"
+                    />
+                  </Stats>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </ToggleSnapshot>
     </>
   )

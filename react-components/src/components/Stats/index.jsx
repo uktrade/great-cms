@@ -28,7 +28,7 @@ export const Stats = memo(
 
 Stats.propTypes = {
   header: PropTypes.string.isRequired,
-  data: PropTypes.string.isRequired,
+  data: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]).isRequired,
   className: PropTypes.string,
   descriptionClassName: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),

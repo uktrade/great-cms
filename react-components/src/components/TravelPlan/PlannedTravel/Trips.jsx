@@ -11,21 +11,17 @@ export const Trips = memo(({ formData, onChange, deleteTrip, addTrip }) => {
   return (
     <>
       {formData.length !== 0 && (
-        <div className="costs costs--trips bg-blue-deep-10 p-v-s m-b-s">
-          <table className="m-v-0">
-            <tbody>
-              {formData.map(({ pk, note }, i) => (
-                <Trip
-                  index={i + 1}
-                  key={pk}
-                  id={pk}
-                  note={note}
-                  onChange={onChange}
-                  deleteTrip={deleteTrip}
-                />
-              ))}
-            </tbody>
-          </table>
+        <div className="costs bg-blue-deep-10 m-b-s">
+          {formData.map(({ pk, note }, i) => (
+            <Trip
+              index={i + 1}
+              key={pk}
+              id={pk}
+              note={note}
+              onChange={onChange}
+              deleteTrip={deleteTrip}
+            />
+          ))}
         </div>
       )}
       <AddButton add={addTrip} cta="Add a trip" isDisabled={isDisabled} />

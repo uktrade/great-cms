@@ -449,7 +449,6 @@ class StaticViewSitemap(DjangoSitemap):
             'domestic:what-we-offer-you',
             'domestic:country-cover',
             'domestic:uk-export-contact',
-            'domestic:brexit-contact-form',
             'domestic:market-access',
             'domestic:report-ma-barrier',  # See location(), below
             'search:search',
