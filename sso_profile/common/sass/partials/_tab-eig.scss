@@ -1,0 +1,123 @@
+
+/* EiG tab content
+**********************/
+
+.sso-profile-eig-title {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.29;
+  color: #4a4a4a;
+  margin-bottom: 40px;
+}
+
+#sso-profile-eig-buttons a,
+#sso-profile-eig-buttons span {
+  text-align: center;
+  padding: 20px;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333333;
+  width: 100%;
+  text-decoration: none;
+}
+
+.sso-profile-eig-button-active {
+  border: 1px solid #979797;
+  border-right: 0;
+  height: 63px;
+  background-color: white;
+}
+
+.sso-profile-eig-button-inactive {
+  border: 1px solid #979797;
+  height: 63px;
+  background-color: rgba(220, 224, 223, 0.4);
+}
+
+#sso-profile-eig-button-applications {
+  border-bottom: 0;
+}
+
+.sso-profile-eig-opportunity-item {
+  border-bottom: solid 1px #999999;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+}
+
+.sso-profile-eig-opportunity-item:last-child {
+  border-bottom-width: 0;
+  padding-bottom: 0;
+  margin-bottom: 50px;
+}
+
+.sso-profile-eig-opportunity-item-title {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.29;
+  color: #00549f;
+  margin-bottom: 17px;
+}
+
+.sso-profile-eig-opportunity-item-description {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.39;
+  color: #4a4a4a;
+}
+
+.sso-profile-eig-opportunity-item-expires {
+  font-size: 18px;
+  line-height: 1.39;
+  color: #4a4a4a;
+  margin-bottom: 23px;
+}
+
+.sso-profile-eig-opportunity-item-application-link {
+  font-size: 16px;
+  line-height: 1.56;
+  color: #00549f;
+}
+
+.sso-profile-eig-email-alert-item {
+  border: solid 1px #999999;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  padding: 30px;
+}
+
+.sso-profile-eig-email-alert-item:last-child {
+  padding-bottom: 30px;
+  margin-bottom: 50px;
+}
+
+.sso-profile-eig-email-alert-item-search-term-label {
+  font-size: 16px;
+  line-height: 1.56;
+  color: #4a4a4a;
+  margin-bottom: 20px;
+}
+
+.sso-profile-eig-email-alert-item-search-term {
+  margin-bottom: 20px;
+}
+
+.service-error-container {
+  padding: 20px;
+}
+
+#sso-profile-landing-page-container {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  h1 {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 40px;
+    display: inline-block;
+    line-height: 1em;
+  }
+  p {
+    margin-bottom: 20px;
+  }
+}

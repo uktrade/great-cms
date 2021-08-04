@@ -850,7 +850,7 @@ def test_compare_countries_page(mock_export_plan_list, domestic_homepage, client
 
 
 @pytest.mark.django_db
-def test_contact_us_form_prepopualate(client, user, mock_get_user_profile):
+def test_contact_us_form_prepopulate(client, user, mock_get_user_profile):
     client.force_login(user)
     url = reverse('core:contact-us-help')
     response = client.get(url)

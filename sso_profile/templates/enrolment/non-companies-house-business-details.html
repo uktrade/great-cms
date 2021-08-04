@@ -1,0 +1,94 @@
+{% extends 'enrolment/wizard.html' %}
+
+{% load static from static %}
+
+{% block above_form %}
+    {% include 'enrolment/information_box_companies_type.html' with is_in_companies_house=False %}
+    <div id="form-step-body-text" id="business-details-information-box">
+        <h1 class="heading-xlarge margin-top-60">Enter your business details</h1>
+    </div>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script src="{% static 'javascript/company-lookup.js' %}"></script>
+    <script type="text/javascript">
+        var cannotFindAddress = document.getElementById('cannot-find-address');
+        var postcodeFinderContainer = document.getElementById('id_search-postal_code-container');
+        var addressFinder = document.getElementById('id_search-postal_code');
+        var address = document.getElementById('id_search-address');
+        var addressContainer = document.getElementById('id_search-address-container');
+        var addressHelp = addressContainer.getElementsByClassName('form-hint')[0];
+        var errorMessageContainers = addressContainer.getElementsByClassName('error-message');
+
+        addressContainer.style.display = 'none';
+
+        function handleToggleAddress() {
+          addressHelp.style.display = 'block';
+          addressContainer.style.display = 'inline-block';
+          address.focus();
+        }
+
+        address.value = address.value.replace(/,( )?/g, '\n');
+
+        if (addressContainer.className.indexOf('form-group-error') > -1) {
+          handleToggleAddress();
+        }
+
+        postcodeFinderContainer.style.display = 'block';
+
+        $(document.body).on(
+          "click.SelectiveLookupCloseAll",
+          GOVUK.components.SelectiveLookup.closeAll
+        );
+
+        cannotFindAddress.addEventListener('click', handleToggleAddress)
+
+        function PostcodeLookup($input, $field, url, options) {
+          var instance = this;
+          var service = new dit.data.Service(url);
+          GOVUK.components.SelectiveLookup.call(this,
+            $input,
+            service,
+            options,
+          );
+          this._private.$field = $field || $input;
+          this._private.$form = $input.parents("form");
+          this._private.$errors = $(".errors", this._private.$form);
+          $input.on("input.PostcodeLookup", function(event) {
+              addressContainer.style.display = 'none';
+          })
+        }
+        PostcodeLookup.prototype = new GOVUK.components.SelectiveLookup;
+        PostcodeLookup.prototype.bindContentEvents = function() {
+          var instance = this;
+          instance._private.$list.off("click.PostcodeLookup");
+
+          instance._private.$list.on("click.PostcodeLookup", function(event) {
+            var $eventTarget = $(event.target);
+            if($eventTarget.attr("data-value")) {
+              addressContainer.style.display = 'inline-block';
+              value = $eventTarget.attr("data-value");
+              instance._private.$field.val(value);
+              address.value = value.replace(/,( )?/g, '\n');
+              if (address.value) {
+              	for(var i = 0; i < errorMessageContainers.length; i++) {
+              	  errorMessageContainers[i].style.display = 'none';
+              	}
+              	addressContainer.classList.remove('form-group-error');
+              }
+            } else {
+            }
+          });
+        }
+        PostcodeLookup.prototype.param = function() {
+          return "postcode=" + this._private.$input.val();
+        }
+        new PostcodeLookup(
+          $(addressFinder),
+          $(address),
+          '{% url "sso_profile:api:postcode-search" %}',
+          {lookupOnCharacter: 5}
+        );
+    </script>
+{% endblock %}

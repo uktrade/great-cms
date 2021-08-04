@@ -217,6 +217,9 @@ then run the command below:
 npm rebuild node-sass
 ```
 
+If you are working on '/profile/' pages and need to update some profile-specific styling, you need to `cd` into `profile` and you will see all domestic related styles in a `profile/core/sass` folder. To compile the updated sass, `cd` into `profile` and ensure you are using node version 8, then run `gulp sass`.
+
+
 ## Staff SSO
 
 On local machine, SSO is turned off by default.

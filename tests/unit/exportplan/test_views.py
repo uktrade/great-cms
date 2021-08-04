@@ -37,6 +37,23 @@ def company_profile_data():
     }
 
 
+@pytest.fixture
+def company_profile_data_with_non_publishable():
+    return {
+        'name': 'Cool Company',
+        'is_publishable': False,
+        'expertise_products_services': {},
+        'expertise_countries': 'China',
+        'expertise_industries': 'HR',
+        'is_identity_check_message_sent': False,
+        'is_published_find_a_supplier': False,
+        'number': '1234567',
+        'slug': 'cool-company',
+        'created': '2012-06-15T13:45:30.00000Z',
+        'modified': '2019-04-05T06:43:23.00000Z',
+    }
+
+
 def create_test_image(extension):
     image = Image.new('RGB', (300, 50))
     draw = ImageDraw.Draw(image)

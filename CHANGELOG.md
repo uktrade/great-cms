@@ -26,6 +26,7 @@
 - GP2-3085 - Fix Business Risk block radio buttons spacing
 - GP2-2896 - Split objective date fields into month and year
 
+- GP2-3087 - migrate directory-sso-profile into great-cms
 ### Fixed bugs
 - GP2-3164 - Remove vulnerable web-component-tester dev package
 - GP2-2893 - Backlink placement in learning
@@ -35,10 +36,12 @@
 - GP2-2938 - DAC_Nondescriptive_Labels_02 Lesson complete checkbox
 - GP2-2952 - DAC_Contrast_Minimum_01 'Next' link
 - GP2-2947 - DAC_Nontext_Contrast_02 (AA) sidebar menu button
-- GP2-1684: Port the contact pages which need users to be signed in (SOO ones) from V1 to V2
+- GP2-1684 - Port the contact pages which need users to be signed in (SOO ones) from V1 to V2
 - GP2-2928 - DAC CSS Images as Labels 07(A)
 - GP2-2492 Export plan - some pages - value input
 - GP2-3100 - In Costs and pricing, titles dispay "the" prefix before countries that should not have this
+- GP2-2492 - Export plan - some pages - value input
+- GP2-3120 - Append "- great.gov.uk" to all pages by default
 
 ### Fixed bugs
 - GP2-2988: Make SOO contact form name fields editable if not already populated.
