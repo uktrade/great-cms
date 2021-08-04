@@ -418,6 +418,12 @@ class ExportPlanIndex(GA360Mixin, TemplateView):
 
     template_name = 'exportplan/index.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            if len(helpers.get_exportplan_list(self.request.user.session_id)):
+                return redirect('exportplan:list')
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(sections=data.SECTION_URLS, **kwargs)
         context['exportplan_list'] = helpers.get_exportplan_list(self.request.user.session_id)
