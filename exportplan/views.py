@@ -405,3 +405,21 @@ class ExportPlanList(GA360Mixin, TemplateView):
         context['exportplan_list'] = helpers.get_exportplan_list(self.request.user.session_id)
 
         return context
+
+
+class ExportPlanIndex(GA360Mixin, TemplateView):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='export-plan',
+        )
+
+    template_name = 'exportplan/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(sections=data.SECTION_URLS, **kwargs)
+        context['exportplan_list'] = helpers.get_exportplan_list(self.request.user.session_id)
+
+        return context

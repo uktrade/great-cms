@@ -17,7 +17,7 @@
           {% path_match "^\/where-to-export\/" as in_targetmarkets %}
           <li class="lg-only"><a id="header-link-learning" class="{% if in_learning %}active{% endif %}" href="/learn/categories/">Learn to export</a></li>
           <li class="lg-only"><a id="header-link-markets" class="{% if in_targetmarkets %}active{% endif %}" href="{% url 'core:compare-countries'%}">Where to export</a></li>
-          <li class="lg-only"><a id="header-link-exporting-plan" class="{% if in_exportplan %}active{% endif %}" href="/export-plan/dashboard/">Make an export plan</a></li>
+          <li class="lg-only"><a id="header-link-exporting-plan" class="{% if in_exportplan %}active{% endif %}" href="/export-plan/">Make an export plan</a></li>
           <li>
             <div id="magna-header-search-form-wrapper">
               <form id="magna-header-search-form" action="{% url 'search:search' %}" method="GET">
