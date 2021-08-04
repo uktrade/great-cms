@@ -4,6 +4,7 @@ import math
 from urllib.parse import urlparse
 
 from django import template
+from django.utils.dateparse import parse_datetime
 from django.utils.http import urlencode
 
 from core.constants import BACKLINK_QUERYSTRING_NAME
@@ -28,6 +29,11 @@ def format_timedelta(timedelta, pluralize=False):
         mins_str = f'{mins} min{mins_plural}' if mins or not hours else ''
         return f'{hours_str} {mins_str}'.strip()
     return ''
+
+
+@register.filter
+def str_to_datetime(datestr):
+    return parse_datetime(datestr)
 
 
 @register.simple_tag()

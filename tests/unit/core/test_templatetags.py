@@ -1,3 +1,4 @@
+import datetime
 from datetime import timedelta
 from html import escape
 from unittest import mock
@@ -15,6 +16,7 @@ from core.templatetags.content_tags import (
     get_topic_title_for_lesson,
     is_lesson_page,
     is_placeholder_page,
+    str_to_datetime,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -119,6 +121,15 @@ def test_format_timedelta_filter(user, rf, domestic_site):
         context = Context({'delta': case.get('value')})
         html = template.render(context)
         assert html == case.get('result')
+
+
+def test_str_to_datetime():
+    assert str_to_datetime('2021-07-22T13:40:49.207335Z') == datetime.datetime(
+        2021, 7, 22, 13, 40, 49, 207335, tzinfo=datetime.timezone.utc
+    )
+    assert str_to_datetime('2022-08-03T00:00:00.000Z') == datetime.datetime(
+        2022, 8, 3, 0, 0, 0, 0, tzinfo=datetime.timezone.utc
+    )
 
 
 @pytest.mark.django_db
