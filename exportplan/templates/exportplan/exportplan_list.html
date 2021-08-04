@@ -1,6 +1,33 @@
-{% extends 'exportplan/section.html' %}
+{% extends 'core/base.html' %}
 
-{% block intro_content %}
-<h1 class="h-xl">Export Plan list</h1>
-{{ exportplan_list }}
+{% load content_tags %}
+{% load humanize %}
+
+{% block content %}
+  <div class="bg-white p-v-l">
+    <div class="container">
+      <h1 class="h-l">Make an export plan</h1>
+      <a href="/export-plan/new" class="button button--large button--secondary">Start a new export plan</a>
+    </div>
+  </div>
+  <div class="container p-v-l">
+    <nav>
+      <ul>
+        {% for plan in exportplan_list %}
+          <li>
+            <article class="bg-white radius p-s">
+              <h2 class="h-m">Exporting {{ plan.export_commodity_codes.0.commodity_name }}
+                to {{ plan.export_countries.0.country_name }}</h2>
+              <div class="progress-bar m-v-xs">
+                <span style="width: {{ plan.calculated_progress.percentage_completed }}%"></span>
+              </div>
+              <p class="body-m-b m-t-xs m-b-0">{{ plan.calculated_progress.sections_completed }}
+                / {{ plan.calculated_progress.sections_total }} lessons complete</p>
+              <p class="m-b-0">Created {{ plan.created|str_to_datetime|naturaltime }}</p>
+            </article>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
 {% endblock %}
