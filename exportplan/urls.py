@@ -21,6 +21,11 @@ urlpatterns = [
         name='index',
     ),
     path(
+        'start/',
+        login_required(views.ExportPlanStart.as_view(), login_url=SIGNUP_URL),
+        name='start',
+    ),
+    path(
         'section/marketing-approach/',
         login_required(views.ExportPlanMarketingApproachView.as_view(), login_url=SIGNUP_URL),
         name='marketing-approach',
