@@ -8,21 +8,13 @@ from exportplan.core.processor import ExportPlanProcessor
 
 
 def create_export_plan(sso_session_id, exportplan_data):
-    response = api_client.exportplan.exportplan_create(sso_session_id=sso_session_id, data=exportplan_data)
+    response = api_client.exportplan.create(sso_session_id=sso_session_id, data=exportplan_data)
     response.raise_for_status()
     return response.json()
 
 
-def get_exportplan(sso_session_id):
-    response = api_client.exportplan.exportplan_list(sso_session_id)
-    response.raise_for_status()
-    parsed = response.json()
-    if parsed:
-        return parsed[0]
-
-
 def update_exportplan(sso_session_id, id, data):
-    response = api_client.exportplan.exportplan_update(sso_session_id=sso_session_id, id=id, data=data)
+    response = api_client.exportplan.update(sso_session_id=sso_session_id, id=id, data=data)
     response.raise_for_status()
     return response.json()
 
@@ -48,15 +40,6 @@ def get_society_data_by_country(countries):
     response = api_client.dataservices.get_society_data_by_country(countries=countries)
     response.raise_for_status()
     return response.json()
-
-
-def get_or_create_export_plan(user):
-    # This is a temp hook to create initial export plan. Once we have a full journey this can be removed
-    export_plan = get_exportplan(user.session_id)
-    if not export_plan:
-        # This currently creates an empty export plan
-        export_plan = create_export_plan(sso_session_id=user.session_id, exportplan_data={})
-    return export_plan
 
 
 def get_cia_world_factbook_data(country, key):
@@ -130,8 +113,8 @@ def upload_exportplan_pdf(sso_session_id, exportplan_id, file):
     return response.json()
 
 
-def get_exportplan_list(sso_session_id):
-    response = api_client.exportplan.exportplan_detail_list(sso_session_id)
+def get_exportplan_detail_list(sso_session_id):
+    response = api_client.exportplan.detail_list(sso_session_id)
     response.raise_for_status()
     exportplan_list = response.json()
     for ep in exportplan_list:
@@ -140,3 +123,9 @@ def get_exportplan_list(sso_session_id):
         ep['calculated_progress'] = ExportPlanProcessor(ep).calculate_ep_progress()
 
     return exportplan_list
+
+
+def get_exportplan(sso_session_id, id):
+    response = api_client.exportplan.detail(sso_session_id, id)
+    response.raise_for_status()
+    return response.json()

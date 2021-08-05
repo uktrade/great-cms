@@ -100,13 +100,12 @@ def test_about_your_business_form_view(
     url = reverse('exportplan:about-your-business')
     client.force_login(user)
     response = client.get(url)
-
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
 @patch.object(helpers, 'get_cia_world_factbook_data')
-@patch.object(helpers, 'get_or_create_export_plan')
+@patch.object(helpers, 'get_exportplan')
 def test_market_markets_research_form_view(
     mock_get_export_plan,
     mock_cia_factbook_data,

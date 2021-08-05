@@ -223,7 +223,7 @@ class ExportPlanBusinessObjectivesView(PageTitleMixin, LessonDetailsMixin, Expor
 
 class ExportPlanAboutYourBusinessView(PageTitleMixin, ExportPlanSectionView):
 
-    form_class = forms.ExportPlanAboutYourBusinessForm
+    # form_class = forms.ExportPlanAboutYourBusinessForm
     success_url = reverse_lazy('exportplan:about-your-business')
     title = 'About your business'
 
@@ -402,7 +402,7 @@ class ExportPlanList(GA360Mixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(sections=data.SECTION_URLS, **kwargs)
-        context['exportplan_list'] = helpers.get_exportplan_list(self.request.user.session_id)
+        context['exportplan_list'] = helpers.get_exportplan_detail_list(self.request.user.session_id)
 
         return context
 
@@ -420,7 +420,7 @@ class ExportPlanIndex(GA360Mixin, TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
-            if len(helpers.get_exportplan_list(self.request.user.session_id)):
+            if len(helpers.get_exportplan_detail_list(self.request.user.session_id)):
                 return redirect('exportplan:list')
         return super().dispatch(request, *args, **kwargs)
 

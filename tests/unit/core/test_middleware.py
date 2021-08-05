@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpResponse
 from django.test import override_settings
+from django.urls import reverse
 
 from core import helpers, middleware
 from core.middleware import GADataMissingException, TimedAccessMiddleware
@@ -51,7 +52,7 @@ def test_user_specific_redirect_middleware(
     domestic_site,
     client,
     user,
-    mock_export_plan_list,
+    mock_export_plan_detail_list,
     patch_get_user_lesson_completed,
     mock_get_user_profile,
 ):
@@ -82,7 +83,7 @@ def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set
     client,
     user,
     mock_get_company_profile,
-    mock_export_plan_list,
+    mock_export_plan_detail_list,
     patch_get_user_lesson_completed,
     mock_get_user_profile,
 ):
@@ -99,8 +100,9 @@ def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set
     for page in [exportplan_page, exportplan_dashboard_page]:
         response = client.get(page.url)
 
-        # Then they should not be redirected
-        assert response.status_code == 200
+        # Then they should be redirect to list page
+        assert response.status_code == 302
+        assert response.url == reverse('exportplan:list')
 
 
 @pytest.mark.django_db

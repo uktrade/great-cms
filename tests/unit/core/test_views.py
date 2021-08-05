@@ -217,7 +217,7 @@ def test_dashboard_page_lesson_progress(
     mock_events_by_location_list,
     patch_set_user_page_view,
     patch_get_user_page_views,
-    mock_export_plan_list,
+    mock_export_plan_detail_list,
     mock_get_company_profile,
     client,
     user,
@@ -819,7 +819,7 @@ def test_check_view_external_error(mock_search_commodity_by_term, client):
 
 
 @pytest.mark.django_db
-def test_compare_countries_page(mock_export_plan_list, domestic_homepage, client, user, mock_get_user_profile):
+def test_compare_countries_page(mock_export_plan_detail_list, domestic_homepage, client, user, mock_get_user_profile):
     client.force_login(user)
     url = reverse('core:compare-countries')
 

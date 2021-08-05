@@ -227,17 +227,13 @@ contact_urls_for_prefill_tests = (
 
 
 @pytest.mark.parametrize('url', contact_urls_for_prefill_tests)
-@mock.patch('sso.models.get_or_create_export_plan')
 def test_contact_us_short_form_prepopulated_when_logged_in(
-    get_or_create_export_plan,
     client,
     url,
     user,
     mock_get_company_profile,
 ):
     client.force_login(user)  #  ensure the user is logged in
-
-    get_or_create_export_plan.return_value = {}  # data is unnecessary here
 
     mock_get_company_profile.return_value = {
         # Full spec of CompanySerializer is in

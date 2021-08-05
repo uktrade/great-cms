@@ -13,7 +13,7 @@ from core.models import Tour
 from directory_api_client import api_client
 from directory_constants import choices
 from exportplan.core import helpers as exportplan_helpers
-from sso import helpers as sso_helpers, models
+from sso import helpers as sso_helpers
 from tests.browser.steps import should_not_see_errors
 from tests.helpers import create_response
 from tests.unit.core.factories import (
@@ -277,17 +277,6 @@ def mock_get_export_plan():
 
 
 @pytest.fixture
-def mock_get_user_context_export_plan():
-    return_value = {
-        'pk': 1,
-        'target_markets': [JAPAN],
-        'target_markets_research': {'demand': 'high'},
-    }
-    with patch.object(models, 'get_or_create_export_plan', return_value=return_value) as patched:
-        yield patched
-
-
-@pytest.fixture
 def mock_get_recommended_countries():
     return_value = [{'country': 'China'}, {'country': 'india'}]
     with patch.object(exportplan_helpers, 'get_recommended_countries', return_value=return_value) as patched:
@@ -295,7 +284,7 @@ def mock_get_recommended_countries():
 
 
 @pytest.fixture
-def mock_get_export_plan_list():
+def mock_get_export_plan_detail_list():
     data = [
         {
             'export_countries': ['UK'],
@@ -306,7 +295,7 @@ def mock_get_export_plan_list():
         }
     ]
     return_value = create_response(data)
-    with patch.object(api_client.exportplan, 'exportplan_list', return_value=return_value) as patched:
+    with patch.object(api_client.exportplan, 'detail_list', return_value=return_value) as patched:
         yield patched
 
 
@@ -390,7 +379,7 @@ def mock_all_dashboard_and_export_plan_requests_and_responses(
     mock_export_plan_dashboard_page_tours,
     mock_get_corruption_perceptions_index,
     mock_get_dashboard_export_opportunities,
-    mock_export_plan_list,
+    mock_export_plan_detail_list,
     mock_get_export_plan_market_data,
     mock_get_export_plan,
     mock_get_user_context_export_plan,
