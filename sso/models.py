@@ -4,7 +4,7 @@ from django.utils.functional import cached_property
 
 from core.helpers import CompanyParser
 from directory_constants import user_roles
-from exportplan.core.helpers import get_or_create_export_plan
+from exportplan.core import helpers as export_plan_helpers
 from exportplan.core.parsers import ExportPlanParser
 from sso import helpers
 from sso_profile.business_profile.helpers import get_supplier_profile
@@ -39,9 +39,20 @@ class BusinessSSOUser(AbstractUser):
 
     @cached_property
     def export_plan(self):
-        exportplan = get_or_create_export_plan(self)
+        # Temp property which will be removed once we remove this dependency
+        exportplan = export_plan_helpers.get_exportplan_detail_list(self.session_id)
+
         if exportplan:
-            return ExportPlanParser(exportplan)
+            return ExportPlanParser(exportplan[0])
+        else:
+            exportplan_data = {
+                'export_countries': [{'country_name': 'China', 'country_iso2_code': 'CN'}],
+                'export_commodity_codes': [{'commodity_name': 'gin', 'commodity_code': '220850'}],
+            }
+            exportplan = ExportPlanParser(
+                export_plan_helpers.create_export_plan(self.session_id, exportplan_data=exportplan_data)
+            )
+        return exportplan
 
     @cached_property
     def user_profile(self):

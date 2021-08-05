@@ -246,6 +246,24 @@ def test_update_export_plan_api_view(mock_update_exportplan, client, user):
 
 
 @pytest.mark.django_db
+@mock.patch.object(helpers, 'create_export_plan')
+def test_update_export_plan_api_view_create(mock_create_exportplan, client, user):
+    client.force_login(user)
+    data = {
+        'export_commodity_codes': [{'commodity_name': 'gin', 'commodity_code': '101.2002.123'}],
+        'export_countries': [{'country_name': 'China', 'country_iso2_code': 'CN'}],
+    }
+
+    url = reverse('exportplan:api-export-plan-create')
+    response = client.post(url, data, content_type='application/json')
+
+    assert response.status_code == 200
+
+    assert mock_create_exportplan.call_count == 1
+    assert mock_create_exportplan.call_args == mock.call(data=data, sso_session_id='123')
+
+
+@pytest.mark.django_db
 @mock.patch.object(helpers, 'update_exportplan')
 def test_update_calculate_cost_and_pricing(mock_update_exportplan, cost_pricing_data, client, user):
 

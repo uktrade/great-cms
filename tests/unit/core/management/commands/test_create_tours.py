@@ -24,6 +24,7 @@ def test_create_tours(
     exportplan = models.ListPage.objects.get(slug='export-plan')
 
     assert domestic_homepage.get_url() == '/'
+
     assert exportplan.get_url() == '/export-plan/'
     assert exportplan_dashboard.get_url() == '/export-plan/dashboard/'
 
@@ -31,5 +32,5 @@ def test_create_tours(
 
     client.force_login(user)
 
-    assert client.get(exportplan.get_url()).status_code == 200
+    assert client.get(exportplan.get_url()).status_code == 302
     assert client.get(exportplan_dashboard.get_url()).status_code == 200

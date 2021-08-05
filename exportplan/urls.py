@@ -16,6 +16,16 @@ app_name = 'exportplan'
 
 urlpatterns = [
     path(
+        '',
+        views.ExportPlanIndex.as_view(),
+        name='index',
+    ),
+    path(
+        'start/',
+        login_required(views.ExportPlanStart.as_view(), login_url=SIGNUP_URL),
+        name='start',
+    ),
+    path(
         'section/marketing-approach/',
         login_required(views.ExportPlanMarketingApproachView.as_view(), login_url=SIGNUP_URL),
         name='marketing-approach',
@@ -85,6 +95,11 @@ urlpatterns = [
         login_required(views.ExportPlanServicePage.as_view(), login_url=SIGNUP_URL),
         name='service-page',
     ),
+    path(
+        'list/',
+        login_required(views.ExportPlanList.as_view(), login_url=SIGNUP_URL),
+        name='list',
+    ),
     path('pdf-download/', login_required(views.PDFDownload.as_view(), login_url=SIGNUP_URL), name='pdf-download'),
     path('api/export-plan/', skip_ga360(api.UpdateExportPlanAPIView.as_view()), name='api-update-export-plan'),
     path(
@@ -110,4 +125,5 @@ urlpatterns = [
     path(
         'api/model-object/manage/', skip_ga360(api.ModelObjectManageAPIView.as_view()), name='api-model-object-manage'
     ),
+    path('api/create/', skip_ga360(api.CreateExportPlanAPIView.as_view()), name='api-export-plan-create'),
 ]

@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+  <div class="p-v-l">
+    <div class="container">
+      <h1 class="h-l">
+        Make an export plan
+      </h1>
+
+      <div class="grid">
+        <div class="c-1-2-m">
+          <h2 class="h-m">What is an export plan?</h2>
+          <p>An export plan is a business plan for selling internationally. It should detail the decisions you’ve made
+            based on your market research, your objectives and how you plan to achieve them.</p>
+          <p>Your export plan is a great tool to show banks, investors or partners that you’re serious and have
+            realistic
+            and achievable goals.</p>
+
+          <h2 class="h-m">Why do you need one?</h2>
+          <p>A well structured plan will help you:</p>
+          <ul>
+            <li>maximise your product's export potential</li>
+            <li>identify risks and minimise them</li>
+            <li>set out a pricing strategy</li>
+            <li>present clear evidence for funding and finance</li>
+            <li>make choices and set targets using data from sources like the World Bank</li>
+          </ul>
+        </div>
+        <div class="c-1-2-m">
+          <div class="g-card">
+            <div class="g-card-body p-b-m m-b-m">
+              <h2 class="h-m">Take your first steps towards exporting success</h2>
+              <p>Put an export plan in place for your business</p>
+              <a href="{% url 'exportplan:start' %}" class="button button--large button--secondary">Start your free
+                plan</a>
+            </div>
+            <a href="#" class="link link--icon">
+              <i class="fas fa-file-pdf"></i> See what a good export plan looks like
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

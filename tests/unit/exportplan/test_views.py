@@ -79,7 +79,8 @@ def test_export_plan_landing_page(
     client.force_login(user)
 
     response = client.get('/export-plan/')
-    assert response.status_code == 200
+    assert response.status_code == 302
+    assert response.url == reverse('exportplan:list')
 
 
 @pytest.mark.django_db
