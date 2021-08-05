@@ -7,8 +7,8 @@ from directory_api_client import api_client
 from exportplan.core.processor import ExportPlanProcessor
 
 
-def create_export_plan(sso_session_id, exportplan_data):
-    response = api_client.exportplan.create(sso_session_id=sso_session_id, data=exportplan_data)
+def create_export_plan(sso_session_id, data):
+    response = api_client.exportplan.create(sso_session_id=sso_session_id, data=data)
     response.raise_for_status()
     return response.json()
 

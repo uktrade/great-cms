@@ -125,5 +125,5 @@ urlpatterns = [
     path(
         'api/model-object/manage/', skip_ga360(api.ModelObjectManageAPIView.as_view()), name='api-model-object-manage'
     ),
-    path('api/createt/', skip_ga360(api.CreateExportPlanAPIView.as_view()), name='api-export-plan-create'),
+    path('api/create/', skip_ga360(api.CreateExportPlanAPIView.as_view()), name='api-export-plan-create'),
 ]
