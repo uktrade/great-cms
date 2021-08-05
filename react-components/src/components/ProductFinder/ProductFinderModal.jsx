@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
-import ReactHtmlParser from 'react-html-parser'
 import Slider from 'react-slick'
 import Services from '@src/Services'
 import actions from '@src/actions'
@@ -14,15 +13,16 @@ import SearchInput from './SearchInput'
 import StartEndPage from './StartEndPage'
 
 export default function ProductFinderModal(props) {
-  const { modalIsOpen, setIsOpen, selectedProduct, onCloseRedirect } = props
+  const { modalIsOpen, setIsOpen, selectedProducts, onCloseRedirect } = props
 
   let scrollOuter
-  const [isSearching, setSearching] = useState(false)
   const [searchResults, setSearchResults] = useState()
   const [isLoading, setLoading] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [showingInteraction, setShowingInteraction] = useState()
+
+  const userProductsKey = 'UserProducts'
 
   useEffect(() => {
     if (modalIsOpen) {
@@ -36,18 +36,23 @@ export default function ProductFinderModal(props) {
     }
   }, [modalIsOpen])
 
+  const loadProducts = () => {
+    // Load the product list into redux.  We'll be needing it later
+    if (!selectedProducts)
+      Services.getUserData(userProductsKey).then((result) => {
+        Services.store.dispatch(actions.setProducts(result[userProductsKey]))
+      })
+  }
+
   const closeModal = () => {
     setIsOpen(false)
-    setSearching(false)
     setSearchResults()
-    if (onCloseRedirect && !selectedProduct) {
-      window.location.href = onCloseRedirect
-    }
   }
 
   const modalAfterOpen = () => {
     setIsScrolled({})
     setSearchTerm('')
+    loadProducts()
   }
 
   const setScrollShadow = () => {
@@ -87,10 +92,13 @@ export default function ProductFinderModal(props) {
 
   const saveProduct = (commodityCode, commodityName) => {
     Services.store.dispatch(
-      actions.setProduct({
-        commodity_name: commodityName,
-        commodity_code: commodityCode,
-      })
+      actions.setProducts([
+        ...selectedProducts,
+        {
+          commodity_name: commodityName,
+          commodity_code: commodityCode,
+        },
+      ])
     )
     if (searchResults) {
       analytics({
@@ -169,7 +177,6 @@ export default function ProductFinderModal(props) {
   }
 
   const backToSearch = () => {
-    setSearching(true)
     renderSearchResults()
     analytics({
       event: 'searchProductAgain',
@@ -416,7 +423,7 @@ export default function ProductFinderModal(props) {
 
   const renderInfoCards = () => {
     return infoCards.map((card, idx) => (
-      <div key={idx} className={card.className}>
+      <div key={`card-${idx}`} className={card.className}>
         {card.content}
       </div>
     ))
@@ -426,7 +433,7 @@ export default function ProductFinderModal(props) {
     return (
       <div className="p-h-s p-t-l">
         <h3 className="h-m p-t-0 p-b-xxs">
-          <label for="search-input">Add product</label>
+          <label htmlFor="search-input">Add product</label>
         </h3>
         <div id="search-hint">
           Adding a product personalises lessons and other content for you.
@@ -452,7 +459,7 @@ export default function ProductFinderModal(props) {
             onClick={search}
             aria-label="search item"
           >
-            <inline className="visually-hidden">Search product</inline>
+            <span className="visually-hidden">Search product</span>
             <i className="fa fa-arrow-right" />
           </button>
         </div>
@@ -465,6 +472,8 @@ export default function ProductFinderModal(props) {
       </div>
     )
   }
+  /* TODO: Left here because we are surely going to need a display and rename function for products
+     once the designers realise it's now missing.
 
   const showProduct = () => {
     // When modal is opened - it shows the last selected product
@@ -474,7 +483,7 @@ export default function ProductFinderModal(props) {
         <section className="m-b-s">
           <h2 className="h-m p-b-s">Your product</h2>
           <StartEndPage
-            commodityCode={selectedProduct.commodity_code || ''}
+            commodityCode={selectedProducts.commodity_code || ''}
             defaultCommodityName={
               ReactHtmlParser(selectedProduct.commodity_name).toString() || ''
             }
@@ -494,7 +503,7 @@ export default function ProductFinderModal(props) {
       </div>
     )
   }
-
+*/
   const searchPages = () => {
     // When in searching mode.  If there are searchResults will show a refinement/result page
     // otherwise the search box page.
@@ -571,12 +580,12 @@ export default function ProductFinderModal(props) {
             {spinner}
             <div
               className="scroll-inner p-b-m"
-              tabindex="0"
+              tabIndex="0"
               ref={(_scrollInner) => {
                 scrollOuter = _scrollInner || scrollOuter
               }}
             >
-              {isSearching || !selectedProduct ? searchPages() : showProduct()}
+              {searchPages()}
             </div>
           </div>
         </form>
@@ -588,13 +597,15 @@ export default function ProductFinderModal(props) {
 ProductFinderModal.propTypes = {
   modalIsOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
-  selectedProduct: PropTypes.shape({
-    commodity_name: PropTypes.string,
-    commodity_code: PropTypes.string,
-  }),
+  selectedProducts: PropTypes.arrayOf(
+    PropTypes.shape({
+      commodity_name: PropTypes.string,
+      commodity_code: PropTypes.string,
+    })
+  ),
   onCloseRedirect: PropTypes.string,
 }
 ProductFinderModal.defaultProps = {
-  selectedProduct: null,
+  selectedProducts: null,
   onCloseRedirect: '',
 }

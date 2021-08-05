@@ -7,38 +7,47 @@ import fetchMock from 'fetch-mock'
 import api from '@src/api'
 import { getProducts } from '@src/reducers'
 
-const updateEP = jest.fn()
+const updateUserData = jest.fn()
+
+const selectedProduct = {
+  commodity_code: '123456',
+  commodity_name: 'my product',
+}
 
 describe('Reducers', () => {
-  it('tests exportPlanReducer', async () => {
-    let data = { commodity_name: 'Test product', commodity_code: '123456' }
+  it('tests userBasket reducer', async () => {
+    let data = [{ commodity_name: 'Test product', commodity_code: '123456' }]
     Services.setConfig({
       refreshOnMarketChange: true,
+      apiUserDataUrl: '/api/user-data/-name-',
     })
-    api.updateExportPlan = (payload) => {
+    Services.store.dispatch(
+      actions.setInitialState({ userBasket: { products: [selectedProduct] } })
+    )
+    api.setUserData = (payload) => {
       return new Promise((resolve) => {
-        resolve(updateEP(payload))
+        resolve(updateUserData(payload))
       })
     }
     api.reloadPage = jest.fn()
-    Services.store.dispatch(actions.setProduct(data))
+    Services.store.dispatch(actions.setProducts(data))
     await waitFor(() => {
-      expect(updateEP).toHaveBeenCalledTimes(1)
-      expect(api.reloadPage).toHaveBeenCalledTimes(1)
+      expect(updateUserData).toHaveBeenCalledTimes(1)
+      expect(api.reloadPage).toHaveBeenCalledTimes(0)
     })
     expect(getProducts(Services.store.getState())).toEqual(data)
     // No Change to code
     data = { ...data, commodity_name: 'New Name' }
-    Services.store.dispatch(actions.setProduct(data))
+    Services.store.dispatch(actions.setProducts(data))
     await waitFor(() => {
-      expect(updateEP).toHaveBeenCalledTimes(2)
+      expect(updateUserData).toHaveBeenCalledTimes(2)
       expect(api.reloadPage).toHaveBeenCalledTimes(1)
     })
     expect(getProducts(Services.store.getState())).toEqual(data)
     data = { ...data, commodity_code: '654321' }
-    Services.store.dispatch(actions.setProduct(data))
+    Services.store.dispatch(actions.setProducts(data))
     await waitFor(() => {
-      expect(updateEP).toHaveBeenCalledTimes(3)
+      expect(updateUserData).toHaveBeenCalledTimes(3)
       expect(api.reloadPage).toHaveBeenCalledTimes(2)
     })
     expect(getProducts(Services.store.getState())).toEqual(data)
@@ -47,10 +56,10 @@ describe('Reducers', () => {
       refreshOnMarketChange: false,
     })
     data = { ...data, commodity_code: '999999' }
-    Services.store.dispatch(actions.setProduct(data))
+    Services.store.dispatch(actions.setProducts(data))
     await waitFor(() => {
-      expect(updateEP).toHaveBeenCalledTimes(4)
-      expect(api.reloadPage).toHaveBeenCalledTimes(2)
+      expect(updateUserData).toHaveBeenCalledTimes(4)
+      expect(api.reloadPage).toHaveBeenCalledTimes(3)
     })
     expect(getProducts(Services.store.getState())).toEqual(data)
   })

@@ -1,4 +1,5 @@
 import api from '@src/api'
+
 import {
   SET_MODAL_IS_OPEN,
   SET_INITIAL_STATE,
@@ -6,20 +7,17 @@ import {
   SET_COUNTRIES_EXPERTISE,
   SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK,
   SET_NEXT_URL,
-  SET_PRODUCT,
-  SET_MARKET,
+  SET_PRODUCTS,
+  SET_ACTIVE_PRODUCT,
+  SET_MARKETS,
+  SET_EP_PRODUCT,
+  SET_EP_MARKET,
   SET_LOADED,
   SET_COMPARISON_MARKETS,
 } from '@src/actions'
 import { config } from '@src/config'
 import { combineReducers } from 'redux'
 import costAndPricing from '@src/reducers/costsAndPricing'
-
-const saveToExportPlan = (payload) => {
-  return api.updateExportPlan(payload).catch(() => {
-    // TODO: Add error confirmation here
-  })
-}
 
 const initialState = {
   // prevents modals from opening on page load if user dismissed the modal already
@@ -88,35 +86,54 @@ const baseReducers = (state = initialState, action) => {
   }
 }
 
-const exportPlanReducer = (state, action) => {
+const basketReducer = (state, action) => {
   const newState = { ...state }
   let codeChanged
   switch (action.type) {
-    case SET_PRODUCT:
+    case SET_PRODUCTS:
       codeChanged =
         (newState.products &&
           newState.products[0] &&
           newState.products[0].commodity_code) !== action.payload.commodity_code
-      newState.products = [action.payload]
-
-      saveToExportPlan({ export_commodity_codes: [action.payload] }).then(
-        () => {
+      if (newState.products) {
+        // only send updated products if we have already loaded them
+        api.setUserData('UserProducts', action.payload).then(() => {
           if (codeChanged && config.refreshOnMarketChange) {
             api.reloadPage()
           }
-        }
-      )
+        })
+      }
+      newState.products = action.payload
       break
-    case SET_MARKET:
-      newState.markets = [action.payload]
-      saveToExportPlan({ export_countries: [action.payload] }).then(() => {
-        if (config.refreshOnMarketChange) {
-          api.reloadPage()
-        }
-      })
+    case SET_ACTIVE_PRODUCT:
+      newState.activeProduct = action.payload
+      break
+    case SET_MARKETS:
+      if (newState.markets) {
+        api.setUserData('UserMarkets', action.payload).then(() => {
+          if (config.refreshOnMarketChange) {
+            api.reloadPage()
+          }
+        })
+      }
+      newState.markets = action.payload
       break
     default:
   }
+  return newState
+}
+
+const exportPlanReducer = (state, action) => {
+    const newState = { ...state }
+    switch (action.type) {
+      case SET_EP_PRODUCT:
+        newState.product = action.payload
+        break
+      case SET_EP_MARKET:
+        console.log('***  Setting ep market', action.payload)
+        newState.market = action.payload
+        break
+    }
   return newState
 }
 
@@ -155,10 +172,20 @@ export const getPerformFeatureSKipCookieCheck = (state) =>
   state.performSkipFeatureCookieCheck
 export const getNextUrl = (state) => state.nextUrl
 
+// User Basket contains products and markets
 export const getProducts = (state) =>
-  ((state.exportPlan && state.exportPlan.products) || [])[0]
+  state.userBasket && state.userBasket.products
+export const getActiveProduct = (state) =>
+  state.userBasket && state.userBasket.activeProduct
 export const getMarkets = (state) =>
-  ((state.exportPlan && state.exportPlan.markets) || [])[0]
+  state.userBasket && state.userBasket.markets
+
+// Export plan contains single product and market
+export const getEpProduct = (state) =>
+  state.exportPlan && state.exportPlan.product
+export const getEpMarket = (state) =>
+  state.exportPlan && state.exportPlan.market
+
 export const getCacheVersion = (state) =>
   state.dataLoader && state.dataLoader.cacheVersion
 export const getComparisonMarkets = (state) => state.comparisonMarkets || []
@@ -167,6 +194,7 @@ const rootReducer = (state, action) => {
   let localState = baseReducers(state, action)
   localState = setInitialStateReducer(localState, action)
   return combineReducers({
+    userBasket: basketReducer,
     exportPlan: exportPlanReducer,
     modalIsOpen: setModalIsOpen,
     dataLoader: dataCacheReducer,

@@ -44,7 +44,7 @@ const productApiResponse = {
 
 // set up the mock of user daa with two countries
 const comparisonMarketResponse = {
-  data: {
+  ComparisonMarkets: {
       NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
       DE: { country_name: 'Germany', country_iso2_code: 'DE' },
   },
@@ -94,7 +94,7 @@ describe('Compare markets - Product tab', () => {
     const localContainer = container
 
     Services.store.dispatch(
-      actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
+      actions.setInitialState({ userBasket: { products: [selectedProduct] } })
     )
 
     localContainer.innerHTML =

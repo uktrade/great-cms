@@ -16,7 +16,7 @@ function SelectMarket() {
 
   const clickMarket = (clickedMarket) => {
     const marketNames = comparisonMarkets.map((v) => v.country_name)
-    Services.store.dispatch(actions.setMarket(clickedMarket))
+    Services.store.dispatch(actions.setMarkets(clickedMarket))
     analytics({
       event: 'addFindMarketSuccess',
       market1: marketNames[0] || 'None',

@@ -128,7 +128,6 @@ export default function DataTable(props) {
     // Wipe cache if commodity code changes
     if (cache.commodityCode !== product.commodityCode) {
       cache = { commodityCode: product.commodityCode }
-      cache[datasetName] = {}
     }
     cache[datasetName] = cache[datasetName] || {}
 

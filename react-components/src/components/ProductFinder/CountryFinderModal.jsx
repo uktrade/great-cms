@@ -92,6 +92,12 @@ export default function CountryFinderModal(props) {
     })
   }
 
+  useEffect(() => {
+    if(commodityCode) {
+      getSuggestedCountries()
+    }
+  },[commodityCode])
+
   const modalAfterOpen = () => {
     if (!countryList) {
       getCountries()
@@ -168,7 +174,7 @@ export default function CountryFinderModal(props) {
       </p>
     </div>
   )
-  if (commodityCode) {
+  if (suggestedCountries) {
     const suggestedList = suggestedCountries.map((country) => {
       return (
         <button

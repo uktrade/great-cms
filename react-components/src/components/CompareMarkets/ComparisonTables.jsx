@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useWindowSize } from '@src/components/hooks/useWindowSize'
 import DataTable from './DataTable'
 import Tabs from './Tabs'
-import { isObject, camelizeObject } from '../../Helpers'
+import { isObject } from '../../Helpers'
 
 import productTabConfig from './TabConfigProduct'
 import economyTabConfig from './TabConfigEconomy'
@@ -17,12 +17,13 @@ export default function ComparisonTables(props) {
   const {
     tabsJson,
     comparisonMarkets,
-    selectedProduct,
+    activeProduct,
     removeMarket,
     triggerButton,
     cacheVersion,
   } = props
   const [activeTab, setActiveTab] = useState()
+
 
   // Note This object dictates the order of tabs displayed
   const tabConfig = {
@@ -90,7 +91,7 @@ export default function ComparisonTables(props) {
                   datasetName={item}
                   config={tabConfig[item]}
                   comparisonMarkets={comparisonMarkets}
-                  product={camelizeObject(selectedProduct)}
+                  product={activeProduct || {}}
                   removeMarket={removeMarket}
                   cacheVersion={cacheVersion}
                   mobile={mobile}
@@ -109,10 +110,10 @@ export default function ComparisonTables(props) {
 ComparisonTables.propTypes = {
   tabsJson: PropTypes.string.isRequired,
   comparisonMarkets: PropTypes.instanceOf(Object).isRequired,
-  selectedProduct: PropTypes.shape({
+  activeProduct: PropTypes.shape({
     commodity_name: PropTypes.string,
     commodity_code: PropTypes.string,
-  }).isRequired,
+  }),
   removeMarket: PropTypes.func.isRequired,
   triggerButton: PropTypes.instanceOf(Object).isRequired,
   cacheVersion: PropTypes.number,
@@ -120,4 +121,5 @@ ComparisonTables.propTypes = {
 
 ComparisonTables.defaultProps = {
   cacheVersion: null,
+  activeProduct: null,
 }
