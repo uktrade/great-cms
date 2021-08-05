@@ -12,7 +12,7 @@ from tests.helpers import create_response
 def test_create_export_plan(mock_exportplan_create):
     export_plan_data = {'Country': 'UK', 'Commodity code': 100, 'rules': {'rule1': '12343'}}
     mock_exportplan_create.return_value = create_response(status_code=201)
-    helpers.create_export_plan(sso_session_id=123, exportplan_data=export_plan_data)
+    helpers.create_export_plan(sso_session_id=123, data=export_plan_data)
 
     assert mock_exportplan_create.call_count == 1
     assert mock_exportplan_create.call_args == mock.call(
