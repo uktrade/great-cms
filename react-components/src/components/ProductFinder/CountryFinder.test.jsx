@@ -37,10 +37,17 @@ it('Opens and closes country finder', async () => {
     createCountryFinder({ element: container })
   })
   expect(document.body.querySelector('.country-finder')).toBeFalsy()
-  const button = container.querySelector('button')
-
+  // Open up the p-bar dropdown
   act(() => {
-    Simulate.click(button)
+    Simulate.click(container.querySelector('button'))
+  })
+  await waitFor(() => {
+    const addNewButton = document.body.querySelector('.ReactModal__Content button');
+    expect(addNewButton).toBeTruthy()
+  })
+  // Click on the open country finder button
+  act(() => {
+    Simulate.click(document.body.querySelector('.ReactModal__Content button'))
   })
   const finder = document.body.querySelector('.country-finder');
   const closeButton = finder.querySelector('button.dialog-close');
@@ -89,10 +96,17 @@ it('Open country finder and type-ahead filter', async () => {
     createCountryFinder({ element: container })
   })
   expect(document.body.querySelector('.country-finder')).toBeFalsy()
-  const button = container.querySelector('button')
-
+  // Open up the p-bar dropdown
   act(() => {
-    Simulate.click(button)
+    Simulate.click(container.querySelector('button'))
+  })
+  await waitFor(() => {
+    const addNewButton = document.body.querySelector('.ReactModal__Content button');
+    expect(addNewButton).toBeTruthy()
+  })
+  // Click on the open country finder button
+  act(() => {
+    Simulate.click(document.body.querySelector('.ReactModal__Content button'))
   })
   const finder = document.body.querySelector('.country-finder');
   const closeButton = finder.querySelector('button.dialog-close');

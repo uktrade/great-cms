@@ -68,12 +68,27 @@ const multiItemResponse = {
     multiItemError: true,
   },
 }
+
+const openProductFinder = () => {
+    act(() => {
+      ProductFinder({ element: container })
+    })
+    act(() => {
+      Simulate.click(container.querySelector('button'))
+    })
+    // Click on the open product finder button
+    act(() => {
+      Simulate.click(document.body.querySelector('.ReactModal__Content button.button--primary'))
+    })
+    expect(document.body.querySelector('.product-finder')).toBeTruthy()
+}
+
 describe('Product finder tests', () => {
   beforeEach(() => {
     container = document.createElement('div')
     document.body.appendChild(container)
     container.innerHTML =
-      '<span id="set-product-button" data-productname="my product" data-productcode="123456"></span>'
+      '<span id="set-product-button"></span>'
     Services.setConfig({
       apiLookupProductUrl: '/api/lookup-product/',
       apiUserDataUrl: '/api/user-data/-name-',
@@ -101,16 +116,22 @@ describe('Product finder tests', () => {
     fetchMock.restore()
   })
 
-  it('Opens and closes product finder', () => {
+
+  it('Opens and closes product finder', async () => {
     act(() => {
       ProductFinder({ element: container })
     })
     expect(document.body.querySelector('.product-finder')).toBeFalsy()
-    const button = container.querySelector('button')
-
+    // Open up the p-bar dropdown
     act(() => {
-      Simulate.click(button)
+      Simulate.click(container.querySelector('button'))
     })
+    expect(document.body.querySelector('.ReactModal__Content button.button--primary')).toBeTruthy()
+    // Click on the open product finder button
+    act(() => {
+      Simulate.click(document.body.querySelector('.ReactModal__Content button.button--primary'))
+    })
+
     const finder = document.body.querySelector('.product-finder')
     const closeButton = finder.querySelector('button.dialog-close')
     expect(document.body.querySelector('.product-finder')).toBeTruthy()
@@ -122,12 +143,7 @@ describe('Product finder tests', () => {
 
   it('Does a search', async () => {
     fetchMock.post(/\/api\/lookup-product\//, mockResponse)
-    act(() => {
-      ProductFinder({ element: container })
-      const button = container.querySelector('button')
-      Simulate.click(button)
-    })
-    expect(document.body.querySelector('.product-finder')).toBeTruthy()
+    openProductFinder()
     const finder = document.body.querySelector('.product-finder')
     const textInput = finder.querySelector('input[type=text]')
     const searchButton = finder.querySelector('button.search-button')
@@ -163,12 +179,7 @@ describe('Product finder tests', () => {
 
   it('Back-tracks search', async () => {
     fetchMock.post(/\/api\/lookup-product\//, mockResponse)
-    // Open the dialogue
-    act(() => {
-      ProductFinder({ element: container })
-      const button = container.querySelector('button')
-      Simulate.click(button)
-    })
+    openProductFinder()
     const finder = document.body.querySelector('.product-finder')
     const textInput = finder.querySelector('input[type=text]')
     textInput.value = 'cheese'
@@ -210,11 +221,7 @@ describe('Product finder tests', () => {
   it('Searches multi-item', async () => {
     // Open the dialogue
     fetchMock.post(/\/api\/lookup-product\//, multiItemResponse)
-    act(() => {
-      ProductFinder({ element: container })
-      const button = container.querySelector('button')
-      Simulate.click(button)
-    })
+    openProductFinder()
     const finder = document.body.querySelector('.product-finder')
     const textInput = finder.querySelector('input[type=text]')
     textInput.value = 'cheese set'
@@ -232,6 +239,7 @@ describe('Product finder tests', () => {
     )
   })
 
+  // TODO: This test disabled out as renaming is not available right now - waiting for design
   xit('Opens product view and renames product', async () => {
     // Populate existing product, check for naming screen (rather than search screen)
     // and ability to rename
