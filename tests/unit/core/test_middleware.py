@@ -97,12 +97,12 @@ def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set
     mock_get_company_profile.return_value = {'name': 'Example corp'}
 
     # When the user next goes to /export-plan/ or /export-plan/dasbboard/
-    for page in [exportplan_page, exportplan_dashboard_page]:
-        response = client.get(page.url)
+    response = client.get(exportplan_page.url)
+    assert response.status_code == 302
+    assert response.url == reverse('exportplan:list')
 
-        # Then they should be redirect to list page
-        assert response.status_code == 302
-        assert response.url == reverse('exportplan:list')
+    response = client.get(exportplan_dashboard_page.url)
+    assert response.status_code == 200
 
 
 @pytest.mark.django_db
