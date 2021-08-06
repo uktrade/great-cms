@@ -1,7 +1,6 @@
 /* eslint-disable */
 import { act, Simulate } from 'react-dom/test-utils'
 import CompareMarkets from '@src/components/CompareMarkets'
-import SelectMarket from '@src/components/CompareMarkets/SelectMarket'
 import Services from '@src/Services'
 import actions from '@src/actions'
 import fetchMock from 'fetch-mock'
@@ -62,8 +61,8 @@ const countryDataApiResponse = {
 // set up the mock of user data with two countries
 const comparisonMarketResponse = {
   ComparisonMarkets: {
-      NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
-      DE: { country_name: 'Germany', country_iso2_code: 'DE' },
+    NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
+    DE: { country_name: 'Germany', country_iso2_code: 'DE' },
   },
 }
 
@@ -111,7 +110,9 @@ describe('Compare markets', () => {
     const localContainer = container
 
     Services.store.dispatch(
-      actions.setInitialState({ userBasket: { products: [selectedProduct] } })
+      actions.setInitialState({
+        userSettings: { UserProducts: [selectedProduct] },
+      })
     )
 
     localContainer.innerHTML =

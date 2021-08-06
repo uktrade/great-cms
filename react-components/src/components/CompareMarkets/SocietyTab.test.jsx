@@ -126,7 +126,7 @@ describe('Compare markets - Society tab', () => {
     }
     const localContainer = container
     Services.store.dispatch(
-      actions.setInitialState({ userBasket: { products: [selectedProduct] } })
+      actions.setInitialState({ userSettings: { UserProducts: [selectedProduct], ActiveProduct: {} } })
     )
     localContainer.innerHTML =
       '<span id="cta-container"></span><span id="compare-market-container" ></span>'

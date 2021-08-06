@@ -93,16 +93,15 @@ export default function CountryFinderModal(props) {
   }
 
   useEffect(() => {
-    if(commodityCode) {
+    if(modalIsOpen && commodityCode) {
       getSuggestedCountries()
     }
-  },[commodityCode])
+  },[commodityCode, modalIsOpen])
 
   const modalAfterOpen = () => {
     if (!countryList) {
       getCountries()
     }
-    getSuggestedCountries()
   }
 
   const clickCountry = (evt) => {

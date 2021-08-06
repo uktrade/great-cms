@@ -1,7 +1,6 @@
 import React from 'react'
 import Services from '@src/Services'
-import actions from '@src/actions'
-import { normaliseValues, get, millify, numberWithSign, camelizeObject } from '../../Helpers'
+import { normaliseValues, get, millify, numberWithSign } from '../../Helpers'
 import ProductSelector from './ProductSelector'
 
 const importValueAndChange = (importValue) => {
@@ -23,16 +22,10 @@ const importValueAndChange = (importValue) => {
   )
 }
 
-const setActiveProduct = (newProduct) => {
-  Services.store.dispatch(actions.setActiveProduct(camelizeObject(newProduct)))
-}
-
 const filter = (
   <div style={{width:'200px'}}>
     <div className="body-l-b">Select your product</div>
-          <ProductSelector
-            setActiveProduct={setActiveProduct}
-          />
+          <ProductSelector/>
   </div>
 )
 

@@ -70,4 +70,4 @@ CONSENT_CHOICES = (
     (CONSENT_PHONE, ' I would like to receive additional information by telephone'),
 )
 
-USER_DATA_NAMES = {'ComparisonMarkets': 16384, 'UserProducts': 16384, 'UserMarkets': 16384}
+USER_DATA_NAMES = {'ComparisonMarkets': 16384, 'UserProducts': 16384, 'UserMarkets': 16384, 'ActiveProduct': 256}

@@ -45,8 +45,8 @@ const productApiResponse = {
 // set up the mock of user daa with two countries
 const comparisonMarketResponse = {
   ComparisonMarkets: {
-      NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
-      DE: { country_name: 'Germany', country_iso2_code: 'DE' },
+    NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
+    DE: { country_name: 'Germany', country_iso2_code: 'DE' },
   },
 }
 
@@ -94,7 +94,9 @@ describe('Compare markets - Product tab', () => {
     const localContainer = container
 
     Services.store.dispatch(
-      actions.setInitialState({ userBasket: { products: [selectedProduct] } })
+      actions.setInitialState({
+        userSettings: { UserProducts: [selectedProduct], ActiveProduct: selectedProduct },
+      })
     )
 
     localContainer.innerHTML =
@@ -112,12 +114,17 @@ describe('Compare markets - Product tab', () => {
     // check mock directory api data...
     await waitFor(() => {
       expect(localContainer.querySelector('#market-Germany .name')).toBeTruthy()
-
     })
     const rowGermany = localContainer.querySelector('#market-Germany')
-    expect(getText(rowGermany, '.world-import-value .primary')).toMatch('21,670')
-    expect(getText(rowGermany, '.world-import-value .secondary')).toMatch('+2.8% vs 2016')
+    expect(getText(rowGermany, '.world-import-value .primary')).toMatch(
+      '21,670'
+    )
+    expect(getText(rowGermany, '.world-import-value .secondary')).toMatch(
+      '+2.8% vs 2016'
+    )
     expect(getText(rowGermany, '.uk-import-value .primary')).toMatch('135,150')
-    expect(getText(rowGermany, '.uk-import-value .secondary')).toMatch('+0.7% vs 2018')
+    expect(getText(rowGermany, '.uk-import-value .secondary')).toMatch(
+      '+0.7% vs 2018'
+    )
   })
 })

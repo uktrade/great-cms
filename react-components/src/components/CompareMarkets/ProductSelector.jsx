@@ -1,16 +1,18 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
-import { getProducts, getActiveProduct } from '@src/reducers'
+import { useUserProducts, useActiveProduct } from '@src/components/hooks/useUserData'
 import { Select } from '@src/components/Form/Select'
 
-function ProductSelector({ setActiveProduct }) {
-  const products = useSelector((state) => getProducts(state))
-  const activeProduct = useSelector((state) => getActiveProduct(state))
+function ProductSelector() {
+  const [products] = useUserProducts()
+  const [activeProduct, setActiveProduct] = useActiveProduct()
 
   const setProduct = (choice) => {
     const commodityCode = Object.values(choice)[0]
     setActiveProduct(products.find((p) => p.commodity_code === commodityCode))
+  }
+  if(activeProduct && products) {
+    if(!products.find((p) => p.commodity_code === activeProduct.commodity_code && p.commodity_name === activeProduct.commodity_name) )
+      setActiveProduct(products[0])
   }
   return (
     <>
@@ -26,14 +28,10 @@ function ProductSelector({ setActiveProduct }) {
           }
         })}
         hideLabel
-        selected={activeProduct && activeProduct.commodityCode}
+        selected={activeProduct && activeProduct.commodity_code}
       />
     </>
   )
-}
-
-ProductSelector.propTypes = {
-  setActiveProduct: PropTypes.func.isRequired,
 }
 
 export default ProductSelector

@@ -7,13 +7,11 @@ import {
   SET_COUNTRIES_EXPERTISE,
   SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK,
   SET_NEXT_URL,
-  SET_PRODUCTS,
-  SET_ACTIVE_PRODUCT,
   SET_MARKETS,
   SET_EP_PRODUCT,
   SET_EP_MARKET,
   SET_LOADED,
-  SET_COMPARISON_MARKETS,
+  SET_USER_SETTING,
 } from '@src/actions'
 import { config } from '@src/config'
 import { combineReducers } from 'redux'
@@ -86,37 +84,19 @@ const baseReducers = (state = initialState, action) => {
   }
 }
 
-const basketReducer = (state, action) => {
+const userSettingsReducer = (state, action) => {
   const newState = { ...state }
-  let codeChanged
   switch (action.type) {
-    case SET_PRODUCTS:
-      codeChanged =
-        (newState.products &&
-          newState.products[0] &&
-          newState.products[0].commodity_code) !== action.payload.commodity_code
-      if (newState.products) {
-        // only send updated products if we have already loaded them
-        api.setUserData('UserProducts', action.payload).then(() => {
-          if (codeChanged && config.refreshOnMarketChange) {
-            api.reloadPage()
-          }
-        })
-      }
-      newState.products = action.payload
-      break
-    case SET_ACTIVE_PRODUCT:
-      newState.activeProduct = action.payload
-      break
-    case SET_MARKETS:
-      if (newState.markets) {
-        api.setUserData('UserMarkets', action.payload).then(() => {
+    case SET_USER_SETTING:
+      const name = action.payload.name
+      if(newState[name]) {
+        api.setUserData(name, action.payload.value).then(() => {
           if (config.refreshOnMarketChange) {
             api.reloadPage()
           }
         })
       }
-      newState.markets = action.payload
+      newState[name] = action.payload.value
       break
     default:
   }
@@ -130,7 +110,6 @@ const exportPlanReducer = (state, action) => {
         newState.product = action.payload
         break
       case SET_EP_MARKET:
-        console.log('***  Setting ep market', action.payload)
         newState.market = action.payload
         break
     }
@@ -142,14 +121,6 @@ const dataCacheReducer = (state, action) => {
   if (action.type === SET_LOADED) {
     newState.cacheVersion = (newState.cacheVersion || 0) + 1
     return newState
-  }
-  return newState
-}
-
-const comparisonMarkets = (state, action) => {
-  const newState = { ...state }
-  if (action.type === SET_COMPARISON_MARKETS) {
-    newState.comparisonMarkets = action.payload
   }
   return newState
 }
@@ -173,10 +144,6 @@ export const getPerformFeatureSKipCookieCheck = (state) =>
 export const getNextUrl = (state) => state.nextUrl
 
 // User Basket contains products and markets
-export const getProducts = (state) =>
-  state.userBasket && state.userBasket.products
-export const getActiveProduct = (state) =>
-  state.userBasket && state.userBasket.activeProduct
 export const getMarkets = (state) =>
   state.userBasket && state.userBasket.markets
 
@@ -188,17 +155,15 @@ export const getEpMarket = (state) =>
 
 export const getCacheVersion = (state) =>
   state.dataLoader && state.dataLoader.cacheVersion
-export const getComparisonMarkets = (state) => state.comparisonMarkets || []
 
 const rootReducer = (state, action) => {
   let localState = baseReducers(state, action)
   localState = setInitialStateReducer(localState, action)
   return combineReducers({
-    userBasket: basketReducer,
+    userSettings: userSettingsReducer,
     exportPlan: exportPlanReducer,
     modalIsOpen: setModalIsOpen,
     dataLoader: dataCacheReducer,
-    comparisonMarkets,
     costAndPricing,
   })(localState, action)
 }

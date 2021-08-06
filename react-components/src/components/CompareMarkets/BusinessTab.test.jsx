@@ -27,18 +27,19 @@ const countryDataApiResponse = {
         year: 2019,
       },
     ],
-    RuleOfLaw: [{
-      rank: 16,
-      score: '89.200',
-    }],
+    RuleOfLaw: [
+      {
+        rank: 16,
+        score: '89.200',
+      },
+    ],
   },
 }
-
 
 // set up the mock of user daa with two countries
 const comparisonMarketResponse = {
   ComparisonMarkets: {
-      DE: { country_name: 'Germany', country_iso2_code: 'DE' },
+    DE: { country_name: 'Germany', country_iso2_code: 'DE' },
   },
 }
 
@@ -86,7 +87,9 @@ describe('Compare markets - Business tab', () => {
     const localContainer = container
 
     Services.store.dispatch(
-      actions.setInitialState({ userBasket: { products: [selectedProduct] } })
+      actions.setInitialState({
+        userSettings: { UserProducts: [selectedProduct] },
+      })
     )
 
     localContainer.innerHTML =
@@ -104,7 +107,6 @@ describe('Compare markets - Business tab', () => {
     // check mock directory api data...
     await waitFor(() => {
       expect(localContainer.querySelector('#market-Germany .name')).toBeTruthy()
-
     })
     const rowGermany = localContainer.querySelector('#market-Germany')
     expect(getText(rowGermany, '.eod-business')).toMatch('22 of 264')

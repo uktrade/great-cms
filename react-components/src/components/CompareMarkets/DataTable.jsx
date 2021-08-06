@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import actions from '@src/actions'
+import { useActiveProduct } from '@src/components/hooks/useUserData'
 import { isArray, mapArray, deepAssign } from '../../Helpers'
 import blocks from './blocks'
 
@@ -12,13 +13,14 @@ export default function DataTable(props) {
     datasetName,
     config,
     comparisonMarkets,
-    product,
     removeMarket,
     cacheVersion,
     mobile,
     triggerButton,
     tabStrip,
   } = props
+
+  const [product] = useActiveProduct(false)
 
   const dataIn = (data) => {
     cache[datasetName] = deepAssign(cache[datasetName], data)
@@ -126,8 +128,8 @@ export default function DataTable(props) {
 
   useEffect(() => {
     // Wipe cache if commodity code changes
-    if (cache.commodityCode !== product.commodityCode) {
-      cache = { commodityCode: product.commodityCode }
+    if (product && cache.commodityCode !== product.commodity_code) {
+      cache = { commodityCode: product.commodity_code }
     }
     cache[datasetName] = cache[datasetName] || {}
 
@@ -143,7 +145,7 @@ export default function DataTable(props) {
   const setBaseYear = (dataSet, markets, tabConfig) => {
     // Calculate base year
     const years = {}
-    Object.values(markets).forEach((market) => {
+    Object.values(comparisonMarkets).forEach((market) => {
       const countryData = dataSet && dataSet[market.country_iso2_code]
       if (countryData) {
         Object.values(tabConfig.columns).forEach((columnConfig) => {
@@ -177,7 +179,7 @@ export default function DataTable(props) {
           <div className="bg-white radius overflow-hidden p-h-s">
             <table className="m-v-0 border-blue-deep-20 no-bottom-border">
               <tbody>
-                {Object.values(comparisonMarkets).map((market) => {
+                {Object.values(comparisonMarkets || {}).map((market) => {
                   return (
                     <tr key={market.country_iso2_code}>
                       {blocks.renderCountryRowHeader(market, removeMarket)}
@@ -227,7 +229,7 @@ export default function DataTable(props) {
     )
   }
 
-  const tableBody = Object.values(comparisonMarkets).map((market) => {
+  const tableBody = Object.values(comparisonMarkets || {}).map((market) => {
     const countryData =
       cache[datasetName] && cache[datasetName][market.country_iso2_code]
     const countryRow = Object.keys(config.columns).map((columnKey) => {

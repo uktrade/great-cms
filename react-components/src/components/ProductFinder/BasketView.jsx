@@ -1,8 +1,6 @@
 import React, { useState, useRef } from 'react'
-import ReactDOM from 'react-dom'
-import ReactHtmlParser from 'react-html-parser'
-
 import ReactModal from 'react-modal'
+import PropTypes from 'prop-types'
 
 const customStyles = {
   overlay: {
@@ -21,7 +19,7 @@ export default function BasketViewer({ label, onOpen, children }) {
     const { left, top, height } = buttonRef.current.getBoundingClientRect()
     customStyles.content = { margin: `${top + height + 8}px 0 0 ${left}px` }
     setIsOpen(true)
-    onOpen && onOpen()
+    onOpen()
   }
 
   const closeModal = () => {
@@ -31,27 +29,42 @@ export default function BasketViewer({ label, onOpen, children }) {
   const triggerButton = (
     <button
       type="button"
-      className={`tag ${modalIsOpen ? 'tag--tertiary' : 'tag--secondary'}`}
+      className={`tag ${
+        modalIsOpen ? 'tag--tertiary' : 'tag--secondary'
+      } tag--icon`}
       onClick={openViewer}
       ref={buttonRef}
     >
       <span>{label}</span>
-      <i className={`fas ${'fa-chevron-down'} m-f-xxs`} aria-hidden="true" />
+      <i
+        className={`fas ${modalIsOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}
+        aria-hidden="true"
+      />
     </button>
   )
 
   return (
     <span>
       {triggerButton}
-      <ReactModal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        //onAfterOpen={modalAfterOpen}
-        className="basket-view"
-      >
-        <div className="p-s">{children}</div>
-      </ReactModal>
+      {
+        <ReactModal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          style={customStyles}
+          className="basket-view"
+        >
+          <div className="p-s">{children}</div>
+        </ReactModal>
+      }
     </span>
   )
+}
+
+BasketViewer.propTypes = {
+  label: PropTypes.string.isRequired,
+  onOpen: PropTypes.func,
+  children: PropTypes.instanceOf(Array).isRequired,
+}
+BasketViewer.defaultProps = {
+  onOpen: () => 0,
 }

@@ -95,7 +95,7 @@ describe('Product finder tests', () => {
     })
     ReactModal.setAppElement(container)
     Services.store.dispatch(
-      actions.setInitialState({ userBasket: { products: [selectedProduct] } })
+      actions.setInitialState({ userSettings: { UserProducts: [selectedProduct] } })
     )
   })
 

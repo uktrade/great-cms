@@ -3,17 +3,16 @@ import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import Slider from 'react-slick'
 import Services from '@src/Services'
-import actions from '@src/actions'
+import { useUserProducts } from '@src/components/hooks/useUserData'
 import { analytics, capitalize } from '@src/Helpers'
 import Spinner from '../Spinner/Spinner'
 import Interaction from './Interaction'
 import ValueInteraction from './ValueInteraction'
-import ExpandCollapse from './ExpandCollapse'
 import SearchInput from './SearchInput'
 import StartEndPage from './StartEndPage'
 
 export default function ProductFinderModal(props) {
-  const { modalIsOpen, setIsOpen, selectedProducts, onCloseRedirect } = props
+  const { modalIsOpen, setIsOpen, onCloseRedirect } = props
 
   let scrollOuter
   const [searchResults, setSearchResults] = useState()
@@ -21,8 +20,7 @@ export default function ProductFinderModal(props) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [showingInteraction, setShowingInteraction] = useState()
-
-  const userProductsKey = 'UserProducts'
+  const [ selectedProducts, setSelectedProducts, loadProducts ] = useUserProducts(false)
 
   useEffect(() => {
     if (modalIsOpen) {
@@ -35,14 +33,6 @@ export default function ProductFinderModal(props) {
       })
     }
   }, [modalIsOpen])
-
-  const loadProducts = () => {
-    // Load the product list into redux.  We'll be needing it later
-    if (!selectedProducts)
-      Services.getUserData(userProductsKey).then((result) => {
-        Services.store.dispatch(actions.setProducts(result[userProductsKey]))
-      })
-  }
 
   const closeModal = () => {
     setIsOpen(false)
@@ -91,15 +81,15 @@ export default function ProductFinderModal(props) {
   }
 
   const saveProduct = (commodityCode, commodityName) => {
-    Services.store.dispatch(
-      actions.setProducts([
+    const newList = [
         ...selectedProducts,
         {
           commodity_name: commodityName,
           commodity_code: commodityCode,
         },
-      ])
-    )
+      ]
+    newList.sort((a,b) => a.commodity_name > b.commodity_name ? 1 :-1)
+    setSelectedProducts(newList)
     if (searchResults) {
       analytics({
         event: 'addProductSuccess',
@@ -239,27 +229,6 @@ export default function ProductFinderModal(props) {
     return content
   }
 
-  const sectionAssumptions = (sectionDetails) => {
-    return (
-      (sectionDetails && sectionDetails.length && (
-        <section className="p-h-s">
-          <h3 className="h-s p-0">Assumptions</h3>
-          <p className="m-v-xxs">
-            We&apos;ve answered some questions for you. View and change these if
-            they&apos;re wrong.
-          </p>
-          <ExpandCollapse
-            buttonLabel={`View assumptions (${sectionDetails.length})`}
-            expandedButtonLabel="Hide assumptions"
-          >
-            {readOnlyContent(sectionDetails)}
-          </ExpandCollapse>
-        </section>
-      )) ||
-      ''
-    )
-  }
-
   const sectionProductDetails = (sectionDetails) => {
     return (
       (sectionDetails && sectionDetails.length && (
@@ -321,7 +290,7 @@ export default function ProductFinderModal(props) {
     if (showingInteraction) {
       questions = [showingInteraction]
     }
-    const assumptions = buildMap(results.assumedInteractions)
+
     const known = buildMap(results.knownInteractions)
     let itemChoice = buildMap([results.currentItemInteraction])
     ;(itemChoice || {}).isItemChoice = true

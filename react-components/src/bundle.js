@@ -9,7 +9,6 @@ import ProductFinderButton from '@src/components/ProductFinder/ProductFinderButt
 import CountryFinderButton from '@src/components/ProductFinder/CountryFinderButton'
 import ModalMenu from '@src/components/ModalMenu'
 import CompareMarkets from '@src/components/CompareMarkets'
-import SelectComparisonMarket from '@src/components/CompareMarkets/SelectMarket'
 import {
   createRouteToMarket,
   createSpendingAndResources,
@@ -89,7 +88,6 @@ export default {
   ProductFinderButton,
   CountryFinderButton,
   CompareMarkets,
-  SelectComparisonMarket,
   ModalMenu,
   createLogin,
   setConfig,

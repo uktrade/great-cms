@@ -7,13 +7,11 @@ export const SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK =
   'SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK'
 export const SET_NEXT_URL = 'SET_NEXT_URL'
 export const SET_INITIAL_STATE = 'SET_INITIAL_STATE'
-export const SET_PRODUCTS = 'SET_PRODUCTS'
-export const SET_ACTIVE_PRODUCT = 'SET_ACTIVE_PRODUCT'
 export const SET_MARKETS = 'SET_MARKETS'
 export const SET_LOADED = 'SET_LOADED'
-export const SET_COMPARISON_MARKETS = 'SET_COMPARISON_MARKETS'
 export const SET_EP_PRODUCT = 'SET_EP_PRODUCT'
 export const SET_EP_MARKET = 'SET_EP_MARKET'
+export const SET_USER_SETTING = 'SET_USER_SETTING'
 
 // action creators
 
@@ -47,16 +45,6 @@ const setInitialState = (payload) => ({
   payload,
 })
 
-const setProducts = (products) => ({
-  type: SET_PRODUCTS,
-  payload: products,
-})
-
-const setActiveProduct = (product) => ({
-  type: SET_ACTIVE_PRODUCT,
-  payload: product,
-})
-
 const setMarkets = (markets) => ({
   type: SET_MARKETS,
   payload: markets,
@@ -76,9 +64,9 @@ const setLoaded = () => ({
   type: SET_LOADED,
 })
 
-const setCompareMarketList = (marketList) => ({
-  type: SET_COMPARISON_MARKETS,
-  payload: marketList,
+const setUserBlob = (blobName, value) => ({
+  type: SET_USER_SETTING,
+  payload: { name: blobName, value: value },
 })
 
 export default {
@@ -88,11 +76,9 @@ export default {
   skipFeatureCookieCheck,
   setNextUrl,
   setInitialState,
-  setProducts,
-  setActiveProduct,
   setMarkets,
   setEpProduct,
   setEpMarket,
   setLoaded,
-  setCompareMarketList,
+  setUserBlob,
 }
