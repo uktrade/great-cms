@@ -7,7 +7,6 @@ import {
   SET_COUNTRIES_EXPERTISE,
   SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK,
   SET_NEXT_URL,
-  SET_MARKETS,
   SET_EP_PRODUCT,
   SET_EP_MARKET,
   SET_LOADED,
@@ -142,10 +141,6 @@ export const getIndustriesExpertise = (state) =>
 export const getPerformFeatureSKipCookieCheck = (state) =>
   state.performSkipFeatureCookieCheck
 export const getNextUrl = (state) => state.nextUrl
-
-// User Basket contains products and markets
-export const getMarkets = (state) =>
-  state.userBasket && state.userBasket.markets
 
 // Export plan contains single product and market
 export const getEpProduct = (state) =>

@@ -15,7 +15,7 @@ export const useUserData = (blobName, defaultValue = [], autoload = true ) => {
     (state) => state.userSettings && state.userSettings[blobName]
   )
 
-  const saveBlob = (value) => Services.store.dispatch(actions.setUserBlob(blobName, value))
+  const saveBlob = (value) => Services.store.dispatch(actions.setUserData(blobName, value))
 
   const loadBlob = () => {
     if (!blobValue && !loading[blobName]) {
