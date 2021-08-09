@@ -52,7 +52,7 @@ import { createComingSoonModal } from '@src/components/Lesson/ComingSoon'
 import {
   STEP_CREDENTIALS,
   STEP_VERIFICATION_CODE,
-} from '@src/views/SignupModal/Component/'
+} from '@src/components/Signup/'
 import Services from '@src/Services'
 import { formatLessonLearned } from '@src/Helpers'
 import { setConfig } from '@src/config'

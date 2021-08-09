@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import Slider from 'react-slick'
 import Services from '@src/Services'
-import { useUserProducts } from '@src/components/hooks/useUserData'
+import { useUserProducts, useActiveProduct, } from '@src/components/hooks/useUserData'
 import { analytics, capitalize } from '@src/Helpers'
 import Spinner from '../Spinner/Spinner'
 import Interaction from './Interaction'
@@ -21,6 +21,7 @@ export default function ProductFinderModal(props) {
   const [searchTerm, setSearchTerm] = useState('')
   const [showingInteraction, setShowingInteraction] = useState()
   const [ selectedProducts, setSelectedProducts, loadProducts ] = useUserProducts(false)
+  const [activeProduct, setActiveProduct] = useActiveProduct(false)
 
   useEffect(() => {
     if (modalIsOpen) {
@@ -81,15 +82,11 @@ export default function ProductFinderModal(props) {
   }
 
   const saveProduct = (commodityCode, commodityName) => {
-    const newList = [
-        ...selectedProducts,
-        {
-          commodity_name: commodityName,
-          commodity_code: commodityCode,
-        },
-      ]
+    const newProduct = { commodity_name: commodityName, commodity_code: commodityCode }
+    const newList = [...selectedProducts, newProduct ]
     newList.sort((a,b) => a.commodity_name > b.commodity_name ? 1 :-1)
     setSelectedProducts(newList)
+    setActiveProduct(newProduct)
     if (searchResults) {
       analytics({
         event: 'addProductSuccess',
