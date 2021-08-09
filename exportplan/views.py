@@ -6,6 +6,7 @@ from django.conf import settings
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.functional import cached_property
 from django.views.generic import FormView, TemplateView, View
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
@@ -36,15 +37,17 @@ class ExportPlanMixin:
         serializer = serializers.ExportPlanSerializer(data={'ui_progress': {self.slug: {'modified': datetime.now()}}})
         serializer.is_valid()
         helpers.update_exportplan(
-            id=self.request.user.export_plan.data['pk'],
+            id=self.processor.data['pk'],
             sso_session_id=self.request.user.session_id,
             data=serializer.data,
         )
         return super().dispatch(request, *args, **kwargs)
 
-    @property
+    @cached_property
     def processor(self):
-        return ExportPlanProcessor(self.request.user.export_plan.data)
+        id = self.request.GET.get('id')
+        ep = helpers.get_exportplan(self.request.user.session_id, id)
+        return ExportPlanProcessor(ep)
 
     @property
     def next_section(self):
@@ -64,7 +67,7 @@ class ExportPlanMixin:
             current_section=self.current_section,
             export_plan_progress=self.processor.calculate_ep_progress(),
             sections=self.processor.build_export_plan_sections(),
-            export_plan=self.request.user.export_plan.data,
+            export_plan=self.processor.data,
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),
             **kwargs,
@@ -435,3 +438,24 @@ class ExportPlanStart(GA360Mixin, TemplateView):
         )
 
     template_name = 'exportplan/start.html'
+
+
+class ExportPlanDashBoard(
+    GA360Mixin,
+    TemplateView,
+):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='export-plan',
+        )
+
+    template_name = 'exportplan/dashboard_page.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(sections=data.SECTION_URLS, **kwargs)
+        context['exportplan_list'] = helpers.get_exportplan_detail_list(self.request.user.session_id)
+
+        return context

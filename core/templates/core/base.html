@@ -67,7 +67,7 @@
           },
           verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
           refreshOnMarketChange: {% if refresh_on_market_change %}true{%else%}false{% endif %},
-          urlCostsAndPricing: '{% url "exportplan:costs-and-pricing"%}'
+          urlCostsAndPricing: 'section/costs-and-pricing/?id=1'
       });
     </script>
 {% endblock %}

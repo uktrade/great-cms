@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.urls import path, reverse_lazy
+from django.urls import path, re_path, reverse_lazy
 from great_components.decorators import skip_ga360
 
 from exportplan import api, views
@@ -21,65 +21,70 @@ urlpatterns = [
         name='index',
     ),
     path(
+        'dash/',
+        views.ExportPlanDashBoard.as_view(),
+        name='dash',
+    ),
+    path(
         'start/',
         login_required(views.ExportPlanStart.as_view(), login_url=SIGNUP_URL),
         name='start',
     ),
-    path(
-        'section/marketing-approach/',
+    re_path(
+        r'^section/marketing-approach/(?P<id>\d+)/$',
         login_required(views.ExportPlanMarketingApproachView.as_view(), login_url=SIGNUP_URL),
         name='marketing-approach',
     ),
-    path(
-        'section/adapting-your-product/',
+    re_path(
+        r'^section/adapting-your-product/(?P<id>\d+)/$',
         login_required(views.ExportPlanAdaptingYourProductView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'adapting-your-product'},
         name='adapting-your-product',
     ),
-    path(
-        'section/about-your-business/',
+    re_path(
+        r'^section/about-your-business/',
         login_required(views.ExportPlanAboutYourBusinessView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'about-your-business'},
         name='about-your-business',
     ),
-    path(
-        'section/target-markets-research/',
+    re_path(
+        r'^section/target-markets-research//(?P<id>\d+)/$',
         login_required(views.ExportPlanTargetMarketsResearchView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'target-markets-research'},
         name='target-markets-research',
     ),
-    path(
-        'section/business-objectives/',
+    re_path(
+        r'^section/business-objectives/(?P<id>\d+)/$',
         login_required(views.ExportPlanBusinessObjectivesView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'business-objectives'},
         name='business-objectives',
     ),
-    path(
-        'section/costs-and-pricing/',
+    re_path(
+        r'^section/costs-and-pricing/(?P<id>\d+)/$',
         login_required(views.CostsAndPricingView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'costs-and-pricing'},
         name='costs-and-pricing',
     ),
-    path(
-        'section/getting-paid/',
+    re_path(
+        r'^section/getting-paid/(?P<id>\d+)/$',
         login_required(views.GettingPaidView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'getting-paid'},
         name='getting-paid',
     ),
-    path(
-        'section/funding-and-credit/',
+    re_path(
+        r'^section/funding-and-credit/(?P<id>\d+)/$',
         login_required(views.FundingAndCreditView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'funding-and-credit'},
         name='funding-and-credit',
     ),
-    path(
-        'section/travel-plan/',
+    re_path(
+        r'^section/travel-plan/(?P<id>\d+)/$',
         login_required(views.TravelBusinessPoliciesView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'travel-plan'},
         name='travel-plan',
     ),
-    path(
-        'section/business-risk/',
+    re_path(
+        r'^section/business-risk/(?P<id>\d+)/$',
         login_required(views.BusinessRiskView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'business-risk'},
         name='business-risk',
