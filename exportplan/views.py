@@ -22,7 +22,7 @@ from exportplan.context import (
     PDFContextProvider,
     PopulationAgeDataContextProvider,
 )
-from exportplan.core import data, helpers, serializers
+from exportplan.core import data, helpers, parsers, serializers
 from exportplan.core.processor import ExportPlanProcessor
 from exportplan.utils import render_to_pdf
 
@@ -45,9 +45,13 @@ class ExportPlanMixin:
 
     @cached_property
     def processor(self):
-        id = self.request.GET.get('id')
+        id = int(self.kwargs['id'])
         ep = helpers.get_exportplan(self.request.user.session_id, id)
         return ExportPlanProcessor(ep)
+
+    @cached_property
+    def parser(self):
+        return parsers.ExportPlanParser(self.processor.data)
 
     @property
     def next_section(self):
@@ -222,8 +226,6 @@ class ExportPlanBusinessObjectivesView(PageTitleMixin, LessonDetailsMixin, Expor
 
 class ExportPlanAboutYourBusinessView(PageTitleMixin, ExportPlanSectionView):
 
-    # form_class = forms.ExportPlanAboutYourBusinessForm
-    success_url = reverse_lazy('exportplan:about-your-business')
     title = 'About your business'
 
     def get_context_data(self, *args, **kwargs):
@@ -244,7 +246,7 @@ class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionV
         currency_choices = (('eur', 'EUR'), ('gbp', 'GBP'), ('usd', 'USD'))
         context['currency_choices'] = choices_to_key_value(currency_choices)
         context['costs_and_pricing_data'] = serializers.ExportPlanSerializer().cost_and_pricing_to_json(
-            self.processor.export_plan.data
+            self.processor.data
         )
         context['calculated_pricing'] = self.processor.calculated_cost_pricing()
         return context
@@ -456,7 +458,12 @@ class ExportPlanDashBoard(
     template_name = 'exportplan/dashboard_page.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(sections=data.SECTION_URLS, **kwargs)
-        context['exportplan_list'] = helpers.get_exportplan_detail_list(self.request.user.session_id)
 
+        context = super().get_context_data(sections=data.SECTION_URLS, **kwargs)
+        id = int(self.kwargs['id'])
+        export_plan = helpers.get_exportplan(self.request.user.session_id, id)
+        processor = ExportPlanProcessor(export_plan)
+        # self.request.user.set_page_view(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
+        context['sections'] = processor.build_export_plan_sections()
+        context['export_plan_progress'] = processor.calculate_ep_progress()
         return context

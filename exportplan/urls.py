@@ -21,11 +21,6 @@ urlpatterns = [
         name='index',
     ),
     path(
-        'dash/',
-        views.ExportPlanDashBoard.as_view(),
-        name='dash',
-    ),
-    path(
         'start/',
         login_required(views.ExportPlanStart.as_view(), login_url=SIGNUP_URL),
         name='start',
@@ -36,19 +31,24 @@ urlpatterns = [
         name='marketing-approach',
     ),
     re_path(
+        r'^dashboard/(?P<id>\d+)/$',
+        views.ExportPlanDashBoard.as_view(),
+        name='dashboard',
+    ),
+    re_path(
         r'^section/adapting-your-product/(?P<id>\d+)/$',
         login_required(views.ExportPlanAdaptingYourProductView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'adapting-your-product'},
         name='adapting-your-product',
     ),
     re_path(
-        r'^section/about-your-business/',
+        r'^section/about-your-business/(?P<id>\d+)/$',
         login_required(views.ExportPlanAboutYourBusinessView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'about-your-business'},
         name='about-your-business',
     ),
     re_path(
-        r'^section/target-markets-research//(?P<id>\d+)/$',
+        r'^section/target-markets-research/(?P<id>\d+)/$',
         login_required(views.ExportPlanTargetMarketsResearchView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'target-markets-research'},
         name='target-markets-research',

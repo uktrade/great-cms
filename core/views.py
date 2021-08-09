@@ -120,11 +120,9 @@ class CompareCountriesView(GA360Mixin, PageTitleMixin, TemplateView):
     def get_context_data(self, **kwargs):
         dashboard = DomesticDashboard.objects.live().first()
         context = super().get_context_data(**kwargs)
-        if self.request.user and hasattr(self.request.user, 'export_plan'):
-            context['export_plan'] = self.request.user.export_plan.data
-            context['data_tabs_enabled'] = json.dumps(settings.FEATURE_COMPARE_MARKETS_TABS)
-            context['max_compare_places_allowed'] = settings.MAX_COMPARE_PLACES_ALLOWED
-            context['dashboard_components'] = dashboard.components if dashboard else None
+        context['data_tabs_enabled'] = json.dumps(settings.FEATURE_COMPARE_MARKETS_TABS)
+        context['max_compare_places_allowed'] = settings.MAX_COMPARE_PLACES_ALLOWED
+        context['dashboard_components'] = dashboard.components if dashboard else None
         return context
 
 

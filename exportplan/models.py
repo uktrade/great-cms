@@ -10,7 +10,6 @@ class ExportPlanDashboardPage(
     mixins.AuthenticatedUserRequired,
     mixins.WagtailAdminExclusivePageMixin,
     mixins.EnableTourMixin,
-    mixins.ExportPlanMixin,
     mixins.WagtailGA360Mixin,
     GA360Mixin,
     Page,
@@ -19,6 +18,8 @@ class ExportPlanDashboardPage(
     template = 'exportplan/dashboard_page.html'
 
     def get_context(self, request):
+        id = self.kwargs['id']
+        processor = ExportPlanProcessor(self.request.user.session_id, id)
         processor = ExportPlanProcessor(request.user.export_plan.data)
         request.user.set_page_view(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
         context = super().get_context(request)

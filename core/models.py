@@ -283,7 +283,6 @@ class TimeStampedModel(models.Model):
 
 class CMSGenericPage(
     mixins.EnableTourMixin,
-    mixins.ExportPlanMixin,
     mixins.AuthenticatedUserRequired,
     mixins.WagtailGA360Mixin,
     GA360Mixin,

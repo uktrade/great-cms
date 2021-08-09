@@ -4,7 +4,6 @@ from django.conf import settings
 from django.utils.text import slugify
 
 from core import helpers as core_helpers
-from core.context import AbstractPageContextProvider
 from exportplan.core import data, helpers
 from exportplan.core.processor import ExportPlanProcessor
 
@@ -15,23 +14,10 @@ class AbstractContextProvider(abc.ABC):
         return {**kwargs}
 
 
-class ExportPlanDashboardPageContextProvider(AbstractPageContextProvider):
-
-    template_name = 'exportplan/dashboard_page.html'
-
-    @staticmethod
-    def get_context_data(request, page):
-        processor = ExportPlanProcessor(request.user.export_plan.data)
-        return {
-            'sections': processor.build_export_plan_sections(),
-            'export_plan_progress': processor.calculate_ep_progress(),
-        }
-
-
 class InsightDataContextProvider(AbstractContextProvider):
     def get_context_provider_data(self, request, **kwargs):
         insight_data = {}
-        export_plan = request.user.export_plan
+        export_plan = self.parser
         if export_plan.export_country_code and export_plan.export_commodity_code:
             insight_data = core_helpers.get_comtrade_data(
                 countries_list=[export_plan.export_country_code],
