@@ -166,14 +166,12 @@ class ExportPlanMarketingApproachView(PageTitleMixin, LessonDetailsMixin, Export
         route_choices = choices_to_key_value(choices.MARKET_ROUTE_CHOICES)
         promotional_choices = choices_to_key_value(choices.PRODUCT_PROMOTIONAL_CHOICES)
         target_age_group_choices = choices_to_key_value(choices.TARGET_AGE_GROUP_CHOICES)
-        context['route_to_markets'] = self.request.user.export_plan.data['route_to_markets']
+        context['route_to_markets'] = self.processor.data['route_to_markets']
         context['route_choices'] = route_choices
         context['target_age_group_choices'] = target_age_group_choices
         context['promotional_choices'] = promotional_choices
-        context['selected_age_groups'] = (
-            self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
-        )
-        context['marketing_approach'] = self.request.user.export_plan.data['marketing_approach']
+        context['selected_age_groups'] = self.processor.data['ui_options'].get(self.slug, {}).get('target_ages', [])
+        context['marketing_approach'] = self.processor.data['marketing_approach']
         return context
 
 
@@ -186,11 +184,11 @@ class ExportPlanAdaptingYourProductView(
     title = 'Adapting your product'
 
     def get_initial(self):
-        return self.request.user.export_plan.data['adaptation_target_market']
+        return self.processor.data['adaptation_target_market']
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['target_market_documents'] = self.request.user.export_plan.data['target_market_documents']
+        context['target_market_documents'] = self.processor.data['target_market_documents']
         return context
 
 
@@ -205,10 +203,8 @@ class ExportPlanTargetMarketsResearchView(
         target_age_group_choices = choices_to_key_value(choices.TARGET_AGE_GROUP_CHOICES)
         context['target_age_group_choices'] = target_age_group_choices
 
-        context['selected_age_groups'] = (
-            self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
-        )
-        context['target_markets_research'] = self.request.user.export_plan.data['target_markets_research']
+        context['selected_age_groups'] = self.processor.data['ui_options'].get(self.slug, {}).get('target_ages', [])
+        context['target_markets_research'] = self.processor.data['target_markets_research']
 
         context = super().get_context_provider_data(self.request, **context)
         return context
@@ -219,8 +215,8 @@ class ExportPlanBusinessObjectivesView(PageTitleMixin, LessonDetailsMixin, Expor
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['company_objectives'] = self.request.user.export_plan.data['company_objectives']
-        context['objectives'] = self.request.user.export_plan.data['objectives']
+        context['company_objectives'] = self.processor.data['company_objectives']
+        context['objectives'] = self.processor.data['objectives']
         return context
 
 
@@ -233,7 +229,7 @@ class ExportPlanAboutYourBusinessView(PageTitleMixin, ExportPlanSectionView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['turnover_choices'] = choices_to_key_value(choices.TURNOVER_CHOICES)
-        context['about_your_business_data'] = self.request.user.export_plan.data['about_your_business']
+        context['about_your_business_data'] = self.processor.data['about_your_business']
         return context
 
 
@@ -248,7 +244,7 @@ class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionV
         currency_choices = (('eur', 'EUR'), ('gbp', 'GBP'), ('usd', 'USD'))
         context['currency_choices'] = choices_to_key_value(currency_choices)
         context['costs_and_pricing_data'] = serializers.ExportPlanSerializer().cost_and_pricing_to_json(
-            self.request.user.export_plan.data
+            self.processor.export_plan.data
         )
         context['calculated_pricing'] = self.processor.calculated_cost_pricing()
         return context
@@ -267,7 +263,7 @@ class GettingPaidView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView)
         }
         context['transport_choices'] = transport_choices
 
-        context['getting_paid_data'] = self.request.user.export_plan.data['getting_paid']
+        context['getting_paid_data'] = self.processor.data['getting_paid']
         return context
 
 
@@ -277,13 +273,13 @@ class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSection
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['funding_options'] = choices_to_key_value(choices.FUNDING_OPTIONS)
-        context['funding_and_credit'] = self.request.user.export_plan.data['funding_and_credit']
+        context['funding_and_credit'] = self.processor.data['funding_and_credit']
 
         calculated_pricing = self.processor.calculated_cost_pricing()
         context['estimated_costs_per_unit'] = calculated_pricing['calculated_cost_pricing'].get(
             'estimated_costs_per_unit', ''
         )
-        context['funding_credit_options'] = self.request.user.export_plan.data.get('funding_credit_options', [])
+        context['funding_credit_options'] = self.processor.data.get('funding_credit_options', [])
         return context
 
 
@@ -292,8 +288,8 @@ class TravelBusinessPoliciesView(PageTitleMixin, LessonDetailsMixin, ExportPlanS
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['travel_business_policies'] = self.request.user.export_plan.data['travel_business_policies']
-        context['business_trips'] = self.request.user.export_plan.data['business_trips']
+        context['travel_business_policies'] = self.processor.data['travel_business_policies']
+        context['business_trips'] = self.processor.data['business_trips']
         context['travel_advice_covid19'] = settings.TRAVEL_ADVICE_COVID19
         context['travel_advice_foreign'] = settings.TRAVEL_ADVICE_FOREIGN
         return context
@@ -306,7 +302,7 @@ class BusinessRiskView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView
         context = super().get_context_data(*args, **kwargs)
         context['risk_likelihood_options'] = choices_to_key_value(choices.RISK_LIKELIHOOD_OPTIONS)
         context['risk_impact_options'] = choices_to_key_value(choices.RISK_IMPACT_OPTIONS)
-        context['business_risks'] = self.request.user.export_plan.data['business_risks']
+        context['business_risks'] = self.processor.data['business_risks']
         return context
 
 
@@ -373,7 +369,12 @@ class ExportPlanServicePage(GA360Mixin, TemplateView):
 
 
 class PDFDownload(
-    View, PDFContextProvider, InsightDataContextProvider, PopulationAgeDataContextProvider, FactbookDataContextProvider
+    View,
+    PDFContextProvider,
+    InsightDataContextProvider,
+    PopulationAgeDataContextProvider,
+    FactbookDataContextProvider,
+    ExportPlanMixin,
 ):
     def get(self, request, *args, **kwargs):
         context = super().get_context_provider_data(request)
@@ -383,7 +384,7 @@ class PDFDownload(
         pdf_reponse, pdf_file = render_to_pdf('exportplan/pdf_download.html', context)
 
         helpers.upload_exportplan_pdf(
-            sso_session_id=request.user.session_id, exportplan_id=request.user.export_plan.data['pk'], file=pdf_file
+            sso_session_id=request.user.session_id, exportplan_id=self.processor.data['pk'], file=pdf_file
         )
         response = HttpResponse(pdf_reponse, content_type='application/pdf')
         filename = 'export_plan.pdf'
