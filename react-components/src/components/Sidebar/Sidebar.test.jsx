@@ -1,5 +1,7 @@
 import React from  'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import Services from '@src/Services'
 
 import { Sidebar } from '.'
 
@@ -20,7 +22,7 @@ export const props = {
 
 const setup = ({...data}) => {
 
-  const utils = render(<Sidebar {...data} />)
+  const utils = render(<Provider store={Services.store}><Sidebar {...data} /></Provider>)
 
   return {
     ...utils

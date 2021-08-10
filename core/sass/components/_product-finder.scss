@@ -209,6 +209,14 @@
   }
 }
 
+.basket-view {
+  margin-top: 150px;
+  border-radius: 10px;
+  box-shadow: 0 8px 15px 5px $black-50;
+  background: $white;
+  width: 300px;
+}
+
 .modal {
   &.large-modal-content {
     width: auto;

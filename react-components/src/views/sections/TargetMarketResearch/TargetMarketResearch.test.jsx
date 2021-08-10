@@ -179,7 +179,7 @@ describe('Target Market research', () => {
 
     Services.store.dispatch(
       actions.setInitialState({
-        exportPlan: { products: [selectedProduct], markets: [unknownMarket] },
+        exportPlan: { product: selectedProduct, market: unknownMarket },
       })
     )
   })
@@ -223,7 +223,7 @@ describe('Target Market research', () => {
     )
     // Change to a known market on the fly - React should re-render, so wait for correct content
 
-    Services.store.dispatch(actions.setMarket(knownMarket))
+    Services.store.dispatch(actions.setEpMarket(knownMarket))
     await waitFor(() => {
       expect(
         getText(container, '.world-trade-value .statistic__caption')

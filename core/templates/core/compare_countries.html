@@ -38,6 +38,7 @@
     </div>
 
     <div id="compare-markets"
+      class="m-b-l"
       data-productname="{{ request.user.export_plan.data.export_commodity_codes.0.commodity_name }}"
       data-productcode="{{ request.user.export_plan.data.export_commodity_codes.0.commodity_code }}"
       data-tabs="{{ data_tabs_enabled }}"
@@ -45,15 +46,10 @@
       role="region"
       tabindex="-1"
     ></div>
-    <div id="comparison-market-selector" class="p-v-l m-v-l" ></div>
-
     <script>
       magna.CompareMarkets({
         element: document.querySelector("#compare-markets"),
         cta_container: document.querySelector("#cta-container"),
-      })
-      magna.SelectComparisonMarket({
-        element: document.querySelector("#comparison-market-selector"),
       })
     </script>
   {% else %}

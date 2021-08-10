@@ -1,35 +1,32 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
-import actions from '@src/actions'
-import { getProducts, getCacheVersion } from '@src/reducers'
-import { connect, Provider } from 'react-redux'
-import { analytics, isObject } from '../../Helpers'
+import {
+  useUserProducts,
+  useComparisonMarkets,
+  useActiveProduct,
+} from '@src/components/hooks/useUserData'
+import { getCacheVersion } from '@src/reducers'
+import { Provider, useSelector } from 'react-redux'
+import { analytics } from '../../Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import CountryFinderModal from '../ProductFinder/CountryFinderModal'
 import ComparisonTables from './ComparisonTables'
 
 function CompareMarkets(props) {
-  const {
-    selectedProduct,
-    tabs,
-    maxPlaces,
-    ctaContainer,
-    container,
-    cacheVersion,
-  } = props
+  const { tabs, maxPlaces, ctaContainer, container } = props
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
-  const [comparisonMarkets, _setComparisonMarkets] = useState(false)
+  const [selectedProducts] = useUserProducts()
+  const [comparisonMarkets, _setComparisonMarkets] = useComparisonMarkets()
+  const [activeProduct] = useActiveProduct(false)
 
-  const userDataName = 'ComparisonMarkets'
-  const openModal = () => {
-    setProductModalIsOpen(!selectedProduct)
-    setMarketModalIsOpen(!!selectedProduct)
-  }
+  const cacheVersion = useSelector((state) => getCacheVersion(state))
 
-  const selectedLength = Object.keys(comparisonMarkets).length || 0
+  const hasSelectedProducts = selectedProducts && selectedProducts.length
+
+  const selectedLength = Object.keys(comparisonMarkets || []).length
 
   const pushAnalytics = (markets) => {
     const marketNames = Object.values(markets).map((v) => v.country_name)
@@ -52,20 +49,10 @@ function CompareMarkets(props) {
     container.setAttribute('aria-label', label)
   }
 
-  useEffect(() => {
-    Services.getUserData(userDataName).then((result) => {
-      setComparisonMarkets(result.data || {})
-      Services.store.dispatch(actions.setCompareMarketList(result.data || {}))
-    })
-  }, [])
-
   const updateComparisonMarkets = (newMarkets) => {
-    Services.setUserData(userDataName, newMarkets).then(() => {
-      setComparisonMarkets(newMarkets)
-      Services.store.dispatch(actions.setCompareMarketList(newMarkets))
-      pushAnalytics(newMarkets)
-      container.focus()
-    })
+    setComparisonMarkets(newMarkets)
+    pushAnalytics(newMarkets)
+    container.focus()
   }
 
   const addCountry = (country) => {
@@ -81,48 +68,44 @@ function CompareMarkets(props) {
     updateComparisonMarkets(newMarkets)
   }
 
-  let buttonClass = 'button button--primary button--icon'
-  let buttonLabel = 'Select product'
-  if (selectedProduct) {
-    buttonClass = `add-market m-t-xs ${buttonClass}`
-    buttonLabel =
-      selectedLength > 0
+  const addProductButton = (
+    <button
+      type="button"
+      className="button button--primary button--icon"
+      onClick={() => setProductModalIsOpen(true)}
+    >
+      <i className="fa fa-plus-square" />
+      Select product
+    </button>
+  )
+
+  const addMarketButton = (
+    <button
+      type="button"
+      className="button button--primary button--icon add-market m-t-xs"
+      onClick={() => setMarketModalIsOpen(true)}
+    >
+      <i className="fa fa-plus-square" />
+      {selectedLength > 0
         ? `Add place ${selectedLength + 1} of ${maxPlaces}`
-        : 'Add a place'
-  }
-  const triggerButton =
-    isObject(comparisonMarkets) && selectedLength < maxPlaces ? (
-      <button
-        type="button"
-        className={buttonClass}
-        onClick={openModal}
-      >
-        <i className="fa fa-plus-square" />
-        {buttonLabel}
-      </button>
-    ) : (
-      <></>
-    )
-  let tabsContainer
-  if (selectedProduct && selectedLength) {
-    tabsContainer = (
-      <ComparisonTables
-        tabsJson={tabs}
-        comparisonMarkets={comparisonMarkets}
-        selectedProduct={selectedProduct}
-        removeMarket={removeMarket}
-        triggerButton={triggerButton}
-        cacheVersion={cacheVersion}
-      />
-    )
-  }
+        : 'Add a place'}
+    </button>
+  )
 
   return (
     <span>
-      {tabsContainer}
-      {(!selectedProduct || !selectedLength) &&
-        ReactDOM.createPortal(triggerButton, ctaContainer)}
-
+      {hasSelectedProducts || selectedLength ? (
+        <ComparisonTables
+          tabsJson={tabs}
+          comparisonMarkets={comparisonMarkets}
+          activeProduct={activeProduct}
+          removeMarket={removeMarket}
+          triggerButton={addMarketButton}
+          cacheVersion={cacheVersion}
+        />
+      ) : (
+        ReactDOM.createPortal(addProductButton, ctaContainer)
+      )}
       <ProductFinderModal
         modalIsOpen={productModalIsOpen}
         setIsOpen={setProductModalIsOpen}
@@ -130,7 +113,7 @@ function CompareMarkets(props) {
       <CountryFinderModal
         modalIsOpen={marketModalIsOpen}
         setIsOpen={setMarketModalIsOpen}
-        commodityCode={selectedProduct && selectedProduct.commodity_code}
+        commodityCode={activeProduct && activeProduct.commodity_code}
         addButton={false}
         selectCountry={addCountry}
         isCompareCountries
@@ -139,21 +122,7 @@ function CompareMarkets(props) {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    selectedProduct: getProducts(state),
-    cacheVersion: getCacheVersion(state),
-  }
-}
-
-const ConnectedCompareMarkets = connect(mapStateToProps)(CompareMarkets)
-
 CompareMarkets.propTypes = {
-  selectedProduct: PropTypes.shape({
-    commodity_name: PropTypes.string,
-    commodity_code: PropTypes.string,
-  }),
-  cacheVersion: PropTypes.number,
   tabs: PropTypes.string.isRequired,
   maxPlaces: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
     .isRequired,
@@ -161,17 +130,12 @@ CompareMarkets.propTypes = {
   container: PropTypes.instanceOf(Element).isRequired,
 }
 
-CompareMarkets.defaultProps = {
-  selectedProduct: null,
-  cacheVersion: null,
-}
-
 export default function createCompareMarkets({ ...params }) {
   const tabs = params.element.getAttribute('data-tabs') || '{}'
   const maxPlaces = params.element.getAttribute('data-max-places-allowed') || 10
   ReactDOM.render(
     <Provider store={Services.store}>
-      <ConnectedCompareMarkets
+      <CompareMarkets
         tabs={tabs}
         maxPlaces={maxPlaces}
         ctaContainer={params.cta_container}

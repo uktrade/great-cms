@@ -9,7 +9,6 @@ import ProductFinderButton from '@src/components/ProductFinder/ProductFinderButt
 import CountryFinderButton from '@src/components/ProductFinder/CountryFinderButton'
 import ModalMenu from '@src/components/ModalMenu'
 import CompareMarkets from '@src/components/CompareMarkets'
-import SelectComparisonMarket from '@src/components/CompareMarkets/SelectMarket'
 import {
   createRouteToMarket,
   createSpendingAndResources,
@@ -53,7 +52,7 @@ import { createComingSoonModal } from '@src/components/Lesson/ComingSoon'
 import {
   STEP_CREDENTIALS,
   STEP_VERIFICATION_CODE,
-} from '@src/views/SignupModal/Component/'
+} from '@src/components/Signup/'
 import Services from '@src/Services'
 import { formatLessonLearned } from '@src/Helpers'
 import { setConfig } from '@src/config'
@@ -89,7 +88,6 @@ export default {
   ProductFinderButton,
   CountryFinderButton,
   CompareMarkets,
-  SelectComparisonMarket,
   ModalMenu,
   createLogin,
   setConfig,

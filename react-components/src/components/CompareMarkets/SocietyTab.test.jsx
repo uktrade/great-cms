@@ -77,7 +77,7 @@ const countryDataApiResponse = {
 
 // set up the mock of user daa with two countries
 const comparisonMarketResponse = {
-  data: {
+  ComparisonMarkets: {
       DE: { country_name: 'Germany', country_iso2_code: 'DE' },
   },
 }
@@ -96,19 +96,20 @@ describe('Compare markets - Society tab', () => {
 
   beforeEach(() => {
     container = document.createElement('div')
-    container.innerHTML =
-      '<span id="compare-market-container" data-productname="my product" data-productcode="080450" ></span>'
     document.body.appendChild(container)
     Services.setConfig({
       csrfToken: '12345',
       apiUserDataUrl: '/sso/api/user-data/',
       societyByCountryUrl: '/export-plan/api/society-data/',
       apiCountryDataUrl: '/api/data-service/countrydata/',
+      apiUserDataUrl: '/sso/api/user-data/-name-/',
       user: { id: '6' },
     })
     fetchMock.get(/\/export-plan\/api\/society-data\//, societyApiResponse)
     fetchMock.get(/\/api\/data-service\/countrydata\//, countryDataApiResponse)
-    fetchMock.get(/\/sso\/api\/user-data\//, () => comparisonMarketResponse)
+    fetchMock.get(/\/sso\/api\/user-data\/ComparisonMarkets\//,() => {
+      return comparisonMarketResponse
+    })
   })
 
   afterEach(() => {
@@ -123,13 +124,10 @@ describe('Compare markets - Society tab', () => {
       commodity_code: '123456',
       commodity_name: 'my product',
     }
-
     const localContainer = container
-
     Services.store.dispatch(
-      actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
+      actions.setInitialState({ userSettings: { UserProducts: [selectedProduct], ActiveProduct: {} } })
     )
-
     localContainer.innerHTML =
       '<span id="cta-container"></span><span id="compare-market-container" ></span>'
     const dataTabs = '{ "society": true }'
