@@ -2,27 +2,29 @@ import React, { useState, useEffect } from 'react'
 import ReactModal from 'react-modal'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
+import { useSuggestedMarkets } from '@src/components/hooks/useSuggestedMarkets'
 import RegionToggle from './RegionToggle'
 import SearchInput from './SearchInput'
 import { analytics } from '../../Helpers'
+
 
 export default function CountryFinderModal(props) {
   let scrollOuter
   const {
     modalIsOpen,
     setIsOpen,
-    commodityCode,
+    activeProducts,
     selectCountry,
     isCompareCountries,
     market,
     onCloseRedirect,
   } = props
   const [countryList, setCountryList] = useState()
-  const [suggestedCountries, setSuggestedCountries] = useState([])
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchStr, setSearchStr] = useState()
   const [expandRegion, setExpandRegion] = useState(false)
   const [mobilePage, setMobilePage] = useState('initial')
+  const { suggestedCountries, loadSuggestedCountries } = useSuggestedMarkets()
 
   useEffect(() => {
     if (modalIsOpen) {
@@ -84,13 +86,10 @@ export default function CountryFinderModal(props) {
   }
 
   useEffect(() => {
-    if(modalIsOpen && commodityCode  && !suggestedCountries) {
-      const hs2 = commodityCode.substr(0, 2)
-      Services.getSuggestedCountries(hs2).then((result) => {
-        setSuggestedCountries(result)
-      })
+    if (modalIsOpen) {
+      loadSuggestedCountries(activeProducts)
     }
-  },[commodityCode, modalIsOpen])
+  }, [activeProducts, modalIsOpen])
 
   const modalAfterOpen = () => {
     if (!countryList) {
@@ -167,8 +166,8 @@ export default function CountryFinderModal(props) {
       </p>
     </div>
   )
-  if (suggestedCountries) {
-    const suggestedList = suggestedCountries.map((country) => {
+  if (suggestedCountries && suggestedCountries.suggestions) {
+    const suggestedList = suggestedCountries.suggestions.map((country) => {
       return (
         <button
           key={`suggested_${country.country_iso2}`}
@@ -189,8 +188,13 @@ export default function CountryFinderModal(props) {
       <div className="suggested-markets">
         <h3 className="h-s">Suggested places</h3>
         <p className="m-v-xs">
-          These are based on the size of the market for your product, export
-          distance, tariffs and costs.
+          These are based on the size of the market for{' '}
+          {`${suggestedCountries.details.product} ${
+            suggestedCountries.details.allSame
+              ? '(same countries for all products)'
+              : ''
+          }`}
+          , export distance, tariffs and costs.
         </p>
         <div className="m-v-xs">{suggestedList}</div>
       </div>
@@ -218,9 +222,12 @@ export default function CountryFinderModal(props) {
   /* Filtered list of places */
   const marketListSection = (
     <div>
-      <h3 className="h-s p-t-xs"><label htmlFor="search-input">Countries and territories</label></h3>
+      <h3 className="h-s p-t-xs">
+        <label htmlFor="search-input">Countries and territories</label>
+      </h3>
       <p id="search-hint" className="m-v-xs">
-        If you already have an idea of where you want to export to, choose from this list.
+        If you already have an idea of where you want to export to, choose from
+        this list.
       </p>
       <div className="grid">
         <div className="c-1-3 m-b-xxs">
@@ -367,7 +374,12 @@ export default function CountryFinderModal(props) {
 CountryFinderModal.propTypes = {
   modalIsOpen: PropTypes.bool,
   setIsOpen: PropTypes.func.isRequired,
-  commodityCode: PropTypes.string,
+  activeProducts: PropTypes.arrayOf(
+    PropTypes.shape({
+      commodity_code: PropTypes.string,
+      commodity_name: PropTypes.string,
+    })
+  ),
   selectCountry: PropTypes.func.isRequired,
   isCompareCountries: PropTypes.bool,
   onCloseRedirect: PropTypes.string,
@@ -379,7 +391,7 @@ CountryFinderModal.propTypes = {
 }
 CountryFinderModal.defaultProps = {
   modalIsOpen: false,
-  commodityCode: '',
+  activeProducts: null,
   isCompareCountries: false,
   onCloseRedirect: '',
   market: {},
