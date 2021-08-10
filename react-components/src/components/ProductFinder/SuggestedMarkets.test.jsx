@@ -90,8 +90,8 @@ describe('Test suggested markets', () => {
     })
     await waitFor(() => {
       expect(rtl.queryAllByText('Suggested places')).toBeTruthy()
-      expect(rtl.getByText(/product1/)).toBeTruthy()
     })
+    expect(rtl.getByText(/product1/)).toBeTruthy()
     expect(suggestedCountriesMock.calls())
     expect(suggestedCountriesMock.calls(/\/api\/suggested-markets\//)[0][0]).toMatch(/\?hs_code=12/)
   })
@@ -103,8 +103,9 @@ describe('Test suggested markets', () => {
     })
     await waitFor(() => {
       expect(rtl.queryAllByText('Suggested places')).toBeTruthy()
-      expect(rtl.getByText(/product3/)).toBeTruthy()
+
     })
+    expect(rtl.getByText(/product3/)).toBeTruthy()
     expect(suggestedCountriesMock.calls())
     expect(suggestedCountriesMock.calls(/\/api\/suggested-markets\//)[0][0]).toMatch(/\?hs_code=66/)
   })
@@ -116,8 +117,8 @@ describe('Test suggested markets', () => {
     })
     await waitFor(() => {
       expect(rtl.queryAllByText('Suggested places')).toBeTruthy()
-      expect(rtl.getByText(/product2/)).toBeTruthy()
     })
+    expect(rtl.getByText(/product1/)).toBeTruthy()
     expect(suggestedCountriesMock.calls(/\/api\/suggested-markets\//)[0][0]).toMatch(/\?hs_code=12/)
   })
 
@@ -135,9 +136,9 @@ describe('Test suggested markets', () => {
     })
     await waitFor(() => {
       expect(rtl.queryAllByText('Suggested places')).toBeTruthy()
-      expect(rtl.getByText(/product2/)).toBeTruthy()
-      expect(rtl.getByText(/\(same countries for all products\)/)).toBeTruthy()
     })
+    expect(rtl.getByText(/product1/)).toBeTruthy()
+    expect(rtl.getByText(/\(same countries for all products\)/)).toBeTruthy()
     expect(suggestedCountriesMock.calls(/\/api\/suggested-markets\//)[0][0]).toMatch(/\?hs_code=12/)
   })
 })

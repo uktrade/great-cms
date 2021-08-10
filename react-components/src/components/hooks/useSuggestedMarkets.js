@@ -17,7 +17,8 @@ export const useSuggestedMarkets = () => {
     }
     const productList = products || userProducts || []
     const uniqueList = productList.reduce((out, product) => {
-      out[(product.commodity_code || '').substr(0, 2)] = product.commodity_name
+      const prodHs2=(product.commodity_code || '').substr(0, 2)
+      out[prodHs2] = out[prodHs2] || product.commodity_name
       return out
     }, {})
     const hs2 = Object.keys(uniqueList)[0]
