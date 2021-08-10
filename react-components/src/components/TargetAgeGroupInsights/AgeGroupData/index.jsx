@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { Stats } from '@src/components/Stats'
-import { getMarkets } from '@src/reducers'
+import { getEpMarket } from '@src/reducers'
 import { useSelector } from 'react-redux'
 import { notAvailable, StatsGroup } from '@src/components/Stats/StatsGroup'
 import PropTypes from 'prop-types'
@@ -13,7 +13,7 @@ const formatPercentage = (val, total) =>
 
 export const AgeGroupData = memo(
   ({ target, targetfemale, targetmale, urban, rural }) => {
-    const country = useSelector((state) => getMarkets(state))
+    const country = useSelector((state) => getEpMarket(state))
     return (
       <>
         <h3 className="body-l-b m-t-xs m-b-xs">

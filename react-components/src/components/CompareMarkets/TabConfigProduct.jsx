@@ -1,6 +1,7 @@
 import React from 'react'
 import Services from '@src/Services'
 import { normaliseValues, get, millify, numberWithSign } from '../../Helpers'
+import ProductSelector from './ProductSelector'
 
 const importValueAndChange = (importValue) => {
   if (!importValue.trade_value_raw) {
@@ -21,8 +22,16 @@ const importValueAndChange = (importValue) => {
   )
 }
 
+const filter = (
+  <div style={{width:'200px'}}>
+    <div className="body-l-b">Select your product</div>
+          <ProductSelector/>
+  </div>
+)
+
 export default {
   tabName: 'YOUR PRODUCT',
+  filter,
   sourceAttributions: [
     {
       title: 'Trade data',
@@ -33,11 +42,7 @@ export default {
   ],
   columns: {
     'world-import-value': {
-      name: (context) =>
-        `International import value (USD) for "${get(
-          context,
-          'product.commodityName'
-        )}"`,
+      name: 'International import value (USD)',
       className: 'text-align-right',
       render: (data) => importValueAndChange(data.import_from_world),
       year: (data) => get(data, 'import_from_world.year'),
@@ -51,11 +56,7 @@ export default {
       group: 'import',
     },
     'uk-import-value': {
-      name: (context) =>
-        `Import value (USD) from the UK for "${get(
-          context,
-          'product.commodityName'
-        )}"`,
+      name: 'Import value (USD) from the UK',
       className: 'text-align-right',
       render: (data) => importValueAndChange(data.import_from_uk),
       year: (data) => get(data, 'import_from_uk.year'),

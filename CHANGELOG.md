@@ -8,6 +8,7 @@
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
 
 ### Enhancements
+- GP2-3119 - Decouple basket from export plan
 - GP2-3128 - Analytics - section completion
 - GP2-3017 - SOO User profile update to directory-SSO
 - GP2-2402 - VFM analytics
@@ -30,9 +31,9 @@
 - GP2-3084 - Fix spacings on Travel plan
 - GP2-3085 - Fix Business Risk block radio buttons spacing
 - GP2-2896 - Split objective date fields into month and year
-
 - GP2-3087 - migrate directory-sso-profile into great-cms
 ### Fixed bugs
+- GP2-3208 - Fix error while updating personal profile
 - GP2-3164 - Remove vulnerable web-component-tester dev package
 - GP2-2893 - Backlink placement in learning
 - GP2-2619 - Case study quotes - attrributions fall off

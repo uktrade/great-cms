@@ -70,15 +70,6 @@ export default function CountryFinderModal(props) {
     setExpandRegion(!expandRegion)
   }
 
-  const getSuggestedCountries = () => {
-    if (commodityCode) {
-      const hs2 = commodityCode.substr(0, 2)
-      Services.getSuggestedCountries(hs2).then((result) => {
-        setSuggestedCountries(result)
-      })
-    }
-  }
-
   const getCountries = () => {
     Services.getCountries().then((result) => {
       // map regions
@@ -92,11 +83,19 @@ export default function CountryFinderModal(props) {
     })
   }
 
+  useEffect(() => {
+    if(modalIsOpen && commodityCode  && !suggestedCountries) {
+      const hs2 = commodityCode.substr(0, 2)
+      Services.getSuggestedCountries(hs2).then((result) => {
+        setSuggestedCountries(result)
+      })
+    }
+  },[commodityCode, modalIsOpen])
+
   const modalAfterOpen = () => {
     if (!countryList) {
       getCountries()
     }
-    getSuggestedCountries()
   }
 
   const clickCountry = (evt) => {
@@ -168,7 +167,7 @@ export default function CountryFinderModal(props) {
       </p>
     </div>
   )
-  if (commodityCode) {
+  if (suggestedCountries) {
     const suggestedList = suggestedCountries.map((country) => {
       return (
         <button
