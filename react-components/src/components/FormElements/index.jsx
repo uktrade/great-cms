@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
-import { getMarkets } from '@src/reducers'
+import { getEpMarket } from '@src/reducers'
 import { useSelector } from 'react-redux'
 
 import ErrorList from '@src/components/ErrorList'
@@ -19,7 +19,7 @@ export const FormElements = memo(
     let country
     try {
       // this is to squash errors if we're not inside a provider
-      country = useSelector((state) => getMarkets(state))
+      country = useSelector((state) => getEpMarket(state))
     } catch {}
 
     const substituteText = (str) =>

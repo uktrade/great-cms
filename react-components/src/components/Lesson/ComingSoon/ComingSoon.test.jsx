@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
+import ReactModal from 'react-modal'
 
 import { ComingSoon } from '.'
 
@@ -9,10 +10,10 @@ export const props = {
 }
 
 const setup = ({ ...data }) => {
-  const utils = render(<ComingSoon {...data} />)
-
+  const doc = render(<ComingSoon {...data} />)
+  ReactModal.setAppElement(doc.baseElement)
   return {
-    ...utils
+    ...doc
   }
 }
 

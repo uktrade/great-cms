@@ -1,4 +1,5 @@
 import api from '@src/api'
+
 import {
   SET_MODAL_IS_OPEN,
   SET_INITIAL_STATE,
@@ -6,20 +7,14 @@ import {
   SET_COUNTRIES_EXPERTISE,
   SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK,
   SET_NEXT_URL,
-  SET_PRODUCT,
-  SET_MARKET,
+  SET_EP_PRODUCT,
+  SET_EP_MARKET,
   SET_LOADED,
-  SET_COMPARISON_MARKETS,
+  SET_USER_SETTING,
 } from '@src/actions'
 import { config } from '@src/config'
 import { combineReducers } from 'redux'
 import costAndPricing from '@src/reducers/costsAndPricing'
-
-const saveToExportPlan = (payload) => {
-  return api.updateExportPlan(payload).catch(() => {
-    // TODO: Add error confirmation here
-  })
-}
 
 const initialState = {
   // prevents modals from opening on page load if user dismissed the modal already
@@ -88,35 +83,35 @@ const baseReducers = (state = initialState, action) => {
   }
 }
 
-const exportPlanReducer = (state, action) => {
+const userSettingsReducer = (state, action) => {
   const newState = { ...state }
-  let codeChanged
   switch (action.type) {
-    case SET_PRODUCT:
-      codeChanged =
-        (newState.products &&
-          newState.products[0] &&
-          newState.products[0].commodity_code) !== action.payload.commodity_code
-      newState.products = [action.payload]
-
-      saveToExportPlan({ export_commodity_codes: [action.payload] }).then(
-        () => {
-          if (codeChanged && config.refreshOnMarketChange) {
+    case SET_USER_SETTING:
+      const name = action.payload.name
+      if(newState[name]) {
+        api.setUserData(name, action.payload.value).then(() => {
+          if (config.refreshOnMarketChange) {
             api.reloadPage()
           }
-        }
-      )
-      break
-    case SET_MARKET:
-      newState.markets = [action.payload]
-      saveToExportPlan({ export_countries: [action.payload] }).then(() => {
-        if (config.refreshOnMarketChange) {
-          api.reloadPage()
-        }
-      })
+        })
+      }
+      newState[name] = action.payload.value
       break
     default:
   }
+  return newState
+}
+
+const exportPlanReducer = (state, action) => {
+    const newState = { ...state }
+    switch (action.type) {
+      case SET_EP_PRODUCT:
+        newState.product = action.payload
+        break
+      case SET_EP_MARKET:
+        newState.market = action.payload
+        break
+    }
   return newState
 }
 
@@ -125,14 +120,6 @@ const dataCacheReducer = (state, action) => {
   if (action.type === SET_LOADED) {
     newState.cacheVersion = (newState.cacheVersion || 0) + 1
     return newState
-  }
-  return newState
-}
-
-const comparisonMarkets = (state, action) => {
-  const newState = { ...state }
-  if (action.type === SET_COMPARISON_MARKETS) {
-    newState.comparisonMarkets = action.payload
   }
   return newState
 }
@@ -155,22 +142,23 @@ export const getPerformFeatureSKipCookieCheck = (state) =>
   state.performSkipFeatureCookieCheck
 export const getNextUrl = (state) => state.nextUrl
 
-export const getProducts = (state) =>
-  ((state.exportPlan && state.exportPlan.products) || [])[0]
-export const getMarkets = (state) =>
-  ((state.exportPlan && state.exportPlan.markets) || [])[0]
+// Export plan contains single product and market
+export const getEpProduct = (state) =>
+  state.exportPlan && state.exportPlan.product
+export const getEpMarket = (state) =>
+  state.exportPlan && state.exportPlan.market
+
 export const getCacheVersion = (state) =>
   state.dataLoader && state.dataLoader.cacheVersion
-export const getComparisonMarkets = (state) => state.comparisonMarkets || []
 
 const rootReducer = (state, action) => {
   let localState = baseReducers(state, action)
   localState = setInitialStateReducer(localState, action)
   return combineReducers({
+    userSettings: userSettingsReducer,
     exportPlan: exportPlanReducer,
     modalIsOpen: setModalIsOpen,
     dataLoader: dataCacheReducer,
-    comparisonMarkets,
     costAndPricing,
   })(localState, action)
 }
