@@ -42,13 +42,32 @@ describe('MonthYearInput', () => {
     getByText('April').click()
 
     await waitFor(() =>
-      expect(mockOnChange).toHaveBeenCalledWith({ start_month: '4' })
+      expect(mockOnChange).toHaveBeenCalledWith({ start_month: '4' }),
     )
 
     fireEvent.change(getByLabelText('Year'), { target: { value: '2023' } })
 
     await waitFor(() =>
-      expect(mockOnChange).toHaveBeenCalledWith({ start_year: '2023' })
+      expect(mockOnChange).toHaveBeenCalledWith({ start_year: '2023' }),
+    )
+  })
+
+  it('can call onChange with the combined fields', async () => {
+    const { getByText } = render(
+      <MonthYearInput
+        label="Foo"
+        onChange={mockOnChange}
+        monthName="start_month"
+        yearName="start_year"
+        onChangeCombineFields
+      />,
+    )
+
+    getByText('Select one').click()
+    getByText('April').click()
+
+    await waitFor(() =>
+      expect(mockOnChange).toHaveBeenCalledWith({ start_month: '4' }, { month: '4', year: '' }),
     )
   })
 })

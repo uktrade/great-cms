@@ -88,10 +88,8 @@ export const CostsAndPricing = memo(
                 yearName={exportEndYear.id}
                 monthValue={data.export_end_month}
                 yearValue={data.export_end_year}
-                onChange={x => {
-                  const key = Object.keys(x)[0]
-                  return onChange(x, key.match('month') ? exportEndMonth : exportEndYear)
-                }}
+                onChange={x => update(x, { [exportEndMonth.field]: x })}
+                onChangeCombineFields
               />
               <Input
                 onChange={(x) => onChange(x, costPerUnit)}
