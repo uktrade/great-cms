@@ -10,6 +10,7 @@
                 <p class="heading-small margin-bottom-30 margin-top-0">{{ request.user.email }}</p>
                 <div id="business-details-edit-form">
                     <form method="post" enctype="multipart/form-data" novalidate="novalidate">
+                        {% csrf_token %}
                         {% block form %}{{ form }}{% endblock %}
                         {% block form_button %}
                             <button class="button margin-top-30">Save</button>
