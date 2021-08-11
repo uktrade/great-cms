@@ -281,17 +281,6 @@ def mock_get_export_plan_detail_list():
         yield patched
 
 
-# @pytest.fixture
-# def mock_get_corruption_perceptions_index():
-#    return_value = CHINA['corruption_perceptions_index']
-#    with patch.object(
-#        api_client.dataservices,
-#        'get_corruption_perceptions_index',
-#        return_value=return_value,
-#    ) as patched:
-#        yield patched
-
-
 @pytest.fixture
 def mock_update_export_plan():
     return_value = {}
