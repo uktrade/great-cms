@@ -24,7 +24,7 @@ export default function CountryFinderModal(props) {
   const [searchStr, setSearchStr] = useState()
   const [expandRegion, setExpandRegion] = useState(false)
   const [mobilePage, setMobilePage] = useState('initial')
-  const { suggestedCountries, loadSuggestedCountries } = useSuggestedMarkets()
+  const { suggestedCountries, loadSuggestedCountries } = useSuggestedMarkets(activeProducts)
 
   useEffect(() => {
     if (modalIsOpen) {
@@ -87,7 +87,7 @@ export default function CountryFinderModal(props) {
 
   useEffect(() => {
     if (modalIsOpen) {
-      loadSuggestedCountries(activeProducts)
+      loadSuggestedCountries()
     }
   }, [activeProducts, modalIsOpen])
 

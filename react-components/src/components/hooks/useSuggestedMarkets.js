@@ -1,25 +1,25 @@
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Services from '@src/Services'
 import { useUserProducts } from '@src/components/hooks/useUserData'
 
 // Returns the list of suggested markets based on the list of products provided.
 // If no product list provided - use basket instead
 
-export const useSuggestedMarkets = () => {
+export const useSuggestedMarkets = (products) => {
   const [userProducts, setUserProducts, loadUserProducts] = useUserProducts(
     false
   )
   const [suggestedCountries, setSuggestedCountries] = useState({})
 
-  const getHS2Code = (products) => {
+  const getHS2Code = () => {
     if (!products && !userProducts.length) {
       loadUserProducts()
     }
     const productList = products || userProducts || []
     const uniqueList = productList.reduce((out, product) => {
-      const prodHs2=(product.commodity_code || '').substr(0, 2)
+      const prodHs2 = (product.commodity_code || '').substr(0, 2)
       out[prodHs2] = out[prodHs2] || product.commodity_name
-      return out
+      return {...out}
     }, {})
     const hs2 = Object.keys(uniqueList)[0]
     return {
@@ -29,10 +29,10 @@ export const useSuggestedMarkets = () => {
     }
   }
 
-  const loadSuggestedMarkets = (products) => {
+  const loadSuggestedCountries = () => {
     const activeHs2 = getHS2Code(products)
     if (activeHs2) {
-      if ((suggestedCountries || {}).hs2 != activeHs2.hs2) {
+      if ((suggestedCountries || {}).hs2 !== activeHs2.hs2) {
         Services.getSuggestedCountries(activeHs2.hs2).then((result) => {
           setSuggestedCountries({
             hs2: activeHs2.hs2,
@@ -48,5 +48,12 @@ export const useSuggestedMarkets = () => {
       }
     }
   }
-  return { suggestedCountries, loadSuggestedCountries: loadSuggestedMarkets }
+
+  useEffect(() => {
+    if (!products && userProducts.length) {
+      loadSuggestedCountries()
+    }
+  }, [userProducts])
+
+  return { suggestedCountries, loadSuggestedCountries }
 }
