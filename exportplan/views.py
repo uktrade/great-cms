@@ -3,7 +3,7 @@ from datetime import datetime
 
 import sentry_sdk
 from django.conf import settings
-from django.http import Http404, HttpResponse
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.functional import cached_property
@@ -29,9 +29,7 @@ from exportplan.utils import render_to_pdf
 
 class ExportPlanMixin:
     def dispatch(self, request, *args, **kwargs):
-        if self.slug not in data.SECTIONS:
-            raise Http404()
-        elif data.SECTIONS[self.slug]['disabled']:
+        if data.SECTIONS[self.slug]['disabled']:
             return redirect('exportplan:service-page')
 
         serializer = serializers.ExportPlanSerializer(data={'ui_progress': {self.slug: {'modified': datetime.now()}}})
@@ -466,4 +464,5 @@ class ExportPlanDashBoard(
         # self.request.user.set_page_view(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
         context['sections'] = processor.build_export_plan_sections()
         context['export_plan_progress'] = processor.calculate_ep_progress()
+
         return context

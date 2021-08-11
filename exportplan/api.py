@@ -36,10 +36,12 @@ class TargetAgeCountryPopulationData(APIView):
         target_ages = serializer.validated_data['target_age_groups']
         url = serializer.validated_data['section_name']
         section_name = url.replace('/export-plan/section/', '').replace('/', '')
+        # TODO need to change to get from incoming or may be load from DB
+        export_plan = {}
         helpers.update_ui_options_target_ages(
             sso_session_id=self.request.user.session_id,
             target_ages=target_ages,
-            export_plan=self.request.user.export_plan.data,
+            export_plan=export_plan,
             section_name=section_name,
         )
         return Response({'success': True})
@@ -53,9 +55,10 @@ class UpdateCalculateCostAndPricingAPIView(generics.GenericAPIView):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid(raise_exception=True):
-            export_plan = self.request.user.export_plan.data
+            # TODO need to change to get from incoming data for now will hardcode to 1
+            exportplan_id = 1
             updated_export_plan = helpers.update_exportplan(
-                sso_session_id=self.request.user.session_id, id=export_plan['pk'], data=serializer.validated_data
+                sso_session_id=self.request.user.session_id, id=exportplan_id, data=serializer.validated_data
             )
             # We now need the full export plan to calculate the totals
             calculated_pricing = ExportPlanProcessor(updated_export_plan).calculated_cost_pricing()
@@ -70,9 +73,10 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
 
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            export_plan = self.request.user.export_plan.data
+            # TODO need to change to get from incoming data for now will hardcode to 1
+            exportplan_id = 1
             helpers.update_exportplan(
-                sso_session_id=self.request.user.session_id, id=export_plan['pk'], data=serializer.validated_data
+                sso_session_id=self.request.user.session_id, id=exportplan_id, data=serializer.validated_data
             )
             return Response(serializer.validated_data)
 

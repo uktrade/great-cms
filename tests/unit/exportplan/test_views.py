@@ -101,7 +101,7 @@ def test_export_plan_builder_landing_page(
     assert response.status_code == 200
     assert response.context['sections'][1] == {
         'title': 'Business objectives',
-        'url': '/export-plan/section/business-objectives/',
+        'url': '/export-plan/section/1/business-objectives/',
         'disabled': False,
         'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
@@ -114,7 +114,7 @@ def test_export_plan_builder_landing_page(
 @mock.patch.object(helpers, 'get_lesson_details', return_value={})
 def test_exportplan_sections(mock_get_lessons, mock_get_comtrade_data, slug, client, user, mock_get_user_profile):
     client.force_login(user)
-    response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
+    response = client.get(reverse(f'exportplan:{slug}', kwargs={'id': 1}))
     assert response.status_code == 200
 
 
@@ -233,7 +233,7 @@ def test_export_plan_mixin(
     mock_get_user_profile,
 ):
     client.force_login(user)
-    response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
+    response = client.get(reverse(f'exportplan:{slug}', kwargs={'id': 1}))
 
     assert mock_update_export_plan_client.call_count == 1
     assert mock_update_export_plan_client.call_args == mock.call(

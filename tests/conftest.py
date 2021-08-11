@@ -307,42 +307,6 @@ def mock_export_plan_detail_list(patch_export_plan_detail_list):
         pass
 
 
-@pytest.fixture
-def patch_export_plan_sso_detail_list(export_plan_data):
-    yield mock.patch(
-        'sso.models.export_plan_helpers.get_exportplan_detail_list',
-        return_value=[export_plan_data],
-    )
-
-
-@pytest.fixture(autouse=True)
-def mock_export_plan_sso_list(patch_export_plan_sso_detail_list):
-    yield patch_export_plan_sso_detail_list.start()
-    try:
-        patch_export_plan_sso_detail_list.stop()
-    except RuntimeError:
-        # may already be stopped explicitly in a test
-        pass
-
-
-@pytest.fixture
-def patch_export_plan_sso_create(export_plan_data):
-    yield mock.patch(
-        'sso.models.export_plan_helpers.create_export_plan',
-        return_value=[export_plan_data],
-    )
-
-
-@pytest.fixture(autouse=False)
-def mock_export_plan_sso_create(patch_export_plan_sso_create):
-    yield patch_export_plan_sso_create.start()
-    try:
-        patch_export_plan_sso_create.stop()
-    except RuntimeError:
-        # may already be stopped explicitly in a test
-        pass
-
-
 @pytest.fixture(autouse=True)
 def mock_api_get_population_data(population_data):
     patch = mock.patch(

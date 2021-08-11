@@ -37,48 +37,6 @@ def objectives_form_data():
     }
 
 
-def test_about_your_business_form_valid(about_your_business_form_data):
-    form = forms.ExportPlanAboutYourBusinessForm(data=about_your_business_form_data)
-    assert form.is_valid()
-
-
-def test_about_your_business_form_missing_fields():
-    form = forms.ExportPlanAboutYourBusinessForm(
-        data={
-            'story': 'Lorem ipsum',
-            'location': 'Dolor sit amet',
-        }
-    )
-    assert form.is_valid()
-
-
-def test_about_your_business_form_empty_fields():
-    form = forms.ExportPlanAboutYourBusinessForm(
-        data={
-            'story': '',
-            'location': '',
-            'processes': '',
-            'packaging': '',
-        }
-    )
-    assert form.is_valid()
-
-
-def test_target_markets_research_form_valid(target_markets_research_data):
-    form = forms.ExportPlanAboutYourBusinessForm(data=target_markets_research_data)
-    assert form.is_valid()
-
-
-def test_target_markets_research_missing_fields():
-    form = forms.ExportPlanAboutYourBusinessForm(
-        data={
-            'demand': 'Lorem ipsum',
-            'competitors': 'Dolor sit amet',
-        }
-    )
-    assert form.is_valid()
-
-
 def test_target_markets_research_form_empty_fields():
     form = forms.ExportPlanTargetMarketsResearchForm(
         data={
@@ -125,12 +83,3 @@ def test_market_markets_research_form_view(
     response = client.get(url)
 
     assert response.status_code == 200
-
-
-def test_objectives_form_empty_fields():
-    form = forms.ExportPlanAboutYourBusinessForm(
-        data={
-            'rational': '',
-        }
-    )
-    assert form.is_valid()
