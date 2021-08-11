@@ -1,3 +1,4 @@
+import calendar
 from functools import reduce
 
 from directory_constants import choices
@@ -15,7 +16,6 @@ class ExportPlanParser:
     PAYMENT_TERM_OPTIONS = dict(choices.PAYMENT_TERM_OPTIONS)
     ALL_TRANSPORT_OPTIONS = dict(choices.TRANSPORT_OPTIONS + choices.WATER_TRANSPORT_OPTIONS)
     EXPORT_UNITS = dict(choices.EXPORT_UNITS)
-    EXPORT_TIMEFRAME = dict(choices.EXPORT_TIMEFRAME)
     MARKET_ROUTES = dict(choices.MARKET_ROUTE_CHOICES)
     PRODUCT_PROMOTIONS = dict(choices.PRODUCT_PROMOTIONAL_CHOICES)
     FUNDING_OPTIONS = dict(choices.FUNDING_OPTIONS)
@@ -65,25 +65,24 @@ class ExportPlanParser:
             ),
         )
 
-        unit_value = self.get_key('total_cost_and_price.units_to_export_first_period.value')
+        unit_value = self.get_key('total_cost_and_price.units_to_export.value')
         unit_label = helpers.values_to_labels(
-            values=self.get_key('total_cost_and_price.units_to_export_first_period.unit') or [],
+            values=self.get_key('total_cost_and_price.units_to_export.unit') or [],
             choices=self.EXPORT_UNITS,
         )
 
-        first_period_period_label = f'{unit_value} {unit_label}' if unit_value and unit_label else ''
-        self.set_key('total_cost_and_price.first_period_period_label', first_period_period_label)
+        units_to_export_label = f'{unit_value} {unit_label}' if unit_value and unit_label else ''
+        self.set_key('total_cost_and_price.units_to_export_label', units_to_export_label)
 
-        unit_period_value = self.get_key('total_cost_and_price.units_to_export_second_period.value')
+        export_end_month = self.get_key('total_cost_and_price.export_end.month')
+        export_end_year = self.get_key('total_cost_and_price.export_end.year')
 
-        unit_period_label = helpers.values_to_labels(
-            values=self.get_key('total_cost_and_price.units_to_export_second_period.unit') or [],
-            choices=self.EXPORT_TIMEFRAME,
+        export_end_label = (
+            f'{calendar.month_name[export_end_month]} {export_end_year}'
+            if (export_end_month and export_end_year)
+            else ''
         )
-        second_period_period_label = (
-            f'{unit_period_value} {unit_period_label}' if (unit_period_value and unit_period_value) else ''
-        )
-        self.set_key('total_cost_and_price.second_period_period_label', second_period_period_label)
+        self.set_key('total_cost_and_price.export_end_label', export_end_label)
 
         for route in self.data.get('route_to_markets', []):
             route_label = helpers.values_to_labels(values=[route.get('route')] or [], choices=self.MARKET_ROUTES)

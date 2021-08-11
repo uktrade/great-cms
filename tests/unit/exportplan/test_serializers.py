@@ -205,7 +205,7 @@ def test_cost_and_pricing_serializers():
             'other_overhead_costs': 19.23,
         },
         'total_cost_and_price': {
-            'units_to_export_first_period': {'unit': 'kg', 'value': 10},
+            'units_to_export': {'unit': 'kg', 'value': 10},
             'average_price_per_unit': 23.44,
             'duty_per_unit': 23,
             'gross_price_per_unit_invoicing_currency': {'value': 23.4, 'unit': 'EUR'},
@@ -222,7 +222,7 @@ def test_cost_and_pricing_serializers():
     )
     assert serializer.validated_data['total_cost_and_price'] == OrderedDict(
         [
-            ('units_to_export_first_period', OrderedDict([('unit', 'kg'), ('value', 10)])),
+            ('units_to_export', OrderedDict([('unit', 'kg'), ('value', 10)])),
             ('average_price_per_unit', 23.44),
             ('duty_per_unit', 23.0),
             ('gross_price_per_unit_invoicing_currency', OrderedDict([('unit', 'EUR'), ('value', 23.4)])),
@@ -251,13 +251,13 @@ def test_total_over_head_costs_serializer():
     'data, expected_profit_per_unit, expected_total_profit, expected_gross_unit_per_unit',
     [
         [
-            {'final_cost_per_unit': 16.00, 'net_price': 22.00, 'units_to_export_first_period': {'value': 22.00}},
+            {'final_cost_per_unit': 16.00, 'net_price': 22.00, 'units_to_export': {'value': 22.00}},
             6.00,
             132.00,
             22.00,
         ],
         [
-            {'final_cost_per_unit': '16.00', 'net_price': '22.00', 'units_to_export_first_period': {'value': '22.00'}},
+            {'final_cost_per_unit': '16.00', 'net_price': '22.00', 'units_to_export': {'value': '22.00'}},
             6.00,
             132.00,
             22.00,
@@ -336,8 +336,8 @@ def test_json_to_presentaion(cost_pricing_data):
                 'other_overhead_costs': None,
             },
             'total_cost_and_price': {
-                'units_to_export_first_period': {'unit': 'm', 'value': 22},
-                'units_to_export_second_period': {'unit': 'd', 'value': 5},
+                'units_to_export': {'unit': 'm', 'value': 22},
+                'export_end': {'month': 9, 'year': 2022},
                 'final_cost_per_unit': 16.00,
                 'average_price_per_unit': None,
                 'net_price': 22.00,

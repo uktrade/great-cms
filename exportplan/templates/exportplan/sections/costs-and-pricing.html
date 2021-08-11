@@ -211,9 +211,9 @@ product. <br /><br />This page will help you plan ahead and keep track of the up
             '<h2 class="h-xs p-t-0 p-b-0">Duty per unit</h2><p class="m-t-xs m-b-0">To find out which duties and charges you might need to pay, visit <a href="{{ check_duties_url }}" target="_blank" rel="noopener noreferrer">Check how to export goods</a> and choose the commodity code that best matches your product.</p>',
           field: 'total_cost_and_price',
         },
-        unitsToExport: {
+        exportQuantity: {
           label: 'Number of units',
-          id: 'units_to_export',
+          id: 'export_quantity',
           description: '<h2 class="h-m p-b-xs p-t-m">Total costs and price</h2><p>Now you have calculated your direct and overhead costs, you can calculate your final cost per unit. This can be tricky but don\'t worry, we will tell you what you need to do. </p><h2 class="h-xs p-t-0 p-b-0">Number of units you want to export</h2><p class="m-t-xs">First, record how many units you want to export over a given period of time.</p><p class="m-b-xs">The more accurate you are, the better your plan will be.</p>',
           placeholder: '0',
           type: 'number',
@@ -221,7 +221,7 @@ product. <br /><br />This page will help you plan ahead and keep track of the up
           inputMode: 'numeric',
           field: (x) => ({
             total_cost_and_price: {
-              units_to_export_first_period: x,
+              export_quantity: x,
             },
           }),
         },
@@ -232,22 +232,15 @@ product. <br /><br />This page will help you plan ahead and keep track of the up
           placeholder: 'Select unit',
           field: 'total_cost_and_price',
         },
-        timeframe: {
-          label: 'Time frame to export',
-          id: 'time_frame',
-          placeholder: '0',
-          type: 'number',
-          field: (x) => ({
-            total_cost_and_price: {
-              units_to_export_second_period: x,
-            },
-          }),
+        exportEndMonth: {
+          id: 'export_end_month',
+          label: 'by the end of:',
+          placeholder: 'Select',
+          field: 'total_cost_and_price',
         },
-        timeframeUnits: {
-          id: 'export_time_frame',
-          label: 'select timeframe',
-          name: 'select units',
-          placeholder: 'Select time',
+        exportEndYear: {
+          id: 'export_end_year',
+          placeholder: 'YYYY',
           field: 'total_cost_and_price',
         },
         grossPriceCurrency: {
@@ -269,7 +262,6 @@ product. <br /><br />This page will help you plan ahead and keep track of the up
           placeholder: 'Select currency',
         },
       },
-      exportTimeframe: {{ export_timeframe_choices| safe }},
       initialData: {{ costs_and_pricing_data| safe }},
       totals: {{ calculated_pricing| safe }},
       currencies: {{ currency_choices| safe }},
