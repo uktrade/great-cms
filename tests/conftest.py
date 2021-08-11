@@ -310,7 +310,7 @@ def mock_export_plan_detail_list(patch_export_plan_detail_list):
 @pytest.fixture
 def patch_export_plan_sso_detail_list(export_plan_data):
     yield mock.patch(
-        'sso.models.export_plan_helpers.get_exportplan_detail_list',
+        'exportplan.core.helpers.get_exportplan_detail_list',
         return_value=[export_plan_data],
     )
 

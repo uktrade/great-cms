@@ -71,7 +71,7 @@ def should_not_see_lets_get_to_know_you_modal(browser: WebDriver):
 @allure.step('Should see dashboard welcome')
 def test_dashboard_welcome(
     mock_dashboard_profile_events_opportunities,
-    mock_export_plan_requests,
+    mock_all_dashboard_and_export_plan_requests_and_responses,
     curated_list_pages_with_lessons,
     server_user_browser_dashboard,
     client,
