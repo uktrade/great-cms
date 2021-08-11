@@ -113,7 +113,7 @@ function CompareMarkets(props) {
       <CountryFinderModal
         modalIsOpen={marketModalIsOpen}
         setIsOpen={setMarketModalIsOpen}
-        commodityCode={activeProduct && activeProduct.commodity_code}
+        activeProducts={activeProduct ? [activeProduct] : selectedProducts}
         addButton={false}
         selectCountry={addCountry}
         isCompareCountries
