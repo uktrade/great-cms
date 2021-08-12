@@ -34,10 +34,9 @@ function ProductFinderButton() {
         <ul className="list m-v-0 body-l-b">
           {(selectedProducts || []).map((product, index) => (
             <li className="p-v-xxs" key={`product-${product.commodity_code}-${product.commodity_name}`}>
-              {ReactHtmlParser(product.commodity_name)}
               <button
                 type="button"
-                className="f-r button button--small button--only-icon button--tertiary"
+                className="button button--small button--only-icon button--tertiary"
                 onClick={() => deleteProduct(index)}
               >
                 <i className="fas fa-trash-alt" />
@@ -45,6 +44,7 @@ function ProductFinderButton() {
                   Remove product {ReactHtmlParser(product.commodity_name)}
                 </span>
               </button>
+              {ReactHtmlParser(product.commodity_name)}
             </li>
           ))}
         </ul>

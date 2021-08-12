@@ -1,5 +1,8 @@
 import React from 'react'
-import { useUserProducts, useActiveProduct } from '@src/components/hooks/useUserData'
+import {
+  useUserProducts,
+  useActiveProduct,
+} from '@src/components/hooks/useUserData'
 import { Select } from '@src/components/Form/Select'
 
 function ProductSelector() {
@@ -7,13 +10,38 @@ function ProductSelector() {
   const [activeProduct, setActiveProduct] = useActiveProduct()
 
   const setProduct = (choice) => {
-    const commodityCode = Object.values(choice)[0]
-    setActiveProduct(products.find((p) => p.commodity_code === commodityCode))
+    const index = Object.values(choice)[0]
+    setActiveProduct(products[index])
   }
-  if(activeProduct && products) {
-    if(!products.find((p) => p.commodity_code === activeProduct.commodity_code && p.commodity_name === activeProduct.commodity_name) )
+
+  // Check that the active product is in our product list
+  // If not, set it to the first
+  if (activeProduct && products) {
+    if (
+      !products.find(
+        (p) =>
+          p.commodity_code === activeProduct.commodity_code &&
+          p.commodity_name === activeProduct.commodity_name
+      )
+    ) {
       setActiveProduct(products[0])
+    }
   }
+
+  const options = (products || []).map((product, index) => {
+    return {
+      label: product.commodity_name,
+      value: `${index}`,
+    }
+  })
+
+  const selected = `${(products || []).findIndex(
+    (p) =>
+      activeProduct &&
+      activeProduct.commodity_code === p.commodity_code &&
+      activeProduct.commodity_name === p.commodity_name
+  )}`
+
   return (
     <>
       <Select
@@ -21,14 +49,9 @@ function ProductSelector() {
         id="product-selector"
         update={setProduct}
         name="product-selector"
-        options={(products || []).map((product) => {
-          return {
-            label: product.commodity_name,
-            value: product.commodity_code,
-          }
-        })}
+        options={options}
         hideLabel
-        selected={activeProduct && activeProduct.commodity_code}
+        selected={selected}
       />
     </>
   )

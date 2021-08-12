@@ -1,30 +1,25 @@
 import React, { useState, useRef } from 'react'
-import ReactModal from 'react-modal'
 import PropTypes from 'prop-types'
-
-const customStyles = {
-  overlay: {
-    zIndex: '3',
-    background: 'rgba(0, 0, 0, 0)',
-    position: 'fixed',
-  },
-  content: {},
-}
+import { useOnOutsideClick } from '@src/components/hooks/useOnOutsideClick'
 
 export default function BasketViewer({ label, onOpen, children }) {
   const [modalIsOpen, setIsOpen] = useState(false)
   const buttonRef = useRef(null)
+  const outerSpan = useRef()
 
-  const openViewer = () => {
-    const { left, top, height } = buttonRef.current.getBoundingClientRect()
-    customStyles.content = { margin: `${top + height + 8}px 0 0 ${left}px` }
-    setIsOpen(true)
-    onOpen()
+  const toggleViewer = () => {
+    setIsOpen(!modalIsOpen)
+    if (!modalIsOpen) {
+      onOpen()
+    }
   }
 
-  const closeModal = () => {
-    setIsOpen(false)
-  }
+  useOnOutsideClick(outerSpan, (target) => {
+    // Don't close basket if user has opened product finder or country finder from inside
+    if(!target.closest('.ReactModalPortal')) {
+      setIsOpen(false)
+    }
+  })
 
   const triggerButton = (
     <button
@@ -32,7 +27,7 @@ export default function BasketViewer({ label, onOpen, children }) {
       className={`tag ${
         modalIsOpen ? 'tag--tertiary' : 'tag--secondary'
       } tag--icon`}
-      onClick={openViewer}
+      onClick={toggleViewer}
       ref={buttonRef}
     >
       <span>{label}</span>
@@ -44,18 +39,9 @@ export default function BasketViewer({ label, onOpen, children }) {
   )
 
   return (
-    <span>
+    <span ref={outerSpan}>
       {triggerButton}
-      {
-        <ReactModal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          style={customStyles}
-          className="basket-view"
-        >
-          <div className="p-s">{children}</div>
-        </ReactModal>
-      }
+      {modalIsOpen ? <div className="basket-view p-s">{children}</div> : ''}
     </span>
   )
 }
