@@ -1,5 +1,6 @@
 import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
+import ReactHtmlParser from 'react-html-parser'
 import { Input } from '@src/components/Form/Input'
 import { formatLessonLearned, prependThe } from '@src/Helpers'
 
@@ -83,6 +84,7 @@ export const CostsAndPricing = memo(
                 }}
               />
               <MonthYearInput
+                className="m-t-s"
                 label={exportEndMonth.label}
                 monthName={exportEndMonth.id}
                 yearName={exportEndYear.id}
@@ -95,6 +97,9 @@ export const CostsAndPricing = memo(
                 })}
                 onChangeCombineFields
               />
+
+              {ReactHtmlParser(exportQuantity.after)}
+
               <Input
                 onChange={(x) => onChange(x, costPerUnit)}
                 value={data.final_cost_per_unit}
