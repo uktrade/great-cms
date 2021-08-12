@@ -29,6 +29,8 @@ def test_serialize_for_template_empty(export_plan_data):
     export_plan_data['getting_paid']['incoterms'] = {}
     export_plan_data['total_cost_and_price']['export_quantity']['value'] = ''
     export_plan_data['total_cost_and_price']['export_quantity']['unit'] = ''
+    export_plan_data['total_cost_and_price']['export_end']['month'] = ''
+    export_plan_data['total_cost_and_price']['export_end']['year'] = ''
     export_plan_data['total_cost_and_price'] = {}
     export_plan_data['route_to_markets'] = []
 

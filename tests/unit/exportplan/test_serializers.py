@@ -322,6 +322,33 @@ def test_estimated_costs_per_unit(cost_pricing_data):
     assert serializer.estimated_costs_per_unit == 76.5909090909091
 
 
+def test_json_to_presentation_empty():
+    json_data = serializers.ExportPlanSerializer().cost_and_pricing_to_json({})
+    assert json_data == json.dumps(
+        {
+            'direct_costs': {'product_costs': None, 'labour_costs': None, 'other_direct_costs': None},
+            'overhead_costs': {
+                'product_adaption': None,
+                'freight_logistics': None,
+                'agent_distributor_fees': None,
+                'marketing': None,
+                'insurance': None,
+                'other_overhead_costs': None,
+            },
+            'total_cost_and_price': {
+                'export_quantity': {'unit': '', 'value': ''},
+                'export_end': {'month': '', 'year': ''},
+                'final_cost_per_unit': None,
+                'average_price_per_unit': None,
+                'net_price': None,
+                'local_tax_charges': None,
+                'duty_per_unit': None,
+                'gross_price_per_unit_invoicing_currency': {'unit': '', 'value': ''},
+            },
+        }
+    )
+
+
 def test_json_to_presentaion(cost_pricing_data):
     json_data = serializers.ExportPlanSerializer().cost_and_pricing_to_json(cost_pricing_data)
     assert json_data == json.dumps(

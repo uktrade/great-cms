@@ -403,6 +403,8 @@ class ExportPlanSerializer(serializers.Serializer):
             field_type, TotalCostAndPriceSerializer.UnitRecordDecimal
         ):
             return {'unit': '', 'value': ''}
+        elif isinstance(field_type, TotalCostAndPriceSerializer.MonthYearRecord):
+            return {'month': '', 'year': ''}
 
     class DecimalEncoder(json.JSONEncoder):
         def default(self, obj):
