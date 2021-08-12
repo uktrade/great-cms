@@ -35,7 +35,7 @@ def test_landing_page_logged_in(client, user, domestic_site):
         (
             reverse('domestic:get-finance'),
             {
-                'title': 'UK Export Finance - Great.gov.uk',
+                'title': 'UK Export Finance - great.gov.uk',
             },
             200,
         ),
