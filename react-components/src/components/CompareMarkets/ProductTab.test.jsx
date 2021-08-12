@@ -50,6 +50,16 @@ const comparisonMarketResponse = {
   },
 }
 
+// set up existing product in store
+const product1 = {
+  commodity_code: '123456',
+  commodity_name: 'my product1',
+}
+const product2 = {
+  commodity_code: '123456',
+  commodity_name: 'my product2',
+}
+
 const getText = (el, selector) => {
   const target = el && el.querySelector(selector)
   return (target && target.textContent) || ''
@@ -64,8 +74,7 @@ describe('Compare markets - Product tab', () => {
 
   beforeEach(() => {
     container = document.createElement('div')
-    container.innerHTML =
-      '<span id="compare-market-container" data-productname="my product" data-productcode="080450" ></span>'
+    container.innerHTML = '<span id="compare-market-container"></span>'
     document.body.appendChild(container)
     Services.setConfig({
       csrfToken: '12345',
@@ -85,17 +94,14 @@ describe('Compare markets - Product tab', () => {
   })
 
   it('Opens product tab', async () => {
-    // set up existing product in store
-    let selectedProduct = {
-      commodity_code: '123456',
-      commodity_name: 'my product',
-    }
-
     const localContainer = container
 
     Services.store.dispatch(
       actions.setInitialState({
-        userSettings: { UserProducts: [selectedProduct], ActiveProduct: selectedProduct },
+        userSettings: {
+          UserProducts: [product1, product2],
+          ActiveProduct: product1,
+        },
       })
     )
 
@@ -126,5 +132,23 @@ describe('Compare markets - Product tab', () => {
     expect(getText(rowGermany, '.uk-import-value .secondary')).toMatch(
       '+0.7% vs 2018'
     )
+    expect(
+      getText(localContainer, '.select .select__placeholder--value')
+    ).toMatch(product1.commodity_name)
+    act(() => {
+      Services.store.dispatch(
+        actions.setInitialState({
+          userSettings: {
+            UserProducts: [product1, product2],
+            ActiveProduct: product2,
+          },
+        })
+      )
+    })
+    await waitFor(() => {
+      expect(
+        getText(localContainer, '.select .select__placeholder--value')
+      ).toMatch(product2.commodity_name)
+    })
   })
 })

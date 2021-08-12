@@ -38,7 +38,6 @@ export const CountryFinderButton = () => {
         <ul className="list m-v-0 body-l-b">
           {(markets || []).map((market, index) => (
             <li className="p-v-xxs" key={`market-${market.country_iso2_code}`}>
-              {market.country_name}
               <button
                 type="button"
                 className="f-r button button--small button--only-icon button--tertiary"
@@ -49,6 +48,7 @@ export const CountryFinderButton = () => {
                   Remove market {market.country_name}
                 </span>
               </button>
+              {market.country_name}
             </li>
           ))}
         </ul>

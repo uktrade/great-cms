@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-3119 - Basket restyle to lose react-modal
 - GP2-3166 - Suggested market product logic
 - GP2-3119 - Decouple basket from export plan
 - GP2-3128 - Analytics - section completion

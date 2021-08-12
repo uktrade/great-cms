@@ -68,15 +68,16 @@ describe('Test country finder button', () => {
     act(() => {
       Simulate.click(container.querySelector('button'))
     })
+    let addNewButton
     await waitFor(() => {
-      const addNewButton = document.body.querySelector(
-        '.ReactModal__Content button'
+      addNewButton = container.querySelector(
+        '.basket-view button'
       )
       expect(addNewButton).toBeTruthy()
     })
     // Click on the open country finder button
     act(() => {
-      Simulate.click(document.body.querySelector('.ReactModal__Content button'))
+      Simulate.click(addNewButton)
     })
     const finder = document.body.querySelector('.country-finder')
     const closeButton = finder.querySelector('button.dialog-close')
@@ -100,15 +101,14 @@ describe('Test country finder button', () => {
     act(() => {
       Simulate.click(container.querySelector('button'))
     })
+    let addNewButton
     await waitFor(() => {
-      const addNewButton = document.body.querySelector(
-        '.ReactModal__Content button'
-      )
+      addNewButton = container.querySelector('.basket-view button')
       expect(addNewButton).toBeTruthy()
     })
     // Click on the open country finder button
     act(() => {
-      Simulate.click(document.body.querySelector('.ReactModal__Content button'))
+      Simulate.click(addNewButton)
     })
     const finder = document.body.querySelector('.country-finder')
     const closeButton = finder.querySelector('button.dialog-close')
