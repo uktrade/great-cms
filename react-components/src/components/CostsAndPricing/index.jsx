@@ -86,9 +86,13 @@ export const CostsAndPricing = memo(
                 label={exportEndMonth.label}
                 monthName={exportEndMonth.id}
                 yearName={exportEndYear.id}
-                monthValue={data.export_end_month}
+                monthValue={data.export_end}
                 yearValue={data.export_end_year}
-                onChange={x => update(x, { [exportEndMonth.field]: x })}
+                onChange={(x, values) => update(x, {
+                  [exportEndMonth.field]: {
+                    [exportEndMonth.id]: values,
+                  },
+                })}
                 onChangeCombineFields
               />
               <Input
@@ -100,11 +104,11 @@ export const CostsAndPricing = memo(
                 example={
                   data.estimated_costs_per_unit
                     ? {
-                        ...costPerUnit.example,
-                        header: costPerUnit.example.header(
-                          `${currency} ${data.estimated_costs_per_unit}`
-                        ),
-                      }
+                      ...costPerUnit.example,
+                      header: costPerUnit.example.header(
+                        `${currency} ${data.estimated_costs_per_unit}`,
+                      ),
+                    }
                     : {}
                 }
               />

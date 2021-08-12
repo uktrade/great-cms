@@ -10,7 +10,7 @@ import {
 import { CostsAndPricing } from '.'
 
 const mapStateToProps = ({ exportPlan: { markets }, costAndPricing }) => ({
-  country: markets.find(Boolean).country_name,
+  country: markets ? markets.find(Boolean).country_name : null,
   data: { ...costAndPricing },
 })
 

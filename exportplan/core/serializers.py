@@ -196,7 +196,7 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
         month = serializers.IntegerField(required=False, allow_null=True)
         year = serializers.IntegerField(required=False, allow_null=True)
 
-    units_to_export = UnitRecordInt(required=False)
+    export_quantity = UnitRecordInt(required=False)
     export_end = MonthYearRecord(required=False)
     final_cost_per_unit = serializers.FloatField(required=False, allow_null=True)
     average_price_per_unit = serializers.FloatField(required=False, allow_null=True)
@@ -226,7 +226,7 @@ class TotalCostAndPriceSerializer(serializers.Serializer):
     @property
     def potential_total_profit(self):
         self.is_valid()
-        no_of_unit = self.data.get('units_to_export', {}).get('value') or 0
+        no_of_unit = self.data.get('export_quantity', {}).get('value') or 0
         profit_per_unit = self.profit_per_unit
         potential_total_profit = 0.00
         if no_of_unit and profit_per_unit:
@@ -321,21 +321,21 @@ class ExportPlanSerializer(serializers.Serializer):
     @property
     def total_export_costs(self):
         self.is_valid()
-        units_to_export = self.data.get('total_cost_and_price', {}).get('units_to_export', {}).get('value') or 0
+        export_quantity = self.data.get('total_cost_and_price', {}).get('export_quantity', {}).get('value') or 0
         total_export_costs = 0.00
-        if units_to_export:
-            total_export_costs = (self.total_direct_costs * float(units_to_export)) + self.total_overhead_costs
+        if export_quantity:
+            total_export_costs = (self.total_direct_costs * float(export_quantity)) + self.total_overhead_costs
         return total_export_costs
 
     @property
     def estimated_costs_per_unit(self):
         self.is_valid()
-        units_to_export = float(
-            self.data.get('total_cost_and_price', {}).get('units_to_export', {}).get('value', 0.00) or 0
+        export_quantity = float(
+            self.data.get('total_cost_and_price', {}).get('export_quantity', {}).get('value', 0.00) or 0
         )
         estimated_costs_per_unit = float(self.total_direct_costs or 0)
-        if self.total_overhead_costs > 0.00 and units_to_export > 0.00:
-            estimated_costs_per_unit = (self.total_overhead_costs / units_to_export) + float(
+        if self.total_overhead_costs > 0.00 and export_quantity > 0.00:
+            estimated_costs_per_unit = (self.total_overhead_costs / export_quantity) + float(
                 self.total_direct_costs or 0
             )
         return estimated_costs_per_unit

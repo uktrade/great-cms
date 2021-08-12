@@ -339,7 +339,7 @@ def test_cost_and_pricing(cost_pricing_data, client, user, mock_get_user_profile
                 'other_overhead_costs': None,
             },
             'total_cost_and_price': {
-                'units_to_export': {'unit': 'm', 'value': 22},
+                'export_quantity': {'unit': 'm', 'value': 22},
                 'export_end': {'month': 9, 'year': 2022},
                 'final_cost_per_unit': 16.00,
                 'average_price_per_unit': None,

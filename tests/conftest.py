@@ -32,7 +32,7 @@ def cost_pricing_data():
         'total_cost_and_price': {
             'final_cost_per_unit': 16.00,
             'net_price': 22.00,
-            'units_to_export': {'value': 22.00, 'unit': 'm'},
+            'export_quantity': {'value': 22.00, 'unit': 'm'},
             'export_end': {'month': 9, 'year': 2022},
             'duty_per_unit': 15.13,
             'local_tax_charges': 5.23,

@@ -18,7 +18,7 @@ def test_serialize_for_template(export_plan_data):
         'Credit or debit card payments, Merchant services'
     )
     assert ep_parser.data['getting_paid']['incoterms']['incoterms_transport_label'] == 'Ex Works (EXW)'
-    assert ep_parser.data['total_cost_and_price']['units_to_export_label'] == '22.0 metre(s)'
+    assert ep_parser.data['total_cost_and_price']['export_quantity_label'] == '22.0 metre(s)'
     assert ep_parser.data['total_cost_and_price']['export_end_label'] == 'September 2022'
     assert ep_parser.data['route_to_markets'][0]['route_label'] == 'Direct sales'
     assert ep_parser.data['route_to_markets'][0]['promote_label'] == 'Online marketing'
@@ -27,8 +27,8 @@ def test_serialize_for_template(export_plan_data):
 def test_serialize_for_template_empty(export_plan_data):
     export_plan_data['getting_paid']['payment_method'] = {}
     export_plan_data['getting_paid']['incoterms'] = {}
-    export_plan_data['total_cost_and_price']['units_to_export']['value'] = ''
-    export_plan_data['total_cost_and_price']['units_to_export']['unit'] = ''
+    export_plan_data['total_cost_and_price']['export_quantity']['value'] = ''
+    export_plan_data['total_cost_and_price']['export_quantity']['unit'] = ''
     export_plan_data['total_cost_and_price'] = {}
     export_plan_data['route_to_markets'] = []
 
@@ -36,6 +36,6 @@ def test_serialize_for_template_empty(export_plan_data):
 
     assert ep_parser.data['getting_paid']['payment_method']['payment_method_label'] == ''
     assert ep_parser.data['getting_paid']['incoterms']['incoterms_transport_label'] == ''
-    assert ep_parser.data['total_cost_and_price']['units_to_export_label'] == ''
+    assert ep_parser.data['total_cost_and_price']['export_quantity_label'] == ''
     assert ep_parser.data['total_cost_and_price']['export_end_label'] == ''
     assert len(ep_parser.data['route_to_markets']) == 0

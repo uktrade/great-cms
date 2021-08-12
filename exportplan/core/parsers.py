@@ -65,14 +65,14 @@ class ExportPlanParser:
             ),
         )
 
-        unit_value = self.get_key('total_cost_and_price.units_to_export.value')
+        unit_value = self.get_key('total_cost_and_price.export_quantity.value')
         unit_label = helpers.values_to_labels(
-            values=self.get_key('total_cost_and_price.units_to_export.unit') or [],
+            values=self.get_key('total_cost_and_price.export_quantity.unit') or [],
             choices=self.EXPORT_UNITS,
         )
 
-        units_to_export_label = f'{unit_value} {unit_label}' if unit_value and unit_label else ''
-        self.set_key('total_cost_and_price.units_to_export_label', units_to_export_label)
+        export_quantity_label = f'{unit_value} {unit_label}' if unit_value and unit_label else ''
+        self.set_key('total_cost_and_price.export_quantity_label', export_quantity_label)
 
         export_end_month = self.get_key('total_cost_and_price.export_end.month')
         export_end_year = self.get_key('total_cost_and_price.export_end.year')
