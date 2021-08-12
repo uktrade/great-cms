@@ -17,6 +17,7 @@
 
 {% block inner_content %}
     <form method="post" enctype="multipart/form-data" class="no-default-margin margin-bottom-45" novalidate="novalidate">
+        {% csrf_token %}
         <h1 class="heading-large margin-top-0">Publishing your profile on great.gov.uk</h1>
         {% if company.is_uk_isd_company %}
             <p>You can publish your profile on 2 great.gov.uk platforms – great.gov.uk/trade/ and great.gov.uk UK Investment Support Directory.</p>
