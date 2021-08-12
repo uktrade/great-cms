@@ -15,6 +15,7 @@ export default function BasketViewer({ label, onOpen, children }) {
   }
 
   useOnOutsideClick(outerSpan, (target) => {
+    // Don't close basket if user has opened product finder or country finder from inside
     if(!target.closest('.ReactModalPortal')) {
       setIsOpen(false)
     }
