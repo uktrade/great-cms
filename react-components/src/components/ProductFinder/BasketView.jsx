@@ -14,7 +14,11 @@ export default function BasketViewer({ label, onOpen, children }) {
     }
   }
 
-  useOnOutsideClick(outerSpan, () => setIsOpen(false))
+  useOnOutsideClick(outerSpan, (target) => {
+    if(!target.closest('.ReactModalPortal')) {
+      setIsOpen(false)
+    }
+  })
 
   const triggerButton = (
     <button
