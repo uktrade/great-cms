@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-2894 - Change export timeframe to month/year
 - GP2-3119 - Decouple basket from export plan
 - GP2-3128 - Analytics - section completion
 - GP2-3017 - SOO User profile update to directory-SSO
@@ -27,6 +28,7 @@
 - GP2-3085 - Fix Business Risk block radio buttons spacing
 - GP2-2896 - Split objective date fields into month and year
 - GP2-3087 - migrate directory-sso-profile into great-cms
+
 ### Fixed bugs
 - GP2-3208 - Fix error while updating personal profile
 - GP2-3164 - Remove vulnerable web-component-tester dev package
