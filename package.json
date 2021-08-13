@@ -9,10 +9,7 @@
     "build-dev": "webpack --config react-components/webpack.config.js --mode development",
     "build": "npm install great-styles; webpack --config react-components/webpack.config.js --mode production",
     "build-domestic-components-dev": "webpack --config core/components/react-components/webpack.config.js --mode development",
-    "build-domestic-components": "webpack --config core/components/react-components/webpack.config.js --mode production",
-    "storybook": "start-storybook",
-    "storybook-publish": "dsm-storybook publish",
-    "storybook-build": "build-storybook"
+    "build-domestic-components": "webpack --config core/components/react-components/webpack.config.js --mode production"
   },
   "jest": {
     "globalSetup": "reacy-components/setupJest.js"
@@ -37,17 +34,6 @@
     "@babel/plugin-transform-react-jsx": "^7.12.12",
     "@babel/preset-env": "7.9.0",
     "@babel/preset-react": "7.9.4",
-    "@storybook/addon-a11y": "5.3.18",
-    "@storybook/addon-actions": "5.3.18",
-    "@storybook/addon-backgrounds": "5.3.18",
-    "@storybook/addon-centered": "5.3.18",
-    "@storybook/addon-docs": "5.3.18",
-    "@storybook/addon-knobs": "5.3.18",
-    "@storybook/addon-options": "5.3.18",
-    "@storybook/addon-storysource": "5.3.18",
-    "@storybook/addon-viewport": "5.3.18",
-    "@storybook/addons": "5.3.18",
-    "@storybook/html": "5.3.18",
     "@testing-library/jest-dom": "^5.11.1",
     "@testing-library/react": "^10.4.7",
     "babel-eslint": "10.1.0",
@@ -98,7 +84,6 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@fortawesome/fontawesome-free": "^5.15.1",
-    "@storybook/react": "^6.2.9",
     "great-styles": "github:uktrade/great-styles",
     "prop-types": "15.7.2",
     "react": "16.13.1",

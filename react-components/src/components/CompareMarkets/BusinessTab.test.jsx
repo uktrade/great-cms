@@ -58,7 +58,7 @@ describe('Compare markets - Business tab', () => {
   beforeEach(() => {
     container = document.createElement('div')
     container.innerHTML =
-      '<span id="compare-market-container" data-productname="my product" data-productcode="080450" ></span>'
+      '<span id="compare-market-container"></span>'
     document.body.appendChild(container)
     Services.setConfig({
       csrfToken: '12345',

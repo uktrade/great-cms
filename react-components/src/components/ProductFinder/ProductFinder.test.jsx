@@ -78,7 +78,7 @@ const openProductFinder = () => {
     })
     // Click on the open product finder button
     act(() => {
-      Simulate.click(document.body.querySelector('.ReactModal__Content button.button--primary'))
+      Simulate.click(container.querySelector('.basket-view button.button--primary'))
     })
     expect(document.body.querySelector('.product-finder')).toBeTruthy()
 }
@@ -126,10 +126,11 @@ describe('Product finder tests', () => {
     act(() => {
       Simulate.click(container.querySelector('button'))
     })
-    expect(document.body.querySelector('.ReactModal__Content button.button--primary')).toBeTruthy()
+    const addProductButton = container.querySelector('.basket-view button.button--primary')
+    expect(addProductButton).toBeTruthy()
     // Click on the open product finder button
     act(() => {
-      Simulate.click(document.body.querySelector('.ReactModal__Content button.button--primary'))
+      Simulate.click(addProductButton)
     })
 
     const finder = document.body.querySelector('.product-finder')
