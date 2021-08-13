@@ -16,10 +16,10 @@
         {% for plan in exportplan_list %}
           <li>
             <article class="relative bg-white radius p-s">
-              <a href="#" class="learn__category-link" aria-describedby="export-plan-{{ plan.id }}">
+              <a href="../{{plan.pk}}/" class="learn__category-link" aria-describedby="export-plan-{{ plan.pk }}">
                 <span class="visually-hidden">View export plan</span>
               </a>
-              <h2 id="export-plan-{{ plan.id }}" class="h-m">
+              <h2 id="export-plan-{{ plan.pk }}" class="h-m">
                 Exporting {{ plan.export_commodity_codes.0.commodity_name }}
                 to {{ plan.export_countries.0.country_name }}</h2>
               <div class="progress-bar m-v-xs">

@@ -70,6 +70,7 @@ class ExportPlanMixin:
             export_plan=self.processor.data,
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),
+            export_plan_landing_page_url=self.processor.landing_page_url(),
             **kwargs,
         )
 
@@ -455,5 +456,5 @@ class ExportPlanDashBoard(
         # self.request.user.set_page_view(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
         context['sections'] = processor.build_export_plan_sections()
         context['export_plan_progress'] = processor.calculate_ep_progress()
-
+        context['export_plan'] = export_plan
         return context

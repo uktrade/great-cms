@@ -65,6 +65,9 @@ class ExportPlanProcessor:
             field_value = self.seralizer.initial_data[field_name][sub_field_name]
         return False if field_value == '' else True
 
+    def landing_page_url(self):
+        return reverse_lazy('exportplan:dashboard', kwargs={'id': self.data['pk']})
+
     def build_current_url(self, slug):
         current_url = data.SECTIONS[slug]
         current_url.pop('country_required', None)

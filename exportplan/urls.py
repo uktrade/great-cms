@@ -105,7 +105,11 @@ urlpatterns = [
         login_required(views.PDFDownload.as_view(), login_url=SIGNUP_URL),
         name='pdf-download',
     ),
-    path('api/export-plan/', skip_ga360(api.UpdateExportPlanAPIView.as_view()), name='api-update-export-plan'),
+    re_path(
+        r'^api/export-plan/(?P<id>\d+)/$',
+        skip_ga360(api.UpdateExportPlanAPIView.as_view()),
+        name='api-update-export-plan',
+    ),
     path(
         'api/population-data-by-country/',
         skip_ga360(api.ExportPlanPopulationDataByCountryView.as_view()),

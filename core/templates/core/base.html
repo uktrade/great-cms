@@ -42,7 +42,9 @@
           apiCompaniesHouseUrl: '{% url "core:api-companies-house" %}',
           apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
           apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
-          apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" %}',
+          {% if export_plan %}
+          apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" id=export_plan.pk %}',
+          {% endif %}
           apiModelObjectManageUrl: '{% url "exportplan:api-model-object-manage" %}',
           apiComTradeDataUrl: '{% url "core:api-comtrade-data" %}',
           apiCountryDataUrl: '{% url "core:api-country-data" %}',
@@ -110,8 +112,8 @@
           signup: false,
         },
       exportPlan:{
-          product: {{request.user.export_plan.data.export_commodity_codes.0|to_json}},
-          market: {{request.user.export_plan.data.export_countries.0|to_json }}
+          product: {{export_plan.export_commodity_codes.0|to_json}},
+          market: {{export_plan.export_countries.0|to_json }}
         },
       })
   </script>

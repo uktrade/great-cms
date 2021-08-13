@@ -11,7 +11,12 @@
 {% block content %}
 
 <section class="export-plan-dashboard__section bg-blue-deep-10">
+
   <div class="export-plan-dashboard__container container">
+  <h2 class="h-m p-t-m">
+    Exporting {{ export_plan.export_commodity_codes.0.commodity_name }}
+    to {{ export_plan.export_countries.0.country_name }}
+  </h2>
     <div id="section-progress">
       <div class="m-t-m">
         <div class="progress-bar progress-bar--white-track">
