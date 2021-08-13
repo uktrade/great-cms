@@ -46,7 +46,7 @@ class ExportPlanMixin:
         return ExportPlanProcessor(export_plan)
 
     @cached_property
-    def parser(self):
+    def export_plan(self):
         return parsers.ExportPlanParser(self.processor.data)
 
     @property
@@ -166,7 +166,7 @@ class ExportPlanMarketingApproachView(PageTitleMixin, LessonDetailsMixin, Export
         route_choices = choices_to_key_value(choices.MARKET_ROUTE_CHOICES)
         promotional_choices = choices_to_key_value(choices.PRODUCT_PROMOTIONAL_CHOICES)
         target_age_group_choices = choices_to_key_value(choices.TARGET_AGE_GROUP_CHOICES)
-        context['route_to_markets'] = self.parser.data['route_to_markets']
+        context['route_to_markets'] = self.export_plan.data['route_to_markets']
         context['route_choices'] = route_choices
         context['target_age_group_choices'] = target_age_group_choices
         context['promotional_choices'] = promotional_choices
