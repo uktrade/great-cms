@@ -5,6 +5,7 @@ from django.core.files.base import ContentFile
 from django.http import HttpResponse
 
 from exportplan import utils
+from exportplan.core.parsers import ExportPlanParser
 
 
 def test_format_two_dp():
@@ -14,9 +15,9 @@ def test_format_two_dp():
     assert utils.format_two_dp(22.95688) == '22.96'
 
 
-def test_render_to_pdf_error(user, get_request):
+def test_render_to_pdf_error(user, get_request, export_plan_data):
     pdf_context = {
-        'export_plan': get_request.user.export_plan,
+        'export_plan': ExportPlanParser(export_plan_data),
         'user': get_request.user,
     }
 
@@ -27,9 +28,9 @@ def test_render_to_pdf_error(user, get_request):
 
 
 @mock.patch.object(utils.pisa, 'pisaDocument')
-def test_render_to_pdf(mock_pisa, user, get_request):
+def test_render_to_pdf(mock_pisa, user, get_request, export_plan_data):
     pdf_context = {
-        'export_plan': get_request.user.export_plan,
+        'export_plan': ExportPlanParser(export_plan_data),
         'user': get_request.user,
     }
 

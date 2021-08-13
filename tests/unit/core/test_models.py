@@ -135,34 +135,34 @@ def test_curated_list_page_has_link_in_context_back_to_parent(
     'querystring_to_add,expected_backlink_value',
     (
         ('', None),
-        ('?return-link=%2Fexport-plan%2Fsection%2Fabout-your-business%2F', '/export-plan/section/about-your-business/'),
+        ('?return-link=%2Fexport-plan%2F1%2Fabout-your-business%2F', '/export-plan/1/about-your-business/'),
         (
-            '?return-link=%2Fexport-plan%2Fsection%2Fabout-your-business%2F%3Ffoo%3Dbar',
-            '/export-plan/section/about-your-business/?foo=bar',
+            '?return-link=%2Fexport-plan%2F1%2Fabout-your-business%2F%3Ffoo%3Dbar',
+            '/export-plan/1/about-your-business/?foo=bar',
         ),
         (
-            '?bam=baz&return-link=%2Fexport-plan%2Fsection%2Fabout-your-business%2F%3Ffoo%3Dbar',
-            '/export-plan/section/about-your-business/?foo=bar',  # NB: bam=baz should not be here
+            '?bam=baz&return-link=%2Fexport-plan%2F1%2Fabout-your-business%2F%3Ffoo%3Dbar',
+            '/export-plan/1/about-your-business/?foo=bar',  # NB: bam=baz should not be here
         ),
         ('?bam=baz&return-link=example%2Fexport-plan%2Fpath%2F%3Ffoo%3Dbar', None),
         (
             (
                 '?bam=baz&return-link=https%3A%2F%2Fphishing.example.com'
-                '%2Fexport-plan%2Fsection%2Fabout-your-business%2F%3Ffoo%3Dbar'
+                '%2Fexport-plan%2F1%2Fabout-your-business%2F%3Ffoo%3Dbar'
             ),
             None,
         ),
         (
             (
                 '?bam=baz&return-link=%3A%2F%2Fphishing.example.com'
-                '%2Fexport-plan%2Fsection%2Fabout-your-business%2F%3Ffoo%3Dbar'
+                '%2Fexport-plan%2F1%2Fabout-your-business%2F%3Ffoo%3Dbar'
             ),
             None,
         ),
         ('?bam=baz', None),
         (
-            '?bam=baz&return-link=%2Fexport-plan%2Fsection%2Fabout-your-business%2F%3Ffoo%3Dbar',
-            '/export-plan/section/about-your-business/?foo=bar',
+            '?bam=baz&return-link=%2Fexport-plan%2F1%2Fabout-your-business%2F%3Ffoo%3Dbar',
+            '/export-plan/1/about-your-business/?foo=bar',
         ),
     ),
     ids=(
@@ -192,7 +192,6 @@ def test_detail_page_get_context_handles_backlink_querystring_appropriately(
 
     request = rf.get(lesson_page_url)
     request.user = user
-    request.user.export_plan.data = export_plan_data
 
     context = detail_page.get_context(request)
 
@@ -208,17 +207,17 @@ def test_detail_page_get_context_handles_backlink_querystring_appropriately(
     (
         (None, None),
         ('', None),
-        ('/export-plan/section/about-your-business/', 'About your business'),
-        ('/export-plan/section/business-objectives/', 'Business objectives'),
-        ('/export-plan/section/target-markets-research/', 'Target markets research'),
-        ('/export-plan/section/adapting-your-product/', 'Adapting your product'),
-        ('/export-plan/section/marketing-approach/', 'Marketing approach'),
-        ('/export-plan/section/costs-and-pricing/', 'Costs and pricing'),
-        ('/export-plan/section/funding-and-credit/', 'Funding and credit'),
-        ('/export-plan/section/getting-paid/', 'Getting paid'),
-        ('/export-plan/section/travel-plan/', 'Travel plan'),
-        ('/export-plan/section/business-risk/', 'Business risk'),
-        ('/export-plan/section/adapting-your-product/?foo=bar', 'Adapting your product'),
+        ('/export-plan/1/about-your-business/', 'About your business'),
+        ('/export-plan/1/business-objectives/', 'Business objectives'),
+        ('/export-plan/1/target-markets-research/', 'Target markets research'),
+        ('/export-plan/1/adapting-your-product/', 'Adapting your product'),
+        ('/export-plan/1/marketing-approach/', 'Marketing approach'),
+        ('/export-plan/1/costs-and-pricing/', 'Costs and pricing'),
+        ('/export-plan/1/funding-and-credit/', 'Funding and credit'),
+        ('/export-plan/1/getting-paid/', 'Getting paid'),
+        ('/export-plan/1/travel-plan/', 'Travel plan'),
+        ('/export-plan/1/business-risk/', 'Business risk'),
+        ('/export-plan/1/adapting-your-product/?foo=bar', 'Adapting your product'),
         ('/export-plan/', None),
         ('/path/that/will/not/match/anything/', None),
     ),

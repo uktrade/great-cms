@@ -6,9 +6,9 @@ from . import helpers, serializers
 
 class ExportPlanParser:
     """
-    Parse the export plan details provided by directory-api's exportplan
-    serializer
-
+        Parse the export plan details provided by directory-api's exportplan
+        serializer
+    par
     """
 
     PAYMENT_METHOD_OPTIONS = dict(choices.PAYMENT_METHOD_OPTIONS)

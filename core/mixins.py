@@ -8,7 +8,6 @@ from django.utils import translation
 from great_components import helpers as great_components_helpers
 
 from core import cms_slugs
-from exportplan.core.processor import ExportPlanProcessor
 
 logger = logging.getLogger(__name__)
 
@@ -36,17 +35,6 @@ class EnableTourMixin:
             }
         except ObjectDoesNotExist:
             pass
-        return context
-
-
-class ExportPlanMixin:
-    # gets export plan data for use by the persionalization bar
-    def get_context(self, request):
-        context = super().get_context(request)
-        if request.user and hasattr(request.user, 'export_plan'):
-            processor = ExportPlanProcessor(request.user.export_plan.data)
-            context['export_plan'] = request.user.export_plan.data
-            context['export_plan_progress'] = processor.calculate_ep_progress()
         return context
 
 

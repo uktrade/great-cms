@@ -126,6 +126,6 @@ def get_exportplan_detail_list(sso_session_id):
 
 
 def get_exportplan(sso_session_id, id):
-    response = api_client.exportplan.detail(sso_session_id, id)
+    response = api_client.exportplan.detail(sso_session_id=sso_session_id, id=id)
     response.raise_for_status()
     return response.json()

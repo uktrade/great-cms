@@ -107,9 +107,8 @@ def test_dashboard_page_routing(
     mock_get_user_page_views,
     patch_set_user_page_view,
     mock_get_company_profile,
-    mock_export_plan_detail_list,
-    mock_export_plan_sso_list,
-    patch_export_plan_sso_detail_list,
+    mock_detail_export_plan_client,
+    patch_export_plan_detail_list,
     client,
     user,
     get_request,
@@ -117,8 +116,8 @@ def test_dashboard_page_routing(
     domestic_site,
     mock_get_user_profile,
 ):
-    patch_export_plan_sso_detail_list.stop()
-    mock_export_plan_detail_list.return_value = [{}]
+    patch_export_plan_detail_list.stop()
+    mock_detail_export_plan_client.return_value = [{}]
     mock_events_by_location_list.return_value = create_response(json_body={'results': []})
     mock_export_opportunities_by_relevance_list.return_value = create_response(json_body={'results': []})
     mock_get_user_page_views.return_value = create_response(json_body={'result': 'ok', 'page_views': {}})
@@ -177,10 +176,9 @@ def test_dashboard_page_routing(
     assert context_data['routes']['learn'].value.get('enabled') is False
 
     # set a country in exportplan and watch plan section disappear
-    assert context_data['routes']['target'].value.get('enabled') is True
-    mock_export_plan_detail_list.return_value = create_response(json_body=[{'export_countries': ['France']}])
+    mock_detail_export_plan_client.return_value = create_response(json_body=[{'export_countries': ['France']}])
     context_data = dashboard.get_context(get_request)
-    assert context_data['routes']['target'].value.get('enabled') is False
+    assert context_data['routes']['target'].value.get('enabled') is True
 
     # page visit on exportplan dashboard should make plan section disappear
     assert context_data['routes']['plan'].value.get('enabled') is True
@@ -189,9 +187,6 @@ def test_dashboard_page_routing(
     )
     context_data = dashboard.get_context(get_request)
     assert context_data['routes']['plan'].value.get('enabled') is False
-    assert context_data['export_plan_progress']['sections_total'] == 10
-    assert context_data['export_plan_progress']['exportplan_completed'] is False
-    assert context_data['export_plan_progress']['exportplan_completed'] is False
 
 
 @pytest.mark.django_db
