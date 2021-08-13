@@ -20,7 +20,6 @@ class ExportPlanDashboardPage(
     def get_context(self, request):
         id = self.kwargs['id']
         processor = ExportPlanProcessor(self.request.user.session_id, id)
-        processor = ExportPlanProcessor(request.user.export_plan.data)
         request.user.set_page_view(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
         context = super().get_context(request)
         context['sections'] = processor.build_export_plan_sections()

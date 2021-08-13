@@ -31,7 +31,7 @@ urlpatterns = [
         name='start',
     ),
     re_path(
-        r'^(?P<id>\d+)/marketing-approach$',
+        r'^(?P<id>\d+)/marketing-approach/$',
         login_required(views.ExportPlanMarketingApproachView.as_view(), login_url=SIGNUP_URL),
         name='marketing-approach',
     ),
@@ -100,7 +100,11 @@ urlpatterns = [
         login_required(views.ExportPlanList.as_view(), login_url=SIGNUP_URL),
         name='list',
     ),
-    path('pdf-download/', login_required(views.PDFDownload.as_view(), login_url=SIGNUP_URL), name='pdf-download'),
+    path(
+        r'^/(?P<id>\d+)pdf-download/',
+        login_required(views.PDFDownload.as_view(), login_url=SIGNUP_URL),
+        name='pdf-download',
+    ),
     path('api/export-plan/', skip_ga360(api.UpdateExportPlanAPIView.as_view()), name='api-update-export-plan'),
     path(
         'api/population-data-by-country/',

@@ -10,11 +10,11 @@ from exportplan.context import (
 )
 
 
-def test_pdf_context_provider(get_request):
+def test_pdf_context_provider(get_request, export_plan_data):
 
-    pdf_context = PDFContextProvider().get_context_provider_data(get_request)
+    pdf_context = PDFContextProvider().get_context_provider_data(get_request, id=1)
 
-    assert len(pdf_context['export_plan'].data) == len(get_request.user.export_plan.data)
+    assert pdf_context['export_plan'].data == export_plan_data
     assert pdf_context['user'] == get_request.user
     assert pdf_context['sections'] is not None
     assert pdf_context['calculated_pricing'] is not None
@@ -24,12 +24,12 @@ def test_pdf_context_provider(get_request):
 
 def test_pdf_context_pdf_statics_url_s3(get_request):
     settings.PDF_STATIC_URL = 'http://my_bucket.aws.my.region/pdf/'
-    pdf_context = PDFContextProvider().get_context_provider_data(get_request)
+    pdf_context = PDFContextProvider().get_context_provider_data(get_request, id=1)
     assert pdf_context['pdf_statics_url'] == 'http://my_bucket.aws.my.region/pdf/'
 
 
 def test_insightdata_context_provider(mock_get_comtrade_data, multiple_country_data, get_request):
-    context = InsightDataContextProvider().get_context_provider_data(get_request)
+    context = InsightDataContextProvider().get_context_provider_data(get_request, id=1)
 
     assert mock_get_comtrade_data.call_count == 1
     assert mock_get_comtrade_data.call_args == mock.call(commodity_code='220850', countries_list=['NL'])
@@ -48,7 +48,7 @@ def test_insightdata_context_provider(mock_get_comtrade_data, multiple_country_d
 
 
 def test_population_age_data_context_provider(mock_get_population_data, get_request):
-    context = PopulationAgeDataContextProvider().get_context_provider_data(get_request)
+    context = PopulationAgeDataContextProvider().get_context_provider_data(get_request, id=1)
 
     assert mock_get_population_data.call_count == 2
     assert mock_get_population_data.call_args_list[0] == mock.call(country='Netherlands', target_ages=['35-40'])
@@ -60,7 +60,7 @@ def test_population_age_data_context_provider(mock_get_population_data, get_requ
 
 
 def test_factbook_context_provider(mock_cia_world_factbook_data, get_request):
-    context = FactbookDataContextProvider().get_context_provider_data(get_request)
+    context = FactbookDataContextProvider().get_context_provider_data(get_request, id=1)
 
     assert mock_cia_world_factbook_data.call_count == 1
     assert mock_cia_world_factbook_data.call_args == mock.call(country='Netherlands', key='people,languages')

@@ -117,16 +117,16 @@ def export_plan_list_data():
 @pytest.fixture
 def export_plan_section_progress_data():
     return [
-        {'total': 5, 'populated': 1, 'url': '/export-plan/section/about-your-business/'},
-        {'total': 2, 'populated': 1, 'url': '/export-plan/section/business-objectives/'},
-        {'total': 5, 'populated': 0, 'url': '/export-plan/section/target-markets-research/'},
-        {'total': 11, 'populated': 1, 'url': '/export-plan/section/adapting-your-product/'},
-        {'total': 2, 'populated': 1, 'url': '/export-plan/section/marketing-approach/'},
-        {'total': 8, 'populated': 6, 'url': '/export-plan/section/costs-and-pricing/'},
-        {'total': 3, 'populated': 3, 'url': '/export-plan/section/getting-paid/'},
-        {'total': 3, 'populated': 3, 'url': '/export-plan/section/funding-and-credit/'},
-        {'total': 4, 'populated': 4, 'url': '/export-plan/section/travel-plan/'},
-        {'total': 1, 'populated': 1, 'url': '/export-plan/section/business-risk/'},
+        {'total': 5, 'populated': 1, 'url': '/export-plan/1/about-your-business/'},
+        {'total': 2, 'populated': 1, 'url': '/export-plan/1/business-objectives/'},
+        {'total': 5, 'populated': 0, 'url': '/export-plan/1/target-markets-research/'},
+        {'total': 11, 'populated': 1, 'url': '/export-plan/1/adapting-your-product/'},
+        {'total': 2, 'populated': 1, 'url': '/export-plan/1/marketing-approach/'},
+        {'total': 8, 'populated': 6, 'url': '/export-plan/1/costs-and-pricing/'},
+        {'total': 3, 'populated': 3, 'url': '/export-plan/1/getting-paid/'},
+        {'total': 3, 'populated': 3, 'url': '/export-plan/1/funding-and-credit/'},
+        {'total': 4, 'populated': 4, 'url': '/export-plan/1/travel-plan/'},
+        {'total': 1, 'populated': 1, 'url': '/export-plan/1/business-risk/'},
     ]
 
 
@@ -247,7 +247,7 @@ def user():
 
 @pytest.fixture
 def get_request():
-    req = RequestFactory().get('/dashboard/')
+    req = RequestFactory().get('/dashboard/', kwargs={'id': 1})
     req.user = get_user()
     return req
 
@@ -475,6 +475,24 @@ def mock_update_export_plan_client(patch_update_export_plan_client):
     yield patch_update_export_plan_client.start()
     try:
         patch_update_export_plan_client.stop()
+    except RuntimeError:
+        # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture
+def patch_detail_export_plan_client(export_plan_data):
+    yield mock.patch(
+        'directory_api_client.api_client.exportplan.detail',
+        return_value=create_response(status_code=200, json_body=export_plan_data),
+    )
+
+
+@pytest.fixture(autouse=True)
+def mock_detail_export_plan_client(patch_detail_export_plan_client):
+    yield patch_detail_export_plan_client.start()
+    try:
+        patch_detail_export_plan_client.stop()
     except RuntimeError:
         # may already be stopped explicitly in a test
         pass

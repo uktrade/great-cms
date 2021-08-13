@@ -1,10 +1,11 @@
 import abc
 
 from django.conf import settings
+from django.utils.functional import cached_property
 from django.utils.text import slugify
 
 from core import helpers as core_helpers
-from exportplan.core import data, helpers
+from exportplan.core import data, helpers, parsers
 from exportplan.core.processor import ExportPlanProcessor
 
 
@@ -14,18 +15,32 @@ class AbstractContextProvider(abc.ABC):
         return {**kwargs}
 
 
-class InsightDataContextProvider(AbstractContextProvider):
+class BaseContextProvider(AbstractContextProvider):
+    def __init__(self):
+        self.exportplan_id = 0
+        self.session_id = 0
+
+    def get_context_provider_data(self, request, **kwargs):
+        self.exportplan_id = kwargs['id']
+        self.session_id = request.user.session_id
+        return super().get_context_provider_data(request, **kwargs)
+
+    @cached_property
+    def export_plan(self):
+        user_exportplan = helpers.get_exportplan(self.session_id, self.exportplan_id)
+        return parsers.ExportPlanParser(user_exportplan)
+
+
+class InsightDataContextProvider(BaseContextProvider):
     def get_context_provider_data(self, request, **kwargs):
         insight_data = {}
-        export_plan = self.parser
-        if export_plan.export_country_code and export_plan.export_commodity_code:
+        if self.export_plan.export_country_code and self.export_plan.export_commodity_code:
             insight_data = core_helpers.get_comtrade_data(
-                countries_list=[export_plan.export_country_code],
-                commodity_code=export_plan.export_commodity_code,
+                countries_list=[self.export_plan.export_country_code],
+                commodity_code=self.export_plan.export_commodity_code,
             )
-
             country_data = core_helpers.get_country_data(
-                countries=[export_plan.export_country_code],
+                countries=[self.export_plan.export_country_code],
                 fields=[
                     'GDPPerCapita',
                     'ConsumerPriceIndex',
@@ -35,42 +50,40 @@ class InsightDataContextProvider(AbstractContextProvider):
                     'InternetUsage',
                 ],
             )
-            insight_data[export_plan.export_country_code]['country_data'] = country_data.get(
-                export_plan.export_country_code
+            insight_data[self.export_plan.export_country_code]['country_data'] = country_data.get(
+                self.export_plan.export_country_code
             )
 
         return super().get_context_provider_data(request, insight_data=insight_data, **kwargs)
 
 
-class FactbookDataContextProvider(AbstractContextProvider):
+class FactbookDataContextProvider(BaseContextProvider):
     def get_context_provider_data(self, request, **kwargs):
         language_data = {}
-        country_name = request.user.export_plan.export_country_name
+        country_name = self.export_plan.export_country_name
         if country_name:
             language_data = helpers.get_cia_world_factbook_data(country=country_name, key='people,languages')
 
         return super().get_context_provider_data(request, language_data=language_data, **kwargs)
 
 
-class PopulationAgeDataContextProvider(AbstractContextProvider):
+class PopulationAgeDataContextProvider(BaseContextProvider):
     def get_context_provider_data(self, request, **kwargs):
-        export_plan = request.user.export_plan
         sections = [slugify(data.TARGET_MARKETS_RESEARCH), slugify(data.MARKETING_APPROACH)]
         population_data = {}
-        if request.user.export_plan.export_country_name:
+        if self.export_plan.export_country_name:
             for section in sections:
-                selected_age_groups = export_plan.data['ui_options'].get(section, {}).get('target_ages', [])
+                selected_age_groups = self.export_plan.data['ui_options'].get(section, {}).get('target_ages', [])
                 if len(selected_age_groups):
                     population_data[section] = helpers.get_population_data(
-                        country=export_plan.export_country_name, target_ages=selected_age_groups
+                        country=self.export_plan.export_country_name, target_ages=selected_age_groups
                     )
         return super().get_context_provider_data(request, population_age_data=population_data, **kwargs)
 
 
-class PDFContextProvider(AbstractContextProvider):
+class PDFContextProvider(BaseContextProvider):
     def get_context_provider_data(self, request, **kwargs):
-        export_plan = request.user.export_plan
-        processor = ExportPlanProcessor(export_plan.data)
+        processor = ExportPlanProcessor(self.export_plan.data)
         contact_dict = {'email': settings.GREAT_SUPPORT_EMAIL}
         if settings.PDF_STATIC_URL:
             # Based on AWS public dir
@@ -82,7 +95,7 @@ class PDFContextProvider(AbstractContextProvider):
         return super().get_context_provider_data(
             request,
             pdf_statics_url=pdf_statics_url,
-            export_plan=export_plan,
+            export_plan=self.export_plan,
             user=request.user,
             sections=data.SECTION_TITLES,
             calculated_pricing=processor.calculated_cost_pricing(),

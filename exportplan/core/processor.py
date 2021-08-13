@@ -121,7 +121,6 @@ class ExportPlanProcessor:
             next_section_key = data.SECTION_SLUGS[0]
 
         next_section = data.SECTIONS.get(next_section_key, {})
-
         return {
             'sections_completed': len(completed),
             'exportplan_completed': exportplan_completed,

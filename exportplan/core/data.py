@@ -150,7 +150,6 @@ SECTIONS = OrderedDict(
 
 SECTION_TITLES = [val['title'] for val in SECTIONS.values()]
 SECTION_SLUGS = list(SECTIONS.keys())
-SECTION_URLS = list(SECTIONS.values())
 
 # Note that SECTION_TITLES_URLS can't be rearranged into a dictionary while preserving
 # the lazy URL reversal, so manipulating SECTION_TITLES_URLS needs to happen after the

@@ -29,8 +29,6 @@ from exportplan.utils import render_to_pdf
 
 class ExportPlanMixin:
     def dispatch(self, request, *args, **kwargs):
-        if data.SECTIONS[self.slug]['disabled']:
-            return redirect('exportplan:service-page')
 
         serializer = serializers.ExportPlanSerializer(data={'ui_progress': {self.slug: {'modified': datetime.now()}}})
         serializer.is_valid()
@@ -168,7 +166,7 @@ class ExportPlanMarketingApproachView(PageTitleMixin, LessonDetailsMixin, Export
         route_choices = choices_to_key_value(choices.MARKET_ROUTE_CHOICES)
         promotional_choices = choices_to_key_value(choices.PRODUCT_PROMOTIONAL_CHOICES)
         target_age_group_choices = choices_to_key_value(choices.TARGET_AGE_GROUP_CHOICES)
-        context['route_to_markets'] = self.processor.data['route_to_markets']
+        context['route_to_markets'] = self.parser.data['route_to_markets']
         context['route_choices'] = route_choices
         context['target_age_group_choices'] = target_age_group_choices
         context['promotional_choices'] = promotional_choices
@@ -194,9 +192,7 @@ class ExportPlanAdaptingYourProductView(
         return context
 
 
-class ExportPlanTargetMarketsResearchView(
-    PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView, InsightDataContextProvider
-):
+class ExportPlanTargetMarketsResearchView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     slug = 'target-markets-research'
     title = 'Target market research'
 
@@ -208,7 +204,6 @@ class ExportPlanTargetMarketsResearchView(
         context['selected_age_groups'] = self.processor.data['ui_options'].get(self.slug, {}).get('target_ages', [])
         context['target_markets_research'] = self.processor.data['target_markets_research']
 
-        context = super().get_context_provider_data(self.request, **context)
         return context
 
 
@@ -364,9 +359,6 @@ class ExportPlanServicePage(GA360Mixin, TemplateView):
 
     template_name = 'exportplan/service_page.html'
 
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(sections=data.SECTION_URLS, **kwargs)
-
 
 class PDFDownload(
     View,
@@ -377,7 +369,7 @@ class PDFDownload(
     ExportPlanMixin,
 ):
     def get(self, request, *args, **kwargs):
-        context = super().get_context_provider_data(request)
+        context = super().get_context_provider_data(request, **kwargs)
         context['risk_impact_options'] = choices_to_key_value(choices.RISK_IMPACT_OPTIONS)
         context['risk_likelihood_options'] = choices_to_key_value(choices.RISK_LIKELIHOOD_OPTIONS)
         context['content_icons'] = False
@@ -405,7 +397,7 @@ class ExportPlanList(GA360Mixin, TemplateView):
     template_name = 'exportplan/exportplan_list.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(sections=data.SECTION_URLS, **kwargs)
+        context = super().get_context_data(**kwargs)
         context['exportplan_list'] = helpers.get_exportplan_detail_list(self.request.user.session_id)
 
         return context
@@ -457,7 +449,7 @@ class ExportPlanDashBoard(
 
     def get_context_data(self, **kwargs):
 
-        context = super().get_context_data(sections=data.SECTION_URLS, **kwargs)
+        context = super().get_context_data(**kwargs)
         id = int(self.kwargs['id'])
         export_plan = helpers.get_exportplan(self.request.user.session_id, id)
         processor = ExportPlanProcessor(export_plan)
