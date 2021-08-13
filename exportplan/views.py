@@ -41,9 +41,9 @@ class ExportPlanMixin:
 
     @cached_property
     def processor(self):
-        id = int(self.kwargs['id'])
-        ep = helpers.get_exportplan(self.request.user.session_id, id)
-        return ExportPlanProcessor(ep)
+        export_plan_id = int(self.kwargs['id'])
+        export_plan = helpers.get_exportplan(self.request.user.session_id, export_plan_id)
+        return ExportPlanProcessor(export_plan)
 
     @cached_property
     def parser(self):
@@ -366,7 +366,6 @@ class PDFDownload(
     InsightDataContextProvider,
     PopulationAgeDataContextProvider,
     FactbookDataContextProvider,
-    ExportPlanMixin,
 ):
     def get(self, request, *args, **kwargs):
         context = super().get_context_provider_data(request, **kwargs)
@@ -376,7 +375,7 @@ class PDFDownload(
         pdf_reponse, pdf_file = render_to_pdf('exportplan/pdf_download.html', context)
 
         helpers.upload_exportplan_pdf(
-            sso_session_id=request.user.session_id, exportplan_id=self.processor.data['pk'], file=pdf_file
+            sso_session_id=request.user.session_id, exportplan_id=int(self.kwargs['id']), file=pdf_file
         )
         response = HttpResponse(pdf_reponse, content_type='application/pdf')
         filename = 'export_plan.pdf'

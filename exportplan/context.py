@@ -23,7 +23,7 @@ class BaseContextProvider(AbstractContextProvider):
     def get_context_provider_data(self, request, **kwargs):
         self.exportplan_id = kwargs['id']
         self.session_id = request.user.session_id
-        return super().get_context_provider_data(request, **kwargs)
+        return {}
 
     @cached_property
     def export_plan(self):
@@ -34,6 +34,7 @@ class BaseContextProvider(AbstractContextProvider):
 class InsightDataContextProvider(BaseContextProvider):
     def get_context_provider_data(self, request, **kwargs):
         insight_data = {}
+        context = super().get_context_provider_data(request, **kwargs)
         if self.export_plan.export_country_code and self.export_plan.export_commodity_code:
             insight_data = core_helpers.get_comtrade_data(
                 countries_list=[self.export_plan.export_country_code],
@@ -54,21 +55,25 @@ class InsightDataContextProvider(BaseContextProvider):
                 self.export_plan.export_country_code
             )
 
-        return super().get_context_provider_data(request, insight_data=insight_data, **kwargs)
+        context['insight_data'] = insight_data
+        return context
 
 
 class FactbookDataContextProvider(BaseContextProvider):
     def get_context_provider_data(self, request, **kwargs):
+        context = super().get_context_provider_data(request, **kwargs)
         language_data = {}
         country_name = self.export_plan.export_country_name
         if country_name:
             language_data = helpers.get_cia_world_factbook_data(country=country_name, key='people,languages')
 
-        return super().get_context_provider_data(request, language_data=language_data, **kwargs)
+        context['language_data'] = language_data
+        return context
 
 
 class PopulationAgeDataContextProvider(BaseContextProvider):
     def get_context_provider_data(self, request, **kwargs):
+        context = super().get_context_provider_data(request, **kwargs)
         sections = [slugify(data.TARGET_MARKETS_RESEARCH), slugify(data.MARKETING_APPROACH)]
         population_data = {}
         if self.export_plan.export_country_name:
@@ -78,11 +83,13 @@ class PopulationAgeDataContextProvider(BaseContextProvider):
                     population_data[section] = helpers.get_population_data(
                         country=self.export_plan.export_country_name, target_ages=selected_age_groups
                     )
-        return super().get_context_provider_data(request, population_age_data=population_data, **kwargs)
+        context['population_age_data'] = population_data
+        return context
 
 
 class PDFContextProvider(BaseContextProvider):
     def get_context_provider_data(self, request, **kwargs):
+        context = super().get_context_provider_data(request, **kwargs)
         processor = ExportPlanProcessor(self.export_plan.data)
         contact_dict = {'email': settings.GREAT_SUPPORT_EMAIL}
         if settings.PDF_STATIC_URL:
@@ -92,14 +99,15 @@ class PDFContextProvider(BaseContextProvider):
             # Mostly used for local host
             host = request.get_host()
             pdf_statics_url = f'http://{host}{settings.STATIC_URL}'
-        return super().get_context_provider_data(
-            request,
-            pdf_statics_url=pdf_statics_url,
-            export_plan=self.export_plan,
-            user=request.user,
-            sections=data.SECTION_TITLES,
-            calculated_pricing=processor.calculated_cost_pricing(),
-            total_funding=processor.calculate_total_funding,
-            contact_detail=contact_dict,
-            **kwargs,
+        context.update(
+            {
+                'pdf_statics_url': pdf_statics_url,
+                'export_plan': self.export_plan,
+                'user': request.user,
+                'sections': data.SECTION_TITLES,
+                'calculated_pricing': processor.calculated_cost_pricing(),
+                'total_funding': processor.calculate_total_funding,
+                'contact_detail': contact_dict,
+            }
         )
+        return context

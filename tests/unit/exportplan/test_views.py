@@ -387,7 +387,6 @@ def test_getting_paid(export_plan_data, client, user, mock_get_user_profile):
 
 @pytest.mark.django_db
 @mock.patch.object(utils.pisa, 'pisaDocument')
-@pytest.mark.skip(reason='need to fix download context objects')
 def test_download_export_plan(
     mock_pisa,
     client,
@@ -414,7 +413,7 @@ def test_download_export_plan(
     assert response._content_type_for_repr == ', "application/pdf"'
     assert isinstance(type(response.content), type(bytes)) is True
     pdf_context = response.context
-    assert len(pdf_context['export_plan'].data) == export_plan_data
+    assert pdf_context['export_plan'].data == export_plan_data
     assert pdf_context['user'] == user
     assert pdf_context['insight_data'] == mock_get_comtrade_data.return_value
     assert pdf_context['population_age_data']['marketing-approach'] == mock_get_population_data.return_value
