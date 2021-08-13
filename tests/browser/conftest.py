@@ -156,7 +156,6 @@ def server_user_browser_dashboard(
     mock_get_has_visited_page,
     mock_set_user_page_view,
     mock_get_lessons_completed,
-    mock_get_user_context_export_plan,
 ):
     live_server, user, browser = server_user_browser
 
@@ -255,16 +254,6 @@ def mock_get_dashboard_export_opportunities():
 
 
 @pytest.fixture
-def mock_get_export_plan_market_data():
-    return_value = {
-        'timezone': 'Asia/Tokyo',
-        'CPI': 73,
-    }
-    with patch.object(exportplan_helpers, 'get_exportplan_marketdata', return_value=return_value) as patched:
-        yield patched
-
-
-@pytest.fixture
 def mock_get_export_plan():
     return_value = {
         'pk': 1,
@@ -273,13 +262,6 @@ def mock_get_export_plan():
         'export_countries': [{'country_name': 'China', 'country_iso2_code': 'CN'}],
     }
     with patch.object(exportplan_helpers, 'get_exportplan', return_value=return_value) as patched:
-        yield patched
-
-
-@pytest.fixture
-def mock_get_recommended_countries():
-    return_value = [{'country': 'China'}, {'country': 'india'}]
-    with patch.object(exportplan_helpers, 'get_recommended_countries', return_value=return_value) as patched:
         yield patched
 
 
@@ -296,17 +278,6 @@ def mock_get_export_plan_detail_list():
     ]
     return_value = create_response(data)
     with patch.object(api_client.exportplan, 'detail_list', return_value=return_value) as patched:
-        yield patched
-
-
-@pytest.fixture
-def mock_get_corruption_perceptions_index():
-    return_value = CHINA['corruption_perceptions_index']
-    with patch.object(
-        api_client.dataservices,
-        'get_corruption_perceptions_index',
-        return_value=return_value,
-    ) as patched:
         yield patched
 
 
@@ -377,13 +348,9 @@ def mock_dashboard_profile_events_opportunities(
 @pytest.fixture
 def mock_all_dashboard_and_export_plan_requests_and_responses(
     mock_export_plan_dashboard_page_tours,
-    mock_get_corruption_perceptions_index,
     mock_get_dashboard_export_opportunities,
     mock_export_plan_detail_list,
-    mock_get_export_plan_market_data,
     mock_get_export_plan,
-    mock_get_user_context_export_plan,
-    mock_get_recommended_countries,
     mock_update_company_profile,
     mock_update_export_plan,
     mock_user_location_create,

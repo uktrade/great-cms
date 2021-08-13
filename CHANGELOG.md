@@ -8,6 +8,8 @@
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
 
 ### Enhancements
+- GP2-3119 - Basket restyle to lose react-modal
+- GP2-3166 - Suggested market product logic
 - GP2-3119 - Decouple basket from export plan
 - GP2-3128 - Analytics - section completion
 - GP2-3017 - SOO User profile update to directory-SSO
@@ -33,6 +35,7 @@
 - GP2-2896 - Split objective date fields into month and year
 - GP2-3087 - migrate directory-sso-profile into great-cms
 ### Fixed bugs
+- GP2-3254 - added missing csrf_tokens for sso_profile
 - GP2-3208 - Fix error while updating personal profile
 - GP2-3164 - Remove vulnerable web-component-tester dev package
 - GP2-2893 - Backlink placement in learning
@@ -50,15 +53,23 @@
 - GP2-3120 - Append "- great.gov.uk" to all pages by default
 
 ### Fixed bugs
+
 - GP2-2988: Make SOO contact form name fields editable if not already populated.
 
+### Chores
+
+- NOTICKET - Remove and cleanup broken Storybook setup
+
 ## [1.12.0](https://github.com/uktrade/great-cms/releases/tag/1.12.0)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.11.0...1.12.0)
 
 ### Enhancements
+
 - GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
 
 ## [1.11.0](https://github.com/uktrade/great-cms/releases/tag/1.11.0)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.10.0...1.11.0)
 
 ### Enhancements
