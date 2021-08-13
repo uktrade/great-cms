@@ -64,3 +64,9 @@ table.no-bottom-border {
     }
   }
 }
+
+.w-full-mobile {
+  @include breakpoint(md_lt) {
+    width: 100%;
+  }
+}

@@ -50,14 +50,14 @@ const analytics = (data) => {
 }
 
 const normaliseValues = (str, places = 1, fixed = false) => {
-  const pow = Math.pow(10, places)
+  const pow = 10 ** places
   if (str) {
     let values = String(str).replace(/\d+(\.\d+)?/g, ($0) => {
       return fixed
         ? parseFloat($0).toFixed(places)
         : Math.round(parseFloat($0) * pow) / pow
     })
-    values = values.replace(/\d+(\.\d+)?(?=\%)/g, ($0) => {
+    values = values.replace(/\d+(\.\d+)?(?=%)/g, ($0) => {
       return Math.round($0)
     })
     return values.split(/\(([^)]+)\)/)
@@ -77,7 +77,7 @@ const millify = (value) => {
     const names = ['million', 'billion', 'trillion']
     const oom = Math.floor(Math.log10(Math.abs(floatValue)) / 3)
     if (oom <= 1) return Math.round(floatValue).toLocaleString()
-    return `${(value / Math.pow(10, oom * 3)).toFixed(1)} ${names[oom - 2]}`
+    return `${(value / (10 ** (oom * 3))).toFixed(1)} ${names[oom - 2]}`
   }
   return value === null ? value : `${value}`
 }
@@ -88,7 +88,7 @@ const stripPercentage = (str) => {
   // necessarily succeded  by a percent symbol.
   // e.g. 'text.1(+)(%)', 'text .1(+)(%)', 'text 1(+).1(+)(%)' and combinations
   if (str) {
-    const regex = /\s?\<?\>?\.?\d*\.?\d+\%?$/
+    const regex = /\s?<?>?\.?\d*\.?\d+%?$/
     return str.replace(regex, '')
   }
 
@@ -99,7 +99,7 @@ const listJoin = (arr) => {
   // Joins an array of strings with commas and a closing 'and'
   return arr.reduce((acc, str, index) => {
     let sep = ''
-    if(index) {
+    if (index) {
       sep = index === arr.length - 1 ? ' and ' : ', '
     }
     return `${acc}${sep}${str}`
@@ -253,3 +253,11 @@ export const prependThe = (str) =>
   ].includes(str)
     ? `the ${str}`
     : str
+
+export const sortBy = (arr, key) =>
+  [...arr].sort((p1, p2) =>
+    (p1[key] || '').toLowerCase() >
+    (p2[key] || '').toLowerCase()
+      ? 1
+      : -1
+  )
