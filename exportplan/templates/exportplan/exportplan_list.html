@@ -23,7 +23,7 @@
                 Exporting {{ plan.export_commodity_codes.0.commodity_name }}
                 to {{ plan.export_countries.0.country_name }}</h2>
               <div class="progress-bar m-v-xs">
-                <span style="width: {{ plan.calculated_progress.percentage_completed }}%"></span>
+                <span style="width: {% widthratio plan.calculated_progress.sections_completed plan.calculated_progress.sections_total 100 %}%"></span>
               </div>
               <p class="body-m-b m-t-xs m-b-0">{{ plan.calculated_progress.sections_completed }}
                 / {{ plan.calculated_progress.sections_total }} lessons complete</p>
