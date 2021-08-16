@@ -8,6 +8,7 @@
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
 
 ### Enhancements
+- GP2-3168 - Add yet another 'add product' button - this time on WTE
 - GP2-3119 - Basket restyle to lose react-modal
 - GP2-3166 - Suggested market product logic
 - GP2-3119 - Decouple basket from export plan
