@@ -234,12 +234,13 @@ def test_model_objects_validation_create(mock_create_model_object, model_object_
 def test_update_export_plan_api_view(mock_update_exportplan, client, user):
     client.force_login(user)
     mock_update_exportplan.return_value = {'marketing_approach': {'resources': 'xyz'}}
-    url = reverse('exportplan:api-update-export-plan')
+    url = reverse('exportplan:api-update-export-plan', kwargs={'id': 1})
     response = client.post(url, {'marketing_approach': {'resources': 'new resource'}}, content_type='application/json')
 
     assert response.status_code == 200
 
     assert mock_update_exportplan.call_count == 1
+
     assert mock_update_exportplan.call_args == mock.call(
         data={'marketing_approach': {'resources': 'new resource'}}, id=1, sso_session_id='123'
     )
@@ -299,7 +300,7 @@ def test_update_export_plan_ui_option_api_view(mock_update_exportplan, client, u
     client.force_login(user)
     mock_update_exportplan.return_value = {'target_market_documents': {'document_name': 'test'}}
 
-    url = reverse('exportplan:api-update-export-plan')
+    url = reverse('exportplan:api-update-export-plan', kwargs={'id': 1})
 
     response = client.post(url, {'ui_options': {'target_ages': ['25-34, 35-44']}}, content_type='application/json')
     assert response.status_code == 200
