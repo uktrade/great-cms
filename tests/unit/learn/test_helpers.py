@@ -16,7 +16,7 @@ def test_get_suggested_countries_for_sector(mock_get_popular_export_destinations
 def test_get_suggested_countries_for_user(rf, user, mock_get_company_profile):
     request = rf.get('/')
     request.user = user
-    mock_get_company_profile.return_value = {'expertise_industries': ['SL10003']}
+    mock_get_company_profile.return_value = {'expertise_industries': ['AGRICULTURE_HORTICULTURE_AND_FISHERIES']}
 
     actual = helpers.get_suggested_countries_for_user(request)
 
