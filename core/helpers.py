@@ -124,7 +124,7 @@ def is_fuzzy_match(label_a, label_b):
 
 class CompanyParser(great_components.helpers.CompanyParser):
 
-    INDUSTRIES = dict(choices.SECTORS)  # defaults to choices.INDUSTRIES
+    INDUSTRIES = great_components.helpers.CompanyParser.INDUSTRIES
 
     SIC_CODES = dict(choices.SIC_CODES)
 
@@ -134,7 +134,7 @@ class CompanyParser(great_components.helpers.CompanyParser):
         data.setdefault('expertise_countries', [])
         data.setdefault('expertise_industries', [])
         if settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE:
-            data['expertise_industries'] = ['SL10017']  # food and drink
+            data['expertise_industries'] = ['FOOD_AND_DRINK']  # food and drink
         super().__init__(data=data)
 
     def __getattr__(self, name):

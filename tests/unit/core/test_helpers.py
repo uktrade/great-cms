@@ -8,7 +8,7 @@ from requests.exceptions import HTTPError
 
 from core import helpers
 from directory_api_client import api_client
-from directory_constants import choices, company_types
+from directory_constants import company_types
 from directory_sso_api_client import sso_api_client
 from tests.helpers import create_response
 from tests.unit.core.factories import CuratedListPageFactory
@@ -229,16 +229,19 @@ def test_update_company_profile(mock_profile_update, patch_update_company_profil
     [
         [{'expertise_countries': [], 'expertise_industries': []}, None],
         [
-            {'expertise_countries': ['FR'], 'expertise_industries': ['SL10001']},
-            'The Advanced Engineering market in France',
+            {'expertise_countries': ['FR'], 'expertise_industries': ['ADVANCED_MANUFACTURING']},
+            'The Advanced manufacturing market in France',
         ],
-        [{'expertise_countries': [], 'expertise_industries': ['SL10001']}, 'The Advanced Engineering market'],
         [
-            {'expertise_countries': ['FR'], 'expertise_industries': [choices.SECTORS[1][0]]},
+            {'expertise_countries': [], 'expertise_industries': ['ADVANCED_MANUFACTURING']},
+            'The Advanced manufacturing market',
+        ],
+        [
+            {'expertise_countries': ['FR'], 'expertise_industries': ['AEROSPACE']},
             'The Aerospace market in France',
         ],
         [{'expertise_countries': ['FR'], 'expertise_industries': []}, 'The market in France'],
-        [{'expertise_countries': [], 'expertise_industries': [choices.SECTORS[1][0]]}, 'The Aerospace market'],
+        [{'expertise_countries': [], 'expertise_industries': ['AEROSPACE']}, 'The Aerospace market'],
     ],
 )
 def test_get_markets_page_title(company_profile, expected):
@@ -251,8 +254,8 @@ def test_get_markets_page_title(company_profile, expected):
     'company_profile,expected',
     [
         [{'expertise_industries': []}, []],
-        [{'expertise_industries': ['SL10001']}, ['Advanced Engineering']],
-        [{'expertise_industries': ['SL10001', 'SL10002']}, ['Advanced Engineering', 'Aerospace']],
+        [{'expertise_industries': ['ADVANCED_MANUFACTURING']}, ['Advanced manufacturing']],
+        [{'expertise_industries': ['ADVANCED_MANUFACTURING', 'AEROSPACE']}, ['Advanced manufacturing', 'Aerospace']],
     ],
 )
 def test_company_parser_expertise_industries_labels_no_industries(company_profile, expected):
@@ -263,10 +266,16 @@ def test_company_parser_expertise_industries_labels_no_industries(company_profil
     'company_profile,expected',
     [
         [{'expertise_industries': []}, []],
-        [{'expertise_industries': ['SL10001']}, [{'label': 'Advanced Engineering', 'value': 'SL10001'}]],
         [
-            {'expertise_industries': ['SL10001', 'SL10002']},
-            [{'label': 'Advanced Engineering', 'value': 'SL10001'}, {'label': 'Aerospace', 'value': 'SL10002'}],
+            {'expertise_industries': ['ADVANCED_MANUFACTURING']},
+            [{'label': 'Advanced manufacturing', 'value': 'ADVANCED_MANUFACTURING'}],
+        ],
+        [
+            {'expertise_industries': ['ADVANCED_MANUFACTURING', 'AEROSPACE']},
+            [
+                {'label': 'Advanced manufacturing', 'value': 'ADVANCED_MANUFACTURING'},
+                {'label': 'Aerospace', 'value': 'AEROSPACE'},
+            ],
         ],
     ],
 )
@@ -292,7 +301,7 @@ def test_company_parser_expertise_countries_value_label_pairs(company_profile, e
 def test_company_parser_expertise_countries_hard_code_industries(settings):
     settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = True
     assert helpers.CompanyParser({'expertise_industries': ['FR']}).expertise_industries_value_label_pairs == (
-        [{'label': 'Food & Drink', 'value': 'SL10017'}]
+        [{'label': 'Food and drink', 'value': 'FOOD_AND_DRINK'}]
     )
 
 
