@@ -7,8 +7,6 @@ import { config } from '@src/config'
 import ProductSelector from './ProductSelector'
 import MarketSelector from './MarketSelector'
 
-
-
 function ExportPlanWizard() {
   const [product, setProduct] = useState()
   const [market, setMarket] = useState()
@@ -40,7 +38,7 @@ function ExportPlanWizard() {
           <div>
             <Link
               className="button button--primary"
-              to="market"
+              to={product ? paths.market : paths.product}
               disabled={!product}
             >
               Next
@@ -53,7 +51,11 @@ function ExportPlanWizard() {
             <h2 className="h-m">Where&apos;s your target market?</h2>
             <MarketSelector valueChange={setMarket} selected={market} />
           </div>
-          <Link className="button button--primary" to="final">
+          <Link
+            className="button button--primary"
+            to={market ? paths.create : paths.market}
+            disabled={!market}
+          >
             Next
           </Link>
         </Route>
@@ -61,15 +63,16 @@ function ExportPlanWizard() {
           {(!product || !market) && <Redirect to={paths.product} />}
           <p className="body-l">
             You are about to create a plan to export{' '}
-            <span className="body-l-b">{product && product.commodity_name}</span> to{' '}
-            <span className="body-l-b">{market && market.country_name}</span>
+            <span className="body-l-b">
+              {product && product.commodity_name}
+            </span>{' '}
+            to <span className="body-l-b">{market && market.country_name}</span>
           </p>
           <div className="clearfix" />
           <button
             type="button"
             className="button button--primary"
             onClick={createClick}
-            disabled={!market}
           >
             Create export plan
           </button>
