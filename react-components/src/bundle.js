@@ -9,6 +9,7 @@ import ProductFinderButton from '@src/components/ProductFinder/ProductFinderButt
 import CountryFinderButton from '@src/components/ProductFinder/CountryFinderButton'
 import ModalMenu from '@src/components/ModalMenu'
 import CompareMarkets from '@src/components/CompareMarkets'
+import createExportPlanWizard from '@src/components/ExportPlanWizard/ExportPlanCreate'
 import {
   createRouteToMarket,
   createSpendingAndResources,
@@ -102,4 +103,5 @@ export default {
   sectionSidebar,
   sectionComplete,
   formatLessonLearned,
+  createExportPlanWizard,
 }

@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.urls import path, re_path, reverse_lazy
+from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
 
 from exportplan import api, views
@@ -17,12 +17,12 @@ app_name = 'exportplan'
 urlpatterns = [
     path(
         '',
-        views.ExportPlanIndex.as_view(),
+        login_required(views.ExportPlanIndex.as_view(), login_url=SIGNUP_URL),
         name='index',
     ),
-    re_path(
-        r'^(?P<id>\d+)/$',
-        views.ExportPlanDashBoard.as_view(),
+    path(
+        '<int:id>/',
+        login_required(views.ExportPlanDashBoard.as_view(), login_url=SIGNUP_URL),
         name='dashboard',
     ),
     path(
@@ -30,61 +30,61 @@ urlpatterns = [
         login_required(views.ExportPlanStart.as_view(), login_url=SIGNUP_URL),
         name='start',
     ),
-    re_path(
-        r'^(?P<id>\d+)/marketing-approach/$',
+    path(
+        '<int:id>/marketing-approach/',
         login_required(views.ExportPlanMarketingApproachView.as_view(), login_url=SIGNUP_URL),
         name='marketing-approach',
     ),
-    re_path(
-        r'^(?P<id>\d+)/adapting-your-product/$',
+    path(
+        '<int:id>/adapting-your-product/',
         login_required(views.ExportPlanAdaptingYourProductView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'adapting-your-product'},
         name='adapting-your-product',
     ),
-    re_path(
-        r'^(?P<id>\d+)/about-your-business/$',
+    path(
+        '<int:id>/about-your-business/',
         login_required(views.ExportPlanAboutYourBusinessView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'about-your-business'},
         name='about-your-business',
     ),
-    re_path(
-        r'^(?P<id>\d+)/target-markets-research/$',
+    path(
+        '<int:id>/target-markets-research/',
         login_required(views.ExportPlanTargetMarketsResearchView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'target-markets-research'},
         name='target-markets-research',
     ),
-    re_path(
-        r'^(?P<id>\d+)/business-objectives/$',
+    path(
+        '<int:id>/business-objectives/',
         login_required(views.ExportPlanBusinessObjectivesView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'business-objectives'},
         name='business-objectives',
     ),
-    re_path(
-        r'^(?P<id>\d+)/costs-and-pricing/$',
+    path(
+        '<int:id>/costs-and-pricing/',
         login_required(views.CostsAndPricingView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'costs-and-pricing'},
         name='costs-and-pricing',
     ),
-    re_path(
-        r'^(?P<id>\d+)/getting-paid/$',
+    path(
+        '<int:id>/getting-paid/',
         login_required(views.GettingPaidView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'getting-paid'},
         name='getting-paid',
     ),
-    re_path(
-        r'^(?P<id>\d+)/funding-and-credit/$',
+    path(
+        '<int:id>/funding-and-credit/',
         login_required(views.FundingAndCreditView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'funding-and-credit'},
         name='funding-and-credit',
     ),
-    re_path(
-        r'^(?P<id>\d+)/travel-plan/$',
+    path(
+        '<int:id>/travel-plan/',
         login_required(views.TravelBusinessPoliciesView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'travel-plan'},
         name='travel-plan',
     ),
-    re_path(
-        r'^(?P<id>\d+)/business-risk/$',
+    path(
+        '<int:id>/business-risk/',
         login_required(views.BusinessRiskView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'business-risk'},
         name='business-risk',
@@ -101,12 +101,12 @@ urlpatterns = [
         name='list',
     ),
     path(
-        r'^/(?P<id>\d+)pdf-download/',
+        r'<int:id>/pdf-download/',
         login_required(views.PDFDownload.as_view(), login_url=SIGNUP_URL),
         name='pdf-download',
     ),
-    re_path(
-        r'^api/export-plan/(?P<id>\d+)/$',
+    path(
+        'api/export-plan/<int:id>/',
         skip_ga360(api.UpdateExportPlanAPIView.as_view()),
         name='api-update-export-plan',
     ),

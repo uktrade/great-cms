@@ -20,11 +20,11 @@ export default function RadioButtons(props) {
   }
   const buttons = choices.map(({ label, value }, idx) => {
     const checked = value === selection
-
+    const id = `${name}-${idx}`
     return (
       <div key={`option-${value}`} className="multiple-choice">
         <input
-          id={idx}
+          id={id}
           type="radio"
           className="radio"
           name={name}
@@ -33,7 +33,7 @@ export default function RadioButtons(props) {
           onChange={changeVal}
           onClick={changeVal}
         />
-        <label htmlFor={idx} className="body-l">
+        <label htmlFor={id} className="body-l">
           {ReactHtmlParser(label)}
         </label>
       </div>

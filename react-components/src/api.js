@@ -94,6 +94,12 @@ export default {
     return post(config.apiUpdateExportPlanUrl, data).then(responseHandler)
   },
 
+  createExportPlan: (data) => {
+    return post(config.apiCreateExportPlanUrl, data).then((response) =>
+      responseHandler(response).json()
+    )
+  },
+
   getCountries: () => {
     return get(config.apiCountriesUrl, {}).then((response) =>
       responseHandler(response).json()
@@ -260,16 +266,14 @@ export default {
   },
 
   getUserData: (name) => {
-    const url = config.apiUserDataUrl.replace('-name-',name)
-    return get(url).then((response) =>
-      responseHandler(response).json()
-    )
+    const url = config.apiUserDataUrl.replace('-name-', name)
+    return get(url).then((response) => responseHandler(response).json())
   },
 
   setUserData: (name, data) => {
-    const url = config.apiUserDataUrl.replace('-name-',name)
+    const url = config.apiUserDataUrl.replace('-name-', name)
     return post(url, {
-      data
+      data,
     }).then((response) => responseHandler(response).json())
   },
 
