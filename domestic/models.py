@@ -167,7 +167,6 @@ class DomesticDashboard(
     mixins.EnableTourMixin,
     mixins.EnableSegmentationMixin,
     mixins.AuthenticatedUserRequired,
-    mixins.ExportPlanMixin,
     DataLayerMixin,
     Page,
 ):

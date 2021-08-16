@@ -214,7 +214,9 @@ def test_case_study_static_block_annotate_with_only_country_selection(mock_tradi
 
 
 @pytest.mark.django_db
-def test_case_study_static_block_annotate_with_only_product_selection(mock_trading_blocs, rf, user, magna_site):
+def test_case_study_static_block_annotate_with_only_product_selection(
+    mock_trading_blocs, rf, user, magna_site, export_plan_data
+):
 
     case_study_1 = CaseStudyFactory()
     case_study_1.hs_code_tags.add('123456', '1234')

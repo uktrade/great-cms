@@ -15,6 +15,7 @@ def test_create_tours(
     user,
     mock_get_company_profile,
     mock_get_user_profile,
+    mock_export_plan_detail_list,
 ):
     mock_get_company_profile.return_value = {'name': 'Example company'}
 

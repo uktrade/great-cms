@@ -1,6 +1,11 @@
 # Changelog
 
 ## Pre-release changes - please put everything in the appropriate category below
+### Enhancements
+- GP2-3172 - decouple-ep-pages
+
+## [1.13.0](https://github.com/uktrade/great-cms/releases/tag/1.13.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
 
 ### Enhancements
 - GP2-3119 - Basket restyle to lose react-modal
