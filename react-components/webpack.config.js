@@ -19,6 +19,7 @@ module.exports = {
     libraryTarget: 'var',
   },
   resolve: {
+    fallback: { buffer: require.resolve('safe-buffer') },
     extensions: ['.js', '.jsx'],
     alias: {
       '@src': path.resolve(__dirname, 'src'),
@@ -82,6 +83,7 @@ module.exports = {
       },
       {
         test: /\.(jpg|png|gif|jpeg|svg)$/,
+<<<<<<< HEAD
         use: [
           {
             loader: 'url-loader',
@@ -97,6 +99,21 @@ module.exports = {
             options: { limit: '10000', name: './fonts/[name].[ext]' },
           },
         ],
+=======
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'img/[name].[ext]',
+        },
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'fonts/[name][ext]',
+        },
+>>>>>>> 68bc5070 (-This commit updated webpacks and config due to vulnerability)
       },
     ],
   },
