@@ -1,5 +1,5 @@
-code[class*=language-],
-pre[class*=language-] {
+code[class*="language"],
+pre[class*="language-"] {
   color: #0b0c0c;
   text-shadow: 0 1px #ffffff;
   font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
@@ -22,41 +22,41 @@ pre[class*=language-] {
   word-wrap: break-word;
 }
 
-pre[class*=language-]::-moz-selection,
-pre[class*=language-] ::-moz-selection,
-code[class*=language-]::-moz-selection,
-code[class*=language-] ::-moz-selection {
+pre[class*="language-"]::-moz-selection,
+pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection,
+code[class*="language-"] ::-moz-selection {
   text-shadow: none;
   background: #b3d4fc;
 }
 
-pre[class*=language-]::selection,
-pre[class*=language-] ::selection,
-code[class*=language-]::selection,
-code[class*=language-] ::selection {
+pre[class*="language-"]::selection,
+pre[class*="language-"] ::selection,
+code[class*="language-"]::selection,
+code[class*="language-"] ::selection {
   text-shadow: none;
   background: #b3d4fc;
 }
 
 @media print {
-  code[class*=language-],
-pre[class*=language-] {
+  code[class*="language-"],
+pre[class*="language-"] {
     text-shadow: none;
   }
 }
-pre[class*=language-] {
+pre[class*="language-"] {
   border: 1px solid #bfc1c3;
   padding: 1em;
   margin: 0 0 30px 0;
   overflow: auto;
 }
 
-:not(pre) > code[class*=language-],
-pre[class*=language-] {
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
   background: #fcfcfc;
 }
 
-:not(pre) > code[class*=language-] {
+:not(pre) > code[class*="language-"] {
   padding: 0.1em;
   border-radius: 0.3em;
 }
