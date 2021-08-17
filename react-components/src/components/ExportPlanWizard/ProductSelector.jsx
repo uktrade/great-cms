@@ -3,14 +3,15 @@ import PropTypes from 'prop-types'
 import { useUserProducts } from '@src/components/hooks/useUserData'
 import RadioButtons from '@src/components/Segmentation/RadioButtons'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
+import { sortBy } from '@src/Helpers'
 
 function ProductSelector({ valueChange, selected }) {
   const [products] = useUserProducts()
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
+  const sortedProducts = sortBy(products || [],'commodity_name')
   let selectedIndex
-
-  const options = (products || []).map((product, index) => {
+  const options = sortedProducts.map((product, index) => {
     if (
       selected &&
       selected.commodity_code === product.commodity_code &&
@@ -30,7 +31,7 @@ function ProductSelector({ valueChange, selected }) {
         <RadioButtons
           name="selected-product"
           choices={options}
-          valueChange={(index) => valueChange(products[index])}
+          valueChange={(index) => valueChange(sortedProducts[index])}
           initialSelection={selectedIndex}
         />
       </div>

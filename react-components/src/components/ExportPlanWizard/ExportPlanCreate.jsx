@@ -7,7 +7,7 @@ import { config } from '@src/config'
 import ProductSelector from './ProductSelector'
 import MarketSelector from './MarketSelector'
 
-function ExportPlanWizard() {
+export function ExportPlanWizard() {
   const [product, setProduct] = useState()
   const [market, setMarket] = useState()
 
@@ -20,7 +20,7 @@ function ExportPlanWizard() {
     }
     Services.createExportPlan(data).then((result) => {
       // Jump to our newly created EP
-      // Todo: error handling here when BE does more validation.
+      // Todo: error handling here if/when BE does more validation.
       if (result.pk) {
         window.location.assign(`${config.apiExportPlanBaseUrl}${result.pk}/`)
       }
@@ -28,7 +28,7 @@ function ExportPlanWizard() {
   }
 
   return (
-    <>
+    <HashRouter>
       <Switch>
         <Route exact path={paths.product}>
           <div className="clearfix m-b-m">
@@ -78,17 +78,15 @@ function ExportPlanWizard() {
           </button>
         </Route>
       </Switch>
-    </>
+    </HashRouter>
   )
 }
 
 export default function createExportPlanWizard({ ...params }) {
   ReactDOM.render(
-    <HashRouter>
-      <Provider store={Services.store}>
-        <ExportPlanWizard />
-      </Provider>
-    </HashRouter>,
+    <Provider store={Services.store}>
+      <ExportPlanWizard />
+    </Provider>,
     params.element
   )
 }
