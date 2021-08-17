@@ -75,6 +75,7 @@
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.10.0...1.11.0)
 
 ### Enhancements
+- no-ticket - Wagtail degrade to 2.11.8
 - GP2-2524 - Wagtail transfer configuration for staging/UAT
 - GP2-1615 - Migrate Export Opps contact/guidance pages from V1 to V2
 - GP2-1683 - More contact page migration (two types) from V1 to V2
