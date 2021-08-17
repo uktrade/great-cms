@@ -36,15 +36,16 @@ function ProductSelector({ valueChange, selected }) {
       </div>
       <button
         type="button"
-        className="f-l m-t-xxs button button--tertiary button--icon"
+        className="f-l m-t-xxs link"
         onClick={() => setModalIsOpen(true)}
       >
-        <i className="fa fa-plus-square" />
+        <i className="fa fa-plus m-r-xxs" />
         Add a product
       </button>
       <ProductFinderModal
         modalIsOpen={modalIsOpen}
         setIsOpen={setModalIsOpen}
+        onAddProduct={(product) => valueChange(product)}
       />
     </>
   )

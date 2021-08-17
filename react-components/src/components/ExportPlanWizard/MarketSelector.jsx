@@ -20,6 +20,11 @@ function MarketSelector({valueChange, selected}) {
     }
   })
 
+  const addMarket = (market) => {
+    setMarkets([...markets, market])
+    valueChange(market)
+  }
+
   return (
     <>
       <div className="clearfix">
@@ -33,16 +38,16 @@ function MarketSelector({valueChange, selected}) {
 
       <button
         type="button"
-        className="f-l m-t-xxs button button--tertiary button--icon"
+        className="f-l m-t-xxs link"
         onClick={() => setModalIsOpen(true)}
       >
-        <i className="fa fa-plus-square" />
+        <i className="fa fa-plus m-r-xxs" />
         Add a market
       </button>
       <CountryFinderModal
         modalIsOpen={modalIsOpen}
         setIsOpen={setModalIsOpen}
-        selectCountry={(market) => setMarkets([...markets, market])}
+        selectCountry={addMarket}
       />
     </>
   )

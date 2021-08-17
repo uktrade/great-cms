@@ -13,7 +13,7 @@ export default function RadioButtons(props) {
 
   useEffect(() => {
     setSelection(initialSelection)
-  }, [name])
+  }, [name, initialSelection])
 
   const changeVal = (evt) => {
     updateSelection({ value: evt.target.value })
