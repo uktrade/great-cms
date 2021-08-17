@@ -1,12 +1,11 @@
 const sass = require('gulp-sass')(require('sass'))
 const path = require('path')
 const gulp = require('gulp')
-const gutil = require('gulp-util')
-const cssnano = require('gulp-cssnano')
 const sourcemaps = require('gulp-sourcemaps')
 const del = require('del')
 const rename = require('gulp-rename')
 const autoprefixer = require('gulp-autoprefixer')
+const cleanCSS = require('gulp-clean-css');
 
 const PROJECT_DIR = path.resolve(__dirname)
 const FLAGS_SRC = [
@@ -16,19 +15,6 @@ const FLAGS_SRC = [
 const FLAGS_DEST = `${PROJECT_DIR}/static/vendor/flag-icons`
 
 
-// // Run tests -----------------------------
-
-gulp.task(
-  'test',
-  gulp.series(['lint:sass'], (cb) => {
-    if (cb) {
-      gutil.log(gutil.colors.red('!!!!!!!! Tests failed !!!!!!!!'))
-    } else {
-      gutil.log(gutil.colors.green('**** Tests finished with no errors ****'))
-    }
-  })
-)
-
 // // Clean task ----------------------------
 // // Deletes the /static/stylesheets/ directory
 // // ---------------------------------------
@@ -37,38 +23,6 @@ gulp.task(
   'clean',
   gulp.series(() => {
     return del('/static/stylesheets/')
-  })
-)
-
-// // GovUK styles build task ---------------
-// // Compiles CSS from Sass
-// // Output both a minified and non-minified version into
-// // /static/stylesheets/
-// // ---------------------------------------
-
-gulp.task(
-  'styles:govuk',
-  gulp.series(function () {
-    return gulp
-      .src('node_modules/govuk-elements/assets/sass/**/*.scss')
-      .pipe(sourcemaps.init())
-      .pipe(
-        sass({
-          includePaths: ['node_modules/govuk_frontend_toolkit/stylesheets'],
-          importer: require('./sass-importer.js'),
-        }).on('error', sass.logError)
-      )
-      .pipe(
-        autoprefixer({
-          browsers: ['last 2 versions'],
-          cascade: false,
-        })
-      )
-      .pipe(gulp.dest('static/stylesheets'))
-      .pipe(rename({ suffix: '.min' }))
-      .pipe(cssnano())
-      .pipe(sourcemaps.write('./maps'))
-      .pipe(gulp.dest('static/stylesheets'))
   })
 )
 
@@ -89,7 +43,7 @@ gulp.task(
       )
       .pipe(gulp.dest('static/stylesheets'))
       .pipe(rename({ suffix: '.min' }))
-      .pipe(cssnano())
+      .pipe(cleanCSS({compatibility: 'ie8'}))
       .pipe(sourcemaps.write('./maps'))
       .pipe(gulp.dest('static/stylesheets'))
   })
@@ -138,26 +92,3 @@ gulp.task('build', gulp.series('clean', 'sass:compile', 'images', 'flags'))
 gulp.task('sass:watch', () => {
   gulp.watch(['./**/*.scss'], gulp.series('sass:compile'))
 })
-
-// // Default task --------------------------
-// // Lists out available tasks.
-// // ---------------------------------------
-
-gulp.task(
-  'default',
-  gulp.series((done) => {
-    const cyan = gutil.colors.cyan
-    const green = gutil.colors.green
-
-    gutil.log(green('----------'))
-
-    gutil.log('The following main ' + cyan('tasks') + ' are available:')
-
-    gutil.log(cyan('build') + ': compiles assets.')
-    gutil.log(cyan('sass:watch') + ': compiles assets and watches for changes.')
-    gutil.log(cyan('test') + ': runs tests/lint.')
-
-    gutil.log(green('----------'))
-    done()
-  })
-)
