@@ -4128,6 +4128,9 @@ section.blue-underline > .container {
   margin: 0 auto;
   float: none; }
 
+.relative {
+  position: relative; }
+
 .overflow-auto {
   overflow: auto; }
 
@@ -4967,8 +4970,7 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
 
 .shared-magna-header {
   background: #1E1348;
-  z-index: auto;
-  overflow: hidden; }
+  z-index: auto; }
   @media (max-width: 768px) {
     .shared-magna-header {
       margin-left: 0; } }
@@ -5156,7 +5158,8 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
         text-decoration: underline; }
   .shared-magna-header .container-fluid {
     max-width: 100%;
-    margin: 0 30px; }
+    margin: 0 30px;
+    overflow: hidden; }
   @media (max-width: 768px) {
     .shared-magna-header .container {
       margin: 0;
@@ -5221,12 +5224,4 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
       -ms-flex-direction: column-reverse;
       flex-direction: column-reverse; } }
   .shared-footer .magna-footer__great-logo img {
-    width: auto; }
-
-.shared-personalisation-bar {
-  overflow-x: auto;
-  width: auto;
-  margin: 0; }
-  .shared-personalisation-bar > nav {
-    white-space: nowrap;
     width: auto; }
