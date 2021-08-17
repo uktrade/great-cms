@@ -6,7 +6,6 @@ const cssnano = require('gulp-cssnano')
 const sourcemaps = require('gulp-sourcemaps')
 const del = require('del')
 const rename = require('gulp-rename')
-const sassLint = require('gulp-sass-lint')
 const autoprefixer = require('gulp-autoprefixer')
 
 const PROJECT_DIR = path.resolve(__dirname)
@@ -16,26 +15,6 @@ const FLAGS_SRC = [
 ]
 const FLAGS_DEST = `${PROJECT_DIR}/static/vendor/flag-icons`
 
-// // Sass lint -----------------------------
-
-gulp.task(
-  'lint:sass',
-  gulp.series(function () {
-    return gulp
-      .src('./**/*.scss')
-      .pipe(
-        sassLint({
-          options: {
-            formatter: 'stylish',
-            'merge-default-rules': true,
-          },
-          configFile: 'sass-lint-config.yml',
-        })
-      )
-      .pipe(sassLint.format())
-      .pipe(sassLint.failOnError())
-  })
-)
 
 // // Run tests -----------------------------
 
