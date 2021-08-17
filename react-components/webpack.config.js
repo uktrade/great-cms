@@ -85,7 +85,7 @@ module.exports = {
         use: [
           {
             loader: 'url-loader',
-            options: { limit: '10000', name: 'img/[name].[ext]' },
+            options: { limit: '10000', name: './img/[name].[ext]' },
           },
         ],
       },
@@ -94,7 +94,7 @@ module.exports = {
         use: [
           {
             loader: 'url-loader',
-            options: { limit: '10000', name: 'fonts/[name].[ext]' },
+            options: { limit: '10000', name: './fonts/[name].[ext]' },
           },
         ],
       },
@@ -111,9 +111,6 @@ module.exports = {
           from: './node_modules/great-styles/static/fonts',
           to: '../../core/static/fonts/',
         },
-        // copies the images to core/static only if not present. This avoids
-        // the svg files showing up in diff every time a new build occurs
-
         // copy assets needed by CSS files as they are not automatically moved to dist foler by React
         {
           from: 'react-components/assets/stylesheet-assets/',
