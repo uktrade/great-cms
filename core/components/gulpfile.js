@@ -1,4 +1,4 @@
-const sass = require('gulp-sass')
+const sass = require('gulp-sass')(require('sass'))
 const path = require('path')
 const gulp = require('gulp')
 const gutil = require('gulp-util')
@@ -127,7 +127,7 @@ gulp.task(
 
 // // Compile all styles
 
-gulp.task('sass:compile', gulp.series('styles:govuk', 'styles:components'))
+gulp.task('sass:compile', gulp.series('styles:components'))
 
 // // Images build task ---------------------
 // // Copies images to /static/images
