@@ -83,9 +83,7 @@ export default function ProductFinderModal(props) {
 
   const saveProduct = (commodityCode, commodityName) => {
     const newProduct = { commodity_name: commodityName, commodity_code: commodityCode }
-    const newList = [...selectedProducts, newProduct ]
-    newList.sort((a,b) => a.commodity_name > b.commodity_name ? 1 :-1)
-    setSelectedProducts(newList)
+    setSelectedProducts([...selectedProducts, newProduct ])
     setActiveProduct(newProduct)
     if (searchResults) {
       analytics({

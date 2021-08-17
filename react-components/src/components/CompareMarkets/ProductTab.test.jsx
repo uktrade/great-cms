@@ -85,6 +85,23 @@ describe('Compare markets - Product tab', () => {
 
     fetchMock.get(/\/api\/data-service\/comtrade\//, productApiResponse)
     fetchMock.get(/\/sso\/api\/user-data\//, () => comparisonMarketResponse)
+
+    Services.store.dispatch(
+      actions.setInitialState({
+        userSettings: {
+          UserProducts: [product1, product2],
+          ActiveProduct: product1,
+          ComparisonMarkets: comparisonMarketResponse.ComparisonMarkets,
+        },
+      })
+    )
+
+    container.innerHTML =
+      '<span id="cta-container"></span><span id="compare-market-container" ></span>'
+    const dataTabs = '{ "product": true }'
+    container
+      .querySelector('#compare-market-container')
+      .setAttribute('data-tabs', dataTabs)
   })
 
   afterEach(() => {
@@ -94,34 +111,17 @@ describe('Compare markets - Product tab', () => {
   })
 
   it('Opens product tab', async () => {
-    const localContainer = container
-
-    Services.store.dispatch(
-      actions.setInitialState({
-        userSettings: {
-          UserProducts: [product1, product2],
-          ActiveProduct: product1,
-        },
-      })
-    )
-
-    localContainer.innerHTML =
-      '<span id="cta-container"></span><span id="compare-market-container" ></span>'
-    const dataTabs = '{ "product": true }'
-    localContainer
-      .querySelector('#compare-market-container')
-      .setAttribute('data-tabs', dataTabs)
     act(() => {
       CompareMarkets({
-        element: localContainer.querySelector('#compare-market-container'),
-        cta_container: localContainer.querySelector('#cta-container'),
+        element: container.querySelector('#compare-market-container'),
+        cta_container: container.querySelector('#cta-container'),
       })
     })
     // check mock directory api data...
     await waitFor(() => {
-      expect(localContainer.querySelector('#market-Germany .name')).toBeTruthy()
+      expect(container.querySelector('#market-Germany .name')).toBeTruthy()
     })
-    const rowGermany = localContainer.querySelector('#market-Germany')
+    const rowGermany = container.querySelector('#market-Germany')
     expect(getText(rowGermany, '.world-import-value .primary')).toMatch(
       '21,670'
     )
@@ -132,9 +132,9 @@ describe('Compare markets - Product tab', () => {
     expect(getText(rowGermany, '.uk-import-value .secondary')).toMatch(
       '+0.7% vs 2018'
     )
-    expect(
-      getText(localContainer, '.select .select__placeholder--value')
-    ).toMatch(product1.commodity_name)
+    expect(getText(container, '.select .select__placeholder--value')).toMatch(
+      product1.commodity_name
+    )
     act(() => {
       Services.store.dispatch(
         actions.setInitialState({
@@ -146,9 +146,29 @@ describe('Compare markets - Product tab', () => {
       )
     })
     await waitFor(() => {
-      expect(
-        getText(localContainer, '.select .select__placeholder--value')
-      ).toMatch(product2.commodity_name)
+      expect(getText(container, '.select .select__placeholder--value')).toMatch(
+        product2.commodity_name
+      )
+    })
+  })
+
+  it('Opens product finder', async () => {
+    act(() => {
+      CompareMarkets({
+        element: container.querySelector('#compare-market-container'),
+        cta_container: container.querySelector('#cta-container'),
+      })
+    })
+    const addProductButton = container.querySelector(
+      '#product-tab .button--tertiary'
+    )
+    expect(document.body.querySelector('.product-finder')).toBeFalsy()
+    expect(addProductButton.textContent).toMatch('Add another product')
+    act(() => {
+      Simulate.click(addProductButton)
+    })
+    await waitFor(() => {
+      expect(document.body.querySelector('.product-finder')).toBeTruthy()
     })
   })
 })
