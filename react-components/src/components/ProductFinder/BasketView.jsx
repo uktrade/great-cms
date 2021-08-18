@@ -24,7 +24,7 @@ export default function BasketViewer({ label, onOpen, children }) {
   const triggerButton = (
     <button
       type="button"
-      className={`tag ${
+      className={`tag tag--small ${
         modalIsOpen ? 'tag--tertiary' : 'tag--secondary'
       } tag--icon`}
       onClick={toggleViewer}

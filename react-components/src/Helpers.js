@@ -255,9 +255,19 @@ export const prependThe = (str) =>
     : str
 
 export const sortBy = (arr, key) =>
+// return array sorted by the given key case insensitive
   [...arr].sort((p1, p2) =>
     (p1[key] || '').toLowerCase() >
     (p2[key] || '').toLowerCase()
+      ? 1
+      : -1
+  )
+
+export const sortMapBy = (arr, key) =>
+// return a case insensitive sorting map from the current array based on the key provided
+  [...Array((arr || []).length).keys()].sort((i1, i2) =>
+    (arr[i1][key] || '').toLowerCase() >
+    (arr[i2][key] || '').toLowerCase()
       ? 1
       : -1
   )

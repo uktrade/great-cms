@@ -5,7 +5,7 @@ import ReactHtmlParser from 'react-html-parser'
 import { Provider } from 'react-redux'
 import Services from '@src/Services'
 import { useUserProducts } from '@src/components/hooks/useUserData'
-import { sortBy } from '@src/Helpers'
+import { sortMapBy } from '@src/Helpers'
 
 import ProductFinderModal from './ProductFinderModal'
 import BasketViewer from './BasketView'
@@ -15,6 +15,8 @@ function ProductFinderButton() {
   const [selectedProducts, setSelectedProducts, loadProducts] = useUserProducts(
     false
   )
+
+  const sortMap = sortMapBy(selectedProducts || [])
 
   const deleteProduct = (index) => {
     const reduced = [...selectedProducts]
@@ -26,24 +28,27 @@ function ProductFinderButton() {
     <>
       <BasketViewer label="My products" onOpen={loadProducts}>
         <ul className="list m-v-0 body-l-b">
-          {sortBy(selectedProducts || [],'commodity_name').map((product, index) => (
-            <li
-              className="p-v-xxs"
-              key={`product-${product.commodity_code}-${product.commodity_name}`}
-            >
-              <button
-                type="button"
-                className="button button--small button--only-icon button--tertiary"
-                onClick={() => deleteProduct(index)}
+          {sortMap.map((mapIndex) => {
+            const product = selectedProducts[mapIndex]
+            return (
+              <li
+                className="p-v-xxs"
+                key={`product-${mapIndex}`}
               >
-                <i className="fas fa-trash-alt" />
-                <span className="visually-hidden">
-                  Remove product {ReactHtmlParser(product.commodity_name)}
-                </span>
-              </button>
-              {ReactHtmlParser(product.commodity_name)}
-            </li>
-          ))}
+                <button
+                  type="button"
+                  className="button button--small button--only-icon button--tertiary"
+                  onClick={() => deleteProduct(mapIndex)}
+                >
+                  <i className="fas fa-trash-alt" />
+                  <span className="visually-hidden">
+                    Remove product {ReactHtmlParser(product.commodity_name)}
+                  </span>
+                </button>
+                {ReactHtmlParser(product.commodity_name)}
+              </li>
+            )
+          })}
         </ul>
         <button
           type="button"

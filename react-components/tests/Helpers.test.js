@@ -22,6 +22,7 @@ import {
   numberWithSign,
   validation,
   sortBy,
+  sortMapBy,
 } from '@src/Helpers'
 
 const { twoDecimal, wholeNumber, onlyOneZero } = validation
@@ -308,9 +309,15 @@ describe('Utilities ', () => {
     expect(numberWithSign('23')).toEqual('+23')
     expect(numberWithSign('Data not available')).toEqual('Data not available')
   })
+
   it('Should sort based on a key', () => {
     expect(sortBy([{ key:'zz' },{ key:'a' },{ key:'AA' },{ key:'Z' } ], 'key')).toEqual(
      [{ key:'a' },{ key:'AA' },{ key:'Z' },{ key:'zz' } ])
+  })
+
+  it('Should build a sort map based on a key', () => {
+    expect(sortMapBy([{ key:'zz' },{ key:'a' },{ key:'AA' },{ key:'Z' } ], 'key')).toEqual(
+     [1,2,3,0])
   })
 })
 
