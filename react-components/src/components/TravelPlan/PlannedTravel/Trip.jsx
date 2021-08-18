@@ -19,7 +19,7 @@ export const Trip = memo(({ id, note, onChange, deleteTrip, index }) => {
           formGroupClassName="m-b-0"
         />
       </div>
-      <div className="text-center">
+      <div className="text-center p-t-xs">
         <ConfirmModal hasData={!!note} deleteItem={() => deleteTrip(id)} />
       </div>
     </div>
