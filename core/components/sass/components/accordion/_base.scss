@@ -38,7 +38,7 @@ details.great-accordion summary {
   }
 
   &:after {
-    @include body-large-bold
+    @include body-large-bold;
     display: block;
     position: absolute;
     right: $spacing-4;
