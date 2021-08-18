@@ -5,22 +5,16 @@ import ReactHtmlParser from 'react-html-parser'
 import { Provider } from 'react-redux'
 import Services from '@src/Services'
 import { useUserProducts } from '@src/components/hooks/useUserData'
+import { sortBy } from '@src/Helpers'
 
 import ProductFinderModal from './ProductFinderModal'
 import BasketViewer from './BasketView'
 
 function ProductFinderButton() {
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [selectedProducts, setSelectedProducts, loadProducts] =
-    useUserProducts(false)
-
-  const openModal = () => {
-    setIsOpen(true)
-  }
-
-  const onOpenView = () => {
-    loadProducts()
-  }
+  const [selectedProducts, setSelectedProducts, loadProducts] = useUserProducts(
+    false
+  )
 
   const deleteProduct = (index) => {
     const reduced = [...selectedProducts]
@@ -30,14 +24,16 @@ function ProductFinderButton() {
 
   return (
     <>
-      <BasketViewer label="My products" onOpen={onOpenView}>
+      <BasketViewer label="My products" onOpen={loadProducts}>
         <ul className="list m-v-0 body-l-b">
-          {(selectedProducts || []).map((product, index) => (
-            <li className="p-v-xxs" key={`product-${product.commodity_code}-${product.commodity_name}`}>
-              {ReactHtmlParser(product.commodity_name)}
+          {sortBy(selectedProducts || [],'commodity_name').map((product, index) => (
+            <li
+              className="p-v-xxs"
+              key={`product-${product.commodity_code}-${product.commodity_name}`}
+            >
               <button
                 type="button"
-                className="f-r button button--small button--only-icon button--tertiary"
+                className="button button--small button--only-icon button--tertiary"
                 onClick={() => deleteProduct(index)}
               >
                 <i className="fas fa-trash-alt" />
@@ -45,15 +41,16 @@ function ProductFinderButton() {
                   Remove product {ReactHtmlParser(product.commodity_name)}
                 </span>
               </button>
+              {ReactHtmlParser(product.commodity_name)}
             </li>
           ))}
         </ul>
         <button
           type="button"
           className="button button--primary button--icon m-t-xs button--full-width"
-          onClick={openModal}
+          onClick={() => setIsOpen(true)}
         >
-          <i className="fas fa-plus"/>
+          <i className="fas fa-plus" />
           Add product
         </button>
       </BasketViewer>

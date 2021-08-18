@@ -3,9 +3,10 @@ from datetime import datetime
 
 import sentry_sdk
 from django.conf import settings
-from django.http import Http404, HttpResponse
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.functional import cached_property
 from django.views.generic import FormView, TemplateView, View
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
@@ -21,30 +22,32 @@ from exportplan.context import (
     PDFContextProvider,
     PopulationAgeDataContextProvider,
 )
-from exportplan.core import data, helpers, serializers
+from exportplan.core import data, helpers, parsers, serializers
 from exportplan.core.processor import ExportPlanProcessor
 from exportplan.utils import render_to_pdf
 
 
 class ExportPlanMixin:
     def dispatch(self, request, *args, **kwargs):
-        if self.slug not in data.SECTIONS:
-            raise Http404()
-        elif data.SECTIONS[self.slug]['disabled']:
-            return redirect('exportplan:service-page')
 
         serializer = serializers.ExportPlanSerializer(data={'ui_progress': {self.slug: {'modified': datetime.now()}}})
         serializer.is_valid()
         helpers.update_exportplan(
-            id=self.request.user.export_plan.data['pk'],
+            id=self.processor.data['pk'],
             sso_session_id=self.request.user.session_id,
             data=serializer.data,
         )
         return super().dispatch(request, *args, **kwargs)
 
-    @property
+    @cached_property
     def processor(self):
-        return ExportPlanProcessor(self.request.user.export_plan.data)
+        export_plan_id = int(self.kwargs['id'])
+        export_plan = helpers.get_exportplan(self.request.user.session_id, export_plan_id)
+        return ExportPlanProcessor(export_plan)
+
+    @cached_property
+    def export_plan(self):
+        return parsers.ExportPlanParser(self.processor.data)
 
     @property
     def next_section(self):
@@ -64,9 +67,10 @@ class ExportPlanMixin:
             current_section=self.current_section,
             export_plan_progress=self.processor.calculate_ep_progress(),
             sections=self.processor.build_export_plan_sections(),
-            export_plan=self.request.user.export_plan.data,
+            export_plan=self.processor.data,
             sectors=json.dumps(industries),
             country_choices=json.dumps(country_choices),
+            export_plan_landing_page_url=self.processor.landing_page_url(),
             **kwargs,
         )
 
@@ -163,14 +167,12 @@ class ExportPlanMarketingApproachView(PageTitleMixin, LessonDetailsMixin, Export
         route_choices = choices_to_key_value(choices.MARKET_ROUTE_CHOICES)
         promotional_choices = choices_to_key_value(choices.PRODUCT_PROMOTIONAL_CHOICES)
         target_age_group_choices = choices_to_key_value(choices.TARGET_AGE_GROUP_CHOICES)
-        context['route_to_markets'] = self.request.user.export_plan.data['route_to_markets']
+        context['route_to_markets'] = self.export_plan.data['route_to_markets']
         context['route_choices'] = route_choices
         context['target_age_group_choices'] = target_age_group_choices
         context['promotional_choices'] = promotional_choices
-        context['selected_age_groups'] = (
-            self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
-        )
-        context['marketing_approach'] = self.request.user.export_plan.data['marketing_approach']
+        context['selected_age_groups'] = self.processor.data['ui_options'].get(self.slug, {}).get('target_ages', [])
+        context['marketing_approach'] = self.processor.data['marketing_approach']
         return context
 
 
@@ -183,17 +185,15 @@ class ExportPlanAdaptingYourProductView(
     title = 'Adapting your product'
 
     def get_initial(self):
-        return self.request.user.export_plan.data['adaptation_target_market']
+        return self.processor.data['adaptation_target_market']
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['target_market_documents'] = self.request.user.export_plan.data['target_market_documents']
+        context['target_market_documents'] = self.processor.data['target_market_documents']
         return context
 
 
-class ExportPlanTargetMarketsResearchView(
-    PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView, InsightDataContextProvider
-):
+class ExportPlanTargetMarketsResearchView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     slug = 'target-markets-research'
     title = 'Target market research'
 
@@ -202,12 +202,9 @@ class ExportPlanTargetMarketsResearchView(
         target_age_group_choices = choices_to_key_value(choices.TARGET_AGE_GROUP_CHOICES)
         context['target_age_group_choices'] = target_age_group_choices
 
-        context['selected_age_groups'] = (
-            self.request.user.export_plan.data['ui_options'].get(self.slug, {}).get('target_ages', [])
-        )
-        context['target_markets_research'] = self.request.user.export_plan.data['target_markets_research']
+        context['selected_age_groups'] = self.processor.data['ui_options'].get(self.slug, {}).get('target_ages', [])
+        context['target_markets_research'] = self.processor.data['target_markets_research']
 
-        context = super().get_context_provider_data(self.request, **context)
         return context
 
 
@@ -216,21 +213,19 @@ class ExportPlanBusinessObjectivesView(PageTitleMixin, LessonDetailsMixin, Expor
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['company_objectives'] = self.request.user.export_plan.data['company_objectives']
-        context['objectives'] = self.request.user.export_plan.data['objectives']
+        context['company_objectives'] = self.processor.data['company_objectives']
+        context['objectives'] = self.processor.data['objectives']
         return context
 
 
 class ExportPlanAboutYourBusinessView(PageTitleMixin, ExportPlanSectionView):
 
-    # form_class = forms.ExportPlanAboutYourBusinessForm
-    success_url = reverse_lazy('exportplan:about-your-business')
     title = 'About your business'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['turnover_choices'] = choices_to_key_value(choices.TURNOVER_CHOICES)
-        context['about_your_business_data'] = self.request.user.export_plan.data['about_your_business']
+        context['about_your_business_data'] = self.processor.data['about_your_business']
         return context
 
 
@@ -244,7 +239,7 @@ class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionV
         currency_choices = (('eur', 'EUR'), ('gbp', 'GBP'), ('usd', 'USD'))
         context['currency_choices'] = choices_to_key_value(currency_choices)
         context['costs_and_pricing_data'] = serializers.ExportPlanSerializer().cost_and_pricing_to_json(
-            self.request.user.export_plan.data
+            self.processor.data
         )
         context['calculated_pricing'] = self.processor.calculated_cost_pricing()
         return context
@@ -263,7 +258,7 @@ class GettingPaidView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView)
         }
         context['transport_choices'] = transport_choices
 
-        context['getting_paid_data'] = self.request.user.export_plan.data['getting_paid']
+        context['getting_paid_data'] = self.processor.data['getting_paid']
         return context
 
 
@@ -273,13 +268,13 @@ class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSection
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['funding_options'] = choices_to_key_value(choices.FUNDING_OPTIONS)
-        context['funding_and_credit'] = self.request.user.export_plan.data['funding_and_credit']
+        context['funding_and_credit'] = self.processor.data['funding_and_credit']
 
         calculated_pricing = self.processor.calculated_cost_pricing()
         context['estimated_costs_per_unit'] = calculated_pricing['calculated_cost_pricing'].get(
             'estimated_costs_per_unit', ''
         )
-        context['funding_credit_options'] = self.request.user.export_plan.data.get('funding_credit_options', [])
+        context['funding_credit_options'] = self.processor.data.get('funding_credit_options', [])
         return context
 
 
@@ -288,8 +283,8 @@ class TravelBusinessPoliciesView(PageTitleMixin, LessonDetailsMixin, ExportPlanS
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['travel_business_policies'] = self.request.user.export_plan.data['travel_business_policies']
-        context['business_trips'] = self.request.user.export_plan.data['business_trips']
+        context['travel_business_policies'] = self.processor.data['travel_business_policies']
+        context['business_trips'] = self.processor.data['business_trips']
         context['travel_advice_covid19'] = settings.TRAVEL_ADVICE_COVID19
         context['travel_advice_foreign'] = settings.TRAVEL_ADVICE_FOREIGN
         return context
@@ -302,7 +297,7 @@ class BusinessRiskView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView
         context = super().get_context_data(*args, **kwargs)
         context['risk_likelihood_options'] = choices_to_key_value(choices.RISK_LIKELIHOOD_OPTIONS)
         context['risk_impact_options'] = choices_to_key_value(choices.RISK_IMPACT_OPTIONS)
-        context['business_risks'] = self.request.user.export_plan.data['business_risks']
+        context['business_risks'] = self.processor.data['business_risks']
         return context
 
 
@@ -364,22 +359,23 @@ class ExportPlanServicePage(GA360Mixin, TemplateView):
 
     template_name = 'exportplan/service_page.html'
 
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(sections=data.SECTION_URLS, **kwargs)
-
 
 class PDFDownload(
-    View, PDFContextProvider, InsightDataContextProvider, PopulationAgeDataContextProvider, FactbookDataContextProvider
+    View,
+    PDFContextProvider,
+    InsightDataContextProvider,
+    PopulationAgeDataContextProvider,
+    FactbookDataContextProvider,
 ):
     def get(self, request, *args, **kwargs):
-        context = super().get_context_provider_data(request)
+        context = super().get_context_provider_data(request, **kwargs)
         context['risk_impact_options'] = choices_to_key_value(choices.RISK_IMPACT_OPTIONS)
         context['risk_likelihood_options'] = choices_to_key_value(choices.RISK_LIKELIHOOD_OPTIONS)
         context['content_icons'] = False
         pdf_reponse, pdf_file = render_to_pdf('exportplan/pdf_download.html', context)
 
         helpers.upload_exportplan_pdf(
-            sso_session_id=request.user.session_id, exportplan_id=request.user.export_plan.data['pk'], file=pdf_file
+            sso_session_id=request.user.session_id, exportplan_id=int(self.kwargs['id']), file=pdf_file
         )
         response = HttpResponse(pdf_reponse, content_type='application/pdf')
         filename = 'export_plan.pdf'
@@ -400,7 +396,7 @@ class ExportPlanList(GA360Mixin, TemplateView):
     template_name = 'exportplan/exportplan_list.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(sections=data.SECTION_URLS, **kwargs)
+        context = super().get_context_data(**kwargs)
         context['exportplan_list'] = helpers.get_exportplan_detail_list(self.request.user.session_id)
 
         return context
@@ -434,3 +430,30 @@ class ExportPlanStart(GA360Mixin, TemplateView):
         )
 
     template_name = 'exportplan/start.html'
+
+
+class ExportPlanDashBoard(
+    GA360Mixin,
+    TemplateView,
+):
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='export-plan',
+        )
+
+    template_name = 'exportplan/dashboard_page.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        id = int(self.kwargs['id'])
+        export_plan = helpers.get_exportplan(self.request.user.session_id, id)
+        processor = ExportPlanProcessor(export_plan)
+        # self.request.user.set_page_view(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
+        context['sections'] = processor.build_export_plan_sections()
+        context['export_plan_progress'] = processor.calculate_ep_progress()
+        context['export_plan'] = export_plan
+        return context

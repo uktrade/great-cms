@@ -25,7 +25,6 @@ function CompareMarkets(props) {
   const cacheVersion = useSelector((state) => getCacheVersion(state))
 
   const hasSelectedProducts = selectedProducts && selectedProducts.length
-
   const selectedLength = Object.keys(comparisonMarkets || []).length
 
   const pushAnalytics = (markets) => {
@@ -94,7 +93,7 @@ function CompareMarkets(props) {
 
   return (
     <span>
-      {hasSelectedProducts || selectedLength ? (
+      {selectedLength ? (
         <ComparisonTables
           tabsJson={tabs}
           comparisonMarkets={comparisonMarkets}
@@ -104,7 +103,7 @@ function CompareMarkets(props) {
           cacheVersion={cacheVersion}
         />
       ) : (
-        ReactDOM.createPortal(addProductButton, ctaContainer)
+        ReactDOM.createPortal(hasSelectedProducts ? addMarketButton : addProductButton, ctaContainer)
       )}
       <ProductFinderModal
         modalIsOpen={productModalIsOpen}
@@ -113,7 +112,7 @@ function CompareMarkets(props) {
       <CountryFinderModal
         modalIsOpen={marketModalIsOpen}
         setIsOpen={setMarketModalIsOpen}
-        commodityCode={activeProduct && activeProduct.commodity_code}
+        activeProducts={activeProduct ? [activeProduct] : selectedProducts}
         addButton={false}
         selectCountry={addCountry}
         isCompareCountries

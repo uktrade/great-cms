@@ -21,6 +21,7 @@ import {
   camelizeObject,
   numberWithSign,
   validation,
+  sortBy,
 } from '@src/Helpers'
 
 const { twoDecimal, wholeNumber, onlyOneZero } = validation
@@ -306,6 +307,10 @@ describe('Utilities ', () => {
     expect(numberWithSign('-23')).toEqual('-23')
     expect(numberWithSign('23')).toEqual('+23')
     expect(numberWithSign('Data not available')).toEqual('Data not available')
+  })
+  it('Should sort based on a key', () => {
+    expect(sortBy([{ key:'zz' },{ key:'a' },{ key:'AA' },{ key:'Z' } ], 'key')).toEqual(
+     [{ key:'a' },{ key:'AA' },{ key:'Z' },{ key:'zz' } ])
   })
 })
 

@@ -4,21 +4,14 @@ import ReactModal from 'react-modal'
 import { Provider } from 'react-redux'
 import Services from '@src/Services'
 import { useUserMarkets } from '@src/components/hooks/useUserData'
-
+import { sortBy } from '@src/Helpers'
 import CountryFinderModal from './CountryFinderModal'
 import BasketViewer from './BasketView'
+
 
 export const CountryFinderButton = () => {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [markets, setMarkets, loadMarkets] = useUserMarkets(false)
-
-  const onOpenView = () => {
-    loadMarkets()
-  }
-
-  const openModal = () => {
-    setIsOpen(true)
-  }
 
   const deleteMarket = (index) => {
     const reduced = [...markets]
@@ -34,11 +27,10 @@ export const CountryFinderButton = () => {
 
   return (
     <span>
-      <BasketViewer label="My markets" onOpen={onOpenView}>
+      <BasketViewer label="My markets" onOpen={loadMarkets}>
         <ul className="list m-v-0 body-l-b">
-          {(markets || []).map((market, index) => (
+          {sortBy(markets || [],'country_name').map((market, index) => (
             <li className="p-v-xxs" key={`market-${market.country_iso2_code}`}>
-              {market.country_name}
               <button
                 type="button"
                 className="f-r button button--small button--only-icon button--tertiary"
@@ -49,11 +41,12 @@ export const CountryFinderButton = () => {
                   Remove market {market.country_name}
                 </span>
               </button>
+              {market.country_name}
             </li>
           ))}
         </ul>
         <button type="button" className="button button--primary button--icon m-t-xs button--full-width"
-          onClick={openModal}
+          onClick={() => setIsOpen(true)}
         >
           <i className="fas fa-plus"/>
           Add market

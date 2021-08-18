@@ -1,9 +1,17 @@
 # Changelog
 
 ## Pre-release changes - please put everything in the appropriate category below
+### Enhancements
+- GP2-3172 - decouple-ep-pages
+
+## [1.13.0](https://github.com/uktrade/great-cms/releases/tag/1.13.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
 
 ### Enhancements
 - GP2-2894 - Change export timeframe to month/year
+- GP2-3168 - Add yet another 'add product' button - this time on WTE
+- GP2-3119 - Basket restyle to lose react-modal
+- GP2-3166 - Suggested market product logic
 - GP2-3119 - Decouple basket from export plan
 - GP2-3128 - Analytics - section completion
 - GP2-3017 - SOO User profile update to directory-SSO
@@ -30,6 +38,8 @@
 - GP2-3087 - migrate directory-sso-profile into great-cms
 
 ### Fixed bugs
+- GP2-3255 - fix updating industry expertise on a business profile
+- GP2-3254 - added missing csrf_tokens for sso_profile
 - GP2-3208 - Fix error while updating personal profile
 - GP2-3164 - Remove vulnerable web-component-tester dev package
 - GP2-2893 - Backlink placement in learning

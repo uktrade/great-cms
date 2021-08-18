@@ -1,9 +1,6 @@
 import directory_validators.file
-from django.forms import ImageField, NumberInput, Select, Textarea
+from django.forms import ImageField, NumberInput, Textarea
 from great_components import forms
-
-# from core.helpers import population_age_range_choices
-from directory_constants.choices import TURNOVER_CHOICES
 
 
 class LogoForm(forms.Form):
@@ -11,77 +8,6 @@ class LogoForm(forms.Form):
         help_text=('For best results this should be a transparent PNG file of 600 x 600 pixels and no more than 2MB',),
         required=True,
         validators=[directory_validators.file.logo_filesize, directory_validators.file.image_format],
-    )
-
-
-class ExportPlanAboutYourBusinessForm(forms.Form):
-    story = forms.CharField(
-        label='How you started',
-        required=False,
-        widget=Textarea(
-            attrs={
-                'example': (
-                    'Dove Gin was founded in 2012 when Simon Dove started to distill gin in his garage in '
-                    'Shrewsbury. Simon came across a book of gin recipes on a visit to The Gin Museum of '
-                    'London. This inspired him to recreate gin distilled in the midlands 200 hundred years '
-                    'ago, with a modern twist.'
-                ),
-                'tooltip': (
-                    'It’s best to stick to the facts and keep things simple for each bit of text you add '
-                    'to your plan.'
-                ),
-            }
-        ),
-    )
-    location = forms.CharField(
-        label="Where you're based",
-        required=False,
-        widget=Textarea(
-            attrs={
-                'example': (
-                    'By 2015 the garage was too small for the volumes we produced so we moved to larger '
-                    'premises in rented, shared business space in Shrewsbury.'
-                )
-            }
-        ),
-    )
-    processes = forms.CharField(
-        label='How you make your products',
-        required=False,
-        widget=Textarea(
-            attrs={
-                'example': (
-                    'We use vacuum distillation instead of traditional pot distillation. This  preserves '
-                    'the richness of flavour and aromas of the botanicals that give our gin its purity of '
-                    'taste.'
-                )
-            }
-        ),
-    )
-    packaging = forms.CharField(
-        label='Your product packaging',
-        required=False,
-        widget=Textarea(
-            attrs={
-                'example': (
-                    'Our packaging is themed around purity and we use: <br> <li>elegant clear glass bottles</li>'
-                    '<li>twist caps</li><li>unbleached paper label printed with natural dyes.</li>'
-                    'Our distribution and delivery boxes are 100% recycled cardboard.'
-                    'Each features our distinctive Dove label.'
-                )
-            }
-        ),
-    )
-    performance = forms.ChoiceField(
-        label='Your business performance',
-        choices=TURNOVER_CHOICES,
-        required=False,
-        widget=Select(
-            attrs={
-                'description': ('What is the annual turnover of your business?'),
-                'placeholder': ('Select one'),
-            }
-        ),
     )
 
 

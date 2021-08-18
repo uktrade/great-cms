@@ -23,9 +23,8 @@ const importValueAndChange = (importValue) => {
 }
 
 const filter = (
-  <div style={{width:'200px'}}>
-    <div className="body-l-b">Select your product</div>
-          <ProductSelector/>
+  <div className="m-b-xs f-l width-full">
+    <ProductSelector/>
   </div>
 )
 

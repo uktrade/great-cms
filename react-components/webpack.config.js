@@ -28,6 +28,9 @@ module.exports = {
         '../node_modules/great-styles/dist/components/'
       ),
     },
+    fallback: {
+      buffer: false,
+    },
   },
   module: {
     rules: [
@@ -79,11 +82,21 @@ module.exports = {
       },
       {
         test: /\.(jpg|png|gif|jpeg|svg)$/,
-        loader: 'url-loader?limit=10000&name=img/[name].[ext]',
+        use: [
+          {
+            loader: 'url-loader',
+            options: { limit: '10000', name: './img/[name].[ext]' },
+          },
+        ],
       },
       {
         test: /\.(woff|woff2|eot|ttf)$/,
-        loader: 'url-loader?limit=10000&name=fonts/[name].[ext]',
+        use: [
+          {
+            loader: 'url-loader',
+            options: { limit: '10000', name: './fonts/[name].[ext]' },
+          },
+        ],
       },
     ],
   },
@@ -91,27 +104,23 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
-    new CopyWebpackPlugin([
-      { from: './node_modules/great-styles/static/images', to: 'images' },
-      {
-        from: './node_modules/great-styles/static/fonts',
-        to: '../../core/static/fonts/',
-      },
-      // copies the images to core/static only if not present. This avoids
-      // the svg files showing up in diff every time a new build occurs
-      { from: 'react-components/dist/img/', to: '../../core/static/img/' },
-      { from: 'react-components/dist/fonts/', to: '../../core/static/fonts/' },
-      // copy assets needed by CSS files as they are not automatically moved to dist foler by React
-      {
-        from: 'react-components/assets/stylesheet-assets/',
-        to: '../../core/static/img/',
-      },
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: './node_modules/great-styles/static/images', to: 'images' },
+        {
+          from: './node_modules/great-styles/static/fonts',
+          to: '../../core/static/fonts/',
+        },
+        // copy assets needed by CSS files as they are not automatically moved to dist foler by React
+        {
+          from: 'react-components/assets/stylesheet-assets/',
+          to: '../../core/static/img/',
+        },
+      ],
+    }),
     new RemovePlugin({
       after: {
         include: [
-          './react-components/dist/img/',
-          './react-components/dist/fonts/',
           './react-components/dist/styles.js',
           './react-components/dist/styles.js.map',
           './react-components/dist/magna.css',

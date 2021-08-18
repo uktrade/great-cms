@@ -12,6 +12,7 @@
 
 {% block inner_content %}
     <form method="post" enctype="multipart/form-data" novalidate="novalidate">
+        {% csrf_token %}
         <h2 class="heading-large margin-top-0">Edit collaborator</h2>
         <table>
             <thead>
