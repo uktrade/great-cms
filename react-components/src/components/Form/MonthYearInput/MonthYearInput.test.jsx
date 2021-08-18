@@ -67,7 +67,7 @@ describe('MonthYearInput', () => {
     getByText('April').click()
 
     await waitFor(() =>
-      expect(mockOnChange).toHaveBeenCalledWith({ start_month: '4' }, { month: '4', year: '' }),
+      expect(mockOnChange).toHaveBeenCalledWith({ start_month: '4' }, { month: '4', year: null }),
     )
   })
 })
