@@ -157,7 +157,7 @@ export default {
 4. The new component is now available on window.magna.myFile
 
 ### Node version
-Make sure to use NodeJS 12.16.1 or greater
+Make sure to use NodeJS 12.16.1 or greater. Has been tested with 15.14.0.
 
 ### Code formatting
 We are using eslint with recommended settings
@@ -185,11 +185,6 @@ To check the commands for core/components or domestic being in:
 $ rm -rf node_modules
 $ nvm use 15.14.0
 $ npm i
-
-// Check available commands.
-
-$ gulp default
-```
 
 Make changes to sass then:
 
