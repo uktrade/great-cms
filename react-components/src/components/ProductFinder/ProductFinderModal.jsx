@@ -12,7 +12,7 @@ import SearchInput from './SearchInput'
 import StartEndPage from './StartEndPage'
 
 export default function ProductFinderModal(props) {
-  const { modalIsOpen, setIsOpen, onCloseRedirect } = props
+  const { modalIsOpen, setIsOpen, onCloseRedirect, onAddProduct } = props
 
   let scrollOuter
   const [searchResults, setSearchResults] = useState()
@@ -85,6 +85,7 @@ export default function ProductFinderModal(props) {
     const newProduct = { commodity_name: commodityName, commodity_code: commodityCode }
     setSelectedProducts([...selectedProducts, newProduct ])
     setActiveProduct(newProduct)
+    onAddProduct(newProduct)
     if (searchResults) {
       analytics({
         event: 'addProductSuccess',
@@ -568,8 +569,10 @@ ProductFinderModal.propTypes = {
     })
   ),
   onCloseRedirect: PropTypes.string,
+  onAddProduct: PropTypes.func,
 }
 ProductFinderModal.defaultProps = {
   selectedProducts: null,
   onCloseRedirect: '',
+  onAddProduct: () => 0,
 }

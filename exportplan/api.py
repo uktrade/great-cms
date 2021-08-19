@@ -87,8 +87,10 @@ class CreateExportPlanAPIView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            helpers.create_export_plan(sso_session_id=self.request.user.session_id, data=serializer.validated_data)
-            return Response(serializer.validated_data)
+            data = helpers.create_export_plan(
+                sso_session_id=self.request.user.session_id, data=serializer.validated_data
+            )
+            return Response(data)
 
 
 class ModelObjectManageAPIView(generics.UpdateAPIView, generics.GenericAPIView):

@@ -254,6 +254,7 @@ def test_update_export_plan_api_view_create(mock_create_exportplan, client, user
         'export_commodity_codes': [{'commodity_name': 'gin', 'commodity_code': '101.2002.123'}],
         'export_countries': [{'country_name': 'China', 'country_iso2_code': 'CN'}],
     }
+    mock_create_exportplan.return_value = {'pk': 10}
 
     url = reverse('exportplan:api-export-plan-create')
     response = client.post(url, data, content_type='application/json')

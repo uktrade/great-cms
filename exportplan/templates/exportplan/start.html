@@ -1,6 +1,23 @@
-{% extends 'exportplan/section.html' %}
+{% extends "core/base.html" %}
 
-{% block intro_content %}
-<h1 class="h-xl">Export Plan Wizard</h1>
-<p>This feature is coming soon...</p>
+{% block content %}
+  <div class="bg-white p-v-l">
+    <div class="container">
+      <div class="c-1-4">&nbsp;</div>
+      <div class="c-1-2">
+      <h1 class="h-l">Create a new export plan</h1>
+      <div id="export-plan-wizard-container" class="f-l"></div>
+      <div class="clearfix"></div>
+    </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="container p-v-l">
+
+  </div>
+  <script>
+    magna.createExportPlanWizard({
+      element: document.querySelector("#export-plan-wizard-container")
+    })
+  </script>
 {% endblock %}
