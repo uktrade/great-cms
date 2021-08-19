@@ -1,6 +1,6 @@
 import Services from '@src/Services'
 import actions from '@src/actions'
-import { isObject } from '@src/Helpers'
+import { isObject, isArray, deepEqual } from '@src/Helpers'
 import { useSelector } from 'react-redux'
 
 
@@ -30,10 +30,27 @@ export const useUserData = (blobName, defaultValue = [], autoload = true ) => {
     loadBlob()
   }
 
-  return [blobValue || defaultValue, saveBlob, loadBlob]
+  const addToList = (item) => {
+  // Where the blob is a list, this method adds the given item to the end only if it's unique
+    if(blobValue && isArray(blobValue)) {
+      const duplicate = blobValue.reduce((out, cItem) => {
+        const ret = out || deepEqual(cItem, item)
+        return out || deepEqual(cItem, item)
+      }, false
+      )
+      if(!duplicate) {
+        saveBlob([...blobValue, item])
+      }
+    }
+  }
+
+  return [blobValue || defaultValue, saveBlob, loadBlob, addToList]
 }
 
 export const useUserProducts = (autoload) => useUserData('UserProducts', [], autoload)
 export const useActiveProduct = (autoload) => useUserData('ActiveProduct', {}, autoload)
-export const useUserMarkets = (autoload) => useUserData('UserMarkets', [], autoload)
 export const useComparisonMarkets = (autoload) => useUserData('ComparisonMarkets', {}, autoload)
+export const useUserMarkets = (autoload) => {
+  const [markets, setMarkets, loadMarkets, addMarketItem] = useUserData('UserMarkets', [], autoload)
+  return {markets, setMarkets, loadMarkets, addMarketItem}
+}

@@ -5,13 +5,13 @@ import RadioButtons from '@src/components/Segmentation/RadioButtons'
 import CountryFinderModal from '@src/components/ProductFinder/CountryFinderModal'
 import { sortBy } from '@src/Helpers'
 
-function MarketSelector({ valueChange, selected }) {
-  const [markets, setMarkets] = useUserMarkets()
+function MarketSelector({ valueChange, selected, selectedProduct }) {
+  const { markets, setMarkets, addMarketItem } = useUserMarkets()
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
   let selectedIndex
 
-  let sortedMarkets = sortBy(markets || [],'country_name')
+  let sortedMarkets = sortBy(markets || [], 'country_name')
 
   const options = sortedMarkets.map((market, index) => {
     if (selected && selected.country_iso2_code === market.country_iso2_code) {
@@ -24,7 +24,7 @@ function MarketSelector({ valueChange, selected }) {
   })
 
   const addMarket = (market) => {
-    setMarkets([...markets, market])
+    addMarketItem(market)
     valueChange(market)
   }
 
@@ -52,6 +52,7 @@ function MarketSelector({ valueChange, selected }) {
           modalIsOpen={modalIsOpen}
           setIsOpen={setModalIsOpen}
           selectCountry={addMarket}
+          activeProducts={[selectedProduct]}
         />
       )}
     </>
@@ -66,8 +67,13 @@ MarketSelector.propTypes = {
     country_name: PropTypes.string,
     country_iso2_code: PropTypes.string,
   }),
+  selectedProduct: PropTypes.shape({
+    commodity_code: PropTypes.string,
+    commodity_name: PropTypes.string,
+  }),
 }
 
 MarketSelector.defaultProps = {
   selected: null,
+  selectedProduct: null,
 }

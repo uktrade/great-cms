@@ -175,7 +175,7 @@ export default function DataTable(props) {
     return (
       <>
         <div className="bg-blue-deep-80 p-h-xs p-v-xs selected-places">
-          <h2 className="h-xs text-white p-v-0">Selected places</h2>
+          <h2 className="h-xs text-white p-v-0">Selected markets</h2>
           <div className="bg-white radius overflow-hidden p-h-s">
             <table className="m-v-0 border-blue-deep-20 no-bottom-border">
               <tbody>

@@ -7,7 +7,6 @@ import RegionToggle from './RegionToggle'
 import SearchInput from './SearchInput'
 import { analytics } from '../../Helpers'
 
-
 export default function CountryFinderModal(props) {
   let scrollOuter
   const {
@@ -24,7 +23,9 @@ export default function CountryFinderModal(props) {
   const [searchStr, setSearchStr] = useState()
   const [expandRegion, setExpandRegion] = useState(false)
   const [mobilePage, setMobilePage] = useState('initial')
-  const { suggestedCountries, loadSuggestedCountries } = useSuggestedMarkets(activeProducts)
+  const { suggestedCountries, loadSuggestedCountries } = useSuggestedMarkets(
+    activeProducts
+  )
 
   useEffect(() => {
     if (modalIsOpen) {
@@ -160,7 +161,7 @@ export default function CountryFinderModal(props) {
   /*   Suggested markets section  */
   let suggestedSection = (
     <div>
-      <h3 className="h-s">Suggested places</h3>
+      <h3 className="h-s">Suggested markets</h3>
       <p className="m-v-xs">
         Add a product so that we can suggest export markets.
       </p>
@@ -186,16 +187,12 @@ export default function CountryFinderModal(props) {
     })
     suggestedSection = (
       <div className="suggested-markets">
-        <h3 className="h-s">Suggested places</h3>
-        <p className="m-v-xs">
-          These are based on the size of the market for{' '}
-          {`${suggestedCountries.details.product} ${
-            suggestedCountries.details.allSame
-              ? '(same countries for all products)'
-              : ''
-          }`}
-          , export distance, tariffs and costs.
-        </p>
+        <h3 className="h-s">
+          Suggested markets
+          {!suggestedCountries.details.allSame &&
+            ` for ${suggestedCountries.details.product}`}
+        </h3>
+        <p className="m-v-xs">These are based on the size of the market for your product, export distance, tariffs and costs.</p>
         <div className="m-v-xs">{suggestedList}</div>
       </div>
     )

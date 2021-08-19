@@ -17,6 +17,7 @@ import {
   getValues,
   objectHasValue,
   deepAssign,
+  deepEqual,
   camelize,
   camelizeObject,
   numberWithSign,
@@ -288,6 +289,19 @@ describe('Utilities ', () => {
     expect(obj.one).toEqual(1)
     expect(obj.two).toEqual({ twoOne: 21, twoTwo: 'updated', twoThree: 23 })
     expect(obj.three).toEqual(3)
+  })
+  it('Should deep compare two objects', () => {
+    const obj = { one: 1, two: { twoOne: 21, twoTwo: 22 } }
+    const objSame = { one: 1, two: { twoOne: 21, twoTwo: 22 } }
+    const objOrder = { one: 1, two: { twoTwo: 22, twoOne: 21 } }
+    const objExtraField = { one: 1, two: { twoOne: 21, twoTwo: 22 }, extra:1 }
+    const objDiffValue = { one: 1, two: { twoOne: 21, twoTwo: 223 } }
+    expect(deepEqual(obj,objSame)).toBeTruthy()
+    expect(deepEqual(objSame, obj)).toBeTruthy()
+    expect(deepEqual(obj, objOrder)).toBeTruthy()
+    expect(deepEqual(obj, objExtraField)).toBeFalsy()
+    expect(deepEqual(obj, objDiffValue)).toBeFalsy()
+
   })
   it('Should camelize a string', () => {
     expect(camelize('one')).toEqual('one')

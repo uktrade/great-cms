@@ -10,7 +10,7 @@ import BasketViewer from './BasketView'
 
 export const CountryFinderButton = () => {
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [markets, setMarkets, loadMarkets] = useUserMarkets(false)
+  const { markets, setMarkets, loadMarkets, addMarketItem } = useUserMarkets(false)
 
   const sortMap = sortMapBy(markets || [], 'country_name')
 
@@ -22,7 +22,7 @@ export const CountryFinderButton = () => {
 
   const selectCountry = (country) => {
     if (markets) {
-      setMarkets([...markets, country])
+      addMarketItem(country)
     }
   }
 
