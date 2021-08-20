@@ -232,7 +232,7 @@ export default function CountryFinderModal(props) {
             id="search-input"
             onChange={searchChange}
             iconClass="fa-search"
-            placeholder="Search places"
+            placeholder="Search markets"
             ariaDescribedby="search-hint"
           />
         </div>
@@ -262,14 +262,14 @@ export default function CountryFinderModal(props) {
         <div>
           <h2 className="h-l m-t-s p-b-xs">
             {!isCompareCountries
-              ? 'Choose a place'
-              : 'Choose a place to compare'}
+              ? 'Choose a market'
+              : 'Choose a market to compare'}
           </h2>
         </div>
         <p>
           {!isCompareCountries
             ? 'There are 3 ways to choose a target export market'
-            : 'There are 2 ways to choose a place to compare'}
+            : 'There are 2 ways to choose a market to compare'}
         </p>
         <button
           type="button"
@@ -334,7 +334,7 @@ export default function CountryFinderModal(props) {
               {/* Desktop rendering with all sections available */}
               <div className="only-desktop">
                 <div>
-                  <h2 className="h-l m-t-s p-b-xs">Choose a place</h2>
+                  <h2 className="h-l m-t-s p-b-xs">Choose a market</h2>
                 </div>
                 {suggestedSection}
                 <hr className="hr bg-red-deep-100" />
