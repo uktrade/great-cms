@@ -103,6 +103,7 @@
 - GP2-2856 - remove target market
 
 ### Fixed bugs
+- GP2-3282 - Skip GA on signup to avoid capturing PII
 - GP2-2933 - DAC_Custom_Controls_01 Select widget
 - GP2-2924 - DAC_CSS_Images_as_Labels_03 Select widget expander
 - GP2-2908 - DAC_Headings_07 Learning step headings
