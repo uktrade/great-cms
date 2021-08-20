@@ -69,10 +69,12 @@
       <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Update your logo</a>
     </div>
     {% endif %}
-    <a class="button button--secondary button--full-width button--icon m-b-xs" href="{% url 'exportplan:pdf-download' export_plan.pk %}" title="Save your plan as a PDF">
+    {% with export_plan_id=export_plan.pk %}
+    <a class="button button--secondary button--full-width button--icon m-b-xs" href="{{export_plan_download_link}}" title="Save your plan as a PDF">
       <i class="fas fa-download"></i>
       <span class="body-m text-white">Save your plan as a PDF</span>
     </a>
+    {% endwith %}
   </aside>
 </section>
 {% endblock %}
