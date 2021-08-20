@@ -2,6 +2,10 @@
 
 ## Pre-release changes - please put everything in the appropriate category below
 
+### Hotfix
+- GP2-3253 fix-confirm-idenity-urls
+
+
 ### Enhancements
 - GP2-3128 - Analytics - section completion
 - GP2-3017 - SOO User profile update to directory-SSO
