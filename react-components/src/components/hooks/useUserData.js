@@ -3,19 +3,25 @@ import actions from '@src/actions'
 import { isObject, isArray, deepEqual } from '@src/Helpers'
 import { useSelector } from 'react-redux'
 
-
 const loading = {} // flag when data are being retrieved
 
 // User settings items. These are async and the global state will get populated once complete
 // default: is set on completion of retrieval is the object does not already exist
-// defer: can be set to prevent the blob from loadind automatically. In that case, call the load method to initiate loading
+// autoload: can be set false to stop the blob from loading automatically. In that case, call the load method to initiate loading
+// duplicateComparator: If a list, check for duplicates by calling this fn(a,b). Default is full deep comparison.
 
-export const useUserData = (blobName, defaultValue = [], autoload = true ) => {
+export const useUserData = (
+  blobName,
+  defaultValue = [],
+  autoload = true,
+  duplicateComparator = deepEqual
+) => {
   const blobValue = useSelector(
     (state) => state.userSettings && state.userSettings[blobName]
   )
 
-  const saveBlob = (value) => Services.store.dispatch(actions.setUserData(blobName, value))
+  const saveBlob = (value) =>
+    Services.store.dispatch(actions.setUserData(blobName, value))
 
   const loadBlob = () => {
     if (!blobValue && !loading[blobName]) {
@@ -26,19 +32,17 @@ export const useUserData = (blobName, defaultValue = [], autoload = true ) => {
       })
     }
   }
-  if(autoload) {
+  if (autoload) {
     loadBlob()
   }
 
   const addToList = (item) => {
-  // Where the blob is a list, this method adds the given item to the end only if it's unique
-    if(blobValue && isArray(blobValue)) {
+    // Where the blob is a list, this method adds the given item to the end only if it's unique
+    if (blobValue && isArray(blobValue)) {
       const duplicate = blobValue.reduce((out, cItem) => {
-        const ret = out || deepEqual(cItem, item)
-        return out || deepEqual(cItem, item)
-      }, false
-      )
-      if(!duplicate) {
+        return out || duplicateComparator(cItem, item)
+      }, false)
+      if (!duplicate) {
         saveBlob([...blobValue, item])
       }
     }
@@ -47,10 +51,18 @@ export const useUserData = (blobName, defaultValue = [], autoload = true ) => {
   return [blobValue || defaultValue, saveBlob, loadBlob, addToList]
 }
 
-export const useUserProducts = (autoload) => useUserData('UserProducts', [], autoload)
-export const useActiveProduct = (autoload) => useUserData('ActiveProduct', {}, autoload)
-export const useComparisonMarkets = (autoload) => useUserData('ComparisonMarkets', {}, autoload)
+export const useUserProducts = (autoload) =>
+  useUserData('UserProducts', [], autoload)
+export const useActiveProduct = (autoload) =>
+  useUserData('ActiveProduct', {}, autoload)
+export const useComparisonMarkets = (autoload) =>
+  useUserData('ComparisonMarkets', {}, autoload)
 export const useUserMarkets = (autoload) => {
-  const [markets, setMarkets, loadMarkets, addMarketItem] = useUserData('UserMarkets', [], autoload)
-  return {markets, setMarkets, loadMarkets, addMarketItem}
+  const [markets, setMarkets, loadMarkets, addMarketItem] = useUserData(
+    'UserMarkets',
+    [],
+    autoload,
+    (a, b) => a.country_iso2_code === b.country_iso2_code
+  )
+  return { markets, setMarkets, loadMarkets, addMarketItem }
 }
