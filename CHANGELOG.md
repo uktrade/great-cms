@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 ### Enhancements
 - GP2-3172 - decouple-ep-pages
+- GP2-3253 fix-confirm-idenity-urls
 
 ## [1.13.0](https://github.com/uktrade/great-cms/releases/tag/1.13.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
