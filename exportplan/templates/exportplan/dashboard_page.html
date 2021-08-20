@@ -13,10 +13,16 @@
 <section class="export-plan-dashboard__section bg-blue-deep-10">
 
   <div class="export-plan-dashboard__container container">
-  <h2 class="h-m p-t-m">
-    Exporting {{ export_plan.export_commodity_codes.0.commodity_name }}
-    to {{ export_plan.export_countries.0.country_name }}
-  </h2>
+    <span class="-section--back-to">
+
+      <a href="{% url 'exportplan:index' %}" class="back-link h-m link body-m-b m-t-xs">
+        <i class="fas fa-arrow-circle-left"></i><span class="m-f-xs">Back to My export plans</span>
+      </a>
+    </span>
+    <h2 class="h-m p-t-s">
+      Export plan for selling {{ export_plan.export_commodity_codes.0.commodity_name }}
+      to {{ export_plan.export_countries.0.country_name }}
+    </h2>
     <div id="section-progress">
       <div class="m-t-m">
         <div class="progress-bar progress-bar--white-track">
@@ -63,7 +69,7 @@
       <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Update your logo</a>
     </div>
     {% endif %}
-    <a class="button button--secondary button--full-width button--icon m-b-xs" href="{% url 'exportplan:pdf-download' 5%}" title="Save your plan as a PDF">
+    <a class="button button--secondary button--full-width button--icon m-b-xs" href="{% url 'exportplan:pdf-download' export_plan.pk %}" title="Save your plan as a PDF">
       <i class="fas fa-download"></i>
       <span class="body-m text-white">Save your plan as a PDF</span>
     </a>
