@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-3309 - [HOTFIX] adding bing search console meta tag
 - GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
 - GP2-2986 - Merge companies-house api views
 - no-ticket - Fix for case study listing view if empty related page selected in any case study
