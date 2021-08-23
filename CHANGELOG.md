@@ -38,7 +38,9 @@
 - GP2-2896 - Split objective date fields into month and year
 - GP2-3087 - migrate directory-sso-profile into great-cms
 ### Fixed bugs
+
 - GP2-3263 - Fix EP pdf download, sidebar and added back link to landing page
+- GP2-3270 - Learn topics image sizing
 - GP2-3255 - fix updating industry expertise on a business profile
 - GP2-3254 - added missing csrf_tokens for sso_profile
 - GP2-3208 - Fix error while updating personal profile
