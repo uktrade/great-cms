@@ -67,6 +67,8 @@
 - GP2-2524 - Wagtail transfer configuration for staging/UAT
 - GP2-1615 - Migrate Export Opps contact/guidance pages from V1 to V2
 - GP2-1683 - More contact page migration (two types) from V1 to V2
+- GP2-3309 - [HOTFIX] adding bing search console meta tag
+- GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
 - GP2-2986 - Merge companies-house api views
 - no-ticket - Fix for case study listing view if empty related page selected in any case study
 - GA2-3054 - Updated GA360 mixin for special exception for authenticated staff users
