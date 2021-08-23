@@ -33,5 +33,5 @@ def test_create_tours(
 
     client.force_login(user)
 
-    assert client.get(exportplan.get_url()).status_code == 302
+    assert client.get(exportplan.get_url()).status_code == 200
     assert client.get(exportplan_dashboard.get_url()).status_code == 200
