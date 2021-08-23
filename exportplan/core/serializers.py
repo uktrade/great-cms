@@ -13,32 +13,19 @@ class CountryTargetAgeDataSerializer(serializers.Serializer):
     target_age_groups = serializers.ListField(
         required=False, allow_empty=True, allow_null=True, default=[], child=serializers.CharField()
     )
-    country_iso2_code = serializers.CharField()
     section_name = serializers.CharField()
-
-    def validate_target_age_groups(self, value):
-        return value[0].split(',') if len(value) > 0 else []
 
 
 class CompanyObjectivesSerializer(serializers.Serializer):
     description = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     planned_reviews = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     owner = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    start_date = serializers.CharField(required=False, allow_blank=True, allow_null=True, validators=[no_html])
-    end_date = serializers.CharField(required=False, allow_blank=True, allow_null=True, validators=[no_html])
+    start_month = serializers.IntegerField(required=False, allow_null=True, min_value=1, max_value=12)
+    start_year = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
+    end_month = serializers.IntegerField(required=False, allow_null=True, min_value=1, max_value=12)
+    end_year = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
-
-    # convert empty strings to null values
-    def validate_start_date(self, value):
-        if value == '':
-            return None
-        return value
-
-    def validate_end_date(self, value):
-        if value == '':
-            return None
-        return value
 
 
 class AboutYourBuinessSerializer(serializers.Serializer):

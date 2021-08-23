@@ -75,7 +75,7 @@ export const Dashboard = memo(
                       alt=""
                     />
                   </div>
-                  <div className="p-t-s p-b-xs p-h-xs">
+                  <div className="p-xs">
                     <h3 className="h-xs text-blue-deep-80 p-0">{title}</h3>
                     <p className="m-b-0 m-t-xxs">
                       {section_progress.find((x) => x.url === url).populated}{' '}

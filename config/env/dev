@@ -4,6 +4,7 @@ DEBUG=true
 SESSION_COOKIE_SECURE=false
 SECURE_HSTS_SECONDS=0
 PYTHONDEBUG=true
+PYTHONWARNINGS=all
 HEALTH_CHECK_TOKEN=debug
 DATABASE_URL=postgres://debug:debug@localhost:5432/greatcms
 CSRF_COOKIE_SECURE=false
@@ -16,12 +17,12 @@ BASE_URL=http://greatcms.trade.great:8020
 SSO_API_CLIENT_BASE_URL=http://sso.trade.great:8003/
 SSO_SIGNATURE_SECRET=api_signature_debug
 SSO_SESSION_COOKIE=debug_sso_session_cookie
-SSO_PROXY_LOGIN_URL=http://sso.trade.great:8004/sso/accounts/login/
-SSO_PROXY_LOGOUT_URL=http://sso.trade.great:8004/sso/accounts/logout/?next=http://gcms.trade.great:8020/thing/
-SSO_PROXY_PASSWORD_RESET_URL=http://sso.trade.great:8004/sso/accounts/password/reset/
+SSO_PROXY_LOGIN_URL=http://sso.proxy.trade.great:8004/sso/accounts/login/
+SSO_PROXY_LOGOUT_URL=http://sso.proxy.trade.great:8004/sso/accounts/logout/?next=http://greatcms.trade.great:8020/thing/
+SSO_PROXY_PASSWORD_RESET_URL=http://sso.proxy.trade.great:8004/sso/accounts/password/reset/
 SSO_PROXY_REDIRECT_FIELD_NAME=next
-SSO_PROXY_SIGNUP_URL=http://sso.trade.great:8004/sso/accounts/signup/?next=http://gcms.trade.great:8020/thing/
-SSO_OAUTH2_LINKEDIN_URL=http://sso.trade.great:8004/sso/accounts/login/via-linkedin/
+SSO_PROXY_SIGNUP_URL=http://sso.proxy.trade.great:8004/sso/accounts/signup/?next=http://greatcms.trade.great:8020/thing/
+SSO_OAUTH2_LINKEDIN_URL=http://sso.proxy.trade.great:8004/sso/accounts/login/via-linkedin/
 SSO_OAUTH2_GOOGLE_URL=debug
 DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011
 DIRECTORY_FORMS_DEFAULT_TIMEOUT=30
@@ -33,7 +34,16 @@ ENVIRONMENT_CSS_THEME_FILE=core/css/environment_dev_theme.css
 MAXMIND_LICENCE_KEY=debug
 API_CLIENT_BASE_URL=http://api.trade.great:8000
 API_SIGNATURE_SECRET=debug
-DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON=http://sso.trade.great:8004/
+DIRECTORY_CONSTANTS_URL_FIND_A_BUYER=http://buyer.trade.great:8001/
+DIRECTORY_CONSTANTS_URL_FIND_A_SUPPLIER=http://supplier.trade.great:8005/
+DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC=http://exred.trade.great:8007/
+DIRECTORY_CONSTANTS_URL_INVEST=http://invest.trade.great:8012/
+DIRECTORY_CONSTANTS_URL_INVESTMENT_SUPPORT_DIRECTORY=http://supplier.trade.great:8005/investment-support-directory/\
+DIRECTORY_CONSTANTS_URL_SELLING_ONLINE_OVERSEAS=http://soo.trade.great:8008/selling-online-overseas/
+DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON=http://sso.proxy.trade.great:8004/
+EXPORTING_OPPORTUNITIES_API_BASE_URL=https://opportunities.export.staging.uktrade.io
+EXPORTING_OPPORTUNITIES_API_SECRET=debug
+SECURE_SSL_REDIRECT=false
 FEATURE_MOCK_CLIENT_IP_ENABLED=True
 API_CACHE_DISABLED=true
 STAFF_SSO_AUTHBROKER_URL=https://www.examole.com
@@ -56,6 +66,10 @@ FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES=True
 CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
 UKEF_CONTACT_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
 CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
+CONTACT_DIT_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
+CONTACT_EVENTS_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
+CONTACT_DSO_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
+CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS=great-cms-local-dev@mail.ci.uktrade.digital
 
 EU_EXIT_ZENDESK_SUBDOMAIN=debug
 
@@ -70,6 +84,10 @@ ACTIVITY_STREAM_IP_ALLOWLIST=debug
 FEATURE_TEST_SEARCH_API_PAGES_ENABLED=true
 
 FEATURE_SHOW_REPORT_BARRIER_CONTENT=True
+
+EXPORTING_OPPORTUNITIES_API_SECRET=debug
+EXPORTING_OPPORTUNITIES_SEARCH_URL=debug
+GET_ADDRESS_API_KEY=debug
 
 #####################################################################
 # Needed for Wagtail-Transfer local development. Also see env/config/dev-transfer-target

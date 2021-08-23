@@ -2,15 +2,13 @@ import io
 from unittest import mock
 
 import pytest
-import requests
 from django.conf import settings
 from django.http import HttpRequest
 from requests.exceptions import HTTPError
 
 from core import helpers
 from directory_api_client import api_client
-from directory_api_client.exporting import url_lookup_by_postcode
-from directory_constants import choices
+from directory_constants import company_types
 from directory_sso_api_client import sso_api_client
 from tests.helpers import create_response
 from tests.unit.core.factories import CuratedListPageFactory
@@ -231,16 +229,19 @@ def test_update_company_profile(mock_profile_update, patch_update_company_profil
     [
         [{'expertise_countries': [], 'expertise_industries': []}, None],
         [
-            {'expertise_countries': ['FR'], 'expertise_industries': ['SL10001']},
-            'The Advanced Engineering market in France',
+            {'expertise_countries': ['FR'], 'expertise_industries': ['ADVANCED_MANUFACTURING']},
+            'The Advanced manufacturing market in France',
         ],
-        [{'expertise_countries': [], 'expertise_industries': ['SL10001']}, 'The Advanced Engineering market'],
         [
-            {'expertise_countries': ['FR'], 'expertise_industries': [choices.SECTORS[1][0]]},
+            {'expertise_countries': [], 'expertise_industries': ['ADVANCED_MANUFACTURING']},
+            'The Advanced manufacturing market',
+        ],
+        [
+            {'expertise_countries': ['FR'], 'expertise_industries': ['AEROSPACE']},
             'The Aerospace market in France',
         ],
         [{'expertise_countries': ['FR'], 'expertise_industries': []}, 'The market in France'],
-        [{'expertise_countries': [], 'expertise_industries': [choices.SECTORS[1][0]]}, 'The Aerospace market'],
+        [{'expertise_countries': [], 'expertise_industries': ['AEROSPACE']}, 'The Aerospace market'],
     ],
 )
 def test_get_markets_page_title(company_profile, expected):
@@ -253,8 +254,8 @@ def test_get_markets_page_title(company_profile, expected):
     'company_profile,expected',
     [
         [{'expertise_industries': []}, []],
-        [{'expertise_industries': ['SL10001']}, ['Advanced Engineering']],
-        [{'expertise_industries': ['SL10001', 'SL10002']}, ['Advanced Engineering', 'Aerospace']],
+        [{'expertise_industries': ['ADVANCED_MANUFACTURING']}, ['Advanced manufacturing']],
+        [{'expertise_industries': ['ADVANCED_MANUFACTURING', 'AEROSPACE']}, ['Advanced manufacturing', 'Aerospace']],
     ],
 )
 def test_company_parser_expertise_industries_labels_no_industries(company_profile, expected):
@@ -265,10 +266,16 @@ def test_company_parser_expertise_industries_labels_no_industries(company_profil
     'company_profile,expected',
     [
         [{'expertise_industries': []}, []],
-        [{'expertise_industries': ['SL10001']}, [{'label': 'Advanced Engineering', 'value': 'SL10001'}]],
         [
-            {'expertise_industries': ['SL10001', 'SL10002']},
-            [{'label': 'Advanced Engineering', 'value': 'SL10001'}, {'label': 'Aerospace', 'value': 'SL10002'}],
+            {'expertise_industries': ['ADVANCED_MANUFACTURING']},
+            [{'label': 'Advanced manufacturing', 'value': 'ADVANCED_MANUFACTURING'}],
+        ],
+        [
+            {'expertise_industries': ['ADVANCED_MANUFACTURING', 'AEROSPACE']},
+            [
+                {'label': 'Advanced manufacturing', 'value': 'ADVANCED_MANUFACTURING'},
+                {'label': 'Aerospace', 'value': 'AEROSPACE'},
+            ],
         ],
     ],
 )
@@ -294,7 +301,7 @@ def test_company_parser_expertise_countries_value_label_pairs(company_profile, e
 def test_company_parser_expertise_countries_hard_code_industries(settings):
     settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = True
     assert helpers.CompanyParser({'expertise_industries': ['FR']}).expertise_industries_value_label_pairs == (
-        [{'label': 'Food & Drink', 'value': 'SL10017'}]
+        [{'label': 'Food and drink', 'value': 'FOOD_AND_DRINK'}]
     )
 
 
@@ -700,39 +707,6 @@ def test_get_s3_file_stream(mocked_boto3):
     assert stream == 'S3 file contents'
 
 
-def test_retrieve_regional_office_email_exception(settings, requests_mock):
-    requests_mock.get(
-        url_lookup_by_postcode.format(postcode='ABC123'),
-        exc=requests.exceptions.ConnectTimeout,
-    )
-    email = helpers.retrieve_regional_office_email('ABC123')
-
-    assert email is None
-
-
-def test_retrieve_regional_office_email_not_ok(settings, requests_mock):
-    requests_mock.get(
-        url_lookup_by_postcode.format(postcode='ABC123'),
-        status_code=404,
-    )
-    email = helpers.retrieve_regional_office_email('ABC123')
-
-    assert email is None
-
-
-def test_retrieve_regional_office_email_success(requests_mock):
-    match_office = [{'is_match': True, 'email': 'region@example.com'}]
-    requests_mock.get(
-        url_lookup_by_postcode.format(postcode='ABC123'),
-        status_code=200,
-        json=match_office,
-    )
-
-    email = helpers.retrieve_regional_office_email('ABC123')
-
-    assert email == 'region@example.com'
-
-
 @pytest.mark.parametrize(
     'mapping,expected',
     [
@@ -766,3 +740,49 @@ def test_get_trade_barrier_data(mock_country_data, client):
     response = helpers.get_trade_barrier_data(countries_list=['CN'], sectors_list=['Aerospace'])
     assert response.get('location') == trade_barrier_data['location']
     assert response.get('sectors') == trade_barrier_data['sectors']
+
+
+@pytest.mark.parametrize(
+    'value,expected',
+    (
+        (company_types.COMPANIES_HOUSE, True),
+        (company_types.SOLE_TRADER, False),
+        (company_types.CHARITY, False),
+        (company_types.PARTNERSHIP, False),
+    ),
+)
+def test_profile_parser_is_in_companies_house(value, expected):
+    parser = helpers.CompanyParser({'company_type': value})
+
+    assert parser.is_in_companies_house is expected
+
+
+def test_profile_parser_no_data_serialize_for_form():
+    parser = helpers.CompanyParser({})
+
+    assert parser.serialize_for_form() == {
+        'expertise_products_services': {},
+        'expertise_countries': [],
+        'expertise_industries': [],
+        'date_of_creation': None,
+        'address': '',
+    }
+
+
+def test_profile_parser_no_data_serialize_for_template():
+    parser = helpers.CompanyParser({})
+
+    assert parser.serialize_for_template() == {
+        'expertise_products_services': {},
+        'expertise_countries': '',
+        'expertise_industries': '',
+        'date_of_creation': None,
+        'address': '',
+        'sectors': '',
+        'keywords': '',
+        'employees': None,
+        'expertise_regions': '',
+        'expertise_languages': '',
+        'has_expertise': False,
+        'is_in_companies_house': False,
+    }

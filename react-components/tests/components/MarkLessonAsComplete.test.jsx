@@ -12,6 +12,8 @@ const mockResponse = {
 
 describe('MarkLessonAsComplete', () => {
   let wrapper
+  const nonTickedText = 'Lesson complete?Yes'
+  const tickedText = 'Lesson complete?Great! Progress saved'
 
   beforeEach(() => {
     fetchMock.get('http://localhost/sso/api/v1/lesson-completed/20/', mockResponse, { overwriteRoutes: false })
@@ -34,7 +36,7 @@ describe('MarkLessonAsComplete', () => {
 
   it('updates label text', async () => {
     await act(async () => {
-      expect(wrapper.find('label').text()).toEqual('Yes')
+      expect(wrapper.find('label').text()).toEqual(nonTickedText)
       await act(async () => {
         wrapper
           .find('input')
@@ -42,7 +44,7 @@ describe('MarkLessonAsComplete', () => {
           .onChange()
       })
 
-      expect(wrapper.find('label').text()).toEqual('Yes')
+      expect(wrapper.find('label').text()).toEqual(nonTickedText)
 
       await act(async () => {
         wrapper
@@ -51,7 +53,7 @@ describe('MarkLessonAsComplete', () => {
           .onClick()
       })
 
-      expect(wrapper.find('label').text()).toEqual('Great! Progress saved')
+      expect(wrapper.find('label').text()).toEqual(tickedText)
     })
   })
 })

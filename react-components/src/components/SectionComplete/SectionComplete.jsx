@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
+import { analytics } from '@src/Helpers'
 
 export const SectionComplete = ({ current_section }) => {
   const { is_complete, url } = current_section
@@ -21,9 +22,14 @@ export const SectionComplete = ({ current_section }) => {
     Services.updateExportPlan(field)
       .then(() => {
         setIsComplete(!isComplete)
+        if (!isComplete) {
+          analytics({ event: 'planSectionComplete' })
+        }
       })
       .catch(() => {})
   }
+
+  const labelText = isComplete ? 'Great! Progress saved' : 'Yes'
 
   return (
     <>
@@ -36,7 +42,7 @@ export const SectionComplete = ({ current_section }) => {
           checked={isComplete}
         />
         <label htmlFor="checkbox_complete">
-          {isComplete ? 'Great! Progress saved' : 'Yes'}
+          {labelText}
         </label>
       </div>
     </>

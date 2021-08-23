@@ -10,6 +10,7 @@ from django.urls import reverse
 from core.models import CuratedListPage, DetailPage, LessonPlaceholderPage, TopicPage
 from core.templatetags.content_tags import (
     get_backlinked_url,
+    get_category_title_for_lesson,
     get_lesson_progress_for_topic,
     get_topic_title_for_lesson,
     is_lesson_page,
@@ -288,7 +289,7 @@ def test_progress_bar(total, complete, percentage):
 
 
 @pytest.mark.django_db
-def test_get_topic_title_for_lesson(domestic_homepage, domestic_site):
+def test_get_topic_and_category_title_for_lesson(domestic_homepage, domestic_site):
 
     # Lots of setup, alas
 
@@ -328,6 +329,12 @@ def test_get_topic_title_for_lesson(domestic_homepage, domestic_site):
     assert get_topic_title_for_lesson(detail_page_2) == 'Topic 1'
     assert get_topic_title_for_lesson(detail_page_3) == 'Topic 2'
     assert get_topic_title_for_lesson(detail_page_4) == 'Topic 3'
+
+    # and the categories
+    assert get_category_title_for_lesson(detail_page_1) == 'Module 1'
+    assert get_category_title_for_lesson(detail_page_2) == 'Module 1'
+    assert get_category_title_for_lesson(detail_page_3) == 'Module 1'
+    assert get_category_title_for_lesson(detail_page_4) == 'Module 2'
 
 
 def _build_lesson_and_placeholder_spec(data, topic_page):

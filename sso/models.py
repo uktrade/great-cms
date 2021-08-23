@@ -3,9 +3,11 @@ from django.db import models
 from django.utils.functional import cached_property
 
 from core.helpers import CompanyParser
+from directory_constants import user_roles
 from exportplan.core.helpers import get_or_create_export_plan
 from exportplan.core.parsers import ExportPlanParser
 from sso import helpers
+from sso_profile.business_profile.helpers import get_supplier_profile
 
 
 class BusinessSSOUser(AbstractUser):
@@ -68,3 +70,33 @@ class BusinessSSOUser(AbstractUser):
 
     def set_user_data(self, data, name):
         return helpers.set_user_data(self.session_id, data, name)
+
+    def get_mobile_number(self):
+        empty_vals = ['', None]
+        mobile_number = self.mobile_phone_number
+        if mobile_number in empty_vals and self.company:
+            mobile_number = getattr(self.company, 'mobile_number', None)
+        return mobile_number if mobile_number not in empty_vals else None
+
+    @property
+    def company_type(self):
+        return getattr(self.company, 'company_type', None) if self.company else None
+
+    @cached_property
+    def supplier(self):
+        return get_supplier_profile(self.id)
+
+    @cached_property
+    def role(self):
+        return self.supplier['role'] if self.supplier else None
+
+    @property
+    def is_company_admin(self):
+        if not self.supplier:
+            return False
+        return self.supplier['role'] == user_roles.ADMIN
+
+    @property
+    def full_name(self):
+        if self.first_name and self.last_name:
+            return f'{self.first_name} {self.last_name}'

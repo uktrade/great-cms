@@ -49,14 +49,10 @@ export const PlannedTravel = memo(
       <>
         <h2 className="h-m m-b-xs">Planned travel</h2>
         <p>
-          It is likely you will have to go on business trips to your chosen
-          markets to build relationships and seal those all important deals.
+          It's likely you'll need to visit your chosen markets to build business
+          relationships and seal important deals.
         </p>
-        <p>
-          Add all your upcoming trips and important information about them in
-          the following tool.
-        </p>
-        <Learning tooltip={tooltip} lesson={lesson} />
+        <Learning tooltip={tooltip} lesson={lesson} className="m-b-m" />
         <Trips
           formData={trips}
           deleteTrip={deleteTrip}

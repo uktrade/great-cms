@@ -33,7 +33,7 @@ export const Sidebar = memo(
               aria-expanded={toggle}
               aria-controls="collapseNav"
               type="button"
-              className="sidebar__button text-blue-deep-40"
+              className="sidebar__button text-blue-deep-80"
               onClick={() => setToggle(!toggle)}
             >
               <i

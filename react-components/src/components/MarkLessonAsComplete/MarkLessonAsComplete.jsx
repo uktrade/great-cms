@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-
-import Services from '../../Services'
+import Services from '@src/Services'
+import { analytics } from '@src/Helpers'
 
 const MarkLessonAsComplete = ({ endpoint }) => {
   const [isComplete, setIsComplete] = useState(undefined)
@@ -34,11 +34,8 @@ const MarkLessonAsComplete = ({ endpoint }) => {
 
   const markCompleted = () => {
     if (!isComplete) {
-      const dataLayer = (window.dataLayer = window.dataLayer || [])
       // adding tracking once lesson successfully updated as completed
-      dataLayer.push({
-        event: 'lessonComplete',
-      })
+      analytics({ event: 'lessonComplete' })
     }
     setIsChecked(true)
   }
@@ -46,7 +43,7 @@ const MarkLessonAsComplete = ({ endpoint }) => {
   return (
     <div className="mark-lesson-as-complete">
       <legend>
-        <h2 className="h-m text-white p-b-s">Lesson complete?</h2>
+        <h2 className="h-m text-white p-b-s" aria-hidden="true">Lesson complete?</h2>
       </legend>
       <div className="great-checkbox great-checkbox--large">
         <input
@@ -58,8 +55,7 @@ const MarkLessonAsComplete = ({ endpoint }) => {
           onClick={markCompleted}
           checked={Boolean(isComplete)}
         />
-        <label htmlFor="markascomplete_checkbox">{labelText}</label>
-        <div className="visually-hidden" role="status">{isComplete && isChecked && 'Great! Progress saved'}</div>
+        <label htmlFor="markascomplete_checkbox"><span className="visually-hidden">Lesson complete?</span><span aria-hidden="true">{labelText}</span></label>
       </div>
     </div>
   )

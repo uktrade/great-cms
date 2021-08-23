@@ -57,11 +57,7 @@ export const BusinessRisks = memo(
       <>
         <h2 className="h-m m-b-xs">Risks</h2>
         <p>
-          Record any risks you think your business may face in the following
-          table.
-        </p>
-        <p>
-          These should be specific risks your business faces when exporting.
+          Record any risks you think your business might face in the table below.
         </p>
         <Learning lesson={lesson} />
         <Risks

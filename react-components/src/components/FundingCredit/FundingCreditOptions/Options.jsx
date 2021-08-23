@@ -12,37 +12,27 @@ export const Options = memo(
       : {}
 
     return (
-      <div className="costs costs--funding bg-blue-deep-10 p-v-s">
-        <table className="m-b-0">
-          <tbody>
-            {formData.map(({ pk, amount, funding_option }) => (
-              <Option
-                key={pk}
-                id={pk}
-                value={amount}
-                selectedOption={funding_option}
-                currency={currency}
-                selectData={selectData}
-                onChange={onChange}
-                deleteFunding={deleteFunding}
-              />
-            ))}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan="2">
-                <AddButton
-                  isDisabled={
-                    formData.length ? !objectHasValue(lastField) : false
-                  }
-                  add={addFunding}
-                  btnClass="button--small button--secondary button--inherit"
-                  cta="Add a funding option"
-                />
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+      <div className="costs costs--with-total bg-blue-deep-10">
+        {formData.map(({ pk, amount, funding_option }) => (
+          <Option
+            key={pk}
+            id={pk}
+            value={amount}
+            selectedOption={funding_option}
+            currency={currency}
+            selectData={selectData}
+            onChange={onChange}
+            deleteFunding={deleteFunding}
+          />
+        ))}
+        <div className="costs__option--border">
+          <AddButton
+            isDisabled={formData.length ? !objectHasValue(lastField) : false}
+            add={addFunding}
+            btnClass="button--small button--secondary button--inherit"
+            cta="Add a funding option"
+          />
+        </div>
       </div>
     )
   }

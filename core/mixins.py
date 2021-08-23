@@ -151,7 +151,7 @@ class GetSnippetContentMixin:
         'domestic/success/',
         skip_ga360(DomesticSuccessView.as_view()),
         {
-            'slug': snippet_slugs.HELP_FORM_SUCCESS,
+            'slug': snippet_slugs.HELP_FORM_SUCCESS,  # this may be provided as a view kwarg instead, if it varies
             'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
         },
         name='contact-us-domestic-success',

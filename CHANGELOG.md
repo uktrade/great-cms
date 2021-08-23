@@ -2,13 +2,80 @@
 
 ## Pre-release changes - please put everything in the appropriate category below
 
-### Enhancements
+### Hotfix
+- GP2-3253 fix-confirm-idenity-urls
 - GP2-3309 - [HOTFIX] adding bing search console meta tag
 - GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
-- GP2-2986 - Merge companies-house api views
+
+### Enhancements
+- GP2-3128 - Analytics - section completion
+- GP2-3017 - SOO User profile update to directory-SSO
+- GP2-2402 - VFM analytics
+- GP2-2359 - Relabel CaseStudy expander and make accessible
+- GP2-2348 - VFM Return copy update
+- GP2-2700 - Export plan/Business risk copy update
+- GP2-2701 - Export plan/Travel plan copy update
+- GP2-2706 - Export plan/Costs and pricing copy update
+- GP2-2472 - Increase padding on example component
+- GP2-2473 - Increase padding on lesson component
+- GP2-2471 - Update Tooltip component
+- GP2-2464 / GP2-2480 - improve button text baseline
+- GP2-2491 - Increase spacing at bottom of forms
+- GP2-2484 - refactor stats containers for better mobile display
+- GP2-2485 - always show selected age ranges
+- GP2-3082 - Fix gutter size on Export plan homepage
+- GP2-3102 - Vulnerable JS packages in great-cms/domestic/\* need updating
+- GP2-2493 - Increase padding on cost/price cards
+- GP2-2494 - Refactor multi-add components styles
+- GP2-3084 - Fix spacings on Travel plan
+- GP2-3085 - Fix Business Risk block radio buttons spacing
+- GP2-2896 - Split objective date fields into month and year
+- GP2-3087 - migrate directory-sso-profile into great-cms
+### Fixed bugs
+- GP2-3255 - fix updating industry expertise on a business profile
+- GP2-3254 - added missing csrf_tokens for sso_profile
+- GP2-3208 - Fix error while updating personal profile
+- GP2-3164 - Remove vulnerable web-component-tester dev package
+- GP2-2893 - Backlink placement in learning
+- GP2-2619 - Case study quotes - attrributions fall off
+- GP2-3099 - WTE Selector missing
+- GP2-2428 - Country finder back buttons in mobile
+- GP2-2938 - DAC_Nondescriptive_Labels_02 Lesson complete checkbox
+- GP2-2952 - DAC_Contrast_Minimum_01 'Next' link
+- GP2-2947 - DAC_Nontext_Contrast_02 (AA) sidebar menu button
+- GP2-1684 - Port the contact pages which need users to be signed in (SOO ones) from V1 to V2
+- GP2-2928 - DAC CSS Images as Labels 07(A)
+- GP2-2492 Export plan - some pages - value input
+- GP2-3100 - In Costs and pricing, titles dispay "the" prefix before countries that should not have this
+- GP2-2492 - Export plan - some pages - value input
+- GP2-3120 - Append "- great.gov.uk" to all pages by default
+
+### Fixed bugs
+- GP2-2988: Make SOO contact form name fields editable if not already populated.
+
+## [1.12.0](https://github.com/uktrade/great-cms/releases/tag/1.12.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.11.0...1.12.0)
+
+### Enhancements
+- GP2-3268 = [HOTFIX] Updated CaseStudy's related page which cant be empty/null
+- GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
+
+## [1.11.0](https://github.com/uktrade/great-cms/releases/tag/1.11.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.10.0...1.11.0)
+
+### Enhancements
+- no-ticket - wagtail degrade to 2.11
+- GP2-2524 - Wagtail transfer configuration for staging/UAT
+- GP2-1615 - Migrate Export Opps contact/guidance pages from V1 to V2
+- GP2-1683 - More contact page migration (two types) from V1 to V2- GP2-2986 - Merge companies-house api views
 - no-ticket - Fix for case study listing view if empty related page selected in any case study
 - GA2-3054 - Updated GA360 mixin for special exception for authenticated staff users
 - GP2-2841 - Pinned CF buildpack and upgraded python to 3.9.5
+- GP2-1655 - Migrate more contact pages (three types) from V1 to V2
+- GP2-1688 - Migrate /contact/office-finder/ pages from V1 into V2
+- GP2-3054 - Updated GA360 mixin for special exception for authenticated staff users
+- GP2-2841 - Pinned CF buildpack and upgraded python to 3.9.5
+- GP2-1653 - Port 'great.gov.uk' account pages from Contact section
 - GP2-2982 - Rebuild sitemap.xml in great-cms
 - GP2-2981 - Port Search Feedback page from V1 into V2
 - GP2-2980 - Port Market Access / 'Report a Trade Barrier' pages from V1 into V2
@@ -27,6 +94,15 @@
 - GP2-1618 - Port legacy EU Exit / transition period forms from V1 into V2
 - GP2-1617 - Port get-finance/UKEF contact form from great-domestic-ui
 - GP2-2856 - remove unused api calls
+- GP2-2841: Pinned CF buildpack and upgraded python to 3.9.5
+- GP2-1653: Port 'great.gov.uk' account pages from Contact section
+- GP2-2982: Rebuild sitemap.xml in great-cms
+- GP2-2981: Port Search Feedback page from V1 into V2
+- GP2-2980: Port Market Access / 'Report a Trade Barrier' pages from V1 into V2
+- GP2-2977: Port E-Commerce Export Support pages from V1 into V2
+- GP2-1618: Port legacy EU Exit / transition period forms from V1 into V2
+- GP2-1617: Port get-finance/UKEF contact form from great-domestic-ui
+- GP2-2856  remove unused api calls
 - no-ticket - package upgrade
 - GP2-2856 - remove target market
 

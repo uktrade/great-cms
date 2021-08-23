@@ -1,0 +1,1 @@
+These templates were copied over from directory_components (yes, not great_components) as overrides for the ones in great_components, because the ones in directory_components are _currently_ more up to date than the ones in great_components.

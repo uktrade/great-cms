@@ -77,6 +77,8 @@ INSTALLED_APPS = [
     'search.apps.SearchConfig',
     'directory_healthcheck',
     'healthcheck.apps.HealthcheckAppConfig',
+    'health_check.cache',
+    'sso_profile',
 ]
 
 MIDDLEWARE = [
@@ -93,6 +95,8 @@ MIDDLEWARE = [
     'core.middleware.UserSpecificRedirectMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'core.middleware.CheckGATags',
+    # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
+    'great_components.middleware.NoCacheMiddlware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -104,6 +108,10 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             CORE_APP_DIR.path('templates'),
+            ROOT_DIR.path('templates'),  # For overriding templates in dependencies, such as great-components
+            ROOT_DIR.path('sso_profile', 'templates'),
+            ROOT_DIR.path('sso_profile', 'common', 'templates'),
+            ROOT_DIR.path('sso_profile', 'enrolment', 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -193,6 +201,8 @@ STATICFILES_DIRS = [
     str(ROOT_DIR('core/components/static')),
     str(ROOT_DIR('domestic/static')),
     str(ROOT_DIR('react-components/dist')),
+    str(ROOT_DIR('sso_profile/common/static')),
+    str(ROOT_DIR('sso_profile/static')),
 ]
 
 STATICFILES_STORAGE = env.str('STATICFILES_STORAGE', 'whitenoise.storage.CompressedManifestStaticFilesStorage')
@@ -314,6 +324,7 @@ USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_HSTS_SECONDS = env.int('SECURE_HSTS_SECONDS', 16070400)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', True)
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE', True)
@@ -327,6 +338,8 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
+# message framework
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 # django-storages
 AWS_STORAGE_BUCKET_NAME = env.str('AWS_STORAGE_BUCKET_NAME', '')
@@ -391,20 +404,24 @@ else:
     LOGIN_URL = env.str('SSO_PROXY_LOGIN_URL')
 
 # Business SSO API Client
-SSO_PROXY_LOGIN_URL = env.str('SSO_PROXY_LOGIN_URL')
 DIRECTORY_SSO_API_CLIENT_BASE_URL = env.str('SSO_API_CLIENT_BASE_URL', '')
 DIRECTORY_SSO_API_CLIENT_API_KEY = env.str('SSO_SIGNATURE_SECRET', '')
 DIRECTORY_SSO_API_CLIENT_SENDER_ID = env.str('DIRECTORY_SSO_API_CLIENT_SENDER_ID', 'directory')
 DIRECTORY_SSO_API_CLIENT_DEFAULT_TIMEOUT = 15
+
+SSO_PROFILE_URL = env.str('SSO_PROFILE_URL', '/profile/')  #  directory-sso-profile is now in great-cms
+
+SSO_PROXY_LOGIN_URL = env.str('SSO_PROXY_LOGIN_URL')
 SSO_PROXY_LOGOUT_URL = env.str('SSO_PROXY_LOGOUT_URL')
 SSO_PROXY_SIGNUP_URL = env.str('SSO_PROXY_SIGNUP_URL')
-SSO_PROFILE_URL = ''
 SSO_PROXY_PASSWORD_RESET_URL = env.str('SSO_PROXY_PASSWORD_RESET_URL')
 SSO_PROXY_REDIRECT_FIELD_NAME = env.str('SSO_PROXY_REDIRECT_FIELD_NAME')
 SSO_SESSION_COOKIE = env.str('SSO_SESSION_COOKIE')
 SSO_DISPLAY_LOGGED_IN_COOKIE = env.str('SSO_DISPLAY_LOGGED_IN_COOKIE', 'sso_display_logged_in')
+
 SSO_OAUTH2_LINKEDIN_URL = env.str('SSO_OAUTH2_LINKEDIN_URL')
 SSO_OAUTH2_GOOGLE_URL = env.str('SSO_OAUTH2_GOOGLE_URL')
+
 AUTHENTICATION_BACKENDS.append('sso.backends.BusinessSSOUserBackend')
 
 # Google tag manager
@@ -426,6 +443,7 @@ RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY')
 RECAPTCHA_REQUIRED_SCORE = env.float('RECAPTCHA_REQUIRED_SCORE', 0.5)
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 
+
 # directory forms api client
 DIRECTORY_FORMS_API_BASE_URL = env.str('DIRECTORY_FORMS_API_BASE_URL')
 DIRECTORY_FORMS_API_API_KEY = env.str('DIRECTORY_FORMS_API_API_KEY')
@@ -433,16 +451,45 @@ DIRECTORY_FORMS_API_SENDER_ID = env.str('DIRECTORY_FORMS_API_SENDER_ID')
 DIRECTORY_FORMS_API_DEFAULT_TIMEOUT = env.int('DIRECTORY_API_FORMS_DEFAULT_TIMEOUT', 5)
 DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME = env.str('DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME', 'directory')
 
-# gov.uk notify
-CONFIRM_VERIFICATION_CODE_TEMPLATE_ID = env.str(
-    'CONFIRM_VERIFICATION_CODE_TEMPLATE_ID', 'a1eb4b0c-9bab-44d3-ac2f-7585bf7da24c'
+# EU exit
+EU_EXIT_ZENDESK_SUBDOMAIN = env.str('EU_EXIT_ZENDESK_SUBDOMAIN')
+EU_EXIT_INTERNATIONAL_CONTACT_URL = env.str(
+    'EU_EXIT_INTERNATIONAL_CONTACT_URL',
+    '/international/eu-exit-news/contact/',
 )
-ENROLMENT_WELCOME_TEMPLATE_ID = env.str('ENROLMENT_WELCOME_TEMPLATE_ID', '0a4ae7a9-7f67-4f5d-a536-54df2dee42df')
+
+# Contact
+INVEST_CONTACT_URL = env.str(
+    'INVEST_CONTACT_URL',
+    'https://invest.great.gov.uk/contact/',
+)
+CAPITAL_INVEST_CONTACT_URL = env.str(
+    'CAPITAL_INVEST_CONTACT_URL',
+    '/international/content/capital-invest/contact/',
+)
+FIND_A_SUPPLIER_CONTACT_URL = env.str(
+    'FIND_A_SUPPLIER_CONTACT_URL',
+    '/international/trade/contact/',
+)
+CONTACT_EXPORTING_TO_UK_HMRC_URL = env.str(
+    'CONTACT_EXPORTING_TO_UK_HMRC_URL',
+    'https://www.tax.service.gov.uk/shortforms/form/CITEX_CGEF',
+)
+CONFIRM_VERIFICATION_CODE_TEMPLATE_ID = env.str(
+    'CONFIRM_VERIFICATION_CODE_TEMPLATE_ID',
+    'a1eb4b0c-9bab-44d3-ac2f-7585bf7da24c',
+)
+ENROLMENT_WELCOME_TEMPLATE_ID = env.str(
+    'ENROLMENT_WELCOME_TEMPLATE_ID',
+    '0a4ae7a9-7f67-4f5d-a536-54df2dee42df',
+)
 CONTACTUS_ENQURIES_SUPPORT_TEMPLATE_ID = env.str(
-    'ENQURIES_CONTACTUS_TEMPLATE_ID', '3af1de7c-e5c2-4691-b2ce-3856fad97ad0'
+    'ENQURIES_CONTACTUS_TEMPLATE_ID',
+    '3af1de7c-e5c2-4691-b2ce-3856fad97ad0',
 )
 CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID = env.str(
-    'CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID', '68030d40-4574-4aa1-b3ff-941320929964'
+    'CONTACTUS_ENQURIES_CONFIRMATION_TEMPLATE_ID',
+    '68030d40-4574-4aa1-b3ff-941320929964',
 )
 
 CONTACT_DOMESTIC_ZENDESK_SUBJECT = env.str(
@@ -455,34 +502,102 @@ CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID = env.str(
 )
 CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS = env.str('CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS')
 CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID = env.str(
-    'CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID', '61c82be6-b140-46fc-aeb2-472df8a94d35'
+    'CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID',
+    '61c82be6-b140-46fc-aeb2-472df8a94d35',
 )
 CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS = env.str(
     'CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS',
 )
 CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID = env.str(
-    'CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID', 'a56114d3-515e-4ee7-bb1a-9a0ceab04378'
+    'CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID',
+    'a56114d3-515e-4ee7-bb1a-9a0ceab04378',
 )
 CONTACT_ECOMMERCE_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID = env.str(
     'CONTACT_ECOMMERCE_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID',
     '18d807d2-f4cf-4b93-96c1-0d3169bd0906',
 )
+CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID',
+    '0492eb2b-7daf-4b37-99cd-be3abbb9eb32',
+)
+CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID',
+    '03c031e1-1ee5-43f9-8b24-f6e4cfd56cf1',
+)
+CONTACT_DIT_AGENT_EMAIL_ADDRESS = env.str('CONTACT_DIT_AGENT_EMAIL_ADDRESS')
 
-EU_EXIT_ZENDESK_SUBDOMAIN = env.str('EU_EXIT_ZENDESK_SUBDOMAIN')
+CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID',
+    '2d5d556a-e0fa-4a9b-81a0-6ed3fcb2e3da',
+)
+CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID',
+    '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7',
+)
+CONTACT_EVENTS_AGENT_EMAIL_ADDRESS = env.str('CONTACT_EVENTS_AGENT_EMAIL_ADDRESS')
+CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID',
+    '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7',
+)
+CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID',
+    'a6a3db79-944f-4c59-8eeb-2f756019976c',
+)
+CONTACT_DSO_AGENT_EMAIL_ADDRESS = env.str('CONTACT_DSO_AGENT_EMAIL_ADDRESS')
+
+CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID',
+    '5abd7372-a92d-4351-bccb-b9a38d353e75',
+)
+CONTACT_EXPORTING_AGENT_SUBJECT = env.str(
+    'CONTACT_EXPORTING_AGENT_SUBJECT',
+    'A form was submitted on great.gov.uk',
+)
+CONTACT_EXPORTING_USER_REPLY_TO_EMAIL_ID = env.str(
+    'CONTACT_EXPORTING_USER_REPLY_TO_EMAIL_ID',
+    'ac1b973d-5b49-4d0d-a197-865fd25b4a97',
+)
+CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID',
+    '8bd422e0-3ec4-4b05-9de8-9cf039d258a9',
+)
+CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS = env.str(
+    'CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS',
+)
+CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID',
+    'c07d1fb2-dc0c-40ba-a3e0-3113638e69a3',
+)
+CONTACT_SOO_ZENDESK_SUBJECT = env.str(
+    'CONTACT_DOMESTIC_ZENDESK_SUBJECT',
+    'great.gov.uk Selling Online Overseas contact form',
+)
+
+
+GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID = env.str(
+    'GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID', '5c8cc5aa-a4f5-48ae-89e6-df5572c317ec'
+)
+GOV_NOTIFY_NEW_MEMBER_REGISTERED_TEMPLATE_ID = env.str(
+    'GOV_NOTIFY_NEW_MEMBER_REGISTERED_TEMPLATE_ID', '439a8415-52d8-4975-b230-15cd34305bb5'
+)
+
+GOV_NOTIFY_COLLABORATION_REQUEST_RESENT = env.str(
+    'GOV_NOTIFY_COLLABORATION_REQUEST_RESENT', '60c14d97-8e58-4e5f-96e9-e0ca49bc3b96'
+)
 
 # UK Export Finance
 UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID = env.str(
-    'UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID', '09677460-1796-4a60-a37c-c1a59068219e'
+    'UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID',
+    '09677460-1796-4a60-a37c-c1a59068219e',
 )
 UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID = env.str(
-    'UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID', 'e24ba486-6337-46ce-aba3-45d1d3a2aa66'
+    'UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID',
+    'e24ba486-6337-46ce-aba3-45d1d3a2aa66',
 )
 UKEF_CONTACT_AGENT_EMAIL_ADDRESS = env.str(
     'UKEF_CONTACT_AGENT_EMAIL_ADDRESS',
 )
 UKEF_FORM_SUBMIT_TRACKER_URL = env.str('UKEF_FORM_SUBMIT_TRACKER_URL')  # A Pardot URL
-
-FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES = env.bool('FEATURE_FLAG_ENABLE_V1_CONTACT_PAGES', False)
 
 # geo location
 GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')
@@ -490,14 +605,10 @@ GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
 GEOIP_CITY = 'GeoLite2-City.mmdb'
 MAXMIND_LICENCE_KEY = env.str('MAXMIND_LICENCE_KEY')
 GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
-    'GEOLOCATION_MAXMIND_DATABASE_FILE_URL', 'https://download.maxmind.com/app/geoip_download'
+    'GEOLOCATION_MAXMIND_DATABASE_FILE_URL',
+    'https://download.maxmind.com/app/geoip_download',
 )
 
-# redirects
-FEATURE_FLAG_INTERNATIONAL_CONTACT_TRIAGE_ENABLED = env.bool(
-    'FEATURE_INTERNATIONAL_CONTACT_TRIAGE_ENABLED',
-    False,
-)
 
 # directory-api
 DIRECTORY_API_CLIENT_BASE_URL = env.str('DIRECTORY_API_CLIENT_BASE_URL')
@@ -510,6 +621,9 @@ DIRECTORY_CH_SEARCH_CLIENT_BASE_URL = env.str('DIRECTORY_CH_SEARCH_CLIENT_BASE_U
 DIRECTORY_CH_SEARCH_CLIENT_API_KEY = env.str('DIRECTORY_CH_SEARCH_CLIENT_API_KEY')
 DIRECTORY_CH_SEARCH_CLIENT_SENDER_ID = env.str('DIRECTORY_CH_SEARCH_CLIENT_SENDER_ID', 'directory')
 DIRECTORY_CH_SEARCH_CLIENT_DEFAULT_TIMEOUT = env.str('DIRECTORY_CH_SEARCH_CLIENT_DEFAULT_TIMEOUT', 5)
+
+# getAddress.io
+GET_ADDRESS_API_KEY = env.str('GET_ADDRESS_API_KEY')
 
 CHECK_DUTIES_URL = env.str(
     'CHECK_DUTIES_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk/selectdest'
@@ -529,9 +643,13 @@ CCCE_IMPORT_SCHEDULE_URL = CCCE_BASE_URL + '/ccce/apis/tradedata/import/v1/sched
 # directory constants
 DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON = env.str('DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON', '')
 DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = 60 * 60 * 30
+DIRECTORY_CONSTANTS_URL_FIND_A_BUYER = env.str('DIRECTORY_CONSTANTS_URL_FIND_A_BUYER', '')
+DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC = env.str('DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC', '')
 
 # directory validators
 VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int('VALIDATOR_MAX_LOGO_SIZE_BYTES', 2 * 1024 * 1024)
+VALIDATOR_MAX_CASE_STUDY_IMAGE_SIZE_BYTES = env.int('VALIDATOR_MAX_CASE_STUDY_IMAGE_SIZE_BYTES', 2 * 1024 * 1024)
+VALIDATOR_MAX_CASE_STUDY_VIDEO_SIZE_BYTES = env.int('VALIDATOR_MAX_CASE_STUDY_VIDEO_SIZE_BYTES', 20 * 1024 * 1024)
 
 # CHANGE THIS IF WE START USING PRIVATE DOCUMENTS
 WAGTAILDOCS_SERVE_METHOD = 'direct'  # Don't proxy documents via the PaaS - they are public anyway.
@@ -560,6 +678,21 @@ WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
     'core.ContentModule',
     'core.Tour',
     'core.TourStep',
+    'domestic.DomesticHomePage',
+    'domestic.DomesticDashboard',
+    'domestic.StructuralPage',
+    'domestic.GreatDomesticHomePage',
+    'domestic.TopicLandingBasePage',
+    'domestic.TopicLandingPage',
+    'domestic.ManuallyConfigurableTopicLandingPage',
+    'domestic.MarketsTopicLandingPage',
+    'domestic.CountryGuidePage',
+    'domestic.ArticlePage',
+    'domestic.ArticleListingPage',
+    'domestic.CampaignPage',
+    'domestic.GuidancePage',
+    'domestic.PerformanceDashboardPage',
+    'domestic.TradeFinancePage',
 ]
 
 # Give W-T a little more time than the default 5 secs to do things
@@ -638,6 +771,8 @@ DIRECTORY_HEALTHCHECK_BACKENDS = [
     directory_healthcheck.backends.APIBackend,
     directory_healthcheck.backends.SingleSignOnBackend,
     directory_healthcheck.backends.FormsAPIBackend,
+    # health_check.cache.CacheBackend is also registered via
+    # INSTALLED_APPS's health_check.cache
 ]
 
 if FEATURE_FLAG_TEST_SEARCH_API_PAGES_ON:
@@ -649,3 +784,23 @@ ACTIVITY_STREAM_ACCESS_KEY_ID = env.str('ACTIVITY_STREAM_ACCESS_KEY_ID')
 ACTIVITY_STREAM_SECRET_KEY = env.str('ACTIVITY_STREAM_SECRET_KEY')
 ACTIVITY_STREAM_URL = env.str('ACTIVITY_STREAM_URL')
 ACTIVITY_STREAM_IP_ALLOWLIST = env.str('ACTIVITY_STREAM_IP_ALLOWLIST')
+
+
+# formerly from directory-sso-profile
+EXPORTING_OPPORTUNITIES_API_BASIC_AUTH_USERNAME = env.str('EXPORTING_OPPORTUNITIES_API_BASIC_AUTH_USERNAME', '')
+EXPORTING_OPPORTUNITIES_API_BASIC_AUTH_PASSWORD = env.str('EXPORTING_OPPORTUNITIES_API_BASIC_AUTH_PASSWORD', '')
+EXPORTING_OPPORTUNITIES_API_BASE_URL = env.str('EXPORTING_OPPORTUNITIES_API_BASE_URL')
+EXPORTING_OPPORTUNITIES_API_SECRET = env.str('EXPORTING_OPPORTUNITIES_API_SECRET')
+EXPORTING_OPPORTUNITIES_SEARCH_URL = env.str('EXPORTING_OPPORTUNITIES_SEARCH_URL')
+
+URL_PREFIX_DOMAIN = env.str('URL_PREFIX_DOMAIN', '')
+
+# Ported from SSO_PROFILE
+SSO_PROFILE_FEATURE_FLAGS = {
+    'COUNTRY_SELECTOR_ON': False,
+    'MAINTENANCE_MODE_ON': env.bool('FEATURE_MAINTENANCE_MODE_ENABLED', False),  # used by directory-components
+    'ADMIN_REQUESTS_ON': env.bool('FEATURE_ADMIN_REQUESTS_ENABLED', False),
+}
+# parity with nginx config for maximum request body
+DATA_UPLOAD_MAX_MEMORY_SIZE = 6 * 1024 * 1024
+FILE_UPLOAD_MAX_MEMORY_SIZE = 6 * 1024 * 1024
