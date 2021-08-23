@@ -2,7 +2,9 @@
 // COLUMN SIZES AND MULTIPLES
 
 // Set number of columns
-$columns: (100% / 12);
+@use "sass:math";
+
+$columns: math.div(100%, 12);
 
 // Some width variables if you need them
 $cols-half : #{($columns *  0.5)};
