@@ -457,4 +457,7 @@ class ExportPlanDashBoard(
         context['sections'] = processor.build_export_plan_sections()
         context['export_plan_progress'] = processor.calculate_ep_progress()
         context['export_plan'] = export_plan
+        context['export_plan_download_link'] = reverse_lazy(
+            'exportplan:pdf-download', kwargs={'id': export_plan.get('pk', '0')}
+        )
         return context
