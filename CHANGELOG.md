@@ -5,6 +5,9 @@
 - GP2-3172 - decouple-ep-pages
 - GP2-3253 fix-confirm-idenity-urls
 
+### Fixed bugs
+- GP2-3288 - Vulnerabilities.
+
 ## [1.13.0](https://github.com/uktrade/great-cms/releases/tag/1.13.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
 
