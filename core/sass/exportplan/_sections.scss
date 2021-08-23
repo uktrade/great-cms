@@ -43,3 +43,21 @@
     }
   }
 }
+
+.hide-show-content,
+.hide-show-trigger {
+  display: none;
+}
+.hide-show-trigger:checked ~ div > .hide-show-content {
+  display: block;
+}
+.hide-show-trigger ~ div > div > label > i {
+  padding: 0;
+}
+.hide-show-trigger:checked ~ div > div > label > i {
+  transform: rotate(180deg);
+}
+
+.g-card.min-height-0 {
+  min-height: 0;
+}

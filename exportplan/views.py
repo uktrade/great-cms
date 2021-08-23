@@ -385,24 +385,6 @@ class PDFDownload(
         return response
 
 
-class ExportPlanList(GA360Mixin, TemplateView):
-    def __init__(self):
-        super().__init__()
-        self.set_ga360_payload(
-            page_id='MagnaPage',
-            business_unit='MagnaUnit',
-            site_section='export-plan',
-        )
-
-    template_name = 'exportplan/exportplan_list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['exportplan_list'] = helpers.get_exportplan_detail_list(self.request.user.session_id)
-
-        return context
-
-
 class ExportPlanIndex(GA360Mixin, TemplateView):
     def __init__(self):
         super().__init__()
@@ -414,11 +396,11 @@ class ExportPlanIndex(GA360Mixin, TemplateView):
 
     template_name = 'exportplan/index.html'
 
-    def dispatch(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            if len(helpers.get_exportplan_detail_list(self.request.user.session_id)):
-                return redirect('exportplan:list')
-        return super().dispatch(request, *args, **kwargs)
+            context['exportplan_list'] = helpers.get_exportplan_detail_list(self.request.user.session_id)
+        return context
 
 
 class ExportPlanStart(GA360Mixin, TemplateView):
@@ -448,7 +430,6 @@ class ExportPlanDashBoard(
     template_name = 'exportplan/dashboard_page.html'
 
     def get_context_data(self, **kwargs):
-
         context = super().get_context_data(**kwargs)
         id = int(self.kwargs['id'])
         export_plan = helpers.get_exportplan(self.request.user.session_id, id)
