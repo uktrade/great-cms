@@ -17,6 +17,7 @@
 
 ### Fixed bugs
 - GP2-3288 - Vulnerabilities.
+- GP2-2880 - DAC_Parsing_02 (A)
 
 ## [1.13.0](https://github.com/uktrade/great-cms/releases/tag/1.13.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)

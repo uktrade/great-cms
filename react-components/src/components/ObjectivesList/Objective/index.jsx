@@ -39,7 +39,8 @@ tabIndex="-1">
       <div className="costs bg-blue-deep-10 m-b-s">
         <div className="costs__option costs__option--border" tabIndex="-1">
           <TextArea
-            id="description"
+            id={number}
+            name={`description`}
             placeholder="Add some text"
             label={`Objective ${number}`}
             value={data.description}
