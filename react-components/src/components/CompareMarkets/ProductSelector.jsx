@@ -70,10 +70,10 @@ function ProductSelector() {
       </div> : ''}
       <button
         type="button"
-        className="f-l m-t-xxs button button--tertiary button--icon"
+        className="f-l m-t-xxs button button--tertiary button--icon button--small"
         onClick={() => setProductModalIsOpen(true)}
       >
-        <i className="fa fa-plus-square" />
+        <i className="fa fa-plus-circle" />
         { hasProducts ? 'Add another product' : 'Add a product' }
       </button>
       <ProductFinderModal

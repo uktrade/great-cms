@@ -7,7 +7,6 @@ import RegionToggle from './RegionToggle'
 import SearchInput from './SearchInput'
 import { analytics } from '../../Helpers'
 
-
 export default function CountryFinderModal(props) {
   let scrollOuter
   const {
@@ -24,7 +23,9 @@ export default function CountryFinderModal(props) {
   const [searchStr, setSearchStr] = useState()
   const [expandRegion, setExpandRegion] = useState(false)
   const [mobilePage, setMobilePage] = useState('initial')
-  const { suggestedCountries, loadSuggestedCountries } = useSuggestedMarkets(activeProducts)
+  const { suggestedCountries, loadSuggestedCountries } = useSuggestedMarkets(
+    activeProducts
+  )
 
   useEffect(() => {
     if (modalIsOpen) {
@@ -160,7 +161,7 @@ export default function CountryFinderModal(props) {
   /*   Suggested markets section  */
   let suggestedSection = (
     <div>
-      <h3 className="h-s">Suggested places</h3>
+      <h3 className="h-s">Suggested markets</h3>
       <p className="m-v-xs">
         Add a product so that we can suggest export markets.
       </p>
@@ -186,16 +187,12 @@ export default function CountryFinderModal(props) {
     })
     suggestedSection = (
       <div className="suggested-markets">
-        <h3 className="h-s">Suggested places</h3>
-        <p className="m-v-xs">
-          These are based on the size of the market for{' '}
-          {`${suggestedCountries.details.product} ${
-            suggestedCountries.details.allSame
-              ? '(same countries for all products)'
-              : ''
-          }`}
-          , export distance, tariffs and costs.
-        </p>
+        <h3 className="h-s">
+          Suggested markets
+          {!suggestedCountries.details.allSame &&
+            ` for ${suggestedCountries.details.product}`}
+        </h3>
+        <p className="m-v-xs">These are based on the size of the market for your product, export distance, tariffs and costs.</p>
         <div className="m-v-xs">{suggestedList}</div>
       </div>
     )
@@ -235,7 +232,7 @@ export default function CountryFinderModal(props) {
             id="search-input"
             onChange={searchChange}
             iconClass="fa-search"
-            placeholder="Search places"
+            placeholder="Search markets"
             ariaDescribedby="search-hint"
           />
         </div>
@@ -265,14 +262,14 @@ export default function CountryFinderModal(props) {
         <div>
           <h2 className="h-l m-t-s p-b-xs">
             {!isCompareCountries
-              ? 'Choose a place'
-              : 'Choose a place to compare'}
+              ? 'Choose a market'
+              : 'Choose a market to compare'}
           </h2>
         </div>
         <p>
           {!isCompareCountries
             ? 'There are 3 ways to choose a target export market'
-            : 'There are 2 ways to choose a place to compare'}
+            : 'There are 2 ways to choose a market to compare'}
         </p>
         <button
           type="button"
@@ -337,7 +334,7 @@ export default function CountryFinderModal(props) {
               {/* Desktop rendering with all sections available */}
               <div className="only-desktop">
                 <div>
-                  <h2 className="h-l m-t-s p-b-xs">Choose a place</h2>
+                  <h2 className="h-l m-t-s p-b-xs">Choose a market</h2>
                 </div>
                 {suggestedSection}
                 <hr className="hr bg-red-deep-100" />

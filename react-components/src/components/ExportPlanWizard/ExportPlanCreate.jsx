@@ -49,7 +49,7 @@ export function ExportPlanWizard() {
           {!product && <Redirect to={paths.product} />}
           <div className="clearfix m-b-m">
             <h2 className="h-m">Where&apos;s your target market?</h2>
-            <MarketSelector valueChange={setMarket} selected={market} />
+            <MarketSelector valueChange={setMarket} selected={market} selectedProduct={product}/>
           </div>
           <Link
             className="button button--primary"

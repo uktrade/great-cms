@@ -17,11 +17,13 @@ import {
   getValues,
   objectHasValue,
   deepAssign,
+  deepEqual,
   camelize,
   camelizeObject,
   numberWithSign,
   validation,
   sortBy,
+  sortMapBy,
 } from '@src/Helpers'
 
 const { twoDecimal, wholeNumber, onlyOneZero } = validation
@@ -288,6 +290,19 @@ describe('Utilities ', () => {
     expect(obj.two).toEqual({ twoOne: 21, twoTwo: 'updated', twoThree: 23 })
     expect(obj.three).toEqual(3)
   })
+  it('Should deep compare two objects', () => {
+    const obj = { one: 1, two: { twoOne: 21, twoTwo: 22 } }
+    const objSame = { one: 1, two: { twoOne: 21, twoTwo: 22 } }
+    const objOrder = { one: 1, two: { twoTwo: 22, twoOne: 21 } }
+    const objExtraField = { one: 1, two: { twoOne: 21, twoTwo: 22 }, extra:1 }
+    const objDiffValue = { one: 1, two: { twoOne: 21, twoTwo: 223 } }
+    expect(deepEqual(obj,objSame)).toBeTruthy()
+    expect(deepEqual(objSame, obj)).toBeTruthy()
+    expect(deepEqual(obj, objOrder)).toBeTruthy()
+    expect(deepEqual(obj, objExtraField)).toBeFalsy()
+    expect(deepEqual(obj, objDiffValue)).toBeFalsy()
+
+  })
   it('Should camelize a string', () => {
     expect(camelize('one')).toEqual('one')
     expect(camelize('one_two_three')).toEqual('oneTwoThree')
@@ -308,9 +323,15 @@ describe('Utilities ', () => {
     expect(numberWithSign('23')).toEqual('+23')
     expect(numberWithSign('Data not available')).toEqual('Data not available')
   })
+
   it('Should sort based on a key', () => {
     expect(sortBy([{ key:'zz' },{ key:'a' },{ key:'AA' },{ key:'Z' } ], 'key')).toEqual(
      [{ key:'a' },{ key:'AA' },{ key:'Z' },{ key:'zz' } ])
+  })
+
+  it('Should build a sort map based on a key', () => {
+    expect(sortMapBy([{ key:'zz' },{ key:'a' },{ key:'AA' },{ key:'Z' } ], 'key')).toEqual(
+     [1,2,3,0])
   })
 })
 

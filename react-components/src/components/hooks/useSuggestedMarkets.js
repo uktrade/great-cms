@@ -16,16 +16,13 @@ export const useSuggestedMarkets = (products) => {
       loadUserProducts()
     }
     const productList = products || userProducts || []
-    const uniqueList = productList.reduce((out, product) => {
-      const prodHs2 = (product.commodity_code || '').substr(0, 2)
-      out[prodHs2] = out[prodHs2] || product.commodity_name
-      return {...out}
-    }, {})
-    const hs2 = Object.keys(uniqueList)[0]
+    const product = (productList[productList.length -1] || {})
+    const hs2 = (product.commodity_code || '').substr(0, 2)
+    const allSame = (productList.length > 1) && !productList.find((scanProduct) => (scanProduct.commodity_code || '').substr(0, 2) !== hs2)
     return {
       hs2,
-      product: uniqueList[hs2],
-      allSame: productList.length > 1 && Object.keys(uniqueList).length === 1,
+      product: product.commodity_name,
+      allSame,
     }
   }
 

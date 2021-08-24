@@ -86,8 +86,8 @@ function CompareMarkets(props) {
     >
       <i className="fa fa-plus-square" />
       {selectedLength > 0
-        ? `Add place ${selectedLength + 1} of ${maxPlaces}`
-        : 'Add a place'}
+        ? `Add market ${selectedLength + 1} of ${maxPlaces}`
+        : 'Add a market'}
     </button>
   )
 
