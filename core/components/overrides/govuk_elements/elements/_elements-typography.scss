@@ -11,7 +11,7 @@ body {
 }
 
 .quote {
-  @include quote-large
+  @include quote-large;
 
   @include media(tablet) {
     margin-top: em(5);
