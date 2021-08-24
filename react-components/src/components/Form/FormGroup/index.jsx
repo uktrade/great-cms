@@ -26,7 +26,7 @@ export const FormGroup = memo(
       >
         <label
           className={`form-label ${hideLabel ? 'visually-hidden' : ''}`}
-          htmlFor={id}
+          htmlFor={label.replaceAll(' ', '-')}
         >
           {label}
         </label>

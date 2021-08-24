@@ -19,29 +19,31 @@ export const TextArea = memo(
     lesson,
     className,
     formGroupClassName,
-  }) => (
-    <FormGroup
-      errors={errors}
-      label={label}
-      description={description}
-      tooltip={tooltip}
-      example={example}
-      id={id}
-      hideLabel={hideLabel}
-      lesson={lesson}
-      formGroupClassName={formGroupClassName}
-    >
-      <textarea
-        className={`form-control ${className}`}
+  }) => {
+    return (
+      <FormGroup
+        errors={errors}
+        label={label}
+        description={description}
+        tooltip={tooltip}
+        example={example}
         id={id}
-        name={id}
-        disabled={disabled}
-        onChange={(e) => onChange({ [id]: e.target.value })}
-        placeholder={placeholder}
-        value={value}
-      />
-    </FormGroup>
-  )
+        hideLabel={hideLabel}
+        lesson={lesson}
+        formGroupClassName={formGroupClassName}
+      >
+        <textarea
+          className={`form-control ${className}`}
+          id={label.replaceAll(' ', '-')}
+          name={id}
+          disabled={disabled}
+          onChange={(e) => onChange({ [id]: e.target.value })}
+          placeholder={placeholder}
+          value={value}
+        />
+      </FormGroup>
+    )
+  }
 )
 
 TextArea.propTypes = {
