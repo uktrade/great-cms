@@ -1,19 +1,28 @@
 # Changelog
 
 ## Pre-release changes - please put everything in the appropriate category below
+
 ### Enhancements
 - GP2-3172 - decouple-ep-pages
-- GP2-3253 fix-confirm-idenity-urls
-
-## [1.13.0](https://github.com/uktrade/great-cms/releases/tag/1.13.0)
-[Full Changelog](https://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
-
-### Enhancements
 - GP2-3171 - Create export plan wizard
 - GP2-3168 - Add yet another 'add product' button - this time on WTE
 - GP2-3119 - Basket restyle to lose react-modal
 - GP2-3166 - Suggested market product logic
 - GP2-3119 - Decouple basket from export plan
+- GP2-3263 - Fix EP pdf download, sidebar and added back link to landing page
+- GP2-3270 - Learn topics image sizing
+- NOTICKET - Remove and cleanup broken Storybook setup
+
+
+## [1.13.0](https://github.com/uktrade/great-cms/releases/tag/1.13.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
+
+### Hotfix
+- GP2-3253 fix-confirm-idenity-urls
+- GP2-3309 - [HOTFIX] adding bing search console meta tag
+- GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
+
+### Enhancements
 - GP2-3128 - Analytics - section completion
 - GP2-3017 - SOO User profile update to directory-SSO
 - GP2-2402 - VFM analytics
@@ -38,9 +47,6 @@
 - GP2-2896 - Split objective date fields into month and year
 - GP2-3087 - migrate directory-sso-profile into great-cms
 ### Fixed bugs
-
-- GP2-3263 - Fix EP pdf download, sidebar and added back link to landing page
-- GP2-3270 - Learn topics image sizing
 - GP2-3255 - fix updating industry expertise on a business profile
 - GP2-3254 - added missing csrf_tokens for sso_profile
 - GP2-3208 - Fix error while updating personal profile
@@ -58,14 +64,8 @@
 - GP2-3100 - In Costs and pricing, titles dispay "the" prefix before countries that should not have this
 - GP2-2492 - Export plan - some pages - value input
 - GP2-3120 - Append "- great.gov.uk" to all pages by default
+- GP2-2988: Make SOO contact form name fields editable if not already populated.ttps://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
 
-### Fixed bugs
-
-- GP2-2988: Make SOO contact form name fields editable if not already populated.
-
-### Chores
-
-- NOTICKET - Remove and cleanup broken Storybook setup
 
 ## [1.12.0](https://github.com/uktrade/great-cms/releases/tag/1.12.0)
 
