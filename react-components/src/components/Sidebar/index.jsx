@@ -6,7 +6,7 @@ import { CountryNotSelected } from '@src/components/Sidebar/CountryNotSelected'
 import { ProductNotSelected } from '@src/components/Sidebar/ProductNotSelected'
 
 export const Sidebar = memo(
-  ({ sections, logo, company, currentSection, backUrl }) => {
+  ({ sections, logo, company, currentSection, backUrl, epTitle }) => {
     const [toggle, setToggle] = useState(false)
     const [modal, setModal] = useState(false)
 
@@ -24,7 +24,7 @@ export const Sidebar = memo(
           }
         />
         <nav
-          className={`sidebar p-h-s p-b-m ${!toggle && 'sidebar__close'}`}
+          className={`sidebar p-f-s p-r-m p-b-m ${!toggle && 'sidebar__close'}`}
           id="collapseNav"
           role="navigation"
         >
@@ -33,7 +33,7 @@ export const Sidebar = memo(
               aria-expanded={toggle}
               aria-controls="collapseNav"
               type="button"
-              className="sidebar__button text-blue-deep-80"
+              className="sidebar__button text-blue-deep-40"
               onClick={() => setToggle(!toggle)}
             >
               <i
@@ -56,9 +56,10 @@ export const Sidebar = memo(
                 />
               )}
             </div>
-            <ul className="p-t-m">
-              {sections.map(({ title, url, disabled }) => (
-                <li className="p-b-xs p-r-xs" key={url}>
+            <p className="body-l-b">{epTitle}</p>
+            <ul>
+              {sections.map(({ title, url, disabled, is_complete }) => (
+                <li className="" key={url}>
                   {disabled ? (
                     <button
                       className="link text-blue-deep-60 body-m"
@@ -70,10 +71,11 @@ export const Sidebar = memo(
                   ) : (
                     <a
                       href={url}
-                      className="link text-blue-deep-60 body-m"
+                      className="link text-blue-deep-60 body-m-b"
                       title={title}
                     >
-                      {title}
+                    <i className={`fas ${ is_complete ? 'fa-check-circle text-green-100' : 'fa-circle text-black-10'} m-r-xxs`}></i>
+                      <div className='inline-block'>{title}</div>
                     </a>
                   )}
                 </li>
@@ -104,9 +106,11 @@ Sidebar.propTypes = {
     product_required: PropTypes.bool,
   }).isRequired,
   backUrl: PropTypes.string.isRequired,
+  epTitle: PropTypes.string
 }
 
 Sidebar.defaultProps = {
   logo: '',
   company: '',
+  epTitle: '',
 }

@@ -17,7 +17,8 @@ export const props = {
     title: 'test',
     url: '/',
     disabled: false
-  }
+  },
+  epTitle: 'Export plan title'
 }
 
 const setup = ({...data}) => {
@@ -42,6 +43,11 @@ describe('Sidebar', () => {
     it('Should have expand icon', () => {
       expect(icon).toHaveClass('fa-angle-double-right')
     })
+  })
+
+  it('Should have a title' , () => {
+    const { getByText } = setup(props)
+    expect(getByText('Export plan title')).toBeInTheDocument()
   })
 
   describe( 'logo', () => {
