@@ -7,53 +7,53 @@
 // Backgrounds
 
 $colours: (
-  ($black, black),
-  ($grey, grey),
-  ($mid-grey, mid-grey),
-  ($light-grey, light-grey),
-  ($offwhite, offwhite),
-  ($white, white),
-  ($purple, purple),
-  ($great-blue, great-blue),
-  ($dark-navy, dark-navy),
-  ($mid-blue, mid-blue),
-  ($active-blue, active-blue),
-  ($light-blue, light-blue),
-  ($aqua, aqua),
-  ($teal, teal),
-  ($flag-red, flag-red),
-  ($great-red, great-red),
-  ($focus-yellow, focus-yellow),
-  ($stone-10, stone-10),
-  ($stone-20, stone-20),
-  ($stone-30, stone-30),
-  ($stone-40, stone-40),
-  ($stone-50, stone-50),
-  ($stone-60, stone-60),
-  ($stone-70, stone-70),
-  ($stone-80, stone-80),
-  ($stone-90, stone-90),
-  ($stone, stone)
+  ("black", $black),
+  ("grey", $grey),
+  ("mid-grey", $mid-grey),
+  ("light-grey", $light-grey),
+  ("offwhite", $offwhite),
+  ("white", $white),
+  ("purple", $purple),
+  ("great-blue", $great-blue),
+  ("dark-navy", $dark-navy),
+  ("mid-blue", $mid-blue),
+  ("active-blue", $active-blue),
+  ("light-blue", $light-blue),
+  ("aqua", $aqua),
+  ("teal", $teal),
+  ("flag-red", $flag-red),
+  ("great-red", $great-red),
+  ("focus-yellow", $focus-yellow),
+  ("stone-10", $stone-10),
+  ("stone-20", $stone-20),
+  ("stone-30", $stone-30),
+  ("stone-40", $stone-40),
+  ("stone-50", $stone-50),
+  ("stone-60", $stone-60),
+  ("stone-70", $stone-70),
+  ("stone-80", $stone-80),
+  ("stone-90", $stone-90),
+  ("stone", $stone)
 );
 
 @each $colour, $name in $colours {
-  .background-#{$name} {
-    background-color: $colour;
+  .background-#{$colour} {
+    background-color: $name;
   }
 }
 
 // Text colour
 
 @each $colour, $name in $colours {
-  .#{$name}-text {
-    color: $colour;
+  .#{$colour}-text {
+    color: $name;
   }
 }
 
 // Borders
 @each $colour, $name in $colours {
-  .border-#{$name} {
-    border-color: $colour;
+  .border-#{$colour} {
+    border-color: $name;
   }
 }
 
@@ -76,24 +76,24 @@ $colours: (
 
 @each $colour, $name in $colours {
   // needs margin when used on section tag
-  section.underline-#{$name} {
+  section.underline-#{$colour} {
     @include container;
 
     &:after {
       width: auto;
       height: 4px;
-      background-color: $colour;
+      background-color: $name;
     }
   }
 
   // does not need margin otherwise
-  .underline-#{$name} {
+  .underline-#{$colour} {
     &:after {
       display: block;
       content: '';
       width: 100%;
       height: 4px;
-      background-color: $colour;
+      background-color: $name;
     }
   }
 }

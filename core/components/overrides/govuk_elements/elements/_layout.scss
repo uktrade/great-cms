@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import '!elements/layout';
 @import '../../sass/partials/spacings';
 @import '../../sass/partials/mixins';
@@ -56,7 +58,7 @@ section {
 // when only one column is needed
 
 .width-sixth {
-  width: percentage(1 / 6);
+  width: percentage(math.div(1, 6));
 }
 
 .width-quarter {
@@ -68,11 +70,11 @@ section {
 }
 
 .width-third {
-  width: percentage(1 / 3);
+  width: percentage(math.div(1, 3));
 }
 
 .width-two-thirds {
-  width: percentage(1 / 3 * 2);
+  width: percentage(math.div(1, 3) * 2);
 }
 
 .width-full {
@@ -92,7 +94,7 @@ section {
 // Non-responsive versions
 
 .width-sixth-all {
-  width: percentage(1 / 6);
+  width: percentage(math.div(1, 6));
 }
 
 .width-quarter-all {
@@ -104,11 +106,11 @@ section {
 }
 
 .width-third-all {
-  width: percentage(1 / 3);
+  width: percentage(math.div(1, 3));
 }
 
 .width-two-thirds-all {
-  width: percentage(1 / 3 * 2);
+  width: percentage(math.div(1, 3) * 2);
 }
 
 .width-full-all {
@@ -121,44 +123,44 @@ section {
 }
 
 .column-half {
-  @include grid-column(1 / 2);
+  @include grid-column(1 * 0.5);
   width: 100%;
 }
 
 .column-third {
-  @include grid-column(1 / 3);
+  @include grid-column(math.div(1, 3));
   width: 100%;
 }
 
 .column-two-thirds {
-  @include grid-column(2 / 3);
+  @include grid-column(math.div(2, 3));
   width: 100%;
 }
 
 .column-quarter {
-  @include grid-column(1 / 4);
+  @include grid-column(1 * 0.25);
   width: 100%;
 }
 
 .column-five-twelfths {
-  @include grid-column(5 / 12);
+  @include grid-column(math.div(5, 12));
   width: 100%;
 }
 
 
 .column-sixth {
-  @include grid-column(1 / 6);
+  @include grid-column(math.div(1, 6));
   width: 100%;
 }
 
 .column-three-quarters {
-  @include grid-column(3 / 4);
+  @include grid-column(3 * 0.25);
   width: 100%;
 }
 
 // Used on article pages
 .column-seven-twelfths {
-  @include grid-column(7 / 12);
+  @include grid-column(math.div(7, 12));
   width: 100%;
 }
 
@@ -171,7 +173,7 @@ section {
 @media (min-width: 641px) {
 
   .width-sixth-m {
-    width: percentage(1 / 6);
+    width: percentage(math.div(1, 6));
   }
 
   .width-quarter-m {
@@ -183,11 +185,11 @@ section {
   }
 
   .width-third-m {
-    width: percentage(1 / 3);
+    width: percentage(math.div(1, 3));
   }
 
   .width-two-thirds-m {
-    width: percentage(1 / 3 * 2);
+    width: percentage(math.div(1, 3) * 2);
   }
 
   .width-full-m {
@@ -199,35 +201,35 @@ section {
   }
 
   .column-half-m {
-    @include grid-column(1 / 2);
+    @include grid-column(1 * 0.5);
   }
 
   .column-third-m {
-    @include grid-column(1 / 3);
+    @include grid-column(math.div(1, 3));
   }
 
   .column-two-thirds-m {
-    @include grid-column(2 / 3);
+    @include grid-column(math.div(2, 3));
   }
 
   .column-quarter-m {
-    @include grid-column(1 / 4);
+    @include grid-column(1 * 0.25);
   }
 
   .column-five-twelfths-m {
-    @include grid-column(5 / 12);
+    @include grid-column(math.div(5, 12));
   }
 
   .column-sixth-m {
-    @include grid-column(1 / 6);
+    @include grid-column(math.div(1, 6));
   }
 
   .column-seven-twelfths-m {
-    @include grid-column(7 / 12);
+    @include grid-column(math.div(7, 12));
   }
 
   .column-three-quarters-m {
-    @include grid-column(3 / 4);
+    @include grid-column(3 * 0.25);
   }
 }
 
@@ -236,7 +238,7 @@ section {
 @media (min-width: 769px) {
 
   .width-sixth-l {
-    width: percentage(1 / 6);
+    width: percentage(math.div(1, 6));
   }
 
   .width-quarter-l {
@@ -248,11 +250,11 @@ section {
   }
 
   .width-third-l {
-    width: percentage(1 / 3);
+    width: percentage(math.div(1, 3));
   }
 
   .width-two-thirds-l {
-    width: percentage(1 / 3 * 2);
+    width: percentage(math.div(1, 3) * 2);
   }
 
   .width-full-l {
@@ -264,35 +266,35 @@ section {
   }
 
   .column-half-l {
-    @include grid-column(1 / 2);
+    @include grid-column(1 * 0.5);
   }
 
   .column-third-l {
-    @include grid-column(1 / 3);
+    @include grid-column(math.div(1, 3));
   }
 
   .column-two-thirds-l {
-    @include grid-column(2 / 3);
+    @include grid-column(math.div(2, 3));
   }
 
   .column-quarter-l {
-    @include grid-column(1 / 4);
+    @include grid-column(1 * 0.25);
   }
 
   .column-five-twelfths-l {
-    @include grid-column(5 / 12);
+    @include grid-column(math.div(5, 12));
   }
 
   .column-sixth-l {
-    @include grid-column(1 / 6);
+    @include grid-column(math.div(1, 6));
   }
 
   .column-seven-twelfths-l {
-    @include grid-column(7 / 12);
+    @include grid-column(math.div(7, 12));
   }
 
   .column-three-quarters-l {
-    @include grid-column(3 / 4);
+    @include grid-column(3 * 0.25);
   }
 }
 
@@ -301,7 +303,7 @@ section {
 @media (min-width: 961px) {
 
   .width-sixth-xl {
-    width: percentage(1 / 6);
+    width: percentage(math.div(1, 6));
   }
 
   .width-quarter-xl {
@@ -313,11 +315,11 @@ section {
   }
 
   .width-third-xl {
-    width: percentage(1 / 3);
+    width: percentage(math.div(1, 3));
   }
 
   .width-two-thirds-xl {
-    width: percentage(1 / 3 * 2);
+    width: percentage(math.div(1, 3) * 2);
   }
 
   .width-full-xl {
@@ -329,34 +331,34 @@ section {
   }
 
   .column-half-xl {
-    @include grid-column(1 / 2);
+    @include grid-column(1 * 0.5);
   }
 
   .column-third-xl {
-    @include grid-column(1 / 3);
+    @include grid-column(math.div(1, 3));
   }
 
   .column-two-thirds-xl {
-    @include grid-column(2 / 3);
+    @include grid-column(math.div(2, 3));
   }
 
   .column-quarter-xl {
-    @include grid-column(1 / 4);
+    @include grid-column(1 * 0.25);
   }
 
   .column-five-twelfths-xl {
-    @include grid-column(5 / 12);
+    @include grid-column(math.div(5, 12));
   }
 
   .column-sixth-xl {
-    @include grid-column(1 / 6);
+    @include grid-column(math.div(1, 6));
   }
 
   .column-seven-twelfths-xl {
-    @include grid-column(7 / 12);
+    @include grid-column(math.div(7, 12));
   }
 
   .column-three-quarters-xl {
-    @include grid-column(3 / 4);
+    @include grid-column(3 * 0.25);
   }
 }
