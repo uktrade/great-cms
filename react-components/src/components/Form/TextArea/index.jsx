@@ -34,7 +34,7 @@ export const TextArea = memo(
       >
         <textarea
           className={`form-control ${className}`}
-          id={label.replaceAll(' ', '-')}
+          id={label.replace(/ /g, '-')}
           name={id}
           disabled={disabled}
           onChange={(e) => onChange({ [id]: e.target.value })}
