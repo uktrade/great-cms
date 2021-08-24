@@ -17,7 +17,7 @@ app_name = 'exportplan'
 urlpatterns = [
     path(
         '',
-        login_required(views.ExportPlanIndex.as_view(), login_url=SIGNUP_URL),
+        views.ExportPlanIndex.as_view(),
         name='index',
     ),
     path(
@@ -94,11 +94,6 @@ urlpatterns = [
         'service-page/',
         login_required(views.ExportPlanServicePage.as_view(), login_url=SIGNUP_URL),
         name='service-page',
-    ),
-    path(
-        'list/',
-        login_required(views.ExportPlanList.as_view(), login_url=SIGNUP_URL),
-        name='list',
     ),
     path(
         r'<int:id>/pdf-download/',

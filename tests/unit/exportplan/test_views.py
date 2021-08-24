@@ -82,8 +82,9 @@ def test_export_plan_landing_page(
     client.force_login(user)
 
     response = client.get('/export-plan/')
-    assert response.status_code == 302
-    assert response.url == reverse('exportplan:list')
+    assert response.status_code == 200
+    assert response.context['exportplan_list'][0]['country'] == 'Australia'
+    assert response.context['exportplan_list'][0]['commodity_code'] == '220.850'
 
 
 @pytest.mark.django_db

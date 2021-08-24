@@ -5,7 +5,6 @@ from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpResponse
 from django.test import override_settings
-from django.urls import reverse
 
 from core import helpers, middleware
 from core.middleware import GADataMissingException, TimedAccessMiddleware
@@ -98,8 +97,7 @@ def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set
 
     # When the user next goes to /export-plan/ or /export-plan/dasbboard/
     response = client.get(exportplan_page.url)
-    assert response.status_code == 302
-    assert response.url == reverse('exportplan:list')
+    assert response.status_code == 200
 
     response = client.get(exportplan_dashboard_page.url)
     assert response.status_code == 200

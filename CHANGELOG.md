@@ -4,6 +4,8 @@
 
 ### Enhancements
 - GP2-3172 - decouple-ep-pages
+- GP2-3170 - EP index page and list
+- GP2-3169 - EP index page logged-out
 - GP2-3171 - Create export plan wizard
 - GP2-3168 - Add yet another 'add product' button - this time on WTE
 - GP2-3119 - Basket restyle to lose react-modal
