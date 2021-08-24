@@ -19,6 +19,7 @@ export const TextArea = memo(
     lesson,
     className,
     formGroupClassName,
+    name,
   }) => {
     return (
       <FormGroup
@@ -34,10 +35,10 @@ export const TextArea = memo(
       >
         <textarea
           className={`form-control ${className}`}
-          id={label.replace(/ /g, '-')}
-          name={id}
+          id={id}
+          name={name}
           disabled={disabled}
-          onChange={(e) => onChange({ [id]: e.target.value })}
+          onChange={(e) => onChange({ [name || id]: e.target.value })}
           placeholder={placeholder}
           value={value}
         />
