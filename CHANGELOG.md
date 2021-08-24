@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-3284 - EP title in sections
 - GP2-3172 - decouple-ep-pages
 - GP2-3170 - EP index page and list
 - GP2-3169 - EP index page logged-out
