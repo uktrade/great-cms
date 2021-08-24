@@ -1,13 +1,19 @@
 {% extends 'core/base.html' %}
-{% load content_tags %}
-{% load humanize %}
+{% load static from staticfiles %}
 {% block content %}
-<div class="bg-blue-deep-80">
-  <div class="container p-v-xl">
-    <h1 class="h-l text-white">
-      My export plans
-    </h1>
-    <a href="{% url 'exportplan:start' %}" class="button button--large button--tertiary buttton-icon"><i class="fas fa-plus-square m-r-xs"></i>Create a new plan</a>
+<div class="bg-blue-deep-80 hero-image-container">
+  <div class="container">
+    <div class="grid ">
+      <div class="c-1-2 p-v-xl lh">
+        <h1 class="h-l text-white">
+          My export plans
+        </h1>
+        <a href="{% url 'exportplan:start' %}" class="button button--large button--tertiary buttton-icon"><i class="fas fa-plus-square m-r-xs"></i>Create a new plan</a>
+      </div>
+      <div class="c-1-2 rh">
+        <img src="{% static 'images/ep-index.png' %}" alt="">
+      </div>
+    </div>
   </div>
 </div>
 <input id="details-reveal" type="checkbox" class="button hide-show-trigger" />
@@ -48,7 +54,7 @@
     </div>
   </div>
   {% if exportplan_list %}
-  <div class="container m-t-s">
+  <div class="container m-t-m">
     <label for="details-reveal" class="button button--small button--tertiary button--teritary button--icon"> <i class="fas fa-chevron-down m-r-xxs" /></i>
       How it works</label>
   </div>
