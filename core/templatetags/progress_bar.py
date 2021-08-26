@@ -7,10 +7,8 @@ register = template.Library()
 @register.simple_tag
 def progress_bar(total, complete):
     """
-    Renders a progress bar given total and completed
+    Renders a progress bar given total abnd completed
     """
-    if total == '':
-        total = 0
 
     percentage = int((complete / total) * 100) if (total or 0) > 0 else 0
 

@@ -291,7 +291,6 @@ def test_get_item(data, key, expected):
         (10, 5, '50%'),
         (10, 10, '100%'),
         (0, 0, '0%'),
-        ('', 0, '0%'),
     ),
 )
 def test_progress_bar(total, complete, percentage):

@@ -9,7 +9,7 @@ def test_contact_domestic_descriptive_page_title_override_is_rendered():
     context = urls_processor(None)
     html = render_to_string('domestic/contact/step.html', context)
 
-    assert 'Tell us how we can help - great.gov.uk' in html
+    assert 'Tell us how we can help' in html
 
 
 def test_cms_guidance_descriptive_page_title_is_rendered(rf):
@@ -23,4 +23,4 @@ def test_cms_guidance_descriptive_page_title_is_rendered(rf):
     context.update(urls_processor(None))
     html = render_to_string('domestic/contact/guidance.html', context)
 
-    assert cms_snippet['title'] + ' - great.gov.uk' in html
+    assert cms_snippet['title'] in html
