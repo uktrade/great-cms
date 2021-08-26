@@ -24,8 +24,6 @@ describe('TextArea', () => {
 
     fireEvent.change(textarea, { target: { value: 'tested' } })
 
-    console.log(textarea.test_name)
-
     await waitFor(() => {
       expect(actions.onChange).toHaveBeenCalledTimes(1)
       expect(actions.onChange).toHaveBeenCalledWith({
