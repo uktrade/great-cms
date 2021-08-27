@@ -79,22 +79,29 @@ function CompareMarkets(props) {
   )
 
   const addMarketButton = (
-    <button
-      type="button"
-      className="button button--primary button--icon add-market m-t-xs"
-      onClick={() => setMarketModalIsOpen(true)}
-    >
-      <i className="fa fa-plus-square" />
-      {selectedLength > 0
-        ? `Add market ${selectedLength + 1} of ${maxPlaces}`
-        : 'Add a market'}
-    </button>
+    <>
+      {' '}
+      {selectedLength < maxPlaces && (
+        <button
+          type="button"
+          className="button button--primary button--icon add-market m-t-xs"
+          onClick={() => setMarketModalIsOpen(true)}
+        >
+          <i className="fa fa-plus-square" />
+          {selectedLength > 0
+            ? `Add market ${selectedLength + 1} of ${maxPlaces}`
+            : 'Add a market'}
+        </button>
+      )}
+    </>
   )
 
   const suggestedMarketsProducts = () => {
     // get the list of products for suggested markets in country chooser modal
-    if(activeProduct) {
-      const foundActive = (selectedProducts || []).find((sProduct) => deepEqual(sProduct, activeProduct))
+    if (activeProduct) {
+      const foundActive = (selectedProducts || []).find((sProduct) =>
+        deepEqual(sProduct, activeProduct)
+      )
       return foundActive ? [foundActive] : selectedProducts
     }
     return selectedProducts
@@ -112,7 +119,10 @@ function CompareMarkets(props) {
           cacheVersion={cacheVersion}
         />
       ) : (
-        ReactDOM.createPortal(hasSelectedProducts ? addMarketButton : addProductButton, ctaContainer)
+        ReactDOM.createPortal(
+          hasSelectedProducts ? addMarketButton : addProductButton,
+          ctaContainer
+        )
       )}
       <ProductFinderModal
         modalIsOpen={productModalIsOpen}
