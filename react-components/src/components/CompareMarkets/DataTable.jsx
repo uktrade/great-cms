@@ -2,7 +2,10 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import actions from '@src/actions'
-import { useActiveProduct } from '@src/components/hooks/useUserData'
+import {
+  useActiveProduct,
+  useUserMarkets,
+} from '@src/components/hooks/useUserData'
 import { isArray, mapArray, deepAssign } from '../../Helpers'
 import blocks from './blocks'
 
@@ -21,6 +24,12 @@ export default function DataTable(props) {
   } = props
 
   const [product] = useActiveProduct(false)
+  const { markets, addMarketItem, removeMarketItem } = useUserMarkets()
+
+  const selectedMarkets = markets.reduce((out, market) => {
+    out[market.country_iso2_code] = 1
+    return out
+  }, {})
 
   const dataIn = (data) => {
     cache[datasetName] = deepAssign(cache[datasetName], data)
@@ -169,6 +178,10 @@ export default function DataTable(props) {
     )
   }
 
+  const addRemoveShortlist = (market, add) => {
+    ;[addMarketItem, removeMarketItem][add ? 0 : 1](market)
+  }
+
   setBaseYear(cache[datasetName], comparisonMarkets, config)
 
   if (mobile) {
@@ -201,7 +214,7 @@ export default function DataTable(props) {
               className={`${columnKey} p-h-s m-b-s ${
                 cellConfig.className || ''
               }`}
-              style={{clear:'both'}}
+              style={{ clear: 'both' }}
             >
               <div className="bg-white radius p-h-s">
                 <table className="m-v-0 border-blue-deep-20 no-bottom-border">
@@ -256,6 +269,7 @@ export default function DataTable(props) {
         id={`market-${market.country_name}`}
       >
         {blocks.renderCountryRowHeader(market, removeMarket, config)}
+        {blocks.renderCountryAction(market, config, selectedMarkets, addRemoveShortlist)}
         {countryRow}
       </tr>
     )
@@ -269,6 +283,7 @@ export default function DataTable(props) {
         {config.caption && config.caption()}
         <thead>
           <tr>
+            <th className="body-l-b">&nbsp;</th>
             <th className="body-l-b">&nbsp;</th>
             {Object.keys(config.columns).map((columnKey) => {
               const cellConfig = config.columns[columnKey]
@@ -302,7 +317,7 @@ DataTable.propTypes = {
     dataFunction: PropTypes.func,
     groups: PropTypes.instanceOf(Object),
     filter: PropTypes.element,
-    caption: PropTypes.oneOf([PropTypes.string,PropTypes.func]),
+    caption: PropTypes.oneOf([PropTypes.string, PropTypes.func]),
   }).isRequired,
   product: PropTypes.shape({
     commodityCode: PropTypes.string,

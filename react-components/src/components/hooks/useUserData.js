@@ -49,7 +49,28 @@ export const useUserData = (
     }
   }
 
-  return [blobValue || defaultValue, saveBlob, loadBlob, blobValue || (loading[blobName] === 'loaded'), addToList]
+  const removeFromList = (item) => {
+    // Where the blob is a list, this method adds the given item to the end only if it's unique
+    if (blobValue && isArray(blobValue)) {
+      const index = blobValue.findIndex((cItem) =>
+        duplicateComparator(cItem, item)
+      )
+      if(index >= 0) {
+        const reduced = [...blobValue]
+        reduced.splice(index, 1)
+        saveBlob(reduced)
+      }
+    }
+  }
+
+  return [
+    blobValue || defaultValue,
+    saveBlob,
+    loadBlob,
+    blobValue || (loading[blobName] === 'loaded'),
+    addToList,
+    removeFromList,
+  ]
 }
 
 export const useActiveProduct = (autoload) =>
@@ -63,11 +84,11 @@ export const useUserProducts = (autoload) => {
 }
 
 export const useUserMarkets = (autoload) => {
-  const [markets, setMarkets, loadMarkets, marketsLoaded, addMarketItem] = useUserData(
+  const [markets, setMarkets, loadMarkets, marketsLoaded, addMarketItem, removeMarketItem] = useUserData(
     'UserMarkets',
     [],
     autoload,
     (a, b) => a.country_iso2_code === b.country_iso2_code
   )
-  return { markets, setMarkets, loadMarkets, marketsLoaded, addMarketItem }
+  return { markets, setMarkets, loadMarkets, marketsLoaded, addMarketItem, removeMarketItem }
 }

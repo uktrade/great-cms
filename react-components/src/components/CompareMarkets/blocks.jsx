@@ -128,6 +128,27 @@ const renderCountryRowHeader = (market, removeMarket, config) => {
   )
 }
 
+const renderCountryAction = (market, config, selectedMarkets, addRemoveShortlist) => {
+  // This is the cell that contains the cb to add market to shortlist
+  const iso= market.country_iso2_code
+  return (
+    <td key={iso}>
+      <span className="multiple-choice">
+      <input
+        onClick={(e) => addRemoveShortlist(market,!selectedMarkets[iso] )}
+        type="checkbox"
+        className="form-control"
+        id={`cb-${iso}`}
+        defaultChecked={selectedMarkets[iso]}
+      />
+      <label htmlFor={`cb-${iso}`}>
+        <span className="form-label"></span>
+      </label>
+      </span>
+    </td>
+  )
+}
+
 const renderMobileBlock = (
   dataSet,
   comparisonMarkets,
@@ -160,6 +181,7 @@ const renderMobileBlock = (
 export default {
   renderMobileBlock,
   renderCountryRowHeader,
+  renderCountryAction,
   renderColumnHeader,
   sourceAttribution,
   renderCell,
