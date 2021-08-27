@@ -1,5 +1,6 @@
 export default {
   label: 'This a the label',
+  name: 'test_name',
   tooltip: {
     content: 'a tooltip',
   },

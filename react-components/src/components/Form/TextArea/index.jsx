@@ -19,6 +19,7 @@ export const TextArea = memo(
     lesson,
     className,
     formGroupClassName,
+    name,
   }) => (
     <FormGroup
       errors={errors}
@@ -34,9 +35,9 @@ export const TextArea = memo(
       <textarea
         className={`form-control ${className}`}
         id={id}
-        name={id}
+        name={name || id}
         disabled={disabled}
-        onChange={(e) => onChange({ [id]: e.target.value })}
+        onChange={(e) => onChange({ [name || id]: e.target.value })}
         placeholder={placeholder}
         value={value}
       />
@@ -68,6 +69,7 @@ TextArea.propTypes = {
   }),
   className: PropTypes.string,
   formGroupClassName: PropTypes.string,
+  name: PropTypes.string,
 }
 
 TextArea.defaultProps = {
@@ -82,4 +84,5 @@ TextArea.defaultProps = {
   lesson: {},
   className: '',
   formGroupClassName: '',
+  name: null,
 }
