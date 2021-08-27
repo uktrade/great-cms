@@ -9,7 +9,7 @@ import {
 } from '@src/components/hooks/useUserData'
 import { getCacheVersion } from '@src/reducers'
 import { Provider, useSelector } from 'react-redux'
-import { analytics } from '../../Helpers'
+import { analytics, deepEqual } from '../../Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import CountryFinderModal from '../ProductFinder/CountryFinderModal'
 import ComparisonTables from './ComparisonTables'
@@ -91,6 +91,15 @@ function CompareMarkets(props) {
     </button>
   )
 
+  const suggestedMarketsProducts = () => {
+    // get the list of products for suggested markets in country chooser modal
+    if(activeProduct) {
+      const foundActive = (selectedProducts || []).find((sProduct) => deepEqual(sProduct, activeProduct))
+      return foundActive ? [foundActive] : selectedProducts
+    }
+    return selectedProducts
+  }
+
   return (
     <span>
       {selectedLength ? (
@@ -112,7 +121,7 @@ function CompareMarkets(props) {
       <CountryFinderModal
         modalIsOpen={marketModalIsOpen}
         setIsOpen={setMarketModalIsOpen}
-        activeProducts={activeProduct ? [activeProduct] : selectedProducts}
+        activeProducts={suggestedMarketsProducts()}
         addButton={false}
         selectCountry={addCountry}
         isCompareCountries

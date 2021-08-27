@@ -15,8 +15,7 @@ function ProductFinderButton() {
   const [selectedProducts, setSelectedProducts, loadProducts] = useUserProducts(
     false
   )
-
-  const sortMap = sortMapBy(selectedProducts || [])
+  const sortMap = sortMapBy(selectedProducts || [],'commodity_name')
 
   const deleteProduct = (index) => {
     const reduced = [...selectedProducts]
