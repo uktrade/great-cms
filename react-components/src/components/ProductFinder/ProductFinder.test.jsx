@@ -230,7 +230,7 @@ describe('Product finder tests', () => {
     const radios = finder.querySelectorAll(
       '.scroll-area div input[name=question_id]'
     )
-    expect(radios).tohaveLength(2)
+    expect(radios).toHaveLength(2)
     expect(radios[0].closest('label').textContent).toMatch('Name 1') // check spaces and capitalization
     expect(radios[1].closest('label').textContent).toMatch('Name 2')
     const interactionName = radios[1]
