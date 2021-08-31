@@ -65,14 +65,11 @@
 
 .hero-image-container {
   position: relative;
-
+  background-image: url(/static/images/ep-index-t-l.svg);
+  background-repeat: no-repeat;
+  background-position: bottom left;
+  background-size: 15% auto;
   &::before {
-    content: '';
-    @include stretch;
-    background: url(/static/images/ep-index-t-l.svg) bottom left/15% auto no-repeat;
-  }
-
-  &::after {
     content: '';
     @include stretch;
     right: 3%;
@@ -109,7 +106,10 @@
 }
 
 .watermark-container {
-  background-image: #fff url(/static/images/ep-index-b-l.svg) bottom left/25% auto no-repeat;
+  background-image: url(/static/images/ep-index-b-l.svg);
+  background-repeat: no-repeat;
+  background-position: bottom left;
+  background-size: 25% auto;
 }
 
 .g-card.min-height-0 {
