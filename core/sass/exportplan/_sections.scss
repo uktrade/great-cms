@@ -106,7 +106,10 @@
       width: 100%;
     }
   }
+}
 
+.watermark-container {
+  background-image: #fff url(/static/images/ep-index-b-l.svg) bottom left/25% auto no-repeat;
 }
 
 .g-card.min-height-0 {
