@@ -12,13 +12,13 @@ export default function DeleteButton() {
   const product = useSelector((state) => getEpProduct(state))
   const country = useSelector((state) => getEpMarket(state))
 
-  const deletePlan = (evt) => {
+  const deletePlan = () => {
     Services.deleteExportPlan()
-      .then((response) => {
+      .then(() => {
         window.location.assign(config.apiExportPlanBaseUrl)
       })
       .catch(() => {
-        alert('Failed')
+        // TODO: add snackbar report once available
       })
   }
 
@@ -26,17 +26,17 @@ export default function DeleteButton() {
     <>
       <button
         className="button button--primary button--small button--full-width button--icon m-b-xs export-plan-delete"
-        title="Delete your plan!!"
+        title="Delete your plan"
         type="button"
         onClick={() => setDeleteConfirm(true)}
       >
-        <i className="fas fa-trash-alt"></i>
+        <i className="fas fa-trash-alt"/>
         Delete plan
       </button>
       {deleteConfirm ? (
         <Confirmation
           title={`Are you sure you want to delete export plan for selling ${product.commodity_name} to ${country.country_name}?`}
-          body={`All data you entered will be deleted.`}
+          body="All data you entered will be deleted."
           onYes={deletePlan}
           onNo={() => setDeleteConfirm(false)}
         />
