@@ -49,7 +49,7 @@
       </div>
     </div>
   </div>
-  <aside class="export-plan-dashboard__sidebar p-v-m p-r-s p-f-s text-center bg-white">
+  <aside class="export-plan-dashboard__sidebar p-v-m p-h-l text-center bg-white">
     {% if not request.user.company.logo %}
     <div class='hidden'>
       <a id="add-image" href="{% url 'exportplan:add-logo' %}"
@@ -67,10 +67,12 @@
     </div>
     {% endif %}
     {% with export_plan_id=export_plan.pk %}
-    <a class="button button--secondary button--full-width button--icon m-b-xs" href="{{export_plan_download_link}}" title="Save your plan as a PDF">
+    <a class="button button--secondary button--small button--full-width button--icon m-b-xs" href="{{export_plan_download_link}}" title="Save your plan as a PDF">
       <i class="fas fa-download"></i>
-      <span class="body-m text-white">Save your plan as a PDF</span>
+      Download plan
     </a>
+    <div class="export-plan-delete">
+    </div>
     {% endwith %}
   </aside>
 </section>

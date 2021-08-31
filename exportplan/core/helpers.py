@@ -13,6 +13,12 @@ def create_export_plan(sso_session_id, data):
     return response.json()
 
 
+def delete_export_plan(sso_session_id, id):
+    response = api_client.exportplan.delete_export_plan(sso_session_id=sso_session_id, id=id)
+    response.raise_for_status()
+    return {'ok': True}
+
+
 def update_exportplan(sso_session_id, id, data):
     response = api_client.exportplan.update(sso_session_id=sso_session_id, id=id, data=data)
     response.raise_for_status()

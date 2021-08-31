@@ -93,6 +93,14 @@ class CreateExportPlanAPIView(generics.GenericAPIView):
             return Response(data)
 
 
+class DeleteExportPlanAPIView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        data = helpers.delete_export_plan(sso_session_id=self.request.user.session_id, id=int(kwargs.get('id')))
+        return Response(data)
+
+
 class ModelObjectManageAPIView(generics.UpdateAPIView, generics.GenericAPIView):
     serializer_name_map = {
         'businesstrips': 'BusinessTrips',
