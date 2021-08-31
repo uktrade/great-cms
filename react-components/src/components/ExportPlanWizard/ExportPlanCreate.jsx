@@ -32,6 +32,7 @@ export function ExportPlanWizard() {
       <Switch>
         <Route exact path={paths.product}>
           <div className="clearfix m-b-m">
+            <div className="body-m">Creating exportplan step 1 of 2</div>
             <h2 className="h-m">What are you exporting?</h2>
             <ProductSelector valueChange={setProduct} selected={product} />
           </div>

@@ -34,7 +34,7 @@ export default function RadioButtons(props) {
           onClick={changeVal}
         />
         <label htmlFor={id} className="body-l">
-          {ReactHtmlParser(label)}
+          {typeof(label) == "string" ? ReactHtmlParser(label) : label}
         </label>
       </div>
     )
