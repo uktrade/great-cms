@@ -19,10 +19,7 @@
         <i class="fas fa-arrow-circle-left"></i><span class="m-f-xs">Back to My export plans</span>
       </a>
     </span>
-    <h2 class="h-m p-t-s">
-      Export plan for selling {{ export_plan.export_commodity_codes.0.commodity_name }}
-      to {{ export_plan.export_countries.0.country_name }}
-    </h2>
+    <h2 class="h-m p-t-s">{% include 'exportplan/includes/export_plan_title.html' %}</h2>
     <div id="section-progress">
       <div class="m-t-m">
         <div class="progress-bar progress-bar--white-track">

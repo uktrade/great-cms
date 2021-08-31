@@ -30,7 +30,8 @@
             currentSection: {{ current_section|to_json}},
             logo: '{{ request.user.company.logo|default_if_none:"" }}',
             company: '{{ request.user.company.name }}',
-            backUrl: '{% url_map "EXPORT_PLAN_DASHBOARD_URL" %}'
+            backUrl: '{{ export_plan_landing_page_url }}',
+            epTitle: `{% include 'exportplan/includes/export_plan_title.html' %}`,
         })
     </script>
 {% endblock %}
