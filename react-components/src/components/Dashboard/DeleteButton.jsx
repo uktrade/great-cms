@@ -37,6 +37,8 @@ export default function DeleteButton() {
         <Confirmation
           title={`Are you sure you want to delete export plan for selling ${product.commodity_name} to ${country.country_name}?`}
           body="All data you entered will be deleted."
+          yesLabel="Delete plan"
+          yesIcon="fa-trash-alt"
           onYes={deletePlan}
           onNo={() => setDeleteConfirm(false)}
         />
