@@ -22,7 +22,12 @@ function ProductSelector({ valueChange, selected }) {
       selectedKey = `${index}`
     }
     return {
-      label: (<><div>{product.commodity_name}</div><div className="body-m">HS6 code: {product.commodity_code}</div></>),
+      label: (
+        <>
+          <div>{product.commodity_name}</div>
+          <div className="body-m">HS6 code: {product.commodity_code}</div>
+        </>
+      ),
       value: `${index}`,
     }
   })
@@ -31,12 +36,12 @@ function ProductSelector({ valueChange, selected }) {
     value: '+',
   }
   const onValueChange = (index) => {
-      setAddButtonShowing(index == '+')
-      valueChange(sortedProducts[index])
+    setAddButtonShowing(index == '+')
+    valueChange(sortedProducts[index])
   }
-    const onProductAdded = (product) => {
-      setAddButtonShowing(false)
-      valueChange(product)
+  const onProductAdded = (product) => {
+    setAddButtonShowing(false)
+    valueChange(product)
   }
 
   // If the add button is showing, 'something else' option must be selected
@@ -57,20 +62,24 @@ function ProductSelector({ valueChange, selected }) {
       ) : null}
 
       {(!hasProducts || addButtonShowing) && (
-        <button
-          type="button"
-          className="f-l m-t-xxs button button--primary"
-          onClick={() => setModalIsOpen(true)}
-        >
-          <i className="fa fa-plus m-r-xxs" />
-          Choose a product
-        </button>
+        <div className="g-panel m-f-xxs">
+          <button
+            type="button"
+            className="m-t-xxs button button--primary"
+            onClick={() => setModalIsOpen(true)}
+          >
+            <i className="fa fa-plus m-r-xxs" />
+            Choose a product
+          </button>
+        </div>
       )}
-      <ProductFinderModal
-        modalIsOpen={modalIsOpen}
-        setIsOpen={setModalIsOpen}
-        onAddProduct={onProductAdded}
-      />
+      {modalIsOpen && (
+        <ProductFinderModal
+          modalIsOpen={modalIsOpen}
+          setIsOpen={setModalIsOpen}
+          onAddProduct={onProductAdded}
+        />
+      )}
     </>
   )
 }

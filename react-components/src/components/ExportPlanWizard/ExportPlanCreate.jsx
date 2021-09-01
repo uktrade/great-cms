@@ -37,28 +37,35 @@ export function ExportPlanWizard() {
             <ProductSelector valueChange={setProduct} selected={product} />
           </div>
           <div>
-            <Link
-              className="button button--primary"
-              to={product ? paths.market : paths.product}
-              disabled={!product}
-            >
-              Next
-            </Link>
+            {product && (
+              <Link
+                className="button button--primary"
+                to={product ? paths.market : paths.product}
+              >
+                Next
+              </Link>
+            )}
           </div>
         </Route>
         <Route path={paths.market}>
           {!product && <Redirect to={paths.product} />}
           <div className="clearfix m-b-m">
+            <div className="body-m">Creating exportplan step 2 of 2</div>
             <h2 className="h-m">Where&apos;s your target market?</h2>
-            <MarketSelector valueChange={setMarket} selected={market} selectedProduct={product}/>
+            <MarketSelector
+              valueChange={setMarket}
+              selected={market}
+              selectedProduct={product}
+            />
           </div>
-          <Link
+          { market && (
+          <button
+            type="button"
             className="button button--primary"
-            to={market ? paths.create : paths.market}
-            disabled={!market}
+            onClick={createClick}
           >
-            Next
-          </Link>
+            Create export plan
+          </button>)}
         </Route>
         <Route path={paths.final}>
           {(!product || !market) && <Redirect to={paths.product} />}
