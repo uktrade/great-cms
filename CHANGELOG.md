@@ -21,6 +21,7 @@
 - GP2-3311 - Suggestions on deleted products
 - GP2-3288 - Vulnerabilities.
 - GP2-2880 - DAC_Parsing_02 (A)
+- GP2-3348 - SECURITY: great-cms frontend asset vulnerabilty: tar
 
 ## [1.13.0](https://github.com/uktrade/great-cms/releases/tag/1.13.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)

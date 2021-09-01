@@ -157,7 +157,7 @@ export default {
 4. The new component is now available on window.magna.myFile
 
 ### Node version
-Make sure to use NodeJS 12.16.1 or greater. Has been tested with 15.14.0.
+Make sure to use NodeJS 14.0.0.
 
 ### Code formatting
 We are using eslint with recommended settings
@@ -175,7 +175,7 @@ To get set up, in your activated virtualenv:
 
 When working on BAU FE work, note there are seperate FE asset build pipelines. One for domestic pages and another for generic BAU styling(which came across from directory_components).
 
-If you are working on domestic pages and need to update some domestic specific styling. You need to `cd` into `domestic` and you will see all domestic related styles in a `sass` folder. To compile the updated sass, `cd` into `domestic` and ensure you are using node version 15+
+If you are working on domestic pages and need to update some domestic specific styling. You need to `cd` into `domestic` and you will see all domestic related styles in a `sass` folder. To compile the updated sass, `cd` into `domestic` and ensure you are using node version 14.0.0.
 
 If you need to update some generic BAU styling you need to look in `core/components`. Again you will find a sass folder with all styles in. To compile the updated sass, `cd` into `core/components` and ensure you are using node version 15+
 
@@ -183,7 +183,7 @@ To check the commands for core/components or domestic being in:
 
 ```
 $ rm -rf node_modules
-$ nvm use 15.14.0
+$ nvm use 14.0.0
 $ npm i
 
 Make changes to sass then:
@@ -198,7 +198,7 @@ $ gulp watch
 $ gulp build
 ```
 
-Node Sass is the newest package should be compatible with Node 15+
+Node Sass is the newest package should be compatible with Node 14.0.0
 
 You should not since it is the error for old packages but in case IF you get an error below:
 

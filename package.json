@@ -15,7 +15,7 @@
     "globalSetup": "reacy-components/setupJest.js"
   },
   "engines": {
-    "node": ">=12.16.1"
+    "node": "~14.0.0"
   },
   "repository": {
     "type": "git",
