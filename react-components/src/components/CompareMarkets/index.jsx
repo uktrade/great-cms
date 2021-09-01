@@ -9,7 +9,7 @@ import {
 } from '@src/components/hooks/useUserData'
 import { getCacheVersion } from '@src/reducers'
 import { Provider, useSelector } from 'react-redux'
-import { analytics } from '../../Helpers'
+import { analytics, deepEqual } from '../../Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import CountryFinderModal from '../ProductFinder/CountryFinderModal'
 import ComparisonTables from './ComparisonTables'
@@ -79,17 +79,33 @@ function CompareMarkets(props) {
   )
 
   const addMarketButton = (
-    <button
-      type="button"
-      className="button button--primary button--icon add-market m-t-xs"
-      onClick={() => setMarketModalIsOpen(true)}
-    >
-      <i className="fa fa-plus-square" />
-      {selectedLength > 0
-        ? `Add market ${selectedLength + 1} of ${maxPlaces}`
-        : 'Add a market'}
-    </button>
+    <>
+      {' '}
+      {selectedLength < maxPlaces && (
+        <button
+          type="button"
+          className="button button--primary button--icon add-market m-t-xs"
+          onClick={() => setMarketModalIsOpen(true)}
+        >
+          <i className="fa fa-plus-square" />
+          {selectedLength > 0
+            ? `Add market ${selectedLength + 1} of ${maxPlaces}`
+            : 'Add a market'}
+        </button>
+      )}
+    </>
   )
+
+  const suggestedMarketsProducts = () => {
+    // get the list of products for suggested markets in country chooser modal
+    if (activeProduct) {
+      const foundActive = (selectedProducts || []).find((sProduct) =>
+        deepEqual(sProduct, activeProduct)
+      )
+      return foundActive ? [foundActive] : selectedProducts
+    }
+    return selectedProducts
+  }
 
   return (
     <span>
@@ -103,7 +119,10 @@ function CompareMarkets(props) {
           cacheVersion={cacheVersion}
         />
       ) : (
-        ReactDOM.createPortal(hasSelectedProducts ? addMarketButton : addProductButton, ctaContainer)
+        ReactDOM.createPortal(
+          hasSelectedProducts ? addMarketButton : addProductButton,
+          ctaContainer
+        )
       )}
       <ProductFinderModal
         modalIsOpen={productModalIsOpen}
@@ -112,7 +131,7 @@ function CompareMarkets(props) {
       <CountryFinderModal
         modalIsOpen={marketModalIsOpen}
         setIsOpen={setMarketModalIsOpen}
-        activeProducts={activeProduct ? [activeProduct] : selectedProducts}
+        activeProducts={suggestedMarketsProducts()}
         addButton={false}
         selectCountry={addCountry}
         isCompareCountries

@@ -205,11 +205,11 @@ export default function CountryFinderModal(props) {
       <div className="grid">
         <div className="c-full">
           <p className="m-v-xs">
-            Compare data for different places to make an informed choice about
+            Compare data for different markets to make an informed choice about
             where to export.
           </p>
           <a href="/where-to-export/" className="button button--secondary">
-            Compare places
+            Compare markets
           </a>
         </div>
       </div>
@@ -276,7 +276,7 @@ export default function CountryFinderModal(props) {
           className="button button--secondary button--full-width m-b-s"
           onClick={() => setMobilePage('suggested')}
         >
-          Suggested places
+          Suggested markets
         </button>
         {!isCompareCountries && (
           <button
@@ -284,7 +284,7 @@ export default function CountryFinderModal(props) {
             className="button button--secondary button--full-width m-b-s"
             onClick={() => setMobilePage('compare')}
           >
-            Compare places
+            Compare markets
           </button>
         )}
         <button
@@ -292,7 +292,7 @@ export default function CountryFinderModal(props) {
           className="button button--secondary button--full-width m-b-s"
           onClick={() => setMobilePage('list')}
         >
-          List of places
+          List of markets
         </button>
       </div>
     ),

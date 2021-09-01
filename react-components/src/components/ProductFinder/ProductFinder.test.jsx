@@ -1,7 +1,5 @@
-/* eslint-disable */
 import { act, Simulate } from 'react-dom/test-utils'
 import ProductFinder from '@src/components/ProductFinder/ProductFinderButton'
-import ProductFinderModal from '@src/components/ProductFinder/ProductFinderModal'
 import Services from '@src/Services'
 import actions from '@src/actions'
 import fetchMock from 'fetch-mock'
@@ -61,6 +59,19 @@ const selectedProduct = {
   commodity_name: 'my product',
 }
 
+const productList = [
+  'product c',
+  'Product E',
+  'Product a',
+  'product B',
+  'Product d',
+].map((name, index) => {
+  return {
+    commodity_code: `${index}`,
+    commodity_name: name,
+  }
+})
+
 const multiItemResponse = {
   data: {
     txId: '123456',
@@ -70,32 +81,35 @@ const multiItemResponse = {
 }
 
 const openProductFinder = () => {
-    act(() => {
-      ProductFinder({ element: container })
-    })
-    act(() => {
-      Simulate.click(container.querySelector('button'))
-    })
-    // Click on the open product finder button
-    act(() => {
-      Simulate.click(container.querySelector('.basket-view button.button--primary'))
-    })
-    expect(document.body.querySelector('.product-finder')).toBeTruthy()
+  act(() => {
+    ProductFinder({ element: container })
+  })
+  act(() => {
+    Simulate.click(container.querySelector('button'))
+  })
+  // Click on the open product finder button
+  act(() => {
+    Simulate.click(
+      container.querySelector('.basket-view button.button--primary')
+    )
+  })
+  expect(document.body.querySelector('.product-finder')).toBeTruthy()
 }
 
 describe('Product finder tests', () => {
   beforeEach(() => {
     container = document.createElement('div')
     document.body.appendChild(container)
-    container.innerHTML =
-      '<span id="set-product-button"></span>'
+    container.innerHTML = '<span id="set-product-button"></span>'
     Services.setConfig({
       apiLookupProductUrl: '/api/lookup-product/',
       apiUserDataUrl: '/api/user-data/-name-',
     })
     ReactModal.setAppElement(container)
     Services.store.dispatch(
-      actions.setInitialState({ userSettings: { UserProducts: [selectedProduct] } })
+      actions.setInitialState({
+        userSettings: { UserProducts: [selectedProduct] },
+      })
     )
   })
 
@@ -116,6 +130,24 @@ describe('Product finder tests', () => {
     fetchMock.restore()
   })
 
+  it('Opens basket products', async () => {
+    Services.store.dispatch(
+      actions.setInitialState({ userSettings: { UserProducts: productList } })
+    )
+    act(() => {
+      ProductFinder({ element: container })
+    })
+    // Open up the p-bar dropdown
+    act(() => {
+      Simulate.click(container.querySelector('button'))
+    })
+    const basketView = container.querySelector('.basket-view')
+    expect(basketView).toBeTruthy()
+    const items = basketView.querySelectorAll('li')
+    expect(items[0].textContent).toMatch(/Product a$/)
+    expect(items[1].textContent).toMatch(/product B$/)
+    expect(items[4].textContent).toMatch(/Product E$/)
+  })
 
   it('Opens and closes product finder', async () => {
     act(() => {
@@ -126,7 +158,9 @@ describe('Product finder tests', () => {
     act(() => {
       Simulate.click(container.querySelector('button'))
     })
-    const addProductButton = container.querySelector('.basket-view button.button--primary')
+    const addProductButton = container.querySelector(
+      '.basket-view button.button--primary'
+    )
     expect(addProductButton).toBeTruthy()
     // Click on the open product finder button
     act(() => {
@@ -157,13 +191,13 @@ describe('Product finder tests', () => {
       Simulate.click(searchButton)
     })
     await waitFor(() => {
-      let results = finder.querySelector('.scroll-area div')
+      const results = finder.querySelector('.scroll-area div')
       expect(results).toBeTruthy()
     })
     const radios = finder.querySelectorAll(
       '.scroll-area div input[name=question_id]'
     )
-    expect(radios.length).toEqual(2)
+    expect(radios).toHaveLength(2)
     expect(radios[0].closest('label').textContent).toMatch('Name 1') // check spaces and capitalization
     expect(radios[1].closest('label').textContent).toMatch('Name 2')
     const interactionName = radios[1]
@@ -171,7 +205,7 @@ describe('Product finder tests', () => {
       .querySelector('.interaction-name')
     expect(interactionName.textContent).toMatch('Current question')
     const definitionExpanders = finder.querySelectorAll('button.info')
-    expect(definitionExpanders.length).toEqual(1)
+    expect(definitionExpanders).toHaveLength(1)
     const panel = definitionExpanders[0]
       .closest('label')
       .querySelector('.g-panel')
@@ -190,13 +224,13 @@ describe('Product finder tests', () => {
       Simulate.click(finder.querySelector('button.search-button'))
     })
     await waitFor(() => {
-      let results = finder.querySelector('.scroll-area div')
+      const results = finder.querySelector('.scroll-area div')
       expect(results).toBeTruthy()
     })
     const radios = finder.querySelectorAll(
       '.scroll-area div input[name=question_id]'
     )
-    expect(radios.length).toEqual(2)
+    expect(radios).toHaveLength(2)
     expect(radios[0].closest('label').textContent).toMatch('Name 1') // check spaces and capitalization
     expect(radios[1].closest('label').textContent).toMatch('Name 2')
     const interactionName = radios[1]
@@ -232,7 +266,7 @@ describe('Product finder tests', () => {
       Simulate.click(finder.querySelector('button.search-button'))
     })
     await waitFor(() => {
-      let results = finder.querySelector('.scroll-area div')
+      const results = finder.querySelector('.scroll-area div')
       expect(results).toBeTruthy()
     })
     expect(finder.querySelector('.form-group-error').textContent).toMatch(
@@ -245,7 +279,6 @@ describe('Product finder tests', () => {
     // Populate existing product, check for naming screen (rather than search screen)
     // and ability to rename
 
-    const setIsOpen = jest.fn()
     // Mock the classification tree request
     Services.setConfig({
       apiLookupProductScheduleUrl: '/api/lookup-product-schedule/',
@@ -263,7 +296,7 @@ describe('Product finder tests', () => {
     })
     const finder = document.body.querySelector('.product-finder')
     await waitFor(() => {
-      let results = finder.querySelector('.scroll-area div')
+      const results = finder.querySelector('.scroll-area div')
       expect(results).toBeTruthy()
     })
     const box = finder.querySelector('.box')

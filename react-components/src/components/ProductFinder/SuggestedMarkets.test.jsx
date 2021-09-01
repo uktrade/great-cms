@@ -89,7 +89,7 @@ describe('Test suggested markets', () => {
       rtl = setup({ activeProducts: [product1] })
     })
     await waitFor(() => {
-      expect(rtl.queryAllByText('Suggested places')).toBeTruthy()
+      expect(rtl.queryAllByText('Suggested markets')).toBeTruthy()
     })
     expect(rtl.getByText(/product1/)).toBeTruthy()
     expect(suggestedCountriesMock.calls())
@@ -102,7 +102,7 @@ describe('Test suggested markets', () => {
       rtl = setup({ activeProducts: [product3] })
     })
     await waitFor(() => {
-      expect(rtl.queryAllByText('Suggested places')).toBeTruthy()
+      expect(rtl.queryAllByText('Suggested markets')).toBeTruthy()
 
     })
     expect(rtl.getByText(/product3/)).toBeTruthy()
