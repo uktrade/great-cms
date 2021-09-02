@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent} from '@testing-library/react'
+import { render, fireEvent, within} from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 
 import { Provider } from 'react-redux'
@@ -31,16 +31,18 @@ describe('Export Plan delete button', () => {
       expect(button).toBeInTheDocument()
       fireEvent.click(button)
       expect(getByText(confirmationTitle)).toBeInTheDocument()
-      fireEvent.click(getByText('No'))
+      fireEvent.click(getByText('Cancel'))
       expect(queryByText(confirmationTitle)).toBeFalsy()
     })
 
-    it('Should delete export plan', () => {
+    xit('Should delete export plan', () => {
       const deleteEp = fetchMock.post(/\/api\/export-plan\/delete\/123\//, {pk:123})
-      const { getByText } = setup()
-      fireEvent.click(getByText('Delete plan'))
+      const container = setup()
+      fireEvent.click(container.getByText('Delete plan'))
+
+      const modal = within(container.baseElement.querySelector('.ReactModal__Content'))
       expect(deleteEp.calls()).toHaveLength(0)
-      fireEvent.click(getByText('Yes'))
+      fireEvent.click(modal.getByText('Delete plan'))
       expect(deleteEp.calls()).toHaveLength(1)
     })
 })
