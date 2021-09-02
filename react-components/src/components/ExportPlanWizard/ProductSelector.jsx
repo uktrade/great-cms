@@ -6,7 +6,7 @@ import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import { sortBy } from '@src/Helpers'
 
 function ProductSelector({ valueChange, selected }) {
-  const [products] = useUserProducts()
+  const {products, productsLoaded} = useUserProducts()
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [addButtonShowing, setAddButtonShowing] = useState(false)
 
@@ -61,8 +61,8 @@ function ProductSelector({ valueChange, selected }) {
         </div>
       ) : null}
 
-      {(!hasProducts || addButtonShowing) && (
-        <div className="g-panel m-f-xxs">
+      {(productsLoaded && !hasProducts || addButtonShowing) && (
+        <div className={`${addButtonShowing ? 'g-panel' : ''} m-f-xxs`}>
           <button
             type="button"
             className="m-t-xxs button button--primary"

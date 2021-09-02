@@ -27,6 +27,7 @@ export const useUserData = (
     if (!blobValue && !loading[blobName]) {
       loading[blobName] = 1
       Services.getUserData(blobName).then((result) => {
+        loading[blobName] = 'loaded'
         const value = isObject(result) && (result[blobName] || defaultValue)
         saveBlob(value)
       })
@@ -48,21 +49,25 @@ export const useUserData = (
     }
   }
 
-  return [blobValue || defaultValue, saveBlob, loadBlob, addToList]
+  return [blobValue || defaultValue, saveBlob, loadBlob, loading[blobName] === 'loaded', addToList]
 }
 
-export const useUserProducts = (autoload) =>
-  useUserData('UserProducts', [], autoload)
 export const useActiveProduct = (autoload) =>
   useUserData('ActiveProduct', {}, autoload)
 export const useComparisonMarkets = (autoload) =>
   useUserData('ComparisonMarkets', {}, autoload)
+
+export const useUserProducts = (autoload) => {
+  const [value, set, load, loaded] = useUserData('UserProducts', [], autoload)
+  return {products:value, setProducts:set, loadProducts:load, productsLoaded:loaded }
+}
+
 export const useUserMarkets = (autoload) => {
-  const [markets, setMarkets, loadMarkets, addMarketItem] = useUserData(
+  const [markets, setMarkets, loadMarkets, marketsLoading, addMarketItem] = useUserData(
     'UserMarkets',
     [],
     autoload,
     (a, b) => a.country_iso2_code === b.country_iso2_code
   )
-  return { markets, setMarkets, loadMarkets, addMarketItem }
+  return { markets, setMarkets, loadMarkets, marketsLoading, addMarketItem }
 }

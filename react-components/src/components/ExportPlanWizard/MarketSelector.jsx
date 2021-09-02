@@ -56,14 +56,14 @@ function MarketSelector({ valueChange, selected, selectedProduct }) {
         </div>
       ) : null}
       {(!hasMarkets || addButtonShowing) && (
-        <div className="g-panel m-f-xxs">
+        <div className={`${addButtonShowing ? 'g-panel' : ''} m-f-xxs`}>
           <button
             type="button"
             className="m-t-xxs m-t-xxs button button--primary"
             onClick={() => setModalIsOpen(true)}
           >
             <i className="fa fa-plus m-r-xxs" />
-            Add a market
+            Choose Market
           </button>
         </div>
       )}

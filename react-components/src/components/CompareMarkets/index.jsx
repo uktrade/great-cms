@@ -18,13 +18,13 @@ function CompareMarkets(props) {
   const { tabs, maxPlaces, ctaContainer, container } = props
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
-  const [selectedProducts] = useUserProducts()
+  const { products, productsLoaded } = useUserProducts()
   const [comparisonMarkets, _setComparisonMarkets] = useComparisonMarkets()
-  const [activeProduct] = useActiveProduct(false)
+  const [activeProduct] = useActiveProduct()
 
   const cacheVersion = useSelector((state) => getCacheVersion(state))
 
-  const hasSelectedProducts = selectedProducts && selectedProducts.length
+  const hasProducts = products && products.length
   const selectedLength = Object.keys(comparisonMarkets || []).length
 
   const pushAnalytics = (markets) => {
@@ -108,35 +108,37 @@ function CompareMarkets(props) {
   }
 
   return (
-    <span>
-      {selectedLength ? (
-        <ComparisonTables
-          tabsJson={tabs}
-          comparisonMarkets={comparisonMarkets}
-          activeProduct={activeProduct}
-          removeMarket={removeMarket}
-          triggerButton={addMarketButton}
-          cacheVersion={cacheVersion}
+    productsLoaded && (
+      <>
+        {selectedLength ? (
+          <ComparisonTables
+            tabsJson={tabs}
+            comparisonMarkets={comparisonMarkets}
+            activeProduct={activeProduct}
+            removeMarket={removeMarket}
+            triggerButton={addMarketButton}
+            cacheVersion={cacheVersion}
+          />
+        ) : (
+          ReactDOM.createPortal(
+            hasProducts ? addMarketButton : addProductButton,
+            ctaContainer
+          )
+        )}
+        <ProductFinderModal
+          modalIsOpen={productModalIsOpen}
+          setIsOpen={setProductModalIsOpen}
         />
-      ) : (
-        ReactDOM.createPortal(
-          hasSelectedProducts ? addMarketButton : addProductButton,
-          ctaContainer
-        )
-      )}
-      <ProductFinderModal
-        modalIsOpen={productModalIsOpen}
-        setIsOpen={setProductModalIsOpen}
-      />
-      <CountryFinderModal
-        modalIsOpen={marketModalIsOpen}
-        setIsOpen={setMarketModalIsOpen}
-        activeProducts={suggestedMarketsProducts()}
-        addButton={false}
-        selectCountry={addCountry}
-        isCompareCountries
-      />
-    </span>
+        <CountryFinderModal
+          modalIsOpen={marketModalIsOpen}
+          setIsOpen={setMarketModalIsOpen}
+          activeProducts={suggestedMarketsProducts()}
+          addButton={false}
+          selectCountry={addCountry}
+          isCompareCountries
+        />
+      </>
+    )
   )
 }
 
