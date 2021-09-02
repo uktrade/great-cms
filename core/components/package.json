@@ -2,7 +2,7 @@
   "name": "export-elements",
   "version": "0.0.1",
   "engines": {
-    "node": "8.5.0"
+    "node": "~14.0.0"
   },
   "description": "Wrapper around govuk-elements for DIT specific needs",
   "main": "index.js",
