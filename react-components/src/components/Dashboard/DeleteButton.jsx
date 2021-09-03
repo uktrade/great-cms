@@ -26,7 +26,7 @@ export default function DeleteButton() {
     <>
       <button
         className="button button--primary button--small button--full-width button--icon m-b-xs export-plan-delete"
-        title="Delete your plan"
+        title="Delete your export plan"
         type="button"
         onClick={() => setDeleteConfirm(true)}
       >

@@ -8,7 +8,7 @@ import DeleteButton from '@src/components/Dashboard/DeleteButton'
 
 export const createDashboard = ({ element, ...params }) => {
   ReactDOM.render(<Dashboard {...params} />, element)
-  const deleteButton = document.body.querySelector('.export-plan-delete')
+  const deleteButton = document.getElementById('export-plan-delete')
   if (deleteButton)
     ReactDOM.render(
       <Provider store={Services.store}>

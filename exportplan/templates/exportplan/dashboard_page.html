@@ -66,14 +66,11 @@
       <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Update your logo</a>
     </div>
     {% endif %}
-    {% with export_plan_id=export_plan.pk %}
-    <a class="button button--secondary button--small button--full-width button--icon m-b-xs" href="{{export_plan_download_link}}" title="Save your plan as a PDF">
+    <a class="button button--secondary button--small button--full-width button--icon m-b-xs" href="{{export_plan_download_link}}" title="Download your export plan">
       <i class="fas fa-download"></i>
       Download plan
     </a>
-    <div class="export-plan-delete">
-    </div>
-    {% endwith %}
+    <div id="export-plan-delete"></div>
   </aside>
 </section>
 {% endblock %}

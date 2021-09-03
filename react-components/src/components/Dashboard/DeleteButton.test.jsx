@@ -35,7 +35,7 @@ describe('Export Plan delete button', () => {
       expect(queryByText(confirmationTitle)).toBeFalsy()
     })
 
-    xit('Should delete export plan', () => {
+    it('Should delete export plan', () => {
       const deleteEp = fetchMock.post(/\/api\/export-plan\/delete\/123\//, {pk:123})
       const container = setup()
       fireEvent.click(container.getByText('Delete plan'))
