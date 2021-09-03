@@ -4,6 +4,7 @@
 
 ### Enhancements
 - GP2-3344 - Verify account with token
+- GP2-3171 - EP wizard styling update
 - GP2-3284 - EP title in sections
 - GP2-3172 - decouple-ep-pages
 - GP2-3170 - EP index page and list
