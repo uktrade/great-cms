@@ -20,6 +20,14 @@ def test_create_export_plan(mock_exportplan_create):
     )
 
 
+@mock.patch.object(api_client.exportplan, 'delete_export_plan')
+def test_delete_export_plan(mock_exportplan_delete_export_plan):
+    mock_exportplan_delete_export_plan.return_value = create_response(status_code=200)
+    helpers.delete_export_plan(sso_session_id=123, id=1)
+    assert mock_exportplan_delete_export_plan.call_count == 1
+    assert mock_exportplan_delete_export_plan.call_args == mock.call(sso_session_id=123, id=1)
+
+
 def test_country_code_iso3_to_iso2():
     assert helpers.country_code_iso3_to_iso2('CHN') == 'CN'
 

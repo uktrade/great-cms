@@ -100,6 +100,12 @@ export default {
     )
   },
 
+  deleteExportPlan: (data) => {
+    return post(config.apiDeleteExportPlanUrl, data).then((response) =>
+      responseHandler(response).json()
+    )
+  },
+
   getCountries: () => {
     return get(config.apiCountriesUrl, {}).then((response) =>
       responseHandler(response).json()

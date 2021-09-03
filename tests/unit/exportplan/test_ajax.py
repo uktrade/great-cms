@@ -266,6 +266,20 @@ def test_update_export_plan_api_view_create(mock_create_exportplan, client, user
 
 
 @pytest.mark.django_db
+@mock.patch.object(helpers, 'delete_export_plan')
+def test_delete_export_plan_api_view(mock_delete_exportplan, client, user):
+    client.force_login(user)
+    mock_delete_exportplan.return_value = {'pk': 10}
+    url = reverse('exportplan:api-export-plan-delete', kwargs={'id': 1})
+    response = client.post(url, content_type='application/json')
+
+    assert response.status_code == 200
+
+    assert mock_delete_exportplan.call_count == 1
+    assert mock_delete_exportplan.call_args == mock.call(sso_session_id='123', id=1)
+
+
+@pytest.mark.django_db
 @mock.patch.object(helpers, 'update_exportplan')
 def test_update_calculate_cost_and_pricing(mock_update_exportplan, cost_pricing_data, client, user):
 
