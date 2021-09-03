@@ -99,12 +99,12 @@ function CompareMarkets(props) {
   const suggestedMarketsProducts = () => {
     // get the list of products for suggested markets in country chooser modal
     if (activeProduct) {
-      const foundActive = (selectedProducts || []).find((sProduct) =>
+      const foundActive = (products || []).find((sProduct) =>
         deepEqual(sProduct, activeProduct)
       )
-      return foundActive ? [foundActive] : selectedProducts
+      return foundActive ? [foundActive] : products
     }
-    return selectedProducts
+    return products
   }
 
   return (

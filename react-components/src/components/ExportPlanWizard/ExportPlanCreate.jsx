@@ -23,12 +23,12 @@ export function ExportPlanWizard() {
       export_countries: [market],
     }
     Services.createExportPlan(data).then((result) => {
-      // Jump to our newly created EP
-      // Todo: error handling here if/when BE does more validation.
+      // TODO: error handling here if/when BE does more validation.
       if (result.pk) {
         setCreating(true)
         setTimeout(() => {
-          window.location.assign(`${config.apiExportPlanBaseUrl}${result.pk}/`)
+          // Jump to our newly created EP
+          window.location.assign(`${config.exportPlanBaseUrl}${result.pk}/`)
         }, creationFakeDelay)
       }
     })
@@ -38,18 +38,16 @@ export function ExportPlanWizard() {
     <HashRouter>
       <Switch>
         <Route exact path={paths.product}>
-          <div class="c-1-4">
-            <span class="-section--back-to">
-              <a
-                href="/export-plan/"
-                class="back-link h-m link body-m-b m-t-xs"
-              >
-                <i class="fas fa-arrow-circle-left"></i>
-                <span class="m-f-xs">Back</span>
-              </a>
-            </span>
+          <div className="c-1-4">
+            <a
+              href={config.exportPlanBaseUrl}
+              className="back-link h-m link body-m-b m-t-xs"
+            >
+              <i className="fas fa-arrow-circle-left"></i>
+              <span className="m-f-xs">Back</span>
+            </a>
           </div>
-          <div class="c-1-2 p-t-l">
+          <div className="c-1-2 p-t-l">
             <div className="clearfix m-b-m">
               <div className="body-m">Creating exportplan step 1 of 2</div>
               <h2 className="h-m">What are you exporting?</h2>
@@ -73,30 +71,28 @@ export function ExportPlanWizard() {
         </Route>
 
         <Route path={paths.market}>
-          <div class="c-1-4">
+          <div className="c-1-4">
             {!isCreating ? (
-              <span class="-section--back-to">
-                <a
-                  href="/export-plan/"
-                  class="back-link h-m link body-m-b m-t-xs"
-                >
-                  <i class="fas fa-arrow-circle-left"></i>
-                  <span class="m-f-xs">Back</span>
-                </a>
-              </span>
+              <Link
+                to={paths.product}
+                className="back-link h-m link body-m-b m-t-xs"
+              >
+                <i className="fas fa-arrow-circle-left"></i>
+                <span className="m-f-xs">Back</span>
+              </Link>
             ) : (
-              '&npsp;'
+              <>&nbsp;</>
             )}
           </div>
-          <div class="c-1-2 p-t-l">
+          <div className="c-1-2 p-t-l">
             {!product && <Redirect to={paths.product} />}
             {isCreating ? (
               <>
-                <div className="p-b-xl">
+                <div className="p-b-xl m-b-xxl">
                   <div className="clearfix">
                     <div className="f-l" style={{ marginLeft: '-20px' }}>
                       <LottieAnimation
-                        clasName="m-f-0"
+                        className="m-f-0"
                         lotti={loaderAnimation}
                         height={30}
                         width={80}
@@ -116,8 +112,7 @@ export function ExportPlanWizard() {
                   <div className="body-m">Creating exportplan step 2 of 2</div>
                   <h2 className="h-m">Where&apos;s your target market?</h2>
                   <p className="text-blue-deep-80">
-                    We didn’t find any saved markets. Choose one to start your
-                    plan.
+                    Choose a place to start your plan.
                   </p>
                   <MarketSelector
                     valueChange={setMarket}
@@ -129,7 +124,10 @@ export function ExportPlanWizard() {
                       <div className="body-l-b">
                         Not sure which country to choose?
                       </div>
-                      <a href="#" className="link link--underline body-l">
+                      <a
+                        href={config.compareCountriesUrl}
+                        className="link link--underline body-l"
+                      >
                         Find one in “Where to export” service.
                       </a>
                     </div>

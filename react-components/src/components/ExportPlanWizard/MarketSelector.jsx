@@ -6,7 +6,7 @@ import CountryFinderModal from '@src/components/ProductFinder/CountryFinderModal
 import { sortBy } from '@src/Helpers'
 
 function MarketSelector({ valueChange, selected, selectedProduct }) {
-  const { markets, setMarkets, addMarketItem } = useUserMarkets()
+  const { markets, addMarketItem, marketsLoaded } = useUserMarkets()
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [addButtonShowing, setAddButtonShowing] = useState(false)
 
@@ -24,8 +24,8 @@ function MarketSelector({ valueChange, selected, selectedProduct }) {
     }
   })
 
-  const somethingElse = {
-    label: 'Something else',
+  const somewhereElse = {
+    label: 'Somewhere else',
     value: '+',
   }
 
@@ -39,23 +39,24 @@ function MarketSelector({ valueChange, selected, selectedProduct }) {
     valueChange(market)
   }
 
-  // If the add button is showing, 'something else' option must be selected
+  // If the add button is showing, 'somewhere else' option must be selected
   selectedKey = selectedKey || (addButtonShowing ? '+' : '')
 
   const hasMarkets = markets && markets.length
   return (
     <>
+
       {hasMarkets ? (
         <div className="clearfix">
           <RadioButtons
             name="selected-market"
-            choices={[...options, somethingElse]}
+            choices={[...options, somewhereElse]}
             valueChange={onMarketChange}
             initialSelection={selectedKey}
           />
         </div>
       ) : null}
-      {(!hasMarkets || addButtonShowing) && (
+      {(marketsLoaded && !hasMarkets || addButtonShowing) && (
         <div className={`${addButtonShowing ? 'g-panel' : ''} m-f-xxs`}>
           <button
             type="button"

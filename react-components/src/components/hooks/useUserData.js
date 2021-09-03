@@ -49,7 +49,7 @@ export const useUserData = (
     }
   }
 
-  return [blobValue || defaultValue, saveBlob, loadBlob, loading[blobName] === 'loaded', addToList]
+  return [blobValue || defaultValue, saveBlob, loadBlob, blobValue || (loading[blobName] === 'loaded'), addToList]
 }
 
 export const useActiveProduct = (autoload) =>
@@ -63,11 +63,11 @@ export const useUserProducts = (autoload) => {
 }
 
 export const useUserMarkets = (autoload) => {
-  const [markets, setMarkets, loadMarkets, marketsLoading, addMarketItem] = useUserData(
+  const [markets, setMarkets, loadMarkets, marketsLoaded, addMarketItem] = useUserData(
     'UserMarkets',
     [],
     autoload,
     (a, b) => a.country_iso2_code === b.country_iso2_code
   )
-  return { markets, setMarkets, loadMarkets, marketsLoading, addMarketItem }
+  return { markets, setMarkets, loadMarkets, marketsLoaded, addMarketItem }
 }

@@ -1,6 +1,5 @@
 import React from 'react'
-import { render, fireEvent, waitFor } from '@testing-library/react'
-import { act } from 'react-dom/test-utils'
+import { render, fireEvent } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import Services from '@src/Services'
 import ReactModal from 'react-modal'
@@ -9,12 +8,6 @@ import fetchMock from 'fetch-mock'
 import { ExportPlanWizard } from './ExportPlanCreate'
 
 const valueChange = jest.fn()
-
-const countriesResponse = [
-  { id: 'DZ', name: 'Algeria', region: 'Africa', type: 'Country' },
-  { id: 'AL', name: 'Albania', region: 'Europe', type: 'Country' },
-  { id: 'AT', name: 'Austria', region: 'Europe', type: 'Country' },
-]
 
 const country1 = { country_iso2: 'DZ', country_name: 'Algeria' }
 const country2 = { country_iso2: 'AL', country_name: 'Albania' }
@@ -48,7 +41,7 @@ const setup = () => {
 
   const component = render(
     <Provider store={Services.store}>
-      <ExportPlanWizard valueChange={valueChange}></ExportPlanWizard>
+      <ExportPlanWizard valueChange={valueChange}/>
     </Provider>
   )
   return {
@@ -62,26 +55,21 @@ describe('Wizard market selector', () => {
     const { getByText, queryByText } = setup()
     expect(getByText('What are you exporting?')).toBeTruthy()
     const product1Radio = getByText('product1')
-    const nextButton1 = getByText('Next')
-    expect(product1Radio).toBeTruthy()
-    expect(nextButton1).toHaveAttribute('disabled')
+    expect(queryByText('Continue')).toBeFalsy()
     // Select a product
     fireEvent.click(product1Radio)
-    expect(nextButton1).not.toHaveAttribute('disabled')
-    // Click next
-    fireEvent.click(nextButton1)
+    // Click contine
+    fireEvent.click(getByText('Continue'))
     // Select a market
     expect(getByText('Where\'s your target market?')).toBeTruthy()
-    const nextButton2 = getByText('Next')
-    expect(nextButton2).toHaveAttribute('disabled')
+    expect(queryByText('Continue')).toBeFalsy()
     fireEvent.click(getByText('Albania'))
-    expect(nextButton2).not.toHaveAttribute('disabled')
-    fireEvent.click(nextButton2)
-    // Final page - click create and check the parameters
+    // Click create and check the parameters
+
     fireEvent.click(getByText('Create export plan'))
+    expect(createEpMock.calls()).toHaveLength(1)
     const [url,details] = createEpMock.calls()[0]
     const body = JSON.parse(details.body)
-    expect(createEpMock.calls().length).toEqual(1)
     expect(body.export_commodity_codes[0].commodity_name).toEqual('product1')
     expect(body.export_countries[0].country_name).toEqual('Albania')
   })
