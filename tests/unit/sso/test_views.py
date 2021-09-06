@@ -69,7 +69,7 @@ def test_business_sso_logout(client, requests_mock):
 @mock.patch.object(helpers, 'create_user')
 @mock.patch.object(helpers, 'send_verification_code_email')
 def test_business_sso_user_create_200_upstream(mock_send_code, mock_create_user, client):
-    mock_create_user.return_value = {'verification_code': '12345'}
+    mock_create_user.return_value = {'uidb64': 'aBcDe', 'verification_token': '1a2b3c', 'verification_code': '12345'}
 
     url = reverse('sso:business-sso-create-user-api')
     data = {'email': 'test@example.com', 'password': 'password'}
@@ -81,7 +81,7 @@ def test_business_sso_user_create_200_upstream(mock_send_code, mock_create_user,
         email=data['email'],
         verification_code='12345',
         form_url=url,
-        verification_link='http://testserver/signup/?verify=test@example.com',
+        verification_link='http://testserver/signup/?uidb64=aBcDe&token=1a2b3c',
     )
 
 
@@ -102,7 +102,7 @@ def test_business_sso_user_create_400_upstream(mock_send_code, mock_create_user,
 def test_business_sso_verify_code_invalid(mock_check_verification_code, client):
     mock_check_verification_code.side_effect = helpers.InvalidVerificationCode(code=400)
 
-    data = {'email': 'test@example.com', 'code': '12345'}
+    data = {'uidb64': 'aBcDe', 'token': '1a2b3c', 'code': '12345'}
 
     response = client.post(reverse('sso:business-sso-verify-code-api'), data)
 
@@ -115,14 +115,17 @@ def test_business_sso_verify_code_invalid(mock_check_verification_code, client):
 @mock.patch.object(helpers, 'send_welcome_notification')
 def test_business_sso_verify_code_valid(mock_send_welcome_notification, mock_check_verification_code, client):
 
-    mock_check_verification_code.return_value = create_response()
-    data = {'email': 'test@example.com', 'code': '12345'}
+    data = {'uidb64': 'aBcDe', 'token': '1a2b3c', 'code': '12345', 'email': 'mail@example.com'}
     url = reverse('sso:business-sso-verify-code-api')
+
+    mock_check_verification_code.return_value = create_response({'email': data['email']})
 
     response = client.post(url, data)
 
     assert response.status_code == 200
     assert mock_check_verification_code.call_count == 1
-    assert mock_check_verification_code.call_args == mock.call(email=data['email'], code=data['code'])
+    assert mock_check_verification_code.call_args == mock.call(
+        uidb64=data['uidb64'], token=data['token'], code=data['code']
+    )
     assert mock_send_welcome_notification.call_count == 1
     assert mock_send_welcome_notification.call_args == mock.call(email=data['email'], form_url=url)

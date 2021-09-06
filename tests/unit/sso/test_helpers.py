@@ -75,10 +75,10 @@ def test_send_welcome_notification(mock_action_class, settings):
 def test_check_verification_code_success(mock_create_user):
     mock_create_user.return_value = create_response({'a': 'b'})
 
-    helpers.check_verification_code(email='jim@example.com', code='12345')
+    helpers.check_verification_code(uidb64='aBcDe', token='1a2b3c', code='12345')
 
     assert mock_create_user.call_count == 1
-    assert mock_create_user.call_args == mock.call({'email': 'jim@example.com', 'code': '12345'})
+    assert mock_create_user.call_args == mock.call({'uidb64': 'aBcDe', 'token': '1a2b3c', 'code': '12345'})
 
 
 @pytest.mark.parametrize('status_code', (400, 404))
@@ -87,7 +87,7 @@ def test_check_verification_code_failure(mock_create_user, status_code):
     mock_create_user.return_value = create_response(status_code=status_code)
 
     with pytest.raises(helpers.InvalidVerificationCode):
-        helpers.check_verification_code(email='jim@example.com', code='12345')
+        helpers.check_verification_code(uidb64='aBcDe', token='12345', code='12345')
 
 
 @mock.patch.object(sso_api_client.user, 'create_user')

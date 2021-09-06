@@ -7,5 +7,6 @@ class SSOBusinessUserSerializer(serializers.Serializer):
 
 
 class SSOBusinessVerifyCodeSerializer(serializers.Serializer):
-    email = serializers.CharField()
+    uidb64 = serializers.CharField()
+    token = serializers.CharField()
     code = serializers.CharField()
