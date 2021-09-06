@@ -111,7 +111,7 @@ urlpatterns = [
         name='api-population-data-by-country',
     ),
     path(
-        'api/target-age-country-population-data/',
+        'api/target-age-country-population-data/<int:id>/',
         skip_ga360(api.TargetAgeCountryPopulationData.as_view()),
         name='api-target-age-groups',
     ),
@@ -121,7 +121,7 @@ urlpatterns = [
         name='api-society-data-by-country',
     ),
     path(
-        'api/calculate-cost-and-pricing/',
+        'api/calculate-cost-and-pricing/<int:id>/',
         skip_ga360(api.UpdateCalculateCostAndPricingAPIView.as_view()),
         name='api-calculate-cost-and-pricing',
     ),
