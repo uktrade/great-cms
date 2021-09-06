@@ -15,7 +15,7 @@
 		var element = document.getElementById('sign-up');
 		var uidb64 = '{{ request.GET.uidb64 }}';
 		var token = '{{ request.GET.token }}';
-		var currentStep = (uidb64 && token) ? 'verification-code' : 'cedentials';
+		var currentStep = (uidb64 && token) ? 'verification-code' : 'credentials';
 		magna.SignupModal({
 			element: element,
 			uidb64: uidb64,
