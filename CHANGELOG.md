@@ -18,6 +18,7 @@
 - NOTICKET - Remove and cleanup broken Storybook setup
 
 ### Fixed bugs
+- GP2-3363 - Fix costs_and_pricing page
 - GP2-3310 - Product_sort_order
 - GP2-3311 - Suggestions on deleted products
 - GP2-3288 - Vulnerabilities.
