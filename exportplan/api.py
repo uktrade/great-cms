@@ -30,16 +30,15 @@ class TargetAgeCountryPopulationData(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.CountryTargetAgeDataSerializer
 
-    def post(self, request):
+    def post(self, request, id):
         serializer = self.serializer_class(data=self.request.data)
         serializer.is_valid(raise_exception=True)
         target_ages = serializer.validated_data['target_age_groups']
         url = serializer.validated_data['section_name']
-        section_name = url.replace('/export-plan/section/', '').replace('/', '')
-        # TODO need to change to get from incoming or may be load from DB
-        export_plan = {}
+        section_name = url.replace(f'/export-plan/{id}/', '').replace('/', '')
+        export_plan = helpers.get_exportplan(request.user.session_id, id)
         helpers.update_ui_options_target_ages(
-            sso_session_id=self.request.user.session_id,
+            sso_session_id=request.user.session_id,
             target_ages=target_ages,
             export_plan=export_plan,
             section_name=section_name,
@@ -51,14 +50,12 @@ class UpdateCalculateCostAndPricingAPIView(generics.GenericAPIView):
     serializer_class = serializers.ExportPlanSerializer
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, id, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid(raise_exception=True):
-            # TODO need to change to get from incoming data for now will hardcode to 1
-            exportplan_id = 1
             updated_export_plan = helpers.update_exportplan(
-                sso_session_id=self.request.user.session_id, id=exportplan_id, data=serializer.validated_data
+                sso_session_id=self.request.user.session_id, id=int(id), data=serializer.validated_data
             )
             # We now need the full export plan to calculate the totals
             calculated_pricing = ExportPlanProcessor(updated_export_plan).calculated_cost_pricing()
@@ -69,13 +66,12 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
     serializer_class = serializers.ExportPlanSerializer
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, id, *args, **kwargs):
 
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            exportplan_id = int(kwargs.get('id'))
             helpers.update_exportplan(
-                sso_session_id=self.request.user.session_id, id=exportplan_id, data=serializer.validated_data
+                sso_session_id=self.request.user.session_id, id=int(id), data=serializer.validated_data
             )
             return Response(serializer.validated_data)
 
@@ -96,8 +92,8 @@ class CreateExportPlanAPIView(generics.GenericAPIView):
 class DeleteExportPlanAPIView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, *args, **kwargs):
-        data = helpers.delete_export_plan(sso_session_id=self.request.user.session_id, id=int(kwargs.get('id')))
+    def post(self, request, *args, id, **kwargs):
+        data = helpers.delete_export_plan(sso_session_id=self.request.user.session_id, id=int(id))
         return Response(data)
 
 

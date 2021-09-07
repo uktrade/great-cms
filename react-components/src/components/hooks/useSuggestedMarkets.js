@@ -6,9 +6,10 @@ import { useUserProducts } from '@src/components/hooks/useUserData'
 // If no product list provided - use basket instead
 
 export const useSuggestedMarkets = (products) => {
-  const [userProducts, setUserProducts, loadUserProducts] = useUserProducts(
-    false
-  )
+  const {
+    products: userProducts,
+    loadProducts: loadUserProducts,
+  } = useUserProducts(false)
   const [suggestedCountries, setSuggestedCountries] = useState({})
 
   const getHS2Code = () => {
@@ -16,9 +17,13 @@ export const useSuggestedMarkets = (products) => {
       loadUserProducts()
     }
     const productList = products || userProducts || []
-    const product = (productList[productList.length -1] || {})
+    const product = productList[productList.length - 1] || {}
     const hs2 = (product.commodity_code || '').substr(0, 2)
-    const allSame = (productList.length > 1) && !productList.find((scanProduct) => (scanProduct.commodity_code || '').substr(0, 2) !== hs2)
+    const allSame =
+      productList.length > 1 &&
+      !productList.find(
+        (scanProduct) => (scanProduct.commodity_code || '').substr(0, 2) !== hs2
+      )
     return {
       hs2,
       product: product.commodity_name,

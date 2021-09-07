@@ -94,8 +94,8 @@ def send_welcome_notification(email, form_url):
     return response
 
 
-def check_verification_code(email, code):
-    response = sso_api_client.user.verify_verification_code({'email': email, 'code': code})
+def check_verification_code(uidb64, token, code):
+    response = sso_api_client.user.verify_verification_code({'uidb64': uidb64, 'token': token, 'code': code})
     if response.status_code in [400, 404]:
         raise InvalidVerificationCode(code=response.status_code)
     response.raise_for_status()

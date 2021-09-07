@@ -24,7 +24,7 @@ const setup = () => {
   ReactModal.setAppElement(document.body)
   const component = render(
     <Provider store={Services.store}>
-      <ProductSelector valueChange={valueChange}></ProductSelector>
+      <ProductSelector valueChange={valueChange}/>
     </Provider>
   )
   return {
@@ -34,7 +34,7 @@ const setup = () => {
 
 describe('Wizard product selector', () => {
   it('Renders product selector', () => {
-    const { getByText, queryByText } = setup()
+    const { getByText } = setup()
     const product2Radio = getByText('product2')
     expect(product2Radio).toBeTruthy()
     fireEvent.click(product2Radio)
@@ -42,8 +42,11 @@ describe('Wizard product selector', () => {
     expect(valueChange).toHaveBeenCalledWith(product2)
   })
   it('Opens product finder', () => {
-    const { getByText, queryByText } = setup()
-    const addButton = getByText('Add a product')
+    const { getByText } = setup()
+    const somethingElse = getByText('Something else')
+    expect(somethingElse).toBeTruthy()
+    fireEvent.click(somethingElse)
+    const addButton = getByText('Choose a product')
     expect(addButton).toBeTruthy()
     fireEvent.click(addButton)
     expect(document.body.querySelector('.ReactModalPortal .product-finder')).toBeTruthy()
