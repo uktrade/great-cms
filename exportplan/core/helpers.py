@@ -8,8 +8,6 @@ from core.templatetags.content_tags import format_timedelta
 from directory_api_client import api_client
 from exportplan.core.processor import ExportPlanProcessor
 
-hashids = Hashids(settings.HASHIDS_SALT, min_length=8)
-
 
 def create_export_plan(sso_session_id, data):
     response = api_client.exportplan.create(sso_session_id=sso_session_id, data=data)
@@ -140,6 +138,9 @@ def get_exportplan(sso_session_id, id):
     response = api_client.exportplan.detail(sso_session_id=sso_session_id, id=id)
     response.raise_for_status()
     return response.json()
+
+
+hashids = Hashids(settings.HASHIDS_SALT, min_length=8)
 
 
 def h_encode(id):
