@@ -333,7 +333,6 @@ def mock_dashboard_profile_events_opportunities(
 
 @pytest.fixture
 def mock_all_dashboard_and_export_plan_requests_and_responses(
-    mock_export_plan_dashboard_page_tours,
     mock_get_dashboard_export_opportunities,
     mock_export_plan_detail_list,
     mock_get_export_plan,
