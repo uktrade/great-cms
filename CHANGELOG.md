@@ -3,6 +3,8 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-3344 - Verify account with token
+- GP2-3171 - EP wizard styling update
 - GP2-3284 - EP title in sections
 - GP2-3172 - decouple-ep-pages
 - GP2-3170 - EP index page and list
@@ -19,6 +21,7 @@
 - GP2-3352 - Obfuscate the export plan id in urls
 
 ### Fixed bugs
+- GP2-3363 - Fix costs_and_pricing page
 - GP2-3310 - Product_sort_order
 - GP2-3311 - Suggestions on deleted products
 - GP2-3288 - Vulnerabilities.

@@ -20,7 +20,7 @@ export default function ProductFinderModal(props) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [showingInteraction, setShowingInteraction] = useState()
-  const [ selectedProducts, setSelectedProducts, loadProducts ] = useUserProducts(false)
+  const { products, setProducts, loadProducts } = useUserProducts(false)
   const [activeProduct, setActiveProduct] = useActiveProduct(false)
 
   useEffect(() => {
@@ -83,7 +83,7 @@ export default function ProductFinderModal(props) {
 
   const saveProduct = (commodityCode, commodityName) => {
     const newProduct = { commodity_name: commodityName, commodity_code: commodityCode }
-    setSelectedProducts([...selectedProducts, newProduct ])
+    setProducts([...products, newProduct ])
     setActiveProduct(newProduct)
     onAddProduct(newProduct)
     if (searchResults) {
@@ -448,7 +448,7 @@ export default function ProductFinderModal(props) {
         <section className="m-b-s">
           <h2 className="h-m p-b-s">Your product</h2>
           <StartEndPage
-            commodityCode={selectedProducts.commodity_code || ''}
+            commodityCode={products.commodity_code || ''}
             defaultCommodityName={
               ReactHtmlParser(selectedProduct.commodity_name).toString() || ''
             }
@@ -562,17 +562,10 @@ export default function ProductFinderModal(props) {
 ProductFinderModal.propTypes = {
   modalIsOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
-  selectedProducts: PropTypes.arrayOf(
-    PropTypes.shape({
-      commodity_name: PropTypes.string,
-      commodity_code: PropTypes.string,
-    })
-  ),
   onCloseRedirect: PropTypes.string,
   onAddProduct: PropTypes.func,
 }
 ProductFinderModal.defaultProps = {
-  selectedProducts: null,
   onCloseRedirect: '',
   onAddProduct: () => 0,
 }

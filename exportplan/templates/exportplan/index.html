@@ -42,7 +42,7 @@
           <div class="g-card bg-blue-deep-10">
             <h2 class="h-s">Take your first steps towards exporting success</h2>
             <p>Put an export plan in place for your business</p>
-            <a href="{% url 'exportplan:start' %}" class="button button--large button--primary buttton-icon"><i class="fas fa-plus-square m-r-xs"></i>Create a new plan</a>
+            <a href="{% url 'exportplan:start' %}" class="button button--large button--primary buttton-icon"><i class="fas fa-plus-square m-r-xs"></i>{% if request.user.is_authenticated %}Create a  new plan{% else %}Create a free plan {% endif %}</a>
           </div>
           <div class="g-card bg-blue-deep-10 min-height-0">
             <a href="#" class="link">

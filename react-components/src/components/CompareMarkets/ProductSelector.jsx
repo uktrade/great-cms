@@ -10,11 +10,11 @@ import { sortBy, deepEqual } from '@src/Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 
 function ProductSelector() {
-  const [selectedProducts] = useUserProducts()
+  const { products: unsortedProducts } = useUserProducts()
   const [activeProduct, setActiveProduct] = useActiveProduct()
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
 
-  const products = sortBy(selectedProducts || [], 'commodity_name')
+  const products = sortBy(unsortedProducts || [], 'commodity_name')
 
   const setProduct = (choice) => {
     const index = Object.values(choice)[0]

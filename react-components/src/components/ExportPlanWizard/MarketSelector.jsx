@@ -6,16 +6,17 @@ import CountryFinderModal from '@src/components/ProductFinder/CountryFinderModal
 import { sortBy } from '@src/Helpers'
 
 function MarketSelector({ valueChange, selected, selectedProduct }) {
-  const { markets, setMarkets, addMarketItem } = useUserMarkets()
+  const { markets, addMarketItem, marketsLoaded } = useUserMarkets()
   const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [addButtonShowing, setAddButtonShowing] = useState(false)
 
-  let selectedIndex
+  let selectedKey
 
   let sortedMarkets = sortBy(markets || [], 'country_name')
 
   const options = sortedMarkets.map((market, index) => {
     if (selected && selected.country_iso2_code === market.country_iso2_code) {
-      selectedIndex = `${index}`
+      selectedKey = `${index}`
     }
     return {
       label: market.country_name,
@@ -23,35 +24,55 @@ function MarketSelector({ valueChange, selected, selectedProduct }) {
     }
   })
 
-  const addMarket = (market) => {
+  const somewhereElse = {
+    label: 'Somewhere else',
+    value: '+',
+  }
+
+  const onMarketChange = (index) => {
+    setAddButtonShowing(index == '+')
+    valueChange(sortedMarkets[index])
+  }
+  const onAddMarket = (market) => {
+    setAddButtonShowing(false)
     addMarketItem(market)
     valueChange(market)
   }
 
+  // If the add button is showing, 'somewhere else' option must be selected
+  selectedKey = selectedKey || (addButtonShowing ? '+' : '')
+
+  const hasMarkets = markets && markets.length
   return (
     <>
-      <div className="clearfix">
-        <RadioButtons
-          name="selected-market"
-          choices={options}
-          valueChange={(index) => valueChange(sortedMarkets[index])}
-          initialSelection={selectedIndex}
-        />
-      </div>
 
-      <button
-        type="button"
-        className="f-l m-t-xxs link"
-        onClick={() => setModalIsOpen(true)}
-      >
-        <i className="fa fa-plus m-r-xxs" />
-        Add a market
-      </button>
+      {hasMarkets ? (
+        <div className="clearfix">
+          <RadioButtons
+            name="selected-market"
+            choices={[...options, somewhereElse]}
+            valueChange={onMarketChange}
+            initialSelection={selectedKey}
+          />
+        </div>
+      ) : null}
+      {(marketsLoaded && !hasMarkets || addButtonShowing) && (
+        <div className={`${addButtonShowing ? 'g-panel' : ''} m-f-xxs`}>
+          <button
+            type="button"
+            className="m-t-xxs m-t-xxs button button--primary"
+            onClick={() => setModalIsOpen(true)}
+          >
+            <i className="fa fa-plus m-r-xxs" />
+            Choose Market
+          </button>
+        </div>
+      )}
       {modalIsOpen && (
         <CountryFinderModal
           modalIsOpen={modalIsOpen}
           setIsOpen={setModalIsOpen}
-          selectCountry={addMarket}
+          selectCountry={onAddMarket}
           activeProducts={[selectedProduct]}
         />
       )}

@@ -226,8 +226,8 @@ export default {
     return post(config.apiSignupUrl, { email, password }).then(responseHandler)
   },
 
-  checkVerificationCode: ({ email, code }) => {
-    return post(config.verifyCodeUrl, { email, code }).then(responseHandler)
+  checkVerificationCode: ({ uidb64, token, code }) => {
+    return post(config.verifyCodeUrl, { uidb64, token, code }).then(responseHandler)
   },
 
   updateCompany: ({

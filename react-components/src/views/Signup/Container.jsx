@@ -45,7 +45,7 @@ export function Container(props) {
   function handleStepCodeSubmit() {
     setErrors({})
     setIsInProgress(true)
-    Services.checkVerificationCode({ email, code })
+    Services.checkVerificationCode({ uidb64, token, code })
       .then(() => handleSuccess(STEP_COMPLETE))
       .catch(handleError)
   }

@@ -18,7 +18,7 @@ def test_set_target_age_groups(
     mock_update_ui_options.return_value = None
 
     client.force_login(user)
-    url = reverse('exportplan:api-target-age-groups')
+    url = reverse('exportplan:api-target-age-groups', kwargs={'id': 1})
     response = client.post(url, request_parameters)
     assert mock_update_ui_options.call_count == 1
     assert response.json() == expected_response
@@ -28,7 +28,7 @@ def test_set_target_age_groups(
 def test_set_target_age_groups_no_target_ages(client, user):
     client.force_login(user)
 
-    url = reverse('exportplan:api-target-age-groups')
+    url = reverse('exportplan:api-target-age-groups', kwargs={'id': 1})
     response = client.post(url)
 
     assert response.status_code == 400
@@ -285,7 +285,7 @@ def test_update_calculate_cost_and_pricing(mock_update_exportplan, cost_pricing_
 
     client.force_login(user)
     mock_update_exportplan.return_value = cost_pricing_data
-    url = reverse('exportplan:api-calculate-cost-and-pricing')
+    url = reverse('exportplan:api-calculate-cost-and-pricing', kwargs={'id': 1})
 
     response = client.post(url, {'direct_costs': {'product_costs': '3.00'}}, content_type='application/json')
     assert response.status_code == 200
