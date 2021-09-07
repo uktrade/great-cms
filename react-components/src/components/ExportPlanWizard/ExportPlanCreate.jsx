@@ -6,8 +6,6 @@ import Services from '@src/Services'
 import { config } from '@src/config'
 import ProductSelector from './ProductSelector'
 import MarketSelector from './MarketSelector'
-import LottieAnimation from '@src/components/Animation/LottieAnimation'
-import loaderAnimation from './loader.json'
 
 export function ExportPlanWizard() {
   const [product, setProduct] = useState()
@@ -89,15 +87,11 @@ export function ExportPlanWizard() {
             {isCreating ? (
               <>
                 <div className="p-b-xl m-b-xxl">
-                  <div className="clearfix">
-                    <div className="f-l" style={{ marginLeft: '-20px' }}>
-                      <LottieAnimation
-                        className="m-f-0"
-                        lotti={loaderAnimation}
-                        height={30}
-                        width={80}
-                      />
-                    </div>
+                  <div className="wave-animation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                   </div>
                   <h1 className="h-s p-t-0">
                     Creating export plan for selling{' '}
