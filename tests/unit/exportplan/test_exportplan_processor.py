@@ -224,3 +224,9 @@ def test_export_plan_processor_calculate_ep_section_progress_lists(user, export_
         for item in export_plan_parser.calculate_ep_section_progress()
     }
     assert progress[url]['populated'] == expected
+
+
+def test_export_plan_processor_get_absolute_url(user, export_plan_data):
+    export_plan_data.update({'pk': 1})
+    export_plan_parser = ExportPlanProcessor(export_plan_data)
+    assert export_plan_parser.get_absolute_url == '/export-plan/npiqji6n/'
