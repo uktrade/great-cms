@@ -97,55 +97,65 @@ const renderColumnHeader = (columnConfig, context, mobile) => {
   )
 }
 
-const renderCountryRowHeader = (market, removeMarket, config) => {
+const renderCountryRowHeader = ({
+  market,
+  removeMarket,
+  config,
+  selectedMarkets,
+  addRemoveShortlist,
+}) => {
   // A row header in normal or mobile mode is the country label. In mobile mode there is no 'remove' button
+  const iso = market.country_iso2_code
   return (
-    <th
-      className={`p-v-xs name ${(config && config.headingClass) || ''}`}
-      scope="row"
-    >
-      <div className="flex-center">
-        {(removeMarket && (
+    <>
+      {removeMarket && (
+        <td className={`${
+          (config && config.headingClass) || ''
+        } bg-blue-deep-10`}>
           <button
             type="button"
             onClick={removeMarket || (() => null)}
-            className="button button--only-icon button--tertiary button--small m-r-xxs"
+            className="button button--tiny-toggle m-f-s"
             data-id={market.country_iso2_code}
-            aria-label={`Remove ${market.country_name}`}
+            aria-label={`Remove ${market.country_name} from table`}
           >
-            <i className="fa fa-trash-alt icon--border" />
+            <i className="fa fa-times-circle" />
           </button>
-        )) ||
-          ''}
+        </td>
+      )}
+      <th
+        className={`p-v-xs name ${
+          (config && config.headingClass) || ''
+        } bg-blue-deep-10`}
+        scope="row"
+      >
         <div
           className="body-l-b country-name"
           id={`marketheader-${market.country_name}`}
         >
           {market.country_name}
         </div>
-      </div>
-    </th>
-  )
-}
-
-const renderCountryAction = (market, config, selectedMarkets, addRemoveShortlist) => {
-  // This is the cell that contains the cb to add market to shortlist
-  const iso= market.country_iso2_code
-  return (
-    <td key={iso}>
-      <span className="multiple-choice">
-      <input
-        onClick={(e) => addRemoveShortlist(market,!selectedMarkets[iso] )}
-        type="checkbox"
-        className="form-control"
-        id={`cb-${iso}`}
-        defaultChecked={selectedMarkets[iso]}
-      />
-      <label htmlFor={`cb-${iso}`}>
-        <span className="form-label"></span>
-      </label>
-      </span>
-    </td>
+      </th>
+      {addRemoveShortlist && (
+        <td key={iso} className={`p-v-xs ${
+          (config && config.headingClass) || ''
+        } bg-blue-deep-10`}>
+          <input
+            onClick={(e) => addRemoveShortlist(market, !selectedMarkets[iso])}
+            type="checkbox"
+            className="checkbox-favourite"
+            id={`cb-${iso}`}
+            defaultChecked={selectedMarkets[iso]}
+          />
+          <label
+            htmlFor={`cb-${iso}`}
+            className="far text-blue-deep-80"
+            tab-index="1"
+            aria-label={`${market.country_name} shortlisted`}
+          />
+        </td>
+      )}
+    </>
   )
 }
 
@@ -161,7 +171,7 @@ const renderMobileBlock = (
     const countryData = dataSet && dataSet[market.country_iso2_code]
     return (
       <tr key={`${market.country_iso2_code}:${columnKey}`}>
-        {renderCountryRowHeader(market)}
+        {renderCountryRowHeader({ market })}
         <td
           key={columnKey}
           className={`p-v-xs body-l ${cellConfig.className || ''}`}
@@ -181,7 +191,6 @@ const renderMobileBlock = (
 export default {
   renderMobileBlock,
   renderCountryRowHeader,
-  renderCountryAction,
   renderColumnHeader,
   sourceAttribution,
   renderCell,

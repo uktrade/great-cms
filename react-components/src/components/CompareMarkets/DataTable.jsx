@@ -195,7 +195,7 @@ export default function DataTable(props) {
                 {Object.values(comparisonMarkets || {}).map((market) => {
                   return (
                     <tr key={market.country_iso2_code}>
-                      {blocks.renderCountryRowHeader(market, removeMarket)}
+                      {blocks.renderCountryRowHeader({market, removeMarket})}
                     </tr>
                   )
                 })}
@@ -268,8 +268,7 @@ export default function DataTable(props) {
         key={`market-${market.country_iso2_code}`}
         id={`market-${market.country_name}`}
       >
-        {blocks.renderCountryRowHeader(market, removeMarket, config)}
-        {blocks.renderCountryAction(market, config, selectedMarkets, addRemoveShortlist)}
+        {blocks.renderCountryRowHeader({market, removeMarket, config, selectedMarkets, addRemoveShortlist})}
         {countryRow}
       </tr>
     )
@@ -283,8 +282,9 @@ export default function DataTable(props) {
         {config.caption && config.caption()}
         <thead>
           <tr>
-            <th className="body-l-b">&nbsp;</th>
-            <th className="body-l-b">&nbsp;</th>
+            <th className="body-l-b w-0 p-h-m"></th>
+            <th className="body-l-b">Market</th>
+            <th className="body-l-b w-0 p-h-s"></th>
             {Object.keys(config.columns).map((columnKey) => {
               const cellConfig = config.columns[columnKey]
               return (
