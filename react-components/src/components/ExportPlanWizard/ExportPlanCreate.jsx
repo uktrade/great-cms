@@ -10,8 +10,10 @@ import MarketSelector from './MarketSelector'
 export function ExportPlanWizard() {
   const [product, setProduct] = useState()
   const [market, setMarket] = useState()
+  const [isCreating, setCreating] = useState()
+  const creationFakeDelay = 4000
 
-  const paths = { product: '/', market: '/market', create: '/create' }
+  const paths = { product: '/', market: '/market' }
 
   const createClick = () => {
     const data = {
@@ -19,10 +21,13 @@ export function ExportPlanWizard() {
       export_countries: [market],
     }
     Services.createExportPlan(data).then((result) => {
-      // Jump to our newly created EP
-      // Todo: error handling here if/when BE does more validation.
+      // TODO: error handling here if/when BE does more validation.
       if (result.pk) {
-        window.location.assign(`${config.apiExportPlanBaseUrl}${result.pk}/`)
+        setCreating(true)
+        setTimeout(() => {
+          // Jump to our newly created EP
+          window.location.assign(`${config.exportPlanBaseUrl}${result.pk}/`)
+        }, creationFakeDelay)
       }
     })
   }
@@ -31,51 +36,109 @@ export function ExportPlanWizard() {
     <HashRouter>
       <Switch>
         <Route exact path={paths.product}>
-          <div className="clearfix m-b-m">
-            <h2 className="h-m">What are you exporting?</h2>
-            <ProductSelector valueChange={setProduct} selected={product} />
-          </div>
-          <div>
-            <Link
-              className="button button--primary"
-              to={product ? paths.market : paths.product}
-              disabled={!product}
+          <div className="c-1-4">
+            <a
+              href={config.exportPlanBaseUrl}
+              className="back-link h-m link body-m-b m-t-xs"
             >
-              Next
-            </Link>
+              <i className="fas fa-arrow-circle-left"></i>
+              <span className="m-f-xs">Back</span>
+            </a>
+          </div>
+          <div className="c-1-2 p-t-l">
+            <div className="clearfix m-b-m">
+              <div className="body-m">Creating exportplan step 1 of 2</div>
+              <h2 className="h-m">What are you exporting?</h2>
+              <p className="text-blue-deep-80">
+                Choose a product to start your plan and get supporting
+                information that's tailored to your business.
+              </p>
+              <ProductSelector valueChange={setProduct} selected={product} />
+            </div>
+            <div>
+              {product && (
+                <Link
+                  className="button button--primary"
+                  to={product ? paths.market : paths.product}
+                >
+                  Continue
+                </Link>
+              )}
+            </div>
           </div>
         </Route>
+
         <Route path={paths.market}>
-          {!product && <Redirect to={paths.product} />}
-          <div className="clearfix m-b-m">
-            <h2 className="h-m">Where&apos;s your target market?</h2>
-            <MarketSelector valueChange={setMarket} selected={market} selectedProduct={product}/>
+          <div className="c-1-4">
+            {!isCreating ? (
+              <Link
+                to={paths.product}
+                className="back-link h-m link body-m-b m-t-xs"
+              >
+                <i className="fas fa-arrow-circle-left"></i>
+                <span className="m-f-xs">Back</span>
+              </Link>
+            ) : (
+              <>&nbsp;</>
+            )}
           </div>
-          <Link
-            className="button button--primary"
-            to={market ? paths.create : paths.market}
-            disabled={!market}
-          >
-            Next
-          </Link>
-        </Route>
-        <Route path={paths.final}>
-          {(!product || !market) && <Redirect to={paths.product} />}
-          <p className="body-l">
-            You are about to create a plan to export{' '}
-            <span className="body-l-b">
-              {product && product.commodity_name}
-            </span>{' '}
-            to <span className="body-l-b">{market && market.country_name}</span>
-          </p>
-          <div className="clearfix" />
-          <button
-            type="button"
-            className="button button--primary"
-            onClick={createClick}
-          >
-            Create export plan
-          </button>
+          <div className="c-1-2 p-t-l">
+            {!product && <Redirect to={paths.product} />}
+            {isCreating ? (
+              <>
+                <div className="p-b-xl m-b-xxl">
+                  <div className="wave-animation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <h1 className="h-s p-t-0">
+                    Creating export plan for selling{' '}
+                    {product && product.commodity_name} to{' '}
+                    {market && market.country_name}
+                  </h1>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="clearfix m-b-m">
+                  <div className="body-m">Creating exportplan step 2 of 2</div>
+                  <h2 className="h-m">Where&apos;s your target market?</h2>
+                  <p className="text-blue-deep-80">
+                    Choose a place to start your plan.
+                  </p>
+                  <MarketSelector
+                    valueChange={setMarket}
+                    selected={market}
+                    selectedProduct={product}
+                  />
+                  {!market && (
+                    <div className="g-panel m-t-l p-v-m">
+                      <div className="body-l-b">
+                        Not sure which country to choose?
+                      </div>
+                      <a
+                        href={config.compareCountriesUrl}
+                        className="link link--underline body-l"
+                      >
+                        Find one in “Where to export” service.
+                      </a>
+                    </div>
+                  )}
+                </div>
+                {market && (
+                  <button
+                    type="button"
+                    className="button button--primary"
+                    onClick={createClick}
+                  >
+                    Create export plan
+                  </button>
+                )}
+              </>
+            )}
+          </div>
         </Route>
       </Switch>
     </HashRouter>

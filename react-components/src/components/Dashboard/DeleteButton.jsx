@@ -15,7 +15,7 @@ export default function DeleteButton() {
   const deletePlan = () => {
     Services.deleteExportPlan()
       .then(() => {
-        window.location.assign(config.apiExportPlanBaseUrl)
+        window.location.assign(config.exportPlanBaseUrl)
       })
       .catch(() => {
         // TODO: add snackbar report once available

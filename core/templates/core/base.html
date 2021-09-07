@@ -50,7 +50,6 @@
           {% endif %}
           apiModelObjectManageUrl: '{% url "exportplan:api-model-object-manage" %}',
           apiCreateExportPlanUrl: '{% url "exportplan:api-export-plan-create" %}',
-          apiExportPlanBaseUrl: '{% url "exportplan:index" %}',
           apiComTradeDataUrl: '{% url "core:api-comtrade-data" %}',
           apiCountryDataUrl: '{% url "core:api-country-data" %}',
           populationByCountryUrl: '{% url "exportplan:api-population-data-by-country" %}',
@@ -58,6 +57,8 @@
           countryOptions: {{ javascript_components.country_choices|safe }},
           csrfToken: '{{ csrf_token }}',
           dashboardUrl: '{% url_map "DASHBOARD_URL" %}',
+          exportPlanBaseUrl: '{% url "exportplan:index" %}',
+          compareCountriesUrl: '{% url "core:compare-countries" %}',
           googleUrl: '{{ javascript_components.google_url }}',
           industryOptions: {{ javascript_components.industry_options|safe }},
           linkedInUrl: '{{ javascript_components.linkedin_url }}',

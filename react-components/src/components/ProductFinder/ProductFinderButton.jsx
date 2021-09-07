@@ -12,15 +12,16 @@ import BasketViewer from './BasketView'
 
 function ProductFinderButton() {
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [selectedProducts, setSelectedProducts, loadProducts] = useUserProducts(
+  const {products, setProducts, loadProducts} = useUserProducts(
     false
   )
-  const sortMap = sortMapBy(selectedProducts || [],'commodity_name')
+
+  const sortMap = sortMapBy(products || [],'commodity_name')
 
   const deleteProduct = (index) => {
-    const reduced = [...selectedProducts]
+    const reduced = [...products]
     reduced.splice(index, 1)
-    setSelectedProducts(reduced)
+    setProducts(reduced)
   }
 
   return (
@@ -28,7 +29,7 @@ function ProductFinderButton() {
       <BasketViewer label="My products" onOpen={loadProducts}>
         <ul className="list m-v-0 body-l-b">
           {sortMap.map((mapIndex) => {
-            const product = selectedProducts[mapIndex]
+            const product = products[mapIndex]
             return (
               <li
                 className="p-v-xxs"

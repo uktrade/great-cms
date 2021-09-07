@@ -44,7 +44,7 @@ const setup = () => {
 
   const component = render(
     <Provider store={Services.store}>
-      <MarketSelector valueChange={valueChange}></MarketSelector>
+      <MarketSelector valueChange={valueChange}/>
     </Provider>
   )
   return {
@@ -54,7 +54,7 @@ const setup = () => {
 
 describe('Wizard market selector', () => {
   it('Renders market selector', () => {
-    const { getByText, queryByText } = setup()
+    const { getByText } = setup()
     const country2Radio = getByText('Albania')
     expect(country2Radio).toBeTruthy()
     fireEvent.click(country2Radio)
@@ -62,10 +62,15 @@ describe('Wizard market selector', () => {
     expect(valueChange).toHaveBeenCalledWith(country2)
   })
   it('Opens market finder modal', async () => {
-    const suggestedMock = fetchMock.get(/api\/suggested-markets\//, userCountries)
-    const countriesMock = fetchMock.get(/\/api\/countries\//, countriesResponse)
-    const { getByText, queryByText } = setup()
-    const addButton = getByText('Add a market')
+    fetchMock.get(/api\/suggested-markets\//, userCountries)
+    fetchMock.get(/\/api\/countries\//, countriesResponse)
+    const { getByText } = setup()
+    const somewhereElse = getByText('Somewhere else')
+    expect(somewhereElse).toBeTruthy()
+    act(() => {
+      fireEvent.click(somewhereElse)
+    })
+    const addButton = getByText('Choose Market')
     expect(addButton).toBeTruthy()
     act(() => {
       fireEvent.click(addButton)
