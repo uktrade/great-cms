@@ -102,10 +102,10 @@ def test_export_plan_builder_landing_page(
     client.force_login(user)
     response = client.get(reverse('exportplan:dashboard', kwargs={'id': 1}))
     assert response.status_code == 200
-    assert response.context['export_plan_download_link'] == '/export-plan/jEkEMkZ3/pdf-download/'
+    assert response.context['export_plan_download_link'] == '/export-plan/npiqji6n/pdf-download/'
     assert response.context['sections'][1] == {
         'title': 'Business objectives',
-        'url': '/export-plan/jEkEMkZ3/business-objectives/',
+        'url': '/export-plan/npiqji6n/business-objectives/',
         'disabled': False,
         'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
@@ -265,7 +265,7 @@ def test_export_plan_mixin(
 
     assert response.context_data['sections'][1] == {
         'title': 'Business objectives',
-        'url': '/export-plan/jEkEMkZ3/business-objectives/',
+        'url': '/export-plan/npiqji6n/business-objectives/',
         'disabled': False,
         'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
@@ -281,7 +281,7 @@ def test_export_plan_mixin(
         'section_progress': export_plan_section_progress_data,
         'next_section': {
             'title': 'Target markets research',
-            'url': '/export-plan/jEkEMkZ3/target-markets-research/',
+            'url': '/export-plan/npiqji6n/target-markets-research/',
             'image': 'target-market-research.png',
         },
     }
