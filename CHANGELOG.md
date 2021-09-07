@@ -15,6 +15,8 @@
 - GP2-3263 - Fix EP pdf download, sidebar and added back link to landing page
 - GP2-3270 - Learn topics image sizing
 - NOTICKET - Remove and cleanup broken Storybook setup
+- GP2-3352 - remove feature FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE
+- GP2-3352 - Obfuscate the export plan id in urls
 
 ### Fixed bugs
 - GP2-3310 - Product_sort_order

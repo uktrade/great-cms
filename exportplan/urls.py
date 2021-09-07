@@ -1,8 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.urls import path, reverse_lazy
+from django.urls import path, register_converter, reverse_lazy
 from great_components.decorators import skip_ga360
 
 from exportplan import api, views
+from exportplan.core.helpers import HashIdConverter
+
+register_converter(HashIdConverter, 'hashid')
 
 SIGNUP_URL = reverse_lazy('core:signup')
 # NB our signup/signin redirection workflow following login_required
@@ -21,7 +24,7 @@ urlpatterns = [
         name='index',
     ),
     path(
-        '<int:id>/',
+        '<hashid:id>/',
         login_required(views.ExportPlanDashBoard.as_view(), login_url=SIGNUP_URL),
         name='dashboard',
     ),
@@ -31,60 +34,60 @@ urlpatterns = [
         name='start',
     ),
     path(
-        '<int:id>/marketing-approach/',
+        '<hashid:id>/marketing-approach/',
         login_required(views.ExportPlanMarketingApproachView.as_view(), login_url=SIGNUP_URL),
         name='marketing-approach',
     ),
     path(
-        '<int:id>/adapting-your-product/',
+        '<hashid:id>/adapting-your-product/',
         login_required(views.ExportPlanAdaptingYourProductView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'adapting-your-product'},
         name='adapting-your-product',
     ),
     path(
-        '<int:id>/about-your-business/',
+        '<hashid:id>/about-your-business/',
         login_required(views.ExportPlanAboutYourBusinessView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'about-your-business'},
         name='about-your-business',
     ),
     path(
-        '<int:id>/target-markets-research/',
+        '<hashid:id>/target-markets-research/',
         login_required(views.ExportPlanTargetMarketsResearchView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'target-markets-research'},
         name='target-markets-research',
     ),
     path(
-        '<int:id>/business-objectives/',
+        '<hashid:id>/business-objectives/',
         login_required(views.ExportPlanBusinessObjectivesView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'business-objectives'},
         name='business-objectives',
     ),
     path(
-        '<int:id>/costs-and-pricing/',
+        '<hashid:id>/costs-and-pricing/',
         login_required(views.CostsAndPricingView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'costs-and-pricing'},
         name='costs-and-pricing',
     ),
     path(
-        '<int:id>/getting-paid/',
+        '<hashid:id>/getting-paid/',
         login_required(views.GettingPaidView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'getting-paid'},
         name='getting-paid',
     ),
     path(
-        '<int:id>/funding-and-credit/',
+        '<hashid:id>/funding-and-credit/',
         login_required(views.FundingAndCreditView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'funding-and-credit'},
         name='funding-and-credit',
     ),
     path(
-        '<int:id>/travel-plan/',
+        '<hashid:id>/travel-plan/',
         login_required(views.TravelBusinessPoliciesView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'travel-plan'},
         name='travel-plan',
     ),
     path(
-        '<int:id>/business-risk/',
+        '<hashid:id>/business-risk/',
         login_required(views.BusinessRiskView.as_view(), login_url=SIGNUP_URL),
         {'slug': 'business-risk'},
         name='business-risk',
@@ -96,12 +99,12 @@ urlpatterns = [
         name='service-page',
     ),
     path(
-        r'<int:id>/pdf-download/',
+        r'<hashid:id>/pdf-download/',
         login_required(views.PDFDownload.as_view(), login_url=SIGNUP_URL),
         name='pdf-download',
     ),
     path(
-        'api/export-plan/<int:id>/',
+        'api/export-plan/<hashid:id>/',
         skip_ga360(api.UpdateExportPlanAPIView.as_view()),
         name='api-update-export-plan',
     ),
@@ -129,5 +132,5 @@ urlpatterns = [
         'api/model-object/manage/', skip_ga360(api.ModelObjectManageAPIView.as_view()), name='api-model-object-manage'
     ),
     path('api/create/', skip_ga360(api.CreateExportPlanAPIView.as_view()), name='api-export-plan-create'),
-    path('api/delete/<int:id>/', skip_ga360(api.DeleteExportPlanAPIView.as_view()), name='api-export-plan-delete'),
+    path('api/delete/<hashid:id>/', skip_ga360(api.DeleteExportPlanAPIView.as_view()), name='api-export-plan-delete'),
 ]

@@ -298,13 +298,6 @@ def test_company_parser_expertise_countries_value_label_pairs(company_profile, e
     assert helpers.CompanyParser(company_profile).expertise_countries_value_label_pairs == expected
 
 
-def test_company_parser_expertise_countries_hard_code_industries(settings):
-    settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = True
-    assert helpers.CompanyParser({'expertise_industries': ['FR']}).expertise_industries_value_label_pairs == (
-        [{'label': 'Food and drink', 'value': 'FOOD_AND_DRINK'}]
-    )
-
-
 def test_helper_search_commodity_by_term(requests_mock):
     data = {
         'results': [

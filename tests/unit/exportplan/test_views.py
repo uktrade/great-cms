@@ -102,10 +102,10 @@ def test_export_plan_builder_landing_page(
     client.force_login(user)
     response = client.get(reverse('exportplan:dashboard', kwargs={'id': 1}))
     assert response.status_code == 200
-    assert response.context['export_plan_download_link'] == '/export-plan/1/pdf-download/'
+    assert response.context['export_plan_download_link'] == '/export-plan/jEkEMkZ3/pdf-download/'
     assert response.context['sections'][1] == {
         'title': 'Business objectives',
-        'url': '/export-plan/1/business-objectives/',
+        'url': '/export-plan/jEkEMkZ3/business-objectives/',
         'disabled': False,
         'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
@@ -244,7 +244,7 @@ def test_export_plan_mixin(
     mock_get_user_profile,
 ):
     client.force_login(user)
-    response = client.get(reverse(f'exportplan:{slug}', kwargs={'id': 1}))
+    response = client.get(reverse(f'exportplan:{slug}', args=[1]))
 
     assert mock_update_export_plan_client.call_count == 1
     assert mock_update_export_plan_client.call_args == mock.call(
@@ -265,7 +265,7 @@ def test_export_plan_mixin(
 
     assert response.context_data['sections'][1] == {
         'title': 'Business objectives',
-        'url': '/export-plan/1/business-objectives/',
+        'url': '/export-plan/jEkEMkZ3/business-objectives/',
         'disabled': False,
         'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
@@ -281,7 +281,7 @@ def test_export_plan_mixin(
         'section_progress': export_plan_section_progress_data,
         'next_section': {
             'title': 'Target markets research',
-            'url': '/export-plan/1/target-markets-research/',
+            'url': '/export-plan/jEkEMkZ3/target-markets-research/',
             'image': 'target-market-research.png',
         },
     }

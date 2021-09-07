@@ -49,7 +49,6 @@ API_CACHE_DISABLED=true
 STAFF_SSO_AUTHBROKER_URL=https://www.examole.com
 AUTHBROKER_CLIENT_ID=debug
 AUTHBROKER_CLIENT_SECRET=debug
-FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE=True
 FEATURE_COMPARE_MARKETS_TABS={"product":true, "economy":true, "society": true, "agegroups": true, "business": true}
 #treat it like SECRET_KEY in BETA env. must be a valid Fernet key.hex()
 #BETA_TOKEN=z7445AQ6aGXoPdFxYXQaJPLa3XU6I0zZUuI-Kbar8Jk=
@@ -100,3 +99,4 @@ WAGTAIL_TRANSFER_LOCAL_DEV=False
 # for Wagtail-Transfer. Sorry.
 AWS_S3_URL_PROTOCOL = env.str('AWS_S3_URL_PROTOCOL', 'http:')
 AWS_STORAGE_BUCKET_NAME=great-local-bucket-one
+HASHIDS_SALT=c489472d-3fbc-4009-a022-08b68bfc7b77

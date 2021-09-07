@@ -57,7 +57,7 @@ def test_export_plan_processor_get_current_url_product_required_not_in_check():
             False,
             {
                 'title': 'About your business',
-                'url': '/export-plan/1/about-your-business/',
+                'url': '/export-plan/jEkEMkZ3/about-your-business/',
                 'image': 'about-the-business.png',
             },
         ],
@@ -68,7 +68,7 @@ def test_export_plan_processor_get_current_url_product_required_not_in_check():
             False,
             {
                 'title': 'About your business',
-                'url': '/export-plan/1/about-your-business/',
+                'url': '/export-plan/jEkEMkZ3/about-your-business/',
                 'image': 'about-the-business.png',
             },
         ],
@@ -79,7 +79,7 @@ def test_export_plan_processor_get_current_url_product_required_not_in_check():
             False,
             {
                 'title': 'About your business',
-                'url': '/export-plan/1/about-your-business/',
+                'url': '/export-plan/jEkEMkZ3/about-your-business/',
                 'image': 'about-the-business.png',
             },
         ],
@@ -90,7 +90,7 @@ def test_export_plan_processor_get_current_url_product_required_not_in_check():
             False,
             {
                 'title': 'Business objectives',
-                'url': '/export-plan/1/business-objectives/',
+                'url': '/export-plan/jEkEMkZ3/business-objectives/',
                 'image': 'business-objectives.png',
             },
         ],
@@ -106,7 +106,7 @@ def test_export_plan_processor_get_current_url_product_required_not_in_check():
             False,
             {
                 'title': 'Target markets research',
-                'url': '/export-plan/1/target-markets-research/',
+                'url': '/export-plan/jEkEMkZ3/target-markets-research/',
                 'image': 'target-market-research.png',
             },
         ],
@@ -145,7 +145,7 @@ def test_export_plan_processor_calculate_ep_progress_complete(mock_get_exportpla
     assert ep_progress['exportplan_completed'] is True
     assert ep_progress['next_section'] == {
         'title': 'About your business',
-        'url': '/export-plan/1/about-your-business/',
+        'url': '/export-plan/jEkEMkZ3/about-your-business/',
         'image': 'about-the-business.png',
     }
 
@@ -218,7 +218,9 @@ def test_export_plan_processor_calculate_ep_section_progress(user, export_plan_d
 def test_export_plan_processor_calculate_ep_section_progress_lists(user, export_plan_data, url, expected):
     export_plan_data.update({'pk': 1})
     export_plan_parser = ExportPlanProcessor(export_plan_data)
+    hash_id = helpers.h_encode(1)
     progress = {
-        item['url'].replace('/export-plan/1/', ''): item for item in export_plan_parser.calculate_ep_section_progress()
+        item['url'].replace(f'/export-plan/{hash_id}/', ''): item
+        for item in export_plan_parser.calculate_ep_section_progress()
     }
     assert progress[url]['populated'] == expected

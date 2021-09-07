@@ -117,16 +117,16 @@ def export_plan_list_data():
 @pytest.fixture
 def export_plan_section_progress_data():
     return [
-        {'total': 5, 'populated': 1, 'url': '/export-plan/1/about-your-business/'},
-        {'total': 2, 'populated': 1, 'url': '/export-plan/1/business-objectives/'},
-        {'total': 5, 'populated': 0, 'url': '/export-plan/1/target-markets-research/'},
-        {'total': 11, 'populated': 1, 'url': '/export-plan/1/adapting-your-product/'},
-        {'total': 2, 'populated': 1, 'url': '/export-plan/1/marketing-approach/'},
-        {'total': 8, 'populated': 6, 'url': '/export-plan/1/costs-and-pricing/'},
-        {'total': 3, 'populated': 3, 'url': '/export-plan/1/getting-paid/'},
-        {'total': 3, 'populated': 3, 'url': '/export-plan/1/funding-and-credit/'},
-        {'total': 4, 'populated': 4, 'url': '/export-plan/1/travel-plan/'},
-        {'total': 1, 'populated': 1, 'url': '/export-plan/1/business-risk/'},
+        {'total': 5, 'populated': 1, 'url': '/export-plan/jEkEMkZ3/about-your-business/'},
+        {'total': 2, 'populated': 1, 'url': '/export-plan/jEkEMkZ3/business-objectives/'},
+        {'total': 5, 'populated': 0, 'url': '/export-plan/jEkEMkZ3/target-markets-research/'},
+        {'total': 11, 'populated': 1, 'url': '/export-plan/jEkEMkZ3/adapting-your-product/'},
+        {'total': 2, 'populated': 1, 'url': '/export-plan/jEkEMkZ3/marketing-approach/'},
+        {'total': 8, 'populated': 6, 'url': '/export-plan/jEkEMkZ3/costs-and-pricing/'},
+        {'total': 3, 'populated': 3, 'url': '/export-plan/jEkEMkZ3/getting-paid/'},
+        {'total': 3, 'populated': 3, 'url': '/export-plan/jEkEMkZ3/funding-and-credit/'},
+        {'total': 4, 'populated': 4, 'url': '/export-plan/jEkEMkZ3/travel-plan/'},
+        {'total': 1, 'populated': 1, 'url': '/export-plan/jEkEMkZ3/business-risk/'},
     ]
 
 

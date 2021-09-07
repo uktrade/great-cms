@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
 from dateutil import parser
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 from rest_framework.fields import ListField
 from rest_framework.serializers import Serializer
@@ -132,7 +132,11 @@ class ExportPlanProcessor:
             'section_progress': self.calculate_ep_section_progress(),
             'next_section': {
                 'title': next_section.get('title', ''),
-                'url': reverse_lazy(f'exportplan:{next_section_key}', kwargs={'id': self.data['pk']}),
+                'url': reverse_lazy(f'exportplan:{next_section_key}', args=[self.data['pk']]),
                 'image': next_section.get('image', ''),
             },
         }
+
+    @property
+    def get_absolute_url(self):
+        return reverse('exportplan:dashboard', args=[self.data['pk']])
