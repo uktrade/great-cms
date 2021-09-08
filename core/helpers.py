@@ -15,6 +15,7 @@ from django.conf import settings
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.shortcuts import redirect
 from django.utils.functional import cached_property
+from hashids import Hashids
 from ipware import get_client_ip
 
 from core.models import CuratedListPage
@@ -515,3 +516,26 @@ class GeoLocationRedirector:
             domain=settings.LANGUAGE_COOKIE_DOMAIN,
         )
         return response
+
+
+hashids = Hashids(settings.HASHIDS_SALT, min_length=8)
+
+
+def h_encrypt(id):
+    return hashids.encrypt(id)
+
+
+def h_decrypt(h):
+    z = hashids.decrypt(h)
+    if z:
+        return z[0]
+
+
+class HashIdConverter:
+    regex = '[a-zA-Z0-9]{8,}'
+
+    def to_python(self, value):
+        return h_decrypt(value)
+
+    def to_url(self, value):
+        return h_encrypt(value)

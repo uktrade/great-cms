@@ -26,7 +26,7 @@ export function ExportPlanWizard() {
         setCreating(true)
         setTimeout(() => {
           // Jump to our newly created EP
-          window.location.assign(`${config.exportPlanBaseUrl}${result.pk}/`)
+          window.location.assign(`${config.exportPlanBaseUrl}${result.hashid}/`)
         }, creationFakeDelay)
       }
     })

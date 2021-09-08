@@ -6,6 +6,7 @@ from django.utils.text import slugify
 from rest_framework.fields import ListField
 from rest_framework.serializers import Serializer
 
+from core.helpers import h_encrypt
 from . import data, serializers
 
 
@@ -140,3 +141,7 @@ class ExportPlanProcessor:
     @property
     def get_absolute_url(self):
         return reverse('exportplan:dashboard', kwargs={'id': self.data['pk']})
+
+    @property
+    def hashid(self):
+        return h_encrypt(self.data['pk'])

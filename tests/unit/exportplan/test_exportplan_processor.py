@@ -2,6 +2,7 @@ from unittest import mock
 
 import pytest
 
+from core.helpers import h_encrypt
 from exportplan.core import data, helpers
 from exportplan.core.processor import ExportPlanProcessor
 
@@ -218,7 +219,7 @@ def test_export_plan_processor_calculate_ep_section_progress(user, export_plan_d
 def test_export_plan_processor_calculate_ep_section_progress_lists(user, export_plan_data, url, expected):
     export_plan_data.update({'pk': 1})
     export_plan_parser = ExportPlanProcessor(export_plan_data)
-    hash_id = helpers.h_encrypt(1)
+    hash_id = h_encrypt(1)
     progress = {
         item['url'].replace(f'/export-plan/{hash_id}/', ''): item
         for item in export_plan_parser.calculate_ep_section_progress()
@@ -230,3 +231,9 @@ def test_export_plan_processor_get_absolute_url(user, export_plan_data):
     export_plan_data.update({'pk': 1})
     export_plan_parser = ExportPlanProcessor(export_plan_data)
     assert export_plan_parser.get_absolute_url == '/export-plan/npiqji6n/'
+
+
+def test_export_plan_processor_hashid(user, export_plan_data):
+    export_plan_data.update({'pk': 1})
+    export_plan_parser = ExportPlanProcessor(export_plan_data)
+    assert export_plan_parser.hashid == 'npiqji6n'
