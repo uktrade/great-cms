@@ -179,7 +179,7 @@ export default function DataTable(props) {
   }
 
   const addRemoveShortlist = (market, add) => {
-    ;[addMarketItem, removeMarketItem][add ? 0 : 1](market)
+    add ? addMarketItem(market) : removeMarketItem(market)
   }
 
   setBaseYear(cache[datasetName], config)
