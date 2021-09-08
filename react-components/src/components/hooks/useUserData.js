@@ -50,7 +50,7 @@ export const useUserData = (
   }
 
   const removeFromList = (item) => {
-    // Where the blob is a list, this method adds the given item to the end only if it's unique
+    // Where the blob is a list, this method removes the given item
     if (blobValue && isArray(blobValue)) {
       const index = blobValue.findIndex((cItem) =>
         duplicateComparator(cItem, item)

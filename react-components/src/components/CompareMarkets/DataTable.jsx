@@ -151,7 +151,7 @@ export default function DataTable(props) {
     }
   }, [product, comparisonMarkets])
 
-  const setBaseYear = (dataSet, markets, tabConfig) => {
+  const setBaseYear = (dataSet, tabConfig) => {
     // Calculate base year
     const years = {}
     Object.values(comparisonMarkets).forEach((market) => {
@@ -182,7 +182,7 @@ export default function DataTable(props) {
     ;[addMarketItem, removeMarketItem][add ? 0 : 1](market)
   }
 
-  setBaseYear(cache[datasetName], comparisonMarkets, config)
+  setBaseYear(cache[datasetName], config)
 
   if (mobile) {
     return (
@@ -282,9 +282,9 @@ export default function DataTable(props) {
         {config.caption && config.caption()}
         <thead>
           <tr>
-            <th className="body-l-b w-0 p-h-m"></th>
+            <th className="body-l-b w-0 p-h-m"><span className="visually-hidden">Remove market</span></th>
             <th className="body-l-b">Market</th>
-            <th className="body-l-b w-0 p-h-s"></th>
+            <th className="body-l-b w-0 p-h-s"><span className="visually-hidden">Market actions</span></th>
             {Object.keys(config.columns).map((columnKey) => {
               const cellConfig = config.columns[columnKey]
               return (

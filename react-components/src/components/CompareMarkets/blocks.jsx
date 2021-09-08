@@ -141,7 +141,7 @@ const renderCountryRowHeader = ({
           (config && config.headingClass) || ''
         } bg-blue-deep-10`}>
           <input
-            onClick={(e) => addRemoveShortlist(market, !selectedMarkets[iso])}
+            onChange={() => addRemoveShortlist(market, !selectedMarkets[iso])}
             type="checkbox"
             className="checkbox-favourite"
             id={`cb-${iso}`}
@@ -150,7 +150,6 @@ const renderCountryRowHeader = ({
           <label
             htmlFor={`cb-${iso}`}
             className="far text-blue-deep-80"
-            tab-index="1"
             aria-label={`${market.country_name} shortlisted`}
           />
         </td>
