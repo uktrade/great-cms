@@ -189,13 +189,30 @@ export default function DataTable(props) {
       <>
         <div className="bg-blue-deep-80 p-h-xs p-v-xs selected-places">
           <h2 className="h-xs text-white p-v-0">Selected markets</h2>
-          <div className="bg-white radius overflow-hidden p-h-s">
+          <div className="bg-white radius overflow-hidden">
             <table className="m-v-0 border-blue-deep-20 no-bottom-border">
+              <thead>
+                <tr>
+                  <th className="w-0 p-h-m p-v-0">
+                    <span className="visually-hidden">Remove market</span>
+                  </th>
+                  <th className="p-v-0">
+                    <span className="visually-hidden">Market</span>
+                  </th>
+                  <th className="w-0 p-h-m p-v-0">
+                    <span className="visually-hidden">Market actions</span>
+                  </th>
+                </tr>
+              </thead>
               <tbody>
                 {Object.values(comparisonMarkets || {}).map((market) => {
                   return (
                     <tr key={market.country_iso2_code}>
-                      {blocks.renderCountryRowHeader({market, removeMarket})}
+                      {blocks.renderCountryRowHeader({market,
+          removeMarket,
+          config,
+          selectedMarkets,
+          addRemoveShortlist })}
                     </tr>
                   )
                 })}
@@ -268,7 +285,13 @@ export default function DataTable(props) {
         key={`market-${market.country_iso2_code}`}
         id={`market-${market.country_name}`}
       >
-        {blocks.renderCountryRowHeader({market, removeMarket, config, selectedMarkets, addRemoveShortlist})}
+        {blocks.renderCountryRowHeader({
+          market,
+          removeMarket,
+          config,
+          selectedMarkets,
+          addRemoveShortlist,
+        })}
         {countryRow}
       </tr>
     )
@@ -282,9 +305,13 @@ export default function DataTable(props) {
         {config.caption && config.caption()}
         <thead>
           <tr>
-            <th className="body-l-b w-0 p-h-m"><span className="visually-hidden">Remove market</span></th>
+            <th className="body-l-b w-0 p-h-m">
+              <span className="visually-hidden">Remove market</span>
+            </th>
             <th className="body-l-b">Market</th>
-            <th className="body-l-b w-0 p-h-s"><span className="visually-hidden">Market actions</span></th>
+            <th className="body-l-b w-0 p-h-s">
+              <span className="visually-hidden">Market actions</span>
+            </th>
             {Object.keys(config.columns).map((columnKey) => {
               const cellConfig = config.columns[columnKey]
               return (
