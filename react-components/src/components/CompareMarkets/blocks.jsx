@@ -126,7 +126,7 @@ const renderCountryRowHeader = ({
       <th
         className={`p-v-xs name ${
           (config && config.headingClass) || ''
-        } bg-blue-deep-10`}
+        } ${removeMarket && 'bg-blue-deep-10' || ''}`}
         scope="row"
       >
         <div
@@ -145,7 +145,7 @@ const renderCountryRowHeader = ({
             type="checkbox"
             className="checkbox-favourite"
             id={`cb-${iso}`}
-            defaultChecked={selectedMarkets[iso]}
+            checked={!!selectedMarkets[iso]}
           />
           <label
             htmlFor={`cb-${iso}`}
