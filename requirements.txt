@@ -196,7 +196,7 @@ openpyxl==3.0.7
     # via tablib
 packaging==21.0
     # via sphinx
-pillow==8.3.1
+pillow==8.3.2
     # via
     #   -r requirements.in
     #   directory-validators
