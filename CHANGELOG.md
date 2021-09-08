@@ -17,6 +17,8 @@
 - GP2-3263 - Fix EP pdf download, sidebar and added back link to landing page
 - GP2-3270 - Learn topics image sizing
 - NOTICKET - Remove and cleanup broken Storybook setup
+- GP2-3352 - remove feature FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE
+- GP2-3352 - Obfuscate the export plan id in urls
 
 ### Fixed bugs
 - GP2-3363 - Fix costs_and_pricing page
@@ -33,6 +35,7 @@
 - GP2-3253 fix-confirm-idenity-urls
 - GP2-3309 - [HOTFIX] adding bing search console meta tag
 - GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
+- GP2-3372 - [HOTFIX] add crsf token to company disconnect to fix 403 error
 
 ### Enhancements
 - GP2-3128 - Analytics - section completion

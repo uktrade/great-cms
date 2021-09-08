@@ -8,8 +8,6 @@ from selenium.webdriver.chrome.options import Options
 from wagtail_factories import SiteFactory
 
 from core import cms_slugs, helpers as core_helpers
-from core.management.commands.create_tours import defaults as tour_steps
-from core.models import Tour
 from directory_api_client import api_client
 from directory_constants import choices
 from exportplan.core import helpers as exportplan_helpers
@@ -289,18 +287,6 @@ def mock_update_export_plan():
 
 
 @pytest.fixture
-def mock_export_plan_dashboard_page_tours(exportplan_dashboard):
-    """Create Export Plan Dashboard page tour steps in reversed order.
-
-    For some reason when page tour steps are created during a unit test run then
-    those steps are shown in reversed order. So in order to show them in the right
-    order they have to be reverse here.
-    """
-    tour_steps.update({'steps': tour_steps['steps']})
-    return Tour.objects.get_or_create(page=exportplan_dashboard, defaults=tour_steps)
-
-
-@pytest.fixture
 def mock_get_company_profile_with_expertise():
     return_value = {
         'expertise_countries': ['AF'],
@@ -347,7 +333,6 @@ def mock_dashboard_profile_events_opportunities(
 
 @pytest.fixture
 def mock_all_dashboard_and_export_plan_requests_and_responses(
-    mock_export_plan_dashboard_page_tours,
     mock_get_dashboard_export_opportunities,
     mock_export_plan_detail_list,
     mock_get_export_plan,

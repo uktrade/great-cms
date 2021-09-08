@@ -9,10 +9,7 @@ from django.test import override_settings
 from core import helpers, middleware
 from core.middleware import GADataMissingException, TimedAccessMiddleware
 from tests.unit.core import factories
-from tests.unit.exportplan.factories import (
-    ExportPlanPageFactory,
-    ExportPlanPseudoDashboardPageFactory,
-)
+from tests.unit.exportplan.factories import ExportPlanPageFactory
 
 
 @pytest.fixture(autouse=True)
@@ -87,7 +84,6 @@ def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set
     mock_get_user_profile,
 ):
     exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
-    exportplan_dashboard_page = ExportPlanPseudoDashboardPageFactory(parent=exportplan_page, slug='dashboard')
 
     # Given the user is logged in
     client.force_login(user)
@@ -95,11 +91,8 @@ def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set
     # And the compay name is set
     mock_get_company_profile.return_value = {'name': 'Example corp'}
 
-    # When the user next goes to /export-plan/ or /export-plan/dasbboard/
+    # When the user next goes to /export-plan/ or /export-plan/dashboard/
     response = client.get(exportplan_page.url)
-    assert response.status_code == 200
-
-    response = client.get(exportplan_dashboard_page.url)
     assert response.status_code == 200
 
 

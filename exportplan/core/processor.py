@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
 from dateutil import parser
-from django.urls import reverse_lazy
+from django.urls import reverse
 from django.utils.text import slugify
 from rest_framework.fields import ListField
 from rest_framework.serializers import Serializer
@@ -51,7 +51,7 @@ class ExportPlanProcessor:
                 {
                     'total': total,
                     'populated': populated,
-                    'url': reverse_lazy(f'exportplan:{field_map[0]}', kwargs={'id': self.data['pk']}),
+                    'url': reverse(f'exportplan:{field_map[0]}', kwargs={'id': self.data['pk']}),
                 }
             )
         return progress
@@ -66,7 +66,7 @@ class ExportPlanProcessor:
         return False if field_value == '' else True
 
     def landing_page_url(self):
-        return reverse_lazy('exportplan:dashboard', kwargs={'id': self.data['pk']})
+        return reverse('exportplan:dashboard', kwargs={'id': self.data['pk']})
 
     def build_current_url(self, slug):
         current_url = data.SECTIONS[slug]
@@ -85,7 +85,7 @@ class ExportPlanProcessor:
         sections = data.SECTIONS
         for slug, values in sections.items():
             values['is_complete'] = self.data.get('ui_progress', {}).get(slug, {}).get('is_complete', False)
-            values['url'] = reverse_lazy(f'exportplan:{slug}', kwargs={'id': self.data['pk']})
+            values['url'] = reverse(f'exportplan:{slug}', kwargs={'id': self.data['pk']})
         return list(sections.values())
 
     def calculated_cost_pricing(self):
@@ -132,7 +132,11 @@ class ExportPlanProcessor:
             'section_progress': self.calculate_ep_section_progress(),
             'next_section': {
                 'title': next_section.get('title', ''),
-                'url': reverse_lazy(f'exportplan:{next_section_key}', kwargs={'id': self.data['pk']}),
+                'url': reverse(f'exportplan:{next_section_key}', kwargs={'id': self.data['pk']}),
                 'image': next_section.get('image', ''),
             },
         }
+
+    @property
+    def get_absolute_url(self):
+        return reverse('exportplan:dashboard', kwargs={'id': self.data['pk']})

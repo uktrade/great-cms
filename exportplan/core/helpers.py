@@ -1,4 +1,6 @@
 import pytz
+from django.conf import settings
+from hashids import Hashids
 from iso3166 import countries_by_alpha3
 
 from core import models
@@ -127,6 +129,7 @@ def get_exportplan_detail_list(sso_session_id):
         # On list page we need to know sections complete only EP processor can calculate this
         # Move this to an easy method TODO
         ep['calculated_progress'] = ExportPlanProcessor(ep).calculate_ep_progress()
+        ep['url'] = ExportPlanProcessor(ep).get_absolute_url
 
     return exportplan_list
 
@@ -135,3 +138,26 @@ def get_exportplan(sso_session_id, id):
     response = api_client.exportplan.detail(sso_session_id=sso_session_id, id=id)
     response.raise_for_status()
     return response.json()
+
+
+hashids = Hashids(settings.HASHIDS_SALT, min_length=8)
+
+
+def h_encrypt(id):
+    return hashids.encrypt(id)
+
+
+def h_decrypt(h):
+    z = hashids.decrypt(h)
+    if z:
+        return z[0]
+
+
+class HashIdConverter:
+    regex = '[a-zA-Z0-9]{8,}'
+
+    def to_python(self, value):
+        return h_decrypt(value)
+
+    def to_url(self, value):
+        return h_encrypt(value)
