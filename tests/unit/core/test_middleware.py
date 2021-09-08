@@ -91,7 +91,7 @@ def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set
     # And the compay name is set
     mock_get_company_profile.return_value = {'name': 'Example corp'}
 
-    # When the user next goes to /export-plan/ or /export-plan/dasbmake autoformaboard/
+    # When the user next goes to /export-plan/ or /export-plan/dashboard/
     response = client.get(exportplan_page.url)
     assert response.status_code == 200
 
