@@ -2,8 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.urls import path, register_converter, reverse_lazy
 from great_components.decorators import skip_ga360
 
+from core.helpers import HashIdConverter
 from exportplan import api, views
-from exportplan.core.helpers import HashIdConverter
 
 register_converter(HashIdConverter, 'hashid')
 

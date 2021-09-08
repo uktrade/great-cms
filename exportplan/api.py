@@ -86,6 +86,7 @@ class CreateExportPlanAPIView(generics.GenericAPIView):
             data = helpers.create_export_plan(
                 sso_session_id=self.request.user.session_id, data=serializer.validated_data
             )
+            data['hashid'] = ExportPlanProcessor(data).get_hashid
             return Response(data)
 
 
