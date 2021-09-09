@@ -27,13 +27,12 @@ function ProductSelector() {
       value: `${index}`,
     }
   })
-
   let selectedIndex = (products || []).findIndex((p) =>
     deepEqual(p, activeProduct)
   )
   if(selectedIndex < 0 && products.length) {
-    selectedIndex = 0
-    setActiveProduct(products[0])
+    selectedIndex = products.length-1
+    setActiveProduct(products[selectedIndex])
   }
 
   const hasProducts = !!products.length
