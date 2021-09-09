@@ -52,9 +52,7 @@
           apiCreateExportPlanUrl: '{% url "exportplan:api-export-plan-create" %}',
           apiComTradeDataUrl: '{% url "core:api-comtrade-data" %}',
           apiCountryDataUrl: '{% url "core:api-country-data" %}',
-
           societyByCountryUrl: '{% url "exportplan:api-society-data-by-country" %}',
-
           csrfToken: '{{ csrf_token }}',
           dashboardUrl: '{% url_map "DASHBOARD_URL" %}',
           exportPlanBaseUrl: '{% url "exportplan:index" %}',
