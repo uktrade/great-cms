@@ -434,7 +434,6 @@ class ExportPlanDashBoard(
         id = int(self.kwargs['id'])
         export_plan = helpers.get_exportplan(self.request.user.session_id, id)
         processor = ExportPlanProcessor(export_plan)
-        # self.request.user.set_page_view(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
         context['sections'] = processor.build_export_plan_sections()
         context['export_plan_progress'] = processor.calculate_ep_progress()
         context['export_plan'] = export_plan

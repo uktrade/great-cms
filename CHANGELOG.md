@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-3338 - Dashboard top 3 export plans
 - GP2-3344 - Verify account with token
 - GP2-3171 - EP wizard styling update
 - GP2-3284 - EP title in sections

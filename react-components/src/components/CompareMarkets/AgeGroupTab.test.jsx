@@ -85,7 +85,6 @@ describe('Compare markets', () => {
     document.body.appendChild(container)
     Services.setConfig({
       csrfToken: '12345',
-      populationByCountryUrl: '/export-plan/api/country-data/',
       apiCountryDataUrl: '/api/data-service/countrydata/',
       apiUserDataUrl: '/sso/api/user-data/',
       user: { id: '6' },

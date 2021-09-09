@@ -1,0 +1,18 @@
+{% load content_tags %}
+{% load humanize %}
+{% comment %}
+EP Card for smaller, dashboard-style listing
+{% endcomment %}
+<article class="relative bg-white p-h-s p-v-xxs clearfix m-b-xxs">
+  <a href="{{ plan.url }}" class="learn__category-link" aria-describedby="export-plan-{{ plan.url }}">
+    <span class="visually-hidden">View export plan</span>
+  </a>
+  <h2 id="export-plan-{{ plan.pk }}" class="h-xs p-t-xs">
+    Export plan for selling {{ plan.export_commodity_codes.0.commodity_name }}
+    to {{ plan.export_countries.0.country_name }}</h2>
+  <p class="m-0 body-s">Created {{ plan.created|str_to_datetime|naturaltime }}</p>
+  <div class="progress-bar m-v-xxs">
+    <span style="width: {% widthratio plan.calculated_progress.sections_completed plan.calculated_progress.sections_total 100 %}%"></span>
+  </div>
+  <p class="body-m-b m-t-xs m-b-0">{% widthratio plan.calculated_progress.sections_completed plan.calculated_progress.sections_total 100 %}% completed</p>
+</article>
