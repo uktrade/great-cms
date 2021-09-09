@@ -103,15 +103,19 @@ const renderCountryRowHeader = ({
   config,
   selectedMarkets,
   addRemoveShortlist,
+  mobile,
 }) => {
   // A row header in normal or mobile mode is the country label. In mobile mode there is no 'remove' button
   const iso = market.country_iso2_code
+  const headingClass = `
+    ${(config && config.headingClass) || ''} ${!mobile ? 'bg-blue-deep-10' : ''}
+  `
   return (
     <>
       {removeMarket && (
-        <td className={`${
-          (config && config.headingClass) || ''
-        } bg-blue-deep-10`}>
+        <td
+          className={headingClass}
+        >
           <button
             type="button"
             onClick={removeMarket || (() => null)}
@@ -124,9 +128,7 @@ const renderCountryRowHeader = ({
         </td>
       )}
       <th
-        className={`p-v-xs name ${
-          (config && config.headingClass) || ''
-        } ${removeMarket && 'bg-blue-deep-10' || ''}`}
+        className={`p-v-xs name ${headingClass}`}
         scope="row"
       >
         <div
@@ -137,9 +139,10 @@ const renderCountryRowHeader = ({
         </div>
       </th>
       {addRemoveShortlist && (
-        <td key={iso} className={`p-v-xs ${
-          (config && config.headingClass) || ''
-        } bg-blue-deep-10`}>
+        <td
+          key={iso}
+          className={`p-v-xs ${headingClass}`}
+        >
           <input
             onChange={() => addRemoveShortlist(market, !selectedMarkets[iso])}
             type="checkbox"
@@ -170,7 +173,7 @@ const renderMobileBlock = (
     const countryData = dataSet && dataSet[market.country_iso2_code]
     return (
       <tr key={`${market.country_iso2_code}:${columnKey}`}>
-        {renderCountryRowHeader({ market })}
+        {renderCountryRowHeader({ market, mobile:true })}
         <td
           key={columnKey}
           className={`p-v-xs body-l ${cellConfig.className || ''}`}

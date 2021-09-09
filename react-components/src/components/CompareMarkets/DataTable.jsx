@@ -208,11 +208,14 @@ export default function DataTable(props) {
                 {Object.values(comparisonMarkets || {}).map((market) => {
                   return (
                     <tr key={market.country_iso2_code}>
-                      {blocks.renderCountryRowHeader({market,
-          removeMarket,
-          config,
-          selectedMarkets,
-          addRemoveShortlist })}
+                      {blocks.renderCountryRowHeader({
+                        market,
+                        removeMarket,
+                        config,
+                        selectedMarkets,
+                        addRemoveShortlist,
+                        mobile,
+                      })}
                     </tr>
                   )
                 })}
