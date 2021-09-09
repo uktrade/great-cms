@@ -22,6 +22,7 @@
 
 ### Fixed bugs
 - GP2-3373 - Fix in situ code verification - not through link
+- GP2-3364 - WTE fallback to most recent product
 - GP2-3363 - Fix costs_and_pricing page
 - GP2-3310 - Product_sort_order
 - GP2-3311 - Suggestions on deleted products
