@@ -18,7 +18,7 @@ const Confirmation = ({
       handleSubmit()
     }}
   >
-    <i class="fas fa-info-circle" aria-hidden="true"></i>
+    <i className="fas fa-info-circle" aria-hidden="true"></i>
 
     {showTitle && (
       <legend className="h-s text-blue-deep-80 p-t-xs">Check your email</legend>

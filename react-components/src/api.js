@@ -223,7 +223,10 @@ export default {
   },
 
   createUser: ({ email, password }) => {
-    return post(config.apiSignupUrl, { email, password }).then(responseHandler)
+    return post(
+      config.apiSignupUrl,
+      { email, password }
+    ).then((response) => responseHandler(response).json())
   },
 
   checkVerificationCode: ({ uidb64, token, code }) => {
