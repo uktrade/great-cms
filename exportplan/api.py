@@ -10,14 +10,6 @@ from exportplan.core import helpers, serializers
 from exportplan.core.processor import ExportPlanProcessor
 
 
-class ExportPlanPopulationDataByCountryView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        data = helpers.get_population_data_by_country(countries=self.request.GET.get('countries').split(','))
-        return Response(data)
-
-
 class ExportPlanSocietyDataByCountryView(APIView):
     permission_classes = [IsAuthenticated]
 

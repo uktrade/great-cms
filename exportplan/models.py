@@ -2,7 +2,7 @@ from django.conf import settings
 from great_components.mixins import GA360Mixin
 from wagtail.core.models import Page
 
-from core import cms_slugs, mixins
+from core import mixins
 from exportplan.core.processor import ExportPlanProcessor
 
 
@@ -20,7 +20,6 @@ class ExportPlanDashboardPage(
     def get_context(self, request):
         id = self.kwargs['id']
         processor = ExportPlanProcessor(self.request.user.session_id, id)
-        request.user.set_page_view(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
         context = super().get_context(request)
         context['sections'] = processor.build_export_plan_sections()
         context['export_plan_progress'] = processor.calculate_ep_progress()
