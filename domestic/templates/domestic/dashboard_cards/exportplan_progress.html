@@ -6,19 +6,17 @@ Only show if > 0 plans in list
 {% load progress_bar %}
 {% load static %}
 <div class="g-card">
-  <div class="g-card-progress {% if export_plan_progress.exportplan_completed %}g-card-progress--complete{% else %}" style="background-image: url({% static 'images/' %}{{export_plan_progress.next_section.image}})" {% endif %}">
-    <div class="g-card-header flex-jc-space-between flex-ai-center">
-      <h2 class="h-m p-t-xxs">My export plans</h2>
-      <a class="button button--tertiary button--small button--icon" href="{% url 'exportplan:start' %}"><i class="fas fa-plus-square"></i>Create a new plan</a>
-    </div>
-    {% for plan in exportplan_list|slice:":3" %}
-    <div class="grid m-h-0 g-card-full">
-      {% include 'exportplan/includes/list_card_small.html' %}
-      {% if not forloop.last %}
-      <hr class="hr hr--light m-v-0 m-h-s">
-      {% endif %}
-    </div>
-    {% endfor %}
-    <a class="button button--tertiary button--small m-t-xs" href="{% url 'exportplan:index' %}">View all export plans</a>
+  <div class="g-card-header flex-jc-space-between flex-ai-center">
+    <h2 class="h-m p-t-xxs">My export plans</h2>
+    <a class="button button--tertiary button--small button--icon" href="{% url 'exportplan:start' %}"><i class="fas fa-plus-square"></i>Create a new plan</a>
   </div>
+  {% for plan in exportplan_list|slice:":3" %}
+  <div class="grid m-h-0 g-card-full">
+    {% include 'exportplan/includes/list_card_small.html' %}
+    {% if not forloop.last %}
+    <hr class="hr hr--light m-v-0 m-h-s">
+    {% endif %}
+  </div>
+  {% endfor %}
+  <a class="button button--tertiary button--small m-t-xs" href="{% url 'exportplan:index' %}">View all export plans</a>
 </div>
