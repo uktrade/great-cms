@@ -288,7 +288,7 @@ sphinxcontrib-serializinghtml==1.1.5
     # via sphinxcontrib-websupport
 sphinxcontrib-websupport==1.2.4
     # via sphinx
-sqlparse==0.4.1
+sqlparse==0.4.2
     # via django
 tablib[xls,xlsx]==3.0.0
     # via wagtail
