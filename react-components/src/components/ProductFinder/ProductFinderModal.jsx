@@ -3,7 +3,10 @@ import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import Slider from 'react-slick'
 import Services from '@src/Services'
-import { useUserProducts, useActiveProduct, } from '@src/components/hooks/useUserData'
+import {
+  useUserProducts,
+  useActiveProduct,
+} from '@src/components/hooks/useUserData'
 import { analytics, capitalize } from '@src/Helpers'
 import Spinner from '../Spinner/Spinner'
 import Interaction from './Interaction'
@@ -82,8 +85,11 @@ export default function ProductFinderModal(props) {
   }
 
   const saveProduct = (commodityCode, commodityName) => {
-    const newProduct = { commodity_name: commodityName, commodity_code: commodityCode }
-    setProducts([...products, newProduct ])
+    const newProduct = {
+      commodity_name: commodityName,
+      commodity_code: commodityCode,
+    }
+    setProducts([...products, newProduct])
     setActiveProduct(newProduct)
     onAddProduct(newProduct)
     if (searchResults) {
@@ -398,14 +404,11 @@ export default function ProductFinderModal(props) {
     return (
       <div className="p-h-s p-t-l">
         <h3 className="h-m p-t-0 p-b-xxs">
-          <label htmlFor="search-input">Add product</label>
+          <label htmlFor="search-input">Find product</label>
         </h3>
-        <div id="search-hint">
-          Adding a product personalises lessons and other content for you.
-          <span className="visually-hidden">
-            Type the name of your product eg: fresh strawberries
-          </span>
-        </div>
+        <span className="visually-hidden">
+          Type the name of your product eg: fresh strawberries
+        </span>
         {error && <div className="form-group-error p-v-xs m-v-xs">{error}</div>}
         <div className="flex-centre m-t-xs search-input">
           <SearchInput
