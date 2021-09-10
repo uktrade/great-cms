@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     'healthcheck.apps.HealthcheckAppConfig',
     'health_check.cache',
     'sso_profile',
+    'directory_components',
 ]
 
 MIDDLEWARE = [
