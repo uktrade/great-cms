@@ -191,23 +191,11 @@ export default function DataTable(props) {
           <h2 className="h-xs text-white p-v-0">Selected markets</h2>
           <div className="bg-white radius overflow-hidden">
             <table className="m-v-0 border-blue-deep-20 no-bottom-border">
-              <thead>
-                <tr>
-                  <th className="w-0 p-h-m p-v-0">
-                    <span className="visually-hidden">Remove market</span>
-                  </th>
-                  <th className="p-v-0">
-                    <span className="visually-hidden">Market</span>
-                  </th>
-                  <th className="w-0 p-h-m p-v-0">
-                    <span className="visually-hidden">Market actions</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
+
+              <tbody className="table-separated">
                 {Object.values(comparisonMarkets || {}).map((market) => {
                   return (
-                    <tr key={market.country_iso2_code}>
+                    <tr key={market.country_iso2_code} >
                       {blocks.renderCountryRowHeader({
                         market,
                         removeMarket,
@@ -221,8 +209,11 @@ export default function DataTable(props) {
                 })}
               </tbody>
             </table>
+            <div className="p-h-s p-b-xs">
+              {triggerButton}
+            </div>
           </div>
-          {triggerButton}
+
         </div>
         <div className="p-h-s">{tabStrip}</div>
         {config.filter && <div className="p-h-s m-b-s">{config.filter}</div>}

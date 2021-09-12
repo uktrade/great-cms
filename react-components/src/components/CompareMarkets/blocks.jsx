@@ -114,12 +114,13 @@ const renderCountryRowHeader = ({
     <>
       {removeMarket && (
         <td
-          className={headingClass}
+          className={`p-h-s ${headingClass}`}
+          style={{width:'15%'}}
         >
           <button
             type="button"
             onClick={removeMarket || (() => null)}
-            className="button button--tiny-toggle m-f-s"
+            className="button button--tiny-toggle"
             data-id={market.country_iso2_code}
             aria-label={`Remove ${market.country_name} from table`}
           >
@@ -129,6 +130,7 @@ const renderCountryRowHeader = ({
       )}
       <th
         className={`p-v-xs name ${headingClass}`}
+        style={{width:'70%'}}
         scope="row"
       >
         <div
@@ -142,6 +144,7 @@ const renderCountryRowHeader = ({
         <td
           key={iso}
           className={`p-v-xs ${headingClass}`}
+          style={{width:'15%'}}
         >
           <input
             onChange={() => addRemoveShortlist(market, !selectedMarkets[iso])}

@@ -101,3 +101,21 @@ table.no-bottom-border {
     font-weight: 900; // solid fa font
   }
 }
+
+.table-separated {
+  tr:not(:last-child) {
+  &::after {
+    content: '';
+    position:absolute;
+    left: 15px;
+    right: 15px;
+    bottom:0;
+    border-bottom: 1px solid $blue-deep-80;
+  }
+  position:relative;
+
+  }
+  td {
+    border: none;
+  }
+}
