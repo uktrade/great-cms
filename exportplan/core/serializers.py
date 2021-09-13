@@ -31,11 +31,11 @@ class CompanyObjectivesSerializer(serializers.Serializer):
         """
         Check that start is not before finish.
         """
-        if all([data['start_month'], data['start_year'], data['end_month'], data['end_year']]):
+        if all([data.get('start_month'), data.get('start_year'), data.get('end_month'), data.get('end_year')]):
             start = datetime.date(day=1, month=data['start_month'], year=data['start_year'])
             end = datetime.date(day=1, month=data['end_month'], year=data['end_year'])
             if start > end:
-                raise serializers.ValidationError("End date must occur after start date")
+                raise serializers.ValidationError('End date must occur after start date')
         return data
 
 
