@@ -118,12 +118,6 @@ export default {
     )
   },
 
-  getPopulationByCountryData: (countries) => {
-    return get(config.populationByCountryUrl, {
-      countries: countries.map((obj) => obj.country_name),
-    }).then((response) => responseHandler(response).json())
-  },
-
   getSocietyByCountryData: (countries) => {
     return get(config.societyByCountryUrl, {
       countries: countries.map((obj) => obj.country_name),

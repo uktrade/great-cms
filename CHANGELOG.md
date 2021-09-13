@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-3338 - Dashboard top 3 export plans
 - GP2-3344 - Verify account with token
 - GP2-3171 - EP wizard styling update
 - GP2-3284 - EP title in sections
@@ -23,6 +24,7 @@
 
 ### Fixed bugs
 - GP2-3373 - Fix in situ code verification - not through link
+- GP2-3364 - WTE fallback to most recent product
 - GP2-3363 - Fix costs_and_pricing page
 - GP2-3310 - Product_sort_order
 - GP2-3311 - Suggestions on deleted products

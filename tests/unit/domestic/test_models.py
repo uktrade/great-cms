@@ -186,7 +186,8 @@ def test_dashboard_page_routing(
         json_body={'result': 'ok', 'page_views': {'/export-plan/dashboard/': {'service': 'great-cms'}}}
     )
     context_data = dashboard.get_context(get_request)
-    assert context_data['routes']['plan'].value.get('enabled') is False
+    # Check exportplan list exists
+    assert len(context_data.get('exportplan_list')) == 1
 
 
 @pytest.mark.django_db
