@@ -2,7 +2,10 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import actions from '@src/actions'
-import { useActiveProduct } from '@src/components/hooks/useUserData'
+import {
+  useActiveProduct,
+  useUserMarkets,
+} from '@src/components/hooks/useUserData'
 import { isArray, mapArray, deepAssign } from '../../Helpers'
 import blocks from './blocks'
 
@@ -21,6 +24,12 @@ export default function DataTable(props) {
   } = props
 
   const [product] = useActiveProduct(false)
+  const { markets, addMarketItem, removeMarketItem } = useUserMarkets()
+
+  const selectedMarkets = markets.reduce((out, market) => {
+    out[market.country_iso2_code] = 1
+    return out
+  }, {})
 
   const dataIn = (data) => {
     cache[datasetName] = deepAssign(cache[datasetName], data)
@@ -142,7 +151,7 @@ export default function DataTable(props) {
     }
   }, [product, comparisonMarkets])
 
-  const setBaseYear = (dataSet, markets, tabConfig) => {
+  const setBaseYear = (dataSet, tabConfig) => {
     // Calculate base year
     const years = {}
     Object.values(comparisonMarkets).forEach((market) => {
@@ -169,27 +178,40 @@ export default function DataTable(props) {
     )
   }
 
-  setBaseYear(cache[datasetName], comparisonMarkets, config)
+  const addRemoveShortlist = (market, add) => {
+    add ? addMarketItem(market) : removeMarketItem(market)
+  }
+
+  setBaseYear(cache[datasetName], config)
 
   if (mobile) {
     return (
       <>
         <div className="bg-blue-deep-80 p-h-xs p-v-xs selected-places">
-          <h2 className="h-xs text-white p-v-0">Selected markets</h2>
-          <div className="bg-white radius overflow-hidden p-h-s">
-            <table className="m-v-0 border-blue-deep-20 no-bottom-border">
-              <tbody>
-                {Object.values(comparisonMarkets || {}).map((market) => {
-                  return (
-                    <tr key={market.country_iso2_code}>
-                      {blocks.renderCountryRowHeader(market, removeMarket)}
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
+          <h2 className="h-xs text-white p-t-0 p-f-s">Selected markets</h2>
+          <div className="bg-white radius overflow-hidden">
+            <div className="m-v-0 border-blue-deep-20 no-bottom-border">
+              {Object.values(comparisonMarkets || {}).map((market) => (
+                <div
+                  key={market.country_iso2_code}
+                  className="market-action-row p-v-xs"
+                >
+                  <div className="m-r-xs">
+                    {blocks.renderRemoveButton({ market, removeMarket })}
+                  </div>
+                  <div>{blocks.renderCountryName({ market })}</div>
+                  <div>
+                    {blocks.renderAddRemoveShortlist({
+                      market,
+                      selectedMarkets,
+                      addRemoveShortlist,
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="p-h-s p-b-xs">{triggerButton}</div>
           </div>
-          {triggerButton}
         </div>
         <div className="p-h-s">{tabStrip}</div>
         {config.filter && <div className="p-h-s m-b-s">{config.filter}</div>}
@@ -201,7 +223,7 @@ export default function DataTable(props) {
               className={`${columnKey} p-h-s m-b-s ${
                 cellConfig.className || ''
               }`}
-              style={{clear:'both'}}
+              style={{ clear: 'both' }}
             >
               <div className="bg-white radius p-h-s">
                 <table className="m-v-0 border-blue-deep-20 no-bottom-border">
@@ -255,7 +277,13 @@ export default function DataTable(props) {
         key={`market-${market.country_iso2_code}`}
         id={`market-${market.country_name}`}
       >
-        {blocks.renderCountryRowHeader(market, removeMarket, config)}
+        {blocks.renderCountryRowHeader({
+          market,
+          removeMarket,
+          config,
+          selectedMarkets,
+          addRemoveShortlist,
+        })}
         {countryRow}
       </tr>
     )
@@ -269,7 +297,13 @@ export default function DataTable(props) {
         {config.caption && config.caption()}
         <thead>
           <tr>
-            <th className="body-l-b">&nbsp;</th>
+            <th className="body-l-b w-0 p-h-m">
+              <span className="visually-hidden">Remove market</span>
+            </th>
+            <th className="body-l-b">Market</th>
+            <th className="body-l-b w-0 p-h-s">
+              <span className="visually-hidden">Market actions</span>
+            </th>
             {Object.keys(config.columns).map((columnKey) => {
               const cellConfig = config.columns[columnKey]
               return (
@@ -302,7 +336,7 @@ DataTable.propTypes = {
     dataFunction: PropTypes.func,
     groups: PropTypes.instanceOf(Object),
     filter: PropTypes.element,
-    caption: PropTypes.oneOf([PropTypes.string,PropTypes.func]),
+    caption: PropTypes.oneOf([PropTypes.string, PropTypes.func]),
   }).isRequired,
   product: PropTypes.shape({
     commodityCode: PropTypes.string,
