@@ -9,6 +9,7 @@ from core.cms_slugs import PRIVACY_POLICY_URL, TERMS_URL
 from core.views import (
     OpportunitiesRedirectView,
     QuerystringRedirectView,
+    SSORedirectView,
     TranslationRedirectView,
 )
 
@@ -852,5 +853,14 @@ articles_redirects = [
     ),
 ]
 
+gdui_redirects = [url('^sso/static/', SSORedirectView.as_view())]
 
-redirects += tos_redirects + contact_redirects + privacy_redirects + international_redirects + articles_redirects
+
+redirects += (
+    tos_redirects
+    + contact_redirects  # noqa W503
+    + privacy_redirects  # noqa W503
+    + international_redirects  # noqa W503
+    + articles_redirects  # noqa W503
+    + gdui_redirects  # noqa W503
+)

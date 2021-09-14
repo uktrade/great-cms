@@ -469,3 +469,16 @@ class StaticViewSitemap(DjangoSitemap):
         elif item == 'domestic:report-ma-barrier':
             return reverse(item, kwargs={'step': 'about'})
         return reverse(item)
+
+
+class SSORedirectView(RedirectView):
+    permanent = False
+    query_string = True
+
+    def get_redirect_url(self, *args, **kwargs):
+        path_url = self.request.path
+        path_list = path_url.split("/")[2:]
+        path_joined = "/".join(path_list)
+        redirect_url = f"/{path_joined}"
+
+        return redirect_url

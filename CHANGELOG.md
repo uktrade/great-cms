@@ -19,6 +19,7 @@
 - NOTICKET - Remove and cleanup broken Storybook setup
 - GP2-3352 - remove feature FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE
 - GP2-3352 - Obfuscate the export plan id in urls
+- GP2-3345 - GDUI dicrectory_components statics
 
 ### Fixed bugs
 - GP2-3363 - Fix costs_and_pricing page
