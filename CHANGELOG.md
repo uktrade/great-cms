@@ -4,7 +4,7 @@
 
 ### Enhancements
 - GP2-3338 - Dashboard top 3 export plans
-- GP2-2574 - WTE add/remove markets to/from shortlist
+- GP2-2574 - WTE add/remove markets to or from shortlist
 - GP2-3344 - Verify account with token
 - GP2-3171 - EP wizard styling update
 - GP2-3284 - EP title in sections
