@@ -96,6 +96,50 @@ const renderColumnHeader = (columnConfig, context, mobile) => {
     </>
   )
 }
+const renderRemoveButton = ({ market, removeMarket }) => (
+  <button
+    type="button"
+    onClick={removeMarket || (() => null)}
+    className="button button--tiny-toggle"
+    data-id={market.country_iso2_code}
+    aria-label={`Remove ${market.country_name} from table`}
+  >
+    <i className="fa fa-times-circle" />
+  </button>
+)
+
+const renderAddRemoveShortlist = ({
+  market,
+  selectedMarkets,
+  addRemoveShortlist,
+}) => {
+  const iso = market.country_iso2_code
+  return (
+    <>
+      <input
+        onChange={() => addRemoveShortlist(market, !selectedMarkets[iso])}
+        type="checkbox"
+        className="checkbox-favourite"
+        id={`cb-${iso}`}
+        checked={!!selectedMarkets[iso]}
+      />
+      <label
+        htmlFor={`cb-${iso}`}
+        className="far text-blue-deep-80"
+        aria-label={`${market.country_name} shortlisted`}
+      />
+    </>
+  )
+}
+
+const renderCountryName = ({ market }) => (
+  <div
+    className="body-l-b country-name"
+    id={`marketheader-${market.country_name}`}
+  >
+    {market.country_name}
+  </div>
+)
 
 const renderCountryRowHeader = ({
   market,
@@ -108,58 +152,23 @@ const renderCountryRowHeader = ({
   // A row header in normal or mobile mode is the country label. In mobile mode there is no 'remove' button
   const iso = market.country_iso2_code
   const headingClass = `
-    ${(config && config.headingClass) || ''} ${!mobile ? 'bg-blue-deep-10' : ''}
+    ${(config && config.headingClass) || ''} ${'bg-blue-deep-10'}
   `
   return (
     <>
-      {removeMarket && (
-        <td
-          className={`p-h-s ${headingClass}`}
-          style={{width:'15%'}}
-        >
-          <button
-            type="button"
-            onClick={removeMarket || (() => null)}
-            className="button button--tiny-toggle"
-            data-id={market.country_iso2_code}
-            aria-label={`Remove ${market.country_name} from table`}
-          >
-            <i className="fa fa-times-circle" />
-          </button>
-        </td>
-      )}
-      <th
-        className={`p-v-xs name ${headingClass}`}
-        style={{width:'70%'}}
-        scope="row"
-      >
-        <div
-          className="body-l-b country-name"
-          id={`marketheader-${market.country_name}`}
-        >
-          {market.country_name}
-        </div>
+      <td className={`p-h-s ${headingClass}`} style={{ width: '15%' }}>
+        {renderRemoveButton({ market, removeMarket })}
+      </td>
+      <th className={`p-v-xs name ${headingClass}`} scope="row">
+        {renderCountryName({ market })}
       </th>
-      {addRemoveShortlist && (
-        <td
-          key={iso}
-          className={`p-v-xs ${headingClass}`}
-          style={{width:'15%'}}
-        >
-          <input
-            onChange={() => addRemoveShortlist(market, !selectedMarkets[iso])}
-            type="checkbox"
-            className="checkbox-favourite"
-            id={`cb-${iso}`}
-            checked={!!selectedMarkets[iso]}
-          />
-          <label
-            htmlFor={`cb-${iso}`}
-            className="far text-blue-deep-80"
-            aria-label={`${market.country_name} shortlisted`}
-          />
-        </td>
-      )}
+      <td key={iso} className={`p-v-xs ${headingClass}`}>
+        {renderAddRemoveShortlist({
+          market,
+          selectedMarkets,
+          addRemoveShortlist,
+        })}
+      </td>
     </>
   )
 }
@@ -176,7 +185,9 @@ const renderMobileBlock = (
     const countryData = dataSet && dataSet[market.country_iso2_code]
     return (
       <tr key={`${market.country_iso2_code}:${columnKey}`}>
-        {renderCountryRowHeader({ market, mobile:true })}
+        <th className="p-v-xs name" scope="row">
+          {renderCountryName({ market })}
+        </th>
         <td
           key={columnKey}
           className={`p-v-xs body-l ${cellConfig.className || ''}`}
@@ -197,6 +208,9 @@ export default {
   renderMobileBlock,
   renderCountryRowHeader,
   renderColumnHeader,
+  renderAddRemoveShortlist,
+  renderRemoveButton,
+  renderCountryName,
   sourceAttribution,
   renderCell,
   setBaseYear,

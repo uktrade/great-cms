@@ -64,7 +64,6 @@ table .loading {
 
 table.no-bottom-border {
   tr:last-child {
-
     td,
     th {
       border: none;
@@ -78,19 +77,17 @@ table.no-bottom-border {
   }
 }
 
-
 .checkbox-favourite {
   opacity: 0;
   position: absolute;
 
-  &+label {
+  & + label {
     padding: 3px;
     cursor: pointer;
 
     &:before {
       content: '\f004';
     }
-
   }
 
   &:focus + label {
@@ -102,20 +99,16 @@ table.no-bottom-border {
   }
 }
 
-.table-separated {
-  tr:not(:last-child) {
-  &::after {
-    content: '';
-    position:absolute;
-    left: 15px;
-    right: 15px;
-    bottom:0;
-    border-bottom: 1px solid $blue-deep-80;
+.market-action-row {
+  display: flex;
+  align-items: center;
+  > div:last-child {
+    flex: 1;
+    text-align: right;
   }
-  position:relative;
-
+  .button {
+    font-size: 20px;
   }
-  td {
-    border: none;
-  }
+  margin: 0 20px;
+  border-bottom: 1px solid $blue-deep-80;
 }

@@ -188,32 +188,30 @@ export default function DataTable(props) {
     return (
       <>
         <div className="bg-blue-deep-80 p-h-xs p-v-xs selected-places">
-          <h2 className="h-xs text-white p-v-0">Selected markets</h2>
+          <h2 className="h-xs text-white p-t-0 p-f-s">Selected markets</h2>
           <div className="bg-white radius overflow-hidden">
-            <table className="m-v-0 border-blue-deep-20 no-bottom-border">
-
-              <tbody className="table-separated">
-                {Object.values(comparisonMarkets || {}).map((market) => {
-                  return (
-                    <tr key={market.country_iso2_code} >
-                      {blocks.renderCountryRowHeader({
-                        market,
-                        removeMarket,
-                        config,
-                        selectedMarkets,
-                        addRemoveShortlist,
-                        mobile,
-                      })}
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-            <div className="p-h-s p-b-xs">
-              {triggerButton}
+            <div className="m-v-0 border-blue-deep-20 no-bottom-border">
+              {Object.values(comparisonMarkets || {}).map((market) => (
+                <div
+                  key={market.country_iso2_code}
+                  className="market-action-row p-v-xs"
+                >
+                  <div className="m-r-xs">
+                    {blocks.renderRemoveButton({ market, removeMarket })}
+                  </div>
+                  <div>{blocks.renderCountryName({ market })}</div>
+                  <div>
+                    {blocks.renderAddRemoveShortlist({
+                      market,
+                      selectedMarkets,
+                      addRemoveShortlist,
+                    })}
+                  </div>
+                </div>
+              ))}
             </div>
+            <div className="p-h-s p-b-xs">{triggerButton}</div>
           </div>
-
         </div>
         <div className="p-h-s">{tabStrip}</div>
         {config.filter && <div className="p-h-s m-b-s">{config.filter}</div>}
