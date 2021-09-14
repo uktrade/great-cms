@@ -252,6 +252,13 @@
     }
   }
 
+  &__error {
+    margin-top: $gutter-small;
+    color: $great-red;
+    border-left: 5px solid $great-red;
+    padding: 20px 5px 20px 20px;
+  }
+
   & .form-group, & .select {
     margin-bottom: 0;
   }

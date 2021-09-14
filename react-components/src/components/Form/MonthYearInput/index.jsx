@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import * as PropTypes from 'prop-types'
 
 import { Input } from '../Input'
@@ -13,6 +13,8 @@ export const MonthYearInput = memo(
      yearValue,
      onChange,
      className,
+     minMonth,
+     minYear,
    }) => {
     const MONTHS = [
       'January',
@@ -29,10 +31,33 @@ export const MonthYearInput = memo(
       'December',
     ]
 
+    const [showError, setShowError] = useState(false)
+
     const monthsOptions = MONTHS.map((month, i) => ({
       label: month,
       value: `${i + 1}`,
     }))
+
+    const handleOnChange = (item) => {
+      onChange(item)
+
+      if(!minYear || !minMonth || (item[yearName] && item[yearName] < 1000)){
+        onChange(item)
+        return
+      }
+
+      const startDate = new Date(minYear, minMonth - 1);
+      const completeYear = item[yearName] ? item[yearName] : yearValue;
+      const completeMonth = item[monthName] ? item[monthName] : monthValue;
+      const completeDate = new Date(completeYear, completeMonth - 1);
+
+      if(completeDate >= startDate) {
+        setShowError(false)
+
+      } else {
+        setShowError(true)
+      }
+    }
 
     return (
       <fieldset className={className}>
@@ -43,7 +68,7 @@ export const MonthYearInput = memo(
               label='Month'
               id={monthName}
               name={monthName}
-              update={onChange}
+              update={handleOnChange}
               options={monthsOptions}
               selected={`${monthValue}`}
             />
@@ -54,13 +79,17 @@ export const MonthYearInput = memo(
               id={yearName}
               type='number'
               value={`${yearValue || ''}`}
-              onChange={onChange}
+              onChange={handleOnChange}
               size={4}
               inputMode='numeric'
               pattern='[0-9]*'
             />
           </div>
         </div>
+
+        {showError && <div className="inputgroup__error">
+          "Complete by" date cannot procede "Start objective in" date
+        </div>}
       </fieldset>
     )
   }

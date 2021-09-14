@@ -65,6 +65,8 @@ const fwRefObjective = forwardRef((props, ref) => {
             yearValue={data.end_year}
             onChange={onChange}
             className="m-t-s"
+            minMonth={data.start_month}
+            minYear={data.start_year}
           />
         </div>
         <div className="costs__option costs__option--border">
