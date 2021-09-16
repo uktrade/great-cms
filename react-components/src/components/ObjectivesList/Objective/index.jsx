@@ -1,4 +1,4 @@
-import React, { memo, forwardRef } from 'react'
+import React, { memo, forwardRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { TextArea } from '@src/components/Form/TextArea'
@@ -10,6 +10,8 @@ import { MonthYearInput } from '../../Form/MonthYearInput'
 
 const fwRefObjective = forwardRef((props, ref) => {
   const { handleChange, deleteObjective, number, id, errors, data } = props
+
+  const [showError, setShowError] = useState(false)
 
   const onChange = (item) => {
     handleChange({
@@ -56,6 +58,9 @@ const fwRefObjective = forwardRef((props, ref) => {
             yearName="start_year"
             yearValue={data.start_year}
             onChange={onChange}
+            maxMonth={data.end_month}
+            maxYear={data.end_year}
+            setShowError={setShowError}
           />
           <MonthYearInput
             label="Complete by:"
@@ -67,7 +72,12 @@ const fwRefObjective = forwardRef((props, ref) => {
             className="m-t-s"
             minMonth={data.start_month}
             minYear={data.start_year}
+            setShowError={setShowError}
           />
+
+          {showError && <div className="inputgroup__error">
+            "Complete by" date cannot procede "Start objective in" date
+          </div>}
         </div>
         <div className="costs__option costs__option--border">
           <Input

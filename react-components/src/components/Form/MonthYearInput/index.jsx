@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import * as PropTypes from 'prop-types'
 
 import { Input } from '../Input'
@@ -15,6 +15,9 @@ export const MonthYearInput = memo(
      className,
      minMonth,
      minYear,
+     maxMonth,
+     maxYear,
+     setShowError
    }) => {
     const MONTHS = [
       'January',
@@ -31,31 +34,31 @@ export const MonthYearInput = memo(
       'December',
     ]
 
-    const [showError, setShowError] = useState(false)
-
     const monthsOptions = MONTHS.map((month, i) => ({
       label: month,
       value: `${i + 1}`,
     }))
 
+    useEffect(() => handleShowError({}), [])
+
     const handleOnChange = (item) => {
       onChange(item)
+      handleShowError(item)
+    }
 
-      if(!minYear || !minMonth || (item[yearName] && item[yearName] < 1000)){
-        onChange(item)
-        return
+    const handleShowError = (item) => {
+      const selectedYear = item[yearName] ? item[yearName] : yearValue;
+      const selectedMonth = item[monthName] ? item[monthName] : monthValue;
+      const selectedDate = new Date(selectedYear, selectedMonth - 1);
+
+      if(maxYear && maxMonth){
+        const endDate = new Date(maxYear, maxMonth - 1);
+        setShowError(selectedDate > endDate)
       }
 
-      const startDate = new Date(minYear, minMonth - 1);
-      const completeYear = item[yearName] ? item[yearName] : yearValue;
-      const completeMonth = item[monthName] ? item[monthName] : monthValue;
-      const completeDate = new Date(completeYear, completeMonth - 1);
-
-      if(completeDate >= startDate) {
-        setShowError(false)
-
-      } else {
-        setShowError(true)
+      if(minYear && minMonth){
+        const startDate = new Date(minYear, minMonth - 1);
+        setShowError(selectedDate < startDate)
       }
     }
 
@@ -86,10 +89,6 @@ export const MonthYearInput = memo(
             />
           </div>
         </div>
-
-        {showError && <div className="inputgroup__error">
-          "Complete by" date cannot procede "Start objective in" date
-        </div>}
       </fieldset>
     )
   }
@@ -103,6 +102,11 @@ MonthYearInput.propTypes = {
   yearValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
   className: PropTypes.string,
+  minMonth:  PropTypes.string,
+  minYear:  PropTypes.string,
+  maxMonth:  PropTypes.string,
+  maxYear:  PropTypes.string,
+  setShowError: PropTypes.func
 }
 
 MonthYearInput.defaultProps = {
@@ -111,6 +115,8 @@ MonthYearInput.defaultProps = {
   yearName: 'year',
   yearValue: null,
   onChange: () => {
+  },
+  setShowError: () => {
   },
   className: null,
 }
