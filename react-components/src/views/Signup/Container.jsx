@@ -21,6 +21,8 @@ export function Container(props) {
   const [currentStep, setCurrentStep] = useState(props.currentStep)
   const [email, setEmail] = useState(props.email)
   const [password, setPassword] = useState(props.password)
+  const [uidb64, setUidb64] = useState(props.uidb64)
+  const [token, setToken] = useState(props.token)
   const [code, setCode] = useState('')
 
   function handleError(error) {
@@ -38,6 +40,10 @@ export function Container(props) {
     setErrors({})
     setIsInProgress(true)
     Services.createUser({ email, password })
+      .then((data) => {
+        setUidb64(data.uidb64)
+        setToken(data.token)
+      })
       .then(() => handleSuccess(STEP_VERIFICATION_CODE))
       .catch(handleError)
   }

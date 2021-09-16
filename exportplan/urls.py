@@ -109,11 +109,6 @@ urlpatterns = [
         name='api-update-export-plan',
     ),
     path(
-        'api/population-data-by-country/',
-        skip_ga360(api.ExportPlanPopulationDataByCountryView.as_view()),
-        name='api-population-data-by-country',
-    ),
-    path(
         'api/target-age-country-population-data/<int:id>/',
         skip_ga360(api.TargetAgeCountryPopulationData.as_view()),
         name='api-target-age-groups',

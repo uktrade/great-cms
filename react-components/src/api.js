@@ -118,12 +118,6 @@ export default {
     )
   },
 
-  getPopulationByCountryData: (countries) => {
-    return get(config.populationByCountryUrl, {
-      countries: countries.map((obj) => obj.country_name),
-    }).then((response) => responseHandler(response).json())
-  },
-
   getSocietyByCountryData: (countries) => {
     return get(config.societyByCountryUrl, {
       countries: countries.map((obj) => obj.country_name),
@@ -223,7 +217,10 @@ export default {
   },
 
   createUser: ({ email, password }) => {
-    return post(config.apiSignupUrl, { email, password }).then(responseHandler)
+    return post(
+      config.apiSignupUrl,
+      { email, password }
+    ).then((response) => responseHandler(response).json())
   },
 
   checkVerificationCode: ({ uidb64, token, code }) => {

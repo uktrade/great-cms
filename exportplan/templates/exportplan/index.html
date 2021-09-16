@@ -67,7 +67,9 @@
       <nav>
         <ul>
           {% for plan in exportplan_list %}
+          <li class="m-b-s">
           {% include 'exportplan/includes/list_card.html' %}
+          </li>
           {% endfor %}
         </ul>
       </nav>

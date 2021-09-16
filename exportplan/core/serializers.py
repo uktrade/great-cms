@@ -27,6 +27,17 @@ class CompanyObjectivesSerializer(serializers.Serializer):
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 
+    def validate(self, data):
+        """
+        Check that start is not before finish.
+        """
+        if all([data.get('start_month'), data.get('start_year'), data.get('end_month'), data.get('end_year')]):
+            start = datetime.date(day=1, month=data['start_month'], year=data['start_year'])
+            end = datetime.date(day=1, month=data['end_month'], year=data['end_year'])
+            if start > end:
+                raise serializers.ValidationError('End date must occur after start date')
+        return data
+
 
 class AboutYourBuinessSerializer(serializers.Serializer):
     story = serializers.CharField(required=False, allow_blank=True, validators=[no_html])

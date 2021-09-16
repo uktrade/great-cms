@@ -3,6 +3,10 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-3336 - Product classification expander on dashboard overview page plus content changes
+- GP2-3395 - Content changes and move hs code on product finder
+- GP2-3338 - Dashboard top 3 export plans
+- GP2-2574 - WTE add/remove markets to or from shortlist
 - GP2-3344 - Verify account with token
 - GP2-3171 - EP wizard styling update
 - GP2-3284 - EP title in sections
@@ -20,8 +24,11 @@
 - GP2-3352 - remove feature FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE
 - GP2-3352 - Obfuscate the export plan id in urls
 - GP2-3346 - Show error when End date precedes Start date
+- GP2-3396 - Startdate Endate validation
 
 ### Fixed bugs
+- GP2-3373 - Fix in situ code verification - not through link
+- GP2-3364 - WTE fallback to most recent product
 - GP2-3363 - Fix costs_and_pricing page
 - GP2-3310 - Product_sort_order
 - GP2-3311 - Suggestions on deleted products

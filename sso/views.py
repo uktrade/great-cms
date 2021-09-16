@@ -79,7 +79,7 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
             form_url=self.request.path,
             verification_link=self.get_verification_link(uidb64, token),
         )
-        return Response(status=200)
+        return Response({'uidb64': uidb64, 'token': token})
 
 
 class SSOBusinessVerifyCodeView(generics.GenericAPIView):

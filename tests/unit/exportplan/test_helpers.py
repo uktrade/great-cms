@@ -153,17 +153,6 @@ def test_get_lesson_details_no_found(curated_list_pages_with_lessons):
     assert lessons == {}
 
 
-@mock.patch.object(api_client.dataservices, 'get_population_data_by_country')
-def test_get_population_data_by_country(mock_population_data_by_country):
-    data = {'country': 'United Kingdom', 'population_data': {'target_population': 10000}}
-
-    mock_population_data_by_country.return_value = create_response(data)
-    response = helpers.get_population_data_by_country(countries='United Kingdom')
-    assert mock_population_data_by_country.call_count == 1
-    assert mock_population_data_by_country.call_args == mock.call(countries='United Kingdom')
-    assert response == data
-
-
 @mock.patch.object(api_client.dataservices, 'get_society_data_by_country')
 def test_get_society_data_by_country(mock_society_data_by_country):
     data = {'country': 'United Kingdom', 'languages': [{'name': 'English'}]}

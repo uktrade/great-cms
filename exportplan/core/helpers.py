@@ -36,12 +36,6 @@ def get_timezone(country_code):
         return pytz.country_timezones(iso3_country_code)[0]
 
 
-def get_population_data_by_country(countries):
-    response = api_client.dataservices.get_population_data_by_country(countries=countries)
-    response.raise_for_status()
-    return response.json()
-
-
 def get_society_data_by_country(countries):
     response = api_client.dataservices.get_society_data_by_country(countries=countries)
     response.raise_for_status()
