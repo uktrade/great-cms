@@ -24,24 +24,29 @@ function TreeBranch(props) {
   return (
     <div className="classification-tree__item">
       {arrow}
-      <span>{trimAndCapitalize(level.desc)}</span>
+
       {(level.code || '').substring(0, hsCode.length) !== hsCode ? (
-        <ul className="m-v-xs">
-          {(level.children || []).map((child) => (
-            <li key={level.code}>
-              <TreeBranch level={child} hsCode={hsCode} />
-            </li>
-          ))}
-        </ul>
+        <>
+          <div>{trimAndCapitalize(level.desc)}</div>
+          <ul className="m-v-xs">
+            {(level.children || []).map((child) => (
+              <li key={level.code}>
+                <TreeBranch level={child} hsCode={hsCode} />
+              </li>
+            ))}
+          </ul>
+        </>
       ) : (
-        ''
+        <>
+          <div className="body-l-b">{trimAndCapitalize(level.desc)}</div>
+          <div className="body-m">HS6 Code: {hsCode}</div>
+        </>
       )}
     </div>
   )
 }
 
-export default function ClassificationTree(props) {
-  const { hsCode } = props
+export default function ClassificationTree({ hsCode }) {
   const [schedule, setSchedule] = useState()
   const isMounted = useRef(true)
 
