@@ -159,4 +159,34 @@ describe('Objective', () => {
 
     expect(mockFunction).toHaveBeenCalledWith(234)
   })
+
+  test('should show Error when start date precede end date', () => {
+    const dummyObjective = {
+      ...mockObjectiveData, start_year: 2021, start_month: 5, end_month: 4, end_year: 2021
+    }
+
+    console.log('dummyObjective', dummyObjective)
+
+    const wrapper = Enzyme.mount(
+      <Objective
+        key={0}
+        id={0}
+        isLoading={dummyObjective.isLoading}
+        errors={dummyObjective.errors}
+        showSavedMessage={dummyObjective.showSavedMessage}
+        data={dummyObjective}
+        number={1}
+        handleChange={dummyFunction}
+        deleteObjective={dummyFunction}
+      />
+    )
+
+    expect(
+      wrapper.containsMatchingElement(
+        <div className="inputgroup__error">
+          "Complete by" date cannot precede "Start objective in" date
+        </div>
+      )
+    ).toEqual(true)
+  })
 })
