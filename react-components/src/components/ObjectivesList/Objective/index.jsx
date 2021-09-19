@@ -1,4 +1,4 @@
-import React, { memo, forwardRef, useState } from 'react'
+import React, { memo, forwardRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import { TextArea } from '@src/components/Form/TextArea'
@@ -13,11 +13,18 @@ const fwRefObjective = forwardRef((props, ref) => {
 
   const [showError, setShowError] = useState(false)
 
+  useEffect(()=>{
+    handleShowError(data)
+  }, [])
+
   const onChange = (item) => {
-    handleChange({
+    const updatedData = {
       ...data,
       ...item,
-    })
+    }
+
+    handleChange(updatedData)
+    handleShowError(updatedData)
   }
 
   const onDelete = () => {
@@ -33,6 +40,12 @@ const fwRefObjective = forwardRef((props, ref) => {
     pk,
     ...fields
   } = data
+
+  const handleShowError = (updatedData) => {
+    const startDate = new Date(parseInt(updatedData['start_year']), parseInt(updatedData['start_month']) - 1);
+    const endDate = new Date(parseInt(updatedData['end_year']), parseInt(updatedData['end_month']) - 1);
+    setShowError(startDate > endDate)
+  }
 
   return (
     <fieldset id={`objective-${number}`} ref={ref} tabIndex="-1">
@@ -58,9 +71,6 @@ const fwRefObjective = forwardRef((props, ref) => {
             yearName="start_year"
             yearValue={data.start_year}
             onChange={onChange}
-            maxMonth={data.end_month}
-            maxYear={data.end_year}
-            setShowError={setShowError}
           />
           <MonthYearInput
             label="Complete by:"
@@ -70,13 +80,10 @@ const fwRefObjective = forwardRef((props, ref) => {
             yearValue={data.end_year}
             onChange={onChange}
             className="m-t-s"
-            minMonth={data.start_month}
-            minYear={data.start_year}
-            setShowError={setShowError}
           />
 
           {showError && <div className="inputgroup__error">
-            "Complete by" date cannot procede "Start objective in" date
+            "Complete by" date cannot precede "Start objective in" date
           </div>}
         </div>
         <div className="costs__option costs__option--border">
