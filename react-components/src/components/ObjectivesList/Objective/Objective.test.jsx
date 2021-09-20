@@ -165,8 +165,6 @@ describe('Objective', () => {
       ...mockObjectiveData, start_year: 2021, start_month: 5, end_month: 4, end_year: 2021
     }
 
-    console.log('dummyObjective', dummyObjective)
-
     const wrapper = Enzyme.mount(
       <Objective
         key={0}

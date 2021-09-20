@@ -253,10 +253,9 @@
   }
 
   &__error {
-    margin-top: $gutter-small;
+    @extend .g-panel;
     color: $great-red;
-    border-left: 5px solid $great-red;
-    padding: 20px 5px 20px 20px;
+    border-left-color: $great-red;
   }
 
   & .form-group, & .select {
