@@ -40,6 +40,7 @@ export function Container(props) {
     setErrors({})
     setIsInProgress(true)
     Services.createUser({ email, password })
+      .then((response) => response.json())
       .then((data) => {
         setUidb64(data.uidb64)
         setToken(data.token)

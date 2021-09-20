@@ -27,6 +27,7 @@
 - GP2-3384 - Funding and credit: Amend pdf content
 
 ### Fixed bugs
+- GP2-3410 - Fix password validation error messages not showing on signup
 - GP2-3373 - Fix in situ code verification - not through link
 - GP2-3364 - WTE fallback to most recent product
 - GP2-3363 - Fix costs_and_pricing page
