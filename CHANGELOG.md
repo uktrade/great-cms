@@ -24,6 +24,7 @@
 - GP2-3352 - remove feature FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE
 - GP2-3352 - Obfuscate the export plan id in urls
 - GP2-3396 - Startdate Endate validation
+- GP2-3384 - Funding and credit: Amend pdf content
 
 ### Fixed bugs
 - GP2-3373 - Fix in situ code verification - not through link
