@@ -777,7 +777,7 @@
               {% for funding in export_plan.data.funding_credit_options %}
               <tr class="pad-b-0 border-t-1-blue-deep-20">
                 <td class="col-10-5 pad-t-05 border-b-1-blue-deep-20">{{ funding.funding_option_label }}</td>
-                <td class="col-10-5 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ funding.amount|floatformat:2|intcomma|default:"__________" }} GBP per unit</strong></td>
+                <td class="col-10-5 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ funding.amount|floatformat:2|intcomma|default:"__________" }} GBP</strong></td>
               </tr>
               {% endfor %}
               <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
@@ -785,9 +785,9 @@
                 <td class="col-10-5 pad-t-05 text-align-right">
                   <strong>
                   {% if not export_plan.data.funding_and_credit.override_estimated_total_cost %}
-                    {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"__________" }} GBP per unit
+                    {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"__________" }} GBP
                   {% else %}
-                    {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"__________" }} GBP per unit
+                    {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"__________" }} GBP
                   {% endif %}
                   </strong>
                 </td>

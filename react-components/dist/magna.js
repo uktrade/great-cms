@@ -1677,7 +1677,7 @@ var responseHandler = function responseHandler(response) {
       email: email,
       password: password
     }).then(function (response) {
-      return responseHandler(response).json();
+      return responseHandler(response);
     });
   },
   checkVerificationCode: function checkVerificationCode(_ref6) {
@@ -9256,18 +9256,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -9284,20 +9272,8 @@ var fwRefObjective = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(function 
       errors = props.errors,
       data = props.data;
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      showError = _useState2[0],
-      setShowError = _useState2[1];
-
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    handleShowError(data);
-  }, []);
-
   var _onChange = function onChange(item) {
-    var updatedData = _objectSpread(_objectSpread({}, data), item);
-
-    handleChange(updatedData);
-    handleShowError(updatedData);
+    handleChange(_objectSpread(_objectSpread({}, data), item));
   };
 
   var onDelete = function onDelete() {
@@ -9311,12 +9287,6 @@ var fwRefObjective = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(function 
       end_year = data.end_year,
       pk = data.pk,
       fields = _objectWithoutProperties(data, _excluded);
-
-  var handleShowError = function handleShowError(updatedData) {
-    var startDate = new Date(parseInt(updatedData['start_year']), parseInt(updatedData['start_month']) - 1);
-    var endDate = new Date(parseInt(updatedData['end_year']), parseInt(updatedData['end_month']) - 1);
-    setShowError(startDate > endDate);
-  };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("fieldset", {
     id: "objective-".concat(number),
@@ -9355,9 +9325,7 @@ var fwRefObjective = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(function 
     yearValue: data.end_year,
     onChange: _onChange,
     className: "m-t-s"
-  }), showError && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "inputgroup__error"
-  }, "\"Complete by\" date cannot precede \"Start objective in\" date")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "costs__option costs__option--border"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_src_components_Form_Input__WEBPACK_IMPORTED_MODULE_3__.Input, {
     id: "owner-".concat(id),
@@ -16368,6 +16336,8 @@ function Container(props) {
     _src_Services__WEBPACK_IMPORTED_MODULE_5__.default.createUser({
       email: email,
       password: password
+    }).then(function (response) {
+      return response.json();
     }).then(function (data) {
       setUidb64(data.uidb64);
       setToken(data.token);
