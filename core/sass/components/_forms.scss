@@ -255,7 +255,11 @@
   &__error {
     @extend .g-panel;
     color: $great-red;
-    border-left-color: $great-red;
+    margin-top: $gutter-small;
+
+    &:before {
+      background-color: $great-red;
+    }
   }
 
   & .form-group, & .select {
