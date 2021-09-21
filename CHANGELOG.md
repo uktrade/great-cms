@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-3383 - Costs and pricing: Amend content
 - GP2-3336 - Product classification expander on dashboard overview page plus content changes
 - GP2-3395 - Content changes and move hs code on product finder
 - GP2-3338 - Dashboard top 3 export plans
