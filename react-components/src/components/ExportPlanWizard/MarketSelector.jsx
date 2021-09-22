@@ -12,7 +12,7 @@ function MarketSelector({ valueChange, selected, selectedProduct }) {
 
   let selectedKey
 
-  let sortedMarkets = sortBy(markets || [], 'country_name')
+  const sortedMarkets = sortBy(markets || [], 'country_name')
 
   const options = sortedMarkets.map((market, index) => {
     if (selected && selected.country_iso2_code === market.country_iso2_code) {
@@ -30,7 +30,7 @@ function MarketSelector({ valueChange, selected, selectedProduct }) {
   }
 
   const onMarketChange = (index) => {
-    setAddButtonShowing(index == '+')
+    setAddButtonShowing(index === '+')
     valueChange(sortedMarkets[index])
   }
   const onAddMarket = (market) => {

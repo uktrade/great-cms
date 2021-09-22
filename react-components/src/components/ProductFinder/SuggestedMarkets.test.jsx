@@ -14,6 +14,20 @@ import CountryFinderModal from './CountryFinderModal'
 let container
 let countriesMock
 let suggestedCountriesMock
+let scheduleResponseMock
+
+const scheduleResponse = {
+  children: [
+    {
+      children: [
+        {
+          desc:
+            "CHAPTER 4 - DAIRY PRODUCE",
+        },
+      ],
+    },
+  ],
+}
 
 const mockResponse = [
   { id: 'DZ', name: 'Algeria', region: 'Africa', type: 'Country' },
@@ -63,6 +77,7 @@ describe('Test suggested markets', () => {
     Services.setConfig({
       apiCountriesUrl: '/api/countries/',
       apiSuggestedCountriesUrl: '/api/suggested-markets/',
+      apiLookupProductScheduleUrl: '/api/lookup-product-schedule/',
     })
     Services.setInitialState({
       userSettings: {
@@ -76,6 +91,7 @@ describe('Test suggested markets', () => {
       /\/api\/suggested-markets\//,
       suggestedCountries
     )
+    scheduleResponseMock = fetchMock.get(/\/api\/lookup-product-schedule\//, scheduleResponse)
   })
 
   afterEach(() => {
@@ -91,9 +107,10 @@ describe('Test suggested markets', () => {
     await waitFor(() => {
       expect(rtl.queryAllByText('Suggested markets')).toBeTruthy()
     })
-    expect(rtl.getByText(/product1/)).toBeTruthy()
+    expect(rtl.getByText(/Dairy produce/)).toBeTruthy()
     expect(suggestedCountriesMock.calls())
     expect(suggestedCountriesMock.calls(/\/api\/suggested-markets\//)[0][0]).toMatch(/\?hs_code=12/)
+    expect(scheduleResponseMock.calls(/\/api\/lookup-product-schedule\//)[0][0]).toMatch(/\?hs_code=123456/)
   })
 
   it('Specific active product3', async () => {
@@ -105,7 +122,7 @@ describe('Test suggested markets', () => {
       expect(rtl.queryAllByText('Suggested markets')).toBeTruthy()
 
     })
-    expect(rtl.getByText(/product3/)).toBeTruthy()
+    expect(rtl.getByText(/Dairy produce/)).toBeTruthy()
     expect(suggestedCountriesMock.calls())
     expect(suggestedCountriesMock.calls(/\/api\/suggested-markets\//)[0][0]).toMatch(/\?hs_code=66/)
   })
@@ -136,6 +153,6 @@ describe('Test suggested markets', () => {
     await waitFor(() => {
       expect(rtl.queryAllByText('Suggested markets')).toBeTruthy()
     })
-    expect(suggestedCountriesMock.calls(/\/api\/suggested-markets\//)[0][0]).toMatch(/\?hs_code=12/)
+    expect(rtl.getByText(/Dairy produce/)).toBeTruthy()
   })
 })

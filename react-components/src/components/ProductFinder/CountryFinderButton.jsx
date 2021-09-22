@@ -58,11 +58,12 @@ export const CountryFinderButton = () => {
           Add market
         </button>
       </BasketViewer>
+      {modalIsOpen && (
       <CountryFinderModal
-        modalIsOpen={modalIsOpen}
+        modalIsOpen
         setIsOpen={setIsOpen}
         selectCountry={selectCountry}
-      />
+      />)}
     </span>
   )
 }

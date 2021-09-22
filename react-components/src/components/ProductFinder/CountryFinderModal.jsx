@@ -189,8 +189,8 @@ export default function CountryFinderModal(props) {
       <div className="suggested-markets">
         <h3 className="h-s">
           Suggested markets
-          {!suggestedCountries.details.allSame &&
-            ` for ${suggestedCountries.details.product}`}
+          {suggestedCountries.hs2Desc &&
+            ` for ${suggestedCountries.hs2Desc}`}
         </h3>
         <p className="m-v-xs">These are based on the size of the market for your product, export distance, tariffs and costs.</p>
         <div className="m-v-xs">{suggestedList}</div>
