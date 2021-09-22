@@ -6,22 +6,13 @@ from wagtail.core import blocks
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 
 from core import blocks as core_blocks
-from core.models import CaseStudyRelatedPages, CaseStudyScoringSettings
-from core.utils import (
-    get_cs_score_by_hs_codes,
-    get_cs_score_by_recency,
-    get_cs_score_by_region,
-    get_cs_score_by_related_page,
-    get_cs_score_by_trading_bloc,
-)
-from exportplan.core.parsers import ExportPlanParser
+from core.models import CaseStudyScoringSettings
+from core.utils import get_cs_ranking
 from tests.unit.core.factories import (
     CaseStudyFactory,
     ContentModuleFactory,
-    CuratedListPageFactory,
     DetailPageFactory,
     ListPageFactory,
-    TopicPageFactory,
 )
 
 
@@ -148,125 +139,186 @@ def test_learning_link_component(domestic_site, domestic_homepage):
 
 
 @pytest.mark.django_db
-def test_case_study_static_block_annotate_with_no_personalisation_selection(rf, user):
-    case_study_1 = CaseStudyFactory()
-    case_study_1.hs_code_tags.add('123456', '1234')
-    case_study_1.country_code_tags.add('Europe', 'ES')
+def test_case_study_static_block(
+    rf, user, client, magna_site, mock_get_user_data, mock_cs_update, mock_elasticsearch_count, mock_elasticsearch_scan
+):
+    case_study_1 = CaseStudyFactory(id=1)
+    case_study_1.hs_code_tags.add('111111', '1234')
+    case_study_1.country_code_tags.add('Testyland')
     case_study_1.save()
 
-    case_study_2 = CaseStudyFactory()
+    case_study_2 = CaseStudyFactory(id=2)
     case_study_2.hs_code_tags.add('334455')
     case_study_2.country_code_tags.add('Europe', 'DE')
     case_study_2.save()
-    # Empty personalisation selection
-    mocked_export_plan = ExportPlanParser(dict())
 
-    request = rf.get('/', {})
+    request = rf.get('/')
     request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        block = core_blocks.CaseStudyStaticBlock()
-        context = {'request': request, 'export_plan': request.user.export_plan}
-        context = block._annotate_with_case_study(context)
-        assert 'case_study' not in context
+    block = core_blocks.CaseStudyStaticBlock()
+    context = {'request': request, 'user': user}
+    context = block._annotate_with_case_study(context)
+    assert 'case_study' in context
 
 
-@pytest.mark.django_db
-def test_case_study_static_block_annotate_with_only_country_selection(mock_trading_blocs, rf, user, magna_site):
-
-    case_study_1 = CaseStudyFactory()
-    case_study_1.hs_code_tags.add('123456', '1234')
-    case_study_1.country_code_tags.add('ES')
-    case_study_1.region_code_tags.add('Europe')
-    case_study_1.save()
-
-    case_study_2 = CaseStudyFactory()
-    case_study_2.hs_code_tags.add('334455')
-    case_study_2.region_code_tags.add('Asia Pacific')
-    case_study_2.save()
-
-    # country personalisation selection
-    mocked_export_plan = ExportPlanParser(
-        {
-            'export_countries': [
-                {
-                    'region': 'Asia Pacific',
-                    'country_name': 'Australia',
-                    'country_iso2_code': 'AU',
-                }
-            ]
-        }
-    )
-
-    request = rf.get('/', {})
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        block = core_blocks.CaseStudyStaticBlock()
-        context = {
-            'request': request,
-            'export_plan': request.user.export_plan.data,
-        }
-        context = block._annotate_with_case_study(context)
-        assert 'case_study' in context
-        # case study not scoring above threshold
-        assert context['case_study'] is None
+base_settings = {
+    'threshold': 12,
+    'module': 2,
+    'topic': 4,
+    'lesson': 8,
+    'product_hs6': 8,
+    'product_hs4': 4,
+    'product_hs2': 2,
+    'country_region': 2,
+    'country_exact': 4,
+    'other_product_hs6': -0.5,
+    'other_product_hs4': -0.25,
+    'other_product_hs2': -0.125,
+    'other_country_region': -0.125,
+    'other_country_exact': -0.25,
+    'recency_3_months': 8,
+    'recency_6_months': 4,
+    'recency_9_months': 2,
+    'recency_12_months': 1,
+    'recency_15_months': 0.5,
+    'recency_18_months': 0.25,
+    'recency_21_months': 0.125,
+    'recency_24_months': 0,
+    'trading_blocs': 2,
+    'other_module_tags': -0.5,
+    'other_topic_tags': -0.25,
+    'other_lesson_tags': -0.1,
+}
 
 
-@pytest.mark.django_db
-def test_case_study_static_block_annotate_with_only_product_selection(
-    mock_trading_blocs, rf, user, magna_site, export_plan_data
-):
+@pytest.mark.parametrize(
+    'cs_tags, user_products, expected_score',
+    (
+        ('12', ['123456'], 2),
+        ('12 1234', ['123456'], 4),
+        ('123456', ['123456'], 8),
+        ('12 6543', ['12345', '654321'], 4),
+        ('12 654321', ['12345', '654321'], 8),
+        ('12 654321', ['666666'], -0.5),
+        ('12 6543', ['666666'], -0.25),
+        ('12', ['666666'], -0.125),
+    ),
+)
+def test_case_study_ranking_product(cs_tags, user_products, expected_score):
+    cs = {
+        'pk': '38',
+        'hscodes': cs_tags,
+        'lesson': '',
+        'country': '',
+        'region': '',
+        'modified': (datetime.now(timezone.utc) - timedelta(days=31 * 30)).isoformat(),
+    }
 
-    case_study_1 = CaseStudyFactory()
-    case_study_1.hs_code_tags.add('123456', '1234')
-    case_study_1.country_code_tags.add('Europe', 'ES')
-    case_study_1.save()
-
-    case_study_2 = CaseStudyFactory()
-    case_study_2.hs_code_tags.add('334455')
-    case_study_2.country_code_tags.add('Europe', 'HU')
-    case_study_2.save()
-
-    # product personalisation selection
-    mocked_export_plan = ExportPlanParser(
-        {'export_commodity_codes': [{'commodity_code': '334455', 'commodity_name': 'Blah'}]}
-    )
-
-    request = rf.get('/', {})
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        block = core_blocks.CaseStudyStaticBlock()
-        context = {'request': request, 'export_plan': request.user.export_plan.data}
-        context = block._annotate_with_case_study(context)
-        assert 'case_study' in context
-        # case study not scoring above threshold
-        assert context['case_study'] is None
+    settings = CaseStudyScoringSettings(**base_settings)
+    assert get_cs_ranking(cs, user_products, [], [], [], settings) == expected_score
 
 
-@pytest.mark.django_db
-def test_case_study_static_block_annotate_with_case_study_with_no_tags(mock_trading_blocs, rf, user, magna_site):
-    CaseStudyFactory()
-    CaseStudyFactory()
+@pytest.mark.parametrize(
+    'cs_tags_markets, user_markets, expected_score',
+    (
+        ('Japan France', ['Japan', 'France'], 4),
+        ('Spain France', ['Japan', 'France'], 4),
+        ('Spain USA', ['Japan', 'France'], -0.25),
+        ('', ['Japan', 'France'], 0),
+    ),
+)
+def test_case_study_ranking_market(cs_tags_markets, user_markets, expected_score):
+    cs = {
+        'pk': '38',
+        'hscodes': '',
+        'lesson': '',
+        'country': cs_tags_markets,
+        'region': '',
+        'modified': (datetime.now(timezone.utc) - timedelta(days=31 * 30)).isoformat(),
+    }
 
-    # personalised selection exist in export plan
-    mocked_export_plan = ExportPlanParser(
-        {
-            'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Blah'}],
-            'export_countries': [{'region': 'Europe', 'country_name': 'Hungary', 'country_iso2_code': 'HU'}],
-        }
-    )
+    settings = CaseStudyScoringSettings(**base_settings)
+    assert get_cs_ranking(cs, [], user_markets, [], [], settings) == expected_score
 
-    request = rf.get('/', {})
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        block = core_blocks.CaseStudyStaticBlock()
-        context = {'request': request, 'export_plan': request.user.export_plan.data}
-        context = block._annotate_with_case_study(context)
-        assert 'case_study' not in context
 
+@pytest.mark.parametrize(
+    'cs_tags_regions, user_regions, expected_score',
+    (
+        ('Asia_Pacific', ['North America', 'Asia Pacific'], 2),
+        ('North_America', ['North America', 'Asia Pacific'], 2),
+        ('South_America', ['North America', 'Asia Pacific'], -0.125),
+        ('', ['North America', 'Asia Pacific'], 0),
+        ('', [], 0),
+    ),
+)
+def test_case_study_ranking_region(cs_tags_regions, user_regions, expected_score):
+    cs = {
+        'pk': '38',
+        'hscodes': '',
+        'lesson': '',
+        'country': '',
+        'region': cs_tags_regions,
+        'modified': (datetime.now(timezone.utc) - timedelta(days=31 * 30)).isoformat(),
+    }
+
+    settings = CaseStudyScoringSettings(**base_settings)
+    assert get_cs_ranking(cs, [], [], user_regions, [], settings) == expected_score
+
+
+@pytest.mark.parametrize(
+    'cs_tags_lesson, user_page_context, expected_score',
+    (
+        ('lesson_3', ['lesson_3', 'module_2', 'topic_1'], 8),
+        ('module_2 topic_1 lesson_3', ['lesson_3', 'module_2', 'topic_1'], 14),
+        ('module_2 topic_1', ['lesson_3', 'module_2', 'topic_1'], 6),
+        ('module_2 topic_1 lesson_8', ['lesson_3', 'module_2', 'topic_1'], 5.9),
+        ('module_2 topic_16 lesson_8', ['lesson_3', 'module_2', 'topic_1'], 1.65),
+        ('module_9 topic_16 lesson_8', ['lesson_3', 'module_2', 'topic_1'], -0.85),
+        ('', ['lesson_3', 'module_2', 'topic_1'], 0),
+    ),
+)
+def test_case_study_ranking_lesson(cs_tags_lesson, user_page_context, expected_score):
+    cs = {
+        'pk': '38',
+        'hscodes': '',
+        'lesson': cs_tags_lesson,
+        'country': '',
+        'region': '',
+        'modified': (datetime.now(timezone.utc) - timedelta(days=31 * 30)).isoformat(),
+    }
+
+    settings = CaseStudyScoringSettings(**base_settings)
+    assert get_cs_ranking(cs, [], [], [], user_page_context, settings) == expected_score
+
+
+@pytest.mark.parametrize(
+    'cs_age_days, expected_score',
+    (
+        (0, 8),
+        (3 * 31, 4),
+        (6 * 31, 2),
+        (9 * 31, 1),
+        (366, 0.5),
+        (366 + (3 * 31), 0.25),
+        (366 + (6 * 31), 0.125),
+        (366 + (9 * 31), 0.0625),
+        (366 * 2, 0.0625),
+    ),
+)
+def test_case_study_ranking_recency(cs_age_days, expected_score):
+    cs = {
+        'pk': '38',
+        'hscodes': '',
+        'lesson': '',
+        'country': '',
+        'region': '',
+        'modified': (datetime.now(timezone.utc) - timedelta(days=cs_age_days)).isoformat(),
+    }
+    base_settings.update({'recency_24_months': 0.0625})
+    settings = CaseStudyScoringSettings(**base_settings)
+    assert get_cs_ranking(cs, [], [], [], [], settings) == expected_score
+
+
+"""
 
 @pytest.mark.django_db
 def test_case_study_static_block_annotate_with_case_study_with_tags_and_personalised_selection(
@@ -437,6 +489,8 @@ def test_case_study_static_block_get_context():
         assert context == mocked_returned_context
         assert mock_annotate_with_case_study.call_count == 1
 
+"""
+
 
 @pytest.mark.parametrize(
     'blocks_to_create,expected_exception_message',
@@ -465,6 +519,7 @@ def test_general_statistics_streamfield_validation(blocks_to_create, expected_ex
             assert False, f'Should not have got a {e}'
 
 
+"""
 @pytest.mark.django_db
 def test_case_study_score_by_hs_code(rf, user, magna_site):
     case_study = CaseStudyFactory()
@@ -811,3 +866,4 @@ def test_case_study_with_no_country_selected(mock_trading_blocs, rf, user, magna
         block = core_blocks.CaseStudyStaticBlock()
         context = block._annotate_with_case_study(context)
         assert 'case_study' in context
+"""

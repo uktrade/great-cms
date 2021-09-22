@@ -1,4 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from elasticsearch.exceptions import ConnectionError
 from wagtail.core import blocks
 from wagtail.core.blocks.field_block import RichTextBlock
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
@@ -6,12 +7,9 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
 from core import models
+from core.case_study_index import search
 from core.constants import RICHTEXT_FEATURES__MINIMAL, RICHTEXT_FEATURES__REDUCED
-from core.utils import (
-    get_most_ranked_case_study,
-    get_personalised_case_study_orm_filter_args,
-    get_personalised_choices,
-)
+from core.utils import get_cs_ranking, get_personalised_choices
 
 
 class MediaChooserBlock(AbstractMediaChooserBlock):
@@ -242,21 +240,41 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
         template = 'core/case_study_block.html'
 
     def _annotate_with_case_study(self, context):
-        """Add the relevant case study, if any, to the context."""
+        """Add the most relevant case study, if any, to the context."""
+        # Get the context for this lesson -> module -> topic
+        page_context = []
+        for page_type in ['lesson', 'module', 'topic']:
+            page = context.get(f'current_{page_type}')
+            page_context.append(f'{page_type}_{page.id if page else ""}')
 
-        # no export_plan no case_study to display
-        if 'export_plan' not in context.keys():
-            return context
+        # Get the user's basket products and markets
+        export_commodity_codes, export_markets, export_regions = get_personalised_choices(context)
 
-        hs_code, country, region = get_personalised_choices(context['export_plan'])
-        filter_args = get_personalised_case_study_orm_filter_args(hs_code=hs_code, country=country, region=region)
+        try:
+            s = search(
+                export_commodity_codes=export_commodity_codes,
+                export_markets=export_markets,
+                export_regions=export_regions,
+                page_context=page_context,
+            )
+            if s.count():
+                from core.models import CaseStudyScoringSettings
 
-        queryset = models.CaseStudy.objects.all()
-        for filter_arg in filter_args:
-            cs_queryset = queryset.filter(**filter_arg)
-            if cs_queryset.exists():
-                context['case_study'] = get_most_ranked_case_study(cs_queryset=cs_queryset, context=context)
-                break
+                settings = CaseStudyScoringSettings.for_request(context['request'])
+                hits = []
+                for hit in s.scan():
+                    hit_dict = hit.to_dict()
+                    hit_dict['score'] = get_cs_ranking(
+                        hit_dict, export_commodity_codes, export_markets, export_regions, page_context, settings
+                    )
+                    hits.append(hit_dict)
+                sorted_cs_list = sorted(hits, key=lambda hit: hit.get('score'), reverse=True)
+                best_case_study_id = sorted_cs_list[0].get('pk')
+                best_case_study = models.CaseStudy.objects.get(id=best_case_study_id)
+                context['case_study'] = best_case_study
+        except ConnectionError:
+            # nothing we can do without elasticsearch so continue without case study
+            pass
 
         return context
 

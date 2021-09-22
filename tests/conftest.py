@@ -10,6 +10,8 @@ from wagtail_factories import PageFactory, SiteFactory
 
 import tests.unit.domestic.factories
 import tests.unit.exportplan.factories
+from core.case_study_index import case_study_to_index
+from core.models import CaseStudy
 from directory_api_client import api_client
 from sso.models import BusinessSSOUser
 from tests.helpers import create_response
@@ -663,3 +665,50 @@ def company_profile(client, user):
     )
     yield stub.start()
     stub.stop()
+
+
+@pytest.fixture(autouse=False)
+def mock_get_user_data():
+    body = {
+        'UserProducts': [
+            {'commodity_code': '111111', 'commodity_name': 'Steel'},
+            {'commodity_code': '666666', 'commodity_name': 'Cheese'},
+        ],
+        'UserMarkets': [
+            {'region': 'Europe', 'suggested': None, 'country_name': 'Testyland', 'country_iso2_code': 'PT'}
+        ],
+    }
+    yield mock.patch(
+        'directory_sso_api_client.sso_api_client.user.get_user_data',
+        return_value=create_response(status_code=200, json_body=body),
+    ).start()
+
+
+@pytest.fixture
+def mock_elasticsearch_delete():
+    yield mock.patch('elasticsearch_dsl.Search.delete', return_value='mocked').start()
+
+
+@pytest.fixture
+def mock_elasticsearch_count():
+    yield mock.patch('elasticsearch_dsl.Search.count', return_value=1).start()
+
+
+@pytest.fixture
+def mock_elasticsearch_search():
+    yield mock.patch('elasticsearch_dsl.Search.search', return_value=1).start()
+
+
+@pytest.fixture
+def mock_cs_update():
+    yield mock.patch('core.case_study_index.update_cs_index').start()
+
+
+@pytest.fixture
+def mock_elasticsearch_scan():
+    def _scan():
+        # returns all casestudy objects as if they were returned by ES
+        for cs in CaseStudy.objects.all():
+            yield case_study_to_index(cs)
+
+    yield mock.patch('elasticsearch_dsl.Search.scan', return_value=_scan()).start()

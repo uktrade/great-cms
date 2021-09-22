@@ -386,6 +386,8 @@ if ELASTIC_APM_ENABLED:
     }
     INSTALLED_APPS.append('elasticapm.contrib.django')
 
+ELASTICSEARCH_CASE_STUDY_INDEX = env.str('ELASTICSEARCH_CASE_STUDY_INDEX', 'case-studies')
+
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 
 ENFORCE_STAFF_SSO_ENABLED = env.bool('ENFORCE_STAFF_SSO_ENABLED', False)

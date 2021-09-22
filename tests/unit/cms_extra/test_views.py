@@ -7,7 +7,7 @@ from tests.unit.core.factories import CaseStudyFactory
 
 
 @pytest.mark.django_db
-def test_case_study_view(client, django_user_model):
+def test_case_study_view(client, django_user_model, mock_cs_update):
 
     user = django_user_model.objects.create_user(
         username='username',
@@ -58,7 +58,7 @@ def test_case_study_view__access(django_user_model, client, is_staff):
 
 
 @pytest.mark.django_db
-def test_case_study_admin_view(client, django_user_model):
+def test_case_study_admin_view(client, django_user_model, mock_cs_update):
 
     user = django_user_model.objects.create_user(username='username', password='password', is_staff=True)
     client.login(username='username', password='password')
