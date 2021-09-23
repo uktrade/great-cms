@@ -85,6 +85,7 @@
     "@babel/polyfill": "^7.12.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "great-styles": "github:uktrade/great-styles",
+    "is-primitive": "^3.0.1",
     "merge": "^2.1.1",
     "prop-types": "15.7.2",
     "react": "16.13.1",
