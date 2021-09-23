@@ -83,23 +83,24 @@ def choices_to_key_value(choices):
     return [{'value': key, 'label': label} for key, label in choices]
 
 
-def get_personalised_choices(context):
+def get_personalised_choices(user):
     """
     Get 'my products' and 'my markets' from user settings
     """
-    # from core.helpers import get_trading_blocs_name
+    from core.helpers import get_trading_blocs_name
 
-    user = context.get('user')
     products = user.get_user_data(name='UserProducts').get('UserProducts')
     markets = user.get_user_data(name='UserMarkets').get('UserMarkets')
-    # for market in markets:
-    #    if not market.get('trading_bloc'):
-    #        market['trading_bloc'] = get_trading_blocs_name(market.get('country_iso2_code'))
+    trading_blocs = set()
+    for market in markets:
+        for bloc in get_trading_blocs_name(market.get('country_iso2_code')):
+            trading_blocs.add(bloc)
 
     export_commodity_codes = [product.get('commodity_code') for product in products]
     export_markets = [market.get('country_name') for market in markets]
     export_regions = list(dict.fromkeys([market.get('region') for market in markets]))
-    return export_commodity_codes, export_markets, export_regions
+    export_blocs = list(trading_blocs)
+    return export_commodity_codes, export_markets, export_regions, export_blocs
 
 
 def split_hs_codes(hs_codes):
@@ -128,7 +129,7 @@ def rank_hs_codes(cs, commodity_codes, settings):
     return score
 
 
-def rank_tags(cs, user_tags, settings, cs_tag, setting_tag):
+def rank_tags(cs, user_tags, settings, cs_tag, setting_tag, damping_setting_tag):
     # used for several similar tag sets
     score = 0
     split_tags = cs.get(cs_tag, '').split(' ')
@@ -136,8 +137,8 @@ def rank_tags(cs, user_tags, settings, cs_tag, setting_tag):
         for user_tag in user_tags:
             if user_tag.replace(' ', '_') in split_tags:
                 score = max(score, getattr(settings, setting_tag))
-        if score == 0:
-            score = score + getattr(settings, f'other_{setting_tag}')
+        if score == 0 and damping_setting_tag:
+            score = score + getattr(settings, damping_setting_tag)
     return score
 
 
@@ -162,27 +163,14 @@ def rank_recency(cs, settings):
     return getattr(settings, f'recency_{three_month_block}_months')
 
 
-def get_cs_ranking(cs, export_commodity_codes, export_markets, export_regions, page_context, settings):
+def get_cs_ranking(
+    cs, export_commodity_codes=[], export_markets=[], export_regions=[], export_blocs=[], page_context=[], settings=[]
+):
     score = 0
     score += rank_hs_codes(cs, export_commodity_codes, settings)
-    score += rank_tags(cs, export_markets, settings, 'country', 'country_exact')
-    score += rank_tags(cs, export_regions, settings, 'region', 'country_region')
+    score += rank_tags(cs, export_markets, settings, 'country', 'country_exact', 'other_country_exact')
+    score += rank_tags(cs, export_regions, settings, 'region', 'country_region', 'other_country_region')
+    score += rank_tags(cs, export_blocs, settings, 'tradingblocs', 'trading_blocs', None)
     score += rank_related_pages(cs, page_context, settings)
     score += rank_recency(cs, settings)
     return score
-
-
-"""
-def get_cs_score_by_trading_bloc(cs_obj, setting, country):
-    from core.helpers import get_trading_blocs_name
-
-    score = 0
-    trading_bloc_names = get_trading_blocs_name(country)
-    if not trading_bloc_names:
-        return score
-
-    cs_tagged_trading_blocs = [str(item) for item in cs_obj.trading_bloc_code_tags.all()]
-    if any([item for item in trading_bloc_names if item in cs_tagged_trading_blocs]):
-        score = getattr(setting, 'trading_blocs')
-    return score
-"""

@@ -9,6 +9,7 @@ class CaseStudyIndexed(Document):
     country = field.Keyword()
     region = field.Keyword()
     lesson = field.Keyword()
+    tradingblocs = field.Keyword()
 
     class Index:
         name = settings.ELASTICSEARCH_CASE_STUDY_INDEX
@@ -40,6 +41,7 @@ def case_study_to_index(case_study):
         lesson=stringify_lessons([related_page.page.specific for related_page in case_study.related_pages.all()]),
         country=stringify_tags(case_study.country_code_tags.all()),
         region=stringify_tags(case_study.region_code_tags.all()),
+        tradingblocs=stringify_tags(case_study.trading_bloc_code_tags.all()),
         modified=case_study.modified,
     )
     return cs_indexed

@@ -1,9 +1,8 @@
 from django.conf import settings
 from django.core.management import BaseCommand
 from elasticsearch.helpers import bulk
-from elasticsearch_dsl.connections import connections
 
-from core.case_study_index import case_study_to_index
+from core.case_study_index import case_study_to_index, get_connection
 from core.models import CaseStudy
 
 
@@ -11,7 +10,7 @@ class Command(BaseCommand):
     help = 'Rebuild elastic index for casestudies'
 
     def handle(self, *args, **options):
-        connection = connections.create_connection(hosts=['localhost'])
+        connection = get_connection()
         connection.indices.delete(index=settings.ELASTICSEARCH_CASE_STUDY_INDEX, ignore=[400, 404])
         data = []
         for cs in CaseStudy.objects.all():

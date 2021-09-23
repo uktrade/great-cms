@@ -248,7 +248,8 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
             page_context.append(f'{page_type}_{page.id if page else ""}')
 
         # Get the user's basket products and markets
-        export_commodity_codes, export_markets, export_regions = get_personalised_choices(context)
+        user = context.get('user')
+        export_commodity_codes, export_markets, export_regions, export_blocs = get_personalised_choices(user)
 
         try:
             s = search(
@@ -265,7 +266,13 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
                 for hit in s.scan():
                     hit_dict = hit.to_dict()
                     hit_dict['score'] = get_cs_ranking(
-                        hit_dict, export_commodity_codes, export_markets, export_regions, page_context, settings
+                        hit_dict,
+                        export_commodity_codes=export_commodity_codes,
+                        export_markets=export_markets,
+                        export_regions=export_regions,
+                        page_context=page_context,
+                        export_blocs=export_blocs,
+                        settings=settings,
                     )
                     hits.append(hit_dict)
                 sorted_cs_list = sorted(hits, key=lambda hit: hit.get('score'), reverse=True)

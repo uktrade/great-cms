@@ -622,6 +622,26 @@ def mock_trading_blocs():
             'membership_end_date': None,
             'country': 270,
         },
+        {
+            'membership_code': 'CTTB0125',
+            'iso2': 'DE',
+            'country_territory_name': 'Germany',
+            'trading_bloc_code': 'TB00016',
+            'trading_bloc_name': 'European Union (EU)',
+            'membership_start_date': None,
+            'membership_end_date': None,
+            'country': 270,
+        },
+        {
+            'membership_code': 'CTTB0125',
+            'iso2': 'DE',
+            'country_territory_name': 'Germany',
+            'trading_bloc_code': 'TB00014',
+            'trading_bloc_name': 'European Economic Area (EEA)',
+            'membership_start_date': None,
+            'membership_end_date': None,
+            'country': 270,
+        },
     ]
     yield mock.patch(
         'directory_api_client.api_client.dataservices.trading_blocs_by_country',
@@ -674,14 +694,38 @@ def mock_get_user_data():
             {'commodity_code': '111111', 'commodity_name': 'Steel'},
             {'commodity_code': '666666', 'commodity_name': 'Cheese'},
         ],
-        'UserMarkets': [
-            {'region': 'Europe', 'suggested': None, 'country_name': 'Testyland', 'country_iso2_code': 'PT'}
-        ],
+        'UserMarkets': [{'region': 'Europe', 'suggested': None, 'country_name': 'Germany', 'country_iso2_code': 'DE'}],
     }
     yield mock.patch(
         'directory_sso_api_client.sso_api_client.user.get_user_data',
         return_value=create_response(status_code=200, json_body=body),
     ).start()
+
+
+class MockElasticsearchInduces:
+    def delete(*args, **kwargs):
+        return {}
+
+
+class MockElasticsearch:
+    indices = MockElasticsearchInduces()
+
+    def search(*args, **kwargs):
+        return {'results': 1}
+
+    def delete(*args, **kwargs):
+        return {}
+
+
+@pytest.fixture
+def mock_elasticsearch_connect():
+    yield mock.patch('core.case_study_index.get_connection', return_value=MockElasticsearch()).start()
+    # yield mock.patch('elasticsearch_dsl.connections.connections.create_connection', return_value={}).start()
+
+
+@pytest.fixture
+def mock_elasticsearch_bulk():
+    yield mock.patch('elasticsearch.helpers.bulk').start()
 
 
 @pytest.fixture

@@ -144,12 +144,12 @@ def test_case_study_static_block(
 ):
     case_study_1 = CaseStudyFactory(id=1)
     case_study_1.hs_code_tags.add('111111', '1234')
-    case_study_1.country_code_tags.add('Testyland')
+    case_study_1.country_code_tags.add('Germany')
     case_study_1.save()
 
     case_study_2 = CaseStudyFactory(id=2)
     case_study_2.hs_code_tags.add('334455')
-    case_study_2.country_code_tags.add('Europe', 'DE')
+    case_study_2.country_code_tags.add('Spain')
     case_study_2.save()
 
     request = rf.get('/')
@@ -190,6 +190,19 @@ base_settings = {
 }
 
 
+def get_case_study(data):
+    base_cs = {
+        'pk': '38',
+        'hscodes': '',
+        'lesson': '',
+        'country': '',
+        'region': '',
+        'modified': (datetime.now(timezone.utc) - timedelta(days=31 * 30)).isoformat(),
+    }
+    base_cs.update(data or {})
+    return base_cs
+
+
 @pytest.mark.parametrize(
     'cs_tags, user_products, expected_score',
     (
@@ -204,17 +217,9 @@ base_settings = {
     ),
 )
 def test_case_study_ranking_product(cs_tags, user_products, expected_score):
-    cs = {
-        'pk': '38',
-        'hscodes': cs_tags,
-        'lesson': '',
-        'country': '',
-        'region': '',
-        'modified': (datetime.now(timezone.utc) - timedelta(days=31 * 30)).isoformat(),
-    }
-
+    cs = get_case_study({'hscodes': cs_tags})
     settings = CaseStudyScoringSettings(**base_settings)
-    assert get_cs_ranking(cs, user_products, [], [], [], settings) == expected_score
+    assert get_cs_ranking(cs, export_commodity_codes=user_products, settings=settings) == expected_score
 
 
 @pytest.mark.parametrize(
@@ -227,17 +232,9 @@ def test_case_study_ranking_product(cs_tags, user_products, expected_score):
     ),
 )
 def test_case_study_ranking_market(cs_tags_markets, user_markets, expected_score):
-    cs = {
-        'pk': '38',
-        'hscodes': '',
-        'lesson': '',
-        'country': cs_tags_markets,
-        'region': '',
-        'modified': (datetime.now(timezone.utc) - timedelta(days=31 * 30)).isoformat(),
-    }
-
+    cs = get_case_study({'country': cs_tags_markets})
     settings = CaseStudyScoringSettings(**base_settings)
-    assert get_cs_ranking(cs, [], user_markets, [], [], settings) == expected_score
+    assert get_cs_ranking(cs, export_markets=user_markets, settings=settings) == expected_score
 
 
 @pytest.mark.parametrize(
@@ -251,17 +248,28 @@ def test_case_study_ranking_market(cs_tags_markets, user_markets, expected_score
     ),
 )
 def test_case_study_ranking_region(cs_tags_regions, user_regions, expected_score):
-    cs = {
-        'pk': '38',
-        'hscodes': '',
-        'lesson': '',
-        'country': '',
-        'region': cs_tags_regions,
-        'modified': (datetime.now(timezone.utc) - timedelta(days=31 * 30)).isoformat(),
-    }
-
+    cs = get_case_study({'region': cs_tags_regions})
     settings = CaseStudyScoringSettings(**base_settings)
-    assert get_cs_ranking(cs, [], [], user_regions, [], settings) == expected_score
+    assert get_cs_ranking(cs, export_regions=user_regions, settings=settings) == expected_score
+
+
+@pytest.mark.parametrize(
+    'cs_tags_trading_blocks, user_trading_blocs, expected_score',
+    (
+        ('European_Union_(EU)', ['European Union (EU)', 'Economic Community of Central African States (ECCAS)'], 2),
+        (
+            'European_Economic_Area_(EEA)',
+            ['European Union (EU)', 'Economic Community of Central African States (ECCAS)'],
+            0,
+        ),
+        ('', ['European Union (EU)', 'Economic Community of Central African States (ECCAS)'], 0),
+        ('', [], 0),
+    ),
+)
+def test_case_study_ranking_trading_bloc(cs_tags_trading_blocks, user_trading_blocs, expected_score):
+    cs = get_case_study({'tradingblocs': cs_tags_trading_blocks})
+    settings = CaseStudyScoringSettings(**base_settings)
+    assert get_cs_ranking(cs=cs, export_blocs=user_trading_blocs, settings=settings) == expected_score
 
 
 @pytest.mark.parametrize(
@@ -277,17 +285,9 @@ def test_case_study_ranking_region(cs_tags_regions, user_regions, expected_score
     ),
 )
 def test_case_study_ranking_lesson(cs_tags_lesson, user_page_context, expected_score):
-    cs = {
-        'pk': '38',
-        'hscodes': '',
-        'lesson': cs_tags_lesson,
-        'country': '',
-        'region': '',
-        'modified': (datetime.now(timezone.utc) - timedelta(days=31 * 30)).isoformat(),
-    }
-
+    cs = get_case_study({'lesson': cs_tags_lesson})
     settings = CaseStudyScoringSettings(**base_settings)
-    assert get_cs_ranking(cs, [], [], [], user_page_context, settings) == expected_score
+    assert get_cs_ranking(cs, page_context=user_page_context, settings=settings) == expected_score
 
 
 @pytest.mark.parametrize(
@@ -305,191 +305,10 @@ def test_case_study_ranking_lesson(cs_tags_lesson, user_page_context, expected_s
     ),
 )
 def test_case_study_ranking_recency(cs_age_days, expected_score):
-    cs = {
-        'pk': '38',
-        'hscodes': '',
-        'lesson': '',
-        'country': '',
-        'region': '',
-        'modified': (datetime.now(timezone.utc) - timedelta(days=cs_age_days)).isoformat(),
-    }
+    cs = get_case_study({'modified': (datetime.now(timezone.utc) - timedelta(days=cs_age_days)).isoformat()})
     base_settings.update({'recency_24_months': 0.0625})
     settings = CaseStudyScoringSettings(**base_settings)
-    assert get_cs_ranking(cs, [], [], [], [], settings) == expected_score
-
-
-"""
-
-@pytest.mark.django_db
-def test_case_study_static_block_annotate_with_case_study_with_tags_and_personalised_selection(
-    mock_trading_blocs, rf, user, magna_site
-):
-    case_study_1 = CaseStudyFactory()
-    case_study_1.hs_code_tags.add('123456', '1234')
-    case_study_1.country_code_tags.add(
-        'ES',
-    )
-    case_study_1.region_code_tags.add(
-        'Europe',
-    )
-    case_study_1.save()
-
-    case_study_2 = CaseStudyFactory()
-    case_study_2.hs_code_tags.add('334455')
-    case_study_2.country_code_tags.add(
-        'DE',
-    )
-    case_study_1.region_code_tags.add(
-        'Europe',
-    )
-    case_study_2.save()
-
-    mocked_export_plan = ExportPlanParser(
-        {
-            'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Something'}],
-            'export_countries': [{'region': 'Europe', 'country_name': 'Hungary', 'country_iso2_code': 'HU'}],
-        }
-    )
-
-    request = rf.get('/')
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        block = core_blocks.CaseStudyStaticBlock()
-
-        context = {'request': request, 'export_plan': request.user.export_plan.data}
-        context = block._annotate_with_case_study(context)
-        assert 'case_study' in context
-        assert 'case_study' in block.get_context(value=None, parent_context=context)
-        assert context['case_study'] == case_study_1
-
-
-@pytest.mark.django_db
-def test_case_study_static_block_annotate_with_latest_case_study_multiple_tags(rf, user, magna_site):
-    case_study_1 = CaseStudyFactory()
-    case_study_1.hs_code_tags.add('213456', '1234')
-    case_study_1.country_code_tags.add('Europe', 'ES')
-    case_study_1.save()
-
-    # Another case study with same tags as latest modified
-    case_study_2 = CaseStudyFactory()
-    case_study_2.hs_code_tags.add('123456', '1234')
-    case_study_2.country_code_tags.add('Europe', 'ES')
-    case_study_2.save()
-
-    mocked_export_plan = ExportPlanParser(
-        {
-            'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Something'}],
-            'export_countries': [{'region': 'Europe', 'country_name': 'Spain', 'country_iso2_code': 'ES'}],
-        }
-    )
-
-    request = rf.get('/')
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        block = core_blocks.CaseStudyStaticBlock()
-        context = {'request': request, 'export_plan': request.user.export_plan.data}
-        context = block._annotate_with_case_study(context)
-        assert 'case_study' in context
-        assert context['case_study'] == case_study_2
-
-
-@pytest.mark.django_db
-def test_case_study_static_block_annotate_with_random_case_study_multiple_tags(rf, user, magna_site):
-    case_study_1 = CaseStudyFactory()
-    case_study_1.hs_code_tags.add('123456', '1234')
-    case_study_1.country_code_tags.add('Europe', 'ES')
-    case_study_1.save()
-
-    # Another case study with same tags as latest modified
-    case_study_2 = CaseStudyFactory()
-    case_study_2.hs_code_tags.add('123456', '1234')
-    case_study_2.country_code_tags.add('Europe', 'ES')
-    case_study_2.save()
-
-    mocked_export_plan = ExportPlanParser(
-        {
-            'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Something'}],
-            'export_countries': [{'region': 'Europe', 'country_name': 'Spain', 'country_iso2_code': 'ES'}],
-        }
-    )
-
-    request = rf.get('/')
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        block = core_blocks.CaseStudyStaticBlock()
-        context = {'request': request, 'export_plan': request.user.export_plan.data}
-        context = block._annotate_with_case_study(context)
-        assert 'case_study' in context
-        assert context['case_study'] in [case_study_1, case_study_2]
-
-
-@pytest.mark.django_db
-def test_case_study_static_block_annotate_with_trading_blocs_tags(mock_trading_blocs, rf, user, magna_site):
-    case_study_1 = CaseStudyFactory()
-    case_study_1.hs_code_tags.add('458754')
-    case_study_1.trading_bloc_code_tags.add('South Asia Free Trade Area (SAFTA)', 'IN')
-    case_study_1.save()
-
-    # Another case study with same tags as latest modified
-    case_study_2 = CaseStudyFactory()
-    case_study_2.hs_code_tags.add('123456', '1234')
-    case_study_2.country_code_tags.add('Europe', 'ES')
-    case_study_2.save()
-
-    detail_page = DetailPageFactory()
-    CaseStudyRelatedPages.objects.create(page=detail_page, case_study=case_study_1)
-
-    mocked_export_plan = {
-        'export_commodity_codes': [{'commodity_code': '458754', 'commodity_name': 'Something'}],
-        'export_countries': [{'region': 'Asia', 'country_name': 'India', 'country_iso2_code': 'IN'}],
-    }
-
-    request = rf.get('/')
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        block = core_blocks.CaseStudyStaticBlock()
-        context = {'request': request, 'export_plan': request.user.export_plan, 'current_lesson': detail_page}
-        context = block._annotate_with_case_study(context)
-        assert 'case_study' in context
-        # India belongs to South Asia Free Trade Area (SAFTA) trading blocs
-        assert context['case_study'] == case_study_1
-
-
-@pytest.mark.django_db
-def test_case_study_static_block_annotate_with_no_export_plan(rf, user):
-    case_study_1 = CaseStudyFactory()
-    case_study_1.save()
-
-    # Another case study with same tags as latest modified
-    case_study_2 = CaseStudyFactory()
-    case_study_2.save()
-
-    request = rf.get('/')
-    request.user = user
-    block = core_blocks.CaseStudyStaticBlock()
-    context = {'request': request}
-    context = block._annotate_with_case_study(context)
-    assert 'case_study' not in context
-
-
-@pytest.mark.django_db
-def test_case_study_static_block_get_context():
-    with mock.patch('core.blocks.CaseStudyStaticBlock._annotate_with_case_study') as mock_annotate_with_case_study:
-
-        mocked_returned_context = mock.Mock('Annotated context')
-        mock_annotate_with_case_study.return_value = mocked_returned_context
-
-        block = core_blocks.CaseStudyStaticBlock()
-        context = block.get_context(value='test')
-
-        assert context == mocked_returned_context
-        assert mock_annotate_with_case_study.call_count == 1
-
-"""
+    assert get_cs_ranking(cs, settings=settings) == expected_score
 
 
 @pytest.mark.parametrize(
@@ -519,306 +338,6 @@ def test_general_statistics_streamfield_validation(blocks_to_create, expected_ex
             assert False, f'Should not have got a {e}'
 
 
-"""
-@pytest.mark.django_db
-def test_case_study_score_by_hs_code(rf, user, magna_site):
-    case_study = CaseStudyFactory()
-    case_study.hs_code_tags.add('458754')
-    case_study.save()
-
-    mocked_export_plan = {
-        'export_commodity_codes': [{'commodity_code': '458754', 'commodity_name': 'Something'}],
-        'export_countries': [{'region': 'Asia', 'country_name': 'India', 'country_iso2_code': 'IN'}],
-    }
-
-    request = rf.get('/')
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        context = {'request': request, 'export_plan': request.user.export_plan}
-        setting = CaseStudyScoringSettings.for_request(context['request'])
-        assert get_cs_score_by_hs_codes(case_study, setting, '458754') == 8
-
-
-@pytest.mark.django_db
-def test_case_study_score_by_region(rf, user, magna_site):
-    case_study = CaseStudyFactory()
-    case_study.country_code_tags.add('IN')
-    case_study.region_code_tags.add('Asia', 'Europe')
-    case_study.save()
-
-    mocked_export_plan = {
-        'export_commodity_codes': [{'commodity_code': '458754', 'commodity_name': 'Something'}],
-        'export_countries': [{'region': 'Asia', 'country_name': 'India', 'country_iso2_code': 'IN'}],
-    }
-
-    request = rf.get('/')
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        context = {'request': request, 'export_plan': request.user.export_plan}
-        setting = CaseStudyScoringSettings.for_request(context['request'])
-        assert get_cs_score_by_region(case_study, setting, 'IN', 'Asia') == 5.875
-
-
-@pytest.mark.django_db
-def test_case_study_score_with_no_trading_blocs(mock_no_trading_blocs, rf, user, magna_site):
-    case_study = CaseStudyFactory()
-    case_study.hs_code_tags.add('123456', '1234')
-    case_study.trading_bloc_code_tags.add('South Asia Free Trade Area (SAFTA)', 'ES')
-    case_study.save()
-
-    mocked_export_plan = {
-        'export_commodity_codes': [{'commodity_code': '458754', 'commodity_name': 'Something'}],
-        'export_countries': [{'region': 'Asia', 'country_name': 'India', 'country_iso2_code': 'IN'}],
-    }
-
-    request = rf.get('/')
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        context = {'request': request, 'export_plan': request.user.export_plan}
-        setting = CaseStudyScoringSettings.for_request(context['request'])
-        assert get_cs_score_by_trading_bloc(case_study, setting, 'IN') == 0
-
-
-@pytest.mark.django_db
-def test_case_study_score_with_trading_blocs(mock_trading_blocs, rf, user, magna_site):
-    case_study = CaseStudyFactory()
-    case_study.hs_code_tags.add('123456', '1234')
-    case_study.trading_bloc_code_tags.add('South Asia Free Trade Area (SAFTA)', 'ES')
-    case_study.save()
-
-    mocked_export_plan = {
-        'export_commodity_codes': [{'commodity_code': '458754', 'commodity_name': 'Something'}],
-        'export_countries': [{'region': 'Asia', 'country_name': 'India', 'country_iso2_code': 'IN'}],
-    }
-
-    request = rf.get('/')
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        context = {'request': request, 'export_plan': request.user.export_plan}
-        setting = CaseStudyScoringSettings.for_request(context['request'])
-        assert get_cs_score_by_trading_bloc(case_study, setting, 'IN') == getattr(setting, 'trading_blocs')
-
-
-@pytest.mark.django_db
-def test_case_study_score_with_no_related_pages(mock_trading_blocs, rf, user, magna_site):
-    case_study = CaseStudyFactory()
-    case_study.hs_code_tags.add('123456', '1234')
-    case_study.trading_bloc_code_tags.add('South Asia Free Trade Area (SAFTA)', 'ES')
-    case_study.save()
-
-    mocked_export_plan = {
-        'export_commodity_codes': [{'commodity_code': '458754', 'commodity_name': 'Something'}],
-        'export_countries': [{'region': 'Asia', 'country_name': 'India', 'country_iso2_code': 'IN'}],
-    }
-
-    request = rf.get('/')
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        context = {'request': request, 'export_plan': request.user.export_plan}
-        setting = CaseStudyScoringSettings.for_request(context['request'])
-        assert get_cs_score_by_related_page(case_study, context, setting) == 0
-
-
-@pytest.mark.django_db
-def test_case_study_score_with_related_pages(mock_trading_blocs, rf, user, magna_site):
-    case_study = CaseStudyFactory()
-    case_study.hs_code_tags.add('123456', '1234')
-    case_study.trading_bloc_code_tags.add('South Asia Free Trade Area (SAFTA)', 'ES')
-
-    detail_page = DetailPageFactory()
-    topic_page = TopicPageFactory()
-    module_page = CuratedListPageFactory()
-
-    CaseStudyRelatedPages.objects.create(page=detail_page, case_study=case_study)
-
-    case_study.save()
-
-    mocked_export_plan = {
-        'export_commodity_codes': [{'commodity_code': '458754', 'commodity_name': 'Something'}],
-        'export_countries': [{'region': 'Asia', 'country_name': 'India', 'country_iso2_code': 'IN'}],
-    }
-
-    request = rf.get('/')
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        context = {
-            'request': request,
-            'export_plan': request.user.export_plan,
-            'current_lesson': detail_page,
-            'current_module': module_page,
-            'current_topic': topic_page,
-        }
-        setting = CaseStudyScoringSettings.for_request(context['request'])
-        assert get_cs_score_by_related_page(case_study, context, setting) == getattr(setting, 'lesson')
-
-
-@pytest.mark.django_db
-def test_case_study_score_with_related_lesson_and_module_pages(mock_trading_blocs, rf, user, magna_site):
-    case_study = CaseStudyFactory()
-    detail_page = DetailPageFactory()
-    topic_page = TopicPageFactory()
-    module_page = CuratedListPageFactory()
-
-    CaseStudyRelatedPages.objects.create(page=detail_page, case_study=case_study)
-    CaseStudyRelatedPages.objects.create(page=module_page, case_study=case_study)
-    CaseStudyRelatedPages.objects.create(page=topic_page, case_study=case_study)
-
-    mocked_export_plan = {
-        'export_commodity_codes': [{'commodity_code': '458754', 'commodity_name': 'Something'}],
-        'export_countries': [{'region': 'Asia', 'country_name': 'India', 'country_iso2_code': 'IN'}],
-    }
-
-    request = rf.get('/')
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        context = {
-            'request': request,
-            'export_plan': request.user.export_plan,
-            'current_lesson': detail_page,
-            'current_module': module_page,
-            'current_topic': topic_page,
-        }
-        setting = CaseStudyScoringSettings.for_request(context['request'])
-        assert get_cs_score_by_related_page(case_study, context, setting) == getattr(setting, 'lesson') + getattr(
-            setting, 'module'
-        ) + getattr(setting, 'topic')
-
-
-@pytest.mark.django_db
-def test_case_study_score_with_related_lesson_pages_with_other_lesson(mock_trading_blocs, rf, user, magna_site):
-    case_study = CaseStudyFactory()
-    detail_page = DetailPageFactory()
-    other_detail_page = DetailPageFactory(title='Other lesson')
-    topic_page = TopicPageFactory()
-    module_page = CuratedListPageFactory()
-
-    CaseStudyRelatedPages.objects.create(page=detail_page, case_study=case_study)
-    CaseStudyRelatedPages.objects.create(page=other_detail_page, case_study=case_study)
-
-    mocked_export_plan = {
-        'export_commodity_codes': [{'commodity_code': '458754', 'commodity_name': 'Something'}],
-        'export_countries': [{'region': 'Asia', 'country_name': 'India', 'country_iso2_code': 'IN'}],
-    }
-
-    request = rf.get('/')
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        context = {
-            'request': request,
-            'export_plan': request.user.export_plan,
-            'current_lesson': detail_page,
-            'current_module': module_page,
-            'current_topic': topic_page,
-        }
-        setting = CaseStudyScoringSettings.for_request(context['request'])
-        assert get_cs_score_by_related_page(case_study, context, setting) == getattr(setting, 'lesson') + getattr(
-            setting, 'other_lesson_tags'
-        )
-
-
-@pytest.mark.django_db
-def test_case_study_score_with_threshold(mock_trading_blocs, rf, user, magna_site):
-    case_study = CaseStudyFactory()
-    case_study.hs_code_tags.add('123456', '1234')
-    case_study.country_code_tags.add('IN')
-    case_study.trading_bloc_code_tags.add('South Asia Free Trade Area (SAFTA)', 'IN')
-    case_study.save()
-
-    detail_page = DetailPageFactory()
-    topic_page = TopicPageFactory()
-    module_page = CuratedListPageFactory()
-
-    CaseStudyRelatedPages.objects.create(page=detail_page, case_study=case_study)
-
-    mocked_export_plan = {
-        'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Something'}],
-        'export_countries': [{'region': 'Asia', 'country_name': 'India', 'country_iso2_code': 'IN'}],
-    }
-
-    request = rf.get('/')
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        context = {
-            'request': request,
-            'export_plan': request.user.export_plan,
-            'current_lesson': detail_page,
-            'current_module': module_page,
-            'current_topic': topic_page,
-        }
-        block = core_blocks.CaseStudyStaticBlock()
-        context = block._annotate_with_case_study(context)
-        assert 'case_study' in context
-
-
-@pytest.mark.parametrize(
-    'mock_time, expected',
-    [
-        # two_months_old
-        (datetime.now(timezone.utc) - timedelta(days=60), 8),
-        # three_months_old
-        (datetime.now(timezone.utc) - timedelta(days=90), 8),
-        # five_months_old
-        (datetime.now(timezone.utc) - timedelta(days=150), 4),
-        # ten_months_old
-        (datetime.now(timezone.utc) - timedelta(days=300), 2),
-        # twelve_months_old
-        (datetime.now(timezone.utc) - timedelta(days=360), 1),
-        # fifteen_months_old
-        (datetime.now(timezone.utc) - timedelta(days=450), 0.5),
-        # twenty_one_months_old
-        (datetime.now(timezone.utc) - timedelta(days=630), 0.125),
-        # twenty_four_months_old
-        (datetime.now(timezone.utc) - timedelta(days=730), 0.0625),
-        # older than twenty_four_months
-        (datetime.now(timezone.utc) - timedelta(days=1000), 0.0625),
-    ],
-)
-@pytest.mark.django_db
-def test_case_study_score_with_recency(
-    rf,
-    user,
-    magna_site,
-    mock_time,
-    expected,
-):
-
-    with mock.patch('django.utils.timezone.now') as mock_now:
-        mock_now.return_value = mock_time
-        two_months_old_case_study = CaseStudyFactory()
-
-    detail_page = DetailPageFactory()
-    topic_page = TopicPageFactory()
-    module_page = CuratedListPageFactory()
-
-    mocked_export_plan = {
-        'export_commodity_codes': [{'commodity_code': '458754', 'commodity_name': 'Something'}],
-        'export_countries': [{'region': 'Asia', 'country_name': 'India', 'country_iso2_code': 'IN'}],
-    }
-
-    request = rf.get('/')
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        context = {
-            'request': request,
-            'export_plan': request.user.export_plan,
-            'current_lesson': detail_page,
-            'current_module': module_page,
-            'current_topic': topic_page,
-        }
-        setting = CaseStudyScoringSettings.for_request(context['request'])
-        assert get_cs_score_by_recency(two_months_old_case_study, setting) == expected
-
-
 def test_video_chooser_block__render_basic():
 
     vcblock = core_blocks.VideoChooserBlock()
@@ -831,39 +350,3 @@ def test_video_chooser_block__render_basic():
     mock_value.file.url = 'mocked url attr'
 
     assert vcblock.render_basic(mock_value) == 'mocked url attr'
-
-
-@pytest.mark.django_db
-def test_case_study_with_no_country_selected(mock_trading_blocs, rf, user, magna_site):
-    case_study = CaseStudyFactory()
-    case_study.hs_code_tags.add('123456', '1234')
-    case_study.country_code_tags.add('IN')
-    case_study.trading_bloc_code_tags.add('South Asia Free Trade Area (SAFTA)', 'IN')
-    case_study.save()
-
-    detail_page = DetailPageFactory()
-    topic_page = TopicPageFactory()
-    module_page = CuratedListPageFactory()
-
-    CaseStudyRelatedPages.objects.create(page=detail_page, case_study=case_study)
-
-    mocked_export_plan = {
-        'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Something'}],
-        'export_countries': [],
-    }
-
-    request = rf.get('/')
-    request.user = user
-    request.user.export_plan = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        context = {
-            'request': request,
-            'export_plan': request.user.export_plan,
-            'current_lesson': detail_page,
-            'current_module': module_page,
-            'current_topic': topic_page,
-        }
-        block = core_blocks.CaseStudyStaticBlock()
-        context = block._annotate_with_case_study(context)
-        assert 'case_study' in context
-"""
