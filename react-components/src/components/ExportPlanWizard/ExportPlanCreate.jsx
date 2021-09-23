@@ -41,7 +41,7 @@ export function ExportPlanWizard() {
               href={config.exportPlanBaseUrl}
               className="back-link h-m link body-m-b m-t-xs"
             >
-              <i className="fas fa-arrow-circle-left"></i>
+              <i className="fas fa-arrow-circle-left" />
               <span className="m-f-xs">Back</span>
             </a>
           </div>
@@ -51,7 +51,7 @@ export function ExportPlanWizard() {
               <h2 className="h-m">What are you exporting?</h2>
               <p className="text-blue-deep-80">
                 Choose a product to start your plan and get supporting
-                information that's tailored to your business.
+                information that&apos;s tailored to your business.
               </p>
               <ProductSelector valueChange={setProduct} selected={product} />
             </div>
@@ -75,7 +75,7 @@ export function ExportPlanWizard() {
                 to={paths.product}
                 className="back-link h-m link body-m-b m-t-xs"
               >
-                <i className="fas fa-arrow-circle-left"></i>
+                <i className="fas fa-arrow-circle-left" />
                 <span className="m-f-xs">Back</span>
               </Link>
             ) : (
@@ -88,10 +88,10 @@ export function ExportPlanWizard() {
               <>
                 <div className="p-b-xl m-b-xxl">
                   <div className="wave-animation">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span />
+                    <span />
+                    <span />
+                    <span />
                   </div>
                   <h1 className="h-s p-t-0">
                     Creating export plan for selling{' '}

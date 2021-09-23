@@ -220,7 +220,7 @@ export default {
     return post(
       config.apiSignupUrl,
       { email, password }
-    ).then((response) => responseHandler(response).json())
+    ).then((response) => responseHandler(response))
   },
 
   checkVerificationCode: ({ uidb64, token, code }) => {

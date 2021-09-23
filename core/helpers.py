@@ -272,7 +272,7 @@ def search_commodity_refine(interaction_id, tx_id, values):
     return response.json()
 
 
-def ccce_import_schedule(hs_code, origin_country='GB', destination_country='CA'):
+def ccce_import_schedule(hs_code, origin_country='CA', destination_country='GB'):
     url = f'{settings.CCCE_IMPORT_SCHEDULE_URL}/{hs_code}/{origin_country}/{destination_country}/'
     response = requests.get(url=url, headers=ccce_headers())
     response.raise_for_status()
