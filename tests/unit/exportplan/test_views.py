@@ -163,7 +163,7 @@ def test_edit_logo_page_submmit_success(client, mock_update_company, user):
     response = client.post(url, data)
 
     assert response.status_code == 302
-    assert response.url == '/export-plan/dashboard/'
+    assert response.url == '/export-plan/'
     assert mock_update_company.call_count == 1
     assert mock_update_company.call_args == mock.call(sso_session_id=user.session_id, data={'logo': mock.ANY})
 
@@ -451,3 +451,12 @@ def test_business_risk(export_plan_data, client, user, mock_get_user_profile):
     assert response.context_data['risk_likelihood_options'][0] == {'label': 'Rare', 'value': 'RARE'}
     assert response.context_data['risk_impact_options'][0] == {'label': 'Trivial', 'value': 'TRIVIAL'}
     assert response.context_data['business_risks'] == export_plan_data['business_risks']
+
+
+@pytest.mark.django_db
+def test_exportplan_dashboard(export_plan_data, client, user, mock_get_user_profile):
+    url = '/export-plan/dashboard/'
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 302
+    assert response.url == reverse('exportplan:index')

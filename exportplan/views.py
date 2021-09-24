@@ -29,7 +29,6 @@ from exportplan.utils import render_to_pdf
 
 class ExportPlanMixin:
     def dispatch(self, request, *args, **kwargs):
-
         serializer = serializers.ExportPlanSerializer(data={'ui_progress': {self.slug: {'modified': datetime.now()}}})
         serializer.is_valid()
         helpers.update_exportplan(
@@ -311,7 +310,7 @@ class BaseFormView(GA360Mixin, FormView):
             site_section='export-plan',
         )
 
-    success_url = '/export-plan/dashboard/'
+    success_url = reverse_lazy('exportplan:index')
 
     def get_initial(self):
         return self.request.user.company.serialize_for_form()
@@ -438,7 +437,7 @@ class ExportPlanDashBoard(
         context['export_plan_progress'] = processor.calculate_ep_progress()
         context['export_plan'] = export_plan
         context['export_plan_download_link'] = reverse_lazy(
-            'exportplan:pdf-download', kwargs={'id': export_plan.get('pk', '0')}
+            'exportplan:pdf-download', kwargs={'id': export_plan.get('pk')}
         )
 
         return context
