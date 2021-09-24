@@ -47,7 +47,7 @@ export default {
         content: `
           <p>The Ease of Doing Business rank indicates how easy or hard it is to do business somewhere.</p>
           <p>The rank is from 1 (easy to do business) to 190 (hard to do business).</p>
-          <p>This  can help you decide whether to export somewhere and whether you need professional help to do so.</p>
+          <p>This can help you decide whether to export somewhere and whether you need professional help to do so.</p>
          `,
       },
     },

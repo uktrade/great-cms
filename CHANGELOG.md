@@ -29,6 +29,7 @@
 - GP2-3384 - Funding and credit: Amend pdf content
 
 ### Fixed bugs
+- GP2-3429 - Clear WTE displayed product on deleting last basket product
 - GP2-3410 - Fix password validation error messages not showing on signup
 - GP2-3373 - Fix in situ code verification - not through link
 - GP2-3364 - WTE fallback to most recent product
