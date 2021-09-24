@@ -36,7 +36,6 @@ from core.models import (
     case_study_body_validation,
 )
 from domestic.models import DomesticDashboard, DomesticHomePage, GreatDomesticHomePage
-from exportplan.models import ExportPlanDashboardPage
 from tests.helpers import SetUpLocaleMixin, make_test_video
 from tests.unit.core import factories
 from .factories import (
@@ -358,9 +357,7 @@ class LandingPageTests(WagtailPageTests):
         )
 
     def test_can_be_created_under_landing_page(self):
-        self.assertAllowedSubpageTypes(
-            LandingPage, {ListPage, InterstitialPage, ExportPlanDashboardPage, DomesticDashboard}
-        )
+        self.assertAllowedSubpageTypes(LandingPage, {ListPage, InterstitialPage, DomesticDashboard})
 
 
 class ListPageTests(WagtailPageTests):
