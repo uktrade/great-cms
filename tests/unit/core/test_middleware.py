@@ -9,7 +9,6 @@ from django.test import override_settings
 from core import helpers, middleware
 from core.middleware import GADataMissingException, TimedAccessMiddleware
 from tests.unit.core import factories
-from tests.unit.exportplan.factories import ExportPlanPageFactory
 
 
 @pytest.fixture(autouse=True)
@@ -71,29 +70,6 @@ def test_user_specific_redirect_middleware(
         # Then they should be redirected to /learn/categories/
         assert response.status_code == 302
         assert response.url == categories_page.url
-
-
-@pytest.mark.django_db
-def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set(
-    domestic_site,
-    client,
-    user,
-    mock_get_company_profile,
-    mock_export_plan_detail_list,
-    patch_get_user_lesson_completed,
-    mock_get_user_profile,
-):
-    exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
-
-    # Given the user is logged in
-    client.force_login(user)
-
-    # And the compay name is set
-    mock_get_company_profile.return_value = {'name': 'Example corp'}
-
-    # When the user next goes to /export-plan/ or /export-plan/dashboard/
-    response = client.get(exportplan_page.url)
-    assert response.status_code == 200
 
 
 @pytest.mark.django_db
