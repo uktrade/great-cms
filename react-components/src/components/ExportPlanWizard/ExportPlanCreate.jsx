@@ -47,7 +47,7 @@ export function ExportPlanWizard() {
           </div>
           <div className="c-1-2 p-t-l">
             <div className="clearfix m-b-m">
-              <div className="body-m">Creating exportplan step 1 of 2</div>
+              <div className="body-m">Creating export plan step 1 of 2</div>
               <h2 className="h-m">What are you exporting?</h2>
               <p className="text-blue-deep-80">
                 Choose a product to start your plan and get supporting
@@ -103,7 +103,7 @@ export function ExportPlanWizard() {
             ) : (
               <>
                 <div className="clearfix m-b-m">
-                  <div className="body-m">Creating exportplan step 2 of 2</div>
+                  <div className="body-m">Creating export plan step 2 of 2</div>
                   <h2 className="h-m">Where&apos;s your target market?</h2>
                   <p className="text-blue-deep-80">
                     Choose a place to start your plan.
