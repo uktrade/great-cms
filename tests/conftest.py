@@ -702,25 +702,40 @@ def mock_get_user_data():
     ).start()
 
 
-class MockElasticsearchInduces:
+class MockElasticsearchIndices:
     def delete(*args, **kwargs):
-        return {}
+        return {'results': 1}
+
+
+class MockElasticSearchResult:
+    def delete_by_query(*args, **kwargs):
+        return {'results': 1}
 
 
 class MockElasticsearch:
-    indices = MockElasticsearchInduces()
+    indices = MockElasticsearchIndices()
 
     def search(*args, **kwargs):
-        return {'results': 1}
+        return MockElasticSearchResult()
 
     def delete(*args, **kwargs):
         return {}
+
+    def delete_by_query(*args, **kwargs):
+        return {'results': 1}
+
+    def index(*args, **kwargs):
+        return {'result': 1}
+
+
+@pytest.fixture
+def mock_elasticsearch_get_connection():
+    yield mock.patch('elasticsearch_dsl.document.get_connection', return_value=MockElasticsearch()).start()
 
 
 @pytest.fixture
 def mock_elasticsearch_connect():
     yield mock.patch('core.case_study_index.get_connection', return_value=MockElasticsearch()).start()
-    # yield mock.patch('elasticsearch_dsl.connections.connections.create_connection', return_value={}).start()
 
 
 @pytest.fixture

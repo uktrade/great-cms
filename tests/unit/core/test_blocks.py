@@ -160,6 +160,11 @@ def test_case_study_static_block(
     assert 'case_study' in context
 
 
+@pytest.mark.django_db
+def test_case_study_update_index(mock_elasticsearch_connect, mock_elasticsearch_get_connection):
+    CaseStudyFactory(id=1)
+
+
 base_settings = {
     'threshold': 12,
     'module': 2,
