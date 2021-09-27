@@ -98,6 +98,47 @@ describe('Objective', () => {
 
     const dummyObjective = {
       ...mockObjectiveData,
+      start_year: 2021, start_month: 4, end_month: 5, end_year: 2021,
+      showSavedMessage: false,
+      isLoading: false,
+      errors: { __all__: [] },
+    }
+
+    const wrapper = Enzyme.mount(
+      <Objective
+        key={0}
+        id={0}
+        isLoading={dummyObjective.isLoading}
+        errors={dummyObjective.errors}
+        showSavedMessage={dummyObjective.showSavedMessage}
+        data={dummyObjective}
+        number={1}
+        handleChange={mockFunction}
+        deleteObjective={dummyFunction}
+      />
+    )
+
+    const input = wrapper.find('textarea[name="description"]')
+
+    const dummyEvent = {
+      target: { name: 'description', value: 'Lorem ipsum' },
+    }
+
+    input.simulate('change', dummyEvent)
+
+    expect(mockFunction).toHaveBeenCalledWith({
+      ...dummyObjective,
+      description: 'Lorem ipsum',
+    })
+  })
+
+
+  test('should not call function on change if start date precede end date', () => {
+    const mockFunction = jest.fn()
+
+    const dummyObjective = {
+      ...mockObjectiveData,
+      start_year: 2021, start_month: 5, end_month: 4, end_year: 2021,
       showSavedMessage: false,
       isLoading: false,
       errors: { __all__: [] },
@@ -158,33 +199,5 @@ describe('Objective', () => {
     input.simulate('click', {})
 
     expect(mockFunction).toHaveBeenCalledWith(234)
-  })
-
-  test('should show Error when start date precede end date', () => {
-    const dummyObjective = {
-      ...mockObjectiveData, start_year: 2021, start_month: 5, end_month: 4, end_year: 2021
-    }
-
-    const wrapper = Enzyme.mount(
-      <Objective
-        key={0}
-        id={0}
-        isLoading={dummyObjective.isLoading}
-        errors={dummyObjective.errors}
-        showSavedMessage={dummyObjective.showSavedMessage}
-        data={dummyObjective}
-        number={1}
-        handleChange={dummyFunction}
-        deleteObjective={dummyFunction}
-      />
-    )
-
-    expect(
-      wrapper.containsMatchingElement(
-        <div className="inputgroup__error">
-          "Complete by" date cannot precede "Start objective in" date
-        </div>
-      )
-    ).toEqual(true)
   })
 })

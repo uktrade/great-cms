@@ -1,4 +1,4 @@
-import React, { memo, forwardRef, useState, useEffect } from 'react'
+import React, { memo, forwardRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { TextArea } from '@src/components/Form/TextArea'
@@ -13,18 +13,21 @@ const fwRefObjective = forwardRef((props, ref) => {
 
   const [showError, setShowError] = useState(false)
 
-  useEffect(()=>{
-    handleShowError(data)
-  }, [])
-
   const onChange = (item) => {
     const updatedData = {
       ...data,
       ...item,
     }
 
-    handleChange(updatedData)
-    handleShowError(updatedData)
+    const startDate = new Date(parseInt(updatedData['start_year']), parseInt(updatedData['start_month']) - 1);
+    const endDate = new Date(parseInt(updatedData['end_year']), parseInt(updatedData['end_month']) - 1);
+
+    if(endDate > startDate) {
+      handleChange(updatedData);
+      setShowError(false);
+    } else {
+      setShowError(true)
+    }
   }
 
   const onDelete = () => {
@@ -40,12 +43,6 @@ const fwRefObjective = forwardRef((props, ref) => {
     pk,
     ...fields
   } = data
-
-  const handleShowError = (updatedData) => {
-    const startDate = new Date(parseInt(updatedData['start_year']), parseInt(updatedData['start_month']) - 1);
-    const endDate = new Date(parseInt(updatedData['end_year']), parseInt(updatedData['end_month']) - 1);
-    setShowError(startDate > endDate)
-  }
 
   return (
     <fieldset id={`objective-${number}`} ref={ref} tabIndex="-1">
