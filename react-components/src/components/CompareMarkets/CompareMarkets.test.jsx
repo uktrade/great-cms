@@ -169,7 +169,7 @@ describe('Compare markets', () => {
 
     await waitFor(() => {
       const button = container.querySelector('button')
-      expect(button.textContent).toMatch('Select product')
+      expect(button.textContent).toMatch('Add product')
     })
     // Click the button and check it opens product finder
     act(() => {
