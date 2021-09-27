@@ -74,7 +74,7 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
       onClick={() => setProductModalIsOpen(true)}
     >
       <i className="fa fa-plus-square" />
-      Select product
+      Add product
     </button>
   )
 
@@ -90,7 +90,7 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
           <i className="fa fa-plus-square" />
           {selectedLength > 0
             ? `Add market ${selectedLength + 1} of ${maxPlaces}`
-            : 'Add a market'}
+            : 'Add market'}
         </button>
       )}
     </>
