@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-3192 - Lesson case study logic using elasticsearch
 - GP2-3338 - Dashboard top 3 export plans
 - GP2-3344 - Verify account with token
 - GP2-3171 - EP wizard styling update
