@@ -139,10 +139,9 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
             isCompareCountries
           />
         )}
-      <SelectMarket/>
+        <SelectMarket />
       </>
     )
-
   )
 }
 
