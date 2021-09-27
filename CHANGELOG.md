@@ -27,6 +27,7 @@
 - GP2-3396 - Startdate Endate validation
 - GP2-3404 - fix ep dashboard default
 - GP2-3384 - Funding and credit: Amend pdf content
+- GP2-3193 - View example export plan
 
 ### Fixed bugs
 - GP2-3429 - Clear WTE displayed product on deleting last basket product
