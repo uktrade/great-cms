@@ -13,9 +13,9 @@ import { analytics, deepEqual } from '../../Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import CountryFinderModal from '../ProductFinder/CountryFinderModal'
 import ComparisonTables from './ComparisonTables'
+import SelectMarket from './SelectMarket'
 
-function CompareMarkets(props) {
-  const { tabs, maxPlaces, ctaContainer, container } = props
+function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
   const { products, productsLoaded } = useUserProducts()
@@ -139,8 +139,10 @@ function CompareMarkets(props) {
             isCompareCountries
           />
         )}
+      <SelectMarket/>
       </>
     )
+
   )
 }
 
