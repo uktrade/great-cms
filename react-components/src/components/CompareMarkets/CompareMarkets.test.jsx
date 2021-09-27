@@ -109,7 +109,8 @@ describe('Compare markets', () => {
 
   beforeEach(() => {
     container = document.createElement('div')
-    container.innerHTML = '<span id="compare-market-container"></span>'
+    container.innerHTML =
+      '<div id="next-steps">Next Steps</div><span id="cta-container"></span><span id="compare-market-container" ></span>'
     document.body.appendChild(container)
     Services.setConfig({
       csrfToken: '12345',
@@ -144,7 +145,11 @@ describe('Compare markets', () => {
   it('Forces product chooser when no product', async () => {
     Services.store.dispatch(
       actions.setInitialState({
-        userSettings: { UserProducts: [], ActiveProduct: {} },
+        userSettings: {
+          UserProducts: [],
+          ActiveProduct: {},
+          UserMarkets: [],
+        },
       })
     )
     container.innerHTML =
@@ -274,7 +279,7 @@ describe('Compare markets', () => {
     )
 
     localContainer.innerHTML =
-      '<span id="cta-container"></span><span id="compare-market-container" ></span>'
+      '<div id="next-steps">Next Steps</div><span id="cta-container"></span><span id="compare-market-container" ></span>'
     const dataTabs = '{ "product": true }'
     const cmContainer = container.querySelector('#compare-market-container')
     cmContainer.setAttribute('data-tabs', dataTabs)
