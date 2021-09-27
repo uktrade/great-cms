@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import path, register_converter, reverse_lazy
+from django.views.generic.base import RedirectView
 from great_components.decorators import skip_ga360
 
 from core.helpers import HashIdConverter
@@ -18,6 +19,13 @@ SIGNUP_URL = reverse_lazy('core:signup')
 app_name = 'exportplan'
 
 urlpatterns = [
+    # Temp redirect to old dashboard this can be removed over time this is to allow bookmarks and other services
+    # To change the base dashboard link which is partially controlled by directory-constants
+    path(
+        'dashboard/',
+        login_required(RedirectView.as_view(pattern_name='exportplan:index')),
+        name='dashboard-redirect',
+    ),
     path(
         '',
         views.ExportPlanIndex.as_view(),
