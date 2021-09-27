@@ -149,7 +149,7 @@ const renderCountryRowHeader = ({
   addRemoveShortlist,
   mobile,
 }) => {
-  // A row header in normal or mobile mode is the country label. In mobile mode there is no 'remove' button
+  // A row header in normal mode.
   const iso = market.country_iso2_code
   const headingClass = `
     ${(config && config.headingClass) || ''} ${'bg-blue-deep-10'}
