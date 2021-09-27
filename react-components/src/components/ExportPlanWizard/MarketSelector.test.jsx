@@ -22,6 +22,18 @@ const country3 = { country_iso2: 'AT', country_name: 'Austria' }
 
 const userCountries = [country1, country2, country3]
 
+const scheduleResponse = {
+  children: [
+    {
+      children: [
+        {
+          desc:
+            'CHAPTER 4 - DAIRY PRODUCE',
+        },
+      ],
+    },
+  ],
+}
 const selectedProduct = {
   commodity_code: '123456',
   commodity_name: 'my product',
@@ -32,6 +44,7 @@ const setup = () => {
     apiUserDataUrl: '/sso/api/user-data/-name-/',
     apiSuggestedCountriesUrl: '/api/suggested-markets/',
     apiCountriesUrl: '/api/countries/',
+    apiLookupProductScheduleUrl: '/api/lookup-product-schedule/',
   })
   Services.setInitialState({
     userSettings: {
@@ -44,7 +57,7 @@ const setup = () => {
 
   const component = render(
     <Provider store={Services.store}>
-      <MarketSelector valueChange={valueChange}/>
+      <MarketSelector valueChange={valueChange} />
     </Provider>
   )
   return {
@@ -64,6 +77,7 @@ describe('Wizard market selector', () => {
   it('Opens market finder modal', async () => {
     fetchMock.get(/api\/suggested-markets\//, userCountries)
     fetchMock.get(/\/api\/countries\//, countriesResponse)
+    fetchMock.get(/\/api\/lookup-product-schedule\//, scheduleResponse)
     const { getByText } = setup()
     const somewhereElse = getByText('Somewhere else')
     expect(somewhereElse).toBeTruthy()
@@ -76,10 +90,9 @@ describe('Wizard market selector', () => {
       fireEvent.click(addButton)
     })
     await waitFor(() => {
-    expect(
-      document.body.querySelector('.ReactModalPortal .country-finder')
-    ).toBeTruthy()
+      expect(
+        document.body.querySelector('.ReactModalPortal .country-finder')
+      ).toBeTruthy()
     })
-
   })
 })

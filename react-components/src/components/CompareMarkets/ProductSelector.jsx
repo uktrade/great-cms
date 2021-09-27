@@ -34,6 +34,10 @@ function ProductSelector() {
     selectedIndex = products.length-1
     setActiveProduct(products[selectedIndex])
   }
+  if(!products.length && activeProduct != '') {
+    selectedIndex = null
+    setActiveProduct('')
+  }
 
   const hasProducts = !!products.length
 

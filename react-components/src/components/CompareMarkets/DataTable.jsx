@@ -260,7 +260,7 @@ export default function DataTable(props) {
       return (
         <td
           key={columnKey}
-          className={`${columnKey} p-v-xs body-l ${cellConfig.className || ''}`}
+          className={`${columnKey} p-v-xs p-h-s body-l ${cellConfig.className || ''}`}
         >
           {countryData &&
           (!countryData.loading || !countryData.loading[columnKey]) ? (
@@ -308,7 +308,7 @@ export default function DataTable(props) {
               const cellConfig = config.columns[columnKey]
               return (
                 <th
-                  className={`body-l-b p-b-xs ${columnKey} ${
+                  className={`body-l-b p-b-xs p-h-s ${columnKey} ${
                     cellConfig.className || ''
                   }`}
                   key={columnKey}
