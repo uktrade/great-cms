@@ -2,27 +2,15 @@ import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { ComingSoon } from '@src/components/Sidebar/ComingSoon'
-import { CountryNotSelected } from '@src/components/Sidebar/CountryNotSelected'
-import { ProductNotSelected } from '@src/components/Sidebar/ProductNotSelected'
 
 export const Sidebar = memo(
-  ({ sections, logo, company, currentSection, backUrl, epTitle }) => {
+  ({ sections, logo, company, currentSection, epTitle }) => {
     const [toggle, setToggle] = useState(false)
     const [modal, setModal] = useState(false)
 
     return (
       <>
         <ComingSoon onClick={() => setModal(false)} isOpen={modal} />
-        <ProductNotSelected
-          isOpen={currentSection.product_required}
-          backUrl={backUrl}
-        />
-        <CountryNotSelected
-          backUrl={backUrl}
-          isOpen={
-            currentSection.country_required && !currentSection.product_required
-          }
-        />
         <nav
           className={`sidebar p-f-s p-r-m p-b-m ${!toggle && 'sidebar__close'}`}
           id="collapseNav"
@@ -105,7 +93,6 @@ Sidebar.propTypes = {
     country_required: PropTypes.bool,
     product_required: PropTypes.bool,
   }).isRequired,
-  backUrl: PropTypes.string.isRequired,
   epTitle: PropTypes.string
 }
 

@@ -320,8 +320,8 @@ def test_helper_search_commodity_by_term(requests_mock):
 
 
 def test_ccce_import_schedule(requests_mock):
-    origin_country = 'GB'
-    destination_country = 'CA'
+    origin_country = 'CA'
+    destination_country = 'GB'
     hs_code = '123456'
     data = {
         'children': [

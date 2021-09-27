@@ -21,10 +21,6 @@ from core.wagtail_hooks import (
 )
 from tests.helpers import make_test_video
 from tests.unit.core import factories
-from tests.unit.exportplan.factories import (
-    ExportPlanPageFactory,
-    ExportPlanPseudoDashboardPageFactory,
-)
 from tests.unit.learn.factories import LessonPageFactory
 
 LOREM_IPSUM = (
@@ -71,21 +67,6 @@ def test_anonymous_user_required_handles_authenticated_users(rf, domestic_homepa
 
     assert response.status_code == 302
     assert response.url == domestic_homepage.anonymous_user_required_redirect_url
-
-
-@pytest.mark.django_db
-def test_anonymous_user_required_handles_public_pages(rf, exportplan_homepage):
-    request = rf.get('/')
-    request.user = AnonymousUser()
-
-    response = wagtail_hooks.anonymous_user_required(
-        page=exportplan_homepage,
-        request=request,
-        serve_args=[],
-        serve_kwargs={},
-    )
-
-    assert response is None
 
 
 @pytest.mark.django_db
@@ -173,27 +154,6 @@ def test_login_required_signup_wizard_handles_authenticated_users(rf, user, dome
     )
 
     assert response is None
-
-
-@pytest.mark.django_db
-def test_login_required_signup_wizard_exportplan_logged_in(domestic_site, user, rf):
-
-    exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
-    exportplan_dashboard_page = ExportPlanPseudoDashboardPageFactory(parent=exportplan_page, slug='dashboard')
-
-    for page in [exportplan_page, exportplan_dashboard_page]:
-
-        request = rf.get(page.url)
-        request.user = user
-
-        response = wagtail_hooks.login_required_signup_wizard(
-            page=page,
-            request=request,
-            serve_args=[],
-            serve_kwargs={},
-        )
-
-        assert response is None
 
 
 @pytest.mark.django_db

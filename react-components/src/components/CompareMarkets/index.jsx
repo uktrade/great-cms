@@ -129,14 +129,16 @@ function CompareMarkets(props) {
           modalIsOpen={productModalIsOpen}
           setIsOpen={setProductModalIsOpen}
         />
-        <CountryFinderModal
-          modalIsOpen={marketModalIsOpen}
-          setIsOpen={setMarketModalIsOpen}
-          activeProducts={suggestedMarketsProducts()}
-          addButton={false}
-          selectCountry={addCountry}
-          isCompareCountries
-        />
+        {marketModalIsOpen && (
+          <CountryFinderModal
+            modalIsOpen
+            setIsOpen={setMarketModalIsOpen}
+            activeProducts={suggestedMarketsProducts()}
+            addButton={false}
+            selectCountry={addCountry}
+            isCompareCountries
+          />
+        )}
       </>
     )
   )
