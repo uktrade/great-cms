@@ -276,9 +276,10 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
                     )
                     hits.append(hit_dict)
                 sorted_cs_list = sorted(hits, key=lambda hit: hit.get('score'), reverse=True)
-                best_case_study_id = sorted_cs_list[0].get('pk')
-                best_case_study = models.CaseStudy.objects.get(id=best_case_study_id)
-                context['case_study'] = best_case_study
+                best_case_study = sorted_cs_list and sorted_cs_list[0]
+                if best_case_study and int(best_case_study.get('score')) >= getattr(settings, 'threshold'):
+                    best_case_study_id = best_case_study.get('pk')
+                    context['case_study'] = models.CaseStudy.objects.get(id=best_case_study_id)
         except ConnectionError:
             # nothing we can do without elasticsearch so continue without case study
             pass

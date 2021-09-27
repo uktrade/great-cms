@@ -2,10 +2,11 @@ from datetime import datetime, timedelta, timezone
 from unittest import mock
 
 import pytest
+from elasticsearch.exceptions import ConnectionError
 from wagtail.core import blocks
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 
-from core import blocks as core_blocks
+from core import blocks as core_blocks, case_study_index
 from core.models import CaseStudyScoringSettings
 from core.utils import get_cs_ranking
 from tests.unit.core.factories import (
@@ -139,17 +140,52 @@ def test_learning_link_component(domestic_site, domestic_homepage):
 
 
 @pytest.mark.django_db
-def test_case_study_static_block(
-    rf, user, client, magna_site, mock_get_user_data, mock_cs_update, mock_elasticsearch_count, mock_elasticsearch_scan
+def test_case_study_static_block_below_threshold(
+    rf,
+    user,
+    client,
+    magna_site,
+    mock_get_user_data,
+    mock_cs_update,
+    mock_elasticsearch_count,
+    mock_elasticsearch_scan,
+    mock_trading_blocs,
 ):
+    # Create a case-study that matches but below threshold scorte.  Check it's not shown.
     case_study_1 = CaseStudyFactory(id=1)
-    case_study_1.hs_code_tags.add('111111', '1234')
-    case_study_1.country_code_tags.add('Germany')
+    case_study_1.hs_code_tags.add('334455')
+    case_study_1.country_code_tags.add('Spain')
+    case_study_1.save()
+
+    request = rf.get('/')
+    request.user = user
+    block = core_blocks.CaseStudyStaticBlock()
+    context = {'request': request, 'user': user}
+    context = block._annotate_with_case_study(context)
+    assert 'case_study' not in context
+
+
+@pytest.mark.django_db
+def test_case_study_static_block_above_threshold(
+    rf,
+    user,
+    client,
+    magna_site,
+    mock_get_user_data,
+    mock_cs_update,
+    mock_elasticsearch_count,
+    mock_elasticsearch_scan,
+    mock_trading_blocs,
+):
+    # Create two case studies - one above, and one below threshold.  check that the higher one is shown.
+    case_study_1 = CaseStudyFactory(id=1)
+    case_study_1.hs_code_tags.add('334455')
+    case_study_1.country_code_tags.add('Spain')
     case_study_1.save()
 
     case_study_2 = CaseStudyFactory(id=2)
-    case_study_2.hs_code_tags.add('334455')
-    case_study_2.country_code_tags.add('Spain')
+    case_study_2.hs_code_tags.add('111111', '1234')
+    case_study_2.country_code_tags.add('Germany')
     case_study_2.save()
 
     request = rf.get('/')
@@ -157,12 +193,34 @@ def test_case_study_static_block(
     block = core_blocks.CaseStudyStaticBlock()
     context = {'request': request, 'user': user}
     context = block._annotate_with_case_study(context)
+
     assert 'case_study' in context
+    assert context.get('case_study').id == 2
 
 
 @pytest.mark.django_db
 def test_case_study_update_index(mock_elasticsearch_connect, mock_elasticsearch_get_connection):
+    # Check that the index is updated on create of a case study.
     CaseStudyFactory(id=1)
+
+
+@pytest.mark.django_db
+@mock.patch.object(case_study_index, 'get_connection')
+def test_connection_exception(
+    mock_get_connection, rf, user, client, magna_site, mock_get_user_data, mock_trading_blocs
+):
+    # Check that if no elastic search available, connection exceptions get caught.
+    def raise_connection_error():
+        raise ConnectionError('Connection failed')
+
+    mock_get_connection.side_effect = raise_connection_error
+    request = rf.get('/')
+    request.user = user
+    block = core_blocks.CaseStudyStaticBlock()
+    context = {'request': request, 'user': user}
+    context = block._annotate_with_case_study(context)
+    assert 'case_study' not in context
+    mock_get_connection.assert_called()
 
 
 base_settings = {

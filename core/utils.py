@@ -89,8 +89,8 @@ def get_personalised_choices(user):
     """
     from core.helpers import get_trading_blocs_name
 
-    products = user.get_user_data(name='UserProducts').get('UserProducts')
-    markets = user.get_user_data(name='UserMarkets').get('UserMarkets')
+    products = user.get_user_data(name='UserProducts').get('UserProducts') or []
+    markets = user.get_user_data(name='UserMarkets').get('UserMarkets') or []
     trading_blocs = set()
     for market in markets:
         for bloc in get_trading_blocs_name(market.get('country_iso2_code')):
