@@ -104,7 +104,7 @@ export function Menu(props) {
           </a>
         </li>
         <li>
-          <a href="/export-plan/dashboard/" className="link">
+          <a href="/export-plan/" className="link">
             <span>Make an export plan</span>
             <strong className="tag tag--small">new</strong>
           </a>
