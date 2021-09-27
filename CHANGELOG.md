@@ -4,6 +4,7 @@
 
 ### Enhancements
 - GP2-3433 - WTE routing block
+- GP2-3406 - Supress error message when signing up user is already registered
 - GP2-3336 - Product classification expander on dashboard overview page plus content changes
 - GP2-3395 - Content changes and move hs code on product finder
 - GP2-3162 - Chapter name in suggested countries
