@@ -22,7 +22,7 @@ const fwRefObjective = forwardRef((props, ref) => {
     const startDate = new Date(parseInt(updatedData['start_year']), parseInt(updatedData['start_month']) - 1);
     const endDate = new Date(parseInt(updatedData['end_year']), parseInt(updatedData['end_month']) - 1);
 
-    if(endDate > startDate) {
+    if(endDate >= startDate) {
       handleChange(updatedData);
       setShowError(false);
     } else {
