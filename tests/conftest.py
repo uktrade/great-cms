@@ -9,7 +9,6 @@ from wagtail.core.models import Locale, Page
 from wagtail_factories import PageFactory, SiteFactory
 
 import tests.unit.domestic.factories
-import tests.unit.exportplan.factories
 from core.case_study_index import case_study_to_index
 from core.models import CaseStudy
 from directory_api_client import api_client
@@ -720,12 +719,8 @@ class MockElasticsearch:
 
 @pytest.fixture
 def mock_elasticsearch_get_connection():
+    mock.patch('core.case_study_index.get_connection', return_value=MockElasticsearch()).start()
     yield mock.patch('elasticsearch_dsl.document.get_connection', return_value=MockElasticsearch()).start()
-
-
-@pytest.fixture
-def mock_elasticsearch_connect():
-    yield mock.patch('core.case_study_index.get_connection', return_value=MockElasticsearch()).start()
 
 
 @pytest.fixture
@@ -746,11 +741,6 @@ def mock_elasticsearch_count():
 @pytest.fixture
 def mock_elasticsearch_search():
     yield mock.patch('elasticsearch_dsl.Search.search', return_value=1).start()
-
-
-@pytest.fixture
-def mock_cs_update():
-    yield mock.patch('core.case_study_index.update_cs_index').start()
 
 
 @pytest.fixture

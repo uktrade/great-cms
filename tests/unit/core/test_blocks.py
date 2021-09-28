@@ -140,7 +140,7 @@ def test_learning_link_component(domestic_site, domestic_homepage):
 
 
 @pytest.mark.django_db
-def test_case_study_update_index(mock_elasticsearch_connect, mock_elasticsearch_get_connection):
+def test_case_study_update_index(mock_elasticsearch_get_connection):
     # Check that the index is updated on create of a case study.
     CaseStudyFactory(id=1)
 
@@ -152,7 +152,7 @@ def test_case_study_static_block_below_threshold(
     client,
     magna_site,
     mock_get_user_data,
-    mock_cs_update,
+    mock_elasticsearch_get_connection,
     mock_elasticsearch_count,
     mock_elasticsearch_scan,
     mock_trading_blocs,
@@ -178,7 +178,7 @@ def test_case_study_static_block_above_threshold(
     client,
     magna_site,
     mock_get_user_data,
-    mock_cs_update,
+    mock_elasticsearch_get_connection,
     mock_elasticsearch_count,
     mock_elasticsearch_scan,
     mock_trading_blocs,

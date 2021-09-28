@@ -14,7 +14,7 @@ from tests.unit.core.factories import (
 
 
 @pytest.mark.django_db
-def test_index_casestudies(mock_elasticsearch_connect, mock_cs_update, domestic_homepage):
+def test_index_casestudies(mock_elasticsearch_get_connection, domestic_homepage):
 
     hs_codes = ['112233', '11', '1122']
     countries = ['France', 'El Salvador']
