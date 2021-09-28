@@ -45,7 +45,7 @@
             <a href="{% url 'exportplan:start' %}" class="button button--large button--primary buttton-icon"><i class="fas fa-plus-square m-r-xs"></i>{% if request.user.is_authenticated %}Create a  new plan{% else %}Create a free plan {% endif %}</a>
           </div>
           <div class="g-card bg-blue-deep-10 min-height-0">
-            <a href="#" class="link">
+            <a href="{% static 'pdfs/sample_export_plan_document.pdf' %}" class="link">
               <i class="fas fa-arrow-circle-down m-r-xs"></i>See what a good export plan looks like
             </a>
           </div>

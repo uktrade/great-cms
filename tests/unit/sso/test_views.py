@@ -3,7 +3,9 @@ from unittest import mock
 import pytest
 from django.conf import settings
 from django.urls import reverse
+from requests import HTTPError
 from requests.cookies import RequestsCookieJar
+from rest_framework.response import Response
 
 from sso import helpers
 from tests.helpers import create_response
@@ -95,6 +97,20 @@ def test_business_sso_user_create_400_upstream(mock_send_code, mock_create_user,
     response = client.post(reverse('sso:business-sso-create-user-api'), {'email': 'test', 'password': 'password'})
 
     assert response.status_code == 400
+    assert mock_send_code.call_count == 0
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_user')
+@mock.patch.object(helpers, 'send_verification_code_email')
+def test_business_sso_user_create_409_upstream(mock_send_code, mock_create_user, client):
+    res = Response(status=409)
+    mock_create_user.side_effect = HTTPError('409', response=res)
+
+    response = client.post(reverse('sso:business-sso-create-user-api'), {'email': 'test', 'password': 'password'})
+
+    assert response.status_code == 200
+    assert response.data == {}
     assert mock_send_code.call_count == 0
 
 
