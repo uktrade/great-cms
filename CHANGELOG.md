@@ -4,7 +4,12 @@
 
 ### Enhancements
 - GP2-3192 - Lesson case study logic using elasticsearch
+- GP2-3433 - WTE routing block
+- GP2-3336 - Product classification expander on dashboard overview page plus content changes
+- GP2-3395 - Content changes and move hs code on product finder
+- GP2-3162 - Chapter name in suggested countries
 - GP2-3338 - Dashboard top 3 export plans
+- GP2-2574 - WTE add/remove markets to or from shortlist
 - GP2-3344 - Verify account with token
 - GP2-3171 - EP wizard styling update
 - GP2-3284 - EP title in sections
@@ -22,8 +27,12 @@
 - GP2-3352 - remove feature FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE
 - GP2-3352 - Obfuscate the export plan id in urls
 - GP2-3396 - Startdate Endate validation
+- GP2-3404 - fix ep dashboard default
+- GP2-3384 - Funding and credit: Amend pdf content
 
 ### Fixed bugs
+- GP2-3429 - Clear WTE displayed product on deleting last basket product
+- GP2-3410 - Fix password validation error messages not showing on signup
 - GP2-3373 - Fix in situ code verification - not through link
 - GP2-3364 - WTE fallback to most recent product
 - GP2-3363 - Fix costs_and_pricing page

@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useUserProducts } from '@src/components/hooks/useUserData'
 import RadioButtons from '@src/components/Segmentation/RadioButtons'
-import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import { sortBy } from '@src/Helpers'
+import ProductFinderModal from '../ProductFinder/ProductFinderModal'
+
 
 function ProductSelector({ valueChange, selected }) {
   const {products, productsLoaded} = useUserProducts()
@@ -36,7 +37,7 @@ function ProductSelector({ valueChange, selected }) {
     value: '+',
   }
   const onValueChange = (index) => {
-    setAddButtonShowing(index == '+')
+    setAddButtonShowing(index === '+')
     valueChange(sortedProducts[index])
   }
   const onProductAdded = (product) => {

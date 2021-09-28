@@ -69,28 +69,8 @@ def mock_update_company():
 
 
 @pytest.mark.django_db
-def test_export_plan_landing_page(
-    client,
-    exportplan_homepage,
-    user,
-    mock_get_company_profile,
-    company_profile_data,
-    mock_get_user_profile,
-    mock_export_plan_detail_list,
-):
-    mock_get_company_profile.return_value = company_profile_data
-    client.force_login(user)
-
-    response = client.get('/export-plan/')
-    assert response.status_code == 200
-    assert response.context['exportplan_list'][0]['country'] == 'Australia'
-    assert response.context['exportplan_list'][0]['commodity_code'] == '220.850'
-
-
-@pytest.mark.django_db
 def test_export_plan_builder_landing_page(
     client,
-    exportplan_dashboard,
     user,
     mock_get_company_profile,
     company_profile_data,
@@ -163,7 +143,7 @@ def test_edit_logo_page_submmit_success(client, mock_update_company, user):
     response = client.post(url, data)
 
     assert response.status_code == 302
-    assert response.url == '/export-plan/dashboard/'
+    assert response.url == '/export-plan/'
     assert mock_update_company.call_count == 1
     assert mock_update_company.call_args == mock.call(sso_session_id=user.session_id, data={'logo': mock.ANY})
 
@@ -451,3 +431,12 @@ def test_business_risk(export_plan_data, client, user, mock_get_user_profile):
     assert response.context_data['risk_likelihood_options'][0] == {'label': 'Rare', 'value': 'RARE'}
     assert response.context_data['risk_impact_options'][0] == {'label': 'Trivial', 'value': 'TRIVIAL'}
     assert response.context_data['business_risks'] == export_plan_data['business_risks']
+
+
+@pytest.mark.django_db
+def test_exportplan_dashboard(export_plan_data, client, user, mock_get_user_profile):
+    url = '/export-plan/dashboard/'
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 302
+    assert response.url == reverse('exportplan:index')

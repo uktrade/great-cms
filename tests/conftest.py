@@ -207,16 +207,6 @@ def domestic_dashboard(domestic_homepage, domestic_site):
 
 
 @pytest.fixture
-def exportplan_homepage(domestic_homepage, domestic_site):
-    return tests.unit.exportplan.factories.ExportPlanPageFactory(parent=domestic_homepage)
-
-
-@pytest.fixture
-def exportplan_dashboard(exportplan_homepage):
-    return tests.unit.exportplan.factories.ExportPlanPseudoDashboardPageFactory(parent=exportplan_homepage)
-
-
-@pytest.fixture
 def domestic_site(domestic_homepage, client):
     return SiteFactory(
         root_page=domestic_homepage,

@@ -7,6 +7,7 @@ import Adapter from 'enzyme-adapter-react-16'
 import { Login } from '@src/components/Login'
 import { Form } from '@src/components/Login/Form'
 import Services from '@src/Services'
+import 'core-js'
 
 Enzyme.configure({ adapter: new Adapter() })
 

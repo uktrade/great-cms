@@ -69,6 +69,7 @@ describe('Wizard market selector', () => {
     fireEvent.click(getByText('Create export plan'))
     expect(createEpMock.calls()).toHaveLength(1)
     const [url,details] = createEpMock.calls()[0]
+    expect(url).toMatch('/api/create-export-plan')
     const body = JSON.parse(details.body)
     expect(body.export_commodity_codes[0].commodity_name).toEqual('product1')
     expect(body.export_countries[0].country_name).toEqual('Albania')

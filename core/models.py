@@ -360,7 +360,6 @@ class LandingPage(CMSGenericPage):
     subpage_types = [
         'core.ListPage',
         'core.InterstitialPage',
-        'exportplan.ExportPlanDashboardPage',
         'domestic.DomesticDashboard',
     ]
     template_choices = (
@@ -429,10 +428,7 @@ class ListPage(CMSGenericPage):
     parent_page_types = ['core.LandingPage']
     subpage_types = ['core.CuratedListPage']
 
-    template_choices = (
-        ('exportplan/automated_list_page.html', 'Export plan'),
-        ('learn/automated_list_page.html', 'Learn'),
-    )
+    template_choices = (('learn/automated_list_page.html', 'Learn'),)
 
     record_read_progress = models.BooleanField(
         default=False,
@@ -604,10 +600,7 @@ class DetailPage(CMSGenericPage):
         'core.CuratedListPage',  # TEMPORARY: remove after topics refactor migration has run
         'core.TopicPage',
     ]
-    template_choices = (
-        ('exportplan/dashboard_page.html', 'Export plan dashboard'),
-        ('learn/detail_page.html', 'Learn'),
-    )
+    template_choices = (('learn/detail_page.html', 'Learn'),)
 
     class Meta:
         verbose_name = 'Detail page'

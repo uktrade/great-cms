@@ -109,7 +109,7 @@ def server_user_browser(live_server, browser, user, client):
 
 
 @pytest.fixture
-def domestic_site_browser_tests(live_server, domestic_homepage, domestic_dashboard, exportplan_dashboard, client):
+def domestic_site_browser_tests(live_server, domestic_homepage, domestic_dashboard, client):
     """Will server domestic site on the same port as liver_server.
     Note:
         live_server.url looks like this: http://localhost:48049
