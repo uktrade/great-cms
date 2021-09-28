@@ -112,9 +112,10 @@
           login: false,
           signup: false,
         },
-      exportPlan:{
-          product: {{export_plan.export_commodity_codes.0|to_json}},
-          market: {{export_plan.export_countries.0|to_json }}
+        exportPlan:{
+            product: {{export_plan.export_commodity_codes.0|to_json}},
+            market: {{export_plan.export_countries.0|to_json }},
+            name: '{{export_plan.name|default:'' }}',
         },
       })
       magna.createSnackbar({element:document.getElementById('snackbar-container')})

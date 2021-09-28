@@ -1,5 +1,6 @@
 {% load content_tags %}
 {% load humanize %}
+{% load exportplan_name %}
 
 
 <article class="relative bg-white radius p-s clearfix">
@@ -7,8 +8,8 @@
     <span class="visually-hidden">View export plan</span>
   </a>
   <h2 id="export-plan-{{ plan.pk }}" class="h-m">
-    Exporting {{ plan.export_commodity_codes.0.commodity_name }}
-    to {{ plan.export_countries.0.country_name }}</h2>
+    {% exportplan_name plan %}
+  </h2>
   <div class="progress-bar m-v-xs">
     <span style="width: {% widthratio plan.calculated_progress.sections_completed plan.calculated_progress.sections_total 100 %}%"></span>
   </div>

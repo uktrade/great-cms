@@ -1,5 +1,6 @@
 {% load to_json %}
 {% load url_map %}
+{% load exportplan_name %}
 
 <div id="sidebar-content">
     <nav class="sidebar p-h-s p-b-m">
@@ -30,7 +31,7 @@
             currentSection: {{ current_section|to_json}},
             logo: '{{ request.user.company.logo|default_if_none:"" }}',
             company: '{{ request.user.company.name }}',
-            epTitle: `{% include 'exportplan/includes/export_plan_title.html' %}`,
+            epTitle: `{% exportplan_name export_plan %}`,
         })
     </script>
 {% endblock %}
