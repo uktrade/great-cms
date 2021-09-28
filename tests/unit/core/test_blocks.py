@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 from unittest import mock
 
 import pytest
-from elasticsearch.exceptions import ConnectionError
+from elasticsearch.exceptions import ConnectionError, NotFoundError
 from wagtail.core import blocks
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 
@@ -140,6 +140,12 @@ def test_learning_link_component(domestic_site, domestic_homepage):
 
 
 @pytest.mark.django_db
+def test_case_study_update_index(mock_elasticsearch_connect, mock_elasticsearch_get_connection):
+    # Check that the index is updated on create of a case study.
+    CaseStudyFactory(id=1)
+
+
+@pytest.mark.django_db
 def test_case_study_static_block_below_threshold(
     rf,
     user,
@@ -199,19 +205,23 @@ def test_case_study_static_block_above_threshold(
 
 
 @pytest.mark.django_db
-def test_case_study_update_index(mock_elasticsearch_connect, mock_elasticsearch_get_connection):
-    # Check that the index is updated on create of a case study.
-    CaseStudyFactory(id=1)
-
-
-@pytest.mark.django_db
 @mock.patch.object(case_study_index, 'get_connection')
+@pytest.mark.parametrize(
+    'exception_type',
+    (
+        'connection',
+        'index',
+    ),
+)
 def test_connection_exception(
-    mock_get_connection, rf, user, client, magna_site, mock_get_user_data, mock_trading_blocs
+    mock_get_connection, rf, user, client, magna_site, mock_get_user_data, mock_trading_blocs, exception_type
 ):
     # Check that if no elastic search available, connection exceptions get caught.
     def raise_connection_error():
-        raise ConnectionError('Connection failed')
+        if exception_type == 'connection':
+            raise ConnectionError('Connection failed')
+        else:
+            raise NotFoundError('Not found')
 
     mock_get_connection.side_effect = raise_connection_error
     request = rf.get('/')

@@ -31,7 +31,7 @@ def stringify_tags(tags):
 
 
 def get_connection():
-    return connections.create_connection(hosts=['localhost'])
+    return connections.create_connection()
 
 
 def case_study_to_index(case_study):
