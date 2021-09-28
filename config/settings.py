@@ -5,6 +5,8 @@ import directory_healthcheck.backends
 import environ
 import sentry_sdk
 from django.urls import reverse_lazy
+from elasticsearch import RequestsHttpConnection
+from elasticsearch_dsl.connections import connections
 from sentry_sdk.integrations.django import DjangoIntegration
 
 import healthcheck.backends
@@ -385,6 +387,30 @@ if ELASTIC_APM_ENABLED:
         'SERVER_TIMEOUT': env('ELASTIC_APM_SERVER_TIMEOUT', default='20s'),
     }
     INSTALLED_APPS.append('elasticapm.contrib.django')
+
+# aws, localhost, or govuk-paas
+ELASTICSEARCH_PROVIDER = env.str('ELASTICSEARCH_PROVIDER', 'aws').lower()
+
+if ELASTICSEARCH_PROVIDER == 'govuk-paas':
+    services = {item['instance_name']: item for item in VCAP_SERVICES['elasticsearch']}
+    ELASTICSEARCH_INSTANCE_NAME = env.str(
+        'ELASTICSEARCH_INSTANCE_NAME', VCAP_SERVICES['elasticsearch'][0]['instance_name']
+    )
+    connections.create_connection(
+        alias='default',
+        hosts=[services[ELASTICSEARCH_INSTANCE_NAME]['credentials']['uri']],
+        connection_class=RequestsHttpConnection,
+    )
+elif ELASTICSEARCH_PROVIDER == 'localhost':
+    connections.create_connection(
+        alias='default',
+        hosts=[env.str('ELASTICSEARCH_URL', 'localhost:9200')],
+        use_ssl=False,
+        verify_certs=False,
+        connection_class=RequestsHttpConnection,
+    )
+else:
+    raise NotImplementedError()
 
 ELASTICSEARCH_CASE_STUDY_INDEX = env.str('ELASTICSEARCH_CASE_STUDY_INDEX', 'case-studies')
 
