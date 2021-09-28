@@ -4418,7 +4418,9 @@ function CompareMarkets(_ref) {
     updateComparisonMarkets(newMarkets);
   };
 
-  var addProductButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+  var addProductButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+    className: "body-l"
+  }, "To get started, add a product to your My products list"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     type: "button",
     className: "button button--primary button--icon",
     onClick: function onClick() {
@@ -4426,8 +4428,10 @@ function CompareMarkets(_ref) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
     className: "fa fa-plus-square"
-  }), "Add product");
-  var addMarketButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, ' ', selectedLength < maxPlaces && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+  }), "Add product"));
+  var addMarketButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, ' ', selectedLength < maxPlaces && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+    className: "body-l"
+  }, "To get started, add a product to your My products list"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     type: "button",
     className: "button button--primary button--icon add-market m-t-xs",
     onClick: function onClick() {
@@ -4435,7 +4439,7 @@ function CompareMarkets(_ref) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
     className: "fa fa-plus-square"
-  }), selectedLength > 0 ? "Add market ".concat(selectedLength + 1, " of ").concat(maxPlaces) : 'Add market'));
+  }), selectedLength > 0 ? "Add market ".concat(selectedLength + 1, " of ").concat(maxPlaces) : 'Add market')));
 
   var suggestedMarketsProducts = function suggestedMarketsProducts() {
     // get the list of products for suggested markets in country chooser modal
