@@ -1,6 +1,7 @@
 import requests
 from django.conf import settings
 from django.contrib import auth
+from requests import HTTPError
 from rest_framework import generics
 from rest_framework.response import Response
 
@@ -58,6 +59,9 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
     def handle_exception(self, exc):
         if isinstance(exc, helpers.CreateUserException):
             return Response(exc.detail, status=400)
+        # 409 means that an email already exists, so we send back a plain response
+        elif isinstance(exc, HTTPError) and exc.response.status_code == 409:
+            return Response({})
         return super().handle_exception(exc)
 
     def get_verification_link(self, uidb64, token):
