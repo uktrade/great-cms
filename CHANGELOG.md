@@ -8,6 +8,7 @@
 - GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
 - GP2-3372 - [HOTFIX] add crsf token to company disconnect to fix 403 error
 - [HOTFIX] - SOO contact issue
+- [HOTFIX] - GP2-3446 change london ita search
 
 ### Enhancements
 - GP2-3128 - Analytics - section completion
