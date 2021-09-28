@@ -86,7 +86,7 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
       {' '}
       {selectedLength < maxPlaces && (
         <div>
-          <p className="body-l">To get started, add a product to your My products list</p>
+          <p className="body-l">Add an export market to see data for the products in your My products list.</p>
           <button
             type="button"
             className="button button--primary button--icon add-market m-t-xs"

@@ -4431,7 +4431,7 @@ function CompareMarkets(_ref) {
   }), "Add product"));
   var addMarketButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, ' ', selectedLength < maxPlaces && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
     className: "body-l"
-  }, "To get started, add a product to your My products list"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+  }, "Add an export market to see data for the products in your My products list."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     type: "button",
     className: "button button--primary button--icon add-market m-t-xs",
     onClick: function onClick() {
