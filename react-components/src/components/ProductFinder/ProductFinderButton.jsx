@@ -12,6 +12,9 @@ import BasketViewer from './BasketView'
 
 function ProductFinderButton() {
   const [modalIsOpen, setIsOpen] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(true)
+  const [selectedProductID, setSelectedProductID] = useState(null)
+  const [selectedProductName, setSelectedProductName] = useState(null)
   const {products, setProducts, loadProducts} = useUserProducts(
     false
   )
@@ -22,14 +25,47 @@ function ProductFinderButton() {
     const reduced = [...products]
     reduced.splice(index, 1)
     setProducts(reduced)
+    setSelectedProductID(null)
+    setSelectedProductName(null)
+    setIsDropdownOpen(false)
   }
 
   return (
     <>
-      <BasketViewer label="My products" onOpen={loadProducts}>
-        <ul className="list m-v-0 body-l-b">
+      <BasketViewer dropdownOpen={isDropdownOpen} disabled={!products.length} label="My products" onOpen={loadProducts}>
+
+
+        {selectedProductName && <div className="remove-confirmation">
+          <div className="item-remove-title h-xs">
+            Are you sure you want to remove {selectedProductName} ?
+          </div>
+          <div className="remove-buttons">
+            <button
+              type="button"
+              className="button button--primary"
+              onClick={() => {
+                deleteProduct(selectedProductID)
+              }}
+            >
+              Remove
+            </button>
+            <button
+              type="button"
+              className="button button--secondary"
+              onClick={() => {
+                setSelectedProductName(null)
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>}
+
+
+        {!selectedProductName && <ul className="list m-v-0 body-l-b">
           {sortMap.map((mapIndex) => {
             const product = products[mapIndex]
+
             return (
               <li
                 className="p-v-xxs"
@@ -38,26 +74,24 @@ function ProductFinderButton() {
                 <button
                   type="button"
                   className="button button--small button--only-icon button--tertiary"
-                  onClick={() => deleteProduct(mapIndex)}
+                  onClick={() => {
+                    setSelectedProductID(mapIndex)
+                    setSelectedProductName(product.commodity_name)
+                  }}
                 >
-                  <i className="fas fa-trash-alt" />
+                  <i className="fas fa-times" />
                   <span className="visually-hidden">
                     Remove product {ReactHtmlParser(product.commodity_name)}
                   </span>
                 </button>
-                {ReactHtmlParser(product.commodity_name)}
+                <div>
+                  <div>{ReactHtmlParser(product.commodity_name)}</div>
+                  <div className="product-subtitle">HS code {product.commodity_code}</div>
+                </div>
               </li>
             )
           })}
-        </ul>
-        <button
-          type="button"
-          className="button button--primary button--icon m-t-xs button--full-width"
-          onClick={() => setIsOpen(true)}
-        >
-          <i className="fas fa-plus" />
-          Add product
-        </button>
+        </ul>}
       </BasketViewer>
       <ProductFinderModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
     </>

@@ -1,17 +1,24 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useOnOutsideClick } from '@src/components/hooks/useOnOutsideClick'
 
-export default function BasketViewer({ label, onOpen, children }) {
+export default function BasketViewer({ label, onOpen, dropdownOpen, children, disabled }) {
   const [modalIsOpen, setIsOpen] = useState(false)
   const buttonRef = useRef(null)
   const outerSpan = useRef()
 
+  useEffect(()=>{
+    setIsOpen(false)
+  }, [dropdownOpen])
+
   const toggleViewer = () => {
-    setIsOpen(!modalIsOpen)
-    if (!modalIsOpen) {
-      onOpen()
+    if(!disabled) {
+      setIsOpen(!modalIsOpen)
+      if (!modalIsOpen) {
+        onOpen()
+      }
     }
+
   }
 
   useOnOutsideClick(outerSpan, (target) => {
@@ -53,6 +60,8 @@ BasketViewer.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+  disabled: PropTypes.bool,
+  dropdownOpen: PropTypes.bool
 }
 BasketViewer.defaultProps = {
   onOpen: () => 0,

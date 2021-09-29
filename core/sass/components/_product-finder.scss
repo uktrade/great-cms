@@ -1,3 +1,5 @@
+@import 'helpers/colours';
+
 @mixin stretch {
   position: absolute;
   left: 0;
@@ -280,4 +282,25 @@
 .p-v-4 {
   padding-top: 4px;
   padding-bottom: 4px;
+}
+
+.product-subtitle {
+  font-size: 14px;
+  color: $light-grey;
+  line-height: 1rem;
+}
+
+.item-remove-title {
+  padding: 0;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.remove-buttons {
+  display: flex;
+
+  button {
+    width: 50%;
+    margin: 5px;
+  }
 }

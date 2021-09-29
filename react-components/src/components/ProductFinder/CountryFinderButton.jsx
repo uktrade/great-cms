@@ -10,6 +10,10 @@ import BasketViewer from './BasketView'
 
 export const CountryFinderButton = () => {
   const [modalIsOpen, setIsOpen] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(true)
+  const [selectedMarketID, setSelectedMarketID] = useState(null)
+  const [selectedMarketName, setSelectedMarketName] = useState(null)
+
   const { markets, setMarkets, loadMarkets, addMarketItem } = useUserMarkets(false)
 
   const sortMap = sortMapBy(markets || [], 'country_name')
@@ -18,6 +22,9 @@ export const CountryFinderButton = () => {
     const reduced = [...markets]
     reduced.splice(index, 1)
     setMarkets(reduced)
+    setSelectedMarketID(null)
+    setSelectedMarketName(null)
+    setIsDropdownOpen(false)
   }
 
   const selectCountry = (country) => {
@@ -26,10 +33,39 @@ export const CountryFinderButton = () => {
     }
   }
 
+  console.log('markets', markets)
+
   return (
     <span>
-      <BasketViewer label="My markets" onOpen={loadMarkets}>
-        <ul className="list m-v-0 body-l-b">
+      <BasketViewer dropdownOpen={isDropdownOpen} disabled={!markets.length} label="My markets" onOpen={loadMarkets}>
+
+            {selectedMarketName && <div className="remove-confirmation">
+              <div className="item-remove-title h-xs">
+                Are you sure you want to remove {selectedMarketName} ?
+              </div>
+              <div className="remove-buttons">
+                <button
+                  type="button"
+                  className="button button--primary"
+                  onClick={() => {
+                    deleteMarket(selectedMarketID)
+                  }}
+                >
+                  Remove
+                </button>
+                <button
+                  type="button"
+                  className="button button--secondary"
+                  onClick={() => {
+                    setSelectedMarketName(null)
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>}
+
+        {!selectedMarketName && <ul className="list m-v-0 body-l-b">
           {sortMap.map((marketIdx) => {
             const market = markets[marketIdx]
             return (
@@ -37,9 +73,12 @@ export const CountryFinderButton = () => {
                 <button
                   type="button"
                   className="f-r button button--small button--only-icon button--tertiary"
-                  onClick={() => deleteMarket(marketIdx)}
+                  onClick={() =>{
+                    setSelectedMarketID(marketIdx)
+                    setSelectedMarketName(market.country_name)
+                  }}
                 >
-                  <i className="fas fa-trash-alt" />
+                  <i className="fas fa-times" />
                   <span className="visually-hidden">
                     Remove market {market.country_name}
                   </span>
@@ -48,15 +87,7 @@ export const CountryFinderButton = () => {
               </li>
             )
           })}
-        </ul>
-        <button
-          type="button"
-          className="button button--primary button--icon m-t-xs button--full-width"
-          onClick={() => setIsOpen(true)}
-        >
-          <i className="fas fa-plus" />
-          Add market
-        </button>
+        </ul>}
       </BasketViewer>
       {modalIsOpen && (
       <CountryFinderModal
