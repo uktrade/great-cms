@@ -1,0 +1,58 @@
+@import 'helpers/colours';
+
+
+table .loading {
+  animation: shimmer 5s infinite linear;
+  background: linear-gradient(to right, #e9e7ed 20%, #faf8fe 50%, #e9e7ed 66%);
+  background-size: 1000px 100%;
+  border-radius: 4px;
+  height: 20px;
+}
+
+.snackbar {
+
+  position: fixed;
+  z-index: 1000;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  height: auto;
+  padding: 0.625rem 1rem;
+  background-color: $blue-deep-80;
+  color: white;
+  box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.3);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.hide {
+    animation: fadeout 500ms;
+    animation-fill-mode: both;
+  }
+
+  animation: fadein 500ms;
+  animation-fill-mode: both;
+}
+
+@keyframes fadein {
+  0% {
+    bottom:0;
+    opacity:0;
+  }
+
+  100% {
+      bottom: 1rem;
+      opacity: 1;
+  }
+}
+@keyframes fadeout {
+  0% {
+      bottom: 1rem;
+      opacity: 1;
+  }
+  100% {
+    bottom:0;
+    opacity:0;
+  }
+}
