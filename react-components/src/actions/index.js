@@ -11,6 +11,8 @@ export const SET_LOADED = 'SET_LOADED'
 export const SET_EP_PRODUCT = 'SET_EP_PRODUCT'
 export const SET_EP_MARKET = 'SET_EP_MARKET'
 export const SET_USER_SETTING = 'SET_USER_SETTING'
+export const NOTIFY = 'NOTIFY'
+export const POP_NOTIFICATION = 'POP_NOTIFICATION'
 
 // action creators
 
@@ -63,6 +65,16 @@ const setUserData = (blobName, value) => ({
   payload: { name: blobName, value },
 })
 
+const notify = (type, message) => ({
+  type: NOTIFY,
+  payload: { type, message },
+})
+
+const popNotification = (key, del) => ({
+  type: POP_NOTIFICATION,
+  payload: { key, delete: del },
+})
+
 export default {
   toggleModalIsOpen,
   setProductsExpertise,
@@ -74,4 +86,6 @@ export default {
   setEpMarket,
   setLoaded,
   setUserData,
+  notify,
+  popNotification,
 }

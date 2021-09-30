@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import actions from '@src/actions'
+
 import {
   useActiveProduct,
   useUserMarkets,
@@ -179,6 +180,9 @@ export default function DataTable(props) {
   }
 
   const addRemoveShortlist = (market, add) => {
+    Services.store.dispatch(
+      actions.notify('message',`${add ? 'Added' : 'Removed'} market ${market.country_name}`)
+    )
     add ? addMarketItem(market) : removeMarketItem(market)
   }
 

@@ -1,46 +1,59 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleSnackbarClose } from "../redux/actions";
+import React, { useEffect, useState } from 'react'
+import ReactDOM from 'react-dom'
+import { useSelector, Provider } from 'react-redux'
+import Services from '@src/Services'
+import actions from '@src/actions'
 
-const Snackbar = ({ timeout }) => {
-  const dispatch = useDispatch();
+const Snackbar = () => {
+  const notifications = useSelector((state) => state.snackbar, {})
+  const [maxKey, setMaxKey] = useState(0)
 
-  // select the UI states from the redux store
-  const SHOW = useSelector((state) => state.toggleSnackbar);
-  const MESSAGE = useSelector((state) => state.snackbarMessage);
-
-  // convert the timeout prop to pass into the styled component
-  let TIME = (timeout - 500) / 1000 + "s";
-
-  let TIMER;
-  function handleTimeout() {
-    TIMER = setTimeout(() => {
-      dispatch(toggleSnackbarClose());
-    }, timeout);
+  const cleanUp = (key) => {
+    // delete from redux queue
+    Services.store.dispatch(actions.popNotification(key, true))
   }
 
-  function handleClose() {
-    clearTimeout(TIMER);
-    dispatch(toggleSnackbarClose());
+  const fadeStart = (key) => {
+    // set fade class to start animation
+    setTimeout(() => cleanUp(key), 2000)
+    Services.store.dispatch(actions.popNotification(key))
   }
 
   useEffect(() => {
-    if (SHOW) {
-      handleTimeout();
+    const newMaxKey = Object.keys(notifications.queue || {}).reduce(
+      (max, key) => (key - 0 > max ? key - 0 : max),
+      0
+    )
+    if (newMaxKey !== maxKey) {
+      setTimeout(() => fadeStart(newMaxKey), 3000)
+      setMaxKey(newMaxKey)
     }
-    return () => {
-      clearTimeout(TIMER);
-    };
-  }, [SHOW, TIMER]);
+  }, [notifications])
 
   return (
-    SHOW && (
-      <Container time={TIME}>
-        <p>{MESSAGE}</p>
-      </Container>
-    )
-  );
-};
+    <div className="snackbar">
+      {Object.keys(notifications.queue || {}).map((key) => {
+        const notification = notifications.queue[key]
+        return (
+          <div
+            key={key}
+            className={`p-h-xl p-v-xs m-t-xs bg-blue-deep-80 text-white ${
+              notification.fade ? 'fade' : ''
+            }`}
+          >
+            {notification.message}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
-
-export default Snackbar;
+export default function createSnackbar({ element }) {
+  ReactDOM.render(
+    <Provider store={Services.store}>
+      <Snackbar />
+    </Provider>,
+    element
+  )
+}
