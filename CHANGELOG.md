@@ -3,6 +3,7 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Enhancements
+- GP2-3192 - Lesson case study logic using elasticsearch
 - GP2-3433 - WTE routing block
 - GP2-3406 - Supress error message when signing up user is already registered
 - GP2-3336 - Product classification expander on dashboard overview page plus content changes
