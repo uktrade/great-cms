@@ -10,7 +10,7 @@ export default function SelectMarket() {
   const [ comparisonMarkets ] = useComparisonMarkets()
   const { markets } = useUserMarkets()
 
-  const marketSelected = markets.filter((market) => market.country_iso2_code in comparisonMarkets).length
+  const marketSelected = !!markets.filter((market) => market.country_iso2_code in comparisonMarkets).length
 
   return marketSelected && (
     <section className="bg-red-90 p-h-xl p-v-s m-t-s">

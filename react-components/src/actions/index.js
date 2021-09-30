@@ -60,7 +60,7 @@ const setLoaded = () => ({
 
 const setUserData = (blobName, value) => ({
   type: SET_USER_SETTING,
-  payload: { name: blobName, value: value },
+  payload: { name: blobName, value },
 })
 
 export default {
