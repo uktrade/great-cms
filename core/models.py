@@ -1045,7 +1045,11 @@ class CaseStudyRelatedPages(Orderable):
         null=True,
         blank=True,
     )
-    page = models.ForeignKey('wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+    page = models.ForeignKey(
+        'wagtailcore.Page',
+        on_delete=models.CASCADE,
+        related_name='+',
+    )
     panels = [
         MagnaPageChooserPanel('page', [DetailPage, CuratedListPage, TopicPage]),
     ]
