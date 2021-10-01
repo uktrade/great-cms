@@ -4,6 +4,8 @@ import { useSelector, Provider } from 'react-redux'
 import Services from '@src/Services'
 import actions from '@src/actions'
 
+const fadeDelay = 3000
+
 export const Snackbar = () => {
   const notifications = useSelector((state) => state && state.snackbar) || {}
   const [maxKey, setMaxKey] = useState(0)
@@ -25,22 +27,23 @@ export const Snackbar = () => {
       0
     )
     if (newMaxKey !== maxKey) {
-      setTimeout(() => fadeStart(newMaxKey), 3000)
+      setTimeout(() => fadeStart(newMaxKey), fadeDelay)
       setMaxKey(newMaxKey)
     }
   }, [notifications])
   return (
-    <div className="snackbar">
+    <div className="snackbar w-1-2 p-h-s">
       {Object.keys(notifications.queue || {}).map((key) => {
         const notification = notifications.queue[key]
         return (
           <div
             key={key}
-            className={`snackbar-message p-h-xl p-v-xs m-t-xs bg-blue-deep-80 text-white ${
+            className={`snackbar-message p-h-s p-v-xs m-t-xs bg-blue-deep-80 text-white radius ${
               notification.fade ? 'fade' : ''
             }`}
           >
-            {notification.message}
+            {notification.icon && <i className={`fa ${notification.icon} m-r-xs`} />}
+            <span>{notification.message}</span>
           </div>
         )
       })}

@@ -181,7 +181,13 @@ export default function DataTable(props) {
 
   const addRemoveShortlist = (market, add) => {
     Services.store.dispatch(
-      actions.notify('message',`${add ? 'Added' : 'Removed'} market ${market.country_name}`)
+      actions.notify(
+        'message',
+        `${market.country_name} ${
+          add ? 'saved to' : 'removed from'
+        } My markets`,
+        `${add ? 'fa-check-circle' : 'fa-times-circle'}`
+      )
     )
     add ? addMarketItem(market) : removeMarketItem(market)
   }
@@ -264,7 +270,9 @@ export default function DataTable(props) {
       return (
         <td
           key={columnKey}
-          className={`${columnKey} p-v-xs p-h-s body-l ${cellConfig.className || ''}`}
+          className={`${columnKey} p-v-xs p-h-s body-l ${
+            cellConfig.className || ''
+          }`}
         >
           {countryData &&
           (!countryData.loading || !countryData.loading[columnKey]) ? (

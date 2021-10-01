@@ -65,9 +65,9 @@ const setUserData = (blobName, value) => ({
   payload: { name: blobName, value },
 })
 
-const notify = (type, message) => ({
+const notify = (type, message, icon='') => ({
   type: NOTIFY,
-  payload: { type, message },
+  payload: { type, message, icon },
 })
 
 const popNotification = (key, del) => ({
