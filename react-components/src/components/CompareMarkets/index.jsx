@@ -68,30 +68,36 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
   }
 
   const addProductButton = (
-    <button
-      type="button"
-      className="button button--primary button--icon"
-      onClick={() => setProductModalIsOpen(true)}
-    >
-      <i className="fa fa-plus-square" />
-      Select product
-    </button>
+    <div>
+      <p className="body-l">To get started, add a product to your My products list</p>
+      <button
+        type="button"
+        className="button button--primary button--icon"
+        onClick={() => setProductModalIsOpen(true)}
+      >
+        <i className="fa fa-plus-square" />
+        Add product
+      </button>
+    </div>
   )
 
   const addMarketButton = (
     <>
       {' '}
       {selectedLength < maxPlaces && (
-        <button
-          type="button"
-          className="button button--primary button--icon add-market m-t-xs"
-          onClick={() => setMarketModalIsOpen(true)}
-        >
-          <i className="fa fa-plus-square" />
-          {selectedLength > 0
-            ? `Add market ${selectedLength + 1} of ${maxPlaces}`
-            : 'Add a market'}
-        </button>
+        <div>
+          <p className="body-l">Add an export market to see data for the products in your My products list.</p>
+          <button
+            type="button"
+            className="button button--primary button--icon add-market m-t-xs"
+            onClick={() => setMarketModalIsOpen(true)}
+          >
+            <i className="fa fa-plus-square" />
+            {selectedLength > 0
+              ? `Add market ${selectedLength + 1} of ${maxPlaces}`
+              : 'Add market'}
+          </button>
+        </div>
       )}
     </>
   )
