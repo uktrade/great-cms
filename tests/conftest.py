@@ -719,7 +719,7 @@ class MockElasticsearch:
 
 @pytest.fixture
 def mock_elasticsearch_get_connection():
-    mock.patch('core.case_study_index.get_connection', return_value=MockElasticsearch()).start()
+    mock.patch('elasticsearch_dsl.connections.connections.get_connection', return_value=MockElasticsearch()).start()
     yield mock.patch('elasticsearch_dsl.document.get_connection', return_value=MockElasticsearch()).start()
 
 
