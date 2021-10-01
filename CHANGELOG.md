@@ -2,6 +2,14 @@
 
 ## Pre-release changes - please put everything in the appropriate category below
 
+### Hotfix
+- GP2-3253 fix-confirm-idenity-urls
+- GP2-3309 - [HOTFIX] adding bing search console meta tag - first command in head
+- GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
+- GP2-3372 - [HOTFIX] add crsf token to company disconnect to fix 403 error
+- [HOTFIX] - SOO contact issue
+- [HOTFIX] - GP2-3446 change london ita search
+
 ### Enhancements
 - GP2-3192 - Lesson case study logic using elasticsearch
 - GP2-3433 - WTE routing block
@@ -106,6 +114,7 @@
 
 ### Enhancements
 
+- GP2-3268 = [HOTFIX] Updated CaseStudy's related page which cant be empty/null
 - GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
 
 ## [1.11.0](https://github.com/uktrade/great-cms/releases/tag/1.11.0)
@@ -116,8 +125,7 @@
 - no-ticket - wagtail degrade to 2.11
 - GP2-2524 - Wagtail transfer configuration for staging/UAT
 - GP2-1615 - Migrate Export Opps contact/guidance pages from V1 to V2
-- GP2-1683 - More contact page migration (two types) from V1 to V2
-- GP2-2986 - Merge companies-house api views
+- GP2-1683 - More contact page migration (two types) from V1 to V2- GP2-2986 - Merge companies-house api views
 - no-ticket - Fix for case study listing view if empty related page selected in any case study
 - GA2-3054 - Updated GA360 mixin for special exception for authenticated staff users
 - GP2-2841 - Pinned CF buildpack and upgraded python to 3.9.5
