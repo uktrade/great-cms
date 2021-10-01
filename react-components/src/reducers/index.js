@@ -141,7 +141,7 @@ const snackbar = (state, action) => {
           delete newState.queue[action.payload.key]
         } else {
           // we don't want to delete the item yet - just fade it out
-          newState.queue[action.payload.key].fade = true
+          (newState.queue[action.payload.key] || {}).fade = true
         }
       }
       break
