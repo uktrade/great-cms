@@ -1,6 +1,5 @@
 {% extends "core/base.html" %}
 {% load to_json %}
-{% load exportplan_name %}
 {% load static from staticfiles %}
 {% load great_components %}
 {% block css_layout_class %}export-plan-dashboard{% endblock %}
@@ -12,7 +11,7 @@
         <i class="fas fa-arrow-circle-left"></i><span class="m-f-xs">Back to My export plans</span>
       </a>
     </span>
-    <h2 class="h-m p-t-s">{% exportplan_name export_plan %}</h2>
+    <h2 class="h-m p-t-s">{{ export_plan.name }}</h2>
     <div class="grid m-t-s">
       <div id="section-commodity-code" class="c-2-3 m-b-s">
         &nbsp;

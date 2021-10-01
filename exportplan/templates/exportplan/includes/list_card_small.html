@@ -1,6 +1,5 @@
 {% load content_tags %}
 {% load humanize %}
-{% load exportplan_name %}
 
 {% comment %}
 EP Card for smaller, dashboard-style listing
@@ -9,7 +8,7 @@ EP Card for smaller, dashboard-style listing
   <a href="{{ plan.url }}" class="learn__category-link" aria-describedby="export-plan-{{ plan.url }}">
     <span class="visually-hidden">View export plan</span>
   </a>
-  <h2 id="export-plan-{{ plan.pk }}" class="h-xs p-t-xs">{% exportplan_name plan %}</h2>
+  <h2 id="export-plan-{{ plan.pk }}" class="h-xs p-t-xs">{{ plan.name }}</h2>
   <p class="m-0 body-s">Created {{ plan.created|str_to_datetime|naturaltime }}</p>
   <div class="progress-bar m-v-xxs">
     <span style="width: {% widthratio plan.calculated_progress.sections_completed plan.calculated_progress.sections_total 100 %}%"></span>

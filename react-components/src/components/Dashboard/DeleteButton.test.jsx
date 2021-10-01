@@ -14,7 +14,7 @@ const confirmationTitle = 'Are you sure you want to delete export plan for selli
 
 const setup = () => {
 Services.store.dispatch(
-  actions.setInitialState({exportPlan: {product:{commodity_code:'123456', commodity_name:'Acme test product'},market:{country_name:'Testrovia', country_iso2_code:'tr'}}})
+  actions.setInitialState({exportPlan: {name: 'export plan for selling Acme test product to Testrovia', product:{commodity_code:'123456', commodity_name:'Acme test product'},market:{country_name:'Testrovia', country_iso2_code:'tr'}}})
   )
   Services.setConfig({
     apiDeleteExportPlanUrl: '/api/export-plan/delete/123/',
