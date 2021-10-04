@@ -4,8 +4,66 @@
 
 ### Hotfix
 - GP2-3253 fix-confirm-idenity-urls
+- GP2-3309 - [HOTFIX] adding bing search console meta tag - first command in head
+- GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
+- GP2-3372 - [HOTFIX] add crsf token to company disconnect to fix 403 error
+- [HOTFIX] - SOO contact issue
+- [HOTFIX] - GP2-3446 change london ita search
+
+### Enhancements
+- GP2-3192 - Lesson case study logic using elasticsearch
+- GP2-3167 - Update introductory copy for WTE
+- GP2-3439 - Snackbar for adding market in WTE
+- GP2-3433 - WTE routing block
+- GP2-3406 - Supress error message when signing up user is already registered
+- GP2-3336 - Product classification expander on dashboard overview page plus content changes
+- GP2-3395 - Content changes and move hs code on product finder
+- GP2-3162 - Chapter name in suggested countries
+- GP2-3338 - Dashboard top 3 export plans
+- GP2-2574 - WTE add/remove markets to or from shortlist
+- GP2-3344 - Verify account with token
+- GP2-3171 - EP wizard styling update
+- GP2-3284 - EP title in sections
+- GP2-3172 - decouple-ep-pages
+- GP2-3170 - EP index page and list
+- GP2-3169 - EP index page logged-out
+- GP2-3171 - Create export plan wizard
+- GP2-3168 - Add yet another 'add product' button - this time on WTE
+- GP2-3119 - Basket restyle to lose react-modal
+- GP2-3166 - Suggested market product logic
+- GP2-3119 - Decouple basket from export plan
+- GP2-3263 - Fix EP pdf download, sidebar and added back link to landing page
+- GP2-3270 - Learn topics image sizing
+- NOTICKET - Remove and cleanup broken Storybook setup
+- GP2-3352 - remove feature FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE
+- GP2-3352 - Obfuscate the export plan id in urls
+- GP2-3396 - Startdate Endate validation
+- GP2-3404 - fix ep dashboard default
+- GP2-3384 - Funding and credit: Amend pdf content
+- GP2-3193 - View example export plan
+
+### Fixed bugs
+- GP2-3257 - Fix costs and pricing debounce
+- GP2-3429 - Clear WTE displayed product on deleting last basket product
+- GP2-3410 - Fix password validation error messages not showing on signup
+- GP2-3373 - Fix in situ code verification - not through link
+- GP2-3364 - WTE fallback to most recent product
+- GP2-3363 - Fix costs_and_pricing page
+- GP2-3310 - Product_sort_order
+- GP2-3311 - Suggestions on deleted products
+- GP2-3288 - Vulnerabilities.
+- GP2-2880 - DAC_Parsing_02 (A)
+- GP2-3348 - SECURITY: great-cms frontend asset vulnerabilty: tar
+- NOTICKET - Fix hashid on EP create wizard
+
+## [1.13.0](https://github.com/uktrade/great-cms/releases/tag/1.13.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
+
+### Hotfix
+- GP2-3253 fix-confirm-idenity-urls
 - GP2-3309 - [HOTFIX] adding bing search console meta tag
 - GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
+- GP2-3372 - [HOTFIX] add crsf token to company disconnect to fix 403 error
 
 ### Enhancements
 - GP2-3128 - Analytics - section completion
@@ -49,18 +107,20 @@
 - GP2-3100 - In Costs and pricing, titles dispay "the" prefix before countries that should not have this
 - GP2-2492 - Export plan - some pages - value input
 - GP2-3120 - Append "- great.gov.uk" to all pages by default
+- GP2-2988: Make SOO contact form name fields editable if not already populated.ttps://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
 
-### Fixed bugs
-- GP2-2988: Make SOO contact form name fields editable if not already populated.
 
 ## [1.12.0](https://github.com/uktrade/great-cms/releases/tag/1.12.0)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.11.0...1.12.0)
 
 ### Enhancements
+
 - GP2-3268 = [HOTFIX] Updated CaseStudy's related page which cant be empty/null
 - GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
 
 ## [1.11.0](https://github.com/uktrade/great-cms/releases/tag/1.11.0)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.10.0...1.11.0)
 
 ### Enhancements

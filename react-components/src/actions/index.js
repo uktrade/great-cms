@@ -7,10 +7,12 @@ export const SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK =
   'SET_PERFORM_FEATURE_SKIP_COOKIE_CHECK'
 export const SET_NEXT_URL = 'SET_NEXT_URL'
 export const SET_INITIAL_STATE = 'SET_INITIAL_STATE'
-export const SET_PRODUCT = 'SET_PRODUCT'
-export const SET_MARKET = 'SET_MARKET'
 export const SET_LOADED = 'SET_LOADED'
-export const SET_COMPARISON_MARKETS = 'SET_COMPARISON_MARKETS'
+export const SET_EP_PRODUCT = 'SET_EP_PRODUCT'
+export const SET_EP_MARKET = 'SET_EP_MARKET'
+export const SET_USER_SETTING = 'SET_USER_SETTING'
+export const NOTIFY = 'NOTIFY'
+export const POP_NOTIFICATION = 'POP_NOTIFICATION'
 
 // action creators
 
@@ -44,13 +46,13 @@ const setInitialState = (payload) => ({
   payload,
 })
 
-const setProduct = (product) => ({
-  type: SET_PRODUCT,
+const setEpProduct = (product) => ({
+  type: SET_EP_PRODUCT,
   payload: product,
 })
 
-const setMarket = (market) => ({
-  type: SET_MARKET,
+const setEpMarket = (market) => ({
+  type: SET_EP_MARKET,
   payload: market,
 })
 
@@ -58,9 +60,19 @@ const setLoaded = () => ({
   type: SET_LOADED,
 })
 
-const setCompareMarketList = (marketList) => ({
-  type: SET_COMPARISON_MARKETS,
-  payload: marketList,
+const setUserData = (blobName, value) => ({
+  type: SET_USER_SETTING,
+  payload: { name: blobName, value },
+})
+
+const notify = (type, message, icon='') => ({
+  type: NOTIFY,
+  payload: { type, message, icon },
+})
+
+const popNotification = (key, del) => ({
+  type: POP_NOTIFICATION,
+  payload: { key, delete: del },
 })
 
 export default {
@@ -70,8 +82,10 @@ export default {
   skipFeatureCookieCheck,
   setNextUrl,
   setInitialState,
-  setProduct,
-  setMarket,
+  setEpProduct,
+  setEpMarket,
   setLoaded,
-  setCompareMarketList,
+  setUserData,
+  notify,
+  popNotification,
 }

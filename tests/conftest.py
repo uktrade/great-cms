@@ -9,9 +9,9 @@ from wagtail.core.models import Locale, Page
 from wagtail_factories import PageFactory, SiteFactory
 
 import tests.unit.domestic.factories
-import tests.unit.exportplan.factories
+from core.case_study_index import case_study_to_index
+from core.models import CaseStudy
 from directory_api_client import api_client
-from exportplan.core import helpers as exportplan_helpers
 from sso.models import BusinessSSOUser
 from tests.helpers import create_response
 
@@ -100,18 +100,34 @@ def export_plan_data(cost_pricing_data):
 
 
 @pytest.fixture
+def export_plan_list_data():
+    return [
+        {
+            'ui_progress': {
+                'about-your-business': {'is_complete': True, 'date_last_visited': '2012-01-14T03:21:34+00:00'},
+                'target-markets-research': {'is_complete': False, 'date_last_visited': '2012-01-25T03:21:34+00:00'},
+                'business-risk': {'is_complete': False, 'date_last_visited': '2012-01-12T03:21:34+00:00'},
+            },
+            'export_countries': [{'country_name': 'Netherlands', 'country_iso2_code': 'NL'}],
+            'export_commodity_codes': [{'commodity_code': '220850', 'commodity_name': 'Gin'}],
+            'pk': 1,
+        }
+    ]
+
+
+@pytest.fixture
 def export_plan_section_progress_data():
     return [
-        {'total': 5, 'populated': 1, 'url': '/export-plan/section/about-your-business/'},
-        {'total': 2, 'populated': 1, 'url': '/export-plan/section/business-objectives/'},
-        {'total': 5, 'populated': 0, 'url': '/export-plan/section/target-markets-research/'},
-        {'total': 11, 'populated': 1, 'url': '/export-plan/section/adapting-your-product/'},
-        {'total': 2, 'populated': 1, 'url': '/export-plan/section/marketing-approach/'},
-        {'total': 8, 'populated': 6, 'url': '/export-plan/section/costs-and-pricing/'},
-        {'total': 3, 'populated': 3, 'url': '/export-plan/section/getting-paid/'},
-        {'total': 3, 'populated': 3, 'url': '/export-plan/section/funding-and-credit/'},
-        {'total': 4, 'populated': 4, 'url': '/export-plan/section/travel-plan/'},
-        {'total': 1, 'populated': 1, 'url': '/export-plan/section/business-risk/'},
+        {'total': 5, 'populated': 1, 'url': '/export-plan/npiqji6n/about-your-business/'},
+        {'total': 2, 'populated': 1, 'url': '/export-plan/npiqji6n/business-objectives/'},
+        {'total': 5, 'populated': 0, 'url': '/export-plan/npiqji6n/target-markets-research/'},
+        {'total': 11, 'populated': 1, 'url': '/export-plan/npiqji6n/adapting-your-product/'},
+        {'total': 2, 'populated': 1, 'url': '/export-plan/npiqji6n/marketing-approach/'},
+        {'total': 8, 'populated': 6, 'url': '/export-plan/npiqji6n/costs-and-pricing/'},
+        {'total': 3, 'populated': 3, 'url': '/export-plan/npiqji6n/getting-paid/'},
+        {'total': 3, 'populated': 3, 'url': '/export-plan/npiqji6n/funding-and-credit/'},
+        {'total': 4, 'populated': 4, 'url': '/export-plan/npiqji6n/travel-plan/'},
+        {'total': 1, 'populated': 1, 'url': '/export-plan/npiqji6n/business-risk/'},
     ]
 
 
@@ -190,16 +206,6 @@ def domestic_dashboard(domestic_homepage, domestic_site):
 
 
 @pytest.fixture
-def exportplan_homepage(domestic_homepage, domestic_site):
-    return tests.unit.exportplan.factories.ExportPlanPageFactory(parent=domestic_homepage)
-
-
-@pytest.fixture
-def exportplan_dashboard(exportplan_homepage):
-    return tests.unit.exportplan.factories.ExportPlanPseudoDashboardPageFactory(parent=exportplan_homepage)
-
-
-@pytest.fixture
 def domestic_site(domestic_homepage, client):
     return SiteFactory(
         root_page=domestic_homepage,
@@ -232,7 +238,7 @@ def user():
 
 @pytest.fixture
 def get_request():
-    req = RequestFactory().get('/dashboard/')
+    req = RequestFactory().get('/dashboard/', kwargs={'id': 1})
     req.user = get_user()
     return req
 
@@ -275,59 +281,54 @@ def mock_user_location_create():
 
 
 @pytest.fixture
-@pytest.mark.django_db(transaction=True)
-@mock.patch.object(api_client.exportplan, 'exportplan_list')
-def mock_export_plan_requests(
-    mock_export_plan_list,
-):
-    data = [{'export_countries': ['UK'], 'export_commodity_codes': [100], 'rules_regulations': {'rule1': 'AAA'}}]
-    mock_export_plan_list.return_value = create_response(data)
-
-
-@pytest.fixture
-def patch_get_create_export_plan(export_plan_data):
-    yield mock.patch.object(exportplan_helpers, 'get_or_create_export_plan', return_value=export_plan_data)
-
-
-@pytest.fixture(autouse=False)
-def mock_get_create_export_plan(patch_get_create_export_plan):
-    yield patch_get_create_export_plan.start()
-    try:
-        patch_get_create_export_plan.stop()
-    except RuntimeError:
-        # may already be stopped explicitly in a test
-        pass
-
-
-@pytest.fixture
-def patch_sso_get_export_plan(export_plan_data):
-    # TODO merge this and above patch so we use singe unified way of getting export plan
-    yield mock.patch('sso.models.get_or_create_export_plan', return_value=export_plan_data)
-
-
-@pytest.fixture(autouse=True)
-def mock_sso_get_export_plan(patch_sso_get_export_plan):
-    yield patch_sso_get_export_plan.start()
-    try:
-        patch_sso_get_export_plan.stop()
-    except RuntimeError:
-        # may already be stopped explicitly in a test
-        pass
-
-
-@pytest.fixture
-def patch_export_plan_list(export_plan_data):
+def patch_export_plan_detail_list(export_plan_data):
     yield mock.patch(
-        'directory_api_client.api_client.exportplan.exportplan_list',
+        'directory_api_client.api_client.exportplan.detail_list',
         return_value=create_response(status_code=200, json_body=[export_plan_data]),
     )
 
 
 @pytest.fixture(autouse=False)
-def mock_export_plan_list(patch_export_plan_list):
-    yield patch_export_plan_list.start()
+def mock_export_plan_detail_list(patch_export_plan_detail_list):
+    yield patch_export_plan_detail_list.start()
     try:
-        patch_export_plan_list.stop()
+        patch_export_plan_detail_list.stop()
+    except RuntimeError:
+        # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture
+def patch_export_plan_sso_detail_list(export_plan_data):
+    yield mock.patch(
+        'exportplan.core.helpers.get_exportplan_detail_list',
+        return_value=[export_plan_data],
+    )
+
+
+@pytest.fixture(autouse=True)
+def mock_export_plan_sso_list(patch_export_plan_sso_detail_list):
+    yield patch_export_plan_sso_detail_list.start()
+    try:
+        patch_export_plan_sso_detail_list.stop()
+    except RuntimeError:
+        # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture
+def patch_export_plan_sso_create(export_plan_data):
+    yield mock.patch(
+        'sso.models.export_plan_helpers.create_export_plan',
+        return_value=[export_plan_data],
+    )
+
+
+@pytest.fixture(autouse=False)
+def mock_export_plan_sso_create(patch_export_plan_sso_create):
+    yield patch_export_plan_sso_create.start()
+    try:
+        patch_export_plan_sso_create.stop()
     except RuntimeError:
         # may already be stopped explicitly in a test
         pass
@@ -491,7 +492,7 @@ def mock_update_company_profile(patch_update_company_profile):
 @pytest.fixture
 def patch_update_export_plan_client():
     yield mock.patch(
-        'directory_api_client.api_client.exportplan.exportplan_update',
+        'directory_api_client.api_client.exportplan.update',
         return_value=create_response(status_code=200, json_body={'result': 'ok'}),
     )
 
@@ -501,6 +502,24 @@ def mock_update_export_plan_client(patch_update_export_plan_client):
     yield patch_update_export_plan_client.start()
     try:
         patch_update_export_plan_client.stop()
+    except RuntimeError:
+        # may already be stopped explicitly in a test
+        pass
+
+
+@pytest.fixture
+def patch_detail_export_plan_client(export_plan_data):
+    yield mock.patch(
+        'directory_api_client.api_client.exportplan.detail',
+        return_value=create_response(status_code=200, json_body=export_plan_data),
+    )
+
+
+@pytest.fixture(autouse=True)
+def mock_detail_export_plan_client(patch_detail_export_plan_client):
+    yield patch_detail_export_plan_client.start()
+    try:
+        patch_detail_export_plan_client.stop()
     except RuntimeError:
         # may already be stopped explicitly in a test
         pass
@@ -592,6 +611,26 @@ def mock_trading_blocs():
             'membership_end_date': None,
             'country': 270,
         },
+        {
+            'membership_code': 'CTTB0125',
+            'iso2': 'DE',
+            'country_territory_name': 'Germany',
+            'trading_bloc_code': 'TB00016',
+            'trading_bloc_name': 'European Union (EU)',
+            'membership_start_date': None,
+            'membership_end_date': None,
+            'country': 270,
+        },
+        {
+            'membership_code': 'CTTB0125',
+            'iso2': 'DE',
+            'country_territory_name': 'Germany',
+            'trading_bloc_code': 'TB00014',
+            'trading_bloc_name': 'European Economic Area (EEA)',
+            'membership_start_date': None,
+            'membership_end_date': None,
+            'country': 270,
+        },
     ]
     yield mock.patch(
         'directory_api_client.api_client.dataservices.trading_blocs_by_country',
@@ -635,3 +674,80 @@ def company_profile(client, user):
     )
     yield stub.start()
     stub.stop()
+
+
+@pytest.fixture(autouse=False)
+def mock_get_user_data():
+    body = {
+        'UserProducts': [
+            {'commodity_code': '111111', 'commodity_name': 'Steel'},
+            {'commodity_code': '666666', 'commodity_name': 'Cheese'},
+        ],
+        'UserMarkets': [{'region': 'Europe', 'suggested': None, 'country_name': 'Germany', 'country_iso2_code': 'DE'}],
+    }
+    yield mock.patch(
+        'directory_sso_api_client.sso_api_client.user.get_user_data',
+        return_value=create_response(status_code=200, json_body=body),
+    ).start()
+
+
+class MockElasticsearchIndices:
+    def delete(*args, **kwargs):
+        return {'results': 1}
+
+
+class MockElasticSearchResult:
+    def delete_by_query(*args, **kwargs):
+        return {'results': 1}
+
+
+class MockElasticsearch:
+    indices = MockElasticsearchIndices()
+
+    def search(*args, **kwargs):
+        return MockElasticSearchResult()
+
+    def delete(*args, **kwargs):
+        return {}
+
+    def delete_by_query(*args, **kwargs):
+        return {'results': 1}
+
+    def index(*args, **kwargs):
+        return {'result': 1}
+
+
+@pytest.fixture
+def mock_elasticsearch_get_connection():
+    mock.patch('elasticsearch_dsl.connections.connections.get_connection', return_value=MockElasticsearch()).start()
+    yield mock.patch('elasticsearch_dsl.document.get_connection', return_value=MockElasticsearch()).start()
+
+
+@pytest.fixture
+def mock_elasticsearch_bulk():
+    yield mock.patch('elasticsearch.helpers.bulk').start()
+
+
+@pytest.fixture
+def mock_elasticsearch_delete():
+    yield mock.patch('elasticsearch_dsl.Search.delete', return_value='mocked').start()
+
+
+@pytest.fixture
+def mock_elasticsearch_count():
+    yield mock.patch('elasticsearch_dsl.Search.count', return_value=1).start()
+
+
+@pytest.fixture
+def mock_elasticsearch_search():
+    yield mock.patch('elasticsearch_dsl.Search.search', return_value=1).start()
+
+
+@pytest.fixture
+def mock_elasticsearch_scan():
+    def _scan():
+        # returns all casestudy objects as if they were returned by ES
+        for cs in CaseStudy.objects.all():
+            yield case_study_to_index(cs)
+
+    yield mock.patch('elasticsearch_dsl.Search.scan', return_value=_scan()).start()

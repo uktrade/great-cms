@@ -44,7 +44,10 @@ from core import blocks as core_blocks, mixins
 from core.constants import BACKLINK_QUERYSTRING_NAME, RICHTEXT_FEATURES__MINIMAL
 from core.context import get_context_provider
 from core.utils import PageTopicHelper, get_first_lesson
-from exportplan.core.data import SECTION_URLS as EXPORT_PLAN_SECTION_TITLES_URLS
+from exportplan.core.data import (
+    SECTION_SLUGS as EXPORTPLAN_SLUGS,
+    SECTIONS as EXPORTPLAN_URL_MAP,
+)
 
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)
@@ -283,7 +286,6 @@ class TimeStampedModel(models.Model):
 
 class CMSGenericPage(
     mixins.EnableTourMixin,
-    mixins.ExportPlanMixin,
     mixins.AuthenticatedUserRequired,
     mixins.WagtailGA360Mixin,
     GA360Mixin,
@@ -358,7 +360,6 @@ class LandingPage(CMSGenericPage):
     subpage_types = [
         'core.ListPage',
         'core.InterstitialPage',
-        'exportplan.ExportPlanDashboardPage',
         'domestic.DomesticDashboard',
     ]
     template_choices = (
@@ -427,10 +428,7 @@ class ListPage(CMSGenericPage):
     parent_page_types = ['core.LandingPage']
     subpage_types = ['core.CuratedListPage']
 
-    template_choices = (
-        ('exportplan/automated_list_page.html', 'Export plan'),
-        ('learn/automated_list_page.html', 'Learn'),
-    )
+    template_choices = (('learn/automated_list_page.html', 'Learn'),)
 
     record_read_progress = models.BooleanField(
         default=False,
@@ -602,10 +600,7 @@ class DetailPage(CMSGenericPage):
         'core.CuratedListPage',  # TEMPORARY: remove after topics refactor migration has run
         'core.TopicPage',
     ]
-    template_choices = (
-        ('exportplan/dashboard_page.html', 'Export plan dashboard'),
-        ('learn/detail_page.html', 'Learn'),
-    )
+    template_choices = (('learn/detail_page.html', 'Learn'),)
 
     class Meta:
         verbose_name = 'Detail page'
@@ -783,21 +778,22 @@ class DetailPage(CMSGenericPage):
 
     @cached_property
     def _export_plan_url_map(self):
-        """Return a lookup dictionary of URL->title for all the
+        """Return a lookup dictionary of URL Slugs->title for all the
         Export Plan sections we have."""
-
-        return {entry['url']: entry['title'] for entry in EXPORT_PLAN_SECTION_TITLES_URLS}
+        return {url: values['title'] for url, values in EXPORTPLAN_URL_MAP.items()}
 
     def _get_backlink(self, request):
         """Try to extract a backlink (used for a link to the export plan) from the
         querystring on the request that brought us to this view.
 
         Only accepts backlinks that we KNOW are for the export plan, else ignore it."""
+
         backlink_path = request.GET.get(BACKLINK_QUERYSTRING_NAME, '')
         if backlink_path is not None:
             backlink_path = unquote(backlink_path)
-
-            if backlink_path.split('?')[0] in self._export_plan_url_map and '://' not in backlink_path:  # noqa:W504
+            if len(backlink_path.split('/')) > 2 and (
+                backlink_path.split('/')[3] in EXPORTPLAN_SLUGS and '://' not in backlink_path
+            ):
                 # The check for '://' will stop us accepting a backlink which
                 # features a full URL as its OWN querystring param (eg a crafted attack
                 # URL), but that's an acceptable limitation here and is very unlikely
@@ -814,8 +810,8 @@ class DetailPage(CMSGenericPage):
         # because it features lazily-evaluated URLs that aren't ready when
         # models are imported
 
-        if backlink_path:
-            _path = backlink_path.split('?')[0]
+        if backlink_path and len(backlink_path.split('/')) > 3:
+            _path = backlink_path.split('/')[3]
             return self._export_plan_url_map.get(_path)
 
     def get_context(self, request, *args, **kwargs):
@@ -1165,7 +1161,10 @@ class CaseStudy(ClusterableModel):
         return f'{display_name}'
 
     def save(self, **kwargs):
+        from core.case_study_index import update_cs_index
+
         self.update_modified = kwargs.pop('update_modified', getattr(self, 'update_modified', True))
+        update_cs_index(self)
         super().save(**kwargs)
 
     def get_cms_standalone_view_url(self):

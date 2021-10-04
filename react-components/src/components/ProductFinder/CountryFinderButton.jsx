@@ -1,98 +1,72 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
-import PropTypes from 'prop-types'
-import { connect, Provider } from 'react-redux'
-
-import actions from '@src/actions'
-import { getMarkets, getProducts } from '@src/reducers'
+import { Provider } from 'react-redux'
 import Services from '@src/Services'
-
-import Confirmation from './MessageConfirmation'
+import { useUserMarkets } from '@src/components/hooks/useUserData'
+import { sortMapBy } from '@src/Helpers'
 import CountryFinderModal from './CountryFinderModal'
+import BasketViewer from './BasketView'
 
-export const CountryFinderButton = (props) => {
-  const { commodityCode, market, setMarket } = props
+export const CountryFinderButton = () => {
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [confirmationRequired, setConfirmationRequired] = useState(false)
+  const { markets, setMarkets, loadMarkets, addMarketItem } = useUserMarkets(false)
 
-  const openModal = () => {
-    setConfirmationRequired(!!market)
-    setIsOpen(!market)
+  const sortMap = sortMapBy(markets || [], 'country_name')
+
+  const deleteMarket = (index) => {
+    const reduced = [...markets]
+    reduced.splice(index, 1)
+    setMarkets(reduced)
   }
 
-  const closeConfirmation = () => {
-    setConfirmationRequired(false)
-    setIsOpen(true)
+  const selectCountry = (country) => {
+    if (markets) {
+      addMarketItem(country)
+    }
   }
-
-  const buttonClass = `tag ${!market ? 'tag--tertiary' : ''} tag--icon `
-  const hasPlace = market && market.country_name
-
-  const triggerButton = (
-    <button type="button" className={buttonClass} onClick={openModal}>
-      {hasPlace || 'add place'}
-      <span className="visually-hidden">{hasPlace ? 'Edit' : 'Add'} place</span>
-      <i className={`fa ${market ? 'fa-edit' : 'fa-plus'}`} aria-hidden="true" />
-    </button>
-  )
 
   return (
     <span>
-      {triggerButton}
+      <BasketViewer label="My markets" onOpen={loadMarkets}>
+        <ul className="list m-v-0 body-l-b">
+          {sortMap.map((marketIdx) => {
+            const market = markets[marketIdx]
+            return (
+              <li className="p-v-xxs" key={`market-${marketIdx}`}>
+                <button
+                  type="button"
+                  className="f-r button button--small button--only-icon button--tertiary"
+                  onClick={() => deleteMarket(marketIdx)}
+                >
+                  <i className="fas fa-trash-alt" />
+                  <span className="visually-hidden">
+                    Remove market {market.country_name}
+                  </span>
+                </button>
+                {market.country_name}
+              </li>
+            )
+          })}
+        </ul>
+        <button
+          type="button"
+          className="button button--primary button--icon m-t-xs button--full-width"
+          onClick={() => setIsOpen(true)}
+        >
+          <i className="fas fa-plus" />
+          Add market
+        </button>
+      </BasketViewer>
+      {modalIsOpen && (
       <CountryFinderModal
-        modalIsOpen={modalIsOpen}
+        modalIsOpen
         setIsOpen={setIsOpen}
-        commodityCode={commodityCode}
-        selectCountry={setMarket}
-        market={market}
-      />
-      <Confirmation
-        buttonClass={buttonClass}
-        productConfirmation={confirmationRequired}
-        handleButtonClick={closeConfirmation}
-        messageTitle="Changing target market?"
-        messageBody="If you've already started creating an export plan, make sure you update it to include your new market. You can change your target market at any time."
-        messageButtonText="Got it"
-      />
+        selectCountry={selectCountry}
+      />)}
     </span>
   )
 }
-
-CountryFinderButton.propTypes = {
-  commodityCode: PropTypes.string,
-  market: PropTypes.shape({
-    country_name: PropTypes.string,
-    country_iso2_code: PropTypes.string,
-    region: PropTypes.string,
-  }),
-  setMarket: PropTypes.func.isRequired,
-}
-CountryFinderButton.defaultProps = {
-  commodityCode: '',
-  market: null,
-}
-
-const mapStateToProps = (state) => {
-  const product = getProducts(state)
-  return {
-    market: getMarkets(state),
-    commodityCode: product && product.commodity_code,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setMarket: (market) => {
-      dispatch(actions.setMarket(market))
-    },
-  }
-}
-
-const ConnectedContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CountryFinderButton)
 
 export default function createCountryFinderButton({ ...params }) {
   const mainElement = document.createElement('span')
@@ -100,7 +74,7 @@ export default function createCountryFinderButton({ ...params }) {
   ReactModal.setAppElement(mainElement)
   ReactDOM.render(
     <Provider store={Services.store}>
-      <ConnectedContainer />
+      <CountryFinderButton />
     </Provider>,
     params.element
   )

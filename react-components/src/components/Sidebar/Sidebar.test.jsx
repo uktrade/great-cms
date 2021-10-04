@@ -1,5 +1,7 @@
 import React from  'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import Services from '@src/Services'
 
 import { Sidebar } from '.'
 
@@ -15,12 +17,13 @@ export const props = {
     title: 'test',
     url: '/',
     disabled: false
-  }
+  },
+  epTitle: 'Export plan title'
 }
 
 const setup = ({...data}) => {
 
-  const utils = render(<Sidebar {...data} />)
+  const utils = render(<Provider store={Services.store}><Sidebar {...data} /></Provider>)
 
   return {
     ...utils
@@ -40,6 +43,11 @@ describe('Sidebar', () => {
     it('Should have expand icon', () => {
       expect(icon).toHaveClass('fa-angle-double-right')
     })
+  })
+
+  it('Should have a title' , () => {
+    const { getByText } = setup(props)
+    expect(getByText('Export plan title')).toBeInTheDocument()
   })
 
   describe( 'logo', () => {

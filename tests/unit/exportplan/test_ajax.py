@@ -18,7 +18,7 @@ def test_set_target_age_groups(
     mock_update_ui_options.return_value = None
 
     client.force_login(user)
-    url = reverse('exportplan:api-target-age-groups')
+    url = reverse('exportplan:api-target-age-groups', kwargs={'id': 1})
     response = client.post(url, request_parameters)
     assert mock_update_ui_options.call_count == 1
     assert response.json() == expected_response
@@ -28,7 +28,7 @@ def test_set_target_age_groups(
 def test_set_target_age_groups_no_target_ages(client, user):
     client.force_login(user)
 
-    url = reverse('exportplan:api-target-age-groups')
+    url = reverse('exportplan:api-target-age-groups', kwargs={'id': 1})
     response = client.post(url)
 
     assert response.status_code == 400
@@ -234,15 +234,49 @@ def test_model_objects_validation_create(mock_create_model_object, model_object_
 def test_update_export_plan_api_view(mock_update_exportplan, client, user):
     client.force_login(user)
     mock_update_exportplan.return_value = {'marketing_approach': {'resources': 'xyz'}}
-    url = reverse('exportplan:api-update-export-plan')
+    url = reverse('exportplan:api-update-export-plan', kwargs={'id': 1})
     response = client.post(url, {'marketing_approach': {'resources': 'new resource'}}, content_type='application/json')
 
     assert response.status_code == 200
 
     assert mock_update_exportplan.call_count == 1
+
     assert mock_update_exportplan.call_args == mock.call(
         data={'marketing_approach': {'resources': 'new resource'}}, id=1, sso_session_id='123'
     )
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_export_plan')
+def test_update_export_plan_api_view_create(mock_create_exportplan, client, user):
+    client.force_login(user)
+    data = {
+        'export_commodity_codes': [{'commodity_name': 'gin', 'commodity_code': '101.2002.123'}],
+        'export_countries': [{'country_name': 'China', 'country_iso2_code': 'CN'}],
+    }
+    mock_create_exportplan.return_value = {'pk': 10}
+
+    url = reverse('exportplan:api-export-plan-create')
+    response = client.post(url, data, content_type='application/json')
+
+    assert response.status_code == 200
+
+    assert mock_create_exportplan.call_count == 1
+    assert mock_create_exportplan.call_args == mock.call(data=data, sso_session_id='123')
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'delete_export_plan')
+def test_delete_export_plan_api_view(mock_delete_exportplan, client, user):
+    client.force_login(user)
+    mock_delete_exportplan.return_value = {'pk': 10}
+    url = reverse('exportplan:api-export-plan-delete', kwargs={'id': 1})
+    response = client.post(url, content_type='application/json')
+
+    assert response.status_code == 200
+
+    assert mock_delete_exportplan.call_count == 1
+    assert mock_delete_exportplan.call_args == mock.call(sso_session_id='123', id=1)
 
 
 @pytest.mark.django_db
@@ -251,7 +285,7 @@ def test_update_calculate_cost_and_pricing(mock_update_exportplan, cost_pricing_
 
     client.force_login(user)
     mock_update_exportplan.return_value = cost_pricing_data
-    url = reverse('exportplan:api-calculate-cost-and-pricing')
+    url = reverse('exportplan:api-calculate-cost-and-pricing', kwargs={'id': 1})
 
     response = client.post(url, {'direct_costs': {'product_costs': '3.00'}}, content_type='application/json')
     assert response.status_code == 200
@@ -281,7 +315,7 @@ def test_update_export_plan_ui_option_api_view(mock_update_exportplan, client, u
     client.force_login(user)
     mock_update_exportplan.return_value = {'target_market_documents': {'document_name': 'test'}}
 
-    url = reverse('exportplan:api-update-export-plan')
+    url = reverse('exportplan:api-update-export-plan', kwargs={'id': 1})
 
     response = client.post(url, {'ui_options': {'target_ages': ['25-34, 35-44']}}, content_type='application/json')
     assert response.status_code == 200
@@ -292,22 +326,6 @@ def test_update_export_plan_ui_option_api_view(mock_update_exportplan, client, u
         id=1,
         sso_session_id='123',
     )
-
-
-@pytest.mark.django_db
-@mock.patch.object(helpers, 'get_population_data_by_country')
-def test_api_population_data_by_country(mock_get_population_data_by_country, client, user):
-    mock_get_population_data_by_country.return_value = {'status_code': 200}
-    client.force_login(user)
-    url = reverse('exportplan:api-population-data-by-country')
-    response = client.get(
-        url,
-        {
-            'countries': 'China,United Kingdom',
-        },
-    )
-
-    assert response.status_code == 200
 
 
 @pytest.mark.django_db

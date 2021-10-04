@@ -8,16 +8,24 @@ from exportplan.core import helpers
 from tests.helpers import create_response
 
 
-@mock.patch.object(api_client.exportplan, 'exportplan_create')
+@mock.patch.object(api_client.exportplan, 'create')
 def test_create_export_plan(mock_exportplan_create):
     export_plan_data = {'Country': 'UK', 'Commodity code': 100, 'rules': {'rule1': '12343'}}
     mock_exportplan_create.return_value = create_response(status_code=201)
-    helpers.create_export_plan(sso_session_id=123, exportplan_data=export_plan_data)
+    helpers.create_export_plan(sso_session_id=123, data=export_plan_data)
 
     assert mock_exportplan_create.call_count == 1
     assert mock_exportplan_create.call_args == mock.call(
         data={'Country': 'UK', 'Commodity code': 100, 'rules': {'rule1': '12343'}}, sso_session_id=123
     )
+
+
+@mock.patch.object(api_client.exportplan, 'delete_export_plan')
+def test_delete_export_plan(mock_exportplan_delete_export_plan):
+    mock_exportplan_delete_export_plan.return_value = create_response(status_code=200)
+    helpers.delete_export_plan(sso_session_id=123, id=1)
+    assert mock_exportplan_delete_export_plan.call_count == 1
+    assert mock_exportplan_delete_export_plan.call_args == mock.call(sso_session_id=123, id=1)
 
 
 def test_country_code_iso3_to_iso2():
@@ -36,18 +44,7 @@ def test_get_local_time_not_found():
     assert helpers.get_timezone('XS') is None
 
 
-@mock.patch.object(api_client.exportplan, 'exportplan_list')
-def test_get_export_plan_empty(mock_get_exportplan):
-    mock_get_exportplan.return_value = create_response(None)
-
-    rules = helpers.get_exportplan(sso_session_id=123)
-
-    assert mock_get_exportplan.call_count == 1
-    assert mock_get_exportplan.call_args == mock.call(123)
-    assert rules is None
-
-
-@mock.patch.object(api_client.exportplan, 'exportplan_update')
+@mock.patch.object(api_client.exportplan, 'update')
 def test_update_export_plan(mock_exportplan_update):
     export_plan_data = {'Country': 'UK', 'Commodity code': 100, 'rules': {'rule1': '12343'}}
     mock_exportplan_update.return_value = create_response(status_code=200, json_body=export_plan_data)
@@ -57,36 +54,6 @@ def test_update_export_plan(mock_exportplan_update):
     assert mock_exportplan_update.call_args == mock.call(
         data={'Country': 'UK', 'Commodity code': 100, 'rules': {'rule1': '12343'}}, id=1, sso_session_id=123
     )
-
-
-@mock.patch.object(helpers, 'get_exportplan')
-def test_get_or_create_export_plan_existing(mock_get_exportplan, user):
-    # Lets stop higher level function auto fixture so we can test inner functions
-    mock_get_exportplan.return_value = create_response(status_code=200, json_body={'export_plan'})
-
-    export_plan = helpers.get_or_create_export_plan(user)
-
-    assert mock_get_exportplan.call_count == 1
-    assert mock_get_exportplan.call_args == mock.call('123')
-    assert export_plan.json() == {'export_plan'}
-
-
-@mock.patch.object(helpers, 'get_exportplan')
-@mock.patch.object(helpers, 'create_export_plan')
-def test_get_or_create_export_plan_created(mock_create_export_plan, mock_get_exportplan, user):
-    # Lets stop higher level function auto fixture so we can test inner functions
-    mock_get_exportplan.return_value = None
-    mock_create_export_plan.return_value = {'export_plan_created'}
-
-    export_plan = helpers.get_or_create_export_plan(user)
-
-    assert mock_get_exportplan.call_count == 1
-    assert mock_get_exportplan.call_args == mock.call('123')
-
-    assert mock_create_export_plan.call_count == 1
-    assert mock_create_export_plan.call_args == mock.call(sso_session_id='123', exportplan_data={})
-
-    assert export_plan == {'export_plan_created'}
 
 
 def test_get_cia_world_factbook_data(mock_api_get_cia_world_factbook_data, cia_factbook_data):
@@ -186,17 +153,6 @@ def test_get_lesson_details_no_found(curated_list_pages_with_lessons):
     assert lessons == {}
 
 
-@mock.patch.object(api_client.dataservices, 'get_population_data_by_country')
-def test_get_population_data_by_country(mock_population_data_by_country):
-    data = {'country': 'United Kingdom', 'population_data': {'target_population': 10000}}
-
-    mock_population_data_by_country.return_value = create_response(data)
-    response = helpers.get_population_data_by_country(countries='United Kingdom')
-    assert mock_population_data_by_country.call_count == 1
-    assert mock_population_data_by_country.call_args == mock.call(countries='United Kingdom')
-    assert response == data
-
-
 @mock.patch.object(api_client.dataservices, 'get_society_data_by_country')
 def test_get_society_data_by_country(mock_society_data_by_country):
     data = {'country': 'United Kingdom', 'languages': [{'name': 'English'}]}
@@ -218,7 +174,7 @@ def test_get_society_data_by_country(mock_society_data_by_country):
         {'target-market-research': {'target_ages': ['21-15']}},
     ],
 )
-@mock.patch.object(api_client.exportplan, 'exportplan_update')
+@mock.patch.object(api_client.exportplan, 'update')
 def test_update_ui_options_target_ages(mock_update_export_plan, export_plan_data, ui_options_data):
     export_plan_data.update({'ui_options': ui_options_data})
     helpers.update_ui_options_target_ages(

@@ -13,18 +13,18 @@ export default function RadioButtons(props) {
 
   useEffect(() => {
     setSelection(initialSelection)
-  }, [name])
+  }, [name, initialSelection])
 
   const changeVal = (evt) => {
     updateSelection({ value: evt.target.value })
   }
   const buttons = choices.map(({ label, value }, idx) => {
     const checked = value === selection
-
+    const id = `${name}-${idx}`
     return (
       <div key={`option-${value}`} className="multiple-choice">
         <input
-          id={idx}
+          id={id}
           type="radio"
           className="radio"
           name={name}
@@ -33,8 +33,8 @@ export default function RadioButtons(props) {
           onChange={changeVal}
           onClick={changeVal}
         />
-        <label htmlFor={idx} className="body-l">
-          {ReactHtmlParser(label)}
+        <label htmlFor={id} className="body-l">
+          {typeof(label) === 'string' ? ReactHtmlParser(label) : label}
         </label>
       </div>
     )

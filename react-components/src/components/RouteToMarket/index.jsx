@@ -7,13 +7,13 @@ import { useDebounce } from '@src/components/hooks/useDebounce'
 import { AddButton } from '@src/components/ObjectivesList/AddButton/AddButton'
 import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
 import { useSelector } from 'react-redux'
-import { getMarkets } from '@src/reducers'
+import { getEpMarket } from '@src/reducers'
 import ErrorList from '@src/components/ErrorList'
 
 export const RouteToMarket = memo(
   ({ fields, formData, formFields, model_name }) => {
     const [routes, setRoutes] = useState(fields)
-    const country = useSelector((state) => getMarkets(state))
+    const country = useSelector((state) => getEpMarket(state))
 
     const { companyexportplan, pk, ...lastField } = routes.length
       ? routes[routes.length - 1]

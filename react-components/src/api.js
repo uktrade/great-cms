@@ -94,6 +94,18 @@ export default {
     return post(config.apiUpdateExportPlanUrl, data).then(responseHandler)
   },
 
+  createExportPlan: (data) => {
+    return post(config.apiCreateExportPlanUrl, data).then((response) =>
+      responseHandler(response).json()
+    )
+  },
+
+  deleteExportPlan: (data) => {
+    return post(config.apiDeleteExportPlanUrl, data).then((response) =>
+      responseHandler(response).json()
+    )
+  },
+
   getCountries: () => {
     return get(config.apiCountriesUrl, {}).then((response) =>
       responseHandler(response).json()
@@ -104,12 +116,6 @@ export default {
     return get(config.apiSuggestedCountriesUrl, { hs_code }).then((response) =>
       responseHandler(response).json()
     )
-  },
-
-  getPopulationByCountryData: (countries) => {
-    return get(config.populationByCountryUrl, {
-      countries: countries.map((obj) => obj.country_name),
-    }).then((response) => responseHandler(response).json())
   },
 
   getSocietyByCountryData: (countries) => {
@@ -211,11 +217,14 @@ export default {
   },
 
   createUser: ({ email, password }) => {
-    return post(config.apiSignupUrl, { email, password }).then(responseHandler)
+    return post(
+      config.apiSignupUrl,
+      { email, password }
+    ).then((response) => responseHandler(response))
   },
 
-  checkVerificationCode: ({ email, code }) => {
-    return post(config.verifyCodeUrl, { email, code }).then(responseHandler)
+  checkVerificationCode: ({ uidb64, token, code }) => {
+    return post(config.verifyCodeUrl, { uidb64, token, code }).then(responseHandler)
   },
 
   updateCompany: ({
@@ -260,16 +269,14 @@ export default {
   },
 
   getUserData: (name) => {
-    const url = config.apiUserDataUrl.replace('-name-',name)
-    return get(url).then((response) =>
-      responseHandler(response).json()
-    )
+    const url = config.apiUserDataUrl.replace('-name-', name)
+    return get(url).then((response) => responseHandler(response).json())
   },
 
   setUserData: (name, data) => {
-    const url = config.apiUserDataUrl.replace('-name-',name)
+    const url = config.apiUserDataUrl.replace('-name-', name)
     return post(url, {
-      data
+      data,
     }).then((response) => responseHandler(response).json())
   },
 

@@ -20,7 +20,7 @@ export const ComingSoon = ({ title, backUrl }) => {
           content="This Beta version is limited"
           onClick={() => setModal(false)}
           buttonText="Ok"
-          type={3}
+          type={'3'}
         />
       </ReactModal>
       <a

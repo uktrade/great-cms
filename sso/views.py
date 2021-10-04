@@ -1,6 +1,7 @@
 import requests
 from django.conf import settings
 from django.contrib import auth
+from requests import HTTPError
 from rest_framework import generics
 from rest_framework.response import Response
 
@@ -58,10 +59,13 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
     def handle_exception(self, exc):
         if isinstance(exc, helpers.CreateUserException):
             return Response(exc.detail, status=400)
+        # 409 means that an email already exists, so we send back a plain response
+        elif isinstance(exc, HTTPError) and exc.response.status_code == 409:
+            return Response({})
         return super().handle_exception(exc)
 
-    def get_verification_link(self, username):
-        return self.request.build_absolute_uri('/signup/') + f'?verify={username}'
+    def get_verification_link(self, uidb64, token):
+        return self.request.build_absolute_uri('/signup/') + f'?uidb64={uidb64}&token={token}'
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
@@ -70,13 +74,16 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
             email=serializer.validated_data['email'],
             password=serializer.validated_data['password'],
         )
+        uidb64 = user_details['uidb64']
+        token = user_details['verification_token']
+
         helpers.send_verification_code_email(
             email=serializer.validated_data['email'],
             verification_code=user_details['verification_code'],
             form_url=self.request.path,
-            verification_link=self.get_verification_link(serializer.validated_data['email']),
+            verification_link=self.get_verification_link(uidb64, token),
         )
-        return Response(status=200)
+        return Response({'uidb64': uidb64, 'token': token})
 
 
 class SSOBusinessVerifyCodeView(generics.GenericAPIView):
@@ -92,8 +99,9 @@ class SSOBusinessVerifyCodeView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         upstream_response = helpers.check_verification_code(
-            email=serializer.validated_data['email'],
+            uidb64=serializer.validated_data['uidb64'],
+            token=serializer.validated_data['token'],
             code=serializer.validated_data['code'],
         )
-        helpers.send_welcome_notification(email=serializer.validated_data['email'], form_url=self.request.path)
+        helpers.send_welcome_notification(email=upstream_response.json()['email'], form_url=self.request.path)
         return helpers.response_factory(upstream_response=upstream_response)

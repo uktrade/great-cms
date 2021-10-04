@@ -7,17 +7,14 @@ import pytest
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
-from django.utils.text import slugify
 from freezegun import freeze_time
 from PIL import Image, ImageDraw
 from requests.exceptions import HTTPError
 
-from config import settings
 from directory_api_client.client import api_client
 from exportplan import utils
 from exportplan.core import data, helpers
-from tests.helpers import create_response, reload_urlconf
-from tests.unit.exportplan.factories import ExportPlanDashboardPageFactory
+from tests.helpers import create_response
 
 
 @pytest.fixture
@@ -72,20 +69,8 @@ def mock_update_company():
 
 
 @pytest.mark.django_db
-def test_export_plan_landing_page(
-    client, exportplan_homepage, user, mock_get_company_profile, company_profile_data, mock_get_user_profile
-):
-    mock_get_company_profile.return_value = company_profile_data
-    client.force_login(user)
-
-    response = client.get('/export-plan/')
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
 def test_export_plan_builder_landing_page(
     client,
-    exportplan_dashboard,
     user,
     mock_get_company_profile,
     company_profile_data,
@@ -95,12 +80,12 @@ def test_export_plan_builder_landing_page(
     mock_get_company_profile.return_value = company_profile_data
 
     client.force_login(user)
-
-    response = client.get('/export-plan/dashboard/')
+    response = client.get(reverse('exportplan:dashboard', kwargs={'id': 1}))
     assert response.status_code == 200
+    assert response.context['export_plan_download_link'] == '/export-plan/npiqji6n/pdf-download/'
     assert response.context['sections'][1] == {
         'title': 'Business objectives',
-        'url': '/export-plan/section/business-objectives/',
+        'url': '/export-plan/npiqji6n/business-objectives/',
         'disabled': False,
         'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
@@ -113,14 +98,21 @@ def test_export_plan_builder_landing_page(
 @mock.patch.object(helpers, 'get_lesson_details', return_value={})
 def test_exportplan_sections(mock_get_lessons, mock_get_comtrade_data, slug, client, user, mock_get_user_profile):
     client.force_login(user)
-    response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
+    response = client.get(reverse(f'exportplan:{slug}', kwargs={'id': 1}))
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_exportplan_section_marketing_approach(mock_get_cia_world_factbook_data, client, user, mock_get_user_profile):
+def test_exportplan_section_marketing_approach(
+    mock_get_cia_world_factbook_data,
+    client,
+    user,
+    mock_get_user_profile,
+):
     client.force_login(user)
-    response = client.get(reverse('exportplan:marketing-approach'), {'name': 'France', 'age_range': '30-34'})
+    response = client.get(
+        reverse('exportplan:marketing-approach', kwargs={'id': 1}), {'name': 'France', 'age_range': '30-34'}
+    )
     assert response.status_code == 200
     assert response.context_data['route_to_markets'] == [
         {
@@ -151,7 +143,7 @@ def test_edit_logo_page_submmit_success(client, mock_update_company, user):
     response = client.post(url, data)
 
     assert response.status_code == 302
-    assert response.url == '/export-plan/dashboard/'
+    assert response.url == '/export-plan/'
     assert mock_update_company.call_count == 1
     assert mock_update_company.call_args == mock.call(sso_session_id=user.session_id, data={'logo': mock.ANY})
 
@@ -177,8 +169,7 @@ def test_edit_logo_page_submmit_error(client, mock_update_company, user, mock_ge
 def test_adaption_for_target_markets_context(client, user, mock_get_user_profile):
     client.force_login(user)
 
-    slug = slugify('Adapting your product')
-    response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
+    response = client.get(reverse('exportplan:adapting-your-product', kwargs={'id': 1}))
 
     assert response.status_code == 200
 
@@ -191,10 +182,9 @@ def test_adaption_for_target_markets_context(client, user, mock_get_user_profile
 def test_business_objectives_has_lessons(mock_get_lesson_details, client, user, mock_get_user_profile):
     client.force_login(user)
 
-    slug = slugify('Business objectives')
-    lessons = data.SECTIONS[slug]['lessons']
+    lessons = data.SECTIONS['business-objectives']['lessons']
     mock_get_lesson_details.return_value = {lessons[0]: {'title': 'my lesson', 'url': 'my url'}}
-    response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
+    response = client.get(reverse('exportplan:business-objectives', kwargs={'id': 1}))
 
     assert response.status_code == 200
 
@@ -226,13 +216,15 @@ def test_export_plan_mixin(
     export_plan_section_progress_data,
     slug,
     next_slug,
+    mock_detail_export_plan_client,
     mock_update_export_plan_client,
+    mock_get_comtrade_data,
     client,
     user,
     mock_get_user_profile,
 ):
     client.force_login(user)
-    response = client.get(reverse('exportplan:section', kwargs={'slug': slug}))
+    response = client.get(reverse(f'exportplan:{slug}', args=[1]))
 
     assert mock_update_export_plan_client.call_count == 1
     assert mock_update_export_plan_client.call_args == mock.call(
@@ -240,19 +232,27 @@ def test_export_plan_mixin(
         id=1,
         sso_session_id='123',
     )
+
+    assert mock_detail_export_plan_client.call_count == 1
+    assert mock_detail_export_plan_client.call_args == mock.call(
+        id=1,
+        sso_session_id='123',
+    )
+
     assert response.status_code == 200
     assert response.context_data['next_section'] == data.SECTIONS.get(next_slug)
     assert response.context_data['current_section'] == data.SECTIONS[slug]
 
     assert response.context_data['sections'][1] == {
         'title': 'Business objectives',
-        'url': '/export-plan/section/business-objectives/',
+        'url': '/export-plan/npiqji6n/business-objectives/',
         'disabled': False,
         'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
         'image': 'business-objectives.png',
     }
     assert response.context_data['export_plan'] == export_plan_data
+
     assert response.context_data['export_plan_progress'] == {
         'sections_total': 10,
         'exportplan_completed': False,
@@ -261,64 +261,40 @@ def test_export_plan_mixin(
         'section_progress': export_plan_section_progress_data,
         'next_section': {
             'title': 'Target markets research',
-            'url': '/export-plan/section/target-markets-research/',
+            'url': '/export-plan/npiqji6n/target-markets-research/',
             'image': 'target-market-research.png',
         },
     }
 
 
 @pytest.mark.django_db
-def test_404_when_invalid_section_slug(client, user, mock_get_user_profile):
-    url = reverse('exportplan:section', kwargs={'slug': 'foo'})
-    client.force_login(user)
-    response = client.get(url)
-    assert response.status_code == 404
-
-
-@pytest.mark.django_db
 def test_url_with_export_plan_country_selected(
-    mock_get_comtrade_data, export_plan_data, client, user, mock_get_user_profile
+    mock_get_comtrade_data, export_plan_data, client, user, mock_get_user_profile, mock_detail_export_plan_client
 ):
     # Remove countries selection
-    user.export_plan.data.update({'export_countries': None})
-    url = reverse('exportplan:target-markets-research')
+    mock_detail_export_plan_client.return_value.json().update({'export_countries': None})
+    url = reverse('exportplan:target-markets-research', kwargs={'id': 1})
     client.force_login(user)
     response = client.get(url)
     # Set the countries back
-    user.export_plan.data.update({'export_countries': export_plan_data['export_countries']})
     assert response.status_code == 200
     assert mock_get_comtrade_data.call_count == 0
 
 
 @pytest.mark.django_db
 def test_target_markets_research(mock_get_comtrade_data, multiple_country_data, client, user, mock_get_user_profile):
-    url = reverse('exportplan:target-markets-research')
+    url = reverse('exportplan:target-markets-research', kwargs={'id': 1})
     client.force_login(user)
 
     response = client.get(url)
     assert response.context_data['target_age_group_choices']
-    assert response.context_data['insight_data'] == mock_get_comtrade_data.return_value
     assert response.context_data['selected_age_groups'] == ['35-40']
     assert response.status_code == 200
-    assert mock_get_comtrade_data.call_count == 1
-
-    assert mock_get_comtrade_data.call_args == mock.call(commodity_code='220850', countries_list=['NL'])
-    for fieldname in [
-        'GDPPerCapita',
-        'ConsumerPriceIndex',
-        'Income',
-        'CorruptionPerceptionsIndex',
-        'EaseOfDoingBusiness',
-        'InternetUsage',
-    ]:
-        assert response.context_data['insight_data']['NL']['country_data'].get('fieldname') == multiple_country_data[
-            'NL'
-        ].get('feldname')
 
 
 @pytest.mark.django_db
 def test_cost_and_pricing(cost_pricing_data, client, user, mock_get_user_profile):
-    url = reverse('exportplan:costs-and-pricing')
+    url = reverse('exportplan:costs-and-pricing', kwargs={'id': 1})
     client.force_login(user)
     response = client.get(url)
 
@@ -365,7 +341,7 @@ def test_cost_and_pricing(cost_pricing_data, client, user, mock_get_user_profile
 
 @pytest.mark.django_db
 def test_getting_paid(export_plan_data, client, user, mock_get_user_profile):
-    url = reverse('exportplan:getting-paid')
+    url = reverse('exportplan:getting-paid', kwargs={'id': 1})
     client.force_login(user)
     response = client.get(url)
 
@@ -400,6 +376,7 @@ def test_download_export_plan(
     user,
     mock_get_user_profile,
     mock_upload_exportplan_pdf,
+    export_plan_data,
 ):
 
     # Must be a better way of mocking a return object
@@ -408,7 +385,7 @@ def test_download_export_plan(
 
     mock_pisa.return_value = Errordoc()
 
-    url = reverse('exportplan:pdf-download')
+    url = reverse('exportplan:pdf-download', kwargs={'id': 1})
     client.force_login(user)
     response = client.get(url, SERVER_NAME='127.0.0.1')
 
@@ -416,7 +393,7 @@ def test_download_export_plan(
     assert response._content_type_for_repr == ', "application/pdf"'
     assert isinstance(type(response.content), type(bytes)) is True
     pdf_context = response.context
-    assert len(pdf_context['export_plan'].data) == len(user.export_plan.data)
+    assert pdf_context['export_plan'].data == export_plan_data
     assert pdf_context['user'] == user
     assert pdf_context['insight_data'] == mock_get_comtrade_data.return_value
     assert pdf_context['population_age_data']['marketing-approach'] == mock_get_population_data.return_value
@@ -431,7 +408,7 @@ def test_download_export_plan(
 
 @pytest.mark.django_db
 def test_funding_and_credit(export_plan_data, client, user, mock_get_user_profile):
-    url = reverse('exportplan:funding-and-credit')
+    url = reverse('exportplan:funding-and-credit', kwargs={'id': 1})
     client.force_login(user)
     response = client.get(url)
 
@@ -445,7 +422,7 @@ def test_funding_and_credit(export_plan_data, client, user, mock_get_user_profil
 
 @pytest.mark.django_db
 def test_business_risk(export_plan_data, client, user, mock_get_user_profile):
-    url = reverse('exportplan:business-risk')
+    url = reverse('exportplan:business-risk', kwargs={'id': 1})
     client.force_login(user)
     response = client.get(url)
 
@@ -457,70 +434,9 @@ def test_business_risk(export_plan_data, client, user, mock_get_user_profile):
 
 
 @pytest.mark.django_db
-def test_redirect_to_service_page_for_disabled_urls(client, user):
-    settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = ['Costs and pricing', 'About your business']
-    reload_urlconf('exportplan.core.data')
-    slug = slugify(data.SECTIONS_DISABLED[0])
-    url = reverse('exportplan:section', kwargs={'slug': slug})
+def test_exportplan_dashboard(export_plan_data, client, user, mock_get_user_profile):
+    url = '/export-plan/dashboard/'
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 302
-    assert response.url == reverse('exportplan:service-page')
-
-
-@pytest.mark.django_db
-def test_disabled_urls_feature_flag_disabled(client, user, mock_get_user_profile):
-    settings.FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = []
-    reload_urlconf('exportplan.core.data')
-
-    assert len(data.SECTIONS_DISABLED) == 0
-    slug = slugify(data.SECTION_TITLES[0])
-    url = reverse('exportplan:section', kwargs={'slug': slug})
-    client.force_login(user)
-    response = client.get(url)
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_service_page_context(client, user, mock_get_user_profile):
-    client.force_login(user)
-    url = reverse('exportplan:service-page')
-    response = client.get(url)
-    assert response.status_code == 200
-    assert response.context['sections'][1] == {
-        'title': 'Business objectives',
-        'url': '/export-plan/section/business-objectives/',
-        'disabled': False,
-        'lessons': ['move-accidental-exporting-strategic-exporting'],
-        'is_complete': False,
-        'image': 'business-objectives.png',
-    }
-
-
-@pytest.mark.django_db
-def test_exportplan_dashboard(
-    client,
-    user,
-    domestic_homepage,
-    get_request,
-    patch_set_user_page_view,
-    export_plan_section_progress_data,
-):
-    client.force_login(user)
-    dashboard = ExportPlanDashboardPageFactory(parent=domestic_homepage, slug='dashboard')
-    context_data = dashboard.get_context(get_request)
-    assert context_data.get('export_plan').get('pk') == 1
-    assert len(context_data.get('sections')) == 10
-    assert context_data.get('sections')[0].get('url') == '/export-plan/section/about-your-business/'
-    assert context_data['export_plan_progress'] == {
-        'sections_total': 10,
-        'exportplan_completed': False,
-        'sections_completed': 1,
-        'percentage_completed': 0.1,
-        'section_progress': export_plan_section_progress_data,
-        'next_section': {
-            'title': 'Target markets research',
-            'url': '/export-plan/section/target-markets-research/',
-            'image': 'target-market-research.png',
-        },
-    }
+    assert response.url == reverse('exportplan:index')

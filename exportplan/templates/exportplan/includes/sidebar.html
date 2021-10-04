@@ -14,7 +14,7 @@
             <ul>
                 {% for section in sections %}
                     <li class="h-s">
-                        <a href="{% url 'exportplan:section' slug=section|slugify %}" class="link" id="sidebar-{{ section|slugify }}">{{ section.title }}</a>
+                        <a href="{{ section.url }}" class="link" id="sidebar-{{ section|slugify }}">{{ section.title }}</a>
                     </li>
                 {% endfor %}
             </ul>
@@ -30,7 +30,7 @@
             currentSection: {{ current_section|to_json}},
             logo: '{{ request.user.company.logo|default_if_none:"" }}',
             company: '{{ request.user.company.name }}',
-            backUrl: '{% url_map "EXPORT_PLAN_DASHBOARD_URL" %}'
+            epTitle: `{% include 'exportplan/includes/export_plan_title.html' %}`,
         })
     </script>
 {% endblock %}

@@ -1,72 +1,73 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
 import ReactHtmlParser from 'react-html-parser'
 
-import { getProducts } from '@src/reducers'
-import { connect, Provider } from 'react-redux'
+import { Provider } from 'react-redux'
 import Services from '@src/Services'
+import { useUserProducts } from '@src/components/hooks/useUserData'
+import { sortMapBy } from '@src/Helpers'
 
 import ProductFinderModal from './ProductFinderModal'
+import BasketViewer from './BasketView'
 
-
-function ProductFinderButton(props) {
-  const { selectedProduct } = props
+function ProductFinderButton() {
   const [modalIsOpen, setIsOpen] = useState(false)
-
-  const openModal = () => {
-    setIsOpen(true)
-  }
-  const buttonClass = `tag ${!selectedProduct ? 'tag--tertiary' : ''} tag--icon`
-  const hasProduct = selectedProduct && ReactHtmlParser(selectedProduct.commodity_name)
-  const triggerButton = (
-    <button type="button"
-      className={buttonClass}
-      onClick={openModal}
-    >
-      {hasProduct || 'add product'}
-      <span className="visually-hidden">{hasProduct ? 'Edit' : 'Add'} product</span>
-      <i className={`fa ${selectedProduct ? 'fa-edit' : 'fa-plus'}`} aria-hidden="true" />
-    </button>
+  const {products, setProducts, loadProducts} = useUserProducts(
+    false
   )
+
+  const sortMap = sortMapBy(products || [],'commodity_name')
+
+  const deleteProduct = (index) => {
+    const reduced = [...products]
+    reduced.splice(index, 1)
+    setProducts(reduced)
+  }
 
   return (
-    <span>
-      {triggerButton}
-      <ProductFinderModal
-        modalIsOpen={modalIsOpen}
-        setIsOpen={setIsOpen}
-        selectedProduct={selectedProduct}
-      />
-    </span>
+    <>
+      <BasketViewer label="My products" onOpen={loadProducts}>
+        <ul className="list m-v-0 body-l-b">
+          {sortMap.map((mapIndex) => {
+            const product = products[mapIndex]
+            return (
+              <li
+                className="p-v-xxs"
+                key={`product-${mapIndex}`}
+              >
+                <button
+                  type="button"
+                  className="button button--small button--only-icon button--tertiary"
+                  onClick={() => deleteProduct(mapIndex)}
+                >
+                  <i className="fas fa-trash-alt" />
+                  <span className="visually-hidden">
+                    Remove product {ReactHtmlParser(product.commodity_name)}
+                  </span>
+                </button>
+                {ReactHtmlParser(product.commodity_name)}
+              </li>
+            )
+          })}
+        </ul>
+        <button
+          type="button"
+          className="button button--primary button--icon m-t-xs button--full-width"
+          onClick={() => setIsOpen(true)}
+        >
+          <i className="fas fa-plus" />
+          Add product
+        </button>
+      </BasketViewer>
+      <ProductFinderModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
+    </>
   )
-}
-
-const mapStateToProps = (state) => {
-  return {
-    selectedProduct: getProducts(state),
-  }
-}
-
-const ConnectedProductFinderButton = connect(mapStateToProps)(
-  ProductFinderButton
-)
-
-ProductFinderButton.propTypes = {
-  selectedProduct: PropTypes.shape({
-    commodity_name: PropTypes.string,
-    commodity_code: PropTypes.string,
-  }),
-}
-
-ProductFinderButton.defaultProps = {
-  selectedProduct: null,
 }
 
 export default function createProductFinder({ ...params }) {
   ReactDOM.render(
     <Provider store={Services.store}>
-      <ConnectedProductFinderButton />
+      <ProductFinderButton />
     </Provider>,
     params.element
   )

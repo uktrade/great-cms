@@ -9,10 +9,14 @@
   "scripts": {
     "test": "gulp test"
   },
+  "engines": {
+    "node": "~14.0.0"
+  },
   "devDependencies": {
     "del": "^4.0.0",
     "gulp": "^4.0.2",
-    "gulp-sass": "^4.1.1",
-    "gulp-sourcemaps": "^3.0.0"
+    "gulp-sass": "^5.0.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "sass": "^1.38.0"
   }
 }

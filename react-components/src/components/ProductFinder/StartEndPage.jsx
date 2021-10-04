@@ -84,22 +84,17 @@ export default function StartEndPage(props) {
             </button>
           </h3>
         )}
-        <h4 className="h-xxs p-v-xxs">HS6 Code: {commodityCode}</h4>
         <ClassificationTree hsCode={commodityCode} />
       </div>
       {searchCompletedMode ? (
         <>
-          <p>
-            If you&apos;ve created an Export Plan, make sure you update it to
-            reflect your new product. You can change product at any time.
-          </p>
           <button
-            className="button button--primary save-product"
+            className="button button--primary save-product m-t-s"
             type="button"
             onClick={saveNamedProduct}
             disabled={!nameOkToSave(commodityName)}
           >
-            Save product
+            Save and continue
           </button>
         </>
       ) : (
