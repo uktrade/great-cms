@@ -136,4 +136,5 @@ urlpatterns = [
     ),
     path('api/create/', skip_ga360(api.CreateExportPlanAPIView.as_view()), name='api-export-plan-create'),
     path('api/delete/<hashid:id>/', skip_ga360(api.DeleteExportPlanAPIView.as_view()), name='api-export-plan-delete'),
+    path('api/exportplan-list', skip_ga360(api.ExportPlanListAPIView.as_view()), name='api-export-plan-list'),
 ]

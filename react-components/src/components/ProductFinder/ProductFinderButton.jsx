@@ -23,7 +23,6 @@ function ProductFinderButton() {
     reduced.splice(index, 1)
     setProducts(reduced)
   }
-
   return (
     <>
       <BasketViewer label="My products" onOpen={loadProducts}>

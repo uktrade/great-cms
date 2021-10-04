@@ -149,3 +149,11 @@ class ModelObjectManageAPIView(generics.UpdateAPIView, generics.GenericAPIView):
             serializer_class = getattr(self.serializer_classes, f'New{model_name}Serializer')
 
         return serializer_class
+
+
+class ExportPlanListAPIView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        data = helpers.get_exportplan_detail_list(self.request.user.session_id)
+        return Response(data)

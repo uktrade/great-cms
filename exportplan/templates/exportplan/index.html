@@ -61,8 +61,9 @@
   {% endif %}
 </div>
 <div class="container">
-  {% if exportplan_list %}
-  <div class="bg-blue-deep-10">
+  <div id="exportplan_list_container" ></div>
+  {% comment %} {% if exportplan_list %} {% endcomment %}
+  {% comment %} <div class="bg-blue-deep-10">
     <div class="container p-v-s">
       <nav>
         <ul>
@@ -75,6 +76,13 @@
       </nav>
     </div>
   </div>
-  {% endif %}
+  {% endif %} {% endcomment %}
 </div>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+      magna.createExportplanList({element:document.getElementById('exportplan_list_container')})
+  </script>
 {% endblock %}

@@ -59,6 +59,7 @@ import Services from '@src/Services'
 import { formatLessonLearned } from '@src/Helpers'
 import { setConfig } from '@src/config'
 import '@babel/polyfill'
+import createExportplanList from '@src/components/ExportplanList/ExportplanList'
 
 export default {
   createMarkLessonAsComplete,
@@ -106,4 +107,5 @@ export default {
   formatLessonLearned,
   createExportPlanWizard,
   createSnackbar,
+  createExportplanList,
 }

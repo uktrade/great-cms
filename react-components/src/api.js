@@ -100,6 +100,12 @@ export default {
     )
   },
 
+  getExportplanList: () => {
+    return get(config.apiGetExportplanList, {}).then((response) =>
+      responseHandler(response).json()
+    )
+  },
+
   deleteExportPlan: (data) => {
     return post(config.apiDeleteExportPlanUrl, data).then((response) =>
       responseHandler(response).json()
@@ -217,14 +223,15 @@ export default {
   },
 
   createUser: ({ email, password }) => {
-    return post(
-      config.apiSignupUrl,
-      { email, password }
-    ).then((response) => responseHandler(response))
+    return post(config.apiSignupUrl, { email, password }).then((response) =>
+      responseHandler(response)
+    )
   },
 
   checkVerificationCode: ({ uidb64, token, code }) => {
-    return post(config.verifyCodeUrl, { uidb64, token, code }).then(responseHandler)
+    return post(config.verifyCodeUrl, { uidb64, token, code }).then(
+      responseHandler
+    )
   },
 
   updateCompany: ({
