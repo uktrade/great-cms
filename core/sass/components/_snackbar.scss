@@ -1,0 +1,48 @@
+.snackbar {
+  position: fixed;
+  z-index: 1000;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  > div.snackbar-message {
+    box-shadow: 0 0 10px 3px rgba(165, 165, 165, 0.4);
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 20px;
+    > i {
+      font-size: 24px;
+    }
+
+    &.fade {
+      animation: fadeout 1000ms;
+      animation-fill-mode: both;
+    }
+
+    animation: fadein 500ms;
+    animation-fill-mode: both;
+  }
+}
+
+@keyframes fadein {
+  0% {
+    margin-bottom: -60px;
+    opacity: 0;
+  }
+
+  100% {
+    margin-bottom: 0px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
