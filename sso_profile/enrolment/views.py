@@ -115,6 +115,8 @@ class BaseEnrolmentWizardView(
         is_authentication_required = self.kwargs['step'] not in [constants.USER_ACCOUNT, constants.VERIFICATION]
         if is_authentication_required and request.user.is_anonymous:
             return redirect(reverse('sso_profile:enrolment-start'))
+        elif self.kwargs['step'] in [constants.USER_ACCOUNT, constants.VERIFICATION] and request.user.is_anonymous:
+            return redirect(reverse('core:signup'))
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
