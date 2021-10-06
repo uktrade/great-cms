@@ -1,15 +1,9 @@
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
-import ReactModal from 'react-modal'
-import { Provider } from 'react-redux'
-import Services from '@src/Services'
 import { useUserMarkets } from '@src/components/hooks/useUserData'
 import { sortMapBy } from '@src/Helpers'
-import CountryFinderModal from './CountryFinderModal'
 import BasketViewer from './BasketView'
 
 export const CountryFinderButton = () => {
-  const [modalIsOpen, setIsOpen] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(true)
   const [selectedMarketID, setSelectedMarketID] = useState(null)
   const [selectedMarketName, setSelectedMarketName] = useState(null)
@@ -46,7 +40,7 @@ export const CountryFinderButton = () => {
               <div className="remove-buttons">
                 <button
                   type="button"
-                  className="button button--primary"
+                  className="button button--primary button--full-width"
                   onClick={() => {
                     deleteMarket(selectedMarketID)
                   }}
@@ -55,7 +49,7 @@ export const CountryFinderButton = () => {
                 </button>
                 <button
                   type="button"
-                  className="button button--secondary"
+                  className="button button--secondary button--full-width"
                   onClick={() => {
                     setSelectedMarketName(null)
                   }}
@@ -89,24 +83,6 @@ export const CountryFinderButton = () => {
           })}
         </ul>}
       </BasketViewer>
-      {modalIsOpen && (
-      <CountryFinderModal
-        modalIsOpen
-        setIsOpen={setIsOpen}
-        selectCountry={selectCountry}
-      />)}
     </span>
-  )
-}
-
-export default function createCountryFinderButton({ ...params }) {
-  const mainElement = document.createElement('span')
-  document.body.appendChild(mainElement)
-  ReactModal.setAppElement(mainElement)
-  ReactDOM.render(
-    <Provider store={Services.store}>
-      <CountryFinderButton />
-    </Provider>,
-    params.element
   )
 }

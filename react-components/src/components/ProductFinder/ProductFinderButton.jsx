@@ -7,13 +7,11 @@ import Services from '@src/Services'
 import { useUserProducts } from '@src/components/hooks/useUserData'
 import { sortMapBy } from '@src/Helpers'
 
-import ProductFinderModal from './ProductFinderModal'
 import BasketViewer from './BasketView'
 
 function ProductFinderButton() {
-  const [modalIsOpen, setIsOpen] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(true)
-  const [selectedProductID, setSelectedProductID] = useState(null)
+  const [selectedProductMapIndex, setSelectedProductMapIndex] = useState(null)
   const [selectedProductName, setSelectedProductName] = useState(null)
   const {products, setProducts, loadProducts} = useUserProducts(
     false
@@ -25,7 +23,7 @@ function ProductFinderButton() {
     const reduced = [...products]
     reduced.splice(index, 1)
     setProducts(reduced)
-    setSelectedProductID(null)
+    setSelectedProductMapIndex(null)
     setSelectedProductName(null)
     setIsDropdownOpen(false)
   }
@@ -34,7 +32,6 @@ function ProductFinderButton() {
     <>
       <BasketViewer dropdownOpen={isDropdownOpen} disabled={!products.length} label="My products" onOpen={loadProducts}>
 
-
         {selectedProductName && <div className="remove-confirmation">
           <div className="item-remove-title h-xs">
             Are you sure you want to remove {selectedProductName} ?
@@ -42,16 +39,16 @@ function ProductFinderButton() {
           <div className="remove-buttons">
             <button
               type="button"
-              className="button button--primary"
+              className="button button--primary button--full-width"
               onClick={() => {
-                deleteProduct(selectedProductID)
+                deleteProduct(selectedProductMapIndex)
               }}
             >
               Remove
             </button>
             <button
               type="button"
-              className="button button--secondary"
+              className="button button--secondary button--full-width"
               onClick={() => {
                 setSelectedProductName(null)
               }}
@@ -60,7 +57,6 @@ function ProductFinderButton() {
             </button>
           </div>
         </div>}
-
 
         {!selectedProductName && <ul className="list m-v-0 body-l-b">
           {sortMap.map((mapIndex) => {
@@ -75,7 +71,7 @@ function ProductFinderButton() {
                   type="button"
                   className="button button--small button--only-icon button--tertiary"
                   onClick={() => {
-                    setSelectedProductID(mapIndex)
+                    setSelectedProductMapIndex(mapIndex)
                     setSelectedProductName(product.commodity_name)
                   }}
                 >
@@ -86,14 +82,13 @@ function ProductFinderButton() {
                 </button>
                 <div>
                   <div>{ReactHtmlParser(product.commodity_name)}</div>
-                  <div className="product-subtitle">HS code {product.commodity_code}</div>
+                  <div className="body-s">HS code {product.commodity_code}</div>
                 </div>
               </li>
             )
           })}
         </ul>}
       </BasketViewer>
-      <ProductFinderModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
     </>
   )
 }
