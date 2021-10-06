@@ -1045,7 +1045,11 @@ class CaseStudyRelatedPages(Orderable):
         null=True,
         blank=True,
     )
-    page = models.ForeignKey('wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+    page = models.ForeignKey(
+        'wagtailcore.Page',
+        on_delete=models.CASCADE,
+        related_name='+',
+    )
     panels = [
         MagnaPageChooserPanel('page', [DetailPage, CuratedListPage, TopicPage]),
     ]
@@ -1157,7 +1161,10 @@ class CaseStudy(ClusterableModel):
         return f'{display_name}'
 
     def save(self, **kwargs):
+        from core.case_study_index import update_cs_index
+
         self.update_modified = kwargs.pop('update_modified', getattr(self, 'update_modified', True))
+        update_cs_index(self)
         super().save(**kwargs)
 
     def get_cms_standalone_view_url(self):

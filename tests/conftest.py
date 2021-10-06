@@ -9,6 +9,8 @@ from wagtail.core.models import Locale, Page
 from wagtail_factories import PageFactory, SiteFactory
 
 import tests.unit.domestic.factories
+from core.case_study_index import case_study_to_index
+from core.models import CaseStudy
 from directory_api_client import api_client
 from sso.models import BusinessSSOUser
 from tests.helpers import create_response
@@ -609,6 +611,26 @@ def mock_trading_blocs():
             'membership_end_date': None,
             'country': 270,
         },
+        {
+            'membership_code': 'CTTB0125',
+            'iso2': 'DE',
+            'country_territory_name': 'Germany',
+            'trading_bloc_code': 'TB00016',
+            'trading_bloc_name': 'European Union (EU)',
+            'membership_start_date': None,
+            'membership_end_date': None,
+            'country': 270,
+        },
+        {
+            'membership_code': 'CTTB0125',
+            'iso2': 'DE',
+            'country_territory_name': 'Germany',
+            'trading_bloc_code': 'TB00014',
+            'trading_bloc_name': 'European Economic Area (EEA)',
+            'membership_start_date': None,
+            'membership_end_date': None,
+            'country': 270,
+        },
     ]
     yield mock.patch(
         'directory_api_client.api_client.dataservices.trading_blocs_by_country',
@@ -652,3 +674,80 @@ def company_profile(client, user):
     )
     yield stub.start()
     stub.stop()
+
+
+@pytest.fixture(autouse=False)
+def mock_get_user_data():
+    body = {
+        'UserProducts': [
+            {'commodity_code': '111111', 'commodity_name': 'Steel'},
+            {'commodity_code': '666666', 'commodity_name': 'Cheese'},
+        ],
+        'UserMarkets': [{'region': 'Europe', 'suggested': None, 'country_name': 'Germany', 'country_iso2_code': 'DE'}],
+    }
+    yield mock.patch(
+        'directory_sso_api_client.sso_api_client.user.get_user_data',
+        return_value=create_response(status_code=200, json_body=body),
+    ).start()
+
+
+class MockElasticsearchIndices:
+    def delete(*args, **kwargs):
+        return {'results': 1}
+
+
+class MockElasticSearchResult:
+    def delete_by_query(*args, **kwargs):
+        return {'results': 1}
+
+
+class MockElasticsearch:
+    indices = MockElasticsearchIndices()
+
+    def search(*args, **kwargs):
+        return MockElasticSearchResult()
+
+    def delete(*args, **kwargs):
+        return {}
+
+    def delete_by_query(*args, **kwargs):
+        return {'results': 1}
+
+    def index(*args, **kwargs):
+        return {'result': 1}
+
+
+@pytest.fixture
+def mock_elasticsearch_get_connection():
+    mock.patch('elasticsearch_dsl.connections.connections.get_connection', return_value=MockElasticsearch()).start()
+    yield mock.patch('elasticsearch_dsl.document.get_connection', return_value=MockElasticsearch()).start()
+
+
+@pytest.fixture
+def mock_elasticsearch_bulk():
+    yield mock.patch('elasticsearch.helpers.bulk').start()
+
+
+@pytest.fixture
+def mock_elasticsearch_delete():
+    yield mock.patch('elasticsearch_dsl.Search.delete', return_value='mocked').start()
+
+
+@pytest.fixture
+def mock_elasticsearch_count():
+    yield mock.patch('elasticsearch_dsl.Search.count', return_value=1).start()
+
+
+@pytest.fixture
+def mock_elasticsearch_search():
+    yield mock.patch('elasticsearch_dsl.Search.search', return_value=1).start()
+
+
+@pytest.fixture
+def mock_elasticsearch_scan():
+    def _scan():
+        # returns all casestudy objects as if they were returned by ES
+        for cs in CaseStudy.objects.all():
+            yield case_study_to_index(cs)
+
+    yield mock.patch('elasticsearch_dsl.Search.scan', return_value=_scan()).start()

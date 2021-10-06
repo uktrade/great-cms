@@ -64,3 +64,5 @@ elastic-apm==6.1.*
 uk-postcode-utils==1.1
 urllib3>=1.26.5<2.0.0
 hashids==0.8.4
+elasticsearch-dsl==7.3.0
+elasticsearch==7.9.1

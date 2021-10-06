@@ -11,6 +11,8 @@ import {
   SET_EP_MARKET,
   SET_LOADED,
   SET_USER_SETTING,
+  NOTIFY,
+  POP_NOTIFICATION,
 } from '@src/actions'
 import { config } from '@src/config'
 import { combineReducers } from 'redux'
@@ -87,8 +89,8 @@ const userSettingsReducer = (state, action) => {
   const newState = { ...state }
   switch (action.type) {
     case SET_USER_SETTING:
-      const name = action.payload.name
-      if(newState[name]) {
+      const { name } = action.payload
+      if (newState[name]) {
         api.setUserData(name, action.payload.value).then(() => {
           if (config.refreshOnMarketChange) {
             api.reloadPage()
@@ -103,15 +105,16 @@ const userSettingsReducer = (state, action) => {
 }
 
 const exportPlanReducer = (state, action) => {
-    const newState = { ...state }
-    switch (action.type) {
-      case SET_EP_PRODUCT:
-        newState.product = action.payload
-        break
-      case SET_EP_MARKET:
-        newState.market = action.payload
-        break
-    }
+  const newState = { ...state }
+  switch (action.type) {
+    case SET_EP_PRODUCT:
+      newState.product = action.payload
+      break
+    case SET_EP_MARKET:
+      newState.market = action.payload
+      break
+    default:
+  }
   return newState
 }
 
@@ -120,6 +123,29 @@ const dataCacheReducer = (state, action) => {
   if (action.type === SET_LOADED) {
     newState.cacheVersion = (newState.cacheVersion || 0) + 1
     return newState
+  }
+  return newState
+}
+
+const snackbar = (state, action) => {
+  const newState = { ...state }
+  switch (action.type) {
+    case NOTIFY:
+      newState.queue = newState.queue || {}
+      newState.counter = (newState.counter || 0) + 1
+      newState.queue[newState.counter] = action.payload
+      break
+    case POP_NOTIFICATION:
+      if (newState.queue && action.payload) {
+        if (action.payload.delete) {
+          delete newState.queue[action.payload.key]
+        } else {
+          // we don't want to delete the item yet - just fade it out
+          (newState.queue[action.payload.key] || {}).fade = true
+        }
+      }
+      break
+    default:
   }
   return newState
 }
@@ -159,6 +185,7 @@ const rootReducer = (state, action) => {
     exportPlan: exportPlanReducer,
     modalIsOpen: setModalIsOpen,
     dataLoader: dataCacheReducer,
+    snackbar,
     costAndPricing,
   })(localState, action)
 }
