@@ -50,15 +50,7 @@ const fwRefObjective = forwardRef((props, ref) => {
         </div>
         <div className="costs__option costs__option--border">
           <MonthYearInput
-            label="Start objective in:"
-            monthName="start_month"
-            monthValue={data.start_month}
-            yearName="start_year"
-            yearValue={data.start_year}
-            onChange={onChange}
-          />
-          <MonthYearInput
-            label="Complete by:"
+            label="I want to complete this objective by:"
             monthName="end_month"
             monthValue={data.end_month}
             yearName="end_year"
