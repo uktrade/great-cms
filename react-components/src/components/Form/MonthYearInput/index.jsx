@@ -35,10 +35,14 @@ export const MonthYearInput = memo(
 
     const currentYear = new Date().getFullYear();
 
-    const yearsOptions = [...Array(10)].map((year, i) => ({
-      label: currentYear + year,
-      value: currentYear + year,
-    }))
+    const yearsOptions = [...Array(10)].map((element, index) => {
+      const year = `${currentYear + index}`
+
+      return {
+        label: year,
+        value: year
+      }
+    })
 
     return (
       <fieldset className={className}>
@@ -58,6 +62,7 @@ export const MonthYearInput = memo(
             <Select
               label='Year'
               id={yearName}
+              name={yearName}
               update={onChange}
               options={yearsOptions}
               selected={`${yearValue}`}
