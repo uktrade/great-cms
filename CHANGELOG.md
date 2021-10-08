@@ -11,6 +11,7 @@
 - [HOTFIX] - GP2-3446 change london ita search
 
 ### Enhancements
+- GP2-3383 - Costs and pricing: Amend content
 - GP2-3192 - Lesson case study logic using elasticsearch
 - GP2-3167 - Update introductory copy for WTE
 - GP2-3439 - Snackbar for adding market in WTE
