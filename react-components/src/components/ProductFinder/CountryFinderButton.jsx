@@ -21,13 +21,6 @@ export const CountryFinderButton = () => {
     setIsDropdownOpen(false)
   }
 
-  const selectCountry = (country) => {
-    if (markets) {
-      addMarketItem(country)
-    }
-  }
-
-  console.log('markets', markets)
 
   return (
     <span>
