@@ -414,6 +414,26 @@ class ExportPlanStart(GA360Mixin, TemplateView):
     template_name = 'exportplan/start.html'
 
 
+class ExportPlanUpdate(GA360Mixin, TemplateView):
+    # This page is used to allow users to set a product/market in an export plan that doesn't have both
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='export-plan',
+        )
+
+    template_name = 'exportplan/start.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        id = int(self.kwargs['id'])
+        export_plan = helpers.get_exportplan(self.request.user.session_id, id)
+        context['export_plan'] = export_plan
+        return context
+
+
 class ExportPlanDashBoard(
     GA360Mixin,
     TemplateView,
@@ -427,6 +447,14 @@ class ExportPlanDashBoard(
         )
 
     template_name = 'exportplan/dashboard_page.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        id = int(self.kwargs['id'])
+        export_plan = helpers.get_exportplan(self.request.user.session_id, id)
+        processor = ExportPlanProcessor(export_plan)
+        if not processor.has_product_and_market():
+            return redirect(reverse_lazy('exportplan:update', kwargs={'id': id}))
+        return super(ExportPlanDashBoard, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
