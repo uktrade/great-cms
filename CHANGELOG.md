@@ -3,6 +3,8 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Hotfix
+- GP2-3104 - [HOTFIX] User emails case insensitive
+- GP2-3406 - [HOTFIX] Notifications for already registered users
 - [HOTFIX] - Fix models test
 - GP2-3253 fix-confirm-idenity-urls
 - GP2-3309 - [HOTFIX] adding bing search console meta tag - first command in head
