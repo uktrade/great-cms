@@ -103,8 +103,9 @@ def test_business_sso_user_create_400_upstream(mock_send_code, mock_create_user,
 @mock.patch.object(helpers, 'create_user')
 @mock.patch.object(helpers, 'regenerate_verification_code')
 @mock.patch.object(helpers, 'send_verification_code_email')
+@mock.patch.object(helpers, 'notify_already_registered')
 def test_business_sso_user_create_409_upstream_with_verification_code(
-    mock_send_code, mock_regenerate_code, mock_create_user, client
+    mock_notify_already_registered, mock_send_code, mock_regenerate_code, mock_create_user, client
 ):
     res = Response(status=409)
     mock_create_user.side_effect = HTTPError('409', response=res)
@@ -116,6 +117,7 @@ def test_business_sso_user_create_409_upstream_with_verification_code(
 
     assert response.status_code == 200
     assert response.data is None
+    assert mock_notify_already_registered.call_count == 0
     assert mock_send_code.call_count == 1
     assert mock_send_code.call_args == mock.call(
         email='test',
@@ -127,18 +129,23 @@ def test_business_sso_user_create_409_upstream_with_verification_code(
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'create_user')
+@mock.patch.object(helpers, 'regenerate_verification_code')
+@mock.patch.object(helpers, 'send_verification_code_email')
 @mock.patch.object(helpers, 'notify_already_registered')
 def test_business_sso_user_create_409_upstream_with_no_verification_code(
-    mock_notify_already_registered, mock_create_user, client
+    mock_notify_already_registered, mock_send_code, mock_regenerate_code, mock_create_user, client
 ):
     res = Response(status=409)
     mock_create_user.side_effect = HTTPError('409', response=res)
+
+    mock_regenerate_code.return_value = None
 
     url = reverse('sso:business-sso-create-user-api')
     response = client.post(reverse('sso:business-sso-create-user-api'), {'email': 'test', 'password': 'password'})
 
     assert response.status_code == 200
     assert response.data is None
+    assert mock_send_code.call_count == 0
     assert mock_notify_already_registered.call_count == 1
     assert mock_notify_already_registered.call_args == mock.call(
         email='test',
