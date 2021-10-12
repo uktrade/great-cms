@@ -3,7 +3,9 @@ from unittest import mock
 import pytest
 from django.conf import settings
 from django.urls import reverse
+from requests import HTTPError
 from requests.cookies import RequestsCookieJar
+from rest_framework.response import Response
 
 from sso import helpers
 from tests.helpers import create_response
@@ -95,6 +97,54 @@ def test_business_sso_user_create_400_upstream(mock_send_code, mock_create_user,
 
     assert response.status_code == 400
     assert mock_send_code.call_count == 0
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_user')
+@mock.patch.object(helpers, 'regenerate_verification_code')
+@mock.patch.object(helpers, 'send_verification_code_email')
+def test_business_sso_user_create_409_upstream_with_verification_code(
+    mock_send_code, mock_regenerate_code, mock_create_user, client
+):
+    res = Response(status=409)
+    mock_create_user.side_effect = HTTPError('409', response=res)
+
+    mock_regenerate_code.return_value = '12345'
+
+    url = reverse('sso:business-sso-create-user-api')
+    response = client.post(reverse('sso:business-sso-create-user-api'), {'email': 'test', 'password': 'password'})
+
+    assert response.status_code == 200
+    assert response.data is None
+    assert mock_send_code.call_count == 1
+    assert mock_send_code.call_args == mock.call(
+        email='test',
+        verification_code='12345',
+        form_url=url,
+        verification_link='http://testserver/signup/?verify=test',
+    )
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_user')
+@mock.patch.object(helpers, 'notify_already_registered')
+def test_business_sso_user_create_409_upstream_with_no_verification_code(
+    mock_notify_already_registered, mock_create_user, client
+):
+    res = Response(status=409)
+    mock_create_user.side_effect = HTTPError('409', response=res)
+
+    url = reverse('sso:business-sso-create-user-api')
+    response = client.post(reverse('sso:business-sso-create-user-api'), {'email': 'test', 'password': 'password'})
+
+    assert response.status_code == 200
+    assert response.data is None
+    assert mock_notify_already_registered.call_count == 1
+    assert mock_notify_already_registered.call_args == mock.call(
+        email='test',
+        form_url=url,
+        login_url='http://testserver/login/',
+    )
 
 
 @pytest.mark.django_db
