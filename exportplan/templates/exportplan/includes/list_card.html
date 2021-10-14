@@ -4,7 +4,7 @@
   <a href="{{plan.url}}" class="learn__category-link" aria-describedby="export-plan-{{ plan.url }}">
     <span class="visually-hidden">View export plan</span>
   </a>
-  <h2 id="export-plan-{{ plan.pk }}" class="h-s">
+  <h2 id="export-plan-{{ plan.pk }}" class="h-s p-t-xs">
     {{ plan.name|default:'Export plan' }}
   </h2>
   <p class="m-b-0 body-m">Created on {{ plan.created|str_to_datetime|date:"d F Y" }}</p>
