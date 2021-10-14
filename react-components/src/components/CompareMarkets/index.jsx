@@ -69,7 +69,7 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
 
   const addProductButton = (
     <div>
-      <p className="body-l">To get started, add a product to your My products list</p>
+      <p className="body-l">To get started, add a product to your My products list.</p>
       <button
         type="button"
         className="button button--primary button--icon"
