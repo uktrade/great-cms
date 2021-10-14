@@ -416,6 +416,8 @@ class ExportPlanStart(GA360Mixin, TemplateView):
 
 class ExportPlanUpdate(GA360Mixin, TemplateView):
     # This page is used to allow users to set a product/market in an export plan that doesn't have both
+    export_plan = None
+
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -426,11 +428,17 @@ class ExportPlanUpdate(GA360Mixin, TemplateView):
 
     template_name = 'exportplan/start.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        id = int(self.kwargs['id'])
+        self.export_plan = helpers.get_exportplan(self.request.user.session_id, id)
+        processor = ExportPlanProcessor(self.export_plan)
+        if processor.has_product_and_market():
+            return redirect(reverse_lazy('exportplan:dashboard', kwargs={'id': id}))
+        return super(ExportPlanUpdate, self).dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        id = int(self.kwargs['id'])
-        export_plan = helpers.get_exportplan(self.request.user.session_id, id)
-        context['export_plan'] = export_plan
+        context['export_plan'] = self.export_plan
         return context
 
 
@@ -438,6 +446,8 @@ class ExportPlanDashBoard(
     GA360Mixin,
     TemplateView,
 ):
+    export_plan = None
+
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -450,22 +460,19 @@ class ExportPlanDashBoard(
 
     def dispatch(self, request, *args, **kwargs):
         id = int(self.kwargs['id'])
-        export_plan = helpers.get_exportplan(self.request.user.session_id, id)
-        processor = ExportPlanProcessor(export_plan)
+        self.export_plan = helpers.get_exportplan(self.request.user.session_id, id)
+        processor = ExportPlanProcessor(self.export_plan)
         if not processor.has_product_and_market():
             return redirect(reverse_lazy('exportplan:update', kwargs={'id': id}))
         return super(ExportPlanDashBoard, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        id = int(self.kwargs['id'])
-        export_plan = helpers.get_exportplan(self.request.user.session_id, id)
-        processor = ExportPlanProcessor(export_plan)
+        processor = ExportPlanProcessor(self.export_plan)
         context['sections'] = processor.build_export_plan_sections()
         context['export_plan_progress'] = processor.calculate_ep_progress()
-        context['export_plan'] = export_plan
+        context['export_plan'] = self.export_plan
         context['export_plan_download_link'] = reverse_lazy(
-            'exportplan:pdf-download', kwargs={'id': export_plan.get('pk')}
+            'exportplan:pdf-download', kwargs={'id': self.export_plan.get('pk')}
         )
-
         return context

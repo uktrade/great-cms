@@ -1,5 +1,4 @@
 {% load content_tags %}
-{% load humanize %}
 
 {% comment %}
 EP Card for smaller, dashboard-style listing
@@ -9,7 +8,7 @@ EP Card for smaller, dashboard-style listing
     <span class="visually-hidden">View export plan</span>
   </a>
   <h2 id="export-plan-{{ plan.pk }}" class="h-xs p-t-xs">{{ plan.name }}</h2>
-  <p class="m-0 body-s">Created {{ plan.created|str_to_datetime|naturaltime }}</p>
+  <p class="m-0 body-s">Created on {{ plan.created|str_to_datetime|date:"d F Y" }}</p>
   <div class="progress-bar m-v-xxs">
     <span style="width: {% widthratio plan.calculated_progress.sections_completed plan.calculated_progress.sections_total 100 %}%"></span>
   </div>

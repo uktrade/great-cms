@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ReactHtmlParser from 'react-html-parser'
 
-export default function RadioButtons(props) {
-  const { name, choices, initialSelection, valueChange } = props
+export default function RadioButtons({ name, choices, initialSelection, valueChange }) {
   const [selection, setSelection] = useState()
 
   const updateSelection = (_selection) => {
@@ -54,7 +53,7 @@ RadioButtons.propTypes = {
   ]),
   choices: PropTypes.arrayOf(
     PropTypes.shape({
-      label: PropTypes.string,
+      label: PropTypes.oneOfType([PropTypes.string,PropTypes.element]),
       value: PropTypes.string,
     })
   ).isRequired,

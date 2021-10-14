@@ -9,10 +9,8 @@ import MarketSelector from './MarketSelector'
 import { get } from '@src/Helpers'
 
 export function ExportPlanWizard({ exportPlan }) {
-  const epProduct = get(exportPlan, 'export_commodity_codes.0')
-  const epMarket = get(exportPlan, 'export_countries.0')
-  const [product, setProduct] = useState(epProduct)
-  const [market, setMarket] = useState(epMarket)
+  const [product, setProduct] = useState(get(exportPlan, 'export_commodity_codes.0'))
+  const [market, setMarket] = useState(get(exportPlan, 'export_countries.0'))
   const [isCreating, setCreating] = useState()
   const creationFakeDelay = 4000
 
@@ -28,13 +26,13 @@ export function ExportPlanWizard({ exportPlan }) {
       export_commodity_codes: [product],
       export_countries: [market],
     }
+    setCreating(true)
     const updateCreate = exportPlan
       ? Services.updateExportPlan
       : Services.createExportPlan
     updateCreate(data).then((result) => {
       // TODO: error handling here if/when BE does more validation.
-      if (result.pk || exportPlan) {
-        setCreating(true)
+      if (result.hashid || exportPlan) {
         setTimeout(() => {
           // Jump to our newly created EP
           const dashboardUrl = result.hashid

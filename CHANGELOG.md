@@ -12,6 +12,7 @@
 
 ### Enhancements
 - GP2-3346 - Remove start date to fix, End date cannot precede start date
+- GP2-3437 - Exportplan update wizard for migrating incomplete EPs
 - GP2-3383 - Costs and pricing: Amend content
 - GP2-3192 - Lesson case study logic using elasticsearch
 - GP2-3167 - Update introductory copy for WTE
