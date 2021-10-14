@@ -6,27 +6,39 @@ import Services from '@src/Services'
 import { config } from '@src/config'
 import ProductSelector from './ProductSelector'
 import MarketSelector from './MarketSelector'
+import { get } from '@src/Helpers'
 
-export function ExportPlanWizard() {
-  const [product, setProduct] = useState()
-  const [market, setMarket] = useState()
+export function ExportPlanWizard({ exportPlan }) {
+  const [product, setProduct] = useState(get(exportPlan, 'export_commodity_codes.0'))
+  const [market, setMarket] = useState(get(exportPlan, 'export_countries.0'))
   const [isCreating, setCreating] = useState()
   const creationFakeDelay = 4000
 
   const paths = { product: '/', market: '/market' }
+
+  const isEditing = !!exportPlan
+  const processName = exportPlan
+    ? 'Updating export plan'
+    : 'Creating export plan'
 
   const createClick = () => {
     const data = {
       export_commodity_codes: [product],
       export_countries: [market],
     }
-    Services.createExportPlan(data).then((result) => {
+    setCreating(true)
+    const updateCreate = exportPlan
+      ? Services.updateExportPlan
+      : Services.createExportPlan
+    updateCreate(data).then((result) => {
       // TODO: error handling here if/when BE does more validation.
-      if (result.pk) {
-        setCreating(true)
+      if (result.hashid || exportPlan) {
         setTimeout(() => {
           // Jump to our newly created EP
-          window.location.assign(`${config.exportPlanBaseUrl}${result.hashid}/`)
+          const dashboardUrl = result.hashid
+            ? `${config.exportPlanBaseUrl}${result.hashid}/`
+            : config.exportPlanDashboardUrl
+          window.location.assign(dashboardUrl)
         }, creationFakeDelay)
       }
     })
@@ -47,7 +59,7 @@ export function ExportPlanWizard() {
           </div>
           <div className="c-1-2 p-t-l">
             <div className="clearfix m-b-m">
-              <div className="body-m">Creating export plan step 1 of 2</div>
+              <div className="body-m">{processName} step 1 of 2</div>
               <h2 className="h-m">What are you exporting?</h2>
               <p className="text-blue-deep-80">
                 Choose a product to start your plan and get supporting
@@ -57,10 +69,7 @@ export function ExportPlanWizard() {
             </div>
             <div>
               {product && (
-                <Link
-                  className="button button--primary"
-                  to={product ? paths.market : paths.product}
-                >
+                <Link className="button button--primary" to={paths.market}>
                   Continue
                 </Link>
               )}
@@ -94,7 +103,7 @@ export function ExportPlanWizard() {
                     <span />
                   </div>
                   <h1 className="h-s p-t-0">
-                    Creating export plan for selling{' '}
+                    {processName} for selling{' '}
                     {product && product.commodity_name} to{' '}
                     {market && market.country_name}
                   </h1>
@@ -103,7 +112,7 @@ export function ExportPlanWizard() {
             ) : (
               <>
                 <div className="clearfix m-b-m">
-                  <div className="body-m">Creating export plan step 2 of 2</div>
+                  <div className="body-m">{processName} step 2 of 2</div>
                   <h2 className="h-m">Where&apos;s your target market?</h2>
                   <p className="text-blue-deep-80">
                     Choose a place to start your plan.
@@ -133,7 +142,7 @@ export function ExportPlanWizard() {
                     className="button button--primary"
                     onClick={createClick}
                   >
-                    Create export plan
+                    {exportPlan ? 'Update' : 'Create'} export plan
                   </button>
                 )}
               </>
@@ -148,7 +157,7 @@ export function ExportPlanWizard() {
 export default function createExportPlanWizard({ ...params }) {
   ReactDOM.render(
     <Provider store={Services.store}>
-      <ExportPlanWizard />
+      <ExportPlanWizard exportPlan={params.exportPlan} />
     </Provider>,
     params.element
   )

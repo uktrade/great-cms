@@ -122,6 +122,7 @@ def get_exportplan_detail_list(sso_session_id):
         # Move this to an easy method TODO
         ep['calculated_progress'] = ExportPlanProcessor(ep).calculate_ep_progress()
         ep['url'] = ExportPlanProcessor(ep).get_absolute_url
+        ep['processor'] = ExportPlanProcessor(ep)
 
     return exportplan_list
 

@@ -1,19 +1,22 @@
 {% load content_tags %}
-{% load humanize %}
 
-<article class="relative bg-white radius p-s clearfix">
+<article class="relative bg-white radius p-h-s p-v-xs clearfix">
   <a href="{{plan.url}}" class="learn__category-link" aria-describedby="export-plan-{{ plan.url }}">
     <span class="visually-hidden">View export plan</span>
   </a>
-  <h2 id="export-plan-{{ plan.pk }}" class="h-m">
-    {{ plan.name }}
+  <h2 id="export-plan-{{ plan.pk }}" class="h-s p-t-xs">
+    {{ plan.name|default:'Export plan' }}
   </h2>
+  <p class="m-b-0 body-m">Created on {{ plan.created|str_to_datetime|date:"d F Y" }}</p>
+  {% if plan.processor.has_product_and_market %}
+    <p class="m-b-0 m-t-xs body-m">HS6 code:{{plan.export_commodity_codes.0.commodity_code}}</p>
+  {% else %}
+  <div class="g-panel m-v-xs">
+    <p class="p-v-xs">Your export plan is missing some information. Click on the plan to confirm your product and market before you continue.</p>
+  </div>
+  {% endif %}
   <div class="progress-bar m-v-xs">
     <span style="width: {% widthratio plan.calculated_progress.sections_completed plan.calculated_progress.sections_total 100 %}%"></span>
   </div>
   <p class="body-m-b m-t-xs m-b-0">{% widthratio plan.calculated_progress.sections_completed plan.calculated_progress.sections_total 100 %}% completed</p>
-  {% if plan.export_commodity_codes.0.commodity_code %}
-  <p class="m-b-0 f-l body-s">HS6 code:{{plan.export_commodity_codes.0.commodity_code}}</p>
-  {% endif %}
-  <p class="m-b-0 f-r body-s">Created {{ plan.created|str_to_datetime|naturaltime }}</p>
 </article>

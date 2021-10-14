@@ -12,6 +12,17 @@ function MarketSelector({ valueChange, selected, selectedProduct }) {
 
   let selectedKey
 
+  // It's possible (during an update) that the selected market is not in the list of user markets
+  // In this case, we need to bodge it into the list
+  if (selected && selected.country_iso2_code) {
+    if (
+      !markets.filter((market) => selected.country_iso2_code === market.country_iso2_code)
+        .length
+    ) {
+      markets.push(selected)
+    }
+  }
+
   const sortedMarkets = sortBy(markets || [], 'country_name')
 
   const options = sortedMarkets.map((market, index) => {
@@ -45,7 +56,6 @@ function MarketSelector({ valueChange, selected, selectedProduct }) {
   const hasMarkets = markets && markets.length
   return (
     <>
-
       {hasMarkets ? (
         <div className="clearfix">
           <RadioButtons
@@ -56,7 +66,7 @@ function MarketSelector({ valueChange, selected, selectedProduct }) {
           />
         </div>
       ) : null}
-      {(marketsLoaded && !hasMarkets || addButtonShowing) && (
+      {((marketsLoaded && !hasMarkets) || addButtonShowing) && (
         <div className={`${addButtonShowing ? 'g-panel' : ''} m-f-xxs`}>
           <button
             type="button"

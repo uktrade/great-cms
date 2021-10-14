@@ -47,6 +47,7 @@
             apiDeleteExportPlanUrl: '{% url "exportplan:api-export-plan-delete" id=export_plan.pk %}',
             updateCalculateCostAndPricing: '{% url "exportplan:api-calculate-cost-and-pricing" id=export_plan.pk %}',
             apiTargetAgeGroups: '{% url "exportplan:api-target-age-groups" id=export_plan.pk %}',
+            exportPlanDashboardUrl: '{% url "exportplan:dashboard" id=export_plan.pk %}',
           {% endif %}
           apiModelObjectManageUrl: '{% url "exportplan:api-model-object-manage" %}',
           apiCreateExportPlanUrl: '{% url "exportplan:api-export-plan-create" %}',
