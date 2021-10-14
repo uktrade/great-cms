@@ -8,7 +8,7 @@
     {{ plan.name|default:'Export plan' }}
   </h2>
   <p class="m-b-0 body-m">Created on {{ plan.created|str_to_datetime|date:"d F Y" }}</p>
-  {% if plan.export_commodity_codes.0.commodity_code and plan.export_countries.0.country_iso2_code %}
+  {% if plan.processor.has_product_and_market %}
     <p class="m-b-0 m-t-xs body-m">HS6 code:{{plan.export_commodity_codes.0.commodity_code}}</p>
   {% else %}
   <div class="g-panel m-v-xs">
