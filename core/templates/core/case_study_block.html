@@ -7,11 +7,11 @@
 const caseStudy = document.querySelector('#case_study')
 const blocks = []
 
-{ % for block in case_study.body % }
+{% for block in case_study.body %}
 blocks.push({
   type: '{{ block.block_type }}',
   content: `{{ block }}`,
-}) { % endfor % }
+}) {% endfor %}
 
 magna.createCaseStudy({
   element: caseStudy,
