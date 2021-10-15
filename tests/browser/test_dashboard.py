@@ -82,12 +82,12 @@ def test_dashboard_welcome(
         client.force_login(user)
         visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
         welcome = browser.find_element_by_css_selector('h1#great-hero-welcome')
-        assert welcome.text == 'Hello, TEST USER'
+        assert welcome.text == 'Dashboard'
         user.first_name = None
         client.force_login(user)
         visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
         welcome = browser.find_element_by_css_selector('h1#great-hero-welcome')
-        assert welcome.text == 'Hello'
+        assert welcome.text == 'Dashboard'
 
     except AssertionError:
         attach_jpg_screenshot(browser, 'Dashboard view')
