@@ -1183,91 +1183,94 @@ class CaseStudy(ClusterableModel):
 class CaseStudyScoringSettings(BaseSetting):
     threshold = models.DecimalField(
         help_text='This is the minimum score which a case study needs to have to be '
-        'considered before being presented to users. '
-        'This is calculated as the sum of the positive scores deducted by the dampening scores below.',
+        'considered before being presented to users. ',
         default=10,
         decimal_places=3,
         max_digits=5,
     )
-    module = models.DecimalField(
-        help_text='This is the score we give a case study should it have an association '
-        'at this level in our information architecture',
-        default=2,
-        decimal_places=3,
-        max_digits=5,
-    )
-    topic = models.DecimalField(
-        help_text='This is the score we give a case study should it have an association '
-        'at this level in our information architecture',
-        default=4,
-        decimal_places=3,
-        max_digits=5,
-    )
     lesson = models.DecimalField(
-        help_text='This is the score we give a case study should it have an association '
-        'at this level in our information architecture',
+        help_text='Score given when user\'s lesson is tagged in the case study.',
         default=8,
         decimal_places=3,
         max_digits=5,
     )
+    topic = models.DecimalField(
+        help_text='Score given when user\'s lesson\'s topic is tagged in the case study '
+        'unless there is also lesson match.',
+        default=4,
+        decimal_places=3,
+        max_digits=5,
+    )
+    module = models.DecimalField(
+        help_text='Score given when the user\'s lesson\'s module is tagged in the case study '
+        'unless there is also lesson or topic match.',
+        default=2,
+        decimal_places=3,
+        max_digits=5,
+    )
     product_hs6 = models.DecimalField(
-        help_text='This is the score we give if a case study matches the HS code product tag at the HS6 level ',
+        help_text='Score given when any case study HS6 tag matches the complete HS6 code of '
+        'any of the user\'s products',
         default=8,
         decimal_places=3,
         max_digits=5,
     )
     product_hs4 = models.DecimalField(
-        help_text='This is the score we give if a case study matches the HS code product tag at the HS4 level ',
+        help_text='Score given when any case study HS4 tag matches the first 4 digits of any of the user\'s products '
+        'unless there is an HS6 match.',
         default=4,
         decimal_places=3,
         max_digits=5,
     )
     product_hs2 = models.DecimalField(
-        help_text='This is the score we give if a case study matches the HS code product tag at the HS2 level ',
-        default=2,
-        decimal_places=3,
-        max_digits=5,
-    )
-    country_region = models.DecimalField(
-        help_text='This is the score we give if a case study matches the country tag at a regional level',
+        help_text='Score given when any case study HS2 tag matches the first 2 digits of any of the user\'s products '
+        'unless there is an HS6 or HS4 match.',
         default=2,
         decimal_places=3,
         max_digits=5,
     )
     country_exact = models.DecimalField(
-        help_text='This is the score we give if a case study matches the country tag at a country level',
+        help_text='Score given when any case study country tag exactly matches one of the user\'s export markets.',
         default=4,
         decimal_places=3,
         max_digits=5,
     )
-    trading_blocs = models.DecimalField(
-        help_text='This is the score we give if a case study matches the country tag at a trading bloc level',
+    country_region = models.DecimalField(
+        help_text='Score given when any case study region tag matches the region of any of the user\'s export markets '
+        'unless there is an exact country match.',
         default=2,
         decimal_places=3,
         max_digits=5,
     )
 
+    trading_blocs = models.DecimalField(
+        help_text='Score given when any case study trading bloc tag matches the any trading bloc that any of '
+        'the user\'s export markets falls into unless there is an exact country or region match.',
+        default=2,
+        decimal_places=3,
+        max_digits=5,
+    )
+
+    product_tab = [MultiFieldPanel([FieldPanel('product_hs6'), FieldPanel('product_hs4'), FieldPanel('product_hs2')])]
+    market_tab = [
+        MultiFieldPanel([FieldPanel('country_exact'), FieldPanel('country_region'), FieldPanel('trading_blocs')])
+    ]
     lesson_tab = [MultiFieldPanel([FieldPanel('module'), FieldPanel('topic'), FieldPanel('lesson')])]
 
-    first_tab_first_row_panels = [
-        FieldPanel('product_hs6'),
-        FieldPanel('product_hs4'),
-        FieldPanel('product_hs2'),
-        FieldPanel('country_region'),
-        FieldPanel('country_exact'),
-        FieldPanel('trading_blocs'),
+    threshold_tab = [
+        MultiFieldPanel(
+            [
+                FieldPanel('threshold'),
+            ]
+        )
     ]
-    threshold_tab_panels = [
-        FieldPanel('threshold'),
-    ]
-
-    scoring_tab_panels = [MultiFieldPanel(first_tab_first_row_panels, heading='Positive scores')]
 
     edit_handler = TabbedInterface(
         [
+            ObjectList(product_tab, heading='Product'),
+            ObjectList(market_tab, heading='Market'),
             ObjectList(lesson_tab, heading='Lesson'),
-            ObjectList(scoring_tab_panels, heading='Scoring'),
-            ObjectList(threshold_tab_panels, heading='Threshold'),
+            ObjectList(threshold_tab, heading='Threshold'),
         ]
     )
 

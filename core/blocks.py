@@ -301,6 +301,7 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
                     'pk': cs.get('pk'),
                     'title': models.CaseStudy.objects.get(id=cs.get('pk')).lead_title,
                     'score': cs.get('score'),
+                    'above_threshold': cs.get('score') >= cs_settings.threshold,
                 }
                 for cs in case_study_list
             ]

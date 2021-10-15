@@ -1,4 +1,5 @@
 {% load wagtailcore_tags %}
+{% load set %}
 {% if case_study %}
 <div id="case_study"></div>
 {% block body_js %}
@@ -26,9 +27,14 @@ magna.createCaseStudy({
 {% endif %}
 
 {% if case_study_list %}
+<div class="m-t-s h-s">Case study scorings</div>
 <table>
   <tbody>
     {% for cs in case_study_list %}
+    {% if not cs.above_threshold and not threshold_shown %}
+    <tr class="bg-red-20"><td></td><td colspan="2" class="p-v-0">Threshold</td></tr>
+    {% set 'threshold_shown' True %}
+    {% endif %}
     <tr>
       <td>{{ cs.pk }}
       <td>{{ cs.title }}</td>
