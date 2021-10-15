@@ -234,7 +234,7 @@ def test_connection_exception(
 
 
 base_settings = {
-    'threshold': 12,
+    'threshold': 8,
     'module': 2,
     'topic': 4,
     'lesson': 8,
@@ -243,23 +243,7 @@ base_settings = {
     'product_hs2': 2,
     'country_region': 2,
     'country_exact': 4,
-    'other_product_hs6': -0.5,
-    'other_product_hs4': -0.25,
-    'other_product_hs2': -0.125,
-    'other_country_region': -0.125,
-    'other_country_exact': -0.25,
-    'recency_3_months': 8,
-    'recency_6_months': 4,
-    'recency_9_months': 2,
-    'recency_12_months': 1,
-    'recency_15_months': 0.5,
-    'recency_18_months': 0.25,
-    'recency_21_months': 0.125,
-    'recency_24_months': 0,
     'trading_blocs': 2,
-    'other_module_tags': -0.5,
-    'other_topic_tags': -0.25,
-    'other_lesson_tags': -0.1,
 }
 
 
@@ -284,9 +268,7 @@ def get_case_study(data):
         ('123456', ['123456'], 8),
         ('12 6543', ['12345', '654321'], 4),
         ('12 654321', ['12345', '654321'], 8),
-        ('12 654321', ['666666'], -0.5),
-        ('12 6543', ['666666'], -0.25),
-        ('12', ['666666'], -0.125),
+        ('12 654321', ['666666'], 0),
     ),
 )
 def test_case_study_ranking_product(cs_tags, user_products, expected_score):
@@ -300,7 +282,7 @@ def test_case_study_ranking_product(cs_tags, user_products, expected_score):
     (
         ('Japan France', ['Japan', 'France'], 4),
         ('Spain France', ['Japan', 'France'], 4),
-        ('Spain USA', ['Japan', 'France'], -0.25),
+        ('Spain USA', ['Japan', 'France'], 0),
         ('', ['Japan', 'France'], 0),
     ),
 )
@@ -315,7 +297,6 @@ def test_case_study_ranking_market(cs_tags_markets, user_markets, expected_score
     (
         ('Asia_Pacific', ['North America', 'Asia Pacific'], 2),
         ('North_America', ['North America', 'Asia Pacific'], 2),
-        ('South_America', ['North America', 'Asia Pacific'], -0.125),
         ('', ['North America', 'Asia Pacific'], 0),
         ('', [], 0),
     ),
@@ -349,11 +330,10 @@ def test_case_study_ranking_trading_bloc(cs_tags_trading_blocks, user_trading_bl
     'cs_tags_lesson, user_page_context, expected_score',
     (
         ('lesson_3', ['lesson_3', 'module_2', 'topic_1'], 8),
-        ('module_2 topic_1 lesson_3', ['lesson_3', 'module_2', 'topic_1'], 14),
-        ('module_2 topic_1', ['lesson_3', 'module_2', 'topic_1'], 6),
-        ('module_2 topic_1 lesson_8', ['lesson_3', 'module_2', 'topic_1'], 5.9),
-        ('module_2 topic_16 lesson_8', ['lesson_3', 'module_2', 'topic_1'], 1.65),
-        ('module_9 topic_16 lesson_8', ['lesson_3', 'module_2', 'topic_1'], -0.85),
+        ('module_2 topic_1 lesson_3', ['lesson_3', 'module_2', 'topic_1'], 8),
+        ('module_2 topic_1', ['lesson_3', 'module_2', 'topic_1'], 4),
+        ('module_2 topic_1 lesson_8', ['lesson_3', 'module_2', 'topic_1'], 4),
+        ('module_2 topic_16 lesson_8', ['lesson_3', 'module_2', 'topic_1'], 2),
         ('', ['lesson_3', 'module_2', 'topic_1'], 0),
     ),
 )
@@ -361,27 +341,6 @@ def test_case_study_ranking_lesson(cs_tags_lesson, user_page_context, expected_s
     cs = get_case_study({'lesson': cs_tags_lesson})
     settings = CaseStudyScoringSettings(**base_settings)
     assert get_cs_ranking(cs, page_context=user_page_context, settings=settings) == expected_score
-
-
-@pytest.mark.parametrize(
-    'cs_age_days, expected_score',
-    (
-        (0, 8),
-        (3 * 31, 4),
-        (6 * 31, 2),
-        (9 * 31, 1),
-        (366, 0.5),
-        (366 + (3 * 31), 0.25),
-        (366 + (6 * 31), 0.125),
-        (366 + (9 * 31), 0.0625),
-        (366 * 2, 0.0625),
-    ),
-)
-def test_case_study_ranking_recency(cs_age_days, expected_score):
-    cs = get_case_study({'modified': (datetime.now(timezone.utc) - timedelta(days=cs_age_days)).isoformat()})
-    base_settings.update({'recency_24_months': 0.0625})
-    settings = CaseStudyScoringSettings(**base_settings)
-    assert get_cs_ranking(cs, settings=settings) == expected_score
 
 
 @pytest.mark.parametrize(

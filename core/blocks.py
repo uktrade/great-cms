@@ -244,7 +244,7 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
         icon = 'fa-book'
         template = 'core/case_study_block.html'
 
-    def _get_best_case_study(self, user, cs_settings, page_context):
+    def _get_case_study_list(self, user, cs_settings, page_context):
         export_commodity_codes, export_markets, export_regions, export_blocs = get_personalised_choices(user)
 
         try:
@@ -269,10 +269,7 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
                         settings=cs_settings,
                     )
                     hits.append(hit_dict)
-                sorted_cs_list = sorted(hits, key=lambda hit: hit.get('score'), reverse=True)
-                best_case_study = sorted_cs_list and sorted_cs_list[0]
-                if best_case_study and int(best_case_study.get('score')) >= cs_settings.threshold:
-                    return best_case_study
+                return sorted(hits, key=lambda hit: hit.get('score'), reverse=True)
 
         except ConnectionError:
             # nothing we can do without elasticsearch so continue without case study
@@ -294,10 +291,19 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
         from core.models import CaseStudyScoringSettings
 
         cs_settings = CaseStudyScoringSettings.for_request(context['request'])
-        best_case_study = self._get_best_case_study(user, cs_settings, page_context)
-        if best_case_study:
-            best_case_study_id = best_case_study.get('pk')
-            context['case_study'] = models.CaseStudy.objects.get(id=best_case_study_id)
+        case_study_list = self._get_case_study_list(user, cs_settings, page_context)
+        best_case_study = case_study_list and case_study_list[0]
+        if best_case_study and int(best_case_study.get('score')) >= cs_settings.threshold:
+            context['case_study'] = models.CaseStudy.objects.get(id=best_case_study.get('pk'))
+        if case_study_list and settings.FEATURE_SHOW_CASE_STUDY_RANKINGS:
+            context['case_study_list'] = [
+                {
+                    'pk': cs.get('pk'),
+                    'title': models.CaseStudy.objects.get(id=cs.get('pk')).lead_title,
+                    'score': cs.get('score'),
+                }
+                for cs in case_study_list
+            ]
         return context
 
     def get_context(self, value, parent_context=None):

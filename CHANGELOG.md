@@ -11,6 +11,7 @@
 - [HOTFIX] - GP2-3446 change london ita search
 
 ### Enhancements
+- GP2-3192 - Simplify case study logic and add FFed listing to aid test
 - GP2-3346 - Remove start date to fix, End date cannot precede start date
 - GP2-3437 - Exportplan update wizard for migrating incomplete EPs
 - GP2-3383 - Costs and pricing: Amend content

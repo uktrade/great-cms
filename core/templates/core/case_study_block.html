@@ -1,31 +1,40 @@
-
 {% load wagtailcore_tags %}
-
 {% if case_study %}
 <div id="case_study"></div>
-
 {% block body_js %}
-    <script>
-        const caseStudy = document.querySelector('#case_study')
-        const blocks = []
+<script>
+const caseStudy = document.querySelector('#case_study')
+const blocks = []
 
-        {% for block in case_study.body %}
-        blocks.push(
-            {
-                type: '{{ block.block_type }}',
-                content: `{{ block }}`,
-            }
-        )
-        {% endfor %}
+{% for block in case_study.body %}
+blocks.push({
+  type: '{{ block.block_type }}',
+  content: `{{ block }}`,
+}) {% endfor %}
 
-        magna.createCaseStudy({
-            element: caseStudy,
-            content: {
-                heading: '{{ case_study.lead_title }}',
-                company: '{{ case_study.summary_context }}',
-                blocks: blocks,
-            }
-        })
-    </script>
+magna.createCaseStudy({
+  element: caseStudy,
+  content: {
+    heading: '{{ case_study.lead_title }}',
+    company: '{{ case_study.summary_context }}',
+    blocks: blocks,
+  }
+})
+
+</script>
 {% endblock %}
+{% endif %}
+
+{% if case_study_list %}
+<table>
+  <tbody>
+    {% for cs in case_study_list %}
+    <tr>
+      <td>{{ cs.pk }}
+      <td>{{ cs.title }}</td>
+      <td>{{ cs.score }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endif %}
