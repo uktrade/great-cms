@@ -42,6 +42,11 @@ urlpatterns = [
         name='start',
     ),
     path(
+        '<hashid:id>/update/',
+        login_required(views.ExportPlanUpdate.as_view(), login_url=SIGNUP_URL),
+        name='update',
+    ),
+    path(
         '<hashid:id>/marketing-approach/',
         login_required(views.ExportPlanMarketingApproachView.as_view(), login_url=SIGNUP_URL),
         name='marketing-approach',

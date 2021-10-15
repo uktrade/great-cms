@@ -69,6 +69,47 @@ def mock_update_company():
 
 
 @pytest.mark.django_db
+def test_export_plan_update_view(
+    client,
+    user,
+    export_plan_data,
+):
+    export_plan_data['export_commodity_codes'] = []
+    client.force_login(user)
+    response = client.get(reverse('exportplan:update', kwargs={'id': 1}))
+    assert response.status_code == 200
+    assert response.context['export_plan']['export_commodity_codes'] == []
+
+
+@pytest.mark.django_db
+def test_export_plan_update_view_redirect(
+    client,
+    user,
+):
+    # Hitting the export plan update view with an EP that has both product and market should redirect to dashboard
+    client.force_login(user)
+    response = client.get(reverse('exportplan:update', kwargs={'id': 1}))
+
+    assert response.status_code == 302
+    assert response.url == '/export-plan/npiqji6n/'
+
+
+@pytest.mark.django_db
+def test_export_plan_dashboard_redirect_update(
+    client,
+    user,
+    export_plan_data,
+):
+    # Hitting the export plan dashboard with an EP that is missing either product or market should redirect to update
+    client.force_login(user)
+    export_plan_data['export_commodity_codes'] = []
+    response = client.get(reverse('exportplan:dashboard', kwargs={'id': 1}))
+
+    assert response.status_code == 302
+    assert response.url == '/export-plan/npiqji6n/update/'
+
+
+@pytest.mark.django_db
 def test_export_plan_builder_landing_page(
     client,
     user,
