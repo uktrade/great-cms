@@ -296,6 +296,7 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
         if best_case_study and int(best_case_study.get('score')) >= cs_settings.threshold:
             context['case_study'] = models.CaseStudy.objects.get(id=best_case_study.get('pk'))
         if case_study_list and settings.FEATURE_SHOW_CASE_STUDY_RANKINGS:
+            context['feature_show_case_study_list'] = True
             context['case_study_list'] = [
                 {
                     'pk': cs.get('pk'),

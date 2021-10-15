@@ -156,6 +156,7 @@ def test_case_study_static_block_below_threshold(
     mock_elasticsearch_count,
     mock_elasticsearch_scan,
     mock_trading_blocs,
+    settings,
 ):
     # Create a case-study that matches but below threshold scorte.  Check it's not shown.
     case_study_1 = CaseStudyFactory(id=1)
@@ -172,6 +173,13 @@ def test_case_study_static_block_below_threshold(
 
 
 @pytest.mark.django_db
+@pytest.mark.parametrize(
+    'feature_show_list',
+    (
+        True,
+        False,
+    ),
+)
 def test_case_study_static_block_above_threshold(
     rf,
     user,
@@ -182,7 +190,12 @@ def test_case_study_static_block_above_threshold(
     mock_elasticsearch_count,
     mock_elasticsearch_scan,
     mock_trading_blocs,
+    settings,
+    feature_show_list,
 ):
+    # switch test cs listing on or off
+    settings.FEATURE_SHOW_CASE_STUDY_RANKINGS = feature_show_list
+
     # Create two case studies - one above, and one below threshold.  check that the higher one is shown.
     case_study_1 = CaseStudyFactory(id=1)
     case_study_1.hs_code_tags.add('334455')
@@ -202,6 +215,12 @@ def test_case_study_static_block_above_threshold(
 
     assert 'case_study' in context
     assert context.get('case_study').id == 2
+    if feature_show_list:
+        assert context['feature_show_case_study_list']
+        assert context['case_study_list'][0]['score'] == 12
+        assert context['case_study_list'][0]['pk'] == '2'
+    else:
+        assert 'feature_case_study_list' not in context
 
 
 @pytest.mark.django_db

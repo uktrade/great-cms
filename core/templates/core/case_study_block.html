@@ -7,11 +7,11 @@
 const caseStudy = document.querySelector('#case_study')
 const blocks = []
 
-{% for block in case_study.body %}
+{ % for block in case_study.body % }
 blocks.push({
   type: '{{ block.block_type }}',
   content: `{{ block }}`,
-}) {% endfor %}
+}) { % endfor % }
 
 magna.createCaseStudy({
   element: caseStudy,
@@ -25,14 +25,16 @@ magna.createCaseStudy({
 </script>
 {% endblock %}
 {% endif %}
-
-{% if case_study_list %}
+{% if feature_show_case_study_list %}
 <div class="m-t-s h-s">Case study scorings</div>
 <table>
   <tbody>
     {% for cs in case_study_list %}
     {% if not cs.above_threshold and not threshold_shown %}
-    <tr class="bg-red-20"><td></td><td colspan="2" class="p-v-0">Threshold</td></tr>
+    <tr class="bg-red-20">
+      <td></td>
+      <td colspan="2" class="p-v-0">Threshold</td>
+    </tr>
     {% set 'threshold_shown' True %}
     {% endif %}
     <tr>
