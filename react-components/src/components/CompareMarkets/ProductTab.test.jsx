@@ -163,7 +163,7 @@ describe('Compare markets - Product tab', () => {
       '#product-tab .button--tertiary'
     )
     expect(document.body.querySelector('.product-finder')).toBeFalsy()
-    expect(addProductButton.textContent).toMatch('Add another product')
+    expect(addProductButton.textContent).toMatch('Add product')
     act(() => {
       Simulate.click(addProductButton)
     })
