@@ -45,6 +45,7 @@
 - GP2-3384 - Funding and credit: Amend pdf content
 - GP2-3193 - View example export plan
 - GP2-3428 - Country selector - suggested markets, display HS2 product information
+- GP2-3645 - decapitalise ep
 
 ### Fixed bugs
 - GP2-3257 - Fix costs and pricing debounce
