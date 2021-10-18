@@ -131,5 +131,5 @@ ObjectivesList.propTypes = {
 
 ObjectivesList.defaultProps = {
   objectives: [],
-  example: null,
+  example: {},
 }

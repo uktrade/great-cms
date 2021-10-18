@@ -55,7 +55,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
                 Lesson
               </button>
             )}
-            {tooltip.content && (
+            {tooltip && tooltip.content && (
               <Tooltip {...tooltip} className="inline-block m-b-xs" />
             )}
           </div>
