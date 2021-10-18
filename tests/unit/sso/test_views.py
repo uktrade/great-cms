@@ -3,8 +3,8 @@ from unittest import mock
 import pytest
 from django.conf import settings
 from django.urls import reverse
-from requests import HTTPError
 from requests.cookies import RequestsCookieJar
+from requests.exceptions import HTTPError
 from rest_framework.response import Response
 
 from sso import helpers
@@ -102,16 +102,57 @@ def test_business_sso_user_create_400_upstream(mock_send_code, mock_create_user,
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'create_user')
+@mock.patch.object(helpers, 'regenerate_verification_code')
 @mock.patch.object(helpers, 'send_verification_code_email')
-def test_business_sso_user_create_409_upstream(mock_send_code, mock_create_user, client):
+@mock.patch.object(helpers, 'notify_already_registered')
+def test_business_sso_user_create_409_upstream_with_verification_code(
+    mock_notify_already_registered, mock_send_code, mock_regenerate_code, mock_create_user, client
+):
     res = Response(status=409)
     mock_create_user.side_effect = HTTPError('409', response=res)
 
+    mock_regenerate_code.return_value = {'code': '12345', 'user_uidb64': 'aBcDe', 'verification_token': '1ab-123abc'}
+
+    url = reverse('sso:business-sso-create-user-api')
     response = client.post(reverse('sso:business-sso-create-user-api'), {'email': 'test', 'password': 'password'})
 
     assert response.status_code == 200
-    assert response.data == {}
+    assert response.data is None
+    assert mock_notify_already_registered.call_count == 0
+    assert mock_send_code.call_count == 1
+    assert mock_send_code.call_args == mock.call(
+        email='test',
+        verification_code={'code': '12345'},
+        form_url=url,
+        verification_link='http://testserver/signup/?uidb64=aBcDe&token=1ab-123abc',
+    )
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_user')
+@mock.patch.object(helpers, 'regenerate_verification_code')
+@mock.patch.object(helpers, 'send_verification_code_email')
+@mock.patch.object(helpers, 'notify_already_registered')
+def test_business_sso_user_create_409_upstream_with_no_verification_code(
+    mock_notify_already_registered, mock_send_code, mock_regenerate_code, mock_create_user, client
+):
+    res = Response(status=409)
+    mock_create_user.side_effect = HTTPError('409', response=res)
+
+    mock_regenerate_code.return_value = None
+
+    url = reverse('sso:business-sso-create-user-api')
+    response = client.post(reverse('sso:business-sso-create-user-api'), {'email': 'test', 'password': 'password'})
+
+    assert response.status_code == 200
+    assert response.data is None
     assert mock_send_code.call_count == 0
+    assert mock_notify_already_registered.call_count == 1
+    assert mock_notify_already_registered.call_args == mock.call(
+        email='test',
+        form_url=url,
+        login_url='http://testserver/login/',
+    )
 
 
 @pytest.mark.django_db
