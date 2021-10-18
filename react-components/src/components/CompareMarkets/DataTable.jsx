@@ -183,9 +183,8 @@ export default function DataTable(props) {
     Services.store.dispatch(
       actions.notify(
         'message',
-        `${market.country_name} ${
-          add ? 'saved to' : 'removed from'
-        } My markets`,
+        `We've ${add ? 'saved' : 'removed'} ${market.country_name}
+        ${add ? 'to' : 'from'} My markets`,
         `${add ? 'fa-check-circle' : 'fa-times-circle'}`
       )
     )

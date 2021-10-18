@@ -68,36 +68,28 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
   }
 
   const addProductButton = (
-    <div>
-      <p className="body-l">To get started, add a product to your My products list.</p>
-      <button
-        type="button"
-        className="button button--primary button--icon"
-        onClick={() => setProductModalIsOpen(true)}
-      >
-        <i className="fa fa-plus-square" />
-        Add product
-      </button>
-    </div>
+    <button
+      type="button"
+      className="button button--primary button--icon"
+      onClick={() => setProductModalIsOpen(true)}
+    >
+      <i className="fa fa-plus-square" />
+      Add product
+    </button>
   )
 
   const addMarketButton = (
     <>
       {' '}
       {selectedLength < maxPlaces && (
-        <div>
-          <p className="body-l">Add an export market to see data for the products in your My products list.</p>
-          <button
-            type="button"
-            className="button button--primary button--icon add-market m-t-xs"
-            onClick={() => setMarketModalIsOpen(true)}
-          >
-            <i className="fa fa-plus-square" />
-            {selectedLength > 0
-              ? `Add market ${selectedLength + 1} of ${maxPlaces}`
-              : 'Add market'}
-          </button>
-        </div>
+        <button
+          type="button"
+          className="button button--primary button--icon add-market m-t-xs"
+          onClick={() => setMarketModalIsOpen(true)}
+        >
+          <i className="fa fa-plus-square" />
+          Add market
+        </button>
       )}
     </>
   )
@@ -127,7 +119,22 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
           />
         ) : (
           ReactDOM.createPortal(
-            hasProducts ? addMarketButton : addProductButton,
+            hasProducts ? (
+              <>
+                <p className="body-l">
+                  Add an export market to see data for the products in your My
+                  products list.
+                </p>
+                {addMarketButton}
+              </>
+            ) : (
+              <>
+                <p className="body-l">
+                  To get started, add a product to your My products list.
+                </p>
+                {addProductButton}
+              </>
+            ),
             ctaContainer
           )
         )}
