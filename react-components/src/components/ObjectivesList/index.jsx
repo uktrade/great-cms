@@ -9,7 +9,7 @@ import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
 import { Objective } from './Objective'
 
 export const ObjectivesList = memo(
-  ({ exportPlanID, objectives: initialObjectives, model_name }) => {
+  ({ exportPlanID, objectives: initialObjectives, model_name, example }) => {
     const [objectives, setObjectives] = useState(initialObjectives || [])
     const [update, create, deleteItem, message, errors] = useUpdate(
       'Objectives'
@@ -83,6 +83,7 @@ export const ObjectivesList = memo(
             ref={(element) => {
               objectiveElementList.current[i] = element
             }}
+            example={i===0 ? example : {}}
           />
         ))}
         {message && (
@@ -95,7 +96,7 @@ export const ObjectivesList = memo(
           numberOfItems={objectives.length}
           add={createObjective}
           field={lastField}
-          cta={`Add goal ${objectives.length + 1} of ${limit}`}
+          cta={`Add objective ${objectives.length + 1} of ${limit}`}
         />
         <ErrorList errors={errors.__all__ || []} className="m-0" />
       </div>
@@ -123,8 +124,12 @@ ObjectivesList.propTypes = {
   ),
   exportPlanID: PropTypes.number.isRequired,
   model_name: PropTypes.string.isRequired,
+  example: PropTypes.shape({
+    content: PropTypes.string,
+  })
 }
 
 ObjectivesList.defaultProps = {
   objectives: [],
+  example: null,
 }
