@@ -73,11 +73,12 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
                     form_url=self.request.path,
                     verification_link=self.get_verification_link(uidb64, token),
                 )
+                return Response({'uidb64': uidb64, 'token': token})
             else:
                 helpers.notify_already_registered(
                     email=email, form_url=self.request.path, login_url=self.get_login_url()
                 )
-            return Response(status=200)
+            return Response({})
         return super().handle_exception(exc)
 
     def get_login_url(self):
