@@ -3,7 +3,7 @@
 {% load to_json %}
 
 {% block intro_title %}Business objectives{% endblock %}
-{% block intro_description %} To build a strong Export Plan you need to have goals and milestones. This page helps you to record these so you can meet them later on.{% endblock %}
+{% block intro_description %} To build a strong export plan you’ll need to establish clear objectives and record your progress on them.{% endblock %}
 
 {% block user_input %}
 
@@ -11,9 +11,18 @@
   <div class="grid">
     <div class="c-1-4">&nbsp;</div>
     <div class="c-1-1 c-2-3-m c-1-2-xl text-blue-deep-80">
-      <div id="objectives-reasons">
-        {% include 'exportplan/includes/form_field.html' with field=form.rational %}
-      </div>
+      <h2 class="h-m">Think about why you want to export</h2>
+      <p>What are your hopes and ambitions for your company in 5 or 10 years' time?
+      If you have a good idea of where you want your company to be,
+      you're ready to consider how exporting can help you achieve this.</p>
+      <p>Common benefits of exporting include:</p>
+        <ul class="list-dot">
+          <li>growing the business by selling overseas</li>
+          <li>maintaining growth when sales in the UK have levelled off</li>
+          <li>spreading risk by selling in other countries</li>
+          <li>widening your customer base</li>
+        </ul>
+      <div id="objectives-reasons"></div>
     </div>
     <div class="c-1-12-m c-1-4-xl">&nbsp;</div>
   </div>
@@ -23,16 +32,14 @@
   <div class="grid">
     <div class="c-1-4">&nbsp;</div>
     <div class="c-1-1 c-2-3-m c-1-2-xl text-blue-deep-80">
-      <h2 class="h-m m-b-s">Create exporting goals</h2>
-      <p>Create some key milestones for your exporting journey</p>
-      <div class="g-panel m-b-m">
-        <p>To increase the prospect of success, ensure what you want to achieve is specific, measurable and realistic:</p>
-        <ul class="list-dot">
-          <li>specific - your objective is well defined</li>
-          <li>measurable - use things like quantity, cost and time frame so you can judge how well you're doing</li>
-          <li>realistic - ambition is good but make sure your objective is within reach</li>
-        </ul>
-      </div>
+      <h2 class="h-m m-b-s">Create your exporting objectives</h2>
+      <p>Establishing clear objectives will help you realise your export ambitions. To give you the best chance of success, they should be:</p>
+      <ul class="list-dot">
+        <li>specific - well defined and easily understandable</li>
+        <li>measurable - use things like quantity, cost and time frame so you can judge how well you're doing</li>
+        <li>realistic - ambition is good, but make sure your objective is within reach</li>
+      </ul>
+      <p>Don’t list too many – around 5 is a good number. You can change or amend your objectives as you refine your export plan.</p>
       <div id="objectives-form--objectives">
         <input type="submit" class="g-button" value="Save">
       </div>
@@ -52,14 +59,12 @@
       formFields: [
         {
           name: 'rationale',
-          label: 'Why you want to export',
+          label: 'Record your reasons for exporting below.',
           field_type: 'Textarea',
           placeholder: 'Add some text',
           example: {
-            content: 'I wanted to create a gin with a unique taste, a gin that has been “crafted” and is uniquely British. <br> Now that it is established and selling well in UK cities, I’d like to have long-term growth in major cities in Europe, Asia and the US. This is because competition is now fierce in the UK.'
+            content: 'Dove Gin is established and selling well in the UK. However, the domestic gin market is now fiercely competitive. We feel that to realise our goal of doubling turnover in the next 3 years we need to look at new markets to assure this growth. Dove has a uniquely British, crafted appeal that is well placed to attract drinkers in overseas markets. We feel that the potential to widen our customer base, especially in the still-developing Asian and Australasian craft gin scene, is immense.'
           },
-          description:
-            '<p>What are the main reasons you want to export?</p><p>Common reasons for exporting include:</p><ul class="list-dot"><li>grow the business by selling overseas</li><li>maintain growth when sales in the UK have levelled off</li><li>spread risk evenly by selling in countries other than the UK</li><li>widen your customer base</li></ul> <p class="g-panel">Planning and thinking about your export objectives will help you make the most out of any export opportunities you are interested in.</p>',
           lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 0),
         },
       ],
@@ -69,6 +74,9 @@
       objectives: {{ company_objectives|to_json|safe }},
       exportPlanID: {{ export_plan.pk }},
       model_name: 'companyobjectives',
+      example: {
+        content: 'Establish the Dove Gin brand in 3 Australian cities by end of March 2023, selling at least 500 units per month to supermarkets or drinks outlets in each city. '
+      }
     })
   </script>
 {% endblock %}
