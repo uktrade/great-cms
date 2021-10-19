@@ -45,7 +45,7 @@ function ProductSelector() {
     <>
       <div className="body-l-b">
         {hasProducts
-          ? 'View data for:'
+          ? 'Select your product'
           : "You haven't selected any products"}
       </div>
       {hasProducts ? (
@@ -73,7 +73,7 @@ function ProductSelector() {
         onClick={() => setProductModalIsOpen(true)}
       >
         <i className="fa fa-plus-circle" />
-        Add product
+        {hasProducts ? 'Add another product' : 'Add a product'}
       </button>
       <ProductFinderModal
         modalIsOpen={productModalIsOpen}
