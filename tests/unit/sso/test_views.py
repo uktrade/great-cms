@@ -117,7 +117,7 @@ def test_business_sso_user_create_409_upstream_with_verification_code(
     response = client.post(reverse('sso:business-sso-create-user-api'), {'email': 'test', 'password': 'password'})
 
     assert response.status_code == 200
-    assert response.data is None
+    assert response.data == {'token': '1ab-123abc', 'uidb64': 'aBcDe'}
     assert mock_notify_already_registered.call_count == 0
     assert mock_send_code.call_count == 1
     assert mock_send_code.call_args == mock.call(
@@ -145,7 +145,7 @@ def test_business_sso_user_create_409_upstream_with_no_verification_code(
     response = client.post(reverse('sso:business-sso-create-user-api'), {'email': 'test', 'password': 'password'})
 
     assert response.status_code == 200
-    assert response.data is None
+    assert response.data == {}
     assert mock_send_code.call_count == 0
     assert mock_notify_already_registered.call_count == 1
     assert mock_notify_already_registered.call_args == mock.call(
