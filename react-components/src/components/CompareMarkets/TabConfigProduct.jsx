@@ -29,7 +29,7 @@ const filter = (
 )
 
 export default {
-  tabName: 'YOUR PRODUCT',
+  tabName: 'IMPORT VALUES',
   filter,
   sourceAttributions: [
     {
