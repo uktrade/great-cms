@@ -186,6 +186,7 @@ export default function DataTable(props) {
         `${market.country_name} ${
           add ? 'saved to' : 'removed from'
         } My markets`,
+        `${add ? 'fa-check-circle' : 'fa-times-circle'}`
       )
     )
     add ? addMarketItem(market) : removeMarketItem(market)
