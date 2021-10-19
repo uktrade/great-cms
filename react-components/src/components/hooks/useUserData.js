@@ -27,9 +27,9 @@ export const useUserData = (
     if (!blobValue && !loading[blobName]) {
       loading[blobName] = 1
       Services.getUserData(blobName).then((result) => {
-        loading[blobName] = 'loaded'
         const value = isObject(result) && (result[blobName] || defaultValue)
         saveBlob(value)
+        loading[blobName] = 'loaded'
       })
     }
   }
