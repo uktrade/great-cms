@@ -197,7 +197,7 @@ export default function CountryFinderModal(props) {
           </span>{' '}
           from the UK. This is an HS2 category that includes{' '}
           <span className="body-l-b">
-            {suggestedCountries.details.product.toLowerCase()} (HS code{' '}
+            {(suggestedCountries.details.product || '').toLowerCase()} (HS code{' '}
             {suggestedCountries.details.hs6})
           </span>
           , along with other products categorised at an HS4 and HS6 level. For
