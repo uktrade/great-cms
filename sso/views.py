@@ -1,9 +1,10 @@
 import requests
 from django.conf import settings
 from django.contrib import auth
-from requests import HTTPError
+from requests.exceptions import HTTPError
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
 from sso import helpers, serializers
 
@@ -59,19 +60,38 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
     def handle_exception(self, exc):
         if isinstance(exc, helpers.CreateUserException):
             return Response(exc.detail, status=400)
-        # 409 means that an email already exists, so we send back a plain response
+        # 409 means that the user already exists
         elif isinstance(exc, HTTPError) and exc.response.status_code == 409:
+            email = self.request.data['email']
+            verification_code = helpers.regenerate_verification_code(email)
+            if verification_code:
+                uidb64 = verification_code.pop('user_uidb64')
+                token = verification_code.pop('verification_token')
+                helpers.send_verification_code_email(
+                    email=email,
+                    verification_code=verification_code,
+                    form_url=self.request.path,
+                    verification_link=self.get_verification_link(uidb64, token),
+                )
+                return Response({'uidb64': uidb64, 'token': token})
+            else:
+                helpers.notify_already_registered(
+                    email=email, form_url=self.request.path, login_url=self.get_login_url()
+                )
             return Response({})
         return super().handle_exception(exc)
 
+    def get_login_url(self):
+        return self.request.build_absolute_uri(reverse('core:login'))
+
     def get_verification_link(self, uidb64, token):
-        return self.request.build_absolute_uri('/signup/') + f'?uidb64={uidb64}&token={token}'
+        return self.request.build_absolute_uri(reverse('core:signup')) + f'?uidb64={uidb64}&token={token}'
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user_details = helpers.create_user(
-            email=serializer.validated_data['email'],
+            email=serializer.validated_data['email'].lower(),
             password=serializer.validated_data['password'],
         )
         uidb64 = user_details['uidb64']

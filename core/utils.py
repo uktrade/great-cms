@@ -1,7 +1,4 @@
 import re
-from datetime import datetime, timezone
-
-from dateutil.relativedelta import relativedelta
 
 trim_page_type = re.compile(r'^([^_]*)_\d*')
 
@@ -116,20 +113,16 @@ def score_name(code):
 
 
 def rank_hs_codes(cs, commodity_codes, settings):
-
     score = 0
     split_tags = cs.get('hscodes', '').split(' ')
     if split_tags and split_tags[0] != '':
         for code in split_hs_codes(commodity_codes):
             if code in split_tags:
                 score = max(score, getattr(settings, f'product_{score_name(code)}'))
-        if score == 0:
-            # No match on any product, so reduce the score based on the largest length in cs tags
-            score += getattr(settings, f'other_product_{score_name(max(split_tags, key=len))}')
     return score
 
 
-def rank_tags(cs, user_tags, settings, cs_tag, setting_tag, damping_setting_tag):
+def rank_tags(cs, user_tags, settings, cs_tag, setting_tag):
     # used for several similar tag sets
     score = 0
     split_tags = cs.get(cs_tag, '').split(' ')
@@ -137,8 +130,6 @@ def rank_tags(cs, user_tags, settings, cs_tag, setting_tag, damping_setting_tag)
         for user_tag in user_tags:
             if user_tag.replace(' ', '_') in split_tags:
                 score = max(score, getattr(settings, setting_tag))
-        if score == 0 and damping_setting_tag:
-            score = score + getattr(settings, damping_setting_tag)
     return score
 
 
@@ -149,18 +140,8 @@ def rank_related_pages(cs, page_context, settings):
         for tagged_page in tagged_pages:
             page_type_match = trim_page_type.match(tagged_page)
             if tagged_page in page_context:
-                score = score + getattr(settings, f'{page_type_match.group(1)}')
-            else:
-                score = score + getattr(settings, f'other_{page_type_match.group(1)}_tags')
+                score = max(score, getattr(settings, f'{page_type_match.group(1)}'))
     return score
-
-
-def rank_recency(cs, settings):
-    modified = datetime.fromisoformat(cs.get('modified')) if isinstance(cs.get('modified'), str) else cs.get('modified')
-    delta = relativedelta(datetime.now(timezone.utc), modified)
-    months_old = 12 * delta.years + delta.months
-    three_month_block = int(min(int(months_old / 3 + 1) * 3, 24))
-    return getattr(settings, f'recency_{three_month_block}_months')
 
 
 def get_cs_ranking(
@@ -168,9 +149,10 @@ def get_cs_ranking(
 ):
     score = 0
     score += rank_hs_codes(cs, export_commodity_codes, settings)
-    score += rank_tags(cs, export_markets, settings, 'country', 'country_exact', 'other_country_exact')
-    score += rank_tags(cs, export_regions, settings, 'region', 'country_region', 'other_country_region')
-    score += rank_tags(cs, export_blocs, settings, 'tradingblocs', 'trading_blocs', None)
+    score += max(
+        rank_tags(cs, export_markets, settings, 'country', 'country_exact'),
+        rank_tags(cs, export_regions, settings, 'region', 'country_region'),
+        rank_tags(cs, export_blocs, settings, 'tradingblocs', 'trading_blocs'),
+    )
     score += rank_related_pages(cs, page_context, settings)
-    score += rank_recency(cs, settings)
     return score

@@ -14,17 +14,16 @@ describe('MonthYearInput', () => {
       <MonthYearInput label='Foo' onChange={mockOnChange} />,
     )
 
-    getByText('Select one').click()
     getByText('May').click()
 
     await waitFor(() =>
       expect(mockOnChange).toHaveBeenCalledWith({ month: '5' })
     )
 
-    fireEvent.change(getByLabelText('Year'), { target: { value: '2026' } })
+    getByText('2022').click()
 
     await waitFor(() =>
-      expect(mockOnChange).toHaveBeenCalledWith({ year: '2026' })
+      expect(mockOnChange).toHaveBeenCalledWith({ year: '2022' })
     )
   })
 
@@ -38,14 +37,13 @@ describe('MonthYearInput', () => {
       />,
     )
 
-    getByText('Select one').click()
     getByText('April').click()
 
     await waitFor(() =>
       expect(mockOnChange).toHaveBeenCalledWith({ start_month: '4' })
     )
 
-    fireEvent.change(getByLabelText('Year'), { target: { value: '2023' } })
+    getByText('2023').click()
 
     await waitFor(() =>
       expect(mockOnChange).toHaveBeenCalledWith({ start_year: '2023' })

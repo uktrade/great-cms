@@ -47,6 +47,7 @@
             apiDeleteExportPlanUrl: '{% url "exportplan:api-export-plan-delete" id=export_plan.pk %}',
             updateCalculateCostAndPricing: '{% url "exportplan:api-calculate-cost-and-pricing" id=export_plan.pk %}',
             apiTargetAgeGroups: '{% url "exportplan:api-target-age-groups" id=export_plan.pk %}',
+            exportPlanDashboardUrl: '{% url "exportplan:dashboard" id=export_plan.pk %}',
           {% endif %}
           apiModelObjectManageUrl: '{% url "exportplan:api-model-object-manage" %}',
           apiCreateExportPlanUrl: '{% url "exportplan:api-export-plan-create" %}',
@@ -112,9 +113,10 @@
           login: false,
           signup: false,
         },
-      exportPlan:{
-          product: {{export_plan.export_commodity_codes.0|to_json}},
-          market: {{export_plan.export_countries.0|to_json }}
+        exportPlan:{
+            product: {{export_plan.export_commodity_codes.0|to_json}},
+            market: {{export_plan.export_countries.0|to_json }},
+            name: '{{export_plan.name|default:'' }}',
         },
       })
       magna.createSnackbar({element:document.getElementById('snackbar-container')})

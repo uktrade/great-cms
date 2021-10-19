@@ -9,7 +9,7 @@ import ErrorList from '../../ErrorList'
 import { MonthYearInput } from '../../Form/MonthYearInput'
 
 const fwRefObjective = forwardRef((props, ref) => {
-  const { handleChange, deleteObjective, number, id, errors, data } = props
+  const { handleChange, deleteObjective, number, id, errors, data, example } = props
 
   const onChange = (item) => {
     handleChange({
@@ -46,19 +46,12 @@ const fwRefObjective = forwardRef((props, ref) => {
             onChange={onChange}
             errors={[]}
             formGroupClassName="m-b-0"
+            example={example}
           />
         </div>
         <div className="costs__option costs__option--border">
           <MonthYearInput
-            label="Start objective in:"
-            monthName="start_month"
-            monthValue={data.start_month}
-            yearName="start_year"
-            yearValue={data.start_year}
-            onChange={onChange}
-          />
-          <MonthYearInput
-            label="Complete by:"
+            label="To be completed by:"
             monthName="end_month"
             monthValue={data.end_month}
             yearName="end_year"
@@ -122,8 +115,12 @@ Objective.propTypes = {
     companyexportplan: PropTypes.number.isRequired,
     pk: PropTypes.number.isRequired,
   }).isRequired,
+  example: PropTypes.shape({
+    content: PropTypes.string,
+  })
 }
 
 Objective.defaultProps = {
   errors: { __all__: [] },
+  example: {},
 }

@@ -57,6 +57,11 @@ class ExportPlanProcessor:
             )
         return progress
 
+    def has_product_and_market(self):
+        products = self.data.get('export_commodity_codes')
+        markets = self.data.get('export_countries')
+        return True if products and len(products) > 0 and markets and len(markets) > 0 else False
+
     def has_items(self, field_name):
         return True if len(self.seralizer.initial_data.get(field_name, [])) > 0 else False
 

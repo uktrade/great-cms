@@ -1,4 +1,5 @@
 {% extends "core/base.html" %}
+{% load to_json %}
 
 {% block content %}
   <div class="bg-white p-b-l">
@@ -7,7 +8,8 @@
   </div>
   <script>
     magna.createExportPlanWizard({
-      element: document.querySelector("#export-plan-wizard-container")
+      element: document.querySelector("#export-plan-wizard-container"),
+      exportPlan: {{export_plan|to_json}}
     })
   </script>
 {% endblock %}

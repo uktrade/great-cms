@@ -5,21 +5,28 @@ import RadioButtons from '@src/components/Segmentation/RadioButtons'
 import { sortBy } from '@src/Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 
-
 function ProductSelector({ valueChange, selected }) {
-  const {products, productsLoaded} = useUserProducts()
+  const { products, productsLoaded } = useUserProducts()
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [addButtonShowing, setAddButtonShowing] = useState(false)
 
-  const sortedProducts = sortBy(products || [], 'commodity_name')
   let selectedKey
 
+  const isProductSelected = (product) =>
+    selected &&
+    selected.commodity_code === product.commodity_code &&
+    selected.commodity_name === product.commodity_name
+
+  // It's possible (during an update) that the selected product is not in the list of user products
+  // In this case, we need to add it to the list
+  if (selected && selected.commodity_code) {
+    if (!products.filter(isProductSelected).length) {
+      products.push(selected)
+    }
+  }
+  const sortedProducts = sortBy(products || [], 'commodity_name')
   const options = sortedProducts.map((product, index) => {
-    if (
-      selected &&
-      selected.commodity_code === product.commodity_code &&
-      selected.commodity_name === product.commodity_name
-    ) {
+    if (isProductSelected(product)) {
       selectedKey = `${index}`
     }
     return {
@@ -62,7 +69,7 @@ function ProductSelector({ valueChange, selected }) {
         </div>
       ) : null}
 
-      {(productsLoaded && !hasProducts || addButtonShowing) && (
+      {((productsLoaded && !hasProducts) || addButtonShowing) && (
         <div className={`${addButtonShowing ? 'g-panel' : ''} m-f-xxs`}>
           <button
             type="button"

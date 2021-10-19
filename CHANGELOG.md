@@ -3,6 +3,9 @@
 ## Pre-release changes - please put everything in the appropriate category below
 
 ### Hotfix
+- GP2-3104 - [HOTFIX] User emails case insensitive
+- GP2-3406 - [HOTFIX] Notifications for already registered users
+- [HOTFIX] - Fix models test
 - GP2-3253 fix-confirm-idenity-urls
 - GP2-3309 - [HOTFIX] adding bing search console meta tag - first command in head
 - GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
@@ -11,6 +14,13 @@
 - [HOTFIX] - GP2-3446 change london ita search
 
 ### Enhancements
+- GP2-2478 - EP Business objectives content update
+- GP2-2893 - Learning backlinks layout
+- GP2-2502 - Replace Dashboard Title - “Hello” with “Dashboard”
+- GP2-3192 - Simplify case study logic and add FFed listing to aid test
+- GP2-3346 - Remove start date to fix, End date cannot precede start date
+- GP2-3437 - Exportplan update wizard for migrating incomplete EPs
+- GP2-3383 - Costs and pricing: Amend content
 - GP2-3192 - Lesson case study logic using elasticsearch
 - GP2-3167 - Update introductory copy for WTE
 - GP2-3439 - Snackbar for adding market in WTE
@@ -41,6 +51,7 @@
 - GP2-3404 - fix ep dashboard default
 - GP2-3384 - Funding and credit: Amend pdf content
 - GP2-3193 - View example export plan
+- GP2-3428 - Country selector - suggested markets, display HS2 product information
 
 ### Fixed bugs
 - GP2-3257 - Fix costs and pricing debounce
