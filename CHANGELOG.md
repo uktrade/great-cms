@@ -16,6 +16,7 @@
 ### Enhancements
 - GP2-3190 - WTE content changes
 - GP2-2478 - EP Business objectives content update
+- GP2-2893 - Learning backlinks layout
 - GP2-2502 - Replace Dashboard Title - “Hello” with “Dashboard”
 - GP2-3192 - Simplify case study logic and add FFed listing to aid test
 - GP2-3346 - Remove start date to fix, End date cannot precede start date

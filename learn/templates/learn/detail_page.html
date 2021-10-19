@@ -8,11 +8,11 @@
     <div class="lesson-page">
         {% get_category_title_for_lesson page as category_title %}
         <div class="bg-white">
-            <div class="container">
-              <div class="learn__back-link m-f-s m-t-s hide-on-mobile">
+            <div class="container p-v-s">
+              <div class="m-f-s hide-on-mobile">
                 {% include "core/includes/backlink.html" with url=page.get_parent.get_parent.url label=category_title classes="p-v-0"%}
               </div>
-                <div class="grid lesson-body p-t-xl">
+                <div class="grid lesson-body p-t-s">
                     <div class="c-1-4">
                     </div>
                     <div class="c-1-2">
@@ -63,72 +63,69 @@
                 </div>
             </div>
             <div class="container">
-                <div class="grid">
-                    <div class="grid p-t-s p-b-s">
-                        <div class="c-1-4 hide-on-mobile">
-                            <span>&nbsp;</span>
-                        </div>
-                        <div class="c-1-2">
-                            <fieldset id="mark_as_complete" class="bg-blue-deep-80"></fieldset>
-                        </div>
-                        <div class="c-1-4 hide-on-mobile">
-                            <span>&nbsp;</span>
-                        </div>
-                    </div>
-                </div>
+              <div class="grid p-v-s">
+                  <div class="c-1-4 hide-on-mobile">
+                      <span>&nbsp;</span>
+                  </div>
+                  <div class="c-1-2">
+                      <fieldset id="mark_as_complete" class="bg-blue-deep-80"></fieldset>
+                  </div>
+                  <div class="c-1-4 hide-on-mobile">
+                      <span>&nbsp;</span>
+                  </div>
+              </div>
             </div>
-            {% if next_lesson %}
-                <div class="container">
-                    <div class="grid p-t-m">
-                        <div class="c-1-12 hide-on-mobile">
-                            <span>&nbsp;</span>
-                        </div>
-                        <div class="c-10-12 m-b-xl">
-                            <div class="card card--horizontal">
-                                <div class="card__section">
-                                    <p class="body-l-b m-0">Your next lesson</p>
-                                    <h2 class="h-m p-t-xxs">
-                                        {{ next_lesson.title }}
-                                    </h2>
-                                    {% if next_lesson.estimated_read_duration %}
-                                        <p class="text-blue-deep-80 m-t-0 p-t-0 m-b-xs">
-                                            <i class="fas fa-clock m-r-xxs"></i>
-                                            <strong> {{ next_lesson.estimated_read_duration|format_timedelta }}
-                                                read</strong>
-                                        </p>
-                                    {% endif %}
-                                    {% if next_module %}
-                                        <p class="text-blue-deep-80 m-t-xs m-b-xs">
-                                            Part of your next module:<br/>
-                                            <strong>{{ next_module.title }}</strong>
-                                        </p>
-                                    {% endif %}
-                                    <a href="{{ next_lesson.get_url }}"  class="button button--secondary m-b-xs">
-                                        Continue learning
-                                    </a>
-                                </div>
-                                <div class="card__section card__section--image">
-                                    <div class="card__image">
-                                        {% comment %}
-                                            If `next_module` is present, we want to use the image from that ahead of `current_module`
-                                        {% endcomment %}
-                                        {% with next_module|default:current_module as appropriate_module %}
-                                            {% image appropriate_module.image original as module_image %}
-                                            <img src="{{ module_image.url }}" alt="{{ module_image.alt }}"/>
-                                        {% endwith %}
-                                    </div>
+
+            <div class="container p-v-s">
+              {% if next_lesson %}
+                <div class="grid">
+                    <div class="c-1-12 hide-on-mobile">
+                        <span>&nbsp;</span>
+                    </div>
+                    <div class="c-10-12 m-b-m">
+                        <div class="card card--horizontal">
+                            <div class="card__section">
+                                <p class="body-l-b m-0">Your next lesson</p>
+                                <h2 class="h-m p-t-xxs">
+                                    {{ next_lesson.title }}
+                                </h2>
+                                {% if next_lesson.estimated_read_duration %}
+                                    <p class="text-blue-deep-80 m-t-0 p-t-0 m-b-xs">
+                                        <i class="fas fa-clock m-r-xxs"></i>
+                                        <strong> {{ next_lesson.estimated_read_duration|format_timedelta }}
+                                            read</strong>
+                                    </p>
+                                {% endif %}
+                                {% if next_module %}
+                                    <p class="text-blue-deep-80 m-t-xs m-b-xs">
+                                        Part of your next module:<br/>
+                                        <strong>{{ next_module.title }}</strong>
+                                    </p>
+                                {% endif %}
+                                <a href="{{ next_lesson.get_url }}"  class="button button--secondary m-b-xs">
+                                    Continue learning
+                                </a>
+                            </div>
+                            <div class="card__section card__section--image">
+                                <div class="card__image">
+                                    {% comment %}
+                                        If `next_module` is present, we want to use the image from that ahead of `current_module`
+                                    {% endcomment %}
+                                    {% with next_module|default:current_module as appropriate_module %}
+                                        {% image appropriate_module.image original as module_image %}
+                                        <img src="{{ module_image.url }}" alt="{{ module_image.alt }}"/>
+                                    {% endwith %}
                                 </div>
                             </div>
                         </div>
-                        <div class="c-1-12">
-                            <span>&nbsp;</span>
-                        </div>
+                    </div>
+                    <div class="c-1-12">
+                        <span>&nbsp;</span>
                     </div>
                 </div>
-            {% endif %}
-            <span class="learn__back-link learn__back-link--bottom">
-              {% include "core/includes/backlink.html" with url=page.get_parent.get_parent.url label=category_title classes="hide-on-mobile back-link--inverse"%}
-            </span>
+              {% endif %}
+              {% include "core/includes/backlink.html" with url=page.get_parent.get_parent.url label=category_title classes="hide-on-mobile back-link--inverse m-f-s"%}
+            </div>
         </div>
     </div>
 {% endblock %}
