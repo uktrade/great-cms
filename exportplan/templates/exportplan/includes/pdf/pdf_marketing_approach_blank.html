@@ -3,14 +3,7 @@
 {% load int_to_range %}
 
 {% for i in 2|int_to_range %}
-<table class="layout page-header">
-  <tr>
-    <td>
-      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
+{% include 'exportplan/includes/pdf/pdf_page_header.html' %}
 
 <table class="layout">
   <tr>

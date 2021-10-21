@@ -61,9 +61,7 @@
   <tr>
     <td class="col-10-10">
       <h1 class="pad-t-5 pad-b-3">Export Plan</h1>
-      <p class="body-alpha"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span>
-      <br />
-      to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
+      <p class="body-alpha"><strong class="colour-red-150">{{ export_plan.data.name }}</strong></p>
     </td>
   </tr>
   <tr class="text-align-right">
@@ -186,14 +184,7 @@
 
 <!-- P4 about the business -->
 <h1 class="toc-name">About the business</h1>
-<table class="layout page-header">
-  <tr>
-    <td>
-      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
+{% include 'exportplan/includes/pdf/pdf_page_header.html' %}
 
 <table class="layout">
   <tr>
@@ -264,14 +255,7 @@
 
 <!-- P6 target market research -->
 <h1 class="toc-name">Target market research</h1>
-<table class="layout page-header">
-  <tr>
-    <td>
-      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
+{% include 'exportplan/includes/pdf/pdf_page_header.html' %}
 
 <table class="layout">
   <tr>
@@ -292,7 +276,7 @@
 
         <tr class="pad-b-1">
           <td class="col-10-10">
-            <h3 class="pad-t-0">Competitors in the {{ export_plan.data.export_countries.0.country_name }}</h3>
+            <h3 class="pad-t-0">Competitors in {{ export_plan.data.export_countries.0.country_name }}</h3>
             {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.target_markets_research.competitors tag="p" lines=4 tag_class="pad-t-0" %}
           </td>
         </tr>
@@ -356,184 +340,7 @@
 </table>
 
 <pdf:nextpage>
-
-<!-- P7a adapting your product -->
-<h1 class="toc-name">Adapting your product</h1>
-<table class="layout page-header">
-  <tr>
-    <td>
-      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
-
-<table class="layout">
-  <tr>
-    <td>
-      <h1 class="pad-t-3 pad-b-2">Adapting your product</h1>
-    </td>
-  </tr>
-  <tr>
-    <td class="col-10-7 align-top pad-r-2">
-      <!-- Nested table -->
-      <table>
-        <tr class="pad-b-1">
-          <td class="col-10-10">
-            <h3 class="pad-t-0">Consumer demand for our product in {{ export_plan.data.export_countries.0.country_name }}</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.target_markets_research.demand tag="p" lines=4 tag_class="pad-t-0" %}
-          </td>
-        </tr>
-
-        <tr class="pad-b-1">
-          <td class="col-10-10">
-            <h3 class="pad-t-0">
-              {% if content_icons %}
-              <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_tag.jpg">
-              &nbsp;
-              &nbsp;
-              {% endif %}
-              Labeling
-            </h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.labelling tag="p" lines=4 tag_class="pad-t-0" %}
-          </td>
-        </tr>
-
-        <tr class="pad-b-1">
-          <td class="col-10-10">
-            <h3 class="pad-t-0">
-              {% if content_icons %}
-              <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_dolly.jpg">
-              &nbsp;
-              &nbsp;
-              {% endif %}
-              Packaging
-            </h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.packaging tag="p" lines=4 tag_class="pad-t-0" %}
-          </td>
-        </tr>
-
-        <tr class="pad-b-1">
-          <td class="col-10-10">
-            <h3 class="pad-t-0">
-              {% if content_icons %}
-              <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_weight.jpg">
-              &nbsp;
-              &nbsp;
-              {% endif %}
-              Size
-            </h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.size tag="p" lines=4 tag_class="pad-t-0" %}
-          </td>
-        </tr>
-
-        <tr class="pad-b-1">
-          <td class="col-10-10">
-            <h3 class="pad-t-0">
-              {% if content_icons %}
-              <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_barcode.jpg">
-              &nbsp;
-              &nbsp;
-              {% endif %}
-              Product changes to comply with standards
-            </h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.standards tag="p" lines=4 tag_class="pad-t-0" %}
-          </td>
-        </tr>
-
-        <tr class="pad-b-1">
-          <td class="col-10-10">
-            <h3 class="pad-t-0">
-              {% if content_icons %}
-              <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_feather-alt.jpg">
-              &nbsp;
-              &nbsp;
-              {% endif %}
-              Translations
-            </h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.translations tag="p" lines=4 tag_class="pad-t-0" %}
-          </td>
-        </tr>
-
-        <tr class="pad-b-1">
-          <td class="col-10-10">
-            <h3 class="pad-t-0">
-              {% if content_icons %}
-              <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_money-check.jpg">
-              &nbsp;
-              &nbsp;
-              {% endif %}
-              Other changes
-            </h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.other_changes tag="p" lines=4 tag_class="pad-t-0" %}
-          </td>
-        </tr>
-      </table>
-      <!-- ./Nested table -->
-    </td>
-    <td class="col-10-3 align-top">
-    </td>
-  </tr>
-</table>
-
-<pdf:nextpage>
-
-<!-- P7b adapting your product -->
-<table class="layout page-header">
-  <tr>
-    <td>
-      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
-
-<table class="layout">
-  <tr>
-    <td class="col-10-7 align-top pad-r-2">
-      <!-- Nested table -->
-      <table>
-        <tr class="pad-b-2 pad-t-3">
-          <td class="col-10-10">
-            <h2 class="pad-b-0">Documents we need to provide</h2>
-          </td>
-        </tr>
-
-        <tr class="pad-b-1">
-          <td class="col-10-10">
-            <h3 class="pad-t-0">Certificate of origin</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.certificate_of_origin tag="p" lines=3 tag_class="pad-t-0" %}
-          </td>
-        </tr>
-
-        <tr class="pad-b-1">
-          <td class="col-10-10">
-            <h3 class="pad-t-0">Insurance certificate</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.insurance_certificate tag="p" lines=3 tag_class="pad-t-0" %}
-          </td>
-        </tr>
-
-        <tr class="pad-b-1">
-          <td class="col-10-10">
-            <h3 class="pad-t-0">Commercial invoice</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.commercial_invoice tag="p" lines=3 tag_class="pad-t-0" %}
-          </td>
-        </tr>
-
-        <tr class="pad-b-1">
-          <td class="col-10-10">
-            <h3 class="pad-t-0">UK customs declaration</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.uk_customs_declaration tag="p" lines=3 tag_class="pad-t-0" %}
-          </td>
-        </tr>
-      </table>
-      <!-- ./Nested table -->
-    </td>
-    <td class="col-10-3 align-top">
-    </td>
-  </tr>
-</table>
-
+{% include 'exportplan/includes/pdf/adapting_your_product.html' %}
 <pdf:nextpage>
 
 <!-- P8 marketing approach -->
@@ -546,14 +353,7 @@
 
 <!-- P9a cost and pricing -->
 <h1 class="toc-name">Cost and pricing</h1>
-<table class="layout page-header">
-  <tr>
-    <td>
-      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
+{% include 'exportplan/includes/pdf/pdf_page_header.html' %}
 
 <table class="layout">
   <tr>
@@ -678,14 +478,7 @@
 <pdf:nextpage>
 
 <!-- P9b cost and pricing -->
-<table class="layout page-header">
-  <tr>
-    <td>
-      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
+{% include 'exportplan/includes/pdf/pdf_page_header.html' %}
 
 <table class="layout">
   <tr>
@@ -738,14 +531,7 @@
 
 <!-- P10 funding and credit -->
 <h1 class="toc-name">Funding and credit</h1>
-<table class="layout page-header">
-  <tr>
-    <td>
-      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
+{% include 'exportplan/includes/pdf/pdf_page_header.html' %}
 
 <table class="layout">
   <tr>
@@ -843,14 +629,7 @@
 
 <!-- P11a travel plan -->
 <h1 class="toc-name">Travel plan</h1>
-<table class="layout page-header">
-  <tr>
-    <td>
-      <p class="body-gamma pad-t-0"><strong>Exporting <span class="colour-red-150">{{ export_plan.data.export_commodity_codes.0.commodity_name }}</span> to <span class="colour-red-150">{{ export_plan.data.export_countries.0.country_name }}</span></strong></p>
-    </td>
-  </tr>
-  <tr class="hr hr--red-150"><td></td></tr>
-</table>
+{% include 'exportplan/includes/pdf/pdf_page_header.html' %}
 
 <table class="layout">
   <tr>
