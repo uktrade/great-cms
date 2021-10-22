@@ -2,15 +2,15 @@
 {% load object_tags %}
 {% load content_tags %}
 
+
 {% for route in export_plan.data.route_to_markets %}
 {% include 'exportplan/includes/pdf/pdf_page_header.html' %}
 
-<table class="layout">
-  <tr>
-    <td>
-      <h1 class="pad-t-3 pad-b-2">Marketing approach</h1>
-    </td>
-  </tr>
+{% if forloop.first %}
+  <h1 class="pad-t-3">Marketing approach</h1>
+{% endif %}
+
+<table class="layout m-t-m">
   <tr>
     <td class="col-10-7 align-top">
       <!-- Nested table -->
@@ -18,30 +18,21 @@
         <tr class="pad-b-2">
           <td class="col-10-10">
             <h3 class="pad-y-0">Route to market {{ forloop.counter }}</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=route.route_label tag="p" lines=3 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=route.route_label lines=3 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-2">
           <td class="col-10-10">
             <h3 class="pad-y-0">How do we promote our product?</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=route.promote_label tag="p" lines=3 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=route.promote_label lines=3 tag_class="pad-t-0" %}
           </td>
         </tr>
 
         <tr class="pad-b-2">
           <td class="col-10-10">
             <h3 class="pad-y-0">Why we selected this route to market and promotional channel</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=route.market_promotional_channel tag="p" lines=3 tag_class="pad-t-0" %}
-          </td>
-        </tr>
-      </table>
-
-      <table>
-        <tr class="pad-b-2">
-          <td class="col-10-10 align-top">
-            <h3 class="pad-y-0">What marketing resources do we need?</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.marketing_approach.resources tag="p" lines=3 tag_class="pad-t-0" %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=route.market_promotional_channel lines=3 tag_class="pad-t-0" %}
           </td>
         </tr>
       </table>
@@ -98,3 +89,14 @@
 </table>
 <pdf:nextpage>
 {% endfor %}
+
+{% include 'exportplan/includes/pdf/pdf_page_header.html' %}
+<h3 class="pad-t-3">What marketing resources do we need?</h3>
+<table class="layout m-t-m">
+  <tr>
+    <td class="col-10-7">
+      {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.marketing_approach.resources lines=3 tag_class="pad-t-0" %}
+    </td>
+  </tr>
+</table>
+<pdf:nextpage>

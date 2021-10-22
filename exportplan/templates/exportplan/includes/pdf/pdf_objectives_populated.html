@@ -18,7 +18,7 @@
         <tr class="pad-b-2">
           <td class="col-10-10">
             <h3 class="pad-y-0">Why we want to export</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.objectives.rationale tag="p" tag_class="pad-t-0" lines=5 %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.objectives.rationale tag_class="pad-t-0" lines=5 %}
           </td>
         </tr>
       </table>
@@ -29,7 +29,7 @@
         <tr class="pad-b-2">
           <td class="col-10-10">
             <h2 class="pad-y-0">Objective {{ forloop.counter }}</h2>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=objective.description tag="p" tag_class="pad-t-0" lines=3 %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=objective.description tag_class="pad-t-0" lines=3 %}
           </td>
         </tr>
         <tr class="pad-b-3">
@@ -53,7 +53,7 @@
         <tr class="pad-b-2">
           <td class="col-10-10">
             <h3 class="pad-y-0">Planned reviews</h3>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=objective.planned_reviews tag="p" tag_class="pad-t-0" lines=3 %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=objective.planned_reviews tag_class="pad-t-0" lines=3 %}
           </td>
         </tr>
       </table>

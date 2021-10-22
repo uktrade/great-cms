@@ -1,0 +1,97 @@
+
+{% load humanize %}
+{% load tz %}
+{% load object_tags %}
+{% load content_tags %}
+{% load to_json %}
+<!-- P10 funding and credit -->
+<h1 class="toc-name">Funding and credit</h1>
+{% include 'exportplan/includes/pdf/pdf_page_header.html' %}
+<h1 class="pad-t-3 pad-b-2">Funding and credit</h1>
+<table class="layout">
+  <tr>
+    <td class="col-10-7 align-top">
+      <!-- Nested table -->
+      <table>
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">Our total cost</h3>
+            <h2 class="pad-t-0">GBP {{ export_plan.data.funding_and_credit.override_estimated_total_cost|floatformat:2|intcomma|default:"_______________" }}</h2>
+          </td>
+        </tr>
+
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <h3 class="pad-t-0">How much funding we need in {{ export_plan.data.export_countries.0.country_name }}</h3>
+            <h2 class="pad-t-0">GBP {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"_______________" }}</h2>
+          </td>
+        </tr>
+        <tr class="pad-b-1">
+          <td class="col-10-10">
+            <!-- Nested table -->
+            <table class="layout">
+              {% for funding in export_plan.data.funding_credit_options %}
+              <tr class="pad-b-0 border-t-1-blue-deep-20">
+                <td class="col-10-5 pad-t-05 border-b-1-blue-deep-20">{{ funding.funding_option_label }}</td>
+                <td class="col-10-5 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ funding.amount|floatformat:2|intcomma|default:"__________" }} GBP</strong></td>
+              </tr>
+              {% endfor %}
+              <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
+                <td class="col-10-5 pad-t-05">Total funding</td>
+                <td class="col-10-5 pad-t-05 text-align-right">
+                  <strong>
+                    {{ total_funding|floatformat:2|intcomma|default:"__________" }} GBP
+                  </strong>
+                </td>
+              </tr>
+            </table>
+            <!-- ./Nested table -->
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+      <table>
+        <tr class="pad-b-2">
+          <td class="col-10-10">
+            <h1 class="pad-t-3 pad-b-0">Getting paid</h1>
+          </td>
+        </tr>
+        <tr class="pad-b-3">
+          <td>
+            <!-- Nested table -->
+            <table class="layout">
+              <tr class="pad-b-0 border-y-1-blue-deep-20">
+                <td class="col-10-2 pad-t-05 align-top">Payment method</td>
+                <td class="col-10-4 pad-t-05 align-top">
+                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_method.payment_method_label tag="strong" blank_class="pad-b-3" lines=1 %}
+                </td>
+                <td class="col-10-4 pad-t-05 align-top">
+                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_method.notes blank_class="pad-b-3" lines=1 %}
+                </td>
+              </tr>
+              <tr class="pad-b-0 border-y-1-blue-deep-20">
+                <td class="col-10-2 pad-t-05 align-top">Payment terms</td>
+                <td class="col-10-4 pad-t-05 align-top">
+                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_terms.terms_label tag="strong" blank_class="pad-b-3" lines=1 %}
+                </td>
+                <td class="col-10-4 pad-t-05 align-top">
+                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_terms.notes blank_class="pad-b-3" lines=1 %}
+                </td>
+              </tr>
+              <tr class="pad-b-0 border-y-1-blue-deep-20">
+                <td class="col-10-2 pad-t-05 align-top">Incoterms</td>
+                <td class="col-10-4 pad-t-05 align-top">
+                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.incoterms.incoterms_transport_label tag="strong" blank_class="pad-b-3" lines=1 %}
+                </td>
+                <td class="col-10-4 pad-t-05 align-top">
+                  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.incoterms.notes blank_class="pad-b-3" lines=1 %}
+                </td>
+              </tr>
+            </table>
+            <!-- ./Nested table -->
+          </td>
+        </tr>
+      </table>

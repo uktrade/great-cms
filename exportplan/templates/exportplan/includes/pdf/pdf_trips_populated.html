@@ -17,7 +17,7 @@
         <tr class="pad-b-2">
           <td class="col-10-10">
             <h2 class="pad-y-0">Trip {{ forloop.counter }}</h2>
-            {% include "exportplan/includes/pdf/pdf_blank.html" with data=trip.note tag="p" tag_class="pad-t-0" lines=5 %}
+            {% include "exportplan/includes/pdf/pdf_blank.html" with data=trip.note tag_class="pad-t-0" lines=5 %}
           </td>
         </tr>
       </table>
