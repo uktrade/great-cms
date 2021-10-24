@@ -293,19 +293,24 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
         cs_settings = CaseStudyScoringSettings.for_request(context['request'])
         case_study_list = self._get_case_study_list(user, cs_settings, page_context)
         best_case_study = case_study_list and case_study_list[0]
-        if best_case_study and int(best_case_study.get('score')) >= cs_settings.threshold:
-            context['case_study'] = models.CaseStudy.objects.get(id=best_case_study.get('pk'))
-        if case_study_list and settings.FEATURE_SHOW_CASE_STUDY_RANKINGS:
-            context['feature_show_case_study_list'] = True
-            context['case_study_list'] = [
-                {
-                    'pk': cs.get('pk'),
-                    'title': models.CaseStudy.objects.get(id=cs.get('pk')).lead_title,
-                    'score': cs.get('score'),
-                    'above_threshold': cs.get('score') >= cs_settings.threshold,
-                }
-                for cs in case_study_list
-            ]
+        try:
+            if best_case_study and int(best_case_study.get('score')) >= cs_settings.threshold:
+                context['case_study'] = models.CaseStudy.objects.get(id=best_case_study.get('pk'))
+            if case_study_list and settings.FEATURE_SHOW_CASE_STUDY_RANKINGS:
+                context['feature_show_case_study_list'] = True
+                context['case_study_list'] = [
+                    {
+                        'pk': cs.get('pk'),
+                        'title': models.CaseStudy.objects.get(id=cs.get('pk')).lead_title,
+                        'score': cs.get('score'),
+                        'above_threshold': cs.get('score') >= cs_settings.threshold,
+                    }
+                    for cs in case_study_list
+                ]
+        except models.CaseStudy.DoesNotExist:
+            # The case study does not exist in the DB mismatch between elastic search and DB.
+            # Rebuild Elastic search case-studies using management command
+            logger.error('No case-study not found in the database using ID in elastic search')
         return context
 
     def get_context(self, value, parent_context=None):
