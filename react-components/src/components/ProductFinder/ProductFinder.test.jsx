@@ -6,9 +6,6 @@ import fetchMock from 'fetch-mock'
 import { waitFor } from '@testing-library/react'
 import ReactModal from 'react-modal'
 
-
-import ProductSelector from '@src/components/ExportPlanWizard/ProductSelector'
-
 let container
 
 const mockResponse = {
@@ -81,24 +78,6 @@ const multiItemResponse = {
     productDescription: 'description',
     multiItemError: true,
   },
-}
-
-const setup = () => {
-  Services.setInitialState({
-    userSettings: {
-      UserProducts: userProducts,
-      ActiveProduct: {},
-    },
-  })
-  ReactModal.setAppElement(document.body)
-  const component = render(
-    <Provider store={Services.store}>
-      <ProductSelector valueChange={valueChange}/>
-    </Provider>
-  )
-  return {
-    ...component,
-  }
 }
 
 const openProductFinder = () => {
