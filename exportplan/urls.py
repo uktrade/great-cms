@@ -23,7 +23,7 @@ urlpatterns = [
     # To change the base dashboard link which is partially controlled by directory-constants
     path(
         'dashboard/',
-        login_required(RedirectView.as_view(pattern_name='exportplan:index')),
+        RedirectView.as_view(pattern_name='exportplan:index'),
         name='dashboard-redirect',
     ),
     path(
