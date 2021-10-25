@@ -1,0 +1,78 @@
+{% load humanize %}
+{% load object_tags %}
+{% load content_tags %}
+{% load int_to_range %}
+{% load set %}
+
+<pdf:nexttemplate name="right_bar_content_page" /><pdf:nextpage><pdf:nexttemplate name="section_page" />
+
+<h1>Marketing approach</h1>
+<pdf:nextframe>
+<table><tr><td>
+  {% with marketing_approach=population_age_data|get_item:'marketing-approach' %}
+    <h3 class="m-b-xs colour-red-150">Data snapshot</h3>
+    <h6 class="body-s">Total population</h6>
+    <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_population|multiply_by_exponent|friendly_number }}</strong></p>
+    <h6 class="body-s pad-y-0">Access to internet</h6>
+    <p class="pad-t-0"><strong>{{ insight_data.country_data.InternetUsage.0.value|floatformat:0 }}&percnt;</strong></p>
+    <h6 class="body-s pad-y-0">Consumer price index</h6>
+    <p class="pad-t-0"><strong>{{ insight_data.country_data.ConsumerPriceIndex.0.value }}</strong></p>
+    <h6 class="body-s pad-y-0">GDP per capita (USD)</h6>
+    <p class="pad-t-0"><strong>${{ insight_data.country_data.GDPPerCapita.0.year_2019|floatformat:0|intcomma }}</strong></p>
+    <h6 class="body-s pad-y-0">Languages</h6>
+    <p class="pad-t-0">
+      <strong class="body-m">
+      {% for lang in language_data.cia_factbook_data.languages.language %}
+        {{ lang.name }},
+      {% endfor %}
+      </strong>
+    </p>
+
+    <table>
+      <tr><td>Urban</td><td>Rural</td>
+      <tr>
+        <td><strong> {% widthratio marketing_approach.population_data.urban_percentage 1 100 %}&percnt;</strong></td>
+        <td><strong>{% widthratio marketing_approach.population_data.rural_percentage 1 100 %}&percnt;</strong></td>
+      </tr>
+    </table>
+    {% if marketing_approach.population_data.target_ages %}
+      <h6 class="body-s pad-t-0">Target age groups</h3>
+      <p class="pad-t-0">
+        <strong>
+          {% for age in marketing_approach.population_data.target_ages %}
+          {{ age }}{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </strong>
+      </p>
+      <h6 class="body-s pad-y-0">Target age population</h6>
+      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_target_age_population|multiply_by_exponent|friendly_number }}</strong></p>
+      <h6 class="body-s pad-y-0">Female in target group</h6>
+      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.female_target_age_population|multiply_by_exponent|friendly_number }}</strong></p>
+      <h6 class="body-s pad-y-0">Male in target group</h6>
+      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.male_target_age_population|multiply_by_exponent|friendly_number }}</strong></p>
+    {% endif %}
+  {% endwith %}
+</td></tr></table>
+<pdf:nextframe>
+{% set 'rtm_list' 2|int_to_range %}
+{% if export_plan.data.route_to_markets %}
+  {% set 'rtm_list' export_plan.data.route_to_markets %}
+{% endif %}
+
+
+{% for route in rtm_list %}
+  <h2>Route to market {{ forloop.counter }}</h3>
+  {% include "exportplan/includes/pdf/pdf_blank.html" with data=route.route_label lines=2 %}
+
+  <h3>How do we promote our product?</h3>
+  {% include "exportplan/includes/pdf/pdf_blank.html" with data=route.promote_label lines=3 %}
+
+  <h3>Why we selected this route to market and promotional channel</h3>
+  {% include "exportplan/includes/pdf/pdf_blank.html" with data=route.market_promotional_channel lines=3 %}
+
+  <div class="hr hr--blue-deep-20 m-t-s">&nbsp;</div>
+{% endfor %}
+
+
+<h2>What marketing resources do we need?</h2>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.marketing_approach.resources lines=3 %}
