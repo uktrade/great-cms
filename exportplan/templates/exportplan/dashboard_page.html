@@ -1,4 +1,5 @@
 {% extends "core/base.html" %}
+{% load content_tags %}
 {% load to_json %}
 {% load static from staticfiles %}
 {% load great_components %}
@@ -12,7 +13,10 @@
       </a>
     </span>
     <h2 class="h-m p-t-s">{{ export_plan.name }}</h2>
-    <div class="grid m-t-s">
+    <div class="grid m-t-xs">
+      <div id="created-date" class="m-v-xs body-m-b">
+        Created on {{ export_plan.created|str_to_datetime|date:"d F Y" }}
+      </div>
       <div id="section-commodity-code" class="c-2-3 m-b-s">
         &nbsp;
       </div>

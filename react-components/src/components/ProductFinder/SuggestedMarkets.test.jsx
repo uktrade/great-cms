@@ -105,9 +105,9 @@ describe('Test suggested markets', () => {
       rtl = setup({ activeProducts: [product1] })
     })
     await waitFor(() => {
-      expect(rtl.queryAllByText('Suggested markets')).toBeTruthy()
+      expect(rtl.queryAllByText('Possible export markets')).toBeTruthy()
     })
-    expect(rtl.getByText(/Dairy produce/)).toBeTruthy()
+    expect(rtl.getByText(/dairy produce/)).toBeTruthy()
     expect(suggestedCountriesMock.calls())
     expect(suggestedCountriesMock.calls(/\/api\/suggested-markets\//)[0][0]).toMatch(/\?hs_code=12/)
     expect(scheduleResponseMock.calls(/\/api\/lookup-product-schedule\//)[0][0]).toMatch(/\?hs_code=123456/)
@@ -119,10 +119,10 @@ describe('Test suggested markets', () => {
       rtl = setup({ activeProducts: [product3] })
     })
     await waitFor(() => {
-      expect(rtl.queryAllByText('Suggested markets')).toBeTruthy()
+      expect(rtl.queryAllByText('Possible export markets')).toBeTruthy()
 
     })
-    expect(rtl.getByText(/Dairy produce/)).toBeTruthy()
+    expect(rtl.getByText(/dairy produce/)).toBeTruthy()
     expect(suggestedCountriesMock.calls())
     expect(suggestedCountriesMock.calls(/\/api\/suggested-markets\//)[0][0]).toMatch(/\?hs_code=66/)
   })
@@ -133,7 +133,7 @@ describe('Test suggested markets', () => {
       rtl = setup({ activeProducts: null })
     })
     await waitFor(() => {
-      expect(rtl.queryAllByText('Suggested markets for product2')).toBeTruthy()
+      expect(rtl.queryAllByText('This is an HS2 category that includes product2')).toBeTruthy()
     })
     expect(suggestedCountriesMock.calls(/\/api\/suggested-markets\//)[0][0]).toMatch(/\?hs_code=12/)
   })
@@ -153,6 +153,6 @@ describe('Test suggested markets', () => {
     await waitFor(() => {
       expect(rtl.queryAllByText('Suggested markets')).toBeTruthy()
     })
-    expect(rtl.getByText(/Dairy produce/)).toBeTruthy()
+    expect(rtl.getByText(/dairy produce/)).toBeTruthy()
   })
 })
