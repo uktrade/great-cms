@@ -145,6 +145,16 @@ def test_case_study_update_index(mock_elasticsearch_get_connection):
     CaseStudyFactory(id=1)
 
 
+@mock.patch.object(case_study_index, 'delete_cs_index')
+@pytest.mark.django_db
+def test_case_study_delete_index(mock_delete_cs_index, mock_elasticsearch_get_connection):
+    # Check that the index is deleted on delete of a case study.
+    case_study_1 = CaseStudyFactory(id=1)
+    case_study_1.delete()
+    mock_delete_cs_index.assert_called()
+    assert mock_delete_cs_index.call_args == mock.call(1)
+
+
 @pytest.mark.django_db
 def test_case_study_static_block_below_threshold(
     rf,
@@ -158,7 +168,7 @@ def test_case_study_static_block_below_threshold(
     mock_trading_blocs,
     settings,
 ):
-    # Create a case-study that matches but below threshold scorte.  Check it's not shown.
+    # Create a case-study that matches but below threshold score.  Check it's not shown.
     case_study_1 = CaseStudyFactory(id=1)
     case_study_1.hs_code_tags.add('334455')
     case_study_1.country_code_tags.add('Spain')
@@ -221,6 +231,39 @@ def test_case_study_static_block_above_threshold(
         assert context['case_study_list'][0]['pk'] == '2'
     else:
         assert 'feature_case_study_list' not in context
+
+
+@pytest.mark.django_db
+@mock.patch.object(core_blocks.CaseStudyStaticBlock, '_get_case_study_list')
+def test_case_study_static_block_no_exception_raised_missing_casestudy(
+    mock_get_case_study_list,
+    rf,
+    user,
+    client,
+    magna_site,
+    mock_get_user_data,
+    mock_elasticsearch_get_connection,
+    mock_elasticsearch_count,
+    mock_elasticsearch_scan,
+    mock_trading_blocs,
+    settings,
+):
+
+    # Create case studies - then delete it so there's a mismatch between ES and Database
+    # Case study display shouldn't break
+    case_study_1 = CaseStudyFactory(id=1)
+    case_study_1.hs_code_tags.add('111111', '1234')
+    case_study_1.country_code_tags.add('Germany')
+    case_study_1.save()
+    case_study_1.delete()
+    mock_get_case_study_list.return_value = [{'pk': 1, 'score': 10000}]
+    request = rf.get('/')
+    request.user = user
+    block = core_blocks.CaseStudyStaticBlock()
+    context = {'request': request, 'user': user}
+    context = block._annotate_with_case_study(context)
+
+    assert 'case_study' not in context
 
 
 @pytest.mark.django_db
