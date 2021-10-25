@@ -56,7 +56,6 @@ export const CountryFinderButton = () => {
                 <button
                   type="button"
                   className="f-r button button--small button--only-icon button--tertiary"
-                  // onClick={() => deleteMarket(marketIdx)}
                   onClick={() => confirmDelete(market.country_name, marketIdx)}
                 >
                   <i className="fas fa-times fa-lg" />
