@@ -14,6 +14,7 @@
 - [HOTFIX] - GP2-3446 change london ita search
 
 ### Enhancements
+- GP2-3436 - Add created date to EP overview
 - GP2-3190 - WTE content changes
 - GP2-2478 - EP Business objectives content update
 - GP2-2893 - Learning backlinks layout
@@ -56,6 +57,7 @@
 
 ### Fixed bugs
 - GP2-3725 - Unwanted text on WTE
+- GP2-3717 - Update suggested markets content
 - GP2-3257 - Fix costs and pricing debounce
 - GP2-3429 - Clear WTE displayed product on deleting last basket product
 - GP2-3410 - Fix password validation error messages not showing on signup
