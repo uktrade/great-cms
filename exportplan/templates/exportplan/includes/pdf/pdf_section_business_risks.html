@@ -1,0 +1,47 @@
+
+ {% load set %}
+ {% load int_to_range %}
+
+<pdf:nexttemplate name="section_page_gutter" /><pdf:nextpage>
+ <h1>Business risk</h1>
+
+{% set 'br_list' 2|int_to_range %}
+{% if export_plan.data.business_risks %}
+  {% set 'br_list' export_plan.data.business_risks %}
+{% endif %}
+
+{% for risk in br_list %}
+  {% if forloop.counter > 1 %}
+  <div class="hr hr--blue-deep-20 m-t-s">&nbsp;</div>
+  {% endif %}
+  <h2 >Risk {{ forloop.counter }}</h2>
+  {% autoescape off %}
+  <h3>{{ risk.risk }}</h3>
+  {% endautoescape %}
+  <div class="keep-together">
+    <h3>Risk likelihood:</h3>
+    <table class="layout m-t-s">
+      <tr>
+        {% for risk_option in risk_likelihood_options %}
+        <td class="col-10-2 pad-y-1">
+          <div class="button body-m {% if risk_option.value == risk.risk_likelihood %}bg-colour-blue-deep-10 colour-red-150 {% endif %}">{{ risk_option.label }}</div>
+        </td>
+        {% endfor %}
+      </tr>
+    </table>
+  </div>
+  <h3>Risk impact:</h3>
+  <div class="keep-with-next">
+    <table class="keep-with-next">
+      <tr>
+        {% for risk_option in risk_impact_options %}
+        <td class="col-10-2 pad-y-1">
+          <div class="button body-m {% if risk_option.value == risk.risk_impact %}bg-colour-blue-deep-10 colour-red-150 {% endif %}">{{ risk_option.label }}</div>
+        </td>
+        {% endfor %}
+      </tr>
+    </table>
+  </div>
+  <h3 class="pad-y-0">Contingency plan</h3>
+  <p class="pad-t-0">{{ risk.contingency_plan }}</p>
+{% endfor %}

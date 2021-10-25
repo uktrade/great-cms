@@ -1,4 +1,5 @@
 import importlib
+import re
 
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
@@ -27,7 +28,8 @@ class TargetAgeCountryPopulationData(APIView):
         serializer.is_valid(raise_exception=True)
         target_ages = serializer.validated_data['target_age_groups']
         url = serializer.validated_data['section_name']
-        section_name = url.replace(f'/export-plan/{id}/', '').replace('/', '')
+
+        section_name = re.match(r'/export-plan/[^/]*/([^/]*)/', url)[1]
         export_plan = helpers.get_exportplan(request.user.session_id, id)
         helpers.update_ui_options_target_ages(
             sso_session_id=request.user.session_id,

@@ -40,6 +40,7 @@ class InsightDataContextProvider(BaseContextProvider):
                 countries_list=[self.export_plan.export_country_code],
                 commodity_code=self.export_plan.export_commodity_code,
             )
+        if self.export_plan.export_country_code:
             country_data = core_helpers.get_country_data(
                 countries=[self.export_plan.export_country_code],
                 fields=[
@@ -51,10 +52,8 @@ class InsightDataContextProvider(BaseContextProvider):
                     'InternetUsage',
                 ],
             )
-            insight_data[self.export_plan.export_country_code]['country_data'] = country_data.get(
-                self.export_plan.export_country_code
-            )
 
+            insight_data['country_data'] = country_data.get(self.export_plan.export_country_code)
         context['insight_data'] = insight_data
         return context
 
@@ -79,10 +78,9 @@ class PopulationAgeDataContextProvider(BaseContextProvider):
         if self.export_plan.export_country_name:
             for section in sections:
                 selected_age_groups = self.export_plan.data['ui_options'].get(section, {}).get('target_ages', [])
-                if len(selected_age_groups):
-                    population_data[section] = helpers.get_population_data(
-                        country=self.export_plan.export_country_name, target_ages=selected_age_groups
-                    )
+                population_data[section] = helpers.get_population_data(
+                    country=self.export_plan.export_country_name, target_ages=selected_age_groups
+                )
         context['population_age_data'] = population_data
         return context
 
@@ -106,7 +104,7 @@ class PDFContextProvider(BaseContextProvider):
                 'user': request.user,
                 'sections': data.SECTION_TITLES,
                 'calculated_pricing': processor.calculated_cost_pricing(),
-                'total_funding': processor.calculate_total_funding,
+                'total_funding': processor.calculate_total_funding(),
                 'contact_detail': contact_dict,
             }
         )

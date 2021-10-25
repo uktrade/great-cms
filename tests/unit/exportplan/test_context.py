@@ -42,9 +42,7 @@ def test_insightdata_context_provider(mock_get_comtrade_data, multiple_country_d
         'EaseOfDoingBusiness',
         'InternetUsage',
     ]:
-        assert context['insight_data']['NL']['country_data'].get('fieldname') == multiple_country_data['NL'].get(
-            'feldname'
-        )
+        assert context['insight_data']['country_data'].get(fieldname) == multiple_country_data['NL'].get(fieldname)
 
 
 def test_population_age_data_context_provider(mock_get_population_data, get_request):
