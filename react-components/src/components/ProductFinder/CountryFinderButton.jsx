@@ -15,17 +15,11 @@ export const CountryFinderButton = () => {
 
   const sortMap = sortMapBy(markets || [], 'country_name')
 
-  const [deleteConfirm, setDeleteConfirm] = useState({
-    delete: null,
-    index: null,
-    name: null
-  })
+  const [deleteConfirm, setDeleteConfirm] = useState()
 
-  const confirmDelete = (name, index) => {
+  const confirmDelete = (index) => {
     setDeleteConfirm({
-      delete: true,
       index: index,
-      name: name
     })
   }
 
@@ -33,10 +27,7 @@ export const CountryFinderButton = () => {
     const reduced = [...markets]
     reduced.splice(index, 1)
     setMarkets(reduced)
-    setDeleteConfirm({
-      ...confirmDelete,
-      delete: false
-    })
+    setDeleteConfirm(null)
   }
 
   const selectCountry = (country) => {
@@ -47,7 +38,7 @@ export const CountryFinderButton = () => {
   return (
     <span>
       <BasketViewer label="My markets" onOpen={loadMarkets}>
-        {sortMap.length === 0 ? <p class="body-l-b text-center">My markets is empty</p>: null}
+        {sortMap.length === 0 ? <p className="body-l-b text-center">My markets is empty</p>: null}
         <ul className="list m-v-0 body-l-b">
           {sortMap.map((marketIdx) => {
             const market = markets[marketIdx]
@@ -56,7 +47,7 @@ export const CountryFinderButton = () => {
                 <button
                   type="button"
                   className="f-r button button--small button--only-icon button--tertiary"
-                  onClick={() => confirmDelete(market.country_name, marketIdx)}
+                  onClick={() => confirmDelete(marketIdx)}
                 >
                   <i className="fas fa-times fa-lg" />
                   <span className="visually-hidden">
@@ -68,13 +59,21 @@ export const CountryFinderButton = () => {
             )
           })}
         </ul>
+        <button
+          type="button"
+          className="button button--primary button--icon m-t-xs button--full-width hidden"
+          onClick={() => setIsOpen(true)}
+        >
+          <i className="fas fa-plus" />
+          Add market
+        </button>
       </BasketViewer>
-      {deleteConfirm.delete && <Confirmation
-        title={`Are you sure you want to remove ${deleteConfirm.name}?`}
+      {deleteConfirm && <Confirmation
+        title={`Are you sure you want to remove ${markets[deleteConfirm?.index].country_name}?`}
         yesLabel="Remove"
         yesIcon="fa-trash-alt"
         onYes={() => deleteMarket(deleteConfirm.index)}
-        onNo={() => setDeleteConfirm({...deleteConfirm, delete: false})}
+        onNo={() => setDeleteConfirm(null)}
       />}
       {modalIsOpen && (
       <CountryFinderModal

@@ -19,17 +19,11 @@ function ProductFinderButton() {
   )
 
   const sortMap = sortMapBy(products || [], 'commodity_name')
-  const [deleteConfirm, setDeleteConfirm] = useState({
-    delete: null,
-    index: null,
-    name: null
-  })
+  const [deleteConfirm, setDeleteConfirm] = useState()
 
-  const confirmDelete = (name, index) => {
+  const confirmDelete = (index) => {
     setDeleteConfirm({
-      delete: true,
       index: index,
-      name: name
     })
   }
 
@@ -37,16 +31,13 @@ function ProductFinderButton() {
     const reduced = [...products]
     reduced.splice(index, 1)
     setProducts(reduced)
-    setDeleteConfirm({
-      ...confirmDelete,
-      delete: false
-    })
+    setDeleteConfirm(null)
   }
 
   return (
     <>
       <BasketViewer label="My products" onOpen={loadProducts}>
-        {sortMap.length === 0 ? <p class="body-l-b text-center">My products is empty</p>: null}
+        {sortMap.length === 0 ? <p className="body-l-b text-center">My products is empty</p>: null}
         <ul className="list m-v-0 body-l-b">
           {sortMap.map((mapIndex) => {
             const product = products[mapIndex]
@@ -58,7 +49,7 @@ function ProductFinderButton() {
                 <button
                   type="button"
                   className="button button--small button--only-icon button--tertiary"
-                  onClick={() => confirmDelete(product.commodity_name, mapIndex)}
+                  onClick={() => confirmDelete(mapIndex)}
                 >
                   <i className="fas fa-times fa-lg" />
                   <span className="visually-hidden">
@@ -70,13 +61,21 @@ function ProductFinderButton() {
             )
           })}
         </ul>
+        <button
+          type="button"
+          className="button button--primary button--icon m-t-xs button--full-width hidden"
+          onClick={() => setIsOpen(true)}
+        >
+          <i className="fas fa-plus" />
+          Add product
+      </button>
       </BasketViewer>
-      {deleteConfirm.delete && <Confirmation
-        title={`Are you sure you want to remove ${deleteConfirm.name}?`}
+      {deleteConfirm && <Confirmation
+        title={`Are you sure you want to remove ${products[deleteConfirm?.index].commodity_name}?`}
         yesLabel="Remove"
         yesIcon="fa-trash-alt"
         onYes={() => deleteProduct(deleteConfirm.index)}
-        onNo={() => setDeleteConfirm({...deleteConfirm, delete: false})}
+        onNo={() => setDeleteConfirm(null)}
       />}
       <ProductFinderModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
     </>
