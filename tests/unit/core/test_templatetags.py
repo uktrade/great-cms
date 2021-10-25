@@ -132,7 +132,7 @@ def test_str_to_datetime():
     )
 
 
-@pytest.mark.parametrize('month,expected', ((1, 'January'), (6, 'June'), (12, 'December')))
+@pytest.mark.parametrize('month,expected', ((1, 'January'), (6, 'June'), (12, 'December'), (None, '')))
 @pytest.mark.django_db
 def test_month_name(user, rf, domestic_site, month, expected):
     template = Template('{% load month_name from content_tags %}{{ month|month_name }}')
