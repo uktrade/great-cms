@@ -152,11 +152,9 @@ def test_case_study_delete_index(mock_delete_cs_index, mock_elasticsearch_get_co
     case_study_1 = CaseStudyFactory(id=1)
     case_study_1.delete()
     mock_delete_cs_index.assert_called()
-
     assert mock_delete_cs_index.call_args == mock.call(1)
 
 
-@mock.patch.object(core_blocks.CaseStudyStaticBlock, '_get_case_study_list')
 @pytest.mark.django_db
 def test_case_study_static_block_below_threshold(
     rf,
@@ -170,7 +168,7 @@ def test_case_study_static_block_below_threshold(
     mock_trading_blocs,
     settings,
 ):
-    # Create a case-study that matches but below threshold scorte.  Check it's not shown.
+    # Create a case-study that matches but below threshold score.  Check it's not shown.
     case_study_1 = CaseStudyFactory(id=1)
     case_study_1.hs_code_tags.add('334455')
     case_study_1.country_code_tags.add('Spain')
