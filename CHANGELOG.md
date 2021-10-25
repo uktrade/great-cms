@@ -14,6 +14,7 @@
 - [HOTFIX] - GP2-3446 change london ita search
 
 ### Enhancements
+- GP2-3776 - EP Textarea autosize
 - GP2-3436 - Add created date to EP overview
 - GP2-3190 - WTE content changes
 - GP2-2478 - EP Business objectives content update
