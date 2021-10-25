@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useRef } from 'react'
 import PropTypes from 'prop-types'
 
 import { FormGroup } from '../FormGroup'
@@ -20,7 +20,17 @@ export const TextArea = memo(
     className,
     formGroupClassName,
     name,
-  }) => (
+  }) => {
+
+    const expandTextArea = (el) => {
+      if(el) {
+        el.style.overflow = 'hidden'
+        el.style.height = 0 // This is so the scroll-height doen't get padded out by a larget min-height
+        el.style.height = el.scrollHeight+'px'
+      }
+    }
+
+    return (
     <FormGroup
       errors={errors}
       label={label}
@@ -40,10 +50,11 @@ export const TextArea = memo(
         onChange={(e) => onChange({ [name || id]: e.target.value })}
         placeholder={placeholder}
         value={value}
+        ref={(el) => expandTextArea(el)}
       />
     </FormGroup>
   )
-)
+})
 
 TextArea.propTypes = {
   errors: PropTypes.arrayOf(PropTypes.string),
