@@ -14,7 +14,7 @@ def test_set_target_age_groups(
 ):
     expected_response = {'success': True}
 
-    request_parameters = {'target_age_groups': ['0-14', '15-25'], 'section_name': 'test-section'}
+    request_parameters = {'target_age_groups': ['0-14', '15-25'], 'section_name': '/export-plan/1/test-section/'}
     mock_update_ui_options.return_value = None
 
     client.force_login(user)

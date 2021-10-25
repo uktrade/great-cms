@@ -132,6 +132,28 @@ def test_str_to_datetime():
     )
 
 
+@pytest.mark.parametrize('month,expected', ((1, 'January'), (6, 'June'), (12, 'December')))
+@pytest.mark.django_db
+def test_month_name(user, rf, domestic_site, month, expected):
+    template = Template('{% load month_name from content_tags %}{{ month|month_name }}')
+    assert template.render(Context({'month': month})) == expected
+
+
+@pytest.mark.parametrize(
+    'val1,val2,expected',
+    (
+        ('one', 'two', 'onetwo'),
+        ('', 'two', 'two'),
+        (12, 'two', '12two'),
+        ('one', 234, 'one234'),
+    ),
+)
+@pytest.mark.django_db
+def test_concat(user, rf, domestic_site, val1, val2, expected):
+    template = Template('{% load concat from content_tags %}{{ val1|concat:val2 }}')
+    assert template.render(Context({'val1': val1, 'val2': val2})) == expected
+
+
 @pytest.mark.django_db
 def test_pluralize(user, rf, domestic_site):
     cases = [
