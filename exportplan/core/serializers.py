@@ -160,7 +160,6 @@ class FundingCreditOptionsSerializer(serializers.Serializer):
 class FundingAndCreditSerializer(serializers.Serializer):
     override_estimated_total_cost = serializers.FloatField(required=False, allow_null=True)
     funding_amount_required = serializers.FloatField(required=False, allow_null=True)
-    funding_credit_options = serializers.ListField(child=FundingCreditOptionsSerializer(), required=False)
 
 
 class DirectCostsSerializer(serializers.Serializer):
@@ -299,6 +298,7 @@ class ExportPlanSerializer(serializers.Serializer):
     overhead_costs = OverheadCostsSerializer(required=False)
     total_cost_and_price = TotalCostAndPriceSerializer(required=False)
     funding_and_credit = FundingAndCreditSerializer(required=False)
+    funding_credit_options = serializers.ListField(child=FundingCreditOptionsSerializer(), required=False)
     getting_paid = GettingPaidSerializer(required=False)
     travel_business_policies = TravelBusinessPoliciesSerializer(required=False)
     business_risks = serializers.ListField(child=BusinessRisksSerializer(), required=False)
@@ -353,7 +353,7 @@ class ExportPlanSerializer(serializers.Serializer):
     def calculate_total_funding(self):
         self.is_valid()
         total_funding = 0.00
-        funding_credit_options = self.data.get('funding_and_credit', {}).get('funding_credit_options') or []
+        funding_credit_options = self.data.get('funding_credit_options') or []
         for funding_credit_option in funding_credit_options:
             total_funding = funding_credit_option.get('amount', 0.00) + total_funding
         return total_funding

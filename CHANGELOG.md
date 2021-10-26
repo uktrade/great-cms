@@ -75,9 +75,10 @@
 - GP2-2880 - DAC_Parsing_02 (A)
 - GP2-3348 - SECURITY: great-cms frontend asset vulnerabilty: tar
 - NOTICKET - Fix hashid on EP create wizard
-- GP2-3772 -delete- case study error
+- GP2-3772 - delete  case study error
 - GP2-3724 - fix EP dashboard wagtail redirect
 - GP2-3783 - add case-study error
+- GP2-3782 - total funding pdf not working
 
 ## [1.13.0](https://github.com/uktrade/great-cms/releases/tag/1.13.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
