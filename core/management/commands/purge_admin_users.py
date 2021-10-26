@@ -12,14 +12,14 @@ class Command(BaseCommand):
         self.UserModel = get_user_model()
 
     def handle(self, *args, **options):
-        proceed = input('This operation will purge the users table, proceed anyway? [Y/n]: ') or 'y'
+        proceed = input('This operation will purge the users table. Are you sure? [y/N]: ') or 'n'
         if proceed[0].lower() == 'y':
             self.UserModel.objects.all().delete()
         else:
             self.stderr.write('Operation cancelled.')
             sys.exit(1)
 
-        create_superuser = input('Create superuser? [Y/n]: ') or 'y'
+        create_superuser = input('Create superuser? [y/N]: ') or 'n'
 
         if create_superuser[0].lower() == 'y':
             call_command('createsuperuser')
