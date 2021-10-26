@@ -14,6 +14,11 @@
 - [HOTFIX] - GP2-3446 change london ita search
 
 ### Enhancements
+- GP2-3767 - EP pdf export template rework
+- GP2-3776 - EP Textarea autosize
+- GP2-3436 - Add created date to EP overview
+- GP2-3387 - Management command to purge admin users
+- GP2-3190 - WTE content changes
 - GP2-2478 - EP Business objectives content update
 - GP2-2893 - Learning backlinks layout
 - GP2-2502 - Replace Dashboard Title - “Hello” with “Dashboard”
@@ -52,8 +57,11 @@
 - GP2-3384 - Funding and credit: Amend pdf content
 - GP2-3193 - View example export plan
 - GP2-3428 - Country selector - suggested markets, display HS2 product information
+- GP2-3356 - Basket for products and countries - add/delete
 
 ### Fixed bugs
+- GP2-3725 - Unwanted text on WTE
+- GP2-3717 - Update suggested markets content
 - GP2-3257 - Fix costs and pricing debounce
 - GP2-3429 - Clear WTE displayed product on deleting last basket product
 - GP2-3410 - Fix password validation error messages not showing on signup
@@ -66,6 +74,9 @@
 - GP2-2880 - DAC_Parsing_02 (A)
 - GP2-3348 - SECURITY: great-cms frontend asset vulnerabilty: tar
 - NOTICKET - Fix hashid on EP create wizard
+- GP2-3772 -delete- case study error
+- GP2-3724 - fix EP dashboard wagtail redirect
+- GP2-3783 - add case-study error
 
 ## [1.13.0](https://github.com/uktrade/great-cms/releases/tag/1.13.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)

@@ -48,11 +48,17 @@ def case_study_to_index(case_study):
 
 
 def update_cs_index(cs):
+    # if we don't have an ID then we are creating
+    if cs.id:
+        delete_cs_index(cs.id)
+    case_study_to_index(cs).save()
+
+
+def delete_cs_index(cs_id):
     Search(
         using=get_connection(),
         index=settings.ELASTICSEARCH_CASE_STUDY_INDEX,
-    ).query(Q('match', pk=cs.id)).delete()
-    case_study_to_index(cs).save()
+    ).query(Q('match', pk=cs_id)).delete()
 
 
 def search(export_commodity_codes, export_markets, export_regions, page_context):

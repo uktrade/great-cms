@@ -161,7 +161,7 @@ export default function CountryFinderModal(props) {
   /*   Suggested markets section  */
   let suggestedSection = (
     <div>
-      <h3 className="h-s">Suggested markets</h3>
+      <h3 className="h-s">Possible export markets</h3>
       <p className="m-v-xs">
         Add a product so that we can suggest export markets.
       </p>
@@ -187,10 +187,8 @@ export default function CountryFinderModal(props) {
     })
     suggestedSection = (
       <div className="suggested-markets">
-        <h3 className="h-s">
-          Suggested markets
-          {suggestedCountries.hs2Desc && ` for ${suggestedCountries.hs2Desc}`}
-        </h3>
+        <h3 className="h-s">Possible export markets</h3>
+        <div className="m-v-xs">{suggestedList}</div>
         <p className="m-v-xs">
           These markets are based on consumer demand, export distance, tariffs
           and costs for exporting{' '}
@@ -199,7 +197,7 @@ export default function CountryFinderModal(props) {
           </span>{' '}
           from the UK. This is an HS2 category that includes{' '}
           <span className="body-l-b">
-            {suggestedCountries.details.product} (HS code{' '}
+            {(suggestedCountries.details.product || '').toLowerCase()} (HS code{' '}
             {suggestedCountries.details.hs6})
           </span>
           , along with other products categorised at an HS4 and HS6 level. For
@@ -209,7 +207,7 @@ export default function CountryFinderModal(props) {
           </a>
           .
         </p>
-        <div className="m-v-xs">{suggestedList}</div>
+
       </div>
     )
   }
@@ -291,7 +289,7 @@ export default function CountryFinderModal(props) {
           className="button button--secondary button--full-width m-b-s"
           onClick={() => setMobilePage('suggested')}
         >
-          Suggested markets
+          Possible export markets
         </button>
         {!isCompareCountries && (
           <button

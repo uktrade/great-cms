@@ -1,0 +1,53 @@
+{% load set %}
+{% load int_to_range %}
+
+
+<pdf:nexttemplate name="section_page" /><pdf:nextpage>
+
+<h1>Travel plan</h1>
+<h3>Travel information</h3>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.travel_business_policies.travel_information lines=4 tag_class="pad-t-0" %}
+
+<h3>Cultural information</h3>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.travel_business_policies.cultural_information lines=4 tag_class="pad-t-0" %}
+
+{% if export_plan.data.travel_business_policies.visa_information.visa_required %}
+  <h3>Visa required</h3>
+  <p><strong>How and where to get visa:</strong></p>
+  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.travel_business_policies.visa_information.how_where_visa lines=4 tag_class="pad-t-0" %}
+
+  <p><strong>Duration:</strong></p>
+  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.travel_business_policies.visa_information.how_long lines=1 tag_class="pad-t-0" %}
+
+  <p><strong>Additional notes:</strong></p>
+  {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.travel_business_policies.visa_information.notes lines=4 tag_class="pad-t-0" %}
+
+{% else %}
+  <h3>No need for a visa</h3>
+{% endif %}
+
+<h3>Languages in the target market</h3>
+<p>
+  {% if language_data.cia_factbook_data.languages.language  %}
+  {% for lang in language_data.cia_factbook_data.languages.language %}
+    {{ lang.name }}{% if not forloop.last %},{% endif %}
+  {% endfor %}
+  {% else %}
+  {% include "exportplan/includes/pdf/pdf_blank.html" with lines=5 %}
+  {% endif %}
+</p>
+
+
+<h2 class="m-t-m">Planned travel</h2>
+
+{% set 'trip_list' 2|int_to_range %}
+{% if export_plan.data.business_trips %}
+  {% set 'trip_list' export_plan.data.business_trips %}
+{% endif %}
+
+{% for trip in trip_list %}
+
+  <h3>Trip {{ forloop.counter }}</h3>
+  {% include "exportplan/includes/pdf/pdf_blank.html" with data=trip.note tag_class="pad-t-0" lines=5 %}
+
+{% endfor %}

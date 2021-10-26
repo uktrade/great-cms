@@ -41,6 +41,7 @@ from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
 
 from core import blocks as core_blocks, mixins
+from core.case_study_index import delete_cs_index, update_cs_index
 from core.constants import BACKLINK_QUERYSTRING_NAME, RICHTEXT_FEATURES__MINIMAL
 from core.context import get_context_provider
 from core.utils import PageTopicHelper, get_first_lesson
@@ -1161,11 +1162,13 @@ class CaseStudy(ClusterableModel):
         return f'{display_name}'
 
     def save(self, **kwargs):
-        from core.case_study_index import update_cs_index
-
         self.update_modified = kwargs.pop('update_modified', getattr(self, 'update_modified', True))
         update_cs_index(self)
         super().save(**kwargs)
+
+    def delete(self, **kwargs):
+        delete_cs_index(self.id)
+        super().delete(**kwargs)
 
     def get_cms_standalone_view_url(self):
         return reverse('cms_extras:case-study-view', args=[self.id])
