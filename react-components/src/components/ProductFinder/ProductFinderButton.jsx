@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import ReactHtmlParser from 'react-html-parser'
 
@@ -33,12 +33,17 @@ function ProductFinderButton() {
     setProducts(reduced)
     setDeleteConfirm(null)
   }
+  useEffect(() => {
+    loadProducts()
+    return () => loadProducts();
+  }, []);
 
   return (
     <>
       <BasketViewer label="My products" onOpen={loadProducts}>
-        {sortMap.length === 0 ? <p className="body-l-b text-center">My products is empty</p>: null}
+
         <ul className="list m-v-0 body-l-b">
+          {sortMap.length === 0 ? <li className="p-v-xxs">My products is empty</li>: null}
           {sortMap.map((mapIndex) => {
             const product = products[mapIndex]
             return (

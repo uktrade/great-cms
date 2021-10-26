@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import { Provider } from 'react-redux'
@@ -35,11 +35,16 @@ export const CountryFinderButton = () => {
       addMarketItem(country)
     }
   }
+  useEffect(() => {
+    loadMarkets()
+    return () => loadMarkets();
+  }, []);
+
   return (
     <span>
       <BasketViewer label="My markets" onOpen={loadMarkets}>
-        {sortMap.length === 0 ? <p className="body-l-b text-center">My markets is empty</p>: null}
         <ul className="list m-v-0 body-l-b">
+          {sortMap.length === 0 ? <li className="p-v-xxs">My markets is empty</li>: null}
           {sortMap.map((marketIdx) => {
             const market = markets[marketIdx]
             return (
