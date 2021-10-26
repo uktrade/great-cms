@@ -48,7 +48,9 @@ def case_study_to_index(case_study):
 
 
 def update_cs_index(cs):
-    delete_cs_index(cs.id)
+    # if we don't have an ID then we are creating
+    if cs.id:
+        delete_cs_index(cs.id)
     case_study_to_index(cs).save()
 
 
