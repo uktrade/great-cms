@@ -209,7 +209,7 @@ h1 {
   -pdf-outline:1;
 }
 h2,h3,h4,h5,h6 {
-    -pdf-outline:0;
+  -pdf-outline:0;
 }
 h1,
 h2,
@@ -242,6 +242,9 @@ h5 {
 h6 {
   font-size: 12pt;
   font-weight: 300;
+}
+.no-toc {
+  -pdf-outline:0;
 }
 a {
   text-decoration: underline;
