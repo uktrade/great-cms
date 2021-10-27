@@ -35,10 +35,6 @@ export const CountryFinderButton = () => {
       addMarketItem(country)
     }
   }
-  useEffect(() => {
-    loadMarkets()
-    return () => loadMarkets();
-  }, []);
 
   return (
     <span>
