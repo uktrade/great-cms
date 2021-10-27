@@ -1162,9 +1162,10 @@ class CaseStudy(ClusterableModel):
         return f'{display_name}'
 
     def save(self, **kwargs):
+        # When we create a new CS need to call create to obtain an ID for indexing
         self.update_modified = kwargs.pop('update_modified', getattr(self, 'update_modified', True))
-        update_cs_index(self)
         super().save(**kwargs)
+        update_cs_index(self)
 
     def delete(self, **kwargs):
         delete_cs_index(self.id)
