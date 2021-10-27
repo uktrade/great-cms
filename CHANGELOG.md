@@ -15,6 +15,7 @@
 
 ### Enhancements
 - GP2-3779 - EP funds page rounding in funds source table
+- GP2-3786 - Magna header - logged-out mode
 - GP2-3767 - EP pdf export template rework
 - GP2-3776 - EP Textarea autosize
 - GP2-3436 - Add created date to EP overview
