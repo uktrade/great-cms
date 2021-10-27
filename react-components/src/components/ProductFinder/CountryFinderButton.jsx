@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import { Provider } from 'react-redux'
@@ -11,7 +11,7 @@ import { Confirmation } from '@src/components/ConfirmModal/Confirmation'
 
 export const CountryFinderButton = () => {
   const [modalIsOpen, setIsOpen] = useState(false)
-  const { markets, setMarkets, loadMarkets, addMarketItem } = useUserMarkets(false)
+  const { markets, setMarkets, loadMarkets, addMarketItem, marketsLoaded } = useUserMarkets(false)
 
   const sortMap = sortMapBy(markets || [], 'country_name')
 
@@ -35,11 +35,12 @@ export const CountryFinderButton = () => {
       addMarketItem(country)
     }
   }
+
   return (
     <span>
       <BasketViewer label="My markets" onOpen={loadMarkets}>
-        {sortMap.length === 0 ? <p className="body-l-b text-center">My markets is empty</p>: null}
         <ul className="list m-v-0 body-l-b">
+          {sortMap.length === 0 && marketsLoaded ? <li className="p-v-xxs">My markets is empty</li>: null}
           {sortMap.map((marketIdx) => {
             const market = markets[marketIdx]
             return (

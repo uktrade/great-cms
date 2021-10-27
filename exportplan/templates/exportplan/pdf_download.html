@@ -86,7 +86,7 @@
 <!-- TOC -->
 <div>
   <div class="hr hr--red-150">&nbsp;</div>
-  <h1 class="pad-t-3 pad-b-2">Sections</h1>
+  <h1 class="pad-t-3 pad-b-2 no-toc">Sections</h1>
   <pdf:toc />
 </div>
 
@@ -142,6 +142,14 @@
 {% if export_plan.data.about_your_business.story %}
 <div class="hr hr--blue-deep-20 m-t-s">&nbsp;</div>
 {% endif %}
+
+<h3>Where we are based</h3>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.about_your_business.location lines=4 tag_class="pad-t-0" %}
+
+{% if export_plan.data.about_your_business.location %}
+<div class="hr hr--blue-deep-20 m-t-s">&nbsp;</div>
+{% endif %}
+
 <h2>Why we want to export</h2>
 {% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.objectives.rationale lines=4 tag_class="pad-t-0" %}
 

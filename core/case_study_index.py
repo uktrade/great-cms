@@ -51,7 +51,7 @@ def update_cs_index(cs):
     # if we don't have an ID then we are creating
     if cs.id:
         delete_cs_index(cs.id)
-    case_study_to_index(cs).save()
+        case_study_to_index(cs).save()
 
 
 def delete_cs_index(cs_id):
