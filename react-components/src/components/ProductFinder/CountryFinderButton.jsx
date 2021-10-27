@@ -11,7 +11,7 @@ import { Confirmation } from '@src/components/ConfirmModal/Confirmation'
 
 export const CountryFinderButton = () => {
   const [modalIsOpen, setIsOpen] = useState(false)
-  const { markets, setMarkets, loadMarkets, addMarketItem } = useUserMarkets(false)
+  const { markets, setMarkets, loadMarkets, addMarketItem, marketsLoaded } = useUserMarkets(false)
 
   const sortMap = sortMapBy(markets || [], 'country_name')
 
@@ -44,7 +44,7 @@ export const CountryFinderButton = () => {
     <span>
       <BasketViewer label="My markets" onOpen={loadMarkets}>
         <ul className="list m-v-0 body-l-b">
-          {sortMap.length === 0 ? <li className="p-v-xxs">My markets is empty</li>: null}
+          {sortMap.length === 0 && marketsLoaded ? <li className="p-v-xxs">My markets is empty</li>: null}
           {sortMap.map((marketIdx) => {
             const market = markets[marketIdx]
             return (
