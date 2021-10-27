@@ -14,7 +14,7 @@ import { Confirmation } from '@src/components/ConfirmModal/Confirmation'
 
 function ProductFinderButton() {
   const [modalIsOpen, setIsOpen] = useState(false)
-  const {products, setProducts, loadProducts} = useUserProducts(
+  const {products, setProducts, loadProducts, productsLoaded} = useUserProducts(
     false
   )
 
@@ -37,8 +37,9 @@ function ProductFinderButton() {
   return (
     <>
       <BasketViewer label="My products" onOpen={loadProducts}>
-        {sortMap.length === 0 ? <p className="body-l-b text-center">My products is empty</p>: null}
+
         <ul className="list m-v-0 body-l-b">
+          {sortMap.length === 0 && productsLoaded ? <li className="p-v-xxs">My products is empty</li>: null}
           {sortMap.map((mapIndex) => {
             const product = products[mapIndex]
             return (
