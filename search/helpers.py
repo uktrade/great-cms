@@ -1,4 +1,5 @@
 import json
+from datetime import date
 from math import ceil
 
 import requests
@@ -114,17 +115,42 @@ def format_query(query, page):
                         },
                         'filter': [
                             {
-                                'terms': {
-                                    'type': [
-                                        'Opportunity',
-                                        'dit:Opportunity',
-                                        'Market',
-                                        'dit:Market',
-                                        'dit:greatCms:Article',
-                                        'dit:greatCms:Service',
-                                    ]
-                                }
-                            }
+                                'bool': {
+                                    'should': [
+                                        {
+                                            'terms': {
+                                                'type': [
+                                                    'Market',
+                                                    'dit:Market',
+                                                    'dit:greatCms:Article',
+                                                    'dit:greatCms:Service',
+                                                ],
+                                            },
+                                        },
+                                        {
+                                            'bool': {
+                                                'must': [
+                                                    {
+                                                        'terms': {
+                                                            'type': [
+                                                                'Opportunity',
+                                                                'dit:Opportunity',
+                                                            ],
+                                                        },
+                                                    },
+                                                    {
+                                                        'range': {
+                                                            'endTime': {
+                                                                'gte': date.today().strftime('%Y-%m-%d'),
+                                                            },
+                                                        },
+                                                    },
+                                                ],
+                                            },
+                                        },
+                                    ],
+                                },
+                            },
                         ],
                     }
                 },
