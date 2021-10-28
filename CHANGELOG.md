@@ -62,6 +62,7 @@
 - GP2-3356 - Basket for products and countries - add/delete
 
 ### Fixed bugs
+- GP2-3815 - EP pdf fix funding total and c&p quantity and units
 - GP2-3725 - Unwanted text on WTE
 - GP2-3717 - Update suggested markets content
 - GP2-3257 - Fix costs and pricing debounce

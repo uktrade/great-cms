@@ -102,9 +102,7 @@ class ExportPlanProcessor:
         total_funding = 0.00
         funding_credit_options = self.data.get('funding_credit_options') or []
         for funding_credit_option in funding_credit_options:
-            funding_amount = funding_credit_option.get('amount', 0.00)
-            if funding_amount:
-                funding_amount += funding_amount
+            total_funding += funding_credit_option.get('amount') or 0.00
         return {'calculated_total_funding': total_funding}
 
     def calculate_ep_progress(self):
