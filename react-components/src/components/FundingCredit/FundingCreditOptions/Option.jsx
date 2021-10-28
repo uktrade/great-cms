@@ -35,6 +35,7 @@ export const Option = memo(
             <Input
               id={id}
               type="number"
+              decimal={0}
               hideLabel
               label={selectData.name}
               placeholder={0}

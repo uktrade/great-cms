@@ -5,117 +5,157 @@ import { act, Simulate } from 'react-dom/test-utils'
 import { waitFor } from '@testing-library/react'
 import createCountryFinder from '@src/components/ProductFinder/CountryFinderButton'
 import Services from '@src/Services'
+import actions from '@src/actions'
 import fetchMock from 'fetch-mock'
 
 let container
 let countriesMock
+let suggestedCountriesMock
 
 const mockResponse = [
-  { id: "DZ", name: "Algeria", region: "Africa", type: "Country" },
-  { id: "AL", name: "Albania", region: "Europe", type: "Country" },
-  { id: "AT", name: "Austria", region: "Europe", type: "Country" },
+  { id: 'DZ', name: 'Algeria', region: 'Africa', type: 'Country' },
+  { id: 'AL', name: 'Albania', region: 'Europe', type: 'Country' },
+  { id: 'AT', name: 'Austria', region: 'Europe', type: 'Country' },
 ]
 
-beforeEach(() => {
-  container = document.createElement('div')
-  document.body.appendChild(container)
-  container.innerHTML = '<span id="set-country-button" data-text="my country"></span>'
-  Services.setConfig({ apiCountriesUrl: '/api/countries/' })
-  Services.setInitialState({exportPlan:{markets:[]}})
-  countriesMock = fetchMock.get(/\/api\/countries\//, mockResponse)
-})
+const suggestedCountries = [
+  { country_iso2: 'DZ', country_name: 'Algeria' },
+  { country_iso2: 'AL', country_name: 'Albania' },
+  { country_iso2: 'AT', country_name: 'Austria' },
+]
 
-afterEach(() => {
-  document.body.removeChild(container)
-  container = null
-  jest.clearAllMocks()
-})
+const scheduleResponse = {
+  children: [
+    {
+      children: [
+        {
+          desc: 'CHAPTER 4 - DAIRY PRODUCE',
+        },
+      ],
+    },
+  ],
+}
 
-it('Opens and closes country finder', async () => {
+const selectedProduct = {
+  commodity_code: '123456',
+  commodity_name: 'my product',
+}
 
-  act(() => {
-    createCountryFinder({ element: container })
+describe('Test country finder button', () => {
+  beforeEach(() => {
+    container = document.createElement('div')
+    document.body.appendChild(container)
+    container.innerHTML =
+      '<span id="set-country-button" data-text="my country"></span>'
+    Services.setConfig({
+      apiCountriesUrl: '/api/countries/',
+      apiSuggestedCountriesUrl: '/api/suggested-markets/',
+      apiLookupProductScheduleUrl: '/api/lookup-product-schedule/',
+    })
+    Services.setInitialState({
+      userSettings: {
+        UserMarkets: [],
+        UserProducts: [selectedProduct],
+        ActiveProduct: {},
+      },
+    })
+    countriesMock = fetchMock.get(/\/api\/countries\//, mockResponse)
+    suggestedCountriesMock = fetchMock.get(
+      /\/api\/suggested-markets\//,
+      suggestedCountries
+    )
+    fetchMock.get(
+      /\/api\/lookup-product-schedule\//,
+      scheduleResponse
+    )
   })
-  expect(document.body.querySelector('.country-finder')).toBeFalsy()
-  const button = container.querySelector('button')
 
-  act(() => {
-    Simulate.click(button)
+  afterEach(() => {
+    document.body.removeChild(container)
+    container = null
+    jest.clearAllMocks()
   })
-  const finder = document.body.querySelector('.country-finder');
-  const closeButton = finder.querySelector('button.dialog-close');
-  expect(finder).toBeTruthy()
-  await waitFor(() => {
-    const region = finder.querySelector('.country-list h2');
-    expect(region.textContent).toEqual('Africa')
-  })
-  act(() => {
-    Simulate.click(finder.querySelector('button.dialog-close'))
-  })
-  expect(document.body.querySelector('.country-finder')).toBeFalsy()
-})
 
-it('Opens with confirmation', async () => {
-  // opens country chooser with country already set - check for confirmation dialogue
-  act(() => {
-    Services.setInitialState({exportPlan:{
-      markets:[{country_name:'Sweden', country_iso2_code:'su'}]
-    }})
-    createCountryFinder({ element: container })
-    Simulate.click(container.querySelector('button')) // open the modal
+  it('Opens and closes country finder', async () => {
+    act(() => {
+      createCountryFinder({ element: container })
+    })
+    expect(document.body.querySelector('.country-finder')).toBeFalsy()
+    // Open up the p-bar dropdown
+    act(() => {
+      Simulate.click(container.querySelector('button'))
+    })
+    let addNewButton
+    await waitFor(() => {
+      addNewButton = container.querySelector('.basket-view button')
+      expect(addNewButton).toBeTruthy()
+    })
+    // Click on the open country finder button
+    act(() => {
+      Simulate.click(addNewButton)
+    })
+    const finder = document.body.querySelector('.country-finder')
+    const closeButton = finder.querySelector('button.dialog-close')
+    expect(finder).toBeTruthy()
+    await waitFor(() => {
+      const region = finder.querySelector('.country-list h2')
+      expect(region.textContent).toEqual('Africa')
+    })
+    act(() => {
+      Simulate.click(finder.querySelector('button.dialog-close'))
+    })
+    expect(document.body.querySelector('.country-finder')).toBeFalsy()
   })
-  const confirmation = document.body.querySelector('.confirmation-modal')
-  expect(confirmation).toBeTruthy()
-  expect(confirmation.querySelector('h2').textContent).toMatch('Changing target market?')
-  act(() => {
-    Simulate.click(confirmation.querySelector('button'))
-  })
-  const finder = document.body.querySelector('.country-finder');
-  const closeButton = finder.querySelector('button.dialog-close');
-  expect(finder).toBeTruthy()
-  await waitFor(() => {
-    const region = finder.querySelector('.country-list h2');
-    expect(region.textContent).toEqual('Africa')
-  })
-  act(() => {
-    Simulate.click(finder.querySelector('button.dialog-close'))
-  })
-  expect(document.body.querySelector('.country-finder')).toBeFalsy()
-})
 
-
-it('Open country finder and type-ahead filter', async () => {
-  act(() => {
-    createCountryFinder({ element: container })
+  it('Open country finder and type-ahead filter', async () => {
+    act(() => {
+      createCountryFinder({ element: container })
+    })
+    expect(document.body.querySelector('.country-finder')).toBeFalsy()
+    // Open up the p-bar dropdown
+    act(() => {
+      Simulate.click(container.querySelector('button'))
+    })
+    let addNewButton
+    await waitFor(() => {
+      addNewButton = container.querySelector('.basket-view button')
+      expect(addNewButton).toBeTruthy()
+    })
+    // Click on the open country finder button
+    act(() => {
+      Simulate.click(addNewButton)
+    })
+    const finder = document.body.querySelector('.country-finder')
+    const closeButton = finder.querySelector('button.dialog-close')
+    expect(finder).toBeTruthy()
+    await waitFor(() => {
+      const region = finder.querySelector('.country-list h2')
+      expect(region.textContent).toEqual('Africa')
+    })
+    const searchInput = finder.querySelector('.search-input input')
+    expect(
+      finder.querySelector('.country-list .expand-section').textContent
+    ).toEqual('Algeria')
+    act(() => {
+      searchInput.value = 'au'
+      Simulate.change(searchInput)
+    })
+    expect(finder.querySelector('div.country-list .open').textContent).toEqual(
+      'Austria'
+    )
+    act(() => {
+      searchInput.value = ''
+      Simulate.change(searchInput)
+    })
+    expect(
+      finder.querySelector('div.country-list .expand-section.open')
+    ).toBeFalsy()
+    act(() => {
+      searchInput.value = 'aub'
+      Simulate.change(searchInput)
+    })
+    expect(finder.querySelector('.country-list').textContent).toEqual(
+      'No results found'
+    )
   })
-  expect(document.body.querySelector('.country-finder')).toBeFalsy()
-  const button = container.querySelector('button')
-
-  act(() => {
-    Simulate.click(button)
-  })
-  const finder = document.body.querySelector('.country-finder');
-  const closeButton = finder.querySelector('button.dialog-close');
-  expect(finder).toBeTruthy()
-  await waitFor(() => {
-    const region = finder.querySelector('.country-list h2');
-    expect(region.textContent).toEqual('Africa')
-  })
-  const searchInput = finder.querySelector('.search-input input');
-  expect(finder.querySelector('.country-list .expand-section').textContent).toEqual('Algeria')
-  act(() => {
-    searchInput.value = 'au'
-    Simulate.change(searchInput)
-  })
-  expect(finder.querySelector('div.country-list .open').textContent).toEqual('Austria')
-  act(() => {
-    searchInput.value = ''
-    Simulate.change(searchInput)
-  })
-  expect(finder.querySelector('div.country-list .expand-section.open')).toBeFalsy()
-  act(() => {
-    searchInput.value = 'aub'
-    Simulate.change(searchInput)
-  })
-  expect(finder.querySelector('.country-list').textContent).toEqual('No results found')
 })

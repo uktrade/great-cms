@@ -27,6 +27,17 @@ class CompanyObjectivesSerializer(serializers.Serializer):
     companyexportplan = serializers.IntegerField()
     pk = serializers.IntegerField()
 
+    def validate(self, data):
+        """
+        Check that start is not before finish.
+        """
+        if all([data.get('start_month'), data.get('start_year'), data.get('end_month'), data.get('end_year')]):
+            start = datetime.date(day=1, month=data['start_month'], year=data['start_year'])
+            end = datetime.date(day=1, month=data['end_month'], year=data['end_year'])
+            if start > end:
+                raise serializers.ValidationError('End date must occur after start date')
+        return data
+
 
 class AboutYourBuinessSerializer(serializers.Serializer):
     story = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
@@ -337,15 +348,6 @@ class ExportPlanSerializer(serializers.Serializer):
                 self.total_direct_costs or 0
             )
         return estimated_costs_per_unit
-
-    @property
-    def calculate_total_funding(self):
-        self.is_valid()
-        total_funding = 0.00
-        funding_credit_options = self.data.get('funding_and_credit', {}).get('funding_credit_options') or []
-        for funding_credit_option in funding_credit_options:
-            total_funding = funding_credit_option.get('amount', 0.00) + total_funding
-        return total_funding
 
     @property
     def calculate_cost_pricing(self):

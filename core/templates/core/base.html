@@ -6,10 +6,10 @@
 
 {% block head_title %}
   {% if page.title %}
-    {{ page.title }} - great.gov.uk
+    {{ page.title }}
   {% else %}
     Welcome to great.gov.uk
-  {% endif %}
+  {% endif %} - great.gov.uk
 {% endblock %}
 
 {% block head_css %}
@@ -42,19 +42,23 @@
           apiCompaniesHouseUrl: '{% url "core:api-companies-house" %}',
           apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
           apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
-          apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" %}',
+          {% if export_plan %}
+            apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" id=export_plan.pk %}',
+            apiDeleteExportPlanUrl: '{% url "exportplan:api-export-plan-delete" id=export_plan.pk %}',
+            updateCalculateCostAndPricing: '{% url "exportplan:api-calculate-cost-and-pricing" id=export_plan.pk %}',
+            apiTargetAgeGroups: '{% url "exportplan:api-target-age-groups" id=export_plan.pk %}',
+            exportPlanDashboardUrl: '{% url "exportplan:dashboard" id=export_plan.pk %}',
+          {% endif %}
           apiModelObjectManageUrl: '{% url "exportplan:api-model-object-manage" %}',
+          apiCreateExportPlanUrl: '{% url "exportplan:api-export-plan-create" %}',
           apiComTradeDataUrl: '{% url "core:api-comtrade-data" %}',
           apiCountryDataUrl: '{% url "core:api-country-data" %}',
-          apiTargetAgeGroups: '{% url "exportplan:api-target-age-groups" %}',
-          populationByCountryUrl: '{% url "exportplan:api-population-data-by-country" %}',
-          updateCalculateCostAndPricing: '{% url "exportplan:api-calculate-cost-and-pricing" %}',
           societyByCountryUrl: '{% url "exportplan:api-society-data-by-country" %}',
-          countryOptions: {{ javascript_components.country_choices|safe }},
           csrfToken: '{{ csrf_token }}',
           dashboardUrl: '{% url_map "DASHBOARD_URL" %}',
+          exportPlanBaseUrl: '{% url "exportplan:index" %}',
+          compareCountriesUrl: '{% url "core:compare-countries" %}',
           googleUrl: '{{ javascript_components.google_url }}',
-          industryOptions: {{ javascript_components.industry_options|safe }},
           linkedInUrl: '{{ javascript_components.linkedin_url }}',
           loginUrl: '{% url "core:login" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}',
           signupUrl: '{% url "core:signup" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}',
@@ -67,7 +71,6 @@
           },
           verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
           refreshOnMarketChange: {% if refresh_on_market_change %}true{%else%}false{% endif %},
-          urlCostsAndPricing: '{% url "exportplan:costs-and-pricing"%}'
       });
     </script>
 {% endblock %}
@@ -91,6 +94,7 @@
 {% block cookie_notice %}{% endblock %}
 
 {% block body_footer %}
+  <div id="snackbar-container"></div>
   {% include 'core/footer.html' %}
 {% endblock %}
 
@@ -110,9 +114,11 @@
           signup: false,
         },
         exportPlan:{
-          products: {{request.user.export_plan.data.export_commodity_codes|to_json}},
-          markets: {{request.user.export_plan.data.export_countries|to_json }}
+            product: {{export_plan.export_commodity_codes.0|to_json}},
+            market: {{export_plan.export_countries.0|to_json }},
+            name: '{{export_plan.name|default:'' }}',
         },
       })
+      magna.createSnackbar({element:document.getElementById('snackbar-container')})
   </script>
 {% endblock %}

@@ -1,4 +1,8 @@
+import logging
+
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from elasticsearch.exceptions import ConnectionError, NotFoundError
 from wagtail.core import blocks
 from wagtail.core.blocks.field_block import RichTextBlock
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
@@ -6,12 +10,11 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 
 from core import models
+from core.case_study_index import search
 from core.constants import RICHTEXT_FEATURES__MINIMAL, RICHTEXT_FEATURES__REDUCED
-from core.utils import (
-    get_most_ranked_case_study,
-    get_personalised_case_study_orm_filter_args,
-    get_personalised_choices,
-)
+from core.utils import get_cs_ranking, get_personalised_choices
+
+logger = logging.getLogger(__name__)
 
 
 class MediaChooserBlock(AbstractMediaChooserBlock):
@@ -241,23 +244,73 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
         icon = 'fa-book'
         template = 'core/case_study_block.html'
 
+    def _get_case_study_list(self, user, cs_settings, page_context):
+        export_commodity_codes, export_markets, export_regions, export_blocs = get_personalised_choices(user)
+
+        try:
+            s = search(
+                export_commodity_codes=export_commodity_codes,
+                export_markets=export_markets,
+                export_regions=export_regions,
+                page_context=page_context,
+            )
+            if s.count():
+
+                hits = []
+                for hit in s.scan():
+                    hit_dict = hit.to_dict()
+                    hit_dict['score'] = get_cs_ranking(
+                        hit_dict,
+                        export_commodity_codes=export_commodity_codes,
+                        export_markets=export_markets,
+                        export_regions=export_regions,
+                        page_context=page_context,
+                        export_blocs=export_blocs,
+                        settings=cs_settings,
+                    )
+                    hits.append(hit_dict)
+                return sorted(hits, key=lambda hit: hit.get('score'), reverse=True)
+
+        except ConnectionError:
+            # nothing we can do without elasticsearch so continue without case study
+            logger.error('Unable to connect to Elastic search')
+        except NotFoundError:
+            logger.error(f'Elastic search - Index "{settings.ELASTICSEARCH_CASE_STUDY_INDEX}" not found')
+
     def _annotate_with_case_study(self, context):
-        """Add the relevant case study, if any, to the context."""
+        """Add the most relevant case study, if any, to the context."""
 
-        # no export_plan no case_study to display
-        if 'export_plan' not in context.keys():
-            return context
+        # Get the context for this lesson -> module -> topic
+        page_context = []
+        for page_type in ['lesson', 'module', 'topic']:
+            page = context.get(f'current_{page_type}')
+            page_context.append(f'{page_type}_{page.id if page else ""}')
 
-        hs_code, country, region = get_personalised_choices(context['export_plan'])
-        filter_args = get_personalised_case_study_orm_filter_args(hs_code=hs_code, country=country, region=region)
+        # Get the user's basket products and markets
+        user = context.get('user')
+        from core.models import CaseStudyScoringSettings
 
-        queryset = models.CaseStudy.objects.all()
-        for filter_arg in filter_args:
-            cs_queryset = queryset.filter(**filter_arg)
-            if cs_queryset.exists():
-                context['case_study'] = get_most_ranked_case_study(cs_queryset=cs_queryset, context=context)
-                break
-
+        cs_settings = CaseStudyScoringSettings.for_request(context['request'])
+        case_study_list = self._get_case_study_list(user, cs_settings, page_context)
+        best_case_study = case_study_list and case_study_list[0]
+        try:
+            if best_case_study and int(best_case_study.get('score')) >= cs_settings.threshold:
+                context['case_study'] = models.CaseStudy.objects.get(id=best_case_study.get('pk'))
+            if case_study_list and settings.FEATURE_SHOW_CASE_STUDY_RANKINGS:
+                context['feature_show_case_study_list'] = True
+                context['case_study_list'] = [
+                    {
+                        'pk': cs.get('pk'),
+                        'title': models.CaseStudy.objects.get(id=cs.get('pk')).lead_title,
+                        'score': cs.get('score'),
+                        'above_threshold': cs.get('score') >= cs_settings.threshold,
+                    }
+                    for cs in case_study_list
+                ]
+        except models.CaseStudy.DoesNotExist:
+            # The case study does not exist in the DB mismatch between elastic search and DB.
+            # Rebuild Elastic search case-studies using management command
+            logger.error('No case-study not found in the database using ID in elastic search')
         return context
 
     def get_context(self, value, parent_context=None):

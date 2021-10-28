@@ -4,6 +4,7 @@ import ReactModal from 'react-modal'
 import Services from '@src/Services'
 import PropTypes from 'prop-types'
 import { useWindowSize } from '@src/components/hooks/useWindowSize'
+import { config } from '@src/config'
 
 const mobileBreakpoint = 768
 
@@ -98,13 +99,13 @@ export function Menu(props) {
           </a>
         </li>
         <li>
-          <a href="/where-to-export/" className="link">
+          <a href={config.compareCountriesUrl} className="link">
             <span>Where to export</span>
             <strong className="tag tag--small">new</strong>
           </a>
         </li>
         <li>
-          <a href="/export-plan/dashboard/" className="link">
+          <a href={config.exportPlanBaseUrl} className="link">
             <span>Make an export plan</span>
             <strong className="tag tag--small">new</strong>
           </a>

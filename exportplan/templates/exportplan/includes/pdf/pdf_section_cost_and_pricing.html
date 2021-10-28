@@ -1,0 +1,120 @@
+{% load humanize %}
+{% load object_tags %}
+{% load content_tags %}
+<pdf:nextpage>
+<h1>Cost and pricing</h1>
+<h2 class="m-t-s">Direct cost</h2>
+<table class="layout">
+  <tr class="pad-b-0 border-t-1-blue-deep-20">
+    <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Raw material cost</td>
+    <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+    <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right">
+      <strong>{{ export_plan.data.direct_costs.product_costs|floatformat:2|intcomma|default:"_____" }} per unit</strong>
+    </td>
+  </tr>
+  <tr class="pad-b-0">
+    <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Labour per unit</td>
+    <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+    <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.direct_costs.labour_costs|floatformat:2|intcomma|default:"_____" }} per unit</strong></td>
+  </tr>
+  <tr class="pad-b-0">
+    <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Additional costs</td>
+    <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+    <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.direct_costs.other_direct_costs|floatformat:2|intcomma|default:"_____" }} per unit</strong></td>
+  </tr>
+  <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
+    <td class="col-10-6 pad-t-05">Direct costs total</td>
+    <td class="col-10-1 pad-t-05"><strong>GBP</strong></td>
+    <td class="col-10-3 pad-t-05 text-align-right"><strong>{{ calculated_pricing.calculated_cost_pricing.total_direct_costs|floatformat:2|intcomma|default:"_____" }} per unit</strong></td>
+  </tr>
+</table>
+
+<h2 class="m-t-s">Overhead cost</h2>
+<table class="layout ">
+  <tr class="pad-b-0 border-t-1-blue-deep-20">
+    <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Product adaptation</td>
+    <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+    <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.product_adaption|floatformat:2|intcomma|default:"__________" }}</strong></td>
+  </tr>
+  <tr class="pad-b-0">
+    <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Freight and logistics</td>
+    <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+    <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.freight_logistics|floatformat:2|intcomma|default:"__________" }}</strong></td>
+  </tr>
+  <tr class="pad-b-0">
+    <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Agent and distributor fees</td>
+    <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+    <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.agent_distributor_fees|floatformat:2|intcomma|default:"__________" }}</strong></td>
+  </tr>
+  <tr class="pad-b-0">
+    <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Marketing</td>
+    <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+    <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.marketing|floatformat:2|intcomma|default:"__________" }}</strong></td>
+  </tr>
+  <tr class="pad-b-0">
+    <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Insurance</td>
+    <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+    <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.insurance|floatformat:2|intcomma|default:"__________" }}</strong></td>
+  </tr>
+  <tr class="pad-b-0">
+    <td class="col-10-6 pad-t-05 border-b-1-blue-deep-20">Other overhead costs</td>
+    <td class="col-10-1 pad-t-05 border-b-1-blue-deep-20"><strong>GBP</strong></td>
+    <td class="col-10-3 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ export_plan.data.overhead_costs.other_overhead_costs|floatformat:2|intcomma|default:"__________" }}</strong></td>
+  </tr>
+  <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
+    <td class="col-10-6 pad-t-05">Overhead costs total</td>
+    <td class="col-10-1 pad-t-05"><strong>GBP</strong></td>
+    <td class="col-10-3 pad-t-05 text-align-right"><strong>{{ calculated_pricing.calculated_cost_pricing.total_overhead_costs|floatformat:2|intcomma|default:"__________" }}</strong></td>
+  </tr>
+</table>
+
+<h2 class="m-t-s">Number of units we want to export</h2>
+<table class="layout">
+  <tr class="pad-b-0 text-align-centre border-y-1-blue-deep-20">
+    <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ export_plan.data.total_cost_and_price.first_period_period_label|intcomma|default:"_____" }}</strong></td>
+    <td class="col-12-4 pad-t-05">over the next</td>
+    <td class="col-12-4 pad-t-05 bg-colour-blue-deep-10"><strong> {{ export_plan.data.total_cost_and_price.second_period_period_label|intcomma|default:"__________" }}</strong></td>
+  </tr>
+</table>
+
+
+<pdf:nextpage>
+
+<!-- P9b cost and pricing -->
+
+<table>
+  <tr class="pad-b-1 pad-t-4">
+    <td class="col-10-10">
+      <h3 class="pad-t-0">Final cost per unit</h3>
+      <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.final_cost_per_unit|floatformat:2|intcomma|default:"______" }}</h2>
+    </td>
+  </tr>
+
+  <tr class="pad-b-1">
+    <td class="col-10-10">
+      <h3 class="pad-t-0">Average price per unit in {{ export_plan.data.export_countries.0.country_name }}</h3>
+      <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.average_price_per_unit|floatformat:2|intcomma|default:"______" }}</h2>
+    </td>
+  </tr>
+
+  <tr class="pad-b-1">
+    <td class="col-10-10">
+      <h3 class="pad-t-0">Our net price in {{ export_plan.data.export_countries.0.country_name }}</h3>
+      <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.net_price|floatformat:2|intcomma|default:"______" }}</h2>
+    </td>
+  </tr>
+
+  <tr class="pad-b-1">
+    <td class="col-10-10">
+      <h3 class="pad-t-0">Local taxes and charges in {{ export_plan.data.export_countries.0.country_name }}</h3>
+      <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.local_tax_charges|floatformat:2|intcomma|default:"______" }}</h2>
+    </td>
+  </tr>
+
+  <tr class="pad-b-1">
+    <td class="col-10-10">
+      <h3 class="pad-t-0">Duty per unit</h3>
+      <h2 class="pad-t-0">GBP {{ export_plan.data.total_cost_and_price.duty_per_unit|floatformat:2|intcomma|default:"______" }}</h2>
+    </td>
+  </tr>
+</table>

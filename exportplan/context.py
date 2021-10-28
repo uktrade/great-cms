@@ -1,11 +1,11 @@
 import abc
 
 from django.conf import settings
+from django.utils.functional import cached_property
 from django.utils.text import slugify
 
 from core import helpers as core_helpers
-from core.context import AbstractPageContextProvider
-from exportplan.core import data, helpers
+from exportplan.core import data, helpers, parsers
 from exportplan.core.processor import ExportPlanProcessor
 
 
@@ -15,31 +15,34 @@ class AbstractContextProvider(abc.ABC):
         return {**kwargs}
 
 
-class ExportPlanDashboardPageContextProvider(AbstractPageContextProvider):
+class BaseContextProvider(AbstractContextProvider):
+    def __init__(self):
+        self.exportplan_id = 0
+        self.session_id = 0
 
-    template_name = 'exportplan/dashboard_page.html'
+    def get_context_provider_data(self, request, **kwargs):
+        self.exportplan_id = kwargs['id']
+        self.session_id = request.user.session_id
+        return {}
 
-    @staticmethod
-    def get_context_data(request, page):
-        processor = ExportPlanProcessor(request.user.export_plan.data)
-        return {
-            'sections': processor.build_export_plan_sections(),
-            'export_plan_progress': processor.calculate_ep_progress(),
-        }
+    @cached_property
+    def export_plan(self):
+        user_exportplan = helpers.get_exportplan(self.session_id, self.exportplan_id)
+        return parsers.ExportPlanParser(user_exportplan)
 
 
-class InsightDataContextProvider(AbstractContextProvider):
+class InsightDataContextProvider(BaseContextProvider):
     def get_context_provider_data(self, request, **kwargs):
         insight_data = {}
-        export_plan = request.user.export_plan
-        if export_plan.export_country_code and export_plan.export_commodity_code:
+        context = super().get_context_provider_data(request, **kwargs)
+        if self.export_plan.export_country_code and self.export_plan.export_commodity_code:
             insight_data = core_helpers.get_comtrade_data(
-                countries_list=[export_plan.export_country_code],
-                commodity_code=export_plan.export_commodity_code,
+                countries_list=[self.export_plan.export_country_code],
+                commodity_code=self.export_plan.export_commodity_code,
             )
-
+        if self.export_plan.export_country_code:
             country_data = core_helpers.get_country_data(
-                countries=[export_plan.export_country_code],
+                countries=[self.export_plan.export_country_code],
                 fields=[
                     'GDPPerCapita',
                     'ConsumerPriceIndex',
@@ -49,42 +52,43 @@ class InsightDataContextProvider(AbstractContextProvider):
                     'InternetUsage',
                 ],
             )
-            insight_data[export_plan.export_country_code]['country_data'] = country_data.get(
-                export_plan.export_country_code
-            )
 
-        return super().get_context_provider_data(request, insight_data=insight_data, **kwargs)
+            insight_data['country_data'] = country_data.get(self.export_plan.export_country_code)
+        context['insight_data'] = insight_data
+        return context
 
 
-class FactbookDataContextProvider(AbstractContextProvider):
+class FactbookDataContextProvider(BaseContextProvider):
     def get_context_provider_data(self, request, **kwargs):
+        context = super().get_context_provider_data(request, **kwargs)
         language_data = {}
-        country_name = request.user.export_plan.export_country_name
+        country_name = self.export_plan.export_country_name
         if country_name:
             language_data = helpers.get_cia_world_factbook_data(country=country_name, key='people,languages')
 
-        return super().get_context_provider_data(request, language_data=language_data, **kwargs)
+        context['language_data'] = language_data
+        return context
 
 
-class PopulationAgeDataContextProvider(AbstractContextProvider):
+class PopulationAgeDataContextProvider(BaseContextProvider):
     def get_context_provider_data(self, request, **kwargs):
-        export_plan = request.user.export_plan
+        context = super().get_context_provider_data(request, **kwargs)
         sections = [slugify(data.TARGET_MARKETS_RESEARCH), slugify(data.MARKETING_APPROACH)]
         population_data = {}
-        if request.user.export_plan.export_country_name:
+        if self.export_plan.export_country_name:
             for section in sections:
-                selected_age_groups = export_plan.data['ui_options'].get(section, {}).get('target_ages', [])
-                if len(selected_age_groups):
-                    population_data[section] = helpers.get_population_data(
-                        country=export_plan.export_country_name, target_ages=selected_age_groups
-                    )
-        return super().get_context_provider_data(request, population_age_data=population_data, **kwargs)
+                selected_age_groups = self.export_plan.data['ui_options'].get(section, {}).get('target_ages', [])
+                population_data[section] = helpers.get_population_data(
+                    country=self.export_plan.export_country_name, target_ages=selected_age_groups
+                )
+        context['population_age_data'] = population_data
+        return context
 
 
-class PDFContextProvider(AbstractContextProvider):
+class PDFContextProvider(BaseContextProvider):
     def get_context_provider_data(self, request, **kwargs):
-        export_plan = request.user.export_plan
-        processor = ExportPlanProcessor(export_plan.data)
+        context = super().get_context_provider_data(request, **kwargs)
+        processor = ExportPlanProcessor(self.export_plan.data)
         contact_dict = {'email': settings.GREAT_SUPPORT_EMAIL}
         if settings.PDF_STATIC_URL:
             # Based on AWS public dir
@@ -93,14 +97,15 @@ class PDFContextProvider(AbstractContextProvider):
             # Mostly used for local host
             host = request.get_host()
             pdf_statics_url = f'http://{host}{settings.STATIC_URL}'
-        return super().get_context_provider_data(
-            request,
-            pdf_statics_url=pdf_statics_url,
-            export_plan=export_plan,
-            user=request.user,
-            sections=data.SECTION_TITLES,
-            calculated_pricing=processor.calculated_cost_pricing(),
-            total_funding=processor.calculate_total_funding,
-            contact_detail=contact_dict,
-            **kwargs,
+        context.update(
+            {
+                'pdf_statics_url': pdf_statics_url,
+                'export_plan': self.export_plan,
+                'user': request.user,
+                'sections': data.SECTION_TITLES,
+                'calculated_pricing': processor.calculated_cost_pricing(),
+                'total_funding': processor.calculate_total_funding(),
+                'contact_detail': contact_dict,
+            }
         )
+        return context

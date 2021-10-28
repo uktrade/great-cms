@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import { getMarkets } from '@src/reducers'
+import { getEpMarket } from '@src/reducers'
 import { useSelector } from 'react-redux'
 import { ToggleDataTable } from '@src/components/ToggleDataTable'
 import { AgeGroupData } from './AgeGroupData'
@@ -8,7 +8,7 @@ import { DemoData } from './DemoData'
 
 export const TargetAgeGroupInsights = memo(
   ({ groups, selected, currentSection }) => {
-    const country = useSelector((state) => getMarkets(state))
+    const country = useSelector((state) => getEpMarket(state))
     return (
       <>
         <h2 className="h-xs p-t-l p-b-s">

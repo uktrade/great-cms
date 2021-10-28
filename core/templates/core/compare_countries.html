@@ -11,7 +11,7 @@
                       <div class="">
                           <h1 class="h-l p-b-0">{{ page.title }}</h1>
                           <div class="">
-                            <p class="body-l">Exporting to the right place matters. This page helps you compare data for different places and make an informed choice.</p>
+                              <p class="body-l">Find information to help choose the right export market for your product. Compare data for up to 10 markets, using dynamic feeds from some of the world’s most trusted sources.</p>
                           </div>
                           {% if data_tabs_enabled %}
                             <div id="cta-container"></div>
@@ -38,22 +38,16 @@
     </div>
 
     <div id="compare-markets"
-      data-productname="{{ request.user.export_plan.data.export_commodity_codes.0.commodity_name }}"
-      data-productcode="{{ request.user.export_plan.data.export_commodity_codes.0.commodity_code }}"
+      class="m-b-l"
       data-tabs="{{ data_tabs_enabled }}"
       data-max-places-allowed="{{ max_compare_places_allowed }}"
       role="region"
       tabindex="-1"
     ></div>
-    <div id="comparison-market-selector" class="p-v-l m-v-l" ></div>
-
     <script>
       magna.CompareMarkets({
         element: document.querySelector("#compare-markets"),
         cta_container: document.querySelector("#cta-container"),
-      })
-      magna.SelectComparisonMarket({
-        element: document.querySelector("#comparison-market-selector"),
       })
     </script>
   {% else %}

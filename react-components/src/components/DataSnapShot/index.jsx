@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
-import { getProducts, getMarkets } from '@src/reducers'
+import { getEpProduct, getEpMarket } from '@src/reducers'
 import { ToggleDataTable } from '@src/components/ToggleDataTable'
 import { ToggleSnapshot } from '@src/components/ToggleSnapshot'
 import { Table } from './Table'
@@ -10,9 +10,8 @@ import { ProductData } from './ProductData'
 
 export const DataSnapShot = memo(
   ({ groups, selected, currentSection }) => {
-    const product = useSelector((state) => getProducts(state))
-    const country = useSelector((state) => getMarkets(state))
-
+    const product = useSelector((state) => getEpProduct(state))
+    const country = useSelector((state) => getEpMarket(state))
     return (
       <>
         <h2 className="h-xs p-t-l p-b-0">Data Snapshot: { country.country_name }</h2>

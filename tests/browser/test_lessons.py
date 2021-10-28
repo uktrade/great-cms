@@ -72,7 +72,7 @@ def check_topic_read_progress(browser: WebDriver, topic: ListPageFactory, lesson
 def test_can_view_lessons_from_different_topics(
     mock_get_lessons_completed,
     mock_dashboard_profile_events_opportunities,
-    mock_export_plan_requests,
+    mock_all_dashboard_and_export_plan_requests_and_responses,
     curated_list_pages_with_lessons,
     server_user_browser_dashboard,
 ):
@@ -96,7 +96,7 @@ def test_can_view_lessons_from_different_topics(
 def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
     mock_get_lesson_completed,
     mock_dashboard_profile_events_opportunities,
-    mock_export_plan_requests,
+    mock_all_dashboard_and_export_plan_requests_and_responses,
     curated_list_pages_with_lessons,
     server_user_browser_dashboard,
     domestic_homepage,

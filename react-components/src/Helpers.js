@@ -50,14 +50,14 @@ const analytics = (data) => {
 }
 
 const normaliseValues = (str, places = 1, fixed = false) => {
-  const pow = Math.pow(10, places)
+  const pow = 10 ** places
   if (str) {
     let values = String(str).replace(/\d+(\.\d+)?/g, ($0) => {
       return fixed
         ? parseFloat($0).toFixed(places)
         : Math.round(parseFloat($0) * pow) / pow
     })
-    values = values.replace(/\d+(\.\d+)?(?=\%)/g, ($0) => {
+    values = values.replace(/\d+(\.\d+)?(?=%)/g, ($0) => {
       return Math.round($0)
     })
     return values.split(/\(([^)]+)\)/)
@@ -77,7 +77,7 @@ const millify = (value) => {
     const names = ['million', 'billion', 'trillion']
     const oom = Math.floor(Math.log10(Math.abs(floatValue)) / 3)
     if (oom <= 1) return Math.round(floatValue).toLocaleString()
-    return `${(value / Math.pow(10, oom * 3)).toFixed(1)} ${names[oom - 2]}`
+    return `${(value / 10 ** (oom * 3)).toFixed(1)} ${names[oom - 2]}`
   }
   return value === null ? value : `${value}`
 }
@@ -88,7 +88,7 @@ const stripPercentage = (str) => {
   // necessarily succeded  by a percent symbol.
   // e.g. 'text.1(+)(%)', 'text .1(+)(%)', 'text 1(+).1(+)(%)' and combinations
   if (str) {
-    const regex = /\s?\<?\>?\.?\d*\.?\d+\%?$/
+    const regex = /\s?<?>?\.?\d*\.?\d+%?$/
     return str.replace(regex, '')
   }
 
@@ -99,7 +99,7 @@ const listJoin = (arr) => {
   // Joins an array of strings with commas and a closing 'and'
   return arr.reduce((acc, str, index) => {
     let sep = ''
-    if(index) {
+    if (index) {
       sep = index === arr.length - 1 ? ' and ' : ', '
     }
     return `${acc}${sep}${str}`
@@ -151,6 +151,18 @@ const deepAssign = (obj1, obj2) => {
     }
   })
   return out
+}
+
+const deepEqual = (obj1, obj2) => {
+  if (Object.keys(obj1).length !== Object.keys(obj2).length) return false
+  for(var key in obj1) if(obj1.hasOwnProperty(key)) {
+    if (isObject(obj1[key]) && isObject(obj2[key])) {
+      if(!deepEqual(obj1[key], obj2[key])) return false
+    } else {
+      if (obj1[key] !== obj2[key]) return false
+    }
+  }
+  return true
 }
 
 const camelize = (str) => {
@@ -229,6 +241,7 @@ export {
   millify,
   stripPercentage,
   deepAssign,
+  deepEqual,
   objectHasValue,
   numberWithSign,
   camelize,
@@ -253,3 +266,18 @@ export const prependThe = (str) =>
   ].includes(str)
     ? `the ${str}`
     : str
+
+export const sortBy = (arr, key) =>
+// return array sorted by the given key case insensitive
+  [...arr].sort((p1, p2) =>
+    (p1[key] || '').toLowerCase() > (p2[key] || '').toLowerCase() ? 1 : -1
+  )
+
+export const sortMapBy = (arr, key) =>
+// return a case insensitive sorting map from the current array based on the key provided
+  [...Array((arr || []).length).keys()].sort((i1, i2) =>
+    (arr[i1][key] || '').toLowerCase() >
+    (arr[i2][key] || '').toLowerCase()
+      ? 1
+      : -1
+  )

@@ -1,7 +1,5 @@
-/* eslint-disable */
 import { act, Simulate } from 'react-dom/test-utils'
 import CompareMarkets from '@src/components/CompareMarkets'
-import SelectMarket from '@src/components/CompareMarkets/SelectMarket'
 import Services from '@src/Services'
 import actions from '@src/actions'
 import fetchMock from 'fetch-mock'
@@ -9,7 +7,7 @@ import { waitFor } from '@testing-library/react'
 import ReactModal from 'react-modal'
 
 let container
-let countriesMock
+let userDataPostMock
 
 const mockResponse = [
   { id: 'DZ', name: 'Algeria', region: 'Africa', type: 'Country' },
@@ -86,6 +84,11 @@ const countryDataApiResponse = {
   },
 }
 
+const selectedProduct = {
+  commodity_code: '123456',
+  commodity_name: 'my product',
+}
+
 const economyTabTests = [
   { selector: '#market-Germany .name', expect: 'Germany' },
   { selector: '#market-Germany .avg-income', expect: '7,895' },
@@ -97,11 +100,6 @@ const economyTabTests = [
 // Simulate use data response
 let comparisonMarketResponse = { data: {} }
 
-const getText = (el, selector) => {
-  const target = el && el.querySelector(selector)
-  return (target && target.textContent) || ''
-}
-
 describe('Compare markets', () => {
   beforeAll(() => {
     const mainElement = document.createElement('span')
@@ -112,7 +110,7 @@ describe('Compare markets', () => {
   beforeEach(() => {
     container = document.createElement('div')
     container.innerHTML =
-      '<span id="compare-market-container" data-productname="my product" data-productcode="080450" ></span>'
+      '<div id="next-steps">Next Steps</div><span id="cta-container"></span><span id="compare-market-container" ></span>'
     document.body.appendChild(container)
     Services.setConfig({
       csrfToken: '12345',
@@ -120,19 +118,22 @@ describe('Compare markets', () => {
       apiSuggestedCountriesUrl: '/api/suggestedcountries/',
       apiCountryDataUrl: '/api/data-service/countrydata/',
       apiComTradeDataUrl: '/api/data-service/comtrade/',
-      apiUserDataUrl: '/sso/api/user-data/',
+      apiUserDataUrl: '/sso/api/user-data/-name-/',
       user: { id: '6' },
     })
     comparisonMarketResponse = { data: {} }
-    countriesMock = fetchMock.get(/\/api\/countries\//, mockResponse)
+    fetchMock.get(/\/api\/countries\//, mockResponse)
     fetchMock.get(/\/api\/suggestedcountries\//, suggestedResponse)
     fetchMock.get(/\/api\/data-service\/comtrade\//, productApiResponse)
     fetchMock.get(/\/api\/data-service\/countrydata\//, countryDataApiResponse)
-    fetchMock.get(/\/sso\/api\/user-data\//, () => comparisonMarketResponse)
-    fetchMock.post(/\/sso\/api\/user-data\//, (p1, p2, p3) => {
-      comparisonMarketResponse = JSON.parse(p2.body).data
-      return comparisonMarketResponse
-    })
+    fetchMock.get(
+      /\/sso\/api\/user-data\/ComparisonMarkets\//,
+      () => comparisonMarketResponse
+    )
+    userDataPostMock = fetchMock.post(
+      /\/sso\/api\/user-data\//,
+      (p1, p2) => JSON.parse(p2.body).data
+    )
   })
 
   afterEach(() => {
@@ -142,12 +143,21 @@ describe('Compare markets', () => {
   })
 
   it('Forces product chooser when no product', async () => {
+    Services.store.dispatch(
+      actions.setInitialState({
+        userSettings: {
+          UserProducts: [],
+          ActiveProduct: {},
+          UserMarkets: [],
+        },
+      })
+    )
     container.innerHTML =
       '<span id="cta-container"></span><span id="compare-market-container" ></span>'
     const dataTabs = '{ "population": true, "economy": true, "society": true }'
-    const cm_container = container.querySelector('#compare-market-container')
-    cm_container.setAttribute('data-tabs', dataTabs)
-    cm_container.setAttribute('data-max-places-allowed', 3)
+    const cmContainer = container.querySelector('#compare-market-container')
+    cmContainer.setAttribute('data-tabs', dataTabs)
+    cmContainer.setAttribute('data-max-places-allowed', 3)
 
     act(() => {
       CompareMarkets({
@@ -159,7 +169,7 @@ describe('Compare markets', () => {
 
     await waitFor(() => {
       const button = container.querySelector('button')
-      expect(button.textContent).toMatch('Select product')
+      expect(button.textContent).toMatch('Add product')
     })
     // Click the button and check it opens product finder
     act(() => {
@@ -176,31 +186,33 @@ describe('Compare markets', () => {
 
   it('Allows selection of markets and fetch data when product selected', async () => {
     // set up existing product in store
-    let selectedProduct = {
-      commodity_code: '123456',
-      commodity_name: 'my product',
-    }
 
     const localContainer = container
 
     // set up the mock of user data with two countries
-    comparisonMarketResponse = {
-      data: {
-        NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
-        DE: { country_name: 'Germany', country_iso2_code: 'DE' },
-      },
+    const comparisonMarkets = {
+      NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
+      DE: { country_name: 'Germany', country_iso2_code: 'DE' },
     }
 
     Services.store.dispatch(
-      actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
+      actions.setInitialState({
+        userSettings: {
+          UserProducts: [selectedProduct],
+          ActiveProduct: selectedProduct,
+          ComparisonMarkets: comparisonMarkets,
+          UserMarkets: [],
+        },
+      })
     )
 
     localContainer.innerHTML =
       '<span id="cta-container"></span><span id="compare-market-container" ></span>'
     const dataTabs = '{ "product": true, "economy": true, "society": true }'
-    const cm_container = container.querySelector('#compare-market-container')
-    cm_container.setAttribute('data-tabs', dataTabs)
-    cm_container.setAttribute('data-max-places-allowed', 3)
+    const cmContainer = container.querySelector('#compare-market-container')
+    cmContainer.setAttribute('data-tabs', dataTabs)
+    cmContainer.setAttribute('data-max-places-allowed', 3)
+
     act(() => {
       CompareMarkets({
         element: localContainer.querySelector('#compare-market-container'),
@@ -213,12 +225,12 @@ describe('Compare markets', () => {
     })
 
     // check economy data
-    const economy_tab = localContainer.querySelector(
+    const economyTab = localContainer.querySelector(
       '.tab-list-item:nth-of-type(2)'
     )
-    expect(economy_tab.textContent).toMatch('ECONOMY')
+    expect(economyTab.textContent).toMatch('ECONOMY')
     act(() => {
-      Simulate.click(economy_tab)
+      Simulate.click(economyTab)
     })
 
     await waitFor(() => {
@@ -228,7 +240,7 @@ describe('Compare markets', () => {
       ).toBeTruthy()
     })
     economyTabTests.forEach((test) => {
-      let element = localContainer.querySelector(test.selector)
+      const element = localContainer.querySelector(test.selector)
       if (!element) {
         if (!test.fail) {
           expect(test.selector).toEqual(
@@ -244,104 +256,68 @@ describe('Compare markets', () => {
         expect(element.textContent).toMatch(test.expect)
       }
     })
-    expect(localContainer.querySelectorAll('.tooltip button').length).toEqual(3)
+    expect(localContainer.querySelectorAll('.tooltip button')).toHaveLength(3)
   })
 
-  it('Select market from selection area', async () => {
-    container.innerHTML =
-      '<span id="cta-container"></span><span id="compare-market-container" data-productname="my product" data-productcode="123456"></span><span id="comparison-market-selector"></span>'
-    const dataTabs = '{"population":true, "economy":true, "society": true}'
-    const cm_container = container.querySelector('#compare-market-container')
-    cm_container.setAttribute('data-tabs', dataTabs)
-    cm_container.setAttribute('data-max-places-allowed', 3)
+  it('Allows markets to be added and removed from shortlist', async () => {
+    const localContainer = container
 
-    // set up existing product in store
-    let selectedProduct = {
-      commodity_code: '123456',
-      commodity_name: 'my product',
-    }
-    Object.defineProperty(window.document, 'cookie', {
-      writable: true,
-      value: 'comparisonMarkets_6=',
-    })
+    // set up the mock of user data with two countries
+    const NL = { country_name: 'Netherlands', country_iso2_code: 'NL' }
+    const DE = { country_name: 'Germany', country_iso2_code: 'DE' }
+    const comparisonMarkets = { NL, DE }
+
     Services.store.dispatch(
-      actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
+      actions.setInitialState({
+        userSettings: {
+          UserProducts: [selectedProduct],
+          ActiveProduct: selectedProduct,
+          ComparisonMarkets: comparisonMarkets,
+          UserMarkets: [NL],
+        },
+      })
     )
 
+    localContainer.innerHTML =
+      '<div id="next-steps">Next Steps</div><span id="cta-container"></span><span id="compare-market-container" ></span>'
+    const dataTabs = '{ "product": true }'
+    const cmContainer = container.querySelector('#compare-market-container')
+    cmContainer.setAttribute('data-tabs', dataTabs)
+    cmContainer.setAttribute('data-max-places-allowed', 3)
     act(() => {
       CompareMarkets({
-        element: container.querySelector('#compare-market-container'),
-        cta_container: container.querySelector('#cta-container'),
-      })
-      SelectMarket({
-        element: container.querySelector('#comparison-market-selector'),
+        element: cmContainer,
+        cta_container: localContainer.querySelector('#cta-container'),
       })
     })
     await waitFor(() => {
-      expect(container.querySelector('button.add-market')).toBeTruthy()
+      expect(localContainer.querySelector('#market-Germany .name')).toBeTruthy()
     })
-    expect(container.querySelector('button.add-market').textContent).toMatch(
-      'Add a place'
+    const germanyCb = localContainer.querySelector(
+      '#market-Germany .checkbox-favourite'
     )
-
-    // Select a country
-    act(() => {
-      Simulate.click(container.querySelector('button.add-market'))
-    })
-    let finder = document.body.querySelector('.country-finder')
-    let suggested
-    await waitFor(() => {
-      suggested = finder.querySelector(`.suggested-markets button[data-id=DE]`)
-      expect(suggested).toBeTruthy()
-    })
-    act(() => {
-      Simulate.click(suggested)
-    })
-    await waitFor(() => {
-      expect(container.querySelector('button.add-market').textContent).toMatch(
-        'Add place 2 of 3'
-      )
-    })
-    // check that the country appears in the selection section at the page base
-    const marketSelectionBar = container.querySelector(
-      '#comparison-market-selector'
+    const netherlandsCb = localContainer.querySelector(
+      '#market-Netherlands .checkbox-favourite'
     )
-    expect(marketSelectionBar.querySelector('button').textContent).toMatch(
-      'Germany'
-    )
-
-    // Select a country
+    expect(germanyCb.checked).toBeFalsy()
+    expect(netherlandsCb.checked).toBeTruthy()
     act(() => {
-      Simulate.click(container.querySelector('button.add-market'))
-    })
-    finder = document.body.querySelector('.country-finder')
-    await waitFor(() => {
-      suggested = finder.querySelector(`.suggested-markets button[data-id=SE]`)
-      expect(suggested).toBeTruthy()
-    })
-
-    act(() => {
-      Simulate.click(suggested)
-    })
-
-    await waitFor(() => {
-      expect(
-        container.querySelector('button.add-market') &&
-          container.querySelector('button.add-market').textContent
-      ).toMatch('Add place 3 of 3')
-    })
-
-    let buttonSweden = marketSelectionBar.querySelector('button.market-SE')
-    // check that the country appears in the selection section at the page base
-    expect(buttonSweden.textContent).toMatch('Sweden')
-    // remove sweden and watch it vanish from selection bar
-    act(() => {
-      Simulate.click(
-        container.querySelector('.market-details button[data-id=SE]')
-      )
+      Simulate.change(germanyCb)
     })
     await waitFor(() => {
-      expect(marketSelectionBar.querySelector('button.market-SE')).toBeFalsy()
+      const calls = userDataPostMock.calls()
+      const lastcall = calls[calls.length - 1]
+      const { data } = JSON.parse(lastcall[1].body)
+      expect(data).toEqual([NL, DE])
+    })
+    act(() => {
+      Simulate.change(netherlandsCb)
+    })
+    await waitFor(() => {
+      const calls = userDataPostMock.calls()
+      const lastcall = calls[calls.length - 1]
+      const { data } = JSON.parse(lastcall[1].body)
+      expect(data).toEqual([DE])
     })
   })
 })

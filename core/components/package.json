@@ -2,7 +2,7 @@
   "name": "export-elements",
   "version": "0.0.1",
   "engines": {
-    "node": "8.5.0"
+    "node": "~14.0.0"
   },
   "description": "Wrapper around govuk-elements for DIT specific needs",
   "main": "index.js",
@@ -11,7 +11,6 @@
   "license": "MIT",
   "scripts": {
     "gulp_build": "gulp build",
-    "test": "jest react-components/tests/",
     "build": "webpack --config react-components/webpack.config.js --mode production "
   },
   "dependencies": {
@@ -19,12 +18,10 @@
     "@csstools/sass-import-resolve": "^1.0.0",
     "del": "^5.1.0",
     "flag-icon-css": "^3.2.1",
-    "govuk-elements": "https://github.com/alphagov/govuk_elements.git#master",
-    "govuk-elements-sass": "3.1.2",
-    "gulp-cli": "^2.3.0",
-    "gulp-print": "^2.0.1",
+    "gulp-print": "^5.0.2",
     "gulp-rename": "^2.0.0",
     "gulp-sourcemaps": "^3.0.0",
+    "is-primitive": "^3.0.1",
     "node-sass": "^6.0.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -35,39 +32,17 @@
     "@babel/core": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
     "@babel/preset-react": "^7.8.3",
-    "babel-jest": "^25.1.0",
     "babel-loader": "^8.0.6",
-    "css-loader": "^3.4.2",
+    "css-loader": "^6.2.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.6.2",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^5.0.0",
-    "gulp-cssnano": "^2.1.3",
-    "gulp-sass": "^4.1.1",
-    "gulp-sass-lint": "^1.4.0",
-    "jest": "^25.1.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-sass": "^5.0.0",
     "sass": "^1.32.6",
     "style-loader": "^1.1.3",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
-    "moduleDirectories": [
-      "node_modules"
-    ],
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "setupFiles": [
-      "./react-components/setup-jest.js"
-    ],
-    "moduleNameMapper": {
-      "^.+\\.(css|less)$": "<rootDir>/react-components/css-stub.js"
-    }
+    "webpack": "^5.50.0",
+    "webpack-cli": "^4.8.0"
   }
 }

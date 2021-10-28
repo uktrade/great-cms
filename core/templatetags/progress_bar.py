@@ -10,7 +10,7 @@ def progress_bar(total, complete):
     Renders a progress bar given total abnd completed
     """
 
-    percentage = int((complete / total) * 100) if total > 0 else 0
+    percentage = int((complete / total) * 100) if (total or 0) > 0 else 0
 
     return format_html(
         f"""

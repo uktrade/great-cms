@@ -14,6 +14,85 @@
 - [HOTFIX] - GP2-3446 change london ita search
 
 ### Enhancements
+- GP2-3779 - EP funds page rounding in funds source table
+- GP2-3786 - Magna header - logged-out mode
+- GP2-3767 - EP pdf export template rework
+- GP2-3776 - EP Textarea autosize
+- GP2-3436 - Add created date to EP overview
+- GP2-3387 - Management command to purge admin users
+- GP2-3190 - WTE content changes
+- GP2-2478 - EP Business objectives content update
+- GP2-2893 - Learning backlinks layout
+- GP2-2502 - Replace Dashboard Title - “Hello” with “Dashboard”
+- GP2-3192 - Simplify case study logic and add FFed listing to aid test
+- GP2-3346 - Remove start date to fix, End date cannot precede start date
+- GP2-3437 - Exportplan update wizard for migrating incomplete EPs
+- GP2-3383 - Costs and pricing: Amend content
+- GP2-3192 - Lesson case study logic using elasticsearch
+- GP2-3167 - Update introductory copy for WTE
+- GP2-3439 - Snackbar for adding market in WTE
+- GP2-3433 - WTE routing block
+- GP2-3406 - Supress error message when signing up user is already registered
+- GP2-3336 - Product classification expander on dashboard overview page plus content changes
+- GP2-3395 - Content changes and move hs code on product finder
+- GP2-3162 - Chapter name in suggested countries
+- GP2-3338 - Dashboard top 3 export plans
+- GP2-2574 - WTE add/remove markets to or from shortlist
+- GP2-3344 - Verify account with token
+- GP2-3171 - EP wizard styling update
+- GP2-3284 - EP title in sections
+- GP2-3172 - decouple-ep-pages
+- GP2-3170 - EP index page and list
+- GP2-3169 - EP index page logged-out
+- GP2-3171 - Create export plan wizard
+- GP2-3168 - Add yet another 'add product' button - this time on WTE
+- GP2-3119 - Basket restyle to lose react-modal
+- GP2-3166 - Suggested market product logic
+- GP2-3119 - Decouple basket from export plan
+- GP2-3263 - Fix EP pdf download, sidebar and added back link to landing page
+- GP2-3270 - Learn topics image sizing
+- NOTICKET - Remove and cleanup broken Storybook setup
+- GP2-3352 - remove feature FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE
+- GP2-3352 - Obfuscate the export plan id in urls
+- GP2-3396 - Startdate Endate validation
+- GP2-3404 - fix ep dashboard default
+- GP2-3384 - Funding and credit: Amend pdf content
+- GP2-3193 - View example export plan
+- GP2-3428 - Country selector - suggested markets, display HS2 product information
+- GP2-3356 - Basket for products and countries - add/delete
+
+### Fixed bugs
+- GP2-3813 - Getting paid layout
+- GP2-3815 - EP pdf fix funding total and c&p quantity and units
+- GP2-3725 - Unwanted text on WTE
+- GP2-3717 - Update suggested markets content
+- GP2-3257 - Fix costs and pricing debounce
+- GP2-3429 - Clear WTE displayed product on deleting last basket product
+- GP2-3410 - Fix password validation error messages not showing on signup
+- GP2-3373 - Fix in situ code verification - not through link
+- GP2-3364 - WTE fallback to most recent product
+- GP2-3363 - Fix costs_and_pricing page
+- GP2-3310 - Product_sort_order
+- GP2-3311 - Suggestions on deleted products
+- GP2-3288 - Vulnerabilities.
+- GP2-2880 - DAC_Parsing_02 (A)
+- GP2-3348 - SECURITY: great-cms frontend asset vulnerabilty: tar
+- NOTICKET - Fix hashid on EP create wizard
+- GP2-3772 - delete  case study error
+- GP2-3724 - fix EP dashboard wagtail redirect
+- GP2-3783 - add case-study error
+- GP2-3782 - total funding pdf not working
+
+## [1.13.0](https://github.com/uktrade/great-cms/releases/tag/1.13.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
+
+### Hotfix
+- GP2-3253 fix-confirm-idenity-urls
+- GP2-3309 - [HOTFIX] adding bing search console meta tag
+- GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
+- GP2-3372 - [HOTFIX] add crsf token to company disconnect to fix 403 error
+
+### Enhancements
 - GP2-3128 - Analytics - section completion
 - GP2-3017 - SOO User profile update to directory-SSO
 - GP2-2402 - VFM analytics
@@ -55,18 +134,20 @@
 - GP2-3100 - In Costs and pricing, titles dispay "the" prefix before countries that should not have this
 - GP2-2492 - Export plan - some pages - value input
 - GP2-3120 - Append "- great.gov.uk" to all pages by default
+- GP2-2988: Make SOO contact form name fields editable if not already populated.ttps://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
 
-### Fixed bugs
-- GP2-2988: Make SOO contact form name fields editable if not already populated.
 
 ## [1.12.0](https://github.com/uktrade/great-cms/releases/tag/1.12.0)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.11.0...1.12.0)
 
 ### Enhancements
+
 - GP2-3268 = [HOTFIX] Updated CaseStudy's related page which cant be empty/null
 - GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
 
 ## [1.11.0](https://github.com/uktrade/great-cms/releases/tag/1.11.0)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.10.0...1.11.0)
 
 ### Enhancements

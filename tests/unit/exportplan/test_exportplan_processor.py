@@ -2,6 +2,7 @@ from unittest import mock
 
 import pytest
 
+from core.helpers import h_encrypt
 from exportplan.core import data, helpers
 from exportplan.core.processor import ExportPlanProcessor
 
@@ -57,7 +58,7 @@ def test_export_plan_processor_get_current_url_product_required_not_in_check():
             False,
             {
                 'title': 'About your business',
-                'url': '/export-plan/section/about-your-business/',
+                'url': '/export-plan/npiqji6n/about-your-business/',
                 'image': 'about-the-business.png',
             },
         ],
@@ -68,7 +69,7 @@ def test_export_plan_processor_get_current_url_product_required_not_in_check():
             False,
             {
                 'title': 'About your business',
-                'url': '/export-plan/section/about-your-business/',
+                'url': '/export-plan/npiqji6n/about-your-business/',
                 'image': 'about-the-business.png',
             },
         ],
@@ -79,7 +80,7 @@ def test_export_plan_processor_get_current_url_product_required_not_in_check():
             False,
             {
                 'title': 'About your business',
-                'url': '/export-plan/section/about-your-business/',
+                'url': '/export-plan/npiqji6n/about-your-business/',
                 'image': 'about-the-business.png',
             },
         ],
@@ -90,7 +91,7 @@ def test_export_plan_processor_get_current_url_product_required_not_in_check():
             False,
             {
                 'title': 'Business objectives',
-                'url': '/export-plan/section/business-objectives/',
+                'url': '/export-plan/npiqji6n/business-objectives/',
                 'image': 'business-objectives.png',
             },
         ],
@@ -106,7 +107,7 @@ def test_export_plan_processor_get_current_url_product_required_not_in_check():
             False,
             {
                 'title': 'Target markets research',
-                'url': '/export-plan/section/target-markets-research/',
+                'url': '/export-plan/npiqji6n/target-markets-research/',
                 'image': 'target-market-research.png',
             },
         ],
@@ -114,9 +115,9 @@ def test_export_plan_processor_get_current_url_product_required_not_in_check():
 )
 @mock.patch.object(helpers, 'get_exportplan')
 def test_export_plan_processor_calculate_ep_progress(
-    mock_get_exportplan, ui_progress_data, complete, percentage_complete, ep_completed, next_section
+    mock_get_exportplan, export_plan_data, ui_progress_data, complete, percentage_complete, ep_completed, next_section
 ):
-    export_plan_data = {'ui_progress': ui_progress_data}
+    export_plan_data.update({'ui_progress': ui_progress_data})
     mock_get_exportplan.return_value = export_plan_data
     ep_progress = ExportPlanProcessor(export_plan_data).calculate_ep_progress()
     assert ep_progress['sections_total'] == len(data.SECTION_SLUGS)
@@ -127,13 +128,16 @@ def test_export_plan_processor_calculate_ep_progress(
 
 
 @mock.patch.object(helpers, 'get_exportplan')
-def test_export_plan_processor_calculate_ep_progress_complete(mock_get_exportplan):
-    export_plan_data = {
-        'ui_progress': {
-            s: {'is_complete': True, 'date_last_visited': '2012-01-14T03:21:34+00:00'} for s in data.SECTION_SLUGS
+def test_export_plan_processor_calculate_ep_progress_complete(mock_get_exportplan, export_plan_data):
+    export_plan_data.update(
+        {
+            'ui_progress': {
+                s: {'is_complete': True, 'date_last_visited': '2012-01-14T03:21:34+00:00'} for s in data.SECTION_SLUGS
+            }
         }
-    }
+    )
     mock_get_exportplan.return_value = export_plan_data
+
     ep_progress = ExportPlanProcessor(export_plan_data).calculate_ep_progress()
 
     assert ep_progress['sections_total'] == len(data.SECTION_SLUGS)
@@ -142,7 +146,7 @@ def test_export_plan_processor_calculate_ep_progress_complete(mock_get_exportpla
     assert ep_progress['exportplan_completed'] is True
     assert ep_progress['next_section'] == {
         'title': 'About your business',
-        'url': '/export-plan/section/about-your-business/',
+        'url': '/export-plan/npiqji6n/about-your-business/',
         'image': 'about-the-business.png',
     }
 
@@ -213,9 +217,23 @@ def test_export_plan_processor_calculate_ep_section_progress(user, export_plan_d
     ],
 )
 def test_export_plan_processor_calculate_ep_section_progress_lists(user, export_plan_data, url, expected):
+    export_plan_data.update({'pk': 1})
     export_plan_parser = ExportPlanProcessor(export_plan_data)
+    hash_id = h_encrypt(1)
     progress = {
-        item['url'].replace('/export-plan/section/', ''): item
+        item['url'].replace(f'/export-plan/{hash_id}/', ''): item
         for item in export_plan_parser.calculate_ep_section_progress()
     }
     assert progress[url]['populated'] == expected
+
+
+def test_export_plan_processor_get_absolute_url(user, export_plan_data):
+    export_plan_data.update({'pk': 1})
+    export_plan_parser = ExportPlanProcessor(export_plan_data)
+    assert export_plan_parser.get_absolute_url == '/export-plan/npiqji6n/'
+
+
+def test_export_plan_processor_hashid(user, export_plan_data):
+    export_plan_data.update({'pk': 1})
+    export_plan_parser = ExportPlanProcessor(export_plan_data)
+    assert export_plan_parser.hashid == 'npiqji6n'
