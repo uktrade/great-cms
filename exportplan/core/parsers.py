@@ -67,7 +67,7 @@ class ExportPlanParser:
 
         unit_value = self.get_key('total_cost_and_price.units_to_export_first_period.value')
         unit_label = helpers.values_to_labels(
-            values=self.get_key('total_cost_and_price.units_to_export_first_period.unit') or [],
+            values=[self.get_key('total_cost_and_price.units_to_export_first_period.unit')] or [],
             choices=self.EXPORT_UNITS,
         )
 
@@ -77,7 +77,7 @@ class ExportPlanParser:
         unit_period_value = self.get_key('total_cost_and_price.units_to_export_second_period.value')
 
         unit_period_label = helpers.values_to_labels(
-            values=self.get_key('total_cost_and_price.units_to_export_second_period.unit') or [],
+            values=[self.get_key('total_cost_and_price.units_to_export_second_period.unit')] or [],
             choices=self.EXPORT_TIMEFRAME,
         )
         second_period_period_label = (
