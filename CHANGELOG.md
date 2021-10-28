@@ -14,6 +14,7 @@
 - [HOTFIX] - GP2-3446 change london ita search
 
 ### Enhancements
+- no-ticket - Ensure to only include current export opportunities in search
 - GP2-3779 - EP funds page rounding in funds source table
 - GP2-3786 - Magna header - logged-out mode
 - GP2-3767 - EP pdf export template rework
