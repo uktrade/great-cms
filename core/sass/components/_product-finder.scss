@@ -209,6 +209,34 @@
   }
 }
 
+.basket-view {
+  position: absolute;
+  border-radius: 10px;
+  box-shadow: 0 8px 15px 5px $black-50;
+  background: $white;
+  width: 90%;
+  margin: 5px auto 0;
+  z-index: 2;
+  ul {
+      display: block;
+  }
+  ul > li {
+    // display: block;
+    padding-right: 50px;
+    position: relative;
+    button {
+      position: absolute;
+      right: 0;
+      top: 3px;
+    }
+  }
+
+  @include breakpoint(md) {
+    width: 350px;
+    margin: 5px 0 0;
+  }
+}
+
 .modal {
   &.large-modal-content {
     width: auto;

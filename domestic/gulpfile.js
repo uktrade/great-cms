@@ -1,6 +1,6 @@
 const path = require('path')
 const gulp = require('gulp')
-const sass = require('gulp-sass')
+const sass = require('gulp-sass')(require('sass'))
 const sourcemaps = require('gulp-sourcemaps')
 const del = require('del')
 
@@ -12,14 +12,14 @@ const CSS_MAPS = `${PROJECT_DIR}/static/styles/**/*.css.map`
 
 gulp.task(
   'clean',
-  gulp.series(function () {
+  gulp.series(() => {
     return del([CSS_FILES, CSS_MAPS])
-  })
+  }),
 )
 
 gulp.task(
   'sass:compile',
-  gulp.series(function () {
+  gulp.series(() => {
     return gulp
       .src(SASS_FILES)
       .pipe(sourcemaps.init())
@@ -27,7 +27,7 @@ gulp.task(
         sass({
           includePaths: ['./conf/'],
           outputStyle: 'compressed',
-        }).on('error', sass.logError)
+        }).on('error', sass.logError),
       )
       .pipe(sourcemaps.write('./maps'))
       .pipe(gulp.dest(CSS_DIR))
@@ -39,21 +39,3 @@ gulp.task('sass:watch', () => {
 })
 
 gulp.task('build', gulp.series('clean', 'sass:compile'))
-
-gulp.task(
-  'default',
-  gulp.series((done) => {
-    const cyan = gutil.colors.cyan
-    const green = gutil.colors.green
-
-    gutil.log(green('----------'))
-
-    gutil.log('The following main ' + cyan('tasks') + ' are available:')
-
-    gutil.log(cyan('build') + ': compiles assets.')
-    gutil.log(cyan('sass:watch') + ': compiles assets and watches for changes.')
-
-    gutil.log(green('----------'))
-    done()
-  })
-)

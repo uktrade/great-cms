@@ -298,13 +298,6 @@ def test_company_parser_expertise_countries_value_label_pairs(company_profile, e
     assert helpers.CompanyParser(company_profile).expertise_countries_value_label_pairs == expected
 
 
-def test_company_parser_expertise_countries_hard_code_industries(settings):
-    settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = True
-    assert helpers.CompanyParser({'expertise_industries': ['FR']}).expertise_industries_value_label_pairs == (
-        [{'label': 'Food and drink', 'value': 'FOOD_AND_DRINK'}]
-    )
-
-
 def test_helper_search_commodity_by_term(requests_mock):
     data = {
         'results': [
@@ -327,8 +320,8 @@ def test_helper_search_commodity_by_term(requests_mock):
 
 
 def test_ccce_import_schedule(requests_mock):
-    origin_country = 'GB'
-    destination_country = 'CA'
+    origin_country = 'CA'
+    destination_country = 'GB'
     hs_code = '123456'
     data = {
         'children': [
@@ -663,19 +656,15 @@ def test_build_social_links(rf):
 
 def test_get_trading_blocs_by_country(mock_trading_blocs):
     trading_blocs = helpers.get_trading_blocs_by_country('IN')
+    trading_blocs = list(filter(lambda tb: tb.get('iso2') == 'IN', trading_blocs))
     assert trading_blocs[0].get('country_territory_name') == 'India'
     assert len(trading_blocs) == 4
 
 
 def test_get_trading_blocs_name(mock_trading_blocs):
     trading_blocs = helpers.get_trading_blocs_name('IN')
-    assert trading_blocs == [
-        'Regional Comprehensive Economic Partnership (RCEP)',
-        'South Asian Association for Regional Cooperation (SAARC)',
-        'South Asia Free Trade Area (SAFTA)',
-        'Regional Economic Comprehensive Economic Partnership (RCEP)',
-    ]
-    assert len(trading_blocs) == 4
+    assert trading_blocs[0] == 'Regional Comprehensive Economic Partnership (RCEP)'
+    assert trading_blocs[3] == 'Regional Economic Comprehensive Economic Partnership (RCEP)'
 
 
 @pytest.fixture(autouse=True)

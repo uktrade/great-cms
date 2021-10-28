@@ -2,6 +2,8 @@
 // COUNTRY GUIDE PAGE
 // ==================
 
+@use "sass:math";
+
 @import '../components/accordion';
 @import '../partials/typography.scss';
 
@@ -14,7 +16,7 @@
 
     @media (min-width: 769px) {
       .teaser {
-        padding-right: 1 / 9 * 100%;
+        padding-right: math.div(1, 9) * 100%;
       }
     }
     @media (max-width: 768px) {

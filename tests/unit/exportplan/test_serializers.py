@@ -113,6 +113,31 @@ def test_new_objective_serializer():
     assert serializer.data == data
 
 
+@pytest.mark.parametrize(
+    'start_month, start_year, end_month, end_year, is_valid',
+    [
+        [None, 2020, 1, 2020, True],
+        [1, None, 1, 2020, True],
+        [1, 2020, None, 2020, True],
+        [1, 2020, 1, None, True],
+        [1, 2020, 1, None, True],
+        [1, 2020, 1, 2021, True],
+        [3, 2021, 1, 2021, False],
+    ],
+)
+def test_objective_serializer_date_fields_validate(start_month, start_year, end_month, end_year, is_valid):
+    data = {
+        'companyexportplan': 1,
+        'pk': 1,
+        'start_month': start_month,
+        'start_year': start_year,
+        'end_month': end_month,
+        'end_year': end_year,
+    }
+    serializer = serializers.CompanyObjectivesSerializer(data=data)
+    assert serializer.is_valid() == is_valid
+
+
 def test_pk_only_serializer():
 
     data = {'pk': 1}
@@ -431,11 +456,3 @@ def test_business_risks_serializer(export_plan_data):
             ('pk', 1),
         ]
     )
-
-
-def test_export_plan_serializer_calculate_total_funding(export_plan_data):
-    # To tidy all collections should be contained within the page they're loaded
-    export_plan_data['funding_and_credit']['funding_credit_options'] = export_plan_data['funding_credit_options']
-    serializer = serializers.ExportPlanSerializer(data=export_plan_data)
-    serializer.is_valid()
-    assert serializer.calculate_total_funding == 2.0

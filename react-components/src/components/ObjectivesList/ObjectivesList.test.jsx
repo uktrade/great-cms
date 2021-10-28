@@ -205,7 +205,7 @@ describe('ObjectivesList', () => {
           ...props,
           objectives: [],
         })
-        fireEvent.click(getByText('Add goal 1 of 5'))
+        fireEvent.click(getByText('Add objective 1 of 5'))
 
         await waitFor(() => {
           expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
@@ -222,25 +222,25 @@ describe('ObjectivesList', () => {
           ...props,
           objectives: [],
         })
-        fireEvent.click(getByText('Add goal 1 of 5'))
+        fireEvent.click(getByText('Add objective 1 of 5'))
 
         expect(queryByLabelText('Objective 1')).not.toBeInTheDocument()
         await waitFor(() => {
           expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
           queryByLabelText('Objective 1')
-          getByText('Add goal 2 of 5')
+          getByText('Add objective 2 of 5')
         })
       })
 
       it('has multiple element', async () => {
         const { getByText, queryByLabelText } = setup({ ...props })
-        fireEvent.click(getByText('Add goal 4 of 5'))
+        fireEvent.click(getByText('Add objective 4 of 5'))
 
         expect(queryByLabelText('Objective 4')).not.toBeInTheDocument()
         await waitFor(() => {
           expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
           queryByLabelText('Objective 4')
-          getByText('Add goal 5 of 5')
+          getByText('Add objective 5 of 5')
         })
       })
     })
@@ -262,7 +262,7 @@ describe('ObjectivesList', () => {
         ],
       })
 
-      fireEvent.click(getByText('Add goal 2 of 5'))
+      fireEvent.click(getByText('Add objective 2 of 5'))
 
       expect(queryByLabelText('Objective 2')).not.toBeInTheDocument()
       await waitFor(() => {

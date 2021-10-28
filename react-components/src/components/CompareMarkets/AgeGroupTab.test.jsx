@@ -1,7 +1,6 @@
 /* eslint-disable */
 import { act, Simulate } from 'react-dom/test-utils'
 import CompareMarkets from '@src/components/CompareMarkets'
-import SelectMarket from '@src/components/CompareMarkets/SelectMarket'
 import Services from '@src/Services'
 import actions from '@src/actions'
 import fetchMock from 'fetch-mock'
@@ -61,9 +60,9 @@ const countryDataApiResponse = {
 
 // set up the mock of user data with two countries
 const comparisonMarketResponse = {
-  data: {
-      NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
-      DE: { country_name: 'Germany', country_iso2_code: 'DE' },
+  ComparisonMarkets: {
+    NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
+    DE: { country_name: 'Germany', country_iso2_code: 'DE' },
   },
 }
 
@@ -82,11 +81,10 @@ describe('Compare markets', () => {
   beforeEach(() => {
     container = document.createElement('div')
     container.innerHTML =
-      '<span id="compare-market-container" data-productname="my product" data-productcode="080450" ></span>'
+      '<span id="compare-market-container"></span>'
     document.body.appendChild(container)
     Services.setConfig({
       csrfToken: '12345',
-      populationByCountryUrl: '/export-plan/api/country-data/',
       apiCountryDataUrl: '/api/data-service/countrydata/',
       apiUserDataUrl: '/sso/api/user-data/',
       user: { id: '6' },
@@ -111,7 +109,9 @@ describe('Compare markets', () => {
     const localContainer = container
 
     Services.store.dispatch(
-      actions.setInitialState({ exportPlan: { products: [selectedProduct] } })
+      actions.setInitialState({
+        userSettings: { UserProducts: [selectedProduct] },
+      })
     )
 
     localContainer.innerHTML =

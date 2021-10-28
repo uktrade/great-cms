@@ -16,6 +16,7 @@
         {% block sharing_title %}
             <meta name="title" content="{% block meta_title %}{% firstof page.seo_title page.title content_snippet.seo_title content_snippet.title %}{% endblock %}">
         {% endblock %}
+        <meta name="msvalidate.01" content="76D322F181AE9F91C43419E5CD511BBC" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block head_google_tag_manager %}
             {% if UTM_COOKIE_DOMAIN %}
@@ -31,9 +32,9 @@
                 {% if page.seo_title %}
                     {{page.seo_title}}
                 {% else %}
-                    {{page.title}} - great.gov.uk
+                    {{page.title}}
                 {%endif%}
-            {% endblock %}
+            {% endblock %} - great.gov.uk
         </title>
 
         {% block head_favicon %}
@@ -127,7 +128,6 @@
             {% endif %}
             {% endblock %}
         {% endblock %}
-        <meta name="msvalidate.01" content="76D322F181AE9F91C43419E5CD511BBC" />
     </head>
 
     <body {% block body_attributes %}{% endblock %}>

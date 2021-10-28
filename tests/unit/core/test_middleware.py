@@ -9,10 +9,6 @@ from django.test import override_settings
 from core import helpers, middleware
 from core.middleware import GADataMissingException, TimedAccessMiddleware
 from tests.unit.core import factories
-from tests.unit.exportplan.factories import (
-    ExportPlanPageFactory,
-    ExportPlanPseudoDashboardPageFactory,
-)
 
 
 @pytest.fixture(autouse=True)
@@ -51,7 +47,7 @@ def test_user_specific_redirect_middleware(
     domestic_site,
     client,
     user,
-    mock_export_plan_list,
+    mock_export_plan_detail_list,
     patch_get_user_lesson_completed,
     mock_get_user_profile,
 ):
@@ -74,54 +70,6 @@ def test_user_specific_redirect_middleware(
         # Then they should be redirected to /learn/categories/
         assert response.status_code == 302
         assert response.url == categories_page.url
-
-
-@pytest.mark.django_db
-def test_user_specific_redirect_exportplan_middleware_logged_in_company_name_set(
-    domestic_site,
-    client,
-    user,
-    mock_get_company_profile,
-    mock_export_plan_list,
-    patch_get_user_lesson_completed,
-    mock_get_user_profile,
-):
-    exportplan_page = ExportPlanPageFactory(parent=domestic_site.root_page, slug='export-plan')
-    exportplan_dashboard_page = ExportPlanPseudoDashboardPageFactory(parent=exportplan_page, slug='dashboard')
-
-    # Given the user is logged in
-    client.force_login(user)
-
-    # And the compay name is set
-    mock_get_company_profile.return_value = {'name': 'Example corp'}
-
-    # When the user next goes to /export-plan/ or /export-plan/dasbboard/
-    for page in [exportplan_page, exportplan_dashboard_page]:
-        response = client.get(page.url)
-
-        # Then they should not be redirected
-        assert response.status_code == 200
-
-
-@pytest.mark.django_db
-def test_user_product_expertise_middleware(
-    domestic_site, client, mock_update_company_profile, user, mock_get_user_profile
-):
-    client.force_login(user)
-
-    list_page = factories.ListPageFactory(parent=domestic_site.root_page)
-    lesson_page = factories.DetailPageFactory(parent=list_page)
-
-    response = client.get(
-        lesson_page.url,
-        {'product': ['Vodka', 'Potassium'], 'remember-expertise-products-services': True, 'hs_codes': [1, 2]},
-    )
-    assert response.status_code == 200
-    assert mock_update_company_profile.call_count == 1
-    assert mock_update_company_profile.call_args == mock.call(
-        sso_session_id=user.session_id,
-        data={'expertise_products_services': {'other': ['Vodka', 'Potassium']}, 'hs_codes': ['1', '2']},
-    )
 
 
 @pytest.mark.django_db

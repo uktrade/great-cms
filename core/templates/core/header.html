@@ -9,16 +9,26 @@
         <img class="header-logo" src="{% static 'images/dit-logo.png' %}" alt="Department for International Tradet" id="header-logo-exporting-is-great">
       </a>
       <ul class="extra-links">
-        <li><a href="{% slugurl 'dashboard' %}" tabindex="1">Dashboard</a></li>
+        {% if request.user.is_authenticated %}
+          <li><a href="{% slugurl 'dashboard' %}" tabindex="1">Dashboard</a></li>
+        {% else %}
+          <li><a href="{% url 'core:login' %}" tabindex="1">Sign in</a></li>
+        {% endif %}
       </ul>
       <div class="header-links">
         <ul id="services-area" class="services-area">
-          {% path_match "^\/learn\/" as in_learning %}
-          {% path_match "^\/where-to-export\/" as in_targetmarkets %}
-          <li class="lg-only"><a id="header-link-learning" class="{% if in_learning %}active{% endif %}" href="/learn/categories/">Learn to export</a></li>
-          <li class="lg-only"><a id="header-link-markets" class="{% if in_targetmarkets %}active{% endif %}" href="{% url 'core:compare-countries'%}">Where to export</a></li>
-          <li class="lg-only"><a id="header-link-exporting-plan" class="{% if in_exportplan %}active{% endif %}" href="/export-plan/dashboard/">Make an export plan</a></li>
-          <li>
+          {% if request.user.is_authenticated %}
+            {% path_match "^\/learn\/" as in_learning %}
+            {% path_match "^\/where-to-export\/" as in_targetmarkets %}
+            <li class="lg-only"><a id="header-link-learning" class="{% if in_learning %}active{% endif %}" href="/learn/categories/">Learn to export</a></li>
+            <li class="lg-only"><a id="header-link-markets" class="{% if in_targetmarkets %}active{% endif %}" href="{% url 'core:compare-countries'%}">Where to export</a></li>
+            <li class="lg-only"><a id="header-link-exporting-plan" class="{% if in_exportplan %}active{% endif %}" href="/export-plan/">Make an export plan</a></li>
+          {% else %}
+            <li class="lg-only"><a id="header-link-advice" href="/advice/">Advice</a></li>
+            <li class="lg-only"><a id="header-link-markets-lo" href="/markets/">Markets</a></li>
+            <li class="lg-only"><a id="header-link-services" href="/services/">Services</a></li>
+          {% endif %}
+          <li {% if not request.user.is_authenticated %}class="m-r-0"{% endif %}>
             <div id="magna-header-search-form-wrapper">
               <form id="magna-header-search-form" action="{% url 'search:search' %}" method="GET">
                 <input id="magna-header-search-box" type="text" name="q" placeholder="Search" aria-label="Search">
@@ -26,19 +36,19 @@
               </form>
             </div>
           </li>
-          <li id="header-link-user-profile">
-          </li>
-
-          <script type="text/javascript">
-          magna.ModalMenu({
-            element: document.querySelector("#header-link-user-profile"),
-            {% autoescape off %}
-              avatar: '{{ request.user.profile_image|default:"" }}',
-            {% endautoescape %}
-            user_name: '{{ request.user.first_name|default:"" }}',
-            authenticated: '{{ request.user.is_authenticated }}'
-          })
-          </script>
+          {% if request.user.is_authenticated %}
+            <li id="header-link-user-profile"></li>
+            <script type="text/javascript">
+            magna.ModalMenu({
+              element: document.querySelector("#header-link-user-profile"),
+              {% autoescape off %}
+                avatar: '{{ request.user.profile_image|default:"" }}',
+              {% endautoescape %}
+              user_name: '{{ request.user.first_name|default:"" }}',
+              authenticated: '{{ request.user.is_authenticated }}'
+            })
+            </script>
+          {% endif %}
         </ul>
       </div>
     </nav>

@@ -8,12 +8,12 @@ import { notAvailable } from '@src/components/Stats/StatsGroup'
 import { formatLanguages } from '@src/components/TargetAgeGroupInsights/utils'
 import Services from '@src/Services'
 import { useSelector, Provider } from 'react-redux'
-import { getMarkets, getProducts } from '@src/reducers'
+import { getEpProduct, getEpMarket } from '@src/reducers'
 import { get } from '@src/Helpers'
 
 export const DataSnapshot = memo(({ infoMoment, tooltip }) => {
-  const country = useSelector((state) => getMarkets(state))
-  const product = useSelector((state) => getProducts(state))
+  const country = useSelector((state) => getEpMarket(state))
+  const product = useSelector((state) => getEpProduct(state))
   const [data, setData] = useState({})
 
   const getCountryData = () => {

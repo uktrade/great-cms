@@ -6,6 +6,7 @@
   &--back-to {
     position: absolute;
     top: 40px;
+
     @include breakpoint(lg) {
       left: 110px;
     }
@@ -38,8 +39,79 @@
 .great-checkbox--section-complete {
   label {
     font-size: var(--font-size-title-2);
+
     @include breakpoint(sm) {
       font-size: var(--font-size-title-3);
     }
   }
+}
+
+.hide-show-content,
+.hide-show-trigger {
+  display: none;
+}
+
+.hide-show-trigger:checked~div .hide-show-content {
+  display: block;
+}
+
+.hide-show-trigger~div>div>label>i {
+  padding: 0;
+}
+
+.hide-show-trigger:checked~div>div>label>i {
+  transform: rotate(180deg);
+}
+
+.hero-image-container {
+  position: relative;
+  background-image: url(/static/images/ep-index-t-l.svg);
+  background-repeat: no-repeat;
+  background-position: bottom left;
+  background-size: 15% auto;
+  &::before {
+    content: '';
+    @include stretch;
+    right: 3%;
+    background: url(/static/images/ep-index-t-r.svg) bottom right/60% auto no-repeat;
+  }
+
+  .grid {
+    position: relative;
+    z-index: 1;
+
+    @include breakpoint(md) {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: flex-end;
+    }
+  }
+
+  .lh {
+    align-self: flex-start
+  }
+
+  .rh {
+    margin-bottom: -5%;
+
+    @include breakpoint(md_lt) {
+      width: 100%;
+    }
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
+.watermark-container {
+  background-image: url(/static/images/ep-index-b-l.svg);
+  background-repeat: no-repeat;
+  background-position: bottom left;
+  background-size: 25% auto;
+}
+
+.g-card.min-height-0 {
+  min-height: 0;
 }

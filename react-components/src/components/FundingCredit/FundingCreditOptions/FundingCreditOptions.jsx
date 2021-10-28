@@ -26,7 +26,7 @@ export const FundingCreditOptions = memo(
     )
 
     const calclatedTotal = () =>
-      funding.reduce((acc, curr) => acc + Number(curr.amount), 0)
+      Math.round(funding.reduce((acc, curr) => acc + Number(curr.amount), 0))
 
     useEffect(() => {
       setFundingTotal(calclatedTotal)

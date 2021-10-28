@@ -71,7 +71,7 @@ def should_not_see_lets_get_to_know_you_modal(browser: WebDriver):
 @allure.step('Should see dashboard welcome')
 def test_dashboard_welcome(
     mock_dashboard_profile_events_opportunities,
-    mock_export_plan_requests,
+    mock_all_dashboard_and_export_plan_requests_and_responses,
     curated_list_pages_with_lessons,
     server_user_browser_dashboard,
     client,
@@ -82,12 +82,12 @@ def test_dashboard_welcome(
         client.force_login(user)
         visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
         welcome = browser.find_element_by_css_selector('h1#great-hero-welcome')
-        assert welcome.text == 'Hello, TEST USER'
+        assert welcome.text == 'Dashboard'
         user.first_name = None
         client.force_login(user)
         visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
         welcome = browser.find_element_by_css_selector('h1#great-hero-welcome')
-        assert welcome.text == 'Hello'
+        assert welcome.text == 'Dashboard'
 
     except AssertionError:
         attach_jpg_screenshot(browser, 'Dashboard view')

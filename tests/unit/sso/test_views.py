@@ -4,6 +4,8 @@ import pytest
 from django.conf import settings
 from django.urls import reverse
 from requests.cookies import RequestsCookieJar
+from requests.exceptions import HTTPError
+from rest_framework.response import Response
 
 from sso import helpers
 from tests.helpers import create_response
@@ -69,19 +71,20 @@ def test_business_sso_logout(client, requests_mock):
 @mock.patch.object(helpers, 'create_user')
 @mock.patch.object(helpers, 'send_verification_code_email')
 def test_business_sso_user_create_200_upstream(mock_send_code, mock_create_user, client):
-    mock_create_user.return_value = {'verification_code': '12345'}
-
+    verification_data = {'uidb64': 'aBcDe', 'verification_token': '1a2b3c', 'verification_code': '12345'}
+    mock_create_user.return_value = verification_data
     url = reverse('sso:business-sso-create-user-api')
     data = {'email': 'test@example.com', 'password': 'password'}
     response = client.post(url, data)
 
     assert response.status_code == 200
+    assert response.json() == {'uidb64': verification_data['uidb64'], 'token': verification_data['verification_token']}
     assert mock_send_code.call_count == 1
     assert mock_send_code.call_args == mock.call(
         email=data['email'],
-        verification_code='12345',
+        verification_code=verification_data['verification_code'],
         form_url=url,
-        verification_link='http://testserver/signup/?verify=test@example.com',
+        verification_link='http://testserver/signup/?uidb64=aBcDe&token=1a2b3c',
     )
 
 
@@ -98,11 +101,66 @@ def test_business_sso_user_create_400_upstream(mock_send_code, mock_create_user,
 
 
 @pytest.mark.django_db
+@mock.patch.object(helpers, 'create_user')
+@mock.patch.object(helpers, 'regenerate_verification_code')
+@mock.patch.object(helpers, 'send_verification_code_email')
+@mock.patch.object(helpers, 'notify_already_registered')
+def test_business_sso_user_create_409_upstream_with_verification_code(
+    mock_notify_already_registered, mock_send_code, mock_regenerate_code, mock_create_user, client
+):
+    res = Response(status=409)
+    mock_create_user.side_effect = HTTPError('409', response=res)
+
+    mock_regenerate_code.return_value = {'code': '12345', 'user_uidb64': 'aBcDe', 'verification_token': '1ab-123abc'}
+
+    url = reverse('sso:business-sso-create-user-api')
+    response = client.post(reverse('sso:business-sso-create-user-api'), {'email': 'test', 'password': 'password'})
+
+    assert response.status_code == 200
+    assert response.data == {'token': '1ab-123abc', 'uidb64': 'aBcDe'}
+    assert mock_notify_already_registered.call_count == 0
+    assert mock_send_code.call_count == 1
+    assert mock_send_code.call_args == mock.call(
+        email='test',
+        verification_code={'code': '12345'},
+        form_url=url,
+        verification_link='http://testserver/signup/?uidb64=aBcDe&token=1ab-123abc',
+    )
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_user')
+@mock.patch.object(helpers, 'regenerate_verification_code')
+@mock.patch.object(helpers, 'send_verification_code_email')
+@mock.patch.object(helpers, 'notify_already_registered')
+def test_business_sso_user_create_409_upstream_with_no_verification_code(
+    mock_notify_already_registered, mock_send_code, mock_regenerate_code, mock_create_user, client
+):
+    res = Response(status=409)
+    mock_create_user.side_effect = HTTPError('409', response=res)
+
+    mock_regenerate_code.return_value = None
+
+    url = reverse('sso:business-sso-create-user-api')
+    response = client.post(reverse('sso:business-sso-create-user-api'), {'email': 'test', 'password': 'password'})
+
+    assert response.status_code == 200
+    assert response.data == {}
+    assert mock_send_code.call_count == 0
+    assert mock_notify_already_registered.call_count == 1
+    assert mock_notify_already_registered.call_args == mock.call(
+        email='test',
+        form_url=url,
+        login_url='http://testserver/login/',
+    )
+
+
+@pytest.mark.django_db
 @mock.patch.object(helpers, 'check_verification_code')
 def test_business_sso_verify_code_invalid(mock_check_verification_code, client):
     mock_check_verification_code.side_effect = helpers.InvalidVerificationCode(code=400)
 
-    data = {'email': 'test@example.com', 'code': '12345'}
+    data = {'uidb64': 'aBcDe', 'token': '1a2b3c', 'code': '12345'}
 
     response = client.post(reverse('sso:business-sso-verify-code-api'), data)
 
@@ -115,14 +173,17 @@ def test_business_sso_verify_code_invalid(mock_check_verification_code, client):
 @mock.patch.object(helpers, 'send_welcome_notification')
 def test_business_sso_verify_code_valid(mock_send_welcome_notification, mock_check_verification_code, client):
 
-    mock_check_verification_code.return_value = create_response()
-    data = {'email': 'test@example.com', 'code': '12345'}
+    data = {'uidb64': 'aBcDe', 'token': '1a2b3c', 'code': '12345', 'email': 'mail@example.com'}
     url = reverse('sso:business-sso-verify-code-api')
+
+    mock_check_verification_code.return_value = create_response({'email': data['email']})
 
     response = client.post(url, data)
 
     assert response.status_code == 200
     assert mock_check_verification_code.call_count == 1
-    assert mock_check_verification_code.call_args == mock.call(email=data['email'], code=data['code'])
+    assert mock_check_verification_code.call_args == mock.call(
+        uidb64=data['uidb64'], token=data['token'], code=data['code']
+    )
     assert mock_send_welcome_notification.call_count == 1
     assert mock_send_welcome_notification.call_args == mock.call(email=data['email'], form_url=url)

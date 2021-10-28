@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ReactHtmlParser from 'react-html-parser'
 
-export default function RadioButtons(props) {
-  const { name, choices, initialSelection, valueChange } = props
+export default function RadioButtons({ name, choices, initialSelection, valueChange }) {
   const [selection, setSelection] = useState()
 
   const updateSelection = (_selection) => {
@@ -13,18 +12,18 @@ export default function RadioButtons(props) {
 
   useEffect(() => {
     setSelection(initialSelection)
-  }, [name])
+  }, [name, initialSelection])
 
   const changeVal = (evt) => {
     updateSelection({ value: evt.target.value })
   }
   const buttons = choices.map(({ label, value }, idx) => {
     const checked = value === selection
-
+    const id = `${name}-${idx}`
     return (
       <div key={`option-${value}`} className="multiple-choice">
         <input
-          id={idx}
+          id={id}
           type="radio"
           className="radio"
           name={name}
@@ -33,8 +32,8 @@ export default function RadioButtons(props) {
           onChange={changeVal}
           onClick={changeVal}
         />
-        <label htmlFor={idx} className="body-l">
-          {ReactHtmlParser(label)}
+        <label htmlFor={id} className="body-l">
+          {typeof(label) === 'string' ? ReactHtmlParser(label) : label}
         </label>
       </div>
     )
@@ -54,7 +53,7 @@ RadioButtons.propTypes = {
   ]),
   choices: PropTypes.arrayOf(
     PropTypes.shape({
-      label: PropTypes.string,
+      label: PropTypes.oneOfType([PropTypes.string,PropTypes.element]),
       value: PropTypes.string,
     })
   ).isRequired,

@@ -1,12 +1,12 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import props from './TextArea.fixtures'
 
 import { TextArea } from '.'
 
 const setup = ({ ...data }) => {
   const actions = {
-    handleChange: jest.fn(),
+    onChange: jest.fn(),
   }
 
   const utils = render(<TextArea {...data} {...actions} />)
@@ -18,6 +18,20 @@ const setup = ({ ...data }) => {
 }
 
 describe('TextArea', () => {
+  it('Should call using onChange with Name', async () => {
+    const { container, actions } = await setup(props)
+    const textarea = container.querySelectorAll('textarea')[0]
+
+    fireEvent.change(textarea, { target: { value: 'tested' } })
+
+    await waitFor(() => {
+      expect(actions.onChange).toHaveBeenCalledTimes(1)
+      expect(actions.onChange).toHaveBeenCalledWith({
+        test_name: 'tested',
+      })
+    })
+  })
+
   it('Should have a label', () => {
     const { queryByText } = setup(props)
     expect(queryByText(props.label)).toBeInTheDocument()

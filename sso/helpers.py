@@ -13,6 +13,7 @@ from rest_framework.response import Response
 from core.constants import SERVICE_NAME, USER_DATA_NAMES
 from core.models import DetailPage
 from directory_api_client import api_client
+from directory_constants import urls
 from directory_sso_api_client import sso_api_client
 
 ADMIN_URL_PATTERN = re.compile(r'^\/(django\-)?admin\/.*')
@@ -94,8 +95,33 @@ def send_welcome_notification(email, form_url):
     return response
 
 
-def check_verification_code(email, code):
-    response = sso_api_client.user.verify_verification_code({'email': email, 'code': code})
+def notify_already_registered(email, form_url, login_url):
+    action = actions.GovNotifyEmailAction(
+        email_address=email, template_id=settings.GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID, form_url=form_url
+    )
+
+    response = action.save(
+        {
+            'login_url': login_url,
+            'password_reset_url': settings.SSO_PROXY_PASSWORD_RESET_URL,
+            'contact_us_url': urls.domestic.FEEDBACK,
+        }
+    )
+
+    response.raise_for_status()
+    return response
+
+
+def regenerate_verification_code(email):
+    response = sso_api_client.user.regenerate_verification_code({'email': email})
+    if response.status_code in [400, 404]:
+        return None
+    response.raise_for_status()
+    return response.json()
+
+
+def check_verification_code(uidb64, token, code):
+    response = sso_api_client.user.verify_verification_code({'uidb64': uidb64, 'token': token, 'code': code})
     if response.status_code in [400, 404]:
         raise InvalidVerificationCode(code=response.status_code)
     response.raise_for_status()

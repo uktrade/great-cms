@@ -1,3 +1,4 @@
+import datetime
 from datetime import timedelta
 from html import escape
 from unittest import mock
@@ -15,6 +16,7 @@ from core.templatetags.content_tags import (
     get_topic_title_for_lesson,
     is_lesson_page,
     is_placeholder_page,
+    str_to_datetime,
 )
 from core.templatetags.object_tags import get_item
 from core.templatetags.progress_bar import progress_bar
@@ -119,6 +121,37 @@ def test_format_timedelta_filter(user, rf, domestic_site):
         context = Context({'delta': case.get('value')})
         html = template.render(context)
         assert html == case.get('result')
+
+
+def test_str_to_datetime():
+    assert str_to_datetime('2021-07-22T13:40:49.207335Z') == datetime.datetime(
+        2021, 7, 22, 13, 40, 49, 207335, tzinfo=datetime.timezone.utc
+    )
+    assert str_to_datetime('2022-08-03T00:00:00.000Z') == datetime.datetime(
+        2022, 8, 3, 0, 0, 0, 0, tzinfo=datetime.timezone.utc
+    )
+
+
+@pytest.mark.parametrize('month,expected', ((1, 'January'), (6, 'June'), (12, 'December'), (None, '')))
+@pytest.mark.django_db
+def test_month_name(user, rf, domestic_site, month, expected):
+    template = Template('{% load month_name from content_tags %}{{ month|month_name }}')
+    assert template.render(Context({'month': month})) == expected
+
+
+@pytest.mark.parametrize(
+    'val1,val2,expected',
+    (
+        ('one', 'two', 'onetwo'),
+        ('', 'two', 'two'),
+        (12, 'two', '12two'),
+        ('one', 234, 'one234'),
+    ),
+)
+@pytest.mark.django_db
+def test_concat(user, rf, domestic_site, val1, val2, expected):
+    template = Template('{% load concat from content_tags %}{{ val1|concat:val2 }}')
+    assert template.render(Context({'val1': val1, 'val2': val2})) == expected
 
 
 @pytest.mark.django_db
