@@ -18,9 +18,7 @@
     {{ data|linebreaks }}
   </{{ tag_wrap_data }}>
   {% else %}
-  {% autoescape off %}
   {{ data|linebreaks }}
-  {% endautoescape %}
   {% endif %}
 </{{ tag|default:'p' }}>
 {% endif %}
