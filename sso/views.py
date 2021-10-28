@@ -67,22 +67,25 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
             if verification_code:
                 uidb64 = verification_code.pop('user_uidb64')
                 token = verification_code.pop('verification_token')
+                helpers.send_verification_code_email(
+                    email=email,
+                    verification_code=verification_code,
+                    form_url=self.request.path,
                     verification_link=self.get_verification_link(uidb64, token),
                 )
                 return Response({'uidb64': uidb64, 'token': token})
-                    verification_link=self.get_verification_link(email),
+            else:
+                helpers.notify_already_registered(
+                    email=email, form_url=self.request.path, login_url=self.get_login_url()
                 )
             return Response({})
         return super().handle_exception(exc)
 
-
     def get_login_url(self):
         return self.request.build_absolute_uri(reverse('core:login'))
 
-
     def get_verification_link(self, uidb64, token):
         return self.request.build_absolute_uri(reverse('core:signup')) + f'?uidb64={uidb64}&token={token}'
-
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
