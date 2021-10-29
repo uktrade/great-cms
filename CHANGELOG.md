@@ -1,6 +1,13 @@
 # Changelog
 
-## Pre-release changes - please put everything in the appropriate category below
+## Pre release
+
+### Bugs fixed
+
+### Enhancements
+
+## [2.00.0](https://github.com/uktrade/great-cms/releases/tag/2.0.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/1.13.3...2.0.0)
 
 ### Hotfix
 - GP2-3104 - [HOTFIX] User emails case insensitive
@@ -14,6 +21,7 @@
 - [HOTFIX] - GP2-3446 change london ita search
 
 ### Enhancements
+- no-ticket - Ensure to only include current export opportunities in search
 - GP2-3779 - EP funds page rounding in funds source table
 - GP2-3786 - Magna header - logged-out mode
 - GP2-3767 - EP pdf export template rework
