@@ -3,6 +3,7 @@
 ## Pre release
 
 ### Bugs fixed
+- GP2-3822 - Export plan - fix sidebar flicker
 
 ### Enhancements
 
