@@ -233,7 +233,7 @@ describe('Compare markets', () => {
       Simulate.click(economyTab)
     })
     // Check analytics event...
-    expect(window.dataLayer[0]).toEqual({
+    expect(window.dataLayer[window.dataLayer.length - 1]).toEqual({
       event: 'addWhereToExportPageview',
       virtualPageTitle: 'Where To Export - ECONOMY',
       virtualPageUrl: '/where_to_export/economy',
