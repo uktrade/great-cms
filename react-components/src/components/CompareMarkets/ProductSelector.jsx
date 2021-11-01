@@ -6,7 +6,7 @@ import {
 } from '@src/components/hooks/useUserData'
 
 import { Select } from '@src/components/Form/Select'
-import { sortBy, deepEqual } from '@src/Helpers'
+import { sortBy, deepEqual, analytics } from '@src/Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 
 function ProductSelector() {
@@ -19,6 +19,11 @@ function ProductSelector() {
   const setProduct = (choice) => {
     const index = Object.values(choice)[0]
     setActiveProduct(products[index])
+    analytics({
+      event: 'selectGridProduct',
+      gridProductSelected:products[index]
+    })
+
   }
 
   const options = (products || []).map((product, index) => {
@@ -34,7 +39,7 @@ function ProductSelector() {
     selectedIndex = products.length-1
     setActiveProduct(products[selectedIndex])
   }
-  if(!products.length && activeProduct != '') {
+  if(!products.length && activeProduct !== '') {
     selectedIndex = null
     setActiveProduct('')
   }
