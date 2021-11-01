@@ -236,7 +236,7 @@ describe('Compare markets', () => {
     expect(window.dataLayer[window.dataLayer.length - 1]).toEqual({
       event: 'addWhereToExportPageview',
       virtualPageTitle: 'Where To Export - ECONOMY',
-      virtualPageUrl: '/where_to_export/economy',
+      virtualPageUrl: '/where-to-export/economy',
     })
 
     await waitFor(() => {

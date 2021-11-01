@@ -47,10 +47,11 @@ export default function ComparisonTables(props) {
   }
 
   const setActiveTabWithEvent = (tab) => {
+    const tabName = tabConfig[tab].tabName || tab.toUpperCase();
     analytics({
       event: 'addWhereToExportPageview',
-      virtualPageUrl:`/where_to_export/${tab}`,
-      virtualPageTitle:`Where To Export - ${tabConfig[tab].tabName || tab.toUpperCase()}`
+      virtualPageUrl:`/where-to-export/${tabName.toLowerCase().replace(' ','-')}`,
+      virtualPageTitle:`Where To Export - ${tabName}`
     })
     setActiveTab(tab)
   }
