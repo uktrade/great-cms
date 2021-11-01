@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { isObject, analytics } from '../../Helpers'
 
 import {
   useUserProducts,
@@ -7,7 +6,7 @@ import {
 } from '@src/components/hooks/useUserData'
 
 import { Select } from '@src/components/Form/Select'
-import { sortBy, deepEqual } from '@src/Helpers'
+import { sortBy, deepEqual, analytics } from '@src/Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 
 function ProductSelector() {
@@ -40,7 +39,7 @@ function ProductSelector() {
     selectedIndex = products.length-1
     setActiveProduct(products[selectedIndex])
   }
-  if(!products.length && activeProduct != '') {
+  if(!products.length && activeProduct !== '') {
     selectedIndex = null
     setActiveProduct('')
   }
