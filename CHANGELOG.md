@@ -7,6 +7,7 @@
 
 ### Enhancements
 - GP2-3420 - WTE analytics tabs
+- GP2-3827 - WTE analytics product selector
 
 ## [2.00.0](https://github.com/uktrade/great-cms/releases/tag/2.0.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.13.3...2.0.0)

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { isObject, analytics } from '../../Helpers'
 
 import {
   useUserProducts,
@@ -19,6 +20,11 @@ function ProductSelector() {
   const setProduct = (choice) => {
     const index = Object.values(choice)[0]
     setActiveProduct(products[index])
+    analytics({
+      event: 'selectGridProduct',
+      gridProductSelected:products[index]
+    })
+
   }
 
   const options = (products || []).map((product, index) => {
