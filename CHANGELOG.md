@@ -6,6 +6,7 @@
 - GP2-3822 - Export plan - fix sidebar flicker
 
 ### Enhancements
+- GP2-3420 - WTE analytics tabs
 
 ## [2.00.0](https://github.com/uktrade/great-cms/releases/tag/2.0.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.13.3...2.0.0)

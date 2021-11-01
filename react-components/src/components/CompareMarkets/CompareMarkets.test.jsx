@@ -232,6 +232,12 @@ describe('Compare markets', () => {
     act(() => {
       Simulate.click(economyTab)
     })
+    // Check analytics event...
+    expect(window.dataLayer[window.dataLayer.length - 1]).toEqual({
+      event: 'addWhereToExportPageview',
+      virtualPageTitle: 'Where To Export - ECONOMY',
+      virtualPageUrl: '/where-to-export/economy',
+    })
 
     await waitFor(() => {
       expect(localContainer.querySelector('#market-Germany .name')).toBeTruthy()
