@@ -27,13 +27,13 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
   const hasProducts = products && products.length
   const selectedLength = Object.keys(comparisonMarkets || []).length
 
-  const pushAnalytics = (markets) => {
+  const pushAnalytics = (markets, market, remove) => {
     const marketNames = Object.values(markets).map((v) => v.country_name)
     analytics({
-      event: 'findMarketView',
-      market1: marketNames[0] || '',
-      market2: marketNames[1] || '',
-      market3: marketNames[2] || '',
+      event: remove ? 'removeMarketFromGrid':'addMarketToGrid',
+      gridMarkets: marketNames.join('|'),
+      [remove ? 'removedMarket':'gridMarketAdded']:market.country_name,
+      marketCount: marketNames.length,
     })
   }
 
@@ -46,25 +46,22 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
       return `${str}${index > 0 ? separator : ''} ${market.country_name}`
     }, 'Comparison information for')
     container.setAttribute('aria-label', label)
-  }
-
-  const updateComparisonMarkets = (newMarkets) => {
-    setComparisonMarkets(newMarkets)
-    pushAnalytics(newMarkets)
     container.focus()
   }
 
   const addCountry = (country) => {
     const newMarkets = { ...comparisonMarkets }
     newMarkets[country.country_iso2_code] = country
-    updateComparisonMarkets(newMarkets)
+    pushAnalytics(newMarkets, country)
+    setComparisonMarkets(newMarkets)
   }
 
   const removeMarket = (evt) => {
     const id = evt.target.closest('button').getAttribute('data-id')
     const newMarkets = { ...comparisonMarkets }
     delete newMarkets[id]
-    updateComparisonMarkets(newMarkets)
+    pushAnalytics(newMarkets, comparisonMarkets[id], true)
+    setComparisonMarkets(newMarkets)
   }
 
   const addProductButton = (
