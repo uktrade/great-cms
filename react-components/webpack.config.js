@@ -2,7 +2,6 @@ const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const RemovePlugin = require('remove-files-webpack-plugin')
-const nodeSass = require('node-sass')
 
 module.exports = {
   devtool: 'source-map',
@@ -71,7 +70,7 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              implementation: nodeSass,
+              implementation: require('sass'),
               sourceMap: true,
               sassOptions: {
                 outputStyle: 'compressed',
@@ -146,4 +145,7 @@ module.exports = {
       },
     }),
   ],
+  stats: {
+    children: true
+  },
 }
