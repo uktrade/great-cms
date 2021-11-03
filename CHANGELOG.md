@@ -8,6 +8,11 @@
 ### Bugs fixed
 
 ### Enhancements
+- XOT-1359 - Allowing images/video for Article page
+- GP2-3829 - WTE_analytics_grid_markets remove
+- GP2-3828 - WTE_analytics_grid_markets add
+- GP2-3420 - WTE analytics tabs
+- GP2-3827 - WTE analytics product selector
 
 ## [2.00.0](https://github.com/uktrade/great-cms/releases/tag/2.0.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.13.3...2.0.0)
