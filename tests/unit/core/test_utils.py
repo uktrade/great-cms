@@ -207,6 +207,15 @@ def test_selected_personalised_choices(rf, user, mock_get_user_data, mock_tradin
     assert 'European Union (EU)' in blocs
 
 
+@pytest.mark.django_db
+def test_selected_personalised_choices_no_user():
+    commodity_codes, countries, regions, blocs = get_personalised_choices(None)
+
+    assert commodity_codes == []
+    assert countries == []
+    assert regions == []
+
+
 def test_tuple_to_key_value_dict():
     key_value_dict = [{'value': key, 'label': label} for key, label in MARKET_ROUTE_CHOICES]
     assert choices_to_key_value(MARKET_ROUTE_CHOICES) == key_value_dict

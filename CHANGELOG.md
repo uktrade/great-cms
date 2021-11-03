@@ -2,6 +2,9 @@
 
 ## Pre release
 
+### Hotfix
+- GP2-3844 - [HOTFIX] savingcms pages
+
 ### Bugs fixed
 - GP2-3822 - Export plan - fix sidebar flicker
 
