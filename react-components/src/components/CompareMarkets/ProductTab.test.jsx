@@ -152,7 +152,7 @@ describe('Compare markets - Product tab', () => {
     // Check analytics event...
     expect(window.dataLayer[window.dataLayer.length - 1]).toEqual({
       event: 'selectGridProduct',
-      gridProductSelected: product2,
+      gridProductSelected: `${product2.commodity_code}|${product2.commodity_name}`,
     })
 
     await waitFor(() => {
