@@ -1,16 +1,25 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { analytics } from '@src/Helpers'
 
 import ClassificationTree from '@src/components/ProductFinder/ClassificationTree'
 
 export default function CommodityCodeDetails({ product }) {
   const [isOpen, setopen] = useState(null)
 
+  const openModal = () => {
+    setopen(!isOpen)
+    analytics({
+      event: 'openProductInfo',
+      HS6Code: product.commodity_code,
+    })
+  }
+
   return (
     <>
       <div className="text-blue-deep-60 bg-white radius p-b-0 p-t-xxs p-f-xxs">
         <div className="flex-center">
-          <button type="button" onClick={() => setopen(!isOpen)}>
+          <button type="button" onClick={() => openModal()}>
             <i
               className={`fas ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}
             />
