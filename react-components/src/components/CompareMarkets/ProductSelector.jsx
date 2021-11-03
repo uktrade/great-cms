@@ -21,7 +21,7 @@ function ProductSelector() {
     setActiveProduct(products[index])
     analytics({
       event: 'selectGridProduct',
-      gridProductSelected:products[index]
+      gridProductSelected:`${products[index].commodity_code}|${products[index].commodity_name}`
     })
 
   }
