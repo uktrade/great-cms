@@ -6,6 +6,8 @@
 - GP2-3822 - Export plan - fix sidebar flicker
 
 ### Enhancements
+- GP2-3829 - WTE_analytics_grid_markets remove
+- GP2-3828 - WTE_analytics_grid_markets add
 - GP2-3420 - WTE analytics tabs
 - GP2-3827 - WTE analytics product selector
 
