@@ -7,8 +7,9 @@ import ClassificationTree from '@src/components/ProductFinder/ClassificationTree
 export default function CommodityCodeDetails({ product }) {
   const [isOpen, setopen] = useState(null)
 
-  const openModal = () => {
+  const openSection = () => {
     setopen(!isOpen)
+    !isOpen &&
     analytics({
       event: 'openProductInfo',
       HS6Code: product.commodity_code,
@@ -19,7 +20,7 @@ export default function CommodityCodeDetails({ product }) {
     <>
       <div className="text-blue-deep-60 bg-white radius p-b-0 p-t-xxs p-f-xxs">
         <div className="flex-center">
-          <button type="button" onClick={() => openModal()}>
+          <button type="button" onClick={() => openSection()}>
             <i
               className={`fas ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}
             />
