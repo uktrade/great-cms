@@ -2,6 +2,7 @@
 
 ### Hotfix
 - GP2-3844 - [HOTFIX] saving cms pages
+- XOT-1359 - [HOTFIX] Allowing images/video for Article page
 
 ## Pre release
 

@@ -911,7 +911,7 @@ class ArticlePage(
         [
             (
                 'text',
-                RichTextBlock(features=RICHTEXT_FEATURES__REDUCED),
+                RichTextBlock(),
             ),
             (
                 'pull_quote',
