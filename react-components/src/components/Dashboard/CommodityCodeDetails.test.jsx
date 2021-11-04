@@ -30,5 +30,11 @@ describe('Commodity code details', () => {
     })
     expect(mockGetDetails.calls()).toHaveLength(1)
     expect(mockGetDetails.calls()[0][0]).toMatch(/\?hs_code=123456/)
+
+    // Check analytics event...
+    expect(window.dataLayer[window.dataLayer.length - 1]).toEqual({
+      event: 'openProductInfo',
+      HS6Code: testProduct.commodity_code,
+    })
   })
 })
