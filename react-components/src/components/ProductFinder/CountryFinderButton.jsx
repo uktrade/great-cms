@@ -12,7 +12,7 @@ import BasketViewer from './BasketView'
 
 export const CountryFinderButton = () => {
   const [modalIsOpen, setIsOpen] = useState(false)
-  const { markets, loadMarkets, addMarketItem, removeMarketItem, marketsLoaded } = useUserMarkets(false)
+  const { markets, loadMarkets, addMarketItem, removeMarketItem, marketsLoaded } = useUserMarkets(false, 'Personalisation bar')
 
   const sortMap = sortMapBy(markets || [], 'country_name')
 

@@ -14,7 +14,7 @@ import BasketViewer from './BasketView'
 function ProductFinderButton() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const {products, loadProducts, productsLoaded, removeProduct} = useUserProducts(
-    false
+    false, 'Personalisation bar'
   )
 
   const sortMap = sortMapBy(products || [], 'commodity_name')

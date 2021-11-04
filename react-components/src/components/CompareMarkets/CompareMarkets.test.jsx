@@ -129,6 +129,7 @@ describe('Compare markets', () => {
     document.body.appendChild(container)
     Services.setConfig({
       csrfToken: '12345',
+      pageTitle: 'where to exprt',
       apiCountriesUrl: '/api/countries/',
       apiSuggestedCountriesUrl: '/api/suggestedcountries/',
       apiLookupProductScheduleUrl: '/api/lookup-product-schedule/',
@@ -395,6 +396,7 @@ describe('Compare markets', () => {
       basketMarket: "Germany",
       basketMarketCount: 2,
       basketMarkets: "Netherlands|Germany",
+      siteSection: "Where to export",
     })
     act(() => {
       Simulate.change(netherlandsCb)
@@ -411,6 +413,7 @@ describe('Compare markets', () => {
       basketMarket: "Netherlands",
       basketMarketCount: 1,
       basketMarkets: "Germany",
+      siteSection: "Where to export",
     })
   })
 })

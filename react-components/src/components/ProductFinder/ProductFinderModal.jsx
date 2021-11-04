@@ -23,7 +23,7 @@ export default function ProductFinderModal(props) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [showingInteraction, setShowingInteraction] = useState()
-  const { products, loadProducts, addProduct } = useUserProducts(false)
+  const { products, loadProducts, addProduct } = useUserProducts(false, 'Product finder')
   const [activeProduct, setActiveProduct] = useActiveProduct(false)
 
   useEffect(() => {
