@@ -388,6 +388,14 @@ describe('Compare markets', () => {
       const { data } = JSON.parse(lastcall[1].body)
       expect(data).toEqual([NL, DE])
     })
+    // Check analytics event...
+    expect(window.dataLayer[window.dataLayer.length - 1]).toEqual({
+      event: "marketBasketEngagement",
+      addOrRemoveMarket: "add",
+      basketMarket: "Germany",
+      basketMarketCount: 2,
+      basketMarkets: "Netherlands|Germany",
+    })
     act(() => {
       Simulate.change(netherlandsCb)
     })
@@ -396,6 +404,13 @@ describe('Compare markets', () => {
       const lastcall = calls[calls.length - 1]
       const { data } = JSON.parse(lastcall[1].body)
       expect(data).toEqual([DE])
+    })
+    expect(window.dataLayer[window.dataLayer.length - 1]).toEqual({
+      event: "marketBasketEngagement",
+      addOrRemoveMarket: "remove",
+      basketMarket: "Netherlands",
+      basketMarketCount: 1,
+      basketMarkets: "Germany",
     })
   })
 })
