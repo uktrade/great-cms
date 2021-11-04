@@ -9,6 +9,7 @@
 - GP2-3822 - Export plan - fix sidebar flicker
 
 ### Enhancements
+- GP2-3833 - Analytics - basket events
 - XOT-1359 - Allowing images/video for Article page
 - GP2-3829 - WTE_analytics_grid_markets remove
 - GP2-3828 - WTE_analytics_grid_markets add
