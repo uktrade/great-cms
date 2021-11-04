@@ -13,7 +13,7 @@ services:
        - ./config/env/secrets-do-not-commit
     volumes:
       - ./dockerise/postgres/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
-      - ./dockerise/dbfiles:/var/lib/postgresql/data
+      - ./dockerise/dbfiles:/var/lib/postgresql/data:cached
     ports:
       - '5432:5432'
     networks:
