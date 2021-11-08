@@ -25,7 +25,7 @@ export default function DataTable(props) {
   } = props
 
   const [product] = useActiveProduct(false)
-  const { markets, addMarketItem, removeMarketItem } = useUserMarkets()
+  const { markets, addMarketItem, removeMarketItem } = useUserMarkets(true, 'Where to export')
 
   const selectedMarkets = markets.reduce((out, market) => {
     out[market.country_iso2_code] = 1
