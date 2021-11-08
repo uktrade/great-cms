@@ -1,5 +1,8 @@
 # Changelog
 
+### Hotfix
+- GP2-3844 - [HOTFIX] saving cms pages
+
 ## Pre release
 
 ### Hotfix
