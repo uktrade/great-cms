@@ -147,7 +147,6 @@ const renderCountryRowHeader = ({
   config,
   selectedMarkets,
   addRemoveShortlist,
-  mobile,
 }) => {
   // A row header in normal mode.
   const iso = market.country_iso2_code

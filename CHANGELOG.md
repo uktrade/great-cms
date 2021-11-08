@@ -5,9 +5,19 @@
 
 ## Pre release
 
+### Hotfix
+- GP2-3844 - [HOTFIX] savingcms pages
+
 ### Bugs fixed
+- GP2-3822 - Export plan - fix sidebar flicker
 
 ### Enhancements
+- XOT-1359 - Allowing images/video for Article page
+- GP2-3829 - WTE_analytics_grid_markets remove
+- GP2-3828 - WTE_analytics_grid_markets add
+- GP2-3420 - WTE analytics tabs
+- GP2-3827 - WTE analytics product selector
+- GP2-3830 - Analytics - Learn more about product information (EP)
 
 ## [2.00.0](https://github.com/uktrade/great-cms/releases/tag/2.0.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.13.3...2.0.0)

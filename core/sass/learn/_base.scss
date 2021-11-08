@@ -1,3 +1,4 @@
+@use "sass:math";
 @import 'helpers/colours';
 @import 'helpers/vars';
 
@@ -55,7 +56,7 @@ $desktop: 1024px;
 }
 
 .learn__introduction {
-  margin: 0 percentage(1 / 4) 60px;
+  margin: 0 percentage(math.div(1, 4)) 60px;
 }
 
 .learn__categories-content {
@@ -90,7 +91,8 @@ $desktop: 1024px;
 }
 
 .learn__step-block {
-  background: url('/static/img/circle-check-icon.png') no-repeat calc(50% + 15px) 0;
+  background: url('/static/img/circle-check-icon.png') no-repeat
+    calc(50% + 15px) 0;
   padding-top: 88px;
   text-align: center;
 }
@@ -391,7 +393,7 @@ $desktop: 1024px;
 .learn__beta-banner {
   flex-direction: row;
 
-  >i {
+  > i {
     width: 35px;
 
     &:before {
@@ -416,7 +418,7 @@ $desktop: 1024px;
   }
 
   @include tablet {
-    >i {
+    > i {
       width: 70px;
 
       &:before {
@@ -500,7 +502,6 @@ $desktop: 1024px;
 
 .lesson-page {
   .rich-text {
-
     h2,
     h3,
     h4 {
@@ -525,7 +526,7 @@ $desktop: 1024px;
       @extend .h-xs;
     }
 
-    b>i {
+    b > i {
       font-weight: bold;
     }
 
@@ -674,26 +675,25 @@ $desktop: 1024px;
     min-width: 320px;
   }
 
-  .lesson-body-blocks>.rich-text:first-child {
-    >p:first-child {
+  .lesson-body-blocks > .rich-text:first-child {
+    > p:first-child {
       padding-top: 0;
       margin-top: 0;
     }
   }
 
   .step-by-step {
-
     h2,
     h3,
     h4 {
       color: $blue-deep-80;
     }
 
-    >ul {
+    > ul {
       margin: 0;
     }
 
-    >ul.list-bullet>li {
+    > ul.list-bullet > li {
       position: static;
       padding-left: 0;
 
@@ -709,7 +709,6 @@ $desktop: 1024px;
 
   .lesson-hero,
   .media-section {
-
     img,
     video {
       border-radius: 5px;
@@ -757,14 +756,13 @@ $desktop: 1024px;
   }
 
   .fictional-example {
-
     h2,
     h3,
     h4 {
       margin-bottom: 12px;
     }
 
-    .rich-text>p:first-of-type {
+    .rich-text > p:first-of-type {
       margin-top: 0;
     }
 
@@ -910,7 +908,7 @@ $desktop: 1024px;
       }
 
       .block-image:nth-child(2),
-      .block-video+.block-image {
+      .block-video + .block-image {
         img {
           display: none;
           position: absolute;
