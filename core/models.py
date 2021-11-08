@@ -129,6 +129,10 @@ class AltTextImage(AbstractImage):
 
     admin_form_fields = Image.admin_form_fields + ('alt_text',)
 
+    class Meta:
+        verbose_name = "Image"
+        verbose_name_plural = "Images List"
+
 
 class Rendition(AbstractRendition):
     image = models.ForeignKey(AltTextImage, on_delete=models.CASCADE, related_name='renditions')
