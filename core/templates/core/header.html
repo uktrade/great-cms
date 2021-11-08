@@ -2,6 +2,7 @@
 {% load wagtailcore_tags %}
 {% load url_map %}
 <header class="magna-header shared-magna-header text-white grid" id="header" dir="ltr" data-ga-section="header">
+  {% include "wagtailseo/meta.html" %}
   {% path_match "^\/export-plan\/" as in_exportplan %}
   <div class="container container-fluid">
     <nav>
