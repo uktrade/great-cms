@@ -6,7 +6,7 @@ import CountryFinderModal from '@src/components/ProductFinder/CountryFinderModal
 import { sortBy } from '@src/Helpers'
 
 function MarketSelector({ valueChange, selected, selectedProduct }) {
-  const { markets, addMarketItem, marketsLoaded } = useUserMarkets()
+  const { markets, addMarketItem, marketsLoaded } = useUserMarkets(true,'Market selector')
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [addButtonShowing, setAddButtonShowing] = useState(false)
 
