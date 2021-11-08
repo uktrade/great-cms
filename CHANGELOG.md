@@ -7,6 +7,7 @@
 
 ### Bugs fixed
 - GP2-3822 - Export plan - fix sidebar flicker
+- GP2-3821 - Remove unnecessary forms that allow invalid posts
 
 ### Enhancements
 - GP2-3389 - PII and secret check hooks for pre-commit
