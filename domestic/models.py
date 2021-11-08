@@ -16,6 +16,7 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
 from core.blocks import AdvantageBlock
@@ -59,6 +60,7 @@ class DataLayerMixin(
 
 
 class BaseContentPage(
+    SeoMixin,
     DataLayerMixin,
     Page,
 ):
