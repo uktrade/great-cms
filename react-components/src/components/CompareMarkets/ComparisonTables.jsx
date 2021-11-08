@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useWindowSize } from '@src/components/hooks/useWindowSize'
 import DataTable from './DataTable'
 import Tabs from './Tabs'
-import { isObject } from '../../Helpers'
+import { isObject, analytics } from '../../Helpers'
 
 import productTabConfig from './TabConfigProduct'
 import economyTabConfig from './TabConfigEconomy'
@@ -46,12 +46,22 @@ export default function ComparisonTables(props) {
     }
   }
 
+  const setActiveTabWithEvent = (tab) => {
+    const tabName = tabConfig[tab].tabName || tab.toUpperCase();
+    analytics({
+      event: 'addWhereToExportPageview',
+      virtualPageUrl:`/where-to-export/${tabName.toLowerCase().replace(' ','-')}`,
+      virtualPageTitle:`Where To Export - ${tabName}`
+    })
+    setActiveTab(tab)
+  }
+
   const mobile = useWindowSize().width < mobileBreakpoint
 
   const tabStrip = (
     <Tabs
       label="Country comparison data"
-      setActiveTab={setActiveTab}
+      setActiveTab={setActiveTabWithEvent}
       activeTab={activeTab}
       showTabs={!!listOfTabs.length}
     >

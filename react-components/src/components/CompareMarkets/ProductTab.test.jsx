@@ -85,6 +85,7 @@ describe('Compare markets - Product tab', () => {
 
     fetchMock.get(/\/api\/data-service\/comtrade\//, productApiResponse)
     fetchMock.get(/\/sso\/api\/user-data\//, () => comparisonMarketResponse)
+    fetchMock.post(/\/sso\/api\/user-data\//, () => comparisonMarketResponse)
 
     Services.store.dispatch(
       actions.setInitialState({
@@ -136,15 +137,24 @@ describe('Compare markets - Product tab', () => {
       product1.commodity_name
     )
     act(() => {
-      Services.store.dispatch(
-        actions.setInitialState({
-          userSettings: {
-            UserProducts: [product1, product2],
-            ActiveProduct: product2,
-          },
-        })
+      Simulate.click(container.querySelector('.select__placeholder'))
+    })
+    await waitFor(() => {
+      expect(
+        container.querySelector('div.select li[aria-selected=false')
+      ).toBeTruthy()
+    })
+    act(() => {
+      Simulate.click(
+        container.querySelector('div.select li[aria-selected=false')
       )
     })
+    // Check analytics event...
+    expect(window.dataLayer[window.dataLayer.length - 1]).toEqual({
+      event: 'selectGridProduct',
+      gridProductSelected: `${product2.commodity_code}|${product2.commodity_name}`,
+    })
+
     await waitFor(() => {
       expect(getText(container, '.select .select__placeholder--value')).toMatch(
         product2.commodity_name
