@@ -1,32 +1,25 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import { Provider } from 'react-redux'
 import Services from '@src/Services'
 import { useUserMarkets } from '@src/components/hooks/useUserData'
 import { sortMapBy } from '@src/Helpers'
+import { Confirmation } from '@src/components/ConfirmModal/Confirmation'
 import CountryFinderModal from './CountryFinderModal'
 import BasketViewer from './BasketView'
-import { Confirmation } from '@src/components/ConfirmModal/Confirmation'
+
 
 export const CountryFinderButton = () => {
   const [modalIsOpen, setIsOpen] = useState(false)
-  const { markets, setMarkets, loadMarkets, addMarketItem, marketsLoaded } = useUserMarkets(false)
+  const { markets, loadMarkets, addMarketItem, removeMarketItem, marketsLoaded } = useUserMarkets(false, 'Personalisation bar')
 
   const sortMap = sortMapBy(markets || [], 'country_name')
 
   const [deleteConfirm, setDeleteConfirm] = useState()
 
-  const confirmDelete = (index) => {
-    setDeleteConfirm({
-      index: index,
-    })
-  }
-
   const deleteMarket = (index) => {
-    const reduced = [...markets]
-    reduced.splice(index, 1)
-    setMarkets(reduced)
+    removeMarketItem(markets[index])
     setDeleteConfirm(null)
   }
 
@@ -48,7 +41,7 @@ export const CountryFinderButton = () => {
                 <button
                   type="button"
                   className="f-r button button--small button--only-icon button--tertiary"
-                  onClick={() => confirmDelete(marketIdx)}
+                  onClick={() => setDeleteConfirm({index: marketIdx})}
                 >
                   <i className="fas fa-times fa-lg" />
                   <span className="visually-hidden">
