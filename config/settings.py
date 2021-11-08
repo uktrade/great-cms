@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'wagtailcache',
     'wagtailfontawesome',
     'wagtail_transfer',
-    "wagtailseo",
+    'wagtailseo',
     'modelcluster',
     'taggit',
     'storages',
