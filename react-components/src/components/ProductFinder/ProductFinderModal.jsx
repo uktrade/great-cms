@@ -93,11 +93,6 @@ export default function ProductFinderModal(props) {
     setActiveProduct(newProduct)
     onAddProduct(newProduct)
     if (searchResults) {
-      analytics({
-        event: 'addProductSuccess',
-        productKeyword: commodityName,
-        productCode: commodityCode,
-      })
       closeModal()
     }
   }

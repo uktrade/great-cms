@@ -12,6 +12,7 @@
 - GP2-3821 - Remove unnecessary forms that allow invalid posts
 
 ### Enhancements
+- GP2-3834 - Remove duplicate analytics events
 - GP2-3389 - PII and secret check hooks for pre-commit
 - GP2-3833 - Analytics - basket events
 - XOT-1359 - Allowing images/video for Article page
