@@ -47,12 +47,6 @@ repos:
             language: python
             pass_filenames: true
             require_serial: true
-          - id: pii_secret_file_content_ner
-            files: ''
-            language: python
-            args: [--ner_exclude=.pii-ner-exclude]
-            pass_filenames: true
-            require_serial: true
           - id: hooks_version_check
             name: Checking local hooks against latest release
             verbose: true
