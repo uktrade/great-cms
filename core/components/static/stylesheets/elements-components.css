@@ -1588,6 +1588,7 @@ section.error-reporting {
   height: 100%;
   color: #333333;
   text-decoration: none;
+  display: block;
 }
 .card .card-link:hover .card-inner h3, a.labelled-card .card-link:hover .card-inner h3, a.labelled-image-card .card-link:hover .card-inner h3,
 .card .card-link:hover .card-inner h4,
@@ -6705,6 +6706,9 @@ body:not(.js-enabled) .expandable-fieldset button.filter-collapse {
     display: block;
     margin: 0;
   }
+}
+.shared-magna-header .header-links li.m-r-0 {
+  margin-right: 0;
 }
 .shared-magna-header .header-links a {
   color: #fff;
