@@ -30,7 +30,7 @@ class StandardImageCreateViewWrapper(views.CreateView):
 @modeladmin_register
 class ImageAdmin(ModelAdmin, ThumbnailMixin):
     model = models.AltTextImage
-    menu_label = "Images List"
+    menu_label = 'Images List'
     menu_order = 300
     menu_icon = 'image'
     add_to_settings_menu = False
@@ -50,7 +50,7 @@ class ImageAdmin(ModelAdmin, ThumbnailMixin):
         spec = self.thumb_image_filter_spec
         rendition = get_rendition_or_not_found(obj, spec)
         img_attrs.update({'src': rendition.url})
-        return mark_safe('<img{}>'.format(flatatt(img_attrs)))
+        return mark_safe(f'<img{flatatt(img_attrs)}>')
 
     edit_view_class = StandardImageEditViewWrapper
     create_view_class = StandardImageCreateViewWrapper

@@ -130,8 +130,8 @@ class AltTextImage(AbstractImage):
     admin_form_fields = Image.admin_form_fields + ('alt_text',)
 
     class Meta:
-        verbose_name = "Image"
-        verbose_name_plural = "Images List"
+        verbose_name = 'Image'
+        verbose_name_plural = 'Images List'
 
 
 class Rendition(AbstractRendition):
