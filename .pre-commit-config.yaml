@@ -40,11 +40,13 @@ repos:
           - id: pii_secret_filename
             files: ''
             language: python
+            args: [exclude]
             pass_filenames: true
             require_serial: true
           - id: pii_secret_file_content
             files: ''
             language: python
+            args: [--exclude=pii-secret-exclude.txt]
             pass_filenames: true
             require_serial: true
           - id: hooks_version_check
