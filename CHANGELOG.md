@@ -7,6 +7,7 @@
 
 ### Bugs fixed
 - GP2-3307 - Fix sticky components (EP sidebar and lesson return links)
+- GP2-3787 - Domestic - expand focus area on cards
 - GP2-3822 - Export plan - fix sidebar flicker
 - GP2-3821 - Remove unnecessary forms that allow invalid posts
 
