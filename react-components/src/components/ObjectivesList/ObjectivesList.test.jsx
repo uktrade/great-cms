@@ -11,8 +11,6 @@ const props = {
       description: 'Some text',
       owner: 'Jane Doe',
       planned_reviews: 'Lorem ipsum',
-      start_month: '',
-      start_year: '',
       end_month: '',
       end_year: '',
       companyexportplan: 1,
@@ -25,8 +23,6 @@ const props = {
       description: 'Some text',
       owner: 'Jane Doe',
       planned_reviews: 'Lorem ipsum',
-      start_month: '',
-      start_year: '',
       end_month: '',
       end_year: '',
       companyexportplan: 1,
@@ -39,8 +35,6 @@ const props = {
       description: 'Some text',
       owner: 'Jane Doe',
       planned_reviews: 'Lorem ipsum',
-      start_month: '',
-      start_year: '',
       end_month: '',
       end_year: '',
       companyexportplan: 1,
@@ -100,8 +94,6 @@ describe('ObjectivesList', () => {
           description: 'new plan',
           owner: 'Jane Doe',
           planned_reviews: 'Lorem ipsum',
-          start_month: '',
-          start_year: '',
           end_month: '',
           end_year: '',
           companyexportplan: 1,
@@ -126,8 +118,6 @@ describe('ObjectivesList', () => {
           description: 'Some text',
           owner: 'Jane Doe',
           planned_reviews: 'Lorem ipsum',
-          start_month: '',
-          start_year: '',
           end_month: '',
           end_year: '',
           companyexportplan: 1,
@@ -140,8 +130,6 @@ describe('ObjectivesList', () => {
           description: 'Some text',
           owner: 'Jane Doe',
           planned_reviews: 'Lorem ipsum',
-          start_month: '',
-          start_year: '',
           end_month: '',
           end_year: '',
           companyexportplan: 1,
@@ -154,8 +142,6 @@ describe('ObjectivesList', () => {
           description: '',
           owner: '',
           planned_reviews: '',
-          start_month: '',
-          start_year: '',
           end_month: '',
           end_year: '',
           companyexportplan: 1,
@@ -188,8 +174,6 @@ describe('ObjectivesList', () => {
             Promise.resolve({
               companyexportplan: 3,
               description: '',
-              start_month: '12',
-              start_year: '2020',
               end_month: '12',
               end_year: '2020',
               owner: '',
@@ -210,8 +194,6 @@ describe('ObjectivesList', () => {
         await waitFor(() => {
           expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
           const requestData = Services.apiModelObjectManage.mock.calls[0][0]
-          expect(requestData.start_month).toBe('7')
-          expect(requestData.start_year).toBe('2021')
           expect(requestData.end_month).toBe('7')
           expect(requestData.end_year).toBe('2021')
         })
@@ -251,8 +233,6 @@ describe('ObjectivesList', () => {
           {
             companyexportplan: 3,
             description: '',
-            start_month: '12',
-            start_year: '2020',
             end_month: '12',
             end_year: '2020',
             owner: '',
