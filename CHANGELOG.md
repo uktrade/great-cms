@@ -6,6 +6,7 @@
 - GP2-3844 - [HOTFIX] savingcms pages
 
 ### Bugs fixed
+- GP2-3846 - Remove html encoding from apostrophes in to_json tag
 - GP2-3823 - Remove EP business objectives date validation
 - GP2-3788 - Restructure of lesson page to make it responsive
 - GP2-3307 - Fix sticky components (EP sidebar and lesson return links)

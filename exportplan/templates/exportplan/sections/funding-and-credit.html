@@ -67,7 +67,7 @@ There are however lots of financing options available to help you export, the ri
     element: element,
     currency: 'GBP',
     formData: {{ funding_and_credit|to_json }},
-    currentSection: {{ current_section|to_json}},
+    currentSection: {{ current_section|to_json }},
     lessonDetails: {{ lesson_details|safe }},
   })
 
@@ -79,7 +79,7 @@ There are however lots of financing options available to help you export, the ri
     options: {{ funding_options|to_json }},
     formData: {{ funding_credit_options|to_json }},
     companyexportplan: {{ export_plan.pk }},
-    currentSection: {{ current_section|to_json}},
+    currentSection: {{ current_section|to_json }},
     lessonDetails: {{ lesson_details|safe }},
   })
 </script>

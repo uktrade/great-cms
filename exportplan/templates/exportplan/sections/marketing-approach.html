@@ -77,7 +77,7 @@
       element: document.getElementById('target-age-groups'),
       groups: {{ target_age_group_choices|safe }},
       selected: {{ selected_age_groups|to_json }},
-      currentSection: {{ current_section|to_json}},
+      currentSection: {{ current_section|to_json }},
     })
 
     magna.createSpendingAndResources({
