@@ -24,8 +24,6 @@ const fwRefObjective = forwardRef((props, ref) => {
 
   const {
     companyexportplan,
-    start_month,
-    start_year,
     end_month,
     end_year,
     pk,
@@ -108,8 +106,6 @@ Objective.propTypes = {
     description: PropTypes.string,
     owner: PropTypes.string,
     planned_reviews: PropTypes.string,
-    start_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    start_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     end_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     end_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     companyexportplan: PropTypes.number.isRequired,

@@ -32,21 +32,21 @@ describe('MonthYearInput', () => {
       <MonthYearInput
         label='Foo'
         onChange={mockOnChange}
-        monthName='start_month'
-        yearName='start_year'
+        monthName='end_month'
+        yearName='end_year'
       />,
     )
 
     getByText('April').click()
 
     await waitFor(() =>
-      expect(mockOnChange).toHaveBeenCalledWith({ start_month: '4' })
+      expect(mockOnChange).toHaveBeenCalledWith({ end_month: '4' })
     )
 
     getByText('2023').click()
 
     await waitFor(() =>
-      expect(mockOnChange).toHaveBeenCalledWith({ start_year: '2023' })
+      expect(mockOnChange).toHaveBeenCalledWith({ end_year: '2023' })
     )
   })
 })
