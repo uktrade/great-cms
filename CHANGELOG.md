@@ -15,6 +15,7 @@
 - GP2-3821 - Remove unnecessary forms that allow invalid posts
 
 ### Enhancements
+- GP2-3831 - Analytics event on EP download and delete
 - GP2-3834 - Remove duplicate analytics events
 - GP2-3389 - PII and secret check hooks for pre-commit
 - GP2-3833 - Analytics - basket events

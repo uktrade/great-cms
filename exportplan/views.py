@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.functional import cached_property
+from django.utils.text import slugify
 from django.views.generic import FormView, TemplateView, View
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
@@ -378,9 +379,8 @@ class PDFDownload(
             sso_session_id=request.user.session_id, exportplan_id=int(self.kwargs['id']), file=pdf_file
         )
         response = HttpResponse(pdf_reponse, content_type='application/pdf')
-        filename = 'export_plan.pdf'
-        content = f'inline; filename={filename}'
-        response['Content-Disposition'] = content
+        filename = f'{slugify(context.get("export_plan").data.get("name","export_plan"))}.pdf'
+        response['Content-Disposition'] = f'inline; filename={filename}'
         return response
 
 
