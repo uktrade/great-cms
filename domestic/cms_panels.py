@@ -10,8 +10,6 @@ from wagtail.admin.edit_handlers import (
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailmedia.widgets import AdminMediaChooser
 
-from core.cms_panels import SearchEngineOptimisationPanel
-
 ACCORDION_FIELDS_HELP_TEXT = (
     'Add up to six blocks of Industry Info. '
     'To be displayed, each industry needs at least: a title, a teaser, and two subsections.'
@@ -66,7 +64,6 @@ class GreatDomesticHomePagePanels:
                 StreamFieldPanel('what_is_new_pages'),
             ],
         ),
-        SearchEngineOptimisationPanel(),
     ]
 
     settings_panels = [
@@ -93,7 +90,6 @@ class ArticleListingPagePanels:
         ),
         MultiFieldPanel(heading='Hero', children=[ImageChooserPanel('hero_image'), FieldPanel('hero_teaser')]),
         FieldPanel('list_teaser'),
-        SearchEngineOptimisationPanel(),
     ]
 
     settings_panels = [
@@ -143,7 +139,6 @@ class ArticlePagePanels:
                 ),
             ],
         ),
-        SearchEngineOptimisationPanel(),
     ]
 
     settings_panels = [
@@ -247,7 +242,6 @@ class CampaignPagePanels:
                 )
             ],
         ),
-        SearchEngineOptimisationPanel(),
     ]
 
     settings_panels = [
@@ -388,7 +382,6 @@ class CountryGuidePagePanels:
                 )
             ],
         ),
-        SearchEngineOptimisationPanel(),
     ]
 
     settings_panels = [
@@ -415,7 +408,6 @@ class TopicLandingPagePanels:
             help_text='Use this field to change the text displayed in the banner, if the page has one.',
         ),
         FieldPanel('teaser'),
-        SearchEngineOptimisationPanel(),
     ]
 
     settings_panels = [
@@ -452,7 +444,6 @@ class ManuallyConfigurableTopicLandingPagePanels(TopicLandingPagePanels):
         StreamFieldPanel(
             'panels',
         ),
-        SearchEngineOptimisationPanel(),
     ]
 
     settings_panels = [
@@ -463,7 +454,6 @@ class ManuallyConfigurableTopicLandingPagePanels(TopicLandingPagePanels):
 class GuidancePagePanels:
     content_panels = [
         StreamFieldPanel('body'),
-        SearchEngineOptimisationPanel(),
     ]
     settings_panels = [
         MultiFieldPanel(
@@ -542,7 +532,6 @@ class TradeFinancePagePanels:
                 )
             ],
         ),
-        SearchEngineOptimisationPanel(),
     ]
 
     settings_panels = [
