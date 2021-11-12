@@ -36,7 +36,12 @@ class ImageAdmin(ModelAdmin, ThumbnailMixin):
     menu_icon = 'image'
     add_to_settings_menu = False
     exclude_from_explorer = False
-    list_display = ('admin_thumb', 'title', 'file_size', 'alt_text')
+    list_display = (
+        'admin_thumb',
+        'title',
+        'alt_text',
+        "size",
+    )
 
     def admin_thumb(self, obj):
         # hacked version of ThumbnailMixin.admin_thumb but image=obj
@@ -53,3 +58,9 @@ class ImageAdmin(ModelAdmin, ThumbnailMixin):
 
     edit_view_class = StandardImageEditViewWrapper
     create_view_class = StandardImageCreateViewWrapper
+
+    def size(self, obj):
+        return f"{round(obj.file_size / 1024)}KB" if obj.file_size < 1048000 else f"{round(obj.file_size / 1048000)}MB"
+
+    size.short_description = 'Size'
+    size.admin_order_field = 'file_size'
