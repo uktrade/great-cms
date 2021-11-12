@@ -92,6 +92,13 @@ describe('Wizard market selector', () => {
     const body = JSON.parse(details.body)
     expect(body.export_commodity_codes[0].commodity_name).toEqual('product1')
     expect(body.export_countries[0].country_name).toEqual('Albania')
+
+    // Check analytics event...
+    expect(window.dataLayer[window.dataLayer.length - 1]).toEqual({
+      event: 'createExportPlan',
+      exportPlanMarketSelected: body.export_countries[0],
+      exportPlanProductSelected: body.export_commodity_codes[0]
+    })
   })
   it('Renders wizard in update mode', () => {
     const updateEpMock = fetchMock.post(/\/api\/update-export-plan/, {})

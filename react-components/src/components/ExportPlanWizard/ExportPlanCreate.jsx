@@ -7,12 +7,13 @@ import { config } from '@src/config'
 import ProductSelector from './ProductSelector'
 import MarketSelector from './MarketSelector'
 import { get } from '@src/Helpers'
+import { analytics } from '@src/Helpers'
 
 export function ExportPlanWizard({ exportPlan }) {
   const [product, setProduct] = useState(get(exportPlan, 'export_commodity_codes.0'))
   const [market, setMarket] = useState(get(exportPlan, 'export_countries.0'))
   const [isCreating, setCreating] = useState()
-  const creationFakeDelay = 4000
+  const creationFakeDelay = 10000
 
   const paths = { product: '/', market: '/market' }
 
@@ -26,10 +27,19 @@ export function ExportPlanWizard({ exportPlan }) {
       export_commodity_codes: [product],
       export_countries: [market],
     }
+
     setCreating(true)
     const updateCreate = exportPlan
       ? Services.updateExportPlan
       : Services.createExportPlan
+
+    if (Services.createExportPlan) {
+      analytics({
+        event: 'createExportPlan',
+        exportPlanMarketSelected: data.export_countries[0],
+        exportPlanProductSelected: data.export_commodity_codes[0]
+      })
+    }
     updateCreate(data).then((result) => {
       // TODO: error handling here if/when BE does more validation.
       if (result.hashid || exportPlan) {
@@ -41,6 +51,7 @@ export function ExportPlanWizard({ exportPlan }) {
           window.location.assign(dashboardUrl)
         }, creationFakeDelay)
       }
+
     })
   }
 
