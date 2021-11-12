@@ -66,7 +66,7 @@ class BaseContentPage(
 ):
     """Minimal abstract base class for pages ported from the V1 Great.gov.uk site"""
 
-    promote_panels = []  #  Hide the Promote panel
+    promote_panels = SeoMixin.seo_panels
     folder_page = False  # Some page classes will have this set to true to exclude them from breadcrumbs
 
     class Meta:
