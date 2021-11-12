@@ -40,7 +40,7 @@ class ImageAdmin(ModelAdmin, ThumbnailMixin):
         'admin_thumb',
         'title',
         'alt_text',
-        "size",
+        'size',
     )
 
     def admin_thumb(self, obj):
@@ -60,7 +60,7 @@ class ImageAdmin(ModelAdmin, ThumbnailMixin):
     create_view_class = StandardImageCreateViewWrapper
 
     def size(self, obj):
-        return f"{round(obj.file_size / 1024)}KB" if obj.file_size < 1048000 else f"{round(obj.file_size / 1048000)}MB"
+        return f'{round(obj.file_size / 1024)}KB' if obj.file_size < 1048000 else f'{round(obj.file_size / 1048000)}MB'
 
     size.short_description = 'Size'
     size.admin_order_field = 'file_size'
