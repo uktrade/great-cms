@@ -13,7 +13,7 @@ export function ExportPlanWizard({ exportPlan }) {
   const [product, setProduct] = useState(get(exportPlan, 'export_commodity_codes.0'))
   const [market, setMarket] = useState(get(exportPlan, 'export_countries.0'))
   const [isCreating, setCreating] = useState()
-  const creationFakeDelay = 10000
+  const creationFakeDelay = 4000
 
   const paths = { product: '/', market: '/market' }
 
