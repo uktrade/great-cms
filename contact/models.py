@@ -5,7 +5,6 @@ from wagtail.core.fields import RichTextField
 from wagtail.snippets.models import register_snippet
 
 from core import snippet_slugs
-from core.cms_panels import SearchEngineOptimisationPanel
 from core.cms_snippets import NonPageContentSEOMixin, NonPageContentSnippetBase
 
 
@@ -69,7 +68,6 @@ class ContactPageContentSnippet(
                 FieldPanel('submit_button_text'),
             ],
         ),
-        SearchEngineOptimisationPanel(),
     ]
 
     def __str__(self):
@@ -155,7 +153,6 @@ class ContactUsGuidanceSnippet(
                 FieldPanel('body'),
             ],
         ),
-        SearchEngineOptimisationPanel(),
     ]
 
     def __str__(self):
@@ -274,7 +271,6 @@ class ContactSuccessSnippet(
                 FieldPanel('next_body_text'),
             ],
         ),
-        SearchEngineOptimisationPanel(),
     ]
 
     def __str__(self):
