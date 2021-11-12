@@ -62,11 +62,7 @@
       <a id="edit-image" href="{% url 'exportplan:add-logo' %}" class="link pencil-link">Update your logo</a>
     </div>
     {% endif %}
-    <a class="button button--secondary button--small button--full-width button--icon m-b-xs" href="{{export_plan_download_link}}" title="Download your export plan">
-      <i class="fas fa-download"></i>
-      Download plan
-    </a>
-    <div id="export-plan-delete"></div>
+    <div id="export-plan-actions"></div>
   </aside>
 </section>
 {% endblock %}
