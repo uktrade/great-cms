@@ -53,8 +53,6 @@ export const BusinessRisks = memo(
       debounceUpdate(field, data)
     }
 
-    console.log('Risks', risks.sort((r1,r2) => r1.pk < r2.pk ? -1 :1))
-
     return (
       <>
         <h2 className="h-m m-b-xs">Risks</h2>
