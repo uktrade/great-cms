@@ -6,6 +6,8 @@
 - GP2-3844 - [HOTFIX] savingcms pages
 
 ### Bugs fixed
+- GP2-2834 - Export plan - sort risks and trips
+- GP2-3818 - WTE mobile layout without flex for safari
 - GP2-3846 - Remove html encoding from apostrophes in to_json tag
 - GP2-3823 - Remove EP business objectives date validation
 - GP2-3788 - Restructure of lesson page to make it responsive
@@ -15,6 +17,7 @@
 - GP2-3821 - Remove unnecessary forms that allow invalid posts
 
 ### Enhancements
+- GP2-3831 - Analytics event on EP download and delete
 - GP2-3834 - Remove duplicate analytics events
 - GP2-3389 - PII and secret check hooks for pre-commit
 - GP2-3833 - Analytics - basket events

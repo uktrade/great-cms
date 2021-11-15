@@ -4,20 +4,21 @@ import { connect, Provider } from 'react-redux'
 
 import Services from '@src/Services'
 import { getEpProduct } from '@src/reducers'
+import { camelizeObject } from '@src/Helpers'
 
 import { Dashboard } from '@src/components/Dashboard'
-import DeleteButton from '@src/components/Dashboard/DeleteButton'
+import ActionBar from '@src/components/Dashboard/ActionBar'
 import CommodityCodeDetails from '@src/components/Dashboard/CommodityCodeDetails'
 
 export const createDashboard = ({ element, ...params }) => {
   ReactDOM.render(<Dashboard {...params} />, element)
-  const deleteButton = document.getElementById('export-plan-delete')
-  if (deleteButton)
+  const actionsContainer = document.getElementById('export-plan-actions')
+  if (actionsContainer)
     ReactDOM.render(
       <Provider store={Services.store}>
-        <DeleteButton />
+        <ActionBar {...camelizeObject(params)}/>
       </Provider>,
-      deleteButton
+      actionsContainer
     )
   const commodityCodeSection = document.getElementById('section-commodity-code')
   if (commodityCodeSection) {

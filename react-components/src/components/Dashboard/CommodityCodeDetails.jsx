@@ -9,11 +9,12 @@ export default function CommodityCodeDetails({ product }) {
 
   const openSection = () => {
     setopen(!isOpen)
-    !isOpen &&
-    analytics({
-      event: 'openProductInfo',
-      HS6Code: product.commodity_code,
-    })
+    if (!isOpen) {
+      analytics({
+        event: 'openProductInfo',
+        HS6Code: product.commodity_code,
+      })
+    }
   }
 
   return (
