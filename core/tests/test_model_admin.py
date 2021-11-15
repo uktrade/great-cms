@@ -22,10 +22,10 @@ class ImageAdminTests(TestCase, WagtailTestUtils, ImageAdmin):
         self.login()
 
     def test_size(self):
-        evil_plans_collection = Collection.objects.create(name="Evil plans", depth=1)
+        evil_plans_collection = Collection.objects.create(name='Evil plans', depth=1)
 
         image = models.AltTextImage.objects.create(
-            title="Test image", file=get_test_image_file(), collection=evil_plans_collection, file_size=512000
+            title='Test image', file=get_test_image_file(), collection=evil_plans_collection, file_size=512000
         )
         size = self.size(image)
-        self.assertEqual(size, "500KB")
+        self.assertEqual(size, '500KB')
