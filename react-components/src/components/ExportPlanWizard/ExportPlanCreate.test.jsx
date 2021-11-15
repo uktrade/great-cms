@@ -96,8 +96,9 @@ describe('Wizard market selector', () => {
     // Check analytics event...
     expect(window.dataLayer[window.dataLayer.length - 1]).toEqual({
       event: 'createExportPlan',
-      exportPlanMarketSelected: body.export_countries[0],
-      exportPlanProductSelected: body.export_commodity_codes[0]
+      exportPlanMarketSelected: body.export_countries[0].country_name,
+      exportPlanProductSelected: body.export_commodity_codes[0].commodity_name,
+      exportPlanProductHSCode: body.export_commodity_codes[0].commodity_code
     })
   })
   it('Renders wizard in update mode', () => {

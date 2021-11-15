@@ -33,11 +33,14 @@ export function ExportPlanWizard({ exportPlan }) {
       ? Services.updateExportPlan
       : Services.createExportPlan
 
+    console.log(data)
+
     if (Services.createExportPlan) {
       analytics({
         event: 'createExportPlan',
-        exportPlanMarketSelected: data.export_countries[0],
-        exportPlanProductSelected: data.export_commodity_codes[0]
+        exportPlanMarketSelected: data.export_countries[0]?.country_name,
+        exportPlanProductSelected: data.export_commodity_codes[0]?.commodity_name,
+        exportPlanProductHSCode: data.export_commodity_codes[0]?.commodity_code
       })
     }
     updateCreate(data).then((result) => {
