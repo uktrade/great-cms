@@ -33,8 +33,6 @@ export function ExportPlanWizard({ exportPlan }) {
       ? Services.updateExportPlan
       : Services.createExportPlan
 
-    console.log(data)
-
     if (Services.createExportPlan) {
       analytics({
         event: 'createExportPlan',
