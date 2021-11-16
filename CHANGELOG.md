@@ -29,7 +29,8 @@
 - GP2-3827 - WTE analytics product selector
 - GP2-3830 - Analytics - Learn more about product information (EP)
 - GP2-3832 - Analytics - Create EP Event
-- GP2-3803 - Custom Image browser for SEO size.
+- GP2-3803 - Custom Image browser for SEO size
+- GP2-2948 - DAC_Nontext_Contrast_03 (AA)
 
 ## [2.00.0](https://github.com/uktrade/great-cms/releases/tag/2.0.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.13.3...2.0.0)
