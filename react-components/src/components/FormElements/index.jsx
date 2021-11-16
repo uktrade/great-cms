@@ -50,6 +50,7 @@ export const FormElements = memo(
           }
           return (
             <Component
+              className="form__border"
               hideLabel={item.hideLabel}
               id={item.name}
               label={substituteText(item.label)}

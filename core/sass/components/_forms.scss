@@ -45,6 +45,13 @@
       @extend .m-t-0;
     }
   }
+
+  &__border {
+    border-color: #8f89a4;
+    .select__placeholder {
+      border-color: #8f89a4;
+    }
+  }
 }
 
 .form-table {
@@ -252,7 +259,8 @@
     }
   }
 
-  & .form-group, & .select {
+  & .form-group,
+  & .select {
     margin-bottom: 0;
   }
 }
