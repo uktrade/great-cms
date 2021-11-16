@@ -1,4 +1,8 @@
 from django.contrib import admin
+from wagtail.contrib.modeladmin import views
+from wagtail.contrib.modeladmin.mixins import ThumbnailMixin
+from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
+from wagtail.images.views.images import add as image_add_view, edit as image_edit_view
 
 from core import models
 
@@ -7,3 +11,42 @@ from core import models
 class PageViewAdmin(admin.ModelAdmin):
     list_display = ('page', 'sso_id', 'list_page')
     list_filter = ('page', 'sso_id', 'list_page')
+
+
+class StandardImageEditViewWrapper(views.EditView):
+    def get(self, request):
+        response = image_edit_view(request, self.instance_pk)  # pragma: no cover
+        return response  # pragma: no cover
+
+
+class StandardImageCreateViewWrapper(views.CreateView):
+    def get(self, request):
+        response = image_add_view(request)  # pragma: no cover
+        return response  # pragma: no cover
+
+
+@modeladmin_register
+class ImageAdmin(ModelAdmin, ThumbnailMixin):
+    model = models.AltTextImage
+    menu_label = 'Images List'
+    menu_order = 300
+    menu_icon = 'image'
+    add_to_settings_menu = False
+    exclude_from_explorer = False
+    list_display = (
+        'title',
+        'alt_text',
+        'size',
+    )
+
+    edit_view_class = StandardImageEditViewWrapper
+    create_view_class = StandardImageCreateViewWrapper
+
+    def size(self, obj):
+        image_size = (
+            f'{round(obj.file_size / 1024)}KB' if obj.file_size < 1048000 else f'{round(obj.file_size / 1048000)}MB'
+        )
+        return image_size
+
+    size.short_description = 'Size'
+    size.admin_order_field = 'file_size'
