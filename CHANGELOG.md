@@ -19,6 +19,7 @@
 - GP2-3787 - Domestic - expand focus area on cards
 - GP2-3822 - Export plan - fix sidebar flicker
 - GP2-3821 - Remove unnecessary forms that allow invalid posts
+- GP2-3808 - Safari outline fix
 
 ### Enhancements
 - GP2-3852 - Include redirect query parameter in verification link
