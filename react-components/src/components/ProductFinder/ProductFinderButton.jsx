@@ -6,31 +6,22 @@ import { Provider } from 'react-redux'
 import Services from '@src/Services'
 import { useUserProducts } from '@src/components/hooks/useUserData'
 import { sortMapBy } from '@src/Helpers'
-
+import { Confirmation } from '@src/components/ConfirmModal/Confirmation'
 import ProductFinderModal from './ProductFinderModal'
 import BasketViewer from './BasketView'
 
-import { Confirmation } from '@src/components/ConfirmModal/Confirmation'
 
 function ProductFinderButton() {
   const [modalIsOpen, setIsOpen] = useState(false)
-  const {products, setProducts, loadProducts, productsLoaded} = useUserProducts(
-    false
+  const {products, loadProducts, productsLoaded, removeProduct} = useUserProducts(
+    false, 'Personalisation bar'
   )
 
   const sortMap = sortMapBy(products || [], 'commodity_name')
   const [deleteConfirm, setDeleteConfirm] = useState()
 
-  const confirmDelete = (index) => {
-    setDeleteConfirm({
-      index: index,
-    })
-  }
-
   const deleteProduct = (index) => {
-    const reduced = [...products]
-    reduced.splice(index, 1)
-    setProducts(reduced)
+    removeProduct(products[index])
     setDeleteConfirm(null)
   }
 
@@ -50,7 +41,7 @@ function ProductFinderButton() {
                 <button
                   type="button"
                   className="button button--small button--only-icon button--tertiary"
-                  onClick={() => confirmDelete(mapIndex)}
+                  onClick={() => setDeleteConfirm({index:mapIndex})}
                 >
                   <i className="fas fa-times fa-lg" />
                   <span className="visually-hidden">

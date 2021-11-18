@@ -1,6 +1,5 @@
 {% extends 'exportplan/section.html' %}
 {% load static %}
-{% load to_json %}
 
 {% block intro_title %}Adapting your product{%endblock %}
 {% block intro_description %}
@@ -55,12 +54,7 @@ This page helps you detail what you might need change.
         <p>
           Write down whether you need to make changes to any of the following and include relevant details.
         </p>
-        <div class="">
-          <form class="width-full" action="" method="post" id="adapt-to-target-market">
-            {% csrf_token %}
-            {{ form }}
-            <input type="submit" class="g-button" value="Save" />
-          </form>
+        <div class="width-full"id="adapt-to-target-market">
         </div>
       </div>
     </div>
@@ -79,12 +73,7 @@ This page helps you detail what you might need change.
       <p>
         Having the right paperwork minimises delays and other issues.
       </p>
-      <div class="">
-        <form class="width-full" action="" method="post" id="documents-for-target-market">
-          {% csrf_token %}
-          {{ form }}
-          <input type="submit" class="g-button" value="Save" />
-        </form>
+      <div class="width-full" id="documents-for-target-market">
       </div>
     </div>
     <div class="c-1-12-m c-1-4-xl">&nbsp;</div>

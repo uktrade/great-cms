@@ -21,14 +21,7 @@
     <script type="text/javascript" src="{% static 'magna.js' %}"></script>
 
     <script type="text/javascript">
-      var product = '{{ request.user.export_plan.data.export_commodity_codes.0.commodity_code }}';
-      var country = '{{ request.user.export_plan.data.export_countries.0.country_name }}';
-      var dataLayer = window.dataLayer || []
-      dataLayer.push({
-        'productAdded': product || "False",
-        'marketAdded': country || "False",
-      });
-       // static values that will not be updated by user interacting with react components
+      // static values that will not be updated by user interacting with react components
       magna.setConfig({
           apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
           apiLogoutUrl: '{% url "sso:business-sso-logout-api" %}',
@@ -48,6 +41,7 @@
             updateCalculateCostAndPricing: '{% url "exportplan:api-calculate-cost-and-pricing" id=export_plan.pk %}',
             apiTargetAgeGroups: '{% url "exportplan:api-target-age-groups" id=export_plan.pk %}',
             exportPlanDashboardUrl: '{% url "exportplan:dashboard" id=export_plan.pk %}',
+            exportPlanDownloadUrl: '{{export_plan_download_link}}',
           {% endif %}
           apiModelObjectManageUrl: '{% url "exportplan:api-model-object-manage" %}',
           apiCreateExportPlanUrl: '{% url "exportplan:api-export-plan-create" %}',
@@ -85,6 +79,7 @@
 {% endblock %}
 
 {% block body_content_container %}
+    {% include "wagtailseo/struct_data.html" %}
   <main id="content" class="{% block css_layout_class %}{% endblock %}">
       {% block content_header %}{% endblock %}
       {% block content %}{% endblock %}

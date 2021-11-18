@@ -23,7 +23,7 @@ export default function ProductFinderModal(props) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [showingInteraction, setShowingInteraction] = useState()
-  const { products, setProducts, loadProducts } = useUserProducts(false)
+  const { products, loadProducts, addProduct } = useUserProducts(false, 'Product finder')
   const [activeProduct, setActiveProduct] = useActiveProduct(false)
 
   useEffect(() => {
@@ -89,15 +89,10 @@ export default function ProductFinderModal(props) {
       commodity_name: commodityName,
       commodity_code: commodityCode,
     }
-    setProducts([...products, newProduct])
+    addProduct(newProduct)
     setActiveProduct(newProduct)
     onAddProduct(newProduct)
     if (searchResults) {
-      analytics({
-        event: 'addProductSuccess',
-        productKeyword: commodityName,
-        productCode: commodityCode,
-      })
       closeModal()
     }
   }

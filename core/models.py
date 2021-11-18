@@ -39,6 +39,7 @@ from wagtail.images.models import AbstractImage, AbstractRendition, Image
 from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
+from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, mixins
 from core.case_study_index import delete_cs_index, update_cs_index
@@ -127,6 +128,10 @@ class AltTextImage(AbstractImage):
     alt_text = models.CharField(max_length=255, blank=True)
 
     admin_form_fields = Image.admin_form_fields + ('alt_text',)
+
+    class Meta:
+        verbose_name = 'Image'
+        verbose_name_plural = 'Images List'
 
 
 class Rendition(AbstractRendition):
@@ -286,6 +291,7 @@ class TimeStampedModel(models.Model):
 
 
 class CMSGenericPage(
+    SeoMixin,
     mixins.EnableTourMixin,
     mixins.AuthenticatedUserRequired,
     mixins.WagtailGA360Mixin,
