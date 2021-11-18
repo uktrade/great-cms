@@ -85,7 +85,13 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
         return self.request.build_absolute_uri(reverse('core:login'))
 
     def get_verification_link(self, uidb64, token):
-        return self.request.build_absolute_uri(reverse('core:signup')) + f'?uidb64={uidb64}&token={token}'
+        next_param = self.request.data.get('next', '')
+        verification_params = f'?uidb64={uidb64}&token={token}'
+
+        if next_param:
+            next_param = f'&next={next_param}'
+
+        return self.request.build_absolute_uri(reverse('core:signup')) + verification_params + next_param
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)

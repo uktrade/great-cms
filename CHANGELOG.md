@@ -17,6 +17,7 @@
 - GP2-3821 - Remove unnecessary forms that allow invalid posts
 
 ### Enhancements
+- GP2-3852 - Include redirect query parameter in verification link
 - GP2-3831 - Analytics event on EP download and delete
 - GP2-3834 - Remove duplicate analytics events
 - GP2-3389 - PII and secret check hooks for pre-commit
