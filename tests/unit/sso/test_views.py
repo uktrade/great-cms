@@ -91,6 +91,27 @@ def test_business_sso_user_create_200_upstream(mock_send_code, mock_create_user,
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'create_user')
 @mock.patch.object(helpers, 'send_verification_code_email')
+def test_business_sso_user_create_200_upstream_next_param(mock_send_code, mock_create_user, client):
+    verification_data = {'uidb64': 'aBcDe', 'verification_token': '1a2b3c', 'verification_code': '12345'}
+    mock_create_user.return_value = verification_data
+    url = reverse('sso:business-sso-create-user-api')
+    data = {'email': 'test@example.com', 'password': 'password', 'next': '/redirect/to/path'}
+    response = client.post(url, data)
+
+    assert response.status_code == 200
+    assert response.json() == {'uidb64': verification_data['uidb64'], 'token': verification_data['verification_token']}
+    assert mock_send_code.call_count == 1
+    assert mock_send_code.call_args == mock.call(
+        email=data['email'],
+        verification_code=verification_data['verification_code'],
+        form_url=url,
+        verification_link='http://testserver/signup/?uidb64=aBcDe&token=1a2b3c&next=/redirect/to/path',
+    )
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'create_user')
+@mock.patch.object(helpers, 'send_verification_code_email')
 def test_business_sso_user_create_400_upstream(mock_send_code, mock_create_user, client):
     mock_create_user.side_effect = helpers.CreateUserException(detail={}, code=400)
 
