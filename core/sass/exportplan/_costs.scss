@@ -75,6 +75,11 @@
   & .button--delete {
     margin: 0;
   }
+  &--border {
+    &:focus {
+      outline: none;
+    }
+  }
 }
 
 .costs__option--border:not(:first-child) {
