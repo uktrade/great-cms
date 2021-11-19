@@ -27,7 +27,7 @@ gulp.task(
 )
 
 // // Export-elements-specific component styling
-
+/* No longer needed
 gulp.task(
   'styles:components',
   gulp.series(() => {
@@ -48,6 +48,7 @@ gulp.task(
       .pipe(gulp.dest('static/stylesheets'))
   })
 )
+*/
 
 // // Flag icons
 
