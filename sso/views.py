@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 from sso import helpers, serializers
+from sso_profile.enrolment import constants
 
 
 class SSOBusinessUserLoginView(generics.GenericAPIView):
@@ -72,6 +73,7 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
                     verification_code=verification_code,
                     form_url=self.request.path,
                     verification_link=self.get_verification_link(uidb64, token),
+                    resend_verification_link=self.get_resend_verification_link(),
                 )
                 return Response({'uidb64': uidb64, 'token': token})
             else:
@@ -83,6 +85,11 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
 
     def get_login_url(self):
         return self.request.build_absolute_uri(reverse('core:login'))
+
+    def get_resend_verification_link(self):
+        return self.request.build_absolute_uri(
+            reverse('sso_profile:resend-verification', kwargs={'step': constants.RESEND_VERIFICATION})
+        )
 
     def get_verification_link(self, uidb64, token):
         next_param = self.request.data.get('next', '')
@@ -108,6 +115,7 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
             verification_code=user_details['verification_code'],
             form_url=self.request.path,
             verification_link=self.get_verification_link(uidb64, token),
+            resend_verification_link=self.get_resend_verification_link(),
         )
         return Response({'uidb64': uidb64, 'token': token})
 

@@ -85,6 +85,7 @@ def test_business_sso_user_create_200_upstream(mock_send_code, mock_create_user,
         verification_code=verification_data['verification_code'],
         form_url=url,
         verification_link='http://testserver/signup/?uidb64=aBcDe&token=1a2b3c',
+        resend_verification_link='http://testserver/profile/enrol/resend-verification/resend/',
     )
 
 
@@ -106,6 +107,7 @@ def test_business_sso_user_create_200_upstream_next_param(mock_send_code, mock_c
         verification_code=verification_data['verification_code'],
         form_url=url,
         verification_link='http://testserver/signup/?uidb64=aBcDe&token=1a2b3c&next=/redirect/to/path',
+        resend_verification_link='http://testserver/profile/enrol/resend-verification/resend/',
     )
 
 
