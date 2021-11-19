@@ -148,6 +148,7 @@ def test_business_sso_user_create_409_upstream_with_verification_code(
         verification_code={'code': '12345'},
         form_url=url,
         verification_link='http://testserver/signup/?uidb64=aBcDe&token=1ab-123abc',
+        resend_verification_link='http://testserver/profile/enrol/resend-verification/resend/',
     )
 
 
