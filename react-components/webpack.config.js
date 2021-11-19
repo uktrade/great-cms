@@ -1,4 +1,5 @@
 const path = require('path')
+const glob = require("glob");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const RemovePlugin = require('remove-files-webpack-plugin')
@@ -7,7 +8,9 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     magna: './react-components/src/bundle.js',
-    styles: './core/sass/main.scss',
+    magna_styles: './core/sass/main.scss',
+    loggedout: './react-components/src/bundle-loggedout.js',
+    loggedout_styles: './domestic/sass/main.scss',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -49,9 +52,10 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.s?css$/i,
+        test: /\.scss$/i,
+        exclude: /node_modules/,
         use: [
-          // extract to seperate file
+          // extract to separate file
           MiniCssExtractPlugin.loader,
           // Translates CSS into CommonJS
           {
@@ -74,8 +78,21 @@ module.exports = {
               sourceMap: true,
               sassOptions: {
                 outputStyle: 'compressed',
-                includePaths: ['./node_modules/great-styles/src/scss/'],
+                includePaths: ['./node_modules/great-styles/src/scss/', './domestic/sass/'],
               },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
             },
           },
         ],
@@ -137,10 +154,14 @@ module.exports = {
     new RemovePlugin({
       after: {
         include: [
-          './react-components/dist/styles.js',
-          './react-components/dist/styles.js.map',
+          './react-components/dist/magna_styles.js',
+          './react-components/dist/magna_styles.js.map',
           './react-components/dist/magna.css',
           './react-components/dist/magna.css.map',
+          './react-components/dist/loggedout_styles.js',
+          './react-components/dist/loggedout_styles.js.map',
+          './react-components/dist/magna.js.LICENSE.txt',
+          './react-components/dist/loggedout.js.LICENSE.txt',
         ],
       },
     }),
