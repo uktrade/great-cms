@@ -47,9 +47,9 @@
   }
 
   &__border {
-    border-color: #8f89a4;
+    border-color: $colour-blue-deep-50;
     .select__placeholder {
-      border-color: #8f89a4;
+      border-color: $colour-blue-deep-50;
     }
   }
 }
