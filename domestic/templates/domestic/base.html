@@ -45,7 +45,7 @@
 
         {% block head_css %}
             <link href="{% static 'stylesheets/govuk-elements-styles.min.css' %}" media="all" rel="stylesheet" />
-            <link href="{% static 'elements_components.css' %}" media="all" rel="stylesheet" />
+            <link href="{% static 'components_styles.css' %}" media="all" rel="stylesheet" />
             {{ block.super }}
             <link href="{% static 'loggedout_styles.css' %}" rel="stylesheet" type="text/css" />
         {% endblock %}
@@ -68,7 +68,7 @@
 
         {% block head_js %}
             <script src="{% static 'javascript/dit.js' %}"></script>
-            <script src="{% static 'loggedout.js' %}"></script>
+            <script src="{% static 'components.js' %}"></script>
             <script>
               // Safari saves a snapshot of a page as it was when the user left, so upon going "back" it doesn’t have to reload and instead it loads the saved snapshot state. That has an unwanted side effect that cookie modal is shown when clicking "go back to the page you came from".
               window.onpageshow = function (event) {
@@ -168,7 +168,7 @@
             <script>
                 var element = document.createElement('div');
                 document.body.appendChild(element);
-                loggedout.CookiesModal({
+                components.CookiesModal({
                     element: element,
                     privacyCookiesUrl: {{privacy_and_cookies_path}},
                     preferencesUrl: '{% url "core:cookie-preferences" %}'

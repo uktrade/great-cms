@@ -9,9 +9,9 @@ module.exports = {
   entry: {
     magna: './react-components/src/bundle.js',
     magna_styles: './core/sass/main.scss',
-    loggedout: './react-components/src/bundle-loggedout.js',
     loggedout_styles: './domestic/sass/main.scss',
-    elements_components: './core/components/sass/components/elements-components.scss'
+    components: './react-components/src/bundle-components.js',
+    components_styles: './core/components/sass/components/elements-components.scss'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -165,8 +165,8 @@ module.exports = {
           './react-components/dist/magna.css.map',
           './react-components/dist/loggedout_styles.js',
           './react-components/dist/loggedout_styles.js.map',
-          './react-components/dist/elements_components.js',
-          './react-components/dist/elements_components.js.map',
+          './react-components/dist/components_styles.js',
+          './react-components/dist/components_styles.js.map',
           './react-components/dist/magna.js.LICENSE.txt',
           './react-components/dist/loggedout.js.LICENSE.txt',
 
