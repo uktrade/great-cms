@@ -120,7 +120,6 @@ dit.components.cookieNotice = function() {
   }
 
   function getPreferencesCookie () {
-    console.log('Cookies - in gerPreferencescookie', document.cookie, getCookie(cookiePreferencesName))
     return getCookie(cookiePreferencesName);
   }
 

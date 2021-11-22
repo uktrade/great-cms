@@ -154,6 +154,19 @@ module.exports = {
           to: '../../core/static/img/',
           noErrorOnMissing: true,
         },
+        // Copy flag icons - to be removed after replacement with react flags
+        {
+          from: '**/*.svg',
+          context: 'node_modules/flag-icon-css/',
+          to: '../../core/components/static/vendor/flag-icons/',
+          noErrorOnMissing: true,
+        },
+        {
+          from: '*.min.css',
+          context: 'node_modules/flag-icon-css/css/',
+          to: '../../core/components/static/vendor/flag-icons/css/',
+          noErrorOnMissing: true,
+        }
       ],
     }),
     new RemovePlugin({
@@ -167,9 +180,6 @@ module.exports = {
           './react-components/dist/loggedout_styles.js.map',
           './react-components/dist/components_styles.js',
           './react-components/dist/components_styles.js.map',
-          './react-components/dist/magna.js.LICENSE.txt',
-          './react-components/dist/loggedout.js.LICENSE.txt',
-
         ],
       },
     }),

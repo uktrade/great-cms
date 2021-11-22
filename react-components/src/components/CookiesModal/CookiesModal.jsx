@@ -11,7 +11,6 @@ export function CookiesModal(props) {
   const [isOpen, setIsOpen] = React.useState(CookieManager.getPreferencesCookie() === null)
   const focusTrap = React.useRef(false);
 
-  console.log('Cookies', document.cookie, isOpen)
   function handleAcceptAllCookies(event) {
     CookieManager.acceptAllCookiesAndShowSuccess(event);
     // window.location.reload(); // disabled to avoid the page reloading before the user can see the banner
