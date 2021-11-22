@@ -9,16 +9,16 @@
 <h1>Marketing approach</h1>
 <pdf:nextframe>
 <table><tr><td>
-  {% with marketing_approach=population_age_data|get_item:'marketing-approach' %}
+  {% with marketing_approach=country_data.population_age_data|get_item:'marketing-approach' %}
     <h3 class="m-b-xs colour-red-150">Data snapshot</h3>
     <h6 class="body-s">Total population</h6>
-    <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_population|multiply_by_exponent|friendly_number }}</strong></p>
+    <p class="pad-t-0"><strong>{{ country_data.total_population|friendly_number }}</strong></p>
     <h6 class="body-s pad-y-0">Access to internet</h6>
-    <p class="pad-t-0"><strong>{{ insight_data.country_data.InternetUsage.0.value|floatformat:0 }}&percnt;</strong></p>
+    <p class="pad-t-0"><strong>{{ country_data.InternetUsage.0.value|floatformat:0 }}&percnt;</strong></p>
     <h6 class="body-s pad-y-0">Consumer price index</h6>
-    <p class="pad-t-0"><strong>{{ insight_data.country_data.ConsumerPriceIndex.0.value }}</strong></p>
+    <p class="pad-t-0"><strong>{{ country_data.ConsumerPriceIndex.0.value }}</strong></p>
     <h6 class="body-s pad-y-0">GDP per capita (USD)</h6>
-    <p class="pad-t-0"><strong>${{ insight_data.country_data.GDPPerCapita.0.year_2019|floatformat:0|intcomma }}</strong></p>
+    <p class="pad-t-0"><strong>${{ country_data.GDPPerCapita.0.year_2019|floatformat:0|intcomma }}</strong></p>
     <h6 class="body-s pad-y-0">Languages</h6>
     <p class="pad-t-0">
       <strong class="body-m">
@@ -31,25 +31,25 @@
     <table>
       <tr><td>Urban</td><td>Rural</td>
       <tr>
-        <td><strong> {% widthratio marketing_approach.population_data.urban_percentage 1 100 %}&percnt;</strong></td>
-        <td><strong>{% widthratio marketing_approach.population_data.rural_percentage 1 100 %}&percnt;</strong></td>
+        <td><strong> {% widthratio country_data.urban_rural_percentages.urban_percentage 1 100 %}&percnt;</strong></td>
+        <td><strong>{% widthratio country_data.urban_rural_percentages.rural_percentage 1 100 %}&percnt;</strong></td>
       </tr>
     </table>
-    {% if marketing_approach.population_data.target_ages %}
+    {% if marketing_approach.target_ages %}
       <h6 class="body-s pad-t-0">Target age groups</h3>
       <p class="pad-t-0">
         <strong>
-          {% for age in marketing_approach.population_data.target_ages %}
+          {% for age in marketing_approach.target_ages %}
           {{ age }}{% if not forloop.last %}, {% endif %}
           {% endfor %}
         </strong>
       </p>
       <h6 class="body-s pad-y-0">Target age population</h6>
-      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.total_target_age_population|multiply_by_exponent|friendly_number }}</strong></p>
+      <p class="pad-t-0"><strong>{{ marketing_approach.total_target_age_population|friendly_number }}</strong></p>
       <h6 class="body-s pad-y-0">Female in target group</h6>
-      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.female_target_age_population|multiply_by_exponent|friendly_number }}</strong></p>
+      <p class="pad-t-0"><strong>{{ marketing_approach.female_target_age_population|friendly_number }}</strong></p>
       <h6 class="body-s pad-y-0">Male in target group</h6>
-      <p class="pad-t-0"><strong>{{ marketing_approach.population_data.male_target_age_population|multiply_by_exponent|friendly_number }}</strong></p>
+      <p class="pad-t-0"><strong>{{ marketing_approach.male_target_age_population|friendly_number }}</strong></p>
     {% endif %}
   {% endwith %}
 </td></tr></table>

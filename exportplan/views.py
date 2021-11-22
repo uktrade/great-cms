@@ -18,10 +18,9 @@ from directory_api_client.client import api_client
 from directory_constants import choices
 from exportplan import forms
 from exportplan.context import (
+    CountryDataContextProvider,
     FactbookDataContextProvider,
-    InsightDataContextProvider,
     PDFContextProvider,
-    PopulationAgeDataContextProvider,
 )
 from exportplan.core import data, helpers, parsers, serializers
 from exportplan.core.processor import ExportPlanProcessor
@@ -364,8 +363,7 @@ class ExportPlanServicePage(GA360Mixin, TemplateView):
 class PDFDownload(
     View,
     PDFContextProvider,
-    InsightDataContextProvider,
-    PopulationAgeDataContextProvider,
+    CountryDataContextProvider,
     FactbookDataContextProvider,
 ):
     def get(self, request, *args, **kwargs):
