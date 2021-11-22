@@ -23,8 +23,6 @@ const defaultProps = {
 describe('CookiesModal', () => {
 
   test('handles not being shown', () => {
-    global.document.cookie = "cookie_preferences_set=true"; //set cookies in whatever format you like
-    document.cookie = "cookie_preferences_set=true";
     CookiesManager.getPreferencesCookie.mockImplementation(() => true)
     const component = shallow(
       <CookiesModal isOpen={false} {...defaultProps} />
