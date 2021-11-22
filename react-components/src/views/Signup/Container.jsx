@@ -39,7 +39,7 @@ export function Container(props) {
   function handleStepCredentialsSubmit() {
     setErrors({})
     setIsInProgress(true)
-    Services.createUser({ email, password })
+    Services.createUser({ email, password, next })
       .then((response) => response.json())
       .then((data) => {
         setUidb64(data.uidb64)

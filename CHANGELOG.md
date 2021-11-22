@@ -1,5 +1,9 @@
 # Changelog
 
+### Hotfix
+- GP2-3844 - [HOTFIX] saving cms pages
+- GP2-3853 - [HOTFIX] tweak homepage hero layout for MIUK campaign
+
 ## Pre release
 
 ### Hotfix
@@ -7,6 +11,7 @@
 
 ### Bugs fixed
 - GP2-2834 - Export plan - sort risks and trips
+- GP2-3818 - WTE mobile layout without flex for safari
 - GP2-3846 - Remove html encoding from apostrophes in to_json tag
 - GP2-3823 - Remove EP business objectives date validation
 - GP2-3788 - Restructure of lesson page to make it responsive
@@ -16,6 +21,7 @@
 - GP2-3821 - Remove unnecessary forms that allow invalid posts
 
 ### Enhancements
+- GP2-3852 - Include redirect query parameter in verification link
 - GP2-3831 - Analytics event on EP download and delete
 - GP2-3834 - Remove duplicate analytics events
 - GP2-3389 - PII and secret check hooks for pre-commit
@@ -26,6 +32,8 @@
 - GP2-3420 - WTE analytics tabs
 - GP2-3827 - WTE analytics product selector
 - GP2-3830 - Analytics - Learn more about product information (EP)
+- GP2-3832 - Analytics - Create EP Event
+- GP2-3803 - Custom Image browser for SEO size.
 - GP2-3123 - remove redundant code
 
 ## [2.00.0](https://github.com/uktrade/great-cms/releases/tag/2.0.0)
