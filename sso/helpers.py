@@ -64,7 +64,7 @@ def response_factory(upstream_response):
     return response
 
 
-def send_verification_code_email(email, verification_code, form_url, verification_link):
+def send_verification_code_email(email, verification_code, form_url, verification_link, resend_verification_link):
     action = actions.GovNotifyEmailAction(
         template_id=settings.CONFIRM_VERIFICATION_CODE_TEMPLATE_ID,
         email_address=email,
@@ -78,6 +78,7 @@ def send_verification_code_email(email, verification_code, form_url, verificatio
             'code': verification_code['code'],
             'expiry_date': formatted_expiry_date,
             'verification_link': verification_link,
+            'resend_verification_link': resend_verification_link,
         }
     )
     response.raise_for_status()
