@@ -1,5 +1,9 @@
 # Changelog
 
+### Hotfix
+- GP2-3844 - [HOTFIX] saving cms pages
+- GP2-3853 - [HOTFIX] tweak homepage hero layout for MIUK campaign
+
 ## Pre release
 
 ### Hotfix
