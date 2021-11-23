@@ -5,8 +5,6 @@ from http import cookiejar
 import requests
 from directory_forms_api_client import actions
 from django.conf import settings
-from django.utils import formats
-from django.utils.dateparse import parse_datetime
 from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 
@@ -71,12 +69,9 @@ def send_verification_code_email(email, verification_code, form_url, verificatio
         form_url=form_url,
     )
 
-    expiry_date = parse_datetime(verification_code['expiration_date'])
-    formatted_expiry_date = formats.date_format(expiry_date, 'DATETIME_FORMAT')
     response = action.save(
         {
             'code': verification_code['code'],
-            'expiry_date': formatted_expiry_date,
             'verification_link': verification_link,
             'resend_verification_link': resend_verification_link,
         }
