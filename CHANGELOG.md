@@ -838,6 +838,7 @@ Change log disappeared we lost some how perhaps during staging release. Please r
 
 ### Fixed bugs
 
+- GP2-3381 - Fix resend verification code
 - GP2-966 - bug fix - select no values
 - No ticket Restore refresh on market change except for compare markets page
 - GP2-1158 - Verification Code modal

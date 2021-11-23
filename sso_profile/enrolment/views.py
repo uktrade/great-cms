@@ -13,6 +13,7 @@ import sso_profile.common.forms
 import sso_profile.common.mixins
 from core.helpers import CompanyParser
 from directory_constants import urls, user_roles
+from sso import helpers as sso_helpers
 from sso_profile.common.helpers import get_company_admins
 from sso_profile.enrolment import constants, forms, helpers, mixins
 
@@ -607,11 +608,12 @@ class ResendVerificationCodeView(
             email = form.cleaned_data['email']
             verification_code = helpers.regenerate_verification_code(email)
             if verification_code:
-                helpers.send_verification_code_email(
+                sso_helpers.send_verification_code_email(
                     email=email,
                     verification_code=verification_code,
                     form_url=self.request.path,
                     verification_link=self.verification_link_url,
+                    resend_verification_link=self.resend_verification_link_url,
                 )
         return super().process_step(form)
 

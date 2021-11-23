@@ -10,6 +10,7 @@ from freezegun import freeze_time
 from requests.exceptions import HTTPError
 
 from directory_constants import urls, user_roles
+from sso import helpers as sso_helpers
 from sso.models import BusinessSSOUser
 from sso_profile.enrolment import constants, forms, helpers, mixins, views
 from ..common.helpers import create_response, submit_step_factory
@@ -181,7 +182,7 @@ def mock_get_company_profile():
 
 @pytest.fixture(autouse=True)
 def mock_send_verification_code_email():
-    patch = mock.patch.object(helpers, 'send_verification_code_email')
+    patch = mock.patch.object(sso_helpers, 'send_verification_code_email')
     yield patch.start()
     patch.stop()
 
@@ -1253,6 +1254,7 @@ def test_confirm_user_resend_verification_code(
         form_url='/profile/enrol/resend-verification/resend/',
         verification_code={'code': '12345', 'expiration_date': '2018-01-17T12:00:01Z'},
         verification_link='http://testserver/profile/enrol/resend-verification/verification/',
+        resend_verification_link='http://testserver/profile/enrol/resend-verification/resend/',
     )
 
 
