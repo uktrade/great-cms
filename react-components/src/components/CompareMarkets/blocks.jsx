@@ -155,10 +155,10 @@ const renderCountryRowHeader = ({
   `
   return (
     <>
-      <td className={`p-h-s ${headingClass}`} style={{ width: '15%' }}>
+      <td className={`p-h-s ${headingClass}`} >
         {renderRemoveButton({ market, removeMarket })}
       </td>
-      <th className={`p-v-xs name ${headingClass}`} scope="row">
+      <th className={`p-v-xs name ${headingClass} table--width`} scope="row">
         {renderCountryName({ market })}
       </th>
       <td key={iso} className={`p-v-xs ${headingClass}`}>

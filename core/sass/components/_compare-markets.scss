@@ -3,6 +3,9 @@
 .market-details {
   table {
     table-layout: fixed;
+    max-width: none;
+    width: auto;
+    min-width: 100%;
 
     td {
       &.align-top {
@@ -13,6 +16,10 @@
     thead th {
       vertical-align: bottom;
     }
+  }
+
+  .table--width {
+    width: 30%;
   }
 
   .tooltip__content {
