@@ -158,9 +158,9 @@ const renderCountryRowHeader = ({
       <td className={`p-h-s ${headingClass}`} >
         {renderRemoveButton({ market, removeMarket })}
       </td>
-      <td className={`p-v-xs name ${headingClass} table--width`} scope="row">
+      <th className={`p-v-xs name ${headingClass} table--width`} scope="row">
         {renderCountryName({ market })}
-      </td>
+      </th>
       <td key={iso} className={`p-v-xs ${headingClass}`}>
         {renderAddRemoveShortlist({
           market,
