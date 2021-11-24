@@ -10,7 +10,7 @@
 - GP2-3844 - [HOTFIX] savingcms pages
 
 ### Bugs fixed
-- GP2-2834 - Export plan - sort risks and trips
+- GP2-3834 - Export plan - sort risks and trips
 - GP2-3818 - WTE mobile layout without flex for safari
 - GP2-3846 - Remove html encoding from apostrophes in to_json tag
 - GP2-3823 - Remove EP business objectives date validation
