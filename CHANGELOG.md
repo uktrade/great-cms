@@ -21,6 +21,7 @@
 - GP2-3821 - Remove unnecessary forms that allow invalid posts
 - GP2-3808 - Safari outline fix
 - GP2-3863 - Safari table rendering fix in comparing markets
+- GP2-2953 - DAC_Contrast_Minimum_02 (AA)
 
 ### Enhancements
 - GP2-3852 - Include redirect query parameter in verification link
