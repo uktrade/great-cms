@@ -4,7 +4,6 @@ import { connect, Provider } from 'react-redux'
 
 import Services from '@src/Services'
 import { getEpProduct } from '@src/reducers'
-import { camelizeObject } from '@src/Helpers'
 
 import { Dashboard } from '@src/components/Dashboard'
 import ActionBar from '@src/components/Dashboard/ActionBar'
@@ -16,7 +15,7 @@ export const createDashboard = ({ element, ...params }) => {
   if (actionsContainer)
     ReactDOM.render(
       <Provider store={Services.store}>
-        <ActionBar {...camelizeObject(params)}/>
+        <ActionBar {...params}/>
       </Provider>,
       actionsContainer
     )

@@ -6,18 +6,17 @@ import { getEpProduct, getEpMarket } from '@src/reducers'
 import Services from '@src/Services'
 import { config } from '@src/config'
 import { Confirmation } from '@src/components/ConfirmModal/Confirmation'
-import { analytics } from '@src/Helpers'
+import { analytics, camelizeObject } from '@src/Helpers'
 
-export default function ActionBar({
-  exportPlanProgress: { sectionProgress, sectionsCompleted },
-}) {
+export default function ActionBar({exportPlanProgress}) {
+
+  const { sectionProgress, sectionsCompleted } = camelizeObject(exportPlanProgress)
   const [deleteConfirm, setDeleteConfirm] = useState()
   const product = useSelector((state) => getEpProduct(state))
   const country = useSelector((state) => getEpMarket(state))
   const exportPlan = useSelector((state) => {
     return state.exportPlan || {}
   })
-
   const analyticsEvent = (eventType) => {
     analytics({
       event: eventType,
@@ -85,12 +84,12 @@ export default function ActionBar({
 
 ActionBar.propTypes = {
   exportPlanProgress: PropTypes.shape({
-    sectionProgress: PropTypes.arrayOf(
+    section_progress: PropTypes.arrayOf(
       PropTypes.shape({
         populated: PropTypes.number,
         total: PropTypes.number,
       })
     ),
-    sectionsCompleted: PropTypes.number,
+    sections_completed: PropTypes.number,
   }).isRequired,
 }
