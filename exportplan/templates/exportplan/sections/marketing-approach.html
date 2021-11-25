@@ -108,7 +108,7 @@
             label: 'Route to market',
             options: {{ route_choices|to_json }},
             name: 'route',
-            lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 0),
+            lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json}}, 0),
           },
           {
             label: 'How will you promote your product?',

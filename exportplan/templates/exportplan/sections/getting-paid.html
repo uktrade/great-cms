@@ -51,7 +51,7 @@
       element: document.getElementById('getting-paid'),
       field: 'getting_paid',
       currentSection: {{ current_section|to_json }},
-      lessonDetails: {{ lesson_details }},
+      lessonDetails: {{ lesson_details|to_json }},
       formData: {{ getting_paid_data|to_json }},
       formFields: [
         {
