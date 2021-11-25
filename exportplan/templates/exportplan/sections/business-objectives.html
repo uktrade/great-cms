@@ -65,7 +65,7 @@
           example: {
             content: 'Dove Gin is established and selling well in the UK. However, the domestic gin market is now fiercely competitive. We feel that to realise our goal of doubling turnover in the next 3 years we need to look at new markets to assure this growth. Dove has a uniquely British, crafted appeal that is well placed to attract drinkers in overseas markets. We feel that the potential to widen our customer base, especially in the still-developing Asian and Australasian craft gin scene, is immense.'
           },
-          lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json }}, 0),
+          lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json }}, 0),
         },
       ],
     })

@@ -273,7 +273,7 @@ product. <br /><br />This page will help you plan ahead and keep track of the up
     currencies: {{ currency_choices| safe }},
     currency: 'GBP',
     currentSection: {{ current_section| to_json}},
-    lessonDetails: {{ lesson_details| safe }},
+    lessonDetails: {{ lesson_details| to_json }},
     })
 </script>
 {% endblock %}

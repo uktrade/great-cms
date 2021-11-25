@@ -68,7 +68,7 @@ There are however lots of financing options available to help you export, the ri
     currency: 'GBP',
     formData: {{ funding_and_credit|to_json }},
     currentSection: {{ current_section|to_json }},
-    lessonDetails: {{ lesson_details|safe }},
+    lessonDetails: {{ lesson_details|to_json }},
   })
 
   element = document.getElementById('finance-funding-credit-options');
@@ -80,7 +80,7 @@ There are however lots of financing options available to help you export, the ri
     formData: {{ funding_credit_options|to_json }},
     companyexportplan: {{ export_plan.pk }},
     currentSection: {{ current_section|to_json }},
-    lessonDetails: {{ lesson_details|safe }},
+    lessonDetails: {{ lesson_details|to_json }},
   })
 </script>
 {% endblock %}
