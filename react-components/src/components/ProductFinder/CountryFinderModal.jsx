@@ -232,6 +232,7 @@ export default function CountryFinderModal(props) {
         If you already have an idea of where you want to export to, choose from
         this list.
       </p>
+      {/*
       <div className="grid">
         <div className="c-1-3 m-b-xxs">
           <SearchInput
@@ -243,6 +244,7 @@ export default function CountryFinderModal(props) {
           />
         </div>
       </div>
+      */}
       <div className="grid">
         <div className="c-full clearfix">
           <button
