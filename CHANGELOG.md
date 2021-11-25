@@ -10,7 +10,7 @@
 - GP2-3844 - [HOTFIX] savingcms pages
 
 ### Bugs fixed
-- GP2-2834 - Export plan - sort risks and trips
+- GP2-3834 - Export plan - sort risks and trips
 - GP2-3818 - WTE mobile layout without flex for safari
 - GP2-3846 - Remove html encoding from apostrophes in to_json tag
 - GP2-3823 - Remove EP business objectives date validation
@@ -21,6 +21,7 @@
 - GP2-3821 - Remove unnecessary forms that allow invalid posts
 - GP2-3808 - Safari outline fix
 - GP2-3863 - Safari table rendering fix in comparing markets
+- GP2-2953 - DAC_Contrast_Minimum_02 (AA)
 
 ### Enhancements
 - GP2-3852 - Include redirect query parameter in verification link
