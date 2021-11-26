@@ -1,10 +1,6 @@
 import pytest
 
-from contact.models import (
-    ContactPageContentSnippet,
-    ContactSuccessSnippet,
-    ContactUsGuidanceSnippet,
-)
+from contact.models import ContactSuccessSnippet, ContactUsGuidanceSnippet
 from core import snippet_slugs
 from core.cms_snippets import NonPageContentSnippetBase
 
@@ -48,16 +44,6 @@ def test_contact_slug_options_are_set():
             ContactSuccessSnippet,
             snippet_slugs.HELP_FORM_SUCCESS,
             'Contact Success Snippet: Contact domestic form success page content',
-        ),
-        (
-            ContactSuccessSnippet,
-            snippet_slugs.EUEXIT_FORM_SUCCESS,
-            'Contact Success Snippet: Transition Period form success page content',
-        ),
-        (
-            ContactPageContentSnippet,
-            snippet_slugs.EUEXIT_DOMESTIC_FORM,
-            'Contact Page Content Snippet: Transition Period form supporting content',
         ),
         (
             ContactUsGuidanceSnippet,
