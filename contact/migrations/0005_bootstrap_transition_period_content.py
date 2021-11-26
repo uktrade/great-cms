@@ -4,9 +4,8 @@ from django.db import migrations
 
 from core import snippet_slugs
 
-# Making this None as this is now redundant
-FORM_PAGE_SLUG = None
-SUCCESS_PAGE_SLUG = None
+FORM_PAGE_SLUG = snippet_slugs.EUEXIT_DOMESTIC_FORM
+SUCCESS_PAGE_SLUG = snippet_slugs.EUEXIT_FORM_SUCCESS
 
 
 def forwards_form_page(apps, schema_editor):
