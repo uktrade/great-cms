@@ -35,6 +35,3 @@ HELP_PASSWORD_RESET = 'password-reset'
 HELP_VERIFICATION_CODE_ENTER = 'verification-letter-code'
 HELP_VERIFICATION_CODE_LETTER = 'no-verification-letter'
 HELP_VERIFICATION_CODE_MISSING = 'verification-missing'
-
-EUEXIT_DOMESTIC_FORM = 'eu-exit-domestic'
-EUEXIT_FORM_SUCCESS = 'eu-exit-form-success'

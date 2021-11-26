@@ -1,22 +1,8 @@
 from wagtail.contrib.modeladmin.options import ModelAdmin
 
-from .models import (
-    ContactPageContentSnippet,
-    ContactSuccessSnippet,
-    ContactUsGuidanceSnippet,
-)
+from .models import ContactSuccessSnippet, ContactUsGuidanceSnippet
 
 # All of these are registered via cms_extras.modeladmin
-
-
-class ContactPageContentSnippetAdmin(ModelAdmin):
-    model = ContactPageContentSnippet
-    exclude_from_explorer = False
-    menu_icon = 'fa-check'
-    list_display = [
-        'internal_title',
-    ]
-    menu_label = 'Contact Form Page content'
 
 
 class ContactSuccessSnippetAdmin(ModelAdmin):
