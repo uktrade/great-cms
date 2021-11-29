@@ -6,8 +6,6 @@
 #
 --no-binary psycopg2
 
-airtable-python-wrapper==0.13.0
-    # via -r requirements.in
 alabaster==0.7.12
     # via sphinx
 allure-pytest==2.9.45
@@ -20,7 +18,7 @@ appnope==0.1.2
     # via ipython
 arabic-reshaper==2.1.3
     # via xhtml2pdf
-astroid==2.8.6
+astroid==2.9.0
     # via pylint
 async-generator==1.10
     # via
@@ -73,7 +71,7 @@ cffi==1.15.0
     # via cryptography
 cfgv==3.3.1
     # via pre-commit
-charset-normalizer==2.0.7
+charset-normalizer==2.0.8
     # via requests
 click==8.0.3
     # via
@@ -84,7 +82,7 @@ codecov==2.1.12
     # via -r requirements_test.in
 configargparse==1.5.3
     # via locust
-coverage[toml]==6.1.2
+coverage[toml]==6.2
     # via
     #   codecov
     #   pytest-cov
@@ -96,9 +94,7 @@ cryptography==3.3.2
 cssselect==1.1.0
     # via pyquery
 dateparser==0.7.2
-    # via
-    #   -r requirements.in
-    #   -r requirements_test.in
+    # via -r requirements_test.in
 decorator==5.1.0
     # via
     #   ipdb
@@ -183,10 +179,8 @@ django-storages[boto3]==1.8
     # via -r requirements.in
 django-taggit==1.5.1
     # via wagtail
-django-treebeard==4.4
-    # via
-    #   -r requirements.in
-    #   wagtail
+django-treebeard==4.5.1
+    # via wagtail
 djangorestframework==3.11.2
     # via
     #   -r requirements.in
@@ -210,7 +204,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==9.8.2
+faker==9.8.3
     # via factory-boy
 filelock==3.4.0
     # via virtualenv
@@ -283,7 +277,7 @@ iniconfig==1.1.1
     # via pytest
 ipdb==0.13.9
     # via -r requirements_test.in
-ipython==7.29.0
+ipython==7.30.0
     # via ipdb
 iso3166==1.0.1
     # via -r requirements.in
@@ -312,13 +306,9 @@ lazy-object-proxy==1.6.0
 locust==2.5.0
     # via -r requirements_test.in
 lxml==4.6.4
-    # via
-    #   -r requirements.in
-    #   pyquery
-markdown2==2.4.0
-    # via
-    #   -r requirements.in
-    #   readtime
+    # via pyquery
+markdown2==2.4.1
+    # via readtime
 markupsafe==2.0.1
     # via jinja2
 matplotlib-inline==0.1.3
@@ -335,7 +325,7 @@ monotonic==1.6
     # via
     #   directory-ch-client
     #   directory-client-core
-msgpack==1.0.2
+msgpack==1.0.3
     # via locust
 mypy-extensions==0.4.3
     # via black
@@ -376,8 +366,6 @@ pillow==8.4.0
     #   xhtml2pdf
 pip-tools==6.4.0
     # via -r requirements_test.in
-pisa==3.0.33
-    # via -r requirements.in
 platformdirs==2.4.0
     # via
     #   black
@@ -391,7 +379,7 @@ pre-commit==2.15.0
     # via -r requirements_test.in
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
-prompt-toolkit==3.0.22
+prompt-toolkit==3.0.23
     # via ipython
 psutil==5.8.0
     # via locust
@@ -414,7 +402,7 @@ pygments==2.10.0
     # via
     #   ipython
     #   sphinx
-pylint==2.11.1
+pylint==2.12.1
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -476,11 +464,10 @@ regex==2021.11.10
     # via
     #   black
     #   dateparser
-reportlab==3.6.2
+reportlab==3.6.3
     # via xhtml2pdf
 requests==2.26.0
     # via
-    #   airtable-python-wrapper
     #   codecov
     #   directory-api-client
     #   directory-ch-client
@@ -503,17 +490,14 @@ ruamel.yaml.clib==0.2.6
     # via ruamel.yaml
 s3transfer==0.4.2
     # via boto3
-selenium==4.0.0
+selenium==4.1.0
     # via -r requirements_test.in
 sentry-sdk==0.13.5
     # via -r requirements.in
 sigauth==4.3.0
-    # via
-    #   -r requirements.in
-    #   directory-client-core
+    # via directory-client-core
 six==1.16.0
     # via
-    #   airtable-python-wrapper
     #   allure-pytest
     #   allure-python-commons
     #   cryptography
@@ -526,7 +510,6 @@ six==1.16.0
     #   html5lib
     #   jsonschema
     #   l18n
-    #   mohawk
     #   pyopenssl
     #   python-bidi
     #   python-dateutil
