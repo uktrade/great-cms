@@ -25,6 +25,7 @@
 - GP2-2953 - DAC_Contrast_Minimum_02 (AA)
 
 ### Enhancements
+- GP2-2932 - Hide country search
 - GP2-3852 - Include redirect query parameter in verification link
 - GP2-3856 - Core components JavaScript build
 - GP2-3831 - Analytics event on EP download and delete
