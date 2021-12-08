@@ -124,8 +124,10 @@ def check_verification_code(uidb64, token, code):
     return response
 
 
-def create_user(email, password):
-    response = sso_api_client.user.create_user(email=email, password=password)
+def create_user(email, password, **kwargs):
+    response = sso_api_client.user.create_user(
+        email=email, password=password, mobile_phone_number=kwargs.get("mobile_phone_number")
+    )
     if response.status_code == 400:
         raise CreateUserException(detail=response.json(), code=response.status_code)
     response.raise_for_status()

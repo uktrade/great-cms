@@ -101,11 +101,17 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
         return self.request.build_absolute_uri(reverse('core:signup')) + verification_params + next_param
 
     def post(self, request):
-        serializer = self.get_serializer(data=request.data)
+        test_data = {
+            'email': 'le.ngo+7@digital.trade.gov.uk',
+            'password': 'takeda1234',
+            'next': 'http%3A%2F%2Fgreatcms.trade.great%3A8020%2Fdashboard%2F',
+        }
+        serializer = self.get_serializer(data=test_data)
         serializer.is_valid(raise_exception=True)
         user_details = helpers.create_user(
             email=serializer.validated_data['email'].lower(),
             password=serializer.validated_data['password'],
+            mobile_phone_number=serializer.validated_data['mobile_phone_number'],
         )
         uidb64 = user_details['uidb64']
         token = user_details['verification_token']
