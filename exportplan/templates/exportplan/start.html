@@ -1,6 +1,11 @@
 {% extends "core/base.html" %}
 {% load to_json %}
 
+
+{% block head_other %}
+  <meta name="description" content="Complete each of the sections and download your export plan as a PDF" />
+{% endblock %}
+
 {% block content %}
   <div class="bg-white p-b-l">
     <div id="export-plan-wizard-container" class="container"></div>
