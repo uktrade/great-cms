@@ -215,7 +215,7 @@ def test_adaption_for_target_markets_context(client, user, mock_get_user_profile
     assert response.status_code == 200
 
     response.context_data['languages'] = {'language': 'Dutch', 'note': 'Many other too'}
-    response.context_data['target_market_documents'] = {'document_name': 'test'}
+    response.context_data['target_market_documents'] = [{'document_name': 'test'}]
 
 
 @pytest.mark.django_db

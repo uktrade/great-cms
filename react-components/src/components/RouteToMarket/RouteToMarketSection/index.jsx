@@ -56,7 +56,14 @@ RouteToMarketSection.propTypes = {
     }).isRequired
   ).isRequired,
   label: PropTypes.string.isRequired,
-  example: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string])),
+  example: PropTypes.oneOfType([
+    PropTypes.shape({
+      buttonTitle: PropTypes.string,
+      header: PropTypes.string,
+      content: PropTypes.string,
+    }),
+    PropTypes.string,
+  ]),
   name: PropTypes.string.isRequired,
   field: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.number])

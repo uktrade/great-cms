@@ -130,6 +130,13 @@ class PDFContextProvider(BaseContextProvider):
                 'contact_detail': contact_dict,
             }
         )
-        # GP2-2834 - Fix any mis-ordering of existing EP trips
-        (context['export_plan'].data.get('business_trips') or []).sort(key=lambda trip: trip.get('pk'))
+        # GP2-2834 - Fix ordering of all EP lists to object pk (creation order)
+        for item_list in [
+            'business_trips',
+            'company_objectives',
+            'target_market_documents',
+            'route_to_markets',
+            'business_risks',
+        ]:
+            (context['export_plan'].data.get(item_list) or []).sort(key=lambda trip: trip.get('pk'))
         return context
