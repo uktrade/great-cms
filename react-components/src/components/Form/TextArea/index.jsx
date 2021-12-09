@@ -21,40 +21,40 @@ export const TextArea = memo(
     formGroupClassName,
     name,
   }) => {
-
     const expandTextArea = (el) => {
-      if(el) {
+      if (el) {
         el.style.overflow = 'hidden'
         el.style.height = 0 // This is so the scroll-height doen't get padded out by a larget min-height
-        el.style.height = el.scrollHeight+'px'
+        el.style.height = el.scrollHeight + 'px'
       }
     }
 
     return (
-    <FormGroup
-      errors={errors}
-      label={label}
-      description={description}
-      tooltip={tooltip}
-      example={example}
-      id={id}
-      hideLabel={hideLabel}
-      lesson={lesson}
-      formGroupClassName={formGroupClassName}
-    >
-      <textarea
-        className={`form-control ${className}`}
+      <FormGroup
+        errors={errors}
+        label={label}
+        description={description}
+        tooltip={tooltip}
+        example={example}
         id={id}
-        name={name || id}
-        disabled={disabled}
-        onChange={(e) => onChange({ [name || id]: e.target.value })}
-        placeholder={placeholder}
-        value={value}
-        ref={(el) => expandTextArea(el)}
-      />
-    </FormGroup>
-  )
-})
+        hideLabel={hideLabel}
+        lesson={lesson}
+        formGroupClassName={formGroupClassName}
+      >
+        <textarea
+          className={`form-control ${className}`}
+          id={id}
+          name={name || id}
+          disabled={disabled}
+          onChange={(e) => onChange({ [name || id]: e.target.value })}
+          placeholder={placeholder}
+          value={value}
+          ref={(el) => expandTextArea(el)}
+        />
+      </FormGroup>
+    )
+  }
+)
 
 TextArea.propTypes = {
   errors: PropTypes.arrayOf(PropTypes.string),
@@ -66,11 +66,14 @@ TextArea.propTypes = {
   onChange: PropTypes.func.isRequired,
   description: PropTypes.string,
   tooltip: PropTypes.objectOf(PropTypes.string),
-  example: PropTypes.shape({
-    buttonTitle: PropTypes.string,
-    header: PropTypes.string,
-    content: PropTypes.string,
-  }),
+  example: PropTypes.oneOfType([
+    PropTypes.shape({
+      buttonTitle: PropTypes.string,
+      header: PropTypes.string,
+      content: PropTypes.string,
+    }),
+    PropTypes.string,
+  ]),
   hideLabel: PropTypes.bool,
   lesson: PropTypes.shape({
     url: PropTypes.string,

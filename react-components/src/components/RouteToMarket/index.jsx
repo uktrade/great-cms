@@ -12,7 +12,7 @@ import ErrorList from '@src/components/ErrorList'
 
 export const RouteToMarket = memo(
   ({ fields, formData, formFields, model_name }) => {
-    const [routes, setRoutes] = useState(fields)
+    const [routes, setRoutes] = useState(fields.sort((r1, r2) => (r1.pk < r2.pk ? -1 : 1)))
     const country = useSelector((state) => getEpMarket(state))
 
     const { companyexportplan, pk, ...lastField } = routes.length
