@@ -1,6 +1,7 @@
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
 
 
+# TODO: remove -  Deprecated - keeping it incase if we need to go back
 class SearchEngineOptimisationPanel(MultiFieldPanel):
     default_heading = 'Search Engine Optimisation'
     default_children = [

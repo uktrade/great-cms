@@ -24,21 +24,17 @@
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.5)!important;
 }
-  
+
 :global .ReactModal__Content {
   background: #ffffff;
-  inset: 50%!important;
-  left: 50%!important;
-  top: 50%!important;
-  margin-right: -50%;
-  max-width: 616px;
   padding: 30px!important;
-  transform: translate(-50%, -50%);
-  width: 350px;
+  inset: 50%!important;
   bottom: auto;
   right: auto;
-  top: 50%;
-  min-height: 500px;
+  transform: translate(-50%, -50%);
+  width: 95%!important;
+  max-height: fit-content;
+  max-width: 600px;
 }
 
 .buttonSeperator {
@@ -46,13 +42,10 @@
   width: 20px;
 }
 
-@media (min-width: 376px) {
+@media (min-width: 500px) {
   :global .ReactModal__Content {
-    padding-top: 54px!important;
-    padding-left: 52px!important;
-    padding-right: 52px!important;
-    width: auto;
-    min-height: 375px;
+    padding: 52px!important;
+
   }
 
   .buttonContainer {

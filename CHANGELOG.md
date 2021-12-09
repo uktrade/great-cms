@@ -2,6 +2,7 @@
 
 ### Hotfix
 - GP2-3844 - [HOTFIX] saving cms pages
+- GP2-3853 - [HOTFIX] tweak homepage hero layout for MIUK campaign
 
 ## Pre release
 
@@ -9,15 +10,37 @@
 - GP2-3844 - [HOTFIX] savingcms pages
 
 ### Bugs fixed
+- GP2-3858 - Fix export plan payment terms
+- GP2-3824 - Export plan - sort all EP lists
+- GP2-3818 - WTE mobile layout without flex for safari
+- GP2-3846 - Remove html encoding from apostrophes in to_json tag
+- GP2-3823 - Remove EP business objectives date validation
+- GP2-3788 - Restructure of lesson page to make it responsive
+- GP2-3307 - Fix sticky components (EP sidebar and lesson return links)
+- GP2-3787 - Domestic - expand focus area on cards
 - GP2-3822 - Export plan - fix sidebar flicker
+- GP2-3821 - Remove unnecessary forms that allow invalid posts
+- GP2-3808 - Safari outline fix
+- GP2-3863 - Safari table rendering fix in comparing markets
+- GP2-2953 - DAC_Contrast_Minimum_02 (AA)
 
 ### Enhancements
+- GP2-2932 - Hide country search
+- GP2-3852 - Include redirect query parameter in verification link
+- GP2-3856 - Core components JavaScript build
+- GP2-3831 - Analytics event on EP download and delete
+- GP2-3834 - Remove duplicate analytics events
+- GP2-3389 - PII and secret check hooks for pre-commit
+- GP2-3833 - Analytics - basket events
 - XOT-1359 - Allowing images/video for Article page
 - GP2-3829 - WTE_analytics_grid_markets remove
 - GP2-3828 - WTE_analytics_grid_markets add
 - GP2-3420 - WTE analytics tabs
 - GP2-3827 - WTE analytics product selector
 - GP2-3830 - Analytics - Learn more about product information (EP)
+- GP2-3832 - Analytics - Create EP Event
+- GP2-3803 - Custom Image browser for SEO size.
+- GP2-3123 - remove redundant code
 
 ## [2.00.0](https://github.com/uktrade/great-cms/releases/tag/2.0.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.13.3...2.0.0)
@@ -820,6 +843,7 @@ Change log disappeared we lost some how perhaps during staging release. Please r
 
 ### Fixed bugs
 
+- GP2-3381 - Fix resend verification code
 - GP2-966 - bug fix - select no values
 - No ticket Restore refresh on market change except for compare markets page
 - GP2-1158 - Verification Code modal

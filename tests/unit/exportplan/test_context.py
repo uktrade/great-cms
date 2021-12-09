@@ -3,10 +3,9 @@ from unittest import mock
 from django.conf import settings
 
 from exportplan.context import (
+    CountryDataContextProvider,
     FactbookDataContextProvider,
-    InsightDataContextProvider,
     PDFContextProvider,
-    PopulationAgeDataContextProvider,
 )
 
 
@@ -28,12 +27,28 @@ def test_pdf_context_pdf_statics_url_s3(get_request):
     assert pdf_context['pdf_statics_url'] == 'http://my_bucket.aws.my.region/pdf/'
 
 
-def test_insightdata_context_provider(mock_get_comtrade_data, multiple_country_data, get_request):
-    context = InsightDataContextProvider().get_context_provider_data(get_request, id=1)
+def test_country_data_context_provider(
+    mock_get_comtrade_data, mock_api_get_country_data_by_country, multiple_country_data, get_request
+):
+    context = CountryDataContextProvider().get_context_provider_data(get_request, id=1)
 
     assert mock_get_comtrade_data.call_count == 1
     assert mock_get_comtrade_data.call_args == mock.call(commodity_code='220850', countries_list=['NL'])
-    assert context['insight_data'] == mock_get_comtrade_data.return_value
+    assert context['comtrade_data'] == mock_get_comtrade_data.return_value
+
+    assert context['country_data']['urban_rural_percentages'] == {
+        'urban_percentage': 0.3333,
+        'rural_percentage': 0.6667,
+        'total_population': 300,
+    }
+    assert context['country_data']['population_age_data']['marketing-approach'] == {
+        'female_target_age_population': 6000,
+        'male_target_age_population': 6000,
+        'target_ages': ['0-14', '60+'],
+        'total_target_age_population': 12000,
+    }
+    assert context['country_data']['total_population'] == 20000
+
     for fieldname in [
         'GDPPerCapita',
         'ConsumerPriceIndex',
@@ -41,20 +56,10 @@ def test_insightdata_context_provider(mock_get_comtrade_data, multiple_country_d
         'CorruptionPerceptionsIndex',
         'EaseOfDoingBusiness',
         'InternetUsage',
+        'PopulationUrbanRural',
+        'PopulationData',
     ]:
-        assert context['insight_data']['country_data'].get(fieldname) == multiple_country_data['NL'].get(fieldname)
-
-
-def test_population_age_data_context_provider(mock_get_population_data, get_request):
-    context = PopulationAgeDataContextProvider().get_context_provider_data(get_request, id=1)
-
-    assert mock_get_population_data.call_count == 2
-    assert mock_get_population_data.call_args_list[0] == mock.call(country='Netherlands', target_ages=['35-40'])
-    assert mock_get_population_data.call_args_list[1] == mock.call(
-        country='Netherlands', target_ages=['25-29', '47-49']
-    )
-    assert context['population_age_data']['marketing-approach'] == mock_get_population_data.return_value
-    assert context['population_age_data']['target-markets-research'] == mock_get_population_data.return_value
+        assert context['country_data'].get(fieldname) == multiple_country_data['NL'].get(fieldname)
 
 
 def test_factbook_context_provider(mock_cia_world_factbook_data, get_request):

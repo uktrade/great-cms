@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import Modal from 'react-modal'
-import CookieManager from '../../static/javascript/dit.components.cookie-notice'
+import CookieManager from './dit.components.cookie-notice'
 
 import styles from './CookiesModal.css'
 
 export function CookiesModal(props) {
   let firstLink;
-  const [isOpen, setIsOpen] = React.useState(props.isOpen)
+  const [isOpen, setIsOpen] = React.useState(CookieManager.getPreferencesCookie() === null)
   const focusTrap = React.useRef(false);
 
   function handleAcceptAllCookies(event) {
@@ -58,7 +58,6 @@ export function CookiesModal(props) {
 }
 
 CookiesModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
   preferencesUrl: PropTypes.string.isRequired,
 }
 

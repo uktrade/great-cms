@@ -106,13 +106,6 @@ export default function CountryFinderModal(props) {
       region: button.getAttribute('data-region'),
       suggested: button.getAttribute('data-suggested'),
     }
-    if (!isCompareCountries) {
-      analytics({
-        event: 'addMarketSuccess',
-        suggestMarket: country.suggested ? country.country_name : '',
-        listMarket: country.suggested ? '' : country.country_name,
-      })
-    }
     selectCountry(country)
     closeModal()
   }
@@ -239,6 +232,7 @@ export default function CountryFinderModal(props) {
         If you already have an idea of where you want to export to, choose from
         this list.
       </p>
+      {/* Hidden country search pending redesign as it's not accessible ATM
       <div className="grid">
         <div className="c-1-3 m-b-xxs">
           <SearchInput
@@ -250,6 +244,7 @@ export default function CountryFinderModal(props) {
           />
         </div>
       </div>
+      */}
       <div className="grid">
         <div className="c-full clearfix">
           <button

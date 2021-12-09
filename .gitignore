@@ -147,6 +147,8 @@ core/components/static/stylesheets/govuk-elements-styles-ie8.css
 core/components/static/stylesheets/govuk-elements-styles-ie8.min.css
 core/components/static/stylesheets/maps/
 
-
 # vscode local history
 /.history
+
+# Pre-commit hooks
+.pii-secret-hook/

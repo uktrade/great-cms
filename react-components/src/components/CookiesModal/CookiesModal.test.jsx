@@ -6,14 +6,12 @@ import { shallow } from 'enzyme'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
-import { CookiesModal } from '../src/CookiesModal'
+import { CookiesModal } from './CookiesModal'
 
-jest.mock('../../static/javascript/dit.components.cookie-notice');
-import CookiesManager from '../../static/javascript/dit.components.cookie-notice'
+jest.mock('./dit.components.cookie-notice');
+import CookiesManager from './dit.components.cookie-notice'
 
 Enzyme.configure({ adapter: new Adapter() })
-
-CookiesManager.getPreferencesCookie.mockImplementation(() => null)
 
 const createEvent = () => ({ preventDefault: jest.fn() })
 
@@ -25,6 +23,7 @@ const defaultProps = {
 describe('CookiesModal', () => {
 
   test('handles not being shown', () => {
+    CookiesManager.getPreferencesCookie.mockImplementation(() => true)
     const component = shallow(
       <CookiesModal isOpen={false} {...defaultProps} />
     )
@@ -35,7 +34,7 @@ describe('CookiesModal', () => {
 
   test('handles accept all click', () => {
     // given the credentials are incorrect
-
+    CookiesManager.getPreferencesCookie.mockImplementation(() => null)
     const component = shallow(<CookiesModal isOpen={true} {...defaultProps}  />)
 
     expect(component.find(Modal).prop('isOpen')).toEqual(true)
@@ -50,6 +49,7 @@ describe('CookiesModal', () => {
 
   test('uses the cookies policy page link', () => {
     // given the credentials are incorrect
+    CookiesManager.getPreferencesCookie.mockImplementation(() => null)
     const component = shallow(<CookiesModal isOpen={true} {...defaultProps}  />)
 
     expect(component.containsMatchingElement(

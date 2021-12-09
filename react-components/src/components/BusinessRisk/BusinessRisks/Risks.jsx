@@ -17,39 +17,41 @@ export const Risks = memo(
       <>
         {formData.length !== 0 && (
           <div className="costs bg-blue-deep-10 m-b-s">
-            {formData.map(
-              (
-                {
-                  pk,
-                  risk,
-                  risk_extras,
-                  likelihood_extras,
-                  impact_extras,
-                  contingency_plan,
-                  contingency_plan_extras,
-                  risk_likelihood,
-                  risk_impact,
-                },
-                i
-              ) => (
-                <Risk
-                  index={i + 1}
-                  key={pk}
-                  id={pk}
-                  risk={risk}
-                  risk_extras={risk_extras}
-                  likelihood_extras={likelihood_extras}
-                  impact_extras={impact_extras}
-                  contingency_plan={contingency_plan}
-                  contingency_plan_extras={contingency_plan_extras}
-                  onChange={onChange}
-                  deleteRisk={deleteRisk}
-                  likelihoodOptions={likelihoodOptions}
-                  impactOptions={impactOptions}
-                  selected={{ risk_likelihood, risk_impact }}
-                />
-              )
-            )}
+            {formData
+              .sort((r1, r2) => (r1.pk < r2.pk ? -1 : 1))
+              .map(
+                (
+                  {
+                    pk,
+                    risk,
+                    risk_extras,
+                    likelihood_extras,
+                    impact_extras,
+                    contingency_plan,
+                    contingency_plan_extras,
+                    risk_likelihood,
+                    risk_impact,
+                  },
+                  i
+                ) => (
+                  <Risk
+                    index={i + 1}
+                    key={pk}
+                    id={pk}
+                    risk={risk}
+                    risk_extras={risk_extras}
+                    likelihood_extras={likelihood_extras}
+                    impact_extras={impact_extras}
+                    contingency_plan={contingency_plan}
+                    contingency_plan_extras={contingency_plan_extras}
+                    onChange={onChange}
+                    deleteRisk={deleteRisk}
+                    likelihoodOptions={likelihoodOptions}
+                    impactOptions={impactOptions}
+                    selected={{ risk_likelihood, risk_impact }}
+                  />
+                )
+              )}
           </div>
         )}
         <AddButton type="button" add={addRisk} cta="Add a risk" />

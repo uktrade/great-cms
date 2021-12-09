@@ -48,8 +48,8 @@ def export_plan_data(cost_pricing_data):
         'commodity_code': '220.850',
         'target_markets_research': {},
         'ui_options': {
-            'marketing-approach': {'target_ages': ['25-29', '47-49']},
-            'target-markets-research': {'target_ages': ['35-40']},
+            'marketing-approach': {'target_ages': ['0-14', '60+']},
+            'target-markets-research': {'target_ages': ['20-25']},
         },
         'ui_progress': {
             'about-your-business': {'is_complete': True, 'date_last_visited': '2012-01-14T03:21:34+00:00'},
@@ -61,7 +61,7 @@ def export_plan_data(cost_pricing_data):
         'timezone': 'Asia/Shanghai',
         'about_your_business': {'story': 'new story'},
         'adaptation_target_market': {},
-        'target_market_documents': {'document_name': 'test'},
+        'target_market_documents': [{'document_name': 'test'}],
         'route_to_markets': [{'route': 'DIRECT_SALES', 'promote': 'ONLINE_MARKETING'}],
         'marketing_approach': {'resources': 'xyz'},
         'company_objectives': {},
@@ -335,26 +335,6 @@ def mock_export_plan_sso_create(patch_export_plan_sso_create):
 
 
 @pytest.fixture(autouse=True)
-def mock_api_get_population_data(population_data):
-    patch = mock.patch(
-        'directory_api_client.api_client.dataservices.get_population_data',
-        return_value=create_response(json_body=population_data),
-    )
-    yield patch.start()
-    patch.stop()
-
-
-@pytest.fixture(autouse=False)
-def mock_get_population_data(population_data):
-    patch = mock.patch(
-        'export_plan.core.helpers.get_population_data',
-        return_value=create_response(json_body=population_data),
-    )
-    yield patch.start()
-    patch.stop()
-
-
-@pytest.fixture(autouse=True)
 def mock_api_get_cia_world_factbook_data(cia_factbook_data):
     patch = mock.patch(
         'directory_api_client.api_client.dataservices.get_cia_world_factbook_data',
@@ -382,7 +362,7 @@ def mock_api_get_country_data_by_country(multiple_country_data):
         country = kwargs.get('countries', [])[0]
         fields = kwargs.get('fields', [])
         if (type(fields[0]) == str) and ('[' in fields[0]):
-            fields = json.loads(fields[0])
+            fields = json.loads(fields)
         for field in fields:
             fieldname = field if type(field) == str else field.get('model')
             out[fieldname] = multiple_country_data.get(country, {}).get(fieldname)

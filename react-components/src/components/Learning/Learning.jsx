@@ -89,12 +89,14 @@ Learning.propTypes = {
     content: PropTypes.string,
     title: PropTypes.string,
   }),
-  example: PropTypes.shape({
-    buttonTitle: PropTypes.string,
-    header: PropTypes.string,
-    content: PropTypes.string,
-    bgColour: PropTypes.string,
-  }),
+  example: PropTypes.oneOfType([
+    PropTypes.shape({
+      buttonTitle: PropTypes.string,
+      header: PropTypes.string,
+      content: PropTypes.string,
+    }),
+    PropTypes.string,
+  ]),
   lesson: PropTypes.shape({
     url: PropTypes.string,
     title: PropTypes.string,

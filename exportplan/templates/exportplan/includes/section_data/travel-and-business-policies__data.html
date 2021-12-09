@@ -13,7 +13,7 @@
   magna.travelPlanCultureRules({
     element: document.getElementById('culture-and-rules'),
     field: 'travel_business_policies',
-    formData: {{ travel_business_policies|to_json|safe }},
+    formData: {{ travel_business_policies|to_json }},
     formFields: [
       {
         description: "Find out about any important travel information by using the Foreign and Commonwealth and Development office travel advice.",
@@ -42,7 +42,7 @@
     element: document.getElementById('visa-information'),
     field: 'travel_business_policies',
     name: "visa_information",
-    formData: {{ travel_business_policies.visa_information|to_json|safe }},
+    formData: {{ travel_business_policies.visa_information|to_json }},
     travel_advice_link: "{{ travel_advice_foreign }}",
     formFields: [
       {
@@ -71,7 +71,7 @@
   })
   magna.plannedTravel({
     element: document.getElementById('planned-travel'),
-    formData: {{ business_trips|to_json|safe }},
+    formData: {{ business_trips|to_json }},
     model_name: 'businesstrips',
     companyexportplan: {{ export_plan.pk }},
     tooltip: {

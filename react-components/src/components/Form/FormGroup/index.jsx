@@ -56,11 +56,14 @@ FormGroup.propTypes = {
   label: PropTypes.string.isRequired,
   description: PropTypes.string,
   formGroupClassName: PropTypes.string,
-  example: PropTypes.shape({
-    buttonTitle: PropTypes.string,
-    header: PropTypes.string,
-    content: PropTypes.string,
-  }),
+  example: PropTypes.oneOfType([
+    PropTypes.shape({
+      buttonTitle: PropTypes.string,
+      header: PropTypes.string,
+      content: PropTypes.string,
+    }),
+    PropTypes.string,
+  ]),
   hideLabel: PropTypes.bool,
   lesson: PropTypes.shape({
     url: PropTypes.string,

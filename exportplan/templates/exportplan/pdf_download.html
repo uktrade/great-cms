@@ -3,7 +3,6 @@
 {% load tz %}
 {% load object_tags %}
 {% load content_tags %}
-{% load to_json %}
 <html>
 <head><meta http-equiv=Content-Type content="text/html; charset=UTF-8">
 <style>
@@ -59,10 +58,8 @@
 <table class="layout">
   <tr class="text-align-centre">
     <td class="pad-y-3">
-      {% if not user.company.logo %}
-      <img class="logo logo--cover" src="https://via.placeholder.com/600/FFFFFF/FFFFFF?text=Company%20logo">
-      {% else %}
-      <img class="logo logo--cover" alt="{{ user.company.name }}" src="{{ user.company.logo }}"/>
+      {% if user.company.logo %}
+        <img class="logo logo--cover" alt="{{ user.company.name }}" src="{{ user.company.logo }}"/>
       {% endif %}
     </td>
   </tr>

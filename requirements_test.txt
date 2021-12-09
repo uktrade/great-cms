@@ -10,26 +10,34 @@ airtable-python-wrapper==0.13.0
     # via -r requirements.in
 alabaster==0.7.12
     # via sphinx
-allure-pytest==2.9.44
+allure-pytest==2.9.45
     # via -r requirements_test.in
-allure-python-commons==2.9.44
+allure-python-commons==2.9.45
     # via allure-pytest
 anyascii==0.3.0
     # via wagtail
+appnope==0.1.2
+    # via ipython
 arabic-reshaper==2.1.3
     # via xhtml2pdf
-astroid==2.8.0
+astroid==2.8.6
     # via pylint
+async-generator==1.10
+    # via
+    #   trio
+    #   trio-websocket
 attrs==21.2.0
     # via
     #   allure-python-commons
     #   jsonschema
+    #   outcome
     #   pytest
+    #   trio
 babel==2.9.1
     # via sphinx
 backcall==0.2.0
     # via ipython
-backports.entry-points-selectable==1.1.0
+backports.entry-points-selectable==1.1.1
     # via virtualenv
 beautifulsoup4==4.8.2
     # via
@@ -37,7 +45,7 @@ beautifulsoup4==4.8.2
     #   great-components
     #   readtime
     #   wagtail
-black==21.9b0
+black==21.11b1
     # via
     #   -r requirements_test.in
     #   blacken-docs
@@ -53,34 +61,38 @@ botocore==1.20.112
     #   s3transfer
 brotli==1.0.9
     # via geventhttpclient
-certifi==2021.5.30
+certifi==2021.10.8
     # via
     #   elastic-apm
     #   elasticsearch
     #   geventhttpclient
     #   requests
     #   sentry-sdk
-cffi==1.14.6
+    #   urllib3
+cffi==1.15.0
     # via cryptography
 cfgv==3.3.1
     # via pre-commit
-charset-normalizer==2.0.6
+charset-normalizer==2.0.7
     # via requests
-click==8.0.1
+click==8.0.3
     # via
     #   black
     #   flask
     #   pip-tools
 codecov==2.1.12
     # via -r requirements_test.in
-configargparse==1.5.2
+configargparse==1.5.3
     # via locust
-coverage==5.5
+coverage[toml]==6.1.2
     # via
     #   codecov
     #   pytest-cov
 cryptography==3.3.2
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   pyopenssl
+    #   urllib3
 cssselect==1.1.0
     # via pyquery
 dateparser==0.7.2
@@ -91,7 +103,9 @@ decorator==5.1.0
     # via
     #   ipdb
     #   ipython
-directory-api-client==23.1.5
+deprecated==1.2.13
+    # via redis
+directory-api-client==24.1.0
     # via -r requirements.in
 directory-ch-client==2.1.0
     # via -r requirements.in
@@ -157,7 +171,7 @@ django-health-check==3.8.0
     # via directory-healthcheck
 django-ipware==2.1.0
     # via -r requirements.in
-django-modelcluster==5.1
+django-modelcluster==5.2
     # via wagtail
 django-recaptcha==2.0.6
     # via -r requirements.in
@@ -196,9 +210,9 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==8.14.0
+faker==9.8.2
     # via factory-boy
-filelock==3.2.0
+filelock==3.4.0
     # via virtualenv
 flake8==3.9.2
     # via
@@ -217,11 +231,11 @@ flake8-polyfill==1.0.2
     # via pep8-naming
 flake8-print==4.0.0
     # via -r requirements_test.in
-flake8-quotes==3.3.0
+flake8-quotes==3.3.1
     # via -r requirements_test.in
 flake8-string-format==0.3.0
     # via -r requirements_test.in
-flask==2.0.1
+flask==2.0.2
     # via
     #   flask-basicauth
     #   flask-cors
@@ -240,7 +254,7 @@ gevent==21.8.0
     # via
     #   geventhttpclient
     #   locust
-geventhttpclient==1.5.2
+geventhttpclient==1.5.3
     # via locust
 great-components==1.2.3
     # via -r requirements.in
@@ -248,23 +262,28 @@ greenlet==1.1.2
     # via gevent
 gunicorn==19.5.0
     # via -r requirements.in
+h11==0.12.0
+    # via wsproto
 hashids==0.8.4
     # via -r requirements.in
 html5lib==1.1
     # via
     #   wagtail
     #   xhtml2pdf
-identify==2.2.15
+identify==2.4.0
     # via pre-commit
-idna==3.2
-    # via requests
-imagesize==1.2.0
+idna==3.3
+    # via
+    #   requests
+    #   trio
+    #   urllib3
+imagesize==1.3.0
     # via sphinx
 iniconfig==1.1.1
     # via pytest
 ipdb==0.13.9
     # via -r requirements_test.in
-ipython==7.28.0
+ipython==7.29.0
     # via ipdb
 iso3166==1.0.1
     # via -r requirements.in
@@ -274,9 +293,9 @@ isort==5.6.4
     #   pylint
 itsdangerous==2.0.1
     # via flask
-jedi==0.18.0
+jedi==0.18.1
     # via ipython
-jinja2==3.0.1
+jinja2==3.0.3
     # via
     #   flask
     #   sphinx
@@ -286,13 +305,13 @@ jmespath==0.10.0
     #   botocore
 jsonschema==3.2.0
     # via great-components
-l18n==2020.6.1
+l18n==2021.3
     # via wagtail
 lazy-object-proxy==1.6.0
     # via astroid
-locust==2.2.3
+locust==2.5.0
     # via -r requirements_test.in
-lxml==4.6.3
+lxml==4.6.4
     # via
     #   -r requirements.in
     #   pyquery
@@ -328,7 +347,9 @@ olefile==0.46
     # via directory-validators
 openpyxl==3.0.9
     # via tablib
-packaging==21.0
+outcome==1.1.0
+    # via trio
+packaging==21.3
     # via
     #   pytest
     #   pytest-sugar
@@ -337,7 +358,7 @@ parso==0.8.2
     # via jedi
 pathspec==0.9.0
     # via black
-pep517==0.11.0
+pep517==0.12.0
     # via pip-tools
 pep8-naming==0.12.1
     # via -r requirements_test.in
@@ -345,7 +366,7 @@ pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
     # via ipython
-pillow==8.3.2
+pillow==8.4.0
     # via
     #   -r requirements.in
     #   -r requirements_test.in
@@ -353,7 +374,7 @@ pillow==8.3.2
     #   reportlab
     #   wagtail
     #   xhtml2pdf
-pip-tools==6.3.0
+pip-tools==6.4.0
     # via -r requirements_test.in
 pisa==3.0.33
     # via -r requirements.in
@@ -370,7 +391,7 @@ pre-commit==2.15.0
     # via -r requirements_test.in
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
-prompt-toolkit==3.0.20
+prompt-toolkit==3.0.22
     # via ipython
 psutil==5.8.0
     # via locust
@@ -378,14 +399,14 @@ psycopg2==2.8.6
     # via -r requirements.in
 ptyprocess==0.7.0
     # via pexpect
-py==1.10.0
+py==1.11.0
     # via pytest
 pycodestyle==2.7.0
     # via
     #   flake8
     #   flake8-debugger
     #   flake8-print
-pycparser==2.20
+pycparser==2.21
     # via cffi
 pyflakes==2.3.1
     # via flake8
@@ -401,7 +422,9 @@ pylint-django==2.4.4
     # via -r requirements_test.in
 pylint-plugin-utils==0.6
     # via pylint-django
-pyparsing==2.4.7
+pyopenssl==21.0.0
+    # via urllib3
+pyparsing==3.0.6
     # via packaging
 pypdf2==1.26.0
     # via xhtml2pdf
@@ -416,7 +439,7 @@ pytest==6.2.5
     #   pytest-cov
     #   pytest-django
     #   pytest-sugar
-pytest-cov==2.12.1
+pytest-cov==3.0.0
     # via -r requirements_test.in
 pytest-django==4.4.0
     # via -r requirements_test.in
@@ -439,19 +462,21 @@ pytz==2020.1
     #   django
     #   django-modelcluster
     #   l18n
-pyyaml==5.4.1
+pytz-deprecation-shim==0.1.0.post0
+    # via tzlocal
+pyyaml==6.0
     # via pre-commit
 pyzmq==22.3.0
     # via locust
 readtime==1.1.1
     # via -r requirements.in
-redis==3.5.3
+redis==4.0.2
     # via django-redis
-regex==2021.9.30
+regex==2021.11.10
     # via
     #   black
     #   dateparser
-reportlab==3.6.1
+reportlab==3.6.2
     # via xhtml2pdf
 requests==2.26.0
     # via
@@ -472,13 +497,13 @@ requests-oauthlib==1.3.0
     # via django-staff-sso-client
 roundrobin==0.0.2
     # via locust
-ruamel.yaml==0.17.16
+ruamel.yaml==0.17.17
     # via pre-commit-hooks
 ruamel.yaml.clib==0.2.6
     # via ruamel.yaml
 s3transfer==0.4.2
     # via boto3
-selenium==3.141.0
+selenium==4.0.0
     # via -r requirements_test.in
 sentry-sdk==0.13.5
     # via -r requirements.in
@@ -502,6 +527,7 @@ six==1.16.0
     #   jsonschema
     #   l18n
     #   mohawk
+    #   pyopenssl
     #   python-bidi
     #   python-dateutil
     #   requests-mock
@@ -509,11 +535,15 @@ six==1.16.0
     #   virtualenv
     #   w3lib
     #   xhtml2pdf
-snowballstemmer==2.1.0
+sniffio==1.2.0
+    # via trio
+snowballstemmer==2.2.0
     # via sphinx
-soupsieve==2.2.1
+sortedcontainers==2.4.0
+    # via trio
+soupsieve==2.3.1
     # via beautifulsoup4
-sphinx==1.8.5
+sphinx==1.8.6
     # via -r requirements.in
 sphinxcontrib-serializinghtml==1.1.5
     # via sphinxcontrib-websupport
@@ -523,7 +553,7 @@ sqlparse==0.4.2
     # via
     #   django
     #   django-debug-toolbar
-tablib[xls,xlsx]==3.0.0
+tablib[xls,xlsx]==3.1.0
     # via wagtail
 termcolor==1.1.0
     # via pytest-sugar
@@ -536,27 +566,36 @@ toml==0.10.2
     #   pre-commit-hooks
     #   pylint
     #   pytest
-    #   pytest-cov
-tomli==1.2.1
+tomli==1.2.2
     # via
     #   black
+    #   coverage
     #   pep517
-traitlets==5.1.0
+traitlets==5.1.1
     # via
     #   ipython
     #   matplotlib-inline
-typing-extensions==3.10.0.2
+trio==0.19.0
+    # via
+    #   selenium
+    #   trio-websocket
+trio-websocket==0.9.2
+    # via selenium
+typing-extensions==4.0.0
     # via
     #   astroid
     #   black
+    #   locust
     #   pylint
-tzlocal==3.0
+tzdata==2021.5
+    # via pytz-deprecation-shim
+tzlocal==4.1
     # via dateparser
 uk-postcode-utils==1.1
     # via -r requirements.in
 unidecode==1.3.2
     # via wagtail
-urllib3==1.26.7
+urllib3[secure]==1.26.7
     # via
     #   -r requirements.in
     #   botocore
@@ -566,7 +605,7 @@ urllib3==1.26.7
     #   requests
     #   selenium
     #   sentry-sdk
-virtualenv==20.8.1
+virtualenv==20.10.0
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
@@ -575,11 +614,14 @@ wagtail==2.11.8
     #   -r requirements.in
     #   wagtail-cache
     #   wagtail-factories
+    #   wagtail-seo
     #   wagtailfontawesome
     #   wagtailmedia
 wagtail-cache==1.0.2
     # via -r requirements.in
 wagtail-factories==2.0.1
+    # via -r requirements.in
+wagtail-seo==1.0.0
     # via -r requirements.in
 wagtail-transfer==0.7.1
     # via -r requirements.in
@@ -591,7 +633,7 @@ wcwidth==0.2.5
     # via prompt-toolkit
 webencodings==0.5.1
     # via html5lib
-werkzeug==2.0.1
+werkzeug==2.0.2
     # via
     #   -r requirements_test.in
     #   flask
@@ -602,8 +644,12 @@ whitenoise==4.1.4
     # via -r requirements.in
 willow==1.4
     # via wagtail
-wrapt==1.12.1
-    # via astroid
+wrapt==1.13.3
+    # via
+    #   astroid
+    #   deprecated
+wsproto==1.0.0
+    # via trio-websocket
 xhtml2pdf==0.2.5
     # via -r requirements.in
 xlrd==2.0.1

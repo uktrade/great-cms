@@ -1,21 +1,38 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
 import { getEpProduct, getEpMarket } from '@src/reducers'
 import Services from '@src/Services'
 import { config } from '@src/config'
-import { get } from '@src/Helpers'
 import { Confirmation } from '@src/components/ConfirmModal/Confirmation'
+import { analytics, camelizeObject } from '@src/Helpers'
 
-export default function DeleteButton() {
+export default function ActionBar({exportPlanProgress}) {
+
+  const { sectionProgress, sectionsCompleted } = camelizeObject(exportPlanProgress)
   const [deleteConfirm, setDeleteConfirm] = useState()
   const product = useSelector((state) => getEpProduct(state))
   const country = useSelector((state) => getEpMarket(state))
   const exportPlan = useSelector((state) => {
     return state.exportPlan || {}
   })
+  const analyticsEvent = (eventType) => {
+    analytics({
+      event: eventType,
+      exportPlanMarketSelected: country.country_name,
+      exportPlanProductSelected: product.commodity_name,
+      exportPlanProductHSCode: product.commodity_code,
+      exportPlanSectionsComplete: sectionsCompleted,
+      exportPlanFieldsFilled: (sectionProgress || []).reduce(
+        (a, section) => a + section.populated,
+        0
+      ),
+    })
+  }
 
   const deletePlan = () => {
+    analyticsEvent('deleteExportPlan')
     Services.deleteExportPlan()
       .then(() => {
         window.location.assign(config.exportPlanBaseUrl)
@@ -25,8 +42,23 @@ export default function DeleteButton() {
       })
   }
 
+  const downloadPlan = () => {
+    analyticsEvent('downloadExportPlan')
+    window.location.assign(config.exportPlanDownloadUrl)
+  }
+
   return (
     <>
+      <button
+        className="button button--secondary button--small button--full-width button--icon m-b-xs export-plan-download"
+        title="Download your export plan"
+        type="button"
+        onClick={downloadPlan}
+      >
+        <i className="fas fa-download" />
+        Download plan
+      </button>
+
       <button
         className="button button--primary button--small button--full-width button--icon m-b-xs export-plan-delete"
         title="Delete your export plan"
@@ -48,4 +80,16 @@ export default function DeleteButton() {
       ) : null}
     </>
   )
+}
+
+ActionBar.propTypes = {
+  exportPlanProgress: PropTypes.shape({
+    section_progress: PropTypes.arrayOf(
+      PropTypes.shape({
+        populated: PropTypes.number,
+        total: PropTypes.number,
+      })
+    ),
+    sections_completed: PropTypes.number,
+  }).isRequired,
 }

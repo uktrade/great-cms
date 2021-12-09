@@ -1,6 +1,6 @@
 import Services from '@src/Services'
 import actions from '@src/actions'
-import { isObject, isArray, deepEqual } from '@src/Helpers'
+import { isObject, isArray, deepEqual, analytics } from '@src/Helpers'
 import { useSelector } from 'react-redux'
 
 const loading = {} // flag when data are being retrieved
@@ -10,15 +10,51 @@ const loading = {} // flag when data are being retrieved
 // autoload: can be set false to stop the blob from loading automatically. In that case, call the load method to initiate loading
 // duplicateComparator: If a list, check for duplicates by calling this fn(a,b). Default is full deep comparison.
 
-export const useUserData = (
+const useUserData = (
   blobName,
   defaultValue = [],
   autoload = true,
+  context = 'Unknown context',
   duplicateComparator = deepEqual
 ) => {
   const blobValue = useSelector(
     (state) => state.userSettings && state.userSettings[blobName]
   )
+
+  const analyticsEvent = (item, addOrRemove, list) => {
+    const eventConfig = {
+      UserProducts: {
+        name: 'Product',
+        field: 'commodity_name',
+        extra: { field: 'commodity_code', fieldName: 'Code' },
+      },
+      UserMarkets: { name: 'Market', field: 'country_name' },
+    }[blobName]
+    const pipeList = (fieldName) =>
+      list.map((loopItem) => loopItem[fieldName]).join('|')
+    if (eventConfig) {
+      let event = {
+        event: `${eventConfig.name.toLowerCase()}BasketEngagement`,
+        [`basket${eventConfig.name}`]: item[eventConfig.field],
+        [`basket${eventConfig.name}s`]: pipeList(eventConfig.field),
+        [`addOrRemove${eventConfig.name}`]: addOrRemove,
+        [`basket${eventConfig.name}Count`]: list.length,
+        siteSection: context,
+      }
+      if (eventConfig.extra) {
+        event = {
+          ...event,
+          [`basket${eventConfig.name}${eventConfig.extra.fieldName}s`]: pipeList(
+            eventConfig.extra.field
+          ),
+          [`basket${eventConfig.name}${eventConfig.extra.fieldName}`]: item[
+            eventConfig.extra.field
+          ],
+        }
+      }
+      analytics(event)
+    }
+  }
 
   const saveBlob = (value) =>
     Services.store.dispatch(actions.setUserData(blobName, value))
@@ -44,7 +80,9 @@ export const useUserData = (
         return out || duplicateComparator(cItem, item)
       }, false)
       if (!duplicate) {
-        saveBlob([...blobValue, item])
+        const newList = [...blobValue, item]
+        saveBlob(newList)
+        analyticsEvent(item, 'add', newList)
       }
     }
   }
@@ -55,10 +93,11 @@ export const useUserData = (
       const index = blobValue.findIndex((cItem) =>
         duplicateComparator(cItem, item)
       )
-      if(index >= 0) {
+      if (index >= 0) {
         const reduced = [...blobValue]
         reduced.splice(index, 1)
         saveBlob(reduced)
+        analyticsEvent(item, 'remove', reduced)
       }
     }
   }
@@ -67,7 +106,7 @@ export const useUserData = (
     blobValue || defaultValue,
     saveBlob,
     loadBlob,
-    blobValue || (loading[blobName] === 'loaded'),
+    blobValue || loading[blobName] === 'loaded',
     addToList,
     removeFromList,
   ]
@@ -78,17 +117,46 @@ export const useActiveProduct = (autoload) =>
 export const useComparisonMarkets = (autoload) =>
   useUserData('ComparisonMarkets', {}, autoload)
 
-export const useUserProducts = (autoload) => {
-  const [value, set, load, loaded] = useUserData('UserProducts', [], autoload)
-  return {products:value, setProducts:set, loadProducts:load, productsLoaded:loaded }
+export const useUserProducts = (autoload, context) => {
+  const [
+    products,
+    setProducts,
+    loadProducts,
+    productsLoaded,
+    addProduct,
+    removeProduct,
+  ] = useUserData('UserProducts', [], autoload, context)
+  return {
+    products,
+    setProducts,
+    loadProducts,
+    productsLoaded,
+    addProduct,
+    removeProduct,
+  }
 }
 
-export const useUserMarkets = (autoload) => {
-  const [markets, setMarkets, loadMarkets, marketsLoaded, addMarketItem, removeMarketItem] = useUserData(
+export const useUserMarkets = (autoload, context) => {
+  const [
+    markets,
+    setMarkets,
+    loadMarkets,
+    marketsLoaded,
+    addMarketItem,
+    removeMarketItem,
+  ] = useUserData(
     'UserMarkets',
     [],
     autoload,
+    context,
     (a, b) => a.country_iso2_code === b.country_iso2_code
   )
-  return { markets, setMarkets, loadMarkets, marketsLoaded, addMarketItem, removeMarketItem }
+  return {
+    markets,
+    setMarkets,
+    loadMarkets,
+    marketsLoaded,
+    addMarketItem,
+    removeMarketItem,
+  }
 }

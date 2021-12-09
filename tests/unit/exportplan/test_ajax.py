@@ -313,7 +313,7 @@ def test_update_calculate_cost_and_pricing(mock_update_exportplan, cost_pricing_
 @mock.patch.object(helpers, 'update_exportplan')
 def test_update_export_plan_ui_option_api_view(mock_update_exportplan, client, user):
     client.force_login(user)
-    mock_update_exportplan.return_value = {'target_market_documents': {'document_name': 'test'}}
+    mock_update_exportplan.return_value = {'target_market_documents': [{'document_name': 'test'}]}
 
     url = reverse('exportplan:api-update-export-plan', kwargs={'id': 1})
 

@@ -3,6 +3,7 @@ import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
 
 import Services from '@src/Services'
 import * as redux from 'react-redux'
+import ReactModal from 'react-modal'
 import { RouteToMarket } from '.'
 
 jest
@@ -114,6 +115,7 @@ const setup = ({
       model_name={model_name}
     />
   )
+  ReactModal.setAppElement(component.baseElement)
 
   return {
     ...component,
@@ -175,14 +177,14 @@ describe('RouteToMarket', () => {
           promote: '',
           market_promotional_channel: '',
           companyexportplan: 3,
-          pk: 47,
+          pk: 45,
         },
         {
           route: 'MARKETING_AT_EVENTS',
           promote: 'INTERNATIONAL_E_COMMERCE',
           market_promotional_channel: 'ddddddddd',
           companyexportplan: 3,
-          pk: 45,
+          pk: 47,
         },
       ],
     })
@@ -193,7 +195,7 @@ describe('RouteToMarket', () => {
       expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
       expect(Services.apiModelObjectManage).toHaveBeenCalledWith(
         {
-          pk: 47,
+          pk: 45,
           model_name: 'routeToMarket',
         },
         'DELETE'
@@ -212,13 +214,12 @@ describe('RouteToMarket', () => {
 
     await waitFor(() => {
       expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
-      expect(Services.apiModelObjectManage).toHaveBeenCalledWith(
-        {
-          route: 'INTERNATIONAL_E_COMMERCE',
-          promote: 'ONLINE_MARKETING',
+      expect(Services.apiModelObjectManage).toHaveBeenCalledWith({
+          route: 'MARKETING_AT_EVENTS',
+          promote: 'INTERNATIONAL_E_COMMERCE',
           market_promotional_channel: 'new route',
           companyexportplan: 3,
-          pk: 47,
+          pk: 45,
           model_name: 'routeToMarket',
         },
         'PATCH'

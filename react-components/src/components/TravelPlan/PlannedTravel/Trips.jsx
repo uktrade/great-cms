@@ -12,16 +12,18 @@ export const Trips = memo(({ formData, onChange, deleteTrip, addTrip }) => {
     <>
       {formData.length !== 0 && (
         <div className="costs bg-blue-deep-10 m-b-s">
-          {formData.map(({ pk, note }, i) => (
-            <Trip
-              index={i + 1}
-              key={pk}
-              id={pk}
-              note={note}
-              onChange={onChange}
-              deleteTrip={deleteTrip}
-            />
-          ))}
+          {formData
+            .sort((t1, t2) => (t1.pk < t2.pk ? -1 : 1))
+            .map(({ pk, note }, i) => (
+              <Trip
+                index={i + 1}
+                key={pk}
+                id={pk}
+                note={note}
+                onChange={onChange}
+                deleteTrip={deleteTrip}
+              />
+            ))}
         </div>
       )}
       <AddButton add={addTrip} cta="Add a trip" isDisabled={isDisabled} />
