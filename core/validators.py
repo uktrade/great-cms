@@ -15,8 +15,8 @@ def validate_file_infection(file):
     if not settings.CLAM_AV_ENABLED:
         return
 
-    response = clam_av_client.scan_file(file.read()).json()
-    is_file_clean = response['malware']
+    response = clam_av_client.scan_chunked(file).json()
+    is_file_infected = response['malware']
 
-    if not is_file_clean:
+    if is_file_infected:
         raise ValidationError('Rejected: uploaded file did not pass security scan')
