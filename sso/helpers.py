@@ -125,6 +125,7 @@ def check_verification_code(uidb64, token, code):
 
 
 def create_user(email, password, **kwargs):
+    print("PHONE", kwargs.get('mobile_phone_number'))
     response = sso_api_client.user.create_user(
         email=email, password=password, mobile_phone_number=kwargs.get('mobile_phone_number')
     )
