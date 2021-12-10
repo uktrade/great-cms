@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { links } from '@src/constants'
 import { analytics } from '@src/Helpers'
 
 import ClassificationTree from '@src/components/ProductFinder/ClassificationTree'
@@ -41,6 +42,9 @@ export default function CommodityCodeDetails({ product }) {
               export markets and classification at the sub-heading level to show
               you other relevant content about your product.
             </p>
+            <a className="body-m" href={links['using-commodity-codes']}>
+              For more information see our lesson on product classification
+            </a>
           </div>
         )) || <></>}
       </div>
