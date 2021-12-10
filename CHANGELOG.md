@@ -10,6 +10,10 @@
 - GP2-3844 - [HOTFIX] savingcms pages
 
 ### Bugs fixed
+- GP2-3886 - SECURITY: great-cms (sso-profile) frontend asset vulnerabilty: glob-parent
+- GP2-3887 - SECURITY: great-cms (sso-profile) frontend asset vulnerabilty: tar
+- GP2-3888 - SECURITY: great-cms (sso-profile) frontend asset vulnerabilty: trim-newlines
+- GP2-3889 - SECURITY: great-cms (sso-profile) frontend asset vulnerabilty: json-schema
 - GP2-3858 - Fix export plan payment terms
 - GP2-3824 - Export plan - sort all EP lists
 - GP2-3818 - WTE mobile layout without flex for safari

@@ -10,8 +10,8 @@
     "author": "DIT",
     "license": "ISC",
     "devDependencies": {
-        "gulp": "^4.0.0",
-        "gulp-sass": "^4.0.2",
-        "gulp-sourcemaps": "^2.6.5"
+        "gulp": "^4.0.2",
+        "gulp-sass": "^5.0.0",
+        "gulp-sourcemaps": "^3.0.0"
     }
 }
