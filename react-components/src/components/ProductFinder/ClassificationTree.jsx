@@ -11,6 +11,12 @@ const trimAndCapitalize = (str) => {
   )
 }
 
+const typeMapping = {
+  CHAPTER: 'Chapter',
+  HEADING: 'Heading',
+  ITEM: 'Sub-heading',
+}
+
 function TreeBranch(props) {
   const { level, hsCode } = props
   if (!level) {
@@ -18,31 +24,27 @@ function TreeBranch(props) {
   }
   if (!level.type || level.type === 'SECTION')
     return <TreeBranch level={level.children[0]} hsCode={hsCode} />
-  const arrow = level.type !== 'CHAPTER' && (
-    <i className="fa fa-level-up-alt classification-tree__arrow" />
-  )
+  const leaf = (level.code || '').substring(0, hsCode.length) === hsCode
   return (
-    <div className="classification-tree__item">
-      {arrow}
-
-      {(level.code || '').substring(0, hsCode.length) !== hsCode ? (
-        <>
-          <div>{trimAndCapitalize(level.desc)}</div>
-          <ul className="m-v-xs">
-            {(level.children || []).map((child) => (
-              <li key={level.code}>
-                <TreeBranch level={child} hsCode={hsCode} />
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : (
-        <>
-          <div className="body-l-b">{trimAndCapitalize(level.desc)}</div>
-          <div className="body-m">HS6 Code: {hsCode}</div>
-        </>
-      )}
-    </div>
+    <>
+      <div
+        className={`grid m-b-xxs m-f-xxs br-xs body-l ${
+          leaf ? 'bg-white' : ''
+        }`}
+      >
+        <div className="c-1-3 type-heading">{typeMapping[level.type]}</div>
+        <div className="c-2-3 level-decription">
+          {trimAndCapitalize(level.desc)}
+        </div>
+      </div>
+      {((!leaf && level.children) || []).map((child) => (
+        <TreeBranch
+          level={child}
+          hsCode={hsCode}
+          key={level.code}
+        />
+      ))}
+    </>
   )
 }
 
@@ -66,7 +68,7 @@ export default function ClassificationTree({ hsCode }) {
   return (
     <>
       {(schedule && schedule.children && schedule.children.length && (
-        <div className="classification-tree g-panel m-v-xs">
+        <div className="g-panel m-v-xs classification-tree">
           <TreeBranch level={schedule} hsCode={hsCode} />
         </div>
       )) ||

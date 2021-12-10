@@ -21,7 +21,7 @@ describe('Commodity code details', () => {
   it('Should open details', async () => {
     const mockGetDetails = fetchMock.get(/\/api\/lookup-product-schedule\//, {})
     const { getByText, baseElement } = setup()
-    const span = getByText('HS6 code: 123456')
+    const span = getByText('noname')
     const button = span.closest('div').querySelector('button')
     expect(button).toBeTruthy()
     fireEvent.click(button)
