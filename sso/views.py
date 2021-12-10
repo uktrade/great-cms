@@ -101,7 +101,6 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
         return self.request.build_absolute_uri(reverse('core:signup')) + verification_params + next_param
 
     def post(self, request):
-
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user_details = helpers.create_user(
@@ -112,13 +111,13 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
         uidb64 = user_details['uidb64']
         token = user_details['verification_token']
 
-        # helpers.send_verification_code_email(
-        #     email=serializer.validated_data['email'],
-        #     verification_code=user_details['verification_code'],
-        #     form_url=self.request.path,
-        #     verification_link=self.get_verification_link(uidb64, token),
-        #     resend_verification_link=self.get_resend_verification_link(),
-        # )
+        helpers.send_verification_code_email(
+            email=serializer.validated_data['email'],
+            verification_code=user_details['verification_code'],
+            form_url=self.request.path,
+            verification_link=self.get_verification_link(uidb64, token),
+            resend_verification_link=self.get_resend_verification_link(),
+        )
         return Response({'uidb64': uidb64, 'token': token})
 
 

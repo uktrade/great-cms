@@ -25,6 +25,7 @@ export function Container(props) {
   const [uidb64, setUidb64] = useState(props.uidb64)
   const [token, setToken] = useState(props.token)
   const [code, setCode] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
 
   function handleError(error) {
     setErrors(error.message || error)
@@ -40,7 +41,7 @@ export function Container(props) {
   function handleStepCredentialsSubmit() {
     setErrors({})
     setIsInProgress(true)
-    Services.createUser({ email, password, next })
+    Services.createUser({ email, password, phoneNumber, next })
       .then((response) => response.json())
       .then((data) => {
         setUidb64(data.uidb64)
@@ -84,6 +85,8 @@ export function Container(props) {
       handleStepCodeSubmit={handleStepCodeSubmit}
       linkedinLoginUrl={linkedinLoginUrl}
       googleLoginUrl={googleLoginUrl}
+      phoneNumber={phoneNumber}
+      setPhoneNumber={setPhoneNumber}
     />
   )
 }

@@ -216,10 +216,11 @@ export default {
     ).then((response) => responseHandler(response).json())
   },
 
-  createUser: ({ email, password, next }) => {
+  createUser: ({ email, password, phoneNumber, next }) => {
+    const mobile_phone_number = phoneNumber
     return post(
       config.apiSignupUrl,
-      { email, password, next }
+      { email, password, mobile_phone_number, next }
     ).then((response) => responseHandler(response))
   },
 
