@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { links } from '@src/constants'
 import { analytics } from '@src/Helpers'
 
 import ClassificationTree from '@src/components/ProductFinder/ClassificationTree'
@@ -27,12 +28,23 @@ export default function CommodityCodeDetails({ product }) {
             />
             <span className="visually-hidden">See details</span>
           </button>
-          <span className="m-l-xxs">HS6 code: {product.commodity_code}</span>
+          <span className="m-l-xxs">{product.commodity_name}</span>
         </div>
 
         {(isOpen !== null && (
           <div className={`p-xs w-full ${!isOpen ? 'hidden' : ''}`}>
+            <p className="m-v-0">
+              Here is the export classification for {product.commodity_name}.
+            </p>
             <ClassificationTree hsCode={product.commodity_code} />
+            <p className="m-v-0 body-m">
+              We use classification at the chapter level to suggest possible
+              export markets and classification at the sub-heading level to show
+              you other relevant content about your product.
+            </p>
+            <a className="body-m" href={links['using-commodity-codes']}>
+              For more information see our lesson on product classification
+            </a>
           </div>
         )) || <></>}
       </div>

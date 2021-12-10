@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import Slider from 'react-slick'
+import { links } from '@src/constants'
 import Services from '@src/Services'
 import {
   useUserProducts,
@@ -14,8 +15,9 @@ import ValueInteraction from './ValueInteraction'
 import SearchInput from './SearchInput'
 import StartEndPage from './StartEndPage'
 
+
 export default function ProductFinderModal(props) {
-  const { modalIsOpen, setIsOpen, onCloseRedirect, onAddProduct } = props
+  const { modalIsOpen, setIsOpen, onAddProduct } = props
 
   let scrollOuter
   const [searchResults, setSearchResults] = useState()
@@ -23,7 +25,7 @@ export default function ProductFinderModal(props) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [showingInteraction, setShowingInteraction] = useState()
-  const { products, loadProducts, addProduct } = useUserProducts(false, 'Product finder')
+  const { loadProducts, addProduct } = useUserProducts(false, 'Product finder')
   const [activeProduct, setActiveProduct] = useActiveProduct(false)
 
   useEffect(() => {
@@ -247,7 +249,17 @@ export default function ProductFinderModal(props) {
   const sectionFound = (_searchResults) => {
     return (
       <section className="m-h-s m-b-s">
-        <div className="h-m p-b-s">Match found</div>
+        <div className="h-m p-b-0">Match found</div>
+        <div className="body-l" >
+          <p className="m-v-xxs">
+          You can rename your product to make it more suitable for you business
+          but be aware that this will not change the product classification.
+          </p>
+          <p className="m-t-xs">
+          For example, if you&apos;re exporting fresh apples and rename this to British Russet apples,
+          we still show you content based on the original classification of fresh apples.
+          </p>
+        </div>
         <StartEndPage
           commodityCode={_searchResults.hsCode}
           defaultCommodityName={capitalize(_searchResults.currentItemName)}
@@ -327,48 +339,13 @@ export default function ProductFinderModal(props) {
   const infoCards = [
     {
       className: 'box box--no-pointer m-t-s',
-      content: (
-        <p>
-          When you search for a product you may have to answer a few questions
-          before you find a match.
+      content: (<>
+        <p className="m-v-0">
+          All products are classified for export using an internationally recognised system.
+          The classification is structured similar to a book, with chapters, headings and sub-headings.
+          We use this classification to show you relevant content about your product.
         </p>
-      ),
-    },
-    {
-      className: 'box box--no-pointer m-t-s',
-      content: (
-        <>
-          <p className="m-t-0 m-b-xs">
-            This is because we use HS (
-            <span className="body-l-b">harmonised system</span>) codes to
-            classify goods.
-          </p>
-          <p className="m-v-0">
-            Think of it like the folder structure on a computer.
-          </p>
-        </>
-      ),
-    },
-    {
-      className: 'box box--no-pointer m-t-s inline-block',
-      content: (
-        <>
-          <div className="c-1-2 p-h-0">
-            <p className="m-t-0 m-b-xs">
-              You might see your product as &quot;delicious green apples from
-              the valley&quot;.
-            </p>
-            <p className="m-v-0">
-              But the system sees &quot;fruits; apples; fresh&quot;.
-            </p>
-          </div>
-          <div className="c-1-2">
-            <img
-              className="w-full"
-              src="/static/images/apples-oranges-with-hs6.svg "
-              alt=""
-            />
-          </div>
+        <a className="link link--underline" href={links['using-commodity-codes']}>For more information see our lesson on product classification</a>
         </>
       ),
     },
@@ -376,12 +353,25 @@ export default function ProductFinderModal(props) {
       className: 'box box--no-pointer m-t-s',
       content: (
         <>
-          <p className="m-t-0 m-b-xs">
-            You don&apos;t have to find a perfect match.
-          </p>
-          <p className="m-v-0">
-            Find a close match, then feel free to relabel it.
-          </p>
+          <h2 className="body-l-b m-b-xs" >Example</h2>
+          <div className='g-panel'>
+            <div className="grid m-b-xxs">
+              <div className="c-1-3 body-l-b">Chapter</div>
+              <div className="c-2-3 body-l">Edible fruit and nuts, peel of citrus fruit or melons</div>
+            </div>
+            <div className="grid m-b-xxs">
+              <div className="c-1-3 body-l-b">Heading</div>
+              <div className="c-2-3 body-l">Apples pears and quinces, fresh</div>
+            </div>
+            <div className="grid m-b-xxs">
+              <div className="c-1-3 body-l-b">Sub-heading</div>
+              <div className="c-2-3 body-l">Apples</div>
+            </div>
+            <div className="grid m-b-xxs">
+              <div className="c-1-3 body-l-b">Sub-heading</div>
+              <div className="c-2-3 body-l">Pears</div>
+            </div>
+          </div>
         </>
       ),
     },
@@ -394,7 +384,6 @@ export default function ProductFinderModal(props) {
       </div>
     ))
   }
-
   const searchBox = (error) => {
     return (
       <div className="p-h-s p-t-l">
@@ -560,10 +549,8 @@ export default function ProductFinderModal(props) {
 ProductFinderModal.propTypes = {
   modalIsOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
-  onCloseRedirect: PropTypes.string,
   onAddProduct: PropTypes.func,
 }
 ProductFinderModal.defaultProps = {
-  onCloseRedirect: '',
   onAddProduct: () => 0,
 }

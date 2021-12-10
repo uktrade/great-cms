@@ -8,9 +8,7 @@
     {{ plan.name|default:'Export plan' }}
   </h2>
   <p class="m-b-0 body-m">Created on {{ plan.created|str_to_datetime|date:"d F Y" }}</p>
-  {% if plan.processor.has_product_and_market %}
-    <p class="m-b-0 m-t-xs body-m">HS6 code:{{plan.export_commodity_codes.0.commodity_code}}</p>
-  {% else %}
+  {% if not plan.processor.has_product_and_market %}
   <div class="g-panel m-v-xs">
     <p class="p-v-xs">Your export plan is missing some information. Click on the plan to confirm your product and market before you continue.</p>
   </div>
