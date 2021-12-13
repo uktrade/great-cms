@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import { connect, Provider } from 'react-redux'
+import { analytics } from '@src/Helpers'
 
 import {
   Signup,
@@ -44,6 +45,11 @@ export function Container(props) {
       .then((data) => {
         setUidb64(data.uidb64)
         setToken(data.token)
+        analytics({
+          event: 'signUp',
+          referrerUrl: document.referrer,
+          nextUrl: decodeURIComponent(next),
+        })
       })
       .then(() => handleSuccess(STEP_VERIFICATION_CODE))
       .catch(handleError)
