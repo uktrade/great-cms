@@ -31,6 +31,7 @@
 - GP2-2953 - DAC_Contrast_Minimum_02 (AA)
 
 ### Enhancements
+- GP2-3877 - Signup analytics
 - GP2-3879 - Remove HS code refs - Market selector
 - GP2-3720 - Remove HS code refs - Product selector
 - GP2-3880 - Remove HS code refs - Export plan
