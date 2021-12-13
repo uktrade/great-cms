@@ -18,7 +18,6 @@ export const FormGroup = memo(
     lesson,
     formGroupClassName,
   }) => {
-    console.log(label)
     return (
       <div
         className={`form-group ${
