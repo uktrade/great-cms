@@ -152,9 +152,9 @@ def test_create_user_success(mock_create_user):
     mock_create_user.return_value = create_response({'a': 'b'})
 
     actual = helpers.create_user(email='jim@example.com', password='12345')
-
+    print("HAHAHHA", mock_create_user.call_args)
     assert mock_create_user.call_count == 1
-    assert mock_create_user.call_args == mock.call(email='jim@example.com', password='12345')
+    assert mock_create_user.call_args == mock.call(email='jim@example.com', password='12345', mobile_phone_number=None)
     assert actual == {'a': 'b'}
 
 

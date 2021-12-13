@@ -18,6 +18,7 @@ export const FormGroup = memo(
     lesson,
     formGroupClassName,
   }) => {
+    console.log(label)
     return (
       <div
         className={`form-group ${
@@ -32,7 +33,7 @@ export const FormGroup = memo(
         </label>
 
         {description && (
-          <div className="text-blue-deep-80 p-t-xs p-b-xs">
+          <div className={`${label == "UK telephone number (optional)" ? "body-m text-grey" : "text-blue-deep-80"}  p-t-xs p-b-xs `}>
             {ReactHtmlParser(description)}
           </div>
         )}
