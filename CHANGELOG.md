@@ -10,6 +10,7 @@
 - GP2-3844 - [HOTFIX] savingcms pages
 
 ### Bugs fixed
+- NOTICKET - updated requirements
 - GP2-3886 - SECURITY: great-cms (sso-profile) frontend asset vulnerabilty: glob-parent
 - GP2-3887 - SECURITY: great-cms (sso-profile) frontend asset vulnerabilty: tar
 - GP2-3888 - SECURITY: great-cms (sso-profile) frontend asset vulnerabilty: trim-newlines
