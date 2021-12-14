@@ -2,7 +2,7 @@ from django.core.validators import RegexValidator
 from rest_framework import serializers
 
 phone_uk_regex = RegexValidator(
-    regex=r'^(?:0|\+?44)(?:\d\s?){9,10}$', message='Please enter a valid UK telephone number.'
+    regex=r'^(?:0|\+?44)(?:\s*\d){9,10}$', message='Please enter a valid UK telephone number.'
 )
 
 

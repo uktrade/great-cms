@@ -217,10 +217,9 @@ export default {
   },
 
   createUser: ({ email, password, phoneNumber, next }) => {
-    const mobile_phone_number = phoneNumber
     return post(
       config.apiSignupUrl,
-      { email, password, mobile_phone_number, next }
+      { email, password, mobile_phone_number:phoneNumber, next }
     ).then((response) => responseHandler(response))
   },
 
