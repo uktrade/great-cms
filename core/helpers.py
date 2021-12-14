@@ -559,8 +559,12 @@ class ClamAvClient:
             data=data,
         )
 
-    def scan_chunked(self, data):
-        return self.post(self.endpoints['scan-chunked'], data)
+    def chunk_gen(self, file):
+        for chunk in file.chunks():
+            yield chunk
+
+    def scan_chunked(self, file):
+        return self.post(self.endpoints['scan-chunked'], self.chunk_gen(file))
 
 
 clam_av_client = ClamAvClient()
