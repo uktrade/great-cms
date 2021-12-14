@@ -106,6 +106,7 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
         user_details = helpers.create_user(
             email=serializer.validated_data['email'].lower(),
             password=serializer.validated_data['password'],
+            mobile_phone_number=serializer.validated_data['mobile_phone_number'],
         )
         uidb64 = user_details['uidb64']
         token = user_details['verification_token']
