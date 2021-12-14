@@ -121,7 +121,7 @@ directory-forms-api-client==6.1.0
     # via -r requirements.in
 directory-healthcheck==2.0.0
     # via -r requirements.in
-directory-sso-api-client==6.5.5
+directory-sso-api-client==6.5.6
     # via -r requirements.in
 directory-validators==6.0.5
     # via -r requirements.in
@@ -309,7 +309,7 @@ lazy-object-proxy==1.6.0
     # via astroid
 locust==2.5.1
     # via -r requirements_test.in
-lxml==4.6.5
+lxml==4.7.1
     # via
     #   -r requirements.in
     #   pyquery
@@ -562,7 +562,7 @@ toml==0.10.2
     #   pre-commit-hooks
     #   pylint
     #   pytest
-tomli==1.2.2
+tomli==1.2.3
     # via
     #   black
     #   coverage
