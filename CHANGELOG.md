@@ -1,5 +1,5 @@
 # Changelog
-
+- GP2-3859 - Create Profile with optional Phone Number
 ### Hotfix
 - GP2-3844 - [HOTFIX] saving cms pages
 - GP2-3853 - [HOTFIX] tweak homepage hero layout for MIUK campaign
