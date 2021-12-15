@@ -2,12 +2,18 @@ import directory_validators.file
 from django.forms import ImageField, NumberInput, Textarea
 from great_components import forms
 
+from core.validators import validate_file_infection
+
 
 class LogoForm(forms.Form):
     logo = ImageField(
         help_text=('For best results this should be a transparent PNG file of 600 x 600 pixels and no more than 2MB',),
         required=True,
-        validators=[directory_validators.file.logo_filesize, directory_validators.file.image_format],
+        validators=[
+            directory_validators.file.logo_filesize,
+            directory_validators.file.image_format,
+            validate_file_infection,
+        ],
     )
 
 

@@ -36,6 +36,7 @@
 - GP2-3879 - Remove HS code refs - Market selector
 - GP2-3720 - Remove HS code refs - Product selector
 - GP2-3880 - Remove HS code refs - Export plan
+- GP2-2705 - Virus-scan uploaded files
 - GP2-2932 - Hide country search
 - GP2-3852 - Include redirect query parameter in verification link
 - GP2-3856 - Core components JavaScript build

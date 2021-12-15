@@ -1,9 +1,13 @@
 import io
+from io import BytesIO
 from unittest import mock
 
 import pytest
 from django.conf import settings
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http import HttpRequest
+from django.test import override_settings
+from PIL import Image, ImageDraw
 from requests.exceptions import HTTPError
 
 from core import helpers
@@ -12,6 +16,16 @@ from directory_constants import company_types
 from directory_sso_api_client import sso_api_client
 from tests.helpers import create_response
 from tests.unit.core.factories import CuratedListPageFactory
+
+
+def create_test_image(extension):
+    image = Image.new('RGB', (300, 50))
+    draw = ImageDraw.Draw(image)
+    draw.text((0, 0), 'This text is drawn on image')
+    byte_io = BytesIO()
+    image.save(byte_io, extension)
+    byte_io.seek(0)
+    return byte_io
 
 
 @mock.patch.object(helpers, 'get_client_ip')
@@ -775,3 +789,20 @@ def test_profile_parser_no_data_serialize_for_template():
         'has_expertise': False,
         'is_in_companies_house': False,
     }
+
+
+@mock.patch('requests.post')
+@override_settings(
+    CLAM_AV_ENABLED=True, CLAM_AV_HOST='https://clamav', CLAM_AV_USERNAME='me', CLAM_AV_PASSWORD='secret'
+)
+def test_clam_av_client(mock_requests_post):
+    uploaded_file = SimpleUploadedFile(
+        name='image.png', content=create_test_image('png').read(), content_type='image/png'
+    )
+
+    helpers.clam_av_client.scan_chunked(uploaded_file)
+
+    assert mock_requests_post.call_count == 1
+    assert mock_requests_post.call_args == mock.call(
+        'v2/scan-chunked', auth=mock.ANY, headers={'Transfer-encoding': 'chunked'}, data=mock.ANY
+    )
