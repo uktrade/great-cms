@@ -1,5 +1,5 @@
 # Changelog
-
+- GP2-3859 - Create Profile with optional Phone Number
 ### Hotfix
 - GP2-3844 - [HOTFIX] saving cms pages
 - GP2-3853 - [HOTFIX] tweak homepage hero layout for MIUK campaign
@@ -31,6 +31,7 @@
 - GP2-2953 - DAC_Contrast_Minimum_02 (AA)
 
 ### Enhancements
+- GP2-3893 - Remove HS code refs - PDF download
 - GP2-3877 - Signup analytics
 - GP2-3879 - Remove HS code refs - Market selector
 - GP2-3720 - Remove HS code refs - Product selector

@@ -16,6 +16,8 @@ const Form = ({
   handlePasswordChange,
   linkedinLoginUrl,
   googleLoginUrl,
+  phoneNumber,
+  handlePhoneNumber,
 }) => (
   <form
     onSubmit={(event) => {
@@ -23,6 +25,7 @@ const Form = ({
       handleSubmit()
     }}
     className="signup__form"
+    autoComplete="new-off"
   >
     {showTitle && (
       <h1 className="h-s text-blue-deep-80 p-t-xs">
@@ -45,6 +48,17 @@ const Form = ({
       value={email.toLowerCase()}
       onChange={(item) => handleEmailChange(item.email)}
       errors={errors.email || []}
+    />
+    <Input
+      label="UK telephone number (optional)"
+      description="By providing your phone number, you agree to be contacted by DIT to gather feedback on your experiences of great.gov.uk."
+      id="phone_number"
+      type="tel"
+      disabled={disabled}
+      value={phoneNumber || ''}
+      onChange={(item) => handlePhoneNumber(item.phone_number)}
+      errors={errors.mobile_phone_number || []}
+      descriptionClassName="body-m text-grey p-b-xs"
     />
     <Input
       label="Password"
@@ -90,12 +104,15 @@ Form.propTypes = {
   errors: PropTypes.shape({
     email: PropTypes.arrayOf(PropTypes.string),
     password: PropTypes.arrayOf(PropTypes.string),
+    mobile_phone_number: PropTypes.arrayOf(PropTypes.string)
   }),
   handlePasswordChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleEmailChange: PropTypes.func.isRequired,
   password: PropTypes.string,
   email: PropTypes.string,
+  phoneNumber: PropTypes.string,
+  handlePhoneNumber: PropTypes.func.isRequired,
   linkedinLoginUrl: PropTypes.string.isRequired,
   googleLoginUrl: PropTypes.string.isRequired,
   showTitle: PropTypes.bool,
@@ -107,6 +124,7 @@ Form.defaultProps = {
   errors: {},
   password: '',
   email: '',
+  phoneNumber: null,
 }
 
 export default Form
