@@ -1,5 +1,5 @@
 # Changelog
-
+- GP2-3859 - Create Profile with optional Phone Number
 ### Hotfix
 - GP2-3844 - [HOTFIX] saving cms pages
 - GP2-3853 - [HOTFIX] tweak homepage hero layout for MIUK campaign
@@ -10,6 +10,12 @@
 - GP2-3844 - [HOTFIX] savingcms pages
 
 ### Bugs fixed
+- GP2-3789 - Cookie modal position
+- NOTICKET - updated requirements
+- GP2-3886 - SECURITY: great-cms (sso-profile) frontend asset vulnerabilty: glob-parent
+- GP2-3887 - SECURITY: great-cms (sso-profile) frontend asset vulnerabilty: tar
+- GP2-3888 - SECURITY: great-cms (sso-profile) frontend asset vulnerabilty: trim-newlines
+- GP2-3889 - SECURITY: great-cms (sso-profile) frontend asset vulnerabilty: json-schema
 - GP2-3858 - Fix export plan payment terms
 - GP2-3824 - Export plan - sort all EP lists
 - GP2-3818 - WTE mobile layout without flex for safari
@@ -25,6 +31,13 @@
 - GP2-2953 - DAC_Contrast_Minimum_02 (AA)
 
 ### Enhancements
+- GP2-3886 - Replace profile gulp with webpack
+- GP2-3893 - Remove HS code refs - PDF download
+- GP2-3877 - Signup analytics
+- GP2-3879 - Remove HS code refs - Market selector
+- GP2-3720 - Remove HS code refs - Product selector
+- GP2-3880 - Remove HS code refs - Export plan
+- GP2-2705 - Virus-scan uploaded files
 - GP2-2932 - Hide country search
 - GP2-3852 - Include redirect query parameter in verification link
 - GP2-3856 - Core components JavaScript build

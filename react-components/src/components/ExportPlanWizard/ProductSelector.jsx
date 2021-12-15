@@ -31,10 +31,7 @@ function ProductSelector({ valueChange, selected }) {
     }
     return {
       label: (
-        <>
-          <div>{product.commodity_name}</div>
-          <div className="body-m">HS6 code: {product.commodity_code}</div>
-        </>
+        <div>{product.commodity_name}</div>
       ),
       value: `${index}`,
     }

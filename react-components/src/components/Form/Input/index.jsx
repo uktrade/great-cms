@@ -19,6 +19,7 @@ export const Input = memo(
     prepend,
     className,
     formGroupClassName,
+    descriptionClassName,
     minDate,
     maxDate,
     decimal,
@@ -60,6 +61,7 @@ export const Input = memo(
         hideLabel={hideLabel}
         lesson={lesson}
         formGroupClassName={formGroupClassName}
+        descriptionClassName={descriptionClassName}
       >
         <div className={`flex-center ${type === 'date' ? 'select-date' : ''}`}>
           {prepend && (
@@ -116,6 +118,7 @@ Input.propTypes = {
   prepend: PropTypes.string,
   className: PropTypes.string,
   formGroupClassName: PropTypes.string,
+  descriptionClassName: PropTypes.string,
   decimal: PropTypes.oneOf([2, 0]),
 }
 
@@ -131,6 +134,7 @@ Input.defaultProps = {
   prepend: '',
   className: '',
   formGroupClassName: '',
+  descriptionClassName: '',
   minDate: '',
   maxDate: '',
   decimal: 2,

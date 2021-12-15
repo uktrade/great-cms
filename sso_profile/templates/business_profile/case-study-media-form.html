@@ -4,11 +4,6 @@
 {% load static from staticfiles %}
 {% block head_title %}Business profile - Account - great.gov.uk{% endblock %}
 
-{% block head_css %}
-    {{ block.super }}
-    <link href="{% static 'css/company-profile.css' %}" media="all" rel="stylesheet" />
-{% endblock %}
-
 {% block form_contents %}
     {% breadcrumbs 'Business showcase' %}
         <a href="{% url 'sso_profile:about' %}">Home</a>

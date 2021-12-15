@@ -28,11 +28,12 @@
 :global .ReactModal__Content {
   background: #ffffff;
   padding: 30px!important;
-  inset: 50%!important;
-  bottom: auto;
-  right: auto;
+  bottom: auto !important;
+  right: auto !important;
+  top: 50% !important;
+  left: 50% !important;
   transform: translate(-50%, -50%);
-  width: 95%!important;
+  width: 95% !important;
   max-height: fit-content;
   max-width: 600px;
 }

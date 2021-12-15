@@ -17,6 +17,7 @@ export const FormGroup = memo(
     hideLabel,
     lesson,
     formGroupClassName,
+    descriptionClassName,
   }) => {
     return (
       <div
@@ -32,7 +33,7 @@ export const FormGroup = memo(
         </label>
 
         {description && (
-          <div className="text-blue-deep-80 p-t-xs p-b-xs">
+          <div className={descriptionClassName || "text-blue-deep-80 p-t-xs p-b-xs"}>
             {ReactHtmlParser(description)}
           </div>
         )}
@@ -56,6 +57,7 @@ FormGroup.propTypes = {
   label: PropTypes.string.isRequired,
   description: PropTypes.string,
   formGroupClassName: PropTypes.string,
+  descriptionClassName: PropTypes.string,
   example: PropTypes.oneOfType([
     PropTypes.shape({
       buttonTitle: PropTypes.string,
@@ -81,4 +83,5 @@ FormGroup.defaultProps = {
   hideLabel: false,
   lesson: {},
   formGroupClassName: '',
+  descriptionClassName: '',
 }

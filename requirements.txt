@@ -39,7 +39,7 @@ certifi==2021.10.8
     #   sentry-sdk
 cffi==1.15.0
     # via cryptography
-charset-normalizer==2.0.7
+charset-normalizer==2.0.9
     # via requests
 cryptography==3.3.2
     # via -r requirements.in
@@ -67,11 +67,11 @@ directory-forms-api-client==6.1.0
     # via -r requirements.in
 directory-healthcheck==2.0.0
     # via -r requirements.in
-directory-sso-api-client==6.5.5
+directory-sso-api-client==6.5.6
     # via -r requirements.in
 directory-validators==6.0.5
     # via -r requirements.in
-django==2.2.24
+django==2.2.25
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -149,7 +149,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==9.8.2
+faker==10.0.0
     # via factory-boy
 future==0.18.2
     # via arabic-reshaper
@@ -181,7 +181,7 @@ jsonschema==3.2.0
     # via great-components
 l18n==2021.3
     # via wagtail
-lxml==4.6.4
+lxml==4.7.1
     # via
     #   -r requirements.in
     #   pyquery
@@ -254,7 +254,7 @@ redis==4.0.2
     # via django-redis
 regex==2021.11.10
     # via dateparser
-reportlab==3.6.2
+reportlab==3.6.3
     # via xhtml2pdf
 requests==2.26.0
     # via
