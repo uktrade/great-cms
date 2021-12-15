@@ -3,11 +3,6 @@
 {% load breadcrumbs from component_tags %}
 {% load static from staticfiles %}
 
-{% block head_css %}
-    {{ block.super }}
-    <link href="{% static 'css/company-profile.css' %}" media="all" rel="stylesheet" />
-{% endblock %}
-
 {% block form_contents %}
     <h1 class="heading-large margin-top-90">Remove {{ company.name}} from your account</h1>
     <span>Please confirm you would like to remove the business profile from your account. You will be able to select a new business.</span>

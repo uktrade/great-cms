@@ -11,7 +11,8 @@ module.exports = {
     magna_styles: './core/sass/main.scss',
     loggedout_styles: './domestic/sass/main.scss',
     components: './react-components/src/bundle-components.js',
-    components_styles: './core/components/sass/components/elements-components.scss'
+    components_styles: './core/components/sass/components/elements-components.scss',
+    profile_styles: './sso_profile/common/sass/profile.scss',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -82,7 +83,8 @@ module.exports = {
                 includePaths: [
                   './node_modules/great-styles/src/scss/',
                   './domestic/sass/',
-                  './core/components/sass/components/'
+                  './core/components/sass/components/',
+                  './sso_profile/common/sass/partials/'
                 ],
               },
             },
@@ -180,6 +182,8 @@ module.exports = {
           './react-components/dist/loggedout_styles.js.map',
           './react-components/dist/components_styles.js',
           './react-components/dist/components_styles.js.map',
+          './react-components/dist/profile_styles.js',
+          './react-components/dist/profile_styles.js.map',
         ],
       },
     }),
