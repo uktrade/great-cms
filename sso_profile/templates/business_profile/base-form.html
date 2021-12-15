@@ -5,7 +5,6 @@
 
 {% block head_css %}
     {{ block.super }}
-    <link href="{% static 'css/company-profile.css' %}" media="all" rel="stylesheet" />
     <style type="text/css">
         {% comment 'paths to background images set in css files do not get tranformed during post-processing, so the images 404 in dev, stage and prod' %}{% endcomment %}
         #selected-values-container button::after {
