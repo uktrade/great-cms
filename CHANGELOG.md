@@ -31,6 +31,7 @@
 - GP2-2953 - DAC_Contrast_Minimum_02 (AA)
 
 ### Enhancements
+- GP2-3880 - Product Classification tree changes
 - GP2-3886 - Replace profile gulp with webpack
 - GP2-3893 - Remove HS code refs - PDF download
 - GP2-3877 - Signup analytics
