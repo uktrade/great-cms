@@ -10,6 +10,7 @@
 - GP2-3844 - [HOTFIX] savingcms pages
 
 ### Bugs fixed
+- GP2-3859 - Telephone number validation relaxing
 - GP2-3789 - Cookie modal position
 - NOTICKET - updated requirements
 - GP2-3886 - SECURITY: great-cms (sso-profile) frontend asset vulnerabilty: glob-parent
@@ -31,6 +32,7 @@
 - GP2-2953 - DAC_Contrast_Minimum_02 (AA)
 
 ### Enhancements
+- GP2-3880 - Product Classification tree changes
 - GP2-3886 - Replace profile gulp with webpack
 - GP2-3893 - Remove HS code refs - PDF download
 - GP2-3877 - Signup analytics
