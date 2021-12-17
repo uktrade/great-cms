@@ -10,6 +10,7 @@
 - GP2-3844 - [HOTFIX] savingcms pages
 
 ### Bugs fixed
+- GP2-3859 - Telephone number validation relaxing
 - GP2-3789 - Cookie modal position
 - NOTICKET - updated requirements
 - GP2-3886 - SECURITY: great-cms (sso-profile) frontend asset vulnerabilty: glob-parent

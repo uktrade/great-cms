@@ -1,9 +1,9 @@
 from django.core.validators import RegexValidator
 from rest_framework import serializers
 
-phone_uk_regex = RegexValidator(
-    regex=r'^(?:0|\+?44)(?:\s*\d){9,10}$', message='Please enter a valid UK telephone number.'
-)
+from regex import PHONE_NUMBER_REGEX_SIGNUP
+
+phone_uk_regex = RegexValidator(regex=PHONE_NUMBER_REGEX_SIGNUP, message='Please enter a valid UK telephone number.')
 
 
 class SSOBusinessUserSerializer(serializers.Serializer):
