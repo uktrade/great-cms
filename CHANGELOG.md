@@ -10,6 +10,7 @@
 - GP2-3844 - [HOTFIX] savingcms pages
 
 ### Bugs fixed
+- GP2-3881 - Route logged-out calls from SOO Marketplace to Magna login URL
 - GP2-3859 - Telephone number validation relaxing
 - GP2-3789 - Cookie modal position
 - NOTICKET - updated requirements
