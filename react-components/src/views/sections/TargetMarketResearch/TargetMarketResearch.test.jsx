@@ -42,7 +42,8 @@ const countryDataApiResponse = {
       {
         country_name: 'Germany',
         country_code: 'DEU',
-        year_2019: '46258.878',
+        year: 2018,
+        value: '46258.878',
       },
     ],
     Income: [
