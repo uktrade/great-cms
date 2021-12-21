@@ -13,8 +13,8 @@ export const ProductData = ({ country, product }) => {
     Services.getCountryData(
       [country],
       JSON.stringify([
-        { model: 'GDPPerCapita', latest: true },
-        { model: 'Income', latest: true },
+        { model: 'GDPPerCapita', latest_only: true },
+        { model: 'Income', latest_only: true },
         {
           model: 'ComtradeReport',
           filter: { commodity_code: product.commodity_code },
@@ -101,8 +101,8 @@ export const ProductData = ({ country, product }) => {
               data={
                 data.GDPPerCapita &&
                 data.GDPPerCapita[0] &&
-                data.GDPPerCapita[0].year_2019
-                  ? millify(data.GDPPerCapita[0].year_2019)
+                data.GDPPerCapita[0].value
+                  ? millify(data.GDPPerCapita[0].value)
                   : notAvailable
               }
             />
