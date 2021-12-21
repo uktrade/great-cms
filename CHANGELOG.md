@@ -14,7 +14,7 @@
 - GP2-3787 - Domestic - expand focus area on cards
 - GP2-3822 - Export plan - fix sidebar flicker
 - GP2-3821 - Remove unnecessary forms that allow invalid posts
-
+- GP2-3900 - fix gdp data
 ### Enhancements
 - GP2-3831 - Analytics event on EP download and delete
 - GP2-3834 - Remove duplicate analytics events
