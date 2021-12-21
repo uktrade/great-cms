@@ -47,12 +47,12 @@ class CountryDataContextProvider(BaseContextProvider):
 
         if self.export_plan.export_country_code:
             fields_list = [
-                'GDPPerCapita',
-                'ConsumerPriceIndex',
-                'Income',
+                {'model': 'GDPPerCapita', 'latest_only': True},
+                {'model': 'ConsumerPriceIndex', 'latest_only': True},
+                {'model': 'Income', 'latest_only': True},
                 'CorruptionPerceptionsIndex',
-                'EaseOfDoingBusiness',
-                'InternetUsage',
+                {'model': 'EaseOfDoingBusiness', 'latest_only': True},
+                {'model': 'InternetUsage', 'latest_only': True},
                 {'model': 'PopulationUrbanRural', 'filter': {'year': 2020}},
                 {'model': 'PopulationData', 'filter': {'year': 2020}},
             ]
@@ -60,7 +60,7 @@ class CountryDataContextProvider(BaseContextProvider):
                 countries=[self.export_plan.export_country_code],
                 fields=json.dumps(fields_list),
             )
-
+            print(country_data)
             country_data = country_data.get(self.export_plan.export_country_code)
 
             sections = [slugify(data.TARGET_MARKETS_RESEARCH), slugify(data.MARKETING_APPROACH)]
