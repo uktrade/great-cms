@@ -32,6 +32,7 @@
 - GP2-3863 - Safari table rendering fix in comparing markets
 - GP2-2953 - DAC_Contrast_Minimum_02 (AA)
 - GP2-3900 - fix worldbank data
+- GP2-3906 - fix pdf worldbank data
 
 ### Enhancements
 - GP2-3880 - Product Classification tree changes
