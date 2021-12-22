@@ -20,6 +20,7 @@ wagtail-cache==1.0.*
 wagtailmedia==0.5.0
 wagtailfontawesome==1.2.1
 wagtail-transfer==0.7.*
+wagtail-seo==1.0.0
 
 # Prod tools
 # ------------
@@ -30,7 +31,7 @@ sentry-sdk==0.13.*
 # DIT packages
 # ------------
 great-components>=1.1.*
-directory-api-client==23.1.*
+directory-api-client==24.1.*
 directory-constants==21.1.*
 directory-healthcheck==2.0.0
 directory-forms-api-client==6.1.*

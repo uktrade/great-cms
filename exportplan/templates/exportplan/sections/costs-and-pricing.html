@@ -2,6 +2,9 @@
 {% load to_json %}
 {% load static %}
 
+{% block head_other %}
+  <meta name="description" content="Complete the Costs and pricing section of your export plan" />
+{% endblock %}
 {% block intro_title %}Costs and pricing{% endblock %}
 
 {% block intro_description %}To avoid unwanted surprises, it's best to know all the costs involved in exporting your
@@ -273,7 +276,7 @@ product. <br /><br />This page will help you plan ahead and keep track of the up
     currencies: {{ currency_choices| safe }},
     currency: 'GBP',
     currentSection: {{ current_section| to_json}},
-    lessonDetails: {{ lesson_details| safe }},
+    lessonDetails: {{ lesson_details| to_json }},
     })
 </script>
 {% endblock %}

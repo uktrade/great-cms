@@ -3,6 +3,7 @@ import functools
 import math
 import re
 import urllib
+import urllib.parse as urlparse
 from collections import Counter
 from difflib import SequenceMatcher
 from io import StringIO
@@ -539,3 +540,31 @@ class HashIdConverter:
 
     def to_url(self, value):
         return h_encrypt(value)
+
+
+class ClamAvClient:
+    auth = requests.auth.HTTPBasicAuth(
+        settings.CLAM_AV_USERNAME,
+        settings.CLAM_AV_PASSWORD,
+    )
+    base_url = settings.CLAM_AV_HOST
+    endpoints = {'scan-chunked': {'path': 'v2/scan-chunked', 'headers': {'Transfer-encoding': 'chunked'}}}
+
+    def post(self, endpoint, data):
+        url = urlparse.urljoin(self.base_url, endpoint['path'])
+        return requests.post(
+            url,
+            auth=self.auth,
+            headers=endpoint.get('headers'),
+            data=data,
+        )
+
+    def chunk_gen(self, file):
+        for chunk in file.chunks():
+            yield chunk
+
+    def scan_chunked(self, file):
+        return self.post(self.endpoints['scan-chunked'], self.chunk_gen(file))
+
+
+clam_av_client = ClamAvClient()

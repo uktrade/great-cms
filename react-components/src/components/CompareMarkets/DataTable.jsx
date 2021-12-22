@@ -25,7 +25,7 @@ export default function DataTable(props) {
   } = props
 
   const [product] = useActiveProduct(false)
-  const { markets, addMarketItem, removeMarketItem } = useUserMarkets()
+  const { markets, addMarketItem, removeMarketItem } = useUserMarkets(true, 'Where to export')
 
   const selectedMarkets = markets.reduce((out, market) => {
     out[market.country_iso2_code] = 1
@@ -204,13 +204,13 @@ export default function DataTable(props) {
               {Object.values(comparisonMarkets || {}).map((market) => (
                 <div
                   key={market.country_iso2_code}
-                  className="market-action-row p-v-xs"
+                  className="market-action-row p-v-s clearfix"
                 >
-                  <div className="m-r-xs">
+                  <div className="m-r-xs f-l">
                     {blocks.renderRemoveButton({ market, removeMarket })}
                   </div>
-                  <div>{blocks.renderCountryName({ market })}</div>
-                  <div>
+                  <div className="f-l">{blocks.renderCountryName({ market })}</div>
+                  <div className="f-r">
                     {blocks.renderAddRemoveShortlist({
                       market,
                       selectedMarkets,

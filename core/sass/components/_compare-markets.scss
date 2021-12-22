@@ -3,6 +3,9 @@
 .market-details {
   table {
     table-layout: fixed;
+    max-width: none;
+    width: auto;
+    min-width: 100%;
 
     td {
       &.align-top {
@@ -13,6 +16,10 @@
     thead th {
       vertical-align: bottom;
     }
+  }
+
+  .table--width {
+    width: 30%;
   }
 
   .tooltip__content {
@@ -100,14 +107,9 @@ table.no-bottom-border {
 }
 
 .market-action-row {
-  display: flex;
-  align-items: center;
-  > div:last-child {
-    flex: 1;
-    text-align: right;
-  }
   .button {
     font-size: 20px;
+    min-height: auto;
   }
   margin: 0 20px;
   border-bottom: 1px solid $blue-deep-80;

@@ -48,7 +48,11 @@ def test_send_verification_code_email(mock_action_class, settings):
     verification_code = {'expiration_date': '2020-12-01T13:12:10', 'code': '12345678'}
 
     helpers.send_verification_code_email(
-        email='jim@example.com', verification_code=verification_code, form_url='foo', verification_link='/somewhere'
+        email='jim@example.com',
+        verification_code=verification_code,
+        form_url='foo',
+        verification_link='/somewhere',
+        resend_verification_link='/resend',
     )
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
@@ -148,9 +152,8 @@ def test_create_user_success(mock_create_user):
     mock_create_user.return_value = create_response({'a': 'b'})
 
     actual = helpers.create_user(email='jim@example.com', password='12345')
-
     assert mock_create_user.call_count == 1
-    assert mock_create_user.call_args == mock.call(email='jim@example.com', password='12345')
+    assert mock_create_user.call_args == mock.call(email='jim@example.com', password='12345', mobile_phone_number=None)
     assert actual == {'a': 'b'}
 
 

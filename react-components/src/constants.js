@@ -13,6 +13,10 @@ export const messages = {
   MESSAGE_TIMEOUT_ERROR
 }
 
+export const links = {
+  'using-commodity-codes': '/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/get-your-goods-into-the-destination-country/using-commodity-codes/'
+}
+
 export default {
   messages
 }

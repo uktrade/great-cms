@@ -17,8 +17,6 @@ export const ObjectivesList = memo(
     const objectiveElementList = useRef([])
     const {
       companyexportplan,
-      start_month,
-      start_year,
       end_month,
       end_year,
       pk,
@@ -37,8 +35,6 @@ export const ObjectivesList = memo(
         description: '',
         owner: '',
         planned_reviews: '',
-        start_month: month,
-        start_year: year,
         end_month: month,
         end_year: year,
         companyexportplan: exportPlanID,
@@ -110,8 +106,6 @@ ObjectivesList.propTypes = {
       description: PropTypes.string,
       owner: PropTypes.string,
       planned_reviews: PropTypes.string,
-      start_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      start_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       end_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       end_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       companyexportplan: PropTypes.number,

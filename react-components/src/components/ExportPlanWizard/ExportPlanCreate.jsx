@@ -7,6 +7,7 @@ import { config } from '@src/config'
 import ProductSelector from './ProductSelector'
 import MarketSelector from './MarketSelector'
 import { get } from '@src/Helpers'
+import { analytics } from '@src/Helpers'
 
 export function ExportPlanWizard({ exportPlan }) {
   const [product, setProduct] = useState(get(exportPlan, 'export_commodity_codes.0'))
@@ -26,10 +27,20 @@ export function ExportPlanWizard({ exportPlan }) {
       export_commodity_codes: [product],
       export_countries: [market],
     }
+
     setCreating(true)
     const updateCreate = exportPlan
       ? Services.updateExportPlan
       : Services.createExportPlan
+
+    if (Services.createExportPlan) {
+      analytics({
+        event: 'createExportPlan',
+        exportPlanMarketSelected: data.export_countries[0]?.country_name,
+        exportPlanProductSelected: data.export_commodity_codes[0]?.commodity_name,
+        exportPlanProductHSCode: data.export_commodity_codes[0]?.commodity_code
+      })
+    }
     updateCreate(data).then((result) => {
       // TODO: error handling here if/when BE does more validation.
       if (result.hashid || exportPlan) {
@@ -41,6 +52,7 @@ export function ExportPlanWizard({ exportPlan }) {
           window.location.assign(dashboardUrl)
         }, creationFakeDelay)
       }
+
     })
   }
 

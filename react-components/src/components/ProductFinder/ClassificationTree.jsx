@@ -11,39 +11,56 @@ const trimAndCapitalize = (str) => {
   )
 }
 
-function TreeBranch(props) {
-  const { level, hsCode } = props
-  if (!level) {
-    return null
-  }
-  if (!level.type || level.type === 'SECTION')
-    return <TreeBranch level={level.children[0]} hsCode={hsCode} />
-  const arrow = level.type !== 'CHAPTER' && (
-    <i className="fa fa-level-up-alt classification-tree__arrow" />
-  )
-  return (
-    <div className="classification-tree__item">
-      {arrow}
+const typeMapping = {
+  CHAPTER: 'Chapter',
+  HEADING: 'Heading',
+  ITEM: 'Sub-heading',
+}
 
-      {(level.code || '').substring(0, hsCode.length) !== hsCode ? (
-        <>
-          <div>{trimAndCapitalize(level.desc)}</div>
-          <ul className="m-v-xs">
-            {(level.children || []).map((child) => (
-              <li key={level.code}>
-                <TreeBranch level={child} hsCode={hsCode} />
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : (
-        <>
-          <div className="body-l-b">{trimAndCapitalize(level.desc)}</div>
-          <div className="body-m">HS6 Code: {hsCode}</div>
-        </>
-      )}
+function TreeLine({ level, leaf, itemType }) {
+  return (
+    <div
+      className={`grid m-b-xxs m-f-xxs br-xs body-l ${leaf ? 'bg-white' : ''}`}
+    >
+      <div className="c-1-3 type-heading">
+        {typeMapping[itemType || level.type]}
+      </div>
+      <div className="c-2-3 level-decription">
+        {trimAndCapitalize(level.desc)}
+      </div>
     </div>
   )
+}
+
+function TreeBranch({ schedule, hsCode }) {
+  let subHeadingShown = false
+
+  const showLevel = (level, parent) => {
+    if (!level) {
+      return null
+    }
+    if (!level.type || level.type === 'SECTION')
+      return showLevel(level.children[0])
+    const leaf = (level.id || '').substring(0, hsCode.length) === hsCode
+    if (leaf && level.id.length > hsCode.length) {
+      // We've gone too far - there must be no node at HS6
+      if (!subHeadingShown) {
+        subHeadingShown = true
+        return <TreeLine level={parent} leaf={leaf} itemType={'ITEM'} />
+      } else {
+        return null
+      }
+    }
+    return (
+      <React.Fragment key={`level-${leaf.id}`}>
+        {level.type !== 'ORPHAN' && <TreeLine level={level} leaf={leaf} />}
+        {((!leaf && level.children) || []).map((child) =>
+          showLevel(child, level)
+        )}
+      </React.Fragment>
+    )
+  }
+  return showLevel(schedule)
 }
 
 export default function ClassificationTree({ hsCode }) {
@@ -66,8 +83,8 @@ export default function ClassificationTree({ hsCode }) {
   return (
     <>
       {(schedule && schedule.children && schedule.children.length && (
-        <div className="classification-tree g-panel m-v-xs">
-          <TreeBranch level={schedule} hsCode={hsCode} />
+        <div className="g-panel m-v-xs classification-tree">
+          <TreeBranch schedule={schedule} hsCode={hsCode} />
         </div>
       )) ||
         (schedule && (
@@ -91,7 +108,7 @@ const ptLevel = PropTypes.shape({
 
 TreeBranch.propTypes = {
   hsCode: PropTypes.string.isRequired,
-  level: PropTypes.shape({
+  schedule: PropTypes.shape({
     type: PropTypes.string,
     desc: PropTypes.string,
     code: PropTypes.string,

@@ -9,6 +9,7 @@ from django.urls import reverse
 from requests.exceptions import HTTPError
 
 from directory_sso_api_client import sso_api_client
+from sso import helpers as sso_helpers
 from sso_profile.enrolment import constants, helpers
 
 
@@ -117,6 +118,11 @@ class CreateUserAccountMixin:
     def verification_link_url(self):
         raise NotImplementedError
 
+    @property
+    def resend_verification_link_url(self):
+        url = reverse('sso_profile:resend-verification', kwargs={'step': constants.RESEND_VERIFICATION})
+        return self.request.build_absolute_uri(url)
+
     def user_account_condition(self):
         # user has gone straight to verification code entry step, skipping the
         # step where they enter their email. This can happen if:
@@ -180,11 +186,12 @@ class CreateUserAccountMixin:
             else:
                 response.raise_for_status()
                 user_details = response.json()
-                helpers.send_verification_code_email(
+                sso_helpers.send_verification_code_email(
                     email=user_details['email'],
                     verification_code=user_details['verification_code'],
                     form_url=self.request.path,
                     verification_link=self.verification_link_url,
+                    resend_verification_link=self.resend_verification_link_url,
                 )
         return super().process_step(form)
 

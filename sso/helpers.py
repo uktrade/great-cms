@@ -5,8 +5,6 @@ from http import cookiejar
 import requests
 from directory_forms_api_client import actions
 from django.conf import settings
-from django.utils import formats
-from django.utils.dateparse import parse_datetime
 from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 
@@ -64,20 +62,18 @@ def response_factory(upstream_response):
     return response
 
 
-def send_verification_code_email(email, verification_code, form_url, verification_link):
+def send_verification_code_email(email, verification_code, form_url, verification_link, resend_verification_link):
     action = actions.GovNotifyEmailAction(
         template_id=settings.CONFIRM_VERIFICATION_CODE_TEMPLATE_ID,
         email_address=email,
         form_url=form_url,
     )
 
-    expiry_date = parse_datetime(verification_code['expiration_date'])
-    formatted_expiry_date = formats.date_format(expiry_date, 'DATETIME_FORMAT')
     response = action.save(
         {
             'code': verification_code['code'],
-            'expiry_date': formatted_expiry_date,
             'verification_link': verification_link,
+            'resend_verification_link': resend_verification_link,
         }
     )
     response.raise_for_status()
@@ -128,8 +124,8 @@ def check_verification_code(uidb64, token, code):
     return response
 
 
-def create_user(email, password):
-    response = sso_api_client.user.create_user(email=email, password=password)
+def create_user(email, password, mobile_phone_number=None):
+    response = sso_api_client.user.create_user(email=email, password=password, mobile_phone_number=mobile_phone_number)
     if response.status_code == 400:
         raise CreateUserException(detail=response.json(), code=response.status_code)
     response.raise_for_status()

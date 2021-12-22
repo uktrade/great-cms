@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
@@ -238,7 +237,7 @@ urlpatterns = [
                     done_step_name='finished',
                 )
             ),
-            login_url=settings.SSO_PROXY_LOGIN_URL,
+            login_url=reverse_lazy('core:login'),
         ),
         name='contact-us-soo',
     ),

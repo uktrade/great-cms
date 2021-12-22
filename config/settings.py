@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'wagtailcache',
     'wagtailfontawesome',
     'wagtail_transfer',
+    'wagtailseo',
     'modelcluster',
     'taggit',
     'storages',
@@ -134,6 +135,7 @@ TEMPLATES = [
                 'core.context_processors.cms_slug_urls',
                 'core.context_processors.cookie_management_vars',
                 'great_components.context_processors.analytics',
+                'wagtail.contrib.settings.context_processors.settings',
             ],
         },
     },
@@ -835,3 +837,9 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 6 * 1024 * 1024
 FILE_UPLOAD_MAX_MEMORY_SIZE = 6 * 1024 * 1024
 
 HASHIDS_SALT = env.str('HASHIDS_SALT')
+
+# ClamAV anti-virus engine
+CLAM_AV_ENABLED = env.bool('CLAM_AV_ENABLED', False)
+CLAM_AV_HOST = env.str('CLAM_AV_HOST', '')
+CLAM_AV_USERNAME = env.str('CLAM_AV_USERNAME', '')
+CLAM_AV_PASSWORD = env.str('CLAM_AV_PASSWORD', '')

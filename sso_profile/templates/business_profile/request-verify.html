@@ -3,10 +3,6 @@
 {% load breadcrumbs from component_tags %}
 {% load static from staticfiles %}
 
-{% block head_css %}
-    {{ block.super }}
-    <link href="{% static 'css/company-profile.css' %}" media="all" rel="stylesheet" />
-{% endblock %}
 
 {% block form_button %}
     <button class="button padding-left-60 padding-right-60">Request to verify</button>

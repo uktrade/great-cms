@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import ReactModal from 'react-modal'
 import PropTypes from 'prop-types'
+import { links } from '@src/constants'
 import Services from '@src/Services'
 import { useSuggestedMarkets } from '@src/components/hooks/useSuggestedMarkets'
 import RegionToggle from './RegionToggle'
-import SearchInput from './SearchInput'
 import { analytics } from '../../Helpers'
+
 
 export default function CountryFinderModal(props) {
   let scrollOuter
@@ -106,13 +107,6 @@ export default function CountryFinderModal(props) {
       region: button.getAttribute('data-region'),
       suggested: button.getAttribute('data-suggested'),
     }
-    if (!isCompareCountries) {
-      analytics({
-        event: 'addMarketSuccess',
-        suggestMarket: country.suggested ? country.country_name : '',
-        listMarket: country.suggested ? '' : country.country_name,
-      })
-    }
     selectCountry(country)
     closeModal()
   }
@@ -195,15 +189,14 @@ export default function CountryFinderModal(props) {
           <span className="body-l-b">
             {suggestedCountries.hs2Desc.toLowerCase()}
           </span>{' '}
-          from the UK. This is an HS2 category that includes{' '}
+          from the UK. This is a chapter of the classification that includes{' '}
           <span className="body-l-b">
-            {(suggestedCountries.details.product || '').toLowerCase()} (HS code{' '}
-            {suggestedCountries.details.hs6})
+            {(suggestedCountries.details.product || '').toLowerCase()}
           </span>
-          , along with other products categorised at an HS4 and HS6 level. For
-          more information on HS codes see our{' '}
-          <a href="/learn/categories/selling-across-borders-product-and-services-regulations-licensing-and-logistics/get-your-goods-into-the-destination-country/using-commodity-codes/">
-            lesson on using HS codes
+          , along with other products that have different headings and sub-headings. For
+          more information see our{' '}
+          <a href={links['using-commodity-codes']}>
+            lesson on product classification
           </a>
           .
         </p>
@@ -239,6 +232,7 @@ export default function CountryFinderModal(props) {
         If you already have an idea of where you want to export to, choose from
         this list.
       </p>
+      {/* Hidden country search pending redesign as it's not accessible ATM
       <div className="grid">
         <div className="c-1-3 m-b-xxs">
           <SearchInput
@@ -250,6 +244,7 @@ export default function CountryFinderModal(props) {
           />
         </div>
       </div>
+      */}
       <div className="grid">
         <div className="c-full clearfix">
           <button

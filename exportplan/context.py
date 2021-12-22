@@ -1,4 +1,5 @@
 import abc
+import json
 
 from django.conf import settings
 from django.utils.functional import cached_property
@@ -31,30 +32,66 @@ class BaseContextProvider(AbstractContextProvider):
         return parsers.ExportPlanParser(user_exportplan)
 
 
-class InsightDataContextProvider(BaseContextProvider):
+class CountryDataContextProvider(BaseContextProvider):
     def get_context_provider_data(self, request, **kwargs):
-        insight_data = {}
+        comtrade_data = {}
+        country_data = {}
+        age_group_population_data = {}
         context = super().get_context_provider_data(request, **kwargs)
+
         if self.export_plan.export_country_code and self.export_plan.export_commodity_code:
-            insight_data = core_helpers.get_comtrade_data(
+            comtrade_data = core_helpers.get_comtrade_data(
                 countries_list=[self.export_plan.export_country_code],
                 commodity_code=self.export_plan.export_commodity_code,
             )
+
         if self.export_plan.export_country_code:
+            fields_list = [
+                {'model': 'GDPPerCapita', 'latest_only': True},
+                {'model': 'ConsumerPriceIndex', 'latest_only': True},
+                {'model': 'Income', 'latest_only': True},
+                'CorruptionPerceptionsIndex',
+                {'model': 'EaseOfDoingBusiness', 'latest_only': True},
+                {'model': 'InternetUsage', 'latest_only': True},
+                {'model': 'PopulationUrbanRural', 'filter': {'year': 2020}},
+                {'model': 'PopulationData', 'filter': {'year': 2020}},
+            ]
             country_data = core_helpers.get_country_data(
                 countries=[self.export_plan.export_country_code],
-                fields=[
-                    'GDPPerCapita',
-                    'ConsumerPriceIndex',
-                    'Income',
-                    'CorruptionPerceptionsIndex',
-                    'EaseOfDoingBusiness',
-                    'InternetUsage',
-                ],
+                fields=json.dumps(fields_list),
             )
 
-            insight_data['country_data'] = country_data.get(self.export_plan.export_country_code)
-        context['insight_data'] = insight_data
+            country_data = country_data.get(self.export_plan.export_country_code)
+
+            sections = [slugify(data.TARGET_MARKETS_RESEARCH), slugify(data.MARKETING_APPROACH)]
+
+            # Get Urban percentages and total population
+            population_dataset = country_data.get('PopulationData', {})
+            urban_rural_dataset = country_data.get('PopulationUrbanRural', {})
+            country_data['total_population'] = helpers.total_population(population_dataset)
+            country_data['urban_rural_percentages'] = helpers.urban_rural_percentages(urban_rural_dataset)
+
+            for section in sections:
+                age_group_population_data[section] = {}
+                age_groups = self.export_plan.data['ui_options'].get(section, {}).get('target_ages', [])
+                age_group_population_data[section]['target_ages'] = age_groups
+                age_group_population_data[section][
+                    'male_target_age_population'
+                ] = helpers.total_population_by_gender_age(
+                    dataset=population_dataset, age_filter=age_groups, gender='male'
+                )
+                age_group_population_data[section][
+                    'female_target_age_population'
+                ] = helpers.total_population_by_gender_age(
+                    dataset=population_dataset, age_filter=age_groups, gender='female'
+                )
+                age_group_population_data[section]['total_target_age_population'] = int(
+                    age_group_population_data[section]['male_target_age_population']
+                ) + int(age_group_population_data[section]['female_target_age_population'])
+
+        context['country_data'] = country_data
+        context['country_data']['population_age_data'] = age_group_population_data
+        context['comtrade_data'] = comtrade_data
         return context
 
 
@@ -67,21 +104,6 @@ class FactbookDataContextProvider(BaseContextProvider):
             language_data = helpers.get_cia_world_factbook_data(country=country_name, key='people,languages')
 
         context['language_data'] = language_data
-        return context
-
-
-class PopulationAgeDataContextProvider(BaseContextProvider):
-    def get_context_provider_data(self, request, **kwargs):
-        context = super().get_context_provider_data(request, **kwargs)
-        sections = [slugify(data.TARGET_MARKETS_RESEARCH), slugify(data.MARKETING_APPROACH)]
-        population_data = {}
-        if self.export_plan.export_country_name:
-            for section in sections:
-                selected_age_groups = self.export_plan.data['ui_options'].get(section, {}).get('target_ages', [])
-                population_data[section] = helpers.get_population_data(
-                    country=self.export_plan.export_country_name, target_ages=selected_age_groups
-                )
-        context['population_age_data'] = population_data
         return context
 
 
@@ -108,4 +130,13 @@ class PDFContextProvider(BaseContextProvider):
                 'contact_detail': contact_dict,
             }
         )
+        # GP2-2834 - Fix ordering of all EP lists to object pk (creation order)
+        for item_list in [
+            'business_trips',
+            'company_objectives',
+            'target_market_documents',
+            'route_to_markets',
+            'business_risks',
+        ]:
+            (context['export_plan'].data.get(item_list) or []).sort(key=lambda trip: trip.get('pk'))
         return context

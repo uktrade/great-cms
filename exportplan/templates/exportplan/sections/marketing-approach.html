@@ -4,6 +4,9 @@
 
 {% load intcomma from humanize %}
 
+{% block head_other %}
+  <meta name="description" content="Complete the Marketing approach section of your export plan" />
+{% endblock %}
 {% block intro_title %}Marketing approach{% endblock %}
 {% block intro_description %}There are many ways to market a product or service. This page will help you detail the best marketing approaches for your business.{% endblock %}
 
@@ -77,7 +80,7 @@
       element: document.getElementById('target-age-groups'),
       groups: {{ target_age_group_choices|safe }},
       selected: {{ selected_age_groups|to_json }},
-      currentSection: {{ current_section|to_json}},
+      currentSection: {{ current_section|to_json }},
     })
 
     magna.createSpendingAndResources({
@@ -108,7 +111,7 @@
             label: 'Route to market',
             options: {{ route_choices|to_json }},
             name: 'route',
-            lesson: magna.formatLessonLearned({{ lesson_details|safe }}, {{ current_section|to_json}}, 0),
+            lesson: magna.formatLessonLearned({{ lesson_details|to_json }}, {{ current_section|to_json}}, 0),
           },
           {
             label: 'How will you promote your product?',

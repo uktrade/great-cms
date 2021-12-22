@@ -166,7 +166,7 @@ def test_exportplan_section_marketing_approach(
     assert response.context_data['route_choices']
     assert response.context_data['promotional_choices']
     assert response.context_data['target_age_group_choices']
-    assert response.context_data['selected_age_groups'] == ['25-29', '47-49']
+    assert response.context_data['selected_age_groups'] == ['0-14', '60+']
 
 
 @pytest.mark.django_db
@@ -215,7 +215,7 @@ def test_adaption_for_target_markets_context(client, user, mock_get_user_profile
     assert response.status_code == 200
 
     response.context_data['languages'] = {'language': 'Dutch', 'note': 'Many other too'}
-    response.context_data['target_market_documents'] = {'document_name': 'test'}
+    response.context_data['target_market_documents'] = [{'document_name': 'test'}]
 
 
 @pytest.mark.django_db
@@ -329,7 +329,7 @@ def test_target_markets_research(mock_get_comtrade_data, multiple_country_data, 
 
     response = client.get(url)
     assert response.context_data['target_age_group_choices']
-    assert response.context_data['selected_age_groups'] == ['35-40']
+    assert response.context_data['selected_age_groups'] == ['20-25']
     assert response.status_code == 200
 
 
@@ -412,7 +412,6 @@ def test_download_export_plan(
     mock_pisa,
     client,
     mock_get_comtrade_data,
-    mock_get_population_data,
     mock_cia_world_factbook_data,
     user,
     mock_get_user_profile,
@@ -436,9 +435,11 @@ def test_download_export_plan(
     pdf_context = response.context
     assert pdf_context['export_plan'].data == export_plan_data
     assert pdf_context['user'] == user
-    assert pdf_context['insight_data'] == mock_get_comtrade_data.return_value
-    assert pdf_context['population_age_data']['marketing-approach'] == mock_get_population_data.return_value
-    assert pdf_context['population_age_data']['target-markets-research'] == mock_get_population_data.return_value
+    assert pdf_context['comtrade_data'] == mock_get_comtrade_data.return_value
+    assert pdf_context['country_data']
+    assert pdf_context['country_data']['population_age_data']['marketing-approach']
+    assert pdf_context['country_data']['population_age_data']['target-markets-research']
+    assert pdf_context['country_data']['total_population'] == 20000
     assert pdf_context['language_data'] == mock_cia_world_factbook_data.return_value
 
     assert mock_upload_exportplan_pdf.call_count == 1

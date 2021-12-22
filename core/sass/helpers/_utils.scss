@@ -121,14 +121,14 @@ $percentages: (
 }
 
 .only-mobile {
-  @include breakpoint(md) {
-    display: none;
+  @include breakpoint(sm) {
+    display: none !important;
   }
 }
 
 .only-desktop {
-  @include breakpoint(md_lt) {
-    display: none;
+  @include breakpoint(sm_lt) {
+    display: none !important;
   }
 }
 

@@ -107,7 +107,8 @@ describe('Test country finder button', () => {
     expect(document.body.querySelector('.country-finder')).toBeFalsy()
   })
 
-  it('Open country finder and type-ahead filter', async () => {
+  /* Skipping this test as the country search is disabled ATM */
+  it.skip('Open country finder and type-ahead filter', async () => {
     act(() => {
       createCountryFinder({ element: container })
     })
