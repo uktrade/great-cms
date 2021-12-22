@@ -1,13 +1,20 @@
 # Changelog
-- GP2-3859 - Create Profile with optional Phone Number
-### Hotfix
-- GP2-3844 - [HOTFIX] saving cms pages
-- GP2-3853 - [HOTFIX] tweak homepage hero layout for MIUK campaign
 
 ## Pre release
 
 ### Hotfix
-- GP2-3844 - [HOTFIX] savingcms pages
+
+### Bugs fixed
+
+### Enhancements
+
+
+## [2.1.0](https://github.com/uktrade/great-cms/releases/tag/2.1.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.00.0...2.1.0)
+
+### Hotfix
+- GP2-3844 - [HOTFIX] saving cms pages
+- GP2-3853 - [HOTFIX] tweak homepage hero layout for MIUK campaign
 
 ### Bugs fixed
 - GP2-3881 - Route logged-out calls from SOO Marketplace to Magna login URL
@@ -59,6 +66,7 @@
 - GP2-3832 - Analytics - Create EP Event
 - GP2-3803 - Custom Image browser for SEO size.
 - GP2-3123 - remove redundant code
+- GP2-3859 - Create Profile with optional Phone Number
 
 ## [2.00.0](https://github.com/uktrade/great-cms/releases/tag/2.0.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.13.3...2.0.0)
