@@ -20,6 +20,22 @@
 
 ### Bugs fixed
 
+
+### Bugs fixed
+
+### Enhancements
+
+
+## [2.1.0](https://github.com/uktrade/great-cms/releases/tag/2.1.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.00.0...2.1.0)
+
+### Hotfix
+- GP2-3844 - [HOTFIX] saving cms pages
+- GP2-3853 - [HOTFIX] tweak homepage hero layout for MIUK campaign
+
+### Bugs fixed
+- GP2-3881 - Route logged-out calls from SOO Marketplace to Magna login URL
+- GP2-3859 - Telephone number validation relaxing
 - GP2-3789 - Cookie modal position
 - NOTICKET - updated requirements
 - GP2-3886 - SECURITY: great-cms (sso-profile) frontend asset vulnerabilty: glob-parent
@@ -39,8 +55,11 @@
 - GP2-3808 - Safari outline fix
 - GP2-3863 - Safari table rendering fix in comparing markets
 - GP2-2953 - DAC_Contrast_Minimum_02 (AA)
+- GP2-3900 - fix worldbank data
+- GP2-3906 - fix pdf worldbank data
 
 ### Enhancements
+- GP2-3880 - Product Classification tree changes
 - GP2-3886 - Replace profile gulp with webpack
 - GP2-3893 - Remove HS code refs - PDF download
 - GP2-3877 - Signup analytics
@@ -64,6 +83,7 @@
 - GP2-3832 - Analytics - Create EP Event
 - GP2-3803 - Custom Image browser for SEO size.
 - GP2-3123 - remove redundant code
+- GP2-3859 - Create Profile with optional Phone Number
 
 ## [2.00.0](https://github.com/uktrade/great-cms/releases/tag/2.0.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.13.3...2.0.0)

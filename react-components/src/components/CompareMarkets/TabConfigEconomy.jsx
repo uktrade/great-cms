@@ -70,9 +70,9 @@ export default {
     Services.getCountryData(
       countries,
       JSON.stringify([
-        { model: 'Income' },
-        { model: 'InternetUsage' },
-        { model: 'ConsumerPriceIndex' },
+        { model: 'Income', latest_only: true },
+        { model: 'InternetUsage', latest_only: true },
+        { model: 'ConsumerPriceIndex', latest_only: true },
       ])
     ),
 }
