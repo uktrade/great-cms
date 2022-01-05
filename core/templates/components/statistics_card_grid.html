@@ -48,13 +48,28 @@
       {% endwith %}
     </div>
 
-    <p class="font-medium">Want to see more on {{ country }}? Sign up for additional market data, content specific to
-      your product or sector and to compare {{ country }} side by side with other markets.</p>
+    <p class="font-medium">
+      Want to see more on {{ country }}?
+
+      {% if sso_is_logged_in %}
+        View additional market data, content specific to your product or sector and compare {{ country }} side by side
+        with other markets
+      {% else %}
+        Sign up for additional market data, content specific to your product or sector and to compare {{ country }} side
+        by side with other markets.
+      {% endif %}
+    </p>
   </div>
 
   <div class="statistics-card-cta">
     <a href="/where-to-export/" class="cta-link with-arrow">
-      <span>Sign up for free</span><br>
+      <span>
+        {% if sso_is_logged_in %}
+          View data
+        {% else %}
+          Sign up for free
+        {% endif %}
+      </span><br>
     </a>
   </div>
 </div>
