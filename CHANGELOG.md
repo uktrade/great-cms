@@ -8,6 +8,7 @@
 
 - GP2-3859 - Create Profile with optional Phone Number
 - GLS-30 - Merge CTA banner into stats component
+- GLS-24 - Removed HS code from sample export plan PDF
 
 ### Hotfix
 
