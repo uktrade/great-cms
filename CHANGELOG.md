@@ -4,6 +4,8 @@
 
 ### Bugs fixed
 
+- GLS-38 - fix/update meta descriptions
+
 ### Enhancements
 
 - GP2-3859 - Create Profile with optional Phone Number
