@@ -13,12 +13,6 @@ export default {
   tabName: 'DOING BUSINESS',
   sourceAttributions: [
     {
-      title: 'Ease of Doing Business Rank',
-      linkText: 'World Bank',
-      linkTarget: 'https://www.doingbusiness.org/en/data/doing-business-score',
-      text: 'CC BY 4.0.',
-    },
-    {
       title: 'Rule of Law ranking',
       linkText: 'The Global Innovation Index 2020.',
       linkTarget: 'https://www.globalinnovationindex.org/gii-2020-report',
@@ -32,25 +26,6 @@ export default {
   ],
 
   columns: {
-    'eod-business': {
-      name: 'Ease of doing business rank',
-      className: 'text-align-right',
-      render: (data) =>
-        rankOutOf(
-          data.EaseOfDoingBusiness[0].rank,
-          data.EaseOfDoingBusiness[0].max_rank
-        ),
-      year: (data) => data.EaseOfDoingBusiness[0].year,
-      tooltip: {
-        position: 'right',
-        title: '',
-        content: `
-          <p>The Ease of Doing Business rank indicates how easy or hard it is to do business somewhere.</p>
-          <p>The rank is from 1 (easy to do business) to 190 (hard to do business).</p>
-          <p>This can help you decide whether to export somewhere and whether you need professional help to do so.</p>
-         `,
-      },
-    },
     'rule-of-law': {
       name: 'Rule of Law ranking',
       className: 'text-align-right',
@@ -92,7 +67,6 @@ export default {
       countries,
       JSON.stringify([
         { model: 'CorruptionPerceptionsIndex', filter: { year: '2020' } },
-        { model: 'EaseOfDoingBusiness' },
         { model: 'RuleOfLaw' },
       ])
     ),

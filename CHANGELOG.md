@@ -12,6 +12,7 @@
 - GLS-30 - Merge CTA banner into stats component
 - GLS-24 - Removed HS code from sample export plan PDF
 - GLS-53 - handle 5 stats display
+- GLS-54 - Remove Ease of doing business stat from Where to export
 
 ### Hotfix
 
