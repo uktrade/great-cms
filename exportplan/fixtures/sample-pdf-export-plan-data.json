@@ -1,0 +1,266 @@
+{
+  "name": "Export plan for selling Gin to Australia",
+  "company": null,
+  "sso_id": 1,
+  "ui_options": {},
+  "ui_progress": {
+    "travel-plan": {
+      "is_complete": true,
+      "date_last_visited": "2022-01-05T17:34:50.995836+00:00"
+    },
+    "getting-paid": {
+      "is_complete": true,
+      "date_last_visited": "2022-01-05T17:45:05.141118+00:00"
+    },
+    "business-risk": {
+      "is_complete": true,
+      "date_last_visited": "2022-01-05T17:35:06.237519+00:00"
+    },
+    "costs-and-pricing": {
+      "is_complete": true,
+      "date_last_visited": "2022-01-05T17:44:33.316990+00:00"
+    },
+    "funding-and-credit": {
+      "is_complete": true,
+      "date_last_visited": "2022-01-05T17:44:47.922055+00:00"
+    },
+    "marketing-approach": {
+      "is_complete": true,
+      "date_last_visited": "2022-01-05T17:43:04.453636+00:00"
+    },
+    "about-your-business": {
+      "is_complete": true,
+      "date_last_visited": "2022-01-05T17:04:43.324169+00:00"
+    },
+    "business-objectives": {
+      "is_complete": true,
+      "date_last_visited": "2022-01-06T09:40:53.404975+00:00"
+    },
+    "adapting-your-product": {
+      "is_complete": true,
+      "date_last_visited": "2022-01-05T17:16:52.108446+00:00"
+    },
+    "target-markets-research": {
+      "is_complete": true,
+      "date_last_visited": "2022-01-05T17:14:27.669636+00:00"
+    }
+  },
+  "export_countries": [
+    {
+      "region": "Asia Pacific",
+      "country_name": "Australia",
+      "country_iso2_code": "AU"
+    }
+  ],
+  "export_commodity_codes": [
+    {
+      "commodity_code": "220850",
+      "commodity_name": "Gin"
+    }
+  ],
+  "objectives": {
+    "rationale": "Dove Gin is established and selling well in the UK. However, the domestic gin market is now fiercely competitive. We feel that to realise our goal of doubling turnover in the next 3 years we need to look at new markets to assure this growth. Dove has a uniquely British, crafted appeal that is well placed to attract drinkers in overseas markets. We feel that the potential to widen our customer base, especially in the still-developing Asian and Australasian craft gin scene, is immense."
+  },
+  "marketing_approach": {
+    "resources": "Right now it’s not practical for the team to travel to Australia, so we’re aiming to establish Dove Gin by creating a buzz from the UK.\n\nOur research shows that the Australian gin market is similar to the UK. However as a niche British product (rather than local hero), we’ll have to adapt the current Dove Gin marketing strategy.\n\nThere are already over 100 craft gin distilleries in Australia, so we’re focused on what makes Dove Gin unique.\n\nWe’re capitalising on our historic recipe backstory to make us stand out from the competition. We also know our product design is very appealing - and tastes as good as it looks.\n\nWe’ll be working with our existing marketing agency Blue Sky to run paid social campaigns to raise awareness of our product in Australia.\n\nOur agency will also help with search engine optimisation so that Dove Gin appears in search results for craft gin in Australia. We’re very active on our brand social media accounts. We’re building up our connections with Australian influencers - bar owners, gin bloggers and premium gin importers. Once we have an Australian distributor, we’ll be able to leverage their promotional channels to reach a wider audience, for example liquor store email marketing campaigns."
+  },
+  "pk": 3,
+  "created": "2022-01-05T17:04:28.228558Z",
+  "company_objectives": [
+    {
+      "description": "To sell at least £750,000 of product in overseas markets in the\ncoming 3 years.",
+      "planned_reviews": "Three monthly",
+      "owner": "Jenny Finch, Finance Director",
+      "start_month": null,
+      "start_year": null,
+      "end_month": 8,
+      "end_year": 2024,
+      "companyexportplan": 3,
+      "pk": 6
+    },
+    {
+      "description": "Establish the Dove Gin brand in 3 Australian cities (Sydney, Melbourne and Brisbane) by the end of March 2023.\n\nWe will target both the retail and hospitality sectors and aim to sell at least 500 units/month within the first year.\n\n- Sydney - 200 units/month\n- Melbourne - 200 units/month\n- Brisbane - 100 units/month",
+      "planned_reviews": "Monthly",
+      "owner": "Sue Hawk, Marketing Director",
+      "start_month": null,
+      "start_year": null,
+      "end_month": 4,
+      "end_year": 2023,
+      "companyexportplan": 3,
+      "pk": 2
+    },
+    {
+      "description": "To commit 5% of Dove Gin production to exports for the first year and to expand this to 25% within 5 years.",
+      "planned_reviews": "Six monthly",
+      "owner": "Simon Dove, Managing Director",
+      "start_month": null,
+      "start_year": null,
+      "end_month": 7,
+      "end_year": 2024,
+      "companyexportplan": 3,
+      "pk": 3
+    },
+    {
+      "description": "To develop a range of new products with the export market in\nmind, comprising an initial target of 5 new flavours by end 2022, commencing with blueberry and cranberry.",
+      "planned_reviews": "Yearly",
+      "owner": "Sue Hawk, Marketing Director",
+      "start_month": null,
+      "start_year": null,
+      "end_month": 12,
+      "end_year": 2022,
+      "companyexportplan": 3,
+      "pk": 5
+    }
+  ],
+  "route_to_markets": [
+    {
+      "route": "INTERNATIONAL_E_COMMERCE",
+      "promote": "ONLINE_MARKETING",
+      "market_promotional_channel": "Brand social media accounts. We’re building up our connections with Australian influencers - bar owners, gin bloggers and premium gin importers. The aim is to create a buzz around the gin, with a story based around our strong craft gin ideals and UK background. This can work in tandem with the work done by our distributors.",
+      "companyexportplan": 3,
+      "pk": 1,
+      "route_label": "International e-commerce",
+      "promote_label": "Online marketing"
+    },
+    {
+      "route": "AGENT_OR_DISTRIBUTOR",
+      "promote": "MARKETING_AT_EVENTS",
+      "market_promotional_channel": "We’ve found that attending drinks industry events and trade fairs was a great way to get the Dove Gin brand known in the UK. Our next step is to do the same in Australia.\n\nOur sales director has also been in contact with gin bar owners in Sydney and Melbourne who are all keen to sample the product. When we launched in the UK, we also ran a series of gin nights in local bars with Dove Gin cocktails and giveaways. We think that could be a great approach for the Australian market too, perhaps working with a local marketing agency who can do the work on our behalf. Our chosen route to market will be to partner with a specialist drinks distributor that shares our passion for our product, can help with marketing in Australia and get Dove Gin on bottle shop shelves. This can work in tandem with a distribution agreement.",
+      "companyexportplan": 3,
+      "pk": 2,
+      "route_label": "Agent or distributor",
+      "promote_label": "Marketing at events"
+    }
+  ],
+  "about_your_business": {
+    "story": "My name is Simon Dove and I founded Dove Gin in 2012 when I started to distil gin in my garage in Shrewsbury. I came across a book of gin recipes on a visit to The Gin Museum of London. This inspired me to recreate the gin as it was distilled in the Midlands 200 years ago, with a modern twist.",
+    "location": "By 2015 the garage was too small for the volumes we produced so we moved to larger premises in rented, shared business space in Shrewsbury.",
+    "packaging": "Our packaging is themed around purity and we use:\n\n- elegant clear glass bottles\n- twist caps\n- unbleached paper label printed with natural dyes\n\nOur distribution and delivery boxes are 100% recycled cardboard. Each features our distinctive Dove label.",
+    "processes": "We use vacuum distillation instead of traditional pot distillation. This preserves the richness of flavour and aromas of the botanicals that give our gin its purity of taste.",
+    "performance": "83k-499.999k"
+  },
+  "target_markets_research": {
+    "trend": "There are already over 100 craft gin distilleries in Australia. The main trend seems to be using native Australian ingredients to create a modern twist on traditional gin flavours.\n\nThe market is fairly similar to the UK in terms of consumption and age. Gin bars are on the increase in the main cities. Online gin clubs that offer monthly gin subscriptions to their members are also popular.",
+    "demand": "Gin imports are hugely on the rise in Australia. The market was worth over 60 million USD in 2019, a massive increase of 25% year on year. This is predicted to continue growing at 9%.\n\nMeanwhile, UK gin imports were worth 12 million USD in 2019. This is a market that’s thirsty for gin and very open to new products. In the past 5 years over 75 new distilleries have opened.\n\nOur target age group, 25-54 year olds, makes up 40% of the population. The average income is also increasing - currently 45,000 USD, up 3% compared to 2019.\n\nAustralia is also a straightforward export market despite its distance. There are no trade barriers, they speak the same language and have similar tastes in other beverages such as beer and wine.",
+    "competitors": "- Poor Tom’s Gin\n- The Melbourne Gin Company - main local competitor\n- Butlers Gin (UK)\n- Plymouth Gin (UK) - main British export competitor",
+    "average_price": 25.0,
+    "unqiue_selling_proposition": "Dove Gin’s historic backstory is definitely appealing and will make us stand out from the competition. We also know our product design is unusual."
+  },
+  "adaptation_target_market": {
+    "size": "As far as we’re aware, no change to bottle sizes needed. Needs final check with Australian food standards agency.",
+    "labelling": "Will need mandatory symbol and product warning on drinking in pregnancy.\n\nResearch the website of Food Standards Australia New Zealand and check with our international trade adviser. \n\nResearch re. any other mandatory labelling requirements - eg recycling symbols, manufacturer/distributor information.\n\nRevisit our current labelling - will it work for the Australian market? Our initial assumption is yes, but we may need to gather user feedback, eg from buyers, possible trade show attendance?",
+    "packaging": "Check with our freight forwarders regarding packaging requirements for safe transit - boxing, wrapping of palettes etc.",
+    "standards": "There will be changes to labelling needed to comply with Australian labelling/packaging standards as given above. No requirements to make any changes to product.",
+    "translations": "No translation needed.",
+    "commercial_invoice": "Ensure our finance team is up to speed with preparation of a commercial invoice for export. We will liaise with freight forwarders and check with local Chamber of Commerce if necessary.",
+    "certificate_of_origin": "We will: \n\n- check requirements with freight forwarder \n- take advice from local international trade team or chambers of commerce if needed",
+    "insurance_certificate": "We are operating Ex Works terms, so it’s anticipated we will not need insurance for product protection. Investigate insurance against non payment, but on first sight we wouldn’t need this for the Australian market, especially if we are working under payment in advance terms.",
+    "uk_customs_declaration": "Our agreement with our freight forwarder means we don’t have to get into the details when it comes to export paperwork - the freight forwarder does this for us. But we need to make sure that any issues that may arise are dealt with promptly. We’ve agreed to arrange training sessions with a freight forwarder.\n\nUnderstanding what’s involved helps the Dove team recognise the complexity of export documentation and the importance of providing accurate information to partners. We’re hoping this will prevent any unnecessary delays and provide a smoother route to new markets overseas."
+  },
+  "target_market_documents": [],
+  "direct_costs": {
+    "labour_costs": 3.0,
+    "product_costs": 6.0,
+    "other_direct_costs": 1.0
+  },
+  "overhead_costs": {
+    "insurance": 1000.0,
+    "marketing": 10000.0,
+    "product_adaption": 10000.0,
+    "other_overhead_costs": 2000.0
+  },
+  "total_cost_and_price": {
+    "net_price": 19.0,
+    "duty_per_unit": 3.0,
+    "local_tax_charges": 3.0,
+    "final_cost_per_unit": 12.0,
+    "average_price_per_unit": 25.0,
+    "units_to_export_first_period": {
+      "unit": "piece",
+      "value": 18000
+    },
+    "units_to_export_second_period": {
+      "unit": "y",
+      "value": 3
+    },
+    "gross_price_per_unit_invoicing_currency": {
+      "unit": "gbp",
+      "value": null
+    },
+    "first_period_period_label": "18000 piece(s)",
+    "second_period_period_label": "3 year(s)"
+  },
+  "funding_and_credit": {
+    "funding_amount_required": 10000.0,
+    "override_estimated_total_cost": 30000.0
+  },
+  "funding_credit_options": [
+    {
+      "pk": 1,
+      "amount": 5000.0,
+      "funding_option": "PEER_TO_PEER_LOANS",
+      "companyexportplan": 3,
+      "funding_option_label": "Peer-to-peer loan"
+    },
+    {
+      "pk": 2,
+      "amount": 5000.0,
+      "funding_option": "BANK_LOAN",
+      "companyexportplan": 3,
+      "funding_option_label": "Bank loan"
+    }
+  ],
+  "getting_paid": {
+    "incoterms": {
+      "notes": "",
+      "transport": "EX_WORKS",
+      "incoterms_transport_label": "Ex Works (EXW)"
+    },
+    "payment_terms": {
+      "notes": "",
+      "terms": "PAYMENT_IN_ADVANCE",
+      "terms_label": "Payment in advance"
+    },
+    "payment_method": {
+      "notes": "This would be the preferred way for international payments.",
+      "methods": [
+        "INTERNATIONAL_BANK_TRANSFER"
+      ],
+      "payment_method_label": "International bank transfers"
+    }
+  },
+  "travel_business_policies": {
+    "visa_information": {
+      "how_long": "",
+      "visa_required": true,
+      "how_where_visa": "See latest information on how to get visa at https://www.gov.uk/foreign-travel-advice/australia/entryrequirements"
+    },
+    "travel_information": "Check current FCDO advice well before travel (https://www.gov.uk/foreign-travel-advice/australia) \n\nCheck regulations for bringing product samples - food and drink - how can we do this legally?",
+    "cultural_information": "We’d expect the business culture in Australia to be very similar to the UK, so we’re not expecting to have to make much change in our approach to business meetings."
+  },
+  "business_trips": [
+    {
+      "pk": 2,
+      "note": "Potential trip to Sydney area, Spring 2022. Research needed re. travel restrictions as above.",
+      "companyexportplan": 3
+    }
+  ],
+  "business_risks": [
+    {
+      "pk": 1,
+      "risk": "Accusation from companies in the market that we have infringed their intellectual property - or threat of infringement of our own IP.",
+      "contingency_plan": "We have already have undertaken a clearance search to ensure there are no other brands using a the same or similar name. We have started to look at protecting the following in Australia and other potential future markets: \n\n- trademarks to protect Dove Gin’s name and logo \n- the design to protect Dove Gin’s elegant clear glass bottles \n- trade secrets \n\nAs there are strict regulations on how gin can be distilled, obtaining a patent would be unlikely but specific information on Dove Gin’s use of vacuum distillation could be kept confidential using trade secret.",
+      "risk_likelihood": "UNLIKELY",
+      "risk_impact": "SEVERE",
+      "companyexportplan": 3
+    },
+    {
+      "pk": 2,
+      "risk": "Buyers may default on payment, either through corruption or\nbankruptcy",
+      "contingency_plan": "Operate on payment in advance terms if dealing directly with\nbuyers, at least until we have established a longer term business relationship, and before considering the possibility of credit insurance. Establish regular training so that the whole team are aware of the risks of corruption, how this might show itself in their export business and what warning signs to look out for.",
+      "risk_likelihood": "POSSIBLE",
+      "risk_impact": "MAJOR",
+      "companyexportplan": 3
+    }
+  ]
+}

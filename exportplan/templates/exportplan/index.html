@@ -1,14 +1,24 @@
 {% extends 'core/base.html' %}
 {% load static from staticfiles %}
+
+{% block head_other %}
+  <meta
+    name="description"
+    content="Write your own export plan with our online tool to help you kick start your export journey"
+  />
+{% endblock %}
+
 {% block content %}
-<div class="bg-blue-deep-80 hero-image-container">
-  <div class="container">
-    <div class="grid ">
-      <div class="c-1-2 p-v-xl lh">
-        <h1 class="h-l text-white">
-          My export plans
-        </h1>
-        <a href="{% url 'exportplan:start' %}" class="button button--large button--tertiary buttton-icon"><i class="fas fa-plus-square m-r-xs"></i>Create a new plan</a>
+  <div class="bg-blue-deep-80 hero-image-container">
+    <div class="container">
+      <div class="grid ">
+        <div class="c-1-2 p-v-xl lh">
+          <h1 class="h-l text-white">
+            My export plans
+          </h1>
+          <a href="{% url 'exportplan:start' %}" class="button button--large button--tertiary buttton-icon"><i
+            class="fas fa-plus-square m-r-xs"
+          ></i>Create a new plan</a>
       </div>
       <div class="c-1-2 rh p-t-m">
         <img src="{% static 'images/ep-index.png' %}" alt="">
