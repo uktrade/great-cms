@@ -61,40 +61,34 @@
   </div>
 </section>
 
-<section id="country-guide-statistics-section" class="statistics padding-vertical-30">
-  <div class="container">
-    {% include 'components/statistics_card_grid.html' with statistics=page.main_statistics %}
-  </div>
-</section>
-
-  <section id="country-guide-learning-banner" class="padding-vertical-30">
+  <section id="country-guide-statistics-section" class="statistics padding-vertical-30 background-stone-30">
     <div class="container">
-      {% include 'components/learning_banner.html' with tag_text="New" heading="Is this market right for you?" sub_heading="Make the right choice by comparing data from other countries." cta_text="Compare now" cta_url="/where-to-export/" cta_alt_text="Compare now" %}
+      {% include 'components/statistics_card_grid.html' with statistics=page.main_statistics country=page.heading %}
     </div>
   </section>
 
-{% if page.section_two_heading %}
-  <section id="country-guide-section-two" class="section-two padding-vertical-60">
-    <div class="container">
-      <div class="grid-row">
-        <div class="column-full column-two-thirds-m column-half-l">
-          <h2 class="heading-large margin-top-0">{{ page.section_two_heading }}</h2>
-          <p>{{ page.section_two_teaser }}</p>
+  {% if page.section_two_heading %}
+    <section id="country-guide-section-two" class="section-two padding-vertical-60">
+      <div class="container">
+        <div class="grid-row">
+          <div class="column-full column-two-thirds-m column-half-l">
+            <h2 class="heading-large margin-top-0">{{ page.section_two_heading }}</h2>
+            <p>{{ page.section_two_teaser }}</p>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-
-  {% if page.accordions %} {# This is streamfield #}
-    <section id="country-guide-accordions" class="accordions padding-vertical-0">
-      <ul>
-        {% for industry_block in page.accordions  %}
-            {% include_block industry_block %}
-        {% endfor %}
-      </ul>
     </section>
+
+    {% if page.accordions %} {# This is streamfield #}
+      <section id="country-guide-accordions" class="accordions padding-vertical-0">
+        <ul>
+          {% for industry_block in page.accordions %}
+            {% include_block industry_block %}
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
   {% endif %}
-{% endif %}
 
 {% if page.fact_sheet_title %}
 <section id="country-guide-section-three" class="section-three background-stone-30 padding-top-90 padding-bottom-60">
