@@ -5,6 +5,7 @@
 ### Bugs fixed
 
 - GLS-38 - fix/update meta descriptions
+- GLS-69 - SECURITY: great-cms frontend asset vulnerabilities: `node-fetch` and `nanoid`
 
 ### Enhancements
 
