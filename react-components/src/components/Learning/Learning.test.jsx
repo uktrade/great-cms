@@ -37,37 +37,37 @@ describe('Learning', () => {
   describe('Should render learning buttons', () => {
     it('Should have a Tooltip button', () => {
       const { container } = setup({ ...props })
-      expect(container.querySelector('tooltip'))
+      expect(container.querySelector('.tooltip')).toBeTruthy()
     })
 
     it('Should have an Example button', () => {
       const { container } = setup({ ...props })
-      expect(container.querySelector('button-example'))
+      expect(container.querySelector('.button-example')).toBeTruthy()
     })
 
     it('Should have a Lesson button', () => {
       const { container } = setup({ ...props })
-      expect(container.querySelector('button-lesson'))
+      expect(container.querySelector('.button-lesson')).toBeTruthy()
     })
   })
 
   describe('Should display learning content', () => {
     it('Should display Tooltip content', async () => {
       const { container } = setup({ ...props })
-      const button = container.querySelectorAll('.tooltip__icon')[0]
+      const button = container.querySelector('.tooltip__icon button')
       fireEvent.click(button)
 
       await waitFor(() => {
-        expect(container.querySelectorAll('.tooltip__text')[0])
+        expect(container.querySelector('.tooltip__text')).toBeTruthy()
       })
     })
 
-    it('Should display Lesson content', async () => {
+    it('Should display Example content', async () => {
       const { container } = setup({ ...props })
-      const button = container.querySelectorAll('.button-example')[0]
+      const button = container.querySelector('.button-example')
       fireEvent.click(button)
 
-      const exampleLearn = container.querySelectorAll('.form-group-example')[0]
+      const exampleLearn = container.querySelector('.form-group-example')
       await waitFor(() => {
         expect(exampleLearn).not.toHaveClass('hidden')
       })
@@ -75,10 +75,10 @@ describe('Learning', () => {
 
     it('Should display Lesson content', async () => {
       const { container } = setup({ ...props })
-      const button = container.querySelectorAll('.button-lesson')[0]
+      const button = container.querySelector('.button-lesson')
       fireEvent.click(button)
 
-      const lessonLearn = container.querySelectorAll('.lesson-learn')[0]
+      const lessonLearn = container.querySelector('.lesson-learn')
       await waitFor(() => {
         expect(lessonLearn).toHaveClass('inline-block')
       })
