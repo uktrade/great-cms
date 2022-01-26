@@ -10,7 +10,9 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
   const [showLesson, setShowLesson] = useState(false)
   const hasLesson = lesson && Object.keys(lesson).length > 0
   const hasExample = example && !!example.content
-  const controlAreaId = `learning-content-area-${new Date().getTime()}`
+  const uniqueId = new Date().getTime()
+  const exampleId = `example-content-${uniqueId}`
+  const lessonId = `lesson-content-${uniqueId}`
 
   return (
     <>
@@ -21,7 +23,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
               <button
                 className="button-example button button--small button--tertiary button--icon m-r-xxs m-b-xs"
                 type="button"
-                aria-controls={controlAreaId}
+                aria-controls={exampleId}
                 aria-expanded={showExample}
                 onClick={() => {
                   setShowExample(!showExample)
@@ -40,7 +42,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
               <button
                 className="button-lesson button button--small button--tertiary button--icon m-r-xxs m-b-xs"
                 type="button"
-                aria-controls={controlAreaId}
+                aria-controls={lessonId}
                 aria-expanded={showLesson}
                 onClick={() => {
                   setShowLesson(!showLesson)
@@ -60,9 +62,11 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
               <Tooltip {...tooltip} className="inline-block m-b-xs" />
             )}
           </div>
-          <div className="learning__content" id={controlAreaId}>
+
+          <div className="learning__content" aria-live="polite">
             {hasExample && (
               <dl
+                id={exampleId}
                 className={`form-group-example bg-${
                   example.bgColour ? example.bgColour : 'blue-deep-10'
                 } p-s m-b-xs radius ${showExample ? '' : 'hidden'}`}
@@ -77,8 +81,14 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
                 </dd>
               </dl>
             )}
-            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-            {hasLesson && <LessonLearn {...lesson} show={showLesson} />}
+            {hasLesson && (
+              <LessonLearn
+                /* eslint-disable-next-line react/jsx-props-no-spreading */
+                {...lesson}
+                show={showLesson}
+                id={lessonId}
+              />
+            )}
           </div>
         </div>
       )}

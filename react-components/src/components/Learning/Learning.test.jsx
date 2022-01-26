@@ -90,6 +90,17 @@ describe('Learning', () => {
       expect(container.querySelector('.form-group-example dt').textContent)
         .toBe('A fictional example to help you complete this section')
     })
+
+    it('with a unique ID for each button and content', () => {
+      jest.setSystemTime(new Date('2022-01-26').getTime())
+      const { container } = setup({ ...props })
+
+      expect(container.querySelector('.button-example').getAttribute('aria-controls')).toBe('example-content-1643155200000')
+      expect(container.querySelector('.form-group-example').getAttribute('id')).toBe('example-content-1643155200000')
+
+      expect(container.querySelector('.button-lesson').getAttribute('aria-controls')).toBe('lesson-content-1643155200000')
+      expect(container.querySelector('.lesson-learn').getAttribute('id')).toBe('lesson-content-1643155200000')
+    })
   })
 
   describe('should not render', () => {
