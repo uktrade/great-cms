@@ -6,8 +6,8 @@ import { Tooltip } from '@components/tooltip/Tooltip'
 import { LessonLearn } from '@src/components/LessonLearn'
 
 export const Learning = memo(({ tooltip, example, lesson, className }) => {
-  const [toggleExample, setToggleExample] = useState(false)
-  const [toggleLesson, setToggleLesson] = useState(false)
+  const [showExample, setShowExample] = useState(false)
+  const [showLesson, setShowLesson] = useState(false)
   const hasLesson = lesson && Object.keys(lesson).length > 0
   const hasExample = example && !!example.content
   const controlAreaId = `learning-content-area-${new Date().getTime()}`
@@ -22,15 +22,15 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
                 className="button-example button button--small button--tertiary button--icon m-r-xxs m-b-xs"
                 type="button"
                 aria-controls={controlAreaId}
-                aria-expanded={toggleExample}
+                aria-expanded={showExample}
                 onClick={() => {
-                  setToggleExample(!toggleExample)
-                  setToggleLesson(false)
+                  setShowExample(!showExample)
+                  setShowLesson(false)
                 }}
               >
                 <i
                   className={`fas fa-chevron-${
-                    toggleExample ? 'up' : 'down'
+                    showExample ? 'up' : 'down'
                   }`}
                 />
                 {example.buttonTitle ? example.buttonTitle : 'Example'}
@@ -41,15 +41,15 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
                 className="button-lesson button button--small button--tertiary button--icon m-r-xxs m-b-xs"
                 type="button"
                 aria-controls={controlAreaId}
-                aria-expanded={toggleExample}
+                aria-expanded={showLesson}
                 onClick={() => {
-                  setToggleLesson(!toggleLesson)
-                  setToggleExample(false)
+                  setShowLesson(!showLesson)
+                  setShowExample(false)
                 }}
               >
                 <i
                   className={`fas fa-chevron-${
-                    toggleLesson ? 'up' : 'down'
+                    showLesson ? 'up' : 'down'
                   }`}
                 />
                 Lesson
@@ -65,7 +65,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
               <dl
                 className={`form-group-example bg-${
                   example.bgColour ? example.bgColour : 'blue-deep-10'
-                } p-s m-b-xs radius ${toggleExample ? '' : 'hidden'}`}
+                } p-s m-b-xs radius ${showExample ? '' : 'hidden'}`}
               >
                 <dt className="body-l-b">
                   {example.header
@@ -78,7 +78,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
               </dl>
             )}
             {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-            {hasLesson && <LessonLearn {...lesson} show={toggleLesson} />}
+            {hasLesson && <LessonLearn {...lesson} show={showLesson} />}
           </div>
         </div>
       )}

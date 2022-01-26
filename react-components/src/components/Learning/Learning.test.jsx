@@ -109,26 +109,51 @@ describe('Learning', () => {
     })
   })
 
-  describe('Should display learning content', () => {
-    it('for Example', async () => {
+  describe('functionally', () => {
+    it('should start with all content hidden', () => {
       const { container } = setup({ ...props })
-      const button = container.querySelector('.button-example')
-      fireEvent.click(button)
 
-      const exampleLearn = container.querySelector('.form-group-example')
-      await waitFor(() => {
-        expect(exampleLearn).not.toHaveClass('hidden')
-      })
+      expect(container.querySelector('.form-group-example')).toHaveClass('hidden')
+      expect(container.querySelector('.button-example').getAttribute('aria-expanded')).toBe('false')
+      expect(container.querySelector('.lesson-learn')).toHaveClass('hidden')
+      expect(container.querySelector('.button-lesson').getAttribute('aria-expanded')).toBe('false')
     })
 
-    it('for Lesson', async () => {
+    it('should reveal the Example or Lesson content only', async () => {
       const { container } = setup({ ...props })
-      const button = container.querySelector('.button-lesson')
-      fireEvent.click(button)
+      const exampleButton = container.querySelector('.button-example')
+      const lessonButton = container.querySelector('.button-lesson')
+      const exampleContent = container.querySelector('.form-group-example')
+      const lessonContent = container.querySelector('.lesson-learn')
 
-      const lessonLearn = container.querySelector('.lesson-learn')
+      exampleButton.click()
+
       await waitFor(() => {
-        expect(lessonLearn).toHaveClass('inline-block')
+        expect(exampleContent).not.toHaveClass('hidden')
+        expect(exampleButton.getAttribute('aria-expanded')).toBe('true')
+
+        expect(lessonContent).toHaveClass('hidden')
+        expect(lessonButton.getAttribute('aria-expanded')).toBe('false')
+      })
+
+      lessonButton.click()
+
+      await waitFor(() => {
+        expect(lessonContent).toHaveClass('inline-block')
+        expect(lessonButton.getAttribute('aria-expanded')).toBe('true')
+
+        expect(exampleContent).toHaveClass('hidden')
+        expect(exampleButton.getAttribute('aria-expanded')).toBe('false')
+      })
+
+      lessonButton.click()
+
+      await waitFor(() => {
+        expect(lessonContent).toHaveClass('hidden')
+        expect(lessonButton.getAttribute('aria-expanded')).toBe('false')
+
+        expect(exampleContent).toHaveClass('hidden')
+        expect(exampleButton.getAttribute('aria-expanded')).toBe('false')
       })
     })
   })
