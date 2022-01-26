@@ -8,13 +8,13 @@ import { LessonLearn } from '@src/components/LessonLearn'
 export const Learning = memo(({ tooltip, example, lesson, className }) => {
   const [toggleExample, setToggleExample] = useState(false)
   const [toggleLesson, setToggleLesson] = useState(false)
-  const hasLesson = Object.keys(lesson).length > 0
-  const hasExample = example.content
+  const hasLesson = lesson && Object.keys(lesson).length > 0
+  const hasExample = example && !!example.content
   const controlAreaId = `learning-content-area-${new Date().getTime()}`
 
   return (
     <>
-      {!!(hasExample || hasLesson || tooltip) && (
+      {(hasExample || hasLesson || !!tooltip) && (
         <div className={`learning ${className}`}>
           <div className="learning__buttons">
             {hasExample && (
@@ -56,6 +56,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
               </button>
             )}
             {tooltip && tooltip.content && (
+              // eslint-disable-next-line react/jsx-props-no-spreading
               <Tooltip {...tooltip} className="inline-block m-b-xs" />
             )}
           </div>
@@ -76,6 +77,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
                 </dd>
               </dl>
             )}
+            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
             {hasLesson && <LessonLearn {...lesson} show={toggleLesson} />}
           </div>
         </div>
@@ -86,7 +88,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
 
 Learning.propTypes = {
   tooltip: PropTypes.shape({
-    content: PropTypes.string,
+    content: PropTypes.string.isRequired,
     title: PropTypes.string,
   }),
   example: PropTypes.oneOfType([
@@ -94,6 +96,7 @@ Learning.propTypes = {
       buttonTitle: PropTypes.string,
       header: PropTypes.string,
       content: PropTypes.string,
+      bgColour: PropTypes.string,
     }),
     PropTypes.string,
   ]),
@@ -107,8 +110,8 @@ Learning.propTypes = {
 }
 
 Learning.defaultProps = {
-  tooltip: {},
-  example: {},
-  lesson: {},
+  tooltip: null,
+  example: null,
+  lesson: null,
   className: '',
 }

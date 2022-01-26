@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, waitFor } from '@testing-library/react'
+import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
 
 import { Learning } from './Learning'
 
@@ -25,7 +25,7 @@ const setup = ({ ...data }) => {
   const component = render(
     <Learning {...data}>
       <p>The child component</p>
-    </Learning>
+    </Learning>,
   )
 
   return {
@@ -34,35 +34,83 @@ const setup = ({ ...data }) => {
 }
 
 describe('Learning', () => {
-  describe('Should render learning buttons', () => {
-    it('Should have a Tooltip button', () => {
+  describe('Should render', () => {
+    it('with a given class', () => {
+      const { container } = setup({ ...props, className: 'foo' })
+      expect(container.querySelector('.learning')).toHaveClass('foo')
+    })
+
+    it('the Tooltip button', () => {
       const { container } = setup({ ...props })
       expect(container.querySelector('.tooltip')).toBeTruthy()
     })
 
-    it('Should have an Example button', () => {
+    it('the Example button with custom text', () => {
       const { container } = setup({ ...props })
-      expect(container.querySelector('.button-example')).toBeTruthy()
+      expect(container.querySelector('.button-example').textContent).toBe('Custom')
     })
 
-    it('Should have a Lesson button', () => {
+    it('the Example button with default text', () => {
+      const updatedProps = { ...props }
+      delete updatedProps.example.buttonTitle
+      const { container } = setup({ ...updatedProps })
+      expect(container.querySelector('.button-example').textContent).toBe('Example')
+    })
+
+    it('the Lesson button', () => {
       const { container } = setup({ ...props })
       expect(container.querySelector('.button-lesson')).toBeTruthy()
+    })
+
+    it('with the default Example background colour', () => {
+      const { container } = setup({ ...props })
+
+      expect(container.querySelector('.form-group-example')).toHaveClass('bg-blue-deep-10')
+    })
+
+    it('with a custom Example background colour', () => {
+      const updatedProps = { ...props }
+      updatedProps.example.bgColour = 'red-deep-10'
+      const { container } = setup({ ...updatedProps })
+
+      expect(container.querySelector('.form-group-example')).toHaveClass('bg-red-deep-10')
+    })
+
+    it('with a custom Example header', () => {
+      const { container } = setup({ ...props })
+      expect(container.querySelector('.form-group-example dt').textContent)
+        .toBe('Example title')
+    })
+
+    it('with the default Example header', () => {
+      const updatedProps = { ...props }
+      delete updatedProps.example.header
+      const { container } = setup({ ...updatedProps })
+
+      expect(container.querySelector('.form-group-example dt').textContent)
+        .toBe('A fictional example to help you complete this section')
+    })
+  })
+
+  describe('should not render', () => {
+    it('if no example, lesson or tooltip provided', () => {
+      const { container } = setup({})
+      expect(container.innerHTML).toEqual('')
+    })
+
+    it('example if it has no content', () => {
+      const { container } = setup({ example: {} })
+      expect(container.innerHTML).toEqual('')
+    })
+
+    it('lesson if it has no content', () => {
+      const { container } = setup({ lesson: {} })
+      expect(container.innerHTML).toEqual('')
     })
   })
 
   describe('Should display learning content', () => {
-    it('Should display Tooltip content', async () => {
-      const { container } = setup({ ...props })
-      const button = container.querySelector('.tooltip__icon button')
-      fireEvent.click(button)
-
-      await waitFor(() => {
-        expect(container.querySelector('.tooltip__text')).toBeTruthy()
-      })
-    })
-
-    it('Should display Example content', async () => {
+    it('for Example', async () => {
       const { container } = setup({ ...props })
       const button = container.querySelector('.button-example')
       fireEvent.click(button)
@@ -73,7 +121,7 @@ describe('Learning', () => {
       })
     })
 
-    it('Should display Lesson content', async () => {
+    it('for Lesson', async () => {
       const { container } = setup({ ...props })
       const button = container.querySelector('.button-lesson')
       fireEvent.click(button)
