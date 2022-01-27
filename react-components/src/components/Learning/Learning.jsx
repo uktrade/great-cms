@@ -1,6 +1,7 @@
 import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 import ReactHtmlParser from 'react-html-parser'
+import { uniqueId } from '@src/Helpers'
 
 import { Tooltip } from '@components/tooltip/Tooltip'
 import { LessonLearn } from '@src/components/LessonLearn'
@@ -10,9 +11,9 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
   const [showLesson, setShowLesson] = useState(false)
   const hasLesson = lesson && Object.keys(lesson).length > 0
   const hasExample = example && !!example.content
-  const uniqueId = new Date().getTime()
-  const exampleId = `example-content-${uniqueId}`
-  const lessonId = `lesson-content-${uniqueId}`
+  const [learnId] = useState(uniqueId())
+  const exampleId = `example-content-${learnId}`
+  const lessonId = `lesson-content-${learnId}`
 
   return (
     <>

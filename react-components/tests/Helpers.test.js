@@ -1,29 +1,26 @@
 import {
-  dateFormat,
-  slugify,
   addItemToList,
-  capitalize,
-  isObject,
-  get,
-  mapArray,
-  getValue,
-  getLabel,
-  formatLessonLearned,
-  normaliseValues,
-  listJoin,
-  millify,
-  stripPercentage,
-  getLabels,
-  getValues,
-  objectHasValue,
-  deepAssign,
-  deepEqual,
   camelize,
   camelizeObject,
+  capitalize,
+  dateFormat,
+  deepAssign,
+  deepEqual,
+  formatLessonLearned,
+  get,
+  isObject,
+  listJoin,
+  mapArray,
+  millify,
+  normaliseValues,
   numberWithSign,
-  validation,
+  objectHasValue,
+  slugify,
   sortBy,
   sortMapBy,
+  stripPercentage,
+  uniqueId,
+  validation,
 } from '@src/Helpers'
 
 const { twoDecimal, wholeNumber, onlyOneZero } = validation
@@ -401,5 +398,16 @@ describe('Validation', () => {
     `('Should be valid - $a and $b', ({ a, b, expected }) => {
       expect(onlyOneZero(a, b)).toEqual(expected)
     })
+  })
+})
+
+describe('uniqueId', () => {
+  it('returns a unique ID', () => {
+    const unique1 = uniqueId()
+    const unique2 = uniqueId()
+
+    expect(unique1.length).toBe(8)
+    expect(unique1).not.toEqual(unique2)
+
   })
 })
