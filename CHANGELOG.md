@@ -14,6 +14,7 @@
 - GLS-24 - Removed HS code from sample export plan PDF
 - GLS-53 - handle 5 stats display
 - GLS-54 - Remove Ease of doing business stat from Where to export
+- GLS-9 - Improve accessibility of learning content reveals
 
 ### Hotfix
 
