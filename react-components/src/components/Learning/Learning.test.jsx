@@ -78,7 +78,7 @@ describe('Learning', () => {
 
     it('with a custom Example header', () => {
       const { container } = setup({ ...props })
-      expect(container.querySelector('.form-group-example dt').textContent)
+      expect(container.querySelector('.form-group-example h3').textContent)
         .toBe('Example title')
     })
 
@@ -87,7 +87,7 @@ describe('Learning', () => {
       delete updatedProps.example.header
       const { container } = setup({ ...updatedProps })
 
-      expect(container.querySelector('.form-group-example dt').textContent)
+      expect(container.querySelector('.form-group-example h3').textContent)
         .toBe('A fictional example to help you complete this section')
     })
 

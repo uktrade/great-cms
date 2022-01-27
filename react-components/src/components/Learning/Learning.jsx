@@ -65,21 +65,21 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
 
           <div className="learning__content" aria-live="polite">
             {hasExample && (
-              <dl
+              <div
                 id={exampleId}
                 className={`form-group-example bg-${
                   example.bgColour ? example.bgColour : 'blue-deep-10'
                 } p-s m-b-xs radius ${showExample ? '' : 'hidden'}`}
               >
-                <dt className="body-l-b">
+                <h3 className="body-l-b">
                   {example.header
                     ? example.header
                     : 'A fictional example to help you complete this section'}
-                </dt>
-                <dd className="m-t-xxs body-l">
+                </h3>
+                <div className="m-t-xxs body-l">
                   {ReactHtmlParser(example.content)}
-                </dd>
-              </dl>
+                </div>
+              </div>
             )}
             {hasLesson && (
               <LessonLearn
