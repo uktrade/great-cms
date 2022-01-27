@@ -1,13 +1,9 @@
-/* eslint-disable */
 import React from 'react'
-import { mount } from 'enzyme'
+import { render, waitFor } from '@testing-library/react'
 import { ToggleDataTable } from '@src/components/ToggleDataTable'
 import Services from '@src/Services'
-import { act } from 'react-dom/test-utils'
 
 jest.mock('@src/Services')
-
-let wrapper
 
 const mockGroups = [
   { value: '0-14', label: '0-14 year olds' },
@@ -53,71 +49,84 @@ const mockResponse = {
   },
 }
 
+const DataComponent = ({ className, ...data }) => <div className={className}>{JSON.stringify(data, null, 2)}</div>
+
 describe('ToggleDataTable', () => {
   beforeEach(() => {
-    Services.getCountryData.mockImplementation(() =>
-      Promise.resolve(mockResponse)
-    )
-    wrapper = mount(
-      <ToggleDataTable
-        groups={mockGroups}
-        countryIso2Code="NL"
-        selectedGroups={['5-9']}
-        url="/export-plan"
-        afterTable={[<div className="table">test</div>]}
-      ></ToggleDataTable>
-    )
+    Services.getCountryData.mockResolvedValue(mockResponse)
   })
 
   afterEach(() => {
-    wrapper = null
-    Services.setConfig({})
     jest.clearAllMocks()
   })
 
-  it('Should fetch country data', () => {
-    expect(Services.getCountryData).toHaveBeenCalledWith(
-      [{ country_iso2_code: 'NL' }],
-      JSON.stringify([
-        { model: 'PopulationData', filter: { year: 2020 } },
-        { model: 'PopulationUrbanRural', filter: { year: 2021 } },
-        { model: 'ConsumerPriceIndex', latest_only: true },
-        { model: 'InternetUsage', latest_only: true },
-        { model: 'CIAFactbook', latest_only: true },
-      ])
-    )
-  })
+  it('Should fetch country data', async () => {
+    render(<ToggleDataTable countryIso2Code="NL" url="/export-plan" />)
 
-  it('renders heading and select button initially', () => {
-    expect(wrapper.find('h3').length).toEqual(1)
-    expect(wrapper.find('.button--tiny-toggle').length).toEqual(1)
-    expect(wrapper.find('.table').length).toEqual(0)
-  })
-
-  it('renders table', () => {
-    wrapper.find('.button--tiny-toggle').simulate('click', { type: 'click' })
-    expect(wrapper.find('.table').length).toEqual(1)
-  })
-
-  it('renders table', async () => {
-    Services.getCountryAgeGroupData.mockImplementation(() =>
-      Promise.resolve(mockResponse)
-    )
-    await act(async () => {
-      wrapper.find('.button--tiny-toggle').simulate('click', { type: 'click' })
+    await waitFor(() => {
+      expect(Services.getCountryData).toHaveBeenCalledWith(
+        [{ country_iso2_code: 'NL' }],
+        JSON.stringify([
+          { model: 'PopulationData', filter: { year: 2020 } },
+          { model: 'PopulationUrbanRural', filter: { year: 2021 } },
+          { model: 'ConsumerPriceIndex', latest_only: true },
+          { model: 'InternetUsage', latest_only: true },
+          { model: 'CIAFactbook', latest_only: true },
+        ]),
+      )
     })
-    wrapper.update()
-    await act(async () => {
-      wrapper
-        .find('input')
-        .first()
-        .simulate('change', {
-          type: 'change',
-          target: { value: mockGroups[0]['value'] },
-        })
+  })
+
+  it('renders heading and select button initially', async () => {
+    const { container } = render(<ToggleDataTable countryIso2Code="NL" url="/" />)
+
+    await waitFor(() => {
+      expect(container.querySelectorAll('h3')).toHaveLength(1)
+      expect(container.querySelectorAll('.button--tiny-toggle')).toHaveLength(1)
+      expect(container.querySelectorAll('.table')).toHaveLength(0)
+    })
+  })
+
+  it('renders content before and after when data is available', async () => {
+    const { container } = render(
+      <ToggleDataTable
+        countryIso2Code="NL"
+        url="/"
+        beforeTable={[<DataComponent className="before" />]}
+        afterTable={[<DataComponent className="after" />]}
+      />,
+    )
+
+    await waitFor(() => {
+      expect(container.querySelector('.before')).toBeTruthy()
+      expect(container.querySelector('.after')).toBeTruthy()
+    })
+  })
+
+  it('updates data when changing selected age ranges', async () => {
+    const { container } = render(
+      <ToggleDataTable
+        countryIso2Code="NL"
+        url="/"
+        groups={mockGroups}
+        afterTable={[<DataComponent className="after" />]}
+      />,
+    )
+
+    const getData = () => JSON.parse(container.querySelector('.after').textContent)
+
+    await waitFor(() => {
+      expect(getData().target).toEqual(15810000)
     })
 
-    wrapper.update()
-    expect(wrapper.find('.table').length).toEqual(1)
+    // Open age group selector
+    container.querySelector('.button--tiny-toggle').click()
+    // Select first age group
+    // TODO: Fix invalid id attribute
+    container.querySelector('[id="0-14"]').click()
+
+    await waitFor(() => {
+      expect(getData().target).toEqual(11691000)
+    })
   })
 })
