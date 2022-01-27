@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, waitFor } from '@testing-library/react'
+import { uniqueId } from '@src/Helpers'
 
 import { Learning } from './Learning'
 
@@ -23,11 +24,13 @@ const props = {
 
 const setup = (propsData) => render(<Learning {...propsData} />)
 
-// Force generated ID to be 1643155200000
-jest.setSystemTime(new Date('2022-01-26').getTime())
+// Force generated ID to be abcd1234
+jest.mock('@src/Helpers', () => ({
+  uniqueId: jest.fn().mockReturnValue('abcd1234'),
+}))
 
-const getButton = (type, container) => container.querySelector(`[aria-controls="${type}-content-1643155200000"]`)
-const getContent = (type, container) => container.querySelector(`#${type}-content-1643155200000`)
+const getButton = (type, container) => container.querySelector(`[aria-controls="${type}-content-abcd1234"]`)
+const getContent = (type, container) => container.querySelector(`#${type}-content-abcd1234`)
 
 describe('Learning', () => {
   describe('Should render', () => {
@@ -39,11 +42,11 @@ describe('Learning', () => {
     it('with a unique ID for each button and content', () => {
       const { container } = setup({ ...props })
 
-      expect(container.querySelector('.button-example').getAttribute('aria-controls')).toBe('example-content-1643155200000')
-      expect(container.querySelector('.form-group-example').getAttribute('id')).toBe('example-content-1643155200000')
+      expect(container.querySelector('.button-example').getAttribute('aria-controls')).toBe('example-content-abcd1234')
+      expect(container.querySelector('.form-group-example').getAttribute('id')).toBe('example-content-abcd1234')
 
-      expect(container.querySelector('.button-lesson').getAttribute('aria-controls')).toBe('lesson-content-1643155200000')
-      expect(container.querySelector('.lesson-learn').getAttribute('id')).toBe('lesson-content-1643155200000')
+      expect(container.querySelector('.button-lesson').getAttribute('aria-controls')).toBe('lesson-content-abcd1234')
+      expect(container.querySelector('.lesson-learn').getAttribute('id')).toBe('lesson-content-abcd1234')
     })
 
     it('the Tooltip button', () => {
@@ -160,6 +163,20 @@ describe('Learning', () => {
 
         expect(exampleContent).toHaveClass('hidden')
         expect(exampleButton.getAttribute('aria-expanded')).toBe('false')
+      })
+    })
+
+    it('does not regenerate the unique ID when interacting', async () => {
+      // Only way to reset this mock?!
+      uniqueId.mockImplementation(() => Math.random().toString(16).slice(2, 10))
+
+      const { container } = setup({ ...props })
+      const id = container.querySelector('.button-example').getAttribute('aria-controls')
+
+      container.querySelector('.button-example').click()
+
+      await waitFor(() => {
+        expect(container.querySelector('.button-example').getAttribute('aria-controls')).toEqual(id)
       })
     })
   })
