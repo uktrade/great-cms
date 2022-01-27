@@ -1,82 +1,87 @@
 import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 import ReactHtmlParser from 'react-html-parser'
+import { uniqueId } from '@src/Helpers'
 
 import { Tooltip } from '@components/tooltip/Tooltip'
 import { LessonLearn } from '@src/components/LessonLearn'
 
 export const Learning = memo(({ tooltip, example, lesson, className }) => {
-  const [toggleExample, setToggleExample] = useState(false)
-  const [toggleLesson, setToggleLesson] = useState(false)
-  const hasLesson = Object.keys(lesson).length > 0
-  const hasExample = example.content
-  const controlAreaId = `learning-content-area-${new Date().getTime()}`
+  const [showExample, setShowExample] = useState(false)
+  const [showLesson, setShowLesson] = useState(false)
+  const hasLesson = lesson && Object.keys(lesson).length > 0
+  const hasExample = example && !!example.content
+  const [learnId] = useState(uniqueId())
+  const exampleId = `example-content-${learnId}`
+  const lessonId = `lesson-content-${learnId}`
 
   return (
     <>
-      {!!(hasExample || hasLesson || tooltip) && (
+      {(hasExample || hasLesson || !!tooltip) && (
         <div className={`learning ${className}`}>
           <div className="learning__buttons">
             {hasExample && (
               <button
-                className="button-example button button--small button--tertiary button--icon m-r-xxs m-b-xs"
+                className="button-example button button--small button--tiny-toggle m-r-xs m-b-xs"
                 type="button"
-                aria-controls={controlAreaId}
-                aria-expanded={toggleExample}
+                aria-controls={exampleId}
+                aria-expanded={showExample}
                 onClick={() => {
-                  setToggleExample(!toggleExample)
-                  setToggleLesson(false)
+                  setShowExample(!showExample)
+                  setShowLesson(false)
                 }}
               >
-                <i
-                  className={`fas fa-chevron-${
-                    toggleExample ? 'up' : 'down'
-                  }`}
-                />
+                <i className={`fas fa-chevron-${showExample ? 'up' : 'down'} m-r-xxs`} />
                 {example.buttonTitle ? example.buttonTitle : 'Example'}
               </button>
             )}
             {hasLesson && (
               <button
-                className="button-lesson button button--small button--tertiary button--icon m-r-xxs m-b-xs"
+                className="button-lesson button button--small button--tiny-toggle m-r-xs m-b-xs"
                 type="button"
-                aria-controls={controlAreaId}
-                aria-expanded={toggleExample}
+                aria-controls={lessonId}
+                aria-expanded={showLesson}
                 onClick={() => {
-                  setToggleLesson(!toggleLesson)
-                  setToggleExample(false)
+                  setShowLesson(!showLesson)
+                  setShowExample(false)
                 }}
               >
-                <i
-                  className={`fas fa-chevron-${
-                    toggleLesson ? 'up' : 'down'
-                  }`}
-                />
+                <i className={`fas fa-chevron-${showLesson ? 'up' : 'down'} m-r-xxs`} />
                 Lesson
               </button>
             )}
             {tooltip && tooltip.content && (
-              <Tooltip {...tooltip} className="inline-block m-b-xs" />
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              <Tooltip {...tooltip} className="inline-block m-b-xs m-r-xs" />
             )}
           </div>
-          <div className="learning__content" id={controlAreaId}>
+
+          <div className="learning__content" aria-live="polite">
             {hasExample && (
-              <dl
+              <div
+                id={exampleId}
                 className={`form-group-example bg-${
                   example.bgColour ? example.bgColour : 'blue-deep-10'
-                } p-s m-b-xs radius ${toggleExample ? '' : 'hidden'}`}
+                } p-s m-b-xs radius ${showExample ? '' : 'hidden'}`}
               >
-                <dt className="body-l-b">
+                <h3 className="body-l-b">
                   {example.header
                     ? example.header
                     : 'A fictional example to help you complete this section'}
-                </dt>
-                <dd className="m-t-xxs body-l">
+                </h3>
+                <div className="m-t-xxs body-l">
                   {ReactHtmlParser(example.content)}
-                </dd>
-              </dl>
+                </div>
+              </div>
             )}
-            {hasLesson && <LessonLearn {...lesson} show={toggleLesson} />}
+            {hasLesson && (
+              <LessonLearn
+                /* eslint-disable-next-line react/jsx-props-no-spreading */
+                {...lesson}
+                show={showLesson}
+                id={lessonId}
+              />
+            )}
           </div>
         </div>
       )}
@@ -86,7 +91,7 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
 
 Learning.propTypes = {
   tooltip: PropTypes.shape({
-    content: PropTypes.string,
+    content: PropTypes.string.isRequired,
     title: PropTypes.string,
   }),
   example: PropTypes.oneOfType([
@@ -94,6 +99,7 @@ Learning.propTypes = {
       buttonTitle: PropTypes.string,
       header: PropTypes.string,
       content: PropTypes.string,
+      bgColour: PropTypes.string,
     }),
     PropTypes.string,
   ]),
@@ -107,8 +113,8 @@ Learning.propTypes = {
 }
 
 Learning.defaultProps = {
-  tooltip: {},
-  example: {},
-  lesson: {},
+  tooltip: null,
+  example: null,
+  lesson: null,
   className: '',
 }

@@ -1,16 +1,17 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
-export const LessonLearn = memo(({ show, url, title, category, duration }) => (
+export const LessonLearn = memo(({ show, url, title, category, duration, id }) => (
   <a
     className={`link m-b-xs width-full lesson-learn ${
       show ? 'inline-block' : 'hidden'
     }`}
     href={url}
     title={title}
+    id={id}
   >
     <div className="bg-blue-deep-80 p-s radius">
-      <h4 className="text-white h-s m-t-0 p-t-0 m-b-xs">{title}</h4>
+      <h3 className="text-white h-s m-t-0 p-t-0 m-b-xs">{title}</h3>
       <div className="body-m text-white grid">
         <dl className="c-1-3">
           <dt>Learning category</dt>
@@ -31,6 +32,7 @@ LessonLearn.propTypes = {
   title: PropTypes.string,
   category: PropTypes.string,
   duration: PropTypes.string,
+  id: PropTypes.string,
 }
 
 LessonLearn.defaultProps = {
@@ -39,4 +41,5 @@ LessonLearn.defaultProps = {
   title: '',
   category: '',
   duration: '',
+  id: null,
 }

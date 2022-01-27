@@ -6,7 +6,11 @@
 
 ### Bugs fixed
 
+- GLS-69 - SECURITY: great-cms frontend asset vulnerabilities: `node-fetch` and `nanoid`
+
 ### Enhancements
+
+- GLS-9 - Improve accessibility of learning content reveals
 
 ## [2.2.0](https://github.com/uktrade/great-cms/releases/tag/2.2.0)
 
