@@ -30,8 +30,8 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
                   setShowLesson(false)
                 }}
               >
+                <i className={`fas fa-chevron-${showExample ? 'up' : 'down'} m-r-xxs`} />
                 {example.buttonTitle ? example.buttonTitle : 'Example'}
-                <i className={`fas fa-chevron-${showExample ? 'up' : 'down'} m-f-xxs`} />
               </button>
             )}
             {hasLesson && (
@@ -45,8 +45,8 @@ export const Learning = memo(({ tooltip, example, lesson, className }) => {
                   setShowExample(false)
                 }}
               >
+                <i className={`fas fa-chevron-${showLesson ? 'up' : 'down'} m-r-xxs`} />
                 Lesson
-                <i className={`fas fa-chevron-${showLesson ? 'up' : 'down'} m-f-xxs`} />
               </button>
             )}
             {tooltip && tooltip.content && (
