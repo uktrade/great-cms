@@ -18,4 +18,5 @@ module.exports = {
     '<rootDir>/react-components/setupJest.js',
   ],
   testEnvironment: 'jsdom',
+  timers: 'modern',
 }
