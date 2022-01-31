@@ -12,8 +12,9 @@ const formatPercentage = (val, total) =>
   val ? `${normaliseValues((100 * val) / total)}%` : notAvailable
 
 export const AgeGroupData = memo(
-  ({ target, targetfemale, targetmale, urban, rural }) => {
+  ({ selectedGroups, target, totalPopulation, targetfemale, targetmale, urban, rural }) => {
     const country = useSelector((state) => getEpMarket(state))
+    const isFiltered = selectedGroups.length > 0 && target !== totalPopulation
     return (
       <>
         <h3 className="body-l-b m-t-xs m-b-xs">
@@ -23,16 +24,16 @@ export const AgeGroupData = memo(
           <div className="grid">
             <div className="c-1-3">
               <Stats
-                header="Target age population"
+                header={isFiltered ? 'Target age population' : 'Total population'}
                 data={formatNumber(target)}
               />
             </div>
 
             <div className="c-2-3 flex-direction-column">
               <StatsGroup
-                headerLeft="Female in your target group"
+                headerLeft={`Female${isFiltered ? ' in your target group' : ''}`}
                 dataLeft={formatNumber(targetfemale)}
-                headerRight="Male in your target group"
+                headerRight={`Male${isFiltered ? ' in your target group' : ''}`}
                 dataRight={formatNumber(targetmale)}
                 statPercentage={(targetfemale / target) * 100}
                 hasStat={!!(targetfemale && targetfemale !== 0)}
@@ -56,17 +57,21 @@ export const AgeGroupData = memo(
 )
 
 AgeGroupData.propTypes = {
+  selectedGroups: PropTypes.arrayOf(PropTypes.string),
   urban: PropTypes.number,
   rural: PropTypes.number,
-  female: PropTypes.number,
-  male: PropTypes.number,
-  targetPopulation: PropTypes.number,
+  targetfemale: PropTypes.number,
+  targetmale: PropTypes.number,
+  target: PropTypes.number,
+  totalPopulation: PropTypes.number,
 }
 
 AgeGroupData.defaultProps = {
+  selectedGroups: [],
   urban: null,
   rural: null,
-  female: null,
-  male: null,
-  targetPopulation: null,
+  targetfemale: null,
+  targetmale: null,
+  target: null,
+  totalPopulation: null,
 }

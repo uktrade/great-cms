@@ -40,7 +40,7 @@ const mockResponse = {
     CIAFactbook: [
       {
         languages: {
-          note: 'Danish, Frisian, Sorbian, and Romani are official minority languages; Low German, Danish, North Frisian, Sater Frisian, Lower Sorbian, Upper Sorbian, and Romani are recognized as regional languages under the European Charter for Regional or Minority Languages',
+          note: 'A few languages',
           language: [{ name: 'German', note: 'official' }],
         },
         country_key: 'germany',
@@ -77,6 +77,44 @@ describe('ToggleDataTable', () => {
         ]),
       )
     })
+  })
+
+  it('renders computed data and selected groups in data panel', async () => {
+    const { container } = render(
+      <ToggleDataTable
+        countryIso2Code="NL"
+        url="/"
+        groups={mockGroups}
+        selectedGroups={['0-14', '15-19']}
+        afterTable={[<DataComponent className="after" />]}
+      />,
+    )
+
+    await waitFor(() => container.querySelector('.after'))
+
+    const data = JSON.parse(container.querySelector('.after').textContent)
+
+    expect(data).toEqual({
+        cpi: '113.427',
+        internetData: '89.739',
+        languages: {
+          language: [
+            {
+              name: 'German',
+              note: 'official',
+            },
+          ],
+          note: 'A few languages',
+        },
+        rural: 18546,
+        target: 15810000,
+        targetfemale: 7629000,
+        targetmale: 8181000,
+        totalPopulation: 15810000,
+        urban: 64044,
+        selectedGroups: ['0-14', '15-19'],
+      },
+    )
   })
 
   it('renders heading and select button initially', async () => {

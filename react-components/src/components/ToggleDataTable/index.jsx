@@ -70,7 +70,7 @@ export const ToggleDataTable = ({
   const renderElements = (elements) => {
     if (!showTable || !elements) return ''
     const arrElements = isArray(elements) ? elements : [elements]
-    return arrElements.map((child, index) => cloneElement(child, {key: index, ...data }))
+    return arrElements.map((child, index) => cloneElement(child, { key: index, selectedGroups, ...data }))
   }
 
   const handleChange = (event) => {
