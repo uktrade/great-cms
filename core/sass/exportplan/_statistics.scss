@@ -152,7 +152,8 @@
 .selected-groups {
   display: flex;
   flex-wrap: wrap;
-  margin: 12px -5px 0;
+  margin-left: -5px;
+  margin-right: -5px;
 
   &__item {
     display: flex;

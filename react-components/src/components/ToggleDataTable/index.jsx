@@ -91,12 +91,12 @@ export const ToggleDataTable = ({
 
       {showTable && (
         <>
-          <h3 className="body-l-b m-b-0">Target age groups</h3>
+          <h3 className="body-l-b m-t-xs m-b-xs">Target age groups</h3>
 
           {selectedGroups.length > 0 && (
             <>
-              <h4 className="m-t-xs m-b-0">Currently selected</h4>
-              <ul className="selected-groups">
+              <h4 className="m-t-0 m-b-xxs">Currently selected</h4>
+              <ul className="selected-groups m-t-0 m-b-xs">
                 {groups
                   .filter(group => selectedGroups.includes(group.value))
                   .map(({ value, label }) => (
@@ -117,7 +117,7 @@ export const ToggleDataTable = ({
           )}
 
           <button
-            className="button button--tiny-toggle m-t-xs"
+            className="button button--tiny-toggle"
             type="button"
             onClick={() => setIsOpen(!isOpen)}
             aria-expanded={isOpen}
