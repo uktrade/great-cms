@@ -91,12 +91,12 @@ export const ToggleDataTable = ({
 
       {showTable && (
         <>
-          <h3 className="body-l-b p-t-l">Target age groups</h3>
+          <h3 className="body-l-b m-b-xxs">Target age groups</h3>
 
           {selectedGroups.length > 0 && (
             <>
-              <h4>Currently selected</h4>
-              <ul id="target-age-groups" className="selected-groups">
+              <h4 className="m-b-xxs">Currently selected</h4>
+              <ul>
                 {groups
                   .filter(group => selectedGroups.includes(group.value))
                   .map(({ value, label }) => (
@@ -128,7 +128,7 @@ export const ToggleDataTable = ({
           </button>
 
           {isOpen && (
-            <ul className="form-group m-b-0">
+            <ul id="target-age-groups" className="form-group m-b-0">
               {groups.map(({ value, label }) => (
                 <li className="great-checkbox width-full m-b-xs" key={value}>
                   <input

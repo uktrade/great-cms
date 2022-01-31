@@ -124,7 +124,7 @@ describe('ToggleDataTable', () => {
   })
 
   it('opens and closes the age range selector', async () => {
-    const { getByText } = render(
+    const { getByText, container } = render(
       <ToggleDataTable
         countryIso2Code="NL"
         url="/"
@@ -138,13 +138,15 @@ describe('ToggleDataTable', () => {
     getByText('Choose target age groups').click()
 
     await waitFor(() => {
-      expect(getByText('Close target age groups')).toBeTruthy()
+      expect(getByText('Close target age groups').getAttribute('aria-expanded')).toBe('true')
+      expect(container.querySelector('#target-age-groups')).toBeTruthy()
     })
 
     getByText('Close target age groups').click()
 
     await waitFor(() => {
-      expect(getByText('Choose target age groups')).toBeTruthy()
+      expect(getByText('Choose target age groups').getAttribute('aria-expanded')).toBe('false')
+      expect(container.querySelector('#target-age-groups')).toBeNull()
     })
   })
 
