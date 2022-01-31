@@ -43,25 +43,22 @@ export const ToggleDataTable = ({
 
   useEffect(() => {
     if (rawData && Object.keys(rawData).length) {
-      const activeGroups = selectedGroups.reduce((x, value) => {
-        const l = x
-        l[`sector${value.replace('-', '_').replace('+', '')}`] = true
-        return l
-      }, {})
-      const urbanRural = rawData.PopulationUrbanRural && rawData.PopulationUrbanRural.reduce((x, row) => {
-        const l = x
-        l[row.urban_rural] = row.value
-        return l
-      }, {})
-      const targetPopulation = ['male', 'female', null].reduce((x, key) => {
-        const l = x
-        l[`target${key || ''}`] = dataSetByGender(
+      const activeGroups = selectedGroups.reduce((x, value) => ({
+        ...x,
+        [`sector${value.replace('-', '_').replace('+', '')}`]: true,
+      }), {})
+      const urbanRural = rawData.PopulationUrbanRural && rawData.PopulationUrbanRural.reduce((x, row) => ({
+        ...x,
+        [row.urban_rural]: row.value,
+      }), {})
+      const targetPopulation = ['male', 'female', null].reduce((x, key) => ({
+        ...x,
+        [`target${key || ''}`]: dataSetByGender(
           rawData.PopulationData,
           activeGroups,
-          key
-        )
-        return l
-      }, {})
+          key,
+        ),
+      }), {})
       setData({
         internetData: get(rawData, 'InternetUsage.0.value'),
         languages: get(rawData, 'CIAFactbook.0.languages'),
@@ -94,51 +91,54 @@ export const ToggleDataTable = ({
   return (
     <>
       {renderElements(beforeTable)}
-      <h3 className="body-l-b p-t-l">Target age groups</h3>
-      <div className="selected-groups">
-        <div className="selected-groups__button">
-          <button
-            className="button button--tiny-toggle"
-            type="button"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-expanded={isOpen}
-            aria-controls="target-age-groups"
-          >
-            <i className={`fa fa-chevron-circle-${isOpen ? 'up' : 'down'}`} />
-            <span className="visually-hidden">{`${
-              isOpen ? 'Close' : 'Open'
-            } target age groups`}</span>
-          </button>
-        </div>
-        <ul id="target-age-groups" className="selected-groups__items">
-          {selectedGroups.map((item) => (
-            <li key={item} className="selected-groups__item">
-              {item} years old
-            </li>
+
+      {showTable && (
+        <>
+          <h3 className="body-l-b p-t-l">Target age groups</h3>
+          <div className="selected-groups">
+            <div className="selected-groups__button">
+              <button
+                className="button button--tiny-toggle button--small"
+                type="button"
+                onClick={() => setIsOpen(!isOpen)}
+                aria-expanded={isOpen}
+                aria-controls="target-age-groups"
+              >
+                <i className={`fa fa-chevron-circle-${isOpen ? 'up' : 'down'} m-r-xxs`} />
+                {isOpen ? 'Close' : 'Choose'} target age groups
+              </button>
+            </div>
+
+            <ul id="target-age-groups" className="selected-groups__items">
+              {selectedGroups.map((item) => (
+                <li key={item} className="selected-groups__item">
+                  {item} years old
+                </li>
+              ))}
+            </ul>
+          </div>
+          {targetGroupLabels.map((i) => (
+            <span className="statistic-label body-m-b bg-blue-deep-20" key={i}>{i}</span>
           ))}
-        </ul>
-      </div>
-      {targetGroupLabels.map((i) => (
-        <span className="statistic-label body-m-b bg-blue-deep-20" key={i}>
-          {i}
-        </span>
-      ))}
-      {isOpen && (
-        <ul className="form-group m-b-0">
-          {groups.map(({ value, label }) => (
-            <li className="great-checkbox width-full m-b-xs" key={value}>
-              <input
-                id={value}
-                value={value}
-                type="checkbox"
-                onChange={handleChange}
-                checked={selectedGroups.includes(value)}
-              />
-              <label htmlFor={value}>{label}</label>
-            </li>
-          ))}
-        </ul>
+          {isOpen && (
+            <ul className="form-group m-b-0">
+              {groups.map(({ value, label }) => (
+                <li className="great-checkbox width-full m-b-xs" key={value}>
+                  <input
+                    id={value}
+                    value={value}
+                    type="checkbox"
+                    onChange={handleChange}
+                    checked={selectedGroups.includes(value)}
+                  />
+                  <label htmlFor={value}>{label}</label>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
       )}
+
       {renderElements(afterTable)}
     </>
   )

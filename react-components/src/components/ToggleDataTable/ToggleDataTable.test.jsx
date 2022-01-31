@@ -49,6 +49,7 @@ const mockResponse = {
   },
 }
 
+// eslint-disable-next-line react/prop-types
 const DataComponent = ({ className, ...data }) => <div className={className}>{JSON.stringify(data, null, 2)}</div>
 
 describe('ToggleDataTable', () => {
@@ -100,6 +101,49 @@ describe('ToggleDataTable', () => {
     await waitFor(() => {
       expect(container.querySelector('.before')).toBeTruthy()
       expect(container.querySelector('.after')).toBeTruthy()
+    })
+  })
+
+  it('renders the age range selector when data is available', async () => {
+    const { queryByText, getByText } = render(
+      <ToggleDataTable
+        countryIso2Code="NL"
+        url="/"
+        groups={mockGroups}
+        afterTable={[<DataComponent className="after" />]}
+      />,
+    )
+
+    expect(queryByText('Target age groups')).toBeNull()
+
+    await waitFor(() => {
+      expect(getByText('Target age groups')).toBeTruthy()
+      expect(getByText('Choose target age groups')).toBeTruthy()
+    })
+  })
+
+  it('opens and closes the age range selector', async () => {
+    const { getByText } = render(
+      <ToggleDataTable
+        countryIso2Code="NL"
+        url="/"
+        groups={mockGroups}
+        afterTable={[<DataComponent className="after" />]}
+      />,
+    )
+
+    await waitFor(() => getByText('Choose target age groups'))
+
+    getByText('Choose target age groups').click()
+
+    await waitFor(() => {
+      expect(getByText('Close target age groups')).toBeTruthy()
+    })
+
+    getByText('Close target age groups').click()
+
+    await waitFor(() => {
+      expect(getByText('Choose target age groups')).toBeTruthy()
     })
   })
 
