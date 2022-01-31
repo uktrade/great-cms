@@ -91,12 +91,12 @@ export const ToggleDataTable = ({
 
       {showTable && (
         <>
-          <h3 className="body-l-b m-b-xxs">Target age groups</h3>
+          <h3 className="body-l-b m-b-0">Target age groups</h3>
 
           {selectedGroups.length > 0 && (
             <>
-              <h4 className="m-b-xxs">Currently selected</h4>
-              <ul>
+              <h4 className="m-t-xs m-b-0">Currently selected</h4>
+              <ul className="selected-groups">
                 {groups
                   .filter(group => selectedGroups.includes(group.value))
                   .map(({ value, label }) => (
@@ -107,7 +107,7 @@ export const ToggleDataTable = ({
                         className="button button--tiny-toggle" type="button"
                         onClick={() => handleChange({ target: { value } })}
                       >
-                        <i className="fa fa-cross" />
+                        <i className="fa fa-times-circle" />
                         <span className="visually-hidden">Remove</span>
                       </button>
                     </li>
@@ -117,18 +117,18 @@ export const ToggleDataTable = ({
           )}
 
           <button
-            className="button button--tiny-toggle button--small"
+            className="button button--tiny-toggle m-t-xs"
             type="button"
             onClick={() => setIsOpen(!isOpen)}
             aria-expanded={isOpen}
             aria-controls="target-age-groups"
           >
             <i className={`fa fa-chevron-circle-${isOpen ? 'up' : 'down'} m-r-xxs`} />
-            {isOpen ? 'Close' : 'Choose'} target age groups
+            <span className="body-m">{isOpen ? 'Close' : 'Choose'} target age groups</span>
           </button>
 
           {isOpen && (
-            <ul id="target-age-groups" className="form-group m-b-0">
+            <ul id="target-age-groups" className="form-group m-t-xs m-b-0">
               {groups.map(({ value, label }) => (
                 <li className="great-checkbox width-full m-b-xs" key={value}>
                   <input

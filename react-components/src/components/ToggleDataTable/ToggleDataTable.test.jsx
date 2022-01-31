@@ -138,14 +138,14 @@ describe('ToggleDataTable', () => {
     getByText('Choose target age groups').click()
 
     await waitFor(() => {
-      expect(getByText('Close target age groups').getAttribute('aria-expanded')).toBe('true')
+      expect(getByText('Close target age groups').closest('button').getAttribute('aria-expanded')).toBe('true')
       expect(container.querySelector('#target-age-groups')).toBeTruthy()
     })
 
     getByText('Close target age groups').click()
 
     await waitFor(() => {
-      expect(getByText('Choose target age groups').getAttribute('aria-expanded')).toBe('false')
+      expect(getByText('Choose target age groups').closest('button').getAttribute('aria-expanded')).toBe('false')
       expect(container.querySelector('#target-age-groups')).toBeNull()
     })
   })
