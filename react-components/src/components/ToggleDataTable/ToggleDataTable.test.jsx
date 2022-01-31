@@ -6,8 +6,9 @@ import Services from '@src/Services'
 jest.mock('@src/Services')
 
 const mockGroups = [
-  { value: '0-14', label: '0-14 year olds' },
-  { value: '15-19', label: '15-19 year olds' },
+  { value: '0-14', label: '0-14 years old' },
+  { value: '15-19', label: '15-19 years old' },
+  { value: '20-24', label: '20-24 years old' },
 ]
 
 const mockResponse = {
@@ -144,6 +145,40 @@ describe('ToggleDataTable', () => {
 
     await waitFor(() => {
       expect(getByText('Choose target age groups')).toBeTruthy()
+    })
+  })
+
+  it('updates list of selected age ranges', async () => {
+    const { container, getByText } = render(
+      <ToggleDataTable
+        countryIso2Code="NL"
+        url="/"
+        groups={mockGroups}
+        afterTable={[<DataComponent className="after" />]}
+      />,
+    )
+
+    await waitFor(() => getByText('Choose target age groups'))
+
+    expect(container.querySelector('.selected-groups')).toBeNull()
+
+    getByText('Choose target age groups').click()
+
+    await waitFor(() => {
+      container.querySelector('[id="20-24"]').click()
+    })
+
+    await waitFor(() => {
+      expect(getByText('Currently selected')).toBeTruthy()
+      expect(container.querySelectorAll('.selected-groups__item')).toHaveLength(1)
+      expect(container.querySelectorAll('.selected-groups__item')[0].textContent).toBe('20-24 years old')
+    })
+
+    container.querySelector('[id="0-14"]').click()
+
+    await waitFor(() => {
+      expect(container.querySelectorAll('.selected-groups__item')).toHaveLength(2)
+      expect(container.querySelectorAll('.selected-groups__item')[0].textContent).toBe('0-14 years old')
     })
   })
 

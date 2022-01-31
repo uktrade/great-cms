@@ -95,31 +95,33 @@ export const ToggleDataTable = ({
       {showTable && (
         <>
           <h3 className="body-l-b p-t-l">Target age groups</h3>
-          <div className="selected-groups">
-            <div className="selected-groups__button">
-              <button
-                className="button button--tiny-toggle button--small"
-                type="button"
-                onClick={() => setIsOpen(!isOpen)}
-                aria-expanded={isOpen}
-                aria-controls="target-age-groups"
-              >
-                <i className={`fa fa-chevron-circle-${isOpen ? 'up' : 'down'} m-r-xxs`} />
-                {isOpen ? 'Close' : 'Choose'} target age groups
-              </button>
-            </div>
 
-            <ul id="target-age-groups" className="selected-groups__items">
-              {selectedGroups.map((item) => (
-                <li key={item} className="selected-groups__item">
-                  {item} years old
-                </li>
-              ))}
-            </ul>
-          </div>
-          {targetGroupLabels.map((i) => (
-            <span className="statistic-label body-m-b bg-blue-deep-20" key={i}>{i}</span>
-          ))}
+          {selectedGroups.length > 0 && (
+            <>
+              <h4>Currently selected</h4>
+              <ul id="target-age-groups" className="selected-groups">
+                {groups
+                  .filter(group => selectedGroups.includes(group.value))
+                  .map(({ value, label }) => (
+                    <li key={`selected-${value}`} className="selected-groups__item">
+                      {label}
+                    </li>
+                  ))}
+              </ul>
+            </>
+          )}
+
+          <button
+            className="button button--tiny-toggle button--small"
+            type="button"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-expanded={isOpen}
+            aria-controls="target-age-groups"
+          >
+            <i className={`fa fa-chevron-circle-${isOpen ? 'up' : 'down'} m-r-xxs`} />
+            {isOpen ? 'Close' : 'Choose'} target age groups
+          </button>
+
           {isOpen && (
             <ul className="form-group m-b-0">
               {groups.map(({ value, label }) => (
