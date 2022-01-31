@@ -81,9 +81,21 @@
   width: 100%;
 
   span {
+    position: relative;
     display: block;
     height: 4px;
     transition: width 1s;
+
+    &:after {
+      content: '';
+      position: absolute;
+      right: -2px;
+      top: 0;
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      background: #fff;
+    }
   }
 }
 
