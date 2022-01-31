@@ -157,10 +157,9 @@ describe('ToggleDataTable', () => {
       />,
     )
 
-    expect(queryByText('Target age groups')).toBeNull()
+    expect(queryByText('Selected target age groups')).toBeNull()
 
     await waitFor(() => {
-      expect(getByText('Target age groups')).toBeTruthy()
       expect(getByText('Choose target age groups')).toBeTruthy()
     })
   })
@@ -213,7 +212,7 @@ describe('ToggleDataTable', () => {
     })
 
     await waitFor(() => {
-      expect(getByText('Currently selected')).toBeTruthy()
+      expect(getByText('Selected target age groups')).toBeTruthy()
       expect(container.querySelectorAll('.selected-groups__item')).toHaveLength(1)
       expect(container.querySelectorAll('.selected-groups__item')[0].textContent).toMatch('20-24 years old')
     })
