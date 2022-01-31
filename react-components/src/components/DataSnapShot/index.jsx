@@ -26,7 +26,7 @@ export const DataSnapShot = memo(
               groups={groups}
               selectedGroups={selected}
               url={currentSection.url}
-              afterTable={[<Table />]}
+              beforeTable={[<Table />]}
             />
           </div>
         </ToggleSnapshot>

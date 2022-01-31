@@ -19,7 +19,7 @@ export const TargetAgeGroupInsights = memo(
           groups={groups}
           selectedGroups={selected}
           url={currentSection.url}
-          afterTable={[<DemoData/>,<AgeGroupData/>]}
+          beforeTable={[<DemoData />, <AgeGroupData />]}
         />
       </>
     )
