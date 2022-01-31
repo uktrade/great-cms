@@ -165,25 +165,53 @@ describe('ToggleDataTable', () => {
     getByText('Choose target age groups').click()
 
     await waitFor(() => {
-      container.querySelector('[id="20-24"]').click()
+      container.querySelector('[id="age-range-20-24"]').click()
     })
 
     await waitFor(() => {
       expect(getByText('Currently selected')).toBeTruthy()
       expect(container.querySelectorAll('.selected-groups__item')).toHaveLength(1)
-      expect(container.querySelectorAll('.selected-groups__item')[0].textContent).toBe('20-24 years old')
+      expect(container.querySelectorAll('.selected-groups__item')[0].textContent).toMatch('20-24 years old')
     })
 
-    container.querySelector('[id="0-14"]').click()
+    container.querySelector('[id="age-range-0-14"]').click()
 
     await waitFor(() => {
       expect(container.querySelectorAll('.selected-groups__item')).toHaveLength(2)
-      expect(container.querySelectorAll('.selected-groups__item')[0].textContent).toBe('0-14 years old')
+      expect(container.querySelectorAll('.selected-groups__item')[0].textContent).toMatch('0-14 years old')
+    })
+  })
+
+  it('removes selected age range when clicking remove', async () => {
+    const { container, getByText } = render(
+      <ToggleDataTable
+        countryIso2Code="NL"
+        url="/"
+        groups={mockGroups}
+        afterTable={[<DataComponent className="after" />]}
+      />,
+    )
+
+    await waitFor(() => getByText('Choose target age groups'))
+
+    getByText('Choose target age groups').click()
+    container.querySelector('[id="age-range-20-24"]').click()
+
+    await waitFor(() => {
+      expect(container.querySelector('[id="age-range-20-24"]').checked).toBeTruthy()
+      expect(container.querySelector('.selected-groups__item').textContent).toMatch('20-24 years old')
+    })
+
+    container.querySelector('.selected-groups__item .button').click()
+
+    await waitFor(() => {
+      expect(container.querySelector('[id="age-range-20-24"]').checked).toBeFalsy()
+      expect(container.querySelector('.selected-groups__item')).toBeNull()
     })
   })
 
   it('updates data when changing selected age ranges', async () => {
-    const { container } = render(
+    const { getByText, container } = render(
       <ToggleDataTable
         countryIso2Code="NL"
         url="/"
@@ -199,10 +227,10 @@ describe('ToggleDataTable', () => {
     })
 
     // Open age group selector
-    container.querySelector('.button--tiny-toggle').click()
+    getByText('Choose target age groups').click()
     // Select first age group
     // TODO: Fix invalid id attribute
-    container.querySelector('[id="0-14"]').click()
+    container.querySelector('[id="age-range-0-14"]').click()
 
     await waitFor(() => {
       expect(getData().target).toEqual(11691000)

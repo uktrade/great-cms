@@ -20,9 +20,6 @@ export const ToggleDataTable = ({
   const [selectedGroups, setSelectedGroups] = useState(selected)
   const [data, setData] = useState({})
   const [rawData, setRawData] = useState({})
-  const targetGroupLabels = groups
-    .filter((group) => selectedGroups.includes(group.key))
-    .map((group) => group.label)
   const showTable = Object.keys(data).length >= 1
   const saveAgeGroups = useDebounce(Services.getCountryAgeGroupData)
 
@@ -105,6 +102,14 @@ export const ToggleDataTable = ({
                   .map(({ value, label }) => (
                     <li key={`selected-${value}`} className="selected-groups__item">
                       {label}
+
+                      <button
+                        className="button button--tiny-toggle" type="button"
+                        onClick={() => handleChange({ target: { value } })}
+                      >
+                        <i className="fa fa-cross" />
+                        <span className="visually-hidden">Remove</span>
+                      </button>
                     </li>
                   ))}
               </ul>
@@ -127,13 +132,13 @@ export const ToggleDataTable = ({
               {groups.map(({ value, label }) => (
                 <li className="great-checkbox width-full m-b-xs" key={value}>
                   <input
-                    id={value}
+                    id={`age-range-${value}`}
                     value={value}
                     type="checkbox"
                     onChange={handleChange}
                     checked={selectedGroups.includes(value)}
                   />
-                  <label htmlFor={value}>{label}</label>
+                  <label htmlFor={`age-range-${value}`}>{label}</label>
                 </li>
               ))}
             </ul>
