@@ -9,13 +9,14 @@ import {
 import { useDebounce } from '@src/components/hooks/useDebounce'
 
 export const ToggleDataTable = ({
-  countryIso2Code,
-  groups,
-  selectedGroups: selected,
-  beforeTable,
-  afterTable,
-  url,
-}) => {
+                                  countryIso2Code,
+                                  groups,
+                                  selectedGroups: selected,
+                                  beforeTable,
+                                  afterTable,
+                                  url,
+                                  heading,
+                                }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedGroups, setSelectedGroups] = useState(selected)
   const [data, setData] = useState({})
@@ -91,12 +92,14 @@ export const ToggleDataTable = ({
 
       {showTable && (
         <>
-          <h3 className="body-l-b m-t-xs m-b-xs">Target age groups</h3>
+          {!!heading && (
+            <h3 className="body-l-b m-t-xs m-b-xxs">{heading}</h3>
+          )}
 
           {selectedGroups.length > 0 && (
             <>
-              <h4 className="m-t-0 m-b-xxs">Currently selected</h4>
-              <ul className="selected-groups m-t-0 m-b-xs">
+              <h4 className="m-t-0 m-b-xxs">Selected target age groups</h4>
+              <ul className="selected-groups m-t-0 m-b-xxs">
                 {groups
                   .filter(group => selectedGroups.includes(group.value))
                   .map(({ value, label }) => (
@@ -157,12 +160,13 @@ ToggleDataTable.propTypes = {
     PropTypes.shape({
       value: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
-    })
+    }),
   ),
   beforeTable: PropTypes.arrayOf(PropTypes.element),
   afterTable: PropTypes.arrayOf(PropTypes.element),
   selectedGroups: PropTypes.arrayOf(PropTypes.string.isRequired),
   url: PropTypes.string.isRequired,
+  heading: PropTypes.string,
 }
 
 ToggleDataTable.defaultProps = {
@@ -170,4 +174,5 @@ ToggleDataTable.defaultProps = {
   selectedGroups: [],
   beforeTable: null,
   afterTable: null,
+  heading: null,
 }

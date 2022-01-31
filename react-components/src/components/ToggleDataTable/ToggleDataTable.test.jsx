@@ -117,13 +117,17 @@ describe('ToggleDataTable', () => {
     )
   })
 
-  it('renders heading and select button initially', async () => {
-    const { container } = render(<ToggleDataTable countryIso2Code="NL" url="/" />)
+  it('renders a heading if one is provided', async () => {
+    const { getByText } = render(
+      <ToggleDataTable
+        countryIso2Code="NL"
+        url="/"
+        heading="Custom heading"
+      />,
+    )
 
     await waitFor(() => {
-      expect(container.querySelectorAll('h3')).toHaveLength(1)
-      expect(container.querySelectorAll('.button--tiny-toggle')).toHaveLength(1)
-      expect(container.querySelectorAll('.table')).toHaveLength(0)
+      expect(getByText('Custom heading').tagName).toBe('H3')
     })
   })
 
