@@ -23,21 +23,19 @@ export const ProductData = ({ country, product }) => {
     )
       .then((result) => {
         const out = (result && result[country.country_iso2_code]) || {}
-        out['comTrade'] = (out['ComtradeReport'] || [])
+        out.comTrade = (out.ComtradeReport || [])
           .sort((rowa, rowb) => (rowa.year > rowb.year ? -1 : 1))
           .reduce((acc, row) => {
             const out = { ...acc }
             const type = row.uk_or_world
             if (!out[type]) {
               out[type] = row
-            } else {
-              if (!out[type].change) {
+            } else if (!out[type].change) {
                 out[type].change =
                   (100 * (out[type].trade_value - row.trade_value)) /
                   row.trade_value
                 out[type].last_year = row.year
               }
-            }
             return out
           }, {})
         setData(out)
@@ -47,7 +45,7 @@ export const ProductData = ({ country, product }) => {
 
   return data ? (
     <>
-      <div className="stat-group">
+      <div className="stat-group m-b-s">
         <div className="grid">
           <div className="world-trade-value c-1-3">
             <Stats

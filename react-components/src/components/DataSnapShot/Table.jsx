@@ -8,8 +8,8 @@ import { millify } from '@src/Helpers'
 const formatNumber = (val) => (val-0 === val) ? millify(val) : notAvailable
 
 export const Table = memo(({ totalPopulation, target }) => (
-  <div className="m-t-s">
-    <div className="grid stat-group">
+  <div className="stat-group m-t-xs">
+    <div className="grid">
       <div className="c-1-2">
         <Stats
           header="Total population"
