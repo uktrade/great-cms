@@ -81,9 +81,21 @@
   width: 100%;
 
   span {
+    position: relative;
     display: block;
     height: 4px;
     transition: width 1s;
+
+    &:after {
+      content: '';
+      position: absolute;
+      right: -2px;
+      top: 0;
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      background: #fff;
+    }
   }
 }
 
@@ -106,9 +118,8 @@
   }
 
   @include breakpoint(sm_lt) {
-    & div:not(:last-child) > .statistic {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
+    & .statistic {
+      border-radius: 0;
 
       &:after {
         content: '';
@@ -120,9 +131,18 @@
       }
     }
 
-    & div:not(:first-child) > .statistic {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
+    & .grid > :first-child > .statistic:first-child {
+      border-top-left-radius: var(--radius);
+      border-top-right-radius: var(--radius);
+    }
+
+    & .grid > :last-child > .statistic:last-child {
+      border-bottom-left-radius: var(--radius);
+      border-bottom-right-radius: var(--radius);
+
+      &:after {
+        content: none;
+      }
     }
   }
 }
@@ -151,23 +171,26 @@
 
 .selected-groups {
   display: flex;
-  align-items: baseline;
-  margin-top: 10px;
-  &__button {
-    margin-right: 10px;
-  }
-  &__items {
-    display: flex;
-    flex: 1;
-    flex-wrap: wrap;
-    margin: 0;
-  }
+  flex-wrap: wrap;
+  margin-left: -5px;
+  margin-right: -5px;
+
   &__item {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
     @extend .body-m;
     background-color: $blue-deep-20;
     border-radius: 100px;
-    padding: 6px 15px 3px;
-    line-height: 1.2;
+    padding: 2px 12px;
     margin: 5px;
+
+    & button {
+      color: #787191;
+      min-height: 0;
+      font-size: 24px;
+      margin-left: -10px;
+      margin-right: 5px;
+    }
   }
 }

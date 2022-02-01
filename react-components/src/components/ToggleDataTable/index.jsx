@@ -9,20 +9,18 @@ import {
 import { useDebounce } from '@src/components/hooks/useDebounce'
 
 export const ToggleDataTable = ({
-  countryIso2Code,
-  groups,
-  selectedGroups: selected,
-  beforeTable,
-  afterTable,
-  url,
-}) => {
+                                  countryIso2Code,
+                                  groups,
+                                  selectedGroups: selected,
+                                  beforeTable,
+                                  afterTable,
+                                  url,
+                                  heading,
+                                }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedGroups, setSelectedGroups] = useState(selected)
   const [data, setData] = useState({})
   const [rawData, setRawData] = useState({})
-  const targetGroupLabels = groups
-    .filter((group) => selectedGroups.includes(group.key))
-    .map((group) => group.label)
   const showTable = Object.keys(data).length >= 1
   const saveAgeGroups = useDebounce(Services.getCountryAgeGroupData)
 
@@ -43,25 +41,22 @@ export const ToggleDataTable = ({
 
   useEffect(() => {
     if (rawData && Object.keys(rawData).length) {
-      const activeGroups = selectedGroups.reduce((x, value) => {
-        const l = x
-        l[`sector${value.replace('-', '_').replace('+', '')}`] = true
-        return l
-      }, {})
-      const urbanRural = rawData.PopulationUrbanRural && rawData.PopulationUrbanRural.reduce((x, row) => {
-        const l = x
-        l[row.urban_rural] = row.value
-        return l
-      }, {})
-      const targetPopulation = ['male', 'female', null].reduce((x, key) => {
-        const l = x
-        l[`target${key || ''}`] = dataSetByGender(
+      const activeGroups = selectedGroups.reduce((x, value) => ({
+        ...x,
+        [`sector${value.replace('-', '_').replace('+', '')}`]: true,
+      }), {})
+      const urbanRural = rawData.PopulationUrbanRural && rawData.PopulationUrbanRural.reduce((x, row) => ({
+        ...x,
+        [row.urban_rural]: row.value,
+      }), {})
+      const targetPopulation = ['male', 'female', null].reduce((x, key) => ({
+        ...x,
+        [`target${key || ''}`]: dataSetByGender(
           rawData.PopulationData,
           activeGroups,
-          key
-        )
-        return l
-      }, {})
+          key,
+        ),
+      }), {})
       setData({
         internetData: get(rawData, 'InternetUsage.0.value'),
         languages: get(rawData, 'CIAFactbook.0.languages'),
@@ -76,7 +71,7 @@ export const ToggleDataTable = ({
   const renderElements = (elements) => {
     if (!showTable || !elements) return ''
     const arrElements = isArray(elements) ? elements : [elements]
-    return arrElements.map((child, index) => cloneElement(child, {key: index, ...data }))
+    return arrElements.map((child, index) => cloneElement(child, { key: index, selectedGroups, ...data }))
   }
 
   const handleChange = (event) => {
@@ -94,9 +89,36 @@ export const ToggleDataTable = ({
   return (
     <>
       {renderElements(beforeTable)}
-      <h3 className="body-l-b p-t-l">Target age groups</h3>
-      <div className="selected-groups">
-        <div className="selected-groups__button">
+
+      {showTable && (
+        <>
+          {!!heading && (
+            <h3 className="body-l-b m-t-xs m-b-xxs">{heading}</h3>
+          )}
+
+          {selectedGroups.length > 0 && (
+            <>
+              <h4 className="m-t-0 m-b-xxs">Selected target age groups</h4>
+              <ul className="selected-groups m-t-0 m-b-xxs">
+                {groups
+                  .filter(group => selectedGroups.includes(group.value))
+                  .map(({ value, label }) => (
+                    <li key={`selected-${value}`} className="selected-groups__item">
+                      {label}
+
+                      <button
+                        className="button button--tiny-toggle" type="button"
+                        onClick={() => handleChange({ target: { value } })}
+                      >
+                        <i className="fa fa-times-circle" />
+                        <span className="visually-hidden">Remove</span>
+                      </button>
+                    </li>
+                  ))}
+              </ul>
+            </>
+          )}
+
           <button
             className="button button--tiny-toggle"
             type="button"
@@ -104,41 +126,29 @@ export const ToggleDataTable = ({
             aria-expanded={isOpen}
             aria-controls="target-age-groups"
           >
-            <i className={`fa fa-chevron-circle-${isOpen ? 'up' : 'down'}`} />
-            <span className="visually-hidden">{`${
-              isOpen ? 'Close' : 'Open'
-            } target age groups`}</span>
+            <i className={`fa fa-chevron-circle-${isOpen ? 'up' : 'down'} m-r-xxs`} />
+            <span className="body-m">{isOpen ? 'Close' : 'Choose'} target age groups</span>
           </button>
-        </div>
-        <ul id="target-age-groups" className="selected-groups__items">
-          {selectedGroups.map((item) => (
-            <li key={item} className="selected-groups__item">
-              {item} years old
-            </li>
-          ))}
-        </ul>
-      </div>
-      {targetGroupLabels.map((i) => (
-        <span className="statistic-label body-m-b bg-blue-deep-20" key={i}>
-          {i}
-        </span>
-      ))}
-      {isOpen && (
-        <ul className="form-group m-b-0">
-          {groups.map(({ value, label }) => (
-            <li className="great-checkbox width-full m-b-xs" key={value}>
-              <input
-                id={value}
-                value={value}
-                type="checkbox"
-                onChange={handleChange}
-                checked={selectedGroups.includes(value)}
-              />
-              <label htmlFor={value}>{label}</label>
-            </li>
-          ))}
-        </ul>
+
+          {isOpen && (
+            <ul id="target-age-groups" className="form-group m-t-xs m-b-0">
+              {groups.map(({ value, label }) => (
+                <li className="great-checkbox width-full m-b-xs" key={value}>
+                  <input
+                    id={`age-range-${value}`}
+                    value={value}
+                    type="checkbox"
+                    onChange={handleChange}
+                    checked={selectedGroups.includes(value)}
+                  />
+                  <label htmlFor={`age-range-${value}`}>{label}</label>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
       )}
+
       {renderElements(afterTable)}
     </>
   )
@@ -150,12 +160,13 @@ ToggleDataTable.propTypes = {
     PropTypes.shape({
       value: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
-    })
+    }),
   ),
   beforeTable: PropTypes.arrayOf(PropTypes.element),
   afterTable: PropTypes.arrayOf(PropTypes.element),
   selectedGroups: PropTypes.arrayOf(PropTypes.string.isRequired),
   url: PropTypes.string.isRequired,
+  heading: PropTypes.string,
 }
 
 ToggleDataTable.defaultProps = {
@@ -163,4 +174,5 @@ ToggleDataTable.defaultProps = {
   selectedGroups: [],
   beforeTable: null,
   afterTable: null,
+  heading: null,
 }
