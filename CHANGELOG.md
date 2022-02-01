@@ -11,6 +11,7 @@
 ### Enhancements
 
 - GLS-9 - Improve accessibility of learning content reveals
+- GLS-6 - Improve accessibility of Country Selector
 
 ## [2.2.0](https://github.com/uktrade/great-cms/releases/tag/2.2.0)
 
