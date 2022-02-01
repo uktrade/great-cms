@@ -12,6 +12,7 @@
 
 - GLS-9 - Improve accessibility of learning content reveals
 - GLS-6 - Improve accessibility of Country Selector
+- GLS-8 - Improve target age selection for data snapshots
 
 ## [2.2.0](https://github.com/uktrade/great-cms/releases/tag/2.2.0)
 
