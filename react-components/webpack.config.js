@@ -1,5 +1,5 @@
 const path = require('path')
-const glob = require("glob");
+const glob = require('glob');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const RemovePlugin = require('remove-files-webpack-plugin')
@@ -23,7 +23,6 @@ module.exports = {
     libraryTarget: 'var',
   },
   resolve: {
-    fallback: { buffer: require.resolve('safe-buffer') },
     extensions: ['.js', '.jsx'],
     alias: {
       '@src': path.resolve(__dirname, 'src'),
