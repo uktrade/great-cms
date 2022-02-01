@@ -144,7 +144,7 @@ def multiply_by_exponent(val, exponent=3, base=10):
     else:
         int_val = 0
 
-    return int_val * (base ** exponent)
+    return int_val * (base**exponent)
 
 
 @register.filter(name='friendly_number', is_safe=False)
