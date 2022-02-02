@@ -13,6 +13,7 @@
 - GLS-9 - Improve accessibility of learning content reveals
 - GLS-6 - Improve accessibility of Country Selector
 - GLS-8 - Improve target age selection for data snapshots
+- GLS-7 - Change export timeframe to month/year
 
 ## [2.2.0](https://github.com/uktrade/great-cms/releases/tag/2.2.0)
 
@@ -29,7 +30,6 @@
 - GLS-38 - fix/update meta descriptions
 
 ### Enhancements
-- GP2-2894 - Change export timeframe to month/year
 
 - GP2-3859 - Create Profile with optional Phone Number
 - GLS-30 - Merge CTA banner into stats component
