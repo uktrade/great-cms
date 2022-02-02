@@ -9,7 +9,7 @@
 - GLS-69 - SECURITY: great-cms frontend asset vulnerabilities: `node-fetch` and `nanoid`
 
 ### Enhancements
-
+- GLS-80 - migration to opensearch
 - GLS-9 - Improve accessibility of learning content reveals
 - GLS-6 - Improve accessibility of Country Selector
 - GLS-8 - Improve target age selection for data snapshots
