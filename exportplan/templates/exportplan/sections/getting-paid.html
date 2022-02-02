@@ -2,6 +2,9 @@
 {% load to_json %}
 {% load static %}
 
+{% block head_other %}
+  <meta name="description" content="Complete the Getting paid section of your export plan" />
+{% endblock %}
 {% block intro_title %}Getting paid{% endblock %}
 {% block intro_description %}This section will help you to outline your plans for getting paid from abroad.{% endblock %}
 
@@ -50,9 +53,9 @@
     magna.createGettingPaid({
       element: document.getElementById('getting-paid'),
       field: 'getting_paid',
-      currentSection: {{ current_section|to_json}},
-      lessonDetails: {{ lesson_details|safe }},
-      formData: {{getting_paid_data|to_json|safe}},
+      currentSection: {{ current_section|to_json }},
+      lessonDetails: {{ lesson_details|to_json }},
+      formData: {{ getting_paid_data|to_json }},
       formFields: [
         {
             field: 'payment_method',

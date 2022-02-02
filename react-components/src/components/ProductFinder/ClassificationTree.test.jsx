@@ -88,12 +88,10 @@ describe('Classification tree', () => {
       ReactDOM.render(<ClassificationTree hsCode={hsCode} />, container)
     })
     await waitFor(() => {
-      let results = container.querySelector('.classification-tree__item')
+      let results = container.querySelector('.classification-tree')
       expect(results).toBeTruthy()
     })
-    let arrows = container.querySelectorAll('.classification-tree__arrow')
-    expect(arrows.length).toEqual(2)
-    let levels = container.querySelectorAll('.classification-tree__item > span')
+    let levels = container.querySelectorAll('.classification-tree .grid')
     expect(levels.length).toEqual(3)
     expect(levels[2].textContent).toMatch(
       'Processed cheese, not grated or powdered'

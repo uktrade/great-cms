@@ -9,6 +9,7 @@ from requests.exceptions import HTTPError
 from rest_framework.exceptions import APIException
 
 from directory_api_client import api_client
+from directory_constants import urls
 from directory_sso_api_client import sso_api_client
 from sso import helpers
 from tests.helpers import create_response
@@ -47,7 +48,11 @@ def test_send_verification_code_email(mock_action_class, settings):
     verification_code = {'expiration_date': '2020-12-01T13:12:10', 'code': '12345678'}
 
     helpers.send_verification_code_email(
-        email='jim@example.com', verification_code=verification_code, form_url='foo', verification_link='/somewhere'
+        email='jim@example.com',
+        verification_code=verification_code,
+        form_url='foo',
+        verification_link='/somewhere',
+        resend_verification_link='/resend',
     )
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
@@ -71,14 +76,66 @@ def test_send_welcome_notification(mock_action_class, settings):
     assert mock_action_class().save.call_count == 1
 
 
+@mock.patch.object(actions, 'GovNotifyEmailAction')
+def test_notify_already_registered(mock_action_class, settings):
+    helpers.notify_already_registered(email='test@example.com', form_url='foo', login_url='bar')
+
+    assert mock_action_class.call_count == 1
+    assert mock_action_class.call_args == mock.call(
+        email_address='test@example.com',
+        template_id=settings.GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID,
+        form_url='foo',
+    )
+    assert mock_action_class().save.call_count == 1
+    assert mock_action_class().save.call_args == mock.call(
+        {
+            'login_url': 'bar',
+            'password_reset_url': settings.SSO_PROXY_PASSWORD_RESET_URL,
+            'contact_us_url': urls.domestic.FEEDBACK,
+        }
+    )
+
+
+@mock.patch.object(sso_api_client.user, 'regenerate_verification_code')
+def test_regenerate_verification_code_verified_account(mock_regenerate_verification_code):
+    mock_regenerate_verification_code.return_value = create_response(status_code=400)
+
+    response = helpers.regenerate_verification_code({'email': 'test@example.com'})
+
+    assert response is None
+
+    assert mock_regenerate_verification_code.call_count == 1
+
+
+@mock.patch.object(sso_api_client.user, 'regenerate_verification_code')
+def test_regenerate_verification_code_no_account(mock_regenerate_verification_code):
+    mock_regenerate_verification_code.return_value = create_response(status_code=404)
+
+    response = helpers.regenerate_verification_code({'email': 'test@example.com'})
+
+    assert response is None
+
+    assert mock_regenerate_verification_code.call_count == 1
+
+
+@mock.patch.object(sso_api_client.user, 'regenerate_verification_code')
+def test_regenerate_verification_code_success(mock_regenerate_verification_code):
+    mock_regenerate_verification_code.return_value = create_response({'code': '12345'})
+
+    response = helpers.regenerate_verification_code({'email': 'test@example.com'})
+
+    assert response == {'code': '12345'}
+    assert mock_regenerate_verification_code.call_count == 1
+
+
 @mock.patch.object(sso_api_client.user, 'verify_verification_code')
 def test_check_verification_code_success(mock_create_user):
     mock_create_user.return_value = create_response({'a': 'b'})
 
-    helpers.check_verification_code(email='jim@example.com', code='12345')
+    helpers.check_verification_code(uidb64='aBcDe', token='1a2b3c', code='12345')
 
     assert mock_create_user.call_count == 1
-    assert mock_create_user.call_args == mock.call({'email': 'jim@example.com', 'code': '12345'})
+    assert mock_create_user.call_args == mock.call({'uidb64': 'aBcDe', 'token': '1a2b3c', 'code': '12345'})
 
 
 @pytest.mark.parametrize('status_code', (400, 404))
@@ -87,7 +144,7 @@ def test_check_verification_code_failure(mock_create_user, status_code):
     mock_create_user.return_value = create_response(status_code=status_code)
 
     with pytest.raises(helpers.InvalidVerificationCode):
-        helpers.check_verification_code(email='jim@example.com', code='12345')
+        helpers.check_verification_code(uidb64='aBcDe', token='12345', code='12345')
 
 
 @mock.patch.object(sso_api_client.user, 'create_user')
@@ -95,9 +152,8 @@ def test_create_user_success(mock_create_user):
     mock_create_user.return_value = create_response({'a': 'b'})
 
     actual = helpers.create_user(email='jim@example.com', password='12345')
-
     assert mock_create_user.call_count == 1
-    assert mock_create_user.call_args == mock.call(email='jim@example.com', password='12345')
+    assert mock_create_user.call_args == mock.call(email='jim@example.com', password='12345', mobile_phone_number=None)
     assert actual == {'a': 'b'}
 
 

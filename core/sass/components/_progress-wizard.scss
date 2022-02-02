@@ -69,7 +69,7 @@ $pw-darken-amount: 30% !default;
     > li .bubble:after {
         display: block;
         position: absolute;
-        top: $pw-bubble-size / 2 - $pw-border-thickness;
+        top: $pw-bubble-size * 0.5 - $pw-border-thickness;
         width: 100%;
         height: $pw-bubble-line-thickness;
         content: '';

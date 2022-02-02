@@ -1,11 +1,12 @@
 from collections import OrderedDict
 
 from dateutil import parser
-from django.urls import reverse_lazy
+from django.urls import reverse
 from django.utils.text import slugify
 from rest_framework.fields import ListField
 from rest_framework.serializers import Serializer
 
+from core.helpers import h_encrypt
 from . import data, serializers
 
 
@@ -51,10 +52,15 @@ class ExportPlanProcessor:
                 {
                     'total': total,
                     'populated': populated,
-                    'url': reverse_lazy(f'exportplan:{field_map[0]}', kwargs={'id': self.data['pk']}),
+                    'url': reverse(f'exportplan:{field_map[0]}', kwargs={'id': self.data['pk']}),
                 }
             )
         return progress
+
+    def has_product_and_market(self):
+        products = self.data.get('export_commodity_codes')
+        markets = self.data.get('export_countries')
+        return True if products and len(products) > 0 and markets and len(markets) > 0 else False
 
     def has_items(self, field_name):
         return True if len(self.seralizer.initial_data.get(field_name, [])) > 0 else False
@@ -66,7 +72,7 @@ class ExportPlanProcessor:
         return False if field_value == '' else True
 
     def landing_page_url(self):
-        return reverse_lazy('exportplan:dashboard', kwargs={'id': self.data['pk']})
+        return reverse('exportplan:dashboard', kwargs={'id': self.data['pk']})
 
     def build_current_url(self, slug):
         current_url = data.SECTIONS[slug]
@@ -85,7 +91,7 @@ class ExportPlanProcessor:
         sections = data.SECTIONS
         for slug, values in sections.items():
             values['is_complete'] = self.data.get('ui_progress', {}).get(slug, {}).get('is_complete', False)
-            values['url'] = reverse_lazy(f'exportplan:{slug}', kwargs={'id': self.data['pk']})
+            values['url'] = reverse(f'exportplan:{slug}', kwargs={'id': self.data['pk']})
         return list(sections.values())
 
     def calculated_cost_pricing(self):
@@ -93,7 +99,10 @@ class ExportPlanProcessor:
         return {'calculated_cost_pricing': calculated_pricing}
 
     def calculate_total_funding(self):
-        total_funding = serializers.ExportPlanSerializer(data=self.data).calculate_total_funding
+        total_funding = 0.00
+        funding_credit_options = self.data.get('funding_credit_options') or []
+        for funding_credit_option in funding_credit_options:
+            total_funding += funding_credit_option.get('amount') or 0.00
         return {'calculated_total_funding': total_funding}
 
     def calculate_ep_progress(self):
@@ -132,7 +141,15 @@ class ExportPlanProcessor:
             'section_progress': self.calculate_ep_section_progress(),
             'next_section': {
                 'title': next_section.get('title', ''),
-                'url': reverse_lazy(f'exportplan:{next_section_key}', kwargs={'id': self.data['pk']}),
+                'url': reverse(f'exportplan:{next_section_key}', kwargs={'id': self.data['pk']}),
                 'image': next_section.get('image', ''),
             },
         }
+
+    @property
+    def get_absolute_url(self):
+        return reverse('exportplan:dashboard', kwargs={'id': self.data['pk']})
+
+    @property
+    def hashid(self):
+        return h_encrypt(self.data['pk'])

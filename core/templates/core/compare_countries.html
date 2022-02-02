@@ -2,6 +2,10 @@
 {% load static %}
 {% load wagtailcore_tags %}
 
+{% block head_other %}
+  <meta name="description" content="Find information to help choose the right export market for your product. Compare data for up to 10 markets, using dynamic feeds from some of the world’s most trusted sources" />
+{% endblock %}
+
 {% block content %}
   <div id="where-to-export">
       <section class="bg-white">
@@ -11,7 +15,7 @@
                       <div class="">
                           <h1 class="h-l p-b-0">{{ page.title }}</h1>
                           <div class="">
-                            <p class="body-l">Exporting to the right place matters. This page helps you compare data for different places and make an informed choice.</p>
+                              <p class="body-l">Find information to help choose the right export market for your product. Compare data for up to 10 markets, using dynamic feeds from some of the world’s most trusted sources.</p>
                           </div>
                           {% if data_tabs_enabled %}
                             <div id="cta-container"></div>

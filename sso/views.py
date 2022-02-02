@@ -1,10 +1,13 @@
 import requests
 from django.conf import settings
 from django.contrib import auth
+from requests.exceptions import HTTPError
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
 from sso import helpers, serializers
+from sso_profile.enrolment import constants
 
 
 class SSOBusinessUserLoginView(generics.GenericAPIView):
@@ -58,25 +61,64 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
     def handle_exception(self, exc):
         if isinstance(exc, helpers.CreateUserException):
             return Response(exc.detail, status=400)
+        # 409 means that the user already exists
+        elif isinstance(exc, HTTPError) and exc.response.status_code == 409:
+            email = self.request.data['email']
+            verification_code = helpers.regenerate_verification_code(email)
+            if verification_code:
+                uidb64 = verification_code.pop('user_uidb64')
+                token = verification_code.pop('verification_token')
+                helpers.send_verification_code_email(
+                    email=email,
+                    verification_code=verification_code,
+                    form_url=self.request.path,
+                    verification_link=self.get_verification_link(uidb64, token),
+                    resend_verification_link=self.get_resend_verification_link(),
+                )
+                return Response({'uidb64': uidb64, 'token': token})
+            else:
+                helpers.notify_already_registered(
+                    email=email, form_url=self.request.path, login_url=self.get_login_url()
+                )
+            return Response({})
         return super().handle_exception(exc)
 
-    def get_verification_link(self, username):
-        return self.request.build_absolute_uri('/signup/') + f'?verify={username}'
+    def get_login_url(self):
+        return self.request.build_absolute_uri(reverse('core:login'))
+
+    def get_resend_verification_link(self):
+        return self.request.build_absolute_uri(
+            reverse('sso_profile:resend-verification', kwargs={'step': constants.RESEND_VERIFICATION})
+        )
+
+    def get_verification_link(self, uidb64, token):
+        next_param = self.request.data.get('next', '')
+        verification_params = f'?uidb64={uidb64}&token={token}'
+
+        if next_param:
+            next_param = f'&next={next_param}'
+
+        return self.request.build_absolute_uri(reverse('core:signup')) + verification_params + next_param
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user_details = helpers.create_user(
-            email=serializer.validated_data['email'],
+            email=serializer.validated_data['email'].lower(),
             password=serializer.validated_data['password'],
+            mobile_phone_number=serializer.validated_data['mobile_phone_number'],
         )
+        uidb64 = user_details['uidb64']
+        token = user_details['verification_token']
+
         helpers.send_verification_code_email(
             email=serializer.validated_data['email'],
             verification_code=user_details['verification_code'],
             form_url=self.request.path,
-            verification_link=self.get_verification_link(serializer.validated_data['email']),
+            verification_link=self.get_verification_link(uidb64, token),
+            resend_verification_link=self.get_resend_verification_link(),
         )
-        return Response(status=200)
+        return Response({'uidb64': uidb64, 'token': token})
 
 
 class SSOBusinessVerifyCodeView(generics.GenericAPIView):
@@ -92,8 +134,9 @@ class SSOBusinessVerifyCodeView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         upstream_response = helpers.check_verification_code(
-            email=serializer.validated_data['email'],
+            uidb64=serializer.validated_data['uidb64'],
+            token=serializer.validated_data['token'],
             code=serializer.validated_data['code'],
         )
-        helpers.send_welcome_notification(email=serializer.validated_data['email'], form_url=self.request.path)
+        helpers.send_welcome_notification(email=upstream_response.json()['email'], form_url=self.request.path)
         return helpers.response_factory(upstream_response=upstream_response)

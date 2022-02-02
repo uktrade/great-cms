@@ -225,8 +225,8 @@ CostsAndPricing.propTypes = {
   totals: PropTypes.shape({
     calculated_cost_pricing: PropTypes.objectOf(PropTypes.string),
   }).isRequired,
-  initialData: PropTypes.oneOfType([PropTypes.string]).isRequired,
-  lessonDetails: PropTypes.oneOfType([PropTypes.string]).isRequired,
+  initialData: PropTypes.object.isRequired,
+  lessonDetails: PropTypes.object.isRequired,
   currentSection: PropTypes.shape({
     url: PropTypes.string,
     lessons: PropTypes.arrayOf(PropTypes.string).isRequired,

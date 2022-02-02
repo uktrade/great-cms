@@ -3,6 +3,7 @@ import functools
 import math
 import re
 import urllib
+import urllib.parse as urlparse
 from collections import Counter
 from difflib import SequenceMatcher
 from io import StringIO
@@ -15,6 +16,7 @@ from django.conf import settings
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.shortcuts import redirect
 from django.utils.functional import cached_property
+from hashids import Hashids
 from ipware import get_client_ip
 
 from core.models import CuratedListPage
@@ -133,8 +135,6 @@ class CompanyParser(great_components.helpers.CompanyParser):
         data.setdefault('expertise_products_services', {})
         data.setdefault('expertise_countries', [])
         data.setdefault('expertise_industries', [])
-        if settings.FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE:
-            data['expertise_industries'] = ['FOOD_AND_DRINK']  # food and drink
         super().__init__(data=data)
 
     def __getattr__(self, name):
@@ -273,7 +273,7 @@ def search_commodity_refine(interaction_id, tx_id, values):
     return response.json()
 
 
-def ccce_import_schedule(hs_code, origin_country='GB', destination_country='CA'):
+def ccce_import_schedule(hs_code, origin_country='CA', destination_country='GB'):
     url = f'{settings.CCCE_IMPORT_SCHEDULE_URL}/{hs_code}/{origin_country}/{destination_country}/'
     response = requests.get(url=url, headers=ccce_headers())
     response.raise_for_status()
@@ -517,3 +517,54 @@ class GeoLocationRedirector:
             domain=settings.LANGUAGE_COOKIE_DOMAIN,
         )
         return response
+
+
+hashids = Hashids(settings.HASHIDS_SALT, min_length=8)
+
+
+def h_encrypt(id):
+    return hashids.encrypt(id)
+
+
+def h_decrypt(h):
+    z = hashids.decrypt(h)
+    if z:
+        return z[0]
+
+
+class HashIdConverter:
+    regex = '[a-zA-Z0-9]{8,}'
+
+    def to_python(self, value):
+        return h_decrypt(value)
+
+    def to_url(self, value):
+        return h_encrypt(value)
+
+
+class ClamAvClient:
+    auth = requests.auth.HTTPBasicAuth(
+        settings.CLAM_AV_USERNAME,
+        settings.CLAM_AV_PASSWORD,
+    )
+    base_url = settings.CLAM_AV_HOST
+    endpoints = {'scan-chunked': {'path': 'v2/scan-chunked', 'headers': {'Transfer-encoding': 'chunked'}}}
+
+    def post(self, endpoint, data):
+        url = urlparse.urljoin(self.base_url, endpoint['path'])
+        return requests.post(
+            url,
+            auth=self.auth,
+            headers=endpoint.get('headers'),
+            data=data,
+        )
+
+    def chunk_gen(self, file):
+        for chunk in file.chunks():
+            yield chunk
+
+    def scan_chunked(self, file):
+        return self.post(self.endpoints['scan-chunked'], self.chunk_gen(file))
+
+
+clam_av_client = ClamAvClient()

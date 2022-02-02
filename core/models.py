@@ -39,8 +39,10 @@ from wagtail.images.models import AbstractImage, AbstractRendition, Image
 from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
+from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, mixins
+from core.case_study_index import delete_cs_index, update_cs_index
 from core.constants import BACKLINK_QUERYSTRING_NAME, RICHTEXT_FEATURES__MINIMAL
 from core.context import get_context_provider
 from core.utils import PageTopicHelper, get_first_lesson
@@ -126,6 +128,10 @@ class AltTextImage(AbstractImage):
     alt_text = models.CharField(max_length=255, blank=True)
 
     admin_form_fields = Image.admin_form_fields + ('alt_text',)
+
+    class Meta:
+        verbose_name = 'Image'
+        verbose_name_plural = 'Images List'
 
 
 class Rendition(AbstractRendition):
@@ -285,6 +291,7 @@ class TimeStampedModel(models.Model):
 
 
 class CMSGenericPage(
+    SeoMixin,
     mixins.EnableTourMixin,
     mixins.AuthenticatedUserRequired,
     mixins.WagtailGA360Mixin,
@@ -360,7 +367,6 @@ class LandingPage(CMSGenericPage):
     subpage_types = [
         'core.ListPage',
         'core.InterstitialPage',
-        'exportplan.ExportPlanDashboardPage',
         'domestic.DomesticDashboard',
     ]
     template_choices = (
@@ -429,10 +435,7 @@ class ListPage(CMSGenericPage):
     parent_page_types = ['core.LandingPage']
     subpage_types = ['core.CuratedListPage']
 
-    template_choices = (
-        ('exportplan/automated_list_page.html', 'Export plan'),
-        ('learn/automated_list_page.html', 'Learn'),
-    )
+    template_choices = (('learn/automated_list_page.html', 'Learn'),)
 
     record_read_progress = models.BooleanField(
         default=False,
@@ -604,10 +607,7 @@ class DetailPage(CMSGenericPage):
         'core.CuratedListPage',  # TEMPORARY: remove after topics refactor migration has run
         'core.TopicPage',
     ]
-    template_choices = (
-        ('exportplan/dashboard_page.html', 'Export plan dashboard'),
-        ('learn/detail_page.html', 'Learn'),
-    )
+    template_choices = (('learn/detail_page.html', 'Learn'),)
 
     class Meta:
         verbose_name = 'Detail page'
@@ -1052,7 +1052,11 @@ class CaseStudyRelatedPages(Orderable):
         null=True,
         blank=True,
     )
-    page = models.ForeignKey('wagtailcore.Page', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+    page = models.ForeignKey(
+        'wagtailcore.Page',
+        on_delete=models.CASCADE,
+        related_name='+',
+    )
     panels = [
         MagnaPageChooserPanel('page', [DetailPage, CuratedListPage, TopicPage]),
     ]
@@ -1164,8 +1168,14 @@ class CaseStudy(ClusterableModel):
         return f'{display_name}'
 
     def save(self, **kwargs):
+        # When we create a new CS need to call create to obtain an ID for indexing
         self.update_modified = kwargs.pop('update_modified', getattr(self, 'update_modified', True))
         super().save(**kwargs)
+        update_cs_index(self)
+
+    def delete(self, **kwargs):
+        delete_cs_index(self.id)
+        super().delete(**kwargs)
 
     def get_cms_standalone_view_url(self):
         return reverse('cms_extras:case-study-view', args=[self.id])
@@ -1183,211 +1193,94 @@ class CaseStudy(ClusterableModel):
 class CaseStudyScoringSettings(BaseSetting):
     threshold = models.DecimalField(
         help_text='This is the minimum score which a case study needs to have to be '
-        'considered before being presented to users. '
-        'This is calculated as the sum of the positive scores deducted by the dampening scores below.',
-        default=20,
-        decimal_places=3,
-        max_digits=5,
-    )
-    module = models.DecimalField(
-        help_text='This is the score we give a case study should it have an association '
-        'at this level in our information architecture',
-        default=2,
-        decimal_places=3,
-        max_digits=5,
-    )
-    topic = models.DecimalField(
-        help_text='This is the score we give a case study should it have an association '
-        'at this level in our information architecture',
-        default=4,
+        'considered before being presented to users. ',
+        default=10,
         decimal_places=3,
         max_digits=5,
     )
     lesson = models.DecimalField(
-        help_text='This is the score we give a case study should it have an association '
-        'at this level in our information architecture',
+        help_text="Score given when user's lesson is tagged in the case study.",
         default=8,
         decimal_places=3,
         max_digits=5,
     )
+    topic = models.DecimalField(
+        help_text="Score given when user's lesson's topic is tagged in the case study "
+        'unless there is also lesson match.',
+        default=4,
+        decimal_places=3,
+        max_digits=5,
+    )
+    module = models.DecimalField(
+        help_text="Score given when the user's lesson's module is tagged in the case study "
+        'unless there is also lesson or topic match.',
+        default=2,
+        decimal_places=3,
+        max_digits=5,
+    )
     product_hs6 = models.DecimalField(
-        help_text='This is the score we give if a case study matches the HS code product tag at the HS6 level ',
+        help_text='Score given when any case study HS6 tag matches the complete HS6 code of '
+        "any of the user's products",
         default=8,
         decimal_places=3,
         max_digits=5,
     )
     product_hs4 = models.DecimalField(
-        help_text='This is the score we give if a case study matches the HS code product tag at the HS4 level ',
+        help_text="Score given when any case study HS4 tag matches the first 4 digits of any of the user's products "
+        'unless there is an HS6 match.',
         default=4,
         decimal_places=3,
         max_digits=5,
     )
     product_hs2 = models.DecimalField(
-        help_text='This is the score we give if a case study matches the HS code product tag at the HS2 level ',
-        default=2,
-        decimal_places=3,
-        max_digits=5,
-    )
-    country_region = models.DecimalField(
-        help_text='This is the score we give if a case study matches the country tag at a regional level',
+        help_text="Score given when any case study HS2 tag matches the first 2 digits of any of the user's products "
+        'unless there is an HS6 or HS4 match.',
         default=2,
         decimal_places=3,
         max_digits=5,
     )
     country_exact = models.DecimalField(
-        help_text='This is the score we give if a case study matches the country tag at a country level',
+        help_text="Score given when any case study country tag exactly matches one of the user's export markets.",
         default=4,
         decimal_places=3,
         max_digits=5,
     )
-    other_product_hs6 = models.DecimalField(
-        help_text='This is the score we deduct if a case study matches for another HS code at the HS6 level',
-        default=-0.5,
-        decimal_places=3,
-        max_digits=5,
-    )
-    other_product_hs4 = models.DecimalField(
-        help_text='This is the score we deduct if a case study matches for another HS code at the HS4 level',
-        default=-0.25,
-        decimal_places=3,
-        max_digits=5,
-    )
-    other_product_hs2 = models.DecimalField(
-        help_text='This is the score we deduct if a case study matches for another HS code at the HS2 level',
-        default=-0.125,
-        decimal_places=3,
-        max_digits=5,
-    )
-    other_country_region = models.DecimalField(
-        help_text='This is the score we deduct if a case study matches for another country tag at a regional level',
-        default=-0.125,
-        decimal_places=3,
-        max_digits=5,
-    )
-    other_country_exact = models.DecimalField(
-        help_text='This is the score we deduct if a case study matches for another country tag at a country level',
-        default=-0.25,
-        decimal_places=3,
-        max_digits=5,
-    )
-    recency_3_months = models.DecimalField(
-        help_text='This is the score we give if a case study has been published or modified in this time range',
-        default=8,
-        decimal_places=3,
-        max_digits=5,
-    )
-    recency_6_months = models.DecimalField(
-        help_text='This is the score we give if a case study has been published or modified in this time range',
-        default=4,
-        decimal_places=3,
-        max_digits=5,
-    )
-    recency_9_months = models.DecimalField(
-        help_text='This is the score we give if a case study has been published or modified in this time range',
+    country_region = models.DecimalField(
+        help_text="Score given when any case study region tag matches the region of any of the user's export markets "
+        'unless there is an exact country match.',
         default=2,
         decimal_places=3,
         max_digits=5,
     )
-    recency_12_months = models.DecimalField(
-        help_text='This is the score we give if a case study has been published or modified in this time range',
-        default=1,
-        decimal_places=3,
-        max_digits=5,
-    )
-    recency_15_months = models.DecimalField(
-        help_text='This is the score we give if a case study has been published or modified in this time range',
-        default=0.5,
-        decimal_places=3,
-        max_digits=5,
-    )
-    recency_18_months = models.DecimalField(
-        help_text='This is the score we give if a case study has been published or modified in this time range',
-        default=0.25,
-        decimal_places=3,
-        max_digits=5,
-    )
-    recency_21_months = models.DecimalField(
-        help_text='This is the score we give if a case study has been published or modified in this time range',
-        default=0.125,
-        decimal_places=3,
-        max_digits=5,
-    )
-    recency_24_months = models.DecimalField(
-        help_text='This is the score we give if a case study has been published or modified in this time range',
-        default=0.0625,
-        decimal_places=3,
-        max_digits=5,
-    )
+
     trading_blocs = models.DecimalField(
-        help_text='This is the score we give if a case study matches the country tag at a trading bloc level',
+        help_text='Score given when any case study trading bloc tag matches the any trading bloc that any of '
+        "the user's export markets falls into unless there is an exact country or region match.",
         default=2,
         decimal_places=3,
         max_digits=5,
     )
-    other_module_tags = models.DecimalField(
-        help_text='This is the score we deduct for a case study should it have an association at '
-        'this level in our information architecture',
-        default=-0.5,
-        decimal_places=3,
-        max_digits=5,
-    )
-    other_topic_tags = models.DecimalField(
-        help_text='This is the score we deduct for a case study should it have an association at '
-        'this level in our information architecture',
-        default=-0.25,
-        decimal_places=3,
-        max_digits=5,
-    )
-    other_lesson_tags = models.DecimalField(
-        help_text='This is the score we deduct for a case study should it have an association at '
-        'this level in our information architecture',
-        default=-0.1,
-        decimal_places=3,
-        max_digits=5,
-    )
 
-    first_tab_first_row_panels = [
-        FieldPanel('module'),
-        FieldPanel('topic'),
-        FieldPanel('lesson'),
-        FieldPanel('product_hs6'),
-        FieldPanel('product_hs4'),
-        FieldPanel('product_hs2'),
-        FieldPanel('country_region'),
-        FieldPanel('country_exact'),
-        FieldPanel('recency_3_months'),
-        FieldPanel('recency_6_months'),
-        FieldPanel('recency_9_months'),
-        FieldPanel('recency_12_months'),
-        FieldPanel('recency_15_months'),
-        FieldPanel('recency_18_months'),
-        FieldPanel('recency_21_months'),
-        FieldPanel('recency_24_months'),
-        FieldPanel('trading_blocs'),
+    product_tab = [MultiFieldPanel([FieldPanel('product_hs6'), FieldPanel('product_hs4'), FieldPanel('product_hs2')])]
+    market_tab = [
+        MultiFieldPanel([FieldPanel('country_exact'), FieldPanel('country_region'), FieldPanel('trading_blocs')])
     ]
-    first_tab_second_row_panels = [
-        FieldPanel('other_product_hs6'),
-        FieldPanel('other_product_hs4'),
-        FieldPanel('other_product_hs2'),
-        FieldPanel('other_country_region'),
-        FieldPanel('other_country_exact'),
-        FieldPanel('other_lesson_tags'),
-        FieldPanel('other_module_tags'),
-        FieldPanel('other_topic_tags'),
-    ]
-    threshold_tab_panels = [
-        FieldPanel('threshold'),
-    ]
+    lesson_tab = [MultiFieldPanel([FieldPanel('lesson'), FieldPanel('topic'), FieldPanel('module')])]
 
-    scoring_tab_panels = [
-        MultiFieldPanel(first_tab_first_row_panels, heading='Positive scores'),
-        MultiFieldPanel(first_tab_second_row_panels, heading='Dampening scores'),
+    threshold_tab = [
+        MultiFieldPanel(
+            [
+                FieldPanel('threshold'),
+            ]
+        )
     ]
 
     edit_handler = TabbedInterface(
         [
-            ObjectList(scoring_tab_panels, heading='Scoring'),
-            ObjectList(threshold_tab_panels, heading='Threshold'),
+            ObjectList(product_tab, heading='Product'),
+            ObjectList(market_tab, heading='Market'),
+            ObjectList(lesson_tab, heading='Lesson'),
+            ObjectList(threshold_tab, heading='Threshold'),
         ]
     )
 

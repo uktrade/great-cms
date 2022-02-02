@@ -20,6 +20,14 @@ def test_create_export_plan(mock_exportplan_create):
     )
 
 
+@mock.patch.object(api_client.exportplan, 'delete_export_plan')
+def test_delete_export_plan(mock_exportplan_delete_export_plan):
+    mock_exportplan_delete_export_plan.return_value = create_response(status_code=200)
+    helpers.delete_export_plan(sso_session_id=123, id=1)
+    assert mock_exportplan_delete_export_plan.call_count == 1
+    assert mock_exportplan_delete_export_plan.call_args == mock.call(sso_session_id=123, id=1)
+
+
 def test_country_code_iso3_to_iso2():
     assert helpers.country_code_iso3_to_iso2('CHN') == 'CN'
 
@@ -55,14 +63,6 @@ def test_get_cia_world_factbook_data(mock_api_get_cia_world_factbook_data, cia_f
         country='United Kingdom', data_key='people,languages'
     )
     assert response == cia_factbook_data
-
-
-def test_get_population_data(mock_api_get_population_data, population_data):
-    mock_api_get_population_data.stop()
-    response = helpers.get_population_data(country='United Kingdom', target_ages=['25-34', '35-44'])
-    assert mock_api_get_population_data.call_count == 1
-    assert mock_api_get_population_data.call_args == mock.call(country='United Kingdom', target_ages=['25-34', '35-44'])
-    assert response == population_data
 
 
 @mock.patch.object(api_client.exportplan, 'model_object_create')
@@ -145,17 +145,6 @@ def test_get_lesson_details_no_found(curated_list_pages_with_lessons):
     assert lessons == {}
 
 
-@mock.patch.object(api_client.dataservices, 'get_population_data_by_country')
-def test_get_population_data_by_country(mock_population_data_by_country):
-    data = {'country': 'United Kingdom', 'population_data': {'target_population': 10000}}
-
-    mock_population_data_by_country.return_value = create_response(data)
-    response = helpers.get_population_data_by_country(countries='United Kingdom')
-    assert mock_population_data_by_country.call_count == 1
-    assert mock_population_data_by_country.call_args == mock.call(countries='United Kingdom')
-    assert response == data
-
-
 @mock.patch.object(api_client.dataservices, 'get_society_data_by_country')
 def test_get_society_data_by_country(mock_society_data_by_country):
     data = {'country': 'United Kingdom', 'languages': [{'name': 'English'}]}
@@ -197,3 +186,48 @@ def test_upload_exportplan_pdf(mock_upload_pdf, export_plan_data):
     assert mock_upload_pdf.call_args == mock.call(
         sso_session_id=1, data={'companyexportplan': 5, 'pdf_file': mock_file}
     )
+
+
+@pytest.mark.parametrize(
+    'age_filter, sex, total',
+    [
+        [['0-14'], 'female', 5891000],
+        [['65+'], 'male', 0],
+        [['0-14', '15-19'], 'female', 7877000],
+        [[], 'male', 0],
+    ],
+)
+def test_total_population_by_gender_age(age_filter, sex, total):
+    ds = {
+        'PopulationData': [
+            {
+                'year': 2020,
+                'gender': 'male',
+                '0-4': 1770,
+                '5-9': 1912,
+                '60-64': 2070,
+            },
+            {
+                'year': 2020,
+                'gender': 'female',
+                '0-4': 1850,
+                '5-9': 1996,
+                '10-14': 2045,
+                '15-19': 1986,
+                '20-24': 1869,
+            },
+        ]
+    }
+    assert helpers.total_population_by_gender_age(ds['PopulationData'], age_filter, sex) == total
+
+
+def test_get_total_population(multiple_country_data):
+    assert helpers.total_population(multiple_country_data['NL']['PopulationData']) == 20000
+
+
+def test_urban_rural_percentages(multiple_country_data):
+    assert helpers.urban_rural_percentages(multiple_country_data['NL']['PopulationUrbanRural']) == {
+        'rural_percentage': 0.6667,
+        'total_population': 300,
+        'urban_percentage': 0.3333,
+    }

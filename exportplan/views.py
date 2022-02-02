@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.functional import cached_property
+from django.utils.text import slugify
 from django.views.generic import FormView, TemplateView, View
 from great_components.mixins import GA360Mixin
 from requests.exceptions import RequestException
@@ -17,10 +18,9 @@ from directory_api_client.client import api_client
 from directory_constants import choices
 from exportplan import forms
 from exportplan.context import (
+    CountryDataContextProvider,
     FactbookDataContextProvider,
-    InsightDataContextProvider,
     PDFContextProvider,
-    PopulationAgeDataContextProvider,
 )
 from exportplan.core import data, helpers, parsers, serializers
 from exportplan.core.processor import ExportPlanProcessor
@@ -29,7 +29,6 @@ from exportplan.utils import render_to_pdf
 
 class ExportPlanMixin:
     def dispatch(self, request, *args, **kwargs):
-
         serializer = serializers.ExportPlanSerializer(data={'ui_progress': {self.slug: {'modified': datetime.now()}}})
         serializer.is_valid()
         helpers.update_exportplan(
@@ -310,7 +309,7 @@ class BaseFormView(GA360Mixin, FormView):
             site_section='export-plan',
         )
 
-    success_url = '/export-plan/dashboard/'
+    success_url = reverse_lazy('exportplan:index')
 
     def get_initial(self):
         return self.request.user.company.serialize_for_form()
@@ -363,8 +362,7 @@ class ExportPlanServicePage(GA360Mixin, TemplateView):
 class PDFDownload(
     View,
     PDFContextProvider,
-    InsightDataContextProvider,
-    PopulationAgeDataContextProvider,
+    CountryDataContextProvider,
     FactbookDataContextProvider,
 ):
     def get(self, request, *args, **kwargs):
@@ -378,28 +376,9 @@ class PDFDownload(
             sso_session_id=request.user.session_id, exportplan_id=int(self.kwargs['id']), file=pdf_file
         )
         response = HttpResponse(pdf_reponse, content_type='application/pdf')
-        filename = 'export_plan.pdf'
-        content = f'inline; filename={filename}'
-        response['Content-Disposition'] = content
+        filename = f'{slugify(context.get("export_plan").data.get("name","export_plan"))}.pdf'
+        response['Content-Disposition'] = f'inline; filename={filename}'
         return response
-
-
-class ExportPlanList(GA360Mixin, TemplateView):
-    def __init__(self):
-        super().__init__()
-        self.set_ga360_payload(
-            page_id='MagnaPage',
-            business_unit='MagnaUnit',
-            site_section='export-plan',
-        )
-
-    template_name = 'exportplan/exportplan_list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['exportplan_list'] = helpers.get_exportplan_detail_list(self.request.user.session_id)
-
-        return context
 
 
 class ExportPlanIndex(GA360Mixin, TemplateView):
@@ -413,11 +392,11 @@ class ExportPlanIndex(GA360Mixin, TemplateView):
 
     template_name = 'exportplan/index.html'
 
-    def dispatch(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            if len(helpers.get_exportplan_detail_list(self.request.user.session_id)):
-                return redirect('exportplan:list')
-        return super().dispatch(request, *args, **kwargs)
+            context['exportplan_list'] = helpers.get_exportplan_detail_list(self.request.user.session_id)
+        return context
 
 
 class ExportPlanStart(GA360Mixin, TemplateView):
@@ -432,10 +411,40 @@ class ExportPlanStart(GA360Mixin, TemplateView):
     template_name = 'exportplan/start.html'
 
 
+class ExportPlanUpdate(GA360Mixin, TemplateView):
+    # This page is used to allow users to set a product/market in an export plan that doesn't have both
+    export_plan = None
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='MagnaPage',
+            business_unit='MagnaUnit',
+            site_section='export-plan',
+        )
+
+    template_name = 'exportplan/start.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        id = int(self.kwargs['id'])
+        self.export_plan = helpers.get_exportplan(self.request.user.session_id, id)
+        processor = ExportPlanProcessor(self.export_plan)
+        if processor.has_product_and_market():
+            return redirect(reverse_lazy('exportplan:dashboard', kwargs={'id': id}))
+        return super(ExportPlanUpdate, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['export_plan'] = self.export_plan
+        return context
+
+
 class ExportPlanDashBoard(
     GA360Mixin,
     TemplateView,
 ):
+    export_plan = None
+
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -446,14 +455,21 @@ class ExportPlanDashBoard(
 
     template_name = 'exportplan/dashboard_page.html'
 
-    def get_context_data(self, **kwargs):
-
-        context = super().get_context_data(**kwargs)
+    def dispatch(self, request, *args, **kwargs):
         id = int(self.kwargs['id'])
-        export_plan = helpers.get_exportplan(self.request.user.session_id, id)
-        processor = ExportPlanProcessor(export_plan)
-        # self.request.user.set_page_view(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
+        self.export_plan = helpers.get_exportplan(self.request.user.session_id, id)
+        processor = ExportPlanProcessor(self.export_plan)
+        if not processor.has_product_and_market():
+            return redirect(reverse_lazy('exportplan:update', kwargs={'id': id}))
+        return super(ExportPlanDashBoard, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        processor = ExportPlanProcessor(self.export_plan)
         context['sections'] = processor.build_export_plan_sections()
         context['export_plan_progress'] = processor.calculate_ep_progress()
-        context['export_plan'] = export_plan
+        context['export_plan'] = self.export_plan
+        context['export_plan_download_link'] = reverse_lazy(
+            'exportplan:pdf-download', kwargs={'id': self.export_plan.get('pk')}
+        )
         return context

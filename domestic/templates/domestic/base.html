@@ -16,6 +16,8 @@
         {% block sharing_title %}
             <meta name="title" content="{% block meta_title %}{% firstof page.seo_title page.title content_snippet.seo_title content_snippet.title %}{% endblock %}">
         {% endblock %}
+        {% include "wagtailseo/meta.html" %}
+        <meta name="msvalidate.01" content="76D322F181AE9F91C43419E5CD511BBC" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block head_google_tag_manager %}
             {% if UTM_COOKIE_DOMAIN %}
@@ -31,9 +33,9 @@
                 {% if page.seo_title %}
                     {{page.seo_title}}
                 {% else %}
-                    {{page.title}} - great.gov.uk
+                    {{page.title}}
                 {%endif%}
-            {% endblock %}
+            {% endblock %} - great.gov.uk
         </title>
 
         {% block head_favicon %}
@@ -43,9 +45,9 @@
 
         {% block head_css %}
             <link href="{% static 'stylesheets/govuk-elements-styles.min.css' %}" media="all" rel="stylesheet" />
-            <link href="{% static 'stylesheets/elements-components.min.css' %}" media="all" rel="stylesheet" />
+            <link href="{% static 'components_styles.css' %}" media="all" rel="stylesheet" />
             {{ block.super }}
-            <link href="{% static 'styles/main.css' %}" rel="stylesheet" type="text/css" />
+            <link href="{% static 'loggedout_styles.css' %}" rel="stylesheet" type="text/css" />
         {% endblock %}
 
         <style>
@@ -66,8 +68,7 @@
 
         {% block head_js %}
             <script src="{% static 'javascript/dit.js' %}"></script>
-            <script src="{% static 'javascript/dit.components.cookie-notice.js' %}"></script>
-            <script src="{% static 'javascript/reactComponents.js' %}"></script>
+            <script src="{% static 'components.js' %}"></script>
             <script>
               // Safari saves a snapshot of a page as it was when the user left, so upon going "back" it doesn’t have to reload and instead it loads the saved snapshot state. That has an unwanted side effect that cookie modal is shown when clicking "go back to the page you came from".
               window.onpageshow = function (event) {
@@ -167,11 +168,10 @@
             <script>
                 var element = document.createElement('div');
                 document.body.appendChild(element);
-                reactComponents.CookiesModal({
+                components.CookiesModal({
                     element: element,
                     privacyCookiesUrl: {{privacy_and_cookies_path}},
-                    preferencesUrl: '{% url "core:cookie-preferences" %}',
-                    isOpen: dit.components.cookieNotice.getPreferencesCookie() === null
+                    preferencesUrl: '{% url "core:cookie-preferences" %}'
                 })
             </script>
             {% endif %}

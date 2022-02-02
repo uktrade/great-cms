@@ -3,6 +3,10 @@
 {% load get_intended_destination from url_tags %}
 {% load static %}
 
+{% block head_other %}
+    <meta name="description" content="Enter your username and password to access great.gov.uk tools and services" />
+{% endblock %}
+
 {% block inner_content %}
     <div id="login"></div>
 {% endblock %}

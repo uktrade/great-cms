@@ -1,0 +1,80 @@
+
+<pdf:nexttemplate name="section_page" /><pdf:nextpage>
+<h1>Adapting our product</h1>
+<h3>
+ {% if content_icons %}
+  <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_tag.jpg">
+  &nbsp;
+  &nbsp;
+  {% endif %}
+  Labeling
+</h3>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.labelling lines=4 tag_class="pad-t-0" %}
+
+<h3>
+  {% if content_icons %}
+  <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_dolly.jpg">
+  &nbsp;
+  &nbsp;
+  {% endif %}
+  Packaging
+</h3>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.packaging lines=4 tag_class="pad-t-0" %}
+
+<h3>
+  {% if content_icons %}
+  <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_weight.jpg">
+  &nbsp;
+  &nbsp;
+  {% endif %}
+  Size
+</h3>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.size lines=4 tag_class="pad-t-0" %}
+
+ <h3>
+  {% if content_icons %}
+  <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_barcode.jpg">
+  &nbsp;
+  &nbsp;
+  {% endif %}
+  Product changes to comply with standards
+</h3>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.standards lines=4 tag_class="pad-t-0" %}
+
+<h3>
+  {% if content_icons %}
+  <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_feather-alt.jpg">
+  &nbsp;
+  &nbsp;
+  {% endif %}
+  Translations
+</h3>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.translations lines=4 tag_class="pad-t-0" %}
+
+<h3>
+  {% if content_icons %}
+  <img class="icon icon--title" src="{{pdf_statics_url}}pdf/pdf-icon_money-check.jpg">
+  &nbsp;
+  &nbsp;
+  {% endif %}
+  Other changes
+</h3>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.other_changes lines=4 tag_class="pad-t-0" %}
+
+
+<pdf:nextpage>
+
+<h2>Documents we need to provide</h2>
+
+<h3>Certificate of origin</h3>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.certificate_of_origin lines=3 tag_class="pad-t-0" %}
+<h3>Insurance certificate</h3>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.insurance_certificate lines=3 tag_class="pad-t-0" %}
+<h3>Commercial invoice</h3>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.commercial_invoice lines=3 tag_class="pad-t-0" %}
+<h3>UK customs declaration</h3>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.adaptation_target_market.uk_customs_declaration lines=3 tag_class="pad-t-0" %}
+{% for document in export_plan.data.target_market_documents %}
+  <h3>{{document.document_name}}</h3>
+  {% include "exportplan/includes/pdf/pdf_blank.html" with data=document.note lines=3 tag_class="pad-t-0" %}
+{% endfor %}

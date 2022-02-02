@@ -69,28 +69,49 @@ def mock_update_company():
 
 
 @pytest.mark.django_db
-def test_export_plan_landing_page(
+def test_export_plan_update_view(
     client,
-    exportplan_homepage,
     user,
-    mock_get_company_profile,
-    company_profile_data,
-    mock_get_user_profile,
-    mock_export_plan_detail_list,
+    export_plan_data,
 ):
-    mock_get_company_profile.return_value = company_profile_data
+    export_plan_data['export_commodity_codes'] = []
     client.force_login(user)
+    response = client.get(reverse('exportplan:update', kwargs={'id': 1}))
+    assert response.status_code == 200
+    assert response.context['export_plan']['export_commodity_codes'] == []
 
-    response = client.get('/export-plan/')
+
+@pytest.mark.django_db
+def test_export_plan_update_view_redirect(
+    client,
+    user,
+):
+    # Hitting the export plan update view with an EP that has both product and market should redirect to dashboard
+    client.force_login(user)
+    response = client.get(reverse('exportplan:update', kwargs={'id': 1}))
+
     assert response.status_code == 302
-    assert response.url == reverse('exportplan:list')
+    assert response.url == '/export-plan/npiqji6n/'
 
 
-@pytest.mark.skip(reason='we should remove EP landing from wagtail')
+@pytest.mark.django_db
+def test_export_plan_dashboard_redirect_update(
+    client,
+    user,
+    export_plan_data,
+):
+    # Hitting the export plan dashboard with an EP that is missing either product or market should redirect to update
+    client.force_login(user)
+    export_plan_data['export_commodity_codes'] = []
+    response = client.get(reverse('exportplan:dashboard', kwargs={'id': 1}))
+
+    assert response.status_code == 302
+    assert response.url == '/export-plan/npiqji6n/update/'
+
+
 @pytest.mark.django_db
 def test_export_plan_builder_landing_page(
     client,
-    exportplan_dashboard,
     user,
     mock_get_company_profile,
     company_profile_data,
@@ -100,12 +121,12 @@ def test_export_plan_builder_landing_page(
     mock_get_company_profile.return_value = company_profile_data
 
     client.force_login(user)
-
-    response = client.get('/export-plan/dashboard/')
+    response = client.get(reverse('exportplan:dashboard', kwargs={'id': 1}))
     assert response.status_code == 200
+    assert response.context['export_plan_download_link'] == '/export-plan/npiqji6n/pdf-download/'
     assert response.context['sections'][1] == {
         'title': 'Business objectives',
-        'url': '/export-plan/section/1/business-objectives/',
+        'url': '/export-plan/npiqji6n/business-objectives/',
         'disabled': False,
         'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
@@ -145,7 +166,7 @@ def test_exportplan_section_marketing_approach(
     assert response.context_data['route_choices']
     assert response.context_data['promotional_choices']
     assert response.context_data['target_age_group_choices']
-    assert response.context_data['selected_age_groups'] == ['25-29', '47-49']
+    assert response.context_data['selected_age_groups'] == ['0-14', '60+']
 
 
 @pytest.mark.django_db
@@ -163,7 +184,7 @@ def test_edit_logo_page_submmit_success(client, mock_update_company, user):
     response = client.post(url, data)
 
     assert response.status_code == 302
-    assert response.url == '/export-plan/dashboard/'
+    assert response.url == '/export-plan/'
     assert mock_update_company.call_count == 1
     assert mock_update_company.call_args == mock.call(sso_session_id=user.session_id, data={'logo': mock.ANY})
 
@@ -194,7 +215,7 @@ def test_adaption_for_target_markets_context(client, user, mock_get_user_profile
     assert response.status_code == 200
 
     response.context_data['languages'] = {'language': 'Dutch', 'note': 'Many other too'}
-    response.context_data['target_market_documents'] = {'document_name': 'test'}
+    response.context_data['target_market_documents'] = [{'document_name': 'test'}]
 
 
 @pytest.mark.django_db
@@ -244,7 +265,7 @@ def test_export_plan_mixin(
     mock_get_user_profile,
 ):
     client.force_login(user)
-    response = client.get(reverse(f'exportplan:{slug}', kwargs={'id': 1}))
+    response = client.get(reverse(f'exportplan:{slug}', args=[1]))
 
     assert mock_update_export_plan_client.call_count == 1
     assert mock_update_export_plan_client.call_args == mock.call(
@@ -265,7 +286,7 @@ def test_export_plan_mixin(
 
     assert response.context_data['sections'][1] == {
         'title': 'Business objectives',
-        'url': '/export-plan/1/business-objectives/',
+        'url': '/export-plan/npiqji6n/business-objectives/',
         'disabled': False,
         'lessons': ['move-accidental-exporting-strategic-exporting'],
         'is_complete': False,
@@ -281,7 +302,7 @@ def test_export_plan_mixin(
         'section_progress': export_plan_section_progress_data,
         'next_section': {
             'title': 'Target markets research',
-            'url': '/export-plan/1/target-markets-research/',
+            'url': '/export-plan/npiqji6n/target-markets-research/',
             'image': 'target-market-research.png',
         },
     }
@@ -308,7 +329,7 @@ def test_target_markets_research(mock_get_comtrade_data, multiple_country_data, 
 
     response = client.get(url)
     assert response.context_data['target_age_group_choices']
-    assert response.context_data['selected_age_groups'] == ['35-40']
+    assert response.context_data['selected_age_groups'] == ['20-25']
     assert response.status_code == 200
 
 
@@ -390,7 +411,6 @@ def test_download_export_plan(
     mock_pisa,
     client,
     mock_get_comtrade_data,
-    mock_get_population_data,
     mock_cia_world_factbook_data,
     user,
     mock_get_user_profile,
@@ -414,9 +434,11 @@ def test_download_export_plan(
     pdf_context = response.context
     assert pdf_context['export_plan'].data == export_plan_data
     assert pdf_context['user'] == user
-    assert pdf_context['insight_data'] == mock_get_comtrade_data.return_value
-    assert pdf_context['population_age_data']['marketing-approach'] == mock_get_population_data.return_value
-    assert pdf_context['population_age_data']['target-markets-research'] == mock_get_population_data.return_value
+    assert pdf_context['comtrade_data'] == mock_get_comtrade_data.return_value
+    assert pdf_context['country_data']
+    assert pdf_context['country_data']['population_age_data']['marketing-approach']
+    assert pdf_context['country_data']['population_age_data']['target-markets-research']
+    assert pdf_context['country_data']['total_population'] == 20000
     assert pdf_context['language_data'] == mock_cia_world_factbook_data.return_value
 
     assert mock_upload_exportplan_pdf.call_count == 1
@@ -450,3 +472,12 @@ def test_business_risk(export_plan_data, client, user, mock_get_user_profile):
     assert response.context_data['risk_likelihood_options'][0] == {'label': 'Rare', 'value': 'RARE'}
     assert response.context_data['risk_impact_options'][0] == {'label': 'Trivial', 'value': 'TRIVIAL'}
     assert response.context_data['business_risks'] == export_plan_data['business_risks']
+
+
+@pytest.mark.django_db
+def test_exportplan_dashboard(export_plan_data, client, user, mock_get_user_profile):
+    url = '/export-plan/dashboard/'
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 302
+    assert response.url == reverse('exportplan:index')

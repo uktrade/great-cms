@@ -20,8 +20,6 @@ class CompanyObjectivesSerializer(serializers.Serializer):
     description = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     planned_reviews = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
     owner = serializers.CharField(required=False, allow_blank=True, validators=[no_html])
-    start_month = serializers.IntegerField(required=False, allow_null=True, min_value=1, max_value=12)
-    start_year = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
     end_month = serializers.IntegerField(required=False, allow_null=True, min_value=1, max_value=12)
     end_year = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
     companyexportplan = serializers.IntegerField()
@@ -339,15 +337,6 @@ class ExportPlanSerializer(serializers.Serializer):
                 self.total_direct_costs or 0
             )
         return estimated_costs_per_unit
-
-    @property
-    def calculate_total_funding(self):
-        self.is_valid()
-        total_funding = 0.00
-        funding_credit_options = self.data.get('funding_and_credit', {}).get('funding_credit_options') or []
-        for funding_credit_option in funding_credit_options:
-            total_funding = funding_credit_option.get('amount', 0.00) + total_funding
-        return total_funding
 
     @property
     def calculate_cost_pricing(self):

@@ -1,3 +1,4 @@
+import calendar
 import datetime
 import logging
 import math
@@ -36,9 +37,21 @@ def str_to_datetime(datestr):
     return parse_datetime(datestr)
 
 
+@register.filter
+def month_name(month_number):
+    if month_number:
+        return calendar.month_name[month_number]
+    return ''
+
+
 @register.simple_tag()
 def pluralize(value, plural_string='s'):
     return plural_string if value != 1 else ''
+
+
+@register.filter
+def concat(arg1, arg2):
+    return str(arg1) + str(arg2)
 
 
 @register.simple_tag(takes_context=True)
@@ -131,7 +144,7 @@ def multiply_by_exponent(val, exponent=3, base=10):
     else:
         int_val = 0
 
-    return int_val * (base ** exponent)
+    return int_val * (base**exponent)
 
 
 @register.filter(name='friendly_number', is_safe=False)

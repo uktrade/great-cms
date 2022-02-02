@@ -346,6 +346,9 @@ $tablet: 768px;
                 display: block;
                 margin: 0;
             }
+            &.m-r-0 {
+                margin-right:0;
+            }
         }
 
         a {

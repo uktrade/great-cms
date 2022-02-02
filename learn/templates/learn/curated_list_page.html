@@ -7,7 +7,7 @@
 
 {% block content %}
 <div id="learn-root" class="learn__page learn__category-page">
-    <span class="learn__back-link hide-on-mobile m-f-s m-t-s">
+    <span class="learn__back-link only-desktop m-f-s m-t-s">
       {% include "core/includes/backlink.html" with url=parent_page_url label="Learn to export home" classes="p-v-0"%}
     </span>
     {% with high_level_completion_progress|get_item:page.id as module_completion_data %}

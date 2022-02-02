@@ -9,8 +9,8 @@ import {
 } from '@src/actions/costsAndPricing'
 import { CostsAndPricing } from '.'
 
-const mapStateToProps = ({ exportPlan: { markets }, costAndPricing }) => ({
-  country: markets ? markets.find(Boolean).country_name : null,
+const mapStateToProps = ({ exportPlan: { market }, costAndPricing }) => ({
+  country: market.country_name,
   data: { ...costAndPricing },
 })
 

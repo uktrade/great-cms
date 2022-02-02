@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { act, Simulate } from 'react-dom/test-utils'
 import CompareMarkets from '@src/components/CompareMarkets'
 import Services from '@src/Services'
@@ -8,7 +7,8 @@ import { waitFor } from '@testing-library/react'
 import ReactModal from 'react-modal'
 
 let container
-let countriesMock
+let modalContainer
+let userDataPostMock
 
 const mockResponse = [
   { id: 'DZ', name: 'Algeria', region: 'Africa', type: 'Country' },
@@ -28,6 +28,18 @@ const suggestedResponse = [
   { hs_code: 4, country_name: 'Spain', country_iso2: 'ES', region: 'Europe' },
   { hs_code: 4, country_name: 'Sweden', country_iso2: 'SE', region: 'Europe' },
 ]
+
+const scheduleResponse = {
+  children: [
+    {
+      children: [
+        {
+          desc: 'CHAPTER 4 - DAIRY PRODUCE',
+        },
+      ],
+    },
+  ],
+}
 
 const productApiResponse = {
   DE: {
@@ -98,48 +110,48 @@ const economyTabTests = [
   { selector: '.base-year', expect: /\s+2019\s+/ },
 ]
 
+// set up the mock of user data with two countries
+const NL = { country_name: 'Netherlands', country_iso2_code: 'NL' }
+const DE = { country_name: 'Germany', country_iso2_code: 'DE' }
+const comparisonMarkets = { NL, DE }
+
 // Simulate use data response
 let comparisonMarketResponse = { data: {} }
 
-const getText = (el, selector) => {
-  const target = el && el.querySelector(selector)
-  return (target && target.textContent) || ''
-}
-
 describe('Compare markets', () => {
-  beforeAll(() => {
-    const mainElement = document.createElement('span')
-    document.body.appendChild(mainElement)
-    ReactModal.setAppElement(mainElement)
-  })
-
   beforeEach(() => {
+    modalContainer = document.createElement('span')
+    document.body.appendChild(modalContainer)
+    ReactModal.setAppElement(modalContainer)
     container = document.createElement('div')
     container.innerHTML =
-      '<span id="compare-market-container"></span>'
+      '<div id="next-steps">Next Steps</div><span id="cta-container"></span><span id="compare-market-container" ></span>'
     document.body.appendChild(container)
     Services.setConfig({
       csrfToken: '12345',
+      pageTitle: 'where to exprt',
       apiCountriesUrl: '/api/countries/',
       apiSuggestedCountriesUrl: '/api/suggestedcountries/',
+      apiLookupProductScheduleUrl: '/api/lookup-product-schedule/',
       apiCountryDataUrl: '/api/data-service/countrydata/',
       apiComTradeDataUrl: '/api/data-service/comtrade/',
       apiUserDataUrl: '/sso/api/user-data/-name-/',
       user: { id: '6' },
     })
     comparisonMarketResponse = { data: {} }
-    countriesMock = fetchMock.get(/\/api\/countries\//, mockResponse)
+    fetchMock.get(/\/api\/countries\//, mockResponse)
     fetchMock.get(/\/api\/suggestedcountries\//, suggestedResponse)
+    fetchMock.get(/\/api\/lookup-product-schedule\//, scheduleResponse)
     fetchMock.get(/\/api\/data-service\/comtrade\//, productApiResponse)
     fetchMock.get(/\/api\/data-service\/countrydata\//, countryDataApiResponse)
     fetchMock.get(
       /\/sso\/api\/user-data\/ComparisonMarkets\//,
       () => comparisonMarketResponse
     )
-    fetchMock.post(/\/sso\/api\/user-data\//, (p1, p2, p3) => {
-      comparisonMarketResponse = JSON.parse(p2.body).data
-      return comparisonMarketResponse
-    })
+    userDataPostMock = fetchMock.post(
+      /\/sso\/api\/user-data\//,
+      (p1, p2) => JSON.parse(p2.body).data
+    )
   })
 
   afterEach(() => {
@@ -151,15 +163,19 @@ describe('Compare markets', () => {
   it('Forces product chooser when no product', async () => {
     Services.store.dispatch(
       actions.setInitialState({
-        userSettings: { UserProducts: [], ActiveProduct: {} },
+        userSettings: {
+          UserProducts: [],
+          ActiveProduct: {},
+          UserMarkets: [],
+        },
       })
     )
     container.innerHTML =
       '<span id="cta-container"></span><span id="compare-market-container" ></span>'
     const dataTabs = '{ "population": true, "economy": true, "society": true }'
-    const cm_container = container.querySelector('#compare-market-container')
-    cm_container.setAttribute('data-tabs', dataTabs)
-    cm_container.setAttribute('data-max-places-allowed', 3)
+    const cmContainer = container.querySelector('#compare-market-container')
+    cmContainer.setAttribute('data-tabs', dataTabs)
+    cmContainer.setAttribute('data-max-places-allowed', 3)
 
     act(() => {
       CompareMarkets({
@@ -171,7 +187,7 @@ describe('Compare markets', () => {
 
     await waitFor(() => {
       const button = container.querySelector('button')
-      expect(button.textContent).toMatch('Select product')
+      expect(button.textContent).toMatch('Add product')
     })
     // Click the button and check it opens product finder
     act(() => {
@@ -191,24 +207,23 @@ describe('Compare markets', () => {
 
     const localContainer = container
 
-    // set up the mock of user data with two countries
-    const comparisonMarkets = {
-        NL: { country_name: 'Netherlands', country_iso2_code: 'NL' },
-        DE: { country_name: 'Germany', country_iso2_code: 'DE' },
-    }
-
     Services.store.dispatch(
       actions.setInitialState({
-        userSettings: { UserProducts: [selectedProduct], ActiveProduct: selectedProduct, ComparisonMarkets: comparisonMarkets },
+        userSettings: {
+          UserProducts: [selectedProduct],
+          ActiveProduct: selectedProduct,
+          ComparisonMarkets: comparisonMarkets,
+          UserMarkets: [],
+        },
       })
     )
 
     localContainer.innerHTML =
       '<span id="cta-container"></span><span id="compare-market-container" ></span>'
     const dataTabs = '{ "product": true, "economy": true, "society": true }'
-    const cm_container = container.querySelector('#compare-market-container')
-    cm_container.setAttribute('data-tabs', dataTabs)
-    cm_container.setAttribute('data-max-places-allowed', 3)
+    const cmContainer = container.querySelector('#compare-market-container')
+    cmContainer.setAttribute('data-tabs', dataTabs)
+    cmContainer.setAttribute('data-max-places-allowed', 3)
 
     act(() => {
       CompareMarkets({
@@ -222,12 +237,18 @@ describe('Compare markets', () => {
     })
 
     // check economy data
-    const economy_tab = localContainer.querySelector(
+    const economyTab = localContainer.querySelector(
       '.tab-list-item:nth-of-type(2)'
     )
-    expect(economy_tab.textContent).toMatch('ECONOMY')
+    expect(economyTab.textContent).toMatch('ECONOMY')
     act(() => {
-      Simulate.click(economy_tab)
+      Simulate.click(economyTab)
+    })
+    // Check analytics event...
+    expect(window.dataLayer[window.dataLayer.length - 1]).toEqual({
+      event: 'addWhereToExportPageview',
+      virtualPageTitle: 'Where To Export - ECONOMY',
+      virtualPageUrl: '/where-to-export/economy',
     })
 
     await waitFor(() => {
@@ -237,7 +258,7 @@ describe('Compare markets', () => {
       ).toBeTruthy()
     })
     economyTabTests.forEach((test) => {
-      let element = localContainer.querySelector(test.selector)
+      const element = localContainer.querySelector(test.selector)
       if (!element) {
         if (!test.fail) {
           expect(test.selector).toEqual(
@@ -253,6 +274,146 @@ describe('Compare markets', () => {
         expect(element.textContent).toMatch(test.expect)
       }
     })
-    expect(localContainer.querySelectorAll('.tooltip button').length).toEqual(3)
+    expect(localContainer.querySelectorAll('.tooltip button')).toHaveLength(3)
+  })
+
+  it('Allows markets to be added and removed to comparison table', async () => {
+    Services.store.dispatch(
+      actions.setInitialState({
+        userSettings: {
+          UserProducts: [selectedProduct],
+          ActiveProduct: selectedProduct,
+          UserMarkets: [],
+          ComparisonMarkets: comparisonMarkets,
+        },
+      })
+    )
+    container.innerHTML =
+      '<div id="next-steps">Next Steps</div><span id="cta-container"></span><span id="compare-market-container" ></span>'
+    const dataTabs = '{ "product": true }'
+    const cmContainer = container.querySelector(
+      '#compare-market-container'
+    )
+    cmContainer.setAttribute('data-tabs', dataTabs)
+    cmContainer.setAttribute('data-max-places-allowed', 3)
+    act(() => {
+      CompareMarkets({
+        element: cmContainer,
+        cta_container: container.querySelector('#cta-container'),
+      })
+    })
+    expect(container.querySelector('button.add-market')).toBeTruthy()
+    // open market selector
+    act(() => {
+      Simulate.click(container.querySelector('button.add-market'))
+    })
+    await waitFor(() => {
+      expect(document.body.querySelector('.suggested-markets')).toBeTruthy()
+    })
+    // Choose Germany from suggested
+    act(() => {
+      Simulate.click(
+        document.body.querySelector(
+          '.suggested-markets button[data-country=Sweden]'
+        )
+      )
+    })
+    // Find remove Germany button
+    await waitFor(() => {
+      expect(container.querySelector('tr#market-Sweden')).toBeTruthy()
+    })
+    // Check analytics event...
+    expect(window.dataLayer[window.dataLayer.length - 1]).toEqual({
+      event: 'addMarketToGrid',
+      gridMarketAdded: 'Sweden',
+      gridMarkets: 'Netherlands|Germany|Sweden',
+      marketCount: 3,
+    })
+
+    act(() => {
+      Simulate.click(container.querySelector('tr#market-Germany button'))
+    })
+    expect(container.querySelector('tr#market-Germany button')).toBeFalsy()
+
+    expect(window.dataLayer[window.dataLayer.length - 1]).toEqual({
+      event: 'removeMarketFromGrid',
+      removedMarket: 'Germany',
+      gridMarkets: 'Netherlands|Sweden',
+      marketCount: 2,
+    })
+  })
+
+  it('Allows markets to be added and removed from shortlist', async () => {
+    const localContainer = container
+
+    Services.store.dispatch(
+      actions.setInitialState({
+        userSettings: {
+          UserProducts: [selectedProduct],
+          ActiveProduct: selectedProduct,
+          ComparisonMarkets: comparisonMarkets,
+          UserMarkets: [NL],
+        },
+      })
+    )
+
+    localContainer.innerHTML =
+      '<div id="next-steps">Next Steps</div><span id="cta-container"></span><span id="compare-market-container" ></span>'
+    const dataTabs = '{ "product": true }'
+    const cmContainer = container.querySelector('#compare-market-container')
+    cmContainer.setAttribute('data-tabs', dataTabs)
+    cmContainer.setAttribute('data-max-places-allowed', 3)
+    act(() => {
+      CompareMarkets({
+        element: cmContainer,
+        cta_container: localContainer.querySelector('#cta-container'),
+      })
+    })
+    await waitFor(() => {
+      expect(localContainer.querySelector('#market-Germany .name')).toBeTruthy()
+    })
+    const germanyCb = localContainer.querySelector(
+      '#market-Germany .checkbox-favourite'
+    )
+    const netherlandsCb = localContainer.querySelector(
+      '#market-Netherlands .checkbox-favourite'
+    )
+    expect(germanyCb.checked).toBeFalsy()
+    expect(netherlandsCb.checked).toBeTruthy()
+    act(() => {
+      Simulate.change(germanyCb)
+    })
+    await waitFor(() => {
+      const calls = userDataPostMock.calls()
+      const lastcall = calls[calls.length - 1]
+      const { data } = JSON.parse(lastcall[1].body)
+      expect(data).toEqual([NL, DE])
+    })
+    // Check analytics event...
+    expect(window.dataLayer[window.dataLayer.length - 1]).toEqual({
+      event: "marketBasketEngagement",
+      addOrRemoveMarket: "add",
+      basketMarket: "Germany",
+      basketMarketCount: 2,
+      basketMarkets: "Netherlands|Germany",
+      siteSection: "Where to export",
+    })
+    act(() => {
+      Simulate.change(netherlandsCb)
+    })
+    await waitFor(() => {
+      const calls = userDataPostMock.calls()
+      const lastcall = calls[calls.length - 1]
+      const { data } = JSON.parse(lastcall[1].body)
+      expect(data).toEqual([DE])
+    })
+    expect(window.dataLayer[window.dataLayer.length - 1]).toEqual({
+      event: "marketBasketEngagement",
+      addOrRemoveMarket: "remove",
+      basketMarket: "Netherlands",
+      basketMarketCount: 1,
+      basketMarkets: "Germany",
+      siteSection: "Where to export",
+    })
   })
 })

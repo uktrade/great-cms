@@ -4,24 +4,28 @@ import ReactModal from 'react-modal'
 import { Provider } from 'react-redux'
 import Services from '@src/Services'
 import { useUserMarkets } from '@src/components/hooks/useUserData'
-import { sortBy } from '@src/Helpers'
+import { sortMapBy } from '@src/Helpers'
+import { Confirmation } from '@src/components/ConfirmModal/Confirmation'
 import CountryFinderModal from './CountryFinderModal'
 import BasketViewer from './BasketView'
 
 
 export const CountryFinderButton = () => {
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [markets, setMarkets, loadMarkets] = useUserMarkets(false)
+  const { markets, loadMarkets, addMarketItem, removeMarketItem, marketsLoaded } = useUserMarkets(false, 'Personalisation bar')
+
+  const sortMap = sortMapBy(markets || [], 'country_name')
+
+  const [deleteConfirm, setDeleteConfirm] = useState()
 
   const deleteMarket = (index) => {
-    const reduced = [...markets]
-    reduced.splice(index, 1)
-    setMarkets(reduced)
+    removeMarketItem(markets[index])
+    setDeleteConfirm(null)
   }
 
   const selectCountry = (country) => {
     if (markets) {
-      setMarkets([...markets, country])
+      addMarketItem(country)
     }
   }
 
@@ -29,34 +33,48 @@ export const CountryFinderButton = () => {
     <span>
       <BasketViewer label="My markets" onOpen={loadMarkets}>
         <ul className="list m-v-0 body-l-b">
-          {sortBy(markets || [],'country_name').map((market, index) => (
-            <li className="p-v-xxs" key={`market-${market.country_iso2_code}`}>
-              <button
-                type="button"
-                className="f-r button button--small button--only-icon button--tertiary"
-                onClick={() => deleteMarket(index)}
-              >
-                <i className="fas fa-trash-alt" />
-                <span className="visually-hidden">
-                  Remove market {market.country_name}
-                </span>
-              </button>
-              {market.country_name}
-            </li>
-          ))}
+          {sortMap.length === 0 && marketsLoaded ? <li className="p-v-xxs">My markets is empty</li>: null}
+          {sortMap.map((marketIdx) => {
+            const market = markets[marketIdx]
+            return (
+              <li className="p-v-xxs" key={`market-${marketIdx}`}>
+                <button
+                  type="button"
+                  className="f-r button button--small button--only-icon button--tertiary"
+                  onClick={() => setDeleteConfirm({index: marketIdx})}
+                >
+                  <i className="fas fa-times fa-lg" />
+                  <span className="visually-hidden">
+                    Remove market {market.country_name}
+                  </span>
+                </button>
+                {market.country_name}
+              </li>
+            )
+          })}
         </ul>
-        <button type="button" className="button button--primary button--icon m-t-xs button--full-width"
+        <button
+          type="button"
+          className="button button--primary button--icon m-t-xs button--full-width hidden"
           onClick={() => setIsOpen(true)}
         >
-          <i className="fas fa-plus"/>
+          <i className="fas fa-plus" />
           Add market
         </button>
       </BasketViewer>
+      {deleteConfirm && <Confirmation
+        title={`Are you sure you want to remove ${markets[deleteConfirm?.index].country_name}?`}
+        yesLabel="Remove"
+        yesIcon="fa-trash-alt"
+        onYes={() => deleteMarket(deleteConfirm.index)}
+        onNo={() => setDeleteConfirm(null)}
+      />}
+      {modalIsOpen && (
       <CountryFinderModal
-        modalIsOpen={modalIsOpen}
+        modalIsOpen
         setIsOpen={setIsOpen}
         selectCountry={selectCountry}
-      />
+      />)}
     </span>
   )
 }

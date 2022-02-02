@@ -1,10 +1,12 @@
 
 // MAIN
 
-@import 'partials/base';
-@import 'partials/general';
-@import 'partials/errors';
+@import 'partials/profile_base';
+@import 'partials/profile_general';
 @import 'partials/tabs';
 @import 'partials/tab-fab';
 @import 'partials/tab-eig';
 @import 'partials/responsive';
+@import 'partials/colours';
+@import 'partials/company-profile';
+@import 'enrolment';

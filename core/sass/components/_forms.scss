@@ -248,7 +248,7 @@
     }
 
     &--year {
-      width: 4em;
+      width: 7em;
     }
 
     &--medium {
@@ -261,7 +261,8 @@
     padding-top: 0;
   }
 
-  & .form-group, & .select {
+  & .form-group,
+  & .select {
     margin-bottom: 0;
   }
 }

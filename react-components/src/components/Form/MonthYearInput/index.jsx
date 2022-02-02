@@ -1,7 +1,6 @@
 import React, { memo } from 'react'
 import * as PropTypes from 'prop-types'
 
-import { Input } from '../Input'
 import { Select } from '../Select'
 
 export const MonthYearInput = memo(
@@ -49,6 +48,17 @@ export const MonthYearInput = memo(
       return onChange(field, value)
     }
 
+    const currentYear = new Date().getFullYear();
+
+    const yearsOptions = [...Array(10)].map((element, index) => {
+      const year = `${currentYear + index}`
+
+      return {
+        label: year,
+        value: year
+      }
+    })
+
     return (
       <fieldset className={className}>
         <legend className="m-b-xs">{label}</legend>
@@ -64,15 +74,13 @@ export const MonthYearInput = memo(
             />
           </div>
           <div className="inputgroup__input inputgroup__input--year">
-            <Input
+            <Select
               label='Year'
               id={yearName}
-              type='number'
-              value={`${yearValue || ''}`}
-              onChange={handleChange}
-              size={4}
-              inputMode='numeric'
-              pattern='[0-9]*'
+              name={yearName}
+              update={handleChange}
+              options={yearsOptions}
+              selected={`${yearValue}`}
             />
           </div>
         </div>

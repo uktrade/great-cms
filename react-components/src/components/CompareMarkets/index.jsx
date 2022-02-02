@@ -9,31 +9,31 @@ import {
 } from '@src/components/hooks/useUserData'
 import { getCacheVersion } from '@src/reducers'
 import { Provider, useSelector } from 'react-redux'
-import { analytics } from '../../Helpers'
+import { analytics, deepEqual } from '../../Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 import CountryFinderModal from '../ProductFinder/CountryFinderModal'
 import ComparisonTables from './ComparisonTables'
+import SelectMarket from './SelectMarket'
 
-function CompareMarkets(props) {
-  const { tabs, maxPlaces, ctaContainer, container } = props
+function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
   const [productModalIsOpen, setProductModalIsOpen] = useState(false)
   const [marketModalIsOpen, setMarketModalIsOpen] = useState(false)
-  const [selectedProducts] = useUserProducts()
+  const { products, productsLoaded } = useUserProducts()
   const [comparisonMarkets, _setComparisonMarkets] = useComparisonMarkets()
-  const [activeProduct] = useActiveProduct(false)
+  const [activeProduct] = useActiveProduct()
 
   const cacheVersion = useSelector((state) => getCacheVersion(state))
 
-  const hasSelectedProducts = selectedProducts && selectedProducts.length
+  const hasProducts = products && products.length
   const selectedLength = Object.keys(comparisonMarkets || []).length
 
-  const pushAnalytics = (markets) => {
+  const pushAnalytics = (markets, market, remove) => {
     const marketNames = Object.values(markets).map((v) => v.country_name)
     analytics({
-      event: 'findMarketView',
-      market1: marketNames[0] || '',
-      market2: marketNames[1] || '',
-      market3: marketNames[2] || '',
+      event: remove ? 'removeMarketFromGrid':'addMarketToGrid',
+      gridMarkets: marketNames.join('|'),
+      [remove ? 'removedMarket':'gridMarketAdded']:market.country_name,
+      marketCount: marketNames.length,
     })
   }
 
@@ -46,25 +46,22 @@ function CompareMarkets(props) {
       return `${str}${index > 0 ? separator : ''} ${market.country_name}`
     }, 'Comparison information for')
     container.setAttribute('aria-label', label)
-  }
-
-  const updateComparisonMarkets = (newMarkets) => {
-    setComparisonMarkets(newMarkets)
-    pushAnalytics(newMarkets)
     container.focus()
   }
 
   const addCountry = (country) => {
     const newMarkets = { ...comparisonMarkets }
     newMarkets[country.country_iso2_code] = country
-    updateComparisonMarkets(newMarkets)
+    pushAnalytics(newMarkets, country)
+    setComparisonMarkets(newMarkets)
   }
 
   const removeMarket = (evt) => {
     const id = evt.target.closest('button').getAttribute('data-id')
     const newMarkets = { ...comparisonMarkets }
     delete newMarkets[id]
-    updateComparisonMarkets(newMarkets)
+    pushAnalytics(newMarkets, comparisonMarkets[id], true)
+    setComparisonMarkets(newMarkets)
   }
 
   const addProductButton = (
@@ -73,51 +70,88 @@ function CompareMarkets(props) {
       className="button button--primary button--icon"
       onClick={() => setProductModalIsOpen(true)}
     >
-      <i className="fa fa-plus-square" />
-      Select product
+      <i className="fa fa-plus-circle" />
+      Add product
     </button>
   )
 
   const addMarketButton = (
-    <button
-      type="button"
-      className="button button--primary button--icon add-market m-t-xs"
-      onClick={() => setMarketModalIsOpen(true)}
-    >
-      <i className="fa fa-plus-square" />
-      {selectedLength > 0
-        ? `Add place ${selectedLength + 1} of ${maxPlaces}`
-        : 'Add a place'}
-    </button>
+    <>
+      {' '}
+      {selectedLength < maxPlaces && (
+        <button
+          type="button"
+          className="button button--primary button--icon add-market m-t-xs"
+          onClick={() => setMarketModalIsOpen(true)}
+        >
+          <i className="fa fa-plus-circle" />
+          Add market
+        </button>
+      )}
+    </>
   )
 
+  const suggestedMarketsProducts = () => {
+    // get the list of products for suggested markets in country chooser modal
+    if (activeProduct) {
+      const foundActive = (products || []).find((sProduct) =>
+        deepEqual(sProduct, activeProduct)
+      )
+      return foundActive ? [foundActive] : products
+    }
+    return products
+  }
+
   return (
-    <span>
-      {selectedLength ? (
-        <ComparisonTables
-          tabsJson={tabs}
-          comparisonMarkets={comparisonMarkets}
-          activeProduct={activeProduct}
-          removeMarket={removeMarket}
-          triggerButton={addMarketButton}
-          cacheVersion={cacheVersion}
+    productsLoaded && (
+      <>
+        {selectedLength ? (
+          <ComparisonTables
+            tabsJson={tabs}
+            comparisonMarkets={comparisonMarkets}
+            activeProduct={activeProduct}
+            removeMarket={removeMarket}
+            triggerButton={addMarketButton}
+            cacheVersion={cacheVersion}
+          />
+        ) : (
+          ReactDOM.createPortal(
+            hasProducts ? (
+              <>
+                <p className="body-l">
+                  Add an export market to see data for the products in your My
+                  products list.
+                </p>
+                {addMarketButton}
+              </>
+            ) : (
+              <>
+                <p className="body-l">
+                  To get started, add a product to your My products list.
+                </p>
+                {addProductButton}
+              </>
+            ),
+            ctaContainer
+          )
+        )}
+        <ProductFinderModal
+          modalIsOpen={productModalIsOpen}
+          setIsOpen={setProductModalIsOpen}
         />
-      ) : (
-        ReactDOM.createPortal(hasSelectedProducts ? addMarketButton : addProductButton, ctaContainer)
-      )}
-      <ProductFinderModal
-        modalIsOpen={productModalIsOpen}
-        setIsOpen={setProductModalIsOpen}
-      />
-      <CountryFinderModal
-        modalIsOpen={marketModalIsOpen}
-        setIsOpen={setMarketModalIsOpen}
-        activeProducts={activeProduct ? [activeProduct] : selectedProducts}
-        addButton={false}
-        selectCountry={addCountry}
-        isCompareCountries
-      />
-    </span>
+        {marketModalIsOpen && (
+          <CountryFinderModal
+            modalIsOpen
+            setIsOpen={setMarketModalIsOpen}
+            activeProducts={suggestedMarketsProducts()}
+            addButton={false}
+            selectCountry={addCountry}
+            isCompareCountries
+          />
+        )}
+        <SelectMarket />
+      </>
+    )
   )
 }
 

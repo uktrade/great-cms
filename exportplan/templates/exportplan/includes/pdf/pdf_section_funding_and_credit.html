@@ -1,0 +1,46 @@
+
+{% load humanize %}
+{% load tz %}
+{% load object_tags %}
+{% load content_tags %}
+<!-- P10 funding and credit -->
+<pdf:nexttemplate name="section_page" /><pdf:nextpage>
+
+<h1 >Funding and credit</h1>
+<h3 class="pad-t-0">Our total cost</h3>
+<h2 class="pad-t-0">GBP {{ export_plan.data.funding_and_credit.override_estimated_total_cost|floatformat:2|intcomma|default:"_______________" }}</h2>
+
+<h3 class="pad-t-0">How much funding we need in {{ export_plan.data.export_countries.0.country_name }}</h3>
+<h2 class="pad-t-0">GBP {{ export_plan.data.funding_and_credit.funding_amount_required|floatformat:2|intcomma|default:"_______________" }}</h2>
+
+<table>
+  {% for funding in export_plan.data.funding_credit_options %}
+  <tr class="pad-b-0 border-t-1-blue-deep-20">
+    <td class="col-10-5 pad-t-05 border-b-1-blue-deep-20">{{ funding.funding_option_label }}</td>
+    <td class="col-10-5 pad-t-05 border-b-1-blue-deep-20 text-align-right"><strong>{{ funding.amount|floatformat:2|intcomma|default:"__________" }} GBP</strong></td>
+  </tr>
+  {% endfor %}
+  <tr class="pad-b-0 border-y-1-blue-deep-20 bg-colour-blue-deep-10">
+    <td class="col-10-5 pad-t-05">Total funding</td>
+    <td class="col-10-5 pad-t-05 text-align-right">
+      <strong>
+        {{ total_funding.calculated_total_funding|floatformat:2|intcomma|default:"__________" }} GBP
+      </strong>
+    </td>
+  </tr>
+</table>
+
+<pdf:nexttemplate name="section_page" /><pdf:nextpage>
+
+<h1>Getting paid</h1>
+<h2 class="m-t-s">Payments method</h2>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_method.payment_method_label tag="strong" blank_class="pad-b-3" lines=1 %}
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_method.notes blank_class="pad-b-3 m-t-s" lines=3 %}
+
+<h2 class="m-t-s">Payments terms</h2>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_terms.terms_label tag="strong" blank_class="pad-b-3" lines=1 %}
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.payment_terms.notes blank_class="pad-b-3" lines=3 %}
+
+<h2 class="m-t-s">Incoterms</h2>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.incoterms.incoterms_transport_label tag="strong" blank_class="pad-b-3" lines=1 %}
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.getting_paid.incoterms.notes blank_class="pad-b-3" lines=3 %}

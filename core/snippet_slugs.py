@@ -36,5 +36,6 @@ HELP_VERIFICATION_CODE_ENTER = 'verification-letter-code'
 HELP_VERIFICATION_CODE_LETTER = 'no-verification-letter'
 HELP_VERIFICATION_CODE_MISSING = 'verification-missing'
 
+# kept it for old migration files
 EUEXIT_DOMESTIC_FORM = 'eu-exit-domestic'
 EUEXIT_FORM_SUCCESS = 'eu-exit-form-success'

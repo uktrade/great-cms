@@ -17,5 +17,6 @@ module.exports = {
     '<rootDir>/react-components/setupEnzyme.js',
     '<rootDir>/react-components/setupJest.js',
   ],
-  testEnvironment: 'jest-environment-jsdom-fifteen',
+  testEnvironment: 'jsdom',
+  timers: 'modern',
 }

@@ -5,55 +5,70 @@ import ReactHtmlParser from 'react-html-parser'
 import { Provider } from 'react-redux'
 import Services from '@src/Services'
 import { useUserProducts } from '@src/components/hooks/useUserData'
-import { sortBy } from '@src/Helpers'
-
+import { sortMapBy } from '@src/Helpers'
+import { Confirmation } from '@src/components/ConfirmModal/Confirmation'
 import ProductFinderModal from './ProductFinderModal'
 import BasketViewer from './BasketView'
 
+
 function ProductFinderButton() {
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [selectedProducts, setSelectedProducts, loadProducts] = useUserProducts(
-    false
+  const {products, loadProducts, productsLoaded, removeProduct} = useUserProducts(
+    false, 'Personalisation bar'
   )
 
+  const sortMap = sortMapBy(products || [], 'commodity_name')
+  const [deleteConfirm, setDeleteConfirm] = useState()
+
   const deleteProduct = (index) => {
-    const reduced = [...selectedProducts]
-    reduced.splice(index, 1)
-    setSelectedProducts(reduced)
+    removeProduct(products[index])
+    setDeleteConfirm(null)
   }
 
   return (
     <>
       <BasketViewer label="My products" onOpen={loadProducts}>
+
         <ul className="list m-v-0 body-l-b">
-          {sortBy(selectedProducts || [],'commodity_name').map((product, index) => (
-            <li
-              className="p-v-xxs"
-              key={`product-${product.commodity_code}-${product.commodity_name}`}
-            >
-              <button
-                type="button"
-                className="button button--small button--only-icon button--tertiary"
-                onClick={() => deleteProduct(index)}
+          {sortMap.length === 0 && productsLoaded ? <li className="p-v-xxs">My products is empty</li>: null}
+          {sortMap.map((mapIndex) => {
+            const product = products[mapIndex]
+            return (
+              <li
+                className="p-v-xxs"
+                key={`product-${mapIndex}`}
               >
-                <i className="fas fa-trash-alt" />
-                <span className="visually-hidden">
-                  Remove product {ReactHtmlParser(product.commodity_name)}
-                </span>
-              </button>
-              {ReactHtmlParser(product.commodity_name)}
-            </li>
-          ))}
+                <button
+                  type="button"
+                  className="button button--small button--only-icon button--tertiary"
+                  onClick={() => setDeleteConfirm({index:mapIndex})}
+                >
+                  <i className="fas fa-times fa-lg" />
+                  <span className="visually-hidden">
+                    Remove product {ReactHtmlParser(product.commodity_name)}
+                  </span>
+                </button>
+                {ReactHtmlParser(product.commodity_name)}
+              </li>
+            )
+          })}
         </ul>
         <button
           type="button"
-          className="button button--primary button--icon m-t-xs button--full-width"
+          className="button button--primary button--icon m-t-xs button--full-width hidden"
           onClick={() => setIsOpen(true)}
         >
           <i className="fas fa-plus" />
           Add product
-        </button>
+      </button>
       </BasketViewer>
+      {deleteConfirm && <Confirmation
+        title={`Are you sure you want to remove ${products[deleteConfirm?.index].commodity_name}?`}
+        yesLabel="Remove"
+        yesIcon="fa-trash-alt"
+        onYes={() => deleteProduct(deleteConfirm.index)}
+        onNo={() => setDeleteConfirm(null)}
+      />}
       <ProductFinderModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
     </>
   )

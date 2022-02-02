@@ -2,7 +2,9 @@
 {% load static from staticfiles %}
 {% load breadcrumbs from component_tags %}
 
-{% block head_title %}Find your local trade office - great.gov.uk{% endblock %}
+{% block head_title %}Find your local trade office{% endblock %}
+
+{% block meta_description %}Use our postcode search to find the nearest trade offices to you and get in touch with an international trade adviser{% endblock %}
 
 {% block head_css %}
     {{ block.super }}
@@ -32,6 +34,7 @@
 	{% endif %}
 
         {% if office_details %}
+            {% if not office_details.override_office_details %}
             <section class="width-half" id="results">
                 <h2 class="heading-medium">Your local Trade office for {{ form.cleaned_data.postcode }} is</h2>
                 <hr>
@@ -46,33 +49,52 @@
                 <br>
                 <a href="{% url 'contact:office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office_details.name }} office</a>
             </section>
+            {% else %}
+            <section class="width-half" id="results">
+                <h2 class="heading-medium">Your local Trade office for {{ form.cleaned_data.postcode }} is</h2>
+                <hr>
+                <h3 class="heading-medium" id="office-name">{{ office_details.name }}</h3>
+                {{ office_details.override_office_details|safe }}
+                <hr>
+            </section>
+            {% endif %}
         {% endif %}
     </div>
 
     <section class="container" id="other-results">
-        {% if other_offices %}
+        {% if other_offices and not office_details.override_office_details %}
             <div class="width-half">
                 <h2 class="heading-medium">Department for International Trade regional offices</h2>
             </div>
             {% for office in other_offices %}
-                <div class="grid-row">
-                    <h3 class="heading-small" id="office-name">{{ office.name }}</h3>
+                {% if not office.override_office_details %}
+                    <div class="grid-row">
+                        <h3 class="heading-small" id="office-name">{{ office.name }}</h3>
 
-                    <div class="column-one-quarter">
-                        {{ office.address|linebreaks }}
-                    </div>
-                    <div class="column-one-third">
-                        <h3 class="heading-small">Telephone</h3>
-                        <p><a class="link" href="tel:{{ office.phone }}">{{ office.phone }}</a></p>
-                        {% if office.phone_other %}
-                            <h3 class="heading-smal">{{ office.phone_other_comment }}</h3>
-                            <p><a class="link" href="tel:{{ office.phone_other }}">{{ office.phone_other }}</a></p>
-                        {% endif %}
-                        <a href="{% url 'contact:office-finder-contact' postcode=form.cleaned_data.postcode %}" class="link">Contact {{ office.name }} office</a>
-                    </div>
+                        <div class="column-one-quarter">
+                            {{ office.address|linebreaks }}
+                        </div>
+                        <div class="column-one-third">
+                            <h3 class="heading-small">Telephone</h3>
+                            <p><a class="link" href="tel:{{ office.phone }}">{{ office.phone }}</a></p>
+                            {% if office.phone_other %}
+                                <h3 class="heading-smal">{{ office.phone_other_comment }}</h3>
+                                <p><a class="link" href="tel:{{ office.phone_other }}">{{ office.phone_other }}</a></p>
+                            {% endif %}
+                            <a href="{% url 'contact:office-finder-contact' postcode=form.cleaned_data.postcode %}" class="link">Contact {{ office.name }} office</a>
+                        </div>
 
-                </div>
-                <hr class="width-two-thirds">
+                    </div>
+                    <hr class="width-two-thirds">
+                {% else %}
+                    <div class="grid-row">
+                        <h3 class="heading-small" id="office-name">{{ office.name }}</h3>
+                        <div class="width-two-thirds">
+                            {{ office.override_office_details|safe }}
+                        </div>
+                    </div>
+                    <hr class="width-two-thirds">
+                {% endif %}
             {% endfor %}
         {% endif %}
     </section>

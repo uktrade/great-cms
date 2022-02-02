@@ -2,7 +2,6 @@
 # ------------
 django==2.2.*
 django-environ==0.4.*
-django-filter==2.2.*
 django-redis==4.10.*
 django_storages[boto3]==1.8.*
 django-extensions==2.2.*
@@ -14,12 +13,13 @@ django-treebeard>=4.2.0,<4.5
 
 # Wagtail
 # ------------
+wagtail==2.11.*
 wagtail-factories==2.0.*
-wagtail==2.12.*
 wagtail-cache==1.0.*
 wagtailmedia==0.5.0
 wagtailfontawesome==1.2.1
 wagtail-transfer==0.7.*
+wagtail-seo==1.0.0
 
 # Prod tools
 # ------------
@@ -30,14 +30,14 @@ sentry-sdk==0.13.*
 # DIT packages
 # ------------
 great-components>=1.1.*
-directory-api-client==23.0.*
-directory-constants==20.23.*
+directory-api-client==24.1.*
+directory-constants==21.1.*
 directory-healthcheck==2.0.0
 directory-forms-api-client==6.1.*
 directory-sso-api-client>=6.5.*
 django-staff-sso-client==1.0.*
 directory-ch-client==2.1.0
-directory-validators==6.0.5
+directory-validators==8.0.0
 django-recaptcha==2.0.6
 
 # Other Python deps
@@ -63,3 +63,6 @@ sigauth==4.3.0
 elastic-apm==6.1.*
 uk-postcode-utils==1.1
 urllib3>=1.26.5<2.0.0
+hashids==0.8.4
+elasticsearch-dsl==7.3.0
+elasticsearch==7.9.1

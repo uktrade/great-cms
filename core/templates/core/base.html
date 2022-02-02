@@ -6,14 +6,14 @@
 
 {% block head_title %}
   {% if page.title %}
-    {{ page.title }} - great.gov.uk
+    {{ page.title }}
   {% else %}
     Welcome to great.gov.uk
-  {% endif %}
+  {% endif %} - great.gov.uk
 {% endblock %}
 
 {% block head_css %}
-    <link href="{% static 'styles.css' %}" media="all" rel="stylesheet" />
+    <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />
 {% endblock %}
 
 {% block head_js %}
@@ -21,14 +21,7 @@
     <script type="text/javascript" src="{% static 'magna.js' %}"></script>
 
     <script type="text/javascript">
-      var product = '{{ request.user.export_plan.data.export_commodity_codes.0.commodity_code }}';
-      var country = '{{ request.user.export_plan.data.export_countries.0.country_name }}';
-      var dataLayer = window.dataLayer || []
-      dataLayer.push({
-        'productAdded': product || "False",
-        'marketAdded': country || "False",
-      });
-       // static values that will not be updated by user interacting with react components
+      // static values that will not be updated by user interacting with react components
       magna.setConfig({
           apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
           apiLogoutUrl: '{% url "sso:business-sso-logout-api" %}',
@@ -43,20 +36,23 @@
           apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
           apiUpdateCompanyUrl:  '{% url "core:api-update-company" %}',
           {% if export_plan %}
-          apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" id=export_plan.pk %}',
+            apiUpdateExportPlanUrl: '{% url "exportplan:api-update-export-plan" id=export_plan.pk %}',
+            apiDeleteExportPlanUrl: '{% url "exportplan:api-export-plan-delete" id=export_plan.pk %}',
+            updateCalculateCostAndPricing: '{% url "exportplan:api-calculate-cost-and-pricing" id=export_plan.pk %}',
+            apiTargetAgeGroups: '{% url "exportplan:api-target-age-groups" id=export_plan.pk %}',
+            exportPlanDashboardUrl: '{% url "exportplan:dashboard" id=export_plan.pk %}',
+            exportPlanDownloadUrl: '{{export_plan_download_link}}',
           {% endif %}
           apiModelObjectManageUrl: '{% url "exportplan:api-model-object-manage" %}',
+          apiCreateExportPlanUrl: '{% url "exportplan:api-export-plan-create" %}',
           apiComTradeDataUrl: '{% url "core:api-comtrade-data" %}',
           apiCountryDataUrl: '{% url "core:api-country-data" %}',
-          apiTargetAgeGroups: '{% url "exportplan:api-target-age-groups" %}',
-          populationByCountryUrl: '{% url "exportplan:api-population-data-by-country" %}',
-          updateCalculateCostAndPricing: '{% url "exportplan:api-calculate-cost-and-pricing" %}',
           societyByCountryUrl: '{% url "exportplan:api-society-data-by-country" %}',
-          countryOptions: {{ javascript_components.country_choices|safe }},
           csrfToken: '{{ csrf_token }}',
           dashboardUrl: '{% url_map "DASHBOARD_URL" %}',
+          exportPlanBaseUrl: '{% url "exportplan:index" %}',
+          compareCountriesUrl: '{% url "core:compare-countries" %}',
           googleUrl: '{{ javascript_components.google_url }}',
-          industryOptions: {{ javascript_components.industry_options|safe }},
           linkedInUrl: '{{ javascript_components.linkedin_url }}',
           loginUrl: '{% url "core:login" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}',
           signupUrl: '{% url "core:signup" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}',
@@ -69,7 +65,6 @@
           },
           verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
           refreshOnMarketChange: {% if refresh_on_market_change %}true{%else%}false{% endif %},
-          urlCostsAndPricing: 'section/costs-and-pricing/?id=1',
       });
     </script>
 {% endblock %}
@@ -84,6 +79,7 @@
 {% endblock %}
 
 {% block body_content_container %}
+    {% include "wagtailseo/struct_data.html" %}
   <main id="content" class="{% block css_layout_class %}{% endblock %}">
       {% block content_header %}{% endblock %}
       {% block content %}{% endblock %}
@@ -93,6 +89,7 @@
 {% block cookie_notice %}{% endblock %}
 
 {% block body_footer %}
+  <div id="snackbar-container"></div>
   {% include 'core/footer.html' %}
 {% endblock %}
 
@@ -111,10 +108,12 @@
           login: false,
           signup: false,
         },
-      exportPlan:{
-          product: {{export_plan.export_commodity_codes.0|to_json}},
-          market: {{export_plan.export_countries.0|to_json }}
+        exportPlan:{
+            product: {{export_plan.export_commodity_codes.0|to_json}},
+            market: {{export_plan.export_countries.0|to_json }},
+            name: '{{export_plan.name|default:'' }}',
         },
       })
+      magna.createSnackbar({element:document.getElementById('snackbar-container')})
   </script>
 {% endblock %}

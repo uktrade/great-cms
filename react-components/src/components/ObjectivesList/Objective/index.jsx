@@ -9,7 +9,7 @@ import ErrorList from '../../ErrorList'
 import { MonthYearInput } from '../../Form/MonthYearInput'
 
 const fwRefObjective = forwardRef((props, ref) => {
-  const { handleChange, deleteObjective, number, id, errors, data } = props
+  const { handleChange, deleteObjective, number, id, errors, data, example } = props
 
   const onChange = (item) => {
     handleChange({
@@ -24,8 +24,6 @@ const fwRefObjective = forwardRef((props, ref) => {
 
   const {
     companyexportplan,
-    start_month,
-    start_year,
     end_month,
     end_year,
     pk,
@@ -33,38 +31,31 @@ const fwRefObjective = forwardRef((props, ref) => {
   } = data
 
   return (
-    <fieldset id={`objective-${number}`} ref={ref}
-tabIndex="-1">
+    <fieldset id={`objective-${number}`} ref={ref} tabIndex="-1">
       <legend className="visually-hidden">{`Objective ${number}`}</legend>
       <div className="costs bg-blue-deep-10 m-b-s">
         <div className="costs__option costs__option--border" tabIndex="-1">
           <TextArea
-            id="description"
+            id={number}
+            name={`description`}
             placeholder="Add some text"
             label={`Objective ${number}`}
             value={data.description}
             onChange={onChange}
             errors={[]}
             formGroupClassName="m-b-0"
+            example={example}
           />
         </div>
         <div className="costs__option costs__option--border">
           <MonthYearInput
-            label='Start objective in:'
-            monthName='start_month'
-            monthValue={data.start_month}
-            yearName='start_year'
-            yearValue={data.start_year}
-            onChange={onChange}
-          />
-          <MonthYearInput
-            label='Complete by:'
-            monthName='end_month'
+            label="To be completed by:"
+            monthName="end_month"
             monthValue={data.end_month}
-            yearName='end_year'
+            yearName="end_year"
             yearValue={data.end_year}
             onChange={onChange}
-            className='m-t-s'
+            className="m-t-s"
           />
         </div>
         <div className="costs__option costs__option--border">
@@ -115,15 +106,17 @@ Objective.propTypes = {
     description: PropTypes.string,
     owner: PropTypes.string,
     planned_reviews: PropTypes.string,
-    start_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    start_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     end_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     end_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     companyexportplan: PropTypes.number.isRequired,
     pk: PropTypes.number.isRequired,
   }).isRequired,
+  example: PropTypes.shape({
+    content: PropTypes.string,
+  })
 }
 
 Objective.defaultProps = {
   errors: { __all__: [] },
+  example: {},
 }

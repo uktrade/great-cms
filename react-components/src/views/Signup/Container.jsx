@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import { connect, Provider } from 'react-redux'
+import { analytics } from '@src/Helpers'
 
 import {
   Signup,
@@ -21,7 +22,10 @@ export function Container(props) {
   const [currentStep, setCurrentStep] = useState(props.currentStep)
   const [email, setEmail] = useState(props.email)
   const [password, setPassword] = useState(props.password)
+  const [uidb64, setUidb64] = useState(props.uidb64)
+  const [token, setToken] = useState(props.token)
   const [code, setCode] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
 
   function handleError(error) {
     setErrors(error.message || error)
@@ -37,7 +41,17 @@ export function Container(props) {
   function handleStepCredentialsSubmit() {
     setErrors({})
     setIsInProgress(true)
-    Services.createUser({ email, password })
+    Services.createUser({ email, password, phoneNumber, next })
+      .then((response) => response.json())
+      .then((data) => {
+        setUidb64(data.uidb64)
+        setToken(data.token)
+        analytics({
+          event: 'signUp',
+          referrerUrl: document.referrer,
+          nextUrl: decodeURIComponent(next),
+        })
+      })
       .then(() => handleSuccess(STEP_VERIFICATION_CODE))
       .catch(handleError)
   }
@@ -45,7 +59,7 @@ export function Container(props) {
   function handleStepCodeSubmit() {
     setErrors({})
     setIsInProgress(true)
-    Services.checkVerificationCode({ email, code })
+    Services.checkVerificationCode({ uidb64, token, code })
       .then(() => handleSuccess(STEP_COMPLETE))
       .catch(handleError)
   }
@@ -71,6 +85,8 @@ export function Container(props) {
       handleStepCodeSubmit={handleStepCodeSubmit}
       linkedinLoginUrl={linkedinLoginUrl}
       googleLoginUrl={googleLoginUrl}
+      phoneNumber={phoneNumber}
+      setPhoneNumber={setPhoneNumber}
     />
   )
 }

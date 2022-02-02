@@ -236,7 +236,8 @@ urlpatterns = [
                     url_name='contact:contact-us-soo',
                     done_step_name='finished',
                 )
-            )
+            ),
+            login_url=reverse_lazy('core:login'),
         ),
         name='contact-us-soo',
     ),

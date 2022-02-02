@@ -24,6 +24,18 @@ const suggestedCountries = [
   { country_iso2: 'AT', country_name: 'Austria' },
 ]
 
+const scheduleResponse = {
+  children: [
+    {
+      children: [
+        {
+          desc: 'CHAPTER 4 - DAIRY PRODUCE',
+        },
+      ],
+    },
+  ],
+}
+
 const selectedProduct = {
   commodity_code: '123456',
   commodity_name: 'my product',
@@ -38,6 +50,7 @@ describe('Test country finder button', () => {
     Services.setConfig({
       apiCountriesUrl: '/api/countries/',
       apiSuggestedCountriesUrl: '/api/suggested-markets/',
+      apiLookupProductScheduleUrl: '/api/lookup-product-schedule/',
     })
     Services.setInitialState({
       userSettings: {
@@ -50,6 +63,10 @@ describe('Test country finder button', () => {
     suggestedCountriesMock = fetchMock.get(
       /\/api\/suggested-markets\//,
       suggestedCountries
+    )
+    fetchMock.get(
+      /\/api\/lookup-product-schedule\//,
+      scheduleResponse
     )
   })
 
@@ -70,9 +87,7 @@ describe('Test country finder button', () => {
     })
     let addNewButton
     await waitFor(() => {
-      addNewButton = container.querySelector(
-        '.basket-view button'
-      )
+      addNewButton = container.querySelector('.basket-view button')
       expect(addNewButton).toBeTruthy()
     })
     // Click on the open country finder button
@@ -92,7 +107,8 @@ describe('Test country finder button', () => {
     expect(document.body.querySelector('.country-finder')).toBeFalsy()
   })
 
-  it('Open country finder and type-ahead filter', async () => {
+  /* Skipping this test as the country search is disabled ATM */
+  it.skip('Open country finder and type-ahead filter', async () => {
     act(() => {
       createCountryFinder({ element: container })
     })

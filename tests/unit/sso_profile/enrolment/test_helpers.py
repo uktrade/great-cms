@@ -68,33 +68,6 @@ def test_get_company_profile_not_ok(mock_get_company_profile):
         helpers.get_companies_house_profile('123456')
 
 
-@mock.patch('directory_forms_api_client.client.forms_api_client.submit_generic')
-def test_send_verification_code_email(mock_submit):
-    email = 'gurdeep.atwal@digital.trade.gov.uk'
-    verification_code = {'code': 12345, 'expiration_date': '2019-02-10T13:19:51.167097Z'}
-    form_url = 'test'
-    verification_link = 'test/url/'
-
-    mock_submit.return_value = create_response(status_code=201)
-    helpers.send_verification_code_email(
-        email=email, verification_code=verification_code, form_url=form_url, verification_link=verification_link
-    )
-
-    expected = {
-        'data': {'code': 12345, 'expiry_date': '10 Feb 2019, 1:19 p.m.', 'verification_link': verification_link},
-        'meta': {
-            'action_name': 'gov-notify-email',
-            'form_url': form_url,
-            'sender': {},
-            'spam_control': {},
-            'template_id': 'a1eb4b0c-9bab-44d3-ac2f-7585bf7da24c',
-            'email_address': email,
-        },
-    }
-    assert mock_submit.call_count == 1
-    assert mock_submit.call_args == mock.call(expected)
-
-
 @mock.patch.object(helpers.sso_api_client.user, 'verify_verification_code')
 def test_confirm_verification_code(mock_confirm_code):
     helpers.confirm_verification_code(email='test@example.com', verification_code='1234')

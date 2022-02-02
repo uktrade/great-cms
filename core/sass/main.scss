@@ -10,6 +10,7 @@ $fa-font-path: '/static/fonts';
 // Icons
 @import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/regular';
 @import 'node_modules/@fortawesome/fontawesome-free/scss/brands';
 
 // Great styles
@@ -33,6 +34,7 @@ $fa-font-path: '/static/fonts';
 @import 'components/slick';
 @import 'components/segmentation';
 @import 'components/backlink';
+@import 'components/snackbar';
 
 @import 'base';
 @import 'overrides';
@@ -45,6 +47,7 @@ $fa-font-path: '/static/fonts';
 @import 'exportplan/sidebar';
 @import 'exportplan/costs';
 @import 'exportplan/adaptation-target-market-form';
+@import 'exportplan/animations';
 
 // Shared styles
-@import 'shared/base'
+@import 'shared/base';

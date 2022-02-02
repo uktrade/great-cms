@@ -1,14 +1,11 @@
-from unittest import mock
-
 import pytest
 from django.http import HttpRequest
 
-from core.utils import (
+from core.utils import (  # get_personalised_case_study_orm_filter_args,
     PageTopicHelper,
     choices_to_key_value,
     get_all_lessons,
     get_first_lesson,
-    get_personalised_case_study_orm_filter_args,
     get_personalised_choices,
 )
 from directory_constants.choices import MARKET_ROUTE_CHOICES
@@ -119,189 +116,6 @@ def test_multiple_modules(domestic_homepage, client, user):
     assert page4_response.context_data.get('next_module') is None  # no next module, even though final lesson
 
 
-@pytest.mark.parametrize(
-    'hs_code,country,region,expected_length, expected_filter_dict',
-    [
-        (
-            '123456',
-            'IN',
-            'Asia',
-            15,
-            [
-                {
-                    'hs_code_tags__name': '123456',
-                    'country_code_tags__name': 'IN',
-                },
-                {
-                    'hs_code_tags__name': '123456',
-                    'region_code_tags__name': 'Asia',
-                },
-                {'hs_code_tags__name': '123456'},
-                {
-                    'hs_code_tags__name': '1234',
-                    'country_code_tags__name': 'IN',
-                },
-                {
-                    'hs_code_tags__name': '1234',
-                    'region_code_tags__name': 'Asia',
-                },
-                {'hs_code_tags__name': '1234'},
-                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
-                {
-                    'hs_code_tags__name': '12',
-                    'region_code_tags__name': 'Asia',
-                },
-                {'hs_code_tags__name': '12'},
-                {'country_code_tags__name': 'IN'},
-                {'region_code_tags__name': 'Asia'},
-                {'trading_bloc_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
-                {'trading_bloc_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
-                {'trading_bloc_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
-                {'trading_bloc_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
-            ],
-        ),
-        (
-            '1234',
-            'IN',
-            'Asia',
-            12,
-            [
-                {
-                    'hs_code_tags__name': '1234',
-                    'country_code_tags__name': 'IN',
-                },
-                {
-                    'hs_code_tags__name': '1234',
-                    'region_code_tags__name': 'Asia',
-                },
-                {'hs_code_tags__name': '1234'},
-                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
-                {
-                    'hs_code_tags__name': '12',
-                    'region_code_tags__name': 'Asia',
-                },
-                {'hs_code_tags__name': '12'},
-                {'country_code_tags__name': 'IN'},
-                {'region_code_tags__name': 'Asia'},
-                {'trading_bloc_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
-                {'trading_bloc_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
-                {'trading_bloc_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
-                {'trading_bloc_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
-            ],
-        ),
-        (
-            '12',
-            'IN',
-            'Asia',
-            9,
-            [
-                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
-                {
-                    'hs_code_tags__name': '12',
-                    'region_code_tags__name': 'Asia',
-                },
-                {'hs_code_tags__name': '12'},
-                {'country_code_tags__name': 'IN'},
-                {'region_code_tags__name': 'Asia'},
-                {'trading_bloc_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
-                {'trading_bloc_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
-                {'trading_bloc_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
-                {'trading_bloc_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
-            ],
-        ),
-        (
-            '123456',
-            'IN',
-            None,
-            11,
-            [
-                {
-                    'hs_code_tags__name': '123456',
-                    'country_code_tags__name': 'IN',
-                },
-                {'hs_code_tags__name': '123456'},
-                {
-                    'hs_code_tags__name': '1234',
-                    'country_code_tags__name': 'IN',
-                },
-                {'hs_code_tags__name': '1234'},
-                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
-                {'hs_code_tags__name': '12'},
-                {'country_code_tags__name': 'IN'},
-                {'trading_bloc_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
-                {'trading_bloc_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
-                {'trading_bloc_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
-                {'trading_bloc_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
-            ],
-        ),
-        (
-            '1234',
-            'IN',
-            None,
-            9,
-            [
-                {
-                    'hs_code_tags__name': '1234',
-                    'country_code_tags__name': 'IN',
-                },
-                {'hs_code_tags__name': '1234'},
-                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
-                {'hs_code_tags__name': '12'},
-                {'country_code_tags__name': 'IN'},
-                {'trading_bloc_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
-                {'trading_bloc_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
-                {'trading_bloc_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
-                {'trading_bloc_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
-            ],
-        ),
-        (
-            '12',
-            'IN',
-            None,
-            7,
-            [
-                {'hs_code_tags__name': '12', 'country_code_tags__name': 'IN'},
-                {'hs_code_tags__name': '12'},
-                {'country_code_tags__name': 'IN'},
-                {'trading_bloc_code_tags__name': 'Regional Comprehensive Economic Partnership (RCEP)'},
-                {'trading_bloc_code_tags__name': 'South Asian Association for Regional Cooperation (SAARC)'},
-                {'trading_bloc_code_tags__name': 'South Asia Free Trade Area (SAFTA)'},
-                {'trading_bloc_code_tags__name': 'Regional Economic Comprehensive Economic Partnership (RCEP)'},
-            ],
-        ),
-        (
-            '123456',
-            None,
-            None,
-            3,
-            [
-                {'hs_code_tags__name': '123456'},
-                {'hs_code_tags__name': '1234'},
-                {'hs_code_tags__name': '12'},
-            ],
-        ),
-        (
-            '1234',
-            None,
-            None,
-            2,
-            [
-                {'hs_code_tags__name': '1234'},
-                {'hs_code_tags__name': '12'},
-            ],
-        ),
-        ('12', None, None, 1, [{'hs_code_tags__name': '12'}]),
-        (None, None, None, 0, []),
-    ],
-)
-def test_personalised_filter_condition(
-    mock_trading_blocs, hs_code, country, region, expected_length, expected_filter_dict
-):
-    filter_cond = get_personalised_case_study_orm_filter_args(hs_code=hs_code, country=country, region=region)
-    assert filter_cond == expected_filter_dict
-    assert len(filter_cond) == expected_length
-
-
 @pytest.mark.django_db
 def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
     # Almost literally the same test as above, but with some placeholder blocks
@@ -380,66 +194,26 @@ def test_placeholders_do_not_get_counted(domestic_homepage, client, user):
     assert page4_response.context_data.get('next_module') is None  # no next module, even though final lesson
 
 
-@pytest.mark.parametrize(
-    'mocked_export_plan, expected_commodity_code, expected_country, expected_region',
-    [
-        (
-            {
-                'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Something'}],
-                'export_countries': [
-                    {
-                        'region': 'Europe',
-                        'country_name': 'Spain',
-                        'country_iso2_code': 'ES',
-                    }
-                ],
-            },
-            '123456',
-            'ES',
-            'Europe',
-        ),
-        (
-            {
-                'export_countries': [
-                    {
-                        'region': 'Europe',
-                        'country_name': 'Spain',
-                        'country_iso2_code': 'ES',
-                    }
-                ]
-            },
-            None,
-            'ES',
-            'Europe',
-        ),
-        (
-            {'export_commodity_codes': [{'commodity_code': '123456', 'commodity_name': 'Something'}]},
-            '123456',
-            None,
-            None,
-        ),
-        ({}, None, None, None),
-    ],
-)
 @pytest.mark.django_db
-@pytest.mark.skip(reason='personalisation bar has changed hence this test will need updating')
-def test_selected_personalised_choices(
-    rf,
-    user,
-    mocked_export_plan,
-    expected_commodity_code,
-    expected_country,
-    expected_region,
-):
+def test_selected_personalised_choices(rf, user, mock_get_user_data, mock_trading_blocs):
     request = rf.get('/')
     request.user = user
-    request.user.export_plan.data = mock.MagicMock()
-    with mock.patch.object(request.user, 'export_plan', mocked_export_plan):
-        commodity_code, country, region = get_personalised_choices(mocked_export_plan)
+    commodity_codes, countries, regions, blocs = get_personalised_choices(user)
 
-        assert commodity_code == expected_commodity_code
-        assert country == expected_country
-        assert region == expected_region
+    assert commodity_codes == ['111111', '666666']
+    assert countries == ['Germany']
+    assert regions == ['Europe']
+    assert 'European Economic Area (EEA)' in blocs
+    assert 'European Union (EU)' in blocs
+
+
+@pytest.mark.django_db
+def test_selected_personalised_choices_no_user():
+    commodity_codes, countries, regions, blocs = get_personalised_choices(None)
+
+    assert commodity_codes == []
+    assert countries == []
+    assert regions == []
 
 
 def test_tuple_to_key_value_dict():

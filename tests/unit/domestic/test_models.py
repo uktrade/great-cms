@@ -186,7 +186,8 @@ def test_dashboard_page_routing(
         json_body={'result': 'ok', 'page_views': {'/export-plan/dashboard/': {'service': 'great-cms'}}}
     )
     context_data = dashboard.get_context(get_request)
-    assert context_data['routes']['plan'].value.get('enabled') is False
+    # Check exportplan list exists
+    assert len(context_data.get('exportplan_list')) == 1
 
 
 @pytest.mark.django_db
@@ -1031,7 +1032,6 @@ def test_markets_page__no_results__page_content(
     domestic_site,
     client,
 ):
-
     markets_topic_page = MarketsTopicLandingPageFactory(
         title='Markets',
         slug='markets',
@@ -1054,12 +1054,12 @@ def test_markets_page__no_results__page_content(
 
     # Brittle tests warning
     assert str(links[21]) == (
-        '<a class="link" href="https://www.great.gov.uk/export-opportunities/">'
+        '<a class="link" href="http://exred.trade.great:8007/export-opportunities/">'
         'Browse our export opportunities service to find opportunities to sell your product in overseas markets</a>'
     )
 
     assert str(links[22]) == (
-        '<a class="link" href="https://www.great.gov.uk/contact/office-finder">'
+        '<a class="link" href="http://exred.trade.great:8007/contact/office-finder">'
         'Get in touch with a trade adviser to discuss your export business plan</a>'
     )
 

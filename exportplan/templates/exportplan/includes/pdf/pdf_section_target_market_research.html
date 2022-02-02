@@ -1,0 +1,60 @@
+{% load static %}
+{% load humanize %}
+{% load tz %}
+{% load content_tags %}
+{% load object_tags %}
+<pdf:nexttemplate name="right_bar_content_page" /><pdf:nextpage><pdf:nexttemplate name="section_page" />
+
+<h1>Target market research</h1>
+<pdf:nextframe>
+  {% if export_plan.data.export_countries.0.country_name %}
+    {% with comtrade=comtrade_data|get_item:export_plan.country_iso2_code %}
+      <h3 class="m-b-xs colour-red-150">Data snapshot</h3>
+      <h6 class="body-s pad-y-0">Total product import value from uk in {{ comtrade.import_from_uk.year }} (USD)</h6>
+      <p class="pad-t-0"><strong>${{ comtrade.import_from_uk.trade_value_raw|floatformat:0|intcomma }}</strong></p>
+
+      <h6 class="body-s pad-y-0">Total product import value in {{ comtrade.import_from_world.year}} (USD)</h6>
+      <p class="pad-t-0"><strong>${{ comtrade.import_from_world.trade_value_raw|floatformat:0|intcomma }}</strong></p>
+      <!--
+      <h6 class="body-s pad-y-0">Year-to-year product import value change</h6>
+      <p class="pad-t-0"><strong>{{ insight_data.import_from_world.year_on_year_change|floatformat:2 }}&percnt;</strong></p>
+      -->
+      <h6 class="body-s pad-y-0">GDP per capita (USD)</h6>
+      <p class="pad-t-0"><strong>${{ country_data.GDPPerCapita.0.value|floatformat:0|intcomma }}</strong></p>
+
+      <h6 class="body-s pad-y-0">Average Income (USD)</h6>
+      <p class="pad-t-0"><strong>${{ country_data.Income.0.value|floatformat:0|intcomma }}</strong></p>
+    {% endwith %}
+
+    {% with market_research=country_data.population_age_data|get_item:'target-markets-research' %}
+      {% if market_research.target_ages %}
+        <h6 class="body-s pad-y-0">Target age groups</h6>
+        <p class="pad-t-0">
+          <strong>
+            {% for age in market_research.target_ages %}
+            {{ age }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </strong>
+        </p>
+        <h6 class="body-s pad-y-0">Target age population</h6>
+        <p class="pad-t-0"><strong>{{ market_research.total_target_age_population|friendly_number }}</strong></p>
+      {% endif %}
+      <h6 class="body-s pad-y-0">Total population</h6>
+      <p class="pad-t-0"><strong>{{ country_data.total_population|friendly_number }}</strong></p>
+    {% endwith %}
+    {% endif %}
+<pdf:nextframe>
+
+<h3 class="pad-t-0">Consumer demand for our product in {{ export_plan.data.export_countries.0.country_name }}</h3>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.target_markets_research.demand lines=4 tag_class="pad-t-0" %}
+<h3 class="pad-t-0">Competitors in {{ export_plan.data.export_countries.0.country_name }}</h3>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.target_markets_research.competitors lines=4 tag_class="pad-t-0" %}
+
+<h3 class="pad-t-0">Local product trends</h3>
+{% include "exportplan/includes/pdf/pdf_blank.html" with data=export_plan.data.target_markets_research.trend lines=4 tag_class="pad-t-0" %}
+<h3 class="pad-t-0">Average price of our product in {{ export_plan.data.export_countries.0.country_name }}?</h3>
+{% if export_plan.data.target_markets_research.average_price %}
+<p class="pad-t-0">GBP {{ export_plan.data.target_markets_research.average_price }}</p>
+{% else %}
+{% include "exportplan/includes/pdf/pdf_blank.html" with lines=1 %}
+{% endif %}

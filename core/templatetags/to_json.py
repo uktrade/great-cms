@@ -17,5 +17,5 @@ Usage:
 @register.filter
 def to_json(data, indent=None):
     return mark_safe(
-        json.dumps(data, sort_keys=True, indent=indent, cls=DjangoJSONEncoder).replace("'", '&#39;'),
+        json.dumps(data, sort_keys=True, indent=indent, cls=DjangoJSONEncoder),
     )

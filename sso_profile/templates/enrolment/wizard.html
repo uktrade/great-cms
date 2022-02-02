@@ -3,11 +3,7 @@
 {% load static from staticfiles %}
 {% load breadcrumbs from component_tags %}
 
-{% block head_title %}Create a great.gov.uk account - great.gov.uk{% endblock %}
-{% block head_css %}
-    {{ block.super }}
-    <link href="{% static 'css/enrolment.css' %}" media="all" rel="stylesheet" />
-{% endblock %}
+{% block head_title %}Create a great.gov.uk account{% endblock %}
 
 {% block breadcrumbs %}
     {% breadcrumbs 'Create a great.gov.uk account' %}

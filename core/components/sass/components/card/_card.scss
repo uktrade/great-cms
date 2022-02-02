@@ -15,9 +15,9 @@
   background: $white;
 
   .card-link {
-    height: 100%;
     color: $grey;
     text-decoration: none;
+    display: block;
 
     &:hover .card-inner {
       h3,

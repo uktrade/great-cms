@@ -3,6 +3,9 @@
 {% load to_json %}
 {% block intro_title %}Funding and credit{%endblock %}
 
+{% block head_other %}
+  <meta name="description" content="Complete the Funding and credit section of your export plan" />
+{% endblock %}
 {% block intro_description %}
 One of the main challenges of being an exporter is having enough money available to be successful.
 <br />
@@ -67,8 +70,8 @@ There are however lots of financing options available to help you export, the ri
     element: element,
     currency: 'GBP',
     formData: {{ funding_and_credit|to_json }},
-    currentSection: {{ current_section|to_json}},
-    lessonDetails: {{ lesson_details|safe }},
+    currentSection: {{ current_section|to_json }},
+    lessonDetails: {{ lesson_details|to_json }},
   })
 
   element = document.getElementById('finance-funding-credit-options');
@@ -79,8 +82,8 @@ There are however lots of financing options available to help you export, the ri
     options: {{ funding_options|to_json }},
     formData: {{ funding_credit_options|to_json }},
     companyexportplan: {{ export_plan.pk }},
-    currentSection: {{ current_section|to_json}},
-    lessonDetails: {{ lesson_details|safe }},
+    currentSection: {{ current_section|to_json }},
+    lessonDetails: {{ lesson_details|to_json }},
   })
 </script>
 {% endblock %}

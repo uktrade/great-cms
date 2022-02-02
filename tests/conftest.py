@@ -9,7 +9,8 @@ from wagtail.core.models import Locale, Page
 from wagtail_factories import PageFactory, SiteFactory
 
 import tests.unit.domestic.factories
-import tests.unit.exportplan.factories
+from core.case_study_index import case_study_to_index
+from core.models import CaseStudy
 from directory_api_client import api_client
 from sso.models import BusinessSSOUser
 from tests.helpers import create_response
@@ -47,8 +48,8 @@ def export_plan_data(cost_pricing_data):
         'commodity_code': '220.850',
         'target_markets_research': {},
         'ui_options': {
-            'marketing-approach': {'target_ages': ['25-29', '47-49']},
-            'target-markets-research': {'target_ages': ['35-40']},
+            'marketing-approach': {'target_ages': ['0-14', '60+']},
+            'target-markets-research': {'target_ages': ['20-25']},
         },
         'ui_progress': {
             'about-your-business': {'is_complete': True, 'date_last_visited': '2012-01-14T03:21:34+00:00'},
@@ -60,7 +61,7 @@ def export_plan_data(cost_pricing_data):
         'timezone': 'Asia/Shanghai',
         'about_your_business': {'story': 'new story'},
         'adaptation_target_market': {},
-        'target_market_documents': {'document_name': 'test'},
+        'target_market_documents': [{'document_name': 'test'}],
         'route_to_markets': [{'route': 'DIRECT_SALES', 'promote': 'ONLINE_MARKETING'}],
         'marketing_approach': {'resources': 'xyz'},
         'company_objectives': {},
@@ -117,16 +118,16 @@ def export_plan_list_data():
 @pytest.fixture
 def export_plan_section_progress_data():
     return [
-        {'total': 5, 'populated': 1, 'url': '/export-plan/1/about-your-business/'},
-        {'total': 2, 'populated': 1, 'url': '/export-plan/1/business-objectives/'},
-        {'total': 5, 'populated': 0, 'url': '/export-plan/1/target-markets-research/'},
-        {'total': 11, 'populated': 1, 'url': '/export-plan/1/adapting-your-product/'},
-        {'total': 2, 'populated': 1, 'url': '/export-plan/1/marketing-approach/'},
-        {'total': 8, 'populated': 6, 'url': '/export-plan/1/costs-and-pricing/'},
-        {'total': 3, 'populated': 3, 'url': '/export-plan/1/getting-paid/'},
-        {'total': 3, 'populated': 3, 'url': '/export-plan/1/funding-and-credit/'},
-        {'total': 4, 'populated': 4, 'url': '/export-plan/1/travel-plan/'},
-        {'total': 1, 'populated': 1, 'url': '/export-plan/1/business-risk/'},
+        {'total': 5, 'populated': 1, 'url': '/export-plan/npiqji6n/about-your-business/'},
+        {'total': 2, 'populated': 1, 'url': '/export-plan/npiqji6n/business-objectives/'},
+        {'total': 5, 'populated': 0, 'url': '/export-plan/npiqji6n/target-markets-research/'},
+        {'total': 11, 'populated': 1, 'url': '/export-plan/npiqji6n/adapting-your-product/'},
+        {'total': 2, 'populated': 1, 'url': '/export-plan/npiqji6n/marketing-approach/'},
+        {'total': 8, 'populated': 6, 'url': '/export-plan/npiqji6n/costs-and-pricing/'},
+        {'total': 3, 'populated': 3, 'url': '/export-plan/npiqji6n/getting-paid/'},
+        {'total': 3, 'populated': 3, 'url': '/export-plan/npiqji6n/funding-and-credit/'},
+        {'total': 4, 'populated': 4, 'url': '/export-plan/npiqji6n/travel-plan/'},
+        {'total': 1, 'populated': 1, 'url': '/export-plan/npiqji6n/business-risk/'},
     ]
 
 
@@ -202,16 +203,6 @@ def domestic_homepage(root_page):
 @pytest.fixture
 def domestic_dashboard(domestic_homepage, domestic_site):
     return tests.unit.domestic.factories.DomesticDashboardFactory(parent=domestic_homepage)
-
-
-@pytest.fixture
-def exportplan_homepage(domestic_homepage, domestic_site):
-    return tests.unit.exportplan.factories.ExportPlanPageFactory(parent=domestic_homepage)
-
-
-@pytest.fixture
-def exportplan_dashboard(exportplan_homepage):
-    return tests.unit.exportplan.factories.ExportPlanPseudoDashboardPageFactory(parent=exportplan_homepage)
 
 
 @pytest.fixture
@@ -344,26 +335,6 @@ def mock_export_plan_sso_create(patch_export_plan_sso_create):
 
 
 @pytest.fixture(autouse=True)
-def mock_api_get_population_data(population_data):
-    patch = mock.patch(
-        'directory_api_client.api_client.dataservices.get_population_data',
-        return_value=create_response(json_body=population_data),
-    )
-    yield patch.start()
-    patch.stop()
-
-
-@pytest.fixture(autouse=False)
-def mock_get_population_data(population_data):
-    patch = mock.patch(
-        'export_plan.core.helpers.get_population_data',
-        return_value=create_response(json_body=population_data),
-    )
-    yield patch.start()
-    patch.stop()
-
-
-@pytest.fixture(autouse=True)
 def mock_api_get_cia_world_factbook_data(cia_factbook_data):
     patch = mock.patch(
         'directory_api_client.api_client.dataservices.get_cia_world_factbook_data',
@@ -391,7 +362,7 @@ def mock_api_get_country_data_by_country(multiple_country_data):
         country = kwargs.get('countries', [])[0]
         fields = kwargs.get('fields', [])
         if (type(fields[0]) == str) and ('[' in fields[0]):
-            fields = json.loads(fields[0])
+            fields = json.loads(fields)
         for field in fields:
             fieldname = field if type(field) == str else field.get('model')
             out[fieldname] = multiple_country_data.get(country, {}).get(fieldname)
@@ -620,6 +591,26 @@ def mock_trading_blocs():
             'membership_end_date': None,
             'country': 270,
         },
+        {
+            'membership_code': 'CTTB0125',
+            'iso2': 'DE',
+            'country_territory_name': 'Germany',
+            'trading_bloc_code': 'TB00016',
+            'trading_bloc_name': 'European Union (EU)',
+            'membership_start_date': None,
+            'membership_end_date': None,
+            'country': 270,
+        },
+        {
+            'membership_code': 'CTTB0125',
+            'iso2': 'DE',
+            'country_territory_name': 'Germany',
+            'trading_bloc_code': 'TB00014',
+            'trading_bloc_name': 'European Economic Area (EEA)',
+            'membership_start_date': None,
+            'membership_end_date': None,
+            'country': 270,
+        },
     ]
     yield mock.patch(
         'directory_api_client.api_client.dataservices.trading_blocs_by_country',
@@ -663,3 +654,80 @@ def company_profile(client, user):
     )
     yield stub.start()
     stub.stop()
+
+
+@pytest.fixture(autouse=False)
+def mock_get_user_data():
+    body = {
+        'UserProducts': [
+            {'commodity_code': '111111', 'commodity_name': 'Steel'},
+            {'commodity_code': '666666', 'commodity_name': 'Cheese'},
+        ],
+        'UserMarkets': [{'region': 'Europe', 'suggested': None, 'country_name': 'Germany', 'country_iso2_code': 'DE'}],
+    }
+    yield mock.patch(
+        'directory_sso_api_client.sso_api_client.user.get_user_data',
+        return_value=create_response(status_code=200, json_body=body),
+    ).start()
+
+
+class MockElasticsearchIndices:
+    def delete(*args, **kwargs):
+        return {'results': 1}
+
+
+class MockElasticSearchResult:
+    def delete_by_query(*args, **kwargs):
+        return {'results': 1}
+
+
+class MockElasticsearch:
+    indices = MockElasticsearchIndices()
+
+    def search(*args, **kwargs):
+        return MockElasticSearchResult()
+
+    def delete(*args, **kwargs):
+        return {}
+
+    def delete_by_query(*args, **kwargs):
+        return {'results': 1}
+
+    def index(*args, **kwargs):
+        return {'result': 1}
+
+
+@pytest.fixture
+def mock_elasticsearch_get_connection():
+    mock.patch('elasticsearch_dsl.connections.connections.get_connection', return_value=MockElasticsearch()).start()
+    yield mock.patch('elasticsearch_dsl.document.get_connection', return_value=MockElasticsearch()).start()
+
+
+@pytest.fixture
+def mock_elasticsearch_bulk():
+    yield mock.patch('elasticsearch.helpers.bulk').start()
+
+
+@pytest.fixture
+def mock_elasticsearch_delete():
+    yield mock.patch('elasticsearch_dsl.Search.delete', return_value='mocked').start()
+
+
+@pytest.fixture
+def mock_elasticsearch_count():
+    yield mock.patch('elasticsearch_dsl.Search.count', return_value=1).start()
+
+
+@pytest.fixture
+def mock_elasticsearch_search():
+    yield mock.patch('elasticsearch_dsl.Search.search', return_value=1).start()
+
+
+@pytest.fixture
+def mock_elasticsearch_scan():
+    def _scan():
+        # returns all casestudy objects as if they were returned by ES
+        for cs in CaseStudy.objects.all():
+            yield case_study_to_index(cs)
+
+    yield mock.patch('elasticsearch_dsl.Search.scan', return_value=_scan()).start()

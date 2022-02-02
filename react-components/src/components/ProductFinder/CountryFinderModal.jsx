@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import ReactModal from 'react-modal'
 import PropTypes from 'prop-types'
+import { links } from '@src/constants'
 import Services from '@src/Services'
 import { useSuggestedMarkets } from '@src/components/hooks/useSuggestedMarkets'
+import { analytics } from '@src/Helpers'
 import RegionToggle from './RegionToggle'
-import SearchInput from './SearchInput'
-import { analytics } from '../../Helpers'
 
 
 export default function CountryFinderModal(props) {
@@ -24,7 +24,9 @@ export default function CountryFinderModal(props) {
   const [searchStr, setSearchStr] = useState()
   const [expandRegion, setExpandRegion] = useState(false)
   const [mobilePage, setMobilePage] = useState('initial')
-  const { suggestedCountries, loadSuggestedCountries } = useSuggestedMarkets(activeProducts)
+  const { suggestedCountries, loadSuggestedCountries } = useSuggestedMarkets(
+    activeProducts
+  )
 
   useEffect(() => {
     if (modalIsOpen) {
@@ -61,11 +63,6 @@ export default function CountryFinderModal(props) {
   const onScroll = (evt) => {
     scrollOuter = evt.target
     setScrollShadow()
-  }
-
-  const searchChange = (value) => {
-    setExpandRegion(value.length > 0)
-    setSearchStr(value.toUpperCase())
   }
 
   const toggleRegion = () => {
@@ -105,13 +102,6 @@ export default function CountryFinderModal(props) {
       region: button.getAttribute('data-region'),
       suggested: button.getAttribute('data-suggested'),
     }
-    if (!isCompareCountries) {
-      analytics({
-        event: 'addMarketSuccess',
-        suggestMarket: country.suggested ? country.country_name : '',
-        listMarket: country.suggested ? '' : country.country_name,
-      })
-    }
     selectCountry(country)
     closeModal()
   }
@@ -126,7 +116,7 @@ export default function CountryFinderModal(props) {
         )
           return ''
         return (
-          <li className="c-1-5" key={country.id}>
+          <li className="c-1-5" key={`country-${country.id}`}>
             <button
               type="button"
               className="link m-r-s m-b-xs"
@@ -160,7 +150,7 @@ export default function CountryFinderModal(props) {
   /*   Suggested markets section  */
   let suggestedSection = (
     <div>
-      <h3 className="h-s">Suggested places</h3>
+      <h3 className="h-s">Possible export markets</h3>
       <p className="m-v-xs">
         Add a product so that we can suggest export markets.
       </p>
@@ -186,21 +176,29 @@ export default function CountryFinderModal(props) {
     })
     suggestedSection = (
       <div className="suggested-markets">
-        <h3 className="h-s">Suggested places</h3>
-        <p className="m-v-xs">
-          These are based on the size of the market for{' '}
-          {`${suggestedCountries.details.product} ${
-            suggestedCountries.details.allSame
-              ? '(same countries for all products)'
-              : ''
-          }`}
-          , export distance, tariffs and costs.
-        </p>
+        <h3 className="h-s">Possible export markets</h3>
         <div className="m-v-xs">{suggestedList}</div>
+        <p className="m-v-xs">
+          These markets are based on consumer demand, export distance, tariffs
+          and costs for exporting{' '}
+          <span className="body-l-b">
+            {suggestedCountries.hs2Desc.toLowerCase()}
+          </span>{' '}
+          from the UK. This is a chapter of the classification that includes{' '}
+          <span className="body-l-b">
+            {(suggestedCountries.details.product || '').toLowerCase()}
+          </span>
+          , along with other products that have different headings and sub-headings. For
+          more information see our{' '}
+          <a href={links['using-commodity-codes']}>
+            lesson on product classification
+          </a>
+          .
+        </p>
+
       </div>
     )
   }
-
   /*   Compare markets section  */
   const compareMarketsSection = (
     <div>
@@ -208,11 +206,11 @@ export default function CountryFinderModal(props) {
       <div className="grid">
         <div className="c-full">
           <p className="m-v-xs">
-            Compare data for different places to make an informed choice about
+            Compare data for different markets to make an informed choice about
             where to export.
           </p>
           <a href="/where-to-export/" className="button button--secondary">
-            Compare places
+            Compare markets
           </a>
         </div>
       </div>
@@ -222,24 +220,11 @@ export default function CountryFinderModal(props) {
   /* Filtered list of places */
   const marketListSection = (
     <div>
-      <h3 className="h-s p-t-xs">
-        <label htmlFor="search-input">Countries and territories</label>
-      </h3>
+      <h3 className="h-s p-t-xs">Countries and territories</h3>
       <p id="search-hint" className="m-v-xs">
         If you already have an idea of where you want to export to, choose from
         this list.
       </p>
-      <div className="grid">
-        <div className="c-1-3 m-b-xxs">
-          <SearchInput
-            id="search-input"
-            onChange={searchChange}
-            iconClass="fa-search"
-            placeholder="Search places"
-            ariaDescribedby="search-hint"
-          />
-        </div>
-      </div>
       <div className="grid">
         <div className="c-full clearfix">
           <button
@@ -265,21 +250,21 @@ export default function CountryFinderModal(props) {
         <div>
           <h2 className="h-l m-t-s p-b-xs">
             {!isCompareCountries
-              ? 'Choose a place'
-              : 'Choose a place to compare'}
+              ? 'Choose a market'
+              : 'Choose a market to compare'}
           </h2>
         </div>
         <p>
           {!isCompareCountries
             ? 'There are 3 ways to choose a target export market'
-            : 'There are 2 ways to choose a place to compare'}
+            : 'There are 2 ways to choose a market to compare'}
         </p>
         <button
           type="button"
           className="button button--secondary button--full-width m-b-s"
           onClick={() => setMobilePage('suggested')}
         >
-          Suggested places
+          Possible export markets
         </button>
         {!isCompareCountries && (
           <button
@@ -287,7 +272,7 @@ export default function CountryFinderModal(props) {
             className="button button--secondary button--full-width m-b-s"
             onClick={() => setMobilePage('compare')}
           >
-            Compare places
+            Compare markets
           </button>
         )}
         <button
@@ -295,7 +280,7 @@ export default function CountryFinderModal(props) {
           className="button button--secondary button--full-width m-b-s"
           onClick={() => setMobilePage('list')}
         >
-          List of places
+          List of markets
         </button>
       </div>
     ),
@@ -337,7 +322,7 @@ export default function CountryFinderModal(props) {
               {/* Desktop rendering with all sections available */}
               <div className="only-desktop">
                 <div>
-                  <h2 className="h-l m-t-s p-b-xs">Choose a place</h2>
+                  <h2 className="h-l m-t-s p-b-xs">Choose a market</h2>
                 </div>
                 {suggestedSection}
                 <hr className="hr bg-red-deep-100" />

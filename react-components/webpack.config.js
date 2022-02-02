@@ -1,14 +1,18 @@
 const path = require('path')
+const glob = require('glob');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const RemovePlugin = require('remove-files-webpack-plugin')
-const nodeSass = require('node-sass')
 
 module.exports = {
   devtool: 'source-map',
   entry: {
     magna: './react-components/src/bundle.js',
-    styles: './core/sass/main.scss',
+    magna_styles: './core/sass/main.scss',
+    loggedout_styles: './domestic/sass/main.scss',
+    components: './react-components/src/bundle-components.js',
+    components_styles: './core/components/sass/components/elements-components.scss',
+    profile_styles: './sso_profile/common/sass/profile.scss',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -49,9 +53,10 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.s?css$/i,
+        test: /\.scss$/i,
+        exclude: /node_modules/,
         use: [
-          // extract to seperate file
+          // extract to separate file
           MiniCssExtractPlugin.loader,
           // Translates CSS into CommonJS
           {
@@ -70,33 +75,49 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              implementation: nodeSass,
+              implementation: require('sass'),
               sourceMap: true,
               sassOptions: {
                 outputStyle: 'compressed',
-                includePaths: ['./node_modules/great-styles/src/scss/'],
+                includePaths: [
+                  './node_modules/great-styles/src/scss/',
+                  './domestic/sass/',
+                  './core/components/sass/components/',
+                  './sso_profile/common/sass/partials/'
+                ],
               },
             },
           },
         ],
       },
       {
-        test: /\.(jpg|png|gif|jpeg|svg)$/,
+        test: /\.css$/,
+        exclude: /node_modules/,
         use: [
+          'style-loader',
           {
-            loader: 'url-loader',
-            options: { limit: '10000', name: './img/[name].[ext]' },
+            loader: 'css-loader',
+            options: {
+              modules: true,
+            },
           },
         ],
       },
       {
+        test: /\.(jpg|png|gif|jpeg|svg)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'img/[name].[ext]',
+        },
+      },
+      {
         test: /\.(woff|woff2|eot|ttf)$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: { limit: '10000', name: './fonts/[name].[ext]' },
-          },
-        ],
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'fonts/[name][ext]',
+        },
       },
     ],
   },
@@ -106,27 +127,67 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: './node_modules/great-styles/static/images', to: 'images' },
+        {
+          from: './node_modules/great-styles/static/images',
+          to: 'images',
+          noErrorOnMissing: true,
+        },
         {
           from: './node_modules/great-styles/static/fonts',
           to: '../../core/static/fonts/',
+          noErrorOnMissing: true,
+        },
+        // copies the images to core/static only if not present. This avoids
+        // the svg files showing up in diff every time a new build occurs
+        {
+          from: 'react-components/dist/img/',
+          to: '../../core/static/img/',
+          noErrorOnMissing: true,
+        },
+        {
+          from: 'react-components/dist/fonts/',
+          to: '../../core/static/fonts/',
+          noErrorOnMissing: true,
         },
         // copy assets needed by CSS files as they are not automatically moved to dist foler by React
         {
           from: 'react-components/assets/stylesheet-assets/',
           to: '../../core/static/img/',
+          noErrorOnMissing: true,
         },
+        // Copy flag icons - to be removed after replacement with react flags
+        {
+          from: '**/*.svg',
+          context: 'node_modules/flag-icon-css/',
+          to: '../../core/components/static/vendor/flag-icons/',
+          noErrorOnMissing: true,
+        },
+        {
+          from: '*.min.css',
+          context: 'node_modules/flag-icon-css/css/',
+          to: '../../core/components/static/vendor/flag-icons/css/',
+          noErrorOnMissing: true,
+        }
       ],
     }),
     new RemovePlugin({
       after: {
         include: [
-          './react-components/dist/styles.js',
-          './react-components/dist/styles.js.map',
+          './react-components/dist/magna_styles.js',
+          './react-components/dist/magna_styles.js.map',
           './react-components/dist/magna.css',
           './react-components/dist/magna.css.map',
+          './react-components/dist/loggedout_styles.js',
+          './react-components/dist/loggedout_styles.js.map',
+          './react-components/dist/components_styles.js',
+          './react-components/dist/components_styles.js.map',
+          './react-components/dist/profile_styles.js',
+          './react-components/dist/profile_styles.js.map',
         ],
       },
     }),
   ],
+  stats: {
+    children: true
+  },
 }

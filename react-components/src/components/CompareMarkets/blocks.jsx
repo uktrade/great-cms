@@ -96,35 +96,79 @@ const renderColumnHeader = (columnConfig, context, mobile) => {
     </>
   )
 }
+const renderRemoveButton = ({ market, removeMarket }) => (
+  <button
+    type="button"
+    onClick={removeMarket || (() => null)}
+    className="button button--tiny-toggle"
+    data-id={market.country_iso2_code}
+    aria-label={`Remove ${market.country_name} from table`}
+  >
+    <i className="fa fa-times-circle" />
+  </button>
+)
 
-const renderCountryRowHeader = (market, removeMarket, config) => {
-  // A row header in normal or mobile mode is the country label. In mobile mode there is no 'remove' button
+const renderAddRemoveShortlist = ({
+  market,
+  selectedMarkets,
+  addRemoveShortlist,
+}) => {
+  const iso = market.country_iso2_code
   return (
-    <th
-      className={`p-v-xs name ${(config && config.headingClass) || ''}`}
-      scope="row"
-    >
-      <div className="flex-center">
-        {(removeMarket && (
-          <button
-            type="button"
-            onClick={removeMarket || (() => null)}
-            className="button button--only-icon button--tertiary button--small m-r-xxs"
-            data-id={market.country_iso2_code}
-            aria-label={`Remove ${market.country_name}`}
-          >
-            <i className="fa fa-trash-alt icon--border" />
-          </button>
-        )) ||
-          ''}
-        <div
-          className="body-l-b country-name"
-          id={`marketheader-${market.country_name}`}
-        >
-          {market.country_name}
-        </div>
-      </div>
-    </th>
+    <>
+      <input
+        onChange={() => addRemoveShortlist(market, !selectedMarkets[iso])}
+        type="checkbox"
+        className="checkbox-favourite"
+        id={`cb-${iso}`}
+        checked={!!selectedMarkets[iso]}
+      />
+      <label
+        htmlFor={`cb-${iso}`}
+        className="far text-blue-deep-80"
+        aria-label={`${market.country_name} shortlisted`}
+      />
+    </>
+  )
+}
+
+const renderCountryName = ({ market }) => (
+  <div
+    className="body-l-b country-name"
+    id={`marketheader-${market.country_name}`}
+  >
+    {market.country_name}
+  </div>
+)
+
+const renderCountryRowHeader = ({
+  market,
+  removeMarket,
+  config,
+  selectedMarkets,
+  addRemoveShortlist,
+}) => {
+  // A row header in normal mode.
+  const iso = market.country_iso2_code
+  const headingClass = `
+    ${(config && config.headingClass) || ''} ${'bg-blue-deep-10'}
+  `
+  return (
+    <>
+      <td className={`p-h-s ${headingClass}`} >
+        {renderRemoveButton({ market, removeMarket })}
+      </td>
+      <th className={`p-v-xs name ${headingClass} table--width`} scope="row">
+        {renderCountryName({ market })}
+      </th>
+      <td key={iso} className={`p-v-xs ${headingClass}`}>
+        {renderAddRemoveShortlist({
+          market,
+          selectedMarkets,
+          addRemoveShortlist,
+        })}
+      </td>
+    </>
   )
 }
 
@@ -140,7 +184,9 @@ const renderMobileBlock = (
     const countryData = dataSet && dataSet[market.country_iso2_code]
     return (
       <tr key={`${market.country_iso2_code}:${columnKey}`}>
-        {renderCountryRowHeader(market)}
+        <th className="p-v-xs name" scope="row">
+          {renderCountryName({ market })}
+        </th>
         <td
           key={columnKey}
           className={`p-v-xs body-l ${cellConfig.className || ''}`}
@@ -161,6 +207,9 @@ export default {
   renderMobileBlock,
   renderCountryRowHeader,
   renderColumnHeader,
+  renderAddRemoveShortlist,
+  renderRemoveButton,
+  renderCountryName,
   sourceAttribution,
   renderCell,
   setBaseYear,

@@ -1,3 +1,8 @@
+import re
+
+trim_page_type = re.compile(r'^([^_]*)_\d*')
+
+
 def get_all_lessons(module) -> list:
     """
     Helper function to get all lessons of a module (CuratedListPage) that have
@@ -71,231 +76,88 @@ class PageTopicHelper:
                     return
 
 
-def get_personalised_choices(export_plan):
-    """
-    function to get selected choices from export_plan object
-
-    @param export_plan: export_plan object
-    @return: tuple of commodity_code, country, region
-    """
-
-    hs_tag, country, region = None, None, None
-
-    if not export_plan:
-        return hs_tag, country, region
-
-    export_commodity_codes = export_plan.get('export_commodity_codes', [])
-    if export_commodity_codes:
-        hs_tag = export_commodity_codes[0]['commodity_code']
-
-    export_countries = export_plan.get('export_countries', [])
-    if export_countries:
-        country = export_countries[0]['country_iso2_code']
-        region = export_countries[0]['region']
-
-    return hs_tag, country, region
-
-
-def create_filter_dict(product_code=None, country=None, region=None, trading_bloc=None):
-    """
-     Helper function to create filter dict based on product and target area
-
-    @param product_code: HS code ( HS6, HS4 or HS2)
-    @param target_area: country_iso or region, trading_bloc
-    @return: dict
-    """
-
-    result = dict()
-    if product_code:
-        result['hs_code_tags__name'] = product_code
-    if country:
-        result['country_code_tags__name'] = country
-    if region:
-        result['region_code_tags__name'] = region
-    if trading_bloc:
-        result['trading_bloc_code_tags__name'] = trading_bloc
-    return result
-
-
-def get_personalised_case_study_orm_filter_args(hs_code=None, country=None, region=None):
-    """
-    Helper function to generate filter criteria for ORM query to get
-    personalised case study
-
-    @param hs_code: HS code (hs6, hs4 or hs2)
-    @param country: country iso2 code
-    @param region: region of the selected country ( for example 'Asia')
-    @return: filter dict
-    """
-    from core.helpers import get_trading_blocs_name
-
-    filter_args, unique_hs_codes, trading_blocs = [], [], None
-    if hs_code:
-        hs_codes = [hs_code[i] for i in [slice(6), slice(4), slice(2)]]
-        # Removing identical item while keeping order of item
-        unique_hs_codes = sorted(set(hs_codes), key=hs_codes.index)
-
-        for code in unique_hs_codes:
-            filter_args += [create_filter_dict(product_code=code, country=country)] if country else []
-            filter_args += [(create_filter_dict(product_code=code, region=region))] if region else []
-            filter_args += [(create_filter_dict(product_code=code))]  # solo hs_lookup
-
-    filter_args += [(create_filter_dict(country=country))] if country else []
-    filter_args += [create_filter_dict(region=region)] if region else []
-
-    if country:
-        trading_blocs = get_trading_blocs_name(country)
-        if trading_blocs:
-            filter_args += [create_filter_dict(trading_bloc=area) for area in trading_blocs]
-
-    return [i for i in filter_args if i]
-
-
 def choices_to_key_value(choices):
     return [{'value': key, 'label': label} for key, label in choices]
 
 
-def get_most_ranked_case_study(cs_queryset, context):
-    from random import randint
-
-    from core.models import CaseStudyScoringSettings
-
-    cs_score = dict()
-    setting = CaseStudyScoringSettings.for_request(context['request'])
-    hs_code, country, region = get_personalised_choices(context['export_plan'])
-
-    for cs_obj in cs_queryset:
-        cs_score[cs_obj] = 0
-        # scoring by related pages (module, lesson, topic)
-        cs_score[cs_obj] += get_cs_score_by_related_page(cs_obj=cs_obj, context=context, setting=setting)
-        # scoring by hs_codes
-        if hs_code:
-            cs_score[cs_obj] += get_cs_score_by_hs_codes(cs_obj=cs_obj, setting=setting, hs_code=hs_code)
-        # scoring by region
-        if country:
-            if region:
-                cs_score[cs_obj] += get_cs_score_by_region(
-                    cs_obj=cs_obj, setting=setting, country=country, region=region
-                )
-            # scoring by trading bloc
-            cs_score[cs_obj] += get_cs_score_by_trading_bloc(cs_obj=cs_obj, setting=setting, country=country)
-        # recency score
-        cs_score[cs_obj] += get_cs_score_by_recency(cs_obj=cs_obj, setting=setting)
-
-    case_study_to_surface = dict([(k, v) for k, v in cs_score.items() if v == max(cs_score.values())])
-    selected_case_study = [k for k, v in case_study_to_surface.items()][randint(0, len(case_study_to_surface) - 1)]
-    # case study need to score above threshold
-    if cs_score[selected_case_study] >= getattr(setting, 'threshold'):
-        return selected_case_study
-
-
-def get_cs_score_by_recency(cs_obj, setting):
-    from datetime import datetime, timezone
-
-    recency = month_delta(cs_obj.modified, datetime.now(timezone.utc))
-
-    return getattr(setting, f'recency_{map_recency_months(recency)}_months')
-
-
-def get_cs_score_by_trading_bloc(cs_obj, setting, country):
+def get_personalised_choices(user):
+    """
+    Get 'my products' and 'my markets' from user settings
+    """
     from core.helpers import get_trading_blocs_name
 
-    score = 0
-    trading_bloc_names = get_trading_blocs_name(country)
-    if not trading_bloc_names:
-        return score
+    products = []
+    markets = []
+    if user:
+        # If a page is loading with wagtail user then no user will be in context
+        products = user.get_user_data(name='UserProducts').get('UserProducts') or []
+        markets = user.get_user_data(name='UserMarkets').get('UserMarkets') or []
 
-    cs_tagged_trading_blocs = [str(item) for item in cs_obj.trading_bloc_code_tags.all()]
-    if any([item for item in trading_bloc_names if item in cs_tagged_trading_blocs]):
-        score = getattr(setting, 'trading_blocs')
+    trading_blocs = set()
+    for market in markets:
+        for bloc in get_trading_blocs_name(market.get('country_iso2_code')):
+            trading_blocs.add(bloc)
+
+    export_commodity_codes = [product.get('commodity_code') for product in products]
+    export_markets = [market.get('country_name') for market in markets]
+    export_regions = list(dict.fromkeys([market.get('region') for market in markets]))
+    export_blocs = list(trading_blocs)
+    return export_commodity_codes, export_markets, export_regions, export_blocs
+
+
+def split_hs_codes(hs_codes):
+    parts = set()
+    for hs_code in hs_codes:
+        for i in [slice(6), slice(4), slice(2)]:
+            parts.add(hs_code[i])
+    return parts
+
+
+def score_name(code):
+    return {'6': 'hs6', '4': 'hs4', '2': 'hs2'}.get(str(len(code)))
+
+
+def rank_hs_codes(cs, commodity_codes, settings):
+    score = 0
+    split_tags = cs.get('hscodes', '').split(' ')
+    if split_tags and split_tags[0] != '':
+        for code in split_hs_codes(commodity_codes):
+            if code in split_tags:
+                score = max(score, getattr(settings, f'product_{score_name(code)}'))
     return score
 
 
-def get_cs_score_by_related_page(cs_obj, context, setting):
+def rank_tags(cs, user_tags, settings, cs_tag, setting_tag):
+    # used for several similar tag sets
     score = 0
-    tagged_pages = [related_page.page.specific for related_page in cs_obj.related_pages.all()]
-    if not tagged_pages:
-        return score
-
-    page_mapping = {'lesson': 'detailpage', 'module': 'curatedlistpage', 'topic': 'topicpage'}
-    for page_type in ['lesson', 'module', 'topic']:
-        all_page_type = [item for item in tagged_pages if page_mapping.get(page_type) == item.specific._meta.model_name]
-        # Positive Scoring
-        for page in all_page_type:
-            if page == context[f'current_{page_type}']:
-                score += getattr(setting, f'{page_type}')
-            else:
-                score += getattr(setting, f'other_{page_type}_tags')
-
+    split_tags = cs.get(cs_tag, '').split(' ')
+    if split_tags and split_tags[0] != '':
+        for user_tag in user_tags:
+            if user_tag.replace(' ', '_') in split_tags:
+                score = max(score, getattr(settings, setting_tag))
     return score
 
 
-def get_cs_score_by_hs_codes(cs_obj, setting, hs_code):
+def rank_related_pages(cs, page_context, settings):
     score = 0
-    hs6, hs4, hs2 = (hs_code[i] for i in [slice(6), slice(4), slice(2)] if hs_code)
-    tagged_hs_codes = [str(item) for item in cs_obj.hs_code_tags.all()]
-    for hs_item in ['hs6', 'hs4', 'hs2']:
-        if eval(hs_item) in tagged_hs_codes:
-            score += getattr(setting, f'product_{hs_item}')
-
-        # dampening scoring
-        dampening_hs_list = [i for i in tagged_hs_codes if i != hs6]
-        for code in dampening_hs_list:
-            score += getattr(setting, f'other_product_{hs_item}')
-
+    tagged_pages = cs.get('lesson', '').split(' ')
+    if tagged_pages and tagged_pages[0] != '':
+        for tagged_page in tagged_pages:
+            page_type_match = trim_page_type.match(tagged_page)
+            if tagged_page in page_context:
+                score = max(score, getattr(settings, f'{page_type_match.group(1)}'))
     return score
 
 
-def get_cs_score_by_region(cs_obj, setting, country, region):
+def get_cs_ranking(
+    cs, export_commodity_codes=[], export_markets=[], export_regions=[], export_blocs=[], page_context=[], settings=[]
+):
     score = 0
-    region_mapping = {'country': 'country_exact', 'region': 'country_region'}
-    cs_tagged_country = [str(item) for item in cs_obj.country_code_tags.all()]  # noqa
-    cs_tagged_region = [str(item) for item in cs_obj.region_code_tags.all()]  # noqa
-    for key, setting_key in region_mapping.items():
-        if eval(str(key)) in eval(f'cs_tagged_{key}'):
-            score += getattr(setting, region_mapping.get(key))
-
-        for other_region in eval(f'cs_tagged_{key}'):
-            if other_region != eval(key):
-                score += getattr(setting, f'other_{str(setting_key)}')
-
+    score += rank_hs_codes(cs, export_commodity_codes, settings)
+    score += max(
+        rank_tags(cs, export_markets, settings, 'country', 'country_exact'),
+        rank_tags(cs, export_regions, settings, 'region', 'country_region'),
+        rank_tags(cs, export_blocs, settings, 'tradingblocs', 'trading_blocs'),
+    )
+    score += rank_related_pages(cs, page_context, settings)
     return score
-
-
-def month_delta(start_date, end_date):
-    """
-    Helper method to check different in month for given two dates
-    """
-    from dateutil.relativedelta import relativedelta
-
-    delta = relativedelta(end_date, start_date)
-    return 12 * delta.years + delta.months
-
-
-def map_recency_months(month):
-    """
-    Helper method to decide which month should be applied for scoring
-
-    Following is criteria to check recency
-    https://uktrade.atlassian.net/wiki/spaces/Great/pages/2139750605/Ranking+mechanism+-+CMS+UI+for+weighting+and+threshold+changes
-
-    <= Recency 3 months
-    <= Recency 6 months
-    <= Recency 9 months
-    <= Recency 12 months
-    <= Recency 15 months
-    <= Recency 18 months
-    <= Recency 21 months
-    <= Recency 24 months and > 24 months
-    """
-
-    # month list of 3 to 24 years in 3 month interval
-    recency_months = range(3, 25, 3)
-
-    for index, month_number in enumerate(recency_months):
-        if month_number >= month:
-            return month_number
-        if month_number < month < recency_months[index + 1]:
-            return recency_months[index + 1]
-        if month > recency_months[-1]:
-            return recency_months[-1]

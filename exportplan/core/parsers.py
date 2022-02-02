@@ -67,7 +67,7 @@ class ExportPlanParser:
 
         unit_value = self.get_key('total_cost_and_price.export_quantity.value')
         unit_label = helpers.values_to_labels(
-            values=self.get_key('total_cost_and_price.export_quantity.unit') or [],
+            values=[self.get_key('total_cost_and_price.export_quantity.unit')] or [],
             choices=self.EXPORT_UNITS,
         )
 

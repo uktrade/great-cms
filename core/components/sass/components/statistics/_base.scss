@@ -1,19 +1,99 @@
 @import '../../partials/typography';
 @import '../../partials/colours';
 
-.statistics-card-grid {
-  margin-top: -15px;
+// Heading and CTA offset is: 0 - (half line height) - (30px padding)
+// Line height is 1.0475 for small screens and 1.1111 for larger ones,
+// so using 0.55em is around average for both.
+$offset: calc(0px - .55em - 30px);
 
-  .statistic-heading {
+.statistics-card {
+  padding: 0 30px;
+}
+
+.statistics-card-heading {
+  margin: 0 0 $offset 0;
+
+  & span {
+    display: inline-block;
+    padding: 30px;
+    background: $grey;
+    color: $white;
+
+    @media (min-width: 768px) {
+      padding: 30px 60px;
+    }
+  }
+}
+
+.statistics-card-content {
+  margin: 0 -30px;
+  background: $white;
+  padding: 60px 30px;
+
+  & .statistic-heading {
     margin-bottom: 0.5em;
   }
 
-  .statistic-number {
-    margin-bottom: 0.4em;
+  & .statistic-number {
+    margin-bottom: 0;
     font-family: $brand-font;
   }
 
-  .statistic-smallprint {
+  & .statistic-smallprint {
     color: $mid-grey;
+  }
+
+  & .flex-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+.statistics-card__column {
+  flex: 1 0 100%;
+
+  @media (min-width: 480px) {
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+
+  @media (min-width: 768px) {
+    flex-basis: 33.3333%;
+    max-width: 33.3333%;
+  }
+
+  &.statistics-card__column-5 {
+    @media (min-width: 961px) {
+      flex-basis: 20%;
+      max-width: 20%;
+    }
+  }
+
+  &.statistics-card__column-6 {
+    @media (min-width: 1024px) {
+      flex-basis: 16.6666%;
+      max-width: 16.6666%;
+    }
+  }
+}
+
+
+.statistics-card-cta {
+  margin: $offset 0 0 0;
+  text-align: right;
+
+  & .cta-link {
+    & span {
+      text-align: center;
+      padding: 25px 30px;
+
+      @media (min-width: 768px) {
+        padding: 25px 60px;
+      }
+    }
+
+    &:after {
+      margin-right: 15px;
+    }
   }
 }

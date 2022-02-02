@@ -6,8 +6,6 @@ from directory_ch_client import ch_search_api_client
 from directory_forms_api_client import actions
 from django.conf import settings
 from django.core.cache import cache
-from django.utils import formats
-from django.utils.dateparse import parse_datetime
 
 from directory_api_client import api_client
 from directory_constants import urls
@@ -66,23 +64,6 @@ def get_is_enrolled(company_number):
 
 def create_company_profile(data):
     response = api_client.enrolment.send_form(data)
-    response.raise_for_status()
-    return response
-
-
-def send_verification_code_email(email, verification_code, form_url, verification_link):
-    action = actions.GovNotifyEmailAction(
-        template_id=settings.CONFIRM_VERIFICATION_CODE_TEMPLATE_ID, email_address=email, form_url=form_url
-    )
-    expiry_date = parse_datetime(verification_code['expiration_date'])
-    formatted_expiry_date = formats.date_format(expiry_date, 'DATETIME_FORMAT')
-    response = action.save(
-        {
-            'code': verification_code['code'],
-            'expiry_date': formatted_expiry_date,
-            'verification_link': verification_link,
-        }
-    )
     response.raise_for_status()
     return response
 

@@ -6,6 +6,7 @@ from django.utils.safestring import mark_safe
 from great_components import forms
 from great_components.helpers import tokenize_keywords
 
+from core.validators import validate_file_infection
 from directory_constants import choices, expertise, user_roles
 from sso_profile.business_profile import constants, validators
 
@@ -248,7 +249,11 @@ class LogoForm(forms.Form):
     logo = ImageField(
         help_text=('For best results this should be a transparent PNG file of 600 x 600 pixels and no more than 2MB'),
         required=True,
-        validators=[directory_validators.file.logo_filesize, directory_validators.file.image_format],
+        validators=[
+            directory_validators.file.logo_filesize,
+            directory_validators.file.image_format,
+            validate_file_infection,
+        ],
     )
 
 

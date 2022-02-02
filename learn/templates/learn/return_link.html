@@ -1,0 +1,12 @@
+
+{% if link and title %}
+    <div class="back-to-export-plan p-b-l {{class}}">
+        <div class="box box--no-pointer bg-aqua-20 p-b-l">
+            <h4 class="body-l-b m-b-xxs">Update your export plan</h4>
+              <a href="{{link}}" class="link link--large link--icon-right p-0">
+                  <span>{{title}}</span>
+                  <i class="fas fa-arrow-right"></i>
+              </a>
+        </div>
+    </div>
+{% endif %}

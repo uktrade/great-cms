@@ -5,14 +5,13 @@ from http import cookiejar
 import requests
 from directory_forms_api_client import actions
 from django.conf import settings
-from django.utils import formats
-from django.utils.dateparse import parse_datetime
 from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 
 from core.constants import SERVICE_NAME, USER_DATA_NAMES
 from core.models import DetailPage
 from directory_api_client import api_client
+from directory_constants import urls
 from directory_sso_api_client import sso_api_client
 
 ADMIN_URL_PATTERN = re.compile(r'^\/(django\-)?admin\/.*')
@@ -63,20 +62,18 @@ def response_factory(upstream_response):
     return response
 
 
-def send_verification_code_email(email, verification_code, form_url, verification_link):
+def send_verification_code_email(email, verification_code, form_url, verification_link, resend_verification_link):
     action = actions.GovNotifyEmailAction(
         template_id=settings.CONFIRM_VERIFICATION_CODE_TEMPLATE_ID,
         email_address=email,
         form_url=form_url,
     )
 
-    expiry_date = parse_datetime(verification_code['expiration_date'])
-    formatted_expiry_date = formats.date_format(expiry_date, 'DATETIME_FORMAT')
     response = action.save(
         {
             'code': verification_code['code'],
-            'expiry_date': formatted_expiry_date,
             'verification_link': verification_link,
+            'resend_verification_link': resend_verification_link,
         }
     )
     response.raise_for_status()
@@ -94,16 +91,41 @@ def send_welcome_notification(email, form_url):
     return response
 
 
-def check_verification_code(email, code):
-    response = sso_api_client.user.verify_verification_code({'email': email, 'code': code})
+def notify_already_registered(email, form_url, login_url):
+    action = actions.GovNotifyEmailAction(
+        email_address=email, template_id=settings.GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID, form_url=form_url
+    )
+
+    response = action.save(
+        {
+            'login_url': login_url,
+            'password_reset_url': settings.SSO_PROXY_PASSWORD_RESET_URL,
+            'contact_us_url': urls.domestic.FEEDBACK,
+        }
+    )
+
+    response.raise_for_status()
+    return response
+
+
+def regenerate_verification_code(email):
+    response = sso_api_client.user.regenerate_verification_code({'email': email})
+    if response.status_code in [400, 404]:
+        return None
+    response.raise_for_status()
+    return response.json()
+
+
+def check_verification_code(uidb64, token, code):
+    response = sso_api_client.user.verify_verification_code({'uidb64': uidb64, 'token': token, 'code': code})
     if response.status_code in [400, 404]:
         raise InvalidVerificationCode(code=response.status_code)
     response.raise_for_status()
     return response
 
 
-def create_user(email, password):
-    response = sso_api_client.user.create_user(email=email, password=password)
+def create_user(email, password, mobile_phone_number=None):
+    response = sso_api_client.user.create_user(email=email, password=password, mobile_phone_number=mobile_phone_number)
     if response.status_code == 400:
         raise CreateUserException(detail=response.json(), code=response.status_code)
     response.raise_for_status()

@@ -9,7 +9,7 @@ import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
 import { Objective } from './Objective'
 
 export const ObjectivesList = memo(
-  ({ exportPlanID, objectives: initialObjectives, model_name }) => {
+  ({ exportPlanID, objectives: initialObjectives, model_name, example }) => {
     const [objectives, setObjectives] = useState(initialObjectives || [])
     const [update, create, deleteItem, message, errors] = useUpdate(
       'Objectives'
@@ -17,8 +17,6 @@ export const ObjectivesList = memo(
     const objectiveElementList = useRef([])
     const {
       companyexportplan,
-      start_month,
-      start_year,
       end_month,
       end_year,
       pk,
@@ -37,8 +35,6 @@ export const ObjectivesList = memo(
         description: '',
         owner: '',
         planned_reviews: '',
-        start_month: month,
-        start_year: year,
         end_month: month,
         end_year: year,
         companyexportplan: exportPlanID,
@@ -83,6 +79,7 @@ export const ObjectivesList = memo(
             ref={(element) => {
               objectiveElementList.current[i] = element
             }}
+            example={i===0 ? example : {}}
           />
         ))}
         {message && (
@@ -95,7 +92,7 @@ export const ObjectivesList = memo(
           numberOfItems={objectives.length}
           add={createObjective}
           field={lastField}
-          cta={`Add goal ${objectives.length + 1} of ${limit}`}
+          cta={`Add objective ${objectives.length + 1} of ${limit}`}
         />
         <ErrorList errors={errors.__all__ || []} className="m-0" />
       </div>
@@ -109,8 +106,6 @@ ObjectivesList.propTypes = {
       description: PropTypes.string,
       owner: PropTypes.string,
       planned_reviews: PropTypes.string,
-      start_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      start_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       end_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       end_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       companyexportplan: PropTypes.number,
@@ -123,8 +118,12 @@ ObjectivesList.propTypes = {
   ),
   exportPlanID: PropTypes.number.isRequired,
   model_name: PropTypes.string.isRequired,
+  example: PropTypes.shape({
+    content: PropTypes.string,
+  })
 }
 
 ObjectivesList.defaultProps = {
   objectives: [],
+  example: {},
 }

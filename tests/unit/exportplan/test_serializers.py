@@ -52,8 +52,6 @@ def test_objective_serializer():
         'description': 'Lorem ipsum',
         'planned_reviews': 'Some reviews',
         'owner': 'John Smith',
-        'start_month': 3,
-        'start_year': 2020,
         'end_month': 12,
         'end_year': 2020,
         'companyexportplan': 1,
@@ -72,8 +70,6 @@ def test_objective_serializer_empty_date_fields():
         'description': 'Lorem ipsum',
         'planned_reviews': 'Some reviews',
         'owner': 'John Smith',
-        'start_month': None,
-        'start_year': None,
         'end_month': None,
         'end_year': None,
         'companyexportplan': 1,
@@ -86,8 +82,6 @@ def test_objective_serializer_empty_date_fields():
         'description': 'Lorem ipsum',
         'planned_reviews': 'Some reviews',
         'owner': 'John Smith',
-        'start_month': None,
-        'start_year': None,
         'end_month': None,
         'end_year': None,
         'companyexportplan': 1,
@@ -100,8 +94,6 @@ def test_new_objective_serializer():
         'description': 'Lorem ipsum',
         'planned_reviews': 'Some reviews',
         'owner': 'John Smith',
-        'start_month': 7,
-        'start_year': 2021,
         'end_month': 7,
         'end_year': 2021,
         'companyexportplan': 1,
@@ -458,11 +450,3 @@ def test_business_risks_serializer(export_plan_data):
             ('pk', 1),
         ]
     )
-
-
-def test_export_plan_serializer_calculate_total_funding(export_plan_data):
-    # To tidy all collections should be contained within the page they're loaded
-    export_plan_data['funding_and_credit']['funding_credit_options'] = export_plan_data['funding_credit_options']
-    serializer = serializers.ExportPlanSerializer(data=export_plan_data)
-    serializer.is_valid()
-    assert serializer.calculate_total_funding == 2.0

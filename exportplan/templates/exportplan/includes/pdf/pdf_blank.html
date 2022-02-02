@@ -12,13 +12,13 @@
 <br />
 {% endif %}
 {% else %}
-<{{ tag }} class="{{ tag_class|default:'' }}">
+<{{ tag|default:'p' }} class="{{ tag_class|default:'' }}">
   {% if tag_wrap_data %}
   <{{ tag_wrap_data }} class="{{ tag_wrap_data_class|default:'' }}" >
-    {{ data }}
+    {{ data|linebreaks }}
   </{{ tag_wrap_data }}>
   {% else %}
-  {{ data }}
+  {{ data|linebreaks }}
   {% endif %}
-</{{ tag }}>
+</{{ tag|default:'p' }}>
 {% endif %}

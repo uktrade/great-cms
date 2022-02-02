@@ -5,6 +5,8 @@ import directory_healthcheck.backends
 import environ
 import sentry_sdk
 from django.urls import reverse_lazy
+from elasticsearch import RequestsHttpConnection
+from elasticsearch_dsl.connections import connections
 from sentry_sdk.integrations.django import DjangoIntegration
 
 import healthcheck.backends
@@ -48,6 +50,7 @@ INSTALLED_APPS = [
     'wagtailcache',
     'wagtailfontawesome',
     'wagtail_transfer',
+    'wagtailseo',
     'modelcluster',
     'taggit',
     'storages',
@@ -132,6 +135,7 @@ TEMPLATES = [
                 'core.context_processors.cms_slug_urls',
                 'core.context_processors.cookie_management_vars',
                 'great_components.context_processors.analytics',
+                'wagtail.contrib.settings.context_processors.settings',
             ],
         },
     },
@@ -385,6 +389,32 @@ if ELASTIC_APM_ENABLED:
         'SERVER_TIMEOUT': env('ELASTIC_APM_SERVER_TIMEOUT', default='20s'),
     }
     INSTALLED_APPS.append('elasticapm.contrib.django')
+
+# aws, localhost, or govuk-paas
+ELASTICSEARCH_PROVIDER = env.str('ELASTICSEARCH_PROVIDER', 'aws').lower()
+
+if ELASTICSEARCH_PROVIDER == 'govuk-paas':
+    services = {item['instance_name']: item for item in VCAP_SERVICES['elasticsearch']}
+    ELASTICSEARCH_INSTANCE_NAME = env.str(
+        'ELASTICSEARCH_INSTANCE_NAME', VCAP_SERVICES['elasticsearch'][0]['instance_name']
+    )
+    connections.create_connection(
+        alias='default',
+        hosts=[services[ELASTICSEARCH_INSTANCE_NAME]['credentials']['uri']],
+        connection_class=RequestsHttpConnection,
+    )
+elif ELASTICSEARCH_PROVIDER == 'localhost':
+    connections.create_connection(
+        alias='default',
+        hosts=[env.str('ELASTICSEARCH_URL', 'localhost:9200')],
+        use_ssl=False,
+        verify_certs=False,
+        connection_class=RequestsHttpConnection,
+    )
+else:
+    raise NotImplementedError()
+
+ELASTICSEARCH_CASE_STUDY_INDEX = env.str('ELASTICSEARCH_CASE_STUDY_INDEX', 'case-studies')
 
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 
@@ -643,6 +673,8 @@ CCCE_IMPORT_SCHEDULE_URL = CCCE_BASE_URL + '/ccce/apis/tradedata/import/v1/sched
 # directory constants
 DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON = env.str('DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON', '')
 DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = 60 * 60 * 30
+DIRECTORY_CONSTANTS_URL_FIND_A_BUYER = env.str('DIRECTORY_CONSTANTS_URL_FIND_A_BUYER', '')
+DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC = env.str('DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC', '')
 
 # directory validators
 VALIDATOR_MAX_LOGO_SIZE_BYTES = env.int('VALIDATOR_MAX_LOGO_SIZE_BYTES', 2 * 1024 * 1024)
@@ -713,13 +745,14 @@ WAGTAILTRANSFER_LOOKUP_FIELDS = {
 # dit_helpdesk
 DIT_HELPDESK_URL = env.str('DIT_HELPDESK_URL')
 
-FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE = env.str('FEATURE_FLAG_HARD_CODE_USER_INDUSTRIES_EXPERTISE', False)
 FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST = env.list('FEATURE_EXPORT_PLAN_SECTIONS_DISABLED_LIST', default=[])
 FEATURE_COMPARE_MARKETS_TABS = env.str('FEATURE_COMPARE_MARKETS_TABS', '{ }')
 FEATURE_SHOW_REPORT_BARRIER_CONTENT = env.bool('FEATURE_SHOW_REPORT_BARRIER_CONTENT', False)
 FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS = env.bool('FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS', False)
 FEATURE_SHOW_MAGNA_LINKS_IN_HEADER = env.bool('FEATURE_SHOW_MAGNA_LINKS_IN_HEADER', False)
 FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK = env.bool('FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK', False)
+FEATURE_SHOW_CASE_STUDY_RANKINGS = env.bool('FEATURE_SHOW_CASE_STUDY_RANKINGS', False)
+
 MAX_COMPARE_PLACES_ALLOWED = env.int('MAX_COMPARE_PLACES_ALLOWED', 10)
 
 BETA_ENVIRONMENT = env.str('BETA_TOKEN', default='')
@@ -802,3 +835,11 @@ SSO_PROFILE_FEATURE_FLAGS = {
 # parity with nginx config for maximum request body
 DATA_UPLOAD_MAX_MEMORY_SIZE = 6 * 1024 * 1024
 FILE_UPLOAD_MAX_MEMORY_SIZE = 6 * 1024 * 1024
+
+HASHIDS_SALT = env.str('HASHIDS_SALT')
+
+# ClamAV anti-virus engine
+CLAM_AV_ENABLED = env.bool('CLAM_AV_ENABLED', False)
+CLAM_AV_HOST = env.str('CLAM_AV_HOST', '')
+CLAM_AV_USERNAME = env.str('CLAM_AV_USERNAME', '')
+CLAM_AV_PASSWORD = env.str('CLAM_AV_PASSWORD', '')

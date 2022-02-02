@@ -8,7 +8,13 @@ from django.db import models
 from django.http import Http404
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
-from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
+from wagtail.admin.edit_handlers import (
+    FieldPanel,
+    ObjectList,
+    StreamFieldPanel,
+    TabbedInterface,
+    cached_classmethod,
+)
 from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.core.blocks.field_block import RichTextBlock
 from wagtail.core.blocks.stream_block import StreamBlock, StreamBlockValidationError
@@ -16,16 +22,9 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtailseo.models import SeoMixin
 
-from core import (
-    blocks as core_blocks,
-    cache_keys,
-    cms_slugs,
-    forms as core_forms,
-    helpers,
-    mixins,
-    service_urls,
-)
+from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
 from core.blocks import AdvantageBlock
 from core.constants import (
     ARTICLE_TYPES,
@@ -37,9 +36,9 @@ from core.constants import (
 from core.fields import single_struct_block_stream_field_factory
 from core.helpers import build_social_links
 from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag
-from directory_constants import choices
 from domestic import cms_panels, forms as domestic_forms
 from domestic.helpers import build_route_context, get_lesson_completion_status
+from exportplan.core import helpers as exportplan_helpers
 
 
 class DataLayerMixin(
@@ -67,16 +66,28 @@ class DataLayerMixin(
 
 
 class BaseContentPage(
+    SeoMixin,
     DataLayerMixin,
     Page,
 ):
     """Minimal abstract base class for pages ported from the V1 Great.gov.uk site"""
 
-    promote_panels = []  #  Hide the Promote panel
+    promote_panels = []
     folder_page = False  # Some page classes will have this set to true to exclude them from breadcrumbs
 
     class Meta:
         abstract = True
+
+    @cached_classmethod
+    def get_edit_handler(cls):  # noqa
+        panels = [
+            # Normal Wagtail panels.
+            ObjectList(cls.content_panels, heading='Content'),
+            # Added custom SEO panels in new tab.
+            ObjectList(SeoMixin.seo_meta_panels, heading='SEO', classname='seo'),
+            ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
+        ]
+        return TabbedInterface(panels).bind_to(model=cls)
 
     def get_ancestors_in_app(self):
         """
@@ -175,17 +186,12 @@ class DomesticDashboard(
 
     def get_context(self, request):
         user = request.user
-
         context = super().get_context(request)
         context['visited_already'] = user.has_visited_page(self.slug)
         user.set_page_view(self.slug)
-        context['export_plan_progress_form'] = core_forms.ExportPlanForm(
-            initial={'step_a': True, 'step_b': True, 'step_c': True}
-        )
-        context['industry_options'] = [{'value': key, 'label': label} for key, label in choices.SECTORS]
+        context['exportplan_list'] = exportplan_helpers.get_exportplan_detail_list(user.session_id)
         context['export_opportunities'] = helpers.get_dashboard_export_opportunities(user.session_id, user.company)
         context.update(get_lesson_completion_status(user, context))
-        context['export_plan_in_progress'] = user.has_visited_page(cms_slugs.EXPORT_PLAN_DASHBOARD_URL)
         context['routes'] = build_route_context(user, context)
         return context
 
@@ -924,7 +930,7 @@ class ArticlePage(
         [
             (
                 'text',
-                RichTextBlock(features=RICHTEXT_FEATURES__REDUCED),
+                RichTextBlock(),
             ),
             (
                 'pull_quote',
