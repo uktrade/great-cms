@@ -10,6 +10,8 @@
 - GLS-86 - SECURITY: great-cms frontend asset vulnerability: `postcss`
 
 ### Enhancements
+
+- GLS-85 - remove heading from homepage
 - GLS-80 - migration to opensearch
 - GLS-9 - Improve accessibility of learning content reveals
 - GLS-6 - Improve accessibility of Country Selector
