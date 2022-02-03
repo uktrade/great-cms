@@ -250,6 +250,15 @@
     &--year {
       width: 7em;
     }
+
+    &--medium {
+      width: 7.5em;
+    }
+  }
+
+  & .form-label {
+    font-size: 1em;
+    padding-top: 0;
   }
 
   & .form-group,

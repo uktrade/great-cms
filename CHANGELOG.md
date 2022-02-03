@@ -14,6 +14,7 @@
 - GLS-9 - Improve accessibility of learning content reveals
 - GLS-6 - Improve accessibility of Country Selector
 - GLS-8 - Improve target age selection for data snapshots
+- GLS-7 - Change export timeframe to month/year
 
 ## [2.2.0](https://github.com/uktrade/great-cms/releases/tag/2.2.0)
 
@@ -217,6 +218,7 @@
 - GP2-3085 - Fix Business Risk block radio buttons spacing
 - GP2-2896 - Split objective date fields into month and year
 - GP2-3087 - migrate directory-sso-profile into great-cms
+
 ### Fixed bugs
 - GP2-3255 - fix updating industry expertise on a business profile
 - GP2-3254 - added missing csrf_tokens for sso_profile
