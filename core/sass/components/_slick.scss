@@ -1,13 +1,53 @@
 .slick-slider {
   .slick-dots {
+    position: absolute;
+    bottom: -25px;
+    list-style: none;
+    display: block;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+
     li {
+      position: relative;
+      display: inline-block;
+      height: 20px;
+      width: 20px;
       margin: 0;
       padding: 0;
+      cursor: pointer;
+
+      button {
+        border: 0;
+        background: transparent;
+        display: block;
+        height: 20px;
+        width: 20px;
+        line-height: 0;
+        font-size: 0;
+        padding: 5px;
+        cursor: pointer;
+        opacity: .25;
+
+        &:hover, &:focus {
+          opacity: 1;
+        }
+      }
 
       button:before {
-        font-size: 10px;
-        line-height: 10px;
+        content: '';
+        display: block;
+        background-color: currentColor;
+        width: 10px;
+        height: 10px;
+        border-radius: 10px;
       }
+
+      &.slick-active button {
+        opacity: 1;
+      }
+
     }
   }
 
