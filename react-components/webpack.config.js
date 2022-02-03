@@ -62,7 +62,9 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              url: false,
+              url: {
+                filter: (url) => url.match('/node_modules/'),
+              },
               sourceMap: true,
             },
           },
