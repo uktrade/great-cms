@@ -7,6 +7,7 @@
 ### Bugs fixed
 
 - GLS-69 - SECURITY: great-cms frontend asset vulnerabilities: `node-fetch` and `nanoid`
+- GLS-86 - SECURITY: great-cms frontend asset vulnerability: `postcss`
 
 ### Enhancements
 - GLS-80 - migration to opensearch
