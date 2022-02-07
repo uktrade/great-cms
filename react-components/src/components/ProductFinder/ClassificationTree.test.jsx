@@ -73,14 +73,26 @@ describe('Classification tree', () => {
     fetchMock.restore()
   })
 
-  it('Renders a classification tree', async () => {
+  it('Renders a spinner while fetching schedule', async () => {
     fetchMock.get(/\/api\/lookup-product-schedule\//, mockResponse)
 
     const { container } = render(<ClassificationTree hsCode="123456" />)
 
+    expect(container.querySelector('.spinner')).toBeTruthy()
+
+    await waitFor(() => container.querySelector('.classification-tree'))
+  })
+
+  it('Renders a classification tree from type CHAPTER', async () => {
+    fetchMock.get(/\/api\/lookup-product-schedule\//, mockResponse)
+
+    const { container, queryByText } = render(<ClassificationTree hsCode="123456" />)
+
     await waitFor(() => {
       expect(container.querySelector('.classification-tree')).toBeTruthy()
     })
+
+    expect(queryByText('LIVE ANIMALS; ANIMAL PRODUCTS', { exact: false })).toBeNull()
 
     const levels = container.querySelectorAll('.classification-tree .grid')
 

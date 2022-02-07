@@ -39,18 +39,27 @@ function TreeBranch({ schedule, hsCode }) {
     if (!level) {
       return null
     }
+
     if (!level.type || level.type === 'SECTION')
       return showLevel(level.children[0])
+
     const leaf = (level.id || '').substring(0, hsCode.length) === hsCode
+
     if (leaf && level.id.length > hsCode.length) {
       // We've gone too far - there must be no node at HS6
       if (!subHeadingShown) {
         subHeadingShown = true
-        return <TreeLine level={parent} leaf={leaf} itemType={'ITEM'} />
-      } else {
-        return null
+
+        return <TreeLine
+          level={parent}
+          leaf={leaf}
+          itemType="ITEM"
+        />
       }
+
+      return null
     }
+
     return (
       <React.Fragment key={`level-${leaf.id}`}>
         {level.type !== 'ORPHAN' && <TreeLine level={level} leaf={leaf} />}
@@ -60,6 +69,7 @@ function TreeBranch({ schedule, hsCode }) {
       </React.Fragment>
     )
   }
+
   return showLevel(schedule)
 }
 
