@@ -1,13 +1,9 @@
-/* eslint-disable */
-import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react'
 import fetchMock from 'fetch-mock'
-import Services from '@src/Services'
-import { waitFor } from '@testing-library/react'
-import { act, Simulate } from 'react-dom/test-utils'
-import ClassificationTree from './ClassificationTree'
+import { render, waitFor } from '@testing-library/react'
 
-let container
+import Services from '@src/Services'
+import ClassificationTree from './ClassificationTree'
 
 const mockResponse = {
   uom: null,
@@ -65,52 +61,43 @@ const mockErrorResponse = {
   type: null,
   children: [],
 }
+
 describe('Classification tree', () => {
   beforeEach(() => {
-    container = document.createElement('div')
-    document.body.appendChild(container)
     Services.setConfig({
       apiLookupProductScheduleUrl: '/api/lookup-product-schedule/',
     })
   })
 
   afterEach(() => {
-    document.body.removeChild(container)
-    container = null
     fetchMock.restore()
   })
 
   it('Renders a classification tree', async () => {
-    const hsCode = '123456'
     fetchMock.get(/\/api\/lookup-product-schedule\//, mockResponse)
 
-    act(() => {
-      ReactDOM.render(<ClassificationTree hsCode={hsCode} />, container)
-    })
+    const { container } = render(<ClassificationTree hsCode="123456" />)
+
     await waitFor(() => {
-      let results = container.querySelector('.classification-tree')
-      expect(results).toBeTruthy()
+      expect(container.querySelector('.classification-tree')).toBeTruthy()
     })
-    let levels = container.querySelectorAll('.classification-tree .grid')
-    expect(levels.length).toEqual(3)
-    expect(levels[2].textContent).toMatch(
-      'Processed cheese, not grated or powdered'
-    )
+
+    const levels = container.querySelectorAll('.classification-tree .grid')
+
+    expect(levels).toHaveLength(3)
+    expect(levels[0].textContent).toMatch('Dairy produce; birds\' eggs; natural honey; edible products of animal origin, not elsewhere specified or included')
     expect(levels[1].textContent).toMatch('Cheese and curd.')
-    expect(levels[0].textContent).toMatch(
-      "Dairy produce; birds' eggs; natural honey; edible products of animal origin, not elsewhere specified or included"
-    )
+    expect(levels[2].textContent).toMatch('Processed cheese, not grated or powdered')
   })
 
   it('Renders an error', async () => {
     fetchMock.get(/\/api\/lookup-product-schedule\//, mockErrorResponse)
-    act(() => {
-      ReactDOM.render(<ClassificationTree hsCode={'123462'} />, container)
-    })
+
+    const { container } = render(<ClassificationTree hsCode="123462" />)
+
     await waitFor(() => {
-      let results = container.querySelector('.classification-tree')
-      expect(results && results.textContent).toMatch(
-        'Unable to show classification tree'
+      expect(container.querySelector('.classification-tree').textContent).toMatch(
+        'Unable to show classification tree',
       )
     })
   })
