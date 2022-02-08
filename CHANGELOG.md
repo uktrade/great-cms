@@ -2,6 +2,32 @@
 
 ## Pre release
 
+### Hotfix
+
+### Bugs fixed
+
+- GLS-69 - SECURITY: great-cms frontend asset vulnerabilities: `node-fetch` and `nanoid`
+- GLS-86 - SECURITY: great-cms frontend asset vulnerability: `postcss`
+
+### Enhancements
+
+- GLS-85 - remove heading from homepage
+- GLS-80 - migration to opensearch
+- GLS-9 - Improve accessibility of learning content reveals
+- GLS-6 - Improve accessibility of Country Selector
+- GLS-8 - Improve target age selection for data snapshots
+- GLS-7 - Change export timeframe to month/year
+
+## [2.2.0](https://github.com/uktrade/great-cms/releases/tag/2.2.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.1.0...2.2.0)
+
+### Hotfix
+
+- GP2-3844 - [HOTFIX] saving cms pages
+- GP2-3853 - [HOTFIX] tweak homepage hero layout for MIUK campaign
+- GP2-3844 - [HOTFIX] saving cms pages
+
 ### Bugs fixed
 
 - GLS-38 - fix/update meta descriptions
@@ -14,31 +40,17 @@
 - GLS-53 - handle 5 stats display
 - GLS-54 - Remove Ease of doing business stat from Where to export
 
-### Hotfix
-
-- GP2-3844 - [HOTFIX] saving cms pages
-- GP2-3853 - [HOTFIX] tweak homepage hero layout for MIUK campaign
-
-### Hotfix
-
-- GP2-3844 - [HOTFIX] savingcms pages
-
-### Bugs fixed
-
-
-### Bugs fixed
-
-### Enhancements
-
-
 ## [2.1.0](https://github.com/uktrade/great-cms/releases/tag/2.1.0)
-[Full Changelog](https://github.com/uktrade/great-cms/compare/2.00.0...2.1.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.0.0...2.1.0)
 
 ### Hotfix
+
 - GP2-3844 - [HOTFIX] saving cms pages
 - GP2-3853 - [HOTFIX] tweak homepage hero layout for MIUK campaign
 
 ### Bugs fixed
+
 - GP2-3881 - Route logged-out calls from SOO Marketplace to Magna login URL
 - GP2-3859 - Telephone number validation relaxing
 - GP2-3789 - Cookie modal position
@@ -90,7 +102,7 @@
 - GP2-3123 - remove redundant code
 - GP2-3859 - Create Profile with optional Phone Number
 
-## [2.00.0](https://github.com/uktrade/great-cms/releases/tag/2.0.0)
+## [2.0.0](https://github.com/uktrade/great-cms/releases/tag/2.0.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.13.3...2.0.0)
 
 ### Hotfix
@@ -208,6 +220,7 @@
 - GP2-3085 - Fix Business Risk block radio buttons spacing
 - GP2-2896 - Split objective date fields into month and year
 - GP2-3087 - migrate directory-sso-profile into great-cms
+
 ### Fixed bugs
 - GP2-3255 - fix updating industry expertise on a business profile
 - GP2-3254 - added missing csrf_tokens for sso_profile

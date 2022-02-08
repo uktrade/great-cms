@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import { links } from '@src/constants'
 import Services from '@src/Services'
 import { useSuggestedMarkets } from '@src/components/hooks/useSuggestedMarkets'
+import { analytics } from '@src/Helpers'
 import RegionToggle from './RegionToggle'
-import { analytics } from '../../Helpers'
 
 
 export default function CountryFinderModal(props) {
@@ -63,11 +63,6 @@ export default function CountryFinderModal(props) {
   const onScroll = (evt) => {
     scrollOuter = evt.target
     setScrollShadow()
-  }
-
-  const searchChange = (value) => {
-    setExpandRegion(value.length > 0)
-    setSearchStr(value.toUpperCase())
   }
 
   const toggleRegion = () => {
@@ -225,26 +220,11 @@ export default function CountryFinderModal(props) {
   /* Filtered list of places */
   const marketListSection = (
     <div>
-      <h3 className="h-s p-t-xs">
-        <label htmlFor="search-input">Countries and territories</label>
-      </h3>
+      <h3 className="h-s p-t-xs">Countries and territories</h3>
       <p id="search-hint" className="m-v-xs">
         If you already have an idea of where you want to export to, choose from
         this list.
       </p>
-      {/* Hidden country search pending redesign as it's not accessible ATM
-      <div className="grid">
-        <div className="c-1-3 m-b-xxs">
-          <SearchInput
-            id="search-input"
-            onChange={searchChange}
-            iconClass="fa-search"
-            placeholder="Search markets"
-            ariaDescribedby="search-hint"
-          />
-        </div>
-      </div>
-      */}
       <div className="grid">
         <div className="c-full clearfix">
           <button

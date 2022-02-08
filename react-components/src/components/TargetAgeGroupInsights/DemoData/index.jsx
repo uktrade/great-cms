@@ -14,7 +14,7 @@ export const DemoData = memo(({ totalPopulation, cpi, internetData, languages })
   return (
     <>
       <h3 className="body-l-b m-b-xs m-t-s">Global demographic data</h3>
-      <div className="stat-group">
+      <div className="stat-group m-b-s">
         <div className="grid">
           <div className="c-1-3">
             <Stats header="Total population" data={formatNumber(totalPopulation)} />

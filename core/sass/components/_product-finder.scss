@@ -191,10 +191,21 @@
   > .expander-section {
     position: relative;
 
+    .region-expand {
+      width: 100%;
+      text-align: left;
+      padding: 0 36px 0 0;
+
+      &:hover,
+      &:focus {
+        text-decoration: underline;
+      }
+    }
+
     .fa {
-      top: 8px;
+      top: 5px;
       position: absolute;
-      right: 8px;
+      right: 5px;
     }
   }
 

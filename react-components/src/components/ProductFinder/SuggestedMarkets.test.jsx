@@ -1,18 +1,12 @@
-/* eslint-disable */
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { act, Simulate } from 'react-dom/test-utils'
 import { Provider } from 'react-redux'
-import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import Services from '@src/Services'
-import actions from '@src/actions'
 import fetchMock from 'fetch-mock'
 import ReactModal from 'react-modal'
 
 import CountryFinderModal from './CountryFinderModal'
 
-let container
-let countriesMock
 let suggestedCountriesMock
 let scheduleResponseMock
 
@@ -21,8 +15,7 @@ const scheduleResponse = {
     {
       children: [
         {
-          desc:
-            "CHAPTER 4 - DAIRY PRODUCE",
+          desc: 'CHAPTER 4 - DAIRY PRODUCE',
         },
       ],
     },
@@ -41,11 +34,6 @@ const suggestedCountries = [
   { country_iso2: 'AT', country_name: 'Austria' },
 ]
 
-const selectedProduct = {
-  commodity_code: '123456',
-  commodity_name: 'my product',
-}
-
 const product1 = { commodity_code: '123456', commodity_name: 'product1' }
 const product2 = { commodity_code: '123457', commodity_name: 'product2' }
 const product3 = { commodity_code: '666666', commodity_name: 'product3' }
@@ -56,24 +44,21 @@ const userProductsSame = [product1, product2]
 const setIsOpen = jest.fn()
 const selectCountry = jest.fn()
 
-const setup = ({ activeProducts }) => {
-  return render(
-    <div>
-    <Provider store={Services.store}>
-      <CountryFinderModal
-        modalIsOpen={true}
-        setIsOpen={setIsOpen}
-        selectCountry={selectCountry}
-        activeProducts={activeProducts}
-      />
-    </Provider>
-    </div>
-  )
-}
+const setup = ({ activeProducts }) => render(
+  <Provider store={Services.store}>
+    <CountryFinderModal
+      modalIsOpen
+      setIsOpen={setIsOpen}
+      selectCountry={selectCountry}
+      activeProducts={activeProducts}
+    />
+  </Provider>,
+)
+
+ReactModal.setAppElement(document.body)
 
 describe('Test suggested markets', () => {
   beforeEach(() => {
-    ReactModal.setAppElement(document.body)
     Services.setConfig({
       apiCountriesUrl: '/api/countries/',
       apiSuggestedCountriesUrl: '/api/suggested-markets/',
@@ -86,10 +71,10 @@ describe('Test suggested markets', () => {
         ActiveProduct: {},
       },
     })
-    countriesMock = fetchMock.get(/\/api\/countries\//, mockResponse)
+    fetchMock.get(/\/api\/countries\//, mockResponse)
     suggestedCountriesMock = fetchMock.get(
       /\/api\/suggested-markets\//,
-      suggestedCountries
+      suggestedCountries,
     )
     scheduleResponseMock = fetchMock.get(/\/api\/lookup-product-schedule\//, scheduleResponse)
   })
@@ -100,46 +85,43 @@ describe('Test suggested markets', () => {
   })
 
   it('Specific active product1', async () => {
-    let rtl
-    act(() => {
-      rtl = setup({ activeProducts: [product1] })
-    })
+    const { getAllByText, getByText } = setup({ activeProducts: [product1] })
+
     await waitFor(() => {
-      expect(rtl.queryAllByText('Possible export markets')).toBeTruthy()
+      expect(getAllByText('Possible export markets')).toBeTruthy()
     })
-    expect(rtl.getByText(/dairy produce/)).toBeTruthy()
-    expect(suggestedCountriesMock.calls())
+    expect(getByText(/dairy produce/)).toBeTruthy()
     expect(suggestedCountriesMock.calls(/\/api\/suggested-markets\//)[0][0]).toMatch(/\?hs_code=12/)
     expect(scheduleResponseMock.calls(/\/api\/lookup-product-schedule\//)[0][0]).toMatch(/\?hs_code=123456/)
   })
 
   it('Specific active product3', async () => {
-    let rtl
-    act(() => {
-      rtl = setup({ activeProducts: [product3] })
-    })
-    await waitFor(() => {
-      expect(rtl.queryAllByText('Possible export markets')).toBeTruthy()
+    const { getAllByText, getByText } = setup({ activeProducts: [product3] })
 
+    await waitFor(() => {
+      expect(getAllByText('Possible export markets')).toBeTruthy()
     })
-    expect(rtl.getByText(/dairy produce/)).toBeTruthy()
-    expect(suggestedCountriesMock.calls())
+
+    expect(getByText(/dairy produce/)).toBeTruthy()
     expect(suggestedCountriesMock.calls(/\/api\/suggested-markets\//)[0][0]).toMatch(/\?hs_code=66/)
   })
 
   it('Basket active product', async () => {
-    let rtl
-    act(() => {
-      rtl = setup({ activeProducts: null })
-    })
+    const { getByText } = setup({ activeProducts: null })
+
+    let explanation
+
     await waitFor(() => {
-      expect(rtl.queryAllByText('This is an HS2 category that includes product2')).toBeTruthy()
+      explanation = getByText(/These markets are based on consumer demand/)
+      expect(explanation).toBeTruthy()
     })
+
+    expect(explanation.textContent).toMatch('dairy produce')
+    expect(explanation.textContent).toMatch('product2')
     expect(suggestedCountriesMock.calls(/\/api\/suggested-markets\//)[0][0]).toMatch(/\?hs_code=12/)
   })
 
   it('Basket active product all same hs2', async () => {
-    let rtl
     Services.setInitialState({
       userSettings: {
         UserMarkets: [],
@@ -147,12 +129,13 @@ describe('Test suggested markets', () => {
         ActiveProduct: {},
       },
     })
-    act(() => {
-      rtl = setup({ activeProducts: null })
-    })
+
+    const { getAllByText, getByText } = setup({ activeProducts: null })
+
     await waitFor(() => {
-      expect(rtl.queryAllByText('Suggested markets')).toBeTruthy()
+      expect(getAllByText('Possible export markets')).toBeTruthy()
     })
-    expect(rtl.getByText(/dairy produce/)).toBeTruthy()
+
+    expect(getByText(/dairy produce/)).toBeTruthy()
   })
 })

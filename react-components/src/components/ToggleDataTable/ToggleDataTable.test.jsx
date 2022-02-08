@@ -1,17 +1,14 @@
-/* eslint-disable */
 import React from 'react'
-import { mount } from 'enzyme'
+import { render, waitFor } from '@testing-library/react'
 import { ToggleDataTable } from '@src/components/ToggleDataTable'
 import Services from '@src/Services'
-import { act } from 'react-dom/test-utils'
 
 jest.mock('@src/Services')
 
-let wrapper
-
 const mockGroups = [
-  { value: '0-14', label: '0-14 year olds' },
-  { value: '15-19', label: '15-19 year olds' },
+  { value: '0-14', label: '0-14 years old' },
+  { value: '15-19', label: '15-19 years old' },
+  { value: '20-24', label: '20-24 years old' },
 ]
 
 const mockResponse = {
@@ -43,7 +40,7 @@ const mockResponse = {
     CIAFactbook: [
       {
         languages: {
-          note: 'Danish, Frisian, Sorbian, and Romani are official minority languages; Low German, Danish, North Frisian, Sater Frisian, Lower Sorbian, Upper Sorbian, and Romani are recognized as regional languages under the European Charter for Regional or Minority Languages',
+          note: 'A few languages',
           language: [{ name: 'German', note: 'official' }],
         },
         country_key: 'germany',
@@ -53,71 +50,233 @@ const mockResponse = {
   },
 }
 
+// eslint-disable-next-line react/prop-types
+const DataComponent = ({ className, ...data }) => <div className={className}>{JSON.stringify(data, null, 2)}</div>
+
 describe('ToggleDataTable', () => {
   beforeEach(() => {
-    Services.getCountryData.mockImplementation(() =>
-      Promise.resolve(mockResponse)
-    )
-    wrapper = mount(
-      <ToggleDataTable
-        groups={mockGroups}
-        countryIso2Code="NL"
-        selectedGroups={['5-9']}
-        url="/export-plan"
-        afterTable={[<div className="table">test</div>]}
-      ></ToggleDataTable>
-    )
+    Services.getCountryData.mockResolvedValue(mockResponse)
   })
 
   afterEach(() => {
-    wrapper = null
-    Services.setConfig({})
     jest.clearAllMocks()
   })
 
-  it('Should fetch country data', () => {
-    expect(Services.getCountryData).toHaveBeenCalledWith(
-      [{ country_iso2_code: 'NL' }],
-      JSON.stringify([
-        { model: 'PopulationData', filter: { year: 2020 } },
-        { model: 'PopulationUrbanRural', filter: { year: 2021 } },
-        { model: 'ConsumerPriceIndex', latest_only: true },
-        { model: 'InternetUsage', latest_only: true },
-        { model: 'CIAFactbook', latest_only: true },
-      ])
+  it('Should fetch country data', async () => {
+    render(<ToggleDataTable countryIso2Code="NL" url="/export-plan" />)
+
+    await waitFor(() => {
+      expect(Services.getCountryData).toHaveBeenCalledWith(
+        [{ country_iso2_code: 'NL' }],
+        JSON.stringify([
+          { model: 'PopulationData', filter: { year: 2020 } },
+          { model: 'PopulationUrbanRural', filter: { year: 2021 } },
+          { model: 'ConsumerPriceIndex', latest_only: true },
+          { model: 'InternetUsage', latest_only: true },
+          { model: 'CIAFactbook', latest_only: true },
+        ]),
+      )
+    })
+  })
+
+  it('renders computed data and selected groups in data panel', async () => {
+    const { container } = render(
+      <ToggleDataTable
+        countryIso2Code="NL"
+        url="/"
+        groups={mockGroups}
+        selectedGroups={['0-14', '15-19']}
+        afterTable={[<DataComponent className="after" />]}
+      />,
+    )
+
+    await waitFor(() => container.querySelector('.after'))
+
+    const data = JSON.parse(container.querySelector('.after').textContent)
+
+    expect(data).toEqual({
+        cpi: '113.427',
+        internetData: '89.739',
+        languages: {
+          language: [
+            {
+              name: 'German',
+              note: 'official',
+            },
+          ],
+          note: 'A few languages',
+        },
+        rural: 18546,
+        target: 15810000,
+        targetfemale: 7629000,
+        targetmale: 8181000,
+        totalPopulation: 15810000,
+        urban: 64044,
+        selectedGroups: ['0-14', '15-19'],
+      },
     )
   })
 
-  it('renders heading and select button initially', () => {
-    expect(wrapper.find('h3').length).toEqual(1)
-    expect(wrapper.find('.button--tiny-toggle').length).toEqual(1)
-    expect(wrapper.find('.table').length).toEqual(0)
-  })
-
-  it('renders table', () => {
-    wrapper.find('.button--tiny-toggle').simulate('click', { type: 'click' })
-    expect(wrapper.find('.table').length).toEqual(1)
-  })
-
-  it('renders table', async () => {
-    Services.getCountryAgeGroupData.mockImplementation(() =>
-      Promise.resolve(mockResponse)
+  it('renders a heading if one is provided', async () => {
+    const { getByText } = render(
+      <ToggleDataTable
+        countryIso2Code="NL"
+        url="/"
+        heading="Custom heading"
+      />,
     )
-    await act(async () => {
-      wrapper.find('.button--tiny-toggle').simulate('click', { type: 'click' })
+
+    await waitFor(() => {
+      expect(getByText('Custom heading').tagName).toBe('H3')
     })
-    wrapper.update()
-    await act(async () => {
-      wrapper
-        .find('input')
-        .first()
-        .simulate('change', {
-          type: 'change',
-          target: { value: mockGroups[0]['value'] },
-        })
+  })
+
+  it('renders content before and after when data is available', async () => {
+    const { container } = render(
+      <ToggleDataTable
+        countryIso2Code="NL"
+        url="/"
+        beforeTable={[<DataComponent className="before" />]}
+        afterTable={[<DataComponent className="after" />]}
+      />,
+    )
+
+    await waitFor(() => {
+      expect(container.querySelector('.before')).toBeTruthy()
+      expect(container.querySelector('.after')).toBeTruthy()
+    })
+  })
+
+  it('renders the age range selector when data is available', async () => {
+    const { queryByText, getByText } = render(
+      <ToggleDataTable
+        countryIso2Code="NL"
+        url="/"
+        groups={mockGroups}
+        afterTable={[<DataComponent className="after" />]}
+      />,
+    )
+
+    expect(queryByText('Selected target age groups')).toBeNull()
+
+    await waitFor(() => {
+      expect(getByText('Choose target age groups')).toBeTruthy()
+    })
+  })
+
+  it('opens and closes the age range selector', async () => {
+    const { getByText, container } = render(
+      <ToggleDataTable
+        countryIso2Code="NL"
+        url="/"
+        groups={mockGroups}
+        afterTable={[<DataComponent className="after" />]}
+      />,
+    )
+
+    await waitFor(() => getByText('Choose target age groups'))
+
+    getByText('Choose target age groups').click()
+
+    await waitFor(() => {
+      expect(getByText('Close target age groups').closest('button').getAttribute('aria-expanded')).toBe('true')
+      expect(container.querySelector('#target-age-groups')).toBeTruthy()
     })
 
-    wrapper.update()
-    expect(wrapper.find('.table').length).toEqual(1)
+    getByText('Close target age groups').click()
+
+    await waitFor(() => {
+      expect(getByText('Choose target age groups').closest('button').getAttribute('aria-expanded')).toBe('false')
+      expect(container.querySelector('#target-age-groups')).toBeNull()
+    })
+  })
+
+  it('updates list of selected age ranges', async () => {
+    const { container, getByText } = render(
+      <ToggleDataTable
+        countryIso2Code="NL"
+        url="/"
+        groups={mockGroups}
+        afterTable={[<DataComponent className="after" />]}
+      />,
+    )
+
+    await waitFor(() => getByText('Choose target age groups'))
+
+    expect(container.querySelector('.selected-groups')).toBeNull()
+
+    getByText('Choose target age groups').click()
+
+    await waitFor(() => {
+      container.querySelector('[id="age-range-20-24"]').click()
+    })
+
+    await waitFor(() => {
+      expect(getByText('Selected target age groups')).toBeTruthy()
+      expect(container.querySelectorAll('.selected-groups__item')).toHaveLength(1)
+      expect(container.querySelectorAll('.selected-groups__item')[0].textContent).toMatch('20-24 years old')
+    })
+
+    container.querySelector('[id="age-range-0-14"]').click()
+
+    await waitFor(() => {
+      expect(container.querySelectorAll('.selected-groups__item')).toHaveLength(2)
+      expect(container.querySelectorAll('.selected-groups__item')[0].textContent).toMatch('0-14 years old')
+    })
+  })
+
+  it('removes selected age range when clicking remove', async () => {
+    const { container, getByText } = render(
+      <ToggleDataTable
+        countryIso2Code="NL"
+        url="/"
+        groups={mockGroups}
+        afterTable={[<DataComponent className="after" />]}
+      />,
+    )
+
+    await waitFor(() => getByText('Choose target age groups'))
+
+    getByText('Choose target age groups').click()
+    container.querySelector('[id="age-range-20-24"]').click()
+
+    await waitFor(() => {
+      expect(container.querySelector('[id="age-range-20-24"]').checked).toBeTruthy()
+      expect(container.querySelector('.selected-groups__item').textContent).toMatch('20-24 years old')
+    })
+
+    container.querySelector('.selected-groups__item .button').click()
+
+    await waitFor(() => {
+      expect(container.querySelector('[id="age-range-20-24"]').checked).toBeFalsy()
+      expect(container.querySelector('.selected-groups__item')).toBeNull()
+    })
+  })
+
+  it('updates data when changing selected age ranges', async () => {
+    const { getByText, container } = render(
+      <ToggleDataTable
+        countryIso2Code="NL"
+        url="/"
+        groups={mockGroups}
+        afterTable={[<DataComponent className="after" />]}
+      />,
+    )
+
+    const getData = () => JSON.parse(container.querySelector('.after').textContent)
+
+    await waitFor(() => {
+      expect(getData().target).toEqual(15810000)
+    })
+
+    // Open age group selector
+    getByText('Choose target age groups').click()
+    // Select first age group
+    // TODO: Fix invalid id attribute
+    container.querySelector('[id="age-range-0-14"]').click()
+
+    await waitFor(() => {
+      expect(getData().target).toEqual(11691000)
+    })
   })
 })
