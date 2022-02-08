@@ -17,71 +17,80 @@ const typeMapping = {
   ITEM: 'Sub-heading',
 }
 
-function TreeLine({ level, leaf, itemType }) {
-  return (
-    <div
-      className={`grid m-b-xxs m-f-xxs br-xs body-l ${leaf ? 'bg-white' : ''}`}
-    >
-      <div className="c-1-3 type-heading">
-        {typeMapping[itemType || level.type]}
-      </div>
-      <div className="c-2-3 level-decription">
-        {trimAndCapitalize(level.desc)}
-      </div>
-    </div>
-  )
-}
-
-function TreeBranch({ schedule, hsCode }) {
-  let subHeadingShown = false
-
-  const showLevel = (level, parent) => {
-    if (!level) {
-      return null
+export const buildProductTree = (hsCode, schedule) => {
+  const walk = (tree, level) => {
+    // Go straight to the next level if we're high up
+    if (!level.type || level.type === 'SECTION') {
+      return walk(tree, level.children[0])
     }
 
-    if (!level.type || level.type === 'SECTION')
-      return showLevel(level.children[0])
-
-    const leaf = (level.id || '').substring(0, hsCode.length) === hsCode
-
-    if (leaf && level.id.length > hsCode.length) {
-      // We've gone too far - there must be no node at HS6
-      if (!subHeadingShown) {
-        subHeadingShown = true
-
-        return <TreeLine
-          level={parent}
-          leaf={leaf}
-          itemType="ITEM"
-        />
-      }
-
-      return null
+    // Add to tree if id is shorter than code or if id matches
+    if (level.id.length < hsCode.length || level.id === hsCode) {
+      tree.push({
+        type: level.type,
+        description: trimAndCapitalize(level.desc),
+        id: level.id,
+      })
     }
 
-    return (
-      <React.Fragment key={`level-${leaf.id}`}>
-        {level.type !== 'ORPHAN' && <TreeLine level={level} leaf={leaf} />}
-        {((!leaf && level.children) || []).map((child) =>
-          showLevel(child, level)
-        )}
-      </React.Fragment>
-    )
+    // Found the leaf, return the tree now
+    if (level.id === hsCode) {
+      return tree
+    }
+
+    // Process the children items
+    if (level.children && level.children.length) {
+      level.children.map(child => walk(tree, child))
+    }
+
+    // Return the incomplete tree
+    return tree
   }
 
-  return showLevel(schedule)
+
+  const tree = walk([], schedule)
+
+  // Repeat heading if no appropriate sub-heading has been found
+  if (tree.length < 3) {
+    tree.push({
+      type: 'ITEM',
+      description: tree[tree.length - 1].description,
+      id: 'leaf',
+    })
+  }
+
+  // Flag the last item as leaf
+  tree[tree.length - 1].leaf = true
+
+  return tree
 }
 
+const TreeLine = ({ level }) => (
+  <div
+    className={`grid m-b-xxs m-f-xxs br-xs body-l ${level.leaf ? 'bg-white' : ''} classification-tree__line`}
+  >
+    <div className="c-1-3 type-heading">
+      {typeMapping[level.type]}
+    </div>
+    <div className="c-2-3 level-decription">
+      {level.description}
+    </div>
+  </div>
+)
+
 export default function ClassificationTree({ hsCode }) {
-  const [schedule, setSchedule] = useState()
+  const [tree, setTree] = useState(null)
   const isMounted = useRef(true)
 
   useEffect(() => {
-    if (!schedule) {
+    if (!tree) {
       Services.lookupProductSchedule({ hsCode }).then((results) => {
         if (isMounted.current) {
-          setSchedule(results)
+          if (results.errorCode) {
+            setTree([])
+          } else {
+            setTree(buildProductTree(hsCode, results))
+          }
         }
       })
     }
@@ -92,16 +101,18 @@ export default function ClassificationTree({ hsCode }) {
 
   return (
     <>
-      {(schedule && schedule.children && schedule.children.length && (
+      {(tree && tree.length > 0 && (
         <div className="g-panel m-v-xs classification-tree">
-          <TreeBranch schedule={schedule} hsCode={hsCode} />
+          {tree.map(line => (
+            <TreeLine level={line} key={line.id} />
+          ))}
         </div>
       )) ||
-        (schedule && (
-          <div className="classification-tree m-v-xs form-group-error">
-            Unable to show classification tree
-          </div>
-        )) || <Spinner text="" />}
+      (tree && (
+        <div className="classification-tree m-v-xs form-group-error">
+          Unable to show classification tree
+        </div>
+      )) || <Spinner text="" />}
     </>
   )
 }
@@ -110,18 +121,11 @@ ClassificationTree.propTypes = {
   hsCode: PropTypes.string.isRequired,
 }
 
-const ptLevel = PropTypes.shape({
-  type: PropTypes.string,
-  desc: PropTypes.string,
-  code: PropTypes.string,
-})
-
-TreeBranch.propTypes = {
-  hsCode: PropTypes.string.isRequired,
-  schedule: PropTypes.shape({
-    type: PropTypes.string,
-    desc: PropTypes.string,
-    code: PropTypes.string,
-    children: PropTypes.arrayOf(ptLevel),
+TreeLine.propTypes = {
+  level: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    leaf: PropTypes.bool,
   }).isRequired,
 }
