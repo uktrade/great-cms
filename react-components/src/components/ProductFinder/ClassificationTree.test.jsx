@@ -3,7 +3,7 @@ import fetchMock from 'fetch-mock'
 import { render, waitFor } from '@testing-library/react'
 
 import Services from '@src/Services'
-import ClassificationTree, { buildProductTree } from './ClassificationTree'
+import ClassificationTree, { buildClassificationTree } from './ClassificationTree'
 
 import mockScheduleCheese from './fixtures/product-schedule-cheese.json'
 import mockScheduleSoftware from './fixtures/product-schedule-software.json'
@@ -23,7 +23,7 @@ const mockErrorResponse = {
 
 describe('Product tree builder', () => {
   it('returns CHAPTER, HEADING and ITEM when an exact HS6 code match is found', () => {
-    const treeLines = buildProductTree('040630', mockScheduleCheese)
+    const treeLines = buildClassificationTree('040630', mockScheduleCheese)
 
     expect(treeLines).toEqual([
       {
@@ -37,7 +37,7 @@ describe('Product tree builder', () => {
   })
 
   it('uses the only ORPHAN under HEADING as ITEM if no exact match found and the orphan has no ORPHAN siblings', () => {
-    const treeLines = buildProductTree('852329', mockScheduleSoftware)
+    const treeLines = buildClassificationTree('852329', mockScheduleSoftware)
 
     expect(treeLines).toEqual([
       {
@@ -55,7 +55,7 @@ describe('Product tree builder', () => {
   })
 
   it('repeats the HEADING as ITEM if no exact HS6 code match and no suitable ORPHAN found', () => {
-    const treeLines = buildProductTree('160100', mockScheduleSausage)
+    const treeLines = buildClassificationTree('160100', mockScheduleSausage)
 
     expect(treeLines).toEqual([
       {

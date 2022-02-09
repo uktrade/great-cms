@@ -17,16 +17,27 @@ const typeMapping = {
   ITEM: 'Sub-heading',
 }
 
-export const buildProductTree = (hsCode, schedule) => {
+
+/**
+ The Classification Tree builder will parse a full schedule as follows:
+ - Skip the top-level and SECTION
+ - Add the CHAPTER
+ - Add the HEADING
+ - Attempt to find an exact HS6 code match in the rest of the schedule:
+ - If found, add that as ITEM
+ - If not found:
+ - If there was an ORPHAN directly under HEADING with no ORPHAN siblings, add that as ITEM
+ - If there was not, repeat the HEADING description as ITEM
+ - Flag the last element as 'leaf'
+ */
+export const buildClassificationTree = (hsCode, schedule) => {
   let orphanAsItem = null
 
   const walk = (tree, level) => {
-    // Go straight to the next level if we're high up
     if (!level.type || level.type === 'SECTION') {
       return walk(tree, level.children[0])
     }
 
-    // Add to tree if CHAPTER or HEADING, or if id matches HS6 code
     if (level.type === 'CHAPTER' || level.type === 'HEADING' || level.id === hsCode) {
       tree.push({
         type: level.type,
@@ -35,13 +46,10 @@ export const buildProductTree = (hsCode, schedule) => {
       })
     }
 
-    // Found the leaf, return the tree now
     if (level.id === hsCode) {
       return tree
     }
 
-    // Save any singular ORPHAN under HEADING for later use
-    // as ITEM if we can't find an exact HS6 match (!)
     if (level.type === 'HEADING') {
       const orphans = level.children.filter(child => child.type === 'ORPHAN')
 
@@ -54,7 +62,6 @@ export const buildProductTree = (hsCode, schedule) => {
       }
     }
 
-    // Process the children items
     if (level.children && level.children.length) {
       level.children.map(child => walk(tree, child))
     }
@@ -66,7 +73,6 @@ export const buildProductTree = (hsCode, schedule) => {
   const tree = walk([], schedule)
 
   if (tree.length < 3) {
-    // Use orphan is available, otherwise repeat heading if no appropriate sub-heading has been found
     tree.push(orphanAsItem || {
       type: 'ITEM',
       description: tree[tree.length - 1].description,
@@ -74,7 +80,6 @@ export const buildProductTree = (hsCode, schedule) => {
     })
   }
 
-  // Flag the last item as leaf
   tree[tree.length - 1].leaf = true
 
   return tree
@@ -104,7 +109,7 @@ export default function ClassificationTree({ hsCode }) {
           if (results.errorCode) {
             setTree([])
           } else {
-            setTree(buildProductTree(hsCode, results))
+            setTree(buildClassificationTree(hsCode, results))
           }
         }
       })
