@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import Spinner from '../Spinner/Spinner'
@@ -96,23 +96,15 @@ const TreeLine = ({ level }) => (
 
 export default function ClassificationTree({ hsCode }) {
   const [tree, setTree] = useState(null)
-  const isMounted = useRef(true)
 
   useEffect(() => {
-    if (!tree) {
-      Services.lookupProductSchedule({ hsCode }).then((results) => {
-        if (isMounted.current) {
-          if (results.errorCode) {
-            setTree([])
-          } else {
-            setTree(buildClassificationTree(hsCode, results))
-          }
-        }
-      })
-    }
-    return () => {
-      isMounted.current = false
-    }
+    Services.lookupProductSchedule({ hsCode }).then((results) => {
+      if (results.errorCode) {
+        setTree([])
+      } else {
+        setTree(buildClassificationTree(hsCode, results))
+      }
+    })
   }, [])
 
   return (
