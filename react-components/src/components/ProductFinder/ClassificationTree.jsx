@@ -18,14 +18,16 @@ const typeMapping = {
 }
 
 export const buildProductTree = (hsCode, schedule) => {
+  let orphanAsItem = null
+
   const walk = (tree, level) => {
     // Go straight to the next level if we're high up
     if (!level.type || level.type === 'SECTION') {
       return walk(tree, level.children[0])
     }
 
-    // Add to tree if id is shorter than code or if id matches
-    if (level.id.length < hsCode.length || level.id === hsCode) {
+    // Add to tree if CHAPTER or HEADING, or if id matches HS6 code
+    if (level.type === 'CHAPTER' || level.type === 'HEADING' || level.id === hsCode) {
       tree.push({
         type: level.type,
         description: trimAndCapitalize(level.desc),
@@ -38,21 +40,34 @@ export const buildProductTree = (hsCode, schedule) => {
       return tree
     }
 
+    // Save any singular ORPHAN under HEADING for later use
+    // as ITEM if we can't find an exact HS6 match (!)
+    if (level.type === 'HEADING') {
+      const orphans = level.children.filter(child => child.type === 'ORPHAN')
+
+      if (orphans.length === 1) {
+        orphanAsItem = {
+          type: 'ITEM',
+          description: trimAndCapitalize(orphans[0].desc),
+          id: orphans[0].id,
+        }
+      }
+    }
+
     // Process the children items
     if (level.children && level.children.length) {
       level.children.map(child => walk(tree, child))
     }
 
-    // Return the incomplete tree
     return tree
   }
 
 
   const tree = walk([], schedule)
 
-  // Repeat heading if no appropriate sub-heading has been found
   if (tree.length < 3) {
-    tree.push({
+    // Use orphan is available, otherwise repeat heading if no appropriate sub-heading has been found
+    tree.push(orphanAsItem || {
       type: 'ITEM',
       description: tree[tree.length - 1].description,
       id: 'leaf',

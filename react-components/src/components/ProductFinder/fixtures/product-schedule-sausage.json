@@ -31,7 +31,7 @@
                   "duties": {},
                   "errorCode": null,
                   "desc": "- Of liver",
-                  "code": "16010010",
+                  "code": "",
                   "children": [
                     {
                       "uom": "",
@@ -61,7 +61,7 @@
                                 "All Countries Duty Rate": {
                                   "name": "All Countries Duty Rate",
                                   "longName": "All Countries Duty Rate",
-                                  "rate": "14.0%",
+                                  "rate": "14.00%",
                                   "type": "General",
                                   "nonAVEquivalent": null,
                                   "meursing": false
@@ -89,7 +89,7 @@
                                 "All Countries Duty Rate": {
                                   "name": "All Countries Duty Rate",
                                   "longName": "All Countries Duty Rate",
-                                  "rate": "14.0%",
+                                  "rate": "14.00%",
                                   "type": "General",
                                   "nonAVEquivalent": null,
                                   "meursing": false
@@ -105,7 +105,7 @@
                             }
                           ],
                           "errorMessage": null,
-                          "id": "16010010*01*01",
+                          "id": "1601*01*01*01",
                           "type": "ORPHAN"
                         },
                         {
@@ -122,7 +122,7 @@
                             "All Countries Duty Rate": {
                               "name": "All Countries Duty Rate",
                               "longName": "All Countries Duty Rate",
-                              "rate": "14.0%",
+                              "rate": "14.00%",
                               "type": "General",
                               "nonAVEquivalent": null,
                               "meursing": false
@@ -138,7 +138,7 @@
                         }
                       ],
                       "errorMessage": null,
-                      "id": "16010010*01",
+                      "id": "1601*01*01",
                       "type": "ORPHAN"
                     },
                     {
@@ -169,7 +169,7 @@
                                 "All Countries Duty Rate": {
                                   "name": "All Countries Duty Rate",
                                   "longName": "All Countries Duty Rate",
-                                  "rate": "14.0%",
+                                  "rate": "14.00%",
                                   "type": "General",
                                   "nonAVEquivalent": null,
                                   "meursing": false
@@ -197,7 +197,7 @@
                                 "All Countries Duty Rate": {
                                   "name": "All Countries Duty Rate",
                                   "longName": "All Countries Duty Rate",
-                                  "rate": "14.0%",
+                                  "rate": "14.00%",
                                   "type": "General",
                                   "nonAVEquivalent": null,
                                   "meursing": false
@@ -213,7 +213,7 @@
                             }
                           ],
                           "errorMessage": null,
-                          "id": "16010010*02*01",
+                          "id": "1601*01*02*01",
                           "type": "ORPHAN"
                         },
                         {
@@ -230,7 +230,7 @@
                             "All Countries Duty Rate": {
                               "name": "All Countries Duty Rate",
                               "longName": "All Countries Duty Rate",
-                              "rate": "14.0%",
+                              "rate": "14.00%",
                               "type": "General",
                               "nonAVEquivalent": null,
                               "meursing": false
@@ -246,13 +246,13 @@
                         }
                       ],
                       "errorMessage": null,
-                      "id": "16010010*02",
+                      "id": "1601*01*02",
                       "type": "ORPHAN"
                     }
                   ],
                   "errorMessage": null,
-                  "id": "16010010",
-                  "type": "ITEM"
+                  "id": "1601*01",
+                  "type": "ORPHAN"
                 },
                 {
                   "uom": "",
@@ -266,7 +266,7 @@
                       "duties": {},
                       "errorCode": null,
                       "desc": "-- Sausages, dry or for spreading, uncooked",
-                      "code": "16010091",
+                      "code": "",
                       "children": [
                         {
                           "uom": "",
@@ -361,20 +361,20 @@
                             }
                           ],
                           "errorMessage": null,
-                          "id": "16010091*01",
+                          "id": "1601*02*01*01",
                           "type": "ORPHAN"
                         }
                       ],
                       "errorMessage": null,
-                      "id": "16010091",
-                      "type": "ITEM"
+                      "id": "1601*02*01",
+                      "type": "ORPHAN"
                     },
                     {
                       "uom": "",
                       "duties": {},
                       "errorCode": null,
                       "desc": "-- Other",
-                      "code": "16010099",
+                      "code": "",
                       "children": [
                         {
                           "uom": "",
@@ -441,7 +441,7 @@
                             }
                           ],
                           "errorMessage": null,
-                          "id": "16010099*01",
+                          "id": "1601*02*02*01",
                           "type": "ORPHAN"
                         },
                         {
@@ -509,17 +509,17 @@
                             }
                           ],
                           "errorMessage": null,
-                          "id": "16010099*02",
+                          "id": "1601*02*02*02",
                           "type": "ORPHAN"
                         }
                       ],
                       "errorMessage": null,
-                      "id": "16010099",
-                      "type": "ITEM"
+                      "id": "1601*02*02",
+                      "type": "ORPHAN"
                     }
                   ],
                   "errorMessage": null,
-                  "id": "1601*01",
+                  "id": "1601*02",
                   "type": "ORPHAN"
                 }
               ],

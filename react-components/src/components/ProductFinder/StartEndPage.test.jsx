@@ -5,11 +5,7 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react'
 
 import StartEndPage from './StartEndPage'
 
-const mockResponse = {
-  type: 'one',
-  id: 'foo',
-  children: [],
-}
+const mockResponse = require('./fixtures/product-schedule-cheese.json')
 
 afterEach(() => {
   jest.clearAllMocks()

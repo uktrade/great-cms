@@ -6,6 +6,7 @@ import Services from '@src/Services'
 import ClassificationTree, { buildProductTree } from './ClassificationTree'
 
 import mockScheduleCheese from './fixtures/product-schedule-cheese.json'
+import mockScheduleSoftware from './fixtures/product-schedule-software.json'
 import mockScheduleSausage from './fixtures/product-schedule-sausage.json'
 
 const mockErrorResponse = {
@@ -35,7 +36,25 @@ describe('Product tree builder', () => {
     ])
   })
 
-  it('repeats the HEADING as ITEM if no exact HS6 code match found', () => {
+  it('uses the only ORPHAN under HEADING as ITEM if no exact match found and the orphan has no ORPHAN siblings', () => {
+    const treeLines = buildProductTree('852329', mockScheduleSoftware)
+
+    expect(treeLines).toEqual([
+      {
+        type: 'CHAPTER',
+        description: 'Electrical machinery and equipment and parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles',
+        id: '85',
+      },
+      {
+        type: 'HEADING',
+        description: 'Discs, tapes, solid-state non-volatile storage devices, “smart cards” and other media for the recording of sound or of other phenomena, whether or not recorded, including matrices and masters for the production of discs, but excluding products of chapter 37.',
+        id: '8523',
+      },
+      { type: 'ITEM', description: 'Magnetic media', id: '8523*01', leaf: true },
+    ])
+  })
+
+  it('repeats the HEADING as ITEM if no exact HS6 code match and no suitable ORPHAN found', () => {
     const treeLines = buildProductTree('160100', mockScheduleSausage)
 
     expect(treeLines).toEqual([
