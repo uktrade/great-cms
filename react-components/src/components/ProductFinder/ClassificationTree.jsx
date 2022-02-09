@@ -19,16 +19,16 @@ const typeMapping = {
 
 
 /**
- The Classification Tree builder will parse a full schedule as follows:
- - Skip the top-level and SECTION
- - Add the CHAPTER
- - Add the HEADING
- - Attempt to find an exact HS6 code match in the rest of the schedule:
- - If found, add that as ITEM
- - If not found:
- - If there was an ORPHAN directly under HEADING with no ORPHAN siblings, add that as ITEM
- - If there was not, repeat the HEADING description as ITEM
- - Flag the last element as 'leaf'
+ * The Classification Tree builder will parse a full schedule as follows:
+ * - Skip the top-level and SECTION
+ * - Add the CHAPTER
+ * - Add the HEADING
+ * - Attempt to find an exact HS6 code match in the rest of the schedule:
+ *    - If found, add that as ITEM
+ *    - If not found:
+ *      - If there was an ORPHAN directly under HEADING with no siblings, add that as ITEM
+ *      - If there was not, repeat the HEADING description as ITEM
+ * - Flag the last element as 'leaf'
  */
 export const buildClassificationTree = (hsCode, schedule) => {
   let orphanAsItem = null
@@ -50,15 +50,11 @@ export const buildClassificationTree = (hsCode, schedule) => {
       return tree
     }
 
-    if (level.type === 'HEADING') {
-      const orphans = level.children.filter(child => child.type === 'ORPHAN')
-
-      if (orphans.length === 1) {
-        orphanAsItem = {
-          type: 'ITEM',
-          description: trimAndCapitalize(orphans[0].desc),
-          id: orphans[0].id,
-        }
+    if (level.type === 'HEADING' && level.children.length === 1 && level.children[0].type === 'ORPHAN') {
+      orphanAsItem = {
+        type: 'ITEM',
+        description: trimAndCapitalize(level.children[0].desc),
+        id: level.children[0].id,
       }
     }
 

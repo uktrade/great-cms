@@ -36,7 +36,7 @@ describe('Product tree builder', () => {
     ])
   })
 
-  it('uses the only ORPHAN under HEADING as ITEM if no exact match found and the orphan has no ORPHAN siblings', () => {
+  it('uses the ORPHAN under HEADING as ITEM if no exact match found and the orphan has no siblings', () => {
     const treeLines = buildClassificationTree('852329', mockScheduleSoftware)
 
     expect(treeLines).toEqual([
