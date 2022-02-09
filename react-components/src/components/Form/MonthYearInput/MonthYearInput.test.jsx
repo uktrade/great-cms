@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor, fireEvent } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import { MonthYearInput } from '.'
 
 const mockOnChange = jest.fn()
@@ -10,14 +10,14 @@ describe('MonthYearInput', () => {
   })
 
   it('triggers onChange when month or year are changed', async () => {
-    const { getByText, getByLabelText } = render(
-      <MonthYearInput label='Foo' onChange={mockOnChange} />,
+    const { getByText } = render(
+      <MonthYearInput label="Foo" onChange={mockOnChange} />,
     )
 
     getByText('May').click()
 
     await waitFor(() =>
-      expect(mockOnChange).toHaveBeenCalledWith({ month: '5' })
+      expect(mockOnChange).toHaveBeenCalledWith({ month: '5' }),
     )
 
     getByText('2022').click()
@@ -40,13 +40,36 @@ describe('MonthYearInput', () => {
     getByText('April').click()
 
     await waitFor(() =>
-      expect(mockOnChange).toHaveBeenCalledWith({ end_month: '4' })
+      expect(mockOnChange).toHaveBeenCalledWith({ end_month: '4' }),
     )
 
     getByText('2023').click()
 
     await waitFor(() =>
-      expect(mockOnChange).toHaveBeenCalledWith({ end_year: '2023' })
+      expect(mockOnChange).toHaveBeenCalledWith({ end_year: '2023' }),
+    )
+  })
+
+  it('can call onChange with the combined fields', async () => {
+    // TODO: Fix unwrapped updates inside nested Select component
+    const { getAllByText, getByText } = render(
+      <MonthYearInput
+        label="Foo"
+        onChange={mockOnChange}
+        monthName="start_month"
+        yearName="start_year"
+        onChangeCombineFields
+      />,
+    )
+
+    await waitFor(() => getAllByText('Select one'))
+
+    getAllByText('Select one')[0].click()
+
+    await waitFor(() => getByText('April').click())
+
+    await waitFor(() =>
+      expect(mockOnChange).toHaveBeenCalledWith({ start_month: '4' }, { month: '4', year: null }),
     )
   })
 })

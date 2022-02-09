@@ -45,6 +45,7 @@ export const Select = memo(
     }, [selected])
 
     const setOpen = (state, onComplete) => {
+      // TODO: fix timeout mess
       if (state !== isOpen) {
         if (!state) placeHolder.current.focus()
         const elStyle = expander.current.style
@@ -361,7 +362,7 @@ Select.propTypes = {
 Select.defaultProps = {
   selected: '',
   description: '',
-  tooltip: {},
+  tooltip: null,
   example: {},
   hideLabel: false,
   lesson: {},

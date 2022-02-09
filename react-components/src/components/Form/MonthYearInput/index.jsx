@@ -12,6 +12,7 @@ export const MonthYearInput = memo(
      yearValue,
      onChange,
      className,
+     onChangeCombineFields,
    }) => {
     const MONTHS = [
       'January',
@@ -33,6 +34,20 @@ export const MonthYearInput = memo(
       value: `${i + 1}`,
     }))
 
+    const handleChange = field => {
+      if (!onChangeCombineFields) {
+        return onChange(field)
+      }
+
+      const updateKey = Object.keys(field)[0] === monthName ? 'month' : 'year'
+      const value = {
+        month: monthValue || null,
+        year: yearValue || null,
+        [updateKey]: Object.values(field)[0],
+      }
+      return onChange(field, value)
+    }
+
     const currentYear = new Date().getFullYear();
 
     const yearsOptions = [...Array(10)].map((element, index) => {
@@ -46,14 +61,14 @@ export const MonthYearInput = memo(
 
     return (
       <fieldset className={className}>
-        <legend className='m-b-xs'>{label}</legend>
-        <div className='inputgroup'>
-          <div className='inputgroup__input inputgroup__input--month'>
+        <legend className="m-b-xs">{label}</legend>
+        <div className="inputgroup">
+          <div className="inputgroup__input inputgroup__input--month">
             <Select
-              label='Month'
+              label="Month"
               id={monthName}
               name={monthName}
-              update={onChange}
+              update={handleChange}
               options={monthsOptions}
               selected={`${monthValue}`}
             />
@@ -63,7 +78,7 @@ export const MonthYearInput = memo(
               label='Year'
               id={yearName}
               name={yearName}
-              update={onChange}
+              update={handleChange}
               options={yearsOptions}
               selected={`${yearValue}`}
             />
@@ -82,6 +97,7 @@ MonthYearInput.propTypes = {
   yearValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
   className: PropTypes.string,
+  onChangeCombineFields: PropTypes.bool,
 }
 
 MonthYearInput.defaultProps = {
@@ -92,4 +108,5 @@ MonthYearInput.defaultProps = {
   onChange: () => {
   },
   className: null,
+  onChangeCombineFields: false,
 }

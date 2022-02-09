@@ -6,9 +6,10 @@ import { notAvailable } from '@src/components/Stats/StatsGroup'
 import { millify } from '@src/Helpers'
 
 const formatNumber = (val) => (val-0 === val) ? millify(val) : notAvailable
+
 export const Table = memo(({ totalPopulation, target }) => (
-  <div className="m-t-s">
-    <div className="grid stat-group">
+  <div className="stat-group m-t-xs">
+    <div className="grid">
       <div className="c-1-2">
         <Stats
           header="Total population"
@@ -27,9 +28,9 @@ export const Table = memo(({ totalPopulation, target }) => (
 
 Table.propTypes = {
   totalPopulation: PropTypes.number,
-  totalTargetAgePopulation: PropTypes.number,
+  target: PropTypes.number,
 }
 Table.defaultProps = {
   totalPopulation: null,
-  totalTargetAgePopulation: null,
+  target: null,
 }

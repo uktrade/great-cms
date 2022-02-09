@@ -1,37 +1,24 @@
-/* eslint-disable */
-import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
-import { act, Simulate } from 'react-dom/test-utils'
+import React from 'react'
+import { render, waitFor } from '@testing-library/react'
 import RegionToggle from './RegionToggle'
-import { waitFor } from '@testing-library/react'
-import { debug } from 'webpack'
 
-let container
+it('Opens and closes region when expandAll is close', async () => {
+  const { container } = render(
+    <RegionToggle
+      index={1234}
+      expandAllRegions={false}
+      region="Test Region"
+      countries="<span><li>a</li></span><span><li>b</li></span>"
+    />,
+  )
 
-beforeEach(() => {
-  container = document.createElement('div')
-  document.body.appendChild(container)
-})
-
-afterEach(() => {
-  document.body.removeChild(container)
-  container = null
-  jest.clearAllMocks()
-})
-
-it('Opens and closes region when expandAll is close', () => {
-  act(() => {
-      ReactDOM.render(
-      <RegionToggle expandAllRegions={false} 
-        region="Test Region" 
-        countries='<span><li>a</li></span><span><li>b</li></span>' />, 
-      container)
-  })
-  
   const button = container.querySelector('button')
+
   expect(container.querySelector('.expand-section')).toBeTruthy()
-  act(() => {
-    Simulate.click(button)
+
+  button.click()
+
+  await waitFor(() => {
+    expect(container.querySelector('.expand-section.open')).toBeTruthy()
   })
-  expect(container.querySelector('.expand-section.open')).toBeTruthy()
 })

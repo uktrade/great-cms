@@ -1,8 +1,10 @@
 import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
+import ReactHtmlParser from 'react-html-parser'
 import { Input } from '@src/components/Form/Input'
 import { formatLessonLearned, prependThe } from '@src/Helpers'
 
+import { MonthYearInput } from '@src/components/Form/MonthYearInput'
 import { Direct } from './Direct'
 import { Overhead } from './Overhead'
 import { GrossPrice } from './GrossPrice'
@@ -15,7 +17,6 @@ export const CostsAndPricing = memo(
     data,
     update,
     units,
-    exportTimeframe,
     totals,
     initialData,
     currencies,
@@ -30,11 +31,11 @@ export const CostsAndPricing = memo(
       netPrice,
       localTaxes,
       duty,
-      unitsToExport,
+      exportQuantity,
       exportUnits,
+      exportEndMonth,
+      exportEndYear,
       grossPriceUnitSelect,
-      timeframe,
-      timeframeUnits,
       grossPriceCurrency,
     },
   }) => {
@@ -44,7 +45,6 @@ export const CostsAndPricing = memo(
         ...initialData,
         units,
         currencies,
-        timeframe: exportTimeframe,
       })
     }, [])
 
@@ -74,25 +74,32 @@ export const CostsAndPricing = memo(
                 update={update}
               />
               <Units
-                description={unitsToExport.description}
+                description={exportQuantity.description}
                 update={update}
-                input={{ ...unitsToExport, value: data.units_to_export }}
+                input={{ ...exportQuantity, value: data.export_quantity }}
                 select={{
                   ...exportUnits,
                   value: data.export_units,
                   options: data.units,
                 }}
               />
-              <Units
-                description={'<p class="m-t-0 m-b-xs">over the next</p>'}
-                update={update}
-                input={{ ...timeframe, value: data.time_frame }}
-                select={{
-                  ...timeframeUnits,
-                  value: data.export_time_frame,
-                  options: data.timeframe,
-                }}
+              <MonthYearInput
+                className="m-t-s"
+                label={exportEndMonth.label}
+                monthName={exportEndMonth.id}
+                yearName={exportEndYear.id}
+                monthValue={data.export_end}
+                yearValue={data.export_end_year}
+                onChange={(x, values) => update(x, {
+                  [exportEndMonth.field]: {
+                    [exportEndMonth.id]: values,
+                  },
+                })}
+                onChangeCombineFields
               />
+
+              {ReactHtmlParser(exportQuantity.after)}
+
               <Input
                 onChange={(x) => onChange(x, costPerUnit)}
                 value={data.final_cost_per_unit}
@@ -102,11 +109,11 @@ export const CostsAndPricing = memo(
                 example={
                   data.estimated_costs_per_unit
                     ? {
-                        ...costPerUnit.example,
-                        header: costPerUnit.example.header(
-                          `${currency} ${data.estimated_costs_per_unit}`
-                        ),
-                      }
+                      ...costPerUnit.example,
+                      header: costPerUnit.example.header(
+                        `${currency} ${data.estimated_costs_per_unit}`,
+                      ),
+                    }
                     : {}
                 }
               />

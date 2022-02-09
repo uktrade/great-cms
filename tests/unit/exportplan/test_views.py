@@ -341,7 +341,6 @@ def test_cost_and_pricing(cost_pricing_data, client, user, mock_get_user_profile
 
     assert response.status_code == 200
     assert response.context_data['export_unit_choices'][0] == {'label': 'metre(s)', 'value': 'm'}
-    assert response.context_data['export_timeframe_choices'][0] == {'label': 'day(s)', 'value': 'd'}
     assert response.context_data['currency_choices'][0] == {'label': 'EUR', 'value': 'eur'}
 
     assert response.context_data['costs_and_pricing_data'] == json.dumps(
@@ -356,8 +355,8 @@ def test_cost_and_pricing(cost_pricing_data, client, user, mock_get_user_profile
                 'other_overhead_costs': None,
             },
             'total_cost_and_price': {
-                'units_to_export_first_period': {'unit': 'm', 'value': 22},
-                'units_to_export_second_period': {'unit': 'd', 'value': 5},
+                'export_quantity': {'unit': 'm', 'value': 22},
+                'export_end': {'month': 9, 'year': 2022},
                 'final_cost_per_unit': 16.00,
                 'average_price_per_unit': None,
                 'net_price': 22.00,

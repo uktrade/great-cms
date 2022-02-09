@@ -20,20 +20,16 @@ export default function RegionToggle(props) {
   return (
     <section className="accordion c-full">
       <hr className="hr hr--light m-v-xxs" role="presentation" />
-      <div className="expander-section p-r-s">
+      <div className="expander-section">
         <button
           type="button"
-          className="region-expand icon p-h-0"
+          className="region-expand h-xs"
           aria-expanded={expand || expandAllRegions}
           aria-controls={controlAreaId}
           onClick={countryListToggle}
         >
-          <h2 className="region-name h-xs p-v-0 text-align-left">{region}</h2>
-          {expand || expandAllRegions ? (
-            <i className="fa fa-minus text-blue-deep-80" />
-          ) : (
-            <i className="fa fa-plus text-blue-deep-80" />
-          )}
+          {region}
+          <i className={`fa fa-${expand || expandAllRegions ? 'minus' : 'plus'} text-blue-deep-80`} />
         </button>
       </div>
       <div
@@ -42,6 +38,7 @@ export default function RegionToggle(props) {
           expand || expandAllRegions ? 'expand-section open' : 'expand-section'
         }`}
       >
+        <h2 className="visually-hidden">{region}</h2>
         <ol className="m-t-0">{countries}</ol>
       </div>
     </section>

@@ -9,45 +9,42 @@ export const Units = memo(({ update, input, select, description }) => {
   return (
     <>
       {ReactHtmlParser(description)}
-      <div className="grid">
-        <div className="w-full">
-          <div className="c-1-6 m-r-xs">
-            <Input
-              onChange={(x) => {
-                const postData = input.field({
-                  unit: select.value,
-                  value: x[input.id],
-                })
+      <div className="inputgroup">
+        <div className="inputgroup__input inputgroup__input--medium">
+          <Input
+            onChange={(x) => {
+              const postData = input.field({
+                unit: select.value,
+                value: x[input.id],
+              })
 
-                update(x, postData)
-              }}
-              label={input.label}
-              id={input.id}
-              hideLabel
-              type={input.type}
-              value={input.value}
-              placeholder={input.placeholder}
-              decimal={0}
-            />
-          </div>
-          <div className="c-1-3">
-            <Select
-              label={select.label}
-              id={select.id}
-              update={(item) => {
-                const postData = input.field({
-                  unit: item[select.name],
-                  value: input.value,
-                })
-                update({ [select.id]: item[select.name] }, postData)
-              }}
-              name={select.name}
-              options={select.options}
-              hideLabel
-              placeholder={select.placeholder}
-              selected={select.value}
-            />
-          </div>
+              update(x, postData)
+            }}
+            label={input.label}
+            id={input.id}
+            type={input.type}
+            value={input.value}
+            placeholder={input.placeholder}
+            decimal={0}
+
+          />
+        </div>
+        <div className="inputgroup__input inputgroup__input--medium">
+          <Select
+            label={select.label}
+            id={select.id}
+            update={(item) => {
+              const postData = input.field({
+                unit: item[select.name],
+                value: input.value,
+              })
+              update({ [select.id]: item[select.name] }, postData)
+            }}
+            name={select.name}
+            options={select.options}
+            placeholder={select.placeholder}
+            selected={select.value}
+          />
         </div>
       </div>
     </>
@@ -74,7 +71,7 @@ Units.propTypes = {
       PropTypes.shape({
         value: PropTypes.string,
         label: PropTypes.string,
-      })
+      }),
     ).isRequired,
   }).isRequired,
   update: PropTypes.func.isRequired,
