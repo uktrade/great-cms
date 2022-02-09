@@ -88,7 +88,7 @@ const TreeLine = ({ level }) => (
     <div className="c-1-3 type-heading">
       {typeMapping[level.type]}
     </div>
-    <div className="c-2-3 level-decription">
+    <div className="c-2-3 level-description">
       {level.description}
     </div>
   </div>
