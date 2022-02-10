@@ -89,6 +89,7 @@ coverage[toml]==6.3.1
     #   pytest-cov
 cryptography==36.0.1
     # via
+    #   -r requirements.in
     #   pyopenssl
     #   urllib3
 cssselect==1.1.0
@@ -515,7 +516,6 @@ six==1.16.0
     #   airtable-python-wrapper
     #   allure-pytest
     #   allure-python-commons
-    #   asttokens
     #   django-extensions
     #   elasticsearch-dsl
     #   flake8-debugger
