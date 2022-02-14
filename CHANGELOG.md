@@ -3,11 +3,17 @@
 ## Pre release
 
 ### Enhancements
+
+- GLS-103 - update Homepage hero
+
 ### Hotfix
+
 ### Bugs fixed
 
 ## [2.3.0](https://github.com/uktrade/great-cms/releases/tag/2.3.0)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.2.0...2.3.0)
+
 ### Bugs fixed
 
 - GLS-69 - SECURITY: great-cms frontend asset vulnerabilities: `node-fetch` and `nanoid`
