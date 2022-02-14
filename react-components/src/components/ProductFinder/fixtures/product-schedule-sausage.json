@@ -1,0 +1,544 @@
+{
+  "uom": null,
+  "duties": null,
+  "errorCode": null,
+  "desc": null,
+  "code": null,
+  "children": [
+    {
+      "uom": "",
+      "duties": {},
+      "errorCode": null,
+      "desc": "SECTION IV - PREPARED FOODSTUFFS; BEVERAGES, SPIRITS AND VINEGAR; TOBACCO AND MANUFACTURED TOBACCO SUBSTITUTES",
+      "code": "IV",
+      "children": [
+        {
+          "uom": "",
+          "duties": {},
+          "errorCode": null,
+          "desc": "CHAPTER 16 - PREPARATIONS OF MEAT, OF FISH OR OF CRUSTACEANS, MOLLUSCS OR OTHER AQUATIC INVERTEBRATES",
+          "code": "16",
+          "children": [
+            {
+              "uom": "",
+              "duties": {},
+              "errorCode": null,
+              "desc": "Sausages and similar products, of meat, meat offal, blood or insects; food preparations based on these products.",
+              "code": "1601",
+              "children": [
+                {
+                  "uom": "",
+                  "duties": {},
+                  "errorCode": null,
+                  "desc": "- Of liver",
+                  "code": "",
+                  "children": [
+                    {
+                      "uom": "",
+                      "duties": {},
+                      "errorCode": null,
+                      "desc": "-- Of animals of headings 0101 to 0104, excluding wild boars",
+                      "code": "",
+                      "children": [
+                        {
+                          "uom": "",
+                          "duties": {},
+                          "errorCode": null,
+                          "desc": "--- Sausages",
+                          "code": "",
+                          "children": [
+                            {
+                              "uom": "",
+                              "duties": {
+                                "Canada": {
+                                  "name": "Canada",
+                                  "longName": "Canada",
+                                  "rate": "0.00%",
+                                  "type": "Other",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                },
+                                "All Countries Duty Rate": {
+                                  "name": "All Countries Duty Rate",
+                                  "longName": "All Countries Duty Rate",
+                                  "rate": "14.00%",
+                                  "type": "General",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                }
+                              },
+                              "errorCode": null,
+                              "desc": "---- Waxed sausages of chicken, pork and fresh liver",
+                              "code": "1601001011",
+                              "children": [],
+                              "errorMessage": null,
+                              "id": "1601001011",
+                              "type": "ITEM"
+                            },
+                            {
+                              "uom": "",
+                              "duties": {
+                                "Canada": {
+                                  "name": "Canada",
+                                  "longName": "Canada",
+                                  "rate": "0.00%",
+                                  "type": "Other",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                },
+                                "All Countries Duty Rate": {
+                                  "name": "All Countries Duty Rate",
+                                  "longName": "All Countries Duty Rate",
+                                  "rate": "14.00%",
+                                  "type": "General",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                }
+                              },
+                              "errorCode": null,
+                              "desc": "---- Other",
+                              "code": "1601001015",
+                              "children": [],
+                              "errorMessage": null,
+                              "id": "1601001015",
+                              "type": "ITEM"
+                            }
+                          ],
+                          "errorMessage": null,
+                          "id": "1601*01*01*01",
+                          "type": "ORPHAN"
+                        },
+                        {
+                          "uom": "",
+                          "duties": {
+                            "Canada": {
+                              "name": "Canada",
+                              "longName": "Canada",
+                              "rate": "0.00%",
+                              "type": "Other",
+                              "nonAVEquivalent": null,
+                              "meursing": false
+                            },
+                            "All Countries Duty Rate": {
+                              "name": "All Countries Duty Rate",
+                              "longName": "All Countries Duty Rate",
+                              "rate": "14.00%",
+                              "type": "General",
+                              "nonAVEquivalent": null,
+                              "meursing": false
+                            }
+                          },
+                          "errorCode": null,
+                          "desc": "--- Other",
+                          "code": "1601001019",
+                          "children": [],
+                          "errorMessage": null,
+                          "id": "1601001019",
+                          "type": "ITEM"
+                        }
+                      ],
+                      "errorMessage": null,
+                      "id": "1601*01*01",
+                      "type": "ORPHAN"
+                    },
+                    {
+                      "uom": "",
+                      "duties": {},
+                      "errorCode": null,
+                      "desc": "-- Other",
+                      "code": "",
+                      "children": [
+                        {
+                          "uom": "",
+                          "duties": {},
+                          "errorCode": null,
+                          "desc": "--- Sausages",
+                          "code": "",
+                          "children": [
+                            {
+                              "uom": "",
+                              "duties": {
+                                "Canada": {
+                                  "name": "Canada",
+                                  "longName": "Canada",
+                                  "rate": "0.00%",
+                                  "type": "Other",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                },
+                                "All Countries Duty Rate": {
+                                  "name": "All Countries Duty Rate",
+                                  "longName": "All Countries Duty Rate",
+                                  "rate": "14.00%",
+                                  "type": "General",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                }
+                              },
+                              "errorCode": null,
+                              "desc": "---- Waxed sausages of chicken, pork and fresh liver",
+                              "code": "1601001091",
+                              "children": [],
+                              "errorMessage": null,
+                              "id": "1601001091",
+                              "type": "ITEM"
+                            },
+                            {
+                              "uom": "",
+                              "duties": {
+                                "Canada": {
+                                  "name": "Canada",
+                                  "longName": "Canada",
+                                  "rate": "0.00%",
+                                  "type": "Other",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                },
+                                "All Countries Duty Rate": {
+                                  "name": "All Countries Duty Rate",
+                                  "longName": "All Countries Duty Rate",
+                                  "rate": "14.00%",
+                                  "type": "General",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                }
+                              },
+                              "errorCode": null,
+                              "desc": "---- Other",
+                              "code": "1601001095",
+                              "children": [],
+                              "errorMessage": null,
+                              "id": "1601001095",
+                              "type": "ITEM"
+                            }
+                          ],
+                          "errorMessage": null,
+                          "id": "1601*01*02*01",
+                          "type": "ORPHAN"
+                        },
+                        {
+                          "uom": "",
+                          "duties": {
+                            "Canada": {
+                              "name": "Canada",
+                              "longName": "Canada",
+                              "rate": "0.00%",
+                              "type": "Other",
+                              "nonAVEquivalent": null,
+                              "meursing": false
+                            },
+                            "All Countries Duty Rate": {
+                              "name": "All Countries Duty Rate",
+                              "longName": "All Countries Duty Rate",
+                              "rate": "14.00%",
+                              "type": "General",
+                              "nonAVEquivalent": null,
+                              "meursing": false
+                            }
+                          },
+                          "errorCode": null,
+                          "desc": "--- Other",
+                          "code": "1601001099",
+                          "children": [],
+                          "errorMessage": null,
+                          "id": "1601001099",
+                          "type": "ITEM"
+                        }
+                      ],
+                      "errorMessage": null,
+                      "id": "1601*01*02",
+                      "type": "ORPHAN"
+                    }
+                  ],
+                  "errorMessage": null,
+                  "id": "1601*01",
+                  "type": "ORPHAN"
+                },
+                {
+                  "uom": "",
+                  "duties": {},
+                  "errorCode": null,
+                  "desc": "- Other",
+                  "code": "",
+                  "children": [
+                    {
+                      "uom": "",
+                      "duties": {},
+                      "errorCode": null,
+                      "desc": "-- Sausages, dry or for spreading, uncooked",
+                      "code": "",
+                      "children": [
+                        {
+                          "uom": "",
+                          "duties": {
+                            "Canada": {
+                              "name": "Canada",
+                              "longName": "Canada",
+                              "rate": "0.00%",
+                              "type": "Other",
+                              "nonAVEquivalent": null,
+                              "meursing": false
+                            },
+                            "All Countries Duty Rate": {
+                              "name": "All Countries Duty Rate",
+                              "longName": "All Countries Duty Rate",
+                              "rate": "125.00 GBP / 100 kg",
+                              "type": "General",
+                              "nonAVEquivalent": null,
+                              "meursing": false
+                            }
+                          },
+                          "errorCode": null,
+                          "desc": "--- Waxed sausages of chicken, pork and fresh liver",
+                          "code": "1601009105",
+                          "children": [],
+                          "errorMessage": null,
+                          "id": "1601009105",
+                          "type": "ITEM"
+                        },
+                        {
+                          "uom": "",
+                          "duties": {},
+                          "errorCode": null,
+                          "desc": "--- Other",
+                          "code": "",
+                          "children": [
+                            {
+                              "uom": "",
+                              "duties": {
+                                "Canada": {
+                                  "name": "Canada",
+                                  "longName": "Canada",
+                                  "rate": "0.00%",
+                                  "type": "Other",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                },
+                                "All Countries Duty Rate": {
+                                  "name": "All Countries Duty Rate",
+                                  "longName": "All Countries Duty Rate",
+                                  "rate": "125.00 GBP / 100 kg",
+                                  "type": "General",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                }
+                              },
+                              "errorCode": null,
+                              "desc": "---- Of animals of headings 0101 to 0104, excluding wild boars",
+                              "code": "1601009110",
+                              "children": [],
+                              "errorMessage": null,
+                              "id": "1601009110",
+                              "type": "ITEM"
+                            },
+                            {
+                              "uom": "",
+                              "duties": {
+                                "Canada": {
+                                  "name": "Canada",
+                                  "longName": "Canada",
+                                  "rate": "0.00%",
+                                  "type": "Other",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                },
+                                "All Countries Duty Rate": {
+                                  "name": "All Countries Duty Rate",
+                                  "longName": "All Countries Duty Rate",
+                                  "rate": "125.00 GBP / 100 kg",
+                                  "type": "General",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                }
+                              },
+                              "errorCode": null,
+                              "desc": "---- Other",
+                              "code": "1601009190",
+                              "children": [],
+                              "errorMessage": null,
+                              "id": "1601009190",
+                              "type": "ITEM"
+                            }
+                          ],
+                          "errorMessage": null,
+                          "id": "1601*02*01*01",
+                          "type": "ORPHAN"
+                        }
+                      ],
+                      "errorMessage": null,
+                      "id": "1601*02*01",
+                      "type": "ORPHAN"
+                    },
+                    {
+                      "uom": "",
+                      "duties": {},
+                      "errorCode": null,
+                      "desc": "-- Other",
+                      "code": "",
+                      "children": [
+                        {
+                          "uom": "",
+                          "duties": {},
+                          "errorCode": null,
+                          "desc": "--- Of animals of headings 0101 to 0104, excluding wild boars",
+                          "code": "",
+                          "children": [
+                            {
+                              "uom": "",
+                              "duties": {
+                                "Canada": {
+                                  "name": "Canada",
+                                  "longName": "Canada",
+                                  "rate": "0.00%",
+                                  "type": "Other",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                },
+                                "All Countries Duty Rate": {
+                                  "name": "All Countries Duty Rate",
+                                  "longName": "All Countries Duty Rate",
+                                  "rate": "84.00 GBP / 100 kg",
+                                  "type": "General",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                }
+                              },
+                              "errorCode": null,
+                              "desc": "---- Sausages",
+                              "code": "1601009911",
+                              "children": [],
+                              "errorMessage": null,
+                              "id": "1601009911",
+                              "type": "ITEM"
+                            },
+                            {
+                              "uom": "",
+                              "duties": {
+                                "Canada": {
+                                  "name": "Canada",
+                                  "longName": "Canada",
+                                  "rate": "0.00%",
+                                  "type": "Other",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                },
+                                "All Countries Duty Rate": {
+                                  "name": "All Countries Duty Rate",
+                                  "longName": "All Countries Duty Rate",
+                                  "rate": "84.00 GBP / 100 kg",
+                                  "type": "General",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                }
+                              },
+                              "errorCode": null,
+                              "desc": "---- Other",
+                              "code": "1601009919",
+                              "children": [],
+                              "errorMessage": null,
+                              "id": "1601009919",
+                              "type": "ITEM"
+                            }
+                          ],
+                          "errorMessage": null,
+                          "id": "1601*02*02*01",
+                          "type": "ORPHAN"
+                        },
+                        {
+                          "uom": "",
+                          "duties": {},
+                          "errorCode": null,
+                          "desc": "--- Other",
+                          "code": "",
+                          "children": [
+                            {
+                              "uom": "",
+                              "duties": {
+                                "Canada": {
+                                  "name": "Canada",
+                                  "longName": "Canada",
+                                  "rate": "0.00%",
+                                  "type": "Other",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                },
+                                "All Countries Duty Rate": {
+                                  "name": "All Countries Duty Rate",
+                                  "longName": "All Countries Duty Rate",
+                                  "rate": "84.00 GBP / 100 kg",
+                                  "type": "General",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                }
+                              },
+                              "errorCode": null,
+                              "desc": "---- Sausages",
+                              "code": "1601009991",
+                              "children": [],
+                              "errorMessage": null,
+                              "id": "1601009991",
+                              "type": "ITEM"
+                            },
+                            {
+                              "uom": "",
+                              "duties": {
+                                "Canada": {
+                                  "name": "Canada",
+                                  "longName": "Canada",
+                                  "rate": "0.00%",
+                                  "type": "Other",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                },
+                                "All Countries Duty Rate": {
+                                  "name": "All Countries Duty Rate",
+                                  "longName": "All Countries Duty Rate",
+                                  "rate": "84.00 GBP / 100 kg",
+                                  "type": "General",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                }
+                              },
+                              "errorCode": null,
+                              "desc": "---- Other",
+                              "code": "1601009999",
+                              "children": [],
+                              "errorMessage": null,
+                              "id": "1601009999",
+                              "type": "ITEM"
+                            }
+                          ],
+                          "errorMessage": null,
+                          "id": "1601*02*02*02",
+                          "type": "ORPHAN"
+                        }
+                      ],
+                      "errorMessage": null,
+                      "id": "1601*02*02",
+                      "type": "ORPHAN"
+                    }
+                  ],
+                  "errorMessage": null,
+                  "id": "1601*02",
+                  "type": "ORPHAN"
+                }
+              ],
+              "errorMessage": null,
+              "id": "1601",
+              "type": "HEADING"
+            }
+          ],
+          "errorMessage": null,
+          "id": "16",
+          "type": "CHAPTER"
+        }
+      ],
+      "errorMessage": null,
+      "id": "00_04",
+      "type": "SECTION"
+    }
+  ],
+  "errorMessage": null,
+  "id": null,
+  "type": null
+}

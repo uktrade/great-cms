@@ -353,23 +353,31 @@ export default function ProductFinderModal(props) {
       className: 'box box--no-pointer m-t-s',
       content: (
         <>
-          <h2 className="body-l-b m-b-xs" >Example</h2>
-          <div className='g-panel'>
-            <div className="grid m-b-xxs">
-              <div className="c-1-3 body-l-b">Chapter</div>
-              <div className="c-2-3 body-l">Edible fruit and nuts, peel of citrus fruit or melons</div>
+          <h2 className="body-l-b m-b-xs">Example</h2>
+          <div className="g-panel m-v-xs classification-tree">
+            <div className="grid m-b-xxs m-f-xxs br-xs body-l classification-tree__line">
+              <div className="c-1-3 type-heading">
+                Chapter
+              </div>
+              <div className="c-2-3 level-description">
+                Edible fruit and nuts, peel of citrus fruit or melons
+              </div>
             </div>
-            <div className="grid m-b-xxs">
-              <div className="c-1-3 body-l-b">Heading</div>
-              <div className="c-2-3 body-l">Apples pears and quinces, fresh</div>
+            <div className="grid m-b-xxs m-f-xxs br-xs body-l classification-tree__line">
+              <div className="c-1-3 type-heading">
+                Heading
+              </div>
+              <div className="c-2-3 level-description">
+                Apples pears and quinces, fresh
+              </div>
             </div>
-            <div className="grid m-b-xxs">
-              <div className="c-1-3 body-l-b">Sub-heading</div>
-              <div className="c-2-3 body-l">Apples</div>
-            </div>
-            <div className="grid m-b-xxs">
-              <div className="c-1-3 body-l-b">Sub-heading</div>
-              <div className="c-2-3 body-l">Pears</div>
+            <div className="grid m-b-xxs m-f-xxs br-xs body-l bg-white classification-tree__line">
+              <div className="c-1-3 type-heading">
+                Sub-heading
+              </div>
+              <div className="c-2-3 level-description">
+                Apples
+              </div>
             </div>
           </div>
         </>

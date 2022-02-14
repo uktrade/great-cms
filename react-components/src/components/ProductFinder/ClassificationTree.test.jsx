@@ -1,58 +1,13 @@
-/* eslint-disable */
-import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react'
 import fetchMock from 'fetch-mock'
+import { render, waitFor } from '@testing-library/react'
+
 import Services from '@src/Services'
-import { waitFor } from '@testing-library/react'
-import { act, Simulate } from 'react-dom/test-utils'
-import ClassificationTree from './ClassificationTree'
+import ClassificationTree, { buildClassificationTree } from './ClassificationTree'
 
-let container
-
-const mockResponse = {
-  uom: null,
-  duties: null,
-  errorCode: null,
-  desc: null,
-  code: null,
-  errorMessage: null,
-  id: null,
-  type: null,
-  children: [
-    {
-      children: [
-        {
-          children: [
-            {
-              children: [
-                {
-                  children: [],
-                  desc: '- Processed cheese, not grated or powdered',
-                  code: '040630',
-                  errorMessage: null,
-                  id: '040630',
-                  type: 'ITEM',
-                },
-              ],
-              desc: 'cheese and curd.',
-              code: '0406',
-              type: 'HEADING',
-            },
-          ],
-          desc:
-            "CHAPTER 4 - DAIRY PRODUCE; BIRDS' EGGS; NATURAL HONEY; EDIBLE PRODUCTS OF ANIMAL ORIGIN, NOT ELSEWHERE SPECIFIED OR INCLUDED",
-          code: '04',
-          type: 'CHAPTER',
-        },
-      ],
-      desc: 'SECTION I - LIVE ANIMALS; ANIMAL PRODUCTS',
-      code: 'I',
-      errorMessage: null,
-      id: '00_01',
-      type: 'SECTION',
-    },
-  ],
-}
+import mockScheduleCheese from './fixtures/product-schedule-cheese.json'
+import mockScheduleSoftware from './fixtures/product-schedule-software.json'
+import mockScheduleSausage from './fixtures/product-schedule-sausage.json'
 
 const mockErrorResponse = {
   uom: null,
@@ -65,52 +20,114 @@ const mockErrorResponse = {
   type: null,
   children: [],
 }
+
+describe('Product tree builder', () => {
+  it('returns CHAPTER, HEADING and ITEM when an exact HS6 code match is found', () => {
+    const treeLines = buildClassificationTree('040630', mockScheduleCheese)
+
+    expect(treeLines).toEqual([
+      {
+        type: 'CHAPTER',
+        description: 'Dairy produce; birds\' eggs; natural honey; edible products of animal origin, not elsewhere specified or included',
+        id: '04',
+      },
+      { type: 'HEADING', description: 'Cheese and curd.', id: '0406' },
+      { type: 'ITEM', description: 'Processed cheese, not grated or powdered', id: '040630', leaf: true },
+    ])
+  })
+
+  it('uses the ORPHAN under HEADING as ITEM if no exact match found and the orphan has no siblings', () => {
+    const treeLines = buildClassificationTree('852329', mockScheduleSoftware)
+
+    expect(treeLines).toEqual([
+      {
+        type: 'CHAPTER',
+        description: 'Electrical machinery and equipment and parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles',
+        id: '85',
+      },
+      {
+        type: 'HEADING',
+        description: 'Discs, tapes, solid-state non-volatile storage devices, “smart cards” and other media for the recording of sound or of other phenomena, whether or not recorded, including matrices and masters for the production of discs, but excluding products of chapter 37.',
+        id: '8523',
+      },
+      { type: 'ITEM', description: 'Magnetic media', id: '8523*01', leaf: true },
+    ])
+  })
+
+  it('repeats the HEADING as ITEM if no exact HS6 code match and no suitable ORPHAN found', () => {
+    const treeLines = buildClassificationTree('160100', mockScheduleSausage)
+
+    expect(treeLines).toEqual([
+      {
+        type: 'CHAPTER',
+        description: 'Preparations of meat, of fish or of crustaceans, molluscs or other aquatic invertebrates',
+        id: '16',
+      },
+      {
+        type: 'HEADING',
+        description: 'Sausages and similar products, of meat, meat offal, blood or insects; food preparations based on these products.',
+        id: '1601',
+      },
+      {
+        type: 'ITEM',
+        description: 'Sausages and similar products, of meat, meat offal, blood or insects; food preparations based on these products.',
+        id: 'leaf',
+        leaf: true,
+      },
+    ])
+  })
+})
+
 describe('Classification tree', () => {
   beforeEach(() => {
-    container = document.createElement('div')
-    document.body.appendChild(container)
     Services.setConfig({
       apiLookupProductScheduleUrl: '/api/lookup-product-schedule/',
     })
   })
 
   afterEach(() => {
-    document.body.removeChild(container)
-    container = null
     fetchMock.restore()
   })
 
-  it('Renders a classification tree', async () => {
-    const hsCode = '123456'
-    fetchMock.get(/\/api\/lookup-product-schedule\//, mockResponse)
+  it('Renders a spinner while fetching schedule', async () => {
+    fetchMock.get(/\/api\/lookup-product-schedule\//, mockScheduleCheese)
 
-    act(() => {
-      ReactDOM.render(<ClassificationTree hsCode={hsCode} />, container)
-    })
+    const { container } = render(<ClassificationTree hsCode="040630" />)
+
+    expect(container.querySelector('.spinner')).toBeTruthy()
+
+    await waitFor(() => container.querySelector('.classification-tree'))
+
+    expect(container.querySelector('.spinner')).toBeNull()
+  })
+
+  it('Renders a classification tree', async () => {
+    fetchMock.get(/\/api\/lookup-product-schedule\//, mockScheduleCheese)
+
+    const { container, queryByText } = render(<ClassificationTree hsCode="040630" />)
+
     await waitFor(() => {
-      let results = container.querySelector('.classification-tree')
-      expect(results).toBeTruthy()
+      expect(container.querySelector('.classification-tree')).toBeTruthy()
     })
-    let levels = container.querySelectorAll('.classification-tree .grid')
-    expect(levels.length).toEqual(3)
-    expect(levels[2].textContent).toMatch(
-      'Processed cheese, not grated or powdered'
-    )
+
+    expect(queryByText('LIVE ANIMALS; ANIMAL PRODUCTS', { exact: false })).toBeNull()
+
+    const levels = container.querySelectorAll('.classification-tree .grid')
+
+    expect(levels).toHaveLength(3)
+    expect(levels[0].textContent).toMatch('Dairy produce; birds\' eggs; natural honey; edible products of animal origin, not elsewhere specified or included')
     expect(levels[1].textContent).toMatch('Cheese and curd.')
-    expect(levels[0].textContent).toMatch(
-      "Dairy produce; birds' eggs; natural honey; edible products of animal origin, not elsewhere specified or included"
-    )
+    expect(levels[2].textContent).toMatch('Processed cheese, not grated or powdered')
   })
 
   it('Renders an error', async () => {
     fetchMock.get(/\/api\/lookup-product-schedule\//, mockErrorResponse)
-    act(() => {
-      ReactDOM.render(<ClassificationTree hsCode={'123462'} />, container)
-    })
+
+    const { container } = render(<ClassificationTree hsCode="123462" />)
+
     await waitFor(() => {
-      let results = container.querySelector('.classification-tree')
-      expect(results && results.textContent).toMatch(
-        'Unable to show classification tree'
+      expect(container.querySelector('.classification-tree').textContent).toMatch(
+        'Unable to show classification tree',
       )
     })
   })

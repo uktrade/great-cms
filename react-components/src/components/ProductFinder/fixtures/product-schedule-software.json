@@ -1,0 +1,168 @@
+{
+  "uom": null,
+  "duties": null,
+  "errorCode": null,
+  "desc": null,
+  "code": null,
+  "children": [
+    {
+      "uom": "",
+      "duties": {},
+      "errorCode": null,
+      "desc": "SECTION XVI - MACHINERY AND MECHANICAL APPLIANCES; ELECTRICAL EQUIPMENT; PARTS THEREOF; SOUND RECORDERS AND REPRODUCERS, TELEVISION IMAGE AND SOUND RECORDERS AND REPRODUCERS, AND PARTS AND ACCESSORIES OF SUCH ARTICLES",
+      "code": "XVI",
+      "children": [
+        {
+          "uom": "",
+          "duties": {},
+          "errorCode": null,
+          "desc": "CHAPTER 85 - ELECTRICAL MACHINERY AND EQUIPMENT AND PARTS THEREOF; SOUND RECORDERS AND REPRODUCERS, TELEVISION IMAGE AND SOUND RECORDERS AND REPRODUCERS, AND PARTS AND ACCESSORIES OF SUCH ARTICLES",
+          "code": "85",
+          "children": [
+            {
+              "uom": "",
+              "duties": {},
+              "errorCode": null,
+              "desc": "Discs, tapes, solid-state non-volatile storage devices, “smart cards” and other media for the recording of sound or of other phenomena, whether or not recorded, including matrices and masters for the production of discs, but excluding products of Chapter 37.",
+              "code": "8523",
+              "children": [
+                {
+                  "uom": "",
+                  "duties": {},
+                  "errorCode": null,
+                  "desc": "- Magnetic media",
+                  "code": "",
+                  "children": [
+                    {
+                      "uom": "",
+                      "duties": {},
+                      "errorCode": null,
+                      "desc": "-- Other",
+                      "code": "",
+                      "children": [
+                        {
+                          "uom": "",
+                          "duties": {},
+                          "errorCode": null,
+                          "desc": "--- Magnetic tapes; magnetic discs",
+                          "code": "",
+                          "children": [
+                            {
+                              "uom": "p/st",
+                              "duties": {
+                                "Canada": {
+                                  "name": "Canada",
+                                  "longName": "Canada",
+                                  "rate": "0.00%",
+                                  "type": "Other",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                },
+                                "All Countries Duty Rate": {
+                                  "name": "All Countries Duty Rate",
+                                  "longName": "All Countries Duty Rate",
+                                  "rate": "0.00%",
+                                  "type": "General",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                }
+                              },
+                              "errorCode": null,
+                              "desc": "---- Unrecorded",
+                              "code": "8523291500",
+                              "children": [],
+                              "errorMessage": null,
+                              "id": "85232915",
+                              "type": "ITEM"
+                            },
+                            {
+                              "uom": "p/st",
+                              "duties": {
+                                "Canada": {
+                                  "name": "Canada",
+                                  "longName": "Canada",
+                                  "rate": "0.00%",
+                                  "type": "Other",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                },
+                                "All Countries Duty Rate": {
+                                  "name": "All Countries Duty Rate",
+                                  "longName": "All Countries Duty Rate",
+                                  "rate": "0.00%",
+                                  "type": "General",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                }
+                              },
+                              "errorCode": null,
+                              "desc": "---- Other",
+                              "code": "8523291900",
+                              "children": [],
+                              "errorMessage": null,
+                              "id": "85232919",
+                              "type": "ITEM"
+                            }
+                          ],
+                          "errorMessage": null,
+                          "id": "8523*01*01*01",
+                          "type": "ORPHAN"
+                        },
+                        {
+                          "uom": "",
+                          "duties": {
+                            "Canada": {
+                              "name": "Canada",
+                              "longName": "Canada",
+                              "rate": "0.00%",
+                              "type": "Other",
+                              "nonAVEquivalent": null,
+                              "meursing": false
+                            },
+                            "All Countries Duty Rate": {
+                              "name": "All Countries Duty Rate",
+                              "longName": "All Countries Duty Rate",
+                              "rate": "0.00%",
+                              "type": "General",
+                              "nonAVEquivalent": null,
+                              "meursing": false
+                            }
+                          },
+                          "errorCode": null,
+                          "desc": "--- Other",
+                          "code": "8523299000",
+                          "children": [],
+                          "errorMessage": null,
+                          "id": "85232990",
+                          "type": "ITEM"
+                        }
+                      ],
+                      "errorMessage": null,
+                      "id": "8523*01*01",
+                      "type": "ORPHAN"
+                    }
+                  ],
+                  "errorMessage": null,
+                  "id": "8523*01",
+                  "type": "ORPHAN"
+                }
+              ],
+              "errorMessage": null,
+              "id": "8523",
+              "type": "HEADING"
+            }
+          ],
+          "errorMessage": null,
+          "id": "85",
+          "type": "CHAPTER"
+        }
+      ],
+      "errorMessage": null,
+      "id": "00_16",
+      "type": "SECTION"
+    }
+  ],
+  "errorMessage": null,
+  "id": null,
+  "type": null
+}
