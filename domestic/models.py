@@ -242,10 +242,12 @@ class GreatDomesticHomePage(
         related_name='+',
     )
     hero_text = models.TextField(null=True, blank=True)
+    hero_subtitle = models.TextField(null=True, blank=True)
     hero_cta_text = models.CharField(null=True, blank=True, max_length=255)
     hero_cta_url = models.CharField(null=True, blank=True, max_length=255)
     # Signed in versions
     hero_text_signedin = models.TextField(null=True, blank=True)
+    hero_subtitle_signedin = models.TextField(null=True, blank=True)
     hero_cta_text_signedin = models.CharField(null=True, blank=True, max_length=255)
     hero_cta_url_signedin = models.CharField(null=True, blank=True, max_length=255)
     # EU exit chevrons StreamField WAS here in V1 - no longer the case

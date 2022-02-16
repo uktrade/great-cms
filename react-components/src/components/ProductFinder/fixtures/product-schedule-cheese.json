@@ -1,0 +1,264 @@
+{
+  "uom": null,
+  "duties": null,
+  "errorCode": null,
+  "desc": null,
+  "code": null,
+  "children": [
+    {
+      "uom": "",
+      "duties": {},
+      "errorCode": null,
+      "desc": "SECTION I - LIVE ANIMALS; ANIMAL PRODUCTS",
+      "code": "I",
+      "children": [
+        {
+          "uom": "",
+          "duties": {},
+          "errorCode": null,
+          "desc": "CHAPTER 4 - DAIRY PRODUCE; BIRDS' EGGS; NATURAL HONEY; EDIBLE PRODUCTS OF ANIMAL ORIGIN, NOT ELSEWHERE SPECIFIED OR INCLUDED",
+          "code": "04",
+          "children": [
+            {
+              "uom": "",
+              "duties": {},
+              "errorCode": null,
+              "desc": "Cheese and curd.",
+              "code": "0406",
+              "children": [
+                {
+                  "uom": "",
+                  "duties": {},
+                  "errorCode": null,
+                  "desc": "- Processed cheese, not grated or powdered",
+                  "code": "040630",
+                  "children": [
+                    {
+                      "uom": "",
+                      "duties": {},
+                      "errorCode": null,
+                      "desc": "-- In the manufacture of which no cheeses other than Emmentaler, Gruyère and Appenzell have been used and which may contain, as an addition, Glarus herb cheese (known as Schabziger); put up for retail sale, of a fat content by weight in the dry matter not exceeding 56 %",
+                      "code": "04063010",
+                      "children": [
+                        {
+                          "uom": "",
+                          "duties": {
+                            "Canada": {
+                              "name": "Canada",
+                              "longName": "Canada",
+                              "rate": "0.00%",
+                              "type": "Other",
+                              "nonAVEquivalent": null,
+                              "meursing": false
+                            },
+                            "All Countries Duty Rate": {
+                              "name": "All Countries Duty Rate",
+                              "longName": "All Countries Duty Rate",
+                              "rate": "121.00 GBP / 100 kg",
+                              "type": "General",
+                              "nonAVEquivalent": null,
+                              "meursing": false
+                            }
+                          },
+                          "errorCode": null,
+                          "desc": "--- Processed Emmentaler",
+                          "code": "0406301010",
+                          "children": [],
+                          "errorMessage": null,
+                          "id": "0406301010",
+                          "type": "ITEM"
+                        },
+                        {
+                          "uom": "",
+                          "duties": {
+                            "Canada": {
+                              "name": "Canada",
+                              "longName": "Canada",
+                              "rate": "0.00%",
+                              "type": "Other",
+                              "nonAVEquivalent": null,
+                              "meursing": false
+                            },
+                            "All Countries Duty Rate": {
+                              "name": "All Countries Duty Rate",
+                              "longName": "All Countries Duty Rate",
+                              "rate": "121.00 GBP / 100 kg",
+                              "type": "General",
+                              "nonAVEquivalent": null,
+                              "meursing": false
+                            }
+                          },
+                          "errorCode": null,
+                          "desc": "--- Processed Gruyère",
+                          "code": "0406301020",
+                          "children": [],
+                          "errorMessage": null,
+                          "id": "0406301020",
+                          "type": "ITEM"
+                        },
+                        {
+                          "uom": "",
+                          "duties": {
+                            "Canada": {
+                              "name": "Canada",
+                              "longName": "Canada",
+                              "rate": "0.00%",
+                              "type": "Other",
+                              "nonAVEquivalent": null,
+                              "meursing": false
+                            },
+                            "All Countries Duty Rate": {
+                              "name": "All Countries Duty Rate",
+                              "longName": "All Countries Duty Rate",
+                              "rate": "121.00 GBP / 100 kg",
+                              "type": "General",
+                              "nonAVEquivalent": null,
+                              "meursing": false
+                            }
+                          },
+                          "errorCode": null,
+                          "desc": "--- Other",
+                          "code": "0406301090",
+                          "children": [],
+                          "errorMessage": null,
+                          "id": "0406301090",
+                          "type": "ITEM"
+                        }
+                      ],
+                      "errorMessage": null,
+                      "id": "04063010",
+                      "type": "ITEM"
+                    },
+                    {
+                      "uom": "",
+                      "duties": {},
+                      "errorCode": null,
+                      "desc": "-- Other",
+                      "code": "",
+                      "children": [
+                        {
+                          "uom": "",
+                          "duties": {},
+                          "errorCode": null,
+                          "desc": "--- Of a fat content, by weight, not exceeding 36 % and of a fat content, by weight, in the dry matter",
+                          "code": "04063031",
+                          "children": [
+                            {
+                              "uom": "",
+                              "duties": {
+                                "Canada": {
+                                  "name": "Canada",
+                                  "longName": "Canada",
+                                  "rate": "0.00%",
+                                  "type": "Other",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                },
+                                "All Countries Duty Rate": {
+                                  "name": "All Countries Duty Rate",
+                                  "longName": "All Countries Duty Rate",
+                                  "rate": "116.00 GBP / 100 kg",
+                                  "type": "General",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                }
+                              },
+                              "errorCode": null,
+                              "desc": "---- Not exceeding 48 %",
+                              "code": "0406303100",
+                              "children": [],
+                              "errorMessage": null,
+                              "id": "04063031_1",
+                              "type": "ITEM"
+                            },
+                            {
+                              "uom": "",
+                              "duties": {
+                                "Canada": {
+                                  "name": "Canada",
+                                  "longName": "Canada",
+                                  "rate": "0.00%",
+                                  "type": "Other",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                },
+                                "All Countries Duty Rate": {
+                                  "name": "All Countries Duty Rate",
+                                  "longName": "All Countries Duty Rate",
+                                  "rate": "121.00 GBP / 100 kg",
+                                  "type": "General",
+                                  "nonAVEquivalent": null,
+                                  "meursing": false
+                                }
+                              },
+                              "errorCode": null,
+                              "desc": "---- Exceeding 48 %",
+                              "code": "0406303900",
+                              "children": [],
+                              "errorMessage": null,
+                              "id": "04063039",
+                              "type": "ITEM"
+                            }
+                          ],
+                          "errorMessage": null,
+                          "id": "04063031",
+                          "type": "ITEM"
+                        },
+                        {
+                          "uom": "",
+                          "duties": {
+                            "Canada": {
+                              "name": "Canada",
+                              "longName": "Canada",
+                              "rate": "0.00%",
+                              "type": "Other",
+                              "nonAVEquivalent": null,
+                              "meursing": false
+                            },
+                            "All Countries Duty Rate": {
+                              "name": "All Countries Duty Rate",
+                              "longName": "All Countries Duty Rate",
+                              "rate": "179.00 GBP / 100 kg",
+                              "type": "General",
+                              "nonAVEquivalent": null,
+                              "meursing": false
+                            }
+                          },
+                          "errorCode": null,
+                          "desc": "--- Of a fat content, by weight, exceeding 36 %",
+                          "code": "0406309000",
+                          "children": [],
+                          "errorMessage": null,
+                          "id": "04063090",
+                          "type": "ITEM"
+                        }
+                      ],
+                      "errorMessage": null,
+                      "id": "040630*01",
+                      "type": "ORPHAN"
+                    }
+                  ],
+                  "errorMessage": null,
+                  "id": "040630",
+                  "type": "ITEM"
+                }
+              ],
+              "errorMessage": null,
+              "id": "0406",
+              "type": "HEADING"
+            }
+          ],
+          "errorMessage": null,
+          "id": "04",
+          "type": "CHAPTER"
+        }
+      ],
+      "errorMessage": null,
+      "id": "00_01",
+      "type": "SECTION"
+    }
+  ],
+  "errorMessage": null,
+  "id": null,
+  "type": null
+}
