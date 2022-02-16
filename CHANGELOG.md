@@ -4,11 +4,13 @@
 
 ### Enhancements
 
+- GLS-103 - update Homepage hero
+
 ### Hotfix
 
 ### Bugs fixed
 
-- GLS-103 - Card styles issue
+- GLS-106 - Card styles issue
 
 ## [2.3.0](https://github.com/uktrade/great-cms/releases/tag/2.3.0)
 
