@@ -6,8 +6,9 @@
     "test": "jest -w 1 react-components/",
     "test:dev": "jest --watch",
     "watch": "webpack --watch --config react-components/webpack.config.js --mode development",
-    "build-dev": "webpack --config react-components/webpack.config.js --mode development",
-    "build": "npm install great-styles; webpack --config react-components/webpack.config.js --mode production"
+    "build": "npm install great-styles; webpack --config react-components/webpack.config.js --mode production",
+    "build:dev": "webpack --config react-components/webpack.config.js --mode development",
+    "build-domestic": "sass --load-path=domestic/sass --style=compressed domestic/sass:domestic/static/styles"
   },
   "jest": {
     "globalSetup": "react-components/setupJest.js"

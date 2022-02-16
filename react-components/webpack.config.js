@@ -1,5 +1,4 @@
 const path = require('path')
-const glob = require('glob');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const RemovePlugin = require('remove-files-webpack-plugin')
@@ -177,15 +176,9 @@ module.exports = {
       after: {
         include: [
           './react-components/dist/magna_styles.js',
-          './react-components/dist/magna_styles.js.map',
-          './react-components/dist/magna.css',
-          './react-components/dist/magna.css.map',
           './react-components/dist/loggedout_styles.js',
-          './react-components/dist/loggedout_styles.js.map',
           './react-components/dist/components_styles.js',
-          './react-components/dist/components_styles.js.map',
           './react-components/dist/profile_styles.js',
-          './react-components/dist/profile_styles.js.map',
         ],
       },
     }),
