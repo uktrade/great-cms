@@ -4,6 +4,7 @@
 
 ### Enhancements
 
+- GLS-34 - Improve product classification tree rendering
 - GLS-103 - update Homepage hero
 
 ### Hotfix
@@ -23,7 +24,6 @@
 
 ### Enhancements
 
-- GLS-34 - Improve product classification tree rendering
 - GLS-85 - remove heading from homepage
 - GLS-80 - migration to opensearch
 - GLS-9 - Improve accessibility of learning content reveals
