@@ -2,7 +2,19 @@
 
 ## Pre release
 
+### Enhancements
+
+- GLS-103 - update Homepage hero
+
 ### Hotfix
+
+### Bugs fixed
+
+- GLS-106 - Card styles issue
+
+## [2.3.0](https://github.com/uktrade/great-cms/releases/tag/2.3.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.2.0...2.3.0)
 
 ### Bugs fixed
 
@@ -11,6 +23,7 @@
 
 ### Enhancements
 
+- GLS-34 - Improve product classification tree rendering
 - GLS-85 - remove heading from homepage
 - GLS-80 - migration to opensearch
 - GLS-9 - Improve accessibility of learning content reveals

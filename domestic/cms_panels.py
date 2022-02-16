@@ -26,10 +26,12 @@ class GreatDomesticHomePagePanels:
             children=[
                 ImageChooserPanel('hero_image'),
                 FieldPanel('hero_text'),
+                FieldPanel('hero_subtitle'),
                 FieldPanel('hero_cta_text'),
                 FieldPanel('hero_cta_url'),
                 # Signed in fields
                 FieldPanel('hero_text_signedin'),
+                FieldPanel('hero_subtitle_signedin'),
                 FieldPanel('hero_cta_text_signedin'),
                 FieldPanel('hero_cta_url_signedin'),
             ],
