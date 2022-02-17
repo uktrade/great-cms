@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import Modal from 'react-modal'
 import CookieManager from './dit.components.cookie-notice'
+import { analytics } from '@src/Helpers'
 
 import styles from './CookiesModal.css'
 
@@ -14,9 +15,8 @@ export function CookiesModal(props) {
   function handleAcceptAllCookies(event) {
     CookieManager.acceptAllCookiesAndShowSuccess(event)
 
-    window.dataLayer = window.dataLayer || []
-    window.dataLayer.push({ event: 'cookies_policy_accept' })
-    window.dataLayer.push({ event: 'gtm.dom' })
+    analytics({ event: 'cookies_policy_accept' })
+    analytics({ event: 'gtm.dom' })
 
     setIsOpen(false)
   }
