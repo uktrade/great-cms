@@ -6,6 +6,8 @@
 
 ### Bugs fixed
 
+- GLS-74 - load analytics on user cookies accept
+
 ### Enhancements
 
 ## [2.4.0](https://github.com/uktrade/great-cms/releases/tag/2.4.0)
