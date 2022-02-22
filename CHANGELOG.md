@@ -2,11 +2,22 @@
 
 ## Pre release
 
+### Hotfix
+
+### Bugs fixed
+
+- GLS-74 - load analytics on user cookies accept
+
 ### Enhancements
 
-- GLS-103 - update Homepage hero
+## [2.4.0](https://github.com/uktrade/great-cms/releases/tag/2.4.0)
 
-### Hotfix
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.3.0...2.4.0)
+
+### Enhancements
+
+- GLS-34 - Improve product classification tree rendering
+- GLS-103 - update Homepage hero
 
 ### Bugs fixed
 
@@ -23,7 +34,6 @@
 
 ### Enhancements
 
-- GLS-34 - Improve product classification tree rendering
 - GLS-85 - remove heading from homepage
 - GLS-80 - migration to opensearch
 - GLS-9 - Improve accessibility of learning content reveals
