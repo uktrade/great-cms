@@ -343,6 +343,8 @@ def test_fact_sheet_columns(
                 'intro_cta_two_link': 'https://example.com/2/',
                 'intro_cta_three_title': 'CTA 3 title',
                 'intro_cta_three_link': 'https://example.com/3/',
+                'intro_cta_four_title': 'CTA 4 title',
+                'intro_cta_four_link': 'https://example.com/4/',
             },
             [
                 {
@@ -356,6 +358,10 @@ def test_fact_sheet_columns(
                 {
                     'title': 'CTA 3 title',
                     'link': 'https://example.com/3/',
+                },
+                {
+                    'title': 'CTA 4 title',
+                    'link': 'https://example.com/4/',
                 },
             ],
         ),
@@ -397,7 +403,7 @@ def test_fact_sheet_columns(
             {
                 'intro_cta_one_title': 'CTA 1 title',
                 'intro_cta_one_link': 'https://example.com/1/',
-                'intro_cta_two_title': 'CTA 2 title',  #  missing link
+                'intro_cta_two_title': 'CTA 2 title',  # missing link
                 'intro_cta_three_link': 'https://example.com/3/',  # missing title
             },
             [

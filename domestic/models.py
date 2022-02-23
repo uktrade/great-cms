@@ -659,6 +659,16 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         blank=True,
         verbose_name='CTA 3 link',
     )
+    intro_cta_four_title = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name='CTA 4 title',
+    )
+    intro_cta_four_link = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name='CTA 4 link',
+    )
 
     section_one_body = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
@@ -857,8 +867,12 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
             'title': self.intro_cta_three_title,
             'link': self.intro_cta_three_link,
         }
+        cta_4 = {
+            'title': self.intro_cta_four_title,
+            'link': self.intro_cta_four_link,
+        }
 
-        for cta in [cta_1, cta_2, cta_3]:
+        for cta in [cta_1, cta_2, cta_3, cta_4]:
             if all(cta.values()):
                 ctas.append(cta)
 

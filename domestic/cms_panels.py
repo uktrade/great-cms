@@ -282,6 +282,12 @@ class CountryGuidePagePanels:
                                 FieldPanel('intro_cta_three_title'),
                             ]
                         ),
+                        MultiFieldPanel(
+                            [
+                                FieldPanel('intro_cta_four_link'),
+                                FieldPanel('intro_cta_four_title'),
+                            ]
+                        ),
                     ]
                 ),
             ],
