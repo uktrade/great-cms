@@ -10,6 +10,8 @@
 
 ### Enhancements
 
+- GLS-113 - add 4th item to Country Guide CTA links
+
 ## [2.4.0](https://github.com/uktrade/great-cms/releases/tag/2.4.0)
 
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.3.0...2.4.0)
