@@ -616,32 +616,25 @@ class TestSmallSnippets(TestCase):
 
         # NB: slugs are not automatically set.
         # The SlugField is about valiation, not auto-population by default
-        country1 = Country.objects.create(
-            name='Test Country',
-            slug='test-country',
-        )
-        country2 = Country.objects.create(
-            name='Other Country',
-            slug='other-country',
-            region=region,
-        )
-        country_unicode = Country.objects.create(
-            name='Téßt Country',
-            slug='tt-country',
-        )
+        country1 = Country.objects.create(name='Test Country', slug='test-country', iso2='TC')
+        country2 = Country.objects.create(name='Other Country', slug='other-country', region=region, iso2='OC')
+        country_unicode = Country.objects.create(name='Téßt Country', slug='tt-country', iso2='TT')
 
         self.assertEqual(country1.name, 'Test Country')
         self.assertEqual(country1.slug, 'test-country')
+        self.assertEqual(country1.iso2, 'TC')
         self.assertEqual(country1.region, None)
         self.assertEqual(f'{country1}', 'Test Country')  #  tests __str__
 
         self.assertEqual(country2.name, 'Other Country')
         self.assertEqual(country2.slug, 'other-country')
+        self.assertEqual(country2.iso2, 'OC')
         self.assertEqual(country2.region, region)
 
         self.assertEqual(country_unicode.name, 'Téßt Country')
         # by default, ASCII only - https://docs.djangoproject.com/en/2.2/ref/utils/#django.utils.text.slugify
         self.assertEqual(country_unicode.slug, 'tt-country')
+        self.assertEqual(country_unicode.iso2, 'TT')
         self.assertEqual(country_unicode.region, None)
         self.assertEqual(f'{country_unicode}', 'Téßt Country')  #  tests __str__
 
