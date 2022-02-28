@@ -669,26 +669,6 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         blank=True,
         verbose_name='CTA 4 link',
     )
-    intro_cta_five_title = models.CharField(
-        max_length=500,
-        blank=True,
-        verbose_name='CTA 5 title',
-    )
-    intro_cta_five_link = models.CharField(
-        max_length=500,
-        blank=True,
-        verbose_name='CTA 5 link',
-    )
-    intro_cta_six_title = models.CharField(
-        max_length=500,
-        blank=True,
-        verbose_name='CTA 6 title',
-    )
-    intro_cta_six_link = models.CharField(
-        max_length=500,
-        blank=True,
-        verbose_name='CTA 6 link',
-    )
 
     section_one_body = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
@@ -801,6 +781,11 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         null=True,
         verbose_name='Check duties and customs procedures for exporting goods',
     )
+    trade_barriers_cta_link = models.URLField(
+        blank=True,
+        null=True,
+        verbose_name='Trade barriers link',
+    )
 
     # related pages
     related_page_one = models.ForeignKey(
@@ -892,12 +877,12 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
             'link': self.intro_cta_four_link,
         }
         cta_5 = {
-            'title': self.intro_cta_five_title,
-            'link': self.intro_cta_five_link,
+            'title': 'Check duties and customs',
+            'link': self.duties_and_custom_procedures_cta_link,
         }
         cta_6 = {
-            'title': self.intro_cta_six_title,
-            'link': self.intro_cta_six_link,
+            'title': 'Check for trade barriers',
+            'link': self.trade_barriers_cta_link,
         }
 
         for cta in [cta_1, cta_2, cta_3, cta_4, cta_5, cta_6]:

@@ -345,10 +345,8 @@ def test_fact_sheet_columns(
                 'intro_cta_three_link': 'https://example.com/3/',
                 'intro_cta_four_title': 'CTA 4 title',
                 'intro_cta_four_link': 'https://example.com/4/',
-                'intro_cta_five_title': 'CTA 5 title',
-                'intro_cta_five_link': 'https://example.com/5/',
-                'intro_cta_six_title': 'CTA 6 title',
-                'intro_cta_six_link': 'https://example.com/6/',
+                'duties_and_custom_procedures_cta_link': 'https://example.com/5/',
+                'trade_barriers_cta_link': 'https://example.com/6/',
             },
             [
                 {
@@ -368,11 +366,11 @@ def test_fact_sheet_columns(
                     'link': 'https://example.com/4/',
                 },
                 {
-                    'title': 'CTA 5 title',
+                    'title': 'Check duties and customs',
                     'link': 'https://example.com/5/',
                 },
                 {
-                    'title': 'CTA 6 title',
+                    'title': 'Check for trade barriers',
                     'link': 'https://example.com/6/',
                 },
             ],

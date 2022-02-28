@@ -20,10 +20,6 @@ def test_organise_ctas(domestic_homepage):
         'intro_cta_three_link': 'https://www.events.great.gov.uk/ehome/index.php?eventid=200183029&',
         'intro_cta_four_title': '',
         'intro_cta_four_link': '',
-        'intro_cta_five_title': '',
-        'intro_cta_five_link': '',
-        'intro_cta_six_title': '',
-        'intro_cta_six_link': '',
     }
 
     country = CountryFactory(name='Antigua and Barbuda', slug='antigua-and-barbuda', iso2='AG')
@@ -63,14 +59,12 @@ def test_organise_ctas(domestic_homepage):
         guide.intro_cta_four_link == 'https://www.great.gov.uk/selling-online-overseas/markets/results'
         '/?category_id=&country_id=344&commit='
     )
-    assert guide.intro_cta_five_title == 'Check duties and customs'
     assert (
-        guide.intro_cta_five_link == 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
+        guide.duties_and_custom_procedures_cta_link == 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
         '/searchproduct?d=AG'
     )
-    assert guide.intro_cta_six_title == 'Check for trade barriers'
     assert (
-        guide.intro_cta_six_link == 'https://www.check-international-trade-barriers.service.gov.uk/barriers'
+        guide.trade_barriers_cta_link == 'https://www.check-international-trade-barriers.service.gov.uk/barriers'
         '/?resolved=0&location=ag'
     )
 
@@ -106,7 +100,3 @@ def test_organise_ctas_custom_events_link(domestic_homepage):
     )
     assert guide.intro_cta_four_title == ''
     assert guide.intro_cta_four_link == ''
-    assert guide.intro_cta_five_title == ''
-    assert guide.intro_cta_five_link == ''
-    assert guide.intro_cta_six_title == ''
-    assert guide.intro_cta_six_link == ''

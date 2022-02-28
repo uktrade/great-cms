@@ -76,24 +76,19 @@ class Command(BaseCommand):
                 guide.intro_cta_four_link = ''
                 dry_print(f'{guide.heading}: no online marketplace link found')
 
-            # Link for duties and customs procedures is guide.duties_and_custom_procedures_cta_link,
-            if guide.duties_and_custom_procedures_cta_link:
-                guide.intro_cta_five_title = 'Check duties and customs'
-                guide.intro_cta_five_link = guide.duties_and_custom_procedures_cta_link
-            else:
-                guide.intro_cta_five_title = ''
-                guide.intro_cta_five_link = ''
-                dry_print(f'{guide.heading}: no duties and customs link found')
-
-            # Link for trade barriers is derived from the linked country iso2 code
+            # Link for duties and customs and trade barriers links are derived from the linked country iso2 code
             iso2 = getattr(guide.country, 'iso2', None)
-            if iso2:
-                guide.intro_cta_six_title = 'Check for trade barriers'
-                guide.intro_cta_six_link = f'https://www.check-international-trade-barriers.service.gov.uk/barriers/?resolved=0&location={iso2.lower()}'  # noqa
-            else:
-                guide.intro_cta_six_title = ''
-                guide.intro_cta_six_link = ''
-                dry_print(f'{guide.heading}: no ISO2 code found')
+            if not guide.duties_and_custom_procedures_cta_link:
+                if iso2:
+                    guide.duties_and_custom_procedures_cta_link = f'https://www.check-duties-customs-exporting-goods.service.gov.uk/searchproduct?d={iso2}'  # noqa
+                else:
+                    dry_print(f'{guide.heading}: no ISO2 code to generate duties and customs link')
+
+            if not guide.trade_barriers_cta_link:
+                if iso2:
+                    guide.trade_barriers_cta_link = f'https://www.check-international-trade-barriers.service.gov.uk/barriers/?resolved=0&location={iso2.lower()}'  # noqa
+                else:
+                    dry_print(f'{guide.heading}: no ISO2 code to generate trade barriers link')
 
             if options['dry_run'] is False:
                 guide.save()
