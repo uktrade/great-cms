@@ -32,7 +32,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):  # noqa: C901
         def dry_print(message):
             if options['dry_run']:
-                print(message)
+                self.stdout.write(message)
 
         updated = 0
 
@@ -49,27 +49,21 @@ class Command(BaseCommand):
             else:
                 guide.intro_cta_one_title = ''
                 guide.intro_cta_one_link = ''
-                dry_print('{}: no export opportunities link found'.format(guide.heading))
+                dry_print(f'{guide.heading}: no export opportunities link found')
 
             # Link for Export events should be reused if it doesn't match old url. Derive new link otherwise
             export_events_cta = next((x for x in intro_ctas if 'export events' in x['title']), None)
             guide.intro_cta_two_title = 'Find export events'
             if export_events_cta and 'events.great.gov.uk/' not in export_events_cta['link']:
                 guide.intro_cta_two_link = export_events_cta['link']
-                dry_print('{}: found custom export events link ({})'.format(guide.heading, export_events_cta['link']))
+                dry_print(f'{guide.heading}: found custom export events link ({guide.intro_cta_two_link})')
             else:
-                guide.intro_cta_two_link = (
-                    'https://www.events.great.gov.uk/ehome/trade-events-calendar/all-events'
-                    '/?keyword={}'.format(urllib.parse.quote(guide.heading))
-                )
+                guide.intro_cta_two_link = f'https://www.events.great.gov.uk/ehome/trade-events-calendar/all-events/?keyword={urllib.parse.quote(guide.heading)}'  # noqa
 
             # Link for factsheet is for now based on start letter of country name
             letter_range = factsheets_links[next(x for x in factsheets_links if guide.heading[0] in x)]
             guide.intro_cta_three_title = 'View trade and investment factsheets'
-            guide.intro_cta_three_link = (
-                'https://www.gov.uk/government/statistics/trade-and-investment-factsheets'
-                '-partner-names-beginning-with-{}'.format(letter_range)
-            )
+            guide.intro_cta_three_link = f'https://www.gov.uk/government/statistics/trade-and-investment-factsheets-partner-names-beginning-with-{letter_range}'  # noqa
 
             # Link for online marketplace cannot be derived from existing data,
             # ignore if not already set otherwise reuse
@@ -80,7 +74,7 @@ class Command(BaseCommand):
             else:
                 guide.intro_cta_four_title = ''
                 guide.intro_cta_four_link = ''
-                dry_print('{}: no online marketplace link found'.format(guide.heading))
+                dry_print(f'{guide.heading}: no online marketplace link found')
 
             # Link for duties and customs procedures is guide.duties_and_custom_procedures_cta_link,
             if guide.duties_and_custom_procedures_cta_link:
@@ -89,20 +83,17 @@ class Command(BaseCommand):
             else:
                 guide.intro_cta_five_title = ''
                 guide.intro_cta_five_link = ''
-                dry_print('{}: no duties and customs link found'.format(guide.heading))
+                dry_print(f'{guide.heading}: no duties and customs link found')
 
             # Link for trade barriers is derived from the linked country iso2 code
             iso2 = getattr(guide.country, 'iso2', None)
             if iso2:
                 guide.intro_cta_six_title = 'Check for trade barriers'
-                guide.intro_cta_six_link = (
-                    'https://www.check-international-trade-barriers.service.gov.uk/barriers'
-                    '/?resolved=0&location={}'.format(iso2.lower())
-                )
+                guide.intro_cta_six_link = f'https://www.check-international-trade-barriers.service.gov.uk/barriers/?resolved=0&location={iso2.lower()}'  # noqa
             else:
                 guide.intro_cta_six_title = ''
                 guide.intro_cta_six_link = ''
-                dry_print('{}: no ISO2 code found'.format(guide.heading))
+                dry_print(f'{guide.heading}: no ISO2 code found')
 
             if options['dry_run'] is False:
                 guide.save()
@@ -112,6 +103,6 @@ class Command(BaseCommand):
         if options['dry_run'] is True:
             self.stdout.write(self.style.WARNING('Dry run -- no data updated.'))
         else:
-            self.stdout.write(self.style.SUCCESS('Successfully updated {} Country Guides'.format(updated)))
+            self.stdout.write(self.style.SUCCESS(f'Successfully updated {updated} Country Guides'))
 
         self.stdout.write(self.style.SUCCESS('All done, bye!'))
