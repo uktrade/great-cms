@@ -6,11 +6,16 @@
 
 ### Bugs fixed
 
-- GLS-74 - load analytics on user cookies accept
-
 ### Enhancements
 
 - GLS-113 - add 4th item to Country Guide CTA links
+## [2.4.1](https://github.com/uktrade/great-cms/releases/tag/2.4.1)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.4.0...2.4.1)
+
+### Bugs fixed
+
+- GLS-74 - load analytics on user cookies accept
 
 ## [2.4.0](https://github.com/uktrade/great-cms/releases/tag/2.4.0)
 
