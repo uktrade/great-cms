@@ -287,8 +287,8 @@ class CountryGuidePagePanels:
                     ]
                 ),
                 HelpPanel(
-                    content='<p style="font-weight: bold; font-style: italic;">The \'Duties and customs\' and \'Trade '
-                    'barriers\' links will be automatically added to the CTAs '
+                    content='<p style="font-weight: bold; font-style: italic;">The "Duties and customs" and "Trade '
+                    'barriers" links will be automatically added to the CTAs '
                     'if they have been entered further down</p>',
                 ),
             ],
