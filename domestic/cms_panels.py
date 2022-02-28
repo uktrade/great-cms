@@ -264,30 +264,38 @@ class CountryGuidePagePanels:
                 FieldPanel('heading_teaser'),
                 FieldRowPanel(
                     [
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('intro_cta_one_link'),
-                                FieldPanel('intro_cta_one_title'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('intro_cta_two_link'),
-                                FieldPanel('intro_cta_two_title'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('intro_cta_three_link'),
-                                FieldPanel('intro_cta_three_title'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('intro_cta_four_link'),
-                                FieldPanel('intro_cta_four_title'),
-                            ]
-                        ),
+                        FieldPanel('intro_cta_one_title'),
+                        FieldPanel('intro_cta_one_link'),
+                    ]
+                ),
+                FieldRowPanel(
+                    [
+                        FieldPanel('intro_cta_two_title'),
+                        FieldPanel('intro_cta_two_link'),
+                    ]
+                ),
+                FieldRowPanel(
+                    [
+                        FieldPanel('intro_cta_three_title'),
+                        FieldPanel('intro_cta_three_link'),
+                    ]
+                ),
+                FieldRowPanel(
+                    [
+                        FieldPanel('intro_cta_four_title'),
+                        FieldPanel('intro_cta_four_link'),
+                    ]
+                ),
+                FieldRowPanel(
+                    [
+                        FieldPanel('intro_cta_five_title'),
+                        FieldPanel('intro_cta_five_link'),
+                    ]
+                ),
+                FieldRowPanel(
+                    [
+                        FieldPanel('intro_cta_six_title'),
+                        FieldPanel('intro_cta_six_link'),
                     ]
                 ),
             ],
