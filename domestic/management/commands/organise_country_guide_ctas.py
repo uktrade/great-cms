@@ -1,3 +1,4 @@
+import argparse
 import urllib.parse
 
 from django.core.management import BaseCommand
@@ -20,7 +21,21 @@ factsheets_links = {
 class Command(BaseCommand):
     help = 'Update, set defaults and reorder Country Guide CTAs'
 
-    def handle(self, *args, **kwargs):
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--dry_run',
+            action=argparse.BooleanOptionalAction,
+            default=False,
+            help='Show summary output only, do not update data',
+        )
+
+    def handle(self, *args, **options):  # noqa: C901
+        def dry_print(message):
+            if options['dry_run']:
+                print(message)
+
+        updated = 0
+
         for guide in CountryGuidePage.objects.all():
 
             intro_ctas = guide.intro_ctas
@@ -34,14 +49,14 @@ class Command(BaseCommand):
             else:
                 guide.intro_cta_one_title = ''
                 guide.intro_cta_one_link = ''
-                print('No export opportunities link found for {}'.format(guide.heading))
+                dry_print('{}: no export opportunities link found'.format(guide.heading))
 
             # Link for Export events should be reused if it doesn't match old url. Derive new link otherwise
             export_events_cta = next((x for x in intro_ctas if 'export events' in x['title']), None)
             guide.intro_cta_two_title = 'Find export events'
             if export_events_cta and 'events.great.gov.uk/' not in export_events_cta['link']:
                 guide.intro_cta_two_link = export_events_cta['link']
-                print('Custom export events link found for {} ({})'.format(guide.heading, export_events_cta['link']))
+                dry_print('{}: found custom export events link ({})'.format(guide.heading, export_events_cta['link']))
             else:
                 guide.intro_cta_two_link = (
                     'https://www.events.great.gov.uk/ehome/trade-events-calendar/all-events'
@@ -65,7 +80,7 @@ class Command(BaseCommand):
             else:
                 guide.intro_cta_four_title = ''
                 guide.intro_cta_four_link = ''
-                print('No online marketplace link found for {}'.format(guide.heading))
+                dry_print('{}: no online marketplace link found'.format(guide.heading))
 
             # Link for duties and customs procedures is guide.duties_and_custom_procedures_cta_link,
             if guide.duties_and_custom_procedures_cta_link:
@@ -74,7 +89,7 @@ class Command(BaseCommand):
             else:
                 guide.intro_cta_five_title = ''
                 guide.intro_cta_five_link = ''
-                print('No duties and customs link found for {}'.format(guide.heading))
+                dry_print('{}: no duties and customs link found'.format(guide.heading))
 
             # Link for trade barriers is derived from the linked country iso2 code
             iso2 = getattr(guide.country, 'iso2', None)
@@ -87,8 +102,16 @@ class Command(BaseCommand):
             else:
                 guide.intro_cta_six_title = ''
                 guide.intro_cta_six_link = ''
-                print('No ISO2 code found for {}'.format(guide.heading))
+                dry_print('{}: no ISO2 code found'.format(guide.heading))
 
-            guide.save()
+            if options['dry_run'] is False:
+                guide.save()
+
+            updated += 1
+
+        if options['dry_run'] is True:
+            self.stdout.write(self.style.WARNING('Dry run -- no data updated.'))
+        else:
+            self.stdout.write(self.style.SUCCESS('Successfully updated {} Country Guides'.format(updated)))
 
         self.stdout.write(self.style.SUCCESS('All done, bye!'))
