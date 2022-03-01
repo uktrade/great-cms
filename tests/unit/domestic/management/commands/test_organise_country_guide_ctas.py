@@ -28,8 +28,6 @@ def test_organise_ctas(domestic_homepage):
         parent=domestic_homepage,
         title='Test Country Guide for Antigua and Barbuda',
         heading='Antigua and Barbuda',
-        duties_and_custom_procedures_cta_link='https://www.check-duties-customs-exporting-goods.service.gov.uk'
-        '/searchproduct?d=AG',
         country=country,
         **ctas,
     )
@@ -58,14 +56,6 @@ def test_organise_ctas(domestic_homepage):
     assert (
         guide.intro_cta_four_link == 'https://www.great.gov.uk/selling-online-overseas/markets/results'
         '/?category_id=&country_id=344&commit='
-    )
-    assert (
-        guide.duties_and_custom_procedures_cta_link == 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
-        '/searchproduct?d=AG'
-    )
-    assert (
-        guide.trade_barriers_cta_link == 'https://www.check-international-trade-barriers.service.gov.uk/barriers'
-        '/?resolved=0&location=ag'
     )
 
 

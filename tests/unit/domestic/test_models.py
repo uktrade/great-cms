@@ -36,6 +36,7 @@ from domestic.models import (
 )
 from tests.helpers import SetUpLocaleMixin, create_response
 from tests.unit.core.factories import (
+    CountryFactory,
     CuratedListPageFactory,
     DetailPageFactory,
     LessonPlaceholderPageFactory,
@@ -345,8 +346,7 @@ def test_fact_sheet_columns(
                 'intro_cta_three_link': 'https://example.com/3/',
                 'intro_cta_four_title': 'CTA 4 title',
                 'intro_cta_four_link': 'https://example.com/4/',
-                'duties_and_custom_procedures_cta_link': 'https://example.com/5/',
-                'trade_barriers_cta_link': 'https://example.com/6/',
+                'iso2': 'FR',
             },
             [
                 {
@@ -367,11 +367,12 @@ def test_fact_sheet_columns(
                 },
                 {
                     'title': 'Check duties and customs',
-                    'link': 'https://example.com/5/',
+                    'link': 'https://www.check-duties-customs-exporting-goods.service.gov.uk/searchproduct?d=FR',
                 },
                 {
                     'title': 'Check for trade barriers',
-                    'link': 'https://example.com/6/',
+                    'link': 'https://www.check-international-trade-barriers.service.gov.uk/barriers/'
+                    '?resolved=0&location=fr',
                 },
             ],
         ),
@@ -439,11 +440,19 @@ def test_intro_ctas(
     domestic_homepage,
     domestic_site,
 ):
+    country = CountryFactory(name='France', slug='france')
+
+    iso2 = data.pop('iso2', None)
+    if iso2:
+        country.iso2 = iso2
+
     page = CountryGuidePageFactory(
         parent=domestic_homepage,
         title='Test GCP',
+        country=country,
         **data,
     )
+
     assert page.intro_ctas == expected
 
 

@@ -775,18 +775,6 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         help_text='Use H4 for each sub category heading. Maximum five sub categories. Aim for 50 words each.',
     )
 
-    # need help
-    duties_and_custom_procedures_cta_link = models.URLField(
-        blank=True,
-        null=True,
-        verbose_name='Check duties and customs procedures for exporting goods',
-    )
-    trade_barriers_cta_link = models.URLField(
-        blank=True,
-        null=True,
-        verbose_name='Trade barriers link',
-    )
-
     # related pages
     related_page_one = models.ForeignKey(
         'wagtailcore.Page',
@@ -857,6 +845,23 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         return columns
 
     @property
+    def duties_and_customs_link(self):
+        iso2 = getattr(self.country, 'iso2', None)
+        if iso2:
+            return f'https://www.check-duties-customs-exporting-goods.service.gov.uk/searchproduct?d={iso2}'
+        return None
+
+    @property
+    def trade_barriers_link(self):
+        iso2 = getattr(self.country, 'iso2', None)
+        if iso2:
+            return (
+                f'https://www.check-international-trade-barriers.service.gov.uk/barriers/'
+                f'?resolved=0&location={iso2.lower()}'
+            )
+        return None
+
+    @property
     def intro_ctas(self):
         ctas = []
 
@@ -878,11 +883,11 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         }
         cta_5 = {
             'title': 'Check duties and customs',
-            'link': self.duties_and_custom_procedures_cta_link,
+            'link': self.duties_and_customs_link,
         }
         cta_6 = {
             'title': 'Check for trade barriers',
-            'link': self.trade_barriers_cta_link,
+            'link': self.trade_barriers_link,
         }
 
         for cta in [cta_1, cta_2, cta_3, cta_4, cta_5, cta_6]:

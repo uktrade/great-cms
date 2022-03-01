@@ -76,20 +76,6 @@ class Command(BaseCommand):
                 guide.intro_cta_four_link = ''
                 dry_print(f'{guide.heading}: no online marketplace link found')
 
-            # Link for duties and customs and trade barriers links are derived from the linked country iso2 code
-            iso2 = getattr(guide.country, 'iso2', None)
-            if not guide.duties_and_custom_procedures_cta_link:
-                if iso2:
-                    guide.duties_and_custom_procedures_cta_link = f'https://www.check-duties-customs-exporting-goods.service.gov.uk/searchproduct?d={iso2}'  # noqa
-                else:
-                    dry_print(f'{guide.heading}: no ISO2 code to generate duties and customs link')
-
-            if not guide.trade_barriers_cta_link:
-                if iso2:
-                    guide.trade_barriers_cta_link = f'https://www.check-international-trade-barriers.service.gov.uk/barriers/?resolved=0&location={iso2.lower()}'  # noqa
-                else:
-                    dry_print(f'{guide.heading}: no ISO2 code to generate trade barriers link')
-
             if options['dry_run'] is False:
                 guide.save()
 

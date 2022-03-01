@@ -288,8 +288,8 @@ class CountryGuidePagePanels:
                 ),
                 HelpPanel(
                     content='<p style="font-weight: bold; font-style: italic;">The "Duties and customs" and "Trade '
-                    'barriers" links will be automatically added to the CTAs '
-                    'if they have been entered further down</p>',
+                    'barriers" links will be automatically added to the CTAs based on the linked Country in '
+                    'settings.</p>',
                 ),
             ],
         ),
@@ -354,11 +354,6 @@ class CountryGuidePagePanels:
                     ]
                 ),
             ],
-        ),
-        MultiFieldPanel(
-            heading='Need help',
-            classname='collapsible',
-            children=[FieldPanel('duties_and_custom_procedures_cta_link'), FieldPanel('trade_barriers_cta_link')],
         ),
         MultiFieldPanel(
             heading='News and events',
