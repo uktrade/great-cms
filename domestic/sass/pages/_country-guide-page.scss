@@ -19,11 +19,6 @@
         padding-right: math.div(1, 9) * 100%;
       }
     }
-    @media (max-width: 768px) {
-      .links {
-        display: none;
-      }
-    }
   }
 
   @media (min-width: 769px) {

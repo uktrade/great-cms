@@ -264,25 +264,32 @@ class CountryGuidePagePanels:
                 FieldPanel('heading_teaser'),
                 FieldRowPanel(
                     [
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('intro_cta_one_link'),
-                                FieldPanel('intro_cta_one_title'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('intro_cta_two_link'),
-                                FieldPanel('intro_cta_two_title'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('intro_cta_three_link'),
-                                FieldPanel('intro_cta_three_title'),
-                            ]
-                        ),
+                        FieldPanel('intro_cta_one_title'),
+                        FieldPanel('intro_cta_one_link'),
                     ]
+                ),
+                FieldRowPanel(
+                    [
+                        FieldPanel('intro_cta_two_title'),
+                        FieldPanel('intro_cta_two_link'),
+                    ]
+                ),
+                FieldRowPanel(
+                    [
+                        FieldPanel('intro_cta_three_title'),
+                        FieldPanel('intro_cta_three_link'),
+                    ]
+                ),
+                FieldRowPanel(
+                    [
+                        FieldPanel('intro_cta_four_title'),
+                        FieldPanel('intro_cta_four_link'),
+                    ]
+                ),
+                HelpPanel(
+                    content='<p style="font-weight: bold; font-style: italic;">The "Duties and customs" and "Trade '
+                    'barriers" links will be automatically added to the CTAs based on the linked Country in '
+                    'settings.</p>',
                 ),
             ],
         ),
@@ -347,9 +354,6 @@ class CountryGuidePagePanels:
                     ]
                 ),
             ],
-        ),
-        MultiFieldPanel(
-            heading='Need help', classname='collapsible', children=[FieldPanel('duties_and_custom_procedures_cta_link')]
         ),
         MultiFieldPanel(
             heading='News and events',

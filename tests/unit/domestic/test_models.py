@@ -36,6 +36,7 @@ from domestic.models import (
 )
 from tests.helpers import SetUpLocaleMixin, create_response
 from tests.unit.core.factories import (
+    CountryFactory,
     CuratedListPageFactory,
     DetailPageFactory,
     LessonPlaceholderPageFactory,
@@ -343,6 +344,9 @@ def test_fact_sheet_columns(
                 'intro_cta_two_link': 'https://example.com/2/',
                 'intro_cta_three_title': 'CTA 3 title',
                 'intro_cta_three_link': 'https://example.com/3/',
+                'intro_cta_four_title': 'CTA 4 title',
+                'intro_cta_four_link': 'https://example.com/4/',
+                'iso2': 'FR',
             },
             [
                 {
@@ -356,6 +360,19 @@ def test_fact_sheet_columns(
                 {
                     'title': 'CTA 3 title',
                     'link': 'https://example.com/3/',
+                },
+                {
+                    'title': 'CTA 4 title',
+                    'link': 'https://example.com/4/',
+                },
+                {
+                    'title': 'Check duties and customs',
+                    'link': 'https://www.check-duties-customs-exporting-goods.service.gov.uk/searchproduct?d=FR',
+                },
+                {
+                    'title': 'Check for trade barriers',
+                    'link': 'https://www.check-international-trade-barriers.service.gov.uk/barriers/'
+                    '?resolved=0&location=fr',
                 },
             ],
         ),
@@ -397,7 +414,7 @@ def test_fact_sheet_columns(
             {
                 'intro_cta_one_title': 'CTA 1 title',
                 'intro_cta_one_link': 'https://example.com/1/',
-                'intro_cta_two_title': 'CTA 2 title',  #  missing link
+                'intro_cta_two_title': 'CTA 2 title',  # missing link
                 'intro_cta_three_link': 'https://example.com/3/',  # missing title
             },
             [
@@ -423,11 +440,19 @@ def test_intro_ctas(
     domestic_homepage,
     domestic_site,
 ):
+    country = CountryFactory(name='France', slug='france')
+
+    iso2 = data.pop('iso2', None)
+    if iso2:
+        country.iso2 = iso2
+
     page = CountryGuidePageFactory(
         parent=domestic_homepage,
         title='Test GCP',
+        country=country,
         **data,
     )
+
     assert page.intro_ctas == expected
 
 
