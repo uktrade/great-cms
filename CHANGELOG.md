@@ -9,6 +9,7 @@
 ### Enhancements
 
 - GLS-113 - add extra items and heading to Country Guide CTA links
+- GLS-112 - add Trade barriers and Duties and customs content
 
 ## [2.4.1](https://github.com/uktrade/great-cms/releases/tag/2.4.1)
 

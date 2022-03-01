@@ -849,7 +849,6 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         iso2 = getattr(self.country, 'iso2', None)
         if iso2:
             return f'https://www.check-duties-customs-exporting-goods.service.gov.uk/searchproduct?d={iso2}'
-        return None
 
     @property
     def trade_barriers_link(self):
@@ -859,7 +858,11 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                 f'https://www.check-international-trade-barriers.service.gov.uk/barriers/'
                 f'?resolved=0&location={iso2.lower()}'
             )
-        return None
+
+    @property
+    def trade_barriers_resolved_link(self):
+        if self.trade_barriers_link:
+            return self.trade_barriers_link.replace('resolved=0', 'resolved=1')
 
     @property
     def intro_ctas(self):
