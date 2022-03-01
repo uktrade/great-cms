@@ -28,7 +28,7 @@
       {% if page.intro_ctas %}
       <div class="column-quarter-l links">
         {% if FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS %}
-          <h2 class="heading-medium margin-top-0">Related services:</h2>
+          <h2 class="heading-medium margin-top-0">Related services</h2>
           <div class="panel-vertical-narrow content-list padding-top-30">
             <ul id="country-guide-intro-ctas">
               {% for cta in page.intro_ctas %}
@@ -96,25 +96,22 @@
       <div class="grid-row">
         <div class="column-half-l padding-bottom-30">
           <h2 class="heading-large padding-top-0">Check for trade barriers</h2>
+
           <p>Trade barriers, such as tariffs or taxes, can raise costs, cause delays, or even stop you from exporting. Check for any issues that may impact your business when exporting.</p>
 
-          {% if page.trade_barriers_link %}
-            <p><a class="heading-small link" href="{{ page.trade_barriers_link }}">See current trade barriers</a></p>
+          <p><a class="heading-small link" href="{{ page.trade_barriers_link }}">See current trade barriers</a></p>
+
+          {% if page.trade_barriers_resolved_link %}
             <p><a class="heading-small link" href="{{ page.trade_barriers_resolved_link }}">See resolved trade barriers</a></p>
-          {% else %}
-            <p><a class="heading-small link" href="https://www.check-international-trade-barriers.service.gov.uk/active/">Search trade barriers</a></p>
           {% endif %}
         </div>
 
         <div class="column-half-l padding-bottom-30">
           <h2 class="heading-large padding-top-0">Check duties and customs</h2>
+
           <p>Find information on how to export goods from the UK. View the duties, rules, restrictions, and the documents you need for your products.</p>
 
-          {% if page.duties_and_customs_link %}
-            <p><a class="heading-small link" href="{{ page.duties_and_customs_link }}">See current duties and customs procedures</a></p>
-          {% else %}
-            <p><a class="heading-small link" href="https://www.check-duties-customs-exporting-goods.service.gov.uk/selectdest">Search duties and customs procedures</a></p>
-          {% endif %}
+          <p><a class="heading-small link" href="{{ page.duties_and_customs_link }}">See current duties and customs procedures</a></p>
         </div>
       </div>
     </div>
