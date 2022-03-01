@@ -392,6 +392,14 @@ def test_fact_sheet_columns(
                     'title': 'CTA 3 title',
                     'link': 'https://example.com/3/',
                 },
+                {
+                    'title': 'Check duties and customs',
+                    'link': 'https://www.check-duties-customs-exporting-goods.service.gov.uk',
+                },
+                {
+                    'title': 'Check for trade barriers',
+                    'link': 'https://www.check-international-trade-barriers.service.gov.uk/barriers/',
+                },
             ],
         ),
         (
@@ -404,11 +412,28 @@ def test_fact_sheet_columns(
                     'title': 'CTA 2 title',
                     'link': 'https://example.com/2/',
                 },
+                {
+                    'title': 'Check duties and customs',
+                    'link': 'https://www.check-duties-customs-exporting-goods.service.gov.uk',
+                },
+                {
+                    'title': 'Check for trade barriers',
+                    'link': 'https://www.check-international-trade-barriers.service.gov.uk/barriers/',
+                },
             ],
         ),
         (
             {},
-            [],
+            [
+                {
+                    'title': 'Check duties and customs',
+                    'link': 'https://www.check-duties-customs-exporting-goods.service.gov.uk',
+                },
+                {
+                    'title': 'Check for trade barriers',
+                    'link': 'https://www.check-international-trade-barriers.service.gov.uk/barriers/',
+                },
+            ],
         ),
         (
             {
@@ -421,6 +446,14 @@ def test_fact_sheet_columns(
                 {
                     'title': 'CTA 1 title',
                     'link': 'https://example.com/1/',
+                },
+                {
+                    'title': 'Check duties and customs',
+                    'link': 'https://www.check-duties-customs-exporting-goods.service.gov.uk',
+                },
+                {
+                    'title': 'Check for trade barriers',
+                    'link': 'https://www.check-international-trade-barriers.service.gov.uk/barriers/',
                 },
             ],
         ),

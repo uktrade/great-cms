@@ -40,6 +40,9 @@ from domestic import cms_panels, forms as domestic_forms
 from domestic.helpers import build_route_context, get_lesson_completion_status
 from exportplan.core import helpers as exportplan_helpers
 
+DUTIES_AND_CUSTOMS_SERVICE = 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
+TRADE_BARRIERS_SERVICE = 'https://www.check-international-trade-barriers.service.gov.uk/barriers/'
+
 
 class DataLayerMixin(
     Page,
@@ -846,22 +849,27 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
 
     @property
     def duties_and_customs_link(self):
+        link = DUTIES_AND_CUSTOMS_SERVICE
+
         iso2 = getattr(self.country, 'iso2', None)
         if iso2:
-            return f'https://www.check-duties-customs-exporting-goods.service.gov.uk/searchproduct?d={iso2}'
+            link += f'/searchproduct?d={iso2}'
+
+        return link
 
     @property
     def trade_barriers_link(self):
+        link = TRADE_BARRIERS_SERVICE
+
         iso2 = getattr(self.country, 'iso2', None)
         if iso2:
-            return (
-                f'https://www.check-international-trade-barriers.service.gov.uk/barriers/'
-                f'?resolved=0&location={iso2.lower()}'
-            )
+            link += f'?resolved=0&location={iso2.lower()}'
+
+        return link
 
     @property
     def trade_barriers_resolved_link(self):
-        if self.trade_barriers_link:
+        if 'resolved=0' in self.trade_barriers_link:
             return self.trade_barriers_link.replace('resolved=0', 'resolved=1')
 
     @property
