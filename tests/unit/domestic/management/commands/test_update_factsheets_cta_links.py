@@ -67,6 +67,7 @@ CONTENT_API_M_TO_Z_RESPONSE = {
 @pytest.mark.parametrize(
     'data, expected',
     (
+        ({'title': 'Antigua and Barbuda', 'intro_cta_three_title': '', 'intro_cta_three_link': ''}, ''),
         (
             {'title': 'Antigua and Barbuda', 'intro_cta_three_link': 'http://original-link'},
             'https://assets.publishing.service.gov.uk/124/antigua-and-barbuda-factsheet-2022-02-18.pdf',
@@ -103,7 +104,8 @@ def test_update_factsheets_cta_links(data, expected, domestic_homepage, requests
     requests_mock.get('https://www.gov.uk/api/factsheets-a-to-l', json=CONTENT_API_A_TO_L_RESPONSE)
     requests_mock.get('https://www.gov.uk/api/factsheets-m-to-z', json=CONTENT_API_M_TO_Z_RESPONSE)
 
-    guide = CountryGuidePageFactory(parent=domestic_homepage, **data)
+    intro_cta_three_title = data.pop('intro_cta_three_title', 'View latest trade statistics')
+    guide = CountryGuidePageFactory(parent=domestic_homepage, intro_cta_three_title=intro_cta_three_title, **data)
     guide.save()
 
     call_command('update_factsheets_cta_links', stdout=StringIO())

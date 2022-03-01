@@ -41,19 +41,22 @@ class Command(BaseCommand):
 
         parens_regex = re.compile(r'(The |\(.*\)|,.*)')
         for guide in CountryGuidePage.objects.all():
-            # Remove extra info in parens or after comma, or any preceding 'The ' (e.g. 'The Netherlands')
-            trimmed_title = parens_regex.sub('', guide.title).strip()
-
-            # Ensure name is matched exactly (e.g. do not match 'Indian' for 'India')
-            pdf = next((x for x in attachments if re.search(rf'{trimmed_title}(?!\w)', x['title'])), None)
-
-            if pdf is not None:
-                if not options['dry_run']:
-                    guide.intro_cta_three_link = pdf['url']
-                    guide.save()
-                    updated += 1
+            if guide.intro_cta_three_title != 'View latest trade statistics':
+                self.stdout.write(f'{guide.title}: CTA not present or modified, not updating')
             else:
-                self.stdout.write(f'{guide.title}: no factsheet found')
+                # Remove extra info in parens or after comma, or any preceding 'The ' (e.g. 'The Netherlands')
+                trimmed_title = parens_regex.sub('', guide.title).strip()
+
+                # Ensure name is matched exactly (e.g. do not match 'Indian' for 'India')
+                pdf = next((x for x in attachments if re.search(rf'{trimmed_title}(?!\w)', x['title'])), None)
+
+                if pdf is not None:
+                    if not options['dry_run']:
+                        guide.intro_cta_three_link = pdf['url']
+                        guide.save()
+                        updated += 1
+                else:
+                    self.stdout.write(f'{guide.title}: no factsheet found')
 
         if options['dry_run'] is True:
             self.stdout.write(self.style.WARNING('Dry run -- no data updated.'))
