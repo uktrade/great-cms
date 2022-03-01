@@ -324,7 +324,6 @@ def test_fact_sheet_columns(
     domestic_homepage,
     domestic_site,
 ):
-
     page = CountryGuidePageFactory(
         parent=domestic_homepage,
         title='Test GCP',
@@ -392,6 +391,14 @@ def test_fact_sheet_columns(
                     'title': 'CTA 3 title',
                     'link': 'https://example.com/3/',
                 },
+                {
+                    'title': 'Check duties and customs',
+                    'link': 'https://www.check-duties-customs-exporting-goods.service.gov.uk',
+                },
+                {
+                    'title': 'Check for trade barriers',
+                    'link': 'https://www.check-international-trade-barriers.service.gov.uk/barriers/',
+                },
             ],
         ),
         (
@@ -404,11 +411,28 @@ def test_fact_sheet_columns(
                     'title': 'CTA 2 title',
                     'link': 'https://example.com/2/',
                 },
+                {
+                    'title': 'Check duties and customs',
+                    'link': 'https://www.check-duties-customs-exporting-goods.service.gov.uk',
+                },
+                {
+                    'title': 'Check for trade barriers',
+                    'link': 'https://www.check-international-trade-barriers.service.gov.uk/barriers/',
+                },
             ],
         ),
         (
             {},
-            [],
+            [
+                {
+                    'title': 'Check duties and customs',
+                    'link': 'https://www.check-duties-customs-exporting-goods.service.gov.uk',
+                },
+                {
+                    'title': 'Check for trade barriers',
+                    'link': 'https://www.check-international-trade-barriers.service.gov.uk/barriers/',
+                },
+            ],
         ),
         (
             {
@@ -421,6 +445,14 @@ def test_fact_sheet_columns(
                 {
                     'title': 'CTA 1 title',
                     'link': 'https://example.com/1/',
+                },
+                {
+                    'title': 'Check duties and customs',
+                    'link': 'https://www.check-duties-customs-exporting-goods.service.gov.uk',
+                },
+                {
+                    'title': 'Check for trade barriers',
+                    'link': 'https://www.check-international-trade-barriers.service.gov.uk/barriers/',
                 },
             ],
         ),
@@ -456,6 +488,57 @@ def test_intro_ctas(
     assert page.intro_ctas == expected
 
 
+@pytest.mark.django_db
+def test_trade_and_duties_links(domestic_homepage):
+    country = CountryFactory(name='France', slug='france', iso2='FR')
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        country=country,
+    )
+
+    assert (
+        page.duties_and_customs_link == 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
+        '/searchproduct?d=FR'
+    )
+    assert (
+        page.trade_barriers_link == 'https://www.check-international-trade-barriers.service.gov.uk'
+        '/barriers/?resolved=0&location=fr'
+    )
+    assert (
+        page.trade_barriers_resolved_link == 'https://www.check-international-trade-barriers.service.gov.uk'
+        '/barriers/?resolved=1&location=fr'
+    )
+
+
+@pytest.mark.django_db
+def test_trade_and_duties_links_no_iso(domestic_homepage):
+    country = CountryFactory(name='France', slug='france')
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        country=country,
+    )
+
+    assert page.duties_and_customs_link == 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
+    assert page.trade_barriers_link == 'https://www.check-international-trade-barriers.service.gov.uk/barriers/'
+    assert page.trade_barriers_resolved_link is None
+
+
+@pytest.mark.django_db
+def test_trade_and_duties_links_no_country(domestic_homepage):
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+    )
+
+    assert page.duties_and_customs_link == 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
+    assert page.trade_barriers_link == 'https://www.check-international-trade-barriers.service.gov.uk/barriers/'
+    assert page.trade_barriers_resolved_link is None
+
+
 @pytest.mark.parametrize(
     'related_page_data',
     (
@@ -483,7 +566,6 @@ def test_country_guide_page__related_pages(
     domestic_homepage,
     domestic_site,
 ):
-
     kwargs = {}
 
     for data in related_page_data:
@@ -536,7 +618,6 @@ def test_main_statistics_validation(blocks_to_create, expected_exception_message
     ),
 )
 def test_industry_accordions_validation(blocks_to_create, expected_exception_message):
-
     value = [mock.Mock() for x in range(blocks_to_create)]
 
     if expected_exception_message:
@@ -558,7 +639,6 @@ def test_base_content_page__ancestors_in_app(
     domestic_homepage,
     domestic_site,
 ):
-
     advice_topic_page = TopicLandingPageFactory(
         title='Advice',
         parent=domestic_homepage,
@@ -648,7 +728,6 @@ class TopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(retrieved_page_1.slug, 'advice')
 
     def test_child_pages(self):
-
         advice_topic_page = TopicLandingPageFactory(
             title='Advice',
         )
@@ -852,7 +931,6 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
 
 
 class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
-
     fixtures = ['markets_filtering_fixtures.json']
 
     def setUp(self):
@@ -1190,7 +1268,6 @@ class ArticlePageTests(SetUpLocaleMixin, WagtailPageTests):
         )
 
     def test_get_context(self):
-
         request = RequestFactory().get('/example-path/')
 
         page = ArticlePageFactory(
@@ -1251,7 +1328,6 @@ def test_article_page__related_pages(
     domestic_homepage,
     domestic_site,
 ):
-
     kwargs = {}
 
     for data in related_page_data:
@@ -1358,7 +1434,6 @@ class PerformanceDashboardPageTests(SetUpLocaleMixin, WagtailPageTests):
         )
 
     def test_get_child_dashboards(self):
-
         main_dash = PerformanceDashboardPageFactory(
             product_link=service_urls.SERVICES_GREAT_DOMESTIC,
         )
@@ -1465,7 +1540,6 @@ def test_performance_dashboard_auto_population(product_link, expected, en_locale
 
 
 def test_all_domestic_models_implement_ga360_mixins():
-
     from domestic import models as domestic_models
 
     module_attributes = dir(domestic_models)
@@ -1494,7 +1568,6 @@ def test_all_domestic_models_implement_ga360_mixins():
 
 @override_settings(API_CACHE_DISABLED=True)
 class GreatDomesticHomePageTests(SetUpLocaleMixin, WagtailPageTests):
-
     fixtures = ['markets_filtering_fixtures.json']
 
     def setUp(self):
@@ -1760,7 +1833,6 @@ def test_great_domestic_homepage_geo_redirection__integration(
 
 @pytest.mark.django_db
 def test_great_domestic_homepage_magna_ctas_labels(root_page, client, user):
-
     # Show that the CTAs to Magna/personalised content only have labels shown
     # to signed-out users
     homepage = GreatDomesticHomePageFactory(

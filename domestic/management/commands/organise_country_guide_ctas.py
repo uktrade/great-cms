@@ -44,7 +44,7 @@ class Command(BaseCommand):
             # ignore if not already set otherwise reuse
             export_opportunities_cta = next((x for x in intro_ctas if 'live export opportunities' in x['title']), None)
             if export_opportunities_cta:
-                guide.intro_cta_one_title = 'View live export opportunities'
+                guide.intro_cta_one_title = 'View export opportunities'
                 guide.intro_cta_one_link = export_opportunities_cta['link']
             else:
                 guide.intro_cta_one_title = ''
@@ -53,7 +53,7 @@ class Command(BaseCommand):
 
             # Link for Export events should be reused if it doesn't match old url. Derive new link otherwise
             export_events_cta = next((x for x in intro_ctas if 'export events' in x['title']), None)
-            guide.intro_cta_two_title = 'Find export events'
+            guide.intro_cta_two_title = 'Find latest export events'
             if export_events_cta and 'events.great.gov.uk/' not in export_events_cta['link']:
                 guide.intro_cta_two_link = export_events_cta['link']
                 dry_print(f'{guide.heading}: found custom export events link ({guide.intro_cta_two_link})')
@@ -62,7 +62,7 @@ class Command(BaseCommand):
 
             # Link for factsheet is for now based on start letter of country name
             letter_range = factsheets_links[next(x for x in factsheets_links if guide.heading[0] in x)]
-            guide.intro_cta_three_title = 'View trade and investment factsheets'
+            guide.intro_cta_three_title = 'View latest trade statistics'
             guide.intro_cta_three_link = f'https://www.gov.uk/government/statistics/trade-and-investment-factsheets-partner-names-beginning-with-{letter_range}'  # noqa
 
             # Link for online marketplace cannot be derived from existing data,

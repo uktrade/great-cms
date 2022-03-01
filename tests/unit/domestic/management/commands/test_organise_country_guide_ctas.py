@@ -37,17 +37,17 @@ def test_organise_ctas(domestic_homepage):
 
     guide.refresh_from_db()
 
-    assert guide.intro_cta_one_title == 'View live export opportunities'
+    assert guide.intro_cta_one_title == 'View export opportunities'
     assert (
         guide.intro_cta_one_link == 'https://www.great.gov.uk/export-opportunities/opportunities?s=&areas%5B%5D'
         '=antigua-and-barbuda&commit=Find+opportunities'
     )
-    assert guide.intro_cta_two_title == 'Find export events'
+    assert guide.intro_cta_two_title == 'Find latest export events'
     assert (
         guide.intro_cta_two_link == 'https://www.events.great.gov.uk/ehome/trade-events-calendar/all-events'
         '/?keyword=Antigua%20and%20Barbuda'
     )
-    assert guide.intro_cta_three_title == 'View trade and investment factsheets'
+    assert guide.intro_cta_three_title == 'View latest trade statistics'
     assert (
         guide.intro_cta_three_link == 'https://www.gov.uk/government/statistics/trade-and-investment-factsheets'
         '-partner-names-beginning-with-a-or-b'
@@ -81,9 +81,9 @@ def test_organise_ctas_custom_events_link(domestic_homepage):
 
     assert guide.intro_cta_one_title == ''
     assert guide.intro_cta_one_link == ''
-    assert guide.intro_cta_two_title == 'Find export events'
+    assert guide.intro_cta_two_title == 'Find latest export events'
     assert guide.intro_cta_two_link == 'https://example.org/events'
-    assert guide.intro_cta_three_title == 'View trade and investment factsheets'
+    assert guide.intro_cta_three_title == 'View latest trade statistics'
     assert (
         guide.intro_cta_three_link == 'https://www.gov.uk/government/statistics/trade-and-investment-factsheets'
         '-partner-names-beginning-with-a-or-b'
