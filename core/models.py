@@ -208,10 +208,12 @@ class Region(models.Model):
 class Country(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=100, unique=True)
+    iso2 = models.CharField(max_length=2, null=True, blank=True)
     region = models.ForeignKey(Region, null=True, blank=True, on_delete=models.SET_NULL)
 
     panels = [
         FieldPanel('name'),
+        FieldPanel('iso2'),
         FieldPanel('region'),
     ]
 

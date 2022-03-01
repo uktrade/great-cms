@@ -6,9 +6,19 @@
 
 ### Bugs fixed
 
-- GLS-74 - load analytics on user cookies accept
-
 ### Enhancements
+
+- GLS-113 - add extra items and heading to Country Guide CTA links
+- GLS-113 - add command to update factsheets links from govuk content API
+- GLS-112 - add Trade barriers and Duties and customs content
+
+## [2.4.1](https://github.com/uktrade/great-cms/releases/tag/2.4.1)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.4.0...2.4.1)
+
+### Bugs fixed
+
+- GLS-74 - load analytics on user cookies accept
 
 ## [2.4.0](https://github.com/uktrade/great-cms/releases/tag/2.4.0)
 
