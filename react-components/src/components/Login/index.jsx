@@ -30,17 +30,15 @@ export const Login = (props) => {
   return (
     <div className="signup signup--reverse signup__container">
       <div className="signup__steps-panel">
-        <div className="centre-children">
-          <a href="/" className="inline-block">
-            <img
-              className="m-f-auto m-r-auto signup__logo"
-              src="/static/images/dit_logo_335x160.png"
-              alt="Department for International Trade"
-              width="148"
-              height="71"
-            />
-          </a>
-        </div>
+        <a href="/" className="inline-block">
+          <img
+            className="m-f-auto m-r-auto signup__logo"
+            src="/static/images/dit_logo_335x160.png"
+            alt="Department for International Trade"
+            width="335"
+            height="160"
+          />
+        </a>
         <Form
           disabled={isInProgress}
           errors={errors}

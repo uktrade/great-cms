@@ -27,10 +27,10 @@ export const Form = ({
     >
       <h2 className="h-s text-blue-deep-80 p-t-xs">Sign in</h2>
       <p className="m-b-s">
-        Don't have an account?{' '}
+        Don&apos;t have an account?{' '}
         <a
           href={Services.config.signupUrl}
-          className="text-red-80 inline-block"
+          className="text-red-80"
         >
           Sign up
         </a>

@@ -12,7 +12,7 @@ export const STEP_COMPLETE = 'complete'
 const subHeadings = [
   'Learn how to sell abroad',
   'Find the best country for your product',
-  "Create an export plan that's right for your business",
+  'Create an export plan that\'s right for your business',
 ]
 
 export const Signup = (props) => {
@@ -69,7 +69,8 @@ export const Signup = (props) => {
           handleSubmit={props.handleStepCredentialsSubmit}
         />
       )
-    } else if (props.currentStep === STEP_VERIFICATION_CODE) {
+    }
+    if (props.currentStep === STEP_VERIFICATION_CODE) {
       return (
         <Confirmation
           {...sharedStepProps}
@@ -78,26 +79,27 @@ export const Signup = (props) => {
           code={props.code}
         />
       )
-    } else if (props.currentStep === STEP_COMPLETE) {
+    }
+    if (props.currentStep === STEP_COMPLETE) {
       return <Complete nextUrl={props.nextUrl} showTitle={props.showTitle} />
     }
   }
 
   return (
-    <div className="bg-blue-deep-80 signup signup__container">
+    <div className="bg-blue-deep-80 signup signup--reverse signup__container">
       <div className="signup__steps-panel">
-        <div className="centre-children">
-          <a href="/" className="inline-block">
-            <img
-              className="m-f-auto m-r-auto signup__logo"
-              src="/static/images/dit_logo_335x160.png"
-              alt=""
-              width="148"
-              height="71"
-            />
-          </a>
-        </div>
+        <a href="/" className="inline-block">
+          <img
+            className="m-f-auto m-r-auto signup__logo"
+            src="/static/images/dit_logo_335x160.png"
+            alt="Department for International Trade"
+            width="335"
+            height="160"
+          />
+        </a>
+
         {renderStep()}
+
         <p className="g-panel signup__questions-panel">
           If you have any questions or feedback please{' '}
           <a href="/contact/feedback/" target="_blank">
@@ -110,7 +112,7 @@ export const Signup = (props) => {
           <h2>Find new customers around the world</h2>
           {subHeadings.map((heading) => (
             <div className="signup__right-panel__subheadings" key={heading}>
-              <i className="fas fa-check-circle" aria-hidden="true"></i>
+              <i className="fas fa-check-circle" aria-hidden="true" />
               <p>{heading}</p>
             </div>
           ))}

@@ -32,14 +32,16 @@ const Form = ({
         Create an account
       </h1>
     )}
-    Already have an account? &nbsp;&nbsp;
-    <a
-      href={Services.config.loginUrl}
-      id="signup-modal-log-in"
-      className="text-red-80 m-b-s inline-block"
-    >
-      Sign in
-    </a>
+
+    <p className="m-b-s">
+      Already have an account?{' '}
+      <a
+        href={Services.config.loginUrl} id="signup-modal-log-in"
+        className="text-red-80"
+      >
+        Sign in
+      </a>
+    </p>
     <Input
       label="Email address"
       id="email"
@@ -104,7 +106,7 @@ Form.propTypes = {
   errors: PropTypes.shape({
     email: PropTypes.arrayOf(PropTypes.string),
     password: PropTypes.arrayOf(PropTypes.string),
-    mobile_phone_number: PropTypes.arrayOf(PropTypes.string)
+    mobile_phone_number: PropTypes.arrayOf(PropTypes.string),
   }),
   handlePasswordChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
