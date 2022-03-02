@@ -17,34 +17,6 @@ const subHeadings = [
 
 export const Signup = (props) => {
   const { errors, disabled, email, showTitle, isInProgress } = props
-  const asideTitle =
-    props.products.length > 0 || props.countries.length > 0
-      ? 'Sign up so we can save your settings'
-      : ''
-
-  function getAside() {
-    if (props.products.length > 0 || props.countries.length > 0) {
-      return (
-        <aside className="c-1-2">
-          <h2 className="h-l">{asideTitle}</h2>
-          {props.products.length > 0 && (
-            <p className="p-xxs m-r-m">
-              {props.products.map((item, i) => (
-                <span key={i}>{item.label}</span>
-              ))}
-            </p>
-          )}
-          {props.countries.length > 0 && (
-            <p className="p-xxs m-r-m">
-              {props.countries.map((item, i) => (
-                <span key={i}>{item.label}</span>
-              ))}
-            </p>
-          )}
-        </aside>
-      )
-    }
-  }
 
   const sharedStepProps = {
     errors,
@@ -70,6 +42,7 @@ export const Signup = (props) => {
         />
       )
     }
+
     if (props.currentStep === STEP_VERIFICATION_CODE) {
       return (
         <Confirmation
@@ -80,9 +53,12 @@ export const Signup = (props) => {
         />
       )
     }
+
     if (props.currentStep === STEP_COMPLETE) {
       return <Complete nextUrl={props.nextUrl} showTitle={props.showTitle} />
     }
+
+    return null
   }
 
   return (
@@ -129,19 +105,15 @@ export const Signup = (props) => {
 }
 
 Signup.propTypes = {
+  ...Form.propTypes,
   isInProgress: PropTypes.bool,
-  errors: PropTypes.object,
-  currentStep: PropTypes.string,
+  currentStep: PropTypes.oneOf([STEP_CREDENTIALS, STEP_COMPLETE, STEP_VERIFICATION_CODE]),
   showTitle: PropTypes.bool,
-  products: PropTypes.array,
-  countries: PropTypes.array,
 }
 
 Signup.defaultProps = {
+  ...Form.defaultProps,
   isInProgress: false,
-  errors: {},
-  companySettings: {},
+  currentStep: STEP_CREDENTIALS,
   showTitle: true,
-  products: [],
-  countries: [],
 }

@@ -5,6 +5,8 @@ import Services from '@src/Services'
 import { Input } from '@src/components/Form/Input'
 import SocialLoginButtons from '@src/components/SocialLoginButtons'
 
+const SHOW_SOCIAL_LOGIN = false
+
 const Form = ({
   handleSubmit,
   showTitle,
@@ -84,19 +86,19 @@ const Form = ({
     >
       Sign up
     </button>
-    {false && (
-      <div className="vertical-seperator">
-        <hr className="bg-blue-deep-10" />
-        <span>or</span>
-        <hr className="bg-blue-deep-10" />
-      </div>
-    )}
-    {false && (
-      <SocialLoginButtons
-        linkedinUrl={linkedinLoginUrl}
-        googleUrl={googleLoginUrl}
-        action="Sign up"
-      />
+    {SHOW_SOCIAL_LOGIN && (
+      <>
+        <div className="vertical-seperator">
+          <hr className="bg-blue-deep-10" />
+          <span>or</span>
+          <hr className="bg-blue-deep-10" />
+        </div>
+        <SocialLoginButtons
+          linkedinUrl={linkedinLoginUrl}
+          googleUrl={googleLoginUrl}
+          action="Sign up"
+        />
+      </>
     )}
   </form>
 )
