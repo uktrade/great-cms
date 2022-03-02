@@ -28,17 +28,18 @@
       {% if page.intro_ctas %}
       <div class="column-quarter-l links">
         {% if FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS %}
-        <div class="panel-vertical-narrow content-list padding-top-30">
-          <ul id="country-guide-intro-ctas">
-            {% for cta in page.intro_ctas %}
-            <li>
-              {% if cta.title and cta.link %}
-                <a class="heading-small link intro-cta-link" href="{{ cta.link }}">{{ cta.title }}</a>
-              {% endif %}
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
+          <h2 class="heading-medium margin-top-0">Related services</h2>
+          <div class="panel-vertical-narrow content-list padding-top-30">
+            <ul id="country-guide-intro-ctas">
+              {% for cta in page.intro_ctas %}
+              <li>
+                {% if cta.title and cta.link %}
+                  <a class="heading-small link intro-cta-link" href="{{ cta.link }}">{{ cta.title }}</a>
+                {% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
         {% endif %}
       </div>
       {% endif %}
@@ -90,6 +91,32 @@
     {% endif %}
   {% endif %}
 
+  <section class="padding-top-60 padding-bottom-30">
+    <div class="container">
+      <div class="grid-row">
+        <div class="column-half-l padding-bottom-30">
+          <h2 class="heading-large padding-top-0">Check for trade barriers</h2>
+
+          <p>Trade barriers, such as tariffs or taxes, can raise costs, cause delays, or even stop you from exporting. Check for any issues that may impact your business when exporting.</p>
+
+          <p><a class="heading-small link" href="{{ page.trade_barriers_link }}">See current trade barriers</a></p>
+
+          {% if page.trade_barriers_resolved_link %}
+            <p><a class="heading-small link" href="{{ page.trade_barriers_resolved_link }}">See resolved trade barriers</a></p>
+          {% endif %}
+        </div>
+
+        <div class="column-half-l padding-bottom-30">
+          <h2 class="heading-large padding-top-0">Check duties and customs</h2>
+
+          <p>Find information on how to export goods from the UK. View the duties, rules, restrictions, and the documents you need for your products.</p>
+
+          <p><a class="heading-small link" href="{{ page.duties_and_customs_link }}">See current duties and customs procedures</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
 {% if page.fact_sheet_title %}
 <section id="country-guide-section-three" class="section-three background-stone-30 padding-top-90 padding-bottom-60">
   <div class="container">
@@ -139,12 +166,7 @@
         {% slugurl 'advice' as advice_url %}
         {% include 'components/cta_card.html' with with_arrow=True image_url=need_help_image_url text="Read more advice about doing business abroad" url=advice_url %}
       </div>
-      {% if page.duties_and_custom_procedures_cta_link %}
-        <div class="column-full column-half-l column-third-xl margin-bottom-30 margin-bottom-0-xl">
-          {% static 'images/country-guide-gov-uk.png' as market_guide_image_url %}
-          {% include 'components/cta_card.html' with with_arrow=True image_url=market_guide_image_url text='Check duties and customs procedures for exporting goods' url=page.duties_and_custom_procedures_cta_link external_link=True %}
-        </div>
-      {% endif %}
+
       {% if FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS %}
       <div class="column-full column-half-l column-third-xl margin-bottom-0">
         {% static 'images/country-guide-contact.png' as contact_us_image_url %}
