@@ -2,6 +2,11 @@ import React from 'react'
 import { render, waitFor } from '@testing-library/react'
 import ExpandCollapse from './ExpandCollapse'
 
+// Force generated ID to be abcd1234
+jest.mock('@src/Helpers', () => ({
+  uniqueId: jest.fn().mockReturnValue('abcd1234'),
+}))
+
 describe('Expand/Collapse', () => {
   beforeEach(() => {
     Element.prototype.getBoundingClientRect = jest.fn(() => ({
@@ -12,6 +17,10 @@ describe('Expand/Collapse', () => {
       bottom: 0,
       right: 0,
     }))
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
   })
 
   it('Opens and closes expander', async () => {
@@ -25,17 +34,21 @@ describe('Expand/Collapse', () => {
     const expander = container.querySelector('.expander')
 
     expect(expander.style['max-height']).toBe('0')
+    expect(button.getAttribute('aria-controls')).toBe('expander-abcd1234')
+    expect(button.getAttribute('aria-expanded')).toBe('false')
 
     button.click()
 
     await waitFor(() => {
       expect(expander.style['max-height']).toBe('100px')
+      expect(button.getAttribute('aria-expanded')).toBe('true')
     })
 
     button.click()
 
     await waitFor(() => {
       expect(expander.style['max-height']).toBe('0')
+      expect(button.getAttribute('aria-expanded')).toBe('false')
     })
   })
 

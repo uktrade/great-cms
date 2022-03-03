@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
+import { uniqueId } from '@src/Helpers'
 
 export default function ExpandCollapse(props) {
   const {
@@ -12,6 +13,7 @@ export default function ExpandCollapse(props) {
   } = props
   const [expanded, setExpanded] = useState(defaultExpanded)
   const [maxHeight, setMaxHeight] = useState()
+  const [expanderId] = useState(`expander-${uniqueId()}`)
 
   const contentRef = useRef()
 
@@ -33,6 +35,8 @@ export default function ExpandCollapse(props) {
       type="button"
       className={buttonClass || 'button button--tertiary'}
       onClick={toggleExpand}
+      aria-controls={expanderId}
+      aria-expanded={expanded}
     >
       {expanded ? expandedButtonLabel || buttonLabel : buttonLabel}
     </button>
@@ -42,6 +46,7 @@ export default function ExpandCollapse(props) {
     <>
       {buttonBefore && toggleButton}
       <div
+        id={expanderId}
         className="expander"
         style={{
           maxHeight: expanded ? `${maxHeight}px` : '0',
