@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
 export default function ExpandCollapse(props) {
@@ -11,14 +11,21 @@ export default function ExpandCollapse(props) {
     buttonBefore,
   } = props
   const [expanded, setExpanded] = useState(defaultExpanded)
-  const [sectionHeight, setSectionHeight] = useState()
+  const [maxHeight, setMaxHeight] = useState()
+
+  const contentRef = useRef()
+
+  useEffect(() => {
+    const onResize = () => {
+      setMaxHeight(contentRef.current.getBoundingClientRect().height)
+    }
+    onResize()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
 
   const toggleExpand = () => {
     setExpanded(!expanded)
-  }
-
-  const setSection = (_section) => {
-    setSectionHeight((_section && _section.scrollHeight) || sectionHeight)
   }
 
   const toggleButton = (
@@ -35,17 +42,17 @@ export default function ExpandCollapse(props) {
     <>
       {buttonBefore && toggleButton}
       <div
-        className={`f-l expander ${
-          expanded ? 'expander-expanded' : 'expander-collapsed'
-        }`}
+        className="expander"
         style={{
-          maxHeight: expanded ? `${sectionHeight}px` : '0px',
+          maxHeight: expanded ? `${maxHeight}px` : '0',
           transition: 'max-height 0.3s',
           overflow: 'hidden',
         }}
-        ref={setSection}
       >
-        {children}
+        {/* vertical padding/margin to force flow-root rendering (includes children margins) */}
+        <div ref={contentRef} style={{ margin: '-1px 0', padding: '1px 0' }}>
+          {children}
+        </div>
       </div>
       {!buttonBefore && toggleButton}
     </>
