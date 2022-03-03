@@ -11,6 +11,7 @@
 - GLS-113 - add extra items and heading to Country Guide CTA links
 - GLS-113 - add command to update factsheets links from govuk content API
 - GLS-112 - add Trade barriers and Duties and customs content
+- GLS-102 - update Signup page styling
 
 ## [2.4.1](https://github.com/uktrade/great-cms/releases/tag/2.4.1)
 
@@ -109,6 +110,7 @@
 - GP2-3906 - fix pdf worldbank data
 
 ### Enhancements
+
 - GP2-3880 - Product Classification tree changes
 - GP2-3886 - Replace profile gulp with webpack
 - GP2-3893 - Remove HS code refs - PDF download
@@ -136,9 +138,11 @@
 - GP2-3859 - Create Profile with optional Phone Number
 
 ## [2.0.0](https://github.com/uktrade/great-cms/releases/tag/2.0.0)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.13.3...2.0.0)
 
 ### Hotfix
+
 - GP2-3104 - [HOTFIX] User emails case insensitive
 - GP2-3406 - [HOTFIX] Notifications for already registered users
 - [HOTFIX] - Fix models test
@@ -150,6 +154,7 @@
 - [HOTFIX] - GP2-3446 change london ita search
 
 ### Enhancements
+
 - no-ticket - Ensure to only include current export opportunities in search
 - GP2-3779 - EP funds page rounding in funds source table
 - GP2-3786 - Magna header - logged-out mode
@@ -199,6 +204,7 @@
 - GP2-3356 - Basket for products and countries - add/delete
 
 ### Fixed bugs
+
 - GP2-3813 - Getting paid layout
 - GP2-3815 - EP pdf fix funding total and c&p quantity and units
 - GP2-3725 - Unwanted text on WTE
@@ -215,21 +221,24 @@
 - GP2-2880 - DAC_Parsing_02 (A)
 - GP2-3348 - SECURITY: great-cms frontend asset vulnerabilty: tar
 - NOTICKET - Fix hashid on EP create wizard
-- GP2-3772 - delete  case study error
+- GP2-3772 - delete case study error
 - GP2-3724 - fix EP dashboard wagtail redirect
 - GP2-3783 - add case-study error
 - GP2-3782 - total funding pdf not working
 
 ## [1.13.0](https://github.com/uktrade/great-cms/releases/tag/1.13.0)
+
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
 
 ### Hotfix
+
 - GP2-3253 fix-confirm-idenity-urls
 - GP2-3309 - [HOTFIX] adding bing search console meta tag
 - GP2-3137 - [HOTFIX] Remove /transition-period/contact/ and its success page from great-cms
 - GP2-3372 - [HOTFIX] add crsf token to company disconnect to fix 403 error
 
 ### Enhancements
+
 - GP2-3128 - Analytics - section completion
 - GP2-3017 - SOO User profile update to directory-SSO
 - GP2-2402 - VFM analytics
@@ -255,6 +264,7 @@
 - GP2-3087 - migrate directory-sso-profile into great-cms
 
 ### Fixed bugs
+
 - GP2-3255 - fix updating industry expertise on a business profile
 - GP2-3254 - added missing csrf_tokens for sso_profile
 - GP2-3208 - Fix error while updating personal profile
@@ -272,8 +282,8 @@
 - GP2-3100 - In Costs and pricing, titles dispay "the" prefix before countries that should not have this
 - GP2-2492 - Export plan - some pages - value input
 - GP2-3120 - Append "- great.gov.uk" to all pages by default
-- GP2-2988: Make SOO contact form name fields editable if not already populated.ttps://github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
-
+- GP2-2988: Make SOO contact form name fields editable if not already populated.ttps:
+  //github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
 
 ## [1.12.0](https://github.com/uktrade/great-cms/releases/tag/1.12.0)
 
@@ -289,6 +299,7 @@
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.10.0...1.11.0)
 
 ### Enhancements
+
 - no-ticket - wagtail degrade to 2.11
 - GP2-2524 - Wagtail transfer configuration for staging/UAT
 - GP2-1615 - Migrate Export Opps contact/guidance pages from V1 to V2
@@ -327,11 +338,12 @@
 - GP2-2977: Port E-Commerce Export Support pages from V1 into V2
 - GP2-1618: Port legacy EU Exit / transition period forms from V1 into V2
 - GP2-1617: Port get-finance/UKEF contact form from great-domestic-ui
-- GP2-2856  remove unused api calls
+- GP2-2856 remove unused api calls
 - no-ticket - package upgrade
 - GP2-2856 - remove target market
 
 ### Fixed bugs
+
 - GP2-3282 - Skip GA on signup to avoid capturing PII
 - GP2-2933 - DAC_Custom_Controls_01 Select widget
 - GP2-2924 - DAC_CSS_Images_as_Labels_03 Select widget expander
@@ -381,9 +393,13 @@
 - GP2-2936 - DAC_Custom_Controls_04
 
 ## [1.10.1](https://github.com/uktrade/great-cms/releases/tag/1.10.1)
+
 ### Enhancements
+
 - NOTICKET - update changelog, post-release
+
 ### Fixed bugs
+
 - GP2-2879 - DAC_Parsing_01 (A)
 
 - GP2-2890 - DAC NonText Content 01
@@ -405,6 +421,7 @@ MAGNA RELEASE
 [Full Changelog](https://github.com/uktrade/great-cms/compare/1.9.0...1.10.0)
 
 ### Enhancements
+
 - GP2-2816 - Set Wagtaildocs serve method to 'direct' to avoid denial when proxying at PaaS level
 - noticket - remove social buttons
 - no-ticket - Disabled case study tagging search ability on Admin UI
@@ -427,6 +444,7 @@ MAGNA RELEASE
 - GP2-2777 - Remove DIT footer logos
 
 ### Fixed bugs
+
 - GP2-2805 - Export plan image problem on the dashboard
 - GP2-2803 - [UAT]-Export plan dashboard images issues
 - GP2-2790 - remove Getting paid page tooltip
@@ -464,14 +482,13 @@ MAGNA RELEASE
 - GP2-2763 - saving-blank-error
 - GP2-2724 - update-lesson be
 - GP2-2775 - sav business risk
-_ GP2-2775 - getting paid error
+  _ GP2-2775 - getting paid error
 - gp2765 - content changes
 - NOTICKET - error saving ep atm
 - NOTICKET - update pdf logo
 - NOTICKET - remove lesson
 - NOTICKET - configure APM log server
 - NOTICKET - fix image references
-
 
 ## [1.9.0](https://github.com/uktrade/great-cms/releases/tag/1.9.0)
 
@@ -523,6 +540,7 @@ _ GP2-2775 - getting paid error
 - GP2-2401 - pdf save
 
 ### Fixed bugs
+
 - Gp2-2506 - Getting paid page - Content change for default text (Payment methods drop-down)
 - GP2-2399 - [Mobile]-Costs and pricing
 - GP2-2420 - Export plan - CHEG details look strange on mobile
@@ -903,7 +921,8 @@ Change log disappeared we lost some how perhaps during staging release. Please r
 - GP2-1108 - business objective responsive changes
 - GP2-1172 - Analytics compare countries find a market modal (3 markets)
 - GP2-1171 - Analytics select country from comparison list
-- GP2-1208 - Remove rxjs, add debounce to onChange to stop every keystroke to send request, refactor FormWithInputWithExample
+- GP2-1208 - Remove rxjs, add debounce to onChange to stop every keystroke to send request, refactor
+  FormWithInputWithExample
 - GP2-1059 - Prettier config
 - GP2-1093 - Enhancements to Target Market service population table
 - GP2-1145 - Export plan landing page responsive retrofit
