@@ -288,8 +288,7 @@
 - GP2-3100 - In Costs and pricing, titles dispay "the" prefix before countries that should not have this
 - GP2-2492 - Export plan - some pages - value input
 - GP2-3120 - Append "- great.gov.uk" to all pages by default
-- GP2-2988: Make SOO contact form name fields editable if not already populated.ttps:
-  //github.com/uktrade/great-cms/compare/1.12.0...1.13.0)
+- GP2-2988: Make SOO contact form name fields editable if not already populated
 
 ## [1.12.0](https://github.com/uktrade/great-cms/releases/tag/1.12.0)
 
@@ -488,7 +487,7 @@ MAGNA RELEASE
 - GP2-2763 - saving-blank-error
 - GP2-2724 - update-lesson be
 - GP2-2775 - sav business risk
-  _ GP2-2775 - getting paid error
+- GP2-2775 - getting paid error
 - gp2765 - content changes
 - NOTICKET - error saving ep atm
 - NOTICKET - update pdf logo
