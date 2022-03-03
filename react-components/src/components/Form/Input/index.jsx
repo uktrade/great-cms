@@ -23,6 +23,7 @@ export const Input = memo(
     minDate,
     maxDate,
     decimal,
+    info,
     ...inputAttributes
   }) => {
     const IsValidNumber = (e, rule = decimal) => {
@@ -62,6 +63,7 @@ export const Input = memo(
         lesson={lesson}
         formGroupClassName={formGroupClassName}
         descriptionClassName={descriptionClassName}
+        info={info}
       >
         <div className={`flex-center ${type === 'date' ? 'select-date' : ''}`}>
           {prepend && (
@@ -89,7 +91,7 @@ export const Input = memo(
         </div>
       </FormGroup>
     )
-  }
+  },
 )
 
 Input.propTypes = {
@@ -120,6 +122,7 @@ Input.propTypes = {
   formGroupClassName: PropTypes.string,
   descriptionClassName: PropTypes.string,
   decimal: PropTypes.oneOf([2, 0]),
+  info: PropTypes.string,
 }
 
 Input.defaultProps = {
@@ -127,10 +130,10 @@ Input.defaultProps = {
   type: 'text',
   value: '',
   description: '',
-  tooltip: {},
-  example: {},
+  tooltip: null,
+  example: null,
   hideLabel: false,
-  lesson: {},
+  lesson: null,
   prepend: '',
   className: '',
   formGroupClassName: '',
@@ -138,4 +141,5 @@ Input.defaultProps = {
   minDate: '',
   maxDate: '',
   decimal: 2,
+  info: '',
 }

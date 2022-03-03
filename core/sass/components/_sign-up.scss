@@ -1,60 +1,23 @@
 .signup {
+  flex-direction: row-reverse;
 
-  &--reverse {
-    flex-direction: row-reverse;
-    background: #F5F5F6;
+  &--login {
+    background: #f5f5f6;
+  }
 
-    .signup__steps-panel {
-      @include breakpoint(lg) {
-        margin-right: 20px;
-        margin-left: 0;
-      }
-    }
+  & .signup__form-panel {
+    margin-left: 0;
+    margin-right: 20px;
 
-    .signup__right-panel {
-      position: relative;
-
-      h1 {
-        line-height: 50px;
-      }
-
-      img {
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-
-        @media screen and (min-width: 1400px) {
-          bottom: -200px;
-        }
-      }
-    }
-
-    .signup__right-panel__headings {
-      text-align: center;
-      z-index: 1;
-
-      h1 {
-        color: $colour-blue-deep-80;
-        font-size: 56px;
-        line-height: 52px;
-        margin-bottom: 0;
-      }
-
-      p {
-        color: $colour-blue-deep-80;
-        margin-bottom: 8px;
-        margin-top: 18px;
-        font-size: 18px;
-        font-weight: 600;
-      }
-
-      a {
-        min-width: 230px;
-      }
+    @include breakpoint(lg_lt) {
+      margin-right: 0;
     }
   }
 
   &__logo {
+    width: 148px;
+    height: auto;
+
     @media (max-width: 768px) {
       max-width: 132px;
     }
@@ -64,10 +27,10 @@
     width: 100%;
     display: flex;
     overflow: hidden;
+
     .form-label {
       @extend .body-m;
       @extend .p-t-0;
-      color: #4c436e;
       font-size: 19px;
     }
 
@@ -75,7 +38,8 @@
       @extend .m-t-0;
     }
   }
-  &__steps-panel {
+
+  &__form-panel {
     color: #4c436e;
     min-height: 100vh;
     margin-left: 20px;
@@ -92,19 +56,13 @@
     }
 
     @include breakpoint(md_lt) {
-      margin-left: 0;
       padding: 20px;
       width: 50%;
     }
 
     @include breakpoint(sm_lt) {
-      margin-left: 0;
       width: 100%;
       padding: 30px 30px;
-    }
-
-    p > a {
-      color: inherit;
     }
   }
 
@@ -134,17 +92,8 @@
       }
     }
   }
-  &__questions-panel {
-    font-size: 16px;
-    color: #000;
-    a {
-      color: inherit;
-      display: inline-block;
-      font-weight: bold;
-      text-decoration: none;
-    }
-  }
-  &__right-panel {
+
+  &__info-panel {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -155,6 +104,7 @@
     @include breakpoint(sm_lt) {
       display: none;
     }
+
     img {
       width: 100%;
       position: absolute;
@@ -169,12 +119,19 @@
       }
     }
 
-    h2 {
+    &__content {
+      max-width: 650px;
+      padding: 0 40px;
+      z-index: 1;
+      text-align: center;
+    }
+
+    &__heading {
       color: #fff;
       font-size: 56px;
-      line-height: 50px;
+      line-height: 52px;
       text-align: center;
-      margin-bottom: 60px;
+      margin-bottom: 0;
 
       @include breakpoint(lg_lt) {
         font-size: 48px;
@@ -182,36 +139,32 @@
         margin-bottom: 30px;
       }
     }
-    &__headings {
-      max-width: 650px;
-      padding: 0 40px;
-      z-index: 1;
-    }
-    &__subheadings {
-      display: flex;
-      align-items: center;
-      margin-bottom: 45px;
-      p,
-      i {
-        color: #fff;
-      }
-      i {
-        font-size: 40px;
 
-        @include breakpoint(lg_lt) {
-          font-size: 35px;
-        }
-      }
-      p {
+    &__subheadings {
+      margin-top: 60px;
+      text-align: left;
+
+      li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 45px;
         font-size: 28px;
-        margin: 0 0 0 30px;
         line-height: 32px;
 
         @include breakpoint(lg_lt) {
           font-size: 24px;
           line-height: 34px;
         }
+
+        i {
+          margin-right: 30px;
+          font-size: 1.5em;
+        }
       }
+    }
+
+    .button {
+      min-width: 230px;
     }
   }
 
@@ -219,6 +172,7 @@
     .fa-info-circle {
       font-size: 40px;
     }
+
     .form-label {
       font-size: 19px;
     }

@@ -6,6 +6,8 @@ import { Input } from '@src/components/Form/Input'
 import SocialLoginButtons from '@src/components/SocialLoginButtons'
 import ErrorList from '@src/components/ErrorList'
 
+const SHOW_SOCIAL_LOGIN = false
+
 export const Form = ({
   handleSubmit,
   disabled,
@@ -27,14 +29,15 @@ export const Form = ({
     >
       <h2 className="h-s text-blue-deep-80 p-t-xs">Sign in</h2>
       <p className="m-b-s">
-        Don't have an account?{' '}
+        Don&apos;t have an account?{' '}
         <a
           href={Services.config.signupUrl}
-          className="text-red-80 inline-block"
+          className="text-red-80"
         >
           Sign up
         </a>
       </p>
+      {/* eslint-disable-next-line no-underscore-dangle,react/prop-types */}
       <ErrorList errors={errors.__all__ || []} className="m-b-s" />
       <Input
         label="Email address"
@@ -69,19 +72,19 @@ export const Form = ({
       >
         Sign in
       </button>
-      {false && (
-        <div className="vertical-seperator">
-          <hr className="bg-blue-deep-10" />
-          <span>or</span>
-          <hr className="bg-blue-deep-10" />
-        </div>
-      )}
-      {false && (
-        <SocialLoginButtons
-          linkedinUrl={linkedinLoginUrl}
-          googleUrl={googleLoginUrl}
-          action="Sign in"
-        />
+      {SHOW_SOCIAL_LOGIN && (
+        <>
+          <div className="vertical-seperator">
+            <hr className="bg-blue-deep-10" />
+            <span>or</span>
+            <hr className="bg-blue-deep-10" />
+          </div>
+          <SocialLoginButtons
+            linkedinUrl={linkedinLoginUrl}
+            googleUrl={googleLoginUrl}
+            action="Sign in"
+          />
+        </>
       )}
     </form>
   </>
