@@ -6,9 +6,8 @@ import { capitalize } from '@src/Helpers'
 import ExpandCollapse from './ExpandCollapse'
 
 
-
 function ValueItem(props) {
-  const { option, valueChange } = props;
+  const { option, valueChange } = props
   const [value, setValue] = useState(option.value)
 
   const changeValue = (evt) => {
@@ -22,14 +21,14 @@ function ValueItem(props) {
   }, [])
 
   return (
-    <label htmlFor={option.id} className='m-b-s'>
+    <label htmlFor={option.id} className="m-b-s">
       <input
         type="number"
         className="form-control"
         id={option.id}
         defaultValue={option.value}
         onChange={changeValue}
-        style={{width:'71px',textAlign:'center'}}
+        style={{ width: '71px', textAlign: 'center' }}
       />
       <span className="text-black-50 m-f-xxs">%</span>
       <span className="m-f-xs">
@@ -39,7 +38,7 @@ function ValueItem(props) {
             buttonClass="info fas fa-lg fa-info-circle text-blue-deep-90 m-f-xxs p-v-4 p-h-0"
             buttonBefore
           >
-            <div className="g-panel f-l m-v-xs">{ReactHtmlParser(option.def)}</div>
+            <div className="g-panel m-v-xs">{ReactHtmlParser(option.def)}</div>
           </ExpandCollapse>
         )}
       </span>
@@ -54,7 +53,7 @@ ValueItem.propTypes = {
     value: PropTypes.string,
     def: PropTypes.string,
   }).isRequired,
-  valueChange: PropTypes.func.isRequired
+  valueChange: PropTypes.func.isRequired,
 }
 
 export default function Interaction(props) {
@@ -72,8 +71,8 @@ export default function Interaction(props) {
       Services.lookupProductRefine({
         txId,
         interactionId: attribute.id,
-        values
-      })
+        values,
+      }),
     )
   }
 
@@ -88,7 +87,7 @@ export default function Interaction(props) {
       key={attr.id}
       option={attr}
       valueChange={valueChange}
-      />
+    />
   })
 
   return (
@@ -97,7 +96,7 @@ export default function Interaction(props) {
         <div className={`form-group p-v-0 ${mixedContentError ? 'form-group-error' : ''}`}>
           <legend className="interaction-name h-s p-t-0">{capitalize(attribute.label)}</legend>
           <p id="interaction-details" className="m-t-0 m-b-xs">How much of each item is in your product?</p>
-          { mixedContentError ? (<span className="error-message m-v-xs bold">Total must equal 100%</span>) : '' }
+          {mixedContentError ? (<span className="error-message m-v-xs bold">Total must equal 100%</span>) : ''}
           {options}
         </div>
         <button
@@ -105,9 +104,9 @@ export default function Interaction(props) {
           className="button button--primary m-t-xxs"
           disabled={!buttonEnabled}
           onClick={clickNext}
-          style={{float:'left',clear:'both'}}
+          style={{ float: 'left', clear: 'both' }}
         >
-        Next
+          Next
         </button>
       </fieldset>
     </div>
@@ -117,7 +116,8 @@ export default function Interaction(props) {
 Interaction.propTypes = {
   txId: PropTypes.string.isRequired,
   attribute: PropTypes.shape(
-    { id: PropTypes.string,
+    {
+      id: PropTypes.string,
       label: PropTypes.string,
       attrs: PropTypes.arrayOf(
         PropTypes.shape({
@@ -125,12 +125,12 @@ Interaction.propTypes = {
           name: PropTypes.string,
           def: PropTypes.string,
           id: PropTypes.string,
-        })
+        }),
       ),
     }).isRequired,
   processResponse: PropTypes.func.isRequired,
-  mixedContentError: PropTypes.bool
+  mixedContentError: PropTypes.bool,
 }
 Interaction.defaultProps = {
-  mixedContentError: false
+  mixedContentError: false,
 }

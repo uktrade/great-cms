@@ -30,7 +30,6 @@
     .form-label {
       @extend .body-m;
       @extend .p-t-0;
-      color: #4c436e;
       font-size: 19px;
     }
 
@@ -90,18 +89,6 @@
         vertical-align: middle;
         width: 40%;
       }
-    }
-  }
-
-  &__questions-panel {
-    font-size: 16px;
-    color: #000;
-
-    a {
-      color: inherit;
-      display: inline-block;
-      font-weight: bold;
-      text-decoration: none;
     }
   }
 

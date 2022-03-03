@@ -55,14 +55,13 @@ const Form = ({
     />
     <Input
       label="UK telephone number (optional)"
-      description="By providing your phone number, you agree to be contacted by DIT to gather feedback on your experiences of great.gov.uk."
+      info="By providing your phone number, you agree to be contacted by DIT to gather feedback on your experiences of great.gov.uk."
       id="phone_number"
       type="tel"
       disabled={disabled}
       value={phoneNumber || ''}
       onChange={(item) => handlePhoneNumber(item.phone_number)}
       errors={errors.mobile_phone_number || []}
-      descriptionClassName="body-m text-grey p-b-xs"
     />
     <Input
       label="Password"

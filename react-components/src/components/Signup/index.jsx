@@ -76,7 +76,7 @@ export const Signup = (props) => {
 
         {renderStep()}
 
-        <p className="g-panel signup__questions-panel">
+        <p className="g-panel body-m">
           If you have any questions or feedback please{' '}
           <a href="/contact/feedback/" target="_blank">
             get in touch
