@@ -63,7 +63,7 @@ export const Signup = (props) => {
 
   return (
     <div className="bg-blue-deep-80 signup signup--reverse signup__container">
-      <div className="signup__steps-panel">
+      <div className="signup__form-panel">
         <a href="/" className="inline-block">
           <img
             className="m-f-auto m-r-auto signup__logo"
@@ -83,15 +83,18 @@ export const Signup = (props) => {
           </a>
         </p>
       </div>
-      <div className="signup__right-panel">
-        <div className="signup__right-panel__headings">
-          <h2>Find new customers around the world</h2>
-          {subHeadings.map((heading) => (
-            <div className="signup__right-panel__subheadings" key={heading}>
-              <i className="fas fa-check-circle" aria-hidden="true" />
-              <p>{heading}</p>
-            </div>
-          ))}
+      <div className="signup__info-panel">
+        <div className="signup__info-panel__content">
+          <h2 className="signup__info-panel__heading">Find new customers around the world</h2>
+          <ul className="signup__info-panel__subheadings">
+            {subHeadings.map((heading) => (
+              <li key={heading} className="text-white">
+                <i className="fas fa-check-circle" aria-hidden="true" />
+                <span>{heading}</span>
+              </li>
+            ))}
+          </ul>
+
         </div>
 
         <img

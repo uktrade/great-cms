@@ -33,8 +33,8 @@ export const Login = ({ nextUrl, ...props }) => {
   const googleLoginUrl = `${Services.config.googleUrl}?next=${next}`
 
   return (
-    <div className="signup signup--reverse signup__container">
-      <div className="signup__steps-panel">
+    <div className="signup signup--login signup__container">
+      <div className="signup__form-panel">
         <a href="/" className="inline-block">
           <img
             className="m-f-auto m-r-auto signup__logo"
@@ -56,12 +56,12 @@ export const Login = ({ nextUrl, ...props }) => {
           googleLoginUrl={googleLoginUrl}
         />
       </div>
-      <div className="signup__right-panel">
-        <div className="signup__right-panel__headings">
-          <h1 className="text-blue-deep-80">
+      <div className="signup__info-panel">
+        <div className="signup__info-panel__content">
+          <h1 className="signup__info-panel__heading text-blue-deep-80">
             Sign in to continue your exporting journey
           </h1>
-          <p className="text-blue-deep-80">Don&apos;t have an account?</p>
+          <p className="body-l">Don&apos;t have an account?</p>
           <a
             href={Services.config.signupUrl}
             className="button button--secondary"
