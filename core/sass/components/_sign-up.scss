@@ -1,18 +1,9 @@
 .signup {
+  width: 100%;
+  display: flex;
   flex-direction: row-reverse;
-
-  &--login {
-    background: #f5f5f6;
-  }
-
-  & .signup__form-panel {
-    margin-left: 0;
-    margin-right: 20px;
-
-    @include breakpoint(lg_lt) {
-      margin-right: 0;
-    }
-  }
+  overflow: hidden;
+  background: #f5f5f6;
 
   &__logo {
     width: 148px;
@@ -23,26 +14,19 @@
     }
   }
 
-  &__container {
-    width: 100%;
-    display: flex;
-    overflow: hidden;
+  .form-label {
+    @extend .body-m;
+    @extend .p-t-0;
+    font-size: 19px;
+  }
 
-    .form-label {
-      @extend .body-m;
-      @extend .p-t-0;
-      font-size: 19px;
-    }
-
-    .form-control {
-      @extend .m-t-0;
-    }
+  .form-control {
+    @extend .m-t-0;
   }
 
   &__form-panel {
     color: #4c436e;
     min-height: 100vh;
-    margin-left: 20px;
     padding: 30px 70px;
     background-color: #fff;
     width: 514px;
@@ -52,7 +36,6 @@
     @include breakpoint(lg_lt) {
       padding: 30px;
       width: 40%;
-      margin-left: 0;
     }
 
     @include breakpoint(md_lt) {
