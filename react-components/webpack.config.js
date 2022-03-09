@@ -157,19 +157,6 @@ module.exports = {
           to: '../../core/static/img/',
           noErrorOnMissing: true,
         },
-        // Copy flag icons - to be removed after replacement with react flags
-        {
-          from: '**/*.svg',
-          context: 'node_modules/flag-icon-css/',
-          to: '../../core/components/static/vendor/flag-icons/',
-          noErrorOnMissing: true,
-        },
-        {
-          from: '*.min.css',
-          context: 'node_modules/flag-icon-css/css/',
-          to: '../../core/components/static/vendor/flag-icons/css/',
-          noErrorOnMissing: true,
-        },
       ],
     }),
     new RemovePlugin({
