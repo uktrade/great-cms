@@ -33,7 +33,7 @@ export const Login = ({ nextUrl, ...props }) => {
   const googleLoginUrl = `${Services.config.googleUrl}?next=${next}`
 
   return (
-    <div className="signup signup--login signup__container">
+    <div className="signup">
       <div className="signup__form-panel">
         <a href="/" className="inline-block">
           <img

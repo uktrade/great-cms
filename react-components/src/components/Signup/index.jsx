@@ -62,7 +62,7 @@ export const Signup = (props) => {
   }
 
   return (
-    <div className="bg-blue-deep-80 signup signup--reverse signup__container">
+    <div className="signup bg-blue-deep-80">
       <div className="signup__form-panel">
         <a href="/" className="inline-block">
           <img
