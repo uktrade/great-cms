@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "jest -w 1 react-components/",
+    "test": "jest",
     "test:dev": "jest --watch",
-    "watch": "webpack --watch --config react-components/webpack.config.js --mode development",
     "build": "npm install great-styles; webpack --config react-components/webpack.config.js --mode production",
-    "build:dev": "webpack --config react-components/webpack.config.js --mode development",
-    "build-domestic": "sass --load-path=domestic/sass --style=compressed domestic/sass:domestic/static/styles"
+    "build:dev": "webpack --watch --config react-components/webpack.config.js --mode development",
+    "build-domestic": "sass --load-path=domestic/sass --style=compressed domestic/sass:domestic/static/styles",
+    "build-domestic:dev": "sass --watch --load-path=domestic/sass --style=compressed domestic/sass:domestic/static/styles"
   },
   "jest": {
     "globalSetup": "react-components/setupJest.js"
