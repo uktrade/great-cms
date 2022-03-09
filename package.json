@@ -60,6 +60,7 @@
     "mockdate": "^3.0.5",
     "node-fetch": "^2.6.7",
     "prettier": "^2.2.1",
+    "remove-files-webpack-plugin": "1.4.0",
     "resolve-url-loader": "^5.0.0",
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
@@ -84,7 +85,6 @@
     "reactour": "1.18.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "remove-files-webpack-plugin": "1.4.0",
     "slick-carousel": "^1.8.1",
     "styled-components": "5.0.1"
   }
