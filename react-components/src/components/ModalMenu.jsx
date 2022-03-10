@@ -20,7 +20,6 @@ const customStyles = {
 }
 
 export function Menu(props) {
-  let modalContent
   const { authenticated, userName } = props
   const [modalIsOpen, setIsOpen] = useState(false)
   const [topOffset, setTopOffset] = useState(0)
@@ -122,12 +121,16 @@ export function Menu(props) {
     non_authenticated: (
       <ul className="magna-header__menu-items">
         <li>
-          <a href="/contact-us/help/" rel="noopener noreferrer">
+          <a
+            href="/contact-us/help/"
+            rel="noopener noreferrer"
+            ref={firstMenuItem}
+          >
             <span>Send a feedback email</span>
           </a>
         </li>
         <li>
-          <a href="/login/">
+          <a href="/login/" ref={lastMenuItem}>
             <span>Sign up / Log in</span>
           </a>
         </li>
@@ -136,18 +139,16 @@ export function Menu(props) {
   }
 
   return (
-    <div style={{ lineHeight: 0 }}>
+    <>
       <button
         type="button"
         ref={menuItem}
         className="magna-header__dropdown-button"
         onClick={modalIsOpen ? closeModal : openModal}
         onKeyDown={(e) => {
-          if (modalIsOpen && e.keyCode == 9) {
+          if (modalIsOpen && e.keyCode === 9) {
             e.preventDefault()
-            e.shiftKey
-              ? lastMenuItem.current.focus()
-              : firstMenuItem.current.focus()
+            ;(e.shiftKey ? lastMenuItem : firstMenuItem).current.focus()
           }
         }}
         aria-expanded={modalIsOpen}
@@ -159,10 +160,7 @@ export function Menu(props) {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={customStyles}
-        contentRef={(_modalContent) => {
-          modalContent = _modalContent
-          return modalContent
-        }}
+        tabIndex="-1"
         className="container container-fluid"
       >
         <div
@@ -175,7 +173,7 @@ export function Menu(props) {
           {menu[authenticated ? 'authenticated' : 'non_authenticated']}
         </div>
       </ReactModal>
-    </div>
+    </>
   )
 }
 
