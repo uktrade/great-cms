@@ -31,11 +31,7 @@
 
 ### Install virtualenv
 
-`pip` 18 is required. Refer to the [pip website](https://pip.pypa.io/en/stable/installing/#installing-with-get-pip-py)
-for more info.
-
-    $ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-    $ python get-pip.py pip==18
+`pip` is required. Refer to the [pip website](https://pip.pypa.io/en/stable/getting-started/) for more info.
 
 ### Configuration
 
