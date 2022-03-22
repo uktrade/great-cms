@@ -178,21 +178,21 @@ jobs:
             - "node_modules"
       - run:
           name: Run Javascript tests
-          command: npm test
+          command: npm test -- --maxWorkers=1
 
   flake8:
     docker:
       - <<: *python
     steps:
-    - checkout
-    - run:
-        name: Run flake8
-        command: |
-          python3 -m venv venv
-          . venv/bin/activate
-          pip install --upgrade pip
-          pip install --quiet -r requirements_test.txt
-          flake8
+      - checkout
+      - run:
+          name: Run flake8
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install --upgrade pip
+            pip install --quiet -r requirements_test.txt
+            flake8
 
   black:
     docker:

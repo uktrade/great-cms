@@ -1,9 +1,10 @@
-import React, { useState, memo } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import ReactHtmlParser from 'react-html-parser'
 
 import ErrorList from '@src/components/ErrorList'
 import { Learning } from '@src/components/Learning/Learning'
+import ExpandCollapse from '@src/components/ProductFinder/ExpandCollapse'
 
 export const FormGroup = memo(
   ({
@@ -18,6 +19,7 @@ export const FormGroup = memo(
     lesson,
     formGroupClassName,
     descriptionClassName,
+    info,
   }) => {
     return (
       <div
@@ -30,20 +32,31 @@ export const FormGroup = memo(
           htmlFor={id}
         >
           {label}
+          {info && (
+            <ExpandCollapse
+              buttonClass="info fas fa-lg fa-info-circle text-blue-deep-90 m-f-xxs p-v-4 p-h-0"
+              buttonBefore
+            >
+              <div className="g-panel body-m m-v-xs">{info}</div>
+            </ExpandCollapse>
+          )}
         </label>
 
         {description && (
-          <div className={descriptionClassName || "text-blue-deep-80 p-t-xs p-b-xs"}>
+          <div className={descriptionClassName || 'text-blue-deep-80 p-t-xs p-b-xs'}>
             {ReactHtmlParser(description)}
           </div>
         )}
 
-        <Learning tooltip={tooltip} example={example} lesson={lesson} />
+        <Learning
+          tooltip={tooltip} example={example}
+          lesson={lesson}
+        />
         <ErrorList errors={errors} />
         {children}
       </div>
     )
-  }
+  },
 )
 
 FormGroup.propTypes = {
@@ -73,15 +86,17 @@ FormGroup.propTypes = {
     category: PropTypes.string,
     duration: PropTypes.string,
   }),
+  info: PropTypes.string,
 }
 
 FormGroup.defaultProps = {
   errors: [],
   description: '',
-  tooltip: {},
-  example: {},
+  tooltip: null,
+  example: null,
   hideLabel: false,
-  lesson: {},
+  lesson: null,
   formGroupClassName: '',
   descriptionClassName: '',
+  info: '',
 }
