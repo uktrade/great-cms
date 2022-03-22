@@ -8,6 +8,8 @@
 
 ### Enhancements
 
+- GLS-124 - new homepage banner
+
 ## [2.5.0](https://github.com/uktrade/great-cms/releases/tag/2.5.0)
 
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.4.1...2.5.0)
