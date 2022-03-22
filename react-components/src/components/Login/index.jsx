@@ -4,11 +4,14 @@ import PropTypes from 'prop-types'
 import Services from '@src/Services'
 import { Form } from '@src/components/Login/Form'
 
-export const Login = (props) => {
+export const Login = ({ nextUrl, ...props }) => {
+  /* eslint-disable react/destructuring-assignment */
   const [errors, setErrors] = React.useState(props.errors)
   const [isInProgress, setIsInProgress] = React.useState(props.isInProgress)
   const [email, setEmail] = React.useState(props.email)
   const [password, setPassword] = React.useState(props.password)
+
+  /* eslint-enable react/destructuring-assignment */
 
   function handleError(error) {
     setErrors(error.message || error)
@@ -19,28 +22,28 @@ export const Login = (props) => {
     setErrors({})
     setIsInProgress(true)
     Services.checkCredentials({ email, password })
-      .then(() => location.assign(props.nextUrl))
+      // eslint-disable-next-line no-restricted-globals
+      .then(() => location.assign(nextUrl))
       .catch(handleError)
   }
 
-  const next = encodeURIComponent(`${location.origin}${props.nextUrl}`)
+  // eslint-disable-next-line no-restricted-globals
+  const next = encodeURIComponent(`${location.origin}${nextUrl}`)
   const linkedinLoginUrl = `${Services.config.linkedInUrl}?next=${next}`
   const googleLoginUrl = `${Services.config.googleUrl}?next=${next}`
 
   return (
-    <div className="signup signup--reverse signup__container">
-      <div className="signup__steps-panel">
-        <div className="centre-children">
-          <a href="/" className="inline-block">
-            <img
-              className="m-f-auto m-r-auto signup__logo"
-              src="/static/images/dit_logo_335x160.png"
-              alt="Department for International Trade"
-              width="148"
-              height="71"
-            />
-          </a>
-        </div>
+    <div className="signup">
+      <div className="signup__form-panel">
+        <a href="/" className="inline-block">
+          <img
+            className="m-f-auto m-r-auto signup__logo"
+            src="/static/images/dit_logo_335x160.png"
+            alt="Department for International Trade"
+            width="335"
+            height="160"
+          />
+        </a>
         <Form
           disabled={isInProgress}
           errors={errors}
@@ -53,12 +56,12 @@ export const Login = (props) => {
           googleLoginUrl={googleLoginUrl}
         />
       </div>
-      <div className="signup__right-panel">
-        <div className="signup__right-panel__headings">
-          <h1 className="text-blue-deep-80">
+      <div className="signup__info-panel">
+        <div className="signup__info-panel__content">
+          <h1 className="signup__info-panel__heading text-blue-deep-80">
             Sign in to continue your exporting journey
           </h1>
-          <p className="text-blue-deep-80">Don't have an account?</p>
+          <p className="body-l">Don&apos;t have an account?</p>
           <a
             href={Services.config.signupUrl}
             className="button button--secondary"
@@ -72,17 +75,15 @@ export const Login = (props) => {
   )
 }
 
+const filterProps = obj => Object.fromEntries(Object.entries(obj).filter(([key]) => key.includes('LoginUrl')))
+
 Login.propTypes = {
+  ...filterProps(Form.propTypes),
   isInProgress: PropTypes.bool,
-  errors: PropTypes.object,
-  email: PropTypes.string,
-  password: PropTypes.string,
   nextUrl: PropTypes.string.isRequired,
 }
 
 Login.defaultProps = {
-  errors: {},
+  ...filterProps(Form.defaultProps),
   isInProgress: false,
-  email: '',
-  password: '',
 }

@@ -66,7 +66,7 @@ function RadioButtons(props) {
             buttonClass="info fas fa-lg fa-info-circle text-blue-deep-90 m-f-xxs p-v-4 p-h-0"
             buttonBefore
           >
-            <div className="g-panel f-l m-v-xs">{ReactHtmlParser(option.def)}</div>
+            <div className="g-panel m-v-xs">{ReactHtmlParser(option.def)}</div>
           </ExpandCollapse>
         )}
       </label>
@@ -83,7 +83,7 @@ RadioButtons.propTypes = {
         value: PropTypes.string,
         name: PropTypes.string,
         id: PropTypes.string,
-      })
+      }),
     ),
   }).isRequired,
   valueChange: PropTypes.func.isRequired,
@@ -103,7 +103,7 @@ export default function Interaction(props) {
           txId,
           interactionId: attribute.id,
           values: [{ first: value.id, second: value.name }],
-        })
+        }),
       )
     }
   }

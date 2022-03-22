@@ -28,7 +28,7 @@ module.exports = {
       '@assets': path.resolve(__dirname, 'assets'),
       '@components': path.resolve(
         __dirname,
-        '../node_modules/great-styles/dist/components/'
+        '../node_modules/great-styles/dist/components/',
       ),
     },
     fallback: {
@@ -77,7 +77,6 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              implementation: require('sass'),
               sourceMap: true,
               sassOptions: {
                 outputStyle: 'compressed',
@@ -85,7 +84,7 @@ module.exports = {
                   './node_modules/great-styles/src/scss/',
                   './domestic/sass/',
                   './core/components/sass/components/',
-                  './sso_profile/common/sass/partials/'
+                  './sso_profile/common/sass/partials/',
                 ],
               },
             },
@@ -157,33 +156,24 @@ module.exports = {
           to: '../../core/static/img/',
           noErrorOnMissing: true,
         },
-        // Copy flag icons - to be removed after replacement with react flags
-        {
-          from: '**/*.svg',
-          context: 'node_modules/flag-icon-css/',
-          to: '../../core/components/static/vendor/flag-icons/',
-          noErrorOnMissing: true,
-        },
-        {
-          from: '*.min.css',
-          context: 'node_modules/flag-icon-css/css/',
-          to: '../../core/components/static/vendor/flag-icons/css/',
-          noErrorOnMissing: true,
-        }
       ],
     }),
     new RemovePlugin({
       after: {
         include: [
           './react-components/dist/magna_styles.js',
+          './react-components/dist/magna_styles.js.map',
           './react-components/dist/loggedout_styles.js',
+          './react-components/dist/loggedout_styles.js.map',
           './react-components/dist/components_styles.js',
+          './react-components/dist/components_styles.js.map',
           './react-components/dist/profile_styles.js',
+          './react-components/dist/profile_styles.js.map',
         ],
       },
     }),
   ],
   stats: {
-    children: true
+    children: true,
   },
 }

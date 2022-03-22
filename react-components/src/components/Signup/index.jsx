@@ -12,39 +12,11 @@ export const STEP_COMPLETE = 'complete'
 const subHeadings = [
   'Learn how to sell abroad',
   'Find the best country for your product',
-  "Create an export plan that's right for your business",
+  'Create an export plan that\'s right for your business',
 ]
 
 export const Signup = (props) => {
   const { errors, disabled, email, showTitle, isInProgress } = props
-  const asideTitle =
-    props.products.length > 0 || props.countries.length > 0
-      ? 'Sign up so we can save your settings'
-      : ''
-
-  function getAside() {
-    if (props.products.length > 0 || props.countries.length > 0) {
-      return (
-        <aside className="c-1-2">
-          <h2 className="h-l">{asideTitle}</h2>
-          {props.products.length > 0 && (
-            <p className="p-xxs m-r-m">
-              {props.products.map((item, i) => (
-                <span key={i}>{item.label}</span>
-              ))}
-            </p>
-          )}
-          {props.countries.length > 0 && (
-            <p className="p-xxs m-r-m">
-              {props.countries.map((item, i) => (
-                <span key={i}>{item.label}</span>
-              ))}
-            </p>
-          )}
-        </aside>
-      )
-    }
-  }
 
   const sharedStepProps = {
     errors,
@@ -69,7 +41,9 @@ export const Signup = (props) => {
           handleSubmit={props.handleStepCredentialsSubmit}
         />
       )
-    } else if (props.currentStep === STEP_VERIFICATION_CODE) {
+    }
+
+    if (props.currentStep === STEP_VERIFICATION_CODE) {
       return (
         <Confirmation
           {...sharedStepProps}
@@ -78,42 +52,49 @@ export const Signup = (props) => {
           code={props.code}
         />
       )
-    } else if (props.currentStep === STEP_COMPLETE) {
+    }
+
+    if (props.currentStep === STEP_COMPLETE) {
       return <Complete nextUrl={props.nextUrl} showTitle={props.showTitle} />
     }
+
+    return null
   }
 
   return (
-    <div className="bg-blue-deep-80 signup signup__container">
-      <div className="signup__steps-panel">
-        <div className="centre-children">
-          <a href="/" className="inline-block">
-            <img
-              className="m-f-auto m-r-auto signup__logo"
-              src="/static/images/dit_logo_335x160.png"
-              alt=""
-              width="148"
-              height="71"
-            />
-          </a>
-        </div>
+    <div className="signup bg-blue-deep-80">
+      <div className="signup__form-panel">
+        <a href="/" className="inline-block">
+          <img
+            className="m-f-auto m-r-auto signup__logo"
+            src="/static/images/dit_logo_335x160.png"
+            alt="Department for International Trade"
+            width="335"
+            height="160"
+          />
+        </a>
+
         {renderStep()}
-        <p className="g-panel signup__questions-panel">
+
+        <p className="g-panel body-m">
           If you have any questions or feedback please{' '}
           <a href="/contact/feedback/" target="_blank">
             get in touch
           </a>
         </p>
       </div>
-      <div className="signup__right-panel">
-        <div className="signup__right-panel__headings">
-          <h2>Find new customers around the world</h2>
-          {subHeadings.map((heading) => (
-            <div className="signup__right-panel__subheadings" key={heading}>
-              <i className="fas fa-check-circle" aria-hidden="true"></i>
-              <p>{heading}</p>
-            </div>
-          ))}
+      <div className="signup__info-panel">
+        <div className="signup__info-panel__content">
+          <h2 className="signup__info-panel__heading">Find new customers around the world</h2>
+          <ul className="signup__info-panel__subheadings">
+            {subHeadings.map((heading) => (
+              <li key={heading} className="text-white">
+                <i className="fas fa-check-circle" aria-hidden="true" />
+                <span>{heading}</span>
+              </li>
+            ))}
+          </ul>
+
         </div>
 
         <img
@@ -127,19 +108,15 @@ export const Signup = (props) => {
 }
 
 Signup.propTypes = {
+  ...Form.propTypes,
   isInProgress: PropTypes.bool,
-  errors: PropTypes.object,
-  currentStep: PropTypes.string,
+  currentStep: PropTypes.oneOf([STEP_CREDENTIALS, STEP_COMPLETE, STEP_VERIFICATION_CODE]),
   showTitle: PropTypes.bool,
-  products: PropTypes.array,
-  countries: PropTypes.array,
 }
 
 Signup.defaultProps = {
+  ...Form.defaultProps,
   isInProgress: false,
-  errors: {},
-  companySettings: {},
+  currentStep: STEP_CREDENTIALS,
   showTitle: true,
-  products: [],
-  countries: [],
 }
