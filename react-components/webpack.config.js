@@ -8,9 +8,11 @@ module.exports = {
   entry: {
     magna: './react-components/src/bundle.js',
     magna_styles: './core/sass/main.scss',
+    common: './core/js/common.js',
     loggedout_styles: './domestic/sass/main.scss',
     components: './react-components/src/bundle-components.js',
-    components_styles: './core/components/sass/components/elements-components.scss',
+    components_styles:
+      './core/components/sass/components/elements-components.scss',
     profile_styles: './sso_profile/common/sass/profile.scss',
   },
   output: {
@@ -28,7 +30,7 @@ module.exports = {
       '@assets': path.resolve(__dirname, 'assets'),
       '@components': path.resolve(
         __dirname,
-        '../node_modules/great-styles/dist/components/',
+        '../node_modules/great-styles/dist/components/'
       ),
     },
     fallback: {
