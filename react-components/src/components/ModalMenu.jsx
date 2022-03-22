@@ -161,7 +161,7 @@ export function Menu(props) {
         onRequestClose={closeModal}
         style={customStyles}
         tabIndex="-1"
-        className="container container-fluid"
+        className="container"
       >
         <div
           className={`magna-header__dropdown ${
