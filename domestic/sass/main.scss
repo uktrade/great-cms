@@ -13,8 +13,8 @@ $fa-font-path: '/static/fonts';
 @import 'partials/utils';
 
 // Great styles
-@import '/node_modules/great-styles/src/scss/components/header-footer/header';
-@import '/node_modules/great-styles/src/scss/elements/utils';
+@import 'node_modules/great-styles/src/scss/components/header-footer/header';
+@import 'node_modules/great-styles/src/scss/elements/utils';
 
 // COMPONENTS
 @import 'components/modal';
