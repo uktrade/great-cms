@@ -101,6 +101,3 @@
     </div>
   </nav>
 </header>
-{% if request.user.is_authenticated %}
-  {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
-{% endif %}

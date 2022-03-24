@@ -77,6 +77,9 @@
 {% block body_header %}
   {% include 'core/header.html' %}
 
+  {% if request.user.is_authenticated %}
+    {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
+  {% endif %}
 {% endblock %}
 
 {% block body_content_container %}

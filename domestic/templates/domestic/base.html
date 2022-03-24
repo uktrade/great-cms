@@ -17,12 +17,14 @@
       name="description" content="
 
 
+
       {% block meta_description %}{% firstof page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}"
     >
   {% endblock %}
   {% block sharing_title %}
     <meta
       name="title" content="
+
 
 
       {% block meta_title %}{% firstof page.seo_title page.title content_snippet.seo_title content_snippet.title %}{% endblock %}"
@@ -170,7 +172,7 @@
 {% endblock %}
 
 {% block body_header %}
-  {% include 'components/header_footer/domestic_header.html' %}
+  {% include 'core/header.html' %}
 {% endblock %}
 
 {% block body_content_container %}
