@@ -10,6 +10,15 @@
 
 - GLS-124 - new homepage banner
 
+## [2.6.0](https://github.com/uktrade/great-cms/releases/tag/2.6.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.5.0...2.6.0)
+
+### Enhancements
+
+- GLS-102 - update Signup page styling
+- General tidy-up of front-end assets
+
 ## [2.5.0](https://github.com/uktrade/great-cms/releases/tag/2.5.0)
 
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.4.1...2.5.0)
@@ -19,7 +28,6 @@
 - GLS-113 - add extra items and heading to Country Guide CTA links
 - GLS-113 - add command to update factsheets links from govuk content API
 - GLS-112 - add Trade barriers and Duties and customs content
-- GLS-102 - update Signup page styling
 
 ## [2.4.1](https://github.com/uktrade/great-cms/releases/tag/2.4.1)
 
