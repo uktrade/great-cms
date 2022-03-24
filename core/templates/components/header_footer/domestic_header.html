@@ -21,27 +21,24 @@
     </ul>
 
     <div class="magna-header__menu">
-      <button type="button" class="magna-header__dropdown-button" data-reveal-button aria-controls="main-menu">
+      <button type="button" class="magna-header__dropdown-button{% if not request.user.is_authenticated %} hide-lg{% endif %}" data-reveal-button data-reveal-modal aria-controls="main-menu">
         Menu
         <span class="magna-header__dropdown-button__icon"></span>
       </button>
 
-      <div id="main-menu" class="magna-header__dropdown" role="dialog">
+      <div id="main-menu" class="magna-header__dropdown">
         {% if request.user.is_authenticated %}
-        <div class="magna-header__greeting">Hi {{ user.firstname }}</div>
+        <div class="magna-header__greeting">Hi {{ request.user.first_name }}</div>
         {% endif %}
+
         <ul class="magna-header__menu-items">
           {% if request.user.is_authenticated %}
           <li><a href="{% slugurl 'dashboard' %}">Dashboard</a></li>
-          <li class="hide-lg">
-            <a href="/learn/categories/">Learn to export <span class="tag tag--small">new</span></a>
-          </li>
-          <li class="hide-lg">
-            <a href="{% url "core:compare-countries"%}">Where to export <span class="tag tag--small">new</span></a>
-          </li>
-          <li class="hide-lg">
-            <a href="/export-plan/">Make an export plan <span class="tag tag--small">new</span></a>
-          </li>
+          <li><a href="/learn/categories/">Learn to export <span class="tag tag--small">new</span></a></li>
+          <li><a href="{% url "core:compare-countries"%}">Where to export <span class="tag tag--small">new</span></a></li>
+          <li><a href="/export-plan/">Make an export plan <span class="tag tag--small">new</span></a></li>
+
+          <li><a href="/profile/">Account</a></li>
           {% endif %}
 
           <li><a href="/advice/">Advice</a></li>
@@ -49,13 +46,29 @@
           <li><a href="/services/">Services</a></li>
 
           {% if request.user.is_authenticated %}
-          <li><a href="#">Account</a></li>
           <li>
-            <button type="button">Sign out</button>
+            {% url 'sso:business-sso-logout-api' as sign_out_endpoint %}
+            <script>
+              function signOut() {
+                return fetch('{{ sign_out_endpoint }}', {
+                  method: 'post',
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'X-Requested-With': 'XMLHttpRequest',
+                  },
+                  body: JSON.stringify({})
+                }).then(function() {
+                  window.location = '/';
+                });
+              }
+            </script>
+            <button type="button" onclick="signOut()">Sign out</button>
           </li>
         {% else %}
             <li>
-              <a class="button" href="{% url 'core:login' %}">Sign in</a>
+              <a class="button margin-top-15 margin-bottom-15" href="{% url 'core:login' %}">Sign in</a>
             </li>
         {% endif %}
         </ul>

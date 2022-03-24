@@ -1,0 +1,35 @@
+/**
+ These are global styles from great-styles but not yet available in domestic.
+ We can remove these when domestic relies fully on great-styles.
+
+ TODO: Remove when domestic uses great-styles
+ */
+
+@import 'node_modules/great-styles/src/scss/helpers/vars';
+
+// Font-styles applied to <body>, scope only to elements that need it for now:
+.magna-header {
+  font-size: 20px;
+  line-height: 30px;
+
+  & .container {
+    max-width: $site-width;
+    margin: 0 $gutter-small;
+
+    @media (min-width: $mobile-min-breakpoint) {
+      margin: 0 $gutter-medium;
+    }
+
+    @media (min-width: $tablet-min-breakpoint) {
+      margin: 0 $gutter-large;
+    }
+
+    @media (min-width: $desktop-min-breakpoint) {
+      margin: 0 $gutter-xlarge;
+    }
+
+    @media (min-width: $site-width+($gutter-xlarge * 2)) {
+      margin: 0 auto;
+    }
+  }
+}

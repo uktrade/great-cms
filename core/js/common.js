@@ -1,1 +1,1 @@
-require('./src/dit.reveal')
+require('great-styles/src/js/Reveal')
