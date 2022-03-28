@@ -55,7 +55,6 @@
     "eslint-plugin-react": "^7.22.0",
     "fetch-mock": "8.3.2",
     "file-loader": "^5.1.0",
-    "great-styles": "github:uktrade/great-styles#v0.5.0",
     "identity-obj-proxy": "3.0.0",
     "jest": "^26.6.3",
     "mini-css-extract-plugin": "^2.2.0",
@@ -74,6 +73,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
+    "great-styles": "github:uktrade/great-styles#v0.5.0",
     "prop-types": "15.7.2",
     "react": "16.13.1",
     "react-cookie": "4.0.3",
