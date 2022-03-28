@@ -1153,16 +1153,16 @@ def test_markets_page__no_results__page_content(
         'can help you sell your product in an overseas market.'
     ) in body_text
 
-    exopp_link = soup.find('a', attrs={"href": "http://exred.trade.great:8007/export-opportunities/"})
+    exopp_link = soup.find('a', attrs={'href': 'http://exred.trade.great:8007/export-opportunities/'})
     assert exopp_link.string == (
         'Browse our export opportunities service to find opportunities to sell your product in overseas markets'
     )
 
-    office_finder_link = soup.find('a', attrs={"href": "http://exred.trade.great:8007/contact/office-finder"})
+    office_finder_link = soup.find('a', attrs={'href': 'http://exred.trade.great:8007/contact/office-finder'})
     assert office_finder_link.string == 'Get in touch with a trade adviser to discuss your export business plan'
 
     # Markets links may exist elsewhere in page, make sure at least one is 'Clear all filters'
-    market_links = soup.find_all('a', attrs={"href": "/markets/"})
+    market_links = soup.find_all('a', attrs={'href': '/markets/'})
 
     assert any(link.string == 'Clear all filters' for link in market_links)
 
