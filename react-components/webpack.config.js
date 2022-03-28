@@ -176,15 +176,13 @@ module.exports = {
     }),
     new RemovePlugin({
       after: {
-        include: [
-          './react-components/dist/magna_styles.js',
-          './react-components/dist/magna_styles.js.map',
-          './react-components/dist/loggedout_styles.js',
-          './react-components/dist/loggedout_styles.js.map',
-          './react-components/dist/components_styles.js',
-          './react-components/dist/components_styles.js.map',
-          './react-components/dist/profile_styles.js',
-          './react-components/dist/profile_styles.js.map',
+        test: [
+          {
+            folder: './react-components/dist',
+            method: (absoluteItemPath) => {
+              return new RegExp(/_styles\.js(\.map)?$/).test(absoluteItemPath)
+            },
+          },
         ],
       },
     }),
