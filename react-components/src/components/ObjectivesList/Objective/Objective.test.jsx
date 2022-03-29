@@ -1,14 +1,9 @@
 import React from 'react'
-
-import Enzyme from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import { fireEvent, render } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
+import Services from '@src/Services'
 
 import { Objective } from '@src/components/ObjectivesList/Objective'
-import Services from '@src/Services'
-import ErrorList from '@src/components/ErrorList'
-
-Enzyme.configure({ adapter: new Adapter() })
 
 const dummyFunction = () => {}
 
@@ -23,7 +18,6 @@ const mockObjectiveData = {
 }
 
 beforeEach(() => {
-  jest.useFakeTimers()
   fetchMock.reset()
 
   Services.setConfig({
@@ -36,18 +30,14 @@ beforeEach(() => {
   })
 })
 
-afterEach(() => {
-  jest.useRealTimers()
-})
-
 describe('Objective', () => {
-  test('should show ErrorList when there are errors', () => {
+  it('should show ErrorList when there are errors', () => {
     const dummyObjective = {
       ...mockObjectiveData,
       errors: { __all__: ['Unexpected error', 'Request timed out'] },
     }
 
-    const wrapper = Enzyme.mount(
+    const { container } = render(
       <Objective
         key={0}
         id={0}
@@ -61,20 +51,20 @@ describe('Objective', () => {
       />
     )
 
-    expect(
-      wrapper.containsMatchingElement(
-        <ErrorList errors={['Unexpected error', 'Request timed out']} />
-      )
-    ).toEqual(true)
+    const errorItems = container.querySelectorAll('.error-message')
+
+    expect(errorItems).toHaveLength(2)
+    expect(errorItems[0].textContent).toEqual('Unexpected error')
+    expect(errorItems[1].textContent).toEqual('Request timed out')
   })
 
-  test('should not show ErrorList when there are no errors', () => {
+  it('should not show ErrorList when there are no errors', () => {
     const dummyObjective = {
       ...mockObjectiveData,
       errors: { __all__: [] },
     }
 
-    const wrapper = Enzyme.mount(
+    const { container } = render(
       <Objective
         key={0}
         id={0}
@@ -88,10 +78,10 @@ describe('Objective', () => {
       />
     )
 
-    expect(wrapper.exists('errorlist')).toEqual(false)
+    expect(container.querySelector('.errorlist')).toBeNull()
   })
 
-  test('should call function on change', () => {
+  it('should call function on change', () => {
     const mockFunction = jest.fn()
 
     const dummyObjective = {
@@ -101,7 +91,7 @@ describe('Objective', () => {
       errors: { __all__: [] },
     }
 
-    const wrapper = Enzyme.mount(
+    const { container } = render(
       <Objective
         key={0}
         id={0}
@@ -115,13 +105,11 @@ describe('Objective', () => {
       />
     )
 
-    const input = wrapper.find('textarea[name="description"]')
+    const input = container.querySelector('textarea[name="description"]')
 
-    const dummyEvent = {
+    fireEvent.change(input, {
       target: { name: 'description', value: 'Lorem ipsum' },
-    }
-
-    input.simulate('change', dummyEvent)
+    })
 
     expect(mockFunction).toHaveBeenCalledWith({
       ...dummyObjective,
@@ -129,7 +117,7 @@ describe('Objective', () => {
     })
   })
 
-  test('should call function on delete', () => {
+  it('should call function on delete', () => {
     const mockFunction = jest.fn()
 
     const dummyObjective = {
@@ -137,7 +125,7 @@ describe('Objective', () => {
       pk: 234,
     }
 
-    const wrapper = Enzyme.mount(
+    const { container } = render(
       <Objective
         key={0}
         id={0}
@@ -151,9 +139,7 @@ describe('Objective', () => {
       />
     )
 
-    const input = wrapper.find('.button--delete')
-
-    input.simulate('click', {})
+    container.querySelector('.button--delete').click()
 
     expect(mockFunction).toHaveBeenCalledWith(234)
   })

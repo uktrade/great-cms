@@ -1,7 +1,7 @@
 import React from 'react'
 import MockDate from 'mockdate'
 
-import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import { ObjectivesList } from '@src/components/ObjectivesList'
 import Services from '@src/Services'
 
@@ -59,15 +59,9 @@ const setup = ({ exportPlanID, objectives, model_name = 'objectives' }) => {
   }
 }
 
-beforeEach(() => {
-  jest.useFakeTimers()
-})
-
 afterEach(() => {
-  jest.useRealTimers()
   Services.apiModelObjectManage.mockClear()
   MockDate.reset()
-  cleanup()
 })
 
 describe('ObjectivesList', () => {
