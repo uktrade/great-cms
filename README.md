@@ -13,6 +13,7 @@
 ## Development
 
 ### Installing
+
     $ git clone https://github.com/uktrade/great-cms
     $ cd great-cms
     $ [create and activate virtual environment]
@@ -20,24 +21,22 @@
     $ make secrets
     $ make ARGUMENTS=migrate manage
 
-
 ### Requirements
 
 * [Python 3.9](https://www.python.org/downloads/release/python-391/)
 * [Postgres 10](https://www.postgresql.org/)
 * [Redis](https://redis.io/)
-* Any [browser based on Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium) and [Chrome driver](https://chromedriver.chromium.org/)
+* Any [browser based on Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium)
+  and [Chrome driver](https://chromedriver.chromium.org/)
 
 ### Install virtualenv
 
-`pip` 18 is required. Refer to the [pip website](https://pip.pypa.io/en/stable/installing/#installing-with-get-pip-py) for more info.
-
-    $ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-    $ python get-pip.py pip==18
+`pip` is required. Refer to the [pip website](https://pip.pypa.io/en/stable/getting-started/) for more info.
 
 ### Configuration
 
-Secrets such as API keys and environment specific configurations are placed in `conf/env/secrets-do-not-commit` - a file that is not added to version control. To create a template secrets file with dummy values run `make secrets`.
+Secrets such as API keys and environment specific configurations are placed in `conf/env/secrets-do-not-commit` - a file
+that is not added to version control. To create a template secrets file with dummy values run `make secrets`.
 
 ### Commands
 
@@ -60,14 +59,16 @@ Secrets such as API keys and environment specific configurations are placed in `
 | make css                      | Compile scss to css |
 | make secrets                  | Create your secret env var file |
 
-
 ### Setting up the local database
 
     $ make database
 
 `make database` drops then recreates the local database.
 
-When setting up the project initially ensure you have postgress app running and have created a db called `greatcms` with a user called `debug`. Instructions shown here - https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e
+When setting up the project initially ensure you have postgress app running and have created a db called `greatcms` with
+a user called `debug`. Instructions shown here
+
+- https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e
 
 Elevate user debug to superuser `ALTER USER debug WITH SUPERUSER;`
 
@@ -85,22 +86,25 @@ HEADLESS=false make ARGUMENTS="-m browser" pytest
 ```
 
 You can also use regular pytest filters:
+
 ```bash
 HEADLESS=false make ARGUMENTS="-k test_anonymous_user_should" pytest
 ```
-
 
 ### Getting started
 
     $ make ARGUMENTS=bootstrap_great manage
 
- It creates the Great domestic empty homepage and assigns it to the site root.
- It also creates a superuser `test` with password `password`, for local development.
+It creates the Great domestic empty homepage and assigns it to the site root. It also creates a superuser `test` with
+password `password`, for local development.
 
 ## Geolocation data
+
 This project includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com/
 
-Maxmind GeoLite2 is used to determine the city or country the user is from via their IP address. The geolocation dataset must be updated to stay fresh. To pull a fresh version of the geolocation data, ensure you have MAXMIND_LICENCE_KEY set to a valid key, then run:
+Maxmind GeoLite2 is used to determine the city or country the user is from via their IP address. The geolocation dataset
+must be updated to stay fresh. To pull a fresh version of the geolocation data, ensure you have MAXMIND_LICENCE_KEY set
+to a valid key, then run:
 
 ```
 make manage download_geolocation_data
@@ -108,19 +112,20 @@ make manage download_geolocation_data
 
 and then delete the downloaded, unexpanded archives (*.gz) before commiting the changed *.mmdb files.
 
-
 ### Wagtail Transfer
 
-We use a third-party app to manage content import from one environment to another. There are specific docs on Wagtail Transer :doc:`here <./wagtail_transfer>`. PLEASE at last read the "GOTCHAS for developers"
-
+We use a third-party app to manage content import from one environment to another. There are specific docs on Wagtail
+Transer :doc:`here <./wagtail_transfer>`. PLEASE at last read the "GOTCHAS for developers"
 
 ### Image storage
 
-Local development uses `django.core.files.storage.FileSystemStorage`, but you will be well advised to enable S3 storage if you are testing/using Wagtail Transfer
+Local development uses `django.core.files.storage.FileSystemStorage`, but you will be well advised to enable S3 storage
+if you are testing/using Wagtail Transfer
 
 ### /etc/hosts file entry
 
-UI clients on local expect the CMS to be reachable at the address http://greatcms.trade.great. Add the following to your `/etc/hosts` file:
+UI clients on local expect the CMS to be reachable at the address http://greatcms.trade.great. Add the following to
+your `/etc/hosts` file:
 
 ```
 127.0.0.1   greatcms.trade.great
@@ -130,20 +135,24 @@ You can test this works by attempting to visit http://greatcms.trade.great:8020/
 
 ## Session
 
-Signed cookies are used as the session backend to avoid using a database. We therefore must avoid storing non-trivial data in the session, because the browser will be exposed to the data.
+Signed cookies are used as the session backend to avoid using a database. We therefore must avoid storing non-trivial
+data in the session, because the browser will be exposed to the data.
 
 ## Javascript file paths
 
-Currently, the React component are built into Magna.js, while some javascript ported from Great V1 are collected from directories named javascript/.
+Currently, the React component are built into Magna.js, while some javascript ported from Great V1 are collected from
+directories named javascript/.
 
-IMPORTANT: If you build great-components or something else and end up with code in /js/ it will NOT be accessible on a deployed environment while we are running a hybrid V1 (great-domestic-ui) + V2 (great-cms) system.
+IMPORTANT: If you build great-components or something else and end up with code in /js/ it will NOT be accessible on a
+deployed environment while we are running a hybrid V1 (great-domestic-ui) + V2 (great-cms) system.
 
 ## React components
 
-To add new react components:
+To add new React components:
 
 1. Add the file to javascript/src/ e.g. javascript/src/myFile.js
-2. Update javascript/src/bundle.js  e.g,
+2. Update javascript/src/bundle.js e.g,
+
 ```
 import myFile from './myFile';
 
@@ -157,9 +166,11 @@ export default {
 4. The new component is now available on window.magna.myFile
 
 ### Node version
+
 Make sure to use NodeJS 14.0.0.
 
 ### Code formatting
+
 We are using eslint with recommended settings
 
 ### Pre-commit hooks
@@ -172,16 +183,17 @@ To get set up, in your activated virtualenv:
 `pip install pre-commit`
 `pre-commit install --install-hooks`
 
-## FE BAU Development
+## FE Development
+
+### JS and CSS builds
 
 Most front-end assets are compiled from a single webpack configuration in `react-components/webpack.config.js`. This
 compiles:
 
-- The main bundle for Magna/Logged in
-- The styles for Magna/Logged in
-- The main styles for Domestic/Logged out
-- The main styles for Profile
-- Some 'element components' styles
+- The main JS bundle for Magna/Logged in
+- The CSS styles for Magna/Logged in
+- The CSS styles for Profile
+- Some CSS for 'element components'
 - The JS for the cookie banner
 
 To compile all the above, run the default build script:
@@ -197,11 +209,37 @@ compile those, run the domestic build script:
 $ npm run build-domestic
 ```
 
+### Development builds
+
+The above scripts are available as development-focused watch tasks, and result in development versions of the above
+assets:
+
+```shell
+$ npm run build:dev
+$ npm run build-domestic:dev
+```
+
+NOTE: Make sure you run the production builds (not `:dev`) before committing work.
+
+### JS tests
+
+JS tests can be run with:
+
+```shell
+$ npm run test
+```
+
+Or as a watch task using:
+
+```shell
+$ npm run test:dev
+```
+
 ## Staff SSO
 
-On local machine, SSO is turned off by default.
-If you need to enable, set the `ENFORCE_STAFF_SSO_ENABLED` to `true`.
+On local machine, SSO is turned off by default. If you need to enable, set the `ENFORCE_STAFF_SSO_ENABLED` to `true`.
 You also need to set:
+
 ```
 STAFF_SSO_AUTHBROKER_URL
 AUTHBROKER_CLIENT_ID
@@ -210,34 +248,39 @@ AUTHBROKER_CLIENT_SECRET
 
 Speak to webops or a team mate for the above values.
 
-
 ## Load tests
 
-We're using [locust](https://locust.io/) to run load tests against local instance of
-the service and in-memory SQLite.
+We're using [locust](https://locust.io/) to run load tests against local instance of the service and in-memory SQLite.
 See Django [database documentation](https://docs.djangoproject.com/en/2.2/ref/settings/#databases) for more details.
 
 To run them with default settings use:
+
 ```bash
 make test_load
 ```
-This target, will spawn a local instance of the service and tear it down after tests
-are finished.
 
+This target, will spawn a local instance of the service and tear it down after tests are finished.
 
 You can control the execution with env vars:
+
 ```bash
 LOCUST_FILE=tests/load/mvp_home.py NUM_USERS=10 HATCH_RATE=2 RUN_TIME=30s make test_load
 ```
 
 ## Known issues
-* Local development environment: If you try to get to a URL (i.e. /export-plan/dashboard/) and you get an error similar to "AttributeError
 
-AttributeError: 'User' object has no attribute 'session_id'"/'company' et al, you need to go to /django-admin/ and logout from the top right hand side. This is a temporary workaround to resolve an incompatibility between great-cms and directory-sso.
+* Local development environment: If you try to get to a URL (i.e. /export-plan/dashboard/) and you get an error similar
+  to "AttributeError
 
-* On ubuntu you may need to run `sudo apt-get install libpq-dev` if after trying to install dependencies you get an error message relating to `psycopg`.
+AttributeError: 'User' object has no attribute 'session_id'"/'company' et al, you need to go to /django-admin/ and
+logout from the top right hand side. This is a temporary workaround to resolve an incompatibility between great-cms and
+directory-sso.
 
-* On latest release of MacOs `make install_requirements` might fail, please run `brew install openssl` then `env LDFLAGS="-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib" make install_requirements`
+* On ubuntu you may need to run `sudo apt-get install libpq-dev` if after trying to install dependencies you get an
+  error message relating to `psycopg`.
+
+* On latest release of MacOs `make install_requirements` might fail, please run `brew install openssl`
+  then `env LDFLAGS="-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib" make install_requirements`
 
 ___
 
@@ -249,9 +292,11 @@ To setup and start Great CMS to run entirely in docker containers, use:
 ./start-docker.sh
 ```
 
-This will clone required repositories (directory-api, directory-forms-api, directory-sso and directory-sso-proxy) into the parent directory, and build the required containers.
+This will clone required repositories (directory-api, directory-forms-api, directory-sso and directory-sso-proxy) into
+the parent directory, and build the required containers.
 
-During the process you will be asked to populate some environment variables: contact a team member to get the appropriate values.
+During the process you will be asked to populate some environment variables: contact a team member to get the
+appropriate values.
 
 You will also need to add the following entries to your hosts file (/etc/hosts):
 
@@ -275,8 +320,8 @@ docker-compose -f development.yml up
 
 ___
 
-
 ## Helpful links
+
 * [Developers Onboarding Checklist](https://uktrade.atlassian.net/wiki/spaces/ED/pages/32243946/Developers+onboarding+checklist)
 * [Gitflow branching](https://uktrade.atlassian.net/wiki/spaces/ED/pages/737182153/Gitflow+and+releases)
 * [GDS service standards](https://www.gov.uk/service-manual/service-standard)
@@ -284,21 +329,27 @@ ___
 * [Github Hooks](https://pre-commit.com/hooks)
 
 ## Related projects:
+
 https://github.com/uktrade?q=directory
 
 https://github.com/uktrade?q=great
 
 [circle-ci-image]: https://circleci.com/gh/uktrade/great-cms/tree/develop.svg?style=svg
+
 [circle-ci]: https://circleci.com/gh/uktrade/great-cms/tree/develop
 
 [codecov-image]: https://codecov.io/gh/uktrade/great-cms/branch/master/graph/badge.svg
+
 [codecov]: https://codecov.io/gh/uktrade/great-cms
 
 [docs-image]: https://readthedocs.org/projects/great-cms/badge/?version=latest
+
 [docs]: https://great-cms.readthedocs.io/en/latest/?badge=latest
 
 [gitflow-image]: https://img.shields.io/badge/Branching%20strategy-gitflow-5FBB1C.svg
+
 [gitflow]: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
 
 [calver-image]: https://img.shields.io/badge/Versioning%20strategy-CalVer-5FBB1C.svg
+
 [calver]: https://calver.org
