@@ -3,10 +3,7 @@ import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import Services from '@src/Services'
 import PropTypes from 'prop-types'
-import { useWindowSize } from '@src/components/hooks/useWindowSize'
 import { config } from '@src/config'
-
-const mobileBreakpoint = 768
 
 const customStyles = {
   overlay: {
@@ -15,147 +12,125 @@ const customStyles = {
     position: 'absolute',
   },
   content: {
-    marginRight: '-57px',
-    marginTop: '0',
+    position: 'relative',
+    height: '100%',
+    overflow: 'visible',
+    pointerEvents: 'none',
   },
 }
 
 export function Menu(props) {
-  let modalContent
-  const { avatar, authenticated, userName } = props
+  const { authenticated, userName } = props
   const [modalIsOpen, setIsOpen] = useState(false)
+  const [topOffset, setTopOffset] = useState(0)
   const firstMenuItem = useRef(null)
   const lastMenuItem = useRef(null)
   const menuItem = useRef(null)
 
   const openModal = (evt) => {
-    const position = evt.target.getClientRects()[0] || { top: 0, height: 0 }
-    const bodyWidth = evt.target.closest('body').clientWidth
-    customStyles.content.top = `${
-      (position.top + position.height + window.scrollY)
-    }px`
-    customStyles.content.right = `${
-      (bodyWidth - (position.left + position.right) / 2)
-    }px`
-
+    setTopOffset(evt.target.getBoundingClientRect().bottom)
     setIsOpen(true)
   }
 
   const closeModal = () => {
     setIsOpen(false)
-    document.body.style.overflow = ''
-  }
-
-  const modalAfterOpen = () => {
-    modalContent.style.opacity = '1'
-    document.body.style.overflow = 'auto'
   }
 
   const logout = () => {
     Services.logout().finally(() => {
-      window.location = '/';
+      window.location = '/'
     })
   }
 
-  const width = useWindowSize().width
-
-  let avatarElement = authenticated ? (
-    <i className="fas fa-user text-blue-deep-80" />
-  ) : (
-    <i
-      className="fas fa-caret-down text-blue-deep-80"
-      style={{ fontSize: '30px' }}
-    />
-  )
-  avatarElement = avatar ? (
-    <img src={avatar} alt="User avatar" />
-  ) : (
-    avatarElement
-  )
-
-  const greeting = authenticated && userName ? (
-    <div className="h-xs p-t-xxs user-greeting">Hi {userName}</div>
-  ) : (
-    ''
-  )
+  const greeting =
+    authenticated && userName ? (
+      <div className="magna-header__greeting">Hi {userName}</div>
+    ) : (
+      ''
+    )
 
   const menu = {
     authenticated: (
-      <ul className="menu-items">
+      <ul className="magna-header__menu-items">
         <li>
-          <a href="/" className="link" ref={firstMenuItem} onKeyDown={(e) => {
-            if (e.keyCode && e.shiftKey) {
-              e.preventDefault();
-              menuItem.current.focus();
-            }
-          }}>
-            <span>Home</span>
+          <a
+            href="/"
+            ref={firstMenuItem}
+            onKeyDown={(e) => {
+              if (e.keyCode && e.shiftKey) {
+                e.preventDefault()
+                menuItem.current.focus()
+              }
+            }}
+          >
+            Home
           </a>
         </li>
         <li>
-          <a href="/learn/categories/" className="link">
-            <span>Learn to export</span>
-            <strong className="tag tag--small">new</strong>
+          <a href="/learn/categories/">
+            Learn to export
+            <span className="tag tag--small">new</span>
           </a>
         </li>
         <li>
-          <a href={config.compareCountriesUrl} className="link">
-            <span>Where to export</span>
-            <strong className="tag tag--small">new</strong>
+          <a href={config.compareCountriesUrl}>
+            Where to export
+            <span className="tag tag--small">new</span>
           </a>
         </li>
         <li>
-          <a href={config.exportPlanBaseUrl} className="link">
-            <span>Make an export plan</span>
-            <strong className="tag tag--small">new</strong>
+          <a href={config.exportPlanBaseUrl}>
+            Make an export plan
+            <span className="tag tag--small">new</span>
           </a>
         </li>
         <li>
-          <a href="/profile" className="link">
-            <span>Account</span>
-          </a>
+          <a href="/profile">Account</a>
         </li>
         <li>
-          <a href="/advice" className="link">
-            <span>Advice</span>
-          </a>
+          <a href="/advice">Advice</a>
         </li>
         <li>
-          <a href="/markets" className="link">
-            <span>Markets</span>
-          </a>
+          <a href="/markets">Markets</a>
         </li>
         <li>
-          <a href="/services" className="link">
-            <span>Services</span>
-          </a>
+          <a href="/services">Services</a>
         </li>
-
         <li>
-          <button type="button" className="link" ref={lastMenuItem} onClick={logout} onKeyDown={(e) => {
-            if (e.keyCode && !e.shiftKey && e.keyCode !== 13 && e.keyCode !== 32) {
-              e.preventDefault();
-              menuItem.current.focus();
-            }
-          }}>
-            <span>Sign out</span>
+          <button
+            type="button"
+            ref={lastMenuItem}
+            onClick={logout}
+            onKeyDown={(e) => {
+              if (
+                e.keyCode &&
+                !e.shiftKey &&
+                e.keyCode !== 13 &&
+                e.keyCode !== 32
+              ) {
+                e.preventDefault()
+                menuItem.current.focus()
+              }
+            }}
+          >
+            Sign out
           </button>
         </li>
       </ul>
     ),
     non_authenticated: (
-      <ul className="menu-items">
+      <ul className="magna-header__menu-items">
         <li>
           <a
             href="/contact-us/help/"
             rel="noopener noreferrer"
-            className="link"
+            ref={firstMenuItem}
           >
             <span>Send a feedback email</span>
           </a>
         </li>
         <li>
-          <a href="/login/" className="link">
+          <a href="/login/" ref={lastMenuItem}>
             <span>Sign up / Log in</span>
           </a>
         </li>
@@ -164,45 +139,45 @@ export function Menu(props) {
   }
 
   return (
-    <div style={{ lineHeight: 0 }}>
+    <>
       <button
         type="button"
-        tabIndex={width < mobileBreakpoint ? '1' : ''}
         ref={menuItem}
-        className={modalIsOpen ? 'active' : ''}
+        className="magna-header__dropdown-button"
         onClick={modalIsOpen ? closeModal : openModal}
         onKeyDown={(e) => {
-          if (modalIsOpen && e.keyCode == 9) {
-            e.preventDefault();
-            e.shiftKey ? lastMenuItem.current.focus() : firstMenuItem.current.focus();
+          if (modalIsOpen && e.keyCode === 9) {
+            e.preventDefault()
+            ;(e.shiftKey ? lastMenuItem : firstMenuItem).current.focus()
           }
         }}
         aria-expanded={modalIsOpen}
       >
         Menu
-        <span className="burger-icon"></span>
-        <span className="visually-hidden">User menu</span>
+        <span className="magna-header__dropdown-button__icon" />
       </button>
       <ReactModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={customStyles}
-        onAfterOpen={modalAfterOpen}
-        contentRef={(_modalContent) => {
-          modalContent = _modalContent
-          return modalContent
-        }}
-        className="modal-menu shared-modal-menu"
+        tabIndex="-1"
+        className="container"
       >
-        {greeting}
-        {menu[authenticated ? 'authenticated' : 'non_authenticated']}
+        <div
+          className={`magna-header__dropdown ${
+            modalIsOpen ? 'magna-header__dropdown--open' : ''
+          }`}
+          style={{ top: `${topOffset}px`, pointerEvents: 'initial' }}
+        >
+          {greeting}
+          {menu[authenticated ? 'authenticated' : 'non_authenticated']}
+        </div>
       </ReactModal>
-    </div>
+    </>
   )
 }
 
 Menu.propTypes = {
-  avatar: PropTypes.string.isRequired,
   authenticated: PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
 }

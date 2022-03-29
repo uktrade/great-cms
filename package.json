@@ -5,9 +5,9 @@
   "scripts": {
     "test": "jest",
     "test:dev": "jest --watch",
-    "build": "npm install great-styles; webpack --config react-components/webpack.config.js --mode production",
+    "build": "webpack --config react-components/webpack.config.js --mode production",
     "build:dev": "webpack --watch --config react-components/webpack.config.js --mode development",
-    "build-domestic": "sass --load-path=domestic/sass --style=compressed domestic/sass:domestic/static/styles",
+    "build-domestic": "sass --load-path=domestic/sass --load-path=./ --style=compressed domestic/sass:domestic/static/styles",
     "build-domestic:dev": "sass --watch --load-path=domestic/sass --style=compressed domestic/sass:domestic/static/styles"
   },
   "jest": {
@@ -72,7 +72,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
-    "great-styles": "github:uktrade/great-styles",
+    "great-styles": "github:uktrade/great-styles#v0.5.0",
     "prop-types": "15.7.2",
     "react": "16.13.1",
     "react-cookie": "4.0.3",

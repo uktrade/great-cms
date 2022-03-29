@@ -8,6 +8,7 @@
 
 ### Enhancements
 
+- GLS-97 - fix and make header styles more consistent
 - GLS-124 - new homepage banner
 
 ## [2.6.0](https://github.com/uktrade/great-cms/releases/tag/2.6.0)

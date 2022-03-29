@@ -1,48 +1,121 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { act, Simulate } from 'react-dom/test-utils'
-import ModalMenu from '@src/components/ModalMenu'
+import { fireEvent, render, waitFor } from '@testing-library/react'
+import ReactModal from 'react-modal'
+import { Menu } from '@src/components/ModalMenu'
 
-let button
-let container
+ReactModal.setAppElement('body')
 
-beforeEach(() => {
-  container = document.createElement('div')
-  document.body.appendChild(container)
-  container.innerHTML = '<li id="header-link-user-profile"></li>'
-  act(() => {
-    ModalMenu({ element: container, avatar:'', authenticated:true, user_name:'Noman' })
+const renderAndOpen = async (component) => {
+  const rendered = render(component)
+
+  // Modal is outside of `container` so we have to use `document` here
+  expect(document.querySelector('.magna-header__dropdown')).toBeNull()
+
+  rendered.container.querySelector('.magna-header__dropdown-button').click()
+
+  await waitFor(() => document.querySelector('.magna-header__dropdown'))
+
+  return rendered
+}
+
+describe('Modal Menu', () => {
+  it('opens on click', async () => {
+    const { container } = render(<Menu authenticated={false} userName="" />)
+
+    expect(document.querySelector('.magna-header__dropdown')).toBeNull()
+
+    container.querySelector('.magna-header__dropdown-button').click()
+
+    await waitFor(() => {
+      expect(document.querySelector('.magna-header__dropdown')).toBeTruthy()
+    })
   })
-  button = container.querySelector('button')
-})
 
-afterEach(() => {
-  document.body.removeChild(container)
-})
+  it('renders the username and signed in menu', async () => {
+    const { getByText } = await renderAndOpen(
+      <Menu authenticated userName="John" />
+    )
 
-it('Opens menu and escape to close', () => {
-  expect(document.body.querySelector('.menu-items')).toBeFalsy()
-  act(() => {
-    Simulate.click(button)
+    expect(getByText('Hi John')).toBeTruthy()
+    expect(getByText('Learn to export')).toBeTruthy()
+    expect(getByText('Where to export')).toBeTruthy()
+    expect(getByText('Make an export plan')).toBeTruthy()
+    expect(getByText('Account')).toBeTruthy()
+    expect(getByText('Sign out')).toBeTruthy()
   })
-  let menu = document.body.querySelector('.menu-items')
-  expect(menu).toBeTruthy()
-  //  Press escape to close
-  Simulate.keyDown(menu, { keyCode: 27 })
-  Simulate.keyUp(menu, { keyCode: 27 })
-  expect(document.body.querySelector('.menu-items')).toBeFalsy() 
-})
 
-it('Open and click to close', () => {
-  expect(document.body.querySelector('.menu-items')).toBeFalsy()
-  act(() => {
-    Simulate.click(button)
+  it('renders a logged out menu', async () => {
+    const { getByText } = await renderAndOpen(
+      <Menu authenticated={false} userName="" />
+    )
+
+    expect(getByText('Send a feedback email')).toBeTruthy()
+    expect(getByText('Sign up / Log in')).toBeTruthy()
   })
-  let menu = document.body.querySelector('.menu-items')
-  expect(menu).toBeTruthy()
-  // Check close on click off
-  act(() => {
-    Simulate.click(document.body.querySelector('.ReactModal__Overlay'))
-  })  
-  expect(document.body.querySelector('.menu-items')).toBeFalsy()  
+
+  describe('closing the menu', () => {
+    it('closes when pressing escape', async () => {
+      await renderAndOpen(<Menu authenticated={false} userName="" />)
+
+      fireEvent.keyDown(document.querySelector('.magna-header__dropdown'), {
+        keyCode: 27,
+      })
+
+      await waitFor(() => {
+        expect(document.querySelector('.magna-header__dropdown')).toBeNull()
+      })
+    })
+
+    it('closes when clicking the menu button again', async () => {
+      const { container } = await renderAndOpen(
+        <Menu authenticated={false} userName="" />
+      )
+
+      container.querySelector('.magna-header__dropdown-button').click()
+
+      await waitFor(() => {
+        expect(document.querySelector('.magna-header__dropdown')).toBeNull()
+      })
+    })
+
+    it('closes when clicking the overlay', async () => {
+      await renderAndOpen(<Menu authenticated={false} userName="" />)
+
+      document.querySelector('.ReactModal__Overlay').click()
+
+      await waitFor(() => {
+        expect(document.querySelector('.magna-header__dropdown')).toBeNull()
+      })
+    })
+  })
+
+  describe('focus trap', () => {
+    const tab = (shift = false) => {
+      fireEvent.keyDown(document.querySelector('body'), {
+        keyCode: 9,
+        shiftKey: shift,
+      })
+    }
+
+    it('keeps the focus within the menu when pressing tab from the menu button', async () => {
+      await renderAndOpen(<Menu authenticated={false} userName="" />)
+      const button = document.querySelector('.magna-header__dropdown-button')
+      button.focus()
+      fireEvent.keyDown(button, {
+        keyCode: 9,
+      })
+      expect(document.activeElement.textContent).toBe('Send a feedback email')
+    })
+
+    it('keeps the focus within the menu when pressing shift-tab from the menu button', async () => {
+      await renderAndOpen(<Menu authenticated={false} userName="" />)
+      const button = document.querySelector('.magna-header__dropdown-button')
+      button.focus()
+      fireEvent.keyDown(button, {
+        keyCode: 9,
+        shiftKey: true,
+      })
+      expect(document.activeElement.textContent).toBe('Sign up / Log in')
+    })
+  })
 })

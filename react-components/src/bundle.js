@@ -7,7 +7,6 @@ import Questionnaire from '@src/components/Segmentation/Questionnaire'
 import Tour from '@src/views/Tour/Container'
 import ProductFinderButton from '@src/components/ProductFinder/ProductFinderButton'
 import CountryFinderButton from '@src/components/ProductFinder/CountryFinderButton'
-import ModalMenu from '@src/components/ModalMenu'
 import CompareMarkets from '@src/components/CompareMarkets'
 import createSnackbar from '@src/components/Snackbar/Snackbar'
 import createExportPlanWizard from '@src/components/ExportPlanWizard/ExportPlanCreate'
@@ -90,7 +89,6 @@ export default {
   ProductFinderButton,
   CountryFinderButton,
   CompareMarkets,
-  ModalMenu,
   createLogin,
   setConfig,
   setInitialState: Services.setInitialState,
