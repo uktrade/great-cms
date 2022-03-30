@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import Services from '@src/Services'
 
@@ -139,7 +139,9 @@ describe('Objective', () => {
       />
     )
 
-    container.querySelector('.button--delete').click()
+    act(() => {
+      container.querySelector('.button--delete').click()
+    })
 
     expect(mockFunction).toHaveBeenCalledWith(234)
   })
