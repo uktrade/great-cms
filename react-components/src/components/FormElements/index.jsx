@@ -90,6 +90,11 @@ FormElements.propTypes = {
         content: PropTypes.string,
         title: PropTypes.string,
       }),
+      example: PropTypes.shape({
+        buttonTitle: PropTypes.string,
+        header: PropTypes.string,
+        content: PropTypes.string,
+      }),
       hideLabel: PropTypes.bool,
     })
   ).isRequired,

@@ -315,7 +315,10 @@ Select.propTypes = {
     ),
   ]).isRequired,
   description: PropTypes.string,
-  tooltip: PropTypes.objectOf(PropTypes.string),
+  tooltip: PropTypes.shape({
+    title: PropTypes.string,
+    content: PropTypes.string,
+  }),
   example: PropTypes.shape({
     buttonTitle: PropTypes.string,
     header: PropTypes.string,
