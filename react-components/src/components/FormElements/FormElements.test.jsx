@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 
 import Services from '@src/Services'
 import { unexpectedError } from '@src/components/hooks/useUpdateExportPlan/useUpdateExportPlan'
@@ -18,8 +18,8 @@ const props = {
       label: 'How you started',
       field_type: 'Textarea',
       placeholder: '',
-      tooltip: 'best to stick to the facts',
-      example: 'Dove Gin was founded in 2012',
+      tooltip: { content: 'best to stick to the facts' },
+      example: { content: 'Dove Gin was founded in 2012' },
       description: '',
       currency: '',
       choices: '',
@@ -28,20 +28,16 @@ const props = {
       choices: '',
       currency: 'GBP',
       description: '',
-      example: '',
       field_type: 'NumberInput',
       label: 'average',
       name: 'average_price',
       placeholder: '0.00',
-      tooltip: '',
     },
     {
       name: 'performance',
       label: 'Your business performance',
       field_type: 'Select',
       placeholder: '',
-      tooltip: '',
-      example: '',
       description: 'What is the annual turnover of your business?',
       currency: '',
       choices: [
@@ -62,43 +58,29 @@ const props = {
   ],
 }
 
-const setup = ({ formFields, field, formData }) => {
-  const component = render(
+const setup = ({ formFields, field, formData }) =>
+  render(
     <FormElements formFields={formFields} field={field} formData={formData} />
   )
-
-  return {
-    ...component,
-  }
-}
-
-beforeEach(() => {
-  jest.useFakeTimers()
-})
-
-afterEach(() => {
-  jest.useRealTimers()
-  cleanup()
-})
 
 describe('FormElements', () => {
   describe('Should render form elements', () => {
     it('Should have a Textarea', () => {
       const { container } = setup({ ...props })
-      expect(container.querySelector('textarea'))
+      expect(container.querySelector('textarea')).toBeTruthy()
     })
 
     it('Should have an Input', () => {
       const { getByLabelText, container } = setup({ ...props })
-      expect(getByLabelText('average'))
-      expect(container.querySelectorAll('input')[0])
+      expect(getByLabelText('average')).toBeTruthy()
+      expect(container.querySelectorAll('input')[0]).toBeTruthy()
       expect(container.querySelectorAll('input')[0].id).toEqual('average_price')
     })
 
     it('Should have a Select', () => {
       const { getByRole, getByLabelText, container } = setup({ ...props })
-      expect(getByRole('listbox'))
-      expect(getByLabelText('Your business performance'))
+      expect(getByRole('listbox')).toBeTruthy()
+      expect(getByLabelText('Your business performance')).toBeTruthy()
       expect(container.querySelectorAll('li')[0].textContent).toEqual(
         'Below £83,000 (Below VAT registered)'
       )
@@ -122,7 +104,7 @@ describe('FormElements', () => {
         },
       })
       expect(container.querySelector('textarea').value).toEqual('Good Day')
-      expect(getByText('Changes saved.'))
+      expect(getByText('Changes saved.')).toBeTruthy()
       expect(queryByText('Saving...')).not.toBeInTheDocument()
     })
   })
@@ -148,7 +130,7 @@ describe('FormElements', () => {
         },
       })
       expect(container.querySelector('textarea').value).toEqual('Good Day')
-      expect(getByText(unexpectedError))
+      expect(getByText(unexpectedError)).toBeTruthy()
     })
   })
 
@@ -161,7 +143,7 @@ describe('FormElements', () => {
     })
 
     await waitFor(() => {
-      expect(getByText('Saving...'))
+      expect(getByText('Saving...')).toBeTruthy()
     })
   })
 })

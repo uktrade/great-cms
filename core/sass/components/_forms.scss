@@ -266,3 +266,14 @@
     margin-bottom: 0;
   }
 }
+
+// TODO: Remove once ported to great-styles
+// For some odd reason there is a double selector for this in great-styles.
+.select__list.select__list {
+  display: block;
+  max-height: 0;
+  transition: max-height .25s ease-out;
+}
+.select__list.select__list[aria-expanded="true"] {
+  max-height: 270px;
+}

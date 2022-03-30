@@ -10,6 +10,7 @@ import ErrorList from '@src/components/ErrorList'
 export const GettingPaid = memo(
   ({ formFields, formData, field, lessonDetails, currentSection }) => {
     const [state, setState] = useState(formData)
+    // eslint-disable-next-line no-unused-vars
     const [update, showMessage, pending, errors] = useUpdateExportPlan(field)
 
     const onChange = (updatedField, otherProps, section, isNotes = false) => {
@@ -98,7 +99,7 @@ GettingPaid.propTypes = {
     ])
   ).isRequired,
   field: PropTypes.string.isRequired,
-  lessonDetails: PropTypes.oneOfType([PropTypes.string]).isRequired,
+  lessonDetails: PropTypes.string.isRequired,
   currentSection: PropTypes.shape({
     url: PropTypes.string,
     lessons: PropTypes.arrayOf(PropTypes.string).isRequired,

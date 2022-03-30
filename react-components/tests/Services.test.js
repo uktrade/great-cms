@@ -3,8 +3,6 @@ import Services from '@src/Services'
 
 describe('Services', () => {
   beforeEach(() => {
-    fetchMock.reset()
-    jest.useFakeTimers()
     Services.setConfig({
       apiSignupUrl: '/signup/',
       apiLoginUrl: '/login/',
@@ -19,101 +17,89 @@ describe('Services', () => {
   })
 
   afterEach(() => {
-    jest.useRealTimers()
+    fetchMock.reset()
     Services.setConfig({})
   })
 
-  test('checkCredentials passes params', (done) => {
+  test('checkCredentials passes params', async () => {
     // given the form submission will result in success.getDOMNodeful login
     fetchMock.post(Services.config.apiLoginUrl, 200)
 
-    Services.checkCredentials({ email: 'example', password: 'password' })
+    await Services.checkCredentials({ email: 'example', password: 'password' })
 
-    fetchMock.flush().then(() => {
-      const calls = fetchMock.calls()
-      expect(calls.length).toEqual(1)
-      expect(calls[0][0]).toEqual(Services.config.apiLoginUrl)
-      expect(calls[0][1]).toEqual({
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'X-CSRFToken': Services.config.csrfToken,
-          'X-Requested-With': 'XMLHttpRequest',
-        },
-        body: '{"email":"example","password":"password"}',
-      })
-      done()
+    const calls = fetchMock.calls()
+    expect(calls.length).toEqual(1)
+    expect(calls[0][0]).toEqual(Services.config.apiLoginUrl)
+    expect(calls[0][1]).toEqual({
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken': Services.config.csrfToken,
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+      body: '{"email":"example","password":"password"}',
     })
   })
 
-  test('createUser passes params', (done) => {
+  test('createUser passes params', async () => {
     // given the form submission will result in success.getDOMNodeful login
     fetchMock.post(Services.config.apiSignupUrl, 200)
 
-    Services.createUser({ email: 'example', password: 'password' })
+    await Services.createUser({ email: 'example', password: 'password' })
 
-    fetchMock.flush().then(() => {
-      const calls = fetchMock.calls()
-      expect(calls.length).toEqual(1)
-      expect(calls[0][0]).toEqual(Services.config.apiSignupUrl)
-      expect(calls[0][1]).toEqual({
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'X-CSRFToken': Services.config.csrfToken,
-          'X-Requested-With': 'XMLHttpRequest',
-        },
-        body: '{"email":"example","password":"password"}',
-      })
-      done()
+    const calls = fetchMock.calls()
+    expect(calls.length).toEqual(1)
+    expect(calls[0][0]).toEqual(Services.config.apiSignupUrl)
+    expect(calls[0][1]).toEqual({
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken': Services.config.csrfToken,
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+      body: '{"email":"example","password":"password"}',
     })
   })
 
-  test('lookupProduct passes params', (done) => {
+  test('lookupProduct passes params', async () => {
     // given the form submission will result in success.getDOMNodeful login
-    fetchMock.post(Services.config.apiLookupProductUrl, 200)
+    fetchMock.post(Services.config.apiLookupProductUrl, {})
 
-    Services.lookupProduct({ proddesc: 'foo' })
+    await Services.lookupProduct({ proddesc: 'foo' })
 
-    fetchMock.flush().then(() => {
-      const calls = fetchMock.calls()
-      expect(calls.length).toEqual(1)
-      expect(calls[0][1]).toEqual({
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'X-CSRFToken': Services.config.csrfToken,
-          'X-Requested-With': 'XMLHttpRequest',
-        },
-        body: "{\"proddesc\":\"foo\"}",
-      })
-      done()
+    const calls = fetchMock.calls()
+    expect(calls.length).toEqual(1)
+    expect(calls[0][1]).toEqual({
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken': Services.config.csrfToken,
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+      body: '{"proddesc":"foo"}',
     })
   })
 
-  test('updateUserProfileSegment passes params', (done) => {
+  test('updateUserProfileSegment passes params', async () => {
     // given the form submission will result in success.getDOMNodeful login
-    fetchMock.post(Services.config.apiUserProfileUpdateUrl, 200)
+    fetchMock.post(Services.config.apiUserProfileUpdateUrl, {})
 
-    Services.updateUserProfileSegment('foo')
+    await Services.updateUserProfileSegment('foo')
 
-    fetchMock.flush().then(() => {
-      const calls = fetchMock.calls()
-      expect(calls.length).toEqual(1)
-      expect(calls[0][1]).toEqual({
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'X-CSRFToken': Services.config.csrfToken,
-          'X-Requested-With': 'XMLHttpRequest',
-        },
-        body: "{\"segment\":\"foo\"}",
-      })
-      done()
+    const calls = fetchMock.calls()
+    expect(calls.length).toEqual(1)
+    expect(calls[0][1]).toEqual({
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken': Services.config.csrfToken,
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+      body: '{"segment":"foo"}',
     })
   })
 })

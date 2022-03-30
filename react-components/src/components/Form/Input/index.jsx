@@ -10,7 +10,7 @@ export const Input = memo(
     id,
     type,
     value,
-    onChange: update,
+    onChange,
     description,
     tooltip,
     example,
@@ -26,6 +26,7 @@ export const Input = memo(
     info,
     ...inputAttributes
   }) => {
+    const { update, ...cleanedInputAttributes } = inputAttributes
     const IsValidNumber = (e, rule = decimal) => {
       const t = parseInt(e.key, 10)
       const isInteger = Number.isInteger(t)
@@ -43,12 +44,12 @@ export const Input = memo(
       }
     }
 
-    const onChange = (e) => {
+    const handleChange = (e) => {
       let { value: updatedValue } = e.target
       if (type === 'number' && !updatedValue) {
         updatedValue = null
       }
-      update({ [id]: updatedValue })
+      onChange({ [id]: updatedValue })
     }
 
     return (
@@ -83,15 +84,15 @@ export const Input = memo(
             min={minDate}
             max={maxDate}
             name={id}
-            onChange={onChange}
+            onChange={handleChange}
             onKeyDown={IsValidNumber}
             value={value}
-            {...inputAttributes} // eslint-disable-line react/jsx-props-no-spreading
+            {...cleanedInputAttributes} // eslint-disable-line react/jsx-props-no-spreading
           />
         </div>
       </FormGroup>
     )
-  },
+  }
 )
 
 Input.propTypes = {
@@ -104,7 +105,10 @@ Input.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   description: PropTypes.string,
-  tooltip: PropTypes.objectOf(PropTypes.string),
+  tooltip: PropTypes.shape({
+    title: PropTypes.string,
+    content: PropTypes.string,
+  }),
   example: PropTypes.shape({
     buttonTitle: PropTypes.string,
     header: PropTypes.string,
