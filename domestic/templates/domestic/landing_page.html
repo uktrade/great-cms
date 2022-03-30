@@ -181,8 +181,12 @@
 
 <section class="padding-bottom-45 padding-top-45 padding-bottom-60-l padding-top-60-l background-grey">
   <div class="container centre-children">
-    <h2 class="heading-large margin-top-15">Access all our online exporting tools with one&nbsp;account</h2>
-    <a href="/signup/" class="button margin-bottom-15">Sign up for free</a>
+    <h2 class="heading-large margin-top-15">Access all our online exporting tools{% if not request.user.is_authenticated %} with one&nbsp;account{% endif %}</h2>
+    {% if request.user.is_authenticated %}
+      <a href="/dashboard/" class="button margin-bottom-15">View dashboard</a>
+    {% else %}
+      <a href="/signup/" class="button margin-bottom-15">Sign up for free</a>
+    {% endif %}
   </div>
 </section>
 
