@@ -183,6 +183,7 @@ describe('ObjectivesList', () => {
           ...props,
           objectives: [],
         })
+
         fireEvent.click(getByText('Add objective 1 of 5'))
 
         await waitFor(() => {

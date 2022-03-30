@@ -103,8 +103,8 @@ Objective.propTypes = {
     planned_reviews: PropTypes.string,
     end_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     end_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    companyexportplan: PropTypes.number.isRequired,
-    pk: PropTypes.number.isRequired,
+    companyexportplan: PropTypes.number,
+    pk: PropTypes.number,
   }).isRequired,
   example: PropTypes.shape({
     content: PropTypes.string,
