@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { act, render, waitFor } from '@testing-library/react'
 import { MonthYearInput } from '.'
 
 const mockOnChange = jest.fn()
@@ -20,7 +20,9 @@ describe('MonthYearInput', () => {
       expect(mockOnChange).toHaveBeenCalledWith({ month: '5' })
     )
 
-    getByText('2022').click()
+    act(() => {
+      getByText('2022').click()
+    })
 
     await waitFor(() =>
       expect(mockOnChange).toHaveBeenCalledWith({ year: '2022' })
@@ -28,7 +30,7 @@ describe('MonthYearInput', () => {
   })
 
   it('calls onChange with provided field names', async () => {
-    const { getByText, getByLabelText } = render(
+    const { getByText } = render(
       <MonthYearInput
         label="Foo"
         onChange={mockOnChange}
@@ -43,7 +45,9 @@ describe('MonthYearInput', () => {
       expect(mockOnChange).toHaveBeenCalledWith({ end_month: '4' })
     )
 
-    getByText('2023').click()
+    act(() => {
+      getByText('2023').click()
+    })
 
     await waitFor(() =>
       expect(mockOnChange).toHaveBeenCalledWith({ end_year: '2023' })
@@ -51,7 +55,6 @@ describe('MonthYearInput', () => {
   })
 
   it('can call onChange with the combined fields', async () => {
-    // TODO: Fix unwrapped updates inside nested Select component
     const { getAllByText, getByText } = render(
       <MonthYearInput
         label="Foo"
