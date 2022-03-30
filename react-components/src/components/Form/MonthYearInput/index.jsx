@@ -5,15 +5,15 @@ import { Select } from '../Select'
 
 export const MonthYearInput = memo(
   ({
-     label,
-     monthName = 'month',
-     monthValue,
-     yearName = 'year',
-     yearValue,
-     onChange,
-     className,
-     onChangeCombineFields,
-   }) => {
+    label,
+    monthName = 'month',
+    monthValue,
+    yearName = 'year',
+    yearValue,
+    onChange,
+    className,
+    onChangeCombineFields,
+  }) => {
     const MONTHS = [
       'January',
       'February',
@@ -34,7 +34,7 @@ export const MonthYearInput = memo(
       value: `${i + 1}`,
     }))
 
-    const handleChange = field => {
+    const handleChange = (field) => {
       if (!onChangeCombineFields) {
         return onChange(field)
       }
@@ -48,14 +48,12 @@ export const MonthYearInput = memo(
       return onChange(field, value)
     }
 
-    const currentYear = new Date().getFullYear();
-
     const yearsOptions = [...Array(10)].map((element, index) => {
-      const year = `${currentYear + index}`
+      const year = `${new Date().getFullYear() + index}`
 
       return {
         label: year,
-        value: year
+        value: year,
       }
     })
 
@@ -75,7 +73,7 @@ export const MonthYearInput = memo(
           </div>
           <div className="inputgroup__input inputgroup__input--year">
             <Select
-              label='Year'
+              label="Year"
               id={yearName}
               name={yearName}
               update={handleChange}
@@ -105,8 +103,7 @@ MonthYearInput.defaultProps = {
   monthValue: null,
   yearName: 'year',
   yearValue: null,
-  onChange: () => {
-  },
+  onChange: () => {},
   className: null,
   onChangeCombineFields: false,
 }

@@ -11,13 +11,13 @@ describe('MonthYearInput', () => {
 
   it('triggers onChange when month or year are changed', async () => {
     const { getByText } = render(
-      <MonthYearInput label="Foo" onChange={mockOnChange} />,
+      <MonthYearInput label="Foo" onChange={mockOnChange} />
     )
 
     getByText('May').click()
 
     await waitFor(() =>
-      expect(mockOnChange).toHaveBeenCalledWith({ month: '5' }),
+      expect(mockOnChange).toHaveBeenCalledWith({ month: '5' })
     )
 
     getByText('2022').click()
@@ -30,23 +30,23 @@ describe('MonthYearInput', () => {
   it('calls onChange with provided field names', async () => {
     const { getByText, getByLabelText } = render(
       <MonthYearInput
-        label='Foo'
+        label="Foo"
         onChange={mockOnChange}
-        monthName='end_month'
-        yearName='end_year'
-      />,
+        monthName="end_month"
+        yearName="end_year"
+      />
     )
 
     getByText('April').click()
 
     await waitFor(() =>
-      expect(mockOnChange).toHaveBeenCalledWith({ end_month: '4' }),
+      expect(mockOnChange).toHaveBeenCalledWith({ end_month: '4' })
     )
 
     getByText('2023').click()
 
     await waitFor(() =>
-      expect(mockOnChange).toHaveBeenCalledWith({ end_year: '2023' }),
+      expect(mockOnChange).toHaveBeenCalledWith({ end_year: '2023' })
     )
   })
 
@@ -59,7 +59,7 @@ describe('MonthYearInput', () => {
         monthName="start_month"
         yearName="start_year"
         onChangeCombineFields
-      />,
+      />
     )
 
     await waitFor(() => getAllByText('Select one'))
@@ -69,7 +69,10 @@ describe('MonthYearInput', () => {
     await waitFor(() => getByText('April').click())
 
     await waitFor(() =>
-      expect(mockOnChange).toHaveBeenCalledWith({ start_month: '4' }, { month: '4', year: null }),
+      expect(mockOnChange).toHaveBeenCalledWith(
+        { start_month: '4' },
+        { month: '4', year: null }
+      )
     )
   })
 })
