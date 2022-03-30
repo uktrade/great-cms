@@ -1,119 +1,94 @@
-/* eslint-disable */
-import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
-import { act, Simulate } from 'react-dom/test-utils'
+import React from 'react'
+import { act, fireEvent, render } from '@testing-library/react'
 import SearchInput from './SearchInput'
 
-let container
-
-beforeEach(() => {
-  container = document.createElement('div')
-  document.body.appendChild(container)
-})
-
-afterEach(() => {
-  document.body.removeChild(container)
-  container = null
-  jest.clearAllMocks()
-})
-
-
-
-it('Creates an autofocus input', () => {
-  const onChange = jest.fn()
-  const search = jest.fn()
-
-  act(() => {
-      ReactDOM.render(
-      <SearchInput
-        onChange={onChange}
-        onKeyReturn={search}
-        autoFocus
-      />,
-      container)
+describe('SearchInput', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
   })
-  const input = container.querySelector('input')
-  expect(input).toBeTruthy()
-  expect(document.activeElement).toEqual(input)
-  expect(container.querySelector('button.clear')).toBeFalsy()
-  act(() => {
-    input.value='cheese'
-    Simulate.change(input)
-  })
-  const clearButton = container.querySelector('button.clear')
-  expect(clearButton).toBeTruthy()
-  act(() => {
-    Simulate.click(clearButton)
-  })
-  expect(input.value).toEqual('')
-})
 
-it('Creates an non-autofocus input', () => {
-  const onChange = jest.fn()
-  const search = jest.fn()
+  it('Creates an autofocus input', () => {
+    const onChange = jest.fn()
+    const search = jest.fn()
 
-  act(() => {
-      ReactDOM.render(
-      <SearchInput
-        onChange={onChange}
-        onKeyReturn={search}
-      />,
-      container)
-  })
-  let input = container.querySelector('input')
-  expect(input).toBeTruthy()
-  expect(input === document.activeElement).toBeFalsy()
-  expect(container.querySelector('button.clear')).toBeFalsy()
-  act(() => {
-    input.value='cheese'
-    Simulate.change(input)
-  })
-  // clear input is still not available as the input is not focussed.
-  expect(container.querySelector('button.clear')).toBeFalsy()
-  // to test the clear button - we need to focus the input.
-  // We have to change the content and fire a change event to make that happen as
-  // focus event doesn't fire on the window in test
-  input.focus()
-  act(() => {
-    input.value='different'
-    Simulate.change(input)
-  })
-  const clearButton = container.querySelector('button.clear')
-  expect(container.querySelector('button.clear')).toBeTruthy()
-  act(() => {
-    Simulate.click(clearButton)
-  })
-  expect(input.getAttribute('value')).toEqual('')
-})
+    const { container } = render(
+      <SearchInput onChange={onChange} onKeyReturn={search} autoFocus />
+    )
 
-it('Creates an input with label', () => {
-  const onChange = jest.fn()
-  const search = jest.fn()
+    const input = container.querySelector('input')
+    expect(input).toBeTruthy()
+    expect(document.activeElement).toEqual(input)
+    expect(container.querySelector('button.clear')).toBeFalsy()
 
-  act(() => {
-      ReactDOM.render(
+    fireEvent.change(input, { target: { value: 'cheese' } })
+
+    const clearButton = container.querySelector('button.clear')
+
+    expect(clearButton).toBeTruthy()
+
+    clearButton.click()
+
+    expect(input.value).toEqual('')
+  })
+
+  it('Creates an non-autofocus input', () => {
+    const onChange = jest.fn()
+    const search = jest.fn()
+
+    const { container } = render(
+      <SearchInput onChange={onChange} onKeyReturn={search} />
+    )
+
+    const input = container.querySelector('input')
+
+    expect(input).toBeTruthy()
+    expect(input === document.activeElement).toBeFalsy()
+    expect(container.querySelector('button.clear')).toBeFalsy()
+
+    fireEvent.change(input, { target: { value: 'cheese' } })
+
+    // clear input is still not available as the input is not focussed.
+    expect(container.querySelector('button.clear')).toBeFalsy()
+
+    // to test the clear button - we need to focus the input.
+    act(() => {
+      input.focus()
+    })
+
+    const clearButton = container.querySelector('button.clear')
+
+    expect(container.querySelector('button.clear')).toBeTruthy()
+
+    clearButton.click()
+
+    expect(input.getAttribute('value')).toEqual('')
+  })
+
+  it('Creates an input with label', () => {
+    const onChange = jest.fn()
+    const search = jest.fn()
+
+    const { container } = render(
       <SearchInput
         onChange={onChange}
         onKeyReturn={search}
         label="test label"
         placeholder="test placeholder"
-      />,
-      container)
+      />
+    )
+    const label = container.querySelector('label')
+    expect(label.textContent).toMatch(/test label/)
+    const input = container.querySelector('input')
+    expect(input.getAttribute('placeholder')).toMatch(/test placeholder/)
   })
-  const label = container.querySelector('label')
-  expect(label.textContent).toMatch(/test label/)
-  const input = container.querySelector('input')
-  expect(input.getAttribute('placeholder')).toMatch(/test placeholder/)
-})
 
-it('Creates an input with a save button', () => {
-  const onChange = jest.fn()
-  const search = jest.fn()
-  const onSave = jest.fn()
-  const buttonLabel = "label on save button"
+  it('Creates an input with a save button', () => {
+    const onChange = jest.fn()
+    const search = jest.fn()
+    const onSave = jest.fn()
+    const buttonLabel = 'label on save button'
 
-  act(() => {
-      ReactDOM.render(
+    const { container } = render(
       <SearchInput
         onChange={onChange}
         onKeyReturn={search}
@@ -122,16 +97,18 @@ it('Creates an input with a save button', () => {
         onSaveButtonClick={onSave}
         saveButtonDisabled={false}
         saveButtonLabel={buttonLabel}
-      />,
-      container)
+      />
+    )
+
+    const label = container.querySelector('label')
+    expect(label.textContent).toMatch(/test label/)
+
+    const saveButton = container.querySelector('button.button--primary')
+    expect(saveButton).toBeTruthy()
+    expect(saveButton.textContent).toMatch(buttonLabel)
+
+    saveButton.click()
+
+    expect(onSave).toHaveBeenCalled()
   })
-  const label = container.querySelector('label')
-  expect(label.textContent).toMatch(/test label/)
-  const saveButton = container.querySelector('button.button--primary')
-  expect(saveButton).toBeTruthy()
-  expect(saveButton.textContent).toMatch(buttonLabel)
-  act(() => {
-    Simulate.click(saveButton)
-  })
-  expect(onSave).toHaveBeenCalled()
 })
