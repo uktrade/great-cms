@@ -29,7 +29,7 @@
       </button>
 
       <div id="main-menu" class="magna-header__dropdown">
-        {% if request.user.is_authenticated %}
+        {% if request.user.first_name %}
           <div class="magna-header__greeting">Hi {{ request.user.first_name }}</div>
         {% endif %}
 
