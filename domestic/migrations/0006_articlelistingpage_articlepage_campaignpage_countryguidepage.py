@@ -1403,7 +1403,6 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(domestic.cms_panels.CampaignPagePanels, 'wagtailcore.page'),
         ),
         migrations.CreateModel(
             name='ArticleListingPage',

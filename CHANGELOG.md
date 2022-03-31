@@ -6,6 +6,8 @@
 
 ### Bugs fixed
 
+- GLS-126 - remove unused CampaignPage model
+
 ### Enhancements
 
 - GLS-97 - fix and make header styles more consistent
