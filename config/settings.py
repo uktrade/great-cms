@@ -719,7 +719,6 @@ WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
     'domestic.CountryGuidePage',
     'domestic.ArticlePage',
     'domestic.ArticleListingPage',
-    'domestic.CampaignPage',
     'domestic.GuidancePage',
     'domestic.PerformanceDashboardPage',
     'domestic.TradeFinancePage',
