@@ -12,7 +12,8 @@
 
 - GLS-97 - fix and make header styles more consistent
 - GLS-124 - new homepage banner
-- NOTICKET - retire Enzyme in tests
+- NOTICKET - retire Enzyme and cleanup tests output
+- GLS-152 - Add CTA banner to homepage
 
 ## [2.6.0](https://github.com/uktrade/great-cms/releases/tag/2.6.0)
 
