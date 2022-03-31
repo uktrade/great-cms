@@ -1,4 +1,4 @@
-from django.forms import CheckboxSelectMultiple, Select, Textarea
+from django.forms import CheckboxSelectMultiple, Select
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     FieldRowPanel,
@@ -151,107 +151,6 @@ class ArticlePagePanels:
     ]
 
 
-class CampaignPagePanels:
-
-    content_panels = [
-        MultiFieldPanel(
-            heading='Hero section',
-            children=[
-                FieldPanel('campaign_heading'),
-                ImageChooserPanel('campaign_hero_image'),
-            ],
-        ),
-        MultiFieldPanel(
-            heading='Section one',
-            children=[
-                FieldPanel('section_one_heading'),
-                FieldPanel('section_one_intro'),
-                ImageChooserPanel('section_one_image'),
-                FieldRowPanel(
-                    [
-                        MultiFieldPanel(
-                            children=[
-                                ImageChooserPanel('selling_point_one_icon'),
-                                FieldPanel('selling_point_one_heading'),
-                                FieldPanel('selling_point_one_content'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            children=[
-                                ImageChooserPanel('selling_point_two_icon'),
-                                FieldPanel('selling_point_two_heading'),
-                                FieldPanel('selling_point_two_content'),
-                            ]
-                        ),
-                        MultiFieldPanel(
-                            children=[
-                                ImageChooserPanel('selling_point_three_icon'),
-                                FieldPanel('selling_point_three_heading'),
-                                FieldPanel('selling_point_three_content'),
-                            ]
-                        ),
-                    ]
-                ),
-                FieldRowPanel(
-                    [
-                        FieldPanel('section_one_contact_button_text'),
-                        FieldPanel('section_one_contact_button_url'),
-                    ]
-                ),
-            ],
-        ),
-        MultiFieldPanel(
-            heading='Section two',
-            children=[
-                FieldPanel('section_two_heading'),
-                FieldPanel('section_two_intro'),
-                ImageChooserPanel('section_two_image'),
-                FieldRowPanel(
-                    [
-                        FieldPanel('section_two_contact_button_text'),
-                        FieldPanel('section_two_contact_button_url'),
-                    ]
-                ),
-            ],
-        ),
-        MultiFieldPanel(
-            heading='Related content section',
-            children=[
-                FieldPanel('related_content_heading'),
-                FieldPanel('related_content_intro'),
-                FieldRowPanel(
-                    [
-                        PageChooserPanel('related_page_one', 'domestic.ArticlePage'),
-                        PageChooserPanel('related_page_two', 'domestic.ArticlePage'),
-                        PageChooserPanel('related_page_three', 'domestic.ArticlePage'),
-                    ]
-                ),
-            ],
-        ),
-        MultiFieldPanel(
-            heading='Contact box',
-            children=[
-                FieldRowPanel(
-                    [
-                        FieldPanel('cta_box_message', widget=Textarea),
-                        MultiFieldPanel(
-                            [
-                                FieldPanel('cta_box_button_url'),
-                                FieldPanel('cta_box_button_text'),
-                            ]
-                        ),
-                    ]
-                )
-            ],
-        ),
-    ]
-
-    settings_panels = [
-        FieldPanel('title'),
-        FieldPanel('slug'),
-    ]
-
-
 class CountryGuidePagePanels:
 
     content_panels = [
@@ -364,7 +263,6 @@ class CountryGuidePagePanels:
                             'related_page_one',
                             [
                                 'domestic.ArticlePage',
-                                'domestic.CampaignPage',
                                 'domestic.ArticleListingPage',
                             ],
                         ),
@@ -372,7 +270,6 @@ class CountryGuidePagePanels:
                             'related_page_two',
                             [
                                 'domestic.ArticlePage',
-                                'domestic.CampaignPage',
                                 'domestic.ArticleListingPage',
                             ],
                         ),
@@ -380,7 +277,6 @@ class CountryGuidePagePanels:
                             'related_page_three',
                             [
                                 'domestic.ArticlePage',
-                                'domestic.CampaignPage',
                                 'domestic.ArticleListingPage',
                             ],
                         ),
