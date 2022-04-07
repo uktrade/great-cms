@@ -7,8 +7,9 @@
 
 {% block head_js %}
   {{ block.super }}
+  {# TODO: combine into webpack-compiled script #}
   <script src="{% static 'javascript/country-guide.js' %}"></script>
-  <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.11.1.min.js"></script>
 {% endblock %}
 
 {% block content %}
