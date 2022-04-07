@@ -8,25 +8,30 @@
 {% block head_js %}
   {{ block.super }}
   <script src="{% static 'javascript/country-guide.js' %}"></script>
+  <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
 {% endblock %}
 
 {% block content %}
 
 {% include 'components/hero.html' with image=page.hero_image hero_text=page.heading hero_subheading=page.sub_heading %}
 
-<section class="container">
+<nav class="container">
   {% include 'components/breadcrumbs_cms.html' %}
-</section>
+</nav>
+
 {% if page.heading_teaser %}
 <section id="country-guide-teaser-section" class="teaser-section padding-vertical-30">
   <div class="container">
 
     <div class="grid-row">
       <div class="column-three-quarters-l teaser">
-        <p class="font-medium margin-bottom-60">{{ page.heading_teaser }}</p>
+        <h2 class="visually-hidden">Overview</h2>
+
+        <p class="font-medium margin-bottom-30">{{ page.heading_teaser }}</p>
       </div>
+
       {% if page.intro_ctas %}
-      <div class="column-quarter-l links">
+      <div class="column-quarter-l links margin-bottom-30">
         {% if FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS %}
           <h2 class="heading-medium margin-top-0">Related services</h2>
           <div class="panel-vertical-narrow content-list padding-top-30">
@@ -55,8 +60,88 @@
         {{ page.section_one_body|richtext }}
       </div>
       <div class="column-full column-half-l">
-        {% image page.section_one_image fill-640x360 as section_one_image %}
-        {% include 'components/image_with_caption.html'  with rendition=section_one_image main_caption=page.section_one_image_caption sub_caption=page.section_one_image_caption_company img_classes="m-f-auto m-r-auto" %}
+        {% if page.stats and FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS %}
+          <h2 class="heading-medium">Total import and export values between {{ page.heading }} and the UK (GBP)</h2>
+
+          <div id="plotly-market-trends"></div>
+          {{ page.stats.market_trends|json_script:"market-trends-data" }}
+          <script>
+            var config = {
+              displayModeBar: false,
+              responsive: true,
+              locale: 'en-GB'
+            }
+            var layout = {
+              yaxis: {
+                fixedrange: true,
+                rangemode: 'tozero'
+              },
+              xaxis : {
+                fixedrange: true,
+                showgrid: false,
+                showticklabels: true,
+                tickmode: 'linear',
+                showspikes: true,
+                spikethickness: 2,
+                spikemode: 'across'
+              },
+              font: {
+                family: 'Roboto, sans-serif',
+                size: 18,
+              },
+              legend: {
+                orientation: 'h'
+              },
+              colorway: ['#006ccc', '#ef5f56', '#00A699', '#666666'],
+              margin: {
+                b: 0,
+                t: 0,
+                l: 50,
+                r: 0,
+                pad: 10
+              },
+            };
+
+            var lines = [
+              {
+                title: 'Total trade',
+                key: 'total'
+              },
+              {
+                title: 'Imports',
+                key: 'imports'
+              },
+              {
+                title: 'Exports',
+                key: 'exports'
+              }
+            ]
+
+            var sourceData = JSON.parse(document.getElementById('market-trends-data').textContent)
+
+            var years = sourceData.map(function(x) {
+              return x.year
+            })
+
+            var data = lines.map(function(line) {
+              return {
+                name: line.title,
+                x: years,
+                y: sourceData.map(function(x) {
+                  return x[line.key]
+                }),
+                type: 'scatter',
+                hovertemplate: line.title + ' in %{x}: £%{y}<extra></extra>'
+              }
+            })
+
+            Plotly.newPlot('plotly-market-trends', data, layout, config);
+          </script>
+        {% else %}
+          {% image page.section_one_image fill-640x360 as section_one_image %}
+          {% include 'components/image_with_caption.html'  with rendition=section_one_image main_caption=page.section_one_image_caption sub_caption=page.section_one_image_caption_company img_classes="m-f-auto m-r-auto" %}
+        {% endif %}
+        </div>
       </div>
     </div>
   </div>
