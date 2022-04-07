@@ -907,6 +907,19 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         return ctas
 
     @property
+    def stats(self):
+        iso2 = getattr(self.country, 'iso2', None)
+
+        if iso2 is None:
+            return None
+
+        total_trade_data = helpers.get_total_trade_data_by_country(self.country.iso2)
+
+        return {
+            'market_trends': helpers.build_market_trends(total_trade_data),
+        }
+
+    @property
     def related_pages(self):
         output = []
         for rel in [

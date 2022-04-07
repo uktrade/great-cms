@@ -395,6 +395,29 @@ def get_trade_barrier_data(countries_list, sectors_list):
     return response.json()
 
 
+def get_total_trade_data_by_country(iso2):
+    response = api_client.dataservices.get_total_trade_data_by_country(iso2=iso2)
+    return response.json()
+
+
+def build_market_trends(total_trade_data):
+    # TODO: Remove this when API response follows schema
+    data = total_trade_data if isinstance(total_trade_data, list) else total_trade_data['data']
+    market_trends = []
+
+    all_years = sorted(set([x['year'] for x in data]))
+
+    for year in all_years:
+        # Values from API are in £millions, convert to £
+        imports = sum([float(x['value']) * 1e6 for x in data if x['year'] == year and x['flow_type'] == 'IMPORT'])
+        exports = sum([float(x['value']) * 1e6 for x in data if x['year'] == year and x['flow_type'] == 'EXPORT'])
+        total = sum([imports, exports])
+
+        market_trends.append({'year': year, 'imports': imports, 'exports': exports, 'total': total})
+
+    return market_trends[-10:]
+
+
 def get_country_data(countries, fields):
     response = api_client.dataservices.get_country_data_by_country(countries=countries, fields=fields)
     return response.json()

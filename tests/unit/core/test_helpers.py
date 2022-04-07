@@ -364,7 +364,6 @@ def test_get_popular_export_destinations_fuzzy_match(mock_is_fuzzy):
 
 @pytest.mark.django_db
 def test_get_module_completion_progress(en_locale):
-
     clp_1 = CuratedListPageFactory()
     clp_2 = CuratedListPageFactory()
     clp_3 = CuratedListPageFactory()
@@ -408,7 +407,6 @@ def test_get_module_completion_progress(en_locale):
 
 @pytest.mark.django_db
 def test_get_high_level_completion_progress(en_locale):
-
     clp_1 = CuratedListPageFactory()
     clp_2 = CuratedListPageFactory()
     clp_3 = CuratedListPageFactory()
@@ -551,7 +549,6 @@ def test_get_comtrade_data(mock_import_data, client):
 @mock.patch.object(api_client.dataservices, 'get_country_data_by_country')
 @pytest.mark.django_db
 def test_get_country_data(mock_country_data, client):
-
     country_data = {
         'FR': {
             'ConsumerPriceIndex': {'value': '110.049', 'year': 2019},
@@ -743,6 +740,70 @@ def test_get_trade_barrier_data(mock_country_data, client):
     response = helpers.get_trade_barrier_data(countries_list=['CN'], sectors_list=['Aerospace'])
     assert response.get('location') == trade_barrier_data['location']
     assert response.get('sectors') == trade_barrier_data['sectors']
+
+
+@mock.patch.object(api_client.dataservices, 'get_total_trade_data_by_country')
+@pytest.mark.django_db
+def test_get_total_trade_data(mock_total_trade_data, client):
+    total_trade_data = {
+        'meta': {'iso2': 'FR', 'source': 'https://example.org/source'},
+        'data': [{'year': 2020, 'flow_type': 'IMPORT', 'product_type': 'PRODUCT', 'value': 23.6}],
+    }
+
+    mock_total_trade_data.return_value = create_response(status_code=200, json_body=total_trade_data)
+    response = helpers.get_total_trade_data_by_country(iso2='FR')
+    assert response.get('meta').get('iso2') == total_trade_data['meta']['iso2']
+    assert response.get('data') == total_trade_data['data']
+
+
+def test_build_market_trends():
+    total_trade_data = {
+        'meta': {'iso2': 'FR', 'source': 'https://example.org/source'},
+        'data': [
+            {'year': 2020, 'flow_type': 'IMPORT', 'product_type': 'GOODS', 'value': '1'},
+            {'year': 2020, 'flow_type': 'EXPORT', 'product_type': 'GOODS', 'value': '3'},
+            {'year': 2021, 'flow_type': 'IMPORT', 'product_type': 'GOODS', 'value': '2'},
+            {'year': 2021, 'flow_type': 'EXPORT', 'product_type': 'GOODS', 'value': '4'},
+            {'year': 2020, 'flow_type': 'IMPORT', 'product_type': 'SERVICES', 'value': '11'},
+            {'year': 2020, 'flow_type': 'EXPORT', 'product_type': 'SERVICES', 'value': '33'},
+            {'year': 2021, 'flow_type': 'IMPORT', 'product_type': 'SERVICES', 'value': '22'},
+            {'year': 2021, 'flow_type': 'EXPORT', 'product_type': 'SERVICES', 'value': '44'},
+        ],
+    }
+
+    market_trends = helpers.build_market_trends(total_trade_data)
+
+    assert market_trends == [
+        {'year': 2020, 'imports': 12000000, 'exports': 36000000, 'total': 48000000},
+        {'year': 2021, 'imports': 24000000, 'exports': 48000000, 'total': 72000000},
+    ]
+
+
+def test_build_market_trends_last_10_years():
+    total_trade_data = {
+        'meta': {},
+        'data': [
+            {'year': 2011, 'flow_type': 'IMPORT', 'value': '1'},
+            {'year': 2012, 'flow_type': 'IMPORT', 'value': '1'},
+            {'year': 2013, 'flow_type': 'IMPORT', 'value': '1'},
+            {'year': 2014, 'flow_type': 'IMPORT', 'value': '1'},
+            {'year': 2015, 'flow_type': 'IMPORT', 'value': '1'},
+            {'year': 2016, 'flow_type': 'IMPORT', 'value': '1'},
+            {'year': 2017, 'flow_type': 'IMPORT', 'value': '1'},
+            {'year': 2018, 'flow_type': 'IMPORT', 'value': '1'},
+            {'year': 2019, 'flow_type': 'IMPORT', 'value': '1'},
+            {'year': 2020, 'flow_type': 'IMPORT', 'value': '1'},
+            {'year': 2021, 'flow_type': 'IMPORT', 'value': '1'},
+            # Last is older than 10 years to make sure list is sorted before truncating
+            {'year': 2010, 'flow_type': 'IMPORT', 'value': '1'},
+        ],
+    }
+
+    market_trends = helpers.build_market_trends(total_trade_data)
+
+    assert len(market_trends) == 10
+    assert market_trends[0]['year'] == 2012
+    assert market_trends[9]['year'] == 2021
 
 
 @pytest.mark.parametrize(
