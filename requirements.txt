@@ -10,17 +10,10 @@ airtable-python-wrapper==0.13.0
     # via -r requirements.in
 alabaster==0.7.12
     # via sphinx
-anyascii==0.3.1
+anyascii==0.3.0
     # via wagtail
 arabic-reshaper==2.1.3
     # via xhtml2pdf
-asn1crypto==1.5.1
-    # via
-    #   oscrypto
-    #   pyhanko
-    #   pyhanko-certvalidator
-async-timeout==4.0.2
-    # via redis
 attrs==21.4.0
     # via jsonschema
 babel==2.9.1
@@ -46,24 +39,17 @@ certifi==2021.10.8
     #   sentry-sdk
 cffi==1.15.0
     # via cryptography
-charset-normalizer==2.0.12
+charset-normalizer==2.0.11
     # via requests
-click==8.1.2
-    # via pyhanko
-cryptography==36.0.2
-    # via
-    #   -r requirements.in
-    #   pyhanko
-    #   pyhanko-certvalidator
+cryptography==36.0.1
+    # via -r requirements.in
 cssselect==1.1.0
     # via pyquery
-cssselect2==0.5.0
-    # via svglib
 dateparser==0.7.2
     # via -r requirements.in
 deprecated==1.2.13
     # via redis
-directory-api-client==24.2.0
+directory-api-client==24.1.0
     # via -r requirements.in
 directory-ch-client==2.1.0
     # via -r requirements.in
@@ -85,7 +71,7 @@ directory-sso-api-client==6.5.6
     # via -r requirements.in
 directory-validators==8.0.0
     # via -r requirements.in
-django==2.2.28
+django==2.2.27
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -122,7 +108,7 @@ django-health-check==3.8.0
     # via directory-healthcheck
 django-ipware==2.1.0
     # via -r requirements.in
-django-modelcluster==5.3
+django-modelcluster==5.2
     # via wagtail
 django-recaptcha==2.0.6
     # via -r requirements.in
@@ -161,7 +147,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==13.3.4
+faker==12.2.0
     # via factory-boy
 future==0.18.2
     # via arabic-reshaper
@@ -183,7 +169,7 @@ imagesize==1.3.0
     # via sphinx
 iso3166==1.0.1
     # via -r requirements.in
-jinja2==3.1.1
+jinja2==3.0.3
     # via sphinx
 jmespath==0.10.0
     # via
@@ -193,16 +179,15 @@ jsonschema==3.2.0
     # via great-components
 l18n==2021.3
     # via wagtail
-lxml==4.8.0
+lxml==4.7.1
     # via
     #   -r requirements.in
     #   pyquery
-    #   svglib
 markdown2==2.4.0
     # via
     #   -r requirements.in
     #   readtime
-markupsafe==2.1.1
+markupsafe==2.0.1
     # via jinja2
 maxminddb==2.2.0
     # via geoip2
@@ -218,13 +203,11 @@ olefile==0.46
     # via directory-validators
 openpyxl==3.0.9
     # via tablib
-oscrypto==1.3.0
-    # via pyhanko-certvalidator
 packaging==21.3
     # via
     #   redis
     #   sphinx
-pillow==9.1.0
+pillow==9.0.1
     # via
     #   -r requirements.in
     #   directory-validators
@@ -239,15 +222,9 @@ pycparser==2.21
     # via cffi
 pygments==2.11.2
     # via sphinx
-pyhanko==0.12.1
-    # via xhtml2pdf
-pyhanko-certvalidator==0.19.5
-    # via
-    #   pyhanko
-    #   xhtml2pdf
-pyparsing==3.0.8
+pyparsing==3.0.7
     # via packaging
-pypdf3==1.0.6
+pypdf2==1.26.0
     # via xhtml2pdf
 pyquery==1.4.3
     # via readtime
@@ -269,23 +246,16 @@ pytz==2021.3
     #   django
     #   django-modelcluster
     #   l18n
-    #   pyhanko
 pytz-deprecation-shim==0.1.0.post0
     # via tzlocal
-pyyaml==6.0
-    # via pyhanko
-qrcode==7.3.1
-    # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==4.2.2
+redis==4.1.3
     # via django-redis
-regex==2022.3.15
+regex==2022.1.18
     # via dateparser
-reportlab==3.6.9
-    # via
-    #   svglib
-    #   xhtml2pdf
+reportlab==3.6.6
+    # via xhtml2pdf
 requests==2.27.1
     # via
     #   airtable-python-wrapper
@@ -293,8 +263,6 @@ requests==2.27.1
     #   directory-ch-client
     #   directory-client-core
     #   geoip2
-    #   pyhanko
-    #   pyhanko-certvalidator
     #   requests-oauthlib
     #   sphinx
     #   wagtail
@@ -321,9 +289,10 @@ six==1.16.0
     #   python-dateutil
     #   sphinx
     #   w3lib
+    #   xhtml2pdf
 snowballstemmer==2.2.0
     # via sphinx
-soupsieve==2.3.2
+soupsieve==2.3.1
     # via beautifulsoup4
 sphinx==1.8.6
     # via -r requirements.in
@@ -333,29 +302,17 @@ sphinxcontrib-websupport==1.2.4
     # via sphinx
 sqlparse==0.4.2
     # via django
-svglib==1.2.1
-    # via xhtml2pdf
-tablib[xls,xlsx]==3.2.1
+tablib[xls,xlsx]==3.2.0
     # via wagtail
-tinycss2==1.1.1
-    # via
-    #   cssselect2
-    #   svglib
-tqdm==4.64.0
-    # via pypdf3
-tzdata==2022.1
+tzdata==2021.5
     # via pytz-deprecation-shim
-tzlocal==4.2
-    # via
-    #   dateparser
-    #   pyhanko
+tzlocal==4.1
+    # via dateparser
 uk-postcode-utils==1.1
     # via -r requirements.in
-unidecode==1.3.4
+unidecode==1.3.2
     # via wagtail
-uritools==4.0.0
-    # via pyhanko-certvalidator
-urllib3==1.26.9
+urllib3==1.26.8
     # via
     #   -r requirements.in
     #   botocore
@@ -387,17 +344,14 @@ wagtailfontawesome==1.2.1
 wagtailmedia==0.5.0
     # via -r requirements.in
 webencodings==0.5.1
-    # via
-    #   cssselect2
-    #   html5lib
-    #   tinycss2
+    # via html5lib
 whitenoise==4.1.4
     # via -r requirements.in
-willow==1.4.1
+willow==1.4
     # via wagtail
-wrapt==1.14.0
+wrapt==1.13.3
     # via deprecated
-xhtml2pdf==0.2.7
+xhtml2pdf==0.2.5
     # via -r requirements.in
 xlrd==2.0.1
     # via tablib
