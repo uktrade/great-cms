@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.http import Http404
+from django.utils.functional import cached_property
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.edit_handlers import (
@@ -906,16 +907,20 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
 
         return ctas
 
-    @property
+    @cached_property
     def stats(self):
         iso2 = getattr(self.country, 'iso2', None)
 
         if iso2 is None:
             return None
 
-        total_trade_data = helpers.get_total_trade_data_by_country(self.country.iso2)
+        total_trade_data = helpers.get_total_trade_data_by_country(iso2)
+        commodity_exports_data = helpers.get_commodity_exports_data_by_country(iso2)
+        trade_in_services_data = helpers.get_trade_in_services_data_by_country(iso2)
 
         return {
+            'goods_exports': helpers.build_top_exports(commodity_exports_data),
+            'services_exports': helpers.build_top_exports(trade_in_services_data),
             'market_trends': helpers.build_market_trends(total_trade_data),
         }
 

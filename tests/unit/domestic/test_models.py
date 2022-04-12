@@ -554,6 +554,7 @@ def test_stats(mock_get_total_trade_data_by_country, domestic_homepage):
         country=country,
     )
 
+    assert page.stats['services'] == []
     assert page.stats['market_trends'] == [{'year': 2021, 'imports': 124000000, 'exports': 0, 'total': 124000000}]
 
 

@@ -806,6 +806,159 @@ def test_build_market_trends_last_10_years():
     assert market_trends[9]['year'] == 2021
 
 
+@mock.patch.object(api_client.dataservices, 'get_trade_in_service_data_by_country')
+@pytest.mark.django_db
+def test_get_top_exported_services(mock_trade_data, client):
+    trade_in_services_data = {
+        'meta': {'iso2': 'FR', 'source': 'https://example.org/source'},
+        'data': [],
+    }
+
+    mock_trade_data.return_value = create_response(status_code=200, json_body=trade_in_services_data)
+    response = helpers.get_trade_in_services_data_by_country(iso2='FR')
+    assert response.get('meta').get('iso2') == trade_in_services_data['meta']['iso2']
+    assert response.get('data') == trade_in_services_data['data']
+
+
+@mock.patch.object(api_client.dataservices, 'get_commodity_exports_data_by_country')
+@pytest.mark.django_db
+def test_get_top_exported_products(mock_trade_data, client):
+    commodity_exports_data = {
+        'meta': {'iso2': 'FR', 'source': 'https://example.org/source'},
+        'data': [],
+    }
+
+    mock_trade_data.return_value = create_response(status_code=200, json_body=commodity_exports_data)
+    response = helpers.get_commodity_exports_data_by_country(iso2='FR')
+    assert response.get('meta').get('iso2') == commodity_exports_data['meta']['iso2']
+    assert response.get('data') == commodity_exports_data['data']
+
+
+def test_build_top_exports_returns_last_4_quarters():
+    api_data = {
+        'meta': {},
+        'data': [
+            {'direction': 'EXPORTS', 'quarter': 3, 'service_type': 'Transportation', 'value': '100.00', 'year': 2021},
+            {'direction': 'EXPORTS', 'quarter': 2, 'service_type': 'Transportation', 'value': '10.00', 'year': 2021},
+            {'direction': 'EXPORTS', 'quarter': 1, 'service_type': 'Transportation', 'value': '1.00', 'year': 2021},
+            {
+                'direction': 'EXPORTS',
+                'quarter': None,
+                'service_type': 'Transportation',
+                'value': '222.00',
+                'year': 2020,
+            },
+            {'direction': 'EXPORTS', 'quarter': 4, 'service_type': 'Transportation', 'value': '200.00', 'year': 2020},
+            {'direction': 'EXPORTS', 'quarter': 3, 'service_type': 'Transportation', 'value': '20.00', 'year': 2020},
+        ],
+    }
+
+    top_exports = helpers.build_top_exports(api_data)
+
+    assert top_exports == [
+        {'label': 'Transportation', 'total': 311000000},
+    ]
+
+
+def test_build_top_exports_returns_last_12_months():
+    api_data = {
+        'meta': {},
+        'data': [
+            {'commodity': 'Unspecified goods', 'direction': 'Exports', 'month': 9, 'year': 2020, 'value': '1.00'},
+            {'commodity': 'Unspecified goods', 'direction': 'Exports', 'month': 8, 'year': 2020, 'value': '1.00'},
+            {'commodity': 'Unspecified goods', 'direction': 'Exports', 'month': 7, 'year': 2020, 'value': '1.00'},
+            {'commodity': 'Unspecified goods', 'direction': 'Exports', 'month': 6, 'year': 2020, 'value': '1.00'},
+            {'commodity': 'Unspecified goods', 'direction': 'Exports', 'month': 5, 'year': 2020, 'value': '1.00'},
+            {'commodity': 'Unspecified goods', 'direction': 'Exports', 'month': 4, 'year': 2020, 'value': '1.00'},
+            {'commodity': 'Unspecified goods', 'direction': 'Exports', 'month': 3, 'year': 2020, 'value': '1.00'},
+            {'commodity': 'Unspecified goods', 'direction': 'Exports', 'month': 2, 'year': 2020, 'value': '1.00'},
+            {'commodity': 'Unspecified goods', 'direction': 'Exports', 'month': 1, 'year': 2020, 'value': '1.00'},
+            {'commodity': 'Unspecified goods', 'direction': 'Exports', 'month': 12, 'year': 2019, 'value': '1.00'},
+            {'commodity': 'Unspecified goods', 'direction': 'Exports', 'month': 11, 'year': 2019, 'value': '1.00'},
+            {'commodity': 'Unspecified goods', 'direction': 'Exports', 'month': 10, 'year': 2019, 'value': '1.00'},
+            {'commodity': 'Unspecified goods', 'direction': 'Exports', 'month': 9, 'year': 2019, 'value': '1.00'},
+            {'commodity': 'Unspecified goods', 'direction': 'Exports', 'month': 8, 'year': 2019, 'value': '1.00'},
+        ],
+    }
+
+    top_exports = helpers.build_top_exports(api_data)
+
+    assert top_exports == [
+        {'label': 'Unspecified goods', 'total': 12000000},
+    ]
+
+
+def test_build_top_exports_returns_exports():
+    api_data = {
+        'meta': {},
+        'data': [
+            {'direction': 'IMPORTS', 'quarter': 4, 'service_type': 'Transportation', 'value': '416.00', 'year': 2021},
+            {
+                'direction': 'EXPORTS',
+                'quarter': 4,
+                'service_type': 'Maintenance and Repair',
+                'value': '25.00',
+                'year': 2021,
+            },
+        ],
+    }
+
+    top_exports = helpers.build_top_exports(api_data)
+
+    assert top_exports == [{'label': 'Maintenance and Repair', 'total': 25000000}]
+
+
+def test_build_top_exports_returns_sorted():
+    api_data = {
+        'meta': {},
+        'data': [
+            {'direction': 'EXPORTS', 'quarter': 4, 'service_type': 'Transportation', 'value': '143.00', 'year': 2021},
+            {
+                'direction': 'EXPORTS',
+                'quarter': 4,
+                'service_type': 'Information Technology',
+                'value': '43.00',
+                'year': 2021,
+            },
+            {
+                'direction': 'EXPORTS',
+                'quarter': 4,
+                'service_type': 'Maintenance and Repair',
+                'value': '250.00',
+                'year': 2021,
+            },
+        ],
+    }
+
+    top_exports = helpers.build_top_exports(api_data)
+
+    assert top_exports == [
+        {'label': 'Maintenance and Repair', 'total': 250000000},
+        {'label': 'Transportation', 'total': 143000000},
+        {'label': 'Information Technology', 'total': 43000000},
+    ]
+
+
+def test_build_top_exports_limits_5():
+    api_data = {
+        'meta': {},
+        'data': [
+            {'direction': 'EXPORTS', 'quarter': 4, 'service_type': f'Service {key}', 'value': f'{key}.00', 'year': 2021}
+            for key in range(10)
+        ],
+    }
+
+    top_exports = helpers.build_top_exports(api_data)
+
+    assert top_exports == [
+        {'label': 'Service 9', 'total': 9000000},
+        {'label': 'Service 8', 'total': 8000000},
+        {'label': 'Service 7', 'total': 7000000},
+        {'label': 'Service 6', 'total': 6000000},
+        {'label': 'Service 5', 'total': 5000000},
+    ]
+
+
 @pytest.mark.parametrize(
     'value,expected',
     (

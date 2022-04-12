@@ -30,7 +30,6 @@ USER_LOCATION_DETERMINE_ERROR = 'Unable to determine user location'
 MALE = 'xy'
 FEMALE = 'xx'
 
-
 logger = getLogger(__name__)
 
 
@@ -47,7 +46,7 @@ def age_group_mapping(target_ages):
             if start >= 100:
                 out.append('100+')
             else:
-                out.append(f'{start}-{start+4}')
+                out.append(f'{start}-{start + 4}')
             start += 5
     return out
 
@@ -125,7 +124,6 @@ def is_fuzzy_match(label_a, label_b):
 
 
 class CompanyParser(great_components.helpers.CompanyParser):
-
     INDUSTRIES = great_components.helpers.CompanyParser.INDUSTRIES
 
     SIC_CODES = dict(choices.SIC_CODES)
@@ -416,6 +414,74 @@ def build_market_trends(total_trade_data):
         market_trends.append({'year': year, 'imports': imports, 'exports': exports, 'total': total})
 
     return market_trends[-10:]
+
+
+def get_trade_in_services_data_by_country(iso2):
+    response = api_client.dataservices.get_trade_in_service_data_by_country(iso2=iso2)
+    return response.json()
+
+
+def get_commodity_exports_data_by_country(iso2):
+    response = api_client.dataservices.get_commodity_exports_data_by_country(iso2=iso2)
+    return response.json()
+
+
+def build_top_exports(data):  # noqa: C901
+    # TODO: Remove this when API response follows schema
+    records = data if isinstance(data, list) else data['data']
+
+    if len(records) == 0:
+        return None
+
+    if 'commodity' in records[0]:
+        label_key = 'commodity'
+        period_key = 'month'
+    else:
+        label_key = 'service_type'
+        period_key = 'quarter'
+
+    code_label = label_key.replace('_', '')
+    most_recent_year = sorted(set([x['year'] for x in records]), reverse=True)[0]
+    most_recent_period = sorted(
+        set([x[period_key] for x in records if x['year'] == most_recent_year and x[period_key] is not None]),
+        reverse=True,
+    )[0]
+
+    def is_required_data(record):
+        if record['direction'] == 'IMPORTS':
+            return False
+        if '.' in record[f'{code_label}_code']:
+            return False
+        if record[period_key] is None:
+            return False
+        if record['year'] < (most_recent_year - 1):
+            return False
+        if record['year'] == (most_recent_year - 1) and record[period_key] <= most_recent_period:
+            return False
+
+        return True
+
+    filtered_records = list(filter(is_required_data, records))
+
+    def sum_totals(exports, current):
+        export_name = current[label_key]
+        value = float(current['value']) * 1e6
+        try:
+            exports[export_name] += value
+        except KeyError:
+            exports[export_name] = value
+
+        return exports
+
+    filtered_exports = functools.reduce(sum_totals, filtered_records, {})
+
+    top_exports = sorted(
+        [{'label': key, 'total': value} for key, value in filtered_exports.items()],
+        key=lambda x: x['total'],
+        reverse=True,
+    )[:6]
+
+    return top_exports
 
 
 def get_country_data(countries, fields):
