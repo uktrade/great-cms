@@ -398,24 +398,6 @@ def get_total_trade_data_by_country(iso2):
     return response.json()
 
 
-def build_market_trends(total_trade_data):
-    # TODO: Remove this when API response follows schema
-    data = total_trade_data if isinstance(total_trade_data, list) else total_trade_data['data']
-    market_trends = []
-
-    all_years = sorted(set([x['year'] for x in data]))
-
-    for year in all_years:
-        # Values from API are in £millions, convert to £
-        imports = sum([float(x['value']) * 1e6 for x in data if x['year'] == year and x['flow_type'] == 'IMPORT'])
-        exports = sum([float(x['value']) * 1e6 for x in data if x['year'] == year and x['flow_type'] == 'EXPORT'])
-        total = sum([imports, exports])
-
-        market_trends.append({'year': year, 'imports': imports, 'exports': exports, 'total': total})
-
-    return market_trends[-10:]
-
-
 def get_trade_in_services_data_by_country(iso2):
     response = api_client.dataservices.get_trade_in_service_data_by_country(iso2=iso2)
     return response.json()
@@ -424,64 +406,6 @@ def get_trade_in_services_data_by_country(iso2):
 def get_commodity_exports_data_by_country(iso2):
     response = api_client.dataservices.get_commodity_exports_data_by_country(iso2=iso2)
     return response.json()
-
-
-def build_top_exports(data):  # noqa: C901
-    # TODO: Remove this when API response follows schema
-    records = data if isinstance(data, list) else data['data']
-
-    if len(records) == 0:
-        return None
-
-    if 'commodity' in records[0]:
-        label_key = 'commodity'
-        period_key = 'month'
-    else:
-        label_key = 'service_type'
-        period_key = 'quarter'
-
-    code_label = label_key.replace('_', '')
-    most_recent_year = sorted(set([x['year'] for x in records]), reverse=True)[0]
-    most_recent_period = sorted(
-        set([x[period_key] for x in records if x['year'] == most_recent_year and x[period_key] is not None]),
-        reverse=True,
-    )[0]
-
-    def is_required_data(record):
-        if record['direction'] == 'IMPORTS':
-            return False
-        if '.' in record[f'{code_label}_code']:
-            return False
-        if record[period_key] is None:
-            return False
-        if record['year'] < (most_recent_year - 1):
-            return False
-        if record['year'] == (most_recent_year - 1) and record[period_key] <= most_recent_period:
-            return False
-
-        return True
-
-    filtered_records = list(filter(is_required_data, records))
-
-    def sum_totals(exports, current):
-        export_name = current[label_key]
-        value = float(current['value']) * 1e6
-        try:
-            exports[export_name] += value
-        except KeyError:
-            exports[export_name] = value
-
-        return exports
-
-    filtered_exports = functools.reduce(sum_totals, filtered_records, {})
-
-    top_exports = sorted(
-        [{'label': key, 'total': value} for key, value in filtered_exports.items()],
-        key=lambda x: x['total'],
-        reverse=True,
-    )[:6]
-
-    return top_exports
 
 
 def get_country_data(countries, fields):
