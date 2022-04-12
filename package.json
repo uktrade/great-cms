@@ -70,7 +70,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
-    "great-styles": "github:uktrade/great-styles#v0.5.0",
+    "great-styles": "github:uktrade/great-styles#v0.6.0",
     "prop-types": "15.7.2",
     "react": "16.13.1",
     "react-cookie": "4.0.3",
