@@ -541,11 +541,11 @@ def test_trade_and_duties_links_no_country(domestic_homepage):
 
 @mock.patch.object(api_client.dataservices, 'get_total_trade_data_by_country')
 @pytest.mark.django_db
-@pytest.mark.skip("Hard-coding stats data for China only for demo, and until API follows agreed schema")
+@pytest.mark.skip('Hard-coding stats data for China only for demo, and until API follows agreed schema')
 def test_stats(mock_get_total_trade_data_by_country, domestic_homepage):
     mock_get_total_trade_data_by_country.return_value = create_response(
         status_code=200,
-        json_body={"data": [{'year': 2021, 'flow_type': 'IMPORT', 'product_type': 'GOODS', 'value': 124}]},
+        json_body={'data': [{'year': 2021, 'flow_type': 'IMPORT', 'product_type': 'GOODS', 'value': 124}]},
     )
     country = CountryFactory(name='France', slug='france', iso2='FR')
 

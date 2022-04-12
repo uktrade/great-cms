@@ -912,62 +912,62 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
 
         if iso2 == 'CN':
             return {
-                "metadata": {"country": "China", "iso2": "CN"},
-                "data_points": {
-                    "metadata": {"source": "ONS UK Trade January 2022"},
-                    "data": {"total_uk_exports": 26032000000, "trading_position": 3, "percentage_of_uk_trade": 7.5},
+                'metadata': {'country': 'China', 'iso2': 'CN'},
+                'data_points': {
+                    'metadata': {'source': 'ONS UK Trade January 2022'},
+                    'data': {'total_uk_exports': 26032000000, 'trading_position': 3, 'percentage_of_uk_trade': 7.5},
                 },
-                "market_trends": {
-                    "metadata": {
-                        "source": "ONS UK Trade January 2022",
-                        "source_link": "https://example.org/foo",
-                        "last_updated": "2022-01-14",
+                'market_trends': {
+                    'metadata': {
+                        'source': 'ONS UK Trade January 2022',
+                        'source_link': 'https://example.org/foo',
+                        'last_updated': '2022-01-14',
                     },
-                    "data": [
-                        {"year": 2011, "imports": 31976000000, "exports": 14789000000},
-                        {"year": 2012, "imports": 31544000000, "exports": 15583000000},
-                        {"year": 2013, "imports": 32767000000, "exports": 16898000000},
-                        {"year": 2014, "imports": 35863000000, "exports": 19373000000},
-                        {"year": 2015, "imports": 39550000000, "exports": 18411000000},
-                        {"year": 2016, "imports": 42894000000, "exports": 19497000000},
-                        {"year": 2017, "imports": 45182000000, "exports": 25242000000},
-                        {"year": 2018, "imports": 46052000000, "exports": 27108000000},
-                        {"year": 2019, "imports": 50506000000, "exports": 36297000000},
-                        {"year": 2020, "imports": 56877000000, "exports": 26032000000},
+                    'data': [
+                        {'year': 2011, 'imports': 31976000000, 'exports': 14789000000},
+                        {'year': 2012, 'imports': 31544000000, 'exports': 15583000000},
+                        {'year': 2013, 'imports': 32767000000, 'exports': 16898000000},
+                        {'year': 2014, 'imports': 35863000000, 'exports': 19373000000},
+                        {'year': 2015, 'imports': 39550000000, 'exports': 18411000000},
+                        {'year': 2016, 'imports': 42894000000, 'exports': 19497000000},
+                        {'year': 2017, 'imports': 45182000000, 'exports': 25242000000},
+                        {'year': 2018, 'imports': 46052000000, 'exports': 27108000000},
+                        {'year': 2019, 'imports': 50506000000, 'exports': 36297000000},
+                        {'year': 2020, 'imports': 56877000000, 'exports': 26032000000},
                     ],
                 },
-                "goods_exports": {
-                    "metadata": {
-                        "source": "ONS UK Trade January 2022",
-                        "source_link": "https://example.org/foo",
-                        "last_updated": "2022-01-14",
-                        "resolution": "month",
-                        "last_period": 1,
-                        "last_period_year": 2022,
+                'goods_exports': {
+                    'metadata': {
+                        'source': 'ONS UK Trade January 2022',
+                        'source_link': 'https://example.org/foo',
+                        'last_updated': '2022-01-14',
+                        'resolution': 'month',
+                        'last_period': 1,
+                        'last_period_year': 2022,
                     },
-                    "data": [
-                        {"label": "Machinery & transport equipment", "value": 7561130000},
-                        {"label": "Road vehicles", "value": 3791090000},
-                        {"label": "Cars", "value": 3567820000},
-                        {"label": "Fuels", "value": 3081900000},
-                        {"label": "Oil", "value": 3081850000},
+                    'data': [
+                        {'label': 'Machinery & transport equipment', 'value': 7561130000},
+                        {'label': 'Road vehicles', 'value': 3791090000},
+                        {'label': 'Cars', 'value': 3567820000},
+                        {'label': 'Fuels', 'value': 3081900000},
+                        {'label': 'Oil', 'value': 3081850000},
                     ],
                 },
-                "services_exports": {
-                    "metadata": {
-                        "source": "ONS UK Trade January 2022",
-                        "source_link": "https://example.org/foo",
-                        "last_updated": "2022-01-14",
-                        "resolution": "quarter",
-                        "last_period": 3,
-                        "last_period_year": 2021,
+                'services_exports': {
+                    'metadata': {
+                        'source': 'ONS UK Trade January 2022',
+                        'source_link': 'https://example.org/foo',
+                        'last_updated': '2022-01-14',
+                        'resolution': 'quarter',
+                        'last_period': 3,
+                        'last_period_year': 2021,
                     },
-                    "data": [
-                        {"label": "Travel", "value": 2407000000},
-                        {"label": "Other Business Services", "value": 1447000000},
-                        {"label": "Transportation", "value": 1188000000},
-                        {"label": "Intellectual property", "value": 926000000},
-                        {"label": "Financial", "value": 873000000},
+                    'data': [
+                        {'label': 'Travel', 'value': 2407000000},
+                        {'label': 'Other Business Services', 'value': 1447000000},
+                        {'label': 'Transportation', 'value': 1188000000},
+                        {'label': 'Intellectual property', 'value': 926000000},
+                        {'label': 'Financial', 'value': 873000000},
                     ],
                 },
             }
