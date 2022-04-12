@@ -1,6 +1,7 @@
 from urllib.parse import unquote_plus
 
 from django.conf import settings
+from django.contrib.humanize.templatetags.humanize import intword
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -911,7 +912,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         iso2 = getattr(self.country, 'iso2', None)
 
         if iso2 == 'CN':
-            return {
+            api_data = {
                 'metadata': {'country': 'China', 'iso2': 'CN'},
                 'data_points': {
                     'metadata': {'source': 'ONS UK Trade January 2022'},
@@ -971,6 +972,12 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                     ],
                 },
             }
+
+            for export_type in ['goods', 'services']:
+                type_key = f'{export_type}_exports'
+                api_data[type_key]['metadata']['unit'] = intword(api_data[type_key]['data'][0]['value']).split(' ')[1]
+
+            return api_data
 
         return None
 

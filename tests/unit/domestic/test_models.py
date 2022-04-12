@@ -560,6 +560,21 @@ def test_stats(mock_get_total_trade_data_by_country, domestic_homepage):
 
 
 @pytest.mark.django_db
+def test_stats_china(domestic_homepage):
+    country = CountryFactory(name='China', slug='china', iso2='CN')
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        country=country,
+    )
+
+    assert page.stats['goods_exports']['metadata']['unit'] == 'billion'
+    assert page.stats['services_exports']['metadata']['unit'] == 'billion'
+    assert len(page.stats['market_trends']['data']) == 10
+
+
+@pytest.mark.django_db
 def test_stats_no_iso(domestic_homepage):
     country = CountryFactory(name='France', slug='france')
 
