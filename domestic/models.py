@@ -909,20 +909,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
 
     @cached_property
     def stats(self):
-        iso2 = getattr(self.country, 'iso2', None)
-
-        if iso2 is None:
-            return None
-
-        total_trade_data = helpers.get_total_trade_data_by_country(iso2)
-        commodity_exports_data = helpers.get_commodity_exports_data_by_country(iso2)
-        trade_in_services_data = helpers.get_trade_in_services_data_by_country(iso2)
-
-        return {
-            'goods_exports': helpers.build_top_exports(commodity_exports_data),
-            'services_exports': helpers.build_top_exports(trade_in_services_data),
-            'market_trends': helpers.build_market_trends(total_trade_data),
-        }
+        return None
 
     @property
     def related_pages(self):
