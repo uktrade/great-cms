@@ -2,6 +2,7 @@ import calendar
 import datetime
 import logging
 import math
+import re
 from urllib.parse import urlparse
 
 from django import template
@@ -165,3 +166,16 @@ def friendly_number(val):
         int_val = 0
 
     return millify(int_val)
+
+
+@register.simple_tag
+def round_to_unit(number, unit, precision=1):
+    units = {'thousand': 1e3, 'million': 1e6, 'billion': 1e9, 'trillion': 1e12}
+
+    if not unit:
+        return str(number)
+
+    output = str(round(number / units[unit], precision))
+
+    # Strip zeros after decimal point
+    return re.sub(r'\.0+$', '', output)
