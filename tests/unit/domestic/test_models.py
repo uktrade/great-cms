@@ -539,6 +539,65 @@ def test_trade_and_duties_links_no_country(domestic_homepage):
     assert page.trade_barriers_resolved_link is None
 
 
+@mock.patch.object(api_client.dataservices, 'get_total_trade_data_by_country')
+@pytest.mark.django_db
+@pytest.mark.skip('Hard-coding stats data for China only for demo, and until API follows agreed schema')
+def test_stats(mock_get_total_trade_data_by_country, domestic_homepage):
+    mock_get_total_trade_data_by_country.return_value = create_response(
+        status_code=200,
+        json_body={'data': [{'year': 2021, 'flow_type': 'IMPORT', 'product_type': 'GOODS', 'value': 124}]},
+    )
+    country = CountryFactory(name='France', slug='france', iso2='FR')
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        country=country,
+    )
+
+    assert page.stats['services'] == []
+    assert page.stats['market_trends'] == [{'year': 2021, 'imports': 124000000, 'exports': 0, 'total': 124000000}]
+
+
+@pytest.mark.django_db
+def test_stats_china(domestic_homepage):
+    country = CountryFactory(name='China', slug='china', iso2='CN')
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        country=country,
+    )
+
+    assert page.stats['goods_exports']['metadata']['unit'] == 'billion'
+    assert page.stats['services_exports']['metadata']['unit'] == 'billion'
+    assert len(page.stats['market_trends']['data']) == 10
+
+
+@pytest.mark.django_db
+def test_stats_no_iso(domestic_homepage):
+    country = CountryFactory(name='France', slug='france')
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        country=country,
+    )
+
+    assert page.stats is None
+
+
+@pytest.mark.django_db
+def test_stats_no_country(domestic_homepage):
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+    )
+
+    assert page.stats is None
+
+
 @pytest.mark.parametrize(
     'related_page_data',
     (
