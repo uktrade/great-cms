@@ -186,10 +186,14 @@ def reference_period(data, capitalise=False):
     output = ''
 
     if data['resolution'] == 'month' and 1 <= data['period'] <= 12:
-        output = 'twelve months to the end of {} {}'.format(month_name(data['period']), data['year'])
+        month = month_name(data['period'])
+        year = data['year']
+        output = f'twelve months to the end of {month} {year}'
 
     if data['resolution'] == 'quarter' and 1 <= data['period'] <= 4:
-        output = 'four quarters to the end of Q{} {}'.format(data['period'], data['year'])
+        quarter = data['period']
+        year = data['year']
+        output = f'four quarters to the end of Q{quarter} {year}'
 
     if capitalise:
         return output[0].upper() + output[1:]
