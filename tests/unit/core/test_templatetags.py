@@ -581,3 +581,35 @@ def test_multiply_by_exponent():
         context = Context({'delta': case.get('value')})
         html = template.render(context)
         assert html == case.get('result')
+
+
+@pytest.mark.parametrize(
+    'number, unit, precision, expected',
+    (
+        (12345.5, '', 1, '12345.5'),
+        (1230, 'thousand', 1, '1.2'),
+        (1230000, 'thousand', 0, '1230'),
+        (1230000, 'million', 0, '1'),
+        (1230000, 'million', 1, '1.2'),
+        (1290000, 'million', 1, '1.3'),
+        (80000000, 'billion', 1, '0.1'),
+        (8509000000, 'billion', 1, '8.5'),
+        (8509000000, 'billion', 2, '8.51'),
+        (8009000000, 'billion', 1, '8'),
+        (8009000000, 'billion', 2, '8.01'),
+    ),
+)
+def test_round_to_unit(number, unit, precision, expected):
+    template = Template('{% load round_to_unit from content_tags %}{% round_to_unit number unit precision %}')
+
+    context = Context({'number': number, 'unit': unit, 'precision': precision})
+    html = template.render(context)
+    assert html == expected
+
+
+def test_round_to_unit_default_precision():
+    template = Template('{% load round_to_unit from content_tags %}{% round_to_unit number unit %}')
+
+    context = Context({'number': 1234, 'unit': 'thousand'})
+    html = template.render(context)
+    assert html == '1.2'

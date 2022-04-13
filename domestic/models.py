@@ -1,11 +1,13 @@
 from urllib.parse import unquote_plus
 
 from django.conf import settings
+from django.contrib.humanize.templatetags.humanize import intword
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.http import Http404
+from django.utils.functional import cached_property
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.edit_handlers import (
@@ -184,7 +186,6 @@ class DomesticDashboard(
     DataLayerMixin,
     Page,
 ):
-
     components = StreamField([('route', core_blocks.RouteSectionBlock(icon='pick'))], null=True, blank=True)
 
     def get_context(self, request):
@@ -610,7 +611,6 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     subpage_types = [
         'domestic.ArticleListingPage',
         'domestic.ArticlePage',
-        'domestic.CampaignPage',
     ]
 
     heading = models.CharField(
@@ -907,6 +907,80 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
 
         return ctas
 
+    @cached_property
+    def stats(self):
+        iso2 = getattr(self.country, 'iso2', None)
+
+        if iso2 == 'CN':
+            api_data = {
+                'metadata': {'country': 'China', 'iso2': 'CN'},
+                'data_points': {
+                    'metadata': {'source': 'ONS UK Trade January 2022'},
+                    'data': {'total_uk_exports': 26032000000, 'trading_position': 3, 'percentage_of_uk_trade': 7.5},
+                },
+                'market_trends': {
+                    'metadata': {
+                        'source': 'ONS UK Trade January 2022',
+                        'source_link': 'https://example.org/foo',
+                        'last_updated': '2022-01-14',
+                    },
+                    'data': [
+                        {'year': 2011, 'imports': 31976000000, 'exports': 14789000000},
+                        {'year': 2012, 'imports': 31544000000, 'exports': 15583000000},
+                        {'year': 2013, 'imports': 32767000000, 'exports': 16898000000},
+                        {'year': 2014, 'imports': 35863000000, 'exports': 19373000000},
+                        {'year': 2015, 'imports': 39550000000, 'exports': 18411000000},
+                        {'year': 2016, 'imports': 42894000000, 'exports': 19497000000},
+                        {'year': 2017, 'imports': 45182000000, 'exports': 25242000000},
+                        {'year': 2018, 'imports': 46052000000, 'exports': 27108000000},
+                        {'year': 2019, 'imports': 50506000000, 'exports': 36297000000},
+                        {'year': 2020, 'imports': 56877000000, 'exports': 26032000000},
+                    ],
+                },
+                'goods_exports': {
+                    'metadata': {
+                        'source': 'ONS UK Trade January 2022',
+                        'source_link': 'https://example.org/foo',
+                        'last_updated': '2022-01-14',
+                        'resolution': 'month',
+                        'last_period': 1,
+                        'last_period_year': 2022,
+                    },
+                    'data': [
+                        {'label': 'Machinery & transport equipment', 'value': 7561130000},
+                        {'label': 'Road vehicles', 'value': 3791090000},
+                        {'label': 'Cars', 'value': 3567820000},
+                        {'label': 'Fuels', 'value': 3081900000},
+                        {'label': 'Oil', 'value': 3081850000},
+                    ],
+                },
+                'services_exports': {
+                    'metadata': {
+                        'source': 'ONS UK Trade January 2022',
+                        'source_link': 'https://example.org/foo',
+                        'last_updated': '2022-01-14',
+                        'resolution': 'quarter',
+                        'last_period': 3,
+                        'last_period_year': 2021,
+                    },
+                    'data': [
+                        {'label': 'Travel', 'value': 2407000000},
+                        {'label': 'Other Business Services', 'value': 1447000000},
+                        {'label': 'Transportation', 'value': 1188000000},
+                        {'label': 'Intellectual property', 'value': 926000000},
+                        {'label': 'Financial', 'value': 873000000},
+                    ],
+                },
+            }
+
+            for export_type in ['goods', 'services']:
+                type_key = f'{export_type}_exports'
+                api_data[type_key]['metadata']['unit'] = intword(api_data[type_key]['data'][0]['value']).split(' ')[1]
+
+            return api_data
+
+        return None
+
     @property
     def related_pages(self):
         output = []
@@ -926,7 +1000,6 @@ class ArticlePage(
     SocialLinksPageMixin,
     BaseContentPage,
 ):
-
     parent_page_types = [
         'domestic.CountryGuidePage',
         'domestic.StructuralPage',
@@ -1047,7 +1120,6 @@ class ArticlePage(
 
 
 class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
-
     template = 'domestic/article_listing_page.html'
 
     parent_page_types = [
@@ -1085,159 +1157,6 @@ class ArticleListingPage(cms_panels.ArticleListingPagePanels, BaseContentPage):
 
     def get_articles_count(self):
         return self.get_articles().count()
-
-
-class CampaignPage(cms_panels.CampaignPagePanels, BaseContentPage):
-
-    subpage_types = []
-    parent_page_types = [
-        'domestic.CountryGuidePage',
-    ]
-
-    campaign_heading = models.CharField(max_length=255)
-    campaign_hero_image = models.ForeignKey(
-        'core.AltTextImage',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-
-    section_one_heading = models.CharField(max_length=255)
-    section_one_intro = RichTextField(
-        features=RICHTEXT_FEATURES__REDUCED,
-    )
-    section_one_image = models.ForeignKey(
-        'core.AltTextImage',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-
-    selling_point_one_icon = models.ForeignKey(
-        'core.AltTextImage',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-    selling_point_one_heading = models.CharField(max_length=255)
-    selling_point_one_content = RichTextField(
-        features=RICHTEXT_FEATURES__REDUCED,
-    )
-
-    selling_point_two_icon = models.ForeignKey(
-        'core.AltTextImage',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-    selling_point_two_heading = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    selling_point_two_content = RichTextField(
-        features=RICHTEXT_FEATURES__REDUCED,
-        null=True,
-        blank=True,
-    )
-
-    selling_point_three_icon = models.ForeignKey(
-        'core.AltTextImage',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-    selling_point_three_heading = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    selling_point_three_content = RichTextField(
-        features=RICHTEXT_FEATURES__REDUCED,
-        null=True,
-        blank=True,
-    )
-
-    section_one_contact_button_url = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    section_one_contact_button_text = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-
-    section_two_heading = models.CharField(
-        max_length=255,
-    )
-    section_two_intro = RichTextField(
-        features=RICHTEXT_FEATURES__REDUCED,
-    )
-
-    section_two_image = models.ForeignKey(
-        'core.AltTextImage',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-
-    section_two_contact_button_url = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-    section_two_contact_button_text = models.CharField(
-        max_length=255,
-        null=True,
-        blank=True,
-    )
-
-    related_content_heading = models.CharField(
-        max_length=255,
-    )
-    related_content_intro = RichTextField(
-        features=RICHTEXT_FEATURES__REDUCED,
-    )
-
-    related_page_one = models.ForeignKey(
-        'domestic.ArticlePage',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-    related_page_two = models.ForeignKey(
-        'domestic.ArticlePage',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-    related_page_three = models.ForeignKey(
-        'domestic.ArticlePage',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
-
-    cta_box_message = models.CharField(
-        max_length=255,
-    )
-    cta_box_button_url = models.CharField(
-        max_length=255,
-    )
-    cta_box_button_text = models.CharField(
-        max_length=255,
-    )
 
 
 class GuidancePage(cms_panels.GuidancePagePanels, BaseContentPage):
@@ -1366,7 +1285,6 @@ class TradeFinancePage(
     cms_panels.TradeFinancePagePanels,
     BaseContentPage,
 ):
-
     parent_page_types = [
         'domestic.GreatDomesticHomePage',
     ]

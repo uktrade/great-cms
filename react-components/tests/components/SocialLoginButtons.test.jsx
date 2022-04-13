@@ -1,52 +1,29 @@
 import React from 'react'
-
-import Enzyme from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import { render } from '@testing-library/react'
 
 import SocialLoginButtons from '@src/components/SocialLoginButtons'
-import Services from '@src/Services'
 
-Enzyme.configure({ adapter: new Adapter() })
-
-beforeEach(() => {
-  jest.useFakeTimers()
-})
-
-afterEach(() => {
-  Services.setConfig({})
-  jest.useRealTimers()
-})
-
-xtest('SocialLoginButtons should render', () => {
+test('SocialLoginButtons should render', () => {
+  // What a test!
   const linkedinUrl = 'http://www.example.com/linkedInUrl/'
   const googleUrl = 'http://www.example.com/google/'
 
-  const component = Enzyme.shallow(
+  const { container } = render(
     <SocialLoginButtons
-      type="text"
-      placeholder="some placeholder"
-      name="some-name"
-      value="some value"
-      handleChange={() => {}}
       linkedinUrl={linkedinUrl}
       googleUrl={googleUrl}
-      disabled
-      autofocus
+      action="Continue"
     />
   )
 
   expect(
-    component.matchesElement(
-      <div>
-        <a href={linkedinUrl} className="great-mvp-wizard-step-button m-t-0 m-b-xs">
-          <img />
-          <span>Continue with LinkedIn</span>
-        </a>
-        <a href={googleUrl} className="great-mvp-wizard-step-button m-t-0 m-b-xs">
-          <img />
-          <span>Continue with Google</span>
-        </a>
-      </div>
-    )
-  ).toEqual(true)
+    container
+      .querySelector('[title="Sign up with Linkedin"]')
+      .getAttribute('href')
+  ).toEqual(linkedinUrl)
+  expect(
+    container
+      .querySelector('[title="Sign up with Google"]')
+      .getAttribute('href')
+  ).toEqual(googleUrl)
 })

@@ -21,7 +21,7 @@ export const AddButton = memo(
 
 AddButton.propTypes = {
   numberOfItems: PropTypes.number,
-  isDisabled: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool,
   add: PropTypes.func.isRequired,
   limit: PropTypes.number,
   cta: PropTypes.string,
@@ -30,6 +30,7 @@ AddButton.propTypes = {
 
 AddButton.defaultProps = {
   numberOfItems: 0,
+  isDisabled: false,
   limit: 5,
   cta: 'Add',
   btnClass: 'button--add button--large',

@@ -5,7 +5,7 @@ import Services from '@src/Services'
 import { GettingPaid } from './GettingPaid'
 
 const props = {
-  lessonDetails: {},
+  lessonDetails: 'lesson',
   currentSection: {
     url: 'wwww.example.com',
     lessons: [],
@@ -132,8 +132,8 @@ const setup = ({
   formData,
   lessonDetails,
   currentSection,
-}) => {
-  const component = render(
+}) =>
+  render(
     <GettingPaid
       field={field}
       formData={formData}
@@ -143,37 +143,25 @@ const setup = ({
     />
   )
 
-  return {
-    ...component,
-  }
-}
-
-beforeEach(() => {
-  jest.useFakeTimers()
-})
-
-afterEach(() => {
-  jest.useRealTimers()
-  cleanup()
-})
-
 describe('GettingPaid', () => {
   describe('Should have initial values', () => {
     it('Payments methods', () => {
       const { getAllByText, getByText } = setup({ ...props })
       expect(getAllByText('International bank transfers')).toHaveLength(1)
       expect(getAllByText('Credit or debit card payments')).toHaveLength(1)
-      getByText('de')
+      expect(getByText('de')).toBeTruthy()
     })
+
     it('Payments terms', () => {
       const { getAllByText, getByText } = setup({ ...props })
       expect(getAllByText('Payment in advance')).toHaveLength(2)
-      getByText('ggg')
+      expect(getByText('ggg')).toBeTruthy()
     })
+
     it('Incoterms®', () => {
       const { getAllByText, getByText } = setup({ ...props })
       expect(getAllByText('Free Carrier (FCA)')).toHaveLength(2)
-      getByText('eeee')
+      expect(getByText('eeee')).toBeTruthy()
     })
   })
 

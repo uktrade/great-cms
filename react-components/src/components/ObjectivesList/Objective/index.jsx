@@ -9,7 +9,8 @@ import ErrorList from '../../ErrorList'
 import { MonthYearInput } from '../../Form/MonthYearInput'
 
 const fwRefObjective = forwardRef((props, ref) => {
-  const { handleChange, deleteObjective, number, id, errors, data, example } = props
+  const { handleChange, deleteObjective, number, id, errors, data, example } =
+    props
 
   const onChange = (item) => {
     handleChange({
@@ -22,13 +23,7 @@ const fwRefObjective = forwardRef((props, ref) => {
     deleteObjective(data.pk)
   }
 
-  const {
-    companyexportplan,
-    end_month,
-    end_year,
-    pk,
-    ...fields
-  } = data
+  const { companyexportplan, end_month, end_year, pk, ...fields } = data
 
   return (
     <fieldset id={`objective-${number}`} ref={ref} tabIndex="-1">
@@ -36,8 +31,8 @@ const fwRefObjective = forwardRef((props, ref) => {
       <div className="costs bg-blue-deep-10 m-b-s">
         <div className="costs__option costs__option--border" tabIndex="-1">
           <TextArea
-            id={number}
-            name={`description`}
+            id={`${number}`}
+            name="description"
             placeholder="Add some text"
             label={`Objective ${number}`}
             value={data.description}
@@ -108,12 +103,12 @@ Objective.propTypes = {
     planned_reviews: PropTypes.string,
     end_month: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     end_year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    companyexportplan: PropTypes.number.isRequired,
-    pk: PropTypes.number.isRequired,
+    companyexportplan: PropTypes.number,
+    pk: PropTypes.number,
   }).isRequired,
   example: PropTypes.shape({
     content: PropTypes.string,
-  })
+  }),
 }
 
 Objective.defaultProps = {

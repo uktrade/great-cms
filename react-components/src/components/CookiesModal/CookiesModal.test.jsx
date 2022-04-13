@@ -1,67 +1,56 @@
 import React from 'react'
-import Modal from 'react-modal'
-
-import { act } from 'react-dom/test-utils'
-import Enzyme, { shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import ReactModal from 'react-modal'
+import { render, waitFor } from '@testing-library/react'
 
 import { CookiesModal } from './CookiesModal'
 import CookiesManager from './dit.components.cookie-notice'
 
-jest.mock('./dit.components.cookie-notice');
+jest.mock('./dit.components.cookie-notice')
 
-Enzyme.configure({ adapter: new Adapter() })
-
-const createEvent = () => ({ preventDefault: jest.fn() })
+ReactModal.setAppElement('body')
 
 const defaultProps = {
-   preferencesUrl: 'http://www.example.com/cookies/',
-   privacyCookiesUrl: 'http://www.example.com/privacy/'
+  preferencesUrl: 'http://www.example.com/cookies/',
+  privacyCookiesUrl: 'http://www.example.com/privacy/',
 }
 
 describe('CookiesModal', () => {
-
-  test('handles not being shown', () => {
+  it('does not show if cookie preferences have been set', () => {
     CookiesManager.getPreferencesCookie.mockImplementation(() => true)
-    const component = shallow(
-      <CookiesModal isOpen={false} {...defaultProps} />
+    const { queryByText } = render(<CookiesModal {...defaultProps} />)
+
+    expect(queryByText('Tell us whether you accept cookies')).toBeNull()
+  })
+
+  it('handles accept all click', async () => {
+    CookiesManager.getPreferencesCookie.mockImplementation(() => null)
+    const { getByText, queryByText } = render(
+      <CookiesModal {...defaultProps} />
     )
 
-    expect(component.find(Modal).prop('isOpen')).toEqual(false)
+    expect(getByText('Tell us whether you accept cookies')).toBeTruthy()
 
-  })
+    getByText('Accept all cookies').click()
 
-  test('handles accept all click', () => {
-    // given the credentials are incorrect
-    CookiesManager.getPreferencesCookie.mockImplementation(() => null)
-    const component = shallow(<CookiesModal isOpen {...defaultProps} />)
+    await waitFor(() => {
+      expect(window.dataLayer).toHaveLength(2)
+      expect(window.dataLayer[0].event).toEqual('cookies_policy_accept')
+      expect(window.dataLayer[1].event).toEqual('gtm.dom')
 
-    expect(component.find(Modal).prop('isOpen')).toEqual(true)
-
-    act(() => {
-      component.find('[href="#"]').simulate('click', createEvent())
+      expect(CookiesManager.acceptAllCookiesAndShowSuccess).toHaveBeenCalled()
+      expect(queryByText('Tell us whether you accept cookies')).toBeNull()
     })
-
-    expect(window.dataLayer).toHaveLength(2)
-    expect(window.dataLayer[0].event).toEqual('cookies_policy_accept')
-    expect(window.dataLayer[1].event).toEqual('gtm.dom')
-
-    expect(CookiesManager.acceptAllCookiesAndShowSuccess).toHaveBeenCalled()
-    expect(component.prop('isOpen')).toEqual(false)
   })
 
-  test('uses the cookies policy page link', () => {
-    // given the credentials are incorrect
+  it('shows the cookies policy page link', () => {
     CookiesManager.getPreferencesCookie.mockImplementation(() => null)
-    const component = shallow(<CookiesModal isOpen {...defaultProps}  />)
+    const { getByText } = render(<CookiesModal {...defaultProps} />)
 
-    expect(component.containsMatchingElement(
-      <a href={defaultProps.privacyCookiesUrl}>cookies to collect information</a>
-    )).toEqual(true)
-
-    expect(component.containsMatchingElement(
-      <a href={defaultProps.preferencesUrl}>Set cookie preferences</a>
-    )).toEqual(true)
+    expect(
+      getByText('cookies to collect information').getAttribute('href')
+    ).toEqual(defaultProps.privacyCookiesUrl)
+    expect(getByText('Set cookie preferences').getAttribute('href')).toEqual(
+      defaultProps.preferencesUrl
+    )
   })
-
 })

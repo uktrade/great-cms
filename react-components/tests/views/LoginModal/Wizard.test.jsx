@@ -1,39 +1,17 @@
 import React from 'react'
-import { act } from 'react-dom/test-utils'
-import { mount } from 'enzyme'
-import Enzyme from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import { render, waitFor } from '@testing-library/react'
+import Services from '@src/Services'
 
 import { Login } from '@src/components/Login'
-import { Form } from '@src/components/Login/Form'
-import Services from '@src/Services'
-import 'core-js'
-
-Enzyme.configure({ adapter: new Adapter() })
 
 jest.mock('@src/Services')
-
-beforeEach(() => {
-  jest.useFakeTimers()
-
-  Services.setConfig({
-    apiLoginUrl: 'http://www.example.com/login/',
-    csrfToken: '123',
-    linkedInUrl: 'http://www.example.com/oauth2/linkedin',
-    googleUrl: 'http://www.example.com/oauth2/google',
-    dashboardUrl: '/dashboard/',
-  })
-})
-
-afterEach(() => {
-  jest.useRealTimers()
-  Services.setConfig({})
-})
 
 const defaultProps = {
   email: 'email',
   password: 'password',
   nextUrl: '/thing/',
+  linkedinLoginUrl: 'http://www.example.com/oauth2/linkedin',
+  googleLoginUrl: 'http://www.example.com/oauth2/google',
 }
 
 describe('LoginModal', () => {
@@ -42,47 +20,49 @@ describe('LoginModal', () => {
   beforeEach(() => {
     delete window.location
     window.location = { assign: jest.fn() }
+
+    Services.setConfig({
+      apiLoginUrl: 'http://www.example.com/login/',
+      csrfToken: '123',
+      linkedInUrl: 'http://www.example.com/oauth2/linkedin',
+      googleUrl: 'http://www.example.com/oauth2/google',
+      dashboardUrl: '/dashboard/',
+    })
   })
 
   afterEach(() => {
     window.location.assign = assign
+
+    Services.setConfig({})
   })
 
-  test('bad credentials results in errors passed down', (done) => {
+  it('shows an error when credentials are incorrect', async () => {
     // given the credentials are incorrect
-    const errors = { email: ['This field is required'] }
-    Services.checkCredentials.mockImplementation(() => Promise.reject(errors))
+    Services.checkCredentials.mockRejectedValue({
+      email: ['This field is required'],
+    })
 
-    const component = mount(<Login {...defaultProps} />)
+    const { container } = render(<Login {...defaultProps} />)
 
     // when the form is submitted
-    act(() => {
-      component.find(Form).prop('handleSubmit')()
-    })
+    container.querySelector('form').submit()
 
-    // then an error message is displayed
-    setImmediate(() => {
-      component.update()
-      expect(
-        component.containsMatchingElement(<Form disabled={false} email="email" password="password" errors={errors} />)
-      ).toEqual(true)
-
-      done()
+    await waitFor(() => {
+      expect(container.querySelector('.error-message').textContent).toEqual(
+        'This field is required'
+      )
     })
   })
 
-  test('good credentials results in next url', (done) => {
+  it('redirects to next url when credentials are correct', async () => {
     // given the credentials are correct
-    Services.checkCredentials.mockImplementation(() => Promise.resolve())
-    const component = mount(<Login {...defaultProps} />)
+    Services.checkCredentials.mockResolvedValue()
+    const { container } = render(<Login {...defaultProps} />)
 
-    act(() => {
-      component.find(Form).prop('handleSubmit')()
-    })
+    container.querySelector('form').submit()
 
-    setImmediate(() => {
-      expect(location.assign).toHaveBeenCalled()
-      done()
+    await waitFor(() => {
+      expect(window.location.assign).toHaveBeenCalled()
     })
   })
 })

@@ -14,7 +14,6 @@ module.exports = {
     '^.+\\.jsx?$': 'babel-jest',
   },
   setupFilesAfterEnv: [
-    '<rootDir>/react-components/setupEnzyme.js',
     '<rootDir>/react-components/setupJest.js',
   ],
   testEnvironment: 'jsdom',

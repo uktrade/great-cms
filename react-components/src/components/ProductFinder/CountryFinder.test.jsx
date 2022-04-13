@@ -1,16 +1,13 @@
-/* eslint-disable */
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { act, Simulate } from 'react-dom/test-utils'
-import { waitFor } from '@testing-library/react'
-import createCountryFinder from '@src/components/ProductFinder/CountryFinderButton'
+import { waitFor, render } from '@testing-library/react'
+import createCountryFinder, {
+  CountryFinderButton,
+} from '@src/components/ProductFinder/CountryFinderButton'
 import Services from '@src/Services'
-import actions from '@src/actions'
 import fetchMock from 'fetch-mock'
-
-let container
-let countriesMock
-let suggestedCountriesMock
+import { Provider } from 'react-redux'
+import ReactModal from 'react-modal'
 
 const mockResponse = [
   { id: 'DZ', name: 'Algeria', region: 'Africa', type: 'Country' },
@@ -41,12 +38,13 @@ const selectedProduct = {
   commodity_name: 'my product',
 }
 
+ReactModal.setAppElement('body')
+
 describe('Test country finder button', () => {
   beforeEach(() => {
-    container = document.createElement('div')
-    document.body.appendChild(container)
-    container.innerHTML =
+    document.body.innerHTML =
       '<span id="set-country-button" data-text="my country"></span>'
+
     Services.setConfig({
       apiCountriesUrl: '/api/countries/',
       apiSuggestedCountriesUrl: '/api/suggested-markets/',
@@ -59,52 +57,46 @@ describe('Test country finder button', () => {
         ActiveProduct: {},
       },
     })
-    countriesMock = fetchMock.get(/\/api\/countries\//, mockResponse)
-    suggestedCountriesMock = fetchMock.get(
-      /\/api\/suggested-markets\//,
-      suggestedCountries
-    )
-    fetchMock.get(
-      /\/api\/lookup-product-schedule\//,
-      scheduleResponse
-    )
+
+    fetchMock.get(/\/api\/countries\//, mockResponse)
+    fetchMock.get(/\/api\/suggested-markets\//, suggestedCountries)
+    fetchMock.get(/\/api\/lookup-product-schedule\//, scheduleResponse)
   })
 
   afterEach(() => {
-    document.body.removeChild(container)
-    container = null
+    document.body.innerHTML = ''
     jest.clearAllMocks()
   })
 
   it('Opens and closes country finder', async () => {
-    act(() => {
-      createCountryFinder({ element: container })
-    })
-    expect(document.body.querySelector('.country-finder')).toBeFalsy()
+    const { container } = render(
+      <Provider store={Services.store}>
+        <CountryFinderButton />
+      </Provider>
+    )
+
+    expect(container.querySelector('.country-finder')).toBeFalsy()
+
     // Open up the p-bar dropdown
-    act(() => {
-      Simulate.click(container.querySelector('button'))
-    })
-    let addNewButton
+    container.querySelector('button').click()
+
     await waitFor(() => {
-      addNewButton = container.querySelector('.basket-view button')
-      expect(addNewButton).toBeTruthy()
+      expect(container.querySelector('.basket-view button')).toBeTruthy()
     })
+
     // Click on the open country finder button
-    act(() => {
-      Simulate.click(addNewButton)
-    })
-    const finder = document.body.querySelector('.country-finder')
-    const closeButton = finder.querySelector('button.dialog-close')
-    expect(finder).toBeTruthy()
+    container.querySelector('.basket-view button').click()
+
+    expect(document.querySelector('.country-finder')).toBeTruthy()
+
     await waitFor(() => {
-      const region = finder.querySelector('.country-list h2')
+      const region = document.querySelector('.country-list h2')
       expect(region.textContent).toEqual('Africa')
     })
-    act(() => {
-      Simulate.click(finder.querySelector('button.dialog-close'))
-    })
-    expect(document.body.querySelector('.country-finder')).toBeFalsy()
+
+    document.querySelector('button.dialog-close').click()
+
+    expect(document.querySelector('.country-finder')).toBeFalsy()
   })
 
   /* Skipping this test as the country search is disabled ATM */

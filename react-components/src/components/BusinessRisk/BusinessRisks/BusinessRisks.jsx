@@ -1,11 +1,12 @@
 import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
-import Services from '@src/Services'
 import { useDebounce } from '@src/components/hooks/useDebounce'
 import { Learning } from '@src/components/Learning/Learning'
 import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
 import ErrorList from '@src/components/ErrorList'
 import { Risks } from './Risks'
+
+/* eslint-disable camelcase */
 
 export const BusinessRisks = memo(
   ({
@@ -18,9 +19,9 @@ export const BusinessRisks = memo(
     model_name,
   }) => {
     const [risks, setRisks] = useState(formFields)
-    const [update, create, deleteItem, message, errors] = useUpdate(
-      'business-risk'
-    )
+    // eslint-disable-next-line no-unused-vars
+    const [update, create, deleteItem, message, errors] =
+      useUpdate('business-risk')
 
     const addRisk = () => {
       const newRisk = {
@@ -57,7 +58,8 @@ export const BusinessRisks = memo(
       <>
         <h2 className="h-m m-b-xs">Risks</h2>
         <p>
-          Record any risks you think your business might face in the table below.
+          Record any risks you think your business might face in the table
+          below.
         </p>
         <Learning lesson={lesson} />
         <Risks

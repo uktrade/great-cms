@@ -539,6 +539,65 @@ def test_trade_and_duties_links_no_country(domestic_homepage):
     assert page.trade_barriers_resolved_link is None
 
 
+@mock.patch.object(api_client.dataservices, 'get_total_trade_data_by_country')
+@pytest.mark.django_db
+@pytest.mark.skip('Hard-coding stats data for China only for demo, and until API follows agreed schema')
+def test_stats(mock_get_total_trade_data_by_country, domestic_homepage):
+    mock_get_total_trade_data_by_country.return_value = create_response(
+        status_code=200,
+        json_body={'data': [{'year': 2021, 'flow_type': 'IMPORT', 'product_type': 'GOODS', 'value': 124}]},
+    )
+    country = CountryFactory(name='France', slug='france', iso2='FR')
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        country=country,
+    )
+
+    assert page.stats['services'] == []
+    assert page.stats['market_trends'] == [{'year': 2021, 'imports': 124000000, 'exports': 0, 'total': 124000000}]
+
+
+@pytest.mark.django_db
+def test_stats_china(domestic_homepage):
+    country = CountryFactory(name='China', slug='china', iso2='CN')
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        country=country,
+    )
+
+    assert page.stats['goods_exports']['metadata']['unit'] == 'billion'
+    assert page.stats['services_exports']['metadata']['unit'] == 'billion'
+    assert len(page.stats['market_trends']['data']) == 10
+
+
+@pytest.mark.django_db
+def test_stats_no_iso(domestic_homepage):
+    country = CountryFactory(name='France', slug='france')
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        country=country,
+    )
+
+    assert page.stats is None
+
+
+@pytest.mark.django_db
+def test_stats_no_country(domestic_homepage):
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+    )
+
+    assert page.stats is None
+
+
 @pytest.mark.parametrize(
     'related_page_data',
     (
@@ -1145,28 +1204,26 @@ def test_markets_page__no_results__page_content(
     soup = BeautifulSoup(response.content, 'html.parser')
     body_text = soup.get_text().replace('  ', '').replace('\n', '')
 
-    links = soup.find_all('a')
-
     # lack of space `inAntarctica` is correct for this test, where we've stripped whitespace
-    assert ("Currently, we don't have any market guides with information inAntarctica.") in body_text
+    assert "Currently, we don't have any market guides with information inAntarctica." in body_text
 
     assert (
         'There are other ways the Department for International Trade '
         'can help you sell your product in an overseas market.'
     ) in body_text
 
-    # Brittle tests warning
-    assert str(links[21]) == (
-        '<a class="link" href="http://exred.trade.great:8007/export-opportunities/">'
-        'Browse our export opportunities service to find opportunities to sell your product in overseas markets</a>'
+    exopp_link = soup.find('a', attrs={'href': 'http://exred.trade.great:8007/export-opportunities/'})
+    assert exopp_link.string == (
+        'Browse our export opportunities service to find opportunities to sell your product in overseas markets'
     )
 
-    assert str(links[22]) == (
-        '<a class="link" href="http://exred.trade.great:8007/contact/office-finder">'
-        'Get in touch with a trade adviser to discuss your export business plan</a>'
-    )
+    office_finder_link = soup.find('a', attrs={'href': 'http://exred.trade.great:8007/contact/office-finder'})
+    assert office_finder_link.string == 'Get in touch with a trade adviser to discuss your export business plan'
 
-    assert str(links[23]) == ('<a class="view-markets link bold margin-top-15" href="/markets/">Clear all filters</a>')
+    # Markets links may exist elsewhere in page, make sure at least one is 'Clear all filters'
+    market_links = soup.find_all('a', attrs={'href': '/markets/'})
+
+    assert any(link.string == 'Clear all filters' for link in market_links)
 
 
 class ArticleListingPageTests(SetUpLocaleMixin, WagtailPageTests):
