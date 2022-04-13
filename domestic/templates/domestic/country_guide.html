@@ -249,6 +249,10 @@
                   {% endfor %}
                 </tbody>
               </table>
+
+              {% if page.stats.goods_exports.metadata.source %}
+              <p class="font-xsmall statistic-smallprint margin-top-30">Source: {{ page.stats.goods_exports.metadata.source }}</p>
+              {% endif %}
             </div>
             {% endif %}
 
@@ -276,6 +280,10 @@
                 {% endfor %}
                 </tbody>
               </table>
+
+              {% if page.stats.services_exports.metadata.source %}
+                <p class="font-xsmall statistic-smallprint margin-top-30">Source: {{ page.stats.services_exports.metadata.source }}</p>
+              {% endif %}
             </div>
             {% endif %}
 
@@ -284,6 +292,11 @@
               <h2 class="heading-medium">Total import and export values between {{ page.heading }} and the UK</h2>
 
               <div id="plotly-market-trends"></div>
+
+              {% if page.stats.market_trends.metadata.source %}
+                <p class="font-xsmall statistic-smallprint margin-top-30">Source: {{ page.stats.market_trends.metadata.source }}</p>
+              {% endif %}
+
               {{ page.stats.market_trends.data|json_script:"market-trends-data" }}
               <script>
                 var config = {
