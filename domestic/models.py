@@ -914,15 +914,20 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         if iso2 == 'CN':
             api_data = {
                 'metadata': {'country': 'China', 'iso2': 'CN'},
-                'data_points': {
-                    'metadata': {'source': 'ONS UK Trade January 2022'},
+                'highlights': {
+                    'metadata': {
+                        'source': 'ONS UK Trade',
+                        'source_url': 'https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets'
+                        '/uktotaltradeallcountriesseasonallyadjusted',
+                        'reference_period': {'resolution': 'quarter', 'period': 3, 'year': 2021},
+                    },
                     'data': {'total_uk_exports': 26032000000, 'trading_position': 3, 'percentage_of_uk_trade': 7.5},
                 },
                 'market_trends': {
                     'metadata': {
-                        'source': 'ONS UK Trade January 2022',
-                        'source_link': 'https://example.org/foo',
-                        'last_updated': '2022-01-14',
+                        'source': 'ONS UK Trade',
+                        'source_url': 'https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets'
+                        '/uktotaltradeallcountriesseasonallyadjusted',
                     },
                     'data': [
                         {'year': 2011, 'imports': 31976000000, 'exports': 14789000000},
@@ -939,12 +944,14 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                 },
                 'goods_exports': {
                     'metadata': {
-                        'source': 'ONS UK Trade January 2022',
-                        'source_link': 'https://example.org/foo',
-                        'last_updated': '2022-01-14',
-                        'resolution': 'month',
-                        'last_period': 1,
-                        'last_period_year': 2022,
+                        'source': 'ONS UK Trade',
+                        'source_link': 'https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets'
+                        '/uktradecountrybycommodityexports',
+                        'reference_period': {
+                            'resolution': 'month',
+                            'period': 1,
+                            'year': 2022,
+                        },
                     },
                     'data': [
                         {'label': 'Machinery & transport equipment', 'value': 7561130000},
@@ -956,12 +963,12 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                 },
                 'services_exports': {
                     'metadata': {
-                        'source': 'ONS UK Trade January 2022',
-                        'source_link': 'https://example.org/foo',
-                        'last_updated': '2022-01-14',
-                        'resolution': 'quarter',
-                        'last_period': 3,
-                        'last_period_year': 2021,
+                        'source': 'ONS UK Trade',
+                        'reference_period': {
+                            'resolution': 'quarter',
+                            'period': 3,
+                            'year': 2021,
+                        },
                     },
                     'data': [
                         {'label': 'Travel', 'value': 2407000000},
