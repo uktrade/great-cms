@@ -345,15 +345,18 @@
                 var lines = [
                   {
                     title: 'Total trade',
-                    key: 'total'
+                    key: 'total',
+                    style: 'dash'
                   },
                   {
                     title: 'Imports',
-                    key: 'imports'
+                    key: 'imports',
+                    style: 'dot'
                   },
                   {
                     title: 'Exports',
-                    key: 'exports'
+                    key: 'exports',
+                    style: 'solid'
                   }
                 ]
 
@@ -373,6 +376,11 @@
                       }
                       return x[line.key]
                     }),
+                    mode: 'lines',
+                    line: {
+                      dash: line.style,
+                      width: 3
+                    },
                     type: 'scatter',
                     hovertemplate: line.title + ' in %{x}: £%{y}<extra></extra>'
                   }
