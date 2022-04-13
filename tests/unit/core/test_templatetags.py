@@ -613,3 +613,23 @@ def test_round_to_unit_default_precision():
     context = Context({'number': 1234, 'unit': 'thousand'})
     html = template.render(context)
     assert html == '1.2'
+
+
+@pytest.mark.parametrize(
+    'resolution, period, year, capitalise, expected',
+    (
+        ('month', 3, 2022, False, 'twelve months to the end of March 2022'),
+        ('month', 12, 2021, False, 'twelve months to the end of December 2021'),
+        ('month', 0, 2022, False, ''),
+        ('quarter', 3, 2022, False, 'four quarters to the end of Q3 2022'),
+        ('month', 0, 2022, False, ''),
+        ('month', 3, 2022, True, 'Twelve months to the end of March 2022'),
+        ('quarter', 3, 2022, True, 'Four quarters to the end of Q3 2022'),
+    ),
+)
+def test_reference_period(resolution, period, year, capitalise, expected):
+    template = Template('{% load reference_period from content_tags %}{% reference_period data capitalise %}')
+
+    context = Context({'data': {'resolution': resolution, 'period': period, 'year': year}, 'capitalise': capitalise})
+    html = template.render(context)
+    assert html == expected
