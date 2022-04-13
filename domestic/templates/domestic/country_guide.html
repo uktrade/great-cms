@@ -118,31 +118,35 @@
           <div class="flex-grid margin-bottom-30">
             {% if highlights.data.total_uk_exports %}
             <figure class="statistics-card__column padding-vertical-15">
-              <span class="statistic-heading font-xsmall">Total UK exports to {{ page.heading }}</span>
+              <h3 class="statistic-heading font-xsmall">Total UK exports to {{ page.heading }}</h3>
 
               <span class="active-blue-text statistic-number bold-large">
                 £{{ highlights.data.total_uk_exports|intword }}
+              </span>
+
+              <span class="font-xsmall statistic-smallprint">
+                in the {% reference_period highlights.metadata.reference_period %}
               </span>
             </figure>
             {% endif %}
 
             {% if highlights.data.trading_position %}
             <figure class="statistics-card__column padding-vertical-15">
-              <span class="statistic-heading font-xsmall">The UK&apos;s</span>
+              <h3 class="statistic-heading font-xsmall">Trading position</h3>
 
               <span class="active-blue-text statistic-number bold-large">
                 {{ highlights.data.trading_position|ordinal }}
               </span>
 
               <span class="font-xsmall statistic-smallprint">
-                largest trading partner
+                UK’s largest trading partner
               </span>
             </figure>
             {% endif %}
 
             {% if highlights.data.percentage_of_uk_trade %}
             <figure class="statistics-card__column padding-vertical-15">
-              <span class="statistic-heading font-xsmall">Accounting for</span>
+              <h3 class="statistic-heading font-xsmall">Accounting for</h3>
 
               <span class="active-blue-text statistic-number bold-large">
                 {{ highlights.data.percentage_of_uk_trade }}%
@@ -159,7 +163,7 @@
           {% if highlights.metadata.source %}
             <hr class="margin-vertical-15" style="background: #d8d8d8">
             <p class="font-xsmall statistic-smallprint">
-              In the {% reference_period highlights.metadata.reference_period %}, goods and services combined.
+              Goods and services combined.
               {% include 'core/includes/data_source.html' with metadata=highlights.metadata %}
             </p>
           {% endif %}
