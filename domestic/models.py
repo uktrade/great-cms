@@ -944,26 +944,28 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                 },
                 'goods_exports': {
                     'metadata': {
-                        'source': 'ONS UK Trade',
-                        'source_link': 'https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets'
-                        '/uktradecountrybycommodityexports',
+                        'source': 'ONS UK Trade, January 2022',
+                        'source_url': 'https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/bulletins'
+                        '/uktrade/january2022',
                         'reference_period': {
-                            'resolution': 'month',
-                            'period': 1,
-                            'year': 2022,
+                            'resolution': 'quarter',
+                            'period': 3,
+                            'year': 2021,
                         },
                     },
                     'data': [
-                        {'label': 'Machinery & transport equipment', 'value': 7561130000},
-                        {'label': 'Road vehicles', 'value': 3791090000},
-                        {'label': 'Cars', 'value': 3567820000},
-                        {'label': 'Fuels', 'value': 3081900000},
-                        {'label': 'Oil', 'value': 3081850000},
+                        {'label': 'Crude oil', 'value': 3900000000},
+                        {'label': 'Cars', 'value': 3600000000},
+                        {'label': 'Medicinal & pharmaceutical products', 'value': 1500000000},
+                        {'label': 'Non-ferrous metals', 'value': 1300000000},
+                        {'label': 'Scientific instruments (capital)', 'value': 700000000},
                     ],
                 },
                 'services_exports': {
                     'metadata': {
-                        'source': 'ONS UK Trade',
+                        'source': 'ONS UK Trade, January 2022',
+                        'source_url': 'https://www.ons.gov.uk/businessindustryandtrade/internationaltrade/datasets'
+                        '/uktradeinservicesservicetypebypartnercountrynonseasonallyadjusted',
                         'reference_period': {
                             'resolution': 'quarter',
                             'period': 3,

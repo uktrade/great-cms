@@ -160,12 +160,7 @@
             <hr class="margin-vertical-15" style="background: #d8d8d8">
             <p class="font-xsmall statistic-smallprint">
               In the {% reference_period highlights.metadata.reference_period %}, goods and services combined.
-              Source:
-              {% if highlights.metadata.source_url %}
-                <a class="link" href="{{ highlights.metadata.source_url }}">{{ highlights.metadata.source }}</a>
-              {% else %}
-                {{ highlights.metadata.source }}
-              {% endif %}
+              {% include 'core/includes/data_source.html' with metadata=highlights.metadata %}
             </p>
           {% endif %}
           {% endwith %}
@@ -253,7 +248,10 @@
               </table>
 
               {% if page.stats.goods_exports.metadata.source %}
-              <p class="font-xsmall statistic-smallprint margin-top-30">Source: {{ page.stats.goods_exports.metadata.source }}</p>
+                <hr class="margin-vertical-15" style="background: #d8d8d8">
+                <p class="font-xsmall statistic-smallprint">
+                {% include 'core/includes/data_source.html' with metadata=page.stats.goods_exports.metadata %}
+              </p>
               {% endif %}
             </div>
             {% endif %}
@@ -284,7 +282,10 @@
               </table>
 
               {% if page.stats.services_exports.metadata.source %}
-                <p class="font-xsmall statistic-smallprint margin-top-30">Source: {{ page.stats.services_exports.metadata.source }}</p>
+                <hr class="margin-vertical-15" style="background: #d8d8d8">
+                <p class="font-xsmall statistic-smallprint">
+                  {% include 'core/includes/data_source.html' with metadata=page.stats.services_exports.metadata %}
+                </p>
               {% endif %}
             </div>
             {% endif %}
@@ -296,7 +297,10 @@
               <div id="plotly-market-trends"></div>
 
               {% if page.stats.market_trends.metadata.source %}
-                <p class="font-xsmall statistic-smallprint margin-top-30">Source: {{ page.stats.market_trends.metadata.source }}</p>
+                <hr class="margin-vertical-15" style="background: #d8d8d8">
+                <p class="font-xsmall statistic-smallprint">
+                  {% include 'core/includes/data_source.html' with metadata=page.stats.market_trends.metadata %}
+                </p>
               {% endif %}
 
               {{ page.stats.market_trends.data|json_script:"market-trends-data" }}

@@ -1,0 +1,6 @@
+Source:
+{% if metadata.source_url %}
+  <a class="link" href="{{ metadata.source_url }}">{{ metadata.source }}</a>
+{% else %}
+  {{ metadata.source }}
+{% endif %}
