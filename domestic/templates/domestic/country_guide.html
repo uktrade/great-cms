@@ -114,59 +114,56 @@
 
         {% if FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS and page.stats.highlights %}
           {% with highlights=page.stats.highlights %}
-          <h2 class="visually-hidden">Trade statistics</h2>
-          <div class="flex-grid margin-bottom-30">
-            {% if highlights.data.total_uk_exports %}
-            <figure class="statistics-card__column padding-vertical-15">
-              <h3 class="statistic-heading font-xsmall">Total UK exports to {{ page.heading }}</h3>
+          <div class="margin-bottom-45">
+            <h2 class="visually-hidden">Trade statistics</h2>
+            <div class="flex-grid margin-bottom-30">
+              {% if highlights.data.total_uk_exports %}
+              <figure class="statistics-card__column padding-vertical-15">
+                <h3 class="statistic-heading font-xsmall">Total UK exports to {{ page.heading }}</h3>
 
-              <span class="active-blue-text statistic-number bold-large">
-                £{{ highlights.data.total_uk_exports|intword }}
-              </span>
+                <span class="active-blue-text statistic-number bold-large">
+                  £{{ highlights.data.total_uk_exports|intword }}
+                </span>
+              </figure>
+              {% endif %}
 
-              <span class="font-xsmall statistic-smallprint">
-                in the {% reference_period highlights.metadata.reference_period %}
-              </span>
-            </figure>
+              {% if highlights.data.trading_position %}
+              <figure class="statistics-card__column padding-vertical-15">
+                <h3 class="statistic-heading font-xsmall">The UK's</h3>
+
+                <span class="active-blue-text statistic-number bold-large">
+                  {{ highlights.data.trading_position|ordinal }}
+                </span>
+
+                <span class="font-xsmall statistic-smallprint">
+                  largest trading partner
+                </span>
+              </figure>
+              {% endif %}
+
+              {% if highlights.data.percentage_of_uk_trade %}
+              <figure class="statistics-card__column padding-vertical-15">
+                <h3 class="statistic-heading font-xsmall">Accounting for</h3>
+
+                <span class="active-blue-text statistic-number bold-large">
+                  {{ highlights.data.percentage_of_uk_trade }}%
+                </span>
+
+                <span class="font-xsmall statistic-smallprint">
+                  of total UK trade
+                </span>
+              </figure>
+              {% endif %}
+            </div>
+
+            {% if highlights.metadata.source %}
+              <p class="font-xsmall statistic-smallprint">
+                {% include 'core/includes/data_source.html' with source=highlights.metadata.source %}<br/>
+                Data includes goods and services combined in the {% reference_period highlights.metadata.reference_period %}, correct as of January 2022
+              </p>
+              <hr class="margin-vertical-15" style="background: #d8d8d8">
             {% endif %}
-
-            {% if highlights.data.trading_position %}
-            <figure class="statistics-card__column padding-vertical-15">
-              <h3 class="statistic-heading font-xsmall">Trading position</h3>
-
-              <span class="active-blue-text statistic-number bold-large">
-                {{ highlights.data.trading_position|ordinal }}
-              </span>
-
-              <span class="font-xsmall statistic-smallprint">
-                UK’s largest trading partner
-              </span>
-            </figure>
-            {% endif %}
-
-            {% if highlights.data.percentage_of_uk_trade %}
-            <figure class="statistics-card__column padding-vertical-15">
-              <h3 class="statistic-heading font-xsmall">Accounting for</h3>
-
-              <span class="active-blue-text statistic-number bold-large">
-                {{ highlights.data.percentage_of_uk_trade }}%
-              </span>
-
-              <span class="font-xsmall statistic-smallprint">
-                of total UK trade
-              </span>
-            </figure>
-            {% endif %}
-
           </div>
-
-          {% if highlights.metadata.source %}
-            <hr class="margin-vertical-15" style="background: #d8d8d8">
-            <p class="font-xsmall statistic-smallprint">
-              Goods and services combined.
-              {% include 'core/includes/data_source.html' with metadata=highlights.metadata %}
-            </p>
-          {% endif %}
           {% endwith %}
         {% endif %}
       </div>
@@ -228,14 +225,17 @@
 
             {% if page.stats.goods_exports %}
             <div id="tab-goods" class="tabs__tab">
-              <h2 class="heading-medium">Top 5 UK goods exports, in the {% reference_period page.stats.goods_exports.metadata.reference_period %}, to {{  page.heading }}</h2>
+              <h2 class="heading-medium">
+                Top 5 UK goods exports to {{  page.heading }},
+                in the {% reference_period page.stats.goods_exports.metadata.reference_period %}
+              </h2>
 
               <table class="barchart">
                 <thead>
-                <tr>
-                  <th scope="col"><span class="visually-hidden">Product</span></th>
-                  <th class="barchart__legend" scope="col">Value (£{{ page.stats.goods_exports.metadata.unit }})</th>
-                </tr>
+                  <tr>
+                    <th scope="col"><span class="visually-hidden">Product</span></th>
+                    <th class="barchart__legend" scope="col">Value (£{{ page.stats.goods_exports.metadata.unit }})</th>
+                  </tr>
                 </thead>
                 <tbody>
                   {% for product in page.stats.goods_exports.data %}
@@ -252,24 +252,28 @@
               </table>
 
               {% if page.stats.goods_exports.metadata.source %}
-                <hr class="margin-vertical-15" style="background: #d8d8d8">
                 <p class="font-xsmall statistic-smallprint">
-                {% include 'core/includes/data_source.html' with metadata=page.stats.goods_exports.metadata %}
-              </p>
+                  {% include 'core/includes/data_source.html' with source=page.stats.goods_exports.metadata.source %}<br/>
+                  Data correct as of {{ page.stats.goods_exports.metadata.accessed }}
+                </p>
+                <hr class="margin-vertical-15" style="background: #d8d8d8">
               {% endif %}
             </div>
             {% endif %}
 
             {% if page.stats.services_exports %}
             <div id="tab-services" class="tabs__tab">
-              <h2 class="heading-medium">Top 5 UK services exports, in the {% reference_period page.stats.services_exports.metadata.reference_period %}, to {{  page.heading }}</h2>
+              <h2 class="heading-medium">
+                Top 5 UK services exports to {{  page.heading }},
+                in the {% reference_period page.stats.services_exports.metadata.reference_period %}
+              </h2>
 
               <table class="barchart">
                 <thead>
-                <tr>
-                  <th scope="col"><span class="visually-hidden">Service</span></th>
-                  <th class="barchart__legend" scope="col">Value (£{{ page.stats.services_exports.metadata.unit }})</th>
-                </tr>
+                  <tr>
+                    <th scope="col"><span class="visually-hidden">Service</span></th>
+                    <th class="barchart__legend" scope="col">Value (£{{ page.stats.services_exports.metadata.unit }})</th>
+                  </tr>
                 </thead>
                 <tbody>
                 {% for service in page.stats.services_exports.data %}
@@ -286,10 +290,11 @@
               </table>
 
               {% if page.stats.services_exports.metadata.source %}
-                <hr class="margin-vertical-15" style="background: #d8d8d8">
                 <p class="font-xsmall statistic-smallprint">
-                  {% include 'core/includes/data_source.html' with metadata=page.stats.services_exports.metadata %}
+                  {% include 'core/includes/data_source.html' with source=page.stats.services_exports.metadata.source %}<br/>
+                  Data correct as of {{ page.stats.services_exports.metadata.accessed }}
                 </p>
+                <hr class="margin-vertical-15" style="background: #d8d8d8">
               {% endif %}
             </div>
             {% endif %}
@@ -301,10 +306,11 @@
               <div id="plotly-market-trends"></div>
 
               {% if page.stats.market_trends.metadata.source %}
-                <hr class="margin-vertical-15" style="background: #d8d8d8">
-                <p class="font-xsmall statistic-smallprint">
-                  {% include 'core/includes/data_source.html' with metadata=page.stats.market_trends.metadata %}
+                <p class="font-xsmall statistic-smallprint margin-top-15">
+                  {% include 'core/includes/data_source.html' with source=page.stats.market_trends.metadata.source %}<br/>
+                  Data correct as of {{ page.stats.market_trends.metadata.accessed }}
                 </p>
+                <hr class="margin-vertical-15" style="background: #d8d8d8">
               {% endif %}
 
               {{ page.stats.market_trends.data|json_script:"market-trends-data" }}
