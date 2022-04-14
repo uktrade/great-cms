@@ -912,56 +912,79 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         iso2 = getattr(self.country, 'iso2', None)
 
         if iso2 == 'CN':
+            # All data from https://assets.publishing.service.gov.uk/government/uploads/system/uploads
+            # /attachment_data/file/1068512/china-trade-and-investment-factsheet-2022-04-14.pdf
             api_data = {
                 'metadata': {'country': 'China', 'iso2': 'CN'},
-                'data_points': {
-                    'metadata': {'source': 'ONS UK Trade January 2022'},
-                    'data': {'total_uk_exports': 26032000000, 'trading_position': 3, 'percentage_of_uk_trade': 7.5},
+                'highlights': {
+                    'metadata': {
+                        'source': {
+                            'label': 'ONS UK Trade',
+                            'url': 'https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets'
+                            '/uktotaltradeallcountriesseasonallyadjusted',
+                        },
+                        'accessed': 'January 2022',
+                        'reference_period': {'resolution': 'quarter', 'period': 3, 'year': 2021},
+                    },
+                    'data': {'total_uk_exports': 26100000000, 'trading_position': 3, 'percentage_of_uk_trade': 7.5},
                 },
                 'market_trends': {
                     'metadata': {
-                        'source': 'ONS UK Trade January 2022',
-                        'source_link': 'https://example.org/foo',
-                        'last_updated': '2022-01-14',
+                        'source': {
+                            'label': 'ONS UK total trade: all countries, Q3 2021',
+                            'url': 'https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets'
+                            '/uktotaltradeallcountriesseasonallyadjusted',
+                        },
+                        'accessed': 'January 2022',
                     },
                     'data': [
-                        {'year': 2011, 'imports': 31976000000, 'exports': 14789000000},
-                        {'year': 2012, 'imports': 31544000000, 'exports': 15583000000},
-                        {'year': 2013, 'imports': 32767000000, 'exports': 16898000000},
-                        {'year': 2014, 'imports': 35863000000, 'exports': 19373000000},
-                        {'year': 2015, 'imports': 39550000000, 'exports': 18411000000},
-                        {'year': 2016, 'imports': 42894000000, 'exports': 19497000000},
-                        {'year': 2017, 'imports': 45182000000, 'exports': 25242000000},
-                        {'year': 2018, 'imports': 46052000000, 'exports': 27108000000},
-                        {'year': 2019, 'imports': 50506000000, 'exports': 36297000000},
-                        {'year': 2020, 'imports': 56877000000, 'exports': 26032000000},
+                        {'year': 2011, 'imports': 32000000000, 'exports': 14800000000},
+                        {'year': 2012, 'imports': 31500000000, 'exports': 15600000000},
+                        {'year': 2013, 'imports': 32800000000, 'exports': 16900000000},
+                        {'year': 2014, 'imports': 35900000000, 'exports': 19400000000},
+                        {'year': 2015, 'imports': 39600000000, 'exports': 18400000000},
+                        {'year': 2016, 'imports': 42900000000, 'exports': 19500000000},
+                        {'year': 2017, 'imports': 45200000000, 'exports': 25200000000},
+                        {'year': 2018, 'imports': 46100000000, 'exports': 27100000000},
+                        {'year': 2019, 'imports': 50500000000, 'exports': 36300000000},
+                        {'year': 2020, 'imports': 56900000000, 'exports': 26000000000},
                     ],
                 },
                 'goods_exports': {
                     'metadata': {
-                        'source': 'ONS UK Trade January 2022',
-                        'source_link': 'https://example.org/foo',
-                        'last_updated': '2022-01-14',
-                        'resolution': 'month',
-                        'last_period': 1,
-                        'last_period_year': 2022,
+                        'source': {
+                            'label': 'ONS UK trade, February 2022',
+                            'url': 'https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/bulletins'
+                            '/uktrade/february2022',
+                        },
+                        'accessed': 'February 2022',
+                        'reference_period': {
+                            'resolution': 'quarter',
+                            'period': 3,
+                            'year': 2021,
+                        },
                     },
                     'data': [
-                        {'label': 'Machinery & transport equipment', 'value': 7561130000},
-                        {'label': 'Road vehicles', 'value': 3791090000},
-                        {'label': 'Cars', 'value': 3567820000},
-                        {'label': 'Fuels', 'value': 3081900000},
-                        {'label': 'Oil', 'value': 3081850000},
+                        {'label': 'Crude oil', 'value': 4100000000},
+                        {'label': 'Cars', 'value': 3600000000},
+                        {'label': 'Medicinal & pharmaceutical products', 'value': 1500000000},
+                        {'label': 'Non-ferrous metals', 'value': 1300000000},
+                        {'label': 'Scientific instruments (capital)', 'value': 700000000},
                     ],
                 },
                 'services_exports': {
                     'metadata': {
-                        'source': 'ONS UK Trade January 2022',
-                        'source_link': 'https://example.org/foo',
-                        'last_updated': '2022-01-14',
-                        'resolution': 'quarter',
-                        'last_period': 3,
-                        'last_period_year': 2021,
+                        'source': {
+                            'label': 'ONS UK trade in services: service type by partner country, Q3 2021',
+                            'url': 'https://www.ons.gov.uk/businessindustryandtrade/internationaltrade/datasets'
+                            '/uktradeinservicesservicetypebypartnercountrynonseasonallyadjusted',
+                        },
+                        'accessed': 'February 2022',
+                        'reference_period': {
+                            'resolution': 'quarter',
+                            'period': 3,
+                            'year': 2021,
+                        },
                     },
                     'data': [
                         {'label': 'Travel', 'value': 2407000000},
@@ -972,6 +995,10 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                     ],
                 },
             }
+
+            api_data['market_trends']['metadata']['unit'] = intword(
+                max([(x['imports'] + x['exports']) for x in api_data['market_trends']['data']])
+            ).split(' ')[1]
 
             for export_type in ['goods', 'services']:
                 type_key = f'{export_type}_exports'

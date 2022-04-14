@@ -179,3 +179,23 @@ def round_to_unit(number, unit, precision=1):
 
     # Strip zeros after decimal point
     return re.sub(r'\.0+$', '', output)
+
+
+@register.simple_tag
+def reference_period(data, capitalise=False):
+    output = ''
+
+    if data['resolution'] == 'month' and 1 <= data['period'] <= 12:
+        month = month_name(data['period'])
+        year = data['year']
+        output = f'twelve months to the end of {month} {year}'
+
+    if data['resolution'] == 'quarter' and 1 <= data['period'] <= 4:
+        quarter = data['period']
+        year = data['year']
+        output = f'four quarters to the end of Q{quarter} {year}'
+
+    if capitalise:
+        return output[0].upper() + output[1:]
+
+    return output
