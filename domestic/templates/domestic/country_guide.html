@@ -12,7 +12,7 @@
   <script src="{% static 'javascript/country-guide.js' %}"></script>
 
   {% if FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS and page.stats.market_trends %}
-  <script src="https://cdn.plot.ly/plotly-2.11.1.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-1.58.5.min.js"></script>
   {% endif %}
 {% endblock %}
 
@@ -301,7 +301,7 @@
 
             {% if page.stats.market_trends %}
             <div id="tab-market-trends" class="tabs__tab">
-              <h2 class="heading-medium">Total import and export values between {{ page.heading }} and the UK</h2>
+              <h2 class="heading-medium">Total import and export values between {{ page.heading }} and the UK (£{{ page.stats.market_trends.metadata.unit }})</h2>
 
               <div id="plotly-market-trends"></div>
 
@@ -323,7 +323,8 @@
                 var layout = {
                   yaxis: {
                     fixedrange: true,
-                    rangemode: 'tozero'
+                    rangemode: 'tozero',
+                    tickformat: 'gbp'
                   },
                   xaxis : {
                     fixedrange: true,
@@ -332,21 +333,26 @@
                     tickmode: 'linear',
                     showspikes: true,
                     spikethickness: 2,
-                    spikemode: 'across'
+                    spikemode: 'across',
+                    spikelabel: false,
                   },
+                  hovermode: 'closest',
                   font: {
                     family: 'Roboto, sans-serif',
                     size: 18,
                   },
                   legend: {
-                    orientation: 'h'
+                    orientation: 'h',
+                    y: -0.25,
+                    xanchor: 'center',
+                    x: .5
                   },
-                  colorway: ['#006ccc', '#ef5f56', '#00A699', '#666666'],
+                  colorway: ['#006ccc', '#b00d23', '#00A699', '#666666'],
                   margin: {
-                    b: 0,
-                    t: 0,
+                    b: 10,
+                    t: 10,
                     l: 50,
-                    r: 0,
+                    r: 50,
                     pad: 10
                   },
                   width: document.querySelector('.tabs__nav').clientWidth
@@ -381,10 +387,7 @@
                     name: line.title,
                     x: years,
                     y: sourceData.map(function(x) {
-                      if (line.key === 'total') {
-                        return x['imports'] + x['exports']
-                      }
-                      return x[line.key]
+                      return line.key === 'total' ? x['imports'] + x['exports'] : x[line.key]
                     }),
                     mode: 'lines',
                     line: {
@@ -392,9 +395,33 @@
                       width: 3
                     },
                     type: 'scatter',
-                    hovertemplate: line.title + ' in %{x}: £%{y}<extra></extra>'
+                    hovertemplate: '%{x}: £%{y} {{ page.stats.market_trends.metadata.unit }}<extra></extra>'
                   }
                 })
+
+                var marketTrendsUnit = '{{ page.stats.market_trends.metadata.unit }}';
+                var org_locale = Plotly.d3.locale;
+                Plotly.d3.locale = (locale) => {
+                  var result = org_locale(locale);
+                  var org_number_format = result.numberFormat;
+                  result.numberFormat = (format) => {
+                    if (format != 'gbp') {
+                      return org_number_format(format)
+                    }
+                    var exponents = {
+                      'trillion': 1e12,
+                      'billion': 1e9,
+                      'million': 1e6
+                    }
+                    return (x) => {
+                      if (exponents.hasOwnProperty(marketTrendsUnit)) {
+                        return `${x / exponents[marketTrendsUnit]}`
+                      }
+                      return `${x}`;
+                    }
+                  }
+                  return result;
+                }
 
                 Plotly.newPlot('plotly-market-trends', data, layout, config);
               </script>

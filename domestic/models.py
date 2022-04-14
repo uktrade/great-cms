@@ -996,6 +996,10 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                 },
             }
 
+            api_data['market_trends']['metadata']['unit'] = intword(
+                max([(x['imports'] + x['exports']) for x in api_data['market_trends']['data']])
+            ).split(' ')[1]
+
             for export_type in ['goods', 'services']:
                 type_key = f'{export_type}_exports'
                 api_data[type_key]['metadata']['unit'] = intword(api_data[type_key]['data'][0]['value']).split(' ')[1]
