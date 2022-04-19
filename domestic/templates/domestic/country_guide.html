@@ -399,7 +399,8 @@
                     }
                     return (x) => {
                       if (exponents.hasOwnProperty(marketTrendsUnit)) {
-                        return `${x / exponents[marketTrendsUnit]}`
+                        var output = `${x / exponents[marketTrendsUnit]}`
+                        return output.includes('.') ? output : `${output}.0`
                       }
                       return `${x}`;
                     }
