@@ -919,11 +919,14 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                 'highlights': {
                     'metadata': {
                         'source': {
-                            'label': 'ONS UK Trade',
+                            'label': 'ONS UK total trade: all countries',
                             'url': 'https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets'
                             '/uktotaltradeallcountriesseasonallyadjusted',
+                            'next_release': '28 April 2022',
+                            'notes': [
+                                'Data includes goods and services combined in the four quarters to the end of Q3 2021.'
+                            ],
                         },
-                        'accessed': 'January 2022',
                         'reference_period': {'resolution': 'quarter', 'period': 3, 'year': 2021},
                     },
                     'data': {'total_uk_exports': 26100000000, 'trading_position': 3, 'percentage_of_uk_trade': 7.5},
@@ -931,11 +934,12 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                 'market_trends': {
                     'metadata': {
                         'source': {
-                            'label': 'ONS UK total trade: all countries, Q3 2021',
+                            'label': 'ONS UK total trade: all countries',
                             'url': 'https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets'
-                            '/uktotaltradeallcountriesseasonallyadjusted',
+                            '/uktotaltradeallcountriesseasonallyadjusted ',
+                            'next_release': '28 April 2022',
+                            'notes': ['Data includes goods and services combined.'],
                         },
-                        'accessed': 'January 2022',
                     },
                     'data': [
                         {'year': 2011, 'imports': 32000000000, 'exports': 14800000000},
@@ -953,11 +957,11 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                 'goods_exports': {
                     'metadata': {
                         'source': {
-                            'label': 'ONS UK trade, February 2022',
+                            'label': 'ONS UK trade',
                             'url': 'https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/bulletins'
-                            '/uktrade/february2022',
+                            '/uktrade/latest',
+                            'next_release': '12 May 2022',
                         },
-                        'accessed': 'February 2022',
                         'reference_period': {
                             'resolution': 'quarter',
                             'period': 3,
@@ -975,11 +979,11 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                 'services_exports': {
                     'metadata': {
                         'source': {
-                            'label': 'ONS UK trade in services: service type by partner country, Q3 2021',
+                            'label': 'ONS UK trade in services: service type by partner country',
                             'url': 'https://www.ons.gov.uk/businessindustryandtrade/internationaltrade/datasets'
                             '/uktradeinservicesservicetypebypartnercountrynonseasonallyadjusted',
+                            'next_release': '28 April 2022',
                         },
-                        'accessed': 'February 2022',
                         'reference_period': {
                             'resolution': 'quarter',
                             'period': 3,
