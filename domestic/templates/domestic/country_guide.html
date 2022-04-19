@@ -52,10 +52,12 @@
 
         .barchart td,
         .barchart th {
+            font-size: 1rem;
             border: 0;
         }
 
         .barchart__legend {
+            padding: 0;
             font-weight: normal;
         }
 
@@ -70,17 +72,15 @@
         }
 
         .barchart__title-cell {
-            padding: .5em .5em .5em 0;
+            padding: 0 .5em 0 0;
             width: 40%;
-            max-width: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
             text-align: right;
+            vertical-align: middle;
         }
 
         .barchart__bar-cell {
-            padding: 2px 0;
+            padding: 3px 0;
+            vertical-align: middle;
         }
 
         .barchart__bar {
@@ -157,11 +157,7 @@
             </div>
 
             {% if highlights.metadata.source %}
-              <p class="font-xsmall statistic-smallprint">
-                {% include 'core/includes/data_source.html' with source=highlights.metadata.source %}<br/>
-                Data includes goods and services combined in the {% reference_period highlights.metadata.reference_period %}, correct as of January 2022
-              </p>
-              <hr class="margin-vertical-15" style="background: #d8d8d8">
+              {% include 'core/includes/data_source.html' with source=highlights.metadata.source %}
             {% endif %}
           </div>
           {% endwith %}
@@ -252,11 +248,7 @@
               </table>
 
               {% if page.stats.goods_exports.metadata.source %}
-                <p class="font-xsmall statistic-smallprint">
-                  {% include 'core/includes/data_source.html' with source=page.stats.goods_exports.metadata.source %}<br/>
-                  Data correct as of {{ page.stats.goods_exports.metadata.accessed }}
-                </p>
-                <hr class="margin-vertical-15" style="background: #d8d8d8">
+                {% include 'core/includes/data_source.html' with source=page.stats.goods_exports.metadata.source %}
               {% endif %}
             </div>
             {% endif %}
@@ -290,11 +282,7 @@
               </table>
 
               {% if page.stats.services_exports.metadata.source %}
-                <p class="font-xsmall statistic-smallprint">
-                  {% include 'core/includes/data_source.html' with source=page.stats.services_exports.metadata.source %}<br/>
-                  Data correct as of {{ page.stats.services_exports.metadata.accessed }}
-                </p>
-                <hr class="margin-vertical-15" style="background: #d8d8d8">
+                {% include 'core/includes/data_source.html' with source=page.stats.services_exports.metadata.source %}
               {% endif %}
             </div>
             {% endif %}
@@ -303,14 +291,10 @@
             <div id="tab-market-trends" class="tabs__tab">
               <h2 class="heading-medium">Total import and export values between {{ page.heading }} and the UK (£{{ page.stats.market_trends.metadata.unit }})</h2>
 
-              <div id="plotly-market-trends"></div>
+              <div id="plotly-market-trends" class="margin-bottom-15"></div>
 
               {% if page.stats.market_trends.metadata.source %}
-                <p class="font-xsmall statistic-smallprint margin-top-15">
-                  {% include 'core/includes/data_source.html' with source=page.stats.market_trends.metadata.source %}<br/>
-                  Data correct as of {{ page.stats.market_trends.metadata.accessed }}
-                </p>
-                <hr class="margin-vertical-15" style="background: #d8d8d8">
+                {% include 'core/includes/data_source.html' with source=page.stats.market_trends.metadata.source %}
               {% endif %}
 
               {{ page.stats.market_trends.data|json_script:"market-trends-data" }}
@@ -415,7 +399,8 @@
                     }
                     return (x) => {
                       if (exponents.hasOwnProperty(marketTrendsUnit)) {
-                        return `${x / exponents[marketTrendsUnit]}`
+                        var output = `${x / exponents[marketTrendsUnit]}`
+                        return output.includes('.') ? output : `${output}.0`
                       }
                       return `${x}`;
                     }
