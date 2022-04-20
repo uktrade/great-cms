@@ -1,0 +1,26 @@
+{% load content_tags %}
+
+<table class="barchart">
+  <thead>
+  <tr>
+    <th scope="col"><span class="visually-hidden">{{ labels_heading }}</span></th>
+    <th class="barchart__legend" scope="col">Value (£{% if content.metadata.unit %}{{ content.metadata.unit }}{% endif %})</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for item in content.data %}
+    <tr>
+      <td class="barchart__title-cell" title="{{ item.label }}">{{ item.label }}</td>
+      <td class="barchart__bar-cell">
+        <span class="barchart__bar" style="width: calc(({{ item.value }}/{{ content.data.0.value }}) * 100%)">
+          {% round_to_unit item.value content.metadata.unit %}
+        </span>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% if content.metadata.source %}
+  {% include 'core/includes/data_source.html' with source=content.metadata.source %}
+{% endif %}
