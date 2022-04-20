@@ -87,7 +87,7 @@
             padding: .5em;
             background: #006ccc;
             color: white;
-            text-shadow: 1px 1px 1px #006ccc;
+            text-shadow: 1px 1px 0 #006ccc;
         }
     </style>
   {% endif %}
@@ -111,7 +111,7 @@
 
         <p class="font-medium margin-bottom-30">{{ page.heading_teaser }}</p>
 
-        {% if page.stats.highlights %}
+        {% if page.stats.highlights.data %}
           {% with highlights=page.stats.highlights %}
           <div class="margin-bottom-45">
             <h2 class="visually-hidden">Trade statistics</h2>
@@ -194,23 +194,23 @@
       </div>
       <div class="column-full column-half-l">
 
-        {% if page.stats.goods_exports or page.stats.services_exports or page.stats.market_trends %}
+        {% if page.stats.goods_exports.data or page.stats.services_exports.data or page.stats.market_trends.data %}
           <div class="tabs">
             <nav class="tabs__nav">
               <ul>
-                {% if page.stats.goods_exports %}
+                {% if page.stats.goods_exports.data %}
                 <li>
                   <button class="button" data-reveal-button aria-controls="tab-goods" data-reveal-tabs="market-tabs">Goods</button>
                 </li>
                 {% endif %}
 
-                {% if page.stats.services_exports %}
+                {% if page.stats.services_exports.data %}
                 <li>
                   <button class="button" data-reveal-button aria-controls="tab-services" data-reveal-tabs="market-tabs">Services</button>
                 </li>
                 {% endif %}
 
-                {% if page.stats.market_trends %}
+                {% if page.stats.market_trends.data %}
                 <li>
                   <button class="button" data-reveal-button aria-controls="tab-market-trends" data-reveal-tabs="market-tabs">Market trends</button>
                 </li>
@@ -218,7 +218,7 @@
               </ul>
             </nav>
 
-            {% if page.stats.goods_exports %}
+            {% if page.stats.goods_exports.data %}
             <div id="tab-goods" class="tabs__tab">
               <h2 class="heading-medium">
                 Top 5 UK goods exports to {{ page.heading }},
@@ -229,7 +229,7 @@
             </div>
             {% endif %}
 
-            {% if page.stats.services_exports %}
+            {% if page.stats.services_exports.data %}
             <div id="tab-services" class="tabs__tab">
               <h2 class="heading-medium">
                 Top 5 UK services exports to {{ page.heading }},
@@ -240,7 +240,7 @@
             </div>
             {% endif %}
 
-            {% if page.stats.market_trends %}
+            {% if page.stats.market_trends.data %}
             <div id="tab-market-trends" class="tabs__tab">
               <h2 class="heading-medium">Total import and export values between {{ page.heading }} and the UK (£{{ page.stats.market_trends.metadata.unit }})</h2>
 
@@ -261,7 +261,7 @@
                   yaxis: {
                     fixedrange: true,
                     rangemode: 'tozero',
-                    tickformat: 'gbp'
+                    tickformat: 'gbpround'
                   },
                   xaxis : {
                     fixedrange: true,
@@ -289,7 +289,7 @@
                     b: 10,
                     t: 10,
                     l: 50,
-                    r: 50,
+                    r: 20,
                     pad: 10
                   },
                   width: document.querySelector('.tabs__nav').clientWidth
@@ -332,7 +332,7 @@
                       width: 3
                     },
                     type: 'scatter',
-                    hovertemplate: '%{x}: £%{y} {{ page.stats.market_trends.metadata.unit }}<extra></extra>'
+                    hovertemplate: '%{x}: £%{y:gbp} {{ page.stats.market_trends.metadata.unit }}<extra></extra>'
                   }
                 })
 
@@ -342,21 +342,21 @@
                   var result = org_locale(locale);
                   var org_number_format = result.numberFormat;
                   result.numberFormat = (format) => {
-                    if (format != 'gbp') {
-                      return org_number_format(format)
-                    }
-                    var exponents = {
-                      'trillion': 1e12,
-                      'billion': 1e9,
-                      'million': 1e6
-                    }
-                    return (x) => {
-                      if (exponents.hasOwnProperty(marketTrendsUnit)) {
-                        var output = `${x / exponents[marketTrendsUnit]}`
-                        return output.includes('.') ? output : `${output}.0`
+                    if (format === 'gbp' || format === 'gbpround') {
+                      var exponents = {
+                        'trillion': 1e12,
+                        'billion': 1e9,
+                        'million': 1e6
                       }
-                      return `${x}`;
+                      return (x) => {
+                        if (exponents.hasOwnProperty(marketTrendsUnit)) {
+                          var output = `${x / exponents[marketTrendsUnit]}`
+                          return format === 'gbpround' || output.includes('.') ? output : `${output}.0`
+                        }
+                        return `${x}`;
+                      }
                     }
+                    return org_number_format(format)
                   }
                   return result;
                 }
