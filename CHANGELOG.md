@@ -15,6 +15,7 @@
 - NOTICKET - retire Enzyme and cleanup tests output
 - GLS-152 - Add CTA banner to homepage
 - GLS-180 - Add trade visualisations to Country guide pages
+- GLS-189 - Add feature flag for brand homepage banner
 
 ## [2.6.0](https://github.com/uktrade/great-cms/releases/tag/2.6.0)
 
