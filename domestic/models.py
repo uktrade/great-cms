@@ -914,11 +914,181 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
 
         iso2 = getattr(self.country, 'iso2', None)
 
-        if iso2 == 'CN':
-            # All data from https://assets.publishing.service.gov.uk/government/uploads/system/uploads
-            # /attachment_data/file/1068512/china-trade-and-investment-factsheet-2022-04-14.pdf
+        if iso2 in ['US', 'AU', 'DE', 'CN', 'IN']:
+            data = {
+                'US': {
+                    'metadata': {'country': 'United States', 'iso2': 'US'},
+                    'highlights': {
+                        'total_uk_exports': 210100000000,
+                        'trading_position': 1,
+                        'percentage_of_uk_trade': 16.7,
+                    },
+                    'market_trends': [
+                        {'year': 2011, 'imports': 53600000000, 'exports': 85300000000},
+                        {'year': 2012, 'imports': 51800000000, 'exports': 88100000000},
+                        {'year': 2013, 'imports': 52200000000, 'exports': 93100000000},
+                        {'year': 2014, 'imports': 56300000000, 'exports': 94400000000},
+                        {'year': 2015, 'imports': 60400000000, 'exports': 102700000000},
+                        {'year': 2016, 'imports': 67600000000, 'exports': 110900000000},
+                        {'year': 2017, 'imports': 72400000000, 'exports': 118500000000},
+                        {'year': 2018, 'imports': 78100000000, 'exports': 128500000000},
+                        {'year': 2019, 'imports': 88300000000, 'exports': 145100000000},
+                        {'year': 2020, 'imports': 75200000000, 'exports': 127900000000},
+                    ],
+                    'goods_exports': [
+                        {'label': 'Cars', 'value': 6000000000},
+                        {'label': 'Medicinal & pharmaceutical products', 'value': 4900000000},
+                        {'label': 'Mechanical power generators (intermediate)', 'value': 2900000000},
+                        {'label': 'Organic chemicals', 'value': 2400000000},
+                        {'label': 'Non-ferrous metals', 'value': 2100000000},
+                    ],
+                    'services_exports': [
+                        {'label': 'Other Business Services', 'value': 37400000000},
+                        {'label': 'Financial', 'value': 19800000000},
+                        {'label': 'Insurance and Pension', 'value': 9000000000},
+                        {'label': 'Telecommunications, computer and information services', 'value': 4600000000},
+                        {'label': 'Intellectual property', 'value': 4000000000},
+                    ],
+                },
+                'AU': {
+                    'metadata': {'country': 'Australia', 'iso2': 'AU'},
+                    'highlights': {
+                        'total_uk_exports': 14900000000,
+                        'trading_position': 21,
+                        'percentage_of_uk_trade': 1.2,
+                    },
+                    'market_trends': [
+                        {'year': 2011, 'imports': 4800000000, 'exports': 9500000000},
+                        {'year': 2012, 'imports': 4700000000, 'exports': 9600000000},
+                        {'year': 2013, 'imports': 4900000000, 'exports': 9500000000},
+                        {'year': 2014, 'imports': 4300000000, 'exports': 9100000000},
+                        {'year': 2015, 'imports': 4400000000, 'exports': 8900000000},
+                        {'year': 2016, 'imports': 4700000000, 'exports': 9600000000},
+                        {'year': 2017, 'imports': 5300000000, 'exports': 10600000000},
+                        {'year': 2018, 'imports': 4700000000, 'exports': 11300000000},
+                        {'year': 2019, 'imports': 6700000000, 'exports': 11300000000},
+                        {'year': 2020, 'imports': 4900000000, 'exports': 9300000000},
+                    ],
+                    'goods_exports': [
+                        {'label': 'Medicinal & pharmaceutical products', 'value': 615800000},
+                        {'label': 'Cars', 'value': 417800000},
+                        {'label': 'Other manufactures (consumer)', 'value': 334400000},
+                        {'label': 'Specialised machinery (capital)', 'value': 241000000},
+                        {'label': 'Beverages', 'value': 205200000},
+                    ],
+                    'services_exports': [
+                        {'label': 'Insurance and Pension', 'value': 1433000000},
+                        {'label': 'Other Business Services', 'value': 1303000000},
+                        {'label': 'Financial', 'value': 704000000},
+                        {'label': 'Telecommunications, computer and information services', 'value': 457000000},
+                        {'label': 'Intellectual property', 'value': 304000000},
+                    ],
+                },
+                'DE': {
+                    'metadata': {'country': 'Germany', 'iso2': 'DE'},
+                    'highlights': {
+                        'total_uk_exports': 114400000000,
+                        'trading_position': 2,
+                        'percentage_of_uk_trade': 9.1,
+                    },
+                    'market_trends': [
+                        {'year': 2011, 'imports': 59500000000, 'exports': 45600000000},
+                        {'year': 2012, 'imports': 61800000000, 'exports': 44400000000},
+                        {'year': 2013, 'imports': 65000000000, 'exports': 43200000000},
+                        {'year': 2014, 'imports': 70000000000, 'exports': 44100000000},
+                        {'year': 2015, 'imports': 70200000000, 'exports': 44100000000},
+                        {'year': 2016, 'imports': 74000000000, 'exports': 48600000000},
+                        {'year': 2017, 'imports': 80100000000, 'exports': 55500000000},
+                        {'year': 2018, 'imports': 79700000000, 'exports': 54900000000},
+                        {'year': 2019, 'imports': 77200000000, 'exports': 55300000000},
+                        {'year': 2020, 'imports': 66500000000, 'exports': 49500000000},
+                    ],
+                    'goods_exports': [
+                        {'label': 'Non-ferrous metals', 'value': 3000000000},
+                        {'label': 'Aircraft ', 'value': 2600000000},
+                        {'label': 'Cars', 'value': 1800000000},
+                        {'label': 'Mechanical power generators (intermediate) ', 'value': 1800000000},
+                        {'label': 'Medicinal & pharmaceutical products', 'value': 1700000000},
+                    ],
+                    'services_exports': [
+                        {'label': 'Other Business Services', 'value': 7400000000},
+                        {'label': 'Telecommunications, computer and information services', 'value': 2900000000},
+                        {'label': 'Financial', 'value': 2400000000},
+                        {'label': 'Intellectual property', 'value': 1500000000},
+                        {'label': 'Transportation', 'value': 1000000000},
+                    ],
+                },
+                'CN': {
+                    'metadata': {'country': 'China', 'iso2': 'CN'},
+                    'highlights': {
+                        'total_uk_exports': 26100000000,
+                        'trading_position': 3,
+                        'percentage_of_uk_trade': 7.5,
+                    },
+                    'market_trends': [
+                        {'year': 2011, 'imports': 32000000000, 'exports': 14800000000},
+                        {'year': 2012, 'imports': 31500000000, 'exports': 15600000000},
+                        {'year': 2013, 'imports': 32800000000, 'exports': 16900000000},
+                        {'year': 2014, 'imports': 35900000000, 'exports': 19400000000},
+                        {'year': 2015, 'imports': 39600000000, 'exports': 18400000000},
+                        {'year': 2016, 'imports': 42900000000, 'exports': 19500000000},
+                        {'year': 2017, 'imports': 45200000000, 'exports': 25200000000},
+                        {'year': 2018, 'imports': 46100000000, 'exports': 27100000000},
+                        {'year': 2019, 'imports': 50500000000, 'exports': 36300000000},
+                        {'year': 2020, 'imports': 56900000000, 'exports': 26000000000},
+                    ],
+                    'goods_exports': [
+                        {'label': 'Crude oil', 'value': 4100000000},
+                        {'label': 'Cars', 'value': 3600000000},
+                        {'label': 'Medicinal & pharmaceutical products', 'value': 1500000000},
+                        {'label': 'Non-ferrous metals', 'value': 1300000000},
+                        {'label': 'Scientific instruments (capital)', 'value': 700000000},
+                    ],
+                    'services_exports': [
+                        {'label': 'Travel', 'value': 2407000000},
+                        {'label': 'Other Business Services', 'value': 1447000000},
+                        {'label': 'Transportation', 'value': 1188000000},
+                        {'label': 'Intellectual property', 'value': 926000000},
+                        {'label': 'Financial', 'value': 873000000},
+                    ],
+                },
+                'IN': {
+                    'metadata': {'country': 'India', 'iso2': 'IN'},
+                    'highlights': {
+                        'total_uk_exports': 21500000000,
+                        'trading_position': 15,
+                        'percentage_of_uk_trade': 1.7,
+                    },
+                    'market_trends': [
+                        {'year': 2011, 'imports': 9400000000, 'exports': 8600000000},
+                        {'year': 2012, 'imports': 9000000000, 'exports': 7500000000},
+                        {'year': 2013, 'imports': 8800000000, 'exports': 7500000000},
+                        {'year': 2014, 'imports': 9500000000, 'exports': 6500000000},
+                        {'year': 2015, 'imports': 9100000000, 'exports': 6900000000},
+                        {'year': 2016, 'imports': 9800000000, 'exports': 6100000000},
+                        {'year': 2017, 'imports': 11600000000, 'exports': 6800000000},
+                        {'year': 2018, 'imports': 12400000000, 'exports': 9400000000},
+                        {'year': 2019, 'imports': 14900000000, 'exports': 9000000000},
+                        {'year': 2020, 'imports': 11700000000, 'exports': 7100000000},
+                    ],
+                    'goods_exports': [
+                        {'label': 'Non-ferrous metals', 'value': 510600000},
+                        {'label': 'Metal ores & scrap', 'value': 495000000},
+                        {'label': 'Mechanical power generators (intermediate)', 'value': 261500000},
+                        {'label': 'General industrial machinery (capital)', 'value': 219000000},
+                        {'label': 'Miscellaneous electrical goods (intermediate)', 'value': 210500000},
+                    ],
+                    'services_exports': [
+                        {'label': 'Other Business Services', 'value': 1797000000},
+                        {'label': 'Travel', 'value': 632000000},
+                        {'label': 'Transportation', 'value': 310000000},
+                        {'label': 'Telecommunications, computer and information services', 'value': 217000000},
+                        {'label': 'Financial', 'value': 148000000},
+                    ],
+                },
+            }
             api_data = {
-                'metadata': {'country': 'China', 'iso2': 'CN'},
+                'metadata': data[iso2]['metadata'],
                 'highlights': {
                     'metadata': {
                         'source': {
@@ -932,7 +1102,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                         },
                         'reference_period': {'resolution': 'quarter', 'period': 3, 'year': 2021},
                     },
-                    'data': {'total_uk_exports': 26100000000, 'trading_position': 3, 'percentage_of_uk_trade': 7.5},
+                    'data': data[iso2]['highlights'],
                 },
                 'market_trends': {
                     'metadata': {
@@ -944,18 +1114,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                             'notes': ['Data includes goods and services combined.'],
                         },
                     },
-                    'data': [
-                        {'year': 2011, 'imports': 32000000000, 'exports': 14800000000},
-                        {'year': 2012, 'imports': 31500000000, 'exports': 15600000000},
-                        {'year': 2013, 'imports': 32800000000, 'exports': 16900000000},
-                        {'year': 2014, 'imports': 35900000000, 'exports': 19400000000},
-                        {'year': 2015, 'imports': 39600000000, 'exports': 18400000000},
-                        {'year': 2016, 'imports': 42900000000, 'exports': 19500000000},
-                        {'year': 2017, 'imports': 45200000000, 'exports': 25200000000},
-                        {'year': 2018, 'imports': 46100000000, 'exports': 27100000000},
-                        {'year': 2019, 'imports': 50500000000, 'exports': 36300000000},
-                        {'year': 2020, 'imports': 56900000000, 'exports': 26000000000},
-                    ],
+                    'data': data[iso2]['market_trends'],
                 },
                 'goods_exports': {
                     'metadata': {
@@ -965,19 +1124,9 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                             '/uktrade/latest',
                             'next_release': '12 May 2022',
                         },
-                        'reference_period': {
-                            'resolution': 'quarter',
-                            'period': 3,
-                            'year': 2021,
-                        },
+                        'reference_period': {'resolution': 'quarter', 'period': 3, 'year': 2021},
                     },
-                    'data': [
-                        {'label': 'Crude oil', 'value': 4100000000},
-                        {'label': 'Cars', 'value': 3600000000},
-                        {'label': 'Medicinal & pharmaceutical products', 'value': 1500000000},
-                        {'label': 'Non-ferrous metals', 'value': 1300000000},
-                        {'label': 'Scientific instruments (capital)', 'value': 700000000},
-                    ],
+                    'data': data[iso2]['goods_exports'],
                 },
                 'services_exports': {
                     'metadata': {
@@ -993,23 +1142,21 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                             'year': 2021,
                         },
                     },
-                    'data': [
-                        {'label': 'Travel', 'value': 2407000000},
-                        {'label': 'Other Business Services', 'value': 1447000000},
-                        {'label': 'Transportation', 'value': 1188000000},
-                        {'label': 'Intellectual property', 'value': 926000000},
-                        {'label': 'Financial', 'value': 873000000},
-                    ],
+                    'data': data[iso2]['services_exports'],
                 },
             }
 
-            api_data['market_trends']['metadata']['unit'] = intword(
-                max([(x['imports'] + x['exports']) for x in api_data['market_trends']['data']])
-            ).split(' ')[1]
+            if api_data['market_trends']['data']:
+                api_data['market_trends']['metadata']['unit'] = intword(
+                    max([(x['imports'] + x['exports']) for x in api_data['market_trends']['data']])
+                ).split(' ')[1]
 
             for export_type in ['goods', 'services']:
                 type_key = f'{export_type}_exports'
-                api_data[type_key]['metadata']['unit'] = intword(api_data[type_key]['data'][0]['value']).split(' ')[1]
+                if api_data[type_key]['data']:
+                    api_data[type_key]['metadata']['unit'] = intword(api_data[type_key]['data'][4]['value']).split(' ')[
+                        1
+                    ]
 
             return api_data
 
