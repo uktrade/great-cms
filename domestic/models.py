@@ -909,6 +909,9 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
 
     @cached_property
     def stats(self):
+        if not settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS:
+            return None
+
         iso2 = getattr(self.country, 'iso2', None)
 
         if iso2 == 'CN':

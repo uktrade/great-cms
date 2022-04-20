@@ -542,7 +542,9 @@ def test_trade_and_duties_links_no_country(domestic_homepage):
 @mock.patch.object(api_client.dataservices, 'get_total_trade_data_by_country')
 @pytest.mark.django_db
 @pytest.mark.skip('Hard-coding stats data for China only for demo, and until API follows agreed schema')
-def test_stats(mock_get_total_trade_data_by_country, domestic_homepage):
+def test_stats(mock_get_total_trade_data_by_country, domestic_homepage, settings):
+    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
+
     mock_get_total_trade_data_by_country.return_value = create_response(
         status_code=200,
         json_body={'data': [{'year': 2021, 'flow_type': 'IMPORT', 'product_type': 'GOODS', 'value': 124}]},
@@ -560,7 +562,9 @@ def test_stats(mock_get_total_trade_data_by_country, domestic_homepage):
 
 
 @pytest.mark.django_db
-def test_stats_china(domestic_homepage):
+def test_stats_china(domestic_homepage, settings):
+    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
+
     country = CountryFactory(name='China', slug='china', iso2='CN')
 
     page = CountryGuidePageFactory(
@@ -575,7 +579,24 @@ def test_stats_china(domestic_homepage):
 
 
 @pytest.mark.django_db
-def test_stats_no_iso(domestic_homepage):
+def test_stats_feature_off(domestic_homepage, settings):
+    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = False
+
+    country = CountryFactory(name='China', slug='china', iso2='CN')
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        country=country,
+    )
+
+    assert page.stats is None
+
+
+@pytest.mark.django_db
+def test_stats_no_iso(domestic_homepage, settings):
+    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
+
     country = CountryFactory(name='France', slug='france')
 
     page = CountryGuidePageFactory(
@@ -588,7 +609,8 @@ def test_stats_no_iso(domestic_homepage):
 
 
 @pytest.mark.django_db
-def test_stats_no_country(domestic_homepage):
+def test_stats_no_country(domestic_homepage, settings):
+    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
 
     page = CountryGuidePageFactory(
         parent=domestic_homepage,

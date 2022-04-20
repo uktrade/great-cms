@@ -8,10 +8,9 @@
 
 {% block head_js %}
   {{ block.super }}
-  {# TODO: combine into webpack-compiled script #}
   <script src="{% static 'javascript/country-guide.js' %}"></script>
 
-  {% if FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS and page.stats.market_trends %}
+  {% if page.stats.market_trends %}
   <script src="https://cdn.plot.ly/plotly-1.58.5.min.js"></script>
   {% endif %}
 {% endblock %}
@@ -19,7 +18,7 @@
 {% block head_css %}
   {{ block.super }}
 
-  {% if FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS and page.stats %}
+  {% if page.stats %}
     <style>
         .tabs__nav {
             border-bottom: 2px solid #dfd5c5;
@@ -112,7 +111,7 @@
 
         <p class="font-medium margin-bottom-30">{{ page.heading_teaser }}</p>
 
-        {% if FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS and page.stats.highlights %}
+        {% if page.stats.highlights %}
           {% with highlights=page.stats.highlights %}
           <div class="margin-bottom-45">
             <h2 class="visually-hidden">Trade statistics</h2>
@@ -195,7 +194,7 @@
       </div>
       <div class="column-full column-half-l">
 
-        {% if FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS and page.stats %}
+        {% if page.stats.goods_exports or page.stats.services_exports or page.stats.market_trends %}
           <div class="tabs">
             <nav class="tabs__nav">
               <ul>
@@ -222,7 +221,7 @@
             {% if page.stats.goods_exports %}
             <div id="tab-goods" class="tabs__tab">
               <h2 class="heading-medium">
-                Top 5 UK goods exports to {{  page.heading }},
+                Top 5 UK goods exports to {{ page.heading }},
                 in the {% reference_period page.stats.goods_exports.metadata.reference_period %}
               </h2>
 
@@ -256,7 +255,7 @@
             {% if page.stats.services_exports %}
             <div id="tab-services" class="tabs__tab">
               <h2 class="heading-medium">
-                Top 5 UK services exports to {{  page.heading }},
+                Top 5 UK services exports to {{ page.heading }},
                 in the {% reference_period page.stats.services_exports.metadata.reference_period %}
               </h2>
 
