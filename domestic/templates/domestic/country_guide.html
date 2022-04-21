@@ -140,7 +140,7 @@
             </nav>
 
             {% if page.stats.goods_exports.data %}
-            <div id="tab-goods" class="tabs__tab">
+            <div id="tab-goods" class="reveal-content">
               <h2 class="heading-medium">
                 Top 5 UK goods exports to {{ page.heading }},
                 in the {% reference_period page.stats.goods_exports.metadata.reference_period %}
@@ -151,7 +151,7 @@
             {% endif %}
 
             {% if page.stats.services_exports.data %}
-            <div id="tab-services" class="tabs__tab">
+            <div id="tab-services" class="reveal-content">
               <h2 class="heading-medium">
                 Top 5 UK services exports to {{ page.heading }},
                 in the {% reference_period page.stats.services_exports.metadata.reference_period %}
@@ -162,7 +162,7 @@
             {% endif %}
 
             {% if page.stats.market_trends.data %}
-            <div id="tab-market-trends" class="tabs__tab">
+            <div id="tab-market-trends" class="reveal-content">
               <h2 class="heading-medium">Total import and export values between {{ page.heading }} and the UK</h2>
 
               <div id="plotly-market-trends" class="margin-bottom-15"></div>

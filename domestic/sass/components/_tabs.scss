@@ -22,12 +22,3 @@
   color: #333333;
   border-bottom-color: #333333;
 }
-
-.js-enabled .tabs__tab,
-.tabs__tab[aria-hidden="true"] {
-  display: none;
-}
-
-.js-enabled .tabs__tab[aria-hidden="false"] {
-  display: block;
-}
