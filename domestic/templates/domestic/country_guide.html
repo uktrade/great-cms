@@ -34,7 +34,7 @@
 
         {% if page.stats.highlights.data %}
           {% with highlights=page.stats.highlights %}
-          <div class="margin-bottom-45">
+          <div id="stats-highlights" class="margin-bottom-45">
             <h2 class="visually-hidden">Trade statistics</h2>
             <div class="flex-grid margin-bottom-30">
               {% if highlights.data.total_uk_exports %}
@@ -116,7 +116,7 @@
       <div class="column-full column-half-l">
 
         {% if page.stats.goods_exports.data or page.stats.services_exports.data or page.stats.market_trends.data %}
-          <div class="tabs">
+          <div id="stats-tabs" class="tabs">
             <nav class="tabs__nav">
               <ul>
                 {% if page.stats.goods_exports.data %}
