@@ -25,7 +25,6 @@
 {% if page.heading_teaser %}
 <section id="country-guide-teaser-section" class="teaser-section padding-vertical-30">
   <div class="container">
-
     <div class="grid-row">
       <div class="column-three-quarters-l teaser">
         <h2 class="visually-hidden">Overview</h2>
@@ -113,8 +112,8 @@
       <div class="column-full column-half-l section-one-body rich-text">
         {{ page.section_one_body|richtext }}
       </div>
-      <div class="column-full column-half-l">
 
+      <div class="column-full column-half-l">
         {% if page.stats.goods_exports.data or page.stats.services_exports.data or page.stats.market_trends.data %}
           <div id="stats-tabs" class="tabs">
             <nav class="tabs__nav">
@@ -322,66 +321,65 @@
           {% image page.section_one_image fill-640x360 as section_one_image %}
           {% include 'components/image_with_caption.html'  with rendition=section_one_image main_caption=page.section_one_image_caption sub_caption=page.section_one_image_caption_company img_classes="m-f-auto m-r-auto" %}
         {% endif %}
-        </div>
       </div>
     </div>
   </div>
 </section>
 
-  <section id="country-guide-statistics-section" class="statistics padding-vertical-30 background-stone-30">
-    <div class="container">
-      {% include 'components/statistics_card_grid.html' with statistics=page.main_statistics country=page.heading %}
-    </div>
-  </section>
+<section id="country-guide-statistics-section" class="statistics padding-vertical-30 background-stone-30">
+  <div class="container">
+    {% include 'components/statistics_card_grid.html' with statistics=page.main_statistics country=page.heading %}
+  </div>
+</section>
 
-  {% if page.section_two_heading %}
-    <section id="country-guide-section-two" class="section-two padding-vertical-60">
-      <div class="container">
-        <div class="grid-row">
-          <div class="column-full column-two-thirds-m column-half-l">
-            <h2 class="heading-large margin-top-0">{{ page.section_two_heading }}</h2>
-            <p>{{ page.section_two_teaser }}</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {% if page.accordions %} {# This is streamfield #}
-      <section id="country-guide-accordions" class="accordions padding-vertical-0">
-        <ul>
-          {% for industry_block in page.accordions %}
-            {% include_block industry_block %}
-          {% endfor %}
-        </ul>
-      </section>
-    {% endif %}
-  {% endif %}
-
-  <section class="padding-top-60 padding-bottom-30">
+{% if page.section_two_heading %}
+  <section id="country-guide-section-two" class="section-two padding-vertical-60">
     <div class="container">
       <div class="grid-row">
-        <div class="column-half-l padding-bottom-30">
-          <h2 class="heading-large padding-top-0">Check for trade barriers</h2>
-
-          <p>Trade barriers, such as tariffs or taxes, can raise costs, cause delays, or even stop you from exporting. Check for any issues that may impact your business when exporting.</p>
-
-          <p><a class="heading-small link" href="{{ page.trade_barriers_link }}">See current trade barriers</a></p>
-
-          {% if page.trade_barriers_resolved_link %}
-            <p><a class="heading-small link" href="{{ page.trade_barriers_resolved_link }}">See resolved trade barriers</a></p>
-          {% endif %}
-        </div>
-
-        <div class="column-half-l padding-bottom-30">
-          <h2 class="heading-large padding-top-0">Check duties and customs</h2>
-
-          <p>Find information on how to export goods from the UK. View the duties, rules, restrictions, and the documents you need for your products.</p>
-
-          <p><a class="heading-small link" href="{{ page.duties_and_customs_link }}">See current duties and customs procedures</a></p>
+        <div class="column-full column-two-thirds-m column-half-l">
+          <h2 class="heading-large margin-top-0">{{ page.section_two_heading }}</h2>
+          <p>{{ page.section_two_teaser }}</p>
         </div>
       </div>
     </div>
   </section>
+
+  {% if page.accordions %} {# This is streamfield #}
+    <section id="country-guide-accordions" class="accordions padding-vertical-0">
+      <ul>
+        {% for industry_block in page.accordions %}
+          {% include_block industry_block %}
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+{% endif %}
+
+<section class="padding-top-60 padding-bottom-30">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-half-l padding-bottom-30">
+        <h2 class="heading-large padding-top-0">Check for trade barriers</h2>
+
+        <p>Trade barriers, such as tariffs or taxes, can raise costs, cause delays, or even stop you from exporting. Check for any issues that may impact your business when exporting.</p>
+
+        <p><a class="heading-small link" href="{{ page.trade_barriers_link }}">See current trade barriers</a></p>
+
+        {% if page.trade_barriers_resolved_link %}
+          <p><a class="heading-small link" href="{{ page.trade_barriers_resolved_link }}">See resolved trade barriers</a></p>
+        {% endif %}
+      </div>
+
+      <div class="column-half-l padding-bottom-30">
+        <h2 class="heading-large padding-top-0">Check duties and customs</h2>
+
+        <p>Find information on how to export goods from the UK. View the duties, rules, restrictions, and the documents you need for your products.</p>
+
+        <p><a class="heading-small link" href="{{ page.duties_and_customs_link }}">See current duties and customs procedures</a></p>
+      </div>
+    </div>
+  </div>
+</section>
 
 {% if page.fact_sheet_title %}
 <section id="country-guide-section-three" class="section-three background-stone-30 padding-top-90 padding-bottom-60">
@@ -395,11 +393,7 @@
     <div class="grid-row">
       {% for column in page.fact_sheet_columns %}
         {% if column.title %}
-          {% if page.fact_sheet_columns|length == 1 %}
-          <div class="column-full margin-bottom-30">
-          {% else %}
-          <div class="column-full column-half-xl margin-bottom-30">
-          {% endif %}
+          <div class="column-full {% if page.fact_sheet_columns|length != 1 %}column-half-xl{% endif %} margin-bottom-30">
             <div class="fact-sheet">
               <h3 class="highlight heading-medium background-grey white-text">{{ column.title }}</h3>
               <div class="fact-sheet-content background-white padding-45 wrap-tight font-xsmall">
