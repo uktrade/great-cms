@@ -908,7 +908,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         return ctas
 
     @cached_property
-    def stats(self):
+    def stats(self):  # noqa C901
         if not settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS:
             return None
 
@@ -1150,6 +1150,8 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                 api_data['market_trends']['metadata']['unit'] = intword(
                     max([(x['imports'] + x['exports']) for x in api_data['market_trends']['data']])
                 ).split(' ')[1]
+                for item in api_data['market_trends']['data']:
+                    item['total'] = item['imports'] + item['exports']
 
             for export_type in ['goods', 'services']:
                 type_key = f'{export_type}_exports'
