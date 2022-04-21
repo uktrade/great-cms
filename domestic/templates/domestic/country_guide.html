@@ -84,10 +84,17 @@
 
         .barchart__bar {
             display: inline-block;
-            padding: .5em;
+            padding: .5em 0;
             background: #006ccc;
             color: white;
             text-shadow: 1px 1px 0 #006ccc;
+            text-indent: .5em;
+        }
+
+        .barchart__bar--small {
+            color: currentColor;
+            text-shadow: none;
+            text-indent: calc(.375em + 100%);
         }
     </style>
   {% endif %}
@@ -242,7 +249,7 @@
 
             {% if page.stats.market_trends.data %}
             <div id="tab-market-trends" class="tabs__tab">
-              <h2 class="heading-medium">Total import and export values between {{ page.heading }} and the UK (£{{ page.stats.market_trends.metadata.unit }})</h2>
+              <h2 class="heading-medium">Total import and export values between {{ page.heading }} and the UK</h2>
 
               <div id="plotly-market-trends" class="margin-bottom-15"></div>
 
@@ -252,6 +259,7 @@
 
               {{ page.stats.market_trends.data|json_script:"market-trends-data" }}
               <script>
+                var marketTrendsUnit = '{{ page.stats.market_trends.metadata.unit }}';
                 var config = {
                   displayModeBar: false,
                   responsive: true,
@@ -261,7 +269,8 @@
                   yaxis: {
                     fixedrange: true,
                     rangemode: 'tozero',
-                    tickformat: 'gbpround'
+                    tickformat: 'gbpround',
+                    title: '£ ' + marketTrendsUnit
                   },
                   xaxis : {
                     fixedrange: true,
@@ -288,7 +297,6 @@
                   margin: {
                     b: 10,
                     t: 10,
-                    l: 50,
                     r: 20,
                     pad: 10
                   },
@@ -336,7 +344,6 @@
                   }
                 })
 
-                var marketTrendsUnit = '{{ page.stats.market_trends.metadata.unit }}';
                 var org_locale = Plotly.d3.locale;
                 Plotly.d3.locale = (locale) => {
                   var result = org_locale(locale);
@@ -350,10 +357,10 @@
                       }
                       return (x) => {
                         if (exponents.hasOwnProperty(marketTrendsUnit)) {
-                          var output = `${x / exponents[marketTrendsUnit]}`
-                          return format === 'gbpround' || output.includes('.') ? output : `${output}.0`
+                          var output = '' + (x / exponents[marketTrendsUnit])
+                          return format === 'gbpround' || output.includes('.') ? output : output + '.0'
                         }
-                        return `${x}`;
+                        return '' + x;
                       }
                     }
                     return org_number_format(format)

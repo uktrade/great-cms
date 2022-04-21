@@ -1154,9 +1154,11 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
             for export_type in ['goods', 'services']:
                 type_key = f'{export_type}_exports'
                 if api_data[type_key]['data']:
-                    api_data[type_key]['metadata']['unit'] = intword(api_data[type_key]['data'][4]['value']).split(' ')[
-                        1
-                    ]
+                    data = api_data[type_key]['data']
+                    # Use the unit from the middle value -- slightly arbitrary but seems to work in most cases
+                    api_data[type_key]['metadata']['unit'] = intword(data[2]['value']).split(' ')[1]
+                    for index, item in enumerate(data):
+                        data[index]['percent'] = round((item['value'] / data[0]['value']) * 100, 1)
 
             return api_data
 

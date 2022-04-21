@@ -12,7 +12,7 @@
     <tr>
       <td class="barchart__title-cell" title="{{ item.label }}">{{ item.label }}</td>
       <td class="barchart__bar-cell">
-        <span class="barchart__bar" style="width: calc(({{ item.value }}/{{ content.data.0.value }}) * 100%)">
+        <span class="barchart__bar{% if item.percent <= 20 %} barchart__bar--small{% endif %}" style="width: {{ item.percent }}%">
           {% round_to_unit item.value content.metadata.unit %}
         </span>
       </td>
