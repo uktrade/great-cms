@@ -1,0 +1,33 @@
+.tabs__nav {
+  border-bottom: 2px solid #dfd5c5;
+}
+
+.tabs__nav li {
+  display: inline-block;
+}
+
+.tabs__nav button {
+  display: block;
+  border: 0;
+  border-bottom: 4px solid transparent;
+  padding: .5em 1em;
+  margin: 0 0 -2px;
+  background: transparent;
+  color: #666666;
+}
+
+.tabs__nav button[aria-expanded="true"],
+.tabs__nav button:hover {
+  background: transparent;
+  color: #333333;
+  border-bottom-color: #333333;
+}
+
+.js-enabled .tabs__tab,
+.tabs__tab[aria-hidden="true"] {
+  display: none;
+}
+
+.js-enabled .tabs__tab[aria-hidden="false"] {
+  display: block;
+}
