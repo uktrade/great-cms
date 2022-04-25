@@ -30,7 +30,6 @@ USER_LOCATION_DETERMINE_ERROR = 'Unable to determine user location'
 MALE = 'xy'
 FEMALE = 'xx'
 
-
 logger = getLogger(__name__)
 
 
@@ -47,7 +46,7 @@ def age_group_mapping(target_ages):
             if start >= 100:
                 out.append('100+')
             else:
-                out.append(f'{start}-{start+4}')
+                out.append(f'{start}-{start + 4}')
             start += 5
     return out
 
@@ -125,7 +124,6 @@ def is_fuzzy_match(label_a, label_b):
 
 
 class CompanyParser(great_components.helpers.CompanyParser):
-
     INDUSTRIES = great_components.helpers.CompanyParser.INDUSTRIES
 
     SIC_CODES = dict(choices.SIC_CODES)
@@ -392,6 +390,21 @@ def get_comtrade_data(countries_list, commodity_code, with_country_data=True):
 
 def get_trade_barrier_data(countries_list, sectors_list):
     response = api_client.dataservices.get_trade_barriers(countries=countries_list, sectors=sectors_list)
+    return response.json()
+
+
+def get_total_trade_data_by_country(iso2):
+    response = api_client.dataservices.get_total_trade_data_by_country(iso2=iso2)
+    return response.json()
+
+
+def get_trade_in_services_data_by_country(iso2):
+    response = api_client.dataservices.get_trade_in_service_data_by_country(iso2=iso2)
+    return response.json()
+
+
+def get_commodity_exports_data_by_country(iso2):
+    response = api_client.dataservices.get_commodity_exports_data_by_country(iso2=iso2)
     return response.json()
 
 

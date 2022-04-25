@@ -38,6 +38,9 @@ const setup = ({ ...data }) => {
   }
 }
 
+// TODO: Rewrite based on desired functionality.
+//  Most of these don't actually test anything since `toBeInTheDocument` will
+//  always be true whether hidden or not, given it's done with CSS.
 describe('Select', () => {
   it('Should have a label', () => {
     const { queryByLabelText } = setup(props)
@@ -141,7 +144,6 @@ describe('Select', () => {
       })
     })
   })
-
 
   describe('with categories', () => {
     it('Should show dropdown with 2 categories', async () => {

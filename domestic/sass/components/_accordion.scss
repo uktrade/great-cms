@@ -15,8 +15,13 @@
   font-weight: 700;
   position: relative;
   display: flex;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
   align-items: center;
   min-height: 88px;
+  cursor: pointer;
 
   &:focus {
     @include focus;
@@ -31,16 +36,12 @@
     color: black;
   }
 
-  &.active {
-    border-bottom: 0;
-
-    &:after {
-      content: '–';
-      }
+  &[aria-expanded="true"]:after {
+    content: '–';
   }
 }
 
-.accordion-content.Expander.collapsed {
+.accordion-content[aria-hidden="true"] {
   display: none;
 }
 

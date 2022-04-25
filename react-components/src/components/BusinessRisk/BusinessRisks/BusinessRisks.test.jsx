@@ -1,8 +1,9 @@
 import React from 'react'
-import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import Services from '@src/Services'
 import { BusinessRisks } from './BusinessRisks'
 
+// eslint-disable-next-line camelcase
 const model_name = 'businessrisk'
 const props = {
   formFields: [
@@ -33,6 +34,12 @@ const props = {
       tooltip: { content: '<p>Risk notes</p>' },
       example: { content: 'Safety when operating abroad [notes]' },
     },
+    likelihood_extras: {
+      tooltip: { content: '<p>Tooltip</p>' },
+    },
+    impact_extras: {
+      tooltip: { content: '<p>Impact notes</p>' },
+    },
   },
   risk_likelihood_options: [
     { label: 'Rare', value: 'RARE' },
@@ -58,32 +65,18 @@ const props = {
   },
 }
 
-const setup = ({ ...data }) => {
-  const component = render(
+const setup = ({ ...data }) =>
+  render(
     <BusinessRisks {...data}>
       <p>The child component</p>
     </BusinessRisks>
   )
 
-  return {
-    ...component,
-  }
-}
-
-beforeEach(() => {
-  jest.useFakeTimers()
-})
-
-afterEach(() => {
-  jest.useRealTimers()
-  cleanup()
-})
-
 describe('BusinessRisks', () => {
   it('Should render 2 risks', () => {
     const { getByText } = setup({ ...props })
-    expect(getByText('Risk 1'))
-    expect(getByText('Risk 2'))
+    expect(getByText('Risk 1')).toBeTruthy()
+    expect(getByText('Risk 2')).toBeTruthy()
   })
 
   it('Should add a Risk', async () => {
@@ -117,9 +110,9 @@ describe('BusinessRisks', () => {
         },
         'POST'
       )
-      expect(getByText('Risk 1'))
-      expect(getByText('Risk 2'))
-      expect(getByText('Risk 3'))
+      expect(getByText('Risk 1')).toBeTruthy()
+      expect(getByText('Risk 2')).toBeTruthy()
+      expect(getByText('Risk 3')).toBeTruthy()
     })
   })
 
@@ -148,7 +141,7 @@ describe('BusinessRisks', () => {
     })
     const button = container.querySelectorAll('.button--delete')[0]
     fireEvent.click(button)
-    expect(getByText('Risk 2'))
+    expect(getByText('Risk 2')).toBeTruthy()
     await waitFor(() => {
       expect(Services.apiModelObjectManage).toHaveBeenCalledTimes(1)
       expect(Services.apiModelObjectManage).toHaveBeenCalledWith(

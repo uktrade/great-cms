@@ -30,19 +30,6 @@ $offset: calc(0px - .55em - 30px);
   background: $white;
   padding: 60px 30px;
 
-  & .statistic-heading {
-    margin-bottom: 0.5em;
-  }
-
-  & .statistic-number {
-    margin-bottom: 0;
-    font-family: $brand-font;
-  }
-
-  & .statistic-smallprint {
-    color: $mid-grey;
-  }
-
   & .flex-grid {
     flex-direction: row;
     flex-wrap: wrap;
@@ -77,6 +64,19 @@ $offset: calc(0px - .55em - 30px);
   }
 }
 
+.statistic-heading {
+  margin-bottom: 0.5em;
+}
+
+.statistic-number {
+  margin: .75rem 0;
+  line-height: 1.25;
+  font-family: $brand-font;
+}
+
+.statistic-smallprint {
+  color: $mid-grey;
+}
 
 .statistics-card-cta {
   margin: $offset 0 0 0;

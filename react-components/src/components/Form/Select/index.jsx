@@ -38,46 +38,19 @@ export const Select = memo(
     const placeHolder = useRef()
     const ulOptions = useRef()
 
-    const openDuration = 250
-
     useEffect(() => {
       setInput(selected)
     }, [selected])
 
-    const setOpen = (state, onComplete) => {
-      // TODO: fix timeout mess
-      if (state !== isOpen) {
-        if (!state) placeHolder.current.focus()
-        const elStyle = expander.current.style
-        elStyle.transition = `height ${openDuration}ms`
-        elStyle.display = 'block'
-        elStyle.height = null
-        const height = expander.current.offsetHeight
-        elStyle.height = state ? '8px' : `${height}px`
-        window.setTimeout(() => {
-          elStyle.height = state ? `${height}px` : '8px'
-          setIsOpen(state)
-        }, 0)
-        window.setTimeout(() => {
-          setIsOpen(state)
-          elStyle.height = null
-          elStyle.display = state ? 'block' : 'none'
-          if (onComplete) onComplete()
-        }, openDuration)
-      } else if (onComplete) {
-        onComplete()
-      }
-    }
-
     useEffect(() => {
       // automatically open autocomplete
       if (autoComplete) {
-        setOpen(!!(options && options.length))
+        setIsOpen(!!(options && options.length))
       }
     }, [options])
 
     useOnOutsideClick(outer, () => {
-      setOpen(false)
+      setIsOpen(false)
     })
 
     const optionByValue = (value) => {
@@ -129,7 +102,7 @@ export const Select = memo(
         placeHolder.current.focus()
       } else if (!item.isError) {
         setInput(item.value)
-        setOpen(false)
+        setIsOpen(false)
         update({ [name]: item.value })
       }
     }
@@ -140,11 +113,12 @@ export const Select = memo(
       )
       const selectedIndex = items.findIndex((item) => item === target) + inc
       const nextItem = items[selectedIndex]
-      setOpen(selectedIndex >= 0, () => {
-        if (nextItem || selectedIndex < 0) {
-          ;(nextItem || placeHolder.current).focus()
-        }
-      })
+      setIsOpen(!!nextItem)
+      if (nextItem) {
+        nextItem.focus()
+      } else {
+        placeHolder.current.focus()
+      }
     }
 
     const keyHandler = (e, item) => {
@@ -159,7 +133,7 @@ export const Select = memo(
           } else if (autoComplete) {
             keyFound = false
           } else {
-            setOpen(!isOpen)
+            setIsOpen(!isOpen)
           }
           break
         case DOWN_ARROW_KEY_CODE:
@@ -169,7 +143,7 @@ export const Select = memo(
           focusNext(-1, e.target)
           break
         case ESCAPE_KEY_CODE:
-          setOpen(false)
+          setIsOpen(false)
           break
         default:
           keyFound = false
@@ -210,7 +184,7 @@ export const Select = memo(
                   placeHolder.current.querySelector('input').focus()
                 }
               }}
-              onClick={() => setOpen(!isOpen)}
+              onClick={() => setIsOpen(!isOpen)}
               aria-haspopup="listbox"
               role="button"
             >
@@ -263,22 +237,26 @@ export const Select = memo(
                         multiSelect && input.includes(item.value) ? (
                           ''
                         ) : (
-                          <Item
-                            isDisabled={
+                          <li
+                            key={item.value}
+                            tabIndex={isOpen ? 0 : -1}
+                            role="option"
+                            className={`select__list--item ${
                               !autoComplete && Array.isArray(input)
                                 ? input.includes(item.value)
                                 : input === item.value
-                            }
-                            key={item.value}
+                                ? 'text-black-50'
+                                : ''
+                            }`}
                             onClick={() => selectOption(item)}
                             onKeyDown={(e) => keyHandler(e, item)}
-                            selected={item.value === input}
-                            label={item.label}
-                            forwardedRef={(el) => {
+                            aria-selected={item.value === input}
+                            ref={(el) => {
                               liRef.current[i] = el
                             }}
-                            isError={item.isError}
-                          />
+                          >
+                            {item.label}
+                          </li>
                         )
                       )
                     : Object.keys(options).map((category, i) => (
@@ -337,7 +315,10 @@ Select.propTypes = {
     ),
   ]).isRequired,
   description: PropTypes.string,
-  tooltip: PropTypes.objectOf(PropTypes.string),
+  tooltip: PropTypes.shape({
+    title: PropTypes.string,
+    content: PropTypes.string,
+  }),
   example: PropTypes.shape({
     buttonTitle: PropTypes.string,
     header: PropTypes.string,

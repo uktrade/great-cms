@@ -1,60 +1,103 @@
 {% load static %}
 {% load wagtailcore_tags %}
 {% load url_map %}
-<header class="magna-header shared-magna-header text-white grid" id="header" dir="ltr" data-ga-section="header">
+
+{% if not request.user.is_authenticated %}
+  {% include 'components/header_footer/global_header.html' with header_class="domestic" %}
+{% endif %}
+
+<header class="magna-header clearfix" id="header" dir="ltr" data-ga-section="header">
   {% include "wagtailseo/meta.html" %}
   {% path_match "^\/export-plan\/" as in_exportplan %}
-  <div class="container container-fluid">
-    <nav>
-      <a id="header-logo-link" href="/" tabindex="1">
-        <img class="header-logo" src="{% static 'images/dit-logo.png' %}" alt="Department for International Tradet" id="header-logo-exporting-is-great">
-      </a>
-      <ul class="extra-links">
+  <nav class="container">
+    <a id="header-logo-link" class="magna-header__logo" href="/">
+      <img src="{% static 'images/dit-logo.png' %}" alt="Department for International Trade" id="header-logo-exporting-is-great">
+    </a>
+
+    <ul class="magna-header__extra-links">
+      {% if request.user.is_authenticated %}
+        <li><a href="{% slugurl 'dashboard' %}">Dashboard</a></li>
+      {% else %}
+        <li><a href="{% url 'core:login' %}">Sign in</a></li>
+      {% endif %}
+    </ul>
+
+    <div class="magna-header__menu">
+      <button type="button" class="magna-header__dropdown-button{% if not request.user.is_authenticated %} hide-lg{% endif %}" data-reveal-button data-reveal-modal aria-controls="main-menu">
+        Menu
+        <span class="magna-header__dropdown-button__icon"></span>
+      </button>
+
+      <div id="main-menu" class="magna-header__dropdown">
         {% if request.user.is_authenticated %}
-          <li><a href="{% slugurl 'dashboard' %}" tabindex="1">Dashboard</a></li>
-        {% else %}
-          <li><a href="{% url 'core:login' %}" tabindex="1">Sign in</a></li>
+          <div class="magna-header__greeting">Hi {{ request.user.first_name }}</div>
         {% endif %}
-      </ul>
-      <div class="header-links">
-        <ul id="services-area" class="services-area">
+
+        <ul class="magna-header__menu-items">
           {% if request.user.is_authenticated %}
-            {% path_match "^\/learn\/" as in_learning %}
-            {% path_match "^\/where-to-export\/" as in_targetmarkets %}
-            <li class="lg-only"><a id="header-link-learning" class="{% if in_learning %}active{% endif %}" href="/learn/categories/">Learn to export</a></li>
-            <li class="lg-only"><a id="header-link-markets" class="{% if in_targetmarkets %}active{% endif %}" href="{% url 'core:compare-countries'%}">Where to export</a></li>
-            <li class="lg-only"><a id="header-link-exporting-plan" class="{% if in_exportplan %}active{% endif %}" href="/export-plan/">Make an export plan</a></li>
-          {% else %}
-            <li class="lg-only"><a id="header-link-advice" href="/advice/">Advice</a></li>
-            <li class="lg-only"><a id="header-link-markets-lo" href="/markets/">Markets</a></li>
-            <li class="lg-only"><a id="header-link-services" href="/services/">Services</a></li>
+            <li><a href="{% slugurl 'dashboard' %}">Dashboard</a></li>
+            <li><a href="/learn/categories/">Learn to export <span class="tag tag--small">new</span></a></li>
+            <li><a href="{% url "core:compare-countries"%}">Where to export <span class="tag tag--small">new</span></a></li>
+            <li><a href="/export-plan/">Make an export plan <span class="tag tag--small">new</span></a></li>
+
+            <li><a href="/profile/">Account</a></li>
           {% endif %}
-          <li {% if not request.user.is_authenticated %}class="m-r-0"{% endif %}>
-            <div id="magna-header-search-form-wrapper">
-              <form id="magna-header-search-form" action="{% url 'search:search' %}" method="GET">
-                <input id="magna-header-search-box" type="text" name="q" placeholder="Search" aria-label="Search">
-                <button type="submit">Search</button>
-              </form>
-            </div>
-          </li>
+
+          <li><a href="/advice/">Advice</a></li>
+          <li><a href="/markets/">Markets</a></li>
+          <li><a href="/services/">Services</a></li>
+
           {% if request.user.is_authenticated %}
-            <li id="header-link-user-profile"></li>
-            <script type="text/javascript">
-            magna.ModalMenu({
-              element: document.querySelector("#header-link-user-profile"),
-              {% autoescape off %}
-                avatar: '{{ request.user.profile_image|default:"" }}',
-              {% endautoescape %}
-              user_name: '{{ request.user.first_name|default:"" }}',
-              authenticated: '{{ request.user.is_authenticated }}'
-            })
-            </script>
+            <li>
+              {% url 'sso:business-sso-logout-api' as sign_out_endpoint %}
+              <script>
+                function signOut() {
+                  return fetch('{{ sign_out_endpoint }}', {
+                    method: 'post',
+                    headers: {
+                      Accept: 'application/json',
+                      'Content-Type': 'application/json',
+                      'X-CSRFToken': '{{ csrf_token }}',
+                      'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    body: JSON.stringify({})
+                  }).then(function() {
+                    window.location = '/';
+                  });
+                }
+              </script>
+              <button type="button" onclick="signOut()">Sign out</button>
+            </li>
+          {% else %}
+            <li>
+              <a class="button margin-top-15 margin-bottom-15" href="{% url 'core:login' %}">Sign in</a>
+            </li>
           {% endif %}
         </ul>
       </div>
-    </nav>
-  </div>
-  {% if request.user.is_authenticated %}
-    {% include "core/includes/personalisation_bar.html" with profile=request.user.company %}
-  {% endif %}
+      <div class="magna-header__overlay"></div>
+
+      <form id="magna-header-search-form" class="magna-header__search" action="{% url 'search:search' %}" method="GET">
+        <label for="magna-header-search-box" class="visually-hidden">Search</label>
+        <input id="magna-header-search-box" type="text" name="q" placeholder="Search">
+        <button>
+          <span class="visually-hidden">Search</span>
+        </button>
+      </form>
+
+      <ul id="services-area" class="magna-header__nav hide-lg_lt">
+        {% if request.user.is_authenticated %}
+          {% path_match "^\/learn\/" as in_learning %}
+          {% path_match "^\/where-to-export\/" as in_targetmarkets %}
+          <li><a id="header-link-learning" class="{% if in_learning %}active{% endif %}" href="/learn/categories/">Learn to export</a></li>
+          <li><a id="header-link-markets" class="{% if in_targetmarkets %}active{% endif %}" href="{% url 'core:compare-countries'%}">Where to export</a></li>
+          <li><a id="header-link-exporting-plan" class="{% if in_exportplan %}active{% endif %}" href="/export-plan/">Make an export plan</a></li>
+        {% else %}
+          <li><a id="header-link-advice" href="/advice/">Advice</a></li>
+          <li><a id="header-link-markets-lo" href="/markets/">Markets</a></li>
+          <li><a id="header-link-services" href="/services/">Services</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
 </header>

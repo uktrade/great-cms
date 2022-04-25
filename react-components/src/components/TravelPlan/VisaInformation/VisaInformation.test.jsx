@@ -1,8 +1,10 @@
 import React from 'react'
-import { render, fireEvent, waitFor, cleanup } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 
 import Services from '@src/Services'
 import { VisaInformation } from './VisaInformation'
+
+jest.mock('@src/Services')
 
 const props = {
   formData: {
@@ -52,40 +54,34 @@ const setup = ({ ...data }) => {
   }
 }
 
-beforeEach(() => {
-  jest.useFakeTimers()
-})
-
-afterEach(() => {
-  jest.useRealTimers()
-  cleanup()
-})
-
 describe('VisaInformation', () => {
   it('Should render 3 textareas', () => {
-    const { getByText } = setup({ ...props })
-    expect(getByText('How and where will you get your visa'))
-    expect(getByText('How long will it last'))
-    expect(getByText('Add notes'))
+    const { getByLabelText } = setup({ ...props })
+
+    expect(getByLabelText('How and where will you get your visa').tagName).toBe(
+      'TEXTAREA'
+    )
+    expect(getByLabelText('How long will it last').tagName).toBe('TEXTAREA')
+    expect(getByLabelText('Add notes').tagName).toBe('TEXTAREA')
   })
 
   it('Should render no textareas', async () => {
-    Services.updateExportPlan = jest.fn(() =>
-      Promise.resolve({
-        travel_business_policies: {
-          visa_information: {
-            visa_required: false,
-          },
+    Services.updateExportPlan.mockResolvedValue({
+      travel_business_policies: {
+        visa_information: {
+          visa_required: false,
         },
-      })
-    )
+      },
+    })
 
     const { getByText, queryByText } = setup({
       ...props,
     })
-    fireEvent.click(getByText("I don't need a visa"))
+
+    getByText("I don't need a visa").click()
 
     expect(queryByText('How long will it last')).not.toBeInTheDocument()
+
     await waitFor(() => {
       expect(Services.updateExportPlan).toHaveBeenCalledTimes(1)
       expect(Services.updateExportPlan).toHaveBeenCalledWith({

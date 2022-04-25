@@ -4,29 +4,21 @@ import props from './TextArea.fixtures'
 
 import { TextArea } from '.'
 
-const setup = ({ ...data }) => {
-  const actions = {
-    onChange: jest.fn(),
-  }
+const onChange = jest.fn()
 
-  const utils = render(<TextArea {...data} {...actions} />)
-
-  return {
-    ...utils,
-    actions,
-  }
-}
+const setup = ({ ...data }) =>
+  render(<TextArea {...data} onChange={onChange} />)
 
 describe('TextArea', () => {
   it('Should call using onChange with Name', async () => {
-    const { container, actions } = await setup(props)
+    const { container } = await setup(props)
     const textarea = container.querySelectorAll('textarea')[0]
 
     fireEvent.change(textarea, { target: { value: 'tested' } })
 
     await waitFor(() => {
-      expect(actions.onChange).toHaveBeenCalledTimes(1)
-      expect(actions.onChange).toHaveBeenCalledWith({
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledWith({
         test_name: 'tested',
       })
     })
@@ -68,7 +60,7 @@ describe('TextArea', () => {
       expect(getByTitle('Click to view Educational moment')).toBeInTheDocument()
     })
     it('Should not have a tooltip', () => {
-      const { queryByRole } = setup({ ...props, tooltip: '' })
+      const { queryByRole } = setup({ ...props, tooltip: null })
       expect(
         queryByRole('Click to view Educational moment')
       ).not.toBeInTheDocument()

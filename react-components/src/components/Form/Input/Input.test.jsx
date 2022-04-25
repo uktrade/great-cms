@@ -4,18 +4,7 @@ import props from '../TextArea/TextArea.fixtures'
 
 import { Input } from '.'
 
-const setup = ({ ...data }) => {
-  const actions = {
-    handleChange: jest.fn(),
-  }
-
-  const utils = render(<Input {...data} {...actions} />)
-
-  return {
-    ...utils,
-    actions,
-  }
-}
+const setup = ({ ...data }) => render(<Input {...data} onChange={jest.fn} />)
 
 describe('Input', () => {
   it('Should have a label', () => {
@@ -30,7 +19,7 @@ describe('Input', () => {
     })
 
     it('Should not have an example', () => {
-      const { queryByText } = setup({ ...props, example: '' })
+      const { queryByText } = setup({ ...props, example: null })
       expect(
         queryByText('An example of the required text')
       ).not.toBeInTheDocument()
@@ -54,7 +43,7 @@ describe('Input', () => {
       expect(getByTitle('Click to view Educational moment')).toBeInTheDocument()
     })
     it('Should not have a tooltip', () => {
-      const { queryByTitle } = setup({ ...props, tooltip: '' })
+      const { queryByTitle } = setup({ ...props, tooltip: null })
       expect(
         queryByTitle('Click to view Educational moment')
       ).not.toBeInTheDocument()

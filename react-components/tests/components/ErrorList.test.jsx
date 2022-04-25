@@ -1,56 +1,32 @@
 import React from 'react'
-
-import Enzyme from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import { render } from '@testing-library/react'
 
 import ErrorList from '@src/components/ErrorList'
 
-Enzyme.configure({ adapter: new Adapter() })
+describe('ErrorList', () => {
+  it('handles no errors', () => {
+    const { container } = render(<ErrorList errors={[]} />)
 
-beforeEach(() => {
-  jest.useFakeTimers()
-})
+    expect(container.innerHTML).toEqual('')
+  })
 
-afterEach(() => {
-  jest.useRealTimers()
-})
+  it('handles one error', () => {
+    const errors = ['something went wrong']
+    const { container } = render(<ErrorList errors={errors} className="edie" />)
 
-test('ErrorList handles no errors', () => {
-  const errors = []
-  const component = Enzyme.shallow(<ErrorList errors={errors} />)
-
-  expect(component).toEqual({})
-})
-
-test('ErrorList handles one error', () => {
-  const errors = ['something went wrong']
-  const component = Enzyme.shallow(<ErrorList errors={errors} className="edie" />)
-
-  expect(
-    component.matchesElement(
-      <ul className="great-mvp-error-list errorlist edie">
-        <li key={0} className="error-message">
-          something went wrong
-        </li>
-      </ul>
+    expect(container.querySelectorAll('.edie li')).toHaveLength(1)
+    expect(container.querySelector('.edie li').textContent).toEqual(
+      'something went wrong'
     )
-  ).toEqual(true)
-})
+  })
 
-test('ErrorList handles multiple errors', () => {
-  const errors = ['something went wrong', 'something else went wrong']
-  const component = Enzyme.shallow(<ErrorList errors={errors} className="edie" />)
+  it('handles multiple errors', () => {
+    const errors = ['something went wrong', 'something else went wrong']
+    const { container } = render(<ErrorList errors={errors} className="edie" />)
 
-  expect(
-    component.containsMatchingElement(
-      <ul className="great-mvp-error-list errorlist edie">
-        <li key={0} className="error-message">
-          something went wrong
-        </li>
-        <li key={1} className="error-message">
-          something else went wrong
-        </li>
-      </ul>
-    )
-  ).toEqual(true)
+    const errorItems = container.querySelectorAll('.edie li')
+    expect(errorItems).toHaveLength(2)
+    expect(errorItems[0].textContent).toEqual('something went wrong')
+    expect(errorItems[1].textContent).toEqual('something else went wrong')
+  })
 })

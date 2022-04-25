@@ -31,7 +31,7 @@ export default function CommodityCodeDetails({ product }) {
           <span className="m-l-xxs">{product.commodity_name}</span>
         </div>
 
-        {(isOpen !== null && (
+        {isOpen !== null && (
           <div className={`p-xs w-full ${!isOpen ? 'hidden' : ''}`}>
             <p className="m-v-0">
               Here is the export classification for {product.commodity_name}.
@@ -46,7 +46,7 @@ export default function CommodityCodeDetails({ product }) {
               For more information see our lesson on product classification
             </a>
           </div>
-        )) || <></>}
+        )}
       </div>
     </>
   )

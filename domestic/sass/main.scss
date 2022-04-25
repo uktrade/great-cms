@@ -1,3 +1,7 @@
+// Config
+$asset-root: '/static/images/';
+$fonts: '/static/fonts';
+$fa-font-path: '/static/fonts';
 
 // PARTIALS
 // from core/sass
@@ -8,8 +12,15 @@
 @import 'partials/mixins';
 @import 'partials/utils';
 
+// Great styles
+@import 'overrides/magna';
+@import 'node_modules/great-styles/src/scss/components/header-footer/header';
+@import 'node_modules/great-styles/src/scss/elements/utils';
+@import 'node_modules/great-styles/src/scss/elements/tags';
+
 // COMPONENTS
 @import 'components/modal';
+@import 'components/reveal';
 @import 'components/language-selector-home';
 @import 'components/eu-exit-banner';
 @import 'components/pagination';
@@ -17,6 +28,9 @@
 @import 'components/sector-selector-form';
 @import 'components/chevron-banner';
 @import 'components/filters';
+@import 'components/tabs';
+@import 'components/bar-chart';
+@import 'components/table';
 
 // PAGES
 @import 'pages/landing-page';

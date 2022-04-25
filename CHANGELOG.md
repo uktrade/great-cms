@@ -6,7 +6,26 @@
 
 ### Bugs fixed
 
+- GLS-126 - remove unused CampaignPage model
+
 ### Enhancements
+
+- GLS-97 - fix and make header styles more consistent
+- GLS-124 - new homepage banner
+- NOTICKET - retire Enzyme and cleanup tests output
+- GLS-152 - Add CTA banner to homepage
+- GLS-180 - Add trade visualisations to Country guide pages
+- GLS-189 - Add feature flag for brand homepage banner
+- GLS-180 - Extend visualisations to top 5 most visited market guides
+
+## [2.6.0](https://github.com/uktrade/great-cms/releases/tag/2.6.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.5.0...2.6.0)
+
+### Enhancements
+
+- GLS-102 - update Signup page styling
+- General tidy-up of front-end assets
 
 ## [2.5.0](https://github.com/uktrade/great-cms/releases/tag/2.5.0)
 
@@ -17,7 +36,6 @@
 - GLS-113 - add extra items and heading to Country Guide CTA links
 - GLS-113 - add command to update factsheets links from govuk content API
 - GLS-112 - add Trade barriers and Duties and customs content
-- GLS-102 - update Signup page styling
 
 ## [2.4.1](https://github.com/uktrade/great-cms/releases/tag/2.4.1)
 

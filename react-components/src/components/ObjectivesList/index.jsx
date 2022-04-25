@@ -9,15 +9,17 @@ import { useUpdate } from '@src/components/hooks/useUpdate/useUpdate'
 import { Objective } from './Objective'
 
 export const ObjectivesList = memo(
+  // eslint-disable-next-line camelcase
   ({ exportPlanID, objectives: initialObjectives, model_name, example }) => {
     const [objectives, setObjectives] = useState(initialObjectives || [])
-    const [update, create, deleteItem, message, errors] = useUpdate(
-      'Objectives'
-    )
+    const [update, create, deleteItem, message, errors] =
+      useUpdate('Objectives')
     const objectiveElementList = useRef([])
     const {
       companyexportplan,
+      // eslint-disable-next-line camelcase
       end_month,
+      // eslint-disable-next-line camelcase
       end_year,
       pk,
       ...lastField
@@ -68,7 +70,7 @@ export const ObjectivesList = memo(
       <div className="form-table bg-white br-xs m-b-m">
         {objectives.map((objective, i) => (
           <Objective
-            key={objective.pk}
+            key={objective.pk || `objective-${i}`}
             id={i}
             isLoading={objective.isLoading}
             errors={objective.errors}
@@ -79,7 +81,7 @@ export const ObjectivesList = memo(
             ref={(element) => {
               objectiveElementList.current[i] = element
             }}
-            example={i===0 ? example : {}}
+            example={i === 0 ? example : {}}
           />
         ))}
         {message && (
@@ -120,7 +122,7 @@ ObjectivesList.propTypes = {
   model_name: PropTypes.string.isRequired,
   example: PropTypes.shape({
     content: PropTypes.string,
-  })
+  }),
 }
 
 ObjectivesList.defaultProps = {
