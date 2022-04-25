@@ -8,89 +8,9 @@
 
 {% block head_js %}
   {{ block.super }}
-  {# TODO: combine into webpack-compiled script #}
-  <script src="{% static 'javascript/country-guide.js' %}"></script>
 
-  {% if FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS and page.stats.market_trends %}
-  <script src="https://cdn.plot.ly/plotly-2.11.1.min.js"></script>
-  {% endif %}
-{% endblock %}
-
-{% block head_css %}
-  {{ block.super }}
-
-  {% if FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS and page.stats %}
-    <style>
-        .tabs__nav {
-            border-bottom: 2px solid #dfd5c5;
-        }
-        .tabs__nav li {
-            display: inline-block;
-        }
-        .tabs__nav button {
-            display: block;
-            border: 0;
-            border-bottom: 4px solid transparent;
-            padding: .5em 1em;
-            margin: 0 0 -2px;
-            background: transparent;
-            color: #666666;
-        }
-        .tabs__nav button[aria-expanded="true"],
-        .tabs__nav button:hover {
-            background: transparent;
-            color: #333333;
-            border-bottom-color: #333333;
-        }
-        .js-enabled .tabs__tab,
-        .tabs__tab[aria-hidden="true"] {
-            display: none;
-        }
-        .js-enabled .tabs__tab[aria-hidden="false"] {
-            display: block;
-        }
-
-        .barchart td,
-        .barchart th {
-            border: 0;
-        }
-
-        .barchart__legend {
-            font-weight: normal;
-        }
-
-        .barchart__legend:before {
-            content: '';
-            display: inline-block;
-            width: 1em;
-            height: 1em;
-            margin-right: .5em;
-            vertical-align: text-top;
-            background: #006ccc;
-        }
-
-        .barchart__title-cell {
-            padding: .5em .5em .5em 0;
-            width: 40%;
-            max-width: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            text-align: right;
-        }
-
-        .barchart__bar-cell {
-            padding: 2px 0;
-        }
-
-        .barchart__bar {
-            display: inline-block;
-            padding: .5em;
-            background: #006ccc;
-            color: white;
-            text-shadow: 1px 1px 1px #006ccc;
-        }
-    </style>
+  {% if page.stats.market_trends %}
+  <script src="https://cdn.plot.ly/plotly-1.58.5.min.js"></script>
   {% endif %}
 {% endblock %}
 
@@ -105,66 +25,61 @@
 {% if page.heading_teaser %}
 <section id="country-guide-teaser-section" class="teaser-section padding-vertical-30">
   <div class="container">
-
     <div class="grid-row">
       <div class="column-three-quarters-l teaser">
         <h2 class="visually-hidden">Overview</h2>
 
         <p class="font-medium margin-bottom-30">{{ page.heading_teaser }}</p>
 
-        {% if FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS and page.stats.data_points %}
-          <h2 class="visually-hidden">Trade statistics</h2>
-          <div class="flex-grid margin-bottom-30">
-            {% if page.stats.data_points.data.total_uk_exports %}
-            <figure class="statistics-card__column padding-vertical-15">
-              <h3 class="statistic-heading font-xsmall">Total UK exports to {{ page.heading }}</h3>
+        {% if page.stats.highlights.data %}
+          {% with highlights=page.stats.highlights %}
+          <div id="stats-highlights" class="margin-bottom-45">
+            <h2 class="visually-hidden">Trade statistics</h2>
+            <div class="flex-grid margin-bottom-30">
+              {% if highlights.data.total_uk_exports %}
+              <figure class="statistics-card__column padding-vertical-15">
+                <h3 class="statistic-heading font-xsmall">Total UK exports to {{ page.heading }}</h3>
 
-              <p class="active-blue-text statistic-number bold-large">
-                £{{ page.stats.data_points.data.total_uk_exports|intword }}
-              </p>
-
-              {% if page.stats.data_points.metadata.source %}
-              <figcaption>
-                <p class="font-xsmall statistic-smallprint">
-                  Source: {{ page.stats.data_points.metadata.source }}
-                </p>
-              </figcaption>
+                <span class="active-blue-text statistic-number bold-large">
+                  £{{ highlights.data.total_uk_exports|intword }}
+                </span>
+              </figure>
               {% endif %}
-            </figure>
-            {% endif %}
 
-            {% if page.stats.data_points.data.trading_position %}
-            <figure class="statistics-card__column padding-vertical-15">
-              <h3 class="statistic-heading font-xsmall">Trading position</h3>
+              {% if highlights.data.trading_position %}
+              <figure class="statistics-card__column padding-vertical-15">
+                <h3 class="statistic-heading font-xsmall">The UK's</h3>
 
-              <p class="active-blue-text statistic-number bold-large">
-                {{ page.stats.data_points.data.trading_position|ordinal }}
-              </p>
+                <span class="active-blue-text statistic-number bold-large">
+                  {{ highlights.data.trading_position|ordinal }}
+                </span>
 
-              <figcaption>
-                <p class="font-xsmall statistic-smallprint">
-                  UK’s largest trading partner
-                </p>
-              </figcaption>
-            </figure>
-            {% endif %}
+                <span class="font-xsmall statistic-smallprint">
+                  largest trading partner
+                </span>
+              </figure>
+              {% endif %}
 
-            {% if page.stats.data_points.data.percentage_of_uk_trade %}
-            <figure class="statistics-card__column padding-vertical-15">
-              <h3 class="statistic-heading font-xsmall">Accounting for</h3>
+              {% if highlights.data.percentage_of_uk_trade %}
+              <figure class="statistics-card__column padding-vertical-15">
+                <h3 class="statistic-heading font-xsmall">Accounting for</h3>
 
-              <p class="active-blue-text statistic-number bold-large">
-                {{ page.stats.data_points.data.percentage_of_uk_trade }}%
-              </p>
+                <span class="active-blue-text statistic-number bold-large">
+                  {{ highlights.data.percentage_of_uk_trade }}%
+                </span>
 
-              <figcaption>
-                <p class="font-xsmall statistic-smallprint">
+                <span class="font-xsmall statistic-smallprint">
                   of total UK trade
-                </p>
-              </figcaption>
-            </figure>
+                </span>
+              </figure>
+              {% endif %}
+            </div>
+
+            {% if highlights.metadata.source %}
+              {% include 'core/includes/data_source.html' with source=highlights.metadata.source %}
             {% endif %}
           </div>
+          {% endwith %}
         {% endif %}
       </div>
 
@@ -188,8 +103,6 @@
       {% endif %}
     </div>
   </div>
-
-  {% if FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS and page.stats.data_points %}<hr style="background: #d8d8d8">{% endif %}
 </section>
 {% endif %}
 
@@ -199,25 +112,25 @@
       <div class="column-full column-half-l section-one-body rich-text">
         {{ page.section_one_body|richtext }}
       </div>
-      <div class="column-full column-half-l">
 
-        {% if FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS and page.stats %}
-          <div class="tabs">
+      <div class="column-full column-half-l">
+        {% if page.stats.goods_exports.data or page.stats.services_exports.data or page.stats.market_trends.data %}
+          <div id="stats-tabs" class="tabs">
             <nav class="tabs__nav">
               <ul>
-                {% if page.stats.goods_exports %}
+                {% if page.stats.goods_exports.data %}
                 <li>
                   <button class="button" data-reveal-button aria-controls="tab-goods" data-reveal-tabs="market-tabs">Goods</button>
                 </li>
                 {% endif %}
 
-                {% if page.stats.services_exports %}
+                {% if page.stats.services_exports.data %}
                 <li>
                   <button class="button" data-reveal-button aria-controls="tab-services" data-reveal-tabs="market-tabs">Services</button>
                 </li>
                 {% endif %}
 
-                {% if page.stats.market_trends %}
+                {% if page.stats.market_trends.data %}
                 <li>
                   <button class="button" data-reveal-button aria-controls="tab-market-trends" data-reveal-tabs="market-tabs">Market trends</button>
                 </li>
@@ -225,155 +138,182 @@
               </ul>
             </nav>
 
-            {% if page.stats.goods_exports %}
-            <div id="tab-goods" class="tabs__tab">
-              <h2 class="heading-medium">Top 5 UK goods exports, in the {% if page.stats.goods_exports.metadata.resolution == 'quarter' %}four quarters to the end of Q{{ page.stats.goods_exports.metadata.last_period }}{% else %} twelve months to the end of {{ page.stats.goods_exports.metadata.last_period|month_name }}{% endif %} {{ page.stats.goods_exports.metadata.last_period_year }}, to {{  page.heading }}</h2>
+            {% if page.stats.goods_exports.data %}
+            <div id="tab-goods" class="reveal-content">
+              <h2 class="heading-medium">
+                Top 5 UK goods exports to {{ page.heading }},
+                in the {% reference_period page.stats.goods_exports.metadata.reference_period %}
+              </h2>
 
-              <table class="barchart">
-                <thead>
-                <tr>
-                  <th scope="col"><span class="visually-hidden">Product</span></th>
-                  <th class="barchart__legend" scope="col">Value (£{{ page.stats.goods_exports.metadata.unit }})</th>
-                </tr>
-                </thead>
-                <tbody>
-                  {% for product in page.stats.goods_exports.data %}
-                    <tr>
-                      <td class="barchart__title-cell" title="{{ product.label }}">{{ product.label }}</td>
-                      <td class="barchart__bar-cell">
-                        <span class="barchart__bar" style="width: calc(({{ product.value }}/{{ page.stats.goods_exports.data.0.value }}) * 100%)">
-                          {% round_to_unit product.value page.stats.goods_exports.metadata.unit %}
-                        </span>
-                      </td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-
-              {% if page.stats.goods_exports.metadata.source %}
-              <p class="font-xsmall statistic-smallprint margin-top-30">Source: {{ page.stats.goods_exports.metadata.source }}</p>
-              {% endif %}
+              {% include 'core/includes/bar_chart.html' with content=page.stats.goods_exports labels_heading='Goods' %}
             </div>
             {% endif %}
 
-            {% if page.stats.services_exports %}
-            <div id="tab-services" class="tabs__tab">
-              <h2 class="heading-medium">Top 5 UK services exports, in the {% if page.stats.services_exports.metadata.resolution == 'quarter' %}four quarters to the end of Q{{ page.stats.services_exports.metadata.last_period }}{% else %} twelve months to the end of {{ page.stats.services_exports.metadata.last_period|month_name }}{% endif %} {{ page.stats.services_exports.metadata.last_period_year }}, to {{  page.heading }}</h2>
+            {% if page.stats.services_exports.data %}
+            <div id="tab-services" class="reveal-content">
+              <h2 class="heading-medium">
+                Top 5 UK services exports to {{ page.heading }},
+                in the {% reference_period page.stats.services_exports.metadata.reference_period %}
+              </h2>
 
-              <table class="barchart">
-                <thead>
-                <tr>
-                  <th scope="col"><span class="visually-hidden">Service</span></th>
-                  <th class="barchart__legend" scope="col">Value (£{{ page.stats.services_exports.metadata.unit }})</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for service in page.stats.services_exports.data %}
-                  <tr>
-                    <td class="barchart__title-cell" title="{{ service.label }}">{{ service.label }}</td>
-                    <td class="barchart__bar-cell">
-                      <span class="barchart__bar" style="width: calc(({{ service.value }}/{{ page.stats.services_exports.data.0.value }}) * 100%)">
-                        {% round_to_unit service.value page.stats.services_exports.metadata.unit %}
-                      </span>
-                    </td>
-                  </tr>
-                {% endfor %}
-                </tbody>
-              </table>
-
-              {% if page.stats.services_exports.metadata.source %}
-                <p class="font-xsmall statistic-smallprint margin-top-30">Source: {{ page.stats.services_exports.metadata.source }}</p>
-              {% endif %}
+              {% include 'core/includes/bar_chart.html' with content=page.stats.services_exports labels_heading='Service' %}
             </div>
             {% endif %}
 
-            {% if page.stats.market_trends %}
-            <div id="tab-market-trends" class="tabs__tab">
+            {% if page.stats.market_trends.data %}
+            <div id="tab-market-trends" class="reveal-content">
               <h2 class="heading-medium">Total import and export values between {{ page.heading }} and the UK</h2>
 
-              <div id="plotly-market-trends"></div>
+              <div id="market-trends-table" class="reveal-content">
+                <button class="link margin-bottom-15 font-small" data-reveal-button aria-controls="market-trends-chart" data-reveal-tabs="market-trends-view">Change to chart view</button>
+
+                {% with unit=page.stats.market_trends.metadata.unit %}
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Year</th>
+                      <th scope="col" style="text-align: right">Imports (£{% if unit %}{{ unit }}{% endif %})</th>
+                      <th scope="col" style="text-align: right">Exports (£{% if unit %}{{ unit }}{% endif %})</th>
+                      <th scope="col" style="text-align: right">Total (£{% if unit %}{{ unit }}{% endif %})</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for datum in page.stats.market_trends.data %}
+                      <tr>
+                        <td>{{ datum.year }}</td>
+                        <td style="text-align: right">{% round_to_unit datum.imports unit %}</td>
+                        <td style="text-align: right">{% round_to_unit datum.exports unit %}</td>
+                        <td style="text-align: right">{% round_to_unit datum.total unit %}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                {% endwith %}
+              </div>
+
+              <div id="market-trends-chart" class="reveal-content">
+                <button class="link margin-bottom-15 font-small" data-reveal-button aria-controls="market-trends-table" data-reveal-tabs="market-trends-view">Change to table view</button>
+
+                <div id="plotly-market-trends" class="margin-bottom-15"></div>
+
+                {{ page.stats.market_trends.data|json_script:"market-trends-data" }}
+                <script>
+                  var marketTrendsUnit = '{{ page.stats.market_trends.metadata.unit }}';
+                  var config = {
+                    displayModeBar: false,
+                    responsive: true,
+                    locale: 'en-GB'
+                  }
+                  var layout = {
+                    yaxis: {
+                      fixedrange: true,
+                      rangemode: 'tozero',
+                      tickformat: 'gbpround',
+                      title: '£ ' + marketTrendsUnit
+                    },
+                    xaxis : {
+                      fixedrange: true,
+                      showgrid: false,
+                      showticklabels: true,
+                      tickmode: 'linear',
+                      showspikes: true,
+                      spikethickness: 2,
+                      spikemode: 'across',
+                      spikelabel: false,
+                    },
+                    hovermode: 'closest',
+                    font: {
+                      family: 'Roboto, sans-serif',
+                      size: 18,
+                    },
+                    legend: {
+                      orientation: 'h',
+                      y: -0.25,
+                      xanchor: 'center',
+                      x: .5
+                    },
+                    colorway: ['#006ccc', '#b00d23', '#00A699', '#666666'],
+                    margin: {
+                      b: 10,
+                      t: 10,
+                      r: 20,
+                      pad: 10
+                    },
+                    width: document.querySelector('.tabs__nav').clientWidth
+                  };
+
+                  var lines = [
+                    {
+                      title: 'Total trade',
+                      key: 'total',
+                      style: 'dash'
+                    },
+                    {
+                      title: 'Imports',
+                      key: 'imports',
+                      style: 'dot'
+                    },
+                    {
+                      title: 'Exports',
+                      key: 'exports',
+                      style: 'solid'
+                    }
+                  ]
+
+                  var sourceData = JSON.parse(document.getElementById('market-trends-data').textContent)
+
+                  var years = sourceData.map(function(x) {
+                    return x.year
+                  })
+
+                  var data = lines.map(function(line) {
+                    return {
+                      name: line.title,
+                      x: years,
+                      y: sourceData.map(function(x) {
+                        return line.key === 'total' ? x['imports'] + x['exports'] : x[line.key]
+                      }),
+                      mode: 'lines',
+                      line: {
+                        dash: line.style,
+                        width: 3
+                      },
+                      type: 'scatter',
+                      hovertemplate: '%{x}: £%{y:gbp} {{ page.stats.market_trends.metadata.unit }}<extra></extra>'
+                    }
+                  })
+
+                  var org_locale = Plotly.d3.locale;
+                  Plotly.d3.locale = (locale) => {
+                    var result = org_locale(locale);
+                    var org_number_format = result.numberFormat;
+                    result.numberFormat = (format) => {
+                      if (format === 'gbp' || format === 'gbpround') {
+                        var exponents = {
+                          'trillion': 1e12,
+                          'billion': 1e9,
+                          'million': 1e6
+                        }
+                        return (x) => {
+                          if (exponents.hasOwnProperty(marketTrendsUnit)) {
+                            var output = '' + (x / exponents[marketTrendsUnit])
+                            return format === 'gbpround' || output.includes('.') ? output : output + '.0'
+                          }
+                          return '' + x;
+                        }
+                      }
+                      return org_number_format(format)
+                    }
+                    return result;
+                  }
+
+                  Plotly.newPlot('plotly-market-trends', data, layout, config);
+                </script>
+              </div>
 
               {% if page.stats.market_trends.metadata.source %}
-                <p class="font-xsmall statistic-smallprint margin-top-30">Source: {{ page.stats.market_trends.metadata.source }}</p>
+                {% include 'core/includes/data_source.html' with source=page.stats.market_trends.metadata.source %}
               {% endif %}
-
-              {{ page.stats.market_trends.data|json_script:"market-trends-data" }}
-              <script>
-                var config = {
-                  displayModeBar: false,
-                  responsive: true,
-                  locale: 'en-GB'
-                }
-                var layout = {
-                  yaxis: {
-                    fixedrange: true,
-                    rangemode: 'tozero'
-                  },
-                  xaxis : {
-                    fixedrange: true,
-                    showgrid: false,
-                    showticklabels: true,
-                    tickmode: 'linear',
-                    showspikes: true,
-                    spikethickness: 2,
-                    spikemode: 'across'
-                  },
-                  font: {
-                    family: 'Roboto, sans-serif',
-                    size: 18,
-                  },
-                  legend: {
-                    orientation: 'h'
-                  },
-                  colorway: ['#006ccc', '#ef5f56', '#00A699', '#666666'],
-                  margin: {
-                    b: 0,
-                    t: 0,
-                    l: 50,
-                    r: 0,
-                    pad: 10
-                  },
-                  width: document.querySelector('.tabs__nav').clientWidth
-                };
-
-                var lines = [
-                  {
-                    title: 'Total trade',
-                    key: 'total'
-                  },
-                  {
-                    title: 'Imports',
-                    key: 'imports'
-                  },
-                  {
-                    title: 'Exports',
-                    key: 'exports'
-                  }
-                ]
-
-                var sourceData = JSON.parse(document.getElementById('market-trends-data').textContent)
-
-                var years = sourceData.map(function(x) {
-                  return x.year
-                })
-
-                var data = lines.map(function(line) {
-                  return {
-                    name: line.title,
-                    x: years,
-                    y: sourceData.map(function(x) {
-                      if (line.key === 'total') {
-                        return x['imports'] + x['exports']
-                      }
-                      return x[line.key]
-                    }),
-                    type: 'scatter',
-                    hovertemplate: line.title + ' in %{x}: £%{y}<extra></extra>'
-                  }
-                })
-
-                Plotly.newPlot('plotly-market-trends', data, layout, config);
-              </script>
             </div>
             {% endif %}
           </div>
@@ -381,66 +321,65 @@
           {% image page.section_one_image fill-640x360 as section_one_image %}
           {% include 'components/image_with_caption.html'  with rendition=section_one_image main_caption=page.section_one_image_caption sub_caption=page.section_one_image_caption_company img_classes="m-f-auto m-r-auto" %}
         {% endif %}
-        </div>
       </div>
     </div>
   </div>
 </section>
 
-  <section id="country-guide-statistics-section" class="statistics padding-vertical-30 background-stone-30">
-    <div class="container">
-      {% include 'components/statistics_card_grid.html' with statistics=page.main_statistics country=page.heading %}
-    </div>
-  </section>
+<section id="country-guide-statistics-section" class="statistics padding-vertical-30 background-stone-30">
+  <div class="container">
+    {% include 'components/statistics_card_grid.html' with statistics=page.main_statistics country=page.heading %}
+  </div>
+</section>
 
-  {% if page.section_two_heading %}
-    <section id="country-guide-section-two" class="section-two padding-vertical-60">
-      <div class="container">
-        <div class="grid-row">
-          <div class="column-full column-two-thirds-m column-half-l">
-            <h2 class="heading-large margin-top-0">{{ page.section_two_heading }}</h2>
-            <p>{{ page.section_two_teaser }}</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {% if page.accordions %} {# This is streamfield #}
-      <section id="country-guide-accordions" class="accordions padding-vertical-0">
-        <ul>
-          {% for industry_block in page.accordions %}
-            {% include_block industry_block %}
-          {% endfor %}
-        </ul>
-      </section>
-    {% endif %}
-  {% endif %}
-
-  <section class="padding-top-60 padding-bottom-30">
+{% if page.section_two_heading %}
+  <section id="country-guide-section-two" class="section-two padding-vertical-60">
     <div class="container">
       <div class="grid-row">
-        <div class="column-half-l padding-bottom-30">
-          <h2 class="heading-large padding-top-0">Check for trade barriers</h2>
-
-          <p>Trade barriers, such as tariffs or taxes, can raise costs, cause delays, or even stop you from exporting. Check for any issues that may impact your business when exporting.</p>
-
-          <p><a class="heading-small link" href="{{ page.trade_barriers_link }}">See current trade barriers</a></p>
-
-          {% if page.trade_barriers_resolved_link %}
-            <p><a class="heading-small link" href="{{ page.trade_barriers_resolved_link }}">See resolved trade barriers</a></p>
-          {% endif %}
-        </div>
-
-        <div class="column-half-l padding-bottom-30">
-          <h2 class="heading-large padding-top-0">Check duties and customs</h2>
-
-          <p>Find information on how to export goods from the UK. View the duties, rules, restrictions, and the documents you need for your products.</p>
-
-          <p><a class="heading-small link" href="{{ page.duties_and_customs_link }}">See current duties and customs procedures</a></p>
+        <div class="column-full column-two-thirds-m column-half-l">
+          <h2 class="heading-large margin-top-0">{{ page.section_two_heading }}</h2>
+          <p>{{ page.section_two_teaser }}</p>
         </div>
       </div>
     </div>
   </section>
+
+  {% if page.accordions %} {# This is streamfield #}
+    <section id="country-guide-accordions" class="accordions padding-vertical-0">
+      <ul>
+        {% for industry_block in page.accordions %}
+          {% include_block industry_block %}
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+{% endif %}
+
+<section class="padding-top-60 padding-bottom-30">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-half-l padding-bottom-30">
+        <h2 class="heading-large padding-top-0">Check for trade barriers</h2>
+
+        <p>Trade barriers, such as tariffs or taxes, can raise costs, cause delays, or even stop you from exporting. Check for any issues that may impact your business when exporting.</p>
+
+        <p><a class="heading-small link" href="{{ page.trade_barriers_link }}">See current trade barriers</a></p>
+
+        {% if page.trade_barriers_resolved_link %}
+          <p><a class="heading-small link" href="{{ page.trade_barriers_resolved_link }}">See resolved trade barriers</a></p>
+        {% endif %}
+      </div>
+
+      <div class="column-half-l padding-bottom-30">
+        <h2 class="heading-large padding-top-0">Check duties and customs</h2>
+
+        <p>Find information on how to export goods from the UK. View the duties, rules, restrictions, and the documents you need for your products.</p>
+
+        <p><a class="heading-small link" href="{{ page.duties_and_customs_link }}">See current duties and customs procedures</a></p>
+      </div>
+    </div>
+  </div>
+</section>
 
 {% if page.fact_sheet_title %}
 <section id="country-guide-section-three" class="section-three background-stone-30 padding-top-90 padding-bottom-60">
@@ -454,11 +393,7 @@
     <div class="grid-row">
       {% for column in page.fact_sheet_columns %}
         {% if column.title %}
-          {% if page.fact_sheet_columns|length == 1 %}
-          <div class="column-full margin-bottom-30">
-          {% else %}
-          <div class="column-full column-half-xl margin-bottom-30">
-          {% endif %}
+          <div class="column-full {% if page.fact_sheet_columns|length != 1 %}column-half-xl{% endif %} margin-bottom-30">
             <div class="fact-sheet">
               <h3 class="highlight heading-medium background-grey white-text">{{ column.title }}</h3>
               <div class="fact-sheet-content background-white padding-45 wrap-tight font-xsmall">

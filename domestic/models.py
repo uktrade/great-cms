@@ -1,3 +1,5 @@
+import json
+import os
 from urllib.parse import unquote_plus
 
 from django.conf import settings
@@ -908,74 +910,32 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         return ctas
 
     @cached_property
-    def stats(self):
+    def stats(self):  # noqa C901
+        if not settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS:
+            return None
+
         iso2 = getattr(self.country, 'iso2', None)
 
-        if iso2 == 'CN':
-            api_data = {
-                'metadata': {'country': 'China', 'iso2': 'CN'},
-                'data_points': {
-                    'metadata': {'source': 'ONS UK Trade January 2022'},
-                    'data': {'total_uk_exports': 26032000000, 'trading_position': 3, 'percentage_of_uk_trade': 7.5},
-                },
-                'market_trends': {
-                    'metadata': {
-                        'source': 'ONS UK Trade January 2022',
-                        'source_link': 'https://example.org/foo',
-                        'last_updated': '2022-01-14',
-                    },
-                    'data': [
-                        {'year': 2011, 'imports': 31976000000, 'exports': 14789000000},
-                        {'year': 2012, 'imports': 31544000000, 'exports': 15583000000},
-                        {'year': 2013, 'imports': 32767000000, 'exports': 16898000000},
-                        {'year': 2014, 'imports': 35863000000, 'exports': 19373000000},
-                        {'year': 2015, 'imports': 39550000000, 'exports': 18411000000},
-                        {'year': 2016, 'imports': 42894000000, 'exports': 19497000000},
-                        {'year': 2017, 'imports': 45182000000, 'exports': 25242000000},
-                        {'year': 2018, 'imports': 46052000000, 'exports': 27108000000},
-                        {'year': 2019, 'imports': 50506000000, 'exports': 36297000000},
-                        {'year': 2020, 'imports': 56877000000, 'exports': 26032000000},
-                    ],
-                },
-                'goods_exports': {
-                    'metadata': {
-                        'source': 'ONS UK Trade January 2022',
-                        'source_link': 'https://example.org/foo',
-                        'last_updated': '2022-01-14',
-                        'resolution': 'month',
-                        'last_period': 1,
-                        'last_period_year': 2022,
-                    },
-                    'data': [
-                        {'label': 'Machinery & transport equipment', 'value': 7561130000},
-                        {'label': 'Road vehicles', 'value': 3791090000},
-                        {'label': 'Cars', 'value': 3567820000},
-                        {'label': 'Fuels', 'value': 3081900000},
-                        {'label': 'Oil', 'value': 3081850000},
-                    ],
-                },
-                'services_exports': {
-                    'metadata': {
-                        'source': 'ONS UK Trade January 2022',
-                        'source_link': 'https://example.org/foo',
-                        'last_updated': '2022-01-14',
-                        'resolution': 'quarter',
-                        'last_period': 3,
-                        'last_period_year': 2021,
-                    },
-                    'data': [
-                        {'label': 'Travel', 'value': 2407000000},
-                        {'label': 'Other Business Services', 'value': 1447000000},
-                        {'label': 'Transportation', 'value': 1188000000},
-                        {'label': 'Intellectual property', 'value': 926000000},
-                        {'label': 'Financial', 'value': 873000000},
-                    ],
-                },
-            }
+        if iso2 in ['US', 'AU', 'DE', 'CN', 'IN']:
+            json_data = open(os.path.join(settings.ROOT_DIR, 'domestic', 'fixtures', 'market_guide_stats.json'))
+            all_data = json.load(json_data)
+            api_data = all_data[iso2]
+
+            if api_data['market_trends']['data']:
+                api_data['market_trends']['metadata']['unit'] = intword(
+                    max([(x['imports'] + x['exports']) for x in api_data['market_trends']['data']])
+                ).split(' ')[1]
+                for item in api_data['market_trends']['data']:
+                    item['total'] = item['imports'] + item['exports']
 
             for export_type in ['goods', 'services']:
                 type_key = f'{export_type}_exports'
-                api_data[type_key]['metadata']['unit'] = intword(api_data[type_key]['data'][0]['value']).split(' ')[1]
+                if api_data[type_key]['data']:
+                    data = api_data[type_key]['data']
+                    # Use the unit from the middle value -- slightly arbitrary but seems to work in most cases
+                    api_data[type_key]['metadata']['unit'] = intword(data[2]['value']).split(' ')[1]
+                    for index, item in enumerate(data):
+                        data[index]['percent'] = round((item['value'] / data[0]['value']) * 100, 1)
 
             return api_data
 
