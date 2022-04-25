@@ -20,6 +20,7 @@ $fa-font-path: '/static/fonts';
 
 // COMPONENTS
 @import 'components/modal';
+@import 'components/reveal';
 @import 'components/language-selector-home';
 @import 'components/eu-exit-banner';
 @import 'components/pagination';
@@ -27,6 +28,9 @@ $fa-font-path: '/static/fonts';
 @import 'components/sector-selector-form';
 @import 'components/chevron-banner';
 @import 'components/filters';
+@import 'components/tabs';
+@import 'components/bar-chart';
+@import 'components/table';
 
 // PAGES
 @import 'pages/landing-page';

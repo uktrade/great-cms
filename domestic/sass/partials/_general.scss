@@ -13,6 +13,13 @@ a:focus {
   outline: $focus-yellow solid 3px;
 }
 
+button.link {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
 section {
   clear: both;
   padding-bottom: 90px;
