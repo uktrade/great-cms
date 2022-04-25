@@ -165,7 +165,7 @@
               <h2 class="heading-medium">Total import and export values between {{ page.heading }} and the UK</h2>
 
               <div id="market-trends-table" class="reveal-content">
-                <button class="link margin-bottom-15 font-small" data-reveal-button aria-controls="market-trends-chart" data-reveal-tabs="market-trends-view">View data as a chart</button>
+                <button class="link margin-bottom-15 font-small" data-reveal-button aria-controls="market-trends-chart" data-reveal-tabs="market-trends-view">Change to chart view</button>
 
                 {% with unit=page.stats.market_trends.metadata.unit %}
                 <table>
@@ -192,13 +192,9 @@
               </div>
 
               <div id="market-trends-chart" class="reveal-content">
-                <button class="link margin-bottom-15 font-small" data-reveal-button aria-controls="market-trends-table" data-reveal-tabs="market-trends-view">View data as a table</button>
+                <button class="link margin-bottom-15 font-small" data-reveal-button aria-controls="market-trends-table" data-reveal-tabs="market-trends-view">Change to table view</button>
 
                 <div id="plotly-market-trends" class="margin-bottom-15"></div>
-
-                {% if page.stats.market_trends.metadata.source %}
-                  {% include 'core/includes/data_source.html' with source=page.stats.market_trends.metadata.source %}
-                {% endif %}
 
                 {{ page.stats.market_trends.data|json_script:"market-trends-data" }}
                 <script>
@@ -314,6 +310,10 @@
                   Plotly.newPlot('plotly-market-trends', data, layout, config);
                 </script>
               </div>
+
+              {% if page.stats.market_trends.metadata.source %}
+                {% include 'core/includes/data_source.html' with source=page.stats.market_trends.metadata.source %}
+              {% endif %}
             </div>
             {% endif %}
           </div>
