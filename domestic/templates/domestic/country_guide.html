@@ -8,88 +8,9 @@
 
 {% block head_js %}
   {{ block.super }}
-  <script src="{% static 'javascript/country-guide.js' %}"></script>
 
   {% if page.stats.market_trends %}
   <script src="https://cdn.plot.ly/plotly-1.58.5.min.js"></script>
-  {% endif %}
-{% endblock %}
-
-{% block head_css %}
-  {{ block.super }}
-
-  {% if page.stats %}
-    <style>
-        .tabs__nav {
-            border-bottom: 2px solid #dfd5c5;
-        }
-        .tabs__nav li {
-            display: inline-block;
-        }
-        .tabs__nav button {
-            display: block;
-            border: 0;
-            border-bottom: 4px solid transparent;
-            padding: .5em 1em;
-            margin: 0 0 -2px;
-            background: transparent;
-            color: #666666;
-        }
-        .tabs__nav button[aria-expanded="true"],
-        .tabs__nav button:hover {
-            background: transparent;
-            color: #333333;
-            border-bottom-color: #333333;
-        }
-        .js-enabled .tabs__tab,
-        .tabs__tab[aria-hidden="true"] {
-            display: none;
-        }
-        .js-enabled .tabs__tab[aria-hidden="false"] {
-            display: block;
-        }
-
-        .barchart td,
-        .barchart th {
-            font-size: 1rem;
-            border: 0;
-        }
-
-        .barchart__legend {
-            padding: 0;
-            font-weight: normal;
-        }
-
-        .barchart__legend:before {
-            content: '';
-            display: inline-block;
-            width: 1em;
-            height: 1em;
-            margin-right: .5em;
-            vertical-align: text-top;
-            background: #006ccc;
-        }
-
-        .barchart__title-cell {
-            padding: 0 .5em 0 0;
-            width: 40%;
-            text-align: right;
-            vertical-align: middle;
-        }
-
-        .barchart__bar-cell {
-            padding: 3px 0;
-            vertical-align: middle;
-        }
-
-        .barchart__bar {
-            display: inline-block;
-            padding: .5em;
-            background: #006ccc;
-            color: white;
-            text-shadow: 1px 1px 1px #006ccc;
-        }
-    </style>
   {% endif %}
 {% endblock %}
 
@@ -104,16 +25,15 @@
 {% if page.heading_teaser %}
 <section id="country-guide-teaser-section" class="teaser-section padding-vertical-30">
   <div class="container">
-
     <div class="grid-row">
       <div class="column-three-quarters-l teaser">
         <h2 class="visually-hidden">Overview</h2>
 
         <p class="font-medium margin-bottom-30">{{ page.heading_teaser }}</p>
 
-        {% if page.stats.highlights %}
+        {% if page.stats.highlights.data %}
           {% with highlights=page.stats.highlights %}
-          <div class="margin-bottom-45">
+          <div id="stats-highlights" class="margin-bottom-45">
             <h2 class="visually-hidden">Trade statistics</h2>
             <div class="flex-grid margin-bottom-30">
               {% if highlights.data.total_uk_exports %}
@@ -192,25 +112,25 @@
       <div class="column-full column-half-l section-one-body rich-text">
         {{ page.section_one_body|richtext }}
       </div>
-      <div class="column-full column-half-l">
 
-        {% if page.stats.goods_exports or page.stats.services_exports or page.stats.market_trends %}
-          <div class="tabs">
+      <div class="column-full column-half-l">
+        {% if page.stats.goods_exports.data or page.stats.services_exports.data or page.stats.market_trends.data %}
+          <div id="stats-tabs" class="tabs">
             <nav class="tabs__nav">
               <ul>
-                {% if page.stats.goods_exports %}
+                {% if page.stats.goods_exports.data %}
                 <li>
                   <button class="button" data-reveal-button aria-controls="tab-goods" data-reveal-tabs="market-tabs">Goods</button>
                 </li>
                 {% endif %}
 
-                {% if page.stats.services_exports %}
+                {% if page.stats.services_exports.data %}
                 <li>
                   <button class="button" data-reveal-button aria-controls="tab-services" data-reveal-tabs="market-tabs">Services</button>
                 </li>
                 {% endif %}
 
-                {% if page.stats.market_trends %}
+                {% if page.stats.market_trends.data %}
                 <li>
                   <button class="button" data-reveal-button aria-controls="tab-market-trends" data-reveal-tabs="market-tabs">Market trends</button>
                 </li>
@@ -218,8 +138,8 @@
               </ul>
             </nav>
 
-            {% if page.stats.goods_exports %}
-            <div id="tab-goods" class="tabs__tab">
+            {% if page.stats.goods_exports.data %}
+            <div id="tab-goods" class="reveal-content">
               <h2 class="heading-medium">
                 Top 5 UK goods exports to {{ page.heading }},
                 in the {% reference_period page.stats.goods_exports.metadata.reference_period %}
@@ -229,8 +149,8 @@
             </div>
             {% endif %}
 
-            {% if page.stats.services_exports %}
-            <div id="tab-services" class="tabs__tab">
+            {% if page.stats.services_exports.data %}
+            <div id="tab-services" class="reveal-content">
               <h2 class="heading-medium">
                 Top 5 UK services exports to {{ page.heading }},
                 in the {% reference_period page.stats.services_exports.metadata.reference_period %}
@@ -240,129 +160,160 @@
             </div>
             {% endif %}
 
-            {% if page.stats.market_trends %}
-            <div id="tab-market-trends" class="tabs__tab">
-              <h2 class="heading-medium">Total import and export values between {{ page.heading }} and the UK (£{{ page.stats.market_trends.metadata.unit }})</h2>
+            {% if page.stats.market_trends.data %}
+            <div id="tab-market-trends" class="reveal-content">
+              <h2 class="heading-medium">Total import and export values between {{ page.heading }} and the UK</h2>
 
-              <div id="plotly-market-trends" class="margin-bottom-15"></div>
+              <div id="market-trends-table" class="reveal-content">
+                <button class="link margin-bottom-15 font-small" data-reveal-button aria-controls="market-trends-chart" data-reveal-tabs="market-trends-view">Change to chart view</button>
+
+                {% with unit=page.stats.market_trends.metadata.unit %}
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Year</th>
+                      <th scope="col" style="text-align: right">Imports (£{% if unit %}{{ unit }}{% endif %})</th>
+                      <th scope="col" style="text-align: right">Exports (£{% if unit %}{{ unit }}{% endif %})</th>
+                      <th scope="col" style="text-align: right">Total (£{% if unit %}{{ unit }}{% endif %})</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for datum in page.stats.market_trends.data %}
+                      <tr>
+                        <td>{{ datum.year }}</td>
+                        <td style="text-align: right">{% round_to_unit datum.imports unit %}</td>
+                        <td style="text-align: right">{% round_to_unit datum.exports unit %}</td>
+                        <td style="text-align: right">{% round_to_unit datum.total unit %}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                {% endwith %}
+              </div>
+
+              <div id="market-trends-chart" class="reveal-content">
+                <button class="link margin-bottom-15 font-small" data-reveal-button aria-controls="market-trends-table" data-reveal-tabs="market-trends-view">Change to table view</button>
+
+                <div id="plotly-market-trends" class="margin-bottom-15"></div>
+
+                {{ page.stats.market_trends.data|json_script:"market-trends-data" }}
+                <script>
+                  var marketTrendsUnit = '{{ page.stats.market_trends.metadata.unit }}';
+                  var config = {
+                    displayModeBar: false,
+                    responsive: true,
+                    locale: 'en-GB'
+                  }
+                  var layout = {
+                    yaxis: {
+                      fixedrange: true,
+                      rangemode: 'tozero',
+                      tickformat: 'gbpround',
+                      title: '£ ' + marketTrendsUnit
+                    },
+                    xaxis : {
+                      fixedrange: true,
+                      showgrid: false,
+                      showticklabels: true,
+                      tickmode: 'linear',
+                      showspikes: true,
+                      spikethickness: 2,
+                      spikemode: 'across',
+                      spikelabel: false,
+                    },
+                    hovermode: 'closest',
+                    font: {
+                      family: 'Roboto, sans-serif',
+                      size: 18,
+                    },
+                    legend: {
+                      orientation: 'h',
+                      y: -0.25,
+                      xanchor: 'center',
+                      x: .5
+                    },
+                    colorway: ['#006ccc', '#b00d23', '#00A699', '#666666'],
+                    margin: {
+                      b: 10,
+                      t: 10,
+                      r: 20,
+                      pad: 10
+                    },
+                    width: document.querySelector('.tabs__nav').clientWidth
+                  };
+
+                  var lines = [
+                    {
+                      title: 'Total trade',
+                      key: 'total',
+                      style: 'dash'
+                    },
+                    {
+                      title: 'Imports',
+                      key: 'imports',
+                      style: 'dot'
+                    },
+                    {
+                      title: 'Exports',
+                      key: 'exports',
+                      style: 'solid'
+                    }
+                  ]
+
+                  var sourceData = JSON.parse(document.getElementById('market-trends-data').textContent)
+
+                  var years = sourceData.map(function(x) {
+                    return x.year
+                  })
+
+                  var data = lines.map(function(line) {
+                    return {
+                      name: line.title,
+                      x: years,
+                      y: sourceData.map(function(x) {
+                        return line.key === 'total' ? x['imports'] + x['exports'] : x[line.key]
+                      }),
+                      mode: 'lines',
+                      line: {
+                        dash: line.style,
+                        width: 3
+                      },
+                      type: 'scatter',
+                      hovertemplate: '%{x}: £%{y:gbp} {{ page.stats.market_trends.metadata.unit }}<extra></extra>'
+                    }
+                  })
+
+                  var org_locale = Plotly.d3.locale;
+                  Plotly.d3.locale = (locale) => {
+                    var result = org_locale(locale);
+                    var org_number_format = result.numberFormat;
+                    result.numberFormat = (format) => {
+                      if (format === 'gbp' || format === 'gbpround') {
+                        var exponents = {
+                          'trillion': 1e12,
+                          'billion': 1e9,
+                          'million': 1e6
+                        }
+                        return (x) => {
+                          if (exponents.hasOwnProperty(marketTrendsUnit)) {
+                            var output = '' + (x / exponents[marketTrendsUnit])
+                            return format === 'gbpround' || output.includes('.') ? output : output + '.0'
+                          }
+                          return '' + x;
+                        }
+                      }
+                      return org_number_format(format)
+                    }
+                    return result;
+                  }
+
+                  Plotly.newPlot('plotly-market-trends', data, layout, config);
+                </script>
+              </div>
 
               {% if page.stats.market_trends.metadata.source %}
                 {% include 'core/includes/data_source.html' with source=page.stats.market_trends.metadata.source %}
               {% endif %}
-
-              {{ page.stats.market_trends.data|json_script:"market-trends-data" }}
-              <script>
-                var config = {
-                  displayModeBar: false,
-                  responsive: true,
-                  locale: 'en-GB'
-                }
-                var layout = {
-                  yaxis: {
-                    fixedrange: true,
-                    rangemode: 'tozero',
-                    tickformat: 'gbp'
-                  },
-                  xaxis : {
-                    fixedrange: true,
-                    showgrid: false,
-                    showticklabels: true,
-                    tickmode: 'linear',
-                    showspikes: true,
-                    spikethickness: 2,
-                    spikemode: 'across',
-                    spikelabel: false,
-                  },
-                  hovermode: 'closest',
-                  font: {
-                    family: 'Roboto, sans-serif',
-                    size: 18,
-                  },
-                  legend: {
-                    orientation: 'h',
-                    y: -0.25,
-                    xanchor: 'center',
-                    x: .5
-                  },
-                  colorway: ['#006ccc', '#b00d23', '#00A699', '#666666'],
-                  margin: {
-                    b: 10,
-                    t: 10,
-                    l: 50,
-                    r: 50,
-                    pad: 10
-                  },
-                  width: document.querySelector('.tabs__nav').clientWidth
-                };
-
-                var lines = [
-                  {
-                    title: 'Total trade',
-                    key: 'total',
-                    style: 'dash'
-                  },
-                  {
-                    title: 'Imports',
-                    key: 'imports',
-                    style: 'dot'
-                  },
-                  {
-                    title: 'Exports',
-                    key: 'exports',
-                    style: 'solid'
-                  }
-                ]
-
-                var sourceData = JSON.parse(document.getElementById('market-trends-data').textContent)
-
-                var years = sourceData.map(function(x) {
-                  return x.year
-                })
-
-                var data = lines.map(function(line) {
-                  return {
-                    name: line.title,
-                    x: years,
-                    y: sourceData.map(function(x) {
-                      return line.key === 'total' ? x['imports'] + x['exports'] : x[line.key]
-                    }),
-                    mode: 'lines',
-                    line: {
-                      dash: line.style,
-                      width: 3
-                    },
-                    type: 'scatter',
-                    hovertemplate: '%{x}: £%{y} {{ page.stats.market_trends.metadata.unit }}<extra></extra>'
-                  }
-                })
-
-                var marketTrendsUnit = '{{ page.stats.market_trends.metadata.unit }}';
-                var org_locale = Plotly.d3.locale;
-                Plotly.d3.locale = (locale) => {
-                  var result = org_locale(locale);
-                  var org_number_format = result.numberFormat;
-                  result.numberFormat = (format) => {
-                    if (format != 'gbp') {
-                      return org_number_format(format)
-                    }
-                    var exponents = {
-                      'trillion': 1e12,
-                      'billion': 1e9,
-                      'million': 1e6
-                    }
-                    return (x) => {
-                      if (exponents.hasOwnProperty(marketTrendsUnit)) {
-                        var output = `${x / exponents[marketTrendsUnit]}`
-                        return output.includes('.') ? output : `${output}.0`
-                      }
-                      return `${x}`;
-                    }
-                  }
-                  return result;
-                }
-
-                Plotly.newPlot('plotly-market-trends', data, layout, config);
-              </script>
             </div>
             {% endif %}
           </div>
@@ -370,66 +321,65 @@
           {% image page.section_one_image fill-640x360 as section_one_image %}
           {% include 'components/image_with_caption.html'  with rendition=section_one_image main_caption=page.section_one_image_caption sub_caption=page.section_one_image_caption_company img_classes="m-f-auto m-r-auto" %}
         {% endif %}
-        </div>
       </div>
     </div>
   </div>
 </section>
 
-  <section id="country-guide-statistics-section" class="statistics padding-vertical-30 background-stone-30">
-    <div class="container">
-      {% include 'components/statistics_card_grid.html' with statistics=page.main_statistics country=page.heading %}
-    </div>
-  </section>
+<section id="country-guide-statistics-section" class="statistics padding-vertical-30 background-stone-30">
+  <div class="container">
+    {% include 'components/statistics_card_grid.html' with statistics=page.main_statistics country=page.heading %}
+  </div>
+</section>
 
-  {% if page.section_two_heading %}
-    <section id="country-guide-section-two" class="section-two padding-vertical-60">
-      <div class="container">
-        <div class="grid-row">
-          <div class="column-full column-two-thirds-m column-half-l">
-            <h2 class="heading-large margin-top-0">{{ page.section_two_heading }}</h2>
-            <p>{{ page.section_two_teaser }}</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {% if page.accordions %} {# This is streamfield #}
-      <section id="country-guide-accordions" class="accordions padding-vertical-0">
-        <ul>
-          {% for industry_block in page.accordions %}
-            {% include_block industry_block %}
-          {% endfor %}
-        </ul>
-      </section>
-    {% endif %}
-  {% endif %}
-
-  <section class="padding-top-60 padding-bottom-30">
+{% if page.section_two_heading %}
+  <section id="country-guide-section-two" class="section-two padding-vertical-60">
     <div class="container">
       <div class="grid-row">
-        <div class="column-half-l padding-bottom-30">
-          <h2 class="heading-large padding-top-0">Check for trade barriers</h2>
-
-          <p>Trade barriers, such as tariffs or taxes, can raise costs, cause delays, or even stop you from exporting. Check for any issues that may impact your business when exporting.</p>
-
-          <p><a class="heading-small link" href="{{ page.trade_barriers_link }}">See current trade barriers</a></p>
-
-          {% if page.trade_barriers_resolved_link %}
-            <p><a class="heading-small link" href="{{ page.trade_barriers_resolved_link }}">See resolved trade barriers</a></p>
-          {% endif %}
-        </div>
-
-        <div class="column-half-l padding-bottom-30">
-          <h2 class="heading-large padding-top-0">Check duties and customs</h2>
-
-          <p>Find information on how to export goods from the UK. View the duties, rules, restrictions, and the documents you need for your products.</p>
-
-          <p><a class="heading-small link" href="{{ page.duties_and_customs_link }}">See current duties and customs procedures</a></p>
+        <div class="column-full column-two-thirds-m column-half-l">
+          <h2 class="heading-large margin-top-0">{{ page.section_two_heading }}</h2>
+          <p>{{ page.section_two_teaser }}</p>
         </div>
       </div>
     </div>
   </section>
+
+  {% if page.accordions %} {# This is streamfield #}
+    <section id="country-guide-accordions" class="accordions padding-vertical-0">
+      <ul>
+        {% for industry_block in page.accordions %}
+          {% include_block industry_block %}
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+{% endif %}
+
+<section class="padding-top-60 padding-bottom-30">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-half-l padding-bottom-30">
+        <h2 class="heading-large padding-top-0">Check for trade barriers</h2>
+
+        <p>Trade barriers, such as tariffs or taxes, can raise costs, cause delays, or even stop you from exporting. Check for any issues that may impact your business when exporting.</p>
+
+        <p><a class="heading-small link" href="{{ page.trade_barriers_link }}">See current trade barriers</a></p>
+
+        {% if page.trade_barriers_resolved_link %}
+          <p><a class="heading-small link" href="{{ page.trade_barriers_resolved_link }}">See resolved trade barriers</a></p>
+        {% endif %}
+      </div>
+
+      <div class="column-half-l padding-bottom-30">
+        <h2 class="heading-large padding-top-0">Check duties and customs</h2>
+
+        <p>Find information on how to export goods from the UK. View the duties, rules, restrictions, and the documents you need for your products.</p>
+
+        <p><a class="heading-small link" href="{{ page.duties_and_customs_link }}">See current duties and customs procedures</a></p>
+      </div>
+    </div>
+  </div>
+</section>
 
 {% if page.fact_sheet_title %}
 <section id="country-guide-section-three" class="section-three background-stone-30 padding-top-90 padding-bottom-60">
@@ -443,11 +393,7 @@
     <div class="grid-row">
       {% for column in page.fact_sheet_columns %}
         {% if column.title %}
-          {% if page.fact_sheet_columns|length == 1 %}
-          <div class="column-full margin-bottom-30">
-          {% else %}
-          <div class="column-full column-half-xl margin-bottom-30">
-          {% endif %}
+          <div class="column-full {% if page.fact_sheet_columns|length != 1 %}column-half-xl{% endif %} margin-bottom-30">
             <div class="fact-sheet">
               <h3 class="highlight heading-medium background-grey white-text">{{ column.title }}</h3>
               <div class="fact-sheet-content background-white padding-45 wrap-tight font-xsmall">

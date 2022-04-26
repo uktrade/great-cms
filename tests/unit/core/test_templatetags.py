@@ -586,7 +586,9 @@ def test_multiply_by_exponent():
 @pytest.mark.parametrize(
     'number, unit, precision, expected',
     (
-        (12345.5, '', 1, '12345.5'),
+        (12345.1, '', 1, '12345.1'),
+        (12345.1, 'invalid-unit', 1, '12345.1'),
+        (12345.1, 'invalid-unit', 0, '12345'),
         (1230, 'thousand', 1, '1.2'),
         (1230000, 'thousand', 0, '1230'),
         (1230000, 'million', 0, '1'),
@@ -595,7 +597,7 @@ def test_multiply_by_exponent():
         (80000000, 'billion', 1, '0.1'),
         (8509000000, 'billion', 1, '8.5'),
         (8509000000, 'billion', 2, '8.51'),
-        (8009000000, 'billion', 1, '8'),
+        (8009000000, 'billion', 1, '8.0'),
         (8009000000, 'billion', 2, '8.01'),
     ),
 )
@@ -607,12 +609,16 @@ def test_round_to_unit(number, unit, precision, expected):
     assert html == expected
 
 
-def test_round_to_unit_default_precision():
+@pytest.mark.parametrize(
+    'number, unit, expected',
+    ((1234, 'thousand', '1.2'), (1000, 'thousand', '1.0')),
+)
+def test_round_to_unit_default_precision(number, unit, expected):
     template = Template('{% load round_to_unit from content_tags %}{% round_to_unit number unit %}')
 
-    context = Context({'number': 1234, 'unit': 'thousand'})
+    context = Context({'number': number, 'unit': unit})
     html = template.render(context)
-    assert html == '1.2'
+    assert html == expected
 
 
 @pytest.mark.parametrize(

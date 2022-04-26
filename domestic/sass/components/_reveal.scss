@@ -1,0 +1,7 @@
+.js-enabled .reveal-content {
+  display: none;
+}
+
+.js-enabled .reveal-content[aria-hidden="false"] {
+  display: inherit;
+}
