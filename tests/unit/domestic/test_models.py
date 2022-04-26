@@ -574,8 +574,13 @@ def test_stats_china(domestic_homepage, settings):
     )
 
     assert page.stats['goods_exports']['metadata']['unit'] == 'billion'
+    assert page.stats['goods_exports']['data'][0]['percent'] == 100
+    assert page.stats['goods_exports']['data'][1]['percent'] == 87.8
     assert page.stats['services_exports']['metadata']['unit'] == 'billion'
+    assert page.stats['services_exports']['data'][0]['percent'] == 100
+    assert page.stats['services_exports']['data'][1]['percent'] == 60.1
     assert len(page.stats['market_trends']['data']) == 10
+    assert page.stats['market_trends']['data'][0]['total'] == 46800000000
 
 
 @pytest.mark.django_db

@@ -1,3 +1,5 @@
+import json
+import os
 from urllib.parse import unquote_plus
 
 from django.conf import settings
@@ -908,108 +910,32 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         return ctas
 
     @cached_property
-    def stats(self):
+    def stats(self):  # noqa C901
         if not settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS:
             return None
 
         iso2 = getattr(self.country, 'iso2', None)
 
-        if iso2 == 'CN':
-            # All data from https://assets.publishing.service.gov.uk/government/uploads/system/uploads
-            # /attachment_data/file/1068512/china-trade-and-investment-factsheet-2022-04-14.pdf
-            api_data = {
-                'metadata': {'country': 'China', 'iso2': 'CN'},
-                'highlights': {
-                    'metadata': {
-                        'source': {
-                            'label': 'ONS UK total trade: all countries',
-                            'url': 'https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets'
-                            '/uktotaltradeallcountriesseasonallyadjusted',
-                            'next_release': '28 April 2022',
-                            'notes': [
-                                'Data includes goods and services combined in the four quarters to the end of Q3 2021.'
-                            ],
-                        },
-                        'reference_period': {'resolution': 'quarter', 'period': 3, 'year': 2021},
-                    },
-                    'data': {'total_uk_exports': 26100000000, 'trading_position': 3, 'percentage_of_uk_trade': 7.5},
-                },
-                'market_trends': {
-                    'metadata': {
-                        'source': {
-                            'label': 'ONS UK total trade: all countries',
-                            'url': 'https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets'
-                            '/uktotaltradeallcountriesseasonallyadjusted ',
-                            'next_release': '28 April 2022',
-                            'notes': ['Data includes goods and services combined.'],
-                        },
-                    },
-                    'data': [
-                        {'year': 2011, 'imports': 32000000000, 'exports': 14800000000},
-                        {'year': 2012, 'imports': 31500000000, 'exports': 15600000000},
-                        {'year': 2013, 'imports': 32800000000, 'exports': 16900000000},
-                        {'year': 2014, 'imports': 35900000000, 'exports': 19400000000},
-                        {'year': 2015, 'imports': 39600000000, 'exports': 18400000000},
-                        {'year': 2016, 'imports': 42900000000, 'exports': 19500000000},
-                        {'year': 2017, 'imports': 45200000000, 'exports': 25200000000},
-                        {'year': 2018, 'imports': 46100000000, 'exports': 27100000000},
-                        {'year': 2019, 'imports': 50500000000, 'exports': 36300000000},
-                        {'year': 2020, 'imports': 56900000000, 'exports': 26000000000},
-                    ],
-                },
-                'goods_exports': {
-                    'metadata': {
-                        'source': {
-                            'label': 'ONS UK trade',
-                            'url': 'https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/bulletins'
-                            '/uktrade/latest',
-                            'next_release': '12 May 2022',
-                        },
-                        'reference_period': {
-                            'resolution': 'quarter',
-                            'period': 3,
-                            'year': 2021,
-                        },
-                    },
-                    'data': [
-                        {'label': 'Crude oil', 'value': 4100000000},
-                        {'label': 'Cars', 'value': 3600000000},
-                        {'label': 'Medicinal & pharmaceutical products', 'value': 1500000000},
-                        {'label': 'Non-ferrous metals', 'value': 1300000000},
-                        {'label': 'Scientific instruments (capital)', 'value': 700000000},
-                    ],
-                },
-                'services_exports': {
-                    'metadata': {
-                        'source': {
-                            'label': 'ONS UK trade in services: service type by partner country',
-                            'url': 'https://www.ons.gov.uk/businessindustryandtrade/internationaltrade/datasets'
-                            '/uktradeinservicesservicetypebypartnercountrynonseasonallyadjusted',
-                            'next_release': '28 April 2022',
-                        },
-                        'reference_period': {
-                            'resolution': 'quarter',
-                            'period': 3,
-                            'year': 2021,
-                        },
-                    },
-                    'data': [
-                        {'label': 'Travel', 'value': 2407000000},
-                        {'label': 'Other Business Services', 'value': 1447000000},
-                        {'label': 'Transportation', 'value': 1188000000},
-                        {'label': 'Intellectual property', 'value': 926000000},
-                        {'label': 'Financial', 'value': 873000000},
-                    ],
-                },
-            }
+        if iso2 in ['US', 'AU', 'DE', 'CN', 'IN']:
+            json_data = open(os.path.join(settings.ROOT_DIR, 'domestic', 'fixtures', 'market_guide_stats.json'))
+            all_data = json.load(json_data)
+            api_data = all_data[iso2]
 
-            api_data['market_trends']['metadata']['unit'] = intword(
-                max([(x['imports'] + x['exports']) for x in api_data['market_trends']['data']])
-            ).split(' ')[1]
+            if api_data['market_trends']['data']:
+                api_data['market_trends']['metadata']['unit'] = intword(
+                    max([(x['imports'] + x['exports']) for x in api_data['market_trends']['data']])
+                ).split(' ')[1]
+                for item in api_data['market_trends']['data']:
+                    item['total'] = item['imports'] + item['exports']
 
             for export_type in ['goods', 'services']:
                 type_key = f'{export_type}_exports'
-                api_data[type_key]['metadata']['unit'] = intword(api_data[type_key]['data'][0]['value']).split(' ')[1]
+                if api_data[type_key]['data']:
+                    data = api_data[type_key]['data']
+                    # Use the unit from the middle value -- slightly arbitrary but seems to work in most cases
+                    api_data[type_key]['metadata']['unit'] = intword(data[2]['value']).split(' ')[1]
+                    for index, item in enumerate(data):
+                        data[index]['percent'] = round((item['value'] / data[0]['value']) * 100, 1)
 
             return api_data
 
