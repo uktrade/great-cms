@@ -428,7 +428,7 @@ pyopenssl==22.0.0
     # via urllib3
 pyparsing==3.0.7
     # via packaging
-pypdf2==1.26.0
+pypdf2==1.27.5
     # via xhtml2pdf
 pyquery==1.4.3
     # via readtime
