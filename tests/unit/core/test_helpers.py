@@ -758,13 +758,14 @@ mock_top_goods_exports = {
     'data': [
         {'label': 'Pharmaceuticals', 'value': 1230000000},
         {'label': 'Automotive', 'value': 234000000},
+        {'label': 'Aerospace', 'value': 111000000},
     ],
 }
 mock_top_services_exports = {
     'metadata': {'source': {'url': 'http://example.org/data', 'label': 'Source label'}},
     'data': [
-        {'label': 'Financial', 'value': 1230000000},
-        {'label': 'legal', 'value': 234000000},
+        {'label': 'Financial', 'value': 12300000},
+        {'label': 'legal', 'value': 2340000},
     ],
 }
 
@@ -803,7 +804,8 @@ def test_get_top_goods_exports_by_country(mock_get_commodity_exports_data_by_cou
     response = helpers.get_top_goods_exports_by_country(iso2='FR')
 
     assert response['metadata']['source'] == mock_market_trends['metadata']['source']
-    assert response['data'] == mock_top_goods_exports['data']
+    assert response['metadata']['unit'] == 'billion'
+    assert len(response['data']) == 3
 
 
 @mock.patch.object(api_client.dataservices, 'get_trade_in_service_data_by_country')
@@ -815,7 +817,8 @@ def test_get_top_services_exports_by_country(mock_get_trade_in_service_data_by_c
     response = helpers.get_top_services_exports_by_country(iso2='FR')
 
     assert response['metadata']['source'] == mock_market_trends['metadata']['source']
-    assert response['data'] == mock_top_services_exports['data']
+    assert response['metadata']['unit'] == 'million'
+    assert len(response['data']) == 2
 
 
 @mock.patch.object(api_client.dataservices, 'get_trade_in_service_data_by_country')
@@ -843,10 +846,10 @@ def test_get_stats_by_country(
 
     stats = helpers.get_stats_by_country(iso2='FR')
 
-    assert stats['highlights'] == mock_trade_highlights
-    assert stats['market_trends'] == mock_market_trends
-    assert stats['goods_exports'] == mock_top_goods_exports
-    assert stats['services_exports'] == mock_top_services_exports
+    assert len(stats['highlights']['data']) == 3
+    assert len(stats['market_trends']['data']) == 2
+    assert len(stats['goods_exports']['data']) == 3
+    assert len(stats['services_exports']['data']) == 2
 
 
 @mock.patch.object(api_client.dataservices, 'get_trade_in_service_data_by_country')
@@ -904,7 +907,8 @@ def test_get_stats_by_country_partial_data(
 
     stats = helpers.get_stats_by_country(iso2='FR')
 
-    assert stats == {'goods_exports': mock_top_goods_exports}
+    assert len(stats) == 1
+    assert len(stats['goods_exports']['data']) == 3
 
 
 @pytest.mark.parametrize(

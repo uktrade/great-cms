@@ -394,6 +394,10 @@ def get_trade_barrier_data(countries_list, sectors_list):
     return response.json()
 
 
+def get_unit(values):
+    return intword(max(values)).split(' ')[1]
+
+
 def get_trade_highlights_by_country(iso2):
     response = api_client.dataservices.get_trade_highlights_by_country(iso2=iso2)
     return response.json()
@@ -404,23 +408,35 @@ def get_market_trends_by_country(iso2):
     api_data = response.json()
 
     if api_data['data']:
-        api_data['metadata']['unit'] = intword(max([(x['imports'] + x['exports']) for x in api_data['data']])).split(
-            ' '
-        )[1]
         for record in api_data['data']:
             record['total'] = record['imports'] + record['exports']
+
+        totals = [x['total'] for x in api_data['data']]
+        api_data['metadata']['unit'] = get_unit(totals)
 
     return api_data
 
 
 def get_top_goods_exports_by_country(iso2):
     response = api_client.dataservices.get_commodity_exports_data_by_country(iso2=iso2)
-    return response.json()
+    api_data = response.json()
+
+    if api_data['data']:
+        values = [x['value'] for x in api_data['data']]
+        api_data['metadata']['unit'] = get_unit(values)
+
+    return api_data
 
 
 def get_top_services_exports_by_country(iso2):
     response = api_client.dataservices.get_trade_in_service_data_by_country(iso2=iso2)
-    return response.json()
+    api_data = response.json()
+
+    if api_data['data']:
+        values = [x['value'] for x in api_data['data']]
+        api_data['metadata']['unit'] = get_unit(values)
+
+    return api_data
 
 
 def get_stats_by_country(iso2):
