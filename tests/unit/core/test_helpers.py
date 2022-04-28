@@ -788,7 +788,10 @@ def test_get_market_trends_by_country(mock_get_market_trends_by_country, client)
     response = helpers.get_market_trends_by_country(iso2='FR')
 
     assert response['metadata']['source'] == mock_market_trends['metadata']['source']
-    assert response['data'] == mock_market_trends['data']
+    assert response['metadata']['unit'] == 'billion'
+    assert len(response['data']) == 2
+    assert response['data'][0]['total'] == 3570000000
+    assert response['data'][1]['total'] == 579000000
 
 
 @mock.patch.object(api_client.dataservices, 'get_commodity_exports_data_by_country')

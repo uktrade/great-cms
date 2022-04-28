@@ -14,6 +14,7 @@ import great_components.helpers
 import requests
 from django.conf import settings
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
+from django.contrib.humanize.templatetags.humanize import intword
 from django.shortcuts import redirect
 from django.utils.functional import cached_property
 from hashids import Hashids
@@ -400,7 +401,16 @@ def get_trade_highlights_by_country(iso2):
 
 def get_market_trends_by_country(iso2):
     response = api_client.dataservices.get_market_trends_by_country(iso2=iso2)
-    return response.json()
+    api_data = response.json()
+
+    if api_data['data']:
+        api_data['metadata']['unit'] = intword(max([(x['imports'] + x['exports']) for x in api_data['data']])).split(
+            ' '
+        )[1]
+        for record in api_data['data']:
+            record['total'] = record['imports'] + record['exports']
+
+    return api_data
 
 
 def get_top_goods_exports_by_country(iso2):
