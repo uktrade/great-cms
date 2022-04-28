@@ -403,6 +403,29 @@ def get_market_trends_by_country(iso2):
     return response.json()
 
 
+def get_top_goods_exports_by_country(iso2):
+    response = api_client.dataservices.get_commodity_exports_data_by_country(iso2=iso2)
+    return response.json()
+
+
+def get_top_services_exports_by_country(iso2):
+    response = api_client.dataservices.get_trade_in_service_data_by_country(iso2=iso2)
+    return response.json()
+
+
+def get_stats_by_country(iso2):
+    stats = {
+        'highlights': get_trade_highlights_by_country(iso2=iso2),
+        'market_trends': get_market_trends_by_country(iso2=iso2),
+        'goods_exports': get_top_goods_exports_by_country(iso2=iso2),
+        'services_exports': get_top_services_exports_by_country(iso2=iso2),
+    }
+
+    stats = {k: v for k, v in stats.items() if v['data']}
+
+    return stats or None
+
+
 def get_country_data(countries, fields):
     response = api_client.dataservices.get_country_data_by_country(countries=countries, fields=fields)
     return response.json()
