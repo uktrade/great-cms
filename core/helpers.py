@@ -393,18 +393,13 @@ def get_trade_barrier_data(countries_list, sectors_list):
     return response.json()
 
 
-def get_total_trade_data_by_country(iso2):
-    response = api_client.dataservices.get_total_trade_data_by_country(iso2=iso2)
+def get_trade_highlights_by_country(iso2):
+    response = api_client.dataservices.get_trade_highlights_by_country(iso2=iso2)
     return response.json()
 
 
-def get_trade_in_services_data_by_country(iso2):
-    response = api_client.dataservices.get_trade_in_service_data_by_country(iso2=iso2)
-    return response.json()
-
-
-def get_commodity_exports_data_by_country(iso2):
-    response = api_client.dataservices.get_commodity_exports_data_by_country(iso2=iso2)
+def get_market_trends_by_country(iso2):
+    response = api_client.dataservices.get_market_trends_by_country(iso2=iso2)
     return response.json()
 
 
