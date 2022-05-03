@@ -742,108 +742,120 @@ def test_get_trade_barrier_data(mock_country_data, client):
     assert response.get('sectors') == trade_barrier_data['sectors']
 
 
-mock_trade_highlights = {
-    'metadata': {'source': {'url': 'http://example.org/data', 'label': 'Source label'}},
-    'data': {'total_uk_exports': 26100000000, 'trading_position': 3, 'percentage_of_uk_trade': 7.5},
-}
-mock_market_trends = {
-    'metadata': {'source': {'url': 'http://example.org/data', 'label': 'Source label'}},
-    'data': [
-        {'year': 2020, 'imports': 1230000000, 'exports': 2340000000},
-        {'year': 2021, 'imports': 234000000, 'exports': 345000000},
-    ],
-}
-mock_top_goods_exports = {
-    'metadata': {'source': {'url': 'http://example.org/data', 'label': 'Source label'}},
-    'data': [
-        {'label': 'Pharmaceuticals', 'value': 1230000000},
-        {'label': 'Automotive', 'value': 234000000},
-        {'label': 'Aerospace', 'value': 111000000},
-    ],
-}
-mock_top_services_exports = {
-    'metadata': {'source': {'url': 'http://example.org/data', 'label': 'Source label'}},
-    'data': [
-        {'label': 'Financial', 'value': 12300000},
-        {'label': 'legal', 'value': 2340000},
-    ],
-}
+@pytest.fixture
+def mock_trade_highlights():
+    yield mock.patch.object(
+        api_client.dataservices,
+        'get_trade_highlights_by_country',
+        return_value=create_response(
+            status_code=200,
+            json_body={
+                'metadata': {
+                    'source': {'url': 'https://example.org/trade-highlights', 'label': 'Trade highlights source'}
+                },
+                'data': {'total_uk_exports': 26100000000, 'trading_position': 3, 'percentage_of_uk_trade': 7.5},
+            },
+        ),
+    ).start()
 
 
-@mock.patch.object(api_client.dataservices, 'get_trade_highlights_by_country')
+@pytest.fixture
+def mock_market_trends():
+    yield mock.patch.object(
+        api_client.dataservices,
+        'get_market_trends_by_country',
+        return_value=create_response(
+            status_code=200,
+            json_body={
+                'metadata': {'source': {'url': 'https://example.org/market-trends', 'label': 'Source label'}},
+                'data': [
+                    {'year': 2020, 'imports': 1230000000, 'exports': 2340000000},
+                    {'year': 2021, 'imports': 234000000, 'exports': 345000000},
+                ],
+            },
+        ),
+    ).start()
+
+
+@pytest.fixture
+def mock_top_goods_exports():
+    yield mock.patch.object(
+        api_client.dataservices,
+        'get_commodity_exports_data_by_country',
+        return_value=create_response(
+            status_code=200,
+            json_body={
+                'metadata': {'source': {'url': 'https://example.org/top-goods-exports', 'label': 'Source label'}},
+                'data': [
+                    {'label': 'Pharmaceuticals', 'value': 1230000000},
+                    {'label': 'Automotive', 'value': 234000000},
+                    {'label': 'Aerospace', 'value': 111000000},
+                ],
+            },
+        ),
+    ).start()
+
+
+@pytest.fixture
+def mock_top_services_exports():
+    yield mock.patch.object(
+        api_client.dataservices,
+        'get_trade_in_service_data_by_country',
+        return_value=create_response(
+            status_code=200,
+            json_body={
+                'metadata': {'source': {'url': 'https://example.org/top-services-exports', 'label': 'Source label'}},
+                'data': [
+                    {'label': 'Financial', 'value': 12300000},
+                    {'label': 'legal', 'value': 2340000},
+                ],
+            },
+        ),
+    ).start()
+
+
 @pytest.mark.django_db
-def test_get_trade_highlights_by_country(mock_get_trade_highlights_by_country, client):
-    mock_get_trade_highlights_by_country.return_value = create_response(
-        status_code=200, json_body=mock_trade_highlights
-    )
+def test_get_trade_highlights_by_country(mock_trade_highlights, client):
     response = helpers.get_trade_highlights_by_country(iso2='FR')
 
-    assert response['metadata'] == mock_trade_highlights['metadata']
-    assert response['data'] == mock_trade_highlights['data']
+    assert len(response) == 2
+    assert response['metadata']['source']['url'] == 'https://example.org/trade-highlights'
+    assert response['data'] == {'total_uk_exports': 26100000000, 'trading_position': 3, 'percentage_of_uk_trade': 7.5}
 
 
-@mock.patch.object(api_client.dataservices, 'get_market_trends_by_country')
 @pytest.mark.django_db
-def test_get_market_trends_by_country(mock_get_market_trends_by_country, client):
-    mock_get_market_trends_by_country.return_value = create_response(status_code=200, json_body=mock_market_trends)
+def test_get_market_trends_by_country(mock_market_trends, client):
     response = helpers.get_market_trends_by_country(iso2='FR')
 
-    assert response['metadata']['source'] == mock_market_trends['metadata']['source']
+    assert response['metadata']['source']['url'] == 'https://example.org/market-trends'
     assert response['metadata']['unit'] == 'billion'
     assert len(response['data']) == 2
     assert response['data'][0]['total'] == 3570000000
     assert response['data'][1]['total'] == 579000000
 
 
-@mock.patch.object(api_client.dataservices, 'get_commodity_exports_data_by_country')
 @pytest.mark.django_db
-def test_get_top_goods_exports_by_country(mock_get_commodity_exports_data_by_country, client):
-    mock_get_commodity_exports_data_by_country.return_value = create_response(
-        status_code=200, json_body=mock_top_goods_exports
-    )
+def test_get_top_goods_exports_by_country(mock_top_goods_exports, client):
     response = helpers.get_top_goods_exports_by_country(iso2='FR')
 
-    assert response['metadata']['source'] == mock_market_trends['metadata']['source']
+    assert response['metadata']['source']['url'] == 'https://example.org/top-goods-exports'
     assert response['metadata']['unit'] == 'billion'
     assert len(response['data']) == 3
 
 
-@mock.patch.object(api_client.dataservices, 'get_trade_in_service_data_by_country')
 @pytest.mark.django_db
-def test_get_top_services_exports_by_country(mock_get_trade_in_service_data_by_country, client):
-    mock_get_trade_in_service_data_by_country.return_value = create_response(
-        status_code=200, json_body=mock_top_services_exports
-    )
+def test_get_top_services_exports_by_country(mock_top_services_exports, client):
     response = helpers.get_top_services_exports_by_country(iso2='FR')
 
-    assert response['metadata']['source'] == mock_market_trends['metadata']['source']
+    assert response['metadata']['source']['url'] == 'https://example.org/top-services-exports'
     assert response['metadata']['unit'] == 'million'
     assert len(response['data']) == 2
 
 
-@mock.patch.object(api_client.dataservices, 'get_trade_in_service_data_by_country')
-@mock.patch.object(api_client.dataservices, 'get_commodity_exports_data_by_country')
-@mock.patch.object(api_client.dataservices, 'get_market_trends_by_country')
-@mock.patch.object(api_client.dataservices, 'get_trade_highlights_by_country')
 @pytest.mark.django_db
 def test_get_stats_by_country(
-    mock_get_trade_highlights_by_country,
-    mock_get_market_trends_by_country,
-    mock_get_commodity_exports_data_by_country,
-    mock_get_trade_in_service_data_by_country,
-    client,
+    mock_trade_highlights, mock_market_trends, mock_top_goods_exports, mock_top_services_exports, client
 ):
-    mock_get_trade_highlights_by_country.return_value = create_response(
-        status_code=200, json_body=mock_trade_highlights
-    )
-    mock_get_market_trends_by_country.return_value = create_response(status_code=200, json_body=mock_market_trends)
-    mock_get_commodity_exports_data_by_country.return_value = create_response(
-        status_code=200, json_body=mock_top_goods_exports
-    )
-    mock_get_trade_in_service_data_by_country.return_value = create_response(
-        status_code=200, json_body=mock_top_services_exports
-    )
-
     stats = helpers.get_stats_by_country(iso2='FR')
 
     assert len(stats['highlights']['data']) == 3
@@ -852,58 +864,25 @@ def test_get_stats_by_country(
     assert len(stats['services_exports']['data']) == 2
 
 
-@mock.patch.object(api_client.dataservices, 'get_trade_in_service_data_by_country')
-@mock.patch.object(api_client.dataservices, 'get_commodity_exports_data_by_country')
-@mock.patch.object(api_client.dataservices, 'get_market_trends_by_country')
-@mock.patch.object(api_client.dataservices, 'get_trade_highlights_by_country')
 @pytest.mark.django_db
 def test_get_stats_by_country_no_data(
-    mock_get_trade_highlights_by_country,
-    mock_get_market_trends_by_country,
-    mock_get_commodity_exports_data_by_country,
-    mock_get_trade_in_service_data_by_country,
-    client,
+    mock_trade_highlights, mock_market_trends, mock_top_goods_exports, mock_top_services_exports, client
 ):
-    mock_get_trade_highlights_by_country.return_value = create_response(
-        status_code=200, json_body={'metadata': {}, 'data': {}}
-    )
-    mock_get_market_trends_by_country.return_value = create_response(
-        status_code=200, json_body={'metadata': {}, 'data': []}
-    )
-    mock_get_commodity_exports_data_by_country.return_value = create_response(
-        status_code=200, json_body={'metadata': {}, 'data': []}
-    )
-    mock_get_trade_in_service_data_by_country.return_value = create_response(
-        status_code=200, json_body={'metadata': {}, 'data': []}
-    )
+    mock_trade_highlights.return_value = create_response(status_code=200, json_body={'metadata': {}, 'data': {}})
+    mock_market_trends.return_value = create_response(status_code=200, json_body={'metadata': {}, 'data': []})
+    mock_top_goods_exports.return_value = create_response(status_code=200, json_body={'metadata': {}, 'data': []})
+    mock_top_services_exports.return_value = create_response(status_code=200, json_body={'metadata': {}, 'data': []})
 
     assert helpers.get_stats_by_country(iso2='FR') is None
 
 
-@mock.patch.object(api_client.dataservices, 'get_trade_in_service_data_by_country')
-@mock.patch.object(api_client.dataservices, 'get_commodity_exports_data_by_country')
-@mock.patch.object(api_client.dataservices, 'get_market_trends_by_country')
-@mock.patch.object(api_client.dataservices, 'get_trade_highlights_by_country')
 @pytest.mark.django_db
 def test_get_stats_by_country_partial_data(
-    mock_get_trade_highlights_by_country,
-    mock_get_market_trends_by_country,
-    mock_get_commodity_exports_data_by_country,
-    mock_get_trade_in_service_data_by_country,
-    client,
+    mock_trade_highlights, mock_market_trends, mock_top_goods_exports, mock_top_services_exports, client
 ):
-    mock_get_trade_highlights_by_country.return_value = create_response(
-        status_code=200, json_body={'metadata': {}, 'data': {}}
-    )
-    mock_get_market_trends_by_country.return_value = create_response(
-        status_code=200, json_body={'metadata': {}, 'data': []}
-    )
-    mock_get_commodity_exports_data_by_country.return_value = create_response(
-        status_code=200, json_body=mock_top_goods_exports
-    )
-    mock_get_trade_in_service_data_by_country.return_value = create_response(
-        status_code=200, json_body={'metadata': {}, 'data': []}
-    )
+    mock_trade_highlights.return_value = create_response(status_code=200, json_body={'metadata': {}, 'data': {}})
+    mock_market_trends.return_value = create_response(status_code=200, json_body={'metadata': {}, 'data': []})
+    mock_top_services_exports.return_value = create_response(status_code=200, json_body={'metadata': {}, 'data': []})
 
     stats = helpers.get_stats_by_country(iso2='FR')
 
