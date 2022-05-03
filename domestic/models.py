@@ -907,7 +907,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         return ctas
 
     @cached_property
-    def stats(self):  # noqa C901
+    def stats(self):
         if not settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS:
             return None
 
