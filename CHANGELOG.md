@@ -6,6 +6,8 @@
 
 ### Bugs fixed
 
+- GLS-209 - fix duplicate list item markers
+
 ### Enhancements
 
 - GLS-210 - add `id` attributes to tabs for improved GTM reporting
