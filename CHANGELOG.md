@@ -8,6 +8,8 @@
 
 ### Enhancements
 
+- GLS-210 - add `id` attributes to tabs for improved GTM reporting
+
 ## [2.7.0](https://github.com/uktrade/great-cms/releases/tag/2.7.0)
 
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.6.0...2.7.0)
