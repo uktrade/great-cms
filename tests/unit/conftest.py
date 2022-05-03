@@ -4,6 +4,8 @@ from unittest import mock
 import pytest
 from captcha.client import RecaptchaResponse
 
+from directory_api_client import api_client
+from tests.helpers import create_response
 from tests.unit.core.factories import (
     CuratedListPageFactory,
     LessonPlaceholderPageFactory,
@@ -105,3 +107,75 @@ def valid_request_export_support_form_data_with_other_options(captcha_stub):
         'terms_agreed': True,
         'g-recaptcha-response': captcha_stub,
     }
+
+
+@pytest.fixture
+def mock_trade_highlights():
+    yield mock.patch.object(
+        api_client.dataservices,
+        'get_trade_highlights_by_country',
+        return_value=create_response(
+            status_code=200,
+            json_body={
+                'metadata': {
+                    'source': {'url': 'https://example.org/trade-highlights', 'label': 'Trade highlights source'}
+                },
+                'data': {'total_uk_exports': 26100000000, 'trading_position': 3, 'percentage_of_uk_trade': 7.5},
+            },
+        ),
+    ).start()
+
+
+@pytest.fixture
+def mock_market_trends():
+    yield mock.patch.object(
+        api_client.dataservices,
+        'get_market_trends_by_country',
+        return_value=create_response(
+            status_code=200,
+            json_body={
+                'metadata': {'source': {'url': 'https://example.org/market-trends', 'label': 'Source label'}},
+                'data': [
+                    {'year': 2020, 'imports': 1230000000, 'exports': 2340000000},
+                    {'year': 2021, 'imports': 234000000, 'exports': 345000000},
+                ],
+            },
+        ),
+    ).start()
+
+
+@pytest.fixture
+def mock_top_goods_exports():
+    yield mock.patch.object(
+        api_client.dataservices,
+        'get_commodity_exports_data_by_country',
+        return_value=create_response(
+            status_code=200,
+            json_body={
+                'metadata': {'source': {'url': 'https://example.org/top-goods-exports', 'label': 'Source label'}},
+                'data': [
+                    {'label': 'Pharmaceuticals', 'value': 1230000000},
+                    {'label': 'Automotive', 'value': 234000000},
+                    {'label': 'Aerospace', 'value': 111000000},
+                ],
+            },
+        ),
+    ).start()
+
+
+@pytest.fixture
+def mock_top_services_exports():
+    yield mock.patch.object(
+        api_client.dataservices,
+        'get_trade_in_service_data_by_country',
+        return_value=create_response(
+            status_code=200,
+            json_body={
+                'metadata': {'source': {'url': 'https://example.org/top-services-exports', 'label': 'Source label'}},
+                'data': [
+                    {'label': 'Financial', 'value': 12300000},
+                    {'label': 'legal', 'value': 2340000},
+                ],
+            },
+        ),
+    ).start()
