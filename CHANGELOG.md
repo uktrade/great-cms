@@ -6,6 +6,14 @@
 
 ### Bugs fixed
 
+### Enhancements
+
+## [2.7.0](https://github.com/uktrade/great-cms/releases/tag/2.7.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.6.0...2.7.0)
+
+### Bugs fixed
+
 - GLS-126 - remove unused CampaignPage model
 
 ### Enhancements
