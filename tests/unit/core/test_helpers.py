@@ -818,6 +818,24 @@ def test_get_stats_by_country_partial_data(
     assert len(stats['goods_exports']['data']) == 3
 
 
+@pytest.mark.django_db
+def test_get_stats_by_country_errors(
+    mock_trade_highlights, mock_market_trends, mock_top_goods_exports, mock_top_services_exports, client
+):
+    mock_trade_highlights.return_value = create_response(
+        status_code=400, json_body={'iso2': ['This field is required.']}
+    )
+    mock_market_trends.return_value = create_response(status_code=400, json_body={'iso2': ['This field is required.']})
+    mock_top_services_exports.return_value = create_response(
+        status_code=400, json_body={'iso2': ['This field is required.']}
+    )
+
+    stats = helpers.get_stats_by_country(iso2='FR')
+
+    assert len(stats) == 1
+    assert len(stats['goods_exports']['data']) == 3
+
+
 @pytest.mark.parametrize(
     'value,expected',
     (

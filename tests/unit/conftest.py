@@ -148,7 +148,7 @@ def mock_market_trends():
 def mock_top_goods_exports():
     yield mock.patch.object(
         api_client.dataservices,
-        'get_commodity_exports_data_by_country',
+        'get_top_five_goods_by_country',
         return_value=create_response(
             status_code=200,
             json_body={
@@ -167,7 +167,7 @@ def mock_top_goods_exports():
 def mock_top_services_exports():
     yield mock.patch.object(
         api_client.dataservices,
-        'get_trade_in_service_data_by_country',
+        'get_top_five_services_by_country',
         return_value=create_response(
             status_code=200,
             json_body={
