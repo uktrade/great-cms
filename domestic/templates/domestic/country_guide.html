@@ -141,7 +141,7 @@
             {% if page.stats.goods_exports.data %}
             <div id="tab-goods" class="reveal-content">
               <h2 class="heading-medium">
-                Top 5 UK goods exports to {{ page.heading }},
+                Top {{ page.stats.goods_exports.data|length }} UK goods exports to {{ page.heading }},
                 in the {% reference_period page.stats.goods_exports.metadata.reference_period %}
               </h2>
 
@@ -152,7 +152,7 @@
             {% if page.stats.services_exports.data %}
             <div id="tab-services" class="reveal-content">
               <h2 class="heading-medium">
-                Top 5 UK services exports to {{ page.heading }},
+                Top {{ page.stats.services_exports.data|length }} UK services exports to {{ page.heading }},
                 in the {% reference_period page.stats.services_exports.metadata.reference_period %}
               </h2>
 
