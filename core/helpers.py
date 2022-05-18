@@ -429,7 +429,7 @@ def get_market_trends_by_country(iso2):
 
 
 def get_top_goods_exports_by_country(iso2):
-    response = api_client.dataservices.get_top_five_goods_by_country(iso2=iso2)
+    response = api_client.dataservices.get_top_five_goods_by_country(iso2=iso2, year=2021)
 
     if response.status_code != 200:
         return None
@@ -444,7 +444,7 @@ def get_top_goods_exports_by_country(iso2):
 
 
 def get_top_services_exports_by_country(iso2):
-    response = api_client.dataservices.get_top_five_services_by_country(iso2=iso2)
+    response = api_client.dataservices.get_top_five_services_by_country(iso2=iso2, year=2021)
 
     if response.status_code != 200:
         return None
