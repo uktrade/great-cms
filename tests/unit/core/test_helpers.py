@@ -762,6 +762,20 @@ def test_get_market_trends_by_country(mock_market_trends, client):
     assert response['data'][1]['total'] == 579000000
 
 
+@pytest.mark.parametrize(
+    'values, expected',
+    (
+        ([], ''),
+        ([12000000, 12000, 12], 'million'),
+        ([12000000000, 24000000000], 'billion'),
+        ([12000000000000, 24000000000], 'trillion'),
+        ([9999, 300], ''),
+    ),
+)
+def test_get_unit(values, expected):
+    assert helpers.get_unit(values) == expected
+
+
 @pytest.mark.django_db
 def test_get_top_goods_exports_by_country(mock_top_goods_exports, client):
     response = helpers.get_top_goods_exports_by_country(iso2='FR')
