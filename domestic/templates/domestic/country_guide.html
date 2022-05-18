@@ -317,10 +317,12 @@
             </div>
             {% endif %}
           </div>
-        {% else %}
-          {% image page.section_one_image fill-640x360 as section_one_image %}
-          {% include 'components/image_with_caption.html'  with rendition=section_one_image main_caption=page.section_one_image_caption sub_caption=page.section_one_image_caption_company img_classes="m-f-auto m-r-auto" %}
         {% endif %}
+
+        {# TODO: remove image fully when stats are always shown. This is only here to let the experiment revert to the image when stats are removed from the DOM. #}
+        {% image page.section_one_image fill-640x360 as section_one_image %}
+        {% include 'components/image_with_caption.html'  with rendition=section_one_image main_caption=page.section_one_image_caption sub_caption=page.section_one_image_caption_company img_classes="m-f-auto m-r-auto" %}
+
       </div>
     </div>
   </div>

@@ -92,4 +92,8 @@
       height: 100%;
     }
   }
+
+  #stats-tabs + .image-with-caption {
+    display: none;
+  }
 }
