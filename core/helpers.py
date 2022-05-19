@@ -437,7 +437,7 @@ def get_top_goods_exports_by_country(iso2):
     api_data = response.json()
 
     if api_data['data']:
-        values = [x['total_value'] for x in api_data['data']]
+        values = [x['value'] for x in api_data['data']]
         api_data['metadata']['unit'] = get_unit(values)
 
     return api_data
@@ -452,7 +452,7 @@ def get_top_services_exports_by_country(iso2):
     api_data = response.json()
 
     if api_data['data']:
-        values = [x['total_value'] for x in api_data['data']]
+        values = [x['value'] for x in api_data['data']]
         api_data['metadata']['unit'] = get_unit(values)
 
     return api_data
