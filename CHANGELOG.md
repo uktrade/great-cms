@@ -6,6 +6,8 @@
 
 ### Bugs fixed
 
+- GLS-228 - invert market guides experiment to hide stats by default
+
 ### Enhancements
 
 ## [2.8.1](https://github.com/uktrade/great-cms/releases/tag/2.8.1)
