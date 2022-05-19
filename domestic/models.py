@@ -916,7 +916,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
 
         iso2 = getattr(self.country, 'iso2', None)
 
-        if iso2 in ['US', 'AU', 'DE', 'CN', 'IN']:
+        if iso2 in ['US', 'AU', 'DE', 'CN', 'IN', 'PT', 'LI']:
             json_data = open(os.path.join(settings.ROOT_DIR, 'domestic', 'fixtures', 'market_guide_stats.json'))
             all_data = json.load(json_data)
             api_data = all_data[iso2]
@@ -932,8 +932,8 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                 type_key = f'{export_type}_exports'
                 if api_data[type_key]['data']:
                     data = api_data[type_key]['data']
-                    # Use the unit from the middle value -- slightly arbitrary but seems to work in most cases
-                    api_data[type_key]['metadata']['unit'] = intword(data[2]['value']).split(' ')[1]
+                    # Use the unit from the first value
+                    api_data[type_key]['metadata']['unit'] = intword(data[0]['value']).split(' ')[1]
                     for index, item in enumerate(data):
                         data[index]['percent'] = round((item['value'] / data[0]['value']) * 100, 1)
 
