@@ -913,7 +913,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
 
         iso2 = getattr(self.country, 'iso2', None)
 
-        if iso2 in ['US', 'AU', 'DE', 'CN', 'IN']:
+        if iso2 in ['US', 'AU', 'DE', 'CN', 'IN', 'PT', 'LI']:
             return helpers.get_stats_by_country(iso2=iso2)
 
         return None

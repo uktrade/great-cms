@@ -8,6 +8,26 @@
 
 ### Enhancements
 
+## [2.8.1](https://github.com/uktrade/great-cms/releases/tag/2.8.1)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.8.0...2.8.1)
+
+### Enhancements
+
+- GLS-228 - update market guide stats
+
+## [2.8.0](https://github.com/uktrade/great-cms/releases/tag/2.8.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.7.0...2.8.0)
+
+### Bugs fixed
+
+- GLS-209 - fix duplicate list item markers
+
+### Enhancements
+
+- GLS-210 - add `id` attributes to tabs for improved GTM reporting
+
 ## [2.7.0](https://github.com/uktrade/great-cms/releases/tag/2.7.0)
 
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.6.0...2.7.0)
