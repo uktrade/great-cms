@@ -10,8 +10,9 @@
     <br/>Next release: {{ source.next_release }}
     {% endif %}
     {% if source.notes %}
+    <br/>
       {% for note in source.notes %}
-      <br/>{{ note }}
+      {{ note }}
       {% endfor %}
     {% endif %}
   {% endspaceless %}

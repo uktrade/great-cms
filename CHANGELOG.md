@@ -11,6 +11,7 @@
 ### Enhancements
 
 - GLS-231 - Specify 'exports' for highlight stats
+- GLS-238 - Clarify 'total trade' for line chart
 
 ## [2.8.1](https://github.com/uktrade/great-cms/releases/tag/2.8.1)
 
