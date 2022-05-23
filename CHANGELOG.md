@@ -10,6 +10,8 @@
 
 ### Enhancements
 
+- GLS-231 - Specify 'exports' for highlight stats
+
 ## [2.8.1](https://github.com/uktrade/great-cms/releases/tag/2.8.1)
 
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.8.0...2.8.1)
