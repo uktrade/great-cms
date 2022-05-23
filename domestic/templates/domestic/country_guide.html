@@ -6,6 +6,24 @@
 
 {% block css_layout_class %}country-guide-page{% endblock %}
 
+{% block head_css %}
+    {{ block.super }}
+
+    {# TODO: remove to fully enable stats once experiment has completed #}
+    {% if page.stats %}
+    <style>
+    #stats-highlights, #stats-tabs { display: none; }
+    </style>
+    {% endif %}
+    {# Visit the page with ?variant=B to preview stats #}
+    {% if request.GET.variant == 'B' %}
+    <style>
+    #stats-highlights, #stats-tabs { display: block !important; }
+    #stats-tabs + .image-with-caption { display: none; }
+    </style>
+    {% endif %}
+{% endblock %}
+
 {% block head_js %}
   {{ block.super }}
 
@@ -55,7 +73,7 @@
                 </span>
 
                 <span class="font-xsmall statistic-smallprint">
-                  largest trading partner
+                  largest export market
                 </span>
               </figure>
               {% endif %}
@@ -69,7 +87,7 @@
                 </span>
 
                 <span class="font-xsmall statistic-smallprint">
-                  of total UK trade
+                  of total UK exports
                 </span>
               </figure>
               {% endif %}
@@ -174,7 +192,7 @@
                       <th scope="col">Year</th>
                       <th scope="col" style="text-align: right">Imports (£{% if unit %}{{ unit }}{% endif %})</th>
                       <th scope="col" style="text-align: right">Exports (£{% if unit %}{{ unit }}{% endif %})</th>
-                      <th scope="col" style="text-align: right">Total (£{% if unit %}{{ unit }}{% endif %})</th>
+                      <th scope="col" style="text-align: right">Total trade (£{% if unit %}{{ unit }}{% endif %})</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -319,7 +337,7 @@
           </div>
         {% endif %}
 
-        {# TODO: remove image fully when stats are always shown. This is only here to let the experiment revert to the image when stats are removed from the DOM. #}
+        {# TODO: remove image completely when stats are enabled. This is only here to let the experiment revert to the image when stats are removed from the DOM. #}
         {% image page.section_one_image fill-640x360 as section_one_image %}
         {% include 'components/image_with_caption.html'  with rendition=section_one_image main_caption=page.section_one_image_caption sub_caption=page.section_one_image_caption_company img_classes="m-f-auto m-r-auto" %}
 

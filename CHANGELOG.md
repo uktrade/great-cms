@@ -8,6 +8,23 @@
 
 ### Enhancements
 
+## [2.8.3](https://github.com/uktrade/great-cms/releases/tag/2.8.3)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.8.2...2.8.3)
+
+### Enhancements
+
+- GLS-231 - Specify 'exports' for highlight stats
+- GLS-238 - Clarify 'total trade' for line chart
+
+## [2.8.2](https://github.com/uktrade/great-cms/releases/tag/2.8.2)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.8.1...2.8.2)
+
+### Bugs fixed
+
+- GLS-228 - invert market guides experiment to hide stats by default
+
 ## [2.8.1](https://github.com/uktrade/great-cms/releases/tag/2.8.1)
 
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.8.0...2.8.1)
