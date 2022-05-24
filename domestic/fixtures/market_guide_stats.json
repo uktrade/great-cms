@@ -42,52 +42,62 @@
         {
           "year": 2012,
           "exports": 15600000000,
-          "imports": 31500000000
+          "imports": 31500000000,
+          "total": 47100000000
         },
         {
           "year": 2013,
           "exports": 16900000000,
-          "imports": 32800000000
+          "imports": 32800000000,
+          "total": 49700000000
         },
         {
           "year": 2014,
           "exports": 19400000000,
-          "imports": 35900000000
+          "imports": 35900000000,
+          "total": 55300000000
         },
         {
           "year": 2015,
           "exports": 18400000000,
-          "imports": 39600000000
+          "imports": 39600000000,
+          "total": 58000000000
         },
         {
           "year": 2016,
           "exports": 19500000000,
-          "imports": 42900000000
+          "imports": 42900000000,
+          "total": 62400000000
         },
         {
           "year": 2017,
           "exports": 25200000000,
-          "imports": 45200000000
+          "imports": 45200000000,
+          "total": 70400000000
         },
         {
           "year": 2018,
           "exports": 27100000000,
-          "imports": 46100000000
+          "imports": 46100000000,
+          "total": 73200000000
         },
         {
           "year": 2019,
           "exports": 36300000000,
-          "imports": 50500000000
+          "imports": 50500000000,
+          "total": 86800000000
         },
         {
           "year": 2020,
           "exports": 26200000000,
-          "imports": 57100000000
+          "imports": 57100000000,
+          "total": 83300000000
         },
         {
           "year": 2021,
           "exports": 27000000000,
-          "imports": 66100000000
+          "imports": 66100000000,
+          "total": 93100000000
         }
       ]
     },
@@ -107,23 +117,28 @@
       "data": [
         {
           "label": "Crude oil",
-          "value": 3900000000
+          "value": 3900000000,
+          "percent": 100
         },
         {
           "label": "Cars",
-          "value": 3600000000
+          "value": 3600000000,
+          "percent": 92.3
         },
         {
           "label": "Medicinal & pharmaceutical products",
-          "value": 1600000000
+          "value": 1600000000,
+          "percent": 41
         },
         {
           "label": "Non-ferrous metals",
-          "value": 1100000000
+          "value": 1100000000,
+          "percent": 28.2
         },
         {
           "label": "Mechanical power generators (intermediate)",
-          "value": 731100000
+          "value": 731100000,
+          "percent": 18.7
         }
       ]
     },
@@ -143,23 +158,28 @@
       "data": [
         {
           "label": "Travel",
-          "value": 2800000000
+          "value": 2800000000,
+          "percent": 100
         },
         {
           "label": "Transportation",
-          "value": 1400000000
+          "value": 1400000000,
+          "percent": 50
         },
         {
           "label": "Other Business Services",
-          "value": 1400000000
+          "value": 1400000000,
+          "percent": 50
         },
         {
           "label": "Financial",
-          "value": 927000000
+          "value": 927000000,
+          "percent": 33.1
         },
         {
           "label": "Intellectual property",
-          "value": 808000000
+          "value": 808000000,
+          "percent": 28.9
         }
       ]
     }
@@ -207,52 +227,62 @@
         {
           "year": 2012,
           "exports": 88100000000,
-          "imports": 51800000000
+          "imports": 51800000000,
+          "total": 139900000000
         },
         {
           "year": 2013,
           "exports": 93100000000,
-          "imports": 52200000000
+          "imports": 52200000000,
+          "total": 145300000000
         },
         {
           "year": 2014,
           "exports": 94400000000,
-          "imports": 56300000000
+          "imports": 56300000000,
+          "total": 150700000000
         },
         {
           "year": 2015,
           "exports": 102700000000,
-          "imports": 60400000000
+          "imports": 60400000000,
+          "total": 163100000000
         },
         {
           "year": 2016,
           "exports": 110900000000,
-          "imports": 67599999999.99999
+          "imports": 67599999999.99999,
+          "total": 178500000000
         },
         {
           "year": 2017,
           "exports": 118500000000,
-          "imports": 72400000000
+          "imports": 72400000000,
+          "total": 190900000000
         },
         {
           "year": 2018,
           "exports": 128500000000,
-          "imports": 78100000000
+          "imports": 78100000000,
+          "total": 206600000000
         },
         {
           "year": 2019,
           "exports": 145100000000,
-          "imports": 88300000000
+          "imports": 88300000000,
+          "total": 233400000000
         },
         {
           "year": 2020,
           "exports": 128699999999.99998,
-          "imports": 76100000000
+          "imports": 76100000000,
+          "total": 204800000000
         },
         {
           "year": 2021,
           "exports": 132199999999.99998,
-          "imports": 83000000000
+          "imports": 83000000000,
+          "total": 215200000000
         }
       ]
     },
@@ -272,23 +302,28 @@
       "data": [
         {
           "label": "Cars",
-          "value": 5400000000
+          "value": 5400000000,
+          "percent": 100
         },
         {
           "label": "Medicinal & pharmaceutical products",
-          "value": 5000000000
+          "value": 5000000000,
+          "percent": 92.6
         },
         {
           "label": "Mechanical power generators (intermediate)",
-          "value": 3000000000
+          "value": 3000000000,
+          "percent": 55.6
         },
         {
           "label": "Organic chemicals",
-          "value": 2300000000
+          "value": 2300000000,
+          "percent": 42.6
         },
         {
           "label": "Scientific instruments (capital)",
-          "value": 2100000000
+          "value": 2100000000,
+          "percent": 38.9
         }
       ]
     },
@@ -308,23 +343,28 @@
       "data": [
         {
           "label": "Other Business Services",
-          "value": 39600000000
+          "value": 39600000000,
+          "percent": 100
         },
         {
           "label": "Financial",
-          "value": 19800000000
+          "value": 19800000000,
+          "percent": 50
         },
         {
           "label": "Insurance and Pension",
-          "value": 9100000000
+          "value": 9100000000,
+          "percent": 23
         },
         {
           "label": "Telecommunications, computer and information services",
-          "value": 6100000000
+          "value": 6100000000,
+          "percent": 15.4
         },
         {
           "label": "Intellectual property",
-          "value": 3500000000
+          "value": 3500000000,
+          "percent": 8.8
         }
       ]
     }
@@ -372,52 +412,62 @@
         {
           "year": 2012,
           "exports": 9600000000,
-          "imports": 4700000000
+          "imports": 4700000000,
+          "total": 14300000000
         },
         {
           "year": 2013,
           "exports": 9500000000,
-          "imports": 4900000000
+          "imports": 4900000000,
+          "total": 14400000000
         },
         {
           "year": 2014,
           "exports": 9100000000,
-          "imports": 4300000000
+          "imports": 4300000000,
+          "total": 13400000000
         },
         {
           "year": 2015,
           "exports": 8900000000,
-          "imports": 4400000000
+          "imports": 4400000000,
+          "total": 13300000000
         },
         {
           "year": 2016,
           "exports": 9600000000,
-          "imports": 4700000000
+          "imports": 4700000000,
+          "total": 14300000000
         },
         {
           "year": 2017,
           "exports": 10600000000,
-          "imports": 5300000000
+          "imports": 5300000000,
+          "total": 15900000000
         },
         {
           "year": 2018,
           "exports": 11300000000,
-          "imports": 4700000000
+          "imports": 4700000000,
+          "total": 16000000000
         },
         {
           "year": 2019,
           "exports": 11300000000,
-          "imports": 6700000000
+          "imports": 6700000000,
+          "total": 18000000000
         },
         {
           "year": 2020,
           "exports": 9500000000,
-          "imports": 4800000000
+          "imports": 4800000000,
+          "total": 14300000000
         },
         {
           "year": 2021,
           "exports": 9800000000,
-          "imports": 4600000000
+          "imports": 4600000000,
+          "total": 14400000000
         }
       ]
     },
@@ -437,23 +487,28 @@
       "data": [
         {
           "label": "Medicinal & pharmaceutical products",
-          "value": 602900000
+          "value": 602900000,
+          "percent": 100
         },
         {
           "label": "Cars",
-          "value": 348400000
+          "value": 348400000,
+          "percent": 57.8
         },
         {
           "label": "Other manufactures (consumer)",
-          "value": 326700000
+          "value": 326700000,
+          "percent": 54.2
         },
         {
           "label": "Specialised machinery (capital)",
-          "value": 235600000
+          "value": 235600000,
+          "percent": 39.1
         },
         {
           "label": "Beverages",
-          "value": 208100000
+          "value": 208100000,
+          "percent": 34.5
         }
       ]
     },
@@ -473,23 +528,28 @@
       "data": [
         {
           "label": "Insurance and Pension",
-          "value": 1500000000
+          "value": 1500000000,
+          "percent": 100
         },
         {
           "label": "Other Business Services",
-          "value": 1400000000
+          "value": 1400000000,
+          "percent": 93.3
         },
         {
           "label": "Financial",
-          "value": 737000000
+          "value": 737000000,
+          "percent": 49.1
         },
         {
           "label": "Telecommunications, computer and information services",
-          "value": 589000000
+          "value": 589000000,
+          "percent": 39.3
         },
         {
           "label": "Travel",
-          "value": 336000000
+          "value": 336000000,
+          "percent": 22.4
         }
       ]
     }
@@ -537,52 +597,62 @@
         {
           "year": 2012,
           "exports": 44400000000,
-          "imports": 61800000000
+          "imports": 61800000000,
+          "total": 106200000000
         },
         {
           "year": 2013,
           "exports": 43200000000,
-          "imports": 65000000000
+          "imports": 65000000000,
+          "total": 108200000000
         },
         {
           "year": 2014,
           "exports": 44100000000,
-          "imports": 70000000000
+          "imports": 70000000000,
+          "total": 114100000000
         },
         {
           "year": 2015,
           "exports": 44100000000,
-          "imports": 70200000000
+          "imports": 70200000000,
+          "total": 114300000000
         },
         {
           "year": 2016,
           "exports": 48600000000,
-          "imports": 74000000000
+          "imports": 74000000000,
+          "total": 122600000000
         },
         {
           "year": 2017,
           "exports": 55500000000,
-          "imports": 80100000000
+          "imports": 80100000000,
+          "total": 135600000000
         },
         {
           "year": 2018,
           "exports": 54900000000,
-          "imports": 79700000000
+          "imports": 79700000000,
+          "total": 134600000000
         },
         {
           "year": 2019,
           "exports": 55300000000,
-          "imports": 77200000000
+          "imports": 77200000000,
+          "total": 132500000000
         },
         {
           "year": 2020,
           "exports": 49700000000,
-          "imports": 66200000000
+          "imports": 66200000000,
+          "total": 115900000000
         },
         {
           "year": 2021,
           "exports": 46600000000,
-          "imports": 62700000000
+          "imports": 62700000000,
+          "total": 109300000000
         }
       ]
     },
@@ -602,23 +672,28 @@
       "data": [
         {
           "label": "Aircraft",
-          "value": 2600000000
+          "value": 2600000000,
+          "percent": 100
         },
         {
           "label": "Non-ferrous metals",
-          "value": 2500000000
+          "value": 2500000000,
+          "percent": 96.2
         },
         {
           "label": "Mechanical power generators (intermediate)",
-          "value": 1900000000
+          "value": 1900000000,
+          "percent": 73.1
         },
         {
           "label": "Cars",
-          "value": 1800000000
+          "value": 1800000000,
+          "percent": 69.2
         },
         {
           "label": "Medicinal & pharmaceutical products",
-          "value": 1500000000
+          "value": 1500000000,
+          "percent": 57.7
         }
       ]
     },
@@ -638,23 +713,28 @@
       "data": [
         {
           "label": "Other Business Services",
-          "value": 8000000000
+          "value": 8000000000,
+          "percent": 100
         },
         {
           "label": "Telecommunications, computer and information services",
-          "value": 2700000000
+          "value": 2700000000,
+          "percent": 33.8
         },
         {
           "label": "Financial",
-          "value": 2400000000
+          "value": 2400000000,
+          "percent": 30
         },
         {
           "label": "Intellectual property",
-          "value": 1200000000
+          "value": 1200000000,
+          "percent": 15
         },
         {
           "label": "Transportation",
-          "value": 1000000000
+          "value": 1000000000,
+          "percent": 12.5
         }
       ]
     }
@@ -702,52 +782,62 @@
         {
           "year": 2012,
           "exports": 7500000000,
-          "imports": 9000000000
+          "imports": 9000000000,
+          "total": 16500000000
         },
         {
           "year": 2013,
           "exports": 7500000000,
-          "imports": 8800000000
+          "imports": 8800000000,
+          "total": 16300000000
         },
         {
           "year": 2014,
           "exports": 6500000000,
-          "imports": 9500000000
+          "imports": 9500000000,
+          "total": 16000000000
         },
         {
           "year": 2015,
           "exports": 6900000000,
-          "imports": 9100000000
+          "imports": 9100000000,
+          "total": 16000000000
         },
         {
           "year": 2016,
           "exports": 6100000000,
-          "imports": 9800000000
+          "imports": 9800000000,
+          "total": 15900000000
         },
         {
           "year": 2017,
           "exports": 6800000000,
-          "imports": 11600000000
+          "imports": 11600000000,
+          "total": 18400000000
         },
         {
           "year": 2018,
           "exports": 9400000000,
-          "imports": 12400000000
+          "imports": 12400000000,
+          "total": 21800000000
         },
         {
           "year": 2019,
           "exports": 9000000000,
-          "imports": 14900000000
+          "imports": 14900000000,
+          "total": 23900000000
         },
         {
           "year": 2020,
           "exports": 7200000000,
-          "imports": 11700000000
+          "imports": 11700000000,
+          "total": 18900000000
         },
         {
           "year": 2021,
           "exports": 8400000000,
-          "imports": 15900000000
+          "imports": 15900000000,
+          "total": 24300000000
         }
       ]
     },
@@ -767,23 +857,28 @@
       "data": [
         {
           "label": "Non-ferrous metals",
-          "value": 785800000
+          "value": 785800000,
+          "percent": 100
         },
         {
           "label": "Metal ores & scrap",
-          "value": 553600000
+          "value": 553600000,
+          "percent": 70.5
         },
         {
           "label": "Mechanical power generators (intermediate)",
-          "value": 397300000
+          "value": 397300000,
+          "percent": 50.6
         },
         {
           "label": "Crude oil",
-          "value": 239900000
+          "value": 239900000,
+          "percent": 30.5
         },
         {
           "label": "General industrial machinery (capital)",
-          "value": 229000000
+          "value": 229000000,
+          "percent": 29.1
         }
       ]
     },
@@ -803,23 +898,28 @@
       "data": [
         {
           "label": "Other Business Services",
-          "value": 1600000000
+          "value": 1600000000,
+          "percent": 100
         },
         {
           "label": "Travel",
-          "value": 760000000
+          "value": 760000000,
+          "percent": 47.5
         },
         {
           "label": "Transportation",
-          "value": 414000000
+          "value": 414000000,
+          "percent": 25.9
         },
         {
           "label": "Telecommunications, computer and information services",
-          "value": 204000000
+          "value": 204000000,
+          "percent": 12.8
         },
         {
           "label": "Intellectual property",
-          "value": 147000000
+          "value": 147000000,
+          "percent": 9.2
         }
       ]
     }
@@ -867,52 +967,62 @@
         {
           "year": 2012,
           "exports": 2600000000,
-          "imports": 3400000000
+          "imports": 3400000000,
+          "total": 6000000000
         },
         {
           "year": 2013,
           "exports": 2600000000,
-          "imports": 3600000000
+          "imports": 3600000000,
+          "total": 6200000000
         },
         {
           "year": 2014,
           "exports": 2600000000,
-          "imports": 4000000000
+          "imports": 4000000000,
+          "total": 6600000000
         },
         {
           "year": 2015,
           "exports": 2500000000,
-          "imports": 4600000000
+          "imports": 4600000000,
+          "total": 7100000000
         },
         {
           "year": 2016,
           "exports": 2900000000,
-          "imports": 4900000000
+          "imports": 4900000000,
+          "total": 7800000000
         },
         {
           "year": 2017,
           "exports": 3100000000,
-          "imports": 5300000000
+          "imports": 5300000000,
+          "total": 8400000000
         },
         {
           "year": 2018,
           "exports": 3300000000,
-          "imports": 5500000000
+          "imports": 5500000000,
+          "total": 8800000000
         },
         {
           "year": 2019,
           "exports": 3500000000,
-          "imports": 5800000000
+          "imports": 5800000000,
+          "total": 9300000000
         },
         {
           "year": 2020,
           "exports": 2500000000,
-          "imports": 3700000000
+          "imports": 3700000000,
+          "total": 6200000000
         },
         {
           "year": 2021,
           "exports": 2300000000,
-          "imports": 4500000000
+          "imports": 4500000000,
+          "total": 6800000000
         }
       ]
     },
@@ -932,23 +1042,28 @@
       "data": [
         {
           "label": "Mechanical power generators (intermediate)",
-          "value": 181600000
+          "value": 181600000,
+          "percent": 100
         },
         {
           "label": "Cars",
-          "value": 110200000
+          "value": 110200000,
+          "percent": 60.7
         },
         {
           "label": "Crude oil",
-          "value": 102200000
+          "value": 102200000,
+          "percent": 56.3
         },
         {
           "label": "Metal ores & scrap",
-          "value": 86100000
+          "value": 86100000,
+          "percent": 47.4
         },
         {
           "label": "Iron & steel",
-          "value": 58900000
+          "value": 58900000,
+          "percent": 32.4
         }
       ]
     },
@@ -968,23 +1083,28 @@
       "data": [
         {
           "label": "Other Business Services",
-          "value": 222000000
+          "value": 222000000,
+          "percent": 100
         },
         {
           "label": "Travel",
-          "value": 202000000
+          "value": 202000000,
+          "percent": 91
         },
         {
           "label": "Transportation",
-          "value": 199000000
+          "value": 199000000,
+          "percent": 89.6
         },
         {
           "label": "Telecommunications, computer and information services",
-          "value": 156000000
+          "value": 156000000,
+          "percent": 70.3
         },
         {
           "label": "Financial",
-          "value": 110000000
+          "value": 110000000,
+          "percent": 49.5
         }
       ]
     }
@@ -1032,52 +1152,62 @@
         {
           "year": 2012,
           "exports": 62000000,
-          "imports": 1000000
+          "imports": 1000000,
+          "total": 63000000
         },
         {
           "year": 2013,
           "exports": 29000000,
-          "imports": 1000000
+          "imports": 1000000,
+          "total": 30000000
         },
         {
           "year": 2014,
           "exports": 50000000,
-          "imports": 7000000
+          "imports": 7000000,
+          "total": 57000000
         },
         {
           "year": 2015,
           "exports": 81000000,
-          "imports": 27000000
+          "imports": 27000000,
+          "total": 108000000
         },
         {
           "year": 2016,
           "exports": 90000000,
-          "imports": 45000000
+          "imports": 45000000,
+          "total": 135000000
         },
         {
           "year": 2017,
           "exports": 115000000,
-          "imports": 64000000
+          "imports": 64000000,
+          "total": 179000000
         },
         {
           "year": 2018,
           "exports": 107000000,
-          "imports": 34000000
+          "imports": 34000000,
+          "total": 141000000
         },
         {
           "year": 2019,
           "exports": 65000000,
-          "imports": 11000000
+          "imports": 11000000,
+          "total": 76000000
         },
         {
           "year": 2020,
           "exports": 166000000,
-          "imports": 16000000
+          "imports": 16000000,
+          "total": 182000000
         },
         {
           "year": 2021,
           "exports": 98000000,
-          "imports": 24000000
+          "imports": 24000000,
+          "total": 122000000
         }
       ]
     },
@@ -1097,23 +1227,28 @@
       "data": [
         {
           "label": "Miscellaneous electrical goods (intermediate)",
-          "value": 9700000
+          "value": 9700000,
+          "percent": 100
         },
         {
           "label": "Scientific instruments (capital)",
-          "value": 700000
+          "value": 700000,
+          "percent": 7.2
         },
         {
           "label": "Works of art",
-          "value": 630000
+          "value": 630000,
+          "percent": 6.5
         },
         {
           "label": "Office machinery (capital)",
-          "value": 540000
+          "value": 540000,
+          "percent": 5.6
         },
         {
           "label": "Mineral manufactures",
-          "value": 500000
+          "value": 500000,
+          "percent": 5.2
         }
       ]
     },
@@ -1133,15 +1268,18 @@
       "data": [
         {
           "label": "Other Business Services",
-          "value": 39000000
+          "value": 39000000,
+          "percent": 100
         },
         {
           "label": "Transportation",
-          "value": 31000000
+          "value": 31000000,
+          "percent": 79.5
         },
         {
           "label": "Financial",
-          "value": 6000000
+          "value": 6000000,
+          "percent": 15.4
         }
       ]
     }
