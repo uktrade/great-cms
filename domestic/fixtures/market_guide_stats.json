@@ -36,7 +36,8 @@
             "Total trade is the sum of all exports and imports over the same time period.",
             "Data includes goods and services combined."
           ]
-        }
+        },
+        "unit": "billion"
       },
       "data": [
         {
@@ -112,7 +113,8 @@
           "resolution": "quarter",
           "period": 4,
           "year": 2021
-        }
+        },
+        "unit": "billion"
       },
       "data": [
         {
@@ -153,7 +155,8 @@
           "resolution": "quarter",
           "period": 4,
           "year": 2021
-        }
+        },
+        "unit": "billion"
       },
       "data": [
         {
@@ -203,7 +206,8 @@
           "resolution": "quarter",
           "period": 4,
           "year": 2021
-        }
+        },
+        "unit": "billion"
       },
       "data": {
         "total_uk_exports": 132200000000,
@@ -221,7 +225,8 @@
             "Total trade is the sum of all exports and imports over the same time period.",
             "Data includes goods and services combined."
           ]
-        }
+        },
+        "unit": "billion"
       },
       "data": [
         {
@@ -297,7 +302,8 @@
           "resolution": "quarter",
           "period": 4,
           "year": 2021
-        }
+        },
+        "unit": "billion"
       },
       "data": [
         {
@@ -338,7 +344,8 @@
           "resolution": "quarter",
           "period": 4,
           "year": 2021
-        }
+        },
+        "unit": "billion"
       },
       "data": [
         {
@@ -406,7 +413,8 @@
             "Total trade is the sum of all exports and imports over the same time period.",
             "Data includes goods and services combined."
           ]
-        }
+        },
+        "unit": "billion"
       },
       "data": [
         {
@@ -482,7 +490,8 @@
           "resolution": "quarter",
           "period": 4,
           "year": 2021
-        }
+        },
+        "unit": "million"
       },
       "data": [
         {
@@ -523,7 +532,8 @@
           "resolution": "quarter",
           "period": 4,
           "year": 2021
-        }
+        },
+        "unit": "billion"
       },
       "data": [
         {
@@ -591,7 +601,8 @@
             "Total trade is the sum of all exports and imports over the same time period.",
             "Data includes goods and services combined."
           ]
-        }
+        },
+        "unit": "billion"
       },
       "data": [
         {
@@ -667,7 +678,8 @@
           "resolution": "quarter",
           "period": 4,
           "year": 2021
-        }
+        },
+        "unit": "billion"
       },
       "data": [
         {
@@ -708,7 +720,8 @@
           "resolution": "quarter",
           "period": 4,
           "year": 2021
-        }
+        },
+        "unit": "billion"
       },
       "data": [
         {
@@ -776,7 +789,8 @@
             "Total trade is the sum of all exports and imports over the same time period.",
             "Data includes goods and services combined."
           ]
-        }
+        },
+        "unit": "billion"
       },
       "data": [
         {
@@ -852,7 +866,8 @@
           "resolution": "quarter",
           "period": 4,
           "year": 2021
-        }
+        },
+        "unit": "million"
       },
       "data": [
         {
@@ -893,7 +908,8 @@
           "resolution": "quarter",
           "period": 4,
           "year": 2021
-        }
+        },
+        "unit": "billion"
       },
       "data": [
         {
@@ -961,7 +977,8 @@
             "Total trade is the sum of all exports and imports over the same time period.",
             "Data includes goods and services combined."
           ]
-        }
+        },
+        "unit": "billion"
       },
       "data": [
         {
@@ -1037,7 +1054,8 @@
           "resolution": "quarter",
           "period": 4,
           "year": 2021
-        }
+        },
+        "unit": "million"
       },
       "data": [
         {
@@ -1078,7 +1096,8 @@
           "resolution": "quarter",
           "period": 4,
           "year": 2021
-        }
+        },
+        "unit": "million"
       },
       "data": [
         {
@@ -1146,7 +1165,8 @@
             "Total trade is the sum of all exports and imports over the same time period.",
             "Data includes goods and services combined."
           ]
-        }
+        },
+        "unit": "million"
       },
       "data": [
         {
@@ -1222,7 +1242,8 @@
           "resolution": "quarter",
           "period": 4,
           "year": 2021
-        }
+        },
+        "unit": "million"
       },
       "data": [
         {
@@ -1263,7 +1284,8 @@
           "resolution": "quarter",
           "period": 4,
           "year": 2021
-        }
+        },
+        "unit": "million"
       },
       "data": [
         {
