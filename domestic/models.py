@@ -1,3 +1,5 @@
+import json
+import os
 from urllib.parse import unquote_plus
 
 from django.conf import settings
@@ -914,7 +916,13 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         iso2 = getattr(self.country, 'iso2', None)
 
         if iso2 in ['US', 'AU', 'DE', 'CN', 'IN', 'PT', 'LI']:
-            return helpers.get_stats_by_country(iso2=iso2)
+            if settings.FEATURE_DATA_PIPELINE_STATS:
+                return helpers.get_stats_by_country(iso2=iso2)
+            else:
+                json_data = open(os.path.join(settings.ROOT_DIR, 'domestic', 'fixtures', 'market_guide_stats.json'))
+                data = json.load(json_data)
+
+                return data[iso2]
 
         return None
 

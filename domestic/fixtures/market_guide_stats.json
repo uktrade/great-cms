@@ -1,0 +1,1149 @@
+{
+  "CN": {
+    "metadata": {
+      "country": "China",
+      "iso2": "CN"
+    },
+    "highlights": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK total trade: all countries",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets/uktotaltradeallcountriesseasonallyadjusted",
+          "next_release": "To be announced",
+          "notes": [
+            "Data includes goods and services combined in the four quarters to the end of Q4 2021."
+          ]
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": {
+        "total_uk_exports": 27000000000,
+        "trading_position": 3,
+        "percentage_of_uk_trade": 7.3
+      }
+    },
+    "market_trends": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK total trade: all countries",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets/uktotaltradeallcountriesseasonallyadjusted ",
+          "next_release": "To be announced",
+          "notes": [
+            "Total trade is the sum of all exports and imports over the same time period.",
+            "Data includes goods and services combined."
+          ]
+        }
+      },
+      "data": [
+        {
+          "year": 2012,
+          "exports": 15600000000,
+          "imports": 31500000000
+        },
+        {
+          "year": 2013,
+          "exports": 16900000000,
+          "imports": 32800000000
+        },
+        {
+          "year": 2014,
+          "exports": 19400000000,
+          "imports": 35900000000
+        },
+        {
+          "year": 2015,
+          "exports": 18400000000,
+          "imports": 39600000000
+        },
+        {
+          "year": 2016,
+          "exports": 19500000000,
+          "imports": 42900000000
+        },
+        {
+          "year": 2017,
+          "exports": 25200000000,
+          "imports": 45200000000
+        },
+        {
+          "year": 2018,
+          "exports": 27100000000,
+          "imports": 46100000000
+        },
+        {
+          "year": 2019,
+          "exports": 36300000000,
+          "imports": 50500000000
+        },
+        {
+          "year": 2020,
+          "exports": 26200000000,
+          "imports": 57100000000
+        },
+        {
+          "year": 2021,
+          "exports": 27000000000,
+          "imports": 66100000000
+        }
+      ]
+    },
+    "goods_exports": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK trade",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/bulletins/uktrade/latest",
+          "next_release": "13 June 2022"
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": [
+        {
+          "label": "Crude oil",
+          "value": 3900000000
+        },
+        {
+          "label": "Cars",
+          "value": 3600000000
+        },
+        {
+          "label": "Medicinal & pharmaceutical products",
+          "value": 1600000000
+        },
+        {
+          "label": "Non-ferrous metals",
+          "value": 1100000000
+        },
+        {
+          "label": "Mechanical power generators (intermediate)",
+          "value": 731100000
+        }
+      ]
+    },
+    "services_exports": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK trade in services: service type by partner country",
+          "url": "https://www.ons.gov.uk/businessindustryandtrade/internationaltrade/datasets/uktradeinservicesservicetypebypartnercountrynonseasonallyadjusted",
+          "next_release": "To be announced"
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": [
+        {
+          "label": "Travel",
+          "value": 2800000000
+        },
+        {
+          "label": "Transportation",
+          "value": 1400000000
+        },
+        {
+          "label": "Other Business Services",
+          "value": 1400000000
+        },
+        {
+          "label": "Financial",
+          "value": 927000000
+        },
+        {
+          "label": "Intellectual property",
+          "value": 808000000
+        }
+      ]
+    }
+  },
+  "US": {
+    "metadata": {
+      "country": "United States",
+      "iso2": "US"
+    },
+    "highlights": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK total trade: all countries",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets/uktotaltradeallcountriesseasonallyadjusted",
+          "next_release": "To be announced",
+          "notes": [
+            "Data includes goods and services combined in the four quarters to the end of Q4 2021."
+          ]
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": {
+        "total_uk_exports": 132200000000,
+        "trading_position": 1,
+        "percentage_of_uk_trade": 16.8
+      }
+    },
+    "market_trends": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK total trade: all countries",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets/uktotaltradeallcountriesseasonallyadjusted ",
+          "next_release": "To be announced",
+          "notes": [
+            "Total trade is the sum of all exports and imports over the same time period.",
+            "Data includes goods and services combined."
+          ]
+        }
+      },
+      "data": [
+        {
+          "year": 2012,
+          "exports": 88100000000,
+          "imports": 51800000000
+        },
+        {
+          "year": 2013,
+          "exports": 93100000000,
+          "imports": 52200000000
+        },
+        {
+          "year": 2014,
+          "exports": 94400000000,
+          "imports": 56300000000
+        },
+        {
+          "year": 2015,
+          "exports": 102700000000,
+          "imports": 60400000000
+        },
+        {
+          "year": 2016,
+          "exports": 110900000000,
+          "imports": 67599999999.99999
+        },
+        {
+          "year": 2017,
+          "exports": 118500000000,
+          "imports": 72400000000
+        },
+        {
+          "year": 2018,
+          "exports": 128500000000,
+          "imports": 78100000000
+        },
+        {
+          "year": 2019,
+          "exports": 145100000000,
+          "imports": 88300000000
+        },
+        {
+          "year": 2020,
+          "exports": 128699999999.99998,
+          "imports": 76100000000
+        },
+        {
+          "year": 2021,
+          "exports": 132199999999.99998,
+          "imports": 83000000000
+        }
+      ]
+    },
+    "goods_exports": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK trade",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/bulletins/uktrade/latest",
+          "next_release": "13 June 2022"
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": [
+        {
+          "label": "Cars",
+          "value": 5400000000
+        },
+        {
+          "label": "Medicinal & pharmaceutical products",
+          "value": 5000000000
+        },
+        {
+          "label": "Mechanical power generators (intermediate)",
+          "value": 3000000000
+        },
+        {
+          "label": "Organic chemicals",
+          "value": 2300000000
+        },
+        {
+          "label": "Scientific instruments (capital)",
+          "value": 2100000000
+        }
+      ]
+    },
+    "services_exports": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK trade in services: service type by partner country",
+          "url": "https://www.ons.gov.uk/businessindustryandtrade/internationaltrade/datasets/uktradeinservicesservicetypebypartnercountrynonseasonallyadjusted",
+          "next_release": "To be announced"
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": [
+        {
+          "label": "Other Business Services",
+          "value": 39600000000
+        },
+        {
+          "label": "Financial",
+          "value": 19800000000
+        },
+        {
+          "label": "Insurance and Pension",
+          "value": 9100000000
+        },
+        {
+          "label": "Telecommunications, computer and information services",
+          "value": 6100000000
+        },
+        {
+          "label": "Intellectual property",
+          "value": 3500000000
+        }
+      ]
+    }
+  },
+  "AU": {
+    "metadata": {
+      "country": "Australia",
+      "iso2": "AU"
+    },
+    "highlights": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK total trade: all countries",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets/uktotaltradeallcountriesseasonallyadjusted",
+          "next_release": "To be announced",
+          "notes": [
+            "Data includes goods and services combined in the four quarters to the end of Q4 2021."
+          ]
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": {
+        "total_uk_exports": 9800000000,
+        "trading_position": 22,
+        "percentage_of_uk_trade": 1.1
+      }
+    },
+    "market_trends": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK total trade: all countries",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets/uktotaltradeallcountriesseasonallyadjusted ",
+          "next_release": "To be announced",
+          "notes": [
+            "Total trade is the sum of all exports and imports over the same time period.",
+            "Data includes goods and services combined."
+          ]
+        }
+      },
+      "data": [
+        {
+          "year": 2012,
+          "exports": 9600000000,
+          "imports": 4700000000
+        },
+        {
+          "year": 2013,
+          "exports": 9500000000,
+          "imports": 4900000000
+        },
+        {
+          "year": 2014,
+          "exports": 9100000000,
+          "imports": 4300000000
+        },
+        {
+          "year": 2015,
+          "exports": 8900000000,
+          "imports": 4400000000
+        },
+        {
+          "year": 2016,
+          "exports": 9600000000,
+          "imports": 4700000000
+        },
+        {
+          "year": 2017,
+          "exports": 10600000000,
+          "imports": 5300000000
+        },
+        {
+          "year": 2018,
+          "exports": 11300000000,
+          "imports": 4700000000
+        },
+        {
+          "year": 2019,
+          "exports": 11300000000,
+          "imports": 6700000000
+        },
+        {
+          "year": 2020,
+          "exports": 9500000000,
+          "imports": 4800000000
+        },
+        {
+          "year": 2021,
+          "exports": 9800000000,
+          "imports": 4600000000
+        }
+      ]
+    },
+    "goods_exports": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK trade",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/bulletins/uktrade/latest",
+          "next_release": "13 June 2022"
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": [
+        {
+          "label": "Medicinal & pharmaceutical products",
+          "value": 602900000
+        },
+        {
+          "label": "Cars",
+          "value": 348400000
+        },
+        {
+          "label": "Other manufactures (consumer)",
+          "value": 326700000
+        },
+        {
+          "label": "Specialised machinery (capital)",
+          "value": 235600000
+        },
+        {
+          "label": "Beverages",
+          "value": 208100000
+        }
+      ]
+    },
+    "services_exports": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK trade in services: service type by partner country",
+          "url": "https://www.ons.gov.uk/businessindustryandtrade/internationaltrade/datasets/uktradeinservicesservicetypebypartnercountrynonseasonallyadjusted",
+          "next_release": "To be announced"
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": [
+        {
+          "label": "Insurance and Pension",
+          "value": 1500000000
+        },
+        {
+          "label": "Other Business Services",
+          "value": 1400000000
+        },
+        {
+          "label": "Financial",
+          "value": 737000000
+        },
+        {
+          "label": "Telecommunications, computer and information services",
+          "value": 589000000
+        },
+        {
+          "label": "Travel",
+          "value": 336000000
+        }
+      ]
+    }
+  },
+  "DE": {
+    "metadata": {
+      "country": "Germany",
+      "iso2": "DE"
+    },
+    "highlights": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK total trade: all countries",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets/uktotaltradeallcountriesseasonallyadjusted",
+          "next_release": "To be announced",
+          "notes": [
+            "Data includes goods and services combined in the four quarters to the end of Q4 2021."
+          ]
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": {
+        "total_uk_exports": 46600000000,
+        "trading_position": 2,
+        "percentage_of_uk_trade": 8.5
+      }
+    },
+    "market_trends": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK total trade: all countries",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets/uktotaltradeallcountriesseasonallyadjusted ",
+          "next_release": "To be announced",
+          "notes": [
+            "Total trade is the sum of all exports and imports over the same time period.",
+            "Data includes goods and services combined."
+          ]
+        }
+      },
+      "data": [
+        {
+          "year": 2012,
+          "exports": 44400000000,
+          "imports": 61800000000
+        },
+        {
+          "year": 2013,
+          "exports": 43200000000,
+          "imports": 65000000000
+        },
+        {
+          "year": 2014,
+          "exports": 44100000000,
+          "imports": 70000000000
+        },
+        {
+          "year": 2015,
+          "exports": 44100000000,
+          "imports": 70200000000
+        },
+        {
+          "year": 2016,
+          "exports": 48600000000,
+          "imports": 74000000000
+        },
+        {
+          "year": 2017,
+          "exports": 55500000000,
+          "imports": 80100000000
+        },
+        {
+          "year": 2018,
+          "exports": 54900000000,
+          "imports": 79700000000
+        },
+        {
+          "year": 2019,
+          "exports": 55300000000,
+          "imports": 77200000000
+        },
+        {
+          "year": 2020,
+          "exports": 49700000000,
+          "imports": 66200000000
+        },
+        {
+          "year": 2021,
+          "exports": 46600000000,
+          "imports": 62700000000
+        }
+      ]
+    },
+    "goods_exports": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK trade",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/bulletins/uktrade/latest",
+          "next_release": "13 June 2022"
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": [
+        {
+          "label": "Aircraft",
+          "value": 2600000000
+        },
+        {
+          "label": "Non-ferrous metals",
+          "value": 2500000000
+        },
+        {
+          "label": "Mechanical power generators (intermediate)",
+          "value": 1900000000
+        },
+        {
+          "label": "Cars",
+          "value": 1800000000
+        },
+        {
+          "label": "Medicinal & pharmaceutical products",
+          "value": 1500000000
+        }
+      ]
+    },
+    "services_exports": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK trade in services: service type by partner country",
+          "url": "https://www.ons.gov.uk/businessindustryandtrade/internationaltrade/datasets/uktradeinservicesservicetypebypartnercountrynonseasonallyadjusted",
+          "next_release": "To be announced"
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": [
+        {
+          "label": "Other Business Services",
+          "value": 8000000000
+        },
+        {
+          "label": "Telecommunications, computer and information services",
+          "value": 2700000000
+        },
+        {
+          "label": "Financial",
+          "value": 2400000000
+        },
+        {
+          "label": "Intellectual property",
+          "value": 1200000000
+        },
+        {
+          "label": "Transportation",
+          "value": 1000000000
+        }
+      ]
+    }
+  },
+  "IN": {
+    "metadata": {
+      "country": "India",
+      "iso2": "IN"
+    },
+    "highlights": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK total trade: all countries",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets/uktotaltradeallcountriesseasonallyadjusted",
+          "next_release": "To be announced",
+          "notes": [
+            "Data includes goods and services combined in the four quarters to the end of Q4 2021."
+          ]
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": {
+        "total_uk_exports": 8400000000,
+        "trading_position": 12,
+        "percentage_of_uk_trade": 1.9
+      }
+    },
+    "market_trends": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK total trade: all countries",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets/uktotaltradeallcountriesseasonallyadjusted ",
+          "next_release": "To be announced",
+          "notes": [
+            "Total trade is the sum of all exports and imports over the same time period.",
+            "Data includes goods and services combined."
+          ]
+        }
+      },
+      "data": [
+        {
+          "year": 2012,
+          "exports": 7500000000,
+          "imports": 9000000000
+        },
+        {
+          "year": 2013,
+          "exports": 7500000000,
+          "imports": 8800000000
+        },
+        {
+          "year": 2014,
+          "exports": 6500000000,
+          "imports": 9500000000
+        },
+        {
+          "year": 2015,
+          "exports": 6900000000,
+          "imports": 9100000000
+        },
+        {
+          "year": 2016,
+          "exports": 6100000000,
+          "imports": 9800000000
+        },
+        {
+          "year": 2017,
+          "exports": 6800000000,
+          "imports": 11600000000
+        },
+        {
+          "year": 2018,
+          "exports": 9400000000,
+          "imports": 12400000000
+        },
+        {
+          "year": 2019,
+          "exports": 9000000000,
+          "imports": 14900000000
+        },
+        {
+          "year": 2020,
+          "exports": 7200000000,
+          "imports": 11700000000
+        },
+        {
+          "year": 2021,
+          "exports": 8400000000,
+          "imports": 15900000000
+        }
+      ]
+    },
+    "goods_exports": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK trade",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/bulletins/uktrade/latest",
+          "next_release": "13 June 2022"
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": [
+        {
+          "label": "Non-ferrous metals",
+          "value": 785800000
+        },
+        {
+          "label": "Metal ores & scrap",
+          "value": 553600000
+        },
+        {
+          "label": "Mechanical power generators (intermediate)",
+          "value": 397300000
+        },
+        {
+          "label": "Crude oil",
+          "value": 239900000
+        },
+        {
+          "label": "General industrial machinery (capital)",
+          "value": 229000000
+        }
+      ]
+    },
+    "services_exports": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK trade in services: service type by partner country",
+          "url": "https://www.ons.gov.uk/businessindustryandtrade/internationaltrade/datasets/uktradeinservicesservicetypebypartnercountrynonseasonallyadjusted",
+          "next_release": "To be announced"
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": [
+        {
+          "label": "Other Business Services",
+          "value": 1600000000
+        },
+        {
+          "label": "Travel",
+          "value": 760000000
+        },
+        {
+          "label": "Transportation",
+          "value": 414000000
+        },
+        {
+          "label": "Telecommunications, computer and information services",
+          "value": 204000000
+        },
+        {
+          "label": "Intellectual property",
+          "value": 147000000
+        }
+      ]
+    }
+  },
+  "PT": {
+    "metadata": {
+      "country": "Portugal",
+      "iso2": "PT"
+    },
+    "highlights": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK total trade: all countries",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets/uktotaltradeallcountriesseasonallyadjusted",
+          "next_release": "To be announced",
+          "notes": [
+            "Data includes goods and services combined in the four quarters to the end of Q4 2021."
+          ]
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": {
+        "total_uk_exports": 2300000000,
+        "trading_position": 31,
+        "percentage_of_uk_trade": 0.5
+      }
+    },
+    "market_trends": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK total trade: all countries",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets/uktotaltradeallcountriesseasonallyadjusted ",
+          "next_release": "To be announced",
+          "notes": [
+            "Total trade is the sum of all exports and imports over the same time period.",
+            "Data includes goods and services combined."
+          ]
+        }
+      },
+      "data": [
+        {
+          "year": 2012,
+          "exports": 2600000000,
+          "imports": 3400000000
+        },
+        {
+          "year": 2013,
+          "exports": 2600000000,
+          "imports": 3600000000
+        },
+        {
+          "year": 2014,
+          "exports": 2600000000,
+          "imports": 4000000000
+        },
+        {
+          "year": 2015,
+          "exports": 2500000000,
+          "imports": 4600000000
+        },
+        {
+          "year": 2016,
+          "exports": 2900000000,
+          "imports": 4900000000
+        },
+        {
+          "year": 2017,
+          "exports": 3100000000,
+          "imports": 5300000000
+        },
+        {
+          "year": 2018,
+          "exports": 3300000000,
+          "imports": 5500000000
+        },
+        {
+          "year": 2019,
+          "exports": 3500000000,
+          "imports": 5800000000
+        },
+        {
+          "year": 2020,
+          "exports": 2500000000,
+          "imports": 3700000000
+        },
+        {
+          "year": 2021,
+          "exports": 2300000000,
+          "imports": 4500000000
+        }
+      ]
+    },
+    "goods_exports": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK trade",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/bulletins/uktrade/latest",
+          "next_release": "13 June 2022"
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": [
+        {
+          "label": "Mechanical power generators (intermediate)",
+          "value": 181600000
+        },
+        {
+          "label": "Cars",
+          "value": 110200000
+        },
+        {
+          "label": "Crude oil",
+          "value": 102200000
+        },
+        {
+          "label": "Metal ores & scrap",
+          "value": 86100000
+        },
+        {
+          "label": "Iron & steel",
+          "value": 58900000
+        }
+      ]
+    },
+    "services_exports": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK trade in services: service type by partner country",
+          "url": "https://www.ons.gov.uk/businessindustryandtrade/internationaltrade/datasets/uktradeinservicesservicetypebypartnercountrynonseasonallyadjusted",
+          "next_release": "To be announced"
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": [
+        {
+          "label": "Other Business Services",
+          "value": 222000000
+        },
+        {
+          "label": "Travel",
+          "value": 202000000
+        },
+        {
+          "label": "Transportation",
+          "value": 199000000
+        },
+        {
+          "label": "Telecommunications, computer and information services",
+          "value": 156000000
+        },
+        {
+          "label": "Financial",
+          "value": 110000000
+        }
+      ]
+    }
+  },
+  "LI": {
+    "metadata": {
+      "country": "Liechtenstein",
+      "iso2": "LI"
+    },
+    "highlights": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK total trade: all countries",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets/uktotaltradeallcountriesseasonallyadjusted",
+          "next_release": "To be announced",
+          "notes": [
+            "Data includes goods and services combined in the four quarters to the end of Q4 2021."
+          ]
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": {
+        "total_uk_exports": 98000000,
+        "trading_position": 135,
+        "percentage_of_uk_trade": 0.1
+      }
+    },
+    "market_trends": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK total trade: all countries",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/datasets/uktotaltradeallcountriesseasonallyadjusted ",
+          "next_release": "To be announced",
+          "notes": [
+            "Total trade is the sum of all exports and imports over the same time period.",
+            "Data includes goods and services combined."
+          ]
+        }
+      },
+      "data": [
+        {
+          "year": 2012,
+          "exports": 62000000,
+          "imports": 1000000
+        },
+        {
+          "year": 2013,
+          "exports": 29000000,
+          "imports": 1000000
+        },
+        {
+          "year": 2014,
+          "exports": 50000000,
+          "imports": 7000000
+        },
+        {
+          "year": 2015,
+          "exports": 81000000,
+          "imports": 27000000
+        },
+        {
+          "year": 2016,
+          "exports": 90000000,
+          "imports": 45000000
+        },
+        {
+          "year": 2017,
+          "exports": 115000000,
+          "imports": 64000000
+        },
+        {
+          "year": 2018,
+          "exports": 107000000,
+          "imports": 34000000
+        },
+        {
+          "year": 2019,
+          "exports": 65000000,
+          "imports": 11000000
+        },
+        {
+          "year": 2020,
+          "exports": 166000000,
+          "imports": 16000000
+        },
+        {
+          "year": 2021,
+          "exports": 98000000,
+          "imports": 24000000
+        }
+      ]
+    },
+    "goods_exports": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK trade",
+          "url": "https://www.ons.gov.uk/economy/nationalaccounts/balanceofpayments/bulletins/uktrade/latest",
+          "next_release": "13 June 2022"
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": [
+        {
+          "label": "Miscellaneous electrical goods (intermediate)",
+          "value": 9700000
+        },
+        {
+          "label": "Scientific instruments (capital)",
+          "value": 700000
+        },
+        {
+          "label": "Works of art",
+          "value": 630000
+        },
+        {
+          "label": "Office machinery (capital)",
+          "value": 540000
+        },
+        {
+          "label": "Mineral manufactures",
+          "value": 500000
+        }
+      ]
+    },
+    "services_exports": {
+      "metadata": {
+        "source": {
+          "label": "ONS UK trade in services: service type by partner country",
+          "url": "https://www.ons.gov.uk/businessindustryandtrade/internationaltrade/datasets/uktradeinservicesservicetypebypartnercountrynonseasonallyadjusted",
+          "next_release": "To be announced"
+        },
+        "reference_period": {
+          "resolution": "quarter",
+          "period": 4,
+          "year": 2021
+        }
+      },
+      "data": [
+        {
+          "label": "Other Business Services",
+          "value": 39000000
+        },
+        {
+          "label": "Transportation",
+          "value": 31000000
+        },
+        {
+          "label": "Financial",
+          "value": 6000000
+        }
+      ]
+    }
+  }
+}
