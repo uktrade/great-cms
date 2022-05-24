@@ -69,11 +69,15 @@
                 <h3 class="statistic-heading font-xsmall">The UK's</h3>
 
                 <span class="active-blue-text statistic-number bold-large">
-                  {{ highlights.data.trading_position|ordinal }}
+                  {% if highlights.data.trading_position == 1 %}
+                    largest
+                  {% else %}
+                    {{ highlights.data.trading_position|ordinal }}
+                  {% endif %}
                 </span>
 
                 <span class="font-xsmall statistic-smallprint">
-                  largest export market
+                  {% if highlights.data.trading_position != 1 %}largest{% endif %} export market
                 </span>
               </figure>
               {% endif %}
@@ -83,7 +87,11 @@
                 <h3 class="statistic-heading font-xsmall">Accounting for</h3>
 
                 <span class="active-blue-text statistic-number bold-large">
-                  {{ highlights.data.percentage_of_uk_trade|floatformat:"1" }}%
+                  {% if highlights.data.percentage_of_uk_trade < 0.05 %}
+                    less than 0.1%
+                  {% else %}
+                    {{ highlights.data.percentage_of_uk_trade|floatformat:"1" }}%
+                  {% endif %}
                 </span>
 
                 <span class="font-xsmall statistic-smallprint">
