@@ -428,9 +428,7 @@ def get_market_trends_by_country(iso2):
     return api_data
 
 
-def get_top_goods_exports_by_country(iso2):
-    response = api_client.dataservices.get_top_five_goods_by_country(iso2=iso2, year=2021)
-
+def process_top_exports(response):
     if response.status_code != 200:
         return None
 
@@ -438,24 +436,26 @@ def get_top_goods_exports_by_country(iso2):
 
     if api_data['data']:
         values = [x['value'] for x in api_data['data']]
+        max_value = max(values)
+
         api_data['metadata']['unit'] = get_unit(values)
 
+        for item in api_data['data']:
+            item['percent'] = round((item['value'] / max_value) * 100, 1)
+
     return api_data
+
+
+def get_top_goods_exports_by_country(iso2):
+    response = api_client.dataservices.get_top_five_goods_by_country(iso2=iso2, year=2021)
+
+    return process_top_exports(response)
 
 
 def get_top_services_exports_by_country(iso2):
     response = api_client.dataservices.get_top_five_services_by_country(iso2=iso2, year=2021)
 
-    if response.status_code != 200:
-        return None
-
-    api_data = response.json()
-
-    if api_data['data']:
-        values = [x['value'] for x in api_data['data']]
-        api_data['metadata']['unit'] = get_unit(values)
-
-    return api_data
+    return process_top_exports(response)
 
 
 def get_stats_by_country(iso2):

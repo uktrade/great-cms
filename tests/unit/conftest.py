@@ -154,9 +154,9 @@ def mock_top_goods_exports():
             json_body={
                 'metadata': {'source': {'url': 'https://example.org/top-goods-exports', 'label': 'Source label'}},
                 'data': [
-                    {'label': 'Pharmaceuticals', 'value': 1230000000},
-                    {'label': 'Automotive', 'value': 234000000},
-                    {'label': 'Aerospace', 'value': 111000000},
+                    {'label': 'Pharmaceuticals', 'value': 1200000000},
+                    {'label': 'Automotive', 'value': 246000000},
+                    {'label': 'Aerospace', 'value': 100000000},
                 ],
             },
         ),
@@ -173,8 +173,8 @@ def mock_top_services_exports():
             json_body={
                 'metadata': {'source': {'url': 'https://example.org/top-services-exports', 'label': 'Source label'}},
                 'data': [
-                    {'label': 'Financial', 'value': 12300000},
-                    {'label': 'legal', 'value': 2340000},
+                    {'label': 'Financial', 'value': 12500000},
+                    {'label': 'legal', 'value': 2460000},
                 ],
             },
         ),

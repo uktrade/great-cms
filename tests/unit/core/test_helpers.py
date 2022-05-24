@@ -783,6 +783,9 @@ def test_get_top_goods_exports_by_country(mock_top_goods_exports, client):
     assert response['metadata']['source']['url'] == 'https://example.org/top-goods-exports'
     assert response['metadata']['unit'] == 'billion'
     assert len(response['data']) == 3
+    assert response['data'][0]['percent'] == 100
+    assert response['data'][1]['percent'] == 20.5
+    assert response['data'][2]['percent'] == 8.3
 
 
 @pytest.mark.django_db
@@ -792,6 +795,8 @@ def test_get_top_services_exports_by_country(mock_top_services_exports, client):
     assert response['metadata']['source']['url'] == 'https://example.org/top-services-exports'
     assert response['metadata']['unit'] == 'million'
     assert len(response['data']) == 2
+    assert response['data'][0]['percent'] == 100
+    assert response['data'][1]['percent'] == 19.7
 
 
 @pytest.mark.django_db
