@@ -447,13 +447,13 @@ def process_top_exports(response):
 
 
 def get_top_goods_exports_by_country(iso2):
-    response = api_client.dataservices.get_top_five_goods_by_country(iso2=iso2, year=2021)
+    response = api_client.dataservices.get_top_five_goods_by_country(iso2=iso2)
 
     return process_top_exports(response)
 
 
 def get_top_services_exports_by_country(iso2):
-    response = api_client.dataservices.get_top_five_services_by_country(iso2=iso2, year=2021)
+    response = api_client.dataservices.get_top_five_services_by_country(iso2=iso2)
 
     return process_top_exports(response)
 
