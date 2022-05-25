@@ -62,6 +62,7 @@
 - GLS-180 - Add trade visualisations to Country guide pages
 - GLS-189 - Add feature flag for brand homepage banner
 - GLS-180 - Extend visualisations to top 5 most visited market guides
+- GLS-186 - Use data from API for statistics visualisations
 
 ## [2.6.0](https://github.com/uktrade/great-cms/releases/tag/2.6.0)
 

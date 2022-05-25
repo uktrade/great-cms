@@ -3,7 +3,6 @@ import os
 from urllib.parse import unquote_plus
 
 from django.conf import settings
-from django.contrib.humanize.templatetags.humanize import intword
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -910,34 +909,20 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         return ctas
 
     @cached_property
-    def stats(self):  # noqa C901
+    def stats(self):
         if not settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS:
             return None
 
         iso2 = getattr(self.country, 'iso2', None)
 
         if iso2 in ['US', 'AU', 'DE', 'CN', 'IN', 'PT', 'LI']:
-            json_data = open(os.path.join(settings.ROOT_DIR, 'domestic', 'fixtures', 'market_guide_stats.json'))
-            all_data = json.load(json_data)
-            api_data = all_data[iso2]
+            if settings.FEATURE_DATA_PIPELINE_STATS:
+                return helpers.get_stats_by_country(iso2=iso2)
+            else:
+                json_data = open(os.path.join(settings.ROOT_DIR, 'domestic', 'fixtures', 'market_guide_stats.json'))
+                data = json.load(json_data)
 
-            if api_data['market_trends']['data']:
-                api_data['market_trends']['metadata']['unit'] = intword(
-                    max([(x['imports'] + x['exports']) for x in api_data['market_trends']['data']])
-                ).split(' ')[1]
-                for item in api_data['market_trends']['data']:
-                    item['total'] = item['imports'] + item['exports']
-
-            for export_type in ['goods', 'services']:
-                type_key = f'{export_type}_exports'
-                if api_data[type_key]['data']:
-                    data = api_data[type_key]['data']
-                    # Use the unit from the first value
-                    api_data[type_key]['metadata']['unit'] = intword(data[0]['value']).split(' ')[1]
-                    for index, item in enumerate(data):
-                        data[index]['percent'] = round((item['value'] / data[0]['value']) * 100, 1)
-
-            return api_data
+                return data[iso2]
 
         return None
 

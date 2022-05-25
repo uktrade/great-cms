@@ -539,17 +539,19 @@ def test_trade_and_duties_links_no_country(domestic_homepage):
     assert page.trade_barriers_resolved_link is None
 
 
-@mock.patch.object(api_client.dataservices, 'get_total_trade_data_by_country')
+@pytest.mark.parametrize(
+    'iso2',
+    ('CN', 'US', 'AU', 'DE', 'IN', 'PT', 'LI'),
+)
 @pytest.mark.django_db
-@pytest.mark.skip('Hard-coding stats data for China only for demo, and until API follows agreed schema')
-def test_stats(mock_get_total_trade_data_by_country, domestic_homepage, settings):
+def test_stats_most_visited_guide(
+    iso2,
+    domestic_homepage,
+    settings,
+):
     settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
 
-    mock_get_total_trade_data_by_country.return_value = create_response(
-        status_code=200,
-        json_body={'data': [{'year': 2021, 'flow_type': 'IMPORT', 'product_type': 'GOODS', 'value': 124}]},
-    )
-    country = CountryFactory(name='France', slug='france', iso2='FR')
+    country = CountryFactory(name='Country name', slug='country-slug', iso2=iso2)
 
     page = CountryGuidePageFactory(
         parent=domestic_homepage,
@@ -557,30 +559,60 @@ def test_stats(mock_get_total_trade_data_by_country, domestic_homepage, settings
         country=country,
     )
 
-    assert page.stats['services'] == []
-    assert page.stats['market_trends'] == [{'year': 2021, 'imports': 124000000, 'exports': 0, 'total': 124000000}]
-
-
-@pytest.mark.django_db
-def test_stats_china(domestic_homepage, settings):
-    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
-
-    country = CountryFactory(name='China', slug='china', iso2='CN')
-
-    page = CountryGuidePageFactory(
-        parent=domestic_homepage,
-        title='Test GCP',
-        country=country,
-    )
-
-    assert page.stats['goods_exports']['metadata']['unit'] == 'billion'
-    assert page.stats['goods_exports']['data'][0]['percent'] == 100
-    assert page.stats['goods_exports']['data'][1]['percent'] == 92.3
-    assert page.stats['services_exports']['metadata']['unit'] == 'billion'
-    assert page.stats['services_exports']['data'][0]['percent'] == 100
-    assert page.stats['services_exports']['data'][1]['percent'] == 50.0
+    assert len(page.stats['highlights']['data']) == 3
     assert len(page.stats['market_trends']['data']) == 10
-    assert page.stats['market_trends']['data'][0]['total'] == 47100000000
+    assert len(page.stats['goods_exports']['data']) == 5
+    assert len(page.stats['services_exports']['data']) == 3 if iso2 == 'LI' else 5
+
+
+@pytest.mark.parametrize(
+    'iso2',
+    ('CN', 'US', 'AU', 'DE', 'IN', 'PT', 'LI'),
+)
+@pytest.mark.django_db
+def test_stats_most_visited_guide_data_pipeline(
+    iso2,
+    mock_trade_highlights,
+    mock_market_trends,
+    mock_top_goods_exports,
+    mock_top_services_exports,
+    domestic_homepage,
+    settings,
+):
+    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
+    settings.FEATURE_DATA_PIPELINE_STATS = True
+
+    country = CountryFactory(name='Country name', slug='country-slug', iso2=iso2)
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        country=country,
+    )
+
+    assert len(page.stats['highlights']['data']) == 3
+    assert len(page.stats['market_trends']['data']) == 2
+    assert len(page.stats['goods_exports']['data']) == 3
+    assert len(page.stats['services_exports']['data']) == 2
+
+
+@pytest.mark.parametrize(
+    'iso2',
+    ('FR', 'IT', 'ES'),
+)
+@pytest.mark.django_db
+def test_stats_not_most_visited_guide(iso2, domestic_homepage, settings):
+    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
+
+    country = CountryFactory(name='Country name', slug='country-slug', iso2=iso2)
+
+    page = CountryGuidePageFactory(
+        parent=domestic_homepage,
+        title='Test GCP',
+        country=country,
+    )
+
+    assert page.stats is None
 
 
 @pytest.mark.django_db
