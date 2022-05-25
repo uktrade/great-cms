@@ -69,11 +69,15 @@
                 <h3 class="statistic-heading font-xsmall">The UK's</h3>
 
                 <span class="active-blue-text statistic-number bold-large">
-                  {{ highlights.data.trading_position|ordinal }}
+                  {% if highlights.data.trading_position == 1 %}
+                    largest
+                  {% else %}
+                    {{ highlights.data.trading_position|ordinal }}
+                  {% endif %}
                 </span>
 
                 <span class="font-xsmall statistic-smallprint">
-                  largest export market
+                  {% if highlights.data.trading_position != 1 %}largest{% endif %} export market
                 </span>
               </figure>
               {% endif %}
@@ -83,7 +87,11 @@
                 <h3 class="statistic-heading font-xsmall">Accounting for</h3>
 
                 <span class="active-blue-text statistic-number bold-large">
-                  {{ highlights.data.percentage_of_uk_trade }}%
+                  {% if highlights.data.percentage_of_uk_trade < 0.05 %}
+                    less than 0.1%
+                  {% else %}
+                    {{ highlights.data.percentage_of_uk_trade|floatformat:"1" }}%
+                  {% endif %}
                 </span>
 
                 <span class="font-xsmall statistic-smallprint">
@@ -159,8 +167,8 @@
             {% if page.stats.goods_exports.data %}
             <div id="tab-goods" class="reveal-content">
               <h2 class="heading-medium">
-                Top {{ page.stats.goods_exports.data|length }} UK goods exports to {{ page.heading }},
-                in the {% reference_period page.stats.goods_exports.metadata.reference_period %}
+                Top {{ page.stats.goods_exports.data|length }} UK goods exports to {{ page.heading }}{% if page.stats.goods_exports.metadata.reference_period %},
+                in the {% reference_period page.stats.goods_exports.metadata.reference_period %}{% endif %}
               </h2>
 
               {% include 'core/includes/bar_chart.html' with content=page.stats.goods_exports labels_heading='Goods' %}
@@ -170,8 +178,8 @@
             {% if page.stats.services_exports.data %}
             <div id="tab-services" class="reveal-content">
               <h2 class="heading-medium">
-                Top {{ page.stats.services_exports.data|length }} UK services exports to {{ page.heading }},
-                in the {% reference_period page.stats.services_exports.metadata.reference_period %}
+                Top {{ page.stats.services_exports.data|length }} UK services exports to {{ page.heading }}{% if page.stats.services_exports.metadata.reference_period %},
+                in the {% reference_period page.stats.services_exports.metadata.reference_period %}{% endif %}
               </h2>
 
               {% include 'core/includes/bar_chart.html' with content=page.stats.services_exports labels_heading='Service' %}
