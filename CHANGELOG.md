@@ -8,6 +8,8 @@
 
 ### Enhancements
 
+- CHORE - Update node requirement to v16
+
 ## [2.8.3](https://github.com/uktrade/great-cms/releases/tag/2.8.3)
 
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.8.2...2.8.3)
