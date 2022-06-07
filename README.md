@@ -6,7 +6,7 @@
 [![gitflow-image]][gitflow]
 [![calver-image]][calver]
 
-**CMS for the GREAT platform - the Department for International Trade (DIT)**
+**CMS for the GREAT platform - The Department for International Trade (DIT)**
 
 ---
 
@@ -23,7 +23,7 @@
 
 ### Requirements
 
-* [Python 3.9](https://www.python.org/downloads/release/python-391/)
+* [Python 3.9](https://www.python.org/downloads/release/python-3913/)
 * [Postgres 10](https://www.postgresql.org/)
 * [Redis](https://redis.io/)
 * Any [browser based on Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium)
@@ -90,13 +90,6 @@ You can also use regular pytest filters:
 ```bash
 HEADLESS=false make ARGUMENTS="-k test_anonymous_user_should" pytest
 ```
-
-### Getting started
-
-    $ make ARGUMENTS=bootstrap_great manage
-
-It creates the Great domestic empty homepage and assigns it to the site root. It also creates a superuser `test` with
-password `password`, for local development.
 
 ## Geolocation data
 
