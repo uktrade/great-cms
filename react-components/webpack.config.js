@@ -1,20 +1,33 @@
 const path = require('path')
+const glob = require('glob')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const RemovePlugin = require('remove-files-webpack-plugin')
 
+const entry = {
+  magna: './react-components/src/bundle.js',
+  magna_styles: './core/sass/main.scss',
+  loggedout_styles: './domestic/sass/main.scss',
+  components: './react-components/src/bundle-components.js',
+  components_styles:
+    './core/components/sass/components/elements-components.scss',
+  profile_styles: './sso_profile/common/sass/profile.scss',
+}
+
+const files = glob.sync('./core/js/**/*.js')
+
+for (file of files) {
+  console.log(`Adding ${file} to entry points`)
+  const parts = file.match(/\.\/core\/js\/(.*)\.js$/)
+
+  entry[parts[1]] = file
+}
+
+
+
 module.exports = {
   devtool: 'source-map',
-  entry: {
-    magna: './react-components/src/bundle.js',
-    magna_styles: './core/sass/main.scss',
-    common: './core/js/common.js',
-    loggedout_styles: './domestic/sass/main.scss',
-    components: './react-components/src/bundle-components.js',
-    components_styles:
-      './core/components/sass/components/elements-components.scss',
-    profile_styles: './sso_profile/common/sass/profile.scss',
-  },
+  entry,
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
