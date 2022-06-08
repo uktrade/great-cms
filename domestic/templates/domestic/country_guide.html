@@ -10,7 +10,7 @@
   {{ block.super }}
 
   {% if page.stats.market_trends %}
-  <script src="https://cdn.plot.ly/plotly-1.58.5.min.js"></script>
+  <script src="{% static 'countryGuide.js' %}"></script>
   {% endif %}
 {% endblock %}
 
@@ -205,117 +205,9 @@
                 <div id="plotly-market-trends" class="margin-bottom-15"></div>
 
                 {{ page.stats.market_trends.data|json_script:"market-trends-data" }}
+
                 <script>
-                  var marketTrendsUnit = '{{ page.stats.market_trends.metadata.unit }}';
-                  var config = {
-                    displayModeBar: false,
-                    responsive: true,
-                    locale: 'en-GB'
-                  }
-                  var layout = {
-                    yaxis: {
-                      fixedrange: true,
-                      rangemode: 'tozero',
-                      tickformat: 'gbpround',
-                      title: '£ ' + marketTrendsUnit
-                    },
-                    xaxis : {
-                      fixedrange: true,
-                      showgrid: false,
-                      showticklabels: true,
-                      tickmode: 'linear',
-                      showspikes: true,
-                      spikethickness: 2,
-                      spikemode: 'across',
-                      spikelabel: false,
-                    },
-                    hovermode: 'closest',
-                    font: {
-                      family: 'Roboto, sans-serif',
-                      size: 18,
-                    },
-                    legend: {
-                      orientation: 'h',
-                      y: -0.25,
-                      xanchor: 'center',
-                      x: .5
-                    },
-                    colorway: ['#006ccc', '#b00d23', '#00A699', '#666666'],
-                    margin: {
-                      b: 10,
-                      t: 10,
-                      r: 20,
-                      pad: 10
-                    },
-                    width: document.querySelector('.tabs__nav').clientWidth
-                  };
-
-                  var lines = [
-                    {
-                      title: 'Total trade',
-                      key: 'total',
-                      style: 'dash'
-                    },
-                    {
-                      title: 'Imports',
-                      key: 'imports',
-                      style: 'dot'
-                    },
-                    {
-                      title: 'Exports',
-                      key: 'exports',
-                      style: 'solid'
-                    }
-                  ]
-
-                  var sourceData = JSON.parse(document.getElementById('market-trends-data').textContent)
-
-                  var years = sourceData.map(function(x) {
-                    return x.year
-                  })
-
-                  var data = lines.map(function(line) {
-                    return {
-                      name: line.title,
-                      x: years,
-                      y: sourceData.map(function(x) {
-                        return line.key === 'total' ? x['imports'] + x['exports'] : x[line.key]
-                      }),
-                      mode: 'lines',
-                      line: {
-                        dash: line.style,
-                        width: 3
-                      },
-                      type: 'scatter',
-                      hovertemplate: '%{x}: £%{y:gbp} {{ page.stats.market_trends.metadata.unit }}<extra></extra>'
-                    }
-                  })
-
-                  var org_locale = Plotly.d3.locale;
-                  Plotly.d3.locale = (locale) => {
-                    var result = org_locale(locale);
-                    var org_number_format = result.numberFormat;
-                    result.numberFormat = (format) => {
-                      if (format === 'gbp' || format === 'gbpround') {
-                        var exponents = {
-                          'trillion': 1e12,
-                          'billion': 1e9,
-                          'million': 1e6
-                        }
-                        return (x) => {
-                          if (exponents.hasOwnProperty(marketTrendsUnit)) {
-                            var output = '' + (x / exponents[marketTrendsUnit])
-                            return format === 'gbpround' || output.includes('.') ? output : output + '.0'
-                          }
-                          return '' + x;
-                        }
-                      }
-                      return org_number_format(format)
-                    }
-                    return result;
-                  }
-
-                  Plotly.newPlot('plotly-market-trends', data, layout, config);
+                  countryGuide.initTradeChart('{{ page.stats.market_trends.metadata.unit }}');
                 </script>
               </div>
 
