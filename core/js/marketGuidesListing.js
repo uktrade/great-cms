@@ -121,7 +121,9 @@ export const initializeMap = async (cognitoPoolId) => {
       .addTo(map)
   })
 
-  map.fitBounds(bounds, { padding: 20, maxZoom: 8 })
+  if (bounds.length) {
+    map.fitBounds(bounds, { padding: 20, maxZoom: 8 })
+  }
 }
 
 export default {
