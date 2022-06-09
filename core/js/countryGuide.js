@@ -1,4 +1,4 @@
-import Plotly from 'plotly.js-dist-min'
+// Plotly is imported in template from CDN
 
 export const initTradeChart = (marketTrendsUnit) => {
   const config = {

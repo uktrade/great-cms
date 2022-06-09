@@ -10,6 +10,7 @@
   {{ block.super }}
 
   {% if page.stats.market_trends %}
+  <script src="https://cdn.plot.ly/plotly-1.58.5.min.js"></script>
   <script src="{% static 'countryGuide.js' %}"></script>
   {% endif %}
 {% endblock %}
