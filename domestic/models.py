@@ -532,7 +532,7 @@ class MarketsTopicLandingPage(
 
     def paginate_data(self, request, pages):
         if request.GET.get('view') == 'map':
-            return MarketGuidesMapSerializer().serialize(pages, fields=('heading', 'country__latlng'))
+            return MarketGuidesMapSerializer().serialize(pages, fields=('heading', 'url', 'latlng'))
 
         paginator = Paginator(pages, self.MAX_PER_PAGE)
 
@@ -574,6 +574,8 @@ class MarketsTopicLandingPage(
 
         context['paginated_results'] = paginated_results
         context['number_of_results'] = relevant_markets.count()
+
+        context['aws_cognito_pool_id'] = settings.AWS_COGNITO_POOL_ID
 
         return context
 

@@ -58,3 +58,15 @@ def get_intended_destination(
     ):
         return default_destination
     return intended_destination
+
+
+@register.simple_tag(takes_context=True)
+def update_query_params(context, **kwargs):
+    query = context['request'].GET.copy()
+    for key, value in kwargs.items():
+        if value:
+            query.__setitem__(key, value)
+        else:
+            query.pop(key, None)
+
+    return f'?{query.urlencode()}' if query else ''

@@ -856,3 +856,6 @@ WAGTAILDOCS_MIME_TYPES = [
     'application/pdf',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ]
+
+# AWS Location Cognito Pool ID for Market Guides map
+AWS_COGNITO_POOL_ID = env.str('AWS_COGNITO_POOL_ID', '')
