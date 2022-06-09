@@ -39,6 +39,7 @@ from core.helpers import build_social_links
 from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag
 from domestic import cms_panels, forms as domestic_forms
 from domestic.helpers import build_route_context, get_lesson_completion_status
+from domestic.serializers import MarketGuidesMapSerializer
 from exportplan.core import helpers as exportplan_helpers
 
 DUTIES_AND_CUSTOMS_SERVICE = 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
@@ -530,6 +531,9 @@ class MarketsTopicLandingPage(
         )
 
     def paginate_data(self, request, pages):
+        if request.GET.get('view') == 'map':
+            return MarketGuidesMapSerializer().serialize(pages, fields=('heading', 'country__latlng'))
+
         paginator = Paginator(pages, self.MAX_PER_PAGE)
 
         try:
