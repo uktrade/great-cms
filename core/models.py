@@ -210,11 +210,13 @@ class Country(models.Model):
     slug = models.SlugField(max_length=100, unique=True)
     iso2 = models.CharField(max_length=2, null=True, blank=True)
     region = models.ForeignKey(Region, null=True, blank=True, on_delete=models.SET_NULL)
+    latlng = models.CharField(max_length=255, null=True, blank=True)
 
     panels = [
         FieldPanel('name'),
         FieldPanel('iso2'),
         FieldPanel('region'),
+        FieldPanel('latlng'),
     ]
 
     class Meta:
@@ -227,6 +229,9 @@ class Country(models.Model):
             self.slug = slugify(self.name)
 
         super().save(*args, **kwargs)
+
+    def natural_key(self):
+        return self
 
     def __str__(self):
         return self.name
