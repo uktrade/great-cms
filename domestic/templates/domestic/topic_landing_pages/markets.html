@@ -132,7 +132,10 @@
                 {% endif %}
 
                 {% if selected_sectors or selected_regions %}
-                  <p class="margin-bottom-45-m"><a href="{{request.path}}" class="view-markets link bold margin-top-15">Clear all filters</a></p>
+                  <p class="margin-bottom-45-m">
+                    <a href="{{request.path}}{% if request.GET.view %}?view={{ request.GET.view }}{% endif %}"
+                       class="view-markets link bold margin-top-15">Clear all filters</a>
+                  </p>
                 {% endif %}
 
                 <div class="controls margin-bottom-45-m">
