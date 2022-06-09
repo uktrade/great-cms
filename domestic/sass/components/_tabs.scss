@@ -6,7 +6,7 @@
   display: inline-block;
 }
 
-.tabs__nav button {
+.tabs__nav .tabs__tab {
   display: block;
   border: 0;
   border-bottom: 4px solid transparent;
@@ -14,10 +14,14 @@
   margin: 0 0 -2px;
   background: transparent;
   color: #666666;
+  font-size: 19px;
+  font-weight: 700;
+  font-family: Overpass, Roboto, arial, helvetica, verdana, sans-serif;
+  cursor: pointer;
 }
 
-.tabs__nav button[aria-expanded="true"],
-.tabs__nav button:hover {
+.tabs__nav .tabs__tab[aria-expanded="true"],
+.tabs__nav .tabs__tab:hover {
   background: transparent;
   color: #333333;
   border-bottom-color: #333333;
