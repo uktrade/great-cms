@@ -655,9 +655,7 @@ def test_reference_period(resolution, period, year, capitalise, expected):
 )
 def test_update_query(rf, query_string, arguments, expected):
     request = rf.get(f'/{query_string}')
-    template = Template(
-        '{{% load update_query_params from url_tags %}}{{% update_query_params {} %}}'.format(arguments)
-    )
+    template = Template(f'{{% load update_query_params from url_tags %}}{{% update_query_params {arguments} %}}')
     context = Context({'request': request})
 
     rendered = template.render(context)
