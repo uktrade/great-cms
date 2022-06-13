@@ -543,7 +543,6 @@ def test_is_placeholder_page(klass, expected):
     ],
 )
 def test_get_intended_destination(rf, path_info, expected_destination, default_destination):
-
     request = rf.get(path_info)
     if default_destination is not None:
         assert get_intended_destination(request, default_destination) == expected_destination
@@ -639,3 +638,27 @@ def test_reference_period(resolution, period, year, capitalise, expected):
     context = Context({'data': {'resolution': resolution, 'period': period, 'year': year}, 'capitalise': capitalise})
     html = template.render(context)
     assert html == expected
+
+
+@pytest.mark.parametrize(
+    'query_string, arguments, expected',
+    (
+        ('?foo=bar&baz=1', 'page=3', '?foo=bar&amp;baz=1&amp;page=3'),
+        ('?foo=bar&baz=1&page=2', 'page=3', '?foo=bar&amp;baz=1&amp;page=3'),
+        ('?page=1', 'page=3', '?page=3'),
+        ('', 'page=3', '?page=3'),
+        ('?foo=bar', 'foo=""', ''),
+        ('?foo=bar&page=2', 'foo=""', '?page=2'),
+        ('?foo=bar&baz=1&page=2', 'foo=""', '?baz=1&amp;page=2'),
+        ('?baz=two', 'foo=""', '?baz=two'),
+    ),
+)
+def test_update_query(rf, query_string, arguments, expected):
+    request = rf.get(f'/{query_string}')
+    template = Template(
+        '{{% load update_query_params from url_tags %}}{{% update_query_params {} %}}'.format(arguments)
+    )
+    context = Context({'request': request})
+
+    rendered = template.render(context)
+    assert rendered == expected
