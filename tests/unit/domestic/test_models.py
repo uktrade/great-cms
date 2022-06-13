@@ -1015,7 +1015,7 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
         request = RequestFactory().get('/?view=map')
         output = markets_topic_page.get_context(request)
 
-        assert output['view'] == 'list'
+        assert output['view'] is None
         assert len(output['paginated_results']) == 18
 
     def test_map_feature_on_returns_all_results(self):
