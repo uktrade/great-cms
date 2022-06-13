@@ -1015,7 +1015,8 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
         request = RequestFactory().get('/?view=map')
         output = markets_topic_page.get_context(request)
 
-        assert output['view'] is None
+        assert output['view'] == 'list'
+        assert output['map_enabled'] is False
         assert len(output['paginated_results']) == 18
 
     def test_map_feature_on_returns_all_results(self):
@@ -1032,6 +1033,7 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
         output = markets_topic_page.get_context(request)
 
         assert output['view'] == 'map'
+        assert output['map_enabled'] is True
         assert len(output['paginated_results']) == 21
         assert 'heading' in output['paginated_results'][0]
         assert 'latlng' in output['paginated_results'][0]

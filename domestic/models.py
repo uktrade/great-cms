@@ -558,7 +558,7 @@ class MarketsTopicLandingPage(
     @staticmethod
     def get_view(request):
         # Returning None lets us hide view selection buttons/tabs
-        return request.GET.get('view') if settings.FEATURE_MARKET_GUIDES_MAP else None
+        return request.GET.get('view') if settings.FEATURE_MARKET_GUIDES_MAP else 'list'
 
     def get_context(self, request):
         context = super().get_context(request)
@@ -580,6 +580,7 @@ class MarketsTopicLandingPage(
         context['number_of_results'] = relevant_markets.count()
 
         context['aws_cognito_pool_id'] = settings.AWS_COGNITO_POOL_ID
+        context['map_enabled'] = settings.FEATURE_MARKET_GUIDES_MAP
         context['view'] = self.get_view(request)
 
         return context

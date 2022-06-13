@@ -1,76 +1,3 @@
-const style = {
-  version: 8,
-  sources: {
-    esri: {
-      attribution:
-        'Esri, HERE, Garmin, FAO, NOAA, USGS, © OpenStreetMap contributors, and the GIS User Community',
-      maxzoom: 15,
-      tiles: [
-        'https://maps.geo.eu-west-1.amazonaws.com/maps/v0/maps/OpportunitiesListing/tiles/{z}/{x}/{y}',
-      ],
-      type: 'vector',
-    },
-  },
-  sprite:
-    'https://maps.geo.eu-west-1.amazonaws.com/maps/v0/maps/OpportunitiesListing/sprites/sprites',
-  glyphs:
-    'https://maps.geo.eu-west-1.amazonaws.com/maps/v0/maps/OpportunitiesListing/glyphs/{fontstack}/{range}.pbf',
-  layers: [
-    {
-      filter: ['==', '_symbol', 0],
-      id: 'Land',
-      layout: {},
-      minzoom: 0,
-      paint: {
-        'fill-color': '#cbd2d3',
-      },
-      source: 'esri',
-      'source-layer': 'Land',
-      type: 'fill',
-    },
-    {
-      filter: ['==', '_symbol', 1],
-      id: 'Land/Ice',
-      layout: {},
-      minzoom: 0,
-      paint: {
-        'fill-color': '#cbd2d3',
-      },
-      source: 'esri',
-      'source-layer': 'Land',
-      type: 'fill',
-    },
-    {
-      id: 'Marine area/bathymetry depth 1',
-      layout: {},
-      minzoom: 0,
-      paint: {
-        'fill-color': '#DCF3FC',
-      },
-      source: 'esri',
-      'source-layer': 'Marine area',
-      type: 'fill',
-    },
-    {
-      filter: ['all', ['==', '_symbol', 0]],
-      id: 'Boundary line/Admin0/line',
-      layout: {
-        'line-cap': 'round',
-        'line-join': 'round',
-      },
-      paint: {
-        'line-color': '#bababa',
-        'line-width': 1.2,
-      },
-      source: 'esri',
-      'source-layer': 'Boundary line',
-      type: 'line',
-    },
-  ],
-  created: '0001-01-01T00:00:00Z',
-  modified: '0001-01-01T00:00:00Z',
-}
-
 export const initializeMap = async (cognitoPoolId) => {
   const markets = JSON.parse(
     document.getElementById('market-guides-results-json').textContent
@@ -84,8 +11,8 @@ export const initializeMap = async (cognitoPoolId) => {
     },
     {
       container: 'market-guides-map',
-      center: ukCentre,
-      zoom: 0,
+      center: [0,0],
+      zoom: 1,
       minZoom: 0,
       style: 'OpportunitiesListing',
       dragRotate: false,
@@ -96,8 +23,10 @@ export const initializeMap = async (cognitoPoolId) => {
 
   map.addControl(
     new maplibregl.NavigationControl({ showCompass: false }),
-    'bottom-right'
+    'top-right'
   )
+
+  map.addControl(new maplibregl.FullscreenControl(), 'top-right')
 
   markets.forEach(function (market) {
     const lngLat = market.latlng.split(',').map(parseFloat).reverse()
@@ -109,11 +38,14 @@ export const initializeMap = async (cognitoPoolId) => {
       return
     }
 
+    const el = document.createElement('div');
+    el.className = 'market-guides-marker';
+
     let popupMarkup = '<a href="' + market.url + '">'
     popupMarkup += '<h3 class="">' + market.heading + '</h3>'
     popupMarkup += '</a>'
 
-    new maplibregl.Marker()
+    new maplibregl.Marker(el)
       .setLngLat(lngLat)
       .setPopup(
         new maplibregl.Popup({ closeButton: false }).setHTML(popupMarkup)
