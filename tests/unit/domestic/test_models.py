@@ -1033,6 +1033,9 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
 
         assert output['view'] == 'map'
         assert len(output['paginated_results']) == 21
+        assert 'heading' in output['paginated_results'][0]
+        assert 'latlng' in output['paginated_results'][0]
+        assert 'url' in output['paginated_results'][0]
 
 
 class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
