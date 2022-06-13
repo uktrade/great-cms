@@ -500,7 +500,6 @@ class MarketsTopicLandingPage(
         return sort_option
 
     def sort_results(self, request, pages):
-
         sort_option = self._get_sortby(request)
 
         # Sorting by last_published_at needs to be DESC not ASC
@@ -531,7 +530,7 @@ class MarketsTopicLandingPage(
         )
 
     def paginate_data(self, request, pages):
-        if request.GET.get('view') == 'map':
+        if self.get_view(request) == 'map':
             return MarketGuidesMapSerializer().serialize(pages, fields=('heading', 'url', 'latlng'))
 
         paginator = Paginator(pages, self.MAX_PER_PAGE)
@@ -556,6 +555,11 @@ class MarketsTopicLandingPage(
     def get_selected_regions(self, request) -> list:
         return request.GET.getlist(self.REGION_QUERYSTRING_NAME)
 
+    @staticmethod
+    def get_view(request):
+        # Returning None lets us hide view selection buttons/tabs
+        return request.GET.get('view') if settings.FEATURE_MARKET_GUIDES_MAP else None
+
     def get_context(self, request):
         context = super().get_context(request)
         relevant_markets = self.get_relevant_markets(request)
@@ -576,6 +580,7 @@ class MarketsTopicLandingPage(
         context['number_of_results'] = relevant_markets.count()
 
         context['aws_cognito_pool_id'] = settings.AWS_COGNITO_POOL_ID
+        context['view'] = self.get_view(request)
 
         return context
 

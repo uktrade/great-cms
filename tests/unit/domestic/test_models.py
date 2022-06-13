@@ -4,6 +4,7 @@ from unittest import mock
 
 import pytest
 from bs4 import BeautifulSoup
+from django.conf import settings
 from django.core.cache import cache
 from django.test import RequestFactory, override_settings
 from django.utils.timezone import now as tz_now
@@ -871,11 +872,13 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
     def _make_country_guide_pages(self, parent_page, count):
         _now = tz_now()
         for i in range(count):
+            country = CountryFactory()
             CountryGuidePageFactory(
                 parent=parent_page,
                 title=f'Test GCP {i}',
                 live=True,
                 last_published_at=_now - timedelta(minutes=i),
+                country=country,
             )
 
     def test_sort_results(self):
@@ -1000,6 +1003,36 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
                     output['paginated_results'][0],
                     CountryGuidePage.objects.first(),
                 )
+
+    def test_map_feature_off(self):
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+        markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        homepage.add_child(instance=markets_topic_page)
+
+        self._make_country_guide_pages(markets_topic_page, 21)
+
+        request = RequestFactory().get('/?view=map')
+        output = markets_topic_page.get_context(request)
+
+        assert output['view'] == 'list'
+        assert len(output['paginated_results']) == 18
+
+    def test_map_feature_on_returns_all_results(self):
+        settings.FEATURE_MARKET_GUIDES_MAP = True
+
+        DomesticHomePageFactory(slug='root')
+        homepage = DomesticHomePage.objects.get(url_path='/')
+        markets_topic_page = MarketsTopicLandingPage(title='Markets')
+        homepage.add_child(instance=markets_topic_page)
+
+        self._make_country_guide_pages(markets_topic_page, 21)
+
+        request = RequestFactory().get('/?view=map')
+        output = markets_topic_page.get_context(request)
+
+        assert output['view'] == 'map'
+        assert len(output['paginated_results']) == 21
 
 
 class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
