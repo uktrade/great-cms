@@ -1,10 +1,4 @@
-export const initializeMap = async (cognitoPoolId) => {
-  const markets = JSON.parse(
-    document.getElementById('market-guides-results-json').textContent
-  )
-  const ukCentre = [-3.425, 55.37]
-  const bounds = new maplibregl.LngLatBounds()
-
+export const initializeMap = async (cognitoPoolId, markets) => {
   const map = await AmazonLocation.createMap(
     {
       identityPoolId: cognitoPoolId,
@@ -28,6 +22,8 @@ export const initializeMap = async (cognitoPoolId) => {
 
   map.addControl(new maplibregl.FullscreenControl(), 'top-right')
 
+  const bounds = new maplibregl.LngLatBounds()
+
   markets.forEach(function (market) {
     const lngLat = market.latlng.split(',').map(parseFloat).reverse()
 
@@ -42,7 +38,7 @@ export const initializeMap = async (cognitoPoolId) => {
     el.className = 'market-guides-marker';
 
     let popupMarkup = '<a href="' + market.url + '">'
-    popupMarkup += '<h3 class="">' + market.heading + '</h3>'
+    popupMarkup += '<h3>' + market.heading + '</h3>'
     popupMarkup += '</a>'
 
     new maplibregl.Marker(el)
@@ -53,7 +49,7 @@ export const initializeMap = async (cognitoPoolId) => {
       .addTo(map)
   })
 
-  if (bounds.length) {
+  if (markets.length) {
     map.fitBounds(bounds, { padding: 20, maxZoom: 8 })
   }
 }

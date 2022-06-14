@@ -199,7 +199,10 @@
                 </style>
                 {{ paginated_results|json_script:"market-guides-results-json" }}
                 <script>
-                  marketGuidesListing.initializeMap('{{ aws_cognito_pool_id }}');
+                  var markets = JSON.parse(
+                    document.getElementById('market-guides-results-json').textContent
+                  )
+                  marketGuidesListing.initializeMap('{{ aws_cognito_pool_id }}', markets);
                 </script>
               {% else %}
                 <div class="flex-grid markets-grid">

@@ -14,7 +14,7 @@ const entry = {
   profile_styles: './sso_profile/common/sass/profile.scss',
 }
 
-const files = glob.sync('./core/js/**/*.js')
+const files = glob.sync('./core/js/**/*.js', {ignore: './core/js/tests/**/*'})
 
 for (file of files) {
   console.log(`Adding ${file} to entry points`)
