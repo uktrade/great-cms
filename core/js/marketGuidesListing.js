@@ -1,4 +1,32 @@
-export const initializeMap = async (cognitoPoolId, markets) => {
+export const listSectors = (tags, selected) => {
+  const splitAt = selected.length || 2
+
+  let sectors = tags
+
+  if (selected.length) {
+    // Move non-selected sectors to the end of the list
+    const start = tags.filter(x => selected.includes(x))
+    const end = tags.filter(x => !selected.includes(x))
+    sectors = [...start, ...end]
+  }
+
+  const shownSectors = sectors.slice(0, splitAt)
+  const hiddenSectors = sectors.slice(splitAt)
+
+  if (hiddenSectors.length === 1) {
+    shownSectors.push(hiddenSectors.pop())
+  }
+
+  if (hiddenSectors.length) {
+    return `${shownSectors.join(', ')} and ${hiddenSectors.length} more`
+  } else if (shownSectors.length <= 2) {
+    return shownSectors.join(' and ')
+  } else {
+    return `${shownSectors.slice(0, - 1).join(', ')} and ${shownSectors[shownSectors.length - 1]}`
+  }
+}
+
+export const initializeMap = async (cognitoPoolId, markets, selected = []) => {
   const map = await AmazonLocation.createMap(
     {
       identityPoolId: cognitoPoolId,
@@ -37,8 +65,11 @@ export const initializeMap = async (cognitoPoolId, markets) => {
     const el = document.createElement('div');
     el.className = 'market-guides-marker';
 
-    let popupMarkup = '<a href="' + market.url + '">'
-    popupMarkup += '<h3>' + market.heading + '</h3>'
+    let popupMarkup = '<a class="markets-map-infobox" href="' + market.url + '">'
+    popupMarkup += '<h3 class="heading-small">' + market.heading + '</h3>'
+    if (market.tags) {
+      popupMarkup += '<p>High potential in ' + listSectors(market.tags, selected) + '</p>'
+    }
     popupMarkup += '</a>'
 
     new maplibregl.Marker(el)

@@ -1,4 +1,4 @@
-import { initializeMap } from "../marketGuidesListing";
+import { initializeMap, listSectors } from "../marketGuidesListing";
 
 const mockMarkets = [
   {
@@ -60,7 +60,7 @@ beforeEach(() => {
 
 describe('Market Guides Listing', () => {
   it('sets up the map', async () => {
-    await initializeMap('fooCognitoId', [])
+    await initializeMap('fooCognitoId', [], [])
 
     expect(AmazonLocation.createMap).toHaveBeenCalled()
     expect(AmazonLocation.createMap.mock.calls[0][0]).toEqual({
@@ -74,7 +74,7 @@ describe('Market Guides Listing', () => {
   })
 
   it('adds markers to the map', async () => {
-    await initializeMap('fooCognitoId', mockMarkets)
+    await initializeMap('fooCognitoId', mockMarkets, [])
 
     expect(maplibregl.Marker).toHaveBeenCalledTimes(2)
     expect(mocks.extend).toHaveBeenCalledTimes(2)
@@ -86,5 +86,18 @@ describe('Market Guides Listing', () => {
     expect(mocks.setHTML.mock.calls[0][0]).toMatch('href="/markets/colombia/"')
     expect(mocks.addTo).toHaveBeenCalledTimes(2)
     expect(mocks.fitBounds).toHaveBeenCalled()
+  })
+
+  it.each([
+    // No selection
+    [['Aerospace', 'Automotive'], [], 'Aerospace and Automotive'],
+    [['Aerospace'], [], 'Aerospace'],
+    [['Aerospace', 'Automotive', 'Foo'], [], 'Aerospace, Automotive and Foo'],
+    [['Aerospace', 'Automotive', 'Foo', 'Bar'], [], 'Aerospace, Automotive and 2 more'],
+    [['A', 'B', 'C', 'D', 'E', 'F', 'G'], [], 'A, B and 5 more'],
+    // Selected tags should show first
+    [['A', 'B', 'C', 'D', 'E', 'F', 'G'], ['B', 'D', 'G', 'E'], 'B, D, E, G and 3 more']
+  ])('renders %j, %j into %j', (tags, selected, expected) => {
+    expect(listSectors(tags, selected)).toEqual(expected)
   })
 })

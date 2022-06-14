@@ -171,38 +171,15 @@
                 <script src="{% static 'marketGuidesListing.js' %}"></script>
                 <script src="https://unpkg.com/maplibre-gl@1"></script>
                 <script src="https://unpkg.com/amazon-location-helpers@1.1"></script>
-                <style>
-                .market-guides-marker {
-                    display: block;
-                    width: 19px;
-                    height: 19px;
-                    background: #006cd3;
-                    border-radius: 50%;
-                    border: 2px solid white;
-                    box-shadow: 0 0 0 7px rgba(0,108,211,0.12);
-                    cursor: pointer;
-                }
-                .market-guides-marker:hover {
-                    transform: scale(1.2);
-                }
-                .maplibregl-popup {
-                    margin-top: -15px;
-                }
-                .maplibregl-popup-anchor-top {
-                    margin-top: 15px;
-                }
-                .maplibregl-popup-content {
-                    padding: 1em;
-                    font-size: 1rem;
-                    border-radius: 10px;
-                }
-                </style>
                 {{ paginated_results|json_script:"market-guides-results-json" }}
+                {{ selected_sectors|json_script:"market-guides-selected-json" }}
                 <script>
-                  var markets = JSON.parse(
-                    document.getElementById('market-guides-results-json').textContent
-                  )
-                  marketGuidesListing.initializeMap('{{ aws_cognito_pool_id }}', markets);
+                  function getJSON(id) {
+                    return JSON.parse(document.getElementById(id).textContent)
+                  }
+                  var markets = getJSON('market-guides-results-json')
+                  var selected = getJSON('market-guides-selected-json')
+                  marketGuidesListing.initializeMap('{{ aws_cognito_pool_id }}', markets, selected);
                 </script>
               {% else %}
                 <div class="flex-grid markets-grid">
