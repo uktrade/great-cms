@@ -531,7 +531,7 @@ class MarketsTopicLandingPage(
 
     def paginate_data(self, request, pages):
         if self.get_view(request) == 'map':
-            return MarketGuidesMapSerializer().serialize(pages, fields=('heading', 'url', 'latlng'))
+            return MarketGuidesMapSerializer().serialize(pages, fields=('heading', 'url', 'latlng', 'tags'))
 
         paginator = Paginator(pages, self.MAX_PER_PAGE)
 

@@ -40,6 +40,7 @@ from tests.unit.core.factories import (
     CountryFactory,
     CuratedListPageFactory,
     DetailPageFactory,
+    IndustryTagFactory,
     LessonPlaceholderPageFactory,
     ListPageFactory,
     TopicPageFactory,
@@ -871,6 +872,8 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
 
     def _make_country_guide_pages(self, parent_page, count):
         _now = tz_now()
+        tag_1 = IndustryTagFactory()
+        tag_2 = IndustryTagFactory()
         for i in range(count):
             country = CountryFactory()
             CountryGuidePageFactory(
@@ -879,6 +882,7 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
                 live=True,
                 last_published_at=_now - timedelta(minutes=i),
                 country=country,
+                tags=[tag_1, tag_2],
             )
 
     def test_sort_results(self):
@@ -1038,6 +1042,8 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
         assert 'heading' in output['paginated_results'][0]
         assert 'latlng' in output['paginated_results'][0]
         assert 'url' in output['paginated_results'][0]
+        assert 'tags' in output['paginated_results'][0]
+        assert len(output['paginated_results'][0]['tags']) == 2
 
 
 class MarketsTopicLandingPageFilteringTests(SetUpLocaleMixin, WagtailPageTests):
