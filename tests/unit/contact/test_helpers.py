@@ -129,7 +129,7 @@ def test_extract_other_offices_details_empty():
 
 def test_extract_regional_office_details(all_offices, office_formatted):
     regional_office = extract_regional_office_details(all_offices)
-    assert regional_office == office_formatted[0]
+    assert regional_office == office_formatted
 
 
 def test_extract_regional_office_details_empty():
