@@ -6,7 +6,10 @@
 @import './components/form-wizard';
 
 #content {
-  input, textarea, select {
+
+  input,
+  textarea,
+  select {
     width: 100%;
   }
 
@@ -17,6 +20,7 @@
   h1 {
     margin-bottom: 15px;
   }
+
   form p {
     margin-bottom: 30px;
   }
@@ -34,42 +38,29 @@
   background-color: #F6F4F0;
   margin: 0;
   padding: 1px 30px 40px;
+
   hr {
     background: $mid-grey;
-  }
-  .column {
-    float: left;
-    padding: 10px;
-    height: 300px; /* Should be removed. Only for demonstration */
-  }
-
-  .left {
-    width: 50%;
-  }
-
-  .right {
-    width: 50%;
-  }
-  .row:after {
-    content: "";
-    display: table;
-    clear: both;
   }
 }
 
 #other-results {
   padding-bottom: 0;
+
   h2 {
     margin-bottom: 45px;
     margin-top: 60px;
   }
+
   h3 {
     margin-top: 0;
     margin-bottom: 15px;
   }
+
   .grid-row {
     padding: 0;
   }
+
   hr {
     margin-left: 0;
     background: $mid-grey;
