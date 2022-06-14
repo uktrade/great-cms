@@ -1,13 +1,13 @@
 export const listSectors = (tags, selected) => {
-  const splitAt = selected.length || 2
-
   let sectors = tags
+  let splitAt = 2
 
   if (selected.length) {
     // Move non-selected sectors to the end of the list
-    const start = tags.filter(x => selected.includes(x))
-    const end = tags.filter(x => !selected.includes(x))
-    sectors = [...start, ...end]
+    const selectedMatches = tags.filter(x => selected.includes(x))
+    const others = tags.filter(x => !selected.includes(x))
+    sectors = [...selectedMatches, ...others]
+    splitAt = selectedMatches.length
   }
 
   const shownSectors = sectors.slice(0, splitAt)

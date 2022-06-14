@@ -95,8 +95,10 @@ describe('Market Guides Listing', () => {
     [['Aerospace', 'Automotive', 'Foo'], [], 'Aerospace, Automotive and Foo'],
     [['Aerospace', 'Automotive', 'Foo', 'Bar'], [], 'Aerospace, Automotive and 2 more'],
     [['A', 'B', 'C', 'D', 'E', 'F', 'G'], [], 'A, B and 5 more'],
-    // Selected tags should show first
-    [['A', 'B', 'C', 'D', 'E', 'F', 'G'], ['B', 'D', 'G', 'E'], 'B, D, E, G and 3 more']
+    // Only selected tags should show
+    [['A', 'B', 'C', 'D', 'E', 'F', 'G'], ['B', 'D', 'G', 'E'], 'B, D, E, G and 3 more'],
+    [['A', 'B', 'C'], ['B'], 'B and 2 more'],
+    [['A', 'B', 'C', 'D', 'E', 'F', 'G'], ['B', 'X', 'Z', 'E'], 'B, E and 5 more'],
   ])('renders %j, %j into %j', (tags, selected, expected) => {
     expect(listSectors(tags, selected)).toEqual(expected)
   })
