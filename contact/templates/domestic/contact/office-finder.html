@@ -34,30 +34,38 @@
 	{% endif %}
 
         {% if office_details %}
-            {% if not office_details.override_office_details %}
-            <section class="width-half" id="results">
+         {% for office in office_details %}
+            {% if not office.override_office_details %}
+
+            <section class="width-full" id="results">
+
+
                 <h2 class="heading-medium">Your local Trade office for {{ form.cleaned_data.postcode }} is</h2>
                 <hr>
-                <h3 class="heading-medium" id="office-name">{{ office_details.name }}</h3>
-                {{ office_details.address|linebreaks }}
+                <h3 class="heading-medium" id="office-name">{{ office.name }}</h3>
+                {{ office.address|linebreaks }}
                 <h3 class="heading-medium">Telephone</h3>
-                <p><a class="link" href="tel:{{ office_details.phone }}">{{ office_details.phone }}</a></p>
+                <p><a class="link" href="tel:{{ office.phone }}">{{ office.phone }}</a></p>
                 {% if office_details.phone_other %}
-                    <h3 class="heading-medium">{{ office_details.phone_other_comment }}</h3>
-                    <p><a class="link" href="tel:{{ office_details.phone_other }}">{{ office_details.phone_other }}</a></p>
+                    <h3 class="heading-medium">{{ office.phone_other_comment }}</h3>
+                    <p><a class="link" href="tel:{{ office.phone_other }}">{{ office.phone_other }}</a></p>
                 {% endif %}
                 <br>
-                <a href="{% url 'contact:office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office_details.name }} office</a>
+                <a href="{% url 'contact:office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office.name }} office</a>
+
             </section>
             {% else %}
             <section class="width-half" id="results">
                 <h2 class="heading-medium">Your local Trade office for {{ form.cleaned_data.postcode }} is</h2>
                 <hr>
-                <h3 class="heading-medium" id="office-name">{{ office_details.name }}</h3>
-                {{ office_details.override_office_details|safe }}
+                <h3 class="heading-medium" id="office-name">{{ office.name }}</h3>
+                {{ office.override_office_details|safe }}
                 <hr>
             </section>
+        </div>
+    </div>
             {% endif %}
+            {% endfor %}
         {% endif %}
     </div>
 

@@ -19,7 +19,7 @@ button {
   }
 
   h1 {
-    margin-bottom: 15px;  
+    margin-bottom: 15px;
   }
   form p {
     margin-bottom: 30px;
@@ -36,6 +36,24 @@ button {
   padding: 1px 30px 40px;
   hr {
     background: $mid-grey;
+  }
+  .column {
+    float: left;
+    padding: 10px;
+    height: 300px; /* Should be removed. Only for demonstration */
+  }
+
+  .left {
+    width: 50%;
+  }
+
+  .right {
+    width: 50%;
+  }
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
   }
 }
 
@@ -56,6 +74,7 @@ button {
     margin-left: 0;
     background: $mid-grey;
   }
+
 }
 
 #office-name {
