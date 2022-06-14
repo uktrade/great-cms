@@ -28,9 +28,9 @@
 {% endblock %}
 
 {% if page.teaser %}
-<section id="markets-banner-section" class="topic-list-section background-stone-30 padding-bottom-60-m padding-top-15-m">
+<section id="markets-banner-section" class="topic-list-section background-stone-30 padding-bottom-15-m padding-top-15-m">
     <div class="container">
-      <div class="grid-row margin-top-30 margin-top-45-m">
+      <div class="grid-row padding-top-30 padding-top-45-m">
         <div class="column-full column-two-thirds-l font-medium">
           {{ page.teaser }}
         </div>
@@ -40,7 +40,7 @@
 {% endif %}
 
 {% block child_pages %}
-<section id="{{ page.slug }}-list-section" class="topic-list-section background-stone-30 markets-landing">
+<section id="{{ page.slug }}-list-section" class="topic-list-section background-stone-30 markets-landing padding-top-15 padding-top-45-m">
     <div class="container">
       <form id="sectors-form" action="" method="GET">
           <input name="view" value="{{ request.GET.view }}" type="hidden" />
@@ -153,7 +153,7 @@
                 </div>
 
                 {% if map_enabled %}
-                <div id="stats-tabs" class="tabs margin-vertical-30">
+                <div class="market-guides__view-tabs tabs margin-bottom-30">
                   <nav class="tabs__nav">
                     <ul style="justify-content: flex-end;">
                       <li>
