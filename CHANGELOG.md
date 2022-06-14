@@ -6,6 +6,8 @@
 
 ### Bugs fixed
 
+- GLS-223 - Multiple office for single region
+
 ### Enhancements
 
 - CHORE - Update node requirement to v16
