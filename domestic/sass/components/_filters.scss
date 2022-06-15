@@ -29,31 +29,11 @@
         }
 
         .options {
-            display: none;
-            max-height: 300px;
-            overflow-y: scroll;
             margin-bottom: 15px;
-
-            ul {
-                overflow: hidden;
-            }
-            &.full-height {
-                max-height: none;
-                overflow: auto;
-            }
         }
 
         > input[type='checkbox'] {
             @extend .verbose
-        }
-
-        > input[type='checkbox']:checked + label:after {
-            border-width: 0 2px 2px 0;
-            top: 2px;
-        }
-
-        > input[type='checkbox']:checked + label + .options {
-                display: block;
         }
     }
 
@@ -101,11 +81,6 @@
         > ul,
         > h2 span {
             display: block;
-        }
-
-        .options {
-            max-height: none;
-            overflow: auto;
         }
 
         .mobile-filter-toggle {

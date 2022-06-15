@@ -54,9 +54,8 @@
                 <span class="verbose">Selecting a filter with Javascript enabled will refresh the page.</span>
                 <ul>
                   <li class="filter-section">
-                    <input type="checkbox" id="sectors" checked />
-                    <label for="sectors" role="button">High potential sectors for UK business</label>
-                    <div class="options checkbox-small">
+                    <h3 class="margin-bottom-15">High potential sectors for UK business</h3>
+                    <div class="options checkbox-small full-height">
                       <ul>
                         {% for sector in sector_list %}
                         <li class="multiple-choice margin-bottom-0">
@@ -69,22 +68,22 @@
                       </ul>
                     </div>
                   </li>
-                  <li class="filter-section">
-                    <input type="checkbox" id="regions" checked />
-                    <label for="regions" role="button">World regions</label>
-                    <div class="options checkbox-small full-height">
-                        <ul>
-                          {% for region in regions_list %}
-                          <li class="multiple-choice margin-bottom-0">
-                            <input type="checkbox" value="{{ region.name }}" id="region_{{ region.id }}" name="region" {% if region.name in selected_regions %} checked {% endif %} />
-                            <label for="region_{{ region.id }}">
-                              {{ region.name|title }}
-                            </label>
-                            </li>
-                          {% endfor %}
-                        </ul>
-                      </div>
-                  </li>
+{#                  <li class="filter-section">#}
+{#                    <input type="checkbox" id="regions" checked />#}
+{#                    <label for="regions" role="button">World regions</label>#}
+{#                    <div class="options checkbox-small full-height">#}
+{#                        <ul>#}
+{#                          {% for region in regions_list %}#}
+{#                          <li class="multiple-choice margin-bottom-0">#}
+{#                            <input type="checkbox" value="{{ region.name }}" id="region_{{ region.id }}" name="region" {% if region.name in selected_regions %} checked {% endif %} />#}
+{#                            <label for="region_{{ region.id }}">#}
+{#                              {{ region.name|title }}#}
+{#                            </label>#}
+{#                            </li>#}
+{#                          {% endfor %}#}
+{#                        </ul>#}
+{#                      </div>#}
+{#                  </li>#}
 
                 </ul>
                 <div class="filters-sticky-footer" id="filters-sticky-footer">
