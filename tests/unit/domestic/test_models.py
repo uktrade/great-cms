@@ -541,36 +541,10 @@ def test_trade_and_duties_links_no_country(domestic_homepage):
 
 @pytest.mark.parametrize(
     'iso2',
-    ('CN', 'US', 'AU', 'DE', 'IN', 'PT', 'LI'),
+    ('CN', 'US', 'AU', 'DE', 'FR', 'IT'),
 )
 @pytest.mark.django_db
-def test_stats_most_visited_guide(
-    iso2,
-    domestic_homepage,
-    settings,
-):
-    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
-
-    country = CountryFactory(name='Country name', slug='country-slug', iso2=iso2)
-
-    page = CountryGuidePageFactory(
-        parent=domestic_homepage,
-        title='Test GCP',
-        country=country,
-    )
-
-    assert len(page.stats['highlights']['data']) == 3
-    assert len(page.stats['market_trends']['data']) == 10
-    assert len(page.stats['goods_exports']['data']) == 5
-    assert len(page.stats['services_exports']['data']) == 3 if iso2 == 'LI' else 5
-
-
-@pytest.mark.parametrize(
-    'iso2',
-    ('CN', 'US', 'AU', 'DE', 'IN', 'PT', 'LI'),
-)
-@pytest.mark.django_db
-def test_stats_most_visited_guide_data_pipeline(
+def test_stats(
     iso2,
     mock_trade_highlights,
     mock_market_trends,
@@ -580,7 +554,6 @@ def test_stats_most_visited_guide_data_pipeline(
     settings,
 ):
     settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
-    settings.FEATURE_DATA_PIPELINE_STATS = True
 
     country = CountryFactory(name='Country name', slug='country-slug', iso2=iso2)
 
@@ -594,25 +567,6 @@ def test_stats_most_visited_guide_data_pipeline(
     assert len(page.stats['market_trends']['data']) == 2
     assert len(page.stats['goods_exports']['data']) == 3
     assert len(page.stats['services_exports']['data']) == 2
-
-
-@pytest.mark.parametrize(
-    'iso2',
-    ('FR', 'IT', 'ES'),
-)
-@pytest.mark.django_db
-def test_stats_not_most_visited_guide(iso2, domestic_homepage, settings):
-    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
-
-    country = CountryFactory(name='Country name', slug='country-slug', iso2=iso2)
-
-    page = CountryGuidePageFactory(
-        parent=domestic_homepage,
-        title='Test GCP',
-        country=country,
-    )
-
-    assert page.stats is None
 
 
 @pytest.mark.django_db
