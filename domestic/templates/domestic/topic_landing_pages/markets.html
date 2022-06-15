@@ -108,6 +108,7 @@
                           <span class="bold">{{ region }}</span>{% if not forloop.last %} or{% endif %}{% if forloop.last %}.  Try searching in another region. {% endif %}
                         {% endfor %}
                       {% endif %}
+                    </p>
                     <p>There are other ways the Department for International Trade can help you sell your product in an overseas market.</p>
                     <p><a href="{{ services_urls.exopps }}" class="link">Browse our export opportunities service to find opportunities to sell your product in overseas markets</a></p>
                     <p><a href="{{ services_urls.contact_us }}office-finder" class="link">Get in touch with a trade adviser to discuss your export business plan</a></p>
@@ -148,7 +149,6 @@
                         <option value="{{ option.value }}" {% if sortby == option.value %}selected{% endif %}>{{ option.label }}</option>
                       {% endfor %}
                     </select>
-                    </div>
                   {% endif %}
                 </div>
 
@@ -164,7 +164,7 @@
                   </nav>
                 </div>
                 {% endif %}
-            </div>
+              </div>
 
               {% if map_enabled and view == 'map' %}
                 <div id="market-guides-map" style="width: 100%; height: 500px;"></div>
