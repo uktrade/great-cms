@@ -46,6 +46,7 @@
 ### Enhancements
 
 - GLS-257 - rollout Market Guide v1 with data pipeline stats
+- GLS-259 - Market Guide results map
 - CHORE - Update node requirement to v16
 
 ## [2.9.0](https://github.com/uktrade/great-cms/releases/tag/2.9.0)
