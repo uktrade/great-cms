@@ -1,3 +1,5 @@
+import descriptor from './map-style-descriptor.json'
+
 export const listSectors = (tags, selected) => {
   let sectors = tags
   let splitAt = 2
@@ -35,8 +37,9 @@ export const initializeMap = async (cognitoPoolId, markets, selected = []) => {
       container: 'market-guides-map',
       center: [0,0],
       zoom: 1,
-      minZoom: 0,
-      style: 'OpportunitiesListing',
+      minZoom: 1,
+      maxZoom: 4,
+      style: descriptor,
       dragRotate: false,
       touchPitch: false,
       pitchWithRotate: false,
