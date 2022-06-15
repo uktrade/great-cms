@@ -39,7 +39,7 @@ export const initializeMap = async (cognitoPoolId, markets, selected = []) => {
     },
     {
       container: 'market-guides-map',
-      center: [0,0],
+      center: [0,20],
       zoom: 1,
       minZoom: 1,
       maxZoom: 4,
@@ -72,10 +72,12 @@ export const initializeMap = async (cognitoPoolId, markets, selected = []) => {
     const el = document.createElement('div');
     el.className = 'market-guides-marker';
 
+    const tags = listSectors(market.tags, selected)
+
     let popupMarkup = '<a class="markets-map-infobox" href="' + market.url + '">'
     popupMarkup += '<h3 class="heading-small">' + market.heading + '</h3>'
-    if (market.tags) {
-      popupMarkup += '<p>High potential in ' + listSectors(market.tags, selected) + '</p>'
+    if (tags) {
+      popupMarkup += '<p>High potential in ' + tags + '</p>'
     }
     popupMarkup += '</a>'
 
@@ -88,7 +90,7 @@ export const initializeMap = async (cognitoPoolId, markets, selected = []) => {
   })
 
   if (markets.length) {
-    map.fitBounds(bounds, { padding: 20, maxZoom: 8 })
+    map.fitBounds(bounds, { padding: 40, maxZoom: 4 })
   }
 }
 
