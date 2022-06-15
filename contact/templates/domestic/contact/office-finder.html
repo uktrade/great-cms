@@ -36,7 +36,8 @@
         {% if office_details %}
 
         <section class="width-half" id="results">
-            <h2 class="heading-medium">Your local Trade office(s) for {{ form.cleaned_data.postcode }} is</h2>
+
+            <h2 class="heading-medium">Your local Trade office{%if office_details|length > 1 %}s{% endif %} for {{ form.cleaned_data.postcode }} is</h2>
             <hr>
         </section>
 
