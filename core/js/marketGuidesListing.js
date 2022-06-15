@@ -1,5 +1,9 @@
 import descriptor from './map-style-descriptor.json'
 
+// Land: #f1f1f1
+// Water: #ccd2d3
+// Borders and text: #333333
+
 export const listSectors = (tags, selected) => {
   let sectors = tags
   let splitAt = 2
