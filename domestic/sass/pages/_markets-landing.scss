@@ -215,9 +215,9 @@
     margin-left: 0;
 }
 .maplibregl-popup-content {
-    padding: 1em;
+    padding: 1em !important;
     font-size: 1rem;
-    border-radius: 10px;
+    border-radius: 10px !important;
 }
 .markets-map-infobox {
     text-decoration: none;
