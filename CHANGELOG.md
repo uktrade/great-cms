@@ -6,7 +6,22 @@
 
 ### Bugs fixed
 
+- GLS-223 - Multiple office for single region
+
 ### Enhancements
+
+- GLS-257 - rollout Market Guide v1 with data pipeline stats
+- CHORE - Update node requirement to v16
+
+## [2.9.0](https://github.com/uktrade/great-cms/releases/tag/2.9.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.8.3...2.9.0)
+
+### Enhancements
+
+- GLS-186 - Use data from API for statistics visualisations
+- GLS-228 - Add hardcoded visualisations data for Liechtenstein and Portugal
+- GLS-241 - Update visualisations data to latest ONS release
 
 ## [2.8.3](https://github.com/uktrade/great-cms/releases/tag/2.8.3)
 
@@ -62,7 +77,6 @@
 - GLS-180 - Add trade visualisations to Country guide pages
 - GLS-189 - Add feature flag for brand homepage banner
 - GLS-180 - Extend visualisations to top 5 most visited market guides
-- GLS-186 - Use data from API for statistics visualisations
 
 ## [2.6.0](https://github.com/uktrade/great-cms/releases/tag/2.6.0)
 
