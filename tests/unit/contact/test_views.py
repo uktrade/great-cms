@@ -665,7 +665,7 @@ def test_office_finder_valid(all_office_details, client):
 
     assert response.status_code == 200
 
-    assert response.context_data['office_details'] == {
+    assert response.context_data['office_details'][0] == {
         'address': (
             'The International Trade Centre\n' '5 Merus Court\n' 'Meridian Business Park\n' 'Leicester\n' 'LE19 1RJ'
         ),

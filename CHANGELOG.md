@@ -6,6 +6,8 @@
 
 ### Bugs fixed
 
+- GLS-223 - Multiple office for single region
+
 ### Enhancements
 
 - GLS-257 - rollout Market Guide v1 with data pipeline stats
