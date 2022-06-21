@@ -5,6 +5,13 @@
 ### Hotfix
 
 ### Bugs fixed
+### Enhancements
+
+## [2.9.1](https://github.com/uktrade/great-cms/releases/tag/2.9.1)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.9.0...2.9.1)
+
+### Bugs fixed
 
 - GLS-223 - Multiple office for single region
 
