@@ -5,6 +5,8 @@
 ### Hotfix
 
 ### Bugs fixed
+
+* GLS-271 - Fixed duplicate title for office which has override office
 ### Enhancements
 
 ## [2.9.1](https://github.com/uktrade/great-cms/releases/tag/2.9.1)
