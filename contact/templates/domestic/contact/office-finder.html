@@ -34,15 +34,14 @@
         {% endif %}
 
         {% if office_details %}
-
-        <section class="width-half" id="results">
-
-            <h2 class="heading-medium">Your local Trade office{%if office_details|length > 1 %}s{% endif %} for {{ form.cleaned_data.postcode }} is</h2>
-            <hr>
-        </section>
-
         {% for office in office_details %}
             {% if not office.override_office_details %}
+                {% if forloop.first %}
+                <section class="width-half" id="results">
+                    <h2 class="heading-medium">Your local Trade office{%if office_details|length > 1 %}s{% endif %} for {{ form.cleaned_data.postcode }} is</h2>
+                    <hr>
+                </section>
+                {% endif %}
             <section class="width-half" id="results">
                 <h3 class="heading-medium" id="office-name">{{ office.name }}</h3>
                 {{ office.address|linebreaks }}
