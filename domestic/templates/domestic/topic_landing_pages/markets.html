@@ -180,6 +180,9 @@
                   var selected = getJSON('market-guides-selected-json')
                   marketGuidesListing.initializeMap('{{ aws_cognito_pool_id }}', markets, selected);
                 </script>
+                <div class="disclaimer">
+                    <span class="bold-small">Disclaimer</span>: Country borders do not necessarily reflect the UK Government's official position.
+                </div>
               {% else %}
                 <div class="flex-grid markets-grid">
                   {% include 'components/card_grid.html' with cards=paginated_results  %}
