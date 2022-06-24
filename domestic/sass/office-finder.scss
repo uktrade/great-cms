@@ -5,12 +5,11 @@
 @import './partials/colours';
 @import './components/form-wizard';
 
-button {
-  margin-top: 30px;
-}
-
 #content {
-  input, textarea, select {
+
+  input,
+  textarea,
+  select {
     width: 100%;
   }
 
@@ -19,8 +18,9 @@ button {
   }
 
   h1 {
-    margin-bottom: 15px;  
+    margin-bottom: 15px;
   }
+
   form p {
     margin-bottom: 30px;
   }
@@ -28,12 +28,17 @@ button {
 
 #search-section {
   padding-bottom: 45px;
+
+  button {
+    margin-top: 30px;
+  }
 }
 
 #results {
   background-color: #F6F4F0;
   margin: 0;
   padding: 1px 30px 40px;
+
   hr {
     background: $mid-grey;
   }
@@ -41,21 +46,26 @@ button {
 
 #other-results {
   padding-bottom: 0;
+
   h2 {
     margin-bottom: 45px;
     margin-top: 60px;
   }
+
   h3 {
     margin-top: 0;
     margin-bottom: 15px;
   }
+
   .grid-row {
     padding: 0;
   }
+
   hr {
     margin-left: 0;
     background: $mid-grey;
   }
+
 }
 
 #office-name {

@@ -19,7 +19,7 @@ def retrieve_regional_office(postcode):
 def extract_regional_office_details(all_offices):
     matches = [office for office in all_offices if office['is_match']]
     formatted_office_details = format_office_details(matches)
-    return formatted_office_details[0] if formatted_office_details else None
+    return formatted_office_details if formatted_office_details else None
 
 
 def extract_other_offices_details(all_offices):
@@ -35,6 +35,7 @@ def format_office_details(office_list):
         address.append(office['address_postcode'])
         office = {'address': '\n'.join(address), **office}
         offices.append(office)
+
     return offices if len(offices) > 0 else None
 
 
