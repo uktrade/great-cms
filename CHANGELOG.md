@@ -11,6 +11,8 @@
 
 ### Enhancements
 
+* GLS-230 - Add soft delete to Wagtail to prevent accidental data loss
+
 ## [2.9.1](https://github.com/uktrade/great-cms/releases/tag/2.9.1)
 
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.9.0...2.9.1)

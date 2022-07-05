@@ -11,7 +11,7 @@ pytest
 pytest-cov
 pytest-django
 pytest-sugar
-django-debug-toolbar
+django-debug-toolbar==3.2.4
 requests-mock
 pip-tools
 ipdb==0.13.*
