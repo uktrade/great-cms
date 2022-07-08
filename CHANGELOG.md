@@ -2,6 +2,8 @@
 
 ## Pre release
 
+* GLS-269 - Add last release date to market guide visualisations
+
 ### Hotfix
 
 ### Bugs fixed

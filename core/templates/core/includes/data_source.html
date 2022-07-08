@@ -6,8 +6,13 @@
     {% else %}
       {{ source.label }}
     {% endif %}
-    {% if source.next_release %}
-    <br/>Next release: {{ source.next_release }}
+    <br/>Last release:
+    {% if source.label == 'ONS UK trade' %}
+    13 June 2022
+    {% elif source.label == 'ONS UK total trade: all countries' %}
+    28 April 2022
+    {% elif source.label == 'ONS UK trade in services: service type by partner country' %}
+    28 April 2022
     {% endif %}
     {% if source.notes %}
     <br/>{{ source.notes|join:" " }}
