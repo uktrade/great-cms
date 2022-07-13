@@ -8,6 +8,7 @@
 
 * GLS-271 - Fixed duplicate title for office which has override office
 * GLS-98 - Fixed product finder not updating when changing previously answered question
+* GLS-301 - Fix select2 vulnerability
 
 ### Enhancements
 
