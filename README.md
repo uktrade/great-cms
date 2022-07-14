@@ -4,7 +4,7 @@
 [![codecov-image]][codecov]
 [![docs-image]][docs]
 [![gitflow-image]][gitflow]
-[![calver-image]][calver]
+[![semver-image]][semver]
 
 **CMS for the GREAT platform - The Department for International Trade (DIT)**
 
@@ -343,6 +343,6 @@ https://github.com/uktrade?q=great
 
 [gitflow]: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
 
-[calver-image]: https://img.shields.io/badge/Versioning%20strategy-CalVer-5FBB1C.svg
+[semver-image]: https://img.shields.io/badge/Versioning%20strategy-SemVer-5FBB1C.svg
 
-[calver]: https://calver.org
+[semver]: https://semver.org
