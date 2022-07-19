@@ -94,18 +94,23 @@ const TreeLine = ({ level }) => (
   </div>
 )
 
-export default function ClassificationTree({ hsCode }) {
+// React.memo prevents ClassificationTree from being rerendered
+// if hsCode hasn't changed.
+const ClassificationTree = React.memo(({ hsCode }) => {
   const [tree, setTree] = useState(null)
 
   useEffect(() => {
-    Services.lookupProductSchedule({ hsCode }).then((results) => {
-      if (results.errorCode) {
-        setTree([])
-      } else {
-        setTree(buildClassificationTree(hsCode, results))
-      }
-    })
-  }, [])
+    // Set to null to prevent old tree from being displayed while
+    // old tree is being built.
+    setTree(null)
+    Services.lookupProductSchedule({ hsCode })
+      .then(results => {
+        if (results.errorCode)
+          setTree([])
+        else
+          setTree(buildClassificationTree(hsCode, results))
+      })
+  }, [hsCode])  // Only rebuild tree when hsCode has changed.
 
   return (
     <>
@@ -123,7 +128,9 @@ export default function ClassificationTree({ hsCode }) {
       )) || <Spinner text="" />}
     </>
   )
-}
+})
+
+export default ClassificationTree;
 
 ClassificationTree.propTypes = {
   hsCode: PropTypes.string.isRequired,

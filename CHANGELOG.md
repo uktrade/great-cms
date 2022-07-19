@@ -2,12 +2,19 @@
 
 ## Pre release
 
+* GLS-269 - Add last release date to market guide visualisations
+
 ### Hotfix
 
 ### Bugs fixed
 
 * GLS-271 - Fixed duplicate title for office which has override office
+* GLS-98 - Fixed product finder not updating when changing previously answered question
+* GLS-301 - Fix select2 vulnerability
+
 ### Enhancements
+
+* GLS-230 - Add soft delete to Wagtail to prevent accidental data loss
 
 ## [2.9.1](https://github.com/uktrade/great-cms/releases/tag/2.9.1)
 

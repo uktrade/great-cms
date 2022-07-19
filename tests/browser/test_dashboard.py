@@ -5,6 +5,7 @@ from typing import List
 
 import allure
 import pytest
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webdriver import WebDriver
 
@@ -81,12 +82,12 @@ def test_dashboard_welcome(
         user.first_name = 'TEST USER'
         client.force_login(user)
         visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
-        welcome = browser.find_element_by_css_selector('h1#great-hero-welcome')
+        welcome = browser.find_element(By.CSS_SELECTOR, 'h1#great-hero-welcome')
         assert welcome.text == 'Dashboard'
         user.first_name = None
         client.force_login(user)
         visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
-        welcome = browser.find_element_by_css_selector('h1#great-hero-welcome')
+        welcome = browser.find_element(By.CSS_SELECTOR, 'h1#great-hero-welcome')
         assert welcome.text == 'Dashboard'
 
     except AssertionError:

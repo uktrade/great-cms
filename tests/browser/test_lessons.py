@@ -6,6 +6,7 @@ from unittest import mock
 import allure
 import pytest
 from pytest_django.live_server_helper import LiveServer
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from core import cms_slugs
@@ -64,7 +65,7 @@ def open_random_lesson(browser: WebDriver):
 @allure.step('Check topics reading progress')
 def check_topic_read_progress(browser: WebDriver, topic: ListPageFactory, lessons: List[DetailPageFactory]):
     attach_jpg_screenshot(browser, 'Topics reading progress', selector=DashboardReadingProgress.YOUR_PROGRESS_CARD)
-    count_element = browser.find_element_by_css_selector('#your-progress-card .topics-read-text')
+    count_element = browser.find_element(By.CSS_SELECTOR, '#your-progress-card .topics-read-text')
     count_text = count_element.text
     assert count_text == '1 / 2 lessons completed'
 
