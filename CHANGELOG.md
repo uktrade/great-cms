@@ -2,9 +2,15 @@
 
 ## Pre release
 
-* GLS-269 - Add last release date to market guide visualisations
-
 ### Hotfix
+
+### Bugs fixed
+
+### Enhancements
+
+## [2.10.0](https://github.com/uktrade/great-cms/releases/tag/2.10.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.9.1...2.10.0)
 
 ### Bugs fixed
 
@@ -15,6 +21,7 @@
 ### Enhancements
 
 * GLS-230 - Add soft delete to Wagtail to prevent accidental data loss
+* GLS-269 - Add last release date to market guide visualisations
 
 ## [2.9.1](https://github.com/uktrade/great-cms/releases/tag/2.9.1)
 
