@@ -7,7 +7,7 @@ import sys
 
 def parse_summary_json(summary_path: str):
     if not os.path.exists(summary_path):
-        print(f'Could not find test summary file: {summary_path}')  # noqa: T001
+        print(f'Could not find test summary file: {summary_path}')  # noqa: T201
         return
 
     with open(summary_path, 'r') as json_file:
@@ -19,7 +19,7 @@ def parse_summary_json(summary_path: str):
         f"Failed={stats['failed']}😭 Skipped={stats['skipped']}😴 "
         f"Broken={stats['broken']}🤕 Unknown={stats['unknown']}😵"
     )
-    print(message)  # noqa: T001
+    print(message)  # noqa: T201
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@ django==2.2.*
 django-environ==0.4.*
 django-redis==4.10.*
 django_storages[boto3]==1.8.*
-django-extensions==2.2.*
+django-extensions==3.1.*
 django-ipware==2.1.*
 djangorestframework==3.11.*
 django-formtools==2.*
@@ -20,6 +20,7 @@ wagtailmedia==0.5.0
 wagtailfontawesome==1.2.1
 wagtail-transfer==0.7.*
 wagtail-seo==1.0.0
+wagtail-trash==0.1.*
 
 # Prod tools
 # ------------

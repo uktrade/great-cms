@@ -8,7 +8,7 @@
     "build": "webpack --config react-components/webpack.config.js --mode production",
     "build:dev": "webpack --watch --config react-components/webpack.config.js --mode development",
     "build-domestic": "sass --load-path=domestic/sass --load-path=./ --style=compressed domestic/sass:domestic/static/styles",
-    "build-domestic:dev": "sass --watch --load-path=domestic/sass --style=compressed domestic/sass:domestic/static/styles"
+    "build-domestic:dev": "sass --watch --load-path=domestic/sass --load-path=./ --style=compressed domestic/sass:domestic/static/styles"
   },
   "jest": {
     "globalSetup": "react-components/setupJest.js"
