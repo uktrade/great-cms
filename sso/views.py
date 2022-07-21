@@ -34,6 +34,8 @@ class SSOBusinessUserLoginView(generics.GenericAPIView):
 
 
 class SSOBusinessUserLogoutView(generics.GenericAPIView):
+    serializer_class = serializers.SSOBusinessUserLogoutSerializer
+
     def post(self, request):
         # Construct a cookie with the session key.
         session_cookie = {'session_key': request.COOKIES.get(settings.SSO_SESSION_COOKIE)}

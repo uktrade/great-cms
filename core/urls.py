@@ -2,11 +2,13 @@ import directory_healthcheck.views
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
+from rest_framework_swagger.views import get_swagger_view  # new
 from wagtail.contrib.sitemaps.views import sitemap as wagtail_sitemap
 
 from config.url_redirects import redirects
 from core import cms_slugs, views, views_api
 
+schema_view = get_swagger_view(title='GREAT API')
 app_name = 'core'
 
 SIGNUP_URL = reverse_lazy('core:signup')
@@ -66,6 +68,7 @@ urlpatterns = [
         skip_ga360(directory_healthcheck.views.PingView.as_view()),
         name='ping',
     ),
+    path('swagger/', schema_view, name='schema-swagger'),
     path('triage/<slug:step>/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='triage-wizard'),
     path('triage/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='triage-start'),
     path('custom/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='custom-page'),

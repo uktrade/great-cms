@@ -25,7 +25,7 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
-astroid==2.11.6
+astroid==2.11.7
     # via pylint
 asttokens==2.0.5
     # via stack-data
@@ -94,11 +94,17 @@ codecov==2.1.12
     # via -r requirements_test.in
 configargparse==1.5.3
     # via locust
-coverage[toml]==6.4.1
+coreapi==2.3.3
+    # via
+    #   django-rest-swagger
+    #   openapi-codec
+coreschema==0.0.4
+    # via coreapi
+coverage[toml]==6.4.2
     # via
     #   codecov
     #   pytest-cov
-cryptography==37.0.2
+cryptography==37.0.4
     # via
     #   -r requirements.in
     #   pyhanko
@@ -143,7 +149,7 @@ directory-sso-api-client==6.5.6
     # via -r requirements.in
 directory-validators==8.0.0
     # via -r requirements.in
-distlib==0.3.4
+distlib==0.3.5
     # via virtualenv
 django==2.2.28
     # via
@@ -192,6 +198,8 @@ django-recaptcha==2.0.6
     # via -r requirements.in
 django-redis==4.10.0
     # via -r requirements.in
+django-rest-swagger==2.2.0
+    # via -r requirements.in
 django-staff-sso-client==1.0.1
     # via -r requirements.in
 django-storages[boto3]==1.8
@@ -205,6 +213,7 @@ django-treebeard==4.4
 djangorestframework==3.11.2
     # via
     #   -r requirements.in
+    #   django-rest-swagger
     #   sigauth
     #   wagtail
 docutils==0.17.1
@@ -227,7 +236,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==13.14.0
+faker==13.15.0
     # via factory-boy
 filelock==3.7.1
     # via virtualenv
@@ -249,7 +258,7 @@ flake8-quotes==3.3.1
     # via -r requirements_test.in
 flake8-string-format==0.3.0
     # via -r requirements_test.in
-flask==2.1.2
+flask==2.1.3
     # via
     #   flask-basicauth
     #   flask-cors
@@ -284,7 +293,7 @@ html5lib==1.1
     # via
     #   wagtail
     #   xhtml2pdf
-identify==2.5.1
+identify==2.5.2
     # via pre-commit
 idna==3.3
     # via
@@ -309,10 +318,13 @@ isort==5.6.4
     #   pylint
 itsdangerous==2.1.2
     # via flask
+itypes==1.2.0
+    # via coreapi
 jedi==0.18.1
     # via ipython
 jinja2==3.1.2
     # via
+    #   coreschema
     #   flask
     #   sphinx
 jmespath==0.10.0
@@ -362,6 +374,8 @@ oauthlib==3.2.0
     # via requests-oauthlib
 olefile==0.46
     # via directory-validators
+openapi-codec==1.3.2
+    # via django-rest-swagger
 openpyxl==3.0.10
     # via tablib
 oscrypto==1.3.0
@@ -381,7 +395,7 @@ pathspec==0.9.0
     # via black
 pep517==0.12.0
     # via build
-pep8-naming==0.13.0
+pep8-naming==0.13.1
     # via -r requirements_test.in
 pexpect==4.8.0
     # via ipython
@@ -408,7 +422,7 @@ pluggy==1.0.0
     # via
     #   allure-python-commons
     #   pytest
-pre-commit==2.19.0
+pre-commit==2.20.0
     # via -r requirements_test.in
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
@@ -443,7 +457,7 @@ pyhanko-certvalidator==0.19.5
     # via
     #   pyhanko
     #   xhtml2pdf
-pylint==2.14.4
+pylint==2.14.5
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -474,7 +488,7 @@ pytest-cov==3.0.0
     # via -r requirements_test.in
 pytest-django==4.5.2
     # via -r requirements_test.in
-pytest-sugar==0.9.4
+pytest-sugar==0.9.5
     # via -r requirements_test.in
 python-bidi==0.4.2
     # via xhtml2pdf
@@ -508,9 +522,9 @@ readtime==1.1.1
     # via -r requirements.in
 redis==4.3.4
     # via django-redis
-regex==2022.6.2
+regex==2022.7.9
     # via dateparser
-reportlab==3.6.10
+reportlab==3.6.11
     # via
     #   svglib
     #   xhtml2pdf
@@ -518,6 +532,7 @@ requests==2.28.1
     # via
     #   airtable-python-wrapper
     #   codecov
+    #   coreapi
     #   directory-api-client
     #   directory-ch-client
     #   directory-client-core
@@ -549,6 +564,8 @@ sigauth==4.3.0
     # via
     #   -r requirements.in
     #   directory-client-core
+simplejson==3.17.6
+    # via django-rest-swagger
 six==1.16.0
     # via
     #   airtable-python-wrapper
@@ -610,7 +627,7 @@ tomli==2.0.1
     #   pep517
     #   pylint
     #   pytest
-tomlkit==0.11.0
+tomlkit==0.11.1
     # via pylint
 tqdm==4.64.0
     # via pypdf3
@@ -640,9 +657,11 @@ uk-postcode-utils==1.1
     # via -r requirements.in
 unidecode==1.3.4
     # via wagtail
+uritemplate==4.1.1
+    # via coreapi
 uritools==4.0.0
     # via pyhanko-certvalidator
-urllib3[secure,socks]==1.26.9
+urllib3[secure,socks]==1.26.10
     # via
     #   -r requirements.in
     #   botocore
@@ -711,7 +730,7 @@ xlsxwriter==1.4.5
     # via wagtail
 xlwt==1.3.0
     # via tablib
-zipp==3.8.0
+zipp==3.8.1
     # via importlib-metadata
 zope-event==4.5.0
     # via gevent

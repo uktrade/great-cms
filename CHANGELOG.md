@@ -15,6 +15,7 @@
 ### Enhancements
 
 * GLS-230 - Add soft delete to Wagtail to prevent accidental data loss
+* GLS-314 - Swagger/OpenAPI Documentation
 
 ## [2.9.1](https://github.com/uktrade/great-cms/releases/tag/2.9.1)
 

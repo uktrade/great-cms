@@ -16,3 +16,7 @@ class SSOBusinessVerifyCodeSerializer(serializers.Serializer):
     uidb64 = serializers.CharField()
     token = serializers.CharField()
     code = serializers.CharField()
+
+
+class SSOBusinessUserLogoutSerializer(serializers.Serializer):
+    session_cookie = serializers.CharField()

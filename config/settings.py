@@ -83,6 +83,8 @@ INSTALLED_APPS = [
     'healthcheck.apps.HealthcheckAppConfig',
     'health_check.cache',
     'sso_profile',
+    'rest_framework_swagger',
+    # 'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -463,7 +465,10 @@ GA360_BUSINESS_UNIT = 'GreatMagna'
 
 PRIVACY_COOKIE_DOMAIN = env.str('PRIVACY_COOKIE_DOMAIN', UTM_COOKIE_DOMAIN)
 
-REST_FRAMEWORK = {'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',)}
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+}
 
 WAGTAILIMAGES_IMAGE_MODEL = 'core.AltTextImage'
 WAGTAILMEDIA_MEDIA_MODEL = 'core.GreatMedia'
