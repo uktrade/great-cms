@@ -83,8 +83,7 @@ INSTALLED_APPS = [
     'healthcheck.apps.HealthcheckAppConfig',
     'health_check.cache',
     'sso_profile',
-    'rest_framework_swagger',
-    # 'drf_yasg',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [

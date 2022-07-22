@@ -67,4 +67,4 @@ urllib3>=1.26.5<2.0.0
 hashids==0.8.4
 elasticsearch>=7.0.0,<7.14.0
 elasticsearch-dsl>=7.0.0,<8.0.0
-django-rest-swagger==2.2.0
+drf-yasg==1.21.*
