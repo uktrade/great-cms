@@ -11,18 +11,7 @@ from config.url_redirects import redirects
 from core import cms_slugs, views, views_api
 
 app_name = 'core'
-schema_view = get_schema_view(
-    openapi.Info(
-        title='GREAT API',
-        default_version='v1',
-        description='API_DESCRIPTION',
-        terms_of_service='https://www.google.com/policies/terms/',
-        contact=openapi.Contact(email='mail@example.com'),
-        license=openapi.License(name='MIT License'),
-    ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
-)
+
 
 SIGNUP_URL = reverse_lazy('core:signup')
 LOGIN_URL = reverse_lazy('core:login')
@@ -60,18 +49,6 @@ urlpatterns = [
         name='sitemap',
     ),
     path(
-        'robots.txt',
-        skip_ga360(views.RobotsView.as_view()),
-        name='robots',
-    ),
-    path(
-        'cookies/',
-        skip_ga360(
-            views.CookiePreferencesPageView.as_view(),
-        ),
-        name='cookie-preferences',
-    ),
-    path(
         'healthcheck/',
         skip_ga360(directory_healthcheck.views.HealthcheckView.as_view()),
         name='healthcheck',
@@ -82,8 +59,13 @@ urlpatterns = [
         name='ping',
     ),
     # path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     # path('redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    # WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD THE URL NAME
+    # TO core.views.StaticViewSitemap
+]
+urlpatterns += redirects
+
+view_patterns = [
     path('triage/<slug:step>/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='triage-wizard'),
     path('triage/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='triage-start'),
     path('custom/', skip_ga360(views.ServiceNoLongerAvailableView.as_view()), name='custom-page'),
@@ -91,6 +73,18 @@ urlpatterns = [
         'where-to-export/',
         login_required(views.CompareCountriesView.as_view(), login_url=SIGNUP_URL),
         name='compare-countries',
+    ),
+    path(
+        'robots.txt',
+        skip_ga360(views.RobotsView.as_view()),
+        name='robots',
+    ),
+    path(
+        'cookies/',
+        skip_ga360(
+            views.CookiePreferencesPageView.as_view(),
+        ),
+        name='cookie-preferences',
     ),
     path(
         'capability/<str:topic>/<str:chapter>/<str:article>/',
@@ -165,7 +159,23 @@ urlpatterns = [
         ),
         name='subtitles-serve',
     ),
-    # WHEN ADDING TO THIS LIST CONSIDER WHETHER YOU SHOULD ALSO ADD THE URL NAME
-    # TO core.views.StaticViewSitemap
 ]
-urlpatterns += redirects
+urlpatterns += view_patterns
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title='GREAT API',
+        default_version='v1',
+        description='API_DESCRIPTION',
+        terms_of_service='https://www.google.com/policies/terms/',
+        contact=openapi.Contact(email='mail@example.com'),
+        license=openapi.License(name='MIT License'),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+    patterns=view_patterns,
+)
+
+urlpatterns += [
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+]
