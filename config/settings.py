@@ -845,3 +845,9 @@ CLAM_AV_ENABLED = env.bool('CLAM_AV_ENABLED', False)
 CLAM_AV_HOST = env.str('CLAM_AV_HOST', '')
 CLAM_AV_USERNAME = env.str('CLAM_AV_USERNAME', '')
 CLAM_AV_PASSWORD = env.str('CLAM_AV_PASSWORD', '')
+
+# Restriction document upload by filetypes
+WAGTAILDOCS_EXTENSIONS = [
+    'pdf',
+    'docx',
+]

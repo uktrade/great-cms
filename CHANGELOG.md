@@ -7,6 +7,7 @@
 ### Bugs fixed
 
 ### Enhancements
+- GLS-344 - Added restriction on document upload by file types
 
 ## [2.10.0](https://github.com/uktrade/great-cms/releases/tag/2.10.0)
 
