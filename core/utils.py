@@ -1,5 +1,7 @@
 import re
 
+import magic
+
 trim_page_type = re.compile(r'^([^_]*)_\d*')
 
 
@@ -161,3 +163,14 @@ def get_cs_ranking(
     )
     score += rank_related_pages(cs, page_context, settings)
     return score
+
+
+def get_mime_type(file):
+    """
+    Get MIME by reading the header of the file
+    """
+    initial_pos = file.tell()
+    file.seek(0)
+    mime_type = magic.from_buffer(file.read(2048), mime=True)
+    file.seek(initial_pos)
+    return mime_type
