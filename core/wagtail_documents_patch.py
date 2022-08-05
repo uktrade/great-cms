@@ -4,12 +4,13 @@ from django.core.validators import FileExtensionValidator
 from wagtail.documents.models import AbstractDocument
 
 from core.utils import get_mime_type
+from core.validators import validate_file_infection
 
 
 def clean(self):
     """
     Added monkey patch to improvised existing clean method for validation of file type by
-    extra check on mimetype of the file.
+    extra check on MIME type, and virus scanning of the file.
 
     More info : https://docs.djangoproject.com/en/3.1/ref/validators/#fileextensionvalidator
     """
@@ -23,6 +24,9 @@ def clean(self):
 
     if allowed_mimetypes and mimetype not in allowed_mimetypes:
         raise ValidationError(message="File\'s mime type not allowed.", code='invalid')
+
+    if settings.CLAM_AV_ENABLED:
+        validate_file_infection(self.file)
 
 
 AbstractDocument.clean = clean

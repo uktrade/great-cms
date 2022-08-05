@@ -7,7 +7,7 @@
 ### Bugs fixed
 
 ### Enhancements
-- GLS-344 - Added restriction on document upload by file types
+- GLS-344 - Added restriction on document upload by file types and virus scanning from Wagtail admin
 
 ## [2.10.0](https://github.com/uktrade/great-cms/releases/tag/2.10.0)
 
