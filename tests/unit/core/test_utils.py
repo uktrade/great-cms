@@ -1,11 +1,17 @@
 import pytest
+from django.core.files.base import ContentFile
 from django.http import HttpRequest
+from django.test import TestCase
+from django.test.utils import override_settings
+from wagtail.core.models import Collection
+from wagtail.documents import models
 
 from core.utils import (  # get_personalised_case_study_orm_filter_args,
     PageTopicHelper,
     choices_to_key_value,
     get_all_lessons,
     get_first_lesson,
+    get_mime_type,
     get_personalised_choices,
 )
 from directory_constants.choices import MARKET_ROUTE_CHOICES
@@ -219,3 +225,22 @@ def test_selected_personalised_choices_no_user():
 def test_tuple_to_key_value_dict():
     key_value_dict = [{'value': key, 'label': label} for key, label in MARKET_ROUTE_CHOICES]
     assert choices_to_key_value(MARKET_ROUTE_CHOICES) == key_value_dict
+
+
+@override_settings(WAGTAILDOCS_EXTENSIONS=['pdf', 'txt', 'docx'])
+@override_settings(WAGTAILDOCS_MIME_TYPES=['text/plain', 'application/pdf'])
+class TestServeView(TestCase):
+    def setUp(self):
+        Collection.objects.get_or_create(
+            name='Root',
+            path='0001',
+            depth=1,
+            numchild=0,
+        )
+        self.txt_document = models.Document(title='Test document', file_hash='123456')
+        self.txt_document.file.save('example.txt', ContentFile('A boring example document'))
+
+    def test_file_mimetypes(self):
+
+        mimetype = get_mime_type(self.txt_document.file)
+        self.assertEqual(mimetype, 'text/plain')

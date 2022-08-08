@@ -851,3 +851,7 @@ WAGTAILDOCS_EXTENSIONS = [
     'pdf',
     'docx',
 ]
+WAGTAILDOCS_MIME_TYPES = [
+    'application/pdf',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+]
