@@ -26,7 +26,7 @@ class ResendVerificationMixin:
         )
 
 
-class SSOBusinessUserLoginView(generics.GenericAPIView):
+class SSOBusinessUserLoginView(ResendVerificationMixin, generics.GenericAPIView):
     serializer_class = serializers.SSOBusinessUserSerializer
     permission_classes = []
 
@@ -40,6 +40,20 @@ class SSOBusinessUserLoginView(generics.GenericAPIView):
             'login': serializer.validated_data['email'],
         }
         upstream_response = requests.post(url=settings.SSO_PROXY_LOGIN_URL, data=data, allow_redirects=False)
+        # 401 means credentials are correct, but user is unverified
+        if upstream_response.status_code == 401:
+            email = self.request.data['email']
+            verification_code = helpers.regenerate_verification_code(email)
+            uidb64 = verification_code.pop('user_uidb64')
+            token = verification_code.pop('verification_token')
+            helpers.send_verification_code_email(
+                email=email,
+                verification_code=verification_code,
+                form_url=request.path,
+                verification_link=self.get_verification_link(uidb64, token),
+                resend_verification_link=self.get_resend_verification_link(),
+            )
+            return Response({'uidb64': uidb64, 'token': token})
         if upstream_response.status_code == 302:
             # Redirect from sso indicates the credentials were correct
             return helpers.response_factory(upstream_response=upstream_response)
