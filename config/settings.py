@@ -337,6 +337,7 @@ SESSION_COOKIE_HTTPONLY = True
 # must be None to allow copy upstream to work
 SESSION_COOKIE_SAMESITE = None
 CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE', True)
+CSRF_COOKIE_HTTPONLY = True
 
 # security
 X_FRAME_OPTIONS = 'DENY'

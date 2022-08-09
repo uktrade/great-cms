@@ -9,6 +9,7 @@
 ### Enhancements
 
 * GLS-349 - Disable autocomplete for user creation and password reset forms
+* GLS-351 - Configure csrftoken cookie to be HttpOnly
 
 ## [2.11.0](https://github.com/uktrade/great-cms/releases/tag/2.11.0)
 
