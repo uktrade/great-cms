@@ -10,6 +10,22 @@ from sso import helpers, serializers
 from sso_profile.enrolment import constants
 
 
+class ResendVerificationMixin:
+    def get_verification_link(self, uidb64, token):
+        next_param = self.request.data.get('next', '')
+        verification_params = f'?uidb64={uidb64}&token={token}'
+
+        if next_param:
+            next_param = f'&next={next_param}'
+
+        return self.request.build_absolute_uri(reverse('core:signup')) + verification_params + next_param
+
+    def get_resend_verification_link(self):
+        return self.request.build_absolute_uri(
+            reverse('sso_profile:resend-verification', kwargs={'step': constants.RESEND_VERIFICATION})
+        )
+
+
 class SSOBusinessUserLoginView(generics.GenericAPIView):
     serializer_class = serializers.SSOBusinessUserSerializer
     permission_classes = []
@@ -54,7 +70,7 @@ class SSOBusinessUserLogoutView(generics.GenericAPIView):
         return response
 
 
-class SSOBusinessUserCreateView(generics.GenericAPIView):
+class SSOBusinessUserCreateView(ResendVerificationMixin, generics.GenericAPIView):
     serializer_class = serializers.SSOBusinessUserSerializer
     permission_classes = []
 
@@ -85,20 +101,6 @@ class SSOBusinessUserCreateView(generics.GenericAPIView):
 
     def get_login_url(self):
         return self.request.build_absolute_uri(reverse('core:login'))
-
-    def get_resend_verification_link(self):
-        return self.request.build_absolute_uri(
-            reverse('sso_profile:resend-verification', kwargs={'step': constants.RESEND_VERIFICATION})
-        )
-
-    def get_verification_link(self, uidb64, token):
-        next_param = self.request.data.get('next', '')
-        verification_params = f'?uidb64={uidb64}&token={token}'
-
-        if next_param:
-            next_param = f'&next={next_param}'
-
-        return self.request.build_absolute_uri(reverse('core:signup')) + verification_params + next_param
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
