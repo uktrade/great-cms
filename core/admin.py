@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 from wagtail.contrib.modeladmin import views
 from wagtail.contrib.modeladmin.mixins import ThumbnailMixin
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
@@ -50,3 +51,10 @@ class ImageAdmin(ModelAdmin, ThumbnailMixin):
 
     size.short_description = 'Size'
     size.admin_order_field = 'file_size'
+
+
+# Disable autocomplete for user creation and password reset forms.
+UserAdmin.add_form.base_fields['password1'].widget.attrs['autocomplete'] = 'off'
+UserAdmin.add_form.base_fields['password2'].widget.attrs['autocomplete'] = 'off'
+UserAdmin.change_password_form.base_fields['password1'].widget.attrs['autocomplete'] = 'off'
+UserAdmin.change_password_form.base_fields['password2'].widget.attrs['autocomplete'] = 'off'

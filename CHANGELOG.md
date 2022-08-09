@@ -8,6 +8,8 @@
 
 ### Enhancements
 
+* GLS-349 - Disable autocomplete for user creation and password reset forms
+
 ## [2.11.0](https://github.com/uktrade/great-cms/releases/tag/2.11.0)
 
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.10.0...2.11.0)
