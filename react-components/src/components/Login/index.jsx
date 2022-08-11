@@ -18,12 +18,29 @@ export const Login = ({ nextUrl, ...props }) => {
     setIsInProgress(false)
   }
 
+  const getRedirectUrl = ({ token, uidb64 }) => {
+    // if new verification token generated, means user exists but is unverified
+    // redirect to verification code step of signup
+
+    // account for when there are existing query parameters in URL (e.g. ?next=/dashboard/)
+    const queryParamConnector = window.location.search ? '&' : '?'
+
+    const { signupUrl } = Services.config
+
+    return (
+      token && uidb64
+        ? `${signupUrl}${queryParamConnector}uidb64=${uidb64}&token=${token}`
+        : nextUrl
+    )
+  }
+
   function handleSubmit() {
     setErrors({})
     setIsInProgress(true)
     Services.checkCredentials({ email, password })
+      .then((response) => response.json())
       // eslint-disable-next-line no-restricted-globals
-      .then(() => location.assign(nextUrl))
+      .then((data) => location.assign(getRedirectUrl(data)))
       .catch(handleError)
   }
 
