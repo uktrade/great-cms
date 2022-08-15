@@ -14,5 +14,5 @@ window.matchMedia =
     }
   }
 
-import $ from '../core/components/static/javascript/vendor/jquery-3.5.1.min';
+import $ from '../core/components/static/javascript/vendor/jquery-3.6.0.min';
 global.$ = global.jQuery = $;

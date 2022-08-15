@@ -53,7 +53,7 @@ def get_cookie(cookie_jar, name):
 
 def response_factory(upstream_response):
     cookie_jar = get_cookie_jar(upstream_response)
-    response = Response(status=200)
+    response = Response({}, status=200)
     set_cookies_from_cookie_jar(
         cookie_jar=cookie_jar,
         response=response,

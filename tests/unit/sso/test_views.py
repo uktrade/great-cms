@@ -50,6 +50,22 @@ def test_business_sso_login_500_upstream(client, requests_mock):
 
 
 @pytest.mark.django_db
+@mock.patch.object(helpers, 'regenerate_verification_code')
+@mock.patch.object(helpers, 'send_verification_code_email')
+def test_business_sso_login_401_upstream(mock_send_code, mock_regenerate_code, client, requests_mock):
+    mock_regenerate_code.return_value = {'code': '12345', 'user_uidb64': 'aBcDe', 'verification_token': '1ab-123abc'}
+    requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=401)
+
+    response = client.post(reverse('sso:business-sso-login-api'), {'email': 'test', 'password': 'password'})
+
+    assert mock_send_code.call_count == 1
+    assert mock_regenerate_code.call_count == 1
+
+    assert response.status_code == 200
+    assert response.data == {'token': '1ab-123abc', 'uidb64': 'aBcDe'}
+
+
+@pytest.mark.django_db
 def test_business_sso_user_create_validation_error(client):
     response = client.post(reverse('sso:business-sso-create-user-api'), {})
 
