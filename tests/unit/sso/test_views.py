@@ -210,6 +210,38 @@ def test_business_sso_verify_code_invalid(mock_check_verification_code, client):
 
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'check_verification_code')
+@mock.patch.object(helpers, 'regenerate_verification_code')
+@mock.patch.object(helpers, 'send_verification_code_email')
+def test_business_sso_verify_code_expired(
+    mock_send_verification_code_email, mock_regenerate_verification_code, mock_check_verification_code, client
+):
+
+    data = {'uidb64': 'aBcDe', 'token': '1a2b3c', 'code': '12345', 'email': 'mail@example.com'}
+    url = reverse('sso:business-sso-verify-code-api')
+
+    mock_check_verification_code.return_value = create_response(
+        {'email': data['email'], 'expired': True}, status_code=400
+    )
+
+    mock_regenerate_verification_code.return_value = '67890'
+
+    response = client.post(url, data)
+
+    assert response.status_code == 400
+    assert response.json() == {'code': ['Code has expired']}
+
+    assert mock_check_verification_code.call_count == 1
+    assert mock_check_verification_code.call_args == mock.call(
+        uidb64=data['uidb64'], token=data['token'], code=data['code']
+    )
+
+    # Check new code is generated and sent
+    assert mock_regenerate_verification_code.call_count == 1
+    assert mock_send_verification_code_email.call_count == 1
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'check_verification_code')
 @mock.patch.object(helpers, 'send_welcome_notification')
 def test_business_sso_verify_code_valid(mock_send_welcome_notification, mock_check_verification_code, client):
 

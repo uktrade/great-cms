@@ -24,6 +24,7 @@ export const Input = memo(
     maxDate,
     decimal,
     info,
+    message,
     ...inputAttributes
   }) => {
     const { update, ...cleanedInputAttributes } = inputAttributes
@@ -65,6 +66,7 @@ export const Input = memo(
         formGroupClassName={formGroupClassName}
         descriptionClassName={descriptionClassName}
         info={info}
+        message={message}
       >
         <div className={`flex-center ${type === 'date' ? 'select-date' : ''}`}>
           {prepend && (
@@ -127,6 +129,7 @@ Input.propTypes = {
   descriptionClassName: PropTypes.string,
   decimal: PropTypes.oneOf([2, 0]),
   info: PropTypes.string,
+  message: PropTypes.string,
 }
 
 Input.defaultProps = {
@@ -146,4 +149,5 @@ Input.defaultProps = {
   maxDate: '',
   decimal: 2,
   info: '',
+  message: '',
 }

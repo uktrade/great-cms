@@ -21,6 +21,10 @@ class InvalidVerificationCode(APIException):
     pass
 
 
+class ExpiredVerificationCode(APIException):
+    pass
+
+
 class CreateUserException(APIException):
     pass
 

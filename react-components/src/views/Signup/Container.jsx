@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import ReactModal from 'react-modal'
 import { connect, Provider } from 'react-redux'
 import { analytics } from '@src/Helpers'
+import { messages } from '@src/constants'
 
 import {
   Signup,
@@ -17,6 +18,7 @@ import {
 } from '@src/reducers'
 
 export function Container(props) {
+  const [message, setMessage] = useState(props.message)
   const [errors, setErrors] = useState(props.errors)
   const [isInProgress, setIsInProgress] = useState(props.isInProgress)
   const [currentStep, setCurrentStep] = useState(props.currentStep)
@@ -28,7 +30,12 @@ export function Container(props) {
   const [phoneNumber, setPhoneNumber] = useState('')
 
   function handleError(error) {
-    setErrors(error.message || error)
+    // If verification code has expired
+    if (Object.is(error, messages.MESSAGE_UNPROCESSABLE_ENTITY)) {
+      setMessage('This confirmation code has expired. Check your email for a new code and enter it into the box below.')
+    } else {
+      setErrors(error.message || error)
+    }
     setIsInProgress(false)
   }
 
@@ -40,6 +47,7 @@ export function Container(props) {
 
   function handleStepCredentialsSubmit() {
     setErrors({})
+    setMessage('')
     setIsInProgress(true)
     Services.createUser({ email, password, phoneNumber, next })
       .then((response) => response.json())
@@ -87,6 +95,7 @@ export function Container(props) {
       googleLoginUrl={googleLoginUrl}
       phoneNumber={phoneNumber}
       setPhoneNumber={setPhoneNumber}
+      message={message}
     />
   )
 }
