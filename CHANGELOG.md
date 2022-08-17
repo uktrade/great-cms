@@ -38,6 +38,7 @@
 ### Enhancements
 
 * GLS-348 - Update Gunicorn 19.5.0 -> 20.1.0
+* GLS-360 - Get GDP & economic growth data for a market from API, not Wagtail
 
 ## [2.12.0](https://github.com/uktrade/great-cms/releases/tag/2.12.0)
 

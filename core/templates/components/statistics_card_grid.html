@@ -4,6 +4,7 @@
 {% endcomment %}
 
 {% load component_tags %}
+{% load humanize %}
 
 <div class="statistics-card margin-vertical-30">
   <h2 class="statistics-card-heading heading-large">
@@ -12,6 +13,44 @@
 
   <div class="statistics-card-content">
     <div class="flex-grid">
+      {% if economic_highlights.data %}
+        <figure
+          class="padding-vertical-15 statistics-card__column statistics-card__column-5"
+        >
+          <p class="statistic-heading font-xsmall">Economic growth</p>
+          {% with economic_highlights.data.economic_growth as economic_growth %}
+            <p class="active-blue-text statistic-number bold-large">
+              {{ economic_growth.value|floatformat }}%
+            </p>
+            <figcaption>
+              {% with economic_highlights.metadata.uk_data.economic_growth as uk_economic_growth %}
+              <p class="font-xsmall statistic-smallprint">
+                {% get_projected_or_actual economic_growth.is_projection True %} figure (IMF, {{ economic_growth.year }})<br>
+                The UK is {{ uk_economic_growth.value|floatformat }}% (IMF, {{ uk_economic_growth.year }}, {% get_projected_or_actual uk_economic_growth.is_projection %} figure)
+              </p>
+              {% endwith %}
+            </figcaption>
+          {% endwith %}
+        </figure>
+        <figure
+          class="padding-vertical-15 statistics-card__column statistics-card__column-5"
+        >
+          <p class="statistic-heading font-xsmall">GDP per capita</p>
+          {% with economic_highlights.data.gdp_per_capita as gdp_per_capita %}
+            <p class="active-blue-text statistic-number bold-large">
+              ${{ gdp_per_capita.value|floatformat:0|intcomma }}
+            </p>
+            {% with economic_highlights.metadata.uk_data.gdp_per_capita as uk_gdp_per_capita %}
+            <figcaption>
+               <p class="font-xsmall statistic-smallprint">
+                {% get_projected_or_actual gdp_per_capita.is_projection True %} figure (IMF, {{ gdp_per_capita.year }})<br>
+                The UK is ${{ uk_gdp_per_capita.value|floatformat:0|intcomma }} (IMF, {{ uk_gdp_per_capita.year }}, {% get_projected_or_actual uk_gdp_per_capita.is_projection %} figure)
+               </p>
+            </figcaption>
+            {% endwith %}
+          {% endwith %}
+        </figure>
+      {% endif %}
       {% with statistics|length as num_of_statistics %}
         {% for statistics_block in statistics %}
           {% if statistics_block.value.number %}
