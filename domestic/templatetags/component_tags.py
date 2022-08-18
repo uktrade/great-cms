@@ -259,16 +259,3 @@ def is_descendant_of_parent_with_slug(child_page, parent_type_classname, slug_):
                 return True
 
     return False
-
-
-@register.simple_tag
-def get_projected_or_actual(is_projected, capitalise=False):
-    if is_projected:
-        projected_or_actual = 'projected'
-    else:
-        projected_or_actual = 'actual'
-
-    if capitalise:
-        return projected_or_actual.title()
-    else:
-        return projected_or_actual
