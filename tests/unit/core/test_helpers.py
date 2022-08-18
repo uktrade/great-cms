@@ -800,16 +800,6 @@ def test_get_top_services_exports_by_country(mock_top_services_exports, client):
 
 
 @pytest.mark.django_db
-def test_get_economic_highlights_by_country(mock_economic_highlights, client):
-    response = helpers.get_economic_highlights_by_country(iso2='FR')
-
-    assert response['metadata']['country'] == {'iso2': 'FR', 'name': 'France'}
-    assert response['metadata']['uk_data']['gdp_per_capita']
-    assert response['data']['gdp_per_capita']
-    assert response['data']['economic_growth']
-
-
-@pytest.mark.django_db
 def test_get_stats_by_country(
     mock_trade_highlights, mock_market_trends, mock_top_goods_exports, mock_top_services_exports, client
 ):
@@ -823,35 +813,23 @@ def test_get_stats_by_country(
 
 @pytest.mark.django_db
 def test_get_stats_by_country_no_data(
-    mock_trade_highlights,
-    mock_market_trends,
-    mock_top_goods_exports,
-    mock_top_services_exports,
-    mock_economic_highlights,
-    client,
+    mock_trade_highlights, mock_market_trends, mock_top_goods_exports, mock_top_services_exports, client
 ):
     mock_trade_highlights.return_value = create_response(status_code=200, json_body={'metadata': {}, 'data': {}})
     mock_market_trends.return_value = create_response(status_code=200, json_body={'metadata': {}, 'data': []})
     mock_top_goods_exports.return_value = create_response(status_code=200, json_body={'metadata': {}, 'data': []})
     mock_top_services_exports.return_value = create_response(status_code=200, json_body={'metadata': {}, 'data': []})
-    mock_economic_highlights.return_value = create_response(status_code=200, json_body={'metadata': {}, 'data': []})
 
     assert helpers.get_stats_by_country(iso2='FR') is None
 
 
 @pytest.mark.django_db
 def test_get_stats_by_country_partial_data(
-    mock_trade_highlights,
-    mock_market_trends,
-    mock_top_goods_exports,
-    mock_top_services_exports,
-    mock_economic_highlights,
-    client,
+    mock_trade_highlights, mock_market_trends, mock_top_goods_exports, mock_top_services_exports, client
 ):
     mock_trade_highlights.return_value = create_response(status_code=200, json_body={'metadata': {}, 'data': {}})
     mock_market_trends.return_value = create_response(status_code=200, json_body={'metadata': {}, 'data': []})
     mock_top_services_exports.return_value = create_response(status_code=200, json_body={'metadata': {}, 'data': []})
-    mock_economic_highlights.return_value = create_response(status_code=200, json_body={'metadata': {}, 'data': []})
 
     stats = helpers.get_stats_by_country(iso2='FR')
 
@@ -861,21 +839,13 @@ def test_get_stats_by_country_partial_data(
 
 @pytest.mark.django_db
 def test_get_stats_by_country_errors(
-    mock_trade_highlights,
-    mock_market_trends,
-    mock_top_goods_exports,
-    mock_top_services_exports,
-    mock_economic_highlights,
-    client,
+    mock_trade_highlights, mock_market_trends, mock_top_goods_exports, mock_top_services_exports, client
 ):
     mock_trade_highlights.return_value = create_response(
         status_code=400, json_body={'iso2': ['This field is required.']}
     )
     mock_market_trends.return_value = create_response(status_code=400, json_body={'iso2': ['This field is required.']})
     mock_top_services_exports.return_value = create_response(
-        status_code=400, json_body={'iso2': ['This field is required.']}
-    )
-    mock_economic_highlights.return_value = create_response(
         status_code=400, json_body={'iso2': ['This field is required.']}
     )
 
