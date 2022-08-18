@@ -220,14 +220,14 @@ def test_business_sso_verify_code_expired(
     url = reverse('sso:business-sso-verify-code-api')
 
     mock_check_verification_code.return_value = create_response(
-        {'email': data['email'], 'expired': True}, status_code=400
+        {'email': data['email'], 'expired': True}, status_code=422
     )
 
     mock_regenerate_verification_code.return_value = '67890'
 
     response = client.post(url, data)
 
-    assert response.status_code == 400
+    assert response.status_code == 422
     assert response.json() == {'code': ['Code has expired']}
 
     assert mock_check_verification_code.call_count == 1

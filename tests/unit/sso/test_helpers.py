@@ -150,7 +150,7 @@ def test_check_verification_code_failure(mock_verify_verification_code, status_c
 @mock.patch.object(sso_api_client.user, 'verify_verification_code')
 def test_check_verification_code_expired(mock_verify_verification_code):
     mock_response = {'email': 'user@example.com', 'expired': True}
-    mock_verify_verification_code.return_value = create_response(mock_response, status_code=400)
+    mock_verify_verification_code.return_value = create_response(mock_response, status_code=422)
 
     response = helpers.check_verification_code(uidb64='aBcDe', token='12345', code='12345')
 
