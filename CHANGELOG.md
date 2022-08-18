@@ -8,6 +8,12 @@
 
 ### Enhancements
 
+## [2.13.0](https://github.com/uktrade/great-cms/releases/tag/2.13.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.12.0...2.13.0)
+
+### Enhancements
+
 * GLS-348 - Update Gunicorn 19.5.0 -> 20.1.0
 
 ## [2.12.0](https://github.com/uktrade/great-cms/releases/tag/2.12.0)
