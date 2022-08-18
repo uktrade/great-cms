@@ -8,6 +8,14 @@
 
 ### Enhancements
 
+* GLS-348 - Update Gunicorn 19.5.0 -> 20.1.0
+
+## [2.12.0](https://github.com/uktrade/great-cms/releases/tag/2.12.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.11.0...2.12.0)
+
+### Enhancements
+
 * GLS-349 - Disable autocomplete for user creation and password reset forms
 * GLS-351 - Configure csrftoken cookie to be HttpOnly
 * GLS-347 - Update jQuery 3.5.1 -> 3.6.0
