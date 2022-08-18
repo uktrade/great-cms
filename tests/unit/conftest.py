@@ -179,3 +179,24 @@ def mock_top_services_exports():
             },
         ),
     ).start()
+
+
+@pytest.fixture
+def mock_economic_highlights():
+    yield mock.patch.object(
+        api_client.dataservices,
+        'get_economic_highlights_by_country',
+        return_value=create_response(
+            status_code=200,
+            json_body={
+                'metadata': {
+                    'country': {'name': 'France', 'iso2': 'FR'},
+                    'uk_data': {'gdp_per_capita': {'year': 2021, 'value': 40000, 'is_projection': 'false'}},
+                },
+                'data': {
+                    'gdp_per_capita': {'value': 50000, 'year': 2021},
+                    'economic_growth': {'value': 5, 'year': 2021},
+                },
+            },
+        ),
+    ).start()
