@@ -20,3 +20,5 @@ def validate_file_infection(file):
 
     if is_file_infected:
         raise ValidationError('Rejected: uploaded file did not pass security scan')
+
+    file.seek(0)

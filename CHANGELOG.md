@@ -4,6 +4,8 @@
 
 ### Hotfix
 
+* GLS-395 - [HOTFIX] Logo not uploading to business profile
+
 ### Bugs fixed
 
 ### Enhancements
