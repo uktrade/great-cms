@@ -33,7 +33,7 @@ def test_is_valid_uk_postcode(postcode, raise_expected):
 @override_settings(CLAM_AV_ENABLED=True)
 @mock.patch('core.helpers.ClamAvClient.scan_chunked')
 def test_validate_file_infection_positive_scan(mock_clam_av_client_scan):
-    file = 'file'
+    file = mock.Mock()
     mock_response = create_response({'malware': True, 'reason': 'Win.Test.EICAR_HDB-1', 'time': 0.005419833003543317})
     mock_clam_av_client_scan.return_value = mock_response
 
@@ -46,7 +46,7 @@ def test_validate_file_infection_positive_scan(mock_clam_av_client_scan):
 @override_settings(CLAM_AV_ENABLED=True)
 @mock.patch('core.helpers.ClamAvClient.scan_chunked')
 def test_validate_file_infection_negative_scan(mock_clam_av_client_scan):
-    file = 'file'
+    file = mock.Mock()
     mock_response = create_response({'malware': False, 'reason': None, 'time': 0.011951766995480284})
     mock_clam_av_client_scan.return_value = mock_response
 
@@ -54,3 +54,5 @@ def test_validate_file_infection_negative_scan(mock_clam_av_client_scan):
         validate_file_infection(file)
     except ValidationError:
         pytest.fail('Should not raise a validator error.')
+
+    assert file.seek.call_count == 1
