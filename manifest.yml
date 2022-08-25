@@ -1,5 +1,5 @@
 ---
 applications:
   - buildpacks:
-      - https://github.com/cloudfoundry/python-buildpack.git#v1.7.42
+      - https://github.com/cloudfoundry/python-buildpack.git#v1.7.58
     timeout: 180

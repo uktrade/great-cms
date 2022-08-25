@@ -11,6 +11,7 @@
 ### Enhancements
 
 * GLS-345 - Remove admin paths from robots.txt
+* CHORE - Bump CF buildpack and upgraded python to 3.9.13
 
 ## [2.13.0](https://github.com/uktrade/great-cms/releases/tag/2.13.0)
 
