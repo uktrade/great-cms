@@ -3,8 +3,8 @@
 @font-face {
   font-family: 'FS Lucas';
   src: url('/static/fonts/FSLucas-Regular.woff2') format('woff2'),
-  url('/static/fonts/FSLucas-Regular.woff') format('woff'),
-  url('/static/fonts/FSLucas-Regular.ttf') format('truetype');
+    url('/static/fonts/FSLucas-Regular.woff') format('woff'),
+    url('/static/fonts/FSLucas-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -32,7 +32,8 @@ $tablet: 768px;
   border-radius: 4px;
   background-color: #787191;
   color: #fff;
-  font-family: "FS Lucas", Arial, Helvetica, Verdana;;
+  font-family: "FS Lucas", Arial, Helvetica, Verdana;
+  ;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0;
@@ -76,6 +77,7 @@ $tablet: 768px;
   .content-container {
     display: flex;
     flex-direction: column;
+
     @include mobile {
       margin-top: 10px;
     }
@@ -128,38 +130,6 @@ $tablet: 768px;
   }
 }
 
-.shared-warning-banner {
-  background: #fff;
-  border-color: #EB4F4D;
-
-  .message-box-icon {
-    background: #EB4F4D;
-    vertical-align: top;
-
-    svg {
-      fill: #fff;
-      width: 24px;
-      height: 24px;
-    }
-  }
-
-  .message-box-content {
-    padding: 25px 25px 20px;
-
-    p {
-      font-family: "Overpass", Arial, Helvetica, Verdana;
-      font-size: 16px;
-      letter-spacing: 0;
-      line-height: 25px;
-      margin: 0 0 5px;
-    }
-
-    a {
-      color: #006ccc;
-    }
-  }
-}
-
 .shared-nav-container {
   &.main-nav-container.mobile {
     flex-direction: column;
@@ -195,7 +165,8 @@ $tablet: 768px;
           border-bottom: 0;
         }
 
-        a, button {
+        a,
+        button {
           background: none;
           border: 0;
           color: #fff;
@@ -255,6 +226,7 @@ $tablet: 768px;
 }
 
 @media (min-width: 768px) and (max-width: 1115px) {
+
   .great-header .main-nav-container.desktop.shared-nav-container.signed-in,
   .great-sub-header .main-nav-container.desktop.shared-nav-container.signed-in {
     margin-left: 5px;
@@ -267,7 +239,8 @@ $tablet: 768px;
     margin-right: 0;
   }
 
-  .great-header .link-heading, .great-sub-header .link-heading {
+  .great-header .link-heading,
+  .great-sub-header .link-heading {
     padding: 15px 10px;
   }
 }

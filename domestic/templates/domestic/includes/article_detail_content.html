@@ -72,12 +72,22 @@
             <img src="{{ article_image_rendition.url }}" alt="{{ page.article_image.alt }}" class="width-full">
         {% endif %}
 
-        <section class="grid-row padding-bottom-0">
+        <section class="grid-row padding-bottom-60">
           <div class="article-content">
             {{ page.article_body }} {# StreamField content #}
           </div>
         </section>
       </div>
+        <section class="grid-row background-stone-30">
+          <div class="column-full-m">
+            <div class="learn-more-container padding-top-45">
+              <h2 class="learn-more-heading">Want to know more?</h2>
+              <p>Learn how to start exporting with our easy-to-follow online course.</p>
+            </div>
+            <a href="/signup/" class="button learn-more-button margin-bottom-60">Sign up for free</a>
+          </div>
+        </section>
+
       {% block related_content %}
         {% include 'domestic/includes/article_related_content_list.html' %}
       {% endblock %}
