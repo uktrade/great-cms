@@ -4,11 +4,15 @@
 
 ### Hotfix
 
+* GLS-395 - [HOTFIX] Logo not uploading to business profile
+
 ### Bugs fixed
 
 ### Enhancements
 
 * GLS-336 - resend-verification-code
+* GLS-345 - Remove admin paths from robots.txt
+
 
 ## [2.13.0](https://github.com/uktrade/great-cms/releases/tag/2.13.0)
 
