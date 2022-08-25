@@ -10,7 +10,9 @@
 
 ### Enhancements
 
+* GLS-336 - resend-verification-code
 * GLS-345 - Remove admin paths from robots.txt
+
 
 ## [2.13.0](https://github.com/uktrade/great-cms/releases/tag/2.13.0)
 

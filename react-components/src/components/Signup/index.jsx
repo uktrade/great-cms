@@ -16,7 +16,7 @@ const subHeadings = [
 ]
 
 export const Signup = (props) => {
-  const { errors, disabled, email, showTitle, isInProgress } = props
+  const { errors, disabled, email, showTitle, isInProgress, message } = props
 
   const sharedStepProps = {
     errors,
@@ -24,6 +24,7 @@ export const Signup = (props) => {
     email,
     showTitle,
     isInProgress,
+    message,
   }
 
   function renderStep() {
@@ -112,6 +113,7 @@ Signup.propTypes = {
   isInProgress: PropTypes.bool,
   currentStep: PropTypes.oneOf([STEP_CREDENTIALS, STEP_COMPLETE, STEP_VERIFICATION_CODE]),
   showTitle: PropTypes.bool,
+  message: PropTypes.string,
 }
 
 Signup.defaultProps = {
@@ -119,4 +121,5 @@ Signup.defaultProps = {
   isInProgress: false,
   currentStep: STEP_CREDENTIALS,
   showTitle: true,
+  message: '',
 }

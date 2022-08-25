@@ -129,22 +129,32 @@ def test_regenerate_verification_code_success(mock_regenerate_verification_code)
 
 
 @mock.patch.object(sso_api_client.user, 'verify_verification_code')
-def test_check_verification_code_success(mock_create_user):
-    mock_create_user.return_value = create_response({'a': 'b'})
+def test_check_verification_code_success(mock_verify_verification_code):
+    mock_verify_verification_code.return_value = create_response({'a': 'b'})
 
     helpers.check_verification_code(uidb64='aBcDe', token='1a2b3c', code='12345')
 
-    assert mock_create_user.call_count == 1
-    assert mock_create_user.call_args == mock.call({'uidb64': 'aBcDe', 'token': '1a2b3c', 'code': '12345'})
+    assert mock_verify_verification_code.call_count == 1
+    assert mock_verify_verification_code.call_args == mock.call({'uidb64': 'aBcDe', 'token': '1a2b3c', 'code': '12345'})
 
 
 @pytest.mark.parametrize('status_code', (400, 404))
 @mock.patch.object(sso_api_client.user, 'verify_verification_code')
-def test_check_verification_code_failure(mock_create_user, status_code):
-    mock_create_user.return_value = create_response(status_code=status_code)
+def test_check_verification_code_failure(mock_verify_verification_code, status_code):
+    mock_verify_verification_code.return_value = create_response(status_code=status_code)
 
     with pytest.raises(helpers.InvalidVerificationCode):
         helpers.check_verification_code(uidb64='aBcDe', token='12345', code='12345')
+
+
+@mock.patch.object(sso_api_client.user, 'verify_verification_code')
+def test_check_verification_code_expired(mock_verify_verification_code):
+    mock_response = {'email': 'user@example.com', 'expired': True}
+    mock_verify_verification_code.return_value = create_response(mock_response, status_code=422)
+
+    response = helpers.check_verification_code(uidb64='aBcDe', token='12345', code='12345')
+
+    assert response.json() == mock_response
 
 
 @mock.patch.object(sso_api_client.user, 'create_user')
