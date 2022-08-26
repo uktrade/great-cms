@@ -53,7 +53,7 @@
                 {% endif %}
                 <br>
                 {% if office.region_id == 'scotland' %}
-                <a href="www.scottish-enterprise.com/contact-us" target="_BLANK" class="link">Contact {{ office.name }} office</a>
+                <a href="http://www.scottish-enterprise.com/contact-us" target="_BLANK" class="link">Contact {{ office.name }} office</a>
                 {% else %}
                 <a href="{% url 'contact:office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office.name }} office</a>
                 {% endif %}
