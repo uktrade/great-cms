@@ -11,6 +11,7 @@
 ### Enhancements
 
 * GLS-345 - Remove admin paths from robots.txt
+* GLS-394 - replace contact button with url
 
 ## [2.13.0](https://github.com/uktrade/great-cms/releases/tag/2.13.0)
 
