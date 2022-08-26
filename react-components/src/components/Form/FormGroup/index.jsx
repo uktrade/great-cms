@@ -20,6 +20,7 @@ export const FormGroup = memo(
     formGroupClassName,
     descriptionClassName,
     info,
+    message,
   }) => {
     return (
       <div
@@ -27,6 +28,7 @@ export const FormGroup = memo(
           errors.length > 0 ? 'form-group-error' : ''
         } ${formGroupClassName}`}
       >
+        {message ? <div className="g-panel body-m m-v-xs">{message}</div> : null}
         <label
           className={`form-label ${hideLabel ? 'visually-hidden' : ''}`}
           htmlFor={id}
@@ -87,6 +89,7 @@ FormGroup.propTypes = {
     duration: PropTypes.string,
   }),
   info: PropTypes.string,
+  message: PropTypes.string,
 }
 
 FormGroup.defaultProps = {
@@ -99,4 +102,5 @@ FormGroup.defaultProps = {
   formGroupClassName: '',
   descriptionClassName: '',
   info: '',
+  message: '',
 }

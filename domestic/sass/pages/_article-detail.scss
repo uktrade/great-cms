@@ -148,5 +148,31 @@
           padding-left: calc((50vw - 600px) + (100% / 9 * 2) + 5px);
         }
       }
+  }
+
+  .learn-more-button {
+    margin-top: 5px;
+
+    @media (min-width: 641px) {
+      margin-left: calc((100% / 12 * 2) + 5px);
     }
+  }
+
+  .learn-more-container {
+    @media (min-width: 641px) {
+      padding-left: calc((100% / 12 * 2) + 5px);
+      padding-right: calc((100% / 15 * 2) + 5px);
+    }
+  }
+
+  .learn-more-heading {
+    font-size: 36px;
+    line-height: 1.6;
+    font-weight: 700;
+    font-family: $brand-font-alternative;
+
+    @media (max-width: 641px) {
+      font-size: 24px;
+    }
+  }
 }
