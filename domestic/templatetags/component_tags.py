@@ -3,8 +3,6 @@ from bs4 import BeautifulSoup
 from django import template
 from django.templatetags import static
 
-from domestic.models import ArticleListingPage, TopicLandingPage
-
 register = template.Library()
 
 META_DESCRIPTION_TEXT_LENGTH = 150
@@ -243,19 +241,3 @@ def error_box(**kwargs):
 @register.inclusion_tag('components/message_box_with_icon.html')
 def message_box_with_icon(**kwargs):
     return kwargs
-
-
-@register.simple_tag
-def is_descendant_of_parent_with_slug(child_page, parent_type_classname, slug_):
-
-    parent_class = {
-        'TopicLandingPage': TopicLandingPage,
-        'ArticleListingPage': ArticleListingPage,
-    }.get(parent_type_classname)
-
-    if parent_class:
-        for page_ in child_page.get_ancestors().specific():
-            if page_.__class__ == parent_class and page_.slug == slug_:
-                return True
-
-    return False
