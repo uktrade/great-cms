@@ -52,7 +52,11 @@
                     <p><a class="link" href="tel:{{ office.phone_other }}">{{ office.phone_other }}</a></p>
                 {% endif %}
                 <br>
+                {% if office.region_id == 'scotland' %}
+                <a href="http://www.scottish-enterprise.com/contact-us" target="_BLANK" class="link">Contact {{ office.name }} office</a>
+                {% else %}
                 <a href="{% url 'contact:office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office.name }} office</a>
+                {% endif %}
 
             </section>
             {% else %}

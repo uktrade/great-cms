@@ -12,6 +12,7 @@
 
 * GLS-336 - resend-verification-code
 * GLS-345 - Remove admin paths from robots.txt
+* GLS-394 - replace contact button with url
 * GLS-396 - Replace warning banner with sign up banner on article pages
 * GLS-377 - Remove CTA banners from article listing pages
 
