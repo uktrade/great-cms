@@ -67,6 +67,8 @@ const responseHandler = function (response) {
     throw messages.MESSAGE_PERMISSION_DENIED
   } else if (response.status == 404) {
     throw messages.MESSAGE_NOT_FOUND_ERROR
+  } else if (response.status == 422) {
+    throw messages.MESSAGE_UNPROCESSABLE_ENTITY
   } else if (response.status == 504) {
     throw messages.MESSAGE_TIMEOUT_ERROR
   } else if (response.status == 400) {
