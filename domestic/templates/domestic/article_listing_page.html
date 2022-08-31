@@ -18,13 +18,6 @@
     {% endblock %}
   </div>
 
-  {% if 'advice' in page.get_parent|lower %}
-    <div class="container">
-      {% include 'components/learning_banner.html' with tag_text="New" heading="Turn advice into action" sub_heading="Get exporting lessons from trade experts" cta_text="Upskill now" cta_url="/learn/categories/" cta_alt_text="Upskill now" %}
-    </div>
-  {% endif %}
-
-
   <div class="container">
     {% if page.list_teaser %}
     <div class="grid-row">

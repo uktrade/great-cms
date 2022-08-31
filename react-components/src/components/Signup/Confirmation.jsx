@@ -10,6 +10,7 @@ const Confirmation = ({
   code,
   handleCodeChange,
   errors,
+  message,
 }) => (
   <form
     className="signup__confirmation"
@@ -34,6 +35,7 @@ const Confirmation = ({
       value={code}
       onChange={(item) => handleCodeChange(item.code)}
       errors={errors.code || []}
+      message={message}
     />
     <button
       type="submit"
@@ -55,6 +57,7 @@ Confirmation.propTypes = {
   handleCodeChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   showTitle: PropTypes.bool,
+  message: PropTypes.string,
 }
 
 Confirmation.defaultProps = {
@@ -62,6 +65,7 @@ Confirmation.defaultProps = {
   disabled: false,
   errors: {},
   showTitle: true,
+  message: '',
 }
 
 export default Confirmation
