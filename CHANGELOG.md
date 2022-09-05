@@ -8,6 +8,21 @@
 
 ### Bugs fixed
 
+* GLS-336 - Fix broken next urls when entering expired verification code
+
+### Enhancements
+
+* GLS-336 - resend-verification-code
+* GLS-345 - Remove admin paths from robots.txt
+* CHORE - Bump CF buildpack and upgraded python to 3.9.13
+* GLS-394 - replace contact button with url
+* GLS-396 - Replace warning banner with sign up banner on article pages
+* GLS-377 - Remove CTA banners from article listing pages
+
+## [2.13.0](https://github.com/uktrade/great-cms/releases/tag/2.13.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.12.0...2.13.0)
+
 ### Enhancements
 
 * GLS-348 - Update Gunicorn 19.5.0 -> 20.1.0

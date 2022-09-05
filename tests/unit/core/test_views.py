@@ -972,8 +972,6 @@ def test_robots_txt(client, base_url, expected_sitemap_url):
             [
                 b'User-agent: *\n',
                 b'\n',
-                b'Disallow: /admin/\n',
-                b'Disallow: /django-admin/\n',
                 b'Disallow: /api/\n',
                 b'Disallow: /activity-stream/\n',
                 b'\n',

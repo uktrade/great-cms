@@ -141,4 +141,12 @@ describe('FormGroup', () => {
     })
     expect(getByTitle('Click to view Educational moment')).toBeInTheDocument()
   })
+
+  it('Should have a message', () => {
+    const { getByText } = setup({
+      ...props,
+      message: 'Some message'
+    })
+    expect(getByText('Some message')).toBeInTheDocument()
+  })
 })

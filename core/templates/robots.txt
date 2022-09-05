@@ -1,7 +1,5 @@
 User-agent: *
 
-Disallow: /admin/
-Disallow: /django-admin/
 Disallow: /api/
 Disallow: /activity-stream/
 

@@ -1,3 +1,5 @@
+import urllib.parse
+
 import requests
 from django.conf import settings
 from django.contrib import auth
@@ -6,13 +8,15 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
+from core.cms_slugs import DASHBOARD_URL
 from sso import helpers, serializers
 from sso_profile.enrolment import constants
 
 
 class ResendVerificationMixin:
-    def get_verification_link(self, uidb64, token):
-        next_param = self.request.data.get('next', '')
+    def get_verification_link(self, uidb64, token, next_param=None):
+        if next_param is None:
+            next_param = self.request.data.get('next', '')
         verification_params = f'?uidb64={uidb64}&token={token}'
 
         if next_param:
@@ -137,7 +141,7 @@ class SSOBusinessUserCreateView(ResendVerificationMixin, generics.GenericAPIView
         return Response({'uidb64': uidb64, 'token': token})
 
 
-class SSOBusinessVerifyCodeView(generics.GenericAPIView):
+class SSOBusinessVerifyCodeView(ResendVerificationMixin, generics.GenericAPIView):
     serializer_class = serializers.SSOBusinessVerifyCodeSerializer
     permission_classes = []
 
@@ -154,5 +158,24 @@ class SSOBusinessVerifyCodeView(generics.GenericAPIView):
             token=serializer.validated_data['token'],
             code=serializer.validated_data['code'],
         )
-        helpers.send_welcome_notification(email=upstream_response.json()['email'], form_url=self.request.path)
+
+        email = upstream_response.json()['email']
+        # Resend verification code if it has expired.
+        if upstream_response.status_code == 422:
+            verification_code = helpers.regenerate_verification_code(email)
+            uidb64 = serializer.validated_data['uidb64']
+            token = serializer.validated_data['token']
+            # must create redirect link as it is not sent by the form in this step
+            next_url = self.request.build_absolute_uri(DASHBOARD_URL)
+            next_param = urllib.parse.quote(next_url, safe='')
+            helpers.send_verification_code_email(
+                email=email,
+                verification_code=verification_code,
+                form_url=request.path,
+                verification_link=self.get_verification_link(uidb64, token, next_param=next_param),
+                resend_verification_link=self.get_resend_verification_link(),
+            )
+            return Response({'code': ['Code has expired']}, status=422)
+
+        helpers.send_welcome_notification(email=email, form_url=self.request.path)
         return helpers.response_factory(upstream_response=upstream_response)

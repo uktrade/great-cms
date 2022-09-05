@@ -1,20 +1,21 @@
-version: 2
+version: 2.1
+
+orbs:
+  browser-tools: circleci/browser-tools@1.4.0
+  node: circleci/node@5.0.2
 
 ###############################################################################
 # Variables
 ###############################################################################
 
 python: &python
-  image: circleci/python:3.9.5
+  image: cimg/python:3.9.13
 
 python_node_browsers: &python_node_browsers
-  image: circleci/python:3.9.5-node-browsers
-
-node: &node
-  image: cimg/node:16.13
+  image: cimg/python:3.9.13-browsers
 
 postgres: &postgres
-  - image: circleci/postgres:10.11-alpine
+  - image: cimg/postgres:12.8
     environment:
       POSTGRES_USER: debug
       POSTGRES_PASSWORD: debug
@@ -68,6 +69,7 @@ setup_db: &setup_db
 jobs:
 
   test:
+    working_directory: ~/greatcms
     docker:
       - <<: *python_node_browsers
       - <<: *postgres
@@ -94,6 +96,7 @@ jobs:
           path: ./results/
 
   test_browser:
+    working_directory: ~/greatcms
     docker:
       - <<: *python_node_browsers
       - <<: *postgres
@@ -104,6 +107,8 @@ jobs:
       - *install_postgresql_client
       - restore_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - run:
           name: Install Allure CLI
           when: always
@@ -121,6 +126,7 @@ jobs:
       - run:
           name: Run Browser tests
           command: |
+            python3 -m venv venv
             . venv/bin/activate
             make pytest_browser
       - store_test_results:
@@ -155,6 +161,7 @@ jobs:
       - run:
           name: Run tests
           command: |
+            python3 -m venv venv
             . venv/bin/activate
             mkdir results
             make test_load
@@ -164,7 +171,7 @@ jobs:
 
   test_javascript:
     docker:
-      - *node
+      - *python_node_browsers
     steps:
       - checkout
       - restore_cache:
