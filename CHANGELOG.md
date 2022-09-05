@@ -8,6 +8,8 @@
 
 ### Bugs fixed
 
+* GLS-336 - Fix broken next urls when entering expired verification code
+
 ### Enhancements
 
 * GLS-336 - resend-verification-code
