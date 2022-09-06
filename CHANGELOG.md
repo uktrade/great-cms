@@ -5,6 +5,7 @@
 ### Hotfix
 
 ### Bugs fixed
+* GLS-401 - Remove duplicate meta tags from domestic templates
 
 ### Enhancements
 
