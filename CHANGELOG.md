@@ -19,6 +19,7 @@
 * GLS-396 - Replace warning banner with sign up banner on article pages
 * GLS-377 - Remove CTA banners from article listing pages
 * GP2-3838 - Remove unused Tour component
+* GGR-2 - Made in UK banner
 
 ## [2.13.0](https://github.com/uktrade/great-cms/releases/tag/2.13.0)
 
