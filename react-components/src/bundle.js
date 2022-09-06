@@ -4,7 +4,6 @@ import SignupModal from '@src/views/SignupModal/Container'
 
 import { createLogin } from '@src/views/Login'
 import Questionnaire from '@src/components/Segmentation/Questionnaire'
-import Tour from '@src/views/Tour/Container'
 import ProductFinderButton from '@src/components/ProductFinder/ProductFinderButton'
 import CountryFinderButton from '@src/components/ProductFinder/CountryFinderButton'
 import CompareMarkets from '@src/components/CompareMarkets'
@@ -98,7 +97,6 @@ export default {
   STEP_CREDENTIALS,
   STEP_VERIFICATION_CODE,
   Questionnaire,
-  Tour,
   sectionSidebar,
   sectionComplete,
   formatLessonLearned,

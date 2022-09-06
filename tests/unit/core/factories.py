@@ -123,14 +123,6 @@ class DetailPageFactory(wagtail_factories.PageFactory):
         django_get_or_create = ['slug', 'parent']
 
 
-class TourFactory(factory.django.DjangoModelFactory):
-    title = factory.fuzzy.FuzzyText(length=90)
-    body = factory.fuzzy.FuzzyText(length=200)
-
-    class Meta:
-        model = models.Tour
-
-
 class SimpleVideoBlockFactory(wagtail_factories.StructBlockFactory):
     video = None
 

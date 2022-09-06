@@ -146,40 +146,6 @@ class Rendition(AbstractRendition):
 
 
 @register_snippet
-class Tour(ClusterableModel):
-    page = models.OneToOneField('wagtailcore.Page', on_delete=models.CASCADE, related_name='tour')
-    title = models.CharField(max_length=255)
-    body = models.CharField(max_length=255)
-    button_text = models.CharField(max_length=255)
-
-    panels = [
-        PageChooserPanel('page'),
-        FieldPanel('title'),
-        FieldPanel('body'),
-        FieldPanel('button_text'),
-        MultiFieldPanel([InlinePanel('steps')], heading='Steps'),
-    ]
-
-    def __str__(self):
-        return self.page.title
-
-
-class TourStep(Orderable):
-    title = models.CharField(max_length=255)
-    body = models.CharField(max_length=255)
-    position = models.CharField(max_length=255)
-    selector = models.CharField(max_length=255)
-    tour = ParentalKey(Tour, on_delete=models.CASCADE, related_name='steps')
-
-    panels = [
-        FieldPanel('title'),
-        FieldPanel('body'),
-        FieldPanel('position'),
-        FieldPanel('selector'),
-    ]
-
-
-@register_snippet
 class Product(models.Model):
     name = models.CharField(max_length=255)
 
@@ -294,7 +260,6 @@ class TimeStampedModel(models.Model):
 
 class CMSGenericPage(
     SeoMixin,
-    mixins.EnableTourMixin,
     mixins.AuthenticatedUserRequired,
     mixins.WagtailGA360Mixin,
     GA360Mixin,
