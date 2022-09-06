@@ -4,6 +4,16 @@
 
 ### Hotfix
 
+### Bugs fixed
+
+### Enhancements
+
+## [2.14.0](https://github.com/uktrade/great-cms/releases/tag/2.14.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.13.0...2.14.0)
+
+### Hotfix
+
 * GLS-395 - [HOTFIX] Logo not uploading to business profile
 
 ### Bugs fixed
