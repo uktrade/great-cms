@@ -1,8 +1,8 @@
 # Django
 # ------------
-django==2.2.*
+django==3.2.15
 django-environ==0.4.*
-django-redis==4.10.*
+django-redis==5.2.*
 django_storages[boto3]==1.8.*
 django-extensions==3.1.*
 django-ipware==2.1.*
@@ -13,7 +13,7 @@ django-treebeard>=4.2.0,<4.5
 
 # Wagtail
 # ------------
-wagtail==2.11.*
+wagtail==2.15.6
 wagtail-factories==2.0.*
 wagtail-cache==1.0.*
 wagtailmedia==0.5.0
@@ -30,16 +30,16 @@ sentry-sdk==0.13.*
 
 # DIT packages
 # ------------
-great-components>=1.1.*
-directory-api-client==24.6.0
-directory-constants==21.1.*
-directory-healthcheck==2.0.0
-directory-forms-api-client==6.1.*
-directory-sso-api-client>=6.5.*
-django-staff-sso-client==1.0.*
-directory-ch-client==2.1.0
-directory-validators==8.0.0
-django-recaptcha==2.0.6
+great-components>=2.1.*
+directory-api-client==25.1.*
+directory-constants==22.0.*
+directory-healthcheck==3.0.0
+directory-forms-api-client==7.1.*
+directory-sso-api-client>=7.1.*
+django-staff-sso-client==4.0.*
+directory-ch-client==3.0.*
+directory-validators==9.2.*
+django-recaptcha==3.0.*
 
 # Other Python deps
 # -----------------

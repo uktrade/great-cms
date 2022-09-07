@@ -44,7 +44,7 @@ def test_wagtail_document_validation_extension_invalid(wagtail_document):
     with pytest.raises(ValidationError) as exception:
         wagtail_document.clean()
 
-    assert "File extension 'txt' is not allowed. Allowed extensions are: 'pdf'." in exception.value
+    assert 'File extension “txt” is not allowed. Allowed extensions are: pdf.' in exception.value
 
 
 @pytest.mark.django_db
