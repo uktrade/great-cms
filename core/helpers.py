@@ -458,12 +458,21 @@ def get_top_services_exports_by_country(iso2):
     return process_top_exports(response)
 
 
+def get_economic_highlights_by_country(iso2):
+    response = api_client.dataservices.get_economic_highlights_by_country(iso2=iso2)
+    if response.status_code != 200:
+        return None
+
+    return response.json()
+
+
 def get_stats_by_country(iso2):
     stats = {
         'highlights': get_trade_highlights_by_country(iso2=iso2),
         'market_trends': get_market_trends_by_country(iso2=iso2),
         'goods_exports': get_top_goods_exports_by_country(iso2=iso2),
         'services_exports': get_top_services_exports_by_country(iso2=iso2),
+        'economic_highlights': get_economic_highlights_by_country(iso2=iso2),
     }
 
     stats = {k: v for k, v in stats.items() if v and v['data']}
