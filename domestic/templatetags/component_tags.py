@@ -241,3 +241,16 @@ def error_box(**kwargs):
 @register.inclusion_tag('components/message_box_with_icon.html')
 def message_box_with_icon(**kwargs):
     return kwargs
+
+
+@register.simple_tag
+def get_projected_or_actual(is_projected, capitalise=False):
+    if is_projected:
+        projected_or_actual = 'projected'
+    else:
+        projected_or_actual = 'actual'
+
+    if capitalise:
+        return projected_or_actual.title()
+    else:
+        return projected_or_actual
