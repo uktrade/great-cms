@@ -10,6 +10,7 @@ from django.test import override_settings
 from domestic.templatetags.component_tags import (
     get_meta_description,
     get_pagination_url,
+    get_projected_or_actual,
     industry_accordion_case_study_is_viable,
     industry_accordion_is_viable,
 )
@@ -462,3 +463,12 @@ def test_pagination(count, current, expected, rf):
     if soup.findAll('a', {'class': 'pagination-next'}):
         items.append('N')
     assert ' '.join(items) == expected
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'is_projected, capitalize, expected_output',
+    ((True, False, 'projected'), (False, False, 'actual'), (False, True, 'Actual')),
+)
+def test_get_projected_or_actual(is_projected, capitalize, expected_output):
+    assert get_projected_or_actual(is_projected, capitalize) == expected_output
