@@ -6,6 +6,7 @@
 
 ### Bugs fixed
 * GLS-401 - Remove duplicate meta tags from domestic templates
+* GLS-422 - Only show 'Want to know more' banner on advice article pages
 
 ### Enhancements
 
