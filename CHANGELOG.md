@@ -17,6 +17,7 @@
 ### Hotfix
 
 * GLS-395 - [HOTFIX] Logo not uploading to business profile
+* GLS-416 - [HOTFIX] Update styling for emergency banner on homepage
 
 ### Bugs fixed
 

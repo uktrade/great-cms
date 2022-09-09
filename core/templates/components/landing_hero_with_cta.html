@@ -48,11 +48,10 @@
   class="great-hero {% if not hero_image %}great-hero-no-image{% endif %}" id="hero"
   {% if hero_image and not 'WebHeader_v26' in rendition.url %}style="background-image: url({{ rendition.url }})"{% endif %}
 >
-  <div class="container padding-top-90-l padding-top-45 padding-bottom-45-l">
+  <div class="container padding-top-90-l padding-top-45 padding-bottom-45-l" style="margin-top: 3px;">
     <div class="great-hero-text width-half-xl width-two-thirds-l width-full">
       <h1
         class="heading-xlarge {% if subheading or subtitle %} margin-bottom-0 {% else %} margin-bottom-30 {% endif %}"
-        style="max-width: 500px;"
       >{{ heading }}</h1>
       {% block content %}
         {% if subheading %}
