@@ -123,8 +123,20 @@
     min-height: 345px;
   }
 
+  .great-hero--temporary-height,
+  .great-hero--temporary-height > .container {
+    min-height: 215px;
+  }
+
   .great-hero-title {
     min-width: 470px;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 800px) {
+
+  .great-hero--temporary-height > .container > .great-hero-text > .heading-xlarge {
+    font-size: 38px;
   }
 }
 

@@ -45,7 +45,7 @@
 {% endif %}
 
 <section
-  class="great-hero {% if not hero_image %}great-hero-no-image{% endif %}" id="hero"
+  class="great-hero great-hero--temporary-height {% if not hero_image %}great-hero-no-image{% endif %}" id="hero"
   {% if hero_image and not 'WebHeader_v26' in rendition.url %}style="background-image: url({{ rendition.url }})"{% endif %}
 >
   <div class="container padding-top-90-l padding-top-45 padding-bottom-45-l" style="margin-top: 3px;">
