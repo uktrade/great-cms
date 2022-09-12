@@ -78,6 +78,7 @@
           </div>
         </section>
       </div>
+      {% if page.type_of_article|lower == 'advice' %}
         <section class="grid-row background-stone-30">
           <div class="column-full-m">
             <div class="learn-more-container padding-top-45">
@@ -87,7 +88,7 @@
             <a href="/signup/" class="button learn-more-button margin-bottom-60">Sign up for free</a>
           </div>
         </section>
-
+      {% endif %}
       {% block related_content %}
         {% include 'domestic/includes/article_related_content_list.html' %}
       {% endblock %}
