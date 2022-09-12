@@ -245,6 +245,27 @@ class GreatDomesticHomePage(
         on_delete=models.SET_NULL,
         related_name='+',
     )
+    hero_mobile_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    hero_ipad_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    hero_smalldesktop_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
     hero_text = models.TextField(null=True, blank=True)
     hero_subtitle = models.TextField(null=True, blank=True)
     hero_cta_text = models.CharField(null=True, blank=True, max_length=255)
