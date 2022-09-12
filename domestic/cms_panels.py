@@ -25,6 +25,9 @@ class GreatDomesticHomePagePanels:
             classname='collapsible',
             children=[
                 ImageChooserPanel('hero_image'),
+                ImageChooserPanel('hero_mobile_image'),
+                ImageChooserPanel('hero_ipad_image'),
+                ImageChooserPanel('hero_smalldesktop_image'),
                 FieldPanel('hero_text'),
                 FieldPanel('hero_subtitle'),
                 FieldPanel('hero_cta_text'),
