@@ -68,60 +68,6 @@ $light-aqua:           #8ae2fb; // rgb(138, 226, 251)
     }
 }
 
-@media (max-width: 400px) {
-    #hero {
-        .great-hero-text {
-            p {
-                font-size: 110px;
-                line-height: 0.6;
-                margin-bottom: 95px;
-                span:nth-child(2), span:nth-child(3), span:nth-child(7), span:nth-child(8) { // in the - to the
-                    font-size: 45px;
-                }
-
-                span:nth-child(2), span:nth-child(3) { // in the
-                    position: absolute;
-                    left: 185px;
-                }
-
-                span:nth-child(3) { // the
-                    margin-top: 40px;
-                }
-
-                span:nth-child(4) { // UK
-                    position: relative;
-                    left: 60px;
-                }
-
-                span:nth-child(7), span:nth-child(8) { // to the
-                    position: absolute;
-                    padding-top: 156px;
-                }
-
-                span:nth-child(7) { // to
-                    position: inherit;
-                    margin-left: 4px;
-                }
-
-                span:nth-child(8) { // the
-                    position: inherit;
-                    margin-left: 4px;
-                }
-
-                span:nth-child(9) { // world
-                    font-size: 167px;
-                    position: relative;
-                    top: 63px;
-                }
-            }
-
-            a {
-                position: inherit;
-            }
-        }
-    }
-}
-
 @media (min-width: 400px) and (max-width: 600px) {
     #hero {
         .great-hero-text {
@@ -174,5 +120,121 @@ $light-aqua:           #8ae2fb; // rgb(138, 226, 251)
 @media (max-width: 600px) {
     #hero {
         background-position: 40%;
+    }
+}
+
+@media (min-width: 321px) and (max-width: 400px) {
+    #hero {
+        .great-hero-text {
+            p {
+                font-size: 110px;
+                line-height: 0.9;
+                margin-bottom: 95px;
+                span:nth-child(2), span:nth-child(3), span:nth-child(7), span:nth-child(8) { // in the - to the
+                    font-size: 45px;
+                }
+
+                span:nth-child(2), span:nth-child(3) { // in the
+                    position: absolute;
+                    left: 185px;
+                }
+
+                span:nth-child(2) { // the
+                    margin-top: 3px;
+                }
+
+                span:nth-child(3) { // the
+                    margin-top: 50px;
+                }
+
+                span:nth-child(4) { // UK
+                    position: relative;
+                    left: 60px;
+                }
+
+                span:nth-child(7), span:nth-child(8) { // to the
+                    position: absolute;
+                    padding-top: 156px;
+                }
+
+                span:nth-child(7) { // to
+                    position: inherit;
+                    margin-left: 4px;
+                }
+
+                span:nth-child(8) { // the
+                    position: inherit;
+                    margin-left: 4px;
+                }
+
+                span:nth-child(9) { // world
+                    font-size: 167px;
+                    position: relative;
+                    top: 35px;
+                }
+            }
+
+            a {
+                position: inherit;
+            }
+        }
+    }
+}
+
+@media (max-width: 320px) {
+    #hero {
+        .great-hero-text {
+            p {
+                font-size: 90px;
+                line-height: 0.9;
+                margin-bottom: 95px;
+                span:nth-child(2), span:nth-child(3), span:nth-child(7), span:nth-child(8) { // in the - to the
+                    font-size: 40px;
+                }
+
+                span:nth-child(2), span:nth-child(3) { // in the
+                    position: absolute;
+                    left: 153px;
+                }
+
+                span:nth-child(2) { // the
+                    margin-top: 3px;
+                }
+
+                span:nth-child(3) { // the
+                    margin-top: 40px;
+                }
+
+                span:nth-child(4) { // UK
+                    position: relative;
+                    left: 60px;
+                }
+
+                span:nth-child(7), span:nth-child(8) { // to the
+                    position: absolute;
+                    padding-top: 156px;
+                }
+
+                span:nth-child(7) { // to
+                    position: inherit;
+                    margin-left: 4px;
+                }
+
+                span:nth-child(8) { // the
+                    position: inherit;
+                    margin-left: 4px;
+                }
+
+                span:nth-child(9) { // world
+                    font-size: 130px;
+                    position: relative;
+                    top: 35px;
+                }
+            }
+
+            a {
+                position: inherit;
+            }
+        }
     }
 }
