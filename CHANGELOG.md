@@ -5,10 +5,25 @@
 ### Hotfix
 
 ### Bugs fixed
+
+### Enhancements
+
+## [2.15.0](https://github.com/uktrade/great-cms/releases/tag/2.15.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.14.0...2.15.0)
+
+### Hotfix
+* GLS-416 - [HOTFIX] Update styling for emergency banner on homepage
+* GLS-416 - [HOTFIX] Further updates on the styles for the emergency banner on homepage
+
+### Bugs fixed
 * GLS-401 - Remove duplicate meta tags from domestic templates
 * GLS-422 - Only show 'Want to know more' banner on advice article pages
 
 ### Enhancements
+* GLS-360 - Get GDP & economic growth data for a market from API, not Wagtail
+* GLS-400 - Added image/video stream component to campaign/article page
+* GLS-400 - Added transcript link to video on the article/campaign page
 
 ## [2.14.0](https://github.com/uktrade/great-cms/releases/tag/2.14.0)
 
@@ -17,8 +32,6 @@
 ### Hotfix
 
 * GLS-395 - [HOTFIX] Logo not uploading to business profile
-* GLS-416 - [HOTFIX] Update styling for emergency banner on homepage
-* GLS-416 - [HOTFIX] Further updates on the styles for the emergency banner on homepage
 
 ### Bugs fixed
 
@@ -40,7 +53,6 @@
 ### Enhancements
 
 * GLS-348 - Update Gunicorn 19.5.0 -> 20.1.0
-* GLS-360 - Get GDP & economic growth data for a market from API, not Wagtail
 
 ## [2.12.0](https://github.com/uktrade/great-cms/releases/tag/2.12.0)
 
