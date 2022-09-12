@@ -14,23 +14,14 @@
   <meta charset="utf-8" />
   {% block sharing_description %}
     <meta
-      name="description" content="
-
-
-
-      {% block meta_description %}{% firstof page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}"
+      name="description" content="{% block meta_description %}{% firstof page.search_description content_snippet.search_description page.teaser page.featured_description page.seo_title page.title content_snippet.search_description %}{% endblock %}"
     >
   {% endblock %}
   {% block sharing_title %}
     <meta
-      name="title" content="
-
-
-
-      {% block meta_title %}{% firstof page.seo_title page.title content_snippet.seo_title content_snippet.title %}{% endblock %}"
+      name="title" content="{% block meta_title %}{% firstof page.title %}{% endblock %}"
     >
   {% endblock %}
-  {% include "wagtailseo/meta.html" %}
   <meta name="msvalidate.01" content="76D322F181AE9F91C43419E5CD511BBC" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% block head_google_tag_manager %}
@@ -59,7 +50,6 @@
 
   {% block head_css %}
     <link href="{% static 'stylesheets/govuk-elements-styles.min.css' %}" media="all" rel="stylesheet" />
-    <link href="{% static 'stylesheets/styles.css' %}" media="all" rel="stylesheet" />
     <link href="{% static 'components_styles.css' %}" media="all" rel="stylesheet" />
     {{ block.super }}
     <link href="{% static 'loggedout_styles.css' %}" rel="stylesheet" type="text/css" />

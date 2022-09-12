@@ -4,6 +4,18 @@
 
 ### Hotfix
 
+### Bugs fixed
+* GLS-401 - Remove duplicate meta tags from domestic templates
+* GLS-422 - Only show 'Want to know more' banner on advice article pages
+
+### Enhancements
+
+## [2.14.0](https://github.com/uktrade/great-cms/releases/tag/2.14.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.13.0...2.14.0)
+
+### Hotfix
+
 * GLS-395 - [HOTFIX] Logo not uploading to business profile
 
 ### Bugs fixed
@@ -18,6 +30,7 @@
 * GLS-394 - replace contact button with url
 * GLS-396 - Replace warning banner with sign up banner on article pages
 * GLS-377 - Remove CTA banners from article listing pages
+* GGR-2 - Made in UK banner
 
 ## [2.13.0](https://github.com/uktrade/great-cms/releases/tag/2.13.0)
 
@@ -26,6 +39,7 @@
 ### Enhancements
 
 * GLS-348 - Update Gunicorn 19.5.0 -> 20.1.0
+* GLS-360 - Get GDP & economic growth data for a market from API, not Wagtail
 
 ## [2.12.0](https://github.com/uktrade/great-cms/releases/tag/2.12.0)
 

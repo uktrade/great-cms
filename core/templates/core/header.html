@@ -7,7 +7,11 @@
 {% endif %}
 
 <header class="magna-header clearfix" id="header" dir="ltr" data-ga-section="header">
-  {% include "wagtailseo/meta.html" %}
+  {% with is_wagtail_page=page %}
+    {% if is_wagtail_page %}
+      {% include "wagtailseo/meta.html" %}
+    {% endif %}
+  {% endwith %}
   {% path_match "^\/export-plan\/" as in_exportplan %}
   <nav class="container">
     <a id="header-logo-link" class="magna-header__logo" href="/">

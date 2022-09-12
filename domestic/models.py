@@ -22,6 +22,7 @@ from wagtail.core.blocks.stream_block import StreamBlock, StreamBlockValidationE
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
 from wagtail.images import get_image_model_string
+from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailseo.models import SeoMixin
 
@@ -987,7 +988,9 @@ class ArticlePage(
                 'text',
                 RichTextBlock(),
             ),
-            (
+            ('image', ImageChooserBlock(required=False, template='core/includes/_article_image.html')),
+            ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_article_video.html')),
+            (  #  alt text lives on the custom Image class
                 'pull_quote',
                 core_blocks.PullQuoteBlock(
                     template='domestic/blocks/pull_quote_block.html',
