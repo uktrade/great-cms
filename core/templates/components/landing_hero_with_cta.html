@@ -22,27 +22,36 @@
 {% comment %}
   // TODO: revert Made In The UK commit after campaign ended.
 {% endcomment %}
-{% if 'WebHeader_v26' in rendition.url %}
-  <style>
-      .great-hero {
-          background-image: url("{% static 'images/MIUK-banner-mobile.jpg' %}");
-          background-position: center top;
-          background-size: cover;
-          padding-top: 64%;
-      }
 
-      @media (min-width: 641px) {
-          .great-hero {
-              background-image: url({{ rendition.url }});
-              padding-top: 0;
-          }
+<style>
+  /* For extremely small screen devices (595px and below) */
+  @media only screen and (max-width: 595px) {
+    #hero {
+      background-image: url("{{ hero_mobile_image }}") !important;
+    }
+  }
 
-          .great-hero .great-hero-text {
-              max-width: 50%;
-          }
-      }
-  </style>
-{% endif %}
+  /* Small screen devices (600px and above) */
+  @media only screen and (min-width: 600px) {
+    #hero {
+      background-image: url("{{ hero_ipad_image }}") !important;
+    }
+  }
+
+  /* Big screen devices (889px and above) */
+  @media only screen and (min-width: 889px) {
+    #hero {
+      background-image: url("{{ hero_smalldesktop_image }}") !important;
+    }
+  }
+
+  /* Extra big screen devices (1200px and above) */
+  @media only screen and (min-width: 1800px) {
+    #hero {
+      background-image: url("{{ hero_image }}") !important;
+    }
+  }
+</style>
 
 <section
   class="great-hero {% if not hero_image %}great-hero-no-image{% endif %}" id="hero"
