@@ -109,7 +109,7 @@
 ********************   MADE IN UK  ****************************
 **************************************************************/
 // Hero subtitle signedin (content)
-// <span>MADE</span> <span>in</span> <span>the</span> <span>UK</span><br><span>SOLD</span> <span>to</span> <span>the</span> <span> world </span>
+// <em>MADE</em> <em>in</em> <em>the</em> <em>UK</em><br><em>SOLD</em> <em>to</em> <em>the</em> <em> world </em>
 
 .great-hero {
   .great-hero-text {
@@ -120,45 +120,50 @@
       line-height: 0.8;
       word-spacing: -30px;
       margin-bottom: 95px;
-      span:nth-child(2), span:nth-child(3), span:nth-child(7), span:nth-child(8) { // in the - to the
+
+      em {
+        font-style: normal;
+      }
+
+      em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
         font-size: 65px;
       }
 
-      span:nth-child(2), span:nth-child(3) { // in the
+      em:nth-child(2), em:nth-child(3) { // in the
         position: absolute;
       }
 
-      span:nth-child(2) { // in
+      em:nth-child(2) { // in
         left: 240px;
         margin-top: 23px;
       }
 
-      span:nth-child(3) { // the
+      em:nth-child(3) { // the
         left: 240px;
         margin-top: 86px;
       }
 
-      span:nth-child(4) { // UK
+      em:nth-child(4) { // UK
         font-size: 180px;
         position: relative;
         left: 63px;
         top: 20px;
       }
 
-      span:nth-child(7), span:nth-child(8) { // to the
+      em:nth-child(7), em:nth-child(8) { // to the
         position: absolute;
         padding-top: 156px;
       }
 
-      span:nth-child(7) { // to
+      em:nth-child(7) { // to
         left: 96px;
       }
 
-      span:nth-child(8) { // the
+      em:nth-child(8) { // the
         left: 146px;
       }
 
-      span:nth-child(9) { // world
+      em:nth-child(9) { // world
         color: $light-aqua;
         font-size: 190px;
         position: relative;
@@ -187,41 +192,41 @@
         font-size: 60px;
         line-height: 0.7;
         margin: 0 20px 85px;
-        span:nth-child(2), span:nth-child(3), span:nth-child(7), span:nth-child(8) { // in the - to the
+        em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
           font-size: 26px;
         }
 
-        span:nth-child(2), span:nth-child(3) { // in the
+        em:nth-child(2), em:nth-child(3) { // in the
           left: 97px;   // relative position
         }
 
-        span:nth-child(2) { // in
+        em:nth-child(2) { // in
           margin-top: 10px;
         }
 
-        span:nth-child(3) { // the
+        em:nth-child(3) { // the
           margin-top: 35px;
         }
 
-        span:nth-child(4) { // UK
+        em:nth-child(4) { // UK
           font-size: 75px;
           left: 32px;
           top: 12px;
         }
 
-        span:nth-child(7), span:nth-child(8) { // to the
+        em:nth-child(7), em:nth-child(8) { // to the
           padding-top: 60px;
         }
 
-        span:nth-child(7) { // to
+        em:nth-child(7) { // to
           left: 42px; // position relative
         }
 
-        span:nth-child(8) { // the
+        em:nth-child(8) { // the
           left: 63px; // position relative
         }
 
-        span:nth-child(9) { // world
+        em:nth-child(9) { // world
           font-size: 75px;
           top: 28px;
           left: 6px;
@@ -251,44 +256,44 @@
         font-size: 70px;
         line-height: 0.7;
         margin: 0 35px 85px;
-        span:nth-child(2), span:nth-child(3), span:nth-child(7), span:nth-child(8) { // in the - to the
+        em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
           font-size: 33px;
         }
 
-        span:nth-child(2), span:nth-child(3) { // in the
+        em:nth-child(2), em:nth-child(3) { // in the
           //left: 147px;  // inherit position
           left: 113px;   // relative position
         }
 
-        span:nth-child(2) { // in
+        em:nth-child(2) { // in
           margin-top: 14px;
         }
 
-        span:nth-child(3) { // the
+        em:nth-child(3) { // the
           margin-top: 42px;
         }
 
-        span:nth-child(4) { // UK
+        em:nth-child(4) { // UK
           font-size: 90px;
           left: 35px;
           top: 16px;
         }
 
-        span:nth-child(7), span:nth-child(8) { // to the
+        em:nth-child(7), em:nth-child(8) { // to the
           padding-top: 82px;
         }
 
-        span:nth-child(7) { // to
+        em:nth-child(7) { // to
           //left: 77px;  // position inherit
           left: 45px; // position relative
         }
 
-        span:nth-child(8) { // the
+        em:nth-child(8) { // the
           //left: 104px;  // position inherit
           left: 70px; // position relative
         }
 
-        span:nth-child(9) { // world
+        em:nth-child(9) { // world
           font-size: 100px;
           top: 35px;
           left: 6px;
@@ -317,41 +322,41 @@
         font-size: 100px;
         line-height: 0.7;
         margin: 0;
-        span:nth-child(2), span:nth-child(3), span:nth-child(7), span:nth-child(8) { // in the - to the
+        em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
           font-size: 45px;
         }
 
-        span:nth-child(2), span:nth-child(3) { // in the
+        em:nth-child(2), em:nth-child(3) { // in the
           left: 160px;
         }
 
-        span:nth-child(2) { // in
+        em:nth-child(2) { // in
           margin-top: 12px;
         }
 
-        span:nth-child(3) { // the
+        em:nth-child(3) { // the
           margin-top: 53px;
         }
 
-        span:nth-child(4) { // UK
+        em:nth-child(4) { // UK
           font-size: 120px;
           left: 49px;
           top: 16px;
         }
 
-        span:nth-child(7), span:nth-child(8) { // to the
+        em:nth-child(7), em:nth-child(8) { // to the
           padding-top: 110px;
         }
 
-        span:nth-child(7) { // to
+        em:nth-child(7) { // to
           left: 70px;
         }
 
-        span:nth-child(8) { // the
+        em:nth-child(8) { // the
           left: 104px;
         }
 
-        span:nth-child(9) { // world
+        em:nth-child(9) { // world
           font-size: 145px;
           top: 41px;
           left: 6px;
@@ -380,41 +385,41 @@
         font-size: 160px;
         line-height: 0.7;
         margin: 0;
-        span:nth-child(2), span:nth-child(3), span:nth-child(7), span:nth-child(8) { // in the - to the
+        em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
           font-size: 75px;
         }
 
-        span:nth-child(2), span:nth-child(3) { // in the
+        em:nth-child(2), em:nth-child(3) { // in the
           left: 255px;
         }
 
-        span:nth-child(2) { // in
+        em:nth-child(2) { // in
           margin-top: 10px;
         }
 
-        span:nth-child(3) { // the
+        em:nth-child(3) { // the
           margin-top: 75px;
         }
 
-        span:nth-child(4) { // UK
+        em:nth-child(4) { // UK
           font-size: 180px;
           left: 70px;
           top: 15px;
         }
 
-        span:nth-child(7), span:nth-child(8) { // to the
+        em:nth-child(7), em:nth-child(8) { // to the
           padding-top: 160px;
         }
 
-        span:nth-child(7) { // to
+        em:nth-child(7) { // to
           left: 90px;
         }
 
-        span:nth-child(8) { // the
+        em:nth-child(8) { // the
           left: 150px;
         }
 
-        span:nth-child(9) { // world
+        em:nth-child(9) { // world
           font-size: 210px;
           top: 65px;
           left: 0;
