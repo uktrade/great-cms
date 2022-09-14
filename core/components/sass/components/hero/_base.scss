@@ -164,7 +164,7 @@
       }
 
       em:nth-child(9) { // world
-        color: $light-aqua;
+        color: #8ae2fb;
         font-size: 190px;
         position: relative;
         top: 63px;
@@ -178,7 +178,9 @@
   }
 }
 
-@media (max-width: 400px) {
+// SMALL MOBILE
+// MOBILE
+@media (max-width: 600px) {
   .great-hero {
     padding-bottom: 135px;
     .container {
@@ -189,19 +191,19 @@
         position: relative;
         z-index: -1;
 
-        font-size: 60px;
+        font-size: 80px;
         line-height: 0.7;
         margin: 0 20px 85px;
         em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
-          font-size: 26px;
+          font-size: 35px;
         }
 
         em:nth-child(2), em:nth-child(3) { // in the
-          left: 97px;   // relative position
+          left: 128px;
         }
 
         em:nth-child(2) { // in
-          margin-top: 10px;
+          margin-top: 5px;
         }
 
         em:nth-child(3) { // the
@@ -209,25 +211,25 @@
         }
 
         em:nth-child(4) { // UK
-          font-size: 75px;
-          left: 32px;
-          top: 12px;
+          font-size: 90px;
+          left: 38px;
+          top: 8px;
         }
 
         em:nth-child(7), em:nth-child(8) { // to the
-          padding-top: 60px;
+          padding-top: 70px;
         }
 
         em:nth-child(7) { // to
-          left: 42px; // position relative
+          left: 50px;
         }
 
         em:nth-child(8) { // the
-          left: 63px; // position relative
+          left: 78px;
         }
 
         em:nth-child(9) { // world
-          font-size: 75px;
+          font-size: 90px;
           top: 28px;
           left: 6px;
         }
@@ -242,78 +244,76 @@
   }
 }
 
-@media (min-width: 401px) and (max-width: 600px) {
+// IPAD
+@media (min-width: 601px) and (max-width: 900px) {
   .great-hero {
-    padding-bottom: 135px;
     .container {
-      padding-top: 0;
+      padding-top: 1px;
+      min-height: 330px;
+      padding-bottom: 0;
     }
     .great-hero-text {
       p {
-        position: relative;
-        z-index: -1;
-
-        font-size: 70px;
+        font-size: 120px;
         line-height: 0.7;
-        margin: 0 35px 85px;
+        margin-bottom: 0;
         em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
-          font-size: 33px;
+          font-size: 50px;
         }
 
         em:nth-child(2), em:nth-child(3) { // in the
-          //left: 147px;  // inherit position
-          left: 113px;   // relative position
+          left: 192px;   // relative position
         }
 
         em:nth-child(2) { // in
-          margin-top: 14px;
+          margin-top: 5px;
         }
 
         em:nth-child(3) { // the
-          margin-top: 42px;
+          margin-top: 55px;
         }
 
         em:nth-child(4) { // UK
-          font-size: 90px;
-          left: 35px;
-          top: 16px;
+          font-size: 130px;
+          left: 55px;
+          top: 10px;
         }
 
         em:nth-child(7), em:nth-child(8) { // to the
-          padding-top: 82px;
+          padding-top: 120px;
         }
 
         em:nth-child(7) { // to
-          //left: 77px;  // position inherit
-          left: 45px; // position relative
+          left: 80px; // position relative
         }
 
         em:nth-child(8) { // the
-          //left: 104px;  // position inherit
-          left: 70px; // position relative
+          left: 120px; // position relative
         }
 
         em:nth-child(9) { // world
-          font-size: 100px;
-          top: 35px;
+          font-size: 150px;
+          top: 50px;
           left: 6px;
         }
       }
 
       a {
         position: relative;
-        top: 225px;
+        top: 120px;
         left: 0;
+        width: 100%;
       }
     }
   }
 }
 
-@media (min-width: 601px) and (max-width: 1000px) {
+// SMALL DESKTOP
+@media (min-width: 901px) and (max-width: 1200px) {
   .great-hero {
     .container {
-      padding-top: 10px;
-      padding-bottom: 210px;
+      padding-top: 1px;
+      padding-bottom: 100px;
     }
     .great-hero-text {
       p {
@@ -365,15 +365,15 @@
 
       a {
         position: relative;
-        top: 305px;
-        left: 0;
-        width: 100%;
+        top: 70px;
+        left: 160px;
       }
     }
   }
 }
 
-@media (min-width: 1001px) and (max-width: 1800px) {
+// DESKTOP
+@media (min-width: 1201px) and (max-width: 1800px) {
   .great-hero {
     .container {
       padding-bottom: 180px;
