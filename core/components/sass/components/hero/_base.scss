@@ -117,7 +117,7 @@
       font-family: $brand-font-tabloid;
       color: black;
       font-size: 150px;
-      line-height: 0.8;
+      line-height: 0.63;
       word-spacing: -30px;
       margin-bottom: 95px;
 
@@ -135,12 +135,12 @@
 
       em:nth-child(2) { // in
         left: 240px;
-        margin-top: 23px;
+        margin-top: 13px;
       }
 
       em:nth-child(3) { // the
         left: 240px;
-        margin-top: 86px;
+        margin-top: 77px;
       }
 
       em:nth-child(4) { // UK
@@ -150,17 +150,22 @@
         top: 20px;
       }
 
+      em:nth-child(6) { // sold
+        font-size: 144px;
+        padding-left: 27px;
+      }
+
       em:nth-child(7), em:nth-child(8) { // to the
         position: absolute;
-        padding-top: 156px;
+        padding-top: 145px;
       }
 
       em:nth-child(7) { // to
-        left: 96px;
+        left: 115px;
       }
 
       em:nth-child(8) { // the
-        left: 146px;
+        left: 166px;
       }
 
       em:nth-child(9) { // world
@@ -207,7 +212,7 @@
         }
 
         em:nth-child(3) { // the
-          margin-top: 35px;
+          margin-top: 39px;
         }
 
         em:nth-child(4) { // UK
@@ -216,16 +221,21 @@
           top: 8px;
         }
 
+        em:nth-child(6) { // sold
+          font-size: 75px;
+          padding-left: 18px;
+        }
+
         em:nth-child(7), em:nth-child(8) { // to the
           padding-top: 70px;
         }
 
         em:nth-child(7) { // to
-          left: 50px;
+          left: 61px;
         }
 
         em:nth-child(8) { // the
-          left: 78px;
+          left: 89px;
         }
 
         em:nth-child(9) { // world
@@ -259,10 +269,10 @@
     .great-hero-text {
       p {
         font-size: 120px;
-        line-height: 0.7;
+        line-height: 0.6;
         margin-bottom: 0;
         em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
-          font-size: 50px;
+          font-size: 55px;
         }
 
         em:nth-child(2), em:nth-child(3) { // in the
@@ -270,41 +280,46 @@
         }
 
         em:nth-child(2) { // in
-          margin-top: 5px;
+          margin-top: 2px;
         }
 
         em:nth-child(3) { // the
-          margin-top: 55px;
+          margin-top: 50px;
         }
 
         em:nth-child(4) { // UK
           font-size: 130px;
-          left: 55px;
+          left: 59px;
           top: 10px;
         }
 
+        em:nth-child(6) { // sold
+          font-size: 115px;
+          padding-left: 23px;
+        }
+
         em:nth-child(7), em:nth-child(8) { // to the
-          padding-top: 120px;
+          padding-top: 115px;
         }
 
         em:nth-child(7) { // to
-          left: 80px; // position relative
+          left: 95px;
         }
 
         em:nth-child(8) { // the
-          left: 120px; // position relative
+          left: 135px;
         }
 
         em:nth-child(9) { // world
-          font-size: 150px;
-          top: 50px;
+          font-size: 155px;
+          top: 47px;
           left: 6px;
         }
       }
 
       a {
         position: relative;
-        top: 135px;
+        top: 155px;
         left: 0;
         width: 100%;
       }
@@ -391,7 +406,7 @@
         position: inherit;
 
         font-size: 160px;
-        line-height: 0.7;
+        line-height: 0.6;
         margin: 0;
         em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
           font-size: 75px;
