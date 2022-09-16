@@ -16,8 +16,6 @@ allure-python-commons==2.9.45
     # via allure-pytest
 anyascii==0.3.1
     # via wagtail
-appnope==0.1.3
-    # via ipython
 arabic-reshaper==2.1.3
     # via xhtml2pdf
 asn1crypto==1.5.1
@@ -360,7 +358,7 @@ mypy-extensions==0.4.3
     # via black
 nodeenv==1.7.0
     # via pre-commit
-oauthlib==3.2.0
+oauthlib==3.2.1
     # via requests-oauthlib
 olefile==0.46
     # via directory-validators

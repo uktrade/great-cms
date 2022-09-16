@@ -213,7 +213,7 @@ monotonic==1.6
     # via
     #   directory-ch-client
     #   directory-client-core
-oauthlib==3.2.0
+oauthlib==3.2.1
     # via requests-oauthlib
 olefile==0.46
     # via directory-validators
