@@ -343,7 +343,7 @@
         position: inherit;
 
         font-size: 100px;
-        line-height: 0.7;
+        line-height: 0.6;
         margin: 0;
         em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
           font-size: 45px;
@@ -367,6 +367,11 @@
           top: 16px;
         }
 
+        em:nth-child(6) { // sold
+          font-size: 100px;
+          padding-left: 14px;
+        }
+
         em:nth-child(7), em:nth-child(8) { // to the
           padding-top: 110px;
         }
@@ -380,8 +385,8 @@
         }
 
         em:nth-child(9) { // world
-          font-size: 145px;
-          top: 41px;
+          font-size: 140px;
+          top: 47px;
           left: 6px;
         }
       }
