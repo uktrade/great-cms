@@ -237,10 +237,14 @@
 
       a {
         position: relative;
-        top: 225px;
+        top: 230px;
         left: 0;
       }
     }
+  }
+
+  section:nth-child(3){
+    padding-top: 80px;
   }
 }
 
@@ -300,11 +304,15 @@
 
       a {
         position: relative;
-        top: 120px;
+        top: 135px;
         left: 0;
         width: 100%;
       }
     }
+  }
+
+  section:nth-child(3){
+    padding-top: 80px;
   }
 }
 
