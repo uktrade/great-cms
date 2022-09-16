@@ -184,8 +184,81 @@
 }
 
 // SMALL MOBILE
+@media (max-width: 390px) {
+  .great-hero {
+    padding-bottom: 135px;
+    .container {
+      padding-top: 0;
+    }
+    .great-hero-text {
+      p {
+        position: relative;
+        z-index: -1;
+
+        font-size: 70px;
+        line-height: 0.7;
+        margin: 0 5px 85px;
+        em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
+          font-size: 30px;
+        }
+
+        em:nth-child(2), em:nth-child(3) { // in the
+          left: 115px;
+        }
+
+        em:nth-child(2) { // in
+          margin-top: 5px;
+        }
+
+        em:nth-child(3) { // the
+          margin-top: 35px;
+        }
+
+        em:nth-child(4) { // UK
+          font-size: 80px;
+          left: 38px;
+          top: 8px;
+        }
+
+        em:nth-child(6) { // sold
+          font-size: 63px;
+          padding-left: 18px;
+        }
+
+        em:nth-child(7), em:nth-child(8) { // to the
+          padding-top: 60px;
+        }
+
+        em:nth-child(7) { // to
+          left: 57px;
+        }
+
+        em:nth-child(8) { // the
+          left: 79px;
+        }
+
+        em:nth-child(9) { // world
+          font-size: 75px;
+          top: 28px;
+          left: 6px;
+        }
+      }
+
+      a {
+        position: relative;
+        top: 230px;
+        left: 0;
+      }
+    }
+  }
+
+  section:nth-child(3){
+    padding-top: 80px;
+  }
+}
+
 // MOBILE
-@media (max-width: 600px) {
+@media (min-width: 391px) and (max-width: 600px) {
   .great-hero {
     padding-bottom: 135px;
     .container {
