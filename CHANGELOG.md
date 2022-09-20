@@ -8,6 +8,7 @@
 
 ### Enhancements
 * GLS-406 - Remove reference to the transition period in the domestic contact form
+* GLS-435 - Revert emergency banner styling
 
 ## [2.15.0](https://github.com/uktrade/great-cms/releases/tag/2.15.0)
 
