@@ -100,8 +100,6 @@ redirects = [
     ('/jpm/', 'https://www.events.great.gov.uk/ehome/200197163/'),
     ('/brexit/', '/transition/'),
     ('/transition/', '/international/content/invest/how-to-setup-in-the-uk/transition-period/'),
-    ('/eu-exit-news/contact/', '/transition-period/contact/'),
-    ('/eu-exit-news/contact/success/', '/transition-period/contact/success/'),
     ('/redarrows/', 'https://www.events.great.gov.uk/red-arrows-north-america-tour/'),
     (
         '/new-zealand-event-calendar/',
@@ -609,14 +607,6 @@ def test_redirects_no_trailing_slash(url, expected, client):
         ('/new/', '/advice/'),
         ('/occasional/', '/advice/'),
         ('/regular/', '/advice/'),
-        (
-            '/brexit/contact/',
-            '/transition-period/contact/',
-        ),
-        (
-            '/brexit/contact/success/',
-            '/transition-period/contact/success/',
-        ),
         (
             '/today/',
             '/international/content/capital-invest/',

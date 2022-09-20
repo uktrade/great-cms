@@ -35,16 +35,6 @@ redirects = [
         name='transition-redirect',
     ),
     url(
-        r'^eu-exit-news/contact/$',
-        QuerystringRedirectView.as_view(url='/transition-period/contact/'),
-        name='eu-exit-brexit-contact-redirect',
-    ),
-    url(
-        r'^eu-exit-news/contact/success/$',
-        QuerystringRedirectView.as_view(url='/transition-period/contact/success/'),
-        name='eu-exit-brexit-contact-success-redirect',
-    ),
-    url(
         r'^redarrows/$',
         QuerystringRedirectView.as_view(url='https://www.events.great.gov.uk/red-arrows-north-america-tour/'),
         name='redarrows-redirect',
@@ -485,14 +475,6 @@ contact_redirects = [
                 kwargs={'step': 'location'},
             )
         ),
-    ),
-    url(
-        r'^brexit/contact/$',
-        QuerystringRedirectView.as_view(url='/transition-period/contact/'),
-    ),
-    url(
-        r'^brexit/contact/success/$',
-        QuerystringRedirectView.as_view(url='/transition-period/contact/success/'),
     ),
 ]
 
