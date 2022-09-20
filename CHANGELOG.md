@@ -7,6 +7,7 @@
 ### Bugs fixed
 
 ### Enhancements
+* GLS-406 - Remove reference to the transition period in the domestic contact form
 
 ## [2.15.0](https://github.com/uktrade/great-cms/releases/tag/2.15.0)
 
