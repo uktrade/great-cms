@@ -23,11 +23,14 @@
   // TODO: revert Made In The UK commit after campaign ended.
 {% endcomment %}
 
+{% image page.hero_mobile_image original as hero_mobile_image %}
+{% image page.hero_ipad_image original as hero_ipad_image %}
+{% image page.hero_smalldesktop_image original as hero_smalldesktop_image %}
+{% image page.hero_image original as hero_image %}
 <style>
   /* For extremely small screen devices (595px and below) */
   @media only screen and (max-width: 600px) {
     .great-hero {
-      {% image page.hero_mobile_image original as hero_mobile_image %}
       background-image: url("{{ hero_mobile_image.url }}") !important;
     }
   }
@@ -35,7 +38,6 @@
   /* Small screen devices (600px and above) */
   @media only screen and (min-width: 601px) {
     .great-hero {
-      {% image page.hero_ipad_image original as hero_ipad_image %}
       background-image: url("{{ hero_ipad_image.url }}") !important;
     }
   }
@@ -43,7 +45,6 @@
   /* Big screen devices (900px and above) */
   @media only screen and (min-width: 900px) {
     .great-hero {
-      {% image page.hero_smalldesktop_image original as hero_smalldesktop_image %}
       background-image: url("{{ hero_smalldesktop_image.url }}") !important;
     }
   }
@@ -51,7 +52,6 @@
   /* Extra big screen devices (1200px and above) */
   @media only screen and (min-width: 1200px) {
     .great-hero {
-      {% image page.hero_image original as hero_image %}
       background-image: url("{{ hero_image.url }}") !important;
     }
   }
