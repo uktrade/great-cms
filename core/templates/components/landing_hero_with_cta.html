@@ -27,28 +27,28 @@
   /* For extremely small screen devices (595px and below) */
   @media only screen and (max-width: 600px) {
     .great-hero {
-      background-image: url("/media/original_images/{{ page.hero_mobile_image }}") !important;
+      background-image: url("{{ page.hero_mobile_image.url }}") !important;
     }
   }
 
   /* Small screen devices (600px and above) */
   @media only screen and (min-width: 601px) {
     .great-hero {
-      background-image: url("/media/original_images/{{ page.hero_ipad_image }}") !important;
+      background-image: url("{{ page.hero_ipad_image.url }}") !important;
     }
   }
 
   /* Big screen devices (900px and above) */
   @media only screen and (min-width: 900px) {
     .great-hero {
-      background-image: url("/media/original_images/{{ page.hero_smalldesktop_image }}") !important;
+      background-image: url("{{ page.hero_smalldesktop_image.url }}") !important;
     }
   }
 
   /* Extra big screen devices (1200px and above) */
   @media only screen and (min-width: 1200px) {
     .great-hero {
-      background-image: url("/media/original_images/{{ page.hero_image }}") !important;
+      background-image: url("{{ page.hero_image.url }}") !important;
     }
   }
 </style>
