@@ -108,12 +108,17 @@
 /**************************************************************
 ********************   MADE IN UK  ****************************
 **************************************************************/
-// Hero subtitle signedin (content)
-// <em>MADE</em> <em>in</em> <em>the</em> <em>UK</em><br><em>SOLD</em> <em>to</em> <em>the</em> <em> world </em>
+// Hero text signedin: (content)
+// <em>MADE</em>&nbsp<em>in</em>&nbsp<em>the</em>&nbsp<em>UK</em>
+// Hero subtitle signedin:
+// <em>SOLD</em>&nbsp<em>to</em>&nbsp<em>the</em>&nbsp<em>world</em>
 
 .great-hero {
+  max-width: 2000px;
+  background-repeat: no-repeat !important;
+
   .great-hero-text {
-    p {
+    h1, p {
       font-family: $brand-font-tabloid;
       color: black;
       font-size: 150px;
@@ -125,10 +130,15 @@
         font-style: normal;
       }
 
-      em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
+      em:nth-child(2), em:nth-child(3) { // in the - to the
         font-size: 65px;
       }
+    }
 
+    h1 {
+      font-weight: 500;
+      margin-bottom: 0;
+      margin-top: 0;
       em:nth-child(2), em:nth-child(3) { // in the
         position: absolute;
       }
@@ -149,26 +159,29 @@
         left: 63px;
         top: 20px;
       }
+    }
 
-      em:nth-child(6) { // sold
+    p {
+      margin-top: 0;
+      em:nth-child(1) { // sold
         font-size: 144px;
         padding-left: 27px;
       }
 
-      em:nth-child(7), em:nth-child(8) { // to the
+      em:nth-child(2), em:nth-child(3) { // to the
         position: absolute;
         padding-top: 145px;
       }
 
-      em:nth-child(7) { // to
+      em:nth-child(2) { // to
         left: 115px;
       }
 
-      em:nth-child(8) { // the
+      em:nth-child(3) { // the
         left: 166px;
       }
 
-      em:nth-child(9) { // world
+      em:nth-child(4) { // world
         color: #349fd5;
         font-size: 190px;
         position: relative;
@@ -186,24 +199,28 @@
 // SMALL MOBILE
 @media (max-width: 390px) {
   .great-hero {
+
+    background-position: 175% 95%, 55% 130%, -100px 100%, 110% 195% !important; // flag -> man -> boat -> circle
+    background-size: 70%, auto 220px, auto 17%, 250px !important; // flag -> man -> boat -> circle
+
     padding-bottom: 135px;
+
     .container {
-      padding-top: 0;
+      padding-top: 10px;
     }
     .great-hero-text {
-      p {
-        position: relative;
-        z-index: -1;
-
+      h1, p {
         font-size: 70px;
         line-height: 0.7;
-        margin: 0 5px 85px;
-        em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
+        margin: 0 5px;
+        em:nth-child(2), em:nth-child(3) {
           font-size: 30px;
         }
+      }
 
+      h1 {
         em:nth-child(2), em:nth-child(3) { // in the
-          left: 115px;
+          left: 120px;
         }
 
         em:nth-child(2) { // in
@@ -219,25 +236,27 @@
           left: 38px;
           top: 8px;
         }
+      }
 
-        em:nth-child(6) { // sold
+      p {
+        em:nth-child(1) { // sold
           font-size: 63px;
           padding-left: 18px;
         }
 
-        em:nth-child(7), em:nth-child(8) { // to the
+        em:nth-child(2), em:nth-child(3) { // to the
           padding-top: 60px;
         }
 
-        em:nth-child(7) { // to
-          left: 57px;
+        em:nth-child(2) { // to
+          left: 55px;
         }
 
-        em:nth-child(8) { // the
+        em:nth-child(3) { // the
           left: 79px;
         }
 
-        em:nth-child(9) { // world
+        em:nth-child(4) { // world
           font-size: 75px;
           top: 28px;
           left: 6px;
@@ -256,27 +275,31 @@
     padding-top: 80px;
   }
 }
+
 // MOBILE
 @media (min-width: 391px) and (max-width: 600px) {
   .great-hero {
-    padding-bottom: 135px;
+
+    background-position: 175% 95%, 55% 130%, -120px 100%, 120% 175% !important; // flag -> man -> boat -> circle
+    background-size: 70%, auto 285px, auto 20%, auto 310px !important; // flag -> man -> boat -> circle
+
+    padding-bottom: 200px;
     .container {
-      padding-top: 0;
+      padding-top: 10px;
     }
     .great-hero-text {
-      p {
-        position: relative;
-        z-index: -1;
-
+      h1, p {
         font-size: 80px;
         line-height: 0.7;
-        margin: 0 20px 85px;
-        em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
+        margin: 0 5px;
+        em:nth-child(2), em:nth-child(3) { // in the - to the
           font-size: 35px;
         }
+      }
 
+      h1 {
         em:nth-child(2), em:nth-child(3) { // in the
-          left: 128px;
+          left: 134px;
         }
 
         em:nth-child(2) { // in
@@ -292,25 +315,27 @@
           left: 38px;
           top: 8px;
         }
+      }
 
-        em:nth-child(6) { // sold
+      p {
+        em:nth-child(1) { // sold
           font-size: 75px;
           padding-left: 18px;
         }
 
-        em:nth-child(7), em:nth-child(8) { // to the
+        em:nth-child(2), em:nth-child(3) { // to the
           padding-top: 70px;
         }
 
-        em:nth-child(7) { // to
+        em:nth-child(2) { // to
           left: 61px;
         }
 
-        em:nth-child(8) { // the
+        em:nth-child(3) { // the
           left: 89px;
         }
 
-        em:nth-child(9) { // world
+        em:nth-child(4) { // world
           font-size: 90px;
           top: 28px;
           left: 6px;
@@ -319,7 +344,7 @@
 
       a {
         position: relative;
-        top: 230px;
+        top: 290px;
         left: 0;
       }
     }
@@ -333,20 +358,24 @@
 // SMALL IPAD
 @media (min-width: 601px) and (max-width: 800px) {
   .great-hero {
+
+    background-position: 100% 95%, 80% -1800%, 25% 100%, 125% 100% !important; // flag -> man -> boat -> circle
+    background-size: 35%, 245px auto, auto 25%, 450px !important; // flag -> man -> boat -> circle
+
     .container {
-      padding-top: 1px;
+      padding-top: 20px;
       min-height: 330px;
-      padding-bottom: 0;
     }
     .great-hero-text {
-      p {
+      h1, p {
         font-size: 110px;
         line-height: 0.65;
         margin-bottom: 0;
-        em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
+        em:nth-child(2), em:nth-child(3) { // in the - to the
           font-size: 50px;
         }
-
+      }
+      h1 {
         em:nth-child(2), em:nth-child(3) { // in the
           left: 180px;
         }
@@ -364,25 +393,27 @@
           left: 59px;
           top: 14px;
         }
+      }
 
-        em:nth-child(6) { // sold
+      p {
+        em:nth-child(1) { // sold
           font-size: 105px;
           padding-left: 23px;
         }
 
-        em:nth-child(7), em:nth-child(8) { // to the
+        em:nth-child(2), em:nth-child(3) { // to the
           padding-top: 104px;
         }
 
-        em:nth-child(7) { // to
+        em:nth-child(2) { // to
           left: 85px;
         }
 
-        em:nth-child(8) { // the
+        em:nth-child(3) { // the
           left: 123px;
         }
 
-        em:nth-child(9) { // world
+        em:nth-child(4) { // world
           font-size: 135px;
           top: 47px;
           left: 6px;
@@ -406,20 +437,26 @@
 // IPAD
 @media (min-width: 801px) and (max-width: 900px) {
   .great-hero {
+
+    background-position: 100% 95%, 80% -1800%, 45% 100%, 120% 100% !important; // flag -> man -> boat -> circle
+    background-size: 35%, 245px auto, auto 25%, 450px !important; // flag -> man -> boat -> circle
+
     .container {
-      padding-top: 1px;
+      padding-top: 20px;
       min-height: 330px;
       padding-bottom: 0;
     }
     .great-hero-text {
-      p {
+      h1, p {
         font-size: 120px;
         line-height: 0.6;
         margin-bottom: 0;
-        em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
+        em:nth-child(2), em:nth-child(3) { // in the - to the
           font-size: 55px;
         }
+      }
 
+      h1 {
         em:nth-child(2), em:nth-child(3) { // in the
           left: 192px;   // relative position
         }
@@ -437,25 +474,27 @@
           left: 59px;
           top: 10px;
         }
+      }
 
-        em:nth-child(6) { // sold
+      p {
+        em:nth-child(1) { // sold
           font-size: 115px;
           padding-left: 23px;
         }
 
-        em:nth-child(7), em:nth-child(8) { // to the
+        em:nth-child(2), em:nth-child(3) { // to the
           padding-top: 115px;
         }
 
-        em:nth-child(7) { // to
+        em:nth-child(2) { // to
           left: 95px;
         }
 
-        em:nth-child(8) { // the
+        em:nth-child(3) { // the
           left: 135px;
         }
 
-        em:nth-child(9) { // world
+        em:nth-child(4) { // world
           font-size: 155px;
           top: 47px;
           left: 6px;
@@ -479,31 +518,37 @@
 // SMALL DESKTOP
 @media (min-width: 901px) and (max-width: 1200px) {
   .great-hero {
+
+    background-position: 100% 80%, 80% 1250%, 45% 100%, 125% 64% !important; // flag -> man -> boat -> circle
+    background-size: 30%, auto 355px, 50%, 60% !important; // flag -> man -> boat -> circle
+
     .container {
-      padding-top: 1px;
+      padding-top: 20px;
       padding-bottom: 100px;
     }
     .great-hero-text {
-      p {
+      h1, p {
         position: inherit;
 
         font-size: 100px;
         line-height: 0.6;
         margin: 0;
-        em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
+        em:nth-child(2), em:nth-child(3) { // in the - to the
           font-size: 45px;
         }
+      }
 
+      h1 {
         em:nth-child(2), em:nth-child(3) { // in the
           left: 160px;
         }
 
         em:nth-child(2) { // in
-          margin-top: 12px;
+          margin-top: 7px;
         }
 
         em:nth-child(3) { // the
-          margin-top: 53px;
+          margin-top: 48px;
         }
 
         em:nth-child(4) { // UK
@@ -511,25 +556,27 @@
           left: 49px;
           top: 16px;
         }
+      }
 
-        em:nth-child(6) { // sold
+      p {
+        em:nth-child(1) { // sold
           font-size: 100px;
           padding-left: 14px;
         }
 
-        em:nth-child(7), em:nth-child(8) { // to the
+        em:nth-child(2), em:nth-child(3) { // to the
           padding-top: 110px;
         }
 
-        em:nth-child(7) { // to
+        em:nth-child(2) { // to
           left: 70px;
         }
 
-        em:nth-child(8) { // the
+        em:nth-child(3) { // the
           left: 104px;
         }
 
-        em:nth-child(9) { // world
+        em:nth-child(4) { // world
           font-size: 140px;
           top: 47px;
           left: 6px;
@@ -548,30 +595,35 @@
 // DESKTOP
 @media (min-width: 1201px) and (max-width: 1800px) {
   .great-hero {
+
+    background-position: 100% 80%, 75% -270%, 45% 100%, 95% 160% !important; // flag -> man -> boat -> circle
+    background-size: 300px auto, 400px auto, 50%, 620px !important; // flag -> man -> boat -> circle
+
     .container {
       padding-bottom: 180px;
     }
     .great-hero-text {
-      p {
-        position: inherit;
 
+      h1, p {
         font-size: 160px;
         line-height: 0.6;
         margin: 0;
-        em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
+        em:nth-child(2), em:nth-child(3) { // in the - to the
           font-size: 75px;
         }
+      }
 
+      h1 {
         em:nth-child(2), em:nth-child(3) { // in the
-          left: 255px;
+          left: 265px;
         }
 
         em:nth-child(2) { // in
-          margin-top: 10px;
+          margin-top: 5px;
         }
 
         em:nth-child(3) { // the
-          margin-top: 75px;
+          margin-top: 70px;
         }
 
         em:nth-child(4) { // UK
@@ -579,20 +631,22 @@
           left: 70px;
           top: 15px;
         }
+      }
 
-        em:nth-child(7), em:nth-child(8) { // to the
+      p {
+        em:nth-child(2), em:nth-child(3) { // to the
           padding-top: 160px;
         }
 
-        em:nth-child(7) { // to
+        em:nth-child(2) { // to
           left: 90px;
         }
 
-        em:nth-child(8) { // the
+        em:nth-child(3) { // the
           left: 150px;
         }
 
-        em:nth-child(9) { // world
+        em:nth-child(4) { // world
           font-size: 210px;
           top: 65px;
           left: 0;
@@ -604,6 +658,13 @@
         top: 90px;
       }
     }
+  }
+}
+
+@media (min-width: 1801px) {
+  .great-hero {
+    background-position: 100% 80%, 75% -270%, 45% 100%, 95% 160% !important; // flag -> man -> boat -> circle
+    background-size: 300px auto, 370px auto, 50%, 620px !important; // flag -> man -> boat -> circle
   }
 }
 
