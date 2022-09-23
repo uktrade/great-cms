@@ -196,12 +196,26 @@
   }
 }
 
+// SMALL MOBILE ONLY POSITIONING THE MAN
+@media (max-width: 340px) {
+  .great-hero {
+    background-position: 150% 90%, 125% 100%, -100px 100%, 90% 195% !important; // flag -> man -> boat -> circle
+    background-size: auto 80px, auto 190px, auto 17%, 250px !important; // flag -> man -> boat -> circle
+  }
+}
+
+// SMALL MOBILE ONLY POSITIONING THE MAN
+@media (min-width: 341px) and (max-width: 390px) {
+  .great-hero {
+    background-position: 135% 90%, 140% 100%, -100px 100%, 90% 195% !important; // flag -> man -> boat -> circle
+    background-size: auto 80px, auto 190px, auto 17%, 250px !important; // flag -> man -> boat -> circle
+  }
+}
+
 // SMALL MOBILE
 @media (max-width: 390px) {
   .great-hero {
 
-    background-position: 135% 90%, 140% 100%, -100px 100%, 90% 195% !important; // flag -> man -> boat -> circle
-    background-size: auto 80px, auto 190px, auto 17%, 250px !important; // flag -> man -> boat -> circle
     height: 338px;
 
     .container {
@@ -278,9 +292,6 @@
 // MOBILE
 @media (min-width: 391px) and (max-width: 600px) {
   .great-hero {
-
-    background-position: 100% 90%, 225% 100%, -100px 100%, 60% 195% !important; // flag -> man -> boat -> circle
-    background-size: auto 80px, auto 190px, auto 17%, 250px !important; // flag -> man -> boat -> circle
     height: 338px;
 
     .container {
@@ -351,6 +362,38 @@
 
   .great-hero + section {
     padding-top: 80px;
+  }
+}
+
+// MOBILE ONLY POSITIONING THE MAN
+@media (min-width: 391px) and (max-width: 450px) {
+  .great-hero {
+    background-position: 130% 90%, -150px 100%, -100px 100%, 60% 195% !important; // flag -> man -> boat -> circle
+    background-size: auto 80px, auto 190px, auto 17%, 250px !important; // flag -> man -> boat -> circle
+  }
+}
+
+// MOBILE ONLY POSITIONING THE MAN
+@media (min-width: 450px) and (max-width: 490px) {
+  .great-hero {
+    background-position: 115% 90%, -100px 100%, -100px 100%, 60% 195% !important; // flag -> man -> boat -> circle
+    background-size: auto 80px, auto 190px, auto 17%, 250px !important; // flag -> man -> boat -> circle
+  }
+}
+
+// MOBILE ONLY POSITIONING THE MAN
+@media (min-width: 491px) and (max-width: 525px) {
+  .great-hero {
+    background-position: 115% 90%, -175% 100%, -100px 100%, 60% 195% !important; // flag -> man -> boat -> circle
+    background-size: auto 80px, auto 190px, auto 17%, 250px !important; // flag -> man -> boat -> circle
+  }
+}
+
+// MOBILE ONLY POSITIONING THE MAN
+@media (min-width: 525px) and (max-width: 600px) {
+  .great-hero {
+    background-position: 110% 90%, -70px 100%, -100px 100%, 60% 195% !important; // flag -> man -> boat -> circle
+    background-size: auto 80px, auto 190px, auto 17%, 250px !important; // flag -> man -> boat -> circle
   }
 }
 
