@@ -575,13 +575,13 @@
         }
 
         em:nth-child(3) { // the
-          left: 150px;
+          left: 140px;
         }
 
         em:nth-child(4) { // world
           font-size: 160px;
           top: 52px;
-          left: -5px;
+          left: -10px;
         }
       }
       a {
@@ -593,12 +593,10 @@
   }
 }
 
-// DESKTOP
-@media (min-width: 1201px) and (max-width: 1800px) {
+// DESKTOP +
+@media (min-width: 1201px) {
   .great-hero {
 
-    background-position: 100% 80%, 60% 100%, 45% 100%, 95% 120% !important; // flag -> man -> boat -> circle
-    background-size: auto 129px, auto 350px, 50%, 620px !important; // flag -> man -> boat -> circle
     height: 400px;
 
     .container {
@@ -652,13 +650,13 @@
         }
 
         em:nth-child(3) { // the
-          left: 150px;
+          left: 140px;
         }
 
         em:nth-child(4) { // world
           font-size: 160px;
           top: 52px;
-          left: -5px;
+          left: -10px;
         }
       }
       a {
@@ -670,12 +668,30 @@
   }
 }
 
+// DESKTOP
+@media (min-width: 1201px) and (max-width: 1800px) {
+  .great-hero {
+    background-position: 100% 80%, 60% 100%, 45% 100%, 95% 120% !important; // flag -> man -> boat -> circle
+    background-size: auto 129px, auto 350px, 50%, 620px !important; // flag -> man -> boat -> circle
+  }
+}
+
 // BIG SCREENS
 @media (min-width: 1801px) {
   .great-hero {
     background-position: 100% 80%, 60% 100%, 45% 100%, 95% 160% !important; // flag -> man -> boat -> circle
     background-size: auto 129px, auto 350px, 50%, 620px !important; // flag -> man -> boat -> circle
     height: 400px;
+  }
+}
+
+// BIG SCREENS
+@media (min-width: 2300px) {
+  .great-hero {
+    // center section
+    margin: auto;
+    width: 50%;
+    // EO center section
   }
 }
 
