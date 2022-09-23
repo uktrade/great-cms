@@ -224,7 +224,7 @@
     .great-hero-text {
       h1, p {
         font-size: 70px;
-        line-height: 0.7;
+        line-height: 0.61;
         margin: 0 5px;
         em:nth-child(2), em:nth-child(3) {
           font-size: 30px;
@@ -245,7 +245,7 @@
         }
 
         em:nth-child(4) { // UK
-          font-size: 80px;
+          font-size: 85px;
           left: 38px;
           top: 8px;
         }
@@ -258,7 +258,7 @@
         }
 
         em:nth-child(2), em:nth-child(3) { // to the
-          padding-top: 60px;
+          padding-top: 62px;
         }
 
         em:nth-child(2) { // to
@@ -270,8 +270,8 @@
         }
 
         em:nth-child(4) { // world
-          font-size: 75px;
-          top: 28px;
+          font-size: 85px;
+          top: 25px;
           left: 6px;
         }
       }
@@ -309,20 +309,20 @@
 
       h1 {
         em:nth-child(2), em:nth-child(3) { // in the
-          left: 135px;
+          left: 134px;
         }
 
         em:nth-child(2) { // in
-          margin-top: 5px;
+          margin-top: 3px;
         }
 
         em:nth-child(3) { // the
-          margin-top: 35px;
+          margin-top: 33px;
         }
 
         em:nth-child(4) { // UK
           font-size: 80px;
-          left: 38px;
+          left: 36px;
           top: 8px;
         }
       }
@@ -376,7 +376,7 @@
 // MOBILE ONLY POSITIONING THE MAN
 @media (min-width: 450px) and (max-width: 490px) {
   .great-hero {
-    background-position: 115% 90%, -100px 100%, -100px 100%, 60% 195% !important; // flag -> man -> boat -> circle
+    background-position: 125% 90%, -100px 100%, -100px 100%, 60% 195% !important; // flag -> man -> boat -> circle
     background-size: auto 80px, auto 190px, auto 17%, 250px !important; // flag -> man -> boat -> circle
   }
 }
@@ -384,7 +384,7 @@
 // MOBILE ONLY POSITIONING THE MAN
 @media (min-width: 491px) and (max-width: 525px) {
   .great-hero {
-    background-position: 115% 90%, -175% 100%, -100px 100%, 60% 195% !important; // flag -> man -> boat -> circle
+    background-position: 115% 90%, -115px 100%, -100px 100%, 60% 195% !important; // flag -> man -> boat -> circle
     background-size: auto 80px, auto 190px, auto 17%, 250px !important; // flag -> man -> boat -> circle
   }
 }
@@ -433,7 +433,7 @@
 
         em:nth-child(4) { // UK
           font-size: 130px;
-          left: 59px;
+          left: 60px;
           top: 14px;
         }
       }
@@ -502,7 +502,7 @@
 
       h1 {
         em:nth-child(2), em:nth-child(3) { // in the
-          left: 192px;   // relative position
+          left: 194px;   // relative position
         }
 
         em:nth-child(2) { // in
@@ -515,7 +515,7 @@
 
         em:nth-child(4) { // UK
           font-size: 130px;
-          left: 59px;
+          left: 63px;
           top: 10px;
         }
       }
@@ -563,8 +563,6 @@
 @media (min-width: 901px) and (max-width: 1200px) {
   .great-hero {
 
-    background-position: 100% 80%, 80% 100%, 45% 100%, 125% 135% !important; // flag -> man -> boat -> circle
-    background-size: auto 129px, auto 350px, 50%, 550px !important; // flag -> man -> boat -> circle
     height: 400px;
 
     .container {
@@ -586,7 +584,7 @@
         }
 
         em:nth-child(2), em:nth-child(3) { // in the
-          left: 205px;
+          left: 208px;
         }
 
         em:nth-child(2) { // in
@@ -599,7 +597,7 @@
 
         em:nth-child(4) { // UK
           font-size: 145px;
-          left: 38px;
+          left: 42px;
           top: 12px;
         }
       }
@@ -636,6 +634,22 @@
   }
 }
 
+// SMALL DESKTOP ONLY POSITIONING THE MAN
+@media (min-width: 901px) and (max-width: 1024px) {
+  .great-hero {
+    background-position: 115% 80%, 80% 100%, 45% 100%, 125% 135% !important; // flag -> man -> boat -> circle
+    background-size: auto 129px, auto 350px, 50%, 550px !important; // flag -> man -> boat -> circle
+  }
+}
+
+// SMALL DESKTOP ONLY POSITIONING THE MAN
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .great-hero {
+    background-position: 110% 80%, 80% 100%, 45% 100%, 125% 135% !important; // flag -> man -> boat -> circle
+    background-size: auto 129px, auto 350px, 50%, 550px !important; // flag -> man -> boat -> circle
+  }
+}
+
 // DESKTOP +
 @media (min-width: 1201px) {
   .great-hero {
@@ -661,7 +675,7 @@
         }
 
         em:nth-child(2), em:nth-child(3) { // in the
-          left: 205px;
+          left: 210px;
         }
 
         em:nth-child(2) { // in
@@ -673,9 +687,9 @@
         }
 
         em:nth-child(4) { // UK
-          font-size: 145px;
-          left: 38px;
-          top: 12px;
+          font-size: 150px;
+          left: 46px;
+          top: 16px;
         }
       }
 
@@ -685,7 +699,7 @@
         }
 
         em:nth-child(2), em:nth-child(3) { // to the
-          padding-top: 117px;
+          padding-top: 120px;
         }
 
         em:nth-child(2) { // to
@@ -697,8 +711,8 @@
         }
 
         em:nth-child(4) { // world
-          font-size: 160px;
-          top: 52px;
+          font-size: 165px;
+          top: 50px;
           left: -10px;
         }
       }
