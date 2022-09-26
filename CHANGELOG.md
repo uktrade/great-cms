@@ -5,6 +5,13 @@
 ### Hotfix
 
 ### Bugs fixed
+* GLS-454 - Always show GDP per capita & economic data stats
+
+### Enhancements
+
+## [2.15.1](https://github.com/uktrade/great-cms/releases/tag/2.15.1)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.15.0...2.15.1)
 
 ### Enhancements
 * GLS-406 - Remove reference to the transition period in the domestic contact form
