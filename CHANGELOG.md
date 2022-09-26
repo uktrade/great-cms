@@ -5,6 +5,7 @@
 ### Hotfix
 
 ### Bugs fixed
+* GLS-454 - Always show GDP per capita & economic data stats
 
 ### Enhancements
 
