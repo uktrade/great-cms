@@ -116,6 +116,7 @@
 .great-hero {
   max-width: 2000px;
   background-repeat: no-repeat !important;
+  image-rendering: pixelated;
 
   .great-hero-text {
     h1 {
