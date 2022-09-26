@@ -118,74 +118,36 @@
   background-repeat: no-repeat !important;
 
   .great-hero-text {
-    h1, p {
+    h1 {
       font-family: $brand-font-tabloid;
       color: black;
       font-size: 150px;
-      line-height: 0.63;
       word-spacing: -30px;
       margin-bottom: 95px;
+      letter-spacing: -3px;
 
       em {
         font-style: normal;
-      }
-
-      em:nth-child(2), em:nth-child(3) { // in the - to the
-        font-size: 65px;
       }
     }
 
     h1 {
       font-weight: 500;
-      margin-bottom: 0;
-      margin-top: 0;
       em:nth-child(2), em:nth-child(3) { // in the
-        position: absolute;
-      }
-
-      em:nth-child(2) { // in
-        left: 240px;
-        margin-top: 13px;
-      }
-
-      em:nth-child(3) { // the
-        left: 240px;
-        margin-top: 77px;
+        position: relative;
       }
 
       em:nth-child(4) { // UK
-        font-size: 180px;
         position: relative;
-        left: 63px;
-        top: 20px;
-      }
-    }
-
-    p {
-      margin-top: 0;
-      em:nth-child(1) { // sold
-        font-size: 144px;
-        padding-left: 27px;
       }
 
-      em:nth-child(2), em:nth-child(3) { // to the
+      em:nth-child(7), em:nth-child(8) { // to the
         position: absolute;
-        padding-top: 145px;
       }
 
-      em:nth-child(2) { // to
-        left: 115px;
-      }
-
-      em:nth-child(3) { // the
-        left: 166px;
-      }
-
-      em:nth-child(4) { // world
+      em:nth-child(9) { // world
         color: #349fd5;
-        font-size: 190px;
         position: relative;
-        top: 63px;
       }
     }
 
@@ -193,6 +155,88 @@
       position: relative;
       left: 235px;
     }
+  }
+}
+
+// MOBILE
+@media (max-width: 600px) {
+  .great-hero {
+    height: 338px;
+
+    .container {
+      padding-top: 10px;
+    }
+    .great-hero-text {
+      h1 {
+        font-size: 70px;
+        line-height: 0.6;
+        margin: 0 20px;
+        letter-spacing: -1px;
+
+        // center text
+        display: flex;
+        justify-content: center;
+      }
+
+      h1 {
+
+        em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) {
+          font-size: 30px;
+        }
+
+        em:nth-child(2) { // in
+          top: -30px;
+          left: 2px;
+        }
+
+        em:nth-child(3) { // the
+          left: -15px;
+        }
+
+        em:nth-child(4) { // UK
+          font-size: 80px;
+          left: -12px;
+          top: 8px;
+        }
+
+        em:nth-child(6) { // sold
+          font-size: 63px;
+          padding-left: 18px;
+        }
+
+        em:nth-child(7), em:nth-child(8) { // to the
+          top: 115px;
+        }
+
+        em:nth-child(7) { // to
+          left: 50%;
+          transform: translate(calc(-50% - 68px), 0);
+          padding: 10px;
+        }
+
+        em:nth-child(8) { // the
+          left: 50%;
+          transform: translate(calc(-50% - 42px), 0);
+          padding: 10px;
+        }
+
+        em:nth-child(9) { // world
+          font-size: 87px;
+          top: 28px;
+          left: 9px;
+        }
+      }
+
+      a {
+        position: relative;
+        top: 233px;
+        left: 0;
+      }
+    }
+  }
+
+  .great-hero + section {
+    padding-top: 80px;
   }
 }
 
@@ -209,159 +253,6 @@
   .great-hero {
     background-position: 135% 90%, 140% 100%, -100px 100%, 90% 195% !important; // flag -> man -> boat -> circle
     background-size: auto 80px, auto 190px, auto 17%, 250px !important; // flag -> man -> boat -> circle
-  }
-}
-
-// SMALL MOBILE
-@media (max-width: 390px) {
-  .great-hero {
-
-    height: 338px;
-
-    .container {
-      padding-top: 10px;
-    }
-    .great-hero-text {
-      h1, p {
-        font-size: 70px;
-        line-height: 0.61;
-        margin: 0 5px;
-        em:nth-child(2), em:nth-child(3) {
-          font-size: 30px;
-        }
-      }
-
-      h1 {
-        em:nth-child(2), em:nth-child(3) { // in the
-          left: 120px;
-        }
-
-        em:nth-child(2) { // in
-          margin-top: 5px;
-        }
-
-        em:nth-child(3) { // the
-          margin-top: 35px;
-        }
-
-        em:nth-child(4) { // UK
-          font-size: 85px;
-          left: 38px;
-          top: 8px;
-        }
-      }
-
-      p {
-        em:nth-child(1) { // sold
-          font-size: 63px;
-          padding-left: 18px;
-        }
-
-        em:nth-child(2), em:nth-child(3) { // to the
-          padding-top: 62px;
-        }
-
-        em:nth-child(2) { // to
-          left: 55px;
-        }
-
-        em:nth-child(3) { // the
-          left: 79px;
-        }
-
-        em:nth-child(4) { // world
-          font-size: 85px;
-          top: 25px;
-          left: 6px;
-        }
-      }
-
-      a {
-        position: relative;
-        top: 233px;
-        left: 0;
-      }
-    }
-  }
-
-  .great-hero + section {
-    padding-top: 80px;
-  }
-}
-
-// MOBILE
-@media (min-width: 391px) and (max-width: 600px) {
-  .great-hero {
-    height: 338px;
-
-    .container {
-      padding-top: 10px;
-    }
-    .great-hero-text {
-      h1, p {
-        font-size: 70px;
-        line-height: 0.6;
-        margin: 0 20px;
-        em:nth-child(2), em:nth-child(3) {
-          font-size: 30px;
-        }
-      }
-
-      h1 {
-        em:nth-child(2), em:nth-child(3) { // in the
-          left: 134px;
-        }
-
-        em:nth-child(2) { // in
-          margin-top: 3px;
-        }
-
-        em:nth-child(3) { // the
-          margin-top: 33px;
-        }
-
-        em:nth-child(4) { // UK
-          font-size: 80px;
-          left: 36px;
-          top: 8px;
-        }
-      }
-
-      p {
-        em:nth-child(1) { // sold
-          font-size: 63px;
-          padding-left: 18px;
-        }
-
-        em:nth-child(2), em:nth-child(3) { // to the
-          padding-top: 65px;
-        }
-
-        em:nth-child(2) { // to
-          left: 72px;
-        }
-
-        em:nth-child(3) { // the
-          left: 98px;
-        }
-
-        em:nth-child(4) { // world
-          font-size: 87px;
-          top: 28px;
-          left: 6px;
-        }
-      }
-
-      a {
-        position: relative;
-        top: 233px;
-        left: 0;
-      }
-    }
-  }
-
-  .great-hero + section {
-    padding-top: 80px;
   }
 }
 
@@ -397,75 +288,76 @@
   }
 }
 
-// SMALL IPAD
-@media (min-width: 601px) and (max-width: 800px) {
+// IPAD
+@media (min-width: 601px) and (max-width: 900px) {
   .great-hero {
+    height: 360px;
 
     background-position: 100% 88%, 80% 100%, 25% 100%, 120% 135% !important; // flag -> man -> boat -> circle
     background-size: auto 80px, auto 330px, auto 25%, 450px !important; // flag -> man -> boat -> circle
-    height: 360px;
 
     .container {
       padding-top: 20px;
       min-height: 330px;
     }
     .great-hero-text {
-      h1, p {
-        font-size: 110px;
-        line-height: 0.65;
-        margin-bottom: 0;
-        em:nth-child(2), em:nth-child(3) { // in the - to the
-          font-size: 50px;
-        }
-      }
       h1 {
-        em:nth-child(2), em:nth-child(3) { // in the
-          left: 180px;
+        line-height: 42px;
+        margin: 0 20px;
+      }
+
+      h1 {
+
+        em:nth-child(1), em:nth-child(6) { // made - sold
+          font-size: 97px;
+        }
+
+        em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
+          font-size: 45px;
         }
 
         em:nth-child(2) { // in
-          margin-top: 8px;
+          top: -40px;
+          left: 4px;
         }
 
         em:nth-child(3) { // the
-          margin-top: 54px;
+          left: -21px;
         }
 
         em:nth-child(4) { // UK
-          font-size: 130px;
-          left: 60px;
-          top: 14px;
-        }
-      }
-
-      p {
-        em:nth-child(1) { // sold
-          font-size: 105px;
-          padding-left: 23px;
+          font-size: 115px;
+          left: -16px;
+          top: 13px;
         }
 
-        em:nth-child(2), em:nth-child(3) { // to the
-          padding-top: 104px;
+        em:nth-child(6) { // sold
+          font-size: 95px;
+          padding-left: 15px;
         }
 
-        em:nth-child(2) { // to
-          left: 85px;
+        em:nth-child(7), em:nth-child(8) { // to the
+          padding-top: 78px;
         }
 
-        em:nth-child(3) { // the
+        em:nth-child(7) { // to
+          left: 91px;
+        }
+
+        em:nth-child(8) { // the
           left: 123px;
         }
 
-        em:nth-child(4) { // world
+        em:nth-child(9) { // world
           font-size: 135px;
-          top: 47px;
-          left: 6px;
+          top: 42px;
+          left: 11px;
         }
       }
 
       a {
         position: relative;
-        top: 180px;
+        top: 200px;
         left: 0;
         width: 100%;
       }
@@ -477,90 +369,8 @@
   }
 }
 
-// IPAD
-@media (min-width: 801px) and (max-width: 900px) {
-  .great-hero {
-
-    background-position: 100% 88%, 80% 100%, 25% 100%, 120% 135% !important; // flag -> man -> boat -> circle
-    background-size: auto 80px, auto 330px, auto 25%, 450px !important; // flag -> man -> boat -> circle
-    height: 360px;
-
-    .container {
-      padding-top: 20px;
-      min-height: 330px;
-      padding-bottom: 0;
-    }
-    .great-hero-text {
-      h1, p {
-        font-size: 120px;
-        line-height: 0.6;
-        margin-bottom: 0;
-        em:nth-child(2), em:nth-child(3) { // in the - to the
-          font-size: 55px;
-        }
-      }
-
-      h1 {
-        em:nth-child(2), em:nth-child(3) { // in the
-          left: 194px;   // relative position
-        }
-
-        em:nth-child(2) { // in
-          margin-top: 2px;
-        }
-
-        em:nth-child(3) { // the
-          margin-top: 50px;
-        }
-
-        em:nth-child(4) { // UK
-          font-size: 130px;
-          left: 63px;
-          top: 10px;
-        }
-      }
-
-      p {
-        em:nth-child(1) { // sold
-          font-size: 115px;
-          padding-left: 23px;
-        }
-
-        em:nth-child(2), em:nth-child(3) { // to the
-          padding-top: 115px;
-        }
-
-        em:nth-child(2) { // to
-          left: 95px;
-        }
-
-        em:nth-child(3) { // the
-          left: 135px;
-        }
-
-        em:nth-child(4) { // world
-          font-size: 155px;
-          top: 47px;
-          left: 6px;
-        }
-      }
-
-      a {
-        position: relative;
-        top: 180px;
-        left: 0;
-        width: 100%;
-      }
-    }
-  }
-
-  .great-hero + section {
-    padding-top: 80px;
-  }
-}
-
-// SMALL DESKTOP
-@media (min-width: 901px) and (max-width: 1200px) {
+// DESKTOP
+@media (min-width: 901px) {
   .great-hero {
 
     height: 400px;
@@ -569,65 +379,63 @@
       padding-bottom: 135px;
     }
     .great-hero-text {
-
       h1, p {
-        line-height: 0.6;
+        line-height: 62px;
         margin: 0;
-        em:nth-child(2), em:nth-child(3) { // in the - to the
-          font-size: 60px;
-        }
       }
 
       h1 {
-        em:nth-child(1) { // made
-          font-size: 130px;
+
+        em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
+          font-size: 55px;
         }
 
-        em:nth-child(2), em:nth-child(3) { // in the
-          left: 208px;
+        em:nth-child(1) { // made
+          font-size: 121px;
         }
 
         em:nth-child(2) { // in
-          margin-top: 5px;
+          top: -50px;
+          left: 6px;
         }
 
         em:nth-child(3) { // the
-          margin-top: 58px;
+          left: -26px;
         }
 
         em:nth-child(4) { // UK
           font-size: 145px;
-          left: 42px;
-          top: 12px;
-        }
-      }
-
-      p {
-        em:nth-child(1) { // sold
-          font-size: 120px;
+          left: -20px;
+          top: 19px;
         }
 
-        em:nth-child(2), em:nth-child(3) { // to the
-          padding-top: 117px;
+        em:nth-child(6) { // sold
+          padding-left: 20px;
+          font-size: 118px;
         }
 
-        em:nth-child(2) { // to
-          left: 90px;
+        em:nth-child(7), em:nth-child(8) { // to the
+          padding-top: 88px;
         }
 
-        em:nth-child(3) { // the
-          left: 140px;
+        em:nth-child(7) { // to
+          left: 93px;
         }
 
-        em:nth-child(4) { // world
+        em:nth-child(8) { // the
+          left: 131px;
+        }
+
+        em:nth-child(9) { // world
           font-size: 160px;
           top: 52px;
-          left: -10px;
+          left: 14px;
         }
       }
+
       a {
         position: relative;
-        left: 250px;
+        left: 220px;
         top: 90px;
       }
     }
@@ -645,87 +453,12 @@
 // SMALL DESKTOP ONLY POSITIONING THE MAN
 @media (min-width: 1025px) and (max-width: 1200px) {
   .great-hero {
-    background-position: 110% 80%, 80% 100%, 45% 100%, 125% 135% !important; // flag -> man -> boat -> circle
+    background-position: 100% 80%, 80% 100%, 45% 100%, 125% 135% !important; // flag -> man -> boat -> circle
     background-size: auto 129px, auto 350px, 50%, 550px !important; // flag -> man -> boat -> circle
   }
 }
 
-// DESKTOP +
-@media (min-width: 1201px) {
-  .great-hero {
-
-    height: 400px;
-
-    .container {
-      padding-bottom: 135px;
-    }
-    .great-hero-text {
-
-      h1, p {
-        line-height: 0.6;
-        margin: 0;
-        em:nth-child(2), em:nth-child(3) { // in the - to the
-          font-size: 60px;
-        }
-      }
-
-      h1 {
-        em:nth-child(1) { // made
-          font-size: 130px;
-        }
-
-        em:nth-child(2), em:nth-child(3) { // in the
-          left: 210px;
-        }
-
-        em:nth-child(2) { // in
-          margin-top: 5px;
-        }
-
-        em:nth-child(3) { // the
-          margin-top: 58px;
-        }
-
-        em:nth-child(4) { // UK
-          font-size: 150px;
-          left: 46px;
-          top: 16px;
-        }
-      }
-
-      p {
-        em:nth-child(1) { // sold
-          font-size: 120px;
-        }
-
-        em:nth-child(2), em:nth-child(3) { // to the
-          padding-top: 120px;
-        }
-
-        em:nth-child(2) { // to
-          left: 90px;
-        }
-
-        em:nth-child(3) { // the
-          left: 140px;
-        }
-
-        em:nth-child(4) { // world
-          font-size: 165px;
-          top: 50px;
-          left: -10px;
-        }
-      }
-      a {
-        position: relative;
-        left: 250px;
-        top: 90px;
-      }
-    }
-  }
-}
-
-// DESKTOP
+// DESKTOP ONLY POSITIONING THE MAN
 @media (min-width: 1201px) and (max-width: 1800px) {
   .great-hero {
     background-position: 100% 80%, 60% 100%, 45% 100%, 95% 120% !important; // flag -> man -> boat -> circle
@@ -733,7 +466,7 @@
   }
 }
 
-// BIG SCREENS
+// BIG DESKTOP ONLY POSITIONING THE MAN
 @media (min-width: 1801px) {
   .great-hero {
     background-position: 100% 80%, 60% 100%, 45% 100%, 95% 160% !important; // flag -> man -> boat -> circle
@@ -742,13 +475,11 @@
   }
 }
 
-// BIG SCREENS
-@media (min-width: 2300px) {
+// DESKTOP ONLY CENTER THE CONTAINER
+@media (min-width: 1440px) {
   .great-hero {
-    // center section
     margin: auto;
-    width: 50%;
-    // EO center section
+    width: 1200px
   }
 }
 
