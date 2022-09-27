@@ -109,14 +109,12 @@
 ********************   MADE IN UK  ****************************
 **************************************************************/
 // Hero text signedin: (content)
-// <em>MADE</em>&nbsp<em>in</em>&nbsp<em>the</em>&nbsp<em>UK</em>
-// Hero subtitle signedin:
-// <em>SOLD</em>&nbsp<em>to</em>&nbsp<em>the</em>&nbsp<em>world</em>
+// <em><em>MADE</em>&nbsp<em>in</em>&nbsp<em>the</em>&nbsp<em>UK</em><br><em>SOLD</em>&nbsp<em>to</em>&nbsp<em>the</em>&nbsp<em>world</em></em>
 
 .great-hero {
   max-width: 2000px;
   background-repeat: no-repeat !important;
-  image-rendering: pixelated;
+  image-rendering: auto;
 
   .great-hero-text {
     h1 {
