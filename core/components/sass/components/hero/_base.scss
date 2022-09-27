@@ -116,6 +116,7 @@
 .great-hero {
   max-width: 2000px;
   background-repeat: no-repeat !important;
+  image-rendering: pixelated;
 
   .great-hero-text {
     h1 {
@@ -229,7 +230,7 @@
 
       a {
         position: relative;
-        top: 233px;
+        top: 243px;
         left: 0;
       }
     }
@@ -341,9 +342,17 @@
 }
 
 // MOBILE ONLY POSITIONING THE MAN
-@media (min-width: 525px) and (max-width: 600px) {
+@media (min-width: 525px) and (max-width: 550px) {
   .great-hero {
     background-position: 110% 90%, -70px 100%, -100px 100%, 60% 195% !important; // flag -> man -> boat -> circle
+    background-size: auto 80px, auto 190px, auto 17%, 250px !important; // flag -> man -> boat -> circle
+  }
+}
+
+// MOBILE ONLY POSITIONING THE MAN
+@media (min-width: 551px) and (max-width: 600px) {
+  .great-hero {
+    background-position: 100% 90%, -70px 100%, -100px 100%, 60% 195% !important; // flag -> man -> boat -> circle
     background-size: auto 80px, auto 190px, auto 17%, 250px !important; // flag -> man -> boat -> circle
   }
 }
@@ -359,93 +368,22 @@
     .container {
       padding-top: 20px;
       min-height: 330px;
-    }
-    .great-hero-text {
-      h1 {
-        em:nth-child(2), em:nth-child(3) { // in the
-          left: 180px;
-        }
-
-        em:nth-child(2) { // in
-          margin-top: 8px;
-        }
-
-        em:nth-child(3) { // the
-          margin-top: 54px;
-        }
-
-        em:nth-child(4) { // UK
-          font-size: 130px;
-          left: 60px;
-          top: 14px;
-        }
-      }
-
-      p {
-        em:nth-child(1) { // sold
-          font-size: 105px;
-          padding-left: 23px;
-        }
-
-        em:nth-child(2), em:nth-child(3) { // to the
-          padding-top: 104px;
-        }
-
-        em:nth-child(2) { // to
-          left: 85px;
-        }
-
-        em:nth-child(3) { // the
-          left: 123px;
-        }
-
-        em:nth-child(4) { // world
-          font-size: 135px;
-          top: 47px;
-          left: 6px;
-        }
-      }
-
-      a {
-        position: relative;
-        top: 180px;
-        left: 0;
-        width: 100%;
-      }
-    }
-  }
-
-  .great-hero + section {
-    padding-top: 80px;
-  }
-}
-
-// IPAD
-@media (min-width: 801px) and (max-width: 900px) {
-  .great-hero {
-
-    background-position: 100% 88%, 80% 100%, 25% 100%, 120% 135% !important; // flag -> man -> boat -> circle
-    background-size: auto 80px, auto 330px, auto 25%, 450px !important; // flag -> man -> boat -> circle
-    height: 360px;
-
-    .container {
-      padding-top: 20px;
-      min-height: 330px;
       padding-bottom: 0;
     }
     .great-hero-text {
-      h1, p {
-        font-size: 120px;
-        line-height: 0.6;
-        margin-bottom: 0;
-        em:nth-child(2), em:nth-child(3) { // in the - to the
-          font-size: 55px;
-        }
+      h1 {
+        line-height: 42px;
+        margin: 0 20px;
       }
 
       h1 {
-        em:nth-child(2), em:nth-child(3) { // in the
-          left: 194px;   // relative position
+
+        em:nth-child(1), em:nth-child(6) { // made - sold
+          font-size: 97px;
+        }
+
+        em:nth-child(2), em:nth-child(3), em:nth-child(7), em:nth-child(8) { // in the - to the
+          font-size: 45px;
         }
 
         em:nth-child(2) { // in
@@ -458,9 +396,9 @@
         }
 
         em:nth-child(4) { // UK
-          font-size: 115px;
+          font-size: 112px;
           left: -16px;
-          top: 13px;
+          top: 11px;
         }
 
         em:nth-child(6) { // sold
@@ -469,27 +407,27 @@
         }
 
         em:nth-child(7), em:nth-child(8) { // to the
-          padding-top: 78px;
+          padding-top: 80px;
         }
 
         em:nth-child(7) { // to
-          left: 91px;
+          left: 72px;
         }
 
         em:nth-child(8) { // the
-          left: 123px;
+          left: 103px;
         }
 
         em:nth-child(9) { // world
           font-size: 135px;
-          top: 42px;
+          top: 44px;
           left: 11px;
         }
       }
 
       a {
         position: relative;
-        top: 200px;
+        top: 220px;
         left: 0;
         width: 100%;
       }
@@ -501,6 +439,30 @@
   }
 }
 
+// IPAD ONLY POSITIONING THE MAN
+@media (min-width: 601px) and (max-width: 650px){
+  .great-hero {
+    background-position: 100% 88%, 80% 100%, 25% 100%, calc(100% + 168px) 135% !important; // flag -> man -> boat -> circle
+    background-size: auto 80px, auto 330px, auto 25%, 450px !important; // flag -> man -> boat -> circle
+  }
+}
+
+// IPAD ONLY POSITIONING THE MAN
+@media (min-width: 651px) and (max-width: 720px){
+  .great-hero {
+    background-position: 100% 88%, 80% 100%, 25% 100%, calc(100% + 95px) 135% !important; // flag -> man -> boat -> circle
+    background-size: auto 80px, auto 330px, auto 25%, 450px !important; // flag -> man -> boat -> circle
+  }
+}
+
+// IPAD ONLY POSITIONING THE MAN
+@media (min-width: 721px) and (max-width: 900px){
+  .great-hero {
+    background-position: 100% 88%, 80% 100%, 25% 100%, calc(100% + 58px) 135% !important; // flag -> man -> boat -> circle
+    background-size: auto 80px, auto 330px, auto 25%, 450px !important; // flag -> man -> boat -> circle
+  }
+}
+
 // DESKTOP
 @media (min-width: 901px) {
   .great-hero {
@@ -509,6 +471,7 @@
 
     .container {
       padding-bottom: 135px;
+      padding-top: 35px;
     }
     .great-hero-text {
       h1, p {
@@ -522,25 +485,24 @@
           font-size: 55px;
         }
 
-        em:nth-child(2), em:nth-child(3) { // in the
-          left: 208px;
+        em:nth-child(1) { // made
+          font-size: 121px;
         }
 
         em:nth-child(2) { // in
-          top: -50px;
-          left: 6px;
+          top: -53px;
+          left: 5px;
         }
 
         em:nth-child(3) { // the
-          left: -26px;
+          left: -25px;
         }
 
         em:nth-child(4) { // UK
           font-size: 145px;
-          left: 42px;
-          top: 12px;
+          left: -20px;
+          top: 19px;
         }
-      }
 
         em:nth-child(6) { // sold
           padding-left: 20px;
@@ -568,7 +530,7 @@
 
       a {
         position: relative;
-        left: 220px;
+        left: 200px;
         top: 90px;
       }
     }
@@ -578,7 +540,7 @@
 // SMALL DESKTOP ONLY POSITIONING THE MAN
 @media (min-width: 901px) and (max-width: 1024px) {
   .great-hero {
-    background-position: 115% 80%, 80% 100%, 45% 100%, 125% 135% !important; // flag -> man -> boat -> circle
+    background-position: 100% 80%, 80% 100%, 45% 100%, 125% 135% !important; // flag -> man -> boat -> circle
     background-size: auto 129px, auto 350px, 50%, 550px !important; // flag -> man -> boat -> circle
   }
 }
@@ -591,82 +553,7 @@
   }
 }
 
-// DESKTOP +
-@media (min-width: 1201px) {
-  .great-hero {
-
-    height: 400px;
-
-    .container {
-      padding-bottom: 135px;
-    }
-    .great-hero-text {
-
-      h1, p {
-        line-height: 0.6;
-        margin: 0;
-        em:nth-child(2), em:nth-child(3) { // in the - to the
-          font-size: 60px;
-        }
-      }
-
-      h1 {
-        em:nth-child(1) { // made
-          font-size: 130px;
-        }
-
-        em:nth-child(2), em:nth-child(3) { // in the
-          left: 210px;
-        }
-
-        em:nth-child(2) { // in
-          margin-top: 5px;
-        }
-
-        em:nth-child(3) { // the
-          margin-top: 58px;
-        }
-
-        em:nth-child(4) { // UK
-          font-size: 150px;
-          left: 46px;
-          top: 16px;
-        }
-      }
-
-      p {
-        em:nth-child(1) { // sold
-          font-size: 120px;
-        }
-
-        em:nth-child(2), em:nth-child(3) { // to the
-          padding-top: 120px;
-        }
-
-        em:nth-child(2) { // to
-          left: 90px;
-        }
-
-        em:nth-child(3) { // the
-          left: 140px;
-        }
-
-        em:nth-child(4) { // world
-          font-size: 165px;
-          top: 50px;
-          left: -10px;
-        }
-      }
-      a {
-        position: relative;
-        left: 250px;
-        top: 90px;
-      }
-    }
-  }
-}
-
-// DESKTOP
+// DESKTOP ONLY POSITIONING THE MAN
 @media (min-width: 1201px) and (max-width: 1800px) {
   .great-hero {
     background-position: 100% 80%, 60% 100%, 45% 100%, 95% 120% !important; // flag -> man -> boat -> circle
@@ -684,10 +571,10 @@
 }
 
 // DESKTOP ONLY CENTER THE CONTAINER
-@media (min-width: 1440px) {
+@media (min-width: 1441px) {
   .great-hero {
     margin: auto;
-    width: 1200px
+    width: 1440px
   }
 }
 
