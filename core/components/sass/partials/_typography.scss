@@ -9,7 +9,7 @@ $brand-font-alternative: 'Roboto', arial, helvetica, verdana;
 $quote-font: 'Georgia', serif;
 $line-height: 1.6;
 $hero-line-height: 1.2;
-$brand-font-tabloid: 'Daily-Tabloid-Light', arial, helvetica, verdana, sans-serif;
+$brand-font-tabloid: 'Daily-Tabloid-Light',"DIN Condensed",Impact, arial, helvetica, verdana, sans-serif;
 
 @mixin font-generator($font-family: $brand-font-alternative, $font-size: 19px, $font-size-mobile: 16px, $font-weight: 400, $font-style: normal, $line-height: 1.6) {
   font-weight: $font-weight;
