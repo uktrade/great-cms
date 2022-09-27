@@ -476,7 +476,15 @@ def get_stats_by_country(iso2):
     }
 
     stats = {k: v for k, v in stats.items() if v and v['data']}
+    return stats or None
 
+
+# Remove once FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS flag turned off
+def get_stats_economic_highlights_by_country(iso2):
+    stats = {
+        'economic_highlights': get_economic_highlights_by_country(iso2=iso2),
+    }
+    stats = {k: v for k, v in stats.items() if v and v['data']}
     return stats or None
 
 
