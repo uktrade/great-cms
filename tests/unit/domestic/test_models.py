@@ -550,6 +550,7 @@ def test_stats(
     mock_market_trends,
     mock_top_goods_exports,
     mock_top_services_exports,
+    mock_economic_highlights,
     domestic_homepage,
     settings,
 ):
@@ -567,10 +568,11 @@ def test_stats(
     assert len(page.stats['market_trends']['data']) == 2
     assert len(page.stats['goods_exports']['data']) == 3
     assert len(page.stats['services_exports']['data']) == 2
+    assert len(page.stats['economic_highlights']['data']) == 2
 
 
 @pytest.mark.django_db
-def test_stats_feature_off(domestic_homepage, settings):
+def test_stats_feature_off(mock_economic_highlights, domestic_homepage, settings):
     settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = False
 
     country = CountryFactory(name='China', slug='china', iso2='CN')
@@ -581,7 +583,8 @@ def test_stats_feature_off(domestic_homepage, settings):
         country=country,
     )
 
-    assert page.stats is None
+    assert len(page.stats) == 1
+    assert len(page.stats['economic_highlights']['data']) == 2
 
 
 @pytest.mark.django_db
