@@ -27,7 +27,7 @@ subheading - text # Not used for GreatDomesticHomepage
 <section
 class="great-hero {% if not hero_image %}great-hero-no-image{% endif %}" id="hero"
 {% if hero_image and not 'WebHeader_v26' in rendition.url %}
-  style="background: url({{ third_image.url }}), url({{ second_image.url }}), url({{ first_image.url }}), url({{ rendition.url }});"
+  style="background: url({{ third_image.url }}), url({{ second_image.url }}), url({{ first_image.url }})"
 {% endif %}
 >
 <div class="container padding-top-90-l padding-top-45 padding-bottom-45-l">
