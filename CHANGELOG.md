@@ -34,6 +34,8 @@
 * GLS-400 - Added image/video stream component to campaign/article page
 * GLS-400 - Added transcript link to video on the article/campaign page
 
+* GGR-2 - Adding new fields to Wagtail hero
+
 ## [2.14.0](https://github.com/uktrade/great-cms/releases/tag/2.14.0)
 
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.13.0...2.14.0)
