@@ -19,31 +19,46 @@ subheading - text # Not used for GreatDomesticHomepage
 
 {% image hero_image original as rendition %}
 
-{% image page.hero_image original as hero_image %}
-{% image page.hero_mobile_image original as first_image %}
-{% image page.hero_ipad_image original as second_image %}
-{% image page.hero_smalldesktop_image original as third_image %}
+{% comment %}
+// TODO: revert Made In The UK commit after campaign ended.
+{% endcomment %}
+{% if 'WebHeader_v26' in rendition.url %}
+<style>
+  .great-hero {
+    background-image: url("{% static 'images/MIUK-banner-mobile.jpg' %}");
+    background-position: center top;
+    background-size: cover;
+    padding-top: 64%;
+  }
 
-<section
-class="great-hero {% if not hero_image %}great-hero-no-image{% endif %}" id="hero"
-{% if hero_image and not 'WebHeader_v26' in rendition.url %}
-  style="background: url({{ third_image.url }}), url({{ second_image.url }}), url({{ first_image.url }})"
+  @media (min-width: 641px) {
+    .great-hero {
+      background-image: url({{ rendition.url }});
+      padding-top: 0;
+    }
+
+    .great-hero .great-hero-text {
+      max-width: 50%;
+    }
+  }
+</style>
 {% endif %}
+
+<section class="great-hero {% if not hero_image %}great-hero-no-image{% endif %}" id="hero"
+         {% if hero_image and not 'WebHeader_v26' in rendition.url %}style="background-image: url({{ rendition.url }})"{% endif %}
 >
 <div class="container padding-top-90-l padding-top-45 padding-bottom-45-l">
   <div class="great-hero-text width-half-xl width-two-thirds-l width-full">
     <h1
-    class="heading-xlarge {% if subheading or subtitle %} margin-bottom-0 {% else %} margin-bottom-30 {% endif %}"
-    style="max-width: 500px;"
-    >
-      {{ heading | safe }}
-    </h1>
+            class="heading-xlarge {% if subheading or subtitle %} margin-bottom-0 {% else %} margin-bottom-30 {% endif %}"
+            style="max-width: 500px;"
+    >{{ heading }}</h1>
     {% block content %}
     {% if subheading %}
-    <h2 class="heading-xlarge margin-top-0 margin-bottom-30">{{ subheading | safe }}</h2>
+    <h2 class="heading-xlarge margin-top-0 margin-bottom-30">{{ subheading }}</h2>
     {% endif %}
     {% if subtitle %}
-    <p class="margin-bottom-30">{{ subtitle | safe }}</p>
+    <p class="margin-bottom-30">{{ subtitle }}</p>
     {% endif %}
     {% if cta_text and cta_link %}
     <a href="{{ cta_link }}" class="button button-blue margin-bottom-30">{{ cta_text }}</a>
