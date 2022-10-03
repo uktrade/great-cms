@@ -235,7 +235,7 @@
   }
 
   .great-hero + section {
-    padding-top: 80px;
+    padding-top: 118px;
   }
 }
 
@@ -370,7 +370,17 @@
   }
 
   .great-hero + section {
-    padding-top: 80px;
+    padding-top: 125px;
+  }
+
+  @media not all and (min-resolution:.001dpcm) {
+    @supports (-webkit-appearance:none) {
+      .great-hero-multiple-background .great-hero-text a {
+        position: relative;
+        top: 240px;
+        left: 0;
+      }
+    }
   }
 }
 
