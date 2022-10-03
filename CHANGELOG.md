@@ -2,14 +2,30 @@
 
 ## Pre release
 
-### Hotfix
-
 ### Bugs fixed
-* GLS-454 - Always show GDP per capita & economic data stats
 
 ### Enhancements
 
-* GGR-2 - Adding new fields to Wagtail hero based off tablet resolution
+* GGR-2 - Adding new fields to Wagtail hero tablet resolution fix
+
+### Hotfix
+
+## [2.15.4](https://github.com/uktrade/great-cms/releases/tag/2.15.4)
+
+### Enhancements
+
+* GGR-2 - Adding new fields to Wagtail hero og:image fix
+
+## [2.15.3](https://github.com/uktrade/great-cms/releases/tag/2.15.3)
+
+### Enhancements
+
+* GGR-2 - Adding new fields to Wagtail hero
+
+## [2.15.2](https://github.com/uktrade/great-cms/releases/tag/2.15.2)
+
+### Bugs fixed
+* GLS-454 - Always show GDP per capita & economic data stats
 
 ## [2.15.1](https://github.com/uktrade/great-cms/releases/tag/2.15.1)
 
