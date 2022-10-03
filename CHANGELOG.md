@@ -9,7 +9,7 @@
 
 ### Enhancements
 
-* GGR-2 - Adding new fields to Wagtail hero
+* GGR-2 - Adding new fields to Wagtail hero based off tablet resolution
 
 ## [2.15.1](https://github.com/uktrade/great-cms/releases/tag/2.15.1)
 
