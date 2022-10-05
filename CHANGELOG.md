@@ -6,7 +6,7 @@
 
 ### Enhancements
 
-* GGR-2 - Adding new fields to Wagtail hero tablet resolution fix
+* GGR-2 - Adding new fields to Wagtail hero tablet resolution safari fix
 
 ### Hotfix
 
