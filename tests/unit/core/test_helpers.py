@@ -751,6 +751,7 @@ def test_get_trade_highlights_by_country(mock_trade_highlights, client):
     assert response['data'] == {'total_uk_exports': 26100000000, 'trading_position': 3, 'percentage_of_uk_trade': 7.5}
 
 
+# update test
 @pytest.mark.django_db
 def test_get_market_trends_by_country(mock_market_trends, client):
     response = helpers.get_market_trends_by_country(iso2='FR')
@@ -952,3 +953,43 @@ def test_clam_av_client(mock_requests_post):
     assert mock_requests_post.call_args == mock.call(
         'v2/scan-chunked', auth=mock.ANY, headers={'Transfer-encoding': 'chunked'}, data=mock.ANY
     )
+
+
+def test_set_units_2_million_1_billion():
+    stats = {
+        'market_trends': {'max_value': 2752000000, 'metadata': {}},
+        'goods_exports': {
+            'max_value': 39250000.0,
+            'metadata': {},
+        },
+        'services_exports': {
+            'max_value': 41250000.0,
+            'metadata': {},
+        },
+    }
+
+    stats_with_untis = helpers.set_stats_unit_to_highest_present(stats)
+
+    assert stats_with_untis['market_trends']['metadata']['unit'] == 'billion'
+    assert stats_with_untis['goods_exports']['metadata']['unit'] == 'billion'
+    assert stats_with_untis['services_exports']['metadata']['unit'] == 'billion'
+
+
+def test_set_units_1_thousand_2_millions():
+    stats = {
+        'market_trends': {'max_value': 27520, 'metadata': {}},
+        'goods_exports': {
+            'max_value': 39250000.0,
+            'metadata': {},
+        },
+        'services_exports': {
+            'max_value': 41250000.0,
+            'metadata': {},
+        },
+    }
+
+    stats_with_untis = helpers.set_stats_unit_to_highest_present(stats)
+
+    assert stats_with_untis['market_trends']['metadata']['unit'] == 'million'
+    assert stats_with_untis['goods_exports']['metadata']['unit'] == 'million'
+    assert stats_with_untis['services_exports']['metadata']['unit'] == 'million'

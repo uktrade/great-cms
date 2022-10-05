@@ -173,7 +173,6 @@ def round_to_unit(number, unit, precision=1):
 
     if unit and unit in units:
         number = number / units[unit]
-
     return f'{number:.{precision}f}'
 
 

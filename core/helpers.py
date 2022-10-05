@@ -394,9 +394,9 @@ def get_trade_barrier_data(countries_list, sectors_list):
     return response.json()
 
 
-def get_unit(values):
+def get_unit(value):
     try:
-        return intword(max(values)).split(' ')[1]
+        return intword(value).split(' ')[1]
     except (AttributeError, ValueError):
         return ''
 
@@ -423,7 +423,7 @@ def get_market_trends_by_country(iso2):
             record['total'] = record['imports'] + record['exports']
 
         totals = [x['total'] for x in api_data['data']]
-        api_data['metadata']['unit'] = get_unit(totals)
+        api_data['max_value'] = max(totals)
 
     return api_data
 
@@ -436,9 +436,9 @@ def process_top_exports(response):
 
     if api_data['data']:
         values = [x['value'] for x in api_data['data']]
-        max_value = max(values)
 
-        api_data['metadata']['unit'] = get_unit(values)
+        max_value = max(values)
+        api_data['max_value'] = max_value
 
         for item in api_data['data']:
             item['percent'] = round((item['value'] / max_value) * 100, 1)
@@ -466,6 +466,16 @@ def get_economic_highlights_by_country(iso2):
     return response.json()
 
 
+def set_stats_unit_to_highest_present(statistics: dict):
+    all_max_values = [statistics[stat]['max_value'] for stat in statistics if statistics[stat].get('max_value')]
+
+    unit = get_unit(max(all_max_values))
+
+    for stat in statistics:
+        statistics[stat]['metadata']['unit'] = unit
+    return statistics
+
+
 def get_stats_by_country(iso2):
     stats = {
         'highlights': get_trade_highlights_by_country(iso2=iso2),
@@ -476,6 +486,10 @@ def get_stats_by_country(iso2):
     }
 
     stats = {k: v for k, v in stats.items() if v and v['data']}
+
+    stats_which_need_units = ['market_trends', 'goods_exports', 'services_exports']
+    filtered_stats = {k: v for k, v in stats.items() if k in stats_which_need_units}
+    set_stats_unit_to_highest_present(filtered_stats)
     return stats or None
 
 
