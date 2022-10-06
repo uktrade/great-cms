@@ -403,27 +403,6 @@
     left: 0;
   }
 }}
-
-/* Safari 6.1-10.0 (but not 10.1) */
-@media screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0){
-
-  .great-hero-multiple-background .great-hero-text a {
-    position: relative;
-    top: 240px;
-    left: 0;
-  }
-}
-
-/* Chrome version 29 and above */
-@media screen and (-webkit-min-device-pixel-ratio:0)
-and (min-resolution:.001dpcm) {
-  .great-hero-multiple-background .great-hero-text a {
-    position: relative;
-    top: 220px !important;
-    left: 0;
-  }
-}
-
 }
 
 // IPAD ONLY POSITIONING THE MAN
