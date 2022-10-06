@@ -71,3 +71,5 @@ CONSENT_CHOICES = (
 )
 
 USER_DATA_NAMES = {'ComparisonMarkets': 16384, 'UserProducts': 16384, 'UserMarkets': 16384, 'ActiveProduct': 256}
+
+COUNTRY_FACTSHEET_CTA_TITLE = 'View latest trade statistics'
