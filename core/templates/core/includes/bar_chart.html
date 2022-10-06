@@ -22,5 +22,5 @@
 </table>
 
 {% if content.metadata.source %}
-  {% include 'core/includes/data_source.html' with source=content.metadata.source %}
+  {% include 'domestic/includes/market_guide_graph_data_source.html' with source=content.metadata.source country=country %}
 {% endif %}

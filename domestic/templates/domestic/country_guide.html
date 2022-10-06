@@ -148,29 +148,29 @@
 
             {% if page.stats.goods_exports.data %}
             <div id="tab-goods" class="reveal-content">
-              <h2 class="heading-medium">
-                Top {{ page.stats.goods_exports.data|length }} UK goods exports to {{ page.heading }}{% if page.stats.goods_exports.metadata.reference_period %},
+              <h2 class="body padding-top-30">
+                Top {{ page.stats.goods_exports.data|length|apnumber }} UK goods exported to {{ page.heading }}{% if page.stats.goods_exports.metadata.reference_period %},
                 in the {% reference_period page.stats.goods_exports.metadata.reference_period %}{% endif %}
               </h2>
 
-              {% include 'core/includes/bar_chart.html' with content=page.stats.goods_exports labels_heading='Goods' %}
+              {% include 'core/includes/bar_chart.html' with content=page.stats.goods_exports labels_heading='Goods' country=page.heading factsheet_link=page.country_fact_sheet_link %}
             </div>
             {% endif %}
 
             {% if page.stats.services_exports.data %}
             <div id="tab-services" class="reveal-content">
-              <h2 class="heading-medium">
-                Top {{ page.stats.services_exports.data|length }} UK services exports to {{ page.heading }}{% if page.stats.services_exports.metadata.reference_period %},
+              <h2 class="body padding-top-30">
+                Top {{ page.stats.services_exports.data|length|apnumber }} UK services exported to {{ page.heading }}{% if page.stats.services_exports.metadata.reference_period %},
                 in the {% reference_period page.stats.services_exports.metadata.reference_period %}{% endif %}
               </h2>
 
-              {% include 'core/includes/bar_chart.html' with content=page.stats.services_exports labels_heading='Service' %}
+              {% include 'core/includes/bar_chart.html' with content=page.stats.services_exports labels_heading='Service' country=page.heading factsheet_link=page.country_fact_sheet_link %}
             </div>
             {% endif %}
 
             {% if page.stats.market_trends.data %}
             <div id="tab-market-trends" class="reveal-content">
-              <h2 class="heading-medium">Total import and export values between {{ page.heading }} and the UK</h2>
+              <h2 class="body padding-top-30">Total import value (into the UK from {{ page.heading }}) and export value (from the UK into {{ page.heading }}) over time</h2>
 
               <div id="market-trends-table" class="reveal-content">
                 <button class="link margin-bottom-15 font-small" data-reveal-button aria-controls="market-trends-chart" data-reveal-tabs="market-trends-view">Change to chart view</button>
@@ -320,7 +320,7 @@
               </div>
 
               {% if page.stats.market_trends.metadata.source %}
-                {% include 'core/includes/data_source.html' with source=page.stats.market_trends.metadata.source %}
+                {% include 'domestic/includes/market_guide_graph_data_source.html' with source=page.stats.market_trends.metadata.source country=page.heading additional_source_text='Total trade is the sum of all exports and imports over the same time period.' factsheet_link=page.country_fact_sheet_link%}
               {% endif %}
             </div>
             {% endif %}
