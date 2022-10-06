@@ -19,7 +19,7 @@
         >
           <p class="statistic-heading font-xsmall">Economic growth</p>
           {% with economic_highlights.data.economic_growth as economic_growth %}
-            <p class="active-blue-text statistic-number bold-large">
+            <p class="statistic-number bold-large">
               {{ economic_growth.value|floatformat }}%
             </p>
             <figcaption>
@@ -37,7 +37,7 @@
         >
           <p class="statistic-heading font-xsmall">GDP per capita</p>
           {% with economic_highlights.data.gdp_per_capita as gdp_per_capita %}
-            <p class="active-blue-text statistic-number bold-large">
+            <p class="statistic-number bold-large">
               ${{ gdp_per_capita.value|floatformat:0|intcomma }}
             </p>
             {% with economic_highlights.metadata.uk_data.gdp_per_capita as uk_gdp_per_capita %}
@@ -65,7 +65,7 @@
                 {% endif %}
 
                 <p
-                  class="active-blue-text statistic-number {% if statistics_block.value.number|length > 8 %} bold-medium{% else %} bold-large{% endif %}"
+                  class="statistic-number {% if statistics_block.value.number|length > 8 %} bold-medium{% else %} bold-large{% endif %}"
                 >
                   {{ statistics_block.value.number }}
                 </p>

@@ -38,19 +38,21 @@
             <div class="flex-grid margin-bottom-30">
               {% if highlights.data.total_uk_exports %}
               <figure class="statistics-card__column padding-vertical-15">
-                <h3 class="statistic-heading font-xsmall">Total UK exports to {{ page.heading }}</h3>
-
-                <span class="active-blue-text statistic-number bold-large">
+                <span class="statistic-number bold-large">
                   £{{ highlights.data.total_uk_exports|intword }}
                 </span>
+                <span class="font-small statistic-smallprint">
+                total UK exports to {{ page.heading }} for the {% reference_period highlights.metadata.reference_period %}
+                </span>
+                {% if highlights.metadata.source %}
+                  {% include 'core/includes/data_source.html' with source=highlights.metadata.source %}
+                {% endif %}
               </figure>
               {% endif %}
 
               {% if highlights.data.trading_position %}
               <figure class="statistics-card__column padding-vertical-15">
-                <h3 class="statistic-heading font-xsmall">The UK's</h3>
-
-                <span class="active-blue-text statistic-number bold-large">
+                <span class="statistic-number bold-large">
                   {% if highlights.data.trading_position == 1 %}
                     largest
                   {% else %}
@@ -58,34 +60,33 @@
                   {% endif %}
                 </span>
 
-                <span class="font-xsmall statistic-smallprint">
-                  {% if highlights.data.trading_position != 1 %}largest{% endif %} export market
+                <span class="font-small statistic-smallprint">
+                  {% if highlights.data.trading_position != 1 %}largest{% endif %} UK export market
                 </span>
+                {% if highlights.metadata.source %}
+                  {% include 'core/includes/data_source.html' with source=highlights.metadata.source %}
+                {% endif %}
               </figure>
               {% endif %}
 
               {% if highlights.data.percentage_of_uk_trade %}
               <figure class="statistics-card__column padding-vertical-15">
-                <h3 class="statistic-heading font-xsmall">Accounting for</h3>
-
-                <span class="active-blue-text statistic-number bold-large">
+                <span class="statistic-number bold-large">
                   {% if highlights.data.percentage_of_uk_trade < 0.05 %}
                     less than 0.1%
                   {% else %}
                     {{ highlights.data.percentage_of_uk_trade|floatformat:"1" }}%
                   {% endif %}
                 </span>
-
-                <span class="font-xsmall statistic-smallprint">
-                  of total UK exports
+                <span class="font-small statistic-smallprint">
+                  of total UK exports for the {% reference_period highlights.metadata.reference_period %}
                 </span>
+                {% if highlights.metadata.source %}
+                  {% include 'core/includes/data_source.html' with source=highlights.metadata.source %}
+                {% endif %}
               </figure>
               {% endif %}
             </div>
-
-            {% if highlights.metadata.source %}
-              {% include 'core/includes/data_source.html' with source=highlights.metadata.source %}
-            {% endif %}
           </div>
           {% endwith %}
         {% endif %}
@@ -113,7 +114,6 @@
   </div>
 </section>
 {% endif %}
-
 <section id="country-guide-section-one" class="section-one padding-vertical-60">
   <div class="container">
     <div class="grid-row">
