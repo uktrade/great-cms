@@ -706,6 +706,36 @@ def test_industry_accordions_validation(blocks_to_create, expected_exception_mes
             assert False, f'Should not have got a {e}'
 
 
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'intro_ctas,expected_factsheet_link_value',
+    (
+        (
+            {
+                'intro_cta_one_title': 'View latest trade statistics',
+                'intro_cta_one_link': 'www.test-factsheet.gov.uk',
+                'intro_cta_two_title': 'Another title',
+                'intro_cta_two_link': 'www.test.gov.uk',
+            },
+            'www.test-factsheet.gov.uk',
+        ),
+        (
+            {
+                'intro_cta_one_title': 'A nice title',
+                'intro_cta_one_link': 'www.test-title.gov.uk',
+                'intro_cta_two_title': 'Another title',
+                'intro_cta_two_link': 'www.test.gov.uk',
+            },
+            None,
+        ),
+        ({}, None),
+    ),
+)
+def test_country_fact_sheet_link(domestic_homepage, intro_ctas, expected_factsheet_link_value):
+    page = CountryGuidePageFactory(parent=domestic_homepage, **intro_ctas)
+    assert page.country_fact_sheet_link == expected_factsheet_link_value
+
+
 # BaseContentPage is abstract but had some methods on it
 
 
