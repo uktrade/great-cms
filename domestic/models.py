@@ -30,6 +30,7 @@ from core import blocks as core_blocks, cache_keys, helpers, mixins, service_url
 from core.blocks import AdvantageBlock
 from core.constants import (
     ARTICLE_TYPES,
+    COUNTRY_FACTSHEET_CTA_TITLE,
     RICHTEXT_FEATURES__REDUCED,
     RICHTEXT_FEATURES__REDUCED__ALLOW_H1,
     TABLEBLOCK_OPTIONS,
@@ -952,6 +953,14 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
             if page:
                 output.append(page.specific)
         return output
+
+    @property
+    def country_fact_sheet_link(self):
+        factsheet_link = next(
+            (intro_cta['link'] for intro_cta in self.intro_ctas if intro_cta['title'] == COUNTRY_FACTSHEET_CTA_TITLE),
+            None,
+        )
+        return factsheet_link
 
 
 class ArticlePage(
