@@ -4,11 +4,18 @@
 
 ### Bugs fixed
 
+### Hotfix
+
+### Enhancements
+
+## [2.16.0](https://github.com/uktrade/great-cms/releases/tag/2.16.0)
+### Enhancements
+* GLS-456 - Add source information to market guides
+
+## [2.15.5](https://github.com/uktrade/great-cms/releases/tag/2.15.5)
 ### Enhancements
 
 * GGR-2 - Adding new fields to Wagtail hero tablet resolution safari fix
-
-### Hotfix
 
 ## [2.15.4](https://github.com/uktrade/great-cms/releases/tag/2.15.4)
 
