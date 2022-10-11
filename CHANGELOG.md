@@ -8,6 +8,10 @@
 
 ### Enhancements
 
+## [2.16.2](https://github.com/uktrade/great-cms/releases/tag/2.16.0)
+### Enhancements
+* GGR-2 - Solving if else on hero text when signed in
+
 ## [2.16.0](https://github.com/uktrade/great-cms/releases/tag/2.16.0)
 ### Enhancements
 * GLS-456 - Add source information to market guides

@@ -156,7 +156,11 @@
   </section>
 {% else %}
   {% if page.campaign or page.what_is_new_pages %}
-    {% include 'components/landing_hero_with_cta_multiple_background.html' with hero_image=page.hero_image heading=page.hero_text subtitle=page.hero_subtitle cta_text=page.hero_cta_text cta_link=page.hero_cta_url %}
+    {% if not request.user.is_authenticated %}
+      {% include 'components/landing_hero_with_cta_multiple_background.html' with hero_image=page.hero_image heading=page.hero_text subtitle=page.hero_subtitle cta_text=page.hero_cta_text cta_link=page.hero_cta_url %}
+    {% else %}
+      {% include 'components/landing_hero_with_cta_multiple_background.html' with hero_image=page.hero_image heading=page.hero_text_signedin subtitle=page.hero_subtitle_signedin cta_text=page.hero_cta_text_signedin cta_link=page.hero_cta_url_signedin %}
+    {% endif %}
   {% elif not request.user.is_authenticated %}
     {% include 'components/landing_hero_with_cta.html' with hero_image=page.hero_image heading=page.hero_text subtitle=page.hero_subtitle cta_text=page.hero_cta_text cta_link=page.hero_cta_url %}
   {% else %}
