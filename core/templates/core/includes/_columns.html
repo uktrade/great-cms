@@ -1,0 +1,13 @@
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+<div class="grid">
+{% for item in value %}
+<div class="column-third-m column-full">
+    <h5><a href="{{ item.value.link }}">{{ item.value.title }}</a></h5>
+    <p>{{ item.value.description }}</p>
+    {% image item.value.image original %}
+
+</div>
+{% endfor %}
+</div>
