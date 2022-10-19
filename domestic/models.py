@@ -996,7 +996,7 @@ class ArticlePage(
                     [
                         ('column', ColumnsBlock()),
                     ],
-                    help_text="Add two or three columns text",
+                    help_text='Add two or three columns text',
                     min_num=3,
                     max_num=3,
                     template='core/includes/_columns.html',
