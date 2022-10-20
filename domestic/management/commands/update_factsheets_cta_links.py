@@ -4,6 +4,7 @@ import re
 import requests
 from django.core.management import BaseCommand, CommandError
 
+from core.constants import COUNTRY_FACTSHEET_CTA_TITLE
 from domestic.models import CountryGuidePage
 
 CONTENT_API_FACTSHEETS_LANDING = 'https://www.gov.uk/api/content/government/collections/trade-and-investment-factsheets'
@@ -41,7 +42,7 @@ class Command(BaseCommand):
 
         parens_regex = re.compile(r'(The |\(.*\)|,.*)')
         for guide in CountryGuidePage.objects.all():
-            if guide.intro_cta_three_title != 'View latest trade statistics':
+            if guide.intro_cta_three_title != COUNTRY_FACTSHEET_CTA_TITLE:
                 self.stdout.write(f'{guide.title}: CTA not present or modified, not updating')
             else:
                 # Remove extra info in parens or after comma, or any preceding 'The ' (e.g. 'The Netherlands')

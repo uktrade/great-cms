@@ -811,7 +811,12 @@ def test_get_economic_highlights_by_country(mock_economic_highlights, client):
 
 @pytest.mark.django_db
 def test_get_stats_by_country(
-    mock_trade_highlights, mock_market_trends, mock_top_goods_exports, mock_top_services_exports, client
+    mock_trade_highlights,
+    mock_market_trends,
+    mock_top_goods_exports,
+    mock_top_services_exports,
+    mock_economic_highlights,
+    client,
 ):
     stats = helpers.get_stats_by_country(iso2='FR')
 
@@ -819,6 +824,7 @@ def test_get_stats_by_country(
     assert len(stats['market_trends']['data']) == 2
     assert len(stats['goods_exports']['data']) == 3
     assert len(stats['services_exports']['data']) == 2
+    assert len(stats['economic_highlights']['data']) == 2
 
 
 @pytest.mark.django_db

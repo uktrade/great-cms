@@ -30,6 +30,7 @@ from core import blocks as core_blocks, cache_keys, helpers, mixins, service_url
 from core.blocks import AdvantageBlock, ColumnsBlock
 from core.constants import (
     ARTICLE_TYPES,
+    COUNTRY_FACTSHEET_CTA_TITLE,
     RICHTEXT_FEATURES__REDUCED,
     RICHTEXT_FEATURES__REDUCED__ALLOW_H1,
     TABLEBLOCK_OPTIONS,
@@ -239,6 +240,27 @@ class GreatDomesticHomePage(
 
     # hero
     hero_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    hero_mobile_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    hero_ipad_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    hero_smalldesktop_image = models.ForeignKey(
         'core.AltTextImage',
         null=True,
         blank=True,
@@ -909,15 +931,15 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
 
     @cached_property
     def stats(self):
-        if not settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS:
-            return None
-
         iso2 = getattr(self.country, 'iso2', None)
 
-        if iso2:
+        if not iso2:
+            return None
+
+        elif settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS:
             return helpers.get_stats_by_country(iso2=iso2)
 
-        return None
+        return helpers.get_stats_economic_highlights_by_country(iso2=iso2)
 
     @property
     def related_pages(self):
@@ -931,6 +953,14 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
             if page:
                 output.append(page.specific)
         return output
+
+    @property
+    def country_fact_sheet_link(self):
+        factsheet_link = next(
+            (intro_cta['link'] for intro_cta in self.intro_ctas if intro_cta['title'] == COUNTRY_FACTSHEET_CTA_TITLE),
+            None,
+        )
+        return factsheet_link
 
 
 class ArticlePage(

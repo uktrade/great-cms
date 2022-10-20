@@ -3,12 +3,66 @@
 ## Pre release
 * KLS-52 - Three columns block for Article page
 
+### Bugs fixed
+
 ### Hotfix
+
+### Enhancements
+
+## [2.16.2](https://github.com/uktrade/great-cms/releases/tag/2.16.0)
+### Enhancements
+* GGR-2 - Solving if else on hero text when signed in
+
+## [2.16.0](https://github.com/uktrade/great-cms/releases/tag/2.16.0)
+### Enhancements
+* GLS-456 - Add source information to market guides
+
+## [2.15.5](https://github.com/uktrade/great-cms/releases/tag/2.15.5)
+### Enhancements
+
+* GGR-2 - Adding new fields to Wagtail hero tablet resolution safari fix
+
+## [2.15.4](https://github.com/uktrade/great-cms/releases/tag/2.15.4)
+
+### Enhancements
+
+* GGR-2 - Adding new fields to Wagtail hero og:image fix
+
+## [2.15.3](https://github.com/uktrade/great-cms/releases/tag/2.15.3)
+
+### Enhancements
+
+* GGR-2 - Adding new fields to Wagtail hero
+
+## [2.15.2](https://github.com/uktrade/great-cms/releases/tag/2.15.2)
+
+### Bugs fixed
+* GLS-454 - Always show GDP per capita & economic data stats
+
+## [2.15.1](https://github.com/uktrade/great-cms/releases/tag/2.15.1)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.15.0...2.15.1)
+
+### Enhancements
+* GLS-406 - Remove reference to the transition period in the domestic contact form
+* GLS-435 - Revert emergency banner styling
+
+## [2.15.0](https://github.com/uktrade/great-cms/releases/tag/2.15.0)
+
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.14.0...2.15.0)
+
+### Hotfix
+* GLS-416 - [HOTFIX] Update styling for emergency banner on homepage
+* GLS-416 - [HOTFIX] Further updates on the styles for the emergency banner on homepage
 
 ### Bugs fixed
 * GLS-401 - Remove duplicate meta tags from domestic templates
+* GLS-422 - Only show 'Want to know more' banner on advice article pages
 
 ### Enhancements
+* GLS-360 - Get GDP & economic growth data for a market from API, not Wagtail
+* GLS-400 - Added image/video stream component to campaign/article page
+* GLS-400 - Added transcript link to video on the article/campaign page
 
 ## [2.14.0](https://github.com/uktrade/great-cms/releases/tag/2.14.0)
 
@@ -30,7 +84,6 @@
 * GLS-394 - replace contact button with url
 * GLS-396 - Replace warning banner with sign up banner on article pages
 * GLS-377 - Remove CTA banners from article listing pages
-* GGR-2 - Made in UK banner
 
 ## [2.13.0](https://github.com/uktrade/great-cms/releases/tag/2.13.0)
 
@@ -39,7 +92,6 @@
 ### Enhancements
 
 * GLS-348 - Update Gunicorn 19.5.0 -> 20.1.0
-* GLS-360 - Get GDP & economic growth data for a market from API, not Wagtail
 
 ## [2.12.0](https://github.com/uktrade/great-cms/releases/tag/2.12.0)
 

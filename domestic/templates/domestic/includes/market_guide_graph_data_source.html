@@ -1,0 +1,18 @@
+{% load content_tags %}
+<p class="font-xsmall statistic-smallprint margin-top-0 padding-top-15">
+  Source:
+  {% spaceless %}
+    {% if source.url %}
+      <a class="link" target="_blank" href="{{ source.url }}">{{ source.organisation }} {{ source.label }}</a>
+    {% else %}
+      {{ source.label }}
+    {% endif %}
+    <br/>Last updated: {{ source.last_release|str_to_datetime|date:"F Y"}}
+    {% if additional_source_text %}
+        <br/>{{ additional_source_text }}
+    {% endif %}
+    {% if factsheet_link %}
+      <br/><a class='link' target="_blank" href={{ factsheet_link }}>Download</a> the latest trade and investment factsheet for {{ country }}.
+    {% endif %}
+    {% endspaceless %}
+</p>
