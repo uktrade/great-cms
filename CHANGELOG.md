@@ -1,6 +1,7 @@
 # Changelog
 
 ## Pre release
+* KLS-52 - Three columns block for Article page
 
 ### Bugs fixed
 
