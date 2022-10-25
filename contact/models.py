@@ -149,6 +149,10 @@ class ContactSuccessSnippet(
             'title': 'Contact DEFRA form success page content',
             'page_path': '/contact/department-for-environment-food-and-rural-affairs/success/',
         },
+        snippet_slugs.FTA_FORM_SUCCESS: {
+            'title': 'Subscribe to FTA updates form success page content',
+            'page_path': '/contact/free-trade-agreements/success/',
+        },
     }
 
     # slug field comes from NonPageContentSnippetBase

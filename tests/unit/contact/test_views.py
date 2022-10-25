@@ -726,6 +726,7 @@ def test_office_finder_valid(all_office_details, client):
             reverse('contact:contact-us-office-success', kwargs={'postcode': 'FOOBAR'}),
             snippet_slugs.HELP_FORM_SUCCESS,
         ),
+        (reverse('contact:contact-free-trade-agreements-success'), snippet_slugs.FTA_FORM_SUCCESS),
     ),
 )
 @mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
@@ -1412,3 +1413,26 @@ def test_selling_online_overseas_contact_form_initial_data(  # noqa: C901
         assert response.context_data['form'].initial == {'description': 'Makes widgets'}
     else:
         assert response.context_data['form'].initial == {}
+
+
+@mock.patch.object(views.FormSessionMixin, 'form_session_class')
+def test_fta_form_submit_success(mock_form_session, client, settings):
+    class Form(forms.SerializeDataMixin, django.forms.Form):
+        email = django.forms.EmailField()
+        save = mock.Mock()
+
+    with mock.patch.object(views.FTASubscribeFormView, 'form_class', Form):
+        response = client.post(reverse('contact:contact-free-trade-agreements'), {'email': 'test@example.com'})
+
+    assert response.status_code == 302
+    assert response.url == reverse('contact:contact-free-trade-agreements-success')
+
+    assert Form.save.call_count == 1
+    assert Form.save.call_args_list == [
+        mock.call(
+            template_id=settings.SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID,
+            email_address='test@example.com',
+            form_url=reverse('contact:contact-free-trade-agreements'),
+            form_session=mock_form_session(),
+        ),
+    ]

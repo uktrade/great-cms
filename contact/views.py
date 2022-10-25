@@ -707,3 +707,14 @@ class SellingOnlineOverseasSuccessView(DomesticSuccessView):
             **kwargs,
             next_url_text='Go back to Selling Online Overseas',
         )
+
+
+class FTASubscribeFormView(
+    BaseNotifyUserFormView,
+):
+    form_class = contact_forms.FTASubscribeForm
+    template_name = 'domestic/contact/free-trade-agreement.html'
+    success_url = reverse_lazy('contact:contact-free-trade-agreements-success')
+    notify_settings = NotifySettings(
+        user_template=settings.SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID,
+    )

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
@@ -12,6 +13,7 @@ from contact.views import (
     ExportingAdviceFormView,
     ExportSupportSuccessPageView,
     FeedbackFormView,
+    FTASubscribeFormView,
     GuidanceView,
     InternationalFormView,
     InternationalSuccessView,
@@ -242,3 +244,23 @@ urlpatterns = [
         name='contact-us-soo',
     ),
 ]
+
+if settings.FEATURE_FTA_FORM:
+    urlpatterns.extend(
+        [
+            path(
+                'contact/free-trade-agreements/',
+                skip_ga360(FTASubscribeFormView.as_view()),
+                name='contact-free-trade-agreements',
+            ),
+            path(
+                'contact/free-trade-agreements/success/',
+                skip_ga360(DomesticSuccessView.as_view()),
+                {
+                    'slug': snippet_slugs.FTA_FORM_SUCCESS,
+                    'snippet_import_path': 'contact.models.ContactSuccessSnippet',
+                },
+                name='contact-free-trade-agreements-success',
+            ),
+        ]
+    )

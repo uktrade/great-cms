@@ -13,6 +13,7 @@ HELP_FORM_SUCCESS_FEEDBACK = 'contact-feedback-success-form'
 HELP_FORM_SUCCESS_FIND_COMPANIES = 'contact-find-companies-success-form'
 HELP_FORM_SUCCESS_INTERNATIONAL = 'contact-international-success-form'
 HELP_FORM_SUCCESS_SOO = 'contact-soo-success-form'
+FTA_FORM_SUCCESS = 'contact-free-trade-agreements-success'
 
 HELP_ACCOUNT_COMPANY_NOT_FOUND = 'company-not-found'
 HELP_ACCOUNT_SOLE_TRADER_ADDRESS_NOT_FOUND = 'sole-trader-address-not-found'
