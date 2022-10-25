@@ -5,6 +5,11 @@
 @import './partials/colours';
 @import './components/form-wizard';
 
+.heading-medium {
+  margin-bottom: em(15, 24);
+  font-family: $brand-font-standard
+}
+
 #content .form-group input[type=checkbox] {
   width: 38px;
 }
@@ -61,4 +66,14 @@ button {
   p {
     margin: 0;
   }
+}
+
+.bold-label > label{
+   font-size: inherit;
+   font-family: inherit;
+   font-weight: inherit;
+   margin-bottom: inherit;
+   color: inherit;
+   line-height: inherit;
+   margin-top: inherit;
 }
