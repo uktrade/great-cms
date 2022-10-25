@@ -4,6 +4,12 @@ from django.urls import reverse_lazy
 from directory_api_client import api_client
 
 
+def get_free_trade_agreements():
+    response = api_client.dataservices.list_uk_free_trade_agreements()
+    response.raise_for_status()
+    return response.json()
+
+
 def retrieve_regional_offices(postcode):
     response = api_client.exporting.lookup_regional_offices_by_postcode(postcode)
     response.raise_for_status()
