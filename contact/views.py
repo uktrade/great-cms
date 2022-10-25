@@ -41,7 +41,23 @@ class PrepopulateInternationalFormMixin:
             }
 
 
-class SendNotifyMessagesMixin:
+class SendNotifyUserMessageMixin:
+    def send_user_message(self, form):
+        # no need to set `sender` as this is just a confirmation email.
+        response = form.save(
+            template_id=self.notify_settings.user_template,
+            email_address=form.cleaned_data['email'],
+            form_url=self.request.get_full_path(),
+            form_session=self.form_session,
+        )
+        response.raise_for_status()
+
+    def form_valid(self, form):
+        self.send_user_message(form)
+        return super().form_valid(form)
+
+
+class SendNotifyMessagesMixin(SendNotifyUserMessageMixin):
     def send_agent_message(self, form):
         sender = Sender(
             email_address=form.cleaned_data['email'],
@@ -56,19 +72,8 @@ class SendNotifyMessagesMixin:
         )
         response.raise_for_status()
 
-    def send_user_message(self, form):
-        # no need to set `sender` as this is just a confirmation email.
-        response = form.save(
-            template_id=self.notify_settings.user_template,
-            email_address=form.cleaned_data['email'],
-            form_url=self.request.get_full_path(),
-            form_session=self.form_session,
-        )
-        response.raise_for_status()
-
     def form_valid(self, form):
         self.send_agent_message(form)
-        self.send_user_message(form)
         return super().form_valid(form)
 
 
@@ -90,6 +95,14 @@ class SubmitFormOnGetMixin:
 class BaseNotifyFormView(
     FormSessionMixin,
     SendNotifyMessagesMixin,
+    FormView,
+):
+    page_type = 'ContactPage'  # for use with GA360 tagging
+
+
+class BaseNotifyUserFormView(
+    FormSessionMixin,
+    SendNotifyUserMessageMixin,
     FormView,
 ):
     page_type = 'ContactPage'  # for use with GA360 tagging
