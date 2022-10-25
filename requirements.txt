@@ -63,7 +63,7 @@ dateparser==0.7.2
     # via -r requirements.in
 deprecated==1.2.13
     # via redis
-directory-api-client==24.6.0
+directory-api-client==26.0.0
     # via -r requirements.in
 directory-ch-client==2.1.0
     # via -r requirements.in
@@ -213,10 +213,8 @@ monotonic==1.6
     # via
     #   directory-ch-client
     #   directory-client-core
-oauthlib==3.2.1
-    # via
-    #   -r requirements.in
-    #   requests-oauthlib
+oauthlib==3.2.2
+    # via requests-oauthlib
 olefile==0.46
     # via directory-validators
 openpyxl==3.0.10
