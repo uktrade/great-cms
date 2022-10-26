@@ -936,10 +936,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
         if not iso2:
             return None
 
-        elif settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS:
-            return helpers.get_stats_by_country(iso2=iso2)
-
-        return helpers.get_stats_economic_highlights_by_country(iso2=iso2)
+        return helpers.get_stats_by_country(iso2=iso2)
 
     @property
     def related_pages(self):
