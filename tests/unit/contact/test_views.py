@@ -10,6 +10,7 @@ from django.urls import reverse
 
 from contact import constants, forms, helpers, views
 from core import snippet_slugs
+from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
 from core.constants import CONSENT_EMAIL
 from core.tests.helpers import create_response
 from directory_api_client.exporting import url_lookup_by_postcode
@@ -1436,3 +1437,9 @@ def test_fta_form_submit_success(mock_form_session, client, settings):
             form_session=mock_form_session(),
         ),
     ]
+
+
+def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements):
+
+    response = client.get(reverse('contact:contact-free-trade-agreements'))
+    assert response.context['privacy_url'] == PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE

@@ -16,6 +16,7 @@ from formtools.wizard.views import NamedUrlSessionWizardView
 
 from contact import constants, forms as contact_forms, helpers
 from core import mixins as core_mixins, snippet_slugs
+from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
 from core.datastructures import NotifySettings
 from directory_constants import urls
 from sso.helpers import update_user_profile
@@ -718,3 +719,10 @@ class FTASubscribeFormView(
     notify_settings = NotifySettings(
         user_template=settings.SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID,
     )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(
+            **kwargs,
+        )
+        context['privacy_url'] = PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
+        return context
