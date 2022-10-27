@@ -200,3 +200,15 @@ def mock_economic_highlights():
             },
         ),
     ).start()
+
+
+@pytest.fixture
+def mock_free_trade_agreements():
+    yield mock.patch.object(
+        api_client.dataservices,
+        'list_uk_free_trade_agreements',
+        return_value=create_response(
+            status_code=200,
+            json_body={'data': ['FTA 1', 'FTA 2', 'FTA 3']},
+        ),
+    ).start()

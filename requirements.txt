@@ -12,7 +12,7 @@ alabaster==0.7.12
     # via sphinx
 anyascii==0.3.1
     # via wagtail
-arabic-reshaper==2.1.3
+arabic-reshaper==2.1.4
     # via xhtml2pdf
 asn1crypto==1.5.1
     # via
@@ -38,7 +38,7 @@ botocore==1.20.112
     # via
     #   boto3
     #   s3transfer
-certifi==2022.6.15
+certifi==2022.9.24
     # via
     #   elastic-apm
     #   elasticsearch
@@ -46,24 +46,24 @@ certifi==2022.6.15
     #   sentry-sdk
 cffi==1.15.1
     # via cryptography
-charset-normalizer==2.1.0
+charset-normalizer==2.1.1
     # via requests
 click==8.1.3
     # via pyhanko
-cryptography==37.0.4
+cryptography==38.0.1
     # via
     #   -r requirements.in
     #   pyhanko
     #   pyhanko-certvalidator
 cssselect==1.1.0
     # via pyquery
-cssselect2==0.6.0
+cssselect2==0.7.0
     # via svglib
 dateparser==0.7.2
     # via -r requirements.in
 deprecated==1.2.13
     # via redis
-directory-api-client==24.6.0
+directory-api-client==26.0.0
     # via -r requirements.in
 directory-ch-client==2.1.0
     # via -r requirements.in
@@ -81,7 +81,7 @@ directory-forms-api-client==6.1.0
     # via -r requirements.in
 directory-healthcheck==2.0.0
     # via -r requirements.in
-directory-sso-api-client==6.5.6
+directory-sso-api-client==7.1.0
     # via -r requirements.in
 directory-validators==8.0.0
     # via -r requirements.in
@@ -162,13 +162,13 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==14.0.0
+faker==15.1.1
     # via factory-boy
 future==0.18.2
     # via arabic-reshaper
 geoip2==2.9.0
     # via -r requirements.in
-great-components==1.2.3
+great-components==2.1.0
     # via -r requirements.in
 gunicorn==20.1.0
     # via -r requirements.in
@@ -178,7 +178,7 @@ html5lib==1.1
     # via
     #   wagtail
     #   xhtml2pdf
-idna==3.3
+idna==3.4
     # via requests
 imagesize==1.4.1
     # via sphinx
@@ -213,7 +213,7 @@ monotonic==1.6
     # via
     #   directory-ch-client
     #   directory-client-core
-oauthlib==3.2.0
+oauthlib==3.2.2
     # via requests-oauthlib
 olefile==0.46
     # via directory-validators
@@ -240,7 +240,7 @@ pycparser==2.21
     # via cffi
 pygments==2.13.0
     # via sphinx
-pyhanko==0.13.2
+pyhanko==0.15.0
     # via xhtml2pdf
 pyhanko-certvalidator==0.19.5
     # via
@@ -283,7 +283,7 @@ readtime==1.1.1
     # via -r requirements.in
 redis==4.3.4
     # via django-redis
-regex==2022.7.25
+regex==2022.9.13
     # via dateparser
 reportlab==3.6.11
     # via
@@ -332,19 +332,19 @@ sphinxcontrib-serializinghtml==1.1.5
     # via sphinxcontrib-websupport
 sphinxcontrib-websupport==1.2.4
     # via sphinx
-sqlparse==0.4.2
+sqlparse==0.4.3
     # via django
 svglib==1.4.1
     # via xhtml2pdf
 tablib[xls,xlsx]==3.2.1
     # via wagtail
-tinycss2==1.1.1
+tinycss2==1.2.1
     # via
     #   cssselect2
     #   svglib
-tqdm==4.64.0
+tqdm==4.64.1
     # via pypdf3
-tzdata==2022.2
+tzdata==2022.5
     # via pytz-deprecation-shim
 tzlocal==4.2
     # via
@@ -352,11 +352,11 @@ tzlocal==4.2
     #   pyhanko
 uk-postcode-utils==1.1
     # via -r requirements.in
-unidecode==1.3.4
+unidecode==1.3.6
     # via wagtail
 uritools==4.0.0
     # via pyhanko-certvalidator
-urllib3==1.26.11
+urllib3==1.26.12
     # via
     #   -r requirements.in
     #   botocore

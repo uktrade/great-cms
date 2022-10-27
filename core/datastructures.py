@@ -1,6 +1,3 @@
 from collections import namedtuple
 
-NotifySettings = namedtuple(
-    'NotifySettings',
-    ['agent_template', 'agent_email', 'user_template'],
-)
+NotifySettings = namedtuple('NotifySettings', ['user_template', 'agent_template', 'agent_email'], defaults=[None, None])
