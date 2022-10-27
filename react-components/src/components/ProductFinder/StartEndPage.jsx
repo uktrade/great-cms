@@ -5,7 +5,7 @@ import ClassificationTree from './ClassificationTree'
 import SearchInput from './SearchInput'
 import { analytics } from '../../Helpers'
 
-const checkChars = /^[a-zA-Z0-9\s~!@#£$%°^&*()-_+={}[\]|\\/:;"'<>,.?]*$/
+const checkChars = /^[a-zA-Z0-9\s]*$/
 const testInput = /[a-zA-Z]+/
 
 export default function StartEndPage(props) {
@@ -22,7 +22,7 @@ export default function StartEndPage(props) {
 
   const nameOkToSave = (name) => {
     return (
-      testInput.test(name) &&
+      testInput.test(name) && checkChars.test(name) &&
       (allowSaveSameName || name !== defaultCommodityName)
     )
   }
