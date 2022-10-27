@@ -5,8 +5,8 @@ import ClassificationTree from './ClassificationTree'
 import SearchInput from './SearchInput'
 import { analytics } from '../../Helpers'
 
-const checkChars = /^[a-zA-Z0-9\s()-_]*$/
-const testInput = /[a-zA-Z]+/
+const checkChars = new RegExp(/^[a-zA-Z0-9()_\-\s]*$/)
+const testInput = new RegExp(/[a-zA-Z]+/)
 
 export default function StartEndPage(props) {
   const {
