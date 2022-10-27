@@ -31,7 +31,7 @@ sentry-sdk==0.13.*
 # DIT packages
 # ------------
 great-components>=1.1.*
-directory-api-client==24.6.0
+directory-api-client==26.0.0
 directory-constants==21.1.*
 directory-healthcheck==2.0.0
 directory-forms-api-client==6.1.*
@@ -68,3 +68,4 @@ hashids==0.8.4
 elasticsearch>=7.0.0,<7.14.0
 elasticsearch-dsl>=7.0.0,<8.0.0
 python-magic==0.4.27
+oauthlib==3.2.1

@@ -27,7 +27,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
-from core.blocks import AdvantageBlock
+from core.blocks import AdvantageBlock, ColumnsBlock
 from core.constants import (
     ARTICLE_TYPES,
     COUNTRY_FACTSHEET_CTA_TITLE,
@@ -1020,6 +1020,18 @@ class ArticlePage(
             ),
             ('image', ImageChooserBlock(required=False, template='core/includes/_article_image.html')),
             ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_article_video.html')),
+            (
+                'Columns',
+                StreamBlock(
+                    [
+                        ('column', ColumnsBlock()),
+                    ],
+                    help_text='Add two or three columns text',
+                    min_num=3,
+                    max_num=3,
+                    template='core/includes/_columns.html',
+                ),
+            ),
             (  #  alt text lives on the custom Image class
                 'pull_quote',
                 core_blocks.PullQuoteBlock(
