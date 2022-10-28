@@ -1,14 +1,17 @@
 # Changelog
 
 ## Pre release
-* KLS-52 - Three columns block for Article page
 
 ### Bugs fixed
 
 ### Hotfix
 
 ### Enhancements
+
+## [2.17.0](https://github.com/uktrade/great-cms/releases/tag/2.17.0)
+
 * KLS-54 - Add subscribe to FTA updates form
+* KLS-52 - Three columns block for Article page
 
 ## [2.16.2](https://github.com/uktrade/great-cms/releases/tag/2.16.0)
 ### Enhancements
