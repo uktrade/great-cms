@@ -1,16 +1,27 @@
 # Changelog
 
 ## Pre release
-* KLS-52 - Three columns block for Article page
 
 ### Bugs fixed
 
 ### Hotfix
 
 ### Enhancements
-* KLS-54 - Add subscribe to FTA updates form
 
-## [2.16.2](https://github.com/uktrade/great-cms/releases/tag/2.16.0)
+## [2.18.0](https://github.com/uktrade/great-cms/releases/tag/2.18.0)
+
+### Enhancements
+
+* KLS-128 - Front-end form validation for product selector
+
+## [2.17.0](https://github.com/uktrade/great-cms/releases/tag/2.17.0)
+
+### Enhancements
+
+* KLS-54 - Add subscribe to FTA updates form
+* KLS-52 - Three columns block for Article page
+
+## [2.16.2](https://github.com/uktrade/great-cms/releases/tag/2.16.2)
 ### Enhancements
 * GGR-2 - Solving if else on hero text when signed in
 
