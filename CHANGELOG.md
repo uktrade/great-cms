@@ -7,6 +7,7 @@
 ### Hotfix
 
 ### Enhancements
+* KLS-126 - Remove market guide features flags
 
 ## [2.18.0](https://github.com/uktrade/great-cms/releases/tag/2.18.0)
 
