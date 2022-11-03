@@ -1,0 +1,37 @@
+@font-face {
+  font-family: 'FS Lucas';
+  src: url('#{$fonts}/FSLucas-Regular.woff2') format('woff2'),
+  url('#{$fonts}/FSLucas-Regular.woff') format('woff'),
+  url('#{$fonts}/FSLucas-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+// sass-lint:disable-all
+@font-face {
+  font-family: 'FS Lucas SemiBold';
+  src: url('#{$fonts}/FSLucas-SemiBold.eot'),
+  url('#{$fonts}/FSLucas-SemiBold.eot?#iefix') format('embedded-opentype'),
+  url('#{$fonts}/FSLucas-SemiBold.woff2') format('woff2'),
+  url('#{$fonts}/FSLucas-SemiBold.woff') format('woff'),
+  url('#{$fonts}/FSLucas-SemiBold.ttf') format('truetype'),
+  url('#{$fonts}/FSLucas-SemiBold.svg#UbuntuBold') format('svg');
+}
+
+//font-weight
+$font-weight-standard: 400;
+$font-weight-semi-bold: 500;
+
+
+//font-size
+$font-size-h1: 48px;
+$font-size-h2: 36px;
+$font-size-h3: 28px;
+$font-size-h4: 24px;
+$font-size-h5: 20px;
+
+$font-size-p-big: 18px;
+$font-size-p: 16px;
+$font-size-p-small: 13px;
+
+$font-size-button: 20px;

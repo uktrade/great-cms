@@ -17,7 +17,7 @@
         <section class="learn__categories-content container m-t-l">
         <div class="p-b-s">
           <img class="f-r learn__export-academy-logo learn__categories-logo" alt="UK Export Academy" src="/static/images/export-academy.svg">
-          <h1 class="h-l text-blue-deep-80">Learn to export</h1>
+          <h1 class="page-title">Learn to export</h1>
         </div>
         {% for learning_module in page.get_children.specific.live %}
         {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
@@ -25,7 +25,7 @@
             <a href="{% pageurl learning_module %}" class="learn__category-link"><span class="visually-hidden">{{ learning_module.title }}</span></a>
             <div class="c-1-2-l">
                 <div class="learn__category-content {% if module_completion_data.completion_count %}learn__category-content--progress-bar{% endif %}">
-                    <h2 class="h-l text-blue-deep-80 learn__category-title p-b-0">{{ learning_module.title }}</h2>
+                    <h2 class="learn__category-title p-b-0">{{ learning_module.title }}</h2>
                     <div class="learn__category-details body-l">{{ learning_module.heading | richtext }}</div>
 
                 {% if not module_completion_data.completion_count %}

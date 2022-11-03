@@ -1,0 +1,85 @@
+@import "../colors/colors.scss";
+@import "../sizes/sizes.scss";
+@import "./typography.scss";
+
+body,
+p {
+
+    font-family: 'FS Lucas';
+    font-size: $font-size-p;
+    color: $color-main-text;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'FS Lucas SemiBold';
+    margin: 0;
+    color: $color-main-text;
+}
+
+h2 {
+    font-size: $font-size-h2;
+    line-height: $font-size-h2;
+}
+
+h3 {
+    font-size: $font-size-h3;
+    line-height: $font-size-h3;
+}
+
+h4 {
+    font-size: $font-size-h4;
+    line-height: $font-size-h4;
+}
+
+h5 {
+    font-size: $font-size-h5;
+    line-height: $font-size-h5;
+}
+
+.page-title {
+    padding: $x-large-padding 0 $large-padding $standard-padding;
+}
+
+
+.learning-link {
+    font-family: 'FS Lucas';
+    color: $color-main-text;
+    font-size: 20px;
+    line-height: 25px;
+    text-align: left;
+    font-style: normal;
+    text-decoration: none;
+    border: 0;
+    background: none;
+    padding: 0;
+}
+
+.progress-bar-text {
+    color: $color-main-text;
+    font-family: 'FS Lucas SemiBold';
+    font-size: $font-size-p-big;
+    text-transform: lowercase;
+    margin: 0
+}
+
+
+.learning-link:visited,
+.link:hover,
+.link:active,
+.link:focus:active {
+    color: #4C2C92;
+}
+
+article>h5 {
+    padding-top: $standard-padding;
+}
+
+article>p {
+    margin: 0;
+    padding-bottom: $standard-padding;
+}

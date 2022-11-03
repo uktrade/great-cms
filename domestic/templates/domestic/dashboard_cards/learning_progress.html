@@ -8,7 +8,7 @@ Only show if progress has started
 {% if lessons_in_progress %}
   <div class="g-card p-b-0" id="your-progress-card">
     <div class="g-card-header d-flex flex-jc-space-between flex-ai-center">
-     <h2 class="h-m p-t-xxs">Learn to export</h2>
+     <h2>Learn to export</h2>
       <img class="f-r learn__export-academy-logo small" alt="UK Export Academy" .learn__export-academy-logo src="/static/images/export-academy.svg">
     </div>
       {% for module_page in module_pages %}
@@ -19,14 +19,14 @@ Only show if progress has started
           <div class="{% if module_page.completion_count %}flex-center{%endif%}">
 
             <h3 class="c-2-3 p-f-0 p-r-s p-v-s" id="topics-{{ module_page.page.title|slugify }}">
-                <a class="link" href="{{ module_page.page.get_url }}">{{ module_page.page.title }}</a>
+                <a class="learning-link" href="{{ module_page.page.get_url }}">{{ module_page.page.title }}</a>
             </h3>
             <div class="c-1-3 p-f-0 p-r-s p-v-s">
                 {% if module_page.completion_count %}
                     {% progress_bar  module_page.total_pages module_page.completion_count %}
-                    <p class="topics-read-text body-m-b m-t-xxs m-b-0">{{ module_page.completion_count }} / {{ module_page.total_pages }} lesson{{module_page.total_pages|pluralize}} completed</p>
+                    <p class="m-t-xxs m-b-0 progress-bar-text">{{ module_page.completion_count }} / {{ module_page.total_pages }} lesson{{module_page.total_pages|pluralize}} completed</p>
                 {% else %}
-                    <span class="body-m text-blue-deep-60">Not yet started</span>
+                    <span class="progress-bar-text">Not yet started</span>
                 {% endif %}
             </div>
           </div>
