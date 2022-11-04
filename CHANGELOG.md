@@ -7,6 +7,10 @@
 ### Hotfix
 
 ### Enhancements
+
+* KLS-137 - Update minimatch 3.0.4 -> 3.1.2
+
+### Enhancements
 * KLS-126 - Remove market guide features flags
 
 ## [2.18.0](https://github.com/uktrade/great-cms/releases/tag/2.18.0)
