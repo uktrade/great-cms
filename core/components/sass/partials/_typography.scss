@@ -2,10 +2,11 @@
   font-family: 'Daily-Tabloid-Light';
   src: url('/static/fonts/Daily-Tabloid-MiUK-Light.otf') format("opentype");
 }
+@import '../../../../styles/fonts/main.scss';
 
 // Great specific fonts
-$brand-font: 'Overpass', 'Roboto', arial, helvetica, verdana;
-$brand-font-alternative: 'Roboto', arial, helvetica, verdana;
+$brand-font: "FS Lucas", Arial, Helvetica, Verdana;
+$brand-font-alternative:'FS Lucas SemiBold' Arial, Helvetica, Verdana;
 $quote-font: 'Georgia', serif;
 $line-height: 1.6;
 $hero-line-height: 1.2;
@@ -72,15 +73,15 @@ $brand-font-tabloid: 'Daily-Tabloid-Light',"DIN Condensed",Impact, arial, helvet
 }
 
 @mixin brand-xxlarge {
-  @include font-generator($font-size: 48px, $font-size-mobile: 32px, $line-height: 1.2, $font-weight: 700, $font-family: $brand-font)
+  @include font-generator($font-size: 48px, $font-size-mobile: 32px, $line-height: 1.2, $font-weight: 700, $font-family: $brand-font-alternative)
 }
 
 @mixin brand-xlarge {
-  @include font-generator($font-size: 36px, $font-size-mobile: 24px, $line-height: 1.4, $font-weight: 700, $font-family: $brand-font)
+  @include font-generator($font-size: 36px, $font-size-mobile: 24px, $line-height: 1.4, $font-weight: 700, $font-family: $brand-font-alternative)
 }
 
 @mixin brand-large {
-  @include font-generator($font-size: 24px, $font-size-mobile: 19px, $line-height: 1.6, $font-weight: 700, $font-family: $brand-font)
+  @include font-generator($font-size: 24px, $font-size-mobile: 19px, $line-height: 1.6, $font-weight: 700, $font-family: $brand-font-alternative)
 }
 
 @mixin brand-medium {

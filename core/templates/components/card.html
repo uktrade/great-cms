@@ -33,7 +33,7 @@
         {% endif %}
 
         {% if title or heading %}
-          <h3 class="heading-large">{% firstof title heading %}</h3>
+          <h2>{% firstof title heading %}</h2>
         {% endif %}
 
         {% if html_snippet %}
@@ -42,7 +42,7 @@
 
         {% if show_sign_in_required and not request.user.is_authenticated %}
           {% if request.path == '/' %}
-            <span class="shared-tag">Sign in required</span>
+            <button class="primary-button small-button">Sign in required</button>
           {% endif %}
         {% endif %}
       {% endif %}

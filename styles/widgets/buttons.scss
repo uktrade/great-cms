@@ -5,15 +5,25 @@
 button {
 
     border-radius: 0 !important;
-    height: 45px;
+    height: 50px;
     font-family: 'FS Lucas SemiBold'!important;
     font-size: $font-size-button;
-    line-height: 25px;
+    line-height: 30px;
+    cursor: pointer;
+
+    &.small-button{
+        height:35px;
+        line-height: 10px;
+    }
+     &:disabled{
+        pointer-events: none;
+        opacity: 0.5;
+    }
 
     &>i {
         padding-right: $standard-padding;
     }
-    .primary-button {
+    &.primary-button {
         color: $color-alternative-text;
         background-color: $color-primary-button;
     }
@@ -33,4 +43,20 @@ button {
 
     }
 
+}
+
+
+button{
+    padding-left: $standard-padding;
+    padding-right: $standard-padding;
+
+    &.small-button{
+        height:35px;
+        line-height: 10px;
+    }
+
+    &:disabled{
+        pointer-events: none;
+        opacity: 0.5;
+    }
 }

@@ -5,7 +5,7 @@
 body,
 p {
 
-    font-family: 'FS Lucas';
+    font-family: $main-text-font;
     font-size: $font-size-p;
     color: $color-main-text;
 }
@@ -16,7 +16,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'FS Lucas SemiBold';
+    font-family: $header-font;
     margin: 0;
     color: $color-main-text;
 }
@@ -61,7 +61,7 @@ h5 {
 
 .progress-bar-text {
     color: $color-main-text;
-    font-family: 'FS Lucas SemiBold';
+    font-family: $header-font;
     font-size: $font-size-p-big;
     text-transform: lowercase;
     margin: 0
@@ -82,4 +82,8 @@ article>h5 {
 article>p {
     margin: 0;
     padding-bottom: $standard-padding;
+}
+
+.bold{
+    font-family: $header-font ;
 }

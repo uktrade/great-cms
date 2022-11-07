@@ -170,7 +170,7 @@
 
   <section class="padding-bottom-15 padding-bottom-30-m padding-top-45 padding-top-60-m">
   <div class="container wrap-tight">
-    <h2 class="heading-large margin-bottom-30">{{ page.magna_ctas_title }}</h2>
+    <h2 class="margin-bottom-30">{{ page.magna_ctas_title }}</h2>
     <div class="grid-row wrap-tight">
       {% for column_block in page.magna_ctas_columns %}
         <div class="column-third-m column-full">
@@ -178,9 +178,9 @@
         </div>
       {% endfor %}
     </div>
+      <hr></hr>
   </div>
 </section>
-
 <section class="padding-bottom-15 padding-bottom-30-m padding-top-0 padding-top-0-m">
   <div class="container wrap-tight">
     <div class="grid-row wrap-tight">
@@ -190,6 +190,7 @@
           </div>
         {% endfor %}
     </div>
+      <hr></hr>
   </div>
 </section>
 
@@ -227,7 +228,7 @@
         </div>
       </div>
       <div class="container sector-selector-quick-links">
-        <hr class="quick-links-separator ">
+        <hr>
         <ul class="grid-row">
           {% for sector in top_sectors %}
             {% if sector.pages_count > 0 %}
@@ -265,7 +266,7 @@
         <div class="wrap-tight padding-bottom-30 rich-text">
           {{ page.madb_content|richtext }}
         </div>
-        <div class="centre-children">
+        <div>
           <a href="{{ page.madb_cta_url }}" class="button">{{ page.madb_cta_text }}</a>
         </div>
       </div>
@@ -293,7 +294,7 @@
       <div class="campaign-content-container">
         <div class="campaign-subsection padding-bottom-30-l width-two-thirds-l width-half-xl">
           <p class="heading-medium margin-bottom-30 margin-top-0">{{ campaign_block_value.subheading }}</p>
-          <a href="{{ campaign_block_value.video.url }}" class="button button-video margin-bottom-15" id="hero-campaign-section-watch-video-button" data-node="videoactivator" data-element="video" target="_blank">Watch video</a>
+          <a href="{{ campaign_block_value.video.url }}" class="button margin-bottom-15" id="hero-campaign-section-watch-video-button" data-node="videoactivator" data-element="video" target="_blank">Watch video</a>
         </div>
       </div>
     </div>

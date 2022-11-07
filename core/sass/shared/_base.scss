@@ -1,5 +1,5 @@
 /* Shared styles across BAU and Magna pages */
-
+@import '../../../styles/main.scss';
 @font-face {
   font-family: 'FS Lucas';
   src: url('/static/fonts/FSLucas-Regular.woff2') format('woff2'),
@@ -7,6 +7,15 @@
     url('/static/fonts/FSLucas-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+}
+
+@font-face {
+  font-family: 'FS Lucas SemiBold';
+  src: url('/static/fonts/FSLucas-SemiBold.eot'),
+  url('./static/fonts/FSLucas-SemiBold.woff2') format('woff2'),
+  url('/static/fonts/fonts/FSLucas-SemiBold.woff') format('woff'),
+  url('/static/fonts/FSLucas-SemiBold.ttf') format('truetype'),
+  url('static/fonts//FSLucas-SemiBold.svg#UbuntuBold') format('svg');
 }
 
 // Breakpoints
@@ -85,13 +94,11 @@ $tablet: 768px;
     h3 {
       font-size: 24px;
       line-height: 24px;
-      font-family: "Overpass", Arial, Helvetica, Verdana;
       font-weight: 600;
       padding-bottom: 10px;
     }
 
     p {
-      font-family: "Overpass", Arial, Helvetica, Verdana;
       font-size: 16px;
       letter-spacing: 0;
       line-height: 25px;
@@ -170,7 +177,6 @@ $tablet: 768px;
           background: none;
           border: 0;
           color: #fff;
-          font-family: "Overpass", Arial, Helvetica, Verdana;
           font-size: 18px;
           letter-spacing: 0;
           line-height: 16px;
@@ -219,7 +225,7 @@ $tablet: 768px;
     background: #006ccc;
     color: #fff;
     display: none;
-    font-family: "Overpass", Arial, Helvetica, Verdana;
+    font-family: "FS Lucas", Arial, Helvetica, Verdana;
     font-size: 20px;
     padding: 15px 20px;
   }

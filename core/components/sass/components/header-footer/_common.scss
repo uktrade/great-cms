@@ -13,18 +13,12 @@
   font-weight: 700;
 }
 
-.great-global-header-footer.international .great-global-header-footer-logo {
-  margin-top: 11px;
-}
-
-.great-global-header-footer.domestic .great-global-header-footer-logo {
-  margin-top: 15px;
-}
 
 .great-global-header-footer {
   background-color: $white;
-  height: 50px;
-  line-height: 50px;
+  height: 88px;
+  box-sizing: border-box;
+  padding-top: 20px;
 
   & > .container {
     @include float-clear;
@@ -42,9 +36,10 @@
 
   .great-footer-copyright {
     float: right;
-    font-size: 12px;
+    font-size: 20px;
     margin: 0;
     color: $grey;
+    line-height: 20px;
   }
 }
 
@@ -54,11 +49,6 @@
 .great-footer {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.great-footer-logo-container,
-.great-footer .great-domestic-international-links {
-  border-bottom: 1px solid $lightened-great-blue;
 }
 
 .great-footer,
@@ -71,7 +61,6 @@
 
 .great-domestic-international-links {
   @include float-clear;
-  font-family: $brand-font;
 
   a {
     text-decoration: none;

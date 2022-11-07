@@ -1,3 +1,4 @@
+
 .card.only-title {
   height: auto;
 }
@@ -20,6 +21,7 @@
     display: block;
 
     &:hover .card-inner {
+      h2,
       h3,
       h4,
       h5,
@@ -28,6 +30,7 @@
       }
     }
 
+   
     &:focus {
       outline: 3px solid $focus-yellow;
       outline-offset: -3px;
@@ -47,16 +50,25 @@
         color: $mid-blue;
       }
     }
-
     .card-inner {
+      h2,
       h3,
       h4,
       h5,
       h6 {
         color: $active-blue;
         text-decoration: underline;
+        margin:0
       }
     }
+
+    p{
+      font-size: 24px;
+    }
+    
+      p.subheading{
+        font-size: 16px;
+      }
   }
 
   .card-icon {
@@ -90,6 +102,7 @@
 
       .subheading {
         margin: 0;
+        font-size: 16px;
       }
     }
   }
@@ -128,6 +141,7 @@
     }
     .subheading {
       color: $mid-grey;
+      font-size: 16px;
     }
     &--focused {
       &:focus {
