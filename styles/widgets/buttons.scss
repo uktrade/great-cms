@@ -3,36 +3,57 @@
 
 .button,
 button {
-
     border-radius: 0 !important;
     height: 50px;
-    font-family: 'FS Lucas SemiBold'!important;
+    font-family: 'FS Lucas SemiBold' !important;
     font-size: $font-size-button;
     line-height: 30px;
     cursor: pointer;
 
-    &.small-button{
-        height:35px;
+    &.small-button {
+        height: 35px;
         line-height: 10px;
     }
-     &:disabled{
+
+    &:disabled {
         pointer-events: none;
         opacity: 0.5;
     }
 
     &>i {
         padding-right: $standard-padding;
+        padding-bottom:4px;
     }
+
     &.primary-button {
         color: $color-alternative-text;
         background-color: $color-primary-button;
+    }
+
+    &.tab-list-item,
+    .tab-list-active {
+        height: 40px;
+         border: 2px solid #4b426d;
+         background-color: white;
+         color: #4b426d;
+         line-height: 25px;
+    }
+
+    &.tab-list-item+.tab-list-item {
+        margin-right: $x-large-padding;
+    }
+
+    &.tab-list-active {
+        background-color: #4b426d;
+        border: 2px solid #4b426d;
+        color:white
     }
 
     &.tertiary-button,
     &.tertiary-button:hover,
     &.tertiary-button:active,
     &.tertiary-button:visited,
-    &.tertiary-button:focus:active  {
+    &.tertiary-button:focus:active {
         background-color: $color-main-background;
         color: $color-main-text;
         border-color: $color-border;
@@ -41,22 +62,44 @@ button {
             color: $color-main-text
         }
 
+
+
     }
 
+      &.icon-only-button{
+        border-radius: 50%;
+        height: 40px;
+        width: 40px;
+        // font-size: ;
+        icon{
+            padding:0;
+            margin:0
+        }
+        }
 }
 
 
-button{
+button {
     padding-left: $standard-padding;
     padding-right: $standard-padding;
 
-    &.small-button{
-        height:35px;
+    &.small-button {
+        height: 35px;
         line-height: 10px;
     }
 
-    &:disabled{
+    &:disabled {
         pointer-events: none;
         opacity: 0.5;
     }
 }
+ //override here as imported from great styles
+ .button--only-icon{
+            height: 40px;
+            width: 40px;
+            border-radius: 50%!important;
+
+            &>i{
+                padding:0
+            }
+        }

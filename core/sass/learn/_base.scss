@@ -63,6 +63,10 @@ $desktop: 1024px;
   margin-left: 0;
   margin-right: 0;
 
+  h2{
+    font-size: 48px;
+  }
+
   @include tablet {
     margin-left: 15px;
     margin-right: 15px;
@@ -184,6 +188,7 @@ $desktop: 1024px;
 
   p {
     margin-top: 16px;
+    font-size: 20px;
   }
 }
 

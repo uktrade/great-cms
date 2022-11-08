@@ -21,6 +21,11 @@ h6 {
     color: $color-main-text;
 }
 
+h1 {
+    font-size: $font-size-h1;
+    line-height: $font-size-h1;
+}
+
 h2 {
     font-size: $font-size-h2;
     line-height: $font-size-h2;
@@ -42,7 +47,7 @@ h5 {
 }
 
 .page-title {
-    padding: $x-large-padding 0 $large-padding $standard-padding;
+    padding: $x-large-padding 0 $large-padding 0;
 }
 
 

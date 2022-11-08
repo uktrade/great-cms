@@ -75,7 +75,7 @@ function ProductSelector() {
       )}
       <button
         type="button"
-        className="f-l m-t-xxs button button--tertiary button--icon button--small"
+        className="button button--tertiary button--small"
         onClick={() => setProductModalIsOpen(true)}
       >
         <i className="fa fa-plus-circle" />
