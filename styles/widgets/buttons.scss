@@ -363,3 +363,13 @@ button#commodity-code-details {
   flex-wrap: wrap;
   gap: $standard-padding $standard-padding;
 }
+ //override here as imported from great styles
+ .button--only-icon{
+            height: 40px;
+            width: 40px;
+            border-radius: 50%!important;
+
+            &>i{
+                padding:0
+            }
+        }
