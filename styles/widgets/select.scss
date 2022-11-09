@@ -1,5 +1,6 @@
+@import '../fonts/main.scss';
 .select {
-    font-size: 20px;
+    font-size: $font-size-p-large;
 
     .select_chevron {
         margin-top: 3px

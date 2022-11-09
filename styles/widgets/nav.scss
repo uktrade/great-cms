@@ -1,9 +1,9 @@
-@import '../fonts/typography.scss';
+@import '../fonts/main.scss';
 nav>ul>li>a {
     font-family:$main-text-font!important ;
     border-bottom: 0;
     text-decoration: none;
-    font-size: 20px!important;
+    font-size: $font-size-p-large!important;
     color: white!important;
     padding-right: 4px;
     border:none!important
