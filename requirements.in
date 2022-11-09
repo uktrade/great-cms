@@ -53,7 +53,7 @@ markdown2==2.4.0
 iso3166==1.0.1
 sphinx==1.8.*
 readtime==1.*
-cryptography
+cryptography>=38.0.3
 pillow>=7.1.0
 factory-boy==2.12.*
 dateparser==0.7.2
