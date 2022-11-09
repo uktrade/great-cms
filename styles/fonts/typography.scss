@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'FS Lucas';
-  src: url('./fonts/FSLucas-Regular.woff2') format('woff2'),
-  url('./fonts/FSLucas-Regular.woff') format('woff'),
-  url('./fonts/FSLucas-Regular.ttf') format('truetype');
+  src: url('/static/fonts/FSLucas-Regular.woff2') format('woff2'),
+  url('/static/fonts/fonts/FSLucas-Regular.woff') format('woff'),
+  url('/static/fonts/FSLucas-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -10,12 +10,12 @@
 // sass-lint:disable-all
 @font-face {
   font-family: 'FS Lucas SemiBold';
-  src: url('./fonts/FSLucas-SemiBold.eot'),
-  url('./fonts/FSLucas-SemiBold.eot?#iefix') format('embedded-opentype'),
-  url('./fonts/FSLucas-SemiBold.woff2') format('woff2'),
-  url('./fonts/FSLucas-SemiBold.woff') format('woff'),
-  url('./fonts/FSLucas-SemiBold.ttf') format('truetype'),
-  url('./fonts/FSLucas-SemiBold.svg#UbuntuBold') format('svg');
+  src: url('/static/fonts/FSLucas-SemiBold.eot'),
+  url('/static/fonts/FSLucas-SemiBold.eot?#iefix') format('embedded-opentype'),
+  url('/static/fonts/FSLucas-SemiBold.woff2') format('woff2'),
+  url('/static/fonts/FSLucas-SemiBold.woff') format('woff'),
+  url('/static/fonts/FSLucas-SemiBold.ttf') format('truetype'),
+  url('/static/fonts/FSLucas-SemiBold.svg#UbuntuBold') format('svg');
 }
 
 $main-text-font: "FS Lucas", Arial, Helvetica, Verdana;

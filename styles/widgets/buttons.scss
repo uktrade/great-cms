@@ -30,6 +30,12 @@ button {
         background-color: $color-primary-button;
     }
 
+    &.secondary-button{
+        color: $color-gov-link;
+        background-color: white;
+        border: 2px solid $color-gov-link;
+    }
+
     &.tab-list-item,
     .tab-list-active {
         height: 40px;

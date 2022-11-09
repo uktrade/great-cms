@@ -81,7 +81,7 @@ export const Login = ({ nextUrl, ...props }) => {
           <p className="body-l">Don&apos;t have an account?</p>
           <a
             href={Services.config.signupUrl}
-            className="button button--secondary"
+            className="button secondary-button"
           >
             Sign up
           </a>
