@@ -65,7 +65,7 @@
 
 .hero-image-container {
   position: relative;
-  background-image: url(/static/images/ep-index-t-l.svg);
+  // background-image: url(/static/images/ep-index-t-l.svg);
   background-repeat: no-repeat;
   background-position: bottom left;
   background-size: 15% auto;
@@ -73,7 +73,7 @@
     content: '';
     @include stretch;
     right: 3%;
-    background: url(/static/images/ep-index-t-r.svg) bottom right/60% auto no-repeat;
+    // background: url(/static/images/ep-index-t-r.svg) bottom right/60% auto no-repeat;
   }
 
   .grid {
@@ -106,7 +106,7 @@
 }
 
 .watermark-container {
-  background-image: url(/static/images/ep-index-b-l.svg);
+  // background-image: url(/static/images/ep-index-b-l.svg);
   background-repeat: no-repeat;
   background-position: bottom left;
   background-size: 25% auto;
