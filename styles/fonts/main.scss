@@ -89,6 +89,33 @@ article>p {
     padding-bottom: $standard-padding;
 }
 
-.bold{
+.bold {
     font-family: $header-font ;
+}
+
+#sign-up, #login {
+
+    h1 {
+        font-family: $main-text-font;
+        font-size: 60px;
+        font-weight:$font-weight-standard ;
+    }
+
+    h3{
+       color: $color-main-text;
+    }
+
+    p{
+        font-size: $font-size-p-large;
+        color: $color-main-text
+    }
+
+    .signup__info-panel__subheadings{
+        i{
+            color: #2397D4;
+        }
+        li{
+            font-size: 28px;
+        }
+    }
 }

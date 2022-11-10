@@ -36,7 +36,7 @@ export const FormGroup = memo(
           {label}
           {info && (
             <ExpandCollapse
-              buttonClass="info fas fa-lg fa-info-circle text-blue-deep-90 m-f-xxs p-v-4 p-h-0"
+              buttonClass="icon-only info fas fa-lg fa-info-circle text-blue-deep-90 m-f-xxs p-v-4 p-h-0"
               buttonBefore
             >
               <div className="g-panel body-m m-v-xs">{info}</div>

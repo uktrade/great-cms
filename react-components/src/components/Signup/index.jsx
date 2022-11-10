@@ -86,10 +86,10 @@ export const Signup = (props) => {
       </div>
       <div className="signup__info-panel">
         <div className="signup__info-panel__content">
-          <h2 className="signup__info-panel__heading">Find new customers around the world</h2>
+          <h1>Find new customers around the world</h1>
           <ul className="signup__info-panel__subheadings">
             {subHeadings.map((heading) => (
-              <li key={heading} className="text-white">
+              <li key={heading}>
                 <i className="fas fa-check-circle" aria-hidden="true" />
                 <span>{heading}</span>
               </li>

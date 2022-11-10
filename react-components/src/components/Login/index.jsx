@@ -75,7 +75,7 @@ export const Login = ({ nextUrl, ...props }) => {
       </div>
       <div className="signup__info-panel">
         <div className="signup__info-panel__content">
-          <h1 className="signup__info-panel__heading text-blue-deep-80">
+          <h1>
             Sign in to continue your exporting journey
           </h1>
           <p className="body-l">Don&apos;t have an account?</p>
