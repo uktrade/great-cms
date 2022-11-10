@@ -109,7 +109,13 @@ article>p {
         font-size: $font-size-p-large;
         color: $color-main-text
     }
+.signup__info-panel{
+padding:0;
+}
 
+.signup__info-panel__content{
+    padding: 120px 0;
+}
     .signup__info-panel__subheadings{
         i{
             color: #2397D4;
@@ -117,5 +123,9 @@ article>p {
         li{
             font-size: 28px;
         }
+    }
+
+    .background-image{
+        width:100%;
     }
 }

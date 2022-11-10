@@ -63,15 +63,13 @@ export const Signup = (props) => {
   }
 
   return (
-    <div className="signup bg-blue-deep-80">
+    <div className="signup">
       <div className="signup__form-panel">
         <a href="/" className="inline-block">
           <img
             className="m-f-auto m-r-auto signup__logo"
             src="/static/images/dit_logo_335x160.png"
             alt="Department for International Trade"
-            width="335"
-            height="160"
           />
         </a>
 
@@ -99,8 +97,8 @@ export const Signup = (props) => {
         </div>
 
         <img
-          className="m-f-auto m-r-auto"
-          src="/static/images/sign-up-illustration.svg"
+          className="background-image"
+          src="/static/images/signup-image.png"
           alt=""
         />
       </div>

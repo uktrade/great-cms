@@ -86,7 +86,7 @@ export const Login = ({ nextUrl, ...props }) => {
             Sign up
           </a>
         </div>
-        <img src="/static/images/sign-in-illustration.svg" alt="" />
+        <img src="/static/images/signin-image.png" alt="" className='background-image' />
       </div>
     </div>
   )
