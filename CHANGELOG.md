@@ -7,11 +7,16 @@
 ### Hotfix
 
 ### Enhancements
+* KLS-124 - Remove FTA feature flag
+* KLS-144 - Upgrade cryptography package
+* KLS-149 - Upgrade loader-utils package
 
-* KLS-137 - Update minimatch 3.0.4 -> 3.1.2
+
+## [2.18.1](https://github.com/uktrade/great-cms/releases/tag/2.18.1)
 
 ### Enhancements
 * KLS-126 - Remove market guide features flags
+* KLS-137 - Update minimatch 3.0.4 -> 3.1.2
 
 ## [2.18.0](https://github.com/uktrade/great-cms/releases/tag/2.18.0)
 
