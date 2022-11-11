@@ -35,5 +35,3 @@ URL_PREFIX_DOMAIN=http://testserver
 DIRECTORY_CH_SEARCH_CLIENT_BASE_URL=http://search.com
 DIRECTORY_CH_SEARCH_CLIENT_API_KEY=debug
 HASHIDS_SALT=c489472d-3fbc-4009-a022-08b68bfc7b77
-# TODO remove after flag is no longer in use
-FEATURE_FTA_FORM=True
