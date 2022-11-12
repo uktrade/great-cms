@@ -103,7 +103,7 @@ export default function SearchInput(props) {
               onClick={clearSearchInput}
             />
           ) : (
-            iconClass && <i className={`fas ${iconClass} text-blue-deep-60`} />
+            iconClass && <i className={`fas ${iconClass}`} />
           )}
         </div>
         {onSaveButtonClick ? (

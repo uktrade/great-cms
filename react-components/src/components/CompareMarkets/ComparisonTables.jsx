@@ -89,7 +89,7 @@ export default function ComparisonTables(props) {
             <React.Fragment key={item}>
               <div
                 className={`table market-details ${
-                  mobile ? 'm-h-0' : 'm-h-m bg-white p-v-s p-b-s p-h-s radius'
+                  mobile ? 'm-h-0' : 'm-h-m bg-white p-v-s p-b-s p-h-s'
                 }`}
                 id={`${item}-tab`}
                 role="tabpanel"

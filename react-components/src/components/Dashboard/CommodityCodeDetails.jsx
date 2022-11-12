@@ -20,7 +20,7 @@ export default function CommodityCodeDetails({ product }) {
 
   return (
     <>
-      <div className="text-blue-deep-60 bg-white radius p-b-0 p-t-xxs p-f-xxs">
+      <div className="bg-white p-b-0 p-t-xxs p-f-xxs">
         <div className="flex-center">
           <button type="button" onClick={() => openSection()}>
             <i

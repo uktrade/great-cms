@@ -1,0 +1,51 @@
+@import '../colors/colors.scss';
+@import '../sizes/sizes.scss';
+
+//just overidde colors
+.h-m,
+.h-s,
+a.learn__category-link,
+.body-m,
+.body-l,
+.h-l,
+.body-l-b,
+.h-xs,
+.link,
+.body-l,
+div,
+label.body-l,
+.body-m-b {
+  color: $color-main-text;
+}
+
+.classification-tree__line,
+.section-list__item {
+  border-radius: 0;
+}
+
+.back-link {
+  color: $color-main-text;
+
+  i {
+    color: $color-gov-link;
+  }
+}
+
+.learn__category-entities {
+  height: 41px;
+  color: $color-gov-link;
+  border-radius: 0;
+  background-color: #f5f7fa;
+
+  i{
+    padding-right: $standard-padding;
+  }
+}
+
+.learn__topic-item-read-time{
+    color:$color-gov-link;
+
+    i{
+        color:$color-gov-link;
+    }
+}

@@ -1,4 +1,5 @@
 @import 'helpers/colours';
+@import '../../../styles/colors/colors.scss';
 
 .segmentation-modal {
   .radio-block {
@@ -33,7 +34,7 @@
     font-size: 42px;
     top: 20px;
     right: 20px;
-    color: $colour-blue-deep-80;
+    color: $color-main-text;
   }
 
   .modal-button-bar {

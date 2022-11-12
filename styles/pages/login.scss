@@ -1,0 +1,38 @@
+@import '../fonts/main.scss';
+@import '../colors/colors.scss';
+#sign-up, #login {
+
+    h1 {
+        font-family: $main-text-font;
+        font-size: 60px;
+        font-weight:$font-weight-standard ;
+    }
+
+    h3{
+       color: $color-main-text;
+    }
+
+    p{
+        font-size: $font-size-p-large;
+        color: $color-main-text
+    }
+.signup__info-panel{
+padding:0;
+}
+
+.signup__info-panel__content{
+    padding: 120px 0;
+}
+    .signup__info-panel__subheadings{
+        i{
+            color: #2397D4;
+        }
+        li{
+            font-size: 28px;
+        }
+    }
+
+    .background-image{
+        width:100%;
+    }
+}

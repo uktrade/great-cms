@@ -39,15 +39,19 @@ button {
         color: $color-gov-link;
         background-color: white;
         border: 2px solid $color-gov-link;
+
+        i{
+            color:$color-gov-link
+        }
     }
 
     &.tab-list-item,
     .tab-list-active {
         height: 40px;
-         border: 2px solid #4b426d;
-         background-color: white;
-         color: #4b426d;
-         line-height: 25px;
+        line-height: 25px;
+        color: $color-gov-link;
+        background-color: white;
+        border: 2px solid $color-gov-link;
     }
 
     &.tab-list-item+.tab-list-item {
@@ -55,9 +59,9 @@ button {
     }
 
     &.tab-list-active {
-        background-color: #4b426d;
-        border: 2px solid #4b426d;
-        color:white
+        background-color: #DDE5ED;
+        border: 2px solid #DDE5ED;
+        color:#212427
     }
 
     &.tertiary-button,
@@ -87,6 +91,21 @@ button {
             margin:0
         }
         }
+
+        &.link{
+            color: $color-main-text;
+            height: auto;
+        }
+
+        &.back-button{
+
+            color:$color-main-text;
+            i{
+                color:$color-gov-link;
+            }
+        }
+
+      
 }
 
 
@@ -103,14 +122,19 @@ button {
         pointer-events: none;
         opacity: 0.5;
     }
+    
 }
  //override here as imported from great styles
  .button--only-icon{
             height: 40px;
             width: 40px;
             border-radius: 50%!important;
+            color: $color-gov-link;
+            background-color: white;
+            border: 2px solid $color-gov-link;
 
             &>i{
-                padding:0
+                padding:0;
+                color: $color-gov-link!important;
             }
         }

@@ -175,7 +175,7 @@ export const Select = memo(
           <>
             {' '}
             <div
-              className="select__placeholder text-blue-deep-60 bg-white"
+              className="select__placeholder bg-white"
               ref={placeHolder}
               tabIndex={autoComplete ? -1 : 0}
               onKeyDown={keyHandler}

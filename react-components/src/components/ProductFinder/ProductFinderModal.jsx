@@ -521,7 +521,7 @@ export default function ProductFinderModal(props) {
         onAfterOpen={modalAfterOpen}
         shouldCloseOnOverlayClick={false}
       >
-        <form className="product-finder text-blue-deep-80">
+        <form className="product-finder">
           <div style={{ height: headerHeight }}>
             {/* nothing in the modal header for the time being */}
           </div>

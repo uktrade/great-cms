@@ -29,7 +29,7 @@ export default function RegionToggle(props) {
           onClick={countryListToggle}
         >
           {region}
-          <i className={`fa fa-${expand || expandAllRegions ? 'minus' : 'plus'} text-blue-deep-80`} />
+          <i className={`fa fa-${expand || expandAllRegions ? 'minus' : 'plus'}`} />
         </button>
       </div>
       <div

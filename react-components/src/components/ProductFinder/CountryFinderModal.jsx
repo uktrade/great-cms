@@ -162,7 +162,7 @@ export default function CountryFinderModal(props) {
         <button
           key={`suggested_${country.country_iso2}`}
           type="button"
-          className="tag tag--tertiary tag--icon m-r-s m-v-xxs"
+          className="secondary-button small-button tag--icon m-r-s m-v-xxs"
           data-country={country.country_name}
           data-region={country.region}
           data-id={country.country_iso2}
@@ -209,7 +209,7 @@ export default function CountryFinderModal(props) {
             Compare data for different markets to make an informed choice about
             where to export.
           </p>
-          <a href="/where-to-export/" className="button button--secondary">
+          <a href="/where-to-export/" className="button primary-button">
             Compare markets
           </a>
         </div>
@@ -325,11 +325,11 @@ export default function CountryFinderModal(props) {
                   <h2 className="h-l m-t-s p-b-xs">Choose a market</h2>
                 </div>
                 {suggestedSection}
-                <hr className="hr bg-red-deep-100" />
+                <hr/>
                 {!isCompareCountries && (
                   <>
                     {compareMarketsSection}
-                    <hr className="hr bg-red-deep-100" />
+                    <hr/>
                   </>
                 )}
                 {marketListSection}
