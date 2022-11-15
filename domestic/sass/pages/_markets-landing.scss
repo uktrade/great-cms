@@ -169,6 +169,7 @@ padding-bottom: $large-padding;
     z-index: 10;
   }
 
+<<<<<<< HEAD
   &:focus {
     outline: 3px solid $focus-yellow;
     outline-offset: 0;
@@ -185,3 +186,16 @@ padding-bottom: $large-padding;
     font-family: $main-text-font !important;
   }
 }
+=======
+    &:focus {
+      outline: 3px solid $focus-yellow;
+      outline-offset: 0;
+    //   background-color: $focus-yellow;
+      color: $dark-blue;
+      left: 0;
+      text-indent: 0;
+      top: 0;
+      z-index: 10;
+    }
+  }
+>>>>>>> 9f36d0e9 (additional fixes)
