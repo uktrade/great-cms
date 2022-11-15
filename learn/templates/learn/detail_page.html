@@ -34,7 +34,7 @@
       </div>
     </div>
   </div>
-  <div class="bg-blue-deep-80">
+  <div class="test-knowledge">
     <div class="container">
       <div class="grid p-t-m">
         <div class="c-1-4 only-desktop">
@@ -55,7 +55,7 @@
           <span>&nbsp;</span>
         </div>
         <div class="c-1-2">
-          <fieldset id="mark_as_complete" class="bg-blue-deep-80"></fieldset>
+          <fieldset id="mark_as_complete"></fieldset>
         </div>
         <div class="c-1-4 only-desktop">
           <span>&nbsp;</span>
@@ -77,19 +77,19 @@
                   {{ next_lesson.title }}
                 </h2>
                 {% if next_lesson.estimated_read_duration %}
-                  <p class="text-blue-deep-80 m-t-0 p-t-0 m-b-xs">
+                  <p class="m-t-0 p-t-0 m-b-xs">
                     <i class="fas fa-clock m-r-xxs"></i>
                     <strong> {{ next_lesson.estimated_read_duration|format_timedelta }}
                       read</strong>
                   </p>
                 {% endif %}
                 {% if next_module %}
-                  <p class="text-blue-deep-80 m-t-xs m-b-xs">
+                  <p class="m-t-xs m-b-xs">
                     Part of your next module:<br />
                     <strong>{{ next_module.title }}</strong>
                   </p>
                 {% endif %}
-                <a href="{{ next_lesson.get_url }}" class="button button--secondary m-b-xs">
+                <a href="{{ next_lesson.get_url }}" class="button primary-button m-b-xs">
                   Continue learning
                 </a>
               </div>

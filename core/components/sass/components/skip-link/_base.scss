@@ -14,7 +14,7 @@
 
   &:focus {
     @include focus;
-    background-color: $focus-yellow;
+    // background-color: $focus-yellow;
     color: $dark-blue;
     left: 0;
     text-indent: 0;

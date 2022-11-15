@@ -37,10 +37,10 @@
     }
 
     &:active {
-      background: $focus-yellow;
+      // background: $focus-yellow;
 
       .card-inner {
-        background: $focus-yellow;
+        // background: $focus-yellow;
       }
 
       h3,
@@ -57,7 +57,7 @@
       h5,
       h6 {
         color: $active-blue;
-        text-decoration: underline;
+        text-decoration: none;
         margin:0
       }
     }

@@ -1,10 +1,21 @@
 @import '../fonts/main.scss';
 @import '../colors/colors.scss';
+@import '../sizes/sizes.scss';
+
 .select {
     font-size: $font-size-p-large;
 
     .select_chevron {
         margin-top: 3px;
-        color: $color-main-text
+        padding-right: 5px;
+        color: $color-quotes-icons;
     }
+}
+.select__placeholder{
+    display: flex;
+    align-items: center;
+    padding-left: $standard-padding;
+    padding-right: $standard-padding;
+    color: $color-quotes-icons;
+    border: 2px solid $color-quotes-icons;
 }

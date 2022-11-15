@@ -73,7 +73,7 @@ export function ExportPlanWizard({ exportPlan }) {
             <div className="clearfix m-b-m">
               <div className="body-m">{processName} step 1 of 2</div>
               <h2 className="h-m">What are you exporting?</h2>
-              <p className="text-blue-deep-80">
+              <p>
                 Choose a product to start your plan and get supporting
                 information that&apos;s tailored to your business.
               </p>
@@ -126,7 +126,7 @@ export function ExportPlanWizard({ exportPlan }) {
                 <div className="clearfix m-b-m">
                   <div className="body-m">{processName} step 2 of 2</div>
                   <h2 className="h-m">Where&apos;s your target market?</h2>
-                  <p className="text-blue-deep-80">
+                  <p>
                     Choose a place to start your plan.
                   </p>
                   <MarketSelector

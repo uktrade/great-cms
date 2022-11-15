@@ -111,6 +111,10 @@
     width: 51px;
   }
 
+  .search-button:hover{
+    background-color: white
+  }
+
   .text {
     @include body-m;
     color: $mid-grey;

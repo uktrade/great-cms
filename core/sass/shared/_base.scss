@@ -556,6 +556,7 @@ $tablet: 768px;
   }
 
   .magna-footer__nav {
+    background-color: $color-footer;
     @include mobile {
       flex-direction: column-reverse;
     }

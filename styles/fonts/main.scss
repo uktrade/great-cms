@@ -9,6 +9,7 @@ p {
     font-family: $main-text-font;
     font-size: $font-size-p;
     color: $color-main-text;
+    line-height: $p-line-height;
 }
 
 h1,
@@ -93,4 +94,3 @@ article>p {
 .bold {
     font-family: $header-font ;
 }
-

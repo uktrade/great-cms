@@ -1,3 +1,4 @@
+@import '../../../styles/sizes/sizes.scss';
 @mixin stretch {
   position: absolute;
   left: 0;
@@ -189,23 +190,28 @@
 
 .accordion {
   > .expander-section {
-    position: relative;
+
+    
 
     .region-expand {
       width: 100%;
       text-align: left;
       padding: 0 36px 0 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
 
       &:hover,
       &:focus {
         text-decoration: underline;
       }
+      span{
+      flex:1
+    }
     }
 
     .fa {
-      top: 5px;
-      position: absolute;
-      right: 5px;
+      padding-right:$standard-padding
     }
   }
 

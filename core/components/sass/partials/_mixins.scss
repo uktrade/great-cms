@@ -88,8 +88,8 @@
 
   &:focus:active,
   &:active {
-    color: $black;
-    background-color: $focus-yellow;
+    // color: $black;
+    // background-color: $focus-yellow;
   }
 
   &:focus {
@@ -128,8 +128,8 @@
 
   &:focus:active,
   &:active {
-    color: $black;
-    background-color: $focus-yellow;
+    // color: $black;
+    // background-color: $focus-yellow;
     border-color: $focus-yellow;
   }
 

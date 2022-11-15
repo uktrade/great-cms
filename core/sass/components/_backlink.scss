@@ -1,9 +1,10 @@
 @import 'helpers/colours';
 
-.back-link {
+a.back-link {
   color: $blue-deep-80;
   display: inline-flex;
   align-items: center;
+text-decoration: none!important;
 
   &:visited {
     color: $blue-deep-80;
@@ -23,4 +24,9 @@
   i {
     font-size: 24px;
   }
+}
+
+
+td i, td label.far{
+  font-size: 24px;
 }

@@ -1,3 +1,5 @@
+@import '../../styles/colors/colors.scss';
+
 input[type=text],
 input[type=email],
 input[type=password],
@@ -5,4 +7,11 @@ input[type=tel],
 input[type=number] {
     border-radius: 0px;
     border: 2px solid #000000
+}
+input[type=checkbox].markascomplete_checkbox{
+    background-color: $color-completed;
+}
+
+label{
+    color: $color-main-text;
 }

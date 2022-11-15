@@ -335,7 +335,9 @@ $desktop: 1024px;
   display: block;
   padding: 18px 20px 20px;
   text-decoration: none;
-  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
   @include tablet {
     padding: 22px 20px 20px 21px;
@@ -356,6 +358,7 @@ $desktop: 1024px;
 .learn__lesson-item-link-text {
   display: block;
   margin-bottom: 10px;
+  flex:1;
 
   @include tablet {
     display: inline-block;
@@ -461,7 +464,6 @@ $desktop: 1024px;
     background: $white;
     border-right: 1px solid $light-grey;
     height: 100%;
-    position: sticky;
     top: 0;
 
     h3 {
@@ -508,7 +510,6 @@ $desktop: 1024px;
     h2,
     h3,
     h4 {
-      color: $blue-deep-80;
       margin-bottom: 18px;
       padding: 0;
 
@@ -531,11 +532,6 @@ $desktop: 1024px;
 
     b > i {
       font-weight: bold;
-    }
-
-    p,
-    li {
-      color: $blue-deep-80;
     }
 
     p {
@@ -574,6 +570,7 @@ $desktop: 1024px;
 
     a.link {
       text-decoration: underline;
+      font-size: $font-size-p
     }
 
     .choose-dont-choose {
@@ -625,7 +622,6 @@ $desktop: 1024px;
     .pros-and-cons {
       h3 {
         @extend .h-s;
-        color: $blue-deep-80;
         padding-bottom: 15px;
         padding-top: 0;
         margin-bottom: 0;
@@ -642,7 +638,6 @@ $desktop: 1024px;
           padding-left: 17px;
 
           &:before {
-            background-color: $blue-deep-80;
             width: 4px;
             height: 4px;
           }
@@ -685,7 +680,7 @@ $desktop: 1024px;
     h2,
     h3,
     h4 {
-      color: $blue-deep-80;
+
     }
 
     > ul {
@@ -723,7 +718,6 @@ $desktop: 1024px;
 
     .video-transcript {
       &__text-area {
-        color: $blue-deep-80;
         max-height: 200px;
         overflow-y: scroll;
       }
@@ -872,7 +866,6 @@ $desktop: 1024px;
     &__close {
       background: none;
       border: 0;
-      color: $blue-deep-80;
       cursor: pointer;
       font-size: 33px;
       position: absolute;

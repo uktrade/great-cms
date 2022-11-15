@@ -2,6 +2,7 @@
 // BANNER
 // ======
 @import "../../../../../styles/fonts/main.scss";
+@import "../../../../../styles/colors/colors.scss";
 
 .information-banner {
   p {
@@ -93,8 +94,9 @@
   }
 
   a{
-    text-decoration: none;
-    font-family: $header-font;
+    text-decoration: underline;
+    color: $color-gov-link;
+    font-family: $main-text-font;
   }
   span{
     font-family: $header-font;

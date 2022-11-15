@@ -25,7 +25,7 @@ a:focus {
 }
 
 a:focus:active {
-  background-color: $focus-yellow;
+  border: $focus-yellow;
 }
 
 // File upload
