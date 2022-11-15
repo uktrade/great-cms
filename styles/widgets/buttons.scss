@@ -40,11 +40,6 @@ button {
         padding-bottom:4px;
     }
 
-    &.primary-button {
-        color: $color-alternative-text;
-        background-color: $color-primary-button;
-    }
-
     &.secondary-button{
         color: $color-gov-link;
         background-color: white;
@@ -52,6 +47,13 @@ button {
 
         i{
             color:$color-gov-link
+        }
+    }
+    &.primary-button, &.secondary-button:active, &.secondary-button:hover{
+        background-color: $color-primary-button;
+        color:$color-alternative-text;
+        i{
+            color:$color-alternative-text
         }
     }
 
@@ -144,12 +146,9 @@ button {
             height: 40px;
             width: 40px;
             border-radius: 50%!important;
-            color: $color-gov-link;
-            background-color: white;
             border: 2px solid $color-gov-link;
 
             &>i{
                 padding:0;
-                color: $color-gov-link!important;
             }
         }
