@@ -211,3 +211,28 @@ li.selected-groups__item {
     color: $color-delete;
   }
 }
+
+a.link{
+  color: $color-gov-link;
+  text-decoration: underline;
+}
+
+p>a{
+  font-size: inherit;
+}
+
+.test-knowledge, .next-steps{
+  background-color: $color-footer;
+
+  h2.h-m, h2.h-s{
+    color: $color-alternative-text
+  }
+}
+
+a.link--underline{
+  text-decoration: none;
+}
+
+.g-panel::before{
+  background: $color-quotes-icons;
+}
