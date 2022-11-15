@@ -49,3 +49,10 @@ input[type='text'] {
 .form-hint {
   font-family: $main-text-font;
 }
+input[type=checkbox].markascomplete_checkbox{
+    background-color: $color-completed;
+}
+
+label{
+    color: $color-main-text;
+}

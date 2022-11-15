@@ -211,3 +211,57 @@ li.selected-groups__item {
     color: $color-delete;
   }
 }
+
+i.fas.fa-clock {
+  color: $color-main-text;
+}
+
+#personalisation-bar {
+  button {
+    height: 45px;
+  }
+}
+
+.shared-personalisation-bar {
+  background-color: #363566;
+
+  button {
+    background-color: #363566;
+  }
+}
+
+blockquote,
+.box {
+  background-color: $color-quotes;
+}
+
+.media-block {
+  i:before {
+    color: $color-quotes-icons
+  }
+}
+
+a.link{
+  color: $color-gov-link;
+  text-decoration: underline;
+}
+
+p>a{
+  font-size: inherit;
+}
+
+.test-knowledge, .next-steps{
+  background-color: $color-footer;
+
+  h2.h-m, h2.h-s{
+    color: $color-alternative-text
+  }
+}
+
+a.link--underline{
+  text-decoration: none;
+}
+
+.g-panel::before{
+  background: $color-quotes-icons;
+}
