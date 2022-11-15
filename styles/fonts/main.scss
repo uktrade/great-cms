@@ -7,10 +7,18 @@
 body,
 div,
 p {
+<<<<<<< HEAD
   font-family: $main-text-font;
   font-size: $font-size-p;
   color: $color-main-text;
   line-height: $p-line-height;
+=======
+
+    font-family: $main-text-font;
+    font-size: $font-size-p;
+    color: $color-main-text;
+    line-height: $p-line-height;
+>>>>>>> 9f36d0e9 (additional fixes)
 }
 
 h1,
@@ -114,6 +122,7 @@ article > p {
 .bold {
   font-family: $header-font;
 }
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 #great-footer-copyright {
@@ -155,3 +164,5 @@ label.body-l,
 
 =======
 >>>>>>> 177f15c9 (restyled additional pages)
+=======
+>>>>>>> 9f36d0e9 (additional fixes)
