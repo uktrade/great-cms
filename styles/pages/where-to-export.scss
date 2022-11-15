@@ -265,3 +265,9 @@ a.link--underline{
 .g-panel::before{
   background: $color-quotes-icons;
 }
+
+
+a:focus:active,
+button:focus:active {
+  background-color: inherit;
+}
