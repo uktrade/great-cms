@@ -12,9 +12,16 @@ a.learn__category-link,
 .h-xs,
 .link,
 .body-l,
+.body-s,
 div,
 label.body-l,
-.body-m-b {
+.body-m-b,
+.body-s-b,
+.multiple-choice label,
+.select__button i,
+.great-checkbox label,
+.great-checkbox label::before
+ {
   color: $color-main-text;
 }
 
@@ -30,6 +37,8 @@ label.body-l,
     color: $color-gov-link;
     background-color: white;
     border-radius: 10px;
+    line-height: 20px;
+    ;
   }
 }
 
@@ -77,9 +86,11 @@ i.fas.fa-clock {
 }
 
 blockquote,
-.box {
+.box,
+.box:before {
   background-color: $color-quotes;
 }
+
 
 .media-block {
   i:before {
@@ -87,28 +98,30 @@ blockquote,
   }
 }
 
-a.link{
+a.link {
   color: $color-gov-link;
   text-decoration: underline;
 }
 
-p>a{
+p>a {
   font-size: inherit;
 }
 
-.test-knowledge, .next-steps{
+.test-knowledge,
+.next-steps {
   background-color: $color-footer;
 
-  h2.h-m, h2.h-s{
+  h2.h-m,
+  h2.h-s {
     color: $color-alternative-text
   }
 }
 
-a.link--underline{
+a.link--underline {
   text-decoration: none;
 }
 
-.g-panel::before{
+.g-panel::before {
   background: $color-quotes-icons;
 }
 
@@ -116,4 +129,36 @@ a.link--underline{
 a:focus:active,
 button:focus:active {
   background-color: inherit;
+}
+
+#interaction-details {
+  margin-bottom: 0;
+}
+
+.export-plan-wrapper,
+.export-plan-dashboard__section,
+.form-group-example,
+.costs,
+.lesson-accordian-content,
+.getting-paid,
+.export-plan-form,
+.export-plan-statistics {
+  background-color: $color-quotes;
+  border-radius: 0;
+}
+
+.section--intro,
+.section-complete {
+  background-color: $color-footer;
+
+  p,
+  h1,
+  span,
+  h3 {
+    color: $color-alternative-text
+  }
+}
+
+.statistic {
+  border-radius: 0;
 }

@@ -11,11 +11,16 @@
         color: $color-quotes-icons;
     }
 }
-.select__placeholder{
+
+.select__placeholder {
     display: flex;
     align-items: center;
     padding-left: $standard-padding;
     padding-right: $standard-padding;
     color: $color-quotes-icons;
     border: 2px solid $color-quotes-icons;
+}
+
+.select__list.select__list {
+    border-color: $color-quotes-icons;
 }

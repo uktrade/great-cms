@@ -45,7 +45,7 @@ export const FormGroup = memo(
         </label>
 
         {description && (
-          <div className={descriptionClassName || 'text-blue-deep-80 p-t-xs p-b-xs'}>
+          <div className={descriptionClassName || 'p-t-xs p-b-xs'}>
             {ReactHtmlParser(description)}
           </div>
         )}

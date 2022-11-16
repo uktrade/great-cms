@@ -8,10 +8,10 @@ export const AddButton = memo(
         <button
           disabled={isDisabled}
           type="button"
-          className={`button button--icon ${btnClass}`}
+          className={`button primary-button button--icon ${btnClass}`}
           onClick={add}
         >
-          <i className="fas fa-plus-circle" />
+          <i className="fas fa-plus" />
           {cta}
         </button>
       )}

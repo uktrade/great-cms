@@ -322,7 +322,7 @@ export default function ProductFinderModal(props) {
               questions
             )}
           {(known || questions) && !showingInteraction ? (
-            <hr className="hr bg-red-deep-100 m-h-s" />
+            null
           ) : (
             ''
           )}

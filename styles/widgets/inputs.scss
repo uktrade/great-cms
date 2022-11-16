@@ -4,7 +4,7 @@ input[type=text],
 input[type=email],
 input[type=password],
 input[type=tel],
-input[type=number] {
+input[type=number], textarea, textarea.form-control {
     border-radius: 0px;
     border: 2px solid #000000
 }
