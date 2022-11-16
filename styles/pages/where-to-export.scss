@@ -1,6 +1,35 @@
 @import '../colors/colors.scss';
 @import '../sizes/sizes.scss';
 
+<<<<<<< HEAD
+=======
+//just overidde colors
+.h-m,
+.h-s,
+a.learn__category-link,
+.body-m,
+.body-l,
+.h-l,
+.body-l-b,
+.h-xs,
+.link,
+.body-l,
+.body-s,
+div,
+label.body-l,
+.body-m-b,
+.body-s-b,
+.multiple-choice label,
+.select__button i,
+.great-checkbox label,
+.great-checkbox label::before,
+.learn__lesson-item-link:visited,
+.learning-link:visited
+ {
+  color: $color-main-text;
+}
+
+>>>>>>> d53eb2f19 (additonal chad fixes)
 .classification-tree__line,
 .section-list__item {
   border-radius: 0;
@@ -233,13 +262,13 @@ i.fas.fa-clock {
 blockquote,
 .box,
 .box:before {
-  background-color: $color-quotes;
+  background-color: $color-background-color;
 }
 
 
 .media-block {
   i:before {
-    color: $color-quotes-icons
+    color: $color-main-text
   }
 }
 
@@ -267,7 +296,7 @@ a.link--underline {
 }
 
 .g-panel::before {
-  background: $color-quotes-icons;
+  background: $color-main-text;
 }
 
 
@@ -287,8 +316,10 @@ button:focus:active {
 .lesson-accordian-content,
 .getting-paid,
 .export-plan-form,
-.export-plan-statistics {
-  background-color: $color-quotes;
+.export-plan-statistics,
+.hero-image-container, 
+.action-wrapper {
+  background-color: $color-background-color;
   border-radius: 0;
 }
 
