@@ -4,3 +4,8 @@
 @import './widgets//mains.scss';
 @import './pages/index.scss';
 @import './borders/main.scss';
+
+
+body{
+    background-color: $color-background-color;
+}

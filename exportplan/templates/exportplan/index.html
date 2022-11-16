@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-  <div class="bg-blue-deep-80 hero-image-container">
+  <div class="hero-image-container">
     <div class="container">
       <div class="grid ">
         <div class="c-1-2 p-v-xl lh">
@@ -17,7 +17,7 @@
             My export plans
           </h1>
           <a href="{% url 'exportplan:start' %}" class="button button--large primary-button buttton-icon"><i
-            class="fas fa-plus-square m-r-xs"
+            class="fas fa-plus m-r-xs"
           ></i>Create a new plan</a>
       </div>
       <div class="c-1-2 rh p-t-m">
@@ -49,12 +49,12 @@
           </ul>
         </div>
         <div class="c-1-2-m">
-          <div class="g-card bg-blue-deep-10">
+          <div class="g-card action-wrapper">
             <h2 class="h-s">Take your first steps towards exporting success</h2>
             <p>Put an export plan in place for your business</p>
-            <a href="{% url 'exportplan:start' %}" class="button button--large button--primary buttton-icon"><i class="fas fa-plus-square m-r-xs"></i>{% if request.user.is_authenticated %}Create a  new plan{% else %}Create a free plan {% endif %}</a>
+            <a href="{% url 'exportplan:start' %}" class="button primary-button buttton-icon"><i class="fas fa-plus m-r-xs"></i>{% if request.user.is_authenticated %}Create a  new plan{% else %}Create a free plan {% endif %}</a>
           </div>
-          <div class="g-card bg-blue-deep-10 min-height-0">
+          <div class="g-card action-wrapper min-height-0">
             <a href="{% static 'pdfs/sample_export_plan_document.pdf' %}" class="link">
               <i class="fas fa-arrow-circle-down m-r-xs"></i>See what a good export plan looks like
             </a>

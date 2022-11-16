@@ -20,7 +20,9 @@ label.body-l,
 .multiple-choice label,
 .select__button i,
 .great-checkbox label,
-.great-checkbox label::before
+.great-checkbox label::before,
+.learn__lesson-item-link:visited,
+.learning-link:visited
  {
   color: $color-main-text;
 }
@@ -88,13 +90,13 @@ i.fas.fa-clock {
 blockquote,
 .box,
 .box:before {
-  background-color: $color-quotes;
+  background-color: $color-background-color;
 }
 
 
 .media-block {
   i:before {
-    color: $color-quotes-icons
+    color: $color-main-text
   }
 }
 
@@ -122,7 +124,7 @@ a.link--underline {
 }
 
 .g-panel::before {
-  background: $color-quotes-icons;
+  background: $color-main-text;
 }
 
 
@@ -142,8 +144,10 @@ button:focus:active {
 .lesson-accordian-content,
 .getting-paid,
 .export-plan-form,
-.export-plan-statistics {
-  background-color: $color-quotes;
+.export-plan-statistics,
+.hero-image-container, 
+.action-wrapper {
+  background-color: $color-background-color;
   border-radius: 0;
 }
 

@@ -81,7 +81,7 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
       {selectedLength < maxPlaces && (
         <button
           type="button"
-          className="button button--primary button--icon add-market m-t-xs"
+          className="button primary-button button--icon add-market m-t-xs"
           onClick={() => setMarketModalIsOpen(true)}
         >
           <i className="fa fa-plus" />
