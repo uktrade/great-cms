@@ -359,3 +359,17 @@ button#commodity-code-details {
                 padding:0;
             }
         }
+
+.tooltip__icon>button{
+    i.fas.fa-book{
+        color: $color-gov-link!important;
+    }
+}
+
+button.button-example, button.button-lesson{
+    color: $color-main-text;
+
+    i{
+        color: $color-main-text;
+    }
+}
