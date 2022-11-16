@@ -47,9 +47,9 @@ button {
     }
 
     &.secondary-button{
-        color: $color-gov-link;
         background-color: white;
         border: 2px solid $color-gov-link;
+        color: $color-gov-link;
 
         i{
             color:$color-gov-link
@@ -122,7 +122,7 @@ button {
 
         &.back-button{
 
-            color:$color-main-text;
+            color:$color-gov-link;
             i{
                 color:$color-gov-link;
             }
@@ -481,3 +481,17 @@ button#commodity-code-details {
                 padding:0;
             }
         }
+
+.tooltip__icon>button{
+    i.fas.fa-book{
+        color: $color-gov-link!important;
+    }
+}
+
+button.button-example, button.button-lesson{
+    color: $color-main-text;
+
+    i{
+        color: $color-main-text;
+    }
+}
