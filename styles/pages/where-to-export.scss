@@ -279,7 +279,33 @@ button:focus:active {
   border-radius: 0;
 }
 
-a.link.lesson-learn{
+a.link.lesson-learn, a.section-list__link{
   text-decoration: none;
+  border-radius: 0;
+
+  img{
+   border-radius: 0;
+  }
 }
 
+.export-plan-header{
+  background-color: $color-main-background;
+}
+
+.modal-inner{
+  background-color: $color-main-background;
+}
+
+.snapshot-wrapper{
+  h2{
+    padding-top: $x-large-padding;
+  }
+}
+
+.prepend{
+  border-radius: 0;
+  border: 2px solid $color-border;
+  border-right-width: 0;
+  background-color: $color-background-color;
+  color:$color-main-text
+}

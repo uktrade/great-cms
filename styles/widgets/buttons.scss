@@ -348,28 +348,18 @@ button#commodity-code-details {
     }
   }
 }
- //override here as imported from great styles
- .button--only-icon{
-            height: 40px;
-            width: 40px;
-            border-radius: 50%!important;
-            border: 2px solid $color-gov-link;
 
-            &>i{
-                padding:0;
-            }
-        }
-
-.tooltip__icon>button{
-    i.fas.fa-book{
-        color: $color-gov-link!important;
+.tooltip__icon>button {
+    i.fas.fa-book {
+        color: $color-gov-link  !important;
     }
 }
 
-button.button-example, button.button-lesson{
+button.button-example,
+button.button-lesson {
     color: $color-main-text;
 
-    i{
+    i {
         color: $color-main-text;
     }
 }
