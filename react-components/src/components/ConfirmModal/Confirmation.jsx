@@ -13,7 +13,7 @@ export const Confirmation = memo(
       >
         <div className="modal" style={{ maxWidth: '400px' }}>
           <div className="modal-header" />
-          <div className="p-t-s p-h-s modal-inner text-blue-deep-80 bg-white radius">
+          <div className="p-t-s p-h-s modal-inner">
             <div className="text-center">
               <h4 className="h-xs p-t-0">{title}</h4>
               <p className="body-l"> {body}</p>
@@ -21,7 +21,7 @@ export const Confirmation = memo(
             <div className="text-center">
               <button
                 type="button"
-                className="button button--icon inline m-r-xs m-b-s"
+                className="primary-button delete-button inline m-r-xs m-b-s"
                 onClick={onYes}
               >
                 {yesIcon && <i className={`fas ${yesIcon}`} />}
@@ -29,7 +29,7 @@ export const Confirmation = memo(
               </button>
               <button
                 type="button"
-                className="button button--icon button--tertiary inline m-b-s"
+                className="button button--icon secondary-button inline m-b-s"
                 onClick={onNo}
               >
                 {noIcon && <i className={`fas ${noIcon}`} />}

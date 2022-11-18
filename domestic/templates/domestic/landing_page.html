@@ -145,10 +145,10 @@
           <h1 class="homepage-hero__heading">Sell to the <span class="homepage-hero__highlight">world</span> with free online tools</h1>
           {% if request.user.is_authenticated %}
             <p class="homepage-hero__subtitle">View tailored market data on 193 countries</p>
-            <a class="button" href="/dashboard/">View dashboard</a>
+            <a class="button primary-button" href="/dashboard/">View dashboard</a>
           {% else %}
             <p class="homepage-hero__subtitle">Sign up for tailored market data on 193 countries</p>
-            <a class="button" href="/signup/">Create an account</a>
+            <a class="button primary-button" href="/signup/">Create an account</a>
           {% endif %}
         </div>
       </div>
@@ -222,7 +222,7 @@
           <p>Use our guides to identify new export markets and inform your international sales plan.</p>
           <form class="sector-potential-form" action="{% slugurl 'markets' %}" method="GET">
             {{ sector_form }}
-            <button type="submit" class="button margin-top-15 show-markets" id="sector-submit">Show markets</button>
+            <button type="submit" class="primary-button margin-top-15 show-markets" id="sector-submit">Show markets</button>
             <span class="verbose">Select a sector to enable the submit button.</span>
           </form>
         </div>
@@ -267,7 +267,7 @@
           {{ page.madb_content|richtext }}
         </div>
         <div>
-          <a href="{{ page.madb_cta_url }}" class="button">{{ page.madb_cta_text }}</a>
+          <a href="{{ page.madb_cta_url }}" class="button primary-button">{{ page.madb_cta_text }}</a>
         </div>
       </div>
     </div>
@@ -294,7 +294,7 @@
       <div class="campaign-content-container">
         <div class="campaign-subsection padding-bottom-30-l width-two-thirds-l width-half-xl">
           <p class="heading-medium margin-bottom-30 margin-top-0">{{ campaign_block_value.subheading }}</p>
-          <a href="{{ campaign_block_value.video.url }}" class="button margin-bottom-15" id="hero-campaign-section-watch-video-button" data-node="videoactivator" data-element="video" target="_blank">Watch video</a>
+          <a href="{{ campaign_block_value.video.url }}" class="button primary-button margin-bottom-15" id="hero-campaign-section-watch-video-button" data-node="videoactivator" data-element="video" target="_blank">Watch video</a>
         </div>
       </div>
     </div>

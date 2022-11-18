@@ -14,7 +14,7 @@ export const AdaptToTargetMarketForm = (params) => {
       </p>
       <Learning lesson={lesson} />
       <br />
-      <div className="form-table p-h-s p-v-xs">
+      <div className="form-table p-h-s p-v-xs export-plan-form">
         <div className="target-market-form">
           <FormElements {...params} />
         </div>

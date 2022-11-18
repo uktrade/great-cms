@@ -28,7 +28,7 @@ export const ConfirmModal = memo(({ deleteItem, hasData }) => {
       >
         <div className="modal w-auto">
           <div className="modal-header" />
-          <div className="p-t-s p-h-s modal-inner text-blue-deep-80 bg-white radius">
+          <div className="p-t-s p-h-s modal-inner bg-white">
             <div className="text-center">
               <h4 className="h-s p-t-0">Are you sure?</h4>
               <p className="body-l"> All data you entered will be deleted</p>
@@ -36,7 +36,7 @@ export const ConfirmModal = memo(({ deleteItem, hasData }) => {
             <div className="text-center">
               <button
                 type="button"
-                className="button button--icon inline m-r-xs m-b-s"
+                className="button delete-button primary-button inline m-r-xs m-b-s"
                 onClick={() => {
                   deleteItem()
                   setModal(false)

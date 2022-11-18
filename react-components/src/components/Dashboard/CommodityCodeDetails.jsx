@@ -22,13 +22,13 @@ export default function CommodityCodeDetails({ product }) {
     <>
       <div className="bg-white p-b-0 p-t-xxs p-f-xxs">
         <div className="flex-center">
-          <button type="button" onClick={() => openSection()}>
+          <button type="button icon-only" onClick={() => openSection()}>
             <i
               className={`fas ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}
             />
             <span className="visually-hidden">See details</span>
           </button>
-          <span className="m-l-xxs">{product.commodity_name}</span>
+          <span className="link">{product.commodity_name}</span>
         </div>
 
         {isOpen !== null && (
