@@ -2,6 +2,7 @@
 @import '../fonts/main.scss';
 @import '../borders/main.scss';
 
+
 .button,
 button {
     border-radius: 0 !important;
@@ -9,6 +10,11 @@ button {
     font-family: $header-font;
     font-size: $font-size-button;
     line-height: 30px;
+
+    &i{
+        font-size: $icon-large-button-size;
+    }
+    
     cursor: pointer;
 
     &:active, &:focus{
@@ -16,18 +22,24 @@ button {
         background-color: initial;
     }
 
-    &.icon-only{
-        height: auto;
-        width: auto;
+    &.primary-button, &.secondary-button, &.tertiary-button, &.quaternary-button{
+        padding-left: $large-padding;
+        padding-right: $large-padding;
     }
 
     &.small-button {
         height: 35px;
         line-height: 10px;
+        i{
+            font-size: $icon-small-button-size;
+        }
     }
 
     &.medium-button{
-        height:45px
+        height:45px;
+        i{
+            font-size: $icon-medium-button-size;
+        }
     }
 
     &:disabled {
@@ -121,6 +133,12 @@ button {
                 color:$color-gov-link;
             }
         }
+
+         &.icon-only{
+        height: auto;
+        width: auto;
+        border: none
+    }
 
 
 }

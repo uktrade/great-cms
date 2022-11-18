@@ -66,6 +66,7 @@
 
   .form-group-example {
     background-color: $white;
+    
   }
 
   .form-delete {
@@ -191,7 +192,6 @@
     font-size: var(--button-small-font-size);
     font-weight: var(--button-font-weight);
     width: 100%;
-    border-radius: var(--button-border-radius);
     height: var(--button-small-height);
     border: 2px solid transparent;
     background-color: white;

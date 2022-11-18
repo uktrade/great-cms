@@ -12,6 +12,10 @@ input[type=checkbox].markascomplete_checkbox{
     background-color: $color-completed;
 }
 
+textarea.form-control{
+    height: 50px!important;
+}
+
 label{
     color: $color-main-text;
 }
