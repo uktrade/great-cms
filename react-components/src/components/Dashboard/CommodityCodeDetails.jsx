@@ -29,7 +29,6 @@ export default function CommodityCodeDetails({ product }) {
             <span className="visually-hidden">See details</span>
                <span className="link">{product.commodity_name}</span>
           </button>
-
         </div>
 
         {isOpen !== null && (

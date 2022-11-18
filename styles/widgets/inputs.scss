@@ -55,6 +55,8 @@ input[type=checkbox].markascomplete_checkbox{
 
 textarea.form-control{
     height: 50px!important;
+    line-height: 17px;
+    color: $color-main-text;
 }
 
 label{
