@@ -330,11 +330,16 @@ button:focus:active {
   p,
   h1,
   span,
-  h3 {
+  h3, label {
     color: $color-alternative-text
   }
 }
 
-.statistic {
+.statistic, .great-radiogroup__label {
   border-radius: 0;
 }
+
+a.link.lesson-learn{
+  text-decoration: none;
+}
+
