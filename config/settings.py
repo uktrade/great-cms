@@ -109,9 +109,9 @@ ROOT_URLCONF = 'config.urls'
 ROOT_URLCONF_REDIRECTS = 'config.url_redirects'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:8020",
-    "http://greatcms.trade.great:8020",
-    "https://great.dev.uktrade.digital",
+    'http://127.0.0.1:8020',
+    'http://greatcms.trade.great:8020',
+    'https://great.dev.uktrade.digital',
 ]
 
 TEMPLATES = [
