@@ -10,6 +10,7 @@ djangorestframework==3.11.*
 django-formtools==2.*
 django-decorator-include==3.0
 django-treebeard>=4.2.0,<4.5
+django-cors-headers==3.11.0
 
 # Wagtail
 # ------------

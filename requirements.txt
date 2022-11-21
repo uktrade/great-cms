@@ -94,6 +94,7 @@ django==2.2.28
     #   directory-constants
     #   directory-healthcheck
     #   directory-validators
+    #   django-cors-headers
     #   django-decorator-include
     #   django-extensions
     #   django-filter
@@ -109,6 +110,8 @@ django==2.2.28
     #   sigauth
     #   wagtail
     #   wagtailfontawesome
+django-cors-headers==3.11.0
+    # via -r requirements.in
 django-decorator-include==3.0
     # via -r requirements.in
 django-environ==0.4.5
