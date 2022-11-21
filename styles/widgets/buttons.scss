@@ -4,7 +4,7 @@
 
 .button,
 button {
-    border-radius: 0 !important;
+    border-radius: 0;
     height: 50px;
     font-family: $header-font;
     font-size: $font-size-button;
@@ -73,7 +73,7 @@ button {
     &.primary-button:hover,
     &.primary-button:active,
     &.primary-button:focus {
-        background-color: $color-main-background;
+        background-color: $color-main-background!important;
         border: 2px solid $color-gov-link;
         color: $color-gov-link;
 
@@ -100,7 +100,7 @@ button {
     &.secondary-button:active,
     &.secondary-button:hover,
     &.secondary-button:focus {
-        background-color: $color-primary-button;
+        background-color: $color-primary-button!important;
         color: $color-alternative-text;
         border: 2px solid $color-primary-button;
 
@@ -120,6 +120,7 @@ button {
     .tab-list-active {
         height: 45px;
         line-height: 25px;
+        margin-bottom: $standard-padding;
         color: $color-gov-link;
         background-color: white;
         border: 2px solid $color-gov-link;
@@ -176,6 +177,20 @@ button {
 
         i {
             color: $color-gov-link;
+        }
+    }
+
+    &.search-button{
+        padding:0;
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        i{
+            padding:0
         }
     }
 }

@@ -14,7 +14,7 @@ export default function SelectMarket() {
 
   return marketSelected && (
     <section className="next-steps p-h-xl p-v-s m-t-s">
-      <h2 className="h-s text-white p-t-0 p-b-xs">Next steps</h2>
+      <h3 className="p-t-0 p-b-xs">Next steps</h3>
       <div className="flex-grid">
         {ReactHtmlParser(document.getElementById('next-steps').innerHTML)}
       </div>

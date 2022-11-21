@@ -101,7 +101,7 @@ export default function Interaction(props) {
         </div>
         <button
           type="button"
-          className="button button--primary m-t-xxs"
+          className="button primary-button m-t-xxs"
           disabled={!buttonEnabled}
           onClick={clickNext}
           style={{ float: 'left', clear: 'both' }}

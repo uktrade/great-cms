@@ -1,3 +1,5 @@
+@import '../../../styles/colors/colors.scss';
+
 .form {
   &--sign-up {
     bottom: 0;
@@ -170,7 +172,7 @@
 
     .great-radiogroup__input:checked + .great-radiogroup__label {
       color: white;
-      background-color: $colour-blue-deep-80;
+      background-color: $color-primary-button;
     }
   }
 

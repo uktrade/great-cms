@@ -1,0 +1,26 @@
+@import '../colors/colors.scss';
+
+.sso-profile-tab-container{
+    background-color: $color-background-color;
+
+    ul li.active{
+border-top: 5px solid #D6E0E5;
+    }
+    
+
+}
+
+.information-breakout {
+  background-color: $color-background-color;
+  padding: $x-large-padding;
+  margin-bottom: $x-large-padding;
+  display: inline-flex;
+
+  p{
+    padding:0;
+    margin:0
+  }
+  i{
+    padding-right: $standard-padding;
+  }
+}

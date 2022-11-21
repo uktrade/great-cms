@@ -122,7 +122,7 @@ export default function Interaction(props) {
         <RadioButtons attribute={attribute} valueChange={valueChange} />
         <button
           type="button"
-          className="button button--primary m-t-xxs"
+          className="button primary-button m-t-xxs"
           disabled={!value || !Object.keys(value).length}
           onClick={clickNext}
           style={{ float: 'left', clear: 'both' }}

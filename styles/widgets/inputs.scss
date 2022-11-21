@@ -21,3 +21,9 @@ textarea.form-control{
 label{
     color: $color-main-text;
 }
+
+.multiple-choice{
+    label, label:before, label:after{
+        color: $color-gov-link;
+    }
+}

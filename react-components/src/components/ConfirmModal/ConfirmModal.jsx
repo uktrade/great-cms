@@ -9,7 +9,7 @@ export const ConfirmModal = memo(({ deleteItem, hasData }) => {
     <>
       <button
         type="button"
-        className="button--only-icon button button--small button--delete button--tertiary m-v-xs"
+        className="secondary-button delete-button"
         onClick={() => {
           if (hasData) {
             setModal(true)
@@ -19,6 +19,7 @@ export const ConfirmModal = memo(({ deleteItem, hasData }) => {
         }}
       >
         <i className="fas fa-trash-alt" title="delete Objective" />
+        Delete
       </button>
       <ReactModal
         isOpen={modal}
