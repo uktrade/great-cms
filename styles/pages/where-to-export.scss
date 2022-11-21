@@ -225,8 +225,10 @@ p>a {
 .next-steps {
   background-color: $color-footer;
 
-  h2.h-m,
-  h2.h-s {
+  .mark-lesson-as-complete h2,
+  .mark-lesson-as-complete span,
+  .test-knowledge-wrapper>h2,
+  >h3 {
     color: $color-alternative-text
   }
 }
@@ -270,42 +272,59 @@ button:focus:active {
   p,
   h1,
   span,
-  h3, label {
+  h3,
+  label {
     color: $color-alternative-text
   }
 }
 
-.statistic, .great-radiogroup__label {
+.statistic,
+.great-radiogroup__label {
   border-radius: 0;
 }
 
-a.link.lesson-learn, a.section-list__link{
+a.link.lesson-learn,
+a.section-list__link {
   text-decoration: none;
   border-radius: 0;
 
-  img{
-   border-radius: 0;
+  img {
+    border-radius: 0;
   }
 }
 
-.export-plan-header{
+.export-plan-header {
   background-color: $color-main-background;
 }
 
-.modal-inner{
+.modal-inner {
   background-color: $color-main-background;
 }
 
-.snapshot-wrapper{
-  h2{
+.snapshot-wrapper {
+  h2 {
     padding-top: $x-large-padding;
   }
 }
 
-.prepend{
+.prepend {
   border-radius: 0;
   border: 2px solid $color-border;
   border-right-width: 0;
   background-color: $color-background-color;
-  color:$color-main-text
+  color: $color-main-text
+}
+
+
+.export-plan-form {
+  hr+button {
+    margin-top: $large-padding;
+  }
+}
+
+.costs__option .form-label {
+  padding-top: $standard-padding
+}
+#compare-markets{
+  background-color: $color-background-color;
 }
