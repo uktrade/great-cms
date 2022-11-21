@@ -83,10 +83,12 @@ INSTALLED_APPS = [
     'healthcheck.apps.HealthcheckAppConfig',
     'health_check.cache',
     'sso_profile',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'sso.middleware.AuthenticationMiddleware',
@@ -106,6 +108,13 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'config.urls'
 ROOT_URLCONF_REDIRECTS = 'config.url_redirects'
 
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:8080",
+    "http://127.0.0.1:8020",
+    "http://greatcms.trade.great:8020",
+]
 
 TEMPLATES = [
     {
