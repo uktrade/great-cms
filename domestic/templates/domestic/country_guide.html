@@ -94,7 +94,6 @@
 
       {% if page.intro_ctas %}
       <div class="column-quarter-l links margin-bottom-30">
-        {% if FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS %}
           <h2 class="heading-medium margin-top-0">Related services</h2>
           <div class="panel-vertical-narrow content-list padding-top-30">
             <ul id="country-guide-intro-ctas">
@@ -107,7 +106,6 @@
               {% endfor %}
             </ul>
           </div>
-        {% endif %}
       </div>
       {% endif %}
     </div>
@@ -436,13 +434,10 @@
         {% slugurl 'advice' as advice_url %}
         {% include 'components/cta_card.html' with with_arrow=True image_url=need_help_image_url text="Read more advice about doing business abroad" url=advice_url %}
       </div>
-
-      {% if FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS %}
       <div class="column-full column-half-l column-third-xl margin-bottom-0">
         {% static 'images/country-guide-contact.png' as contact_us_image_url %}
         {% include 'components/cta_card.html' with with_arrow=True image_url=contact_us_image_url text="Get in touch with one of our trade advisers" url="/contact/office-finder/" %}
       </div>
-      {% endif %}
     </div>
   </div>
 </section>

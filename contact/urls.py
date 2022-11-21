@@ -12,6 +12,7 @@ from contact.views import (
     ExportingAdviceFormView,
     ExportSupportSuccessPageView,
     FeedbackFormView,
+    FTASubscribeFormView,
     GuidanceView,
     InternationalFormView,
     InternationalSuccessView,
@@ -240,5 +241,19 @@ urlpatterns = [
             login_url=reverse_lazy('core:login'),
         ),
         name='contact-us-soo',
+    ),
+    path(
+        'contact/free-trade-agreements/',
+        skip_ga360(FTASubscribeFormView.as_view()),
+        name='contact-free-trade-agreements',
+    ),
+    path(
+        'contact/free-trade-agreements/success/',
+        skip_ga360(DomesticSuccessView.as_view()),
+        {
+            'slug': snippet_slugs.FTA_FORM_SUCCESS,
+            'snippet_import_path': 'contact.models.ContactSuccessSnippet',
+        },
+        name='contact-free-trade-agreements-success',
     ),
 ]

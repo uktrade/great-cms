@@ -554,8 +554,6 @@ def test_stats(
     domestic_homepage,
     settings,
 ):
-    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
-
     country = CountryFactory(name='Country name', slug='country-slug', iso2=iso2)
 
     page = CountryGuidePageFactory(
@@ -572,25 +570,7 @@ def test_stats(
 
 
 @pytest.mark.django_db
-def test_stats_feature_off(mock_economic_highlights, domestic_homepage, settings):
-    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = False
-
-    country = CountryFactory(name='China', slug='china', iso2='CN')
-
-    page = CountryGuidePageFactory(
-        parent=domestic_homepage,
-        title='Test GCP',
-        country=country,
-    )
-
-    assert len(page.stats) == 1
-    assert len(page.stats['economic_highlights']['data']) == 2
-
-
-@pytest.mark.django_db
 def test_stats_no_iso(domestic_homepage, settings):
-    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
-
     country = CountryFactory(name='France', slug='france')
 
     page = CountryGuidePageFactory(
@@ -604,8 +584,6 @@ def test_stats_no_iso(domestic_homepage, settings):
 
 @pytest.mark.django_db
 def test_stats_no_country(domestic_homepage, settings):
-    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
-
     page = CountryGuidePageFactory(
         parent=domestic_homepage,
         title='Test GCP',
