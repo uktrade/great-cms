@@ -152,6 +152,7 @@ django==2.2.28
     #   directory-constants
     #   directory-healthcheck
     #   directory-validators
+    #   django-cors-headers
     #   django-debug-toolbar
     #   django-decorator-include
     #   django-extensions
@@ -168,6 +169,8 @@ django==2.2.28
     #   sigauth
     #   wagtail
     #   wagtailfontawesome
+django-cors-headers==3.11.0
+    # via -r requirements.in
 django-debug-toolbar==3.2.4
     # via -r requirements_test.in
 django-decorator-include==3.0
