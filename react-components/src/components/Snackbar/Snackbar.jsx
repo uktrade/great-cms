@@ -38,7 +38,7 @@ export const Snackbar = () => {
         return (
           <div
             key={key}
-            className={`snackbar-message p-h-s p-v-xs m-t-xs bg-blue-deep-80 text-white radius ${
+            className={`snackbar-message p-h-s p-v-xs m-t-xs text-white radius ${
               notification.fade ? 'fade' : ''
             }`}
           >

@@ -3,9 +3,11 @@
 
 @import '../partials/colours';
 @import '../partials/spacings';
+@import '../../../../../styles/colors/colors.scss';
 
 section.error-reporting {
   padding: $spacing-3 0;
+  background-color: $color-main-background;
 }
 
 .error-reporting {
