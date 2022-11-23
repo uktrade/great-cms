@@ -443,7 +443,9 @@ def test_set_user_data(
     test_data = {'data': {'one': 1}}
     client.force_login(user)
     mock_set_user_data.return_value = create_response(status_code=200, json_body=test_data)
-    response = client.post(reverse('sso:user-data-api', kwargs={'name': 'ComparisonMarkets'}), test_data)
+    response = client.post(
+        reverse('sso:user-data-api', kwargs={'name': 'ComparisonMarkets'}), test_data, content_type='application/json'
+    )
     assert response.status_code == 200
     assert response.json() == test_data
 
@@ -453,12 +455,79 @@ def test_set_user_data_invalid(
     client,
     user,
 ):
-    test_data = {'data': 'small'}
-    test_data_long = {'data': 'x' * 16385}
+    test_data = {'data': {'one': '1'}}
+    test_data_long = {'data': {'one': 'x' * 16385}}
+
     client.force_login(user)
+
+    # Invalid kwarg name
     with pytest.raises(ValueError) as raised_exception:
-        client.post(reverse('sso:user-data-api', kwargs={'name': 'invalid_name'}), test_data)
+        client.post(
+            reverse('sso:user-data-api', kwargs={'name': 'invalid_name'}), test_data, content_type='application/json'
+        )
     assert 'Invalid user data name (invalid_name)' in str(raised_exception.value)
+
+    # Invalid payload size
     with pytest.raises(ValueError) as raised_exception:
-        client.post(reverse('sso:user-data-api', kwargs={'name': 'ComparisonMarkets'}), test_data_long)
-    assert 'User data value exceeds 16384 bytes (actual - 16387 bytes)' in str(raised_exception.value)
+        client.post(
+            reverse('sso:user-data-api', kwargs={'name': 'ComparisonMarkets'}),
+            test_data_long,
+            content_type='application/json',
+        )
+    assert 'User data value exceeds 16384 bytes' in str(raised_exception.value)
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_api_client.user, 'set_user_data')
+def test_set_user_data_products(
+    mock_set_user_data,
+    client,
+    user,
+):
+    client.force_login(user)
+
+    test_data = {'data': {'commodity_name': 'A', 'commodity_code': 'B'}}
+    mock_set_user_data.return_value = create_response(status_code=200, json_body=test_data)
+
+    response = client.post(
+        reverse('sso:user-data-api', kwargs={'name': 'UserProducts'}), test_data, content_type='application/json'
+    )
+    assert response.status_code == 200
+    assert response.json() == test_data
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_api_client.user, 'set_user_data')
+def test_set_user_data_products_list(
+    mock_set_user_data,
+    client,
+    user,
+):
+    client.force_login(user)
+
+    test_data = {
+        'data': [{'commodity_name': 'A', 'commodity_code': 'B'}, {'commodity_name': 'C', 'commodity_code': 'D'}]
+    }
+    mock_set_user_data.return_value = create_response(status_code=200, json_body=test_data)
+
+    response = client.post(
+        reverse('sso:user-data-api', kwargs={'name': 'UserProducts'}), test_data, content_type='application/json'
+    )
+    assert response.status_code == 200
+    assert response.json() == test_data
+
+
+@pytest.mark.django_db
+def test_set_user_data_products_invalid(
+    client,
+    user,
+):
+    test_data = {'data': {'commodity_name': '<html></html>', 'commodity_code': 'ABC'}}
+
+    client.force_login(user)
+
+    response = client.post(
+        reverse('sso:user-data-api', kwargs={'name': 'ActiveProduct'}), test_data, content_type='application/json'
+    )
+    assert response.status_code == 400
+    assert response.json()['commodity_name'] == ['Please remove the HTML.']

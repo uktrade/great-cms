@@ -1,3 +1,4 @@
+from directory_validators.string import no_html
 from django.core.validators import RegexValidator
 from rest_framework import serializers
 
@@ -16,3 +17,12 @@ class SSOBusinessVerifyCodeSerializer(serializers.Serializer):
     uidb64 = serializers.CharField()
     token = serializers.CharField()
     code = serializers.CharField()
+
+
+class UserDataSerializer(serializers.Serializer):
+    pass
+
+
+class UserProductsSerializer(serializers.Serializer):
+    commodity_name = serializers.CharField(validators=[no_html])
+    commodity_code = serializers.CharField(validators=[no_html])
