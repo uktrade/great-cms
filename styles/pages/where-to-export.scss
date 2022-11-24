@@ -1,33 +1,6 @@
 @import '../colors/colors.scss';
 @import '../sizes/sizes.scss';
 
-<<<<<<< HEAD
-=======
-//just overidde colors
-.h-m,
-.h-s,
-a.learn__category-link,
-.body-m,
-.body-l,
-.h-l,
-.body-l-b,
-.h-xs,
-.body-l,
-.body-s,
-div,
-label.body-l,
-.body-m-b,
-.body-s-b,
-.multiple-choice label,
-.select__button i,
-.great-checkbox label,
-.great-checkbox label::before,
-.learn__lesson-item-link:visited,
-.learning-link:visited {
-  color: $color-main-text;
-}
-
->>>>>>> d53eb2f19 (additonal chad fixes)
 .classification-tree__line,
 .section-list__item {
   border-radius: 0;
