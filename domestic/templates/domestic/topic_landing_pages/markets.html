@@ -20,10 +20,10 @@
 {% endblock %}
 
 {% if page.teaser %}
-<section id="markets-banner-section" class="topic-list-section background-stone-30 padding-bottom-60-m padding-top-15-m">
+<section id="markets-banner-section" class="topic-list-section padding-bottom-60-m padding-top-15-m">
     <div class="container">
       <div class="grid-row margin-top-30 margin-top-45-m">
-        <div class="column-full column-two-thirds-l font-medium">
+        <div class="column-full column-two-thirds-l">
           {{ page.teaser }}
         </div>
       </div>
@@ -32,7 +32,7 @@
 {% endif %}
 
 {% block child_pages %}
-<section id="{{ page.slug }}-list-section" class="topic-list-section background-stone-30 markets-landing">
+<section id="{{ page.slug }}-list-section" class="topic-list-section markets-landing">
     <div class="container">
       <form id="sectors-form" action="" method="GET">
           <div class="grid-row">
@@ -104,7 +104,7 @@
                   {% endif %}
                 {% else %}
                   {% if selected_sectors or selected_regions %}
-                    <h3 class="font-medium margin-bottom-15">There {{ number_of_results|pluralize:"is,are" }} {{ number_of_results }} market{{ number_of_results|pluralize:",s" }}
+                    <h3 class="margin-bottom-15">There {{ number_of_results|pluralize:"is,are" }} {{ number_of_results }} market{{ number_of_results|pluralize:",s" }}
                     {% if selected_sectors %}
                       with high potential for UK businesses in
                       {% for sector in selected_sectors %}

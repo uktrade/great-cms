@@ -46,7 +46,7 @@ label.body-l,
   height: 41px;
   color: $color-gov-link;
   border-radius: 0;
-  background-color: #f5f7fa;
+  background-color: $color-background-color;
   display: flex;
   align-items: center;
   padding-left: $large-padding;
@@ -224,4 +224,12 @@ a.section-list__link {
   background-color: $color-footer;
   display: inline-flex;
   align-items: center;
+}
+
+.great-footer{
+  background-color: $color-footer;
+}
+
+.g-card{
+  background-color: $color-main-background;
 }

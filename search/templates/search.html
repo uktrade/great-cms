@@ -111,7 +111,7 @@
           {% endif %}
         </ol>
           {% if current_page != total_pages %}
-          <a class="button-ghost-blue pagination-next" rel="next" href="{% url 'search:search' %}?page={{ next_page }}&q={{ query }}">Next</a>
+          <a class="button secondary-button pagination-next" rel="next" href="{% url 'search:search' %}?page={{ next_page }}&q={{ query }}">Next</a>
         {% endif %}
       </div>
     {% endif %}

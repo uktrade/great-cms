@@ -9,26 +9,25 @@
 {% endblock %}
 
 {% block content %}
-  <div class="hero-image-container export-plan-header">
-    <div class="container">
-      <div class="grid ">
-        <div class="c-1-2 p-v-xl lh">
-          <h1 class="h-l text-white">
+  <div class="page-header export-plan-header">
+          <div>
+          <h1>
             My export plans
           </h1>
-          <a href="{% url 'exportplan:start' %}" class="button button--large primary-button buttton-icon"><i
+          <p>Your unique business plan to launch your exports.</p>
+          <a href="{% url 'exportplan:start' %}" class="button primary-button"><i
             class="fas fa-plus m-r-xs"
           ></i>Create a new plan</a>
       </div>
-      <div class="c-1-2 rh p-t-m">
+
         <img src="{% static 'images/ep-index.png' %}" alt="">
-      </div>
+
+    <div class = "image-container">
     </div>
-  </div>
 </div>
 <input id="details-reveal" type="checkbox" class="button hide-show-trigger" />
 <div>
-  <div class="p-v-l bg-white {% if exportplan_list %}hide-show-content{% endif %} watermark-container">
+  <div class="p-v-l {% if exportplan_list %}hide-show-content{% endif %} watermark-container">
     <div class="container">
       <div class="grid">
         <div class="c-1-2-m">

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
+    <div>
         {% block breadcrumbs %}{% endblock %}
         {% if request.user.is_authenticated and not request.user.has_user_profile %}
             <div class="margin-top-30">
@@ -14,16 +14,18 @@
             </div>
         {% endif %}
 
-        <div class="grid-row">
-            <div class="column-two-thirds sso-profile-toolbar-labels-container">
+        <div class="page-header account-header">
+            <div>
                 <h1 class="heading-xlarge margin-top-30 margin-bottom-15" id="tabs-title">Account</h1>
                 {% if request.user.is_authenticated %}
-                    <div>You are signed in as {{ request.user.email }}.</div>
+                    <p>You are signed in as {{ request.user.email }}.</p>
                 {% endif %}
+            </div>
+            <div class="image-container">
             </div>
         </div>
     </div>
-    <div class="sso-profile-tab-container margin-top-30">
+    <div class="sso-profile-tab-container">
         <div class="container">
             <div class="grid-row margin-0">
                 <ul class="padding-0">

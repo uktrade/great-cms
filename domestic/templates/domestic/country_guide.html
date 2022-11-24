@@ -29,7 +29,7 @@
       <div class="column-three-quarters-l teaser">
         <h2 class="visually-hidden">Overview</h2>
 
-        <p class="font-medium margin-bottom-30">{{ page.heading_teaser }}</p>
+        <p class="margin-bottom-30">{{ page.heading_teaser }}</p>
 
         {% if page.stats.highlights.data %}
           {% with highlights=page.stats.highlights %}
@@ -334,7 +334,7 @@
   </div>
 </section>
 
-<section id="country-guide-statistics-section" class="statistics padding-vertical-30 background-stone-30">
+<section id="country-guide-statistics-section" class="statistics padding-vertical-30">
   <div class="container">
     {% include 'components/statistics_card_grid.html' with statistics=page.main_statistics economic_highlights=page.stats.economic_highlights country=page.heading %}
   </div>
@@ -390,7 +390,7 @@
 </section>
 
 {% if page.fact_sheet_title %}
-<section id="country-guide-section-three" class="section-three background-stone-30 padding-top-90 padding-bottom-60">
+<section id="country-guide-section-three" class="section-three padding-top-90 padding-bottom-60">
   <div class="container">
     <div class="grid-row margin-bottom-60">
       <div class="column-full column-two-thirds-m column-half-l">
@@ -443,7 +443,7 @@
 </section>
 
 {% if page.related_pages %}
-<section id="country-guide-news-events-section" class="news-events background-stone-30 padding-vertical-60">
+<section id="country-guide-news-events-section" class="news-events padding-vertical-60">
   <div class="container">
     <h2 class="heading-large margin-top-0 margin-bottom-45">News and events</h2>
     <div class="flex-grid">

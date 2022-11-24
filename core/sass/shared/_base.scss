@@ -52,7 +52,7 @@ $tablet: 768px;
 }
 
 .shared-learning-banner {
-  background-color: #4A416E;
+  background-color: $color-footer;
   color: #fff;
   display: flex;
   flex-direction: row;
@@ -96,12 +96,14 @@ $tablet: 768px;
       line-height: 24px;
       font-weight: 600;
       padding-bottom: 10px;
+      color: $color-alternative-text
     }
 
     p {
       font-size: 16px;
       letter-spacing: 0;
       line-height: 25px;
+      color: $color-alternative-text
     }
   }
 
@@ -557,6 +559,7 @@ $tablet: 768px;
 
   .magna-footer__nav {
     background-color: $color-footer;
+
     @include mobile {
       flex-direction: column-reverse;
     }

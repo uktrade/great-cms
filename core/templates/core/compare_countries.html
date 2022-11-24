@@ -9,25 +9,18 @@
 {% block content %}
   <div id="where-to-export">
       <section class="bg-white">
-          <div class="container p-t-m p-b-m">
-              <div class="grid">
-                  <div class="c-1-2-l">
-                      <div class="">
-                          <h1 class=" p-b-0">{{ page.title }}</h1>
-                          <div class="">
-                              <p class="body-l">Find information to help choose the right export market for your product. Compare data for up to 10 markets, using dynamic feeds from some of the world’s most trusted sources.</p>
-                          </div>
-                          {% if data_tabs_enabled %}
-                            <div id="cta-container"></div>
-                          {% endif %}
-                      </div>
-                  </div>
-
-                  <div class="c-1-2-l only-desktop">
-                    <img src={% block banner_image %}{% static 'images/where-to-export.png' %}{% endblock %} alt="" class="max-width-80 m-r-auto m-f-auto" />
-                  </div>
+           <div class="page-header where-to-export-header">
+              <div>
+                  <h1>{{ page.title }}</h1>
+                   <p>Find information to help choose the right export market for your product. Compare data for up to 10 markets, using dynamic feeds from some of the world’s most trusted sources.</p>
+                   <button class="primary-button">
+                    <i class="fa fa-plus"></i>
+                    Add Market
+                   </button>
               </div>
-          </div>
+              <div class="image-container">
+              </div>
+           </div>
       </section>
   </div>
   {% if data_tabs_enabled %}

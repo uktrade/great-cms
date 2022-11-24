@@ -1,0 +1,122 @@
+@import '../colors/colors.scss';
+@import '../fonts/typography.scss';
+@import '../sizes/sizes.scss';
+
+.page-header {
+    background-color: $color-main-background !important;
+    width: 100%;
+    height: 355px;
+    background-position-x: right !important;
+    background-position-y: bottom !important;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-size: 50% auto !important;
+    background-repeat: no-repeat !important;
+
+
+
+    >div:first-child {
+        width: 50%;
+        padding-top: 60px;
+        padding-left: 145px;
+        padding-bottom: 60px;
+        box-sizing: border-box;
+
+
+        p {
+            margin-top: $x-large-padding;
+            margin-bottom: 1.5 * $standard-padding;
+        }
+    }
+
+    .image-container {
+        display: none;
+    }
+
+
+
+    @media only screen and (min-width:$mobile-size) and (max-width:$tablet-size) {
+        >div:first-child {
+            padding: 30px;
+            padding-left: 60px;
+            width: 60%;
+        }
+        background-size: 40% auto !important;
+    }
+
+    @media only screen and (max-width: $mobile-size) {
+        height: auto;
+        max-width: $mobile-size;
+        background-size: 0% auto!important;
+
+        >div:first-child {
+            height: auto;
+            flex: 1;
+            width: 100%;
+            padding: 30px;
+            min-width: $mobile-size * 0.5;
+
+            button {
+                width: 100%;
+            }
+
+        }
+
+        .image-container {
+            display: flex;
+            flex: 1;
+            height: 0;
+            padding-top: 56.25%;
+            width: 100%;
+            background-repeat: no-repeat!important;
+            background-size: contain!important;
+            background-position-y: bottom !important;
+            min-width: $mobile-size * 0.5;
+        }
+
+          &.where-to-export-header .image-container {
+                background: url(/static/images/export-plan-header.png);
+            }
+
+            &.export-plan-header  .image-container {
+                background: url(/static/images/export-plan-header.png);
+            }
+
+            &.account-header .image-container {
+                background: url(/static/images/export-plan-header.png);
+            }
+
+            &.market-header .image-container {
+                background: url(/static/images/export-plan-header.png);
+            }
+
+            &.learn-header .image-container {
+                background: url(/static/images/export-plan-header.png);
+            }
+
+
+    }
+
+
+    &.where-to-export-header {
+        background: url(/static/images/export-plan-header.png);
+    }
+
+    &.export-plan-header {
+        background: url(/static/images/export-plan-header.png);
+    }
+
+    &.account-header {
+        background: url(/static/images/export-plan-header.png);
+    }
+
+    &.market-header {
+        background: url(/static/images/export-plan-header.png);
+    }
+
+    &.learn-header {
+        background: url(/static/images/export-plan-header.png);
+    }
+
+}
