@@ -7,6 +7,9 @@
 ### Hotfix
 
 ### Enhancements
+* KLS-222 - Patch loader-utils to v2.0.4
+
+### Enhancements
 * KLS-124 - Remove FTA feature flag
 * KLS-144 - Upgrade cryptography package
 * KLS-149 - Upgrade loader-utils package
