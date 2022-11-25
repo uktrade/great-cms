@@ -5,6 +5,8 @@
 ### Bugs fixed
 * Update MonthYearInput test to get current year dynamically
 * KLS-370 - Update createPageChooser function to work with new wagtail parameters
+* KLS-80 - Correct form destinations and CTA style for Scottish offices
+
 ### Hotfix
 
 ### Enhancements
@@ -38,6 +40,8 @@
 
 ## [2.19.0](https://github.com/uktrade/great-cms/releases/tag/2.19.0)
 
+
+## [2.19.0](https://github.com/uktrade/great-cms/releases/tag/2.19.0)
 ### Enhancements
 * KLS-124 - Remove FTA feature flag
 * KLS-144 - Upgrade cryptography package
