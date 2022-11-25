@@ -2,6 +2,11 @@
 @import '../fonts/typography.scss';
 @import '../sizes/sizes.scss';
 
+$where-to-export-image: url(/static/images/where-to-export-header.png);
+$export-plan-image: url(/static/images/export-plan-header.png);
+$learn-to-export-image: url(/static/images/learn-to-export-header.png);
+$account-image: url(/static/images/account-header.png);
+
 .page-header {
     background-color: $color-main-background !important;
     width: 100%;
@@ -54,7 +59,7 @@
             height: auto;
             flex: 1;
             width: 100%;
-            padding: 30px;
+            padding: $standard-padding * 1.5;
             min-width: $mobile-size * 0.5;
 
             button {
@@ -76,15 +81,15 @@
         }
 
           &.where-to-export-header .image-container {
-                background: url(/static/images/export-plan-header.png);
+                background: $where-to-export-image;
             }
 
             &.export-plan-header  .image-container {
-                background: url(/static/images/export-plan-header.png);
+                background: $export-plan-image;
             }
 
             &.account-header .image-container {
-                background: url(/static/images/export-plan-header.png);
+                background: $account-image;
             }
 
             &.market-header .image-container {
@@ -92,7 +97,7 @@
             }
 
             &.learn-header .image-container {
-                background: url(/static/images/export-plan-header.png);
+                background: $learn-to-export-image;
             }
 
 
@@ -100,15 +105,15 @@
 
 
     &.where-to-export-header {
-        background: url(/static/images/export-plan-header.png);
+        background: $where-to-export-image;
     }
 
     &.export-plan-header {
-        background: url(/static/images/export-plan-header.png);
+        background: $export-plan-image;
     }
 
     &.account-header {
-        background: url(/static/images/export-plan-header.png);
+        background: $account-image;
     }
 
     &.market-header {
@@ -116,7 +121,7 @@
     }
 
     &.learn-header {
-        background: url(/static/images/export-plan-header.png);
+        background: $learn-to-export-image;
     }
 
 }
