@@ -1,0 +1,5 @@
+{% if office.name|lower == 'scottish enterprise' %}
+    <a href="{{ office.website }}" target="_BLANK" class="{{ link_class }}">Contact {{ office.name }} office</a>
+{% else %}
+    <a href="{% url 'contact:office-finder-contact' postcode=form.cleaned_data.postcode %}" class="{{ link_class }}">Contact {{ office.name }} office</a>
+{% endif %}
