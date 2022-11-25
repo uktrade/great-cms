@@ -57,6 +57,7 @@
 
 
 
+
 ## [2.19.0](https://github.com/uktrade/great-cms/releases/tag/2.19.0)
 ### Enhancements
 * KLS-124 - Remove FTA feature flag
