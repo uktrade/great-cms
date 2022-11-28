@@ -5,4 +5,32 @@
 
 .filters .filter-section {
     border-bottom: 1px solid $color-main-text;
+
+    .multiple-choice{
+    label, label:before, label:after{
+        color: $color-main-text;
+    }
+}
+}
+
+.markets-grid{
+ .card-inner {
+    padding: $large-padding;
+    padding-bottom: $x-large-padding *2;
+
+
+        h2{
+            font-size: $font-size-h4;
+        }
+ }
+}
+
+#country-guide-teaser-section, #country-guide-section-one, #country-trade-barriers{
+    background-color: $color-main-background;
+}
+
+#country-guide-teaser-section{
+    .teaser > h1{
+        padding-bottom: $x-large-padding;
+    }
 }
