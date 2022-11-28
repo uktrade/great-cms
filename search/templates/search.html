@@ -72,7 +72,7 @@
       <div class="pagination">
         <p class="verbose">Displaying page {{ current_page }} of total {{ total_pages }}</p>
         {% if current_page != 1 %}
-          <a class="button-ghost-blue pagination-previous" rel="prev" href="{% url 'search:search' %}?page={{ previous_page }}&q={{ query }}">Previous</a>
+          <a class="button primary-button" rel="prev" href="{% url 'search:search' %}?page={{ previous_page }}&q={{ query }}">Previous</a>
         {% endif %}
 
         <ol class="navigation" role="navigation" aria-label="Page navigation">
