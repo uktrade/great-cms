@@ -52,3 +52,10 @@ nav {
     margin-top: 7px;
   }
 }
+
+nav.breadcrumbs{
+    padding-top: 0.75em!important;
+    padding-bottom: 0.75em!important;
+    background-color: $color-background-color ;
+
+}
