@@ -19,10 +19,12 @@ If both are available, `image_url` will be used over `image`
 <div class="page-header article-header"
     id="hero"
     {% if image_url %}style="background: url({{ image_url }})"{% endif %}>
+     <div class="inner-header">
   <div >
       <h1>{{ hero_subheading }}</h1>
       <p>{{ hero_text }}</p>
   </div>
   <div class="image-container" style="background: url({{ image_url }})">
   </div>
+</div>
 </div>

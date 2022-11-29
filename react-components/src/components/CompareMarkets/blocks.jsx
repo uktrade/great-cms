@@ -100,7 +100,7 @@ const renderRemoveButton = ({ market, removeMarket }) => (
   <button
     type="button"
     onClick={removeMarket || (() => null)}
-    className="button button--tiny-toggle"
+    className="button button--tiny-toggle remove-market"
     data-id={market.country_iso2_code}
     aria-label={`Remove ${market.country_name} from table`}
   >

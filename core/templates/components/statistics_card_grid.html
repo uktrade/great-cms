@@ -7,11 +7,12 @@
 {% load humanize %}
 
 <div class="statistics-card margin-vertical-30">
-  <h2 class="statistics-card-heading heading-large">
-    <span>{{ country }}: at a glance</span>
-  </h2>
 
   <div class="statistics-card-content">
+      <h2>
+    {{ country }}: at a glance
+  </h2>
+
     <div class="flex-grid">
       {% if economic_highlights.data %}
         <figure

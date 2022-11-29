@@ -6,8 +6,12 @@ $where-to-export-image: url(/static/images/where-to-export-header.png);
 $export-plan-image: url(/static/images/export-plan-header.png);
 $learn-to-export-image: url(/static/images/learn-to-export-header.png);
 $account-image: url(/static/images/accounts-header.png);
+$learn-content-header: url(/static/images/learn-to-export-header2.png);
+
+$breakpoint-size: 900px;
 
 .page-header {
+    position: relative;
     background-color: $color-main-background !important;
     width: 100%;
     height: 355px;
@@ -15,47 +19,72 @@ $account-image: url(/static/images/accounts-header.png);
     background-position-y: bottom !important;
     display: inline-flex;
     flex-direction: row;
+    justify-content: center;
     flex-wrap: wrap;
-    background-size: 50% auto !important;
+    background-size: auto 100%!important;
     background-repeat: no-repeat !important;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    box-sizing: border-box;
 
+    .inner-header {
+        width: 100%;
+        height: 100%;
+        max-width: 1230px;
+        >div:first-child {
+            width: 50%;
 
+            box-sizing: border-box;
 
-    >div:first-child {
-        width: 50%;
-        padding-top: 60px;
-        padding-left: 145px;
-        padding-bottom: 60px;
-        box-sizing: border-box;
+            p {
+                margin-top: $standard-padding;
+                margin-bottom: $large-padding;
+            }
 
-
-        p {
-            margin-top: $x-large-padding;
-            margin-bottom: 1.5 * $standard-padding;
+            .lesson-summary {
+                display: inline-flex;
+                align-items: center;
+                span,
+                i {
+                    color: $color-gov-link;
+                }
+                i{
+                    padding-bottom: 3px;
+                }
+               .learn__category-topics{
+                padding-left: $standard-padding * 0.5
+               }
+            }
         }
     }
+
+
+    i.fa .fa-clock {
+        color: $color-gov-link;
+    }
+
 
     .image-container {
         display: none;
     }
 
+    // @media only screen and (min-width:$mobile-size) and (max-width:$tablet-size) {
+    //     .inner-header>div:first-child {
+    //         padding: 30px;
+    //         padding-left: 60px;
+    //         width: 60%;
+    //     }
 
-
-    @media only screen and (min-width:$mobile-size) and (max-width:$tablet-size) {
-        >div:first-child {
-            padding: 30px;
-            padding-left: 60px;
-            width: 60%;
-        }
-        background-size: 40% auto !important;
-    }
+    //     background-size: 40% auto !important;
+    // }
 
     @media only screen and (max-width: $mobile-size) {
+        background: $color-main-background!important;
         height: auto;
-        max-width: $mobile-size;
-        background-size: 0% auto!important;
+        background-size: 0% auto;
+        padding-bottom: 0px;
 
-        >div:first-child {
+        .inner-header>div:first-child {
             height: auto;
             flex: 1;
             width: 100%;
@@ -64,6 +93,7 @@ $account-image: url(/static/images/accounts-header.png);
 
             button {
                 width: 100%;
+                min-width:auto;
             }
 
         }
@@ -74,35 +104,37 @@ $account-image: url(/static/images/accounts-header.png);
             height: 0;
             padding-top: 56.25%;
             width: 100%;
-            background-repeat: no-repeat!important;
-            background-size: contain!important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important;
             background-position-y: bottom !important;
             min-width: $mobile-size * 0.5;
         }
 
-          &.where-to-export-header .image-container {
-                background: $where-to-export-image;
-            }
+        &.where-to-export-header .image-container {
+            background: $where-to-export-image;
+        }
 
-            &.export-plan-header  .image-container {
-                background: $export-plan-image;
-            }
+        &.export-plan-header .image-container {
+            background: $export-plan-image;
+        }
 
-            &.account-header .image-container {
-                background: $account-image;
-            }
+        &.learn-content-header .image-container {
+            background: $learn-content-header
+        }
 
-            &.market-header .image-container {
-                background: url(/static/images/export-plan-header.png);
-            }
+        &.account-header .image-container {
+            background: $account-image;
+        }
 
-            &.learn-header .image-container {
-                background: $learn-to-export-image;
-            }
+        &.market-header .image-container {
+            background: url(/static/images/export-plan-header.png);
+        }
 
+        &.learn-header .image-container {
+            background: $learn-to-export-image;
+        }
 
     }
-
 
     &.where-to-export-header {
         background: $where-to-export-image;
@@ -124,10 +156,14 @@ $account-image: url(/static/images/accounts-header.png);
         background: $learn-to-export-image;
     }
 
+    &.learn-content-header {
+        background: $learn-content-header
+    }
+
 }
 
 
-.market-details-header{
+.market-details-header {
     height: 355px;
     background-size: 100% auto;
 

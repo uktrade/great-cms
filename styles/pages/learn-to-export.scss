@@ -2,13 +2,9 @@
 @import '../sizes/sizes.scss';
 @import '../sizes/sizes.scss';
 
+$breakpoint-size: 900px;
+
 #learn-root {
-  margin-top: $x-large-padding * 2;
-
-  @media only screen and (max-width: $mobile-size) {
-    margin-top: $x-large-padding;
-  }
-
   article {
     box-sizing: border-box;
     min-height: 232px;
@@ -50,7 +46,7 @@
       }
     }
 
-    @media only screen and (max-width: $mobile-size) {
+    @media only screen and (max-width: $breakpoint-size) {
       padding: $large-padding;
       padding-top: 35px;
       padding-bottom: 35px;
@@ -78,4 +74,15 @@
       }
     }
   }
+}
+
+.learn-back-button{
+  position: absolute;
+  top:10px;
+  left:20px;
+  color: $color-gov-link;
+}
+
+.lesson-page{
+  background-color: $color-main-background;
 }

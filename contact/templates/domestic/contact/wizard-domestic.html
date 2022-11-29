@@ -41,7 +41,7 @@
                     {% block extra_content_pre_submit %}{% endblock %}
                     <div>
                         {% if wizard.steps.step1 != wizard.steps.count %}
-                            <button type="submit" class="button button margin-top-30">{% block button_continue_label %}Continue{% endblock %}</button>
+                            <button type="submit" class="primary-button margin-top-30">{% block button_continue_label %}Continue{% endblock %}</button>
                         {% else %}
                             <button class="button next margin-top-30" type="submit">{% block submit_button_label %}Submit{% endblock %}</button>
                         {% endif %}

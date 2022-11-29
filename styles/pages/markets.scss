@@ -25,12 +25,19 @@
  }
 }
 
-#country-guide-teaser-section, #country-guide-section-one, #country-trade-barriers{
+#country-guide-teaser-section, #country-guide-section-one, #country-guide-accordions, #country-trade-barriers, #country-guide-accordions{
     background-color: $color-main-background;
 }
 
 #country-guide-teaser-section{
     .teaser > h1{
         padding-bottom: $x-large-padding;
+    }
+}
+
+#country-guide-intro-ctas{
+    a{
+        font-size: 18px;
+        font-family: $main-text-font;
     }
 }

@@ -1,0 +1,16 @@
+@import '../colors/colors.scss';
+
+.article-list-page{
+    .card-link{
+        display: grid;
+    }
+    .card {
+        background-color: transparent ;
+        .card-inner{
+            background-color: $color-main-background;
+            h2{
+                font-size: 28px;
+            }
+        }
+    }
+}

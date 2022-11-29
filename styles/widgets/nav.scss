@@ -1,4 +1,5 @@
 @import '../fonts/main.scss';
+@import '../colors/colors.scss';
 nav>ul>li>a {
     font-family:$main-text-font!important ;
     border-bottom: 0;
@@ -7,4 +8,11 @@ nav>ul>li>a {
     color: white!important;
     padding-right: 4px;
     border:none!important
+}
+
+nav.breadcrumbs{
+    padding-top: 0.75em!important;
+    padding-bottom: 0.75em!important;
+    background-color: $color-background-color ;
+
 }

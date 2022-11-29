@@ -80,7 +80,7 @@ export default function ComparisonTables(props) {
 
   return (
     <>
-      {mobile ? '' : <div className="p-h-m p-t-l">{tabStrip}</div>}
+      {mobile ? '' : <div className="p-h-m">{tabStrip}</div>}
 
       {Object.keys(tabConfig).map(
         (item) =>

@@ -73,7 +73,7 @@ button {
     &.primary-button:hover,
     &.primary-button:active,
     &.primary-button:focus {
-        background-color: $color-main-background!important;
+        background-color: $color-main-background;
         border: 2px solid $color-gov-link;
         color: $color-gov-link;
 
@@ -100,7 +100,7 @@ button {
     &.secondary-button:active,
     &.secondary-button:hover,
     &.secondary-button:focus {
-        background-color: $color-primary-button!important;
+        background-color: $color-primary-button;
         color: $color-alternative-text;
         border: 2px solid $color-primary-button;
 
@@ -118,7 +118,7 @@ button {
 
     &.tab-list-item,
     .tab-list-active {
-        height: 45px;
+        height: 50px;
         line-height: 25px;
         margin-bottom: $standard-padding;
         color: $color-gov-link;
@@ -234,5 +234,12 @@ button.button-lesson {
 
     i {
         color: $color-main-text;
+    }
+}
+
+
+.remove-market{
+    i{
+    font-size: $icon-standard-size;
     }
 }
