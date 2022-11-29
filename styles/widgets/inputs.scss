@@ -68,3 +68,21 @@ label{
         color: $color-gov-link;
     }
 }
+
+.select__placeholder {
+    height: 50px;
+
+    i {
+        font-size: 18px;
+    }
+}
+
+input[type=text]{
+    color: $color-main-text;
+
+}
+
+.search-input{ i{
+        font-size: 18px;
+    }
+}
