@@ -18,7 +18,8 @@
         {% endbreadcrumbs %}
     </div>
 {% endblock %}
-    <div class="container">
+    <div class="other-pages-container">
+        <div class="inner-container">
         <form method="post" enctype="multipart/form-data" class="{% block form_class %}lg-2{% endblock %}" autocomplete="on">
             <div class="exred-triage-form">
                 {% block step_title_container %}
@@ -55,5 +56,6 @@
                 </div>
             </div>
         </form>
+    </div>
     </div>
 {% endblock %}

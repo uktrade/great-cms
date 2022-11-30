@@ -1,11 +1,11 @@
 @import '../colors/colors.scss';
 
-.sso-profile-tab-container{
-    background-color: $color-background-color;
+.sso-profile-tab-container {
+  background-color: $color-background-color;
 
-    ul li.active{
-border-top: 5px solid #D6E0E5;
-    }
+  ul li.active {
+    border-top: 5px solid #D6E0E5;
+  }
 
 
 }
@@ -16,11 +16,28 @@ border-top: 5px solid #D6E0E5;
   margin-bottom: $x-large-padding;
   display: inline-flex;
 
-  p{
-    padding:0;
-    margin:0
+  p {
+    padding: 0;
+    margin: 0
   }
-  i{
+
+  i {
     padding-right: $standard-padding;
   }
+}
+
+#logo-container {
+  border-color: $color-alternative-background;
+
+  #add-image {
+    background-color: $color-alternative-background;
+  }
+}
+.message-box{
+  border-color: $color-alternative-background;
+}
+
+.alerts-button-container {
+  display: flex;
+  justify-content: flex-end;
 }

@@ -1,0 +1,53 @@
+@import '../colors/colors.scss';
+@import '../fonts/main.scss';
+@import '../sizes/sizes.scss';
+
+.help-pages {
+    background-color: $color-main-background;
+    padding-bottom: 0;
+}
+
+.heading-large,
+.heading-xlarge {
+    font-family: $main-text-font;
+
+}
+
+.other-pages-container {
+    display: flex;
+    padding-bottom: 0;
+    flex: 1;
+    background-color: $color-main-background;
+
+    .inner-container {
+        flex:1;
+        max-width: 1230px;
+        margin:auto;
+        padding-left: 15px;
+    }
+}
+
+@media only screen and (min-width: 420px) and (max-width: 1260px) {
+    .other-pages-container .inner-container {
+        padding-left:0;
+        margin-left:30px
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .other-pages-container .inner-container {
+        max-width: auto;
+        margin-left: 20px;
+        margin-right: 20px;
+        padding:0
+    }
+}
+
+.breadcrumb-container{
+    background-color: $color-background-color;
+}
+
+section#search-results-information{
+    background-color: $color-main-background;
+    margin-bottom: 0;
+}
