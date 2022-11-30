@@ -34,6 +34,19 @@
 * KLS-80 - Correct form destinations and CTA style for Scottish offices
 
 
+## [2.20.0](https://github.com/uktrade/great-cms/releases/tag/2.20.0)
+
+### Bugs fixed
+* KLS-128 - Fix XSS vulnerability on product selector form
+
+### Enhancements
+* KLS-33 - Update error message for "Incorrect username"
+
+## [2.19.1](https://github.com/uktrade/great-cms/releases/tag/2.19.1)
+
+### Bugs fixed
+* KLS-80 - Correct form destinations and CTA style for Scottish offices
+
 ### Enhancements
 * KLS-222 - Patch loader-utils to v2.0.4
 * KLS-33 - Update error message for "Incorrect username"
