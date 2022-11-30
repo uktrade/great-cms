@@ -4,6 +4,7 @@
 
 ### Bugs fixed
 * KLS-80 - Correct form destinations and CTA style for Scottish offices
+* KLS-128 - Fix XSS vulnerability on product selector form
 
 ### Hotfix
 
