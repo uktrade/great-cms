@@ -234,3 +234,40 @@ ul.list-bullet li:before,
 .results-wrapper{
   background-color: $color-main-background;
 }
+
+#report-a-trade-barrier{
+    background-color: $color-main-background;
+}
+
+#report-a-trade-barrier{
+    padding-bottom:0;
+    .breadcrumb-container{
+    background-color: $color-background-color;
+    padding-left:30px;
+    padding-right: 30px;
+}
+a.button{
+    margin-bottom: 10px;
+}
+
+}
+
+.snapshot {
+    background-color:$color-quotes
+}
+
+#magna-header-search-form{
+    height: 50px;
+    display: flex;
+    align-items: center;
+        button{
+        margin-top:0;
+        margin-left:-2px;
+        height: 43px;
+        width: 43px;
+    }
+
+    #magna-header-search-box{
+        height: 46px;
+    }
+}
