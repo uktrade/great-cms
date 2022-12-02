@@ -29,26 +29,25 @@ function ProductFinderButton() {
     <>
       <BasketViewer label="My products" onOpen={loadProducts}>
 
-        <ul className="list m-v-0 body-l-b">
-          {sortMap.length === 0 && productsLoaded ? <li className="p-v-xxs">My products is empty</li>: null}
+        <ul>
+          {sortMap.length === 0 && productsLoaded ? <li>My products is empty</li>: null}
           {sortMap.map((mapIndex) => {
             const product = products[mapIndex]
             return (
               <li
-                className="p-v-xxs"
                 key={`product-${mapIndex}`}
               >
+                <span>{ReactHtmlParser(product.commodity_name)}</span>
                 <button
                   type="button"
-                  className="button button--small button--only-icon button--tertiary"
+                  className="remove-product"
                   onClick={() => setDeleteConfirm({index:mapIndex})}
                 >
-                  <i className="fas fa-times fa-lg" />
+                  <i className="fas fa-trash" />
                   <span className="visually-hidden">
                     Remove product {ReactHtmlParser(product.commodity_name)}
                   </span>
                 </button>
-                {ReactHtmlParser(product.commodity_name)}
               </li>
             )
           })}

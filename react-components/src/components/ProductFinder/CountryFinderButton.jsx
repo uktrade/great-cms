@@ -32,23 +32,23 @@ export const CountryFinderButton = () => {
   return (
     <span>
       <BasketViewer label="My markets" onOpen={loadMarkets}>
-        <ul className="list m-v-0 body-l-b">
-          {sortMap.length === 0 && marketsLoaded ? <li className="p-v-xxs">My markets is empty</li>: null}
+        <ul>
+          {sortMap.length === 0 && marketsLoaded ? <li>My markets is empty</li>: null}
           {sortMap.map((marketIdx) => {
             const market = markets[marketIdx]
             return (
-              <li className="p-v-xxs" key={`market-${marketIdx}`}>
-                <button
+              <li key={`market-${marketIdx}`}>
+                <span>{market.country_name}</span>
+                  <button
                   type="button"
-                  className="f-r button button--small button--only-icon button--tertiary"
+                  className="remove-product"
                   onClick={() => setDeleteConfirm({index: marketIdx})}
                 >
-                  <i className="fas fa-times fa-lg" />
+                  <i className="fas fa-trash" />
                   <span className="visually-hidden">
                     Remove market {market.country_name}
                   </span>
                 </button>
-                {market.country_name}
               </li>
             )
           })}

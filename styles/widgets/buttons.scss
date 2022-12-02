@@ -180,8 +180,8 @@ button {
         }
     }
 
-    &.search-button{
-        padding:0;
+    &.search-button {
+        padding: 0;
         width: 40px;
         min-width: 40px;
         height: 40px;
@@ -189,9 +189,52 @@ button {
         align-items: center;
         justify-content: center;
         border-radius: 50%;
-        i{
-            padding:0
+
+        i {
+            padding: 0
         }
+    }
+
+    &.remove-product {
+        height: 30px;
+        background-color: blue;
+
+        i {
+            color: #D4351C
+        }
+    }
+
+    &.personalization-menu-button {
+        color: white;
+        i {
+            color: white;
+        }
+
+        &.open {
+            color: $color-main-text;
+            background-color: white;
+
+            i {
+                color: $color-main-text
+            }
+
+        }
+
+        &:active,
+        &:focus {
+            border: none;
+            outline: none;
+        }
+
+        &:hover{
+            background-color: #04043f;
+            color: white;
+
+            i {
+                color: white
+            }
+        }
+
     }
 }
 
@@ -224,7 +267,7 @@ button {
 
 .tooltip__icon>button {
     i.fas.fa-book {
-        color: $color-gov-link  !important;
+        color: $color-gov-link !important;
     }
 }
 
@@ -238,8 +281,8 @@ button.button-lesson {
 }
 
 
-.remove-market{
-    i{
-    font-size: $icon-standard-size;
+.remove-market {
+    i {
+        font-size: $icon-standard-size;
     }
 }

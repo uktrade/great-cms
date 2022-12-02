@@ -19,15 +19,18 @@ Report a trade barrier{{block.super}}
 {% static 'images/market-access/report-a-barrier-banner-xlarge.png' as xlarge_hero %}
 {% include 'components/hero.html' with image_url=xlarge_hero hero_text='Report a trade barrier' %}
 
-<section>
-    <div class="container">
+<section id="report-a-trade-barrier">
+    <div class="breadcrumb-container">
         {% breadcrumbs 'Report a trade barrier' %}
             <a href="/">great.gov.uk</a>
             <a href="{% url 'domestic:market-access' %}">Trade barriers</a>
         {% endbreadcrumbs %}
+    </div>
+        <div class='other-pages-container'>
+        <div class='container'>
         <div class="grid-row">
             <div class="column-two-thirds">
-                <p class="lede">
+                <p>
                     Tell us if you think you’re facing a new trade barrier or have an issue with an existing trade barrier. We might be able to help resolve it.
                 </p>
                 <p>
@@ -43,7 +46,7 @@ Report a trade barrier{{block.super}}
                 </p>
                 <hr />
                 <p>You can report a new trade barrier or an issue with an existing one. To see if a trade barrier has already been reported visit <a href="https://www.gov.uk/barriers-trading-investing-abroad" target="_blank" class="link">check for barriers to trading and investing abroad</a>. The service will give you the trade barrier title and identifying code which you will need if you want to report an issue with an existing trade barrier.</p>
-                <a href="{% url 'domestic:report-ma-barrier' step='about' %}" class="button">Report a barrier</a>
+                <a href="{% url 'domestic:report-ma-barrier' step='about' %}" class="button primary-button">Report a barrier</a>
             </div>
         </div>
         <div class="grid-row">
@@ -85,7 +88,7 @@ Report a trade barrier{{block.super}}
                         <p class="font-xsmall">We’ll aim to email you within 5 working days to let you know if we can help.</p>
                     </li>
                 </ol>
-                <a href="{% url 'domestic:report-ma-barrier' step='about' %}" class="button">Report a barrier</a>
+                <a href="{% url 'domestic:report-ma-barrier' step='about' %}" class="button primary-button">Report a barrier</a>
             </div>
             {% comment "Redundant/no content in GDUI do disabled here" %}
             <div class="column-one-third">
@@ -94,6 +97,7 @@ Report a trade barrier{{block.super}}
             {% endcomment %}
         </div>
     </div>
+</div>
 </section>
 
 {% endblock %}

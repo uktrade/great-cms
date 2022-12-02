@@ -26,7 +26,7 @@
                 <dt class="body-text margin-bottom-0">Telephone number</dt>
                 <dd class="heading-small margin-bottom-30 margin-top-0">{{ request.user.mobile_phone_number|default:"" }}</dd>
 			</dl>
-            <a class="button primary-button padding-left-60 padding-right-60 margin-top-60" href="{% url 'sso_profile:personal-profile:edit' %}">Edit</a>
+            <a class="button primary-button padding-left-60 padding-right-60" href="{% url 'sso_profile:personal-profile:edit' %}">Edit</a>
         </div>
     </div>
 {% endblock %}

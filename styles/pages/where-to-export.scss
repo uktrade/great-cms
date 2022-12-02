@@ -18,6 +18,7 @@ label.body-l,
 .body-s-b,
 .heading-large,
 .heading-xlarge,
+.heading-small,
 .multiple-choice label,
 .select__button i,
 .great-checkbox label,
@@ -234,4 +235,8 @@ a.section-list__link {
 
 .g-card{
   background-color: $color-main-background;
+}
+
+.heading-small{
+  font-family: $main-text-font;
 }

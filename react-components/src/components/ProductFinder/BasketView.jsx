@@ -24,8 +24,8 @@ export default function BasketViewer({ label, onOpen, children }) {
   const triggerButton = (
     <button
       type="button"
-      className={`tag tag--small ${
-        modalIsOpen ? 'tag--tertiary' : 'tag--secondary'
+      className={`personalization-menu-button ${
+        modalIsOpen ? 'open' : ''
       } tag--icon`}
       onClick={toggleViewer}
       ref={buttonRef}
@@ -41,7 +41,7 @@ export default function BasketViewer({ label, onOpen, children }) {
   return (
     <span ref={outerSpan}>
       {triggerButton}
-      {modalIsOpen ? <div className="basket-view p-s">{children}</div> : ''}
+      {modalIsOpen ? <div className="personalization-menu">{children}</div> : ''}
     </span>
   )
 }

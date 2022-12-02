@@ -7,6 +7,7 @@
     .card {
         background-color: transparent ;
         .card-inner{
+            min-height: 148px;
             background-color: $color-main-background;
             h2{
                 font-size: 28px;
