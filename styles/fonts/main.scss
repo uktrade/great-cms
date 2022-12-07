@@ -131,3 +131,34 @@ label.body-l,
   font-family: $header-font!important;
   color: $color-main-text!important
 }
+
+.font-xsmall{
+    font-family: $main-text-font;
+}
+
+//just overidde colors
+.h-m,
+.h-s,
+a.learn__category-link,
+.body-m,
+.body-l,
+.h-l,
+.body-l-b,
+.h-xs,
+.body-l,
+.body-s,
+div,
+label.body-l,
+.body-m-b,
+.body-s-b,
+.heading-large,
+.heading-xlarge,
+.heading-small,
+.multiple-choice label,
+.select__button i,
+.great-checkbox label,
+.great-checkbox label::before,
+.learn__lesson-item-link:visited,
+.learning-link:visited {
+  color: $color-main-text;
+}

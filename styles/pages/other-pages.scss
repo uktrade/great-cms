@@ -255,22 +255,22 @@ ul.list-bullet li:before,
         flex:1;
         max-width: 1230px;
         margin:auto;
-        padding-left: 15px;
+        padding-left: 1.5 * $standard-padding;
     }
 }
 
 @media only screen and (min-width: 420px) and (max-width: 1260px) {
     .other-pages-container .inner-container {
         padding-left:0;
-        margin-left:30px
+        margin-left:$x-large-padding;
     }
 }
 
 @media only screen and (max-width: 420px) {
     .other-pages-container .inner-container {
         max-width: auto;
-        margin-left: 20px;
-        margin-right: 20px;
+        margin-left: $large-padding;
+        margin-right: $large-padding;
         padding:0
     }
 }
@@ -293,11 +293,11 @@ section#search-results-information{
     padding-bottom:0;
     .breadcrumb-container{
     background-color: $color-background-color;
-    padding-left:30px;
-    padding-right: 30px;
+    padding-left:$x-large-padding;
+    padding-right: $x-large-padding;
 }
 a.button{
-    margin-bottom: 10px;
+    margin-bottom: $standard-padding;
 }
 
 }
