@@ -28,7 +28,7 @@ $desktop: 1024px;
   margin-bottom: 120px;
 
   .learn__wrapper--paragraph {
-    margin-bottom: 30px;
+    margin-bottom: $x-large-padding;
   }
 }
 
@@ -68,8 +68,8 @@ $desktop: 1024px;
   }
 
   @include tablet {
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: 1.5 * $standard-padding;
+    margin-right: 1.5 * $standard-padding;
   }
 }
 
@@ -86,7 +86,7 @@ $desktop: 1024px;
 }
 
 .learn__categories-logo {
-  margin-top: -20px;
+  margin-top: -$large-padding;
 }
 
 .learn__category-header {
@@ -106,26 +106,26 @@ $desktop: 1024px;
   font-size: 24px;
   font-weight: bold;
   line-height: 28px;
-  margin-bottom: 20px;
+  margin-bottom: $large-padding;
 }
 
 .learn__category {
   background-color: $white;
-  margin-bottom: 30px;
+  margin-bottom: $x-large-padding;
   position: relative;
 
   @include tablet {
-    padding-left: 30px;
+    padding-left: $x-large-padding;
     min-height: 360px;
     margin-bottom: 40px;
   }
 }
 
 .learn__category-content {
-  padding: 20px 20px 0;
+  padding: $large-padding large-padding 0;
 
   @include tablet {
-    padding: 40px 20px 40px 25px;
+    padding: 2 * $large-padding $large-padding 2 * $large-padding 25px;
   }
 
   .button {
@@ -141,7 +141,7 @@ $desktop: 1024px;
   padding-top: 80px;
 
   @include tablet {
-    padding-top: 40px;
+    padding-top: 2 * $large-padding;
   }
 }
 
@@ -180,10 +180,10 @@ $desktop: 1024px;
 }
 
 .learn__category-details {
-  margin: 0 0 20px;
+  margin: 0 0 $large-padding;
 
   @include tablet {
-    margin: 0 0 30px;
+    margin: 0 0 $x-large-padding;
   }
 
   p {

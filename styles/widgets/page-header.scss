@@ -8,163 +8,157 @@ $learn-to-export-image: url(/static/images/learn-to-export-header.png);
 $account-image: url(/static/images/accounts-header.png);
 $learn-content-header: url(/static/images/learn-to-export-header2.png);
 
-$breakpoint-size: 900px;
-
 .page-header {
-    position: relative;
-    background-color: $color-main-background !important;
+  position: relative;
+  background-color: $color-main-background !important;
+  width: 100%;
+  height: 355px;
+  background-position: calc(100% + 150px) 100% !important;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-size: auto 100% !important;
+  background-repeat: no-repeat !important;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  box-sizing: border-box;
+
+  .inner-header {
     width: 100%;
-    height: 355px;
-    background-position-x: right !important;
-    background-position-y: bottom !important;
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-    background-size: auto 100%!important;
-    background-repeat: no-repeat !important;
-    padding-top: 60px;
-    padding-bottom: 60px;
-    box-sizing: border-box;
+    height: 100%;
+    margin-left: 48px;
+    max-width: 1230px;
+    > div:first-child {
+      width: 50%;
 
-    .inner-header {
-        width: 100%;
-        height: 100%;
-        max-width: 1230px;
-        >div:first-child {
-            width: 50%;
+      box-sizing: border-box;
 
-            box-sizing: border-box;
+      p {
+        margin-top: $standard-padding;
+        margin-bottom: $large-padding;
+      }
 
-            p {
-                margin-top: $standard-padding;
-                margin-bottom: $large-padding;
-            }
-
-            .lesson-summary {
-                display: inline-flex;
-                align-items: center;
-                span,
-                i {
-                    color: $color-gov-link;
-                }
-                i{
-                    padding-bottom: 3px;
-                }
-               .learn__category-topics{
-                padding-left: $standard-padding * 0.5
-               }
-            }
+      .lesson-summary {
+        display: inline-flex;
+        align-items: center;
+        span,
+        i {
+          color: $color-gov-link;
         }
+        i {
+          padding-bottom: 3px;
+        }
+        .learn__category-topics {
+          padding-left: $standard-padding * 0.5;
+        }
+      }
     }
+  }
+
+  i.fa .fa-clock {
+    color: $color-gov-link;
+  }
+
+  .image-container {
+    display: none;
+  }
+
+  @media only screen and (min-width: $mobile-size) and (max-width: 1172px) {
+    background-size: 70% auto !important;
+  }
+
+  @media only screen and (max-width: $mobile-size) {
+    background: $color-main-background !important;
+    height: auto;
+    background-size: 0% auto;
+    padding-bottom: 0;
+    margin:0;
 
 
-    i.fa .fa-clock {
-        color: $color-gov-link;
+
+    .inner-header{
+       width: 100%;
+      margin:0;
+      padding: 0 1.5 *$standard-padding;
+
+       > div:first-child {
+      height: auto;
+      flex: 1;
+      width: 100%;
+      margin:0;
+      // min-width: $mobile-size * 0.5;
+
+      button {
+        width: 100%;
+        min-width: auto;
+      }
     }
-
+  }
 
     .image-container {
-        display: none;
+      display: flex;
+      flex: 1;
+      height: 0;
+      padding-top: 56.25%;
+      width: 100%;
+      background-repeat: no-repeat !important;
+      background-size: contain !important;
+      background-position-y: bottom !important;
+      // min-width: $mobile-size * 0.5;
     }
 
-    // @media only screen and (min-width:$mobile-size) and (max-width:$tablet-size) {
-    //     .inner-header>div:first-child {
-    //         padding: 30px;
-    //         padding-left: 60px;
-    //         width: 60%;
-    //     }
-
-    //     background-size: 40% auto !important;
-    // }
-
-    @media only screen and (max-width: $mobile-size) {
-        background: $color-main-background!important;
-        height: auto;
-        background-size: 0% auto;
-        padding-bottom: 0px;
-
-        .inner-header>div:first-child {
-            height: auto;
-            flex: 1;
-            width: 100%;
-            padding: $standard-padding * 1.5;
-            min-width: $mobile-size * 0.5;
-
-            button {
-                width: 100%;
-                min-width:auto;
-            }
-
-        }
-
-        .image-container {
-            display: flex;
-            flex: 1;
-            height: 0;
-            padding-top: 56.25%;
-            width: 100%;
-            background-repeat: no-repeat !important;
-            background-size: contain !important;
-            background-position-y: bottom !important;
-            min-width: $mobile-size * 0.5;
-        }
-
-        &.where-to-export-header .image-container {
-            background: $where-to-export-image;
-        }
-
-        &.export-plan-header .image-container {
-            background: $export-plan-image;
-        }
-
-        &.learn-content-header .image-container {
-            background: $learn-content-header
-        }
-
-        &.account-header .image-container {
-            background: $account-image;
-        }
-
-        &.market-header .image-container {
-            background: url(/static/images/export-plan-header.png);
-        }
-
-        &.learn-header .image-container {
-            background: $learn-to-export-image;
-        }
-
+    &.where-to-export-header .image-container {
+      background: $where-to-export-image;
     }
 
-    &.where-to-export-header {
-        background: $where-to-export-image;
+    &.export-plan-header .image-container {
+      background: $export-plan-image;
     }
 
-    &.export-plan-header {
-        background: $export-plan-image;
+    &.learn-content-header .image-container {
+      background: $learn-content-header;
     }
 
-    &.account-header {
-        background: $account-image;
+    &.account-header .image-container {
+      background: $account-image;
     }
 
-    &.market-header {
-        background: url(/static/images/export-plan-header.png);
+    &.market-header .image-container {
+      background: url(/static/images/export-plan-header.png);
     }
 
-    &.learn-header {
-        background: $learn-to-export-image;
+    &.learn-header .image-container {
+      background: $learn-to-export-image;
     }
+  }
 
-    &.learn-content-header {
-        background: $learn-content-header
-    }
+  &.where-to-export-header {
+    background: $where-to-export-image;
+  }
 
+  &.export-plan-header {
+    background: $export-plan-image;
+  }
+
+  &.account-header {
+    background: $account-image;
+  }
+
+  &.market-header {
+    background: url(/static/images/export-plan-header.png);
+  }
+
+  &.learn-header {
+    background: $learn-to-export-image;
+  }
+
+  &.learn-content-header {
+    background: $learn-content-header;
+  }
 }
 
-
 .market-details-header {
-    height: 355px;
-    background-size: 100% auto;
-
+  height: 355px;
+  background-size: 100% auto!important;
 }

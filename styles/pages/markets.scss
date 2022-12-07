@@ -1,48 +1,131 @@
 @import '../colors/colors.scss';
-#sectors-form{
-    margin-top:60px
+@import '../sizes/sizes.scss';
+@import '../fonts/main.scss';
+
+#sectors-form {
+    margin-top: $x-large-padding * 2;
 }
 
 .filters .filter-section {
     border-bottom: 1px solid $color-main-text;
 
-    .multiple-choice{
-    label, label:before, label:after{
-        color: $color-main-text;
+    .multiple-choice {
+
+        label,
+        label:before,
+        label:after {
+            color: $color-main-text;
+        }
     }
 }
-}
 
-.markets-grid{
- .card-inner {
-    padding: $large-padding;
-    padding-bottom: $x-large-padding *2;
+.markets-grid {
+    .card-inner {
+        padding: $large-padding;
+        padding-bottom: $x-large-padding *2;
 
 
-        h2{
+        h2 {
             font-size: $font-size-h4;
         }
- }
+    }
 }
 
-#country-guide-teaser-section, #country-guide-section-one, #country-guide-accordions, #country-trade-barriers, #country-guide-accordions{
+#country-guide-need-help-section,
+#country-guide-teaser-section,
+#country-guide-section-one,
+#country-guide-accordions,
+#country-trade-barriers,
+#country-guide-accordions {
     background-color: $color-main-background;
 }
 
-#country-guide-teaser-section{
-    .teaser > h1{
+#country-guide-teaser-section {
+    .teaser>h1 {
         padding-bottom: $x-large-padding;
     }
 }
 
-#country-guide-intro-ctas{
-    a{
+#country-guide-intro-ctas {
+    a {
         font-size: 18px;
         font-family: $main-text-font;
     }
 }
 
-.stats-button-container{
+
+
+.stats-button-container {
     display: flex;
     justify-content: flex-end;
+}
+
+
+#country-guide-need-help-section {
+
+    padding: 40px 75px;
+
+    @media only screen and (max-width: $mobile-size) {
+        padding: 0;
+
+        h2 {
+            padding-left: $standard-padding * 1.5;
+            padding-top: $standard-padding * 1.5;
+        }
+
+        >div {
+
+
+            >div {
+                max-width: $mobile-size;
+                width: 100%;
+                padding: $standard-padding * 1.5;
+
+                img {
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+            }
+        }
+    }
+
+    >div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $x-large-padding;
+
+        >div {
+            flex: 1;
+            width: 100%;
+            min-width: 520px;
+
+            h3 {
+                color: $color-gov-link;
+                padding-top: $x-large-padding;
+                padding-bottom: $x-large-padding;
+            }
+
+            p {
+                margin: 0;
+                padding: 0;
+                padding-bottom: $x-large-padding;
+                font-size: 24px;
+            }
+
+            img {
+                max-width: 500px;
+                width: 100%;
+            }
+
+            ;
+        }
+    }
+}
+
+.fact-sheet-content{
+    h3{
+        padding-bottom: $x-large-padding;
+        font-size: 36px;
+    }
 }

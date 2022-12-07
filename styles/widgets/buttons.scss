@@ -122,7 +122,7 @@ button {
         line-height: 25px;
         margin-bottom: $standard-padding;
         color: $color-gov-link;
-        background-color: white;
+        background-color: $color-main-background;
         border: 2px solid $color-gov-link;
     }
 
@@ -131,9 +131,9 @@ button {
     }
 
     &.tab-list-active {
-        background-color: #dde5ed;
-        border: 2px solid #dde5ed;
-        color: #212427;
+        background-color: $color-tab;
+        border: 2px solid $color-tab;
+        color: $color-main-text;
     }
 
     &.tertiary-button,
@@ -152,7 +152,7 @@ button {
 
     &.quaternary-button {
         background-color: $color-completed;
-        color: white;
+        color: $color-main-background;
     }
 
     &.fas fa-check-circle {
@@ -200,19 +200,19 @@ button {
         background-color: blue;
 
         i {
-            color: #D4351C
+            color: $color-delete;
         }
     }
 
     &.personalization-menu-button {
-        color: white;
+        color: $color-alternative-text;
         i {
-            color: white;
+            color: $color-alternative-text;
         }
 
         &.open {
             color: $color-main-text;
-            background-color: white;
+            background-color: $color-alternative-text;
 
             i {
                 color: $color-main-text
@@ -227,11 +227,11 @@ button {
         }
 
         &:hover{
-            background-color: #04043f;
-            color: white;
+            background-color: $color-footer;
+            color: $color-alternative-text;
 
             i {
-                color: white
+                color: $color-alternative-text;
             }
         }
 

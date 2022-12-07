@@ -1,14 +1,16 @@
-.dashboard-card{
+@import '../sizes/sizes.scss';
 
+.dashboard-card{
     p{
-        padding-top:20px;
-        padding-bottom: 20px;
+        padding-top:$large-padding;
+        padding-bottom: $large-padding;
         margin:0;
     }
 
     img{
         margin: auto;
-        padding-top:20px
+        padding-top:$large-padding;
+        width: 100%;
+        height: auto;
     }
-
 }

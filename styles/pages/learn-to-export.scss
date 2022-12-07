@@ -10,9 +10,10 @@ $breakpoint-size: 900px;
     min-height: 232px;
     padding: $x-large-padding;
     padding-left: 70px;
-    padding-right: 40px;
-    display: inline-flex;
+    padding-right: $large-padding * 2;
+    display: flex;
     flex-wrap: wrap;
+    gap: $x-large-padding;
     width: 100%;
 
     > div {
@@ -52,7 +53,7 @@ $breakpoint-size: 900px;
       padding-bottom: 35px;
 
       & > div {
-        min-width: $mobile-size * 0.5;
+        min-width: 150px;
 
         .progess-container {
           justify-content: center;
@@ -88,5 +89,5 @@ $breakpoint-size: 900px;
 }
 
 .learn-to-export-card{
-   padding-top: 60px
+   padding-top: $x-large-padding * 2;
 }

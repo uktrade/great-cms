@@ -240,7 +240,7 @@ export default function DataTable(props) {
               }`}
               style={{ clear: 'both' }}
             >
-              <div className="bg-white radius p-h-s">
+              <div className="bg-white p-h-s">
                 <table className="m-v-0 border-blue-deep-20 no-bottom-border">
                   <caption className="text-align-left body-l-b p-v-xs">
                     {blocks.renderColumnHeader(cellConfig, props, mobile)}
