@@ -18,11 +18,11 @@ from ..common.helpers import create_response, submit_step_factory
 pytestmark = pytest.mark.django_db
 
 enrolment_urls = (
-    reverse('sso_profile:enrolment-business-type'),
-    reverse('sso_profile:enrolment-start'),
+    # reverse('sso_profile:enrolment-business-type'),
+    # reverse('sso_profile:enrolment-start'),
     reverse('sso_profile:enrolment-companies-house', kwargs={'step': constants.USER_ACCOUNT}),
-    reverse('sso_profile:enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT}),
-    reverse('sso_profile:enrolment-individual', kwargs={'step': constants.USER_ACCOUNT}),
+    # reverse('sso_profile:enrolment-sole-trader', kwargs={'step': constants.USER_ACCOUNT}),
+    # reverse('sso_profile:enrolment-individual', kwargs={'step': constants.USER_ACCOUNT}),
 )
 company_types = (constants.COMPANIES_HOUSE_COMPANY, constants.NON_COMPANIES_HOUSE_COMPANY)
 BUSINESS_INFO_NON_COMPANIES_HOUSE = 'business-info-non-companies-house'

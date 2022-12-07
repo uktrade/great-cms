@@ -50,7 +50,7 @@ charset-normalizer==2.1.1
     # via requests
 click==8.1.3
     # via pyhanko
-cryptography==38.0.3
+cryptography==38.0.4
     # via
     #   -r requirements.in
     #   pyhanko
@@ -61,8 +61,6 @@ cssselect2==0.7.0
     # via svglib
 dateparser==0.7.2
     # via -r requirements.in
-deprecated==1.2.13
-    # via redis
 directory-api-client==26.0.0
     # via -r requirements.in
 directory-ch-client==2.1.0
@@ -117,7 +115,7 @@ django-extensions==3.1.5
     # via -r requirements.in
 django-filter==2.4.0
     # via wagtail
-django-formtools==2.3
+django-formtools==2.4
     # via -r requirements.in
 django-health-check==3.8.0
     # via directory-healthcheck
@@ -162,7 +160,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==15.3.1
+faker==15.3.4
     # via factory-boy
 future==0.18.2
     # via arabic-reshaper
@@ -224,9 +222,7 @@ openpyxl==3.0.10
 oscrypto==1.3.0
     # via pyhanko-certvalidator
 packaging==21.3
-    # via
-    #   redis
-    #   sphinx
+    # via sphinx
 pillow==9.3.0
     # via
     #   -r requirements.in
@@ -283,7 +279,7 @@ qrcode==7.3.1
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==4.3.4
+redis==4.4.0
     # via django-redis
 regex==2022.10.31
     # via dateparser
@@ -346,7 +342,7 @@ tinycss2==1.2.1
     #   svglib
 tqdm==4.64.1
     # via pypdf3
-tzdata==2022.6
+tzdata==2022.7
     # via pytz-deprecation-shim
 tzlocal==4.2
     # via
@@ -358,7 +354,7 @@ unidecode==1.3.6
     # via wagtail
 uritools==4.0.0
     # via pyhanko-certvalidator
-urllib3==1.26.12
+urllib3==1.26.13
     # via
     #   -r requirements.in
     #   botocore
@@ -367,7 +363,7 @@ urllib3==1.26.12
     #   elasticsearch
     #   requests
     #   sentry-sdk
-w3lib==2.0.1
+w3lib==2.1.0
     # via directory-client-core
 wagtail==2.11.9
     # via
@@ -401,8 +397,6 @@ whitenoise==4.1.4
     # via -r requirements.in
 willow==1.4.1
     # via wagtail
-wrapt==1.14.1
-    # via deprecated
 xhtml2pdf==0.2.8
     # via -r requirements.in
 xlrd==2.0.1
