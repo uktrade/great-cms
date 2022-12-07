@@ -243,11 +243,11 @@ ul.list-bullet li:before,
     padding-bottom:0;
     .breadcrumb-container{
     background-color: $color-background-color;
-    padding-left:30px;
-    padding-right: 30px;
+    padding-left:$x-large-padding;
+    padding-right: $x-large-padding;
 }
 a.button{
-    margin-bottom: 10px;
+    margin-bottom: $standard-padding;
 }
 
 }
