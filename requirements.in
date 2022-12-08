@@ -7,7 +7,7 @@ django_storages[boto3]==1.8.*
 django-extensions==3.1.*
 django-ipware==2.1.*
 djangorestframework==3.11.*
-django-formtools==2.*
+django-formtools==2.3
 django-decorator-include==3.0
 django-treebeard>=4.2.0,<4.5
 
