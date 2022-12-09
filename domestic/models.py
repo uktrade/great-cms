@@ -22,13 +22,15 @@ from wagtail.core.blocks.stream_block import StreamBlock, StreamBlockValidationE
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
 from wagtail.images import get_image_model_string
+from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
-from core.blocks import AdvantageBlock
+from core.blocks import AdvantageBlock, ColumnsBlock
 from core.constants import (
     ARTICLE_TYPES,
+    COUNTRY_FACTSHEET_CTA_TITLE,
     RICHTEXT_FEATURES__REDUCED,
     RICHTEXT_FEATURES__REDUCED__ALLOW_H1,
     TABLEBLOCK_OPTIONS,
@@ -238,6 +240,27 @@ class GreatDomesticHomePage(
 
     # hero
     hero_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    hero_mobile_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    hero_ipad_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    hero_smalldesktop_image = models.ForeignKey(
         'core.AltTextImage',
         null=True,
         blank=True,
@@ -908,15 +931,12 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
 
     @cached_property
     def stats(self):
-        if not settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS:
-            return None
-
         iso2 = getattr(self.country, 'iso2', None)
 
-        if iso2:
-            return helpers.get_stats_by_country(iso2=iso2)
+        if not iso2:
+            return None
 
-        return None
+        return helpers.get_stats_by_country(iso2=iso2)
 
     @property
     def related_pages(self):
@@ -930,6 +950,14 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
             if page:
                 output.append(page.specific)
         return output
+
+    @property
+    def country_fact_sheet_link(self):
+        factsheet_link = next(
+            (intro_cta['link'] for intro_cta in self.intro_ctas if intro_cta['title'] == COUNTRY_FACTSHEET_CTA_TITLE),
+            None,
+        )
+        return factsheet_link
 
 
 class ArticlePage(
@@ -987,7 +1015,21 @@ class ArticlePage(
                 'text',
                 RichTextBlock(),
             ),
+            ('image', ImageChooserBlock(required=False, template='core/includes/_article_image.html')),
+            ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_article_video.html')),
             (
+                'Columns',
+                StreamBlock(
+                    [
+                        ('column', ColumnsBlock()),
+                    ],
+                    help_text='Add two or three columns text',
+                    min_num=3,
+                    max_num=3,
+                    template='core/includes/_columns.html',
+                ),
+            ),
+            (  #  alt text lives on the custom Image class
                 'pull_quote',
                 core_blocks.PullQuoteBlock(
                     template='domestic/blocks/pull_quote_block.html',

@@ -2,7 +2,7 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from sso import helpers
+from sso import helpers, serializers
 
 
 class LessonCompletedAPIView(generics.GenericAPIView):
@@ -50,11 +50,28 @@ class QuestionnaireAPIView(generics.GenericAPIView):
 
 class UserDataAPIView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = serializers.UserDataSerializer
+    user_products_serializer_class = serializers.UserProductsSerializer
+
+    def get_serializer_class(self):
+        user_data_type = self.kwargs['name']
+
+        if user_data_type in ('UserProducts', 'ActiveProduct'):
+            serializer = self.user_products_serializer_class
+        else:
+            serializer = super().get_serializer_class()
+
+        return serializer
 
     def get(self, request, *args, **kwargs):
         response = request.user.get_user_data(name=kwargs['name'])
         return Response(status=200, data=response)
 
     def post(self, request, *args, **kwargs):
-        response = request.user.set_user_data(data=request.data.get('data'), name=kwargs['name'])
+        data = request.data.get('data')
+        serializer = self.get_serializer(data=data, many=isinstance(data, list))
+        serializer.is_valid(raise_exception=True)
+
+        response = request.user.set_user_data(data=data, name=kwargs['name'])
+
         return Response(status=200, data=response)

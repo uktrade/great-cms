@@ -34,7 +34,7 @@ class SSOBusinessUserLoginView(ResendVerificationMixin, generics.GenericAPIView)
     serializer_class = serializers.SSOBusinessUserSerializer
     permission_classes = []
 
-    MESSAGE_INVALID_CREDENTIALS = 'Incorrect username or password'
+    MESSAGE_INVALID_CREDENTIALS = 'Incorrect email address or password'
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)

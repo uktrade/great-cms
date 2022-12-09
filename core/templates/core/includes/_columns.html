@@ -1,0 +1,19 @@
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+<div class="grid">
+{% for item in value %}
+<div class="column-third-m column-full">
+    <div class="card only-title no-padding-card transparent-card">
+    <div class="card-image">{% image item.value.image width-200 %}</div>
+    <div class="heading-large">
+    <h3><a class="card-url" href="{{ item.value.link }}">{{ item.value.title }}</a></h3>
+    </div>
+    <div class="card-inner rich-text">
+    <p>{{ item.value.description }}</p>
+    </div>
+
+    </div>
+</div>
+{% endfor %}
+</div>

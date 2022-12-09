@@ -1,0 +1,51 @@
+{% comment %}
+
+Params:
+hero_image - Image not Rendition
+heading - text
+
+Optional:
+subtitle - text
+cta_text - text
+cta_link - URL
+
+subheading - text # Not used for GreatDomesticHomepage
+
+{% endcomment %}
+
+
+{% load wagtailimages_tags %}
+{% load static %}
+
+{% image hero_image original as rendition %}
+
+{% image page.hero_mobile_image original as first_image %}
+{% image page.hero_ipad_image original as second_image %}
+{% image page.hero_smalldesktop_image original as third_image %}
+
+<section
+class="great-hero great-hero-multiple-background {% if not hero_image %}great-hero-no-image{% endif %}" id="hero"
+  style="background: url({{ third_image.url }}), url({{ second_image.url }}), url({{ first_image.url }})"
+>
+<div class="container padding-top-90-l padding-top-45 padding-bottom-45-l">
+  <div class="great-hero-text width-half-xl width-two-thirds-l width-full">
+    <h1
+    class="heading-xlarge {% if subheading or subtitle %} margin-bottom-0 {% else %} margin-bottom-30 {% endif %}"
+    style="max-width: 500px;"
+    >
+      {{ heading | safe }}
+    </h1>
+    {% block content %}
+    {% if subheading %}
+    <h2 class="heading-xlarge margin-top-0 margin-bottom-30">{{ subheading | safe }}</h2>
+    {% endif %}
+    {% if subtitle %}
+    <p class="margin-bottom-30">{{ subtitle | safe }}</p>
+    {% endif %}
+    {% if cta_text and cta_link %}
+    <a href="{{ cta_link }}" class="button button-blue margin-bottom-30">{{ cta_text }}</a>
+    {% endif %}
+    {% endblock %}
+    </div>
+  </div>
+</section>

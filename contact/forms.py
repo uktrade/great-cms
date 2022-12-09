@@ -17,7 +17,7 @@ from django.forms import (
 from great_components import forms
 
 from contact import constants
-from contact.helpers import retrieve_regional_office
+from contact.helpers import get_free_trade_agreements, retrieve_regional_office
 from core.forms import TERMS_LABEL, ConsentFieldMixin
 from core.validators import is_valid_uk_postcode
 from directory_constants import choices
@@ -285,7 +285,6 @@ class DomesticRoutingForm(forms.Form):
         (constants.EXPORT_ADVICE, 'Advice to export from the UK'),
         (constants.GREAT_SERVICES, 'great.gov.uk account and services support'),
         (constants.FINANCE, 'UK Export Finance (UKEF)'),
-        (constants.EUEXIT, 'The transition period (now that the UK has left the EU)'),
         (constants.EVENTS, 'Events'),
         (constants.DSO, 'Defence and Security Organisation (DSO)'),
         (constants.OTHER, 'Other'),
@@ -680,4 +679,73 @@ class SellingOnlineOverseasExperience(forms.Form):
             'how you market your products in a few paragraphs.'
         ),
         widget=Textarea,
+    )
+
+
+class FTASubscribeForm(GovNotifyEmailActionMixin, forms.Form):
+
+    first_name = forms.CharField(
+        label='First name',
+        required=True,
+        error_messages={
+            'required': 'Enter a first name',
+        },
+    )
+
+    last_name = forms.CharField(
+        label='Last name',
+        required=True,
+        error_messages={
+            'required': 'Enter a last name',
+        },
+    )
+
+    email = forms.EmailField(
+        label='Your email address',
+        error_messages={
+            'required': 'Enter your email address',
+        },
+        required=True,
+    )
+
+    choices = (
+        (constants.I_EXPORT_ALREADY, 'I export already'),
+        (constants.I_AM_INTERESTED_IN_EXPORTING, 'I am interested in exporting'),
+    )
+
+    company_already_exports = forms.ChoiceField(
+        choices=choices,
+        required=True,
+        error_messages={
+            'required': 'Select I export already or I am interested in exporting',
+        },
+        widget=GroupedRadioSelect(),
+        label='Does your company already export?',
+    )
+
+    def get_fta_choices():
+        response = get_free_trade_agreements()
+        choices = response['data']
+        choices.append(constants.FUTURE_FTAS_CHOICE)
+        return [(c, c) for c in choices]
+
+    free_trade_agreements = forms.MultipleChoiceField(
+        label='I would like information about the following FTAs:',
+        choices=get_fta_choices,
+        widget=forms.CheckboxSelectInlineLabelMultiple(
+            attrs={'id': 'checkbox-multiple'},
+            use_nice_ids=True,
+        ),
+        required=True,
+        error_messages={
+            'required': 'Select the FTAs you would like to receive updates on',
+        },
+        container_css_classes='form-group bold-label heading-medium',
+    )
+
+    terms_agreed = forms.BooleanField(
+        label=TERMS_LABEL,
+        error_messages={
+            'required': 'You must agree to the terms and conditions before registering',
+        },
     )

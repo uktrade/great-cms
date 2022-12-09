@@ -23,7 +23,6 @@ EXPORTING_TO_UK = 'exporting-to-uk'
 BUYING = 'buying'
 DOMESTIC = 'domestic'
 DSO = 'dso'
-EUEXIT = 'euexit'
 EVENTS = 'events'
 EXPORT_ADVICE = 'export-advice'
 EXPORT_OPPORTUNITIES = 'export-opportunities'
@@ -102,3 +101,7 @@ CONTACT_FORM_INDUSTRIES = [
 INDUSTRY_CHOICES = [('', 'Please select')] + [(item, item) for item in CONTACT_FORM_INDUSTRIES] + [('OTHER', 'Other')]
 
 INDUSTRY_MAP = dict(INDUSTRY_CHOICES)
+
+I_EXPORT_ALREADY = 'I_EXPORT_ALREADY'
+I_AM_INTERESTED_IN_EXPORTING = 'I_AM_INTERESTED_IN_EXPORTING'
+FUTURE_FTAS_CHOICE = 'Future FTAs'

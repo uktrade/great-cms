@@ -85,6 +85,52 @@ def test_short_zendesk_form_serialize_data(domestic_data):
     assert form.full_name == 'Test Example'
 
 
+@pytest.mark.parametrize(
+    'form_data, is_valid',
+    [
+        (
+            {
+                'email': 'johndoe@mail.com',
+                'last_name': 'john',
+                'first_name': 'doe',
+                'terms_agreed': True,
+                'free_trade_agreements': ['FTA 1'],
+                'company_already_exports': 'I_EXPORT_ALREADY',
+            },
+            True,
+        ),
+        (
+            {
+                'email': '',
+                'last_name': '',
+                'first_name': '',
+                'terms_agreed': False,
+                'free_trade_agreements': [],
+                'company_already_exports': '',
+            },
+            False,
+        ),
+    ],
+)
+def test_fta_form_serialize_data(form_data, is_valid, mock_free_trade_agreements):
+    form = forms.FTASubscribeForm(data=form_data)
+    assert form.is_valid() == is_valid
+    if is_valid:
+        data = form.serialized_data
+        assert form_data == data
+
+
+def test_get_fta_choices(mock_free_trade_agreements):
+    expected_choices = [
+        ('FTA 1', 'FTA 1'),
+        ('FTA 2', 'FTA 2'),
+        ('FTA 3', 'FTA 3'),
+        (constants.FUTURE_FTAS_CHOICE, constants.FUTURE_FTAS_CHOICE),
+    ]
+    choices = forms.FTASubscribeForm.get_fta_choices()
+    assert choices == expected_choices
+
+
 def test_domestic_contact_form_serialize_data_office_lookup_error(domestic_data):
     form = forms.ShortNotifyForm(data=domestic_data)
 
@@ -308,7 +354,6 @@ def test_domestic_form_routing():
         constants.TRADE_OFFICE,
         constants.EXPORT_ADVICE,
         constants.FINANCE,
-        constants.EUEXIT,
         constants.EVENTS,
         constants.DSO,
         constants.OTHER,

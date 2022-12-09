@@ -10,6 +10,7 @@ from django.urls import reverse
 
 from contact import constants, forms, helpers, views
 from core import snippet_slugs
+from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
 from core.constants import CONSENT_EMAIL
 from core.tests.helpers import create_response
 from directory_api_client.exporting import url_lookup_by_postcode
@@ -529,13 +530,6 @@ def test_ecommerce_success_view(client):
         ),
         (
             constants.DOMESTIC,
-            constants.EUEXIT,
-            # This path no longer exists as a view in the codebase, but can be
-            # (and is) redirected at the Wagtail CMS level to a different service.
-            '/transition-period/contact/',
-        ),
-        (
-            constants.DOMESTIC,
             constants.EVENTS,
             reverse('contact:contact-us-events-form'),
         ),
@@ -733,6 +727,7 @@ def test_office_finder_valid(all_office_details, client):
             reverse('contact:contact-us-office-success', kwargs={'postcode': 'FOOBAR'}),
             snippet_slugs.HELP_FORM_SUCCESS,
         ),
+        (reverse('contact:contact-free-trade-agreements-success'), snippet_slugs.FTA_FORM_SUCCESS),
     ),
 )
 @mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
@@ -1419,3 +1414,32 @@ def test_selling_online_overseas_contact_form_initial_data(  # noqa: C901
         assert response.context_data['form'].initial == {'description': 'Makes widgets'}
     else:
         assert response.context_data['form'].initial == {}
+
+
+@mock.patch.object(views.FormSessionMixin, 'form_session_class')
+def test_fta_form_submit_success(mock_form_session, client, settings):
+    class Form(forms.SerializeDataMixin, django.forms.Form):
+        email = django.forms.EmailField()
+        save = mock.Mock()
+
+    with mock.patch.object(views.FTASubscribeFormView, 'form_class', Form):
+        response = client.post(reverse('contact:contact-free-trade-agreements'), {'email': 'test@example.com'})
+
+    assert response.status_code == 302
+    assert response.url == reverse('contact:contact-free-trade-agreements-success')
+
+    assert Form.save.call_count == 1
+    assert Form.save.call_args_list == [
+        mock.call(
+            template_id=settings.SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID,
+            email_address='test@example.com',
+            form_url=reverse('contact:contact-free-trade-agreements'),
+            form_session=mock_form_session(),
+        ),
+    ]
+
+
+def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements):
+
+    response = client.get(reverse('contact:contact-free-trade-agreements'))
+    assert response.context['privacy_url'] == PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE

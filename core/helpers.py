@@ -476,7 +476,6 @@ def get_stats_by_country(iso2):
     }
 
     stats = {k: v for k, v in stats.items() if v and v['data']}
-
     return stats or None
 
 

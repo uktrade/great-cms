@@ -1,0 +1,15 @@
+{% extends 'domestic/contact/step.html' %}
+
+{% block head_title %}Subscribe to FTA updates{% endblock %}
+
+{% block step_title_container %}
+    <div id="form-step-body-text">
+        <h1 class="heading-large">Subscribe to receive email updates about Free Trade Agreements (FTAs)</h1>
+    </div>
+{% endblock %}
+{% block extra_contents %}<h2 class="heading-medium">Your details</h2>{% endblock %}
+{% block extra_content_pre_submit %}
+<div class='contact-consent rich-text'>
+  {% include 'core/includes/privacy_notice.html' %}
+</div>
+{% endblock %}

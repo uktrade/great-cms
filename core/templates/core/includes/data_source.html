@@ -1,22 +1,12 @@
-<p class="font-xsmall statistic-smallprint">
-  Source:
+{% load content_tags %}
+<p class="font-xsmall statistic-smallprint margin-top-0 padding-top-15">
+  (Source:
   {% spaceless %}
     {% if source.url %}
-      <a class="link" href="{{ source.url }}">{{ source.label }}</a>
+      <a class="link" target="_blank" href="{{ source.url }}">{{ source.organisation }} {{ source.label }}</a>
     {% else %}
       {{ source.label }}
     {% endif %}
-    <br/>Last release:
-    {% if source.label == 'ONS UK trade' %}
-    13 June 2022
-    {% elif source.label == 'ONS UK total trade: all countries' %}
-    28 April 2022
-    {% elif source.label == 'ONS UK trade in services: service type by partner country' %}
-    28 April 2022
-    {% endif %}
-    {% if source.notes %}
-    <br/>{{ source.notes|join:" " }}
-    {% endif %}
+    <br/>Last updated: {{ source.last_release|str_to_datetime|date:"F Y"}})
   {% endspaceless %}
 </p>
-<hr class="margin-vertical-15" style="background: #d8d8d8">

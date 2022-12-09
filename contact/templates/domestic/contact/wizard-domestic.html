@@ -38,6 +38,7 @@
                             {{ form }}
                         {% endif %}
                     </div>
+                    {% block extra_content_pre_submit %}{% endblock %}
                     <div>
                         {% if wizard.steps.step1 != wizard.steps.count %}
                             <button type="submit" class="button button margin-top-30">{% block button_continue_label %}Continue{% endblock %}</button>

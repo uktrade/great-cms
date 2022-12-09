@@ -550,11 +550,10 @@ def test_stats(
     mock_market_trends,
     mock_top_goods_exports,
     mock_top_services_exports,
+    mock_economic_highlights,
     domestic_homepage,
     settings,
 ):
-    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
-
     country = CountryFactory(name='Country name', slug='country-slug', iso2=iso2)
 
     page = CountryGuidePageFactory(
@@ -567,27 +566,11 @@ def test_stats(
     assert len(page.stats['market_trends']['data']) == 2
     assert len(page.stats['goods_exports']['data']) == 3
     assert len(page.stats['services_exports']['data']) == 2
-
-
-@pytest.mark.django_db
-def test_stats_feature_off(domestic_homepage, settings):
-    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = False
-
-    country = CountryFactory(name='China', slug='china', iso2='CN')
-
-    page = CountryGuidePageFactory(
-        parent=domestic_homepage,
-        title='Test GCP',
-        country=country,
-    )
-
-    assert page.stats is None
+    assert len(page.stats['economic_highlights']['data']) == 2
 
 
 @pytest.mark.django_db
 def test_stats_no_iso(domestic_homepage, settings):
-    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
-
     country = CountryFactory(name='France', slug='france')
 
     page = CountryGuidePageFactory(
@@ -601,8 +584,6 @@ def test_stats_no_iso(domestic_homepage, settings):
 
 @pytest.mark.django_db
 def test_stats_no_country(domestic_homepage, settings):
-    settings.FEATURE_SHOW_MARKET_GUIDE_VISUALISATIONS = True
-
     page = CountryGuidePageFactory(
         parent=domestic_homepage,
         title='Test GCP',
@@ -701,6 +682,36 @@ def test_industry_accordions_validation(blocks_to_create, expected_exception_mes
             industry_accordions_validation(value)  #
         except Exception as e:
             assert False, f'Should not have got a {e}'
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'intro_ctas,expected_factsheet_link_value',
+    (
+        (
+            {
+                'intro_cta_one_title': 'View latest trade statistics',
+                'intro_cta_one_link': 'www.test-factsheet.gov.uk',
+                'intro_cta_two_title': 'Another title',
+                'intro_cta_two_link': 'www.test.gov.uk',
+            },
+            'www.test-factsheet.gov.uk',
+        ),
+        (
+            {
+                'intro_cta_one_title': 'A nice title',
+                'intro_cta_one_link': 'www.test-title.gov.uk',
+                'intro_cta_two_title': 'Another title',
+                'intro_cta_two_link': 'www.test.gov.uk',
+            },
+            None,
+        ),
+        ({}, None),
+    ),
+)
+def test_country_fact_sheet_link(domestic_homepage, intro_ctas, expected_factsheet_link_value):
+    page = CountryGuidePageFactory(parent=domestic_homepage, **intro_ctas)
+    assert page.country_fact_sheet_link == expected_factsheet_link_value
 
 
 # BaseContentPage is abstract but had some methods on it

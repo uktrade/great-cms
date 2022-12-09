@@ -38,19 +38,21 @@
             <div class="flex-grid margin-bottom-30">
               {% if highlights.data.total_uk_exports %}
               <figure class="statistics-card__column padding-vertical-15">
-                <h3 class="statistic-heading font-xsmall">Total UK exports to {{ page.heading }}</h3>
-
-                <span class="active-blue-text statistic-number bold-large">
+                <span class="statistic-number bold-large">
                   £{{ highlights.data.total_uk_exports|intword }}
                 </span>
+                <span class="font-small statistic-smallprint">
+                total UK exports to {{ page.heading }} for the {% reference_period highlights.metadata.reference_period %}
+                </span>
+                {% if highlights.metadata.source %}
+                  {% include 'core/includes/data_source.html' with source=highlights.metadata.source %}
+                {% endif %}
               </figure>
               {% endif %}
 
               {% if highlights.data.trading_position %}
               <figure class="statistics-card__column padding-vertical-15">
-                <h3 class="statistic-heading font-xsmall">The UK's</h3>
-
-                <span class="active-blue-text statistic-number bold-large">
+                <span class="statistic-number bold-large">
                   {% if highlights.data.trading_position == 1 %}
                     largest
                   {% else %}
@@ -58,34 +60,33 @@
                   {% endif %}
                 </span>
 
-                <span class="font-xsmall statistic-smallprint">
-                  {% if highlights.data.trading_position != 1 %}largest{% endif %} export market
+                <span class="font-small statistic-smallprint">
+                  {% if highlights.data.trading_position != 1 %}largest{% endif %} UK export market
                 </span>
+                {% if highlights.metadata.source %}
+                  {% include 'core/includes/data_source.html' with source=highlights.metadata.source %}
+                {% endif %}
               </figure>
               {% endif %}
 
               {% if highlights.data.percentage_of_uk_trade %}
               <figure class="statistics-card__column padding-vertical-15">
-                <h3 class="statistic-heading font-xsmall">Accounting for</h3>
-
-                <span class="active-blue-text statistic-number bold-large">
+                <span class="statistic-number bold-large">
                   {% if highlights.data.percentage_of_uk_trade < 0.05 %}
                     less than 0.1%
                   {% else %}
                     {{ highlights.data.percentage_of_uk_trade|floatformat:"1" }}%
                   {% endif %}
                 </span>
-
-                <span class="font-xsmall statistic-smallprint">
-                  of total UK exports
+                <span class="font-small statistic-smallprint">
+                  of total UK exports for the {% reference_period highlights.metadata.reference_period %}
                 </span>
+                {% if highlights.metadata.source %}
+                  {% include 'core/includes/data_source.html' with source=highlights.metadata.source %}
+                {% endif %}
               </figure>
               {% endif %}
             </div>
-
-            {% if highlights.metadata.source %}
-              {% include 'core/includes/data_source.html' with source=highlights.metadata.source %}
-            {% endif %}
           </div>
           {% endwith %}
         {% endif %}
@@ -93,7 +94,6 @@
 
       {% if page.intro_ctas %}
       <div class="column-quarter-l links margin-bottom-30">
-        {% if FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS %}
           <h2 class="heading-medium margin-top-0">Related services</h2>
           <div class="panel-vertical-narrow content-list padding-top-30">
             <ul id="country-guide-intro-ctas">
@@ -106,14 +106,12 @@
               {% endfor %}
             </ul>
           </div>
-        {% endif %}
       </div>
       {% endif %}
     </div>
   </div>
 </section>
 {% endif %}
-
 <section id="country-guide-section-one" class="section-one padding-vertical-60">
   <div class="container">
     <div class="grid-row">
@@ -148,29 +146,29 @@
 
             {% if page.stats.goods_exports.data %}
             <div id="tab-goods" class="reveal-content">
-              <h2 class="heading-medium">
-                Top {{ page.stats.goods_exports.data|length }} UK goods exports to {{ page.heading }}{% if page.stats.goods_exports.metadata.reference_period %},
+              <h2 class="body padding-top-30">
+                Top {{ page.stats.goods_exports.data|length|apnumber }} UK goods exported to {{ page.heading }}{% if page.stats.goods_exports.metadata.reference_period %},
                 in the {% reference_period page.stats.goods_exports.metadata.reference_period %}{% endif %}
               </h2>
 
-              {% include 'core/includes/bar_chart.html' with content=page.stats.goods_exports labels_heading='Goods' %}
+              {% include 'core/includes/bar_chart.html' with content=page.stats.goods_exports labels_heading='Goods' country=page.heading factsheet_link=page.country_fact_sheet_link %}
             </div>
             {% endif %}
 
             {% if page.stats.services_exports.data %}
             <div id="tab-services" class="reveal-content">
-              <h2 class="heading-medium">
-                Top {{ page.stats.services_exports.data|length }} UK services exports to {{ page.heading }}{% if page.stats.services_exports.metadata.reference_period %},
+              <h2 class="body padding-top-30">
+                Top {{ page.stats.services_exports.data|length|apnumber }} UK services exported to {{ page.heading }}{% if page.stats.services_exports.metadata.reference_period %},
                 in the {% reference_period page.stats.services_exports.metadata.reference_period %}{% endif %}
               </h2>
 
-              {% include 'core/includes/bar_chart.html' with content=page.stats.services_exports labels_heading='Service' %}
+              {% include 'core/includes/bar_chart.html' with content=page.stats.services_exports labels_heading='Service' country=page.heading factsheet_link=page.country_fact_sheet_link %}
             </div>
             {% endif %}
 
             {% if page.stats.market_trends.data %}
             <div id="tab-market-trends" class="reveal-content">
-              <h2 class="heading-medium">Total import and export values between {{ page.heading }} and the UK</h2>
+              <h2 class="body padding-top-30">Total import value (into the UK from {{ page.heading }}) and export value (from the UK into {{ page.heading }}) over time</h2>
 
               <div id="market-trends-table" class="reveal-content">
                 <button class="link margin-bottom-15 font-small" data-reveal-button aria-controls="market-trends-chart" data-reveal-tabs="market-trends-view">Change to chart view</button>
@@ -320,7 +318,7 @@
               </div>
 
               {% if page.stats.market_trends.metadata.source %}
-                {% include 'core/includes/data_source.html' with source=page.stats.market_trends.metadata.source %}
+                {% include 'domestic/includes/market_guide_graph_data_source.html' with source=page.stats.market_trends.metadata.source country=page.heading additional_source_text='Total trade is the sum of all exports and imports over the same time period.' factsheet_link=page.country_fact_sheet_link%}
               {% endif %}
             </div>
             {% endif %}
@@ -436,13 +434,10 @@
         {% slugurl 'advice' as advice_url %}
         {% include 'components/cta_card.html' with with_arrow=True image_url=need_help_image_url text="Read more advice about doing business abroad" url=advice_url %}
       </div>
-
-      {% if FEATURE_SHOW_MARKET_GUIDE_BAU_LINKS %}
       <div class="column-full column-half-l column-third-xl margin-bottom-0">
         {% static 'images/country-guide-contact.png' as contact_us_image_url %}
         {% include 'components/cta_card.html' with with_arrow=True image_url=contact_us_image_url text="Get in touch with one of our trade advisers" url="/contact/office-finder/" %}
       </div>
-      {% endif %}
     </div>
   </div>
 </section>

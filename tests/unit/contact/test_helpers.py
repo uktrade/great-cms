@@ -5,6 +5,7 @@ from contact.helpers import (
     extract_other_offices_details,
     extract_regional_office_details,
     format_office_details,
+    get_free_trade_agreements,
     retrieve_regional_office,
     retrieve_regional_office_email,
 )
@@ -200,3 +201,8 @@ def test_retrieve_regional_office_email_success(requests_mock):
     email = retrieve_regional_office_email('ABC123')
 
     assert email == 'region@example.com'
+
+
+def test_get_free_trade_agreements_success(mock_free_trade_agreements):
+    response = get_free_trade_agreements()
+    assert response['data'] == ['FTA 1', 'FTA 2', 'FTA 3']

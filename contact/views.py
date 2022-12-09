@@ -16,6 +16,7 @@ from formtools.wizard.views import NamedUrlSessionWizardView
 
 from contact import constants, forms as contact_forms, helpers
 from core import mixins as core_mixins, snippet_slugs
+from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
 from core.datastructures import NotifySettings
 from directory_constants import urls
 from sso.helpers import update_user_profile
@@ -41,7 +42,23 @@ class PrepopulateInternationalFormMixin:
             }
 
 
-class SendNotifyMessagesMixin:
+class SendNotifyUserMessageMixin:
+    def send_user_message(self, form):
+        # no need to set `sender` as this is just a confirmation email.
+        response = form.save(
+            template_id=self.notify_settings.user_template,
+            email_address=form.cleaned_data['email'],
+            form_url=self.request.get_full_path(),
+            form_session=self.form_session,
+        )
+        response.raise_for_status()
+
+    def form_valid(self, form):
+        self.send_user_message(form)
+        return super().form_valid(form)
+
+
+class SendNotifyMessagesMixin(SendNotifyUserMessageMixin):
     def send_agent_message(self, form):
         sender = Sender(
             email_address=form.cleaned_data['email'],
@@ -56,19 +73,8 @@ class SendNotifyMessagesMixin:
         )
         response.raise_for_status()
 
-    def send_user_message(self, form):
-        # no need to set `sender` as this is just a confirmation email.
-        response = form.save(
-            template_id=self.notify_settings.user_template,
-            email_address=form.cleaned_data['email'],
-            form_url=self.request.get_full_path(),
-            form_session=self.form_session,
-        )
-        response.raise_for_status()
-
     def form_valid(self, form):
         self.send_agent_message(form)
-        self.send_user_message(form)
         return super().form_valid(form)
 
 
@@ -90,6 +96,14 @@ class SubmitFormOnGetMixin:
 class BaseNotifyFormView(
     FormSessionMixin,
     SendNotifyMessagesMixin,
+    FormView,
+):
+    page_type = 'ContactPage'  # for use with GA360 tagging
+
+
+class BaseNotifyUserFormView(
+    FormSessionMixin,
+    SendNotifyUserMessageMixin,
     FormView,
 ):
     page_type = 'ContactPage'  # for use with GA360 tagging
@@ -234,9 +248,6 @@ class RoutingFormView(
                 'domestic:uk-export-finance-lead-generation-form',
                 kwargs={'step': 'contact'},
             ),
-            # This next one no longer exists as a view in the codebase, but can be
-            # (and is) redirected at the Wagtail CMS level to a different service.
-            constants.EUEXIT: '/transition-period/contact/',
             constants.EVENTS: reverse_lazy('contact:contact-us-events-form'),
             constants.DSO: reverse_lazy('contact:contact-us-dso-form'),
             constants.OTHER: reverse_lazy('contact:contact-us-enquiries'),
@@ -697,3 +708,21 @@ class SellingOnlineOverseasSuccessView(DomesticSuccessView):
             **kwargs,
             next_url_text='Go back to Selling Online Overseas',
         )
+
+
+class FTASubscribeFormView(
+    BaseNotifyUserFormView,
+):
+    form_class = contact_forms.FTASubscribeForm
+    template_name = 'domestic/contact/free-trade-agreement.html'
+    success_url = reverse_lazy('contact:contact-free-trade-agreements-success')
+    notify_settings = NotifySettings(
+        user_template=settings.SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID,
+    )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(
+            **kwargs,
+        )
+        context['privacy_url'] = PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
+        return context
