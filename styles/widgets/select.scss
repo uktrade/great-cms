@@ -49,14 +49,17 @@
 }
 
 .select__placeholder {
-    display: flex;
-    align-items: center;
-    padding-left: $standard-padding;
-    padding-right: $standard-padding;
-    color: $color-quotes-icons;
-    border: 2px solid $color-quotes-icons;
+  display: flex;
+  align-items: center;
+  padding-left: $standard-padding;
+  padding-right: $standard-padding;
+  color: $color-quotes-icons;
+  border: 2px solid $color-quotes-icons;
 }
 
 .select__list.select__list {
-    border-color: $color-quotes-icons;
+  border-color: $color-quotes-icons;
+}
+.select__placeholder--value {
+  padding-left: $standard-padding * 0.5;
 }

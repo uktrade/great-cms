@@ -165,13 +165,13 @@ label.body-l,
   color: $color-main-text;
 }
 
-#great-footer-copyright{
-    font-size: $font-size-p-small;
-    line-height: $p-line-height;
+#great-footer-copyright {
+  font-size: $font-size-p-small;
+  line-height: $p-line-height;
 }
 
-.font-xsmall{
-    font-family: $main-text-font;
+.font-xsmall {
+  font-family: $main-text-font;
 }
 
 //just overidde colors
@@ -192,6 +192,7 @@ label.body-l,
 .heading-large,
 .heading-xlarge,
 .heading-small,
+.heading-medium,
 .multiple-choice label,
 .select__button i,
 .great-checkbox label,
