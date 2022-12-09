@@ -473,6 +473,7 @@ def test_get_lesson_progress_for_topic(
     assert get_lesson_progress_for_topic(lesson_completion_data, topic_page.id) == expected
 
 
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     'klass,expected',
     (
@@ -486,6 +487,7 @@ def test_is_lesson_page(klass, expected):
     assert is_lesson_page(klass()) == expected
 
 
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     'klass,expected',
     (
