@@ -3,50 +3,53 @@
 @import '../sizes/sizes.scss';
 
 .personalization-menu {
-    position: absolute;
-    box-shadow: 0 2px rgba(0, 0, 0, 0.2);
-    padding: $large-padding;
-    background-color: $color-main-background;
-    z-index: 2;
-    width: 375px;
+  position: absolute;
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  padding: $large-padding;
+  background-color: $color-main-background;
+  z-index: 2;
+  width: 375px;
 
-    ul {
-        padding: 0;
-        margin: 0;
+  ul {
+    padding: 0;
+    margin: 0;
 
-        li+li {
-            padding-top: 13px;
-        }
-
-         li {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            border-bottom: 2px solid $color-background-color;
-            padding-bottom: $standard-padding;
-
-            span {
-                flex: 1;
-                font-family: $header-font;
-            }
-
-            button {
-                height: auto;
-                background-color: transparent;
-
-                .remove-product {
-                    height: auto;
-                    background-color: blue;
-
-                    i {
-                        color: $color-delete;
-                    }
-                }
-            }
-
-
-
-        }
+    li + li {
+      padding-top: 13px;
     }
 
+    li {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      border-bottom: 2px solid $color-background-color;
+      padding-bottom: $standard-padding;
+
+      span {
+        flex: 1;
+        font-family: $header-font;
+      }
+
+      button {
+        height: auto;
+        background-color: transparent;
+
+        .remove-product {
+          height: auto;
+          background-color: blue;
+
+          i {
+            color: $color-delete;
+          }
+        }
+      }
+    }
+  }
 }
+
+  #set-country-button {
+    margin-left: $large-padding;
+    @media only screen and (max-width: 640px) {
+      margin-left: 0;
+    }
+  }

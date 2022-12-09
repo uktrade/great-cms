@@ -168,7 +168,22 @@
   {% endif %}
 {% endif %}
 
-  <section class="landing-page-section padding-bottom-15 padding-bottom-30-m padding-top-45 padding-top-60-m">
+
+<section class="landing-page-section padding-bottom-15 padding-bottom-30-m padding-top-45 padding-top-60-m">
+  <div class="container wrap-tight">
+    <h2 class="margin-bottom-30">Here to help with your exporting journey</h2>
+    <div class="grid-row wrap-tight">
+      {% for column_block in page.how_dit_helps_columns %}
+          <div class="column-third-m column-full">
+            {% include 'components/card.html' with title=column_block.value.text subheading=column_block.value.source url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False %}
+          </div>
+        {% endfor %}
+    </div>
+      <hr></hr>
+  </div>
+</section>
+
+ <section class="landing-page-section padding-bottom-15 padding-bottom-30-m padding-top-0 padding-top-0-m">
   <div class="container wrap-tight">
     <h2 class="margin-bottom-30">{{ page.magna_ctas_title }}</h2>
     <div class="grid-row wrap-tight">
@@ -177,18 +192,6 @@
           {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=True %}
         </div>
       {% endfor %}
-    </div>
-      <hr></hr>
-  </div>
-</section>
-<section class="landing-page-section padding-bottom-15 padding-bottom-30-m padding-top-0 padding-top-0-m">
-  <div class="container wrap-tight">
-    <div class="grid-row wrap-tight">
-      {% for column_block in page.how_dit_helps_columns %}
-          <div class="column-third-m column-full">
-            {% include 'components/card.html' with title=column_block.value.text subheading=column_block.value.source url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False %}
-          </div>
-        {% endfor %}
     </div>
       <hr></hr>
   </div>

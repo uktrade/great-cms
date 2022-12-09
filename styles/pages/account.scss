@@ -3,10 +3,14 @@
 .sso-profile-tab-container {
   background-color: $color-background-color;
 
-  ul li.active {
+
+  ul li
+  {
+    border-top: 5px solid $color-background-color;
+    &.active {
     border-top: 5px solid $color-thematic-break;
   }
-
+  }
 
 }
 

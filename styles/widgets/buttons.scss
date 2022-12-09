@@ -126,10 +126,6 @@ button {
         border: 2px solid $color-gov-link;
     }
 
-    &.tab-list-item+.tab-list-item {
-        margin-right: $x-large-padding;
-    }
-
     &.tab-list-active {
         background-color: $color-tab;
         border: 2px solid $color-tab;
@@ -285,4 +281,12 @@ button.button-lesson {
     i {
         font-size: $icon-standard-size;
     }
+}
+
+
+.tabs{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: $standard-padding $standard-padding;
 }

@@ -151,7 +151,7 @@ const renderCountryRowHeader = ({
   // A row header in normal mode.
   const iso = market.country_iso2_code
   const headingClass = `
-    ${(config && config.headingClass) || ''} ${'bg-blue-deep-10'}
+    ${(config && config.headingClass) || ''} ${'table-highlight'}
   `
   return (
     <>

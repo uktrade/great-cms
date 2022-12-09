@@ -49,7 +49,7 @@ function ProductSelector() {
 
   return (
     <>
-      <div className="body-l-b">
+      <div className="body-l-b select-label">
         {hasProducts
           ? 'Select your product'
           : "You haven't selected any products"}

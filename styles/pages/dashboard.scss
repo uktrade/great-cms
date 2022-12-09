@@ -1,16 +1,49 @@
 @import '../sizes/sizes.scss';
 
-.dashboard-card{
-    p{
-        padding-top:$large-padding;
-        padding-bottom: $large-padding;
-        margin:0;
-    }
+.dashboard-card {
+  p {
+    padding-top: $large-padding;
+    padding-bottom: $large-padding;
+    margin: 0;
+  }
 
-    img{
-        margin: auto;
-        padding-top:$large-padding;
-        width: 100%;
-        height: auto;
+  img {
+    margin: auto;
+    padding-top: $large-padding;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.card-row {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: $x-large-padding;
+  width: 100%;
+
+  h3 {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    flex: 1;
+    width: 100%;
+  }
+
+  > div {
+    flex: 1;
+    width: 100%;
+  }
+  @media only screen and (max-width: $mobile-size) {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    h3 {
+      min-width: auto;
+      padding-top: 30px;
+      padding-bottom: 0;
     }
+    > div {
+      min-width: auto;
+      padding-top: 0;
+    }
+  }
 }
