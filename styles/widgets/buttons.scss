@@ -355,3 +355,11 @@ button#commodity-code-details {
         font-size: $icon-standard-size;
     }
 }
+
+
+.tabs{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: $standard-padding $standard-padding;
+}

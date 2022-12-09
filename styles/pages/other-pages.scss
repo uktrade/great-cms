@@ -307,17 +307,18 @@ a.button{
 }
 
 #magna-header-search-form{
-    height: 50px;
+    height: 53px;
     display: flex;
     align-items: center;
         button{
         margin-top:0;
         margin-left:-2px;
-        height: 43px;
-        width: 43px;
+        height: 50px;
+        width: 50px;
+        font-family: $main-text-font;
     }
 
     #magna-header-search-box{
-        height: 46px;
+        height: 53px;
     }
 }
