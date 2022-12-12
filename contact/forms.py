@@ -351,12 +351,25 @@ class OfficeFinderForm(forms.Form):
 
 
 class TradeOfficeContactForm(
-    SerializeDataMixin,
-    GovNotifyEmailActionMixin,
-    ConsentFieldMixin,
-    BaseShortForm,
+    SerializeDataMixin, GovNotifyEmailActionMixin, ConsentFieldMixin, BaseShortForm, forms.Form
 ):
-    pass
+    phone_number = forms.CharField(
+        label='Telephone number (Optional)',
+        required=False,
+        min_length=8,
+        max_length=16,
+        help_text='This can be a landline or mobile number',
+        error_messages={
+            'max_length': 'Figures only, maximum 16 characters, minimum 8 characters excluding spaces',
+            'min_length': 'Figures only, maximum 16 characters, minimum 8 characters excluding spaces',
+        },
+    )
+
+    def order_fields(self, field_order):
+        # move phone_number field to be positioned after the email field
+        field_order = field_order or list(self.fields.keys())
+        field_order.insert(field_order.index('email') + 1, field_order.pop(field_order.index('phone_number')))
+        return super().order_fields(field_order)
 
 
 class EventsForm(
