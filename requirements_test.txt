@@ -119,7 +119,7 @@ decorator==5.1.1
     #   ipython
 dill==0.3.6
     # via pylint
-directory-api-client==25.1.0
+directory-api-client==26.1.1
     # via -r requirements.in
 directory-ch-client==3.0.1
     # via -r requirements.in
