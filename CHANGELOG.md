@@ -9,6 +9,7 @@
 ### Hotfix
 
 ### Enhancements
+* KLS-32 - Update content in signup confirmation page
 
 ## [2.20.0](https://github.com/uktrade/great-cms/releases/tag/2.20.0)
 
@@ -22,6 +23,7 @@
 
 ### Bugs fixed
 * KLS-80 - Correct form destinations and CTA style for Scottish offices
+
 
 ### Enhancements
 * KLS-222 - Patch loader-utils to v2.0.4
