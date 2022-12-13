@@ -53,10 +53,12 @@ def test_modular_content_static_block_render():
     assert html == expected_html
 
 
-def test_render_form_with_constructor():
-    block = core_blocks.ModularContentStaticBlock()
-    rendered_html = block.render_form(None)
-    assert rendered_html == 'Content modules will be automatically displayed, no configuration needed.'
+# Test removed. render_form is not available in wagtail 3.2 onwards.
+# See this https://stackoverflow.com/questions/68080777/how-is-a-fieldblock-rendered-in-wagtail-cms-2-13-x
+# def test_render_form_with_constructor():
+#     block = core_blocks.ModularContentStaticBlock()
+#     rendered_html = block.render_form(None)
+#     assert rendered_html == 'Content modules will be automatically displayed, no configuration needed.'
 
 
 def test_basic_render_form_for_media_chooser_block():
