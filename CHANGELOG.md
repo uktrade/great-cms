@@ -9,6 +9,7 @@
 ### Enhancements
 * KLS-32 - Update content in signup confirmation page
 * KLS-213 - Add phone number field to trade office contact forms
+* KLS-266 - Get survey details from directory API
 
 ## [2.20.0](https://github.com/uktrade/great-cms/releases/tag/2.20.0)
 
