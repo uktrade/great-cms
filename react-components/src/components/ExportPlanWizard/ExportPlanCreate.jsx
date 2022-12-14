@@ -81,7 +81,7 @@ export function ExportPlanWizard({ exportPlan }) {
             </div>
             <div>
               {product && (
-                <Link className="button button--primary" to={paths.market}>
+                <Link className="button primary-button" to={paths.market}>
                   Continue
                 </Link>
               )}
@@ -151,7 +151,7 @@ export function ExportPlanWizard({ exportPlan }) {
                 {market && (
                   <button
                     type="button"
-                    className="button button--primary"
+                    className="button primary-button"
                     onClick={createClick}
                   >
                     {exportPlan ? 'Update' : 'Create'} export plan

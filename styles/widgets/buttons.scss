@@ -15,6 +15,12 @@ button {
         font-size: $icon-large-button-size;
     }
 
+    &.icon-last{
+        i{
+        padding-left: $standard-padding;
+    }
+    }
+
     &.icon-only {
         height: auto;
         width: auto;
@@ -280,6 +286,7 @@ button.button-lesson {
 .remove-market {
     i {
         font-size: $icon-standard-size;
+        color:$color-delete;
     }
 }
 

@@ -80,7 +80,7 @@ const Form = ({
     <button
       type="submit"
       id="signup-modal-submit"
-      className="button button--primary width-full m-t-xs"
+      className="button primary-button width-full m-t-xs"
       disabled={disabled}
     >
       Sign up

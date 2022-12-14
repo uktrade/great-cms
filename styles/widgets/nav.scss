@@ -1,18 +1,30 @@
 @import '../fonts/main.scss';
 @import '../colors/colors.scss';
+
+$breakpoint: 1250px;
+
 nav>ul>li>a {
-    font-family:$main-text-font!important ;
+    font-family: $main-text-font!important ;
     border-bottom: 0;
     text-decoration: none;
-    font-size: $font-size-p-large!important;
-    color: $color-alternative-text!important;
+    font-size: $font-size-p-large !important;
+    color: $color-alternative-text !important;
     padding-right: 4px;
-    border:none!important
+    border: none !important;
+
 }
 
-nav.breadcrumbs{
-    padding-top: 0.75em!important;
-    padding-bottom: 0.75em!important;
+nav.breadcrumbs {
+    padding-top: 0.75em !important;
+    padding-bottom: 0.75em !important;
     background-color: $color-background-color ;
 
+}
+
+nav{
+     .magna-header__nav {
+        @media only screen and (max-width: $breakpoint) {
+            display: none;
+        }
+    }
 }

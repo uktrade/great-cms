@@ -126,19 +126,19 @@
               <ul>
                 {% if page.stats.goods_exports.data %}
                 <li>
-                  <button id="tab-button-goods" class="primary-button" data-reveal-button aria-controls="tab-goods" data-reveal-tabs="market-tabs">Goods</button>
+                  <button id="tab-button-goods" class="" data-reveal-button aria-controls="tab-goods" data-reveal-tabs="market-tabs">Goods</button>
                 </li>
                 {% endif %}
 
                 {% if page.stats.services_exports.data %}
                 <li>
-                  <button id="tab-button-services" class="primary-button" data-reveal-button aria-controls="tab-services" data-reveal-tabs="market-tabs">Services</button>
+                  <button id="tab-button-services" class="" data-reveal-button aria-controls="tab-services" data-reveal-tabs="market-tabs">Services</button>
                 </li>
                 {% endif %}
 
                 {% if page.stats.market_trends.data %}
                 <li>
-                  <button id="tab-button-market-trends" class="primary-button" data-reveal-button aria-controls="tab-market-trends" data-reveal-tabs="market-tabs">Market trends</button>
+                  <button id="tab-button-market-trends" class="" data-reveal-button aria-controls="tab-market-trends" data-reveal-tabs="market-tabs">Market trends</button>
                 </li>
                 {% endif %}
               </ul>
@@ -341,7 +341,7 @@
 </section>
 
 {% if page.section_two_heading %}
-  <section id="country-guide-section-two" class="section-two padding-vertical-60">
+  <section id="country-guide-section-two" class="section-two padding-vertical-20">
     <div class="container">
       <div class="grid-row">
         <div class="column-full column-two-thirds-m column-half-l">
@@ -394,7 +394,7 @@
   <div class="container">
     <div class="grid-row margin-bottom-60">
       <div class="column-full column-two-thirds-m column-half-l">
-        <h2 class="heading-large margin-top-0">{{ page.fact_sheet_title }}</h2>
+        <h1 class="margin-top-0">{{ page.fact_sheet_title }}</h1>
         <p>{{ page.fact_sheet_teaser }}</p>
       </div>
     </div>

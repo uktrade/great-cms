@@ -39,6 +39,10 @@ $breakpoint-size: 900px;
 
       .duration-container {
         color: $color-gov-link;
+        display: flex;
+        i + span{
+          padding-left:$standard-padding;
+        }
       }
 
       > p {

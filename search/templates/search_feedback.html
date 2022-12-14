@@ -13,18 +13,20 @@
 
 {% block content %}
 <section id="search-results-information">
+  <div class="breadcrumb-wrapper">
   <div class="container">
     {% breadcrumbs "Feedback" %}
       <a href="/">great.gov.uk</a>
       <a href="{% url 'search:search' %}">Search</a>
     {% endbreadcrumbs %}
   </div>
+</div>
   <div class="container">
     <h1 class="heading-xlarge">Your feedback will help us improve great.gov.uk</h1>
   </div>
 </section>
 
-<div class="container">
+<div class="container search-results-container">
   <br>
   <form action="{% url 'search:feedback' %}" method="POST">
   {% csrf_token %}

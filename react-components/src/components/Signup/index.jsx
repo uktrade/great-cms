@@ -82,7 +82,7 @@ export const Signup = (props) => {
           </a>
         </p>
       </div>
-      <div className="signup__info-panel">
+      <div className="signup__info-panel signup-panel">
         <div className="signup__info-panel__content">
           <h2>Find new customers around the world</h2>
           <ul className="signup__info-panel__subheadings">
@@ -95,12 +95,6 @@ export const Signup = (props) => {
           </ul>
 
         </div>
-
-        <img
-          className="background-image"
-          src="/static/images/signup-image.png"
-          alt=""
-        />
       </div>
     </div>
   )

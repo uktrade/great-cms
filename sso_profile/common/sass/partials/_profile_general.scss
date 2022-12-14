@@ -1,20 +1,4 @@
 @import 'partials/colours';
-
-.sso-profile-tab-container {
-
-  ul {
-    display: flex;
-    flex-flow: wrap;
-    li {
-      a {
-        font-weight: bold;
-        color: $grey;
-        text-decoration: none;
-      }
-    }
-  }
-}
-
 .sso-profile-toolbar-labels-container {
   margin-top: 10px;
 }

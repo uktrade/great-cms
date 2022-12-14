@@ -55,7 +55,7 @@ export const CountryFinderButton = () => {
         </ul>
         <button
           type="button"
-          className="button button--primary button--icon m-t-xs button--full-width hidden"
+          className="button primary-button button--icon m-t-xs button--full-width hidden"
           onClick={() => setIsOpen(true)}
         >
           <i className="fas fa-plus" />

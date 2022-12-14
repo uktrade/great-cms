@@ -1,17 +1,82 @@
 @import '../colors/colors.scss';
+@import '../fonts/main.scss';
+@import '../sizes/sizes.scss';
 
 .sso-profile-tab-container {
   background-color: $color-background-color;
 
+  .container {
+    > ul {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
 
-  ul li
-  {
-    border-top: 5px solid $color-background-color;
-    &.active {
-    border-top: 5px solid $color-thematic-break;
-  }
-  }
+      > li {
+        border-top: 5px solid $color-background-color;
+        font-size: 20px;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-bottom: 26px;
+        padding-top: 19px;
 
+        &.active {
+          border-top: 5px solid $color-thematic-break;
+          background-color: $color-main-background;
+        }
+
+        > a {
+          font-family: $header-font;
+          font-size: 20px;
+          text-decoration: none;
+          color: $color-main-text;
+        }
+      }
+    }
+
+    @media only screen and (max-width: $mobile-size) {
+      padding: 20px 15px;
+      margin: 0;
+      > ul {
+        gap: $standard-padding;
+        > li {
+          background-color: $color-main-background;
+          padding-left: 20px;
+          padding-right: 20px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          border: 2px solid $color-gov-link;
+
+          &:hover{
+            background-color: $color-gov-link;
+            >a{
+              color:$color-alternative-text;
+            }
+          }
+
+          > a {
+            color: r$color-gov-link;
+            font-size: 16px;
+            &:focus, :active{
+              border:none;
+            }
+          }
+
+          &.active {
+            border: 2px solid $color-main-background;
+            > a {
+              color: $color-main-text;
+
+            }
+             &:hover{
+              >a{
+                color:$color-alternative-text;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .information-breakout {
@@ -22,7 +87,7 @@
 
   p {
     padding: 0;
-    margin: 0
+    margin: 0;
   }
 
   i {
@@ -37,7 +102,8 @@
     background-color: $color-alternative-background;
   }
 }
-.message-box{
+
+.message-box {
   border-color: $color-alternative-background;
 }
 
@@ -46,6 +112,6 @@
   justify-content: flex-end;
 }
 
-#information-banner{
+#information-banner {
   border-color: $color-alternative-background;
 }

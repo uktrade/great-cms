@@ -110,7 +110,7 @@ export default function SearchInput(props) {
           <button
             type="button"
             aria-label="Save"
-            className="button button--primary button--auto-width m-f-xs"
+            className="button primary-button button--auto-width m-f-xs"
             onClick={onSaveButtonClick}
             disabled={saveButtonDisabled}
           >

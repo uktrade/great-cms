@@ -1,8 +1,6 @@
 @import '../colors/colors.scss';
 @import '../sizes/sizes.scss';
 
-
-
 .classification-tree__line,
 .section-list__item {
   border-radius: 0;
@@ -16,7 +14,6 @@
     background-color: white;
     border-radius: 10px;
     line-height: 20px;
-    ;
   }
 }
 
@@ -69,10 +66,9 @@ blockquote,
   background-color: $color-background-color;
 }
 
-
 .media-block {
   i:before {
-    color: $color-main-text
+    color: $color-main-text;
   }
 }
 
@@ -81,7 +77,7 @@ a.link {
   text-decoration: underline;
 }
 
-p>a {
+p > a {
   font-size: inherit;
 }
 
@@ -91,9 +87,9 @@ p>a {
 
   .mark-lesson-as-complete h2,
   .mark-lesson-as-complete span,
-  .test-knowledge-wrapper>h2,
-  >h3 {
-    color: $color-alternative-text
+  .test-knowledge-wrapper > h2,
+  > h3 {
+    color: $color-alternative-text;
   }
 }
 
@@ -104,7 +100,6 @@ a.link--underline {
 .g-panel::before {
   background: $color-main-text;
 }
-
 
 a:focus:active,
 button:focus:active {
@@ -138,7 +133,7 @@ button:focus:active {
   span,
   h3,
   label {
-    color: $color-alternative-text
+    color: $color-alternative-text;
   }
 }
 
@@ -176,43 +171,41 @@ a.section-list__link {
   border: 2px solid $color-border;
   border-right-width: 0;
   background-color: $color-background-color;
-  color: $color-main-text
+  color: $color-main-text;
 }
 
-
 .export-plan-form {
-  hr+button {
+  hr + button {
     margin-top: $large-padding;
   }
 }
 
 .costs__option .form-label {
-  padding-top: $standard-padding
+  padding-top: $standard-padding;
 }
-#compare-markets{
+#compare-markets {
   background-color: $color-background-color;
 }
 
-
-.landing-page-section{
+.landing-page-section {
   background-color: $color-main-background;
 }
 
-.snackbar-message{
+.snackbar-message {
   background-color: $color-footer;
   display: inline-flex;
   align-items: center;
 }
 
-.great-footer{
+.great-footer {
   background-color: $color-footer;
 }
 
-.g-card{
+.g-card {
   background-color: $color-main-background;
 }
 
-.heading-small{
+.heading-small {
   font-family: $main-text-font;
 }
 
@@ -220,11 +213,29 @@ a.section-list__link {
   padding-top: $standard-padding;
 }
 
-
 .select-label {
   padding-bottom: $standard-padding;
 }
 
-.table-highlight{
-  background-color: #eef2f6;;
+.table-highlight {
+  background-color: #eef2f6;
+}
+
+.next-steps {
+  padding: $x-large-padding;
+  @media only screen and (max-width: $mobile-size) {
+    padding: $x-large-padding * 0.5;
+  }
+}
+
+.section-complete .great-checkbox label {
+  color: white;
+}
+
+.export-plan-section-lesson{
+  background-color: $color-background-color;
+
+  .lesson-accordian-content{
+    background-color: $color-main-background;
+  }
 }

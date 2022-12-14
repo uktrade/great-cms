@@ -67,7 +67,7 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
   const addProductButton = (
     <button
       type="button"
-      className="button button--primary button--icon"
+      className="button primary-button button--icon"
       onClick={() => setProductModalIsOpen(true)}
     >
       <i className="fa fa-plus" />

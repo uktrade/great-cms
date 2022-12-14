@@ -73,11 +73,11 @@ export const Login = ({ nextUrl, ...props }) => {
           googleLoginUrl={googleLoginUrl}
         />
       </div>
-      <div className="signup__info-panel">
+      <div className="signup__info-panel login-panel">
         <div className="signup__info-panel__content">
-          <h1>
+          <h2>
             Sign in to continue your exporting journey
-          </h1>
+          </h2>
           <p className="body-l">Don&apos;t have an account?</p>
           <a
             href={Services.config.signupUrl}
@@ -86,7 +86,6 @@ export const Login = ({ nextUrl, ...props }) => {
             Sign up
           </a>
         </div>
-        <img src="/static/images/signin-image.png" alt="" className='background-image' />
       </div>
     </div>
   )

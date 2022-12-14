@@ -104,7 +104,7 @@ const renderRemoveButton = ({ market, removeMarket }) => (
     data-id={market.country_iso2_code}
     aria-label={`Remove ${market.country_name} from table`}
   >
-    <i className="fa fa-times-circle" />
+    <i className="fa fa-trash-alt" />
   </button>
 )
 

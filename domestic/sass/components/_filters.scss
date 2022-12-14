@@ -1,3 +1,4 @@
+@import '../../../styles/fonts/main.scss';
 .filters {
     .filter-section {
         border-bottom: 2px solid $stone-90;
@@ -6,6 +7,8 @@
             border-bottom: none;
         }
         > label {
+            font-family: $header-font;
+            $font-size: 24px;
             display: block;
             padding: 8px 5px 8px 0;
             cursor: pointer;

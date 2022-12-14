@@ -37,14 +37,16 @@ table {
 
 .container {
   max-width: $design-max-width;
-  margin: 0 auto;
+  padding: 0 auto;
 
   @media (max-width: #{$design-max-width + ($spacing-3 * 2)}) {
-    margin: 0 $spacing-3;
+    padding: 0 $spacing-3;
+    margin:0;
   }
 
   @media (max-width: 420px) {
-    margin: 0 20px; // Special figure intentionally outside of standard.
+    padding: 0 20px; // Special figure intentionally outside of standard.
+     margin:0;
   }
 }
 

@@ -13,13 +13,13 @@
   {% include 'components/hero.html' with image=page.hero_image hero_text="Markets" %}
 {% endblock %}
 
-{% comment %} {% block breadcrumbs %}
+{% block breadcrumbs %}
 <div class="container">
   {% include 'components/breadcrumbs_cms.html' %}
 </div>
 {% endblock %}
 
-{% if page.teaser %}
+{% comment %} {% if page.teaser %}
 <section id="markets-banner-section" class="topic-list-section padding-bottom-60-m padding-top-15-m">
     <div class="container">
       <div class="grid-row margin-top-30 margin-top-45-m">
@@ -29,7 +29,7 @@
       </div>
     </div>
 </section>
-{% endif %} {% endcomment %}
+{% endif %}  {% endcomment %}
 
 {% block child_pages %}
 <section id="{{ page.slug }}-list-section" class="topic-list-section markets-landing">
@@ -39,14 +39,14 @@
             <div class="column-third column-quarter-xl">
               <div class="filters">
               <a id="skip-link" class="accessibility-skip-to-section" href="#markets-results">Skip filters and go to the market results.</a>
-                <h2 class="heading-small margin-top-0 margin-bottom-30 margin-bottom-15-m" id="filters-heading">
-                  <span>Filter markets guides</span>
-                </h2>
+                <h4 class="margin-top-0 margin-bottom-30 margin-bottom-15-m margin-top-15" id="filters-heading">
+                  Filter markets guides
+                </h4>
                 <span class="verbose">Selecting a filter with Javascript enabled will refresh the page.</span>
                 <ul>
                   <li class="filter-section">
                     <input type="checkbox" id="sectors" checked />
-                    <label for="sectors" role="button">UK business sectors</label>
+                    <label for="sectors" role="button">High potential sectors for UK business</label>
                     <div class="options checkbox-small">
                       <ul>
                         {% for sector in sector_list %}
@@ -62,7 +62,7 @@
                   </li>
                   <li class="filter-section">
                     <input type="checkbox" id="regions" checked />
-                    <label for="regions" role="button">Regions</label>
+                    <label for="regions" role="button">World regions</label>
                     <div class="options checkbox-small full-height">
                         <ul>
                           {% for region in regions_list %}
@@ -138,7 +138,7 @@
                 {% endif %}
               </div>
               <div class="flex-grid markets-grid">
-                {% include 'components/card_grid.html' with cards=paginated_results  %}
+                {% include 'components/card_grid.html' with cards=paginated_results %}
               </div>
               {% pagination pagination_page=paginated_results %}
             </div>

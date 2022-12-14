@@ -261,7 +261,7 @@ export default function CountryFinderModal(props) {
         </p>
         <button
           type="button"
-          className="button button--secondary button--full-width m-b-s"
+          className="secondary-button button--full-width m-b-s"
           onClick={() => setMobilePage('suggested')}
         >
           Possible export markets
@@ -269,7 +269,7 @@ export default function CountryFinderModal(props) {
         {!isCompareCountries && (
           <button
             type="button"
-            className="button button--secondary button--full-width m-b-s"
+            className="secondary-button button--full-width m-b-s"
             onClick={() => setMobilePage('compare')}
           >
             Compare markets
@@ -277,7 +277,7 @@ export default function CountryFinderModal(props) {
         )}
         <button
           type="button"
-          className="button button--secondary button--full-width m-b-s"
+          className="secondary-button button--full-width m-b-s"
           onClick={() => setMobilePage('list')}
         >
           List of markets
@@ -338,7 +338,7 @@ export default function CountryFinderModal(props) {
               <div className="only-mobile">
                 <button
                   type="button"
-                  className={`pull-left m-t-s button button--secondary button--icon button--auto-width ${
+                  className={`pull-left m-t-s button secondary-button button--icon button--auto-width ${
                     mobilePage === 'initial' ? 'hidden' : ''
                   }`}
                   onClick={() => setMobilePage('initial')}

@@ -1,37 +1,48 @@
 @import '../fonts/main.scss';
 @import '../colors/colors.scss';
-#sign-up, #login {
 
-    h1 {
-        font-family: $main-text-font;
-        font-weight:$font-weight-standard ;
+$login-image: url(/static/images/signin-image.png);
+$signup-image: url(/static/images/signup-image.png);
+#sign-up,
+#login {
+  h1 {
+    font-family: $main-text-font;
+    font-weight: $font-weight-standard;
+  }
+
+  h3 {
+    color: $color-main-text;
+  }
+
+  p {
+    font-size: $font-size-p-large;
+    color: $color-main-text;
+  }
+  .signup__info-panel {
+    padding: 0;
+    background-position: center 100% !important;
+    background-size: auto 60% !important;
+    background-repeat: no-repeat !important;
+
+    &.login-panel {
+      background: $login-image;
     }
 
-    h3{
-       color: $color-main-text;
+    &.signup-panel {
+      background: $signup-image;
     }
+  }
 
-    p{
-        font-size: $font-size-p-large;
-        color: $color-main-text
+  .signup__info-panel__content {
+    padding: 10% $large-padding;
+    height: 100%;
+  }
+  .signup__info-panel__subheadings {
+    i {
+      color: #2397d4;
     }
-.signup__info-panel{
-padding:0;
-}
-
-.signup__info-panel__content{
-    padding: 60px $large-padding;
-}
-    .signup__info-panel__subheadings{
-        i{
-            color: #2397D4;
-        }
-        li{
-            font-size: $font-size-h3;
-        }
+    li {
+      font-size: $font-size-h3;
     }
-
-    .background-image{
-        width:100%;
-    }
+  }
 }

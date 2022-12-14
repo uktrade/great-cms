@@ -1,0 +1,16 @@
+@import '../colors/colors.scss';
+
+#search-results-information{
+  .breadcrumb-wrapper{
+    background-color: $color-background-color;
+
+    >.container{
+        padding-top: 0;
+    }
+  }
+
+}
+
+.search-results-container{
+    background-color: $color-main-background;
+}
