@@ -53,9 +53,17 @@ nav {
   }
 }
 
-nav.breadcrumbs{
-    padding-top: 0.75em!important;
-    padding-bottom: 0.75em!important;
+nav.breadcrumbs {
+    padding-top: 0.75em !important;
+    padding-bottom: 0.75em !important;
     background-color: $color-background-color ;
 
+}
+
+nav{
+     .magna-header__nav {
+        @media only screen and (max-width: $breakpoint) {
+            display: none;
+        }
+    }
 }

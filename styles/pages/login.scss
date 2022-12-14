@@ -57,6 +57,7 @@ $banner: url(/static/images/great-banner-large.png);
     &.login-panel {
       background: $login-image;
     }
+  }
 
     &.signup-panel {
       background: $signup-image;
@@ -76,4 +77,4 @@ $banner: url(/static/images/great-banner-large.png);
       margin-bottom: $large-padding;
     }
   }
-}
+
