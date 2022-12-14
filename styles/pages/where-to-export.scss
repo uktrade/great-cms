@@ -217,7 +217,7 @@ a.link {
   text-decoration: underline;
 }
 
-p>a {
+p > a {
   font-size: inherit;
 }
 
@@ -227,9 +227,9 @@ p>a {
 
   .mark-lesson-as-complete h2,
   .mark-lesson-as-complete span,
-  .test-knowledge-wrapper>h2,
-  >h3 {
-    color: $color-alternative-text
+  .test-knowledge-wrapper > h2,
+  > h3 {
+    color: $color-alternative-text;
   }
 }
 
@@ -240,7 +240,6 @@ a.link--underline {
 .g-panel::before {
   background: $color-main-text;
 }
-
 
 a:focus:active,
 button:focus:active {
@@ -274,7 +273,7 @@ button:focus:active {
   span,
   h3,
   label {
-    color: $color-alternative-text
+    color: $color-alternative-text;
   }
 }
 
@@ -312,19 +311,18 @@ a.section-list__link {
   border: 2px solid $color-border;
   border-right-width: 0;
   background-color: $color-background-color;
-  color: $color-main-text
+  color: $color-main-text;
 }
 
-
 .export-plan-form {
-  hr+button {
+  hr + button {
     margin-top: $large-padding;
   }
 }
 
 .costs__option .form-label {
-  padding-top: $standard-padding
+  padding-top: $standard-padding;
 }
-#compare-markets{
+#compare-markets {
   background-color: $color-background-color;
 }
