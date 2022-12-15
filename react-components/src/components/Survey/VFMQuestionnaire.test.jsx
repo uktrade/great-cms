@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { act, Simulate } from 'react-dom/test-utils'
 import { waitFor, fireEvent, getByLabelText } from '@testing-library/react'
-import Questionnaire from '@src/components/Survey/Questionnaire'
+import VFMQuestionnaire from '@src/components/Survey/VFMQuestionnaire'
 import Services from '@src/Services'
 import fetchMock from 'fetch-mock'
 import reactModal from 'react-modal'
@@ -105,7 +105,7 @@ describe('VFM Questionnaire', () => {
 
     act(() => {
       ReactDOM.render(
-        <Questionnaire handleModalClose={handleModalClose} />,
+        <VFMQuestionnaire handleModalClose={handleModalClose} />,
         container
       )
     })
@@ -129,7 +129,7 @@ describe('VFM Questionnaire', () => {
 
     act(() => {
       ReactDOM.render(
-        <Questionnaire handleModalClose={handleModalClose} />,
+        <VFMQuestionnaire handleModalClose={handleModalClose} />,
         container
       )
     })
@@ -209,7 +209,7 @@ describe('VFM Questionnaire', () => {
 
     act(() => {
       ReactDOM.render(
-        <Questionnaire handleModalClose={handleModalClose} />,
+        <VFMQuestionnaire handleModalClose={handleModalClose} />,
         container
       )
     })

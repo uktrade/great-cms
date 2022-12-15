@@ -6,7 +6,7 @@ import Interaction from './Interaction'
 import Modal from './Modal'
 import CompanyNameModal from './CompanyNameModal'
 
-export default function Questionnaire(props) {
+export default function VFMQuestionnaire(props) {
   const modes = { closed: 'c', start: 's', question: 'q', thankyou: 't' }
   const { handleModalClose } = props
   const [mode, setMode] = useState(modes.closed)
@@ -40,7 +40,7 @@ export default function Questionnaire(props) {
   }
 
   useEffect(() => {
-    if(mode === modes.question && question && question.id !== lastRecordedQuestion) {
+    if (mode === modes.question && question && question.id !== lastRecordedQuestion) {
       analytics({
         event: 'addSurveyPageview',
         virtualPageUrl: `/vfmsurvey/${question.name}`,
@@ -122,7 +122,7 @@ export default function Questionnaire(props) {
   const setQuestionAnswer = () => {
     Services.setUserQuestionnaireAnswer(question.id, question.answer)
       .then(processAnswers)
-      .catch(() => {})
+      .catch(() => { })
   }
 
   const completeQuestionnaire = () => {
@@ -219,10 +219,10 @@ export default function Questionnaire(props) {
   return null
 }
 
-Questionnaire.propTypes = {
+VFMQuestionnaire.propTypes = {
   handleModalClose: PropTypes.func,
 }
 
-Questionnaire.defaultProps = {
+VFMQuestionnaire.defaultProps = {
   handleModalClose: null,
 }
