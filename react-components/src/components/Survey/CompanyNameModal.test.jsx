@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 
 import { act, Simulate } from 'react-dom/test-utils'
 import { waitFor, fireEvent, getByLabelText } from '@testing-library/react'
-import CompanyNameModal from '@src/components/Segmentation/CompanyNameModal'
+import CompanyNameModal from '@src/components/Survey/CompanyNameModal'
 import Services from '@src/Services'
 import fetchMock from 'fetch-mock'
 import reactModal from 'react-modal'

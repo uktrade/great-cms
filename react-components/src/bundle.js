@@ -3,7 +3,7 @@ import Signup from '@src/views/Signup/Container'
 import SignupModal from '@src/views/SignupModal/Container'
 
 import { createLogin } from '@src/views/Login'
-import Questionnaire from '@src/components/Segmentation/Questionnaire'
+import Questionnaire from '@src/components/Survey/Questionnaire'
 import Tour from '@src/views/Tour/Container'
 import ProductFinderButton from '@src/components/ProductFinder/ProductFinderButton'
 import CountryFinderButton from '@src/components/ProductFinder/CountryFinderButton'

@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { act, Simulate } from 'react-dom/test-utils'
 import { waitFor, fireEvent, getByLabelText } from '@testing-library/react'
-import Questionnaire from '@src/components/Segmentation/Questionnaire'
+import Questionnaire from '@src/components/Survey/Questionnaire'
 import Services from '@src/Services'
 import fetchMock from 'fetch-mock'
 import reactModal from 'react-modal'
@@ -171,7 +171,7 @@ describe('VFM Questionnaire', () => {
       expect(postQuestionnaire.calls().length).toEqual(2)
     })
     expect(document.body.querySelector('h3').textContent).toMatch('Question 2?')
-    expect(window.dataLayer).toEqual([analyticsEvents.Q1,analyticsEvents.Q2])
+    expect(window.dataLayer).toEqual([analyticsEvents.Q1, analyticsEvents.Q2])
     expect(
       modal.querySelector('.select__placeholder--value').textContent
     ).toMatch('Select placeholder')
@@ -201,7 +201,7 @@ describe('VFM Questionnaire', () => {
     await waitFor(() => {
       expect(document.body.querySelector('.segmentation-modal')).toBeFalsy()
     })
-    expect(window.dataLayer).toEqual([analyticsEvents.Q1,analyticsEvents.Q2,analyticsEvents.Q1])
+    expect(window.dataLayer).toEqual([analyticsEvents.Q1, analyticsEvents.Q2, analyticsEvents.Q1])
   })
 
   it('Goes to end and back', async () => {
