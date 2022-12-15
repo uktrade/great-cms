@@ -35,6 +35,8 @@ SOO_TURNOVER_OPTIONS = (
     ('2m+', 'More than £2million'),
 )
 
+PHONE_ERROR_MESSAGE = 'Please enter a valid UK phone number'
+
 
 class GroupedRadioSelect(
     forms.widgets.PrettyIDsMixin,
@@ -165,8 +167,8 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
         min_length=8,
         help_text='This can be a landline or mobile number',
         error_messages={
-            'max_length': 'Figures only, maximum 16 characters, minimum 8 characters excluding spaces',
-            'min_length': 'Figures only, maximum 16 characters, minimum 8 characters excluding spaces',
+            'max_length': PHONE_ERROR_MESSAGE,
+            'min_length': PHONE_ERROR_MESSAGE,
             'required': 'Enter a UK phone number',
             'invalid': 'Please enter a UK phone number',
         },
@@ -351,12 +353,34 @@ class OfficeFinderForm(forms.Form):
 
 
 class TradeOfficeContactForm(
-    SerializeDataMixin,
-    GovNotifyEmailActionMixin,
-    ConsentFieldMixin,
-    BaseShortForm,
+    SerializeDataMixin, GovNotifyEmailActionMixin, ConsentFieldMixin, BaseShortForm, forms.Form
 ):
-    pass
+    phone_number = forms.CharField(
+        label='UK telephone number (optional)',
+        required=False,
+        min_length=8,
+        max_length=16,
+        help_text='This can be a landline or mobile number',
+        error_messages={
+            'max_length': PHONE_ERROR_MESSAGE,
+            'min_length': PHONE_ERROR_MESSAGE,
+            'invalid': PHONE_ERROR_MESSAGE,
+        },
+    )
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data['phone_number'].replace(' ', '')
+        if phone_number == '':
+            return phone_number
+        if not PHONE_NUMBER_REGEX.match(phone_number):
+            raise ValidationError(PHONE_ERROR_MESSAGE)
+        return phone_number
+
+    def order_fields(self, field_order):
+        # move phone_number field to be positioned after the email field
+        field_order = field_order or list(self.fields.keys())
+        field_order.insert(field_order.index('email') + 1, field_order.pop(field_order.index('phone_number')))
+        return super().order_fields(field_order)
 
 
 class EventsForm(
