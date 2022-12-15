@@ -126,7 +126,7 @@ def test_short_zendesk_form_serialize_data(domestic_data):
                 'given_name': 'Test',
                 'family_name': 'Example',
                 'email': 'test@example.com',
-                'phone_number': '0',
+                'phone_number': 'abcdefghi',
                 'company_type': 'LIMITED',
                 'company_type_other': '',
                 'organisation_name': 'Example corp',
