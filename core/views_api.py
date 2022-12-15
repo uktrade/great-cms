@@ -10,6 +10,7 @@ from rest_framework.response import Response
 
 from core import helpers, serializers
 from core.fern import Fern
+from directory_api_client import api_client
 from directory_constants import choices
 
 logger = logging.getLogger(__name__)
@@ -148,4 +149,12 @@ class CompaniesHouseAPIView(generics.GenericAPIView):
                 company_number=request.GET.get('company_number')
             )
         response.raise_for_status()
+        return Response(response.json())
+
+
+class SurveyDetailView(generics.GenericAPIView):
+    permission_classes = []
+
+    def get(self, request, *args, **kwargs):
+        response = api_client.survey.get_survey_details(id=kwargs['id'])
         return Response(response.json())
