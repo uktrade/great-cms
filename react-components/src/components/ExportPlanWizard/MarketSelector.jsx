@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useUserMarkets } from '@src/components/hooks/useUserData'
-import RadioButtons from '@src/components/Segmentation/RadioButtons'
+import RadioButtons from '@src/components/RadioButtons'
 import CountryFinderModal from '@src/components/ProductFinder/CountryFinderModal'
 import { sortBy } from '@src/Helpers'
 
 function MarketSelector({ valueChange, selected, selectedProduct }) {
-  const { markets, addMarketItem, marketsLoaded } = useUserMarkets(true,'Market selector')
+  const { markets, addMarketItem, marketsLoaded } = useUserMarkets(true, 'Market selector')
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [addButtonShowing, setAddButtonShowing] = useState(false)
 

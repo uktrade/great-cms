@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { isArray } from '@src/Helpers'
 import { Select } from '@src/components/Form/Select'
-import RadioButtons from './RadioButtons'
+import RadioButtons from '../RadioButtons'
 
 export default function Interaction(props) {
   const { question, setValue } = props

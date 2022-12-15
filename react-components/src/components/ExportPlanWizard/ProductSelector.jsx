@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useUserProducts } from '@src/components/hooks/useUserData'
-import RadioButtons from '@src/components/Segmentation/RadioButtons'
+import RadioButtons from '@src/components/RadioButtons'
 import { sortBy } from '@src/Helpers'
 import ProductFinderModal from '../ProductFinder/ProductFinderModal'
 
