@@ -3,10 +3,27 @@
 ## Pre release
 
 ### Bugs fixed
-* KLS-80 - Correct form destinations and CTA style for Scottish offices
-* KLS-128 - Fix XSS vulnerability on product selector form
 
 ### Hotfix
+
+### Enhancements
+* KLS-32 - Update content in signup confirmation page
+* KLS-213 - Add phone number field to trade office contact forms
+* KLS-266 - Get survey details from directory API
+
+## [2.20.0](https://github.com/uktrade/great-cms/releases/tag/2.20.0)
+
+### Bugs fixed
+* KLS-128 - Fix XSS vulnerability on product selector form
+
+### Enhancements
+* KLS-33 - Update error message for "Incorrect username"
+
+## [2.19.1](https://github.com/uktrade/great-cms/releases/tag/2.19.1)
+
+### Bugs fixed
+* KLS-80 - Correct form destinations and CTA style for Scottish offices
+
 
 ### Enhancements
 * KLS-222 - Patch loader-utils to v2.0.4

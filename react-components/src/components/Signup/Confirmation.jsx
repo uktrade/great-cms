@@ -19,13 +19,13 @@ const Confirmation = ({
       handleSubmit()
     }}
   >
-    <i className="fas fa-info-circle" aria-hidden="true"></i>
+    <i className="fas fa-info-circle" aria-hidden="true" />
 
     {showTitle && (
       <legend className="h-s text-blue-deep-80 p-t-xs">Check your email</legend>
     )}
     <p className="m-b-s">
-      We have emailed you a five-digit code. <br /> Enter it below:
+    We&#39;ve sent a code to your email address. Don&#39;t forget to check your spam folder if you can&#39;t see it. <br /> Enter the code below to complete registration:
     </p>
     <Input
       label="Confirmation code"
