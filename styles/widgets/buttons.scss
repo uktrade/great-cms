@@ -349,18 +349,16 @@ button#commodity-code-details {
   }
 }
 
-
 .remove-market {
-    i {
-        font-size: $icon-standard-size;
-        color:$color-delete;
-    }
+  i {
+    font-size: $icon-standard-size;
+    color: $color-delete;
+  }
 }
 
-
-.tabs{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: $standard-padding $standard-padding;
+.tabs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: $standard-padding $standard-padding;
 }

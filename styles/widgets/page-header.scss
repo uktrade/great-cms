@@ -156,29 +156,26 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
     background: $color-main-background !important;
     height: auto;
     background-size: 0% auto;
+    padding-top: $x-large-padding;
     padding-bottom: 0;
-    margin:0;
+    margin: 0;
 
-
-
-    .inner-header{
-       width: 100%;
-      margin:0;
-      padding: 0 1.5 *$standard-padding;
-
-       > div:first-child {
-      height: auto;
-      flex: 1;
+    button {
       width: 100%;
-      margin:0;
-      // min-width: $mobile-size * 0.5;
+    }
 
-      button {
+    .inner-header {
+      width: 100%;
+      margin: 0;
+      padding: 0 1.5 * $standard-padding;
+
+      > div:first-child {
+        height: auto;
+        flex: 1;
         width: 100%;
-        min-width: auto;
+        margin: 0;
       }
     }
-  }
 
     .image-container {
       width: 100%;

@@ -97,3 +97,18 @@ section #article {
 #article {
   padding-bottom: 0;
 }
+
+.card-link{
+    p{
+        font-size: $font-size-p-large;
+    }
+}
+
+.article-main{
+    background-color: $color-main-background;
+    padding-top: $x-large-padding;
+}
+
+#article{
+    padding-bottom: 0;
+}
