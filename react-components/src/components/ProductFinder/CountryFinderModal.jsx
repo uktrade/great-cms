@@ -162,7 +162,7 @@ export default function CountryFinderModal(props) {
         <button
           key={`suggested_${country.country_iso2}`}
           type="button"
-          className="secondary-button small-button tag--icon m-r-s m-v-xxs"
+          className="secondary-button button small-button tag--icon m-r-s m-v-xxs"
           data-country={country.country_name}
           data-region={country.region}
           data-id={country.country_iso2}

@@ -1,5 +1,6 @@
 @import '../fonts/main.scss';
 @import '../colors/colors.scss';
+@import '../sizes/sizes.scss';
 
 $login-image: url(/static/images/signin-image.png);
 $signup-image: url(/static/images/signup-image.png);
@@ -18,11 +19,20 @@ $signup-image: url(/static/images/signup-image.png);
     font-size: $font-size-p-large;
     color: $color-main-text;
   }
+
+  .signup__form-panel {
+    @media only screen and (max-width: 900px) {
+      width: 100%;
+    }
+  }
   .signup__info-panel {
     padding: 0;
     background-position: center 100% !important;
     background-size: auto 60% !important;
     background-repeat: no-repeat !important;
+    @media only screen and (max-width: 900px) {
+      display: none;
+    }
 
     &.login-panel {
       background: $login-image;
@@ -34,7 +44,7 @@ $signup-image: url(/static/images/signup-image.png);
   }
 
   .signup__info-panel__content {
-    padding: 10% $large-padding;
+    padding: 6vh $large-padding;
     height: 100%;
   }
   .signup__info-panel__subheadings {

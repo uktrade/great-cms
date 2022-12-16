@@ -1,18 +1,69 @@
 @import '../colors/colors.scss';
 @import '../fonts/main.scss';
+@import '../sizes/sizes.scss';
 
-.article-list-page{
-    .card-link{
-        display: grid;
+.article-list-page {
+  .card-link {
+    display: grid;
+  }
+
+  .card {
+    background-color: transparent;
+
+    .card-inner {
+      min-height: 148px;
+      background-color: $color-main-background;
+
+      h2 {
+        font-size: $font-size-h3;
+      }
     }
-    .card {
-        background-color: transparent ;
-        .card-inner{
-            min-height: 148px;
-            background-color: $color-main-background;
-            h2{
-                font-size: $font-size-h3;
-            }
-        }
+  }
+
+  ul.content-list {
+    li + li {
+      margin-top: $x-large-padding;
     }
+
+    > li {
+      display: inline-flex;
+      flex-wrap: wrap;
+      background-color: $color-main-background;
+      align-items: center;
+      padding: $x-large-padding;
+      width: 100%;
+      gap: $large-padding;
+      margin-bottom: 0;
+
+      h3 {
+        flex: 1;
+        width: 100%;
+      }
+    }
+  }
+}
+
+
+section #article{
+    padding-bottom: 0;
+
+    article{
+        background-color: $color-main-background;
+        padding-top: $x-large-padding;
+    }
+}
+
+.card-link{
+    p{
+        font-size: $font-size-p-large;
+    }
+}
+
+.article-main{
+    background-color: $color-main-background;
+    padding-top: $x-large-padding;
+}
+
+#article{
+    padding-bottom: 0;
 }

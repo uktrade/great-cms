@@ -40,6 +40,10 @@
           {{ html_snippet }}
         {% endif %}
 
+        {% if description %}
+    <p>{{ description }}</p>
+  {% endif %}
+
         {% if show_sign_in_required and not request.user.is_authenticated %}
           {% if request.path == '/' %}
             <button class="primary-button small-button">Sign in required</button>
@@ -53,7 +57,5 @@
     </a>
   {% endif %}
 
-  {% if description %}
-    <p class="description">{{ description }}</p>
-  {% endif %}
+  
 </div>

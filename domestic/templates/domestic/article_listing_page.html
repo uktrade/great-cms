@@ -12,7 +12,6 @@
 {% endblock %}
 
 <section id="{% block page_id %}article-list-page{% endblock %}">
-  {{page.title}}
   <div class="container">
     {% block breadcrumbs %}
       {% include 'components/breadcrumbs_cms.html' %}
@@ -31,13 +30,14 @@
     {% endif %}
 
     <div class="grid-row">
-      <div class="column-two-thirds-l column-full article-list">
+      <div>
         <ul class="content-list">
           {% block content_list %}
             {% for article in page.specific.get_articles %}
-              <li class="article">
-                <a href="{{ article.url }}" class="heading-medium link" id="{{ article.meta.slug }}-link">{{ article.article_title }}</a>
-                <p class="subheading">Last updated {{ article.last_published_at|date:'j F Y' }}</p>
+              <li>
+                <h3>{{ article.article_title }}</h3>
+                <a href="{{ article.url }}" class="button primary-button">View article</a>
+             
               </li>
             {% endfor %}
           {% endblock %}

@@ -16,6 +16,10 @@ $breakpoint-size: 900px;
     gap: $x-large-padding;
     width: 100%;
 
+    @media only screen and (max-width: $breakpoint-size) {
+      flex-direction: column;
+    }
+
     > div {
       flex: 1;
 
@@ -24,9 +28,16 @@ $breakpoint-size: 900px;
         flex-direction: row;
         justify-content: flex-end;
 
+        @media only screen and (min-width: $breakpoint-size) {
+          .learn__category-progress-container,
+          span.button {
+            max-width: 340px;
+            width: 100%;
+          }
+        }
+
         .learn__category-progress-container,
         span.button {
-          max-width: 340px;
           width: 100%;
         }
 
@@ -34,14 +45,6 @@ $breakpoint-size: 900px;
           margin-top: $standard-padding;
           position: relative;
           top: 0;
-        }
-      }
-
-      .duration-container {
-        color: $color-gov-link;
-        display: flex;
-        i + span{
-          padding-left:$standard-padding;
         }
       }
 
@@ -57,20 +60,12 @@ $breakpoint-size: 900px;
       padding-bottom: 35px;
 
       & > div {
-        min-width: 150px;
-
         .progess-container {
           justify-content: center;
         }
 
         .learn__category-progress {
           width: auto !important;
-        }
-
-        .learn__category-progress-container,
-        span.button {
-          width: 100% !important;
-          max-width: $mobile-size !important;
         }
 
         span.button {
@@ -81,17 +76,38 @@ $breakpoint-size: 900px;
   }
 }
 
-.learn-back-button{
+.learn-back-button {
   position: absolute;
-  top:10px;
-  left:20px;
+  top: 10px;
+  left: 20px;
   color: $color-gov-link;
 }
 
-.lesson-page{
+.lesson-page {
   background-color: $color-main-background;
 }
 
-.learn-to-export-card{
-   padding-top: $x-large-padding * 2;
+.learn-to-export-card {
+  padding-top: $x-large-padding * 2;
+}
+
+.duration-container {
+  color: $color-gov-link;
+  display: flex;
+
+  i + span {
+    padding-left: $standard-padding;
+  }
+
+  span + span {
+    padding-left: $standard-padding * 0.5;
+  }
+}
+
+.great-checkbox--large [type='checkbox'] + label::after {
+  border-width: 0 0 6px 6px;
+  width: 21px;
+  height: 8px;
+  top: 15px;
+  left: 13px;
 }

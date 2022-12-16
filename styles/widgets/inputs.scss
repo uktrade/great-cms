@@ -7,6 +7,7 @@ input[type=tel],
 input[type=number], textarea, textarea.form-control {
     border-radius: 0px;
     border: 2px solid $color-main-text;
+    color: $color-main-text;
 }
 input[type=checkbox].markascomplete_checkbox{
     background-color: $color-completed;

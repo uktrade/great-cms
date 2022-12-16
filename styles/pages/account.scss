@@ -34,17 +34,19 @@
     }
 
     @media only screen and (max-width: $mobile-size) {
-      padding: 20px 15px;
+      padding: $large-padding 15px;
       margin: 0;
       > ul {
         gap: $standard-padding;
         > li {
           background-color: $color-main-background;
-          padding-left: 20px;
-          padding-right: 20px;
-          padding-top: 10px;
-          padding-bottom: 10px;
+          padding: 0;
+          padding-left: $large-padding;
+          padding-right: $large-padding;
+          height: 40px;
           border: 2px solid $color-gov-link;
+          display: flex;
+          align-items: center;
 
           &:hover{
             background-color: $color-gov-link;
@@ -54,7 +56,7 @@
           }
 
           > a {
-            color: r$color-gov-link;
+            color: $color-gov-link;
             font-size: 16px;
             &:focus, :active{
               border:none;

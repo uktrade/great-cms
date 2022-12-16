@@ -26,9 +26,6 @@
               </p>
             </div>
           {% endif %}
-          <p class="subheading">
-            Last updated {{ page.last_published_at|date:'j F Y' }}
-          </p>
         </div>
         {% block article_tags %}
           {% if features.PROTOTYPE_PAGES_ON and page.tags %}
@@ -85,7 +82,7 @@
               <h2 class="learn-more-heading">Want to know more?</h2>
               <p>Learn how to start exporting with our easy-to-follow online course.</p>
             </div>
-            <a href="/signup/" class="button learn-more-button margin-bottom-60">Sign up for free</a>
+            <a href="/signup/" class="button primary-button learn-more-button margin-bottom-60">Sign up for free</a>
           </div>
         </section>
       {% endif %}

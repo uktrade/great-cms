@@ -413,7 +413,7 @@ export default function ProductFinderModal(props) {
             ariaDescribedby="search-hint"
           />
           <button
-            className="search-button secondary-button icon-only m-f-xs"
+            className="search-button button secondary-button icon-only m-f-xs"
             disabled={!searchTerm}
             type="button"
             onClick={search}

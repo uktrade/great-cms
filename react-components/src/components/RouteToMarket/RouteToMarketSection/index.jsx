@@ -8,7 +8,7 @@ import { ConfirmModal } from '@src/components/ConfirmModal/ConfirmModal'
 export const RouteToMarketSection = memo(
   ({ data, label, example, name, onChange, deleteTable, field, lesson }) => {
     return (
-      <div className="form-table export-plan-form p-h-s p-b-xxs m-b-s">
+      <div className="form-table export-plan-form p-h-s p-b-s m-b-s">
         {data.map((item) => (
           <div key={`${item.name}-${field.pk}`}>
             <Select

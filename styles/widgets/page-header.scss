@@ -13,7 +13,7 @@ $learn-content-header: url(/static/images/learn-to-export-header2.png);
   background-color: $color-main-background !important;
   width: 100%;
   height: 355px;
-  background-position: calc(100% + 150px) 100% !important;
+  background-position: calc(100% + 30px) 100% !important;
   display: inline-flex;
   flex-direction: row;
   justify-content: center;
@@ -33,6 +33,10 @@ $learn-content-header: url(/static/images/learn-to-export-header2.png);
       width: 50%;
 
       box-sizing: border-box;
+
+      button {
+        min-width: initial;
+      }
 
       p {
         margin-top: $standard-padding;
@@ -72,40 +76,37 @@ $learn-content-header: url(/static/images/learn-to-export-header2.png);
     background: $color-main-background !important;
     height: auto;
     background-size: 0% auto;
+    padding-top: $x-large-padding;
     padding-bottom: 0;
-    margin:0;
+    margin: 0;
 
-
-
-    .inner-header{
-       width: 100%;
-      margin:0;
-      padding: 0 1.5 *$standard-padding;
-
-       > div:first-child {
-      height: auto;
-      flex: 1;
+    button {
       width: 100%;
-      margin:0;
-      // min-width: $mobile-size * 0.5;
+    }
 
-      button {
+    .inner-header {
+      width: 100%;
+      margin: 0;
+      padding: 0 1.5 * $standard-padding;
+
+      > div:first-child {
+        height: auto;
+        flex: 1;
         width: 100%;
-        min-width: auto;
+        margin: 0;
       }
     }
-  }
 
     .image-container {
       display: flex;
       flex: 1;
       height: 0;
-      padding-top: 56.25%;
+      padding-top: 45%;
       width: 100%;
       background-repeat: no-repeat !important;
       background-size: contain !important;
       background-position-y: bottom !important;
-      // min-width: $mobile-size * 0.5;
+      background-position-x: 5vw !important;
     }
 
     &.where-to-export-header .image-container {
@@ -160,5 +161,5 @@ $learn-content-header: url(/static/images/learn-to-export-header2.png);
 
 .market-details-header {
   height: 355px;
-  background-size: 100% auto!important;
+  background-size: 100% auto !important;
 }
