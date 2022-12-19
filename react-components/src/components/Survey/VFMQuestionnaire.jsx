@@ -6,6 +6,19 @@ import Interaction from './Interaction'
 import Modal from './Modal'
 import CompanyNameModal from './CompanyNameModal'
 
+// Props - survey ID, relevant values from cookies
+// On load, make request to internal endpoint to fetch survey data from API
+
+// Thoughts
+// - Since am using different styling, create new interaction component?
+// - How much is actually reusable? Maybe helper functions?
+// - Make two Modal components - logged in and logged out styles?
+// - Think about whether i want to still use 'mode' - don't like the name
+// - Need onChange/onClick functions for setting cookie values when they click next?
+// - Need onClick functions for sending google analytics events
+// - Make Questionnaire component itself reusable, pass in class names to modal for logged out vs in
+
+
 export default function VFMQuestionnaire(props) {
   const modes = { closed: 'c', start: 's', question: 'q', thankyou: 't' }
   const { handleModalClose } = props
@@ -14,16 +27,19 @@ export default function VFMQuestionnaire(props) {
   const [runningState, setRunningState] = useState({ questions: [] })
   const [lastRecordedQuestion, setLastRecordedQuestion] = useState()
 
+  // Reusable?
   const closeModal = () => {
     setMode(modes.closed)
     handleModalClose()
   }
 
+  // Reusable?
   const questionOptions = (q) =>
     (q && q.choices && Array.isArray(q.choices)
       ? q.choices
       : q.choices.options) || []
 
+  // Reusable?
   const questionIndex = () =>
     question && runningState.questions.findIndex((q) => q.id === question.id)
 
@@ -31,6 +47,7 @@ export default function VFMQuestionnaire(props) {
     _setQuestion({ ...question, answer })
   }
 
+  // NOT reusable? Relying on mode existing as a global variable
   const setQuestion = (newQuestion) => {
     if (newQuestion && mode === modes.closed) setMode(modes.start)
     if (!newQuestion) {
@@ -39,6 +56,7 @@ export default function VFMQuestionnaire(props) {
     _setQuestion(newQuestion)
   }
 
+  // NOT reusable
   useEffect(() => {
     if (mode === modes.question && question && question.id !== lastRecordedQuestion) {
       analytics({
@@ -51,6 +69,7 @@ export default function VFMQuestionnaire(props) {
 
   }, [question, mode])
 
+  // Reusable?? Put into helpers file
   const processAnswers = (questionnaire) => {
     if (questionnaire && questionnaire.questions) {
       const sorted = questionnaire.questions.sort((q1, q2) => {
@@ -83,6 +102,7 @@ export default function VFMQuestionnaire(props) {
     }
   }
 
+  // Reusable - put in helpers
   useEffect(() => {
     // On a change in questionnaire state, set the next question )
     if (runningState.loaded) {
@@ -102,10 +122,12 @@ export default function VFMQuestionnaire(props) {
     }
   }, [runningState])
 
+  // Could be prop - fetchSurveyDetails
   useEffect(() => {
     Services.getUserQuestionnaire().then(processAnswers)
   }, [])
 
+  // Keep in
   const goBack = () => {
     let newQuestion = runningState.questions[questionIndex() - 1]
     if (mode === modes.thankyou) {
@@ -119,12 +141,14 @@ export default function VFMQuestionnaire(props) {
     }
   }
 
+  // Make a prop? For new survey would be pushing to cookies?
   const setQuestionAnswer = () => {
     Services.setUserQuestionnaireAnswer(question.id, question.answer)
       .then(processAnswers)
       .catch(() => { })
   }
 
+  // Not sure if need?
   const completeQuestionnaire = () => {
     Services.setUserQuestionnaireAnswer(0, 'complete')
     closeModal()
@@ -172,6 +196,7 @@ export default function VFMQuestionnaire(props) {
       />
     )
 
+
   if (mode === modes.question && question.type !== 'COMPANY_LOOKUP')
     return (
       <Modal
@@ -189,6 +214,8 @@ export default function VFMQuestionnaire(props) {
         closeClick={closeModal}
       />
     )
+
+  // Don't need - don't have company lookup
   if (mode === modes.question && question.type === 'COMPANY_LOOKUP')
     return (
       <CompanyNameModal

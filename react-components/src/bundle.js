@@ -50,6 +50,7 @@ import { createMarkLessonAsComplete } from '@src/components/MarkLessonAsComplete
 import { createVideoTranscript } from '@src/components/VideoTranscript/VideoTranscript'
 import { createCaseStudy } from '@src/components/CaseStudy/CaseStudy'
 import { createComingSoonModal } from '@src/components/Lesson/ComingSoon'
+import ExporterSurvey from './components/Survey/ExporterSurvey'
 import {
   STEP_CREDENTIALS,
   STEP_VERIFICATION_CODE,
@@ -104,4 +105,5 @@ export default {
   formatLessonLearned,
   createExportPlanWizard,
   createSnackbar,
+  ExporterSurvey
 }

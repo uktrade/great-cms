@@ -275,6 +275,13 @@ export default {
     return get(url).then((response) => responseHandler(response).json())
   },
 
+  // Think about how can do it where we pass survey ID through the props to here, not via django URL!
+  getSurveyDetails: () => {
+    return get(config.apiGetSurveyUrl).then((response) =>
+      responseHandler(response).json()
+    )
+  },
+
   setUserData: (name, data) => {
     const url = config.apiUserDataUrl.replace('-name-', name)
     return post(url, {

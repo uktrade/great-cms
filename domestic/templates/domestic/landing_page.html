@@ -10,16 +10,30 @@
 
 {% block head_js %}
   {{ block.super }}
+  <script src="{% static 'common.js' %}"></script>
+  <script type="text/javascript" src="{% static 'magna.js' %}"></script>
   {% if page.campaign or page.what_is_new_pages %}
-  <script src="{% static 'javascript/dit.classes.Modal.js' %}"></script>
-  <script src="{% static 'javascript/dit.components.video.js' %}"></script>
-  <script src="{% static 'javascript/home.js' %}"></script>
+    <script src="{% static 'javascript/dit.classes.Modal.js' %}"></script>
+    <script src="{% static 'javascript/dit.components.video.js' %}"></script>
+    <script src="{% static 'javascript/home.js' %}"></script>
   {% endif %}
+  <script type="text/javascript">
+      // static values that will not be updated by user interacting with react components
+      // TODO get the survey ID dynamically from env vars (settings)
+      magna.setConfig({
+        apiGetSurveyUrl: '{% url "core:api-survey" id="a4adc002-57c3-4372-b052-ba13999a11ef" %}'
+      })
+  </script>
 {% endblock %}
 
 {% block head_title %}{% firstof page.seo_title page.title %}{% endblock %}
 
 {% block css_layout_class %}landing-page{% endblock %}
+
+{% block head_css %}
+  <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />
+{% endblock %}
+
 
 {% block content %}
 
@@ -364,6 +378,10 @@
   $(function() {
     sectorFormSubmitToggle.init();
   });
+
+  var element = document.createElement('div')
+  document.body.appendChild(element)
+  magna.ExporterSurvey({element})
 </script>
 
 
