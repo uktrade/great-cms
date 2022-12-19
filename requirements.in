@@ -1,6 +1,6 @@
 # Django
 # ------------
-django==3.2.15
+django==3.2.16
 django-environ==0.4.*
 django-redis==5.2.*
 django_storages[boto3]==1.8.*

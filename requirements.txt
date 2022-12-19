@@ -85,7 +85,7 @@ directory-sso-api-client==7.1.0
     # via -r requirements.in
 directory-validators==9.2.1
     # via -r requirements.in
-django==3.2.15
+django==3.2.16
     # via
     #   -r requirements.in
     #   directory-api-client
