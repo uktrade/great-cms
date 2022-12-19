@@ -1030,7 +1030,8 @@ def test_serve_subtitles__login_required(client):
     resp = client.get(dest, follow=False)
 
     assert resp.status_code == 302
-    assert resp._headers['location'] == ('Location', reverse('core:login') + f'?next={dest}')
+
+    assert resp.headers['location'] == reverse('core:login') + f'?next={dest}'
 
 
 @pytest.mark.django_db

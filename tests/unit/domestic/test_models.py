@@ -1907,7 +1907,7 @@ def test_great_domestic_homepage_geo_redirection__integration(
 
     if expected_target_lang is not None:
         assert response.status_code == 302
-        assert response._headers['location'] == ('Location', f'/international/?lang={expected_target_lang}')
+        assert response.headers['Location'] == f'/international/?lang={expected_target_lang}'
     else:
         assert response.status_code == 200
 

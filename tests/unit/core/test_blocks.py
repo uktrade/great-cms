@@ -53,12 +53,6 @@ def test_modular_content_static_block_render():
     assert html == expected_html
 
 
-def test_render_form_with_constructor():
-    block = core_blocks.ModularContentStaticBlock()
-    rendered_html = block.render_form(None)
-    assert rendered_html == 'Content modules will be automatically displayed, no configuration needed.'
-
-
 def test_basic_render_form_for_media_chooser_block():
     block = core_blocks.MediaChooserBlock()
     with pytest.raises(NotImplementedError):
