@@ -1030,4 +1030,13 @@ def test_serve_subtitles__login_required(client):
     resp = client.get(dest, follow=False)
 
     assert resp.status_code == 302
-    assert resp.headers['Location'] == reverse('core:login') + f'?next={dest}'
+
+    assert resp._headers['location'] == ('Location', reverse('core:login') + f'?next={dest}')
+
+
+@pytest.mark.django_db
+def test_get_survey_view_api_view(client, mock_get_survey):
+    url = reverse('core:api-survey', kwargs={'id': '123'})
+    client.get(url)
+    assert mock_get_survey.call_count == 1
+    assert mock_get_survey.call_args == mock.call(id='123')

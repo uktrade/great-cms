@@ -90,6 +90,84 @@ def test_short_zendesk_form_serialize_data(domestic_data):
     [
         (
             {
+                'comment': 'Test entry.',
+                'given_name': 'Test',
+                'family_name': 'Example',
+                'email': 'test@example.com',
+                'phone_number': '07000404200',
+                'company_type': 'LIMITED',
+                'company_type_other': '',
+                'organisation_name': 'Example corp',
+                'postcode': 'ABC123',
+                'terms_agreed': True,
+                'contact_consent': [],
+            },
+            True,
+        ),
+        (
+            {
+                'comment': 'Test entry.',
+                'given_name': 'Test',
+                'family_name': 'Example',
+                'email': 'test@example.com',
+                'phone_number': '',
+                'company_type': 'LIMITED',
+                'company_type_other': '',
+                'organisation_name': 'Example corp',
+                'postcode': 'ABC123',
+                'terms_agreed': True,
+                'contact_consent': [],
+            },
+            True,
+        ),
+        (
+            {
+                'comment': 'Test entry.',
+                'given_name': 'Test',
+                'family_name': 'Example',
+                'email': 'test@example.com',
+                'phone_number': 'abcdefghi',
+                'company_type': 'LIMITED',
+                'company_type_other': '',
+                'organisation_name': 'Example corp',
+                'postcode': 'ABC123',
+                'terms_agreed': True,
+                'contact_consent': [],
+            },
+            False,
+        ),
+        (
+            {
+                'comment': 'Test entry.',
+                'given_name': 'Test',
+                'family_name': 'Example',
+                'email': 'test@example.com',
+                'phone_number': '1234567891011121314151617181920',
+                'company_type': 'LIMITED',
+                'company_type_other': '',
+                'organisation_name': 'Example corp',
+                'postcode': 'ABC123',
+                'terms_agreed': True,
+                'contact_consent': [],
+            },
+            False,
+        ),
+    ],
+)
+def test_trade_office_contact_form(form_data, is_valid):
+    form = forms.TradeOfficeContactForm(data=form_data)
+    assert form.is_valid() == is_valid
+    if is_valid:
+        data = form.serialized_data
+        del form_data['terms_agreed']
+        assert form_data == data
+
+
+@pytest.mark.parametrize(
+    'form_data, is_valid',
+    [
+        (
+            {
                 'email': 'johndoe@mail.com',
                 'last_name': 'john',
                 'first_name': 'doe',
