@@ -549,6 +549,14 @@ def patch_get_suggested_markets():
 
 
 @pytest.fixture
+def mock_get_survey():
+    yield mock.patch(
+        'directory_api_client.api_client.survey.get_survey_details',
+        return_value=create_response(status_code=200, json_body={'result': 'ok'}),
+    ).start()
+
+
+@pytest.fixture
 def mock_trading_blocs():
     body = [
         {
