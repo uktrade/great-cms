@@ -144,14 +144,6 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
     color: $color-gov-link;
   }
 
-  .image-container {
-    display: none;
-  }
-
-  @media only screen and (min-width: $mobile-size) and (max-width: 1172px) {
-    background-size: 70% auto !important;
-  }
-
   @media only screen and (max-width: $mobile-size) {
     background: $color-main-background !important;
     height: auto;
@@ -159,6 +151,7 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
     padding-top: $x-large-padding;
     padding-bottom: 0;
     margin: 0;
+    gap: $standard-padding;
 
     button {
       width: 100%;
@@ -168,12 +161,16 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
       width: 100%;
       margin: 0;
       padding: 0 1.5 * $standard-padding;
+      flex-direction: column;
+      gap:$standard-padding;
 
       > div:first-child {
         height: auto;
+        min-width: fit-content;
         flex: 1;
         width: 100%;
         margin: 0;
+        padding: 0;
       }
     }
 
