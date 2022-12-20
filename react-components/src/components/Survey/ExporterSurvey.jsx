@@ -7,8 +7,8 @@ import Interaction from './Interaction'
 import SurveyModal from './Modal'
 
 // TODO
-// - Order questions by question.order
-// - Set mode to start when land on page
+// - Close modal when user clicks on 'x'
+// - Move to next question when user clicks 'Next' button
 // - Add name to question model - for use by radio buttons - could do this dynamically?
 
 
@@ -19,30 +19,106 @@ import SurveyModal from './Modal'
 // - Last answered question?
 // - Mode (open, question, finish)
 
+const orderQuestions = (questions) => (
+    questions.sort((q1, q2) => (
+        q1.order - q2.order
+    ))
+)
 
 function ExporterSurvey() {
+    const modes = { closed: 'c', start: 's', question: 'q', thankyou: 't' }
+    const [mode, setMode] = useState(modes.start)
     const [questions, setQuestions] = useState([])
+    const [currentQuestion, setCurrentQuestion] = useState()
+    const [answeredQuestions, setAnsweredQuestions] = useState([])
+
     useEffect(() => {
         Services.getSurveyDetails().then((survey) =>
-            setQuestions(survey.questions))
+            setQuestions(orderQuestions(survey.questions)))
     }, [])
-    const question = questions[0]
-    return (
-        questions.length && <SurveyModal
-            className="segmentation-modal"
-            title={question.title}
-            body={<Interaction question={question} setValue={() => console.log('Set value')} />}
-            progressPercentage={0.2
-                // question && 100 * (questionIndex() / runningState.questions.length)
-            }
-            primaryButtonLabel="Next"
-            primaryButtonClick={() => console.log('Primary button click')}
-            primaryButtonDisable={false}
-            secondaryButtonLabel="Back"
-            secondaryButtonClick={() => console.log('go Back')}
-            closeClick={() => console.log('close modal')}
-        />
-    )
+
+    const startSurvey = () => {
+        setMode(modes.question)
+        setCurrentQuestion(questions[0])
+    }
+
+    const rejectSurvey = () => {
+        // TODO - This is where will set in user's cookie not to show survey
+        console.log('Survey rejected')
+        console.log('Close survey')
+    }
+
+    const setValue = (answer) => {
+        setCurrentQuestion({ ...currentQuestion, answer })
+    }
+
+
+    const getNextQuestion = () => {
+        setAnsweredQuestions([...answeredQuestions, currentQuestion])
+        // TODO add logic to check if any validation errors
+        // Can check using currentQuestion.answer
+        const answer = currentQuestion.choices.findOne((choice) => choice.value === currentQuestion.answer)
+        if (answer.jump) {
+            const nextQuestionIndex = questions.findIndex((q) => q.id === currentQuestion.jump)
+            setCurrentQuestion(questions[nextQuestionIndex])
+        }
+        else {
+            setCurrentQuestion(questions[questions.indexOf(currentQuestion) + 1])
+        }
+    }
+
+    if (mode === modes.start) {
+        return (
+            <SurveyModal
+                className="segmentation-modal"
+                title="Help us serve you better"
+                body={
+                    <>
+                        <p className="m-v-xs">
+                            We&#39;re surveying exporters on Great.gov.uk to better
+                            understand their exporting experience and needs. This will help
+                            the Department to better support exporters across the country.
+                        </p>
+                        <a
+                            href="/privacy-and-cookies/"
+                            target="_blank"
+                            title="Opens in a new window"
+                            rel="noopener noreferrer"
+                            className="link link--underline body-l"
+                        >
+                            This information is stored and used in compliance with our cookie
+                            and privacy policy.
+                        </a>
+                    </>
+                }
+                primaryButtonLabel="Continue"
+                primaryButtonClick={startSurvey}
+                secondaryButtonLabel={"No, don't show me this again"}
+                secondaryButtonClick={rejectSurvey}
+                closeClick={() => console.log('closeModal')}
+            />
+        )
+    }
+    if (mode === modes.question) {
+        return (
+            questions.length && <SurveyModal
+                className="segmentation-modal"
+                title={currentQuestion.title}
+                body={<Interaction question={currentQuestion} setValue={setValue} />}
+                // TODO - change to be "Question x of x"
+                progressPercentage={0.2
+                    // question && 100 * (questionIndex() / runningState.questions.length)
+                }
+                primaryButtonLabel="Next"
+                primaryButtonClick={getNextQuestion}
+                primaryButtonDisable={false}
+                secondaryButtonLabel="Back"
+                secondaryButtonClick={() => console.log('If answered questions has length, then go to most recent answered question.  If not, go to start')}
+                closeClick={() => console.log('close modal')}
+            />
+        )
+    }
+
 }
 
 export default function createExportSurveyModal({ element }) {
