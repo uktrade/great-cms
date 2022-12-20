@@ -83,6 +83,9 @@ export const Signup = (props) => {
         </p>
       </div>
       <div className="signup__info-panel signup-panel">
+        <div class="great-logo">
+            
+          </div>
         <div className="signup__info-panel__content">
           <h2>Find new customers around the world</h2>
           <ul className="signup__info-panel__subheadings">

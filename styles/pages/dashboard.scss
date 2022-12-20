@@ -1,73 +1,118 @@
 @import '../sizes/sizes.scss';
 
-.dashboard-card {
-  p {
-    padding-top: $large-padding;
-    padding-bottom: $large-padding;
-    margin: 0;
-  }
-
-  img {
-    margin: auto;
-    padding-top: $large-padding;
-    width: 100%;
-    height: auto;
+@mixin horizontal-card-padding {
+  padding-left: $large-padding;
+  padding-right: $large-padding;
+  @media only screen and (max-width: $mobile-size) {
+    padding-left: 0 1.5 * $standard-padding;
+    padding-right: 0 1.5 * $standard-padding;
   }
 }
 
-.card-row {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: $x-large-padding;
-  width: 100%;
-
-  h3 {
-    padding-top: 30px;
-    padding-bottom: 30px;
-    flex: 1;
-    width: 100%;
-  }
-
-  > div {
-    flex: 1;
-    width: 100%;
-  }
-
+@mixin vertical-card-padding {
+  padding-top: $large-padding;
+  padding-bottom: $large-padding;
   @media only screen and (max-width: $mobile-size) {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+    padding-top: 1.5 * $standard-padding 0;
+    padding-bottom: 1.5 * $standard-padding 0;
+  }
+}
+
+@mixin horizontal-card-margin {
+  margin-left: $large-padding;
+  margin-right: $large-padding;
+  @media only screen and (max-width: $mobile-size) {
+    margin-left: 0 1.5 * $standard-padding;
+    margin-right: 0 1.5 * $standard-padding;
+  }
+}
+
+.card + .card {
+  margin-top: $x-large-padding;
+}
+
+.card {
+  @include vertical-card-padding();
+  padding-left: 0;
+  padding-right: 0;
+
+  &:last-of-type {
+    margin-bottom: $x-large-padding;
+  }
+
+  .g-card,
+  .g-card-full {
+    @include horizontal-card-padding();
+  }
+
+  .dashboard-card {
+    @include vertical-card-padding();
+    @include horizontal-card-padding();
+    p {
+      padding-top: $large-padding;
+      padding-bottom: $large-padding;
+      margin: 0;
+    }
+
+    img {
+      margin: auto;
+      padding-top: $large-padding;
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .g-card-header {
+    display: inline-flex;
+    flex-wrap: wrap;
+    border-bottom: 4px solid #eef2f6;
+    width: 100%;
+    @include horizontal-card-padding();
+    padding-bottom: $x-large-padding;
+
+    h2 {
+      flex: 1;
+      width: 100%;
+    }
+
+    @media only screen and (max-width: $mobile-size) {
+      gap: $x-large-padding * 0.5;
+    }
+  }
+
+  .card-row {
+    display: inline-flex;
+    flex-wrap: wrap;
+    @include horizontal-card-padding();
+    gap: $x-large-padding;
+    width: 100%;
 
     h3 {
-      min-width: auto;
-      padding-top: 30px;
-      padding-bottom: 0;
+      padding: $x-large-padding 0;
+      flex: 1;
+      width: 100%;
     }
 
     > div {
-      min-width: auto;
-      padding-top: 0;
+      flex: 1;
+      width: 100%;
+    }
+
+    @media only screen and (max-width: $mobile-size) {
+      display: flex;
+      flex-direction: column;
+      gap: $x-large-padding;
+
+      h3 {
+        min-width: auto;
+        padding-top: $x-large-padding;
+        padding-bottom: 0;
+      }
+
+      > div {
+        min-width: auto;
+        padding-top: 0;
+      }
     }
   }
-}
-
-.g-card-header {
-  display: inline-flex;
-  flex-wrap: wrap;
-  border-bottom: 4px solid #eef2f6;
-  width: 100%;
-
-  h2 {
-    flex: 1;
-    width: 100%;
-  }
-
-  @media only screen and (max-width: $mobile-size) {
-    gap: $x-large-padding * 0.5;
-  }
-}
-
-
-.card + .card{
-  margin-top: $x-large-padding;
 }

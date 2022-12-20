@@ -20,7 +20,7 @@
                     <i class="fa fa-clock"></i>
                     <span class="learn__category-topics">{{ page.estimated_read_duration|format_timedelta }} read </span>
                   </div>
-      
+
           <div class="lesson-hero media-section">
             {% include 'learn/hero_media_item.html' %}
           </div>
@@ -82,7 +82,7 @@
                     <i class="fa fa-clock"></i>
                     <span class="learn__category-topics">{{ next_lesson.estimated_read_duration|format_timedelta }}</span>
                   </div>
-               
+
                 {% endif %}
                 {% if next_module %}
                   <p class="m-t-xs m-b-xs">

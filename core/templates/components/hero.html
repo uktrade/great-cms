@@ -17,8 +17,7 @@ If both are available, `image_url` will be used over `image`
 {% firstof image_url rendition.url as image_url %}
 
 <div class="page-header article-header"
-    id="hero"
-    {% if image_url %}style="background: url({{ image_url }})"{% endif %}>
+    id="hero">
      <div class="inner-header">
   <div >
       <h1>{{ hero_title }}</h1>

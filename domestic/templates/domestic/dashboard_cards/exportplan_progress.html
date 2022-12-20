@@ -11,12 +11,14 @@ Only show if > 0 plans in list
     <a class="button secondary-button" href="{% url 'exportplan:start' %}"><i class="fas fa-play"></i>Create a new plan</a>
   </div>
   {% for plan in exportplan_list|slice:":3" %}
-  <div class="grid m-h-0 g-card-full">
+  <div class="g-card-full">
     {% include 'exportplan/includes/list_card_small.html' %}
     {% if not forloop.last %}
     <hr class="hr hr--light m-v-0 m-h-s">
     {% endif %}
   </div>
   {% endfor %}
+  <div class="card-row">
   <a class="button primary-button" href="{% url 'exportplan:index' %}">View all export plans</a>
+  </div>
 </div>

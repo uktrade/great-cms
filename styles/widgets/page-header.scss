@@ -13,24 +13,53 @@ $learn-content-header: url(/static/images/learn-to-export-header2.png);
   background-color: $color-main-background !important;
   width: 100%;
   height: 355px;
-  background-position: calc(100% + 30px) 100% !important;
   display: inline-flex;
   flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
-  background-size: auto 100% !important;
-  background-repeat: no-repeat !important;
-  padding-top: 60px;
-  padding-bottom: 60px;
   box-sizing: border-box;
+
+  &.where-to-export-header .image-container {
+    background: $where-to-export-image;
+  }
+
+  &.export-plan-header .image-container {
+    background: $export-plan-image;
+  }
+
+  &.learn-content-header .image-container {
+    background: $learn-content-header;
+  }
+
+  &.account-header .image-container {
+    background: $account-image;
+  }
+
+  &.market-header .image-container {
+    background: url(/static/images/export-plan-header.png);
+  }
+
+  &.learn-header .image-container {
+    background: $learn-to-export-image;
+  }
 
   .inner-header {
     width: 100%;
     height: 100%;
     margin-left: 48px;
-    max-width: 1230px;
+    display: inline-flex;
+    @media only screen and (min-width: $mobile-size) and (max-width: 980px) {
+      margin-left: $large-padding;
+    }
+    @media only screen and (min-width: 1290px) {
+      margin-left: calc(((100vw - 1290px) / 2) + 48px);
+    }
+
     > div:first-child {
-      width: 50%;
+      padding-top: 60px;
+      padding-bottom: 60px;
+      flex: 1;
+      min-width: 400px;
 
       box-sizing: border-box;
 
@@ -56,20 +85,32 @@ $learn-content-header: url(/static/images/learn-to-export-header2.png);
         .learn__category-topics {
           padding-left: $standard-padding;
         }
+        .learn__category-lessons{
+          padding-left: $standard-padding * 0.5;
+        }
+      }
+    }
+
+    .image-container {
+      width: 100%;
+      height: 100%;
+      flex: 2;
+      background-repeat: no-repeat!important;
+      background-size: auto 100%!important;
+    
+      @media only screen and (min-width: $mobile-size) and (max-width: 980px) {
+        margin-left: -8%;
+     
+      }
+      @media only screen and (min-width: 980px) {
+        background-size: auto 125%!important;
+        background-position-y: 50%!important;
       }
     }
   }
 
   i.fa .fa-clock {
     color: $color-gov-link;
-  }
-
-  .image-container {
-    display: none;
-  }
-
-  @media only screen and (min-width: $mobile-size) and (max-width: 1172px) {
-    background-size: 70% auto !important;
   }
 
   @media only screen and (max-width: $mobile-size) {
@@ -79,6 +120,7 @@ $learn-content-header: url(/static/images/learn-to-export-header2.png);
     padding-top: $x-large-padding;
     padding-bottom: 0;
     margin: 0;
+    gap: $standard-padding;
 
     button {
       width: 100%;
@@ -88,12 +130,16 @@ $learn-content-header: url(/static/images/learn-to-export-header2.png);
       width: 100%;
       margin: 0;
       padding: 0 1.5 * $standard-padding;
+      flex-direction: column;
+      gap:$standard-padding;
 
       > div:first-child {
         height: auto;
+        min-width: fit-content;
         flex: 1;
         width: 100%;
         margin: 0;
+        padding: 0;
       }
     }
 
@@ -104,58 +150,10 @@ $learn-content-header: url(/static/images/learn-to-export-header2.png);
       padding-top: 45%;
       width: 100%;
       background-repeat: no-repeat !important;
-      background-size: contain !important;
+      background-size: 100% auto !important;
       background-position-y: bottom !important;
       background-position-x: 5vw !important;
     }
-
-    &.where-to-export-header .image-container {
-      background: $where-to-export-image;
-    }
-
-    &.export-plan-header .image-container {
-      background: $export-plan-image;
-    }
-
-    &.learn-content-header .image-container {
-      background: $learn-content-header;
-    }
-
-    &.account-header .image-container {
-      background: $account-image;
-    }
-
-    &.market-header .image-container {
-      background: url(/static/images/export-plan-header.png);
-    }
-
-    &.learn-header .image-container {
-      background: $learn-to-export-image;
-    }
-  }
-
-  &.where-to-export-header {
-    background: $where-to-export-image;
-  }
-
-  &.export-plan-header {
-    background: $export-plan-image;
-  }
-
-  &.account-header {
-    background: $account-image;
-  }
-
-  &.market-header {
-    background: url(/static/images/export-plan-header.png);
-  }
-
-  &.learn-header {
-    background: $learn-to-export-image;
-  }
-
-  &.learn-content-header {
-    background: $learn-content-header;
   }
 }
 

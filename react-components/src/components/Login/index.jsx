@@ -85,6 +85,8 @@ export const Login = ({ nextUrl, ...props }) => {
           >
             Sign up
           </a>
+          <div class="great-logo">
+          </div>
         </div>
       </div>
     </div>

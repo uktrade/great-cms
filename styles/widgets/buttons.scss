@@ -81,7 +81,6 @@ button {
     padding-right: $large-padding;
 
     i {
-      padding-right: $standard-padding;
       padding-bottom: 4px;
     }
   }
@@ -113,18 +112,21 @@ button {
 
     & :focus,
     &:active,
-    & :hover {
+    &:hover {
       @include primary();
     }
   }
 
   &.primary-button{
+   
     @include primary();
      & :focus,
     &:active,
-    & :hover {
+    &:hover {
       @include secondary();
     }
+
+    
 
   }
 
@@ -161,6 +163,17 @@ button {
   &.quaternary-button {
     background-color: $color-completed;
     color: $color-main-background;
+
+     & :focus,
+    &:active,
+    &:hover {
+     background-color: $color-main-background;
+     color: $color-completed;
+      border: 2px solid $color-completed;
+      i{
+        color:$color-completed;
+      }
+    }
   }
 
   &.fas fa-check-circle {

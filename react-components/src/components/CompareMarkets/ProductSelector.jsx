@@ -75,7 +75,7 @@ function ProductSelector() {
       )}
       <button
         type="button"
-        className="button secondary-button button--small"
+        className="button secondary-button button--small button--icon"
         onClick={() => setProductModalIsOpen(true)}
       >
         <i className="fa fa-plus" />

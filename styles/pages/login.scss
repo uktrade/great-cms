@@ -4,6 +4,7 @@
 
 $login-image: url(/static/images/signin-image.png);
 $signup-image: url(/static/images/signup-image.png);
+$banner: url(/static/images/great-banner-large.png);
 #sign-up,
 #login {
   h1 {
@@ -30,10 +31,23 @@ $signup-image: url(/static/images/signup-image.png);
     background-position: center 100% !important;
     background-size: auto 60% !important;
     background-repeat: no-repeat !important;
+    position: relative;
     @media only screen and (max-width: 900px) {
       display: none;
     }
-
+ .great-logo{
+  position: absolute;
+  height:139px;
+  width: 382px;
+  background:  $banner;
+ background-size: contain;
+ background-repeat: no-repeat;
+ bottom: 104px;
+ right:0;
+ 
+ }
+            
+       
     &.login-panel {
       background: $login-image;
     }
