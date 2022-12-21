@@ -234,3 +234,17 @@ a.section-list__link {
     background-color: $color-main-background;
   }
 }
+
+
+
+#about-your-business-content, #business-objectives-content,
+#target-markets-research-content, #adapting-your-product-content,
+#marketing-approach-content,#costs-and-pricing-content,
+#funding-and-credit-content, #getting-paid-content,
+#travel-plan-content, #business-risk-content{
+ textarea.form-control{
+    height: 50px!important;
+    line-height: 17px;
+    color: $color-main-text;
+}
+}

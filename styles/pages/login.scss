@@ -22,6 +22,8 @@ $banner: url(/static/images/great-banner-large.png);
   }
 
   .signup__form-panel {
+    max-height: 100vh;
+    overflow: auto;
     @media only screen and (max-width: 900px) {
       width: 100%;
     }
@@ -29,25 +31,29 @@ $banner: url(/static/images/great-banner-large.png);
   .signup__info-panel {
     padding: 0;
     background-position: center 100% !important;
-    background-size: auto 60% !important;
+    background-size: auto 55vh !important;
     background-repeat: no-repeat !important;
     position: relative;
+    overflow-x: hidden;
     @media only screen and (max-width: 900px) {
       display: none;
     }
- .great-logo{
-  position: absolute;
-  height:139px;
-  width: 382px;
-  background:  $banner;
- background-size: contain;
- background-repeat: no-repeat;
- bottom: 104px;
- right:0;
- 
- }
-            
-       
+    .great-logo {
+      position: absolute;
+      height: 129px;
+      width: 382px;
+      background: $banner;
+      background-size: contain;
+      background-repeat: no-repeat;
+      bottom: 80px;
+      right: -50px;
+
+      @media only screen and (max-width: 1200px) {
+       height: 104px;
+      width: 308px;
+    }
+    }
+
     &.login-panel {
       background: $login-image;
     }
@@ -66,7 +72,8 @@ $banner: url(/static/images/great-banner-large.png);
       color: #2397d4;
     }
     li {
-      font-size: $font-size-h3;
+      font-size: $font-size-h4;
+      margin-bottom: $large-padding;
     }
   }
 }

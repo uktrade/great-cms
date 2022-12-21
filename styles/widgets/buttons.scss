@@ -118,7 +118,7 @@ button {
   }
 
   &.primary-button{
-   
+
     @include primary();
      & :focus,
     &:active,
@@ -126,7 +126,7 @@ button {
       @include secondary();
     }
 
-    
+
 
   }
 

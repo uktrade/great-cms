@@ -97,10 +97,10 @@ $learn-content-header: url(/static/images/learn-to-export-header2.png);
       flex: 2;
       background-repeat: no-repeat!important;
       background-size: auto 100%!important;
-    
+
       @media only screen and (min-width: $mobile-size) and (max-width: 980px) {
         margin-left: -8%;
-     
+
       }
       @media only screen and (min-width: 980px) {
         background-size: auto 125%!important;
