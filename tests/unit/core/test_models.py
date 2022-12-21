@@ -424,7 +424,7 @@ def test_topic_page_redirects_to_module(
 
         resp = getattr(topic_page, page_method)(request)
 
-        assert resp._headers['location'] == ('Location', curated_list_page.url)
+        assert resp.headers['location'] == curated_list_page.url
 
 
 class LessonPlaceholderPageTests(WagtailPageTests):
@@ -463,7 +463,7 @@ def test_placeholder_page_redirects_to_module(
 
         resp = getattr(placeholder_page, page_method)(request)
 
-        assert resp._headers['location'] == ('Location', curated_list_page.url)
+        assert resp.headers['Location'] == curated_list_page.url
 
 
 @pytest.mark.django_db
@@ -526,7 +526,7 @@ def test_redirection_for_unauthenticated_user(
     for page in pages:
         response = client.get(page.url, follow=False)
         assert response.status_code == 302
-        assert response._headers['location'] == ('Location', f'/signup/?next={page.url}')
+        assert response.headers['Location'] == f'/signup/?next={page.url}'
 
     # Show an authenticated user can still get in there
     client.force_login(user)

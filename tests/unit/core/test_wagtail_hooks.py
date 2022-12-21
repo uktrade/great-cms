@@ -1003,4 +1003,4 @@ def test_authenticated_user_required__sets_next_param(rf, request_path):
     output = wagtail_hooks.authenticated_user_required(instance, request, [], {})
 
     assert output.status_code == 302
-    assert output._headers['location'] == ('Location', f'{cms_slugs.SIGNUP_URL}?next={request_path}')
+    assert output.headers['Location'] == f'{cms_slugs.SIGNUP_URL}?next={request_path}'

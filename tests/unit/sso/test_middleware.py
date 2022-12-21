@@ -29,4 +29,4 @@ def test_authentication_middleware__token_expiry(rf, path, expected_redirect_des
         response = middleware.process_request(request)
 
         assert response.status_code == 302
-        assert response._headers['location'] == ('Location', expected_redirect_dest)
+        assert response.headers['Location'] == expected_redirect_dest

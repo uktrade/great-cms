@@ -50,6 +50,9 @@ class ActivityStreamHawkResponseMiddleware:
     of the request can authenticate the response
     """
 
+    def __init__(self, *args, **kwargs):
+        pass
+
     def process_response(self, viewset, response):
         response['Server-Authorization'] = viewset.request.auth.respond(
             content=response.content,

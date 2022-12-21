@@ -14,6 +14,8 @@ anyascii==0.3.1
     # via wagtail
 arabic-reshaper==2.1.4
     # via xhtml2pdf
+asgiref==3.5.2
+    # via django
 asn1crypto==1.5.1
     # via
     #   oscrypto
@@ -25,16 +27,16 @@ attrs==22.1.0
     # via jsonschema
 babel==2.11.0
     # via sphinx
-beautifulsoup4==4.8.2
+beautifulsoup4==4.9.3
     # via
     #   great-components
     #   readtime
     #   wagtail
-boto3==1.17.112
+boto3==1.24.96
     # via
     #   -r requirements.in
     #   django-storages
-botocore==1.20.112
+botocore==1.27.96
     # via
     #   boto3
     #   s3transfer
@@ -63,27 +65,27 @@ dateparser==0.7.2
     # via -r requirements.in
 directory-api-client==26.1.1
     # via -r requirements.in
-directory-ch-client==2.1.0
+directory-ch-client==3.0.1
     # via -r requirements.in
-directory-client-core==6.3.0
+directory-client-core==7.1.0
     # via
     #   directory-api-client
     #   directory-ch-client
     #   directory-forms-api-client
     #   directory-sso-api-client
-directory-constants==21.1.0
+directory-constants==22.0.1
     # via
     #   -r requirements.in
     #   great-components
-directory-forms-api-client==6.1.0
+directory-forms-api-client==7.1.0
     # via -r requirements.in
-directory-healthcheck==2.0.0
+directory-healthcheck==3.0.0
     # via -r requirements.in
 directory-sso-api-client==7.1.0
     # via -r requirements.in
-directory-validators==8.0.0
+directory-validators==9.2.1
     # via -r requirements.in
-django==2.2.28
+django==3.2.15
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -96,6 +98,7 @@ django==2.2.28
     #   django-extensions
     #   django-filter
     #   django-formtools
+    #   django-health-check
     #   django-recaptcha
     #   django-redis
     #   django-staff-sso-client
@@ -113,21 +116,21 @@ django-environ==0.4.5
     # via -r requirements.in
 django-extensions==3.1.5
     # via -r requirements.in
-django-filter==2.4.0
+django-filter==21.1
     # via wagtail
 django-formtools==2.3
     # via -r requirements.in
-django-health-check==3.8.0
+django-health-check==3.16.5
     # via directory-healthcheck
 django-ipware==2.1.0
     # via -r requirements.in
 django-modelcluster==5.3
     # via wagtail
-django-recaptcha==2.0.6
+django-recaptcha==3.0.0
     # via -r requirements.in
-django-redis==4.10.0
+django-redis==5.2.0
     # via -r requirements.in
-django-staff-sso-client==1.0.1
+django-staff-sso-client==4.0.1
     # via -r requirements.in
 django-storages[boto3]==1.8
     # via -r requirements.in
@@ -184,7 +187,7 @@ iso3166==1.0.1
     # via -r requirements.in
 jinja2==3.1.2
     # via sphinx
-jmespath==0.10.0
+jmespath==1.0.1
     # via
     #   boto3
     #   botocore
@@ -192,7 +195,7 @@ jsonschema==3.2.0
     # via great-components
 l18n==2021.3
     # via wagtail
-lxml==4.9.1
+lxml==4.9.2
     # via
     #   -r requirements.in
     #   pyquery
@@ -232,7 +235,7 @@ pillow==9.3.0
     #   xhtml2pdf
 pisa==3.0.33
     # via -r requirements.in
-psycopg2==2.8.6
+psycopg2==2.9.5
     # via -r requirements.in
 pycparser==2.21
     # via cffi
@@ -299,7 +302,7 @@ requests==2.28.1
     #   wagtail
 requests-oauthlib==1.3.1
     # via django-staff-sso-client
-s3transfer==0.4.2
+s3transfer==0.6.0
     # via boto3
 sentry-sdk==0.13.5
     # via -r requirements.in
@@ -334,6 +337,8 @@ svglib==1.4.1
     # via xhtml2pdf
 tablib[xls,xlsx]==3.3.0
     # via wagtail
+telepath==0.3
+    # via wagtail
 tinycss2==1.2.1
     # via
     #   cssselect2
@@ -348,8 +353,6 @@ tzlocal==4.2
     #   pyhanko
 uk-postcode-utils==1.1
     # via -r requirements.in
-unidecode==1.3.6
-    # via wagtail
 uritools==4.0.0
     # via pyhanko-certvalidator
 urllib3==1.26.13
@@ -363,7 +366,7 @@ urllib3==1.26.13
     #   sentry-sdk
 w3lib==2.1.1
     # via directory-client-core
-wagtail==2.11.9
+wagtail==2.15.6
     # via
     #   -r requirements.in
     #   wagtail-cache
@@ -391,7 +394,7 @@ webencodings==0.5.1
     #   cssselect2
     #   html5lib
     #   tinycss2
-whitenoise==4.1.4
+whitenoise==6.2.0
     # via -r requirements.in
 willow==1.4.1
     # via wagtail
@@ -399,7 +402,7 @@ xhtml2pdf==0.2.8
     # via -r requirements.in
 xlrd==2.0.1
     # via tablib
-xlsxwriter==1.4.5
+xlsxwriter==3.0.3
     # via wagtail
 xlwt==1.3.0
     # via tablib

@@ -8,12 +8,12 @@ import readtime
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
-from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.files.storage import DefaultStorage
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models as django_models
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
+from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.html import format_html
 from great_components.helpers import add_next
