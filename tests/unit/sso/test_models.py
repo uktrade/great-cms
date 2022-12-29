@@ -9,12 +9,12 @@ from tests.helpers import create_response
 
 
 def get_user():
-    return models.BusinessSSOUser(email='test@example.com')
+    return models.BusinessSSOUser(email='test@example.com')  # /PS-IGNORE
 
 
 def test_user_get_username():
     user = get_user()
-    assert user.get_username() == 'test@example.com'
+    assert user.get_username() == 'test@example.com'  # /PS-IGNORE
 
 
 ok_result = {'result', 'ok'}
@@ -30,15 +30,15 @@ def test_user_save():
 def test_get_user_profile(mock_create_user_profile, mock_get_session_user):
     user = get_user()
     mock_create_user_profile.return_value = create_response(status_code=201)
-    mock_get_session_user.return_value = create_response({'firstname': 'Ann', 'lastname': 'Elk'})
-    assert user.user_profile == {'firstname': 'Ann', 'lastname': 'Elk'}
+    mock_get_session_user.return_value = create_response({'firstname': 'Ann', 'lastname': 'Elk'})  # /PS-IGNORE
+    assert user.user_profile == {'firstname': 'Ann', 'lastname': 'Elk'}  # /PS-IGNORE
 
 
 @mock.patch.object(sso_api_client.user, 'update_user_profile')
 def test_update_user_profile(mock_update_user_profile):
     user = get_user()
     mock_update_user_profile.return_value = create_response(ok_result)
-    assert user.update_user_profile({'firstname': 'Jim'}) == ok_result
+    assert user.update_user_profile({'firstname': 'Jim'}) == ok_result  # /PS-IGNORE
 
 
 @mock.patch.object(sso_api_client.user, 'get_user_page_views')
@@ -113,7 +113,7 @@ def test_get_mobile_number(mock_get_company_profile, user_mobile_number, company
             'TEST',
         ),
         (
-            {'company_type': ''},  #  unlikely to be a real-world value
+            {'company_type': ''},  # unlikely to be a real-world value
             '',
         ),
         (

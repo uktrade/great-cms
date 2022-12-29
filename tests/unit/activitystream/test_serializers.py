@@ -189,7 +189,7 @@ def test_articleserializer__get_article_body_content_for_search__skipping_unknow
     serializer = ArticlePageSerializer()
     serializer.expected_block_types = [
         'pull_quote',
-    ]  #  ie, 'text' is not in here
+    ]  # ie, 'text' is not in here
 
     assert len(caplog.records) == 0
     searchable_content = serializer._get_article_body_content_for_search(article_instance)

@@ -462,14 +462,14 @@ class LinkWithImageAndContentBlock(blocks.StructBlock):
     source = blocks.CharBlock(help_text='The source or the type of the link, e.g. GOV.UK/Advice')
     text = blocks.CharBlock()
     url = blocks.CharBlock()  # not a URL block to allow relative links
-    image = ImageChooserBlock(required=False)  #  alt text lives on the custom Image class
+    image = ImageChooserBlock(required=False)  # alt text lives on the custom Image class
     content = blocks.RichTextBlock()
 
 
 class LinkWithImageAndContentBlockNoSource(blocks.StructBlock):
     text = blocks.CharBlock()
     url = blocks.CharBlock()  # not a URL block to allow relative links
-    image = ImageChooserBlock(required=False)  #  alt text lives on the custom Image class
+    image = ImageChooserBlock(required=False)  # alt text lives on the custom Image class
     content = blocks.RichTextBlock(
         features=RICHTEXT_FEATURES__REDUCED,
     )
@@ -508,7 +508,7 @@ class TopicPageCardBlock(blocks.StructBlock):
 
     link_text = blocks.CharBlock()
     link_url = blocks.CharBlock()  # not a URL block to allow relative links
-    image = ImageChooserBlock(required=False)  #  alt text lives on the custom Image class
+    image = ImageChooserBlock(required=False)  # alt text lives on the custom Image class
     description = blocks.TextBlock()
 
 
