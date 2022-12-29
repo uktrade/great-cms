@@ -52,12 +52,11 @@ def test_search_with_activitystream(mock_session_send):
         'Content-Length': '876',
         'X-Forwarded-Proto': 'https',
         'X-Forwarded-For': 'debug',
-        # 'Authorization': 'Hawk mac="8z+txQ3WIkigNHZbfCNLEFdFdOEa2y1fxELboX0Vgpg=", hash="1fsYlfW1YnvyKz7s1HJwjDVq3ys9o6ofYaWyAs6YHDI=", id="debug", ts="1579003201", nonce="o3TJ7i"',  # noqa
         'Content-Type': 'application/json',
     }.items():
         assert issued_request.headers[key] == val
 
     assert (
         'Authorization' in issued_request.headers
-    )  #  tricky to test, even with freezegun, so this is just a smoke test
+    )  # tricky to test, even with freezegun, so this is just a smoke test
     assert issued_request.body and issued_request.body == query

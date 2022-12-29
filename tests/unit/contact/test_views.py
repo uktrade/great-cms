@@ -234,7 +234,7 @@ def test_contact_us_short_form_prepopulated_when_logged_in(
     user,
     mock_get_company_profile,
 ):
-    client.force_login(user)  #  ensure the user is logged in
+    client.force_login(user)  # ensure the user is logged in
 
     mock_get_company_profile.return_value = {
         # Full spec of CompanySerializer is in
@@ -760,7 +760,7 @@ def test_contact_us_feedback_prepopulate(
     user,
     mock_get_company_profile,
 ):
-    client.force_login(user)  #  ensure the user is logged in
+    client.force_login(user)  # ensure the user is logged in
 
     url = reverse('contact:contact-us-feedback')
     response = client.get(url)
