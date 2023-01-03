@@ -20,7 +20,8 @@ RICHTEXT_FEATURES__REDUCED = [
     'ul',
     'hr',
     'link',
-    'document-link',  #  to allow links to Wagtail-held documents
+    'document-link',
+    #  to allow links to Wagtail-held documents
     # 'blockquote', # NOT used - use a PullQuoteBlock in a StreamField, or similar
 ]
 
@@ -57,7 +58,7 @@ TABLEBLOCK_OPTIONS = {
     'contextMenu': True,
     'editor': 'text',
     'stretchH': 'all',
-    'height': 108,  #  optimised for 3 rows by default (ie, 1 row == 36px)
+    'height': 108,  # optimised for 3 rows by default (ie, 1 row == 36px)
     'renderer': 'text',
     'autoColumnSize': False,
 }

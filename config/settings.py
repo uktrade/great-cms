@@ -441,7 +441,7 @@ DIRECTORY_SSO_API_CLIENT_API_KEY = env.str('SSO_SIGNATURE_SECRET', '')
 DIRECTORY_SSO_API_CLIENT_SENDER_ID = env.str('DIRECTORY_SSO_API_CLIENT_SENDER_ID', 'directory')
 DIRECTORY_SSO_API_CLIENT_DEFAULT_TIMEOUT = 15
 
-SSO_PROFILE_URL = env.str('SSO_PROFILE_URL', '/profile/')  #  directory-sso-profile is now in great-cms
+SSO_PROFILE_URL = env.str('SSO_PROFILE_URL', '/profile/')  # directory-sso-profile is now in great-cms
 
 SSO_PROXY_LOGIN_URL = env.str('SSO_PROXY_LOGIN_URL')
 SSO_PROXY_LOGOUT_URL = env.str('SSO_PROXY_LOGOUT_URL')

@@ -1029,7 +1029,7 @@ class ArticlePage(
                     template='core/includes/_columns.html',
                 ),
             ),
-            (  #  alt text lives on the custom Image class
+            (  # alt text lives on the custom Image class
                 'pull_quote',
                 core_blocks.PullQuoteBlock(
                     template='domestic/blocks/pull_quote_block.html',
