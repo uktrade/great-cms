@@ -29,7 +29,7 @@ export const Confirmation = memo(
               </button>
               <button
                 type="button"
-                className="button button--icon secondary-button inline m-b-s"
+                className="button secondary-button inline m-b-s"
                 onClick={onNo}
               >
                 {noIcon && <i className={`fas ${noIcon}`} />}

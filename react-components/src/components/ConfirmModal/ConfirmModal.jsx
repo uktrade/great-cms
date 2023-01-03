@@ -19,7 +19,7 @@ export const ConfirmModal = memo(({ deleteItem, hasData }) => {
         }}
       >
         <i className="fas fa-trash-alt" title="delete Objective" />
-        Delete
+        <span>Delete</span>
       </button>
       <ReactModal
         isOpen={modal}
@@ -48,7 +48,7 @@ export const ConfirmModal = memo(({ deleteItem, hasData }) => {
               </button>
               <button
                 type="button"
-                className="button button--secondary inline m-b-s"
+                className="button secondary-button inline m-b-s"
                 onClick={() => setModal(false)}
               >
                 No

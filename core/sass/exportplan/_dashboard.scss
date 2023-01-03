@@ -1,3 +1,5 @@
+@import '../../../styles/colors/colors.scss';
+
 .section-list {
   &__coming {
     border-radius: 12px;
@@ -24,8 +26,7 @@
         font-size: 14px;
         line-height: 1.9;
         color: white;
-        border-radius: 50px;
-        background-color: $green-deep-100;
+        background-color: $color-completed;
         height: 24px;
         padding: 0 12px;
         margin-left: 15px;

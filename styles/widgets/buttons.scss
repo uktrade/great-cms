@@ -46,6 +46,11 @@ button {
   line-height: 30px;
   color: $color-gov-link;
 
+
+  span + i, i + span{
+    padding-left: $standard-padding;
+  }
+
   & i {
     font-size: $icon-large-button-size;
   }
@@ -70,7 +75,7 @@ button {
 
   &:active,
   &:focus {
-    border: $focus-border;
+    outline: 3px solid $color-focus;
   }
 
   &.primary-button,
@@ -115,6 +120,7 @@ button {
     &:hover {
       @include primary();
     }
+   
   }
 
   &.primary-button{

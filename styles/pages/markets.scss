@@ -59,9 +59,15 @@
   justify-content: flex-end;
 }
 
+#stats-tabs{
+  h2{
+    font-size: $font-size-p;
+    font-family: $main-text-font;
+  }
+}
+
 #country-guide-need-help-section {
   padding: 40px 75px;
-
   @media only screen and (max-width: $mobile-size) {
     padding: 0;
 
@@ -85,10 +91,19 @@
     }
   }
 
+  h2{
+    max-width: 1230px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   > div {
     display: flex;
     flex-wrap: wrap;
     gap: $x-large-padding;
+    max-width: 1230px;
+    margin-left: auto;
+    margin-right: auto;
 
     > div {
       flex: 1;
@@ -153,4 +168,8 @@
 
 #tab-market-trends {
   display: contents;
+}
+
+.bold-large, .bold-medium{
+  font-family: $main-text-font;
 }

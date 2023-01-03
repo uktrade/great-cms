@@ -24,9 +24,9 @@
                         {% endif %}
                         {% block below_form %}{% endblock %}
                         {% if wizard.steps.step1 != wizard.steps.count %}
-                            <button type="submit" class="button">{% block button_submit_label %}Save and continue{% endblock %}</button>
+                            <button type="submit" class="primary-button button">{% block button_submit_label %}Save and continue{% endblock %}</button>
                         {% else %}
-                            <button class="button next" type="submit">{% block button_next_label %}Save and continue{% endblock %}</button>
+                            <button class="button primary-button next" type="submit">{% block button_next_label %}Save and continue{% endblock %}</button>
                         {% endif %}
                         {% block below_submit_button %}{% endblock %}
                     </div>

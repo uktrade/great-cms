@@ -8,7 +8,7 @@ Only show if > 0 plans in list
 <div class="card">
   <div class="g-card-header flex-jc-space-between flex-ai-center">
     <h2>My export plans</h2>
-    <a class="button secondary-button" href="{% url 'exportplan:start' %}"><i class="fas fa-play"></i>Create a new plan</a>
+    <a class="button secondary-button" href="{% url 'exportplan:start' %}"><i class="fas fa-plus"></i><span>Create a new plan</span></a>
   </div>
   {% for plan in exportplan_list|slice:":3" %}
   <div class="g-card-full">

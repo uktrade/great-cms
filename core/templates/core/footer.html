@@ -2,8 +2,8 @@
 {% load wagtailcore_tags %}
 {% load url_map %}
 <footer class="magna-footer shared-footer" id="footer">
-  <nav class="magna-footer__nav text-white">
-    <ul class="magna-footer__links footer-links">
+  <nav class="footer">
+    <ul>
       <li>
         <a href="{% url_map 'contact_url' %}" title="Contact us">Contact us</a>
       </li>
@@ -30,15 +30,15 @@
       {% endif %}
     </ul>
   </nav>
-  <div class="magna-footer__copyright bg-blue-white">
-    <div class="magna-footer__dit-logo">
+  <div class="copyright-container">
+ 
       <img class="footer-logo" src="{% static 'images/dit-crest-and-text-landscape.svg' %}"
         alt="Department for International Trade" />
-    </div>
-    <div class="magna-footer__copy">
-      <p class="text-black-100 body-m m-0">
+
+  
+      <p class="copy-right m-0">
         &copy; Crown copyright {% now "Y" %}. All rights reserved.
       </p>
-    </div>
+
   </div>
 </footer>

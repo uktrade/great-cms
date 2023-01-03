@@ -5,13 +5,13 @@
 
 <footer id="great-footer" class="great-footer light-grey-text background-great-blue" dir="ltr" data-ga-section="footer">
 
-  <div class="great-footer-logo-container container">
+  <div class="magna-footer shared-footer">
     {% block footer_left_logo %}{% endblock %}
     {% block footer_right_logo %}{% endblock %}
   </div>
 
-  <nav class="great-footer-links container">
-    <ul class="great-footer-site-links footer-links">
+  <nav class="footer">
+    <ul>
         <li>
             <a href="{% url_map 'contact_url' %}" title="Contact us">Contact us</a>
         </li>
@@ -38,12 +38,10 @@
     </ul>
   </nav>
 
-  <div class="great-global-header-footer {% block global_footer_class %}{% endblock %}">
-    <div class="container">
+  <div class="copyright-container {% block global_footer_class %}{% endblock %}">
         {% block global_footer_logo %}
         {% endblock %}
-        <p id="great-footer-copyright" class="great-footer-copyright">&copy; Crown copyright {% now "Y" %}. All rights reserved.</p>
-    </div>
+        <p class="copy-right">&copy; Crown copyright {% now "Y" %}. All rights reserved.</p>
   </div>
 
 </footer>

@@ -66,7 +66,7 @@ export default function ActionBar({exportPlanProgress}) {
         onClick={() => setDeleteConfirm(true)}
       >
         <i className="fas fa-trash-alt" />
-        Delete plan
+        <span>Delete plan</span>
       </button>
       {deleteConfirm ? (
         <Confirmation

@@ -17,6 +17,14 @@
       h2 {
         font-size: $font-size-h3;
       }
+
+      h4{
+        font-size: $font-size-h4;
+        @media only screen and (max-width: $mobile-size) {
+  font-size: $font-size-h4;
+}
+
+      }
     }
   }
 
