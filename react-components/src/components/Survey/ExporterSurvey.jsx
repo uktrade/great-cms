@@ -8,16 +8,8 @@ import SurveyModal from './Modal'
 
 // TODO
 // - Close modal when user clicks on 'x'
-// - Move to next question when user clicks 'Next' button
+// - Handle click 'No don't show me this again'
 // - Add name to question model - for use by radio buttons - could do this dynamically?
-
-
-// Potential state:
-// - Questions
-// - Current question
-// - Answered questions
-// - Last answered question?
-// - Mode (open, question, finish)
 
 const orderQuestions = (questions) => (
     questions.sort((q1, q2) => (
@@ -43,6 +35,13 @@ function ExporterSurvey() {
         }
     }, [currentQuestion])
 
+    const getQuestionById = (id) => (
+        questions.find(q => q.id === id)
+    )
+
+    // TODO - Account for when there's a jump - do we need to add an 'end' option to jump options in API??
+    const isFinalQuestion = () => questions.findIndex(q => q.id === currentQuestion.id) === (questions.length - 1)
+
     const startSurvey = () => {
         setMode(modes.question)
         setCurrentQuestion(questions[0])
@@ -65,6 +64,12 @@ function ExporterSurvey() {
         const updatedQuestions = questions.map(q => q.id === currentQuestion.id ? { ...q, answer: currentQuestion.answer } : q)
         setQuestions(updatedQuestions)
 
+        if (isFinalQuestion()) {
+            // TODO - Send data to forms API here
+            setMode(modes.thankyou)
+            return
+        }
+
         // TODO make into function - that can handles when answer is an array (multi-select)
         const answer = currentQuestion.choices.find((choice) => choice.value === currentQuestion.answer)
 
@@ -81,11 +86,12 @@ function ExporterSurvey() {
         if (currentQuestionPosition === 0) {
             setMode(modes.start)
         }
-        // TODO - add else if for when the mode is finish
+        else if (mode === modes.thankyou) {
+            const previousQuestionId = runningOrder[runningOrder.length - 1]
+            setCurrentQuestion(getQuestionById(previousQuestionId))
+            setMode(modes.question)
+        }
         else {
-            const getQuestionById = (id) => (
-                questions.find(q => q.id === id)
-            )
             const previousQuestionId = runningOrder[currentQuestionPosition - 1]
             setCurrentQuestion(getQuestionById(previousQuestionId))
         }
@@ -142,7 +148,20 @@ function ExporterSurvey() {
             />
         )
     }
-
+    if (mode === modes.thankyou) {
+        return (
+            <SurveyModal
+                className="segmentation-modal"
+                title="Thank you"
+                body={<>Thank you for taking time to respond.</>}
+                primaryButtonLabel="Close"
+                primaryButtonClick={() => setMode(modes.closed)}
+                secondaryButtonLabel="Back"
+                secondaryButtonClick={goBack}
+            />
+        )
+    }
+    return null
 }
 
 export default function createExportSurveyModal({ element }) {
