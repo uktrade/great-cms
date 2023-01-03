@@ -30,12 +30,18 @@ function ExporterSurvey() {
     const [mode, setMode] = useState(modes.start)
     const [questions, setQuestions] = useState([])
     const [currentQuestion, setCurrentQuestion] = useState()
-    const [answeredQuestions, setAnsweredQuestions] = useState([])
+    const [runningOrder, setRunningOrder] = useState([])
 
     useEffect(() => {
         Services.getSurveyDetails().then((survey) =>
             setQuestions(orderQuestions(survey.questions)))
     }, [])
+
+    useEffect(() => {
+        if (currentQuestion && !runningOrder.some((id) => id === currentQuestion.id)) {
+            setRunningOrder([...runningOrder, currentQuestion.id])
+        }
+    }, [currentQuestion])
 
     const startSurvey = () => {
         setMode(modes.question)
@@ -52,20 +58,36 @@ function ExporterSurvey() {
         setCurrentQuestion({ ...currentQuestion, answer })
     }
 
-
     const getNextQuestion = () => {
-        setAnsweredQuestions([...answeredQuestions, currentQuestion])
         // TODO add logic to check if any validation errors
         // Can check using currentQuestion.answer
+
+        const updatedQuestions = questions.map(q => q.id === currentQuestion.id ? { ...q, answer: currentQuestion.answer } : q)
+        setQuestions(updatedQuestions)
+
+        // TODO make into function - that can handles when answer is an array (multi-select)
         const answer = currentQuestion.choices.find((choice) => choice.value === currentQuestion.answer)
 
-        if (answer.jump) {
-            const nextQuestionIndex = questions.findIndex((q) => q.id === currentQuestion.jump)
-            setCurrentQuestion(questions[nextQuestionIndex])
+        const nextQuestionIndex = answer.jump ?
+            questions.findIndex((q) => q.id === currentQuestion.jump) :
+            questions.findIndex((q) => q.order === currentQuestion.order + 1)
+
+        setCurrentQuestion(questions[nextQuestionIndex])
+    }
+
+    const goBack = () => {
+        const currentQuestionPosition = runningOrder.findIndex((q) => q === currentQuestion.id)
+
+        if (currentQuestionPosition === 0) {
+            setMode(modes.start)
         }
+        // TODO - add else if for when the mode is finish
         else {
-            const nextQuestionIndex = questions.findIndex((q) => q.order === currentQuestion.order + 1)
-            setCurrentQuestion(questions[nextQuestionIndex])
+            const getQuestionById = (id) => (
+                questions.find(q => q.id === id)
+            )
+            const previousQuestionId = runningOrder[currentQuestionPosition - 1]
+            setCurrentQuestion(getQuestionById(previousQuestionId))
         }
     }
 
@@ -115,7 +137,7 @@ function ExporterSurvey() {
                 primaryButtonClick={getNextQuestion}
                 primaryButtonDisable={false}
                 secondaryButtonLabel="Back"
-                secondaryButtonClick={() => console.log('If answered questions has length, then go to most recent answered question.  If not, go to start')}
+                secondaryButtonClick={goBack}
                 closeClick={() => console.log('close modal')}
             />
         )
