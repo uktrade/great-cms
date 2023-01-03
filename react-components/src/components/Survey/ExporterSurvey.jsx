@@ -57,13 +57,15 @@ function ExporterSurvey() {
         setAnsweredQuestions([...answeredQuestions, currentQuestion])
         // TODO add logic to check if any validation errors
         // Can check using currentQuestion.answer
-        const answer = currentQuestion.choices.findOne((choice) => choice.value === currentQuestion.answer)
+        const answer = currentQuestion.choices.find((choice) => choice.value === currentQuestion.answer)
+
         if (answer.jump) {
             const nextQuestionIndex = questions.findIndex((q) => q.id === currentQuestion.jump)
             setCurrentQuestion(questions[nextQuestionIndex])
         }
         else {
-            setCurrentQuestion(questions[questions.indexOf(currentQuestion) + 1])
+            const nextQuestionIndex = questions.findIndex((q) => q.order === currentQuestion.order + 1)
+            setCurrentQuestion(questions[nextQuestionIndex])
         }
     }
 
