@@ -126,9 +126,6 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
               </>
             ) : (
               <>
-                <p className="body-l">
-                  To get started, add a product to your My products list.
-                </p>
                 {addProductButton}
               </>
             ),

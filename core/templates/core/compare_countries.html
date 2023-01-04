@@ -14,10 +14,9 @@
                 <div>
                   <h1>{{ page.title }}</h1>
                    <p>Find information to help choose the right export market for your product. Compare data for up to 10 markets, using dynamic feeds from some of the world’s most trusted sources.</p>
-                   <a class="button primary-button" href="/export-plan/start/">
-                    <i class="fa fa-plus"></i>
-                    <span>Create a new plan</span>
-                   </a>
+                   {% if data_tabs_enabled %}
+                            <div id="cta-container"></div>
+                          {% endif %}
                 </div>
                 <div class="image-container">
             </div>
