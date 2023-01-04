@@ -8,6 +8,7 @@
 * KLS-80 - Correct form destinations and CTA style for Scottish offices
 * Update MonthYearInput test to get current year dynamically
 * KLS-80 - Correct form destinations and CTA style for Scottish offices
+* Update MonthYearInput test to get current year dynamically
 
 ### Hotfix
 
