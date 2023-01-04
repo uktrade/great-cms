@@ -23,7 +23,7 @@ freezegun==1.1.0
 black
 blacken-docs==1.6.0
 isort==5.6.4
-flake8==3.9.2
+flake8
 pre-commit-hooks==3.3.0
 
 flake8-quotes

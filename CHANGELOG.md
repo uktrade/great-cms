@@ -3,10 +3,12 @@
 ## Pre release
 
 ### Bugs fixed
+* Update MonthYearInput test to get current year dynamically
 
 ### Hotfix
 
 ### Enhancements
+* KLS-282 Great-cms django to version 3.2.16
 * KLS-32 - Update content in signup confirmation page
 * KLS-213 - Add phone number field to trade office contact forms
 * KLS-266 - Get survey details from directory API
