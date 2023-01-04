@@ -60,11 +60,7 @@ export default function ActionBar({exportPlanProgress}) {
       </button>
 
       <button
-<<<<<<< HEAD
         className="button secondary-button delete-button button--small button--full-width button--icon m-b-xs export-plan-delete"
-=======
-        className="button secondary-button button--small button--full-width button--icon m-b-xs export-plan-delete"
->>>>>>> 177f15c9 (restyled additional pages)
         title="Delete your export plan"
         type="button"
         onClick={() => setDeleteConfirm(true)}

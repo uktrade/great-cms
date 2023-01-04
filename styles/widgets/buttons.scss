@@ -324,6 +324,7 @@ button.button-lesson {
 
 #skip-link {
   background-color: $color-focus;
+<<<<<<< HEAD
 
   &.accessibility-skip-to-section {
     background-color: inherit;
@@ -369,8 +370,10 @@ button#commodity-code-details {
             width: 40px;
             border-radius: 50%!important;
             border: 2px solid $color-gov-link;
+=======
+>>>>>>> 20e38ab3d (rebased)
 
-            &>i{
-                padding:0;
-            }
-        }
+  &.accessibility-skip-to-section{
+background-color: inherit;
+  }
+}
