@@ -3,6 +3,7 @@
 ## Pre release
 
 ### Bugs fixed
+* Update MonthYearInput test to get current year dynamically
 
 ### Hotfix
 
