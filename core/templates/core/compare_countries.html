@@ -14,6 +14,10 @@
                 <div>
                   <h1>{{ page.title }}</h1>
                    <p>Find information to help choose the right export market for your product. Compare data for up to 10 markets, using dynamic feeds from some of the world’s most trusted sources.</p>
+                   <a class="button primary-button" href="/export-plan/start/">
+                    <i class="fa fa-plus"></i>
+                    <span>Create a new plan</span>
+                   </a>
                 </div>
                 <div class="image-container">
             </div>
@@ -22,7 +26,7 @@
            </div>
       </section>
   </div>
-  {% if data_tabs_enabled %}
+  {% comment %} {% if data_tabs_enabled %} {% endcomment %}
     <div class="hidden" id="next-steps">
       {% for component in dashboard_components %}
           {% if component.value.route_type == 'learn' or component.value.route_type == 'plan' %}
@@ -45,7 +49,7 @@
         cta_container: document.querySelector("#cta-container"),
       })
     </script>
-  {% else %}
+  {% comment %} {% else %}
     <div class="g-panel">
       <p>This section isn’t available yet</p>
       <p>This Beta version is limited</p>
@@ -53,5 +57,5 @@
     <div class="m-v-xl">
         <button class="button button--tertiary" disabled>Coming soon</button>
     </div>
-  {% endif %}
+  {% endif %} {% endcomment %}
 {% endblock %}

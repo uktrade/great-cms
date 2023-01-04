@@ -9,3 +9,7 @@
 body{
     background-color: $color-background-color
 }
+
+a:active{
+    background-color: inherit;
+}
