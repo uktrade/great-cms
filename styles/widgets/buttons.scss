@@ -120,7 +120,7 @@ button {
     &:hover {
       @include primary();
     }
-   
+
   }
 
   &.primary-button{
@@ -317,4 +317,8 @@ button.button-lesson {
   flex-direction: row;
   flex-wrap: wrap;
   gap: $standard-padding $standard-padding;
+}
+
+#skip-link{
+  background-color: $color-focus;
 }

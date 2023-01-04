@@ -8,7 +8,8 @@
 }
 
 .heading-large,
-.heading-xlarge {
+.heading-xlarge,
+.heading-medium {
     font-family: $main-text-font;
 
 }
@@ -101,4 +102,17 @@ a.button{
 
 section.report-trade-barrier{
     background-color: $color-main-background;
+}
+
+#teaser-section, #why-we-offer-section, #how-we-can-help-you, #contact-us-section{
+     background-color: $color-main-background;
+}
+
+#article-what-we-offer{
+     background-color: $color-main-background;
+     padding-bottom: 0;
+}
+
+#contact-us-section{
+    padding-top:0;
 }
