@@ -4,6 +4,9 @@ import { MonthYearInput } from '.'
 
 const mockOnChange = jest.fn()
 
+const currentYear = new Date().getFullYear()
+const nextYear = currentYear + 1
+
 describe('MonthYearInput', () => {
   afterEach(() => {
     jest.clearAllMocks()
@@ -21,11 +24,11 @@ describe('MonthYearInput', () => {
     )
 
     act(() => {
-      getByText('2022').click()
+      getByText(currentYear.toString()).click()
     })
 
     await waitFor(() =>
-      expect(mockOnChange).toHaveBeenCalledWith({ year: '2022' })
+      expect(mockOnChange).toHaveBeenCalledWith({ year: currentYear.toString() })
     )
   })
 
@@ -46,11 +49,11 @@ describe('MonthYearInput', () => {
     )
 
     act(() => {
-      getByText('2023').click()
+      getByText(nextYear.toString()).click()
     })
 
     await waitFor(() =>
-      expect(mockOnChange).toHaveBeenCalledWith({ end_year: '2023' })
+      expect(mockOnChange).toHaveBeenCalledWith({ end_year: nextYear.toString() })
     )
   })
 
