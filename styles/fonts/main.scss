@@ -7,18 +7,10 @@
 body,
 div,
 p {
-<<<<<<< HEAD
   font-family: $main-text-font;
   font-size: $font-size-p;
   color: $color-main-text;
   line-height: $p-line-height;
-=======
-
-    font-family: $main-text-font;
-    font-size: $font-size-p;
-    color: $color-main-text;
-    line-height: $p-line-height;
->>>>>>> 9f36d0e9 (additional fixes)
 }
 
 h1,
@@ -38,11 +30,6 @@ h1 {
   @media screen and (max-width: $mobile-size) {
     font-size: $font-size-h2;
   }
-}
-
-h1 {
-    font-size: $font-size-h1;
-    line-height: $font-size-h1;
 }
 
 h2 {
@@ -122,9 +109,7 @@ article > p {
 .bold {
   font-family: $header-font;
 }
-<<<<<<< HEAD
 
-<<<<<<< HEAD
 #great-footer-copyright {
   font-size: $font-size-p-small;
   line-height: $p-line-height;
@@ -161,8 +146,3 @@ label.body-l,
 .learning-link:visited {
   color: $color-main-text;
 }
-
-=======
->>>>>>> 177f15c9 (restyled additional pages)
-=======
->>>>>>> 9f36d0e9 (additional fixes)
