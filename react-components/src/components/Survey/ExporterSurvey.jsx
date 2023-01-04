@@ -70,17 +70,42 @@ function ExporterSurvey() {
         setQuestions(updatedQuestions)
 
         if (isFinalQuestion()) {
+            // TODO - Set cookie to not show survey again
             // TODO - Send data to forms API here
             setMode(modes.thankyou)
             return
         }
 
-        // TODO make into function - that can handles when answer is an array (multi-select)
-        const answer = currentQuestion.choices.find((choice) => choice.value === currentQuestion.answer)
+        // TODO - Join this function and one below into two different ones:
+        // One which handles getting answer and determine if there's a jump for list answers
+        // One which handles it for string answers
+        const getAnswerFromValue = () => {
+            const { choices } = currentQuestion
+            if (Array.isArray(currentQuestion.answer)) {
+                return choices.filter(c => (currentQuestion.answer.includes(c.value)))
+            }
 
-        const nextQuestionIndex = answer.jump ?
+            return choices.find((c) => c.value === currentQuestion.answer)
+
+        }
+        // If multiple answers have a jump - go to the first one
+        // TODO - check this with someone
+        const getAnswerJump = (answer) => {
+            if (Array.isArray(answer)) {
+                const answersWithJump = answer.filter(a => a.jump)
+                if (answersWithJump.length) {
+                    return Math.min(...answersWithJump.map(a => a.jump))
+                }
+                return null
+            }
+            return answer.jump
+        }
+
+        const answer = getAnswerFromValue()
+        const answerJump = getAnswerJump(answer)
+        const nextQuestionIndex = answerJump ?
             questions.findIndex((q) => q.id === currentQuestion.jump) :
-            questions.findIndex((q) => q.order === currentQuestion.order + 1)
+            questions.findIndex((q) => q.id === currentQuestion.id) + 1
 
         setCurrentQuestion(questions[nextQuestionIndex])
     }
