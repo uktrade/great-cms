@@ -7,8 +7,7 @@ import Interaction from './Interaction'
 import SurveyModal from './Modal'
 
 // TODO
-// - Close modal when user clicks on 'x'
-// - Handle click 'No don't show me this again'
+// - Set cookies when users close or finish the survey
 // - Add name to question model - for use by radio buttons - could do this dynamically?
 
 const orderQuestions = (questions) => (
@@ -48,9 +47,15 @@ function ExporterSurvey() {
     }
 
     const rejectSurvey = () => {
-        // TODO - This is where will set in user's cookie not to show survey
+        // TODO - Set in user's cookie not to show survey
         console.log('Survey rejected')
-        console.log('Close survey')
+        setMode(modes.closed)
+    }
+
+    const pauseSurvey = () => {
+        // TODO - Set cookie to show survey one more time
+        console.log('Set cookie to show survey once more')
+        setMode(modes.closed)
     }
 
     const setValue = (answer) => {
@@ -125,7 +130,7 @@ function ExporterSurvey() {
                 primaryButtonClick={startSurvey}
                 secondaryButtonLabel={"No, don't show me this again"}
                 secondaryButtonClick={rejectSurvey}
-                closeClick={() => console.log('closeModal')}
+                closeClick={pauseSurvey}
             />
         )
     }
@@ -136,15 +141,13 @@ function ExporterSurvey() {
                 title={currentQuestion.title}
                 body={<Interaction question={currentQuestion} setValue={setValue} />}
                 // TODO - change to be "Question x of x"
-                progressPercentage={0.2
-                    // question && 100 * (questionIndex() / runningState.questions.length)
-                }
+                progressPercentage={0.2}
                 primaryButtonLabel="Next"
                 primaryButtonClick={getNextQuestion}
                 primaryButtonDisable={false}
                 secondaryButtonLabel="Back"
                 secondaryButtonClick={goBack}
-                closeClick={() => console.log('close modal')}
+                closeClick={rejectSurvey}
             />
         )
     }
