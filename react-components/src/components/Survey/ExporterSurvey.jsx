@@ -38,8 +38,45 @@ function ExporterSurvey() {
         questions.find(q => q.id === id)
     )
 
+    const getQuestionIndexById = (id) => questions.findIndex(q => q.id === id)
+
     // TODO - Account for when there's a jump - do we need to add an 'end' option to jump options in API??
-    const isFinalQuestion = () => questions.findIndex(q => q.id === currentQuestion.id) === (questions.length - 1)
+    const isFinalQuestion = () => getQuestionIndexById(currentQuestion.id) === (questions.length - 1)
+
+    // If multiple answers have a jump - go to the first one
+    // TODO - check this with someone
+    const getJumpMultipleChoice = () => {
+        const { choices } = currentQuestion
+
+        const answers = choices.filter(c => (currentQuestion.answer.includes(c.value)))
+        const answersWithJump = answers.filter(a => a.jump)
+
+        if (answersWithJump.length) {
+            return Math.min(...answersWithJump.map(a => a.jump))
+        }
+        return null
+    }
+
+    const getJumpSingleChoice = () => {
+        const answer = currentQuestion.choices.find((c) => c.value === currentQuestion.answer)
+        return (answer.jump)
+    }
+
+    const updateRunningOrder = (questionToJumpTo) => {
+        const possibleJumps = currentQuestion.choices.map(c => c.jump).filter(c => c)
+        if (possibleJumps) {
+
+            if (questionToJumpTo) {
+                possibleJumps.pop(questionToJumpTo)
+            }
+            const jumpsInRunningOrder = possibleJumps.filter(j => runningOrder.includes(j))
+
+            if (jumpsInRunningOrder.length) {
+                setRunningOrder(runningOrder.filter(id => !jumpsInRunningOrder.includes(id)))
+            }
+        }
+        return null
+    }
 
     const startSurvey = () => {
         setMode(modes.question)
@@ -76,36 +113,15 @@ function ExporterSurvey() {
             return
         }
 
-        // TODO - Join this function and one below into two different ones:
-        // One which handles getting answer and determine if there's a jump for list answers
-        // One which handles it for string answers
-        const getAnswerFromValue = () => {
-            const { choices } = currentQuestion
-            if (Array.isArray(currentQuestion.answer)) {
-                return choices.filter(c => (currentQuestion.answer.includes(c.value)))
-            }
+        const questionToJumpTo = Array.isArray(currentQuestion.answer) ? getJumpMultipleChoice() : getJumpSingleChoice()
 
-            return choices.find((c) => c.value === currentQuestion.answer)
+        // Checks if a user previously selected a choice that had a 'jump'
+        // Removes that 'jump' question from the running order if no longer selected
+        updateRunningOrder(questionToJumpTo)
 
-        }
-        // If multiple answers have a jump - go to the first one
-        // TODO - check this with someone
-        const getAnswerJump = (answer) => {
-            if (Array.isArray(answer)) {
-                const answersWithJump = answer.filter(a => a.jump)
-                if (answersWithJump.length) {
-                    return Math.min(...answersWithJump.map(a => a.jump))
-                }
-                return null
-            }
-            return answer.jump
-        }
-
-        const answer = getAnswerFromValue()
-        const answerJump = getAnswerJump(answer)
-        const nextQuestionIndex = answerJump ?
-            questions.findIndex((q) => q.id === currentQuestion.jump) :
-            questions.findIndex((q) => q.id === currentQuestion.id) + 1
+        const nextQuestionIndex = questionToJumpTo ?
+            getQuestionIndexById(questionToJumpTo) :
+            getQuestionIndexById(currentQuestion.id) + 1
 
         setCurrentQuestion(questions[nextQuestionIndex])
     }
