@@ -122,23 +122,23 @@
       <div class="column-full column-half-l">
         {% if page.stats.goods_exports.data or page.stats.services_exports.data or page.stats.market_trends.data %}
           <div id="stats-tabs" class="tabs">
-            <nav class="tabs__nav">
+       <nav class="tabs__nav">
               <ul>
                 {% if page.stats.goods_exports.data %}
                 <li>
-                  <button id="tab-button-goods" class="" data-reveal-button aria-controls="tab-goods" data-reveal-tabs="market-tabs">Goods</button>
+                  <button id="tab-button-goods" class="button" data-reveal-button aria-controls="tab-goods" data-reveal-tabs="market-tabs">Goods</button>
                 </li>
                 {% endif %}
 
                 {% if page.stats.services_exports.data %}
                 <li>
-                  <button id="tab-button-services" class="" data-reveal-button aria-controls="tab-services" data-reveal-tabs="market-tabs">Services</button>
+                  <button id="tab-button-services" class="button" data-reveal-button aria-controls="tab-services" data-reveal-tabs="market-tabs">Services</button>
                 </li>
                 {% endif %}
 
                 {% if page.stats.market_trends.data %}
                 <li>
-                  <button id="tab-button-market-trends" class="" data-reveal-button aria-controls="tab-market-trends" data-reveal-tabs="market-tabs">Market trends</button>
+                  <button id="tab-button-market-trends" class="button" data-reveal-button aria-controls="tab-market-trends" data-reveal-tabs="market-tabs">Market trends</button>
                 </li>
                 {% endif %}
               </ul>
@@ -167,6 +167,7 @@
             {% endif %}
 
             {% if page.stats.market_trends.data %}
+  
             <div id="tab-market-trends" class="reveal-content">
               <h2 class="body padding-top-30">Total import value (into the UK from {{ page.heading }}) and export value (from the UK into {{ page.heading }}) over time</h2>
 

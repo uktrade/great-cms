@@ -42,7 +42,13 @@
 
   .g-card,
   .g-card-full {
+    position: relative;
     @include horizontal-card-padding();
+
+    hr{
+      margin-left: -20px;
+      padding-right: 40px;
+    }
   }
 
   .dashboard-card {
@@ -81,6 +87,7 @@
   }
 
   .card-row {
+    position: relative;
     display: inline-flex;
     flex-wrap: wrap;
     @include horizontal-card-padding();
@@ -115,4 +122,8 @@
       }
     }
   }
+}
+
+a.card-link:active{
+  background-color: transparent;
 }

@@ -35,15 +35,6 @@
       outline: 3px solid $focus-yellow;
       outline-offset: -3px;
     }
-
-    &:active {
-      // background: $focus-yellow;
-
-      .card-inner {
-        // background: $focus-yellow;
-      }
-
-    }
     .card-inner {
       h2,
       h3,

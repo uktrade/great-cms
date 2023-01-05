@@ -33,8 +33,8 @@
         <section class="learn-to-export-card">
         {% for learning_module in page.get_children.specific.live %}
         {% with high_level_completion_progress|get_item:learning_module.id as module_completion_data %}
-          <article class="learn__category m-b-s">
-            <a href="{% pageurl learning_module %}" class="learn__category-link"><span class="visually-hidden">{{ learning_module.title }}</span></a>
+          <article>
+            <a href="{% pageurl learning_module %}" >
              <div>
                 <h2>{{ learning_module.title }}</h2>
                   <p>{{ learning_module.heading | richtext }}</p>
@@ -52,6 +52,7 @@
                 {% endif %}
                 </div>
             </div>
+            </a>
           </article>
         {% endwith %}
         {% endfor %}

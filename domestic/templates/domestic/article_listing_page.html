@@ -34,11 +34,14 @@
         <ul class="content-list">
           {% block content_list %}
             {% for article in page.specific.get_articles %}
-              <li>
+               <a href="{{ article.url }}">  
+            <li>
+             
                 <h3>{{ article.article_title }}</h3>
-                <a href="{{ article.url }}" class="button primary-button">View article</a>
-
+                <button onclick="window.location.href='{{ article.url }}"  class="button primary-button">View article</button>
+             
               </li>
+                 </a>
             {% endfor %}
           {% endblock %}
         </ul>

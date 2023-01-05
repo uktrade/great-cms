@@ -40,14 +40,15 @@
 .button,
 button {
   border-radius: 0;
-  height: 50px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   font-family: $header-font;
   font-size: $font-size-button;
   line-height: 30px;
   color: $color-gov-link;
 
-
-  span + i, i + span{
+  span + i,
+  i + span {
     padding-left: $standard-padding;
   }
 
@@ -120,20 +121,15 @@ button {
     &:hover {
       @include primary();
     }
-
   }
 
-  &.primary-button{
-
+  &.primary-button {
     @include primary();
-     & :focus,
+    & :focus,
     &:active,
     &:hover {
       @include secondary();
     }
-
-
-
   }
 
   &.tab-list-item,
@@ -170,14 +166,14 @@ button {
     background-color: $color-completed;
     color: $color-main-background;
 
-     & :focus,
+    & :focus,
     &:active,
     &:hover {
-     background-color: $color-main-background;
-     color: $color-completed;
+      background-color: $color-main-background;
+      color: $color-completed;
       border: 2px solid $color-completed;
-      i{
-        color:$color-completed;
+      i {
+        color: $color-completed;
       }
     }
   }
@@ -211,6 +207,7 @@ button {
     padding: 0;
     width: 40px;
     min-width: 40px;
+    min-height: 40px;
     height: 40px;
     display: flex;
     align-items: center;
@@ -319,10 +316,10 @@ button.button-lesson {
   gap: $standard-padding $standard-padding;
 }
 
-#skip-link{
+#skip-link {
   background-color: $color-focus;
 
-  &.accessibility-skip-to-section{
-background-color: inherit;
+  &.accessibility-skip-to-section {
+    background-color: inherit;
   }
 }

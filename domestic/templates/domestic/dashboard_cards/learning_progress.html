@@ -17,7 +17,7 @@ Only show if progress has started
             <hr class="hr hr--light c-full m-v-0" />
           {% endif %}
           <div class="card-row">
-
+  <a class ="clickable-card" href="{{ module_page.page.get_url }}"> 
             <h3 id="topics-{{ module_page.page.title|slugify }}">
                 <a class="learning-link" href="{{ module_page.page.get_url }}">{{ module_page.page.title }}</a>
             </h3>
@@ -30,6 +30,7 @@ Only show if progress has started
                     <p class="m-t-xxs m-b-0 progress-bar-text">Not yet started</p>
                 {% endif %}
             </div>
+          </a>
           </div>
 
         </div>

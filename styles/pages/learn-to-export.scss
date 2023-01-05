@@ -5,8 +5,18 @@
 $breakpoint-size: 900px;
 
 #learn-root {
+  
   article {
-    box-sizing: border-box;
+   background-color: $color-main-background;
+   margin-bottom: $x-large-padding;
+
+   &:last-child{
+    margin-bottom: $x-large-padding * 2;
+   }
+   
+    >a{
+      text-decoration: none;
+       box-sizing: border-box;
     min-height: 232px;
     padding: $x-large-padding;
     padding-left: 70px;
@@ -19,7 +29,7 @@ $breakpoint-size: 900px;
     @media only screen and (max-width: $breakpoint-size) {
       flex-direction: column;
     }
-
+     
     > div {
       flex: 1;
 
@@ -53,6 +63,7 @@ $breakpoint-size: 900px;
         margin-bottom: $large-padding;
       }
     }
+  
 
     @media only screen and (max-width: $breakpoint-size) {
       padding: $large-padding;
@@ -74,6 +85,7 @@ $breakpoint-size: 900px;
       }
     }
   }
+}
 }
 
 .learn-back-button {
