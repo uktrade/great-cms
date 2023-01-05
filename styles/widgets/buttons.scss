@@ -39,6 +39,7 @@
 
 .button,
 button {
+  min-height:50px;
   border-radius: 0;
   padding-top: 8px;
   padding-bottom: 8px;
@@ -54,6 +55,10 @@ button {
 
   & i {
     font-size: $icon-large-button-size;
+  }
+
+  &.change-known-button {
+    min-height: auto;
   }
 
   &.icon-last {
