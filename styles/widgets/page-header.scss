@@ -59,9 +59,15 @@ $learn-content-header: url(/static/images/learn-to-export-header2.png);
       padding-top: 60px;
       padding-bottom: 60px;
       flex: 1;
-      min-width: 400px;
+      min-width: 420px;
 
       box-sizing: border-box;
+
+      h1{
+        @media only screen and (min-width: $mobile-size) and (max-width: 980px) {
+       font-size: $font-size-h2;
+      }
+      }
 
       button {
         min-width: initial;

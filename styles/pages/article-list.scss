@@ -69,7 +69,11 @@ section #article {
 
 .card-link {
   p {
-    font-size: $font-size-p-large;
+    font-size: $font-size-p;
+  }
+
+  h2 + p {
+    padding-top: $large-padding;
   }
 }
 
