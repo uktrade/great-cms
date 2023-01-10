@@ -120,7 +120,9 @@
       margin-bottom: 15px;
       .card-inner {
         padding: 20px;
-
+        .primary-button {
+          display: block;
+        }
         > :last-child {
           margin-bottom: 0;
         }

@@ -123,3 +123,16 @@ $breakpoint-size: 900px;
   top: 15px;
   left: 13px;
 }
+
+
+.learn__lesson-item-link{
+  display: flex;
+  gap: $standard-padding;
+  @media only screen and (max-width: $mobile-size) {
+  flex-direction: column;
+  align-items: flex-start;
+  button{
+    width: 100%;
+  }
+}
+}

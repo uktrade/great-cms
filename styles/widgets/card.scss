@@ -10,3 +10,15 @@
     background: transparent;
   }
 }
+
+.card-inner {
+  @media only screen and (max-width: $mobile-size) {
+    > .primary-button {
+      margin-left: auto;
+    }
+  }
+
+  >.primary-button {
+    display: none;
+  }
+}

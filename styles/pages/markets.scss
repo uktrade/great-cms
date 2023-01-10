@@ -20,6 +20,10 @@
 }
 
 .markets-grid {
+  
+   @media only screen and (min-width:$mobile-size) {
+   display: table-cell;
+}
   .card-inner {
     padding: $large-padding;
     padding-bottom: $x-large-padding * 2;
@@ -28,6 +32,19 @@
 
     h2 {
       font-size: $font-size-h4;
+    }
+  }
+
+   @media only screen and (max-width: $mobile-size) {
+    .card-inner {
+      min-height: 80px !important;
+      height: 80px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .card:last-of-type {
+      margin-bottom: 0;
     }
   }
 }
@@ -59,8 +76,8 @@
   justify-content: flex-end;
 }
 
-#stats-tabs{
-  h2{
+#stats-tabs {
+  h2 {
     font-size: $font-size-p;
     font-family: $main-text-font;
   }
@@ -91,7 +108,7 @@
     }
   }
 
-  h2{
+  h2 {
     max-width: 1230px;
     margin-left: auto;
     margin-right: auto;
@@ -166,6 +183,13 @@
   }
 }
 
-.bold-large, .bold-medium{
+.bold-large,
+.bold-medium {
   font-family: $main-text-font;
+}
+
+.controls #sortby {
+  @media only screen and (max-width: $mobile-size) {
+    height: 50px;
+  }
 }

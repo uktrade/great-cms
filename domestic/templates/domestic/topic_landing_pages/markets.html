@@ -14,9 +14,7 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-<div class="container">
   {% include 'components/breadcrumbs_cms.html' %}
-</div>
 {% endblock %}
 
 {% comment %} {% if page.teaser %}
@@ -138,7 +136,7 @@
                 {% endif %}
               </div>
               <div class="flex-grid markets-grid">
-                {% include 'components/card_grid.html' with cards=paginated_results %}
+                {% include 'components/card_grid.html' with cards=paginated_results href='' %}
               </div>
               {% pagination pagination_page=paginated_results %}
             </div>

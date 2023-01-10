@@ -97,10 +97,6 @@ a.link--underline {
   text-decoration: none;
 }
 
-.g-panel::before {
-  background: $color-main-text;
-}
-
 #interaction-details {
   margin-bottom: 0;
 }
@@ -117,6 +113,11 @@ a.link--underline {
 .action-wrapper {
   background-color: $color-background-color;
   border-radius: 0;
+}
+
+.form-group-example{
+  background-color: $color-info-box;
+   border-radius: 0;
 }
 
 .section--intro,
@@ -227,24 +228,42 @@ a.section-list__link {
   color: white;
 }
 
-.export-plan-section-lesson{
+.export-plan-section-lesson {
   background-color: $color-background-color;
 
-  .lesson-accordian-content{
+  .lesson-accordian-content {
     background-color: $color-main-background;
   }
 }
 
+.export-plan-content {
 
+  .g-panel::before {
+    background: $color-gov-link;
+  }
 
-#about-your-business-content, #business-objectives-content,
-#target-markets-research-content, #adapting-your-product-content,
-#marketing-approach-content,#costs-and-pricing-content,
-#funding-and-credit-content, #getting-paid-content,
-#travel-plan-content, #business-risk-content{
- textarea.form-control{
-    height: 50px!important;
+  textarea.form-control {
+    height: 90px !important;
     line-height: 17px;
     color: $color-main-text;
+  }
+  .learning__buttons {
+    .button--tiny-toggle {
+      color: $color-gov-link;
+      i {
+        color: $color-gov-link;
+      }
+    }
+    .button--only-icon{
+      min-height: 40px;
+    }
+  }
+
 }
+
+.select__selected{
+  button.tag{
+    min-height: 0;
+    background-color: $color-gov-link;
+  }
 }

@@ -78,6 +78,10 @@ $learn-content-header: url(/static/images/learn-to-export-header2.png);
         margin-bottom: $large-padding;
       }
 
+      p.sub-header{
+        color: #E94F3D;
+      }
+
       .lesson-summary {
         display: inline-flex;
         align-items: center;
