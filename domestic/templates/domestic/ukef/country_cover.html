@@ -18,7 +18,7 @@
 
 {% static 'images/finance_export_hero_image.jpg' as finance_export_hero_image %}
 
-{% include 'components/hero.html' with image_url=finance_export_hero_image hero_text='Check our country cover'%}
+{% include 'components/hero.html' with image_url=finance_export_hero_image hero_title='Check our country cover'%}
 
 	<div class="container">
 		{% breadcrumbs 'Check our country cover' %}
@@ -33,7 +33,7 @@
 			<div class="grid-row">
 				<div class="column-two-thirds">
 					<div class="grid-row">
-						<div>
+						<div class="teaser-text">
 							<p>
 								Our market risk appetite is the total amount of risk exposure we would be willing to support for new business in a particular country.
 							</p>
