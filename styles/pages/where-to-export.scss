@@ -261,6 +261,16 @@ p > a {
   > h3 {
     color: $color-alternative-text;
   }
+
+  .dashboard__routing-block + .dashboard__routing-block {
+    margin-top: $x-large-padding;
+
+    @media only screen and (max-width: $mobile-size) {
+      .card {
+        padding-bottom: 0;
+      }
+    }
+  }
 }
 
 a.link--underline {
@@ -407,7 +417,14 @@ a.section-list__link {
   }
 }
 
+<<<<<<< HEAD
 
+=======
+.export-plan-content {
+  .g-panel::before {
+    background: $color-gov-link;
+  }
+>>>>>>> a7e6b82f7 ( made menu into links)
 
 #about-your-business-content, #business-objectives-content,
 #target-markets-research-content, #adapting-your-product-content,
@@ -418,6 +435,35 @@ a.section-list__link {
     height: 50px!important;
     line-height: 17px;
     color: $color-main-text;
+<<<<<<< HEAD
 }
 }
 >>>>>>> 20e38ab3d (rebased)
+=======
+  }
+  .learning__buttons {
+    .button--tiny-toggle {
+      color: $color-gov-link;
+      i {
+        color: $color-gov-link;
+      }
+    }
+    .button--only-icon {
+      min-height: 40px;
+    }
+  }
+}
+
+.select__selected {
+  button.tag {
+    min-height: 0;
+    background-color: $color-gov-link;
+  }
+}
+
+#product-tab {
+  .select__placeholder {
+    max-height: 50px;
+  }
+}
+>>>>>>> a7e6b82f7 ( made menu into links)
