@@ -12,11 +12,9 @@
 {% endblock %}
 
 <section id="{% block page_id %}article-list-page{% endblock %}">
-  <div class="container">
     {% block breadcrumbs %}
       {% include 'components/breadcrumbs_cms.html' %}
     {% endblock %}
-  </div>
 
   <div class="container">
     {% if page.list_teaser %}

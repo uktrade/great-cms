@@ -1,6 +1,7 @@
 @use "sass:math";
 @import 'helpers/colours';
 @import 'helpers/vars';
+@import '../../../styles/colors/colors.scss';
 
 // Breakpoints
 $mobile: 640px;
@@ -154,7 +155,6 @@ $desktop: 1024px;
 
 .learn__category-progress {
   @extend .progress-bar;
-  width: 280px;
 }
 
 .learn__category-progress-container {
@@ -359,6 +359,10 @@ $desktop: 1024px;
   display: block;
   margin-bottom: 10px;
   flex:1;
+
+  &:hover{
+    color: $color-gov-link;
+  }
 
   @include tablet {
     display: inline-block;

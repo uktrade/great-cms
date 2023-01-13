@@ -91,6 +91,16 @@ p > a {
   > h3 {
     color: $color-alternative-text;
   }
+
+  .dashboard__routing-block + .dashboard__routing-block {
+    margin-top: $x-large-padding;
+
+    @media only screen and (max-width: $mobile-size) {
+      .card {
+        padding-bottom: 0;
+      }
+    }
+  }
 }
 
 a.link--underline {
@@ -115,9 +125,9 @@ a.link--underline {
   border-radius: 0;
 }
 
-.form-group-example{
+.form-group-example {
   background-color: $color-info-box;
-   border-radius: 0;
+  border-radius: 0;
 }
 
 .section--intro,
@@ -237,7 +247,6 @@ a.section-list__link {
 }
 
 .export-plan-content {
-
   .g-panel::before {
     background: $color-gov-link;
   }
@@ -254,16 +263,21 @@ a.section-list__link {
         color: $color-gov-link;
       }
     }
-    .button--only-icon{
+    .button--only-icon {
       min-height: 40px;
     }
   }
-
 }
 
-.select__selected{
-  button.tag{
+.select__selected {
+  button.tag {
     min-height: 0;
     background-color: $color-gov-link;
+  }
+}
+
+#product-tab {
+  .select__placeholder {
+    max-height: 50px;
   }
 }

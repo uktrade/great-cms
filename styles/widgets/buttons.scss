@@ -285,6 +285,7 @@ button {
 .button--only-icon {
   height: 40px;
   width: 40px;
+  min-height: 40px;
   border-radius: 50% !important;
   border: 2px solid $color-gov-link;
 

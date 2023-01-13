@@ -20,13 +20,11 @@
 
 {% include 'components/hero.html' with image_url=finance_export_hero_image hero_title='Check our country cover'%}
 
-	<div class="container">
 		{% breadcrumbs 'Check our country cover' %}
 			<a href="/">great.gov.uk</a>
 			<a href="{% url 'domestic:get-finance' %}">UKEF</a>
 			<a href="{% url 'domestic:project-finance' %}">Project Finance</a>
 		{% endbreadcrumbs %}
-	</div>
 
 	<section id="teaser-section" class="teaser-section padding-top-30 padding-bottom-60">
 		<div class="container">

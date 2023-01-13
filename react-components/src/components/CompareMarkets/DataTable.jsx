@@ -207,7 +207,7 @@ export default function DataTable(props) {
               {Object.values(comparisonMarkets || {}).map((market) => (
                 <div
                   key={market.country_iso2_code}
-                  className="market-action-row p-v-s clearfix"
+                  className="market-action-row clearfix"
                 >
                   <div className="m-r-xs f-l">
                     {blocks.renderRemoveButton({ market, removeMarket })}

@@ -6,7 +6,11 @@ $where-to-export-image: url(/static/images/where-to-export-header.png);
 $export-plan-image: url(/static/images/export-plan-header.png);
 $learn-to-export-image: url(/static/images/learn-to-export-header.png);
 $account-image: url(/static/images/accounts-header.png);
-$learn-content-header: url(/static/images/learn-to-export-header2.png);
+$get-started-header: url(/static/images/learn-to-export-topic1-header.png);
+$identify-opportunities-header: url(/static/images/learn-to-export-topic2-header.png);
+$prepare-to-sell-header: url(/static/images/learn-to-export-topic3-header.png);
+$regulations-licensing-header: url(/static/images/learn-to-export-topic4-header.png);
+$funding-financing-header: url(/static/images/learn-to-export-topic5-header.png);
 
 .page-header {
   position: relative;
@@ -19,16 +23,32 @@ $learn-content-header: url(/static/images/learn-to-export-header2.png);
   flex-wrap: wrap;
   box-sizing: border-box;
 
+  &.get-started .image-container {
+    background: $get-started-header;
+  }
+
+  &.identify-opportunities-and-research-the-market .image-container {
+    background: $identify-opportunities-header;
+  }
+
+  &.prepare-to-sell-into-a-new-country .image-container {
+    background: $prepare-to-sell-header;
+  }
+
+  &.regulations-licensing-and-logistics .image-container {
+    background: $regulations-licensing-header;
+  }
+
+  &.funding-financing-and-getting-paid {
+    background: $funding-financing-header;
+  }
+
   &.where-to-export-header .image-container {
     background: $where-to-export-image;
   }
 
   &.export-plan-header .image-container {
     background: $export-plan-image;
-  }
-
-  &.learn-content-header .image-container {
-    background: $learn-content-header;
   }
 
   &.account-header .image-container {
@@ -63,10 +83,10 @@ $learn-content-header: url(/static/images/learn-to-export-header2.png);
 
       box-sizing: border-box;
 
-      h1{
+      h1 {
         @media only screen and (min-width: $mobile-size) and (max-width: 980px) {
-       font-size: $font-size-h2;
-      }
+          font-size: $font-size-h2;
+        }
       }
 
       button {
@@ -78,8 +98,8 @@ $learn-content-header: url(/static/images/learn-to-export-header2.png);
         margin-bottom: $large-padding;
       }
 
-      p.sub-header{
-        color: #E94F3D;
+      p.sub-header {
+        color: #e94f3d;
       }
 
       .lesson-summary {
@@ -133,6 +153,9 @@ $learn-content-header: url(/static/images/learn-to-export-header2.png);
 
     button {
       width: 100%;
+    }
+    p.sub-header {
+      padding-bottom: $standard-padding * 0.5;
     }
 
     .inner-header {

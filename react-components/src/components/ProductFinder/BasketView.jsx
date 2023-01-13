@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useOnOutsideClick } from '@src/components/hooks/useOnOutsideClick'
 
+
 export default function BasketViewer({ label, onOpen, children }) {
   const [modalIsOpen, setIsOpen] = useState(false)
   const buttonRef = useRef(null)
@@ -30,7 +31,7 @@ export default function BasketViewer({ label, onOpen, children }) {
       onClick={toggleViewer}
       ref={buttonRef}
     >
-      <span>{label}</span>
+      <span class="menu-link">{label}</span>
       <i
         className={`fas ${modalIsOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}
         aria-hidden="true"

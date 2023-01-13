@@ -16,6 +16,12 @@ nav>ul>li>a {
 
 nav.breadcrumbs {
     padding: 0.75em 30px;
+    max-width: 1230px;
+    @media only screen and (min-width: 1230px) {
+            margin: 0 auto;
+            padding: 0.75em 0;
+        }
+
     background-color: $color-background-color ;
      @media only screen and (max-width: $mobile-size) {
             padding: 0.75em 15px;

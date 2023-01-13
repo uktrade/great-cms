@@ -8,6 +8,7 @@ import { sortMapBy } from '@src/Helpers'
 import { Confirmation } from '@src/components/ConfirmModal/Confirmation'
 import CountryFinderModal from './CountryFinderModal'
 import BasketViewer from './BasketView'
+import { Link } from "react-router-dom";
 
 
 export const CountryFinderButton = () => {
@@ -29,6 +30,9 @@ export const CountryFinderButton = () => {
     }
   }
 
+  const routePath = "/where-to-export"
+
+
   return (
     <span>
       <BasketViewer label="My markets" onOpen={loadMarkets}>
@@ -38,7 +42,8 @@ export const CountryFinderButton = () => {
             const market = markets[marketIdx]
             return (
               <li key={`market-${marketIdx}`}>
-                <span>{market.country_name}</span>
+
+               <a href={routePath} >{market.country_name}</a>
                   <button
                   type="button"
                   className="remove-product"

@@ -4,13 +4,14 @@
 {% load wagtailcore_tags %}
 {% load pluralize from content_tags %}
 {% load get_item from object_tags %}
+{% load get_css_class_from_string from content_tags %}
 
 {% block content %}
 <div id="learn-root" class="learn__page learn__category-page">
 
     {% with high_level_completion_progress|get_item:page.id as module_completion_data %}
     <section>
-     <div class="page-header learn-content-header">
+     <div class="page-header {{ page.title| get_css_class_from_string }}">
         <div class="inner-header">
             <div>
               <h1>{{ page.title }}</h1>

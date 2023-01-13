@@ -37,14 +37,15 @@
 
    @media only screen and (max-width: $mobile-size) {
     .card-inner {
-      min-height: 80px !important;
+      min-height: fit-content !important;
       height: 80px;
       display: inline-flex;
       align-items: center;
+      gap: $standard-padding;
     }
 
     .card:last-of-type {
-      margin-bottom: 0;
+      margin-bottom: $large-padding;
     }
   }
 }

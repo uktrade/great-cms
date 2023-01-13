@@ -167,23 +167,7 @@
     {% include 'components/landing_hero_with_cta.html' with hero_image=page.hero_image heading=page.hero_text_signedin subtitle=page.hero_subtitle_signedin cta_text=page.hero_cta_text_signedin cta_link=page.hero_cta_url_signedin %}
   {% endif %}
 {% endif %}
-
-
-<section class="landing-page-section padding-bottom-15 padding-bottom-30-m padding-top-45 padding-top-60-m">
-  <div class="container wrap-tight">
-    <h2 class="margin-bottom-30">Here to help with your exporting journey</h2>
-    <div class="grid-row wrap-tight">
-      {% for column_block in page.how_dit_helps_columns %}
-          <div class="column-third-m column-full">
-            {% include 'components/card.html' with title=column_block.value.text subheading=column_block.value.source url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False %}
-          </div>
-        {% endfor %}
-    </div>
-      <hr></hr>
-  </div>
-</section>
-
- <section class="landing-page-section padding-bottom-15 padding-bottom-30-m padding-top-0 padding-top-0-m">
+ <section class="landing-page-section padding-bottom-15 padding-bottom-30-m padding-top-0 padding-top-60-m">
   <div class="container wrap-tight">
     <h2 class="margin-bottom-30">{{ page.magna_ctas_title }}</h2>
     <div class="grid-row wrap-tight">
@@ -192,6 +176,20 @@
           {% include 'components/card.html' with title=column_block.value.text url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=True %}
         </div>
       {% endfor %}
+    </div>
+      <hr></hr>
+  </div>
+</section>
+
+<section class="landing-page-section padding-bottom-15 padding-bottom-30-m">
+  <div class="container wrap-tight">
+    <h2 class="margin-bottom-30">Here to help with your exporting journey</h2>
+    <div class="grid-row wrap-tight">
+      {% for column_block in page.how_dit_helps_columns %}
+          <div class="column-third-m column-full">
+            {% include 'components/card.html' with title=column_block.value.text subheading=column_block.value.source url=column_block.value.url card_image=column_block.value.image html_snippet=column_block.value.content no_padding_card=True transparent_card=True show_sign_in_required=False %}
+          </div>
+        {% endfor %}
     </div>
       <hr></hr>
   </div>
@@ -212,7 +210,7 @@
 
 
 {% if FEATURE_SHOW_REPORT_BARRIER_CONTENT %}
-  <section class="report-trade-barrier padding-bottom-30 padding-bottom-45-m padding-top-30 padding-top-45-m">
+  <section class="report-trade-barrier padding-bottom-30 padding-bottom-45-m padding-top-30">
     {% include 'components/informative_banner.html' with banner_label='Report a trade barrier' banner_content='Tell us about trade barriers affecting your business, including COVID-19, so we can help fix them. <a href="/report-trade-barrier/">Report a trade barrier</a>' %}
   </section>
 {% endif %}
@@ -282,7 +280,7 @@
 
 {% with page.campaign.0.value as campaign_block_value %}
 
-<section class="landing-page-section padding-bottom-45 padding-bottom-60-m padding-top-45 padding-top-60-m">
+<section class="landing-page-section padding-bottom-45 padding-bottom-60-m padding-top-30 padding-top-30-m">
   <div class="container">
     <h2 class="heading-large margin-top-0 margin-bottom-30">{{ page.what_is_new_title|default:"What's new" }}</h2>
   {% if page.campaign %}

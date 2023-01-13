@@ -40,9 +40,9 @@
         <ul class="magna-header__menu-items">
           {% if request.user.is_authenticated %}
             <li><a href="{% slugurl 'dashboard' %}">Dashboard</a></li>
-            <li><a href="/learn/categories/">Learn to export <span class="tag tag--small">new</span></a></li>
-            <li><a href="{% url "core:compare-countries"%}">Where to export <span class="tag tag--small">new</span></a></li>
-            <li><a href="/export-plan/">Make an export plan <span class="tag tag--small">new</span></a></li>
+            <li><a href="/learn/categories/">Learn to export</a></li>
+            <li><a href="{% url "core:compare-countries"%}">Where to export</a></li>
+            <li><a href="/export-plan/">Make an export plan</a></li>
 
             <li><a href="/profile/">Account</a></li>
           {% endif %}

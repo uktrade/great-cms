@@ -4,7 +4,7 @@
 
 .personalization-menu {
   position: absolute;
-  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  box-shadow: rgb(0 0 0 / 6%) 0px 2px 4px 4px;
   padding: $large-padding;
   background-color: $color-main-background;
   z-index: 2;
@@ -25,9 +25,15 @@
       border-bottom: 2px solid $color-background-color;
       padding-bottom: $standard-padding;
 
-      span {
+      a {
         flex: 1;
         font-family: $header-font;
+        text-decoration: none;
+        color: $color-main-text;
+        &:hover{
+          color: $color-gov-link;
+
+        }
       }
 
       button {

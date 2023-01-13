@@ -1,9 +1,17 @@
 @import '../../../styles/fonts/main.scss';
+@import '../../../styles/widgets/buttons.scss';
+@import '../../../styles/sizes/sizes.scss';
+@import '../../../styles/fonts/main.scss';
 
 .markets-landing {
   .markets-header {
     position: relative;
     padding-top: 70px;
+
+    @media (max-width: 640px) {
+padding-top: 0;
+padding-bottom: $large-padding;
+    }
   }
 
   .controls {
@@ -16,16 +24,22 @@
       display: none;
     }
     @media (max-width: 640px) {
+      position: relative;
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: $standard-padding;
+
       .mobile-filter-toggle,
       .sort-control {
-        width: 50%;
+        width: calc(50% - 5px);
+        min-width: 160px ;
         float: left;
         margin-bottom: 0;
         height: 43px;
-        border: 2px solid $stone;
+        border: 2px solid $color-main-text;
         background-color: $white;
         color: $grey;
-        font-family: $brand-font-standard;
+        font-family: $main-text-font;
         line-height: 1em;
         font-size: 19px;
         font-weight: normal;
@@ -33,6 +47,15 @@
         text-align-last: center;
         cursor: pointer;
       }
+       .mobile-filter-toggle {
+
+        @include secondary();
+        align-items: center;
+        display: flex;
+        justify-content: center;
+
+    }
+
     }
   }
   .card {

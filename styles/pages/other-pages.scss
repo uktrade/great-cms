@@ -120,17 +120,13 @@ section.report-trade-barrier {
 
 .list-teaser-section {
   p {
-    font-size: $font-size-p-large;
+    font-size: 24px;
+    line-height: 38px;
   }
 }
 
 .uk-export-finance,
 .uk-export-finance-landing {
-  .list-teaser-section {
-    padding-bottom: 0;
-    background-color: $color-main-background;
-  }
-
   .card-list-section,
   .card {
     padding-top: 0;
@@ -160,7 +156,8 @@ section.report-trade-barrier {
     background-color: $color-background-color;
   }
   .teaser-text, p.how-can-we-help-you {
-    font-size: $font-size-p-large;
+    font-size: 24px;
+    line-height: 38px;
   }
 
   h2 + p.how-can-we-help-you{
@@ -194,9 +191,9 @@ section.report-trade-barrier {
 
 .uk-export-country-cover{
 .teaser-text p{
-  
+
   font-size:24px;
-  
+
 }
 }
 
@@ -205,3 +202,6 @@ section.report-trade-barrier {
     background-color:$color-completed;
   }
 }
+
+
+// .pagination a {

@@ -25,6 +25,9 @@ function ProductFinderButton() {
     setDeleteConfirm(null)
   }
 
+  const routePath = "/export-plan"
+
+
   return (
     <>
       <BasketViewer label="My products" onOpen={loadProducts}>
@@ -37,7 +40,7 @@ function ProductFinderButton() {
               <li
                 key={`product-${mapIndex}`}
               >
-                <span>{ReactHtmlParser(product.commodity_name)}</span>
+               <a href={routePath} >{ReactHtmlParser(product.commodity_name)}</a>
                 <button
                   type="button"
                   className="remove-product"

@@ -30,6 +30,11 @@ $breakpoint-size: 900px;
       flex-direction: column;
     }
 
+     @media only screen and (max-width: $mobile-size) {
+      flex-direction: column;
+      gap: $standard-padding;
+    }
+
     > div {
       flex: 1;
 
@@ -131,6 +136,7 @@ $breakpoint-size: 900px;
   @media only screen and (max-width: $mobile-size) {
   flex-direction: column;
   align-items: flex-start;
+  gap: $standard-padding;
   button{
     width: 100%;
   }
