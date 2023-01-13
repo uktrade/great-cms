@@ -132,12 +132,20 @@ $breakpoint-size: 900px;
   display: flex;
   gap: $large-padding;
   @media only screen and (max-width: $mobile-size) {
+<<<<<<< HEAD
     flex-direction: column;
     align-items: flex-start;
     gap: $standard-padding;
     button {
       width: 100%;
     }
+=======
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $standard-padding;
+  button{
+    width: 100%;
+>>>>>>> a7e6b82f7 ( made menu into links)
   }
 }
 
