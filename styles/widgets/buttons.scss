@@ -331,10 +331,15 @@ button.button-lesson {
   }
 }
 
+<<<<<<< HEAD
 button#commodity-code-details {
   padding-left: $large-padding;
   padding-right: $large-padding;
   span + span {
+=======
+button#commodity-code-details{
+  span + span{
+>>>>>>> d4deac29a (new fixes)
     padding-left: $standard-padding;
   }
   width: 100%;
@@ -342,6 +347,7 @@ button#commodity-code-details {
   align-items: center;
   justify-content: flex-start;
 }
+<<<<<<< HEAD
 
 .video-transcript {
   button {
@@ -377,3 +383,5 @@ button#commodity-code-details {
 background-color: inherit;
   }
 }
+=======
+>>>>>>> d4deac29a (new fixes)

@@ -286,19 +286,27 @@ a.link--underline {
 }
 
 .export-plan-wrapper,
-.export-plan-dashboard__section,
-.form-group-example,
+.export-plan-dashboard__section{
+  background-color: $color-background-color;
+}
 .costs,
-.lesson-accordian-content,
 .getting-paid,
 .export-plan-form,
 .export-plan-statistics,
 .hero-image-container, 
 .action-wrapper {
-  background-color: $color-background-color;
+  background-color: $color-main-background;
   border-radius: 0;
 }
 
+<<<<<<< HEAD
+=======
+.lesson-accordian-content, .form-group-example, .statistic{
+  background-color: $color-info-box;
+  border-radius: 0;
+}
+
+>>>>>>> d4deac29a (new fixes)
 .section--intro,
 .section-complete {
   background-color: $color-footer;
@@ -312,7 +320,6 @@ a.link--underline {
   }
 }
 
-.statistic,
 .great-radiogroup__label {
   border-radius: 0;
 }
@@ -411,10 +418,13 @@ a.section-list__link {
 
 .export-plan-section-lesson{
   background-color: $color-background-color;
+<<<<<<< HEAD
 
   .lesson-accordian-content{
     background-color: $color-main-background;
   }
+=======
+>>>>>>> d4deac29a (new fixes)
 }
 
 <<<<<<< HEAD
