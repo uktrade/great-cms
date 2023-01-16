@@ -4,7 +4,7 @@
 @import './partials/base';
 @import './partials/colours';
 @import './components/form-wizard';
-
+@import '../../styles/colors/colors.scss';
 #content {
 
   input,
@@ -35,7 +35,7 @@
 }
 
 #results {
-  background-color: #F6F4F0;
+  background-color: $color-main-background;
   margin: 0;
   padding: 1px 30px 40px;
 

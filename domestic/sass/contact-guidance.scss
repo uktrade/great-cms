@@ -2,9 +2,10 @@
 // ------------------------------------------------
 
 @import './partials/base';
+@import '../../styles/colors/colors.scss';
 
 section {
-  background-color: #F6F4F0;
+  background-color: $color-main-background;
   padding: 40px;
   margin-bottom: 20px;
   margin-top: 20px;

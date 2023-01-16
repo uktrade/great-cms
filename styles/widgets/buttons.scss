@@ -330,3 +330,13 @@ button.button-lesson {
     background-color: inherit;
   }
 }
+
+button#commodity-code-details{
+  span + span{
+    padding-left: $standard-padding;
+  }
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}

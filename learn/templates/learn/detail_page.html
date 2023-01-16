@@ -7,7 +7,7 @@
   <div class="lesson-page">
     {% get_category_title_for_lesson page as category_title %}
     <div class="container p-v-s">
-      <div class="m-f-s only-desktop">
+      <div class="only-desktop">
         {% include "core/includes/backlink.html" with url=page.get_parent.get_parent.url label=category_title classes="p-v-0"%}
       </div>
       {% include "./return_link.html" with link=backlink title=backlink_title class="only-mobile" %}

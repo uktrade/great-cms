@@ -17,7 +17,6 @@
 .great-global-header-footer {
   background-color: $white;
   box-sizing: border-box;
-  padding-top: 20px;
 
   & > .container {
     @include float-clear;
