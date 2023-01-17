@@ -302,7 +302,7 @@ export default function CountryFinderModal(props) {
         overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
       >
-        <div className="country-finder text-blue-deep-80">
+        <div className="country-finder">
           <div
             className={`scroll-area m-t-0 ${scrollerClass}`}
             onScroll={onScroll}

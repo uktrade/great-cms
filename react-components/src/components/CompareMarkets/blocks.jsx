@@ -125,7 +125,7 @@ const renderAddRemoveShortlist = ({
       />
       <label
         htmlFor={`cb-${iso}`}
-        className="far text-blue-deep-80"
+        className="far"
         aria-label={`${market.country_name} shortlisted`}
       />
     </>

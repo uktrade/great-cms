@@ -50,7 +50,9 @@
   {% endif %}
         {% if show_sign_in_required and not request.user.is_authenticated %}
           {% if request.path == '/' %}
+          <div class="sign-in-button-wrapper">
             <button class="primary-button small-button">Sign in required</button>
+          </div>
           {% endif %}
         {% endif %}
       {% endif %}

@@ -42,3 +42,8 @@ input[type=text]{
         font-size: 18px;
     }
 }
+
+.form-label,
+.form-hint {
+  font-family: $main-text-font!important;
+}

@@ -2,6 +2,7 @@
 @import '../../sass/partials/colours';
 @import '../../sass/partials/mixins';
 @import '../../sass/partials/spacings';
+@import '../../../../../styles/fonts/main.scss';
 
 // Django renders the multiple choice checkbox widgets in lists
 // This is to make sure they have adequate spacing
@@ -62,4 +63,5 @@ select.form-control::-ms-expand {
 .form-label,
 .form-hint {
   padding-bottom: .25em;
+  font-family: $main-text-font!important;
 }

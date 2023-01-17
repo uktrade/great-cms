@@ -48,7 +48,7 @@
         </div>
         <div class="c-1-2-m">
           <div class="g-card action-wrapper">
-            <h2 class="h-s">Take your first steps towards exporting success</h2>
+            <h2 class="h-s p-t-0">Take your first steps towards exporting success</h2>
             <p>Put an export plan in place for your business</p>
             <a href="{% url 'exportplan:start' %}" class="button primary-button buttton-icon"><i class="fas fa-plus m-r-xs"></i>{% if request.user.is_authenticated %}Create a  new plan{% else %}Create a free plan {% endif %}</a>
           </div>
@@ -62,7 +62,7 @@
     </div>
   </div>
   {% if exportplan_list %}
-  <div class="container m-t-m">
+  <div class="container m-t-s">
     <label for="details-reveal" class="button button--small secondary-button button--icon"> <i class="fas fa-chevron-down m-r-xxs" /></i>
       How it works</label>
   </div>
@@ -71,7 +71,7 @@
 <div class="container">
   {% if exportplan_list %}
   <div class="export-plan-wrapper">
-    <div class="p-v-s">
+    <div>
       <nav>
         <ul>
           {% for plan in exportplan_list %}
