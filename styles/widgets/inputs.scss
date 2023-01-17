@@ -1,6 +1,5 @@
 @import '../../styles/colors/colors.scss';
 
-<<<<<<< HEAD
 input[type='text'],
 input[type='email'],
 input[type='password'],
@@ -49,16 +48,6 @@ input[type='text'] {
 .form-label,
 .form-hint {
   font-family: $main-text-font;
-=======
-input[type=text],
-input[type=email],
-input[type=password],
-input[type=tel],
-input[type=number], textarea, textarea.form-control {
-    border-radius: 0px;
-    border: 2px solid $color-main-text;
-    color: $color-main-text;
->>>>>>> 3603ce835 (chad comments)
 }
 input[type=checkbox].markascomplete_checkbox{
     background-color: $color-completed;

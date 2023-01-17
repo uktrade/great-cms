@@ -160,6 +160,7 @@ $breakpoint-size: 900px;
   }
 }
 
+<<<<<<< HEAD
 .learning-link {
   font-family: 'FS Lucas';
   color: $color-main-text;
@@ -212,3 +213,15 @@ i.fas.fa-clock {
 =======
 }
 >>>>>>> 20e38ab3d (rebased)
+=======
+
+.learn__topic-item-details{
+  @media only screen and (max-width: $mobile-size) {
+
+    h2, p{
+      padding-bottom: $standard-padding;
+    }
+
+}
+}
+>>>>>>> 1e8c981ea (add images to staging)
