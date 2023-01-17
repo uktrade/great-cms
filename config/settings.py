@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     'health_check.cache',
     'sso_profile',
     'directory_components',
+    'events',
 ]
 
 MIDDLEWARE = [
