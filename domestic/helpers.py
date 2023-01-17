@@ -1,5 +1,5 @@
 from collections import defaultdict
-
+import pdb
 from core.models import CuratedListPage, DetailPage
 from sso import helpers as sso_helpers
 
@@ -104,3 +104,20 @@ def get_lesson_completion_status(user, context={}):
     module_pages = list(page_map.values())
     module_pages.sort(key=lesson_comparator, reverse=True)
     return {'module_pages': module_pages, 'lessons_in_progress': lessons_in_progress}
+
+
+def get_continue_lesson_url(user, context={}):
+
+    time = 0
+    last_completed_lesson_id = 0
+    completed = set()
+    lesson_url = ''
+    data = sso_helpers.get_lesson_completed(user.session_id)
+    # for lesson in data.get('lesson_completed', []):
+    #     pdb.set_trace()
+    #     if lesson['modified'] > time:
+    #         time = lesson['modified']
+    #         last_completed_lesson_id = lesson['module']
+    # page_topic_helper = PageTopicHelper(self)
+
+    return lesson_url

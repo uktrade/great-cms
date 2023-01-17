@@ -38,7 +38,6 @@
   }
 
   .card-list-section .card-image{
-    height: 320px;
     background-position: top center;
   }
 
@@ -58,13 +57,11 @@
       height: 56px;
     }
   }
-
-  .card-image{
-    height: 320px;
-  }
-
-  .card-link {
+    .card-link {
     min-height: 640px;
+  }
+  .card-inner{
+    padding-bottom: 30px;
   }
 
   .teaser-text{

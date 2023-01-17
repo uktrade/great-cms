@@ -106,6 +106,7 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
     productsLoaded && (
       <>
         {selectedLength ? (
+          <>
           <ComparisonTables
             tabsJson={tabs}
             comparisonMarkets={comparisonMarkets}
@@ -114,13 +115,16 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
             triggerButton={addMarketButton}
             cacheVersion={cacheVersion}
           />
+          {ReactDOM.createPortal( <p>
+            Continue adding upto 10 markets to compare dynamic feed data from some of the world's most trusted sources.
+          </p>, ctaContainer)}
+          </>
         ) : (
           ReactDOM.createPortal(
             hasProducts ? (
               <>
-                <p className="body-l">
-                  Add an export market to see data for the products in your My
-                  products list.
+                <p>
+                 Find information to help choose the right export market for your chosen product. Add your first market to see dynamic feed data from some of the world's most trusted sources.
                 </p>
                 {addMarketButton}
               </>

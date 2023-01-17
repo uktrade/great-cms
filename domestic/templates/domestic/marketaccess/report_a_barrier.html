@@ -16,15 +16,16 @@ Report a trade barrier{{block.super}}
 
 {% block content %}
 
-{% static 'images/market-access/report-a-barrier-banner-xlarge.png' as xlarge_hero %}
+{% static 'images/report-a-trade-barrier-header.png' as xlarge_hero %}
 {% include 'components/hero.html' with image_url=xlarge_hero hero_title='Report a trade barrier' %}
+ {% breadcrumbs 'Report a trade barrier' %}
+    <a href="/">great.gov.uk</a>
+    <a href="{% url 'domestic:market-access' %}">Trade barriers</a>
+{% endbreadcrumbs %}
 
 <section id="report-a-trade-barrier">
 
-        {% breadcrumbs 'Report a trade barrier' %}
-            <a href="/">great.gov.uk</a>
-            <a href="{% url 'domestic:market-access' %}">Trade barriers</a>
-        {% endbreadcrumbs %}
+       
 
         <div class='other-pages-container'>
         <div class='container'>

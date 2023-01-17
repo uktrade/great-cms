@@ -332,6 +332,8 @@ button.button-lesson {
 }
 
 button#commodity-code-details{
+  padding-left: $large-padding;
+  padding-right: $large-padding;
   span + span{
     padding-left: $standard-padding;
   }
@@ -339,4 +341,12 @@ button#commodity-code-details{
   display: flex;
   align-items: center;
   justify-content: flex-start;
+}
+
+.video-transcript{
+  button{
+    i + span{
+      padding-left: 0;
+    }
+  }
 }

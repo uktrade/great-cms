@@ -106,7 +106,7 @@ article > p {
   padding-bottom: $standard-padding;
 }
 
-.bold {
+.bold, .results.title, #search-results-information p {
   font-family: $header-font;
 }
 

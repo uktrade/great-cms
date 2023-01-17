@@ -13,10 +13,9 @@
              <div class="inner-header">
                 <div>
                   <h1>{{ page.title }}</h1>
-                   <p>Find information to help choose the right export market for your product. Compare data for up to 10 markets, using dynamic feeds from some of the world’s most trusted sources.</p>
                    {% if data_tabs_enabled %}
-                            <div id="cta-container"></div>
-                          {% endif %}
+                   <div id="cta-container"></div>
+                   {% endif %}
                 </div>
                 <div class="image-container">
             </div>
@@ -25,7 +24,6 @@
            </div>
       </section>
   </div>
-  {% comment %} {% if data_tabs_enabled %} {% endcomment %}
     <div class="hidden" id="next-steps">
       {% for component in dashboard_components %}
           {% if component.value.route_type == 'learn' or component.value.route_type == 'plan' %}
