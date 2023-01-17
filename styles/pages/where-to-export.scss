@@ -234,9 +234,8 @@ p > a {
   }
 
   .dashboard__routing-block + .dashboard__routing-block {
-    margin-top: $x-large-padding;
-
     @media only screen and (max-width: $mobile-size) {
+      margin-top: $x-large-padding;
       .card {
         padding-bottom: 0;
       }

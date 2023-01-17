@@ -338,6 +338,8 @@ button#commodity-code-details {
   span + span {
 =======
 button#commodity-code-details{
+  padding-left: $large-padding;
+  padding-right: $large-padding;
   span + span{
 >>>>>>> d4deac29a (new fixes)
     padding-left: $standard-padding;
@@ -347,6 +349,7 @@ button#commodity-code-details{
   align-items: center;
   justify-content: flex-start;
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 .video-transcript {
@@ -400,3 +403,13 @@ background-color: inherit;
 }
 =======
 >>>>>>> d4deac29a (new fixes)
+=======
+
+.video-transcript{
+  button{
+    i + span{
+      padding-left: 0;
+    }
+  }
+}
+>>>>>>> 5e9a26751 (added images)
