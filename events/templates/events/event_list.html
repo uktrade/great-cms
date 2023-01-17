@@ -1,0 +1,18 @@
+{% extends 'core/base.html' %}
+
+{% block head_title %}Upcoming events{% endblock %}
+
+{% block content %}
+{% regroup object_list|dictsort:"start_date" by start_date|date:"l d/m/Y" as events_by_date %}
+<ul>
+    {% for event_by_date in events_by_date %}
+    <li>{{ event_by_date.grouper }}
+        <ul>
+            {% for event in event_by_date.list %}
+            <li>{{ event.start_date|date:"P" }} - {{ event.end_date|date:"P" }} {{ event.name }}</li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
