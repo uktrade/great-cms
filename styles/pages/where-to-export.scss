@@ -263,9 +263,8 @@ p > a {
   }
 
   .dashboard__routing-block + .dashboard__routing-block {
-    margin-top: $x-large-padding;
-
     @media only screen and (max-width: $mobile-size) {
+      margin-top: $x-large-padding;
       .card {
         padding-bottom: 0;
       }
@@ -436,6 +435,7 @@ a.section-list__link {
   }
 >>>>>>> a7e6b82f7 ( made menu into links)
 
+<<<<<<< HEAD
 #about-your-business-content, #business-objectives-content,
 #target-markets-research-content, #adapting-your-product-content,
 #marketing-approach-content,#costs-and-pricing-content,
@@ -443,6 +443,14 @@ a.section-list__link {
 #travel-plan-content, #business-risk-content{
  textarea.form-control{
     height: 50px!important;
+=======
+  .form-label{
+    font-family: $header-font;
+  }
+
+  textarea.form-control {
+    height: 90px !important;
+>>>>>>> 5e9a26751 (added images)
     line-height: 17px;
     color: $color-main-text;
 <<<<<<< HEAD
@@ -482,9 +490,16 @@ a.section-list__link {
 
 
 li.selected-groups__item{
+  button{
+    padding-left: $standard-padding;
+  }
   background-color: $color-main-background;
   border-radius: 0;
   border: 2px solid $color-gov-link;
   color: $color-gov-link;
+  line-height: inherit;
+  i{
+    color: $color-delete;
+  };
 }
 >>>>>>> 1e8c981ea (add images to staging)

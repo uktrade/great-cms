@@ -475,6 +475,7 @@ class ListPage(CMSGenericPage):
             context['high_level_completion_progress'] = get_high_level_completion_progress(
                 completion_status=completion_status,
             )
+
         return context
 
     ################
