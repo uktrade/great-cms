@@ -1,6 +1,6 @@
 from django.views.generic import ListView
 
-from events import models
+from export_academy import models
 
 
 class EventListView(ListView):

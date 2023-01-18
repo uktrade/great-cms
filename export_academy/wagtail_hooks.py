@@ -1,6 +1,6 @@
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 
-from events import models
+from export_academy import models
 
 
 class EventsAdmin(ModelAdmin):
