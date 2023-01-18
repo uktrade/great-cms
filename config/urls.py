@@ -15,7 +15,7 @@ import cms_extras.urls
 import contact.urls
 import core.urls
 import domestic.urls
-import events.urls
+import export_academy.urls
 import exportplan.urls
 import search.urls
 import sso.urls
@@ -50,7 +50,7 @@ urlpatterns += [
     path('', include(domestic.urls, namespace='domestic')),
     path('', include(core.urls, namespace='core')),
     path('', include(contact.urls)),  # No prefix because not all of them start with /contact/
-    path('', include(events.urls, namespace='events')),
+    path('', include(export_academy.urls, namespace='export_academy')),
 ]
 
 urlpatterns += [
