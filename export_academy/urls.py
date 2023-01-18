@@ -1,8 +1,8 @@
 from django.urls import path
 
-from events import views
+from export_academy import views
 
-app_name = 'events'
+app_name = 'export_academy'
 
 urlpatterns = [
     path(
