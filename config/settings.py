@@ -384,6 +384,10 @@ if DEBUG:
     MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
     INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
 
+# Install the Export Academy app on demand
+FEATURE_EXPORT_ACADEMY_INSTALLED = env.bool('FEATURE_EXPORT_ACADEMY_INSTALLED', False)
+if FEATURE_EXPORT_ACADEMY_INSTALLED:
+    INSTALLED_APPS.append('export_academy')
 
 ELASTIC_APM_ENABLED = env('ELASTIC_APM_ENABLED', default=False)
 if ELASTIC_APM_ENABLED:
