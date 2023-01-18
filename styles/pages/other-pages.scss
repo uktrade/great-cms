@@ -204,4 +204,18 @@ section.report-trade-barrier {
 }
 
 
-// .pagination a {
+.uk-export-finance .card-list-section {
+
+img.card-image{
+  height: fit-content;
+}
+.card-inner{
+  padding-bottom: $x-large-padding;
+}
+}
+
+
+
+section#results {
+background-color: $color-main-background;
+}
