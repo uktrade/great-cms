@@ -1,5 +1,5 @@
 from collections import defaultdict
-import pdb
+from datetime import datetime
 from core.models import CuratedListPage, DetailPage
 from sso import helpers as sso_helpers
 
@@ -106,18 +106,23 @@ def get_lesson_completion_status(user, context={}):
     return {'module_pages': module_pages, 'lessons_in_progress': lessons_in_progress}
 
 
-def get_continue_lesson_url(user, context={}):
+def get_last_completed_lesson_id(user, context={}):
 
-    time = 0
-    last_completed_lesson_id = 0
-    completed = set()
-    lesson_url = ''
     data = sso_helpers.get_lesson_completed(user.session_id)
-    # for lesson in data.get('lesson_completed', []):
-    #     pdb.set_trace()
-    #     if lesson['modified'] > time:
-    #         time = lesson['modified']
-    #         last_completed_lesson_id = lesson['module']
-    # page_topic_helper = PageTopicHelper(self)
+    # find most recently completed lesson
+    modified_times = [
+        {
+            'modified': datetime.strptime(lesson['modified'], '%Y-%m-%dT%H:%M:%S+%f'),
+            'lesson_id': lesson['lesson'],
+            'module_id': lesson['module'],
+        }
+        for lesson in data.get('lesson_completed', [])
+    ]
+    modified_times = sorted(modified_times, key=lambda l: l['modified'], reverse=True)
 
-    return lesson_url
+    if modified_times:
+        lesson = modified_times[0]
+        return lesson['lesson_id']
+        # get first lesson of next module
+    else:
+        return None
