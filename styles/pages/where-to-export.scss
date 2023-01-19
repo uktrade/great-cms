@@ -63,7 +63,11 @@ p > a {
     color: $color-alternative-text;
   }
   .dashboard__routing-block {
+<<<<<<< HEAD
     .card {
+=======
+    .card{
+>>>>>>> c69741b1a (changed some pictures)
       padding-bottom: $large-padding;
     }
     .dashboard-card {
@@ -106,6 +110,7 @@ a.link--underline {
 .lesson-accordian-content,
 .form-group-example,
 .statistic {
+<<<<<<< HEAD
   background-color: $color-info-box;
   border-radius: 0;
 }
@@ -301,6 +306,8 @@ a.link--underline {
 <<<<<<< HEAD
 =======
 .lesson-accordian-content, .form-group-example, .statistic{
+=======
+>>>>>>> c69741b1a (changed some pictures)
   background-color: $color-info-box;
   border-radius: 0;
 }
@@ -366,9 +373,20 @@ a.section-list__link {
 }
 #compare-markets {
   background-color: $color-background-color;
+   max-width: $max-header-width;
+    @media only screen and (min-width: $mobile-size) and (max-width: $max-header-width)  {
+     $margin-left: $x-large-padding;
+     $margin-left: $x-large-padding
+    }
+      @media only screen and (min-width: (calc($max-header-width + ($x-large-padding * 2)) ) ){
+     margin-left: auto;
+     margin-right: auto;
+    }
+
 }
 <<<<<<< HEAD
 =======
+
 
 .landing-page-section {
   background-color: $color-main-background;
@@ -436,6 +454,7 @@ a.section-list__link {
 >>>>>>> a7e6b82f7 ( made menu into links)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #about-your-business-content, #business-objectives-content,
 #target-markets-research-content, #adapting-your-product-content,
 #marketing-approach-content,#costs-and-pricing-content,
@@ -445,6 +464,9 @@ a.section-list__link {
     height: 50px!important;
 =======
   .form-label{
+=======
+  .form-label {
+>>>>>>> c69741b1a (changed some pictures)
     font-family: $header-font;
   }
 
@@ -488,9 +510,8 @@ a.section-list__link {
 >>>>>>> a7e6b82f7 ( made menu into links)
 =======
 
-
-li.selected-groups__item{
-  button{
+li.selected-groups__item {
+  button {
     padding-left: $standard-padding;
   }
   background-color: $color-main-background;
@@ -498,8 +519,8 @@ li.selected-groups__item{
   border: 2px solid $color-gov-link;
   color: $color-gov-link;
   line-height: inherit;
-  i{
+  i {
     color: $color-delete;
-  };
+  }
 }
 >>>>>>> 1e8c981ea (add images to staging)
