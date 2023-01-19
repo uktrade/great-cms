@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        {% block breadcrumbs %}{% endblock %}
+
+        <div class="grid-row">
+            <div class="column-two-thirds sso-profile-toolbar-labels-container">
+                <h1 class="heading-xlarge margin-top-30 margin-bottom-15" id="tabs-title">Export Academy</h1>
+                {% if request.user.is_authenticated %}
+                    <div>You are signed in as {{ request.user.email }}.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="sso-profile-tab-container margin-top-30 background-stone-90">
+        <div class="container">
+            <div class="grid-row margin-0">
+                <ul class="padding-0">
+
+                    <li class="{{ about_tab_classes }}"><a href="{% url 'export_academy:index' %}">Welcome</a></li>
+                    <li class="{{ exops_tab_classes }}"><a href="{% url 'export_academy:upcoming-events' %}">Upcoming Events</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        {% block tab_content %}
+        {% endblock tab_content %}
+    </div>
+{% endblock content %}
