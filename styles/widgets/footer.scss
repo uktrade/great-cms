@@ -3,33 +3,37 @@
 @import '../fonts/main.scss';
 
 footer {
+  background-color: $color-main-background;
+
   .copyright-container {
-    width: 100%;
-    align-items: center;
-    display: inline-flex;
-    flex-direction: row;
-    padding: 40px $x-large-padding $large-padding $x-large-padding;
-    gap: $large-padding;
-    @media only screen and (max-width: $mobile-size) {
-      padding: $large-padding;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    background-color: $color-main-background;
-
-    p.copy-right {
-      font-size: 18px;
-      padding-top: 3px;
-      margin: 0;
-      margin-left: auto;
+    display: flex;
+    justify-content: center;
+    div {
+      width: 100%;
+      align-items: center;
+      display: inline-flex;
+      flex-direction: row;
+      max-width: $content-max-width;
+      padding: 40px 0 $large-padding 0;
+      gap: $large-padding;
       @media only screen and (max-width: $mobile-size) {
-        font-size: 16px;
+        padding: $large-padding;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      p.copy-right {
+        font-size: 18px;
+        padding-top: 3px;
         margin: 0;
+        margin-left: auto;
+        @media only screen and (max-width: $mobile-size) {
+          font-size: 16px;
+          margin: 0;
+        }
       }
     }
   }
-
   nav.footer {
     background-color: $color-footer;
     display: flex;

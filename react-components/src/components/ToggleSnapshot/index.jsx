@@ -12,7 +12,7 @@ export const ToggleSnapshot = memo(({
       <div className={toggle ? '' : 'hidden'}>
       { children }
       </div>
-      <div className='m-t-s'>
+      <div>
         <button
           className='button secondary-button button--icon'
           type='button'

@@ -61,11 +61,12 @@
   @include float-clear;
 
   a {
+    padding: 0 15px;
+    padding-top: 10px;
     text-decoration: none;
-    height: 40px;
+    height: 50px;
     display: block;
     float: left;
-    padding: 0 15px;
     font-size: 14px;
     position: relative;
   }
@@ -84,8 +85,10 @@
     line-height: 1;
 
     & > .container {
+      padding-top: 10px;
       margin: 0;
       width: 100%;
+      padding: 0;
     }
 
     .great-global-header-footer-logo {
@@ -100,21 +103,21 @@
       table-layout: fixed;
 
       a {
+        line-height: 14px;
         float: none;
         display: table-cell;
         vertical-align: middle;
         width: 50%;
-        min-height: 50px;
-        height: auto;
+        padding-top:0;
 
         &:first-child {
-          padding: 15px;
+          padding-left: 15px;
           padding-right: 0;
         }
 
         &:last-child {
           text-align: right;
-          padding: 15px;
+          padding-right: 15px;
           padding-left: 0;
         }
       }

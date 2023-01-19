@@ -23,6 +23,7 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
   flex-wrap: wrap;
   box-sizing: border-box;
 
+
   &.get-started .image-container {
     background: $get-started-header;
   }
@@ -63,7 +64,12 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
     background: $learn-to-export-image;
   }
 
+   @media only screen and (min-width: 1290px)  {
+     margin-left:auto;
+    }
+
   .inner-header {
+    max-width: $max-header-width;
     width: 100%;
     height: 100%;
     margin-left: 48px;
@@ -71,9 +77,11 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
     @media only screen and (min-width: $mobile-size) and (max-width: 980px) {
       margin-left: $large-padding;
     }
-    @media only screen and (min-width: 1290px) {
-      margin-left: calc(((100vw - 1290px) / 2) + 48px);
-    }
+
+ @media only screen and (min-width: $max-header-width) {
+
+     padding-left: calc(($max-header-width - 1290px)/2);
+   }
 
     > div:first-child {
       padding-top: 60px;
@@ -100,6 +108,7 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
 
       p.sub-header {
         color: #e94f3d;
+        margin-bottom: $standard-padding;
       }
 
       .lesson-summary {

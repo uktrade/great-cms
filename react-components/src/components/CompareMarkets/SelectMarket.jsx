@@ -13,7 +13,7 @@ export default function SelectMarket() {
   const marketSelected = !!markets.filter((market) => market.country_iso2_code in comparisonMarkets).length
 
   return marketSelected && (
-    <section class="m-h-m p-b-s m-b-l">
+    <section class="p-b-s m-b-l">
       <div className="next-steps">
         <h3 className="p-t-0 p-b-xs">Next steps</h3>
         <div className="flex-grid">

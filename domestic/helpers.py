@@ -1,5 +1,6 @@
 from collections import defaultdict
 from datetime import datetime
+
 from core.models import CuratedListPage, DetailPage
 from sso import helpers as sso_helpers
 
@@ -106,7 +107,7 @@ def get_lesson_completion_status(user, context={}):
     return {'module_pages': module_pages, 'lessons_in_progress': lessons_in_progress}
 
 
-def get_last_completed_lesson_id(user, context={}):
+def get_last_completed_lesson_id(user):
 
     data = sso_helpers.get_lesson_completed(user.session_id)
     # find most recently completed lesson
