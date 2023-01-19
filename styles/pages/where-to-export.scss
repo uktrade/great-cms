@@ -63,7 +63,11 @@ p > a {
     color: $color-alternative-text;
   }
   .dashboard__routing-block {
+<<<<<<< HEAD
     .card {
+=======
+    .card{
+>>>>>>> c69741b1a (changed some pictures)
       padding-bottom: $large-padding;
     }
     .dashboard-card {
@@ -106,6 +110,7 @@ a.link--underline {
 .lesson-accordian-content,
 .form-group-example,
 .statistic {
+<<<<<<< HEAD
   background-color: $color-info-box;
   border-radius: 0;
 }
@@ -277,6 +282,8 @@ button:focus:active {
 <<<<<<< HEAD
 =======
 .lesson-accordian-content, .form-group-example, .statistic{
+=======
+>>>>>>> c69741b1a (changed some pictures)
   background-color: $color-info-box;
   border-radius: 0;
 }
