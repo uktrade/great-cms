@@ -22,6 +22,10 @@ footer {
         flex-direction: column;
         align-items: flex-start;
       }
+      @media only screen and (min-width: (1290px + ($x-large-padding * 2) )) {
+         padding: 40px 0 $large-padding 0;
+
+      }
 
       p.copy-right {
         font-size: 18px;
