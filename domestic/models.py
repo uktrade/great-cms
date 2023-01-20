@@ -448,10 +448,7 @@ class TopicLandingPage(
 
     template = 'domestic/topic_landing_pages/generic.html'
 
-    subpage_types = [
-        'domestic.ArticleListingPage',
-        'domestic.ArticlePage',
-    ]
+    subpage_types = ['domestic.ArticleListingPage', 'domestic.ArticlePage', 'export_academy.ExportAcademyHomePage']
 
     def child_pages(self):
         """Gets published, non-private child pages only"""
