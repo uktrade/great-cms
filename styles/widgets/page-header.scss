@@ -77,6 +77,15 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
     padding-left: calc((100vw - $max-header-width) / 2 + 170px);
   }
 
+     @media only screen and (min-width:2030px)  {
+     margin:auto;
+     padding-left: 380px;
+   }
+      @media only screen and (min-width: $max-header-width) and (max-width:2030px) {
+     margin:auto;
+     padding-left: calc((100vw - $max-header-width)/2 + 170px);
+   }
+
   .inner-header {
     max-width: $max-header-width;
     width: 100%;
@@ -92,6 +101,7 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
     @media only screen and (min-width: $max-header-width) {
       margin-left: 0;
     }
+
 
     > div:first-child {
       padding-top: 60px;
