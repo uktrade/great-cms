@@ -24,7 +24,13 @@
     </div>
   </div>
 </div>
-<input id="details-reveal" type="checkbox" class="button hide-show-trigger" />
+<input id="details-reveal" type="checkbox" class="button hide-show-trigger" >
+{% if exportplan_list %}
+  <div class="container m-t-s">
+    <label id='hide-show-button' for="details-reveal" class="button button--small secondary-button button--icon"> <i class="fas fa-chevron-right" /></i>
+      <span>How it works</span></label>
+  </div>
+  {% endif %}
 <div>
   <div class="p-v-l {% if exportplan_list %}hide-show-content{% endif %} watermark-container">
     <div class="container">
@@ -61,12 +67,7 @@
       </div>
     </div>
   </div>
-  {% if exportplan_list %}
-  <div class="container m-t-s">
-    <label for="details-reveal" class="button button--small secondary-button button--icon"> <i class="fas fa-chevron-down m-r-xxs" /></i>
-      How it works</label>
-  </div>
-  {% endif %}
+
 </div>
 <div class="container">
   {% if exportplan_list %}

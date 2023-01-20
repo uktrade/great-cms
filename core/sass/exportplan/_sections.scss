@@ -59,8 +59,9 @@
   padding: 0;
 }
 
-.hide-show-trigger:checked~div>div>label>i {
-  transform: rotate(180deg);
+.hide-show-trigger:checked~div>label#hide-show-button>i {
+  transform: rotate(90deg);
+  padding-right: 0;
 }
 
 .hero-image-container {

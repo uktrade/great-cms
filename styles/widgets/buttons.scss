@@ -46,7 +46,7 @@ button {
   padding-bottom: 8px;
   font-family: $header-font;
   font-size: $font-size-button;
-  line-height: 30px;
+  line-height: initial;
   color: $color-gov-link;
 
   span + i,
