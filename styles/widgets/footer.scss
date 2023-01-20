@@ -6,6 +6,7 @@ footer {
   background-color: $color-main-background;
 
   .copyright-container {
+    background-color: $color-main-background;
     display: flex;
     justify-content: center;
     div {
@@ -14,12 +15,16 @@ footer {
       display: inline-flex;
       flex-direction: row;
       max-width: $content-max-width;
-      padding: 40px 0 $large-padding 0;
+      padding: 40px $x-large-padding $large-padding $x-large-padding;
       gap: $large-padding;
       @media only screen and (max-width: $mobile-size) {
         padding: $large-padding;
         flex-direction: column;
         align-items: flex-start;
+      }
+      @media only screen and (min-width: (1290px + ($x-large-padding * 2) )) {
+         padding: 40px 0 $large-padding 0;
+
       }
 
       p.copy-right {

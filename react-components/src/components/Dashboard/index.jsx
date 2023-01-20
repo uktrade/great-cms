@@ -68,9 +68,7 @@ export const Dashboard = memo(
                   >
                     {is_complete && <span className="visually-hidden">Complete</span>}
                     <img
-                      className={`width-full p-h-s p-t-m p-b-s ${
-                        is_complete ? 'bg-green-30' : 'bg-blue-deep-20'
-                      }`}
+                      className={`width-full bg-white`}
                       src={`/static/images/${image}`}
                       alt=""
                     />

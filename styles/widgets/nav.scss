@@ -11,7 +11,13 @@ nav>ul>li>a {
     color: $color-alternative-text !important;
     padding-right: 4px;
     border: none !important;
+}
 
+// to override great styles
+nav a {
+    &:focus:active{
+    color: $color-alternative-text
+}
 }
 
 nav.breadcrumbs {

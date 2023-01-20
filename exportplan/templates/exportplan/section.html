@@ -11,14 +11,14 @@
 <div class="main-section export-plan-content {% block mainclasses %} {% endblock %} {{ view.slug }}-content" id="{{ view.slug }}-content">
 
   <section class="m-b-l">
-    <div class="page-header export-plan-header">
+    <div class="page-header">
       <div class="inner-header">
         <div>
           <p class='sub-header'> {{ export_plan.name }}</p>
           <h1> {{ view.title }} </h1>
-          <p>You know your business and product inside out. Your bank manager or a potential business partner may need an introduction. Tell them about who you are and what you do.</p>
+          <p>{{view.text}}</p>
           </div>
-          <div class = "image-container">
+          <div class = "image-container" style="background: url({{view.image }})">
 
           </div> </div> </div>
   </section>

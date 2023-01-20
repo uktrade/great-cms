@@ -197,9 +197,10 @@ a.section-list__link {
 .costs__option .form-label {
   padding-top: $large-padding;
 }
-#compare-markets {
+#compare-markets .container {
   background-color: $color-background-color;
    max-width: $max-header-width;
+
     @media only screen and (min-width: $mobile-size) and (max-width: $max-header-width)  {
      $margin-left: $x-large-padding;
      $margin-left: $x-large-padding
