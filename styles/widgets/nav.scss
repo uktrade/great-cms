@@ -58,12 +58,15 @@ nav.breadcrumbs {
     padding-bottom: 0.75em !important;
     background-color: $color-background-color ;
 
+  background-color: $color-background-color;
+  @media only screen and (max-width: $mobile-size) {
+    padding: 0.75em 15px;
+  }
 }
 
-nav{
-     .magna-header__nav {
-        @media only screen and (max-width: $breakpoint) {
-            display: none;
-        }
+nav {
+  .magna-header__nav {
+    @media only screen and (max-width: $breakpoint) {
+      display: none;
     }
 }

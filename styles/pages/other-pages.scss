@@ -20,8 +20,13 @@
   flex: 1;
   background-color: $color-main-background;
 
+<<<<<<< HEAD
   .container {
     margin: auto;
+=======
+  .container{
+    margin: 0;
+>>>>>>> dcffa2e14 (new issues raised by chad)
   }
 
   .inner-container {
@@ -224,12 +229,18 @@ section.report-trade-barrier {
 
 <<<<<<< HEAD
 .uk-export-finance .card-list-section {
+<<<<<<< HEAD
   img.card-image {
     height: auto;
   }
   .card-inner {
     padding-bottom: $x-large-padding;
   }
+=======
+
+img.card-image{
+  height: auto;
+>>>>>>> dcffa2e14 (new issues raised by chad)
 }
 
 section#results {
