@@ -39,7 +39,7 @@ table {
 .container {
   max-width: $content-max-width;
   padding: 0 auto;
-  margin: 0;
+  margin: auto;
 
   @media (max-width: #{$content-max-width + ($spacing-3 * 2)}) {
     padding: 0 $spacing-3;
