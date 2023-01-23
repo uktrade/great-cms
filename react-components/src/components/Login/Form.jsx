@@ -32,7 +32,6 @@ export const Form = ({
         Don&apos;t have an account?{' '}
         <a
           href={Services.config.signupUrl}
-          className="text-red-80"
         >
           Sign up
         </a>
@@ -59,7 +58,7 @@ export const Form = ({
       />
       <a
         href={Services.config.passwordResetUrl}
-        className="text-red-80 inline-block"
+        className="inline-block"
       >
         Forgotten password?
       </a>

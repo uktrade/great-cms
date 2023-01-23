@@ -3,42 +3,51 @@
 
 $breakpoint: 1250px;
 
-nav>ul>li>a {
-    font-family: $main-text-font!important ;
-    border-bottom: 0;
-    text-decoration: none;
-    font-size: $font-size-p !important;
-    color: $color-alternative-text !important;
-    padding-right: 4px;
-    border: none !important;
+nav > ul > li > a {
+  font-family: $main-text-font !important ;
+  border-bottom: 0;
+  text-decoration: none;
+  font-size: $font-size-p !important;
+  color: $color-alternative-text !important;
+  padding-right: 4px;
+  border: none !important;
 }
 
 // to override great styles
 nav a {
-    &:focus:active{
-    color: $color-alternative-text
-}
+  &:focus:active {
+    color: $color-alternative-text;
+  }
 }
 
 nav.breadcrumbs {
-    padding: 0.75em 30px;
-    max-width: 1230px;
-    @media only screen and (min-width: 1230px) {
-            margin: 0 auto;
-            padding: 0.75em 0;
-        }
+  padding: 0.75em 30px;
+  max-width: 1230px;
+  @media only screen and (min-width: 1230px) {
+    margin: 0 auto;
+    padding: 0.75em 0;
+  }
 
-    background-color: $color-background-color ;
-     @media only screen and (max-width: $mobile-size) {
-            padding: 0.75em 15px;
-        }
-
+  background-color: $color-background-color;
+  @media only screen and (max-width: $mobile-size) {
+    padding: 0.75em 15px;
+  }
 }
 
-nav{
-     .magna-header__nav {
-        @media only screen and (max-width: $breakpoint) {
-            display: none;
-        }
+nav {
+  .magna-header__nav {
+    @media only screen and (max-width: $breakpoint) {
+      display: none;
     }
+  }
+}
+
+.magna-header__dropdown {
+  @media only screen and (min-width: $mobile-size) {
+    right: 2px;
+  }
+
+  @media only screen and (max-width: $mobile-size) {
+    margin-top: 7px;
+  }
 }

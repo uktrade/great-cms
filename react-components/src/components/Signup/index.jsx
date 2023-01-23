@@ -87,7 +87,7 @@ export const Signup = (props) => {
 
           </div>
         <div className="signup__info-panel__content">
-          <h2>Find new customers around the world</h2>
+          <h1>Find new customers around the world</h1>
           <ul className="signup__info-panel__subheadings">
             {subHeadings.map((heading) => (
               <li key={heading}>

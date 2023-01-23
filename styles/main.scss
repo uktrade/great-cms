@@ -5,11 +5,15 @@
 @import './pages/index.scss';
 @import './borders/main.scss';
 
+@mixin focus-state{
+    outline: 3px solid $color-focus;
+}
 
 body{
     background-color: $color-background-color
 }
 
-a:active{
+a:active, span.menu-link{
     background-color: inherit;
+    @include focus-state()
 }

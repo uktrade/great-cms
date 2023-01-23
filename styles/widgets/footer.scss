@@ -15,7 +15,7 @@ footer {
       display: inline-flex;
       flex-direction: row;
       max-width: $content-max-width;
-      padding: 40px $x-large-padding $large-padding $x-large-padding;
+      padding: $large-padding $x-large-padding;
       gap: $large-padding;
       @media only screen and (max-width: $mobile-size) {
         padding: $large-padding;

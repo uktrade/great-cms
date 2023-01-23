@@ -1,5 +1,5 @@
 @import '../../../styles/colors/colors.scss';
-
+@import '../../../styles/sizes/sizes.scss';
 .section-list {
   &__coming {
     border-radius: 12px;
@@ -27,7 +27,7 @@
         line-height: 2.2;
         color: white;
         background-color: $color-completed;
-        height: 30px;
+        height: 35px;
         padding: 0 20px;
         margin-left: -10px;
         margin-top: 20px;
@@ -63,6 +63,12 @@
 }
 
 .export-plan-dashboard {
+  .flex-grid > div{
+padding: 0 $standard-padding;
+>div{
+  margin-bottom: $large-padding;
+}
+  }
   .sub-header-nav {
     margin-left: 0;
   }

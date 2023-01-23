@@ -9,6 +9,10 @@
   background-color: $color-main-background;
   z-index: 2;
   width: 375px;
+  @media only screen and (min-width: $mobile-size) {
+  margin-left: -13px;
+}
+
 
   ul {
     padding: 0;

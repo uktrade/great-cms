@@ -39,7 +39,6 @@ const Form = ({
       Already have an account?{' '}
       <a
         href={Services.config.loginUrl} id="signup-modal-log-in"
-        className="text-red-80"
       >
         Sign in
       </a>

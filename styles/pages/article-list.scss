@@ -28,33 +28,40 @@
   }
 
   ul.content-list {
-
-    >a{
+    > a {
       text-decoration: none;
     }
 
-     li {
+    li {
       position: relative;
       background-color: $color-main-background;
       padding: $large-padding $x-large-padding;
       width: 100%;
       gap: $large-padding;
       margin-bottom: $x-large-padding;
-           display: inline-flex;
+      display: inline-flex;
       flex-wrap: wrap;
       align-items: center;
 
+      @media only screen and (max-width: $mobile-size) {
+        margin-bottom: $large-padding;
+        padding: $large-padding;
+
+        button {
+          margin-bottom: 0;
+        }
+      }
 
       h3 {
         flex: 1;
         width: 100%;
         padding-left: $x-large-padding;
-        &:hover{
+        &:hover {
           color: $color-gov-link;
         }
-        @media only screen and (max-width:$mobile-size) {
-  padding-left: 0;
-}
+        @media only screen and (max-width: $mobile-size) {
+          padding-left: 0;
+        }
       }
 
       a.button {

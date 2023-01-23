@@ -10,7 +10,7 @@
 .heading-large,
 .heading-xlarge,
 .heading-medium {
-  font-family: $main-text-font;
+  font-family: $header-font;
 }
 
 .other-pages-container {
@@ -18,6 +18,10 @@
   padding-bottom: 0;
   flex: 1;
   background-color: $color-main-background;
+
+  .container{
+    margin: 0;
+  }
 
   .inner-container {
     flex: 1;
@@ -207,7 +211,7 @@ section.report-trade-barrier {
 .uk-export-finance .card-list-section {
 
 img.card-image{
-  height: fit-content;
+  height: auto;
 }
 .card-inner{
   padding-bottom: $x-large-padding;

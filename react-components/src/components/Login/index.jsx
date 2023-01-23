@@ -75,9 +75,9 @@ export const Login = ({ nextUrl, ...props }) => {
       </div>
       <div className="signup__info-panel login-panel">
         <div className="signup__info-panel__content">
-          <h2>
+          <h1>
             Sign in to continue your exporting journey
-          </h2>
+          </h1>
           <p className="body-l">Don&apos;t have an account?</p>
           <a
             href={Services.config.signupUrl}

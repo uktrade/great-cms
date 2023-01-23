@@ -39,15 +39,14 @@ table {
 .container {
   max-width: $content-max-width;
   padding: 0 auto;
+  margin: 0;
 
   @media (max-width: #{$content-max-width + ($spacing-3 * 2)}) {
     padding: 0 $spacing-3;
-    margin:0;
   }
 
   @media (max-width: $mobile-size) {
     padding: 0 15px; // Special figure intentionally outside of standard.
-     margin:0;
   }
 }
 
