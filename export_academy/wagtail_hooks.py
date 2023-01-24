@@ -12,8 +12,8 @@ class EventsAdmin(ModelAdmin):
     add_to_settings_menu = False
     exclude_from_explorer = False
     add_to_admin_menu = True
-    list_display = ('name', 'url')
-    list_filter = ('name',)
+    list_display = ('name', 'start_date', 'link')
+    list_filter = ('start_date',)
     search_fields = ('name', 'description')
 
 

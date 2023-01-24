@@ -6,7 +6,7 @@ app_name = 'export_academy'
 
 urlpatterns = [
     path(
-        'upcoming-events/',
+        'export-academy/',
         views.EventListView.as_view(),
         name='upcoming-events',
     ),
