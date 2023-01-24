@@ -18,7 +18,7 @@ def registration_required(function):
 
 urlpatterns = [
     path(
-        'upcoming-events/',
+        'export-academy/',
         views.EventListView.as_view(),
         name='upcoming-events',
     ),
