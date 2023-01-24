@@ -50,7 +50,8 @@
   }
 
   .dashboard-card {
-    @include vertical-card-padding();
+   padding-bottom: 0;
+   padding-top: 0;
     @include horizontal-card-padding();
     p {
       padding-top: $large-padding;
