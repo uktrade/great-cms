@@ -106,7 +106,7 @@ article > p {
   padding-bottom: $standard-padding;
 }
 
-.bold, .results.title, #search-results-information p {
+.bold, .results.title, #search-results-information p, .heading-small {
   font-family: $header-font;
 }
 
@@ -149,4 +149,9 @@ label.body-l,
 
 .subheading{
   font-family: $main-text-font;
+}
+
+.big-number-list li:before{
+  font-family: $header-font!important;
+  color: $color-main-text!important
 }

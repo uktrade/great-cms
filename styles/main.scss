@@ -13,7 +13,7 @@ body{
     background-color: $color-background-color
 }
 
-a:active, span.menu-link{
+a:active, .personalization-menu-button.tag--icon:focus, .personalization-menu-button.tag--icon:active {
     background-color: inherit;
     @include focus-state()
 }

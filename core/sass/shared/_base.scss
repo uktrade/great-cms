@@ -1,22 +1,5 @@
 /* Shared styles across BAU and Magna pages */
 @import '../../../styles/main.scss';
-// @font-face {
-//   font-family: 'FS Lucas';
-//   src: url('/static/fonts/FSLucas-Regular.woff2') format('woff2'),
-//     url('/static/fonts/FSLucas-Regular.woff') format('woff'),
-//     url('/static/fonts/FSLucas-Regular.ttf') format('truetype');
-//   font-weight: normal;
-//   font-style: normal;
-// }
-
-// @font-face {
-//   font-family: 'FS Lucas SemiBold';
-//   src: url('/static/fonts/FSLucas-SemiBold.eot'),
-//   url('./static/fonts/FSLucas-SemiBold.woff2') format('woff2'),
-//   url('/static/fonts/FSLucas-SemiBold.woff') format('woff'),
-//   url('/static/fonts/FSLucas-SemiBold.ttf') format('truetype'),
-//   url('static/fonts//FSLucas-SemiBold.svg#UbuntuBold') format('svg');
-// }
 
 // Breakpoints
 $mobile: 640px;
