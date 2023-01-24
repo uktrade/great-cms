@@ -10,6 +10,6 @@ body{
 }
 
 a:active, .personalization-menu-button.tag--icon:focus, .personalization-menu-button.tag--icon:active {
-    background-color: revert;
+    // background-color: revert;
     @include focus-state()
 }
