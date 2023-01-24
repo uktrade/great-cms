@@ -82,7 +82,7 @@ button {
 
   &:active,
   &:focus {
-    outline: 3px solid $color-focus;
+    @include focus-state;
   }
 
   &.primary-button,

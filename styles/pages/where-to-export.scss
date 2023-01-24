@@ -11,39 +11,10 @@
 
   i {
     color: $color-gov-link;
-    background-color: white;
+    background-color: $color-main-background;
     border-radius: 10px;
     line-height: 20px;
   }
-}
-
-.learn__category-entities {
-  height: 41px;
-  color: $color-gov-link;
-  border-radius: 0;
-  background-color: $color-background-color;
-  display: flex;
-  align-items: center;
-  padding-left: $large-padding;
-  padding-right: $large-padding;
-  padding-top: 0;
-  padding-bottom: 0;
-
-  i {
-    padding-right: $standard-padding;
-  }
-}
-
-.learn__topic-item-read-time {
-  color: $color-gov-link;
-
-  i {
-    color: $color-gov-link;
-  }
-}
-
-i.fas.fa-clock {
-  color: $color-main-text;
 }
 
 #personalisation-bar {
@@ -92,7 +63,7 @@ p > a {
     color: $color-alternative-text;
   }
   .dashboard__routing-block {
-    .card{
+    .card {
       padding-bottom: $large-padding;
     }
     .dashboard-card {
@@ -166,52 +137,23 @@ a.section-list__link {
   }
 }
 
-.export-plan-header {
-  background-color: $color-main-background;
-}
-
 .modal-inner {
   background-color: $color-main-background;
 }
 
-.snapshot-wrapper {
-  h2 {
-    padding-top: $x-large-padding;
-  }
-}
-
-.prepend {
-  border-radius: 0;
-  border: 2px solid $color-border;
-  border-right-width: 0;
-  background-color: $color-background-color;
-  color: $color-main-text;
-}
-
-.export-plan-form {
-  hr + button {
-    margin-top: $large-padding;
-  }
-}
-
-.costs__option .form-label {
-  padding-top: $large-padding;
-}
 #compare-markets .container {
   background-color: $color-background-color;
-   max-width: $max-header-width;
+  max-width: $max-header-width;
 
-    @media only screen and (min-width: $mobile-size) and (max-width: $max-header-width)  {
-     $margin-left: $x-large-padding;
-     $margin-left: $x-large-padding
-    }
-      @media only screen and (min-width: (calc($max-header-width + ($x-large-padding * 2)) ) ){
-     margin-left: auto;
-     margin-right: auto;
-    }
-
+  @media only screen and (min-width: $mobile-size) and (max-width: $max-header-width) {
+    $margin-left: $x-large-padding;
+    $margin-left: $x-large-padding;
+  }
+  @media only screen and (min-width: (calc($max-header-width + ($x-large-padding * 2)) )) {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
-
 
 .landing-page-section {
   background-color: $color-main-background;
@@ -231,10 +173,6 @@ a.section-list__link {
   background-color: $color-main-background;
 }
 
-.heading-small {
-  font-family: $main-text-font;
-}
-
 .caption {
   padding-top: $standard-padding;
 }
@@ -245,48 +183,6 @@ a.section-list__link {
 
 .table-highlight {
   background-color: #eef2f6;
-}
-
-.next-steps {
-  padding: $x-large-padding;
-  @media only screen and (max-width: $mobile-size) {
-    padding: $x-large-padding * 0.5;
-  }
-}
-
-.section-complete .great-checkbox label {
-  color: white;
-}
-
-.export-plan-section-lesson {
-  background-color: $color-background-color;
-}
-
-.export-plan-content {
-  .g-panel::before {
-    background: $color-gov-link;
-  }
-
-  .form-label {
-    font-family: $header-font;
-  }
-
-  textarea.form-control {
-    height: 90px !important;
-    line-height: 17px;
-    color: $color-main-text;
-  }
-  .learning__buttons {
-    .button--tiny-toggle {
-      color: $color-gov-link;
-      i {
-        color: $color-gov-link;
-      }
-    }
-    .button--only-icon {
-      min-height: 40px;
-    }
-  }
 }
 
 .select__selected {

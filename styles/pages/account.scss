@@ -14,10 +14,10 @@
       > li {
         border-top: 5px solid $color-background-color;
         font-size: 20px;
-        padding-left: 30px;
-        padding-right: 30px;
+        padding-left: $x-large-padding;
+        padding-right: $x-large-padding;
         padding-bottom: 26px;
-        padding-top: 19px;
+        padding-top: $large-padding;
 
         &.active {
           border-top: 5px solid $color-thematic-break;

@@ -65,27 +65,6 @@ h5 {
   padding: $x-large-padding 0 $large-padding 0;
 }
 
-.learning-link {
-  font-family: 'FS Lucas';
-  color: $color-main-text;
-  font-size: $font-size-p;
-  line-height: 25px;
-  text-align: left;
-  font-style: normal;
-  text-decoration: none;
-  border: 0;
-  background: none;
-  padding: 0;
-}
-
-.progress-bar-text {
-  color: $color-main-text;
-  font-family: $header-font;
-  font-size: $font-size-p;
-  text-transform: lowercase;
-  margin: 0;
-}
-
 .link {
   color: $color-gov-link;
 }
@@ -115,7 +94,7 @@ article > p {
   line-height: $p-line-height;
 }
 
-.font-xsmall {
+.font-xsmall, .subheading, .heading-small  {
   font-family: $main-text-font;
 }
 
@@ -147,9 +126,6 @@ label.body-l,
   color: $color-main-text;
 }
 
-.subheading{
-  font-family: $main-text-font;
-}
 
 .big-number-list li:before{
   font-family: $header-font!important;

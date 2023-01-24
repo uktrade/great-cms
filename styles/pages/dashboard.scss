@@ -32,11 +32,8 @@
 }
 
 .card {
-  // @include vertical-card-padding();
   padding-left: 0;
   padding-right: 0;
-
-
 
   .g-card,
   .g-card-full {
@@ -44,14 +41,14 @@
     @include horizontal-card-padding();
 
     hr {
-      margin-left: -20px;
-      padding-right: 40px;
+      margin-left: -1 * $large-padding;
+      padding-right: 2 * $large-padding;
     }
   }
 
   .dashboard-card {
-   padding-bottom: 0;
-   padding-top: 0;
+    padding-bottom: 0;
+    padding-top: 0;
     @include horizontal-card-padding();
     p {
       padding-top: $large-padding;
@@ -127,10 +124,9 @@ a.card-link:active {
   background-color: transparent;
 }
 
-
-#dashboard-container{
-  margin-bottom: 30px;
-  .card{
-    margin-bottom: 30px;
+#dashboard-container {
+  margin-bottom: $x-large-padding;
+  .card {
+    margin-bottom: $x-large-padding;
   }
 }

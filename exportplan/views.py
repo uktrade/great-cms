@@ -159,7 +159,7 @@ class ExportPlanSectionView(GA360Mixin, ExportPlanMixin, TemplateView):
 class ExportPlanMarketingApproachView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     slug = 'marketing-approach'
     title = 'Marketing approach'
-    text = 'marketing approach is so much fun'
+    text = ''
     image = '/static/images/marketing-approach-header.png'
 
     def get_context_data(self, **kwargs):
@@ -182,7 +182,7 @@ class ExportPlanAdaptingYourProductView(
     form_class = forms.ExportPlanAdaptingYourProductForm
     success_url = reverse_lazy('exportplan:adapting-your-product')
     title = 'Adapting your product'
-    text = 'seems important to me'
+    text = ''
     image = '/static/images/adapting-your-product-header.png'
 
     def get_initial(self):
@@ -198,6 +198,7 @@ class ExportPlanTargetMarketsResearchView(PageTitleMixin, LessonDetailsMixin, Ex
     slug = 'target-markets-research'
     title = 'Target market research'
     image = '/static/images/marketing-approach-header.png'
+    text = ''
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -212,7 +213,7 @@ class ExportPlanTargetMarketsResearchView(PageTitleMixin, LessonDetailsMixin, Ex
 
 class ExportPlanBusinessObjectivesView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     title = 'Business objectives'
-    text = 'hi its marc again'
+    text = ''
     image = '/static/images/business-objectives-header.png'
 
     def get_context_data(self, *args, **kwargs):
@@ -224,7 +225,7 @@ class ExportPlanBusinessObjectivesView(PageTitleMixin, LessonDetailsMixin, Expor
 
 class ExportPlanAboutYourBusinessView(PageTitleMixin, ExportPlanSectionView):
     title = 'About your business'
-    text = 'hi its marc again and again'
+    text = ''
     image = '/static/images/about-your-business-header.png'
 
     def get_context_data(self, *args, **kwargs):
@@ -237,7 +238,7 @@ class ExportPlanAboutYourBusinessView(PageTitleMixin, ExportPlanSectionView):
 class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     success_url = reverse_lazy('exportplan:about-your-business')
     title = 'Costs And Pricing'
-    text = 'hi its chad'
+    text = ''
     image = '/static/images/costs-and-pricing-header.png'
 
     def get_context_data(self, *args, **kwargs):
@@ -254,7 +255,7 @@ class CostsAndPricingView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionV
 
 class GettingPaidView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     title = 'Getting paid'
-    text = 'I like to get paid'
+    text = ''
     image = '/static/images/getting-paid-header.png'
 
     def get_context_data(self, *args, **kwargs):
@@ -273,7 +274,7 @@ class GettingPaidView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView)
 
 class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     title = 'Funding and credit'
-    text = 'credit cards are not fun'
+    text = ''
     image = '/static/images/funding-and-credit-header.png'
 
     def get_context_data(self, *args, **kwargs):
@@ -291,7 +292,7 @@ class FundingAndCreditView(PageTitleMixin, LessonDetailsMixin, ExportPlanSection
 
 class TravelBusinessPoliciesView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     title = 'Travel plan'
-    text = 'i like to travel'
+    text = ''
     image = '/static/images/travel-plan-header.png'
 
     def get_context_data(self, *args, **kwargs):
@@ -305,7 +306,7 @@ class TravelBusinessPoliciesView(PageTitleMixin, LessonDetailsMixin, ExportPlanS
 
 class BusinessRiskView(PageTitleMixin, LessonDetailsMixin, ExportPlanSectionView):
     title = 'Business Risk'
-    text = 'people dont like risk'
+    text = ''
     image = '/static/images/business-risk-header.png'
 
     def get_context_data(self, *args, **kwargs):

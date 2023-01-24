@@ -42,7 +42,7 @@ footer {
 
     ul {
       margin: 80px $x-large-padding $x-large-padding;
-      max-width: 1230px;
+      max-width: $content-max-width;
       display: inline-flex;
       gap: $large-padding;
       flex-wrap: wrap;

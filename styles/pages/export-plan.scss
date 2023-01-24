@@ -1,0 +1,72 @@
+@import '../colors/colors.scss';
+@import '../sizes/sizes.scss';
+
+.export-plan-section-lesson {
+  background-color: $color-background-color;
+}
+
+.export-plan-content {
+  .g-panel::before {
+    background: $color-gov-link;
+  }
+
+  .form-label {
+    font-family: $header-font;
+  }
+
+  textarea.form-control {
+    height: 90px !important;
+    line-height: 17px;
+    color: $color-main-text;
+  }
+  .learning__buttons {
+    .button--tiny-toggle {
+      color: $color-gov-link;
+      i {
+        color: $color-gov-link;
+      }
+    }
+    .button--only-icon {
+      min-height: 40px;
+    }
+  }
+}
+
+.next-steps {
+  padding: $x-large-padding;
+  @media only screen and (max-width: $mobile-size) {
+    padding: $x-large-padding * 0.5;
+  }
+}
+
+.section-complete .great-checkbox label {
+  color: $color-main-background;
+}
+
+.costs__option .form-label {
+  padding-top: $large-padding;
+}
+
+.export-plan-form {
+  hr + button {
+    margin-top: $large-padding;
+  }
+}
+
+.prepend {
+  border-radius: 0;
+  border: 2px solid $color-border;
+  border-right-width: 0;
+  background-color: $color-background-color;
+  color: $color-main-text;
+}
+
+.export-plan-header {
+  background-color: $color-main-background;
+}
+
+.snapshot-wrapper {
+  h2 {
+    padding-top: $x-large-padding;
+  }
+}

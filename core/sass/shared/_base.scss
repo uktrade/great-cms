@@ -39,12 +39,11 @@ $tablet: 768px;
   color: #fff;
   display: flex;
   flex-direction: row;
-  padding: 20px 30px;
+  padding: $large-padding $x-large-padding;
   margin-bottom: 30px;
 
   @media (max-width: 960px) {
     flex-direction: column;
-    padding: 20px 30px;
   }
 
   .tag-label {
@@ -61,7 +60,7 @@ $tablet: 768px;
     border-radius: 4px;
     background-color: #EB4F4D;
     font-weight: 600;
-    margin-right: 20px;
+    margin-right: $large-padding;
     margin-bottom: 15px;
 
   }
@@ -71,7 +70,7 @@ $tablet: 768px;
     flex-direction: column;
 
     @include mobile {
-      margin-top: 10px;
+      margin-top: $standard-padding;
     }
 
     h3 {
@@ -141,7 +140,7 @@ $tablet: 768px;
 
   nav.main-nav.mobile {
     background: #4B426D;
-    padding: 20px;
+    padding: $large-padding;
 
     &.signed-in {
       padding-top: 0;
@@ -165,7 +164,7 @@ $tablet: 768px;
           font-size: 18px;
           letter-spacing: 0;
           line-height: 16px;
-          padding: 20px 0;
+          padding: $large-padding 0;
           font-weight: 100;
           text-decoration: none;
 
@@ -212,7 +211,7 @@ $tablet: 768px;
     display: none;
     font-family: "FS Lucas", Arial, Helvetica, Verdana;
     font-size: 20px;
-    padding: 15px 20px;
+    padding: 15px $large-padding;
   }
 }
 
@@ -536,7 +535,7 @@ $tablet: 768px;
     }
 
     li {
-      margin-bottom: 10px;
+      margin-bottom: $standard-padding;
     }
   }
 
