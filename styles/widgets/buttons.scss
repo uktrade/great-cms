@@ -125,7 +125,6 @@ button {
     &:hover {
       @include primary();
     }
-   
   }
 
   &.primary-button {
@@ -324,24 +323,16 @@ button.button-lesson {
 
 #skip-link {
   background-color: $color-focus;
-<<<<<<< HEAD
 
   &.accessibility-skip-to-section {
     background-color: inherit;
   }
 }
 
-<<<<<<< HEAD
 button#commodity-code-details {
   padding-left: $large-padding;
   padding-right: $large-padding;
   span + span {
-=======
-button#commodity-code-details{
-  padding-left: $large-padding;
-  padding-right: $large-padding;
-  span + span{
->>>>>>> d4deac29a (new fixes)
     padding-left: $standard-padding;
   }
   width: 100%;
@@ -349,8 +340,6 @@ button#commodity-code-details{
   align-items: center;
   justify-content: flex-start;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 .video-transcript {
   button {
