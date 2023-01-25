@@ -4,8 +4,6 @@
 
 $breakpoint-size: 900px;
 
-$breakpoint-size: 900px;
-
 #learn-root {
   article {
     background-color: $color-main-background;
@@ -127,27 +125,18 @@ $breakpoint-size: 900px;
   height: 8px;
   top: 15px;
   left: 13px;
-<<<<<<< HEAD
 }
 
 .learn__lesson-item-link {
   display: flex;
   gap: $large-padding;
   @media only screen and (max-width: $mobile-size) {
-<<<<<<< HEAD
     flex-direction: column;
     align-items: flex-start;
     gap: $standard-padding;
     button {
       width: 100%;
     }
-=======
-  flex-direction: column;
-  align-items: flex-start;
-  gap: $standard-padding;
-  button{
-    width: 100%;
->>>>>>> a7e6b82f7 ( made menu into links)
   }
 }
 
@@ -160,7 +149,6 @@ $breakpoint-size: 900px;
   }
 }
 
-<<<<<<< HEAD
 .learning-link {
   font-family: 'FS Lucas';
   color: $color-main-text;
@@ -210,18 +198,3 @@ i.fas.fa-clock {
     padding-right: $standard-padding;
   }
 }
-=======
-}
->>>>>>> 20e38ab3d (rebased)
-=======
-
-.learn__topic-item-details{
-  @media only screen and (max-width: $mobile-size) {
-
-    h2, p{
-      padding-bottom: $standard-padding;
-    }
-
-}
-}
->>>>>>> 1e8c981ea (add images to staging)

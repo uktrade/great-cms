@@ -7,18 +7,9 @@
 
 body{
     background-color: $color-background-color
-<<<<<<< HEAD
 }
 
-<<<<<<< HEAD
 a:active, .personalization-menu-button.tag--icon:focus, .personalization-menu-button.tag--icon:active {
     // background-color: revert;
-=======
-a:active, span.menu-link{
-    background-color: inherit;
->>>>>>> dcffa2e14 (new issues raised by chad)
     @include focus-state()
 }
-=======
-}
->>>>>>> 20e38ab3d (rebased)
