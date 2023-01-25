@@ -43,6 +43,8 @@
     hr {
       margin-left: -1 * $large-padding;
       padding-right: 2 * $large-padding;
+      position: inherit;
+      z-index: 1;
     }
   }
 

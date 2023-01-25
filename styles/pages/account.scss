@@ -48,18 +48,19 @@
           display: flex;
           align-items: center;
 
-          &:hover{
+          &:hover {
             background-color: $color-gov-link;
-            >a{
-              color:$color-alternative-text;
+            > a {
+              color: $color-alternative-text;
             }
           }
 
           > a {
             color: $color-gov-link;
             font-size: 16px;
-            &:focus, :active{
-              border:none;
+            &:focus,
+            :active {
+              border: none;
             }
           }
 
@@ -67,11 +68,10 @@
             border: 2px solid $color-main-background;
             > a {
               color: $color-main-text;
-
             }
-             &:hover{
-              >a{
-                color:$color-alternative-text;
+            &:hover {
+              > a {
+                color: $color-alternative-text;
               }
             }
           }

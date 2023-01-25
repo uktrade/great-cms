@@ -39,7 +39,7 @@
 
 .button,
 button {
-  min-height:50px;
+  min-height: 50px;
   height: min-content;
   border-radius: 0;
   padding-top: 8px;
@@ -329,10 +329,10 @@ button.button-lesson {
   }
 }
 
-button#commodity-code-details{
+button#commodity-code-details {
   padding-left: $large-padding;
   padding-right: $large-padding;
-  span + span{
+  span + span {
     padding-left: $standard-padding;
   }
   width: 100%;
@@ -341,9 +341,9 @@ button#commodity-code-details{
   justify-content: flex-start;
 }
 
-.video-transcript{
-  button{
-    i + span{
+.video-transcript {
+  button {
+    i + span {
       padding-left: 0;
     }
   }

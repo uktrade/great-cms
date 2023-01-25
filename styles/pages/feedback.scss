@@ -1,19 +1,19 @@
 @import '../colors/colors.scss';
 @import '../fonts/main.scss';
 
-#search-results-information{
-  .breadcrumb-wrapper{
+#search-results-information {
+  .breadcrumb-wrapper {
     background-color: $color-background-color;
 
-    >.container{
-        padding-top: 0;
+    > .container {
+      padding-top: 0;
     }
   }
-.text{
-font-family: $main-text-font!important;
-}
+  .text {
+    font-family: $main-text-font !important;
+  }
 }
 
-.search-results-container{
-    background-color: $color-main-background;
+.search-results-container {
+  background-color: $color-main-background;
 }

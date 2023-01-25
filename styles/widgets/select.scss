@@ -27,3 +27,7 @@
 .select__placeholder--value {
   padding-left: $standard-padding * 0.5;
 }
+
+.select__list:not(.select__list--open){
+ display: none;
+}

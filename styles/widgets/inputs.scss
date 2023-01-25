@@ -1,46 +1,48 @@
 @import '../../styles/colors/colors.scss';
 
-input[type=text],
-input[type=email],
-input[type=password],
-input[type=tel],
-input[type=number], textarea, textarea.form-control {
-    border-radius: 0px;
-    border: 2px solid $color-main-text;
-    color: $color-main-text;
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='tel'],
+input[type='number'],
+textarea,
+textarea.form-control {
+  border-radius: 0px;
+  border: 2px solid $color-main-text;
+  color: $color-main-text;
 }
-input[type=checkbox].markascomplete_checkbox{
-    background-color: $color-completed;
-}
-
-
-
-label{
-    color: $color-main-text;
+input[type='checkbox'].markascomplete_checkbox {
+  background-color: $color-completed;
 }
 
-.multiple-choice{
-    label, label:before, label:after{
-        color: $color-gov-link;
-    }
+label {
+  color: $color-main-text;
+}
+
+.multiple-choice {
+  label,
+  label:before,
+  label:after {
+    color: $color-gov-link;
+  }
 }
 
 .select__placeholder {
-    min-height: 50px;
+  min-height: 50px;
 
-    i {
-        font-size: 18px;
-    }
+  i {
+    font-size: 18px;
+  }
 }
 
-input[type=text]{
-    color: $color-main-text;
-
+input[type='text'] {
+  color: $color-main-text;
 }
 
-.search-input{ i{
-        font-size: 18px;
-    }
+.search-input {
+  i {
+    font-size: 18px;
+  }
 }
 
 .form-label,
