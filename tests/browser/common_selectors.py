@@ -117,6 +117,10 @@ class DashboardReadingProgress(SelectorsEnum):
     TOPICS_READ_PROGRESS = Selector(By.CSS_SELECTOR, '#your-progress-card .progress-bar-text')
 
 
+class DashboardWithLessonStarted(SelectorsEnum):
+    TOPICS_READ_PROGRESS = Selector(By.XPATH, '//p[contains(., "lesson completed")]).')
+
+
 class SignUpModal(SelectorsEnum):
     MODAL = Selector(By.ID, 'signup-modal')
     LINKEDIN = Selector(By.ID, 'signup-modal-linkedin')
