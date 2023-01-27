@@ -119,7 +119,7 @@ def get_last_completed_lesson_id(user):
         }
         for lesson in data.get('lesson_completed', [])
     ]
-    modified_times = sorted(modified_times, key=lambda l: l['modified'], reverse=True)
+    modified_times = sorted(modified_times, key=lambda lesson: lesson['modified'], reverse=True)
 
     if modified_times:
         lesson = modified_times[0]
