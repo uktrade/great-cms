@@ -41,10 +41,12 @@ function ExporterSurvey() {
     const getQuestionIndexById = (id) => questions.findIndex(q => q.id === id)
 
     // TODO - Account for when there's a jump - do we need to add an 'end' option to jump options in API??
-    const isFinalQuestion = () => getQuestionIndexById(currentQuestion.id) === (questions.length - 1)
+    const isFinalQuestion = (question) => getQuestionIndexById(question.id) === (questions.length - 1)
 
-    // If multiple answers have a jump - go to the first one
-    // TODO - check this with someone
+    // If multiple answers have a jump - go to the first ID
+    // TODO - update to go to the jump which is first in order - NOT ID
+    // TODO - account for if a 'jump' has value 'end' -
+    // OR just add validation in the API to stop multiple choices for a question having a jump??
     const getJumpMultipleChoice = () => {
         const { choices } = currentQuestion
 
@@ -63,6 +65,7 @@ function ExporterSurvey() {
     }
 
     const updateRunningOrder = (questionToJumpTo) => {
+        // Removes any questions from the running order which were jumped to from previously chosen choices of a question
         const possibleJumps = currentQuestion.choices.map(c => c.jump).filter(c => c)
         if (possibleJumps) {
 
@@ -101,19 +104,20 @@ function ExporterSurvey() {
 
     const getNextQuestion = () => {
         // TODO add logic to check if any validation errors
-        // Can check using currentQuestion.answer
+        // Can check using currentQuestion.answer - make sure to check that the array is empty in case multi-select!
 
         const updatedQuestions = questions.map(q => q.id === currentQuestion.id ? { ...q, answer: currentQuestion.answer } : q)
         setQuestions(updatedQuestions)
 
-        if (isFinalQuestion()) {
+        const questionToJumpTo = Array.isArray(currentQuestion.answer) ? getJumpMultipleChoice() : getJumpSingleChoice()
+
+        if (isFinalQuestion(currentQuestion) || questionToJumpTo === 'end') {
+            // if (isFinalQuestion(currentQuestion)) {
             // TODO - Set cookie to not show survey again
             // TODO - Send data to forms API here
             setMode(modes.thankyou)
             return
         }
-
-        const questionToJumpTo = Array.isArray(currentQuestion.answer) ? getJumpMultipleChoice() : getJumpSingleChoice()
 
         // Checks if a user previously selected a choice that had a 'jump'
         // Removes that 'jump' question from the running order if no longer selected
@@ -126,17 +130,21 @@ function ExporterSurvey() {
         setCurrentQuestion(questions[nextQuestionIndex])
     }
 
+    // TODO - this doesn't work if you have jump to end on the first question
     const goBack = () => {
-        const currentQuestionPosition = runningOrder.findIndex((q) => q === currentQuestion.id)
 
-        if (currentQuestionPosition === 0) {
-            setMode(modes.start)
-        }
-        else if (mode === modes.thankyou) {
+        if (mode === modes.thankyou) {
             const previousQuestionId = runningOrder[runningOrder.length - 1]
             setCurrentQuestion(getQuestionById(previousQuestionId))
             setMode(modes.question)
+            return
         }
+
+        const currentQuestionPosition = runningOrder.findIndex((q) => q === currentQuestion.id)
+        if (currentQuestionPosition === 0) {
+            setMode(modes.start)
+        }
+
         else {
             const previousQuestionId = runningOrder[currentQuestionPosition - 1]
             setCurrentQuestion(getQuestionById(previousQuestionId))
