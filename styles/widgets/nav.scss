@@ -54,9 +54,9 @@ nav {
 }
 
 nav.breadcrumbs {
-    padding-top: 0.75em !important;
-    padding-bottom: 0.75em !important;
-    background-color: $color-background-color ;
+  padding-top: 0.75em !important;
+  padding-bottom: 0.75em !important;
+  background-color: $color-background-color;
 
   background-color: $color-background-color;
   @media only screen and (max-width: $mobile-size) {
@@ -69,4 +69,5 @@ nav {
     @media only screen and (max-width: $breakpoint) {
       display: none;
     }
+  }
 }

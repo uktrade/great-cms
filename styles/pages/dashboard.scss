@@ -132,22 +132,3 @@ a.card-link:active {
     margin-bottom: $x-large-padding;
   }
 }
-
-    @media only screen and (max-width: $mobile-size) {
-      display: flex;
-      flex-direction: column;
-      gap: $x-large-padding;
-
-      h3 {
-        min-width: auto;
-        padding-top: $x-large-padding;
-        padding-bottom: 0;
-      }
-
-      > div {
-        min-width: auto;
-        padding-top: 0;
-      }
-    }
-  }
-}
