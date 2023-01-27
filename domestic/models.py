@@ -1062,26 +1062,96 @@ class ArticlePage(
     )
 
     related_page_one = models.ForeignKey(
-        'domestic.ArticlePage',
+        'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
     related_page_two = models.ForeignKey(
-        'domestic.ArticlePage',
+        'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
     related_page_three = models.ForeignKey(
-        'domestic.ArticlePage',
+        'wagtailcore.Page',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
+    related_page_four = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    related_page_five = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+
+    related_page_one_link = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Link',
+    )
+    related_page_one_title = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Title',
+    )
+
+    related_page_two_link = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Link',
+    )
+    related_page_two_title = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Title',
+    )
+
+    related_page_three_link = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Link',
+    )
+    related_page_three_title = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Title',
+    )
+
+    related_page_four_link = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Link',
+    )
+    related_page_four_title = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Title',
+    )
+
+    related_page_five_link = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Link',
+    )
+    related_page_five_title = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Title',
+    )
+
     tags = ParentalManyToManyField(Tag, blank=True)
 
     @property
@@ -1091,9 +1161,19 @@ class ArticlePage(
             'related_page_one',
             'related_page_two',
             'related_page_three',
+            'related_page_four',
+            'related_page_five',
         ]:
             page = getattr(self, rel)
-            if page:
+            link = getattr(self, rel + '_link')
+            title = getattr(self, rel + '_title')
+            if link and title:
+                out = {
+                    'full_url': link,
+                    'title': title,
+                }
+                output.append(out)
+            elif page:
                 output.append(page.specific)
         return output
 
