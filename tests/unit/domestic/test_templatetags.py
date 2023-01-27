@@ -448,7 +448,7 @@ def test_pagination(count, current, expected, rf):
     soup = BeautifulSoup(html, 'html.parser')
 
     items = []
-    if soup.findAll('a', {'class': 'pagination-previous'}):
+    if soup.findAll('a', {'id': 'pagination-previous'}):
         items.append('P')
     for element in soup.find_all('li'):
         if element.find('span'):
@@ -459,7 +459,7 @@ def test_pagination(count, current, expected, rf):
                 items.append(f'[{button.string}]')
             else:
                 items.append(button.string)
-    if soup.findAll('a', {'class': 'pagination-next'}):
+    if soup.findAll('a', {'id': 'pagination-next'}):
         items.append('N')
     assert ' '.join(items) == expected
 

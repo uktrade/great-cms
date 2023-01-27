@@ -15,7 +15,7 @@
 {% if pagination.paginator.num_pages > 1 %}
     <nav class="pagination">
         {% if pagination.has_previous %}
-            <a class="button primary-button" href="{{ url }}{{ page_param_name }}={{ pagination.previous_page_number}}">Previous</a>
+            <a id="pagination-previous" class="button primary-button" href="{{ url }}{{ page_param_name }}={{ pagination.previous_page_number}}">Previous</a>
         {% endif %}
             <ol class="{{ pagination.has_previous|yesno:'has-previous ,' }}{{ pagination.has_next|yesno:'has-next,' }}">
                 {% if pagination.paginator.num_pages <= 6 %}
@@ -45,7 +45,7 @@
                 {% endif %}
             </ol>
         {% if pagination.has_next %}
-            <a class="button primary-button" href="{{ url }}{{ page_param_name }}={{ pagination.next_page_number }}">Next</a>
+            <a id="pagination-next" class="button primary-button" href="{{ url }}{{ page_param_name }}={{ pagination.next_page_number }}">Next</a>
         {% endif %}
     </nav>
 {% endif %}
