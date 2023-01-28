@@ -147,7 +147,7 @@ describe('Test company search modal', () => {
     expect(reviewText).toMatch('Incorporated on12 May 2015')
     // click next again and save the company
     act(() => {
-      Simulate.click(modal.querySelector('.primary-buton'))
+      Simulate.click(modal.querySelector('.primary-button'))
     })
     expect(nextButtonClick).toHaveBeenCalledTimes(1)
   })
