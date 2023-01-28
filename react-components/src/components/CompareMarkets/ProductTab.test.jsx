@@ -171,7 +171,7 @@ describe('Compare markets - Product tab', () => {
       })
     })
     const addProductButton = container.querySelector(
-      '#product-tab .button--tertiary'
+      '#product-tab .secondary-button'
     )
     expect(document.body.querySelector('.product-finder')).toBeFalsy()
     expect(addProductButton.textContent).toMatch('Add another product')
