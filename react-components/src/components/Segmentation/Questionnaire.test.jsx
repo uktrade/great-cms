@@ -140,7 +140,7 @@ describe('VFM Questionnaire', () => {
     let modal = document.body.querySelector('.segmentation-modal')
     // Click continue
     act(() => {
-      Simulate.click(modal.querySelector('.button--primary'))
+      Simulate.click(modal.querySelector('.primary-button'))
     })
     await waitFor(() => {
       expect(document.body.querySelector('h3').textContent).toMatch(
@@ -154,18 +154,18 @@ describe('VFM Questionnaire', () => {
       window.getComputedStyle(modal.querySelector('.progress-bar span')).width
     ).toEqual('0%')
     // check 'continue' is disabled
-    expect(modal.querySelector('.button--primary').disabled).toBeTruthy()
+    expect(modal.querySelector('.primary-button').disabled).toBeTruthy()
     // Click a radio button
     act(() => {
       Simulate.click(modal.querySelector('.multiple-choice input'))
     })
     await waitFor(() => {
-      expect(modal.querySelector('.button--primary').disabled).toBeFalsy()
+      expect(modal.querySelector('.primary-button').disabled).toBeFalsy()
     })
 
     expect(postQuestionnaire.calls().length).toEqual(1)
     act(() => {
-      Simulate.click(modal.querySelector('.button--primary'))
+      Simulate.click(modal.querySelector('.primary-button'))
     })
     await waitFor(() => {
       expect(postQuestionnaire.calls().length).toEqual(2)
@@ -220,7 +220,7 @@ describe('VFM Questionnaire', () => {
     let modal = document.body.querySelector('.segmentation-modal')
     // Click continue
     act(() => {
-      Simulate.click(modal.querySelector('.button--primary'))
+      Simulate.click(modal.querySelector('.primary-button'))
     })
     await waitFor(() => {
       expect(document.body.querySelector('h3').textContent).toMatch(
@@ -232,7 +232,7 @@ describe('VFM Questionnaire', () => {
       Simulate.click(modal.querySelector('.multiple-choice input'))
     })
     await waitFor(() => {
-      expect(modal.querySelector('.button--primary').disabled).toBeFalsy()
+      expect(modal.querySelector('.primary-button').disabled).toBeFalsy()
     })
     // Prepare post with final question answered
     postQuestionnaire.reset()
@@ -241,7 +241,7 @@ describe('VFM Questionnaire', () => {
       Object.assign({}, mockResponse, mockResponseAnswer3)
     )
     act(() => {
-      Simulate.click(modal.querySelector('.button--primary'))
+      Simulate.click(modal.querySelector('.primary-button'))
     })
     await waitFor(() => {
       expect(document.body.querySelector('h3').textContent).toMatch('Thank you')

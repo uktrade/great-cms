@@ -140,7 +140,7 @@ describe('Objective', () => {
     )
 
     act(() => {
-      container.querySelector('.button--delete').click()
+      container.querySelector('.delete-button').click()
     })
 
     expect(mockFunction).toHaveBeenCalledWith(234)
