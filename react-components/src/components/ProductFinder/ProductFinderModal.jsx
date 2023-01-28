@@ -454,7 +454,7 @@ export default function ProductFinderModal(props) {
           />
           <button
             type="button"
-            className="button button--primary m-t-s"
+            className="button primary-button m-t-s"
             onClick={backToSearch}
           >
             Search again

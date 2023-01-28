@@ -31,7 +31,7 @@ export default function BasketViewer({ label, onOpen, children }) {
       onClick={toggleViewer}
       ref={buttonRef}
     >
-      <span class="menu-link">{label}</span>
+      <span className="menu-link">{label}</span>
       <i
         className={`fas ${modalIsOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}
         aria-hidden="true"

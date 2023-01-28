@@ -90,7 +90,7 @@ const openProductFinder = () => {
   // Click on the open product finder button
   act(() => {
     Simulate.click(
-      container.querySelector('.basket-view button.button--primary')
+      container.querySelector('.personalization-menu button.primary-button')
     )
   })
   expect(document.body.querySelector('.product-finder')).toBeTruthy()
@@ -141,13 +141,14 @@ describe('Product finder tests', () => {
     act(() => {
       Simulate.click(container.querySelector('button'))
     })
-    const basketView = container.querySelector('.basket-view')
+    const basketView = container.querySelector('.personalization-menu')
     expect(basketView).toBeTruthy()
-    const items = basketView.querySelectorAll('li')
+    const items = basketView.querySelectorAll('li > a')
     expect(items[0].textContent).toMatch(/Product a$/)
     expect(items[1].textContent).toMatch(/product B$/)
     expect(items[4].textContent).toMatch(/Product E$/)
   })
+
 
   it('Opens and closes product finder', async () => {
     act(() => {
@@ -159,7 +160,7 @@ describe('Product finder tests', () => {
       Simulate.click(container.querySelector('button'))
     })
     const addProductButton = container.querySelector(
-      '.basket-view button.button--primary'
+      '.personalization-menu button.primary-button'
     )
     expect(addProductButton).toBeTruthy()
     // Click on the open product finder button
