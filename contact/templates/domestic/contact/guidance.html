@@ -12,12 +12,11 @@
     <link href="{% static 'styles/contact-guidance.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 {% block content %}
-    <div class="container">
-        {% breadcrumbs 'Guidance' %}
-            <a href="/">great.gov.uk</a>
-            <a href="{% url 'contact:contact-us-routing-form' step='location' %}">Contact us</a>
-        {% endbreadcrumbs %}
-    </div>
+
+    {% breadcrumbs 'Guidance' %}
+        <a href="/">great.gov.uk</a>
+        <a href="{% url 'contact:contact-us-routing-form' step='location' %}">Contact us</a>
+    {% endbreadcrumbs %}
     <div class="container">
         <section>
             <h1 class='heading-xlarge'>{{ content_snippet.title }}</h1>

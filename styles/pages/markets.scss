@@ -20,10 +20,9 @@
 }
 
 .markets-grid {
-
-   @media only screen and (min-width:$mobile-size) {
-   display: table-cell;
-}
+  @media only screen and (min-width: $mobile-size) {
+    display: table-cell;
+  }
   .card-inner {
     padding: $large-padding;
     padding-bottom: $x-large-padding * 2;
@@ -35,7 +34,7 @@
     }
   }
 
-   @media only screen and (max-width: $mobile-size) {
+  @media only screen and (max-width: $mobile-size) {
     .card-inner {
       min-height: fit-content !important;
       height: 80px;
@@ -195,8 +194,13 @@
   }
 }
 
- #country-guide-teaser-section p.sub-header {
+#country-guide-teaser-section p.sub-header {
   padding-left: $standard-padding * 0.5;
-        color: #e94f3d;
-        margin-bottom: $standard-padding;
-    }
+  color: #e94f3d;
+  margin-bottom: $standard-padding;
+}
+
+
+  .markets-pagination{
+    float: right!important;
+  }

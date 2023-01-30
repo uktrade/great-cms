@@ -12,12 +12,11 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        {% breadcrumbs 'Find trade office' %}
-            <a href="/">great.gov.uk</a>
-            <a href="{% url 'contact:contact-us-routing-form' step='location' %}">Contact us</a>
-        {% endbreadcrumbs %}
-    </div>
+
+    {% breadcrumbs 'Find trade office' %}
+        <a href="/">great.gov.uk</a>
+        <a href="{% url 'contact:contact-us-routing-form' step='location' %}">Contact us</a>
+    {% endbreadcrumbs %}
 
     <div class="container">
         <section class="width-half" id="search-section">

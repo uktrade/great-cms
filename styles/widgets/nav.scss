@@ -24,21 +24,22 @@ nav a {
 nav.breadcrumbs {
   padding: 0.75em $x-large-padding;
   max-width: $content-max-width;
-  @media only screen and (min-width: $content-max-width) {
+  background-color: $color-background-color;
+  @media only screen and (min-width: calc( $content-max-width + (2* $x-large-padding))) {
     margin: 0 auto;
     padding: 0.75em 0;
   }
 
-  background-color: $color-background-color;
-  @media only screen and (max-width: $mobile-size) {
-    padding: 0.75em 15px;
+  @media only screen and (max-width: calc( $content-max-width + (2* $x-large-padding))) {
+    padding: 0.75em $x-large-padding;
   }
 
-  a, span {
+  a,
+  span {
     font-size: 16px;
   }
 
-  li{
+  li {
     margin-bottom: 0;
   }
 }

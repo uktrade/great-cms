@@ -9,8 +9,8 @@
     padding-top: 70px;
 
     @media (max-width: 640px) {
-padding-top: 0;
-padding-bottom: $large-padding;
+      padding-top: 0;
+      padding-bottom: $large-padding;
     }
   }
 
@@ -32,7 +32,7 @@ padding-bottom: $large-padding;
       .mobile-filter-toggle,
       .sort-control {
         width: calc(50% - 5px);
-        min-width: 160px ;
+        min-width: 160px;
         float: left;
         margin-bottom: 0;
         height: 43px;
@@ -47,15 +47,12 @@ padding-bottom: $large-padding;
         text-align-last: center;
         cursor: pointer;
       }
-       .mobile-filter-toggle {
-
+      .mobile-filter-toggle {
         @include secondary();
         align-items: center;
         display: flex;
         justify-content: center;
-
-    }
-
+      }
     }
   }
   .card {
