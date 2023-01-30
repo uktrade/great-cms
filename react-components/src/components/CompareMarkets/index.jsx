@@ -116,7 +116,7 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
             cacheVersion={cacheVersion}
           />
           {ReactDOM.createPortal( <p>
-            Continue adding upto 10 markets to compare dynamic feed data from some of the world's most trusted sources.
+            Continue adding upto 10 markets to compare dynamic data from some of the world's most trusted sources.
           </p>, ctaContainer)}
           </>
         ) : (
@@ -124,12 +124,15 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
             hasProducts ? (
               <>
                 <p>
-                 Find information to help choose the right export market for your chosen product. Add your first market to see dynamic feed data from some of the world's most trusted sources.
+                 Find information to help choose the right export markets for your product. Add a market to see dynamic data from some of the world's most trusted sources.
                 </p>
                 {addMarketButton}
               </>
             ) : (
               <>
+              <p>
+                 Find information to help choose the right export markets for your product. Add a product to see dynamic data from some of the world's most trusted sources.
+                </p>
                 {addProductButton}
               </>
             ),
