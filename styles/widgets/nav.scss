@@ -4,11 +4,11 @@
 
 $breakpoint: 1250px;
 
-nav > ul > li > a {
+nav.main-nav ul a {
   font-family: $main-text-font !important ;
+  font-size: $font-size-p;
   border-bottom: 0;
   text-decoration: none;
-  font-size: $font-size-p !important;
   color: $color-alternative-text !important;
   padding-right: 4px;
   border: none !important;
@@ -32,6 +32,14 @@ nav.breadcrumbs {
   background-color: $color-background-color;
   @media only screen and (max-width: $mobile-size) {
     padding: 0.75em 15px;
+  }
+
+  a, span {
+    font-size: 16px;
+  }
+
+  li{
+    margin-bottom: 0;
   }
 }
 

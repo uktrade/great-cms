@@ -13,11 +13,15 @@
   font-family: $header-font;
 }
 
-.other-pages-container {
+.page-main-content-container {
   display: flex;
   padding-bottom: 0;
   flex: 1;
   background-color: $color-main-background;
+
+  .column-two-thirds{
+    padding: 0;
+  }
 
   .container {
     margin: auto;
@@ -27,12 +31,11 @@
     flex: 1;
     max-width: $content-max-width;
     margin: auto;
-    padding-left: 1.5 * $standard-padding;
   }
 }
 
 @media only screen and (min-width: 420px) and (max-width: 1260px) {
-  .other-pages-container .inner-container {
+  .page-main-content-container .inner-container {
     padding-left: 0;
     margin-left: $x-large-padding;
     margin-right: $x-large-padding;
@@ -40,7 +43,7 @@
 }
 
 @media only screen and (max-width: 420px) {
-  .other-pages-container .inner-container {
+  .page-main-content-container .inner-container {
     max-width: auto;
     margin-left: $large-padding;
     margin-right: $large-padding;
@@ -192,7 +195,7 @@ section.report-trade-barrier {
   }
 }
 
-#report-a-trade-barrier .other-pages-container {
+#report-a-trade-barrier .page-main-content-container {
   padding-top: $x-large-padding;
 }
 
