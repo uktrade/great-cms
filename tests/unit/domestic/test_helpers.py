@@ -129,8 +129,7 @@ def test_get_last_completed_lesson():
 
     assert (
         helpers.get_last_completed_lesson_id(test_data_1) == 41
-    ),
-    f'get_last_lesson_completed should return lesson 41, which was the last lesson completed but returned {helpers.get_last_completed_lesson_id(test_data_1)}'
+    ), f'get_last_lesson_completed should return lesson 41, which was the last lesson completed but returned {helpers.get_last_completed_lesson_id(test_data_1)}'
 
     assert (
         helpers.get_last_completed_lesson_id(test_data_2) is None
