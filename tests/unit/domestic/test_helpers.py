@@ -88,3 +88,50 @@ def test_get_lesson_completion_status(mock_get_lesson_completed, en_locale):
 
     mock_user = mock.Mock()
     assert helpers.get_lesson_completion_status(mock_user) == expected
+
+
+@pytest.mark.django_db
+def test_get_last_completed_lesson():
+
+    test_data_1 = {
+        'result': 'ok',
+        'lesson_completed': [
+            {
+                'service': 'great-cms',
+                'lesson_page': '/example',
+                'lesson': 2,
+                'module': 2,
+                'user': 3,
+                'modified': '2022-01-25T23:34:07+0000',
+                'created': '2022-01-25T23:34:07+0000',
+            },
+            {
+                'service': 'great-cms',
+                'lesson_page': 'example',
+                'lesson': 41,
+                'module': 47,
+                'user': 3,
+                'modified': '2023-01-25T23:34:07+0000',
+                'created': '2023-01-25T23:34:07+0000',
+            },
+            {
+                'service': 'great-cms',
+                'lesson_page': '/example',
+                'lesson': 1,
+                'module': 1,
+                'user': 3,
+                'modified': '2022-01-25T23:34:07+0000',
+                'created': '2022-01-25T23:34:07+0000',
+            },
+        ],
+    }
+    test_data_2 = {'result': 'ok', 'lesson_completed': []}
+
+    assert (
+        helpers.get_last_completed_lesson_id(test_data_1) == 41
+    ),
+    f'get_last_lesson_completed should return lesson 41, which was the last lesson completed but returned {helpers.get_last_completed_lesson_id(test_data_1)}'
+
+    assert (
+        helpers.get_last_completed_lesson_id(test_data_2) is None
+    ), "Where no lessons have been completed, get_last_completed_lesson should return None"

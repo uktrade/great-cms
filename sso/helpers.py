@@ -9,7 +9,6 @@ from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 
 from core.constants import SERVICE_NAME, USER_DATA_NAMES
-from core.models import DetailPage
 from directory_api_client import api_client
 from directory_constants import urls
 from directory_sso_api_client import sso_api_client
@@ -174,8 +173,7 @@ def get_user_page_views(sso_session_id, page=None):
     return response.json()
 
 
-def set_lesson_completed(sso_session_id, lesson):
-    lesson_obj = DetailPage.objects.get(pk=lesson)
+def set_lesson_completed(sso_session_id, lesson_obj):
     lesson_page = lesson_obj.url_path
     module = lesson_obj.get_parent()
     response = sso_api_client.user.set_user_lesson_completed(

@@ -50,6 +50,7 @@ from exportplan.core.data import (
     SECTION_SLUGS as EXPORTPLAN_SLUGS,
     SECTIONS as EXPORTPLAN_URL_MAP,
 )
+from sso import helpers as sso_helpers
 
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)
@@ -457,8 +458,8 @@ class ListPage(CMSGenericPage):
         context = super().get_context(request)
 
         if request.user.is_authenticated:
-
-            lesson_id = get_last_completed_lesson_id(request.user)
+            data = sso_helpers.get_lesson_completed(request.user.session_id)
+            lesson_id = get_last_completed_lesson_id(data)
             if lesson_id:
                 page = DetailPage.objects.get(id=lesson_id)
                 page_topic_helper = PageTopicHelper(page)

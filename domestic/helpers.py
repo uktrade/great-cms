@@ -107,9 +107,8 @@ def get_lesson_completion_status(user, context={}):
     return {'module_pages': module_pages, 'lessons_in_progress': lessons_in_progress}
 
 
-def get_last_completed_lesson_id(user):
+def get_last_completed_lesson_id(data):
 
-    data = sso_helpers.get_lesson_completed(user.session_id)
     # find most recently completed lesson
     modified_times = [
         {
