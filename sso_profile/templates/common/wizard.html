@@ -3,8 +3,10 @@
 {% load static %}
 
 {% block content %}
+<div class="breadcrumbs-wrapper">
+{% block breadcrumbs %}{% endblock %}
+</div>
     <section class="container">
-        {% block breadcrumbs %}{% endblock %}
         <div class="grid-row margin-top-60">
             <div class="column-two-thirds">
                 <form method="post" enctype="multipart/form-data" novalidate="novalidate">

@@ -134,4 +134,7 @@ padding: 0 $standard-padding;
   &--white-track {
     background-color: white;
   }
+  >span{
+    min-width: 2%;
+  }
 }

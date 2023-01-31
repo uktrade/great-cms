@@ -337,6 +337,11 @@ class ListPageTests(WagtailPageTests):
     def test_allowed_subtypes(self):
         self.assertAllowedSubpageTypes(ListPage, {CuratedListPage})
 
+    @mock.patch.object(ListPage, 'sso_helpers')
+    def test_has_no_next_lesson_in_list_page_context(self):
+        page = ListPage
+        assert 'next_lesson' not in page.get_context(), 'Next lesson should not be in context of list page'
+
 
 class CuratedListPageTests(WagtailPageTests):
     def test_can_be_created_under_list_page(self):
