@@ -60,9 +60,9 @@ footer {
         margin: 115px $large-padding 52px $large-padding;
       }
 
-      > li {
+      > li a {
         font-family: $main-text-font;
-        font-size: 30px;
+        font-size: $font-size-p;
         color: $color-alternative-text;
         text-decoration-line: underline;
         text-decoration-thickness: 1px;

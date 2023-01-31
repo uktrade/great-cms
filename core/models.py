@@ -470,7 +470,6 @@ class ListPage(CMSGenericPage):
                     if next_module:
                         context['next_lesson'] = get_first_lesson(next_module)
 
-            # pdb.set_trace()
             completion_status = get_lesson_completion_status(request.user)
             context['high_level_completion_progress'] = get_high_level_completion_progress(
                 completion_status=completion_status,
