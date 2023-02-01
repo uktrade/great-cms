@@ -27,7 +27,7 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
-astroid==2.13.4
+astroid==2.14.1
     # via pylint
 asttokens==2.2.1
     # via stack-data
@@ -54,7 +54,7 @@ beautifulsoup4==4.9.3
     #   great-components
     #   readtime
     #   wagtail
-black==22.12.0
+black==23.1.0
     # via
     #   -r requirements_test.in
     #   blacken-docs
@@ -366,7 +366,7 @@ oauthlib==3.2.1
     #   requests-oauthlib
 olefile==0.46
     # via directory-validators
-openpyxl==3.0.10
+openpyxl==3.1.0
     # via tablib
 oscrypto==1.3.0
     # via pyhanko-certvalidator
@@ -374,6 +374,7 @@ outcome==1.2.0
     # via trio
 packaging==23.0
     # via
+    #   black
     #   build
     #   pytest
     #   pytest-sugar
@@ -436,13 +437,13 @@ pygments==2.14.0
     # via
     #   ipython
     #   sphinx
-pyhanko==0.16.0
+pyhanko==0.17.0
     # via xhtml2pdf
-pyhanko-certvalidator==0.19.8
+pyhanko-certvalidator==0.20.0
     # via
     #   pyhanko
     #   xhtml2pdf
-pylint==2.15.10
+pylint==2.16.0
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -452,6 +453,8 @@ pylint-plugin-utils==0.7
     # via pylint-django
 pypdf==3.3.0
     # via xhtml2pdf
+pypng==0.20220715.0
+    # via qrcode
 pyproject-hooks==1.0.0
     # via build
 pyquery==2.0.0
@@ -501,7 +504,7 @@ pyyaml==6.0
     #   pyhanko
 pyzmq==25.0.0
     # via locust
-qrcode==7.3.1
+qrcode==7.4
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
@@ -626,6 +629,7 @@ typing-extensions==4.4.0
     #   locust
     #   pylint
     #   pypdf
+    #   qrcode
 tzdata==2022.7
     # via pytz-deprecation-shim
 tzlocal==4.2
