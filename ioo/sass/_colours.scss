@@ -1,0 +1,45 @@
+@import 'tokens';
+
+.atlas-colour--white {
+  color: $atlas-white;
+}
+
+.atlas-bg--white {
+  background-color: $atlas-white;
+}
+
+.atlas-bg--green-light {
+  background-color: $atlas-green-light;
+}
+
+.atlas-bg--dark-blue {
+  background-color: $atlas-brand-blue;
+}
+
+.atlas-bg--grey-darker {
+  background-color: $atlas-grey-darker;
+}
+
+.atlas-bg--grey-light {
+  background-color: $atlas-grey-light;
+}
+
+.atlas-bg--grey-lighter {
+  background-color: $atlas-grey-lighter;
+}
+
+.atlas-alternate-bg {
+  & > :nth-child(odd):not([class*="atlas-bg"]) {
+    background-color: $atlas-grey-lighter;
+  }
+}
+
+.atlas-alternate-bg--3-tone {
+  & > :nth-of-type(3n + 1) {
+    background-color: $atlas-grey-light;
+  }
+
+  & > :nth-of-type(3n) {
+    background-color: $atlas-green-light;
+  }
+}

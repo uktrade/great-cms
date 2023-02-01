@@ -16,6 +16,7 @@ import contact.urls
 import core.urls
 import domestic.urls
 import exportplan.urls
+import ioo.urls
 import search.urls
 import sso.urls
 import sso_profile.urls
@@ -72,3 +73,6 @@ if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns = [path('__debug__/', include(debug_toolbar.urls))] + urlpatterns
+
+if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
+    urlpatterns = [path('international/ioo/', include(ioo.urls))] + urlpatterns

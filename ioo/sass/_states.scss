@@ -1,0 +1,9 @@
+@import 'tokens';
+
+:focus {
+  outline: $govuk-focus;
+}
+
+#content {
+  outline: none;
+}

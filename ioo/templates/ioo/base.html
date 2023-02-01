@@ -1,0 +1,72 @@
+{% extends 'directory_components/base.html' %}
+
+{% comment %}
+As this template extends the directory_components/base.html, is brings in a
+number of extra CSS styles that were once sensible defaults:
+- govuk-elements
+- elements-components
+{% endcomment %}
+
+{% load static %}
+
+{% block head_title %}{{ 'international_home_link.label' }}{% endblock %}
+
+{% load static_absolute international_header from directory_components %}
+
+{% block header_js %}{% endblock %}
+
+{% block head_js %}
+    <script src="{% static 'javascript/dit.reveal.js' %}"></script>
+{% endblock %}
+
+{% block vendor_js %}
+    <script src="{% static 'directory_components/js/vendor/details-polyfill.js' %}"></script>
+{% endblock %}
+
+{% block head_js_ga360 %}
+    <script src="{% static 'javascript/dit.tagging.js' %}"></script>
+    {% comment %} <script type="text/javascript">
+        window.dataLayer = window.dataLayer || [];
+        {% if ga360 and not skip_ga360 %}
+            window.dataLayer.push({
+                'businessUnit': '{{ ga360.business_unit }}',
+                'siteSection': '{{ ga360.site_section}}',
+                'siteSubsection': '{{ ga360.site_subsection }}',
+                'siteLanguage': '{{ ga360.site_language }}',
+                'userId': '{{ ga360.user_id }}',
+                'loginStatus': '{{ ga360.login_status }}',
+            });
+            dit.tagging.base.init();
+        {% endif %}
+    </script> {% endcomment %}
+{% endblock %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'ioo_styles.css' %}">
+{% endblock %}
+
+{% block head_other %}
+    <meta name="msvalidate.01" content="76D322F181AE9F91C43419E5CD511BBC"/>
+{% endblock %}
+
+{% block head_sharing_metadata %}
+    {% if request %}
+        <meta property="og:image" content="{% spaceless %}
+            {% block meta_sharing_thumbnail %}
+                {% static_absolute 'directory_components/images/opengraph-image.png' %}
+            {% endblock %}
+        {% endspaceless %}">
+        <meta property="og:url" content="{{ request.build_absolute_uri }}"/>
+    {% endif %}
+{% endblock %}
+
+{% block body_header %}
+    {% include './header.html' with site_section=header_section site_sub_section=header_sub_section %}
+{% endblock %}
+
+{% block body_footer %}
+    {% include './footer.html' %}
+{% endblock %}
+
+{% block body_js %}{% endblock %}
