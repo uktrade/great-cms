@@ -122,7 +122,6 @@ class BusinessProfileView(MemberSendAdminRequestMixin, SuccessMessageMixin, Form
 
 
 class BaseFormView(FormView):
-
     success_url = reverse_lazy('sso_profile:business-profile')
 
     def get_initial(self):
@@ -188,7 +187,6 @@ class LogoFormView(BaseFormView):
 
 
 class ExpertiseRoutingFormView(FormView):
-
     form_class = forms.ExpertiseRoutingForm
     template_name = 'business_profile/expertise-routing-form.html'
 
@@ -269,7 +267,6 @@ class PublishFormView(BaseFormView):
 
 
 class BaseCaseStudyWizardView(NamedUrlSessionWizardView):
-
     done_step_name = 'finished'
 
     file_storage = DefaultStorage()
@@ -529,7 +526,6 @@ class AdminInviteCollaboratorDeleteFormView(SuccessMessageMixin, FormView):
 
 
 class ProductsServicesRoutingFormView(FormView):
-
     form_class = forms.ExpertiseProductsServicesRoutingForm
     template_name = 'business_profile/products-services-routing-form.html'
 

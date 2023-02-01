@@ -46,7 +46,6 @@ def test_get_company_profile_ok_saves_to_session(mock_get_companies_house_profil
     },
 )
 def test_get_company_profile_ok(mock_get_company_profile, clear_cache):
-
     data = {
         'company_number': '12345678',
         'company_name': 'Example corp',
@@ -170,7 +169,6 @@ def test_notify_company_admins_member_joined_handles_no_admins():
 
 @mock.patch.object(helpers.api_client.company, 'collaborator_create')
 def test_add_collaborator(mock_add_collaborator):
-
     helpers.create_company_member(
         sso_session_id=300,
         data={'company': 1234, 'company_email': 'xyz@xyzcorp.com', 'name': 'Abc', 'mobile_number': '9876543210'},

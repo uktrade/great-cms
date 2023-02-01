@@ -8,7 +8,6 @@ from tests.unit.core.factories import CaseStudyFactory
 
 @pytest.mark.django_db
 def test_case_study_view(client, django_user_model, mock_elasticsearch_get_connection):
-
     user = django_user_model.objects.create_user(
         username='username',
         password='password',
@@ -31,7 +30,6 @@ def test_case_study_view(client, django_user_model, mock_elasticsearch_get_conne
 @pytest.mark.django_db
 @pytest.mark.parametrize('is_staff', (True, False))
 def test_case_study_view__access(django_user_model, client, is_staff):
-
     user = django_user_model.objects.create_user(
         username='username',
         password='password',
@@ -57,7 +55,6 @@ def test_case_study_view__access(django_user_model, client, is_staff):
 
 @pytest.mark.django_db
 def test_case_study_admin_view(client, django_user_model, mock_elasticsearch_get_connection):
-
     user = django_user_model.objects.create_user(username='username', password='password', is_staff=True)
     client.login(username='username', password='password')
 

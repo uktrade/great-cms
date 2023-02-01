@@ -77,7 +77,6 @@ def test_can_view_lessons_from_different_topics(
     curated_list_pages_with_lessons,
     server_user_browser_dashboard,
 ):
-
     live_server, user, browser = server_user_browser_dashboard
     clp_a, clp_a_lessons = curated_list_pages_with_lessons[0]
     clp_b, clp_b_lessons = curated_list_pages_with_lessons[1]

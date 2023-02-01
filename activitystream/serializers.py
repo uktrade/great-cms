@@ -66,7 +66,6 @@ class ArticlePageSerializer(serializers.Serializer):
         return ' '.join(searchable_items)
 
     def to_representation(self, obj):
-
         return {
             'id': ('dit:greatCms:Article:' + str(obj.id) + ':Update'),
             'type': 'Update',

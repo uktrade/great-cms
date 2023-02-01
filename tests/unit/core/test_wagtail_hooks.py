@@ -71,7 +71,6 @@ def test_anonymous_user_required_handles_authenticated_users(rf, domestic_homepa
 
 @pytest.mark.django_db
 def test_login_required_signup_wizard_ignores_irrelevant_pages(rf, domestic_homepage):
-
     request = rf.get('/')
     request.user = AnonymousUser()
 
@@ -158,7 +157,6 @@ def test_login_required_signup_wizard_handles_authenticated_users(rf, user, dome
 
 @pytest.mark.django_db
 def test_estimated_read_time_calculation(rf, domestic_homepage):
-
     # IF THIS TEST FAILS BASED ON OFF-BY-ONE-SECOND DURATIONS... check whether
     # your changeset has slightly increased the size of the HTML page, which
     # may have slightly pushed up the default/empty-page readtime (either in
@@ -194,7 +192,6 @@ def test_estimated_read_time_calculation(rf, domestic_homepage):
 
 @pytest.mark.django_db
 def test_estimated_read_time_calculation__checks_text_and_video(rf, domestic_homepage):
-
     # IF THIS TEST FAILS BASED ON OFF-BY-ONE-SECOND DURATIONS... check whether
     # your changeset has slightly increased the size of the HTML page, which
     # may have slightly pushed up the default/empty-page readtime (either in
@@ -235,7 +232,6 @@ def test_estimated_read_time_calculation__checks_text_and_video(rf, domestic_hom
 
 @pytest.mark.django_db
 def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
-
     # IF THIS TEST FAILS BASED ON OFF-BY-ONE-SECOND DURATIONS... check whether
     # your changeset has slightly increased the size of the HTML page, which
     # may have slightly pushed up the default/empty-page readtime (either in
@@ -274,7 +270,6 @@ def test_estimated_read_time_calculation__checks_video(rf, domestic_homepage):
 
 @pytest.mark.django_db
 def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(rf, domestic_homepage):
-
     # IF THIS TEST FAILS BASED ON OFF-BY-ONE-SECOND DURATIONS... check whether
     # your changeset has slightly increased the size of the HTML page, which
     # may have slightly pushed up the default/empty-page readtime (either in
@@ -407,7 +402,6 @@ def test__set_read_time__passes_through_is_post_creation(
     with mock.patch(
         'core.wagtail_hooks._update_data_for_appropriate_version'
     ) as mocked_update_data_for_appropriate_version:
-
         wagtail_hooks._set_read_time(request, detail_page, is_post_creation=is_post_creation_val)
 
     expected_seconds = 2
@@ -905,7 +899,6 @@ def test_s3wagtailtransferfile__transfer(
     mock_importedfile_objects_create,
     mock_s3_client_copy,
 ):
-
     file = S3WagtailTransferFile(
         local_filename='path/to/file.jpg',  # not changed by DefaultStorage in this test
         size=123321,

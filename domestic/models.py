@@ -122,7 +122,6 @@ class BaseContentPage(
         return retval
 
     def get_absolute_url(self):
-
         base_url = settings.BASE_URL
         if base_url[-1] == '/':
             base_url = base_url[:-1]
@@ -522,7 +521,6 @@ class MarketsTopicLandingPage(
         return sort_option
 
     def sort_results(self, request, pages):
-
         sort_option = self._get_sortby(request)
 
         # Sorting by last_published_at needs to be DESC not ASC

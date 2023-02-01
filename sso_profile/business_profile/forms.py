@@ -141,7 +141,6 @@ class DynamicHelptextFieldsMixin:
 
 
 class CaseStudyRichMediaForm(DynamicHelptextFieldsMixin, forms.Form):
-
     image_help_text_create = (
         'This image will be shown at full width on your case study page and '
         'must be at least 700 pixels wide and in landscape format. For best '
@@ -258,7 +257,6 @@ class LogoForm(forms.Form):
 
 
 class PublishForm(forms.Form):
-
     LABEL_UNPUBLISH_FAS = 'Untick to remove your profile from this service'
     LABEL_UNPUBLISH_ISD = 'Untick the box to cancel publication'
     LABEL_ISD = 'Publish profile on UK Investment Support Directory'
@@ -389,7 +387,6 @@ class ExpertiseProductsServicesRoutingForm(forms.Form):
 
 
 class ExpertiseProductsServicesForm(forms.Form):
-
     CHOICES_MAP = {
         constants.FINANCIAL: expertise.FINANCIAL,
         constants.MANAGEMENT_CONSULTING: expertise.MANAGEMENT_CONSULTING,
@@ -417,7 +414,6 @@ class ExpertiseProductsServicesForm(forms.Form):
 
 
 class ExpertiseProductsServicesOtherForm(forms.Form):
-
     expertise_products_services = forms.CharField(
         label='Enter keywords that describe your products or services',
         help_text='Keywords should be separated by commas',
@@ -436,7 +432,6 @@ class NoOperationForm(forms.Form):
 
 
 class AdminCollaboratorEditForm(forms.Form):
-
     CHOICES = {
         user_roles.MEMBER: [
             ('', 'Please select'),

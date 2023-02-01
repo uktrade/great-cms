@@ -562,7 +562,6 @@ class ResendVerificationCodeView(
     mixins.CreateUserAccountMixin,
     NamedUrlSessionWizardView,
 ):
-
     google_analytics_page_id = 'ResendVerificationCode'
     form_list = (
         (constants.RESEND_VERIFICATION, forms.ResendVerificationCode),

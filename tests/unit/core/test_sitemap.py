@@ -24,7 +24,6 @@ def test_sitemap_includes_expected_django_pages(
     client,
     domestic_site,
 ):
-
     expected_django_paths = [
         '/get-finance/',
         '/get-finance/contact/',

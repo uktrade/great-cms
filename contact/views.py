@@ -30,7 +30,6 @@ class PrepopulateInternationalFormMixin:
     # to have guess_given_name and guess_family_name
 
     def get_form_initial(self):
-
         if self.request.user.is_authenticated and self.request.user.company:
             return {
                 'email': self.request.user.email,
@@ -111,7 +110,6 @@ class BaseNotifyUserFormView(
 
 class PrepopulateShortFormMixin(core_mixins.PrepopulateFormMixin):
     def get_form_initial(self):
-
         if self.request.user.is_authenticated and self.request.user.company:
             return {
                 'email': self.request.user.email,
@@ -235,7 +233,6 @@ class RoutingFormView(
     FormSessionMixin,
     NamedUrlSessionWizardView,
 ):
-
     # given the current step, based on selected  option, where to redirect.
     redirect_mapping = {
         constants.DOMESTIC: {

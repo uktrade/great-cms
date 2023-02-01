@@ -9,7 +9,6 @@ from exportplan.core import serializers
 
 
 def test_about_your_business_serializer():
-
     data = {
         'story': 'Lorem ipsum',
         'location': 'Consectetur adipisicing elit',
@@ -24,7 +23,6 @@ def test_about_your_business_serializer():
 
 
 def test_about_your_business_serializer_allows_blank_omitted():
-
     data = {
         'story': '',
         'location': '',
@@ -37,7 +35,6 @@ def test_about_your_business_serializer_allows_blank_omitted():
 
 
 def test_export_plan_serializer_empty_target_markets():
-
     data = {'about_your_business': {'story': '', 'location': ''}}
 
     serializer = serializers.ExportPlanSerializer(data=data)
@@ -47,7 +44,6 @@ def test_export_plan_serializer_empty_target_markets():
 
 
 def test_objective_serializer():
-
     data = {
         'description': 'Lorem ipsum',
         'planned_reviews': 'Some reviews',
@@ -65,7 +61,6 @@ def test_objective_serializer():
 
 
 def test_objective_serializer_empty_date_fields():
-
     data = {
         'description': 'Lorem ipsum',
         'planned_reviews': 'Some reviews',
@@ -89,7 +84,6 @@ def test_objective_serializer_empty_date_fields():
 
 
 def test_new_objective_serializer():
-
     data = {
         'description': 'Lorem ipsum',
         'planned_reviews': 'Some reviews',
@@ -106,7 +100,6 @@ def test_new_objective_serializer():
 
 
 def test_pk_only_serializer():
-
     data = {'pk': 1}
 
     serializer = serializers.PkOnlySerializer(data=data)
@@ -116,7 +109,6 @@ def test_pk_only_serializer():
 
 
 def target_markets_research_serializer():
-
     data = {
         'demand': 'Lorem ipsum',
         'competitors': 'Consectetur adipisicing elit',
@@ -142,14 +134,12 @@ def test_country_target_age_serializer():
 
 
 def test_country_target_age_serializer_missing_target_age():
-
     data = {}
     serializer = serializers.CountryTargetAgeDataSerializer(data=data)
     assert serializer.is_valid() is False
 
 
 def test_adaptation_target_market_serializer():
-
     data = {
         'labelling': 'Lorem ipsum',
         'packaging': 'Consectetur adipisicing elit',
@@ -170,7 +160,6 @@ def test_adaptation_target_market_serializer():
 
 
 def test_objectives_serializer():
-
     data = {'rationale': 'test'}
 
     serializer = serializers.ObjectiveSerializer(data=data)
@@ -370,7 +359,6 @@ def test_json_to_presentaion(cost_pricing_data):
 
 @freeze_time('2012-01-14 03:21:34')
 def test_ui_progress_serializer():
-
     data = {'ui_progress': {'sectiona_a': {'is_complete': True, 'modified': datetime.now()}}}
     serializer = serializers.ExportPlanSerializer(data=data)
     serializer.is_valid()
@@ -383,7 +371,6 @@ def test_ui_progress_serializer():
 
 
 def test_payment_method_serializer():
-
     data = {
         'getting_paid': {
             'payment_method': {'methods': ['CREDIT_DEBIT', 'MERCHANT_SERVICES'], 'notes': 'method 1'},

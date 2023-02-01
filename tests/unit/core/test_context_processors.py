@@ -22,7 +22,6 @@ def test_dit_link_exists_in_template_context(client):
 @pytest.mark.django_db
 @override_settings(BREADCRUMBS_ROOT_URL='https://example.com/')
 def test_migration_migration_support_vars(client):
-
     url = reverse('core:signup')
     response = client.get(url)
     assert 'great_support_email' in response.context

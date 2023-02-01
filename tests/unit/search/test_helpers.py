@@ -29,7 +29,6 @@ def test_sanitise_page(param, expected):
 
 @patch('search.helpers.sentry_sdk.capture_message')
 def test_parse_results__unhappy_path(mock_capture_message):
-
     response = Mock()
     response.content = json.dumps({'error': 'test exception'})
 
@@ -40,7 +39,6 @@ def test_parse_results__unhappy_path(mock_capture_message):
 
 @patch('search.helpers.requests.Session.send')
 def test_search_with_activitystream(mock_session_send):
-
     query = format_query(query='test query', page=1)
 
     search_with_activitystream(query)

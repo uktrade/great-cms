@@ -20,7 +20,6 @@ from tests.helpers import create_response
     ),
 )
 def test_is_valid_uk_postcode(postcode, raise_expected):
-
     try:
         is_valid_uk_postcode(postcode)
         if raise_expected:

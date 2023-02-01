@@ -156,7 +156,6 @@ def industry_accordion_case_study_is_viable(value):
 
 @register.simple_tag
 def get_meta_description(page):
-
     if not page:
         return ''
 

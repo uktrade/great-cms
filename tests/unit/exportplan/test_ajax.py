@@ -282,7 +282,6 @@ def test_delete_export_plan_api_view(mock_delete_exportplan, client, user):
 @pytest.mark.django_db
 @mock.patch.object(helpers, 'update_exportplan')
 def test_update_calculate_cost_and_pricing(mock_update_exportplan, cost_pricing_data, client, user):
-
     client.force_login(user)
     mock_update_exportplan.return_value = cost_pricing_data
     url = reverse('exportplan:api-calculate-cost-and-pricing', kwargs={'id': 1})

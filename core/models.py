@@ -56,7 +56,6 @@ register_snippet(Redirect)
 
 
 class GreatMedia(Media):
-
     transcript = models.TextField(
         verbose_name=_('Transcript'), blank=False, null=True  # left null because was an existing field
     )
