@@ -43,7 +43,6 @@ def _format_display_type(result):
 
 
 def parse_search_results(content):
-
     results = [hit['_source'] for hit in content['hits']['hits']]
 
     # Clean any markup in the search results

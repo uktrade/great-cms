@@ -155,7 +155,6 @@ def test_problem_details_error_messages():
 
 
 def test_summary_form():
-
     form = MarketAccessSummaryForm(data={})
 
     assert form.fields['contact_by_email'].required is False

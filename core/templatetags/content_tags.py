@@ -19,7 +19,6 @@ register = template.Library()
 
 @register.filter
 def format_timedelta(timedelta, pluralize=False):
-
     if isinstance(timedelta, datetime.timedelta):
         # round up to next minute
         rounded_mins = math.ceil(timedelta.total_seconds() / 60)

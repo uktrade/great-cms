@@ -7,7 +7,6 @@ from activitystream.helpers import lookup_credentials, seen_nonce
 
 @override_settings(ACTIVITY_STREAM_ACCESS_KEY_ID='good-key')
 def test_lookup_credentials__mismatching_key():
-
     with pytest.raises(HawkFail):
         lookup_credentials('bad-key')
 
@@ -21,7 +20,6 @@ def test_lookup_credentials__mismatching_key():
     },
 )
 def test_seen_nonce__seen_before(caplog):
-
     assert not seen_nonce('access-key', '123-nonce-value', None)
     assert not caplog.records
 

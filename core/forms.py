@@ -75,7 +75,6 @@ class ConsentFieldMixin(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-
         super().__init__(*args, **kwargs)
         self.fields['contact_consent'].label = render_to_string(
             'core/includes/contact-consent.html',

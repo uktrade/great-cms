@@ -102,7 +102,6 @@ def has_editor_admin_request(sso_session_id, sso_id):
 
 
 def notify_company_admins_collaboration_request_reminder(sso_session_id, email_data, form_url):
-
     company_admins = get_company_admins(sso_session_id)
     assert company_admins, f"No admin found for {email_data['company_name']}"
     for admin in company_admins:

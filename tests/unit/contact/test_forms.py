@@ -493,7 +493,6 @@ def test_export_opportunities_form_routing():
 
 
 def test_form_choices__great_account_routing_form():
-
     expected = (
         (constants.NO_VERIFICATION_EMAIL, 'I have not received my email confirmation'),
         (constants.PASSWORD_RESET, 'I need to reset my password'),
@@ -511,7 +510,6 @@ def test_form_choices__great_account_routing_form():
 
 
 def test_feedback_form_full_name(captcha_stub):
-
     form_instance = forms.FeedbackForm(
         data={
             'name': 'Alice McTest',
@@ -565,7 +563,6 @@ def test_selling_online_overseas_applicant_valid_form_individual():
 
 
 def test_selling_online_overseas_contact_details_form__editable_fields():
-
     form_1 = forms.SellingOnlineOverseasContactDetails(
         initial={
             'contact_first_name': 'Alice',

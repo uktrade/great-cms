@@ -460,7 +460,6 @@ def test_capability_article_logged_in(client, user, mock_get_user_profile):
 
 @pytest.mark.django_db
 def test_capability_article_not_logged_in(client):
-
     url = reverse(
         'core:capability-article', kwargs={'topic': 'some-topic', 'chapter': 'some-chapter', 'article': 'some-article'}
     )
@@ -654,7 +653,6 @@ def test_signup_wizard_for_tailored_content_success(
 
 @pytest.mark.django_db
 def test_signup_wizard_for_tailored_content_step_labels_exposed(client):
-
     response = client.get(reverse('core:signup-wizard-tailored-content', kwargs={'step': views.STEP_START}))
     assert response.context_data['step_labels'] == views.SignupForTailoredContentWizardView.step_labels
 
@@ -901,7 +899,6 @@ def test_service_removed_view(
     domestic_site,
     domestic_homepage,
 ):
-
     advice_topic_page = TopicLandingPageFactory(
         title='Advice',
         parent=domestic_homepage,
@@ -962,9 +959,7 @@ def test_service_removed_view(
 )
 @pytest.mark.django_db
 def test_robots_txt(client, base_url, expected_sitemap_url):
-
     with override_settings(BASE_URL=base_url):
-
         resp = client.get(reverse('core:robots'))
         assert resp.status_code == 200
 
@@ -998,7 +993,6 @@ def test_serve_subtitles(client, user):
 
 @pytest.mark.django_db
 def test_serve_subtitles__missing_media(client, user):
-
     dest = reverse('core:subtitles-serve', args=[99999, 'en'])
     client.force_login(user)
     resp = client.get(dest, follow=False)

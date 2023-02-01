@@ -10,7 +10,6 @@ from exportplan.context import (
 
 
 def test_pdf_context_provider(get_request, export_plan_data):
-
     pdf_context = PDFContextProvider().get_context_provider_data(get_request, id=1)
 
     assert pdf_context['export_plan'].data == export_plan_data

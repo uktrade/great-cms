@@ -921,7 +921,6 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual([x for x in pages.order_by('-last_published_at')], [y for y in sorted_pages])
 
     def test_sort_results__sanitises_input(self):
-
         mock_pages_queryset = mock.Mock(name='mock_pages_queryset')
         markets_page = MarketsTopicLandingPageFactory()
 
@@ -943,7 +942,6 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
                 mock_pages_queryset.order_by.assert_called_once_with('title')
 
     def test_get_context(self):
-
         request = RequestFactory().get('/?sortby=last_published_at')
 
         DomesticHomePageFactory(slug='root')
@@ -958,7 +956,6 @@ class MarketsTopicLandingPageTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(output['sortby'], 'last_published_at')
 
     def test_get_context__pagination(self):
-
         DomesticHomePageFactory(slug='root')
         homepage = DomesticHomePage.objects.get(url_path='/')
         markets_topic_page = MarketsTopicLandingPage(title='Markets')
@@ -1269,7 +1266,6 @@ class ArticleListingPageTests(SetUpLocaleMixin, WagtailPageTests):
         )
 
     def test_get_articles(self):
-
         listing_page = ArticleListingPageFactory(
             title='Test listing page',
             landing_page_title='Test Listing Page',
@@ -1784,7 +1780,6 @@ class GreatDomesticHomePageTests(SetUpLocaleMixin, WagtailPageTests):
         },
     )
     def test_get_sector_list__is_cached(self):
-
         request = RequestFactory().get('/')
         self.assertFalse(hasattr(request, 'is_preview'))
 
@@ -1810,7 +1805,6 @@ class GreatDomesticHomePageTests(SetUpLocaleMixin, WagtailPageTests):
         self,
         mock_get_sector_list_uncached,
     ):
-
         mocked_retval = [{'test': 'data'}]
         mock_get_sector_list_uncached.return_value = mocked_retval
         request = RequestFactory().get('/')
@@ -1838,7 +1832,6 @@ class GreatDomesticHomePageTests(SetUpLocaleMixin, WagtailPageTests):
 
     @mock.patch('domestic.models.GreatDomesticHomePage.get_sector_list')
     def test_get_context(self, mock_get_sector_list):
-
         request = RequestFactory().get('/')
 
         sector_list_val = [
@@ -1961,7 +1954,6 @@ def test_great_domestic_homepage_magna_ctas_labels(root_page, client, user):
     homepage.save()
 
     for user_logged_in in (False, True):
-
         if user_logged_in:
             client.force_login(user)
 

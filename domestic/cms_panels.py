@@ -17,7 +17,6 @@ ACCORDION_FIELDS_HELP_TEXT = (
 
 
 class GreatDomesticHomePagePanels:
-
     content_panels = [
         FieldPanel('title'),
         MultiFieldPanel(
@@ -77,7 +76,6 @@ class GreatDomesticHomePagePanels:
 
 
 class ArticleListingPagePanels:
-
     content_panels = [
         MultiFieldPanel(
             heading='Titles',
@@ -103,7 +101,6 @@ class ArticleListingPagePanels:
 
 
 class ArticlePagePanels:
-
     content_panels = [
         MultiFieldPanel(
             heading='Article intro',
@@ -184,7 +181,6 @@ class ArticlePagePanels:
 
 
 class CountryGuidePagePanels:
-
     content_panels = [
         MultiFieldPanel(
             heading='Heading and introduction',
@@ -327,7 +323,6 @@ class CountryGuidePagePanels:
 
 
 class TopicLandingPagePanels:
-
     content_panels = [
         FieldPanel('title'),
         MultiFieldPanel(
@@ -404,7 +399,6 @@ class GuidancePagePanels:
 
 
 class PerformanceDashboardPagePanels:
-
     content_panels = [
         MultiFieldPanel(
             heading='Heading and description',
@@ -422,7 +416,6 @@ class PerformanceDashboardPagePanels:
 
 
 class TradeFinancePagePanels:
-
     content_panels = [
         FieldPanel('title'),
         FieldPanel('breadcrumbs_label'),

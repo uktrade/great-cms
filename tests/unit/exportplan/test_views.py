@@ -417,7 +417,6 @@ def test_download_export_plan(
     mock_upload_exportplan_pdf,
     export_plan_data,
 ):
-
     # Must be a better way of mocking a return object
     class Errordoc:
         err = False

@@ -22,7 +22,6 @@ def test_landing_page_not_logged_in(client, user, domestic_site):
 
 
 def test_landing_page_logged_in(client, user, domestic_site):
-
     client.force_login(user)
     response = client.get('/')
     assert response.status_code == 302
@@ -305,7 +304,6 @@ def test_ukef_lead_generation_success_page(client):
 
 
 def test_ukef_lead_generation_initial_data(client, user, mock_get_company_profile):
-
     mock_get_company_profile.return_value = {
         # Full spec of CompanySerializer is in
         # https://github.com/uktrade/directory-api/blob/master/company/serializers.py
