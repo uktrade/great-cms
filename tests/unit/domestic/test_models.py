@@ -1389,6 +1389,19 @@ def test_article_page_get_absolute_url(domestic_site, domestic_homepage, en_loca
             {'title': 'Article ONE', 'rel_name': 'related_page_one'},
             {'title': 'Article TWO', 'rel_name': 'related_page_two'},
             {'title': 'Article THREE', 'rel_name': 'related_page_three'},
+            {'title': 'Article FOUR', 'rel_name': 'related_page_four'},
+            {'title': 'Article FIVE', 'rel_name': 'related_page_five'},
+        ),
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article TWO', 'rel_name': 'related_page_two'},
+            {'title': 'Article THREE', 'rel_name': 'related_page_three'},
+            {'title': 'Article FOUR', 'rel_name': 'related_page_four'},
+        ),
+        (
+            {'title': 'Article ONE', 'rel_name': 'related_page_one'},
+            {'title': 'Article TWO', 'rel_name': 'related_page_two'},
+            {'title': 'Article THREE', 'rel_name': 'related_page_three'},
         ),
         (
             {'title': 'Article ONE', 'rel_name': 'related_page_one'},
@@ -1401,7 +1414,15 @@ def test_article_page_get_absolute_url(domestic_site, domestic_homepage, en_loca
         ({'title': 'Article THREE', 'rel_name': 'related_page_three'},),
         (),
     ),
-    ids=['three related', 'two related v1', 'two related v2', 'one related', 'no related'],
+    ids=[
+        'five related',
+        'four related',
+        'three related',
+        'two related v1',
+        'two related v2',
+        'one related',
+        'no related',
+    ],
 )
 @pytest.mark.django_db
 def test_article_page__related_pages(

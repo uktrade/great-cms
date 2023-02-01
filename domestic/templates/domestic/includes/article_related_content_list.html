@@ -16,7 +16,7 @@
         <ul id="related-content">
           {% for article in page.related_pages %}
             <li>
-              <h3 class="heading-small"><a href="{{ article.full_path }}" class="link">{{ article.article_title }}</a></h3>
+              <h3 class="heading-small"><a href="{{ article.full_url }}" class="link">{{ article.title }}</a></h3>
             </li>
           {% endfor %}
         </ul>
