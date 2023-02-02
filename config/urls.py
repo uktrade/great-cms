@@ -16,7 +16,7 @@ import contact.urls
 import core.urls
 import domestic.urls
 import exportplan.urls
-import ioo.urls
+import internationalonlineoffer.urls
 import search.urls
 import sso.urls
 import sso_profile.urls
@@ -75,4 +75,4 @@ if settings.DEBUG:
     urlpatterns = [path('__debug__/', include(debug_toolbar.urls))] + urlpatterns
 
 if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
-    urlpatterns = [path('international/ioo/', include(ioo.urls))] + urlpatterns
+    urlpatterns = [path('internationalonlineoffer/', include(internationalonlineoffer.urls))] + urlpatterns

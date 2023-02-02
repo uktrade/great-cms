@@ -1,6 +1,6 @@
 from django.urls import path, reverse_lazy
 
-from ioo import views
+from internationalonlineoffer import views
 
 SIGNUP_URL = reverse_lazy('core:signup')
 # NB our signup/signin redirection workflow following login_required
@@ -10,7 +10,7 @@ SIGNUP_URL = reverse_lazy('core:signup')
 # core.templatetags.url_tags.get_intended_destination and the loginUrl
 # and signupUrl in base.html
 
-app_name = 'ioo'
+app_name = 'internationalonlineoffer'
 
 urlpatterns = [
     # Temp redirect to old dashboard this can be removed over time this is to allow bookmarks and other services

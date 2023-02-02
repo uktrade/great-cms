@@ -72,7 +72,7 @@ INSTALLED_APPS = [
     'cms_extras.apps.CmsExtrasConfig',
     'domestic',
     'exportplan.apps.ExportPlanConfig',
-    'ioo.apps.IOOConfig',
+    'internationalonlineoffer.apps.IOOConfig',
     'users.apps.UsersConfig',
     'learn.apps.LearnConfig',
     'captcha',

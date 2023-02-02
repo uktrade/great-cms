@@ -25,20 +25,6 @@ number of extra CSS styles that were once sensible defaults:
 
 {% block head_js_ga360 %}
     <script src="{% static 'javascript/dit.tagging.js' %}"></script>
-    {% comment %} <script type="text/javascript">
-        window.dataLayer = window.dataLayer || [];
-        {% if ga360 and not skip_ga360 %}
-            window.dataLayer.push({
-                'businessUnit': '{{ ga360.business_unit }}',
-                'siteSection': '{{ ga360.site_section}}',
-                'siteSubsection': '{{ ga360.site_subsection }}',
-                'siteLanguage': '{{ ga360.site_language }}',
-                'userId': '{{ ga360.user_id }}',
-                'loginStatus': '{{ ga360.login_status }}',
-            });
-            dit.tagging.base.init();
-        {% endif %}
-    </script> {% endcomment %}
 {% endblock %}
 
 {% block head_css %}
