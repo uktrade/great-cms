@@ -14,7 +14,7 @@ module.exports = {
     components_styles:
       './core/components/sass/components/elements-components.scss',
     profile_styles: './sso_profile/common/sass/profile.scss',
-    ioo_styles: './internationalonlineoffer/sass/main.scss'
+    ioo_styles: './international_online_offer/sass/main.scss'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -160,17 +160,17 @@ module.exports = {
           noErrorOnMissing: true,
         },
         {
-          from: 'internationalonlineoffer/static/fonts/',
+          from: 'international_online_offer/static/fonts/',
           to: '../../core/static/fonts/',
           noErrorOnMissing: true,
         },
         {
-          from: 'internationalonlineoffer/static/images/',
+          from: 'international_online_offer/static/images/',
           to: '../../core/static/img/',
           noErrorOnMissing: true,
         },
         {
-          from: 'internationalonlineoffer/static/js/',
+          from: 'international_online_offer/static/js/',
           to: '../../core/static/javascript/',
           noErrorOnMissing: true,
         },
