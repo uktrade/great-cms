@@ -77,14 +77,6 @@ describe('Learning', () => {
       expect(getContent('example', container)).toHaveClass('form-group-example')
     })
 
-    // it('with a custom Example background colour', () => {
-    //   const updatedProps = { ...props }
-    //   updatedProps.example.bgColour = 'red-deep-10'
-    //   const { container } = setup({ ...updatedProps })
-
-    //   expect(getContent('example', container)).toHaveClass('bg-red-deep-10')
-    // })
-
     it('with a custom Example header', () => {
       const { container } = setup({ ...props })
       expect(container.querySelector('.form-group-example h3').textContent)
