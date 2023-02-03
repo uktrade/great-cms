@@ -139,7 +139,6 @@ TEMPLATES = [
                 'core.context_processors.cookie_management_vars',
                 'great_components.context_processors.analytics',
                 'wagtail.contrib.settings.context_processors.settings',
-                'core.context_processors.header_navigation',
                 'core.context_processors.services_home_links',
             ],
         },
