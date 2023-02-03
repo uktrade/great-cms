@@ -159,21 +159,6 @@ module.exports = {
           to: '../../core/static/img/',
           noErrorOnMissing: true,
         },
-        {
-          from: 'international_online_offer/static/fonts/',
-          to: '../../core/static/fonts/',
-          noErrorOnMissing: true,
-        },
-        {
-          from: 'international_online_offer/static/images/',
-          to: '../../core/static/img/',
-          noErrorOnMissing: true,
-        },
-        {
-          from: 'international_online_offer/static/js/',
-          to: '../../core/static/javascript/',
-          noErrorOnMissing: true,
-        },
       ],
     }),
     new RemovePlugin({
