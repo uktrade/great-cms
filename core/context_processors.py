@@ -1,4 +1,7 @@
 from django.conf import settings
+from django.urls import reverse_lazy
+from django.utils import translation
+from django.utils.translation import gettext as _
 
 from core import cms_slugs
 from directory_constants import choices, urls
@@ -67,3 +70,13 @@ def feature_flags(request):
     retval = {'features': {}}
     retval['features'].update(settings.SSO_PROFILE_FEATURE_FLAGS)
     return retval
+
+
+def directory_components_html_lang_attribute(request):
+    return {'directory_components_html_lang_attribute': translation.get_language()}
+
+
+def services_home_links(request):
+    return {
+        'international_home_link': {'url': reverse_lazy('index'), 'label': _('great.gov.uk international')},
+    }

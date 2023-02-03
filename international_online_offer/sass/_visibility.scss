@@ -1,0 +1,28 @@
+@import 'tokens';
+
+@mixin visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}
+
+.atlas-visually-hidden {
+  @include visually-hidden;
+}
+
+@each $suffix, $breakpoint in $breakpoint-suffixes {
+  @media (min-width: $breakpoint) {
+    .atlas-visually-hidden#{$suffix} {
+      @include visually-hidden;
+    }
+  }
+}
+
+body:not(.js-enabled) .atlas-hidden-nojs {
+  display: none;
+}

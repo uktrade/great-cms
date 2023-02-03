@@ -1,0 +1,16 @@
+// Selected resets
+body {
+    -webkit-font-smoothing: antialiased;
+  }
+
+  // Base styles
+  @import 'typography';
+  @import 'states';
+  @import 'layout';
+  @import 'colours';
+  @import 'spacing';
+
+  // Atlas-specific components
+  @import 'components/header';
+  @import 'components/footer';
+  @import 'components/buttons';
