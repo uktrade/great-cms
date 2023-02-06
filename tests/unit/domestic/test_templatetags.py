@@ -455,7 +455,7 @@ def test_pagination(count, current, expected, rf):
             items.append('...')
         else:
             button = element.find('a')
-            if 'button' in button['class']:
+            if 'primary-button' in button['class']:
                 items.append(f'[{button.string}]')
             else:
                 items.append(button.string)
