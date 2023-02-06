@@ -1,0 +1,35 @@
+@import 'tokens';
+
+.atlas-container {
+  max-width: 1230px;
+  margin: 0 auto;
+  padding-left: $page-gutter;
+  padding-right: $page-gutter;
+
+  @media (min-width: $breakpoint-medium) {
+    padding-left: $page-gutter-medium;
+    padding-right: $page-gutter-medium;
+  }
+
+  @media (min-width: $breakpoint-large) {
+    padding-left: $page-gutter-large;
+    padding-right: $page-gutter-large;
+  }
+}
+
+.atlas-container--wide {
+  max-width: 1430px;
+}
+
+.atlas-container--footer {
+  max-width: none;
+}
+
+.atlas-flex--column {
+  display: flex;
+  flex-direction: column;
+}
+
+.atlas-align--centre {
+  text-align: center;
+}

@@ -15,7 +15,6 @@ from core.models import CaseStudy
 
 
 class CaseStudyAdminButtonHelper(ButtonHelper):
-
     view_button_classnames = ['button-small', 'icon', 'icon-doc']
 
     def view_button(self, obj):
@@ -36,7 +35,6 @@ class CaseStudyAdminButtonHelper(ButtonHelper):
 
 
 class CaseStudySpreadsheetExportMixin:
-
     columns_to_convert = [
         'associated_country_code_tags',
         'associated_hs_code_tags',
@@ -77,7 +75,6 @@ class CaseStudySpreadsheetExportMixin:
             # No tagged value then just append row for write
             attr_values = [] if row_dict.get(f) == '-' else row_dict.get(f)
             if f == 'get_related_pages':
-
                 attr_values = (
                     []
                     if row_dict.get(f) in ['-', None]

@@ -1,0 +1,94 @@
+@import '../tokens';
+@import '../mixins';
+
+.atlas-footer {
+  @include atlas-regular;
+  overflow: hidden;
+}
+
+.atlas-footer__main {
+  padding: 20px 0;
+  background-color: $atlas-brand-blue;
+  color: $atlas-white;
+}
+
+.atlas-footer__logo {
+  float: right;
+  margin: 20px;
+  position: relative;
+  display: block;
+  height: 88px;
+  padding: 20px;
+  background: $atlas-brand-red;
+
+  &:before {
+    content: '';
+    display: block;
+    width: 50vw;
+    height: 88px;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: $atlas-brand-red;
+  }
+
+  img {
+    display: block;
+    width: 217px;
+    max-width: none;
+    height: auto;
+    margin: -30px 0 0 -46px;
+
+    @media (min-width: $breakpoint-medium) {
+      margin-right: 100px;
+    }
+  }
+}
+
+.atlas-footer__global {
+  background: $atlas-white;
+  padding: 14px 0;
+
+  img {
+    display: block;
+  }
+
+  .atlas-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  p {
+    margin: 15px 0;
+    font-size: 14px;
+  }
+}
+
+
+.atlas-footer__nav {
+  clear: both;
+
+  li {
+    margin-right: 40px;
+  }
+
+  a {
+    display: inline-block;
+    padding: 14px 0;
+    color: $atlas-white;
+    font-size: 20px;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  @media (min-width: $breakpoint-medium) {
+    li {
+      display: inline-block;
+    }
+  }
+}

@@ -61,7 +61,6 @@ class UpdateExportPlanAPIView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, id, *args, **kwargs):
-
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
             helpers.update_exportplan(

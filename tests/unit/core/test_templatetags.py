@@ -65,7 +65,6 @@ def test_render_video_tag__without_thumbnail():
 
 
 def test_render_video_tag__with_subtitles():
-
     video_mock = mock.Mock(
         sources=[{'src': '/media/foo.mp4', 'type': 'video/mp4'}],
         duration=120,
@@ -96,7 +95,6 @@ def test_render_video_tag__with_subtitles():
 
 
 def test_empty_block_render_video_tag():
-
     block = dict()
     html = render_video(block)
     assert '' in html
@@ -170,7 +168,6 @@ def test_pluralize(user, rf, domestic_site):
 
 @pytest.mark.django_db
 def test_tojson(user, rf, domestic_site):
-
     template = Template('{% load to_json %}{{ data|to_json }}')
 
     html = template.render(Context({'data': {'thing1': 'one', 'thing2': 'two'}}))
@@ -179,7 +176,6 @@ def test_tojson(user, rf, domestic_site):
 
 @pytest.mark.django_db
 def test_set(user, rf, domestic_site):
-
     template = Template("{% load set %}{% set 'my_variable' 1234 %}{{ my_variable }}")
 
     html = template.render(Context({}))
@@ -278,7 +274,6 @@ def test_path_match_no_path(rf):
 
 @pytest.mark.django_db
 def test_push(user, rf, domestic_site):
-
     template = Template(
         '{% load set %}'
         "{% push 'my_variable' 'item1' %}"
@@ -323,7 +318,6 @@ def test_progress_bar(total, complete, percentage):
 
 @pytest.mark.django_db
 def test_get_topic_and_category_title_for_lesson(domestic_homepage, domestic_site):
-
     # Lots of setup, alas
 
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=True)
@@ -545,7 +539,6 @@ def test_is_placeholder_page(klass, expected):
     ],
 )
 def test_get_intended_destination(rf, path_info, expected_destination, default_destination):
-
     request = rf.get(path_info)
     if default_destination is not None:
         assert get_intended_destination(request, default_destination) == expected_destination

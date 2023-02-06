@@ -255,7 +255,6 @@ class CaseStudyStaticBlock(blocks.StaticBlock):
                 page_context=page_context,
             )
             if s.count():
-
                 hits = []
                 for hit in s.scan():
                     hit_dict = hit.to_dict()
@@ -446,7 +445,6 @@ class PullQuoteBlock(blocks.StructBlock):
 
 
 class PerformanceDashboardDataBlock(blocks.StructBlock):
-
     data_title = blocks.CharBlock(max_length=100)
     data_value = blocks.CharBlock(max_length=100)
     data_period = blocks.CharBlock(max_length=100)

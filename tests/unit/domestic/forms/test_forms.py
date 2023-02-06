@@ -3,7 +3,6 @@ from domestic.forms import SectorPotentialForm, UKEFContactForm
 
 
 def test_sector_potential_form():
-
     sector_list = [
         {'name': 'Sector One'},
         {'name': 'Sector Two'},

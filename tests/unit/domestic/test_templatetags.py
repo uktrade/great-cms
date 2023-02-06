@@ -368,7 +368,6 @@ def test_industry_accordion_case_study_is_viable(data, expected):
     ),
 )
 def test_get_meta_description(attrs_to_set, expected):
-
     page = mock.Mock()
     for attr, value in attrs_to_set:
         if attr == 'article_body':

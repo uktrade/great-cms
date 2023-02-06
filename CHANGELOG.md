@@ -8,11 +8,15 @@
 ### Hotfix
 
 ### Enhancements
+* KLS-212 Improve flexibility of related page fields on article pages
+* Upgrade black to 23.1.0 to fix CircleCi pipeline issue
+* Upgrade isort to 5.12.0 to fix CircleCi pipeline issue
 * KLS-282 Great-cms django to version 3.2.16
 * KLS-32 - Update content in signup confirmation page
 * KLS-213 - Add phone number field to trade office contact forms
 * KLS-266 - Get survey details from directory API
 * KLS-203 - Upgrade django and Wagtail
+* IOO-399 - International Online Offer project setup
 
 ## [2.20.0](https://github.com/uktrade/great-cms/releases/tag/2.20.0)
 

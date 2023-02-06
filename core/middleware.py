@@ -94,7 +94,6 @@ class TimedAccessMiddleware(MiddlewareMixin):
         self.blacklisted_users = settings.BETA_BLACKLISTED_USERS
 
     def __call__(self, request):
-
         response = self.get_response(request)
 
         # Always allow the homepage to be accessed without a token
@@ -168,7 +167,6 @@ class TimedAccessMiddleware(MiddlewareMixin):
 
 class CheckGATags(MiddlewareMixin):
     def process_response(self, _, response):
-
         # Only check 2xx responses for google analytics.
         if not 200 <= response.status_code < 300:
             return response

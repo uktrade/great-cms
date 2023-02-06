@@ -109,7 +109,6 @@ def test_get_wagtail_transfer_configuration(env_label, local_transfer_enabled, e
 
     with mock.patch('config.utils.env.str') as mock_env_str:
         with mock.patch('config.utils.env.bool') as mock_env_bool:
-
             # Warning: this mocked re turn value covers all calls to env.bool()
             mock_env_bool.return_value = local_transfer_enabled
 

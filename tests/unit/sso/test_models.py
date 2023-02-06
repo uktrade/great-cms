@@ -95,7 +95,6 @@ def test_has_visited_page(mock_get_user_page_views):
 )
 @mock.patch('sso.helpers.get_company_profile')
 def test_get_mobile_number(mock_get_company_profile, user_mobile_number, company_data, expected_number):
-
     mock_get_company_profile.return_value = company_data
 
     user = models.BusinessSSOUser(

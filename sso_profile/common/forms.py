@@ -11,7 +11,6 @@ TERMS_LABEL = mark_safe(
 
 
 class PersonalDetails(forms.Form):
-
     given_name = forms.CharField(label='First name')
     family_name = forms.CharField(label='Last name')
     job_title = forms.CharField()
