@@ -450,8 +450,10 @@ class TopicLandingPage(
     subpage_types = [
         'domestic.ArticleListingPage',
         'domestic.ArticlePage',
-        'export_academy.ExportAcademyHomePage',  # disable with feature flag
     ]
+
+    if settings.FEATURE_EXPORT_ACADEMY_INSTALLED:
+        subpage_types.append('export_academy.ExportAcademyHomePage')
 
     def child_pages(self):
         """Gets published, non-private child pages only"""

@@ -10,6 +10,9 @@
         <ul>
             {% for event in event_by_date.list %}
             <li>{{ event.start_date|date:"P" }} - {{ event.end_date|date:"P" }} {{ event.name }}</li>
+             <li>
+              <a class="button margin-top-15 margin-bottom-15" href="{% url 'export_academy:booking-success' %}">Book</a>
+            </li>
             {% endfor %}
         </ul>
     </li>
