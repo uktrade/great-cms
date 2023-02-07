@@ -12,6 +12,8 @@ from wagtail.admin.edit_handlers import (
 )
 
 from core.models import TimeStampedModel
+from domestic.models import BaseContentPage
+from export_academy.cms_panels import ExportAcademyPagePanels
 
 
 class Event(TimeStampedModel, ClusterableModel):
@@ -81,3 +83,22 @@ class Booking(TimeStampedModel):
     event = ParentalKey(Event, on_delete=models.CASCADE, related_name='bookings')
     registration = models.ForeignKey(Registration, on_delete=models.CASCADE)
     status = models.CharField(choices=STATUSES, default=CONFIRMED, max_length=15)
+
+
+class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
+    template = 'domestic/landing_page.html'
+
+    parent_page_types = [
+        'domestic.DomesticHomePage',  # TODO: once we've restructured, remove this permission
+        'domestic.GreatDomesticHomePage',
+    ]
+    hero_text = models.TextField(null=True, blank=True)
+    hero_subtitle = models.TextField(null=True, blank=True)
+    hero_cta_text = models.CharField(null=True, blank=True, max_length=255)
+    hero_cta_url = models.CharField(null=True, blank=True, max_length=255)
+    # Signed in versions
+    hero_text_signedin = models.TextField(null=True, blank=True)
+    hero_subtitle_signedin = models.TextField(null=True, blank=True)
+    hero_cta_text_signedin = models.CharField(null=True, blank=True, max_length=255)
+    hero_cta_url_signedin = models.CharField(null=True, blank=True, max_length=255)
+    # EU exit chevrons StreamField WAS here in V1 - no longer the case
