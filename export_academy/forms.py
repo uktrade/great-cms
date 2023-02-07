@@ -11,12 +11,20 @@ COUNTRIES.insert(0, ('', 'Select a country'))
 
 
 class EARegistration(GovNotifyEmailActionMixin, forms.Form):
-    full_name = forms.CharField(
-        label=_('Full name'),
+    first_name = forms.CharField(
+        label=_('Given name'),
         min_length=2,
         max_length=50,
         error_messages={
-            'required': _('Enter your full name'),
+            'required': _('Enter your name'),
+        },
+    )
+    last_name = forms.CharField(
+        label=_('Surname'),
+        min_length=2,
+        max_length=50,
+        error_messages={
+            'required': _('Enter your family name'),
         },
     )
     job_title = forms.CharField(
@@ -24,13 +32,6 @@ class EARegistration(GovNotifyEmailActionMixin, forms.Form):
         max_length=50,
         error_messages={
             'required': _('Enter your job title'),
-        },
-    )
-    email = forms.EmailField(
-        label=_('Business email address'),
-        error_messages={
-            'required': _('Enter an email address in the correct format'),
-            'invalid': _('Enter an email address in the correct format'),
         },
     )
     business_name = forms.CharField(
