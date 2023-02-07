@@ -4,6 +4,10 @@ from django.views.generic import FormView, ListView, TemplateView, UpdateView
 from export_academy import forms, helpers, models
 
 
+class LandingPageView(RedirectView):
+    pattern_name = 'export_academy:upcoming-events'
+
+
 class EventListView(ListView):
     model = models.Event
 

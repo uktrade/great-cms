@@ -13,6 +13,7 @@ class BusinessSSOUser(AbstractUser):
     user_permissions = None
     is_staff = False
     is_superuser = False
+    is_export_academy_user = False
 
     session_id = models.TextField()
     hashed_uuid = models.CharField(max_length=200)

@@ -7,6 +7,7 @@ from export_academy import helpers, views
 app_name = 'export_academy'
 
 
+<<<<<<< HEAD
 def registration_required(function):
     inner = user_passes_test(
         lambda user: helpers.is_export_academy_registered(user),
@@ -16,9 +17,16 @@ def registration_required(function):
     return inner(function)
 
 
+=======
+>>>>>>> cfb13965c (Handle Export Academy registrations)
 urlpatterns = [
     path(
-        'export-academy/',
+        '',
+        views.LandingPageView.as_view(),
+        name='index',
+    ),
+    path(
+        'upcoming-events/',
         views.EventListView.as_view(),
         name='upcoming-events',
     ),
