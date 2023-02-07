@@ -79,6 +79,5 @@ class Booking(TimeStampedModel):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     event = ParentalKey(Event, on_delete=models.CASCADE, related_name='bookings')
-    # event = models.ForeignKey(Event, on_delete=models.CASCADE)
     registration = models.ForeignKey(Registration, on_delete=models.CASCADE)
     status = models.CharField(choices=STATUSES, default=CONFIRMED, max_length=15)
