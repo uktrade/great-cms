@@ -4,9 +4,15 @@ from export_academy import views
 
 app_name = 'export_academy'
 
+
 urlpatterns = [
     path(
-        'export-academy/',
+        '',
+        views.LandingPageView.as_view(),
+        name='index',
+    ),
+    path(
+        'upcoming-events/',
         views.EventListView.as_view(),
         name='upcoming-events',
     ),

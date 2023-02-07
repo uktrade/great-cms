@@ -1,5 +1,5 @@
 from core.context import AbstractPageContextProvider
 
 
-class ExportAcademyContextProvider(AbstractPageContextProvider):
+class EventListPageContextProvider(AbstractPageContextProvider):
     pass
