@@ -59,8 +59,12 @@
 }
 
 #country-guide-teaser-section {
-  .teaser > h1 {
+  .teaser>h1 {
     padding-bottom: $x-large-padding;
+
+    @media only screen and (max-width: $mobile-size) {
+      padding-bottom: $standard-padding;
+    }
   }
 }
 
@@ -195,9 +199,12 @@
 }
 
 #country-guide-teaser-section p.sub-header {
-  padding-left: $standard-padding * 0.5;
-  color: #e94f3d;
+  color: $color-subheading-text;
   margin-bottom: $standard-padding;
+
+  @media only screen and (min-width: $mobile-size) {
+    font-size: 24px;
+  }
 }
 
 

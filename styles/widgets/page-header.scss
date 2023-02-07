@@ -116,8 +116,13 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
       }
 
       p.sub-header {
-        color: #e94f3d;
-        margin-bottom: $standard-padding;
+        color: $color-subheading-text;
+        margin-bottom: 0px;
+
+        @media only screen and (min-width: $mobile-size) {
+          font-size: 24px;
+          margin-bottom: $standard-padding;
+        }
       }
 
       .lesson-summary {
