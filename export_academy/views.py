@@ -1,17 +1,17 @@
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, TemplateView
+from django.views.generic import FormView, ListView, TemplateView
 
-from contact.views import BaseNotifyFormView
 from export_academy import helpers, models
 from export_academy.forms import EARegistration
+from export_academy.models import Registration
 
 
 class EventListView(ListView):
     model = models.Event
 
 
-class RegistrationFormView(BaseNotifyFormView):
+class RegistrationFormView(FormView):
     template_name = 'registration_form.html'
     form_class = EARegistration
     success_url = reverse_lazy('export_academy:registration-success')
@@ -20,6 +20,13 @@ class RegistrationFormView(BaseNotifyFormView):
         cleaned_data = form.cleaned_data
         user_email = cleaned_data['email']
         self.request.session['user_email'] = user_email
+        reg = Registration(
+            first_name=cleaned_data.get("first_name"),
+            last_name=cleaned_data.get("last_name"),
+            email=user_email,
+            data=cleaned_data,
+        )
+        reg.save()
         helpers.notify_registration(
             email_data={
                 'business_name': cleaned_data['business_name'],
