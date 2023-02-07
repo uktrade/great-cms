@@ -450,6 +450,7 @@ class TopicLandingPage(
     subpage_types = [
         'domestic.ArticleListingPage',
         'domestic.ArticlePage',
+        'export_academy.ExportAcademyHomePage',  # disable with feature flag
     ]
 
     def child_pages(self):

@@ -639,6 +639,11 @@ UKEF_CONTACT_AGENT_EMAIL_ADDRESS = env.str(
 )
 UKEF_FORM_SUBMIT_TRACKER_URL = env.str('UKEF_FORM_SUBMIT_TRACKER_URL')  # A Pardot URL
 
+# Export academy
+EXPORT_ACADEMY_REGISTRATION_TEMPLATE_ID = env.str(
+    'EXPORT_ACADEMY_REGISTRATION_TEMPLATE_ID', '3b68c119-fdc5-4517-90dc-043e88853b0f'
+)
+
 # geo location
 GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')
 GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
