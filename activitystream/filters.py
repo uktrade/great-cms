@@ -6,7 +6,6 @@ from wagtail.core.models import Page
 
 
 class PageFilter(FilterSet):
-
     after = CharFilter(method='filter_time_id')
 
     def filter_time_id(self, queryset, name, value):

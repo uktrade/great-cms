@@ -14,5 +14,4 @@ from core import serializers
     ],
 )
 def test_date_format_serializer(string, expected):
-
     assert serializers._date_format(string) == expected

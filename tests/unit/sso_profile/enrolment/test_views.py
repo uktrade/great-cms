@@ -544,7 +544,6 @@ def test_companies_house_enrolment_expose_company(
     steps_data,
     user,
 ):
-
     response = submit_companies_house_step(steps_data[constants.USER_ACCOUNT])
     assert response.status_code == 302
 
@@ -1264,7 +1263,6 @@ def test_confirm_user_resend_verification_code_user_verified(
     submit_resend_verification_house_step,
     steps_data,
 ):
-
     mock_regenerate_verification_code.return_value = create_response(status_code=404)
 
     response = submit_resend_verification_house_step(steps_data[constants.RESEND_VERIFICATION])
@@ -1283,7 +1281,6 @@ def test_confirm_user_resend_verification_code_no_user(
     submit_resend_verification_house_step,
     steps_data,
 ):
-
     mock_regenerate_verification_code.return_value = create_response(status_code=404)
 
     response = submit_resend_verification_house_step(steps_data[constants.RESEND_VERIFICATION])
@@ -1298,7 +1295,6 @@ def test_confirm_user_resend_verification_code_no_user(
 
 @freeze_time('2012-01-14 12:00:02')
 def test_confirm_user_resend_verification_code_complete(client, submit_resend_verification_house_step, steps_data):
-
     response = submit_resend_verification_house_step(steps_data[constants.RESEND_VERIFICATION])
 
     assert response.status_code == 302
@@ -1780,7 +1776,6 @@ def test_wizard_progress_indicator_mixin(is_anon, rf, settings, client, user):
 
 
 def test_individual_enrolment_steps(client, submit_individual_step, steps_data, user):
-
     response = submit_individual_step(steps_data[constants.USER_ACCOUNT])
     assert response.status_code == 302
 

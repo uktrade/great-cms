@@ -81,7 +81,6 @@ class LessonDetailsMixin:
         return helpers.get_lesson_details(lessons)
 
     def get_context_data(self, **kwargs):
-
         return super().get_context_data(lesson_details=self.lesson_details, **kwargs)
 
 
@@ -178,7 +177,6 @@ class ExportPlanMarketingApproachView(PageTitleMixin, LessonDetailsMixin, Export
 class ExportPlanAdaptingYourProductView(
     PageTitleMixin, LessonDetailsMixin, FormContextMixin, ExportPlanSectionView, FormView
 ):
-
     form_class = forms.ExportPlanAdaptingYourProductForm
     success_url = reverse_lazy('exportplan:adapting-your-product')
     title = 'Adapting your product'
@@ -218,7 +216,6 @@ class ExportPlanBusinessObjectivesView(PageTitleMixin, LessonDetailsMixin, Expor
 
 
 class ExportPlanAboutYourBusinessView(PageTitleMixin, ExportPlanSectionView):
-
     title = 'About your business'
 
     def get_context_data(self, *args, **kwargs):

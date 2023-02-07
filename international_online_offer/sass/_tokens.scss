@@ -1,0 +1,41 @@
+$atlas-brand-red: #eb0000;
+$atlas-brand-blue: #050540;
+$atlas-home-bg: #020234;
+
+$atlas-body: #1e1348;
+
+$atlas-black: #000;
+$atlas-white: #fff;
+
+$atlas-grey-darker: #343434;
+$atlas-grey-mid: #d8d8d8;
+$atlas-grey-light: #dde5ed;
+$atlas-grey-lighter: #f5f5f7;
+
+$atlas-green-light: #8ce2d0;
+
+$atlas-blue-lighter: #d2d0da;
+$atlas-blue-light: #787191;
+
+$govuk-focus-yellow: #ffbf47;
+
+$page-gutter: 15px;
+$page-gutter-medium: 16px;
+$page-gutter-large: 30px;
+$grid-gutter: 15px;
+$grid-gutter-medium: 16px;
+$grid-gutter-large: 30px;
+
+$breakpoint-xsmall: 480px;
+$breakpoint-small: 640px;
+$breakpoint-medium: 768px;
+$breakpoint-large: 1024px;
+$breakpoint-xlarge: 1300px;
+
+$breakpoint-suffixes: ("-s": $breakpoint-small, "-m": $breakpoint-medium, "-l": $breakpoint-large, "-xl": $breakpoint-xlarge);
+
+$spacings: ("xs": 10px, "s": 15px, "m": 30px, "l": 45px, "xl": 75px);
+$spacings-medium: ("xs": 15px, "s": 25px, "m": 40px, "l": 60px, "xl": 100px);
+
+
+$govuk-focus: 4px solid $govuk-focus-yellow;

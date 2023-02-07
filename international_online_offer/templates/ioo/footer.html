@@ -1,0 +1,45 @@
+{% load static %}
+
+<footer id="great-footer" class="atlas-footer" data-ga-section="footer">
+    <div class="atlas-footer__main">
+        <div class="atlas-container">
+            <div class="atlas-footer__logo">
+                <img src="{% static 'images/great.png' %}" width="217" height="81"
+                     alt="Great Britain and Northern Ireland"/>
+            </div>
+        </div>
+
+        <div class="atlas-container atlas-container--footer">
+            <nav class="atlas-footer__nav">
+                <ul class="atlas-list--bare atlas-m-0">
+                    <li>
+                        <a id="footer-privacy-and-cookies"
+                           href="{{ header_footer_urls.privacy_and_cookies }}">Privacy and cookies</a>
+                    </li>
+                    <li>
+                        <a id="footer-terms-and-conditions"
+                           href="{{ header_footer_urls.terms_and_conditions }}">Terms and conditions</a>
+                    </li>
+                    <li>
+                        <a id="footer-contact" href="{{ services_urls.contact_us_international }}">
+                            Contact us</a>
+                    </li>
+                    <li>
+                        <a id="footer-dit" href="{{ header_footer_urls.dit }}"
+                           title="Opens in a new window" rel="noopener noreferrer"
+                           target="_blank">Department for International Trade on GOV.UK</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="atlas-footer__global">
+        <div class="atlas-container atlas-container--footer">
+            <img width="283" height="21" alt="Department for International Trade"
+                 src="{% static 'directory_components/images/dit-logo.svg' %}">
+
+            <p>&copy; Crown copyright {% now "Y" %}. All rights reserved.</p>
+        </div>
+    </div>
+</footer>

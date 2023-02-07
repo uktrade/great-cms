@@ -23,7 +23,6 @@ def test_articleserializer_is_aware_of_all_streamfield_blocks(en_locale):
 
 @pytest.mark.django_db
 def test_articleserializer__get_article_body_content_for_search__simple(en_locale):
-
     article_instance = ArticlePageFactory(
         article_title='article test',
         article_teaser='Descriptive text',
@@ -47,7 +46,6 @@ def test_articleserializer__get_article_body_content_for_search__simple(en_local
 
 @pytest.mark.django_db
 def test_articleserializer__get_article_body_content_for_search__pull_quote_entirely_included(en_locale):
-
     article_instance = ArticlePageFactory(
         article_title='article test',
         article_teaser='Descriptive text',
@@ -84,7 +82,6 @@ def test_articleserializer__get_article_body_content_for_search__pull_quote_enti
 
 @pytest.mark.django_db
 def test_articleserializer__get_article_body_content_for_search__more_complex_content(en_locale):
-
     article_instance = ArticlePageFactory(
         article_title='article test',
         article_teaser='Descriptive text',
@@ -126,7 +123,6 @@ def test_articleserializer__get_article_body_content_for_search__more_complex_co
 
 @pytest.mark.django_db
 def test_articleserializer__get_article_body_content_for_search__no_content(en_locale):
-
     article_instance = ArticlePageFactory(
         article_title='article test',
         article_teaser='Descriptive text',
@@ -153,7 +149,6 @@ def test_articleserializer__get_article_body_content_for_search__skipping_unknow
     en_locale,
     caplog,
 ):
-
     # Rather than add a new block to the streamfield and then confirm its skipped, we can test
     # the core code by removing a block type from the list that the serializer knows about
 

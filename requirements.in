@@ -40,6 +40,7 @@ django-staff-sso-client==4.0.*
 directory-ch-client==3.0.*
 directory-validators==9.2.*
 django-recaptcha==3.0.*
+directory-components==38.2.0
 
 # Other Python deps
 # -----------------

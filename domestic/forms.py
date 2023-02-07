@@ -108,7 +108,6 @@ class UKEFContactForm(GovNotifyEmailActionMixin, forms.Form):
 
 
 class SectorPotentialForm(forms.Form):
-
     SECTOR_CHOICES_BASE = [('', 'Select your sector')]
 
     sector = forms.ChoiceField(
@@ -153,7 +152,6 @@ class PersonalDetailsForm(forms.Form):
 
 
 class CompanyDetailsForm(forms.Form):
-
     EXPORT_CHOICES = (
         'I have three years of registered accounts',
         'I have customers outside UK',
@@ -306,7 +304,6 @@ class MarketAccessAboutForm(forms.Form):
 
 
 class MarketAccessProblemDetailsForm(forms.Form):
-
     error_css_class = 'input-field-container has-error'
 
     location = forms.ChoiceField(

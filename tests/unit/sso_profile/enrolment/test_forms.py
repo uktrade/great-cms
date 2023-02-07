@@ -31,14 +31,12 @@ def test_create_user_password_confirm_empty():
 
 
 def test_verification_code_empty_email():
-
     form = forms.UserAccountVerification()
 
     assert isinstance(form.fields['email'], EmailField)
 
 
 def test_verification_code_with_email():
-
     form = forms.UserAccountVerification(initial={'email': 'test@test.com'})
 
     assert isinstance(form.fields['email'], CharField)

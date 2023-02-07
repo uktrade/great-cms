@@ -37,7 +37,6 @@ class Command(BaseCommand):
         updated = 0
 
         for guide in CountryGuidePage.objects.all():
-
             intro_ctas = guide.intro_ctas
 
             # Link for export opportunities cannot be derived from existing data,

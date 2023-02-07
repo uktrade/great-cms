@@ -46,7 +46,6 @@ def test_get_company_profile_not_found(mock_profile_retrieve):
 @mock.patch('directory_forms_api_client.client.forms_api_client.submit_generic')
 @mock.patch('sso_profile.business_profile.helpers.get_company_admins')
 def test_collaboration_request_reminder(mock_get_company_admins, mock_notify_email, settings):
-
     mock_get_company_admins.return_value = [{'company_email': 'test@test123.com'}]
 
     mock_notify_email.return_value = create_response(status_code=200)

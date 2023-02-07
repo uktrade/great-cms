@@ -2,7 +2,6 @@ from exportplan.core.parsers import ExportPlanParser
 
 
 def test_export_plan_parser(export_plan_data):
-
     ep_parser = ExportPlanParser(export_plan_data)
     assert ep_parser.data == export_plan_data
     assert ep_parser.export_country_name == export_plan_data['export_countries'][0]['country_name']
@@ -11,7 +10,6 @@ def test_export_plan_parser(export_plan_data):
 
 
 def test_serialize_for_template(export_plan_data):
-
     ep_parser = ExportPlanParser(export_plan_data)
 
     assert ep_parser.data['getting_paid']['payment_method']['payment_method_label'] == (

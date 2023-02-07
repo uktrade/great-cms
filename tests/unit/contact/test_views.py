@@ -732,7 +732,6 @@ def test_office_finder_valid(all_office_details, client):
 )
 @mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
 def test_success_view_cms_snippet_data(mock_get_snippet_instance, url, slug, client):
-
     response = client.get(url)
 
     assert response.status_code == 200
@@ -741,7 +740,6 @@ def test_success_view_cms_snippet_data(mock_get_snippet_instance, url, slug, cli
 
 @mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
 def test_contact_us_office_success_next_url(mock_get_snippet_instance, client):
-
     url = reverse(
         'contact:contact-us-office-success',
         kwargs={'postcode': 'FOOBAR'},
@@ -904,7 +902,6 @@ def test_exporting_from_uk_contact_form_initial_data_business(
     user,
     mock_get_company_profile,
 ):
-
     mock_get_company_profile.return_value = {
         # Full spec of CompanySerializer is in
         # https://github.com/uktrade/directory-api/blob/master/company/serializers.py
@@ -992,7 +989,6 @@ def test_contact_us_international_prepopualate(client, user, mock_get_company_pr
 
 @mock.patch('core.mixins.GetSnippetContentMixin.get_snippet_instance')
 def test_guidance_view_cms_retrieval(mock_get_snippet_instance, client):
-
     mock_snippet = mock.Mock()
     mock_snippet.body = '<p><b>test text here</b></p>'
     mock_get_snippet_instance.return_value = mock_snippet
@@ -1054,7 +1050,6 @@ def test_selling_online_overseas_contact_form_submission(  # noqa: C901
     client,
     mock_get_company_profile,
 ):
-
     client.force_login(user)
 
     def post(step, args):
@@ -1283,7 +1278,6 @@ def test_selling_online_overseas_contact_form_submission(  # noqa: C901
     }
 )
 def test_selling_online_overseas_contact_form_market_name(client, user):
-
     client.force_login(user)
 
     url_name = 'contact:contact-us-soo'
@@ -1321,7 +1315,6 @@ def test_selling_online_overseas_contact_form_initial_data(  # noqa: C901
     user,
     client,
 ):
-
     client.force_login(user)
 
     # Set Directory-API company lookup
@@ -1440,6 +1433,5 @@ def test_fta_form_submit_success(mock_form_session, client, settings):
 
 
 def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements):
-
     response = client.get(reverse('contact:contact-free-trade-agreements'))
     assert response.context['privacy_url'] == PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE

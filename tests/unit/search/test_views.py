@@ -12,7 +12,6 @@ pytestmark = pytest.mark.django_db
 
 
 def test_search_view(client):
-
     """We mock the call to ActivityStream"""
 
     with patch('search.helpers.search_with_activitystream') as search:

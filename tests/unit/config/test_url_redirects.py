@@ -50,7 +50,6 @@ INTERNATIONAL_REDIRECTS_PARAMS = ('url,expected_language', language_redirects + 
 
 @pytest.mark.parametrize(*INTERNATIONAL_REDIRECTS_PARAMS)
 def test_international_redirects_no_query_params(url, expected_language, client):
-
     if not url.endswith('/'):
         url = client.get(url).url
 
@@ -62,7 +61,6 @@ def test_international_redirects_no_query_params(url, expected_language, client)
 
 @pytest.mark.parametrize(*INTERNATIONAL_REDIRECTS_PARAMS)
 def test_international_redirects_query_params(url, expected_language, client):
-
     if not url.endswith('/'):
         url = client.get(add_utm_query_params(url)).url
     else:

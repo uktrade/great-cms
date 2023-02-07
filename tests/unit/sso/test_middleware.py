@@ -19,7 +19,6 @@ from sso.middleware import AuthenticationMiddleware
     ),
 )
 def test_authentication_middleware__token_expiry(rf, path, expected_redirect_dest):
-
     middleware = AuthenticationMiddleware()
 
     request = rf.get(path)

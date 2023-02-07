@@ -12,7 +12,6 @@ from tests.helpers import create_response
 @mock.patch.object(api_client.dataservices, 'get_last_year_import_data_by_country')
 @pytest.mark.django_db
 def test_com_trade_data_view(mock_import_data_by_country, client):
-
     url = reverse('core:api-comtrade-data')
 
     response = client.get(url + '?countries=DE,&commodity_code=123456')
@@ -53,7 +52,6 @@ def test_country_data_view(mock_country_data, client):
 @mock.patch.object(core_helpers, 'get_trade_barrier_data')
 @pytest.mark.django_db
 def test_trade_barrier_data_view(mock_get_trade_barrier_data, client):
-
     mock_get_trade_barrier_data.return_value = {}
     url = reverse('core:api-trade-barrier-data')
     client.get(url + '?countries=CN&sectors=Aerospace')

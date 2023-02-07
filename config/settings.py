@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'cms_extras.apps.CmsExtrasConfig',
     'domestic',
     'exportplan.apps.ExportPlanConfig',
+    'international_online_offer.apps.IOOConfig',
     'users.apps.UsersConfig',
     'learn.apps.LearnConfig',
     'captcha',
@@ -84,6 +85,7 @@ INSTALLED_APPS = [
     'health_check.cache',
     'sso_profile',
     'export_academy',
+    'directory_components',
 ]
 
 MIDDLEWARE = [
@@ -138,6 +140,7 @@ TEMPLATES = [
                 'core.context_processors.cookie_management_vars',
                 'great_components.context_processors.analytics',
                 'wagtail.contrib.settings.context_processors.settings',
+                'core.context_processors.services_home_links',
             ],
         },
     },
@@ -754,6 +757,7 @@ FEATURE_SHOW_BRAND_BANNER = env.bool('FEATURE_SHOW_BRAND_BANNER', False)
 FEATURE_SHOW_MAGNA_LINKS_IN_HEADER = env.bool('FEATURE_SHOW_MAGNA_LINKS_IN_HEADER', False)
 FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK = env.bool('FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK', False)
 FEATURE_SHOW_CASE_STUDY_RANKINGS = env.bool('FEATURE_SHOW_CASE_STUDY_RANKINGS', False)
+FEATURE_INTERNATIONAL_ONLINE_OFFER = env.bool('FEATURE_INTERNATIONAL_ONLINE_OFFER', False)
 
 MAX_COMPARE_PLACES_ALLOWED = env.int('MAX_COMPARE_PLACES_ALLOWED', 10)
 
