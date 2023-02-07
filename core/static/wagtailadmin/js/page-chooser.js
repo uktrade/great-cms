@@ -12,11 +12,11 @@ function createPageChooser(
 
   $('.action-choose', chooserElement).on('click', function () {
     var initialUrl = window.chooserUrls.pageChooser
-    if (openAtParentId) {
-      initialUrl += openAtParentId + '/'
-    }
 
-    var urlParams = { page_type: pageTypes.join(',') }
+    var urlParams = {  }
+    if (pageTypes) {
+      urlParams.page_type = pageTypes.join(',')
+    }
     if (canChooseRoot) {
       urlParams.can_choose_root = 'true'
     }
