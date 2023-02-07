@@ -1,5 +1,4 @@
 from collections import defaultdict
-from datetime import datetime
 
 from core.models import CuratedListPage, DetailPage
 from sso import helpers as sso_helpers
@@ -107,22 +106,13 @@ def get_lesson_completion_status(user, context={}):
     return {'module_pages': module_pages, 'lessons_in_progress': lessons_in_progress}
 
 
-def get_last_completed_lesson_id(data):
+def get_last_completed_lesson_id(user):
+    data = sso_helpers.get_lesson_completed(user.session_id)
 
-    # find most recently completed lesson
-    modified_times = [
-        {
-            'modified': datetime.strptime(lesson['modified'], '%Y-%m-%dT%H:%M:%S+%f'),
-            'lesson_id': lesson['lesson'],
-            'module_id': lesson['module'],
-        }
-        for lesson in data.get('lesson_completed', [])
-    ]
-    modified_times = sorted(modified_times, key=lambda lesson: lesson['modified'], reverse=True)
-
-    if modified_times:
-        lesson = modified_times[0]
-        return lesson['lesson_id']
-        # get first lesson of next module
-    else:
+    if not data.get('lesson_completed'):
         return None
+
+    # sort completed lessons into descending order based on modified time
+    sorted_lessons = sorted(data['lesson_completed'], key=lambda lesson: lesson['modified'], reverse=True)
+
+    return sorted_lessons[0]['lesson']
