@@ -85,7 +85,6 @@ INSTALLED_APPS = [
     'health_check.cache',
     'sso_profile',
     'directory_components',
-    'export_academy',
 ]
 
 MIDDLEWARE = [
@@ -388,6 +387,7 @@ if DEBUG:
 FEATURE_EXPORT_ACADEMY_INSTALLED = env.bool('FEATURE_EXPORT_ACADEMY_INSTALLED', False)
 if FEATURE_EXPORT_ACADEMY_INSTALLED:
     INSTALLED_APPS.append('export_academy')
+    MIDDLEWARE.append('export_academy.middleware.ExportAcademyRegistrationMiddleware')
 
 ELASTIC_APM_ENABLED = env('ELASTIC_APM_ENABLED', default=False)
 if ELASTIC_APM_ENABLED:

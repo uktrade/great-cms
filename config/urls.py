@@ -82,4 +82,4 @@ if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
 if settings.FEATURE_EXPORT_ACADEMY_INSTALLED:
     import export_academy.urls
 
-    urlpatterns = [path('', include(export_academy.urls, namespace='export_academy'))] + urlpatterns
+    urlpatterns = [path('export-academy/', include(export_academy.urls, namespace='export_academy'))] + urlpatterns
