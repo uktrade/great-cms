@@ -385,7 +385,7 @@ if DEBUG:
     INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
 
 # Install the Export Academy app on demand
-FEATURE_EXPORT_ACADEMY_INSTALLED = env.bool('FEATURE_EXPORT_ACADEMY_INSTALLED', True)
+FEATURE_EXPORT_ACADEMY_INSTALLED = env.bool('FEATURE_EXPORT_ACADEMY_INSTALLED', False)
 if FEATURE_EXPORT_ACADEMY_INSTALLED:
     INSTALLED_APPS.append('export_academy')
     MIDDLEWARE.append('export_academy.middleware.ExportAcademyRegistrationMiddleware')
