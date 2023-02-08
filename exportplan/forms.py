@@ -209,7 +209,6 @@ class ExportPlanTargetMarketsResearchForm(forms.Form):
 
 
 class ExportPlanMarketingApproachForm(forms.Form):
-
     resources = forms.CharField(
         label='What marketing resources do you need?',
         required=False,

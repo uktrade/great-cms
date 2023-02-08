@@ -56,7 +56,6 @@ def authenticated_user_required(page, request, serve_args, serve_kwargs):
 @hooks.register('before_serve_page')
 def login_required_signup_wizard(page, request, serve_args, serve_kwargs):
     if page.template == 'learn/detail_page.html' and request.user.is_anonymous:
-
         # opting out of personalised content 'forever' - not just this request.
         if 'show-generic-content' in request.GET:
             request.session[SESSION_KEY_LESSON_PAGE_SHOW_GENERIC_CONTENT] = True
@@ -143,7 +142,6 @@ class S3WagtailTransferFile(WTFile):
         self.source_key = kwargs['source_key']
 
     def transfer(self):
-
         # NB: This will only work if the source file is publicly readable
         copy_source = {'Bucket': self.source_bucket, 'Key': self.source_key}
 
@@ -218,7 +216,6 @@ class S3FileFieldAdapter(FieldAdapter):
         bucket_name = source.netloc
 
         for _hostname in constants.AWS_S3_MAIN_HOSTNAME_OPTIONS:
-
             if _hostname in bucket_name:
                 _target = f'.{_hostname}'
                 bucket_name = bucket_name.replace(_target, '')
@@ -326,7 +323,6 @@ def editor_css():
 
 @hooks.register('insert_global_admin_css')
 def global_admin_css():
-
     return format_html(
         '<link rel="stylesheet" href="{}">',  # noqa: P103
         static('cms-admin/css/case-study-index.css'),

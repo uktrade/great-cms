@@ -1,6 +1,9 @@
 import pytest
 from django.shortcuts import reverse
 from django.test import override_settings
+from django.utils import translation
+
+from core import context_processors
 
 
 @pytest.mark.django_db
@@ -22,7 +25,6 @@ def test_dit_link_exists_in_template_context(client):
 @pytest.mark.django_db
 @override_settings(BREADCRUMBS_ROOT_URL='https://example.com/')
 def test_migration_migration_support_vars(client):
-
     url = reverse('core:signup')
     response = client.get(url)
     assert 'great_support_email' in response.context
@@ -53,3 +55,16 @@ def test_cookie_management_vars(client):
     url = reverse('core:signup')
     response = client.get(url)
     assert 'PRIVACY_COOKIE_DOMAIN' in response.context
+
+
+@pytest.mark.django_db
+def test_directory_components_html_lang_attribute(settings):
+    with translation.override('fr'):
+        actual = context_processors.directory_components_html_lang_attribute(None)  # noqa
+
+        assert actual['directory_components_html_lang_attribute'] == translation.get_language()
+
+    with translation.override('de'):
+        actual = context_processors.directory_components_html_lang_attribute(None)  # noqa
+
+        assert actual['directory_components_html_lang_attribute'] == translation.get_language()

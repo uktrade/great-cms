@@ -97,7 +97,6 @@ class GetFinanceLeadGenerationFormView(
         return super(mixins.PrepopulateFormMixin, self).get_form_kwargs(*args, **kwargs)
 
     def get_form_initial(self, step):
-
         initial = super().get_form_initial(step)
         if self.request.user.is_authenticated:
             if step == self.PERSONAL_DETAILS and self.request.user.company:

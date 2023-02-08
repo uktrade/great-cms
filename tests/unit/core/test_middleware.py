@@ -225,7 +225,6 @@ def test_check_ga_360_allows_null_values_for_nullable_fields():
 @mock.patch('core.middleware.TimedAccessMiddleware.try_cookie')
 @override_settings(TESTING=False, BETA_WHITELISTED_ENDPOINTS='/foo/,/admin/,/test/')
 def test_timed_access_middleware__whitelisted_paths(mock_try_cookie, rf):
-
     # In _this_ test, we don't care what happens if we get at or below
     # self.try_cookie(), so let's just give it a useul fake response
     mock_response_for_not_whitelisted = mock.Mock(name='mock_response_for_not_whitelisted')

@@ -13,7 +13,6 @@ from tests.helpers import create_response
 
 @pytest.mark.django_db
 def test_business_sso_login_validation_error(client, requests_mock):
-
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=200)
 
     response = client.post(reverse('sso:business-sso-login-api'), {})
@@ -23,7 +22,6 @@ def test_business_sso_login_validation_error(client, requests_mock):
 
 @pytest.mark.django_db
 def test_business_sso_login_200_upstream(client, requests_mock):
-
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=200)
 
     response = client.post(reverse('sso:business-sso-login-api'), {'email': 'test', 'password': 'password'})
@@ -215,7 +213,6 @@ def test_business_sso_verify_code_invalid(mock_check_verification_code, client):
 def test_business_sso_verify_code_expired(
     mock_send_verification_code_email, mock_regenerate_verification_code, mock_check_verification_code, client
 ):
-
     data = {'uidb64': 'aBcDe', 'token': '1a2b3c', 'code': '12345', 'email': 'mail@example.com'}
     url = reverse('sso:business-sso-verify-code-api')
 
@@ -244,7 +241,6 @@ def test_business_sso_verify_code_expired(
 @mock.patch.object(helpers, 'check_verification_code')
 @mock.patch.object(helpers, 'send_welcome_notification')
 def test_business_sso_verify_code_valid(mock_send_welcome_notification, mock_check_verification_code, client):
-
     data = {'uidb64': 'aBcDe', 'token': '1a2b3c', 'code': '12345', 'email': 'mail@example.com'}
     url = reverse('sso:business-sso-verify-code-api')
 

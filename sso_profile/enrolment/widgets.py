@@ -7,7 +7,6 @@ class PostcodeInput(django.forms.TextInput):
 
 
 class RadioSelect(great_components.forms.RadioSelect):
-
     option_template_name = 'enrolment/widgets/radio_option.html'
 
     def __init__(self, help_text, *args, **kwargs):

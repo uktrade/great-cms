@@ -183,7 +183,6 @@ def test_lists_live_articles_in_stream(
     domestic_site,
     domestic_homepage,
 ):
-
     # Create the articles
     with freeze_time('2020-01-14 12:00:01'):
         article_a = ArticlePageFactory(

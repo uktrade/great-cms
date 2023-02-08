@@ -140,7 +140,6 @@ class DomesticEnquiriesForm(ConsentFieldMixin, ShortNotifyForm):
 
 
 class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
-
     EMPLOYEES_NUMBER_CHOICES = (
         ('1-9', '1 to 9'),
         ('10-49', '10 to 49'),
@@ -281,7 +280,6 @@ class LocationRoutingForm(forms.Form):
 
 
 class DomesticRoutingForm(forms.Form):
-
     CHOICES = (
         (constants.TRADE_OFFICE, 'Find your local trade office'),
         (constants.EXPORT_ADVICE, 'Advice to export from the UK'),
@@ -299,7 +297,6 @@ class DomesticRoutingForm(forms.Form):
 
 
 class GreatServicesRoutingForm(forms.Form):
-
     CHOICES = (
         (constants.EXPORT_OPPORTUNITIES, 'Export opportunities service'),
         (constants.GREAT_ACCOUNT, 'Your account on great.gov.uk'),
@@ -431,7 +428,6 @@ class CommentForm(forms.Form):
 
 
 class PersonalDetailsForm(forms.Form):
-
     first_name = forms.CharField(label='First name')
     last_name = forms.CharField(label='Last name')
     position = forms.CharField(label='Position in organisation')
@@ -496,7 +492,6 @@ class InternationalContactForm(
     GovNotifyEmailActionMixin,
     forms.Form,
 ):
-
     ORGANISATION_TYPE_CHOICES = (
         ('COMPANY', 'Company'),
         ('OTHER', 'Other type of organisation'),
@@ -564,7 +559,6 @@ class SellingOnlineOverseasContactDetails(forms.Form):
 
 
 class SellingOnlineOverseasApplicant(forms.Form):
-
     company_name = forms.CharField(
         label='Company name',
         disabled=True,
@@ -597,7 +591,6 @@ class SellingOnlineOverseasApplicant(forms.Form):
 
 
 class SellingOnlineOverseasApplicantNonCH(forms.Form):
-
     company_name = forms.CharField(
         label='Company name',
         disabled=True,
@@ -624,7 +617,6 @@ class SellingOnlineOverseasApplicantNonCH(forms.Form):
 
 
 class SellingOnlineOverseasApplicantIndividual(forms.Form):
-
     company_name = forms.CharField(
         label='Business name',
     )
@@ -662,7 +654,6 @@ class SellingOnlineOverseasApplicantProxy(forms.Form):
 
 
 class SellingOnlineOverseasApplicantDetails(forms.Form):
-
     sku_count = IntegerField(
         label='How many stock keeping units (SKUs) do you have?',
         help_text=(
@@ -707,7 +698,6 @@ class SellingOnlineOverseasExperience(forms.Form):
 
 
 class FTASubscribeForm(GovNotifyEmailActionMixin, forms.Form):
-
     first_name = forms.CharField(
         label='First name',
         required=True,

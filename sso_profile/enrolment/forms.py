@@ -102,7 +102,6 @@ class UserAccountCollaboration(UserAccount):
 
 
 class UserAccountVerification(forms.Form):
-
     MESSAGE_INVALID_CODE = 'Invalid code'
     # email field can be overridden in __init__ to allow user to enter email
     email = forms.CharField(label='', widget=HiddenInput, disabled=True)
@@ -150,7 +149,6 @@ class CompaniesHouseCompanySearch(forms.Form):
 
 
 class CompaniesHouseAddressSearch(CleanAddressMixin, forms.Form):
-
     MESSAGE_INVALID_ADDRESS = 'Address should be at least two lines.'
 
     company_name = forms.CharField(label='Registered company name', disabled=True)
@@ -167,7 +165,6 @@ class CompaniesHouseAddressSearch(CleanAddressMixin, forms.Form):
 
 
 class CompaniesHouseBusinessDetails(forms.Form):
-
     company_name = forms.CharField(label='Registered company name')
     company_number = forms.CharField(
         disabled=True, required=False, container_css_classes='border-active-blue read-only-input-container'
@@ -263,7 +260,6 @@ class IndividualPersonalDetails(forms.Form):
 
 
 class NonCompaniesHouseSearch(CleanAddressMixin, forms.Form):
-
     MESSAGE_INVALID_ADDRESS = 'Address should be at least two lines.'
     COMPANY_TYPES = [('', 'Please select')] + [
         (value, label) for value, label in choices.COMPANY_TYPES if value != 'COMPANIES_HOUSE'

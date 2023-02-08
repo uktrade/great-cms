@@ -1,0 +1,90 @@
+@import '../tokens';
+@import '../mixins';
+
+.atlas-button {
+  @include atlas-bold;
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 40px;
+  border: 0;
+  font-size: 20px;
+  line-height: normal;
+  text-decoration: none;
+  text-align: center;
+  color: $atlas-white;
+  background-color: $atlas-black;
+  cursor: pointer;
+  text-shadow: none;
+
+  @media (min-width: $breakpoint-small) {
+    width: auto;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus {
+    outline: $govuk-focus;
+  }
+
+  & * {
+    pointer-events: none;
+  }
+}
+
+.atlas-button--white {
+  color: $atlas-body;
+  background-color: $atlas-white;
+}
+
+.atlas-button--wire {
+  color: $atlas-body;
+  background-color: $atlas-white;
+  box-shadow: inset 0 0 0 2px $atlas-body;
+
+  &:hover {
+    background-color: $atlas-grey-lighter;
+  }
+}
+
+.atlas-button--link {
+  @include atlas-regular;
+  padding: 0;
+  color: $atlas-body;
+  background: transparent;
+  width: auto;
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.atlas-button__icon {
+  width: 1em;
+  height: 1em;
+  margin-left: .5em;
+  margin-right: -.5em;
+
+  &.atlas-button__icon--first {
+    margin-left: -.5em;
+    margin-right: .5em;
+  }
+
+  .atlas-button--link & {
+    margin-right: 0;
+  }
+
+  .atlas-button--link &.atlas-button__icon--first {
+    margin-left: 0;
+  }
+
+  & svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}

@@ -710,7 +710,6 @@ def test_request_identity_verification_already_sent(
 
 
 def test_collaborator_list(mock_collaborator_list, mock_collaboration_request_list, user, client, settings):
-
     client.force_login(user)
     mock_collaborator_list.return_value = create_response([])
     mock_collaboration_request_list.return_value = create_response([])

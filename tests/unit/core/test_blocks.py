@@ -242,7 +242,6 @@ def test_case_study_static_block_no_exception_raised_missing_casestudy(
     mock_trading_blocs,
     settings,
 ):
-
     # Create case studies - then delete it so there's a mismatch between ES and Database
     # Case study display shouldn't break
     case_study_1 = CaseStudyFactory(id=1)
@@ -412,7 +411,6 @@ def test_case_study_ranking_lesson(cs_tags_lesson, user_page_context, expected_s
     ),
 )
 def test_general_statistics_streamfield_validation(blocks_to_create, expected_exception_message):
-
     value = [mock.Mock() for x in range(blocks_to_create)]
 
     if expected_exception_message:
@@ -427,7 +425,6 @@ def test_general_statistics_streamfield_validation(blocks_to_create, expected_ex
 
 
 def test_video_chooser_block__render_basic():
-
     vcblock = core_blocks.VideoChooserBlock()
 
     assert vcblock.render_basic(None) == ''

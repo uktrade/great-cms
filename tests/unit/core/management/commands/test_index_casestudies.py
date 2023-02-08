@@ -15,7 +15,6 @@ from tests.unit.core.factories import (
 
 @pytest.mark.django_db
 def test_index_casestudies(mock_elasticsearch_get_connection, domestic_homepage):
-
     hs_codes = ['112233', '11', '1122']
     countries = ['France', 'El Salvador']
     lesson_detail_1 = DetailPageFactory(parent=domestic_homepage, title='lesson 1', estimated_read_duration='0:02:30')

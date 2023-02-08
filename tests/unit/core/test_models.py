@@ -110,7 +110,6 @@ def test_curated_list_page_has_link_in_context_back_to_parent(
     user,
     mock_get_user_profile,
 ):
-
     list_page = factories.ListPageFactory(
         parent=domestic_homepage, record_read_progress=False, slug='example-learning-homepage'
     )
@@ -179,7 +178,6 @@ def test_curated_list_page_has_link_in_context_back_to_parent(
 def test_detail_page_get_context_handles_backlink_querystring_appropriately(
     rf, domestic_homepage, domestic_site, user, querystring_to_add, expected_backlink_value, export_plan_data
 ):
-
     list_page = factories.ListPageFactory(parent=domestic_homepage, record_read_progress=False)
     curated_list_page = factories.CuratedListPageFactory(parent=list_page)
     topic_page = factories.TopicPageFactory(parent=curated_list_page)
@@ -419,7 +417,6 @@ def test_topic_page_redirects_to_module(
     assert curated_list_page.url is not None
 
     for page_method in ('serve', 'serve_preview'):
-
         request = rf.get(topic_page.url)
 
         resp = getattr(topic_page, page_method)(request)
@@ -458,7 +455,6 @@ def test_placeholder_page_redirects_to_module(
     assert curated_list_page.url is not None
 
     for page_method in ('serve', 'serve_preview'):
-
         request = rf.get(placeholder_page.url)
 
         resp = getattr(placeholder_page, page_method)(request)
@@ -504,7 +500,6 @@ def test_redirection_for_unauthenticated_user(
     user,
     mock_get_user_profile,
 ):
-
     landing_page = factories.LandingPageFactory(parent=domestic_homepage)
     interstitial_page = factories.InterstitialPageFactory(parent=landing_page)
     list_page = factories.ListPageFactory(parent=domestic_homepage)

@@ -17,7 +17,6 @@ ACCORDION_FIELDS_HELP_TEXT = (
 
 
 class GreatDomesticHomePagePanels:
-
     content_panels = [
         FieldPanel('title'),
         MultiFieldPanel(
@@ -77,7 +76,6 @@ class GreatDomesticHomePagePanels:
 
 
 class ArticleListingPagePanels:
-
     content_panels = [
         MultiFieldPanel(
             heading='Titles',
@@ -103,7 +101,6 @@ class ArticleListingPagePanels:
 
 
 class ArticlePagePanels:
-
     content_panels = [
         MultiFieldPanel(
             heading='Article intro',
@@ -133,13 +130,42 @@ class ArticlePagePanels:
             ],
         ),
         MultiFieldPanel(
-            heading='Related articles',
+            heading='Related pages',
+            help_text='Entering a title and link overrides the page choice',
             children=[
+                PageChooserPanel('related_page_one', 'wagtailcore.Page'),
                 FieldRowPanel(
                     [
-                        PageChooserPanel('related_page_one', 'domestic.ArticlePage'),
-                        PageChooserPanel('related_page_two', 'domestic.ArticlePage'),
-                        PageChooserPanel('related_page_three', 'domestic.ArticlePage'),
+                        FieldPanel('related_page_one_title'),
+                        FieldPanel('related_page_one_link'),
+                    ],
+                ),
+                PageChooserPanel('related_page_two', 'wagtailcore.Page'),
+                FieldRowPanel(
+                    [
+                        FieldPanel('related_page_two_title'),
+                        FieldPanel('related_page_two_link'),
+                    ]
+                ),
+                PageChooserPanel('related_page_three', 'wagtailcore.Page'),
+                FieldRowPanel(
+                    [
+                        FieldPanel('related_page_three_title'),
+                        FieldPanel('related_page_three_link'),
+                    ]
+                ),
+                PageChooserPanel('related_page_four', 'wagtailcore.Page'),
+                FieldRowPanel(
+                    [
+                        FieldPanel('related_page_four_title'),
+                        FieldPanel('related_page_four_link'),
+                    ]
+                ),
+                PageChooserPanel('related_page_five', 'wagtailcore.Page'),
+                FieldRowPanel(
+                    [
+                        FieldPanel('related_page_five_title'),
+                        FieldPanel('related_page_five_link'),
                     ]
                 ),
             ],
@@ -155,7 +181,6 @@ class ArticlePagePanels:
 
 
 class CountryGuidePagePanels:
-
     content_panels = [
         MultiFieldPanel(
             heading='Heading and introduction',
@@ -298,7 +323,6 @@ class CountryGuidePagePanels:
 
 
 class TopicLandingPagePanels:
-
     content_panels = [
         FieldPanel('title'),
         MultiFieldPanel(
@@ -375,7 +399,6 @@ class GuidancePagePanels:
 
 
 class PerformanceDashboardPagePanels:
-
     content_panels = [
         MultiFieldPanel(
             heading='Heading and description',
@@ -393,7 +416,6 @@ class PerformanceDashboardPagePanels:
 
 
 class TradeFinancePagePanels:
-
     content_panels = [
         FieldPanel('title'),
         FieldPanel('breadcrumbs_label'),

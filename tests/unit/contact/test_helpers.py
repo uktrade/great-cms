@@ -117,7 +117,6 @@ def test_format_office_details_empty():
 
 
 def test_extract_other_offices_details(all_offices, other_offices_formatted):
-
     display_offices = extract_other_offices_details(all_offices)
 
     assert display_offices == other_offices_formatted

@@ -36,7 +36,6 @@ class GeolocationRemoteFileArchive:
 
 
 class Command(BaseCommand):
-
     help = 'Download the latest geolocation data'
 
     def handle(self, *args, **options):
