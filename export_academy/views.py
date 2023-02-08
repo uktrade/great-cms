@@ -18,7 +18,7 @@ class RegistrationFormView(FormView):
 
     def form_valid(self, form):
         cleaned_data = form.cleaned_data
-        user_email = cleaned_data['email']
+        user_email = self.request.user.email
         self.request.session['user_email'] = user_email
         reg = Registration(
             first_name=cleaned_data.get("first_name"),
@@ -30,7 +30,7 @@ class RegistrationFormView(FormView):
         helpers.notify_registration(
             email_data={
                 'business_name': cleaned_data['business_name'],
-                'first_name': cleaned_data['full_name'],
+                'first_name': cleaned_data['first_name'],
             },
             form_url=self.request.path,
             email_address=user_email,
