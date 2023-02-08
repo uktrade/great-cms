@@ -363,7 +363,7 @@ monotonic==1.6
     #   directory-client-core
 msgpack==1.0.4
     # via locust
-mypy-extensions==0.4.3
+mypy-extensions==1.0.0
     # via black
 nodeenv==1.7.0
     # via pre-commit
@@ -417,7 +417,7 @@ pluggy==1.0.0
     # via
     #   allure-python-commons
     #   pytest
-pre-commit==3.0.2
+pre-commit==3.0.4
     # via -r requirements_test.in
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
@@ -450,7 +450,7 @@ pyhanko-certvalidator==0.20.0
     # via
     #   pyhanko
     #   xhtml2pdf
-pylint==2.16.0
+pylint==2.16.1
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -458,7 +458,7 @@ pylint-django==2.5.3
     # via -r requirements_test.in
 pylint-plugin-utils==0.7
     # via pylint-django
-pypdf==3.3.0
+pypdf==3.4.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -511,11 +511,11 @@ pyyaml==6.0
     #   pyhanko
 pyzmq==25.0.0
     # via locust
-qrcode==7.4
+qrcode==7.4.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==4.4.2
+redis==4.5.0
     # via django-redis
 regex==2022.10.31
     # via dateparser
@@ -659,7 +659,7 @@ urllib3[socks]==1.26.14
     #   requests
     #   selenium
     #   sentry-sdk
-virtualenv==20.17.1
+virtualenv==20.18.0
     # via pre-commit
 w3lib==2.1.1
     # via directory-client-core
@@ -712,11 +712,11 @@ xhtml2pdf==0.2.9
     # via -r requirements.in
 xlrd==2.0.1
     # via tablib
-xlsxwriter==3.0.7
+xlsxwriter==3.0.8
     # via wagtail
 xlwt==1.3.0
     # via tablib
-zipp==3.12.0
+zipp==3.12.1
     # via importlib-metadata
 zope-event==4.6
     # via gevent
