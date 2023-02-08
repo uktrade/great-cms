@@ -29,6 +29,7 @@ babel==2.11.0
     # via sphinx
 beautifulsoup4==4.9.3
     # via
+    #   directory-components
     #   great-components
     #   readtime
     #   wagtail
@@ -73,9 +74,12 @@ directory-client-core==7.1.0
     #   directory-ch-client
     #   directory-forms-api-client
     #   directory-sso-api-client
+directory-components==38.2.0
+    # via -r requirements.in
 directory-constants==22.0.1
     # via
     #   -r requirements.in
+    #   directory-components
     #   great-components
 directory-forms-api-client==7.1.0
     # via -r requirements.in
@@ -91,6 +95,7 @@ django==3.2.16
     #   directory-api-client
     #   directory-ch-client
     #   directory-client-core
+    #   directory-components
     #   directory-constants
     #   directory-healthcheck
     #   directory-validators
@@ -190,7 +195,9 @@ jmespath==1.0.1
     #   boto3
     #   botocore
 jsonschema==3.2.0
-    # via great-components
+    # via
+    #   directory-components
+    #   great-components
 l18n==2021.3
     # via wagtail
 lxml==4.9.2

@@ -1,0 +1,74 @@
+@import 'tokens';
+
+/*
+NOTE: If we don't want to support IE11, we can switch to simply declaring spacings as root vars:
+
+:root {
+  --spacing-xs: 8px;
+}
+
+@media (min-width: $breakpoint-medium) {
+  :root {
+    --spacing-xs: 15px;
+  }
+}
+
+.atlas-m-xs {
+  margin: var(--spacing-xs);
+}
+ */
+
+@mixin spacings($spacing-values) {
+  $sides: ('t': 'top', 'r': 'right', 'b': 'bottom', 'l': 'left');
+  $properties: ('p': 'padding', 'm': 'margin');
+
+  @each $p, $property in $properties {
+    .atlas-#{$p}-0 {
+      #{$property}: 0;
+    }
+
+    .atlas-#{$p}-v-0 {
+      #{$property}-top: 0;
+      #{$property}-bottom: 0;
+    }
+
+    .atlas-#{$p}-h-0 {
+      #{$property}-left: 0;
+      #{$property}-right: 0;
+    }
+
+    @each $s, $side in $sides {
+      .atlas-#{$p}-#{$s}-0 {
+        #{$property}-#{$side}: 0;
+      }
+    }
+
+    @each $suffix, $value in $spacing-values {
+      .atlas-#{$p}-#{$suffix} {
+        #{$property}: $value;
+      }
+
+      .atlas-#{$p}-v-#{$suffix} {
+        #{$property}-top: $value;
+        #{$property}-bottom: $value;
+      }
+
+      .atlas-#{$p}-h-#{$suffix} {
+        #{$property}-left: $value;
+        #{$property}-right: $value;
+      }
+
+      @each $s, $side in $sides {
+        .atlas-#{$p}-#{$s}-#{$suffix} {
+          #{$property}-#{$side}: $value;
+        }
+      }
+    }
+  }
+}
+
+@include spacings($spacings);
+
+@media (min-width: $breakpoint-medium) {
+  @include spacings($spacings-medium);
+}

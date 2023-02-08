@@ -1,0 +1,132 @@
+@import 'tokens';
+
+$half-gutter: $grid-gutter / 2;
+$half-gutter-medium: $grid-gutter-medium / 2;
+$half-gutter-large: $grid-gutter-large / 2;
+
+.atlas-grid {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -$half-gutter;
+  margin-right: -$half-gutter;
+
+  @media (min-width: $breakpoint-medium) {
+    margin-left: -$half-gutter-medium;
+    margin-right: -$half-gutter-medium;
+  }
+
+  @media (min-width: $breakpoint-large) {
+    margin-left: -$half-gutter-large;
+    margin-right: -$half-gutter-large;
+  }
+
+  .debug-grid &:after {
+    content: '';
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(90deg,
+            transparent 0%,
+            transparent $half-gutter,
+            rgba(255, 0, 0, 0.25) $half-gutter,
+            rgba(255, 0, 0, 0.25) calc(8.333% - #{$half-gutter}),
+            transparent calc(8.333% - #{$half-gutter}),
+            transparent 8.333%
+    );
+
+    @media (min-width: $breakpoint-medium) {
+      background: repeating-linear-gradient(90deg,
+              transparent 0%,
+              transparent $half-gutter-medium,
+              rgba(255, 0, 0, 0.25) $half-gutter-medium,
+              rgba(255, 0, 0, 0.25) calc(8.333% - #{$half-gutter-medium}),
+              transparent calc(8.333% - #{$half-gutter-medium}),
+              transparent 8.333%
+      );
+    }
+
+    @media (min-width: $breakpoint-large) {
+      background: repeating-linear-gradient(90deg,
+              transparent 0%,
+              transparent $half-gutter-large,
+              rgba(255, 0, 0, 0.25) $half-gutter-large,
+              rgba(255, 0, 0, 0.25) calc(8.333% - #{$half-gutter-large}),
+              transparent calc(8.333% - #{$half-gutter-large}),
+              transparent 8.333%
+      );
+    }
+  }
+}
+
+.atlas-grid__column {
+  flex: 0 0 auto;
+  width: 100%;
+
+  padding-left: $half-gutter;
+  padding-right: $half-gutter;
+
+  @media (min-width: $breakpoint-medium) {
+    padding-left: $half-gutter-medium;
+    padding-right: $half-gutter-medium;
+  }
+
+  @media (min-width: $breakpoint-large) {
+    padding-left: $half-gutter-large;
+    padding-right: $half-gutter-large;
+  }
+}
+
+.atlas-grid__column--centred {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.atlas-grid--masonry {
+  display: block;
+
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+.atlas-grid--masonry .atlas-grid__column {
+  flex: none;
+}
+
+.atlas-grid--masonry .atlas-grid__column--left {
+  float: left;
+  clear: left;
+}
+
+.atlas-grid--masonry .atlas-grid__column--right {
+  float: right;
+  clear: right;
+}
+
+@mixin columns($suffix) {
+  @for $i from 1 through 11 {
+    $width: 100% * ($i / 12);
+
+    .atlas-grid__column--#{$i}-12#{$suffix} {
+      width: $width;
+    }
+
+    .atlas-grid__column--offset-#{$i}#{$suffix} {
+      margin-left: $width;
+    }
+  }
+}
+
+@include columns('');
+
+@each $suffix, $breakpoint in $breakpoint-suffixes {
+  @media (min-width: $breakpoint) {
+    @include columns($suffix);
+  }
+}

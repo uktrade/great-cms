@@ -1,0 +1,250 @@
+@import 'tokens';
+@import 'mixins';
+
+// Font urls are relative to the compiled main.css file
+@font-face {
+  font-family: 'Euclid Flex B';
+  src: local('Euclid Flex B Bold'), local('EuclidFlexB-Bold'),
+    //url('../fonts/atlas/EuclidFlexB-Bold.woff2') format('woff2'),
+    //url('../fonts/atlas/EuclidFlexB-Bold.woff') format('woff'),
+    //url('../fonts/atlas/EuclidFlexB-Bold.ttf') format('truetype'),
+  url('/static/fonts/EuclidFlexB-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: 'Euclid Flex B';
+  src: local('Euclid Flex B'), local('EuclidFlexB-Regular'),
+    //url('../fonts/atlas/EuclidFlexB-Regular.woff2') format('woff2'),
+    //url('../fonts/atlas/EuclidFlexB-Regular.woff') format('woff'),
+    //url('../fonts/atlas/EuclidFlexB-Regular.ttf') format('truetype'),
+  url('/static/fonts/EuclidFlexB-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: auto;
+}
+
+.atlas {
+  color: $atlas-body;
+  font-size: 16px;
+
+  @media (min-width: $breakpoint-medium) {
+    font-size: 19px;
+  }
+}
+
+.atlas-regular {
+  @include atlas-regular;
+  line-height: 1.6;
+}
+
+.atlas-bold {
+  @include atlas-bold;
+}
+
+.atlas-h--xl,
+.atlas-h--l,
+.atlas-h--m {
+  @include atlas-bold;
+  margin-bottom: .5em;
+}
+
+.atlas-h--s,
+.atlas-h--xs {
+  @include atlas-bold;
+}
+
+.atlas-h--xl {
+  font-size: 48px;
+  line-height: 1;
+
+  @media (min-width: $breakpoint-medium) {
+    font-size: 60px;
+  }
+}
+
+.atlas-h--l {
+  font-size: 36px;
+  line-height: 1.1111;
+
+  @media (min-width: $breakpoint-medium) {
+    font-size: 48px;
+    line-height: 1;
+  }
+}
+
+.atlas-h--m {
+  font-size: 28px;
+  line-height: 1.1428;
+
+  @media (min-width: $breakpoint-medium) {
+    font-size: 36px;
+    line-height: 1.1111;
+  }
+}
+
+.atlas-h--s {
+  font-size: 24px;
+  line-height: 1.25;
+
+  @media (min-width: $breakpoint-medium) {
+    font-size: 28px;
+    line-height: 1.1428;
+  }
+}
+
+.atlas-h--xs {
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+.atlas-body,
+.atlas-body--l,
+.atlas-body--m,
+.atlas-body--s {
+  @include atlas-regular;
+}
+
+.atlas-body {
+  font-size: 1em;
+}
+
+.atlas-body--l {
+  font-size: 24px;
+  line-height: 1.6666;
+
+  @media (min-width: $breakpoint-medium) {
+    font-size: 30px;
+    line-height: 1.6;
+  }
+}
+
+.atlas-body--m {
+  font-size: 20px;
+  line-height: 1.5;
+
+  @media (min-width: $breakpoint-medium) {
+    font-size: 24px;
+    line-height: 1.6666;
+  }
+}
+
+.atlas-body--s {
+  font-size: 18px;
+  line-height: 1.5;
+
+  @media (min-width: $breakpoint-medium) {
+    font-size: 20px;
+    line-height: 1.5;
+  }
+}
+
+.atlas-link {
+  color: $atlas-body;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.atlas-link--invert {
+  color: $atlas-body;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+p {
+  margin-top: 0.3125em;
+  margin-bottom: 1.25em;
+
+  @media (min-width: $breakpoint-small) {
+    margin-top: 0.26316em;
+    margin-bottom: 1.05263em;
+  }
+}
+
+.atlas-cms-text {
+  & h2 {
+    @extend .atlas-h--l;
+  }
+
+  & h3 {
+    @extend .atlas-h--m;
+  }
+
+  & h4 {
+    @extend .atlas-h--s;
+  }
+
+  & h4,
+  & h6 {
+    @extend .atlas-h--xs;
+  }
+
+  & * + h2,
+  & * + h3 {
+    margin-top: map-get($spacings, "s");
+  }
+
+  @media (min-width: $breakpoint-medium) {
+    & * + h2,
+    & * + h3 {
+      margin-top: map-get($spacings-medium, "m");
+    }
+  }
+
+  & * + h4,
+  & * + h5,
+  & * + h6 {
+    margin-top: 1em;
+
+    & + p,
+    & + ul,
+    & + ol {
+      margin-top: 0;
+    }
+  }
+
+  & p,
+  & ul,
+  & ol {
+    @extend .atlas-body--s;
+    margin: 1em 0 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  & ul {
+    list-style: disc;
+    padding-left: 2em;
+  }
+
+  & li {
+    margin-top: .5em;
+  }
+
+  & a {
+    color: $atlas-body;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.atlas-cms-text--regular-headings {
+  & h2,
+  & h3,
+  & h4,
+  & h5,
+  & h6 {
+    @include atlas-regular;
+  }
+}
