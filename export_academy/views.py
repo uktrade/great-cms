@@ -4,10 +4,6 @@ from django.views.generic import FormView, ListView, TemplateView, UpdateView
 from export_academy import forms, helpers, models
 
 
-class LandingPageView(RedirectView):
-    pattern_name = 'export_academy:upcoming-events'
-
-
 class EventListView(ListView):
     model = models.Event
 
@@ -48,13 +44,8 @@ class RegistrationFormView(FormView):
     def form_valid(self, form):
         cleaned_data = form.cleaned_data
         user_email = self.request.user.email
-<<<<<<< HEAD
 
         reg = models.Registration(
-=======
-        self.request.session['user_email'] = user_email
-        reg = Registration(
->>>>>>> 0719f75ef (Fix flake8)
             first_name=cleaned_data.get('first_name'),
             last_name=cleaned_data.get('last_name'),
             email=user_email,

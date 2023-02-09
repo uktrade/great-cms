@@ -384,11 +384,6 @@ if DEBUG:
     MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
     INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
 
-# Install the Export Academy app on demand
-FEATURE_EXPORT_ACADEMY_INSTALLED = env.bool('FEATURE_EXPORT_ACADEMY_INSTALLED', False)
-if FEATURE_EXPORT_ACADEMY_INSTALLED:
-    INSTALLED_APPS.append('export_academy')
-    MIDDLEWARE.append('export_academy.middleware.ExportAcademyRegistrationMiddleware')
 
 ELASTIC_APM_ENABLED = env('ELASTIC_APM_ENABLED', default=False)
 if ELASTIC_APM_ENABLED:
@@ -641,13 +636,8 @@ UKEF_CONTACT_AGENT_EMAIL_ADDRESS = env.str(
 UKEF_FORM_SUBMIT_TRACKER_URL = env.str('UKEF_FORM_SUBMIT_TRACKER_URL')  # A Pardot URL
 
 # Export academy
-<<<<<<< HEAD
 EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID = env.str(
     'EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID', '3b68c119-fdc5-4517-90dc-043e88853b0f'
-=======
-EXPORT_ACADEMY_REGISTRATION_TEMPLATE_ID = env.str(
-    'EXPORT_ACADEMY_REGISTRATION_TEMPLATE_ID', '3b68c119-fdc5-4517-90dc-043e88853b0f'
->>>>>>> ae2108041 (EA Pages)
 )
 
 # geo location
