@@ -21,8 +21,8 @@ class RegistrationFormView(FormView):
         user_email = self.request.user.email
         self.request.session['user_email'] = user_email
         reg = Registration(
-            first_name=cleaned_data.get("first_name"),
-            last_name=cleaned_data.get("last_name"),
+            first_name=cleaned_data.get('first_name'),
+            last_name=cleaned_data.get('last_name'),
             email=user_email,
             data=cleaned_data,
         )
