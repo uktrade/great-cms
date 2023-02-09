@@ -1,5 +1,6 @@
 @import '../partials/vars';
 @import '../partials/mixins';
+@import '../../../styles/colors/colors.scss';
 
 .accordion-divider {
   border-top: 1px solid $light-grey;
@@ -33,11 +34,11 @@
     font-size: 36px;
     position: absolute;
     right: $spacing-4;
-    color: black;
+    color: $color-gov-link;
   }
 
   &[aria-expanded="true"]:after {
-    content: '–';
+    content: '-';
   }
 }
 

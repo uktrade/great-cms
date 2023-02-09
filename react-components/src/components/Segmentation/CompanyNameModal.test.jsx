@@ -108,7 +108,7 @@ describe('Test company search modal', () => {
     })
     expect(closeClick).toHaveBeenCalledTimes(1)
     // click next - it's disabled so nothing happens
-    expect(modal.querySelector('.button--primary').disabled).toBeTruthy()
+    expect(modal.querySelector('.primary-button').disabled).toBeTruthy()
     fireEvent.change(input, { target: { value: 'ABC' } })
     await waitFor(() => {
       expect(getChData.calls().length).toEqual(1)
@@ -132,11 +132,11 @@ describe('Test company search modal', () => {
     expect(input.value).toMatch('Company 1')
     // check that the next button is enabled
     await waitFor(() => {
-      expect(modal.querySelector('.button--primary').disabled).toBeFalsy()
+      expect(modal.querySelector('.primary-button').disabled).toBeFalsy()
     })
     // Click next to save
     act(() => {
-      Simulate.click(modal.querySelector('.button--primary'))
+      Simulate.click(modal.querySelector('.primary-button'))
     })
     await waitFor(() => {
       expect(modal.querySelector('.g-panel')).toBeTruthy()
@@ -147,7 +147,7 @@ describe('Test company search modal', () => {
     expect(reviewText).toMatch('Incorporated on12 May 2015')
     // click next again and save the company
     act(() => {
-      Simulate.click(modal.querySelector('.button--primary'))
+      Simulate.click(modal.querySelector('.primary-button'))
     })
     expect(nextButtonClick).toHaveBeenCalledTimes(1)
   })
@@ -190,7 +190,7 @@ describe('Test company search modal', () => {
       'My business is registered with'
     )
     // next button disabled
-    expect(modal.querySelector('.button--primary').disabled).toBeTruthy()
+    expect(modal.querySelector('.primary-button').disabled).toBeTruthy()
     let input = modal.querySelector('input#company_name')
     expect(input).toBeTruthy()
     // button should only enable when three chars are typed
@@ -201,16 +201,16 @@ describe('Test company search modal', () => {
     expect(setValue).toHaveBeenCalledTimes(1)
     expect(setValue.mock.calls[0][0]).toEqual({ company_name: 'AB' })
 
-    expect(modal.querySelector('.button--primary').disabled).toBeTruthy()
+    expect(modal.querySelector('.primary-button').disabled).toBeTruthy()
     act(() => {
       fireEvent.change(input, { target: { value: 'Company 1' } })
     })
     expect(setValue).toHaveBeenCalledTimes(2)
     expect(setValue.mock.calls[1][0]).toEqual({ company_name: 'Company 1' })
     // Next button now enabled
-    expect(modal.querySelector('.button--primary').disabled).toBeFalsy()
+    expect(modal.querySelector('.primary-button').disabled).toBeFalsy()
     act(() => {
-      Simulate.click(modal.querySelector('.button--primary'))
+      Simulate.click(modal.querySelector('.primary-button'))
     })
     expect(nextButtonClick).toHaveBeenCalledTimes(1)
   })

@@ -194,3 +194,8 @@ def reference_period(data, capitalise=False):
         return output[0].upper() + output[1:]
 
     return output
+
+
+@register.filter
+def get_css_class_from_string(string):
+    return string.replace(',', '').replace(' ', '-').lower()

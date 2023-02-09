@@ -54,25 +54,4 @@
     }
   }
 
-  .with-flag:after {
-    bottom: -20px;
-    background-image: url('/static/images/uj-motif.png');
-    background-size: 155px;
-    background-repeat: no-repeat;
-    height: 30px;
-    z-index: 2;
-    max-width: 1200px;
-    display: block;
-    content: "";
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-    position: absolute;
-  }
-
-  @media (max-width: 1260px){
-    .with-flag:after {
-      margin: 0 30px;
-    }
-  }
 }

@@ -3,8 +3,10 @@
 {% load static %}
 
 {% block content %}
+<div class="breadcrumbs-wrapper">
+{% block breadcrumbs %}{% endblock %}
+</div>
     <section class="container">
-        {% block breadcrumbs %}{% endblock %}
         <div class="grid-row margin-top-60">
             <div class="column-two-thirds">
                 <form method="post" enctype="multipart/form-data" novalidate="novalidate">
@@ -24,9 +26,9 @@
                         {% endif %}
                         {% block below_form %}{% endblock %}
                         {% if wizard.steps.step1 != wizard.steps.count %}
-                            <button type="submit" class="button">{% block button_submit_label %}Save and continue{% endblock %}</button>
+                            <button type="submit" class="primary-button button">{% block button_submit_label %}Save and continue{% endblock %}</button>
                         {% else %}
-                            <button class="button next" type="submit">{% block button_next_label %}Save and continue{% endblock %}</button>
+                            <button class="button primary-button next" type="submit">{% block button_next_label %}Save and continue{% endblock %}</button>
                         {% endif %}
                         {% block below_submit_button %}{% endblock %}
                     </div>

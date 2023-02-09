@@ -86,12 +86,6 @@
   text-decoration: none;
   line-height: 30px;
 
-  &:focus:active,
-  &:active {
-    color: $black;
-    background-color: $focus-yellow;
-  }
-
   &:focus {
     @include focus;
   }
@@ -128,8 +122,6 @@
 
   &:focus:active,
   &:active {
-    color: $black;
-    background-color: $focus-yellow;
     border-color: $focus-yellow;
   }
 

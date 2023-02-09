@@ -1,30 +1,13 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 
-<div class="bg-white g-card">
-	<div class="grid m-h-0">
-		<div class="{% if wide %}c-1-2{% else %}c-full{% endif %} p-h-0">
-			<div>
-		    <h2 class="h-m p-t-xxs">{{value.title|default:'Learn'}}</h2>
-		    <p class="m-b-xs">{{value.body|linebreaksbr}}</p>
-			</div>
-      {% if not wide %}
-		    <a class="button button--secondary button--small" icon="" theme="secondary" href="{% if value.button.link %}{{value.button.link.internal_link.get_url|default:value.button.link.external_link}}{% endif %}">
+<div class="card">
+	<div class="dashboard-card">
+		    <h2>{{value.title|default:'Learn'}}</h2>
+		    <p>{{value.body|linebreaksbr}}</p>
+			    <a class="button primary-button" href="{% if value.button.link %}{{value.button.link.internal_link.get_url|default:value.button.link.external_link}}{% endif %}">
 		      {{button_label_override|default:value.button.label}}
 		    </a>
-      {% endif %}
+          {% image value.image max-700x300 %}
 		</div>
-    <div class="{% if wide %}c-1-2{% else %}c-full p-f-0 p-b-xs p-t-s{% endif %}">
-      <div class="g-card-image">
-        {% image value.image max-700x300 %}
-      </div>
-    </div>
-    {% if wide %}
-      <div class="c-full p-h-0">
-        <a class="button button--secondary button--small" icon="" theme="secondary" href="{% if value.button.link %}{{value.button.link.internal_link.get_url|default:value.button.link.external_link}}{% endif %}">
-          {{button_label_override|default:value.button.label}}
-        </a>
-      </div>
-    {% endif %}
-	</div>
-</div>
+ </div>

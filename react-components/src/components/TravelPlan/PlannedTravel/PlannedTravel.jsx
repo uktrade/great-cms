@@ -52,7 +52,7 @@ export const PlannedTravel = memo(
           It's likely you'll need to visit your chosen markets to build business
           relationships and seal important deals.
         </p>
-        <Learning tooltip={tooltip} lesson={lesson} className="m-b-m" />
+        <Learning tooltip={tooltip} lesson={lesson} className="m-b-xs" />
         <Trips
           formData={trips}
           deleteTrip={deleteTrip}

@@ -34,10 +34,10 @@
       {% endbreadcrumbs %}
   </div>
 
-  <section id="teaser-section" class="teaser-section background-stone-30 padding-top-60 padding-bottom-60">
+  <section id="teaser-section" class="teaser-section padding-top-60 padding-bottom-60">
     <div class="container">
       <div class="grid-row">
-        <div class="column-three-quarters font-medium">
+        <div class="column-three-quarters">
           <h2 class="heading heading-large margin-top-0">Get in touch</h2>
           <p class="body-text">
             If you’re thinking about financing an international project, fill out the form below. We’ll check the project details – we look at things like the countries involved and the sector you operate in.
@@ -64,7 +64,7 @@
         <form action="" method="post" autocomplete="off">
           {% csrf_token %}
           {{ form }}
-          <button type="submit" class="button button">Submit</button>
+          <button type="submit" class="primary-button">Submit</button>
         </form>
       </div>
     </div>

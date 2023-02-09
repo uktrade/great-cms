@@ -67,10 +67,10 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
   const addProductButton = (
     <button
       type="button"
-      className="button button--primary button--icon"
+      className="button primary-button button--icon"
       onClick={() => setProductModalIsOpen(true)}
     >
-      <i className="fa fa-plus-circle" />
+      <i className="fa fa-plus" />
       Add product
     </button>
   )
@@ -81,10 +81,10 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
       {selectedLength < maxPlaces && (
         <button
           type="button"
-          className="button button--primary button--icon add-market m-t-xs"
+          className="button primary-button button--icon add-market m-t-xs"
           onClick={() => setMarketModalIsOpen(true)}
         >
-          <i className="fa fa-plus-circle" />
+          <i className="fa fa-plus" />
           Add market
         </button>
       )}
@@ -106,6 +106,7 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
     productsLoaded && (
       <>
         {selectedLength ? (
+          <>
           <ComparisonTables
             tabsJson={tabs}
             comparisonMarkets={comparisonMarkets}
@@ -114,20 +115,23 @@ function CompareMarkets({ tabs, maxPlaces, ctaContainer, container }) {
             triggerButton={addMarketButton}
             cacheVersion={cacheVersion}
           />
+          {ReactDOM.createPortal( <p>
+            Continue adding upto 10 markets to compare dynamic data from some of the world's most trusted sources.
+          </p>, ctaContainer)}
+          </>
         ) : (
           ReactDOM.createPortal(
             hasProducts ? (
               <>
-                <p className="body-l">
-                  Add an export market to see data for the products in your My
-                  products list.
+                <p>
+                 Find information to help choose the right export markets for your product. Add a market to see dynamic data from some of the world's most trusted sources.
                 </p>
                 {addMarketButton}
               </>
             ) : (
               <>
-                <p className="body-l">
-                  To get started, add a product to your My products list.
+              <p>
+                 Find information to help choose the right export markets for your product. Add a product to see dynamic data from some of the world's most trusted sources.
                 </p>
                 {addProductButton}
               </>

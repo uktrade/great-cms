@@ -9,26 +9,30 @@
 {% endblock %}
 
 {% block content %}
-  <div class="bg-blue-deep-80 hero-image-container">
-    <div class="container">
-      <div class="grid ">
-        <div class="c-1-2 p-v-xl lh">
-          <h1 class="h-l text-white">
+  <div class="page-header export-plan-header">
+     <div class="inner-header">
+          <div>
+          <h1>
             My export plans
           </h1>
-          <a href="{% url 'exportplan:start' %}" class="button button--large button--tertiary buttton-icon"><i
-            class="fas fa-plus-square m-r-xs"
+          <p>Your unique business plan to launch your exports.</p>
+          <a href="{% url 'exportplan:start' %}" class="button primary-button"><i
+            class="fas fa-plus m-r-xs"
           ></i>Create a new plan</a>
       </div>
-      <div class="c-1-2 rh p-t-m">
-        <img src="{% static 'images/ep-index.png' %}" alt="">
-      </div>
+    <div class = "image-container">
     </div>
   </div>
 </div>
-<input id="details-reveal" type="checkbox" class="button hide-show-trigger" />
+<input id="details-reveal" type="checkbox" class="button hide-show-trigger" >
+{% if exportplan_list %}
+  <div class="container m-t-s">
+    <label id='hide-show-button' for="details-reveal" class="button button--small secondary-button button--icon"> <i class="fas fa-chevron-right" /></i>
+      <span>How it works</span></label>
+  </div>
+  {% endif %}
 <div>
-  <div class="p-v-l bg-white {% if exportplan_list %}hide-show-content{% endif %} watermark-container">
+  <div class="p-v-l {% if exportplan_list %}hide-show-content{% endif %} watermark-container">
     <div class="container">
       <div class="grid">
         <div class="c-1-2-m">
@@ -49,31 +53,25 @@
           </ul>
         </div>
         <div class="c-1-2-m">
-          <div class="g-card bg-blue-deep-10">
-            <h2 class="h-s">Take your first steps towards exporting success</h2>
+          <div class="g-card action-wrapper">
+            <h2 class="h-s p-t-0">Take your first steps towards exporting success</h2>
             <p>Put an export plan in place for your business</p>
-            <a href="{% url 'exportplan:start' %}" class="button button--large button--primary buttton-icon"><i class="fas fa-plus-square m-r-xs"></i>{% if request.user.is_authenticated %}Create a  new plan{% else %}Create a free plan {% endif %}</a>
+            <a href="{% url 'exportplan:start' %}" class="button primary-button buttton-icon"><i class="fas fa-plus m-r-xs"></i>{% if request.user.is_authenticated %}Create a  new plan{% else %}Create a free plan {% endif %}</a>
           </div>
-          <div class="g-card bg-blue-deep-10 min-height-0">
+          <div class="g-card action-wrapper min-height-0">
             <a href="{% static 'pdfs/sample_export_plan_document.pdf' %}" class="link">
-              <i class="fas fa-arrow-circle-down m-r-xs"></i>See what a good export plan looks like
+              <i class="fa fa-file-pdf m-r-xs"></i>Download what a good export plan looks like
             </a>
           </div>
         </div>
       </div>
     </div>
   </div>
-  {% if exportplan_list %}
-  <div class="container m-t-m">
-    <label for="details-reveal" class="button button--small button--tertiary button--teritary button--icon"> <i class="fas fa-chevron-down m-r-xxs" /></i>
-      How it works</label>
-  </div>
-  {% endif %}
 </div>
 <div class="container">
   {% if exportplan_list %}
-  <div class="bg-blue-deep-10">
-    <div class="container p-v-s">
+  <div class="export-plan-wrapper">
+    <div>
       <nav>
         <ul>
           {% for plan in exportplan_list %}

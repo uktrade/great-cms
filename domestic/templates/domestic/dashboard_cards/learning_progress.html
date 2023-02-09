@@ -6,30 +6,33 @@ Only show if progress has started
 {% load progress_bar %}
 
 {% if lessons_in_progress %}
-  <div class="g-card p-b-0" id="your-progress-card">
+  <div class="p-b-0 card" id="your-progress-card">
     <div class="g-card-header d-flex flex-jc-space-between flex-ai-center">
-     <h2 class="h-m p-t-xxs">Learn to export</h2>
+     <h2>Learn to export</h2>
       <img class="f-r learn__export-academy-logo small" alt="UK Export Academy" .learn__export-academy-logo src="/static/images/export-academy.svg">
     </div>
       {% for module_page in module_pages %}
-        <div class="grid m-h-0 g-card-full">
+        <div>
           {% if forloop.counter > 1 %}
             <hr class="hr hr--light c-full m-v-0" />
           {% endif %}
-          <div class="{% if module_page.completion_count %}flex-center{%endif%}">
-
-            <h3 class="c-2-3 p-f-0 p-r-s p-v-s" id="topics-{{ module_page.page.title|slugify }}">
-                <a class="link" href="{{ module_page.page.get_url }}">{{ module_page.page.title }}</a>
+          <div class="card-row">
+  <a class ="clickable-card" href="{{ module_page.page.get_url }}">
+            <h3 id="topics-{{ module_page.page.title|slugify }}">
+                <a class="learning-link" href="{{ module_page.page.get_url }}">{{ module_page.page.title }}</a>
             </h3>
-            <div class="c-1-3 p-f-0 p-r-s p-v-s">
+            <div class="c-1-3 p-f-0 p-v-s">
                 {% if module_page.completion_count %}
                     {% progress_bar  module_page.total_pages module_page.completion_count %}
-                    <p class="topics-read-text body-m-b m-t-xxs m-b-0">{{ module_page.completion_count }} / {{ module_page.total_pages }} lesson{{module_page.total_pages|pluralize}} completed</p>
+                    <p id='lessons-completed-text' class="m-t-xxs m-b-0 progress-bar-text">{{ module_page.completion_count }} / {{ module_page.total_pages }} lesson{{module_page.total_pages|pluralize}} completed</p>
                 {% else %}
-                    <span class="body-m text-blue-deep-60">Not yet started</span>
+                    {% progress_bar  0 0 %}
+                    <p class="m-t-xxs m-b-0 progress-bar-text">Not yet started</p>
                 {% endif %}
             </div>
+          </a>
           </div>
+
         </div>
       {% endfor %}
   </div>

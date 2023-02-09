@@ -162,7 +162,7 @@ export default function CountryFinderModal(props) {
         <button
           key={`suggested_${country.country_iso2}`}
           type="button"
-          className="tag tag--tertiary tag--icon m-r-s m-v-xxs"
+          className="secondary-button button small-button tag--icon m-r-s m-v-xxs"
           data-country={country.country_name}
           data-region={country.region}
           data-id={country.country_iso2}
@@ -209,7 +209,7 @@ export default function CountryFinderModal(props) {
             Compare data for different markets to make an informed choice about
             where to export.
           </p>
-          <a href="/where-to-export/" className="button button--secondary">
+          <a href="/where-to-export/" className="button primary-button">
             Compare markets
           </a>
         </div>
@@ -261,7 +261,7 @@ export default function CountryFinderModal(props) {
         </p>
         <button
           type="button"
-          className="button button--secondary button--full-width m-b-s"
+          className="secondary-button button--full-width m-b-s"
           onClick={() => setMobilePage('suggested')}
         >
           Possible export markets
@@ -269,7 +269,7 @@ export default function CountryFinderModal(props) {
         {!isCompareCountries && (
           <button
             type="button"
-            className="button button--secondary button--full-width m-b-s"
+            className="secondary-button button--full-width m-b-s"
             onClick={() => setMobilePage('compare')}
           >
             Compare markets
@@ -277,7 +277,7 @@ export default function CountryFinderModal(props) {
         )}
         <button
           type="button"
-          className="button button--secondary button--full-width m-b-s"
+          className="secondary-button button--full-width m-b-s"
           onClick={() => setMobilePage('list')}
         >
           List of markets
@@ -302,7 +302,7 @@ export default function CountryFinderModal(props) {
         overlayClassName="modal-overlay center"
         onAfterOpen={modalAfterOpen}
       >
-        <div className="country-finder text-blue-deep-80">
+        <div className="country-finder">
           <div
             className={`scroll-area m-t-0 ${scrollerClass}`}
             onScroll={onScroll}
@@ -325,11 +325,11 @@ export default function CountryFinderModal(props) {
                   <h2 className="h-l m-t-s p-b-xs">Choose a market</h2>
                 </div>
                 {suggestedSection}
-                <hr className="hr bg-red-deep-100" />
+                <hr/>
                 {!isCompareCountries && (
                   <>
                     {compareMarketsSection}
-                    <hr className="hr bg-red-deep-100" />
+                    <hr/>
                   </>
                 )}
                 {marketListSection}
@@ -338,7 +338,7 @@ export default function CountryFinderModal(props) {
               <div className="only-mobile">
                 <button
                   type="button"
-                  className={`pull-left m-t-s button button--secondary button--icon button--auto-width ${
+                  className={`pull-left m-t-s button secondary-button button--icon button--auto-width ${
                     mobilePage === 'initial' ? 'hidden' : ''
                   }`}
                   onClick={() => setMobilePage('initial')}

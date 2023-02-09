@@ -22,10 +22,10 @@
           <p class="subheading">{{ subheading }}</p>
         {% endif %}
         {% if title or heading %}
-          <h3 class="heading-large">{% firstof title heading %}</h3>
+          <h2>{% firstof title heading %}</h3>
         {% endif %}
         {% if description %}
-          <p class="description">{{ description }}</p>
+          <p>{{ description }}</p>
         {% endif %}
         {% if bullets %}
         <ul class="margin-vertical-15 list-bullet">

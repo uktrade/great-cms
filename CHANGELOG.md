@@ -5,6 +5,14 @@
 ### Bugs fixed
 * Update MonthYearInput test to get current year dynamically
 * KLS-370 - Update createPageChooser function to work with new wagtail parameters
+* KLS-80 - Correct form destinations and CTA style for Scottish offices
+* Update MonthYearInput test to get current year dynamically
+* KLS-80 - Correct form destinations and CTA style for Scottish offices
+* Update MonthYearInput test to get current year dynamically
+* KLS-80 - Correct form destinations and CTA style for Scottish offices
+* Update MonthYearInput test to get current year dynamically
+* KLS-80 - Correct form destinations and CTA style for Scottish offices
+
 ### Hotfix
 
 ### Enhancements

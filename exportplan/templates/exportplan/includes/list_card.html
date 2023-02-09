@@ -1,6 +1,6 @@
 {% load content_tags %}
 
-<article class="relative bg-white radius p-h-s p-v-xs clearfix">
+<article class="relative bg-white p-h-s p-v-xs clearfix">
   <a href="{{plan.url}}" class="learn__category-link" aria-describedby="export-plan-{{ plan.url }}">
     <span class="visually-hidden">View export plan</span>
   </a>
@@ -16,5 +16,5 @@
   <div class="progress-bar m-v-xs">
     <span style="width: {% widthratio plan.calculated_progress.sections_completed plan.calculated_progress.sections_total 100 %}%"></span>
   </div>
-  <p class="body-m-b m-t-xs m-b-0">{% widthratio plan.calculated_progress.sections_completed plan.calculated_progress.sections_total 100 %}% completed</p>
+  <p class="progress-bar-text">{% widthratio plan.calculated_progress.sections_completed plan.calculated_progress.sections_total 100 %}% completed</p>
 </article>

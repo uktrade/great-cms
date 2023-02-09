@@ -68,15 +68,13 @@ export const Dashboard = memo(
                   >
                     {is_complete && <span className="visually-hidden">Complete</span>}
                     <img
-                      className={`width-full p-h-s p-t-m p-b-s ${
-                        is_complete ? 'bg-green-30' : 'bg-blue-deep-20'
-                      }`}
+                      className={`width-full bg-white`}
                       src={`/static/images/${image}`}
                       alt=""
                     />
                   </div>
                   <div className="p-xs">
-                    <h3 className="h-xs text-blue-deep-80 p-0">{title}</h3>
+                    <h3 className="h-xs p-0">{title}</h3>
                     <p className="m-b-0 m-t-xxs">
                       {section_progress.find((x) => x.url === url).populated}{' '}
                       out of {section_progress.find((x) => x.url === url).total}{' '}

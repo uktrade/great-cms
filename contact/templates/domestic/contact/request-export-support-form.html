@@ -18,13 +18,14 @@
 
 
 {% block content %}
-	<section>
-		<div class="container">
-			{% breadcrumbs 'Local export support form' %}
-				<a href="/">great.gov.uk</a>
-			{% endbreadcrumbs %}
-		</div>
-		<div class="container">
+	<section class="help-pages">
+
+		{% breadcrumbs 'Local export support form' %}
+			<a href="/">great.gov.uk</a>
+		{% endbreadcrumbs %}
+
+		<div id="request-export-support-form-content" class="page-main-content-container">
+			<div class="inner-container">
 			<div class="column-full">
 				<div class="exred-triage-form">
 					<form method="post"
@@ -58,10 +59,11 @@
 							{% include 'core/includes/form_field.html' with field=form.captcha %}
 						</fieldset>
 
-						<button type="submit" class="button">Submit</button>
+						<button type="submit" class="primary-button">Submit</button>
 					</form>
 				</div>
 			</div>
+		</div>
 		</div>
 	</section>
 {% endblock %}

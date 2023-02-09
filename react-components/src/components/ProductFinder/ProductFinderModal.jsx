@@ -322,7 +322,7 @@ export default function ProductFinderModal(props) {
               questions
             )}
           {(known || questions) && !showingInteraction ? (
-            <hr className="hr bg-red-deep-100 m-h-s" />
+            null
           ) : (
             ''
           )}
@@ -413,7 +413,7 @@ export default function ProductFinderModal(props) {
             ariaDescribedby="search-hint"
           />
           <button
-            className="search-button button button--small button--only-icon m-f-xs"
+            className="search-button button secondary-button icon-only m-f-xs"
             disabled={!searchTerm}
             type="button"
             onClick={search}
@@ -454,7 +454,7 @@ export default function ProductFinderModal(props) {
           />
           <button
             type="button"
-            className="button button--primary m-t-s"
+            className="button primary-button m-t-s"
             onClick={backToSearch}
           >
             Search again
@@ -521,7 +521,7 @@ export default function ProductFinderModal(props) {
         onAfterOpen={modalAfterOpen}
         shouldCloseOnOverlayClick={false}
       >
-        <form className="product-finder text-blue-deep-80">
+        <form className="product-finder">
           <div style={{ height: headerHeight }}>
             {/* nothing in the modal header for the time being */}
           </div>

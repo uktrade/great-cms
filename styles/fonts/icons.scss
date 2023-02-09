@@ -1,0 +1,18 @@
+@import '../colors/colors.scss';
+$icon-standard-size: 24px;
+$icon-large-button-size: 18px;
+$icon-medium-button-size: 16px;
+$icon-small-button-size: 14px;
+
+i {
+    font-size: $icon-standard-size;
+}
+
+.fa-times-circle {
+    color: $color-delete;
+}
+
+label.far,
+.fa-book {
+    color: $color-gov-link;
+}

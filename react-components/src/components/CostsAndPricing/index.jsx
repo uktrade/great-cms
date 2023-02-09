@@ -154,7 +154,7 @@ export const CostsAndPricing = memo(
             <div className="c-1-12-m c-1-4-xl">&nbsp;</div>
           </div>
         </section>
-        <section className="bg-blue-deep-10 m-t-l p-v-s">
+        <section className="export-plan-section-lesson">
           <div className="container">
             <div className="grid">
               <div className="c-1-4">&nbsp;</div>

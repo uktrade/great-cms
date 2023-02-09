@@ -1,0 +1,134 @@
+@import '../sizes/sizes.scss';
+
+@mixin horizontal-card-padding {
+  padding-left: $large-padding;
+  padding-right: $large-padding;
+  @media only screen and (max-width: $mobile-size) {
+    padding-left: 0 1.5 * $standard-padding;
+    padding-right: 0 1.5 * $standard-padding;
+  }
+}
+
+@mixin vertical-card-padding {
+  padding-top: $large-padding;
+  padding-bottom: $large-padding;
+  @media only screen and (max-width: $mobile-size) {
+    padding-top: 1.5 * $standard-padding 0;
+    padding-bottom: 1.5 * $standard-padding 0;
+  }
+}
+
+@mixin horizontal-card-margin {
+  margin-left: $large-padding;
+  margin-right: $large-padding;
+  @media only screen and (max-width: $mobile-size) {
+    margin-left: 0 1.5 * $standard-padding;
+    margin-right: 0 1.5 * $standard-padding;
+  }
+}
+
+.card + .card {
+  margin-top: $x-large-padding;
+}
+
+.card {
+  padding-left: 0;
+  padding-right: 0;
+
+  .g-card,
+  .g-card-full {
+    position: relative;
+    @include horizontal-card-padding();
+
+    hr {
+      margin-left: -1 * $large-padding;
+      padding-right: 2 * $large-padding;
+      position: inherit;
+      z-index: 1;
+    }
+  }
+
+  .dashboard-card {
+    padding-bottom: 0;
+    padding-top: 0;
+    @include horizontal-card-padding();
+    p {
+      padding-top: $large-padding;
+      padding-bottom: $large-padding;
+      margin: 0;
+    }
+
+    img {
+      margin: auto;
+      padding-top: $large-padding;
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .g-card-header {
+    display: inline-flex;
+    flex-wrap: wrap;
+    border-bottom: 4px solid #eef2f6;
+    width: 100%;
+    @include horizontal-card-padding();
+    padding-bottom: $x-large-padding;
+
+    h2 {
+      flex: 1;
+      width: 100%;
+    }
+
+    @media only screen and (max-width: $mobile-size) {
+      gap: $x-large-padding * 0.5;
+    }
+  }
+
+  .card-row {
+    position: relative;
+    display: inline-flex;
+    flex-wrap: wrap;
+    @include horizontal-card-padding();
+    gap: $x-large-padding;
+    width: 100%;
+
+    h3 {
+      padding: $x-large-padding 0;
+      flex: 1;
+      width: 100%;
+    }
+
+    > div {
+      flex: 1;
+      width: 100%;
+    }
+
+    @media only screen and (max-width: $mobile-size) {
+      display: flex;
+      flex-direction: column;
+      gap: $standard-padding;
+
+      h3 {
+        min-width: auto;
+        padding-top: $x-large-padding;
+        padding-bottom: 0;
+      }
+
+      > div {
+        min-width: auto;
+        padding-top: 0;
+      }
+    }
+  }
+}
+
+a.card-link:active {
+  background-color: transparent;
+}
+
+#dashboard-container {
+  margin-bottom: $x-large-padding;
+  .card {
+    margin-bottom: $x-large-padding;
+  }
+}

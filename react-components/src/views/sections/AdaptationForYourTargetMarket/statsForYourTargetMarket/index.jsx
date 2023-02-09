@@ -74,7 +74,7 @@ export const DataSnapshot = memo(({ infoMoment, tooltip }) => {
                     className="statistic--mobile-full"
                   >
                     <div
-                      className="fas fa-lg fa-info-circle text-blue-deep-30"
+                      className="fas fa-lg fa-info-circle"
                       aria-hidden="true"
                     />
                   </Stats>

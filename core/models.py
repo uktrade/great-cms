@@ -449,15 +449,31 @@ class ListPage(CMSGenericPage):
 
     def get_context(self, request, *args, **kwargs):
         from core.helpers import get_high_level_completion_progress
-        from domestic.helpers import get_lesson_completion_status
+        from domestic.helpers import (
+            get_last_completed_lesson_id,
+            get_lesson_completion_status,
+        )
 
         context = super().get_context(request)
 
         if request.user.is_authenticated:
+            lesson_id = get_last_completed_lesson_id(request.user)
+            if lesson_id:
+                page = DetailPage.objects.get(id=lesson_id)
+                page_topic_helper = PageTopicHelper(page)
+                next_lesson = page_topic_helper.get_next_lesson()
+                if next_lesson:
+                    context['next_lesson'] = next_lesson
+                else:
+                    next_module = page.module.get_next_sibling()
+                    if next_module:
+                        context['next_lesson'] = get_first_lesson(next_module)
+
             completion_status = get_lesson_completion_status(request.user)
             context['high_level_completion_progress'] = get_high_level_completion_progress(
                 completion_status=completion_status,
             )
+
         return context
 
     ################

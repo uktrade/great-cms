@@ -1,0 +1,7 @@
+@import '../colors/colors.scss';
+
+hr{
+    height: 4px;
+    background:$color-thematic-break;
+    width:100%;
+}

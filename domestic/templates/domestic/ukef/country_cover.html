@@ -16,28 +16,26 @@
 
 {% block content %}
 
-{% static 'images/finance_export_hero_image.jpg' as finance_export_hero_image %}
+{% static 'images/UKEF-check-our-country-cover-header.png' as finance_export_hero_image %}
 
-{% include 'components/hero.html' with image_url=finance_export_hero_image hero_text='Check our country cover'%}
+{% include 'components/hero.html' with image_url=finance_export_hero_image hero_title='Check our country cover' hero_text='Information on our market risk appetite and the countries we cover.' %}
 
-	<div class="container">
 		{% breadcrumbs 'Check our country cover' %}
 			<a href="/">great.gov.uk</a>
 			<a href="{% url 'domestic:get-finance' %}">UKEF</a>
 			<a href="{% url 'domestic:project-finance' %}">Project Finance</a>
 		{% endbreadcrumbs %}
-	</div>
 
 	<section id="teaser-section" class="teaser-section padding-top-30 padding-bottom-60">
 		<div class="container">
 			<div class="grid-row">
 				<div class="column-two-thirds">
 					<div class="grid-row">
-						<div class="font-medium">
-							<p>
+						<div>
+							<p class="teaser-text">
 								Our market risk appetite is the total amount of risk exposure we would be willing to support for new business in a particular country.
 							</p>
-							<p>
+							<p class="teaser-text">
 								For foreign exchange earning projects with robust financing structures and strong risk mitigants, we may be able to exceed the market risk appetite specified. We make these decisions on a case by case basis.
 							</p>
 

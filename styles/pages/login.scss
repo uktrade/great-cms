@@ -1,0 +1,79 @@
+@import '../fonts/main.scss';
+@import '../colors/colors.scss';
+@import '../sizes/sizes.scss';
+
+$login-image: url(/static/images/signin-image.png);
+$signup-image: url(/static/images/signup-image.png);
+$banner: url(/static/images/great-banner-large.png);
+#sign-up,
+#login {
+  h1 {
+    font-family: $main-text-font;
+    font-weight: $font-weight-standard;
+  }
+
+  h3 {
+    color: $color-main-text;
+  }
+
+  p {
+    font-size: $font-size-p;
+    color: $color-main-text;
+  }
+
+  .signup__form-panel {
+    max-height: 100vh;
+    overflow: auto;
+    @media only screen and (max-width: 900px) {
+      width: 100%;
+    }
+  }
+  .signup__info-panel {
+    padding: 0;
+    background-position: center 100% !important;
+    background-size: auto 55vh !important;
+    background-repeat: no-repeat !important;
+    position: relative;
+    overflow-x: hidden;
+    @media only screen and (max-width: 900px) {
+      display: none;
+    }
+    .great-logo {
+      position: absolute;
+      height: 129px;
+      width: 382px;
+      background: $banner;
+      background-size: contain;
+      background-repeat: no-repeat;
+      bottom: 80px;
+      right: -50px;
+
+      @media only screen and (max-width: 1200px) {
+       height: 104px;
+      width: 308px;
+    }
+    }
+
+    &.login-panel {
+      background: $login-image;
+    }
+
+    &.signup-panel {
+      background: $signup-image;
+    }
+  }
+
+  .signup__info-panel__content {
+    padding: 6vh 60px;
+    height: 100%;
+  }
+  .signup__info-panel__subheadings {
+    i {
+      color: #2397d4;
+    }
+    li {
+      font-size: $font-size-h4;
+      margin-bottom: $large-padding;
+    }
+  }
+}

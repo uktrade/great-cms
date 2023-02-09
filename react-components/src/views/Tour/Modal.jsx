@@ -33,7 +33,7 @@ export default function Modal(props) {
         <div className="great-tour-actions">
           <button
             id="page-tour-submit"
-            className="button button--primary button--large"
+            className="button primary-button button--large"
             onClick={(event) => {
               event.preventDefault()
               props.handleStart()

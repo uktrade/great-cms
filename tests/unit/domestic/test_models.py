@@ -1961,9 +1961,9 @@ def test_great_domestic_homepage_magna_ctas_labels(root_page, client, user):
 
         assert b'<p>Test test</p>' in response.content
         if not user_logged_in:
-            assert b'<span class="shared-tag">Sign in required</span>' in response.content
+            assert b'<button class="primary-button small-button">Sign in required</button>' in response.content
         else:
-            assert b'<span class="shared-tag">Sign in required</span>' not in response.content
+            assert b'<button class="primary-button small-button">Sign in required</button>' not in response.content
 
 
 class StructuralPageTests(WagtailPageTests):

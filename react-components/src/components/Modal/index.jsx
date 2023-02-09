@@ -29,7 +29,7 @@ export const Modal = ({
         <div className="p-s">
           <h4 className="h-xs p-0">{header}</h4>
           <p className="m-t-xs">{content}</p>
-          <button type="button" className="button" onClick={onClick}>
+          <button type="button" className="primary-button" onClick={onClick}>
             {buttonText}
           </button>
         </div>
@@ -42,14 +42,14 @@ export const Modal = ({
               </h4>
               <button
                 type="button"
-                className="button button--secondary button--icon inline m-r-xs"
+                className="button secondary-button button--icon inline m-r-xs"
               >
                 <i className="fas fa-plus-square" />
                 <span>United Kingdom</span>
               </button>
               <button
                 type="button"
-                className="button button--secondary button--icon inline"
+                className="button secondary-button button--icon inline"
               >
                 <i className="fas fa-plus-square" />
                 <span>United Kingdom</span>

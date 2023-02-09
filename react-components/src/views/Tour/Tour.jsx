@@ -40,7 +40,7 @@ export default function Tour({ steps, isOpen, handleClose }) {
       showNumber={false}
       lastStepNextButton={
         <button
-          className="button button--primary p-v-xxs p-h-xs"
+          className="button primary-button p-v-xxs p-h-xs"
           id="page-tour-start-now"
         >
           Start now
@@ -48,7 +48,7 @@ export default function Tour({ steps, isOpen, handleClose }) {
       }
       nextButton={
         <button
-          className="button button--primary p-v-xxs p-h-xs"
+          className="button primary-button p-v-xxs p-h-xs"
           id="page-tour-next-step"
         >
           Next

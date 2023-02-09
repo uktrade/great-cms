@@ -50,7 +50,7 @@ export default function ActionBar({exportPlanProgress}) {
   return (
     <>
       <button
-        className="button button--secondary button--small button--full-width button--icon m-b-xs export-plan-download"
+        className="button primary-button button--small button--full-width button--icon m-b-xs export-plan-download"
         title="Download your export plan"
         type="button"
         onClick={downloadPlan}
@@ -60,13 +60,13 @@ export default function ActionBar({exportPlanProgress}) {
       </button>
 
       <button
-        className="button button--primary button--small button--full-width button--icon m-b-xs export-plan-delete"
+        className="button secondary-button delete-button button--small button--full-width button--icon m-b-xs export-plan-delete"
         title="Delete your export plan"
         type="button"
         onClick={() => setDeleteConfirm(true)}
       >
         <i className="fas fa-trash-alt" />
-        Delete plan
+        <span>Delete plan</span>
       </button>
       {deleteConfirm ? (
         <Confirmation

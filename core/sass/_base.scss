@@ -1,5 +1,5 @@
 @import 'elements/colours';
-
+@import '../../styles/colors/colors.scss';
 label {
   display: block;
 }
@@ -63,7 +63,7 @@ label {
 }
 
 body {
-  background-color: #e9e7ed;
+  background-color: $color-background-color;
   overflow-x: hidden;
 
   &.body-background-white {
