@@ -337,10 +337,109 @@ class ListPageTests(WagtailPageTests):
     def test_allowed_subtypes(self):
         self.assertAllowedSubpageTypes(ListPage, {CuratedListPage})
 
-    @mock.patch.object(ListPage, 'sso_helpers')
-    def test_has_no_next_lesson_in_list_page_context(self):
-        page = ListPage
-        assert 'next_lesson' not in page.get_context(), 'Next lesson should not be in context of list page'
+
+@mock.patch('domestic.helpers.get_last_completed_lesson_id')
+@mock.patch('domestic.helpers.get_lesson_completion_status')
+@mock.patch('core.helpers.get_high_level_completion_progress')
+@pytest.mark.django_db
+def test_next_lesson_not_in_list_page_context(
+    mock_get_high_level_completion_progress,
+    mock_get_lesson_completion_status,
+    mock_get_last_completed_lesson_id,
+    domestic_homepage,
+    domestic_site,
+    client,
+    user,
+):
+    """Test that if a user has not completed any lessons,
+    next_lesson doesn't appear in context"""
+    mock_get_last_completed_lesson_id.return_value = None
+    mock_get_lesson_completion_status.return_value = {}
+    mock_get_high_level_completion_progress.return_value = {}
+
+    list_page = factories.ListPageFactory(parent=domestic_homepage)
+
+    client.force_login(user)
+    response = client.get(list_page.url)
+
+    assert response.status_code == 200
+    assert 'next_lesson' not in response.context_data.keys()
+
+
+@mock.patch('domestic.helpers.get_last_completed_lesson_id')
+@mock.patch('core.utils.PageTopicHelper.get_next_lesson')
+@mock.patch('domestic.helpers.get_lesson_completion_status')
+@mock.patch('core.helpers.get_high_level_completion_progress')
+@pytest.mark.django_db
+def test_next_lesson_in_list_page_context_same_module(
+    mock_get_high_level_completion_progress,
+    mock_get_lesson_completion_status,
+    mock_get_next_lesson,
+    mock_get_last_completed_lesson_id,
+    domestic_homepage,
+    domestic_site,
+    client,
+    user,
+):
+    """Test the right lesson appears as next_lesson in ListPage context if a user has completed
+    a lesson and there is another lesson left to complete in the same module."""
+    list_page = factories.ListPageFactory(parent=domestic_homepage)
+
+    curated_list_page = factories.CuratedListPageFactory(parent=list_page)
+    topic_page = factories.TopicPageFactory(parent=curated_list_page)
+    last_completed_lesson_page = factories.DetailPageFactory(parent=topic_page)
+    next_lesson_page = factories.DetailPageFactory(parent=topic_page)
+
+    mock_get_last_completed_lesson_id.return_value = last_completed_lesson_page.id
+    mock_get_next_lesson.return_value = next_lesson_page
+    mock_get_lesson_completion_status.return_value = {}
+    mock_get_high_level_completion_progress.return_value = {}
+
+    client.force_login(user)
+    response = client.get(list_page.url)
+
+    assert response.status_code == 200
+    assert response.context_data['next_lesson'] == next_lesson_page
+
+
+@mock.patch('domestic.helpers.get_last_completed_lesson_id')
+@mock.patch('core.utils.PageTopicHelper.get_next_lesson')
+@mock.patch('domestic.helpers.get_lesson_completion_status')
+@mock.patch('core.helpers.get_high_level_completion_progress')
+@mock.patch('core.models.CuratedListPage.get_next_sibling')
+@pytest.mark.django_db
+def test_next_lesson_in_list_page_context_next_module(
+    mock_get_next_sibling,
+    mock_get_high_level_completion_progress,
+    mock_get_lesson_completion_status,
+    mock_get_next_lesson,
+    mock_get_last_completed_lesson_id,
+    domestic_homepage,
+    domestic_site,
+    client,
+    user,
+):
+    """Test the right lesson appears as next_lesson in ListPage context if a user has
+    completed all lessons in a module and there is a next module."""
+
+    list_page = factories.ListPageFactory(parent=domestic_homepage)
+
+    module_page_1 = factories.CuratedListPageFactory(parent=list_page)
+    topic_page_1 = factories.TopicPageFactory(parent=module_page_1)
+    last_completed_lesson_page = factories.DetailPageFactory(parent=topic_page_1)
+
+    module_page_2 = factories.CuratedListPageFactory(parent=list_page)
+    module_2_page = factories.TopicPageFactory(parent=module_page_2)
+    lesson_in_module_2 = factories.DetailPageFactory(parent=module_2_page)
+
+    mock_get_last_completed_lesson_id.return_value = last_completed_lesson_page.id
+    mock_get_next_lesson.return_value = None
+    mock_get_next_sibling.return_value = module_page_2
+
+    client.force_login(user)
+    response = client.get(list_page.url)
+    assert response.status_code == 200
+    assert response.context_data['next_lesson'] == lesson_in_module_2
 
 
 class CuratedListPageTests(WagtailPageTests):
