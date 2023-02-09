@@ -86,7 +86,7 @@ class Booking(TimeStampedModel):
 
 
 class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
-    template = 'domestic/landing_page.html'
+    template = 'export_academy/landing_page.html'
 
     parent_page_types = [
         'domestic.DomesticHomePage',  # TODO: once we've restructured, remove this permission

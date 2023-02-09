@@ -12,7 +12,7 @@ class EventListView(ListView):
 
 
 class RegistrationFormView(FormView):
-    template_name = 'registration_form.html'
+    template_name = 'export_academy/registration_form.html'
     form_class = EARegistration
     success_url = reverse_lazy('export_academy:registration-success')
 
@@ -39,7 +39,7 @@ class RegistrationFormView(FormView):
 
 
 class RegistrationSuccessPageView(TemplateView):
-    template_name = 'registration_form_success.html'
+    template_name = 'export_academy/registration_form_success.html'
 
     def get(self, *args, **kwargs):
         if not self.request.session.get('user_email'):
@@ -52,7 +52,7 @@ class RegistrationSuccessPageView(TemplateView):
 
 
 class BookingSuccessPageView(TemplateView):
-    template_name = 'booking_success.html'
+    template_name = 'export_academy/booking_success.html'
 
     def get(self, *args, **kwargs):
         if not self.request.session.get('user_email'):
