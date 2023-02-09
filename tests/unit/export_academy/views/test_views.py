@@ -17,7 +17,7 @@ def test_booking_success_view_response(rf):
     view = BookingSuccessPageView.as_view()
     response = view(request)
     assert response.status_code == 200
-    assert "Booking confirmation" in response.rendered_content
+    assert 'Booking confirmation' in response.rendered_content
 
     # test page redirect if the email doesn't exists in the session
     request.session = {}
@@ -35,7 +35,7 @@ def test_registration_view_response(rf):
     view = RegistrationFormView.as_view()
     response = view(request)
     assert response.status_code == 200
-    assert "Please enter your details to register for Export Academy" in response.rendered_content
+    assert 'Please enter your details to register for Export Academy' in response.rendered_content
 
 
 @pytest.mark.django_db
@@ -47,7 +47,7 @@ def test_registration_success_view_response(rf):
     view = RegistrationSuccessPageView.as_view()
     response = view(request)
     assert response.status_code == 200
-    assert "received your registration form" in response.rendered_content
+    assert 'received your registration form' in response.rendered_content
 
     # test page redirect if the email doesn't exists in the session
     request.session = {}
