@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     'health_check.cache',
     'sso_profile',
     'directory_components',
+    'export_academy.apps.ExportAcademyConfig',
 ]
 
 MIDDLEWARE = [
@@ -103,6 +104,7 @@ MIDDLEWARE = [
     'core.middleware.CheckGATags',
     # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
+    'export_academy.middleware.ExportAcademyRegistrationMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -383,11 +385,6 @@ if DEBUG:
     MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
     INTERNAL_IPS = ['127.0.0.1', '10.0.2.2']
 
-# Install the Export Academy app on demand
-FEATURE_EXPORT_ACADEMY_INSTALLED = env.bool('FEATURE_EXPORT_ACADEMY_INSTALLED', False)
-if FEATURE_EXPORT_ACADEMY_INSTALLED:
-    INSTALLED_APPS.append('export_academy')
-    MIDDLEWARE.append('export_academy.middleware.ExportAcademyRegistrationMiddleware')
 
 ELASTIC_APM_ENABLED = env('ELASTIC_APM_ENABLED', default=False)
 if ELASTIC_APM_ENABLED:
@@ -640,8 +637,8 @@ UKEF_CONTACT_AGENT_EMAIL_ADDRESS = env.str(
 UKEF_FORM_SUBMIT_TRACKER_URL = env.str('UKEF_FORM_SUBMIT_TRACKER_URL')  # A Pardot URL
 
 # Export academy
-EXPORT_ACADEMY_REGISTRATION_TEMPLATE_ID = env.str(
-    'EXPORT_ACADEMY_REGISTRATION_TEMPLATE_ID', '3b68c119-fdc5-4517-90dc-043e88853b0f'
+EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID = env.str(
+    'EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID', '3b68c119-fdc5-4517-90dc-043e88853b0f'
 )
 
 # geo location
@@ -767,6 +764,7 @@ FEATURE_SHOW_MAGNA_LINKS_IN_HEADER = env.bool('FEATURE_SHOW_MAGNA_LINKS_IN_HEADE
 FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK = env.bool('FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK', False)
 FEATURE_SHOW_CASE_STUDY_RANKINGS = env.bool('FEATURE_SHOW_CASE_STUDY_RANKINGS', False)
 FEATURE_INTERNATIONAL_ONLINE_OFFER = env.bool('FEATURE_INTERNATIONAL_ONLINE_OFFER', False)
+FEATURE_EXPORT_ACADEMY = env.bool('FEATURE_EXPORT_ACADEMY', False)
 
 MAX_COMPARE_PLACES_ALLOWED = env.int('MAX_COMPARE_PLACES_ALLOWED', 10)
 
