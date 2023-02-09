@@ -6,7 +6,6 @@ from export_academy import views
 
 app_name = 'export_academy'
 
-
 urlpatterns = [
     path(
         'upcoming-events/',

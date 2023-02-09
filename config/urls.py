@@ -15,6 +15,7 @@ import cms_extras.urls
 import contact.urls
 import core.urls
 import domestic.urls
+import export_academy.urls
 import exportplan.urls
 import international_online_offer.urls
 import search.urls
@@ -74,12 +75,8 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns = [path('__debug__/', include(debug_toolbar.urls))] + urlpatterns
 
-
 if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
     urlpatterns = [path('international-online-offer/', include(international_online_offer.urls))] + urlpatterns
 
-# Load Export Academy URLs depending on settings
-if settings.FEATURE_EXPORT_ACADEMY_INSTALLED:
-    import export_academy.urls
-
+if settings.FEATURE_EXPORT_ACADEMY:
     urlpatterns = [path('export-academy/', include(export_academy.urls, namespace='export_academy'))] + urlpatterns

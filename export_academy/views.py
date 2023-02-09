@@ -2,9 +2,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, ListView, TemplateView
 
-from export_academy import helpers, models
-from export_academy.forms import EARegistration
-from export_academy.models import Registration
+from export_academy import forms, helpers, models
 
 
 class EventListView(ListView):
@@ -13,14 +11,15 @@ class EventListView(ListView):
 
 class RegistrationFormView(FormView):
     template_name = 'export_academy/registration_form.html'
-    form_class = EARegistration
+    form_class = forms.EARegistration
     success_url = reverse_lazy('export_academy:registration-success')
 
     def form_valid(self, form):
         cleaned_data = form.cleaned_data
         user_email = self.request.user.email
         self.request.session['user_email'] = user_email
-        reg = Registration(
+
+        reg = models.Registration(
             first_name=cleaned_data.get('first_name'),
             last_name=cleaned_data.get('last_name'),
             email=user_email,

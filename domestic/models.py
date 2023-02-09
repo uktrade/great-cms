@@ -452,7 +452,7 @@ class TopicLandingPage(
         'domestic.ArticlePage',
     ]
 
-    if settings.FEATURE_EXPORT_ACADEMY_INSTALLED:
+    if settings.FEATURE_EXPORT_ACADEMY:
         subpage_types.append('export_academy.ExportAcademyHomePage')
 
     def child_pages(self):
