@@ -10,10 +10,11 @@ from wagtail.admin.edit_handlers import (
     ObjectList,
     TabbedInterface,
 )
-from wagtail.core.fields import RichTextField
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
 
-from core.constants import RICHTEXT_FEATURES__REDUCED__ALLOW_H1
+from core.blocks import ButtonBlock
+from core.constants import RICHTEXT_FEATURES__REDUCED
 from core.models import TimeStampedModel
 from export_academy.cms_panels import ExportAcademyPagePanels
 
@@ -91,7 +92,6 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, Page):
     template = 'export_academy/landing_page.html'
 
     hero_text = RichTextField(
-        features=RICHTEXT_FEATURES__REDUCED__ALLOW_H1,
+        features=RICHTEXT_FEATURES__REDUCED,
     )
-    hero_cta_text = models.CharField(null=True, blank=True, max_length=255)
-    hero_cta_url = models.CharField(null=True, blank=True, max_length=255)
+    hero_cta = StreamField([('button', ButtonBlock(icon='cog'))], null=True, blank=True)

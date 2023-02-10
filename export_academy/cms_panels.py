@@ -1,4 +1,4 @@
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
+from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
 
 
 class ExportAcademyPagePanels:
@@ -9,8 +9,7 @@ class ExportAcademyPagePanels:
             classname='collapsible',
             children=[
                 FieldPanel('hero_text'),
-                FieldPanel('hero_cta_text'),
-                FieldPanel('hero_cta_url'),
+                StreamFieldPanel('hero_cta'),
             ],
         ),
     ]
