@@ -93,5 +93,7 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, Page):
 
     hero_text = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
     )
     hero_cta = StreamField([('button', ButtonBlock(icon='cog'))], null=True, blank=True)

@@ -1,6 +1,14 @@
 from directory_forms_api_client import actions
 
 from config import settings
+from export_academy.models import Registration
+
+
+def is_export_academy_registered(user):
+    if not user.is_authenticated:
+        return False
+
+    return Registration.objects.filter(pk=user.email).exists()
 
 
 def notify_registration(email_address, email_data, form_url):

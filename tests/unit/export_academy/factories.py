@@ -3,9 +3,10 @@ from datetime import timedelta
 
 import factory
 import factory.fuzzy
+import wagtail_factories
 from django.utils import timezone
 
-from export_academy.models import Event, Registration
+from export_academy.models import Event, ExportAcademyHomePage, Registration
 
 
 class EventFactory(factory.django.DjangoModelFactory):
@@ -31,3 +32,12 @@ class RegistrationFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Registration
+
+
+class ExportAcademyHomePageFactory(wagtail_factories.PageFactory):
+    title = 'UK Export Academy'
+    hero_text = factory.fuzzy.FuzzyText(length=255)
+    slug = 'export-academy'
+
+    class Meta:
+        model = ExportAcademyHomePage
