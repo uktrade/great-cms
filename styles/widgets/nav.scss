@@ -53,6 +53,7 @@ nav {
 }
 
 .magna-header__dropdown {
+  background-color: $color-footer;
   @media only screen and (min-width: $mobile-size) {
     right: 2px;
   }

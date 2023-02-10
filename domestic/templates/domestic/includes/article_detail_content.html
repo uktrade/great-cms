@@ -75,6 +75,9 @@
           </div>
         </section>
       </div>
+      {% block related_content %}
+        {% include 'domestic/includes/article_related_content_list.html' %}
+      {% endblock %}
       {% if page.type_of_article|lower == 'advice' %}
         <section class="grid-row">
           <div class="column-full-m">
@@ -86,9 +89,7 @@
           </div>
         </section>
       {% endif %}
-      {% block related_content %}
-        {% include 'domestic/includes/article_related_content_list.html' %}
-      {% endblock %}
+
 
     </div>
 

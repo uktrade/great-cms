@@ -168,7 +168,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==16.7.0
+faker==16.8.1
     # via factory-boy
 geoip2==2.9.0
     # via -r requirements.in
