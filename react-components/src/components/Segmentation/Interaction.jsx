@@ -12,7 +12,7 @@ export default function Interaction(props) {
     : question.choices.options || []
 
   return (
-    <form className="text-blue-deep-80">
+    <form>
       <fieldset className="c-fullwidth">
         <legend className="visually-hidden">{question.title}</legend>
         {question.type === 'RADIO' ? (

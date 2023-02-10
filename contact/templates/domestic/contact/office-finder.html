@@ -12,12 +12,11 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        {% breadcrumbs 'Find trade office' %}
-            <a href="/">great.gov.uk</a>
-            <a href="{% url 'contact:contact-us-routing-form' step='location' %}">Contact us</a>
-        {% endbreadcrumbs %}
-    </div>
+
+    {% breadcrumbs 'Find trade office' %}
+        <a href="/">great.gov.uk</a>
+        <a href="{% url 'contact:contact-us-routing-form' step='location' %}">Contact us</a>
+    {% endbreadcrumbs %}
 
     <div class="container">
         <section class="width-half" id="search-section">
@@ -25,7 +24,7 @@
                 <h1 class="heading-large">Find your local trade office</h1>
                 <p>We have local trade offices based around the UK, within each office you can contact an international trade advisor.</p>
                 {{ form }}
-                <button type="submit" class="button button">Search</button>
+                <button type="submit" class="primary-button"">Search</button>
             </form>
         </section>
 
@@ -52,7 +51,7 @@
                     <p><a class="link" href="tel:{{ office.phone_other }}">{{ office.phone_other }}</a></p>
                 {% endif %}
                 <br>
-                {% include 'domestic/contact/includes/office-contact-cta.html' with office=office link_class="button" %}
+                {% include 'domestic/contact/includes/office-contact-cta.html' with office=office link_class="button primary-button" %}
 
             </section>
             {% else %}
@@ -90,7 +89,7 @@
                                 <h3 class="heading-smal">{{ office.phone_other_comment }}</h3>
                                 <p><a class="link" href="tel:{{ office.phone_other }}">{{ office.phone_other }}</a></p>
                             {% endif %}
-                            {% include 'domestic/contact/includes/office-contact-cta.html' with office=office link_class="link" %}
+                            {% include 'domestic/contact/includes/office-contact-cta.html' with office=office link_class="button primary-button" %}
                         </div>
 
                     </div>

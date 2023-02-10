@@ -60,7 +60,7 @@ export function CookiesModal(props) {
       </p>
       <div className={styles.buttonContainer}>
         <a
-          className={`${styles.button} button`}
+          className={`${styles.button} button primary-button`}
           href="#"
           onClick={handleAcceptAllCookies}
         >
@@ -68,7 +68,7 @@ export function CookiesModal(props) {
         </a>
         <span className={styles.buttonSeperator} />
         <a
-          className={`${styles.button} button`}
+          className={`${styles.button} button primary-button`}
           href={props.preferencesUrl + window.location.search}
         >
           Set cookie preferences

@@ -7,7 +7,7 @@
   <div class="lesson-page">
     {% get_category_title_for_lesson page as category_title %}
     <div class="container p-v-s">
-      <div class="m-f-s only-desktop">
+      <div class="only-desktop">
         {% include "core/includes/backlink.html" with url=page.get_parent.get_parent.url label=category_title classes="p-v-0"%}
       </div>
       {% include "./return_link.html" with link=backlink title=backlink_title class="only-mobile" %}
@@ -16,10 +16,10 @@
         </div>
         <div class="c-1-2">
           <h1 class="h-l" id="lesson-title">{{ page.title }}</h1>
-          <p class="estimated-time text-blue-deep-80 h-xs p-t-0 p-b-0">
-            <i class="fas fa-clock m-r-xxs" aria-hidden="true"></i>
-            <strong class="body-l-b">{{ page.estimated_read_duration|format_timedelta }} read</strong>
-          </p>
+             <div class="duration-container">
+                    <i class="fa fa-clock"></i>
+                    <span class="learn__category-topics">{{ page.estimated_read_duration|format_timedelta }} read </span>
+                  </div>
           <div class="lesson-hero media-section">
             {% include 'learn/hero_media_item.html' %}
           </div>
@@ -34,7 +34,7 @@
       </div>
     </div>
   </div>
-  <div class="bg-blue-deep-80">
+  <div class="test-knowledge">
     <div class="container">
       <div class="grid p-t-m">
         <div class="c-1-4 only-desktop">
@@ -55,7 +55,7 @@
           <span>&nbsp;</span>
         </div>
         <div class="c-1-2">
-          <fieldset id="mark_as_complete" class="bg-blue-deep-80"></fieldset>
+          <fieldset id="mark_as_complete"></fieldset>
         </div>
         <div class="c-1-4 only-desktop">
           <span>&nbsp;</span>
@@ -77,19 +77,18 @@
                   {{ next_lesson.title }}
                 </h2>
                 {% if next_lesson.estimated_read_duration %}
-                  <p class="text-blue-deep-80 m-t-0 p-t-0 m-b-xs">
-                    <i class="fas fa-clock m-r-xxs"></i>
-                    <strong> {{ next_lesson.estimated_read_duration|format_timedelta }}
-                      read</strong>
-                  </p>
+                 <div class="duration-container p-b-xs">
+                    <i class="fa fa-clock"></i>
+                    <span class="learn__category-topics">{{ next_lesson.estimated_read_duration|format_timedelta }}</span>
+                  </div>
                 {% endif %}
                 {% if next_module %}
-                  <p class="text-blue-deep-80 m-t-xs m-b-xs">
+                  <p class="m-t-xs m-b-xs">
                     Part of your next module:<br />
                     <strong>{{ next_module.title }}</strong>
                   </p>
                 {% endif %}
-                <a href="{{ next_lesson.get_url }}" class="button button--secondary m-b-xs">
+                <a href="{{ next_lesson.get_url }}" class="button primary-button m-b-xs">
                   Continue learning
                 </a>
               </div>

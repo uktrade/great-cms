@@ -9,28 +9,22 @@
 {% block content %}
   <div id="where-to-export">
       <section class="bg-white">
-          <div class="container p-t-m p-b-m">
-              <div class="grid">
-                  <div class="c-1-2-l">
-                      <div class="">
-                          <h1 class="h-l p-b-0">{{ page.title }}</h1>
-                          <div class="">
-                              <p class="body-l">Find information to help choose the right export market for your product. Compare data for up to 10 markets, using dynamic feeds from some of the world’s most trusted sources.</p>
-                          </div>
-                          {% if data_tabs_enabled %}
-                            <div id="cta-container"></div>
-                          {% endif %}
-                      </div>
-                  </div>
+           <div class="page-header where-to-export-header">
+             <div class="inner-header">
+                <div>
+                  <h1>{{ page.title }}</h1>
+                   {% if data_tabs_enabled %}
+                   <div id="cta-container"></div>
+                   {% endif %}
+                </div>
+                <div class="image-container">
+            </div>
+            </div>
+            </div>
 
-                  <div class="c-1-2-l only-desktop">
-                    <img src={% block banner_image %}{% static 'images/where-to-export.png' %}{% endblock %} alt="" class="max-width-80 m-r-auto m-f-auto" />
-                  </div>
-              </div>
-          </div>
+           </div>
       </section>
   </div>
-  {% if data_tabs_enabled %}
     <div class="hidden" id="next-steps">
       {% for component in dashboard_components %}
           {% if component.value.route_type == 'learn' or component.value.route_type == 'plan' %}
@@ -42,7 +36,7 @@
     </div>
 
     <div id="compare-markets"
-      class="m-b-l"
+    class="container"
       data-tabs="{{ data_tabs_enabled }}"
       data-max-places-allowed="{{ max_compare_places_allowed }}"
       role="region"
@@ -54,13 +48,4 @@
         cta_container: document.querySelector("#cta-container"),
       })
     </script>
-  {% else %}
-    <div class="g-panel">
-      <p>This section isn’t available yet</p>
-      <p>This Beta version is limited</p>
-    </div>
-    <div class="m-v-xl">
-        <button class="button button--tertiary" disabled>Coming soon</button>
-    </div>
-  {% endif %}
 {% endblock %}

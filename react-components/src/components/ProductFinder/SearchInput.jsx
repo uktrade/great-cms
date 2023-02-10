@@ -103,14 +103,14 @@ export default function SearchInput(props) {
               onClick={clearSearchInput}
             />
           ) : (
-            iconClass && <i className={`fas ${iconClass} text-blue-deep-60`} />
+            iconClass && <i className={`fas ${iconClass}`} />
           )}
         </div>
         {onSaveButtonClick ? (
           <button
             type="button"
             aria-label="Save"
-            className="button button--primary button--auto-width m-f-xs"
+            className="button primary-button button--auto-width m-f-xs"
             onClick={onSaveButtonClick}
             disabled={saveButtonDisabled}
           >

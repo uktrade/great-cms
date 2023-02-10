@@ -63,7 +63,7 @@ export function ExportPlanWizard({ exportPlan }) {
           <div className="c-1-4">
             <a
               href={config.exportPlanBaseUrl}
-              className="back-link h-m link body-m-b m-t-xs"
+              className="back-link h-m body-m-b m-t-xs"
             >
               <i className="fas fa-arrow-circle-left" />
               <span className="m-f-xs">Back</span>
@@ -73,7 +73,7 @@ export function ExportPlanWizard({ exportPlan }) {
             <div className="clearfix m-b-m">
               <div className="body-m">{processName} step 1 of 2</div>
               <h2 className="h-m">What are you exporting?</h2>
-              <p className="text-blue-deep-80">
+              <p>
                 Choose a product to start your plan and get supporting
                 information that&apos;s tailored to your business.
               </p>
@@ -81,7 +81,7 @@ export function ExportPlanWizard({ exportPlan }) {
             </div>
             <div>
               {product && (
-                <Link className="button button--primary" to={paths.market}>
+                <Link className="button primary-button" to={paths.market}>
                   Continue
                 </Link>
               )}
@@ -94,7 +94,7 @@ export function ExportPlanWizard({ exportPlan }) {
             {!isCreating ? (
               <Link
                 to={paths.product}
-                className="back-link h-m link body-m-b m-t-xs"
+                className="back-link h-m body-m-b m-t-xs"
               >
                 <i className="fas fa-arrow-circle-left" />
                 <span className="m-f-xs">Back</span>
@@ -126,7 +126,7 @@ export function ExportPlanWizard({ exportPlan }) {
                 <div className="clearfix m-b-m">
                   <div className="body-m">{processName} step 2 of 2</div>
                   <h2 className="h-m">Where&apos;s your target market?</h2>
-                  <p className="text-blue-deep-80">
+                  <p>
                     Choose a place to start your plan.
                   </p>
                   <MarketSelector
@@ -151,7 +151,7 @@ export function ExportPlanWizard({ exportPlan }) {
                 {market && (
                   <button
                     type="button"
-                    className="button button--primary"
+                    className="button primary-button"
                     onClick={createClick}
                   >
                     {exportPlan ? 'Update' : 'Create'} export plan

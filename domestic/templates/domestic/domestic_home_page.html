@@ -8,12 +8,12 @@
     <section id="learn-root">
         <div class="grid">
             <div class="col-12 col-md-8">
-                <h1 class="h-m text-blue-deep-80">{{ page.title }}</h1>
+                <h1 class="h-m">{{ page.title }}</h1>
                  {% image page.image width-630%}
                 <div class="body-l text-black-100">{{ page.body | richtext }}</div>
                 {% include_block page.button %}
             </div>
         </div>
-        <p>Or <a href='/login' class='text-red-80 inline-block m-t-xs'>login</a> to your account</p>
+        <p>Or <a href='/login' class='inline-block m-t-xs'>login</a> to your account</p>
     </section>
 {% endblock %}

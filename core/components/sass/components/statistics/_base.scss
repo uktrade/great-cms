@@ -28,7 +28,8 @@ $offset: calc(0px - .55em - 30px);
 .statistics-card-content {
   margin: 0 -30px;
   background: $white;
-  padding: 60px 30px;
+  padding: 60px 30px 30px 30px;
+
 
   & .flex-grid {
     flex-direction: row;
@@ -71,7 +72,6 @@ $offset: calc(0px - .55em - 30px);
 .statistic-number {
   margin: .75rem 0;
   line-height: 1.25;
-  font-family: $brand-font;
 }
 
 .statistic-smallprint {

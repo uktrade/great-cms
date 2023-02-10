@@ -30,16 +30,15 @@ const Form = ({
     autoComplete="new-off"
   >
     {showTitle && (
-      <h1 className="h-s text-blue-deep-80 p-t-xs">
+      <h3 className="h-s p-t-xs">
         Create an account
-      </h1>
+      </h3>
     )}
 
     <p className="m-b-s">
       Already have an account?{' '}
       <a
         href={Services.config.loginUrl} id="signup-modal-log-in"
-        className="text-red-80"
       >
         Sign in
       </a>
@@ -80,7 +79,7 @@ const Form = ({
     <button
       type="submit"
       id="signup-modal-submit"
-      className="button button--primary width-full m-t-xs"
+      className="button primary-button width-full m-t-xs"
       disabled={disabled}
     >
       Sign up

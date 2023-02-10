@@ -2,6 +2,7 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from core.models import DetailPage
 from sso import helpers, serializers
 
 
@@ -10,7 +11,8 @@ class LessonCompletedAPIView(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         session_id = request.user.session_id
-        response = helpers.set_lesson_completed(session_id, kwargs['lesson'])
+        lesson_obj = DetailPage.objects.get(pk=kwargs['lesson'])
+        response = helpers.set_lesson_completed(session_id, lesson_obj)
         return Response(status=200, data=response)
 
     def get(self, request, *args, **kwargs):

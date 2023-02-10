@@ -1,3 +1,4 @@
+
 .pagination {
   margin-top: 60px;
   display: flex;
@@ -26,7 +27,7 @@
     }
   }
 
-  @media (max-width: 769px) {
+  @media (max-width: 800px) {
     flex-wrap: wrap;
     justify-content: space-between;
 
@@ -35,13 +36,12 @@
       padding: 0;
     }
 
-    ol {
-      order: 2;
-      display: flex;
+    a:first-of-type{
+      padding-right: $large-padding;
+    }
 
-      li {
-        margin-right: 10px;
-      }
+    ol {
+    display: none;
     }
 
     &.has-previous,
@@ -64,12 +64,6 @@
       ol {
         order: 1;
       }
-    }
-  }
-
-  @media (max-width: 420px) {
-    a {
-      width: 95px;
     }
   }
 

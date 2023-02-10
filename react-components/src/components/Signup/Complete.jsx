@@ -7,11 +7,11 @@ const Complete = ({
  }) => (
   <div id='signup__complete'>
     <i className='fas fa-check-circle text-green-100 icon-large' />
-    {showTitle && <h2 className='h-s text-blue-deep-80'>Sign up complete</h2>}
+    {showTitle && <h2 className='h-s'>Sign up complete</h2>}
     <p className='body-l text-black-100'>Your account has been created.</p>
     <a
       id='signup-modal-submit-success'
-      className='button button--primary width-full'
+      className='button primary-button width-full'
       href={nextUrl}
     >Continue</a>
   </div>

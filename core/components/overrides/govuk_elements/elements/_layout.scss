@@ -1,4 +1,5 @@
 @use "sass:math";
+@import '../../../../../styles/sizes/sizes.scss';
 
 @import '!elements/layout';
 @import '../../sass/partials/spacings';
@@ -33,15 +34,15 @@
 }
 
 .container {
-  max-width: $design-max-width;
+  max-width: $content-max-width;
   margin: 0 auto;
 
   @media (max-width: #{$design-max-width + ($spacing-3 * 2)}) {
     margin: 0 $spacing-3;
   }
 
-  @media (max-width: 420px) {
-    margin: 0 20px; // Special figure intentionally outside of standard.
+  @media (max-width: $mobile-size) {
+    margin: 0 15px; // Special figure intentionally outside of standard.
   }
 }
 

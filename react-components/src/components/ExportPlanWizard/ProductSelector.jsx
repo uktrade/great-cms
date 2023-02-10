@@ -70,7 +70,7 @@ function ProductSelector({ valueChange, selected }) {
         <div className={`${addButtonShowing ? 'g-panel' : ''} m-f-xxs`}>
           <button
             type="button"
-            className="m-t-xxs button button--primary"
+            className="m-t-xxs primary-button"
             onClick={() => setModalIsOpen(true)}
           >
             <i className="fa fa-plus m-r-xxs" />

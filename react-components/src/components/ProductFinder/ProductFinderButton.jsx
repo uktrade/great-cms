@@ -25,37 +25,39 @@ function ProductFinderButton() {
     setDeleteConfirm(null)
   }
 
+  const routePath = "/export-plan"
+
+
   return (
     <>
       <BasketViewer label="My products" onOpen={loadProducts}>
 
-        <ul className="list m-v-0 body-l-b">
-          {sortMap.length === 0 && productsLoaded ? <li className="p-v-xxs">My products is empty</li>: null}
+        <ul>
+          {sortMap.length === 0 && productsLoaded ? <li>My products is empty</li>: null}
           {sortMap.map((mapIndex) => {
             const product = products[mapIndex]
             return (
               <li
-                className="p-v-xxs"
                 key={`product-${mapIndex}`}
               >
+               <a href={routePath} >{ReactHtmlParser(product.commodity_name)}</a>
                 <button
                   type="button"
-                  className="button button--small button--only-icon button--tertiary"
+                  className="remove-product"
                   onClick={() => setDeleteConfirm({index:mapIndex})}
                 >
-                  <i className="fas fa-times fa-lg" />
+                  <i className="fas fa-trash" />
                   <span className="visually-hidden">
                     Remove product {ReactHtmlParser(product.commodity_name)}
                   </span>
                 </button>
-                {ReactHtmlParser(product.commodity_name)}
               </li>
             )
           })}
         </ul>
         <button
           type="button"
-          className="button button--primary button--icon m-t-xs button--full-width hidden"
+          className="button primary-button button--icon m-t-xs button--full-width hidden"
           onClick={() => setIsOpen(true)}
         >
           <i className="fas fa-plus" />

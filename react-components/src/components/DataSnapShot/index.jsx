@@ -14,7 +14,7 @@ export const DataSnapShot = memo(
     const country = useSelector((state) => getEpMarket(state))
     return (
       <>
-        <h2 className="h-xs p-t-l p-b-0">Data Snapshot: { country.country_name }</h2>
+        <h2 className="h-xs">Data Snapshot: { country.country_name }</h2>
         <ToggleSnapshot isOpen={false}>
           <div className="m-t-s" id="data-snapshot">
             <ProductData

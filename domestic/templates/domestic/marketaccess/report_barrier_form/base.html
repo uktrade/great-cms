@@ -42,7 +42,7 @@ Report a trade barrier{{block.super}}
                                 {% endif %}
                             </div>
                             <div>
-                                <button type="submit" class="button">{% block submit_button_label %}Continue{% endblock %}</button>
+                                <button type="submit" class="primary-button">{% block submit_button_label %}Continue{% endblock %}</button>
                             </div>
                             {% if wizard.steps.prev %}
                                 <a id="previous-button" class="link" href="{% url 'domestic:report-ma-barrier' step=wizard.steps.prev %}">Back</a>

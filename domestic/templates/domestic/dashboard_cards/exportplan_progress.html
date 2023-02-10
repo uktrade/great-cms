@@ -5,18 +5,20 @@ Only show if > 0 plans in list
 {% load url_map %}
 {% load progress_bar %}
 {% load static %}
-<div class="g-card">
+<div class="card">
   <div class="g-card-header flex-jc-space-between flex-ai-center">
-    <h2 class="h-m p-t-xxs">My export plans</h2>
-    <a class="button button--tertiary button--small button--icon" href="{% url 'exportplan:start' %}"><i class="fas fa-plus-square"></i>Create a new plan</a>
+    <h2>My export plans</h2>
+    <a class="button secondary-button" href="{% url 'exportplan:start' %}"><i class="fas fa-plus"></i><span>Create a new plan</span></a>
   </div>
   {% for plan in exportplan_list|slice:":3" %}
-  <div class="grid m-h-0 g-card-full">
+  <div class="g-card-full">
     {% include 'exportplan/includes/list_card_small.html' %}
     {% if not forloop.last %}
     <hr class="hr hr--light m-v-0 m-h-s">
     {% endif %}
   </div>
   {% endfor %}
-  <a class="button button--tertiary button--small m-t-xs" href="{% url 'exportplan:index' %}">View all export plans</a>
+  <div class="card-row">
+  <a class="button primary-button" href="{% url 'exportplan:index' %}">View all export plans</a>
+  </div>
 </div>

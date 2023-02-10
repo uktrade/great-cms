@@ -51,11 +51,6 @@
       &:focus:active {
         @include focus;
       }
-
-      &:active {
-        background-color: $focus-yellow;
-      }
-
     }
   }
 }

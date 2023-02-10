@@ -67,7 +67,7 @@ export const ObjectivesList = memo(
     }
 
     return (
-      <div className="form-table bg-white br-xs m-b-m">
+      <div className="form-table br-xs m-b-m">
         {objectives.map((objective, i) => (
           <Objective
             key={objective.pk || `objective-${i}`}

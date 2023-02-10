@@ -41,7 +41,7 @@ export const VisaInformation = memo(
           service.
         </p>
         <div className="c-full">
-          <div className="multiple-choice large m-b-xs">
+          <div className="multiple-choice radio-buttons large m-b-xs">
             <input
               id="need-visa-false"
               className="radio m-b-xs"
@@ -55,7 +55,7 @@ export const VisaInformation = memo(
               I don't need a visa
             </label>
           </div>
-          <div className="multiple-choice large">
+          <div className="multiple-choice large radio-buttons">
             <input
               id="need-visa-true"
               className="radio"

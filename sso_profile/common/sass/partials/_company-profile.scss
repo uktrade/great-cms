@@ -1,3 +1,5 @@
+@import '../../../../styles//colors/colors.scss';
+
 #content .alerts-container {
   a,
   a:active,
@@ -280,7 +282,7 @@
 
 #selected-values-container {
   padding: 30px;
-  background-color: $stone-40;
+  background-color: $color-info-box;
 
   h2 {
     margin-top: 0;
@@ -288,7 +290,8 @@
   }
   button {
     text-align: left;
-    background-color: $stone;
+    color: $color-alternative-text;
+    background-color: $color-gov-link;
     border-radius: 5px;
     margin-bottom: 15px;
     padding: 5px 10px;
@@ -299,6 +302,9 @@
     cursor: pointer;
     &:focus {
       box-shadow: 0 0 0 2pt $focus-yellow;
+    }
+    i{
+      color: $color-alternative-text;
     }
   }
 }

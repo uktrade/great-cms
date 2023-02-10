@@ -70,7 +70,7 @@ export const Input = memo(
       >
         <div className={`flex-center ${type === 'date' ? 'select-date' : ''}`}>
           {prepend && (
-            <span className="bg-blue-deep-10 text-blue-deep-60 bold prepend">
+            <span className="bg-blue-deep-10 bold prepend">
               {prepend}
             </span>
           )}

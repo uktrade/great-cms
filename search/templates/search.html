@@ -23,10 +23,12 @@
     </div>
   {% endif %}
 
-  <div class="container">
+  <div class="breadcrumb-container">
+    <div class="container">
     {% breadcrumbs 'Search' %}
       <a href="/">great.gov.uk</a>
     {% endbreadcrumbs %}
+    </div>
   </div>
 
   <div class="container">
@@ -72,7 +74,7 @@
       <div class="pagination">
         <p class="verbose">Displaying page {{ current_page }} of total {{ total_pages }}</p>
         {% if current_page != 1 %}
-          <a class="button-ghost-blue pagination-previous" rel="prev" href="{% url 'search:search' %}?page={{ previous_page }}&q={{ query }}">Previous</a>
+          <a class="button primary-button" rel="prev" href="{% url 'search:search' %}?page={{ previous_page }}&q={{ query }}">Previous</a>
         {% endif %}
 
         <ol class="navigation" role="navigation" aria-label="Page navigation">
@@ -111,7 +113,7 @@
           {% endif %}
         </ol>
           {% if current_page != total_pages %}
-          <a class="button-ghost-blue pagination-next" rel="next" href="{% url 'search:search' %}?page={{ next_page }}&q={{ query }}">Next</a>
+          <a class="button secondary-button pagination-next" rel="next" href="{% url 'search:search' %}?page={{ next_page }}&q={{ query }}">Next</a>
         {% endif %}
       </div>
     {% endif %}

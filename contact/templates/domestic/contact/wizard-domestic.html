@@ -11,14 +11,15 @@
 
 {% block content %}
 {% block breadcrumbs %}
-    <div class="container">
-        {% breadcrumbs 'Contact' %}
-            <a href="/">great.gov.uk</a>
-            <a href="{% url 'contact:contact-us-routing-form' step='location' %}">Contact us</a>
-        {% endbreadcrumbs %}
-    </div>
+
+{% breadcrumbs 'Contact' %}
+    <a href="/">great.gov.uk</a>
+    <a href="{% url 'contact:contact-us-routing-form' step='location' %}">Contact us</a>
+{% endbreadcrumbs %}
+
 {% endblock %}
-    <div class="container">
+    <div class="page-main-content-container">
+        <div class="inner-container">
         <form method="post" enctype="multipart/form-data" class="{% block form_class %}lg-2{% endblock %}" autocomplete="on">
             <div class="exred-triage-form">
                 {% block step_title_container %}
@@ -41,9 +42,9 @@
                     {% block extra_content_pre_submit %}{% endblock %}
                     <div>
                         {% if wizard.steps.step1 != wizard.steps.count %}
-                            <button type="submit" class="button button margin-top-30">{% block button_continue_label %}Continue{% endblock %}</button>
+                            <button type="submit" class="primary-button margin-top-30">{% block button_continue_label %}Continue{% endblock %}</button>
                         {% else %}
-                            <button class="button next margin-top-30" type="submit">{% block submit_button_label %}Submit{% endblock %}</button>
+                            <button class="button primary-button margin-top-30" type="submit">{% block submit_button_label %}Submit{% endblock %}</button>
                         {% endif %}
                         {% block extra_buttons %}{% endblock %}
                     </div>
@@ -55,5 +56,6 @@
                 </div>
             </div>
         </form>
+    </div>
     </div>
 {% endblock %}

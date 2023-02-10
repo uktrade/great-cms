@@ -119,7 +119,7 @@ describe('RouteToMarketSection', () => {
         pk: 48,
       },
     })
-    fireEvent.click(container.querySelector('.button--delete'))
+    fireEvent.click(container.querySelector('.delete-button'))
     expect(actions.deleteTable).toHaveBeenCalledTimes(1)
     expect(actions.deleteTable).toHaveBeenCalledWith(props.field.pk)
   })

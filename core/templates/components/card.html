@@ -33,16 +33,26 @@
         {% endif %}
 
         {% if title or heading %}
-          <h3 class="heading-large">{% firstof title heading %}</h3>
+          <h4>{% firstof title heading %}</h4>
         {% endif %}
 
         {% if html_snippet %}
           {{ html_snippet }}
         {% endif %}
 
+        {% if description %}
+    <p>{{ description }}</p>
+  {% endif %}
+  {% if url %}
+  <button class="primary-button"  onclick="window.location.href='{{ url }}'">
+    View
+  </button>
+  {% endif %}
         {% if show_sign_in_required and not request.user.is_authenticated %}
           {% if request.path == '/' %}
-            <span class="shared-tag">Sign in required</span>
+          <div class="sign-in-button-wrapper">
+            <button class="primary-button small-button">Sign in required</button>
+          </div>
           {% endif %}
         {% endif %}
       {% endif %}
@@ -53,7 +63,4 @@
     </a>
   {% endif %}
 
-  {% if description %}
-    <p class="description">{{ description }}</p>
-  {% endif %}
 </div>

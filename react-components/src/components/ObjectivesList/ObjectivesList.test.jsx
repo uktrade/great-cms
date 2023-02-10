@@ -143,7 +143,7 @@ describe('ObjectivesList', () => {
         },
       ],
     })
-    const button = container.querySelectorAll('.button--delete')[2]
+    const button = container.querySelectorAll('.delete-button')[2]
 
     fireEvent.click(button)
     queryByLabelText('Objective 3')

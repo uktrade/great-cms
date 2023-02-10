@@ -1,0 +1,7 @@
+@import '../colors/colors.scss';
+
+$focus-border: 3px solid $color-focus;
+
+@mixin focus-state{
+    outline: 3px solid $color-focus;
+}

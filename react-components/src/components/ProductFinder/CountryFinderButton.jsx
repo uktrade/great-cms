@@ -8,6 +8,7 @@ import { sortMapBy } from '@src/Helpers'
 import { Confirmation } from '@src/components/ConfirmModal/Confirmation'
 import CountryFinderModal from './CountryFinderModal'
 import BasketViewer from './BasketView'
+import { Link } from "react-router-dom";
 
 
 export const CountryFinderButton = () => {
@@ -29,33 +30,37 @@ export const CountryFinderButton = () => {
     }
   }
 
+  const routePath = "/where-to-export"
+
+
   return (
     <span>
       <BasketViewer label="My markets" onOpen={loadMarkets}>
-        <ul className="list m-v-0 body-l-b">
-          {sortMap.length === 0 && marketsLoaded ? <li className="p-v-xxs">My markets is empty</li>: null}
+        <ul>
+          {sortMap.length === 0 && marketsLoaded ? <li>My markets is empty</li>: null}
           {sortMap.map((marketIdx) => {
             const market = markets[marketIdx]
             return (
-              <li className="p-v-xxs" key={`market-${marketIdx}`}>
-                <button
+              <li key={`market-${marketIdx}`}>
+
+               <a href={routePath} >{market.country_name}</a>
+                  <button
                   type="button"
-                  className="f-r button button--small button--only-icon button--tertiary"
+                  className="remove-product"
                   onClick={() => setDeleteConfirm({index: marketIdx})}
                 >
-                  <i className="fas fa-times fa-lg" />
+                  <i className="fas fa-trash" />
                   <span className="visually-hidden">
                     Remove market {market.country_name}
                   </span>
                 </button>
-                {market.country_name}
               </li>
             )
           })}
         </ul>
         <button
           type="button"
-          className="button button--primary button--icon m-t-xs button--full-width hidden"
+          className="button primary-button button--icon m-t-xs button--full-width hidden"
           onClick={() => setIsOpen(true)}
         >
           <i className="fas fa-plus" />

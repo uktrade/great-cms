@@ -16,7 +16,7 @@
 
 {% block content %}
 
-{% include 'components/hero.html' with image=page.hero_image hero_text=page.heading hero_subheading=page.sub_heading %}
+{% include 'components/market-details-header.html' with image=page.hero_image %}
 
 <nav class="container">
   {% include 'components/breadcrumbs_cms.html' %}
@@ -27,9 +27,11 @@
   <div class="container">
     <div class="grid-row">
       <div class="column-three-quarters-l teaser">
+        <p class='sub-header'>Exporting guide to</p>
+        <h1>{{ page.heading }}</h1>
         <h2 class="visually-hidden">Overview</h2>
 
-        <p class="font-medium margin-bottom-30">{{ page.heading_teaser }}</p>
+        <p class="margin-bottom-30">{{ page.heading_teaser }}</p>
 
         {% if page.stats.highlights.data %}
           {% with highlights=page.stats.highlights %}
@@ -118,11 +120,10 @@
       <div class="column-full column-half-l section-one-body rich-text">
         {{ page.section_one_body|richtext }}
       </div>
-
       <div class="column-full column-half-l">
         {% if page.stats.goods_exports.data or page.stats.services_exports.data or page.stats.market_trends.data %}
           <div id="stats-tabs" class="tabs">
-            <nav class="tabs__nav">
+       <nav class="tabs__nav">
               <ul>
                 {% if page.stats.goods_exports.data %}
                 <li>
@@ -167,6 +168,7 @@
             {% endif %}
 
             {% if page.stats.market_trends.data %}
+
             <div id="tab-market-trends" class="reveal-content">
               <h2 class="body padding-top-30">Total import value (into the UK from {{ page.heading }}) and export value (from the UK into {{ page.heading }}) over time</h2>
 
@@ -334,14 +336,14 @@
   </div>
 </section>
 
-<section id="country-guide-statistics-section" class="statistics padding-vertical-30 background-stone-30">
+<section id="country-guide-statistics-section" class="statistics padding-vertical-30">
   <div class="container">
-    {% include 'components/statistics_card_grid.html' with statistics=page.main_statistics economic_highlights=page.stats.economic_highlights country=page.heading %}
+    {% include 'components/statistics_card_grid.html' with statistics=page.main_statistics economic_highlights=page.stats.economic_highlights country=page.heading href=''%}
   </div>
 </section>
 
 {% if page.section_two_heading %}
-  <section id="country-guide-section-two" class="section-two padding-vertical-60">
+  <section id="country-guide-section-two" class="section-two padding-vertical-20">
     <div class="container">
       <div class="grid-row">
         <div class="column-full column-two-thirds-m column-half-l">
@@ -363,7 +365,7 @@
   {% endif %}
 {% endif %}
 
-<section class="padding-top-60 padding-bottom-30">
+<section id="country-trade-barriers" class="padding-top-60 padding-bottom-30">
   <div class="container">
     <div class="grid-row">
       <div class="column-half-l padding-bottom-30">
@@ -390,11 +392,11 @@
 </section>
 
 {% if page.fact_sheet_title %}
-<section id="country-guide-section-three" class="section-three background-stone-30 padding-top-90 padding-bottom-60">
+<section id="country-guide-section-three" class="section-three padding-top-90 padding-bottom-60">
   <div class="container">
     <div class="grid-row margin-bottom-60">
       <div class="column-full column-two-thirds-m column-half-l">
-        <h2 class="heading-large margin-top-0">{{ page.fact_sheet_title }}</h2>
+        <h1 class="margin-top-0">{{ page.fact_sheet_title }}</h1>
         <p>{{ page.fact_sheet_teaser }}</p>
       </div>
     </div>
@@ -403,11 +405,11 @@
         {% if column.title %}
           <div class="column-full {% if page.fact_sheet_columns|length != 1 %}column-half-xl{% endif %} margin-bottom-30">
             <div class="fact-sheet">
-              <h3 class="highlight heading-medium background-grey white-text">{{ column.title }}</h3>
+
               <div class="fact-sheet-content background-white padding-45 wrap-tight font-xsmall">
+                <h3>{{ column.title }}</h3>
                 {% if column.teaser %}
                 <p class="font-small">{{ column.teaser }}</p>
-                <hr>
                 {% endif %}
                 <div class="rich-text">{{ column.body|richtext }}</div>
               </div>
@@ -420,30 +422,30 @@
 </section>
 {% endif %}
 
-<section id="country-guide-need-help-section" class="need-help padding-vertical-60">
-  <div class="container">
-    <div class="grid-row margin-bottom-45">
-      <div class="column-full column-two-thirds-m column-half-l">
+<section id="country-guide-need-help-section">
         <h2 class="heading-large margin-top-0">Next steps</h2>
-        <p>DIT can advise you on doing business abroad, and help put you in touch with other people who can help such as lawyers and distributors.</p>
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="column-full column-half-l column-third-xl margin-bottom-30 margin-bottom-0-xl">
-        {% static 'images/country-guide-advice.png' as need_help_image_url %}
+    <div>
+      <div>
+        {% static 'images/learn-to-export-header.png' as need_help_image_url %}
         {% slugurl 'advice' as advice_url %}
-        {% include 'components/cta_card.html' with with_arrow=True image_url=need_help_image_url text="Read more advice about doing business abroad" url=advice_url %}
+        <img src={{need_help_image_url }} alt="Contact us">
+        <h3>Get ready to do business abroad</h3>
+        <p>Step-by-step lessons to accelerate your exporting ability.</p>
+         <a class="button primary-button" href= {{advice_url}}>Read more</a>
       </div>
-      <div class="column-full column-half-l column-third-xl margin-bottom-0">
-        {% static 'images/country-guide-contact.png' as contact_us_image_url %}
-        {% include 'components/cta_card.html' with with_arrow=True image_url=contact_us_image_url text="Get in touch with one of our trade advisers" url="/contact/office-finder/" %}
+      <div>
+        {% static 'images/country-contact.png' as contact_us_image_url %}
+        <img src={{contact_us_image_url}} alt="Contact us">
+         <h3>Contact an international trade advisor</h3>
+        <p>Get in touch with your local trade office for advice from an international trade adviser.</p>
+        <a class="button primary-button" href="/contact/office-finder/">Contact us</a>
       </div>
     </div>
   </div>
 </section>
 
 {% if page.related_pages %}
-<section id="country-guide-news-events-section" class="news-events background-stone-30 padding-vertical-60">
+<section id="country-guide-news-events-section" class="news-events padding-vertical-60">
   <div class="container">
     <h2 class="heading-large margin-top-0 margin-bottom-45">News and events</h2>
     <div class="flex-grid">

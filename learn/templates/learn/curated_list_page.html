@@ -4,33 +4,28 @@
 {% load wagtailcore_tags %}
 {% load pluralize from content_tags %}
 {% load get_item from object_tags %}
+{% load get_css_class_from_string from content_tags %}
 
 {% block content %}
 <div id="learn-root" class="learn__page learn__category-page">
-    <span class="learn__back-link only-desktop m-f-s m-t-s">
-      {% include "core/includes/backlink.html" with url=parent_page_url label="Learn to export home" classes="p-v-0"%}
-    </span>
-    {% with high_level_completion_progress|get_item:page.id as module_completion_data %}
-    <section class="learn__single-category-header">
-        <div class="learn__single-category-header-wrapper container {% if module_completion_data.completion_count and module_completion_data.total_pages %}learn__single-category-header-wrapper--progress-bar-top{% endif %} p-b-xs">
-            <div class="grid">
-                <div class="c-1-2-l">
-                    <div class="learn__single-category-header-content">
-                        <h1 class="learn__single-category-title h-l p-b-0" id="topic-title">{{ page.title }}</h1>
-                        <div class="learn__single-category-header-details">{{ page.heading | richtext }}</div>
-                            {% include "learn/_high_level_progress.html" with module_completion_data=module_completion_data only %}
-                    </div>
-                    <div class="learn__category-entities button--round-corner bg-aqua">
-                        <span class="learn__category-topics">{{ page.count_topics }} topic{% pluralize page.count_topics %}, </span>
-                        <span class="learn__category-lessons">{{ page.count_detail_pages }} lesson{% pluralize page.count_detail_pages %}</span>
-                    </div>
-                </div>
 
-                <div class="c-1-2-l">
-                    {% image page.image width-600 class="learn__single-category-image m-t-m" %}
-                </div>
+    {% with high_level_completion_progress|get_item:page.id as module_completion_data %}
+    <section>
+     <div class="page-header {{ page.title| get_css_class_from_string }}">
+        <div class="inner-header">
+            <div>
+              <h1 id='topic-title'>{{ page.title }}</h1>
+              <p>{{ page.heading | richtext }}</p>
+               <div class="lesson-summary">
+                    <i class="fa fa-clock"></i>
+                    <span class="learn__category-topics">{{ page.count_topics }} topic{% pluralize page.count_topics %}, </span>
+                    <span class="learn__category-lessons">{{ page.count_detail_pages }} lesson{% pluralize page.count_detail_pages %}</span>
+               </div>
+            </div>
+            <div class="image-container">
             </div>
         </div>
+     </div>
     </section>
     {% endwith %}
     <section class="learn__category-lists container" id="topic-lesson-list">

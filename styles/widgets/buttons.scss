@@ -1,0 +1,350 @@
+@import '../colors/colors.scss';
+@import '../fonts/main.scss';
+@import '../borders/main.scss';
+
+@mixin primary {
+  background-color: $color-primary-button;
+  color: $color-alternative-text;
+  border: 2px solid $color-primary-button;
+
+  &.delete-button {
+    background-color: $color-delete;
+    border: 2px solid $color-delete;
+  }
+
+  i {
+    color: $color-alternative-text;
+  }
+}
+
+@mixin secondary {
+  background-color: $color-main-background;
+  border: 2px solid $color-gov-link;
+  color: $color-gov-link;
+
+  &.delete-button {
+    color: $color-delete;
+    border: 2px solid $color-delete;
+    background-color: $color-main-background;
+
+    i {
+      color: $color-delete;
+    }
+  }
+
+  i {
+    color: $color-gov-link;
+  }
+}
+
+.button,
+button {
+  min-height: 50px;
+  height: min-content;
+  border-radius: 0;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-family: $header-font;
+  font-size: $font-size-button;
+  line-height: revert;
+  color: $color-gov-link;
+
+  span + i,
+  i + span {
+    padding-left: $standard-padding;
+  }
+
+  & i {
+    font-size: $icon-large-button-size;
+  }
+
+  &.change-known-button {
+    min-height: auto;
+  }
+
+  &.icon-last {
+    i {
+      padding-left: $standard-padding;
+    }
+  }
+
+  &.icon-only {
+    height: auto;
+    width: auto;
+    border: none;
+
+    & > i {
+      padding: 0;
+    }
+  }
+
+  cursor: pointer;
+
+  &:active,
+  &:focus {
+    @include focus-state;
+  }
+
+  &.primary-button,
+  &.secondary-button,
+  &.tertiary-button,
+  &.quaternary-button {
+    padding-left: $large-padding;
+    padding-right: $large-padding;
+  }
+
+  &.small-button {
+    height: 40px;
+    min-height: 40px;
+    font-size: 16px;
+    line-height: 10px;
+
+    i {
+      font-size: $icon-small-button-size;
+    }
+  }
+
+  &.medium-button {
+    height: 45px;
+
+    i {
+      font-size: $icon-medium-button-size;
+    }
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  &.secondary-button {
+    @include secondary();
+
+    & :focus,
+    &:active,
+    &:hover {
+      @include primary();
+    }
+  }
+
+  &.primary-button {
+    @include primary();
+    & :focus,
+    &:active,
+    &:hover {
+      @include secondary();
+    }
+  }
+
+  &.tab-list-item,
+  .tab-list-active {
+    height: 50px;
+    line-height: 25px;
+    margin-bottom: $standard-padding;
+    color: $color-gov-link;
+    background-color: $color-main-background;
+    border: 2px solid $color-gov-link;
+  }
+
+  &.tab-list-active {
+    background-color: $color-tab;
+    border: 2px solid $color-tab;
+    color: $color-main-text;
+  }
+
+  &.tertiary-button,
+  &.tertiary-button:hover,
+  &.tertiary-button:active,
+  &.tertiary-button:visited,
+  &.tertiary-button:focus:active {
+    background-color: $color-main-background;
+    color: $color-main-text;
+    border-color: $color-border;
+
+    & > i {
+      color: $color-main-text;
+    }
+  }
+
+  &.quaternary-button {
+    background-color: $color-completed;
+    color: $color-main-background;
+
+    & :focus,
+    &:active,
+    &:hover {
+      background-color: $color-main-background;
+      color: $color-completed;
+      border: 2px solid $color-completed;
+      i {
+        color: $color-completed;
+      }
+    }
+  }
+
+  &.fas fa-check-circle {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+
+    // font-size: ;
+    icon {
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  &.link {
+    color: $color-gov-link;
+    height: auto;
+  }
+
+  &.back-button {
+    color: $color-gov-link;
+
+    i {
+      color: $color-gov-link;
+    }
+  }
+
+  &.search-button {
+    padding: 0;
+    width: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    i {
+      padding: 0;
+    }
+  }
+
+  &.remove-product {
+    height: 30px;
+    background-color: blue;
+
+    i {
+      color: $color-delete;
+    }
+  }
+
+  &.personalization-menu-button {
+    color: $color-alternative-text;
+    i {
+      color: $color-alternative-text;
+    }
+
+    &.open {
+      color: $color-main-text;
+      background-color: $color-alternative-text;
+
+      i {
+        color: $color-main-text;
+      }
+    }
+
+    &:active,
+    &:focus {
+      border: none;
+      outline: none;
+    }
+
+    &:hover {
+      background-color: $color-footer;
+      color: $color-alternative-text;
+
+      i {
+        color: $color-alternative-text;
+      }
+    }
+  }
+}
+
+button {
+  padding-left: $standard-padding;
+  padding-right: $standard-padding;
+
+  &.small-button {
+    height: 35px;
+    line-height: 10px;
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
+
+//override here as imported from great styles
+.button--only-icon {
+  height: 40px;
+  width: 40px;
+  min-height: 40px;
+  border-radius: 50% !important;
+  border: 2px solid $color-gov-link;
+
+  & > i {
+    padding: 0;
+  }
+}
+
+.tooltip__icon > button {
+  i.fas.fa-book {
+    color: $color-gov-link !important;
+  }
+}
+
+button.button-example,
+button.button-lesson {
+  color: $color-main-text;
+
+  i {
+    color: $color-main-text;
+  }
+}
+
+.remove-market {
+  i {
+    font-size: $icon-standard-size;
+    color: $color-delete;
+  }
+}
+
+.tabs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: $standard-padding $standard-padding;
+}
+
+#skip-link {
+  background-color: $color-focus;
+
+  &.accessibility-skip-to-section {
+    background-color: inherit;
+  }
+}
+
+button#commodity-code-details {
+  padding-left: $large-padding;
+  padding-right: $large-padding;
+  span + span {
+    padding-left: $standard-padding;
+  }
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.video-transcript {
+  button {
+    i + span {
+      padding-left: 0;
+    }
+  }
+}

@@ -49,7 +49,7 @@ function ProductSelector() {
 
   return (
     <>
-      <div className="body-l-b">
+      <div className="body-l-b select-label">
         {hasProducts
           ? 'Select your product'
           : "You haven't selected any products"}
@@ -75,10 +75,10 @@ function ProductSelector() {
       )}
       <button
         type="button"
-        className="f-l m-t-xxs button button--tertiary button--icon button--small"
+        className="button secondary-button button--small button--icon"
         onClick={() => setProductModalIsOpen(true)}
       >
-        <i className="fa fa-plus-circle" />
+        <i className="fa fa-plus" />
         {hasProducts ? 'Add another product' : 'Add a product'}
       </button>
       <ProductFinderModal

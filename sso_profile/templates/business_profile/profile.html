@@ -54,7 +54,7 @@
             <p>Now that you've created a user account, complete the last few steps to publish your business profile</p>
         {% endif %}
     </div>
-    <div id="alerts-top" class="grid-row alerts-container margin-bottom-15 margin-top-30">
+    <div id="alerts-top" class="grid-row margin-bottom-15 margin-top-30">
 
         {% if not company.email_address %}
             <div class="column-two-thirds flag-red-text">
@@ -92,7 +92,7 @@
                     <p>Your business profile is ready to be verified</p>
                 </div>
                 <div class="column-one-third alerts-button-container">
-                    <a class="button button-ghost-white" href="{% url 'sso_profile:business-profile-request-to-verify' %}">Request to verify</a>
+                    <a class="button primary-button" href="{% url 'sso_profile:business-profile-request-to-verify' %}">Request to verify</a>
                 </div>
             {% endif %}
         {% elif not company.is_published %}
@@ -102,7 +102,7 @@
                     <p>Your profile is ready to be published on the UK Investment Support Directory.</p>
                 </div>
                 <div class="column-one-third alerts-button-container">
-                    <a class="button button-ghost-white" href="{% url 'sso_profile:business-profile-publish' %}">Publish business profile</a>
+                    <a class="button primary-button" href="{% url 'sso_profile:business-profile-publish' %}">Publish business profile</a>
                 </div>
             {% else %}
                 <div class="column-two-thirds flag-red-text">
@@ -110,7 +110,7 @@
                     <p>You can now publish your business profile.</p>
                 </div>
                 <div class="column-one-third alerts-button-container">
-                    <a class="button button-ghost-white" href="{% url 'sso_profile:business-profile-publish' %}">Publish your business profile</a>
+                    <a class="button primary-button" href="{% url 'sso_profile:business-profile-publish' %}">Publish your business profile</a>
                 </div>
             {% endif %}
         {% endif %}

@@ -37,14 +37,6 @@ a.labelled-card {
   &:active {
     background-color: transparent;
   }
-
-  &:focus:active,
-  &:active {
-    .card-inner {
-      background-color: $focus-yellow;
-    }
-  }
-
   .card-header {
     z-index: 0;
   }

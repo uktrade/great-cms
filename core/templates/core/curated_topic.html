@@ -10,7 +10,7 @@
         <h2 class="learn__topic-item-title h-m p-b-xxs p-t-0">{{ topic.title }}</h2>
         {% get_lesson_progress_for_topic completed_lessons topic.id as topic_progress_data %}
         {% if topic_progress_data %}
-        <p class="learn__topic-item-count body-m-b m-t-xxs m-b-0">
+        <p class="m-t-xxs m-b-0 progress-bar-text">
             {{topic_progress_data.lessons_completed}} / {{topic_progress_data.lessons_available}} lesson{{topic_progress_data.lessons_available|pluralize}} completed
         </p>
         {% endif %}
@@ -22,14 +22,17 @@
                 <a class="learn__lesson-item-link h-xs" href="{% pageurl page %}" title="{{ page.title }}">
                     <span class="learn__lesson-item-link-text">{{ page.title }}</span>
                     {% if page.id in completed_lessons %}
-                    <span class="button button--quaternary button--small learn__lesson-item-link--completed">
-                        Completed
-                    </span>
+                    <button class="quaternary-button">
+                        <i class="fa fa-check"></i>
+                        <span>Completed</span>
+                    </button>
                     {% else %}
-                    <div class="learn__topic-item-read-time body-l-b">
-                        <span class="h-s p-t-0 m-r-xs"><i class="fas fa-clock"></i></span>
-                        <span class="f-r">{{ page.specific.estimated_read_duration|format_timedelta }}</span>
-                    </div>
+                    <button class="secondary-button icon-last">
+                       Start
+                       {{ page.specific.estimated_read_duration|format_timedelta }}
+                       lesson
+                       <i class="fa fa-chevron-right"></i>
+                    </button>
                     {% endif %}
                 </a>
             </li>

@@ -4,10 +4,10 @@
 {% load error_box breadcrumbs from component_tags %}
 
 {% block content %}
+{% breadcrumbs 'Create a great.gov.uk account' %}
+    <a href="{{ services_urls.great_domestic }}">Home</a>
+{% endbreadcrumbs %}
     <section class="container">
-        {% breadcrumbs 'Create a great.gov.uk account' %}
-            <a href="{{ services_urls.great_domestic }}">Home</a>
-        {% endbreadcrumbs %}
         <div class="grid-row margin-top-60">
             <div class="column-two-thirds">
                 <div id="failure-message-container">

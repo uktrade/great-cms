@@ -240,7 +240,7 @@ describe('Compare markets', () => {
     const economyTab = localContainer.querySelector(
       '.tab-list-item:nth-of-type(2)'
     )
-    expect(economyTab.textContent).toMatch('ECONOMY')
+    expect(economyTab.textContent).toMatch('Economy')
     act(() => {
       Simulate.click(economyTab)
     })

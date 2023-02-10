@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useOnOutsideClick } from '@src/components/hooks/useOnOutsideClick'
 
+
 export default function BasketViewer({ label, onOpen, children }) {
   const [modalIsOpen, setIsOpen] = useState(false)
   const buttonRef = useRef(null)
@@ -24,13 +25,13 @@ export default function BasketViewer({ label, onOpen, children }) {
   const triggerButton = (
     <button
       type="button"
-      className={`tag tag--small ${
-        modalIsOpen ? 'tag--tertiary' : 'tag--secondary'
+      className={`personalization-menu-button ${
+        modalIsOpen ? 'open' : ''
       } tag--icon`}
       onClick={toggleViewer}
       ref={buttonRef}
     >
-      <span>{label}</span>
+      <span className="menu-link">{label}</span>
       <i
         className={`fas ${modalIsOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}
         aria-hidden="true"
@@ -41,7 +42,7 @@ export default function BasketViewer({ label, onOpen, children }) {
   return (
     <span ref={outerSpan}>
       {triggerButton}
-      {modalIsOpen ? <div className="basket-view p-s">{children}</div> : ''}
+      {modalIsOpen ? <div className="personalization-menu">{children}</div> : ''}
     </span>
   )
 }

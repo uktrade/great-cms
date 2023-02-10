@@ -30,7 +30,7 @@
             <p class="bold-small">Or</p>
             {% endif %}
             {% include 'great_components/form_widgets/form_field.html' with field=form.collaborator_email %}
-            <button class="button">Send invitation</button>
+            <button class="button primary-button">Send invitation</button>
         </form>
         <a class="link" href="{% url 'sso_profile:business-profile-admin-tools' %}">Cancel</a>
     </div>

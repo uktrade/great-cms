@@ -1,6 +1,7 @@
 @use "sass:math";
 @import 'helpers/colours';
 @import 'helpers/vars';
+@import '../../../styles/colors/colors.scss';
 
 // Breakpoints
 $mobile: 640px;
@@ -28,7 +29,7 @@ $desktop: 1024px;
   margin-bottom: 120px;
 
   .learn__wrapper--paragraph {
-    margin-bottom: 30px;
+    margin-bottom: $x-large-padding;
   }
 }
 
@@ -63,9 +64,13 @@ $desktop: 1024px;
   margin-left: 0;
   margin-right: 0;
 
+  h2{
+    font-size: 48px;
+  }
+
   @include tablet {
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: 1.5 * $standard-padding;
+    margin-right: 1.5 * $standard-padding;
   }
 }
 
@@ -82,7 +87,7 @@ $desktop: 1024px;
 }
 
 .learn__categories-logo {
-  margin-top: -20px;
+  margin-top: -$large-padding;
 }
 
 .learn__category-header {
@@ -102,27 +107,26 @@ $desktop: 1024px;
   font-size: 24px;
   font-weight: bold;
   line-height: 28px;
-  margin-bottom: 20px;
+  margin-bottom: $large-padding;
 }
 
 .learn__category {
   background-color: $white;
-  border-radius: 10px;
-  margin-bottom: 30px;
+  margin-bottom: $x-large-padding;
   position: relative;
 
   @include tablet {
-    padding-left: 30px;
+    padding-left: $x-large-padding;
     min-height: 360px;
     margin-bottom: 40px;
   }
 }
 
 .learn__category-content {
-  padding: 20px 20px 0;
+  padding: $large-padding large-padding 0;
 
   @include tablet {
-    padding: 40px 20px 40px 25px;
+    padding: 2 * $large-padding $large-padding 2 * $large-padding 25px;
   }
 
   .button {
@@ -138,7 +142,7 @@ $desktop: 1024px;
   padding-top: 80px;
 
   @include tablet {
-    padding-top: 40px;
+    padding-top: 2 * $large-padding;
   }
 }
 
@@ -151,7 +155,6 @@ $desktop: 1024px;
 
 .learn__category-progress {
   @extend .progress-bar;
-  width: 280px;
 }
 
 .learn__category-progress-container {
@@ -172,20 +175,20 @@ $desktop: 1024px;
   z-index: 1;
 
   &:active:focus {
-    background: transparent;
+    background: revert;
   }
 }
 
 .learn__category-details {
-  margin: 0 0 20px;
+  margin: 0 0 $large-padding;
 
   @include tablet {
-    margin: 0 0 30px;
+    margin: 0 0 $x-large-padding;
   }
 
   p {
-    color: $blue-deep-80;
     margin-top: 16px;
+    font-size: 20px;
   }
 }
 
@@ -332,7 +335,9 @@ $desktop: 1024px;
   display: block;
   padding: 18px 20px 20px;
   text-decoration: none;
-  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
   @include tablet {
     padding: 22px 20px 20px 21px;
@@ -353,11 +358,15 @@ $desktop: 1024px;
 .learn__lesson-item-link-text {
   display: block;
   margin-bottom: 10px;
+  flex:1;
+
+  &:hover{
+    color: $color-gov-link;
+  }
 
   @include tablet {
     display: inline-block;
     margin-bottom: 0;
-    max-width: 75%;
   }
 }
 
@@ -458,7 +467,6 @@ $desktop: 1024px;
     background: $white;
     border-right: 1px solid $light-grey;
     height: 100%;
-    position: sticky;
     top: 0;
 
     h3 {
@@ -505,7 +513,6 @@ $desktop: 1024px;
     h2,
     h3,
     h4 {
-      color: $blue-deep-80;
       margin-bottom: 18px;
       padding: 0;
 
@@ -528,11 +535,6 @@ $desktop: 1024px;
 
     b > i {
       font-weight: bold;
-    }
-
-    p,
-    li {
-      color: $blue-deep-80;
     }
 
     p {
@@ -571,6 +573,7 @@ $desktop: 1024px;
 
     a.link {
       text-decoration: underline;
+      font-size: $font-size-p
     }
 
     .choose-dont-choose {
@@ -622,7 +625,6 @@ $desktop: 1024px;
     .pros-and-cons {
       h3 {
         @extend .h-s;
-        color: $blue-deep-80;
         padding-bottom: 15px;
         padding-top: 0;
         margin-bottom: 0;
@@ -639,7 +641,6 @@ $desktop: 1024px;
           padding-left: 17px;
 
           &:before {
-            background-color: $blue-deep-80;
             width: 4px;
             height: 4px;
           }
@@ -682,7 +683,7 @@ $desktop: 1024px;
     h2,
     h3,
     h4 {
-      color: $blue-deep-80;
+
     }
 
     > ul {
@@ -720,7 +721,6 @@ $desktop: 1024px;
 
     .video-transcript {
       &__text-area {
-        color: $blue-deep-80;
         max-height: 200px;
         overflow-y: scroll;
       }
@@ -869,7 +869,6 @@ $desktop: 1024px;
     &__close {
       background: none;
       border: 0;
-      color: $blue-deep-80;
       cursor: pointer;
       font-size: 33px;
       position: absolute;

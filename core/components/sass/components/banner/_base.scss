@@ -1,6 +1,8 @@
 
 // BANNER
 // ======
+@import "../../../../../styles/fonts/main.scss";
+@import "../../../../../styles/colors/colors.scss";
 
 .information-banner {
   p {
@@ -72,6 +74,9 @@
   padding-left: 20px;
   padding-top: 5px;
   padding-bottom: 5px;
+  font-size: 20px;
+  font-family: $main-text-font;
+
 
   h2 {
     display: inline;
@@ -86,6 +91,15 @@
 
   div {
     width: 80%;
+  }
+
+  a{
+    text-decoration: underline;
+    color: $color-gov-link;
+    font-family: $main-text-font;
+  }
+  span{
+    font-family: $header-font;
   }
 
   @media (min-width: 768px) {

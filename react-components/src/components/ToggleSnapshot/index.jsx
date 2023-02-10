@@ -12,9 +12,9 @@ export const ToggleSnapshot = memo(({
       <div className={toggle ? '' : 'hidden'}>
       { children }
       </div>
-      <div className='m-t-s'>
+      <div>
         <button
-          className='button button--tertiary button--icon'
+          className='button secondary-button button--icon'
           type='button'
           onClick={() => setToggle(!toggle)}
           aria-controls="data-snapshot"

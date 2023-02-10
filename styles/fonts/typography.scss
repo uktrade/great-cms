@@ -1,0 +1,64 @@
+@font-face {
+  font-family: 'FS Lucas';
+  src: url('/static/fonts/FSLucas-Regular.woff2') format('woff2'),
+  url('/static/fonts/FSLucas-Regular.woff') format('woff'),
+  url('/static/fonts/FSLucas-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+// sass-lint:disable-all
+@font-face {
+  font-family: 'FS Lucas SemiBold';
+  src: url('/static/fonts/FSLucas-SemiBold.eot'),
+  url('/static/fonts/FSLucas-SemiBold.eot?#iefix') format('embedded-opentype'),
+  url('/static/fonts/FSLucas-SemiBold.woff2') format('woff2'),
+  url('/static/fonts/FSLucas-SemiBold.woff') format('woff'),
+  url('/static/fonts/FSLucas-SemiBold.ttf') format('truetype'),
+  url('/static/fonts/FSLucas-SemiBold.svg#UbuntuBold') format('svg');
+}
+
+
+@font-face {
+  font-family: 'Font Awesome 5 Free';
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url('/static/fonts/fa-solid-900.eot');
+  src: url('/static/fonts/fa-solid-900.eot?#iefix') format('embedded-opentype'),
+  url('/static/fonts/fa-solid-900.woff2') format('woff2'),
+  url('/static/fonts/fa-solid-900.woff') format('woff'),
+  url('/static/fonts/fa-solid-900.ttf') format('truetype'),
+  url('/static/fonts/fa-solid-900.svg#fontawesome') format('svg');
+}
+
+.fa,
+.fas {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+
+$main-text-font: "FS Lucas", Arial, Helvetica, Verdana;
+$header-font: "FS Lucas SemiBold", Arial, Helvetica, Verdana;
+
+//font-weight
+$font-weight-standard: 400;
+$font-weight-semi-bold: 500;
+
+
+//font-size
+$font-size-h1: 48px;
+$font-size-h2: 36px;
+$font-size-h3: 28px;
+$font-size-h4: 24px;
+$font-size-h5: 20px;
+
+$font-size-p-large: 28px;
+$font-size-p: 20px;
+$font-size-p-small: 13px;
+
+$font-size-button: 20px;
+
+
+$p-line-height:30px;

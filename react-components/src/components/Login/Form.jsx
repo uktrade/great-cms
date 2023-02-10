@@ -27,12 +27,11 @@ export const Form = ({
         handleSubmit()
       }}
     >
-      <h2 className="h-s text-blue-deep-80 p-t-xs">Sign in</h2>
+      <h3 className="h-s p-t-xs">Sign in</h3>
       <p className="m-b-s">
         Don&apos;t have an account?{' '}
         <a
           href={Services.config.signupUrl}
-          className="text-red-80"
         >
           Sign up
         </a>
@@ -59,7 +58,7 @@ export const Form = ({
       />
       <a
         href={Services.config.passwordResetUrl}
-        className="text-red-80 inline-block"
+        className="inline-block"
       >
         Forgotten password?
       </a>
@@ -67,7 +66,7 @@ export const Form = ({
       <button
         type="submit"
         id="signup-modal-submit"
-        className="button button--primary button--full-width m-t-xs"
+        className="primary-button button--full-width m-t-xs"
         disabled={disabled}
       >
         Sign in
