@@ -1,7 +1,7 @@
 {% load  wagtailcore_tags %}
 
 
-<div class="m-b-m">
+<div class="m-b-m test-knowledge-wrapper">
     {% for block in page.recap %}
         <h2 class="h-m text-white p-b-s">{{ block.value.title|richtext }}</h2>
     {% endfor %}

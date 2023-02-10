@@ -1,3 +1,5 @@
+@import '../../../styles/colors/colors.scss';
+@import '../../../styles/fonts/main.scss';
 .signup {
   width: 100%;
   display: flex;
@@ -17,7 +19,9 @@
   .form-label {
     @extend .body-m;
     @extend .p-t-0;
-    font-size: 19px;
+    font-size: 18px;
+    color: $color-main-text;
+    font-family: $header-font;
   }
 
   .form-control {
@@ -89,7 +93,6 @@
     }
 
     img {
-      width: 100%;
       position: absolute;
       bottom: 0;
 
@@ -124,7 +127,7 @@
     }
 
     &__subheadings {
-      margin-top: 60px;
+      margin-top: 30px;
       text-align: left;
 
       li {

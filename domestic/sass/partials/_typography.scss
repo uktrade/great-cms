@@ -4,8 +4,10 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
 @import url(https://fonts.googleapis.com/css?family=Overpass:700);
 
-$brand-font-standard: 'Roboto', arial, helvetica, verdana, sans-serif;
-$brand-font-alternative: 'Overpass', arial, helvetica, verdana, sans-serif;
+@import "../../../styles/fonts/main.scss";
+
+$brand-font-standard: 'FS Lucas' Arial, Helvetica, Verdana;;
+$brand-font-alternative: 'FS Lucas SemiBold' Arial, Helvetica, Verdana;;
 $brand-font-serif: georgia, verdana, serif;
 
 

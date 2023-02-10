@@ -38,7 +38,7 @@ const fwRefObjective = forwardRef((props, ref) => {
             value={data.description}
             onChange={onChange}
             errors={[]}
-            formGroupClassName="m-b-0"
+            formGroupClassName="m-b-0 export-plan-text-area"
             example={example}
           />
         </div>

@@ -2,9 +2,9 @@
 {% load wagtailcore_tags %}
 
 {% block content %}
-  <div class="container">
-      <h1 class="h-l m-t-l" id="great-hero-welcome">Dashboard</h1>
-      <div class="grid text-blue-deep-80">
+  <div id ="dashboard-container" class="container">
+      <h1 class="page-title" id="great-hero-welcome">Dashboard</h1>
+      <div class="grid">
       {% if lessons_in_progress and exportplan_list %}
           <div class="c-1-2-xl">
               {% include './dashboard_cards/learning_progress.html' %}

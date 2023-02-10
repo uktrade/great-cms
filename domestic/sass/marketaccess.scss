@@ -1,5 +1,7 @@
 @import './partials/base';
 @import './components/form-wizard';
+@import '../../styles/colors/colors.scss';
+@import '../../styles/fonts/main.scss';
 
 .big-number-list {
     margin: 40px 0;
@@ -17,11 +19,11 @@
         overflow: hidden;
         &:before {
             content: counter(counter);
-            font-family: $brand-font-alternative;
+            font-family: $header-font;
             font-size: 72px;
             font-weight: bold;
             line-height: 1.2em;
-            color: #1e1348;
+            color: $color-main-text;
             left: 0;
             min-width: 70px;
             position: absolute;
@@ -40,7 +42,7 @@
 }
 
 .list.list-bullet.list-bullet li:before {
-    background-color: #333;
+    background-color: $color-main-text;
 }
 
 .form-label {

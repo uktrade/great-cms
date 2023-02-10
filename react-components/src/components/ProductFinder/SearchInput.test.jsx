@@ -103,7 +103,7 @@ describe('SearchInput', () => {
     const label = container.querySelector('label')
     expect(label.textContent).toMatch(/test label/)
 
-    const saveButton = container.querySelector('button.button--primary')
+    const saveButton = container.querySelector('button.primary-button')
     expect(saveButton).toBeTruthy()
     expect(saveButton.textContent).toMatch(buttonLabel)
 

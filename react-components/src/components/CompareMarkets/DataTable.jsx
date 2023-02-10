@@ -200,19 +200,19 @@ export default function DataTable(props) {
   if (mobile) {
     return (
       <>
-        <div className="bg-blue-deep-80 p-h-xs p-v-xs selected-places">
+        <div className="p-h-xs p-v-xs selected-places">
           <h2 className="h-xs text-white p-t-0 p-f-s">Selected markets</h2>
-          <div className="bg-white radius overflow-hidden">
+          <div className="bg-white overflow-hidden">
             <div className="m-v-0 border-blue-deep-20 no-bottom-border">
               {Object.values(comparisonMarkets || {}).map((market) => (
                 <div
                   key={market.country_iso2_code}
-                  className="market-action-row p-v-s clearfix"
+                  className="market-action-row clearfix"
                 >
                   <div className="m-r-xs f-l">
                     {blocks.renderRemoveButton({ market, removeMarket })}
                   </div>
-                  <div className="f-l">
+                  <div className="f-l country-name-wrapper">
                     {blocks.renderCountryName({ market })}
                   </div>
                   <div className="f-r">
@@ -240,7 +240,7 @@ export default function DataTable(props) {
               }`}
               style={{ clear: 'both' }}
             >
-              <div className="bg-white radius p-h-s">
+              <div className="bg-white p-h-s">
                 <table className="m-v-0 border-blue-deep-20 no-bottom-border">
                   <caption className="text-align-left body-l-b p-v-xs">
                     {blocks.renderColumnHeader(cellConfig, props, mobile)}
@@ -259,7 +259,7 @@ export default function DataTable(props) {
           )
         })}
         {config.sourceAttributions && (
-          <div className="bg-white radius overflow-hidden p-h-s m-b-s m-h-s">
+          <div className="bg-white overflow-hidden p-h-s m-b-s m-h-s">
             {blocks.sourceAttribution(config.sourceAttributions)}
           </div>
         )}

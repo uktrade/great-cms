@@ -88,3 +88,51 @@ def test_get_lesson_completion_status(mock_get_lesson_completed, en_locale):
 
     mock_user = mock.Mock()
     assert helpers.get_lesson_completion_status(mock_user) == expected
+
+
+@pytest.mark.parametrize(
+    ('lesson_completed_data,expected_result'),
+    (
+        (
+            {
+                'result': 'ok',
+                'lesson_completed': [
+                    {
+                        'service': 'great-cms',
+                        'lesson_page': '/example-1',
+                        'lesson': 100,
+                        'module': 1,
+                        'user': 3,
+                        'modified': '2023-01-22T23:34:07+0000',
+                        'created': '2023-01-22T23:34:07+0000',
+                    },
+                    {
+                        'service': 'great-cms',
+                        'lesson_page': '/example-2',
+                        'lesson': 40,
+                        'module': 1,
+                        'user': 3,
+                        'modified': '2023-01-25T23:34:07+0000',
+                        'created': '2023-01-25T23:34:07+0000',
+                    },
+                    {
+                        'service': 'great-cms',
+                        'lesson_page': '/example-3',
+                        'lesson': 60,
+                        'module': 1,
+                        'user': 3,
+                        'modified': '2023-01-27T23:34:07+0000',
+                        'created': '2023-01-27T23:34:07+0000',
+                    },
+                ],
+            },
+            60,
+        ),
+        ({'result': 'ok'}, None),
+    ),
+)
+@pytest.mark.django_db
+@mock.patch(('sso.helpers.get_lesson_completed'))
+def test_get_last_completed_lesson_id(mock_get_lesson_completed, user, lesson_completed_data, expected_result):
+    mock_get_lesson_completed.return_value = lesson_completed_data
+    assert helpers.get_last_completed_lesson_id(user) == expected_result

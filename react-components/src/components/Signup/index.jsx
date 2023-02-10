@@ -63,15 +63,13 @@ export const Signup = (props) => {
   }
 
   return (
-    <div className="signup bg-blue-deep-80">
+    <div className="signup">
       <div className="signup__form-panel">
         <a href="/" className="inline-block">
           <img
             className="m-f-auto m-r-auto signup__logo"
             src="/static/images/dit_logo_335x160.png"
             alt="Department for International Trade"
-            width="335"
-            height="160"
           />
         </a>
 
@@ -84,12 +82,14 @@ export const Signup = (props) => {
           </a>
         </p>
       </div>
-      <div className="signup__info-panel">
+      <div className="signup__info-panel signup-panel">
+        <div class="great-logo">
+          </div>
         <div className="signup__info-panel__content">
-          <h2 className="signup__info-panel__heading">Find new customers around the world</h2>
+          <h1>Find new customers around the world</h1>
           <ul className="signup__info-panel__subheadings">
             {subHeadings.map((heading) => (
-              <li key={heading} className="text-white">
+              <li key={heading}>
                 <i className="fas fa-check-circle" aria-hidden="true" />
                 <span>{heading}</span>
               </li>
@@ -97,12 +97,6 @@ export const Signup = (props) => {
           </ul>
 
         </div>
-
-        <img
-          className="m-f-auto m-r-auto"
-          src="/static/images/sign-up-illustration.svg"
-          alt=""
-        />
       </div>
     </div>
   )

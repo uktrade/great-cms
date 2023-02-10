@@ -1,3 +1,5 @@
+@import '../../../styles/colors/colors.scss';
+
 .form {
   &--sign-up {
     bottom: 0;
@@ -62,10 +64,6 @@
 
   .select {
     margin-bottom: 20px;
-  }
-
-  .form-group-example {
-    background-color: $white;
   }
 
   .form-delete {
@@ -169,7 +167,7 @@
 
     .great-radiogroup__input:checked + .great-radiogroup__label {
       color: white;
-      background-color: $colour-blue-deep-80;
+      background-color: $color-primary-button;
     }
   }
 
@@ -184,6 +182,7 @@
   }
 
   .great-radiogroup__label {
+    color: $color-gov-link;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -191,10 +190,10 @@
     font-size: var(--button-small-font-size);
     font-weight: var(--button-font-weight);
     width: 100%;
-    border-radius: var(--button-border-radius);
     height: var(--button-small-height);
     border: 2px solid transparent;
     background-color: white;
+    border: 2px solid $color-gov-link;
     padding: calc(2px + var(--button-padding-v)) 0 var(--button-padding-v);
 
     &:focus {

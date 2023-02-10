@@ -28,8 +28,8 @@ export default function RegionToggle(props) {
           aria-controls={controlAreaId}
           onClick={countryListToggle}
         >
-          {region}
-          <i className={`fa fa-${expand || expandAllRegions ? 'minus' : 'plus'} text-blue-deep-80`} />
+          <span>{region}</span>
+          <i className={`fa fa-${expand || expandAllRegions ? 'minus' : 'plus'}`} />
         </button>
       </div>
       <div

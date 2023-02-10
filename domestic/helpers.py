@@ -104,3 +104,15 @@ def get_lesson_completion_status(user, context={}):
     module_pages = list(page_map.values())
     module_pages.sort(key=lesson_comparator, reverse=True)
     return {'module_pages': module_pages, 'lessons_in_progress': lessons_in_progress}
+
+
+def get_last_completed_lesson_id(user):
+    data = sso_helpers.get_lesson_completed(user.session_id)
+
+    if not data.get('lesson_completed'):
+        return None
+
+    # sort completed lessons into descending order based on modified time
+    sorted_lessons = sorted(data['lesson_completed'], key=lambda lesson: lesson['modified'], reverse=True)
+
+    return sorted_lessons[0]['lesson']

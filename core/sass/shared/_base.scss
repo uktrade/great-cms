@@ -1,13 +1,5 @@
 /* Shared styles across BAU and Magna pages */
-
-@font-face {
-  font-family: 'FS Lucas';
-  src: url('/static/fonts/FSLucas-Regular.woff2') format('woff2'),
-    url('/static/fonts/FSLucas-Regular.woff') format('woff'),
-    url('/static/fonts/FSLucas-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+@import '../../../styles/main.scss';
 
 // Breakpoints
 $mobile: 640px;
@@ -43,16 +35,15 @@ $tablet: 768px;
 }
 
 .shared-learning-banner {
-  background-color: #4A416E;
+  background-color: $color-footer;
   color: #fff;
   display: flex;
   flex-direction: row;
-  padding: 20px 30px;
+  padding: $large-padding $x-large-padding;
   margin-bottom: 30px;
 
   @media (max-width: 960px) {
     flex-direction: column;
-    padding: 20px 30px;
   }
 
   .tag-label {
@@ -69,7 +60,7 @@ $tablet: 768px;
     border-radius: 4px;
     background-color: #EB4F4D;
     font-weight: 600;
-    margin-right: 20px;
+    margin-right: $large-padding;
     margin-bottom: 15px;
 
   }
@@ -79,22 +70,22 @@ $tablet: 768px;
     flex-direction: column;
 
     @include mobile {
-      margin-top: 10px;
+      margin-top: $standard-padding;
     }
 
     h3 {
       font-size: 24px;
       line-height: 24px;
-      font-family: "Overpass", Arial, Helvetica, Verdana;
       font-weight: 600;
       padding-bottom: 10px;
+      color: $color-alternative-text
     }
 
     p {
-      font-family: "Overpass", Arial, Helvetica, Verdana;
       font-size: 16px;
       letter-spacing: 0;
       line-height: 25px;
+      color: $color-alternative-text
     }
   }
 
@@ -149,7 +140,7 @@ $tablet: 768px;
 
   nav.main-nav.mobile {
     background: #4B426D;
-    padding: 20px;
+    padding: $large-padding;
 
     &.signed-in {
       padding-top: 0;
@@ -170,11 +161,10 @@ $tablet: 768px;
           background: none;
           border: 0;
           color: #fff;
-          font-family: "Overpass", Arial, Helvetica, Verdana;
           font-size: 18px;
           letter-spacing: 0;
           line-height: 16px;
-          padding: 20px 0;
+          padding: $large-padding 0;
           font-weight: 100;
           text-decoration: none;
 
@@ -219,9 +209,9 @@ $tablet: 768px;
     background: #006ccc;
     color: #fff;
     display: none;
-    font-family: "Overpass", Arial, Helvetica, Verdana;
+    font-family: "FS Lucas", Arial, Helvetica, Verdana;
     font-size: 20px;
-    padding: 15px 20px;
+    padding: 15px $large-padding;
   }
 }
 
@@ -545,11 +535,12 @@ $tablet: 768px;
     }
 
     li {
-      margin-bottom: 10px;
+      margin-bottom: $standard-padding;
     }
   }
 
   .magna-footer__nav {
+    background-color: $color-footer;
     @include mobile {
       flex-direction: column-reverse;
     }

@@ -9,7 +9,7 @@
         {% endif %}
         </div>
     {% endfor %}
-    <ul class="list-dot text-blue-deep-80">
+    <ul class="list-dot">
         {% for block in page.objective %}
             {% if block.block_type == 'ListItem' %}
                 <li>{{ block.value.item }}</li>

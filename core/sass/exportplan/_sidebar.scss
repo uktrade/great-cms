@@ -1,7 +1,7 @@
 .sidebar {
   bottom: 0;
   float: left;
-  width: 270px;
+  width: 400px;
   background-color: $white;
   box-shadow: 0 2px 10px 0 rgba(0,0,0,0.1);
   position: absolute;
@@ -15,15 +15,28 @@
   .sidebar-sticky {
     position: sticky;
     top: 20px;
+
+    li + li{
+      padding-top:10px
+    }
   }
 
   &__close {
-    left: -225px;
+    left: -358px;
   }
 
   &__button {
     position: absolute;
     right: -35px;
     top: -10px;
+    padding-right: 2px;
+    padding-left:2px;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: auto;
+    min-height: auto;
+    i{
+      padding:0
+    }
   }
 }

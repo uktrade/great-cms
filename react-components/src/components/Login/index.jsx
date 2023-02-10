@@ -73,20 +73,21 @@ export const Login = ({ nextUrl, ...props }) => {
           googleLoginUrl={googleLoginUrl}
         />
       </div>
-      <div className="signup__info-panel">
+      <div className="signup__info-panel login-panel">
         <div className="signup__info-panel__content">
-          <h1 className="signup__info-panel__heading text-blue-deep-80">
+          <h1>
             Sign in to continue your exporting journey
           </h1>
           <p className="body-l">Don&apos;t have an account?</p>
           <a
             href={Services.config.signupUrl}
-            className="button button--secondary"
+            className="button secondary-button"
           >
             Sign up
           </a>
+          <div class="great-logo">
+          </div>
         </div>
-        <img src="/static/images/sign-in-illustration.svg" alt="" />
       </div>
     </div>
   )

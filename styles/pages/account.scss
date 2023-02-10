@@ -1,0 +1,119 @@
+@import '../colors/colors.scss';
+@import '../fonts/main.scss';
+@import '../sizes/sizes.scss';
+
+.sso-profile-tab-container {
+  background-color: $color-background-color;
+
+  .container {
+    > ul {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      > li {
+        border-top: 5px solid $color-background-color;
+        font-size: 20px;
+        padding-left: $x-large-padding;
+        padding-right: $x-large-padding;
+        padding-bottom: 26px;
+        padding-top: $large-padding;
+
+        &.active {
+          border-top: 5px solid $color-thematic-break;
+          background-color: $color-main-background;
+        }
+
+        > a {
+          font-family: $header-font;
+          font-size: 20px;
+          text-decoration: none;
+          color: $color-main-text;
+        }
+      }
+    }
+
+    @media only screen and (max-width: $mobile-size) {
+      padding: $large-padding 15px;
+      margin: 0;
+      > ul {
+        gap: $standard-padding;
+        > li {
+          background-color: $color-main-background;
+          padding: 0;
+          padding-left: $large-padding;
+          padding-right: $large-padding;
+          height: 40px;
+          border: 2px solid $color-gov-link;
+          display: flex;
+          align-items: center;
+
+          &:hover {
+            background-color: $color-gov-link;
+            > a {
+              color: $color-alternative-text;
+            }
+          }
+
+          > a {
+            color: $color-gov-link;
+            font-size: 16px;
+            &:focus,
+            :active {
+              border: none;
+            }
+          }
+
+          &.active {
+            border: 2px solid $color-main-background;
+            > a {
+              color: $color-main-text;
+            }
+            &:hover {
+              > a {
+                color: $color-alternative-text;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.information-breakout {
+  background-color: $color-background-color;
+  padding: $x-large-padding;
+  margin-bottom: $x-large-padding;
+  display: inline-flex;
+
+  p {
+    padding: 0;
+    margin: 0;
+  }
+
+  i {
+    padding-right: $standard-padding;
+  }
+}
+
+#logo-container {
+  border-color: $color-alternative-background;
+
+  #add-image {
+    background-color: $color-alternative-background;
+  }
+}
+
+.message-box {
+  border-color: $color-alternative-background;
+}
+
+.alerts-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#information-banner {
+  border-color: $color-alternative-background;
+}

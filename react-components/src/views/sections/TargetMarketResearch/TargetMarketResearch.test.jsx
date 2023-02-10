@@ -200,7 +200,7 @@ describe('Target Market research', () => {
         currentSection: { url: 'Some url' },
       })
     })
-    const expander = container.querySelector('button.button--tertiary')
+    const expander = container.querySelector('button.secondary-button')
     expect(expander.textContent).toMatch('Open Data Snapshot')
     act(() => {
       Simulate.click(expander)

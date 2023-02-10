@@ -17,7 +17,7 @@ from tests.browser.common_selectors import (
     TopicLessonListing,
 )
 from tests.browser.steps import (
-    should_not_see_any_element,
+    should_not_see_element,
     should_see_all_elements,
     visit_page,
 )
@@ -65,7 +65,7 @@ def open_random_lesson(browser: WebDriver):
 @allure.step('Check topics reading progress')
 def check_topic_read_progress(browser: WebDriver, topic: ListPageFactory, lessons: List[DetailPageFactory]):
     attach_jpg_screenshot(browser, 'Topics reading progress', selector=DashboardReadingProgress.YOUR_PROGRESS_CARD)
-    count_element = browser.find_element(By.CSS_SELECTOR, '#your-progress-card .topics-read-text')
+    count_element = browser.find_element(By.CSS_SELECTOR, '#your-progress-card .progress-bar-text')
     count_text = count_element.text
     assert count_text == '1 / 2 lessons completed'
 
@@ -120,7 +120,7 @@ def test_can_mark_lesson_as_read_and_check_read_progress_on_dashboard_page(
         slug='test-detail-page-2',
     )
     visit_page(live_server, browser, None, 'Dashboard', endpoint=cms_slugs.DASHBOARD_URL)
-    should_not_see_any_element(browser, DashboardReadingProgress)
+    should_not_see_element(browser, DashboardReadingProgress.LESSONS_COMPLETED_TEXT)
     # Setting a lesson complete should show progress card with 1/1 complete
     mock_get_lesson_completed.return_value = {'result': 'ok', 'lesson_completed': [{'lesson': lesson_one.id}]}
 

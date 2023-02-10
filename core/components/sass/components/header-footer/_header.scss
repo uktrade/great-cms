@@ -64,7 +64,6 @@ $menu-margin-s: 20px;
     @include focus;
 
     &:active {
-      background-color: $focus-yellow;
       color: $great-blue;
     }
   }

@@ -36,7 +36,7 @@ export const FormGroup = memo(
           {label}
           {info && (
             <ExpandCollapse
-              buttonClass="info fas fa-lg fa-info-circle text-blue-deep-90 m-f-xxs p-v-4 p-h-0"
+              buttonClass="icon-only info fas fa-lg fa-info-circle m-f-xxs p-v-4 p-h-0"
               buttonBefore
             >
               <div className="g-panel body-m m-v-xs">{info}</div>
@@ -45,7 +45,7 @@ export const FormGroup = memo(
         </label>
 
         {description && (
-          <div className={descriptionClassName || 'text-blue-deep-80 p-t-xs p-b-xs'}>
+          <div className={descriptionClassName || 'p-t-xs p-b-xs'}>
             {ReactHtmlParser(description)}
           </div>
         )}

@@ -61,7 +61,7 @@ export default function Modal(props) {
           {primaryButtonClick ? (
             <button
               type="button"
-              className="button button--primary m-v-xs"
+              className="button primary-button m-v-xs"
               disabled={primaryButtonDisable}
               onClick={primaryButtonClick}
             >

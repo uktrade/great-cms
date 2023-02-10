@@ -1,0 +1,249 @@
+@import '../colors/colors.scss';
+@import '../fonts/main.scss';
+@import '../sizes/sizes.scss';
+
+.help-pages {
+  background-color: $color-main-background;
+  padding-bottom: 0;
+}
+
+.heading-large,
+.heading-xlarge,
+.heading-medium {
+  font-family: $header-font;
+}
+
+.page-main-content-container {
+  display: flex;
+  padding-bottom: 0;
+  flex: 1;
+  background-color: $color-main-background;
+
+  .column-two-thirds {
+    padding: 0;
+  }
+
+  .container {
+    margin: auto;
+    @media only screen and (max-width: $mobile-size) {
+      padding: 0 15px;
+    }
+     .grid-row{
+        margin: 0;
+      }
+  }
+
+  .inner-container {
+    flex: 1;
+    max-width: $content-max-width;
+    margin: auto;
+  }
+}
+
+@media only screen and (min-width: $mobile-size) and (max-width: 1260px) {
+  .page-main-content-container .inner-container {
+    padding-left: 0;
+    margin-left: $x-large-padding;
+    margin-right: $x-large-padding;
+  }
+}
+
+@media only screen and (max-width: $mobile-size) {
+  .page-main-content-container .inner-container {
+    max-width: auto;
+    margin-left: 15px;
+    margin-right: 15px;
+    padding: 0;
+  }
+}
+
+.breadcrumb-container {
+  background-color: $color-background-color;
+}
+
+section#search-results-information {
+  background-color: $color-main-background;
+  margin-bottom: 0;
+}
+
+#report-a-trade-barrier {
+  background-color: $color-main-background;
+}
+
+#report-a-trade-barrier {
+  padding-bottom: 0;
+  .breadcrumb-container {
+    background-color: $color-background-color;
+    padding-left: $x-large-padding;
+    padding-right: $x-large-padding;
+  }
+  a.button {
+    margin-bottom: $standard-padding;
+  }
+}
+
+.snapshot {
+  background-color: $color-quotes;
+}
+
+#magna-header-search-form {
+  height: 53px;
+  display: flex;
+  align-items: center;
+  button {
+    margin-top: 0;
+    margin-left: -2px;
+    height: 50px;
+    width: 50px;
+    font-family: $main-text-font;
+  }
+
+  #magna-header-search-box {
+    height: 53px;
+  }
+}
+
+.export-plan-title {
+  padding-bottom: $large-padding;
+
+  p {
+    padding-bottom: $large-padding;
+  }
+}
+
+section.report-trade-barrier {
+  background-color: $color-main-background;
+}
+
+#teaser-section,
+#why-we-offer-section,
+#how-we-can-help-you,
+#contact-us-section {
+  background-color: $color-main-background;
+}
+
+#article-what-we-offer {
+  background-color: $color-main-background;
+  padding-bottom: 0;
+}
+
+#contact-us-section {
+  padding-top: 0;
+}
+
+.list-teaser-section {
+  p {
+    font-size: 24px;
+    line-height: 38px;
+  }
+}
+
+.uk-export-finance,
+.uk-export-finance-landing {
+  .card-list-section,
+  .card {
+    padding-top: 0;
+  }
+
+  .card:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.uk-export-finance .why-you-choose-ukef {
+  background-color: $color-main-background;
+
+  .column-full-l + .column-full-l {
+    padding-top: $large-padding;
+  }
+
+  .column-full-l {
+    h4 + p {
+      padding-top: $large-padding;
+    }
+  }
+}
+
+.uk-export-finance-landing {
+  #why-we-offer-section {
+    background-color: $color-background-color;
+  }
+  .teaser-text,
+  p.how-can-we-help-you {
+    font-size: 24px;
+    line-height: 38px;
+  }
+
+  h2 + p.how-can-we-help-you {
+    padding-top: $large-padding;
+  }
+}
+
+.get-finance {
+  #contact-section-cta-box,
+  #get-finance-video {
+    background-color: $color-background-color;
+  }
+  #contact-section-bottom,
+  #contact-section,
+  #advantages-section {
+    background-color: $color-main-background;
+  }
+}
+
+#get-finance-hero {
+  padding-bottom: 0;
+}
+
+.what-we-offer-you-article {
+  p.teaser-text {
+    font-size: 28px;
+  }
+}
+
+#report-a-trade-barrier .page-main-content-container {
+  padding-top: $x-large-padding;
+}
+
+.uk-export-country-cover {
+  .teaser-text p {
+    font-size: 24px;
+  }
+}
+
+#thank-you-section {
+  .message-box {
+    background-color: $color-completed;
+  }
+}
+
+.uk-export-finance .card-list-section {
+  img.card-image {
+    height: auto;
+  }
+  .card-inner {
+    padding-bottom: $x-large-padding;
+  }
+}
+
+section#results {
+  background-color: $color-main-background;
+}
+
+ul.list-bullet li:before,
+.lesson-page .rich-text .pros-and-cons ul li:before {
+  background-color: $color-main-text;
+}
+
+.search-results-list {
+  padding-top: $x-large-padding;
+}
+
+.results-wrapper {
+  background-color: $color-main-background;
+}
+
+.breadcrumbs-wrapper{
+  background-color: $color-background-color;
+  width: 100%;
+}

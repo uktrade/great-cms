@@ -81,11 +81,11 @@ describe('Test country finder button', () => {
     container.querySelector('button').click()
 
     await waitFor(() => {
-      expect(container.querySelector('.basket-view button')).toBeTruthy()
+      expect(container.querySelector('.personalization-menu button')).toBeTruthy()
     })
 
     // Click on the open country finder button
-    container.querySelector('.basket-view button').click()
+    container.querySelector('.personalization-menu button').click()
 
     expect(document.querySelector('.country-finder')).toBeTruthy()
 
@@ -111,7 +111,7 @@ describe('Test country finder button', () => {
     })
     let addNewButton
     await waitFor(() => {
-      addNewButton = container.querySelector('.basket-view button')
+      addNewButton = container.querySelector('.personalization-menu button')
       expect(addNewButton).toBeTruthy()
     })
     // Click on the open country finder button

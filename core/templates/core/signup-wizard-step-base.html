@@ -50,9 +50,9 @@
                         {% block below_form %}{% endblock %}
                         {% block submit_button %}
                             {% if wizard.steps.step1 != wizard.steps.count %}
-                                <button type="submit" class="great-mvp-wizard-step-button m-b-s">{% block button_submit_label %}Save and continue{% endblock %}</button>
+                                <button type="submit" class="primary-button great-mvp-wizard-step-button m-b-s">{% block button_submit_label %}Save and continue{% endblock %}</button>
                             {% else %}
-                                <button class="button next" type="great-mvp-wizard-step-button m-b-s">{% block button_next_label %}Save and continue{% endblock %}</button>
+                                <button class="ptimary-button button next" type="great-mvp-wizard-step-button m-b-s">{% block button_next_label %}Save and continue{% endblock %}</button>
                             {% endif %}
                         {% endblock %}
                         {% block below_submit_button %}{% endblock %}

@@ -85,6 +85,7 @@ module.exports = {
                 outputStyle: 'compressed',
                 includePaths: [
                   './node_modules/great-styles/src/scss/',
+                  './styles/',
                   './domestic/sass/',
                   './core/components/sass/components/',
                   './sso_profile/common/sass/partials/',

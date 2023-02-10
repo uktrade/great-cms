@@ -69,19 +69,16 @@ export function Menu(props) {
         <li>
           <a href="/learn/categories/">
             Learn to export
-            <span className="tag tag--small">new</span>
           </a>
         </li>
         <li>
           <a href={config.compareCountriesUrl}>
             Where to export
-            <span className="tag tag--small">new</span>
           </a>
         </li>
         <li>
           <a href={config.exportPlanBaseUrl}>
             Make an export plan
-            <span className="tag tag--small">new</span>
           </a>
         </li>
         <li>

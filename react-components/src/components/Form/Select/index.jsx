@@ -175,7 +175,7 @@ export const Select = memo(
           <>
             {' '}
             <div
-              className="select__placeholder text-blue-deep-60 bg-white radius"
+              className="select__placeholder bg-white"
               ref={placeHolder}
               tabIndex={autoComplete ? -1 : 0}
               onKeyDown={keyHandler}
@@ -190,7 +190,7 @@ export const Select = memo(
             >
               {!autoComplete ? (
                 <div
-                  className={`select__button text-blue-deep-20 ${
+                  className={`select__button select_chevron text-blue-deep-20 ${
                     isOpen ? 'select__button--close' : ''
                   }`}
                 >
@@ -225,7 +225,7 @@ export const Select = memo(
               )}
               <div
                 role="listbox"
-                className={`select__list body-l bg-white radius ${
+                className={`select__list body-l bg-white ${
                   isOpen ? 'select__list--open' : ''
                 } `}
                 aria-expanded={isOpen}

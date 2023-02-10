@@ -31,7 +31,7 @@ function Filter(props) {
                 defaultChecked={(localState[filterId] || {})[groupId]}
               />
               <label htmlFor={`cb-${groupId}`}>
-                <span className="form-label">{filters[groupId].label}</span>
+                <span>{filters[groupId].label}</span>
               </label>
             </li>
           )

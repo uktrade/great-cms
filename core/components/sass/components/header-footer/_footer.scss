@@ -1,7 +1,7 @@
 
 // FOOTER
 // =======
-
+@import '../../../../../styles/widgets/nav.scss';
 @import '../../partials/typography';
 @import '../../partials/colours';
 @import '../../partials/mixins';
@@ -20,7 +20,6 @@
 }
 
 .great-footer {
-  font-family: $brand-font;
 
   a {
     font-size: 15px;
@@ -62,7 +61,11 @@
 .great-footer-copyright {
   font-size: 12px;
   font-family: $brand-font-alternative;
-  line-height: 50px;
+  line-height: 40px;
+}
+
+.great-global-header-footer-logo{
+  height: 30px;
 }
 
 @media (max-width: 640px) {

@@ -15,6 +15,7 @@
   & .container {
     max-width: $site-width;
     margin: 0 $gutter-small;
+    padding: 0;
 
     @media (min-width: $mobile-min-breakpoint) {
       margin: 0 $gutter-medium;

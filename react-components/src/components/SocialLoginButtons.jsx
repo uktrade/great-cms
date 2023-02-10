@@ -8,7 +8,7 @@ const SocialLoginButtons = ({ linkedinUrl, googleUrl, action }) => {
         href={linkedinUrl}
         id='signup-modal-linkedin'
         title='Sign up with Linkedin'
-        className='button button--secondary button--icon width-full m-b-xs button-linkedin'
+        className='button secondary-button button--icon width-full m-b-xs button-linkedin'
       >
         <i className='fab fa-linkedin' />
         <span>{action} with Linkedin</span>
@@ -17,7 +17,7 @@ const SocialLoginButtons = ({ linkedinUrl, googleUrl, action }) => {
         href={googleUrl}
         id='signup-modal-google'
         title='Sign up with Google'
-        className='button button--secondary button--icon width-full button-google'
+        className='button secondary-button button--icon width-full button-google'
       >
         <i className='fab fa-google' />
         <span>{action} with Google</span>

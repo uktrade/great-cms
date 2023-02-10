@@ -139,7 +139,7 @@ describe('BusinessRisks', () => {
         },
       ],
     })
-    const button = container.querySelectorAll('.button--delete')[0]
+    const button = container.querySelectorAll('.delete-button')[0]
     fireEvent.click(button)
     expect(getByText('Risk 2')).toBeTruthy()
     await waitFor(() => {

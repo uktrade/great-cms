@@ -4,10 +4,10 @@
 {% load humanize %}
 
 {% block content %}
-  <div class="bg-white p-v-l">
+  <div class="p-v-l">
     <div class="container">
       <h1 class="h-l">Make an export plan</h1>
-      <a href="{% url 'exportplan:start' %}" class="button button--large button--secondary">Start a new export plan</a>
+      <a href="{% url 'exportplan:start' %}" class="button button--large secondary-button">Start a new export plan</a>
     </div>
   </div>
   <div class="container p-v-l">
@@ -25,7 +25,7 @@
               <div class="progress-bar m-v-xs">
                 <span style="width: {% widthratio plan.calculated_progress.sections_completed plan.calculated_progress.sections_total 100 %}%"></span>
               </div>
-              <p class="body-m-b m-t-xs m-b-0">{{ plan.calculated_progress.sections_completed }}
+              <p class="progress-bar-text">{{ plan.calculated_progress.sections_completed }}
                 / {{ plan.calculated_progress.sections_total }} lessons complete</p>
               <p class="m-b-0">Created {{ plan.created|str_to_datetime|naturaltime }}</p>
             </article>

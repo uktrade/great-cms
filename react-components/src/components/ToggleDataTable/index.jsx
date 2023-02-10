@@ -131,7 +131,7 @@ export const ToggleDataTable = ({
           </button>
 
           {isOpen && (
-            <ul id="target-age-groups" className="form-group m-t-xs m-b-0">
+            <ul id="target-age-groups" className="form-group m-t-xs m-b-0 snapshot-wrapper">
               {groups.map(({ value, label }) => (
                 <li className="great-checkbox width-full m-b-xs" key={value}>
                   <input

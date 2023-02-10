@@ -22,7 +22,7 @@ export const GrossPrice = memo(
         <Learning lesson={lesson} />
         <div className="m-b-s">
           <div className="statistic gross-price">
-            <i className="fas fa-tag text-blue-deep-60 fa-lg" />
+            <i className="fas fa-tag" />
             <p className="m-t-xxs m-b-0">
               Gross price per unit for {country}
             </p>
@@ -86,7 +86,7 @@ export const GrossPrice = memo(
         <div className="grid">
           <div className="c-1-2 m-b-s">
             <div className="statistic">
-              <i className="fas fa-pound-sign text-blue-deep-60 fa-lg" />
+              <i className="fas fa-pound-sign" />
               <p className="m-t-xxs m-b-0">Your profit per unit</p>
               <h3 className="h-s p-t-0 p-b-0">
                 {currency} {profitPerUnit}
@@ -95,7 +95,7 @@ export const GrossPrice = memo(
           </div>
           <div className="c-1-2 m-b-s">
             <div className="statistic">
-              <i className="fas fa-pound-sign text-blue-deep-60 fa-lg" />
+              <i className="fas fa-pound-sign" />
               <p className="m-t-xxs m-b-0">Your potential total profit</p>
               <h3 className="h-s p-t-0 p-b-0">
                 {currency} {potentialPerUnit}

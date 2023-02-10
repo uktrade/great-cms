@@ -1,0 +1,211 @@
+@import '../colors/colors.scss';
+@import '../sizes/sizes.scss';
+@import '../fonts/main.scss';
+
+$breakpoint-size: 900px;
+
+#learn-root {
+  article {
+    background-color: $color-main-background;
+    margin-bottom: $x-large-padding;
+
+    &:last-child {
+      margin-bottom: $x-large-padding * 2;
+    }
+
+    > a {
+      text-decoration: none;
+      box-sizing: border-box;
+      min-height: 232px;
+      padding: $x-large-padding;
+      padding-left: 70px;
+      padding-right: $large-padding * 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: $x-large-padding;
+      width: 100%;
+
+      @media only screen and (max-width: $breakpoint-size) {
+        flex-direction: column;
+      }
+
+      @media only screen and (max-width: $mobile-size) {
+        flex-direction: column;
+        gap: $standard-padding;
+      }
+
+      > div {
+        flex: 1;
+
+        &.progess-container {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-end;
+
+          @media only screen and (min-width: $breakpoint-size) {
+            .learn__category-progress-container,
+            span.button {
+              max-width: 340px;
+              width: 100%;
+            }
+          }
+
+          .learn__category-progress-container,
+          span.button {
+            width: 100%;
+          }
+
+          .learn__category-progress-container {
+            margin-top: $standard-padding;
+            position: relative;
+            top: 0;
+          }
+        }
+
+        > p {
+          margin-top: $standard-padding;
+          margin-bottom: $large-padding;
+        }
+      }
+
+      @media only screen and (max-width: $breakpoint-size) {
+        padding: $large-padding;
+        padding-top: 35px;
+        padding-bottom: 35px;
+
+        & > div {
+          .progess-container {
+            justify-content: center;
+          }
+
+          .learn__category-progress {
+            width: auto !important;
+          }
+
+          span.button {
+            margin-top: $standard-padding;
+          }
+        }
+      }
+    }
+  }
+}
+
+.learn-back-button {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  color: $color-gov-link;
+}
+
+.lesson-page {
+  background-color: $color-main-background;
+}
+
+.learn-to-export-card {
+  padding-top: $x-large-padding * 2;
+}
+
+.duration-container {
+  color: $color-gov-link;
+  display: flex;
+
+  i + span {
+    padding-left: $standard-padding;
+  }
+
+  span + span {
+    padding-left: $standard-padding * 0.5;
+  }
+}
+
+.great-checkbox--large [type='checkbox'] + label::after {
+  border-width: 0 0 6px 6px;
+  width: 21px;
+  height: 8px;
+  top: 15px;
+  left: 13px;
+}
+
+.learn__lesson-item-link {
+  display: flex;
+  gap: $large-padding;
+  @media only screen and (max-width: $mobile-size) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $standard-padding;
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.learn__topic-item-details {
+  @media only screen and (max-width: $mobile-size) {
+    h2,
+    p {
+      padding-bottom: $standard-padding;
+    }
+  }
+}
+
+.learning-link {
+  font-family: 'FS Lucas';
+  color: $color-main-text;
+  font-size: $font-size-p;
+  line-height: 25px;
+  text-align: left;
+  font-style: normal;
+  text-decoration: none;
+  border: 0;
+  background: none;
+  padding: 0;
+}
+
+.progress-bar-text {
+  color: $color-main-text;
+  font-family: $header-font;
+  font-size: $font-size-p;
+  text-transform: lowercase;
+  margin: 0;
+}
+
+.learn__topic-item-read-time {
+  color: $color-gov-link;
+
+  i {
+    color: $color-gov-link;
+  }
+}
+
+i.fas.fa-clock {
+  color: $color-main-text;
+}
+
+.learn__category-entities {
+  height: 41px;
+  color: $color-gov-link;
+  border-radius: 0;
+  background-color: $color-background-color;
+  display: flex;
+  align-items: center;
+  padding-left: $large-padding;
+  padding-right: $large-padding;
+  padding-top: 0;
+  padding-bottom: 0;
+
+  i {
+    padding-right: $standard-padding;
+  }
+}
+
+
+.learn__topic-item-details{
+  @media only screen and (max-width: $mobile-size) {
+
+    h2, p{
+      padding-bottom: $standard-padding;
+    }
+
+}
+}

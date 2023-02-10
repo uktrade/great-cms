@@ -16,18 +16,19 @@ Report a trade barrier{{block.super}}
 
 {% block content %}
 
-{% static 'images/market-access/report-a-barrier-banner-xlarge.png' as xlarge_hero %}
-{% include 'components/hero.html' with image_url=xlarge_hero hero_text='Report a trade barrier' %}
+{% static 'images/report-a-trade-barrier-header.png' as xlarge_hero %}
+{% include 'components/hero.html' with image_url=xlarge_hero hero_title='Report a trade barrier' %}
+ {% breadcrumbs 'Report a trade barrier' %}
+    <a href="/">great.gov.uk</a>
+    <a href="{% url 'domestic:market-access' %}">Trade barriers</a>
+{% endbreadcrumbs %}
 
-<section>
-    <div class="container">
-        {% breadcrumbs 'Report a trade barrier' %}
-            <a href="/">great.gov.uk</a>
-            <a href="{% url 'domestic:market-access' %}">Trade barriers</a>
-        {% endbreadcrumbs %}
+<section id="report-a-trade-barrier">
+        <div class='page-main-content-container'>
+        <div class='container'>
         <div class="grid-row">
             <div class="column-two-thirds">
-                <p class="lede">
+                <p>
                     Tell us if you think you’re facing a new trade barrier or have an issue with an existing trade barrier. We might be able to help resolve it.
                 </p>
                 <p>
@@ -43,7 +44,7 @@ Report a trade barrier{{block.super}}
                 </p>
                 <hr />
                 <p>You can report a new trade barrier or an issue with an existing one. To see if a trade barrier has already been reported visit <a href="https://www.gov.uk/barriers-trading-investing-abroad" target="_blank" class="link">check for barriers to trading and investing abroad</a>. The service will give you the trade barrier title and identifying code which you will need if you want to report an issue with an existing trade barrier.</p>
-                <a href="{% url 'domestic:report-ma-barrier' step='about' %}" class="button">Report a barrier</a>
+                <a href="{% url 'domestic:report-ma-barrier' step='about' %}" class="button primary-button">Report a barrier</a>
             </div>
         </div>
         <div class="grid-row">
@@ -51,7 +52,7 @@ Report a trade barrier{{block.super}}
                 <p>If your problem is urgent, you can <a href="https://www.gov.uk/world/embassies" target="_blank" rel="noopener noreferrer" class="link">contact the relevant British embassy</a>. Their knowledge of local business practices and working hours might mean your barrier is resolved more quickly.</p>
             </div>
         </div>
-        <hr>
+        <hr class="column-two-thirds">
         <div class="text">
             <p> Trade barriers are tariff, non-tariff or overseas direct investment restrictions that block or delay investments, exports or potential to do business. </p>
             <p>You might be facing a barrier if, for example:</p>
@@ -85,7 +86,7 @@ Report a trade barrier{{block.super}}
                         <p class="font-xsmall">We’ll aim to email you within 5 working days to let you know if we can help.</p>
                     </li>
                 </ol>
-                <a href="{% url 'domestic:report-ma-barrier' step='about' %}" class="button">Report a barrier</a>
+                <a href="{% url 'domestic:report-ma-barrier' step='about' %}" class="button primary-button">Report a barrier</a>
             </div>
             {% comment "Redundant/no content in GDUI do disabled here" %}
             <div class="column-one-third">
@@ -94,6 +95,7 @@ Report a trade barrier{{block.super}}
             {% endcomment %}
         </div>
     </div>
+</div>
 </section>
 
 {% endblock %}

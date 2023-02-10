@@ -1,0 +1,82 @@
+@import '../fonts/main.scss';
+@import '../colors/colors.scss';
+@import '../sizes/sizes.scss';
+
+$breakpoint: 1250px;
+
+nav.main-nav ul a {
+  font-family: $main-text-font !important ;
+  font-size: $font-size-p;
+  border-bottom: 0;
+  text-decoration: none;
+  color: $color-alternative-text !important;
+  padding-right: 4px;
+  border: none !important;
+}
+
+// to override great styles
+nav a {
+  &:focus:active {
+    color: $color-alternative-text;
+  }
+}
+
+nav.breadcrumbs {
+  padding: 0.75em $x-large-padding;
+  max-width: $content-max-width;
+  background-color: $color-background-color;
+  @media only screen and (min-width: calc( $content-max-width + (2* $x-large-padding))) {
+    margin: 0 auto;
+    padding: 0.75em 0;
+  }
+
+  @media only screen and (max-width: calc( $content-max-width + (2* $x-large-padding))) {
+    padding: 0.75em $x-large-padding;
+  }
+
+  a,
+  span {
+    font-size: 16px;
+  }
+
+  li {
+    margin-bottom: 0;
+  }
+}
+
+nav {
+  .magna-header__nav {
+    @media only screen and (max-width: $breakpoint) {
+      display: none;
+    }
+  }
+}
+
+.magna-header__dropdown {
+  @media only screen and (min-width: $mobile-size) {
+    right: 2px;
+  }
+
+  @media only screen and (max-width: $mobile-size) {
+    margin-top: 7px;
+  }
+}
+
+nav.breadcrumbs {
+  padding-top: 0.75em !important;
+  padding-bottom: 0.75em !important;
+  background-color: $color-background-color;
+
+  background-color: $color-background-color;
+  @media only screen and (max-width: $mobile-size) {
+    padding: 0.75em 15px;
+  }
+}
+
+nav {
+  .magna-header__nav {
+    @media only screen and (max-width: $breakpoint) {
+      display: none;
+    }
+  }
+}

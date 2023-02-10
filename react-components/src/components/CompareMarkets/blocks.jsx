@@ -100,11 +100,11 @@ const renderRemoveButton = ({ market, removeMarket }) => (
   <button
     type="button"
     onClick={removeMarket || (() => null)}
-    className="button button--tiny-toggle"
+    className="button button--tiny-toggle remove-market"
     data-id={market.country_iso2_code}
     aria-label={`Remove ${market.country_name} from table`}
   >
-    <i className="fa fa-times-circle" />
+    <i className="fa fa-trash-alt" />
   </button>
 )
 
@@ -125,7 +125,7 @@ const renderAddRemoveShortlist = ({
       />
       <label
         htmlFor={`cb-${iso}`}
-        className="far text-blue-deep-80"
+        className="far"
         aria-label={`${market.country_name} shortlisted`}
       />
     </>
@@ -151,7 +151,7 @@ const renderCountryRowHeader = ({
   // A row header in normal mode.
   const iso = market.country_iso2_code
   const headingClass = `
-    ${(config && config.headingClass) || ''} ${'bg-blue-deep-10'}
+    ${(config && config.headingClass) || ''} ${'table-highlight'}
   `
   return (
     <>

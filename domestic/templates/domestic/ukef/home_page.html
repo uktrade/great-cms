@@ -14,20 +14,18 @@
 
 {% block content %}
 
-  {% static 'images/finance/get-finance-hero-xlarge.jpg' as hero_xlarge %}
+  {% static 'images/UKEF-Home-header.png' as hero_xlarge %}
 
-  {% include 'components/hero.html' with image_url=hero_xlarge hero_text='Get finance' %}
+  {% include 'components/hero.html' with image_url=hero_xlarge hero_title='UK Export Finance' hero_text='Get the right finance and insurance in place to help you win contracts, fulfil orders and get paid' %}
 
 
-	<div class="container">
 		{% breadcrumbs 'UKEF' %}<a href="/">great.gov.uk</a>{% endbreadcrumbs %}
-	</div>
 
 	<section id="list-teaser-section" class="list-teaser-section padding-top-30 padding-bottom-60">
 		<div class="container">
 			<div class="grid-row">
 				<div class="column-two-thirds">
-					<p class="font-medium">
+					<p>
 						UK Export Finance is the UK’s export credit agency. In the last five years we’ve provided £14&nbsp;billion of support for exports and international trade. You can get finance and insurance from the UK government.
 					</p>
 				</div>
@@ -36,18 +34,18 @@
 	</section>
 
 
-	<section id="card-list-section" class="card-list-section padding-vertical-60 background-stone-30">
+	<section id="card-list-section" class="card-list-section padding-vertical-60">
 		<div class="container">
 			<div class="flex-grid margin-top-30">
 				<div class="column-half-l column-full">
 					{% slugurl 'trade-finance' as trade_finance_url %}
-					{% static 'images/offer_section_image.png' as offer_section_image %}
+					{% static 'images/Trade-finance-thumbnail.png' as offer_section_image %}
 					{% include 'domestic/ukef/includes/card.html' with id='small-and-medium-businesses' url=trade_finance_url img_src=offer_section_image title='Trade finance for UK exporters' description='When it comes to exporting, having a great product or service is only half the story: you need to have the right finance and insurance in place. Our trade finance offer includes:' bullets=trade_finance_bullets %}
 				</div>
 
 				<div class="column-half-l column-full">
 					{% url 'domestic:project-finance' as project_finance_url %}
-					{% static 'images/large_corporations.jpg' as large_corporations %}
+					{% static 'images/UKEF-Finance-International-thumbnail.png' as large_corporations %}
 					{% include 'domestic/ukef/includes/card.html' with id='large-corporations-card' url=project_finance_url img_src=large_corporations title='Finance for international projects' description='We support UK exports with attractive financing terms for buyers. Find out more about lending to overseas buyers and the guarantees we offer to financial institutions.' bullets=project_finance_bullets %}
 				</div>
 			</div>
@@ -64,8 +62,8 @@
 							<img src="{% static 'icons/why-ukef-icon-1.png' %}" class="icon">
 						</div>
 						<div class="column-full-l">
-							<h4 class="description-title bold">Win contracts</h4>
-							<p class="font-small">
+							<h4>Win contracts</h4>
+							<p>
 								UKEF can help you win export contracts by providing attractive financing terms to your buyers.
 							</p>
 						</div>
@@ -78,8 +76,8 @@
 							<img src="{% static 'icons/why-ukef-icon-2.png' %}" class="icon">
 						</div>
 						<div class="column-full-l">
-							<h4 class="description-title bold">Fulfil orders</h4>
-							<p class="font-small">
+							<h4>Fulfil orders</h4>
+							<p>
 								UKEF supports working capital loans so you can take on and fulfil orders with confidence.
 							</p>
 						</div>
@@ -92,8 +90,8 @@
 							<img src="{% static 'icons/why-ukef-icon-3.png' %}" class="icon">
 						</div>
 						<div class="column-full-l">
-							<h4 class="description-title bold">Get paid</h4>
-							<p class="font-small">
+							<h4>Get paid</h4>
+							<p>
 								UKEF makes sure you get paid, by offering insurance against buyer default.
 							</p>
 						</div>
