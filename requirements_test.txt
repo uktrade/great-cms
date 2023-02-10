@@ -101,7 +101,7 @@ coverage[toml]==7.1.0
     # via
     #   codecov
     #   pytest-cov
-cryptography==39.0.0
+cryptography==39.0.1
     # via
     #   -r requirements.in
     #   pyhanko
@@ -235,7 +235,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==16.6.1
+faker==16.7.0
     # via factory-boy
 filelock==3.9.0
     # via virtualenv
@@ -408,7 +408,7 @@ pip-tools==6.12.2
     # via -r requirements_test.in
 pisa==3.0.33
     # via -r requirements.in
-platformdirs==2.6.2
+platformdirs==3.0.0
     # via
     #   black
     #   pylint
@@ -515,7 +515,7 @@ qrcode==7.4.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==4.5.0
+redis==4.5.1
     # via django-redis
 regex==2022.10.31
     # via dateparser
@@ -619,8 +619,6 @@ tomli==2.0.1
     #   pytest
 tomlkit==0.11.6
     # via pylint
-tqdm==4.64.1
-    # via pypdf3
 traitlets==5.9.0
     # via
     #   ipython
@@ -659,7 +657,7 @@ urllib3[socks]==1.26.14
     #   requests
     #   selenium
     #   sentry-sdk
-virtualenv==20.18.0
+virtualenv==20.19.0
     # via pre-commit
 w3lib==2.1.1
     # via directory-client-core
