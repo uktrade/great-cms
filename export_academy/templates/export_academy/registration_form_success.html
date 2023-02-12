@@ -1,4 +1,4 @@
-{% extends 'domestic/base.html' %}
+{% extends 'core/base.html' %}
 
 {% load static %}
 {% load breadcrumbs from component_tags %}
@@ -13,11 +13,11 @@
 
 {% block content %}
 
-<section id='thank-you-section' class="thank-you-section padding-bottom-45">
+<section id="thank-you-section" class="thank-you-section padding-bottom-45">
     <div class="container">
         <div class="grid-row">
             <div class="column-two-thirds">
-                {% with "We've received your registration form and have sent an email to "|add:user_email as success_message %}
+                {% with "We've received your registration form and have sent an email to "|add:request.user.email as success_message %}
                   {% include 'components/message_box.html' with heading="Thank you" description=success_message %}
                 {% endwith %}
             </div>
