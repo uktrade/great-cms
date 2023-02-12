@@ -3,8 +3,11 @@ from unittest import mock
 import pytest
 from django.urls import reverse
 
+<<<<<<< HEAD
 from tests.unit.export_academy import factories
 
+=======
+>>>>>>> 95019f7a6 (Refactor views to handle bookings and registrations + tidy up)
 
 @pytest.mark.django_db
 def test_export_academy_landing_page(client, export_academy_landing_page, export_academy_site):
@@ -23,6 +26,7 @@ def test_export_academy_event_list_page(client):
 
 
 @pytest.mark.django_db
+<<<<<<< HEAD
 def test_export_academy_event_list_page_context(client, user):
     event = factories.EventFactory()
     registration = factories.RegistrationFactory(email=user.email)
@@ -42,6 +46,8 @@ def test_export_academy_event_list_page_context(client, user):
 
 
 @pytest.mark.django_db
+=======
+>>>>>>> 95019f7a6 (Refactor views to handle bookings and registrations + tidy up)
 def test_export_academy_registration_page(client, user):
     client.force_login(user)
 
@@ -91,26 +97,50 @@ def test_export_academy_success_views(client, user, page_url, page_content, expe
 
 @mock.patch('export_academy.helpers.notify_registration')
 @pytest.mark.django_db
+<<<<<<< HEAD
 def test_export_academy_registration_success(mock_notify_registration, client, user, valid_registration_form_data):
     client.force_login(user)
 
     url = reverse('export_academy:registration')
 
     response = client.post(url, valid_registration_form_data)
+=======
+def test_export_academy_registration_success(mock_notify_registration, client, user):
+    client.force_login(user)
+
+    url = reverse('export_academy:registration')
+    form_data = {
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'job_title': 'Director',
+        'business_name': 'Acme',
+        'country': 'GB',
+        'like_to_discuss': 'no',
+        'how_can_we_help': 'lorem ipsum',
+        'terms_agreed': True,
+    }
+
+    response = client.post(url, form_data)
+>>>>>>> 95019f7a6 (Refactor views to handle bookings and registrations + tidy up)
 
     assert response.status_code == 302
     assert response.url == reverse('export_academy:registration-success')
     assert mock_notify_registration.call_count == 1
     assert mock_notify_registration.call_args_list == [
         mock.call(
+<<<<<<< HEAD
             email_data={
                 'business_name': valid_registration_form_data['business_name'],
                 'first_name': valid_registration_form_data['first_name'],
             },
+=======
+            email_data={'business_name': form_data['business_name'], 'first_name': form_data['first_name']},
+>>>>>>> 95019f7a6 (Refactor views to handle bookings and registrations + tidy up)
             form_url=url,
             email_address=user.email,
         ),
     ]
+<<<<<<< HEAD
 
 
 @pytest.mark.django_db
@@ -163,3 +193,5 @@ def test_export_academy_booking_cancellation_success(client, user):
     assert factories.Booking.objects.get(pk=booking.id).status == 'Cancelled'
     assert response.status_code == 302
     assert response.url == reverse('export_academy:booking-success')
+=======
+>>>>>>> 95019f7a6 (Refactor views to handle bookings and registrations + tidy up)
