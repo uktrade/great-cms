@@ -104,7 +104,6 @@ MIDDLEWARE = [
     'core.middleware.CheckGATags',
     # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
-    'export_academy.middleware.ExportAcademyRegistrationMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
