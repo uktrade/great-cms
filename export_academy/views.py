@@ -1,12 +1,39 @@
-from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import FormView, ListView, TemplateView
+from django.views.generic import FormView, ListView, TemplateView, UpdateView
 
 from export_academy import forms, helpers, models
 
 
 class EventListView(ListView):
     model = models.Event
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        user = self.request.user
+        bookings = []
+
+        if user.is_authenticated:
+            bookings = models.Booking.objects.filter(registration_id=user.email, status='Confirmed').values_list(
+                'event_id', flat=True
+            )
+
+        ctx.update(bookings=bookings)
+
+        return ctx
+
+
+class BookingUpdateView(UpdateView):
+    model = models.Booking
+    success_url = reverse_lazy('export_academy:booking-success')
+    fields = ['status']
+
+    def get_object(self, queryset=None):
+        data = self.request.POST
+        obj, _created = self.model.objects.get_or_create(
+            event_id=data['event_id'], registration_id=self.request.user.email, defaults={'status': data['status']}
+        )
+
+        return obj
 
 
 class RegistrationFormView(FormView):
@@ -17,7 +44,6 @@ class RegistrationFormView(FormView):
     def form_valid(self, form):
         cleaned_data = form.cleaned_data
         user_email = self.request.user.email
-        self.request.session['user_email'] = user_email
 
         reg = models.Registration(
             first_name=cleaned_data.get('first_name'),
@@ -37,27 +63,5 @@ class RegistrationFormView(FormView):
         return super().form_valid(form)
 
 
-class RegistrationSuccessPageView(TemplateView):
-    template_name = 'export_academy/registration_form_success.html'
-
-    def get(self, *args, **kwargs):
-        if not self.request.session.get('user_email'):
-            return HttpResponseRedirect(reverse_lazy('export_academy:upcoming-events'))
-        return super().get(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        kwargs['user_email'] = self.request.session.get('user_email')
-        return super().get_context_data(**kwargs)
-
-
-class BookingSuccessPageView(TemplateView):
-    template_name = 'export_academy/booking_success.html'
-
-    def get(self, *args, **kwargs):
-        if not self.request.session.get('user_email'):
-            return HttpResponseRedirect(reverse_lazy('export_academy:upcoming-events'))
-        return super().get(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        kwargs['user_email'] = self.request.session.get('user_email')
-        return super().get_context_data(**kwargs)
+class SuccessPageView(TemplateView):
+    pass
