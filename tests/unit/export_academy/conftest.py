@@ -10,7 +10,8 @@ def valid_registration_form_data():
         'business_name': 'Limited',
         'business_website': 'limitedgoal.co.uk',
         'country': 'GB',
-        'like_to_discuss': 'no',
+        'like_to_discuss': 'yes',
+        'like_to_discuss_other': 'IT',
         'how_can_we_help': 'buying a coffee',
         'terms_agreed': True,
     }

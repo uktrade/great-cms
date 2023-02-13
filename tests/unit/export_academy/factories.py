@@ -6,7 +6,7 @@ import factory.fuzzy
 import wagtail_factories
 from django.utils import timezone
 
-from export_academy.models import Event, ExportAcademyHomePage, Registration
+from export_academy.models import Booking, Event, ExportAcademyHomePage, Registration
 
 
 class EventFactory(factory.django.DjangoModelFactory):
@@ -32,6 +32,16 @@ class RegistrationFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Registration
+
+
+class BookingFactory(factory.django.DjangoModelFactory):
+    id = uuid.uuid4()
+    event = factory.SubFactory(EventFactory)
+    registration = factory.SubFactory(RegistrationFactory)
+    status = factory.fuzzy.FuzzyChoice([i[0] for i in Booking.STATUSES])
+
+    class Meta:
+        model = Booking
 
 
 class ExportAcademyHomePageFactory(wagtail_factories.PageFactory):
