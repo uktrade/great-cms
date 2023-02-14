@@ -33,6 +33,7 @@ KLS-368 - Removed custom wagtailadmin JS and HTML causing page chooser issues
 * Upgrade black to 23.1.0 to fix CircleCi pipeline issue
 * Upgrade isort to 5.12.0 to fix CircleCi pipeline issue
 * IOO-399 - International Online Offer project setup
+* KLS-268 - Export Academy project setup
 
 ## [2.23.1](https://github.com/uktrade/great-cms/releases/tag/2.23.1)
 

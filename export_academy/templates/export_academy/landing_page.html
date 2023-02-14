@@ -1,0 +1,38 @@
+{% extends "core/base.html" %}
+{% load wagtailcore_tags %}
+{% load static %}
+
+{% block css_layout_class %}landing-page{% endblock %}
+
+{% block content %}
+  <style>
+  .export-academy__page.h1 {
+    color: #6f787a;
+    font-size: 48px;
+    font-weight: bold;
+    line-height: 50px;
+    margin-bottom: 50px;
+  }
+
+  .export-academy__home-page {
+    padding-top: 120px;
+    margin-bottom: 120px;
+  }
+
+  .export-academy__wrapper--paragraph {
+    color: #6f787a;
+    font-size: 20px;
+    line-height: 30px;
+    margin: 0 0 40px 0;
+  }
+  </style>
+    <section class="export-academy__page export-academy__home-page container" id="export-academy-root">
+        <div class="grid">
+            <div class="c-1-2-l">
+                <h1 class="h1">{{ page.title }}</h1>
+                <p class="export-academy__wrapper--paragraph">{{ page.hero_text | richtext }}</p>
+                {% include_block page.hero_cta %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
