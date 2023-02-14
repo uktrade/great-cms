@@ -1,0 +1,16 @@
+
+{% load wagtailcore_tags %}
+
+<p>menu</p>
+<ul>
+{% for item in page.get_menu %}
+    <li>{{ item.title }}</li>
+{% endfor %}
+</ul>
+
+
+
+<p>related links</p>
+{% for item in page.get_related_links %}
+    <li>{{ item.title }}</li>
+{% endfor %}

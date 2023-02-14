@@ -11,3 +11,17 @@ class SearchEngineOptimisationPanel(MultiFieldPanel):
 
     def __init__(self, children=default_children, heading=default_heading, *args, **kwargs):
         super().__init__(*args, children=children, heading=heading, **kwargs)
+
+
+class MicroSiteRootPanels:
+    content_panels = [
+        FieldPanel('title'),
+        MultiFieldPanel(
+            heading='menu items',
+            classname='collapsible',
+            children=[
+                FieldPanel('title'),
+                # FieldPanel('url'),
+            ],
+        ),
+    ]

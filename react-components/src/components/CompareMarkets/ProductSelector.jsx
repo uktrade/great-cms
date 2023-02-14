@@ -75,6 +75,7 @@ function ProductSelector() {
       )}
       <button
         type="button"
+        id = "add-product-button"
         className="button secondary-button button--small button--icon"
         onClick={() => setProductModalIsOpen(true)}
       >
