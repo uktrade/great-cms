@@ -1,4 +1,4 @@
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
+from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
 
 
 # TODO: remove -  Deprecated - keeping it incase if we need to go back
@@ -15,13 +15,5 @@ class SearchEngineOptimisationPanel(MultiFieldPanel):
 
 class MicroSiteRootPanels:
     content_panels = [
-        FieldPanel('title'),
-        MultiFieldPanel(
-            heading='menu items',
-            classname='collapsible',
-            children=[
-                FieldPanel('title'),
-                # FieldPanel('url'),
-            ],
-        ),
+        StreamFieldPanel('menu_choices'),
     ]
