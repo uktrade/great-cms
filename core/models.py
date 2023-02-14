@@ -1,5 +1,6 @@
 import hashlib
 import mimetypes
+from typing import List, TypedDict, Union
 from urllib.parse import unquote
 
 from django.conf import settings
@@ -50,6 +51,7 @@ from exportplan.core.data import (
     SECTION_SLUGS as EXPORTPLAN_SLUGS,
     SECTIONS as EXPORTPLAN_URL_MAP,
 )
+from core.cms_panels import MicroSiteRootPanels
 
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)
@@ -1303,3 +1305,96 @@ class CaseStudyScoringSettings(BaseSetting):
 
     class Meta:
         verbose_name = 'Case Study Scoring'
+
+
+class MenuItem(TypedDict):
+    url: str
+    title: str
+
+
+class MicrositeRoot(MicroSiteRootPanels, Page):
+    template = 'microsites/base.html'
+    parent_page_types = [
+        'domestic.DomesticHomePage',
+        'domestic.GreatDomesticHomePage',
+    ]
+    subpage_types = ['core.MicrositeSubPage']
+    default_menu_choices = []
+
+    class Meta:
+        verbose_name = 'Microsite root page'
+        verbose_name_plural = 'Microsite root pages'
+
+    def get_menu(self) -> List[MenuItem]:
+        menu_items: List[MenuItem] = []
+        for child in self.get_children().live():
+            menu_item: MenuItem = {
+                "url": child.get_url(),
+                "title": child.title,
+            }
+            menu_items.append(menu_item)
+        return menu_items
+
+    def set_menu_item(self):
+        self.default_menu_choices = self.get_menu()
+
+    def get_user_defined_menu(self) -> List[MenuItem]:
+        # get it from the wagtail entries of menu_choices
+        pass
+
+    menu_choices = StreamField(
+        [
+            (
+                'menu_item',
+                blocks.StructBlock(
+                    [
+                        ('title', blocks.CharBlock(form_classname="title", default='')),
+                        ('url', blocks.URLBlock(form_classname="url", default='')),
+                    ]
+                ),
+            )
+        ],
+        default=[("menu_item", {"title": x.get('title'), "url": x.get('url')}) for x in default_menu_choices],
+    )
+
+
+class MicrositeSubPage(Page):
+    template = 'microsites/base.html'
+    parent_page_types = ['core.MicrositeRoot', 'core.MicrositeSubPage']
+    subpage_types = ['core.MicrositeSubPage']
+
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('body'),
+    ]
+
+    class Meta:
+        verbose_name = 'Microsite sub page'
+        verbose_name_plural = 'Microsite sub pages'
+
+    def parent_is_microsite_root(self):
+        self.get_parent()
+
+    def get_menu(self) -> List[MenuItem]:
+        parent_page: Union[MicrositeSubPage, MicrositeRoot] = self.get_parent().specific
+        while type(parent_page) != MicrositeRoot:
+            if type(parent_page) != MicrositeSubPage:
+                break
+            parent_page: Union[MicrositeSubPage, MicrositeRoot] = parent_page.get_parent().specific
+        if type(parent_page) == MicrositeRoot:
+            return parent_page.get_menu()
+        else:
+            return None
+
+    def get_related_links(self) -> List[MenuItem]:
+        return [{'title': x.title, 'url': x.get_url()} for x in self.get_children()]
+
+    body = StreamField(
+        [
+            ('section', core_blocks.SectionBlock()),
+            ('title', core_blocks.TitleBlock()),
+            ('text', blocks.RichTextBlock(icon='openquote', helptext='Add a textblock')),
+            ('image', core_blocks.ImageBlock()),
+        ],
+        null=True,
+        blank=True,
+    )
