@@ -27,7 +27,7 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
-astroid==2.14.1
+astroid==2.14.2
     # via pylint
 asttokens==2.2.1
     # via stack-data
@@ -235,7 +235,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==16.7.0
+faker==16.8.1
     # via factory-boy
 filelock==3.9.0
     # via virtualenv
@@ -304,7 +304,7 @@ iniconfig==2.0.0
     # via pytest
 ipdb==0.13.11
     # via -r requirements_test.in
-ipython==8.9.0
+ipython==8.10.0
     # via ipdb
 iso3166==1.0.1
     # via -r requirements.in
@@ -458,7 +458,7 @@ pylint-django==2.5.3
     # via -r requirements_test.in
 pylint-plugin-utils==0.7
     # via pylint-django
-pypdf==3.4.0
+pypdf==3.4.1
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -714,7 +714,7 @@ xlsxwriter==3.0.8
     # via wagtail
 xlwt==1.3.0
     # via tablib
-zipp==3.12.1
+zipp==3.13.0
     # via importlib-metadata
 zope-event==4.6
     # via gevent
