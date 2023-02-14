@@ -44,6 +44,7 @@ from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, mixins
 from core.case_study_index import delete_cs_index, update_cs_index
+from core.cms_panels import MicroSiteRootPanels
 from core.constants import BACKLINK_QUERYSTRING_NAME, RICHTEXT_FEATURES__MINIMAL
 from core.context import get_context_provider
 from core.utils import PageTopicHelper, get_first_lesson
@@ -51,7 +52,6 @@ from exportplan.core.data import (
     SECTION_SLUGS as EXPORTPLAN_SLUGS,
     SECTIONS as EXPORTPLAN_URL_MAP,
 )
-from core.cms_panels import MicroSiteRootPanels
 
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)
@@ -1319,7 +1319,8 @@ class MicrositeRoot(MicroSiteRootPanels, Page):
         'domestic.GreatDomesticHomePage',
     ]
     subpage_types = ['core.MicrositeSubPage']
-    default_menu_choices = []
+    menu_title_choices = []
+    menu_url_choices = []
 
     class Meta:
         verbose_name = 'Microsite root page'
@@ -1333,10 +1334,11 @@ class MicrositeRoot(MicroSiteRootPanels, Page):
                 "title": child.title,
             }
             menu_items.append(menu_item)
-        return menu_items
+        return [{'title': 'Home', 'url': self.get_url()}].append(menu_items)
 
     def set_menu_item(self):
-        self.default_menu_choices = self.get_menu()
+        self.menu_title_choices = [(x.title, x.title) for x in self.get_menu()]
+        self.menu_url_choices = [(x.url, x.url) for x in self.get_menu()]
 
     def get_user_defined_menu(self) -> List[MenuItem]:
         # get it from the wagtail entries of menu_choices
@@ -1348,13 +1350,21 @@ class MicrositeRoot(MicroSiteRootPanels, Page):
                 'menu_item',
                 blocks.StructBlock(
                     [
+                        ('title', blocks.CharBlock(form_classname="title", choices=[('test1', 'test1')], default='')),
+                        ('url', blocks.CharBlock(form_classname="url", default='')),
+                    ]
+                ),
+            ),
+            (
+                'external_link',
+                blocks.StructBlock(
+                    [
                         ('title', blocks.CharBlock(form_classname="title", default='')),
                         ('url', blocks.URLBlock(form_classname="url", default='')),
                     ]
                 ),
-            )
+            ),
         ],
-        default=[("menu_item", {"title": x.get('title'), "url": x.get('url')}) for x in default_menu_choices],
     )
 
 
