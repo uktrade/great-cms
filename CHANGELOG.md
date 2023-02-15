@@ -57,6 +57,7 @@ KLS-368 - Removed custom wagtailadmin JS and HTML causing page chooser issues
 * KLS-266 - Get survey details from directory API
 * KLS-213 - Add phone number field to trade office contact forms
 
+* IOO-400 - International Online Offer using govuk frontend toolkit added styling to start page
 
 ## [2.20.0](https://github.com/uktrade/great-cms/releases/tag/2.20.0)
 
