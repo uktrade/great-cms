@@ -3,10 +3,6 @@
 
 .inset-text {
   padding: 15px;
-  // Margin top intended to collapse
-  // This adds an additional 10px to the paragraph above
-  // @include govuk-responsive-margin(6, "top");
-  // @include govuk-responsive-margin(6, "bottom");
   margin-top: 6px;
   margin-bottom: 6px;
 
