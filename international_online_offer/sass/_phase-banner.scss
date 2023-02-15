@@ -1,0 +1,11 @@
+@import '../../sass/partials/colours';
+
+
+.phase-banner {
+  border-bottom: 1px solid #C7C7C7;
+  margin-bottom: 15px;
+
+  span {
+    color: $mid-grey;
+  }
+}
