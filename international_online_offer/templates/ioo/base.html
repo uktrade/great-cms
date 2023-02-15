@@ -49,10 +49,12 @@ number of extra CSS styles that were once sensible defaults:
 
 {% block body_header %}
     {% include './header.html' with site_section=header_section site_sub_section=header_sub_section %}
+    {% include './includes/phase_banner.html' %}
 {% endblock %}
 
 {% block body_footer %}
     {% include './footer.html' %}
 {% endblock %}
 
-{% block body_js %}{% endblock %}
+{% block body_js %}
+{% endblock %}
