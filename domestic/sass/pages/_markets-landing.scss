@@ -140,8 +140,15 @@
       margin-bottom: 15px;
       .card-inner {
         padding: 20px;
-        .primary-button {
+        width: 100%;
+        a.primary-button, button {
           display: block;
+          width: auto;
+          text-decoration: none;
+          // color: $color-alternative-text;
+        }
+        .card-link h4 {
+          margin:0
         }
         > :last-child {
           margin-bottom: 0;
