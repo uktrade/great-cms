@@ -1,4 +1,5 @@
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
+from wagtail.images.edit_handlers import ImageChooserPanel
 
 
 class ExportAcademyPagePanels:
@@ -8,9 +9,29 @@ class ExportAcademyPagePanels:
             heading='Hero',
             classname='collapsible',
             children=[
+                ImageChooserPanel('hero_image'),
                 FieldPanel('hero_text'),
                 StreamFieldPanel('hero_cta'),
             ],
+        ),
+        MultiFieldPanel(
+            heading='Steps',
+            classname='collapsible',
+            children=[
+                FieldPanel('steps_description'),
+                StreamFieldPanel('steps'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='What is involved',
+            classname='collapsible',
+            children=[
+                FieldPanel('panel_description'),
+                StreamFieldPanel('panels'),
+            ],
+        ),
+        StreamFieldPanel(
+            'next_cta',
         ),
     ]
 
