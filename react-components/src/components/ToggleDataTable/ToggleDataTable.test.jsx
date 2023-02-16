@@ -127,7 +127,7 @@ describe('ToggleDataTable', () => {
     )
 
     await waitFor(() => {
-      expect(getByText('Custom heading').tagName).toBe('H3')
+      expect(getByText('Custom heading').tagName).toBe('h3')
     })
   })
 
