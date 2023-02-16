@@ -21,7 +21,7 @@ export const Confirmation = memo(
             <div className="text-center">
               <button
                 type="button"
-                className="primary-button delete-button inline m-r-xs m-b-s"
+                className="button primary-button delete-button inline m-r-xs m-b-s"
                 onClick={onYes}
               >
                 {yesIcon && <i className={`fas ${yesIcon}`} />}

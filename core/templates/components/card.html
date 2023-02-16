@@ -44,9 +44,9 @@
     <p>{{ description }}</p>
   {% endif %}
   {% if url %}
-  <button class="primary-button"  onclick="window.location.href='{{ url }}'">
+  <a class="button primary-button"  href="{{ url }}">
     View
-  </button>
+  </a>
   {% endif %}
         {% if show_sign_in_required and not request.user.is_authenticated %}
           {% if request.path == '/' %}
