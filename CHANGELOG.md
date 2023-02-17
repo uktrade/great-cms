@@ -14,6 +14,7 @@ KLS-368 - Removed custom wagtailadmin JS and HTML causing page chooser issues
 
 ### Enhancements
 * Updated UI component styling for reskin
+KLS-343 Add Export academy landing page
 
 ## [2.25.0](https://github.com/uktrade/great-cms/releases/tag/2.25.0)
 ### Bugs fixed

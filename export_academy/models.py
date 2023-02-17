@@ -106,6 +106,20 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, Page):
     )
     hero_cta = StreamField([('button', ButtonBlock(icon='cog'))], null=True, blank=True)
 
+    banner_label = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Banner label',
+    )
+
+    banner_content = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Banner label',
+    )
+
     steps_description = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
         null=True,

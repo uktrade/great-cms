@@ -15,6 +15,14 @@ class ExportAcademyPagePanels:
             ],
         ),
         MultiFieldPanel(
+            heading='Temporary Banner',
+            classname='collapsible',
+            children=[
+                FieldPanel('banner_label'),
+                FieldPanel('banner_content'),
+            ],
+        ),
+        MultiFieldPanel(
             heading='Steps',
             classname='collapsible',
             children=[
