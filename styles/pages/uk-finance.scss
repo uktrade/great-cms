@@ -1,0 +1,11 @@
+@import '../sizes/sizes.scss';
+@import '../colors/colors.scss';
+
+@media (max-width: $mobile-size) {
+  .get-finance {
+    background-color: $color-main-background;
+    section#contact-section {
+      padding-top: $x-large-padding;
+    }
+  }
+}

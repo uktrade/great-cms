@@ -133,6 +133,7 @@ padding: 0 $standard-padding;
 .progress-bar {
   &--white-track {
     background-color: white;
+    border-radius: 0!important;
   }
   >span{
     min-width: 2%;
