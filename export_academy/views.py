@@ -24,23 +24,33 @@ class EventListView(ListView):
         return ctx
 
 
-class BookingUpdateView(UpdateView):
+class BookingUpdateView(SaveAndSendNotifyMixin, UpdateView):
     model = models.Booking
     success_url = reverse_lazy('export_academy:booking-success')
     fields = ['status']
+    notify_template = None
 
-    def get_object(self, queryset=None):
-        data = self.request.POST
-        obj, _created = self.model.objects.get_or_create(
+    def register_booking(self, data):
+        booking_data = dict(
             event_id=data['event_id'], registration_id=self.request.user.email, defaults={'status': data['status']}
         )
+        booking_object, _created = self.get_or_save_object(booking_data)
+        return booking_object
 
-        return obj
+    def send_email_confirmation(self, booking_object: models.Booking, post_data):
+        if post_data['status'] == booking_object.CONFIRMED:
+            self.notify_template = settings.EXPORT_ACADEMY_NOTIFY_BOOKING_TEMPLATE_ID
+        else:
+            self.notify_template = settings.EXPORT_ACADEMY_NOTIFY_CANCELLATION_TEMPLATE_ID
 
-    def post(self, request, *args, **kwargs):
-        # data = self.request.POST
+        notify_data = dict(first_name=booking_object.registration.first_name, event_names=booking_object.event.name)
+        self.send_gov_notify(notify_data)
 
-        return super().post(request, *args, **kwargs)
+    def get_object(self, queryset=None):
+        post_data = self.request.POST
+        booking_object = self.register_booking(post_data)
+        self.send_email_confirmation(booking_object, post_data)
+        return booking_object
 
 
 class RegistrationFormView(SaveAndSendNotifyMixin, FormView):
@@ -50,21 +60,21 @@ class RegistrationFormView(SaveAndSendNotifyMixin, FormView):
     model = models.Registration
     notify_template = settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID
 
-    def form_valid(self, form):
+    def save_registration(self, form):
         cleaned_data = form.cleaned_data
-        user_email = self.request.user.email
         reg_data = dict(
             first_name=cleaned_data.get('first_name'),
             last_name=cleaned_data.get('last_name'),
-            email=user_email,
+            email=self.request.user.email,
             data=cleaned_data,
         )
-        super().save(reg_data)
-        super().send_gov_notify(form)
-        return super(RegistrationFormView, self).form_valid(form)
+        self.save_model(reg_data)
+
+    def form_valid(self, form):
+        self.save_registration(form)
+        self.send_gov_notify(form.cleaned_data)
+        return super().form_valid(form)
 
 
 class SuccessPageView(TemplateView):
-    def get(self, request, *args, **kwargs):
-        # context = self.get_context_data(**kwargs)
-        return super(SuccessPageView, self).get(request, *args, **kwargs)
+    pass

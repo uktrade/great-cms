@@ -1,21 +1,38 @@
+from directory_forms_api_client import actions
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 
 from config import settings
 from export_academy import models
 
+# class SaveAndSendNotifyMixin(GovNotifyEmailActionMixin):
+#     def save(self, form):
+#         user_email = self.request.user.email
+#         super(GovNotifyEmailActionMixin, self).save(
+#             template_id=self.notify_template,
+#             email_address=user_email,
+#             form_url=self.request.get_full_path(),
+#         )
+#         return super(SaveAndSendNotifyMixin, self).save()
+#
+#     def save_registration(self, data):
+#         self.model.save(data)
+
 
 class SaveAndSendNotifyMixin(GovNotifyEmailActionMixin):
-    def save(self, form):
-        user_email = self.request.user.email
-        super(GovNotifyEmailActionMixin, self).save(
+    def save_model(self, data):
+        self.model.save(data)
+
+    def get_or_save_object(self, data):
+        return self.model.objects.get_or_create(data)
+
+    def send_gov_notify(self, data):
+        action = actions.GovNotifyEmailAction(
+            email_address=self.request.user.email,
             template_id=self.notify_template,
-            email_address=user_email,
             form_url=self.request.get_full_path(),
         )
-        return super(SaveAndSendNotifyMixin, self).save()
-
-    def save_registration(self, data):
-        self.model.save(data)
+        response = action.save(data)
+        response.raise_for_status()
 
 
 class ApplyRegistrationMixin:
