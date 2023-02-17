@@ -144,6 +144,7 @@ button {
     color: $color-gov-link;
     background-color: $color-main-background;
     border: 2px solid $color-gov-link;
+    border-radius: 0;
   }
 
   &.tab-list-active {

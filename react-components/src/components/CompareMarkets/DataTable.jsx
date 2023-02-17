@@ -200,8 +200,8 @@ export default function DataTable(props) {
   if (mobile) {
     return (
       <>
-        <div className="p-h-xs p-v-xs selected-places">
-          <h2 className="h-xs text-white p-t-0 p-f-s">Selected markets</h2>
+        <div className="p-v-xs selected-places">
+          <h2 className="h-xs text-white p-t-0">Selected markets</h2>
           <div className="bg-white overflow-hidden">
             <div className="m-v-0 border-blue-deep-20 no-bottom-border">
               {Object.values(comparisonMarkets || {}).map((market) => (
@@ -228,14 +228,14 @@ export default function DataTable(props) {
             <div className="p-h-s p-b-xs">{triggerButton}</div>
           </div>
         </div>
-        <div className="p-h-s">{tabStrip}</div>
-        {config.filter && <div className="p-h-s m-b-s">{config.filter}</div>}
+        <div>{tabStrip}</div>
+        {config.filter && <div className="m-b-s">{config.filter}</div>}
         {Object.keys(config.columns).map((columnKey) => {
           const cellConfig = config.columns[columnKey]
           return (
             <div
               key={columnKey}
-              className={`${columnKey} p-h-s m-b-s ${
+              className={`${columnKey} m-b-s ${
                 cellConfig.className || ''
               }`}
               style={{ clear: 'both' }}
@@ -259,7 +259,7 @@ export default function DataTable(props) {
           )
         })}
         {config.sourceAttributions && (
-          <div className="bg-white overflow-hidden p-h-s m-b-s m-h-s">
+          <div className="bg-white overflow-hidden p-h-s m-b-s">
             {blocks.sourceAttribution(config.sourceAttributions)}
           </div>
         )}
