@@ -51,8 +51,8 @@
 @media only screen and (max-width: $mobile-size) {
   .page-main-content-container .inner-container {
     max-width: auto;
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: $x-large-padding;
+    margin-right: $x-large-padding;
     padding: 0;
   }
 }

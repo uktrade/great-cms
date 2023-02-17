@@ -5,6 +5,7 @@
 @import '../partials/typography';
 @import '../partials/general';
 @import '../../../styles/colors/colors.scss';
+@import '../../../styles/sizes/sizes.scss';
 
 // NOTE: Not namespaced because these elements exist outside of the `main` element!
 .campaign-video-transcript {
@@ -32,7 +33,7 @@
   color: $color-gov-link;
   font-size: $font-size-h3;
   line-height: 32px;
-  margin:0;
+  margin:0 0 $standard-padding;
 }
   .button-video {
     position: relative;
