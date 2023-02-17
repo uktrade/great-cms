@@ -1,7 +1,9 @@
 from django.urls import reverse_lazy
 from django.views.generic import FormView, ListView, TemplateView, UpdateView
 
-from export_academy import forms, helpers, models
+from config import settings
+from export_academy import forms, models
+from export_academy.mixins import SaveAndSendNotifyMixin
 
 
 class EventListView(ListView):
@@ -35,33 +37,34 @@ class BookingUpdateView(UpdateView):
 
         return obj
 
+    def post(self, request, *args, **kwargs):
+        # data = self.request.POST
 
-class RegistrationFormView(FormView):
+        return super().post(request, *args, **kwargs)
+
+
+class RegistrationFormView(SaveAndSendNotifyMixin, FormView):
     template_name = 'export_academy/registration_form.html'
     form_class = forms.EARegistration
     success_url = reverse_lazy('export_academy:registration-success')
+    model = models.Registration
+    notify_template = settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID
 
     def form_valid(self, form):
         cleaned_data = form.cleaned_data
         user_email = self.request.user.email
-
-        reg = models.Registration(
+        reg_data = dict(
             first_name=cleaned_data.get('first_name'),
             last_name=cleaned_data.get('last_name'),
             email=user_email,
             data=cleaned_data,
         )
-        reg.save()
-        helpers.notify_registration(
-            email_data={
-                'business_name': cleaned_data['business_name'],
-                'first_name': cleaned_data['first_name'],
-            },
-            form_url=self.request.path,
-            email_address=user_email,
-        )
-        return super().form_valid(form)
+        super().save(reg_data)
+        super().send_gov_notify(form)
+        return super(RegistrationFormView, self).form_valid(form)
 
 
 class SuccessPageView(TemplateView):
-    pass
+    def get(self, request, *args, **kwargs):
+        # context = self.get_context_data(**kwargs)
+        return super(SuccessPageView, self).get(request, *args, **kwargs)
