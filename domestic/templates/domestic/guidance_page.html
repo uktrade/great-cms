@@ -7,10 +7,10 @@
 
 {% block content %}
 
-    <div class="container">
-    {% block breadcrumbs %}
-      {% include 'components/breadcrumbs_cms.html' %}
-    {% endblock %}
-    </div>
+
+  {% block breadcrumbs %}
+    {% include 'components/breadcrumbs_cms.html' %}
+  {% endblock %}
+
   {% include 'domestic/includes/cms_content.html' %}
 {% endblock %}

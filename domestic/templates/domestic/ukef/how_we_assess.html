@@ -13,13 +13,13 @@
 
 {% block content %}
 
-<div class="container">
-	{% breadcrumbs 'How we assess your project' %}
-		<a href="/">great.gov.uk</a>
-		<a href="{% url 'domestic:get-finance' %}">UKEF</a>
-		<a href="{% url 'domestic:project-finance' %}">Project Finance</a>
-	{% endbreadcrumbs %}
-</div>
+
+{% breadcrumbs 'How we assess your project' %}
+	<a href="/">great.gov.uk</a>
+	<a href="{% url 'domestic:get-finance' %}">UKEF</a>
+	<a href="{% url 'domestic:project-finance' %}">Project Finance</a>
+{% endbreadcrumbs %}
+
 
 <section id="article-how-we-assess-your-project">
 	<article class="article-main how-we-assess-your-project-article">
