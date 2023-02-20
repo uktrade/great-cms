@@ -1,6 +1,11 @@
 # Changelog
 
 ## Pre release
+### Enhancements
+* KLS-368 - Add tests for reskin fixes
+* KLS-395 - Update django to 3.2.18, directory-sso-api-client to >= 7.1.1
+
+## [2.25.1](https://github.com/uktrade/great-cms/releases/tag/2.25.1)
 
 ### Bugs fixed
 KLS-368 - Removed custom wagtailadmin JS and HTML causing page chooser issues
@@ -8,6 +13,7 @@ KLS-368 - Removed custom wagtailadmin JS and HTML causing page chooser issues
 ### Hotfix
 
 ### Enhancements
+* Updated UI component styling for reskin
 
 ## [2.25.0](https://github.com/uktrade/great-cms/releases/tag/2.25.0)
 ### Bugs fixed
