@@ -9,9 +9,6 @@
 
 ## [2.25.1](https://github.com/uktrade/great-cms/releases/tag/2.25.1)
 
-### Enhancements
-* KLS-395 - Update django to 3.2.18, directory-sso-api-client to >= 7.1.1
-
 ### Bugs fixed
 KLS-368 - Removed custom wagtailadmin JS and HTML causing page chooser issues
 
