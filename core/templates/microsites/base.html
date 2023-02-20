@@ -4,7 +4,7 @@
 <p>menu</p>
 <ul>
 {% for item in page.get_menu_items %}
-    <li><a href={{item.url}}>title: {{ item.title }}</a></li>
+    <li><a href={{item.url}}>{{ item.title }}</a></li>
 {% endfor %}
 </ul>
 
