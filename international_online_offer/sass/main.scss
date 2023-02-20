@@ -2,12 +2,7 @@
 @import './govuk/phase-banner';
 @import './govuk/inset-text';
 @import './govuk/back-link';
-@import './govuk/form-control';
 @import './govuk/details';
-
-.error-reporting {
-    font-family: 'Euclid Flex B';
-}
 
 .autocomplete__input--default {
     background-image: url('/static/images/search-black.svg');
