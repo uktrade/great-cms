@@ -21,10 +21,10 @@
  {% include 'components/hero.html' with hero_title="Trade finance for UK exporters" hero_text="When it comes to exporting, having a great product or service is only half the story. Putting the right finance and insurance in place can make the difference, helping you to win contracts, fulfil orders and get paid." image_url=hero_image_rendition.url %}
 
 
-       {% breadcrumbs page.breadcrumbs_label %}
-      <a href="/">great.gov.uk</a>
-      <a href="{% url 'domestic:get-finance' %}">UKEF</a>
-    {% endbreadcrumbs %}
+{% breadcrumbs page.breadcrumbs_label %}
+  <a href="/">great.gov.uk</a>
+  <a href="{% url 'domestic:get-finance' %}">UKEF</a>
+{% endbreadcrumbs %}
 
 </section>
 

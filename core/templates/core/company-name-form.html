@@ -5,8 +5,9 @@
 {% block body_attributes %}class="body-background-white"{% endblock %}
 
 {% block content %}
+{% block breadcrumbs %}{% endblock %}
     <section class="container">
-        {% block breadcrumbs %}{% endblock %}
+
         <div class="grid-row m-t-l">
             <div class="c-1-2 p-r-xs">
                 <form action="{% url 'core:set-company-name' %}?{{ request.GET.urlencode }}" method="post" enctype="multipart/form-data" novalidate="novalidate">

@@ -16,11 +16,12 @@ Report a trade barrier{{block.super}}
 
 {% block content %}
     <section>
+        {% breadcrumbs 'Report a trade barrier' %}
+            <a href="/">great.gov.uk</a>
+            <a href="{% url 'domestic:market-access' %}">Trade barriers</a>
+        {% endbreadcrumbs %}
         <div class="container">
-            {% breadcrumbs 'Report a trade barrier' %}
-                <a href="/">great.gov.uk</a>
-                <a href="{% url 'domestic:market-access' %}">Trade barriers</a>
-            {% endbreadcrumbs %}
+
             <div class="grid-row">
                 <div class="column-one-half"></div>
                     <form method="post" autocomplete="on">
