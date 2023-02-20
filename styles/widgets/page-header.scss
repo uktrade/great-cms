@@ -101,7 +101,7 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
       box-sizing: border-box;
 
       h1 {
-        @media only screen and (min-width: $mobile-size) and (max-width: 980px) {
+        @media only screen and (max-width: 980px) {
           font-size: $font-size-h2;
           line-height: 40px;
         }
