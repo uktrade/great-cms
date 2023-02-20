@@ -1,7 +1,21 @@
 # Changelog
 
 ## Pre release
+### Enhancements
+* KLS-368 - Add tests for reskin fixes
+* KLS-395 - Update django to 3.2.18, directory-sso-api-client to >= 7.1.1
 
+## [2.25.1](https://github.com/uktrade/great-cms/releases/tag/2.25.1)
+
+### Bugs fixed
+KLS-368 - Removed custom wagtailadmin JS and HTML causing page chooser issues
+
+### Hotfix
+
+### Enhancements
+* Updated UI component styling for reskin
+
+## [2.25.0](https://github.com/uktrade/great-cms/releases/tag/2.25.0)
 ### Bugs fixed
 * Update MonthYearInput test to get current year dynamically
 * KLS-370 - Update createPageChooser function to work with new wagtail parameters
@@ -13,18 +27,43 @@
 * Update MonthYearInput test to get current year dynamically
 * KLS-80 - Correct form destinations and CTA style for Scottish offices
 
-### Hotfix
+### Enhancements
+* KLS-213 - Add phone number field to trade office contact forms
+* KLS-266 - Get survey details from directory API
+
+
+## [2.24.0](https://github.com/uktrade/great-cms/releases/tag/2.24.0)
 
 ### Enhancements
 * KLS-212 - Improve flexibility of related page fields on article pages
 * Upgrade black to 23.1.0 to fix CircleCi pipeline issue
 * Upgrade isort to 5.12.0 to fix CircleCi pipeline issue
-* KLS-282 - Great-cms django to version 3.2.16
-* KLS-32 - Update content in signup confirmation page
-* KLS-213 - Add phone number field to trade office contact forms
-* KLS-266 - Get survey details from directory API
-* KLS-203 - Upgrade django and Wagtail
 * IOO-399 - International Online Offer project setup
+* KLS-268 - Export Academy project setup
+
+## [2.23.1](https://github.com/uktrade/great-cms/releases/tag/2.23.1)
+
+### Enhancements
+* KLS-282 - Great-cms django to version 3.2.16
+
+## [2.23.0](https://github.com/uktrade/great-cms/releases/tag/2.23.0)
+
+### Enhancements
+* KLS-203 - Upgrade django and Wagtail
+
+## [2.22.0](https://github.com/uktrade/great-cms/releases/tag/2.22.0)
+
+### Enhancements
+* KLS-32 - Update content in signup confirmation page
+* KLS-266 - Get survey details from directory API
+
+## [2.21.0](https://github.com/uktrade/great-cms/releases/tag/2.21.0)
+
+### Enhancements
+* KLS-266 - Get survey details from directory API
+* KLS-213 - Add phone number field to trade office contact forms
+
+* IOO-400 - International Online Offer using govuk frontend toolkit added styling to start page
 
 ## [2.20.0](https://github.com/uktrade/great-cms/releases/tag/2.20.0)
 

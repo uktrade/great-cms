@@ -9,6 +9,7 @@ from wagtail.core.models import Locale, Page
 from wagtail_factories import PageFactory, SiteFactory
 
 import tests.unit.domestic.factories
+import tests.unit.export_academy.factories
 from core.case_study_index import case_study_to_index
 from core.models import CaseStudy
 from directory_api_client import api_client
@@ -219,6 +220,19 @@ def magna_site(domestic_homepage, client):
         root_page=domestic_homepage,
         hostname=client._base_environ()['SERVER_NAME'],
         is_default_site=True,
+    )
+
+
+@pytest.fixture
+def export_academy_landing_page(root_page):
+    return tests.unit.export_academy.factories.ExportAcademyHomePageFactory(parent=root_page)
+
+
+@pytest.fixture
+def export_academy_site(root_page, client):
+    return SiteFactory(
+        root_page=root_page,
+        hostname=client._base_environ()['SERVER_NAME'],
     )
 
 

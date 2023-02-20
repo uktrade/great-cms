@@ -1,0 +1,99 @@
+import uuid
+
+from django.db import models
+from modelcluster.fields import ParentalKey
+from modelcluster.models import ClusterableModel
+from wagtail.admin.edit_handlers import (
+    FieldPanel,
+    InlinePanel,
+    MultiFieldPanel,
+    ObjectList,
+    TabbedInterface,
+)
+from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.models import Page
+
+from core.blocks import ButtonBlock
+from core.constants import RICHTEXT_FEATURES__REDUCED
+from core.models import TimeStampedModel
+from export_academy.cms_panels import ExportAcademyPagePanels
+
+
+class Event(TimeStampedModel, ClusterableModel):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=1000)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    link = models.URLField(blank=True, null=True, max_length=255)
+
+    event_panel = [
+        MultiFieldPanel(
+            heading='Details',
+            children=[
+                FieldPanel('name'),
+                FieldPanel('description'),
+                FieldPanel('link'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Date',
+            children=[
+                FieldPanel('start_date'),
+                FieldPanel('end_date'),
+            ],
+        ),
+    ]
+
+    attendance_panel = [InlinePanel('bookings', label='Bookings')]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(event_panel, heading='Event'),
+            ObjectList(attendance_panel, heading='Attendance'),
+        ]
+    )
+
+    class Meta:
+        ordering = ('-created', '-modified')
+
+    def __str__(self):
+        return f'{self.id}:{self.name}'
+
+
+class Registration(TimeStampedModel):
+    email = models.EmailField(primary_key=True)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    data = models.JSONField(blank=True, default=dict)
+
+    class Meta:
+        ordering = ('-created', '-modified')
+
+    def __str__(self):
+        return self.email
+
+
+class Booking(TimeStampedModel):
+    CONFIRMED = 'Confirmed'
+    CANCELLED = 'Cancelled'
+    STATUSES = (
+        (CONFIRMED, CONFIRMED),
+        (CANCELLED, CANCELLED),
+    )
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    event = ParentalKey(Event, on_delete=models.CASCADE, related_name='bookings')
+    registration = models.ForeignKey(Registration, on_delete=models.CASCADE)
+    status = models.CharField(choices=STATUSES, default=CONFIRMED, max_length=15)
+
+
+class ExportAcademyHomePage(ExportAcademyPagePanels, Page):
+    template = 'export_academy/landing_page.html'
+
+    hero_text = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+    hero_cta = StreamField([('button', ButtonBlock(icon='cog'))], null=True, blank=True)
