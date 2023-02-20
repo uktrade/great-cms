@@ -1328,21 +1328,26 @@ class MicrositeRoot(MicroSiteRootPanels, Page):
 
     def get_menu(self) -> List[MenuItem]:
         menu_items: List[MenuItem] = []
+        home_menu: List[MenuItem] = [{'title': 'Home', 'url': self.get_url()}]
+
         for child in self.get_children().live():
             menu_item: MenuItem = {
                 "url": child.get_url(),
                 "title": child.title,
             }
             menu_items.append(menu_item)
-        return [{'title': 'Home', 'url': self.get_url()}].append(menu_items)
+        return menu_items if len(menu_items) == 0 else home_menu + menu_items
 
     def set_menu_item(self):
         self.menu_title_choices = [(x.title, x.title) for x in self.get_menu()]
         self.menu_url_choices = [(x.url, x.url) for x in self.get_menu()]
 
-    def get_user_defined_menu(self) -> List[MenuItem]:
-        # get it from the wagtail entries of menu_choices
-        pass
+    def get_menu_items(self) -> List[MenuItem]:
+        # If user has entered menu choices in wagtail then they will display their choices
+        user_menu: List[MenuItem] = [
+            {'title': block.value.get('title'), 'url': block.value.get('url')} for block in self.menu_choices
+        ]
+        return user_menu if len(user_menu) else self.get_menu()
 
     menu_choices = StreamField(
         [
@@ -1384,20 +1389,21 @@ class MicrositeSubPage(Page):
     def parent_is_microsite_root(self):
         self.get_parent()
 
-    def get_menu(self) -> List[MenuItem]:
+    def get_menu_items(self) -> List[MenuItem]:
         parent_page: Union[MicrositeSubPage, MicrositeRoot] = self.get_parent().specific
         while type(parent_page) != MicrositeRoot:
             if type(parent_page) != MicrositeSubPage:
                 break
             parent_page: Union[MicrositeSubPage, MicrositeRoot] = parent_page.get_parent().specific
         if type(parent_page) == MicrositeRoot:
-            return parent_page.get_menu()
+            return parent_page.get_menu_items()
         else:
             return None
 
     def get_related_links(self) -> List[MenuItem]:
         return [{'title': x.title, 'url': x.get_url()} for x in self.get_children()]
 
+    # example stuff a microsite page might add (can remove)
     body = StreamField(
         [
             ('section', core_blocks.SectionBlock()),

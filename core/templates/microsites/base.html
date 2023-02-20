@@ -3,11 +3,10 @@
 
 <p>menu</p>
 <ul>
-{% for item in page.get_menu %}
-    <li>{{ item.title }}</li>
+{% for item in page.get_menu_items %}
+    <li>title: {{ item.title }}  url: {{item.url}}</li>
 {% endfor %}
 </ul>
-
 
 
 <p>related links</p>
