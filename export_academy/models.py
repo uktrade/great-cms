@@ -117,10 +117,10 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, Page):
         null=True,
         blank=True,
         max_length=255,
-        verbose_name='Banner label',
+        verbose_name='Banner Content',
     )
 
-    steps_description = RichTextField(
+    steps_heading = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
         null=True,
         blank=True,

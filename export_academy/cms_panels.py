@@ -26,12 +26,12 @@ class ExportAcademyPagePanels:
             heading='Steps',
             classname='collapsible',
             children=[
-                FieldPanel('steps_description'),
+                FieldPanel('steps_heading'),
                 StreamFieldPanel('steps'),
             ],
         ),
         MultiFieldPanel(
-            heading='What is involved',
+            heading='Main Content',
             classname='collapsible',
             children=[
                 FieldPanel('panel_description'),
