@@ -1,4 +1,7 @@
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+
+from international_online_offer import forms
 
 
 class IOOIndex(TemplateView):
@@ -6,4 +9,6 @@ class IOOIndex(TemplateView):
 
 
 class IOOSector(TemplateView):
+    form_class = forms.SectorForm
     template_name = 'ioo/triage/sector.html'
+    success_url = reverse_lazy('international_online_offer:sector')

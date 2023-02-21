@@ -1,7 +1,7 @@
 function customSuggest (query, syncResults) {
     const sectors = [
       { 'Aerospace': ['Planes', 'Jets', 'Space'] },
-      { 'Engineering': ['Planes', 'Boats', 'Cars', 'Software'] },
+      { 'Automotive': ['Planes', 'Boats', 'Cars', 'Software'] },
       { 'Food & Drink': ['Alcohol', 'Rice', 'Coffee', 'Tea', 'Bread'] },
     ];
     syncResults(query
@@ -28,7 +28,7 @@ function suggestionTemplate (result) {
 }
 
 accessibleAutocomplete.enhanceSelectElement({
-    selectElement: document.getElementById('sector'),
+    selectElement: document.getElementById('js-sector-select'),
     source: customSuggest,
     defaultValue: '',
     minLength: 2,

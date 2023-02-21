@@ -10,7 +10,7 @@
 
 {% block head_css %}
   {{ block.super }}
-  <link href="{% static 'directory_components/js/vendor/accessible-autocomplete.min.css' %}" rel="stylesheet" type="text/css" />
+  <link href="{% static 'directory_components/js/vendor/accessible-autocomplete.min.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block content %}
@@ -31,25 +31,25 @@
         </div>
         <div class="grid-row">
           <div class="column-two-thirds">
-            <div class="form-group" id="id_sector-container">
-              <label class="atlas-body--m form-label" for="sector">Enter a sector</label>
-              <span class="atlas-body form-hint">Type to search and choose from the list</span>
-              <input type="text" class="form-control atlas-body search-input" id="sector" name="sector">
-            </div>
+            <form method="post" action="{% url 'international_online_offer:sector-submit' %}">
+              <div class="form-group" id="id_sector-container">
+                <label class="atlas-body--m form-label" for="sector">Enter a sector</label>
+                <span class="atlas-body form-hint">Type to search and choose from the list</span>
+                {% include 'core/includes/form_field.html' with field=form.sector %}
+                <br/>
+                <a href="#" role="button" draggable="false" class="atlas-button" data-module="button">
+                  Continue
+                  <span class="atlas-button__icon">
+                    <svg viewBox="0 0 13 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink">
+                      <path fill="currentColor" d="M2.893 20l9.834-10L2.893 0 0 2.921 6.976 10 0 17.079z"></path>
+                    </svg>
+                  </span>
+                </a>
+                {% comment %} <input type="text" class="form-control atlas-body search-input" id="sector" name="sector"> {% endcomment %}
+              </div>
+            </form>
           </div>
         </div>
-        <div class="grid-row">
-          <div class="column-two-thirds">
-            <br/>
-            <a href="#" role="button" draggable="false" class="atlas-button" data-module="button">
-              Continue
-              <span class="atlas-button__icon">
-                <svg viewBox="0 0 13 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill="currentColor" d="M2.893 20l9.834-10L2.893 0 0 2.921 6.976 10 0 17.079z"></path>
-                </svg>
-              </span>
-            </a>
-          </div>
           <div class="grid-row">
             <div class="column-two-thirds">
               <br/>
@@ -75,7 +75,6 @@
                 </div>
               </details>
             </div>
-          </div>
         </div>
       </main>
     </div>
