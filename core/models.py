@@ -1,5 +1,6 @@
 import hashlib
 import mimetypes
+from typing import List, TypedDict, Union
 from urllib.parse import unquote
 
 from django.conf import settings
@@ -1303,3 +1304,98 @@ class CaseStudyScoringSettings(BaseSetting):
 
     class Meta:
         verbose_name = 'Case Study Scoring'
+
+
+class MenuItem(TypedDict):
+    url: str
+    title: str
+
+
+class MicrositeRoot(Page):
+    template = 'microsites/base.html'
+    parent_page_types = [
+        'domestic.DomesticHomePage',
+        'domestic.GreatDomesticHomePage',
+    ]
+    subpage_types = ['core.MicrositeSubPage']
+
+    content_panels = Page.content_panels + [StreamFieldPanel('menu_choices')]
+
+    class Meta:
+        verbose_name = 'Microsite root page'
+        verbose_name_plural = 'Microsite root pages'
+
+    def get_menu(self) -> List[MenuItem]:
+        home_menu: List[MenuItem] = [{'title': 'Home', 'url': self.get_url()}]
+        menu_items: List[MenuItem] = [
+            {
+                "url": child.get_url(),
+                "title": child.title,
+            }
+            for child in self.get_children().live()
+        ]
+        return menu_items if len(menu_items) == 0 else home_menu + menu_items
+
+    def set_menu_item(self):
+        # use if we want to eventually make the stream fields have dropdowns based on the children
+        self.menu_title_choices = [(x.title, x.title) for x in self.get_menu()]
+        self.menu_url_choices = [(x.url, x.url) for x in self.get_menu()]
+
+    def get_menu_items(self) -> List[MenuItem]:
+        # If user has entered menu choices in wagtail then they will display their choices
+        user_menu: List[MenuItem] = [
+            {'title': block.value.get('title'), 'url': block.value.get('url')} for block in self.menu_choices
+        ]
+        return user_menu if len(user_menu) else self.get_menu()
+
+    menu_choices = StreamField(
+        [
+            (
+                'menu_item',
+                blocks.StructBlock(
+                    [
+                        ('title', blocks.CharBlock(form_classname="title", choices=[('test1', 'test1')], default='')),
+                        ('url', blocks.CharBlock(form_classname="url", default='')),
+                    ],
+                ),
+            ),
+            (
+                'external_link',
+                blocks.StructBlock(
+                    [
+                        ('title', blocks.CharBlock(form_classname="title", default='')),
+                        ('url', blocks.URLBlock(form_classname="url", default='')),
+                    ]
+                ),
+            ),
+        ],
+        null=True,
+        blank=True,
+    )
+
+
+class MicrositeSubPage(Page):
+    template = 'microsites/base.html'
+    parent_page_types = ['core.MicrositeRoot', 'core.MicrositeSubPage']
+    subpage_types = ['core.MicrositeSubPage']
+
+    class Meta:
+        verbose_name = 'Microsite sub page'
+        verbose_name_plural = 'Microsite sub pages'
+
+    def parent_is_microsite_root(self):
+        self.get_parent()
+
+    def get_menu_items(self) -> List[MenuItem]:
+        parent_page: Union[MicrositeSubPage, MicrositeRoot] = self.get_parent().specific
+        while type(parent_page) != MicrositeRoot:
+            if type(parent_page) != MicrositeSubPage:
+                break
+            parent_page: Union[MicrositeSubPage, MicrositeRoot] = parent_page.get_parent().specific
+        if type(parent_page) == MicrositeRoot:
+            return parent_page.get_menu_items()
+        else:
+            return None
+
+    def get_related_links(self) -> List[MenuItem]:
+        return [{'title': x.title, 'url': x.get_url()} for x in self.get_children()]

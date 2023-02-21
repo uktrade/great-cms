@@ -1,0 +1,15 @@
+{% load wagtailcore_tags %}
+
+For demo purposes for now
+<p>menu</p>
+<ul>
+{% for item in page.get_menu_items %}
+    <li><a href={{item.url}}>{{ item.title }}</a></li>
+{% endfor %}
+</ul>
+
+
+<p>related links</p>
+{% for item in page.get_related_links %}
+     <li><a href={{item.url}}>{{ item.title }}</a></li>
+{% endfor %}
