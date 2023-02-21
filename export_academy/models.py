@@ -13,8 +13,9 @@ from wagtail.admin.edit_handlers import (
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
 
-from core.blocks import ButtonBlock
+from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRichText
 from core.constants import RICHTEXT_FEATURES__REDUCED
+from core.fields import single_struct_block_stream_field_factory
 from core.models import TimeStampedModel
 from export_academy.cms_panels import ExportAcademyPagePanels
 
@@ -91,9 +92,58 @@ class Booking(TimeStampedModel):
 class ExportAcademyHomePage(ExportAcademyPagePanels, Page):
     template = 'export_academy/landing_page.html'
 
+    hero_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
     hero_text = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
         null=True,
         blank=True,
     )
     hero_cta = StreamField([('button', ButtonBlock(icon='cog'))], null=True, blank=True)
+
+    banner_label = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Banner label',
+    )
+
+    banner_content = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        verbose_name='Banner Content',
+    )
+
+    steps_heading = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+
+    steps = single_struct_block_stream_field_factory(
+        field_name='panel',
+        block_class_instance=SingleRichTextBlock(),
+        null=True,
+        blank=True,
+    )
+
+    panel_description = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+
+    panels = single_struct_block_stream_field_factory(
+        field_name='panel',
+        block_class_instance=TopicPageCardBlockRichText(),
+        null=True,
+        blank=True,
+    )
+
+    next_cta = StreamField([('button', ButtonBlock())], null=True, blank=True)
