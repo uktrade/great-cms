@@ -1,8 +1,11 @@
 # Changelog
 
 ## Pre release
+
+## [2.26.0](https://github.com/uktrade/great-cms/releases/tag/2.26.0)
 ### Enhancements
-* KLS-368 - Add tests for reskin fixes
+* Export Academy event management
+* KLS-368 - Reskin styling and bug fixes
 * KLS-395 - Update django to 3.2.18, directory-sso-api-client to >= 7.1.1
 
 ## [2.25.1](https://github.com/uktrade/great-cms/releases/tag/2.25.1)
