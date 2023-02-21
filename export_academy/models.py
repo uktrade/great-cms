@@ -17,6 +17,7 @@ from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRich
 from core.constants import RICHTEXT_FEATURES__REDUCED
 from core.fields import single_struct_block_stream_field_factory
 from core.models import TimeStampedModel
+from export_academy import managers
 from export_academy.cms_panels import ExportAcademyPagePanels
 
 
@@ -54,6 +55,8 @@ class Event(TimeStampedModel, ClusterableModel):
             ObjectList(attendance_panel, heading='Attendance'),
         ]
     )
+
+    objects = managers.EventQuerySet.as_manager()
 
     class Meta:
         ordering = ('-created', '-modified')
