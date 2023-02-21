@@ -515,3 +515,14 @@ class ColumnsBlock(blocks.StructBlock):
     image = ImageChooserBlock(required=False, label='Hero Image')
     description = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label='Description')
     link = blocks.URLBlock(required=False, label='Title link')
+
+
+class SingleRichTextBlock(blocks.StructBlock):
+    description = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label='Description')
+
+
+class TopicPageCardBlockRichText(blocks.StructBlock):
+    title = blocks.CharBlock(required=False, max_length=255, label='Title')
+    image = ImageChooserBlock(required=False, label='Hero Image')
+    description = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label='Description')
+    link = blocks.CharBlock()  # not a URL block to allow relative links
