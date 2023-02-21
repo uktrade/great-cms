@@ -1336,11 +1336,6 @@ class MicrositeRoot(Page):
         ]
         return menu_items if len(menu_items) == 0 else home_menu + menu_items
 
-    def set_menu_item(self):
-        # use if we want to eventually make the stream fields have dropdowns based on the children
-        self.menu_title_choices = [(x.title, x.title) for x in self.get_menu()]
-        self.menu_url_choices = [(x.url, x.url) for x in self.get_menu()]
-
     def get_menu_items(self) -> List[MenuItem]:
         # If user has entered menu choices in wagtail then they will display their choices
         user_menu: List[MenuItem] = [
