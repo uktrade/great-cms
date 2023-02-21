@@ -44,7 +44,6 @@ from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, mixins
 from core.case_study_index import delete_cs_index, update_cs_index
-from core.cms_panels import MicroSiteRootPanels
 from core.constants import BACKLINK_QUERYSTRING_NAME, RICHTEXT_FEATURES__MINIMAL
 from core.context import get_context_provider
 from core.utils import PageTopicHelper, get_first_lesson
@@ -1312,33 +1311,33 @@ class MenuItem(TypedDict):
     title: str
 
 
-class MicrositeRoot(MicroSiteRootPanels, Page):
+class MicrositeRoot(Page):
     template = 'microsites/base.html'
     parent_page_types = [
         'domestic.DomesticHomePage',
         'domestic.GreatDomesticHomePage',
     ]
     subpage_types = ['core.MicrositeSubPage']
-    menu_title_choices = []
-    menu_url_choices = []
+
+    content_panels = Page.content_panels + [StreamFieldPanel('menu_choices')]
 
     class Meta:
         verbose_name = 'Microsite root page'
         verbose_name_plural = 'Microsite root pages'
 
     def get_menu(self) -> List[MenuItem]:
-        menu_items: List[MenuItem] = []
         home_menu: List[MenuItem] = [{'title': 'Home', 'url': self.get_url()}]
-
-        for child in self.get_children().live():
-            menu_item: MenuItem = {
+        menu_items: List[MenuItem] = [
+            {
                 "url": child.get_url(),
                 "title": child.title,
             }
-            menu_items.append(menu_item)
+            for child in self.get_children().live()
+        ]
         return menu_items if len(menu_items) == 0 else home_menu + menu_items
 
     def set_menu_item(self):
+        # use if we want to eventually make the stream fields have dropdowns based on the children
         self.menu_title_choices = [(x.title, x.title) for x in self.get_menu()]
         self.menu_url_choices = [(x.url, x.url) for x in self.get_menu()]
 
@@ -1357,7 +1356,7 @@ class MicrositeRoot(MicroSiteRootPanels, Page):
                     [
                         ('title', blocks.CharBlock(form_classname="title", choices=[('test1', 'test1')], default='')),
                         ('url', blocks.CharBlock(form_classname="url", default='')),
-                    ]
+                    ],
                 ),
             ),
             (
@@ -1370,6 +1369,8 @@ class MicrositeRoot(MicroSiteRootPanels, Page):
                 ),
             ),
         ],
+        null=True,
+        blank=True,
     )
 
 
@@ -1377,10 +1378,6 @@ class MicrositeSubPage(Page):
     template = 'microsites/base.html'
     parent_page_types = ['core.MicrositeRoot', 'core.MicrositeSubPage']
     subpage_types = ['core.MicrositeSubPage']
-
-    content_panels = Page.content_panels + [
-        StreamFieldPanel('body'),
-    ]
 
     class Meta:
         verbose_name = 'Microsite sub page'
@@ -1402,15 +1399,3 @@ class MicrositeSubPage(Page):
 
     def get_related_links(self) -> List[MenuItem]:
         return [{'title': x.title, 'url': x.get_url()} for x in self.get_children()]
-
-    # example stuff a microsite page might add (can remove)
-    body = StreamField(
-        [
-            ('section', core_blocks.SectionBlock()),
-            ('title', core_blocks.TitleBlock()),
-            ('text', blocks.RichTextBlock(icon='openquote', helptext='Add a textblock')),
-            ('image', core_blocks.ImageBlock()),
-        ],
-        null=True,
-        blank=True,
-    )
