@@ -1329,8 +1329,8 @@ class MicrositeRoot(Page):
         home_menu: List[MenuItem] = [{'title': 'Home', 'url': self.get_url()}]
         menu_items: List[MenuItem] = [
             {
-                "url": child.get_url(),
-                "title": child.title,
+                'url': child.get_url(),
+                'title': child.title,
             }
             for child in self.get_children().live()
         ]
@@ -1349,8 +1349,8 @@ class MicrositeRoot(Page):
                 'menu_item',
                 blocks.StructBlock(
                     [
-                        ('title', blocks.CharBlock(form_classname="title", choices=[('test1', 'test1')], default='')),
-                        ('url', blocks.CharBlock(form_classname="url", default='')),
+                        ('title', blocks.CharBlock(form_classname='title', choices=[('test1', 'test1')], default='')),
+                        ('url', blocks.CharBlock(form_classname='url', default='')),
                     ],
                 ),
             ),
@@ -1358,8 +1358,8 @@ class MicrositeRoot(Page):
                 'external_link',
                 blocks.StructBlock(
                     [
-                        ('title', blocks.CharBlock(form_classname="title", default='')),
-                        ('url', blocks.URLBlock(form_classname="url", default='')),
+                        ('title', blocks.CharBlock(form_classname='title', default='')),
+                        ('url', blocks.URLBlock(form_classname='url', default='')),
                     ]
                 ),
             ),
