@@ -51,7 +51,6 @@ from exportplan.core.data import (
     SECTION_SLUGS as EXPORTPLAN_SLUGS,
     SECTIONS as EXPORTPLAN_URL_MAP,
 )
-from core.cms_panels import MicroSiteRootPanels
 
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)
@@ -1355,8 +1354,8 @@ class MicrositeRoot(Page):
                 'menu_item',
                 blocks.StructBlock(
                     [
-                        ('title', blocks.CharBlock(form_classname="title", choices=[('test1', 'test1')], default='')),
-                        ('url', blocks.CharBlock(form_classname="url", default='')),
+                        ('title', blocks.CharBlock(form_classname='title', choices=[('test1', 'test1')], default='')),
+                        ('url', blocks.CharBlock(form_classname='url', default='')),
                     ],
                 ),
             ),
