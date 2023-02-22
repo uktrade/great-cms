@@ -25,7 +25,6 @@ class EventFilter(FilterSet):
     when = filters.MultipleChoiceFilter(
         choices=WHEN_CHOICES,
         method='filter_when',
-        initial='current',
         label='When',
     )
 
