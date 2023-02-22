@@ -1,4 +1,3 @@
-import uuid
 from datetime import timedelta
 
 import factory
@@ -10,7 +9,7 @@ from export_academy.models import Booking, Event, ExportAcademyHomePage, Registr
 
 
 class EventFactory(factory.django.DjangoModelFactory):
-    id = uuid.uuid4()
+    id = factory.Faker('uuid4')
     name = factory.fuzzy.FuzzyText(length=15)
     description = factory.fuzzy.FuzzyText(length=60)
     start_date = timezone.now()
@@ -35,7 +34,7 @@ class RegistrationFactory(factory.django.DjangoModelFactory):
 
 
 class BookingFactory(factory.django.DjangoModelFactory):
-    id = uuid.uuid4()
+    id = factory.Faker('uuid4')
     event = factory.SubFactory(EventFactory)
     registration = factory.SubFactory(RegistrationFactory)
     status = factory.fuzzy.FuzzyChoice([i[0] for i in Booking.STATUSES])

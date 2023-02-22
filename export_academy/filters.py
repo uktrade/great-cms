@@ -7,10 +7,10 @@ class EventFilter(FilterSet):
     ALL = 'all'
     TODAY = 'today'
     TOMORROW = 'tomorrow'
-    THIS_WEEK = 'this-week'
-    NEXT_WEEK = 'next-week'
-    THIS_MONTH = 'this-month'
-    NEXT_MONTH = 'next-month'
+    THIS_WEEK = 'this_week'
+    NEXT_WEEK = 'next_week'
+    THIS_MONTH = 'this_month'
+    NEXT_MONTH = 'next_month'
 
     WHEN_CHOICES = [
         [ALL, 'All'],
