@@ -86,9 +86,9 @@
   <script>
     function customIOOSectorSuggest (query, populateResults) {
       const sectors = [
-        { 'Aerospace': ['Planes', 'Jets', 'Space'] },
-        { 'Automotive': ['Planes', 'Boats', 'Cars', 'Software'] },
-        { 'Food & Drink': ['Alcohol', 'Rice', 'Coffee', 'Tea', 'Bread'] },
+        { "Aerospace": ["aircraft design","component manufacturing","engines","maintenance","manufacturing and assembly","aeroplane","jet","helicopter","wings","turbofan","propellor","UAV","unmanned aerial vehicles"] },
+        { "Automotive": ["cars","motorcycle","van","component manufacturing","bodies and coachwork","electronic components","engines and transmission","tyres","design","maintenance","manufacturing and assembly","agricultural machinery","bicycles","caravans","cars","lorries","motorcycles","trailers","motorsport","retail (automotive)"] },
+        { "Food & Drink": ["casual dining","dining","alcoholic drinks","bakery products","brewing","dairy products","food and drink manufacturing","free from","allergen free food","frozen and chilled foods","fruit and vegetables","meat products","non-alcoholic drinks","cordial","juice drinks","organic food","pet food","ready meals","secondary food processing","bread","baking"] },
       ];
       let filteredSectors = sectors.filter(function (result) {
         if (!query) return [];
