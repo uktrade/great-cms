@@ -31,21 +31,20 @@
         </div>
         <div class="grid-row">
           <div class="column-two-thirds">
-            <form method="post" action="{% url 'international_online_offer:sector-submit' %}">
+            <form method="post" onsubmit="return onSubmitSector()">
+              {% csrf_token %}
               <div class="form-group" id="id_sector-container">
                 <label class="atlas-body--m form-label" for="sector">Enter a sector</label>
                 <span class="atlas-body form-hint">Type to search and choose from the list</span>
                 {% include 'core/includes/form_field.html' with field=form.sector %}
                 <br/>
-                <a href="#" role="button" draggable="false" class="atlas-button" data-module="button">
-                  Continue
+                <button type="submit" class="atlas-button">Continue
                   <span class="atlas-button__icon">
                     <svg viewBox="0 0 13 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink">
                       <path fill="currentColor" d="M2.893 20l9.834-10L2.893 0 0 2.921 6.976 10 0 17.079z"></path>
                     </svg>
                   </span>
-                </a>
-                {% comment %} <input type="text" class="form-control atlas-body search-input" id="sector" name="sector"> {% endcomment %}
+                </button>
               </div>
             </form>
           </div>
@@ -81,7 +80,55 @@
 {% endblock %}
 
 {% block body_js %}
-    {{ block.super }}
-    <script src="{% static 'directory_components/js/vendor/accessible-autocomplete.min.js' %}"></script>
-    <script src="{% static 'javascript/ioo-sector.js' %}"></script>
+  {{ block.super }}
+  <script src="{% static 'directory_components/js/vendor/accessible-autocomplete.min.js' %}"></script>
+  <script src="{% static 'javascript/ioo-custom-autocomplete-sector.js' %}"></script>
+  <script>
+    function customIOOSectorSuggest (query, populateResults) {
+      const sectors = [
+        { 'Aerospace': ['Planes', 'Jets', 'Space'] },
+        { 'Automotive': ['Planes', 'Boats', 'Cars', 'Software'] },
+        { 'Food & Drink': ['Alcohol', 'Rice', 'Coffee', 'Tea', 'Bread'] },
+      ];
+      let filteredSectors = sectors.filter(function (result) {
+        if (!query) return [];
+        const resultContains = Object.keys(result)[0].toLowerCase().indexOf(query.toLowerCase()) !== -1;
+        const tags = Object.values(result)[0];
+        let endonymContains = false;
+        for (let i = 0; i < tags.length; i++) {
+          if (endonymContains == true) { break; }
+          endonymContains = tags[i].toLowerCase().indexOf(query.toLowerCase()) !== -1
+        }
+        return resultContains || endonymContains;
+      });
+      let sectorParentNames = [];
+      for (let i = 0; i < filteredSectors.length; i++) {
+        sectorParentNames.push(Object.keys(filteredSectors[i])[0]);
+      }
+      populateResults(
+        sectorParentNames
+      )
+    }
+
+    function onSubmitSector() {
+      const autoCompleteSectorFieldValue = document.getElementById('js-sector-select').value;
+      document.getElementById('js-sector-select-select').value = autoCompleteSectorFieldValue;
+      window.localStorage.setItem('sector', autoCompleteSectorFieldValue);
+    }
+
+    function getSectorIfPreviouslySelected(fieldId) {
+      let previouslySelectedSector = window.localStorage.getItem(fieldId) ? window.localStorage.getItem(fieldId): '';
+      setTimeout(function() {
+        document.getElementById('js-sector-select-select').value = previouslySelectedSector;
+      }, 200);
+      return previouslySelectedSector;
+    }
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: document.getElementById('js-sector-select'),
+      source: customIOOSectorSuggest,
+      defaultValue: getSectorIfPreviouslySelected('sector'),
+      minLength: 2,
+    });
+  </script>
 {% endblock %}
