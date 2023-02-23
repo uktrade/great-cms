@@ -1,6 +1,8 @@
 # Changelog
 
 ## Pre release
+### Enhancements
+* IOO-402 - International Online Offer triage question 1 allowing user to select business sector
 
 ## [2.26.0](https://github.com/uktrade/great-cms/releases/tag/2.26.0)
 ### Enhancements
@@ -21,8 +23,6 @@ KLS-368 - Removed custom wagtailadmin JS and HTML causing page chooser issues
 
 ## [2.25.0](https://github.com/uktrade/great-cms/releases/tag/2.25.0)
 ### Bugs fixed
-* IOO-400 - International Online Offer using govuk frontend toolkit added styling to start page
-* IOO-402 - International Online Offer triage question 1 allowing user to select business sector
 * Update MonthYearInput test to get current year dynamically
 * KLS-370 - Update createPageChooser function to work with new wagtail parameters
 * KLS-80 - Correct form destinations and CTA style for Scottish offices
@@ -34,8 +34,10 @@ KLS-368 - Removed custom wagtailadmin JS and HTML causing page chooser issues
 * KLS-80 - Correct form destinations and CTA style for Scottish offices
 
 ### Enhancements
+* IOO-400 - International Online Offer using govuk frontend toolkit added styling to start page
 * KLS-213 - Add phone number field to trade office contact forms
 * KLS-266 - Get survey details from directory API
+
 
 
 ## [2.24.0](https://github.com/uktrade/great-cms/releases/tag/2.24.0)
