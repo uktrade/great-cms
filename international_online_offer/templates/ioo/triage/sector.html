@@ -1,0 +1,134 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block head_other %}
+  <meta
+    name="description"
+    content="Find information to help invest within the UK"
+  />
+{% endblock %}
+
+{% block head_css %}
+  {{ block.super }}
+  <link href="{% static 'directory_components/js/vendor/accessible-autocomplete.min.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <main>
+        <div class="grid-row">
+          <div class="column-two-thirds">
+            <a href="{% url 'international_online_offer:index' %}" class="link-back-new atlas-body">Back</a>
+            <span class="atlas-body" style="float: right;">Step 1 of 5</span>
+            <br/>
+            <br/>
+          </div>
+        </div>
+        <div class="grid-row">
+          <div class="column-two-thirds">
+            <h3 class="atlas-h--m">What is your business sector?</h3>
+          </div>
+        </div>
+        <div class="grid-row">
+          <div class="column-two-thirds">
+            <form method="post" onsubmit="return onSubmitSector()">
+              {% csrf_token %}
+              <div class="form-group" id="id_sector-container">
+                <label class="atlas-body--m form-label" for="sector">Enter a sector</label>
+                <span class="atlas-body form-hint">Type to search and choose from the list</span>
+                {% include 'core/includes/form_field.html' with field=form.sector %}
+                <br/>
+                <button type="submit" class="atlas-button">Continue
+                  <span class="atlas-button__icon">
+                    <svg viewBox="0 0 13 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink">
+                      <path fill="currentColor" d="M2.893 20l9.834-10L2.893 0 0 2.921 6.976 10 0 17.079z"></path>
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+          <div class="grid-row">
+            <div class="column-two-thirds">
+              <br/>
+              <div class="atlas-body--s">You can edit this later</div>
+            </div>
+          </div>
+          <div class="grid-row">
+            <div class="column-two-thirds">
+              <br/>
+              <details class="details" data-module="govuk-details">
+                <summary class="details__summary">
+                  <span class="atlas-body--s">
+                    <div style="display: inline-block; width: 14px; height: 10px">
+                      <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <path fill="currentColor" d="M2.893 20l9.834-10L2.893 0 0 2.921 6.976 10 0 17.079z"></path>
+                      </svg>
+                    </div>
+                    &nbsp;Why we ask this question
+                  </span>
+                </summary>
+                <div class="inset-text atlas-body--s">
+                  We’ll use this information to provide customised content relevant to your sector and products or services.
+                </div>
+              </details>
+            </div>
+        </div>
+      </main>
+    </div>
+{% endblock %}
+
+{% block body_js %}
+  {{ block.super }}
+  <script src="{% static 'directory_components/js/vendor/accessible-autocomplete.min.js' %}"></script>
+  <script>
+    function customIOOSectorSuggest (query, populateResults) {
+      const sectors = [
+        { "Aerospace": ["aircraft design","component manufacturing","engines","maintenance","manufacturing and assembly","aeroplane","jet","helicopter","wings","turbofan","propellor","UAV","unmanned aerial vehicles"] },
+        { "Automotive": ["cars","motorcycle","van","component manufacturing","bodies and coachwork","electronic components","engines and transmission","tyres","design","maintenance","manufacturing and assembly","agricultural machinery","bicycles","caravans","cars","lorries","motorcycles","trailers","motorsport","retail (automotive)"] },
+        { "Food & Drink": ["casual dining","dining","alcoholic drinks","bakery products","brewing","dairy products","food and drink manufacturing","free from","allergen free food","frozen and chilled foods","fruit and vegetables","meat products","non-alcoholic drinks","cordial","juice drinks","organic food","pet food","ready meals","secondary food processing","bread","baking"] },
+      ];
+      let filteredSectors = sectors.filter(function (result) {
+        if (!query) return [];
+        const resultContains = Object.keys(result)[0].toLowerCase().indexOf(query.toLowerCase()) !== -1;
+        const tags = Object.values(result)[0];
+        let endonymContains = false;
+        for (let i = 0; i < tags.length; i++) {
+          if (endonymContains == true) { break; }
+          endonymContains = tags[i].toLowerCase().indexOf(query.toLowerCase()) !== -1
+        }
+        return resultContains || endonymContains;
+      });
+      let sectorParentNames = [];
+      for (let i = 0; i < filteredSectors.length; i++) {
+        sectorParentNames.push(Object.keys(filteredSectors[i])[0]);
+      }
+      populateResults(
+        sectorParentNames
+      )
+    }
+
+    function onSubmitSector() {
+      const autoCompleteSectorFieldValue = document.getElementById('js-sector-select').value;
+      document.getElementById('js-sector-select-select').value = autoCompleteSectorFieldValue;
+      window.localStorage.setItem('sector', autoCompleteSectorFieldValue);
+    }
+
+    function getSectorIfPreviouslySelected(fieldId) {
+      let previouslySelectedSector = window.localStorage.getItem(fieldId) ? window.localStorage.getItem(fieldId): '';
+      setTimeout(function() {
+        document.getElementById('js-sector-select-select').value = previouslySelectedSector;
+      }, 200);
+      return previouslySelectedSector;
+    }
+
+    accessibleAutocomplete.enhanceSelectElement({
+      selectElement: document.getElementById('js-sector-select'),
+      source: customIOOSectorSuggest,
+      autoselect: false,
+      defaultValue: getSectorIfPreviouslySelected('sector'),
+      minLength: 2,
+    });
+  </script>
+{% endblock %}
