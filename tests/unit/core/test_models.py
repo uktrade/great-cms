@@ -835,7 +835,7 @@ class TestStreamBlock(StreamBlock):
 class MicrositeRootTestCase(TestCase):
     def test_menu_items_returns_items_from_wagtail_admin(self):
         self.test_page = MicrositeRoot(title='Root')
-        menu_choices_value1 = MenuItemBlock(title='Root')
+        menu_choices_value1 = MenuItemBlock(title='Root', url='')
         menu_choices_value2 = ExternalLinkBlock(title='Google', url='www.google.com')
         self.test_page.menu_choices = StreamValue(TestStreamBlock(), [menu_choices_value1, menu_choices_value2])
         expected_result = [{'title': 'Root', 'url': ''}, {'title': 'Google', 'url': 'www.google.com'}]
