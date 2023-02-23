@@ -3,7 +3,6 @@
 ## Pre release
 ### Enhancements
 * IOO-402 - International Online Offer triage question 1 allowing user to select business sector
-* IOO-400 - International Online Offer using govuk frontend toolkit added styling to start page
 
 ## [2.26.0](https://github.com/uktrade/great-cms/releases/tag/2.26.0)
 ### Enhancements
@@ -21,6 +20,7 @@ KLS-368 - Removed custom wagtailadmin JS and HTML causing page chooser issues
 
 ### Enhancements
 * Updated UI component styling for reskin
+* IOO-400 - International Online Offer using govuk frontend toolkit added styling to start page
 
 ## [2.25.0](https://github.com/uktrade/great-cms/releases/tag/2.25.0)
 ### Bugs fixed
