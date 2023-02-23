@@ -835,9 +835,9 @@ class TestStreamBlock(StreamBlock):
 class MicrositeRootTestCase(TestCase):
     def test_menu_items_returns_items_from_wagtail_admin(self):
         self.test_page = MicrositeRoot(title='Root')
-        self.menu_choices_value1 = MenuItemBlock(title='Root')
+        menu_choices_value1 = MenuItemBlock(title='Root')
         menu_choices_value2 = ExternalLinkBlock(title='Google', url='www.google.com')
-        self.test_page.menu_choices = StreamValue(TestStreamBlock(), [self.menu_choices_value1, menu_choices_value2])
+        self.test_page.menu_choices = StreamValue(TestStreamBlock(), [menu_choices_value1, menu_choices_value2])
         expected_result = [{'title': 'Root', 'url': ''}, {'title': 'Google', 'url': 'www.google.com'}]
         self.assertEqual(self.test_page.get_menu_items(), expected_result)
 
@@ -849,10 +849,10 @@ class MicrositeRootTestCase(TestCase):
     def test_get_menu_items_returns_children_if_no_wagtail_items(self):
         self.test_page = MicrositeRoot(title='Root')
 
-        self.child_page1 = MicrositeSubPage(title='child1')
-        self.child_page2 = MicrositeSubPage(title='child2')
-        self.test_page.add_child(instance=self.child_page1)
-        self.test_page.add_child(instance=self.child_page2)
+        child_page1 = MicrositeSubPage(title='child1')
+        child_page2 = MicrositeSubPage(title='child2')
+        self.test_page.add_child(instance=child_page1)
+        self.test_page.add_child(instance=child_page2)
 
         expected_menu_items = [
             {'title': 'Home', 'url': ''},
@@ -865,24 +865,26 @@ class MicrositeRootTestCase(TestCase):
 class MicrositeSubPageTestCase(TestCase):
     def test_menu_items_can_be_returned_from_parent(self):
         self.test_page = MicrositeRoot(title='Root')
-        self.child_page1 = MicrositeSubPage(title='child1')
-        self.child_page2 = MicrositeSubPage(title='child2')
-        self.test_page.add_child(instance=self.child_page1)
-        self.test_page.add_child(instance=self.child_page2)
+        child_page1 = MicrositeSubPage(title='child1')
+        child_page2 = MicrositeSubPage(title='child2')
+        self.test_page.add_child(instance=child_page1)
+        self.test_page.add_child(instance=child_page2)
 
         expected_menu_items = [
             {'title': 'Home', 'url': ''},
             {'title': 'child1', 'url': 'child1'},
             {'title': 'child2', 'url': 'child2'},
         ]
-        self.assertEqual(self.child_page1.get_menu_items(), expected_menu_items)
+        self.assertEqual(child_page1.get_menu_items(), expected_menu_items)
 
     def test_get_related_links(self):
         self.test_page = MicrositeSubPage(title='child1')
-        self.grandchild1 = MicrositeSubPage(title='grandchild1')
-        self.grandchild2 = MicrositeSubPage(title='grandchild2')
+        grandchild1 = MicrositeSubPage(title='grandchild1')
+        grandchild2 = MicrositeSubPage(title='grandchild2')
+        self.test_page.add_child(instance=grandchild1)
+        self.test_page.add_child(instance=grandchild2)
         expected_related_links = [
             {'title': 'grandchild1', 'url': 'grandchild1'},
             {'title': 'grandchild2', 'url': 'grandchild2'},
         ]
-        self.assertEqual(self.child_page1.get_related_links(), expected_related_links)
+        self.assertEqual(self.test_page.get_related_links(), expected_related_links)
