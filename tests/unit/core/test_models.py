@@ -9,6 +9,13 @@ from django.http import Http404
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
 from wagtail.admin.edit_handlers import ObjectList
+from wagtail.core.blocks import (
+    CharBlock,
+    StreamBlock,
+    StreamValue,
+    StructBlock,
+    URLBlock,
+)
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
 from wagtail.core.models import Collection
 from wagtail.images import get_image_model
@@ -29,6 +36,8 @@ from core.models import (
     LessonPlaceholderPage,
     ListPage,
     MagnaPageChooserPanel,
+    MicrositeRoot,
+    MicrositeSubPage,
     Product,
     Region,
     Tag,
@@ -794,3 +803,85 @@ class TestMagnaPageChooserPanel(SetUpLocaleMixin, TestCase):
 
         self.assertIn('<span class="title"></span>', result)
         self.assertIn('Choose a page', result)
+
+
+# MicroSiteTests
+class TestMicroSiteRootPageCanBeMadeUnderHomePage(WagtailPageTests):
+    def test_can_be_created_under_homepage(self):
+        self.assertAllowedParentPageTypes(
+            MicrositeRoot,
+            {
+                DomesticHomePage,
+                GreatDomesticHomePage,
+            },
+        )
+
+
+class ExternalLinkBlock(StructBlock):
+    title = CharBlock(required=False)
+    url = URLBlock(required=False)
+
+
+class MenuItemBlock(StructBlock):
+    title = CharBlock(required=False)
+    url = CharBlock(required=False)
+
+
+class TestStreamBlock(StreamBlock):
+    external_link = ExternalLinkBlock()
+    menu_item = MenuItemBlock()
+
+
+class MicrositeRootTestCase(TestCase):
+    def test_menu_items_returns_items_from_wagtail_admin(self):
+        self.test_page = MicrositeRoot(title='Root', url='')
+        self.menu_choices_value1 = MenuItemBlock(title='Root', url='')
+        menu_choices_value2 = ExternalLinkBlock(title='Google', url='www.google.com')
+        self.test_page.menu_choices = StreamValue(TestStreamBlock(), [self.menu_choices_value1, menu_choices_value2])
+        expected_result = [{'title': 'Root', 'url': ''}, {'title': 'Google', 'url': 'www.google.com'}]
+        self.assertEqual(self.test_page.get_menu_items(), expected_result)
+
+    def test_get_menu_items_returns_empty_list_if_no_children_or_menu_items_in_wagtails(self):
+        self.test_page = MicrositeRoot(title='Root', url='')
+        self.test_page.menu_choices = StreamValue(TestStreamBlock(), [])
+        self.assertEqual(self.test_page.get_menu_items(), [])
+
+    def test_get_menu_items_returns_children_if_no_wagtail_items(self):
+        self.test_page = MicrositeRoot(title='Root', url='')
+        self.child_page1 = MicrositeSubPage(title='child1', url='child1')
+        self.child_page2 = MicrositeSubPage(title='child2', url='child2')
+        self.test_page.add_child(instance=self.child_page1)
+        self.test_page.add_child(instance=self.child_page2)
+
+        expected_menu_items = [
+            {'title': 'Home', 'url': ''},
+            {'title': 'child1', 'url': 'child1'},
+            {'title': 'child2', 'url': 'child2'},
+        ]
+        self.assertEqual(self.test_page.get_menu_items(), expected_menu_items)
+
+
+class MicrositeSubPageTestCase(TestCase):
+    def test_menu_items_can_be_returned_from_parent(self):
+        self.test_page = MicrositeRoot(title='Root', url='')
+        self.child_page1 = MicrositeSubPage(title='child1', url='child1')
+        self.child_page2 = MicrositeSubPage(title='child2', url='child2')
+        self.test_page.add_child(instance=self.child_page1)
+        self.test_page.add_child(instance=self.child_page2)
+
+        expected_menu_items = [
+            {'title': 'Home', 'url': ''},
+            {'title': 'child1', 'url': 'child1'},
+            {'title': 'child2', 'url': 'child2'},
+        ]
+        self.assertEqual(self.child_page1.get_menu_items(), expected_menu_items)
+
+    def test_get_related_links(self):
+        self.test_page = MicrositeSubPage(title='child1', url='child1')
+        self.grandchild1 = MicrositeSubPage(title='grandchild1', url='grandchild1')
+        self.grandchild2 = MicrositeSubPage(title='grandchild2', url='grandchild2')
+        expected_related_links = [
+            {'title': 'grandchild1', 'url': 'grandchild1'},
+            {'title': 'grandchild2', 'url': 'grandchild2'},
+        ]
+        self.assertEqual(self.child_page1.get_related_links(), expected_related_links)

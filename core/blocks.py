@@ -526,3 +526,13 @@ class TopicPageCardBlockRichText(blocks.StructBlock):
     image = ImageChooserBlock(required=False, label='Hero Image')
     description = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label='Description')
     link = blocks.CharBlock()  # not a URL block to allow relative links
+
+
+class MenuChoicesBlock(blocks.StructBlock):
+    title: blocks.CharBlock(required=False, label='title')
+    url: blocks.CharBlock(required=False, label='url')
+
+
+class ExternalLinkBlock(blocks.StructBlock):
+    title: blocks.CharBlock(required=False, label='title')
+    url: blocks.URLBlock(required=False, label='url')
