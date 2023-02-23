@@ -826,7 +826,7 @@ class TestStreamBlock(StreamBlock):
     menu_item = MenuItemBlock()
 
 
-class MicrositeRootTestCase(TestCase):
+class MicrositeRootTestCase(WagtailPageTests):
     def test_menu_items_returns_items_from_wagtail_admin(self):
         self.test_page = MicrositeRoot(title='Root')
         menu_choices_value1 = MenuItemBlock(title='Root', url='')
