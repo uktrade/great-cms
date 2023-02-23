@@ -82,7 +82,6 @@
 {% block body_js %}
   {{ block.super }}
   <script src="{% static 'directory_components/js/vendor/accessible-autocomplete.min.js' %}"></script>
-  <script src="{% static 'javascript/ioo-custom-autocomplete-sector.js' %}"></script>
   <script>
     function customIOOSectorSuggest (query, populateResults) {
       const sectors = [
@@ -127,6 +126,7 @@
     accessibleAutocomplete.enhanceSelectElement({
       selectElement: document.getElementById('js-sector-select'),
       source: customIOOSectorSuggest,
+      autoselect: false,
       defaultValue: getSectorIfPreviouslySelected('sector'),
       minLength: 2,
     });
