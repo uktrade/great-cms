@@ -9,14 +9,9 @@ from django.http import Http404
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
 from wagtail.admin.edit_handlers import ObjectList
-from wagtail.core.blocks import (
-    CharBlock,
-    StreamBlock,
-    StreamValue,
-    StructBlock,
-    URLBlock,
-)
+from wagtail.core.blocks import CharBlock, StreamBlock, StructBlock, URLBlock
 from wagtail.core.blocks.stream_block import StreamBlockValidationError
+from wagtail.core.fields import StreamField
 from wagtail.core.models import Collection
 from wagtail.images import get_image_model
 from wagtail.images.tests.utils import get_test_image_file
@@ -837,13 +832,15 @@ class MicrositeRootTestCase(TestCase):
         self.test_page = MicrositeRoot(title='Root')
         menu_choices_value1 = MenuItemBlock(title='Root', url='')
         menu_choices_value2 = ExternalLinkBlock(title='Google', url='www.google.com')
-        self.test_page.menu_choices = StreamValue(TestStreamBlock(), [menu_choices_value1, menu_choices_value2])
+        self.test_page.menu_choices = StreamField(
+            [('menu_item', menu_choices_value1), ('external_link', menu_choices_value2)]
+        )
         expected_result = [{'title': 'Root', 'url': ''}, {'title': 'Google', 'url': 'www.google.com'}]
         self.assertEqual(self.test_page.get_menu_items(), expected_result)
 
     def test_get_menu_items_returns_empty_list_if_no_children_or_menu_items_in_wagtails(self):
         self.test_page = MicrositeRoot(title='Root')
-        self.test_page.menu_choices = StreamValue(TestStreamBlock(), [])
+        self.test_page.menu_choices = StreamField([])
         self.assertEqual(self.test_page.get_menu_items(), [])
 
     def test_get_menu_items_returns_children_if_no_wagtail_items(self):
@@ -869,6 +866,7 @@ class MicrositeSubPageTestCase(TestCase):
         child_page2 = MicrositeSubPage(title='child2')
         self.test_page.add_child(instance=child_page1)
         self.test_page.add_child(instance=child_page2)
+        self.test_page.menu_choices = StreamField([])
 
         expected_menu_items = [
             {'title': 'Home', 'url': ''},
