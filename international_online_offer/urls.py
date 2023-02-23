@@ -15,5 +15,4 @@ urlpatterns = [
         views.IOOSector.as_view(),
         name='sector',
     ),
-    path('sector/submit', views.IOOSector.as_view(), name="sector-submit"),
 ]
