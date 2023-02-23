@@ -3,6 +3,7 @@
 ## Pre release
 ### Enhancements
 * IOO-402 - International Online Offer triage question 1 allowing user to select business sector
+* IOO-400 - International Online Offer using govuk frontend toolkit added styling to start page
 
 ## [2.26.0](https://github.com/uktrade/great-cms/releases/tag/2.26.0)
 ### Enhancements
@@ -34,7 +35,6 @@ KLS-368 - Removed custom wagtailadmin JS and HTML causing page chooser issues
 * KLS-80 - Correct form destinations and CTA style for Scottish offices
 
 ### Enhancements
-* IOO-400 - International Online Offer using govuk frontend toolkit added styling to start page
 * KLS-213 - Add phone number field to trade office contact forms
 * KLS-266 - Get survey details from directory API
 
