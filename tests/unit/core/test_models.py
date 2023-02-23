@@ -832,13 +832,14 @@ class MicrositeRootTestCase(TestCase):
         menu_choices_value1 = MenuItemBlock(title='Root', url='')
         menu_choices_value2 = ExternalLinkBlock(title='Google', url='www.google.com')
         self.test_page.menu_choices = [('menu_item', menu_choices_value1), ('external_link', menu_choices_value2)]
-
+        self.test_page.save()
         expected_result = [{'title': 'Root', 'url': ''}, {'title': 'Google', 'url': 'www.google.com'}]
         self.assertEqual(self.test_page.get_menu_items(), expected_result)
 
     def test_get_menu_items_returns_empty_list_if_no_children_or_menu_items_in_wagtails(self):
         self.test_page = MicrositeRoot(title='Root')
         self.test_page.menu_choices = []
+        self.test_page.save()
         self.assertEqual(self.test_page.get_menu_items(), [])
 
     def test_get_menu_items_returns_children_if_no_wagtail_items(self):
@@ -854,6 +855,7 @@ class MicrositeRootTestCase(TestCase):
             {'title': 'child1', 'url': 'child1'},
             {'title': 'child2', 'url': 'child2'},
         ]
+        self.test_page.save()
         self.assertEqual(self.test_page.get_menu_items(), expected_menu_items)
 
 
@@ -871,6 +873,7 @@ class MicrositeSubPageTestCase(TestCase):
             {'title': 'child1', 'url': 'child1'},
             {'title': 'child2', 'url': 'child2'},
         ]
+        self.test_page.save()
         self.assertEqual(child_page1.get_menu_items(), expected_menu_items)
 
     def test_get_related_links(self):
@@ -883,4 +886,5 @@ class MicrositeSubPageTestCase(TestCase):
             {'title': 'grandchild1', 'url': 'grandchild1'},
             {'title': 'grandchild2', 'url': 'grandchild2'},
         ]
+        self.test_page.save()
         self.assertEqual(self.test_page.get_related_links(), expected_related_links)
