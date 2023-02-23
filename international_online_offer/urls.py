@@ -10,4 +10,9 @@ urlpatterns = [
         views.IOOIndex.as_view(),
         name='index',
     ),
+    path(
+        'sector/',
+        views.IOOSector.as_view(),
+        name='sector',
+    ),
 ]

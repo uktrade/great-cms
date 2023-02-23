@@ -1,7 +1,18 @@
 @import 'header-footer';
-@import 'phase-banner';
-@import 'inset-text';
+@import './govuk/phase-banner';
+@import './govuk/inset-text';
+@import './govuk/back-link';
+@import './govuk/details';
 
-.start-icon {
-    margin-left: 5px;
+.autocomplete__input--default {
+    background-image: url('/static/images/search-black.svg');
+    background-repeat: no-repeat;
+    padding-right: 20px;
+    background-position: right center;
+    font-family: 'Euclid Flex B';
+    background-origin: content-box;
+}
+
+.autocomplete__option {
+    font-family: 'Euclid Flex B';
 }
