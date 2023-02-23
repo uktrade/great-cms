@@ -842,7 +842,7 @@ class MicrositeRootTestCase(TestCase):
         self.assertEqual(self.test_page.get_menu_items(), expected_result)
 
     def test_get_menu_items_returns_empty_list_if_no_children_or_menu_items_in_wagtails(self):
-        self.test_page = MicrositeRoot(title='Root', url='')
+        self.test_page = MicrositeRoot(title='Root')
         self.test_page.menu_choices = StreamValue(TestStreamBlock(), [])
         self.assertEqual(self.test_page.get_menu_items(), [])
 
@@ -879,8 +879,8 @@ class MicrositeSubPageTestCase(TestCase):
 
     def test_get_related_links(self):
         self.test_page = MicrositeSubPage(title='child1')
-        self.grandchild1 = MicrositeSubPage(title='grandchild1', url='grandchild1')
-        self.grandchild2 = MicrositeSubPage(title='grandchild2', url='grandchild2')
+        self.grandchild1 = MicrositeSubPage(title='grandchild1')
+        self.grandchild2 = MicrositeSubPage(title='grandchild2')
         expected_related_links = [
             {'title': 'grandchild1', 'url': 'grandchild1'},
             {'title': 'grandchild2', 'url': 'grandchild2'},
