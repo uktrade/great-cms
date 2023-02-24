@@ -22,6 +22,12 @@ from export_academy.cms_panels import ExportAcademyPagePanels
 
 
 class Event(TimeStampedModel, ClusterableModel):
+    """
+    Represents an Export Academy event.
+
+    Includes Wagtail-specific types to enable Event objects to be managed from Wagtail admin.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000)
@@ -66,6 +72,12 @@ class Event(TimeStampedModel, ClusterableModel):
 
 
 class Registration(TimeStampedModel):
+    """
+    Represents an onboarding to Export Academy.
+
+    Captures data submitted via the Export Academy registration form.
+    """
+
     email = models.EmailField(primary_key=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -79,6 +91,12 @@ class Registration(TimeStampedModel):
 
 
 class Booking(TimeStampedModel):
+    """
+    Represents the booking of an Event object.
+
+    Maps an Event object to a Registration object and registers a status.
+    """
+
     CONFIRMED = 'Confirmed'
     CANCELLED = 'Cancelled'
     STATUSES = (

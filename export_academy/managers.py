@@ -4,8 +4,14 @@ from django.db import models
 
 
 class EventQuerySet(models.QuerySet):
+    """Handles lazy database lookups for a set of Event objects."""
+
     current_date = datetime.datetime.now().date()
     current_isodate = current_date.isocalendar()
+
+    #####################################
+    # METHODS THAT MAP TO DJANGO-FILTER #
+    #####################################
 
     def all(self):
         return self
