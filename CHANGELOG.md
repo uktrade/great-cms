@@ -5,6 +5,8 @@
 ### Enhancements
 * KLS-426 - Add event types to filterset on UKEA's listings page
 * KLS-452 - Event cloning from Wagtail admin
+* KLS-391 - Remove deprecation warnings after upgrading to Django v3.2
+* KLS-429 - UKEA's Event 'complete' actions
 
 ## [2.28.0](https://github.com/uktrade/great-cms/releases/tag/2.28.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.27.0...2.28.0)
@@ -36,7 +38,7 @@
 * Export Academy event management
 * KLS-368 - Reskin styling and bug fixes
 * KLS-395 - Update django to 3.2.18, directory-sso-api-client to >= 7.1.1
-* KLS-343 Add Export academy landing page
+* KLS-343 - Add Export academy landing page
 * KLS-404 - Add time filters to the Export Academy event listings page
 
 ## [2.25.1](https://github.com/uktrade/great-cms/releases/tag/2.25.1)

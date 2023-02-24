@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from great_components.mixins import GA360Mixin
 from modelcluster.contrib.taggit import ClusterTaggableManager
