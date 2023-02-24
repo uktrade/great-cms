@@ -32,4 +32,4 @@ class IntentForm(forms.Form):
         widget=forms.CheckboxSelectInlineLabelMultiple(attrs={'id': 'intent-select'}),
         choices=CHOICES,
     )
-    intentOther = forms.CharField(label='', min_length=2, max_length=50, required=False)
+    intent_other = forms.CharField(label='', min_length=2, max_length=50, required=False)
