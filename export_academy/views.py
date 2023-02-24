@@ -1,11 +1,14 @@
 from django.urls import reverse_lazy
 from django.views.generic import FormView, ListView, TemplateView, UpdateView
+from django_filters.views import FilterView
 
-from export_academy import forms, helpers, models
+from export_academy import filters, forms, helpers, models
 
 
-class EventListView(ListView):
+class EventListView(FilterView, ListView):
     model = models.Event
+    filterset_class = filters.EventFilter
+    template_name = 'export_academy/event_list.html'
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)

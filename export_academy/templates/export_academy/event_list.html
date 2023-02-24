@@ -4,6 +4,20 @@
 {% block head_title %}Upcoming events{% endblock %}
 
 {% block content %}
+<section id="filters">
+    <div class="container">
+        <form action="" method="get">
+            <button type="submit" class="pill" name="when" value="all">All</button>
+            <button type="submit" class="pill" name="when" value="today">Today</button>
+            <button type="submit" class="pill" name="when" value="tomorrow">Tomorrow</button>
+            <button type="submit" class="pill" name="when" value="this_week">This week</button>
+            <button type="submit" class="pill" name="when" value="next_week">Next week</button>
+            <button type="submit" class="pill" name="when" value="this_month">This month</button>
+            <button type="submit" class="pill" name="when" value="next_month">Next month</button>
+        </form>
+    </div>
+</section>
+
 <section id="upcoming-events">
     <div class="container">
         <h1 class="heading-xlarge">Upcoming events</h1>
@@ -15,7 +29,9 @@
                 <ul>
                     {% for event in event_by_date.list %}
                     <li>
-                        {{ event.start_date|date:"P" }} - {{ event.end_date|date:"P" }} {{ event.name }}
+                        <h5>{{ event.start_date|date:"fa" }} - {{ event.end_date|date:"fa" }}</h5>
+                        <h6>{{ event.name }}</h6>
+                        <p>{{ event.description }}</p>
                         <form action="{% url 'export_academy:booking' %}" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="event_id" value="{{ event.id }}">
@@ -31,6 +47,7 @@
                     {% endfor %}
                 </ul>
             </li>
+            <hr>
             {% endfor %}
         </ul>
     </div>
