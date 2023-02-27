@@ -3,6 +3,7 @@
 ## Pre release
 ### Enhancements
 * IOO-402 - International Online Offer triage question 1 allowing user to select business sector
+* KLS-342 - Update export academy landing page to be in line with design
 
 ## [2.26.0](https://github.com/uktrade/great-cms/releases/tag/2.26.0)
 ### Enhancements
