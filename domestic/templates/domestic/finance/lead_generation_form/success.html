@@ -12,12 +12,13 @@
 
 {% block head_title %}UK Export Finance - We have received your details{% endblock %}
 {% block content %}
+{% breadcrumbs 'Contact Us' %}
+    <a href="/">great.gov.uk</a>
+    <a href="{% url 'domestic:get-finance' %}">UKEF</a>
+    <a href="{% slugurl 'trade-finance' %}">Trade Finance</a>
+{% endbreadcrumbs %}
     <div class="container">
-        {% breadcrumbs 'Contact Us' %}
-            <a href="/">great.gov.uk</a>
-            <a href="{% url 'domestic:get-finance' %}">UKEF</a>
-            <a href="{% slugurl 'trade-finance' %}">Trade Finance</a>
-        {% endbreadcrumbs %}
+
         <div class="grid-row">
             <div class="column-two-thirds">
                 <div id="success-message-container">

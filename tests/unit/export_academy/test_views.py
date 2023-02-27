@@ -38,7 +38,7 @@ def test_export_academy_event_list_page_context(client, user):
 
     response = client.get(url)
 
-    assert list(response.context['bookings']) == [event.id]
+    assert [str(x) for x in response.context['bookings']] == [event.id]
 
 
 @pytest.mark.django_db

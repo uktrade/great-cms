@@ -1,6 +1,18 @@
 # Changelog
 
 ## Pre release
+### Enhancements
+* IOO-402 - International Online Offer triage question 1 allowing user to select business sector
+
+## [2.26.0](https://github.com/uktrade/great-cms/releases/tag/2.26.0)
+### Enhancements
+* Export Academy event management
+* KLS-368 - Reskin styling and bug fixes
+* KLS-395 - Update django to 3.2.18, directory-sso-api-client to >= 7.1.1
+* KLS-343 Add Export academy landing page
+* KLS-404 - Add time filters to the Export Academy event listings page
+
+## [2.25.1](https://github.com/uktrade/great-cms/releases/tag/2.25.1)
 
 ### Bugs fixed
 KLS-368 - Removed custom wagtailadmin JS and HTML causing page chooser issues
@@ -8,6 +20,8 @@ KLS-368 - Removed custom wagtailadmin JS and HTML causing page chooser issues
 ### Hotfix
 
 ### Enhancements
+* Updated UI component styling for reskin
+* IOO-400 - International Online Offer using govuk frontend toolkit added styling to start page
 
 ## [2.25.0](https://github.com/uktrade/great-cms/releases/tag/2.25.0)
 ### Bugs fixed
@@ -24,6 +38,7 @@ KLS-368 - Removed custom wagtailadmin JS and HTML causing page chooser issues
 ### Enhancements
 * KLS-213 - Add phone number field to trade office contact forms
 * KLS-266 - Get survey details from directory API
+
 
 
 ## [2.24.0](https://github.com/uktrade/great-cms/releases/tag/2.24.0)
@@ -56,8 +71,6 @@ KLS-368 - Removed custom wagtailadmin JS and HTML causing page chooser issues
 ### Enhancements
 * KLS-266 - Get survey details from directory API
 * KLS-213 - Add phone number field to trade office contact forms
-
-* IOO-400 - International Online Offer using govuk frontend toolkit added styling to start page
 
 ## [2.20.0](https://github.com/uktrade/great-cms/releases/tag/2.20.0)
 

@@ -11,13 +11,12 @@
 
 {% block content %}
 
-  <div class="container">
-    {% breadcrumbs 'What we offer you' %}
-      <a href="/">great.gov.uk</a>
-      <a href="{% url 'domestic:get-finance' %}">UKEF</a>
-      <a href="{% url 'domestic:project-finance' %}">Project Finance</a>
-    {% endbreadcrumbs %}
-  </div>
+  {% breadcrumbs 'What we offer you' %}
+    <a href="/">great.gov.uk</a>
+    <a href="{% url 'domestic:get-finance' %}">UKEF</a>
+    <a href="{% url 'domestic:project-finance' %}">Project Finance</a>
+  {% endbreadcrumbs %}
+
   <section id="article-what-we-offer">
     <article class="article-main what-we-offer-you-article">
       <div class="container">

@@ -11,13 +11,11 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <div class="container">
-        {% breadcrumbs market_name %}
-            <a href="/">great.gov.uk</a>
-            {% comment %} services_urls comes from great_components.context_processors.urls_processor {% endcomment %}
-            <a href="{{ services_urls.soo }}">Selling Online Overseas</a>
-        {% endbreadcrumbs %}
-    </div>
+{% breadcrumbs market_name %}
+    <a href="/">great.gov.uk</a>
+    {% comment %} services_urls comes from great_components.context_processors.urls_processor {% endcomment %}
+    <a href="{{ services_urls.soo }}">Selling Online Overseas</a>
+{% endbreadcrumbs %}
 {% endblock %}
 
 {% block step_title_container %}
