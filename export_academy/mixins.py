@@ -20,10 +20,10 @@ from export_academy import models
 
 class SaveAndSendNotifyMixin(GovNotifyEmailActionMixin):
     def save_model(self, data):
-        self.model.save(data)
+        self.model(**data).save()
 
     def get_or_save_object(self, data):
-        return self.model.objects.get_or_create(data)
+        return self.model.objects.get_or_create(**data)
 
     def send_gov_notify(self, data):
         action = actions.GovNotifyEmailAction(
