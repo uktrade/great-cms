@@ -111,6 +111,9 @@ class SimpleVideoBlock(blocks.StructBlock):
 class ButtonBlock(blocks.StructBlock):
     label = blocks.CharBlock(max_length=255)
     link = LinkBlock(required=False)
+    secondary = blocks.BooleanBlock(
+        required=False, help_text='Determines the appearance of the button. Default is primary.'
+    )
 
     class Meta:
         template = 'core/button.html'

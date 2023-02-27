@@ -11,12 +11,12 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Page
 
 from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRichText
 from core.constants import RICHTEXT_FEATURES__REDUCED
 from core.fields import single_struct_block_stream_field_factory
 from core.models import TimeStampedModel
+from domestic.models import BaseContentPage
 from export_academy import managers
 from export_academy.cms_panels import ExportAcademyPagePanels
 
@@ -110,7 +110,7 @@ class Booking(TimeStampedModel):
     status = models.CharField(choices=STATUSES, default=CONFIRMED, max_length=15)
 
 
-class ExportAcademyHomePage(ExportAcademyPagePanels, Page):
+class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
     template = 'export_academy/landing_page.html'
 
     hero_image = models.ForeignKey(
