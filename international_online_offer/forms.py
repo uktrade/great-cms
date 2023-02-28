@@ -65,8 +65,8 @@ class LocationForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        location = cleaned_data.get("location")
-        location_none = cleaned_data.get("location_none")
+        location = cleaned_data.get('location')
+        location_none = cleaned_data.get('location_none')
         if not location and not location_none:
             self.add_error('location', 'Please select a location or "not decided" to continue')
             self.add_error('location_none', 'Please select a location or "not decided" to continue')
