@@ -41,7 +41,7 @@ class IntentForm(forms.Form):
         if not intent:
             self.add_error('intent', 'This field is required')
             return data
-        if any("Other" in s for s in intent) and not intent_other:
+        if any('Other' in s for s in intent) and not intent_other:
             self.add_error('intent_other', 'This field is required')
         else:
             return data
