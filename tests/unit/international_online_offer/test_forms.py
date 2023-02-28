@@ -22,7 +22,7 @@ def test_triage_sector_validation(form_data, is_valid):
 @pytest.mark.parametrize(
     'form_data,is_valid',
     (
-        ({'intent': ['Onward sales and exports', 'Other'], 'intent_other': 'Test'}, True),
+        ({'intent': ['Onward sales and exports from the UK', 'Other'], 'intent_other': 'Test'}, True),
         ({'intent': ['Other'], 'intent_other': ''}, False),
     ),
 )

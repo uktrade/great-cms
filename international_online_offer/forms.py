@@ -19,9 +19,9 @@ class SectorForm(forms.Form):
 
 class IntentForm(forms.Form):
     CHOICES = [
-        ('Set up a new office', 'Set up a new office'),
+        ('Set up a new premises', 'Set up a new premises'),
         ('Set up a new distribution centre', 'Set up a new distribution centre'),
-        ('Onward sales and exports', 'Onward sales and exports'),
+        ('Onward sales and exports from the UK', 'Onward sales and exports from the UK'),
         ('Research, develop and collaborate', 'Research, develop and collaborate'),
         ('Find people with specialist skills', 'Find people with specialist skills'),
         ('Other', 'Other'),

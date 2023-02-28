@@ -15,67 +15,22 @@
 
 {% block content %}
     <div class="container">
-      <main>
-        <div class="grid-row">
-          <div class="column-two-thirds">
-            <a href="{% url 'international_online_offer:index' %}" class="link-back-new atlas-body">Back</a>
-            <span class="atlas-body" style="float: right;">Step 1 of 5</span>
-            <br/>
-            <br/>
-          </div>
-        </div>
-        <div class="grid-row">
-          <div class="column-two-thirds">
-            <h3 class="atlas-h--m">What is your business sector?</h3>
-          </div>
-        </div>
-        <div class="grid-row">
-          <div class="column-two-thirds">
-            <form method="post" onsubmit="return onSubmitSector()">
-              {% csrf_token %}
-              <div class="form-group" id="id_sector-container">
-                <label class="atlas-body--m form-label" for="sector">Enter a sector</label>
-                <span class="atlas-body form-hint">Type to search and choose from the list</span>
-                {% include 'core/includes/form_field.html' with field=form.sector %}
-                <br/>
-                <button type="submit" class="atlas-button">Continue
-                  <span class="atlas-button__icon">
-                    <svg viewBox="0 0 13 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink">
-                      <path fill="currentColor" d="M2.893 20l9.834-10L2.893 0 0 2.921 6.976 10 0 17.079z"></path>
-                    </svg>
-                  </span>
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-          <div class="grid-row">
-            <div class="column-two-thirds">
+      {% include '../includes/triage_header.html' with back_url=back_url step_text=step_text question_text=question_text %}
+      <div class="grid-row">
+        <div class="column-two-thirds">
+          <form method="post" onsubmit="return onSubmitSector()">
+            {% csrf_token %}
+            <div class="form-group" id="id_sector-container">
+              <label class="atlas-body--m form-label" for="sector">Enter a sector</label>
+              <span class="atlas-body form-hint">Type to search and choose from the list</span>
+              {% include 'core/includes/form_field.html' with field=form.sector %}
               <br/>
-              <div class="atlas-body--s">You can edit this later</div>
+              {% include '../includes/continue_button.html' %}
             </div>
-          </div>
-          <div class="grid-row">
-            <div class="column-two-thirds">
-              <br/>
-              <details class="details" data-module="govuk-details">
-                <summary class="details__summary">
-                  <span class="atlas-body--s">
-                    <div style="display: inline-block; width: 14px; height: 10px">
-                      <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <path fill="currentColor" d="M2.893 20l9.834-10L2.893 0 0 2.921 6.976 10 0 17.079z"></path>
-                      </svg>
-                    </div>
-                    &nbsp;Why we ask this question
-                  </span>
-                </summary>
-                <div class="inset-text atlas-body--s">
-                  We’ll use this information to provide customised content relevant to your sector and products or services.
-                </div>
-              </details>
-            </div>
+          </form>
         </div>
-      </main>
+      </div>
+      {% include '../includes/triage_footer.html' with why_we_ask_this_question_text=why_we_ask_this_question_text %}
     </div>
 {% endblock %}
 
