@@ -2,6 +2,7 @@
 
 ## Pre release
 ### Enhancements
+* IOO-415 - International Online Offer triage question 2 allowing user to select business intent
 * IOO-402 - International Online Offer triage question 1 allowing user to select business sector
 * KLS-342 - Update export academy landing page to be in line with design
 * KLS-353 - Export Academy booking and cancellation confirmation emails

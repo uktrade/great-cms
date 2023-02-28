@@ -76,7 +76,9 @@ if settings.DEBUG:
     urlpatterns = [path('__debug__/', include(debug_toolbar.urls))] + urlpatterns
 
 if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
-    urlpatterns = [path('international-online-offer/', include(international_online_offer.urls))] + urlpatterns
+    urlpatterns = [
+        path('international/international-online-offer/', include(international_online_offer.urls))
+    ] + urlpatterns
 
 if settings.FEATURE_EXPORT_ACADEMY:
     urlpatterns = [path('export-academy/', include(export_academy.urls, namespace='export_academy'))] + urlpatterns

@@ -49,11 +49,13 @@
 .atlas-h--m {
   @include atlas-bold;
   margin-bottom: .5em;
+  color: $atlas-dark-blue;
 }
 
 .atlas-h--s,
 .atlas-h--xs {
   @include atlas-bold;
+  color: $atlas-dark-blue;
 }
 
 .atlas-h--xl {
@@ -62,12 +64,14 @@
 
   @media (min-width: $breakpoint-medium) {
     font-size: 60px;
+    color: $atlas-dark-blue;
   }
 }
 
 .atlas-h--l {
   font-size: 36px;
   line-height: 1.1111;
+  color: $atlas-dark-blue;
 
   @media (min-width: $breakpoint-medium) {
     font-size: 48px;
@@ -78,6 +82,7 @@
 .atlas-h--m {
   font-size: 28px;
   line-height: 1.1428;
+  color: $atlas-dark-blue;
 
   @media (min-width: $breakpoint-medium) {
     font-size: 36px;
@@ -88,6 +93,7 @@
 .atlas-h--s {
   font-size: 24px;
   line-height: 1.25;
+  color: $atlas-dark-blue;
 
   @media (min-width: $breakpoint-medium) {
     font-size: 28px;
@@ -96,6 +102,7 @@
 }
 
 .atlas-h--xs {
+  color: $atlas-dark-blue;
   font-size: 20px;
   line-height: 1.6;
 }
