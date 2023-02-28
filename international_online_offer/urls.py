@@ -15,4 +15,9 @@ urlpatterns = [
         views.IOOSector.as_view(),
         name='sector',
     ),
+    path(
+        'intent/',
+        views.IOOIntent.as_view(),
+        name='intent',
+    ),
 ]
