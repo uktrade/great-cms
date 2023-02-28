@@ -81,48 +81,9 @@
 
 {% block body_js %}
   {{ block.super }}
-  <script src="{% static 'directory_components/js/vendor/accessible-autocomplete.min.js' %}"></script>
-  <script>
-    function customIOOSectorSuggest (query, populateResults) {
-      const sectors = [
-        { "Aerospace": ["aircraft design","component manufacturing","engines","maintenance","manufacturing and assembly","aeroplane","jet","helicopter","wings","turbofan","propellor","UAV","unmanned aerial vehicles"] },
-        { "Automotive": ["cars","motorcycle","van","component manufacturing","bodies and coachwork","electronic components","engines and transmission","tyres","design","maintenance","manufacturing and assembly","agricultural machinery","bicycles","caravans","cars","lorries","motorcycles","trailers","motorsport","retail (automotive)"] },
-        { "Food & Drink": ["casual dining","dining","alcoholic drinks","bakery products","brewing","dairy products","food and drink manufacturing","free from","allergen free food","frozen and chilled foods","fruit and vegetables","meat products","non-alcoholic drinks","cordial","juice drinks","organic food","pet food","ready meals","secondary food processing","bread","baking"] },
-      ];
-      let filteredSectors = sectors.filter(function (result) {
-        if (!query) return [];
-        const resultContains = Object.keys(result)[0].toLowerCase().indexOf(query.toLowerCase()) !== -1;
-        const tags = Object.values(result)[0];
-        let endonymContains = false;
-        for (let i = 0; i < tags.length; i++) {
-          if (endonymContains == true) { break; }
-          endonymContains = tags[i].toLowerCase().indexOf(query.toLowerCase()) !== -1
-        }
-        return resultContains || endonymContains;
-      });
-      let sectorParentNames = [];
-      for (let i = 0; i < filteredSectors.length; i++) {
-        sectorParentNames.push(Object.keys(filteredSectors[i])[0]);
-      }
-      populateResults(
-        sectorParentNames
-      )
-    }
-
-    function onSubmitSector() {
-      const autoCompleteSectorFieldValue = document.getElementById('js-sector-select').value;
-      document.getElementById('js-sector-select-select').value = autoCompleteSectorFieldValue;
-      window.localStorage.setItem('sector', autoCompleteSectorFieldValue);
-    }
-
-    function getSectorIfPreviouslySelected(fieldId) {
-      let previouslySelectedSector = window.localStorage.getItem(fieldId) ? window.localStorage.getItem(fieldId): '';
-      setTimeout(function() {
-        document.getElementById('js-sector-select-select').value = previouslySelectedSector;
-      }, 200);
-      return previouslySelectedSector;
-    }
-
+  <script type="text/javascript" src="{% static 'directory_components/js/vendor/accessible-autocomplete.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'javascript/international-online-offer.triage.js' %}"></script>
+  <script type="text/javascript">
     accessibleAutocomplete.enhanceSelectElement({
       selectElement: document.getElementById('js-sector-select'),
       source: customIOOSectorSuggest,

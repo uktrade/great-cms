@@ -7,6 +7,7 @@
 * KLS-342 - Update export academy landing page to be in line with design
 * KLS-353 - Export Academy booking and cancellation confirmation emails
 * KLS-425 - Update broken links for export opportunities
+* IOO-418 - International Online Offer triage question 3 allowing user to select business location
 
 ## [2.26.0](https://github.com/uktrade/great-cms/releases/tag/2.26.0)
 ### Enhancements

@@ -42,3 +42,36 @@ class IntentForm(forms.Form):
             self.add_error('intent_other', 'This field is required')
         else:
             return cleaned_data
+
+
+class LocationForm(forms.Form):
+    CHOICES = [
+        ('', ''),
+        ('Belfast', 'Belfast'),
+        ('Cardiff', 'Cardiff'),
+        ('Edinburgh', 'Edinburgh'),
+        ('London', 'London'),
+    ]
+    location = forms.fields.ChoiceField(
+        label='',
+        required=False,
+        widget=Select(attrs={'id': 'js-location-select'}),
+        choices=CHOICES,
+    )
+    location_none = forms.BooleanField(
+        required=False,
+        label='I have not decided on a location yet',
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        location = cleaned_data.get("location")
+        location_none = cleaned_data.get("location_none")
+        if not location and not location_none:
+            self.add_error('location', 'Please select a location or "not decided" to continue')
+            self.add_error('location_none', 'Please select a location or "not decided" to continue')
+        if location and location_none:
+            self.add_error('location', 'Please select only one choice to continue')
+            self.add_error('location_none', 'Please select only one choice to continue')
+        else:
+            return cleaned_data

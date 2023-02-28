@@ -18,4 +18,10 @@ class IOOSector(FormView):
 class IOOIntent(FormView):
     form_class = forms.IntentForm
     template_name = 'ioo/triage/intent.html'
+    success_url = reverse_lazy('international_online_offer:location')
+
+
+class IOOLocation(FormView):
+    form_class = forms.LocationForm
+    template_name = 'ioo/triage/location.html'
     success_url = reverse_lazy('international_online_offer:index')
