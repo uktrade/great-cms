@@ -35,10 +35,10 @@ class IntentForm(forms.Form):
     intent_other = forms.CharField(label='', min_length=2, max_length=50, required=False)
 
     def clean(self):
-        data = self.cleaned_data
-        intent = data.get('intent')
-        intent_other = data.get('intent_other')
+        cleaned_data = super().clean()
+        intent = cleaned_data = super().clean().get('intent')
+        intent_other = cleaned_data = super().clean().get('intent_other')
         if intent and any('Other' in s for s in intent) and not intent_other:
             self.add_error('intent_other', 'This field is required')
         else:
-            return data
+            return cleaned_data
