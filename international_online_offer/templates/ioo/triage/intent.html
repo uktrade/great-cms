@@ -89,23 +89,23 @@
   {{ block.super }}
   <script type="text/javascript" src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
   <script type="text/javascript">
-      var companyTypeOther = document.getElementById('intent-select_5');
-      var otherInputs = document.getElementById('id_intent_other-container');
-      var companyTypeContainer = document.getElementById('id_intent_container');
-
-      GOVUK.utils.toggleRadioOtherOnClick(companyTypeOther, otherInputs);
-      GOVUK.utils.toggleFieldsetClassOnClick(
-          [companyTypeContainer],
-          companyTypeOther
-      );
-  </script>
-  <script type="text/javascript">
+    const companyTypeOther = document.getElementById('intent-select_5');
+    const otherInputs = document.getElementById('id_intent_other-container');
+    const companyTypeContainer = document.getElementById('id_intent_container');
     const checkboxContainer = document.getElementById('intent-select');
     const checkboxElements = checkboxContainer.querySelectorAll('input[type=checkbox]');
     const otherCheckboxElement = document.getElementById('intent-select_5');
+
+    GOVUK.utils.toggleRadioOtherOnClick(companyTypeOther, otherInputs);
+
+    GOVUK.utils.toggleFieldsetClassOnClick(
+        [companyTypeContainer],
+        companyTypeOther
+    );
+
     otherCheckboxElement.addEventListener("change", (e) => {
       if (otherCheckboxElement.checked == false) {
-        document.getElementById('id_intentOther').value = '';
+        document.getElementById('id_intent_other').value = '';
       }
     })
 
@@ -114,22 +114,23 @@
       for (let i = 0; i < checkboxElements.length; i++) {
         checkboxElements[i].checked && checkedValues.push(document.getElementById('intent-select_' + i).value)
       }
-      window.localStorage.setItem('intent', checkedValues);
-      window.localStorage.setItem('intentOther', document.getElementById('id_intentOther').value);
+      window.localStorage.setItem('intent', JSON.stringify(checkedValues));
+      window.localStorage.setItem('intentOther', document.getElementById('id_intent_other').value);
     }
 
     function getIntentIfPreviouslySelected() {
-      let previouslySelectedIntent = window.localStorage.getItem('intent') ? window.localStorage.getItem('intent').split(','): [];
-
+      const previouslySelectedIntent = window.localStorage.getItem('intent') ? JSON.parse(window.localStorage.getItem('intent')): [];
+      const previouslySelectedIntentOther = window.localStorage.getItem('intentOther');
+      if (previouslySelectedIntentOther) {
+        document.getElementById('id_intent_other').value = previouslySelectedIntentOther;
+        otherCheckboxElement.click();
+      }
       for (let i = 0; i < previouslySelectedIntent.length; i++) {
         for (let o = 0; o < checkboxElements.length; o++) {
           if (previouslySelectedIntent[i] == checkboxElements[o].value) {
             checkboxElements[o].checked = true;
           }
         }
-      }
-      if (window.localStorage.getItem('intentOther') != null) {
-         document.getElementById('id_intentOther').value = window.localStorage.getItem('intentOther');
       }
     }
 
