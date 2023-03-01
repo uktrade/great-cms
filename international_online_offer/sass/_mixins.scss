@@ -1,9 +1,11 @@
 @mixin atlas-regular {
   font-family: 'Euclid Flex B', Roboto, Arial, sans-serif;
   font-weight: 400;
+  color: $atlas-grey-darkest;
 }
 
 @mixin atlas-bold {
   font-family: 'Euclid Flex B', Roboto, Arial, sans-serif;
   font-weight: 900;
+  color: $atlas-grey-darkest;
 }

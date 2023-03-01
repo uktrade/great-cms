@@ -1,38 +1,76 @@
-{% extends "core/base.html" %}
+{% extends 'domestic/base.html' %}
+{% load wagtailimages_tags %}
 {% load wagtailcore_tags %}
 {% load static %}
-
-{% block css_layout_class %}landing-page{% endblock %}
+{% load wagtailimages_tags %}
 
 {% block content %}
-  <style>
-  .export-academy__page.h1 {
-    color: #6f787a;
-    font-size: 48px;
-    font-weight: bold;
-    line-height: 50px;
-    margin-bottom: 50px;
-  }
+    {% if not image_url %}
+    {% image page.hero_image original as rendition %}
+    {% endif %}
+    {% firstof image_url rendition.url as image_url %}
 
-  .export-academy__home-page {
-    padding-top: 120px;
-    margin-bottom: 120px;
-  }
-
-  .export-academy__wrapper--paragraph {
-    color: #6f787a;
-    font-size: 20px;
-    line-height: 30px;
-    margin: 0 0 40px 0;
-  }
-  </style>
-    <section class="export-academy__page export-academy__home-page container" id="export-academy-root">
-        <div class="grid">
-            <div class="c-1-2-l">
-                <h1 class="h1">{{ page.title }}</h1>
-                <p class="export-academy__wrapper--paragraph">{{ page.hero_text | richtext }}</p>
+    <div class="page-header article-header" id="hero">
+        <div class="inner-header">
+            <div >
+                <h1>{{ page.title }}</h1>
+                <p>{{ page.hero_text | richtext }}</p>
                 {% include_block page.hero_cta %}
             </div>
+            <div class="image-container" style="background: url({{ image_url }})">
+            </div>
         </div>
+    </div>
+
+
+    {% block breadcrumbs %}
+      {% include 'components/breadcrumbs_cms.html' %}
+    {% endblock %}
+
+    {% if page.banner_label %}
+    <div class="padding-top-30 padding-bottom-30">
+        {% include 'components/informative_banner.html' with banner_label=page.banner_label banner_content=page.banner_content %}
+    </div>
+    {% endif %}
+
+    <section class="padding-bottom-30">
+        <div class="container">
+            <div class="grid-row">
+                <div class="column-three-quarters">
+                    <p>{{ page.steps_heading | richtext }}</p>
+                </div>
+            </div>
+            <div class="grid-row">
+                <ol class="steps-list-container">
+                {% for step in page.steps %}
+                    <li class="steps-list-item">
+                        <div class="steps-description">
+                            {{ step.value.description }}
+                        </div>
+                    </li>
+                {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <section class="background-white padding-top-45">
+        <div class="container">
+            <div class="grid-row">
+                <div class="column-three-quarters">
+                    <p>{{ page.panel_description | richtext }}</p>
+                </div>
+            </div>
+            <div class="flex-grid">
+                {% for panel in page.panels %}
+                <div class="column-third-xl column-half-l card-large-blue-heading">
+                    {% include 'components/card.html' with url=panel.value.link title=panel.value.title card_image=panel.value.image html_snippet=panel.value.description no_padding_card=True %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="container centre-children">
+        {% include_block page.next_cta %}
+    </div>
     </section>
 {% endblock %}

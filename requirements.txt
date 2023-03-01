@@ -219,7 +219,7 @@ monotonic==1.6
     # via
     #   directory-ch-client
     #   directory-client-core
-oauthlib==3.2.1
+oauthlib==3.2.2
     # via
     #   -r requirements.in
     #   requests-oauthlib
