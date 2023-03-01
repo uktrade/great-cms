@@ -136,6 +136,12 @@
   }
 }
 
+.card-large-blue-heading h4 {
+  color: $color-gov-link;
+  font-size: $font-size-h3 !important;
+  margin: $standard-padding 0 $standard-padding !important;
+}
+
 @media (max-width: 640px) {
   .card {
     min-height: auto;

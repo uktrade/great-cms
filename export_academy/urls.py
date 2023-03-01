@@ -32,7 +32,7 @@ urlpatterns = [
         name='registration-success',
     ),
     path(
-        'booking/success/',
+        'booking/success',
         views.SuccessPageView.as_view(template_name='export_academy/booking_success.html'),
         name='booking-success',
     ),
