@@ -19,9 +19,9 @@ class SectorForm(forms.Form):
 
 class IntentForm(forms.Form):
     CHOICES = [
-        ('Set up a new office', 'Set up a new office'),
+        ('Set up a new premises', 'Set up a new premises'),
         ('Set up a new distribution centre', 'Set up a new distribution centre'),
-        ('Onward sales and exports', 'Onward sales and exports'),
+        ('Onward sales and exports from the UK', 'Onward sales and exports from the UK'),
         ('Research, develop and collaborate', 'Research, develop and collaborate'),
         ('Find people with specialist skills', 'Find people with specialist skills'),
         ('Other', 'Other'),
@@ -40,5 +40,40 @@ class IntentForm(forms.Form):
         intent_other = cleaned_data = super().clean().get('intent_other')
         if intent and any('Other' in s for s in intent) and not intent_other:
             self.add_error('intent_other', 'This field is required')
+        else:
+            return cleaned_data
+
+
+class LocationForm(forms.Form):
+    VALIDATION_MESSAGE_SELECT_OPTION = 'Please select a location or "not decided" to continue'
+    VALIDATION_MESSAGE_SELECT_ONE_OPTION = 'Please select only one choice to continue'
+    CHOICES = [
+        ('', ''),
+        ('Belfast', 'Belfast'),
+        ('Cardiff', 'Cardiff'),
+        ('Edinburgh', 'Edinburgh'),
+        ('London', 'London'),
+    ]
+    location = forms.fields.ChoiceField(
+        label='',
+        required=False,
+        widget=Select(attrs={'id': 'js-location-select'}),
+        choices=CHOICES,
+    )
+    location_none = forms.BooleanField(
+        required=False,
+        label='I have not decided on a location yet',
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        location = cleaned_data.get('location')
+        location_none = cleaned_data.get('location_none')
+        if not location and not location_none:
+            self.add_error('location', LocationForm.VALIDATION_MESSAGE_SELECT_OPTION)
+            self.add_error('location_none', LocationForm.VALIDATION_MESSAGE_SELECT_OPTION)
+        if location and location_none:
+            self.add_error('location', LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION)
+            self.add_error('location_none', LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION)
         else:
             return cleaned_data
