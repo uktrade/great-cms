@@ -45,6 +45,8 @@ class IntentForm(forms.Form):
 
 
 class LocationForm(forms.Form):
+    VALIDATION_MESSAGE_SELECT_OPTION = 'Please select a location or "not decided" to continue'
+    VALIDATION_MESSAGE_SELECT_ONE_OPTION = 'Please select only one choice to continue'
     CHOICES = [
         ('', ''),
         ('Belfast', 'Belfast'),
@@ -68,10 +70,10 @@ class LocationForm(forms.Form):
         location = cleaned_data.get('location')
         location_none = cleaned_data.get('location_none')
         if not location and not location_none:
-            self.add_error('location', 'Please select a location or "not decided" to continue')
-            self.add_error('location_none', 'Please select a location or "not decided" to continue')
+            self.add_error('location', LocationForm.VALIDATION_MESSAGE_SELECT_OPTION)
+            self.add_error('location_none', LocationForm.VALIDATION_MESSAGE_SELECT_OPTION)
         if location and location_none:
-            self.add_error('location', 'Please select only one choice to continue')
-            self.add_error('location_none', 'Please select only one choice to continue')
+            self.add_error('location', LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION)
+            self.add_error('location_none', LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION)
         else:
             return cleaned_data

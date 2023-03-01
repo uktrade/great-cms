@@ -52,13 +52,13 @@ def test_triage_location_form_validation(form_data, is_valid):
     if not is_valid:
         found_location_valdation_error = False
         found_location_none_valdation_error = False
-        if form.errors['location'][0] == 'Please select a location or "not decided" to continue':
+        if form.errors['location'][0] == LocationForm.VALIDATION_MESSAGE_SELECT_OPTION:
             found_location_valdation_error = True
-        if form.errors['location'][0] == 'Please select only one choice to continue':
+        if form.errors['location'][0] == LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION:
             found_location_valdation_error = True
-        if form.errors['location_none'][0] == 'Please select a location or "not decided" to continue':
+        if form.errors['location_none'][0] == LocationForm.VALIDATION_MESSAGE_SELECT_OPTION:
             found_location_none_valdation_error = True
-        if form.errors['location_none'][0] == 'Please select only one choice to continue':
+        if form.errors['location_none'][0] == LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION:
             found_location_none_valdation_error = True
         assert found_location_valdation_error
         assert found_location_none_valdation_error
