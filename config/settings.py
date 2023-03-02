@@ -86,6 +86,7 @@ INSTALLED_APPS = [
     'sso_profile',
     'directory_components',
     'export_academy.apps.ExportAcademyConfig',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -871,3 +872,16 @@ WAGTAILDOCS_MIME_TYPES = [
     'application/pdf',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ]
+
+# Celery
+CELERY_BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = REDIS_URL
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+CELERY_BROKER_POOL_LIMIT = None
+FEATURE_REDIS_USE_SSL = env.bool('FEATURE_REDIS_USE_SSL', False)
+CELERY_TASK_ALWAYS_EAGER = env.bool('CELERY_TASK_ALWAYS_EAGER', True)
+
+EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES = env.int('EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES', 30)
