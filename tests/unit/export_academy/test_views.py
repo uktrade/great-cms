@@ -45,9 +45,10 @@ def test_export_academy_event_list_page_context(client, user):
 
 @pytest.mark.django_db
 def test_export_academy_registration_page(client, user):
+    event = factories.EventFactory()
     client.force_login(user)
 
-    url = reverse('export_academy:registration')
+    url = reverse('export_academy:registration', kwargs=dict(booking_id=event.id))
     response = client.get(url)
 
     assert response.status_code == 200
@@ -56,7 +57,8 @@ def test_export_academy_registration_page(client, user):
 
 @pytest.mark.django_db
 def test_export_academy_registration_page_redirect(client):
-    url = reverse('export_academy:registration')
+    event = factories.EventFactory()
+    url = reverse('export_academy:registration', kwargs=dict(booking_id=event.id))
     response = client.get(url)
 
     assert response.status_code == 302
@@ -96,31 +98,37 @@ def test_export_academy_success_views(client, user, page_url, page_content, expe
 def test_export_academy_registration_success(mock_action_class, client, user, valid_registration_form_data):
     client.force_login(user)
 
-    url = reverse('export_academy:registration')
+    event = factories.EventFactory()
+    url = reverse('export_academy:registration', kwargs=dict(booking_id=event.id))
 
     response = client.post(url, valid_registration_form_data)
 
     assert response.status_code == 302
     assert response.url == reverse('export_academy:registration-success')
-    assert mock_action_class.call_count == 1
-    assert mock_action_class.call_args == mock.call(
+    assert mock_action_class.call_count == 2
+    assert mock_action_class.call_args_list[0] == mock.call(
         template_id=settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID,
         email_address=user.email,
         form_url=url,
     )
-    assert mock_action_class().save.call_count == 1
+    assert mock_action_class.call_args_list[1] == mock.call(
+        email_address=user.email,
+        template_id=settings.EXPORT_ACADEMY_NOTIFY_BOOKING_TEMPLATE_ID,
+        form_url=url,
+    )
+    assert mock_action_class().save.call_count == 2
 
 
 @pytest.mark.django_db
-def test_export_academy_booking_redirect(client):
+def test_export_academy_booking_redirect(client, user):
     event = factories.EventFactory()
     url = reverse('export_academy:booking')
     form_data = {'event_id': [event.id], 'status': ['Confirmed']}
-
+    client.force_login(user)
     response = client.post(url, form_data)
 
     assert response.status_code == 302
-    assert response.url == reverse('export_academy:registration')
+    assert response.url == reverse('export_academy:registration', kwargs=dict(booking_id=event.id))
 
 
 @mock.patch.object(actions, 'GovNotifyEmailAction')

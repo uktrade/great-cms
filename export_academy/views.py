@@ -4,7 +4,7 @@ from django_filters.views import FilterView
 
 from config import settings
 from export_academy import filters, forms, models
-from export_academy.mixins import SaveAndSendNotifyMixin
+from export_academy.mixins import BookingMixin
 
 
 class EventListView(FilterView, ListView):
@@ -27,27 +27,11 @@ class EventListView(FilterView, ListView):
         return ctx
 
 
-class BookingUpdateView(SaveAndSendNotifyMixin, UpdateView):
-    model = models.Booking
+class BookingUpdateView(BookingMixin, UpdateView):
+    booking_model = models.Booking
     success_url = reverse_lazy('export_academy:booking-success')
     fields = ['status']
     notify_template = None
-
-    def register_booking(self, data):
-        booking_data = dict(
-            event_id=data['event_id'], registration_id=self.request.user.email, defaults={'status': data['status']}
-        )
-        booking_object, _created = self.get_or_save_object(booking_data)
-        return booking_object
-
-    def send_email_confirmation(self, booking_object: models.Booking, post_data):
-        if post_data['status'] == booking_object.CONFIRMED:
-            self.notify_template = settings.EXPORT_ACADEMY_NOTIFY_BOOKING_TEMPLATE_ID
-        else:
-            self.notify_template = settings.EXPORT_ACADEMY_NOTIFY_CANCELLATION_TEMPLATE_ID
-
-        notify_data = dict(first_name=booking_object.registration.first_name, event_names=booking_object.event.name)
-        self.send_gov_notify(notify_data)
 
     def get_object(self, queryset=None):
         post_data = self.request.POST
@@ -56,11 +40,12 @@ class BookingUpdateView(SaveAndSendNotifyMixin, UpdateView):
         return booking_object
 
 
-class RegistrationFormView(SaveAndSendNotifyMixin, FormView):
+class RegistrationFormView(BookingMixin, FormView):
     template_name = 'export_academy/registration_form.html'
     form_class = forms.EARegistration
     success_url = reverse_lazy('export_academy:registration-success')
     model = models.Registration
+    booking_model = models.Booking
     notify_template = settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID
 
     def save_registration(self, form):
@@ -73,9 +58,16 @@ class RegistrationFormView(SaveAndSendNotifyMixin, FormView):
         )
         self.save_model(reg_data)
 
+    def confirm_booking(self, booking_id):
+        booking_data = dict(event_id=booking_id, status=models.Booking.CONFIRMED)
+        booking_object = self.register_booking(booking_data)
+        self.send_email_confirmation(booking_object, booking_data)
+
     def form_valid(self, form):
         self.save_registration(form)
         self.send_gov_notify(form.cleaned_data)
+        booking_id = self.kwargs.get("booking_id")
+        self.confirm_booking(booking_id)
         return super().form_valid(form)
 
 

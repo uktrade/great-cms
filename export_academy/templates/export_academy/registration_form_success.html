@@ -24,12 +24,23 @@
         </div>
     </div>
 </section>
+    <section id="thank-you-section" class="thank-you-section padding-bottom-45">
+        <div class="container">
+            <div class="grid-row">
+                <div class="column-two-thirds">
+                    {% with "Booking confirmation page" as success_message  %}
+                      {% include 'components/message_box.html' with heading="Thank you" description=success_message %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </section>
 <div class="container">
     <div class="grid-row">
         <div class="column-two-thirds">
             <h1 class="heading-large margin-top-0">What happens next</h1>
             <ul class="list list-bullet">
-                <li>Why not book an event now</li>
+                <li>Why not book another event now</li>
                 <li>You can do this from upcoming events page</li>
             </ul>
         </div>
