@@ -18,13 +18,13 @@
       {% include '../includes/triage_header.html' with back_url=back_url step_text=step_text question_text=question_text %}
       <div class="grid-row">
         <div class="column-two-thirds">
-          <form method="post" onsubmit="return onSubmitSector()">
+          <form method="post" onsubmit="return onSubmitLocation()">
             {% csrf_token %}
-            <div class="form-group" id="id_sector-container">
-              <label class="atlas-body--m form-label" for="sector">Enter a sector</label>
+            <div class="form-group" id="id_location-container">
+              <label class="atlas-body--m form-label" for="sector">Enter a city, county or region</label>
               <span class="atlas-body form-hint">Type to search and choose from the list</span>
-              {% include 'core/includes/form_field.html' with field=form.sector %}
-              <br/>
+              {% include 'core/includes/form_field.html' with field=form.location %}
+              {% include 'core/includes/form_field.html' with field=form.location_none %}
               {% include '../includes/continue_button.html' %}
             </div>
           </form>
@@ -40,11 +40,13 @@
   <script type="text/javascript" src="{% static 'javascript/international-online-offer.triage.js' %}"></script>
   <script type="text/javascript">
     accessibleAutocomplete.enhanceSelectElement({
-      selectElement: document.getElementById('js-sector-select'),
-      source: customIOOSectorSuggest,
+      selectElement: document.getElementById('js-location-select'),
+      source: ['Belfast', 'Cardiff', 'Edinburgh', 'London'],
       autoselect: false,
-      defaultValue: getSectorIfPreviouslySelected('sector'),
+      defaultValue: getLocationIfPreviouslySelected('location'),
       minLength: 2,
     });
+
+    getLocationNoneIfPreviouslySelected();
   </script>
 {% endblock %}

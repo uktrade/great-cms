@@ -20,4 +20,9 @@ urlpatterns = [
         views.IOOIntent.as_view(),
         name='intent',
     ),
+    path(
+        'location/',
+        views.IOOLocation.as_view(),
+        name='location',
+    ),
 ]
