@@ -66,7 +66,7 @@ class RegistrationFormView(BookingMixin, FormView):
     def form_valid(self, form):
         self.save_registration(form)
         self.send_gov_notify(form.cleaned_data)
-        booking_id = self.kwargs.get("booking_id")
+        booking_id = self.kwargs.get('booking_id')
         self.confirm_booking(booking_id)
         return super().form_valid(form)
 
