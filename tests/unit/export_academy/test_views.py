@@ -120,6 +120,17 @@ def test_export_academy_registration_success(mock_action_class, client, user, va
 
 
 @pytest.mark.django_db
+def test_export_academy_booking_redirect_to_login(client, user):
+    event = factories.EventFactory()
+    url = reverse('export_academy:booking')
+    form_data = {'event_id': [event.id], 'status': ['Confirmed']}
+    response = client.post(url, form_data)
+
+    assert response.status_code == 302
+    assert response.url.startswith(reverse('core:signup'))
+
+
+@pytest.mark.django_db
 def test_export_academy_booking_redirect(client, user):
     event = factories.EventFactory()
     url = reverse('export_academy:booking')
