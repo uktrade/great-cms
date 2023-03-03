@@ -1,6 +1,12 @@
 import pytest
 
-from international_online_offer.forms import IntentForm, LocationForm, SectorForm
+from international_online_offer.forms import (
+    HiringForm,
+    IntentForm,
+    LocationForm,
+    SectorForm,
+    SpendForm,
+)
 
 
 @pytest.mark.parametrize(
@@ -32,33 +38,66 @@ def test_triage_intent_form_validation(form_data, is_valid):
     form = IntentForm(data)
     assert form.is_valid() == is_valid
     if not is_valid:
-        assert form.errors['intent_other'][0] == 'This field is required'
+        assert form.errors['intent_other'][0] == 'This field is required.'
 
 
 @pytest.mark.parametrize(
     'form_data,is_valid',
     (
-        ({'location': 'London', 'location_none': ''}, True),
-        ({'location': 'London', 'location_none': 'true'}, False),
-        ({'location': '', 'location_none': 'true'}, True),
-        ({'location': '', 'location_none': ''}, False),
+        ({'location': 'London', 'location_none': '', 'error_message': ''}, True),
+        (
+            {
+                'location': 'London',
+                'location_none': 'true',
+                'error_message': LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION,
+            },
+            False,
+        ),
+        ({'location': '', 'location_none': 'true', 'error_message': ''}, True),
+        (
+            {'location': '', 'location_none': '', 'error_message': LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION},
+            False,
+        ),
     ),
 )
 @pytest.mark.django_db
-def test_triage_location_form_validation(form_data, is_valid):
+def test_triage_location_form_validation(form_data, is_valid, error_message):
     data = form_data
     form = LocationForm(data)
     assert form.is_valid() == is_valid
     if not is_valid:
-        found_location_valdation_error = False
-        found_location_none_valdation_error = False
-        if form.errors['location'][0] == LocationForm.VALIDATION_MESSAGE_SELECT_OPTION:
-            found_location_valdation_error = True
-        if form.errors['location'][0] == LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION:
-            found_location_valdation_error = True
-        if form.errors['location_none'][0] == LocationForm.VALIDATION_MESSAGE_SELECT_OPTION:
-            found_location_none_valdation_error = True
-        if form.errors['location_none'][0] == LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION:
-            found_location_none_valdation_error = True
-        assert found_location_valdation_error
-        assert found_location_none_valdation_error
+        assert form.errors['location'][0] == error_message
+        assert form.errors['location_none'][0] == error_message
+
+
+@pytest.mark.parametrize(
+    'form_data,is_valid',
+    (
+        ({'hiring': '1-10'}, True),
+        ({'hiring': ''}, False),
+    ),
+)
+@pytest.mark.django_db
+def test_triage_hiring_form_validation(form_data, is_valid):
+    data = form_data
+    form = HiringForm(data)
+    assert form.is_valid() == is_valid
+    if not is_valid:
+        assert form.errors['hiring'][0] == 'This field is required.'
+
+
+@pytest.mark.parametrize(
+    'form_data,is_valid',
+    (
+        ({'spend': '10000-500000', 'spend_other': ''}, True),
+        ({'spend': 'Specific amount', 'spend_other': '4500000'}, True),
+        ({'spend': 'Specific amount', 'spend_other': ''}, False),
+    ),
+)
+@pytest.mark.django_db
+def test_triage_spend_form_validation(form_data, is_valid):
+    data = form_data
+    form = SpendForm(data)
+    assert form.is_valid() == is_valid
+    if not is_valid:
+        assert form.errors['spend_other'][0] == 'This field is required.'

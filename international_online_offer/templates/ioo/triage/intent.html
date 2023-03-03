@@ -10,7 +10,6 @@
 
 {% block head_css %}
   {{ block.super }}
-  <link href="{% static 'directory_components/js/vendor/accessible-autocomplete.min.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block content %}
@@ -20,7 +19,7 @@
         <div class="column-two-thirds">
           <form method="post" onsubmit="return onSubmitIntent()">
             {% csrf_token %}
-            <div class="">
+            <div class="form-group">
               <span class="atlas-body form-hint">Choose one or more options from the list</span>
               <br>
               <div id="id_intent_container" style="display: block;">
@@ -30,7 +29,6 @@
                 <span class='atlas-body'>Type your answer</span>
                 {% include 'core/includes/form_field.html' with field=form.intent_other %}
               </div>
-              <br/>
               {% include '../includes/continue_button.html' %}
             </div>
           </form>
