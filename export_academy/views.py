@@ -22,7 +22,7 @@ class EventListView(FilterView, ListView):
                 'event_id', flat=True
             )
 
-        ctx.update(bookings=bookings)
+        ctx.update(bookings=bookings, form=forms.EventFilterForm(self.request.GET))
 
         return ctx
 

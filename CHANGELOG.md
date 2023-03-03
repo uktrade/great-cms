@@ -18,6 +18,7 @@
 * IOO-402 - International Online Offer triage question 1 allowing user to select business sector
 * KLS-342 - Update export academy landing page to be in line with design
 * KLS-353 - Export Academy booking and cancellation confirmation emails
+* KLS-407 - Add format filters to the Export Academy event listings page
 
 ### Bugs fixed
 * KLS-425 - Update broken links for export opportunities
