@@ -33,12 +33,12 @@
     </div>
     {% endif %}
 
-    <section class="padding-bottom-30">
+    <section class="padding-bottom-15">
         <div class="container">
-            <div class="grid-row">
+            <div class="grid-row {% if page.banner_label %} intro-text-container {% else %} margin-top-30 {% endif %}">
                 <div class="column-three-quarters">
-                    <p>{{ page.intro_text | richtext }}</p>
-                    <p>{{ page.steps_heading | richtext }}</p>
+                    {{ page.intro_text | richtext }}
+                    <div class="padding-top-15">{{ page.steps_heading | richtext }}</div>
                 </div>
             </div>
             <div class="grid-row">
@@ -55,7 +55,7 @@
         </div>
     </section>
 
-    <section class="background-white padding-top-45">
+    <section class="background-white panels-container">
         <div class="container">
             <div class="grid-row">
                 <div class="column-three-quarters">
@@ -64,7 +64,7 @@
             </div>
             <div class="flex-grid">
                 {% for panel in page.panels %}
-                <div class="column-third-xl column-half-l card-large-blue-heading">
+                <div id={{ panel.value.title }} class="column-third-xl column-half-l card-large-blue-heading">
                     {% include 'components/card.html' with url=panel.value.link title=panel.value.title card_image=panel.value.image html_snippet=panel.value.description no_padding_card=True %}
                 </div>
                 {% endfor %}
