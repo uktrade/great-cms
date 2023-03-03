@@ -64,7 +64,7 @@
             <div class="flex-grid">
                 {% for panel in page.panels %}
                 <div class="column-third-xl column-half-l card-large-blue-heading">
-                    {% include 'components/card.html' with url=panel.value.link title=panel.value.title card_image=panel.value.image html_snippet=panel.value.description no_padding_card=True %}
+                    {% include 'components/card.html' with url=panel.value.link title=panel.value.title card_image=panel.value.image html_snippet=panel.value.description no_padding_card=True card_id="card-"|add:panel.value.title|lower %}
                 </div>
                 {% endfor %}
             </div>
