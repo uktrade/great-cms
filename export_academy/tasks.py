@@ -29,7 +29,7 @@ def send_automated_notification():
             notify_data = dict(
                 first_name=booking.registration.first_name,
                 event_name=booking.event.name,
-                event_date=event.start_date.strftime("%-d %B %Y"),
+                event_date=event.start_date.strftime('%-d %B %Y'),
                 event_time=event_time,
             )
 
