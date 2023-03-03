@@ -1,11 +1,20 @@
 # Changelog
 
 ## Pre release
+
+### Enhancements
+* IOO-420 - International Online Offer triage question 4 and 5 allowing user to input business spend and hiring
+* IOO-418 - International Online Offer triage question 3 allowing user to select business location
+
+## [2.27.0](https://github.com/uktrade/great-cms/releases/tag/2.27.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.26.0...2.27.0)
 ### Enhancements
 * IOO-415 - International Online Offer triage question 2 allowing user to select business intent
 * IOO-402 - International Online Offer triage question 1 allowing user to select business sector
 * KLS-342 - Update export academy landing page to be in line with design
 * KLS-353 - Export Academy booking and cancellation confirmation emails
+
+### Bugs fixed
 * KLS-425 - Update broken links for export opportunities
 * IOO-418 - International Online Offer triage question 3 allowing user to select business location
 
