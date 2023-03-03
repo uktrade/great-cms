@@ -1,6 +1,21 @@
 /* Shared styles across BAU and Magna pages */
 @import '../../../styles/main.scss';
 
+$asset-root: '/static/images/';
+$fonts: '/static/fonts';
+$fa-font-path: '/static/fonts';
+
+// Great styles
+@import 'styles';
+
+// Icons
+@import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/regular';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/brands';
+
+@import '../components/forms';
+
 // Breakpoints
 $mobile: 640px;
 $tablet: 768px;
@@ -541,6 +556,7 @@ $tablet: 768px;
 
   .magna-footer__nav {
     background-color: $color-footer;
+
     @include mobile {
       flex-direction: column-reverse;
     }
