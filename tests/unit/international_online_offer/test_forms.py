@@ -42,22 +42,12 @@ def test_triage_intent_form_validation(form_data, is_valid):
 
 
 @pytest.mark.parametrize(
-    'form_data,is_valid',
+    'form_data,is_valid,error_message',
     (
-        ({'location': 'London', 'location_none': '', 'error_message': ''}, True),
-        (
-            {
-                'location': 'London',
-                'location_none': 'true',
-                'error_message': LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION,
-            },
-            False,
-        ),
-        ({'location': '', 'location_none': 'true', 'error_message': ''}, True),
-        (
-            {'location': '', 'location_none': '', 'error_message': LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION},
-            False,
-        ),
+        ({'location': 'London', 'location_none': ''}, True, ''),
+        ({'location': 'London', 'location_none': 'true'}, False, LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION),
+        ({'location': '', 'location_none': 'true'}, True, ''),
+        ({'location': '', 'location_none': ''}, False, LocationForm.VALIDATION_MESSAGE_SELECT_OPTION),
     ),
 )
 @pytest.mark.django_db
