@@ -81,3 +81,50 @@ function getLocationIfPreviouslySelected(fieldId) {
 function getLocationNoneIfPreviouslySelected() {
     document.getElementById('id_location_none').checked = window.localStorage.getItem('locationNone') == 'true' ? true: false;
 }
+
+function onSubmitHiring() {
+  const selectedRadioElement = document.querySelector('input[name="hiring"]:checked');
+  if (selectedRadioElement) {
+    window.localStorage.setItem('hiring', selectedRadioElement.value);
+  }
+}
+
+function getHiringIfPreviouslySelected() {
+  const previouslySelectedHiring = window.localStorage.getItem('hiring') ? window.localStorage.getItem('hiring') : '';
+
+  const radioElements = document.getElementsByName('hiring');
+  for (let i = 0; i < radioElements.length; i++) {
+    if (radioElements[i].value == previouslySelectedHiring) {
+      radioElements[i].checked = true;
+    }
+  }
+}
+
+function onSubmitSpend() {
+  const selectedRadioElement = document.querySelector('input[name="spend"]:checked');
+  if (selectedRadioElement) {
+    window.localStorage.setItem('spend', selectedRadioElement.value);
+    window.localStorage.setItem('spendOther', document.getElementById('id_spend_other').value);
+  }
+}
+
+function getSpendIfPreviouslySelected() {
+  const previouslySelectedSpend = window.localStorage.getItem('spend') ? window.localStorage.getItem('spend') : '';
+  const previouslySelectedSpendOther = window.localStorage.getItem('spendOther');
+  if (previouslySelectedSpendOther) {
+      document.getElementById('id_spend_other').value = previouslySelectedSpendOther;
+      otherRadioElement.click();
+  }
+  const radioElements = document.getElementsByName('spend');
+  for (let i = 0; i < radioElements.length; i++) {
+    if (radioElements[i].value == previouslySelectedSpend) {
+      radioElements[i].checked = true;
+    }
+  }
+}
+
+function handleSpendRadioClick(radio) {
+  if (otherRadioElement.checked == false) {
+    document.getElementById('id_spend_other').value = '';
+  }
+}

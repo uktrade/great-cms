@@ -33,11 +33,11 @@
         {% endif %}
 
         {% if title or heading %}
-          <h4>{% firstof title heading %}</h4>
+          <h4 {% if card_id %} id="{{ card_id|add:'-heading' }}" {% endif %}>{% firstof title heading %}</h4>
         {% endif %}
 
         {% if html_snippet %}
-          {{ html_snippet }}
+          <div {% if card_id %} id="{{ card_id|add:'-body' }}" {% endif %}>{{ html_snippet }}</div>
         {% endif %}
 
         {% if description %}

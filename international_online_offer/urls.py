@@ -25,4 +25,14 @@ urlpatterns = [
         views.IOOLocation.as_view(),
         name='location',
     ),
+    path(
+        'hiring/',
+        views.IOOHiring.as_view(),
+        name='hiring',
+    ),
+    path(
+        'spend/',
+        views.IOOSpend.as_view(),
+        name='spend',
+    ),
 ]
