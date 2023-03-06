@@ -141,6 +141,12 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
         verbose_name='Banner Content',
     )
 
+    intro_text = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+
     steps_heading = RichTextField(
         features=RICHTEXT_FEATURES__REDUCED,
         null=True,
