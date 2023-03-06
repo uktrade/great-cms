@@ -21,7 +21,7 @@
           <form method="post" onsubmit="return onSubmitLocation()">
             {% csrf_token %}
             <div class="form-group" id="id_location-container">
-              <label class="atlas-body--m form-label" for="sector">Enter a city, county or region</label>
+              <label class="atlas-body--m atlas-label" for="sector">Enter a city, county or region</label>
               <span class="atlas-body form-hint">Type to search and choose from the list</span>
               {% include 'core/includes/form_field.html' with field=form.location %}
               {% include 'core/includes/form_field.html' with field=form.location_none %}
