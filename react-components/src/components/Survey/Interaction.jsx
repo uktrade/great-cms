@@ -15,7 +15,7 @@ export default function Interaction(props) {
     <form>
       <fieldset className="c-fullwidth">
         <legend className="visually-hidden">{question.title}</legend>
-        {question.type === 'radio' ? (
+        {question.type.toLowerCase() === 'radio' ? (
           <RadioButtons
             name={question.name}
             choices={choices}
@@ -25,7 +25,7 @@ export default function Interaction(props) {
         ) : (
           ''
         )}
-        {question.type in { select: 1, multi_select: 1 } ? (
+        {question.type.toLowerCase() in { select: 1, multi_select: 1 } ? (
           <Select
             label=""
             id={`question-${question.id}`}
