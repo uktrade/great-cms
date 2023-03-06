@@ -16,7 +16,7 @@ const orderQuestions = (questions) => (
     ))
 )
 
-function ExporterSurvey() {
+function Survey() {
     const modes = { closed: 'c', start: 's', question: 'q', thankyou: 't' }
     const [mode, setMode] = useState(modes.start)
     const [questions, setQuestions] = useState([])
@@ -218,5 +218,5 @@ function ExporterSurvey() {
 
 export default function createExportSurveyModal({ element }) {
     Modal.setAppElement(element)
-    ReactDOM.render(<ExporterSurvey />, element)
+    ReactDOM.render(<Survey />, element)
 }
