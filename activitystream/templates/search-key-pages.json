@@ -25,8 +25,8 @@
       "object": {
         "id": "dit:greatCms:KeyPages:2",
         "type": "dit:greatCms:Service",
-        "name": "Department for Business & Trade - Homepage",
-        "content": "Thousands of businesses like yours have increased their sales, growth and stability by selling overseas. Explore the potential of exporting with guidance, services and support from the Department for Business & Trade.",
+        "name": "Department for Business and Trade - Homepage",
+        "content": "Thousands of businesses like yours have increased their sales, growth and stability by selling overseas. Explore the potential of exporting with guidance, services and support from the Department for Business and Trade.",
         "keywords": "",
         "url": "{{base_url}}/"
       }
@@ -86,7 +86,7 @@
         "id": "dit:greatCms:KeyPages:7",
         "type": "dit:greatCms:Service",
         "name": "Advice - Homepage",
-        "content": "Explore the potential of exporting with guidance and support from the Department for Business & Trade.",
+        "content": "Explore the potential of exporting with guidance and support from the Department for Business and Trade.",
         "keywords": "Advice News Article Support Guidance",
         "url": "{{base_url}}/advice/"
       }
