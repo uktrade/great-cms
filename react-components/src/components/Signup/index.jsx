@@ -69,7 +69,7 @@ export const Signup = (props) => {
           <img
             className="m-f-auto m-r-auto signup__logo"
             src="/static/images/dit_logo_335x160.png"
-            alt="Department for International Trade"
+            alt="Department for Business & Trade"
           />
         </a>
 
