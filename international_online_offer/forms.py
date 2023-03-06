@@ -118,8 +118,8 @@ class SpendForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        spend = cleaned_data = super().clean().get('spend')
-        spend_other = cleaned_data = super().clean().get('spend_other')
+        spend = cleaned_data.get('spend')
+        spend_other = cleaned_data.get('spend_other')
         if spend == 'Specific amount' and not spend_other:
             self.add_error('spend_other', 'This field is required.')
         else:
