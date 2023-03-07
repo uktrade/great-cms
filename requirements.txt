@@ -70,7 +70,7 @@ click-plugins==1.1.1
     # via celery
 click-repl==0.2.0
     # via celery
-cryptography==39.0.1
+cryptography==39.0.2
     # via
     #   -r requirements.in
     #   pyhanko
@@ -191,7 +191,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==17.4.0
+faker==17.6.0
     # via factory-boy
 geoip2==2.9.0
     # via -r requirements.in
@@ -279,7 +279,7 @@ pyhanko-certvalidator==0.20.1
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.5.0
+pypdf==3.5.1
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
