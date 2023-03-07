@@ -14,6 +14,8 @@ allure-pytest==2.13.0
     # via -r requirements_test.in
 allure-python-commons==2.13.0
     # via allure-pytest
+amqp==5.1.1
+    # via kombu
 anyascii==0.3.1
     # via wagtail
 appnope==0.1.3
@@ -35,8 +37,6 @@ async-generator==1.10
     # via
     #   trio
     #   trio-websocket
-async-timeout==4.0.2
-    # via redis
 attrs==22.2.0
     # via
     #   allure-python-commons
@@ -55,6 +55,8 @@ beautifulsoup4==4.9.3
     #   great-components
     #   readtime
     #   wagtail
+billiard==3.6.4.0
+    # via celery
 black==23.1.0
     # via
     #   -r requirements_test.in
@@ -73,6 +75,10 @@ brotli==1.0.9
     # via geventhttpclient
 build==0.10.0
     # via pip-tools
+celery[redis]==5.2.2
+    # via
+    #   -r requirements.in
+    #   django-celery-beat
 certifi==2022.12.7
     # via
     #   elastic-apm
@@ -90,9 +96,19 @@ charset-normalizer==3.1.0
 click==8.1.3
     # via
     #   black
+    #   celery
+    #   click-didyoumean
+    #   click-plugins
+    #   click-repl
     #   flask
     #   pip-tools
     #   pyhanko
+click-didyoumean==0.3.0
+    # via celery
+click-plugins==1.1.1
+    # via celery
+click-repl==0.2.0
+    # via celery
 codecov==2.1.12
     # via -r requirements_test.in
 configargparse==1.5.3
@@ -157,6 +173,7 @@ django==3.2.18
     #   directory-constants
     #   directory-healthcheck
     #   directory-validators
+    #   django-celery-beat
     #   django-debug-toolbar
     #   django-decorator-include
     #   django-extensions
@@ -168,12 +185,15 @@ django==3.2.18
     #   django-staff-sso-client
     #   django-storages
     #   django-taggit
+    #   django-timezone-field
     #   django-treebeard
     #   djangorestframework
     #   great-components
     #   sigauth
     #   wagtail
     #   wagtailfontawesome
+django-celery-beat==2.2.1
+    # via -r requirements.in
 django-debug-toolbar==3.2.4
     # via -r requirements_test.in
 django-decorator-include==3.0
@@ -202,6 +222,8 @@ django-storages[boto3]==1.8
     # via -r requirements.in
 django-taggit==1.5.1
     # via wagtail
+django-timezone-field==4.2.3
+    # via django-celery-beat
 django-treebeard==4.4
     # via
     #   -r requirements.in
@@ -235,7 +257,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==17.6.0
+faker==17.4.0
     # via factory-boy
 filelock==3.9.0
     # via virtualenv
@@ -328,6 +350,8 @@ jsonschema==3.2.0
     # via
     #   directory-components
     #   great-components
+kombu==5.2.4
+    # via celery
 l18n==2021.3
     # via wagtail
 lazy-object-proxy==1.9.0
@@ -422,7 +446,9 @@ pre-commit==3.1.1
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
 prompt-toolkit==3.0.38
-    # via ipython
+    # via
+    #   click-repl
+    #   ipython
 psutil==5.9.4
     # via locust
 psycopg2==2.9.5
@@ -458,7 +484,7 @@ pylint-django==2.5.3
     # via -r requirements_test.in
 pylint-plugin-utils==0.7
     # via pylint-django
-pypdf==3.5.1
+pypdf==3.5.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -485,6 +511,8 @@ pytest-sugar==0.9.6
     # via -r requirements_test.in
 python-bidi==0.4.2
     # via xhtml2pdf
+python-crontab==2.7.1
+    # via django-celery-beat
 python-dateutil==2.8.2
     # via
     #   botocore
@@ -492,14 +520,17 @@ python-dateutil==2.8.2
     #   elasticsearch-dsl
     #   faker
     #   freezegun
+    #   python-crontab
 python-magic==0.4.27
     # via -r requirements.in
 pytz==2021.3
     # via
+    #   celery
     #   dateparser
     #   directory-validators
     #   django
     #   django-modelcluster
+    #   django-timezone-field
     #   l18n
     #   pyhanko
 pytz-deprecation-shim==0.1.0.post0
@@ -514,8 +545,10 @@ qrcode==7.4.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==4.5.1
-    # via django-redis
+redis==3.5.3
+    # via
+    #   celery
+    #   django-redis
 regex==2022.10.31
     # via dateparser
 reportlab==3.6.12
@@ -560,6 +593,7 @@ sigauth==4.3.0
 six==1.16.0
     # via
     #   airtable-python-wrapper
+    #   click-repl
     #   elasticsearch-dsl
     #   flask-cors
     #   geventhttpclient
@@ -655,6 +689,11 @@ urllib3[socks]==1.26.14
     #   requests
     #   selenium
     #   sentry-sdk
+vine==5.0.0
+    # via
+    #   amqp
+    #   celery
+    #   kombu
 virtualenv==20.20.0
     # via pre-commit
 w3lib==1.22.0

@@ -14,7 +14,7 @@ snippet_specs = [
             '<ol>'
             "<li>Click on 'manage your alerts' at the bottom of your email alert</li>"
             "<li>Unsubscribe from alerts for 'all opportunities' and other generic terms</li>"
-            '<li>Go to the export opportunities site at <a href="https://opportunities.export.great.gov.uk/">https://opportunities.export.great.gov.uk/</a> '
+            '<li>Go to the export opportunities site at <a href="https://great.gov.uk/export-opportunities/">https://great.gov.uk/export-opportunities/</a> '
             'and search for the specific product or service (and country/region if relevant) you want to get subscriptions for</li>'
             "<li>You'll be prompted to sign up for an email alert for that term</li>"
             '</ol>'
@@ -59,7 +59,6 @@ def backwards(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('contact', '0009_data__bootstrap_more_success_snippets'),
     ]

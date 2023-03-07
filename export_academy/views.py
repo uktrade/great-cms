@@ -2,7 +2,9 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView, ListView, TemplateView, UpdateView
 from django_filters.views import FilterView
 
-from export_academy import filters, forms, helpers, models
+from config import settings
+from export_academy import filters, forms, models
+from export_academy.mixins import BookingMixin
 
 
 class EventListView(FilterView, ListView):
@@ -25,44 +27,47 @@ class EventListView(FilterView, ListView):
         return ctx
 
 
-class BookingUpdateView(UpdateView):
-    model = models.Booking
+class BookingUpdateView(BookingMixin, UpdateView):
+    booking_model = models.Booking
     success_url = reverse_lazy('export_academy:booking-success')
     fields = ['status']
+    notify_template = None
 
     def get_object(self, queryset=None):
-        data = self.request.POST
-        obj, _created = self.model.objects.get_or_create(
-            event_id=data['event_id'], registration_id=self.request.user.email, defaults={'status': data['status']}
-        )
-
-        return obj
+        post_data = self.request.POST
+        booking_object = self.register_booking(post_data)
+        self.send_email_confirmation(booking_object, post_data)
+        return booking_object
 
 
-class RegistrationFormView(FormView):
+class RegistrationFormView(BookingMixin, FormView):
     template_name = 'export_academy/registration_form.html'
     form_class = forms.EARegistration
     success_url = reverse_lazy('export_academy:registration-success')
+    model = models.Registration
+    booking_model = models.Booking
+    notify_template = settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID
 
-    def form_valid(self, form):
+    def save_registration(self, form):
         cleaned_data = form.cleaned_data
-        user_email = self.request.user.email
-
-        reg = models.Registration(
+        reg_data = dict(
             first_name=cleaned_data.get('first_name'),
             last_name=cleaned_data.get('last_name'),
-            email=user_email,
+            email=self.request.user.email,
             data=cleaned_data,
         )
-        reg.save()
-        helpers.notify_registration(
-            email_data={
-                'business_name': cleaned_data['business_name'],
-                'first_name': cleaned_data['first_name'],
-            },
-            form_url=self.request.path,
-            email_address=user_email,
-        )
+        self.save_model(reg_data)
+
+    def confirm_booking(self, booking_id):
+        booking_data = dict(event_id=booking_id, status=models.Booking.CONFIRMED)
+        booking_object = self.register_booking(booking_data)
+        self.send_email_confirmation(booking_object, booking_data)
+
+    def form_valid(self, form):
+        self.save_registration(form)
+        self.send_gov_notify(form.cleaned_data)
+        booking_id = self.kwargs.get('booking_id')
+        self.confirm_booking(booking_id)
         return super().form_valid(form)
 
 
