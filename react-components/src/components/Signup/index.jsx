@@ -68,7 +68,7 @@ export const Signup = (props) => {
         <a href="/" className="inline-block">
           <img
             className="m-f-auto m-r-auto signup__logo"
-            src="/static/images/dit_logo_335x160.png"
+            src="/static/images/dbt_logo_335x160.png"
             alt="Department for Business and Trade"
           />
         </a>
