@@ -20,8 +20,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Great CMS'
-copyright = '2020, DIT Great.gov.uk CMS team'
-author = 'DIT Great.gov.uk CMS team'
+copyright = '2020, DBT Great.gov.uk CMS team'
+author = 'DBT Great.gov.uk CMS team'
 
 # The short X.Y version
 version = ''
@@ -124,7 +124,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'GreatCMS.tex', 'Great CMS Documentation', 'DIT Great.gov.uk CMS team', 'manual'),
+    (master_doc, 'GreatCMS.tex', 'Great CMS Documentation', 'DBT Great.gov.uk CMS team', 'manual'),
 ]
 
 

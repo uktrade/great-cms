@@ -19,7 +19,7 @@ def test_dit_link_exists_in_template_context(client):
     url = reverse('core:signup')
     response = client.get(url)
     assert 'dit_on_govuk' in response.context
-    assert response.context['dit_on_govuk'] == 'www.gov.uk/government/organisations/department-for-international-trade'
+    assert response.context['dit_on_govuk'] == 'www.gov.uk/government/organisations/department-for-business-and-trade'
 
 
 @pytest.mark.django_db
