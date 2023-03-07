@@ -3,6 +3,7 @@
 
 <div class="grid">
 {% for item in value %}
+{% if value|length == 3 %}
 <div class="column-third-m column-full">
     <div class="card only-title no-padding-card transparent-card">
     <div class="card-image">{% image item.value.image width-200 %}</div>
@@ -15,5 +16,19 @@
 
     </div>
 </div>
+{% else %}
+<div class="column-half-m column-full">
+    <div class="card only-title no-padding-card transparent-card">
+    <div class="card-image">{% image item.value.image width-200 %}</div>
+    <div class="heading-large">
+    <h3><a class="card-url" href="{{ item.value.link }}">{{ item.value.title }}</a></h3>
+    </div>
+    <div class="card-inner rich-text">
+    <p>{{ item.value.description }}</p>
+    </div>
+
+    </div>
+</div>
+{% endif %}
 {% endfor %}
 </div>

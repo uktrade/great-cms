@@ -5,7 +5,7 @@ from urllib.parse import unquote
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.http import HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -30,10 +30,12 @@ from wagtail.admin.edit_handlers import (
 from wagtail.contrib.redirects.models import Redirect
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.core import blocks
-from wagtail.core.blocks.stream_block import StreamBlockValidationError
+from wagtail.core.blocks.field_block import RichTextBlock
+from wagtail.core.blocks.stream_block import StreamBlock, StreamBlockValidationError
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.images import get_image_model_string
+from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
 from wagtail.snippets.models import register_snippet
@@ -41,9 +43,15 @@ from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin
 
-from core import blocks as core_blocks, mixins
+from core import blocks as core_blocks, cms_panels, mixins
+from core.blocks import ColumnsBlock
 from core.case_study_index import delete_cs_index, update_cs_index
-from core.constants import BACKLINK_QUERYSTRING_NAME, RICHTEXT_FEATURES__MINIMAL
+from core.constants import (
+    BACKLINK_QUERYSTRING_NAME,
+    RICHTEXT_FEATURES__MINIMAL,
+    RICHTEXT_FEATURES__REDUCED,
+    VIDEO_TRANSCRIPT_HELP_TEXT,
+)
 from core.context import get_context_provider
 from core.utils import PageTopicHelper, get_first_lesson
 from exportplan.core.data import (
@@ -1303,3 +1311,179 @@ class CaseStudyScoringSettings(BaseSetting):
 
     class Meta:
         verbose_name = 'Case Study Scoring'
+
+
+class Microsite(Page):
+    folder_page = True
+    settings_panels = [
+        FieldPanel('slug'),
+    ]
+
+    parent_page_types = [
+        'domestic.DomesticHomePage',
+        'domestic.GreatDomesticHomePage',
+    ]
+
+    subpage_types = ['core.MicrositePage']
+
+    class Meta:
+        verbose_name = 'Microsite'
+        verbose_name_plural = 'Microsite'
+
+    def serve_preview(self, request, mode_name='dummy'):
+        # It doesn't matter what is passed as mode_name - we always HTTP404
+        raise Http404()
+
+    def serve(self, request):
+        raise Http404()
+
+
+class MicrositePage(cms_panels.MicrositePanels, Page):
+    template = 'microsites/micro_site_page.html'
+    parent_page_types = [
+        'core.Microsite',
+        'core.MicrositePage',
+    ]
+    subpage_types = ['core.MicrositePage']
+
+    class Meta:
+        verbose_name = 'Microsite page'
+        verbose_name_plural = 'Microsite pages'
+
+    page_title = models.TextField(
+        null=True,
+    )
+    page_subheading = models.TextField(
+        blank=True,
+        help_text='This is a subheading that displays below the main title on the microsite page',
+    )
+    page_teaser = models.TextField(
+        blank=True,
+        null=True,
+        help_text='This is a subheading that displays when the microsite is featured on another page',
+    )
+    hero_image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    hero_video = models.ForeignKey(
+        'wagtailmedia.Media',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    hero_video_transcript = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+        help_text=VIDEO_TRANSCRIPT_HELP_TEXT,
+    )
+    page_body = StreamField(
+        [
+            (
+                'text',
+                RichTextBlock(),
+            ),
+            ('image', ImageChooserBlock(required=False, template='core/includes/_article_image.html')),
+            ('video', core_blocks.SimpleVideoBlock(template='core/includes/_article_video.html')),
+            (
+                'columns',
+                StreamBlock(
+                    [
+                        ('column', ColumnsBlock()),
+                    ],
+                    help_text='Add two or three columns text',
+                    min_num=2,
+                    max_num=3,
+                    template='core/includes/_columns.html',
+                ),
+            ),
+            (  # alt text lives on the custom Image class
+                'pull_quote',
+                core_blocks.PullQuoteBlock(
+                    template='domestic/blocks/pull_quote_block.html',
+                ),
+            ),
+        ],
+        null=True,
+        blank=True,
+    )
+
+    cta_title = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='CTA title',
+    )
+    cta_teaser = models.TextField(
+        blank=True,
+        verbose_name='CTA teaser',
+    )
+
+    cta_link_label = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='CTA link label',
+    )
+    cta_link = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='CTA link',
+    )
+
+    related_links = StreamField(
+        [
+            (
+                'page',
+                blocks.PageChooserBlock(
+                    null=True,
+                    blank=True,
+                ),
+            ),
+            (
+                'link',
+                blocks.StructBlock(
+                    [
+                        (
+                            'title',
+                            blocks.CharBlock(form_classname='title', default=''),
+                        ),
+                        (
+                            'full_url',
+                            blocks.URLBlock(form_classname='url', default=''),
+                        ),
+                    ]
+                ),
+            ),
+        ],
+        max_num=5,
+        null=True,
+        blank=True,
+    )
+
+    # Return the children of the top level Microsite parent of current page
+    def get_menu_items(self):
+        parent_page = self.get_ancestors().live().type(Microsite).first().specific
+        return [
+            {
+                'url': child.get_url(),
+                'title': child.title,
+            }
+            for child in parent_page.get_children().live()
+        ]
+
+    # Return the children of the MicrositePage at the top of current user journey
+    def get_secondary_pages(self):
+        if type(self.get_parent().specific) == Microsite:
+            return [{'title': child.title, 'url': child.get_url()} for child in self.get_children()]
+        else:
+            parent_page = self.get_ancestors().live().type(MicrositePage).first().specific
+            return [{'title': child.title, 'url': child.get_url()} for child in parent_page.get_children()]
+
+    # Return the children of a child or grandchild page
+    def get_related_pages(self):
+        if type(self.get_parent().specific) == MicrositePage:
+            return [{'title': child.title, 'url': child.get_url()} for child in self.get_children()]
