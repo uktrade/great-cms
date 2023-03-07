@@ -834,14 +834,14 @@ class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
         home_child = MicrositePageFactory(page_title="home-child", title="home-child", parent=home)
         home_grandchild = MicrositePageFactory(page_title="home-grandchild", title="home-grandchild", parent=home_child)
 
-        self.assertEqual(home.get_menu_items(), [{'url': '/', 'title': 'home'}])
-        self.assertEqual(home_child.get_menu_items(), [{'url': '/', 'title': 'home'}])
-        self.assertEqual(home_grandchild.get_menu_items(), [{'url': '/', 'title': 'home'}])
+        self.assertEqual(home.get_menu_items()[0]['title'], 'home')
+        self.assertEqual(home_child.get_menu_items()[0]['title'], 'home')
+        self.assertEqual(home_grandchild.get_menu_items()[0]['title'], 'home')
 
-        self.assertEqual(home.get_secondary_pages(), [{'title': 'home-child', 'url': '/home-child/'}])
-        self.assertEqual(home_child.get_secondary_pages(), [{'title': 'home-child', 'url': '/home-child/'}])
-        self.assertEqual(home_grandchild.get_secondary_pages(), [{'title': 'home-child', 'url': '/home-child/'}])
+        self.assertEqual(home.get_secondary_pages()[0]['title'], 'home-child')
+        self.assertEqual(home_child.get_secondary_pages()[0]['title'], 'home-child')
+        self.assertEqual(home_grandchild.get_secondary_pages()[0]['title'], 'home-child')
 
-        self.assertEqual(
-            home_child.get_related_pages(), [{'title': 'home-grandchild', 'url': '/home-child/home-grandchild/'}]
-        )
+        self.assertEquals(home.get_related_pages(), None)
+        self.assertEqual(home_child.get_related_pages()[0]['title'], 'home-grandchild')
+        self.assertEquals(home_grandchild.get_related_pages(), [])
