@@ -791,7 +791,7 @@ else:
     TESTING = False
 
 GREAT_SUPPORT_EMAIL = env.str('GREAT_SUPPORT_EMAIL', 'great.support@trade.gov.uk')
-DIT_ON_GOVUK = env.str('DIT_ON_GOVUK', 'www.gov.uk/government/organisations/department-for-international-trade')
+DIT_ON_GOVUK = env.str('DIT_ON_GOVUK', 'www.gov.uk/government/organisations/department-for-business-and-trade')
 TRAVEL_ADVICE_COVID19 = env.str('TRAVEL_ADVICE_COVID19', 'https://www.gov.uk/guidance/travel-advice-novel-coronavirus')
 TRAVEL_ADVICE_FOREIGN = env.str('TRAVEL_ADVICE_FOREIGN', 'https://www.gov.uk/foreign-travel-advice')
 
