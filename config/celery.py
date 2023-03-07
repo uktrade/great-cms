@@ -6,9 +6,6 @@ from ssl import CERT_NONE
 from celery import Celery
 from django.conf import settings
 
-# note AUTHBROKER_URL is misidentified as a secret by celery when pidbox is used, resulting in
-# celery trying to parse AUTHBROKER_URL as a transport, resulting in error. so turn the feature off in Procfile
-
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
