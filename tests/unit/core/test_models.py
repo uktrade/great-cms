@@ -829,10 +829,10 @@ class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
         )
 
     def test_get_menu_items(self):
-        root = MicrositeFactory(title="root")
-        home = MicrositePageFactory(page_title="home", title="home", parent=root)
-        home_child = MicrositePageFactory(page_title="home-child", title="home-child", parent=home)
-        home_grandchild = MicrositePageFactory(page_title="home-grandchild", title="home-grandchild", parent=home_child)
+        root = MicrositeFactory(title='root')
+        home = MicrositePageFactory(page_title='home', title='home', parent=root)
+        home_child = MicrositePageFactory(page_title='home-child', title='home-child', parent=home)
+        home_grandchild = MicrositePageFactory(page_title='home-grandchild', title='home-grandchild', parent=home_child)
 
         self.assertEqual(home.get_menu_items()[0]['title'], 'home')
         self.assertEqual(home_child.get_menu_items()[0]['title'], 'home')
