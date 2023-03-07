@@ -55,8 +55,8 @@ export const Login = ({ nextUrl, ...props }) => {
         <a href="/" className="inline-block">
           <img
             className="m-f-auto m-r-auto signup__logo"
-            src="/static/images/dit_logo_335x160.png"
-            alt="Department for International Trade"
+            src="/static/images/dbt_logo_335x160.png"
+            alt="Department for Business and Trade"
             width="335"
             height="160"
           />
