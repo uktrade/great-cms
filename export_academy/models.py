@@ -11,6 +11,7 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.fields import RichTextField, StreamField
+from wagtail.documents.edit_handlers import DocumentChooserPanel
 
 from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRichText
 from core.constants import RICHTEXT_FEATURES__REDUCED
@@ -34,6 +35,14 @@ class Event(TimeStampedModel, ClusterableModel):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     link = models.URLField(blank=True, null=True, max_length=255)
+    slide_show = models.ForeignKey(
+        'wagtaildocs.Document',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    completed = models.BooleanField()
 
     event_panel = [
         MultiFieldPanel(
@@ -49,6 +58,13 @@ class Event(TimeStampedModel, ClusterableModel):
             children=[
                 FieldPanel('start_date'),
                 FieldPanel('end_date'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Event Complete Actions',
+            children=[
+                DocumentChooserPanel('slide_show'),
+                FieldPanel('completed'),
             ],
         ),
     ]
