@@ -1,27 +1,9 @@
 from datetime import datetime, timedelta, timezone
 
-from directory_forms_api_client import actions
 from django.conf import settings
 
 from config.celery import app
-from export_academy.models import Booking, Event
-
-
-def send_notifications_for_all_bookings(event, template_id, additional_notify_data=None):
-    bookings = Booking.objects.filter(event_id=event.id)
-    for booking in bookings:
-        email = booking.registration.email
-
-        action = actions.GovNotifyEmailAction(
-            email_address=email,
-            template_id=template_id,
-            form_url=str(),
-        )
-        notify_data = dict(first_name=booking.registration.first_name, event_name=booking.event.name)
-        if additional_notify_data:
-            notify_data.update(**additional_notify_data)
-
-        action.save(notify_data)
+from export_academy.models import Event, send_notifications_for_all_bookings
 
 
 @app.task

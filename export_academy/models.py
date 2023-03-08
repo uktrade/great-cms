@@ -1,10 +1,12 @@
 import uuid
 
+from directory_forms_api_client import actions
 from django.db import models
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.core.fields import RichTextField, StreamField
 
+from config import settings
 from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRichText
 from core.constants import RICHTEXT_FEATURES__REDUCED
 from core.fields import single_struct_block_stream_field_factory
@@ -12,6 +14,23 @@ from core.models import TimeStampedModel
 from domestic.models import BaseContentPage
 from export_academy import managers
 from export_academy.cms_panels import EventPanel, ExportAcademyPagePanels
+
+
+def send_notifications_for_all_bookings(event, template_id, additional_notify_data=None):
+    bookings = Booking.objects.filter(event_id=event.id)
+    for booking in bookings:
+        email = booking.registration.email
+
+        action = actions.GovNotifyEmailAction(
+            email_address=email,
+            template_id=template_id,
+            form_url=str(),
+        )
+        notify_data = dict(first_name=booking.registration.first_name, event_name=booking.event.name)
+        if additional_notify_data:
+            notify_data.update(**additional_notify_data)
+
+        action.save(notify_data)
 
 
 class Event(TimeStampedModel, ClusterableModel, EventPanel):
@@ -59,7 +78,7 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
         return f'{self.id}:{self.name}'
 
     def save(self, **kwargs):
-        # send_notifications_for_all_bookings(self, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
+        send_notifications_for_all_bookings(self, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
         return super().save(**kwargs)
 
 
