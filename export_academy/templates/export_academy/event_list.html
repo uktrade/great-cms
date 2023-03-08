@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load wagtailcore_tags  %}
 
 {% block head_title %}Upcoming events{% endblock %}
 
@@ -46,12 +47,12 @@
                                   </video>
                                 </div>
 
-                                {% if event.video_transcript %}
+                              {% if event.video_recording_transcript %}
                                 <details closed class="margin-bottom-0 rich-text">
                                   <summary>View video transcript</summary>
-                                    <a href={{ event.video_transcript.url }}>Transcript</a>
+                                    {{ event.video_recording_transcript|richtext }}
                                 </details>
-                            {% endif %}
+                              {% endif %}
                             {% endif %}
                         {% else %}
                         <form action="{% url 'export_academy:booking' %}" method="post">

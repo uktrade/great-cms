@@ -8,9 +8,9 @@ from wagtail.core.fields import RichTextField, StreamField
 
 from config import settings
 from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRichText
-from core.constants import RICHTEXT_FEATURES__REDUCED
+from core.constants import RICHTEXT_FEATURES__REDUCED, VIDEO_TRANSCRIPT_HELP_TEXT
 from core.fields import single_struct_block_stream_field_factory
-from core.models import TimeStampedModel
+from core.models import GreatMedia, TimeStampedModel
 from domestic.models import BaseContentPage
 from export_academy import managers
 from export_academy.cms_panels import EventPanel, ExportAcademyPagePanels
@@ -54,18 +54,20 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
         related_name='+',
     )
     video_recording = models.ForeignKey(
-        'wagtailmedia.Media',
+        GreatMedia,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    video_transcript = models.ForeignKey(
-        'wagtaildocs.Document',
+    # Even though media have transcript when added through admin panels,
+    # they are not propagated. Event admins need to add the subscript
+    # here to be visible in event list
+    video_recording_transcript = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
         null=True,
         blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
+        help_text=VIDEO_TRANSCRIPT_HELP_TEXT,
     )
     completed = models.BooleanField(default=False)
 
