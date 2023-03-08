@@ -28,6 +28,10 @@
 {% block head_title %}{% firstof page.seo_title page.title %}{% endblock %}
 
 {% block css_layout_class %}landing-page{% endblock %}
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />
+{% endblock %}
 
 {% block content %}
 

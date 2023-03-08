@@ -12,11 +12,23 @@ $fa-font-path: '/static/fonts';
 @import 'partials/mixins';
 @import 'partials/utils';
 
+// Icons - needed for the form
+// @import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
+// @import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
+// @import 'node_modules/@fortawesome/fontawesome-free/scss/regular';
+// @import 'node_modules/@fortawesome/fontawesome-free/scss/brands';
+
 // Great styles
 @import 'overrides/magna';
 @import 'node_modules/great-styles/src/scss/components/header-footer/header';
 @import 'node_modules/great-styles/src/scss/elements/utils';
 @import 'node_modules/great-styles/src/scss/elements/tags';
+
+// extras needed for the form
+// @import 'node_modules/great-styles/src/scss/helpers/breakpoints';
+// @import 'node_modules/great-styles/src/scss/helpers/vars';
+// @import 'node_modules/great-styles/src/scss/components/header-footer/modal-menu';
+// @import 'node_modules/great-styles/src/scss/elements/forms/select';
 
 // COMPONENTS
 @import 'components/modal';
@@ -40,6 +52,8 @@ $fa-font-path: '/static/fonts';
 @import 'pages/campaign-page';
 @import 'pages/country-guide-page';
 @import 'pages/markets-landing';
+
+// @import '../../core/sass/components/forms';
 
 #content {
   padding: 0;
