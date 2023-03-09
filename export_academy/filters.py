@@ -1,4 +1,5 @@
 from django_filters import FilterSet, filters
+from great_components import forms
 
 from export_academy import models
 
@@ -12,7 +13,7 @@ class EventFilter(FilterSet):
     THIS_MONTH = 'this_month'
     NEXT_MONTH = 'next_month'
 
-    WHEN_CHOICES = [
+    PERIOD_CHOICES = [
         [ALL, 'All'],
         [TODAY, 'Today'],
         [TOMORROW, 'Tomorrow'],
@@ -22,22 +23,35 @@ class EventFilter(FilterSet):
         [NEXT_MONTH, 'Next Month'],
     ]
 
-    when = filters.ChoiceFilter(
-        choices=WHEN_CHOICES,
-        method='filter_when',
+    type = filters.ModelMultipleChoiceFilter(
+        label='type',
+        field_name='types__slug',
+        queryset=models.EventTypeTag.objects.all(),
+        to_field_name='slug',
+        widget=forms.CheckboxSelectInlineLabelMultiple,
     )
 
     format = filters.MultipleChoiceFilter(
+        label='format',
         choices=models.Event.FORMAT_CHOICES,
+        widget=forms.CheckboxSelectInlineLabelMultiple,
+    )
+
+    period = filters.ChoiceFilter(
+        label='period',
+        empty_label=None,
+        choices=PERIOD_CHOICES,
+        method='filter_period',
+        widget=forms.RadioSelect,
     )
 
     class Meta:
         model = models.Event
-        fields = ['when', 'format']
+        fields = ['format']
 
-    def filter_when(self, queryset, name, value):
-        for param, _ in self.WHEN_CHOICES:
-            # there must be a matching method for 'when' choices in the queryset manager (./managers.py)
+    def filter_period(self, queryset, _name, value):
+        for param, _ in self.PERIOD_CHOICES:
+            # there must be a matching method for 'period' choices in the queryset manager (./managers.py)
             if param in value:
                 queryset = getattr(queryset, '%s' % param)()
 
