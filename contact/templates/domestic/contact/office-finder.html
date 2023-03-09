@@ -29,7 +29,7 @@
         </section>
 
         {% if not office_details and other_offices %}
-            <p> We couldn’t find an exact match for your postcode. You can contact a DIT office near you.</p>
+            <p> We couldn’t find an exact match for your postcode. You can contact a DBT office near you.</p>
         {% endif %}
 
         {% if office_details %}
@@ -72,7 +72,7 @@
     <section class="container" id="other-results">
         {% if other_offices and not office_details.override_office_details %}
             <div class="width-half">
-                <h2 class="heading-medium">Department for International Trade regional offices</h2>
+                <h2 class="heading-medium">Department for Business and Trade regional offices</h2>
             </div>
             {% for office in other_offices %}
                 {% if not office.override_office_details %}

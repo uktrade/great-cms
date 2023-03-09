@@ -29,6 +29,8 @@ from core.models import (
     LessonPlaceholderPage,
     ListPage,
     MagnaPageChooserPanel,
+    Microsite,
+    MicrositePage,
     Product,
     Region,
     Tag,
@@ -42,6 +44,8 @@ from .factories import (
     CaseStudyFactory,
     DetailPageFactory,
     LessonPlaceholderPageFactory,
+    MicrositeFactory,
+    MicrositePageFactory,
     StructurePageFactory,
     TopicPageFactory,
 )
@@ -794,3 +798,50 @@ class TestMagnaPageChooserPanel(SetUpLocaleMixin, TestCase):
 
         self.assertIn('<span class="title"></span>', result)
         self.assertIn('Choose a page', result)
+
+
+class MicrositeTests(WagtailPageTests):
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(
+            Microsite,
+            {
+                MicrositePage,
+            },
+        )
+
+
+class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
+    def test_allowed_parents(self):
+        self.assertAllowedParentPageTypes(
+            MicrositePage,
+            {
+                MicrositePage,
+                Microsite,
+            },
+        )
+
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(
+            MicrositePage,
+            {
+                MicrositePage,
+            },
+        )
+
+    def test_get_menu_items(self):
+        root = MicrositeFactory(title='root')
+        home = MicrositePageFactory(page_title='home', title='home', parent=root)
+        home_child = MicrositePageFactory(page_title='home-child', title='home-child', parent=home)
+        home_grandchild = MicrositePageFactory(page_title='home-grandchild', title='home-grandchild', parent=home_child)
+
+        self.assertEqual(home.get_menu_items()[0]['title'], 'home')
+        self.assertEqual(home_child.get_menu_items()[0]['title'], 'home')
+        self.assertEqual(home_grandchild.get_menu_items()[0]['title'], 'home')
+
+        self.assertEqual(home.get_secondary_pages()[0]['title'], 'home-child')
+        self.assertEqual(home_child.get_secondary_pages()[0]['title'], 'home-child')
+        self.assertEqual(home_grandchild.get_secondary_pages()[0]['title'], 'home-child')
+
+        self.assertEquals(home.get_related_pages(), None)
+        self.assertEqual(home_child.get_related_pages()[0]['title'], 'home-grandchild')
+        self.assertEquals(home_grandchild.get_related_pages(), [])

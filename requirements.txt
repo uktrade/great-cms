@@ -10,6 +10,8 @@ airtable-python-wrapper==0.13.0
     # via -r requirements.in
 alabaster==0.7.13
     # via sphinx
+amqp==5.1.1
+    # via kombu
 anyascii==0.3.1
     # via wagtail
 arabic-reshaper==3.0.0
@@ -21,11 +23,9 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
-async-timeout==4.0.2
-    # via redis
 attrs==22.2.0
     # via jsonschema
-babel==2.11.0
+babel==2.12.1
     # via sphinx
 beautifulsoup4==4.9.3
     # via
@@ -33,6 +33,8 @@ beautifulsoup4==4.9.3
     #   great-components
     #   readtime
     #   wagtail
+billiard==3.6.4.0
+    # via celery
 boto3==1.24.96
     # via
     #   -r requirements.in
@@ -41,6 +43,10 @@ botocore==1.27.96
     # via
     #   boto3
     #   s3transfer
+celery[redis]==5.2.2
+    # via
+    #   -r requirements.in
+    #   django-celery-beat
 certifi==2022.12.7
     # via
     #   elastic-apm
@@ -49,11 +55,22 @@ certifi==2022.12.7
     #   sentry-sdk
 cffi==1.15.1
     # via cryptography
-charset-normalizer==3.0.1
+charset-normalizer==3.1.0
     # via requests
 click==8.1.3
-    # via pyhanko
-cryptography==39.0.1
+    # via
+    #   celery
+    #   click-didyoumean
+    #   click-plugins
+    #   click-repl
+    #   pyhanko
+click-didyoumean==0.3.0
+    # via celery
+click-plugins==1.1.1
+    # via celery
+click-repl==0.2.0
+    # via celery
+cryptography==39.0.2
     # via
     #   -r requirements.in
     #   pyhanko
@@ -99,6 +116,7 @@ django==3.2.18
     #   directory-constants
     #   directory-healthcheck
     #   directory-validators
+    #   django-celery-beat
     #   django-decorator-include
     #   django-extensions
     #   django-filter
@@ -109,12 +127,15 @@ django==3.2.18
     #   django-staff-sso-client
     #   django-storages
     #   django-taggit
+    #   django-timezone-field
     #   django-treebeard
     #   djangorestframework
     #   great-components
     #   sigauth
     #   wagtail
     #   wagtailfontawesome
+django-celery-beat==2.2.1
+    # via -r requirements.in
 django-decorator-include==3.0
     # via -r requirements.in
 django-environ==0.4.5
@@ -141,6 +162,8 @@ django-storages[boto3]==1.8
     # via -r requirements.in
 django-taggit==1.5.1
     # via wagtail
+django-timezone-field==4.2.3
+    # via django-celery-beat
 django-treebeard==4.4
     # via
     #   -r requirements.in
@@ -160,7 +183,7 @@ elasticsearch==7.13.4
     # via
     #   -r requirements.in
     #   elasticsearch-dsl
-elasticsearch-dsl==7.4.0
+elasticsearch-dsl==7.4.1
     # via -r requirements.in
 et-xmlfile==1.1.0
     # via openpyxl
@@ -168,7 +191,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==17.0.0
+faker==17.6.0
     # via factory-boy
 geoip2==2.9.0
     # via -r requirements.in
@@ -198,6 +221,8 @@ jsonschema==3.2.0
     # via
     #   directory-components
     #   great-components
+kombu==5.2.4
+    # via celery
 l18n==2021.3
     # via wagtail
 lxml==4.9.2
@@ -240,6 +265,8 @@ pillow==9.4.0
     #   xhtml2pdf
 pisa==3.0.33
     # via -r requirements.in
+prompt-toolkit==3.0.38
+    # via click-repl
 psycopg2==2.9.5
     # via -r requirements.in
 pycparser==2.21
@@ -248,11 +275,11 @@ pygments==2.14.0
     # via sphinx
 pyhanko==0.17.0
     # via xhtml2pdf
-pyhanko-certvalidator==0.20.0
+pyhanko-certvalidator==0.20.1
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.4.1
+pypdf==3.5.1
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -262,21 +289,25 @@ pyrsistent==0.19.3
     # via jsonschema
 python-bidi==0.4.2
     # via xhtml2pdf
+python-crontab==2.7.1
+    # via django-celery-beat
 python-dateutil==2.8.2
     # via
     #   botocore
     #   dateparser
     #   elasticsearch-dsl
     #   faker
+    #   python-crontab
 python-magic==0.4.27
     # via -r requirements.in
 pytz==2021.3
     # via
-    #   babel
+    #   celery
     #   dateparser
     #   directory-validators
     #   django
     #   django-modelcluster
+    #   django-timezone-field
     #   l18n
     #   pyhanko
 pytz-deprecation-shim==0.1.0.post0
@@ -287,8 +318,10 @@ qrcode==7.4.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==4.5.1
-    # via django-redis
+redis==3.5.3
+    # via
+    #   celery
+    #   django-redis
 regex==2022.10.31
     # via dateparser
 reportlab==3.6.12
@@ -320,6 +353,7 @@ sigauth==4.3.0
 six==1.16.0
     # via
     #   airtable-python-wrapper
+    #   click-repl
     #   elasticsearch-dsl
     #   html5lib
     #   jsonschema
@@ -374,6 +408,11 @@ urllib3==1.26.14
     #   elasticsearch
     #   requests
     #   sentry-sdk
+vine==5.0.0
+    # via
+    #   amqp
+    #   celery
+    #   kombu
 w3lib==1.22.0
     # via directory-client-core
 wagtail==2.15.6
@@ -399,12 +438,14 @@ wagtailfontawesome==1.2.1
     # via -r requirements.in
 wagtailmedia==0.5.0
     # via -r requirements.in
+wcwidth==0.2.6
+    # via prompt-toolkit
 webencodings==0.5.1
     # via
     #   cssselect2
     #   html5lib
     #   tinycss2
-whitenoise==6.3.0
+whitenoise==6.4.0
     # via -r requirements.in
 willow==1.4.1
     # via wagtail

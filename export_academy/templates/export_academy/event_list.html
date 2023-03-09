@@ -1,55 +1,67 @@
-{% extends 'core/base.html' %}
+{% extends 'domestic/base.html' %}
 {% load static %}
 
 {% block head_title %}Upcoming events{% endblock %}
 
 {% block content %}
-<section id="filters">
+<section id="event-list-section" class="topic-list-section">
     <div class="container">
-        <form action="" method="get">
-            <button type="submit" class="pill" name="when" value="all">All</button>
-            <button type="submit" class="pill" name="when" value="today">Today</button>
-            <button type="submit" class="pill" name="when" value="tomorrow">Tomorrow</button>
-            <button type="submit" class="pill" name="when" value="this_week">This week</button>
-            <button type="submit" class="pill" name="when" value="next_week">Next week</button>
-            <button type="submit" class="pill" name="when" value="this_month">This month</button>
-            <button type="submit" class="pill" name="when" value="next_month">Next month</button>
-        </form>
-    </div>
-</section>
+        <div class="grid-row">
+            <div class="column-third column-quarter-xl">
+                <form id="events-forms" action="" method="GET">
+                    <div class="filters">
+                        <ul>
+                            {% for field in form %}
+                            <li class="filter-section">
+                                <input type="checkbox" id="{{ field.label }}" checked />
+                                <label for="format" role="button">Select event {{ field.label }}</label>
+                                <div class="options checkbox-small">
+                                    {{ field }}
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="filters-sticky-footer" id="filters-sticky-footer">
+                        <input type="submit" id="submit" class="button primary-button update" value="Update">
+                    </div>
+                </form>
+            </div>
 
-<section id="upcoming-events">
-    <div class="container">
-        <h1 class="heading-xlarge">Upcoming events</h1>
-        {% regroup object_list|dictsort:"start_date" by start_date|date:"l d/m/Y" as events_by_date %}
-        <ul>
-            {% for event_by_date in events_by_date %}
-            <li>
-                <h4>{{ event_by_date.grouper }}</h4>
+            <div id="event-list" class="column-three-quarters-xl" >
+                <h1 class="heading-xlarge">Upcoming events</h1>
+                {% regroup object_list|dictsort:"start_date" by start_date|date:"l d/m/Y" as events_by_date %}
                 <ul>
-                    {% for event in event_by_date.list %}
+                    {% for event_by_date in events_by_date %}
                     <li>
-                        <h5>{{ event.start_date|date:"fa" }} - {{ event.end_date|date:"fa" }}</h5>
-                        <h6>{{ event.name }}</h6>
-                        <p>{{ event.description }}</p>
-                        <form action="{% url 'export_academy:booking' %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="event_id" value="{{ event.id }}">
-                            {% if event.id in bookings %}
-                            <input type="hidden" name="status" value="Cancelled">
-                            <button type="submit" class="link">Cancel</button>
-                            {% else %}
-                            <input type="hidden" name="status" value="Confirmed">
-                            <button type="submit" class="link">Book</button>
-                            {% endif %}
-                        </form>
+                        <h4>{{ event_by_date.grouper }}</h4>
+                        <ul>
+                            {% for event in event_by_date.list %}
+                            <li>
+                                <h5>{{ event.start_date|date:"fa" }} - {{ event.end_date|date:"fa" }}</h5>
+                                <h6>Duration: {{event.start_date|timesince:event.end_date}}</h6>
+                                <h6>{{ event.name }}</h6>
+                                <p>{{ event.description }}</p>
+                                <form action="{% url 'export_academy:booking' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="event_id" value="{{ event.id }}">
+                                    {% if event.id in bookings %}
+                                    <input type="hidden" name="status" value="Cancelled">
+                                    <button type="submit" class="link">Cancel</button>
+                                    {% else %}
+                                    <input type="hidden" name="status" value="Confirmed">
+                                    <button type="submit" class="link">Book</button>
+                                    {% endif %}
+                                </form>
+                            </li>
+                            {% endfor %}
+                        </ul>
                     </li>
+                    <hr>
                     {% endfor %}
                 </ul>
-            </li>
-            <hr>
-            {% endfor %}
-        </ul>
+            </div>
+        </div>
     </div>
 </section>
 {% endblock %}

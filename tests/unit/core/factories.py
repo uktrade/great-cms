@@ -1,9 +1,11 @@
 import factory
 import factory.fuzzy
 import wagtail_factories
+from django.utils import timezone
 from django.utils.text import slugify
 
 from core import blocks, models
+from core.models import Microsite, MicrositePage
 from domestic import models as domestic_models
 from tests.unit.domestic.factories import DomesticHomePageFactory
 
@@ -157,3 +159,17 @@ class IndustryTagFactory(factory.django.DjangoModelFactory):
 
     name = factory.fuzzy.FuzzyText(length=10)
     icon = factory.SubFactory(wagtail_factories.ImageFactory)
+
+
+class MicrositePageFactory(wagtail_factories.PageFactory):
+    last_published_at = timezone.now()
+
+    class Meta:
+        model = MicrositePage
+
+
+class MicrositeFactory(wagtail_factories.PageFactory):
+    last_published_at = timezone.now()
+
+    class Meta:
+        model = Microsite

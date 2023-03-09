@@ -1,4 +1,9 @@
+.intro-text-container {
+    margin-top: 5px;
+}
+
 .steps-list-container {
+    margin-top: 20px;
 
     // Display steps on a single line above tablet size
     @media (min-width: $tablet-size) {
@@ -11,7 +16,7 @@
 .steps-list-item {
     counter-increment: li;
     list-style: none;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     padding: 0 0 0 70px;
     position: relative;
     overflow: hidden;
@@ -33,7 +38,7 @@
         margin-bottom: 30px;
 
         &:last-child {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         &:before {
@@ -45,4 +50,25 @@
 
 .steps-description {
     width: 85%;
+}
+
+.panels-container {
+    padding-top: 24px;
+}
+
+.filters .filter-section {
+    border-bottom: 1px solid $color-main-text;
+
+    div.options {
+        max-height: none;
+    }
+
+    .multiple-choice {
+
+        label,
+        label:before,
+        label:after {
+            color: $color-main-text;
+        }
+    }
 }

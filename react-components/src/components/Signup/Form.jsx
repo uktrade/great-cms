@@ -54,7 +54,7 @@ const Form = ({
     />
     <Input
       label="UK telephone number (optional)"
-      info="By providing your phone number, you agree to be contacted by DIT to gather feedback on your experiences of great.gov.uk."
+      info="By providing your phone number, you agree to be contacted by DBT to gather feedback on your experiences of great.gov.uk."
       id="phone_number"
       type="tel"
       disabled={disabled}
