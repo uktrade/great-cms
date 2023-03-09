@@ -5,6 +5,7 @@ from directory_forms_api_client import actions
 from django.urls import reverse
 
 from config import settings
+from export_academy.forms import EventFilterForm
 from tests.unit.export_academy import factories
 
 
@@ -41,6 +42,7 @@ def test_export_academy_event_list_page_context(client, user):
     response = client.get(url)
 
     assert [str(x) for x in response.context['bookings']] == [event.id]
+    assert isinstance(response.context['form'], EventFilterForm)
 
 
 @pytest.mark.django_db
