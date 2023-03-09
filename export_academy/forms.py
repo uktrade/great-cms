@@ -5,6 +5,8 @@ from great_components import forms
 
 from contact.forms import TERMS_LABEL
 from directory_constants.choices import COUNTRY_CHOICES
+from export_academy.filters import EventFilter
+from export_academy.models import Event
 
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
@@ -96,3 +98,18 @@ class EARegistration(GovNotifyEmailActionMixin, forms.Form):
         if data.get('like_to_discuss') == 'yes':
             data['like_to_discuss_country'] = countries_mapping.get(data['like_to_discuss_other'])
         return data
+
+
+class EventFilterForm(forms.Form):
+    format = forms.ChoiceField(
+        label=_('format'),
+        choices=Event.FORMAT_CHOICES,
+        widget=forms.CheckboxSelectInlineLabelMultiple,
+        required=False,
+    )
+    when = forms.ChoiceField(
+        label=_('period'),
+        choices=EventFilter.WHEN_CHOICES,
+        widget=forms.RadioSelect,
+        required=False,
+    )

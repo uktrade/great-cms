@@ -28,11 +28,17 @@ class Event(TimeStampedModel, ClusterableModel):
     Includes Wagtail-specific types to enable Event objects to be managed from Wagtail admin.
     """
 
+    ONLINE = 'online'
+    IN_PERSON = 'in_person'
+
+    FORMAT_CHOICES = [(ONLINE, 'Online'), (IN_PERSON, 'In-person')]
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
+    format = models.CharField(max_length=15, choices=FORMAT_CHOICES, default=ONLINE)
     link = models.URLField(blank=True, null=True, max_length=255)
 
     event_panel = [
@@ -62,7 +68,7 @@ class Event(TimeStampedModel, ClusterableModel):
         ]
     )
 
-    objects = managers.EventQuerySet.as_manager()
+    objects = managers.EventManager.from_queryset(managers.EventQuerySet)()
 
     class Meta:
         ordering = ('-created', '-modified')
