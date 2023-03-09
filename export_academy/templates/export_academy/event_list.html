@@ -39,6 +39,7 @@
                             {% for event in event_by_date.list %}
                             <li>
                                 <h5>{{ event.start_date|date:"fa" }} - {{ event.end_date|date:"fa" }}</h5>
+                                <h6>Duration: {{event.start_date|timesince:event.end_date}}</h6>
                                 <h6>{{ event.name }}</h6>
                                 <p>{{ event.description }}</p>
                                 <form action="{% url 'export_academy:booking' %}" method="post">
