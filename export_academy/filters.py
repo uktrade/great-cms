@@ -47,7 +47,7 @@ class EventFilter(FilterSet):
 
     class Meta:
         model = models.Event
-        fields = ['format']
+        fields = ['type', 'format', 'period']
 
     def filter_period(self, queryset, _name, value):
         for param, _ in self.PERIOD_CHOICES:
