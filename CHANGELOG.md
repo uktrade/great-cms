@@ -11,6 +11,7 @@
 * KLS-363 - Created Microsite template
 * KLS-437 - Change DIT references to DBT
 * KLS-407 - Add format filters to the Export Academy event listings page
+* KLS-270 - Add webinar duration to event listing template
 
 ## [2.27.0](https://github.com/uktrade/great-cms/releases/tag/2.27.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.26.0...2.27.0)
