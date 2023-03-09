@@ -1,9 +1,10 @@
 
-    .details {
+    .govuk-details {
       display: block;
+      margin-top: 10px;
     }
 
-    .details__summary {
+    .govuk-details__summary {
       // Make the focus outline shrink-wrap the text content of the summary
       display: inline-block;
 
@@ -21,18 +22,18 @@
     }
 
     // Remove the underline when focussed to avoid duplicate borders
-    .details__summary:focus .details__summary-text {
+    .govuk-details__summary:focus .govuk-details__summary-text {
       text-decoration: none;
     }
 
     // Remove the default details marker so we can style our own consistently and
     // ensure it displays in Firefox (see implementation.md for details)
-    .details__summary::-webkit-details-marker {
+    .govuk-details__summary::-webkit-details-marker {
       display: none;
     }
 
     // Append our own open / closed marker using a pseudo-element
-    .details__summary:before {
+    .govuk-details:before {
       content: "";
       position: absolute;
 
@@ -44,7 +45,7 @@
 
     }
 
-    .details[open] {
+    .govuk-details[open] {
       .atlas-caret {
         transform: rotate(90deg);
         position: relative;
@@ -59,18 +60,18 @@
       height: 10px;
     }
 
-    .details__text {
+    .govuk-details__text {
       padding-top: 3px;
       padding-bottom: 3px;
       padding-left: 4px;
       border-left: 1px solid grey;
     }
 
-    .details__text p {
+    .govuk-details__text p {
       margin-top: 0;
       margin-bottom: 4px;
     }
 
-    .details__text > :last-child {
+    .govuk-details__text > :last-child {
       margin-bottom: 0;
     }

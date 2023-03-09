@@ -25,11 +25,11 @@
               <div id="id_spend_container" style="display: block;">
                 {% include 'core/includes/form_field.html' with field=form.spend %}
               </div>
-              <div id="id_spend_other-container" class="inset-text" style="display: block;">
+              <div id="id_spend_other-container" class="govuk-inset-text" style="display: block;">
                 <span class='atlas-body'>Enter specific amount</span>
                 {% include 'core/includes/form_field.html' with field=form.spend_other %}
               </div>
-              {% include '../includes/continue_button.html' %}
+              {% include '../includes/submit_button.html' with button_text='Continue' %}
             </div>
           </form>
         </div>
@@ -41,7 +41,7 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript" src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
-  <script type="text/javascript" src="{% static 'javascript/international-online-offer.triage.js' %}"></script>
+  <script type="text/javascript" src="{% static 'javascript/international-online-offer.js' %}"></script>
   <script type="text/javascript">
     const spendContainer = document.getElementById('id_spend_container');
     const otherInputs = document.getElementById('id_spend_other-container');

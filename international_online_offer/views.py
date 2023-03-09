@@ -1,8 +1,15 @@
+import random
+
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from international_online_offer import forms
+
+LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = 'Complete the contact form to keep up to date with our personalised service.'
+HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = """Your business qualifies for 1 to 1 support from specialist UK government
+ advisors. Complete the form to access this and keep up to date with our personalised service."""
+COMPLETED_CONTACT_FORM_MESSAGE = 'Thank you for completing the contact form.'
 
 
 class IOOIndex(TemplateView):
@@ -76,7 +83,7 @@ class IOOHiring(FormView):
 class IOOSpend(FormView):
     form_class = forms.SpendForm
     template_name = 'ioo/triage/spend.html'
-    success_url = reverse_lazy('international_online_offer:index')
+    success_url = reverse_lazy('international_online_offer:guide')
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
@@ -86,4 +93,47 @@ class IOOSpend(FormView):
             question_text='What is your planned spend for UK entry or expansion?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your spend.""",
+        )
+
+
+class IOOGuide(TemplateView):
+    template_name = 'ioo/guide.html'
+    success_url = reverse_lazy('international_online_offer:guide')
+    high_value_investor = False
+
+    def get_context_data(self, **kwargs):
+        IOOGuide.high_value_investor = random.choice([True, False])
+        if not IOOGuide.high_value_investor:
+            complete_contact_form_message = LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE
+        else:
+            complete_contact_form_message = HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE
+
+        return super().get_context_data(
+            **kwargs,
+            high_value_investor=IOOGuide.high_value_investor,
+            complete_contact_form_message=complete_contact_form_message,
+            complete_contact_form_link='international_online_offer:contact',
+            complete_contact_form_link_text='Complete form',
+            completed_contact_form_message=COMPLETED_CONTACT_FORM_MESSAGE,
+        )
+
+
+class IOOContact(FormView):
+    form_class = forms.ContactForm
+    template_name = 'ioo/contact.html'
+    success_url = reverse_lazy('international_online_offer:contact-success', kwargs={'success': 'contact-success'})
+    high_value_investor = False
+
+    def get_context_data(self, **kwargs):
+        IOOGuide.high_value_investor = random.choice([True, False])
+        if not IOOGuide.high_value_investor:
+            complete_contact_form_message = LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE
+        else:
+            complete_contact_form_message = HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE
+
+        return super().get_context_data(
+            **kwargs,
+            high_value_investor=IOOGuide.high_value_investor,
+            complete_contact_form_message=complete_contact_form_message,
+            back_url='international_online_offer:guide',
         )

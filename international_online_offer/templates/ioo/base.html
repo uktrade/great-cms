@@ -49,7 +49,13 @@ number of extra CSS styles that were once sensible defaults:
 
 {% block body_header %}
     {% include './header.html' with site_section=header_section site_sub_section=header_sub_section %}
-    {% include './includes/phase_banner.html' %}
+    <div class='container'>
+        <div class='grid-row'>
+            <div class='column'>
+                {% include './includes/govuk/phase_banner.html' %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block body_footer %}

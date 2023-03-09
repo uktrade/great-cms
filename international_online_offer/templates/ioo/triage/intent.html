@@ -25,11 +25,11 @@
               <div id="id_intent_container" style="display: block;">
                 {% include 'core/includes/form_field.html' with field=form.intent %}
               </div>
-              <div id="id_intent_other-container" class="inset-text" style="display: block;">
+              <div id="id_intent_other-container" class="govuk-inset-text" style="display: block;">
                 <span class='atlas-body'>Type your answer</span>
                 {% include 'core/includes/form_field.html' with field=form.intent_other %}
               </div>
-              {% include '../includes/continue_button.html' %}
+              {% include '../includes/submit_button.html' with button_text='Continue'  %}
             </div>
           </form>
         </div>
@@ -41,7 +41,7 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript" src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
-  <script type="text/javascript" src="{% static 'javascript/international-online-offer.triage.js' %}"></script>
+  <script type="text/javascript" src="{% static 'javascript/international-online-offer.js' %}"></script>
   <script type="text/javascript">
     const intentContainer = document.getElementById('id_intent_container');
     const otherInputs = document.getElementById('id_intent_other-container');

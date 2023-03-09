@@ -25,7 +25,7 @@
               <div id="id_hiring_container" style="display: block;">
                 {% include 'core/includes/form_field.html' with field=form.hiring %}
               </div>
-              {% include '../includes/continue_button.html' %}
+              {% include '../includes/submit_button.html' with button_text='Continue'  %}
             </div>
           </form>
         </div>
@@ -37,7 +37,7 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript" src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
-  <script type="text/javascript" src="{% static 'javascript/international-online-offer.triage.js' %}"></script>
+  <script type="text/javascript" src="{% static 'javascript/international-online-offer.js' %}"></script>
   <script type="text/javascript">
     getHiringIfPreviouslySelected();
   </script>

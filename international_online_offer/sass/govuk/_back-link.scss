@@ -11,7 +11,7 @@
     // Colour of chevron
     $chevron-border-colour: black;
 
-    .link-back-new {
+    .govuk-back-link {
 
       display: inline-block;
       position: relative;
@@ -26,7 +26,7 @@
     }
 
     // Prepend left pointing chevron
-    .link-back-new:before {
+    .govuk-back-link:before {
       content: "";
       display: block;
 
@@ -58,11 +58,11 @@
 
     }
 
-    .link-back-new:focus:before {
+    .govuk-back-link:focus:before {
       border-color: darkgray;
     }
 
-    .link-back-new:after {
+    .govuk-back-link:after {
       content: "";
       position: absolute;
       top: -14px;

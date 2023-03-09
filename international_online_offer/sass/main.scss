@@ -3,6 +3,7 @@
 @import './govuk/inset-text';
 @import './govuk/back-link';
 @import './govuk/details';
+@import './govuk/notification-banner';
 
 .autocomplete__input--default {
     background-image: url('/static/images/search-black.svg');
@@ -11,6 +12,19 @@
     background-position: right center;
     font-family: 'Euclid Flex B';
     background-origin: content-box;
+    width: 50% !important;
+
+    @media (max-width: 640px) {
+        width: 100% !important;
+    }
+}
+
+.autocomplete__menu {
+    width: 50% !important;
+
+    @media (max-width: 640px) {
+        width: 100% !important;
+    }
 }
 
 .autocomplete__option {
@@ -36,4 +50,8 @@
 .atlas-label {
     color: $atlas-dark-blue;
     font-weight: 600;
+}
+
+.details-title {
+    color: $atlas-electric-blue;
 }

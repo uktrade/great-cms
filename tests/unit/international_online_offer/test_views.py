@@ -48,3 +48,11 @@ def test_ioo_spend(client, settings):
     url = reverse('international_online_offer:spend')
     response = client.get(url)
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_ioo_guide(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:guide')
+    response = client.get(url)
+    assert response.status_code == 200

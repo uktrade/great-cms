@@ -24,7 +24,7 @@
               <label class="atlas-body--m atlas-label" for="sector">Enter a sector</label>
               <span class="atlas-body form-hint">Type to search and choose from the list</span>
               {% include 'core/includes/form_field.html' with field=form.sector %}
-              {% include '../includes/continue_button.html' %}
+              {% include '../includes/submit_button.html' with button_text='Continue'  %}
             </div>
           </form>
         </div>
@@ -36,13 +36,13 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript" src="{% static 'directory_components/js/vendor/accessible-autocomplete.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'javascript/international-online-offer.triage.js' %}"></script>
+  <script type="text/javascript" src="{% static 'javascript/international-online-offer.js' %}"></script>
   <script type="text/javascript">
     accessibleAutocomplete.enhanceSelectElement({
       selectElement: document.getElementById('js-sector-select'),
       source: customIOOSectorSuggest,
       autoselect: false,
-      defaultValue: getSectorIfPreviouslySelected('sector'),
+      defaultValue: getSectorIfPreviouslySelected(),
       minLength: 2,
     });
   </script>

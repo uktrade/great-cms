@@ -25,7 +25,7 @@
               <span class="atlas-body form-hint">Type to search and choose from the list</span>
               {% include 'core/includes/form_field.html' with field=form.location %}
               {% include 'core/includes/form_field.html' with field=form.location_none %}
-              {% include '../includes/continue_button.html' %}
+              {% include '../includes/submit_button.html' with button_text='Continue'  %}
             </div>
           </form>
         </div>
@@ -37,13 +37,13 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript" src="{% static 'directory_components/js/vendor/accessible-autocomplete.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'javascript/international-online-offer.triage.js' %}"></script>
+  <script type="text/javascript" src="{% static 'javascript/international-online-offer.js' %}"></script>
   <script type="text/javascript">
     accessibleAutocomplete.enhanceSelectElement({
       selectElement: document.getElementById('js-location-select'),
       source: ['Belfast', 'Cardiff', 'Edinburgh', 'London'],
       autoselect: false,
-      defaultValue: getLocationIfPreviouslySelected('location'),
+      defaultValue: getLocationIfPreviouslySelected(),
       minLength: 2,
     });
 
