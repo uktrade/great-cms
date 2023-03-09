@@ -42,9 +42,21 @@
 
       margin: auto;
 
-      .details[open] > & {
+    }
 
+    .details[open] {
+      .atlas-caret {
+        transform: rotate(90deg);
+        position: relative;
+        top: 12px;
+        left: 8px;
       }
+    }
+
+    .atlas-caret {
+      display: inline-block;
+      width: 14px;
+      height: 10px;
     }
 
     .details__text {

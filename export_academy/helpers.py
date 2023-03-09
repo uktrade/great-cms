@@ -1,6 +1,11 @@
-from directory_forms_api_client import actions
+from functools import wraps
 
-from config import settings
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.views import redirect_to_login
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+
+from core.urls import SIGNUP_URL
 from export_academy.models import Registration
 
 
@@ -11,11 +16,17 @@ def is_export_academy_registered(user):
     return Registration.objects.filter(pk=user.email).exists()
 
 
-def notify_registration(email_address, email_data, form_url):
-    action = actions.GovNotifyEmailAction(
-        email_address=email_address,
-        template_id=settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID,
-        form_url=form_url,
-    )
-    response = action.save(email_data)
-    response.raise_for_status()
+def check_registration(function):
+    @wraps(function)
+    def _wrapped_view_function(request, *args, **kwargs):
+        referer = request.META.get('HTTP_REFERER')
+        if request.user.is_authenticated:
+            if is_export_academy_registered(request.user):
+                return function(request, *args, **kwargs)
+            else:
+                event_id = request.POST['event_id']
+                return redirect(reverse_lazy('export_academy:registration', kwargs=dict(booking_id=event_id)))
+        else:
+            return redirect_to_login(referer, SIGNUP_URL, REDIRECT_FIELD_NAME)
+
+    return _wrapped_view_function

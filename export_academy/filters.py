@@ -22,15 +22,18 @@ class EventFilter(FilterSet):
         [NEXT_MONTH, 'Next Month'],
     ]
 
-    when = filters.MultipleChoiceFilter(
+    when = filters.ChoiceFilter(
         choices=WHEN_CHOICES,
         method='filter_when',
-        label='When',
+    )
+
+    format = filters.MultipleChoiceFilter(
+        choices=models.Event.FORMAT_CHOICES,
     )
 
     class Meta:
         model = models.Event
-        fields = ['when']
+        fields = ['when', 'format']
 
     def filter_when(self, queryset, name, value):
         for param, _ in self.WHEN_CHOICES:

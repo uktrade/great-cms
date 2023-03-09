@@ -22,6 +22,7 @@ class ExportAcademyPagePanels:
                 FieldPanel('banner_content'),
             ],
         ),
+        FieldPanel('intro_text'),
         MultiFieldPanel(
             heading='Steps',
             classname='collapsible',

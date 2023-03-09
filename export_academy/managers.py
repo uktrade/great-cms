@@ -6,8 +6,10 @@ from django.db import models
 class EventQuerySet(models.QuerySet):
     """Handles lazy database lookups for a set of Event objects."""
 
-    current_date = datetime.datetime.now().date()
-    current_isodate = current_date.isocalendar()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.current_date = datetime.datetime.now().date()
+        self.current_isodate = self.current_date.isocalendar()
 
     #####################################
     # METHODS THAT MAP TO DJANGO-FILTER #
@@ -35,3 +37,8 @@ class EventQuerySet(models.QuerySet):
         return self.filter(
             start_date__year__gte=self.current_date.year, start_date__month__gte=self.current_date.month + 1
         )
+
+
+class EventManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().exclude(end_date__lt=datetime.datetime.now())

@@ -86,6 +86,7 @@ INSTALLED_APPS = [
     'sso_profile',
     'directory_components',
     'export_academy.apps.ExportAcademyConfig',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -645,6 +646,9 @@ EXPORT_ACADEMY_NOTIFY_BOOKING_TEMPLATE_ID = env.str(
 EXPORT_ACADEMY_NOTIFY_CANCELLATION_TEMPLATE_ID = env.str(
     'EXPORT_ACADEMY_NOTIFY_CANCELLATION_TEMPLATE_ID', 'a073bd50-bd01-4cea-98c9-f2a54a0a1b56'
 )
+EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER_TEMPLATE_ID = env.str(
+    'EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER_TEMPLATE_ID', '2af7084f-2246-4e5d-b2a5-b8075a524e25'
+)
 
 # geo location
 GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')
@@ -787,7 +791,7 @@ else:
     TESTING = False
 
 GREAT_SUPPORT_EMAIL = env.str('GREAT_SUPPORT_EMAIL', 'great.support@trade.gov.uk')
-DIT_ON_GOVUK = env.str('DIT_ON_GOVUK', 'www.gov.uk/government/organisations/department-for-international-trade')
+DIT_ON_GOVUK = env.str('DIT_ON_GOVUK', 'www.gov.uk/government/organisations/department-for-business-and-trade')
 TRAVEL_ADVICE_COVID19 = env.str('TRAVEL_ADVICE_COVID19', 'https://www.gov.uk/guidance/travel-advice-novel-coronavirus')
 TRAVEL_ADVICE_FOREIGN = env.str('TRAVEL_ADVICE_FOREIGN', 'https://www.gov.uk/foreign-travel-advice')
 
@@ -871,3 +875,16 @@ WAGTAILDOCS_MIME_TYPES = [
     'application/pdf',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ]
+
+# Celery
+CELERY_BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = REDIS_URL
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+CELERY_BROKER_POOL_LIMIT = None
+FEATURE_REDIS_USE_SSL = env.bool('FEATURE_REDIS_USE_SSL', False)
+CELERY_TASK_ALWAYS_EAGER = env.bool('CELERY_TASK_ALWAYS_EAGER', True)
+
+EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES = env.int('EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES', 30)

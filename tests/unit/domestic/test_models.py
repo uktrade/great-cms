@@ -1229,7 +1229,7 @@ def test_markets_page__no_results__page_content(
     assert "Currently, we don't have any market guides with information inAntarctica." in body_text
 
     assert (
-        'There are other ways the Department for International Trade '
+        'There are other ways the Department for Business and Trade '
         'can help you sell your product in an overseas market.'
     ) in body_text
 

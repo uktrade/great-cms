@@ -6,7 +6,7 @@
 [![gitflow-image]][gitflow]
 [![semver-image]][semver]
 
-**CMS for the GREAT platform - The Department for International Trade (DIT)**
+**CMS for the GREAT platform - The Department for Business and Trade (DBT)**
 
 ---
 
