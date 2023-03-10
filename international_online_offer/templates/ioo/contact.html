@@ -14,51 +14,49 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-      <div class="grid-row">
-        <div class="column-two-thirds">
-          <a href="{% url back_url %}" class="govuk-back-link atlas-body" style="margin-bottom: 15px;">Back</a>
-        </div>
-      </div>
-      <div class="grid-row">
-        <div class="column-two-thirds">
-          <h3 class="atlas-h--m">Contact form</h3>
-        </div>
-      </div>
-      <div class="grid-row">
-        <div class="column-two-thirds">
-          <p class="atlas-body">{{ complete_contact_form_message }}</p>
-        </div>
-      </div>
-      <div class="grid-row">
-        <div class="column-two-thirds">
-          <form method="post" onsubmit="return onSubmitContact()">
-            {% csrf_token %}
-            <h4 class="atlas-h--s" style="margin-bottom: 15px;">Company details</h4>
-            <label class="atlas-body--m atlas-label" for="company_name">Company name</label>
-            {% include 'core/includes/form_field.html' with field=form.company_name %}
-            <label class="atlas-body--m atlas-label" for="company_location">Company headquarters</label>
-            <span class="atlas-body form-hint">Type to search and choose from the list</span>
-            {% include 'core/includes/form_field.html' with field=form.company_location %}
-            <h4 class="atlas-h--s" style="margin-bottom: 15px;">Contact information</h4>
-            <label class="atlas-body--m atlas-label" for="full_name">Full name</label>
-            {% include 'core/includes/form_field.html' with field=form.full_name %}
-            <label class="atlas-body--m atlas-label" for="role">Role</label>
-            <span class="atlas-body form-hint">Your role within the company</span>
-            {% include 'core/includes/form_field.html' with field=form.role %}
-            <label class="atlas-body--m atlas-label" for="email">Email</label>
-            {% include 'core/includes/form_field.html' with field=form.email %}
-            <label class="atlas-body--m atlas-label" for="telephone_number">Telephone number</label>
-            <span class="atlas-body form-hint">Please include the country code</span>
-            {% include 'core/includes/form_field.html' with field=form.telephone_number %}
-            {% include 'core/includes/form_field.html' with field=form.agree_terms %}
-            {% include 'core/includes/form_field.html' with field=form.agree_info_email %}
-            {% include 'core/includes/form_field.html' with field=form.agree_info_telephone %}
-            {% include './includes/submit_button.html' with button_text='Submit'  %}
-          </form>
-        </div>
-      </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <a href="{% url back_url %}" class="govuk-back-link atlas-body" style="margin-bottom: 15px;">Back</a>
     </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h3 class="atlas-h--m">Contact form</h3>
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <p class="atlas-body">{{ complete_contact_form_message }}</p>
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form method="post" onsubmit="return onSubmitContact()">
+        {% csrf_token %}
+        <h4 class="atlas-h--s" style="margin-bottom: 15px;">Company details</h4>
+        <label class="atlas-body--m atlas-label" for="company_name">Company name</label>
+        {% include 'core/includes/form_field.html' with field=form.company_name %}
+        <label class="atlas-body--m atlas-label" for="company_location">Company headquarters</label>
+        <span class="atlas-body form-hint">Type to search and choose from the list</span>
+        {% include 'core/includes/form_field.html' with field=form.company_location %}
+        <h4 class="atlas-h--s" style="margin-bottom: 15px;">Contact information</h4>
+        <label class="atlas-body--m atlas-label" for="full_name">Full name</label>
+        {% include 'core/includes/form_field.html' with field=form.full_name %}
+        <label class="atlas-body--m atlas-label" for="role">Role</label>
+        <span class="atlas-body form-hint">Your role within the company</span>
+        {% include 'core/includes/form_field.html' with field=form.role %}
+        <label class="atlas-body--m atlas-label" for="email">Email</label>
+        {% include 'core/includes/form_field.html' with field=form.email %}
+        <label class="atlas-body--m atlas-label" for="telephone_number">Telephone number</label>
+        <span class="atlas-body form-hint">Please include the country code</span>
+        {% include 'core/includes/form_field.html' with field=form.telephone_number %}
+        {% include 'core/includes/form_field.html' with field=form.agree_terms %}
+        {% include 'core/includes/form_field.html' with field=form.agree_info_email %}
+        {% include 'core/includes/form_field.html' with field=form.agree_info_telephone %}
+        {% include './includes/submit_button.html' with button_text='Submit'  %}
+      </form>
+    </div>
+  </div>
 {% endblock %}
 
 {% block body_js %}

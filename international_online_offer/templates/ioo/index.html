@@ -9,19 +9,17 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-      <main>
-        <div class="grid-row">
-          <div class="column-two-thirds">
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
             <h1 class="atlas-h--xl">Expand your business into the UK</h1>
           </div>
         </div>
-        <div class="grid-row">
-          <div class="column-two-thirds">
-            <p class="body atlas-body">
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body atlas-body">
               Whatever your size and type of business, our online self-service tool can help you set up and grow in the UK. You can use it to:
             </p>
-            <ul class="list list-bullet list-spaced atlas-body">
+            <ul class="govuk-list govuk-list--bullet govuk-list--spaced atlas-body">
               <li>guide you through the practicalities, like setting up a company and  opening a bank account, in an easy checklist format</li>
               <li>find the right location and staff for your business</li>
               <li>connect with clients, partners and the right expert contacts to support your UK expansion </li>
@@ -30,16 +28,15 @@
             </ul>
           </div>
         </div>
-        <div class="grid-row">
-          <div class="column-two-thirds">
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
             <div class="govuk-inset-text atlas-body">
               Tell us a little bit about your company to access guides and contacts matched to your needs. It’s a 2 minute step by step process, free of charge, with immediate results.
             </div>
           </div>
         </div>
-        <div class="grid-row">
-          <div class="column-two-thirds">
-            <br/>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
             <a href="{% url 'international_online_offer:sector' %}" role="button" draggable="false" class="atlas-button" data-module="button">
               Start now
               <span class="atlas-button__icon">
@@ -50,15 +47,13 @@
             </a>
           </div>
         </div>
-        <div class="grid-row">
-          <div class="column-two-thirds">
-            <h3 class="heading-medium !-margin-top-9 atlas-h--m">Personal Data</h3>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+            <h3 class="heading-medium atlas-body--m atlas-label">Personal Data</h3>
             <p class="body atlas-body">
-              We’ll never share your data with third parties. <a id="footer-terms-and-conditions"
+              We’ll never share your data with third parties. <a class="atlas-link" id="footer-terms-and-conditions"
               href="{{ header_footer_urls.terms_and_conditions }}">View our website’s Terms and conditions</a>
             </p>
           </div>
         </div>
-      </main>
-    </div>
 {% endblock %}

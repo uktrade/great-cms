@@ -14,23 +14,21 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-      {% include '../includes/triage_header.html' with back_url=back_url step_text=step_text question_text=question_text %}
-      <div class="grid-row">
-        <div class="column-two-thirds">
-          <form method="post" onsubmit="return onSubmitSector()">
-            {% csrf_token %}
-            <div class="form-group" id="id_sector-container">
-              <label class="atlas-body--m atlas-label" for="sector">Enter a sector</label>
-              <span class="atlas-body form-hint">Type to search and choose from the list</span>
-              {% include 'core/includes/form_field.html' with field=form.sector %}
-              {% include '../includes/submit_button.html' with button_text='Continue'  %}
-            </div>
-          </form>
+  {% include '../includes/triage_header.html' with back_url=back_url step_text=step_text question_text=question_text %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form method="post" onsubmit="return onSubmitSector()">
+        {% csrf_token %}
+        <div class="form-group" id="id_sector-container">
+          <label class="atlas-body--m atlas-label" for="sector">Enter a sector</label>
+          <span class="atlas-body form-hint">Type to search and choose from the list</span>
+          {% include 'core/includes/form_field.html' with field=form.sector %}
+          {% include '../includes/submit_button.html' with button_text='Continue'  %}
         </div>
-      </div>
-      {% include '../includes/triage_footer.html' with why_we_ask_this_question_text=why_we_ask_this_question_text %}
+      </form>
     </div>
+  </div>
+  {% include '../includes/triage_footer.html' with why_we_ask_this_question_text=why_we_ask_this_question_text %}
 {% endblock %}
 
 {% block body_js %}

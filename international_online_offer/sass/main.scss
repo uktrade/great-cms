@@ -1,9 +1,22 @@
+@import "govuk-token-overrides";
+@import "node_modules/govuk-frontend/govuk/all";
 @import 'header-footer';
-@import './govuk/phase-banner';
-@import './govuk/inset-text';
-@import './govuk/back-link';
-@import './govuk/details';
-@import './govuk/notification-banner';
+
+main {
+    margin-top: 12px !important;
+}
+
+.govuk-phase-banner {
+    margin-top: 12px;
+}
+
+.error-reporting {
+    font-family: 'Euclid Flex B' !important;
+
+    .container {
+        margin: 0px !important;
+    }
+}
 
 .autocomplete__input--default {
     background-image: url('/static/images/search-black.svg');
