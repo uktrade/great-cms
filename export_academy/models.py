@@ -1,8 +1,10 @@
 import uuid
 
 from django.db import models
+from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
+from taggit.models import ItemBase, TagBase
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
@@ -19,6 +21,17 @@ from core.models import TimeStampedModel
 from domestic.models import BaseContentPage
 from export_academy import managers
 from export_academy.cms_panels import ExportAcademyPagePanels
+
+
+class EventTypeTag(TagBase):
+    class Meta:
+        verbose_name = 'Event type tag'
+        verbose_name_plural = 'Event type tags'
+
+
+class TaggedEventType(ItemBase):
+    tag = models.ForeignKey(EventTypeTag, related_name='+', on_delete=models.CASCADE)
+    content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
 
 
 class Event(TimeStampedModel, ClusterableModel):
@@ -40,6 +53,7 @@ class Event(TimeStampedModel, ClusterableModel):
     end_date = models.DateTimeField()
     format = models.CharField(max_length=15, choices=FORMAT_CHOICES, default=ONLINE)
     link = models.URLField(blank=True, null=True, max_length=255)
+    types = ClusterTaggableManager(through=TaggedEventType)
 
     event_panel = [
         MultiFieldPanel(
@@ -48,6 +62,8 @@ class Event(TimeStampedModel, ClusterableModel):
                 FieldPanel('name'),
                 FieldPanel('description'),
                 FieldPanel('link'),
+                FieldPanel('format'),
+                FieldPanel('types', heading='Types'),
             ],
         ),
         MultiFieldPanel(
@@ -68,10 +84,11 @@ class Event(TimeStampedModel, ClusterableModel):
         ]
     )
 
-    objects = managers.EventManager.from_queryset(managers.EventQuerySet)()
+    objects = models.Manager()
+    upcoming = managers.EventManager.from_queryset(managers.EventQuerySet)()
 
     class Meta:
-        ordering = ('-created', '-modified')
+        ordering = ('-start_date', '-end_date')
 
     def __str__(self):
         return f'{self.id}:{self.name}'

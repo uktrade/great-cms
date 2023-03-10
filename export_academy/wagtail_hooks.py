@@ -12,9 +12,14 @@ class EventsAdmin(ModelAdmin):
     add_to_settings_menu = False
     exclude_from_explorer = False
     add_to_admin_menu = True
-    list_display = ('name', 'start_date', 'link')
-    list_filter = ('start_date',)
+    list_display = ('name', 'get_types', 'start_date')
+    list_filter = ('start_date', 'types')
     search_fields = ('name', 'description')
+
+    def get_types(self, obj):
+        return ', '.join(str(type.name) for type in obj.types.all())
+
+    get_types.short_description = 'Type'
 
 
 modeladmin_register(EventsAdmin)
