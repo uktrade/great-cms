@@ -4,6 +4,7 @@
 
 ### Enhancements
 * KLS-426 - Add event types to filterset on UKEA's listings page
+* KLS-452 - Event cloning from Wagtail admin
 
 ## [2.28.0](https://github.com/uktrade/great-cms/releases/tag/2.28.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.27.0...2.28.0)
