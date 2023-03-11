@@ -19,9 +19,9 @@ class EventListView(FilterView, ListView):
         bookings = []
 
         if user.is_authenticated:
-            bookings = models.Booking.objects.filter(registration_id=user.email, status='Confirmed').values_list(
-                'event_id', flat=True
-            )
+            bookings = models.Booking.objects.filter(
+                registration_id=user.email, status='Confirmed'  # type: ignore
+            ).values_list('event_id', flat=True)
 
         ctx.update(bookings=bookings, filter=self.filterset_class(self.request.GET))
 
@@ -54,7 +54,7 @@ class RegistrationFormView(BookingMixin, FormView):
         reg_data = dict(
             first_name=cleaned_data.get('first_name'),
             last_name=cleaned_data.get('last_name'),
-            email=self.request.user.email,
+            email=self.request.user.email,  # type: ignore
             data=cleaned_data,
         )
         self.save_model(reg_data)

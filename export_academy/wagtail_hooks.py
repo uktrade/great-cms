@@ -1,6 +1,6 @@
 from django.contrib.admin.utils import quote
 from django.urls import re_path
-from django.utils.translation import gettext_lazy, ugettext_lazy
+from django.utils.translation import gettext_lazy
 from wagtail.contrib.modeladmin.helpers import ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail.contrib.modeladmin.views import CreateView, InstanceSpecificView
@@ -13,7 +13,7 @@ class CloneView(CreateView, InstanceSpecificView):
 
 
 class EventAdminButtonHelper(ButtonHelper):
-    """EventAdminButtonHelper lorem ipsum dolor sit amet."""
+    """EventAdminButtonHelper handles special button configuration for Events on Wagtail admin."""
 
     clone_button_classnames = ['button-small', 'button-secondary']
 
@@ -22,9 +22,9 @@ class EventAdminButtonHelper(ButtonHelper):
 
         return {
             'url': self.url_helper.get_action_url('clone', quote(obj.pk)),
-            'label': ugettext_lazy('Clone'),
+            'label': gettext_lazy('Clone'),
             'classname': classname,
-            'title': ugettext_lazy('Clone a new %s') % self.verbose_name,
+            'title': gettext_lazy('Clone a new %s') % self.verbose_name,
         }
 
     def get_buttons_for_obj(self, obj, exclude=None, classnames_add=None, classnames_exclude=None):
@@ -35,8 +35,8 @@ class EventAdminButtonHelper(ButtonHelper):
         return btns
 
 
-class EventsAdmin(ModelAdmin):
-    """EventsAdmin allows to add the Event model to the Wagtail admin."""
+class EventAdmin(ModelAdmin):
+    """EventAdmin allows to add the Event model to the Wagtail admin."""
 
     model = Event
     button_helper_class = EventAdminButtonHelper
@@ -76,4 +76,4 @@ class EventsAdmin(ModelAdmin):
         return urls
 
 
-modeladmin_register(EventsAdmin)
+modeladmin_register(EventAdmin)
