@@ -55,7 +55,7 @@ nav {
 .magna-header__dropdown {
   right: 0;
   margin-top: 10px;
-  background-color: $color-footer!important;
+  background-color: $color-footer !important;
   @media only screen and (max-width: $mobile-size) {
     margin-top: 9px;
   }
@@ -68,14 +68,14 @@ nav.breadcrumbs {
 
   background-color: $color-background-color;
   @media only screen and (max-width: $mobile-size) {
-    padding: calc(0.75em - (0.5 * $standard-padding)) 15px!important;
+    padding: calc(0.75em - (0.5 * $standard-padding)) 15px !important;
   }
 
-  li{
+  li {
     padding: 0.5 * $standard-padding 0;
     margin-left: 0;
   }
-  li::after{
+  li::after {
     margin-right: $standard-padding;
   }
 }
@@ -88,8 +88,56 @@ nav {
   }
 }
 
-.magna-header__dropdown-button{
-  font-family: $main-text-font!important;
-  font-size: $font-size-p!important;
+.magna-header__dropdown-button {
+  font-family: $main-text-font !important;
+  font-size: $font-size-p !important;
   z-index: 3;
+}
+
+div.mirosite-nav-container {
+  background-color: $color-footer;
+  height: 140px;
+  position: relative;
+
+  h3 {
+    color: $color-alternative-text;
+  }
+
+  nav {
+    display: inline-flex;
+    gap: $x-large-padding;
+    height: 100%;
+    display: flex;
+    align-items: end;
+    div {
+ 
+      > a {
+        font-size: 18px;
+        color: $color-alternative-text;
+        text-decoration: none;
+        border-bottom: 5px solid transparent;
+      }
+
+      .subnav {
+        display: none;
+        position: absolute;
+        left: 0;
+        background-color: red;
+        width: 100%;
+        z-index: 1;
+
+        a {
+          float: left;
+          color: $color-alternative-text;
+          text-decoration: none;
+        }
+      }
+      &.active {
+       >a{ border-bottom: 5px solid white;}
+        .subnav {
+          display: block;
+        }
+      }
+    }
+  }
 }

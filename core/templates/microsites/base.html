@@ -1,4 +1,13 @@
 {% load wagtailcore_tags %}
+<<<<<<< HEAD
+=======
+
+{% comment %} <p>Related pages</p>
+{% for item in page.get_related_pages %}
+     <li><a href={{item.url}}>{{ item.title }}</a></li>
+{% endfor %} {% endcomment %}
+
+>>>>>>> a8c0e4869 (save nav changes)
 {% load static %}
 {% load i18n %}
 {% load static_absolute from component_tags %}
@@ -6,6 +15,7 @@
 {% load wagtailimages_tags %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 
+<<<<<<< HEAD
 <!DOCTYPE html>
 <!--[if lt IE 9]>
 <html class="lte-ie8" lang="en-gb"><![endif]-->
@@ -192,3 +202,7 @@
 {% endblock %}
 </body>
 </html>
+=======
+{% include 'microsites/includes/microsite_nav.html' with title=page.title menu_items=page.get_menu_items %}
+ <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />ß
+>>>>>>> a8c0e4869 (save nav changes)

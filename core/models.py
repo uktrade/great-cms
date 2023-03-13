@@ -1518,6 +1518,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
 
     # Return the children of the top level Microsite parent of current page
     def get_menu_items(self):
+<<<<<<< HEAD
         parent_page = self.get_parent_page()
         if parent_page:
             return [{'url': parent_page.get_url(), 'title': 'Home'}] + [
@@ -1528,6 +1529,25 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 for child in parent_page.get_children().live()
             ]
         return []
+=======
+        parent_page = self.get_ancestors().live().type(Microsite).first().specific
+        return [
+            {
+                'url': child.get_url(),
+                'title': child.title,
+                'children': self.get_secondary_pages(child)
+            }
+            for child in parent_page.get_children().live()
+        ]
+
+    # Return the children of the MicrositePage at the top of current user journey
+    def get_secondary_pages(self, page):
+        if type(page.get_parent().specific) == Microsite:
+            return [{'title': child.title, 'url': child.get_url()} for child in page.get_children()]
+        else:
+            parent_page = page.get_ancestors().live().type(MicrositePage).first().specific
+            return [{'title': child.title, 'url': child.get_url()} for child in parent_page.get_children()]
+>>>>>>> a8c0e4869 (save nav changes)
 
     # Return the children of a child or grandchild page
     def get_related_pages(self):
