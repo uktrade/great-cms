@@ -1,0 +1,17 @@
+{% load wagtailcore_tags  %}
+
+<div>
+    {% if value.video %}
+        <video controls class="govuk-!-width-full govuk-!-margin-bottom-2">
+            <source src="{{ value.video.url }}" type="video/{{ value.video.file_extension }}">
+            <p>Your browser doesn't support HTML5 video. Here is a <a class="link" href="{{ value.video.url }}">link to the video</a> instead.</p>
+        </video>
+
+        {% if value.video.transcript %}
+        <details closed class="govuk-details govuk-!-margin-bottom-5">
+            <summary  class="govuk-details__summary"><span class="govuk-details__summary-text">View video transcript</span></summary>
+            <div class="govuk-details__text">{{ value.video.transcript|richtext }}</div>
+        </details>
+        {% endif %}
+    {% endif %}
+</div>

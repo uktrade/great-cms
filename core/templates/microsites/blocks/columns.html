@@ -1,0 +1,12 @@
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+<div class="govuk-grid-row">
+{% for item in value %}
+<div class="govuk-grid-column-one-{% if value|length == 3 %}third{% else %}half{% endif %}">
+    {% image item.value.image width-200 %}
+    <h3 class="govuk-heading-m"><a class="govuk-link" href="{{ item.value.link }}">{{ item.value.title }}</a></h3>
+    {{ item.value.description }}
+</div>
+{% endfor %}
+</div>
