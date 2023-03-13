@@ -25,3 +25,15 @@ def send_automated_events_notification():
             settings.EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER_TEMPLATE_ID,
             additional_notify_data,
         )
+
+
+@app.task
+def remove_past_events_media():
+    time_delay = settings.EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_DELAY_DAYS
+    events = Event.objects.filter(
+        start_date__lt=datetime.now(timezone.utc) - timedelta(days=time_delay),
+        start_date__gte=datetime.now(timezone.utc) - timedelta(days=time_delay * 2),
+    )
+    for event in events:
+        if event.completed and event.video_recording:
+            event.video_recording.delete()

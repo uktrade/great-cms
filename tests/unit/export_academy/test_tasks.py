@@ -1,10 +1,14 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from unittest import mock
 
 import pytest
 
 from config import settings
-from export_academy.tasks import send_automated_events_notification
+from export_academy.models import Event
+from export_academy.tasks import (
+    remove_past_events_media,
+    send_automated_events_notification,
+)
 from tests.helpers import create_response
 from tests.unit.export_academy import factories
 
@@ -33,3 +37,17 @@ def test_notify_registration(mock_notify_action, user):
             'event_time': expected_event_time,
         }
     )
+
+
+@pytest.mark.django_db
+def test_remove_video(user):
+    delay_days = settings.EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_DELAY_DAYS + 1
+    event = factories.EventFactory(
+        name='Event name',
+        start_date=datetime.now(timezone.utc) - timedelta(days=delay_days),
+        completed=True,
+    )
+
+    remove_past_events_media()
+    treated_event = Event.objects.get(id=event.id)
+    assert treated_event.video_recording is None
