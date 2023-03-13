@@ -9,6 +9,7 @@ from export_academy.mixins import BookingMixin
 
 class EventListView(FilterView, ListView):
     model = models.Event
+    queryset = model.upcoming
     filterset_class = filters.EventFilter
     template_name = 'export_academy/event_list.html'
 
@@ -22,7 +23,7 @@ class EventListView(FilterView, ListView):
                 'event_id', flat=True
             )
 
-        ctx.update(bookings=bookings)
+        ctx.update(bookings=bookings, filter=self.filterset_class(self.request.GET))
 
         return ctx
 

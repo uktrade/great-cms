@@ -66,6 +66,8 @@ class EventPanel:
                 FieldPanel('name'),
                 FieldPanel('description'),
                 FieldPanel('link'),
+                FieldPanel('format'),
+                FieldPanel('types', heading='Types'),
             ],
         ),
         MultiFieldPanel(

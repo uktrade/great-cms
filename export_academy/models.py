@@ -2,8 +2,10 @@ import uuid
 
 from directory_forms_api_client import actions
 from django.db import models
+from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
+from taggit.models import ItemBase, TagBase
 from wagtail.core.fields import RichTextField, StreamField
 
 from config import settings
@@ -13,7 +15,7 @@ from core.fields import single_struct_block_stream_field_factory
 from core.models import GreatMedia, TimeStampedModel
 from domestic.models import BaseContentPage
 from export_academy import managers
-from export_academy.cms_panels import EventPanel, ExportAcademyPagePanels
+from export_academy.cms_panels import ExportAcademyPagePanels
 
 
 def send_notifications_for_all_bookings(event, template_id, additional_notify_data=None):
@@ -33,19 +35,37 @@ def send_notifications_for_all_bookings(event, template_id, additional_notify_da
         action.save(notify_data)
 
 
-class Event(TimeStampedModel, ClusterableModel, EventPanel):
+class EventTypeTag(TagBase):
+    class Meta:
+        verbose_name = 'Event type tag'
+        verbose_name_plural = 'Event type tags'
+
+
+class TaggedEventType(ItemBase):
+    tag = models.ForeignKey(EventTypeTag, related_name='+', on_delete=models.CASCADE)
+    content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
+
+
+class Event(TimeStampedModel, ClusterableModel):
     """
     Represents an Export Academy event.
 
     Includes Wagtail-specific types to enable Event objects to be managed from Wagtail admin.
     """
 
+    ONLINE = 'online'
+    IN_PERSON = 'in_person'
+
+    FORMAT_CHOICES = [(ONLINE, 'Online'), (IN_PERSON, 'In-person')]
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
+    format = models.CharField(max_length=15, choices=FORMAT_CHOICES, default=ONLINE)
     link = models.URLField(blank=True, null=True, max_length=255)
+    types = ClusterTaggableManager(through=TaggedEventType)
     slide_show = models.ForeignKey(
         'wagtaildocs.Document',
         null=True,
@@ -71,10 +91,11 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     )
     completed = models.BooleanField(default=False)
 
-    objects = managers.EventQuerySet.as_manager()
+    objects = models.Manager()
+    upcoming = managers.EventManager.from_queryset(managers.EventQuerySet)()
 
     class Meta:
-        ordering = ('-created', '-modified')
+        ordering = ('-start_date', '-end_date')
 
     def __str__(self):
         return f'{self.id}:{self.name}'
