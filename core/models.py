@@ -1408,6 +1408,11 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     template='domestic/blocks/pull_quote_block.html',
                 ),
             ),
+            ('call_to_actions',
+             core_blocks.CTA_Block(
+                 template='core/templates/components/cta_block',
+                 widget=Select)
+                 )
         ],
         null=True,
         blank=True,

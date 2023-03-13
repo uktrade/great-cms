@@ -1,0 +1,15 @@
+{% comment %} This component can be used for the cta block v2, the social media block or the content list item{% endcomment %}
+{% comment %} Theme can be either none or light or dark{% endcomment %}
+{% comment %} type can be content_list or cta or social_media {% endcomment %}
+
+<div class="cta-block {{ theme }} {{type}}">
+    {% block title %}
+        {% if title %}<h3>{{ title }}</h3>{% endif %}
+    {% endblock title %}
+    {% block content %}
+        {% if text %}<p>{{ text }}</p>{% endif %}
+    {% endblock content %}
+    {% block button %}
+        {% if button %}<a class = "button primary-button" href = "{{ button.url }}">{{ button.label }}</a>{% endif %}
+    {% endblock button %}
+</div>

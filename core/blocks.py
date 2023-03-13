@@ -11,7 +11,7 @@ from wagtailmedia.blocks import AbstractMediaChooserBlock
 
 from core import models
 from core.case_study_index import search
-from core.constants import RICHTEXT_FEATURES__MINIMAL, RICHTEXT_FEATURES__REDUCED
+from core.constants import RICHTEXT_FEATURES__MINIMAL, RICHTEXT_FEATURES__REDUCED, CTA_THEME_CHOICES
 from core.utils import get_cs_ranking, get_personalised_choices
 
 logger = logging.getLogger(__name__)
@@ -529,3 +529,13 @@ class TopicPageCardBlockRichText(blocks.StructBlock):
     image = ImageChooserBlock(required=False, label='Hero Image')
     description = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label='Description')
     link = blocks.CharBlock()  # not a URL block to allow relative links
+
+class CTA_Block(blocks.StructBlock):
+    title = blocks.CharBlock(required=False, max_length=255, label='Title')
+    text = blocks.TextBlock(required=False, max_length=255, label='Text')
+    button = ButtonBlock(required = False, label ='Button')
+    theme = blocks.CharBlock(choices=CTA_THEME_CHOICES, null=True, blank=True)
+    
+class ButtonBlock(blocks.StructBlock):
+    url = blocks.TextBlock(required=True, label='Url') 
+    label = blocks.CharBlock(required=True, max_length=255, label='Label')

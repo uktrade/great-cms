@@ -1,0 +1,57 @@
+@import '../sizes/sizes.scss';
+@import '../colors/colors.scss';
+
+.cta-block {
+  padding: $x-large-padding;
+
+  &.light {
+    background-color: $color-main-background;
+  }
+
+  &.dark {
+    background-color: $color-footer;
+
+    p,
+    h3 {
+      color: $color-alternative-text;
+    }
+  }
+
+  &.social_media {
+    border: 1px solid $color-main-text;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  h3 + * {
+    margin-top: $standard-padding;
+  }
+
+  p + a.button {
+    margin-top: $large-padding;
+  }
+
+  @media only screen and (max-width: $mobile-size) {
+    padding: $large-padding;
+
+    h3 + * {
+      margin-top: $large-padding;
+    }
+
+    p a.button {
+      font-size: 16px;
+    }
+  }
+
+  @media only screen and (min-width: calc($mobile-size + 1px)) {
+    width: 100%;
+    &.cta {
+      margin-right: 33%;
+    }
+    &.social_media {
+      padding: 50px 90px;
+    }
+  }
+}
