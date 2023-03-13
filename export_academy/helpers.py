@@ -9,6 +9,13 @@ from core.urls import SIGNUP_URL
 from export_academy.models import Registration
 
 
+class EventButtonHelper:
+    def get_buttons_for_obj(obj):
+        return [
+            {'url': 'https://www.google.com', 'label': 'Hello', 'classname': 'button', 'title': 'Hello button'},
+        ]
+
+
 def is_export_academy_registered(user):
     if not user.is_authenticated:
         return False
