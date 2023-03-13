@@ -15,7 +15,7 @@ from core.fields import single_struct_block_stream_field_factory
 from core.models import GreatMedia, TimeStampedModel
 from domestic.models import BaseContentPage
 from export_academy import managers
-from export_academy.cms_panels import ExportAcademyPagePanels
+from export_academy.cms_panels import EventPanel, ExportAcademyPagePanels
 
 
 def send_notifications_for_all_bookings(event, template_id, additional_notify_data=None):
@@ -46,7 +46,7 @@ class TaggedEventType(ItemBase):
     content_object = ParentalKey(to='export_academy.Event', on_delete=models.CASCADE)
 
 
-class Event(TimeStampedModel, ClusterableModel):
+class Event(TimeStampedModel, ClusterableModel, EventPanel):
     """
     Represents an Export Academy event.
 
