@@ -3,7 +3,7 @@ from captcha.widgets import ReCaptchaV3
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.forms import Select, Textarea, TextInput
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from great_components import forms
 
 from contact.forms import TERMS_LABEL
