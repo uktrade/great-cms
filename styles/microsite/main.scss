@@ -1,15 +1,51 @@
+<<<<<<< HEAD
 @import '../great/main.scss';
 @import './header.scss';
 @import './nav.scss';
 
 .microsite {
   .block-text {
+=======
+@import '../dbt/main.scss';
+
+.microsite {
+  .block-text {
+    h2 {
+      @extend %govuk-heading-m;
+    }
+
+    h3 {
+      @extend %govuk-heading-s;
+    }
+
+    h4 {
+      @extend %govuk-body-m;
+    }
+
+    p {
+      @extend %govuk-body-m;
+    }
+
+>>>>>>> 370c3634b (KLS-371: introduce govuk-frontend, dbt styling, microsite article page components)
     i {
       font-size: inherit;
     }
 
+<<<<<<< HEAD
     ul {
       padding-left: 20px;
+=======
+    ol, ul {
+      @extend %govuk-list;
+    }
+
+    ol {
+      @extend %govuk-list--number;
+    }
+
+    ul {
+      @extend %govuk-list--bullet;
+>>>>>>> 370c3634b (KLS-371: introduce govuk-frontend, dbt styling, microsite article page components)
 
       li {
         position: static;
@@ -18,11 +54,16 @@
       }
     }
 
+<<<<<<< HEAD
     hr {
       background: #666;
       height: 4px;
       width: 100%;
       margin: 30px 0;
+=======
+    h1, h2, h3, h4, h5, h6, p, ol, ul {
+      font-family: $dbt-font;
+>>>>>>> 370c3634b (KLS-371: introduce govuk-frontend, dbt styling, microsite article page components)
     }
   }
 }

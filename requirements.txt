@@ -284,7 +284,11 @@ pyhanko-certvalidator==0.20.1
     # via
     #   pyhanko
     #   xhtml2pdf
+<<<<<<< HEAD
 pypdf==3.7.0
+=======
+pypdf==3.5.2
+>>>>>>> 370c3634b (KLS-371: introduce govuk-frontend, dbt styling, microsite article page components)
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode

@@ -3,6 +3,7 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 <div class="microsite-main {{ view.slug }}-microsite">
+<<<<<<< HEAD
   {% include 'microsites/includes/microsite_nav.html' with title=page.get_site_title  menu_items=page.get_menu_items active_url=request.path %}
 
   {% image page.hero_image original as hero_image %}
@@ -26,6 +27,17 @@
           <p class="govuk-body great-text-grey">
             Last updated: <time datetime="{{page.last_published_at|date:'c'}}">{{page.last_published_at|date:"j F Y"}}</time>
           </p>
+=======
+  <div class="container govuk-!-padding-top-7">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-three-quarters">
+        {% if page.page_title %}
+          <h1 class="govuk-heading-l">{{ page.page_title }}</h1>
+        {% endif %}
+
+        {% if page.page_subheading %}
+          <p class="govuk-heading-m">{{ page.page_subheading }}</p>
+>>>>>>> 370c3634b (KLS-371: introduce govuk-frontend, dbt styling, microsite article page components)
         {% endif %}
       </div>
       <div class="govuk-grid-column-one-quarter">
@@ -35,7 +47,18 @@
       </div>
     </div>
 
+<<<<<<< HEAD
     {{ page.page_body }} {# StreamField content #}
+=======
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-three-quarters">
+        <div>
+          {{ page.page_body }} {# StreamField content #}
+        </div>
+      </div>
+      <div class="govuk-grid-column-one-quarter"></div>
+    </div>
+>>>>>>> 370c3634b (KLS-371: introduce govuk-frontend, dbt styling, microsite article page components)
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">

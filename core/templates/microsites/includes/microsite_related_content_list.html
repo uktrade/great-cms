@@ -1,10 +1,17 @@
 {% if page.related_links %}
   <div>
     <h2 class="govuk-heading-m">Related content</h2>
+<<<<<<< HEAD
     <ul class="govuk-list govuk-!-padding-top-6 great-border-top-blue">
       {% for link in page.related_links %}
         <li>
           <a href="{{ link.value.full_url }}" class="govuk-link govuk-heading-s govuk-!-margin-bottom-3">{{ link.value.title }}</a>
+=======
+    <ul class="govuk-list govuk-!-padding-top-3 dbt-border-top-blue">
+      {% for link in page.related_links %}
+        <li>
+          <a href="{{ link.value.full_url }}" class="govuk-link">{{ link.value.title }}</a>
+>>>>>>> 370c3634b (KLS-371: introduce govuk-frontend, dbt styling, microsite article page components)
         </li>
       {% endfor %}
     </ul>

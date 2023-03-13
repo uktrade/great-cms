@@ -1,0 +1,33 @@
+@import './colors.scss';
+@import './typography.scss';
+
+.dbt {
+    overflow-x: hidden;
+
+    h1, h2, h3, h4, h5, h6, p, ol, ul {
+        font-family: $dbt-font;
+    }
+
+    .govuk-button {
+        background-color: $govuk-brand-colour;
+
+        &:hover,
+        &:focus {
+            background-color: $dbt-white;
+            border-color: $govuk-brand-colour;
+            color: $govuk-brand-colour;
+        }
+    }
+}
+
+.dbt-border-top-blue {
+    border-top: 6px solid $dbt-blue;
+}
+
+.dbt-bg-white {
+    background-color: $dbt-white;
+}
+
+.dbt-bg-light-blue {
+    background-color: $dbt-light-blue;
+}

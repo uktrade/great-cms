@@ -35,8 +35,11 @@ asttokens==2.2.1
     # via stack-data
 async-generator==1.10
     # via trio
+<<<<<<< HEAD
 async-timeout==4.0.2
     # via redis
+=======
+>>>>>>> 370c3634b (KLS-371: introduce govuk-frontend, dbt styling, microsite article page components)
 attrs==22.2.0
     # via
     #   allure-python-commons
@@ -314,7 +317,11 @@ html5lib==1.1
     # via
     #   wagtail
     #   xhtml2pdf
+<<<<<<< HEAD
 identify==2.5.22
+=======
+identify==2.5.20
+>>>>>>> 370c3634b (KLS-371: introduce govuk-frontend, dbt styling, microsite article page components)
     # via pre-commit
 idna==3.4
     # via
@@ -434,7 +441,11 @@ pip-tools==6.12.3
     # via -r requirements_test.in
 pisa==3.0.33
     # via -r requirements.in
+<<<<<<< HEAD
 platformdirs==3.2.0
+=======
+platformdirs==3.1.1
+>>>>>>> 370c3634b (KLS-371: introduce govuk-frontend, dbt styling, microsite article page components)
     # via
     #   black
     #   pylint
@@ -480,7 +491,11 @@ pyhanko-certvalidator==0.20.1
     # via
     #   pyhanko
     #   xhtml2pdf
+<<<<<<< HEAD
 pylint==2.17.1
+=======
+pylint==2.17.0
+>>>>>>> 370c3634b (KLS-371: introduce govuk-frontend, dbt styling, microsite article page components)
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -488,7 +503,11 @@ pylint-django==2.5.3
     # via -r requirements_test.in
 pylint-plugin-utils==0.7
     # via pylint-django
+<<<<<<< HEAD
 pypdf==3.7.0
+=======
+pypdf==3.5.2
+>>>>>>> 370c3634b (KLS-371: introduce govuk-frontend, dbt styling, microsite article page components)
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -543,7 +562,11 @@ pyyaml==6.0
     # via
     #   pre-commit
     #   pyhanko
+<<<<<<< HEAD
 pyzmq==25.0.2
+=======
+pyzmq==25.0.1
+>>>>>>> 370c3634b (KLS-371: introduce govuk-frontend, dbt styling, microsite article page components)
     # via locust
 qrcode==7.4.2
     # via pyhanko
@@ -663,7 +686,11 @@ trio==0.22.0
     # via
     #   selenium
     #   trio-websocket
+<<<<<<< HEAD
 trio-websocket==0.10.2
+=======
+trio-websocket==0.10.0
+>>>>>>> 370c3634b (KLS-371: introduce govuk-frontend, dbt styling, microsite article page components)
     # via selenium
 typing-extensions==4.5.0
     # via
