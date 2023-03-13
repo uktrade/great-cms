@@ -1,5 +1,14 @@
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
+from wagtail.admin.edit_handlers import (
+    FieldPanel,
+    InlinePanel,
+    MultiFieldPanel,
+    ObjectList,
+    StreamFieldPanel,
+    TabbedInterface,
+)
+from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtailmedia.widgets import AdminMediaChooser
 
 
 class ExportAcademyPagePanels:
@@ -47,3 +56,43 @@ class ExportAcademyPagePanels:
     settings_panels = [
         FieldPanel('slug'),
     ]
+
+
+class EventPanel:
+    event_panel = [
+        MultiFieldPanel(
+            heading='Details',
+            children=[
+                FieldPanel('name'),
+                FieldPanel('description'),
+                FieldPanel('link'),
+                FieldPanel('format'),
+                FieldPanel('types', heading='Types'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Date',
+            children=[
+                FieldPanel('start_date'),
+                FieldPanel('end_date'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Event Complete Actions',
+            children=[
+                DocumentChooserPanel('document'),
+                FieldPanel('video_recording', widget=AdminMediaChooser),
+                FieldPanel('video_recording_transcript'),
+                FieldPanel('completed'),
+            ],
+        ),
+    ]
+
+    attendance_panel = [InlinePanel('bookings', label='Bookings')]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(event_panel, heading='Event'),
+            ObjectList(attendance_panel, heading='Attendance'),
+        ]
+    )

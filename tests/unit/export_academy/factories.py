@@ -1,6 +1,5 @@
 from datetime import timedelta
 
-import factory
 import factory.fuzzy
 import wagtail_factories
 from django.utils import timezone
