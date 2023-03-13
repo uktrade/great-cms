@@ -75,8 +75,4 @@ USER_DATA_NAMES = {'ComparisonMarkets': 16384, 'UserProducts': 16384, 'UserMarke
 
 COUNTRY_FACTSHEET_CTA_TITLE = 'View latest trade statistics'
 
-CTA_THEME_CHOICES = {
-    ('dark', 'dark'),
-    ('light', 'light'),
-    ('default', 'default')
-}
+CTA_THEME_CHOICES = {('dark', 'dark'), ('light', 'light'), ('default', 'default')}
