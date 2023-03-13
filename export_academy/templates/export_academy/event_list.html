@@ -1,5 +1,6 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
+{% load event_list %}
 
 {% block head_title %}Upcoming events{% endblock %}
 
@@ -66,6 +67,16 @@
                                     <button type="submit" class="link">Book</button>
                                     {% endif %}
                                 </form>
+
+                                {% event_list forloop.counter0 %}
+                                {% if action_buttons %}
+                                <ul class="actions">
+                                    {% for button in action_buttons %}
+                                        <li>{% include 'modeladmin/includes/button.html' %}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+
                             </li>
                             {% endfor %}
                         </ul>

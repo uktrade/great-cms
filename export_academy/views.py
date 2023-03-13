@@ -10,6 +10,7 @@ from django_filters.views import FilterView
 
 from config import settings
 from export_academy import filters, forms, models
+from export_academy.helpers import EventButtonHelper
 from export_academy.mixins import BookingMixin
 
 
@@ -18,6 +19,9 @@ class EventListView(FilterView, ListView):
     queryset = model.objects
     filterset_class = filters.EventFilter
     template_name = 'export_academy/event_list.html'
+
+    def get_buttons_for_obj(self, obj):
+        return EventButtonHelper.get_buttons_for_obj(obj)
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
