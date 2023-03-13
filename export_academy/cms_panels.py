@@ -80,7 +80,7 @@ class EventPanel:
         MultiFieldPanel(
             heading='Event Complete Actions',
             children=[
-                DocumentChooserPanel('slide_show'),
+                DocumentChooserPanel('document'),
                 FieldPanel('video_recording', widget=AdminMediaChooser),
                 FieldPanel('video_recording_transcript'),
                 FieldPanel('completed'),
