@@ -1532,11 +1532,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
 =======
         parent_page = self.get_ancestors().live().type(Microsite).first().specific
         return [
-            {
-                'url': child.get_url(),
-                'title': child.title,
-                'children': self.get_secondary_pages(child)
-            }
+            {'url': child.get_url(), 'title': child.title, 'children': self.get_secondary_pages(child)}
             for child in parent_page.get_children().live()
         ]
 
