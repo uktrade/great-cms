@@ -1,3 +1,4 @@
+{% load content_tags %}
 {% load component_tags %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
@@ -10,7 +11,13 @@
         {% endif %}
 
         {% if page.page_subheading %}
-          <p class="govuk-heading-m">{{ page.page_subheading }}</p>
+          <p class="govuk-heading-m great-max-width-75">{{ page.page_subheading }}</p>
+        {% endif %}
+
+        {% if page.last_published_at %}
+          <p class="govuk-caption-m">
+            Last updated: <time datetime="{{page.last_published_at|date:'c'}}">{{page.last_published_at|date:"j F Y"}}</time>
+          </p>
         {% endif %}
       </div>
       <div class="govuk-grid-column-one-quarter">

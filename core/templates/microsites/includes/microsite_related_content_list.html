@@ -1,7 +1,7 @@
 {% if page.related_links %}
   <div>
     <h2 class="govuk-heading-m">Related content</h2>
-    <ul class="govuk-list govuk-!-padding-top-3 dbt-border-top-blue">
+    <ul class="govuk-list govuk-!-padding-top-3 great-border-top-blue">
       {% for link in page.related_links %}
         <li>
           <a href="{{ link.value.full_url }}" class="govuk-link">{{ link.value.title }}</a>
