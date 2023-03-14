@@ -85,12 +85,20 @@ def test_ioo_spend(client, settings):
 
 
 @pytest.mark.django_db
+<<<<<<< HEAD
 def test_triage_spend_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:spend')
     client.post(url, {'spend': '2000001-5000000'})
     assert client.session['spend'] == '2000001-5000000'
     assert client.session['spend_other'] is None
+=======
+def test_ioo_guide(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:guide')
+    response = client.get(url)
+    assert response.status_code == 200
+>>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
 
 
 @pytest.mark.django_db

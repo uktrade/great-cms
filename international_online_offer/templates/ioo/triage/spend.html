@@ -16,15 +16,27 @@
   {% include '../includes/triage_header.html' with back_url=back_url step_text=step_text question_text=question_text %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+<<<<<<< HEAD
       <form method="post">
         {% csrf_token %}
         <div class="form-group">
           <div class="govuk-hint govuk-!-margin-bottom-3">This is for the first three years of your project. Choose an estimated amount from the list, or enter a specific amount</div>
+=======
+      <form method="post" onsubmit="return onSubmitSpend()">
+        {% csrf_token %}
+        <div class="form-group">
+          <span class="atlas-body form-hint">This is for the first three years of your project. Choose an estimated amount from the list, or enter a specific amount</span>
+          <br>
+>>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
           <div id="id_spend_container">
             {% include 'core/includes/form_field.html' with field=form.spend %}
           </div>
           <div id="id_spend_other-container" class="govuk-inset-text">
+<<<<<<< HEAD
             <div class='govuk-body'>Enter specific amount</div>
+=======
+            <span class='atlas-body'>Enter specific amount</span>
+>>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
             {% include 'core/includes/form_field.html' with field=form.spend_other %}
           </div>
           {% include '../includes/submit_button.html' with button_text='Continue' %}
@@ -38,6 +50,10 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript" src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
+<<<<<<< HEAD
+=======
+  <script type="text/javascript" src="{% static 'javascript/international-online-offer.js' %}"></script>
+>>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
   <script type="text/javascript">
     const spendContainer = document.getElementById('id_spend_container');
     const otherInputs = document.getElementById('id_spend_other-container');

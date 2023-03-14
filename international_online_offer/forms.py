@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 from django.forms import PasswordInput, Select
+=======
+from django.forms import Select
+>>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
 from django.utils.html import mark_safe
 from great_components import forms
 
@@ -225,6 +229,7 @@ class ContactForm(forms.Form):
             self.add_error('company_location', 'This field is required.')
         else:
             return cleaned_data
+<<<<<<< HEAD
 
 
 class LoginForm(forms.Form):
@@ -236,3 +241,5 @@ class SignUpForm(forms.Form):
     email = forms.EmailField(label='')
     password = forms.CharField(label='', widget=PasswordInput)
     code_confirm = forms.CharField(label='')
+=======
+>>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))

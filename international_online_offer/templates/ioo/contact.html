@@ -16,23 +16,36 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+<<<<<<< HEAD
       <a href="{{ back_url }}" class="govuk-back-link" style="margin-bottom: 15px;">Back</a>
+=======
+      <a href="{% url back_url %}" class="govuk-back-link atlas-body" style="margin-bottom: 15px;">Back</a>
+>>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+<<<<<<< HEAD
       <h3 class="govuk-heading-l">Contact form</h3>
+=======
+      <h3 class="atlas-h--m">Contact form</h3>
+>>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+<<<<<<< HEAD
       <p class="govuk-body">{{ complete_contact_form_message }}</p>
+=======
+      <p class="atlas-body">{{ complete_contact_form_message }}</p>
+>>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form method="post" onsubmit="return onSubmitContact()">
         {% csrf_token %}
+<<<<<<< HEAD
         <label class="govuk-label govuk-label--s" for="full_name">Full name</label>
         {% include 'core/includes/form_field.html' with field=form.full_name %}
         <label class="govuk-label govuk-label--s" for="role">Role</label>
@@ -49,6 +62,25 @@
         <div class="govuk-hint">Type to search and choose from the list</div>
         {% include 'core/includes/form_field.html' with field=form.company_location %}
         <br/>
+=======
+        <h4 class="atlas-h--s" style="margin-bottom: 15px;">Company details</h4>
+        <label class="atlas-body--m atlas-label" for="company_name">Company name</label>
+        {% include 'core/includes/form_field.html' with field=form.company_name %}
+        <label class="atlas-body--m atlas-label" for="company_location">Company headquarters</label>
+        <span class="atlas-body form-hint">Type to search and choose from the list</span>
+        {% include 'core/includes/form_field.html' with field=form.company_location %}
+        <h4 class="atlas-h--s" style="margin-bottom: 15px;">Contact information</h4>
+        <label class="atlas-body--m atlas-label" for="full_name">Full name</label>
+        {% include 'core/includes/form_field.html' with field=form.full_name %}
+        <label class="atlas-body--m atlas-label" for="role">Role</label>
+        <span class="atlas-body form-hint">Your role within the company</span>
+        {% include 'core/includes/form_field.html' with field=form.role %}
+        <label class="atlas-body--m atlas-label" for="email">Email</label>
+        {% include 'core/includes/form_field.html' with field=form.email %}
+        <label class="atlas-body--m atlas-label" for="telephone_number">Telephone number</label>
+        <span class="atlas-body form-hint">Please include the country code</span>
+        {% include 'core/includes/form_field.html' with field=form.telephone_number %}
+>>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
         {% include 'core/includes/form_field.html' with field=form.agree_terms %}
         {% include 'core/includes/form_field.html' with field=form.agree_info_email %}
         {% include 'core/includes/form_field.html' with field=form.agree_info_telephone %}

@@ -17,12 +17,20 @@
   {% include '../includes/triage_header.html' with back_url=back_url step_text=step_text question_text=question_text %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+<<<<<<< HEAD
       {{ test_sector }}
       <form method="post" onsubmit="return onSubmitSector()">
         {% csrf_token %}
         <div class="form-group" id="id_sector-container">
           <label class="govuk-label govuk-label--m" for="sector">Enter a sector</label>
           <div class="govuk-hint govuk-!-margin-bottom-3">Type to search and choose from the list</div>
+=======
+      <form method="post" onsubmit="return onSubmitSector()">
+        {% csrf_token %}
+        <div class="form-group" id="id_sector-container">
+          <label class="atlas-body--m atlas-label" for="sector">Enter a sector</label>
+          <span class="atlas-body form-hint">Type to search and choose from the list</span>
+>>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
           {% include 'core/includes/form_field.html' with field=form.sector %}
           {% include '../includes/submit_button.html' with button_text='Continue'  %}
         </div>
@@ -41,6 +49,10 @@
       selectElement: document.getElementById('js-sector-select'),
       source: customIOOSectorSuggest,
       autoselect: false,
+<<<<<<< HEAD
+=======
+      defaultValue: getSectorIfPreviouslySelected(),
+>>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
       minLength: 2,
     });
   </script>
