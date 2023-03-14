@@ -7,6 +7,7 @@
 * KLS-452 - Event cloning from Wagtail admin
 * KLS-391 - Remove deprecation warnings after upgrading to Django v3.2
 * KLS-429 - UKEA's Event 'complete' actions
+* KLS-371 - Microsite html and css
 
 ## [2.28.0](https://github.com/uktrade/great-cms/releases/tag/2.28.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.27.0...2.28.0)

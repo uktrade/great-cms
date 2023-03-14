@@ -1,82 +1,51 @@
+{% load content_tags %}
 {% load component_tags %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<div class="container">
-  {% include 'components/breadcrumbs_cms.html' %}
-</div>
-<microsite class="microsite-main {{ view.slug }}-microsite">
-  <div class="container">
-    <header>
-      <div class="grid-row">
-        <div class="column-sixth">
-          {% include 'components/social_share_links.html' %}
-        </div>
-        <div class="column-seven-twelfths">
-          {% if page.type_of_microsite %}
-            <p class="subheading">{{ page.type_of_microsite }}</p>
-          {% endif %}
-          <h1 class="heading-xlarge">{{ page.page_title }}</h1>
-          {% if page.page_subheading %}
-            <h2 class="heading-medium">{{ page.page_subheading }}</h2>
-          {% endif %}
-          {% if page.page_teaser %}
-            <div class="text">
-              <p>
-                {{ page.page_teaser }}
-              </p>
-            </div>
-          {% endif %}
-        </div>
+<div class="microsite-main {{ view.slug }}-microsite">
+  <div class="container govuk-!-padding-top-7">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-three-quarters">
+        {% if page.page_title %}
+          <h1 class="govuk-heading-l">{{ page.page_title }}</h1>
+        {% endif %}
+
+        {% if page.page_subheading %}
+          <p class="govuk-heading-m great-max-width-75">{{ page.page_subheading }}</p>
+        {% endif %}
+
+        {% if page.last_published_at %}
+          <p class="govuk-caption-m">
+            Last updated: <time datetime="{{page.last_published_at|date:'c'}}">{{page.last_published_at|date:"j F Y"}}</time>
+          </p>
+        {% endif %}
       </div>
-    </header>
-    <div class="grid-row">
-      <div class="column-three-quarters">
-        {% if page.hero_video %}
-        <div class="video-container">
-          <video controls class="width-full" id="hero-video">
-              <source src="{{ page.hero_video.url }}" type="video/{{ page.hero_video.file_extension }}">
-              <p>Your browser doesn't support HTML5 video. Here is a <a class="link" href="{{ page.hero_video.url }}">link to the video</a> instead.</p>
-          </video>
-        </div>
-
-        {% if page.hero_video_transcript %}
-        <details closed class="margin-bottom-0 rich-text">
-          <summary>View video transcript</summary>
-          {{ page.hero_video_transcript|richtext }}
-        </details>
-        {% endif %}
-        {% endif %}
-        {% if page.hero_image and not page.hero_video %}
-
-            {% image page.hero_image original as hero_image_rendition %}
-            <img src="{{ hero_image_rendition.url }}" alt="{{ page.hero_image.alt }}" class="width-full">
-        {% endif %}
-
-        <section class="grid-row padding-bottom-60">
-          <div class="article-content">
-            {{ page.page_body }} {# StreamField content #}
-          </div>
-        </section>
+      <div class="govuk-grid-column-one-quarter">
+        {% block related_content %}
+          {% include 'microsites/includes/microsite_related_content_list.html' %}
+        {% endblock %}
       </div>
-      {% if page.type_of_microsite|lower == 'advice' %}
-        <section class="grid-row">
-          <div class="column-full-m">
-            <div class="learn-more-container padding-top-45">
-              <h2 class="learn-more-heading">Want to know more?</h2>
-              <p>Learn how to start exporting with our easy-to-follow online course.</p>
-            </div>
-            <a href="/signup/" class="button primary-button learn-more-button margin-bottom-60">Sign up for free</a>
-          </div>
-        </section>
-      {% endif %}
-      {% block related_content %}
-        {% include 'microsites/includes/microsite_related_content_list.html' %}
-      {% endblock %}
-
     </div>
 
-    {% block microsite_footer %}
-    {% endblock %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-three-quarters">
+        <div>
+          {{ page.page_body }} {# StreamField content #}
+        </div>
+      </div>
+      <div class="govuk-grid-column-one-quarter"></div>
+    </div>
 
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        {% block related_ctas %}
+          {% if page.cta_title or page.cta_teaser or page.cta_link_label and page.cta_link %}
+            {% include 'microsites/includes/microsite_related_content_footer.html' %}
+          {% endif %}
+        {% endblock %}
+      </div>
+    </div>
+
+    {% block microsite_footer %}{% endblock %}
   </div>
-</microsite>
+</div>

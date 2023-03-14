@@ -1389,7 +1389,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 RichTextBlock(),
             ),
             ('image', ImageChooserBlock(required=False, template='core/includes/_article_image.html')),
-            ('video', core_blocks.SimpleVideoBlock(template='core/includes/_article_video.html')),
+            ('video', core_blocks.SimpleVideoBlock(template='microsites/blocks/video.html')),
             (
                 'columns',
                 StreamBlock(
@@ -1399,7 +1399,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     help_text='Add two or three columns text',
                     min_num=2,
                     max_num=3,
-                    template='core/includes/_columns.html',
+                    template='microsites/blocks/columns.html',
                 ),
             ),
             (  # alt text lives on the custom Image class
