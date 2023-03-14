@@ -1,6 +1,6 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
-{% load event_list %}
+{% load event_list_buttons %}
 
 {% block head_title %}Upcoming events{% endblock %}
 
@@ -68,14 +68,7 @@
                                     {% endif %}
                                 </form>
 
-                                {% event_list forloop.counter0 %}
-                                {% if action_buttons %}
-                                <ul class="actions">
-                                    {% for button in action_buttons %}
-                                        <li>{% include 'modeladmin/includes/button.html' %}</li>
-                                    {% endfor %}
-                                </ul>
-                                {% endif %}
+                                {% event_list_buttons forloop.counter0 %}
 
                             </li>
                             {% endfor %}
