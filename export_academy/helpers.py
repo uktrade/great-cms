@@ -15,21 +15,22 @@ class EventButtonHelper:
         if is_great_registered(user) and is_export_academy_registered(user):
             if user_booked_on_event(user, obj.id):
                 if obj.status is Event.NOT_STARTED:
-                    pass
+                    result += [
+                        {'url': 'https://www.google.com', 'label': 'Cancel', 'classname': 'text', 'title': 'Cancel'},
+                    ]
                 elif obj.status is Event.IN_PROGRESS:
-                    pass
-                else:
-                    pass
-
-                result += [
-                    {'url': 'https://www.google.com', 'label': 'Hello', 'classname': 'text', 'title': 'Hello button'},
-                    {
-                        'url': 'https://www.google.com',
-                        'label': 'Hello2',
-                        'classname': 'button',
-                        'title': 'Hello button',
-                    },
-                ]
+                    result += [
+                        {'url': 'https://www.google.com', 'label': 'Join', 'classname': 'text', 'title': 'Join'},
+                    ]
+                elif obj.status is Event.FINISHED and obj.completed:
+                    result += [
+                        {
+                            'url': 'https://www.google.com',
+                            'label': 'View recording',
+                            'classname': 'text',
+                            'title': 'View recording',
+                        },
+                    ]
 
         return result
 

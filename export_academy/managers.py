@@ -41,4 +41,5 @@ class EventQuerySet(models.QuerySet):
 
 class EventManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().exclude(end_date__lt=datetime.datetime.now())
+        # return super().get_queryset().exclude(end_date__lt=datetime.datetime.now())
+        return super().get_queryset()
