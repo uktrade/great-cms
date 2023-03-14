@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block content %}
-{% if view.kwargs.success %}
+{% if submit_contact_details_success %}
 <div class="govuk-grid-row" id="completed_contact_form_message">
     <div class="govuk-grid-column-full">
         {% include './includes/govuk/notification_banner.html' with css_class="govuk-notification-banner govuk-notification-banner--success" banner_title="Success" banner_heading=completed_contact_form_message %}

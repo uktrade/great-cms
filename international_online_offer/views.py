@@ -83,7 +83,7 @@ class IOOHiring(FormView):
 class IOOSpend(FormView):
     form_class = forms.SpendForm
     template_name = 'ioo/triage/spend.html'
-    success_url = reverse_lazy('international_online_offer:guide')
+    success_url = '/international/international-online-offer/guide/'
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
@@ -96,44 +96,22 @@ class IOOSpend(FormView):
         )
 
 
-class IOOGuide(TemplateView):
-    template_name = 'ioo/guide.html'
-    success_url = reverse_lazy('international_online_offer:guide')
-    high_value_investor = False
-
-    def get_context_data(self, **kwargs):
-        IOOGuide.high_value_investor = random.choice([True, False])
-        if not IOOGuide.high_value_investor:
-            complete_contact_form_message = LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE
-        else:
-            complete_contact_form_message = HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE
-
-        return super().get_context_data(
-            **kwargs,
-            high_value_investor=IOOGuide.high_value_investor,
-            complete_contact_form_message=complete_contact_form_message,
-            complete_contact_form_link='international_online_offer:contact',
-            complete_contact_form_link_text='Complete form',
-            completed_contact_form_message=COMPLETED_CONTACT_FORM_MESSAGE,
-        )
-
-
 class IOOContact(FormView):
     form_class = forms.ContactForm
     template_name = 'ioo/contact.html'
-    success_url = reverse_lazy('international_online_offer:contact-success', kwargs={'success': 'contact-success'})
+    success_url = '/international/international-online-offer/guide/?success=true'
     high_value_investor = False
 
     def get_context_data(self, **kwargs):
-        IOOGuide.high_value_investor = random.choice([True, False])
-        if not IOOGuide.high_value_investor:
+        self.high_value_investor = random.choice([True, False])
+        if not self.high_value_investor:
             complete_contact_form_message = LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE
         else:
             complete_contact_form_message = HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE
 
         return super().get_context_data(
             **kwargs,
-            high_value_investor=IOOGuide.high_value_investor,
+            high_value_investor=self.high_value_investor,
             complete_contact_form_message=complete_contact_form_message,
-            back_url='international_online_offer:guide',
+            back_url='/international/international-online-offer/guide/',
         )
