@@ -3,8 +3,8 @@ from django import template
 register = template.Library()
 
 
-@register.inclusion_tag("export_academy/includes/button.html", takes_context=True)
-def event_list(context, index):
+@register.inclusion_tag("export_academy/includes/event_action_buttons.html", takes_context=True)
+def event_list_buttons(context, index):
     obj = context['object_list'][index]
     view = context['view']
     # row_attrs_dict = view.model_admin.get_extra_attrs_for_row(obj, context)

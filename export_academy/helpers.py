@@ -12,7 +12,8 @@ from export_academy.models import Registration
 class EventButtonHelper:
     def get_buttons_for_obj(obj):
         return [
-            {'url': 'https://www.google.com', 'label': 'Hello', 'classname': 'button', 'title': 'Hello button'},
+            {'url': 'https://www.google.com', 'label': 'Hello', 'classname': 'text', 'title': 'Hello button'},
+            {'url': 'https://www.google.com', 'label': 'Hello2', 'classname': 'button', 'title': 'Hello button'},
         ]
 
 
