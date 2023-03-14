@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime, timedelta, timezone
 
 from directory_forms_api_client import actions
 from django.db import models
@@ -61,6 +62,7 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     NOT_STARTED = 'not_started'
     IN_PROGRESS = 'in_progress'
     FINISHED = 'finished'
+    mins_before_to_start = 30
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=255)
@@ -91,7 +93,13 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
 
     @property
     def status(self):
-        return self.IN_PROGRESS
+        now = datetime.now(tz=timezone.utc)
+        if now < (self.start_date - timedelta(minutes=self.mins_before_to_start)):
+            return self.NOT_STARTED
+        elif now > (self.start_date - timedelta(minutes=self.mins_before_to_start)) and now < self.end_date:
+            return self.IN_PROGRESS
+        else:
+            return self.FINISHED
 
     class Meta:
         ordering = ('-start_date', '-end_date')
