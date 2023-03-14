@@ -1,6 +1,7 @@
 import pytest
 
 from international_online_offer.forms import (
+    ContactForm,
     HiringForm,
     IntentForm,
     LocationForm,
@@ -91,3 +92,71 @@ def test_triage_spend_form_validation(form_data, is_valid):
     assert form.is_valid() == is_valid
     if not is_valid:
         assert form.errors['spend_other'][0] == 'This field is required.'
+
+
+@pytest.mark.parametrize(
+    'form_data,is_valid',
+    (
+        (
+            {
+                'company_name': 'Department for Business and Trade',
+                'company_location': 'Germany',
+                'full_name': 'Joe Bloggs',
+                'role': 'Director',
+                'email': 'joe@bloggs.com',
+                'telephone_number': '+447923456789',
+                'agree_terms': 'true',
+                'agree_info_email': '',
+                'agree_info_telephone': '',
+            },
+            True,
+        ),
+        (
+            {
+                'company_name': '',
+                'company_location': '',
+                'full_name': '',
+                'role': '',
+                'email': '',
+                'telephone_number': '',
+                'agree_terms': '',
+                'agree_info_email': '',
+                'agree_info_telephone': '',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': 'Department for Business and Trade',
+                'company_location': 'RANDOM LOCATION',
+                'full_name': 'Joe Bloggs',
+                'role': 'Director',
+                'email': 'joe@bloggs.com',
+                'telephone_number': '+447923456789',
+                'agree_terms': 'true',
+                'agree_info_email': '',
+                'agree_info_telephone': '',
+            },
+            False,
+        ),
+        (
+            {
+                'company_name': 'Department for Business and Trade',
+                'company_location': 'Germany',
+                'full_name': 'Joe Bloggs',
+                'role': 'Director',
+                'email': 'joe@bloggs.com',
+                'telephone_number': '+447923456789',
+                'agree_terms': '',
+                'agree_info_email': 'true',
+                'agree_info_telephone': 'true',
+            },
+            False,
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_contact_form_validation(form_data, is_valid):
+    data = form_data
+    form = ContactForm(data)
+    assert form.is_valid() == is_valid

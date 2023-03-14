@@ -1,5 +1,8 @@
 from django.forms import Select
+from django.utils.html import mark_safe
 from great_components import forms
+
+TERMS_LABEL = mark_safe('I agree to the <a href="#" target="_blank">Terms and Conditions</a>')
 
 
 class SectorForm(forms.Form):
@@ -122,5 +125,63 @@ class SpendForm(forms.Form):
         spend_other = cleaned_data.get('spend_other')
         if spend == 'Specific amount' and not spend_other:
             self.add_error('spend_other', 'This field is required.')
+        else:
+            return cleaned_data
+
+
+class ContactForm(forms.Form):
+    company_name = forms.CharField(
+        label='',
+        required=True,
+    )
+    CHOICES = [
+        ('', ''),
+        ('France', 'France'),
+        ('Germany', 'Germany'),
+        ('India', 'India'),
+        ('Italy', 'Italy'),
+        ('Spain', 'Spain'),
+        ('United States', 'United States'),
+    ]
+    company_location = forms.fields.ChoiceField(
+        label='',
+        required=False,
+        widget=Select(attrs={'id': 'js-company-location-select'}),
+        choices=CHOICES,
+    )
+    full_name = forms.CharField(
+        label='',
+        required=True,
+    )
+    role = forms.CharField(
+        label='',
+        required=True,
+    )
+    email = forms.EmailField(
+        label='',
+        required=True,
+    )
+    telephone_number = forms.CharField(
+        label='',
+        required=True,
+    )
+    agree_terms = forms.BooleanField(
+        required=True,
+        label=TERMS_LABEL,
+    )
+    agree_info_email = forms.BooleanField(
+        required=False,
+        label='I would like to additional receive information by email',
+    )
+    agree_info_telephone = forms.BooleanField(
+        required=False,
+        label='I would like to additional receive information by telephone',
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        company_location = cleaned_data.get('company_location')
+        if not company_location:
+            self.add_error('company_location', 'This field is required.')
         else:
             return cleaned_data

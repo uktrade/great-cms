@@ -35,4 +35,19 @@ urlpatterns = [
         views.IOOSpend.as_view(),
         name='spend',
     ),
+    path(
+        'guide/',
+        views.IOOGuide.as_view(),
+        name='guide',
+    ),
+    path(
+        'contact/',
+        views.IOOContact.as_view(),
+        name='contact',
+    ),
+    path(
+        'guide/<str:success>/',
+        views.IOOGuide.as_view(),
+        name='contact-success',
+    ),
 ]
