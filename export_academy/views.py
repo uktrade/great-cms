@@ -41,14 +41,18 @@ class EventListView(FilterView, ListView):
 
 class BookingUpdateView(BookingMixin, UpdateView):
     booking_model = models.Booking
-    success_url = reverse_lazy('export_academy:booking-success')
+    template_name = 'export_academy/booking_success.html'
     fields = ['status']
-    notify_template = None
 
     def get_object(self, queryset=None):
-        post_data = self.request.POST
-        booking_object = self.register_booking(post_data)
-        self.send_email_confirmation(booking_object, post_data)
+        status = self.kwargs['event_action']
+        booking_data = dict(event_id=self.kwargs['event_id'], status=status)
+        if status is self.booking_model.CONFIRMED:
+            booking_object = self.register_booking(booking_data)
+            self.send_email_confirmation(booking_object, booking_data)
+        elif status is self.booking_model.CANCELLED:
+            pass
+
         return booking_object
 
 

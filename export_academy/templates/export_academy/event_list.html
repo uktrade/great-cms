@@ -45,7 +45,7 @@
                                 <h6>{{ event.name }}</h6>
                                 <h6>Duration: {{ event.start_date|timesince:event.end_date }}</h6>
                                 <p>{{ event.description|truncatechars:200 }}</p>
-                                <form action="{% url 'export_academy:booking' %}" method="post">
+                                {% comment %} <form action="{% url 'export_academy:booking' %}" method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="event_id" value="{{ event.id }}">
                                     {% if event.id in bookings %}
@@ -66,7 +66,7 @@
                                     <input type="hidden" name="status" value="Confirmed">
                                     <button type="submit" class="link">Book</button>
                                     {% endif %}
-                                </form>
+                                </form> {% endcomment %}
 
                                 {% event_list_buttons event %}
 

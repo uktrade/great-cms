@@ -62,7 +62,8 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     NOT_STARTED = 'not_started'
     IN_PROGRESS = 'in_progress'
     FINISHED = 'finished'
-    mins_before_to_start = 30
+
+    EVENT_MINS_BEFORE_TO_START = 30
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=255)
@@ -94,9 +95,9 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     @property
     def status(self):
         now = datetime.now(tz=timezone.utc)
-        if now < (self.start_date - timedelta(minutes=self.mins_before_to_start)):
+        if now < (self.start_date - timedelta(minutes=self.EVENT_MINS_BEFORE_TO_START)):
             return self.NOT_STARTED
-        elif now > (self.start_date - timedelta(minutes=self.mins_before_to_start)) and now < self.end_date:
+        elif now > (self.start_date - timedelta(minutes=self.EVENT_MINS_BEFORE_TO_START)) and now < self.end_date:
             return self.IN_PROGRESS
         else:
             return self.FINISHED
