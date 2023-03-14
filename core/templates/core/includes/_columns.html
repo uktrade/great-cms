@@ -1,7 +1,7 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 
-<div class="grid">
+<div class="grid inline-block">
 {% for item in value %}
 {% if value|length == 3 %}
 <div class="column-third-m column-full">
@@ -16,7 +16,7 @@
 
     </div>
 </div>
-{% else %}
+{% elif value|length == 2 %}
 <div class="column-half-m column-full">
     <div class="card only-title no-padding-card transparent-card">
     <div class="card-image">{% image item.value.image width-200 %}</div>

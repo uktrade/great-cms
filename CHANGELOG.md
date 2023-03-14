@@ -17,6 +17,7 @@
 * EAM-104 - Join and view buttons
 * KLS-388 - Added CTA streamfield block
 
+* KLS-364 - Two column block
 
 ## [2.28.0](https://github.com/uktrade/great-cms/releases/tag/2.28.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.27.0...2.28.0)
