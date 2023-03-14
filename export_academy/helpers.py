@@ -10,11 +10,18 @@ from export_academy.models import Registration
 
 
 class EventButtonHelper:
-    def get_buttons_for_obj(obj):
-        return [
-            {'url': 'https://www.google.com', 'label': 'Hello', 'classname': 'text', 'title': 'Hello button'},
-            {'url': 'https://www.google.com', 'label': 'Hello2', 'classname': 'button', 'title': 'Hello button'},
-        ]
+    def get_buttons_for_obj(user, obj):
+        if is_great_registered(user) and is_export_academy_registered(user):
+            return [
+                {'url': 'https://www.google.com', 'label': 'Hello', 'classname': 'text', 'title': 'Hello button'},
+                {'url': 'https://www.google.com', 'label': 'Hello2', 'classname': 'button', 'title': 'Hello button'},
+            ]
+
+        return []
+
+
+def is_great_registered(user):
+    return user.is_authenticated
 
 
 def is_export_academy_registered(user):
