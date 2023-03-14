@@ -6,14 +6,22 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
 from core.urls import SIGNUP_URL
-from export_academy.models import Booking, Registration
+from export_academy.models import Booking, Event, Registration
 
 
 class EventButtonHelper:
     def get_buttons_for_obj(user, obj):
+        result = []
         if is_great_registered(user) and is_export_academy_registered(user):
             if user_booked_on_event(user, obj.id):
-                return [
+                if obj.status is Event.NOT_STARTED:
+                    pass
+                elif obj.status is Event.IN_PROGRESS:
+                    pass
+                else:
+                    pass
+
+                result += [
                     {'url': 'https://www.google.com', 'label': 'Hello', 'classname': 'text', 'title': 'Hello button'},
                     {
                         'url': 'https://www.google.com',
@@ -23,7 +31,7 @@ class EventButtonHelper:
                     },
                 ]
 
-        return []
+        return result
 
 
 def user_booked_on_event(user, event_id):

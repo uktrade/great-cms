@@ -4,8 +4,8 @@ register = template.Library()
 
 
 @register.inclusion_tag("export_academy/includes/event_action_buttons.html", takes_context=True)
-def event_list_buttons(context, index):
-    obj = context['object_list'][index]
+def event_list_buttons(context, event_id):
+    obj = context['object_list'].filter(id=event_id)[0]
     view = context['view']
     # row_attrs_dict = view.model_admin.get_extra_attrs_for_row(obj, context)
     # row_attrs_dict['data-object-pk'] = obj.pk
