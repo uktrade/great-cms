@@ -6,18 +6,30 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
 from core.urls import SIGNUP_URL
-from export_academy.models import Registration
+from export_academy.models import Booking, Registration
 
 
 class EventButtonHelper:
     def get_buttons_for_obj(user, obj):
         if is_great_registered(user) and is_export_academy_registered(user):
-            return [
-                {'url': 'https://www.google.com', 'label': 'Hello', 'classname': 'text', 'title': 'Hello button'},
-                {'url': 'https://www.google.com', 'label': 'Hello2', 'classname': 'button', 'title': 'Hello button'},
-            ]
+            if user_booked_on_event(user, obj.id):
+                return [
+                    {'url': 'https://www.google.com', 'label': 'Hello', 'classname': 'text', 'title': 'Hello button'},
+                    {
+                        'url': 'https://www.google.com',
+                        'label': 'Hello2',
+                        'classname': 'button',
+                        'title': 'Hello button',
+                    },
+                ]
 
         return []
+
+
+def user_booked_on_event(user, event_id):
+    return Booking.objects.filter(
+        event_id=event_id, registration_id=user.email, status='Confirmed'  # type: ignore
+    ).exists()
 
 
 def is_great_registered(user):
