@@ -51,6 +51,7 @@ def test_export_academy_event_list_page_context(client, user, export_academy_lan
 
     assert [str(x) for x in response.context['bookings']] == [event.id]
     assert isinstance(response.context['filter'], EventFilter)
+    assert response.context['landing_page'] == export_academy_landing_page
 
 
 @pytest.mark.django_db

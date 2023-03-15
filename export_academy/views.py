@@ -13,6 +13,7 @@ from core import mixins as core_mixins
 from export_academy import filters, forms, models
 from export_academy.helpers import get_buttons_for_event
 from export_academy.mixins import BookingMixin
+from export_academy.models import ExportAcademyHomePage
 
 
 class EventListView(
@@ -40,6 +41,7 @@ class EventListView(
             ).values_list('event_id', flat=True)
 
         ctx.update(bookings=bookings, filter=self.filterset_class(self.request.GET))
+        ctx['landing_page'] = ExportAcademyHomePage.objects.first()
 
         return ctx
 
