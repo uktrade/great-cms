@@ -48,8 +48,19 @@
                                     {% csrf_token %}
                                     <input type="hidden" name="event_id" value="{{ event.id }}">
                                     {% if event.id in bookings %}
-                                    <input type="hidden" name="status" value="Cancelled">
-                                    <button type="submit" class="link">Cancel</button>
+                                        {% if event.completed %}
+                                            {% if event.document %}
+                                                <a href={{ event.document.url }}>View slideshow</a>
+                                            {% else %}
+                                                <a>There are no reference materials from this event.</a>
+                                            {% endif %}
+                                            {% if event.video_recording %}
+                                                <a href={{ event.video_recording.url }}>View video</a>
+                                            {% endif %}
+                                        {% else %}
+                                            <input type="hidden" name="status" value="Cancelled">
+                                            <button type="submit" class="link">Cancel</button>
+                                        {% endif %}
                                     {% else %}
                                     <input type="hidden" name="status" value="Confirmed">
                                     <button type="submit" class="link">Book</button>

@@ -70,5 +70,5 @@ elasticsearch>=7.0.0,<7.14.0
 elasticsearch-dsl>=7.0.0,<8.0.0
 python-magic==0.4.27
 oauthlib==3.2.2
-celery[redis]==5.2.2
+celery[redis]==5.2.7
 django-celery-beat==2.2.1

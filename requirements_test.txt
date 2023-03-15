@@ -35,6 +35,8 @@ asttokens==2.2.1
     # via stack-data
 async-generator==1.10
     # via trio
+async-timeout==4.0.2
+    # via redis
 attrs==22.2.0
     # via
     #   allure-python-commons
@@ -73,7 +75,7 @@ brotli==1.0.9
     # via geventhttpclient
 build==0.10.0
     # via pip-tools
-celery[redis]==5.2.2
+celery[redis]==5.2.7
     # via
     #   -r requirements.in
     #   django-celery-beat
@@ -258,7 +260,7 @@ factory-boy==2.12.0
     #   wagtail-factories
 faker==17.6.0
     # via factory-boy
-filelock==3.9.0
+filelock==3.9.1
     # via virtualenv
 flake8==6.0.0
     # via
@@ -295,7 +297,7 @@ gevent==22.10.2
     # via
     #   geventhttpclient
     #   locust
-geventhttpclient==2.0.8
+geventhttpclient==2.0.9
     # via locust
 great-components==2.1.2
     # via -r requirements.in
@@ -355,7 +357,7 @@ l18n==2021.3
     # via wagtail
 lazy-object-proxy==1.9.0
     # via astroid
-locust==2.15.0
+locust==2.15.1
     # via -r requirements_test.in
 lxml==4.9.2
     # via
@@ -411,7 +413,7 @@ packaging==23.0
     #   sphinx
 parso==0.8.3
     # via jedi
-pathspec==0.11.0
+pathspec==0.11.1
     # via black
 pep8-naming==0.13.3
     # via -r requirements_test.in
@@ -544,7 +546,7 @@ qrcode==7.4.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==3.5.3
+redis==4.5.1
     # via
     #   celery
     #   django-redis
@@ -732,7 +734,7 @@ werkzeug==2.2.3
     #   -r requirements_test.in
     #   flask
     #   locust
-wheel==0.38.4
+wheel==0.40.0
     # via pip-tools
 whitenoise==6.4.0
     # via -r requirements.in
