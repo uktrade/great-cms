@@ -10,7 +10,7 @@ from export_academy.models import Event, Registration
 
 
 class EventButtonHelper:
-    def get_buttons_for_obj(user, obj):
+    def get_buttons_for_obj(self, user, obj):
         result = dict(form_event_booking_buttons=[], event_action_buttons=[])
         if is_export_academy_registered(user):
             if obj.bookings.filter(registration_id=user.email, status='Confirmed').exists():
