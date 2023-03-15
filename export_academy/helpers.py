@@ -3,7 +3,7 @@ from functools import wraps
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import redirect_to_login
 from django.shortcuts import redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 
 from core.urls import SIGNUP_URL
 from export_academy.models import Event, Registration
@@ -17,10 +17,8 @@ class EventButtonHelper:
                 if obj.status is Event.NOT_STARTED:
                     result['form_event_booking_buttons'] += [
                         {
-                            'url': reverse('export_academy:booking'),
                             'label': 'Cancel',
                             'classname': 'link',
-                            'title': 'Cancel',
                             'value': 'Cancelled',
                             'type': 'submit',
                         },
@@ -41,10 +39,8 @@ class EventButtonHelper:
             else:
                 result['form_event_booking_buttons'] += [
                     {
-                        'url': reverse('export_academy:booking'),
                         'label': 'Book',
                         'classname': 'link',
-                        'title': 'Book',
                         'value': 'Confirmed',
                         'type': 'submit',
                     },
