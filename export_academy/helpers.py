@@ -11,24 +11,26 @@ from export_academy.models import Booking, Event, Registration
 
 class EventButtonHelper:
     def get_buttons_for_obj(user, obj):
-        result = []
+        result = dict(form_event_booking_buttons=[], event_action_buttons=[])
         if is_export_academy_registered(user):
             if user_booked_on_event(user, obj.id):
                 if obj.status is Event.NOT_STARTED:
-                    result += [
+                    result['form_event_booking_buttons'] += [
                         {
                             'url': reverse('export_academy:booking'),
                             'label': 'Cancel',
-                            'classname': 'text',
+                            'classname': 'link',
                             'title': 'Cancel',
+                            'value': 'Cancelled',
+                            'type': 'submit',
                         },
                     ]
                 elif obj.status is Event.IN_PROGRESS:
-                    result += [
+                    result['event_action_buttons'] += [
                         {'url': 'https://www.google.com', 'label': 'Join', 'classname': 'text', 'title': 'Join'},
                     ]
                 elif obj.status is Event.FINISHED and obj.completed:
-                    result += [
+                    result['event_action_buttons'] += [
                         {
                             'url': 'https://www.google.com',
                             'label': 'View recording',
@@ -37,12 +39,14 @@ class EventButtonHelper:
                         },
                     ]
             else:
-                result += [
+                result['form_event_booking_buttons'] += [
                     {
                         'url': reverse('export_academy:booking'),
                         'label': 'Book',
-                        'classname': 'text',
+                        'classname': 'link',
                         'title': 'Book',
+                        'value': 'Confirmed',
+                        'type': 'submit',
                     },
                 ]
         else:
