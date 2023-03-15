@@ -494,4 +494,6 @@ class CampaignLongForm(CampaignShortForm):
         label='Sector',
         choices=get_sector_choices,
         required=True,
+        widget=Select()    
     )
+

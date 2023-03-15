@@ -546,7 +546,7 @@ class LinksBlock(blocks.StructBlock):
 >>>>>>> f2d3fc5f4 (saving progress)
 =======
 
-class CampaginFormBlock(blocks.StructBlock):
+class CampaignFormBlock(blocks.StructBlock):
     type = blocks.ChoiceBlock(choices=CAMPAIGN_FORM_CHOICES, null=False, blank=False, required=True)
     email_subject = blocks.TextBlock(required=True)
     email_title = blocks.TextBlock(required=True)

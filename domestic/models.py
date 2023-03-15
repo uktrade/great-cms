@@ -1,5 +1,5 @@
 from urllib.parse import unquote_plus
-
+from wagtail.core import blocks
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -36,6 +36,7 @@ from core.constants import (
     RICHTEXT_FEATURES__REDUCED__ALLOW_H1,
     TABLEBLOCK_OPTIONS,
     VIDEO_TRANSCRIPT_HELP_TEXT,
+    CAMPAIGN_FORM_CHOICES
 )
 from core.fields import single_struct_block_stream_field_factory
 from core.helpers import build_social_links
