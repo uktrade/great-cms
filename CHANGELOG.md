@@ -9,6 +9,7 @@
 * KLS-429 - UKEA's Event 'complete' actions
 * KLS-371 - Microsite html and css
 * KLS-367 - Microsite heading, strapline, published date layout
+* KLS-366 - Microsite header image
 
 ## [2.28.0](https://github.com/uktrade/great-cms/releases/tag/2.28.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.27.0...2.28.0)

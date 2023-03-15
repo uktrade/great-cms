@@ -2,6 +2,8 @@
 
 {% load static %}
 {% load component_tags %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
 
 {% block head_title %}{{ page.page_title }}{% endblock %}
 
@@ -9,6 +11,13 @@
 {% block css_layout_class %}microsite-detail-page{% endblock css_layout_class %}
 
 {% block content %}
+
+
+{% image page.hero_image original as hero_image %}
+
+{% if hero_image %}
+<div class="great-full-width-header-image" style="background-image: url({{ hero_image.url }})"></div>
+{% endif %}
 
 <section id="microsite" class="microsite great great-bg-white">
   {% include 'microsites/includes/microsite_detail_content.html' %}
