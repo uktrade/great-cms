@@ -72,3 +72,46 @@
         }
     }
 }
+
+.event-list-card {
+    padding: 30px 15px 0px;
+}
+
+.event-list-card::after {
+    margin-left: 15px;
+    border-bottom: solid 4px $color-thematic-break;
+    padding-bottom: 30px;
+}
+
+.event-metadata-container {
+    text-align: center;
+
+    .weekday {
+        font-weight: bold;
+        padding: 25px 0 0;
+        margin: 0;
+    }
+
+    .date {
+        font-size: 24px;
+        font-weight: bold;
+        padding: 7px 0;
+        margin: 0;
+    }
+
+    .time {
+        font-size: 18px;
+        font-weight: bold;
+        padding-bottom: 20px;
+        margin: 0;
+    }
+
+    .event-metadata-block {
+        border-bottom: 1px solid #979797;
+    }
+}
+
+.event-duration-text {
+    font-size: 18px;
+    color: #646464;
+}

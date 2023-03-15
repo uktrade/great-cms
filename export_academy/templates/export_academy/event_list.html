@@ -1,7 +1,9 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
 {% load event_list_buttons %}
+{% load wagtailcore_tags %}
 {% load breadcrumbs from component_tags %}
+{% load pagination from component_tags %}
 
 {% block head_title %}Upcoming events{% endblock %}
 
@@ -15,4 +17,61 @@
         <a href="/">great.gov.uk</a>
         <a href="{% pageurl landing_page %}">Export Academy</a>
     {% endbreadcrumbs %}
+    <section class="margin-top-15">
+        <div class="container">
+            <div class="grid-row">
+                <div class="column-third column-quarter-xl">
+                    <form id="events-forms" action="" method="GET">
+                        <div class="filters">
+                            <p class="margin-bottom-0 margin-top-0">Filter events by:</p>
+                            <ul>
+                                {% for field in filter.form %}
+                                <li class="filter-section">
+                                    <input type="checkbox" id="{{ field.label }}" checked />
+                                    <label for="{{ field.label }}" role="button">{{ field.label }}</label>
+                                    <div class="options checkbox-small">
+                                        {{ field }}
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="filters-sticky-footer" id="filters-sticky-footer">
+                            <input type="submit" id="submit" class="button primary-button update" value="Update">
+                        </div>
+                    </form>
+                </div>
+
+                <div id="event-list" class="column-three-quarters-xl" >
+                        {% for event in page_obj %}
+                        <div class="grid-row event-list-card">
+                            <div class="column-one-quarter event-metadata-container">
+                                <div class="background-white event-metadata-block">
+                                    <p class="weekday">{{ event.start_date|date:"l" }}</p>
+                                    <p class="date">{{ event.start_date|date:"d M" }}</p>
+                                    <p class="time">{{ event.start_date|date:"g:i a" }}</p>
+                                </div>
+                                {% for type in event.types.all %}
+                                    <p class="background-white margin-0 event-metadata-block">{{ type }}</p>
+                                {% endfor %}
+                                <p class="background-white margin-0">{{ event.format }}</p>
+                            </div>
+                            <div class="column-three-quarters">
+                                <h4>{{ event.name }}</h4>
+                                <p class="event-duration-text">Duration: {{ event.start_date|timesince:event.end_date }}</p>
+                                <p>{{ event.description|truncatechars:140 }}</p>
+                                <label for="show-more-toggle">Show more</label>
+                                <input type="checkbox" id='show-more-toggle'/>
+                                <a class="button secondary-button">Register</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                </div>
+            </div>
+            <div class="margin-bottom-45 markets-pagination column-two-thirds column-three-quarters-xl">
+                {% pagination pagination_page=page_obj %}
+            </div>
+        </div>
+    </section>
 {% endblock %}

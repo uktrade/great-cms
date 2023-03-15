@@ -25,6 +25,7 @@ class EventListView(
     queryset = model.objects
     filterset_class = filters.EventFilter
     template_name = 'export_academy/event_list.html'
+    paginate_by = 10
 
     def get_buttons_for_event(self, event):
         user = self.request.user
