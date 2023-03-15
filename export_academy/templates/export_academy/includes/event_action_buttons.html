@@ -1,20 +1,20 @@
 
- <form action="{% url 'export_academy:booking' %}" method="post">
-    {% csrf_token %}
-    <input type="hidden" name="event_id" value="{{ event.id }}">
-    {% if event.id in bookings %}
-    <input type="hidden" name="status" value="Cancelled">
-    <button type="submit" class="link">Cancel</button>
-    {% else %}
-    <input type="hidden" name="status" value="Confirmed">
-    <button type="submit" class="link">Book</button>
-    {% endif %}
-</form>
+{% if action_buttons.form_event_booking_buttons %}
+    <form action="{% url 'export_academy:booking' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="event_id" value="{{ event.id }}">
 
-{% if action_buttons %}
+        {% for button in action_buttons.form_event_booking_buttons %}
+            <input type="hidden" name="status" value="{{ button.value }}">
+            {% include 'export_academy/includes/form_button.html' %}
+        {% endfor %}
+    </form>
+{% endif %}
+
+{% if action_buttons.event_action_buttons %}
     <ul class="actions">
-        {% for button in action_buttons %}
-            <li>{% include 'modeladmin/includes/button.html' %}</li>
+        {% for button in action_buttons.event_action_buttons %}
+            <li>{% include 'export_academy/includes/link_button.html' %}</li>
         {% endfor %}
     </ul>
 {% endif %}
