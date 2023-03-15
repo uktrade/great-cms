@@ -22,7 +22,7 @@ class EventListView(FilterView, ListView):
 
     def get_buttons_for_obj(self, obj):
         user = self.request.user
-        return EventButtonHelper.get_buttons_for_obj(user, obj)
+        return EventButtonHelper().get_buttons_for_obj(user, obj)
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
