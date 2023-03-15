@@ -5,7 +5,7 @@ from domestic.models import StructuralPage
 from international_online_offer.models import IOOGuidePage, IOOIndexPage
 
 
-class IOOIOOIndexPageTests(WagtailPageTests):
+class IOOIndexPageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             IOOIndexPage,
