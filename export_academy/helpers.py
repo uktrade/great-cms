@@ -6,14 +6,14 @@ from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 
 from core.urls import SIGNUP_URL
-from export_academy.models import Booking, Event, Registration
+from export_academy.models import Event, Registration
 
 
 class EventButtonHelper:
     def get_buttons_for_obj(user, obj):
         result = dict(form_event_booking_buttons=[], event_action_buttons=[])
         if is_export_academy_registered(user):
-            if user_booked_on_event(user, obj.id):
+            if obj.bookings.filter(registration_id=user.email, status='Confirmed').exists():
                 if obj.status is Event.NOT_STARTED:
                     result['form_event_booking_buttons'] += [
                         {
@@ -54,12 +54,6 @@ class EventButtonHelper:
             pass
 
         return result
-
-
-def user_booked_on_event(user, event_id):
-    return Booking.objects.filter(
-        event_id=event_id, registration_id=user.email, status='Confirmed'  # type: ignore
-    ).exists()
 
 
 def is_export_academy_registered(user):
