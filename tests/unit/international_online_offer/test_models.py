@@ -1,23 +1,23 @@
 import pytest
 from wagtail.tests.utils import WagtailPageTests
 
-from international_online_offer.models import IOOGuidePage, IOOLandingPage
+from domestic.models import StructuralPage
+from international_online_offer.models import IOOGuidePage, IOOIndexPage
 
 
-class IOOLandingPageTests(WagtailPageTests):
+class IOOIOOIndexPageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
-            IOOLandingPage,
+            IOOIndexPage,
             {
-                IOOLandingPage,
+                StructuralPage,
             },
         )
 
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
-            IOOLandingPage,
+            IOOIndexPage,
             {
-                IOOLandingPage,
                 IOOGuidePage,
             },
         )
@@ -28,7 +28,7 @@ class IOOGuidePageTests(WagtailPageTests):
         self.assertAllowedParentPageTypes(
             IOOGuidePage,
             {
-                IOOLandingPage,
+                IOOIndexPage,
             },
         )
 

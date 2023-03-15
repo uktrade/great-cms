@@ -1,15 +1,14 @@
 from core.models import CMSGenericPage
 
 
-class IOOLandingPage(CMSGenericPage):
+class IOOIndexPage(CMSGenericPage):
     parent_page_types = [
-        'international_online_offer.IOOLandingPage',
+        'domestic.StructuralPage',
     ]
     subpage_types = [
-        'international_online_offer.IOOLandingPage',
         'international_online_offer.IOOGuidePage',
     ]
-    template_choices = [('ioo/index.html', 'IOO Landing Page')]
+    template_choices = [('ioo/index.html', 'IOO Index Page')]
 
 
 class IOOGuidePage(CMSGenericPage):
@@ -20,7 +19,7 @@ class IOOGuidePage(CMSGenericPage):
         government advisors. Complete the form to access this and keep up to date with our
         personalised service."""
     CONTACT_FORM_SUCCESS_MESSAGE = 'Thank you for completing the contact form.'
-    parent_page_types = ['international_online_offer.IOOLandingPage']
+    parent_page_types = ['international_online_offer.IOOIndexPage']
     subpage_types = []
     template_choices = [('ioo/guide.html', 'IOO Guide Page')]
 
