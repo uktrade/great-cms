@@ -13,10 +13,10 @@
 {% endblock %}
 
 {% block content %}
-{% if view.kwargs.success %}
+{% if submit_contact_details_success %}
 <div class="govuk-grid-row" id="completed_contact_form_message">
     <div class="govuk-grid-column-full">
-        {% include './includes/govuk/notification_banner.html' with css_class="govuk-notification-banner govuk-notification-banner--success" banner_title="Success" banner_heading=completed_contact_form_message %}
+        {% include './includes/govuk/notification_banner.html' with css_class="govuk-notification-banner govuk-notification-banner--success" banner_title="Success" banner_heading=contact_form_success_message %}
     </div>
 </div>
 {% else %}
@@ -39,10 +39,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <div class="govuk-inset-text atlas-body">
-            <strong>Dont forget to share your contact details</strong> to keep up to date with our personalised service.
-            {% if not high_value_investor %}
-                You may be eligible for 1 to 1 support.
-            {% endif %}
+            <strong>Dont forget to share your contact details</strong> to keep up to date with our personalised service. You may be eligible for 1 to 1 support.
             {% if banner_link and banner_link_text %}
                 <a class="govuk-notification-banner__link" href="{% url banner_link %}">{{ banner_link_text }}</a>.
             {% endif %}

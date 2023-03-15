@@ -216,6 +216,7 @@ class StructuralPage(BaseContentPage):
 
     subpage_types = [
         'domestic.ArticlePage',
+        'international_online_offer.IOOIndexPage',
     ]
 
     def serve_preview(self, request, mode_name='dummy'):
