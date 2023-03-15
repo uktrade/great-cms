@@ -5,29 +5,11 @@
 {% block head_title %}Upcoming events{% endblock %}
 
 {% block content %}
-<section id="event-list-section" class="topic-list-section">
-    <div class="container">
-        <div class="grid-row">
-            <div class="column-third column-quarter-xl">
-                <form id="events-forms" action="" method="GET">
-                    <div class="filters">
-                        <ul>
-                            {% for field in filter.form %}
-                            <li class="filter-section">
-                                <input type="checkbox" id="{{ field.label }}" checked />
-                                <label for="{{ field.label }}" role="button">Select event {{ field.label }}</label>
-                                <div class="options checkbox-small">
-                                    {{ field }}
-                                </div>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="filters-sticky-footer" id="filters-sticky-footer">
-                        <input type="submit" id="submit" class="button primary-button update" value="Update">
-                    </div>
-                </form>
-            </div>
+    {% block hero %}
+        {% with content_snippet as hero %}
+            {% include 'components/hero.html' with image=hero.image hero_title=hero.title hero_text=hero.text %}
+        {% endwith %}
+    {% endblock %}
 
             <div id="event-list" class="column-three-quarters-xl" >
                 <h1 class="heading-xlarge">Upcoming events</h1>

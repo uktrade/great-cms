@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import path
 
+from core import snippet_slugs
 from core.urls import SIGNUP_URL
 from export_academy import views
 from export_academy.helpers import check_registration
@@ -12,6 +13,10 @@ urlpatterns = [
     path(
         'upcoming-events/',
         views.EventListView.as_view(),
+        {
+            'slug': snippet_slugs.EXPORT_ACADEMY_LISTING_PAGE_HERO,
+            'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
         name='upcoming-events',
     ),
     path(
