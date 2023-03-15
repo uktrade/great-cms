@@ -17,9 +17,7 @@ class EventButtonHelper:
                 if obj.status is Event.NOT_STARTED:
                     result += [
                         {
-                            'url': reverse(
-                                'export_academy:booking', kwargs=dict(event_id=obj.id, event_action='Cancelled')
-                            ),
+                            'url': reverse('export_academy:booking'),
                             'label': 'Cancel',
                             'classname': 'text',
                             'title': 'Cancel',
@@ -41,9 +39,7 @@ class EventButtonHelper:
             else:
                 result += [
                     {
-                        'url': reverse(
-                            'export_academy:booking', kwargs=dict(event_id=obj.id, event_action='Confirmed')
-                        ),
+                        'url': reverse('export_academy:booking'),
                         'label': 'Book',
                         'classname': 'text',
                         'title': 'Book',

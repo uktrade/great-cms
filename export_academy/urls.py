@@ -19,11 +19,7 @@ urlpatterns = [
         login_required(views.RegistrationFormView.as_view(), login_url=SIGNUP_URL),
         name='registration',
     ),
-    path(
-        'booking/<uuid:event_id>/<str:event_action>',
-        check_registration(views.BookingUpdateView.as_view()),
-        name='booking',
-    ),
+    path('booking/', check_registration(views.BookingUpdateView.as_view()), name='booking'),
     path(
         'registration/success/',
         views.SuccessPageView.as_view(template_name='export_academy/registration_form_success.html'),
