@@ -1,23 +1,27 @@
 @import '../../../styles/fonts/main.scss';
+
 .filters {
     .filter-section {
         border-bottom: 2px solid $stone-90;
         padding-top: 12px;
+
         &:last-child {
             border-bottom: none;
         }
-        > label {
+
+        >label {
             font-family: $header-font;
             $font-size: 24px;
             display: block;
             padding: 8px 5px 8px 0;
             cursor: pointer;
+
             &:after {
                 content: "";
                 transform: rotate(45deg);
                 border-style: solid;
                 position: relative;
-                border-color:$black;
+                border-color: $black;
                 border-width: 2px 0 0 2px;
                 top: 5px;
                 float: right;
@@ -26,10 +30,6 @@
                 right: 3px;
                 width: 8px;
             }
-        }
-
-        .multiple-choice label {
-            padding: 4px 0 8px;
         }
 
         .options {
@@ -41,28 +41,29 @@
             ul {
                 overflow: hidden;
             }
+
             &.full-height {
                 max-height: none;
                 overflow: auto;
             }
         }
 
-        > input[type='checkbox'] {
+        >input[type='checkbox'] {
             @extend .verbose
         }
 
-        > input[type='checkbox']:checked + label:after {
+        >input[type='checkbox']:checked+label:after {
             border-width: 0 2px 2px 0;
             top: 2px;
         }
 
-        > input[type='checkbox']:checked + label + .options {
-                display: block;
+        >input[type='checkbox']:checked+label+.options {
+            display: block;
         }
     }
 
-   > h2 span,
-   .filters-sticky-footer {
+    >h2 span,
+    .filters-sticky-footer {
         display: none;
     }
 
@@ -73,12 +74,13 @@
 
     .js-enabled & {
         .filter-section {
-            > input[type='checkbox']:checked + label + .options {
+            >input[type='checkbox']:checked+label+.options {
                 display: block;
             }
         }
-        > ul,
-        > h2 span {
+
+        >ul,
+        >h2 span {
             display: none;
         }
     }
@@ -94,16 +96,16 @@
         -webkit-overflow-scrolling: touch;
         padding: 30px 20px 100px;
 
-        > h2 {
+        >h2 {
             font-size: 19px;
         }
 
-        .filter-section > input[type=checkbox] {
+        .filter-section>input[type=checkbox] {
             display: none;
         }
 
-        > ul,
-        > h2 span {
+        >ul,
+        >h2 span {
             display: block;
         }
 
@@ -131,6 +133,7 @@
                 width: 50%;
                 float: left;
             }
+
             .cancel {
                 padding: 10px 30px;
                 display: inline-block;
@@ -138,18 +141,25 @@
         }
     }
 
+    .market-filters-label {
+        padding: 4px 0 8px;
+    }
 
     @media (min-width: 641px) {
         position: relative;
+
         .mobile-filter-toggle {
             display: none;
         }
-        > h2 span {
+
+        >h2 span {
             display: block;
         }
+
         .js-enabled & {
-            > ul,
-            > h2 span,
+
+            >ul,
+            >h2 span,
             .js-enabled & {
                 display: block;
             }
