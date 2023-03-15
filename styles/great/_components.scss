@@ -1,0 +1,9 @@
+.great-full-width-header-image {
+    height: 200px;
+    background-position: 50%;
+    background-size: cover;
+
+    @include govuk-media-query($from: tablet) {
+        height: 345px;
+    }
+}
