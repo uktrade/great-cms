@@ -530,9 +530,12 @@ class TopicPageCardBlockRichText(blocks.StructBlock):
     description = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label='Description')
     link = blocks.CharBlock()  # not a URL block to allow relative links
 
+<<<<<<< HEAD
 
 class LinksBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=False, max_length=255, label='Title')
     description = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label='Description')
     link_text = blocks.CharBlock()
     link_url = blocks.CharBlock()
+=======
+>>>>>>> f2d3fc5f4 (saving progress)

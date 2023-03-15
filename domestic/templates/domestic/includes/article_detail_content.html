@@ -46,6 +46,8 @@
 
       </div>
     </header>
+   
+ {{ page }}
     <div class="grid-row">
       <div class="column-three-quarters">
         {% if page.article_video %}
@@ -71,6 +73,17 @@
 
         <section class="grid-row padding-bottom-60">
           <div class="article-content">
+            {% for block in page.article_body%}
+              {%if block.block_type == 'form'%}
+                  <form action="" method="post" autocomplete="off">
+                      {% csrf_token %}
+                      {{ form }}
+                      <button type="submit" class="primary-button">Submit</button>
+                  </form>
+              {%else%}
+                {{block}}
+              {%endif%}
+            {%endfor%}
             {{ page.article_body }} {# StreamField content #}
           </div>
         </section>

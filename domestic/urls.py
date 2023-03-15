@@ -4,6 +4,7 @@ from great_components.decorators import skip_ga360
 
 import domestic.views.marketaccess
 import domestic.views.ukef
+from domestic.views.campaign import CampaignView
 
 app_name = 'domestic'
 
@@ -106,4 +107,12 @@ urlpatterns = [
         ),
         name='report-ma-barrier',
     ),
+     path(
+        'campaigns/<slug:page_slug>/',
+        skip_ga360(
+            CampaignView.as_view()
+        ),
+        name='campaigns',
+    ),
+   
 ]

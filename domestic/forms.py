@@ -409,3 +409,63 @@ class MarketAccessSummaryForm(forms.Form):
         label='I would like to receive additional information by telephone',
         required=False,
     )
+
+class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
+    full_name = forms.CharField(
+        label=_('Full name'),
+        min_length=2,
+        max_length=50,
+        error_messages={
+            'required': _('Enter your full name'),
+        },
+    )
+    email = forms.EmailField(
+        label=_('Business email address'),
+        error_messages={
+            'required': _('Enter an email address in the correct format, like name@example.com'),
+            'invalid': _('Enter an email address in the correct format, like name@example.com'),
+        },
+    )
+
+    company_name = forms.CharField(
+        label=_('Company name'),
+        min_length=2,
+        max_length=100,
+        error_messages={
+            'required': _('Enter your companies name'),
+        },
+    )
+    
+   
+    
+class CampaignLongForm(CampaignShortForm):
+  
+    
+    phone = forms.CharField(
+    label='Telephone number',
+    error_messages={'required': 'Enter your telephone number'},
+    )
+
+    position = forms.CharField(
+    label=_('Position at company'),
+    min_length=2,
+    max_length=100
+    )
+    already_export = forms.ChoiceField(
+    label=_('Do you have a specific project or proposal you’d like to discuss?'),
+    choices=(
+        ('yes', 'My company already exports '),
+        ('no', 'My company does not export yet'),
+    ),
+    widget=forms.RadioSelect,
+    error_messages={'required': _('Please answer this question')},
+    )
+
+    sector = SectorPotentialForm
+
+    region = forms.ChoiceField(
+        label=_('Select a region'),
+        choices=COUNTRIES,
+        widget=Select()    
+    )
+
