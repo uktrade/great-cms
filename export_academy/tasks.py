@@ -29,7 +29,7 @@ def send_automated_events_notification():
 
 @app.task
 def remove_past_events_media():
-    time_delay = settings.EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_DELAY_DAYS
+    time_delay = settings.EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_AFTER_DAYS
     events = Event.objects.filter(
         start_date__lt=datetime.now(timezone.utc) - timedelta(days=time_delay),
         start_date__gte=datetime.now(timezone.utc) - timedelta(days=time_delay * 2),
