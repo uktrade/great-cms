@@ -9,7 +9,7 @@ from export_academy.mixins import BookingMixin
 
 class EventListView(FilterView, ListView):
     model = models.Event
-    queryset = model.upcoming
+    queryset = model.objects
     filterset_class = filters.EventFilter
     template_name = 'export_academy/event_list.html'
 
@@ -74,3 +74,7 @@ class RegistrationFormView(BookingMixin, FormView):
 
 class SuccessPageView(TemplateView):
     pass
+
+
+class EventDetailsView(TemplateView):
+    template_name = 'export_academy/booking_success.html'
