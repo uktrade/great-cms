@@ -4,7 +4,17 @@ import factory.fuzzy
 import wagtail_factories
 from django.utils import timezone
 
+from core.models import GreatMedia
 from export_academy.models import Booking, Event, ExportAcademyHomePage, Registration
+
+
+class GreatMediaFactory(wagtail_factories.DocumentFactory):
+    transcript = factory.fuzzy.FuzzyText(length=15)
+    subtitles_en = factory.fuzzy.FuzzyText(length=15)
+    duration = factory.fuzzy.FuzzyDecimal(1)
+
+    class Meta:
+        model = GreatMedia
 
 
 class EventFactory(factory.django.DjangoModelFactory):
@@ -13,6 +23,8 @@ class EventFactory(factory.django.DjangoModelFactory):
     description = factory.fuzzy.FuzzyText(length=60)
     start_date = timezone.now()
     link = factory.LazyAttribute(lambda event: 'https://example.com/%s' % event.id)
+    video_recording = factory.SubFactory(GreatMediaFactory)
+    completed = False
 
     @factory.lazy_attribute
     def end_date(self):
