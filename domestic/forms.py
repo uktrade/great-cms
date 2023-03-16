@@ -441,6 +441,7 @@ class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
 
     company_name = forms.CharField(label=_('Company name'), min_length=2, max_length=100, required=False)
 
+<<<<<<< HEAD
     # terms_agreed = forms.BooleanField(
     #     label=TERMS_LABEL,
     #     error_messages={
@@ -459,6 +460,10 @@ class CampaignLongForm(CampaignShortForm):
         choices = get_sector_names()
         return base_choice + [(c, c) for c in choices]
 
+=======
+
+class CampaignLongForm(CampaignShortForm):
+>>>>>>> f8080801a (saving changes)
     phone = forms.CharField(
         label='Telephone number',
         required=True,
@@ -471,7 +476,10 @@ class CampaignLongForm(CampaignShortForm):
         max_length=100,
         required=True,
     )
+<<<<<<< HEAD
 
+=======
+>>>>>>> f8080801a (saving changes)
     already_export = forms.ChoiceField(
         label=_('Do you have a specific project or proposal you’d like to discuss?'),
         choices=(
@@ -487,6 +495,7 @@ class CampaignLongForm(CampaignShortForm):
         label=_('Select a region'),
         choices=COUNTRIES,
         widget=Select(),
+<<<<<<< HEAD
         required=True,
     )
 
@@ -497,3 +506,19 @@ class CampaignLongForm(CampaignShortForm):
         widget=Select()    
     )
 
+=======
+        required=True,
+    )
+
+    SECTOR_CHOICES_BASE = [('', 'Select your sector')]
+
+    sector = forms.ChoiceField(
+        label='Sector',
+        choices=SECTOR_CHOICES_BASE,
+        required=True,
+    )
+
+    def __init__(self, sector_choices, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['sector'].choices = self.SECTOR_CHOICES_BASE + sector_choices
+>>>>>>> f8080801a (saving changes)
