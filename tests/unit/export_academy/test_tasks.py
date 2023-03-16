@@ -41,7 +41,7 @@ def test_notify_registration(mock_notify_action, user):
 
 @pytest.mark.django_db
 def test_remove_video(user):
-    delay_days = settings.EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_DELAY_DAYS + 1
+    delay_days = settings.EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_AFTER_DAYS + 1
     event = factories.EventFactory(
         name='Event name',
         start_date=datetime.now(timezone.utc) - timedelta(days=delay_days),
