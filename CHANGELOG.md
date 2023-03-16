@@ -11,6 +11,7 @@
 * KLS-371 - Microsite html and css
 * KLS-367 - Microsite heading, strapline, published date layout
 * KLS-366 - Microsite header image
+* KLS-271 - Remove past media for completed export academy events
 
 
 ## [2.28.0](https://github.com/uktrade/great-cms/releases/tag/2.28.0)
