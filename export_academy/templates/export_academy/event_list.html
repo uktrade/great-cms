@@ -55,7 +55,7 @@
                                                 <a>There are no reference materials from this event.</a>
                                             {% endif %}
                                             {% if event.video_recording %}
-                                                <a href={{ event.video_recording.url }}>View video</a>
+                                                <a href={% url 'export_academy:event-details' pk=event.pk%}>View video</a>
                                             {% endif %}
                                         {% else %}
                                             <input type="hidden" name="status" value="Cancelled">

@@ -1,5 +1,11 @@
 from django.urls import reverse_lazy
-from django.views.generic import FormView, ListView, TemplateView, UpdateView
+from django.views.generic import (
+    DetailView,
+    FormView,
+    ListView,
+    TemplateView,
+    UpdateView,
+)
 from django_filters.views import FilterView
 
 from config import settings
@@ -76,5 +82,17 @@ class SuccessPageView(TemplateView):
     pass
 
 
-class EventDetailsView(TemplateView):
-    template_name = 'export_academy/booking_success.html'
+class EventDetailsView(DetailView):
+    template_name = 'export_academy/event_details.html'
+    model = models.Event
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+
+        # video_render tag which helps in adding subtitles
+        # needs input in specific way as below
+        event: models.Event = kwargs.get('object', {})
+        video = event.video_recording
+        ctx.update(event_video={'video': video})
+
+        return ctx

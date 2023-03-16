@@ -82,7 +82,6 @@ class EventPanel:
             children=[
                 DocumentChooserPanel('document'),
                 FieldPanel('video_recording', widget=AdminMediaChooser),
-                FieldPanel('video_recording_transcript'),
                 FieldPanel('completed'),
             ],
         ),
