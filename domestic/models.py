@@ -1,5 +1,5 @@
 from urllib.parse import unquote_plus
-from wagtail.core import blocks
+
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -31,12 +31,12 @@ from core import blocks as core_blocks, cache_keys, helpers, mixins, service_url
 from core.blocks import AdvantageBlock, ColumnsBlock
 from core.constants import (
     ARTICLE_TYPES,
+    CAMPAIGN_FORM_CHOICES,
     COUNTRY_FACTSHEET_CTA_TITLE,
     RICHTEXT_FEATURES__REDUCED,
     RICHTEXT_FEATURES__REDUCED__ALLOW_H1,
     TABLEBLOCK_OPTIONS,
     VIDEO_TRANSCRIPT_HELP_TEXT,
-    CAMPAIGN_FORM_CHOICES
 )
 from core.fields import single_struct_block_stream_field_factory
 from core.helpers import build_social_links
@@ -1016,7 +1016,7 @@ class ArticlePage(
                 'text',
                 RichTextBlock(),
             ),
-            ('form',  blocks.ChoiceBlock(choices=CAMPAIGN_FORM_CHOICES, null=True, blank=True)),
+            ('form', blocks.ChoiceBlock(choices=CAMPAIGN_FORM_CHOICES, null=True, blank=True)),
             ('image', ImageChooserBlock(required=False, template='core/includes/_article_image.html')),
             ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_article_video.html')),
             (
@@ -1179,10 +1179,10 @@ class ArticlePage(
     )
 
     tags = ParentalManyToManyField(Tag, blank=True)
-    
+
     def _get_industry_tag_usage_counts(self, industry_tag):
         return industry_tag.countryguidepage_set.all().live().count()
-    
+
     def _get_sector_list_uncached(self):
         return [
             {
@@ -1209,9 +1209,8 @@ class ArticlePage(
                 settings.CACHE_EXPIRE_SECONDS_SHORT,
             )
 
-        sorted_list =  sorted([sector['name'] for sector in sectors])
+        sorted_list = sorted([sector['name'] for sector in sectors])
         return [(choice, choice) for choice in sorted_list]
-    
 
     @property
     def related_pages(self):

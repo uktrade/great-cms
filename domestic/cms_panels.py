@@ -9,14 +9,15 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailmedia.widgets import AdminMediaChooser
+
 from core.constants import (
     ARTICLE_TYPES,
+    CAMPAIGN_FORM_CHOICES,
     COUNTRY_FACTSHEET_CTA_TITLE,
     RICHTEXT_FEATURES__REDUCED,
     RICHTEXT_FEATURES__REDUCED__ALLOW_H1,
     TABLEBLOCK_OPTIONS,
     VIDEO_TRANSCRIPT_HELP_TEXT,
-    CAMPAIGN_FORM_CHOICES
 )
 
 ACCORDION_FIELDS_HELP_TEXT = (

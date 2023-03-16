@@ -410,6 +410,7 @@ class MarketAccessSummaryForm(GovNotifyEmailActionMixin, forms.Form):
         required=False,
     )
 
+
 class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
     full_name = forms.CharField(
         label=_('Full name'),
@@ -429,49 +430,39 @@ class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
         },
     )
 
-    company_name = forms.CharField(
-        label=_('Company name'),
-        min_length=2,
-        max_length=100,
-        required=False
-    )
-    
-   
-    
+    company_name = forms.CharField(label=_('Company name'), min_length=2, max_length=100, required=False)
+
+
 class CampaignLongForm(CampaignShortForm):
-  
-    
     phone = forms.CharField(
-    label='Telephone number',
-    required=True,
-    error_messages={'required': 'Enter your telephone number'},
+        label='Telephone number',
+        required=True,
+        error_messages={'required': 'Enter your telephone number'},
     )
 
     position = forms.CharField(
-    label=_('Position at company'),
-    min_length=2,
-    max_length=100,
-    required=True,
+        label=_('Position at company'),
+        min_length=2,
+        max_length=100,
+        required=True,
     )
     already_export = forms.ChoiceField(
-    label=_('Do you have a specific project or proposal you’d like to discuss?'),
-    choices=(
-        ('yes', 'My company already exports '),
-        ('no', 'My company does not export yet'),
-    ),
-    widget=forms.RadioSelect,
-    error_messages={'required': _('Please answer this question')},
-    required=True,
+        label=_('Do you have a specific project or proposal you’d like to discuss?'),
+        choices=(
+            ('yes', 'My company already exports '),
+            ('no', 'My company does not export yet'),
+        ),
+        widget=forms.RadioSelect,
+        error_messages={'required': _('Please answer this question')},
+        required=True,
     )
 
-    
     region = forms.ChoiceField(
         label=_('Select a region'),
         choices=COUNTRIES,
         widget=Select(),
-        required=True,    
+        required=True,
     )
-
 
     SECTOR_CHOICES_BASE = [('', 'Select your sector')]
 
@@ -484,4 +475,3 @@ class CampaignLongForm(CampaignShortForm):
     def __init__(self, sector_choices, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['sector'].choices = self.SECTOR_CHOICES_BASE + sector_choices
-
