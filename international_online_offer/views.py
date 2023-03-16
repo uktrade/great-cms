@@ -4,6 +4,11 @@ from django.views.generic.edit import FormView
 
 from international_online_offer import forms
 
+LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = 'Complete the contact form to keep up to date with our personalised service.'
+HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = """Your business qualifies for 1 to 1 support from specialist UK government
+ advisors. Complete the form to access this and keep up to date with our personalised service."""
+COMPLETED_CONTACT_FORM_MESSAGE = 'Thank you for completing the contact form.'
+
 
 class IOOIndex(TemplateView):
     template_name = 'ioo/index.html'
@@ -76,7 +81,7 @@ class IOOHiring(FormView):
 class IOOSpend(FormView):
     form_class = forms.SpendForm
     template_name = 'ioo/triage/spend.html'
-    success_url = reverse_lazy('international_online_offer:index')
+    success_url = '/international/international-online-offer/guide/'
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
@@ -86,4 +91,17 @@ class IOOSpend(FormView):
             question_text='What is your planned spend for UK entry or expansion?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your spend.""",
+        )
+
+
+class IOOContact(FormView):
+    form_class = forms.ContactForm
+    template_name = 'ioo/contact.html'
+    success_url = '/international/international-online-offer/guide/?success=true'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            complete_contact_form_message=LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE,
+            back_url='/international/international-online-offer/guide/',
         )

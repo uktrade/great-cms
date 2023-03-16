@@ -3,10 +3,15 @@
 ## Pre release
 
 ### Enhancements
+* IOO-427 - International Online Offer wagtail integration: landing pages and guide
 * KLS-426 - Add event types to filterset on UKEA's listings page
 * KLS-452 - Event cloning from Wagtail admin
 * KLS-391 - Remove deprecation warnings after upgrading to Django v3.2
 * KLS-429 - UKEA's Event 'complete' actions
+* KLS-371 - Microsite html and css
+* KLS-367 - Microsite heading, strapline, published date layout
+* KLS-366 - Microsite header image
+
 
 ## [2.28.0](https://github.com/uktrade/great-cms/releases/tag/2.28.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.27.0...2.28.0)
@@ -20,6 +25,8 @@
 * KLS-437 - Change DIT references to DBT
 * KLS-407 - Add format filters to the Export Academy event listings page
 * KLS-270 - Add webinar duration to event listing template
+* KLS-426 - Add event types to filterset on UKEA's listings page
+* IOO-428 - International Online Offer detailed guide, contact form and using new GOVUK frontend
 
 ## [2.27.0](https://github.com/uktrade/great-cms/releases/tag/2.27.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.26.0...2.27.0)
