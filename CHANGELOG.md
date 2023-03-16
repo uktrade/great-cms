@@ -3,6 +3,7 @@
 ## Pre release
 
 ### Enhancements
+* IOO-437 - International Online Offer wagtail integration: article page
 * IOO-427 - International Online Offer wagtail integration: landing pages and guide
 * KLS-426 - Add event types to filterset on UKEA's listings page
 * KLS-452 - Event cloning from Wagtail admin
