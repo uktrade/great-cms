@@ -68,3 +68,57 @@ main {
 .details-title {
     color: $atlas-electric-blue;
 }
+
+.block-text {
+    h2 {
+      @extend %govuk-heading-m;
+    }
+
+    h3 {
+      @extend %govuk-heading-s;
+    }
+
+    h4 {
+      @extend %govuk-body-m;
+    }
+
+    p {
+      @extend %govuk-body-m;
+    }
+
+    i {
+      font-size: inherit;
+    }
+
+    ol, ul {
+      @extend %govuk-list;
+    }
+
+    ol {
+      @extend %govuk-list--number;
+    }
+
+    ul {
+      @extend %govuk-list--bullet;
+
+      li {
+        position: static;
+        list-style: disc;
+        padding: 0;
+      }
+    }
+
+    h1, h2, h3, h4, h5, h6, p, ol, ul {
+      font-family: 'Euclid Flex B';
+    }
+  }
+
+  .image-container {
+    width: 100%;
+    height: 300px;
+    margin-bottom: 15px;
+  }
+
+  .full-width {
+    width: 100%;
+  }
