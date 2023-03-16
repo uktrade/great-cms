@@ -74,7 +74,7 @@
         <section class="grid-row padding-bottom-60">
           <div class="article-content">
             {% for block in page.article_body%}
-              {%if block.block_type == 'form'%}
+              {%if block.block_type == 'form' and form %}
                   <form action="" method="post" autocomplete="off">
                       {% csrf_token %}
                       {{ form }}

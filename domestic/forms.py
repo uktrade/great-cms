@@ -400,7 +400,7 @@ class MarketAccessProblemDetailsForm(forms.Form):
         return value
 
 
-class MarketAccessSummaryForm(forms.Form):
+class MarketAccessSummaryForm(GovNotifyEmailActionMixin, forms.Form):
     contact_by_email = forms.BooleanField(
         label='I would like to receive additional information by email',
         required=False,
@@ -415,12 +415,14 @@ class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
         label=_('Full name'),
         min_length=2,
         max_length=50,
+        required=True,
         error_messages={
             'required': _('Enter your full name'),
         },
     )
     email = forms.EmailField(
         label=_('Business email address'),
+        required=True,
         error_messages={
             'required': _('Enter an email address in the correct format, like name@example.com'),
             'invalid': _('Enter an email address in the correct format, like name@example.com'),
@@ -431,9 +433,7 @@ class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
         label=_('Company name'),
         min_length=2,
         max_length=100,
-        error_messages={
-            'required': _('Enter your companies name'),
-        },
+        required=False
     )
     
    
@@ -443,13 +443,15 @@ class CampaignLongForm(CampaignShortForm):
     
     phone = forms.CharField(
     label='Telephone number',
+    required=True,
     error_messages={'required': 'Enter your telephone number'},
     )
 
     position = forms.CharField(
     label=_('Position at company'),
     min_length=2,
-    max_length=100
+    max_length=100,
+    required=True,
     )
     already_export = forms.ChoiceField(
     label=_('Do you have a specific project or proposal you’d like to discuss?'),
@@ -459,13 +461,27 @@ class CampaignLongForm(CampaignShortForm):
     ),
     widget=forms.RadioSelect,
     error_messages={'required': _('Please answer this question')},
+    required=True,
     )
 
-    sector = SectorPotentialForm
-
+    
     region = forms.ChoiceField(
         label=_('Select a region'),
         choices=COUNTRIES,
-        widget=Select()    
+        widget=Select(),
+        required=True,    
     )
+
+
+    SECTOR_CHOICES_BASE = [('', 'Select your sector')]
+
+    sector = forms.ChoiceField(
+        label='Sector',
+        choices=SECTOR_CHOICES_BASE,
+        required=True,
+    )
+
+    def __init__(self, sector_choices, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['sector'].choices = self.SECTOR_CHOICES_BASE + sector_choices
 
