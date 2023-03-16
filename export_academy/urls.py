@@ -31,7 +31,7 @@ urlpatterns = [
         name='booking-success',
     ),
     path(
-        'event/<uuid:event_id>',
+        'event/<uuid:pk>/',
         views.EventDetailsView.as_view(),
         name='event-details',
     ),
