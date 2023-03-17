@@ -5,7 +5,7 @@ from django.forms import Select, Textarea, TextInput
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from great_components import forms
-
+from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag
 from contact.forms import TERMS_LABEL
 from core.forms import ConsentFieldMixin
 from directory_constants import choices
@@ -422,18 +422,32 @@ class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
         },
     )
     email = forms.EmailField(
-        label=_('Business email address'),
-        required=True,
+        label='Your email address',
         error_messages={
-            'required': _('Enter an email address in the correct format, like name@example.com'),
-            'invalid': _('Enter an email address in the correct format, like name@example.com'),
+            'required': 'Enter your email address',
         },
+        required=True,
     )
 
     company_name = forms.CharField(label=_('Company name'), min_length=2, max_length=100, required=False)
+    
+    # terms_agreed = forms.BooleanField(
+    #     label=TERMS_LABEL,
+    #     error_messages={
+    #         'required': 'You must agree to the terms and conditions before registering',
+    #     },
+    # )
 
-
+def get_sector_names():
+    return [tag.name for tag in IndustryTag.objects.all()]
+    
 class CampaignLongForm(CampaignShortForm):
+    
+    def get_sector_choices():
+        SECTOR_CHOICES_BASE = [('', 'Select your sector')]
+        choices = get_sector_names()
+        return SECTOR_CHOICES_BASE + [(c, c) for c in choices]
+    
     phone = forms.CharField(
         label='Telephone number',
         required=True,
@@ -446,6 +460,7 @@ class CampaignLongForm(CampaignShortForm):
         max_length=100,
         required=True,
     )
+    
     already_export = forms.ChoiceField(
         label=_('Do you have a specific project or proposal you’d like to discuss?'),
         choices=(
@@ -464,14 +479,10 @@ class CampaignLongForm(CampaignShortForm):
         required=True,
     )
 
-    SECTOR_CHOICES_BASE = [('', 'Select your sector')]
-
     sector = forms.ChoiceField(
         label='Sector',
-        choices=SECTOR_CHOICES_BASE,
+        choices= get_sector_choices,
         required=True,
     )
-
-    def __init__(self, sector_choices, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['sector'].choices = self.SECTOR_CHOICES_BASE + sector_choices
+    
+  
