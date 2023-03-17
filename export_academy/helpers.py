@@ -25,7 +25,7 @@ class EventButtonHelper:
                     ]
                 elif obj.status is Event.IN_PROGRESS:
                     result['event_action_buttons'] += [
-                        {'url': 'https://www.google.com', 'label': 'Join', 'classname': 'text', 'title': 'Join'},
+                        {'url': obj.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
                     ]
                 elif obj.status is Event.FINISHED and obj.completed:
                     result['event_action_buttons'] += [
