@@ -3,6 +3,7 @@ from datetime import datetime, timedelta, timezone
 import pytest
 from django.contrib.auth.models import AnonymousUser
 
+from config import settings
 from export_academy.helpers import EventButtonHelper, is_export_academy_registered
 from tests.unit.export_academy import factories
 
@@ -47,7 +48,10 @@ def test_cancel_button_returned_for_booked_upcoming_event(user):
 @pytest.mark.django_db
 def test_join_button_returned_for_booked_in_progress_event(user):
     now = datetime.now(tz=timezone.utc)
-    event = factories.EventFactory(start_date=now - timedelta(minutes=1), end_date=now + timedelta(hours=1))
+    event = factories.EventFactory(
+        start_date=now - timedelta(minutes=settings.EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS),
+        end_date=now + timedelta(hours=1),
+    )
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 

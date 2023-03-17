@@ -14,6 +14,7 @@
 * KLS-366 - Microsite header image
 * KLS-271 - Remove past media for completed export academy events
 * KLS-430 - EA Event details page
+* EAM-104 - Join and view buttons
 
 
 ## [2.28.0](https://github.com/uktrade/great-cms/releases/tag/2.28.0)
