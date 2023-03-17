@@ -17,18 +17,18 @@
         <a href="/">great.gov.uk</a>
         <a href="{% pageurl landing_page %}">Export Academy</a>
     {% endbreadcrumbs %}
-    <section class="margin-top-15">
+    <section class="govuk-!-margin-top-3">
         <div class="container">
-            <div class="grid-row">
-                <div class="column-third column-quarter-xl">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-quarter">
                     <form id="events-forms" action="" method="GET">
                         <div class="filters">
-                            <p class="margin-bottom-0 margin-top-0">Filter events by:</p>
+                            <p class="govuk-!-margin-0 govuk-!-font-size-24">Filter events by:</p>
                             <ul>
                                 {% for field in filter.form %}
                                 <li class="filter-section">
                                     <input type="checkbox" id="{{ field.label }}" checked />
-                                    <label for="{{ field.label }}" role="button">{{ field.label }}</label>
+                                    <label class="govuk-!-font-size-24" for="{{ field.label }}" role="button">{{ field.label }}</label>
                                     <div class="options checkbox-small">
                                         {{ field }}
                                     </div>
@@ -36,38 +36,37 @@
                                 {% endfor %}
                             </ul>
                         </div>
-                        <div class="filters-sticky-footer" id="filters-sticky-footer">
-                            <input type="submit" id="submit" class="button primary-button update" value="Update">
+                        <div class="filters-sticky-footer govuk-!-margin-top-7" id="filters-sticky-footer">
+                            <input type="submit" id="submit" class="button primary-button update" value="Update results">
                         </div>
                     </form>
                 </div>
 
-                <div id="event-list" class="column-three-quarters-xl" >
-                        {% for event in page_obj %}
-                        <div class="grid-row event-list-card">
-                            <div class="column-one-quarter event-metadata-container">
-                                <div class="background-white event-metadata-block">
-                                    <p class="weekday">{{ event.start_date|date:"l" }}</p>
-                                    <p class="date">{{ event.start_date|date:"d M" }}</p>
-                                    <p class="time">{{ event.start_date|date:"g:i a" }}</p>
-                                </div>
-                                {% for type in event.types.all %}
-                                    <p class="background-white margin-0 event-metadata-block">{{ type }}</p>
-                                {% endfor %}
-                                <p class="background-white margin-0">{{ event.format }}</p>
+                <div id="event-list" class="govuk-grid-column-three-quarters" >
+                    {% for event in page_obj %}
+                    <div class="govuk-grid-row event-list-card">
+                        <div class="govuk-grid-column-one-quarter govuk-!-text-align-centre">
+                            <div class="background-white event-metadata-block">
+                                <p class="govuk-!-font-weight-bold govuk-!-margin-0 govuk-!-padding-top-5">{{ event.start_date|date:"l" }}</p>
+                                <p class="govuk-!-font-size-24 govuk-!-font-weight-bold govuk-!-margin-0 govuk-!-padding-top-2 govuk-!-padding-bottom-2">{{ event.start_date|date:"d M" }}</p>
+                                <p class="great-font-size-18 govuk-!-font-weight-bold govuk-!-margin-0 govuk-!-padding-bottom-4">{{ event.start_date|date:"g:i a" }}</p>
                             </div>
-                            <div class="column-three-quarters">
-                                <h4>{{ event.name }}</h4>
-                                <p class="event-duration-text">Duration: {{ event.start_date|timesince:event.end_date }}</p>
-                                {% include 'components/show_more.html' with text=event.description %}
-                                <a class="button secondary-button">Register</a>
-                            </div>
+                            {% for type in event.types.all %}
+                                <p class="background-white margin-0 event-metadata-block">{{ type }}</p>
+                            {% endfor %}
+                            <p class="background-white margin-0">{{ event.format }}</p>
                         </div>
-                        {% endfor %}
-
+                        <div class="govuk-grid-column-three-quarters">
+                            <h4>{{ event.name }}</h4>
+                            <p class="great-font-size-18 great-secondary-text">Duration: {{ event.start_date|timesince:event.end_date }}</p>
+                            {% include 'components/show_more.html' with text=event.description %}
+                            <a class="button secondary-button">Register</a>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
-            <div class="margin-bottom-45 markets-pagination column-two-thirds column-three-quarters-xl">
+            <div class="govuk-!-margin-bottom-7 govuk-grid-column-three-quarters markets-pagination">
                 {% pagination pagination_page=page_obj %}
             </div>
         </div>
