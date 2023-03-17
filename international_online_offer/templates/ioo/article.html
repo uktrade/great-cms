@@ -1,4 +1,6 @@
 {% extends './base.html' %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
 {% load static %}
 
 {% block head_other %}
@@ -16,22 +18,23 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <a href="{{ '/international/international-online-offer/guide/' }}" class="govuk-back-link atlas-body" style="margin-bottom: 15px;">Back</a>
+      <a href="{{ '/international/international-online-offer/guide/' }}" class="govuk-back-link" style="margin-bottom: 15px;">Back</a>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h3 class="atlas-h--m">{{ page.article_title }}</h3>
+      <h3 class="govuk-heading-l">{{ page.article_title }}</h3>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        {% include 'components/hero.html' with image=page.article_image %}
+        {% image page.article_image original as rendition %}
+        <div class="image-container" style="background-image: url({{ rendition.url }});"></div>
     </div>
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h4 class="atlas-h--s" style="margin-bottom: 18px;">{{ page.article_subheading }}</h4>
+      <h4 class="govuk-heading-m" style="margin-bottom: 18px;">{{ page.article_subheading }}</h4>
     </div>
   </div>
   <div class="govuk-grid-row">

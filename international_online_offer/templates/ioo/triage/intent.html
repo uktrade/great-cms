@@ -19,13 +19,12 @@
       <form method="post" onsubmit="return onSubmitIntent()">
         {% csrf_token %}
         <div class="form-group">
-          <span class="atlas-body form-hint">Choose one or more options from the list</span>
-          <br>
+          <div class="govuk-hint govuk-!-margin-bottom-3">Choose one or more options from the list</div>
           <div id="id_intent_container">
             {% include 'core/includes/form_field.html' with field=form.intent %}
           </div>
           <div id="id_intent_other-container" class="govuk-inset-text">
-            <span class='atlas-body'>Type your answer</span>
+            <span class='govuk-body'>Type your answer</span>
             {% include 'core/includes/form_field.html' with field=form.intent_other %}
           </div>
           {% include '../includes/submit_button.html' with button_text='Continue'  %}

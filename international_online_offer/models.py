@@ -5,7 +5,7 @@ from taggit.models import TaggedItemBase
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.core.blocks.field_block import RichTextBlock
 from wagtail.core.blocks.stream_block import StreamBlock
-from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 
@@ -63,7 +63,7 @@ class IOOArticlePage(BaseContentPage):
         blank=True,
         help_text='This is a subheading that displays below the main title on the article page',
     )
-    article_teaser = RichTextField(
+    article_teaser = models.TextField(
         blank=True,
         null=True,
         help_text='This is a subheading that displays when the article is featured on another page',
