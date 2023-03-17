@@ -30,4 +30,9 @@ urlpatterns = [
         views.SuccessPageView.as_view(template_name='export_academy/booking_success.html'),
         name='booking-success',
     ),
+    path(
+        'event/<uuid:pk>/',
+        views.EventDetailsView.as_view(),
+        name='event-details',
+    ),
 ]

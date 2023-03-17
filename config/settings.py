@@ -7,6 +7,7 @@ import sentry_sdk
 from django.urls import reverse_lazy
 from elasticsearch import RequestsHttpConnection
 from elasticsearch_dsl.connections import connections
+from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 
 import healthcheck.backends
@@ -329,7 +330,9 @@ else:
 # Sentry
 if env.str('SENTRY_DSN', ''):
     sentry_sdk.init(
-        dsn=env.str('SENTRY_DSN'), environment=env.str('SENTRY_ENVIRONMENT'), integrations=[DjangoIntegration()]
+        dsn=env.str('SENTRY_DSN'),
+        environment=env.str('SENTRY_ENVIRONMENT'),
+        integrations=[DjangoIntegration(), CeleryIntegration()],
     )
 
 USE_X_FORWARDED_HOST = True
@@ -859,9 +862,11 @@ SSO_PROFILE_FEATURE_FLAGS = {
     'MAINTENANCE_MODE_ON': env.bool('FEATURE_MAINTENANCE_MODE_ENABLED', False),  # used by directory-components
     'ADMIN_REQUESTS_ON': env.bool('FEATURE_ADMIN_REQUESTS_ENABLED', False),
 }
-# parity with nginx config for maximum request body
-DATA_UPLOAD_MAX_MEMORY_SIZE = 6 * 1024 * 1024
-FILE_UPLOAD_MAX_MEMORY_SIZE = 6 * 1024 * 1024
+# Enable large file uploads
+WAGTAILIMAGES_MAX_UPLOAD_SIZE = 500 * 1024 * 1024
+FILE_UPLOAD_MAX_MEMORY_SIZE = 500 * 1024 * 1024
+DATA_UPLOAD_MAX_MEMORY_SIZE = 500 * 1024 * 1024
+FILE_UPLOAD_PERMISSIONS = 0o644
 
 HASHIDS_SALT = env.str('HASHIDS_SALT')
 

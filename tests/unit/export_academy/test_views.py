@@ -200,3 +200,13 @@ def test_export_academy_booking_cancellation_success(mock_notify_cancellation, c
             form_url=url,
         ),
     ]
+
+
+@pytest.mark.django_db
+def test_event_detail_views(client, user):
+    event = factories.EventFactory()
+    url = reverse('export_academy:event-details', kwargs=dict(pk=event.id))
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert '/subtitles/' in str(response.rendered_content)
