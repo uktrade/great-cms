@@ -209,4 +209,4 @@ def test_event_detail_views(client, user):
     response = client.get(url)
 
     assert response.status_code == 200
-    assert "/subtitles/" in str(response.rendered_content)
+    assert '/subtitles/' in str(response.rendered_content)
