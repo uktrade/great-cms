@@ -1,18 +1,13 @@
 {% extends 'domestic/base.html' %}
-{% load set %}
 {% load static %}
 {% load component_tags %}
-{% load wagtailcore_tags wagtailimages_tags %}
 {% load video_tags %}
-{% load include_block from wagtailcore_tags %}
 
 {% block head_title %}{{ object.name }}{% endblock %}
 
 {% block content %}
-
-{% render_video event_video %}
-
-<div class="container">
-    <a href="{{request.META.HTTP_REFERER|escape}}">Back</a>
-</div>
+    {% render_video event_video %}
+    <div class="container">
+        <a href="{{request.META.HTTP_REFERER|escape}}">Back</a>
+    </div>
 {% endblock %}
