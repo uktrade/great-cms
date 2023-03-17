@@ -58,7 +58,7 @@ def test_join_button_returned_for_booked_in_progress_event(user):
     buttons = EventButtonHelper().get_buttons_for_obj(user, event)
 
     assert buttons['event_action_buttons'] == [
-        {'url': 'https://www.google.com', 'label': 'Join', 'classname': 'text', 'title': 'Join'}
+        {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'}
     ]
 
 
