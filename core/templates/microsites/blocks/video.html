@@ -1,6 +1,7 @@
 {% load wagtailcore_tags  %}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters">
         {% if value.video %}
@@ -16,6 +17,11 @@
 =======
 <div>
     {% if value.video %}
+=======
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+        {% if value.video %}
+>>>>>>> 35458a06d (KLS-371: wrap each streamfield in its own row)
         <video controls class="govuk-!-width-full govuk-!-margin-bottom-2">
             <source src="{{ value.video.url }}" type="video/{{ value.video.file_extension }}">
             <p>Your browser doesn't support HTML5 video. Here is a <a class="link" href="{{ value.video.url }}">link to the video</a> instead.</p>
@@ -30,7 +36,11 @@
         {% endif %}
     {% endif %}
 <<<<<<< HEAD
+<<<<<<< HEAD
     </div>
 =======
 >>>>>>> 370c3634b (KLS-371: introduce govuk-frontend, dbt styling, microsite article page components)
+=======
+    </div>
+>>>>>>> 35458a06d (KLS-371: wrap each streamfield in its own row)
 </div>
