@@ -59,9 +59,7 @@
                             <div class="column-three-quarters">
                                 <h4>{{ event.name }}</h4>
                                 <p class="event-duration-text">Duration: {{ event.start_date|timesince:event.end_date }}</p>
-                                <p>{{ event.description|truncatechars:140 }}</p>
-                                <label for="show-more-toggle">Show more</label>
-                                <input type="checkbox" id='show-more-toggle'/>
+                                {% include 'components/show_more.html' with text=event.description %}
                                 <a class="button secondary-button">Register</a>
                             </div>
                         </div>
