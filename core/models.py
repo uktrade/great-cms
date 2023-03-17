@@ -1386,9 +1386,11 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         [
             (
                 'text',
-                RichTextBlock(),
+                RichTextBlock(
+                    template='microsites/blocks/text.html',
+                ),
             ),
-            ('image', ImageChooserBlock(required=False, template='core/includes/_article_image.html')),
+            ('image', ImageChooserBlock(required=False, template='microsites/blocks/image.html')),
             ('video', core_blocks.SimpleVideoBlock(template='microsites/blocks/video.html')),
             (
                 'columns',
@@ -1400,12 +1402,6 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     min_num=2,
                     max_num=3,
                     template='microsites/blocks/columns.html',
-                ),
-            ),
-            (  # alt text lives on the custom Image class
-                'pull_quote',
-                core_blocks.PullQuoteBlock(
-                    template='domestic/blocks/pull_quote_block.html',
                 ),
             ),
         ],
