@@ -5,15 +5,20 @@ from django.contrib.auth.views import redirect_to_login
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
+from core.constants import (
+    EXPORT_ACADEMY_EVENT_FINISHED,
+    EXPORT_ACADEMY_EVENT_IN_PROGRESS,
+    EXPORT_ACADEMY_EVENT_NOT_STARTED,
+)
 from core.urls import SIGNUP_URL
-from export_academy.models import Event, Registration
+from export_academy.models import Registration
 
 
 def get_buttons_for_event(user, event):
     result = dict(form_event_booking_buttons=[], event_action_buttons=[])
     if is_export_academy_registered(user):
         if event.bookings.filter(registration_id=user.email, status='Confirmed').exists():
-            if event.status is Event.NOT_STARTED:
+            if event.status is EXPORT_ACADEMY_EVENT_NOT_STARTED:
                 result['form_event_booking_buttons'] += [
                     {
                         'label': 'Cancel',
@@ -22,11 +27,11 @@ def get_buttons_for_event(user, event):
                         'type': 'submit',
                     },
                 ]
-            elif event.status is Event.IN_PROGRESS:
+            elif event.status is EXPORT_ACADEMY_EVENT_IN_PROGRESS:
                 result['event_action_buttons'] += [
                     {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
                 ]
-            elif event.status is Event.FINISHED and event.completed:
+            elif event.status is EXPORT_ACADEMY_EVENT_FINISHED and event.completed:
                 result['event_action_buttons'] += [
                     {
                         'url': 'https://www.google.com',
