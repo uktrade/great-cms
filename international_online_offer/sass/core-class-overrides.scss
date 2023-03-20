@@ -1,0 +1,95 @@
+.form-label {
+    font-family: $govuk-font-family;
+    color: $atlas-dark-blue;
+}
+
+.block-text {
+    h2 {
+        @extend %govuk-heading-m;
+    }
+
+    h3 {
+        @extend %govuk-heading-s;
+    }
+
+    h4 {
+        @extend %govuk-body-m;
+    }
+
+    p {
+        @extend %govuk-body-m;
+    }
+
+    i {
+        font-size: inherit;
+    }
+
+    ol, ul {
+        @extend %govuk-list;
+    }
+
+    ol {
+        @extend %govuk-list--number;
+    }
+
+    ul {
+        @extend %govuk-list--bullet;
+
+        li {
+            position: static;
+            list-style: disc;
+            padding: 0;
+        }
+    }
+
+    h1, h2, h3, h4, h5, h6, p, ol, ul {
+        font-family: $govuk-font-family;
+    }
+  }
+
+.image-container {
+    width: 100%;
+    height: 300px;
+    margin-bottom: 15px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.error-reporting {
+    font-family: $govuk-font-family !important;
+
+    .container {
+        margin: 0px !important;
+    }
+}
+
+.autocomplete__input--default {
+    background-image: url('/static/images/search-black.svg');
+    background-repeat: no-repeat;
+    padding-right: 20px;
+    background-position: right center;
+    font-family: $govuk-font-family;
+    background-origin: content-box;
+    width: 50% !important;
+
+    @media (max-width: 640px) {
+        width: 100% !important;
+    }
+}
+
+.autocomplete__menu {
+    width: 50% !important;
+
+    @media (max-width: 640px) {
+        width: 100% !important;
+    }
+}
+
+.autocomplete__option {
+    font-family: $govuk-font-family;
+}

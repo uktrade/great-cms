@@ -1,4 +1,5 @@
 {% extends './base.html' %}
+{% load wagtailimages_tags %}
 {% load static %}
 
 {% block head_other %}
@@ -28,7 +29,7 @@
 {% endif %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 class="atlas-h--xl">Welcome to your expansion guide</h1>
+        <h1 class="govuk-heading-l">Welcome to your expansion guide</h1>
     </div>
 </div>
 <div class="govuk-grid-row">
@@ -37,8 +38,28 @@
     </div>
 </div>
 <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        {% for page in self.get_children.specific %}
+            {% image page.article_image original as rendition %}
+            <div class="article-list-item">
+                <a href="{{ page.url }}">
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-one-third">
+                            <div class="image-container" style="background-image: url({{ rendition.url }});"></div>
+                        </div>
+                        <div class="govuk-grid-column-two-thirds">
+                            <h4 class="govuk-heading-m">{{ page.article_title }}</h4>
+                            <p class="govuk-body">{{ page.article_teaser }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <div class="govuk-inset-text atlas-body">
+        <div class="govuk-inset-text">
             <strong>Dont forget to share your contact details</strong> to keep up to date with our personalised service. You may be eligible for 1 to 1 support.
             {% if banner_link and banner_link_text %}
                 <a class="govuk-notification-banner__link" href="{% url banner_link %}">{{ banner_link_text }}</a>.

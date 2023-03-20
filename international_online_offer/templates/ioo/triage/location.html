@@ -20,8 +20,8 @@
       <form method="post" onsubmit="return onSubmitLocation()">
         {% csrf_token %}
         <div class="form-group" id="id_location-container">
-          <label class="atlas-body--m atlas-label" for="sector">Enter a city, county or region</label>
-          <span class="atlas-body form-hint">Type to search and choose from the list</span>
+          <label class="govuk-label govuk-label--m" for="sector">Enter a city, county or region</label>
+          <div class="govuk-hint govuk-!-margin-bottom-3">Type to search and choose from the list</div>
           {% include 'core/includes/form_field.html' with field=form.location %}
           {% include 'core/includes/form_field.html' with field=form.location_none %}
           {% include '../includes/submit_button.html' with button_text='Continue'  %}
