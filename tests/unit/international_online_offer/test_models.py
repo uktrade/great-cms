@@ -2,7 +2,7 @@ import pytest
 from wagtail.tests.utils import WagtailPageTests
 
 from domestic.models import StructuralPage
-from international_online_offer.models import IOOGuidePage, IOOIndexPage
+from international_online_offer.models import IOOArticlePage, IOOGuidePage, IOOIndexPage
 
 
 class IOOIndexPageTests(WagtailPageTests):
@@ -35,7 +35,7 @@ class IOOGuidePageTests(WagtailPageTests):
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
             IOOGuidePage,
-            {},
+            {IOOArticlePage},
         )
 
 
@@ -49,3 +49,19 @@ def test_ioo_guide_page_content(rf):
     assert context['complete_contact_form_link_text'] == 'Complete form'
     assert context['contact_form_success_message'] == IOOGuidePage.CONTACT_FORM_SUCCESS_MESSAGE
     assert context['complete_contact_form_link'] == 'international_online_offer:contact'
+
+
+class IOOArticlePageTests(WagtailPageTests):
+    def test_allowed_parents(self):
+        self.assertAllowedParentPageTypes(
+            IOOArticlePage,
+            {
+                IOOGuidePage,
+            },
+        )
+
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(
+            IOOArticlePage,
+            {},
+        )

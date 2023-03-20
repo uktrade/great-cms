@@ -1,14 +1,14 @@
 <div class="{{ css_class }}" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
     <div class="govuk-notification-banner__header">
-        <h2 class="govuk-notification-banner__title atlas-body" style="color: white" id="govuk-notification-banner-title">
+        <h2 class="govuk-notification-banner__title" style="color: white" id="govuk-notification-banner-title">
             {{ banner_title }}
         </h2>
     </div>
     <div class="govuk-notification-banner__content">
-        <p class="govuk-notification-banner__heading atlas-body">
+        <p class="govuk-notification-banner__heading">
             {{ banner_heading }}
             {% if banner_link and banner_link_text %}
-                <a class="govuk-notification-banner__link atlas-link" href="{% url banner_link %}">{{ banner_link_text }}</a>.
+                <a class="govuk-notification-banner__link" href="{% url banner_link %}">{{ banner_link_text }}</a>.
             {% endif %}
         </p>
     </div>
