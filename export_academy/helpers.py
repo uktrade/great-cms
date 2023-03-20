@@ -13,7 +13,7 @@ from core.urls import SIGNUP_URL
 from export_academy.models import Registration
 
 
-def get_buttons_for_event(user, event):  # noqa
+def get_buttons_for_event(user, event):
     result = dict(form_event_booking_buttons=[], event_action_buttons=[])
     if is_export_academy_registered(user):
         if event.bookings.filter(registration_id=user.email, status='Confirmed').exists():
@@ -31,24 +31,8 @@ def get_buttons_for_event(user, event):  # noqa
                     {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
                 ]
             elif event.completed:
-                if event.video_recording:
-                    result['event_action_buttons'] += [
-                        {
-                            'url': reverse_lazy('export_academy:event-details', kwargs=dict(pk=event.pk)),
-                            'label': 'View video',
-                            'classname': 'text',
-                            'title': 'View video',
-                        },
-                    ]
-                if event.document:
-                    result['event_action_buttons'] += [
-                        {
-                            'url': event.document.url,
-                            'label': 'View slideshow',
-                            'classname': 'text',
-                            'title': 'View slideshow',
-                        },
-                    ]
+                result['event_action_buttons'] += get_event_completed_buttons(event)
+
         else:
             result['form_event_booking_buttons'] += [
                 {
@@ -62,6 +46,30 @@ def get_buttons_for_event(user, event):  # noqa
         # logged out event buttons
         pass
 
+    return result
+
+
+def get_event_completed_buttons(event):
+    result = []
+
+    if event.video_recording:
+        result += [
+            {
+                'url': reverse_lazy('export_academy:event-details', kwargs=dict(pk=event.pk)),
+                'label': 'View video',
+                'classname': 'text',
+                'title': 'View video',
+            },
+        ]
+    if event.document:
+        result += [
+            {
+                'url': event.document.url,
+                'label': 'View slideshow',
+                'classname': 'text',
+                'title': 'View slideshow',
+            },
+        ]
     return result
 
 
