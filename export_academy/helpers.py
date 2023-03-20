@@ -17,7 +17,9 @@ def get_buttons_for_event(user, event):
     result = dict(form_event_booking_buttons=[], event_action_buttons=[])
     if is_export_academy_registered(user):
         if event.bookings.filter(registration_id=user.email, status='Confirmed').exists():
-            if event.status is EXPORT_ACADEMY_EVENT_NOT_STARTED:
+            if event.completed:
+                result['event_action_buttons'] += get_event_completed_buttons(event)
+            elif event.status is EXPORT_ACADEMY_EVENT_NOT_STARTED:
                 result['form_event_booking_buttons'] += [
                     {
                         'label': 'Cancel',
@@ -30,9 +32,6 @@ def get_buttons_for_event(user, event):
                 result['event_action_buttons'] += [
                     {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
                 ]
-            elif event.completed:
-                result['event_action_buttons'] += get_event_completed_buttons(event)
-
         else:
             result['form_event_booking_buttons'] += [
                 {

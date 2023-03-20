@@ -46,7 +46,6 @@
                                 <h6>Duration: {{ event.start_date|timesince:event.end_date }}</h6>
                                 <p>{{ event.description|truncatechars:200 }}</p>
                                 {% event_list_buttons event %}
-
                             </li>
                             {% endfor %}
                         </ul>
