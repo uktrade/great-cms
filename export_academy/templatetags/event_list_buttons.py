@@ -9,7 +9,7 @@ def event_list_buttons(context, event):
 
     context.update(
         {
-            'action_buttons': view.get_buttons_for_obj(event),
+            'action_buttons': view.get_buttons_for_event(event),
         }
     )
     return context
