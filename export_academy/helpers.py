@@ -6,7 +6,6 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
 from core.constants import (
-    EXPORT_ACADEMY_EVENT_FINISHED,
     EXPORT_ACADEMY_EVENT_IN_PROGRESS,
     EXPORT_ACADEMY_EVENT_NOT_STARTED,
 )
@@ -31,11 +30,11 @@ def get_buttons_for_event(user, event):  # noqa
                 result['event_action_buttons'] += [
                     {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
                 ]
-            elif event.status is EXPORT_ACADEMY_EVENT_FINISHED and event.completed:
+            elif event.completed:
                 if event.video_recording:
                     result['event_action_buttons'] += [
                         {
-                            'url': 'www.google.com',
+                            'url': reverse_lazy('export_academy:event-details', kwargs=dict(pk=event.pk)),
                             'label': 'View video',
                             'classname': 'text',
                             'title': 'View video',
@@ -44,7 +43,7 @@ def get_buttons_for_event(user, event):  # noqa
                 if event.document:
                     result['event_action_buttons'] += [
                         {
-                            'url': event.document_url,
+                            'url': event.document.url,
                             'label': 'View slideshow',
                             'classname': 'text',
                             'title': 'View slideshow',

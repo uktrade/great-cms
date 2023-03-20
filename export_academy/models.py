@@ -11,7 +11,12 @@ from wagtail.core.fields import RichTextField, StreamField
 
 from config import settings
 from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRichText
-from core.constants import RICHTEXT_FEATURES__REDUCED, VIDEO_TRANSCRIPT_HELP_TEXT
+from core.constants import (
+    EXPORT_ACADEMY_EVENT_FINISHED,
+    EXPORT_ACADEMY_EVENT_IN_PROGRESS,
+    EXPORT_ACADEMY_EVENT_NOT_STARTED,
+    RICHTEXT_FEATURES__REDUCED,
+)
 from core.fields import single_struct_block_stream_field_factory
 from core.models import GreatMedia, TimeStampedModel
 from domestic.models import BaseContentPage
