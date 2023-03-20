@@ -1,5 +1,6 @@
 @import "govuk-token-overrides";
 <<<<<<< HEAD
+<<<<<<< HEAD
 @import 'atlas/main.scss';
 @import "node_modules/govuk-frontend/govuk/all";
 @import "govuk-class-overrides";
@@ -76,3 +77,10 @@ main {
     color: $atlas-electric-blue;
 }
 >>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
+=======
+@import 'atlas/main.scss';
+@import "node_modules/govuk-frontend/govuk/all";
+@import "govuk-class-overrides";
+@import 'core-class-overrides';
+@import 'article-list-item.scss';
+>>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))

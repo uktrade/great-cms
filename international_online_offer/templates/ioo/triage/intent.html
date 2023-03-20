@@ -25,18 +25,26 @@
       <form method="post" onsubmit="return onSubmitIntent()">
         {% csrf_token %}
         <div class="form-group">
+<<<<<<< HEAD
           <span class="atlas-body form-hint">Choose one or more options from the list</span>
           <br>
 >>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
+=======
+          <div class="govuk-hint govuk-!-margin-bottom-3">Choose one or more options from the list</div>
+>>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
           <div id="id_intent_container">
             {% include 'core/includes/form_field.html' with field=form.intent %}
           </div>
           <div id="id_intent_other-container" class="govuk-inset-text">
 <<<<<<< HEAD
+<<<<<<< HEAD
             <span class='govuk-body'>Type your answer</span>
 =======
             <span class='atlas-body'>Type your answer</span>
 >>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
+=======
+            <span class='govuk-body'>Type your answer</span>
+>>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
             {% include 'core/includes/form_field.html' with field=form.intent_other %}
           </div>
           {% include '../includes/submit_button.html' with button_text='Continue'  %}

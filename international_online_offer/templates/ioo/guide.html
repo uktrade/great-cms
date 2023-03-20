@@ -1,8 +1,12 @@
 {% extends './base.html' %}
 <<<<<<< HEAD
+<<<<<<< HEAD
 {% load wagtailimages_tags %}
 =======
 >>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
+=======
+{% load wagtailimages_tags %}
+>>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
 {% load static %}
 
 {% block head_other %}
@@ -40,6 +44,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <h1 class="govuk-heading-l">Welcome to your expansion guide</h1>
         {% if not request.user.is_authenticated %}
             <a href="{% url 'international_online_offer:login' %}" class="govuk-link">Sign in</a>
@@ -48,6 +53,9 @@
 =======
         <h1 class="atlas-h--xl">Welcome to your expansion guide</h1>
 >>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
+=======
+        <h1 class="govuk-heading-l">Welcome to your expansion guide</h1>
+>>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
     </div>
 </div>
 <div class="govuk-grid-row">
@@ -57,6 +65,9 @@
 </div>
 <div class="govuk-grid-row">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
     <div class="govuk-grid-column-full">
         {% for page in self.get_children.specific %}
             {% image page.article_image original as rendition %}
@@ -77,6 +88,7 @@
     </div>
 </div>
 <div class="govuk-grid-row">
+<<<<<<< HEAD
     <div class="govuk-grid-column-two-thirds">
         <div class="govuk-inset-text">
             <strong>Dont forget to share your contact details</strong> to keep up to date with our personalised service. You may be eligible for 1 to 1 support.
@@ -88,6 +100,11 @@
                 You may be eligible for 1 to 1 support.
             {% endif %}
 >>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
+=======
+    <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-inset-text">
+            <strong>Dont forget to share your contact details</strong> to keep up to date with our personalised service. You may be eligible for 1 to 1 support.
+>>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
             {% if banner_link and banner_link_text %}
                 <a class="govuk-notification-banner__link" href="{% url banner_link %}">{{ banner_link_text }}</a>.
             {% endif %}

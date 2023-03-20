@@ -28,9 +28,14 @@
       <form method="post" onsubmit="return onSubmitSector()">
         {% csrf_token %}
         <div class="form-group" id="id_sector-container">
+<<<<<<< HEAD
           <label class="atlas-body--m atlas-label" for="sector">Enter a sector</label>
           <span class="atlas-body form-hint">Type to search and choose from the list</span>
 >>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
+=======
+          <label class="govuk-label govuk-label--m" for="sector">Enter a sector</label>
+          <div class="govuk-hint govuk-!-margin-bottom-3">Type to search and choose from the list</div>
+>>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
           {% include 'core/includes/form_field.html' with field=form.sector %}
           {% include '../includes/submit_button.html' with button_text='Continue'  %}
         </div>

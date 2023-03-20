@@ -25,18 +25,26 @@
       <form method="post" onsubmit="return onSubmitSpend()">
         {% csrf_token %}
         <div class="form-group">
+<<<<<<< HEAD
           <span class="atlas-body form-hint">This is for the first three years of your project. Choose an estimated amount from the list, or enter a specific amount</span>
           <br>
 >>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
+=======
+          <div class="govuk-hint govuk-!-margin-bottom-3">This is for the first three years of your project. Choose an estimated amount from the list, or enter a specific amount</div>
+>>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
           <div id="id_spend_container">
             {% include 'core/includes/form_field.html' with field=form.spend %}
           </div>
           <div id="id_spend_other-container" class="govuk-inset-text">
 <<<<<<< HEAD
+<<<<<<< HEAD
             <div class='govuk-body'>Enter specific amount</div>
 =======
             <span class='atlas-body'>Enter specific amount</span>
 >>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
+=======
+            <div class='govuk-body'>Enter specific amount</div>
+>>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
             {% include 'core/includes/form_field.html' with field=form.spend_other %}
           </div>
           {% include '../includes/submit_button.html' with button_text='Continue' %}
