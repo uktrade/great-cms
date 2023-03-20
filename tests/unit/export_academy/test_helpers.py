@@ -63,11 +63,13 @@ def test_join_button_returned_for_booked_in_progress_event(user):
 
 
 @pytest.mark.django_db
-def test_view_button_returned_for_booked_past_event(user):
+def test_view_buttons_returned_for_booked_past_event(user):
     now = datetime.now(tz=timezone.utc)
     event = factories.EventFactory(
         start_date=now - timedelta(days=2, hours=1), end_date=now - timedelta(days=2), completed=True
     )
+    event.document_url = 'https://www.google.com'
+    event.video_recording = 'https://www.google.com'
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
@@ -76,9 +78,15 @@ def test_view_button_returned_for_booked_past_event(user):
     assert buttons['event_action_buttons'] == [
         {
             'url': 'https://www.google.com',
-            'label': 'View recording',
+            'label': 'View video',
             'classname': 'text',
-            'title': 'View recording',
+            'title': 'View video',
+        },
+        {
+            'url': 'https://www.google.com',
+            'label': 'View slideshow',
+            'classname': 'text',
+            'title': 'View slideshow',
         },
     ]
 
