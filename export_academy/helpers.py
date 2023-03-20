@@ -6,7 +6,66 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
 from core.urls import SIGNUP_URL
-from export_academy.models import Registration
+from export_academy.models import Event, Registration
+
+
+def get_buttons_for_event(user, event):
+    result = dict(form_event_booking_buttons=[], event_action_buttons=[])
+    if is_export_academy_registered(user):
+        if event.bookings.filter(registration_id=user.email, status='Confirmed').exists():
+            if event.completed:
+                result['event_action_buttons'] += get_event_completed_buttons(event)
+            elif event.status is Event.STATUS_NOT_STARTED:
+                result['form_event_booking_buttons'] += [
+                    {
+                        'label': 'Cancel',
+                        'classname': 'link',
+                        'value': 'Cancelled',
+                        'type': 'submit',
+                    },
+                ]
+            elif event.status is Event.STATUS_IN_PROGRESS:
+                result['event_action_buttons'] += [
+                    {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
+                ]
+        else:
+            result['form_event_booking_buttons'] += [
+                {
+                    'label': 'Book',
+                    'classname': 'link',
+                    'value': 'Confirmed',
+                    'type': 'submit',
+                },
+            ]
+    else:
+        # logged out event buttons
+        pass
+
+    return result
+
+
+def get_event_completed_buttons(event):
+    result = []
+
+    if event.video_recording:
+        result += [
+            {
+                'url': reverse_lazy('export_academy:event-details', kwargs=dict(pk=event.pk)),
+                'label': 'View video',
+                'classname': 'text',
+                'title': 'View video',
+            },
+        ]
+    if event.document:
+        result += [
+            {
+                'url': event.document.url,
+                'label': 'View slideshow',
+                'classname': 'text',
+                'title': 'View slideshow',
+            },
+        ]
+    return result
 
 
 def is_export_academy_registered(user):

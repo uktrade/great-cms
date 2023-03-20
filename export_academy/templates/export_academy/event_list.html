@@ -1,5 +1,6 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
+{% load event_list_buttons %}
 
 {% block head_title %}Upcoming events{% endblock %}
 
@@ -44,28 +45,7 @@
                                 <h6>{{ event.name }}</h6>
                                 <h6>Duration: {{ event.start_date|timesince:event.end_date }}</h6>
                                 <p>{{ event.description|truncatechars:200 }}</p>
-                                <form action="{% url 'export_academy:booking' %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="event_id" value="{{ event.id }}">
-                                    {% if event.id in bookings %}
-                                        {% if event.completed %}
-                                            {% if event.document %}
-                                                <a href={{ event.document.url }}>View slideshow</a>
-                                            {% else %}
-                                                <a>There are no reference materials from this event.</a>
-                                            {% endif %}
-                                            {% if event.video_recording %}
-                                                <a href={% url 'export_academy:event-details' pk=event.pk%}>View video</a>
-                                            {% endif %}
-                                        {% else %}
-                                            <input type="hidden" name="status" value="Cancelled">
-                                            <button type="submit" class="link">Cancel</button>
-                                        {% endif %}
-                                    {% else %}
-                                    <input type="hidden" name="status" value="Confirmed">
-                                    <button type="submit" class="link">Book</button>
-                                    {% endif %}
-                                </form>
+                                {% event_list_buttons event %}
                             </li>
                             {% endfor %}
                         </ul>
