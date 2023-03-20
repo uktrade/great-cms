@@ -4,7 +4,7 @@ import pytest
 from django.contrib.auth.models import AnonymousUser
 
 from config import settings
-from export_academy.helpers import EventButtonHelper, is_export_academy_registered
+from export_academy.helpers import get_buttons_for_event, is_export_academy_registered
 from tests.unit.export_academy import factories
 
 
@@ -14,7 +14,7 @@ def test_book_button_returned_for_upcoming_event(user):
     factories.RegistrationFactory(email=user.email)
     event = factories.EventFactory(start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7))
 
-    buttons = EventButtonHelper().get_buttons_for_obj(user, event)
+    buttons = get_buttons_for_event(user, event)
 
     assert buttons['form_event_booking_buttons'] == [
         {
@@ -33,7 +33,7 @@ def test_cancel_button_returned_for_booked_upcoming_event(user):
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
-    buttons = EventButtonHelper().get_buttons_for_obj(user, event)
+    buttons = get_buttons_for_event(user, event)
 
     assert buttons['form_event_booking_buttons'] == [
         {
@@ -55,7 +55,7 @@ def test_join_button_returned_for_booked_in_progress_event(user):
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
-    buttons = EventButtonHelper().get_buttons_for_obj(user, event)
+    buttons = get_buttons_for_event(user, event)
 
     assert buttons['event_action_buttons'] == [
         {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'}
@@ -71,7 +71,7 @@ def test_view_button_returned_for_booked_past_event(user):
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
-    buttons = EventButtonHelper().get_buttons_for_obj(user, event)
+    buttons = get_buttons_for_event(user, event)
 
     assert buttons['event_action_buttons'] == [
         {

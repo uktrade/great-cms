@@ -9,47 +9,46 @@ from core.urls import SIGNUP_URL
 from export_academy.models import Event, Registration
 
 
-class EventButtonHelper:
-    def get_buttons_for_obj(self, user, obj):
-        result = dict(form_event_booking_buttons=[], event_action_buttons=[])
-        if is_export_academy_registered(user):
-            if obj.bookings.filter(registration_id=user.email, status='Confirmed').exists():
-                if obj.status is Event.NOT_STARTED:
-                    result['form_event_booking_buttons'] += [
-                        {
-                            'label': 'Cancel',
-                            'classname': 'link',
-                            'value': 'Cancelled',
-                            'type': 'submit',
-                        },
-                    ]
-                elif obj.status is Event.IN_PROGRESS:
-                    result['event_action_buttons'] += [
-                        {'url': obj.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
-                    ]
-                elif obj.status is Event.FINISHED and obj.completed:
-                    result['event_action_buttons'] += [
-                        {
-                            'url': 'https://www.google.com',
-                            'label': 'View recording',
-                            'classname': 'text',
-                            'title': 'View recording',
-                        },
-                    ]
-            else:
+def get_buttons_for_event(user, event):
+    result = dict(form_event_booking_buttons=[], event_action_buttons=[])
+    if is_export_academy_registered(user):
+        if event.bookings.filter(registration_id=user.email, status='Confirmed').exists():
+            if event.status is Event.NOT_STARTED:
                 result['form_event_booking_buttons'] += [
                     {
-                        'label': 'Book',
+                        'label': 'Cancel',
                         'classname': 'link',
-                        'value': 'Confirmed',
+                        'value': 'Cancelled',
                         'type': 'submit',
                     },
                 ]
+            elif event.status is Event.IN_PROGRESS:
+                result['event_action_buttons'] += [
+                    {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
+                ]
+            elif event.status is Event.FINISHED and event.completed:
+                result['event_action_buttons'] += [
+                    {
+                        'url': 'https://www.google.com',
+                        'label': 'View recording',
+                        'classname': 'text',
+                        'title': 'View recording',
+                    },
+                ]
         else:
-            # logged out buttons
-            pass
+            result['form_event_booking_buttons'] += [
+                {
+                    'label': 'Book',
+                    'classname': 'link',
+                    'value': 'Confirmed',
+                    'type': 'submit',
+                },
+            ]
+    else:
+        # logged out event buttons
+        pass
 
-        return result
+    return result
 
 
 def is_export_academy_registered(user):
