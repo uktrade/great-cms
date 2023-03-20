@@ -39,6 +39,11 @@ class GreatDomesticHomePagePanels:
             ],
         ),
         MultiFieldPanel(
+            heading='Slice',
+            classname='collapsible',
+            children=[FieldPanel('slice_title'), StreamFieldPanel('slice_columns')],
+        ),
+        MultiFieldPanel(
             heading='Top-of-page CTAs',
             classname='collapsible',
             children=[FieldPanel('magna_ctas_title'), StreamFieldPanel('magna_ctas_columns')],

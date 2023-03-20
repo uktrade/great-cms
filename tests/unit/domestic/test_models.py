@@ -1973,6 +1973,70 @@ def test_great_domestic_homepage_magna_ctas_labels(root_page, client, user):
             )
 
 
+@pytest.mark.django_db
+def test_great_domestic_homepage_slice(root_page, client):
+    homepage = GreatDomesticHomePageFactory(
+        parent=root_page,
+        slug='root',
+    )
+
+    SiteFactory(
+        root_page=homepage,
+        hostname=client._base_environ()['SERVER_NAME'],
+    )
+
+    homepage.slice_columns = [
+        (
+            'columns',
+            dict(
+                title='Slice title 1',
+                url='/',
+                image=None,
+            ),
+        ),
+    ]
+
+    homepage.save()
+
+    response = client.get(homepage.url)
+
+    assert b'Slice title 1' not in response.content
+
+    homepage.slice_columns = [
+        (
+            'columns',
+            dict(
+                title='Slice title 1',
+                url='/',
+                image=None,
+            ),
+        ),
+        (
+            'columns',
+            dict(
+                title='Slice title 2',
+                url='/',
+                image=None,
+            ),
+        ),
+        (
+            'columns',
+            dict(
+                title='Slice title 3',
+                url='/',
+                image=None,
+            ),
+        ),
+    ]
+    homepage.save()
+
+    response = client.get(homepage.url)
+
+    assert b'Slice title 1' in response.content
+    assert b'Slice title 2' in response.content
+    assert b'Slice title 3' in response.content
+
+
 class StructuralPageTests(WagtailPageTests):
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
