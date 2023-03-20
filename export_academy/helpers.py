@@ -14,7 +14,7 @@ from core.urls import SIGNUP_URL
 from export_academy.models import Registration
 
 
-def get_buttons_for_event(user, event):
+def get_buttons_for_event(user, event):  # noqa
     result = dict(form_event_booking_buttons=[], event_action_buttons=[])
     if is_export_academy_registered(user):
         if event.bookings.filter(registration_id=user.email, status='Confirmed').exists():
@@ -32,14 +32,24 @@ def get_buttons_for_event(user, event):
                     {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
                 ]
             elif event.status is EXPORT_ACADEMY_EVENT_FINISHED and event.completed:
-                result['event_action_buttons'] += [
-                    {
-                        'url': 'https://www.google.com',
-                        'label': 'View recording',
-                        'classname': 'text',
-                        'title': 'View recording',
-                    },
-                ]
+                if event.video_recording:
+                    result['event_action_buttons'] += [
+                        {
+                            'url': 'www.google.com',
+                            'label': 'View video',
+                            'classname': 'text',
+                            'title': 'View video',
+                        },
+                    ]
+                if event.document:
+                    result['event_action_buttons'] += [
+                        {
+                            'url': event.document_url,
+                            'label': 'View slideshow',
+                            'classname': 'text',
+                            'title': 'View slideshow',
+                        },
+                    ]
         else:
             result['form_event_booking_buttons'] += [
                 {
