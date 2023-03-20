@@ -74,7 +74,3 @@ CONSENT_CHOICES = (
 USER_DATA_NAMES = {'ComparisonMarkets': 16384, 'UserProducts': 16384, 'UserMarkets': 16384, 'ActiveProduct': 256}
 
 COUNTRY_FACTSHEET_CTA_TITLE = 'View latest trade statistics'
-
-EXPORT_ACADEMY_EVENT_NOT_STARTED = 'not_started'
-EXPORT_ACADEMY_EVENT_IN_PROGRESS = 'in_progress'
-EXPORT_ACADEMY_EVENT_FINISHED = 'finished'
