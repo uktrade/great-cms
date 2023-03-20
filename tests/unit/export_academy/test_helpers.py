@@ -2,6 +2,8 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 from django.contrib.auth.models import AnonymousUser
+from django.urls import reverse_lazy
+from wagtail_factories import DocumentFactory
 
 from config import settings
 from export_academy.helpers import get_buttons_for_event, is_export_academy_registered
@@ -68,8 +70,7 @@ def test_view_buttons_returned_for_booked_past_event(user):
     event = factories.EventFactory(
         start_date=now - timedelta(days=2, hours=1), end_date=now - timedelta(days=2), completed=True
     )
-    event.document_url = 'https://www.google.com'
-    event.video_recording = 'https://www.google.com'
+    event.document = DocumentFactory()
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
@@ -77,13 +78,13 @@ def test_view_buttons_returned_for_booked_past_event(user):
 
     assert buttons['event_action_buttons'] == [
         {
-            'url': 'https://www.google.com',
+            'url': reverse_lazy('export_academy:event-details', kwargs=dict(pk=event.pk)),
             'label': 'View video',
             'classname': 'text',
             'title': 'View video',
         },
         {
-            'url': 'https://www.google.com',
+            'url': event.document.url,
             'label': 'View slideshow',
             'classname': 'text',
             'title': 'View slideshow',
