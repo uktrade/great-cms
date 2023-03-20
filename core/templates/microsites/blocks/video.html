@@ -1,7 +1,8 @@
 {% load wagtailcore_tags  %}
 
-<div>
-    {% if value.video %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+        {% if value.video %}
         <video controls class="govuk-!-width-full govuk-!-margin-bottom-2">
             <source src="{{ value.video.url }}" type="video/{{ value.video.file_extension }}">
             <p>Your browser doesn't support HTML5 video. Here is a <a class="link" href="{{ value.video.url }}">link to the video</a> instead.</p>
@@ -14,4 +15,5 @@
         </details>
         {% endif %}
     {% endif %}
+    </div>
 </div>
