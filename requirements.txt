@@ -12,7 +12,7 @@ alabaster==0.7.13
     # via sphinx
 amqp==5.1.1
     # via kombu
-anyascii==0.3.1
+anyascii==0.3.2
     # via wagtail
 arabic-reshaper==3.0.0
     # via xhtml2pdf
@@ -160,7 +160,7 @@ django-redis==5.2.0
     # via -r requirements.in
 django-staff-sso-client==4.0.1
     # via -r requirements.in
-django-storages[boto3]==1.8
+django-storages[boto3]==1.13.2
     # via -r requirements.in
 django-taggit==1.5.1
     # via wagtail
@@ -281,7 +281,7 @@ pyhanko-certvalidator==0.20.1
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.5.2
+pypdf==3.6.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -320,7 +320,7 @@ qrcode==7.4.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==4.5.1
+redis==4.5.2
     # via
     #   celery
     #   django-redis
@@ -393,7 +393,7 @@ typing-extensions==4.5.0
     #   qrcode
 tzdata==2022.7
     # via pytz-deprecation-shim
-tzlocal==4.2
+tzlocal==4.3
     # via
     #   dateparser
     #   pyhanko
