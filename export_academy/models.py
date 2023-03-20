@@ -59,9 +59,9 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
 
     FORMAT_CHOICES = [(ONLINE, 'Online'), (IN_PERSON, 'In-person')]
 
-    EVENT_NOT_STARTED = 'not_started'
-    EVENT_IN_PROGRESS = 'in_progress'
-    EVENT_FINISHED = 'finished'
+    STATUS_NOT_STARTED = 'not_started'
+    STATUS_IN_PROGRESS = 'in_progress'
+    STATUS_FINISHED = 'finished'
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=255)
@@ -94,14 +94,14 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     def status(self):
         now = datetime.now(tz=timezone.utc)
         if now < (self.start_date - timedelta(minutes=settings.EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS)):
-            return self.EVENT_NOT_STARTED
+            return self.STATUS_NOT_STARTED
         elif (
             now > (self.start_date - timedelta(minutes=settings.EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS))
             and now < self.end_date  # noqa
         ):
-            return self.EVENT_IN_PROGRESS
+            return self.STATUS_IN_PROGRESS
         else:
-            return self.EVENT_FINISHED
+            return self.STATUS_FINISHED
 
     class Meta:
         ordering = ('-start_date', '-end_date')
