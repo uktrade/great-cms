@@ -15,7 +15,7 @@ def get_buttons_for_event(user, event):
         if event.bookings.filter(registration_id=user.email, status='Confirmed').exists():
             if event.completed:
                 result['event_action_buttons'] += get_event_completed_buttons(event)
-            elif event.status is Event.EVENT_NOT_STARTED:
+            elif event.status is Event.STATUS_NOT_STARTED:
                 result['form_event_booking_buttons'] += [
                     {
                         'label': 'Cancel',
@@ -24,7 +24,7 @@ def get_buttons_for_event(user, event):
                         'type': 'submit',
                     },
                 ]
-            elif event.status is Event.EVENT_IN_PROGRESS:
+            elif event.status is Event.STATUS_IN_PROGRESS:
                 result['event_action_buttons'] += [
                     {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
                 ]
