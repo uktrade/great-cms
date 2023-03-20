@@ -17,6 +17,7 @@ from wagtail.admin.edit_handlers import (
     cached_classmethod,
 )
 from wagtail.contrib.table_block.blocks import TableBlock
+from wagtail.core import blocks
 from wagtail.core.blocks.field_block import RichTextBlock
 from wagtail.core.blocks.stream_block import StreamBlock, StreamBlockValidationError
 from wagtail.core.fields import RichTextField, StreamField
