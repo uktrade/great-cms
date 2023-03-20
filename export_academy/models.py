@@ -11,7 +11,7 @@ from wagtail.core.fields import RichTextField, StreamField
 
 from config import settings
 from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRichText
-from core.constants import RICHTEXT_FEATURES__REDUCED
+from core.constants import RICHTEXT_FEATURES__REDUCED, VIDEO_TRANSCRIPT_HELP_TEXT
 from core.fields import single_struct_block_stream_field_factory
 from core.models import GreatMedia, TimeStampedModel
 from domestic.models import BaseContentPage
@@ -59,10 +59,6 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
 
     FORMAT_CHOICES = [(ONLINE, 'Online'), (IN_PERSON, 'In-person')]
 
-    NOT_STARTED = 'not_started'
-    IN_PROGRESS = 'in_progress'
-    FINISHED = 'finished'
-
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000)
@@ -94,14 +90,14 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     def status(self):
         now = datetime.now(tz=timezone.utc)
         if now < (self.start_date - timedelta(minutes=settings.EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS)):
-            return self.NOT_STARTED
+            return EXPORT_ACADEMY_EVENT_NOT_STARTED
         elif (
             now > (self.start_date - timedelta(minutes=settings.EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS))
             and now < self.end_date  # noqa
         ):
-            return self.IN_PROGRESS
+            return EXPORT_ACADEMY_EVENT_IN_PROGRESS
         else:
-            return self.FINISHED
+            return EXPORT_ACADEMY_EVENT_FINISHED
 
     class Meta:
         ordering = ('-start_date', '-end_date')
