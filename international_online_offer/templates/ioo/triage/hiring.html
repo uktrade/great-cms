@@ -19,8 +19,7 @@
       <form method="post" onsubmit="return onSubmitHiring()">
         {% csrf_token %}
         <div class="form-group">
-          <span class="atlas-body form-hint">Choose an estimate for the first three years of your project</span>
-          <br>
+          <div class="govuk-hint govuk-!-margin-bottom-3">Choose an estimate for the first three years of your project</div>
           <div id="id_hiring_container" style="display: block;">
             {% include 'core/includes/form_field.html' with field=form.hiring %}
           </div>
