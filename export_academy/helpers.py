@@ -11,11 +11,15 @@ from export_academy.models import Event, Registration
 
 def get_buttons_for_event(user, event):
     result = dict(form_event_booking_buttons=[], event_action_buttons=[])
+
     if is_export_academy_registered(user):
-        if event.bookings.filter(registration_id=user.email, status='Confirmed').exists():
+        if user_booked_on_event(user, event):
             if event.completed:
                 result['event_action_buttons'] += get_event_completed_buttons(event)
-            elif event.status is Event.STATUS_NOT_STARTED:
+            elif event.status is Event.STATUS_FINISHED:
+                # buttons to be shown if the event has finished but not marked as complete
+                pass
+            else:
                 result['form_event_booking_buttons'] += [
                     {
                         'label': 'Cancel',
@@ -24,12 +28,22 @@ def get_buttons_for_event(user, event):
                         'type': 'submit',
                     },
                 ]
-            elif event.status is Event.STATUS_IN_PROGRESS:
-                result['event_action_buttons'] += [
-                    {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
-                ]
-        else:
-            result['form_event_booking_buttons'] += [
+                result['event_action_buttons'] += get_event_join_button(event)
+
+    result['form_event_booking_buttons'] += get_event_booking_button(user, event)
+
+    return result
+
+
+def user_booked_on_event(user, event):
+    return event.bookings.filter(registration_id=user.email, status='Confirmed').exists()
+
+
+def get_event_booking_button(user, event):
+    result = []
+    if user.is_anonymous or not user_booked_on_event(user, event):
+        if event.status is not Event.STATUS_FINISHED and not event.completed:
+            result += [
                 {
                     'label': 'Book',
                     'classname': 'link',
@@ -37,11 +51,13 @@ def get_buttons_for_event(user, event):
                     'type': 'submit',
                 },
             ]
-    else:
-        # logged out event buttons
-        pass
-
     return result
+
+
+def get_event_join_button(event):
+    return [
+        {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
+    ]
 
 
 def get_event_completed_buttons(event):
