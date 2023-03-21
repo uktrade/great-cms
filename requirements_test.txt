@@ -258,7 +258,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==17.6.0
+faker==18.2.0
     # via factory-boy
 filelock==3.10.0
     # via virtualenv
@@ -295,6 +295,7 @@ geoip2==2.9.0
     # via -r requirements.in
 gevent==22.10.2
     # via
+    #   -r requirements.in
     #   geventhttpclient
     #   locust
 geventhttpclient==2.0.9
