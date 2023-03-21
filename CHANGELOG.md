@@ -16,6 +16,7 @@
 * KLS-430 - EA Event details page
 * EAM-104 - Join and view buttons
 * KLS-388 - Added CTA streamfield block
+* KLS-467 - Update business details turnover options for the export contact page
 
 
 ## [2.28.0](https://github.com/uktrade/great-cms/releases/tag/2.28.0)
