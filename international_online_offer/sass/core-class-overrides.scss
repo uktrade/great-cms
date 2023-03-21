@@ -3,6 +3,10 @@
     color: $atlas-dark-blue;
 }
 
+.form-control {
+    font-family: $govuk-font-family;
+}
+
 .block-text {
     h2 {
         @extend %govuk-heading-m;
