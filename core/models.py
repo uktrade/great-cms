@@ -1404,6 +1404,36 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     template='microsites/blocks/columns.html',
                 ),
             ),
+            (
+                'cta',
+                blocks.StructBlock(
+                    [
+                        (
+                            'title',
+                            blocks.CharBlock(required=True, max_length=255, label='Title'),
+                        ),
+                        (
+                            'teaser',
+                            blocks.TextBlock(required=True, max_length=255, label='Teaser'),
+                        ),
+                        (
+                            'link_label',
+                            blocks.CharBlock(required=True, max_length=255, label='Link label'),
+                        ),
+                        (
+                            'link',
+                            blocks.CharBlock(required=True, max_length=255, label='Link'),
+                        ),
+                    ],
+                    template='microsites/blocks/cta.html',
+                ),
+            ),
+            (  # alt text lives on the custom Image class
+                'pull_quote',
+                core_blocks.PullQuoteBlock(
+                    template='domestic/blocks/pull_quote_block.html',
+                ),
+            ),
         ],
         null=True,
         blank=True,

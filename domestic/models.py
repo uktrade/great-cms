@@ -17,6 +17,7 @@ from wagtail.admin.edit_handlers import (
     cached_classmethod,
 )
 from wagtail.contrib.table_block.blocks import TableBlock
+from wagtail.core import blocks
 from wagtail.core.blocks.field_block import RichTextBlock
 from wagtail.core.blocks.stream_block import StreamBlock, StreamBlockValidationError
 from wagtail.core.fields import RichTextField, StreamField
@@ -1026,6 +1027,30 @@ class ArticlePage(
                     min_num=3,
                     max_num=3,
                     template='core/includes/_columns.html',
+                ),
+            ),
+            (
+                'cta',
+                blocks.StructBlock(
+                    [
+                        (
+                            'title',
+                            blocks.CharBlock(required=True, max_length=255, label='Title'),
+                        ),
+                        (
+                            'teaser',
+                            blocks.TextBlock(required=True, max_length=255, label='Teaser'),
+                        ),
+                        (
+                            'link_label',
+                            blocks.CharBlock(required=True, max_length=255, label='Link label'),
+                        ),
+                        (
+                            'link',
+                            blocks.CharBlock(required=True, max_length=255, label='Link'),
+                        ),
+                    ],
+                    template='domestic/blocks/cta.html',
                 ),
             ),
             (  # alt text lives on the custom Image class
