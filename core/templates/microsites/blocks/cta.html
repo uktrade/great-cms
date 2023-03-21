@@ -1,0 +1,11 @@
+{% load wagtailcore_tags %}
+
+<div class="govuk-grid-row margin-bottom-30 margin-top-30 great-bg-light-blue">
+        <section class="govuk-!-padding-6 govuk-grid-column-three-quarters">
+            <h2 class="govuk-heading-m">{{ value.title }}</h2>
+            <p class="govuk-body">{{ value.teaser }}</p>
+            <div>
+               <a href="{{ value.link }}" class="govuk-button govuk-!-margin-bottom-0">{{ value.link_label }}</a>
+            </div>
+        </section>
+</div>
