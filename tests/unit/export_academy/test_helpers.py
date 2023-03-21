@@ -82,6 +82,23 @@ def test_join_button_returned_for_booked_in_progress_event(user):
 
 
 @pytest.mark.django_db
+def test_join_button_returned_for_booked_in_upcoming_event(user):
+    now = datetime.now(tz=timezone.utc)
+    event = factories.EventFactory(
+        start_date=now + timedelta(days=1),
+        end_date=now + timedelta(days=1, hours=1),
+    )
+    registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
+    factories.BookingFactory(event=event, registration=registration, status='Confirmed')
+
+    buttons = get_buttons_for_event(user, event)
+
+    assert buttons['event_action_buttons'] == [
+        {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'}
+    ]
+
+
+@pytest.mark.django_db
 def test_view_buttons_returned_for_booked_past_event(user):
     now = datetime.now(tz=timezone.utc)
     event = factories.EventFactory(
