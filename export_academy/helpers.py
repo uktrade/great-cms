@@ -29,19 +29,23 @@ def get_buttons_for_event(user, event):
                     {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
                 ]
         else:
-            result['form_event_booking_buttons'] += [
-                {
-                    'label': 'Book',
-                    'classname': 'link',
-                    'value': 'Confirmed',
-                    'type': 'submit',
-                },
-            ]
+            result['form_event_booking_buttons'] += get_event_booking_button()
     else:
-        # logged out event buttons
-        pass
+        # logged out buttons
+        result['form_event_booking_buttons'] += get_event_booking_button()
 
     return result
+
+
+def get_event_booking_button():
+    return [
+        {
+            'label': 'Book',
+            'classname': 'link',
+            'value': 'Confirmed',
+            'type': 'submit',
+        },
+    ]
 
 
 def get_event_completed_buttons(event):
