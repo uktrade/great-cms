@@ -1,5 +1,5 @@
 .rich-text,
-.block-text {
+.block-text:not(.microsite .block-text) {
     h1, h2, h3, h4 {
         font-weight: 700;
         text-transform: none;

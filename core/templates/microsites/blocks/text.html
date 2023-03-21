@@ -1,5 +1,9 @@
+{% load add_govuk_classes from content_tags %}
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters">
-        {{ value }}
+        {% filter add_govuk_classes %}
+            {{ value }}
+        {% endfilter %}
     </div>
 </div>
