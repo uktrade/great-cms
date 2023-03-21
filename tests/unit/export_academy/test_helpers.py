@@ -11,9 +11,26 @@ from tests.unit.export_academy import factories
 
 
 @pytest.mark.django_db
-def test_book_button_returned_for_upcoming_event(user):
+def test_book_button_returned_for_upcoming_event_registered_user(user):
     now = datetime.now(tz=timezone.utc)
     factories.RegistrationFactory(email=user.email)
+    event = factories.EventFactory(start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7))
+
+    buttons = get_buttons_for_event(user, event)
+
+    assert buttons['form_event_booking_buttons'] == [
+        {
+            'label': 'Book',
+            'classname': 'link',
+            'value': 'Confirmed',
+            'type': 'submit',
+        },
+    ]
+
+
+@pytest.mark.django_db
+def test_book_button_returned_for_upcoming_event_not_registered_user(user):
+    now = datetime.now(tz=timezone.utc)
     event = factories.EventFactory(start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7))
 
     buttons = get_buttons_for_event(user, event)
