@@ -92,6 +92,10 @@
         >h2 span {
             display: none;
         }
+
+        input[type='submit'] {
+            display: none;
+        }
     }
 
     &.mobile-filters {
