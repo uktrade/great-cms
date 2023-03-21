@@ -1,5 +1,6 @@
 from django.db import models
 <<<<<<< HEAD
+<<<<<<< HEAD
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
 from taggit.models import TagBase, TaggedItemBase
@@ -8,6 +9,11 @@ from modelcluster.models import ParentalKey
 from taggit.managers import TaggableManager
 from taggit.models import TaggedItemBase
 >>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
+=======
+from modelcluster.contrib.taggit import ClusterTaggableManager
+from modelcluster.models import ParentalKey
+from taggit.models import TagBase, TaggedItemBase
+>>>>>>> fd365a2a7 (Fix font style for input text and fix for tags not saving (#2053))
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.core.blocks.field_block import RichTextBlock
 from wagtail.core.blocks.stream_block import StreamBlock
@@ -55,6 +61,9 @@ class IOOGuidePage(BaseContentPage):
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fd365a2a7 (Fix font style for input text and fix for tags not saving (#2053))
 class IOOArticleTag(TagBase):
     """IOO article tag for filtering out content based on triage answers."""
 
@@ -63,6 +72,7 @@ class IOOArticleTag(TagBase):
         verbose_name_plural = 'IOO article tags for links to triage answers'
 
 
+<<<<<<< HEAD
 class IOOArticlePageTag(TaggedItemBase):
     tag = models.ForeignKey(IOOArticleTag, related_name='ioo_tagged_articles', on_delete=models.CASCADE)
     content_object = ParentalKey('international_online_offer.IOOArticlePage', related_name='ioo_article_tagged_items')
@@ -70,6 +80,11 @@ class IOOArticlePageTag(TaggedItemBase):
 class IOOArticlePageTag(TaggedItemBase):
     content_object = ParentalKey('international_online_offer.IOOArticlePage', related_name='tagged_items')
 >>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
+=======
+class IOOArticlePageTag(TaggedItemBase):
+    tag = models.ForeignKey(IOOArticleTag, related_name='ioo_tagged_articles', on_delete=models.CASCADE)
+    content_object = ParentalKey('international_online_offer.IOOArticlePage', related_name='ioo_article_tagged_items')
+>>>>>>> fd365a2a7 (Fix font style for input text and fix for tags not saving (#2053))
 
 
 class IOOArticlePage(BaseContentPage):
@@ -119,10 +134,14 @@ class IOOArticlePage(BaseContentPage):
         blank=True,
     )
 <<<<<<< HEAD
+<<<<<<< HEAD
     tags = ClusterTaggableManager(through=IOOArticlePageTag, blank=True, verbose_name='Article Tags')
 =======
     tags = TaggableManager(through=IOOArticlePageTag, blank=True)
 >>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
+=======
+    tags = ClusterTaggableManager(through=IOOArticlePageTag, blank=True, verbose_name='Article Tags')
+>>>>>>> fd365a2a7 (Fix font style for input text and fix for tags not saving (#2053))
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('article_title'),
         FieldPanel('article_subheading'),

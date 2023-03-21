@@ -4,6 +4,7 @@
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 .form-control {
     min-width: 449px;
     font-family: $govuk-font-family;
@@ -11,6 +12,12 @@
 
 =======
 >>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
+=======
+.form-control {
+    font-family: $govuk-font-family;
+}
+
+>>>>>>> fd365a2a7 (Fix font style for input text and fix for tags not saving (#2053))
 .block-text {
     h2 {
         @extend %govuk-heading-m;
