@@ -22,7 +22,7 @@ class EventListView(
     ListView,
 ):
     model = models.Event
-    queryset = model.objects
+    queryset = model.upcoming
     filterset_class = filters.EventFilter
     template_name = 'export_academy/event_list.html'
     paginate_by = 10
