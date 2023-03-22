@@ -24,7 +24,7 @@ wagtail-trash==0.1.*
 
 # Prod tools
 # ------------
-gunicorn==20.1.0
+gunicorn[eventlet]
 sentry-sdk==0.13.*
 
 
@@ -72,4 +72,3 @@ python-magic==0.4.27
 oauthlib==3.2.2
 celery[redis]==5.2.7
 django-celery-beat==2.2.1
-gevent
