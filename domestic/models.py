@@ -27,11 +27,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
-<<<<<<< HEAD
 from core.blocks import AdvantageBlock, CampaginFormBlock, ColumnsBlock
-=======
-from core.blocks import AdvantageBlock, ColumnsBlock, CampaginFormBlock
->>>>>>> 1bd781c15 (forms now working)
 from core.constants import (
     ARTICLE_TYPES,
     COUNTRY_FACTSHEET_CTA_TITLE,
@@ -220,7 +216,6 @@ class StructuralPage(BaseContentPage):
 
     subpage_types = [
         'domestic.ArticlePage',
-        'international_online_offer.IOOIndexPage',
     ]
 
     def serve_preview(self, request, mode_name='dummy'):
@@ -540,7 +535,7 @@ class MarketsTopicLandingPage(
         sectors = [unquote_plus(x) for x in self.get_selected_sectors(request)]
         regions = [unquote_plus(x) for x in self.get_selected_regions(request)]
 
-        #  We need to only apply these if truthy, else we end up getting no results
+        #  We need to only apply these if truthy, else we end up getting no results
         if sectors:
             market_pages_qs = market_pages_qs.filter(
                 tags__name__in=sectors,
@@ -1018,15 +1013,7 @@ class ArticlePage(
                 'text',
                 RichTextBlock(),
             ),
-<<<<<<< HEAD
-<<<<<<< HEAD
             ('form', CampaginFormBlock()),
-=======
-            ('form', blocks.ChoiceBlock(choices=CAMPAIGN_FORM_CHOICES, null=True, blank=True)),
->>>>>>> f8080801a (saving changes)
-=======
-            ('form', CampaginFormBlock()),
->>>>>>> 1bd781c15 (forms now working)
             ('image', ImageChooserBlock(required=False, template='core/includes/_article_image.html')),
             ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_article_video.html')),
             (
@@ -1039,30 +1026,6 @@ class ArticlePage(
                     min_num=3,
                     max_num=3,
                     template='core/includes/_columns.html',
-                ),
-            ),
-            (
-                'cta',
-                blocks.StructBlock(
-                    [
-                        (
-                            'title',
-                            blocks.CharBlock(required=True, max_length=255, label='Title'),
-                        ),
-                        (
-                            'teaser',
-                            blocks.TextBlock(required=True, max_length=255, label='Teaser'),
-                        ),
-                        (
-                            'link_label',
-                            blocks.CharBlock(required=True, max_length=255, label='Link label'),
-                        ),
-                        (
-                            'link',
-                            blocks.CharBlock(required=True, max_length=255, label='Link'),
-                        ),
-                    ],
-                    template='domestic/blocks/cta.html',
                 ),
             ),
             (  # alt text lives on the custom Image class
@@ -1189,41 +1152,6 @@ class ArticlePage(
     )
 
     tags = ParentalManyToManyField(Tag, blank=True)
-<<<<<<< HEAD
-=======
-
-    def _get_industry_tag_usage_counts(self, industry_tag):
-        return industry_tag.countryguidepage_set.all().live().count()
-
-    def _get_sector_list_uncached(self):
-        return [
-            {
-                'id': tag.id,
-                'name': tag.name,
-                'icon': tag.icon,
-                'pages_count': self._get_industry_tag_usage_counts(tag),
-            }
-            for tag in IndustryTag.objects.all()
-        ]
-
-    def get_sector_choices(self, request):
-        # We don't want to go near the cache if we're previewing, so that we don't poison it
-        if getattr(request, 'is_preview', False) is True:  # set by wagtail.core.models.Page.serve_preview()
-            return self._get_sector_list_uncached()
-
-        # But we do want to leverage the cache if we're in proper servign mode
-        sectors = cache.get(cache_keys.CACHE_KEY_HOMEPAGE_SECTOR_LIST)
-        if not sectors:
-            sectors = self._get_sector_list_uncached()
-            cache.set(
-                cache_keys.CACHE_KEY_HOMEPAGE_SECTOR_LIST,
-                sectors,
-                settings.CACHE_EXPIRE_SECONDS_SHORT,
-            )
-
-        sorted_list = sorted([sector['name'] for sector in sectors])
-        return [(choice, choice) for choice in sorted_list]
->>>>>>> f8080801a (saving changes)
 
     @property
     def related_pages(self):

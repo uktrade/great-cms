@@ -1,15 +1,10 @@
 from directory_constants.choices import COUNTRY_CHOICES
-<<<<<<< HEAD
 from domestic.forms import (
     CampaignLongForm,
     CampaignShortForm,
     SectorPotentialForm,
     UKEFContactForm,
 )
-=======
-from domestic.forms import SectorPotentialForm, UKEFContactForm, CampaignLongForm, CampaignShortForm
-from django.test import TestCase
->>>>>>> 1bd781c15 (forms now working)
 from tests.unit.core.factories import IndustryTagFactory
 
 
@@ -57,40 +52,13 @@ def test_ukef_community_form_api_serialization_with_other_options(valid_contact_
     assert api_data['like_to_discuss_country'] == like_to_discuss_country
 
 
-<<<<<<< HEAD
-class CampaignLongFormTestCase(TestCase):
-<<<<<<< HEAD
-    def test_get_sector_choices(self):
-=======
-
-    def test_get_sector_choices(self):
-
->>>>>>> 1bd781c15 (forms now working)
-        IndustryTagFactory(name='sector1')
-        IndustryTagFactory(name='sector2')
-=======
-def test_sector_choices():
+def test_get_sector_choices():
     IndustryTagFactory(name='sector1')
     IndustryTagFactory(name='sector2')
->>>>>>> bfbd0c6a6 (rebased)
 
     form = CampaignLongForm()
     sector_choices = form.get_sector_choices()
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        expected_choices = [
-            ('', 'Select your sector'),
-            ('Sector1', 'Sector1'),
-            ('Sector2', 'Sector2'),
-            ('Sector3', 'Sector3'),
-        ]
-=======
-        expected_choices = [('', 'Select your sector'), ('Sector1', 'Sector1'),
-                            ('Sector2', 'Sector2'), ('Sector3', 'Sector3')]
->>>>>>> 1bd781c15 (forms now working)
-        self.assertListEqual(sector_choices, expected_choices)
-=======
     expected_choices = [
         ('', 'Select your sector'),
         ('Sector1', 'Sector1'),
@@ -98,22 +66,8 @@ def test_sector_choices():
         ('Sector3', 'Sector3'),
     ]
     assert sector_choices == expected_choices
->>>>>>> bfbd0c6a6 (rebased)
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    def test_campaign_short_form(self, valid_contact_form_data):
-=======
-
-    def test_campaign_short_form(valid_contact_form_data):
->>>>>>> 1bd781c15 (forms now working)
-        form = CampaignShortForm(data=valid_contact_form_data)
-        assert form.is_valid()
-        assert form.cleaned_data['first_name'] == valid_contact_form_data['first_name']
-        assert form.cleaned_data['last_name'] == valid_contact_form_data['last_name']
-        assert form.cleaned_data['email'] == valid_contact_form_data['email']
-=======
 def test_campaign_long_form(valid_contact_form_data):
     form = CampaignLongForm(data=valid_contact_form_data)
     assert form.is_valid()
@@ -128,4 +82,3 @@ def test_campaign_short_form(valid_contact_form_data):
     assert form.cleaned_data['first_name'] == valid_contact_form_data['first_name']
     assert form.cleaned_data['last_name'] == valid_contact_form_data['last_name']
     assert form.cleaned_data['email'] == valid_contact_form_data['email']
->>>>>>> bfbd0c6a6 (rebased)
