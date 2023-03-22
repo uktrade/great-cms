@@ -40,3 +40,6 @@ HELP_VERIFICATION_CODE_MISSING = 'verification-missing'
 # kept it for old migration files
 EUEXIT_DOMESTIC_FORM = 'eu-exit-domestic'
 EUEXIT_FORM_SUCCESS = 'eu-exit-form-success'
+
+# hero snippets
+EXPORT_ACADEMY_LISTING_PAGE_HERO = 'export-academy-listing-page-hero'

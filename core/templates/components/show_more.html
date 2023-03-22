@@ -1,0 +1,6 @@
+<div class="show-more">
+    <p id="details-text">{{ text }}</p>
+    <details closed class="govuk-details">
+        <summary role="button" aria-describedby="details-text">{% if custom_link_text %}{{ custom_link_text }}{% else %}Show more{% endif %}</summary>
+    </details>
+</div>

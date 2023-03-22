@@ -1,0 +1,42 @@
+// Show more
+// ============
+
+.show-more {
+
+    // By default allows two lines of text before clipping
+    p {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+    }
+
+    p:has(+ details[open]) {
+        display: block;
+        overflow: visible;
+    }
+
+    summary {
+        font-family: $main-text-font;
+        text-decoration: none !important;
+        font-size: 18px;
+        color: $color-gov-link
+    }
+
+    summary::before {
+        content: "";
+        display: block;
+        background: url('../../../static/icons/arrow.svg') no-repeat;
+        width: 20px;
+        height: 18px;
+        float: left;
+    }
+
+    details[open] summary::before {
+        transform: rotate(90deg);
+        margin-top: 6px;
+        margin-right: 10px;
+    }
+}

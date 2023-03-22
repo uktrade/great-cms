@@ -9,16 +9,23 @@ from django.views.generic import (
 from django_filters.views import FilterView
 
 from config import settings
+from core import mixins as core_mixins
 from export_academy import filters, forms, models
 from export_academy.helpers import get_buttons_for_event
 from export_academy.mixins import BookingMixin
+from export_academy.models import ExportAcademyHomePage
 
 
-class EventListView(FilterView, ListView):
+class EventListView(
+    core_mixins.GetSnippetContentMixin,
+    FilterView,
+    ListView,
+):
     model = models.Event
-    queryset = model.objects
+    queryset = model.upcoming
     filterset_class = filters.EventFilter
     template_name = 'export_academy/event_list.html'
+    paginate_by = 10
 
     def get_buttons_for_event(self, event):
         user = self.request.user
@@ -35,6 +42,7 @@ class EventListView(FilterView, ListView):
             ).values_list('event_id', flat=True)
 
         ctx.update(bookings=bookings, filter=self.filterset_class(self.request.GET))
+        ctx['landing_page'] = ExportAcademyHomePage.objects.first()
 
         return ctx
 

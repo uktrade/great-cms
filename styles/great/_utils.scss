@@ -4,7 +4,15 @@
 .great {
     overflow-x: hidden;
 
-    h1, h2, h3, h4, h5, h6, p, ol, ul {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    ol,
+    ul {
         font-family: $great-font;
     }
 
@@ -32,6 +40,14 @@
     background-color: $great-light-blue;
 }
 
+.great-light-grey {
+    color: $great-light-grey;
+}
+
 .great-max-width-75 {
     max-width: 75%;
+}
+
+.great-font-size-18 {
+    font-size: 18px;
 }
