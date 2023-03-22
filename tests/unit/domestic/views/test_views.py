@@ -1,11 +1,10 @@
 from unittest import mock
-
+import json
 import pytest
 from django.conf import settings
 from django.test import TestCase
 from django.urls import reverse
 from wagtail.tests.utils import WagtailPageTests
-
 import domestic.forms
 import domestic.views.campaign
 import domestic.views.ukef
@@ -350,25 +349,24 @@ def test_ukef_lead_generation_initial_data(client, user, mock_get_company_profil
 
 
 class CampaignViewTestCase(WagtailPageTests, TestCase):
-  
     @pytest.fixture(autouse=True)
     def domestic_homepage_fixture(self, domestic_homepage):
         self.domestic_homepage = domestic_homepage
-        
-    def setUp(self):
-        article_body1 = [
-            {'form': {'type': 'Short', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}},
-        ]
 
-        article_body3 = [
+    def setUp(self):
+        article_body1 = json.dumps([
+            {'form': {'type': 'Short', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}},
+        ])
+
+        article_body3 = json.dumps([
             {'form': {'type': 'Long', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}},
-        ]
+        ])
 
         self.article1 = ArticlePageFactory(
             slug='test-article-one', article_body=article_body1, parent=self.domestic_homepage
         )
 
-        self.article2 = ArticlePageFactory(slug='test-article-two', article_body=[], parent=self.domestic_homepage)
+        self.article2 = ArticlePageFactory(slug='test-article-two', article_body=json.dumps([]), parent=self.domestic_homepage)
 
         self.article3 = ArticlePageFactory(
             slug='test-article-three', article_body=article_body3, parent=self.domestic_homepage
