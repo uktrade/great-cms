@@ -1,3 +1,5 @@
+import pytest
+
 from directory_constants.choices import COUNTRY_CHOICES
 from domestic.forms import (
     CampaignLongForm,
@@ -6,7 +8,7 @@ from domestic.forms import (
     UKEFContactForm,
 )
 from tests.unit.core.factories import IndustryTagFactory
-import pytest
+
 
 def test_sector_potential_form():
     sector_list = [
@@ -51,6 +53,7 @@ def test_ukef_community_form_api_serialization_with_other_options(valid_contact_
     like_to_discuss_country = dict(COUNTRY_CHOICES).get(form.cleaned_data['like_to_discuss_other'])
     assert api_data['like_to_discuss_country'] == like_to_discuss_country
 
+
 @pytest.mark.django_db
 def test_get_sector_choices():
     IndustryTagFactory(name='sector1')
@@ -67,13 +70,15 @@ def test_get_sector_choices():
     ]
     assert sector_choices == expected_choices
 
+
 @pytest.mark.django_db
-def test_campaign_long_form(valid_contact_form_data):
-    form = CampaignLongForm(data=valid_contact_form_data)
+def test_campaign_long_form(valid_campaign_long_form_data):
+    form = CampaignLongForm(data=valid_campaign_long_form_data)
     assert form.is_valid()
-    assert form.cleaned_data['first_name'] == valid_contact_form_data['first_name']
-    assert form.cleaned_data['last_name'] == valid_contact_form_data['last_name']
-    assert form.cleaned_data['email'] == valid_contact_form_data['email']
+    assert form.cleaned_data['first_name'] == valid_campaign_long_form_data['first_name']
+    assert form.cleaned_data['last_name'] == valid_campaign_long_form_data['last_name']
+    assert form.cleaned_data['email'] == valid_campaign_long_form_data['email']
+
 
 @pytest.mark.django_db
 def test_campaign_short_form(valid_contact_form_data):
@@ -82,3 +87,7 @@ def test_campaign_short_form(valid_contact_form_data):
     assert form.cleaned_data['first_name'] == valid_contact_form_data['first_name']
     assert form.cleaned_data['last_name'] == valid_contact_form_data['last_name']
     assert form.cleaned_data['email'] == valid_contact_form_data['email']
+    assert form.cleaned_data['phone'] == valid_contact_form_data['phone']
+    assert form.cleaned_data['already_export'] == valid_contact_form_data['already_export']
+    assert form.cleaned_data['region'] == valid_contact_form_data['region']
+    assert form.cleaned_data['sector'] == valid_contact_form_data['sector']

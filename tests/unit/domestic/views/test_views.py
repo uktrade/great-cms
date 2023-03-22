@@ -349,8 +349,8 @@ def test_ukef_lead_generation_initial_data(client, user, mock_get_company_profil
     }
 
 
-class CampaignViewTestCase(WagtailPageTests, TestCase):
-    def setUp(self, domestic_homepage):
+class CampaignViewTestCase(WagtailPageTests, TestCase, domestic_homepage):
+    def setUp(self):
         article_body1 = [
             {'form': {'type': 'Short', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}},
         ]
@@ -360,13 +360,13 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         ]
 
         self.article1 = ArticlePageFactory(
-            slug='test-article-one', article_body=article_body1, parent=domestic_homepage
+            slug='test-article-one', article_body=article_body1, parent=self.domestic_homepage
         )
 
-        self.article2 = ArticlePageFactory(slug='test-article-two', article_body=[], parent=domestic_homepage)
+        self.article2 = ArticlePageFactory(slug='test-article-two', article_body=[], parent=self.domestic_homepage)
 
         self.article3 = ArticlePageFactory(
-            slug='test-article-three', article_body=article_body3, parent=domestic_homepage
+            slug='test-article-three', article_body=article_body3, parent=self.domestic_homepage
         )
 
     def test_get_form_class_is_short(self):

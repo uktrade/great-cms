@@ -15,6 +15,30 @@ def valid_contact_form_data(captcha_stub):
         'terms_agreed': True,
         'g-recaptcha-response': captcha_stub,
     }
+    
+@pytest.fixture
+def valid_campaign_short_form_data():
+    return {
+         'first_name': 'fname',
+        'last_name': 'lname',
+        'email': 'test@test.com',
+        'company_name': ''
+    }
+
+@pytest.fixture
+def valid_campaign_long_form_data():
+    return {
+        'first_name': 'fname',
+        'last_name': 'lname',
+        'email': 'test@test.com',
+        'company_name': '',
+        'phone':'07512522098',
+        'position': '',
+        'already_export':'yes',
+        'region':'UK',
+        'sector':'IT'
+        
+    }
 
 
 @pytest.fixture

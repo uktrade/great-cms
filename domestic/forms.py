@@ -469,7 +469,7 @@ class CampaignLongForm(CampaignShortForm):
         label=_('Position at company'),
         min_length=2,
         max_length=100,
-        required=True,
+        required=False,
     )
 
     already_export = forms.ChoiceField(
