@@ -349,7 +349,12 @@ def test_ukef_lead_generation_initial_data(client, user, mock_get_company_profil
     }
 
 
-class CampaignViewTestCase(WagtailPageTests, TestCase, domestic_homepage):
+class CampaignViewTestCase(WagtailPageTests, TestCase):
+  
+    @pytest.fixture(autouse=True)
+    def domestic_homepage_fixture(self, domestic_homepage):
+        self.domestic_homepage = domestic_homepage
+        
     def setUp(self):
         article_body1 = [
             {'form': {'type': 'Short', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}},
