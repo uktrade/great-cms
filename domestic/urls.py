@@ -117,4 +117,14 @@ urlpatterns = [
         skip_ga360(CampaignView.as_view()),
         name='campaigns',
     ),
+<<<<<<< HEAD
+=======
+      path(
+        'campaigns/<slug:page_slug><int:form_success>',
+        skip_ga360(
+            CampaignView.as_view()
+        ),
+        name='campaigns',
+    ),
+>>>>>>> 1bd781c15 (forms now working)
 ]

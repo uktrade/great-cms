@@ -17,7 +17,6 @@ from wagtail.admin.edit_handlers import (
     cached_classmethod,
 )
 from wagtail.contrib.table_block.blocks import TableBlock
-from wagtail.core import blocks
 from wagtail.core.blocks.field_block import RichTextBlock
 from wagtail.core.blocks.stream_block import StreamBlock, StreamBlockValidationError
 from wagtail.core.fields import RichTextField, StreamField
@@ -28,10 +27,13 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
+<<<<<<< HEAD
 from core.blocks import AdvantageBlock, CampaginFormBlock, ColumnsBlock
+=======
+from core.blocks import AdvantageBlock, ColumnsBlock, CampaginFormBlock
+>>>>>>> 1bd781c15 (forms now working)
 from core.constants import (
     ARTICLE_TYPES,
-    CAMPAIGN_FORM_CHOICES,
     COUNTRY_FACTSHEET_CTA_TITLE,
     RICHTEXT_FEATURES__REDUCED,
     RICHTEXT_FEATURES__REDUCED__ALLOW_H1,
@@ -1017,10 +1019,14 @@ class ArticlePage(
                 RichTextBlock(),
             ),
 <<<<<<< HEAD
+<<<<<<< HEAD
             ('form', CampaginFormBlock()),
 =======
             ('form', blocks.ChoiceBlock(choices=CAMPAIGN_FORM_CHOICES, null=True, blank=True)),
 >>>>>>> f8080801a (saving changes)
+=======
+            ('form', CampaginFormBlock()),
+>>>>>>> 1bd781c15 (forms now working)
             ('image', ImageChooserBlock(required=False, template='core/includes/_article_image.html')),
             ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_article_video.html')),
             (

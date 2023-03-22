@@ -17,6 +17,9 @@ from core.constants import (
     RICHTEXT_FEATURES__REDUCED,
 )
 from core.utils import get_cs_ranking, get_personalised_choices
+from core.constants import (
+    CAMPAIGN_FORM_CHOICES,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -546,7 +549,11 @@ class LinksBlock(blocks.StructBlock):
 >>>>>>> f2d3fc5f4 (saving progress)
 =======
 
+<<<<<<< HEAD
 class CampaignFormBlock(blocks.StructBlock):
+=======
+class CampaginFormBlock(blocks.StructBlock):
+>>>>>>> 1bd781c15 (forms now working)
     type = blocks.ChoiceBlock(choices=CAMPAIGN_FORM_CHOICES, null=False, blank=False, required=True)
     email_subject = blocks.TextBlock(required=True)
     email_title = blocks.TextBlock(required=True)

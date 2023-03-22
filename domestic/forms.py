@@ -5,12 +5,17 @@ from django.forms import Select, Textarea, TextInput
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from great_components import forms
+<<<<<<< HEAD
 
+=======
+from core.models import IndustryTag
+>>>>>>> 1bd781c15 (forms now working)
 from contact.forms import TERMS_LABEL
 from core.forms import ConsentFieldMixin
 from core.models import IndustryTag
 from directory_constants import choices
 from directory_constants.choices import COUNTRY_CHOICES
+
 
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
@@ -413,6 +418,10 @@ class MarketAccessSummaryForm(GovNotifyEmailActionMixin, forms.Form):
 
 
 class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1bd781c15 (forms now working)
     first_name = forms.CharField(
         label=_('First name'),
         min_length=2,
@@ -442,6 +451,9 @@ class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
     company_name = forms.CharField(label=_('Company name'), min_length=2, max_length=100, required=False)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1bd781c15 (forms now working)
     # terms_agreed = forms.BooleanField(
     #     label=TERMS_LABEL,
     #     error_messages={
@@ -455,15 +467,22 @@ def get_sector_names():
 
 
 class CampaignLongForm(CampaignShortForm):
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1bd781c15 (forms now working)
     def get_sector_choices():
         base_choice = [('', 'Select your sector')]
         choices = get_sector_names()
         return base_choice + [(c, c) for c in choices]
 
+<<<<<<< HEAD
 =======
 
 class CampaignLongForm(CampaignShortForm):
 >>>>>>> f8080801a (saving changes)
+=======
+>>>>>>> 1bd781c15 (forms now working)
     phone = forms.CharField(
         label='Telephone number',
         required=True,
@@ -477,9 +496,13 @@ class CampaignLongForm(CampaignShortForm):
         required=True,
     )
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> f8080801a (saving changes)
+=======
+
+>>>>>>> 1bd781c15 (forms now working)
     already_export = forms.ChoiceField(
         label=_('Do you have a specific project or proposal you’d like to discuss?'),
         choices=(
@@ -502,6 +525,7 @@ class CampaignLongForm(CampaignShortForm):
     sector = forms.ChoiceField(
         label='Sector',
         choices=get_sector_choices,
+<<<<<<< HEAD
         required=True,
         widget=Select()    
     )
@@ -522,3 +546,7 @@ class CampaignLongForm(CampaignShortForm):
         super().__init__(*args, **kwargs)
         self.fields['sector'].choices = self.SECTOR_CHOICES_BASE + sector_choices
 >>>>>>> f8080801a (saving changes)
+=======
+        required=True,
+    )
+>>>>>>> 1bd781c15 (forms now working)

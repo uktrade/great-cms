@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 <<<<<<< HEAD
 from django.urls import reverse_lazy
+<<<<<<< HEAD
 
 from contact.views import BaseNotifyUserFormView
 =======
@@ -14,14 +15,24 @@ from django.views.decorators.cache import never_cache
 from contact.views import BaseNotifyFormView
 from core import mixins
 >>>>>>> f8080801a (saving changes)
+=======
+from contact.views import BaseNotifyUserFormView
+>>>>>>> 1bd781c15 (forms now working)
 from core.datastructures import NotifySettings
 from domestic.forms import CampaignLongForm, CampaignShortForm
 from domestic.models import ArticlePage
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 class CampaignView(BaseNotifyUserFormView):
     def setup(self, request, *args, **kwargs):
+=======
+
+class CampaignView(BaseNotifyUserFormView):
+    def setup(self, request, *args, **kwargs):
+
+>>>>>>> 1bd781c15 (forms now working)
         page_slug = kwargs['page_slug']
         self.form_success = True if 'form_success' in kwargs else False
 
@@ -47,8 +58,13 @@ class CampaignView(BaseNotifyUserFormView):
         self.email_subject = self.form_config['email_subject'] if self.form_type else None
         self.template_name = 'domestic/article_page.html'
         self.notify_settings = NotifySettings(
+<<<<<<< HEAD
             user_template=settings.CAMPAIGN_USER_NOTIFY_TEMPLATE_ID,
         )
+=======
+        user_template=settings.CAMPAIGN_USER_NOTIFY_TEMPLATE_ID,
+    )
+>>>>>>> 1bd781c15 (forms now working)
         return super().setup(request, *args, **kwargs)
 
     def get_form_class(self):
@@ -65,6 +81,7 @@ class CampaignView(BaseNotifyUserFormView):
         form.cleaned_data['email_subject'] = self.email_subject
         self.send_user_message(form)
         return super().form_valid(form)
+<<<<<<< HEAD
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
@@ -114,3 +131,9 @@ class CampaignView(BaseNotifyFormView):
     def get_context_data(self, **kwargs):
         return super().get_context_data(**kwargs, page=self.get_current_page() if self.get_current_page() else None)
 >>>>>>> f8080801a (saving changes)
+=======
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs, page=self.current_page if self.current_page else None,
+                                        form_success=self.form_success)
+>>>>>>> 1bd781c15 (forms now working)

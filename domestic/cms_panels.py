@@ -12,6 +12,7 @@ from wagtailmedia.widgets import AdminMediaChooser
 <<<<<<< HEAD
 =======
 
+<<<<<<< HEAD
 from core.constants import (
     ARTICLE_TYPES,
     CAMPAIGN_FORM_CHOICES,
@@ -23,6 +24,8 @@ from core.constants import (
 )
 >>>>>>> f8080801a (saving changes)
 
+=======
+>>>>>>> 1bd781c15 (forms now working)
 ACCORDION_FIELDS_HELP_TEXT = (
     'Add up to six blocks of Industry Info. '
     'To be displayed, each industry needs at least: a title, a teaser, and two subsections.'

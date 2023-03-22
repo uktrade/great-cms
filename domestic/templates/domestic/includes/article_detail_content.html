@@ -78,12 +78,20 @@
                  <div class="form-container">
                   <hr/>
                   {% if form_success%}
+<<<<<<< HEAD
 
+=======
+                  
+>>>>>>> 1bd781c15 (forms now working)
                     <div class="success-message-container">
                       <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
                      <i class="fa fa-check"></i> <p>Information has been submitted successfully</p>
                     </div>
+<<<<<<< HEAD
 
+=======
+                  
+>>>>>>> 1bd781c15 (forms now working)
                   {%else%}
                       <form  action="" method="post" autocomplete="off">
                           {% csrf_token %}
@@ -92,7 +100,11 @@
                       </form>
                    {%endif%}
                    <hr/>
+<<<<<<< HEAD
                    </div>
+=======
+                   </div>  
+>>>>>>> 1bd781c15 (forms now working)
                   {%endif%}
               {%else%}
                {{block}}
@@ -126,18 +138,34 @@
 
 {% block body_js %}
     <script type="text/javascript">
+<<<<<<< HEAD
       const elements = document.getElementsByClassName("success-message-container");
       if(elements.length){
          const yOffset = -100;
+=======
+      const elements = document.getElementsByClassName("success-message-container"); 
+      if(elements.length){
+         const yOffset = -100; 
+>>>>>>> 1bd781c15 (forms now working)
          const y = elements[0].getBoundingClientRect().top + window.pageYOffset + yOffset;
          window.scrollTo({top: y, behavior: 'smooth'});
       }
 
+<<<<<<< HEAD
       const error_list = document.getElementsByClassName("form-group-error ")
       if(error_list.length){
          const yOffset = -100;
+=======
+      const error_list = document.getElementsByClassName("form-group-error ") 
+      if(error_list.length){
+         const yOffset = -100; 
+>>>>>>> 1bd781c15 (forms now working)
          const y = error_list[0].getBoundingClientRect().top + window.pageYOffset + yOffset;
          window.scrollTo({top: y, behavior: 'smooth'});
       }
     </script>
+<<<<<<< HEAD
 {% endblock %}
+=======
+{% endblock %} 
+>>>>>>> 1bd781c15 (forms now working)
