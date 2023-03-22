@@ -378,6 +378,12 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         )
 
     def test_get_form_class_is_short(self):
+        article_body1 = json.dumps([
+            {'type' : 'form', 'value': {'type': 'Short', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}}
+        ])
+        ArticlePageFactory(
+            slug='test-article-one', article_body=article_body1, parent=self.domestic_homepage, article_title='test'
+        )
         client = Client()
         url = reverse('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
         request = client.get(url, {'page_slug': 'test-article-one'})

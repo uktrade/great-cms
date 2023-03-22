@@ -454,7 +454,7 @@ def get_sector_names():
 
 
 class CampaignLongForm(CampaignShortForm):
-    def get_sector_choices(self):
+    def get_sector_choices():
         base_choice = [('', 'Select your sector')]
         choices = get_sector_names()
         return base_choice + [(c, c) for c in choices]

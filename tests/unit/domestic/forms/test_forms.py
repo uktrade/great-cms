@@ -56,8 +56,8 @@ def test_ukef_community_form_api_serialization_with_other_options(valid_contact_
 
 @pytest.mark.django_db
 def test_get_sector_choices():
-    IndustryTagFactory(name='sector1')
-    IndustryTagFactory(name='sector2')
+    IndustryTagFactory(name='Sector1')
+    IndustryTagFactory(name='Sector2')
 
     form = CampaignLongForm()
     sector_choices = form.get_sector_choices()
