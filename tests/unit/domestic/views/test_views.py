@@ -14,6 +14,7 @@ from domestic import forms
 from domestic.forms import CampaignLongForm, CampaignShortForm
 from domestic.views.ukef import GetFinanceLeadGenerationFormView
 from tests.unit.domestic.factories import ArticlePageFactory
+from django.test import Client
 
 pytestmark = [
     pytest.mark.django_db,
@@ -377,9 +378,9 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         )
 
     def test_get_form_class_is_short(self):
-        factory = RequestFactory()
+        client = Client()
         url = reverse('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
-        request = factory.get(url, {'page_slug': 'test-article-one'})
+        request = client.get(url, {'page_slug': 'test-article-one'})
         view = domestic.views.campaign.CampaignView.as_view()(request)
         form_class = view.get_form_class()
         self.assertEqual(form_class, CampaignShortForm)
