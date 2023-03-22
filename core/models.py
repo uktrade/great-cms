@@ -1407,6 +1407,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 ),
             ),
             (
+<<<<<<< HEAD
                 'links_block',
                 StreamBlock(
                     [
@@ -1418,6 +1419,8 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 ),
             ),
             (
+=======
+>>>>>>> 83aa218ef (remove unintended changes)
                 'cta',
                 blocks.StructBlock(
                     [
@@ -1532,21 +1535,25 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
 =======
         parent_page = self.get_ancestors().live().type(Microsite).first().specific
         return [
-            {'url': child.get_url(), 'title': child.title, 'children': self.get_secondary_pages(child)}
+            {
+                'url': child.get_url(),
+                'title': child.title,
+            }
             for child in parent_page.get_children().live()
         ]
 
     # Return the children of the MicrositePage at the top of current user journey
-    def get_secondary_pages(self, page):
-        if type(page.get_parent().specific) == Microsite:
-            return [{'title': child.title, 'url': child.get_url()} for child in page.get_children()]
+    def get_secondary_pages(self):
+        if type(self.get_parent().specific) == Microsite:
+            return [{'title': child.title, 'url': child.get_url()} for child in self.get_children()]
         else:
-            parent_page = page.get_ancestors().live().type(MicrositePage).first().specific
+            parent_page = self.get_ancestors().live().type(MicrositePage).first().specific
             return [{'title': child.title, 'url': child.get_url()} for child in parent_page.get_children()]
 >>>>>>> a8c0e4869 (save nav changes)
 
     # Return the children of a child or grandchild page
     def get_related_pages(self):
+<<<<<<< HEAD
         return [{'title': child.title, 'url': child.get_url()} for child in self.get_children()]
 
     def get_site_title(self):
@@ -1594,3 +1601,7 @@ class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
         FieldPanel('text'),
         ImageChooserPanel('image'),
     ]
+=======
+        if type(self.get_parent().specific) == MicrositePage:
+            return [{'title': child.title, 'url': child.get_url()} for child in self.get_children()]
+>>>>>>> 83aa218ef (remove unintended changes)
