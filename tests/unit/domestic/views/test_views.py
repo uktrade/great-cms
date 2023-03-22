@@ -355,8 +355,7 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
 
     def setUp(self):
         article_body1 = json.dumps([
-            {'type' : 'form', 'value': {'type': 'Short', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}},
-             {'type' :'article_title', 'value':'test1'},
+            {'type' : 'form', 'value': {'type': 'Short', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}}
         ])
         
         article_body2 = json.dumps([
@@ -364,18 +363,17 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         ])
 
         article_body3 = json.dumps([
-            {'type' : 'form', 'value':  {'type': 'Long', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}},
-            {'type' :'article_title', 'value':'test1'}
+            {'type' : 'form', 'value':  {'type': 'Long', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}}
         ])
 
         self.article1 = ArticlePageFactory(
-            slug='test-article-one', article_body=article_body1, parent=self.domestic_homepage
+            slug='test-article-one', article_body=article_body1, parent=self.domestic_homepage, article_title='test'
         )
 
-        self.article2 = ArticlePageFactory(slug='test-article-two', article_body=article_body2, parent=self.domestic_homepage)
+        self.article2 = ArticlePageFactory(slug='test-article-two', article_body=article_body2, parent=self.domestic_homepage, article_title='test')
 
         self.article3 = ArticlePageFactory(
-            slug='test-article-three', article_body=article_body3, parent=self.domestic_homepage
+            slug='test-article-three', article_body=article_body3, parent=self.domestic_homepage, article_title='test'
         )
 
     def test_get_form_class_is_short(self):
