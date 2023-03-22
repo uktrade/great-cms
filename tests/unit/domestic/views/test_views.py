@@ -378,7 +378,7 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
 
     def test_get_form_class_is_short(self):
         factory = RequestFactory()
-        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
+        url = reverse('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
         request = factory.get(url)
         view = domestic.views.campaign.CampaignView.as_view()(request)
 

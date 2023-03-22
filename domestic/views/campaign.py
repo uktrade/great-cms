@@ -10,10 +10,12 @@ from domestic.models import ArticlePage
 
 class CampaignView(BaseNotifyUserFormView):
     def setup(self, request, *args, **kwargs):
-        page_slug = kwargs['page_slug']
+        page_slug = kwargs['page_slug'] if 'page_slug' in kwargs else None
         self.form_success = True if 'form_success' in kwargs else False
 
         def get_current_page():
+            if page_slug is None:
+                return None
             try:
                 return ArticlePage.objects.live().get(slug=page_slug)
             except ObjectDoesNotExist:
