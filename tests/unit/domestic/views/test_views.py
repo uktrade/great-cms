@@ -2,7 +2,7 @@ from unittest import mock
 import json
 import pytest
 from django.conf import settings
-from django.test import TestCase
+from django.test import TestCase, RequestFactory
 from django.urls import reverse
 from wagtail.tests.utils import WagtailPageTests
 import domestic.forms
@@ -378,7 +378,10 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
 
     def test_get_form_class_is_short(self):
         view = domestic.views.campaign.CampaignView()
-        view.setup(self.get_request('/campaigns/test-article-one/'))
+        factory = RequestFactory()
+        url = reverse('/campaigns/test-article-one/')
+        request = factory.get(url)
+        view = view.as_view()(request)
 
         form_class = view.get_form_class()
 
