@@ -23,7 +23,7 @@
                 <div class="govuk-grid-column-one-quarter">
                     <form id="events-form" action="" method="GET">
                         <div class="filters">
-                            <p class="govuk-!-margin-0 govuk-!-font-size-24">Filter events</p>
+                            <p class="govuk-!-margin-0 govuk-!-font-size-24">Filter events by:</p>
                             <ul>
                                 {% for field in filter.form %}
                                 <li class="filter-section">
@@ -61,7 +61,7 @@
                             <h4>{{ event.name }}</h4>
                             <p class="great-font-size-18 great-text-light-grey">Duration: {{ event.start_date|timesince:event.end_date }}</p>
                             {% include 'components/show_more.html' with text=event.description %}
-                            <a href=""class="button secondary-button">Register</a>
+                            <a href="https://www.events.great.gov.uk/ereg/newreg.php?eventid=200236512&language=eng" class="button secondary-button">Register</a>
                         </div>
                     </div>
                     {% endfor %}
