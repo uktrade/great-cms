@@ -3,7 +3,7 @@ import json
 import pytest
 from django.conf import settings
 from django.test import TestCase, RequestFactory
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from wagtail.tests.utils import WagtailPageTests
 import domestic.forms
 import domestic.views.campaign
@@ -379,7 +379,7 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
     def test_get_form_class_is_short(self):
         view = domestic.views.campaign.CampaignView()
         factory = RequestFactory()
-        url = reverse('/campaigns/test-article-one/')
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
         request = factory.get(url)
         view = view.as_view()(request)
 
