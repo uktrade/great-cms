@@ -13,6 +13,9 @@ from core import models
 from core.case_study_index import search
 from core.constants import RICHTEXT_FEATURES__MINIMAL, RICHTEXT_FEATURES__REDUCED
 from core.utils import get_cs_ranking, get_personalised_choices
+from core.constants import (
+    CAMPAIGN_FORM_CHOICES,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -531,6 +534,7 @@ class TopicPageCardBlockRichText(blocks.StructBlock):
     link = blocks.CharBlock()  # not a URL block to allow relative links
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 class LinksBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=False, max_length=255, label='Title')
@@ -539,3 +543,11 @@ class LinksBlock(blocks.StructBlock):
     link_url = blocks.CharBlock()
 =======
 >>>>>>> f2d3fc5f4 (saving progress)
+=======
+
+class CampaginFormBlock(blocks.StructBlock):
+    type = blocks.ChoiceBlock(choices=CAMPAIGN_FORM_CHOICES, null=False, blank=False, required=True)
+    email_subject = blocks.TextBlock(required=True)
+    email_title = blocks.TextBlock(required=True)
+    email_body = blocks.TextBlock(required=True)
+>>>>>>> 3a53807df (forms now working)

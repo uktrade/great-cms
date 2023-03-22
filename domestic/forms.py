@@ -5,11 +5,12 @@ from django.forms import Select, Textarea, TextInput
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from great_components import forms
-from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag
+from core.models import IndustryTag
 from contact.forms import TERMS_LABEL
 from core.forms import ConsentFieldMixin
 from directory_constants import choices
 from directory_constants.choices import COUNTRY_CHOICES
+
 
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
@@ -412,13 +413,23 @@ class MarketAccessSummaryForm(GovNotifyEmailActionMixin, forms.Form):
 
 
 class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
-    full_name = forms.CharField(
-        label=_('Full name'),
+
+    first_name = forms.CharField(
+        label=_('First name'),
         min_length=2,
         max_length=50,
         required=True,
         error_messages={
-            'required': _('Enter your full name'),
+            'required': _('Enter your first name'),
+        },
+    )
+    last_name = forms.CharField(
+        label=_('Last name'),
+        min_length=2,
+        max_length=50,
+        required=True,
+        error_messages={
+            'required': _('Enter your last name'),
         },
     )
     email = forms.EmailField(
@@ -430,7 +441,7 @@ class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
     )
 
     company_name = forms.CharField(label=_('Company name'), min_length=2, max_length=100, required=False)
-    
+
     # terms_agreed = forms.BooleanField(
     #     label=TERMS_LABEL,
     #     error_messages={
@@ -438,16 +449,18 @@ class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
     #     },
     # )
 
+
 def get_sector_names():
     return [tag.name for tag in IndustryTag.objects.all()]
-    
+
+
 class CampaignLongForm(CampaignShortForm):
-    
+
     def get_sector_choices():
-        SECTOR_CHOICES_BASE = [('', 'Select your sector')]
+        base_choice = [('', 'Select your sector')]
         choices = get_sector_names()
-        return SECTOR_CHOICES_BASE + [(c, c) for c in choices]
-    
+        return base_choice + [(c, c) for c in choices]
+
     phone = forms.CharField(
         label='Telephone number',
         required=True,
@@ -460,7 +473,7 @@ class CampaignLongForm(CampaignShortForm):
         max_length=100,
         required=True,
     )
-    
+
     already_export = forms.ChoiceField(
         label=_('Do you have a specific project or proposal you’d like to discuss?'),
         choices=(
@@ -481,8 +494,6 @@ class CampaignLongForm(CampaignShortForm):
 
     sector = forms.ChoiceField(
         label='Sector',
-        choices= get_sector_choices,
+        choices=get_sector_choices,
         required=True,
     )
-    
-  

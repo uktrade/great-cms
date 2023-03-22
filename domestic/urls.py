@@ -114,5 +114,11 @@ urlpatterns = [
         ),
         name='campaigns',
     ),
-   
+      path(
+        'campaigns/<slug:page_slug><int:form_success>',
+        skip_ga360(
+            CampaignView.as_view()
+        ),
+        name='campaigns',
+    ),
 ]
