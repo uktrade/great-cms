@@ -382,6 +382,7 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         url = reverse('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
         request = client.get(url, {'page_slug': 'test-article-one'})
         view = domestic.views.campaign.CampaignView(request = request)
+        view.setup(request=request)
         form_class = view.get_form_class()
         self.assertEqual(form_class, CampaignShortForm)
 
