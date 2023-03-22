@@ -11,6 +11,8 @@ from domestic.models import ArticlePage
 class CampaignView(BaseNotifyUserFormView):
     def setup(self, request, *args, **kwargs):
         page_slug = kwargs['page_slug'] if 'page_slug' in kwargs else None
+        print(kwargs)
+        print(request)
         self.form_success = True if 'form_success' in kwargs else False
 
         def get_current_page():
