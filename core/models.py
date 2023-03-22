@@ -1604,4 +1604,7 @@ class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
 =======
         if type(self.get_parent().specific) == MicrositePage:
             return [{'title': child.title, 'url': child.get_url()} for child in self.get_children()]
+<<<<<<< HEAD
 >>>>>>> 83aa218ef (remove unintended changes)
+=======
+>>>>>>> 4b9c2b4d6 (removed stlyes)
