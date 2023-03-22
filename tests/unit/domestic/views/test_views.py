@@ -377,10 +377,11 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         )
 
     def test_get_form_class_is_short(self):
-        view = domestic.views.campaign.CampaignView.as_view({'page_slug': 'test-article-one'})
-
+        factory = RequestFactory()
+        url = reverse('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
+        request = factory.get(url, {'page_slug': 'test-article-one'})
+        view = domestic.views.campaign.CampaignView.as_view()(request)
         form_class = view.get_form_class()
-
         self.assertEqual(form_class, CampaignShortForm)
 
     def test_get_form_class_is_none(self):
