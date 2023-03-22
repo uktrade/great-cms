@@ -1,18 +1,20 @@
 from unittest import mock
-from django.test import TestCase
+
 import pytest
 from django.conf import settings
+from django.test import TestCase
 from django.urls import reverse
+from wagtail.tests.utils import WagtailPageTests
+
 import domestic.forms
+import domestic.views.campaign
 import domestic.views.ukef
 from core import cms_slugs
 from core.constants import CONSENT_EMAIL
 from domestic import forms
-from domestic.views.ukef import GetFinanceLeadGenerationFormView
 from domestic.forms import CampaignLongForm, CampaignShortForm
-import domestic.views.campaign
+from domestic.views.ukef import GetFinanceLeadGenerationFormView
 from tests.unit.domestic.factories import ArticlePageFactory
-from wagtail.tests.utils import WagtailPageTests
 
 pytestmark = [
     pytest.mark.django_db,
@@ -349,36 +351,22 @@ def test_ukef_lead_generation_initial_data(client, user, mock_get_company_profil
 
 class CampaignViewTestCase(WagtailPageTests, TestCase):
     def setUp(self, domestic_homepage):
-
         article_body1 = [
-            {
-                'form': {'type': 'Short', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}
-            },
-
+            {'form': {'type': 'Short', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}},
         ]
 
         article_body3 = [
-            {
-                'form': {'type': 'Long', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}
-            },
+            {'form': {'type': 'Long', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}},
         ]
 
         self.article1 = ArticlePageFactory(
-            slug='test-article-one',
-            article_body=article_body1,
-            parent=domestic_homepage
+            slug='test-article-one', article_body=article_body1, parent=domestic_homepage
         )
 
-        self.article2 = ArticlePageFactory(
-            slug='test-article-two',
-            article_body=[],
-            parent=domestic_homepage
-        )
+        self.article2 = ArticlePageFactory(slug='test-article-two', article_body=[], parent=domestic_homepage)
 
         self.article3 = ArticlePageFactory(
-            slug='test-article-three',
-            article_body=article_body3,
-            parent=domestic_homepage
+            slug='test-article-three', article_body=article_body3, parent=domestic_homepage
         )
 
     def test_get_form_class_is_short(self):
@@ -414,10 +402,15 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
             save = mock.Mock()
 
         with mock.patch.object(view, 'form_class', Form):
-
-            response = client.post(reverse('domestic:campaign/test-article-one'),
-                {'email': 'test@example.com',
-                    'email_body': 'body1', 'email_subject': 'subject1', 'email_title': 'title1'})
+            response = client.post(
+                reverse('domestic:campaign/test-article-one'),
+                {
+                    'email': 'test@example.com',
+                    'email_body': 'body1',
+                    'email_subject': 'subject1',
+                    'email_title': 'title1',
+                },
+            )
 
         assert response.status_code == 302
         assert response.url == reverse('domestic:campaign/test-article-one1')

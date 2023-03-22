@@ -11,11 +11,12 @@ from wagtailmedia.blocks import AbstractMediaChooserBlock
 
 from core import models
 from core.case_study_index import search
-from core.constants import RICHTEXT_FEATURES__MINIMAL, RICHTEXT_FEATURES__REDUCED
-from core.utils import get_cs_ranking, get_personalised_choices
 from core.constants import (
     CAMPAIGN_FORM_CHOICES,
+    RICHTEXT_FEATURES__MINIMAL,
+    RICHTEXT_FEATURES__REDUCED,
 )
+from core.utils import get_cs_ranking, get_personalised_choices
 
 logger = logging.getLogger(__name__)
 

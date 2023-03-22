@@ -1,6 +1,12 @@
-from directory_constants.choices import COUNTRY_CHOICES
-from domestic.forms import SectorPotentialForm, UKEFContactForm, CampaignLongForm, CampaignShortForm
 from django.test import TestCase
+
+from directory_constants.choices import COUNTRY_CHOICES
+from domestic.forms import (
+    CampaignLongForm,
+    CampaignShortForm,
+    SectorPotentialForm,
+    UKEFContactForm,
+)
 from tests.unit.core.factories import IndustryTagFactory
 
 
@@ -49,17 +55,19 @@ def test_ukef_community_form_api_serialization_with_other_options(valid_contact_
 
 
 class CampaignLongFormTestCase(TestCase):
-
     def test_get_sector_choices(self):
-
         IndustryTagFactory(name='sector1')
         IndustryTagFactory(name='sector2')
 
         form = CampaignLongForm()
         sector_choices = form.get_sector_choices()
 
-        expected_choices = [('', 'Select your sector'), ('Sector1', 'Sector1'),
-                            ('Sector2', 'Sector2'), ('Sector3', 'Sector3')]
+        expected_choices = [
+            ('', 'Select your sector'),
+            ('Sector1', 'Sector1'),
+            ('Sector2', 'Sector2'),
+            ('Sector3', 'Sector3'),
+        ]
         self.assertListEqual(sector_choices, expected_choices)
 
     def test_campaign_long_form(self, valid_contact_form_data):
@@ -69,8 +77,7 @@ class CampaignLongFormTestCase(TestCase):
         assert form.cleaned_data['last_name'] == valid_contact_form_data['last_name']
         assert form.cleaned_data['email'] == valid_contact_form_data['email']
 
-
-    def test_campaign_short_form(valid_contact_form_data):
+    def test_campaign_short_form(self, valid_contact_form_data):
         form = CampaignShortForm(data=valid_contact_form_data)
         assert form.is_valid()
         assert form.cleaned_data['first_name'] == valid_contact_form_data['first_name']

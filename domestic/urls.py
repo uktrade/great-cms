@@ -107,18 +107,14 @@ urlpatterns = [
         ),
         name='report-ma-barrier',
     ),
-     path(
+    path(
         'campaigns/<slug:page_slug>/',
-        skip_ga360(
-            CampaignView.as_view()
-        ),
+        skip_ga360(CampaignView.as_view()),
         name='campaigns',
     ),
-      path(
+    path(
         'campaigns/<slug:page_slug><int:form_success>',
-        skip_ga360(
-            CampaignView.as_view()
-        ),
+        skip_ga360(CampaignView.as_view()),
         name='campaigns',
     ),
 ]

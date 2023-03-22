@@ -5,12 +5,12 @@ from django.forms import Select, Textarea, TextInput
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from great_components import forms
-from core.models import IndustryTag
+
 from contact.forms import TERMS_LABEL
 from core.forms import ConsentFieldMixin
+from core.models import IndustryTag
 from directory_constants import choices
 from directory_constants.choices import COUNTRY_CHOICES
-
 
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
@@ -413,7 +413,6 @@ class MarketAccessSummaryForm(GovNotifyEmailActionMixin, forms.Form):
 
 
 class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
-
     first_name = forms.CharField(
         label=_('First name'),
         min_length=2,
@@ -455,7 +454,6 @@ def get_sector_names():
 
 
 class CampaignLongForm(CampaignShortForm):
-
     def get_sector_choices():
         base_choice = [('', 'Select your sector')]
         choices = get_sector_names()

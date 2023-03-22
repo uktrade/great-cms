@@ -27,7 +27,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
-from core.blocks import AdvantageBlock, ColumnsBlock, CampaginFormBlock
+from core.blocks import AdvantageBlock, CampaginFormBlock, ColumnsBlock
 from core.constants import (
     ARTICLE_TYPES,
     COUNTRY_FACTSHEET_CTA_TITLE,
