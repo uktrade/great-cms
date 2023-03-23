@@ -59,8 +59,7 @@ def test_get_sector_choices():
     IndustryTagFactory(name='Sector1')
     IndustryTagFactory(name='Sector2')
 
-    form = CampaignLongForm()
-    sector_choices = form.get_sector_choices()
+    sector_choices = CampaignLongForm.get_sector_choices()
 
     expected_choices = [
         ('', 'Select your sector'),
