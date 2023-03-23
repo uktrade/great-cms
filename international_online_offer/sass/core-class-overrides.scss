@@ -4,6 +4,7 @@
 }
 
 .form-control {
+    min-width: 449px;
     font-family: $govuk-font-family;
 }
 
@@ -79,21 +80,25 @@
     background-position: right center;
     font-family: $govuk-font-family;
     background-origin: content-box;
-    width: 50% !important;
+    width: 449px !important;
 
     @media (max-width: 640px) {
-        width: 100% !important;
+        min-width: 100% !important;
     }
 }
 
 .autocomplete__menu {
-    width: 50% !important;
+    width: 449px !important;
 
     @media (max-width: 640px) {
-        width: 100% !important;
+        min-width: 100% !important;
     }
 }
 
 .autocomplete__option {
     font-family: $govuk-font-family;
+}
+
+.form-group {
+    margin-bottom: 16px;
 }
