@@ -62,7 +62,7 @@
 #       A positive integer. Generally set in the 1-5 seconds range.
 #
 
-workers = 1
+workers = 3
 worker_class = 'gevent'
 worker_connections = 50
 timeout = 300
