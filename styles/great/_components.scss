@@ -135,7 +135,12 @@
     }
 
     span {
+        display: block;
         font-size: 16px;
+
+        @include govuk-media-query($from: tablet) {
+            min-height: 22px;
+        }
     }
 }
 

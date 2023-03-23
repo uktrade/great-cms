@@ -7,7 +7,7 @@
         {% if columns %}
         {% for column_block in columns %}
           <div class="govuk-grid-column-one-third">
-              {% include 'components/great/card.html' with title=column_block.value.title url=column_block.value.url image=column_block.value.image category=column_block.value.category summary=column_block.value.summary %}
+              {% include 'components/great/card.html' with title=column_block.value.title url=column_block.value.url image=column_block.value.image source=column_block.value.source summary=column_block.value.summary %}
           </div>
         {% endfor %}
         {% endif %}

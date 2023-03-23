@@ -39,7 +39,7 @@ class GreatDomesticHomePagePanels:
             ],
         ),
         MultiFieldPanel(
-            heading='Slice',
+            heading='Optional Slice',
             classname='collapsible',
             children=[FieldPanel('slice_title'), StreamFieldPanel('slice_columns')],
         ),

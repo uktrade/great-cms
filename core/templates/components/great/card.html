@@ -8,9 +8,7 @@
         <img src="{{ thumbnail.url }}" alt="{{ thumbnail.alt_text }}" />
     {% endif %}
 
-    {% if category %}
-        <span class="govuk-caption-m govuk-!-margin-bottom-2">{{category}}</span>
-    {% endif %}
+    <span {% if source %}class="govuk-caption-m govuk-!-margin-bottom-2"{% endif %}>{% if source %}{{source}}{% endif %}</span>
 
     {% if title %}
         <h4 class="govuk-heading-m govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue">{{title}}</h4>
