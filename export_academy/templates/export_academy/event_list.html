@@ -26,13 +26,16 @@
                             <p class="govuk-!-margin-0 govuk-!-font-size-24">Filter events by:</p>
                             <ul>
                                 {% for field in filter.form %}
-                                <li class="filter-section">
-                                    <input type="checkbox" id="{{ field.label }}" checked />
-                                    <label class="govuk-!-font-size-24" for="{{ field.label }}" role="button">{{ field.label }}</label>
-                                    <div class="options checkbox-small">
-                                        {{ field }}
-                                    </div>
-                                </li>
+                                    {% comment %} the last field is for navigation and should be rendered outside the form {% endcomment %}
+                                    {% if not forloop.last %}
+                                    <li class="filter-section">
+                                        <input type="checkbox" id="{{ field.label }}" checked />
+                                        <label class="govuk-!-font-size-24" for="{{ field.label }}" role="button">{{ field.label }}</label>
+                                        <div class="options checkbox-small">
+                                            {{ field }}
+                                        </div>
+                                    </li>
+                                    {% endif %}
                                 {% endfor %}
                             </ul>
                             <div class="filters-sticky-footer govuk-!-margin-top-7" id="filters-sticky-footer">
@@ -42,7 +45,7 @@
                         </div>
                     </form>
                 </div>
-
+                {% show_logged_in_navigation filter.form.navigation %}
                 <div id="event-list" class="govuk-grid-column-three-quarters" >
                     {% for event in page_obj %}
                     <div class="govuk-grid-row event-list-card">
