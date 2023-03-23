@@ -634,3 +634,26 @@ def test_reference_period(resolution, period, year, capitalise, expected):
     context = Context({'data': {'resolution': resolution, 'period': period, 'year': year}, 'capitalise': capitalise})
     html = template.render(context)
     assert html == expected
+
+
+@pytest.mark.parametrize(
+    'input_html, expected_html',
+    (
+        ('<h1>content</h1>', '<h1 class="govuk-heading-xl">content</h1>'),
+        ('<h2>content</h2>', '<h2 class="govuk-heading-l">content</h2>'),
+        ('<h3>content</h3>', '<h3 class="govuk-heading-m">content</h3>'),
+        ('<h4>content</h4>', '<h4 class="govuk-heading-s">content</h4>'),
+        ('<h5>content</h5>', '<h5 class="govuk-heading-s">content</h5>'),
+        ('<h6>content</h6>', '<h6 class="govuk-heading-s">content</h6>'),
+        ('<ul>content</ul>', '<ul class="govuk-list govuk-list--bullet">content</ul>'),
+        ('<ol>content</ul>', '<ol class="govuk-list govuk-list--number">content</ol>'),
+        ('<p>content</p>', '<p class="govuk-body">content</p>'),
+        ('<a>content</a>', '<a class="govuk-link">content</a>'),
+    ),
+)
+def test_add_govuk_classes(input_html, expected_html):
+    template = Template('{% load add_govuk_classes from content_tags %}' '{{ html|add_govuk_classes }}')
+    context = Context({'html': input_html})
+
+    html = template.render(context)
+    assert html == expected_html
