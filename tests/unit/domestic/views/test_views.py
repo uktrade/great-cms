@@ -14,6 +14,7 @@ from domestic import forms
 from domestic.forms import CampaignLongForm, CampaignShortForm
 from domestic.views.ukef import GetFinanceLeadGenerationFormView
 from tests.unit.domestic.factories import ArticlePageFactory
+from tests.unit.core.factories import StructurePageFactory
 from django.test import Client
 from domestic.models import  StructuralPage
 
@@ -358,7 +359,7 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
 
     def setUp(self):
         
-        self.parent_page = StructuralPage(slug='campaigns', title='campaings', parent = self.domestic_homepage)
+        self.parent_page = StructurePageFactory(parent=self.domestic_homepage, title='campaigns', slug='campaigns')
         article_body1 = json.dumps([
             {'type' : 'form', 'value': {'type': 'Short', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}}
         ])
