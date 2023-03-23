@@ -72,4 +72,5 @@ python-magic==0.4.27
 oauthlib==3.2.2
 celery[redis]==5.2.7
 django-celery-beat==2.2.1
-wagtail-localize==1.4
+wagtail-modeltranslation==0.11.0
+django-modeltranslation==0.18.2

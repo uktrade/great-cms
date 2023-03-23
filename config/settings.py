@@ -33,6 +33,9 @@ APPEND_SLASH = True
 # Application definition
 
 INSTALLED_APPS = [
+    'wagtail_modeltranslation',
+    'wagtail_modeltranslation.makemigrations',
+    'wagtail_modeltranslation.migrate',
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.contrib.modeladmin',
@@ -92,6 +95,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'sso.middleware.AuthenticationMiddleware',
@@ -106,6 +110,7 @@ MIDDLEWARE = [
     'core.middleware.CheckGATags',
     # 'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'great_components.middleware.NoCacheMiddlware',
+    'directory_components.middleware.LocaleQuerystringMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -200,29 +205,12 @@ USE_L10N = True
 
 USE_TZ = True
 
-if env.bool('FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False):
-    # below assignments behind feature flag temporarily while we experiment with
-    # additional language support. They will be promoted to main initilisation once
-    # we have proven one non-English language.
+WAGTAIL_I18N_ENABLED = True
 
-    WAGTAIL_I18N_ENABLED = True
-
-    WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
-        ('ar', 'Arabic'),
-        ('en-gb', 'English'),
-        ('es', 'Spanish'),
-        ('ko', 'Korean'),
-    ]
-
-    INSTALLED_APPS += [
-        'wagtail_localize',
-        'wagtail_localize.locales',
-    ]
-
-    # LocaleMiddleware needs to be after SessionMiddleware but before CommonMiddleware
-    MIDDLEWARE.insert(1, 'django.middleware.locale.LocaleMiddleware')
-
-    MIDDLEWARE += ['directory_components.middleware.LocaleQuerystringMiddleware']
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+    ('en-gb', 'English'),
+    ('es', 'Spanish'),
+]
 
 
 # Static files (CSS, JavaScript, Images)

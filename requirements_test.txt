@@ -11,11 +11,14 @@ airtable-python-wrapper==0.13.0
 alabaster==0.7.13
     # via sphinx
 allure-pytest==2.13.1
+allure-pytest==2.13.1
     # via -r requirements_test.in
+allure-python-commons==2.13.1
 allure-python-commons==2.13.1
     # via allure-pytest
 amqp==5.1.1
     # via kombu
+anyascii==0.3.2
 anyascii==0.3.2
     # via wagtail
 appnope==0.1.3
@@ -29,6 +32,7 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
+astroid==2.15.1
 astroid==2.15.1
     # via pylint
 asttokens==2.2.1
@@ -63,6 +67,8 @@ black==23.1.0
     #   blacken-docs
 blacken-docs==1.6.0
     # via -r requirements_test.in
+bleach==6.0.0
+    # via readme-renderer
 boto3==1.24.96
     # via
     #   -r requirements.in
@@ -75,6 +81,8 @@ brotli==1.0.9
     # via geventhttpclient
 build==0.10.0
     # via pip-tools
+bump2version==1.0.1
+    # via wagtail-modeltranslation
 celery[redis]==5.2.7
     # via
     #   -r requirements.in
@@ -111,12 +119,16 @@ click-repl==0.2.0
     # via celery
 codecov==2.1.12
     # via -r requirements_test.in
+colorama==0.4.6
+    # via twine
 configargparse==1.5.3
     # via locust
+coverage[toml]==7.2.2
 coverage[toml]==7.2.2
     # via
     #   codecov
     #   pytest-cov
+cryptography==40.0.1
 cryptography==40.0.1
     # via
     #   -r requirements.in
@@ -180,6 +192,7 @@ django==3.2.18
     #   django-filter
     #   django-formtools
     #   django-health-check
+    #   django-modeltranslation
     #   django-recaptcha
     #   django-redis
     #   django-staff-sso-client
@@ -191,7 +204,7 @@ django==3.2.18
     #   great-components
     #   sigauth
     #   wagtail
-    #   wagtail-localize
+    #   wagtail-modeltranslation
     #   wagtailfontawesome
 django-celery-beat==2.2.1
     # via -r requirements.in
@@ -213,6 +226,10 @@ django-ipware==2.1.0
     # via -r requirements.in
 django-modelcluster==5.3
     # via wagtail
+django-modeltranslation==0.18.2
+    # via
+    #   -r requirements.in
+    #   wagtail-modeltranslation
 django-recaptcha==3.0.0
     # via -r requirements.in
 django-redis==5.2.0
@@ -235,7 +252,9 @@ djangorestframework==3.11.2
     #   sigauth
     #   wagtail
 docutils==0.17.1
-    # via sphinx
+    # via
+    #   readme-renderer
+    #   sphinx
 draftjs-exporter==2.1.7
     # via wagtail
 elastic-apm==6.1.3
@@ -260,8 +279,9 @@ factory-boy==2.12.0
     #   -r requirements.in
     #   wagtail-factories
 faker==18.3.1
+faker==18.3.1
     # via factory-boy
-filelock==3.10.6
+filelock==3.10.7
     # via virtualenv
 flake8==6.0.0
     # via
@@ -315,6 +335,7 @@ html5lib==1.1
     #   wagtail
     #   xhtml2pdf
 identify==2.5.22
+identify==2.5.22
     # via pre-commit
 idna==3.4
     # via
@@ -323,7 +344,10 @@ idna==3.4
 imagesize==1.4.1
     # via sphinx
 importlib-metadata==6.1.0
-    # via flask
+    # via
+    #   flask
+    #   keyring
+    #   twine
 iniconfig==2.0.0
     # via pytest
 ipdb==0.13.13
@@ -338,6 +362,8 @@ isort==5.12.0
     #   pylint
 itsdangerous==2.1.2
     # via flask
+jaraco-classes==3.2.3
+    # via keyring
 jedi==0.18.2
     # via ipython
 jinja2==3.1.2
@@ -352,6 +378,8 @@ jsonschema==3.2.0
     # via
     #   directory-components
     #   great-components
+keyring==23.13.1
+    # via twine
 kombu==5.2.4
     # via celery
 l18n==2021.3
@@ -387,6 +415,8 @@ monotonic==1.6
     # via
     #   directory-ch-client
     #   directory-client-core
+more-itertools==9.1.0
+    # via jaraco-classes
 msgpack==1.0.5
     # via locust
 mypy-extensions==1.0.0
@@ -434,6 +464,8 @@ pip-tools==6.12.3
     # via -r requirements_test.in
 pisa==3.0.33
     # via -r requirements.in
+pkginfo==1.9.6
+    # via twine
 platformdirs==3.2.0
     # via
     #   black
@@ -443,8 +475,6 @@ pluggy==1.0.0
     # via
     #   allure-python-commons
     #   pytest
-polib==1.2.0
-    # via wagtail-localize
 pre-commit==3.2.1
     # via -r requirements_test.in
 pre-commit-hooks==3.3.0
@@ -473,6 +503,7 @@ pyflakes==3.0.1
 pygments==2.14.0
     # via
     #   ipython
+    #   readme-renderer
     #   sphinx
 pyhanko==0.17.2
     # via xhtml2pdf
@@ -481,6 +512,7 @@ pyhanko-certvalidator==0.20.1
     #   pyhanko
     #   xhtml2pdf
 pylint==2.17.1
+pylint==2.17.1
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -488,6 +520,7 @@ pylint-django==2.5.3
     # via -r requirements_test.in
 pylint-plugin-utils==0.7
     # via pylint-django
+pypdf==3.7.0
 pypdf==3.7.0
     # via xhtml2pdf
 pypng==0.20220715.0
@@ -547,12 +580,16 @@ pyzmq==25.0.2
     # via locust
 qrcode==7.4.2
     # via pyhanko
+readme-renderer==37.3
+    # via twine
 readtime==1.1.1
     # via -r requirements.in
+redis==4.5.3
 redis==4.5.3
     # via
     #   celery
     #   django-redis
+regex==2023.3.23
 regex==2023.3.23
     # via dateparser
 reportlab==3.6.12
@@ -572,12 +609,18 @@ requests==2.28.2
     #   pyhanko-certvalidator
     #   requests-mock
     #   requests-oauthlib
+    #   requests-toolbelt
     #   sphinx
+    #   twine
     #   wagtail
 requests-mock==1.10.0
     # via -r requirements_test.in
 requests-oauthlib==1.3.1
     # via django-staff-sso-client
+requests-toolbelt==0.10.1
+    # via twine
+rfc3986==2.0.0
+    # via twine
 roundrobin==0.0.4
     # via locust
 ruamel-yaml==0.17.21
@@ -586,6 +629,7 @@ ruamel-yaml-clib==0.2.7
     # via ruamel-yaml
 s3transfer==0.6.0
     # via boto3
+selenium==4.8.3
 selenium==4.8.3
     # via -r requirements_test.in
 sentry-sdk==1.14.0
@@ -597,7 +641,10 @@ sigauth==4.3.0
 six==1.16.0
     # via
     #   airtable-python-wrapper
+    #   asttokens
+    #   bleach
     #   click-repl
+    #   django-modeltranslation
     #   elasticsearch-dsl
     #   flask-cors
     #   geventhttpclient
@@ -633,6 +680,7 @@ stack-data==0.6.2
 svglib==1.5.1
     # via xhtml2pdf
 tablib[xls,xlsx]==3.4.0
+tablib[xls,xlsx]==3.4.0
     # via wagtail
 telepath==0.3
     # via wagtail
@@ -654,7 +702,10 @@ tomli==2.0.1
     #   pyproject-hooks
     #   pytest
 tomlkit==0.11.7
+tomlkit==0.11.7
     # via pylint
+tqdm==4.65.0
+    # via twine
 traitlets==5.9.0
     # via
     #   ipython
@@ -664,7 +715,10 @@ trio==0.22.0
     #   selenium
     #   trio-websocket
 trio-websocket==0.10.2
+trio-websocket==0.10.2
     # via selenium
+twine==3.8.0
+    # via wagtail-modeltranslation
 typing-extensions==4.5.0
     # via
     #   astroid
@@ -673,9 +727,9 @@ typing-extensions==4.5.0
     #   pylint
     #   pypdf
     #   qrcode
-    #   wagtail-localize
 tzdata==2023.2
     # via pytz-deprecation-shim
+tzlocal==4.3
 tzlocal==4.3
     # via
     #   dateparser
@@ -694,6 +748,7 @@ urllib3[socks]==1.26.15
     #   requests
     #   selenium
     #   sentry-sdk
+    #   twine
 vine==5.0.0
     # via
     #   amqp
@@ -708,7 +763,7 @@ wagtail==2.15.6
     #   -r requirements.in
     #   wagtail-cache
     #   wagtail-factories
-    #   wagtail-localize
+    #   wagtail-modeltranslation
     #   wagtail-seo
     #   wagtail-trash
     #   wagtailfontawesome
@@ -717,7 +772,7 @@ wagtail-cache==1.0.2
     # via -r requirements.in
 wagtail-factories==2.0.1
     # via -r requirements.in
-wagtail-localize==1.4
+wagtail-modeltranslation==0.11.0
     # via -r requirements.in
 wagtail-seo==1.0.0
     # via -r requirements.in
@@ -733,6 +788,7 @@ wcwidth==0.2.6
     # via prompt-toolkit
 webencodings==0.5.1
     # via
+    #   bleach
     #   cssselect2
     #   html5lib
     #   tinycss2
@@ -763,6 +819,7 @@ zipp==3.15.0
     # via importlib-metadata
 zope-event==4.6
     # via gevent
+zope-interface==6.0
 zope-interface==6.0
     # via gevent
 
