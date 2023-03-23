@@ -24,7 +24,7 @@ wagtail-trash==0.1.*
 
 # Prod tools
 # ------------
-gunicorn[eventlet]
+gunicorn[gevent]
 sentry-sdk==0.13.*
 
 

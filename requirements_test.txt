@@ -258,9 +258,9 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==18.2.0
+faker==18.3.0
     # via factory-boy
-filelock==3.10.0
+filelock==3.10.2
     # via virtualenv
 flake8==6.0.0
     # via
@@ -295,8 +295,8 @@ geoip2==2.9.0
     # via -r requirements.in
 gevent==22.10.2
     # via
-    #   -r requirements.in
     #   geventhttpclient
+    #   gunicorn
     #   locust
 geventhttpclient==2.0.9
     # via locust
@@ -304,7 +304,7 @@ great-components==2.1.2
     # via -r requirements.in
 greenlet==2.0.2
     # via gevent
-gunicorn==20.1.0
+gunicorn[gevent]==20.1.0
     # via -r requirements.in
 h11==0.14.0
     # via wsproto
@@ -478,7 +478,7 @@ pyhanko-certvalidator==0.20.1
     # via
     #   pyhanko
     #   xhtml2pdf
-pylint==2.17.0
+pylint==2.17.1
     # via
     #   pylint-django
     #   pylint-plugin-utils
@@ -547,11 +547,11 @@ qrcode==7.4.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==4.5.2
+redis==4.5.3
     # via
     #   celery
     #   django-redis
-regex==2022.10.31
+regex==2023.3.22
     # via dateparser
 reportlab==3.6.12
     # via

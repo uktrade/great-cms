@@ -62,8 +62,8 @@
 #       A positive integer. Generally set in the 1-5 seconds range.
 #
 
-workers = 4
-worker_class = 'eventlet'
-worker_connections = 1000
+workers = 1
+worker_class = 'gevent'
+worker_connections = 50
 timeout = 300
 graceful_timeout = 300
