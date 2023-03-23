@@ -58,6 +58,7 @@ def test_ukef_community_form_api_serialization_with_other_options(valid_contact_
 def test_get_sector_choices():
     IndustryTagFactory(name='Sector1')
     IndustryTagFactory(name='Sector2')
+    IndustryTagFactory(name='Sector3')
 
     sector_choices = CampaignLongForm.get_sector_choices()
 
@@ -90,4 +91,3 @@ def test_campaign_short_form(valid_campaign_short_form_data):
     assert form.cleaned_data['first_name'] == valid_campaign_short_form_data['first_name']
     assert form.cleaned_data['last_name'] == valid_campaign_short_form_data['last_name']
     assert form.cleaned_data['email'] == valid_campaign_short_form_data['email']
-    

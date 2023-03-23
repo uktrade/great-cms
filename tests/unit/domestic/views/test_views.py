@@ -355,7 +355,6 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
     @pytest.fixture(autouse=True)
     def domestic_homepage_fixture(self, domestic_homepage):
         self.domestic_homepage = domestic_homepage
-        
 
     def setUp(self):
         
@@ -384,10 +383,10 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
 
     def test_get_form_class_is_short(self):
         client = Client()
-        url = reverse('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
-        request = client.get(url, {'page_slug': 'test-article-one'})
-        view = domestic.views.campaign.CampaignView(request=request, kwargs={'page_slug': 'test-article-one'})
-        view.setup(request=request, kwargs={'page_slug': 'test-article-one'})
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
+        request = client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        view.setup(request=request)
         form_class = view.get_form_class()
         self.assertEqual(form_class, CampaignShortForm)
 
