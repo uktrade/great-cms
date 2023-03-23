@@ -19,6 +19,7 @@ class CampaignView(BaseNotifyUserFormView):
             if page_slug is None:
                 return None
             try:
+                print(ArticlePage.objects.live())
                 return ArticlePage.objects.live().get(slug=page_slug)
             except ObjectDoesNotExist:
                 return None
