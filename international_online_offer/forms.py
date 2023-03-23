@@ -1,4 +1,4 @@
-from django.forms import Select
+from django.forms import PasswordInput, Select
 from django.utils.html import mark_safe
 from great_components import forms
 
@@ -225,3 +225,26 @@ class ContactForm(forms.Form):
             self.add_error('company_location', 'This field is required.')
         else:
             return cleaned_data
+
+
+PASSWORD_HELP_TEXT = (
+    '<p>Your password must:</p>'
+    '<ul class="list list-bullet margin-l-30-m">'
+    '<li>be at least 10 characters</li>'
+    '<li>have at least 1 letter</li>'
+    '<li>have at least 1 number</li>'
+    '<li>not contain the words which are easy to guess such as "password"'
+    '</li>'
+    '</ul>'
+)
+
+
+class LoginForm(forms.Form):
+    email = forms.EmailField(label='')
+    password = forms.CharField(label='', widget=PasswordInput)
+
+
+class SignUpForm(forms.Form):
+    email = forms.EmailField(label='')
+    password = forms.CharField(label='', widget=PasswordInput)
+    code_confirm = forms.CharField(label='')

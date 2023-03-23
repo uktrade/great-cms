@@ -105,3 +105,25 @@ class IOOContact(FormView):
             complete_contact_form_message=LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE,
             back_url='/international/international-online-offer/guide/',
         )
+
+
+class IOOLogin(FormView):
+    form_class = forms.LoginForm
+    template_name = 'ioo/login.html'
+    success_url = reverse_lazy('international_online_offer:signup')
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+        )
+
+
+class IOOSignUp(FormView):
+    form_class = forms.SignUpForm
+    template_name = 'ioo/signup.html'
+    success_url = reverse_lazy('international_online_offer:login')
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+        )
