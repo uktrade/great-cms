@@ -15,6 +15,7 @@ from domestic.forms import CampaignLongForm, CampaignShortForm
 from domestic.views.ukef import GetFinanceLeadGenerationFormView
 from tests.unit.domestic.factories import ArticlePageFactory
 from django.test import Client
+from domestic.models import  StructuralPage
 
 pytestmark = [
     pytest.mark.django_db,
@@ -353,8 +354,11 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
     @pytest.fixture(autouse=True)
     def domestic_homepage_fixture(self, domestic_homepage):
         self.domestic_homepage = domestic_homepage
+        
 
     def setUp(self):
+        
+        self.parent_page = StructuralPage(slug='campaigns', title='campaings', parent = self.domestic_homepage)
         article_body1 = json.dumps([
             {'type' : 'form', 'value': {'type': 'Short', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}}
         ])
@@ -368,22 +372,16 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         ])
 
         self.article1 = ArticlePageFactory(
-            slug='test-article-one', article_body=article_body1, parent=self.domestic_homepage, article_title='test'
+            slug='test-article-one', article_body=article_body1, parent=self.parent_page, article_title='test'
         )
 
-        self.article2 = ArticlePageFactory(slug='test-article-two', article_body=article_body2, parent=self.domestic_homepage, article_title='test')
+        self.article2 = ArticlePageFactory(slug='test-article-two', article_body=article_body2, parent=self.parent_page, article_title='test')
 
         self.article3 = ArticlePageFactory(
-            slug='test-article-three', article_body=article_body3, parent=self.domestic_homepage, article_title='test'
+            slug='test-article-three', article_body=article_body3, parent=self.parent_page, article_title='test'
         )
 
     def test_get_form_class_is_short(self):
-        article_body1 = json.dumps([
-            {'type' : 'form', 'value': {'type': 'Short', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}}
-        ])
-        ArticlePageFactory(
-            slug='test-article-one', article_body=article_body1, parent=self.domestic_homepage, article_title='test'
-        )
         client = Client()
         url = reverse('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
         request = client.get(url, {'page_slug': 'test-article-one'})
