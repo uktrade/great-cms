@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from wagtail_factories import DocumentFactory
 
 from config import settings
-from export_academy.helpers import get_buttons_for_event, is_export_academy_registered
+from export_academy import helpers
 from tests.unit.export_academy import factories
 
 
@@ -16,7 +16,7 @@ def test_book_button_returned_for_upcoming_event_registered_user(user):
     factories.RegistrationFactory(email=user.email)
     event = factories.EventFactory(start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7))
 
-    buttons = get_buttons_for_event(user, event)
+    buttons = helpers.get_buttons_for_event(user, event)
 
     assert buttons['form_event_booking_buttons'] == [
         {
@@ -33,7 +33,7 @@ def test_book_button_returned_for_upcoming_event_not_registered_user(user):
     now = datetime.now(tz=timezone.utc)
     event = factories.EventFactory(start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7))
 
-    buttons = get_buttons_for_event(user, event)
+    buttons = helpers.get_buttons_for_event(user, event)
 
     assert buttons['form_event_booking_buttons'] == [
         {
@@ -52,7 +52,7 @@ def test_cancel_button_returned_for_booked_upcoming_event(user):
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
-    buttons = get_buttons_for_event(user, event)
+    buttons = helpers.get_buttons_for_event(user, event)
 
     assert buttons['form_event_booking_buttons'] == [
         {
@@ -68,13 +68,13 @@ def test_cancel_button_returned_for_booked_upcoming_event(user):
 def test_join_button_returned_for_booked_in_progress_event(user):
     now = datetime.now(tz=timezone.utc)
     event = factories.EventFactory(
-        start_date=now - timedelta(minutes=settings.EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS),
+        start_date=now - timedelta(minutes=settings.EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS),  # type: ignore
         end_date=now + timedelta(hours=1),
     )
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
-    buttons = get_buttons_for_event(user, event)
+    buttons = helpers.get_buttons_for_event(user, event)
 
     assert buttons['event_action_buttons'] == [
         {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'}
@@ -91,7 +91,7 @@ def test_join_button_returned_for_booked_in_upcoming_event(user):
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
-    buttons = get_buttons_for_event(user, event)
+    buttons = helpers.get_buttons_for_event(user, event)
 
     assert buttons['event_action_buttons'] == [
         {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'}
@@ -108,7 +108,7 @@ def test_view_buttons_returned_for_booked_past_event(user):
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
-    buttons = get_buttons_for_event(user, event)
+    buttons = helpers.get_buttons_for_event(user, event)
 
     assert buttons['event_action_buttons'] == [
         {
@@ -130,11 +130,34 @@ def test_view_buttons_returned_for_booked_past_event(user):
 def test_is_export_academy_unregistered():
     user = AnonymousUser()
 
-    assert is_export_academy_registered(user) is False
+    assert helpers.is_export_academy_registered(user) is False
 
 
 @pytest.mark.django_db
 def test_is_export_academy_registered(user):
     factories.RegistrationFactory(email=user.email)
 
-    assert is_export_academy_registered(user) is True
+    assert helpers.is_export_academy_registered(user) is True
+
+
+@pytest.mark.django_db
+def test_param_builder_sets_navigation_defaults(user, rf, client):
+    factories.RegistrationFactory(email=user.email)
+    request = rf.get('/')
+    request.user = user
+    request.session = client.session
+
+    assert helpers.build_request_navigation_params(request).dict() == {'navigation': 'all'}
+    assert 'navigation' not in request.session
+
+
+@pytest.mark.django_db
+def test_param_builder_persists_navigation_choice_in_session(user, rf, client):
+    factories.RegistrationFactory(email=user.email)
+    request = rf.get('/', {'navigation': 'booked'})
+    request.user = user
+    request.session = client.session
+
+    assert helpers.build_request_navigation_params(request).dict() == {'navigation': 'booked'}
+    assert 'navigation' in request.session
+    assert request.session['navigation'] == 'booked'

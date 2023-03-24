@@ -1,5 +1,7 @@
 from django import template
 
+from export_academy.helpers import is_export_academy_registered
+
 register = template.Library()
 
 
@@ -13,3 +15,12 @@ def event_list_buttons(context, event):
         }
     )
     return context
+
+
+@register.simple_tag(takes_context=True)
+def show_logged_in_navigation(context, navigation):
+    request = context['request']
+    if is_export_academy_registered(request.user):
+        return navigation
+
+    return ''

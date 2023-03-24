@@ -41,15 +41,10 @@ def test_export_academy_event_list_page_context(client, user, export_academy_lan
 
     client.force_login(user)
 
-    response = client.get(url)
-
-    assert list(response.context['bookings']) == []
-
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
     response = client.get(url)
 
-    assert [str(x) for x in response.context['bookings']] == [event.id]
     assert isinstance(response.context['filter'], EventFilter)
     assert response.context['landing_page'] == export_academy_landing_page
 
@@ -169,7 +164,7 @@ def test_export_academy_booking_success(mock_notify_booking, client, user):
     response = client.post(url, form_data)
 
     assert len(factories.Booking.objects.all()) == 1
-    assert factories.Booking.objects.first().status == 'Confirmed'
+    assert factories.Booking.objects.first().status == 'Confirmed'  # type: ignore
     assert response.status_code == 302
     assert response.url == reverse('export_academy:booking-success')
     assert mock_notify_booking.call_count == 1

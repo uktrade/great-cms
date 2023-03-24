@@ -1,5 +1,6 @@
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.forms import Select, Textarea
+from django.forms.widgets import ChoiceWidget
 from django.utils.translation import gettext_lazy as _
 from great_components import forms
 
@@ -8,6 +9,15 @@ from directory_constants.choices import COUNTRY_CHOICES
 
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
+
+
+class ChoiceSubmitButtonWidget(ChoiceWidget):
+    """ChoiceSubmitButtonWidget renders choices as multiple 'submit' type buttons"""
+
+    input_type = 'submit'
+    template_name = 'export_academy/widgets/submit.html'
+    option_template_name = 'export_academy/widgets/submit_option.html'
+    checked_attribute = {'disabled': True}
 
 
 class EARegistration(GovNotifyEmailActionMixin, forms.Form):
