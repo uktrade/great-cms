@@ -210,6 +210,11 @@ if env.bool('MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False):
     WAGTAIL_CONTENT_LANGUAGES += [('es', "Spanish")]
     LANGUAGES = WAGTAIL_CONTENT_LANGUAGES
 
+    INSTALLED_APPS += [
+        "wagtail_localize",
+        "wagtail_localize.locales",
+    ]
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
