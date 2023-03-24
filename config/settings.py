@@ -210,10 +210,18 @@ if env.bool('MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False):
     WAGTAIL_CONTENT_LANGUAGES += [('es', "Spanish")]
     LANGUAGES = WAGTAIL_CONTENT_LANGUAGES
 
+    # below assignments behind feature flag temporary while we experiment with
+    # additional language support. They will be promoted to main initilisation once
+    #  we have proven one language.
     INSTALLED_APPS += [
         "wagtail_localize",
         "wagtail_localize.locales",
     ]
+
+    # needs to be after SessionMiddleware but before CommonMiddleware
+    MIDDLEWARE.insert(1, 'django.middleware.locale.LocaleMiddleware')
+
+    MIDDLEWARE += ['directory_components.middleware.LocaleQuerystringMiddleware']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
