@@ -200,6 +200,15 @@ USE_L10N = True
 
 USE_TZ = True
 
+WAGTAIL_I18N_ENABLED = True
+
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+    ('en', "English"),
+]
+
+if env.bool('MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False):
+    WAGTAIL_CONTENT_LANGUAGES += [('es', "Spanish")]
+    LANGUAGES = WAGTAIL_CONTENT_LANGUAGES
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
