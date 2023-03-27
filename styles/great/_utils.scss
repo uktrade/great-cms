@@ -1,6 +1,10 @@
 @import './colors.scss';
 @import './typography.scss';
 
+%great-text-grey {
+    color: $great-grey;
+}
+
 .great {
     overflow-x: hidden;
 
@@ -9,11 +13,14 @@
     h3,
     h4,
     h5,
-    h6,
-    p,
-    ol,
-    ul {
+    h6 {
+        font-family: $great-font-bold;
+        color: $great-dark-grey;
+    }
+
+    p, span, ol, ul, a {
         font-family: $great-font;
+        color: $great-dark-grey;
     }
 
     .govuk-button {
@@ -26,6 +33,14 @@
             color: $govuk-brand-colour;
         }
     }
+
+    .great-text-grey {
+        @extend %great-text-grey;
+    }
+}
+
+.great-container {
+    max-width: 1230px;
 }
 
 .great-border-top-blue {
@@ -40,14 +55,47 @@
     background-color: $great-light-blue;
 }
 
-.great-light-grey {
+.great-text-grey {
+    @extend %great-text-grey;
+}
+
+.great-text-light-grey {
     color: $great-light-grey;
+}
+
+.great-text-blue {
+    color: $govuk-brand-colour;
 }
 
 .great-max-width-75 {
     max-width: 75%;
 }
 
+.great-max-width-80 {
+    max-width: 80%;
+}
+
 .great-font-size-18 {
     font-size: 18px;
+}
+
+.great-font-size-28 {
+    font-size: 28px;
+}
+
+.great-ratio-16-9 {
+    padding-top: 56.25%;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+
+    > * {
+        width: 100%;
+        height: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
 }

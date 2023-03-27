@@ -209,8 +209,8 @@ def add_govuk_classes(value):
     mapping = [
         ('h1', 'govuk-heading-xl'),
         ('h2', 'govuk-heading-l'),
-        ('h3', 'govuk-heading-m'),
-        ('h4', 'govuk-heading-s'),
+        ('h3', 'govuk-heading-m great-font-size-28'),
+        ('h4', 'govuk-heading-m'),
         ('h5', 'govuk-heading-s'),
         ('h6', 'govuk-heading-s'),
         ('ul', 'govuk-list govuk-list--bullet'),
