@@ -4,6 +4,7 @@ from urllib.parse import unquote
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.forms import Select
 from django.http import Http404, HttpResponseRedirect
@@ -90,7 +91,8 @@ class GreatMedia(Media):
             self.file.name = self.file.storage.get_available_name(self.file.name)
             unique_name = self.file.name
             self.file.name = self.filename
-            upload_media.apply_async((self, self.file.file.temporary_file_path()), serializer='pickle')
+            FileSystemStorage().save(self.file.name, self.file)
+            upload_media.apply_async((self.file, unique_name), serializer='pickle')
             self.file.name = unique_name
             self.title = self.title + " [PROCESSING]"
         return super().save(*args, **kwargs)
