@@ -1,20 +1,22 @@
 $standard-padding: 10px;
+$mobile-container-padding: 15px;
+$desktop-container-padding: $standard-padding * 3;
 $large-padding: $standard-padding * 2;
 $x-large-padding: $standard-padding * 3;
 $content-max-width: 1230px;
 $mobile-size: 640px;
 $tablet-size: 768px;
 $max-header-width: 1600px;
-$max-content-margin-breakpoint: $content-max-width + (2 * $x-large-padding);
+$max-content-margin-breakpoint: $content-max-width + (2 * $desktop-container-padding);
 
 @mixin container-horizontal-margin {
     @media only screen and (max-width: $mobile-size) {
-    margin-left: $x-large-padding * 0.5;
-    margin-right: $x-large-padding * 0.5;
+    margin-left: $mobile-container-padding * 0.5;
+    margin-right: $mobile-container-padding * 0.5;
   }
   @media only screen and (min-width: $mobile-size) and (max-width: $max-content-margin-breakpoint) {
-    margin-left: $x-large-padding;
-    margin-right: $x-large-padding;
+    margin-left: $desktop-container-padding;
+    margin-right: $desktop-container-padding;
   }
 
   @media only screen and (min-width: $max-content-margin-breakpoint) {

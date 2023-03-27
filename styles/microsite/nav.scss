@@ -12,9 +12,9 @@ $menu-border: 5px solid $color-alternative-text;
   > div:first-of-type {
     display: flex;
     @include width-container();
-    padding: $large-padding 0;
+    padding: govuk-spacing(4) 0;
     @media only screen and (max-width: $mobile-size) {
-      padding: 15px 0;
+      padding: $mobile-container-padding 0;
     }
 
     > div {
@@ -29,7 +29,7 @@ $menu-border: 5px solid $color-alternative-text;
         align-items: flex-start;
 
         h3 {
-          padding-top: 20px;
+          padding-top: govuk-spacing(4);
           font-size: $font-size-h3;
         }
       }
@@ -76,9 +76,9 @@ $menu-border: 5px solid $color-alternative-text;
       li {
         list-style: none;
         a {
-          padding-left: $large-padding;
+          padding-left: govuk-spacing(4);
           @media only screen and (max-width: $mobile-size) {
-            padding-left: $standard-padding;
+            padding-left: govuk-spacing(2);
           }
 
           text-transform: capitalize;
@@ -98,18 +98,19 @@ $menu-border: 5px solid $color-alternative-text;
   }
 
   nav {
-    padding-top: $standard-padding;
-    padding-bottom: 3px;
-    display: inline-flex;
     width: 100%;
-    @include width-container();
 
+    @include width-container();
+    padding: 0 0 3px 0;
     @media only screen and (max-width: $mobile-size) {
       display: none;
     }
-    gap: 45px;
+
     ul {
-      padding: $standard-padding 0;
+      padding: govuk-spacing(2) 0 0 0;
+      gap: 45px;
+      margin: 0;
+      display: inline-flex;
     }
     li {
       list-style-type: none;

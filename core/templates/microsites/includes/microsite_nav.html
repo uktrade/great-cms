@@ -14,12 +14,14 @@
     <div>
         {% if menu_items|length > 1 %}
             <nav>
-                {% for item in menu_items %}
-                    <li>
-                        <a class="{% if active_url == item.url %} active{% endif %}"
-                        href="{{ item.url }}">{{ item.title }}</a>
-                    </li>
-                {% endfor %}
+                <ul>
+                    {% for item in menu_items %}
+                        <li>
+                            <a class="{% if active_url == item.url %} active{% endif %}"
+                            href="{{ item.url }}">{{ item.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
             </nav>
         {% endif %}
     </div>
