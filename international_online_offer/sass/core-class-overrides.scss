@@ -87,7 +87,14 @@
     }
 }
 
+.autocomplete__menu li, .SelectiveLookupDisplay li {
+    border-top: 0px;
+    border-bottom: 0px;
+}
+
 .autocomplete__menu {
+    margin-top: 10px !important;
+    border-top: 2px solid black !important;
     width: 449px !important;
 
     @media (max-width: 640px) {
@@ -97,6 +104,13 @@
 
 .autocomplete__option {
     font-family: $govuk-font-family;
+    color: $atlas-dark-blue;
+    font-size: 24px;
+}
+
+.autocomplete__menu li:hover, .SelectiveLookupDisplay li:focus, .SelectiveLookupDisplay li:hover {
+    background-color: #DDE5ED !important;
+    color: $atlas-dark-blue;
 }
 
 .form-group {
