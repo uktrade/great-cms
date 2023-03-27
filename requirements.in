@@ -25,7 +25,7 @@ wagtail-trash==0.1.*
 # Prod tools
 # ------------
 gunicorn[gevent]==20.1.0
-sentry-sdk==0.13.*
+sentry-sdk==1.14.*
 
 
 # DIT packages
@@ -73,4 +73,4 @@ oauthlib==3.2.2
 celery[redis]==5.2.7
 django-celery-beat==2.2.1
 django-chunk-upload-handlers
-joblib
+wagtail-localize==1.4

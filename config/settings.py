@@ -201,6 +201,30 @@ USE_L10N = True
 
 USE_TZ = True
 
+if env.bool('FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False):
+    # below assignments behind feature flag temporarily while we experiment with
+    # additional language support. They will be promoted to main initilisation once
+    # we have proven one non-English language.
+
+    WAGTAIL_I18N_ENABLED = True
+
+    WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+        ('ar', 'Arabic'),
+        ('en-gb', 'English'),
+        ('es', 'Spanish'),
+        ('ko', 'Korean'),
+    ]
+
+    INSTALLED_APPS += [
+        'wagtail_localize',
+        'wagtail_localize.locales',
+    ]
+
+    # LocaleMiddleware needs to be after SessionMiddleware but before CommonMiddleware
+    MIDDLEWARE.insert(1, 'django.middleware.locale.LocaleMiddleware')
+
+    MIDDLEWARE += ['directory_components.middleware.LocaleQuerystringMiddleware']
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
