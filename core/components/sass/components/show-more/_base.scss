@@ -2,9 +2,29 @@
 // ============
 
 .show-more {
+    details {
+        position: relative;
+        margin-top: 20px;
+        margin-bottom: none !important;
+    }
 
-    // By default allows two lines of text before clipping
-    p {
+    details[open] {
+        margin-top: 0;
+        padding-bottom: 40px;
+    }
+
+    details[open] summary {
+        position: absolute;
+        bottom: 0;
+    }
+
+    details[open] summary::before {
+        transform: rotate(90deg);
+        margin-top: 6px;
+        margin-right: 10px;
+    }
+
+    .details-text-closed {
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -13,9 +33,9 @@
         width: 100%;
     }
 
-    p:has(+ details[open]) {
-        display: block;
-        overflow: visible;
+    .details-text-open {
+        display: block !important;
+        overflow: visible !important;
     }
 
     summary {
@@ -34,9 +54,8 @@
         float: left;
     }
 
-    details[open] summary::before {
-        transform: rotate(90deg);
-        margin-top: 6px;
-        margin-right: 10px;
+    // Hides the default arrow on details component in Safari
+    details summary::-webkit-details-marker {
+        display: none;
     }
 }
