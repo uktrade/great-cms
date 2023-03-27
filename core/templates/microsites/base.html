@@ -1,5 +1,5 @@
 {% load wagtailcore_tags %}
-
+{% comment %}
 <p>Main pages</p>
 <ul>
 {% for item in page.get_menu_items %}
@@ -15,7 +15,7 @@
 <p>Related pages</p>
 {% for item in page.get_related_pages %}
      <li><a href={{item.url}}>{{ item.title }}</a></li>
-{% endfor %}
+{% endfor %} {% endcomment %}
 
 {% load static %}
 {% load i18n %}
@@ -178,10 +178,6 @@
 
 {% block cookie_notice %}
   {% include 'components/cookie_notice.html' %}
-{% endblock %}
-
-{% block body_header %}
-  {% include 'core/header.html' %}
 {% endblock %}
 
 {% block body_content_container %}

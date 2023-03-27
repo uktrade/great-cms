@@ -1516,6 +1516,17 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         if type(self.get_parent().specific) == MicrositePage:
             return [{'title': child.title, 'url': child.get_url()} for child in self.get_children()]
 
+    def get_site_title(self):
+        parent_page = self.get_parent().specific
+        while type(parent_page) != Microsite:
+            if type(parent_page) != MicrositePage:
+                break
+            parent_page = parent_page.get_parent().specific
+        if type(parent_page) == Microsite:
+            return parent_page.title
+        else:
+            return None
+
 
 @register_snippet
 class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
