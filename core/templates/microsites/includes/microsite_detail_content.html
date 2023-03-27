@@ -3,7 +3,14 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 <div class="microsite-main {{ view.slug }}-microsite">
-   {%include 'microsites/includes/microsite_nav.html' with title=page.get_site_title  menu_items=page.get_menu_items active_url=request.path%}
+  {% include 'microsites/includes/microsite_nav.html' with title=page.get_site_title  menu_items=page.get_menu_items active_url=request.path %}
+
+  {% image page.hero_image original as hero_image %}
+
+  {% if hero_image %}
+  <div class="great-full-width-header-image" style="background-image: url({{ hero_image.url }})"></div>
+  {% endif %}
+
   <div class="container govuk-!-padding-top-7">
     <div class="govuk-grid-row great-floating-right-column">
       <div class="govuk-grid-column-three-quarters govuk-!-margin-bottom-7">

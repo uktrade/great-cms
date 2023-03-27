@@ -51,6 +51,10 @@
     background-color: $great-white;
 }
 
+.great-bg-lighter-grey {
+    background-color: $great-lighter-grey;
+}
+
 .great-bg-light-blue {
     background-color: $great-light-blue;
 }
@@ -75,6 +79,12 @@
     max-width: 80%;
 }
 
+.great-height-100-desktop {
+    @include govuk-media-query($from: tablet) {
+        height: 100%;
+    }
+}
+
 .great-font-size-18 {
     font-size: 18px;
 }
@@ -97,5 +107,16 @@
         left: 0;
         bottom: 0;
         right: 0;
+    }
+}
+
+.great-full-width-bar {
+    margin: 0 -9999rem;
+    padding: 0 9999rem;
+}
+
+.great-display-flex-desktop {
+    @include govuk-media-query($from: tablet) {
+        display: flex;
     }
 }

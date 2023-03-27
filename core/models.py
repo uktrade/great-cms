@@ -45,7 +45,7 @@ from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
-from core.blocks import ColumnsBlock
+from core.blocks import ColumnsBlock, LinksBlock
 from core.case_study_index import delete_cs_index, update_cs_index
 from core.cms_snippets import NonPageContentSEOMixin, NonPageContentSnippetBase
 from core.constants import (
@@ -1404,6 +1404,17 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     min_num=2,
                     max_num=3,
                     template='microsites/blocks/columns.html',
+                ),
+            ),
+            (
+                'links_block',
+                StreamBlock(
+                    [
+                        ('link_block', LinksBlock()),
+                        ('text', RichTextBlock()),
+                    ],
+                    template='microsites/blocks/link.html',
+                    block_counts={'text': {'max_num': 1}, 'link_block': {'max_num': 6}},
                 ),
             ),
             (
