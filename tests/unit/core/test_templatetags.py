@@ -641,8 +641,8 @@ def test_reference_period(resolution, period, year, capitalise, expected):
     (
         ('<h1>content</h1>', '<h1 class="govuk-heading-xl">content</h1>'),
         ('<h2>content</h2>', '<h2 class="govuk-heading-l">content</h2>'),
-        ('<h3>content</h3>', '<h3 class="govuk-heading-m">content</h3>'),
-        ('<h4>content</h4>', '<h4 class="govuk-heading-s">content</h4>'),
+        ('<h3>content</h3>', '<h3 class="govuk-heading-m great-font-size-28">content</h3>'),
+        ('<h4>content</h4>', '<h4 class="govuk-heading-m">content</h4>'),
         ('<h5>content</h5>', '<h5 class="govuk-heading-s">content</h5>'),
         ('<h6>content</h6>', '<h6 class="govuk-heading-s">content</h6>'),
         ('<ul>content</ul>', '<ul class="govuk-list govuk-list--bullet">content</ul>'),
