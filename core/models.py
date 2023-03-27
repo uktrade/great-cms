@@ -53,6 +53,7 @@ from core.constants import (
     VIDEO_TRANSCRIPT_HELP_TEXT,
 )
 from core.context import get_context_provider
+from core.tasks import upload_media
 from core.utils import PageTopicHelper, get_first_lesson
 from exportplan.core.data import (
     SECTION_SLUGS as EXPORTPLAN_SLUGS,
@@ -79,6 +80,30 @@ class GreatMedia(Media):
         'transcript',
         'subtitles_en',
     )
+
+    def save(self, *args, **kwargs):
+        if hasattr(self.file, "_committed"):
+            self.file._committed = True
+            self.file.name = self.file.field.generate_filename(self.file.instance, self.file.name)
+            self.file.name = self.file.storage.get_available_name(self.file.name)
+            unique_name = self.file.name
+            self.file.name = self.filename
+            upload_media.apply_async((self, self.file.file.temporary_file_path()), serializer='pickle')
+            self.file.name = unique_name
+            self.title = self.title + " [PROCESSING]"
+        return super().save(*args, **kwargs)
+
+    def generate_filename(self, filename):
+        """
+        Validate the filename by calling get_valid_name() and return a filename
+        to be passed to the save() method.
+        """
+        filename = str(filename).replace('\\', '/')
+        # `filename` may include a path as returned by FileField.upload_to.
+        import os
+
+        dirname, filename = os.path.split(filename)
+        return os.path.normpath(os.path.join(dirname, self.get_valid_name(filename)))
 
     @property
     def sources(self):

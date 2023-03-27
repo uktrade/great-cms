@@ -3,7 +3,7 @@
 django==3.2.18
 django-environ==0.4.*
 django-redis==5.2.*
-django_storages[boto3]>=1.11.1
+django_storages[boto3]==1.11.1
 django-extensions==3.1.*
 django-ipware==2.1.*
 djangorestframework==3.11.*
@@ -24,7 +24,7 @@ wagtail-trash==0.1.*
 
 # Prod tools
 # ------------
-gunicorn[gevent]
+gunicorn[gevent]==20.1.0
 sentry-sdk==0.13.*
 
 
@@ -54,7 +54,7 @@ markdown2==2.4.0
 iso3166==1.0.1
 sphinx==1.8.*
 readtime==1.*
-cryptography>=38.0.3
+cryptography<40,>=38.0.3
 pillow>=7.1.0
 factory-boy==2.12.*
 dateparser==0.7.2
@@ -72,3 +72,5 @@ python-magic==0.4.27
 oauthlib==3.2.2
 celery[redis]==5.2.7
 django-celery-beat==2.2.1
+django-chunk-upload-handlers
+joblib

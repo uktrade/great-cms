@@ -66,6 +66,7 @@ blacken-docs==1.6.0
 boto3==1.24.96
     # via
     #   -r requirements.in
+    #   django-chunk-upload-handlers
     #   django-storages
 botocore==1.27.96
     # via
@@ -174,6 +175,7 @@ django==3.2.18
     #   directory-healthcheck
     #   directory-validators
     #   django-celery-beat
+    #   django-chunk-upload-handlers
     #   django-debug-toolbar
     #   django-decorator-include
     #   django-extensions
@@ -193,6 +195,8 @@ django==3.2.18
     #   wagtail
     #   wagtailfontawesome
 django-celery-beat==2.2.1
+    # via -r requirements.in
+django-chunk-upload-handlers==0.0.13
     # via -r requirements.in
 django-debug-toolbar==3.2.4
     # via -r requirements_test.in
@@ -218,8 +222,10 @@ django-redis==5.2.0
     # via -r requirements.in
 django-staff-sso-client==4.0.1
     # via -r requirements.in
-django-storages[boto3]==1.13.2
-    # via -r requirements.in
+django-storages[boto3]==1.11.1
+    # via
+    #   -r requirements.in
+    #   django-chunk-upload-handlers
 django-taggit==1.5.1
     # via wagtail
 django-timezone-field==4.2.3
@@ -258,9 +264,9 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==18.3.0
+faker==18.3.1
     # via factory-boy
-filelock==3.10.2
+filelock==3.10.3
     # via virtualenv
 flake8==6.0.0
     # via
@@ -551,7 +557,7 @@ redis==4.5.3
     # via
     #   celery
     #   django-redis
-regex==2023.3.22
+regex==2023.3.23
     # via dateparser
 reportlab==3.6.12
     # via

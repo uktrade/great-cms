@@ -64,6 +64,6 @@
 
 workers = 3
 worker_class = 'gevent'
-worker_connections = 50
-timeout = 300
-graceful_timeout = 300
+worker_connections = 100
+timeout = 180
+graceful_timeout = 150
