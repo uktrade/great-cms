@@ -1492,6 +1492,17 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         blank=True,
     )
 
+    def get_site_title(self):
+        parent_page = self.get_parent().specific
+        while type(parent_page) != Microsite:
+            if type(parent_page) != MicrositePage:
+                break
+            parent_page = parent_page.get_parent().specific
+        if type(parent_page) == Microsite:
+            return parent_page.title
+        else:
+            return None
+
     # Return the children of the top level Microsite parent of current page
     def get_menu_items(self):
         parent_page = self.get_ancestors().live().type(Microsite).first().specific

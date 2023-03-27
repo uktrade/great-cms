@@ -1,7 +1,9 @@
 @import '../sizes/sizes.scss';
 @import '../colors/colors.scss';
+@import '../fonts/main.scss';
 
 $color-inactive-nav-item: #dde5ed;
+$menu-border: 5px solid $color-alternative-text;
 
 .microsite-nav-container {
   padding: 0;
@@ -9,35 +11,37 @@ $color-inactive-nav-item: #dde5ed;
 
   > div:first-of-type {
     display: flex;
-    height: 113px;
     @include width-container();
+    padding: $large-padding 0;
+    @media only screen and (max-width: $mobile-size) {
+      padding: 15px 0;
+    }
 
     > div {
       position: relative;
       width: 100%;
       display: inline-flex;
-
-      h3{
-        padding-top: $x-large-padding;
-      }
+      align-items: center;
 
       @media only screen and (max-width: $mobile-size) {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
 
-        h3,
-        > div {
-          padding-top: 24px;
+        h3 {
+          padding-top: 20px;
+          font-size: $font-size-h3;
         }
       }
     }
     img {
       height: 83px;
+      //img has some white space to the left and bottom
       margin-left: -25px;
+      margin-bottom: -18px;
       @media only screen and (max-width: $mobile-size) {
         height: 63px;
-        margin-left: -22px;
+        margin-left: -18px;
       }
     }
 
@@ -45,10 +49,6 @@ $color-inactive-nav-item: #dde5ed;
       @media only screen and (min-width: $mobile-size) {
         padding-left: 35px;
       }
-    }
-
-    @media only screen and (max-width: $mobile-size) {
-      min-height: 181px;
     }
   }
 
@@ -61,9 +61,6 @@ $color-inactive-nav-item: #dde5ed;
   h3 {
     color: $color-alternative-text;
     text-transform: capitalize;
-    @media only screen and (min-width: $mobile-size) {
-      padding-top: 15px;
-    }
   }
 
   .magna-header__menu {
@@ -81,20 +78,29 @@ $color-inactive-nav-item: #dde5ed;
         list-style: none;
         a {
           padding-left: $large-padding;
+          @media only screen and (max-width: $mobile-size) {
+            padding-left: $standard-padding;
+          }
+
           text-transform: capitalize;
           color: $color-inactive-nav-item;
+          border-left: 5px solid transparent;
+          text-decoration: none;
+
+          &.active,
+          &:active,
+          &:hover {
+            color: $color-alternative-text;
+            border-left: $menu-border;
+          }
         }
-      }
-      .active {
-        color: $color-alternative-text;
-        border-left: 5px solid $color-alternative-text;
       }
     }
   }
 
   nav {
     padding-top: $standard-padding;
-    padding-bottom: 4px;
+    padding-bottom: 3px;
     display: inline-flex;
     width: 100%;
     @include width-container();
@@ -121,7 +127,7 @@ $color-inactive-nav-item: #dde5ed;
       &:hover {
         color: $color-alternative-text;
         font-weight: 600;
-        border-bottom: 5px solid $color-alternative-text;
+        border-bottom: $menu-border;
       }
     }
   }
@@ -129,5 +135,8 @@ $color-inactive-nav-item: #dde5ed;
   .magna-header__dropdown-button,
   .magna-header__dropdown {
     background: $color-footer;
+  }
+  .magna-header__dropdown {
+    top: 59px;
   }
 }
