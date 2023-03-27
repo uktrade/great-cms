@@ -21,6 +21,8 @@
 * KLS-269 - Develop frontend of events listing page
 * KLS-473 - Microsite HR styling tweaks and govuk template filter
 * KLS-406 - Navigation filters on logged-in events listing page
+* KLS-445 - Enable Internationalisation on Wagtail CMS
+* KLS-447 - Enable Spanish language support
 
 ## [2.28.0](https://github.com/uktrade/great-cms/releases/tag/2.28.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.27.0...2.28.0)
