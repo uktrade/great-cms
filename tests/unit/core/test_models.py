@@ -845,3 +845,11 @@ class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEquals(home.get_related_pages(), None)
         self.assertEqual(home_child.get_related_pages()[0]['title'], 'home-grandchild')
         self.assertEquals(home_grandchild.get_related_pages(), [])
+
+    def test_get_site_title(self):
+        root = MicrositeFactory(title='root')
+        home = MicrositePageFactory(page_title='home', title='home', parent=root)
+        home_child = MicrositePageFactory(page_title='home-child', title='home-child', parent=home)
+        home_grandchild = MicrositePageFactory(page_title='home-grandchild', title='home-grandchild', parent=home_child)
+
+        self.assertEqual(home_grandchild.get_site_title(), 'root')
