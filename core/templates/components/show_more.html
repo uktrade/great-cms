@@ -1,0 +1,9 @@
+{% comment %} Uses domestic/static/javascript/showMore.js
+to reveal full text when user clicks summary link {% endcomment %}
+
+<div class="show-more">
+    <p class='details-text details-text-closed'>{{ event.description }}</p>
+    <details closed data-show-more class="govuk-details">
+        <summary role="button" aria-describedby="details-text">{% if custom_link_text %}{{ custom_link_text }}{% else %}Show more{% endif %}</summary>
+    </details>
+</div>

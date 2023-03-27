@@ -33,23 +33,22 @@
     <div class="govuk-grid-column-two-thirds">
       <form method="post" onsubmit="return onSubmitContact()">
         {% csrf_token %}
-        <h4 class="govuk-heading-m" style="margin-bottom: 15px;">Company details</h4>
-        <label class="govuk-label" for="company_name">Company name</label>
-        {% include 'core/includes/form_field.html' with field=form.company_name %}
-        <label class="govuk-label" for="company_location">Company headquarters</label>
-        <div class="govuk-hint">Type to search and choose from the list</div>
-        {% include 'core/includes/form_field.html' with field=form.company_location %}
-        <h4 class="govuk-heading-m" style="margin-bottom: 15px;">Contact information</h4>
-        <label class="govuk-label" for="full_name">Full name</label>
+        <label class="govuk-label govuk-label--s" for="full_name">Full name</label>
         {% include 'core/includes/form_field.html' with field=form.full_name %}
-        <label class="govuk-label" for="role">Role</label>
+        <label class="govuk-label govuk-label--s" for="role">Role</label>
         <div class="govuk-hint">Your role within the company</div>
         {% include 'core/includes/form_field.html' with field=form.role %}
-        <label class="govuk-label" for="email">Email</label>
+        <label class="govuk-label govuk-label--s" for="email">Email</label>
         {% include 'core/includes/form_field.html' with field=form.email %}
-        <label class="govuk-label" for="telephone_number">Telephone number</label>
+        <label class="govuk-label govuk-label--s" for="telephone_number">Telephone number</label>
         <div class="govuk-hint">Please include the country code</div>
         {% include 'core/includes/form_field.html' with field=form.telephone_number %}
+        <label class="govuk-label govuk-label--s" for="company_name">Company name</label>
+        {% include 'core/includes/form_field.html' with field=form.company_name %}
+        <label class="govuk-label govuk-label--s" for="company_location">Company headquarters</label>
+        <div class="govuk-hint">Type to search and choose from the list</div>
+        {% include 'core/includes/form_field.html' with field=form.company_location %}
+        <br/>
         {% include 'core/includes/form_field.html' with field=form.agree_terms %}
         {% include 'core/includes/form_field.html' with field=form.agree_info_email %}
         {% include 'core/includes/form_field.html' with field=form.agree_info_telephone %}

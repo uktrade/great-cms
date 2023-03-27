@@ -72,3 +72,17 @@
         }
     }
 }
+
+.event-list-card {
+    padding: 30px 15px 0px;
+}
+
+.event-list-card::after {
+    margin-left: 15px;
+    border-bottom: solid 4px $color-thematic-break;
+    padding-bottom: 30px;
+}
+
+.event-metadata-block {
+    border-bottom: 1px solid #979797;
+}

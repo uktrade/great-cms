@@ -5,6 +5,7 @@ from urllib.parse import unquote
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.forms import Select
 from django.http import Http404, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -43,9 +44,10 @@ from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin
 
-from core import blocks as core_blocks, cms_panels, mixins
+from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
 from core.blocks import ColumnsBlock
 from core.case_study_index import delete_cs_index, update_cs_index
+from core.cms_snippets import NonPageContentSEOMixin, NonPageContentSnippetBase
 from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
     RICHTEXT_FEATURES__MINIMAL,
@@ -1538,3 +1540,42 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     def get_related_pages(self):
         if type(self.get_parent().specific) == MicrositePage:
             return [{'title': child.title, 'url': child.get_url()} for child in self.get_children()]
+
+
+@register_snippet
+class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
+    # Provide the options for pages which will use a hero snippet
+    slug_options = {
+        snippet_slugs.EXPORT_ACADEMY_LISTING_PAGE_HERO: {
+            'title': 'Hero for the Export Academy listing page',
+            'page_path': ('/export_academy/upcoming-events/'),
+        },
+    }
+    title = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    text = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+    image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    panels = [
+        MultiFieldPanel(
+            heading='Purpose',
+            children=[
+                FieldPanel('slug', widget=Select),
+            ],
+        ),
+        FieldPanel('title'),
+        FieldPanel('text'),
+        ImageChooserPanel('image'),
+    ]

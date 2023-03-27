@@ -5,44 +5,48 @@ from directory_forms_api_client import actions
 from django.urls import reverse
 
 from config import settings
+from core.models import HeroSnippet
+from core.snippet_slugs import EXPORT_ACADEMY_LISTING_PAGE_HERO
 from export_academy.filters import EventFilter
 from tests.unit.export_academy import factories
+
+
+@pytest.fixture
+def test_event_list_hero():
+    snippet = HeroSnippet(slug=EXPORT_ACADEMY_LISTING_PAGE_HERO)
+    snippet.save()
+    return snippet
 
 
 @pytest.mark.django_db
 def test_export_academy_landing_page(client, export_academy_landing_page, export_academy_site):
     response = client.get(export_academy_landing_page.url)
-
     assert response.status_code == 200
     assert export_academy_landing_page.title in str(response.rendered_content)
 
 
 @pytest.mark.django_db
-def test_export_academy_event_list_page(client):
+def test_export_academy_event_list_page(client, export_academy_landing_page, test_event_list_hero):
+    # Listing page needs a hero snippet instance to work
     url = reverse('export_academy:upcoming-events')
     response = client.get(url)
-
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_export_academy_event_list_page_context(client, user):
+def test_export_academy_event_list_page_context(client, user, export_academy_landing_page, test_event_list_hero):
     event = factories.EventFactory()
     registration = factories.RegistrationFactory(email=user.email)
     url = reverse('export_academy:upcoming-events')
 
     client.force_login(user)
 
-    response = client.get(url)
-
-    assert list(response.context['bookings']) == []
-
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
     response = client.get(url)
 
-    assert [str(x) for x in response.context['bookings']] == [event.id]
     assert isinstance(response.context['filter'], EventFilter)
+    assert response.context['landing_page'] == export_academy_landing_page
 
 
 @pytest.mark.django_db
@@ -160,7 +164,7 @@ def test_export_academy_booking_success(mock_notify_booking, client, user):
     response = client.post(url, form_data)
 
     assert len(factories.Booking.objects.all()) == 1
-    assert factories.Booking.objects.first().status == 'Confirmed'
+    assert factories.Booking.objects.first().status == 'Confirmed'  # type: ignore
     assert response.status_code == 302
     assert response.url == reverse('export_academy:booking-success')
     assert mock_notify_booking.call_count == 1

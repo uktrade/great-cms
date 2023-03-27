@@ -3,6 +3,7 @@
 ## Pre release
 
 ### Enhancements
+* IOO-455 - Sector and Location JSON updates
 * IOO-437 - International Online Offer wagtail integration: article page
 * IOO-427 - International Online Offer wagtail integration: landing pages and guide
 * KLS-426 - Add event types to filterset on UKEA's listings page
@@ -16,7 +17,12 @@
 * KLS-430 - EA Event details page
 * EAM-104 - Join and view buttons
 * KLS-388 - Added CTA streamfield block
-
+* KLS-467 - Update business details turnover options for the export contact page
+* KLS-269 - Develop frontend of events listing page
+* KLS-473 - Microsite HR styling tweaks and govuk template filter
+* KLS-406 - Navigation filters on logged-in events listing page
+* KLS-474 - Microsite styling tweaks
+* KLS-497 - Fix show more component to work cross-browser
 
 ## [2.28.0](https://github.com/uktrade/great-cms/releases/tag/2.28.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.27.0...2.28.0)

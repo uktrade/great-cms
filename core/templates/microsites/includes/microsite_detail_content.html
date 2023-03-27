@@ -4,18 +4,18 @@
 
 <div class="microsite-main {{ view.slug }}-microsite">
   <div class="container govuk-!-padding-top-7">
-    <div class="govuk-grid-row">
+    <div class="govuk-grid-row great-floating-right-column">
       <div class="govuk-grid-column-three-quarters govuk-!-margin-bottom-7">
         {% if page.page_title %}
-          <h1 class="govuk-heading-l">{{ page.page_title }}</h1>
+          <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">{{ page.page_title }}</h1>
         {% endif %}
 
         {% if page.page_subheading %}
-          <p class="govuk-heading-m great-max-width-75">{{ page.page_subheading }}</p>
+          <p class="govuk-heading-m great-font-size-28 great-max-width-75">{{ page.page_subheading }}</p>
         {% endif %}
 
         {% if page.last_published_at %}
-          <p class="govuk-caption-m">
+          <p class="govuk-body great-text-grey">
             Last updated: <time datetime="{{page.last_published_at|date:'c'}}">{{page.last_published_at|date:"j F Y"}}</time>
           </p>
         {% endif %}
