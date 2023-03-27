@@ -207,7 +207,12 @@ if env.bool('FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False):
 
     WAGTAIL_I18N_ENABLED = True
 
-    WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [('en', 'English'), ('es', 'Spanish')]
+    WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+        ('ar', 'Arabic'),
+        ('en-gb', 'English'),
+        ('es', 'Spanish'),
+        ('ko', 'Korean'),
+    ]
 
     INSTALLED_APPS += [
         'wagtail_localize',
