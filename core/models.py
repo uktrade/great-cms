@@ -45,7 +45,7 @@ from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin
 
-from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
+from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs, tasks
 from core.blocks import ColumnsBlock
 from core.case_study_index import delete_cs_index, update_cs_index
 from core.cms_snippets import NonPageContentSEOMixin, NonPageContentSnippetBase
@@ -56,7 +56,6 @@ from core.constants import (
     VIDEO_TRANSCRIPT_HELP_TEXT,
 )
 from core.context import get_context_provider
-from core.tasks import upload_media
 from core.utils import PageTopicHelper, get_first_lesson
 from exportplan.core.data import (
     SECTION_SLUGS as EXPORTPLAN_SLUGS,
@@ -85,16 +84,17 @@ class GreatMedia(Media):
     )
 
     def save(self, *args, **kwargs):
-        if hasattr(self.file, "_committed"):
+        if hasattr(self.file, '_committed') and self.file.size > 50 * 1024 * 1024:
             self.file._committed = True
             self.file.name = self.file.field.generate_filename(self.file.instance, self.file.name)
             self.file.name = self.file.storage.get_available_name(self.file.name)
             unique_name = self.file.name
             self.file.name = self.filename
             FileSystemStorage().save(self.file.name, self.file)
-            upload_media.apply_async((self.file, unique_name), serializer='pickle')
+            tasks.upload_media.apply_async((self, unique_name), serializer='pickle')
             self.file.name = unique_name
             self.title = self.title + " [PROCESSING]"
+
         return super().save(*args, **kwargs)
 
     def generate_filename(self, filename):
