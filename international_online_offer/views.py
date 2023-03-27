@@ -40,7 +40,7 @@ class IOOIntent(FormView):
             **kwargs,
             back_url='international_online_offer:sector',
             step_text='Step 2 of 5',
-            question_text='How do you plan to expand your business into the UK?',
+            question_text='How do you plan to expand your business in the UK?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your expansion plans.""",
         )
