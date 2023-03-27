@@ -1,13 +1,8 @@
 {% load wagtailcore_tags %}
 
-<p>Main pages</p>
-<ul>
-{% for item in page.get_menu_items %}
-    <li><a href={{item.url}}>{{ item.title }}</a></li>
-{% endfor %}
-</ul>
 
-<p>Secondary pages</p>
+
+{% comment %} <p>Secondary pages</p>
 {% for item in page.get_secondary_pages %}
      <li><a href={{item.url}}>{{ item.title }}</a></li>
 {% endfor %}
@@ -15,7 +10,7 @@
 <p>Related pages</p>
 {% for item in page.get_related_pages %}
      <li><a href={{item.url}}>{{ item.title }}</a></li>
-{% endfor %}
+{% endfor %}  {% endcomment %}
 
 {% load static %}
 {% load i18n %}
@@ -51,6 +46,7 @@
   {% block cookie_domain_meta %}
     <meta id="privacyCookieDomain" value="{{ PRIVACY_COOKIE_DOMAIN }}" />
   {% endblock %}
+  {{request.path}}
   <title>
     {% block head_title %}
       {% if page.seo_title %}
@@ -178,10 +174,6 @@
 
 {% block cookie_notice %}
   {% include 'components/cookie_notice.html' %}
-{% endblock %}
-
-{% block body_header %}
-  {% include 'core/header.html' %}
 {% endblock %}
 
 {% block body_content_container %}

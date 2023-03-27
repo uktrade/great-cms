@@ -1,0 +1,133 @@
+@import '../sizes/sizes.scss';
+@import '../colors/colors.scss';
+
+$color-inactive-nav-item: #dde5ed;
+
+.microsite-nav-container {
+  padding: 0;
+  align-items: center;
+
+  > div:first-of-type {
+    display: flex;
+    height: 113px;
+    @include width-container();
+
+    > div {
+      position: relative;
+      width: 100%;
+      display: inline-flex;
+
+      h3{
+        padding-top: $x-large-padding;
+      }
+
+      @media only screen and (max-width: $mobile-size) {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        h3,
+        > div {
+          padding-top: 24px;
+        }
+      }
+    }
+    img {
+      height: 83px;
+      margin-left: -25px;
+      @media only screen and (max-width: $mobile-size) {
+        height: 63px;
+        margin-left: -22px;
+      }
+    }
+
+    div + h3 {
+      @media only screen and (min-width: $mobile-size) {
+        padding-left: 35px;
+      }
+    }
+
+    @media only screen and (max-width: $mobile-size) {
+      min-height: 181px;
+    }
+  }
+
+  > div:nth-of-type(2) {
+    display: flex;
+    border-top: 1px solid #615b7c;
+  }
+  background-color: $color-footer;
+
+  h3 {
+    color: $color-alternative-text;
+    text-transform: capitalize;
+    @media only screen and (min-width: $mobile-size) {
+      padding-top: 15px;
+    }
+  }
+
+  .magna-header__menu {
+    position: absolute;
+    display: none;
+    button {
+      margin-left: auto;
+    }
+    @media only screen and (max-width: $mobile-size) {
+      display: block;
+    }
+    .magna-header__menu-items {
+      padding: 0px;
+      li {
+        list-style: none;
+        a {
+          padding-left: $large-padding;
+          text-transform: capitalize;
+          color: $color-inactive-nav-item;
+        }
+      }
+      .active {
+        color: $color-alternative-text;
+        border-left: 5px solid $color-alternative-text;
+      }
+    }
+  }
+
+  nav {
+    padding-top: $standard-padding;
+    padding-bottom: 4px;
+    display: inline-flex;
+    width: 100%;
+    @include width-container();
+
+    @media only screen and (max-width: $mobile-size) {
+      display: none;
+    }
+    gap: 45px;
+    ul {
+      padding: $standard-padding 0;
+    }
+    li {
+      list-style-type: none;
+    }
+    a {
+      text-decoration: none;
+      text-transform: capitalize;
+      font-weight: 400;
+      border-bottom: 5px solid transparent;
+      padding-bottom: 4px;
+      color: $color-inactive-nav-item;
+
+      &.active,
+      &:hover {
+        color: $color-alternative-text;
+        font-weight: 600;
+        border-bottom: 5px solid $color-alternative-text;
+      }
+    }
+  }
+  .magna-header__dropdown-button[aria-expanded='true'],
+  .magna-header__dropdown-button,
+  .magna-header__dropdown {
+    background: $color-footer;
+  }
+}

@@ -1,4 +1,7 @@
 @import '../great/main.scss';
+@import '../sizes/sizes.scss';
+@import '../colors/colors.scss';
+@import './nav.scss';
 
 .microsite {
   .block-text {
@@ -16,7 +19,15 @@
       }
     }
 
-    h1, h2, h3, h4, h5, h6, p, ol, ul {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    ol,
+    ul {
       font-family: $great-font;
     }
 

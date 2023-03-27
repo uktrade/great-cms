@@ -5,14 +5,12 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 
-{% block head_title %}{{ page.page_title }}{% endblock %}
+{% comment %} {% block head_title %}{{ page.page_title }}{% endblock %} {% endcomment %}
 
 {% block meta_description %}{% get_meta_description site %}{% endblock %}
 {% block css_layout_class %}microsite-detail-page{% endblock css_layout_class %}
 
 {% block content %}
-
-
 {% image page.hero_image original as hero_image %}
 
 {% if hero_image %}
