@@ -25,6 +25,9 @@
 * KLS-497 - Fix show more component to work cross-browser
 * KLS-504 - Upgrade webpack to 5.76.0
 * KLS-503 - Upgrade sentry-sdk to 1.14.0
+* KLS-445 - Enable Internationalisation on Wagtail CMS
+* KLS-447 - Add support for Spanish language content
+
 
 ## [2.28.0](https://github.com/uktrade/great-cms/releases/tag/2.28.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.27.0...2.28.0)

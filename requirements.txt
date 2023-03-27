@@ -135,6 +135,7 @@ django==3.2.18
     #   great-components
     #   sigauth
     #   wagtail
+    #   wagtail-localize
     #   wagtailfontawesome
 django-celery-beat==2.2.1
     # via -r requirements.in
@@ -267,6 +268,8 @@ pillow==9.4.0
     #   xhtml2pdf
 pisa==3.0.33
     # via -r requirements.in
+polib==1.2.0
+    # via wagtail-localize
 prompt-toolkit==3.0.38
     # via click-repl
 psycopg2==2.9.5
@@ -391,6 +394,7 @@ typing-extensions==4.5.0
     # via
     #   pypdf
     #   qrcode
+    #   wagtail-localize
 tzdata==2023.2
     # via pytz-deprecation-shim
 tzlocal==4.3
@@ -422,6 +426,7 @@ wagtail==2.15.6
     #   -r requirements.in
     #   wagtail-cache
     #   wagtail-factories
+    #   wagtail-localize
     #   wagtail-seo
     #   wagtail-trash
     #   wagtailfontawesome
@@ -429,6 +434,8 @@ wagtail==2.15.6
 wagtail-cache==1.0.2
     # via -r requirements.in
 wagtail-factories==2.0.1
+    # via -r requirements.in
+wagtail-localize==1.4
     # via -r requirements.in
 wagtail-seo==1.0.0
     # via -r requirements.in
