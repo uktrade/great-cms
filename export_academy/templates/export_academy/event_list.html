@@ -63,7 +63,10 @@
                         <div class="govuk-grid-column-three-quarters">
                             <h4>{{ event.name }}</h4>
                             <p class="great-font-size-18 great-text-light-grey">Duration: {{ event.start_date|timesince:event.end_date }}</p>
-                            {% include 'components/show_more.html' with text=event.description %}
+                            <div class='js-enabled-only'>
+                                {% include 'components/show_more.html' with text=event.description index=forloop.counter %}
+                            </div>
+                            <p class='js-disabled-only'>{{event.description}}</p>
                             <a href="https://www.events.great.gov.uk/ereg/newreg.php?eventid=200236512&language=eng" class="button secondary-button">Register</a>
                         </div>
                     </div>
@@ -79,6 +82,7 @@
 {% block body_js %}
 {{ block.super }}
 <script src="{% static 'javascript/eventFilters.js' %}"></script>
+<script src="{% static 'javascript/showMore.js'%}"></script>
 <script>
   $(function() {
     eventFilters.init();
