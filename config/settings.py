@@ -200,27 +200,24 @@ USE_L10N = True
 
 USE_TZ = True
 
-WAGTAIL_I18N_ENABLED = True
-
-WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
-    ('en', "English"),
-]
-
 if env.bool('MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False):
-    WAGTAIL_CONTENT_LANGUAGES += [('es', "Spanish")]
-    LANGUAGES = WAGTAIL_CONTENT_LANGUAGES
-
-    # below assignments behind feature flag temporary while we experiment with
+    # below assignments behind feature flag temporarily while we experiment with
     # additional language support. They will be promoted to main initilisation once
-    #  we have proven one language.
+    # we have proven one non-English language.
+
+    WAGTAIL_I18N_ENABLED = True
+
+    WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [('en', 'English'), ('es', 'Spanish')]
+
     INSTALLED_APPS += [
-        "wagtail_localize",
-        "wagtail_localize.locales",
+        'wagtail_localize',
+        'wagtail_localize.locales',
     ]
 
     # needs to be after SessionMiddleware but before CommonMiddleware
     MIDDLEWARE.insert(1, 'django.middleware.locale.LocaleMiddleware')
 
+    # after Django's LocaleMiddleware so that precedence is given to languages in QS
     MIDDLEWARE += ['directory_components.middleware.LocaleQuerystringMiddleware']
 
 # Static files (CSS, JavaScript, Images)
