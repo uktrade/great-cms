@@ -200,7 +200,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-if env.bool('MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False):
+if env.bool('FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False):
     # below assignments behind feature flag temporarily while we experiment with
     # additional language support. They will be promoted to main initilisation once
     # we have proven one non-English language.
