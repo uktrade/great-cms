@@ -811,6 +811,10 @@ class MicrositeTests(WagtailPageTests):
 
 
 class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
+    @pytest.fixture(autouse=True)
+    def domestic_homepage_fixture(self, domestic_homepage):
+        self.domestic_homepage = domestic_homepage
+
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             MicrositePage,
@@ -853,3 +857,11 @@ class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
         home_grandchild = MicrositePageFactory(page_title='home-grandchild', title='home-grandchild', parent=home_child)
 
         self.assertEqual(home_grandchild.get_site_title(), 'root')
+
+    def test_get_site_title_is_none(self):
+        landing_page = factories.LandingPageFactory(parent=self.domestic_homepage)
+        home = MicrositePageFactory(page_title='home', title='home', parent=landing_page)
+        home_child = MicrositePageFactory(page_title='home-child', title='home-child', parent=home)
+        home_grandchild = MicrositePageFactory(page_title='home-grandchild', title='home-grandchild', parent=home_child)
+
+        self.assertEqual(home_grandchild.get_site_title(), None)
