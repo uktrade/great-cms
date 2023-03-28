@@ -1,11 +1,9 @@
 import hashlib
 import mimetypes
-import os
 from urllib.parse import unquote
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.forms import Select
 from django.http import Http404, HttpResponseRedirect
@@ -92,11 +90,7 @@ class GreatMedia(Media):
             self.file.name = self.file.field.generate_filename(self.file.instance, self.file.name)
             self.file.name = self.file.storage.get_available_name(self.file.name)
             unique_name = self.file.name
-            self.file.name = self.filename
-            fs = FileSystemStorage()
-            f_name = fs.save(self.file.name, self.file)
-            file_path = os.path.join(fs.base_location, f_name)
-            tasks.upload_media.apply_async((self, file_path), serializer='pickle')
+            tasks.upload_media.apply_async((self, self.file.file.read()), serializer='pickle')
             self.file.name = unique_name
             self.title = self.title + " [PROCESSING]"
 
