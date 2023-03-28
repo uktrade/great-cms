@@ -839,7 +839,7 @@ class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
         home_grandchild = MicrositePageFactory(page_title='home-grandchild', title='home-grandchild', parent=home_child)
 
         self.assertEqual(home.get_menu_items()[0]['title'], 'Home')
-        self.assertEqual(len(home.get_menu_items()), 3)
+        self.assertEqual(len(home.get_menu_items()), 2)
         self.assertEqual(home_child.get_menu_items()[0]['title'], 'Home')
         self.assertEqual(home_grandchild.get_menu_items()[0]['title'], 'Home')
 
