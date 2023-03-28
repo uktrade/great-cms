@@ -7,7 +7,6 @@ import sentry_sdk
 from django.urls import reverse_lazy
 from elasticsearch import RequestsHttpConnection
 from elasticsearch_dsl.connections import connections
-from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 
 import healthcheck.backends
@@ -357,7 +356,7 @@ if env.str('SENTRY_DSN', ''):
     sentry_sdk.init(
         dsn=env.str('SENTRY_DSN'),
         environment=env.str('SENTRY_ENVIRONMENT'),
-        integrations=[DjangoIntegration(), CeleryIntegration()],
+        integrations=[DjangoIntegration()],
     )
 
 USE_X_FORWARDED_HOST = True
@@ -915,12 +914,11 @@ WAGTAILDOCS_MIME_TYPES = [
 # Celery
 CELERY_BROKER_URL = REDIS_URL
 CELERY_RESULT_BACKEND = REDIS_URL
-# CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'pickle'
+CELERY_RESULT_SERIALIZER = 'pickle'
 CELERY_TIMEZONE = 'UTC'
 CELERY_BROKER_POOL_LIMIT = None
-CELERY_ACCEPT_CONTENT = ['pickle']
+CELERY_ACCEPT_CONTENT = ['application/json', 'application/x-python-serialize']
 FEATURE_REDIS_USE_SSL = env.bool('FEATURE_REDIS_USE_SSL', False)
 
 EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES = env.int('EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES', 30)
