@@ -7,6 +7,7 @@ import sentry_sdk
 from django.urls import reverse_lazy
 from elasticsearch import RequestsHttpConnection
 from elasticsearch_dsl.connections import connections
+from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 
 import healthcheck.backends
@@ -356,7 +357,7 @@ if env.str('SENTRY_DSN', ''):
     sentry_sdk.init(
         dsn=env.str('SENTRY_DSN'),
         environment=env.str('SENTRY_ENVIRONMENT'),
-        integrations=[DjangoIntegration()],
+        integrations=[DjangoIntegration(), CeleryIntegration()],
     )
 
 USE_X_FORWARDED_HOST = True
