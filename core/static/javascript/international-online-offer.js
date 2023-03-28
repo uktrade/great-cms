@@ -213,47 +213,6 @@ function filterResults(data, query) {
   return dataParentNames;
 }
 
-function onSubmitSector() {
-  const iooFormData = getIooFormData();
-  document.getElementById('js-sector-select-select').value = document.getElementById('js-sector-select').value;
-  iooFormData.triageInfromation.sector = document.getElementById('js-sector-select').value;
-  setIooFormData(iooFormData);
-}
-
-function getSectorIfPreviouslySelected() {
-  const iooFormData = getIooFormData();
-  setTimeout(function() {
-      document.getElementById('js-sector-select-select').value = iooFormData.triageInfromation.sector;
-  }, 200);
-  return iooFormData.triageInfromation.sector;
-}
-
-function onSubmitIntent() {
-  const iooFormData = getIooFormData();
-  let checkedValues = [];
-  for (let i = 0; i < checkboxElements.length; i++) {
-    checkboxElements[i].checked && checkedValues.push(document.getElementById('intent-select_' + i).value)
-  }
-  iooFormData.triageInfromation.intent = checkedValues;
-  iooFormData.triageInfromation.intentOther = document.getElementById('id_intent_other').value;
-  setIooFormData(iooFormData);
-}
-
-function getIntentIfPreviouslySelected() {
-  const iooFormData = getIooFormData();
-  if (iooFormData.triageInfromation.intentOther) {
-      document.getElementById('id_intent_other').value = iooFormData.triageInfromation.intentOther;
-      otherCheckboxElement.click();
-  }
-  for (let i = 0; i < iooFormData.triageInfromation.intent.length; i++) {
-      for (let o = 0; o < checkboxElements.length; o++) {
-          if (iooFormData.triageInfromation.intent[i] == checkboxElements[o].value) {
-              checkboxElements[o].checked = true;
-          }
-      }
-  }
-}
-
 function customIOOLocationSuggest (query, populateResults) {
   const locationJson = [
     {
@@ -311,25 +270,14 @@ function customIOOLocationSuggest (query, populateResults) {
   )
 }
 
+function onSubmitSector() {
+  if (!document.getElementById('js-sector-select').value)
+    document.getElementById('js-sector-select-select').value = '';
+}
+
 function onSubmitLocation() {
-  const iooFormData = getIooFormData();
-  document.getElementById('js-location-select-select').value = document.getElementById('js-location-select').value;
-  iooFormData.triageInfromation.location = document.getElementById('js-location-select').value;
-  iooFormData.triageInfromation.locationOther = document.getElementById('id_location_none').checked;
-  setIooFormData(iooFormData);
-}
-
-function getLocationIfPreviouslySelected() {
-  const iooFormData = getIooFormData();
-  setTimeout(function() {
-    document.getElementById('js-location-select-select').value = iooFormData.triageInfromation.location;
-  }, 200);
-  return iooFormData.triageInfromation.location;
-}
-
-function getLocationNoneIfPreviouslySelected() {
-  const iooFormData = getIooFormData();
-  document.getElementById('id_location_none').checked = iooFormData.triageInfromation.locationOther
+  if (!document.getElementById('js-location-select').value)
+    document.getElementById('js-location-select-select').value = '';
 }
 
 function onSubmitHiring() {

@@ -71,8 +71,8 @@ class IntentForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        intent = cleaned_data = super().clean().get('intent')
-        intent_other = cleaned_data = super().clean().get('intent_other')
+        intent = cleaned_data.get('intent')
+        intent_other = cleaned_data.get('intent_other')
         if intent and any('Other' in s for s in intent) and not intent_other:
             self.add_error('intent_other', 'This field is required.')
         else:

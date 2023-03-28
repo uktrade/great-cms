@@ -29,6 +29,14 @@ class IOOSector(FormView):
               relevant to your sector and products or services.""",
         )
 
+    def get_initial(self):
+        inital_sector = self.request.session.get('sector')
+        return {'sector': inital_sector}
+
+    def form_valid(self, form):
+        self.request.session['sector'] = form.cleaned_data['sector']
+        return super().form_valid(form)
+
 
 class IOOIntent(FormView):
     form_class = forms.IntentForm
@@ -45,6 +53,16 @@ class IOOIntent(FormView):
               relevant to your expansion plans.""",
         )
 
+    def get_initial(self):
+        inital_intent = self.request.session.get('intent')
+        inital_intent_other = self.request.session.get('intent_other')
+        return {'intent': inital_intent, 'intent_other': inital_intent_other}
+
+    def form_valid(self, form):
+        self.request.session['intent'] = form.cleaned_data['intent']
+        self.request.session['intent_other'] = form.cleaned_data['intent_other']
+        return super().form_valid(form)
+
 
 class IOOLocation(FormView):
     form_class = forms.LocationForm
@@ -60,6 +78,16 @@ class IOOLocation(FormView):
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your city, county or region.""",
         )
+
+    def get_initial(self):
+        inital_location = self.request.session.get('location')
+        inital_location_none = self.request.session.get('location_none')
+        return {'location': inital_location, 'location_none': inital_location_none}
+
+    def form_valid(self, form):
+        self.request.session['location'] = form.cleaned_data['location']
+        self.request.session['location_none'] = form.cleaned_data['location_none']
+        return super().form_valid(form)
 
 
 class IOOHiring(FormView):
