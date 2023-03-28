@@ -105,6 +105,14 @@ class IOOHiring(FormView):
               relevant to your hiring.""",
         )
 
+    def get_initial(self):
+        inital_hiring = self.request.session.get('hiring')
+        return {'hiring': inital_hiring}
+
+    def form_valid(self, form):
+        self.request.session['hiring'] = form.cleaned_data['hiring']
+        return super().form_valid(form)
+
 
 class IOOSpend(FormView):
     form_class = forms.SpendForm
@@ -120,6 +128,16 @@ class IOOSpend(FormView):
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your spend.""",
         )
+
+    def get_initial(self):
+        inital_spend = self.request.session.get('spend')
+        inital_spend_other = self.request.session.get('spend_other')
+        return {'spend': inital_spend, 'spend_other': inital_spend_other}
+
+    def form_valid(self, form):
+        self.request.session['spend'] = form.cleaned_data['spend']
+        self.request.session['spend_other'] = form.cleaned_data['spend_other']
+        return super().form_valid(form)
 
 
 class IOOContact(FormView):

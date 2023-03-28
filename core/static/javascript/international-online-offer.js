@@ -280,49 +280,6 @@ function onSubmitLocation() {
     document.getElementById('js-location-select-select').value = '';
 }
 
-function onSubmitHiring() {
-  const iooFormData = getIooFormData();
-  const selectedRadioElement = document.querySelector('input[name="hiring"]:checked');
-  if (selectedRadioElement) {
-    iooFormData.triageInfromation.hiring = selectedRadioElement.value;
-    setIooFormData(iooFormData);
-  }
-}
-
-function getHiringIfPreviouslySelected() {
-  const iooFormData = getIooFormData();
-  const radioElements = document.getElementsByName('hiring');
-  for (let i = 0; i < radioElements.length; i++) {
-    if (radioElements[i].value == iooFormData.triageInfromation.hiring) {
-      radioElements[i].checked = true;
-    }
-  }
-}
-
-function onSubmitSpend() {
-  const iooFormData = getIooFormData();
-  const selectedRadioElement = document.querySelector('input[name="spend"]:checked');
-  if (selectedRadioElement) {
-    iooFormData.triageInfromation.spend = selectedRadioElement.value;
-    iooFormData.triageInfromation.spendOther = document.getElementById('id_spend_other').value;
-    setIooFormData(iooFormData);
-  }
-}
-
-function getSpendIfPreviouslySelected() {
-  const iooFormData = getIooFormData();
-  document.getElementById('id_spend_other').value = iooFormData.triageInfromation.spendOther;
-  if (iooFormData.triageInfromation.spendOther) {
-      otherRadioElement.click();
-  }
-  const radioElements = document.getElementsByName('spend');
-  for (let i = 0; i < radioElements.length; i++) {
-    if (radioElements[i].value == iooFormData.triageInfromation.spend) {
-      radioElements[i].checked = true;
-    }
-  }
-}
-
 function handleSpendRadioClick(radio) {
   if (otherRadioElement.checked == false) {
     document.getElementById('id_spend_other').value = '';
