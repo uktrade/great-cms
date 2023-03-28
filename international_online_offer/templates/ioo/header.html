@@ -16,6 +16,12 @@
                          alt="Great Britain and Northern Ireland"/>
                 </a>
             {% end_ga360_data %}
+
+            <button id="atlas-nav-toggle" class="atlas-menu-button" aria-controls="atlas-nav" data-reveal-button>
+                Menu
+                <span class="atlas-menu-button__icon"></span>
+            </button>
+
             <nav id="atlas-nav" class="atlas-nav" aria-label="Main menu" aria-expanded="false">
                 <ul class="atlas-nav__list atlas-list--bare">
                     {% if request.user.is_authenticated %}
