@@ -63,12 +63,19 @@
   const handleErrors = (errors) => {
     const errorContainer = document.getElementById('error-summary-container');
     const errorList = document.getElementById('errors-list');
-    const errorsClean = Object.hasOwn(errors, '__all__') ? errors.__all__ : [];
+    let errorsClean = [];
+    if (Object.hasOwn(errors, '__all__')) {
+      errorsClean = errors.__all__;
+    } else {
+      Object.keys(errors).forEach((errorKey) => {
+        errorsClean.push(`${errorKey}: ${errors[errorKey]}`);
+      })
+    }
     errorContainer.style.display = '';
     errorList.innerHTML = '';
     errorsClean.forEach((error, index) => {
       let li = document.createElement('li');
-      li.innerText = error;
+      li.innerText = error.charAt(0).toUpperCase() + error.substring(1);
       errorList.appendChild(li);
     });
   };

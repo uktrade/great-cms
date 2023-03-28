@@ -143,17 +143,29 @@
     const handleErrors = (errors) => {
       const errorContainer = document.getElementById('error-summary-container');
       const errorListContainer = document.getElementById('errors-list');
-      const errorsListsClean = Object.values(errors);
+      const errorsClean = [];
+      const errorKeys = Object.keys(errors);
+      errorKeys.forEach((errorKey, index) => {
+        const errorKeyValues = Object.values(errors[errorKey]);
+        const errorStrs = [];
+        for (let i = 0; i < errorKeyValues.length; i++) {
+          errorStrs.push(errorKeyValues[i]);
+        }
+        let stringOut = '';
+        for (let o = 0; o < errorStrs.length; o++) {
+          stringOut = stringOut + ' ' + errorStrs[o];
+        }
+        errorsClean.push(`${errorKey}: ${stringOut}`);
+      })
       errorContainer.style.display = '';
       errorListContainer.innerHTML = '';
-      errorsListsClean.forEach((errorList) => {
-        errorList.forEach((error) => {
-          let li = document.createElement('li');
-          li.innerText = error;
-          errorListContainer.appendChild(li);
-        });
+      errorsClean.forEach((error) => {
+        let li = document.createElement('li');
+        li.innerText = error.charAt(0).toUpperCase() + error.substring(1);
+        errorListContainer.appendChild(li);
       });
     };
+
 
     initForm();
   </script>
