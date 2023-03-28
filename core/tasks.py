@@ -10,19 +10,20 @@ logger = get_task_logger(__name__)
 
 @app.task
 def upload_media(model, file_name):
-    logger.info(f"CoreTask: starting {model} ,path {file_name}")
-    # Rename title as completed
-    model_instance = models.GreatMedia.objects.get(file=file_name)
-    model_instance.title = model.title
-    model_instance.save()
+    try:
+        logger.info(f"CoreTask: starting {model} ,path {file_name}")
 
-    logger.info("CoreTask: model updated")
-    with open(file_name, 'rb') as f:
-        logger.info("CoreTask: file opened")
-        model.file.save(model.file.name, f, save=False)
+        with open(file_name, 'rb') as f:
+            logger.info("CoreTask: file opened")
+            model.file.save(model.file.name, f, save=False)
 
-    logger.info("CoreTask: finished s3 upload")
-    # Delete temp file after uploading
-    os.remove(file_name)
-
-    logger.info("CoreTask: task finished")
+        logger.info("CoreTask: finished s3 upload")
+        # Delete temp file after uploading
+        os.remove(file_name)
+        # Rename title as completed
+        model_instance = models.GreatMedia.objects.get(file=file_name)
+        model_instance.title = model.title
+        model_instance.save()
+        logger.info("CoreTask: model updated")
+    except Exception as e:
+        logger.error(f'CoreTask: Task failed {str(e)}')

@@ -86,9 +86,15 @@ class GreatMedia(Media):
         'subtitles_en',
     )
 
+    def __init__(self, *args, **kwargs):
+        logger.error("GreatMedia: in model init")
+        super().__init__(*args, **kwargs)
+
     def save(self, *args, **kwargs):
         logger.error("GreatMedia: in model save")
-        if hasattr(self.file, '_committed') and self.file.size > 50 * 1024 * 1024:
+        if self.file._committed:
+            pass
+        elif self.file.size > 50 * 1024 * 1024:
             logger.error(f"GreatMedia: filesize = {self.file.size}")
             self.file._committed = True
             self.file.name = self.file.field.generate_filename(self.file.instance, self.file.name)
