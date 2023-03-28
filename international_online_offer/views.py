@@ -117,7 +117,7 @@ class IOOHiring(FormView):
 class IOOSpend(FormView):
     form_class = forms.SpendForm
     template_name = 'ioo/triage/spend.html'
-    success_url = '/international/international-online-offer/guide/'
+    success_url = '/international/expand-your-business-in-the-uk/guide/'
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
@@ -143,13 +143,13 @@ class IOOSpend(FormView):
 class IOOContact(FormView):
     form_class = forms.ContactForm
     template_name = 'ioo/contact.html'
-    success_url = '/international/international-online-offer/guide/?success=true'
+    success_url = '/international/expand-your-business-in-the-uk/guide/?success=true'
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
             complete_contact_form_message=LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE,
-            back_url='/international/international-online-offer/guide/',
+            back_url='/international/expand-your-business-in-the-uk/guide/',
         )
 
 
