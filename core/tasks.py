@@ -11,7 +11,7 @@ logger = get_task_logger(__name__)
 @app.task
 def upload_media(model, file_name):
     try:
-        logger.info(f"CoreTask: starting {model} ,path {file_name}")
+        logger.info(f"CoreTask: starting {model} ,path {file_name}, {os.getcwd()}")
 
         with open(file_name, 'rb') as f:
             logger.info("CoreTask: file opened")

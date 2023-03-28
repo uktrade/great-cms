@@ -1,6 +1,6 @@
 import hashlib
-import logging
 import mimetypes
+import os
 from urllib.parse import unquote
 
 from django.conf import settings
@@ -63,8 +63,6 @@ from exportplan.core.data import (
     SECTIONS as EXPORTPLAN_URL_MAP,
 )
 
-logger = logging.getLogger(__name__)
-
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)
 
@@ -86,29 +84,22 @@ class GreatMedia(Media):
         'subtitles_en',
     )
 
-    def __init__(self, *args, **kwargs):
-        logger.error("GreatMedia: in model init")
-        super().__init__(*args, **kwargs)
-
     def save(self, *args, **kwargs):
-        logger.error("GreatMedia: in model save")
         if self.file._committed:
             pass
         elif self.file.size > 50 * 1024 * 1024:
-            logger.error(f"GreatMedia: filesize = {self.file.size}")
             self.file._committed = True
             self.file.name = self.file.field.generate_filename(self.file.instance, self.file.name)
             self.file.name = self.file.storage.get_available_name(self.file.name)
             unique_name = self.file.name
             self.file.name = self.filename
-            logger.error("GreatMedia: Saving file in server")
-            FileSystemStorage().save(self.file.name, self.file)
-            logger.error("GreatMedia: File saved, calling task")
-            tasks.upload_media.apply_async((self, unique_name), serializer='pickle')
+            fs = FileSystemStorage()
+            f_name = fs.save(self.file.name, self.file)
+            file_path = os.path.join(fs.base_location, f_name)
+            tasks.upload_media.apply_async((self, file_path), serializer='pickle')
             self.file.name = unique_name
             self.title = self.title + " [PROCESSING]"
 
-        logger.error("GreatMedia: Saving model")
         return super().save(*args, **kwargs)
 
     def generate_filename(self, filename):
