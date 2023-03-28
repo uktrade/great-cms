@@ -1,4 +1,5 @@
 import hashlib
+import logging
 import mimetypes
 from urllib.parse import unquote
 
@@ -62,6 +63,8 @@ from exportplan.core.data import (
     SECTIONS as EXPORTPLAN_URL_MAP,
 )
 
+logger = logging.getLogger(__name__)
+
 # If we make a Redirect appear as a Snippet, we can sync it via Wagtail-Transfer
 register_snippet(Redirect)
 
@@ -84,17 +87,22 @@ class GreatMedia(Media):
     )
 
     def save(self, *args, **kwargs):
+        logger.info("GreatMedia: in model save")
         if hasattr(self.file, '_committed') and self.file.size > 50 * 1024 * 1024:
+            logger.info(f"GreatMedia: filesize = {self.file.size}")
             self.file._committed = True
             self.file.name = self.file.field.generate_filename(self.file.instance, self.file.name)
             self.file.name = self.file.storage.get_available_name(self.file.name)
             unique_name = self.file.name
             self.file.name = self.filename
+            logger.info("GreatMedia: Saving file in server")
             FileSystemStorage().save(self.file.name, self.file)
+            logger.info("GreatMedia: File saved, calling task")
             tasks.upload_media.apply_async((self, unique_name), serializer='pickle')
             self.file.name = unique_name
             self.title = self.title + " [PROCESSING]"
 
+        logger.info("GreatMedia: Saving model")
         return super().save(*args, **kwargs)
 
     def generate_filename(self, filename):
