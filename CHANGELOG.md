@@ -3,6 +3,7 @@
 ## Pre release
 
 ### Enhancements
+* IOO-437 - International Online Offer change service name headings and main entry point url
 * IOO-455 - Sector and Location JSON updates
 * IOO-437 - International Online Offer wagtail integration: article page
 * IOO-427 - International Online Offer wagtail integration: landing pages and guide
