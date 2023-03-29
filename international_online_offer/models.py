@@ -1,3 +1,4 @@
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
@@ -116,3 +117,107 @@ class IOOArticlePage(BaseContentPage):
         StreamFieldPanel('article_body'),
         FieldPanel('tags'),
     ]
+
+
+class TriageData(models.Model):
+    hashed_uuid = models.CharField(max_length=200)
+
+    SECTOR_CHOICES = (
+        ('Advanced engineering', 'Advanced engineering'),
+        ('Aerospace', 'Aerospace'),
+        ('Agriculture, Horticulture, Fisheries and pets', 'Agriculture, Horticulture, Fisheries and pets'),
+        ('Airports', 'Airports'),
+        ('Automotive', 'Automotive'),
+        ('Biotech and Pharmaceuticals', 'Biotech and Pharmaceuticals'),
+        ('Business and consumer services', 'Business and consumer services'),
+        ('Chemicals', 'Chemicals'),
+        ('Construction', 'Construction'),
+        ('Consumer and retail', 'Consumer and retail'),
+        ('Creative industries', 'Creative industries'),
+        ('Defense and Security', 'Defense and Security'),
+        ('Education and Training', 'Education and Training'),
+        ('Energy', 'Energy'),
+        ('Environment', 'Environment'),
+        ('Financial and Professional Services', 'Financial and Professional Services'),
+        ('Food and Drink', 'Food and Drink'),
+        ('Healthcare and Medical', 'Healthcare and Medical'),
+        ('Infrastructure Air and Sea', 'Infrastructure Air and Sea'),
+        ('Leisure', 'Leisure'),
+        ('Logistics', 'Logistics'),
+        ('Manufacturing', 'Manufacturing'),
+        ('Marine', 'Marine'),
+        ('Maritime Services', 'Maritime Services'),
+        ('Medical devices and equipment', 'Medical devices and equipment'),
+        ('Mining', 'Mining'),
+        ('Nuclear', 'Nuclear'),
+        ('Oil and Gas', 'Oil and Gas'),
+        ('Rail', 'Rail'),
+        ('Renewable', 'Renewable'),
+        ('Retail', 'Retail'),
+        ('Security', 'Security'),
+        ('Space', 'Space'),
+        ('Sports Events', 'Sports Events'),
+        ('Technology and Smart Cities', 'Technology and Smart Cities'),
+    )
+
+    sector = models.CharField(max_length=255, choices=SECTOR_CHOICES)
+
+    INTENT_CHOICES = (
+        ('Set up new premises', 'Set up new premises'),
+        ('Set up a new distribution centre', 'Set up a new distribution centre'),
+        ('Onward sales and exports from the UK', 'Onward sales and exports from the UK'),
+        ('Research, develop and collaborate', 'Research, develop and collaborate'),
+        ('Find people with specialist skills', 'Find people with specialist skills'),
+        ('Other', 'Other'),
+    )
+
+    intent = ArrayField(
+        ArrayField(
+            models.CharField(max_length=255, choices=INTENT_CHOICES),
+            size=6,
+        ),
+        size=1,
+        default=list,
+    )
+    intent_other = models.CharField(max_length=255)
+
+    LOCATION_CHOICES = (
+        ('East', 'East'),
+        ('East Midlands', 'East Midlands'),
+        ('London', 'London'),
+        ('North East', 'North East'),
+        ('North West', 'North West'),
+        ('Northern Ireland', 'Northern Ireland'),
+        ('Scotland', 'Scotland'),
+        ('South East', 'South East'),
+        ('South West', 'South West'),
+        ('Wales', 'Wales'),
+        ('West Midlands', 'West Midlands'),
+        ('Yorkshire and the Humber', 'Yorkshire and the Humber'),
+    )
+
+    location = models.CharField(max_length=255, choices=LOCATION_CHOICES)
+    location_none = models.BooleanField(default=False)
+
+    HIRING_CHOICES = (
+        ('1-10', '1 to 10'),
+        ('11-50', '11 to 50'),
+        ('51-100', '51 to 100'),
+        ('101+', 'More than 100'),
+        ('No plans to hire yet', 'No plans to hire yet'),
+    )
+
+    hiring = models.CharField(max_length=255, choices=HIRING_CHOICES)
+
+    SPEND_CHOICES = (
+        ('10000-500000', '£10,000 - £500,000'),
+        ('500001-1000000', '£500,000 - £1,000,000'),
+        ('1000001-2000000', '£1,000,001 - £2,000,000'),
+        ('2000001-5000000', '£2,000,001 - £5,000,000'),
+        ('5000001-10000000', '£5,000,001 - £10,000,000'),
+        ('10000000+', 'More than £10 million'),
+        ('Specific amount', 'Specific amount'),
+    )
+
+    spend = models.CharField(max_length=255, choices=SPEND_CHOICES)
+    spend_other = models.CharField(max_length=255, null=True)
