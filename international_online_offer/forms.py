@@ -227,18 +227,6 @@ class ContactForm(forms.Form):
             return cleaned_data
 
 
-PASSWORD_HELP_TEXT = (
-    '<p>Your password must:</p>'
-    '<ul class="list list-bullet margin-l-30-m">'
-    '<li>be at least 10 characters</li>'
-    '<li>have at least 1 letter</li>'
-    '<li>have at least 1 number</li>'
-    '<li>not contain the words which are easy to guess such as "password"'
-    '</li>'
-    '</ul>'
-)
-
-
 class LoginForm(forms.Form):
     email = forms.EmailField(label='')
     password = forms.CharField(label='', widget=PasswordInput)

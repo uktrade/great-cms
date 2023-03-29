@@ -21,7 +21,7 @@
 </div>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <div id="error-summary-container" class="govuk-error-summary" style="display: none;" data-module="govuk-error-summary">
+    <div id="error-summary-container" class="govuk-error-summary govuk-!-display-none" data-module="govuk-error-summary">
       <div role="alert">
         <div class="govuk-error-summary__body">
           <ul class="govuk-list govuk-error-summary__list" id="errors-list">
@@ -91,17 +91,17 @@
     }
 
     const setDefaultMode = () => {
-      signUpContainer.style.display = "";
-      signUpVerifyCodeContainer.style.display = "none";
+      signUpContainer.classList.remove('govuk-!-display-none')
+      signUpVerifyCodeContainer.classList.add('govuk-!-display-none')
     }
 
     const setVerifyCodeMode = () => {
-      signUpContainer.style.display = "none";
-      signUpVerifyCodeContainer.style.display = "";
+      signUpContainer.classList.add('govuk-!-display-none')
+      signUpVerifyCodeContainer.classList.remove('govuk-!-display-none')
     }
 
     const onSubmitSignUp = () => {
-      document.getElementById('error-summary-container').style.display = "none";
+      document.getElementById('error-summary-container').classList.add('govuk-!-display-none');
       const data = {
         email: document.getElementById('id_email').value,
         password: document.getElementById('id_password').value,
@@ -124,7 +124,7 @@
     }
 
     const onVerifyCode = () => {
-      document.getElementById('error-summary-container').style.display = "none";
+      document.getElementById('error-summary-container').classList.add('govuk-!-display-none');
       const data = {
         uidb64: uidb64,
         token: token,
@@ -157,7 +157,7 @@
         }
         errorsClean.push(`${errorKey}: ${stringOut}`);
       })
-      errorContainer.style.display = '';
+      errorContainer.classList.remove('govuk-!-display-none')
       errorListContainer.innerHTML = '';
       errorsClean.forEach((error) => {
         let li = document.createElement('li');

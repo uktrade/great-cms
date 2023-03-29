@@ -21,7 +21,7 @@
         </div>
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-two-thirds">
-            <div id="error-summary-container" class="govuk-error-summary" style="display: none;" data-module="govuk-error-summary">
+            <div id="error-summary-container" class="govuk-error-summary govuk-!-display-none" data-module="govuk-error-summary">
               <div role="alert">
                 <div class="govuk-error-summary__body">
                   <ul class="govuk-list govuk-error-summary__list" id="errors-list">
@@ -71,7 +71,7 @@
         errorsClean.push(`${errorKey}: ${errors[errorKey]}`);
       })
     }
-    errorContainer.style.display = '';
+    errorContainer.classList.remove('govuk-!-display-none');
     errorList.innerHTML = '';
     errorsClean.forEach((error, index) => {
       let li = document.createElement('li');
