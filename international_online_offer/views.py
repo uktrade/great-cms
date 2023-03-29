@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from international_online_offer import forms
-from international_online_offer.models import TriageData
+from international_online_offer.models import TriageData, UserData
 
 LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = 'Complete the contact form to keep up to date with our personalised service.'
 HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = """Your business qualifies for 1 to 1 support from specialist UK government
@@ -31,16 +31,13 @@ class IOOSector(FormView):
         )
 
     def get_initial(self):
-        inital_sector = self.request.session.get('sector')
         if self.request.user.is_authenticated:
             try:
                 triage_data = TriageData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+                return {'sector': triage_data.sector}
             except TriageData.DoesNotExist:
-                triage_data = None
-            if triage_data and triage_data.sector:
-                inital_sector = triage_data.sector
-
-        return {'sector': inital_sector}
+                pass
+        return {'sector': self.request.session.get('sector')}
 
     def form_valid(self, form):
         if self.request.user.is_authenticated:
@@ -68,19 +65,13 @@ class IOOIntent(FormView):
         )
 
     def get_initial(self):
-        inital_intent = self.request.session.get('intent')
-        inital_intent_other = self.request.session.get('intent_other')
         if self.request.user.is_authenticated:
             try:
                 triage_data = TriageData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+                return {'intent': triage_data.intent, 'intent_other': triage_data.intent_other}
             except TriageData.DoesNotExist:
-                triage_data = None
-            if triage_data and triage_data.intent:
-                inital_intent = triage_data.intent
-            if triage_data and triage_data.intent_other:
-                inital_intent_other = triage_data.intent_other
-
-        return {'intent': inital_intent, 'intent_other': inital_intent_other}
+                pass
+        return {'intent': self.request.session.get('intent'), 'intent_other': self.request.session.get('intent_other')}
 
     def form_valid(self, form):
         if self.request.user.is_authenticated:
@@ -110,20 +101,16 @@ class IOOLocation(FormView):
         )
 
     def get_initial(self):
-        inital_location = self.request.session.get('location')
-        inital_location_none = self.request.session.get('location_none')
         if self.request.user.is_authenticated:
             try:
                 triage_data = TriageData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+                return {'location': triage_data.location, 'location_none': triage_data.location_none}
             except TriageData.DoesNotExist:
-                triage_data = None
-            if triage_data:
-                if triage_data.location:
-                    inital_location = triage_data.location
-                if triage_data.location_none:
-                    inital_location_none = triage_data.location_none
-
-        return {'location': inital_location, 'location_none': inital_location_none}
+                pass
+        return {
+            'location': self.request.session.get('location'),
+            'location_none': self.request.session.get('location_none'),
+        }
 
     def form_valid(self, form):
         if self.request.user.is_authenticated:
@@ -156,16 +143,13 @@ class IOOHiring(FormView):
         )
 
     def get_initial(self):
-        inital_hiring = self.request.session.get('hiring')
         if self.request.user.is_authenticated:
             try:
                 triage_data = TriageData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+                return {'hiring': triage_data.hiring}
             except TriageData.DoesNotExist:
-                triage_data = None
-            if triage_data and triage_data.hiring:
-                inital_hiring = triage_data.hiring
-
-        return {'hiring': inital_hiring}
+                pass
+        return {'hiring': self.request.session.get('hiring')}
 
     def form_valid(self, form):
         if self.request.user.is_authenticated:
@@ -193,20 +177,13 @@ class IOOSpend(FormView):
         )
 
     def get_initial(self):
-        inital_spend = self.request.session.get('spend')
-        inital_spend_other = self.request.session.get('spend_other')
         if self.request.user.is_authenticated:
             try:
                 triage_data = TriageData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+                return {'spend': triage_data.spend, 'spend_other': triage_data.spend_other}
             except TriageData.DoesNotExist:
-                triage_data = None
-            if triage_data:
-                if triage_data.spend:
-                    inital_spend = triage_data.spend
-                if triage_data.spend_other:
-                    inital_spend_other = triage_data.spend_other
-
-        return {'spend': inital_spend, 'spend_other': inital_spend_other}
+                pass
+        return {'spend': self.request.session.get('spend'), 'spend_other': self.request.session.get('spend_other')}
 
     def form_valid(self, form):
         if self.request.user.is_authenticated:
@@ -232,27 +209,55 @@ class IOOContact(FormView):
             back_url='/international/expand-your-business-in-the-uk/guide/',
         )
 
+    def get_initial(self):
+        session_data = {
+            'company_name': self.request.session.get('company_name'),
+            'company_location': self.request.session.get('company_location'),
+            'full_name': self.request.session.get('full_name'),
+            'role': self.request.session.get('role'),
+            'email': self.request.session.get('email'),
+            'telephone_number': self.request.session.get('telephone_number'),
+            'agree_terms': self.request.session.get('agree_terms'),
+            'agree_info_email': self.request.session.get('agree_info_email'),
+            'agree_info_telephone': self.request.session.get('agree_info_telephone'),
+        }
 
-class IOOLogin(FormView):
-    form_class = forms.LoginForm
-    template_name = 'ioo/login.html'
-    success_url = reverse_lazy('international_online_offer:signup')
+        if self.request.user.is_authenticated:
+            try:
+                user_data = UserData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+                return {
+                    'company_name': user_data.company_name,
+                    'company_location': user_data.company_location,
+                    'full_name': user_data.full_name,
+                    'role': user_data.role,
+                    'email': user_data.email,
+                    'telephone_number': user_data.telephone_number,
+                    'agree_terms': user_data.agree_terms,
+                    'agree_info_email': user_data.agree_info_email,
+                    'agree_info_telephone': user_data.agree_info_telephone,
+                }
+            except UserData.DoesNotExist:
+                return session_data
+        else:
+            return session_data
 
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            **kwargs,
-        )
-
-
-class IOOSignUp(FormView):
-    form_class = forms.SignUpForm
-    template_name = 'ioo/signup.html'
-    success_url = reverse_lazy('international_online_offer:login')
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            **kwargs,
-        )
+    def form_valid(self, form):
+        if self.request.user.is_authenticated:
+            UserData.objects.update_or_create(
+                hashed_uuid=self.request.user.hashed_uuid,
+                defaults=form.cleaned_data,
+            )
+        else:
+            self.request.session['company_name'] = form.cleaned_data['company_name']
+            self.request.session['company_location'] = form.cleaned_data['company_location']
+            self.request.session['full_name'] = form.cleaned_data['full_name']
+            self.request.session['role'] = form.cleaned_data['role']
+            self.request.session['email'] = form.cleaned_data['email']
+            self.request.session['telephone_number'] = form.cleaned_data['telephone_number']
+            self.request.session['agree_terms'] = form.cleaned_data['agree_terms']
+            self.request.session['agree_info_email'] = form.cleaned_data['agree_info_email']
+            self.request.session['agree_info_telephone'] = form.cleaned_data['agree_info_telephone']
+        return super().form_valid(form)
 
 
 class IOOLogin(FormView):

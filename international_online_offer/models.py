@@ -221,3 +221,24 @@ class TriageData(models.Model):
 
     spend = models.CharField(max_length=255, choices=SPEND_CHOICES)
     spend_other = models.CharField(max_length=255, null=True)
+
+
+class UserData(models.Model):
+    hashed_uuid = models.CharField(max_length=200)
+    company_name = models.CharField(max_length=255)
+    LOCATION_CHOICES = (
+        ('France', 'France'),
+        ('Germany', 'Germany'),
+        ('India', 'India'),
+        ('Italy', 'Italy'),
+        ('Spain', 'Spain'),
+        ('United States', 'United States'),
+    )
+    company_location = models.CharField(max_length=255, choices=LOCATION_CHOICES)
+    full_name = models.CharField(max_length=255)
+    role = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+    telephone_number = models.CharField(max_length=255)
+    agree_terms = models.BooleanField(default=False)
+    agree_info_email = models.BooleanField(default=False)
+    agree_info_telephone = models.BooleanField(default=False)
