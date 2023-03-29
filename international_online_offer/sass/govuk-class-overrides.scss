@@ -13,3 +13,9 @@
 .govuk-back-link {
     color: $atlas-dark-blue;
 }
+
+.govuk-error-summary__list {
+    li {
+        color: #d4351c;
+    }
+}

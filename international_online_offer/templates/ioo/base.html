@@ -17,6 +17,17 @@ number of extra CSS styles that were once sensible defaults:
 
 {% block head_js %}
     <script src="{% static 'javascript/dit.reveal.js' %}"></script>
+    <script type="text/javascript">
+        // static values that will not be updated by user interacting with components
+        const iooConfig = {
+            csrfToken: '{{csrf_token}}',
+            apiSignupUrl: '{% url "sso:business-sso-create-user-api" %}',
+            apiLoginUrl: '{% url "sso:business-sso-login-api" %}',
+            apiLogoutUrl: '{% url "sso:business-sso-logout-api" %}',
+            passwordResetUrl: '{{ javascript_components.password_reset_url }}',
+            verifyCodeUrl: '{% url "sso:business-sso-verify-code-api" %}',
+        }
+    </script>
 {% endblock %}
 
 {% block vendor_js %}

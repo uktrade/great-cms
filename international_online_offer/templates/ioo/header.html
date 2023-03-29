@@ -17,6 +17,38 @@
                 </a>
             {% end_ga360_data %}
 
+            {% if request.user.is_authenticated %}
+            <button id="atlas-nav-toggle" class="atlas-menu-button" aria-controls="atlas-nav" data-reveal-button>
+                Menu
+                <span class="atlas-menu-button__icon"></span>
+            </button>
+            {% endif %}
+
+            <nav id="atlas-nav" class="atlas-nav" aria-label="Main menu" aria-expanded="false">
+                <ul class="atlas-nav__list atlas-list--bare">
+                    {% if request.user.is_authenticated %}
+                        <script>
+                            const signOut = () => {
+                            return fetch('{% url "sso:business-sso-logout-api" %}', {
+                                method: 'post',
+                                headers: {
+                                Accept: 'application/json',
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token }}',
+                                'X-Requested-With': 'XMLHttpRequest',
+                                },
+                                body: JSON.stringify({})
+                            }).then(function() {
+                                window.location = '/international/expand-your-business-in-the-uk/guide';
+                            });
+                            }
+                        </script>
+                        <li>
+                            <a class="atlas-nav__item" style="cursor: pointer;" onclick="signOut()">Sign out</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
         </div>
     </div>
 </header>
