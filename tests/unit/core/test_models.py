@@ -843,7 +843,7 @@ class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
         self.assertEqual(home_child.get_menu_items()[0]['title'], 'Home')
         self.assertEqual(home_grandchild.get_menu_items()[0]['title'], 'Home')
 
-        self.assertEquals(home.get_related_pages(), None)
+        self.assertEquals(home.get_related_pages(), [{'title': 'home-child', 'url': None}])
         self.assertEqual(home_child.get_related_pages()[0]['title'], 'home-grandchild')
         self.assertEquals(home_grandchild.get_related_pages(), [])
 
