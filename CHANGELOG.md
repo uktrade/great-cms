@@ -1,7 +1,7 @@
 # Changelog
 
 ## Pre release
-
+* KLS-443 - Microsite navigation navbar
 ### Enhancements
 * IOO-437 - International Online Offer change service name headings and main entry point url
 * IOO-455 - Sector and Location JSON updates

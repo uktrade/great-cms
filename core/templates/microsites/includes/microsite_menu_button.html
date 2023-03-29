@@ -1,0 +1,21 @@
+<div class="magna-header__menu">
+    <button type="button"
+            class="magna-header__dropdown-button"
+            data-reveal-button
+            data-reveal-modal
+            aria-controls="main-menu">
+        Menu
+        <span class="magna-header__dropdown-button__icon"></span>
+    </button>
+    <div id="main-menu" class="magna-header__dropdown">
+        <ul class="magna-header__menu-items">
+            {% for item in menu_items %}
+                <li>
+                    <a class="{% if active_url == item.url %}active {% endif %} "
+                       href="{{ item.url }}">{{ item.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="magna-header__overlay"></div>
+</div>

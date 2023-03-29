@@ -1492,29 +1492,42 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         blank=True,
     )
 
+    def get_parent_page(self):
+        current_page = self.specific
+        parent_page = self.get_parent().specific
+        while type(parent_page) != Microsite:
+            if type(parent_page) != MicrositePage:
+                break
+            current_page = parent_page
+            parent_page = parent_page.get_parent().specific
+        if type(parent_page) == Microsite and type(current_page) == MicrositePage:
+            return current_page
+        else:
+            return None
+
     # Return the children of the top level Microsite parent of current page
     def get_menu_items(self):
-        parent_page = self.get_ancestors().live().type(Microsite).first().specific
-        return [
-            {
-                'url': child.get_url(),
-                'title': child.title,
-            }
-            for child in parent_page.get_children().live()
-        ]
-
-    # Return the children of the MicrositePage at the top of current user journey
-    def get_secondary_pages(self):
-        if type(self.get_parent().specific) == Microsite:
-            return [{'title': child.title, 'url': child.get_url()} for child in self.get_children()]
-        else:
-            parent_page = self.get_ancestors().live().type(MicrositePage).first().specific
-            return [{'title': child.title, 'url': child.get_url()} for child in parent_page.get_children()]
+        parent_page = self.get_parent_page()
+        if parent_page:
+            return [{'url': parent_page.get_url(), 'title': 'Home'}] + [
+                {
+                    'url': child.get_url(),
+                    'title': child.title,
+                }
+                for child in parent_page.get_children().live()
+            ]
+        return []
 
     # Return the children of a child or grandchild page
     def get_related_pages(self):
-        if type(self.get_parent().specific) == MicrositePage:
-            return [{'title': child.title, 'url': child.get_url()} for child in self.get_children()]
+        return [{'title': child.title, 'url': child.get_url()} for child in self.get_children()]
+
+    def get_site_title(self):
+        parent_page = self.get_parent_page()
+        if parent_page:
+            return parent_page.title
+        else:
+            return None
 
 
 @register_snippet
