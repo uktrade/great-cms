@@ -1,15 +1,23 @@
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.forms import Select, Textarea
-from django.utils.translation import ugettext_lazy as _
+from django.forms.widgets import ChoiceWidget
+from django.utils.translation import gettext_lazy as _
 from great_components import forms
 
 from contact.forms import TERMS_LABEL
 from directory_constants.choices import COUNTRY_CHOICES
-from export_academy.filters import EventFilter
-from export_academy.models import Event
 
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
+
+
+class ChoiceSubmitButtonWidget(ChoiceWidget):
+    """ChoiceSubmitButtonWidget renders choices as multiple 'submit' type buttons"""
+
+    input_type = 'submit'
+    template_name = 'export_academy/widgets/submit.html'
+    option_template_name = 'export_academy/widgets/submit_option.html'
+    checked_attribute = {'disabled': True}
 
 
 class EARegistration(GovNotifyEmailActionMixin, forms.Form):
@@ -98,18 +106,3 @@ class EARegistration(GovNotifyEmailActionMixin, forms.Form):
         if data.get('like_to_discuss') == 'yes':
             data['like_to_discuss_country'] = countries_mapping.get(data['like_to_discuss_other'])
         return data
-
-
-class EventFilterForm(forms.Form):
-    format = forms.ChoiceField(
-        label=_('format'),
-        choices=Event.FORMAT_CHOICES,
-        widget=forms.CheckboxSelectInlineLabelMultiple,
-        required=False,
-    )
-    when = forms.ChoiceField(
-        label=_('period'),
-        choices=EventFilter.WHEN_CHOICES,
-        widget=forms.RadioSelect,
-        required=False,
-    )

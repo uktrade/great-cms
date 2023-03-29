@@ -20,10 +20,10 @@ from export_academy.managers import EventQuerySet
         ('no_op', 0),
     ),
 )
-def test_export_academy_filters_when_methods(filter_value, call_count):
+def test_export_academy_filters_period_methods(filter_value, call_count):
     filter = filters.EventFilter()
 
     with mock.patch.object(EventQuerySet, filter_value, create=True) as method:
-        filter.filter_when(EventQuerySet(), 'when', filter_value)
+        filter.filter_period(EventQuerySet(), 'period', filter_value)
 
         assert method.call_count == call_count

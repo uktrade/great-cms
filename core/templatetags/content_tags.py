@@ -4,9 +4,11 @@ import logging
 import math
 from urllib.parse import urlparse
 
+from bs4 import BeautifulSoup
 from django import template
 from django.utils.dateparse import parse_datetime
 from django.utils.http import urlencode
+from django.utils.safestring import mark_safe
 
 from core.constants import BACKLINK_QUERYSTRING_NAME
 from core.helpers import millify
@@ -199,3 +201,24 @@ def reference_period(data, capitalise=False):
 @register.filter
 def get_css_class_from_string(string):
     return string.replace(',', '').replace(' ', '-').lower()
+
+
+@register.filter
+def add_govuk_classes(value):
+    soup = BeautifulSoup(value, 'html.parser')
+    mapping = [
+        ('h1', 'govuk-heading-xl'),
+        ('h2', 'govuk-heading-l'),
+        ('h3', 'govuk-heading-m great-font-size-28'),
+        ('h4', 'govuk-heading-m'),
+        ('h5', 'govuk-heading-s'),
+        ('h6', 'govuk-heading-s'),
+        ('ul', 'govuk-list govuk-list--bullet'),
+        ('ol', 'govuk-list govuk-list--number'),
+        ('p', 'govuk-body'),
+        ('a', 'govuk-link'),
+    ]
+    for tag_name, class_name in mapping:
+        for element in soup.findAll(tag_name):
+            element.attrs['class'] = class_name
+    return mark_safe(str(soup))

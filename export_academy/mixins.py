@@ -2,7 +2,6 @@ from directory_forms_api_client import actions
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 
 from config import settings
-from export_academy import models
 
 
 class BookingMixin(GovNotifyEmailActionMixin):
@@ -13,7 +12,7 @@ class BookingMixin(GovNotifyEmailActionMixin):
         booking_object, _created = self.get_or_save_object(booking_data)
         return booking_object
 
-    def send_email_confirmation(self, booking_object: models.Booking, post_data):
+    def send_email_confirmation(self, booking_object, post_data):
         if post_data['status'] == booking_object.CONFIRMED:
             self.notify_template = settings.EXPORT_ACADEMY_NOTIFY_BOOKING_TEMPLATE_ID
         else:

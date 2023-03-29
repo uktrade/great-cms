@@ -1,10 +1,9 @@
 from datetime import datetime, timedelta, timezone
 
-from directory_forms_api_client import actions
 from django.conf import settings
 
 from config.celery import app
-from export_academy.models import Booking, Event
+from export_academy.models import Event, send_notifications_for_all_bookings
 
 
 @app.task
@@ -16,21 +15,25 @@ def send_automated_events_notification():
     )
 
     for event in events:
-        bookings = Booking.objects.filter(event_id=event.id)
-        for booking in bookings:
-            email = booking.registration.email
+        event_time = f'{event.start_date.strftime("%H:%M")} - {event.end_date.strftime("%H:%M")}'
+        additional_notify_data = dict(
+            event_date=event.start_date.strftime('%-d %B %Y'),
+            event_time=event_time,
+        )
+        send_notifications_for_all_bookings(
+            event,
+            settings.EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER_TEMPLATE_ID,
+            additional_notify_data,
+        )
 
-            action = actions.GovNotifyEmailAction(
-                email_address=email,
-                template_id=settings.EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER_TEMPLATE_ID,
-                form_url=str(),
-            )
-            event_time = f'{event.start_date.strftime("%H:%M")} - {event.end_date.strftime("%H:%M")}'
-            notify_data = dict(
-                first_name=booking.registration.first_name,
-                event_name=booking.event.name,
-                event_date=event.start_date.strftime('%-d %B %Y'),
-                event_time=event_time,
-            )
 
-            action.save(notify_data)
+@app.task
+def remove_past_events_media():
+    time_delay = settings.EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_AFTER_DAYS
+    events = Event.objects.filter(
+        start_date__lt=datetime.now(timezone.utc) - timedelta(days=time_delay),
+        start_date__gte=datetime.now(timezone.utc) - timedelta(days=time_delay * 2),
+    )
+    for event in events:
+        if event.completed and event.video_recording:
+            event.video_recording.delete()

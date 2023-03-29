@@ -1,8 +1,7 @@
 from functools import partial
 from urllib.parse import urljoin
 
-from django.conf.urls import url
-from django.urls import reverse_lazy
+from django.urls import re_path, reverse_lazy
 from django.views.generic.base import RedirectView
 
 from core.cms_slugs import PRIVACY_POLICY_URL, TERMS_URL
@@ -16,302 +15,302 @@ build_great_international_url = partial(urljoin, '/international/')
 
 
 redirects = [
-    url(
+    re_path(
         r'^about/$',
         QuerystringRedirectView.as_view(
             url='https://www.gov.uk/government/organisations/department-for-international-trade/about-our-services'
         ),
         name='events-about-legacy',
     ),
-    url(
+    re_path(
         r'^jpm/$',
         QuerystringRedirectView.as_view(url='https://www.events.great.gov.uk/ehome/200197163/'),
         name='JPM-fintech-nov-2019',
     ),
-    url(r'^brexit/$', QuerystringRedirectView.as_view(url='/transition/'), name='brexit-redirect'),
-    url(
+    re_path(r'^brexit/$', QuerystringRedirectView.as_view(url='/transition/'), name='brexit-redirect'),
+    re_path(
         r'^transition/$',
         QuerystringRedirectView.as_view(url='/international/content/invest/how-to-setup-in-the-uk/transition-period/'),
         name='transition-redirect',
     ),
-    url(
+    re_path(
         r'^redarrows/$',
         QuerystringRedirectView.as_view(url='https://www.events.great.gov.uk/red-arrows-north-america-tour/'),
         name='redarrows-redirect',
     ),
-    url(
+    re_path(
         r'^new-zealand-event-calendar/$',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/trade-events-calendar/all-events?keyword=zealand'
         ),
         name='new-zealand-redirect',
     ),
-    url(
+    re_path(
         r'^story/online-marketplaces-propel-freestyle-xtreme-sales/$',
         QuerystringRedirectView.as_view(url='/'),
         name='casestudy-online-marketplaces',
     ),
-    url(
+    re_path(
         r'^australia-event-calendar/$',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/trade-events-calendar/all-events?keyword=australia'
         ),
         name='australia-event-calendar',
     ),
-    url(
+    re_path(
         r'^trskorea/$(?i)',
         QuerystringRedirectView.as_view(url='https://eu.eventscloud.com/korea-uk-tech-rocketship-awards-kr'),
     ),
-    url(r'^ukti/$(?i)', QuerystringRedirectView.as_view(url='/')),
-    url(
+    re_path(r'^ukti/$(?i)', QuerystringRedirectView.as_view(url='/')),
+    re_path(
         r'^future/$',
         QuerystringRedirectView.as_view(
             url=('https://www.events.great.gov.uk/ehome/index.php?' 'eventid=200185206'),
         ),
     ),
-    url(
+    re_path(
         r'^innovation-hk/$(?i)',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-hk',
         ),
     ),
-    url(
+    re_path(
         r'^innovation-china/$(?i)',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-china',
         ),
     ),
-    url(
+    re_path(
         r'^innovation-asean/$(?i)',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-asean',
         ),
     ),
-    url(
+    re_path(
         r'^innovation-au-nz/$(?i)',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-au-nz',
         ),
     ),
-    url(
+    re_path(
         r'^innovation-jpn/$(?i)',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-jpn',
         ),
     ),
-    url(
+    re_path(
         r'^innovation-kor/$(?i)',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-kor',
         ),
     ),
-    url(
+    re_path(
         r'^bodw2019/$(?i)',
         QuerystringRedirectView.as_view(url='https://www.events.great.gov.uk/bodw2019/'),
     ),
-    url(
+    re_path(
         r'^events/$',
         QuerystringRedirectView.as_view(url='https://www.events.great.gov.uk/'),
     ),
-    url(
+    re_path(
         r'^expo2020/$',
         RedirectView.as_view(url='https://www.events.trade.gov.uk/dubai-expo-2020/'),
     ),
-    url(
+    re_path(
         r'^ukpavilion2020/$',
         RedirectView.as_view(url='https://www.events.trade.gov.uk/dubai-expo-2020/'),
     ),
-    url(
+    re_path(
         r'^beijingexpo2019/$(?i)',
         RedirectView.as_view(url='https://www.events.great.gov.uk/ehome/index.php?eventid=200188985&'),  # NOQA
     ),
-    url(
+    re_path(
         r'^exporting-edge/$',
         RedirectView.as_view(pattern_name='domestic:get-finance'),
     ),
-    url(
+    re_path(
         r'^invest/$',
         QuerystringRedirectView.as_view(url='/international/invest'),
     ),
-    url(
+    re_path(
         r'^int/invest/$',
         QuerystringRedirectView.as_view(url='/international/invest'),
     ),
-    url(
+    re_path(
         r'^us/invest/$',
         QuerystringRedirectView.as_view(url='/international/invest'),
     ),
-    url(
+    re_path(
         r'^es/invest/$',
         QuerystringRedirectView.as_view(url='/international/invest?lang=es'),
     ),
-    url(
+    re_path(
         r'^int/es/invest/$',
         QuerystringRedirectView.as_view(
             url='/international/invest?lang=es',
         ),
     ),
-    url(
+    re_path(
         r'^cn/invest/$',
         QuerystringRedirectView.as_view(url='/international/invest?lang=zh-hans'),
     ),
-    url(
+    re_path(
         r'^int/zh/invest/$',
         QuerystringRedirectView.as_view(
             url='/international/invest?lang=zh-hans',
         ),
     ),
-    url(
+    re_path(
         r'^int/pt/invest/$',
         QuerystringRedirectView.as_view(
             url='/international/invest?lang=pt',
         ),
     ),
-    url(
+    re_path(
         r'^br/invest/$',
         QuerystringRedirectView.as_view(url='/international/invest'),
     ),
-    url(
+    re_path(
         r'^de/invest/$',
         QuerystringRedirectView.as_view(url='/international/invest?lang=de'),
     ),
-    url(
+    re_path(
         r'^int/de/invest/$',
         QuerystringRedirectView.as_view(
             url='/international/invest?lang=de',
         ),
     ),
-    url(
+    re_path(
         r'^jp/invest/$',
         QuerystringRedirectView.as_view(url='/international/invest?lang=ja'),
     ),
-    url(
+    re_path(
         r'^int/ja/invest/$',
         QuerystringRedirectView.as_view(
             url='/international/invest?lang=ja',
         ),
     ),
-    url(
+    re_path(
         r'^in/invest/$',
         QuerystringRedirectView.as_view(url='/international/invest'),
     ),
-    url(
+    re_path(
         r'^int/ar/invest/$',
         QuerystringRedirectView.as_view(url='/international/invest'),
     ),
-    url(
+    re_path(
         r'^study/$',
         QuerystringRedirectView.as_view(
             url='https://study-uk.britishcouncil.org',
         ),
     ),
-    url(
+    re_path(
         r'^visit/$',
         QuerystringRedirectView.as_view(
             url='https://www.visitbritain.com/gb/en',
         ),
     ),
-    url(
+    re_path(
         r'^export/$',
         QuerystringRedirectView.as_view(url='/'),
     ),
-    url(
+    re_path(
         r'^export/new/$',
         QuerystringRedirectView.as_view(
             url='/advice/',
         ),
     ),
-    url(
+    re_path(
         r'^export/occasional/$',
         QuerystringRedirectView.as_view(
             url='/advice/',
         ),
     ),
-    url(
+    re_path(
         r'^export/regular/$',
         QuerystringRedirectView.as_view(
             url='/advice/',
         ),
     ),
-    url(
+    re_path(
         r'^export/opportunities/$',
         QuerystringRedirectView.as_view(
             url='/export-opportunities/',
         ),
     ),
-    url(
+    re_path(
         r'^opportunities/$',
         QuerystringRedirectView.as_view(
             url='/export-opportunities/',
         ),
     ),
-    url(
+    re_path(
         r'^opportunities/(?P<slug>[-\w]+)/$',
         # Redirects to /export-opportunities/
         # with the slug and query parameters
         OpportunitiesRedirectView.as_view(),
     ),
-    url(
+    re_path(
         r'^export/find-a-buyer/$',
         QuerystringRedirectView.as_view(
             url='/find-a-buyer/',
         ),
     ),
-    url(
+    re_path(
         r'^export/selling-online-overseas/$',
         QuerystringRedirectView.as_view(
             url='/selling-online-overseas/',
         ),
     ),
-    url(
+    re_path(
         r'^uk/privacy-policy/$',
         QuerystringRedirectView.as_view(url=PRIVACY_POLICY_URL),
     ),
-    url(
+    re_path(
         r'^uk/terms-and-conditions/$',
         QuerystringRedirectView.as_view(url=TERMS_URL),
     ),
-    url(
+    re_path(
         r'^uk/$',
         TranslationRedirectView.as_view(url='/'),
     ),
-    url(
+    re_path(
         r'^int/$',
         TranslationRedirectView.as_view(url='/international/'),
     ),
-    url(
+    re_path(
         r'^in/$',
         TranslationRedirectView.as_view(url='/international/'),
     ),
-    url(
+    re_path(
         r'^us/$',
         TranslationRedirectView.as_view(url='/international/'),
     ),
-    url(
+    re_path(
         r'^innovation/$',
         QuerystringRedirectView.as_view(
             url=('https://www.events.trade.gov.uk/' 'the-great-festival-of-innovation-hong-kong-2018/'),
         ),
     ),
-    url(
+    re_path(
         r'^uk/cy/$',
         QuerystringRedirectView.as_view(
             url=('https://www.great.gov.uk/?utm_source=Mailing&utm_medium' '=Brochure&utm_campaign=ExportBrochureCY'),
         ),
     ),
-    url(
+    re_path(
         r'^verify/$',
         QuerystringRedirectView.as_view(
             url=('/find-a-buyer/verify/letter-confirm/'),
         ),
     ),
-    url(
+    re_path(
         r'^legal/$',
         QuerystringRedirectView.as_view(
             url='/international/content/industries/legal-services/',
         ),
     ),
-    url(
+    re_path(
         r'^kr/$',
         QuerystringRedirectView.as_view(
             url=(
@@ -320,19 +319,19 @@ redirects = [
             )
         ),
     ),
-    url(
+    re_path(
         r'^local-export-support/apply/$',
         QuerystringRedirectView.as_view(
             url='/contact/export-advice/business/',
         ),
     ),
-    url(
+    re_path(
         r'^companion/$', QuerystringRedirectView.as_view(url='https://digital-companion.ava-digi.de/'), name='companion'
     ),
 ]
 
 redirects += [
-    url(
+    re_path(
         r'^contact/triage/international/$',
         QuerystringRedirectView.as_view(url='/international/contact/'),
         name='contact-triage-redirect',
@@ -350,11 +349,11 @@ INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING = [
 ]
 
 international_redirects = [
-    url(r'^today/$', QuerystringRedirectView.as_view(url='/international/content/capital-invest/'))
+    re_path(r'^today/$', QuerystringRedirectView.as_view(url='/international/content/capital-invest/'))
 ]
 
 international_redirects += [
-    url(
+    re_path(
         r'^int/{path}/$'.format(path=redirect[0]),
         TranslationRedirectView.as_view(
             url='/international/',
@@ -370,7 +369,7 @@ INTERNATIONAL_COUNTRY_REDIRECTS_MAPPING = [
     ('jp', 'ja'),
 ]
 international_redirects += [
-    url(
+    re_path(
         r'^{path}/$'.format(path=redirect[0]),
         TranslationRedirectView.as_view(
             url='/international/',
@@ -385,7 +384,7 @@ international_redirects += [
 TOS_AND_PRIVACY_REDIRECT_LANGUAGES = ('zh', 'ja', 'es', 'pt', 'ar', 'de')
 
 tos_redirects = [
-    url(
+    re_path(
         r'^int/{path}/terms-and-conditions/$'.format(path=language),
         QuerystringRedirectView.as_view(
             url=TERMS_URL,
@@ -395,7 +394,7 @@ tos_redirects = [
 ]
 
 privacy_redirects = [
-    url(
+    re_path(
         r'^int/{path}/privacy-policy/$'.format(path=language),
         QuerystringRedirectView.as_view(
             url=PRIVACY_POLICY_URL,
@@ -405,23 +404,23 @@ privacy_redirects = [
 ]
 
 contact_redirects = [
-    url(
+    re_path(
         r'^legacy/contact/(?P<service>[-\w\d]+)/FeedbackForm/$',
         QuerystringRedirectView.as_view(url=reverse_lazy('contact:contact-us-feedback')),
     ),
-    url(
+    re_path(
         r'^legacy/contact/feedback/(?P<service>[-\w\d]+)/$',
         QuerystringRedirectView.as_view(url=reverse_lazy('contact:contact-us-feedback')),
     ),
-    url(
+    re_path(
         r'^legacy/contact/feedback/$',
         QuerystringRedirectView.as_view(url=reverse_lazy('contact:contact-us-feedback')),
     ),
-    url(
+    re_path(
         r'^legacy/contact/(?P<service>[-\w\d]+)/feedback/$',
         QuerystringRedirectView.as_view(url=reverse_lazy('contact:contact-us-feedback')),
     ),
-    url(
+    re_path(
         r'^legacy/contact/single_sign_on/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
@@ -430,7 +429,7 @@ contact_redirects = [
             )
         ),
     ),
-    url(
+    re_path(
         r'^legacy/contact/selling_online_overseas/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
@@ -439,7 +438,7 @@ contact_redirects = [
             )
         ),
     ),
-    url(
+    re_path(
         r'^legacy/contact/export_ops/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
@@ -448,7 +447,7 @@ contact_redirects = [
             )
         ),
     ),
-    url(
+    re_path(
         r'^legacy/contact/export_opportunities/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
@@ -457,17 +456,17 @@ contact_redirects = [
             )
         ),
     ),
-    url(
+    re_path(
         r'^legacy/contact/cookies/$',
         QuerystringRedirectView.as_view(url=PRIVACY_POLICY_URL),
     ),
-    url(
+    re_path(
         r'^legacy/contact/terms-and-conditions/$',
         QuerystringRedirectView.as_view(url=TERMS_URL),
     ),
     # catch everything not covered above but not interfere with trailing slash
     # redirects
-    url(
+    re_path(
         r'^legacy/contact/(.*/)?$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
@@ -479,331 +478,331 @@ contact_redirects = [
 ]
 
 articles_redirects = [
-    url(r'^market-research/$', QuerystringRedirectView.as_view(url='/advice/find-an-export-market/')),
-    url(
+    re_path(r'^market-research/$', QuerystringRedirectView.as_view(url='/advice/find-an-export-market/')),
+    re_path(
         r'^market-research/do-research-first/$',
         QuerystringRedirectView.as_view(url='/advice/find-an-export-market/plan-export-market-research/'),
     ),
-    url(
+    re_path(
         r'^market-research/define-market-potential/$',
         QuerystringRedirectView.as_view(url='/advice/find-an-export-market/define-export-market-potential/'),
     ),
-    url(
+    re_path(
         r'^market-research/analyse-the-competition/$',
         QuerystringRedirectView.as_view(url='/advice/find-an-export-market/define-export-market-potential/'),
     ),
-    url(
+    re_path(
         r'^market-research/research-your-market/$',
         QuerystringRedirectView.as_view(url='/advice/find-an-export-market/field-research-in-export-markets/'),
     ),
-    url(
+    re_path(
         r'^market-research/visit-a-trade-show/$',
         QuerystringRedirectView.as_view(url='/advice/find-an-export-market/trade-shows/'),
     ),
-    url(
+    re_path(
         r'^market-research/doing-business-with-integrity/$',
         QuerystringRedirectView.as_view(
             url='advice/manage-risk-bribery-corruption-and-abuse-human-rights/bribery-and-corruption-understand-risks/'
         ),
     ),
-    url(
+    re_path(
         r'^market-research/know-the-relevant-legislation/$',
         QuerystringRedirectView.as_view(
             url='advice/manage-risk-bribery-corruption-and-abuse-human-rights/bribery-and-corruption-understand-risks/'
         ),
     ),
-    url(r'^business-planning/$', QuerystringRedirectView.as_view(url='/advice/define-route-to-market/')),
-    url(
+    re_path(r'^business-planning/$', QuerystringRedirectView.as_view(url='/advice/define-route-to-market/')),
+    re_path(
         r'^business-planning/make-an-export-plan/$',
         QuerystringRedirectView.as_view(url='/advice/create-an-export-plan/how-to-create-an-export-plan/'),
     ),
-    url(
+    re_path(
         r'^business-planning/find-a-route-to-market/$',
         QuerystringRedirectView.as_view(url='/advice/define-route-to-market/routes-to-market/'),
     ),
-    url(
+    re_path(
         r'^business-planning/sell-overseas-directly/$',
         QuerystringRedirectView.as_view(url='/advice/define-route-to-market/sell-overseas-directly/'),
     ),
-    url(
+    re_path(
         r'^business-planning/use-an-overseas-agent/$',
         QuerystringRedirectView.as_view(url='/advice/define-route-to-market/export-agents/'),
     ),
-    url(
+    re_path(
         r'^business-planning/choosing-an-agent-or-distributor/$',
         QuerystringRedirectView.as_view(url='/advice/define-route-to-market/export-agents/'),
     ),
-    url(
+    re_path(
         r'^business-planning/use-a-distributor/$',
         QuerystringRedirectView.as_view(url='/advice/define-route-to-market/export-distributors/'),
     ),
-    url(
+    re_path(
         r'^business-planning/license-your-product-or-service/$',
         QuerystringRedirectView.as_view(url='/advice/define-route-to-market/create-a-licensing-agreement/'),
     ),
-    url(
+    re_path(
         r'^business-planning/licensing-and-franchising/$',
         QuerystringRedirectView.as_view(url='/advice/define-route-to-market/create-a-licensing-agreement/'),
     ),
-    url(
+    re_path(
         r'^business-planning/franchise-your-business/$',
         QuerystringRedirectView.as_view(url='/advice/define-route-to-market/create-a-franchise-agreement/'),
     ),
-    url(
+    re_path(
         r'^business-planning/start-a-joint-venture/$',
         QuerystringRedirectView.as_view(url='/advice/define-route-to-market/create-a-joint-venture-agreement/'),
     ),
-    url(
+    re_path(
         r'^business-planning/set-up-an-overseas-operation/$',
         QuerystringRedirectView.as_view(url='/advice/define-route-to-market/set-up-a-business-abroad/'),
     ),
-    url(r'^finance/$', QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/')),
-    url(
+    re_path(r'^finance/$', QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/')),
+    re_path(
         r'^finance/choose-the-right-finance/$',
         QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/choose-the-right-finance/'),
     ),
-    url(
+    re_path(
         r'^finance/get-money-to-export/$',
         QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/choose-the-right-finance/'),
     ),
-    url(
+    re_path(
         r'^finance/get-export-finance/$',
         QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/get-export-finance/'),
     ),
-    url(
+    re_path(
         r'^finance/get-finance-support-from-government/$',
         QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/get-export-finance/'),
     ),
-    url(
+    re_path(
         r'^finance/raise-money-by-borrowing/$',
         QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/raise-money-by-borrowing/'),
     ),
-    url(
+    re_path(
         r'^finance/borrow-against-assets/$',
         QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/borrow-against-assets/'),
     ),
-    url(
+    re_path(
         r'^finance/raise-money-with-investment/$',
         QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/raise-money-with-investment/'),
     ),
-    url(
+    re_path(
         r'^getting-paid/invoice-currency-and-contents/$',
         QuerystringRedirectView.as_view(url='/advice/manage-payment-for-export-orders/payment-methods-for-exporters/'),
     ),
-    url(
+    re_path(
         r'^getting-paid/consider-how-to-get-paid/$',
         QuerystringRedirectView.as_view(
             url='/advice/manage-payment-for-export-orders/how-to-create-an-export-invoice/'
         ),
     ),
-    url(
+    re_path(
         r'^getting-paid/decide-when-to-get-paid/$',
         QuerystringRedirectView.as_view(
             url='/advice/manage-payment-for-export-orders/decide-when-to-get-paid-for-export-orders/'
         ),
     ),
-    url(
+    re_path(
         r'^getting-paid/payment-methods/$',
         QuerystringRedirectView.as_view(url='/advice/manage-payment-for-export-orders/payment-methods-for-exporters/'),
     ),
-    url(
+    re_path(
         r'^getting-paid/insure-against-non-payment/$',
         QuerystringRedirectView.as_view(url='/advice/manage-payment-for-export-orders/insure-against-non-payment/'),
     ),
-    url(r'^getting-paid/$', QuerystringRedirectView.as_view(url='/advice/manage-payment-for-export-orders/')),
-    url(
+    re_path(r'^getting-paid/$', QuerystringRedirectView.as_view(url='/advice/manage-payment-for-export-orders/')),
+    re_path(
         r'^customer-insight/$',
         QuerystringRedirectView.as_view(url='/advice/prepare-to-do-business-in-a-foreign-country/'),
     ),
-    url(
+    re_path(
         r'^customer-insight/meet-your-customers/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market/'
         ),
     ),
-    url(
+    re_path(
         r'^customer-insight/know-your-customers/$',
         QuerystringRedirectView.as_view(
             url='/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets/'
         ),
     ),
-    url(
+    re_path(
         r'^customer-insight/manage-language-differences/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market/'
         ),
     ),
-    url(
+    re_path(
         r'^customer-insight/understand-your-customers-culture/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market/'
         ),
     ),
-    url(
+    re_path(
         r'^operations-and-compliance/$',
         QuerystringRedirectView.as_view(url='/advice/manage-legal-and-ethical-compliance/'),
     ),
-    url(
+    re_path(
         r'^operations-and-compliance/internationalise-your-website/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-to-do-business-in-a-foreign-country/internationalise-your-website/'
         ),
     ),
-    url(
+    re_path(
         r'^operations-and-compliance/match-your-website-to-your-audience/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-to-do-business-in-a-foreign-country/internationalise-your-website/'
         ),
     ),
-    url(
+    re_path(
         r'^operations-and-compliance/protect-your-intellectual-property/$',
         QuerystringRedirectView.as_view(
             url='/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting/'
         ),
     ),
-    url(
+    re_path(
         r'^operations-and-compliance/types-of-intellectual-property/$',
         QuerystringRedirectView.as_view(
             url='/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting/'
         ),
     ),
-    url(
+    re_path(
         r'^operations-and-compliance/know-what-ip-you-have/$',
         QuerystringRedirectView.as_view(
             url='/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting/'
         ),
     ),
-    url(
+    re_path(
         r'^operations-and-compliance/international-ip-protection/$',
         QuerystringRedirectView.as_view(
             url='/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting/'
         ),
     ),
-    url(
+    re_path(
         r'^operations-and-compliance/report-corruption/$',
         QuerystringRedirectView.as_view(
             url='/advice/manage-legal-and-ethical-compliance/report-corruption-and-human-rights-violations/'
         ),
     ),
-    url(
+    re_path(
         r'^operations-and-compliance/anti-bribery-and-corruption-training/$',
         QuerystringRedirectView.as_view(
             url='/advice/manage-legal-and-ethical-compliance/anti-bribery-and-corruption-training/'
         ),
     ),
-    url(
+    re_path(
         r'^operations-and-compliance/plan-the-logistics/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-for-export-procedures-and-logistics/plan-logistics-for-exporting/'
         ),
     ),
-    url(
+    re_path(
         r'^operations-and-compliance/get-your-export-documents-right/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-for-export-procedures-and-logistics/get-your-export-documents-right/'
         ),
     ),
-    url(
+    re_path(
         r'^operations-and-compliance/use-a-freight-forwarder/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-for-export-procedures-and-logistics/use-a-freight-forwarder-to-export/'
         ),
     ),
-    url(
+    re_path(
         r'^operations-and-compliance/use-incoterms-in-contracts/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-for-export-procedures-and-logistics/use-incoterms-in-contracts/'
         ),
     ),
-    url(r'^new/next-steps/$', QuerystringRedirectView.as_view(url='/advice/')),
-    url(r'^occasional/next-steps/$', QuerystringRedirectView.as_view(url='/advice/')),
-    url(r'^regular/next-steps/$', QuerystringRedirectView.as_view(url='/advice/')),
-    url(r'^new/$', QuerystringRedirectView.as_view(url='/advice/')),
-    url(r'^occasional/$', QuerystringRedirectView.as_view(url='/advice/')),
-    url(r'^regular/$', QuerystringRedirectView.as_view(url='/advice/')),
+    re_path(r'^new/next-steps/$', QuerystringRedirectView.as_view(url='/advice/')),
+    re_path(r'^occasional/next-steps/$', QuerystringRedirectView.as_view(url='/advice/')),
+    re_path(r'^regular/next-steps/$', QuerystringRedirectView.as_view(url='/advice/')),
+    re_path(r'^new/$', QuerystringRedirectView.as_view(url='/advice/')),
+    re_path(r'^occasional/$', QuerystringRedirectView.as_view(url='/advice/')),
+    re_path(r'^regular/$', QuerystringRedirectView.as_view(url='/advice/')),
     # CMS-1410 redirects for updated 'export advice' articles
-    url(
+    re_path(
         r'^advice/find-an-export-market/plan-export-market-research/$',
         QuerystringRedirectView.as_view(url='/advice/find-an-export-market/understand-export-market-research/'),
     ),
-    url(
+    re_path(
         r'^advice/find-an-export-market/define-export-market-potential/$',
         QuerystringRedirectView.as_view(url='/advice/find-an-export-market/research-export-markets-online/'),
     ),
-    url(
+    re_path(
         r'^advice/find-an-export-market/field-research-in-export-markets/$',
         QuerystringRedirectView.as_view(url='/advice/find-an-export-market/research-in-market/'),
     ),
-    url(
+    re_path(
         r'^advice/get-export-finance-and-funding/choose-the-right-finance/$',
         QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/understand-export-finance/'),
     ),
-    url(
+    re_path(
         r'^advice/get-export-finance-and-funding/raise-money-by-borrowing/$',
         QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/get-export-finance/'),
     ),
-    url(
+    re_path(
         r'^advice/get-export-finance-and-funding/borrow-against-assets/$',
         QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/get-export-finance/'),
     ),
-    url(
+    re_path(
         r'^advice/get-export-finance-and-funding/raise-money-with-investment/$',
         QuerystringRedirectView.as_view(url='/advice/get-export-finance-and-funding/get-export-finance/'),
     ),
-    url(
+    re_path(
         r'^advice/use-a-freight-forwarder-to-export/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-for-export-procedures-and-logistics/moving-goods-and-using-freight-forwarders/'
         ),
     ),
-    url(
+    re_path(
         r'^advice/prepare-for-export-procedures-and-logistics/use-a-freight-forwarder-to-export/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-for-export-procedures-and-logistics/moving-goods-and-using-freight-forwarders/'
         ),
     ),
-    url(
+    re_path(
         r'^advice/plan-logistics-for-exporting/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-for-export-procedures-and-logistics/moving-goods-and-using-freight-forwarders/'
         ),
     ),
-    url(
+    re_path(
         r'^advice/prepare-for-export-procedures-and-logistics/plan-logistics-for-exporting/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-for-export-procedures-and-logistics/moving-goods-and-using-freight-forwarders/'
         ),
     ),
-    url(
+    re_path(
         r'^advice/use-incoterms-in-contracts/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-for-export-procedures-and-logistics/international-trade-contracts-and-incoterms/'
         ),
     ),
-    url(
+    re_path(
         r'^advice/prepare-for-export-procedures-and-logistics/use-incoterms-in-contracts/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-for-export-procedures-and-logistics/international-trade-contracts-and-incoterms/'
         ),
     ),
-    url(
+    re_path(
         r'^advice/get-your-export-documents-right/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-for-export-procedures-and-logistics/documentation-international-trade/'
         ),
     ),
-    url(
+    re_path(
         r'^advice/prepare-for-export-procedures-and-logistics/get-your-export-documents-right/$',
         QuerystringRedirectView.as_view(
             url='/advice/prepare-for-export-procedures-and-logistics/documentation-international-trade/'
         ),
     ),
-    url(
+    re_path(
         r'^trade/$',
         QuerystringRedirectView.as_view(url='/international/trade/'),
         name='international-trade-home',
     ),
-    url(
+    re_path(
         r'^trade/(?P<path>[\w\-/]*)/$',
         QuerystringRedirectView.as_view(
             url=build_great_international_url('trade/incoming/%(path)s/'),
@@ -811,12 +810,12 @@ articles_redirects = [
         ),
         name='international-trade',
     ),
-    url(
+    re_path(
         r'^investment-support-directory/$',
         QuerystringRedirectView.as_view(url='/international/investment-support-directory/'),
         name='international-investment-support-directory-home',
     ),
-    url(
+    re_path(
         r'^investment-support-directory/(?P<path>[\w\-/]*)/$',
         QuerystringRedirectView.as_view(
             url=build_great_international_url('investment-support-directory/%(path)s/'),
@@ -824,11 +823,11 @@ articles_redirects = [
         ),
         name='international-investment-support-directory',
     ),
-    url(
+    re_path(
         r'^story/york-bag-retailer-goes-global-via-e-commerce/$',
         QuerystringRedirectView.as_view(url='/success-stories/york-bag-retailer-goes-global/'),
     ),
-    url(
+    re_path(
         r'^story/hello-babys-rapid-online-growth/$',
         QuerystringRedirectView.as_view(url='/success-stories/hello-babys-rapid-online-growth/'),
     ),

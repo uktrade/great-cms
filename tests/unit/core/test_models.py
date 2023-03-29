@@ -811,6 +811,10 @@ class MicrositeTests(WagtailPageTests):
 
 
 class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
+    @pytest.fixture(autouse=True)
+    def domestic_homepage_fixture(self, domestic_homepage):
+        self.domestic_homepage = domestic_homepage
+
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
             MicrositePage,
@@ -834,14 +838,34 @@ class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
         home_child = MicrositePageFactory(page_title='home-child', title='home-child', parent=home)
         home_grandchild = MicrositePageFactory(page_title='home-grandchild', title='home-grandchild', parent=home_child)
 
-        self.assertEqual(home.get_menu_items()[0]['title'], 'home')
-        self.assertEqual(home_child.get_menu_items()[0]['title'], 'home')
-        self.assertEqual(home_grandchild.get_menu_items()[0]['title'], 'home')
+        self.assertEqual(home.get_menu_items()[0]['title'], 'Home')
+        self.assertEqual(len(home.get_menu_items()), 2)
+        self.assertEqual(home_child.get_menu_items()[0]['title'], 'Home')
+        self.assertEqual(home_grandchild.get_menu_items()[0]['title'], 'Home')
 
-        self.assertEqual(home.get_secondary_pages()[0]['title'], 'home-child')
-        self.assertEqual(home_child.get_secondary_pages()[0]['title'], 'home-child')
-        self.assertEqual(home_grandchild.get_secondary_pages()[0]['title'], 'home-child')
-
-        self.assertEquals(home.get_related_pages(), None)
+        self.assertEquals(home.get_related_pages(), [{'title': 'home-child', 'url': None}])
         self.assertEqual(home_child.get_related_pages()[0]['title'], 'home-grandchild')
         self.assertEquals(home_grandchild.get_related_pages(), [])
+
+    def test_get_site_title(self):
+        root = MicrositeFactory(title='root')
+        home = MicrositePageFactory(page_title='home', title='microsite-title', parent=root)
+        home_child = MicrositePageFactory(page_title='home-child', title='home-child', parent=home)
+        home_grandchild = MicrositePageFactory(page_title='home-grandchild', title='home-grandchild', parent=home_child)
+
+        self.assertEqual(home_grandchild.get_site_title(), 'microsite-title')
+
+    def test_get_site_title_is_none(self):
+        landing_page = factories.LandingPageFactory(parent=self.domestic_homepage)
+        home = MicrositePageFactory(page_title='home', title='home', parent=landing_page)
+        home_child = MicrositePageFactory(page_title='home-child', title='home-child', parent=home)
+        home_grandchild = MicrositePageFactory(page_title='home-grandchild', title='home-grandchild', parent=home_child)
+
+        self.assertEqual(home_grandchild.get_site_title(), None)
+
+    def test_get_parent_page(self):
+        root = MicrositeFactory(title='root')
+        home = MicrositePageFactory(page_title='home', title='microsite-title', parent=root)
+        home_child = MicrositePageFactory(page_title='home-child', title='home-child', parent=home)
+        home_grandchild = MicrositePageFactory(page_title='home-grandchild', title='home-grandchild', parent=home_child)
+        self.assertEqual(home_grandchild.get_parent_page(), home)

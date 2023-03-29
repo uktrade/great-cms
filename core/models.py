@@ -5,13 +5,14 @@ from urllib.parse import unquote
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.forms import Select
 from django.http import Http404, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from great_components.mixins import GA360Mixin
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -43,9 +44,10 @@ from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin
 
-from core import blocks as core_blocks, cms_panels, mixins
+from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
 from core.blocks import ColumnsBlock
 from core.case_study_index import delete_cs_index, update_cs_index
+from core.cms_snippets import NonPageContentSEOMixin, NonPageContentSnippetBase
 from core.constants import (
     BACKLINK_QUERYSTRING_NAME,
     RICHTEXT_FEATURES__MINIMAL,
@@ -1386,10 +1388,12 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         [
             (
                 'text',
-                RichTextBlock(),
+                RichTextBlock(
+                    template='microsites/blocks/text.html',
+                ),
             ),
-            ('image', ImageChooserBlock(required=False, template='core/includes/_article_image.html')),
-            ('video', core_blocks.SimpleVideoBlock(template='core/includes/_article_video.html')),
+            ('image', ImageChooserBlock(required=False, template='microsites/blocks/image.html')),
+            ('video', core_blocks.SimpleVideoBlock(template='microsites/blocks/video.html')),
             (
                 'columns',
                 StreamBlock(
@@ -1399,7 +1403,31 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                     help_text='Add two or three columns text',
                     min_num=2,
                     max_num=3,
-                    template='core/includes/_columns.html',
+                    template='microsites/blocks/columns.html',
+                ),
+            ),
+            (
+                'cta',
+                blocks.StructBlock(
+                    [
+                        (
+                            'title',
+                            blocks.CharBlock(required=True, max_length=255, label='Title'),
+                        ),
+                        (
+                            'teaser',
+                            blocks.TextBlock(required=True, max_length=255, label='Teaser'),
+                        ),
+                        (
+                            'link_label',
+                            blocks.CharBlock(required=True, max_length=255, label='Link label'),
+                        ),
+                        (
+                            'link',
+                            blocks.CharBlock(required=True, max_length=255, label='Link'),
+                        ),
+                    ],
+                    template='microsites/blocks/cta.html',
                 ),
             ),
             (  # alt text lives on the custom Image class
@@ -1464,26 +1492,78 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         blank=True,
     )
 
+    def get_parent_page(self):
+        current_page = self.specific
+        parent_page = self.get_parent().specific
+        while type(parent_page) != Microsite:
+            if type(parent_page) != MicrositePage:
+                break
+            current_page = parent_page
+            parent_page = parent_page.get_parent().specific
+        if type(parent_page) == Microsite and type(current_page) == MicrositePage:
+            return current_page
+        else:
+            return None
+
     # Return the children of the top level Microsite parent of current page
     def get_menu_items(self):
-        parent_page = self.get_ancestors().live().type(Microsite).first().specific
-        return [
-            {
-                'url': child.get_url(),
-                'title': child.title,
-            }
-            for child in parent_page.get_children().live()
-        ]
-
-    # Return the children of the MicrositePage at the top of current user journey
-    def get_secondary_pages(self):
-        if type(self.get_parent().specific) == Microsite:
-            return [{'title': child.title, 'url': child.get_url()} for child in self.get_children()]
-        else:
-            parent_page = self.get_ancestors().live().type(MicrositePage).first().specific
-            return [{'title': child.title, 'url': child.get_url()} for child in parent_page.get_children()]
+        parent_page = self.get_parent_page()
+        if parent_page:
+            return [{'url': parent_page.get_url(), 'title': 'Home'}] + [
+                {
+                    'url': child.get_url(),
+                    'title': child.title,
+                }
+                for child in parent_page.get_children().live()
+            ]
+        return []
 
     # Return the children of a child or grandchild page
     def get_related_pages(self):
-        if type(self.get_parent().specific) == MicrositePage:
-            return [{'title': child.title, 'url': child.get_url()} for child in self.get_children()]
+        return [{'title': child.title, 'url': child.get_url()} for child in self.get_children()]
+
+    def get_site_title(self):
+        parent_page = self.get_parent_page()
+        if parent_page:
+            return parent_page.title
+        else:
+            return None
+
+
+@register_snippet
+class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
+    # Provide the options for pages which will use a hero snippet
+    slug_options = {
+        snippet_slugs.EXPORT_ACADEMY_LISTING_PAGE_HERO: {
+            'title': 'Hero for the Export Academy listing page',
+            'page_path': ('/export_academy/upcoming-events/'),
+        },
+    }
+    title = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    text = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+    image = models.ForeignKey(
+        'core.AltTextImage',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+    panels = [
+        MultiFieldPanel(
+            heading='Purpose',
+            children=[
+                FieldPanel('slug', widget=Select),
+            ],
+        ),
+        FieldPanel('title'),
+        FieldPanel('text'),
+        ImageChooserPanel('image'),
+    ]

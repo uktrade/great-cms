@@ -1,22 +1,4 @@
 {% load wagtailcore_tags %}
-
-<p>Main pages</p>
-<ul>
-{% for item in page.get_menu_items %}
-    <li><a href={{item.url}}>{{ item.title }}</a></li>
-{% endfor %}
-</ul>
-
-<p>Secondary pages</p>
-{% for item in page.get_secondary_pages %}
-     <li><a href={{item.url}}>{{ item.title }}</a></li>
-{% endfor %}
-
-<p>Related pages</p>
-{% for item in page.get_related_pages %}
-     <li><a href={{item.url}}>{{ item.title }}</a></li>
-{% endfor %}
-
 {% load static %}
 {% load i18n %}
 {% load static_absolute from component_tags %}
@@ -67,10 +49,10 @@
   {% endblock %}
 
   {% block head_css %}
-    <link href="{% static 'stylesheets/govuk-elements-styles.min.css' %}" media="all" rel="stylesheet" />
     <link href="{% static 'components_styles.css' %}" media="all" rel="stylesheet" />
     {{ block.super }}
     <link href="{% static 'loggedout_styles.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'microsite_styles.css' %}" rel="stylesheet" type="text/css" />
   {% endblock %}
 
   <style>
@@ -180,10 +162,6 @@
   {% include 'components/cookie_notice.html' %}
 {% endblock %}
 
-{% block body_header %}
-  {% include 'core/header.html' %}
-{% endblock %}
-
 {% block body_content_container %}
   <main id="content" tabindex="-1" class="{% block css_layout_class %}{% endblock css_layout_class %}">
     {% block content %}{% endblock %}
@@ -195,7 +173,7 @@
 {% endblock %}
 
 {% block body_footer %}
-  {% include 'components/header_footer/domestic_footer.html' %}
+  {% include 'core/footer.html' %}
 {% endblock %}
 
 {% block body_js %}
