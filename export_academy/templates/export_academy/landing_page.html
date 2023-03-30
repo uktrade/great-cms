@@ -5,24 +5,19 @@
 {% load wagtailimages_tags %}
 
 {% block content %}
-    {% if not image_url %}
     {% image page.hero_image original as rendition %}
-    {% endif %}
-    {% firstof image_url rendition.url as image_url %}
-
-    <div class="page-header article-header" id="hero">
-        <div class="inner-header">
-            <div >
-                <h1>{{ page.title }}</h1>
-                <p>{{ page.hero_text | richtext }}</p>
-                {% include_block page.hero_cta %}
-            </div>
-            <div class="image-container" style="background: url({{ image_url }})">
-            </div>
+    <div class="page-header article-header stack-at-tablet-width" id="hero">
+    <div class="inner-header">
+        <div>
+            <h1>{{ page.title }}</h1>
+            <p>{{ page.hero_text | richtext }}</p>
+            {% include_block page.hero_cta %}
+        </div>
+        <div class="image-container image-full-width" style="background: url({{ rendition.url }})">
+            <img class='ea-logo' src='/static/images/uk-export-academy-logo.png' />
+        </div>
         </div>
     </div>
-
-
     {% block breadcrumbs %}
       {% include 'components/breadcrumbs_cms.html' %}
     {% endblock %}
