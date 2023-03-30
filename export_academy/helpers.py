@@ -6,7 +6,82 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
 from core.urls import SIGNUP_URL
-from export_academy.models import Registration
+from export_academy.models import Event, Registration
+
+
+def get_buttons_for_event(user, event):
+    result = dict(form_event_booking_buttons=[], event_action_buttons=[])
+
+    if is_export_academy_registered(user):
+        if user_booked_on_event(user, event):
+            if event.completed:
+                result['event_action_buttons'] += get_event_completed_buttons(event)
+            elif event.status is Event.STATUS_FINISHED:
+                # buttons to be shown if the event has finished but not marked as complete
+                pass
+            else:
+                result['form_event_booking_buttons'] += [
+                    {
+                        'label': 'Cancel',
+                        'classname': 'link',
+                        'value': 'Cancelled',
+                        'type': 'submit',
+                    },
+                ]
+                result['event_action_buttons'] += get_event_join_button(event)
+
+    result['form_event_booking_buttons'] += get_event_booking_button(user, event)
+
+    return result
+
+
+def user_booked_on_event(user, event):
+    return event.bookings.filter(registration_id=user.email, status='Confirmed').exists()
+
+
+def get_event_booking_button(user, event):
+    result = []
+    if user.is_anonymous or not user_booked_on_event(user, event):
+        if event.status is not Event.STATUS_FINISHED and not event.completed:
+            result += [
+                {
+                    'label': 'Book',
+                    'classname': 'link',
+                    'value': 'Confirmed',
+                    'type': 'submit',
+                },
+            ]
+    return result
+
+
+def get_event_join_button(event):
+    return [
+        {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
+    ]
+
+
+def get_event_completed_buttons(event):
+    result = []
+
+    if event.video_recording:
+        result += [
+            {
+                'url': reverse_lazy('export_academy:event-details', kwargs=dict(pk=event.pk)),
+                'label': 'View video',
+                'classname': 'text',
+                'title': 'View video',
+            },
+        ]
+    if event.document:
+        result += [
+            {
+                'url': event.document.url,
+                'label': 'View slideshow',
+                'classname': 'text',
+                'title': 'View slideshow',
+            },
+        ]
+    return result
 
 
 def is_export_academy_registered(user):
@@ -14,6 +89,23 @@ def is_export_academy_registered(user):
         return False
 
     return Registration.objects.filter(pk=user.email).exists()
+
+
+def build_request_navigation_params(request):
+    params = request.GET
+
+    if is_export_academy_registered(request.user):
+        key = 'navigation'
+        default_navigation_choice = 'all'
+        navigation = params.get(key)
+
+        if navigation:
+            request.session[key] = navigation
+        else:
+            params = request.GET.copy()
+            params[key] = request.session.get(key, default_navigation_choice)
+
+    return params
 
 
 def check_registration(function):

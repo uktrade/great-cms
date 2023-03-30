@@ -1,0 +1,118 @@
+.form-label {
+    font-family: $govuk-font-family;
+    color: $atlas-dark-blue;
+}
+
+.form-control {
+    min-width: 449px;
+    font-family: $govuk-font-family;
+}
+
+.block-text {
+    h2 {
+        @extend %govuk-heading-m;
+    }
+
+    h3 {
+        @extend %govuk-heading-s;
+    }
+
+    h4 {
+        @extend %govuk-body-m;
+    }
+
+    p {
+        @extend %govuk-body-m;
+    }
+
+    i {
+        font-size: inherit;
+    }
+
+    ol, ul {
+        @extend %govuk-list;
+    }
+
+    ol {
+        @extend %govuk-list--number;
+    }
+
+    ul {
+        @extend %govuk-list--bullet;
+
+        li {
+            position: static;
+            list-style: disc;
+            padding: 0;
+        }
+    }
+
+    h1, h2, h3, h4, h5, h6, p, ol, ul {
+        font-family: $govuk-font-family;
+    }
+  }
+
+.image-container {
+    width: 100%;
+    height: 300px;
+    margin-bottom: 15px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.error-reporting {
+    font-family: $govuk-font-family !important;
+
+    .container {
+        margin: 0px !important;
+    }
+}
+
+.autocomplete__input--default {
+    background-image: url('/static/images/search-black.svg');
+    background-repeat: no-repeat;
+    padding-right: 20px;
+    background-position: right center;
+    font-family: $govuk-font-family;
+    background-origin: content-box;
+    width: 449px !important;
+
+    @media (max-width: 640px) {
+        min-width: 100% !important;
+    }
+}
+
+.autocomplete__menu li, .SelectiveLookupDisplay li {
+    border-top: 0px;
+    border-bottom: 0px;
+}
+
+.autocomplete__menu {
+    margin-top: 10px !important;
+    border-top: 2px solid black !important;
+    width: 449px !important;
+
+    @media (max-width: 640px) {
+        min-width: 100% !important;
+    }
+}
+
+.autocomplete__option {
+    font-family: $govuk-font-family;
+    color: $atlas-dark-blue;
+    font-size: 24px;
+}
+
+.autocomplete__menu li:hover, .SelectiveLookupDisplay li:focus, .SelectiveLookupDisplay li:hover {
+    background-color: #DDE5ED !important;
+    color: $atlas-dark-blue;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}

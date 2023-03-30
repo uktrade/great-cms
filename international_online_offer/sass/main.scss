@@ -1,39 +1,6 @@
-@import 'header-footer';
-@import './govuk/phase-banner';
-@import './govuk/inset-text';
-@import './govuk/back-link';
-@import './govuk/details';
-
-.autocomplete__input--default {
-    background-image: url('/static/images/search-black.svg');
-    background-repeat: no-repeat;
-    padding-right: 20px;
-    background-position: right center;
-    font-family: 'Euclid Flex B';
-    background-origin: content-box;
-}
-
-.autocomplete__option {
-    font-family: 'Euclid Flex B';
-}
-
-.form-label {
-    font-family: 'Euclid Flex B';
-}
-
-.ioo-custom-full-width-input {
-    width: 100%;
-}
-
-.form-hint {
-    color: $atlas-grey-dark;
-}
-
-.form-label {
-    color: $atlas-dark-blue;
-}
-
-.atlas-label {
-    color: $atlas-dark-blue;
-    font-weight: 600;
-}
+@import "govuk-token-overrides";
+@import 'atlas/main.scss';
+@import "node_modules/govuk-frontend/govuk/all";
+@import "govuk-class-overrides";
+@import 'core-class-overrides';
+@import 'article-list-item.scss';

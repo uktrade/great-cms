@@ -1,0 +1,23 @@
+.great-full-width-header-image {
+    height: 200px;
+    background-position: 50%;
+    background-size: cover;
+
+    @include govuk-media-query($from: tablet) {
+        height: 345px;
+    }
+}
+
+.great-floating-right-column {
+    @include govuk-media-query($from: tablet) {
+        position: relative;
+    }
+
+    > div:last-of-type {
+        @include govuk-media-query($from: tablet) {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+}

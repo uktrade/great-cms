@@ -1,13 +1,48 @@
 from django.forms import Select
+from django.utils.html import mark_safe
 from great_components import forms
+
+TERMS_LABEL = mark_safe('I agree to the <a href="#" target="_blank">Terms and Conditions</a>')
 
 
 class SectorForm(forms.Form):
     CHOICES = [
         ('', ''),
+        ('Advanced engineering', 'Advanced engineering'),
         ('Aerospace', 'Aerospace'),
+        ('Agriculture, Horticulture, Fisheries and pets', 'Agriculture, Horticulture, Fisheries and pets'),
+        ('Airports', 'Airports'),
         ('Automotive', 'Automotive'),
-        ('Food & Drink', 'Food & Drink'),
+        ('Biotech and Pharmaceuticals', 'Biotech and Pharmaceuticals'),
+        ('Business and consumer services', 'Business and consumer services'),
+        ('Chemicals', 'Chemicals'),
+        ('Construction', 'Construction'),
+        ('Consumer and retail', 'Consumer and retail'),
+        ('Creative industries', 'Creative industries'),
+        ('Defense and Security', 'Defense and Security'),
+        ('Education and Training', 'Education and Training'),
+        ('Energy', 'Energy'),
+        ('Environment', 'Environment'),
+        ('Financial and Professional Services', 'Financial and Professional Services'),
+        ('Food and Drink', 'Food and Drink'),
+        ('Healthcare and Medical', 'Healthcare and Medical'),
+        ('Infrastructure Air and Sea', 'Infrastructure Air and Sea'),
+        ('Leisure', 'Leisure'),
+        ('Logistics', 'Logistics'),
+        ('Manufacturing', 'Manufacturing'),
+        ('Marine', 'Marine'),
+        ('Maritime Services', 'Maritime Services'),
+        ('Medical devices and equipment', 'Medical devices and equipment'),
+        ('Mining', 'Mining'),
+        ('Nuclear', 'Nuclear'),
+        ('Oil and Gas', 'Oil and Gas'),
+        ('Rail', 'Rail'),
+        ('Renewable', 'Renewable'),
+        ('Retail', 'Retail'),
+        ('Security', 'Security'),
+        ('Space', 'Space'),
+        ('Sports Events', 'Sports Events'),
+        ('Technology and Smart Cities', 'Technology and Smart Cities'),
     ]
     sector = forms.fields.ChoiceField(
         label='',
@@ -49,10 +84,18 @@ class LocationForm(forms.Form):
     VALIDATION_MESSAGE_SELECT_ONE_OPTION = 'Please select only one choice to continue'
     CHOICES = [
         ('', ''),
-        ('Belfast', 'Belfast'),
-        ('Cardiff', 'Cardiff'),
-        ('Edinburgh', 'Edinburgh'),
+        ('East', 'East'),
+        ('East Midlands', 'East Midlands'),
         ('London', 'London'),
+        ('North East', 'North East'),
+        ('North West', 'North West'),
+        ('Northern Ireland', 'Northern Ireland'),
+        ('Scotland', 'Scotland'),
+        ('South East', 'South East'),
+        ('South West', 'South West'),
+        ('Wales', 'Wales'),
+        ('West Midlands', 'West Midlands'),
+        ('Yorkshire and the Humber', 'Yorkshire and the Humber'),
     ]
     location = forms.fields.ChoiceField(
         label='',
@@ -122,5 +165,63 @@ class SpendForm(forms.Form):
         spend_other = cleaned_data.get('spend_other')
         if spend == 'Specific amount' and not spend_other:
             self.add_error('spend_other', 'This field is required.')
+        else:
+            return cleaned_data
+
+
+class ContactForm(forms.Form):
+    company_name = forms.CharField(
+        label='',
+        required=True,
+    )
+    CHOICES = [
+        ('', ''),
+        ('France', 'France'),
+        ('Germany', 'Germany'),
+        ('India', 'India'),
+        ('Italy', 'Italy'),
+        ('Spain', 'Spain'),
+        ('United States', 'United States'),
+    ]
+    company_location = forms.fields.ChoiceField(
+        label='',
+        required=False,
+        widget=Select(attrs={'id': 'js-company-location-select'}),
+        choices=CHOICES,
+    )
+    full_name = forms.CharField(
+        label='',
+        required=True,
+    )
+    role = forms.CharField(
+        label='',
+        required=True,
+    )
+    email = forms.EmailField(
+        label='',
+        required=True,
+    )
+    telephone_number = forms.CharField(
+        label='',
+        required=True,
+    )
+    agree_terms = forms.BooleanField(
+        required=True,
+        label=TERMS_LABEL,
+    )
+    agree_info_email = forms.BooleanField(
+        required=False,
+        label='I would like to additional receive information by email',
+    )
+    agree_info_telephone = forms.BooleanField(
+        required=False,
+        label='I would like to additional receive information by telephone',
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        company_location = cleaned_data.get('company_location')
+        if not company_location:
+            self.add_error('company_location', 'This field is required.')
         else:
             return cleaned_data

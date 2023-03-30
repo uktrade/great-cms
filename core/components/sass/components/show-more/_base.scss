@@ -1,0 +1,61 @@
+// Show more
+// ============
+
+.show-more {
+    details {
+        position: relative;
+        margin-top: 20px;
+        margin-bottom: none !important;
+    }
+
+    details[open] {
+        margin-top: 0;
+        padding-bottom: 40px;
+    }
+
+    details[open] summary {
+        position: absolute;
+        bottom: 0;
+    }
+
+    details[open] summary::before {
+        transform: rotate(90deg);
+        margin-top: 6px;
+        margin-right: 10px;
+    }
+
+    .details-text-closed {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+    }
+
+    .details-text-open {
+        display: block !important;
+        overflow: visible !important;
+    }
+
+    summary {
+        font-family: $main-text-font;
+        text-decoration: none !important;
+        font-size: 18px;
+        color: $color-gov-link
+    }
+
+    summary::before {
+        content: "";
+        display: block;
+        background: url('/static/icons/arrow.svg') no-repeat;
+        width: 20px;
+        height: 18px;
+        float: left;
+    }
+
+    // Hides the default arrow on details component in Safari
+    details summary::-webkit-details-marker {
+        display: none;
+    }
+}

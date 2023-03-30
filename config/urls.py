@@ -77,7 +77,7 @@ if settings.DEBUG:
 
 if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
     urlpatterns = [
-        path('international/international-online-offer/', include(international_online_offer.urls))
+        path('international/expand-your-business-in-the-uk/', include(international_online_offer.urls))
     ] + urlpatterns
 
 if settings.FEATURE_EXPORT_ACADEMY:

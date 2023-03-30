@@ -1,7 +1,37 @@
 # Changelog
 
 ## Pre release
+* KLS-443 - Microsite navigation navbar
+### Enhancements
+* IOO-437 - International Online Offer change service name headings and main entry point url
+* IOO-455 - Sector and Location JSON updates
+* IOO-437 - International Online Offer wagtail integration: article page
+* IOO-427 - International Online Offer wagtail integration: landing pages and guide
+* KLS-426 - Add event types to filterset on UKEA's listings page
+* KLS-452 - Event cloning from Wagtail admin
+* KLS-391 - Remove deprecation warnings after upgrading to Django v3.2
+* KLS-429 - UKEA's Event 'complete' actions
+* KLS-371 - Microsite html and css
+* KLS-367 - Microsite heading, strapline, published date layout
+* KLS-366 - Microsite header image
+* KLS-271 - Remove past media for completed export academy events
+* KLS-430 - EA Event details page
+* EAM-104 - Join and view buttons
+* KLS-388 - Added CTA streamfield block
+* KLS-467 - Update business details turnover options for the export contact page
+* KLS-269 - Develop frontend of events listing page
+* KLS-473 - Microsite HR styling tweaks and govuk template filter
+* KLS-406 - Navigation filters on logged-in events listing page
+* KLS-474 - Microsite styling tweaks
+* KLS-497 - Fix show more component to work cross-browser
+* KLS-504 - Upgrade webpack to 5.76.0
+* KLS-503 - Upgrade sentry-sdk to 1.14.0
+* KLS-445 - Enable Internationalisation on Wagtail CMS
+* KLS-447 - Add support for Spanish language content
 
+
+## [2.28.0](https://github.com/uktrade/great-cms/releases/tag/2.28.0)
+[Full Changelog](https://github.com/uktrade/great-cms/compare/2.27.0...2.28.0)
 ### Enhancements
 * IOO-420 - International Online Offer triage question 4 and 5 allowing user to input business spend and hiring
 * IOO-418 - International Online Offer triage question 3 allowing user to select business location
@@ -12,6 +42,8 @@
 * KLS-437 - Change DIT references to DBT
 * KLS-407 - Add format filters to the Export Academy event listings page
 * KLS-270 - Add webinar duration to event listing template
+* KLS-426 - Add event types to filterset on UKEA's listings page
+* IOO-428 - International Online Offer detailed guide, contact form and using new GOVUK frontend
 
 ## [2.27.0](https://github.com/uktrade/great-cms/releases/tag/2.27.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.26.0...2.27.0)
@@ -30,7 +62,7 @@
 * Export Academy event management
 * KLS-368 - Reskin styling and bug fixes
 * KLS-395 - Update django to 3.2.18, directory-sso-api-client to >= 7.1.1
-* KLS-343 Add Export academy landing page
+* KLS-343 - Add Export academy landing page
 * KLS-404 - Add time filters to the Export Academy event listings page
 
 ## [2.25.1](https://github.com/uktrade/great-cms/releases/tag/2.25.1)

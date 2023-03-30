@@ -7,6 +7,7 @@ import sentry_sdk
 from django.urls import reverse_lazy
 from elasticsearch import RequestsHttpConnection
 from elasticsearch_dsl.connections import connections
+from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 
 import healthcheck.backends
@@ -149,6 +150,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+# Django>=3.2 will not do it for you anymore
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -196,6 +199,30 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+if env.bool('FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False):
+    # below assignments behind feature flag temporarily while we experiment with
+    # additional language support. They will be promoted to main initilisation once
+    # we have proven one non-English language.
+
+    WAGTAIL_I18N_ENABLED = True
+
+    WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+        ('ar', 'Arabic'),
+        ('en-gb', 'English'),
+        ('es', 'Spanish'),
+        ('ko', 'Korean'),
+    ]
+
+    INSTALLED_APPS += [
+        'wagtail_localize',
+        'wagtail_localize.locales',
+    ]
+
+    # LocaleMiddleware needs to be after SessionMiddleware but before CommonMiddleware
+    MIDDLEWARE.insert(1, 'django.middleware.locale.LocaleMiddleware')
+
+    MIDDLEWARE += ['directory_components.middleware.LocaleQuerystringMiddleware']
 
 
 # Static files (CSS, JavaScript, Images)
@@ -327,7 +354,9 @@ else:
 # Sentry
 if env.str('SENTRY_DSN', ''):
     sentry_sdk.init(
-        dsn=env.str('SENTRY_DSN'), environment=env.str('SENTRY_ENVIRONMENT'), integrations=[DjangoIntegration()]
+        dsn=env.str('SENTRY_DSN'),
+        environment=env.str('SENTRY_ENVIRONMENT'),
+        integrations=[DjangoIntegration(), CeleryIntegration()],
     )
 
 USE_X_FORWARDED_HOST = True
@@ -649,6 +678,10 @@ EXPORT_ACADEMY_NOTIFY_CANCELLATION_TEMPLATE_ID = env.str(
 EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER_TEMPLATE_ID = env.str(
     'EXPORT_ACADEMY_NOTIFY_EVENT_REMINDER_TEMPLATE_ID', '2af7084f-2246-4e5d-b2a5-b8075a524e25'
 )
+EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID = env.str(
+    'EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID', 'ff45b258-ae9e-4939-a049-089d959ddfee'
+)
+EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS = env.int('EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS', 30)
 
 # geo location
 GEOIP_PATH = os.path.join(ROOT_DIR, 'core/geolocation_data')
@@ -854,9 +887,11 @@ SSO_PROFILE_FEATURE_FLAGS = {
     'MAINTENANCE_MODE_ON': env.bool('FEATURE_MAINTENANCE_MODE_ENABLED', False),  # used by directory-components
     'ADMIN_REQUESTS_ON': env.bool('FEATURE_ADMIN_REQUESTS_ENABLED', False),
 }
-# parity with nginx config for maximum request body
-DATA_UPLOAD_MAX_MEMORY_SIZE = 6 * 1024 * 1024
-FILE_UPLOAD_MAX_MEMORY_SIZE = 6 * 1024 * 1024
+# Enable large file uploads
+WAGTAILIMAGES_MAX_UPLOAD_SIZE = 500 * 1024 * 1024
+FILE_UPLOAD_MAX_MEMORY_SIZE = 500 * 1024 * 1024
+DATA_UPLOAD_MAX_MEMORY_SIZE = 500 * 1024 * 1024
+FILE_UPLOAD_PERMISSIONS = 0o644
 
 HASHIDS_SALT = env.str('HASHIDS_SALT')
 
@@ -888,3 +923,4 @@ FEATURE_REDIS_USE_SSL = env.bool('FEATURE_REDIS_USE_SSL', False)
 CELERY_TASK_ALWAYS_EAGER = env.bool('CELERY_TASK_ALWAYS_EAGER', True)
 
 EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES = env.int('EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES', 30)
+EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_AFTER_DAYS = env.int('EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_AFTER_DAYS', 14)

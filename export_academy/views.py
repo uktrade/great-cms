@@ -1,29 +1,43 @@
 from django.urls import reverse_lazy
-from django.views.generic import FormView, ListView, TemplateView, UpdateView
+from django.views.generic import (
+    DetailView,
+    FormView,
+    ListView,
+    TemplateView,
+    UpdateView,
+)
 from django_filters.views import FilterView
 
 from config import settings
-from export_academy import filters, forms, models
+from core import mixins as core_mixins
+from export_academy import filters, forms, helpers, models
+from export_academy.helpers import get_buttons_for_event
 from export_academy.mixins import BookingMixin
+from export_academy.models import ExportAcademyHomePage
 
 
-class EventListView(FilterView, ListView):
+class EventListView(
+    core_mixins.GetSnippetContentMixin,
+    FilterView,
+    ListView,
+):
     model = models.Event
+    queryset = model.upcoming
     filterset_class = filters.EventFilter
     template_name = 'export_academy/event_list.html'
+    paginate_by = 10
+
+    def get_buttons_for_event(self, event):
+        user = self.request.user
+        return get_buttons_for_event(user, event)
+
+    def get(self, request, *args, **kwargs):
+        request.GET = helpers.build_request_navigation_params(request)
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        user = self.request.user
-        bookings = []
-
-        if user.is_authenticated:
-            bookings = models.Booking.objects.filter(registration_id=user.email, status='Confirmed').values_list(
-                'event_id', flat=True
-            )
-
-        ctx.update(bookings=bookings, form=forms.EventFilterForm(self.request.GET))
-
+        ctx['landing_page'] = ExportAcademyHomePage.objects.first()
         return ctx
 
 
@@ -53,7 +67,7 @@ class RegistrationFormView(BookingMixin, FormView):
         reg_data = dict(
             first_name=cleaned_data.get('first_name'),
             last_name=cleaned_data.get('last_name'),
-            email=self.request.user.email,
+            email=self.request.user.email,  # type: ignore
             data=cleaned_data,
         )
         self.save_model(reg_data)
@@ -73,3 +87,19 @@ class RegistrationFormView(BookingMixin, FormView):
 
 class SuccessPageView(TemplateView):
     pass
+
+
+class EventDetailsView(DetailView):
+    template_name = 'export_academy/event_details.html'
+    model = models.Event
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+
+        # video_render tag which helps in adding subtitles
+        # needs input in specific way as below
+        event: models.Event = kwargs.get('object', {})
+        video = event.video_recording
+        ctx.update(event_video={'video': video})
+
+        return ctx

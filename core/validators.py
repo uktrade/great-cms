@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.forms import ValidationError
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from ukpostcodeutils import validation
 
 from core.helpers import clam_av_client

@@ -1,0 +1,13 @@
+{% extends 'domestic/base.html' %}
+{% load static %}
+{% load component_tags %}
+{% load video_tags %}
+
+{% block head_title %}{{ object.name }}{% endblock %}
+
+{% block content %}
+    {% render_video event_video %}
+    <div class="container">
+        <a href="{{request.META.HTTP_REFERER|escape}}">Back</a>
+    </div>
+{% endblock %}
