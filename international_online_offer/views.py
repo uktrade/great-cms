@@ -3,7 +3,12 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from international_online_offer import forms
-from international_online_offer.models import TriageData, UserData
+from international_online_offer.models import (
+    TriageData,
+    UserData,
+    get_triage_data,
+    get_user_data,
+)
 
 LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = 'Complete the contact form to keep up to date with our personalised service.'
 HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = """Your business qualifies for 1 to 1 support from specialist UK government
@@ -32,11 +37,10 @@ class IOOSector(FormView):
 
     def get_initial(self):
         if self.request.user.is_authenticated:
-            try:
-                triage_data = TriageData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+            triage_data = get_triage_data(self.request.user.hashed_uuid)
+            if triage_data:
                 return {'sector': triage_data.sector}
-            except TriageData.DoesNotExist:
-                pass
+
         return {'sector': self.request.session.get('sector')}
 
     def form_valid(self, form):
@@ -66,11 +70,10 @@ class IOOIntent(FormView):
 
     def get_initial(self):
         if self.request.user.is_authenticated:
-            try:
-                triage_data = TriageData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+            triage_data = get_triage_data(self.request.user.hashed_uuid)
+            if triage_data:
                 return {'intent': triage_data.intent, 'intent_other': triage_data.intent_other}
-            except TriageData.DoesNotExist:
-                pass
+
         return {'intent': self.request.session.get('intent'), 'intent_other': self.request.session.get('intent_other')}
 
     def form_valid(self, form):
@@ -102,11 +105,10 @@ class IOOLocation(FormView):
 
     def get_initial(self):
         if self.request.user.is_authenticated:
-            try:
-                triage_data = TriageData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+            triage_data = get_triage_data(self.request.user.hashed_uuid)
+            if triage_data:
                 return {'location': triage_data.location, 'location_none': triage_data.location_none}
-            except TriageData.DoesNotExist:
-                pass
+
         return {
             'location': self.request.session.get('location'),
             'location_none': self.request.session.get('location_none'),
@@ -144,11 +146,10 @@ class IOOHiring(FormView):
 
     def get_initial(self):
         if self.request.user.is_authenticated:
-            try:
-                triage_data = TriageData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+            triage_data = get_triage_data(self.request.user.hashed_uuid)
+            if triage_data:
                 return {'hiring': triage_data.hiring}
-            except TriageData.DoesNotExist:
-                pass
+
         return {'hiring': self.request.session.get('hiring')}
 
     def form_valid(self, form):
@@ -178,11 +179,10 @@ class IOOSpend(FormView):
 
     def get_initial(self):
         if self.request.user.is_authenticated:
-            try:
-                triage_data = TriageData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+            triage_data = get_triage_data(self.request.user.hashed_uuid)
+            if triage_data:
                 return {'spend': triage_data.spend, 'spend_other': triage_data.spend_other}
-            except TriageData.DoesNotExist:
-                pass
+
         return {'spend': self.request.session.get('spend'), 'spend_other': self.request.session.get('spend_other')}
 
     def form_valid(self, form):
@@ -210,21 +210,9 @@ class IOOContact(FormView):
         )
 
     def get_initial(self):
-        session_data = {
-            'company_name': self.request.session.get('company_name'),
-            'company_location': self.request.session.get('company_location'),
-            'full_name': self.request.session.get('full_name'),
-            'role': self.request.session.get('role'),
-            'email': self.request.session.get('email'),
-            'telephone_number': self.request.session.get('telephone_number'),
-            'agree_terms': self.request.session.get('agree_terms'),
-            'agree_info_email': self.request.session.get('agree_info_email'),
-            'agree_info_telephone': self.request.session.get('agree_info_telephone'),
-        }
-
         if self.request.user.is_authenticated:
-            try:
-                user_data = UserData.objects.get(hashed_uuid=self.request.user.hashed_uuid)
+            user_data = get_user_data(self.request.user.hashed_uuid)
+            if user_data:
                 return {
                     'company_name': user_data.company_name,
                     'company_location': user_data.company_location,
@@ -236,10 +224,18 @@ class IOOContact(FormView):
                     'agree_info_email': user_data.agree_info_email,
                     'agree_info_telephone': user_data.agree_info_telephone,
                 }
-            except UserData.DoesNotExist:
-                return session_data
-        else:
-            return session_data
+
+        return {
+            'company_name': self.request.session.get('company_name'),
+            'company_location': self.request.session.get('company_location'),
+            'full_name': self.request.session.get('full_name'),
+            'role': self.request.session.get('role'),
+            'email': self.request.session.get('email'),
+            'telephone_number': self.request.session.get('telephone_number'),
+            'agree_terms': self.request.session.get('agree_terms'),
+            'agree_info_email': self.request.session.get('agree_info_email'),
+            'agree_info_telephone': self.request.session.get('agree_info_telephone'),
+        }
 
     def form_valid(self, form):
         if self.request.user.is_authenticated:
