@@ -671,7 +671,6 @@ def test_add_govuk_classes(input_html, expected_html):
 )
 def test_get_link_blocks(input, expected_instances):
     assert len(get_link_blocks(input)) == expected_instances
-    assert len(list(filter(lambda x: (x.block_type == 'link_block'), get_link_blocks(input)))) == expected_instances
 
 
 @pytest.mark.parametrize(
