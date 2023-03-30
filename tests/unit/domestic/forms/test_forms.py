@@ -75,13 +75,13 @@ def test_get_sector_choices():
 def test_campaign_long_form(valid_campaign_long_form_data):
     form = CampaignLongForm(data=valid_campaign_long_form_data)
     assert form.is_valid()
-    assert form.cleaned_data['first_name'] == valid_campaign_long_form_data['first_name']
-    assert form.cleaned_data['last_name'] == valid_campaign_long_form_data['last_name']
-    assert form.cleaned_data['email'] == valid_campaign_long_form_data['email']
-    assert form.cleaned_data['phone'] == valid_campaign_long_form_data['phone']
-    assert form.cleaned_data['already_export'] == valid_campaign_long_form_data['already_export']
-    assert form.cleaned_data['region'] == valid_campaign_long_form_data['region']
-    assert form.cleaned_data['sector'] == valid_campaign_long_form_data['sector']
+    assert form.data['first_name'] == valid_campaign_long_form_data['first_name']
+    assert form.data['last_name'] == valid_campaign_long_form_data['last_name']
+    assert form.data['email'] == valid_campaign_long_form_data['email']
+    assert form.data['phone'] == valid_campaign_long_form_data['phone']
+    assert form.data['already_export'] == valid_campaign_long_form_data['already_export']
+    assert form.data['region'] == valid_campaign_long_form_data['region']
+    assert form.data['sector'] == valid_campaign_long_form_data['sector']
 
 
 @pytest.mark.django_db

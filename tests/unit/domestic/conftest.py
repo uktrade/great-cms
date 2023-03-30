@@ -27,13 +27,13 @@ def valid_campaign_long_form_data():
     return {
         'first_name': 'fname',
         'last_name': 'lname',
-        'email': 'test@test.com',
+        'email': 'marc@gov.uk',
         'company_name': 'test',
         'phone': '07512522098',
         'position': 'director',
         'already_export': 'yes',
-        'region': 'UK',
-        'sector': 'IT',
+        'region': 'HR',
+        'sector': 'Retail',
     }
 
 

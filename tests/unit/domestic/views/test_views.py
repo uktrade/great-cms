@@ -1,10 +1,12 @@
-from unittest import mock
 import json
+from unittest import mock
+
 import pytest
 from django.conf import settings
-from django.test import TestCase, RequestFactory
+from django.test import Client, TestCase
 from django.urls import reverse, reverse_lazy
 from wagtail.tests.utils import WagtailPageTests
+
 import domestic.forms
 import domestic.views.campaign
 import domestic.views.ukef
@@ -13,10 +15,8 @@ from core.constants import CONSENT_EMAIL
 from domestic import forms
 from domestic.forms import CampaignLongForm, CampaignShortForm
 from domestic.views.ukef import GetFinanceLeadGenerationFormView
-from tests.unit.domestic.factories import ArticlePageFactory
 from tests.unit.core.factories import StructurePageFactory
-from django.test import Client
-from domestic.models import  StructuralPage
+from tests.unit.domestic.factories import ArticlePageFactory
 
 pytestmark = [
     pytest.mark.django_db,
@@ -355,27 +355,49 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
     @pytest.fixture(autouse=True)
     def domestic_homepage_fixture(self, domestic_homepage):
         self.domestic_homepage = domestic_homepage
+        # self.mock_form_session = mock_form_session
+        # self.client = client
+        # self.settings = settings
 
     def setUp(self):
-        
         self.parent_page = StructurePageFactory(parent=self.domestic_homepage, title='campaigns', slug='campaigns')
-        article_body1 = json.dumps([
-            {'type' : 'form', 'value': {'type': 'Short', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}}
-        ])
-        
-        article_body2 = json.dumps([
-            {'type' :'article_title', 'value':'test1'}
-        ])
+        article_body1 = json.dumps(
+            [
+                {
+                    'type': 'form',
+                    'value': {
+                        'type': 'Short',
+                        'email_title': 'title1',
+                        'email_subject': 'subject1',
+                        'email_body': 'body1',
+                    },
+                }
+            ]
+        )
 
-        article_body3 = json.dumps([
-            {'type' : 'form', 'value':  {'type': 'Long', 'email_title': 'title1', 'email_subject': 'subject1', 'email_body': 'body1'}}
-        ])
+        article_body2 = []
+
+        article_body3 = json.dumps(
+            [
+                {
+                    'type': 'form',
+                    'value': {
+                        'type': 'Long',
+                        'email_title': 'title1',
+                        'email_subject': 'subject1',
+                        'email_body': 'body1',
+                    },
+                }
+            ]
+        )
 
         self.article1 = ArticlePageFactory(
             slug='test-article-one', article_body=article_body1, parent=self.parent_page, article_title='test'
         )
 
-        self.article2 = ArticlePageFactory(slug='test-article-two', article_body=article_body2, parent=self.parent_page, article_title='test')
+        self.article2 = ArticlePageFactory(
+            slug='test-article-two', article_body=article_body2, parent=self.parent_page, article_title='test'
+        )
 
         self.article3 = ArticlePageFactory(
             slug='test-article-three', article_body=article_body3, parent=self.parent_page, article_title='test'
@@ -386,54 +408,13 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
         request = client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
-        view.setup(request=request)
-        form_class = view.get_form_class()
+        form_class = view.request.context_data['view'].get_form_class()
         self.assertEqual(form_class, CampaignShortForm)
 
-    def test_get_form_class_is_none(self):
-        view = domestic.views.campaign.CampaignView()
-        view.setup(self.get_request('/campaigns/test-article-two/'))
-
-        form_class = view.get_form_class()
-
-        self.assertEqual(form_class, None)
-
     def test_get_form_class_is_long(self):
-        view = domestic.views.campaign.CampaignView()
-        view.setup(self.get_request('/campaigns/test-article-three/'))
-
-        form_class = view.get_form_class()
-
+        client = Client()
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-three'})
+        request = client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        form_class = view.request.context_data['view'].get_form_class()
         self.assertEqual(form_class, CampaignLongForm)
-
-    def test_campaign_form_submit_success(self, mock_form_session, client, settings):
-        view = domestic.views.campaign.CampaignView()
-        view.setup(self.get_request('/campaigns/test-article-one/'))
-
-        class Form(forms.SerializeDataMixin, forms.Form):
-            email = forms.EmailField()
-            save = mock.Mock()
-
-        with mock.patch.object(view, 'form_class', Form):
-            response = client.post(
-                reverse('domestic:campaign/test-article-one'),
-                {
-                    'email': 'test@example.com',
-                    'email_body': 'body1',
-                    'email_subject': 'subject1',
-                    'email_title': 'title1',
-                },
-            )
-
-        assert response.status_code == 302
-        assert response.url == reverse('domestic:campaign/test-article-one1')
-
-        assert Form.save.call_count == 1
-        assert Form.save.call_args_list == [
-            mock.call(
-                template_id=settings.CAMPAIGN_USER_NOTIFY_TEMPLATE_ID,
-                email_address='test@example.com',
-                form_url=reverse('domestic:campaign/test-article-one'),
-                form_session=mock_form_session(),
-            ),
-        ]

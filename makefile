@@ -37,6 +37,7 @@ pytest_single:
 		--cov-config=.coveragerc \
 		--cov-report=html \
 		--cov=. \
+		--verbose \
 
 pytest_browser:
 	ENV_FILES=$(ENV_FILES) \
