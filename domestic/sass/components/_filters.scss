@@ -81,10 +81,22 @@
         cursor: pointer;
     }
 
+    .filter-section {
+        >input[type='checkbox']+label+.options {
+            display: block;
+        }
+    }
+
     .js-enabled & {
         .filter-section {
             >input[type='checkbox']:checked+label+.options {
                 display: block;
+            }
+        }
+
+        .filter-section {
+            >input[type='checkbox']+label+.options {
+                display: none;
             }
         }
 
