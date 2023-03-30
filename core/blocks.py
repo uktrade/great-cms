@@ -534,21 +534,16 @@ class TopicPageCardBlockRichText(blocks.StructBlock):
     description = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label='Description')
     link = blocks.CharBlock()  # not a URL block to allow relative links
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 class LinksBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=False, max_length=255, label='Title')
     description = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label='Description')
     link_text = blocks.CharBlock()
     link_url = blocks.CharBlock()
-=======
->>>>>>> f2d3fc5f4 (saving progress)
-=======
+
 
 class CampaginFormBlock(blocks.StructBlock):
     type = blocks.ChoiceBlock(choices=CAMPAIGN_FORM_CHOICES, null=False, blank=False, required=True)
     email_subject = blocks.TextBlock(required=True)
     email_title = blocks.TextBlock(required=True)
     email_body = blocks.TextBlock(required=True)
->>>>>>> 3a53807df (forms now working)

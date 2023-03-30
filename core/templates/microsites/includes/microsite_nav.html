@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {% include 'microsites/includes/microsite_header.html' %}
 {% load wagtailcore_tags %}
 <section class="microsite-nav-container">
@@ -27,26 +26,3 @@
         {% endif %}
     </div>
 </section>
-=======
-<div class='mirosite-nav-container'>
-    <h3>{% comment %} {{title}} {% endcomment %}</h3>
-    <nav class="microsite-nav">
-        {% for item in menu_items %}
-            <div class="{% if item.url == request.path %}active{% endif %}">
-                <a href={{ item.url }}>{{ item.title }}</a>
-                {% if item.children %}
-                    <ul class="subnav">
-                        <li>
-                            {% for item in item.children %}<a href={{ item.url }}>{{ item.title }}</a>{% endfor %}
-                        </li>
-                    </ul>
-                {% endif %}
-                </div>
-            {% endfor %}
-            </nav>
-            {% comment %} <button class='menu-button'></button> {% endcomment %}
-        </div>
-<<<<<<< HEAD
->>>>>>> a8c0e4869 (save nav changes)
-=======
->>>>>>> 354eeb558 (save nav changes)

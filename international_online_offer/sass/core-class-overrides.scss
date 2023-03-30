@@ -3,21 +3,11 @@
     color: $atlas-dark-blue;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 .form-control {
     min-width: 449px;
     font-family: $govuk-font-family;
 }
 
-=======
->>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
-=======
-.form-control {
-    font-family: $govuk-font-family;
-}
-
->>>>>>> fd365a2a7 (Fix font style for input text and fix for tags not saving (#2053))
 .block-text {
     h2 {
         @extend %govuk-heading-m;
@@ -90,7 +80,6 @@
     background-position: right center;
     font-family: $govuk-font-family;
     background-origin: content-box;
-<<<<<<< HEAD
     width: 449px !important;
 
     @media (max-width: 640px) {
@@ -110,26 +99,11 @@
 
     @media (max-width: 640px) {
         min-width: 100% !important;
-=======
-    width: 50% !important;
-
-    @media (max-width: 640px) {
-        width: 100% !important;
-    }
-}
-
-.autocomplete__menu {
-    width: 50% !important;
-
-    @media (max-width: 640px) {
-        width: 100% !important;
->>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
     }
 }
 
 .autocomplete__option {
     font-family: $govuk-font-family;
-<<<<<<< HEAD
     color: $atlas-dark-blue;
     font-size: 24px;
 }
@@ -141,6 +115,4 @@
 
 .form-group {
     margin-bottom: 16px;
-=======
->>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
 }

@@ -16,22 +16,10 @@
   {% include '../includes/triage_header.html' with back_url=back_url step_text=step_text question_text=question_text %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-<<<<<<< HEAD
       <form method="post">
         {% csrf_token %}
         <div class="form-group">
           <div class="govuk-hint govuk-!-margin-bottom-3">Choose an estimate for the first three years of your project</div>
-=======
-      <form method="post" onsubmit="return onSubmitHiring()">
-        {% csrf_token %}
-        <div class="form-group">
-<<<<<<< HEAD
-          <span class="atlas-body form-hint">Choose an estimate for the first three years of your project</span>
-          <br>
->>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
-=======
-          <div class="govuk-hint govuk-!-margin-bottom-3">Choose an estimate for the first three years of your project</div>
->>>>>>> 8569f1312 (Feature/ioo 437 articles (#2045))
           <div id="id_hiring_container" style="display: block;">
             {% include 'core/includes/form_field.html' with field=form.hiring %}
           </div>
@@ -46,11 +34,4 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript" src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
-<<<<<<< HEAD
-=======
-  <script type="text/javascript" src="{% static 'javascript/international-online-offer.js' %}"></script>
-  <script type="text/javascript">
-    getHiringIfPreviouslySelected();
-  </script>
->>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
 {% endblock %}

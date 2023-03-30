@@ -36,20 +36,11 @@ urlpatterns = [
         name='spend',
     ),
     path(
-<<<<<<< HEAD
-=======
-        'guide/',
-        views.IOOGuide.as_view(),
-        name='guide',
-    ),
-    path(
->>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
         'contact/',
         views.IOOContact.as_view(),
         name='contact',
     ),
     path(
-<<<<<<< HEAD
         'login/',
         views.IOOLogin.as_view(),
         name='login',
@@ -58,10 +49,5 @@ urlpatterns = [
         'signup/',
         views.IOOSignUp.as_view(),
         name='signup',
-=======
-        'guide/<str:success>/',
-        views.IOOGuide.as_view(),
-        name='contact-success',
->>>>>>> a7fbc4d30 (Feature/ioo 428 detailed guide (#2034))
     ),
 ]
