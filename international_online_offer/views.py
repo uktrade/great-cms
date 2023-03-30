@@ -46,7 +46,7 @@ class IOOSector(FormView):
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
-                hashed_uuid=self.request.user.hashed_uuid, defaults={"sector": form.cleaned_data['sector']}
+                hashed_uuid=self.request.user.hashed_uuid, defaults={'sector': form.cleaned_data['sector']}
             )
         else:
             self.request.session['sector'] = form.cleaned_data['sector']
@@ -80,7 +80,7 @@ class IOOIntent(FormView):
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
                 hashed_uuid=self.request.user.hashed_uuid,
-                defaults={"intent": form.cleaned_data['intent'], "intent_other": form.cleaned_data['intent_other']},
+                defaults={'intent': form.cleaned_data['intent'], 'intent_other': form.cleaned_data['intent_other']},
             )
         else:
             self.request.session['intent'] = form.cleaned_data['intent']
@@ -119,8 +119,8 @@ class IOOLocation(FormView):
             TriageData.objects.update_or_create(
                 hashed_uuid=self.request.user.hashed_uuid,
                 defaults={
-                    "location": form.cleaned_data['location'],
-                    "location_none": form.cleaned_data['location_none'],
+                    'location': form.cleaned_data['location'],
+                    'location_none': form.cleaned_data['location_none'],
                 },
             )
         else:
@@ -155,7 +155,7 @@ class IOOHiring(FormView):
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
-                hashed_uuid=self.request.user.hashed_uuid, defaults={"hiring": form.cleaned_data['hiring']}
+                hashed_uuid=self.request.user.hashed_uuid, defaults={'hiring': form.cleaned_data['hiring']}
             )
         else:
             self.request.session['hiring'] = form.cleaned_data['hiring']
@@ -189,7 +189,7 @@ class IOOSpend(FormView):
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
                 hashed_uuid=self.request.user.hashed_uuid,
-                defaults={"spend": form.cleaned_data['spend'], "spend_other": form.cleaned_data['spend_other']},
+                defaults={'spend': form.cleaned_data['spend'], 'spend_other': form.cleaned_data['spend_other']},
             )
         else:
             self.request.session['spend'] = form.cleaned_data['spend']
