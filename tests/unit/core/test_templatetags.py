@@ -13,6 +13,8 @@ from core.templatetags.content_tags import (
     get_backlinked_url,
     get_category_title_for_lesson,
     get_lesson_progress_for_topic,
+    get_link_blocks,
+    get_text_blocks,
     get_topic_title_for_lesson,
     is_lesson_page,
     is_placeholder_page,
@@ -657,3 +659,27 @@ def test_add_govuk_classes(input_html, expected_html):
 
     html = template.render(context)
     assert html == expected_html
+
+
+@pytest.mark.parametrize(
+    'input, expected_instances',
+    (
+        ([factories.BlockFactory('link_block')], 1),
+        ([factories.BlockFactory('another_block')], 0),
+        ([factories.BlockFactory('link_block'), factories.BlockFactory('another_block')], 1),
+    ),
+)
+def test_get_link_blocks(input, expected_instances):
+    assert len(get_link_blocks(input)) == expected_instances
+
+
+@pytest.mark.parametrize(
+    'input, expected_instances',
+    (
+        ([factories.BlockFactory('text')], 1),
+        ([factories.BlockFactory('another_block')], 0),
+        ([factories.BlockFactory('text'), factories.BlockFactory('another_block')], 1),
+    ),
+)
+def test_get_text_blocks(input, expected_instances):
+    assert len(get_text_blocks(input)) == expected_instances

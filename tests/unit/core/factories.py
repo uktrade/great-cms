@@ -173,3 +173,8 @@ class MicrositeFactory(wagtail_factories.PageFactory):
 
     class Meta:
         model = Microsite
+
+
+class BlockFactory:
+    def __init__(self, block_type):
+        self.block_type = block_type
