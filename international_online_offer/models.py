@@ -31,56 +31,57 @@ def get_user_data(hashed_uuid):
 
 
 def get_triage_data_from_db_or_session(request):
-    if request.user.is_authenticated:
+    if hasattr(request, 'user') and request.user.is_authenticated:
         triage_data = get_triage_data(request.user.hashed_uuid)
         if triage_data:
             return triage_data
-
-    return type(
-        'obj',
-        (object,),
-        {
-            'sector': request.session.get('sector') if request.session.get('sector') else '',
-            'intent': request.session.get('intent') if request.session.get('intent') else [],
-            'intent_other': request.session.get('intent_other') if request.session.get('intent_other') else '',
-            'location': request.session.get('location') if request.session.get('location') else '',
-            'location_none': request.session.get('location_none') if request.session.get('location_none') else '',
-            'hiring': request.session.get('hiring') if request.session.get('hiring') else '',
-            'spend': request.session.get('spend') if request.session.get('spend') else '',
-            'spend_other': request.session.get('spend_other') if request.session.get('spend_other') else '',
-        },
-    )
+    if hasattr(request, 'session'):
+        return type(
+            'obj',
+            (object,),
+            {
+                'sector': request.session.get('sector') if request.session.get('sector') else '',
+                'intent': request.session.get('intent') if request.session.get('intent') else [],
+                'intent_other': request.session.get('intent_other') if request.session.get('intent_other') else '',
+                'location': request.session.get('location') if request.session.get('location') else '',
+                'location_none': request.session.get('location_none') if request.session.get('location_none') else '',
+                'hiring': request.session.get('hiring') if request.session.get('hiring') else '',
+                'spend': request.session.get('spend') if request.session.get('spend') else '',
+                'spend_other': request.session.get('spend_other') if request.session.get('spend_other') else '',
+            },
+        )
 
 
 def get_user_data_from_db_or_session(request):
-    if request.user.is_authenticated:
+    if hasattr(request, 'user') and request.user.is_authenticated:
         user_data = get_user_data(request.user.hashed_uuid)
         if user_data:
             return user_data
 
-    return type(
-        'obj',
-        (object,),
-        {
-            'company_name': request.session.get('company_name') if request.session.get('company_name') else '',
-            'company_location': request.session.get('company_location')
-            if request.session.get('company_location')
-            else '',
-            'full_name': request.session.get('full_name') if request.session.get('full_name') else '',
-            'role': request.session.get('role') if request.session.get('role') else '',
-            'email': request.session.get('email' if request.session.get('email') else ''),
-            'telephone_number': request.session.get('telephone_number')
-            if request.session.get('telephone_number')
-            else '',
-            'agree_terms': request.session.get('agree_terms') if request.session.get('agree_terms') else False,
-            'agree_info_email': request.session.get('agree_info_email')
-            if request.session.get('agree_info_email')
-            else False,
-            'agree_info_telephone': request.session.get('agree_info_telephone')
-            if request.session.get('agree_info_telephone')
-            else False,
-        },
-    )
+    if hasattr(request, 'session'):
+        return type(
+            'obj',
+            (object,),
+            {
+                'company_name': request.session.get('company_name') if request.session.get('company_name') else '',
+                'company_location': request.session.get('company_location')
+                if request.session.get('company_location')
+                else '',
+                'full_name': request.session.get('full_name') if request.session.get('full_name') else '',
+                'role': request.session.get('role') if request.session.get('role') else '',
+                'email': request.session.get('email' if request.session.get('email') else ''),
+                'telephone_number': request.session.get('telephone_number')
+                if request.session.get('telephone_number')
+                else '',
+                'agree_terms': request.session.get('agree_terms') if request.session.get('agree_terms') else False,
+                'agree_info_email': request.session.get('agree_info_email')
+                if request.session.get('agree_info_email')
+                else False,
+                'agree_info_telephone': request.session.get('agree_info_telephone')
+                if request.session.get('agree_info_telephone')
+                else False,
+            },
+        )
 
 
 class IOOIndexPage(BaseContentPage):
@@ -109,9 +110,11 @@ class IOOGuidePage(BaseContentPage):
         context = super().get_context(request, *args, **kwargs)
         triage_data = get_triage_data_from_db_or_session(request)
         user_data = get_user_data_from_db_or_session(request)
-        get_to_know_market_articles = helpers.find_get_to_know_market_articles(
-            self.get_children().live(), triage_data.sector, triage_data.intent
-        )
+        get_to_know_market_articles = []
+        if triage_data:
+            get_to_know_market_articles = helpers.find_get_to_know_market_articles(
+                self.get_children().live(), triage_data.sector, triage_data.intent
+            )
         context.update(
             complete_contact_form_message=self.LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE,
             complete_contact_form_link='international_online_offer:contact',
