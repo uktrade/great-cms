@@ -16,7 +16,7 @@ def reverse_querystring(view, urlconf=None, args=None, kwargs=None, current_app=
     """
     base_url = reverse(view, urlconf=urlconf, args=args, kwargs=kwargs, current_app=current_app)
     if query_kwargs:
-        return '{}?{}'.format(base_url, urlencode(query_kwargs))
+        return f'{base_url}?{urlencode(query_kwargs)}'
     return base_url
 
 
