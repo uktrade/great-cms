@@ -323,7 +323,7 @@ qrcode==7.4.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==4.5.3
+redis==4.5.4
     # via
     #   celery
     #   django-redis
