@@ -487,7 +487,7 @@ class CampaignLongForm(CampaignShortForm):
         label=_('Select a region'),
         choices=COUNTRIES,
         widget=Select(),
-        required=True,
+        required=False,
     )
 
     sector = forms.ChoiceField(
