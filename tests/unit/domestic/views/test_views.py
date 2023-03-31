@@ -1,12 +1,12 @@
 import json
 from unittest import mock
-
+from contact import constants, forms as contact_forms, helpers, views
 import pytest
 from django.conf import settings
 from django.test import Client, TestCase
 from django.urls import reverse, reverse_lazy
 from wagtail.tests.utils import WagtailPageTests
-
+import django.forms
 import domestic.forms
 import domestic.views.campaign
 import domestic.views.ukef
@@ -375,7 +375,7 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
             ]
         )
 
-        article_body2 = []
+        article_body2 = json.dumps([])
 
         article_body3 = json.dumps(
             [
@@ -410,6 +410,14 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         view = domestic.views.campaign.CampaignView(request=request)
         form_class = view.request.context_data['view'].get_form_class()
         self.assertEqual(form_class, CampaignShortForm)
+    
+    def test_get_form_class_is_None(self):
+        client = Client()
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-two'})
+        request = client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        form_class = view.request.context_data['view'].get_form_class()
+        self.assertEqual(form_class, None)    
 
     def test_get_form_class_is_long(self):
         client = Client()
@@ -418,3 +426,33 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         view = domestic.views.campaign.CampaignView(request=request)
         form_class = view.request.context_data['view'].get_form_class()
         self.assertEqual(form_class, CampaignLongForm)
+
+@mock.patch.object(views.FormSessionMixin, 'form_session_class')
+def test_campaign_form_success(mock_form_session, client, settings, domestic_homepage):
+    
+    parent_page = StructurePageFactory(parent=domestic_homepage, title='campaigns', slug='campaigns')
+    article_body1 = json.dumps(
+            [
+                {
+                    'type': 'form',
+                    'value': {
+                        'type': 'Short',
+                        'email_title': 'title1',
+                        'email_subject': 'subject1',
+                        'email_body': 'body1',
+                    },
+                }
+            ]
+        )
+    ArticlePageFactory(
+            slug='test-article-one', article_body=article_body1, parent=parent_page, article_title='test'
+        )
+   
+    class Form(contact_forms.SerializeDataMixin, CampaignShortForm):
+        email = django.forms.EmailField()
+        save = mock.Mock()
+
+    response = client.post(reverse('domestic:campaigns', kwargs={'page_slug': 'test-article-one'}))
+
+    assert response.status_code == 200
+  

@@ -62,7 +62,7 @@ class CampaignView(BaseNotifyUserFormView):
         elif self.form_type == 'Long':
             return CampaignLongForm
         else:
-            return None
+            return None      
 
     def form_valid(self, form):
         form.cleaned_data['email_title'] = self.email_title
@@ -72,6 +72,8 @@ class CampaignView(BaseNotifyUserFormView):
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
+        if not self.form_type:
+            kwargs['form'] = None
         return super().get_context_data(
             **kwargs, page=self.current_page if self.current_page else None, form_success=self.form_success
         )
