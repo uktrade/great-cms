@@ -1,12 +1,12 @@
 import json
 from unittest import mock
-from contact import constants, forms as contact_forms, helpers, views
+
 import pytest
 from django.conf import settings
 from django.test import Client, TestCase
 from django.urls import reverse, reverse_lazy
 from wagtail.tests.utils import WagtailPageTests
-import django.forms
+
 import domestic.forms
 import domestic.views.campaign
 import domestic.views.ukef
@@ -410,14 +410,14 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         view = domestic.views.campaign.CampaignView(request=request)
         form_class = view.request.context_data['view'].get_form_class()
         self.assertEqual(form_class, CampaignShortForm)
-    
-    def test_get_form_class_is_None(self):
+
+    def test_get_form_class_is_none(self):
         client = Client()
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-two'})
         request = client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
         form_class = view.request.context_data['view'].get_form_class()
-        self.assertEqual(form_class, None)    
+        self.assertEqual(form_class, None)
 
     def test_get_form_class_is_long(self):
         client = Client()
@@ -427,32 +427,26 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         form_class = view.request.context_data['view'].get_form_class()
         self.assertEqual(form_class, CampaignLongForm)
 
-@mock.patch.object(views.FormSessionMixin, 'form_session_class')
-def test_campaign_form_success(mock_form_session, client, settings, domestic_homepage):
-    
-    parent_page = StructurePageFactory(parent=domestic_homepage, title='campaigns', slug='campaigns')
-    article_body1 = json.dumps(
-            [
-                {
-                    'type': 'form',
-                    'value': {
-                        'type': 'Short',
-                        'email_title': 'title1',
-                        'email_subject': 'subject1',
-                        'email_body': 'body1',
-                    },
-                }
-            ]
-        )
-    ArticlePageFactory(
-            slug='test-article-one', article_body=article_body1, parent=parent_page, article_title='test'
-        )
-   
-    class Form(contact_forms.SerializeDataMixin, CampaignShortForm):
-        email = django.forms.EmailField()
-        save = mock.Mock()
+    def test_campaign_form_success(self):
+        client = Client()
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
+        request = client.get(url)
+        domestic.views.campaign.CampaignView(request=request)
+        response = client.post(url)
+        assert response.status_code == 200
 
-    response = client.post(reverse('domestic:campaigns', kwargs={'page_slug': 'test-article-one'}))
+    def test_no_page_slug(self):
+        client = Client()
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': None})
+        request = client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        current_page = view.request.context_data['view'].current_page
+        self.assertEqual(current_page, None)
 
-    assert response.status_code == 200
-  
+    def test_page_does_not_exist(self):
+        client = Client()
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'page_that_does_not_exist'})
+        request = client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        current_page = view.request.context_data['view'].current_page
+        self.assertEqual(current_page, None)

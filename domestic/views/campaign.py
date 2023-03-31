@@ -62,7 +62,7 @@ class CampaignView(BaseNotifyUserFormView):
         elif self.form_type == 'Long':
             return CampaignLongForm
         else:
-            return None      
+            return None
 
     def form_valid(self, form):
         form.cleaned_data['email_title'] = self.email_title
