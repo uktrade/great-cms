@@ -1,4 +1,6 @@
+from django.core.files.storage import default_storage
 from django.urls import reverse_lazy
+from django.utils.crypto import get_random_string
 from django.views.generic import (
     DetailView,
     FormView,
@@ -7,6 +9,9 @@ from django.views.generic import (
     UpdateView,
 )
 from django_filters.views import FilterView
+from rest_framework.generics import GenericAPIView
+from rest_framework.response import Response
+from storages.backends.s3boto3 import S3Boto3Storage
 
 from config import settings
 from core import mixins as core_mixins
@@ -103,3 +108,23 @@ class EventDetailsView(DetailView):
         ctx.update(event_video={'video': video})
 
         return ctx
+
+
+class SignedURLView(GenericAPIView):
+    storage: S3Boto3Storage = default_storage
+
+    def post(self, request, *args, **kwargs):
+        client = self.storage.connection.meta.client
+        request_file_name = request.data.get("fileName", get_random_string(7))
+        qualified_key = f'media/{request_file_name}'
+        key = self.storage.get_available_name(qualified_key)
+
+        url = client.generate_presigned_url(
+            ClientMethod="put_object",
+            Params={
+                "Bucket": self.storage.bucket.name,
+                "Key": key,
+            },
+            ExpiresIn=3600,
+        )
+        return Response({"url": url})

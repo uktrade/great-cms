@@ -2,6 +2,7 @@ from unittest import mock
 
 import pytest
 from directory_forms_api_client import actions
+from django.test import override_settings
 from django.urls import reverse
 
 from config import settings
@@ -214,3 +215,14 @@ def test_event_detail_views(client, user):
 
     assert response.status_code == 200
     assert '/subtitles/' in str(response.rendered_content)
+
+
+@pytest.mark.django_db
+@override_settings(DEFAULT_FILE_STORAGE='storages.backends.s3boto3.S3Boto3Storage')
+def test_signed_url_view(patch_storage, client, user):
+    patch_storage().connection.meta.client.generate_presigned_url.return_value = "pre-signed-url"
+    url = reverse('export_academy:signed-url')
+    response = client.post(url, {'fileName': 'test'})
+
+    assert response.status_code == 200
+    assert response.data == {'url': 'pre-signed-url'}

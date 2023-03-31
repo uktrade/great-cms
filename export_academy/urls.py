@@ -40,4 +40,5 @@ urlpatterns = [
         views.EventDetailsView.as_view(),
         name='event-details',
     ),
+    path('signed-url/', views.SignedURLView.as_view(), name='signed-url'),
 ]

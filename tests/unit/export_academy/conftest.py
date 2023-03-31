@@ -1,3 +1,5 @@
+from unittest import mock
+
 import pytest
 
 
@@ -15,3 +17,9 @@ def valid_registration_form_data():
         'how_can_we_help': 'buying a coffee',
         'terms_agreed': True,
     }
+
+
+@pytest.fixture
+def patch_storage():
+    with mock.patch("storages.backends.s3boto3.S3Boto3Storage") as a:
+        yield a
