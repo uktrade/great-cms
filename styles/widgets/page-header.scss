@@ -12,6 +12,54 @@ $prepare-to-sell-header: url(/static/images/learn-to-export-topic3-header.png);
 $regulations-licensing-header: url(/static/images/learn-to-export-topic4-header.png);
 $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png);
 
+@mixin vertical-alignment {
+  background: $color-main-background !important;
+  height: auto;
+  background-size: 0% auto;
+  padding-top: $x-large-padding;
+  padding-bottom: 0;
+  margin: 0;
+  gap: $standard-padding;
+
+  button,
+  .button {
+    width: 100%;
+  }
+
+  p.sub-header {
+    padding-bottom: $standard-padding * 0.5;
+  }
+
+  .inner-header {
+    width: 100%;
+    margin: 0;
+    padding: 0 1.5 * $standard-padding;
+    flex-direction: column;
+    gap: $standard-padding;
+
+    >div:first-child {
+      height: auto;
+      min-width: fit-content;
+      flex: 1;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .image-container {
+    display: flex;
+    flex: 1;
+    height: 0;
+    padding-top: 45%;
+    width: 100%;
+    background-repeat: no-repeat !important;
+    background-size: 100% auto !important;
+    background-position-y: bottom !important;
+    background-position-x: 5vw !important;
+  }
+}
+
 .page-header {
   position: relative;
   background-color: $color-main-background !important;
@@ -39,7 +87,7 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
     background: $regulations-licensing-header;
   }
 
-  &.funding-financing-and-getting-paid .image-container{
+  &.funding-financing-and-getting-paid .image-container {
     background: $funding-financing-header;
   }
 
@@ -71,6 +119,7 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
     margin: auto;
     padding-left: 380px;
   }
+
   @media only screen and (min-width: $max-header-width) and (max-width: 2030px) {
     margin: auto;
     padding-left: calc((100vw - $max-header-width) / 2 + 170px);
@@ -82,17 +131,20 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
     height: 100%;
     margin-left: $x-large-padding;
     display: inline-flex;
+
     @media only screen and (min-width: $mobile-size) and (max-width: 980px) {
       margin-left: $large-padding;
     }
+
     @media only screen and (min-width: (1290px + $x-large-padding)) and (max-width: $max-header-width) {
       margin-left: calc((100vw - 1290px) / 2 + 23px);
     }
+
     @media only screen and (min-width: $max-header-width) {
       margin-left: 0;
     }
 
-    > div:first-child {
+    >div:first-child {
       padding-top: 60px;
       padding-bottom: 60px;
       flex: 1;
@@ -129,16 +181,20 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
       .lesson-summary {
         display: inline-flex;
         align-items: center;
+
         span,
         i {
           color: $color-gov-link;
         }
+
         i {
           padding-bottom: 3px;
         }
+
         .learn__category-topics {
           padding-left: $standard-padding;
         }
+
         .learn__category-lessons {
           padding-left: $standard-padding * 0.5;
         }
@@ -155,9 +211,11 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
       @media only screen and (min-width: $mobile-size) and (max-width: 980px) {
         margin-left: -8%;
       }
-      @media only screen and (min-width: 980px) {
-        background-size: auto 125% !important;
-        background-position-y: 50% !important;
+
+      &:not(.image-full-width) {
+        @media only screen and (min-width: 980px) {
+          background-position-y: 50% !important;
+        }
       }
     }
   }
@@ -166,51 +224,16 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
     color: $color-gov-link;
   }
 
-  @media only screen and (max-width: $mobile-size) {
-    background: $color-main-background !important;
-    height: auto;
-    background-size: 0% auto;
-    padding-top: $x-large-padding;
-    padding-bottom: 0;
-    margin: 0;
-    gap: $standard-padding;
-
-    button {
-      width: 100%;
-    }
-    p.sub-header {
-      padding-bottom: $standard-padding * 0.5;
-    }
-
-    .inner-header {
-      width: 100%;
-      margin: 0;
-      padding: 0 1.5 * $standard-padding;
-      flex-direction: column;
-      gap: $standard-padding;
-
-      > div:first-child {
-        height: auto;
-        min-width: fit-content;
-        flex: 1;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    }
-
-    .image-container {
-      display: flex;
-      flex: 1;
-      height: 0;
-      padding-top: 45%;
-      width: 100%;
-      background-repeat: no-repeat !important;
-      background-size: 100% auto !important;
-      background-position-y: bottom !important;
-      background-position-x: 5vw !important;
+  &.stack-at-tablet-width {
+    @media only screen and (max-width: 900px) {
+      @include vertical-alignment
     }
   }
+
+  @media only screen and (max-width: $mobile-size) {
+    @include vertical-alignment
+  }
+
 }
 
 .market-details-header {
