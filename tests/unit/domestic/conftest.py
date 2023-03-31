@@ -33,7 +33,7 @@ def valid_campaign_long_form_data():
         'position': 'director',
         'already_export': 'yes',
         'region': 'HR',
-        # 'sector': 'Sector1',
+        'sector': 'Sector1',
     }
 
 

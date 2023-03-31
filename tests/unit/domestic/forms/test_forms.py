@@ -73,8 +73,8 @@ def test_get_sector_choices():
 
 @pytest.mark.django_db
 def test_campaign_long_form(valid_campaign_long_form_data):
+    IndustryTagFactory(name='Sector1')
     form = CampaignLongForm(data=valid_campaign_long_form_data)
-    
     print(f'choices {CampaignLongForm.get_sector_choices()}')
     assert form.is_valid()
     assert form.data['first_name'] == valid_campaign_long_form_data['first_name']
@@ -88,7 +88,6 @@ def test_campaign_long_form(valid_campaign_long_form_data):
 
 @pytest.mark.django_db
 def test_campaign_short_form(valid_campaign_short_form_data):
-    IndustryTagFactory(name='Sector1')
     form = CampaignShortForm(data=valid_campaign_short_form_data)
     assert form.is_valid()
     assert form.cleaned_data['first_name'] == valid_campaign_short_form_data['first_name']

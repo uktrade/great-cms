@@ -493,5 +493,5 @@ class CampaignLongForm(CampaignShortForm):
     sector = forms.ChoiceField(
         label='Sector',
         choices=get_sector_choices,
-        required=False,
+        required=True,
     )
