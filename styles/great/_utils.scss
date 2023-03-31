@@ -30,7 +30,11 @@
         }
     }
 
-    p, span, ol, ul, a {
+    p,
+    span,
+    ol,
+    ul,
+    a {
         font-family: $great-font;
         color: $great-dark-grey;
     }
@@ -130,7 +134,7 @@
     width: 100%;
     overflow: hidden;
 
-    > * {
+    >* {
         width: 100%;
         height: auto;
         position: absolute;
@@ -152,3 +156,13 @@
         display: flex;
     }
 }
+
+.great-background-light-blue {
+    background-color: $great-light-blue;
+}
+
+.clearfix:after {
+    display: block;
+    content: '';
+    clear: both;
+  }

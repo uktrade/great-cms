@@ -25,19 +25,38 @@
             padding: 8px 5px 8px 0;
             cursor: pointer;
 
-            &:after {
-                content: "";
-                transform: rotate(45deg);
-                border-style: solid;
-                position: relative;
-                border-color: $black;
-                border-width: 2px 0 0 2px;
-                top: 5px;
-                float: right;
-                height: 8px;
-                margin: 5px 0 0 0;
-                right: 3px;
-                width: 8px;
+            &.arrows-left {
+                &:before {
+                    content: "";
+                    transform: rotate(45deg);
+                    border-style: solid;
+                    position: relative;
+                    border-color: $black;
+                    border-width: 2px 0 0 2px;
+                    top: 5px;
+                    float: left;
+                    height: 8px;
+                    margin: 5px 10px 0 0;
+                    right: 3px;
+                    width: 8px;
+                }
+            }
+
+            &:not(.arrows-left) {
+                &:after {
+                    content: "";
+                    transform: rotate(45deg);
+                    border-style: solid;
+                    position: relative;
+                    border-color: $black;
+                    border-width: 2px 0 0 2px;
+                    top: 5px;
+                    float: right;
+                    height: 8px;
+                    margin: 5px 0 0 0;
+                    right: 3px;
+                    width: 8px;
+                }
             }
         }
 
@@ -61,7 +80,14 @@
             @extend .verbose
         }
 
-        >input[type='checkbox']:checked+label:after {
+        &:not(.arrows-left) {
+            >input[type='checkbox']:checked+label:after {
+                border-width: 0 2px 2px 0;
+                top: 2px;
+            }
+        }
+
+        >input[type='checkbox']:checked+label.arrows-left:before {
             border-width: 0 2px 2px 0;
             top: 2px;
         }
