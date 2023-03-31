@@ -44,6 +44,7 @@ from domestic import cms_panels, forms as domestic_forms
 from domestic.helpers import build_route_context, get_lesson_completion_status
 from exportplan.core import helpers as exportplan_helpers
 
+
 DUTIES_AND_CUSTOMS_SERVICE = 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
 TRADE_BARRIERS_SERVICE = 'https://www.check-international-trade-barriers.service.gov.uk/barriers/'
 
@@ -217,6 +218,7 @@ class StructuralPage(BaseContentPage):
 
     subpage_types = [
         'domestic.ArticlePage',
+        'international_online_offer.IOOIndexPage',
     ]
 
     def serve_preview(self, request, mode_name='dummy'):
