@@ -441,13 +441,6 @@ class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
 
     company_name = forms.CharField(label=_('Company name'), min_length=2, max_length=100, required=False)
 
-    # terms_agreed = forms.BooleanField(
-    #     label=TERMS_LABEL,
-    #     error_messages={
-    #         'required': 'You must agree to the terms and conditions before registering',
-    #     },
-    # )
-
 
 def get_sector_names():
     return [tag.name for tag in IndustryTag.objects.all()]

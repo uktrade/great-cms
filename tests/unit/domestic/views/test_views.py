@@ -355,9 +355,6 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
     @pytest.fixture(autouse=True)
     def domestic_homepage_fixture(self, domestic_homepage):
         self.domestic_homepage = domestic_homepage
-        # self.mock_form_session = mock_form_session
-        # self.client = client
-        # self.settings = settings
 
     def setUp(self):
         self.parent_page = StructurePageFactory(parent=self.domestic_homepage, title='campaigns', slug='campaigns')
