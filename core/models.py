@@ -82,6 +82,10 @@ class GreatMedia(Media):
         'subtitles_en',
     )
 
+    def save(self, *args, **kwargs):
+        self.file._committed = True
+        return super().save(*args, **kwargs)
+
     @property
     def sources(self):
         return [
