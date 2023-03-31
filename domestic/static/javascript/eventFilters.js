@@ -6,18 +6,25 @@ var eventFilters = function() {
     function init() {
       setVars();
       bindEvents();
+      setFilters();
     }
 
     function setVars() {
       form = document.querySelector('#events-form');
       filters = document.querySelectorAll('#events-form .filters')[0];
       checks = document.querySelectorAll('.filters li.multiple-choice input[type=checkbox]');
+      filterSectionToggles = document.querySelectorAll('.filter-section-toggle')
       radios = document.querySelectorAll('.filters li.multiple-choice input[type=radio]')
       stickyFooter = document.querySelectorAll('.filters-sticky-footer')[0];
       body = document.querySelector('body');
     }
 
     function bindEvents() {
+
+      filterSectionToggles.forEach(toggle =>
+          toggle.addEventListener('change', () =>
+          window.localStorage.setItem(toggle.id, toggle.checked)))
+
       if (checks) {
         checks.forEach(check => check.addEventListener('change', submitForm))
       }
@@ -37,6 +44,16 @@ var eventFilters = function() {
 
       window.addEventListener("resize", resizeHandler);
       window.addEventListener("orientationchange", resizeHandler);
+
+    }
+
+    function setFilters() {
+      filterSectionToggles.forEach(filterSectionToggle => {
+        const isOpened = window.localStorage.getItem(filterSectionToggle.id)
+        if(isOpened) {
+          filterSectionToggle.checked = isOpened.toLowerCase() === 'true'
+        }
+      })
     }
 
     function resizeHandler() {

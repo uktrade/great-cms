@@ -29,7 +29,7 @@
                                     {% comment %} the last field is for navigation and should be rendered outside the form {% endcomment %}
                                     {% if not forloop.last %}
                                     <li class="filter-section">
-                                        <input type="checkbox" id="{{ field.label }}" checked />
+                                        <input type="checkbox" id="{{ field.label }}" class="filter-section-toggle" />
                                         <label class="govuk-!-font-size-24" for="{{ field.label }}" role="button">{{ field.label }}</label>
                                         <div class="options checkbox-small">
                                             {{ field }}
