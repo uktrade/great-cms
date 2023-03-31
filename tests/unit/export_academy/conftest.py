@@ -21,5 +21,5 @@ def valid_registration_form_data():
 
 @pytest.fixture
 def patch_storage():
-    with mock.patch("storages.backends.s3boto3.S3Boto3Storage") as a:
+    with mock.patch('storages.backends.s3boto3.S3Boto3Storage') as a:
         yield a

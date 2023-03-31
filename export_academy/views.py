@@ -115,16 +115,16 @@ class SignedURLView(GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         client = self.storage.connection.meta.client
-        request_file_name = request.data.get("fileName", get_random_string(7))
+        request_file_name = request.data.get('fileName', get_random_string(7))
         qualified_key = f'media/{request_file_name}'
         key = self.storage.get_available_name(qualified_key)
 
         url = client.generate_presigned_url(
-            ClientMethod="put_object",
+            ClientMethod='put_object',
             Params={
-                "Bucket": self.storage.bucket.name,
-                "Key": key,
+                'Bucket': self.storage.bucket.name,
+                'Key': key,
             },
             ExpiresIn=3600,
         )
-        return Response({"url": url})
+        return Response({'url': url})
