@@ -1,0 +1,5 @@
+{
+    "baseurl": "https://great.dev.uktrade.digital/",
+    "browser": "chrome",
+    "headless": "false"
+}
