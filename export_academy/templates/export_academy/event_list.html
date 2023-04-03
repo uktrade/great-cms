@@ -62,10 +62,12 @@
                                     <p class="date">{{ event.start_date|date:"j M" }}</p>
                                     <p class="time">at {{ event.start_date|date:"g:i A"|lower }}</p>
                                 </div>
-                                {% for type in event.types.all %}
-                                    <p class="great-background-light-blue margin-0 event-metadata-block">{{ type }}</p>
-                                {% endfor %}
-                                <p class="great-background-light-blue margin-0">{{ event.get_format_display }}</p>
+                                <div class="tags">
+                                    {% for type in event.types.all %}
+                                        <p class="great-background-light-blue margin-0 tag-item">{{ type }}</p>
+                                    {% endfor %}
+                                    <p class="great-background-light-blue margin-0 tag-item">{{ event.get_format_display }}</p>
+                                </div>
                             </div>
                             <div class="govuk-grid-column-three-quarters">
                                 <div class="show-for-non-mobile">

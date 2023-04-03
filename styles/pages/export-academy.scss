@@ -83,8 +83,24 @@
     padding-bottom: 30px;
 }
 
-.event-metadata-block {
-    border-bottom: 1px solid #979797;
+.tags {
+    @media screen and (max-width: 640px) {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 16px;
+    }
+}
+
+.tag-item {
+    @media screen and (max-width: 640px) {
+        flex-basis: calc(50% - 8px);
+    }
+
+    @media screen and (min-width: 641px) {
+        border-top: 1px solid #979797;
+    }
 }
 
 .ea-logo {
