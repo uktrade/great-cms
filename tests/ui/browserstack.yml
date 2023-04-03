@@ -1,0 +1,23 @@
+platforms:
+  - os: Windows
+    osVersion: 11
+    browserName: Chrome
+    browserVersion: latest
+  - os: Windows
+    osVersion: 10
+    browserName: Chrome
+    browserVersion: latest
+  - os: OS X
+    osVersion: Ventura
+    browserName: Chrome
+    browserVersion: latest
+browserstackLocal: true
+browserStackLocalOptions:
+  forceLocal: true
+buildName: bstack-demo
+buildIdentifier: ${DATE_TIME}
+projectName: BrowserStack Sample
+debug: false
+networkLogs: false
+consoleLogs: verbose
+framework: pytest
