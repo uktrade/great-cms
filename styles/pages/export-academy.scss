@@ -87,7 +87,6 @@
     border-bottom: 1px solid #979797;
 }
 
-
 .ea-logo {
     position: absolute;
     bottom: 20px;
@@ -114,5 +113,58 @@
 
     @media only screen and (min-width: 1640px) {
         right: calc(20px + 10%);
+    }
+}
+
+.parent {
+    display: flex;
+    flex-direction: column;
+
+    >p {
+        font-weight: bold;
+
+        @media screen and (min-width: 641px) {
+            margin: 0;
+        }
+    }
+
+    .weekday {
+        @media screen and (min-width: 641px) {
+            padding-top: 25px;
+        }
+    }
+
+    .date {
+        @media screen and (max-width: 640px) {
+            &:before {
+                content: ',\a0';
+            }
+
+            &:after {
+                content: '\a0';
+            }
+        }
+
+        @media screen and (min-width: 641px) {
+            font-size: 24px;
+            padding: 10px 0;
+        }
+    }
+
+    .time {
+        @media screen and (min-width: 641px) {
+            font-size: 18px;
+            padding-bottom: 20px;
+        }
+    }
+
+    @media screen and (max-width: 640px) {
+        flex-direction: row;
+        justify-content: center;
+
+        >p {
+            font-size: 18px;
+            margin-bottom: 5.625px;
+        }
     }
 }

@@ -57,10 +57,10 @@
                                 {% include 'export_academy/includes/event_name_duration.html' with event=event %}
                             </div>
                             <div class="govuk-grid-column-one-quarter govuk-!-text-align-centre">
-                                <div class="great-background-light-blue event-metadata-block">
-                                    <p class="govuk-!-font-weight-bold govuk-!-margin-0 govuk-!-padding-top-5">{{ event.start_date|date:"l" }}</p>
-                                    <p class="govuk-!-font-size-24 govuk-!-font-weight-bold govuk-!-margin-0 govuk-!-padding-top-2 govuk-!-padding-bottom-2">at {{ event.start_date|date:"j M" }}</p>
-                                    <p class="great-font-size-18 govuk-!-font-weight-bold govuk-!-margin-0 govuk-!-padding-bottom-4">at {{ event.start_date|date:"g:i A"|lower }}</p>
+                                <div class="great-background-light-blue event-metadata-block parent">
+                                    <p class="weekday">{{ event.start_date|date:"D" }}</p>
+                                    <p class="date">{{ event.start_date|date:"j M" }}</p>
+                                    <p class="time">at {{ event.start_date|date:"g:i A"|lower }}</p>
                                 </div>
                                 {% for type in event.types.all %}
                                     <p class="great-background-light-blue margin-0 event-metadata-block">{{ type }}</p>
