@@ -17,14 +17,13 @@ If both are available, `image_url` will be used over `image`
 {% endif %}
 {% firstof image_url rendition.url as image_url %}
 
-<div class="page-header article-header"
-    id="hero">
-     <div class="inner-header">
-  <div >
-      <h1>{{ hero_title }}</h1>
-      <p>{{ hero_text|richtext }}</p>
-  </div>
-  <div class="image-container" style="background: url({{ image_url }})">
-  </div>
-</div>
+<div class="page-header article-header" id="hero">
+    <div class="inner-header">
+    <div >
+        <h1>{{ hero_title }}</h1>
+        <p>{{ hero_text|richtext }}</p>
+    </div>
+    <div class="image-container {% if hide_image_for_mobile %}hide-for-mobile{% endif %}" style="background: url({{ image_url }})">
+    </div>
+    </div>
 </div>

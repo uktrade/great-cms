@@ -173,9 +173,14 @@
 
 @media (max-width: 640px) {
     .show-for-mobile {
-      display: block;
+        display: block;
     }
+
     .show-for-non-mobile {
-      display: none;
+        display: none;
+    }
+
+    .hide-for-mobile {
+        display: none;
     }
 }
