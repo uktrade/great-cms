@@ -542,7 +542,7 @@ class LinksBlock(blocks.StructBlock):
     link_url = blocks.CharBlock()
 
 
-class CampaginFormBlock(blocks.StructBlock):
+class CampaignFormBlock(blocks.StructBlock):
     type = blocks.ChoiceBlock(choices=CAMPAIGN_FORM_CHOICES, null=False, blank=False, required=True)
     email_subject = blocks.TextBlock(required=True)
     email_title = blocks.TextBlock(required=True)

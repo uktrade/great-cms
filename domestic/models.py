@@ -28,7 +28,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
-from core.blocks import AdvantageBlock, CampaginFormBlock, ColumnsBlock
+from core.blocks import AdvantageBlock, CampaignFormBlock, ColumnsBlock
 from core.constants import (
     ARTICLE_TYPES,
     COUNTRY_FACTSHEET_CTA_TITLE,
@@ -43,7 +43,6 @@ from core.models import CMSGenericPage, Country, IndustryTag, Region, Tag
 from domestic import cms_panels, forms as domestic_forms
 from domestic.helpers import build_route_context, get_lesson_completion_status
 from exportplan.core import helpers as exportplan_helpers
-
 
 DUTIES_AND_CUSTOMS_SERVICE = 'https://www.check-duties-customs-exporting-goods.service.gov.uk'
 TRADE_BARRIERS_SERVICE = 'https://www.check-international-trade-barriers.service.gov.uk/barriers/'
@@ -1016,7 +1015,7 @@ class ArticlePage(
                 'text',
                 RichTextBlock(),
             ),
-            ('form', CampaginFormBlock()),
+            ('form', CampaignFormBlock()),
             ('image', ImageChooserBlock(required=False, template='core/includes/_article_image.html')),
             ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_article_video.html')),
             (
