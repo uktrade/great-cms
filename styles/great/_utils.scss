@@ -166,3 +166,16 @@
     content: '';
     clear: both;
   }
+
+.show-for-mobile {
+    display: none;
+}
+
+@media (max-width: 640px) {
+    .show-for-mobile {
+      display: block;
+    }
+    .show-for-non-mobile {
+      display: none;
+    }
+}

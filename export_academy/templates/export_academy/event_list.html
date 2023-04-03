@@ -53,6 +53,9 @@
                     {% else %}
                         {% for event in page_obj %}
                         <div class="govuk-grid-row event-list-card">
+                            <div class="show-for-mobile govuk-!-padding-left-3 govuk-!-padding-right-3">
+                                {% include 'export_academy/includes/event_name_duration.html' with event=event %}
+                            </div>
                             <div class="govuk-grid-column-one-quarter govuk-!-text-align-centre">
                                 <div class="great-background-light-blue event-metadata-block">
                                     <p class="govuk-!-font-weight-bold govuk-!-margin-0 govuk-!-padding-top-5">{{ event.start_date|date:"l" }}</p>
@@ -65,8 +68,9 @@
                                 <p class="great-background-light-blue margin-0">{{ event.get_format_display }}</p>
                             </div>
                             <div class="govuk-grid-column-three-quarters">
-                                <h4>{{ event.name }}</h4>
-                                <p class="great-font-size-18 great-text-light-grey">Duration: {{ event.start_date|timesince:event.end_date }}</p>
+                                <div class="show-for-non-mobile">
+                                    {% include 'export_academy/includes/event_name_duration.html' with event=event %}
+                                </div>
                                 <div class='js-enabled-only'>
                                     {% include 'components/show_more.html' with text=event.description index=forloop.counter %}
                                 </div>
