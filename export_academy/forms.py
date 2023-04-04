@@ -1,8 +1,11 @@
+from datetime import datetime
+
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
-from django.forms import Select, Textarea
+from django.forms import CheckboxInput, DateTimeField, HiddenInput, Select, Textarea
 from django.forms.widgets import ChoiceWidget
 from django.utils.translation import gettext_lazy as _
 from great_components import forms
+from wagtail.admin.forms import WagtailAdminModelForm
 
 from contact.forms import TERMS_LABEL
 from directory_constants.choices import COUNTRY_CHOICES
@@ -18,6 +21,14 @@ class ChoiceSubmitButtonWidget(ChoiceWidget):
     template_name = 'export_academy/widgets/submit.html'
     option_template_name = 'export_academy/widgets/submit_option.html'
     checked_attribute = {'disabled': True}
+
+
+class BoolToDateTimeField(DateTimeField):
+    widget = CheckboxInput
+
+    def to_python(self, value):
+        value = datetime.now().isoformat() if value else ''
+        return super().to_python(value)
 
 
 class EARegistration(GovNotifyEmailActionMixin, forms.Form):
@@ -106,3 +117,23 @@ class EARegistration(GovNotifyEmailActionMixin, forms.Form):
         if data.get('like_to_discuss') == 'yes':
             data['like_to_discuss_country'] = countries_mapping.get(data['like_to_discuss_other'])
         return data
+
+
+class EventAdminModelForm(WagtailAdminModelForm):
+    completed = BoolToDateTimeField(widget=CheckboxInput, required=False)
+    live = BoolToDateTimeField(widget=HiddenInput, required=False)
+
+    def _clean_field(self, fieldname):
+        """Obtains new value if there is no initial value in the DB"""
+        initial_value = self[fieldname].initial
+        data_value = self.cleaned_data[fieldname]
+        if initial_value and data_value is not None:
+            return initial_value
+
+        return data_value
+
+    def clean_completed(self):
+        return self._clean_field('completed')
+
+    def clean_live(self):
+        return self._clean_field('live')
