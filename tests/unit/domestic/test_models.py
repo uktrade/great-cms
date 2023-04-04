@@ -1962,9 +1962,15 @@ def test_great_domestic_homepage_magna_ctas_labels(root_page, client, user):
 
         assert b'<p>Test test</p>' in response.content
         if not user_logged_in:
-            assert b'<button class="primary-button small-button">Sign in required</button>' in response.content
+            assert (
+                b'<a href="/login/" class="button primary-button govuk-link--no-underline">Sign in required</a>'
+                in response.content
+            )
         else:
-            assert b'<button class="primary-button small-button">Sign in required</button>' not in response.content
+            assert (
+                b'<a href="/login/" class="button primary-button govuk-link--no-underline">Sign in required</a>'
+                not in response.content
+            )
 
 
 class StructuralPageTests(WagtailPageTests):
