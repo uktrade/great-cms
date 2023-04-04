@@ -51,7 +51,7 @@
         {% if show_sign_in_required and not request.user.is_authenticated %}
           {% if request.path == '/' %}
           <div class="sign-in-button-wrapper">
-            <button class="primary-button small-button">Sign in required</button>
+            <a href="/login/" class="button primary-button govuk-link--no-underline">Sign in required</a>
           </div>
           {% endif %}
         {% endif %}
