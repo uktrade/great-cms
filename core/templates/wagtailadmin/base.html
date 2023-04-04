@@ -4,3 +4,20 @@
 {% block branding_logo %}
     <img src="{% static 'cms-admin/images/logo.png' %}" />
 {% endblock %}
+
+{% block extra_css %}
+<style>
+    .large-video-checkbox {
+        padding: 20px 0;
+        overflow: hidden;
+    }
+
+    .large-video-checkbox__input {
+        margin-top: 22px;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script defer src="{% static 'wagtail.js' %}"></script>
+{% endblock %}

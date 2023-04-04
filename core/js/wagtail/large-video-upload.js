@@ -1,0 +1,143 @@
+import { isAddVideoPage, showHideElements, createElement } from './utils'
+
+export const largeVideoUpload = () => {
+  if (!isAddVideoPage(window.location.pathname)) return
+
+  const form = document.querySelector('form[action="/admin/media/video/add/"]')
+  const uploadFileInput = document.querySelector('#id_file')
+
+  let file
+  let isLargeVideo = false
+  let _key
+
+  function enableLargeVideoUpload() {
+    isLargeVideo = true
+    showHideElements('#large_video_submit', '.fields button[type="submit"]')
+  }
+
+  function disableLargeVideoUpload() {
+    isLargeVideo = false
+    showHideElements('.fields button[type="submit"]', '#large_video_submit')
+  }
+
+  const getSignedUrl = async () => {
+    const body = {
+      fileName: file.name,
+      fileType: file.type,
+    }
+
+    const response = await fetch('/api/signed-url/', {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': document.querySelector(
+          "input[name='csrfmiddlewaretoken']"
+        ).value,
+      },
+    })
+
+    const { url, key } = await response.json()
+
+    _key = key
+
+    return url
+  }
+
+  const uploadFile = async (signedUrl) => {
+    await fetch(signedUrl, {
+      method: 'PUT',
+      body: file,
+      headers: {
+        'Content-Type': 'binary/octet-stream',
+      },
+    }).then((res) => {
+      if (res.status == 200) {
+        alert('File uploaded')
+        loadendHandler()
+      } else {
+        alert('File NOT uploaded')
+      }
+    })
+  }
+
+  const handleSubmit = async () => {
+    const signedUrl = await getSignedUrl()
+
+    if (signedUrl) {
+      uploadFile(signedUrl)
+    }
+  }
+
+  const getFormData = () => {
+    const formData = new FormData(document.forms[1])
+
+    formData.delete('file')
+    formData.append(
+      'file',
+      new File([new Blob(['xyz'])], _key, {
+        name: _key,
+        lastModified: 1680183083519,
+        lastModifiedDate: new Date(),
+        size: 7942351,
+        type: 'video/mp4',
+        webkitRelativePath: '',
+      })
+    )
+
+    return formData
+  }
+
+  const loadendHandler = async () => {
+    await fetch('/admin/media/video/add/', {
+      method: 'POST',
+      body: getFormData(),
+      headers: {
+        'X-CSRFToken': document.querySelector(
+          "input[name='csrfmiddlewaretoken']"
+        ).value,
+      },
+      redirect: 'follow',
+    }).then((res) => {
+      if (res.redirected) {
+        window.location = res.url
+      }
+    })
+  }
+
+  const createLargeVideoSubmitButton = () => {
+    const submit = createElement('button', [
+      { key: 'type', val: 'submit' },
+      { key: 'id', val: 'large_video_submit' },
+      { key: 'classList', val: 'button' },
+      { key: 'innerHTML', val: 'Upload large video' },
+    ])
+
+    submit.style.display = 'none'
+
+    submit.addEventListener('click', (event) => {
+      event.preventDefault()
+
+      if (file && isLargeVideo) {
+        handleSubmit()
+      }
+    })
+
+    form.append(submit)
+  }
+
+  function setup() {
+    uploadFileInput.addEventListener('change', (event) => {
+      file = event.target.files[0]
+
+      if (file.size > 100000) {
+        createLargeVideoSubmitButton()
+        enableLargeVideoUpload()
+      } else {
+        disableLargeVideoUpload()
+      }
+    })
+  }
+
+  setup()
+}
