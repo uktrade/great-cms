@@ -25,7 +25,8 @@
                 <div class="govuk-grid-column-one-quarter">
                     <form id="events-form" action="" method="GET">
                         <div class="filters">
-                            <p class="govuk-!-margin-0 govuk-!-font-size-24">Filters:</p>
+                            <p class="govuk-!-margin-0 govuk-!-font-size-24" id="filters-heading">Filters:</p>
+                            <a href="#" class="button primary-button mobile-filter-toggle" id="mobile-filter-toggle">Filters</a>
                             <ul>
                                 {% for field in filter.form %}
                                     {% comment %} the last field is for navigation and should be rendered outside the form {% endcomment %}
@@ -41,7 +42,8 @@
                                 {% endfor %}
                             </ul>
                             <div class="filters-sticky-footer govuk-!-margin-top-7" id="filters-sticky-footer">
-                             <a href="#" class="button primary-button update" role="button">Update results<span class="verbose">With Javascript enabled, click this button to filter the results.</span></a>
+                             <a href="#" class="button primary-button update" role="button">Apply filters<span class="verbose">With Javascript enabled, click this button to filter the results.</span></a>
+                             <a href="#" class="cancel link">Cancel</a>
                             </div>
                             <input type="submit" class="button primary-button govuk-!-margin-top-7" value="Update results">
                         </div>
@@ -59,26 +61,26 @@
                                 {% include 'export_academy/includes/event_name_duration.html' with event=event %}
                             </div>
                             <div class="govuk-grid-column-one-quarter govuk-!-text-align-centre">
-                                <div class="great-background-light-blue event-metadata-block parent">
+                                <div class="great-background-light-blue event-date-container">
                                     <p class="weekday">{{ event.start_date|date:"D" }}</p>
                                     <p class="date">{{ event.start_date|date:"j M" }}</p>
                                     <p class="time">at {{ event.start_date|date:"g:i A"|lower }}</p>
                                 </div>
-                                <div class="tags">
+                                <div class="event-tags">
                                     {% for type in event.types.all %}
-                                        <p class="great-background-light-blue margin-0 tag-item">{{ type }}</p>
+                                        <p class="great-background-light-blue margin-0 event-tag-item">{{ type }}</p>
                                     {% endfor %}
-                                    <p class="great-background-light-blue margin-0 tag-item">{{ event.get_format_display }}</p>
+                                    <p class="great-background-light-blue margin-0 event-tag-item">{{ event.get_format_display }}</p>
                                 </div>
                             </div>
                             <div class="govuk-grid-column-three-quarters">
                                 <div class="show-for-non-mobile">
                                     {% include 'export_academy/includes/event_name_duration.html' with event=event %}
                                 </div>
-                                <div class='js-enabled-only'>
+                                <div class='js-enabled-only event-description'>
                                     {% include 'components/show_more.html' with text=event.description index=forloop.counter %}
                                 </div>
-                                <p class='js-disabled-only'>{{event.description}}</p>
+                                <p class='js-disabled-only event-description'>{{event.description}}</p>
                                 <a href="https://www.events.great.gov.uk/ereg/newreg.php?eventid=200236512&language=eng" class="button secondary-button">Register</a>
                             </div>
                         </div>
