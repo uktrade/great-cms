@@ -41,18 +41,18 @@
         {% endif %}
 
         {% if description %}
-    <p>{{ description }}</p>
-  {% endif %}
-  {% if url %}
-  <a class="button primary-button"  href="{{ url }}">
-    View
-  </a>
-  {% endif %}
+          <p>{{ description }}</p>
+        {% endif %}
+        {% if url %}
+          <a class="button primary-button" href="{{ url }}">
+            View
+          </a>
+        {% endif %}
         {% if show_sign_in_required and not request.user.is_authenticated %}
           {% if request.path == '/' %}
-          <div class="sign-in-button-wrapper">
-            <a href="/login/" class="button primary-button govuk-link--no-underline">Sign in required</a>
-          </div>
+            <div class="sign-in-button-wrapper">
+              <a href="/login/"><button class="primary-button small-button">Sign in required</button></a>
+            </div>
           {% endif %}
         {% endif %}
       {% endif %}

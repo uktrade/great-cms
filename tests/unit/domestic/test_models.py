@@ -1963,12 +1963,12 @@ def test_great_domestic_homepage_magna_ctas_labels(root_page, client, user):
         assert b'<p>Test test</p>' in response.content
         if not user_logged_in:
             assert (
-                b'<a href="/login/" class="button primary-button govuk-link--no-underline">Sign in required</a>'
+                b'<a href="/login/"><button class="primary-button small-button">Sign in required</button></a>'
                 in response.content
             )
         else:
             assert (
-                b'<a href="/login/" class="button primary-button govuk-link--no-underline">Sign in required</a>'
+                b'<a href="/login/"><button class="primary-button small-button">Sign in required</button></a>'
                 not in response.content
             )
 
