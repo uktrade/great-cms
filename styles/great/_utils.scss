@@ -18,6 +18,18 @@
         color: $great-dark-grey;
     }
 
+    h2 {
+        @include govuk-media-query($until: tablet) {
+            font-size: 28px;
+        }
+    }
+
+    h3 {
+        @include govuk-media-query($until: tablet) {
+            font-size: 24px;
+        }
+    }
+
     p, span, ol, ul, a {
         font-family: $great-font;
         color: $great-dark-grey;
@@ -25,12 +37,31 @@
 
     .govuk-button {
         background-color: $govuk-brand-colour;
+        box-shadow: none;
+        box-shadow: none;
+        font-family: $great-font-bold;
+        padding: 8px 20px;
+        font-size: 20px;
+        min-height: 50px;
+        line-height: 34px;
 
         &:hover,
         &:focus {
             background-color: $great-white;
             border-color: $govuk-brand-colour;
             color: $govuk-brand-colour;
+        }
+
+        &:focus:not(:active):not(:hover) {
+            background-color: $great-white;
+            border-color: $govuk-brand-colour;
+            box-shadow: none;
+            color: $govuk-brand-colour;
+        }
+
+        &:focus {
+            outline: 3px solid $great-yellow;
+            outline-offset: 0;
         }
     }
 
