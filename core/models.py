@@ -1547,7 +1547,7 @@ class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
     slug_options = {
         snippet_slugs.EXPORT_ACADEMY_LISTING_PAGE_HERO: {
             'title': 'Hero for the Export Academy listing page',
-            'page_path': ('/export_academy/upcoming-events/'),
+            'page_path': '/export_academy/events/',
         },
     }
     title = models.CharField(
