@@ -3,6 +3,7 @@
 ## Pre release
 * KLS-443 - Microsite navigation navbar
 ### Enhancements
+* IOO-422 - International Online Offer sign up and sign using directory SSO
 * IOO-437 - International Online Offer change service name headings and main entry point url
 * IOO-455 - Sector and Location JSON updates
 * IOO-437 - International Online Offer wagtail integration: article page
@@ -28,7 +29,7 @@
 * KLS-503 - Upgrade sentry-sdk to 1.14.0
 * KLS-445 - Enable Internationalisation on Wagtail CMS
 * KLS-447 - Add support for Spanish language content
-
+* KLS-387 - Microsite link block
 
 ## [2.28.0](https://github.com/uktrade/great-cms/releases/tag/2.28.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.27.0...2.28.0)

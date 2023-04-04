@@ -46,6 +46,11 @@ ARTICLE_TYPES = [
     ('Campaign', 'Campaign'),
 ]
 
+CAMPAIGN_FORM_CHOICES = (
+    ('Short', 'Short'),
+    ('Long', 'Long'),
+)
+
 VIDEO_TRANSCRIPT_HELP_TEXT = 'If the video is present, a transcript must be provided.'
 
 # Options for https://docs.wagtail.io/en/v2.8.1/reference/contrib/table_block.html

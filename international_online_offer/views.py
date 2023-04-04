@@ -29,6 +29,14 @@ class IOOSector(FormView):
               relevant to your sector and products or services.""",
         )
 
+    def get_initial(self):
+        inital_sector = self.request.session.get('sector')
+        return {'sector': inital_sector}
+
+    def form_valid(self, form):
+        self.request.session['sector'] = form.cleaned_data['sector']
+        return super().form_valid(form)
+
 
 class IOOIntent(FormView):
     form_class = forms.IntentForm
@@ -44,6 +52,16 @@ class IOOIntent(FormView):
             why_we_ask_this_question_text="""We'll use this information to provide customised content
               relevant to your expansion plans.""",
         )
+
+    def get_initial(self):
+        inital_intent = self.request.session.get('intent')
+        inital_intent_other = self.request.session.get('intent_other')
+        return {'intent': inital_intent, 'intent_other': inital_intent_other}
+
+    def form_valid(self, form):
+        self.request.session['intent'] = form.cleaned_data['intent']
+        self.request.session['intent_other'] = form.cleaned_data['intent_other']
+        return super().form_valid(form)
 
 
 class IOOLocation(FormView):
@@ -61,6 +79,16 @@ class IOOLocation(FormView):
               relevant to your city, county or region.""",
         )
 
+    def get_initial(self):
+        inital_location = self.request.session.get('location')
+        inital_location_none = self.request.session.get('location_none')
+        return {'location': inital_location, 'location_none': inital_location_none}
+
+    def form_valid(self, form):
+        self.request.session['location'] = form.cleaned_data['location']
+        self.request.session['location_none'] = form.cleaned_data['location_none']
+        return super().form_valid(form)
+
 
 class IOOHiring(FormView):
     form_class = forms.HiringForm
@@ -77,11 +105,19 @@ class IOOHiring(FormView):
               relevant to your hiring.""",
         )
 
+    def get_initial(self):
+        inital_hiring = self.request.session.get('hiring')
+        return {'hiring': inital_hiring}
+
+    def form_valid(self, form):
+        self.request.session['hiring'] = form.cleaned_data['hiring']
+        return super().form_valid(form)
+
 
 class IOOSpend(FormView):
     form_class = forms.SpendForm
     template_name = 'ioo/triage/spend.html'
-    success_url = '/international/international-online-offer/guide/'
+    success_url = '/international/expand-your-business-in-the-uk/guide/'
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
@@ -93,15 +129,47 @@ class IOOSpend(FormView):
               relevant to your spend.""",
         )
 
+    def get_initial(self):
+        inital_spend = self.request.session.get('spend')
+        inital_spend_other = self.request.session.get('spend_other')
+        return {'spend': inital_spend, 'spend_other': inital_spend_other}
+
+    def form_valid(self, form):
+        self.request.session['spend'] = form.cleaned_data['spend']
+        self.request.session['spend_other'] = form.cleaned_data['spend_other']
+        return super().form_valid(form)
+
 
 class IOOContact(FormView):
     form_class = forms.ContactForm
     template_name = 'ioo/contact.html'
-    success_url = '/international/international-online-offer/guide/?success=true'
+    success_url = '/international/expand-your-business-in-the-uk/guide/?success=true'
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
             complete_contact_form_message=LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE,
-            back_url='/international/international-online-offer/guide/',
+            back_url='/international/expand-your-business-in-the-uk/guide/',
+        )
+
+
+class IOOLogin(FormView):
+    form_class = forms.LoginForm
+    template_name = 'ioo/login.html'
+    success_url = reverse_lazy('international_online_offer:signup')
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+        )
+
+
+class IOOSignUp(FormView):
+    form_class = forms.SignUpForm
+    template_name = 'ioo/signup.html'
+    success_url = reverse_lazy('international_online_offer:login')
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
         )

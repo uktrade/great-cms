@@ -18,6 +18,26 @@ def valid_contact_form_data(captcha_stub):
 
 
 @pytest.fixture
+def valid_campaign_short_form_data():
+    return {'first_name': 'fname', 'last_name': 'lname', 'email': 'test@test.com', 'company_name': ''}
+
+
+@pytest.fixture
+def valid_campaign_long_form_data():
+    return {
+        'first_name': 'fname',
+        'last_name': 'lname',
+        'email': 'marc@gov.uk',
+        'company_name': 'test',
+        'phone': '07512522098',
+        'position': 'director',
+        'already_export': 'yes',
+        'region': 'HR',
+        'sector': 'Sector1',
+    }
+
+
+@pytest.fixture
 def valid_contact_form_data_with_extra_options(captcha_stub):
     return {
         'full_name': 'Test name',

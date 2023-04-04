@@ -11,7 +11,7 @@ app_name = 'export_academy'
 
 urlpatterns = [
     path(
-        'upcoming-events/',
+        'events/',
         views.EventListView.as_view(),
         {
             'slug': snippet_slugs.EXPORT_ACADEMY_LISTING_PAGE_HERO,

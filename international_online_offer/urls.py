@@ -40,4 +40,14 @@ urlpatterns = [
         views.IOOContact.as_view(),
         name='contact',
     ),
+    path(
+        'login/',
+        views.IOOLogin.as_view(),
+        name='login',
+    ),
+    path(
+        'signup/',
+        views.IOOSignUp.as_view(),
+        name='signup',
+    ),
 ]
