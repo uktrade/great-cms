@@ -2,10 +2,12 @@
 <div class="govuk-grid-row margin-bottom-30 margin-top-30">
     <div class="govuk-grid-column-full">
         <section class="govuk-!-padding-6 great-bg-light-blue">
-            <h3 class="govuk-heading-m great-font-size-28">{{ title }}</h3>
-            <p class="govuk-body">{{ teaser }}</p>
+            <h3 class="govuk-heading-m great-font-size-28">{% if value.title %}{{ value.title }}{% else %}{{ title }}{% endif %}</h3>
+            <p class="govuk-body">{% if value.teaser %}{{ value.teaser }}{% else %}{{ teaser }}{% endif %}</p>
             <div>
-                <a href="{{ value.link }}" class="govuk-button govuk-!-margin-bottom-0">{{ link_label }}</a>
+                <a href="{% if value.link %}{{ value.link }}{% else %}{{ link }}{% endif %}" class="govuk-button govuk-!-margin-bottom-0">
+                    {% if value.teaser %}{{ value.link_label }}{% else %}{{ link_label }}{% endif %}
+                </a>
             </div>
         </section>
     </div>
