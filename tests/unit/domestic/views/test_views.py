@@ -1,15 +1,22 @@
+import json
 from unittest import mock
 
 import pytest
 from django.conf import settings
-from django.urls import reverse
+from django.test import Client, TestCase
+from django.urls import reverse, reverse_lazy
+from wagtail.tests.utils import WagtailPageTests
 
 import domestic.forms
+import domestic.views.campaign
 import domestic.views.ukef
 from core import cms_slugs
 from core.constants import CONSENT_EMAIL
 from domestic import forms
+from domestic.forms import CampaignLongForm, CampaignShortForm
 from domestic.views.ukef import GetFinanceLeadGenerationFormView
+from tests.unit.core.factories import StructurePageFactory
+from tests.unit.domestic.factories import ArticlePageFactory
 
 pytestmark = [
     pytest.mark.django_db,
@@ -342,3 +349,101 @@ def test_ukef_lead_generation_initial_data(client, user, mock_get_company_profil
         'address_town_city': 'Paris',
         'address_post_code': 'Foo Bar',
     }
+
+
+class CampaignViewTestCase(WagtailPageTests, TestCase):
+    @pytest.fixture(autouse=True)
+    def domestic_homepage_fixture(self, domestic_homepage):
+        self.domestic_homepage = domestic_homepage
+
+    def setUp(self):
+        self.parent_page = StructurePageFactory(parent=self.domestic_homepage, title='campaigns', slug='campaigns')
+        article_body1 = json.dumps(
+            [
+                {
+                    'type': 'form',
+                    'value': {
+                        'type': 'Short',
+                        'email_title': 'title1',
+                        'email_subject': 'subject1',
+                        'email_body': 'body1',
+                    },
+                }
+            ]
+        )
+
+        article_body2 = json.dumps([])
+
+        article_body3 = json.dumps(
+            [
+                {
+                    'type': 'form',
+                    'value': {
+                        'type': 'Long',
+                        'email_title': 'title1',
+                        'email_subject': 'subject1',
+                        'email_body': 'body1',
+                    },
+                }
+            ]
+        )
+
+        self.article1 = ArticlePageFactory(
+            slug='test-article-one', article_body=article_body1, parent=self.parent_page, article_title='test'
+        )
+
+        self.article2 = ArticlePageFactory(
+            slug='test-article-two', article_body=article_body2, parent=self.parent_page, article_title='test'
+        )
+
+        self.article3 = ArticlePageFactory(
+            slug='test-article-three', article_body=article_body3, parent=self.parent_page, article_title='test'
+        )
+
+    def test_get_form_class_is_short(self):
+        client = Client()
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
+        request = client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        form_class = view.request.context_data['view'].get_form_class()
+        self.assertEqual(form_class, CampaignShortForm)
+
+    def test_get_form_class_is_none(self):
+        client = Client()
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-two'})
+        request = client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        form_class = view.request.context_data['view'].get_form_class()
+        self.assertEqual(form_class, None)
+
+    def test_get_form_class_is_long(self):
+        client = Client()
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-three'})
+        request = client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        form_class = view.request.context_data['view'].get_form_class()
+        self.assertEqual(form_class, CampaignLongForm)
+
+    def test_campaign_form_success(self):
+        client = Client()
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
+        request = client.get(url)
+        domestic.views.campaign.CampaignView(request=request)
+        response = client.post(url)
+        assert response.status_code == 200
+
+    def test_no_page_slug(self):
+        client = Client()
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': None})
+        request = client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        current_page = view.request.context_data['view'].current_page
+        self.assertEqual(current_page, None)
+
+    def test_page_does_not_exist(self):
+        client = Client()
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'page_that_does_not_exist'})
+        request = client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        current_page = view.request.context_data['view'].current_page
+        self.assertEqual(current_page, None)

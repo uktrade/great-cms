@@ -45,7 +45,7 @@ def test_remove_video(user):
     event = factories.EventFactory(
         name='Event name',
         start_date=datetime.now(timezone.utc) - timedelta(days=delay_days),
-        completed=True,
+        completed=datetime.now(timezone.utc) + timedelta(hours=1),
     )
 
     remove_past_events_media()

@@ -102,7 +102,7 @@ def test_join_button_returned_for_booked_in_upcoming_event(user):
 def test_view_buttons_returned_for_booked_past_event(user):
     now = datetime.now(tz=timezone.utc)
     event = factories.EventFactory(
-        start_date=now - timedelta(days=2, hours=1), end_date=now - timedelta(days=2), completed=True
+        start_date=now - timedelta(days=2, hours=1), end_date=now - timedelta(days=2), completed=now
     )
     event.document = DocumentFactory()
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)

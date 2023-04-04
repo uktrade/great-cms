@@ -55,7 +55,7 @@ nav {
 .magna-header__dropdown {
   right: 0;
   margin-top: 10px;
-  background-color: $color-footer!important;
+  background-color: $color-footer !important;
   @media only screen and (max-width: $mobile-size) {
     margin-top: 9px;
   }
@@ -68,14 +68,14 @@ nav.breadcrumbs {
 
   background-color: $color-background-color;
   @media only screen and (max-width: $mobile-size) {
-    padding: calc(0.75em - (0.5 * $standard-padding)) 15px!important;
+    padding: calc(0.75em - (0.5 * $standard-padding)) 15px !important;
   }
 
-  li{
+  li {
     padding: 0.5 * $standard-padding 0;
     margin-left: 0;
   }
-  li::after{
+  li::after {
     margin-right: $standard-padding;
   }
 }
@@ -88,8 +88,8 @@ nav {
   }
 }
 
-.magna-header__dropdown-button{
-  font-family: $main-text-font!important;
-  font-size: $font-size-p!important;
+.magna-header__dropdown-button {
+  font-family: $main-text-font !important;
+  font-size: $font-size-p !important;
   z-index: 3;
 }

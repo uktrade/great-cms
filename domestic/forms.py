@@ -8,6 +8,7 @@ from great_components import forms
 
 from contact.forms import TERMS_LABEL
 from core.forms import ConsentFieldMixin
+from core.models import IndustryTag
 from directory_constants import choices
 from directory_constants.choices import COUNTRY_CHOICES
 
@@ -400,7 +401,7 @@ class MarketAccessProblemDetailsForm(forms.Form):
         return value
 
 
-class MarketAccessSummaryForm(forms.Form):
+class MarketAccessSummaryForm(GovNotifyEmailActionMixin, forms.Form):
     contact_by_email = forms.BooleanField(
         label='I would like to receive additional information by email',
         required=False,
@@ -408,4 +409,82 @@ class MarketAccessSummaryForm(forms.Form):
     contact_by_phone = forms.BooleanField(
         label='I would like to receive additional information by telephone',
         required=False,
+    )
+
+
+class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
+    first_name = forms.CharField(
+        label=_('First name'),
+        min_length=2,
+        max_length=50,
+        required=True,
+        error_messages={
+            'required': _('Enter your first name'),
+        },
+    )
+    last_name = forms.CharField(
+        label=_('Last name'),
+        min_length=2,
+        max_length=50,
+        required=True,
+        error_messages={
+            'required': _('Enter your last name'),
+        },
+    )
+    email = forms.EmailField(
+        label='Your email address',
+        error_messages={
+            'required': 'Enter your email address',
+        },
+        required=True,
+    )
+
+    company_name = forms.CharField(label=_('Company name'), min_length=2, max_length=100, required=False)
+
+
+def get_sector_names():
+    return [tag.name for tag in IndustryTag.objects.all()]
+
+
+class CampaignLongForm(CampaignShortForm):
+    def get_sector_choices():
+        base_choice = [('', 'Select your sector')]
+        choices = get_sector_names()
+        return base_choice + [(c, c) for c in choices]
+
+    phone = forms.CharField(
+        label='Telephone number',
+        required=True,
+        error_messages={'required': 'Enter your telephone number'},
+    )
+
+    position = forms.CharField(
+        label=_('Position at company'),
+        min_length=2,
+        max_length=100,
+        required=True,
+    )
+
+    already_export = forms.ChoiceField(
+        label=_('Do you have a specific project or proposal you’d like to discuss?'),
+        choices=(
+            ('yes', 'My company already exports '),
+            ('no', 'My company does not export yet'),
+        ),
+        widget=forms.RadioSelect,
+        error_messages={'required': _('Please answer this question')},
+        required=True,
+    )
+
+    region = forms.ChoiceField(
+        label=_('Select a region'),
+        choices=COUNTRIES,
+        widget=Select(),
+        required=True,
+    )
+
+    sector = forms.ChoiceField(
+        label='Sector',
+        choices=get_sector_choices,
+        required=True,
     )

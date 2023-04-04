@@ -24,7 +24,8 @@ class EventFactory(factory.django.DjangoModelFactory):
     start_date = timezone.now()
     link = factory.LazyAttribute(lambda event: 'https://example.com/%s' % event.id)
     video_recording = factory.SubFactory(GreatMediaFactory)
-    completed = False
+    completed = timezone.now()
+    live = timezone.now()
 
     @factory.lazy_attribute
     def end_date(self):
