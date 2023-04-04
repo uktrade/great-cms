@@ -14,7 +14,9 @@ from tests.unit.export_academy import factories
 def test_book_button_returned_for_upcoming_event_registered_user(user):
     now = datetime.now(tz=timezone.utc)
     factories.RegistrationFactory(email=user.email)
-    event = factories.EventFactory(start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7))
+    event = factories.EventFactory(
+        start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7), completed=None
+    )
 
     buttons = helpers.get_buttons_for_event(user, event)
 
@@ -31,7 +33,9 @@ def test_book_button_returned_for_upcoming_event_registered_user(user):
 @pytest.mark.django_db
 def test_book_button_returned_for_upcoming_event_not_registered_user(user):
     now = datetime.now(tz=timezone.utc)
-    event = factories.EventFactory(start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7))
+    event = factories.EventFactory(
+        start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7), completed=None
+    )
 
     buttons = helpers.get_buttons_for_event(user, event)
 
@@ -48,7 +52,9 @@ def test_book_button_returned_for_upcoming_event_not_registered_user(user):
 @pytest.mark.django_db
 def test_cancel_button_returned_for_booked_upcoming_event(user):
     now = datetime.now(tz=timezone.utc)
-    event = factories.EventFactory(start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7))
+    event = factories.EventFactory(
+        start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7), completed=None
+    )
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
 
@@ -70,6 +76,7 @@ def test_join_button_returned_for_booked_in_progress_event(user):
     event = factories.EventFactory(
         start_date=now - timedelta(minutes=settings.EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS),  # type: ignore
         end_date=now + timedelta(hours=1),
+        completed=None,
     )
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
@@ -87,6 +94,7 @@ def test_join_button_returned_for_booked_in_upcoming_event(user):
     event = factories.EventFactory(
         start_date=now + timedelta(days=1),
         end_date=now + timedelta(days=1, hours=1),
+        completed=None,
     )
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
