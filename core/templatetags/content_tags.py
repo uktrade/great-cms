@@ -247,4 +247,4 @@ def get_text_blocks(list_of_blocks):
 
 @register.simple_tag
 def get_template_translation_enabled():
-    return getattr(settings, "FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION", False)
+    return getattr(settings, 'FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION', False)
