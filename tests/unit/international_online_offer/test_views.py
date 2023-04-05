@@ -1,6 +1,8 @@
 import pytest
 from django.urls import reverse
 
+from international_online_offer.models import TriageData
+
 
 @pytest.mark.django_db
 def test_ioo_index(client, settings):
@@ -13,7 +15,19 @@ def test_ioo_index(client, settings):
 @pytest.mark.django_db
 def test_ioo_sector(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    response = client.get(reverse('international_online_offer:sector'))
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_ioo_sector_initial(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    TriageData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={'sector': 'sector'},
+    )
     url = reverse('international_online_offer:sector')
+    client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
 
@@ -30,6 +44,19 @@ def test_triage_sector_session(client, settings):
 def test_ioo_intent(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:intent')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_ioo_intent_initial(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    TriageData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={'intent': 'intent'},
+    )
+    url = reverse('international_online_offer:intent')
+    client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
 
@@ -52,6 +79,19 @@ def test_ioo_location(client, settings):
 
 
 @pytest.mark.django_db
+def test_ioo_location_initial(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    TriageData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={'location': 'location'},
+    )
+    url = reverse('international_online_offer:location')
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_triage_location_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:location')
@@ -69,6 +109,19 @@ def test_ioo_hiring(client, settings):
 
 
 @pytest.mark.django_db
+def test_ioo_hiring_initial(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    TriageData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={'hiring': 'hiring'},
+    )
+    url = reverse('international_online_offer:hiring')
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_triage_hiring_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:hiring')
@@ -80,6 +133,19 @@ def test_triage_hiring_session(client, settings):
 def test_ioo_spend(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:spend')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_ioo_spend_initial(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    TriageData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={'spend': 'spend'},
+    )
+    url = reverse('international_online_offer:spend')
+    client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
 
