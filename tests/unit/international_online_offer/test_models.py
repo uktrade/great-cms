@@ -9,7 +9,9 @@ from international_online_offer.models import (
     TriageData,
     UserData,
     get_triage_data,
+    get_triage_data_from_db_or_session,
     get_user_data,
+    get_user_data_from_db_or_session,
 )
 
 
@@ -95,6 +97,18 @@ def test_ioo_guide_get_user_data(rf):
     assert data.hashed_uuid == 'testId'
     assert data.full_name == 'Joe'
     assert data.company_name == 'DBT'
+
+
+@pytest.mark.django_db
+def test_ioo_guide_get_triage_from_db_or_session(rf):
+    data = get_triage_data_from_db_or_session('testId')
+    assert data is None
+
+
+@pytest.mark.django_db
+def test_ioo_guide_get_user_from_db_or_session(rf):
+    data = get_user_data_from_db_or_session('testId')
+    assert data is None
 
 
 class IOOArticlePageTests(WagtailPageTests):
