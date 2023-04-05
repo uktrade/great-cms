@@ -53,7 +53,7 @@ def test_ioo_intent_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
         hashed_uuid='123',
-        defaults={'intent': 'intent'},
+        defaults={'sector': 'sector'},
     )
     url = reverse('international_online_offer:intent')
     client.force_login(user)
