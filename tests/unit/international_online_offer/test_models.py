@@ -59,6 +59,7 @@ def test_ioo_guide_page_content(rf):
     assert context['complete_contact_form_link_text'] == 'Complete form'
     assert context['contact_form_success_message'] == IOOGuidePage.CONTACT_FORM_SUCCESS_MESSAGE
     assert context['complete_contact_form_link'] == 'international_online_offer:contact'
+    assert context['get_to_know_market_articles'] == []
 
 
 @pytest.mark.django_db
