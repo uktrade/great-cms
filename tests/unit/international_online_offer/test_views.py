@@ -27,6 +27,7 @@ def test_ioo_sector_initial(client, user, settings):
         defaults={'sector': 'sector'},
     )
     url = reverse('international_online_offer:sector')
+    user.hashed_uuid = '123'
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
@@ -56,6 +57,7 @@ def test_ioo_intent_initial(client, user, settings):
         defaults={'sector': 'sector'},
     )
     url = reverse('international_online_offer:intent')
+    user.hashed_uuid = '123'
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
@@ -86,6 +88,7 @@ def test_ioo_location_initial(client, user, settings):
         defaults={'location': 'location'},
     )
     url = reverse('international_online_offer:location')
+    user.hashed_uuid = '123'
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
@@ -116,6 +119,7 @@ def test_ioo_hiring_initial(client, user, settings):
         defaults={'hiring': 'hiring'},
     )
     url = reverse('international_online_offer:hiring')
+    user.hashed_uuid = '123'
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
@@ -145,6 +149,7 @@ def test_ioo_spend_initial(client, user, settings):
         defaults={'spend': 'spend'},
     )
     url = reverse('international_online_offer:spend')
+    user.hashed_uuid = '123'
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
