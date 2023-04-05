@@ -17,6 +17,7 @@ from core.models import GreatMedia, TimeStampedModel
 from domestic.models import BaseContentPage
 from export_academy import managers
 from export_academy.cms_panels import EventPanel, ExportAcademyPagePanels
+from export_academy.forms import EventAdminModelForm
 
 
 def send_notifications_for_all_bookings(event, template_id, additional_notify_data=None):
@@ -63,6 +64,8 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     STATUS_IN_PROGRESS = 'in_progress'
     STATUS_FINISHED = 'finished'
 
+    base_form_class = EventAdminModelForm
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000)
@@ -85,7 +88,8 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
         on_delete=models.SET_NULL,
         related_name='+',
     )
-    completed = models.BooleanField(default=False)
+    completed = models.DateTimeField(null=True, blank=True)
+    live = models.DateTimeField(null=True, blank=True)
 
     objects = models.Manager()
     upcoming = managers.EventManager.from_queryset(managers.EventQuerySet)()
