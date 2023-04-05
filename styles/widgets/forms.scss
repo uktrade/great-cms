@@ -6,3 +6,27 @@
         font-family: $header-font ;
     }
 }
+
+.form-container {
+      hr {
+        margin: $large-padding 0;
+        background: $color-thematic-break;
+      }
+      .success-message-container {
+        padding: $large-padding $x-large-padding;
+        border-left: 10px solid #22703c;
+        background-color: #dcf6f0;
+        display: inline-flex;
+        width: 100%;
+        i{
+          color:#22703c;
+          padding-right: $large-padding;
+          font-size: 30px;
+        }
+        p {
+          padding: 0;
+          margin:0;
+          line-height: 35px;
+        }
+      }
+    }

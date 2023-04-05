@@ -70,32 +70,7 @@
 
         <section class="grid-row padding-bottom-60">
           <div class="article-content">
-            {% for block in page.article_body%}
-              {%if block.block_type == 'form' %}
-                {% if form %}
-                 <div class="form-container">
-                  <hr/>
-                  {% if form_success%}
-
-                    <div class="success-message-container">
-                      <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-                     <i class="fa fa-check"></i> <p>Information has been submitted successfully</p>
-                    </div>
-
-                  {%else%}
-                      <form  action="" method="post" autocomplete="off">
-                          {% csrf_token %}
-                          {{ form }}
-                          <button type="submit" class="primary-button">Submit</button>
-                      </form>
-                   {%endif%}
-                   <hr/>
-                   </div>
-                  {%endif%}
-              {%else%}
-               {{block}}
-              {%endif%}
-            {%endfor%}
+           {%include 'domestic/includes/streamfield.html' with streamfield_content=page.article_body %}
           </div>
         </section>
       </div>
@@ -121,21 +96,3 @@
 
   </div>
 </article>
-
-{% block body_js %}
-    <script type="text/javascript">
-      const elements = document.getElementsByClassName("success-message-container");
-      if(elements.length){
-         const yOffset = -100;
-         const y = elements[0].getBoundingClientRect().top + window.pageYOffset + yOffset;
-         window.scrollTo({top: y, behavior: 'smooth'});
-      }
-
-      const error_list = document.getElementsByClassName("form-group-error ")
-      if(error_list.length){
-         const yOffset = -100;
-         const y = error_list[0].getBoundingClientRect().top + window.pageYOffset + yOffset;
-         window.scrollTo({top: y, behavior: 'smooth'});
-      }
-    </script>
-{% endblock %}

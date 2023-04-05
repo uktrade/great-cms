@@ -440,6 +440,7 @@ class StaticViewSitemap(DjangoSitemap):
             'core:login',
             'core:signup',
             'core:robots',
+            'core:microsites',
             'domestic:get-finance',
             'domestic:uk-export-finance-lead-generation-form',  # See location(), below
             'domestic:project-finance',

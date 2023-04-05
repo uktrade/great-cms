@@ -5,6 +5,7 @@ from django.utils.http import urlencode
 
 from contact.views import BaseNotifyUserFormView
 from core.datastructures import NotifySettings
+from core.models import MicrositePage
 from domestic.forms import CampaignLongForm, CampaignShortForm
 from domestic.models import ArticlePage
 
@@ -21,39 +22,49 @@ def reverse_querystring(view, urlconf=None, args=None, kwargs=None, current_app=
 
 
 class CampaignView(BaseNotifyUserFormView):
+    # overwite these variables to customize
+    success_url_path = 'domestic:campaigns'
+    page_class = ArticlePage
+    template_name = 'domestic/article_page.html'
+    streamfield_name = 'article_body'
+    notify_settings = NotifySettings(
+        user_template=settings.CAMPAIGN_USER_NOTIFY_TEMPLATE_ID,
+    )
+
+    def get_current_page(self):
+        if self.page_slug is None:
+            return None
+        try:
+            return self.page_class.objects.live().get(slug=self.page_slug)
+        except ObjectDoesNotExist:
+            return None
+
+    def get_form_value(self):
+        values = [
+            block.value for block in getattr(self.current_page, self.streamfield_name) if block.block_type == 'form'
+        ]
+        if len(values) > 0:
+            return values[0]
+        else:
+            return None
+
+    def get_success_url(self):
+        return reverse_querystring(
+            self.success_url_path, kwargs={'page_slug': self.page_slug}, query_kwargs={'form_success': True}
+        )
+
     def setup(self, request, *args, **kwargs):
-        page_slug = kwargs['page_slug'] if 'page_slug' in kwargs else None
+        self.page_slug = kwargs['page_slug'] if 'page_slug' in kwargs else None
 
         self.form_success = True if request.get_full_path().endswith('?form_success=True') else False
 
-        def get_current_page():
-            if page_slug is None:
-                return None
-            try:
-                return ArticlePage.objects.live().get(slug=page_slug)
-            except ObjectDoesNotExist:
-                return None
-
-        def get_form_value(page):
-            values = [block.value for block in page.article_body if block.block_type == 'form']
-            if len(values) > 0:
-                return values[0]
-            else:
-                return None
-
-        self.success_url = reverse_querystring(
-            'domestic:campaigns', kwargs={'page_slug': page_slug}, query_kwargs={'form_success': True}
-        )
-        self.current_page = get_current_page()
-        self.form_config = get_form_value(self.current_page) if self.current_page else None
+        self.success_url = self.get_success_url()
+        self.current_page = self.get_current_page()
+        self.form_config = self.get_form_value() if self.current_page else None
         self.form_type = self.form_config['type'] if self.form_config else None
         self.email_title = self.form_config['email_title'] if self.form_type else None
         self.email_body = self.form_config['email_body'] if self.form_type else None
         self.email_subject = self.form_config['email_subject'] if self.form_type else None
-        self.template_name = 'domestic/article_page.html'
-        self.notify_settings = NotifySettings(
-            user_template=settings.CAMPAIGN_USER_NOTIFY_TEMPLATE_ID,
-        )
         return super().setup(request, *args, **kwargs)
 
     def get_form_class(self):
@@ -77,3 +88,11 @@ class CampaignView(BaseNotifyUserFormView):
         return super().get_context_data(
             **kwargs, page=self.current_page if self.current_page else None, form_success=self.form_success
         )
+
+
+class MicrositeView(CampaignView):
+    # success url doesnt work if its a child . Need to make a success url path
+    success_url_path = 'core:microsites'
+    page_class = MicrositePage
+    template_name = '../../core/templates/microsites/micro_site_page.html'
+    streamfield_name = 'page_body'

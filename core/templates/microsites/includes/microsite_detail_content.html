@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    {{ page.page_body }} {# StreamField content #}
+    {%include 'domestic/includes/streamfield.html' with streamfield_content=page.page_body %}
 
     {% block related_ctas %}
       {% if page.cta_title or page.cta_teaser or page.cta_link_label and page.cta_link %}
