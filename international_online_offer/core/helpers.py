@@ -2,7 +2,7 @@ def find_get_to_know_market_articles(articles, sector_filter, intent_filters):
     filtered_pages = []
     filters = concat_filters(sector_filter, intent_filters)
     for page in articles:
-        all_tags = page.specific.tags.all()
+        all_tags = page.specific.tags.all() if hasattr(page.specific.tags, 'all') else page.specific.tags
         tag_match_count = 0
         for tag in all_tags:
             for filter in filters:
