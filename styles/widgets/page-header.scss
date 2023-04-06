@@ -278,6 +278,18 @@ $funding-financing-header: url(/static/images/learn-to-export-topic5-header.png)
   @media only screen and (max-width: $mobile-size) {
     @include vertical-alignment
   }
+
+  .image-container:not(.great-display-from-tablet) {
+    display: flex;
+    flex: 1;
+    height: 0;
+    padding-top: 45%;
+    width: 100%;
+    background-repeat: no-repeat !important;
+    background-size: 100% auto !important;
+    background-position-y: bottom !important;
+    background-position-x: 5vw !important;
+  }
 }
 
 .market-details-header {

@@ -161,26 +161,31 @@
     background-color: $great-light-blue;
 }
 
+.great-display-from-tablet {
+    display: none;
+
+    @include govuk-media-query($from: tablet) {
+        display: block;
+    }
+}
+
+.great-display-until-tablet {
+    display: block;
+
+    @include govuk-media-query($from: tablet) {
+        display: none;
+    }
+}
+
 .clearfix:after {
     display: block;
     content: '';
     clear: both;
-  }
-
-.show-for-mobile {
-    display: none;
 }
 
+
 @media (max-width: 640px) {
-    .show-for-mobile {
-        display: block;
-    }
-
     .show-for-non-mobile {
-        display: none;
-    }
-
-    .hide-for-mobile {
         display: none;
     }
 }

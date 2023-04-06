@@ -13,19 +13,19 @@
             {% include 'components/hero.html' with image=hero.image hero_title=hero.title hero_text=hero.text hide_image_for_mobile=True %}
         {% endwith %}
     {% endblock %}
-    <div class="hide-for-mobile">
+    <div class="great-display-from-tablet">
         {% breadcrumbs 'Events' %}
             <a href="/">great.gov.uk</a>
             <a href="{% pageurl landing_page %}">UK Export Academy</a>
         {% endbreadcrumbs %}
     </div>
-    <section class="govuk-!-padding-top-3 background-white clearfix">
+    <section class="govuk-!-padding-top-3 background-white clearfix great">
         <div class="container">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-quarter">
                     <form id="events-form" action="" method="GET">
-                        <div class="filters">
-                            <p class="govuk-!-margin-0 govuk-!-font-size-24" id="filters-heading">Filters:</p>
+                        <div class="filters great-filters">
+                            <p class="govuk-body-l great-display-from-tablet" id="filters-heading">Filters:</p>
                             <a href="#" class="button primary-button mobile-filter-toggle" id="mobile-filter-toggle">Filters</a>
                             <ul>
                                 {% for field in filter.form %}
@@ -33,7 +33,7 @@
                                     {% if not forloop.last %}
                                     <li class="filter-section">
                                         <input type="checkbox" id="{{ field.label }}" class="filter-section-toggle" />
-                                        <label class="govuk-!-font-size-24 arrows-left" for="{{ field.label }}" role="button">{{ field.label }}</label>
+                                        <label class="govuk-body-l arrows-left" for="{{ field.label }}" role="button">{{ field.label }}</label>
                                         <div class="options checkbox-small">
                                             {{ field }}
                                         </div>
@@ -57,7 +57,7 @@
                     {% else %}
                         {% for event in page_obj %}
                         <div class="govuk-grid-row event-list-card">
-                            <div class="show-for-mobile govuk-!-padding-left-3 govuk-!-padding-right-3">
+                            <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
                                 {% include 'export_academy/includes/event_name_duration.html' with event=event %}
                             </div>
                             <div class="govuk-grid-column-one-quarter govuk-!-text-align-centre">
@@ -74,7 +74,7 @@
                                 </div>
                             </div>
                             <div class="govuk-grid-column-three-quarters">
-                                <div class="show-for-non-mobile">
+                                <div class="great-display-from-tablet">
                                     {% include 'export_academy/includes/event_name_duration.html' with event=event %}
                                 </div>
                                 <div class='js-enabled-only event-description'>
