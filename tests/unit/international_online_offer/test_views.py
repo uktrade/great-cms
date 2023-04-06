@@ -34,6 +34,24 @@ def test_ioo_sector_initial(client, user, settings):
 
 
 @pytest.mark.django_db
+def test_ioo_sector_form_valid_saves_to_db(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:sector')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.post(url, {'sector': 'Food and Drink'})
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_ioo_sector_form_valid_saves_to_session(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:sector')
+    response = client.post(url, {'sector': 'Food and Drink'})
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
 def test_triage_sector_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:sector')
@@ -54,13 +72,31 @@ def test_ioo_intent_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
         hashed_uuid='123',
-        defaults={'sector': 'sector'},
+        defaults={'intent': ['Set up new premises'], 'intent_other': ''},
     )
     url = reverse('international_online_offer:intent')
     user.hashed_uuid = '123'
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_ioo_intent_form_valid_saves_to_db(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:intent')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.post(url, {'intent': 'Set up new premises', 'intent_other': ''})
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_ioo_intent_form_valid_saves_to_session(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:intent')
+    response = client.post(url, {'intent': 'Set up new premises', 'intent_other': ''})
+    assert response.status_code == 302
 
 
 @pytest.mark.django_db
@@ -95,6 +131,24 @@ def test_ioo_location_initial(client, user, settings):
 
 
 @pytest.mark.django_db
+def test_ioo_location_form_valid_saves_to_db(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:location')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.post(url, {'location': 'Wales'})
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_ioo_location_form_valid_saves_to_session(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:location')
+    response = client.post(url, {'location': 'Wales'})
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
 def test_triage_location_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:location')
@@ -126,6 +180,24 @@ def test_ioo_hiring_initial(client, user, settings):
 
 
 @pytest.mark.django_db
+def test_ioo_hiring_form_valid_saves_to_db(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:hiring')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.post(url, {'hiring': '1-10'})
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_ioo_hiring_form_valid_saves_to_session(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:hiring')
+    response = client.post(url, {'hiring': '1-10'})
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
 def test_triage_hiring_session(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:hiring')
@@ -153,6 +225,24 @@ def test_ioo_spend_initial(client, user, settings):
     client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_ioo_spend_form_valid_saves_to_db(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:spend')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.post(url, {'spend': '10000-500000'})
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_ioo_spend_form_valid_saves_to_session(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:spend')
+    response = client.post(url, {'spend': '10000-500000'})
+    assert response.status_code == 302
 
 
 @pytest.mark.django_db
