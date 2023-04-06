@@ -4,3 +4,7 @@
 @import "govuk-class-overrides";
 @import 'core-class-overrides';
 @import 'article-list-item.scss';
+
+.guide-edit-panel {
+    border: 1px solid #C7C7C7;
+}
