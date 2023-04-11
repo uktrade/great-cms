@@ -96,3 +96,6 @@ class MicrositeView(CampaignView):
     page_class = MicrositePage
     template_name = '../../core/templates/microsites/micro_site_page.html'
     streamfield_name = 'page_body'
+
+    def get_success_url(self):
+        return '?form_success=True'
