@@ -7,7 +7,7 @@ _Tick or delete as appropriate:_
 
 - [ ] Ticket exists in Jira https://uktrade.atlassian.net/browse/TICKET_ID_HERE
 - [ ] Jira ticket has the correct status.
-- [ ] [Changelog](CHANGELOG.md) entry added.
+- [ ] A clear/description pull request messaged added.
 
 ### Reviewing help
 
