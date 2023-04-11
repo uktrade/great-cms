@@ -91,11 +91,10 @@ class CampaignView(BaseNotifyUserFormView):
 
 
 class MicrositeView(CampaignView):
-    # success url doesnt work if its a child . Need to make a success url path
-    success_url_path = 'core:microsites'
+    success_url_path = '?form_success=True'
     page_class = MicrositePage
     template_name = '../../core/templates/microsites/micro_site_page.html'
     streamfield_name = 'page_body'
 
     def get_success_url(self):
-        return '?form_success=True'
+        return self.success_url_path
