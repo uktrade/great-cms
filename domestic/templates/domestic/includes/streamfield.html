@@ -1,7 +1,7 @@
 {% for block in streamfield_content %}
     {% if block.block_type == 'form' %}
         {% if form %}
-            <div class="form-container">
+            <div class="form-container {{form_class}}">
                 <hr/>
                 {% if form_success %}
                     <div class="success-message-container">
