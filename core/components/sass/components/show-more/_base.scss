@@ -19,8 +19,8 @@
     }
 
     details[open] summary::before {
-        transform: rotate(90deg);
-        margin-top: 6px;
+        transform: rotate(270deg);
+        margin-top: -4px;
         margin-right: 10px;
     }
 

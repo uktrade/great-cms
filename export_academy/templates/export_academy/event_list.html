@@ -19,80 +19,82 @@
             <a href="{% pageurl landing_page %}">UK Export Academy</a>
         {% endbreadcrumbs %}
     </div>
-    <section class="govuk-!-padding-top-3 background-white clearfix great">
-        <div class="container">
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-one-quarter">
-                    <form id="events-form" action="" method="GET">
-                        <div class="filters great-filters">
-                            <p class="govuk-body-l great-display-from-tablet" id="filters-heading">Filters:</p>
-                            <a href="#" class="button primary-button mobile-filter-toggle" id="mobile-filter-toggle">Filters</a>
-                            <ul>
-                                {% for field in filter.form %}
-                                    {% comment %} the last field is for navigation and should be rendered outside the form {% endcomment %}
-                                    {% if not forloop.last %}
-                                    <li class="filter-section">
-                                        <input type="checkbox" id="{{ field.label }}" class="filter-section-toggle" />
-                                        <label class="govuk-body-l arrows-left" for="{{ field.label }}" role="button">{{ field.label }}</label>
-                                        <div class="options checkbox-small">
-                                            {{ field }}
-                                        </div>
-                                    </li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                            <div class="filters-sticky-footer govuk-!-margin-top-7" id="filters-sticky-footer">
-                             <a href="#" class="button primary-button update" role="button">Apply filters<span class="verbose">With Javascript enabled, click this button to filter the results.</span></a>
-                             <a href="#" class="cancel link">Cancel</a>
-                            </div>
-                            <input type="submit" class="button primary-button govuk-!-margin-top-7" value="Update results">
-                        </div>
-                    </form>
-                </div>
-                {% show_logged_in_navigation filter.form.navigation %}
-                <div id="event-list" class="govuk-grid-column-three-quarters" >
-                    {% if not page_obj %}
-                        <p>There are currently no events available for the filters you have chosen.</p>
-                        <p>Remove one or more of your filter choices to broaden your search.</p>
-                    {% else %}
-                        {% for event in page_obj %}
-                        <div class="govuk-grid-row event-list-card">
-                            <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
-                                {% include 'export_academy/includes/event_name_duration.html' with event=event %}
-                            </div>
-                            <div class="govuk-grid-column-one-quarter govuk-!-text-align-centre">
-                                <div class="great-background-light-blue event-date-container">
-                                    <p class="weekday">{{ event.start_date|date:"D" }}</p>
-                                    <p class="date">{{ event.start_date|date:"j M" }}</p>
-                                    <p class="time">at {{ event.start_date|date:"g:i A"|lower }}</p>
-                                </div>
-                                <div class="event-tags">
-                                    {% for type in event.types.all %}
-                                        <p class="great-background-light-blue margin-0 event-tag-item">{{ type }}</p>
+    <div class="great">
+        <section class="govuk-!-padding-top-3 background-white clearfix">
+            <div class="container">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-one-quarter">
+                        <form id="events-form" action="" method="GET">
+                            <div class="filters great-filters">
+                                <p class="govuk-body-l great-display-from-tablet" id="filters-heading">Filters:</p>
+                                <a href="#" class="button primary-button mobile-filter-toggle" id="mobile-filter-toggle">Filters</a>
+                                <ul>
+                                    {% for field in filter.form %}
+                                        {% comment %} the last field is for navigation and should be rendered outside the form {% endcomment %}
+                                        {% if not forloop.last %}
+                                        <li class="filter-section">
+                                            <input type="checkbox" id="{{ field.label }}" class="filter-section-toggle" />
+                                            <label class="govuk-body-l arrows-left" for="{{ field.label }}" role="button">{{ field.label }}</label>
+                                            <div class="options checkbox-small">
+                                                {{ field }}
+                                            </div>
+                                        </li>
+                                        {% endif %}
                                     {% endfor %}
-                                    <p class="great-background-light-blue margin-0 event-tag-item">{{ event.get_format_display }}</p>
+                                </ul>
+                                <div class="filters-sticky-footer govuk-!-margin-top-7" id="filters-sticky-footer">
+                                 <a href="#" class="button primary-button update" role="button">Apply filters<span class="verbose">With Javascript enabled, click this button to filter the results.</span></a>
+                                 <a href="#" class="cancel link">Cancel</a>
                                 </div>
+                                <input type="submit" class="button primary-button govuk-!-margin-top-7" value="Update results">
                             </div>
-                            <div class="govuk-grid-column-three-quarters">
-                                <div class="great-display-from-tablet">
+                        </form>
+                    </div>
+                    {% show_logged_in_navigation filter.form.navigation %}
+                    <div id="event-list" class="govuk-grid-column-three-quarters" >
+                        {% if not page_obj %}
+                            <p>There are currently no events available for the filters you have chosen.</p>
+                            <p>Remove one or more of your filter choices to broaden your search.</p>
+                        {% else %}
+                            {% for event in page_obj %}
+                            <div class="govuk-grid-row event-list-card">
+                                <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
                                     {% include 'export_academy/includes/event_name_duration.html' with event=event %}
                                 </div>
-                                <div class='js-enabled-only event-description'>
-                                    {% include 'components/show_more.html' with text=event.description index=forloop.counter %}
+                                <div class="govuk-grid-column-one-quarter govuk-!-text-align-centre">
+                                    <div class="great-background-light-blue event-date-container">
+                                        <p class="weekday">{{ event.start_date|date:"D" }}</p>
+                                        <p class="date">{{ event.start_date|date:"j M" }}</p>
+                                        <p class="time">at {{ event.start_date|date:"g:i A"|lower }}</p>
+                                    </div>
+                                    <div class="event-tags">
+                                        {% for type in event.types.all %}
+                                            <p class="great-background-light-blue margin-0 event-tag-item">{{ type }}</p>
+                                        {% endfor %}
+                                        <p class="great-background-light-blue margin-0 event-tag-item">{{ event.get_format_display }}</p>
+                                    </div>
                                 </div>
-                                <p class='js-disabled-only event-description'>{{event.description}}</p>
-                                <a href="https://www.events.great.gov.uk/ereg/newreg.php?eventid=200236512&language=eng" class="button secondary-button">Register</a>
+                                <div class="govuk-grid-column-three-quarters">
+                                    <div class="great-display-from-tablet">
+                                        {% include 'export_academy/includes/event_name_duration.html' with event=event %}
+                                    </div>
+                                    <div class='js-enabled-only event-description'>
+                                        {% include 'components/show_more.html' with text=event.description index=forloop.counter %}
+                                    </div>
+                                    <p class='js-disabled-only event-description'>{{event.description}}</p>
+                                    <a href="https://www.events.great.gov.uk/ereg/newreg.php?eventid=200236512&language=eng" class="button secondary-button">Register</a>
+                                </div>
                             </div>
-                        </div>
-                        {% endfor %}
-                    {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="govuk-grid-row background-white govuk-grid-column-three-quarters markets-pagination">
+                    {% pagination pagination_page=page_obj %}
                 </div>
             </div>
-            <div class="govuk-grid-row background-white govuk-grid-column-three-quarters markets-pagination">
-                {% pagination pagination_page=page_obj %}
-            </div>
-        </div>
-    </section>
+        </section>
+    </div>
 {% endblock %}
 {% block body_js %}
 {{ block.super }}
