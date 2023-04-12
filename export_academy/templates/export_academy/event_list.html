@@ -10,7 +10,7 @@
 {% block content %}
     {% block hero %}
         {% with content_snippet as hero %}
-            {% include 'components/hero.html' with image=hero.image hero_title=hero.title hero_text=hero.text hide_image_for_mobile=True %}
+            <div class="ea-listing-page">{% include 'components/hero.html' with image=hero.image hero_title=hero.title hero_text=hero.text hide_image_for_mobile=True %}</div>
         {% endwith %}
     {% endblock %}
     <div class="great-display-from-tablet">
@@ -65,7 +65,7 @@
                                     <div class="great-background-light-blue event-date-container">
                                         <p class="weekday">{{ event.start_date|date:"D" }}</p>
                                         <p class="date">{{ event.start_date|date:"j M" }}</p>
-                                        <p class="time">at {{ event.start_date|date:"g:i A"|lower }}</p>
+                                        <p class="time">at {{ event.start_date|date:"g:iA"|lower }}</p>
                                     </div>
                                     <div class="event-tags">
                                         {% for type in event.types.all %}

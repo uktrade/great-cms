@@ -28,6 +28,18 @@ pytest:
 		--cov=. \
 		$(ARGUMENTS)
 
+ENV_FILES?='test,dev'
+pytest_codecov:
+	ENV_FILES=$(ENV_FILES) \
+	pytest \
+		tests/unit \
+		--junit-xml=./results/pytest_unit_report.xml \
+		--cov-config=.coveragerc \
+		--cov-report=html \
+		--cov=. \
+		--codecov \
+		$(ARGUMENTS)
+
 # Usage: make pytest_single <path_to_file>::<method_name>
 pytest_single:
 	ENV_FILES=$(ENV_FILES) \

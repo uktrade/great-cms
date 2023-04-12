@@ -6,7 +6,7 @@
 
 {% block content %}
     {% image page.hero_image original as rendition %}
-    <div class="page-header article-header stack-at-tablet-width" id="hero">
+    <div class="page-header article-header stack-at-tablet-width ea-landing-page" id="hero">
     <div class="inner-header">
         <div>
             <h1>{{ page.title }}</h1>
@@ -14,7 +14,7 @@
             {% include_block page.hero_cta %}
         </div>
         <div class="image-container image-full-width great-display-from-tablet" style="background: url({{ rendition.url }})">
-            <img class='ea-logo' src='/static/images/uk-export-academy-logo.png' />
+            <img class='ea-logo' src='/static/images/uk-export-academy-logo.svg' />
         </div>
         </div>
     </div>
