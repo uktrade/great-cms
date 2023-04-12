@@ -37,7 +37,14 @@ export function CookiesModal(props) {
 
   // here we are ignoring the locale part of a language short code
   // as they are not currently implemented in the .json file of translations
-  const lang = props.lang ? props.lang.substring(0,2) : 'en'
+  let lang = props.lang ? props.lang.substring(0,2) : 'en'
+
+  // in the normal flow there should never be an invalid language code
+  // because django will fallback to site default. including below to
+  // ensure cookie modal is self-contained
+  if (! Object.keys(translations).includes(lang)){
+    lang = 'en'
+  }
 
   React.useEffect(() => {
     document.body.addEventListener('focusin', handleFocusChange)
