@@ -90,7 +90,12 @@ jobs:
           name: Run Unit tests
           command: |
             . venv/bin/activate
+<<<<<<< HEAD
             make pytest_codecov -- --codecov-token=${CODECOV_TOKEN}
+=======
+            make pytest -- --cov=. --cov-config=.coveragerc --cov-report=term --junitxml=test-reports/junit.xml
+            codecov --t ${CODECOV_TOKEN}
+>>>>>>> fbbf1f1c8 (Adding codecov token to see if helps pipeline 2)
       - store_test_results:
           path: ./results/
 
