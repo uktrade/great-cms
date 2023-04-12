@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta, timezone
 from unittest import mock
 
 import pytest
@@ -8,6 +9,8 @@ from config import settings
 from core.models import HeroSnippet
 from core.snippet_slugs import EXPORT_ACADEMY_LISTING_PAGE_HERO
 from export_academy.filters import EventFilter
+from export_academy.models import Event
+from sso.models import BusinessSSOUser
 from tests.unit.export_academy import factories
 
 
@@ -214,3 +217,80 @@ def test_event_detail_views(client, user):
 
     assert response.status_code == 200
     assert '/subtitles/' in str(response.rendered_content)
+
+
+@pytest.mark.django_db
+def test_event_list_in_person_bookable(client, user, export_academy_landing_page, test_event_list_hero):
+    now = datetime.now(tz=timezone.utc)
+    event = factories.EventFactory(
+        start_date=now + timedelta(days=3),
+        end_date=now + timedelta(days=3),
+        completed=None,
+        cut_off_days=2,
+        max_capacity=2,
+        format=Event.IN_PERSON,
+    )
+    registration = factories.RegistrationFactory(email=user.email)
+    url = reverse('export_academy:upcoming-events')
+
+    client.force_login(user)
+
+    response = client.get(url)
+    assert "Book" in response.rendered_content
+
+    factories.BookingFactory(event=event, registration=registration, status='Confirmed')
+    response = client.get(url)
+    assert "Cancel" in response.rendered_content
+
+
+@pytest.mark.django_db
+def test_event_list_in_person_over_subscribed(client, user, export_academy_landing_page, test_event_list_hero):
+    now = datetime.now(tz=timezone.utc)
+    event = factories.EventFactory(
+        start_date=now + timedelta(days=3),
+        end_date=now + timedelta(days=3),
+        completed=None,
+        cut_off_days=2,
+        max_capacity=1,
+        format=Event.IN_PERSON,
+    )
+
+    book_user = BusinessSSOUser(
+        id=2,
+        pk=2,
+        mobile_phone_number='55512345',
+        email='another@example.com',
+        first_name='Another',
+        last_name='Cross',
+        session_id='124',
+    )
+
+    book_registration = factories.RegistrationFactory(email=book_user.email)
+    factories.BookingFactory(event=event, registration=book_registration, status='Confirmed')
+
+    factories.RegistrationFactory(email=user.email)
+    url = reverse('export_academy:upcoming-events')
+
+    client.force_login(user)
+    response = client.get(url)
+    assert "Book" not in response.rendered_content
+
+
+@pytest.mark.django_db
+def test_event_list_in_person_booking_cut_off(client, user, export_academy_landing_page, test_event_list_hero):
+    now = datetime.now(tz=timezone.utc)
+    factories.EventFactory(
+        start_date=now + timedelta(days=3),
+        end_date=now + timedelta(days=3),
+        completed=None,
+        cut_off_days=4,
+        max_capacity=2,
+        format=Event.IN_PERSON,
+    )
+
+    factories.RegistrationFactory(email=user.email)
+    url = reverse('export_academy:upcoming-events')
+
+    client.force_login(user)
+    response = client.get(url)
+    assert "Book" not in response.rendered_content

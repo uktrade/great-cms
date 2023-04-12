@@ -93,6 +93,8 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
 
     objects = models.Manager()
     upcoming = managers.EventManager.from_queryset(managers.EventQuerySet)()
+    cut_off_days = models.IntegerField(null=True, blank=True)
+    max_capacity = models.IntegerField(null=True, blank=True)
 
     @property
     def status(self):

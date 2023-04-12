@@ -137,3 +137,18 @@ class EventAdminModelForm(WagtailAdminModelForm):
 
     def clean_live(self):
         return self._clean_field('live')
+
+    def _clean_live_event(self, field):
+        event_format = self.cleaned_data.get('format')
+        field_value = self.cleaned_data.get(field)
+        if event_format == self.Meta.model.IN_PERSON:
+            if not field_value:
+                self._errors[field] = self.error_class(["In-person event requires this field."])
+
+        return field_value
+
+    def clean_cut_off_days(self):
+        return self._clean_live_event('cut_off_days')
+
+    def clean_max_capacity(self):
+        return self._clean_live_event('max_capacity')

@@ -1,7 +1,7 @@
 {% extends 'domestic/base.html' %}
 {% load static %}
-{% load event_list_buttons %}
 {% load wagtailcore_tags %}
+{% load event_list_buttons %}
 {% load breadcrumbs from component_tags %}
 {% load pagination from component_tags %}
 
@@ -67,9 +67,10 @@
                                 {% include 'components/show_more.html' with text=event.description index=forloop.counter %}
                             </div>
                             <p class='js-disabled-only'>{{event.description}}</p>
-                            <a href="https://www.events.great.gov.uk/ereg/newreg.php?eventid=200236512&language=eng" class="button secondary-button">Register</a>
+                            {% event_list_buttons event %}
                         </div>
                     </div>
+
                     {% endfor %}
                 </div>
             </div>

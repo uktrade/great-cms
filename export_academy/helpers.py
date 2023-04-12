@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from functools import wraps
 
 from django.contrib.auth import REDIRECT_FIELD_NAME
@@ -39,6 +40,14 @@ def user_booked_on_event(user, event):
     return event.bookings.filter(registration_id=user.email, status='Confirmed').exists()
 
 
+def get_in_person_booking(event, result):
+    if event.bookings.count() < event.max_capacity:
+        if datetime.now().date() < event.start_date.date() - timedelta(days=event.cut_off_days):
+            return result
+
+    return []
+
+
 def get_event_booking_button(user, event):
     result = []
     if user.is_anonymous or not user_booked_on_event(user, event):
@@ -51,13 +60,18 @@ def get_event_booking_button(user, event):
                     'type': 'submit',
                 },
             ]
+    if result and event.format == Event.IN_PERSON:
+        result = get_in_person_booking(event, result)
     return result
 
 
 def get_event_join_button(event):
-    return [
-        {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
-    ]
+    if event.format == Event.ONLINE:
+        return [
+            {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
+        ]
+
+    return []
 
 
 def get_event_completed_buttons(event):

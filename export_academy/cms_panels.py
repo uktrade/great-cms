@@ -78,6 +78,14 @@ class EventPanel:
             ],
         ),
         MultiFieldPanel(
+            heading='In-Person Event Options',
+            children=[
+                FieldPanel('cut_off_days'),
+                FieldPanel('max_capacity'),
+            ],
+            help_text='These options do not have any effect on Online events',
+        ),
+        MultiFieldPanel(
             heading='Event Complete Actions',
             children=[
                 DocumentChooserPanel('document'),
