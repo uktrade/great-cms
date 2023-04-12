@@ -9,7 +9,7 @@ def find_get_to_know_market_articles(articles, sector_filter, intent_filters):
                 if tag.name == filter:
                     tag_match_count += 1
 
-        if len(all_tags) == tag_match_count:
+        if len(all_tags) == tag_match_count and tag_match_count > 0:
             filtered_pages.append(page.specific)
 
     return filtered_pages
