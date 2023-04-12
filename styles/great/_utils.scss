@@ -30,7 +30,11 @@
         }
     }
 
-    p, span, ol, ul, a {
+    p,
+    span,
+    ol,
+    ul,
+    a {
         font-family: $great-font;
         color: $great-dark-grey;
     }
@@ -130,7 +134,7 @@
     width: 100%;
     overflow: hidden;
 
-    > * {
+    >* {
         width: 100%;
         height: auto;
         position: absolute;
@@ -151,4 +155,30 @@
     @include govuk-media-query($from: tablet) {
         display: flex;
     }
+}
+
+.great-background-light-blue {
+    background-color: $great-light-blue;
+}
+
+.great-display-from-tablet {
+    display: none;
+
+    @include govuk-media-query($from: tablet) {
+        display: block;
+    }
+}
+
+.great-display-until-tablet {
+    display: block;
+
+    @include govuk-media-query($from: tablet) {
+        display: none;
+    }
+}
+
+.clearfix:after {
+    display: block;
+    content: '';
+    clear: both;
 }

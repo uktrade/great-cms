@@ -38,7 +38,7 @@ class EventFilter(FilterSet):
     ]
 
     type = filters.ModelMultipleChoiceFilter(
-        label='Module type',
+        label='Content',
         field_name='types__slug',
         queryset=models.EventTypeTag.objects.all(),
         to_field_name='slug',
@@ -46,13 +46,13 @@ class EventFilter(FilterSet):
     )
 
     format = filters.MultipleChoiceFilter(
-        label='Event type',
+        label='Format',
         choices=models.Event.FORMAT_CHOICES,
         widget=forms.CheckboxSelectInlineLabelMultiple,
     )
 
     period = filters.ChoiceFilter(
-        label='Time period',
+        label='Date',
         empty_label=None,
         choices=PERIOD_CHOICES,
         method='filter_period',

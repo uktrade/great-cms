@@ -21,3 +21,91 @@
         }
     }
 }
+
+.great-filters {
+    &.filters {
+        > p {
+            @include govuk-media-query($from: tablet) {
+                margin-bottom: 10px;
+            }
+        }
+
+        &.mobile-filters {
+            > p {
+                @include govuk-media-query($until: tablet) {
+                    margin-bottom: 10px;
+                }
+
+                display: block;
+            }
+
+            p, label {
+                font-size: 24px;
+            }
+
+            .multiple-choice {
+                margin-bottom: 12px;
+
+                label {
+                    @include govuk-media-query($until: tablet) {
+                        font-size: 20px;
+                        padding-left: 10px;
+                    }
+                }
+
+                [type=radio] + label {
+                    &:before {
+                        width: 30px;
+                        height: 30px;
+                    }
+
+                    &:after {
+                        top: 7px;
+                        left: 7px;
+                    }
+                }
+            }
+
+            .update {
+                font-size: 16px;
+            }
+        }
+
+        .mobile-filter-toggle {
+            @include govuk-media-query($until: tablet) {
+                font-size: 16px;
+            }
+        }
+
+        .filter-section {
+            > input {
+                &:checked {
+                    ~ label {
+                        &.arrows-left {
+                            &:before {
+                                transform: rotate(225deg);
+                                margin: 7px 10px 0 0;
+                            }
+                        }
+                    }
+                }
+            }
+
+            > label {
+                margin-bottom: 0;
+                padding: 8px 5px 8px 2px;
+
+                &.arrows-left {
+                    &:before {
+                        transform: rotate(225deg);
+                        margin: 0 10px 0 0;
+                    }
+                }
+            }
+
+            .options {
+                overflow-y: auto;
+            }
+        }
+    }
+}

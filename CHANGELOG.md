@@ -4,6 +4,7 @@
 
 ### Enhancements
 * KLS-443 - Microsite navigation navbar
+* IOO-458 - International Online Offer saving triage form data to db
 * IOO-422 - International Online Offer sign up and sign using directory SSO
 * IOO-437 - International Online Offer change service name headings and main entry point url
 * IOO-455 - Sector and Location JSON updates

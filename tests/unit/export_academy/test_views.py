@@ -236,11 +236,11 @@ def test_event_list_in_person_bookable(client, user, export_academy_landing_page
     client.force_login(user)
 
     response = client.get(url)
-    assert "Book" in response.rendered_content
+    assert 'Book' in response.rendered_content
 
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
     response = client.get(url)
-    assert "Cancel" in response.rendered_content
+    assert 'Cancel' in response.rendered_content
 
 
 @pytest.mark.django_db
@@ -273,7 +273,7 @@ def test_event_list_in_person_over_subscribed(client, user, export_academy_landi
 
     client.force_login(user)
     response = client.get(url)
-    assert "Book" not in response.rendered_content
+    assert 'Book' not in response.rendered_content
 
 
 @pytest.mark.django_db
@@ -293,4 +293,4 @@ def test_event_list_in_person_booking_cut_off(client, user, export_academy_landi
 
     client.force_login(user)
     response = client.get(url)
-    assert "Book" not in response.rendered_content
+    assert 'Book' not in response.rendered_content
