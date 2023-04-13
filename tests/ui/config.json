@@ -1,5 +1,5 @@
 {
-    "baseurl": "https://great.dev.uktrade.digital/",
+    "baseurl": "https://www.great.gov.uk/",
     "browser": "chrome",
     "headless": "false"
 }

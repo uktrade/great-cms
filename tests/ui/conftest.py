@@ -21,9 +21,14 @@ def pytest_addoption(parser):
 # https://docs.pytest.org/en/7.1.x/reference/reference.html?highlight=fixture#pytest.fixture
 @pytest.fixture
 def driver(request):
+    js_disabled = False
+    if hasattr(request, 'param') and type(request.param) is bool:
+        js_disabled = request.param
+
     selected_browser = select_browser(request)
     is_headless = assign_headless_request(request)
-    driver = setup_driver_for_selected_browser(selected_browser, is_headless)
+    driver = setup_driver_for_selected_browser(selected_browser, is_headless, js_disabled)
+    # driver.set_window_size(390, 844)
     yield driver
     driver.quit()
     """ TODO
@@ -32,7 +37,13 @@ def driver(request):
     """
 
 
-base_url = None
+def get_config_from_json(config_name):
+    with open('tests/ui/config.json') as f:
+        return json.load(f)[config_name]
+
+
+# default to config file as browserstack wasn't loading base_url via pytest_configure hook
+base_url = get_config_from_json('baseurl')
 
 
 def pytest_configure(config):
@@ -54,22 +65,21 @@ def assign_headless_request(request):
         return get_config_from_json('headless')
 
 
-def setup_driver_for_selected_browser(selected_browser, is_headless):
+def setup_driver_for_selected_browser(selected_browser, is_headless, js_disabled=False):
     if selected_browser.strip().lower() == 'chrome':
-        options = driver_options_setup(ChromeOptions(), is_headless)
+        options = driver_options_setup(ChromeOptions(), is_headless, js_disabled)
         return webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
     elif selected_browser.strip().lower() == 'firefox':
-        options = driver_options_setup(FirefoxOptions(), is_headless)
+        options = driver_options_setup(FirefoxOptions(), is_headless, js_disabled)
         return webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=options)
 
 
-def driver_options_setup(options, is_headless):
+def driver_options_setup(options, is_headless, js_disabled=False):
     options.add_argument('--incognito')
     if is_headless.strip().lower() == 'true':
         options.add_argument('--headless')
+
+    if js_disabled:
+        options.add_experimental_option('prefs', {'profile.managed_default_content_settings.javascript': 2})
+
     return options
-
-
-def get_config_from_json(config_name):
-    with open('config.json') as f:
-        return json.load(f)[config_name]
