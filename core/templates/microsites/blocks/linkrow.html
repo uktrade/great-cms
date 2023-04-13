@@ -1,7 +1,7 @@
 {% load add_govuk_classes from content_tags %}
 
 {% for item in value %}
-    {% if not forloop.counter|divisibleby:"2" %}
+    {% if not forloop.counter|divisibleby:"2" or value|length == 1 %}
     <div class="govuk-grid-row great-display-flex-desktop">
     {% endif %}
     <div class="govuk-grid-column-one-half govuk-!-margin-bottom-6">
@@ -13,7 +13,7 @@
             <a href="{{ item.value.link_url }}" class="govuk-button govuk-!-margin-bottom-0">{{ item.value.link_text }}</a>
         </div>
     </div>
-    {% if forloop.counter|divisibleby:"2" or value|length == 1 %}
+    {% if forloop.counter|divisibleby:"2" or value|length == 1 and not forloop.last %}
     </div>
     {% endif %}
 {% endfor %}

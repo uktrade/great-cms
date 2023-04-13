@@ -38,12 +38,58 @@
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
+        <div class="govuk-grid-row govuk-!-padding-3 govuk-!-margin-0 govuk-!-margin-bottom-8 guide-edit-panel">
+            <div class="govuk-grid-column-one-quarter">
+                <p class="govuk-body">Sector</p>
+                {% if triage_data.sector %}
+                <h2 class="govuk-heading-m">{{ triage_data.sector }}</h2>
+                {% else %}
+                <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:sector' %}">Add details</a></p>
+                {% endif %}
+            </div>
+            <div class="govuk-grid-column-one-quarter">
+                <p class="govuk-body">Headquarters</p>
+                {% if user_data.company_location %}
+                <h2 class="govuk-heading-m">{{ user_data.company_location }}</h2>
+                {% else %}
+                <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:contact' %}">Add details</a></p>
+                {% endif %}
+            </div>
+            <div class="govuk-grid-column-one-quarter">
+                <p class="govuk-body">Company name</p>
+                {% if user_data.company_name %}
+                <h2 class="govuk-heading-m">{{ user_data.company_name }}</h2>
+                {% else %}
+                <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:contact' %}">Add details</a></p>
+                {% endif %}
+            </div>
+            <div class="govuk-grid-column-one-quarter">
+                <p class="govuk-body"><a class="govuk-link" href="{% url 'international_online_offer:sector' %}">Edit your answers</a></p>
+                <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:contact' %}">Edit your profile</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Set up your business in the UK</h2>
+        <p class="govuk-body">Use the checklist to understand what steps you might need to complete to set up a business in the UK.</p>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
         <div style="height: 300px; background-color: lightgray; margin-bottom: 30px;"></div>
     </div>
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        {% for page in self.get_children.specific %}
+        <h2 class="govuk-heading-m">Get to know the UK {{ triage_data.sector | lower }} market</h3>
+        <p class="govuk-body">Based on the information that you provided earlier</p>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        {% for page in get_to_know_market_articles %}
             {% image page.article_image original as rendition %}
             <div class="article-list-item">
                 <a href="{{ page.url }}">

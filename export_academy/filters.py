@@ -38,7 +38,7 @@ class EventFilter(FilterSet):
     ]
 
     type = filters.ModelMultipleChoiceFilter(
-        label='Module type',
+        label='Content',
         field_name='types__slug',
         queryset=models.EventTypeTag.objects.all(),
         to_field_name='slug',
@@ -46,13 +46,13 @@ class EventFilter(FilterSet):
     )
 
     format = filters.MultipleChoiceFilter(
-        label='Event type',
+        label='Format',
         choices=models.Event.FORMAT_CHOICES,
         widget=forms.CheckboxSelectInlineLabelMultiple,
     )
 
     period = filters.ChoiceFilter(
-        label='Time period',
+        label='Date',
         empty_label=None,
         choices=PERIOD_CHOICES,
         method='filter_period',
@@ -82,10 +82,12 @@ class EventFilter(FilterSet):
     def filter_navigation(self, queryset, _name, value):
         if is_export_academy_registered(self.request.user):  # type: ignore
             if value == self.BOOKED:
-                queryset = queryset.filter(bookings__registration=self.request.user.email)  # type: ignore
+                queryset = queryset.exclude(live__isnull=True).filter(
+                    bookings__registration=self.request.user.email  # type: ignore
+                )
 
             if value == self.PAST:
-                queryset = self.Meta.model.objects.filter(
+                queryset = self.Meta.model.objects.exclude(live__isnull=True).filter(
                     bookings__registration=self.request.user.email, end_date__lt=datetime.datetime.now()  # type: ignore
                 )
 
