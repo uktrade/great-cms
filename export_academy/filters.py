@@ -82,10 +82,12 @@ class EventFilter(FilterSet):
     def filter_navigation(self, queryset, _name, value):
         if is_export_academy_registered(self.request.user):  # type: ignore
             if value == self.BOOKED:
-                queryset = queryset.filter(bookings__registration=self.request.user.email)  # type: ignore
+                queryset = queryset.exclude(live__isnull=True).filter(
+                    bookings__registration=self.request.user.email  # type: ignore
+                )
 
             if value == self.PAST:
-                queryset = self.Meta.model.objects.filter(
+                queryset = self.Meta.model.objects.exclude(live__isnull=True).filter(
                     bookings__registration=self.request.user.email, end_date__lt=datetime.datetime.now()  # type: ignore
                 )
 
