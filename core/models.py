@@ -1504,6 +1504,12 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         blank=True,
     )
 
+    twitter = models.URLField(blank=True)
+    facebook = models.URLField(blank=True)
+
+    linkedin = models.URLField(blank=True)
+    email = models.EmailField(blank=True)
+
     def get_parent_page(self):
         current_page = self.specific
         parent_page = self.get_parent().specific
