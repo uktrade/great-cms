@@ -44,6 +44,12 @@
       {% endif %}
     {% endblock %}
 
+    {% block social_media %}
+
+    {{page.twitter}}
+        {%include 'microsites/blocks/social_media.html' with twitter=page.twitter email=page.email facebook=page.facebook linkedin=page.linkedin%}
+    {%endblock%}
+
     {% block microsite_footer %}{% endblock %}
   </div>
 </div>
