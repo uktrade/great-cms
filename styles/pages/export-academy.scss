@@ -199,3 +199,32 @@
         margin-top: 10px;
     }
 }
+
+.ea-landing-page {
+    &.page-header {
+        .inner-header > div:first-child {
+            @media screen and (max-width: 640px) {
+                min-width: auto;
+            }
+
+            min-width: 480px;
+        }
+    }
+}
+
+.ea-listing-page {
+    > .page-header {
+        @media screen and (max-width: 640px) {
+            height: auto;
+        }
+
+        .inner-header > div:first-child {
+            @media screen and (max-width: 640px) {
+                min-width: auto;
+                padding-bottom: 0;
+            }
+
+            min-width: 480px;
+        }
+    }
+}

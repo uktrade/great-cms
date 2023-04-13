@@ -107,5 +107,14 @@
                 overflow-y: auto;
             }
         }
+
+        .filter-section-toggle {
+            &:focus {
+                ~ label {
+                    outline: 3px solid $great-yellow;
+                    outline-offset: 0;
+                }
+            }
+        }
     }
 }
