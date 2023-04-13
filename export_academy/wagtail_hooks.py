@@ -48,7 +48,7 @@ class EventAdmin(ModelAdmin):
     add_to_settings_menu = False
     exclude_from_explorer = False
     add_to_admin_menu = True
-    list_display = ('name', 'get_types', 'start_date')
+    list_display = ('name', 'get_types', 'start_date', 'get_status')
     list_filter = ('start_date', 'types')
     search_fields = ('name', 'description')
 
@@ -56,6 +56,11 @@ class EventAdmin(ModelAdmin):
         return ', '.join(str(type.name) for type in obj.types.all())
 
     get_types.short_description = 'Type'
+
+    def get_status(self, obj):
+        return 'LIVE' if obj.live else 'DRAFT'
+
+    get_status.short_description = 'Status'
 
     def clone_view(self, request, **kwargs):
         kwargs.update(**{'model_admin': self})

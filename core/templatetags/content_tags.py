@@ -222,3 +222,13 @@ def add_govuk_classes(value):
         for element in soup.findAll(tag_name):
             element.attrs['class'] = class_name
     return mark_safe(str(soup))
+
+
+@register.filter
+def get_link_blocks(list_of_blocks):
+    return [block for block in list_of_blocks if block.block_type == 'link_block']
+
+
+@register.filter
+def get_text_blocks(list_of_blocks):
+    return [block for block in list_of_blocks if block.block_type == 'text']

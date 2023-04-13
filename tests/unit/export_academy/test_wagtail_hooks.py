@@ -44,16 +44,22 @@ def test_event_admin_button_helper(rf, django_user_model):
 @pytest.mark.django_db
 def test_event_admin(rf, django_user_model):
     admin = EventAdmin()
-    obj = EventFactory()
+    obj_live = EventFactory()
+    obj_draft = EventFactory(live=None)
     user = django_user_model.objects.create_user(username='username', password='password', is_staff=True)
 
-    obj.types.add('Masterclass')  # type: ignore
-    obj.types.add('Sector')  # type: ignore
+    obj_live.types.add('Masterclass')  # type: ignore
+    obj_live.types.add('Sector')  # type: ignore
+    obj_draft.types.add('Market')  # type: ignore
 
-    assert admin.get_types(obj) == 'Masterclass, Sector'
+    assert admin.get_types(obj_live) == 'Masterclass, Sector'
+    assert admin.get_types(obj_draft) == 'Market'
+
+    assert admin.get_status(obj_live) == 'LIVE'
+    assert admin.get_status(obj_draft) == 'DRAFT'
 
     request = rf.get('/')
     request.user = user
-    view = admin.clone_view(request, instance_pk=obj.pk)  # type: ignore
+    view = admin.clone_view(request, instance_pk=obj_live.pk)  # type: ignore
 
     assert view.context_data['model_admin'] == admin  # type: ignore

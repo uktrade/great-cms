@@ -11,7 +11,11 @@ from wagtailmedia.blocks import AbstractMediaChooserBlock
 
 from core import models
 from core.case_study_index import search
-from core.constants import RICHTEXT_FEATURES__MINIMAL, RICHTEXT_FEATURES__REDUCED
+from core.constants import (
+    CAMPAIGN_FORM_CHOICES,
+    RICHTEXT_FEATURES__MINIMAL,
+    RICHTEXT_FEATURES__REDUCED,
+)
 from core.utils import get_cs_ranking, get_personalised_choices
 
 logger = logging.getLogger(__name__)
@@ -529,3 +533,17 @@ class TopicPageCardBlockRichText(blocks.StructBlock):
     image = ImageChooserBlock(required=False, label='Hero Image')
     description = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label='Description')
     link = blocks.CharBlock()  # not a URL block to allow relative links
+
+
+class LinksBlock(blocks.StructBlock):
+    title = blocks.CharBlock(required=False, max_length=255, label='Title')
+    description = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label='Description')
+    link_text = blocks.CharBlock()
+    link_url = blocks.CharBlock()
+
+
+class CampaignFormBlock(blocks.StructBlock):
+    type = blocks.ChoiceBlock(choices=CAMPAIGN_FORM_CHOICES, null=False, blank=False, required=True)
+    email_subject = blocks.TextBlock(required=True)
+    email_title = blocks.TextBlock(required=True)
+    email_body = blocks.TextBlock(required=True)

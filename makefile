@@ -28,6 +28,18 @@ pytest:
 		--cov=. \
 		$(ARGUMENTS)
 
+ENV_FILES?='test,dev'
+pytest_codecov:
+	ENV_FILES=$(ENV_FILES) \
+	pytest \
+		tests/unit \
+		--junit-xml=./results/pytest_unit_report.xml \
+		--cov-config=.coveragerc \
+		--cov-report=html \
+		--cov=. \
+		--codecov \
+		$(ARGUMENTS)
+
 # Usage: make pytest_single <path_to_file>::<method_name>
 pytest_single:
 	ENV_FILES=$(ENV_FILES) \
@@ -61,7 +73,7 @@ ENV_FILES?='secrets-do-not-commit,dev'
 check_migrations:
 	yes n | ENV_FILES=$(ENV_FILES) ./manage.py migrate --plan
 
-webserver:  # runs on 8020
+webserver:  # runs on 8020
 	ENV_FILES='secrets-do-not-commit,dev' python manage.py runserver_plus 0.0.0.0:8020 --keep-meta-shutdown $(ARGUMENTS)
 
 LOCUST_FILE?=tests/load/mvp_home.py

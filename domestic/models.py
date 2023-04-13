@@ -28,7 +28,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
-from core.blocks import AdvantageBlock, ColumnsBlock
+from core.blocks import AdvantageBlock, CampaignFormBlock, ColumnsBlock
 from core.constants import (
     ARTICLE_TYPES,
     COUNTRY_FACTSHEET_CTA_TITLE,
@@ -537,7 +537,7 @@ class MarketsTopicLandingPage(
         sectors = [unquote_plus(x) for x in self.get_selected_sectors(request)]
         regions = [unquote_plus(x) for x in self.get_selected_regions(request)]
 
-        #  We need to only apply these if truthy, else we end up getting no results
+        #  We need to only apply these if truthy, else we end up getting no results
         if sectors:
             market_pages_qs = market_pages_qs.filter(
                 tags__name__in=sectors,
@@ -1015,6 +1015,7 @@ class ArticlePage(
                 'text',
                 RichTextBlock(),
             ),
+            ('form', CampaignFormBlock()),
             ('image', ImageChooserBlock(required=False, template='core/includes/_article_image.html')),
             ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_article_video.html')),
             (

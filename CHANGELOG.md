@@ -1,21 +1,24 @@
 # Changelog
 
 ## Pre release
-* KLS-443 - Microsite navigation navbar
+
 ### Enhancements
+* KLS-443 - Microsite navigation navbar
+* IOO-458 - International Online Offer saving triage form data to db
+* IOO-422 - International Online Offer sign up and sign using directory SSO
 * IOO-437 - International Online Offer change service name headings and main entry point url
 * IOO-455 - Sector and Location JSON updates
 * IOO-437 - International Online Offer wagtail integration: article page
 * IOO-427 - International Online Offer wagtail integration: landing pages and guide
 * KLS-426 - Add event types to filterset on UKEA's listings page
-* KLS-452 - Event cloning from Wagtail admin
+* KLS-452 - (UKEA) Event cloning from Wagtail admin
 * KLS-391 - Remove deprecation warnings after upgrading to Django v3.2
-* KLS-429 - UKEA's Event 'complete' actions
+* KLS-429 - (UKEA) Event 'complete' actions
 * KLS-371 - Microsite html and css
 * KLS-367 - Microsite heading, strapline, published date layout
 * KLS-366 - Microsite header image
 * KLS-271 - Remove past media for completed export academy events
-* KLS-430 - EA Event details page
+* KLS-430 - (UKEA) Event details page
 * EAM-104 - Join and view buttons
 * KLS-388 - Added CTA streamfield block
 * KLS-467 - Update business details turnover options for the export contact page
@@ -28,7 +31,8 @@
 * KLS-503 - Upgrade sentry-sdk to 1.14.0
 * KLS-445 - Enable Internationalisation on Wagtail CMS
 * KLS-447 - Add support for Spanish language content
-
+* KLS-387 - Microsite link block
+* KLS-488 - (UKEA) Event's fields 'live' and 'completed' persisted as timestamps
 
 ## [2.28.0](https://github.com/uktrade/great-cms/releases/tag/2.28.0)
 [Full Changelog](https://github.com/uktrade/great-cms/compare/2.27.0...2.28.0)

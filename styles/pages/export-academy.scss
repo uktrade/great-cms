@@ -83,6 +83,148 @@
     padding-bottom: 30px;
 }
 
-.event-metadata-block {
-    border-bottom: 1px solid #979797;
+.event-tags {
+    @media screen and (max-width: 640px) {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 16px;
+    }
+}
+
+.event-tag-item {
+    @media screen and (max-width: 640px) {
+        flex-basis: calc(50% - 8px);
+        font-size: 18px;
+    }
+
+    @media screen and (min-width: 641px) {
+        border-top: 1px solid #979797;
+    }
+}
+
+.ea-logo {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 250px;
+
+    @media only screen and (max-width: 340px) {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    @media only screen and (min-width: 341px) and (max-width: 640px) {
+        bottom: 15px;
+        right: 15px;
+    }
+
+    @media only screen and (max-width: 900px) {
+        width: 30%;
+    }
+
+    @media only screen and (min-width: 1400px) and (max-width: 1640px) {
+        right: calc(20px + 5%);
+    }
+
+    @media only screen and (min-width: 1640px) {
+        right: calc(20px + 10%);
+    }
+}
+
+.event-date-container {
+    display: flex;
+    flex-direction: column;
+
+    >p {
+        font-weight: bold;
+
+        @media screen and (min-width: 641px) {
+            margin: 0;
+        }
+    }
+
+    .weekday {
+        @media screen and (min-width: 641px) {
+            padding-top: 25px;
+        }
+    }
+
+    .date {
+        @media screen and (max-width: 640px) {
+            &:before {
+                content: ',\a0';
+            }
+
+            &:after {
+                content: '\a0';
+            }
+        }
+
+        @media screen and (min-width: 641px) {
+            font-size: 24px;
+            padding: 10px 0;
+        }
+    }
+
+    .time {
+        @media screen and (min-width: 641px) {
+            font-size: 18px;
+            padding-bottom: 20px;
+        }
+    }
+
+    @media screen and (max-width: 640px) {
+        flex-direction: row;
+        justify-content: center;
+
+        >p {
+            font-size: 18px;
+            margin: 2px 0;
+        }
+    }
+}
+
+.event-title {
+    @media screen and (max-width: 640px) {
+        font-size: 24px;
+    }
+}
+
+.event-description,
+.event-description p {
+    @media screen and (max-width: 640px) {
+        font-size: 18px;
+        margin-top: 10px;
+    }
+}
+
+.ea-landing-page {
+    &.page-header {
+        .inner-header > div:first-child {
+            @media screen and (max-width: 640px) {
+                min-width: auto;
+            }
+
+            min-width: 480px;
+        }
+    }
+}
+
+.ea-listing-page {
+    > .page-header {
+        @media screen and (max-width: 640px) {
+            height: auto;
+        }
+
+        .inner-header > div:first-child {
+            @media screen and (max-width: 640px) {
+                min-width: auto;
+                padding-bottom: 0;
+            }
+
+            min-width: 480px;
+        }
+    }
 }
