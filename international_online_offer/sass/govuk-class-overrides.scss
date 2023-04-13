@@ -1,17 +1,9 @@
-.govuk-heading-l {
+.govuk-heading-xl, .govuk-heading-l, .govuk-heading-m, .govuk-label, .govuk-back-link {
     color: $atlas-dark-blue;
 }
 
-.govuk-heading-m {
-    color: $atlas-dark-blue;
-}
-
-.govuk-label {
-    color: $atlas-dark-blue;
-}
-
-.govuk-back-link {
-    color: $atlas-dark-blue;
+.govuk-body, .govuk-list, .govuk-inset-text, .govuk-back-link:visited {
+    color: $atlas-grey-darkest;
 }
 
 .govuk-error-summary__list {

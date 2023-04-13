@@ -29,7 +29,7 @@
 {% endif %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">Welcome to your expansion guide</h1>
+        <h1 class="govuk-heading-xl">Welcome to your UK expansion guide</h1>
         {% if not request.user.is_authenticated %}
             <a href="{% url 'international_online_offer:login' %}" class="govuk-link">Sign in</a>
             <br/> <br/>
@@ -72,13 +72,460 @@
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">Set up your business in the UK</h2>
+        <h2 class="govuk-heading-l">Set up your business in the UK</h2>
         <p class="govuk-body">Use the checklist to understand what steps you might need to complete to set up a business in the UK.</p>
     </div>
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <div style="height: 300px; background-color: lightgray; margin-bottom: 30px;"></div>
+        <div data-module="appstepnav" id="step-by-step-navigation" class="app-step-nav app-step-nav--large app-step-nav--active" data-show-text="Show" data-hide-text="Hide" data-show-all-text="Show all steps" data-hide-all-text="Hide all steps">
+            <ol class="app-step-nav__steps">
+              <li class="app-step-nav__step js-step" id="set-up-and-register-your-business">
+                <div class="app-step-nav__header js-toggle-panel" data-position="1">
+                  <h2 class="app-step-nav__title">
+                    <span class="app-step-nav__circle app-step-nav__circle--number">
+                      <span class="app-step-nav__circle-inner">
+                        <span class="app-step-nav__circle-background">
+                          <span class="govuk-visually-hidden govuk-!-display-none-print">Step</span> 1<span class="govuk-visually-hidden govuk-!-display-none-print" aria-hidden="true">:</span>
+                        </span>
+                      </span>
+                    </span>
+
+                    <span class="js-step-title">
+                        <button class="app-step-nav__button app-step-nav__button--title js-step-title-button" aria-expanded="false" aria-controls="step-panel-set-up-and-register-your-business-1">
+                            <span class="app-step-nav____title-text-focus">
+                                <span class="app-step-nav__title-text">
+                                    Set up and register your business
+                                </span>
+                            </span>
+                        </button>
+                    </span>
+                  </h2>
+                </div>
+
+                <div class="app-step-nav__panel js-panel js-hidden" id="step-panel-set-up-and-register-your-business-1">
+                    <p class="govuk-body">
+                        You need to choose how your company will operate before you register it. You could operate as a private limited UK company, an overseas branch of your existing company, or perhaps a joint venture with a UK business.
+                    </p>
+                    <p class="govuk-body">
+                        You must register an overseas company with Companies House if you want to set up a place of business in the UK.
+                    </p>
+                    <ol class="app-step-nav__list" data-length="1">
+                        <li class="app-step-nav__list-item js-list-item">
+                        <a data-position="1.1" class="govuk-link" href="/international/expand-your-business-in-the-uk/guide/set-up-and-register-your-business">Set up and register your business</a>
+                        </li>
+                    </ol>
+                    <p class="govuk-body govuk-!-font-weight-bold">
+                        Time it takes
+                    </p>
+                    <p class="govuk-body">
+                        Can be as little as one day
+                    </p>
+                </div>
+
+              </li>
+
+              <li class="app-step-nav__step js-step" id="apply-for-visas">
+                <div class="app-step-nav__header js-toggle-panel" data-position="2">
+                  <h2 class="app-step-nav__title">
+                    <span class="app-step-nav__circle app-step-nav__circle--number">
+                      <span class="app-step-nav__circle-inner">
+                        <span class="app-step-nav__circle-background">
+                          <span class="govuk-visually-hidden govuk-!-display-none-print">Step</span> 2<span class="govuk-visually-hidden govuk-!-display-none-print" aria-hidden="true">:</span>
+                        </span>
+                      </span>
+                    </span>
+
+                    <span class="js-step-title">
+                        <button class="app-step-nav__button app-step-nav__button--title js-step-title-button" aria-expanded="false" aria-controls="step-panel-apply-for-visas-2">
+                            <span class="app-step-nav____title-text-focus">
+                                <span class="app-step-nav__title-text">
+                                    Apply for visas
+                                </span>
+                            </span>
+                        </button>
+                    </span>
+                  </h2>
+                </div>
+
+                <div class="app-step-nav__panel js-panel js-hidden" id="step-panel-apply-for-visas-2">
+                    <p class="govuk-body">
+                        You can apply for different types of visa depending on your circumstances. These include:
+                    </p>
+                    <ol class="app-step-nav__list" data-length="3">
+                        <li class="app-step-nav__list-item js-list-item">
+                            <a data-position="2.1" class="govuk-link" href="https://www.gov.uk/representative-overseas-business">Representative of an Overseas Business visa when transferring an employee from overseas to set up a new UK operation</a>
+                        </li>
+                        <li class="app-step-nav__list-item js-list-item">
+                            <a data-position="2.2" class="govuk-link" href="https://www.gov.uk/start-up-visa">Start-up visa for early-stage entrepreneurs</a>
+                        </li>
+                        <li class="app-step-nav__list-item js-list-item">
+                            <a data-position="2.3" class="govuk-link" href="https://www.gov.uk/innovator/visa">Innovator visa for established entrepreneurs, or if you’re switching from the start-up visa</a>
+                        </li>
+                    </ol>
+                    <ol class="app-step-nav__list" data-length="1">
+                        <li class="app-step-nav__list-item js-list-item">
+                            <a data-position="2.4" class="govuk-link" href="/international/expand-your-business-in-the-uk/guide/how-to-apply-for-a-visa">How to apply for a visa</a>
+                        </li>
+                    </ol>
+                    <p class="govuk-body govuk-!-font-weight-bold">
+                        Time it takes
+                    </p>
+                    <p class="govuk-body">
+                        Timing dependent on visa type
+                    </p>
+                </div>
+
+              </li>
+
+              <li class="app-step-nav__step js-step" id="open-a-business-bank-account">
+                <div class="app-step-nav__header js-toggle-panel" data-position="3">
+                  <h2 class="app-step-nav__title">
+                    <span class="app-step-nav__circle app-step-nav__circle--number">
+                      <span class="app-step-nav__circle-inner">
+                        <span class="app-step-nav__circle-background">
+                            <span class="govuk-visually-hidden govuk-!-display-none-print">Step</span> 3<span class="govuk-visually-hidden govuk-!-display-none-print" aria-hidden="true">:</span>
+                        </span>
+                      </span>
+                    </span>
+
+                    <span class="js-step-title">
+                        <button class="app-step-nav__button app-step-nav__button--title js-step-title-button" aria-expanded="false" aria-controls="step-panel-open-a-business-bank-account-3">
+                            <span class="app-step-nav____title-text-focus">
+                                <span class="app-step-nav__title-text js-step-title-text">
+                                    Open a business bank account
+                                </span>
+                            </span>
+                        </button>
+                    </span>
+                  </h2>
+                </div>
+
+                <div class="app-step-nav__panel js-panel js-hidden" id="step-panel-open-a-business-bank-account-3">
+                    <p class="govuk-body">
+                        To trade in the UK, you'll need a UK bank account. This gives your business credibility and is simpler and cheaper than making overseas bank transfers.
+                    </p>
+                    <ol class="app-step-nav__list" data-length="1">
+                        <li class="app-step-nav__list-item js-list-item">
+                            <a data-position="3.1" class="govuk-link" href="/international/expand-your-business-in-the-uk/guide/how-to-choose-and-set-up-a-uk-bank-account">How to choose and set up a UK bank account</a>
+                        </li>
+                    </ol>
+                    <p class="govuk-body govuk-!-font-weight-bold">
+                        Time it takes
+                    </p>
+                    <ol class="app-step-nav__list" data-length="2">
+                        <li class="app-step-nav__list-item js-list-item">
+                            <span data-position="3.2" class="govuk-body">Digital account with a fintech bank - as quick as 2 hours</span>
+                        </li>
+                        <li class="app-step-nav__list-item js-list-item">
+                            <span data-position="3.3" class="govuk-body">Full business bank accounts - takes 4 weeks to 3 months for final approval</span>
+                        </li>
+                    </ol>
+                </div>
+
+              </li>
+
+              <li class="app-step-nav__step js-step" id="register-for-tax">
+                <div class="app-step-nav__header js-toggle-panel" data-position="4">
+                  <h2 class="app-step-nav__title">
+                    <span class="app-step-nav__circle app-step-nav__circle--number">
+                      <span class="app-step-nav__circle-inner">
+                        <span class="app-step-nav__circle-background">
+                            <span class="govuk-visually-hidden govuk-!-display-none-print">Step</span> 4<span class="govuk-visually-hidden govuk-!-display-none-print" aria-hidden="true">:</span>
+                        </span>
+                      </span>
+                    </span>
+
+                    <span class="js-step-title">
+                        <button class="app-step-nav__button app-step-nav__button--title js-step-title-button" aria-expanded="false" aria-controls="step-panel-register-for-tax-4">
+                            <span class="app-step-nav____title-text-focus">
+                                <span class="app-step-nav__title-text">
+                                    Register for tax
+                                </span>
+                            </span>
+                        </button>
+                    </span>
+                  </h2>
+                </div>
+
+                <div class="app-step-nav__panel js-panel js-hidden" id="step-panel-register-for-tax-4">
+                    <p class="govuk-body">
+                        <span class="govuk-!-font-weight-bold">Corporation Tax</span>
+                    </p>
+                    <p class="govuk-body">
+                        His Majesty’s Revenue and Customs (HMRC) will use your information to work out when your company must pay Corporation Tax. This is usually within 3 months of starting your business.
+                    </p>
+                    <p class="govuk-body">
+                        Corporation Tax is the main tax that a limited company must pay. It should be paid both on the company's profits and on any gains from selling assets that have increased in value.
+                    </p>
+                    <ol class="app-step-nav__list" data-length="1">
+                        <li class="app-step-nav__list-item js-list-item">
+                            <a data-position="4.1" class="govuk-link" href="https://www.gov.uk/limited-company-formation/set-up-your-company-for-corporation-tax">Register for Corporation Tax</a>
+                        </li>
+                    </ol>
+                    <p class="govuk-body">
+                        <span class="govuk-!-font-weight-bold">Value Added Tax</span>
+                    </p>
+                    <p class="govuk-body">
+                        You must register for Value Added Tax (VAT) with HMRC if your business’ taxable turnover is more than £85,000.
+                    </p>
+                    <p class="govuk-body">
+                        VAT is a tax added to most products and services sold by VAT-registered businesses.
+                    </p>
+                    <ol class="app-step-nav__list" data-length="1">
+                        <li class="app-step-nav__list-item js-list-item">
+                            <a data-position="4.2" class="govuk-link" href="/international/expand-your-business-in-the-uk/guide/how-to-register-for-tax-and-claim-tax-allowances">How to register for tax and claim tax allowances</a>
+                        </li>
+                    </ol>
+                    <p class="govuk-body govuk-!-font-weight-bold">
+                        Time it takes
+                    </p>
+                    <p class="govuk-body">
+                        3 to 4 weeks
+                    </p>
+                </div>
+
+              </li>
+
+              <li class="app-step-nav__step js-step" id="register-for-payroll">
+                <div class="app-step-nav__header js-toggle-panel" data-position="5">
+                  <h2 class="app-step-nav__title">
+                    <span class="app-step-nav__circle app-step-nav__circle--number">
+                      <span class="app-step-nav__circle-inner">
+                        <span class="app-step-nav__circle-background">
+                          <span class="govuk-visually-hidden govuk-!-display-none-print">Step</span> 5<span class="govuk-visually-hidden govuk-!-display-none-print" aria-hidden="true">:</span>
+                        </span>
+                      </span>
+                    </span>
+
+                    <span class="js-step-title">
+                        <button class="app-step-nav__button app-step-nav__button--title js-step-title-button" aria-expanded="false" aria-controls="step-panel-register-for-payroll-5">
+                            <span class="app-step-nav____title-text-focus">
+                                <span class="app-step-nav__title-text">
+                                    Register for payroll
+                                </span>
+                            </span>
+                        </button>
+                    </span>
+                  </h2>
+                </div>
+
+                <div class="app-step-nav__panel js-panel js-hidden" id="step-panel-register-for-payroll-5">
+                    <p class="govuk-body">
+                        As an employer, you usually have to operate Pay As You Earn (PAYE) as part of your payroll. This system collects Income Tax and National Insurance via UK employers.
+                    </p>
+                    <p class="govuk-body">
+                        You must register before your first business payday.
+                    </p>
+                    <ol class="app-step-nav__list" data-length="1">
+                        <li class="app-step-nav__list-item js-list-item">
+                            <a data-position="5.1" class="govuk-link" href="https://www.gov.uk/register-employer">Register as an employer with HMRC</a>
+                        </li>
+                    </ol>
+                    <p class="govuk-body govuk-!-font-weight-bold">
+                        Time it takes
+                    </p>
+                    <p class="govuk-body">
+                        Around 3 weeks
+                    </p>
+                </div>
+
+              </li>
+
+              <li class="app-step-nav__step js-step" id="find-the-right-location-and-premises">
+                <div class="app-step-nav__header js-toggle-panel" data-position="6">
+                  <h2 class="app-step-nav__title">
+                    <span class="app-step-nav__circle app-step-nav__circle--number">
+                      <span class="app-step-nav__circle-inner">
+                        <span class="app-step-nav__circle-background">
+                          <span class="govuk-visually-hidden govuk-!-display-none-print">Step</span> 6<span class="govuk-visually-hidden govuk-!-display-none-print" aria-hidden="true">:</span>
+                        </span>
+                      </span>
+                    </span>
+
+                    <span class="js-step-title">
+                        <button class="app-step-nav__button app-step-nav__button--title js-step-title-button" aria-expanded="false" aria-controls="step-panel-find-the-right-location-and-premises-6">
+                            <span class="app-step-nav____title-text-focus">
+                                <span class="app-step-nav__title-text">
+                                    Find the right location and premises
+                                </span>
+                            </span>
+                        </button>
+                    </span>
+                  </h2>
+                </div>
+
+                <div class="app-step-nav__panel js-panel js-hidden" id="step-panel-find-the-right-location-and-premises-6">
+                    <p class="govuk-body">
+                        A suitable location near to customers, staff and supply chains, is important to your success in the UK.
+                    </p>
+                    <ol class="app-step-nav__list" data-length="2">
+                        <li class="app-step-nav__list-item js-list-item">
+                            <a data-position="6.1" class="govuk-link" href="/international/expand-your-business-in-the-uk/guide/find-the-right-location-and-premises">How to find a business property</a>
+                        </li>
+                        <li class="app-step-nav__list-item js-list-item">
+                            <a data-position="6.2" class="govuk-link" href="https://www.great.gov.uk/international/investment-support-directory">Find professional help to locate in the UK</a>
+                        </li>
+                    </ol>
+                    <p class="govuk-body govuk-!-font-weight-bold">
+                        Time it takes
+                    </p>
+                    <ol class="app-step-nav__list" data-length="2">
+                        <li class="app-step-nav__list-item js-list-item">
+                            <span data-position="6.3" class="govuk-body">Rental can take less than 1 week to sign a lease</span>
+                        </li>
+                        <li class="app-step-nav__list-item js-list-item">
+                            <span data-position="6.4" class="govuk-body">Buying property takes from 1 to 4 months</span>
+                        </li>
+                    </ol>
+                </div>
+
+              </li>
+
+              <li class="app-step-nav__step js-step" id="know-uk-employment-regulations">
+                <div class="app-step-nav__header js-toggle-panel" data-position="7">
+                  <h2 class="app-step-nav__title">
+                    <span class="app-step-nav__circle app-step-nav__circle--number">
+                      <span class="app-step-nav__circle-inner">
+                        <span class="app-step-nav__circle-background">
+                          <span class="govuk-visually-hidden govuk-!-display-none-print">Step</span> 7<span class="govuk-visually-hidden govuk-!-display-none-print" aria-hidden="true">:</span>
+                        </span>
+                      </span>
+                    </span>
+
+                    <span class="js-step-title">
+                        <button class="app-step-nav__button app-step-nav__button--title js-step-title-button" aria-expanded="false" aria-controls="step-panel-know-uk-employment-regulations-7">
+                            <span class="app-step-nav____title-text-focus">
+                                <span class="app-step-nav__title-text">
+                                    Know UK employment regulations
+                                </span>
+                            </span>
+                        </button>
+                    </span>
+                  </h2>
+                </div>
+
+                <div class="app-step-nav__panel js-panel js-hidden" id="step-panel-know-uk-employment-regulations-7">
+                    <p class="govuk-body">
+                        You'll need to be aware of UK employment law, and your duties as a UK employer.
+                    </p>
+                    <ol class="app-step-nav__list" data-length="2">
+                        <li class="app-step-nav__list-item js-list-item">
+                            <a data-position="7.1" class="govuk-link" href="/international/expand-your-business-in-the-uk/guide/know-uk-employment-regulations">How to employ people</a>
+                        </li>
+                        <li class="app-step-nav__list-item js-list-item">
+                            <a data-position="7.2" class="govuk-link" href="https://www.gov.uk/register-employer">Register as an employer with HMRC</a>
+                        </li>
+                    </ol>
+                    <p class="govuk-body">
+                        You need a sponsor licence, valid for 4 years, to hire most eligible employees from outside the UK.
+                    </p>
+                    <ol class="app-step-nav__list" data-length="1">
+                        <li class="app-step-nav__list-item js-list-item">
+                            <a data-position="7.3" class="govuk-link" href="https://www.gov.uk/apply-sponsor-licence">Apply for a sponsor licence</a>
+                        </li>
+                    </ol>
+                    <p class="govuk-body govuk-!-font-weight-bold">
+                        Time it takes
+                    </p>
+                    <p class="govuk-body">
+                        Usually 6 to 8 weeks, but may be up to 16 weeks for more senior posts
+                    </p>
+                </div>
+
+              </li>
+
+              <li class="app-step-nav__step js-step" id="recruit-expert-talent">
+                <div class="app-step-nav__header js-toggle-panel" data-position="8">
+                  <h2 class="app-step-nav__title">
+                    <span class="app-step-nav__circle app-step-nav__circle--number">
+                      <span class="app-step-nav__circle-inner">
+                        <span class="app-step-nav__circle-background">
+                          <span class="govuk-visually-hidden govuk-!-display-none-print">Step</span> 8<span class="govuk-visually-hidden govuk-!-display-none-print" aria-hidden="true">:</span>
+                        </span>
+                      </span>
+                    </span>
+
+                    <span class="js-step-title">
+                        <button class="app-step-nav__button app-step-nav__button--title js-step-title-button" aria-expanded="false" aria-controls="step-panel-recruit-expert-talent-8">
+                            <span class="app-step-nav____title-text-focus">
+                                <span class="app-step-nav__title-text">
+                                    Recruit expert talent
+                                </span>
+                            </span>
+                        </button>
+                    </span>
+                  </h2>
+                </div>
+
+                <div class="app-step-nav__panel js-panel js-hidden" id="step-panel-recruit-expert-talent-8">
+                    <p class="govuk-body">
+                        Once you have decided to employ staff, there are several resources available to help you recruit expert talent.
+                    </p>
+                    <ol class="app-step-nav__list" data-length="1">
+                        <li class="app-step-nav__list-item js-list-item">
+                            <a data-position="8.1" class="govuk-link" href="/international/expand-your-business-in-the-uk/guide/find-expert-talent">Find expert talent</a>
+                        </li>
+                    </ol>
+                    <p class="govuk-body govuk-!-font-weight-bold">
+                        Time it takes
+                    </p>
+                    <p class="govuk-body">
+                        4 to 12 weeks
+                    </p>
+                </div>
+
+              </li>
+
+              <li class="app-step-nav__step js-step" id="get-business-insurance">
+                <div class="app-step-nav__header js-toggle-panel" data-position="9">
+                  <h2 class="app-step-nav__title">
+                    <span class="app-step-nav__circle app-step-nav__circle--number">
+                      <span class="app-step-nav__circle-inner">
+                        <span class="app-step-nav__circle-background">
+                          <span class="govuk-visually-hidden govuk-!-display-none-print">Step</span> 9<span class="govuk-visually-hidden govuk-!-display-none-print" aria-hidden="true">:</span>
+                        </span>
+                      </span>
+                    </span>
+
+                    <span class="js-step-title">
+                        <button class="app-step-nav__button app-step-nav__button--title js-step-title-button" aria-expanded="false" aria-controls="step-panel-get-business-insurance-9">
+                            <span class="app-step-nav____title-text-focus">
+                                <span class="app-step-nav__title-text">
+                                    Get business insurance
+                                </span>
+                            </span>
+                        </button>
+                    </span>
+                  </h2>
+                </div>
+
+                <div class="app-step-nav__panel js-panel js-hidden" id="step-panel-get-business-insurance-9">
+                    <p class="govuk-body">
+                        You must get Employers’ Liability (EL) insurance as soon as you become an employer. UK law also requires you to have third party motor insurance if you use a vehicle for business purposes.
+                    </p>
+                    <p class="govuk-body">
+                        Other things which might have to be insured includes assets, income, liabilities and people.
+                    </p>
+                    <ol class="app-step-nav__list" data-length="2">
+                        <li class="app-step-nav__list-item js-list-item">
+                            <a data-position="9.1" class="govuk-link" href="https://www.gov.uk/employers-liability-insurance">Employer’s Liability Insurance</a>
+                        </li>
+                        <li class="app-step-nav__list-item js-list-item">
+                            <a data-position="9.1" class="govuk-link" href="https://www.great.gov.uk/international/investment-support-directory">Professional advice on business insurance</a>
+                        </li>
+                    </ol>
+                    <p class="govuk-body govuk-!-font-weight-bold">
+                        Time it takes
+                    </p>
+                    <p class="govuk-body">
+                        Two weeks to one month
+                    </p>
+                </div>
+
+              </li>
+            </ol>
+          </div>
     </div>
 </div>
 <div class="govuk-grid-row">
@@ -122,6 +569,11 @@
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript" src="{% static 'javascript/international-online-offer.js' %}"></script>
+  <script type="text/javascript" src="{% static 'javascript/govuk-step-by-step.js' %}"></script>
+  <script type="text/javascript">
+    var $element = document.querySelector('#step-by-step-navigation')
+    var stepByStepNavigation = new GOVUK.Modules.AppStepNav($element).init()
+  </script>
   <script type="text/javascript">
     hideMessagesToCompleteContactFormIfPreviouslySelected();
     saveIfContactFormSuccess();
