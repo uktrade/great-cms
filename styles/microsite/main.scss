@@ -2,8 +2,6 @@
 @import './header.scss';
 @import './nav.scss';
 @import '../widgets/forms.scss';
-//need this as the forms generate items with .form-control
-@import '../../core/sass/main.scss';
 @import './forms.scss';
 
 

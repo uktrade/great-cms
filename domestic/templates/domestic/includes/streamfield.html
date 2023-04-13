@@ -40,5 +40,12 @@
          const y = error_list[0].getBoundingClientRect().top + window.pageYOffset + yOffset;
          window.scrollTo({top: y, behavior: 'smooth'});
       }
+
+    const govuk_error_list = document.getElementsByClassName("govuk-form-group-error ")
+      if(govuk_error_list.length){
+         const yOffset = -100;
+         const y = govuk_error_list[0].getBoundingClientRect().top + window.pageYOffset + yOffset;
+         window.scrollTo({top: y, behavior: 'smooth'});
+      }
     </script>
 {% endblock %}
