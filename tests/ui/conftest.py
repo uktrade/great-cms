@@ -71,5 +71,5 @@ def driver_options_setup(options, is_headless):
 
 
 def get_config_from_json(config_name):
-    with open('config.json') as f:
+    with open('tests/ui/config.json') as f:
         return json.load(f)[config_name]

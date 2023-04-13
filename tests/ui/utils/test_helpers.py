@@ -1,8 +1,7 @@
+from conftest import base_url
 from faker import Faker
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import Select, WebDriverWait
-
-from tests.conftest import base_url
 
 """Parent for all pages"""
 """Contains generic methods for ALL pages"""
