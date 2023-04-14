@@ -51,6 +51,12 @@ $colours: ($black, 'black'), ($grey, 'grey'), ($mid-grey, 'mid-grey'),
   }
 }
 
+.clearfix:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+
 .block {
   display: block;
 }
