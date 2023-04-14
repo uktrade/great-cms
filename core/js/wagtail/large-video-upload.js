@@ -45,20 +45,23 @@ export const largeVideoUpload = () => {
   }
 
   const uploadFile = async (signedUrl) => {
-    await fetch(signedUrl, {
-      method: 'PUT',
-      body: file,
-      headers: {
-        'Content-Type': 'binary/octet-stream',
+    const progressBar = document.querySelector('#progress_bar')
+    progressBar.style.display = 'block'
+
+    const formdata = new FormData()
+    formdata.append('file', file)
+    const ajax = new XMLHttpRequest()
+    ajax.upload.addEventListener(
+      'progress',
+      (event) => {
+        progressBar.value = Math.round((event.loaded / event.total) * 100)
       },
-    }).then((res) => {
-      if (res.status == 200) {
-        alert('File uploaded')
-        loadendHandler()
-      } else {
-        alert('File NOT uploaded')
-      }
-    })
+      false
+    )
+    ajax.addEventListener('loadend', loadendHandler, false)
+    ajax.open('PUT', signedUrl)
+    ajax.setRequestHeader('Content-Type', 'binary/octet-stream')
+    ajax.send(formdata)
   }
 
   const handleSubmit = async () => {
@@ -126,12 +129,25 @@ export const largeVideoUpload = () => {
     form.append(submit)
   }
 
+  const createProgressBar = () => {
+    const progressBar = createElement('progress', [
+      { key: 'id', val: 'progress_bar' },
+      { key: 'max', val: '100' },
+      { key: 'value', val: '0' },
+    ])
+
+    progressBar.style.display = 'none'
+
+    form.append(progressBar)
+  }
+
   function setup() {
     uploadFileInput.addEventListener('change', (event) => {
       file = event.target.files[0]
 
       if (file.size > 100000) {
         createLargeVideoSubmitButton()
+        createProgressBar()
         enableLargeVideoUpload()
       } else {
         disableLargeVideoUpload()
