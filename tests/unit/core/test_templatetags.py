@@ -651,12 +651,15 @@ def test_reference_period(resolution, period, year, capitalise, expected):
         ('<ol>content</ul>', '<ol class="govuk-list govuk-list--number">content</ol>'),
         ('<p>content</p>', '<p class="govuk-body">content</p>'),
         ('<a>content</a>', '<a class="govuk-link">content</a>'),
+        ('<div class="form-group other-class">test</div>', '<div class="govuk-form-group other-class">test</div>'),
+        ('<div class="form-group-error">test</div>', '<div class="govuk-form-group-error">test</div>'),
+        ('<input class="form-control"/>', '<input class="govuk-form-control"/>'),
+        ('<label class="form-label">test</label>', '<label class="govuk-form-label">test</label>'),
     ),
 )
 def test_add_govuk_classes(input_html, expected_html):
     template = Template('{% load add_govuk_classes from content_tags %}' '{{ html|add_govuk_classes }}')
     context = Context({'html': input_html})
-
     html = template.render(context)
     assert html == expected_html
 

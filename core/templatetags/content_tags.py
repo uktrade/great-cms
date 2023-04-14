@@ -207,20 +207,30 @@ def get_css_class_from_string(string):
 def add_govuk_classes(value):
     soup = BeautifulSoup(value, 'html.parser')
     mapping = [
-        ('h1', 'govuk-heading-xl'),
-        ('h2', 'govuk-heading-l'),
-        ('h3', 'govuk-heading-m great-font-size-28'),
-        ('h4', 'govuk-heading-m'),
-        ('h5', 'govuk-heading-s'),
-        ('h6', 'govuk-heading-s'),
-        ('ul', 'govuk-list govuk-list--bullet'),
-        ('ol', 'govuk-list govuk-list--number'),
-        ('p', 'govuk-body'),
-        ('a', 'govuk-link'),
+        ({'tag': 'h1'}, 'govuk-heading-xl'),
+        ({'tag': 'h2'}, 'govuk-heading-l'),
+        ({'tag': 'h3'}, 'govuk-heading-m great-font-size-28'),
+        ({'tag': 'h4'}, 'govuk-heading-m'),
+        ({'tag': 'h5'}, 'govuk-heading-s'),
+        ({'tag': 'h6'}, 'govuk-heading-s'),
+        ({'tag': 'ul'}, 'govuk-list govuk-list--bullet'),
+        ({'tag': 'ol'}, 'govuk-list govuk-list--number'),
+        ({'tag': 'p'}, 'govuk-body'),
+        ({'tag': 'a'}, 'govuk-link'),
+        ({'tag': 'div', 'class': 'form-group'}, 'govuk-form-group'),
+        ({'tag': 'input', 'class': 'form-control'}, 'govuk-form-control'),
+        ({'tag': 'label', 'class': 'form-label'}, 'govuk-form-label'),
+        ({'tag': 'div', 'class': 'form-group-error'}, 'govuk-form-group-error'),
     ]
     for tag_name, class_name in mapping:
-        for element in soup.findAll(tag_name):
-            element.attrs['class'] = class_name
+        if 'class' in tag_name:
+            for element in soup.find_all(tag_name['tag'], {'class': tag_name['class']}):
+                element.attrs['class'] = [
+                    class_name if classname == tag_name['class'] else classname for classname in element.attrs['class']
+                ]
+        else:
+            for element in soup.findAll(tag_name['tag']):
+                element.attrs['class'] = class_name
     return mark_safe(str(soup))
 
 

@@ -44,6 +44,10 @@ class MicrositePanels:
                 FieldPanel('cta_link'),
             ],
         ),
+        MultiFieldPanel(
+            heading='Social media',
+            children=[FieldPanel('twitter'), FieldPanel('facebook'), FieldPanel('linkedin'), FieldPanel('email')],
+        ),
         StreamFieldPanel('related_links'),
     ]
 

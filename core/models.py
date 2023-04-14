@@ -45,7 +45,7 @@ from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
-from core.blocks import ColumnsBlock, LinksBlock
+from core.blocks import CampaignFormBlock, ColumnsBlock, LinksBlock
 from core.case_study_index import delete_cs_index, update_cs_index
 from core.cms_snippets import NonPageContentSEOMixin, NonPageContentSnippetBase
 from core.constants import (
@@ -1386,6 +1386,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     )
     page_body = StreamField(
         [
+            ('form', CampaignFormBlock()),
             (
                 'text',
                 RichTextBlock(
@@ -1502,6 +1503,12 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         null=True,
         blank=True,
     )
+
+    twitter = models.URLField(blank=True)
+    facebook = models.URLField(blank=True)
+
+    linkedin = models.URLField(blank=True)
+    email = models.EmailField(blank=True)
 
     def get_parent_page(self):
         current_page = self.specific
