@@ -279,6 +279,16 @@ class GreatDomesticHomePage(
     hero_cta_url_signedin = models.CharField(null=True, blank=True, max_length=255)
     # EU exit chevrons StreamField WAS here in V1 - no longer the case
 
+    # Slice
+    slice_title = models.TextField(null=True, blank=True)
+    slice_columns = single_struct_block_stream_field_factory(
+        field_name='columns',
+        block_class_instance=core_blocks.SliceBlock(),
+        max_num=3,
+        null=True,
+        blank=True,
+    )
+
     # magna ctas
     magna_ctas_title = models.TextField(null=True, blank=True)
     magna_ctas_columns = single_struct_block_stream_field_factory(
