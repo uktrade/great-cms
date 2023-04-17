@@ -534,25 +534,114 @@
         <p class="govuk-body">Based on the information that you provided earlier</p>
     </div>
 </div>
+<div class="govuk-grid-row govuk-!-margin-bottom-6">
+    {% if get_to_know_market_articles %}
+        <div class="govuk-grid-column-full">
+            {% for page in get_to_know_market_articles %}
+                {% image page.article_image original as rendition %}
+                <div class="article-list-item">
+                    <a href="{{ page.url }}">
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-one-quarter">
+                                <div class="image-container" style="background-image: url({{ rendition.url }});"></div>
+                            </div>
+                            <div class="govuk-grid-column-three-quarters">
+                                <h4 class="govuk-heading-m">{{ page.article_title }}</h4>
+                                <p class="govuk-body">{{ page.article_teaser }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="govuk-grid-column-full">
+            <div class="govuk-warning-text">
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text">
+                  <span class="govuk-warning-text__assistive">Warning</span>
+                  There are currently no related articles
+                </strong>
+            </div>
+        </div>
+    {% endif %}
+</div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        {% for page in get_to_know_market_articles %}
-            {% image page.article_image original as rendition %}
-            <div class="article-list-item">
-                <a href="{{ page.url }}">
-                    <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-one-third">
-                            <div class="image-container" style="background-image: url({{ rendition.url }});"></div>
+        <h2 class="govuk-heading-m">Get support and incentives</h3>
+        <p class="govuk-body">Based on the information that you provided earlier</p>
+    </div>
+</div>
+<div class="govuk-grid-row govuk-!-margin-bottom-6">
+    {% if support_and_incentives_articles %}
+        <div class="govuk-grid-column-full">
+            {% for page in support_and_incentives_articles %}
+                {% image page.article_image original as rendition %}
+                <div class="article-list-item">
+                    <a href="{{ page.url }}">
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-one-quarter">
+                                <div class="image-container" style="background-image: url({{ rendition.url }});"></div>
+                            </div>
+                            <div class="govuk-grid-column-three-quarters">
+                                <h4 class="govuk-heading-m">{{ page.article_title }}</h4>
+                                <p class="govuk-body">{{ page.article_teaser }}</p>
+                            </div>
                         </div>
-                        <div class="govuk-grid-column-two-thirds">
-                            <h4 class="govuk-heading-m">{{ page.article_title }}</h4>
-                            <p class="govuk-body">{{ page.article_teaser }}</p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="govuk-grid-column-full">
+            <div class="govuk-warning-text">
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text">
+                  <span class="govuk-warning-text__assistive">Warning</span>
+                  There are currently no related support and incentives articles
+                </strong>
+            </div>
+        </div>
+    {% endif %}
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Opportunities across the UK</h3>
+        <p class="govuk-body">Based on the your sector information</p>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    {% if opportunities_articles %}
+        {% for page in opportunities_articles %}
+            <div class="govuk-grid-column-one-third govuk-!-padding-0">
+                {% image page.article_image original as rendition %}
+                <div class="article-list-item-vertical">
+                    <a href="{{ page.url }}">
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full">
+                                <div class="image-container" style="background-image: url({{ rendition.url }});"></div>
+                            </div>
                         </div>
-                    </div>
-                </a>
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full">
+                                <p class="govuk-body">{{ page.article_title }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
         {% endfor %}
-    </div>
+    {% else %}
+        <div class="govuk-grid-column-full">
+            <div class="govuk-warning-text">
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text">
+                  <span class="govuk-warning-text__assistive">Warning</span>
+                  There are currently no related opportunities
+                </strong>
+              </div>
+        </div>
+    {% endif %}
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
