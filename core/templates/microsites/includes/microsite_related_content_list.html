@@ -1,6 +1,16 @@
+{% load i18n %}
+{% load get_template_translation_enabled from content_tags %}
+{% get_template_translation_enabled as TRANSLATE_TEXT %}
+
 {% if page.related_links %}
   <div>
-    <h2 class="govuk-heading-m">Related content</h2>
+    <h2 class="govuk-heading-m">
+      {% if TRANSLATE_TEXT %}
+        {% translate "Related content" %}
+      {% else %}
+          Related content
+      {% endif %}
+    </h2>
     <ul class="govuk-list govuk-!-padding-top-6 great-border-top-blue">
       {% for link in page.related_links %}
         <li>

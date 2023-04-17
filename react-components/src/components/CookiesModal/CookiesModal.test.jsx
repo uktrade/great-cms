@@ -53,4 +53,17 @@ describe('CookiesModal', () => {
       defaultProps.preferencesUrl
     )
   })
+
+})
+
+describe.each([
+  ['en', 'Tell us whether you accept cookies'],
+  ['es', 'Dinos si aceptas cookies'],
+  ['ar', "أخبرنا ما إذا كنت توافق على ملفات تعريف الارتباط"]
+])('displays translated header on cookie modal', (lang, expectedString)=>{
+  test(`lang ${lang} displays ${expectedString}`, ()=>{
+    CookiesManager.getPreferencesCookie.mockImplementation(() => null)
+    const { getByText } = render(<CookiesModal {...defaultProps} lang={lang} />)
+    expect(document.body.textContent).toContain(expectedString);
+  })
 })

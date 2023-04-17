@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 from django import template
+from django.conf import settings
 from django.utils.dateparse import parse_datetime
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
@@ -242,3 +243,8 @@ def get_link_blocks(list_of_blocks):
 @register.filter
 def get_text_blocks(list_of_blocks):
     return [block for block in list_of_blocks if block.block_type == 'text']
+
+
+@register.simple_tag
+def get_template_translation_enabled():
+    return getattr(settings, "FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION", False)

@@ -1527,7 +1527,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     def get_menu_items(self):
         parent_page = self.get_parent_page()
         if parent_page:
-            return [{'url': parent_page.get_url(), 'title': 'Home'}] + [
+            return [{'url': parent_page.get_url(), 'title': _('Home')}] + [
                 {
                     'url': child.get_url(),
                     'title': child.title,
