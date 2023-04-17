@@ -100,7 +100,7 @@ def test_triage_spend_form_validation(form_data, is_valid):
         (
             {
                 'company_name': 'Department for Business and Trade',
-                'company_location': 'Germany',
+                'company_location': 'DE',
                 'full_name': 'Joe Bloggs',
                 'role': 'Director',
                 'email': 'joe@bloggs.com',
@@ -142,7 +142,7 @@ def test_triage_spend_form_validation(form_data, is_valid):
         (
             {
                 'company_name': 'Department for Business and Trade',
-                'company_location': 'Germany',
+                'company_location': 'DE',
                 'full_name': 'Joe Bloggs',
                 'role': 'Director',
                 'email': 'joe@bloggs.com',
