@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-03 17:06+0100\n"
+"POT-Creation-Date: 2023-04-17 11:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,6 +22,7 @@ msgstr ""
 #: context_processors.py:81
 msgid "great.gov.uk international"
 msgstr ""
+
 #: models.py:70
 msgid "Transcript"
 msgstr "النص المحول"
@@ -30,7 +31,7 @@ msgstr "النص المحول"
 msgid "English subtitles"
 msgstr "ترجمة باللغة الإنجليزية"
 
-#: models.py:1523
+#: models.py:1530
 msgid "Home"
 msgstr "الصفحة الرئيسية"
 
@@ -55,7 +56,8 @@ msgid ""
 "about how you use great.gov.uk. We use this information to make the website "
 "work as well as possible and improve government services."
 msgstr ""
-"حول كيفية استخدامك لموقع great.gov.uk. نستخدم هذه المعلومات لجعل الموقع يعمل بأفضل طريقة ممكنة وتحسين خدمات الحكومة."
+"حول كيفية استخدامك لموقع great.gov.uk. نستخدم هذه المعلومات لجعل الموقع يعمل "
+"بأفضل طريقة ممكنة وتحسين خدمات الحكومة."
 
 #: templates/components/cookie_notice.html:14
 msgid "Accept all cookies"
@@ -66,7 +68,9 @@ msgid "Set cookie preferences"
 msgstr "تحديد تفضيلات ملفات التعريف الخاصة بك"
 
 #: templates/components/cookie_notice.html:20
-msgid "You've accepted all cookies. You can "
+#, fuzzy
+#| msgid "You've accepted all cookies. You can "
+msgid "You've accepted all cookies.  You can "
 msgstr "لقد قبلت جميع الملفات. يمكنك"
 
 #: templates/components/cookie_notice.html:20
@@ -85,7 +89,7 @@ msgstr "للشركات البريطانية"
 msgid "For international businesses"
 msgstr "للشركات الدولية"
 
-#: templates/microsites/base.html:166
+#: templates/microsites/base.html:173
 msgid "Skip to main content"
 msgstr "الانتقال إلى المحتوى الرئيسي"
 
@@ -93,28 +97,55 @@ msgstr "الانتقال إلى المحتوى الرئيسي"
 msgid "Button Label"
 msgstr "تسمية الزر"
 
+#: templates/microsites/blocks/social_media.html:9
+msgid "Share this page"
+msgstr "مشاركة هذه الصفحة"
+
+#: templates/microsites/blocks/social_media.html:16
+msgid "Sharing will open the page in a new tab."
+msgstr "سيفتح المشاركة الصفحة في علامة تبويب جديدة"
+
+#: templates/microsites/blocks/social_media.html:30
+msgid "Twitter"
+msgstr "تويتر"
+
+#: templates/microsites/blocks/social_media.html:45
+msgid "Facebook"
+msgstr "فيسبوك"
+
+#: templates/microsites/blocks/social_media.html:60
+msgid "LinkedIn"
+msgstr "لينكد إن"
+
+#: templates/microsites/blocks/social_media.html:75
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
 #: templates/microsites/blocks/video.html:13
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| " <p>Your browser doesn't support HTML5 video. Here is a <a class=\"link\" "
+#| "href=\"%(video_url)s\">link to the video</a> instead.</p>\n"
+#| " "
 msgid ""
 "\n"
-" <p>Your browser doesn't support HTML5 video. Here is a "
+"                    <p>Your browser doesn't support HTML5 video. Here is a "
 "<a class=\"link\" href=\"%(video_url)s\">link to the video</a> instead.</p>\n"
-" "
+"                  "
 msgstr ""
 "\n"
-" <p>المتصفح الخاص بك لا يدعم فيديو HTML5. هنا رابط للفيديو بدلاً من ذلك: <a class=\"link\" href=\"%(video_url)s\"> </a></p>\n"
+" <p>المتصفح الخاص بك لا يدعم فيديو HTML5. هنا رابط للفيديو بدلاً من ذلك: <a "
+"class=\"link\" href=\"%(video_url)s\"> </a></p>\n"
 " "
 
 #: templates/microsites/blocks/video.html:26
 msgid "View video transcript"
 msgstr "عرض نص الفيديو"
 
-#: templates/microsites/includes/microsite_detail_content.html:31
+#: templates/microsites/includes/microsite_detail_content.html:32
 msgid "Last updated:"
 msgstr "آخر تحديث:"
-
-#: templates/microsites/includes/microsite_header.html:10
-msgid "export support for UK businesses"
-msgstr "دعم التصدير للشركات البريطانية"
 
 #: templates/microsites/includes/microsite_menu_button.html:12
 msgid "Menu"
@@ -131,3 +162,6 @@ msgstr "تحميل CSV"
 #: validators.py:11
 msgid "Please enter a UK postcode"
 msgstr "الرجاء إدخال الرمز البريدي للمملكة المتحدة"
+
+#~ msgid "export support for UK businesses"
+#~ msgstr "دعم التصدير للشركات البريطانية"
