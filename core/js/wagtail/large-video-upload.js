@@ -1,159 +1,194 @@
-import { isAddVideoPage, showHideElements, createElement } from './utils'
+import * as utils from './utils'
 
 export const largeVideoUpload = () => {
-  if (!isAddVideoPage(window.location.pathname)) return
+  const isAddVideoPage = utils.isAddVideoPage(window.location.pathname)
+  const isEditVideoPage = utils.isEditVideoPage(window.location.pathname)
 
-  const form = document.querySelector('form[action="/admin/media/video/add/"]')
-  const uploadFileInput = document.querySelector('#id_file')
+  if (isAddVideoPage || isEditVideoPage) {
+    const uploadFileInput = document.querySelector('#id_file')
 
-  let file
-  let isLargeVideo = false
-  let _key
+    let file
+    let isLargeVideo = false
+    let _key
+    let form = document.querySelector('form[action="/admin/media/video/add/"]')
 
-  function enableLargeVideoUpload() {
-    isLargeVideo = true
-    showHideElements('#large_video_submit', '.fields button[type="submit"]')
-  }
-
-  function disableLargeVideoUpload() {
-    isLargeVideo = false
-    showHideElements('.fields button[type="submit"]', '#large_video_submit')
-  }
-
-  const getSignedUrl = async () => {
-    const body = {
-      fileName: file.name,
-      fileType: file.type,
+    if (isEditVideoPage) {
+      form = document.querySelector('form[action^="/admin/media/edit/"]')
     }
 
-    const response = await fetch('/api/signed-url/', {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': document.querySelector(
-          "input[name='csrfmiddlewaretoken']"
-        ).value,
-      },
-    })
-
-    const { url, key } = await response.json()
-
-    _key = key
-
-    return url
-  }
-
-  const uploadFile = async (signedUrl) => {
-    const progressBar = document.querySelector('#progress_bar')
-    progressBar.style.display = 'block'
-
-    const formdata = new FormData()
-    formdata.append('file', file)
-    const ajax = new XMLHttpRequest()
-    ajax.upload.addEventListener(
-      'progress',
-      (event) => {
-        progressBar.value = Math.round((event.loaded / event.total) * 100)
-      },
-      false
-    )
-    ajax.addEventListener('loadend', loadendHandler, false)
-    ajax.open('PUT', signedUrl)
-    ajax.setRequestHeader('Content-Type', 'binary/octet-stream')
-    ajax.send(formdata)
-  }
-
-  const handleSubmit = async () => {
-    const signedUrl = await getSignedUrl()
-
-    if (signedUrl) {
-      uploadFile(signedUrl)
+    function enableLargeVideoUpload() {
+      isLargeVideo = true
+      utils.showHideElements(
+        '#large_video_submit',
+        '.fields button[type="submit"]'
+      )
     }
-  }
 
-  const getFormData = () => {
-    const formData = new FormData(document.forms[1])
+    function enableLargeVideoSave() {
+      isLargeVideo = true
+      utils.showHideElements(
+        '#large_video_submit',
+        '.fields input[type="submit"]',
+        'inline-block'
+      )
+    }
 
-    formData.delete('file')
-    formData.append(
-      'file',
-      new File([new Blob(['xyz'])], _key, {
-        name: _key,
-        lastModified: 1680183083519,
-        lastModifiedDate: new Date(),
-        size: 7942351,
-        type: 'video/mp4',
-        webkitRelativePath: '',
+    function disableLargeVideoUpload() {
+      isLargeVideo = false
+      utils.showHideElements(
+        '.fields button[type="submit"]',
+        '#large_video_submit'
+      )
+    }
+
+    const getSignedUrl = async () => {
+      const body = {
+        fileName: file.name,
+        fileType: file.type,
+      }
+
+      const response = await fetch('/api/signed-url/', {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': document.querySelector(
+            "input[name='csrfmiddlewaretoken']"
+          ).value,
+        },
       })
-    )
 
-    return formData
-  }
+      const { url, key } = await response.json()
 
-  const loadendHandler = async () => {
-    await fetch('/admin/media/video/add/', {
-      method: 'POST',
-      body: getFormData(),
-      headers: {
-        'X-CSRFToken': document.querySelector(
-          "input[name='csrfmiddlewaretoken']"
-        ).value,
-      },
-      redirect: 'follow',
-    }).then((res) => {
-      if (res.redirected) {
-        window.location = res.url
+      _key = key
+
+      return url
+    }
+
+    const uploadFile = async (signedUrl) => {
+      const progressBar = document.querySelector('#progress_bar')
+      progressBar.style.display = 'block'
+
+      const formdata = new FormData()
+      formdata.append('file', file)
+      const ajax = new XMLHttpRequest()
+      ajax.upload.addEventListener(
+        'progress',
+        (event) => {
+          progressBar.value = Math.round((event.loaded / event.total) * 100)
+        },
+        false
+      )
+      ajax.addEventListener('loadend', loadendHandler, false)
+      ajax.open('PUT', signedUrl)
+      ajax.setRequestHeader('Content-Type', 'binary/octet-stream')
+      ajax.send(formdata)
+    }
+
+    const handleSubmit = async () => {
+      const signedUrl = await getSignedUrl()
+
+      if (signedUrl) {
+        uploadFile(signedUrl)
       }
-    })
-  }
+    }
 
-  const createLargeVideoSubmitButton = () => {
-    const submit = createElement('button', [
-      { key: 'type', val: 'submit' },
-      { key: 'id', val: 'large_video_submit' },
-      { key: 'classList', val: 'button' },
-      { key: 'innerHTML', val: 'Upload large video' },
-    ])
+    const getFormData = () => {
+      const formData = new FormData(document.forms[1])
 
-    submit.style.display = 'none'
+      formData.delete('file')
+      formData.append(
+        'file',
+        new File([new Blob(['xyz'])], _key, {
+          name: _key,
+          lastModified: 1680183083519,
+          lastModifiedDate: new Date(),
+          size: 7942351,
+          type: 'video/mp4',
+          webkitRelativePath: '',
+        })
+      )
 
-    submit.addEventListener('click', (event) => {
-      event.preventDefault()
+      return formData
+    }
 
-      if (file && isLargeVideo) {
-        handleSubmit()
+    const loadendHandler = async () => {
+      await fetch('/admin/media/video/add/', {
+        method: 'POST',
+        body: getFormData(),
+        headers: {
+          'X-CSRFToken': document.querySelector(
+            "input[name='csrfmiddlewaretoken']"
+          ).value,
+        },
+        redirect: 'follow',
+      }).then((res) => {
+        if (res.redirected) {
+          window.location = res.url
+        }
+      })
+    }
+
+    const createLargeVideoSubmitButton = () => {
+      const submit = utils.createElement('button', [
+        { key: 'type', val: 'submit' },
+        { key: 'id', val: 'large_video_submit' },
+        { key: 'classList', val: 'button' },
+        { key: 'innerHTML', val: isAddVideoPage ? 'Upload' : 'Save' },
+      ])
+
+      submit.style.display = 'none'
+
+      submit.addEventListener('click', (event) => {
+        event.preventDefault()
+
+        if (file && isLargeVideo) {
+          handleSubmit()
+        }
+      })
+
+      if (isAddVideoPage) {
+        form.append(submit)
       }
-    })
 
-    form.append(submit)
-  }
-
-  const createProgressBar = () => {
-    const progressBar = createElement('progress', [
-      { key: 'id', val: 'progress_bar' },
-      { key: 'max', val: '100' },
-      { key: 'value', val: '0' },
-    ])
-
-    progressBar.style.display = 'none'
-
-    form.append(progressBar)
-  }
-
-  function setup() {
-    uploadFileInput.addEventListener('change', (event) => {
-      file = event.target.files[0]
-
-      if (file.size > 100000) {
-        createLargeVideoSubmitButton()
-        createProgressBar()
-        enableLargeVideoUpload()
-      } else {
-        disableLargeVideoUpload()
+      if (isEditVideoPage) {
+        form.querySelector('.fields > li:last-child').prepend(submit)
       }
-    })
-  }
+    }
 
-  setup()
+    const createProgressBar = () => {
+      const progressBar = utils.createElement('progress', [
+        { key: 'id', val: 'progress_bar' },
+        { key: 'max', val: '100' },
+        { key: 'value', val: '0' },
+      ])
+
+      progressBar.style.display = 'none'
+
+      form.append(progressBar)
+    }
+
+    function setup() {
+      uploadFileInput.addEventListener('change', (event) => {
+        file = event.target.files[0]
+
+        if (file.size > 100000) {
+          createLargeVideoSubmitButton()
+          createProgressBar()
+
+          if (isAddVideoPage) {
+            enableLargeVideoUpload()
+          }
+
+          if (isEditVideoPage) {
+            enableLargeVideoSave()
+          }
+        } else {
+          disableLargeVideoUpload()
+        }
+      })
+    }
+
+    setup()
+  }
 }
