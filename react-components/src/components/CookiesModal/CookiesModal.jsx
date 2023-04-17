@@ -6,6 +6,7 @@ import { analytics } from '@src/Helpers'
 import CookieManager from './dit.components.cookie-notice'
 
 import styles from './CookiesModal.css'
+import translations from './translations/CookiesModalTranslations.json'
 
 export function CookiesModal(props) {
   let firstLink
@@ -34,6 +35,17 @@ export function CookiesModal(props) {
     }
   }
 
+  // here we are ignoring the locale part of a language short code
+  // as they are not currently implemented in the .json file of translations
+  let lang = props.lang ? props.lang.substring(0,2) : 'en'
+
+  // in the normal flow there should never be an invalid language code
+  // because django will fallback to site default. including below to
+  // ensure cookie modal is self-contained
+  if (! Object.keys(translations).includes(lang)){
+    lang = 'en'
+  }
+
   React.useEffect(() => {
     document.body.addEventListener('focusin', handleFocusChange)
     return () => {
@@ -44,19 +56,18 @@ export function CookiesModal(props) {
   return (
     <Modal isOpen={isOpen} contentLabel="Cookies consent manager">
       <h2 className={`${styles.heading} heading-medium`}>
-        Tell us whether you accept cookies
+        {translations[lang]["Tell us whether you accept cookies"]}
       </h2>
       <p className={`${styles.synopsis} body-text`}>
-        We use{' '}
+        {translations[lang]["We use"]}{' '}
         <a
           className="link"
           href={props.privacyCookiesUrl}
           ref={(_firstLink) => (firstLink = _firstLink)}
         >
-          cookies to collect information
+          {translations[lang]["cookies to collect information"]}
         </a>{' '}
-        about how you use great.gov.uk. We use this information to make the
-        website work as well as possible and improve government services.
+          {translations[lang]["about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services."]}
       </p>
       <div className={styles.buttonContainer}>
         <a
@@ -64,14 +75,14 @@ export function CookiesModal(props) {
           href="#"
           onClick={handleAcceptAllCookies}
         >
-          Accept all cookies
+          {translations[lang]["Accept all cookies"]}
         </a>
         <span className={styles.buttonSeperator} />
         <a
           className={`${styles.button} button primary-button`}
           href={props.preferencesUrl + window.location.search}
         >
-          Set cookie preferences
+          {translations[lang]["Set cookie preferences"]}
         </a>
       </div>
     </Modal>

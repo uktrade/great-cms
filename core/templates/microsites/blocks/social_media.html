@@ -1,7 +1,23 @@
 {% load static from static %}
+{% load i18n %}
+{% load get_template_translation_enabled from content_tags %}
+{% get_template_translation_enabled as TRANSLATE_TEXT %}
+
 <div class="social-media-container">
-    <h3>Share this page</h3>
-    <p>Sharing will open the page in a new tab.</p>
+    <h3>
+        {% if TRANSLATE_TEXT %}
+            {% translate "Share this page" %}
+        {% else %}
+            Share this page
+        {% endif %}
+    </h3>
+    <p>
+        {% if TRANSLATE_TEXT %}
+          {% translate "Sharing will open the page in a new tab." %}
+        {% else %}
+            Sharing will open the page in a new tab.
+        {% endif %}
+    </p>
     <div class="social-media-items-wrapper">
         {% if twitter %}
             <a href="{{ twitter }}">
@@ -9,34 +25,58 @@
                      height="36px"
                      src="{% static 'great_components/icons/twitter.svg' %}"
                      width="36px">
-                <p>Twitter</p>
+                <p>
+                    {% if TRANSLATE_TEXT %}
+                        {% translate "Twitter" %}
+                    {% else %}
+                        Twitter
+                    {% endif %}
+                </p>
             </a>
         {% endif %}
         {% if facebook %}
             <a href="{{ facebook }}">
-                <img alt="with Twitter"
+                <img alt="with Facebook"
                      height="36px"
                      src="{% static 'great_components/icons/facebook.svg' %}"
                      width="36px">
-                <p>Facebook</p>
+                <p>
+                    {% if TRANSLATE_TEXT %}
+                        {% translate "Facebook" %}
+                    {% else %}
+                        Facebook
+                    {% endif %}
+                </p>
             </a>
         {% endif %}
         {% if linkedin %}
             <a href="{{ linkedin }}">
-                <img alt="with Twitter"
+                <img alt="with LinkedIn"
                      height="36px"
                      src="{% static 'great_components/icons/linkedin.svg' %}"
                      width="36px">
-                <p>Facebook</p>
+                <p>
+                    {% if TRANSLATE_TEXT %}
+                        {% translate "LinkedIn" %}
+                    {% else %}
+                        LinkedIn
+                    {% endif %}
+                </p>
             </a>
         {% endif %}
         {% if email %}
             <a href="mailto:{{ email }}">
-                <img alt="with Twitter"
+                <img alt="with Email"
                      height="36px"
                      src="{% static 'great_components/icons/email.svg' %}"
                      width="36px">
-                <p>Email</p>
+                <p>
+                    {% if TRANSLATE_TEXT %}
+                        {% translate "Email" %}
+                    {% else %}
+                        Email
+                    {% endif %}
+                </p>
             </a>
         {% endif %}
     </div>
