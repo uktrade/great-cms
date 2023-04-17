@@ -110,11 +110,15 @@ class IOOGuidePage(BaseContentPage):
         context = super().get_context(request, *args, **kwargs)
         triage_data = get_triage_data_from_db_or_session(request)
         user_data = get_user_data_from_db_or_session(request)
+        all_articles = self.get_children().live()
         get_to_know_market_articles = []
+        opportunities_articles = []
         if triage_data:
             get_to_know_market_articles = helpers.find_get_to_know_market_articles(
-                self.get_children().live(), triage_data.sector, triage_data.intent
+                all_articles, triage_data.sector, triage_data.intent
             )
+            opportunities_articles = helpers.find_opportunities_articles(all_articles, triage_data.sector)
+        support_and_incentives_articles = helpers.find_get_support_and_incentives_articles(all_articles)
         context.update(
             complete_contact_form_message=self.LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE,
             complete_contact_form_link='international_online_offer:contact',
@@ -124,6 +128,8 @@ class IOOGuidePage(BaseContentPage):
             triage_data=triage_data,
             user_data=user_data,
             get_to_know_market_articles=get_to_know_market_articles,
+            support_and_incentives_articles=support_and_incentives_articles,
+            opportunities_articles=opportunities_articles,
         )
         return context
 

@@ -1,0 +1,22 @@
+{% load i18n wagtailimages_tags %}
+
+<div class="great-card">
+    {% if url %}<a href="{{ url }}" class="govuk-!-display-block">{% endif %}
+
+    {% if image %}
+        {% image image fill-640x360 as thumbnail %}
+        <img src="{{ thumbnail.url }}" alt="{{ thumbnail.alt_text }}" />
+    {% endif %}
+
+    <span {% if source %}class="govuk-caption-m govuk-!-margin-bottom-2"{% endif %}>{% if source %}{{source}}{% endif %}</span>
+
+    {% if title %}
+        <h4 class="govuk-heading-m govuk-!-margin-top-2 govuk-!-margin-bottom-2 great-text-blue">{{title}}</h4>
+    {% endif %}
+
+    {% if summary %}
+        <div>{{summary}}</div>
+    {% endif %}
+
+    {% if url %}</a>{% endif %}
+</div>

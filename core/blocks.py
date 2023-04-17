@@ -480,6 +480,14 @@ class LinkWithImageAndContentBlockNoSource(blocks.StructBlock):
     )
 
 
+class SliceBlock(blocks.StructBlock):
+    title = blocks.CharBlock()
+    url = blocks.CharBlock()
+    source = blocks.CharBlock(help_text='The source or the type of the link, e.g. GOV.UK/Advice', required=False)
+    image = ImageChooserBlock()
+    summary = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False)
+
+
 class VideoChooserBlock(AbstractMediaChooserBlock):
     def render_basic(self, value, context=None):
         """We don't need any HTML rendering"""
