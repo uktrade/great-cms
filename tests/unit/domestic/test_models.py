@@ -1974,16 +1974,8 @@ def test_great_domestic_homepage_magna_ctas_labels(root_page, client, user):
 
 
 @pytest.mark.django_db
-def test_great_domestic_homepage_slice(root_page, client):
-    homepage = GreatDomesticHomePageFactory(
-        parent=root_page,
-        slug='root',
-    )
-
-    SiteFactory(
-        root_page=homepage,
-        hostname=client._base_environ()['SERVER_NAME'],
-    )
+def test_great_domestic_homepage_slice(domestic_homepage, client, domestic_site):
+    homepage = GreatDomesticHomePageFactory(parent=domestic_homepage)
 
     homepage.slice_columns = [
         (
