@@ -66,8 +66,8 @@ def is_labour_workforce_hire(sector, hiring):
         {'Food and Drink': 12},
         {'Technology and Smart Cities': 15},
         {'Financial and Professional Services': 11},
-        {'Consumer and retail': 15},
-        {'Creative industries': 15},
+        {'Consumer and retail': 10},
+        {'Creative industries': 9},
     ]
 
     if hiring == 'No plans to hire yet':

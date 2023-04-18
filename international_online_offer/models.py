@@ -48,6 +48,7 @@ def get_triage_data_from_db_or_session(request):
                 'hiring': request.session.get('hiring') if request.session.get('hiring') else '',
                 'spend': request.session.get('spend') if request.session.get('spend') else '',
                 'spend_other': request.session.get('spend_other') if request.session.get('spend_other') else '',
+                'is_high_value': request.session.get('is_high_value'),
             },
         )
 
@@ -306,6 +307,7 @@ class TriageData(models.Model):
 
     spend = models.CharField(max_length=255, choices=SPEND_CHOICES)
     spend_other = models.CharField(max_length=255, null=True)
+    is_high_value = models.BooleanField(default=False)
 
 
 class UserData(models.Model):
