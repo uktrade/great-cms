@@ -2,6 +2,8 @@ from django.forms import PasswordInput, Select
 from django.utils.html import mark_safe
 from great_components import forms
 
+from directory_constants.choices import COUNTRY_CHOICES
+
 TERMS_LABEL = mark_safe('I agree to the <a href="#" target="_blank">Terms and Conditions</a>')
 
 
@@ -169,6 +171,10 @@ class SpendForm(forms.Form):
             return cleaned_data
 
 
+BLANK_COUNTRY_CHOICE = [('', '')]
+COUNTRIES = BLANK_COUNTRY_CHOICE + COUNTRY_CHOICES
+
+
 class ContactForm(forms.Form):
     company_name = forms.CharField(
         label='',
@@ -187,7 +193,7 @@ class ContactForm(forms.Form):
         label='',
         required=False,
         widget=Select(attrs={'id': 'js-company-location-select'}),
-        choices=CHOICES,
+        choices=COUNTRIES,
     )
     full_name = forms.CharField(
         label='',

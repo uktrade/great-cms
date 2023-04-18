@@ -2,15 +2,25 @@
 {% load static %}
 {% load i18n %}
 {% load static_absolute from component_tags %}
+{% load get_template_translation_enabled from content_tags %}
+{% load content_tags %}
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
+{% get_template_translation_enabled as TRANSLATE_TEXT %}
 
 <!DOCTYPE html>
 <!--[if lt IE 9]>
 <html class="lte-ie8" lang="en-gb"><![endif]-->
 <!--[if gt IE 8]><!-->
-<html dir="ltr" lang="en-gb"><!--<![endif]-->
+<html
+  {% if LANGUAGE_BIDI %}
+    dir="rtl"
+  {% else %}
+    dir="ltr"
+  {% endif %}
+  lang="{{page.locale.language_code}}"
+><!--<![endif]-->
 <head>
   <meta charset="utf-8" />
   {% block sharing_description %}
@@ -155,12 +165,20 @@
 <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled')</script>
 
 {% block skip_link %}
-  <a id="skip-link" href="#content">Skip to main content</a>
+  <a id="skip-link" href="#content">
+    {% if TRANSLATE_TEXT %}
+      {% translate "Skip to main content" %}
+    {% else %}
+      Skip to main content
+    {% endif %}
+  </a>
 {% endblock %}
+
 
 {% block cookie_notice %}
   {% include 'components/cookie_notice.html' %}
 {% endblock %}
+
 
 {% block body_content_container %}
   <main id="content" tabindex="-1" class="{% block css_layout_class %}{% endblock css_layout_class %}">
@@ -179,13 +197,21 @@
 {% block body_js %}
   {% slugurl "privacy-and-cookies" as privacy_and_cookies_path %}
   {% if request.path != privacy_and_cookies_path %}
-    <script>
+
+    <script
+      data-language-code={{page.locale.language_code}}
+      data-translate-text-feat-flag={{TRANSLATE_TEXT}}
+    >
+      const data = document.currentScript.dataset
+      const lang = (data.translateTextFeatFlag === 'True') ? data.languageCode : 'en-gb'
+
       var element = document.createElement('div')
       document.body.appendChild(element)
       components.CookiesModal({
         element: element,
         privacyCookiesUrl: {{privacy_and_cookies_path}},
         preferencesUrl: '{% url "core:cookie-preferences" %}',
+        lang: lang
       })
     </script>
   {% endif %}

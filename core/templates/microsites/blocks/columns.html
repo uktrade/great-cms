@@ -1,6 +1,9 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
+{% load i18n %}
 {% load add_govuk_classes from content_tags %}
+{% load get_template_translation_enabled from content_tags %}
+{% get_template_translation_enabled as TRANSLATE_TEXT %}
 
 <div class="govuk-grid-row">
 {% for item in value %}
@@ -12,7 +15,14 @@
     {% filter add_govuk_classes %}
         {{ item.value.description }}
     {% endfilter %}
-    <a href="{{ item.value.link }}" class="govuk-button">Button Label</a>
+    <a href="{{ item.value.link }}" class="govuk-button">
+        {% comment %} I'm assuming this will change but including for completeness {% endcomment %}
+        {% if TRANSLATE_TEXT %}
+            {% translate "Button Label" %}
+        {% else %}
+            Button Label
+        {% endif %}
+    </a>
 </div>
 {% endfor %}
 </div>

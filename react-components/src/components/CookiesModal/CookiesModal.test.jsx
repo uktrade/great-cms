@@ -53,4 +53,35 @@ describe('CookiesModal', () => {
       defaultProps.preferencesUrl
     )
   })
+
+  describe.each([
+    ['en', 'Tell us whether you accept cookies'],
+    ['es', 'Dinos si aceptas cookies'],
+    ['ar', "أخبرنا ما إذا كنت توافق على ملفات تعريف الارتباط"]
+  ])('displays translated header on cookie modal', (lang, expectedString)=>{
+    test(`lang ${lang} displays ${expectedString}`, ()=>{
+      CookiesManager.getPreferencesCookie.mockImplementation(() => null)
+      const { getByText } = render(<CookiesModal {...defaultProps} lang={lang} />)
+      expect(document.body.textContent).toContain(expectedString);
+    })
+  })
+
+  it('reverts to en for invalid language code', () => {
+    CookiesManager.getPreferencesCookie.mockImplementation(() => null)
+    const { getByText } = render(<CookiesModal {...defaultProps} lang = {'!!'}/>)
+    expect(document.body.textContent).toContain('Tell us whether you accept cookies');
+  })
+
+  it('ignores locale', () => {
+    CookiesManager.getPreferencesCookie.mockImplementation(() => null)
+    const { getByText } = render(<CookiesModal {...defaultProps} lang = {'es-US'}/>)
+    expect(document.body.textContent).toContain('Dinos si aceptas cookies');
+  })
+
+  it('reverts to en for unimplemented language code', () => {
+    CookiesManager.getPreferencesCookie.mockImplementation(() => null)
+    const { getByText } = render(<CookiesModal {...defaultProps} lang = {'bi'}/>)
+    expect(document.body.textContent).toContain('Tell us whether you accept cookies');
+  })
+
 })

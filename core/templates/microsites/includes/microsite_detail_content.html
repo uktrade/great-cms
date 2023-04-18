@@ -2,6 +2,9 @@
 {% load component_tags %}
 {% load wagtailcore_tags wagtailimages_tags %}
 {% load add_govuk_classes from content_tags %}
+{% load i18n %}
+{% load get_template_translation_enabled from content_tags %}
+{% get_template_translation_enabled as TRANSLATE_TEXT %}
 
 <div class="microsite-main {{ view.slug }}-microsite">
   {% include 'microsites/includes/microsite_nav.html' with title=page.get_site_title  menu_items=page.get_menu_items active_url=request.path %}
@@ -25,7 +28,12 @@
 
         {% if page.last_published_at %}
           <p class="govuk-body great-text-grey">
-            Last updated: <time datetime="{{page.last_published_at|date:'c'}}">{{page.last_published_at|date:"j F Y"}}</time>
+            {% if TRANSLATE_TEXT %}
+              {% translate "Last updated:" %}
+            {% else %}
+              Last updated:
+            {% endif %}
+            <time datetime="{{page.last_published_at|date:'c'}}">{{page.last_published_at|date:"j F Y"}}</time>
           </p>
         {% endif %}
       </div>

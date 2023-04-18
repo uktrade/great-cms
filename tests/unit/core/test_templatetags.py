@@ -5,6 +5,7 @@ from unittest import mock
 from urllib.parse import quote, quote_plus
 
 import pytest
+from django.conf import settings
 from django.template import Context, Template
 from django.urls import reverse
 
@@ -14,6 +15,7 @@ from core.templatetags.content_tags import (
     get_category_title_for_lesson,
     get_lesson_progress_for_topic,
     get_link_blocks,
+    get_template_translation_enabled,
     get_text_blocks,
     get_topic_title_for_lesson,
     is_lesson_page,
@@ -686,3 +688,7 @@ def test_get_link_blocks(input, expected_instances):
 )
 def test_get_text_blocks(input, expected_instances):
     assert len(get_text_blocks(input)) == expected_instances
+
+
+def test_get_template_translation_enabled_matches_settings():
+    assert get_template_translation_enabled() == settings.FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION
