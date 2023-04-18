@@ -65,9 +65,19 @@ export const largeVideoUpload = () => {
       return url
     }
 
+    const updateStatus = (message) => {
+      const progressBar = document.querySelector('#progress_bar')
+      const status = document.querySelector('#status')
+
+      status.innerHTML = message
+      progressBar.style.display = 'none'
+    }
+
     const uploadFile = async (signedUrl) => {
       const progressBar = document.querySelector('#progress_bar')
       progressBar.style.display = 'block'
+
+      const status = document.querySelector('#status')
 
       const formdata = new FormData()
       formdata.append('file', file)
@@ -75,11 +85,35 @@ export const largeVideoUpload = () => {
       ajax.upload.addEventListener(
         'progress',
         (event) => {
-          progressBar.value = Math.round((event.loaded / event.total) * 100)
+          const percent = Math.round((event.loaded / event.total) * 100)
+          status.innerHTML = percent + '% uploaded'
+          progressBar.value = percent
         },
         false
       )
-      ajax.addEventListener('loadend', loadendHandler, false)
+      ajax.addEventListener(
+        'loadend',
+        () => {
+          updateStatus('Upload Complete')
+
+          loadendHandler()
+        },
+        false
+      )
+      ajax.addEventListener(
+        'error',
+        () => {
+          updateStatus('Upload Failed')
+        },
+        false
+      )
+      ajax.addEventListener(
+        'abort',
+        () => {
+          updateStatus('Upload Aborted')
+        },
+        false
+      )
       ajax.open('PUT', signedUrl)
       ajax.setRequestHeader('Content-Type', 'binary/octet-stream')
       ajax.send(formdata)
@@ -168,12 +202,21 @@ export const largeVideoUpload = () => {
       form.append(progressBar)
     }
 
+    const createStatusMessage = () => {
+      const statusMessage = utils.createElement('h3', [
+        { key: 'id', val: 'status' },
+      ])
+
+      form.append(statusMessage)
+    }
+
     function setup() {
       uploadFileInput.addEventListener('change', (event) => {
         file = event.target.files[0]
 
         if (file.size > 100000) {
           createLargeVideoSubmitButton()
+          createStatusMessage()
           createProgressBar()
 
           if (isAddVideoPage) {
