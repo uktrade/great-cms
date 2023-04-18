@@ -1,5 +1,6 @@
-from datetime import datetime, timedelta, timezone
+from datetime import timedelta
 
+from django.utils import timezone
 from freezegun import freeze_time
 
 from export_academy.forms import (
@@ -24,7 +25,7 @@ def test_registration_form_validations(valid_registration_form_data):
 def test_custom_field_converts_boolean_to_datetime():
     field = BoolToDateTimeField()
 
-    assert field.to_python(True) == datetime.now(tz=timezone.utc)
+    assert field.to_python(True) == timezone.now()
     assert field.to_python(False) is None
 
 
@@ -32,7 +33,7 @@ def test_event_admin_form_keeps_initial_values():
     EventAdminModelForm._meta.model = Event  # type: ignore
     EventAdminModelForm.formsets = {}  # type: ignore
 
-    now = datetime.now()
+    now = timezone.now()
     later = now + timedelta(hours=1)
 
     form = EventAdminModelForm()
@@ -48,7 +49,7 @@ def test_event_admin_form_keeps_new_values():
     EventAdminModelForm._meta.model = Event  # type: ignore
     EventAdminModelForm.formsets = {}  # type: ignore
 
-    now = datetime.now()
+    now = timezone.now()
 
     form = EventAdminModelForm()
     form['completed'].initial = None

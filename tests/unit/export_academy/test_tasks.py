@@ -1,7 +1,8 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from unittest import mock
 
 import pytest
+from django.utils import timezone
 
 from config import settings
 from export_academy.models import Event
@@ -44,8 +45,8 @@ def test_remove_video(user):
     delay_days = settings.EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_AFTER_DAYS + 1
     event = factories.EventFactory(
         name='Event name',
-        start_date=datetime.now(timezone.utc) - timedelta(days=delay_days),
-        completed=datetime.now(timezone.utc) + timedelta(hours=1),
+        start_date=timezone.now() - timedelta(days=delay_days),
+        completed=timezone.now() + timedelta(hours=1),
     )
 
     remove_past_events_media()

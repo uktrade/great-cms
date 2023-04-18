@@ -1,3 +1,4 @@
+TIME_ZONE=Europe/London
 APP_ENVIRONMENT=local
 SECRET_KEY=debug
 DEBUG=true

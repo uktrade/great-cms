@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.forms import CheckboxInput, DateTimeField, HiddenInput, Select, Textarea
@@ -27,7 +27,7 @@ class BoolToDateTimeField(DateTimeField):
     widget = CheckboxInput
 
     def to_python(self, value):
-        value = datetime.now().isoformat() if value else ''
+        value = datetime.now(timezone.utc).isoformat() if value else ''
         return super().to_python(value)
 
 

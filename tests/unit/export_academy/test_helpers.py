@@ -1,8 +1,9 @@
-from datetime import datetime, timedelta, timezone
+from datetime import timedelta
 
 import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.urls import reverse_lazy
+from django.utils import timezone
 from wagtail_factories import DocumentFactory
 
 from config import settings
@@ -12,7 +13,7 @@ from tests.unit.export_academy import factories
 
 @pytest.mark.django_db
 def test_book_button_returned_for_upcoming_event_registered_user(user):
-    now = datetime.now(tz=timezone.utc)
+    now = timezone.now()
     factories.RegistrationFactory(email=user.email)
     event = factories.EventFactory(
         start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7), completed=None
@@ -32,7 +33,7 @@ def test_book_button_returned_for_upcoming_event_registered_user(user):
 
 @pytest.mark.django_db
 def test_book_button_returned_for_upcoming_event_not_registered_user(user):
-    now = datetime.now(tz=timezone.utc)
+    now = timezone.now()
     event = factories.EventFactory(
         start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7), completed=None
     )
@@ -51,7 +52,7 @@ def test_book_button_returned_for_upcoming_event_not_registered_user(user):
 
 @pytest.mark.django_db
 def test_cancel_button_returned_for_booked_upcoming_event(user):
-    now = datetime.now(tz=timezone.utc)
+    now = timezone.now()
     event = factories.EventFactory(
         start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7), completed=None
     )
@@ -72,7 +73,7 @@ def test_cancel_button_returned_for_booked_upcoming_event(user):
 
 @pytest.mark.django_db
 def test_join_button_returned_for_booked_in_progress_event(user):
-    now = datetime.now(tz=timezone.utc)
+    now = timezone.now()
     event = factories.EventFactory(
         start_date=now - timedelta(minutes=settings.EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS),  # type: ignore
         end_date=now + timedelta(hours=1),
@@ -90,7 +91,7 @@ def test_join_button_returned_for_booked_in_progress_event(user):
 
 @pytest.mark.django_db
 def test_join_button_returned_for_booked_in_upcoming_event(user):
-    now = datetime.now(tz=timezone.utc)
+    now = timezone.now()
     event = factories.EventFactory(
         start_date=now + timedelta(days=1),
         end_date=now + timedelta(days=1, hours=1),
@@ -108,7 +109,7 @@ def test_join_button_returned_for_booked_in_upcoming_event(user):
 
 @pytest.mark.django_db
 def test_view_buttons_returned_for_booked_past_event(user):
-    now = datetime.now(tz=timezone.utc)
+    now = timezone.now()
     event = factories.EventFactory(
         start_date=now - timedelta(days=2, hours=1), end_date=now - timedelta(days=2), completed=now
     )

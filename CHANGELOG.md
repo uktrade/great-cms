@@ -34,6 +34,7 @@
 * KLS-387 - Microsite link block
 * KLS-488 - (UKEA) Event's fields 'live' and 'completed' persisted as timestamps
 * KLS-279 - Campaign: Frontpage slice
+* KLS-536 - (UKEA) Make Export Academy timezone aware
 
 
 ## [2.28.0](https://github.com/uktrade/great-cms/releases/tag/2.28.0)
