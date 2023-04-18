@@ -180,15 +180,6 @@ class ContactForm(forms.Form):
         label='',
         required=True,
     )
-    CHOICES = [
-        ('', ''),
-        ('France', 'France'),
-        ('Germany', 'Germany'),
-        ('India', 'India'),
-        ('Italy', 'Italy'),
-        ('Spain', 'Spain'),
-        ('United States', 'United States'),
-    ]
     company_location = forms.fields.ChoiceField(
         label='',
         required=False,
