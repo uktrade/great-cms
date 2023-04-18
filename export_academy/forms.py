@@ -1,8 +1,7 @@
-from datetime import datetime, timezone
-
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.forms import CheckboxInput, DateTimeField, HiddenInput, Select, Textarea
 from django.forms.widgets import ChoiceWidget
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from great_components import forms
 from wagtail.admin.forms import WagtailAdminModelForm
@@ -27,7 +26,7 @@ class BoolToDateTimeField(DateTimeField):
     widget = CheckboxInput
 
     def to_python(self, value):
-        value = datetime.now(timezone.utc).isoformat() if value else ''
+        value = timezone.now().isoformat() if value else ''
         return super().to_python(value)
 
 
