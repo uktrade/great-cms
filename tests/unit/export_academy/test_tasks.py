@@ -1,7 +1,8 @@
-from datetime import datetime, timedelta, timezone
+from datetime import timedelta
 from unittest import mock
 
 import pytest
+from django.utils import timezone
 
 from config import settings
 from export_academy.models import Event
@@ -19,7 +20,7 @@ def test_notify_registration(mock_notify_action, user):
     mock_notify_action().save.return_value = create_response(status_code=201)
     event = factories.EventFactory(
         name='Event name',
-        start_date=datetime.now() + timedelta(minutes=settings.EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES + 1),
+        start_date=timezone.now() + timedelta(minutes=settings.EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES + 1),
     )
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
     factories.BookingFactory(event=event, registration=registration, status='Confirmed')
@@ -44,8 +45,8 @@ def test_remove_video(user):
     delay_days = settings.EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_AFTER_DAYS + 1
     event = factories.EventFactory(
         name='Event name',
-        start_date=datetime.now(timezone.utc) - timedelta(days=delay_days),
-        completed=datetime.now(timezone.utc) + timedelta(hours=1),
+        start_date=timezone.now() - timedelta(days=delay_days),
+        completed=timezone.now() + timedelta(hours=1),
     )
 
     remove_past_events_media()

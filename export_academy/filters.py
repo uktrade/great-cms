@@ -1,5 +1,4 @@
-import datetime
-
+from django.utils import timezone
 from django_filters import FilterSet, filters
 from great_components import forms
 
@@ -88,7 +87,7 @@ class EventFilter(FilterSet):
 
             if value == self.PAST:
                 queryset = self.Meta.model.objects.exclude(live__isnull=True).filter(
-                    bookings__registration=self.request.user.email, end_date__lt=datetime.datetime.now()  # type: ignore
+                    bookings__registration=self.request.user.email, end_date__lt=timezone.now()  # type: ignore
                 )
 
         return queryset
