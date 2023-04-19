@@ -113,11 +113,10 @@ class IOOGuidePage(BaseContentPage):
         all_articles = self.get_children().live()
         get_to_know_market_articles = []
         opportunities_articles = []
+        complete_contact_form_message = self.LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE
         if triage_data:
             if triage_data.is_high_value:
                 complete_contact_form_message = self.HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE
-            else:
-                complete_contact_form_message = self.LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE
             get_to_know_market_articles = helpers.find_get_to_know_market_articles(
                 all_articles, triage_data.sector, triage_data.intent
             )
