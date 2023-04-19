@@ -306,7 +306,7 @@ class IOOLogin(FormView):
 class IOOSignUp(FormView):
     form_class = forms.SignUpForm
     template_name = 'ioo/signup.html'
-    success_url = reverse_lazy('international_online_offer:login')
+    success_url = reverse_lazy('international_online_offer:contact')
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(

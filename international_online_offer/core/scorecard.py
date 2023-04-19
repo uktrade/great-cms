@@ -18,7 +18,7 @@ def score_is_high_value(sector, location, hiring, spend, spend_other=0):
 
 
 def is_levelling_up(location):
-    REGIONS = [
+    levelling_up_regions = [
         'East Midlands',
         'East of England',
         'North East',
@@ -30,7 +30,7 @@ def is_levelling_up(location):
         'West Midlands',
         'Yorkshire and The Humber',
     ]
-    return location in REGIONS
+    return location in levelling_up_regions
 
 
 def get_upper_value(value_in):
@@ -38,7 +38,7 @@ def get_upper_value(value_in):
 
 
 def is_capex_spend(sector, spend, spend_other=0):
-    SECTOR_SPEND_LIST = [
+    capex_sector_spend = [
         {'Food and Drink': 2000000},
         {'Technology and Smart Cities': 2400000},
         {'Financial and Professional Services': 6000000},
@@ -54,7 +54,7 @@ def is_capex_spend(sector, spend, spend_other=0):
 
     spend_upper_value = int(spend_upper_value)
 
-    for sector_spend in SECTOR_SPEND_LIST:
+    for sector_spend in capex_sector_spend:
         if sector in sector_spend:
             if spend_upper_value >= sector_spend[sector]:
                 return True
@@ -62,7 +62,7 @@ def is_capex_spend(sector, spend, spend_other=0):
 
 
 def is_labour_workforce_hire(sector, hiring):
-    SECTOR_HIRING_LIST = [
+    labour_workforce_hire_sector_hiring = [
         {'Food and Drink': 12},
         {'Technology and Smart Cities': 15},
         {'Financial and Professional Services': 11},
@@ -79,7 +79,7 @@ def is_labour_workforce_hire(sector, hiring):
 
     hiring_upper_value = int(hiring_upper_value)
 
-    for sector_hiring in SECTOR_HIRING_LIST:
+    for sector_hiring in labour_workforce_hire_sector_hiring:
         if sector in sector_hiring:
             if hiring_upper_value >= sector_hiring[sector]:
                 return True
@@ -87,12 +87,12 @@ def is_labour_workforce_hire(sector, hiring):
 
 
 def is_hpo(sector, location):
-    SECTOR_LOCATION_LIST = [
+    hpo_sector_location = [
         {'Food and Drink': ['North East', 'North West', 'East']},
         {'Technology and Smart Cities': ['Wales', 'South West', 'East', 'West Midlands', 'Yorkshire and the Humber']},
     ]
 
-    for sector_location in SECTOR_LOCATION_LIST:
+    for sector_location in hpo_sector_location:
         if sector in sector_location:
             if location in sector_location[sector]:
                 return True
