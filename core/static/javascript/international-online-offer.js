@@ -323,19 +323,3 @@ function getContactFormCompanyLocationIfPreviouslySelected() {
   const iooFormData = getIooFormData();
   return iooFormData.contactInformation.companyLocation;
 }
-
-function hideMessagesToCompleteContactFormIfPreviouslySelected() {
-  const iooFormData = getIooFormData();
-  if (iooFormData.contactFormComplete) {
-    if (document.getElementById('completed_contact_form_message')) document.getElementById('completed_contact_form_message').style.display = 'none';
-    if (document.getElementById('complete_contact_form_message')) document.getElementById('complete_contact_form_message').style.display = 'none';
-  }
-}
-
-function saveIfContactFormSuccess() {
-  const iooFormData = getIooFormData();
-  if (document.getElementById('completed_contact_form_message')) {
-    iooFormData.contactFormComplete = true;
-    setIooFormData(iooFormData);
-  }
-}

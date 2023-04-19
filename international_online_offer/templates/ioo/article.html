@@ -26,12 +26,14 @@
       <h3 class="govuk-heading-l">{{ page.article_title }}</h3>
     </div>
   </div>
+  {% if page.article_image %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         {% image page.article_image original as rendition %}
         <div class="image-container" style="background-image: url({{ rendition.url }});"></div>
     </div>
   </div>
+  {% endif %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h4 class="govuk-heading-m" style="margin-bottom: 18px;">{{ page.article_subheading }}</h4>

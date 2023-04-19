@@ -3,10 +3,12 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from international_online_offer import forms
+from international_online_offer.core import scorecard
 from international_online_offer.models import (
     TriageData,
     UserData,
     get_triage_data,
+    get_triage_data_from_db_or_session,
     get_user_data,
 )
 
@@ -14,6 +16,23 @@ LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = 'Complete the contact form to keep up 
 HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = """Your business qualifies for 1 to 1 support from specialist UK government
  advisors. Complete the form to access this and keep up to date with our personalised service."""
 COMPLETED_CONTACT_FORM_MESSAGE = 'Thank you for completing the contact form.'
+
+
+def calculate_and_store_is_high_value(request):
+    existing_triage_data = get_triage_data_from_db_or_session(request)
+    is_high_value = scorecard.score_is_high_value(
+        existing_triage_data.sector,
+        existing_triage_data.location,
+        existing_triage_data.hiring,
+        existing_triage_data.spend,
+        existing_triage_data.spend_other,
+    )
+    if request.user.is_authenticated:
+        TriageData.objects.update_or_create(
+            hashed_uuid=request.user.hashed_uuid, defaults={'is_high_value': is_high_value}
+        )
+    else:
+        request.session['is_high_value'] = is_high_value
 
 
 class IOOIndex(TemplateView):
@@ -46,10 +65,14 @@ class IOOSector(FormView):
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
-                hashed_uuid=self.request.user.hashed_uuid, defaults={'sector': form.cleaned_data['sector']}
+                hashed_uuid=self.request.user.hashed_uuid,
+                defaults={
+                    'sector': form.cleaned_data['sector'],
+                },
             )
         else:
             self.request.session['sector'] = form.cleaned_data['sector']
+        calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
 
@@ -80,11 +103,15 @@ class IOOIntent(FormView):
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
                 hashed_uuid=self.request.user.hashed_uuid,
-                defaults={'intent': form.cleaned_data['intent'], 'intent_other': form.cleaned_data['intent_other']},
+                defaults={
+                    'intent': form.cleaned_data['intent'],
+                    'intent_other': form.cleaned_data['intent_other'],
+                },
             )
         else:
             self.request.session['intent'] = form.cleaned_data['intent']
             self.request.session['intent_other'] = form.cleaned_data['intent_other']
+        calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
 
@@ -126,6 +153,7 @@ class IOOLocation(FormView):
         else:
             self.request.session['location'] = form.cleaned_data['location']
             self.request.session['location_none'] = form.cleaned_data['location_none']
+        calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
 
@@ -155,10 +183,14 @@ class IOOHiring(FormView):
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
-                hashed_uuid=self.request.user.hashed_uuid, defaults={'hiring': form.cleaned_data['hiring']}
+                hashed_uuid=self.request.user.hashed_uuid,
+                defaults={
+                    'hiring': form.cleaned_data['hiring'],
+                },
             )
         else:
             self.request.session['hiring'] = form.cleaned_data['hiring']
+        calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
 
@@ -189,11 +221,15 @@ class IOOSpend(FormView):
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
                 hashed_uuid=self.request.user.hashed_uuid,
-                defaults={'spend': form.cleaned_data['spend'], 'spend_other': form.cleaned_data['spend_other']},
+                defaults={
+                    'spend': form.cleaned_data['spend'],
+                    'spend_other': form.cleaned_data['spend_other'],
+                },
             )
         else:
             self.request.session['spend'] = form.cleaned_data['spend']
             self.request.session['spend_other'] = form.cleaned_data['spend_other']
+        calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
 
@@ -270,7 +306,7 @@ class IOOLogin(FormView):
 class IOOSignUp(FormView):
     form_class = forms.SignUpForm
     template_name = 'ioo/signup.html'
-    success_url = reverse_lazy('international_online_offer:login')
+    success_url = reverse_lazy('international_online_offer:contact')
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(

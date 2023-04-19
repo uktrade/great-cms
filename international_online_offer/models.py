@@ -48,6 +48,7 @@ def get_triage_data_from_db_or_session(request):
                 'hiring': request.session.get('hiring') if request.session.get('hiring') else '',
                 'spend': request.session.get('spend') if request.session.get('spend') else '',
                 'spend_other': request.session.get('spend_other') if request.session.get('spend_other') else '',
+                'is_high_value': request.session.get('is_high_value'),
             },
         )
 
@@ -101,7 +102,6 @@ class IOOGuidePage(BaseContentPage):
     HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = """Your business qualifies for 1 to 1 support from specialist UK
         government advisors. Complete the form to access this and keep up to date with our
         personalised service."""
-    CONTACT_FORM_SUCCESS_MESSAGE = 'Thank you for completing the contact form.'
     parent_page_types = ['international_online_offer.IOOIndexPage']
     subpage_types = ['international_online_offer.IOOArticlePage']
     template = 'ioo/guide.html'
@@ -113,18 +113,19 @@ class IOOGuidePage(BaseContentPage):
         all_articles = self.get_children().live()
         get_to_know_market_articles = []
         opportunities_articles = []
+        complete_contact_form_message = self.LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE
         if triage_data:
+            if triage_data.is_high_value:
+                complete_contact_form_message = self.HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE
             get_to_know_market_articles = helpers.find_get_to_know_market_articles(
                 all_articles, triage_data.sector, triage_data.intent
             )
             opportunities_articles = helpers.find_opportunities_articles(all_articles, triage_data.sector)
         support_and_incentives_articles = helpers.find_get_support_and_incentives_articles(all_articles)
         context.update(
-            complete_contact_form_message=self.LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE,
-            complete_contact_form_link='international_online_offer:contact',
+            complete_contact_form_message=complete_contact_form_message,
+            complete_contact_form_link='international_online_offer:signup',
             complete_contact_form_link_text='Complete form',
-            contact_form_success_message=self.CONTACT_FORM_SUCCESS_MESSAGE,
-            submit_contact_details_success=request.GET.get('success'),
             triage_data=triage_data,
             user_data=user_data,
             get_to_know_market_articles=get_to_know_market_articles,
@@ -306,6 +307,7 @@ class TriageData(models.Model):
 
     spend = models.CharField(max_length=255, choices=SPEND_CHOICES)
     spend_other = models.CharField(max_length=255, null=True)
+    is_high_value = models.BooleanField(default=False)
 
 
 class UserData(models.Model):
