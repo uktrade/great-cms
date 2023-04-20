@@ -5,17 +5,21 @@ import logging
 from directory_forms_api_client.helpers import Sender
 from django.conf import settings
 from django.contrib.sitemaps import Sitemap as DjangoSitemap
+from django.core.files.storage import default_storage
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.urls import reverse, reverse_lazy
+from django.utils.crypto import get_random_string
 from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView
 from formtools.wizard.views import NamedUrlSessionWizardView
 from great_components.mixins import GA360Mixin
 from rest_framework import generics
+from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from storages.backends.s3boto3 import S3Boto3Storage
 from wagtail.contrib.sitemaps import Sitemap as WagtailSitemap
 
 from core import cms_slugs, forms, helpers, serializers
@@ -469,3 +473,23 @@ class StaticViewSitemap(DjangoSitemap):
         elif item == 'domestic:report-ma-barrier':
             return reverse(item, kwargs={'step': 'about'})
         return reverse(item)
+
+
+class SignedURLView(GenericAPIView):
+    storage: S3Boto3Storage = default_storage
+
+    def post(self, request, *args, **kwargs):
+        client = self.storage.connection.meta.client
+        request_file_name = request.data.get('fileName', get_random_string(7))
+        qualified_key = f'media/{request_file_name}'
+        key = self.storage.get_available_name(qualified_key)
+
+        url = client.generate_presigned_url(
+            ClientMethod='put_object',
+            Params={
+                'Bucket': self.storage.bucket.name,
+                'Key': key,
+            },
+            ExpiresIn=3600,
+        )
+        return Response({'url': url, 'key': key})

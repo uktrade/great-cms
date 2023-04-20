@@ -3,6 +3,7 @@ from unittest import mock
 import pytest
 from directory_ch_client.client import ch_search_api_client
 from django.shortcuts import reverse
+from django.test import override_settings
 
 from core import helpers as core_helpers
 from directory_api_client import api_client
@@ -74,3 +75,17 @@ def test_companies_house_api_view(mock_get_company_profile, mock_search_companie
     client.get(url + '?service=profile&company_number=123456789')
     assert mock_get_company_profile.call_count == 1
     assert mock_get_company_profile.call_args == mock.call(company_number='123456789')
+
+
+@pytest.mark.django_db
+@override_settings(DEFAULT_FILE_STORAGE='storages.backends.s3boto3.S3Boto3Storage')
+@mock.patch('storages.backends.s3boto3.S3Boto3Storage')
+def test_signed_url_view(patch_storage, client):
+    patch_storage().connection.meta.client.generate_presigned_url.return_value = 'pre-signed-url'
+    patch_storage().get_available_name.return_value = 'key'
+
+    url = reverse('core:signed-url')
+    response = client.post(url, {'fileName': 'test'})
+
+    assert response.status_code == 200
+    assert response.data == {'url': 'pre-signed-url', 'key': 'key'}
