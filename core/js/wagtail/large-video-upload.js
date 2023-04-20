@@ -11,6 +11,7 @@ export const largeVideoUpload = () => {
     let isLargeVideo = false
     let _key
     let form = document.querySelector('form[action="/admin/media/video/add/"]')
+    let isInitialised = false
 
     if (isEditVideoPage) {
       form = document.querySelector('form[action^="/admin/media/edit/"]')
@@ -30,14 +31,6 @@ export const largeVideoUpload = () => {
         '#large_video_submit',
         '.fields input[type="submit"]',
         'inline-block'
-      )
-    }
-
-    function disableLargeVideoUpload() {
-      isLargeVideo = false
-      utils.showHideElements(
-        '.fields button[type="submit"]',
-        '#large_video_submit'
       )
     }
 
@@ -135,11 +128,10 @@ export const largeVideoUpload = () => {
         'file',
         new File([new Blob(['xyz'])], _key, {
           name: _key,
-          lastModified: 1680183083519,
+          lastModified: new Date().valueOf(),
           lastModifiedDate: new Date(),
-          size: 7942351,
+          size: 1,
           type: 'video/mp4',
-          webkitRelativePath: '',
         })
       )
 
@@ -214,7 +206,7 @@ export const largeVideoUpload = () => {
       uploadFileInput.addEventListener('change', (event) => {
         file = event.target.files[0]
 
-        if (file.size > 100000) {
+        if (!isInitialised) {
           createLargeVideoSubmitButton()
           createStatusMessage()
           createProgressBar()
@@ -226,12 +218,12 @@ export const largeVideoUpload = () => {
           if (isEditVideoPage) {
             enableLargeVideoSave()
           }
-        } else {
-          disableLargeVideoUpload()
+
+          isInitialised = true
         }
       })
     }
 
-    setup()
+    window.addEventListener('DOMContentLoaded', () => setup())
   }
 }
