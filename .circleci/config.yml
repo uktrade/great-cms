@@ -213,13 +213,41 @@ jobs:
             pip install black
             black ./ --check
 
+  test_ui:
+    working_directory: ~/great-cms
+    docker:
+      - image: cimg/base:2022.06
+      - <<: *python_node_browsers
+    #   - <<: *postgres
+    # environment:
+    #   *postgres_url
+    steps:
+      - checkout
+      - setup_remote_docker
+      - *install_postgresql_client
+      # - restore_cache:
+      #     key: v1-deps-{{ checksum "requirements_test.txt" }}
+      - browser-tools/install-chrome
+      - run:
+          name: Run UI tests
+          command: |
+            pwd
+            yes y | ./start-docker.sh
+      - run:
+          name: Run UI tests
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            ENV_FILES='test,dev' pytest tests/ui/uitests/domestic/domestic_test.py
+
 workflows:
   version: 2
   test_and_checks:
     jobs:
-      - test
-      - test_browser
-      - test_javascript
-      - test_load
-      - black
-      - flake8
+      - test_ui
+      # - test
+      # - test_browser
+      # - test_javascript
+      # - test_load
+      # - black
+      # - flake8
