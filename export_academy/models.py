@@ -222,3 +222,8 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
     )
 
     next_cta = StreamField([('button', ButtonBlock())], null=True, blank=True)
+    anais_field = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )

@@ -23,6 +23,7 @@ class ExportAcademyPagePanels:
                 StreamFieldPanel('hero_cta'),
             ],
         ),
+        FieldPanel('anais_field'),
         MultiFieldPanel(
             heading='Temporary Banner',
             classname='collapsible',
