@@ -532,6 +532,13 @@ class ColumnsBlock(blocks.StructBlock):
     link = blocks.URLBlock(required=False, label='Title link')
 
 
+class MicrositeColumnBlock(blocks.StructBlock):
+    image = ImageChooserBlock(required=False, label='Hero Image')
+    text = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label='Description')
+    button_label = blocks.CharBlock(required=False)
+    button_url = blocks.URLBlock(required=False)
+
+
 class SingleRichTextBlock(blocks.StructBlock):
     description = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label='Description')
 
