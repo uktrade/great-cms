@@ -37,7 +37,7 @@
                 Sector
               </dt>
               <dd class="govuk-summary-list__value">
-                {{ triage_data.sector | default:'-' }}
+                {{ triage_data.get_sector_display | default:'-' }}
               </dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="{% url 'international_online_offer:sector' %}?next=edit-your-answers">
@@ -51,15 +51,9 @@
               </dt>
               <dd class="govuk-summary-list__value">
                 {% if triage_data.get_intent_display %}
-                  {% for i in triage_data.get_intent_display %}
+                  {% for intent in triage_data.get_intent_display %}
                     <p>
-                      {{i}}{% if i == 'Other' %}: {{ triage_data.intent_other }}{% endif %}
-                    </p>
-                  {% endfor %}
-                {% elif triage_data.intent %}
-                  {% for i in triage_data.intent %}
-                    <p>
-                      {{i}}{% if i == 'Other' %}: {{ triage_data.intent_other }}{% endif %}
+                      {{intent}}{% if intent == 'Other' %}: {{ triage_data.intent_other }}{% endif %}
                     </p>
                   {% endfor %}
                 {% else %}
@@ -77,8 +71,8 @@
                 Location
               </dt>
               <dd class="govuk-summary-list__value">
-                {% if triage_data.location %}
-                  {{ triage_data.location }}
+                {% if triage_data.get_location_display %}
+                  {{ triage_data.get_location_display }}
                 {% elif triage_data.location_none %}
                   I have not decided on a location yet
                 {% else %}
@@ -96,13 +90,7 @@
                 Hiring estimate (within first 3 years)
               </dt>
               <dd class="govuk-summary-list__value">
-                {% if triage_data.get_hiring_display %}
-                  {{ triage_data.get_hiring_display }}
-                {% elif triage_data.hiring %}
-                  {{ triage_data.hiring }}
-                {% else %}
-                  -
-                {% endif %}
+                {{ triage_data.get_hiring_display | default:"-" }}
               </dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="{% url 'international_online_offer:hiring' %}?next=edit-your-answers">
@@ -117,9 +105,6 @@
               <dd class="govuk-summary-list__value">
                 {% if triage_data.get_spend_display %}
                   {{ triage_data.get_spend_display }}{% if triage_data.get_spend_display == 'Specific amount' %}: £{{ triage_data.spend_other }}{% endif %}
-                {% elif triage_data.spend %}
-                  {% if triage_data.spend != 'Specific amount'%}£{% endif %}
-                  {{ triage_data.spend }}{% if triage_data.spend == 'Specific amount' %}: £{{ triage_data.spend_other }}{% endif %}
                 {% else %}
                   -
                 {% endif %}

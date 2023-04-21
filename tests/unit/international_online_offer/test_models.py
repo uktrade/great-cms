@@ -161,6 +161,11 @@ def test_ioo_guide_get_user_from_db_not_session(rf, user):
     assert user_data.company_name == 'DBT'
 
 
+@pytest.mark.django_db
+def test_ioo_models_get_intent_display():
+    TriageData.get_intent_display()
+
+
 class IOOArticlePageTests(WagtailPageTests):
     def test_allowed_parents(self):
         self.assertAllowedParentPageTypes(
