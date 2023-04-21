@@ -20,6 +20,13 @@ def test_ioo_sector(client, settings):
 
 
 @pytest.mark.django_db
+def test_ioo_sector_next(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    response = client.get(reverse('international_online_offer:sector') + '?next=edit-your-answers')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_ioo_sector_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
@@ -64,6 +71,13 @@ def test_ioo_intent(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:intent')
     response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_ioo_intent_next(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    response = client.get(reverse('international_online_offer:intent') + '?next=edit-your-answers')
     assert response.status_code == 200
 
 
@@ -117,6 +131,13 @@ def test_ioo_location(client, settings):
 
 
 @pytest.mark.django_db
+def test_ioo_location_next(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    response = client.get(reverse('international_online_offer:location') + '?next=edit-your-answers')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_ioo_location_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
@@ -166,6 +187,13 @@ def test_ioo_hiring(client, settings):
 
 
 @pytest.mark.django_db
+def test_ioo_hiring_next(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    response = client.get(reverse('international_online_offer:hiring') + '?next=edit-your-answers')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_ioo_hiring_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     TriageData.objects.update_or_create(
@@ -210,6 +238,13 @@ def test_ioo_spend(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:spend')
     response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_ioo_spend_next(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    response = client.get(reverse('international_online_offer:spend') + '?next=edit-your-answers')
     assert response.status_code == 200
 
 
