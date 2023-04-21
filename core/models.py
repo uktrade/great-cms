@@ -45,7 +45,7 @@ from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
-from core.blocks import CampaignFormBlock, ColumnsBlock, LinksBlock
+from core.blocks import CampaignFormBlock, LinksBlock, MicrositeColumnBlock
 from core.case_study_index import delete_cs_index, update_cs_index
 from core.cms_snippets import NonPageContentSEOMixin, NonPageContentSnippetBase
 from core.constants import (
@@ -1404,7 +1404,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 'columns',
                 StreamBlock(
                     [
-                        ('column', ColumnsBlock()),
+                        ('column', MicrositeColumnBlock()),
                     ],
                     help_text='Add two or three columns text',
                     min_num=2,
