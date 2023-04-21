@@ -15,3 +15,13 @@ def valid_registration_form_data():
         'how_can_we_help': 'buying a coffee',
         'terms_agreed': True,
     }
+
+
+@pytest.fixture
+def valid_registration_details_form_data():
+    return {
+        'first_name': 'Test name',
+        'last_name': 'Test last',
+        'job_title': 'Astronaut',
+        'phone_number': '072345678910',
+    }

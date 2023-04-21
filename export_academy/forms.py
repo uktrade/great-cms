@@ -1,13 +1,21 @@
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
-from django.forms import CheckboxInput, DateTimeField, HiddenInput, Select, Textarea
+from django.forms import (
+    CheckboxInput,
+    DateTimeField,
+    HiddenInput,
+    Select,
+    ValidationError,
+)
 from django.forms.widgets import ChoiceWidget
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from great_components import forms
 from wagtail.admin.forms import WagtailAdminModelForm
 
-from contact.forms import TERMS_LABEL
+from contact import constants
+from core.validators import is_valid_uk_postcode
 from directory_constants.choices import COUNTRY_CHOICES
+from regex import PHONE_NUMBER_REGEX
 
 COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
@@ -30,7 +38,10 @@ class BoolToDateTimeField(DateTimeField):
         return super().to_python(value)
 
 
-class EARegistration(GovNotifyEmailActionMixin, forms.Form):
+PHONE_ERROR_MESSAGE = 'Please enter a valid UK phone number'
+
+
+class PersonalDetails(forms.Form):
     first_name = forms.CharField(
         label=_('Given name'),
         min_length=2,
@@ -47,6 +58,18 @@ class EARegistration(GovNotifyEmailActionMixin, forms.Form):
             'required': _('Enter your family name'),
         },
     )
+    phone_number = forms.CharField(
+        label='UK telephone number',
+        min_length=8,
+        max_length=16,
+        help_text='This can be a landline or mobile number',
+        error_messages={
+            'max_length': PHONE_ERROR_MESSAGE,
+            'min_length': PHONE_ERROR_MESSAGE,
+            'invalid': PHONE_ERROR_MESSAGE,
+            'required': PHONE_ERROR_MESSAGE,
+        },
+    )
     job_title = forms.CharField(
         label=_('Job title'),
         max_length=50,
@@ -54,6 +77,85 @@ class EARegistration(GovNotifyEmailActionMixin, forms.Form):
             'required': _('Enter your job title'),
         },
     )
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data['phone_number'].replace(' ', '')
+        if phone_number == '':
+            return phone_number
+        if not PHONE_NUMBER_REGEX.match(phone_number):
+            raise ValidationError(PHONE_ERROR_MESSAGE)
+        return phone_number
+
+    @property
+    def serialized_data(self):
+        data = super().serialized_data
+        return data
+
+
+class ExportExperience(forms.Form):
+    export_experience = forms.ChoiceField(
+        label=_('What is your export experience?'),
+        choices=(
+            (
+                'I have never exported but I have a product suitable or that could be developed for export',
+                'I have never exported but I have a product suitable or that could be developed for export',
+            ),
+            (
+                'I have exported before but not in the last 12 months',
+                'I have exported before but not in the last 12 months',
+            ),
+            ('I have exported in the last 12 months', 'I have exported in the last 12 months'),
+            ('I do not have a product for export', 'I do not have a product for export'),
+        ),
+        widget=forms.RadioSelect,
+        error_messages={'required': _('Please answer this question')},
+    )
+
+    sector = forms.ChoiceField(
+        label='What is your sector?',
+        help_text='Select at least one sector that applies to you',
+        choices=constants.INDUSTRY_CHOICES,
+        error_messages={'required': _('Please answer this question')},
+        widget=Select(attrs={'id': 'great-header-country-select'}),
+    )
+
+    second_sector = forms.ChoiceField(
+        label='',
+        help_text='Select an additional sector (optional)',
+        choices=constants.INDUSTRY_CHOICES,
+        error_messages={'required': _('Please answer this question')},
+        required=False,
+        widget=Select(attrs={'id': 'great-header-country-select'}),
+    )
+
+    third_sector = forms.ChoiceField(
+        label='',
+        help_text='Select an additional sector (optional)',
+        choices=constants.INDUSTRY_CHOICES,
+        error_messages={'required': _('Please answer this question')},
+        required=False,
+        widget=Select(attrs={'id': 'great-header-country-select'}),
+    )
+
+    export_product = forms.ChoiceField(
+        label=_('Do you export goods or services?'),
+        choices=(
+            ('Goods', 'Goods'),
+            ('Services', 'Services'),
+            ('Both', 'Both'),
+            ("I don't know", "I don't know"),
+        ),
+        widget=forms.RadioSelect,
+        error_messages={'required': _('Please answer this question')},
+    )
+
+    @property
+    def serialized_data(self):
+        data = super().serialized_data
+        return data
+
+
+class BusinessDetails(forms.Form):
     business_name = forms.CharField(
         label=_('Business name'),
         max_length=50,
@@ -61,61 +163,72 @@ class EARegistration(GovNotifyEmailActionMixin, forms.Form):
             'required': _('Enter your business name'),
         },
     )
-    business_website = forms.CharField(
-        label=_('Business website'),
-        max_length=255,
-        error_messages={
-            'required': _(
-                'Enter a website address in the correct format, like https://www.example.com or www.company.com'
-            ),
-            'invalid': _(
-                'Enter a website address in the correct format, like https://www.example.com or www.company.com'
-            ),
-        },
-        required=False,
+    business_postcode = forms.CharField(
+        label='Business unit postcode',
+        max_length=8,
+        error_messages={'required': 'Enter your business postcode', 'invalid': 'Please enter a UK postcode'},
+        validators=[is_valid_uk_postcode],
     )
-    country = forms.ChoiceField(
-        label=_('Drop down example'),
-        widget=Select(),
-        choices=COUNTRIES,
-    )
-    like_to_discuss = forms.ChoiceField(
-        label=_('Radio button example'),
+
+    annual_turnover = forms.ChoiceField(
+        label=_('Annual turnover'),
         choices=(
-            ('no', 'No'),
-            ('yes', 'Yes'),
+            ('Up to £85,000', 'Up to £85,000'),
+            ('£85,001 up to £249,999', '£85,001 up to £249,999'),
+            ('£250,000 up to £499,999', '£250,000 up to £499,999'),
+            ('£500,000 +', '£500,000 +'),
+            ("I don't know", "I don't know"),
+            ("I'd prefer not to say", "I'd prefer not to say"),
         ),
         widget=forms.RadioSelect,
         error_messages={'required': _('Please answer this question')},
     )
-    like_to_discuss_other = forms.ChoiceField(
-        label=_('Which country is the project located in?'),
-        widget=Select(),
-        choices=COUNTRIES,
-        required=False,
-    )
-    how_can_we_help = forms.CharField(
-        label=_('How can we help?'),
-        help_text=_('Text area example'),
-        widget=Textarea,
-    )
-    terms_agreed = forms.BooleanField(
-        label=TERMS_LABEL,
-        error_messages={
-            'required': _('You must agree to the terms and conditions' ' before registering'),
-        },
+
+    employee_count = forms.ChoiceField(
+        label=_('Number of employees'),
+        choices=(
+            ('0 to 9', '0 to 9'),
+            ('10 to 49', '10 to 49'),
+            ('50 +', '50 plus'),
+            ('not sure', "I don't know"),
+            ('prefer not to say', "I'd prefer not to say"),
+        ),
+        widget=forms.RadioSelect,
+        error_messages={'required': _('Please answer this question')},
     )
 
     @property
     def serialized_data(self):
         data = super().serialized_data
-        countries_mapping = dict(COUNTRY_CHOICES)
-        country_label = countries_mapping.get(data['country'])
-        data['country_label'] = country_label
-        data['like_to_discuss_country'] = ''
-        if data.get('like_to_discuss') == 'yes':
-            data['like_to_discuss_country'] = countries_mapping.get(data['like_to_discuss_other'])
         return data
+
+
+class MarketingSources(forms.Form):
+    marketing_sources = forms.ChoiceField(
+        label=_('How did you hear about the Export Academy?'),
+        choices=constants.MARKETING_SOURCES_CHOICES,
+        error_messages={'required': _('Please answer this question')},
+    )
+
+    @property
+    def serialized_data(self):
+        data = super().serialized_data
+        return data
+
+
+class RegistrationConfirm(GovNotifyEmailActionMixin, forms.Form):
+    completed = BoolToDateTimeField(widget=HiddenInput, required=False)
+
+    def _clean_field(self, fieldname):
+        """Obtains new value if there is no initial value in the DB"""
+        initial_value = self[fieldname].initial
+        data_value = self.cleaned_data[fieldname]
+        if initial_value and data_value is not None:
+            return initial_value
+        return data_value
+
+    def clean_completed(self):
+        return self._clean_field('completed')
 
 
 class EventAdminModelForm(WagtailAdminModelForm):
