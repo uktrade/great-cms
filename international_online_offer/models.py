@@ -252,7 +252,7 @@ class TriageData(models.Model):
         ('Set up new premises', 'Set up new premises'),
         ('Set up a new distribution centre', 'Set up a new distribution centre'),
         ('Onward sales and exports from the UK', 'Onward sales and exports from the UK'),
-        ('Research, develop and collaborate', 'Research, develop and collaborate'),
+        ('Research develop and collaborate', 'Research, develop and collaborate'),
         ('Find people with specialist skills', 'Find people with specialist skills'),
         ('Other', 'Other'),
     )
@@ -265,6 +265,14 @@ class TriageData(models.Model):
         size=1,
         default=list,
     )
+
+    def get_intent_display(self):
+        out = []
+        for display_intent in self.INTENT_CHOICES:
+            if display_intent[0] in self.intent:
+                out.append(display_intent[1])
+        return out
+
     intent_other = models.CharField(max_length=255)
 
     LOCATION_CHOICES = (
