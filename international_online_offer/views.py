@@ -10,6 +10,7 @@ from international_online_offer.models import (
     get_triage_data,
     get_triage_data_from_db_or_session,
     get_user_data,
+    get_user_data_from_db_or_session,
 )
 
 LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = 'Complete the contact form to keep up to date with our personalised service.'
@@ -42,12 +43,23 @@ class IOOIndex(TemplateView):
 class IOOSector(FormView):
     form_class = forms.SectorForm
     template_name = 'ioo/triage/sector.html'
-    success_url = reverse_lazy('international_online_offer:intent')
+
+    def get_back_url(self):
+        back_url = 'international_online_offer:index'
+        if self.request.GET.get('next'):
+            back_url = 'international_online_offer:' + self.request.GET.get('next')
+        return back_url
+
+    def get_success_url(self):
+        next_url = reverse_lazy('international_online_offer:intent')
+        if self.request.GET.get('next'):
+            next_url = reverse_lazy('international_online_offer:' + self.request.GET.get('next'))
+        return next_url
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
-            back_url='international_online_offer:index',
+            back_url=self.get_back_url(),
             step_text='Step 1 of 5',
             question_text='What is your business sector?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
@@ -79,12 +91,23 @@ class IOOSector(FormView):
 class IOOIntent(FormView):
     form_class = forms.IntentForm
     template_name = 'ioo/triage/intent.html'
-    success_url = reverse_lazy('international_online_offer:location')
+
+    def get_back_url(self):
+        back_url = 'international_online_offer:sector'
+        if self.request.GET.get('next'):
+            back_url = 'international_online_offer:' + self.request.GET.get('next')
+        return back_url
+
+    def get_success_url(self):
+        next_url = reverse_lazy('international_online_offer:location')
+        if self.request.GET.get('next'):
+            next_url = reverse_lazy('international_online_offer:' + self.request.GET.get('next'))
+        return next_url
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
-            back_url='international_online_offer:sector',
+            back_url=self.get_back_url(),
             step_text='Step 2 of 5',
             question_text='How do you plan to expand your business in the UK?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
@@ -118,12 +141,23 @@ class IOOIntent(FormView):
 class IOOLocation(FormView):
     form_class = forms.LocationForm
     template_name = 'ioo/triage/location.html'
-    success_url = reverse_lazy('international_online_offer:hiring')
+
+    def get_back_url(self):
+        back_url = 'international_online_offer:intent'
+        if self.request.GET.get('next'):
+            back_url = 'international_online_offer:' + self.request.GET.get('next')
+        return back_url
+
+    def get_success_url(self):
+        next_url = reverse_lazy('international_online_offer:hiring')
+        if self.request.GET.get('next'):
+            next_url = reverse_lazy('international_online_offer:' + self.request.GET.get('next'))
+        return next_url
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
-            back_url='international_online_offer:intent',
+            back_url=self.get_back_url(),
             step_text='Step 3 of 5',
             question_text='Where in the UK would you like to expand your business?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
@@ -160,12 +194,23 @@ class IOOLocation(FormView):
 class IOOHiring(FormView):
     form_class = forms.HiringForm
     template_name = 'ioo/triage/hiring.html'
-    success_url = reverse_lazy('international_online_offer:spend')
+
+    def get_back_url(self):
+        back_url = 'international_online_offer:location'
+        if self.request.GET.get('next'):
+            back_url = 'international_online_offer:' + self.request.GET.get('next')
+        return back_url
+
+    def get_success_url(self):
+        next_url = reverse_lazy('international_online_offer:spend')
+        if self.request.GET.get('next'):
+            next_url = reverse_lazy('international_online_offer:' + self.request.GET.get('next'))
+        return next_url
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
-            back_url='international_online_offer:location',
+            back_url=self.get_back_url(),
             step_text='Step 4 of 5',
             question_text='How many people are you looking to hire in the UK?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
@@ -197,12 +242,23 @@ class IOOHiring(FormView):
 class IOOSpend(FormView):
     form_class = forms.SpendForm
     template_name = 'ioo/triage/spend.html'
-    success_url = '/international/expand-your-business-in-the-uk/guide/'
+
+    def get_back_url(self):
+        back_url = 'international_online_offer:hiring'
+        if self.request.GET.get('next'):
+            back_url = 'international_online_offer:' + self.request.GET.get('next')
+        return back_url
+
+    def get_success_url(self):
+        next_url = '/international/expand-your-business-in-the-uk/guide/'
+        if self.request.GET.get('next'):
+            next_url = reverse_lazy('international_online_offer:' + self.request.GET.get('next'))
+        return next_url
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
-            back_url='international_online_offer:hiring',
+            back_url=self.get_back_url(),
             step_text='Step 5 of 5',
             question_text='What is your planned spend for UK entry or expansion?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
@@ -236,7 +292,7 @@ class IOOSpend(FormView):
 class IOOContact(FormView):
     form_class = forms.ContactForm
     template_name = 'ioo/contact.html'
-    success_url = '/international/expand-your-business-in-the-uk/guide/?success=true'
+    success_url = '/international/expand-your-business-in-the-uk/guide/'
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
@@ -311,4 +367,18 @@ class IOOSignUp(FormView):
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
+        )
+
+
+class IOOEditYourAnswers(TemplateView):
+    template_name = 'ioo/edit_your_answers.html'
+
+    def get_context_data(self, **kwargs):
+        triage_data = get_triage_data_from_db_or_session(self.request)
+        user_data = get_user_data_from_db_or_session(self.request)
+        return super().get_context_data(
+            **kwargs,
+            triage_data=triage_data,
+            user_data=user_data,
+            back_url='/international/expand-your-business-in-the-uk/guide/',
         )
