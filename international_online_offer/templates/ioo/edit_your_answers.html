@@ -50,21 +50,20 @@
                 Explansion plans
               </dt>
               <dd class="govuk-summary-list__value">
-                {% if not triage_data.get_intent_display  %}
-                  -
-                {% endif %}
                 {% if triage_data.get_intent_display %}
                   {% for i in triage_data.get_intent_display %}
                     <p>
                       {{i}}{% if i == 'Other' %}: {{ triage_data.intent_other }}{% endif %}
                     </p>
                   {% endfor %}
-                {% else %}
+                {% elif triage_data.intent %}
                   {% for i in triage_data.intent %}
                     <p>
                       {{i}}{% if i == 'Other' %}: {{ triage_data.intent_other }}{% endif %}
                     </p>
                   {% endfor %}
+                {% else %}
+                  -
                 {% endif %}
               </dd>
               <dd class="govuk-summary-list__actions">
