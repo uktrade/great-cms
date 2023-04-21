@@ -378,7 +378,7 @@ sphinxcontrib-serializinghtml==1.1.5
     # via sphinxcontrib-websupport
 sphinxcontrib-websupport==1.2.4
     # via sphinx
-sqlparse==0.4.3
+sqlparse==0.4.4
     # via django
 svglib==1.5.1
     # via xhtml2pdf
