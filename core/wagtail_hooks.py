@@ -16,7 +16,9 @@ from django.template.loader import render_to_string
 from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.html import format_html
+from django.utils.translation import gettext as _
 from great_components.helpers import add_next
+from wagtail.admin.views.pages.bulk_actions.page_bulk_action import PageBulkAction
 from wagtail.core import hooks
 from wagtail.core.models import Page
 from wagtail_transfer.field_adapters import FieldAdapter
@@ -24,6 +26,7 @@ from wagtail_transfer.files import File as WTFile, FileTransferError
 from wagtail_transfer.models import ImportedFile
 
 from core import constants, mixins, views
+from domestic.models import ArticlePage
 
 logger = logging.getLogger(__name__)
 
@@ -327,3 +330,21 @@ def global_admin_css():
         '<link rel="stylesheet" href="{}">',  # noqa: P103
         static('cms-admin/css/case-study-index.css'),
     )
+
+
+@hooks.register('register_bulk_action')
+class MigratePage(PageBulkAction):
+    display_name = _("Migrate")
+    aria_label = _("Create page from page")
+    action_type = "migrate"
+    template_name = "wagtailadmin/microsite_migrate.html"
+
+    # Only gives permission to change pages of the ArticlePage type currently
+    def check_perm(self, page):
+        return type(page.specific) == ArticlePage
+
+    # TODO update action to create microsite pages from the article pages contained in objects
+    # Collect target page from the form in the template and append new pages as the children of that page
+    @classmethod
+    def execute_action(cls, objects, **kwargs):
+        return NotImplementedError("execute_action needs to be implemented")
