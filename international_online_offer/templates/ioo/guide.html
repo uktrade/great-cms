@@ -40,7 +40,7 @@
             <div class="govuk-grid-column-one-quarter">
                 <p class="govuk-body">Headquarters</p>
                 {% if user_data.company_location %}
-                <h2 class="govuk-heading-m">{{ user_data.company_location }}</h2>
+                <h2 class="govuk-heading-m">{{ user_data.get_company_location_display }}</h2>
                 {% else %}
                 <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:contact' %}">Add details</a></p>
                 {% endif %}
@@ -54,7 +54,7 @@
                 {% endif %}
             </div>
             <div class="govuk-grid-column-one-quarter">
-                <p class="govuk-body"><a class="govuk-link" href="{% url 'international_online_offer:sector' %}">Edit your answers</a></p>
+                <p class="govuk-body"><a class="govuk-link" href="{% url 'international_online_offer:edit-your-answers' %}">Edit your answers</a></p>
             </div>
         </div>
     </div>
