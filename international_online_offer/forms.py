@@ -3,7 +3,7 @@ from django.utils.html import mark_safe
 from great_components import forms
 
 from directory_constants.choices import COUNTRY_CHOICES
-from international_online_offer.core import choices
+from international_online_offer.core import choices, intents, spends
 
 TERMS_LABEL = mark_safe('I agree to the <a href="#" target="_blank">Terms and Conditions</a>')
 BLANK_COUNTRY_CHOICE = [('', '')]
@@ -32,7 +32,7 @@ class IntentForm(forms.Form):
         cleaned_data = super().clean()
         intent = cleaned_data.get('intent')
         intent_other = cleaned_data.get('intent_other')
-        if intent and any('Other' in s for s in intent) and not intent_other:
+        if intent and any(intents.OTHER in s for s in intent) and not intent_other:
             self.add_error('intent_other', 'This field is required.')
         else:
             return cleaned_data
@@ -91,7 +91,7 @@ class SpendForm(forms.Form):
         cleaned_data = super().clean()
         spend = cleaned_data.get('spend')
         spend_other = cleaned_data.get('spend_other')
-        if spend == 'Specific amount' and not spend_other:
+        if spend == spends.SPECIFIC_AMOUNT and not spend_other:
             self.add_error('spend_other', 'This field is required.')
         else:
             return cleaned_data
