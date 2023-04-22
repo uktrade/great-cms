@@ -32,7 +32,7 @@ def test_triage_sector_validation(form_data, is_valid):
     'form_data,is_valid',
     (
         ({'intent': [intents.RESEARCH_DEVELOP_AND_COLLABORATE, intents.OTHER], 'intent_other': 'Test'}, True),
-        ({'intent': ['Other'], 'intent_other': ''}, False),
+        ({'intent': [intents.OTHER], 'intent_other': ''}, False),
     ),
 )
 @pytest.mark.django_db
@@ -87,8 +87,8 @@ def test_triage_hiring_form_validation(form_data, is_valid):
     'form_data,is_valid',
     (
         ({'spend': spends.FIVE_HUNDRED_THOUSAND_ONE_TO_ONE_MILLION, 'spend_other': ''}, True),
-        ({'spend': 'Specific amount', 'spend_other': '4500000'}, True),
-        ({'spend': 'Specific amount', 'spend_other': ''}, False),
+        ({'spend': spends.SPECIFIC_AMOUNT, 'spend_other': '4500000'}, True),
+        ({'spend': spends.SPECIFIC_AMOUNT, 'spend_other': ''}, False),
     ),
 )
 @pytest.mark.django_db

@@ -205,7 +205,7 @@ class TriageData(models.Model):
     def get_intent_display(self):
         out = []
         for display_intent in choices.INTENT_CHOICES:
-            if display_intent[0] in self.intent:
+            if self.intent and display_intent[0] in self.intent:
                 out.append(display_intent[1])
         return out
 
