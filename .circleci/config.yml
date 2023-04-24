@@ -231,14 +231,10 @@ jobs:
       - run:
           name: Run UI tests
           command: |
-            pwd
-            yes y | ./start-docker.sh
-      - run:
-          name: Run UI tests
-          command: |
             python3 -m venv venv
             . venv/bin/activate
             ENV_FILES='test,dev' pytest tests/ui/uitests/domestic/domestic_test.py
+            yes y | ./start-docker.sh
 
 workflows:
   version: 2
