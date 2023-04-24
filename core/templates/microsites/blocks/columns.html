@@ -13,7 +13,6 @@
             {% image item.value.image width-700 %}
         </div>
     {%endif%}
-    <h3 class="govuk-heading-m great-font-size-28">{{ item.value.title }}</h3>
     {% filter add_govuk_classes %}
         {{ item.value.text }}
     {% endfilter %}
