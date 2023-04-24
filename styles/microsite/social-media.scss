@@ -1,7 +1,8 @@
 @import '../sizes/sizes.scss';
 
 .social-media-items-wrapper {
-  display: inline-flex;
+  display: flex;
+  flex-wrap: column;
   flex-wrap: wrap;
   gap: 25px 40px;
 
