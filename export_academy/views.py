@@ -1,4 +1,8 @@
+from uuid import uuid4
+
+from django.http import HttpResponse
 from django.urls import reverse_lazy
+from django.utils.text import get_valid_filename
 from django.views.generic import (
     DetailView,
     FormView,
@@ -7,6 +11,8 @@ from django.views.generic import (
     UpdateView,
 )
 from django_filters.views import FilterView
+from icalendar import Calendar, Event
+from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
@@ -103,3 +109,29 @@ class EventDetailsView(DetailView):
         ctx.update(event_video={'video': video})
 
         return ctx
+
+
+class DownloadCalendarView(GenericAPIView):
+    event_model = models.Event
+
+    def post(self, request, *args, **kwargs):
+        post_data = self.request.POST
+        event_id = post_data['event_id']
+        event = self.event_model.objects.get(id=event_id)
+        cal = Calendar()
+        cal.add('PRODID', '-//Export academy events//')
+        cal.add('VERSION', '1.0')
+        meeting = Event()
+        meeting.add('SUMMARY', event.name)
+        meeting.add('DTSTART', event.start_date)
+        meeting.add('DTEND', event.end_date)
+        meeting['LOCATION'] = reverse_lazy('export_academy:upcoming-events')
+        meeting.add('DESCRIPTION', event.description)
+        meeting['UID'] = uuid4()
+        file_name = get_valid_filename(event.name)
+
+        cal.add_component(meeting)
+
+        response = HttpResponse(cal.to_ical(), content_type='text/calendar')
+        response['Content-Disposition'] = f'inline; filename={file_name}.ics'
+        return response

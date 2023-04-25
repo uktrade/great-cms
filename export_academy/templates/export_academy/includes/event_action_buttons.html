@@ -18,3 +18,16 @@
         {% endfor %}
     </ul>
 {% endif %}
+
+
+{% if action_buttons.calendar_button %}
+    <form action="{% url 'export_academy:calendar' %}" method="post">
+        {% csrf_token %}
+
+        <input type="hidden" name="event_id" value="{{ event.id }}">
+        {% for button in action_buttons.calendar_button %}
+            <input type="hidden" name="calender" value="{{ button.value }}">
+            {% include 'export_academy/includes/form_button.html' %}
+        {% endfor %}
+    </form>
+{% endif %}
