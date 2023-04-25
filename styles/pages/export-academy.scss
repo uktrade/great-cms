@@ -94,9 +94,12 @@
 }
 
 .event-tag-item {
+    @media (max-width: $tablet-size) {
+        font-size: 18px;
+    }
+
     @media screen and (max-width: 640px) {
         flex-basis: calc(50% - 8px);
-        font-size: 18px;
     }
 
     @media screen and (min-width: 641px) {
@@ -171,7 +174,7 @@
     .time {
         @media screen and (min-width: 641px) {
             font-size: 18px;
-            padding-bottom: 20px;
+            padding: 0 5px 20px;
         }
     }
 

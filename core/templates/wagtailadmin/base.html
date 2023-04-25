@@ -4,3 +4,7 @@
 {% block branding_logo %}
     <img src="{% static 'cms-admin/images/logo.png' %}" />
 {% endblock %}
+
+{% block extra_js %}
+<script defer src="{% static 'wagtail.js' %}"></script>
+{% endblock %}

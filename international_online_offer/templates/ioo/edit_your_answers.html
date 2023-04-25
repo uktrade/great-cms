@@ -1,0 +1,132 @@
+{% extends './base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block head_other %}
+  <meta
+    name="description"
+    content="Find information to help invest within the UK"
+  />
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <a href="{{ back_url }}" class="govuk-back-link" style="margin-bottom: 15px;">Back</a>
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Edit your answers</h1>
+      <p class="govuk-body">Use this page to amend the information of how your business is planning to expand to the UK</p>
+      <p class="govuk-body">
+        <span class="govuk-!-font-weight-bold">For your company:</span> {{ user_data.company_name | default:'-' }}
+        <a class="govuk-link" href="{% url 'international_online_offer:contact' %}">
+          Change
+        </a>
+      </p>
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-summary-card">
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Sector
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ triage_data.sector | default:'-' }}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="{% url 'international_online_offer:sector' %}?next=edit-your-answers">
+                  Change<span class="govuk-visually-hidden"> sector</span>
+                </a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Explansion plans
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {% if not triage_data.intent %}
+                  -
+                {% endif %}
+                {% for i in triage_data.intent %}
+                  <p>
+                    {{i}}{% if i == 'Other' %}: {{ triage_data.intent_other }}{% endif %}
+                  </p>
+                {% endfor %}
+
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="{% url 'international_online_offer:intent' %}?next=edit-your-answers">
+                  Change<span class="govuk-visually-hidden"> explansion plans</span>
+                </a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Location
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {% if triage_data.location %}
+                  {{ triage_data.location }}
+                {% elif triage_data.location_none %}
+                  I have not decided on a location yet
+                {% else %}
+                  -
+                {% endif %}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="{% url 'international_online_offer:location' %}?next=edit-your-answers">
+                  Change<span class="govuk-visually-hidden"> location</span>
+                </a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Hiring estimate (within first 3 years)
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {% if triage_data.get_hiring_display %}
+                  {{ triage_data.get_hiring_display }}
+                {% elif triage_data.hiring %}
+                  {{ triage_data.hiring }}
+                {% else %}
+                  -
+                {% endif %}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="{% url 'international_online_offer:hiring' %}?next=edit-your-answers">
+                  Change<span class="govuk-visually-hidden"> hiring estimate (within first 3 years)</span>
+                </a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Planned spend for UK entry or expansion
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {% if triage_data.get_spend_display %}
+                  {{ triage_data.get_spend_display }}{% if triage_data.get_spend_display == 'Specific amount' %}: £{{ triage_data.spend_other }}{% endif %}
+                {% elif triage_data.spend %}
+                  {% if triage_data.spend != 'Specific amount'%}£{% endif %}
+                  {{ triage_data.spend }}{% if triage_data.spend == 'Specific amount' %}: £{{ triage_data.spend_other }}{% endif %}
+                {% else %}
+                  -
+                {% endif %}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="{% url 'international_online_offer:spend' %}?next=edit-your-answers">
+                  Change<span class="govuk-visually-hidden"> planned spend for UK entry or expansion</span>
+                </a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

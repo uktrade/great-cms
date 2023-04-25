@@ -1,7 +1,6 @@
 {% load content_tags %}
 {% load component_tags %}
 {% load wagtailcore_tags wagtailimages_tags %}
-{% load add_govuk_classes from content_tags %}
 {% load i18n %}
 {% load get_template_translation_enabled from content_tags %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
@@ -43,9 +42,7 @@
         {% endblock %}
       </div>
     </div>
-    {% filter add_govuk_classes %}
-    {%include 'domestic/includes/streamfield.html' with streamfield_content=page.page_body  form_class='govuk-grid-column-two-thirds'%}
-    {% endfilter %}
+    {%include 'microsites/blocks/streamfield.html' with streamfield_content=page.page_body  form_class='govuk-grid-column-two-thirds'%}
     {% block related_ctas %}
       {% if page.cta_title or page.cta_teaser or page.cta_link_label and page.cta_link %}
         {% include 'microsites/blocks/cta.html' with title=page.cta_title teaser=page.cta_teaser link=page.cta_link link_label=page.cta_link_label %}
@@ -53,8 +50,6 @@
     {% endblock %}
 
     {% block social_media %}
-
-    {{page.twitter}}
         {%include 'microsites/blocks/social_media.html' with twitter=page.twitter email=page.email facebook=page.facebook linkedin=page.linkedin%}
     {%endblock%}
 

@@ -1,4 +1,7 @@
-@import '../../styles/great/main.scss';
+// GOVUK styles with Great styles
+// All classes are prefixed with either
+// .govuk- or .great-
+@import 'styles/great/main.scss';
 
 // Config
 $asset-root: '/static/images/';
