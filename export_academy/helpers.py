@@ -30,17 +30,27 @@ def get_buttons_for_event(user, event):
             else:
                 result['form_event_booking_buttons'] += [
                     {
-                        'label': 'Cancel',
-                        'classname': 'link',
+                        'label': f'Cancel booking<span class="great-visually-hidden"> for {event.name}</span>',
+                        'classname': 'govuk-button govuk-button--secondary',
                         'value': 'Cancelled',
                         'type': 'submit',
                     },
                 ]
                 result['event_action_buttons'] += get_event_join_button(event)
                 if event.format == event.ONLINE:
-                    result['calendar_button'] = get_ics_button()
+                    result['calendar_button'] = get_ics_button(event)
 
     result['form_event_booking_buttons'] += get_event_booking_button(user, event)
+
+    return result
+
+
+def get_badges_for_event(user, event):
+    result = []
+
+    if is_export_academy_registered(user):
+        if user_booked_on_event(user, event):
+            result += [{'label': '<i class="fa fa-check" aria-hidden="true"></i>Booked', 'classname': 'great-badge'}]
 
     return result
 
@@ -55,8 +65,8 @@ def get_event_booking_button(user, event):
         if event.status is not Event.STATUS_FINISHED and not event.completed:
             result += [
                 {
-                    'label': 'Book',
-                    'classname': 'link',
+                    'label': f'Book<span class="great-visually-hidden"> {event.name}</span>',
+                    'classname': 'govuk-button govuk-!-margin-bottom-0',
                     'value': 'Confirmed',
                     'type': 'submit',
                 },
@@ -66,12 +76,23 @@ def get_event_booking_button(user, event):
 
 def get_event_join_button(event):
     return [
-        {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
+        {
+            'url': event.link,
+            'label': f'Join<span class="great-visually-hidden"> {event.name}</span>',
+            'classname': 'govuk-button govuk-button--secondary',
+            'title': f'Join {event.name}',
+        },
     ]
 
 
-def get_ics_button():
-    return {'label': 'Add to calendar', 'classname': 'link', 'value': 'Confirmed', 'type': 'submit'}
+def get_ics_button(event):
+    return {
+        'label': f"""<i class="fa fa-plus" aria-hidden="true"></i>Add
+                     <span class="great-visually-hidden">{event.name}</span> to calendar""",
+        'classname': 'govuk-button govuk-button--secondary',
+        'value': 'Confirmed',
+        'type': 'submit',
+    }
 
 
 def get_event_completed_buttons(event):
@@ -81,18 +102,20 @@ def get_event_completed_buttons(event):
         result += [
             {
                 'url': reverse_lazy('export_academy:event-details', kwargs=dict(pk=event.pk)),
-                'label': 'View video',
-                'classname': 'text',
-                'title': 'View video',
+                'label': f"""<i class="fa fa-play" aria-hidden="true"></i>Play
+                             <span class="great-visually-hidden"> recording of {event.name}</span>""",
+                'classname': 'govuk-button',
+                'title': f'Play recording of {event.name}',
             },
         ]
     if event.document:
         result += [
             {
                 'url': event.document.url,
-                'label': 'View slideshow',
-                'classname': 'text',
-                'title': 'View slideshow',
+                'label': f"""<i class="fa fa-download" aria-hidden="true"></i>
+                             Download PDF<span class="great-visually-hidden"> for {event.name}</span>""",
+                'classname': 'govuk-button govuk-button--secondary',
+                'title': f'Download PDF for {event.name}',
             },
         ]
     return result
