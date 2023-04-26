@@ -8,21 +8,29 @@
     font-family: $govuk-font-family;
 }
 
-.block-text {
+.block-text, .block-Columns {
+    b {
+        font-weight: bold;
+    }
+
     h2 {
         @extend %govuk-heading-m;
+        color: $atlas-dark-blue;
     }
 
     h3 {
         @extend %govuk-heading-s;
+        color: $atlas-dark-blue;
     }
 
     h4 {
         @extend %govuk-body-m;
+        color: $atlas-dark-blue;
     }
 
     p {
         @extend %govuk-body-m;
+        color: $atlas-grey-darkest;
     }
 
     i {
@@ -31,6 +39,7 @@
 
     ol, ul {
         @extend %govuk-list;
+        color: $atlas-grey-darkest;
     }
 
     ol {
@@ -44,6 +53,7 @@
             position: static;
             list-style: disc;
             padding: 0;
+            color: $atlas-grey-darkest;
         }
     }
 
@@ -51,6 +61,10 @@
         font-family: $govuk-font-family;
     }
   }
+
+hr {
+    background: #C7C7C7;
+}
 
 .image-container {
     width: 100%;
