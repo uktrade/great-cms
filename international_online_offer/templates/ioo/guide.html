@@ -32,7 +32,7 @@
             <div class="govuk-grid-column-one-quarter">
                 <p class="govuk-body">Sector</p>
                 {% if triage_data.sector %}
-                <h2 class="govuk-heading-m">{{ triage_data.sector }}</h2>
+                <h2 class="govuk-heading-m">{{ triage_data.get_sector_display }}</h2>
                 {% else %}
                 <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:sector' %}">Add details</a></p>
                 {% endif %}
@@ -519,7 +519,7 @@
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">Get to know the UK {{ triage_data.sector | lower }} market</h3>
+        <h2 class="govuk-heading-m">Get to know the UK {{ triage_data.get_sector_display | lower }} market</h3>
         <p class="govuk-body">Based on the information that you provided earlier</p>
     </div>
 </div>
