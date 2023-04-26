@@ -140,9 +140,15 @@ class IOOArticlePage(BaseContentPage):
     subpage_types = []
     template = 'ioo/article.html'
     article_title = models.TextField()
-    article_subheading = models.TextField(
+    article_subheading = StreamField(
+        [
+            (
+                'text',
+                RichTextBlock(),
+            ),
+        ],
+        null=True,
         blank=True,
-        help_text='This is a subheading that displays below the main title on the article page',
     )
     article_teaser = models.TextField(
         blank=True,
@@ -170,7 +176,7 @@ class IOOArticlePage(BaseContentPage):
                         ('column', ColumnsBlock()),
                     ],
                     help_text='Add two or three columns text',
-                    min_num=3,
+                    min_num=2,
                     max_num=3,
                     template='core/includes/_columns.html',
                 ),
@@ -182,7 +188,7 @@ class IOOArticlePage(BaseContentPage):
     tags = ClusterTaggableManager(through=IOOArticlePageTag, blank=True, verbose_name='Article Tags')
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('article_title'),
-        FieldPanel('article_subheading'),
+        StreamFieldPanel('article_subheading'),
         FieldPanel('article_teaser'),
         ImageChooserPanel('article_image'),
         StreamFieldPanel('article_body'),
