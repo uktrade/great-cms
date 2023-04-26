@@ -1,5 +1,7 @@
 import pytest
 
+from directory_constants import sectors as directory_constants_sectors
+from international_online_offer.core import hirings, intents, regions, spends
 from international_online_offer.forms import (
     ContactForm,
     HiringForm,
@@ -13,7 +15,7 @@ from international_online_offer.forms import (
 @pytest.mark.parametrize(
     'form_data,is_valid',
     (
-        ({'sector': 'Automotive'}, True),
+        ({'sector': directory_constants_sectors.AUTOMOTIVE}, True),
         ({'sector': ''}, False),
     ),
 )
@@ -29,8 +31,8 @@ def test_triage_sector_validation(form_data, is_valid):
 @pytest.mark.parametrize(
     'form_data,is_valid',
     (
-        ({'intent': ['Onward sales and exports from the UK', 'Other'], 'intent_other': 'Test'}, True),
-        ({'intent': ['Other'], 'intent_other': ''}, False),
+        ({'intent': [intents.RESEARCH_DEVELOP_AND_COLLABORATE, intents.OTHER], 'intent_other': 'Test'}, True),
+        ({'intent': [intents.OTHER], 'intent_other': ''}, False),
     ),
 )
 @pytest.mark.django_db
@@ -45,8 +47,12 @@ def test_triage_intent_form_validation(form_data, is_valid):
 @pytest.mark.parametrize(
     'form_data,is_valid,error_message',
     (
-        ({'location': 'London', 'location_none': ''}, True, ''),
-        ({'location': 'London', 'location_none': 'true'}, False, LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION),
+        ({'location': regions.LONDON, 'location_none': ''}, True, ''),
+        (
+            {'location': regions.LONDON, 'location_none': 'true'},
+            False,
+            LocationForm.VALIDATION_MESSAGE_SELECT_ONE_OPTION,
+        ),
         ({'location': '', 'location_none': 'true'}, True, ''),
         ({'location': '', 'location_none': ''}, False, LocationForm.VALIDATION_MESSAGE_SELECT_OPTION),
     ),
@@ -64,7 +70,7 @@ def test_triage_location_form_validation(form_data, is_valid, error_message):
 @pytest.mark.parametrize(
     'form_data,is_valid',
     (
-        ({'hiring': '1-10'}, True),
+        ({'hiring': hirings.ONE_TO_TEN}, True),
         ({'hiring': ''}, False),
     ),
 )
@@ -80,9 +86,9 @@ def test_triage_hiring_form_validation(form_data, is_valid):
 @pytest.mark.parametrize(
     'form_data,is_valid',
     (
-        ({'spend': '10000-500000', 'spend_other': ''}, True),
-        ({'spend': 'Specific amount', 'spend_other': '4500000'}, True),
-        ({'spend': 'Specific amount', 'spend_other': ''}, False),
+        ({'spend': spends.FIVE_HUNDRED_THOUSAND_ONE_TO_ONE_MILLION, 'spend_other': ''}, True),
+        ({'spend': spends.SPECIFIC_AMOUNT, 'spend_other': '4500000'}, True),
+        ({'spend': spends.SPECIFIC_AMOUNT, 'spend_other': ''}, False),
     ),
 )
 @pytest.mark.django_db
