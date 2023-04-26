@@ -17,8 +17,8 @@
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l">Edit your answers</h1>
-      <p class="govuk-body">Use this page to amend the information of how your business is planning to expand to the UK</p>
+      <h1 class="govuk-heading-l">Change your answers</h1>
+      <p class="govuk-body">Use the options below to change any of the information you've given us about your UK expansion plans.</p>
       <p class="govuk-body">
         <span class="govuk-!-font-weight-bold">For your company:</span> {{ user_data.company_name | default:'-' }}
         <a class="govuk-link" href="{% url 'international_online_offer:contact' %}">
@@ -28,7 +28,7 @@
     </div>
   </div>
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-column-full">
       <div class="govuk-summary-card">
         <div class="govuk-summary-card__content">
           <dl class="govuk-summary-list">
@@ -51,11 +51,13 @@
               </dt>
               <dd class="govuk-summary-list__value">
                 {% if triage_data.get_intent_display %}
-                  {% for intent in triage_data.get_intent_display %}
-                    <p>
-                      {{intent}}{% if intent == 'Other' %}: {{ triage_data.intent_other }}{% endif %}
-                    </p>
-                  {% endfor %}
+                  <ol class="govuk-list govuk-list--bullet">
+                    {% for intent in triage_data.get_intent_display %}
+                      <li>
+                        {{intent}}{% if intent == 'Other' %}: {{ triage_data.intent_other }}{% endif %}
+                      </li>
+                    {% endfor %}
+                  </ol>
                 {% else %}
                   -
                 {% endif %}
@@ -68,7 +70,7 @@
             </div>
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-                Location
+                Preferred location
               </dt>
               <dd class="govuk-summary-list__value">
                 {% if triage_data.get_location_display %}
@@ -87,7 +89,7 @@
             </div>
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-                Hiring estimate (within first 3 years)
+                UK staff you’ll hire (within first 3 years)
               </dt>
               <dd class="govuk-summary-list__value">
                 {{ triage_data.get_hiring_display | default:"-" }}
@@ -100,7 +102,7 @@
             </div>
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-                Planned spend for UK entry or expansion
+                Planned spend for UK expansion
               </dt>
               <dd class="govuk-summary-list__value">
                 {% if triage_data.get_spend_display %}
