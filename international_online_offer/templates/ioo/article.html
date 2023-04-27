@@ -23,11 +23,11 @@
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h3 class="govuk-heading-l">{{ page.article_title }}</h3>
+      <h3 class="govuk-heading-xl">{{ page.article_title }}</h3>
     </div>
   </div>
   {% if page.article_image %}
-  <div class="govuk-grid-row">
+  <div class="govuk-grid-row govuk-!-margin-bottom-4">
     <div class="govuk-grid-column-two-thirds">
         {% image page.article_image original as rendition %}
         <div class="image-container" style="background-image: url({{ rendition.url }});"></div>
@@ -36,7 +36,8 @@
   {% endif %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h4 class="govuk-heading-m" style="margin-bottom: 18px;">{{ page.article_subheading }}</h4>
+      {{ page.article_subheading }}
+      <hr>
     </div>
   </div>
   <div class="govuk-grid-row">
@@ -44,6 +45,17 @@
       {{ page.article_body }}
     </div>
   </div>
+  {% if not request.user.is_authenticated %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <hr>
+        <h3 class="govuk-heading-l">Want to stay up to date with new articles?</h3>
+        <p class="govuk-body">
+          Complete the contact form to keep up to date with our personalised service. <a class="govuk-link" href="/international/expand-your-business-in-the-uk/signup">Complete form</a>
+        </p>
+      </div>
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block body_js %}

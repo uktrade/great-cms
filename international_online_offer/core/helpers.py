@@ -3,10 +3,12 @@ from international_online_offer.core import filter_tags
 
 def concat_filters(*filters):
     filters_out = []
-    for filter in filters:
-        if type(filter) is str:
-            filter = [filter]
-        filters_out = filters_out + filter
+    if filters:
+        for filter in filters:
+            if type(filter) is str:
+                filter = [filter]
+            if filter is not None:
+                filters_out = filters_out + filter
     return filters_out
 
 
