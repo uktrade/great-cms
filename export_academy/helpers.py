@@ -10,7 +10,7 @@ from export_academy.models import Event, Registration
 
 
 def get_buttons_for_event(user, event):
-    result = dict(form_event_booking_buttons=[], event_action_buttons=[], calendar_button=[])
+    result = dict(form_event_booking_buttons=[], event_action_buttons=[], calendar_button=None)
 
     if is_export_academy_registered(user):
         if user_booked_on_event(user, event):
@@ -29,7 +29,7 @@ def get_buttons_for_event(user, event):
                     },
                 ]
                 result['event_action_buttons'] += get_event_join_button(event)
-                result['calendar_button'] += get_ics_button()
+                result['calendar_button'] = get_ics_button()
 
     result['form_event_booking_buttons'] += get_event_booking_button(user, event)
 
@@ -62,9 +62,7 @@ def get_event_join_button(event):
 
 
 def get_ics_button():
-    return [
-        {'label': 'Add to calendar', 'classname': 'link', 'value': 'Confirmed', 'type': 'submit'},
-    ]
+    return {'label': 'Add to calendar', 'classname': 'link', 'value': 'Confirmed', 'type': 'submit'}
 
 
 def get_event_completed_buttons(event):

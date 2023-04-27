@@ -25,9 +25,7 @@
         {% csrf_token %}
 
         <input type="hidden" name="event_id" value="{{ event.id }}">
-        {% for button in action_buttons.calendar_button %}
-            <input type="hidden" name="calender" value="{{ button.value }}">
-            {% include 'export_academy/includes/form_button.html' %}
-        {% endfor %}
+        {% include 'export_academy/includes/form_button.html' with button=action_buttons.calendar_button %}
+
     </form>
 {% endif %}
