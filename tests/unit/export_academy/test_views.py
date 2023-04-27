@@ -2,6 +2,7 @@ from unittest import mock
 
 import pytest
 from directory_forms_api_client import actions
+from django.test import override_settings
 from django.urls import reverse
 
 from config import settings
@@ -214,3 +215,35 @@ def test_event_detail_views(client, user):
 
     assert response.status_code == 200
     assert '/subtitles/' in str(response.rendered_content)
+
+
+# Remove 2 following tests after UKEA release 2.
+@pytest.mark.django_db
+def test_release_2_views(client, user, export_academy_landing_page, test_event_list_hero):
+    event = factories.EventFactory()
+    registration = factories.RegistrationFactory(email=user.email)
+    url = reverse('export_academy:upcoming-events')
+
+    client.force_login(user)
+
+    factories.BookingFactory(event=event, registration=registration, status='Confirmed')
+
+    response = client.get(url)
+
+    assert 'title="View video"' in response.rendered_content
+
+
+@pytest.mark.django_db
+@override_settings(FEATURE_EXPORT_ACADEMY_RELEASE_2=False)
+def test_release_1_views(client, user, export_academy_landing_page, test_event_list_hero):
+    event = factories.EventFactory()
+    registration = factories.RegistrationFactory(email=user.email)
+    url = reverse('export_academy:upcoming-events')
+
+    client.force_login(user)
+
+    factories.BookingFactory(event=event, registration=registration, status='Confirmed')
+
+    response = client.get(url)
+
+    assert 'www.events.great.gov.uk' in response.rendered_content
