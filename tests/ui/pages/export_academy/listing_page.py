@@ -83,21 +83,6 @@ class ListingPage(BaseEAPage):
             el = self.driver.find_element(By.XPATH, f"//input[@value='{value}']")
             el.click()
 
-        # page_filters = self.find_elements((By.CLASS_NAME, 'filter-section'))
-
-        # for filter in page_filters:
-        #     print(f'filter is {filter} text is {filter.text.strip().split()[0]} length is {len(filter.text.strip())}')
-        #     if filter.text.strip().split()[0] in filter_categories:
-        #         print(f'clicking filter category {filter.text.strip().split()[0]}')
-        #         filter.click()
-
-        #         for value in filter_values:
-        #             print(f'clicking filter value {value}')
-        #             el = self.driver.find_element(By.XPATH, f'//input[@value=\'{value}\']')
-        #             el.click()
-        #             sleep(20)
-        #             print('clicked')
-
         if self.device_type is MOBILE_DEVICE and js_enabled:
             self.do_click((By.LINK_TEXT, 'Apply filters'))
 
