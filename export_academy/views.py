@@ -1,3 +1,4 @@
+from datetime import timedelta
 from uuid import uuid4
 
 from django.http import HttpResponse
@@ -11,13 +12,13 @@ from django.views.generic import (
     UpdateView,
 )
 from django_filters.views import FilterView
-from icalendar import Calendar, Event
+from icalendar import Alarm, Calendar, Event
 from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
 from export_academy import filters, forms, helpers, models
-from export_academy.helpers import get_buttons_for_event
+from export_academy.helpers import calender_content, get_buttons_for_event
 from export_academy.mixins import BookingMixin
 from export_academy.models import ExportAcademyHomePage
 
@@ -118,17 +119,27 @@ class DownloadCalendarView(GenericAPIView):
         post_data = self.request.POST
         event_id = post_data['event_id']
         event = self.event_model.objects.get(id=event_id)
+
         cal = Calendar()
         cal.add('PRODID', '-//Export academy events//')
-        cal.add('VERSION', '1.0')
+        cal.add('VERSION', '2.0')
         meeting = Event()
-        meeting.add('SUMMARY', event.name)
+        meeting.add('SUMMARY', f'UK Export Academy event - {event.name}')
         meeting.add('DTSTART', event.start_date)
         meeting.add('DTEND', event.end_date)
-        meeting['LOCATION'] = reverse_lazy('export_academy:upcoming-events')
-        meeting.add('DESCRIPTION', event.description)
+        meeting['LOCATION'] = 'MS Teams'
         meeting['UID'] = uuid4()
+
+        description = f'{event.name}\n\n{event.description}{calender_content()}'
+        meeting.add('DESCRIPTION', description)
+
         file_name = get_valid_filename(event.name)
+        alarm = Alarm()
+        alarm.add('action', 'DISPLAY')
+
+        alert_time = timedelta(minutes=-15)
+        alarm.add('trigger', alert_time)
+        meeting.add_component(alarm)
 
         cal.add_component(meeting)
 
