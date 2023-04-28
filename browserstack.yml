@@ -8,10 +8,10 @@ platforms:
   #   osVersion: 10
   #   browserName: Chrome
   #   browserVersion: latest
-  - os: Windows
-    osVersion: 11
-    browserName: Edge
-    browserVersion: latest
+  # - os: Windows
+  #   osVersion: 11
+  #   browserName: Edge
+  #   browserVersion: latest
   # - os: Windows
   #   osVersion: 11
   #   browserName: Firefox
@@ -36,15 +36,15 @@ platforms:
   #   osVersion: 13.0
   #   browserName: chrome
   #   deviceOrientation: portrait
-  # - deviceName: Samsung Galaxy S23 Ultra
-  #   osVersion: 13.0
-  #   browserName: samsung
-  #   deviceOrientation: portrait
+  - deviceName: Samsung Galaxy S23 Ultra
+    osVersion: 13.0
+    browserName: samsung
+    deviceOrientation: portrait
 parallelsPerPlatform: 3
 browserstackLocal: true
 browserStackLocalOptions:
   forceLocal: true
-buildName: great-cms-samsung-13-samsung
+buildName: great-cms-android-13-samsung
 buildIdentifier: ${DATE_TIME}
 projectName: great-cms
 debug: false
