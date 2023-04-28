@@ -20,6 +20,16 @@
 {% endif %}
 
 
+{% if action_buttons.calendar_button %}
+    <form action="{% url 'export_academy:calendar' %}" method="post">
+        {% csrf_token %}
+
+        <input type="hidden" name="event_id" value="{{ event.id }}">
+        {% include 'export_academy/includes/form_button.html' with button=action_buttons.calendar_button %}
+
+    </form>
+{% endif %}
+
 {% if action_buttons.register %}
     <a href="https://www.events.great.gov.uk/ereg/newreg.php?eventid=200236512&language=eng" class="button secondary-button">Register</a>
 {% endif %}

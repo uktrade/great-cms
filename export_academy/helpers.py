@@ -18,7 +18,7 @@ def get_buttons_for_event(user, event):
     if not settings.FEATURE_EXPORT_ACADEMY_RELEASE_2:
         return get_register_button()
 
-    result = dict(form_event_booking_buttons=[], event_action_buttons=[])
+    result = dict(form_event_booking_buttons=[], event_action_buttons=[], calendar_button=None)
 
     if is_export_academy_registered(user):
         if user_booked_on_event(user, event):
@@ -37,6 +37,8 @@ def get_buttons_for_event(user, event):
                     },
                 ]
                 result['event_action_buttons'] += get_event_join_button(event)
+                if event.format == event.ONLINE:
+                    result['calendar_button'] = get_ics_button()
 
     result['form_event_booking_buttons'] += get_event_booking_button(user, event)
 
@@ -66,6 +68,10 @@ def get_event_join_button(event):
     return [
         {'url': event.link, 'label': 'Join', 'classname': 'text', 'title': 'Join'},
     ]
+
+
+def get_ics_button():
+    return {'label': 'Add to calendar', 'classname': 'link', 'value': 'Confirmed', 'type': 'submit'}
 
 
 def get_event_completed_buttons(event):
@@ -130,3 +136,19 @@ def check_registration(function):
             return redirect_to_login(referer, SIGNUP_URL, REDIRECT_FIELD_NAME)
 
     return _wrapped_view_function
+
+
+def calender_content():
+    return (
+        '\n\nTo join your online event, sign in to '
+        'www.great.gov.uk/export-academy/events '
+        'and click the “Join” button shortly before'
+        ' the session is due to start. \n\n'
+        'All online events are hosted through Microsoft Teams, '
+        'which will open in a new browser window automatically. \n\n'
+        'Kind regards, \n'
+        'UK Export Academy Team,\n'
+        'Department for Business and Trade\n'
+        'E: exportacademy@trade.gov.uk <mailto:exportacademy@trade.gov.uk>\n'
+        'T: +44 (0) 2045 665 651'
+    )

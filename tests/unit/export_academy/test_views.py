@@ -217,6 +217,19 @@ def test_event_detail_views(client, user):
     assert '/subtitles/' in str(response.rendered_content)
 
 
+@pytest.mark.django_db
+def test_download_ics(client, user):
+    event = factories.EventFactory()
+    url = reverse('export_academy:calendar')
+    form_data = {'event_id': [event.id]}
+
+    response = client.post(url, form_data)
+
+    assert response.status_code == 200
+    content = response.content.decode()
+    assert event.name in content
+
+
 # Remove 2 following tests after UKEA release 2.
 @pytest.mark.django_db
 def test_release_2_views(client, user, export_academy_landing_page, test_event_list_hero):
