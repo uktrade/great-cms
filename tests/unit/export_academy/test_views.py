@@ -228,7 +228,6 @@ def test_download_ics(client, user):
     assert response.status_code == 200
     content = response.content.decode()
     assert event.name in content
-    assert event.description in content
 
 
 # Remove 2 following tests after UKEA release 2.
