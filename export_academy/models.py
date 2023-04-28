@@ -91,6 +91,7 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     )
     completed = models.DateTimeField(null=True, blank=True)
     live = models.DateTimeField(null=True, blank=True)
+    closed = models.BooleanField(default=False)
 
     objects = models.Manager()
     upcoming = managers.EventManager.from_queryset(managers.EventQuerySet)()

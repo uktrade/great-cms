@@ -7,6 +7,7 @@
         {% for button in action_buttons.form_event_booking_buttons %}
             <input type="hidden" name="status" value="{{ button.value }}">
             {% include 'export_academy/includes/form_button.html' %}
+            {% if button.disable_text %} <a style="color:red">{{ button.disable_text }}</a>{% endif %}
         {% endfor %}
     </form>
 {% endif %}

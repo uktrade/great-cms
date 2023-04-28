@@ -36,8 +36,8 @@ def get_buttons_for_event(user, event):
                         'type': 'submit',
                     },
                 ]
-                result['event_action_buttons'] += get_event_join_button(event)
                 if event.format == event.ONLINE:
+                    result['event_action_buttons'] += get_event_join_button(event)
                     result['calendar_button'] = get_ics_button()
 
     result['form_event_booking_buttons'] += get_event_booking_button(user, event)
@@ -53,14 +53,16 @@ def get_event_booking_button(user, event):
     result = []
     if user.is_anonymous or not user_booked_on_event(user, event):
         if event.status is not Event.STATUS_FINISHED and not event.completed:
-            result += [
-                {
-                    'label': 'Book',
-                    'classname': 'link',
-                    'value': 'Confirmed',
-                    'type': 'submit',
-                },
-            ]
+            book_button = {
+                'label': 'Book',
+                'classname': 'link',
+                'value': 'Confirmed',
+                'type': 'submit',
+            }
+            if event.closed:
+                book_button['disable'] = True
+                book_button['disable_text'] = 'Event closed for booking'
+            result += [book_button]
     return result
 
 
