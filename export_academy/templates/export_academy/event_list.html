@@ -26,20 +26,24 @@
                     <div class="govuk-grid-column-one-quarter">
                         <form id="events-form" action="" method="GET">
                             <div class="filters great-filters event-filters">
-                                <p class="govuk-body-l great-display-from-tablet" id="filters-heading">Filters:</p>
                                 <a href="#" class="button primary-button mobile-filter-toggle" id="mobile-filter-toggle">Filters</a>
                                 <ul>
-                                    {% for field in filter.form %}
-                                        {% comment %} the last field is for navigation and should be rendered outside the form {% endcomment %}
-                                        {% if not forloop.last %}
+                                    {% for field in filter.form|get_filters:request.user %}
                                         <li class="filter-section">
                                             <input type="checkbox" id="{{ field.label }}" class="filter-section-toggle" />
                                             <label class="govuk-body-l arrows-left" for="{{ field.label }}" role="button">{{ field.label }}</label>
                                             <div class="options checkbox-small">
-                                                {{ field }}
+                                                {% if request.GET.navigation == 'booked' or request.GET.navigation == 'past' %}
+                                                    {% filter disable_period_radios %}
+                                                        {{ field }}
+                                                    {% endfilter %}
+                                                {% else %}
+                                                    {% filter set_all_events %}
+                                                        {{ field }}
+                                                    {% endfilter %}
+                                                {% endif %}
                                             </div>
                                         </li>
-                                        {% endif %}
                                     {% endfor %}
                                 </ul>
                                 <div class="filters-sticky-footer govuk-!-margin-top-7" id="filters-sticky-footer">
@@ -50,17 +54,25 @@
                             </div>
                         </form>
                     </div>
-                    {% show_logged_in_navigation filter.form.navigation %}
-                    <div id="event-list" class="govuk-grid-column-three-quarters" >
+                    <div id="event-list" class="govuk-grid-column-three-quarters">
                         {% if not page_obj %}
                             <p>There are currently no events available for the filters you have chosen.</p>
                             <p>Remove one or more of your filter choices to broaden your search.</p>
                         {% else %}
+
                             {% for event in page_obj %}
                             <div class="govuk-grid-row event-list-card">
                                 <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
                                     {% include 'export_academy/includes/event_name_duration.html' with event=event %}
+
+                                    {% is_logged_in as show_logged_in_features %}
+                                    {% if show_logged_in_features  %}
+                                    <div class="govuk-!-margin-bottom-3">
+                                        {% event_list_badges event %}
+                                    </div>
+                                    {% endif %}
                                 </div>
+
                                 <div class="govuk-grid-column-one-quarter govuk-!-text-align-centre">
                                     <div class="great-background-light-blue event-date-container">
                                         <p class="weekday">{{ event.start_date|date:"D" }}</p>
@@ -78,10 +90,19 @@
                                     <div class="great-display-from-tablet">
                                         {% include 'export_academy/includes/event_name_duration.html' with event=event %}
                                     </div>
+
+                                    {% is_logged_in as show_logged_in_features %}
+                                    {% if show_logged_in_features  %}
+                                    <div class="govuk-!-margin-bottom-1 great-display-from-tablet">
+                                        {% event_list_badges event %}
+                                    </div>
+                                    {% endif %}
+
                                     <div class='js-enabled-only event-description'>
                                         {% include 'components/show_more.html' with text=event.description index=forloop.counter %}
                                     </div>
                                     <p class='js-disabled-only event-description'>{{event.description}}</p>
+
                                     {% event_list_buttons event %}
                                 </div>
                             </div>
