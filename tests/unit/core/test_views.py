@@ -7,11 +7,12 @@ from urllib.parse import urlencode
 import pytest
 from django.conf import settings
 from django.http.cookie import SimpleCookie
-from django.test import override_settings
-from django.urls import reverse
+from django.test import Client, TestCase, override_settings
+from django.urls import reverse, reverse_lazy
 from formtools.wizard.views import normalize_name
 from pytest_django.asserts import assertTemplateUsed
 from rest_framework import status
+from wagtail.core.models import Locale
 
 from core import cms_slugs, forms, helpers, serializers, views
 from directory_api_client import api_client
@@ -22,6 +23,8 @@ from tests.unit.core.factories import (
     DetailPageFactory,
     LessonPlaceholderPageFactory,
     ListPageFactory,
+    MicrositeFactory,
+    MicrositePageFactory,
     TopicPageFactory,
 )
 from tests.unit.domestic.factories import (
@@ -1033,3 +1036,77 @@ def test_get_survey_view_api_view(client, mock_get_survey):
     client.get(url)
     assert mock_get_survey.call_count == 1
     assert mock_get_survey.call_args == mock.call(id='123')
+
+
+class TestMicrositeLocales(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.en_locale = Locale.objects.get_or_create(language_code="en-gb")
+        self.es_locale = Locale.objects.get_or_create(language_code="es")
+        self.ar_locale = Locale.objects.get_or_create(language_code="ar")
+
+    @pytest.fixture(autouse=True)
+    def domestic_homepage_fixture(self, domestic_homepage):
+        self.domestic_homepage = domestic_homepage
+
+    def test_correct_translation_for_multiple_pages(self):
+        root = MicrositeFactory(title='root', slug='microsites', parent=self.domestic_homepage)
+
+        site_en = MicrositePageFactory(
+            page_title='microsite home title en-gb',
+            page_subheading='a microsite subheading en-gb',
+            slug='microsite-page-home',
+            parent=root,
+        )
+
+        site_es = site_en.copy_for_translation(self.es_locale[0], copy_parents=True, alias=True)
+        site_es.page_title = 'página de inicio del micrositio'
+        site_es.page_subheading = 'Subtítulo de la Página de Inicio del Micrositio'
+        site_es.save()
+
+        url = reverse_lazy('core:microsites', kwargs={'page_slug': '/microsite-page-home'})
+        response = self.client.get(url)
+        html_response = response.content.decode('utf-8')
+        assert 'microsite home title en-gb' in html_response and 'a microsite subheading en-gb' in html_response
+
+        url_spanish = url + '?lang=es'
+        response = self.client.get(url_spanish)
+        html_response = response.content.decode('utf-8')
+        assert (
+            'página de inicio del micrositio' in html_response
+            and 'Subtítulo de la Página de Inicio del Micrositio' in html_response  # noqa: W503
+        )
+
+    def test_fall_back_to_english_for_unimplemented_enabled_language(self):
+        root = MicrositeFactory(title='root', slug='microsites')
+
+        MicrositePageFactory(
+            page_title='microsite home title en-gb',
+            page_subheading='a microsite subheading en-gb',
+            slug='microsite-page-home',
+            parent=root,
+        )
+
+        url = reverse_lazy('core:microsites', kwargs={'page_slug': '/microsite-page-home'})
+
+        url_arabic = url + '?lang=ar'
+        response = self.client.get(url_arabic)
+        html_response = response.content.decode('utf-8')
+        assert 'microsite home title en-gb' in html_response and 'a microsite subheading en-gb' in html_response
+
+    def test_fall_back_to_english_for_unimplemented_language(self):
+        root = MicrositeFactory(title='root', slug='microsites')
+
+        MicrositePageFactory(
+            page_title='microsite home title en-gb',
+            page_subheading='a microsite subheading en-gb',
+            slug='microsite-page-home',
+            parent=root,
+        )
+
+        url = reverse_lazy('core:microsites', kwargs={'page_slug': '/microsite-page-home'})
+        url_za = url + '?lang=za'
+
+        response = self.client.get(url_za)
+        html_response = response.content.decode('utf-8')
+        assert 'microsite home title en-gb' in html_response and 'a microsite subheading en-gb' in html_response

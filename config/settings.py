@@ -200,18 +200,23 @@ USE_L10N = True
 
 USE_TZ = True
 
-if env.bool('FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False):
+FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE = env.bool('FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False)
+
+if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
     # below assignments behind feature flag temporarily while we experiment with
     # additional language support. They will be promoted to main initilisation once
     # we have proven one non-English language.
-
     WAGTAIL_I18N_ENABLED = True
 
+    # list of tuples of form, lang short code, description, wagtail localize locale IDs
+    ENABLED_LANGUAGES = [
+        ('ar', 'Arabic', 5),
+        ('en-gb', 'English', 1),
+        ('es', 'Spanish', 4),
+    ]
+
     WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
-        ('ar', 'Arabic'),
-        ('en-gb', 'English'),
-        ('es', 'Spanish'),
-        ('ko', 'Korean'),
+        (short_code, description) for short_code, description, _ in ENABLED_LANGUAGES
     ]
 
     INSTALLED_APPS += [
