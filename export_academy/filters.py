@@ -81,7 +81,8 @@ class EventFilter(FilterSet):
         if is_export_academy_registered(self.request.user):  # type: ignore
             if value == self.BOOKED:
                 queryset = queryset.exclude(live__isnull=True).filter(
-                    bookings__registration=self.request.user.email  # type: ignore
+                    bookings__registration=self.request.user.email,  # type: ignore
+                    bookings__status=models.Booking.CONFIRMED,
                 )
 
             if value == self.PAST:
