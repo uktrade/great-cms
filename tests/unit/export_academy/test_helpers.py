@@ -199,13 +199,5 @@ def test_book_button_disabled_for_closed_event(user):
 
     buttons = helpers.get_buttons_for_event(user, event)
 
-    assert buttons['form_event_booking_buttons'] == [
-        {
-            'classname': 'link',
-            'disable': True,
-            'disable_text': 'Event closed for booking',
-            'label': 'Book',
-            'type': 'submit',
-            'value': 'Confirmed',
-        }
-    ]
+    assert buttons['form_event_booking_buttons'] == []
+    assert buttons['disable_text'] == 'Closed for booking'
