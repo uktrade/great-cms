@@ -23,7 +23,7 @@
         <section class="govuk-!-padding-top-3 background-white clearfix">
             <div class="container">
                 <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-one-quarter">
+                    <div class="govuk-grid-column-one-quarter govuk-!-padding-left-2">
                         <form id="events-form" action="" method="GET">
                             <div class="filters great-filters event-filters">
                                 <a href="#" class="button primary-button mobile-filter-toggle" id="mobile-filter-toggle">Filters</a>
@@ -31,7 +31,7 @@
                                     {% for field in filter.form|get_filters:request.user %}
                                         <li class="filter-section">
                                             <input type="checkbox" id="{{ field.label }}" class="filter-section-toggle" />
-                                            <label class="govuk-body-l arrows-left" for="{{ field.label }}" role="button">{{ field.label }}</label>
+                                            <label class="govuk-body-l arrows-left govuk-!-padding-left-2" for="{{ field.label }}" role="button">{{ field.label }}</label>
                                             <div class="options checkbox-small">
                                                 {% if request.GET.navigation == 'booked' or request.GET.navigation == 'past' %}
                                                     {% filter disable_period_radios %}

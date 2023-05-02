@@ -67,6 +67,8 @@
 
             ul {
                 overflow: hidden;
+                // makes focus outline on radio buttons and checkboxes fully visible
+                padding: 5px 0 5px 6px
             }
 
             &.full-height {
