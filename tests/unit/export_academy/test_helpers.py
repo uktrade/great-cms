@@ -187,3 +187,17 @@ def test_param_builder_persists_navigation_choice_in_session(user, rf, client):
     assert helpers.build_request_navigation_params(request).dict() == {'navigation': 'booked'}
     assert 'navigation' in request.session
     assert request.session['navigation'] == 'booked'
+
+
+@pytest.mark.django_db
+def test_book_button_disabled_for_closed_event(user):
+    now = timezone.now()
+    factories.RegistrationFactory(email=user.email)
+    event = factories.EventFactory(
+        start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7), completed=None, closed=True
+    )
+
+    buttons = helpers.get_buttons_for_event(user, event)
+
+    assert buttons['form_event_booking_buttons'] == []
+    assert buttons['disable_text'] == 'Closed for booking'

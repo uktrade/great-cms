@@ -18,7 +18,7 @@ def get_buttons_for_event(user, event):
     if not settings.FEATURE_EXPORT_ACADEMY_RELEASE_2:
         return get_register_button()
 
-    result = dict(form_event_booking_buttons=[], event_action_buttons=[], calendar_button=None)
+    result = dict(form_event_booking_buttons=[], event_action_buttons=[])
 
     if is_export_academy_registered(user):
         if user_booked_on_event(user, event):
@@ -28,21 +28,27 @@ def get_buttons_for_event(user, event):
                 # buttons to be shown if the event has finished but not marked as complete
                 pass
             else:
-                result['form_event_booking_buttons'] += [
-                    {
-                        'label': f'Cancel booking<span class="great-visually-hidden"> for {event.name}</span>',
-                        'classname': 'govuk-button govuk-button--secondary',
-                        'value': 'Cancelled',
-                        'type': 'submit',
-                    },
-                ]
-                result['event_action_buttons'] += get_event_join_button(event)
-                if event.format == event.ONLINE:
-                    result['calendar_button'] = get_ics_button(event)
+                update_booked_user_buttons(event, result)
+        else:
+            if event.closed:
+                result['disable_text'] = 'Closed for booking'
 
     result['form_event_booking_buttons'] += get_event_booking_button(user, event)
-
     return result
+
+
+def update_booked_user_buttons(event, result):
+    result['form_event_booking_buttons'] += [
+        {
+            'label': f'Cancel booking<span class="great-visually-hidden"> for {event.name}</span>',
+            'classname': 'govuk-button govuk-button--secondary',
+            'value': 'Cancelled',
+            'type': 'submit',
+        },
+    ]
+    if event.format == event.ONLINE:
+        result['event_action_buttons'] += get_event_join_button(event)
+        result['calendar_button'] = get_ics_button(event)
 
 
 def get_badges_for_event(user, event):
@@ -62,7 +68,7 @@ def user_booked_on_event(user, event):
 def get_event_booking_button(user, event):
     result = []
     if user.is_anonymous or not user_booked_on_event(user, event):
-        if event.status is not Event.STATUS_FINISHED and not event.completed:
+        if event.status is not Event.STATUS_FINISHED and not event.completed and not event.closed:
             result += [
                 {
                     'label': f'Book<span class="great-visually-hidden"> {event.name}</span>',

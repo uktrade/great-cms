@@ -13,6 +13,7 @@
         {% for button in action_buttons.form_event_booking_buttons %}
             <input type="hidden" name="status" value="{{ button.value }}">
             {% include 'export_academy/includes/form_button.html' %}
+            {% if button.disable_text %} <a>{{ button.disable_text }}</a>{% endif %}
         {% endfor %}
     </form>
 {% endif %}
@@ -34,5 +35,9 @@
 
 {% if action_buttons.register %}
     <a href="https://www.events.great.gov.uk/ereg/newreg.php?eventid=200236512&language=eng" class="button secondary-button">Register</a>
+{% endif %}
+
+{% if action_buttons.disable_text %}
+    <a>{{ action_buttons.disable_text }}</a>
 {% endif %}
 </div>
