@@ -22,15 +22,6 @@ def event_list_badges(context, event):
 
 
 @register.simple_tag(takes_context=True)
-def show_logged_in_navigation(context, navigation):
-    request = context['request']
-    if is_export_academy_registered(request.user):
-        return navigation
-
-    return ''
-
-
-@register.simple_tag(takes_context=True)
 def is_logged_in(context):
     request = context['request']
     if is_export_academy_registered(request.user):
