@@ -8,6 +8,12 @@ $asset-root: '/static/images/';
 $fonts: '/static/fonts';
 $fa-font-path: '/static/fonts';
 
+// Icons
+@import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/regular';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/brands';
+
 // PARTIALS
 // from core/sass
 @import 'partials/colours';

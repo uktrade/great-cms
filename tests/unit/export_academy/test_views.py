@@ -233,7 +233,7 @@ def test_download_ics(client, user):
 # Remove 2 following tests after UKEA release 2.
 @pytest.mark.django_db
 def test_release_2_views(client, user, export_academy_landing_page, test_event_list_hero):
-    event = factories.EventFactory()
+    event = factories.EventFactory(name='Test event name')
     registration = factories.RegistrationFactory(email=user.email)
     url = reverse('export_academy:upcoming-events')
 
@@ -243,7 +243,7 @@ def test_release_2_views(client, user, export_academy_landing_page, test_event_l
 
     response = client.get(url)
 
-    assert 'title="View video"' in response.rendered_content
+    assert 'title="Play recording of Test event name"' in response.rendered_content
 
 
 @pytest.mark.django_db
