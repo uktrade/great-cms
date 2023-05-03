@@ -448,9 +448,7 @@ def convert_cta(block):
 
 
 def convert_video(block):
-    import pdb
-    pdb.set_trace()
-    return {'type': 'video', 'value': {'video': block.value.get('video').id if block.value.get('video') is not None else None}, 'id': str(uuid.uuid4())}
+    return {'type': 'video', 'value': {'video': block.value.get('video').id}, 'id': str(uuid.uuid4())}
 
 
 def convert_quote(block):

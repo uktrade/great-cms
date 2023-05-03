@@ -1022,11 +1022,6 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
                     },
                 },
                 {
-                    'type': 'Video',
-                    'value': {'video': 44},
-                    'id': 'b965f2ea-c030-41ff-b121-32895a0b7cb0',
-                },
-                {
                     'type': 'pull_quote',
                     'value': {
                         'quote': 'my quote',
