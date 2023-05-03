@@ -1,6 +1,7 @@
-from datetime import datetime, timedelta, timezone
+from datetime import timedelta
 
 from django.conf import settings
+from django.utils import timezone
 
 from config.celery import app
 from export_academy.models import Event, send_notifications_for_all_bookings
@@ -10,8 +11,8 @@ from export_academy.models import Event, send_notifications_for_all_bookings
 def send_automated_events_notification():
     time_delay = settings.EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES
     events = Event.objects.filter(
-        start_date__gte=datetime.now(timezone.utc) + timedelta(minutes=time_delay),
-        start_date__lt=datetime.now(timezone.utc) + timedelta(minutes=time_delay * 2),
+        start_date__gte=timezone.now() + timedelta(minutes=time_delay),
+        start_date__lt=timezone.now() + timedelta(minutes=time_delay * 2),
     )
 
     for event in events:
@@ -31,8 +32,8 @@ def send_automated_events_notification():
 def remove_past_events_media():
     time_delay = settings.EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_AFTER_DAYS
     events = Event.objects.filter(
-        start_date__lt=datetime.now(timezone.utc) - timedelta(days=time_delay),
-        start_date__gte=datetime.now(timezone.utc) - timedelta(days=time_delay * 2),
+        start_date__lt=timezone.now() - timedelta(days=time_delay),
+        start_date__gte=timezone.now() - timedelta(days=time_delay * 2),
     )
     for event in events:
         if event.completed and event.video_recording:

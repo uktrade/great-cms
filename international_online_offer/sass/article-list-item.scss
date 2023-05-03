@@ -4,8 +4,13 @@
     padding: 15px;
     border: 1px solid silver;
 
+    a {
+        text-decoration: none;
+    }
+
     h4 {
         margin-bottom: 15px;
+
         @media (min-width: 640px) {
             overflow: hidden;
             text-overflow: ellipsis;
@@ -41,3 +46,37 @@
     }
 
   }
+
+
+.article-list-item-vertical {
+
+    margin-bottom: 15px;
+    padding: 15px;
+
+    p {
+        margin-bottom: 5px;
+        text-decoration: underline;
+        color: #1d70b8;
+        @media (min-width: 640px) {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            margin-bottom: 0px;
+        }
+    }
+
+    .image-container {
+        @media (max-width: 640px) {
+            margin-bottom: 15px;
+        }
+        width: 100%;
+        height: 150px;
+    }
+
+    .inner-header div:first {
+        height: 0px;
+    }
+
+}

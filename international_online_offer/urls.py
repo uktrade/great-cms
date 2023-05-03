@@ -50,4 +50,9 @@ urlpatterns = [
         views.IOOSignUp.as_view(),
         name='signup',
     ),
+    path(
+        'edit-your-answers/',
+        views.IOOEditYourAnswers.as_view(),
+        name='edit-your-answers',
+    ),
 ]

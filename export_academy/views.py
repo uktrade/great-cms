@@ -1,4 +1,9 @@
+from datetime import timedelta
+from uuid import uuid4
+
+from django.http import HttpResponse
 from django.urls import reverse_lazy
+from django.utils.text import get_valid_filename
 from django.views.generic import (
     DetailView,
     FormView,
@@ -7,11 +12,13 @@ from django.views.generic import (
     UpdateView,
 )
 from django_filters.views import FilterView
+from icalendar import Alarm, Calendar, Event
+from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
 from export_academy import filters, forms, helpers, models
-from export_academy.helpers import get_buttons_for_event
+from export_academy.helpers import calender_content, get_buttons_for_event, get_badges_for_event
 from export_academy.mixins import BookingMixin
 from export_academy.models import ExportAcademyHomePage
 
@@ -30,6 +37,10 @@ class EventListView(
     def get_buttons_for_event(self, event):
         user = self.request.user
         return get_buttons_for_event(user, event)
+
+    def get_badges_for_event(self, event):
+        user = self.request.user
+        return get_badges_for_event(user, event)
 
     def get(self, request, *args, **kwargs):
         request.GET = helpers.build_request_navigation_params(request)
@@ -103,3 +114,39 @@ class EventDetailsView(DetailView):
         ctx.update(event_video={'video': video})
 
         return ctx
+
+
+class DownloadCalendarView(GenericAPIView):
+    event_model = models.Event
+
+    def post(self, request, *args, **kwargs):
+        post_data = self.request.POST
+        event_id = post_data['event_id']
+        event = self.event_model.objects.get(id=event_id)
+
+        cal = Calendar()
+        cal.add('PRODID', '-//Export academy events//')
+        cal.add('VERSION', '2.0')
+        meeting = Event()
+        meeting.add('SUMMARY', f'UK Export Academy event - {event.name}')
+        meeting.add('DTSTART', event.start_date)
+        meeting.add('DTEND', event.end_date)
+        meeting['LOCATION'] = 'MS Teams'
+        meeting['UID'] = uuid4()
+
+        description = f'{event.name}\n\n{event.description}{calender_content()}'
+        meeting.add('DESCRIPTION', description)
+
+        file_name = get_valid_filename(event.name)
+        alarm = Alarm()
+        alarm.add('action', 'DISPLAY')
+
+        alert_time = timedelta(minutes=-15)
+        alarm.add('trigger', alert_time)
+        meeting.add_component(alarm)
+
+        cal.add_component(meeting)
+
+        response = HttpResponse(cal.to_ical(), content_type='text/calendar')
+        response['Content-Disposition'] = f'inline; filename={file_name}.ics'
+        return response

@@ -1,8 +1,9 @@
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import timedelta
 
 from directory_forms_api_client import actions
 from django.db import models
+from django.utils import timezone
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
@@ -90,13 +91,14 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     )
     completed = models.DateTimeField(null=True, blank=True)
     live = models.DateTimeField(null=True, blank=True)
+    closed = models.BooleanField(default=False)
 
     objects = models.Manager()
     upcoming = managers.EventManager.from_queryset(managers.EventQuerySet)()
 
     @property
     def status(self):
-        now = datetime.now(tz=timezone.utc)
+        now = timezone.now()
         if now < (self.start_date - timedelta(minutes=settings.EXPORT_ACADEMY_EVENT_ALLOW_JOIN_BEFORE_START_MINS)):
             return self.STATUS_NOT_STARTED
         elif (

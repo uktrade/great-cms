@@ -1,7 +1,18 @@
+// GOVUK styles with Great styles
+// All classes are prefixed with either
+// .govuk- or .great-
+@import 'styles/great/main.scss';
+
 // Config
 $asset-root: '/static/images/';
 $fonts: '/static/fonts';
 $fa-font-path: '/static/fonts';
+
+// Icons
+@import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/solid';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/regular';
+@import 'node_modules/@fortawesome/fontawesome-free/scss/brands';
 
 // PARTIALS
 // from core/sass

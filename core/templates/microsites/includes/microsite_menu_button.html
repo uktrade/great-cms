@@ -1,10 +1,18 @@
+{% load i18n %}
+{% load get_template_translation_enabled from content_tags %}
+{% get_template_translation_enabled as TRANSLATE_TEXT %}
+
 <div class="magna-header__menu">
     <button type="button"
             class="magna-header__dropdown-button"
             data-reveal-button
             data-reveal-modal
             aria-controls="main-menu">
-        Menu
+            {% if TRANSLATE_TEXT %}
+                {% translate "Menu" %}
+            {% else %}
+                Menu
+            {% endif %}
         <span class="magna-header__dropdown-button__icon"></span>
     </button>
     <div id="main-menu" class="magna-header__dropdown">

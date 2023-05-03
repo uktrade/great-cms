@@ -14,13 +14,7 @@
 {% endblock %}
 
 {% block content %}
-{% if submit_contact_details_success %}
-<div class="govuk-grid-row" id="completed_contact_form_message">
-    <div class="govuk-grid-column-full">
-        {% include './includes/govuk/notification_banner.html' with css_class="govuk-notification-banner govuk-notification-banner--success" banner_title="Success" banner_heading=contact_form_success_message %}
-    </div>
-</div>
-{% else %}
+{% if not request.user.is_authenticated %}
 <div class="govuk-grid-row" id="complete_contact_form_message">
     <div class="govuk-grid-column-full">
         {% include './includes/govuk/notification_banner.html' with css_class="govuk-notification-banner" banner_title="Important" banner_heading=complete_contact_form_message banner_link=complete_contact_form_link banner_link_text=complete_contact_form_link_text %}
@@ -30,10 +24,6 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-xl">Welcome to your UK expansion guide</h1>
-        {% if not request.user.is_authenticated %}
-            <a href="{% url 'international_online_offer:login' %}" class="govuk-link">Sign in</a>
-            <br/> <br/>
-        {% endif %}
     </div>
 </div>
 <div class="govuk-grid-row">
@@ -42,7 +32,7 @@
             <div class="govuk-grid-column-one-quarter">
                 <p class="govuk-body">Sector</p>
                 {% if triage_data.sector %}
-                <h2 class="govuk-heading-m">{{ triage_data.sector }}</h2>
+                <h2 class="govuk-heading-m">{{ triage_data.get_sector_display }}</h2>
                 {% else %}
                 <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:sector' %}">Add details</a></p>
                 {% endif %}
@@ -50,7 +40,7 @@
             <div class="govuk-grid-column-one-quarter">
                 <p class="govuk-body">Headquarters</p>
                 {% if user_data.company_location %}
-                <h2 class="govuk-heading-m">{{ user_data.company_location }}</h2>
+                <h2 class="govuk-heading-m">{{ user_data.get_company_location_display }}</h2>
                 {% else %}
                 <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:contact' %}">Add details</a></p>
                 {% endif %}
@@ -64,8 +54,7 @@
                 {% endif %}
             </div>
             <div class="govuk-grid-column-one-quarter">
-                <p class="govuk-body"><a class="govuk-link" href="{% url 'international_online_offer:sector' %}">Edit your answers</a></p>
-                <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:contact' %}">Edit your profile</a></p>
+                <p class="govuk-body"><a class="govuk-link" href="{% url 'international_online_offer:edit-your-answers' %}">Edit your answers</a></p>
             </div>
         </div>
     </div>
@@ -152,15 +141,15 @@
                     <p class="govuk-body">
                         You can apply for different types of visa depending on your circumstances. These include:
                     </p>
-                    <ol class="app-step-nav__list" data-length="3">
-                        <li class="app-step-nav__list-item js-list-item">
-                            <a data-position="2.1" class="govuk-link" href="https://www.gov.uk/representative-overseas-business">Representative of an Overseas Business visa when transferring an employee from overseas to set up a new UK operation</a>
+                    <ol class="govuk-list govuk-list--bullet" data-length="3">
+                        <li>
+                            <a data-position="2.1" class="govuk-link" href="https://www.gov.uk/representative-overseas-business" target="_blank">Representative of an Overseas Business visa</a> when transferring an employee from overseas to set up a new UK operation
                         </li>
-                        <li class="app-step-nav__list-item js-list-item">
-                            <a data-position="2.2" class="govuk-link" href="https://www.gov.uk/start-up-visa">Start-up visa for early-stage entrepreneurs</a>
+                        <li>
+                            <a data-position="2.2" class="govuk-link" href="https://www.gov.uk/start-up-visa" target="_blank">Start-up visa</a> for early-stage entrepreneurs
                         </li>
-                        <li class="app-step-nav__list-item js-list-item">
-                            <a data-position="2.3" class="govuk-link" href="https://www.gov.uk/innovator/visa">Innovator visa for established entrepreneurs, or if you’re switching from the start-up visa</a>
+                        <li>
+                            <a data-position="2.3" class="govuk-link" href="https://www.gov.uk/innovator/visa" target="_blank">Innovator visa</a> for established entrepreneurs, or if you’re switching from the start-up visa
                         </li>
                     </ol>
                     <ol class="app-step-nav__list" data-length="1">
@@ -240,7 +229,7 @@
                         <button class="app-step-nav__button app-step-nav__button--title js-step-title-button" aria-expanded="false" aria-controls="step-panel-register-for-tax-4">
                             <span class="app-step-nav____title-text-focus">
                                 <span class="app-step-nav__title-text">
-                                    Register for tax
+                                    Register for tax and claim tax allowances
                                 </span>
                             </span>
                         </button>
@@ -260,7 +249,7 @@
                     </p>
                     <ol class="app-step-nav__list" data-length="1">
                         <li class="app-step-nav__list-item js-list-item">
-                            <a data-position="4.1" class="govuk-link" href="https://www.gov.uk/limited-company-formation/set-up-your-company-for-corporation-tax">Register for Corporation Tax</a>
+                            <a data-position="4.1" class="govuk-link" href="https://www.gov.uk/limited-company-formation/set-up-your-company-for-corporation-tax" target="_blank">Register for Corporation Tax on GOV.UK</a>
                         </li>
                     </ol>
                     <p class="govuk-body">
@@ -319,7 +308,7 @@
                     </p>
                     <ol class="app-step-nav__list" data-length="1">
                         <li class="app-step-nav__list-item js-list-item">
-                            <a data-position="5.1" class="govuk-link" href="https://www.gov.uk/register-employer">Register as an employer with HMRC</a>
+                            <a data-position="5.1" class="govuk-link" href="https://www.gov.uk/register-employer" target="_blank">Register as an employer with HMRC</a>
                         </li>
                     </ol>
                     <p class="govuk-body govuk-!-font-weight-bold">
@@ -364,7 +353,7 @@
                             <a data-position="6.1" class="govuk-link" href="/international/expand-your-business-in-the-uk/guide/find-the-right-location-and-premises">How to find a business property</a>
                         </li>
                         <li class="app-step-nav__list-item js-list-item">
-                            <a data-position="6.2" class="govuk-link" href="https://www.great.gov.uk/international/investment-support-directory">Find professional help to locate in the UK</a>
+                            <a data-position="6.2" class="govuk-link" href="https://www.great.gov.uk/international/investment-support-directory" target="_blank">Find professional help to locate in the UK</a>
                         </li>
                     </ol>
                     <p class="govuk-body govuk-!-font-weight-bold">
@@ -414,7 +403,7 @@
                             <a data-position="7.1" class="govuk-link" href="/international/expand-your-business-in-the-uk/guide/know-uk-employment-regulations">How to employ people</a>
                         </li>
                         <li class="app-step-nav__list-item js-list-item">
-                            <a data-position="7.2" class="govuk-link" href="https://www.gov.uk/register-employer">Register as an employer with HMRC</a>
+                            <a data-position="7.2" class="govuk-link" href="https://www.gov.uk/register-employer" target="_blank">Register as an employer with HMRC</a>
                         </li>
                     </ol>
                     <p class="govuk-body">
@@ -422,7 +411,7 @@
                     </p>
                     <ol class="app-step-nav__list" data-length="1">
                         <li class="app-step-nav__list-item js-list-item">
-                            <a data-position="7.3" class="govuk-link" href="https://www.gov.uk/apply-sponsor-licence">Apply for a sponsor licence</a>
+                            <a data-position="7.3" class="govuk-link" href="https://www.gov.uk/apply-sponsor-licence" target="_blank">Apply for a sponsor licence on GOV.UK</a>
                         </li>
                     </ol>
                     <p class="govuk-body govuk-!-font-weight-bold">
@@ -509,10 +498,10 @@
                     </p>
                     <ol class="app-step-nav__list" data-length="2">
                         <li class="app-step-nav__list-item js-list-item">
-                            <a data-position="9.1" class="govuk-link" href="https://www.gov.uk/employers-liability-insurance">Employer’s Liability Insurance</a>
+                            <a data-position="9.1" class="govuk-link" href="https://www.gov.uk/employers-liability-insurance" target="_blank">Employer’s Liability Insurance on GOV.UK</a>
                         </li>
                         <li class="app-step-nav__list-item js-list-item">
-                            <a data-position="9.1" class="govuk-link" href="https://www.great.gov.uk/international/investment-support-directory">Professional advice on business insurance</a>
+                            <a data-position="9.1" class="govuk-link" href="https://www.great.gov.uk/international/investment-support-directory" target="_blank">Professional advice on business insurance</a>
                         </li>
                     </ol>
                     <p class="govuk-body govuk-!-font-weight-bold">
@@ -530,29 +519,118 @@
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">Get to know the UK {{ triage_data.sector | lower }} market</h3>
+        <h2 class="govuk-heading-m">Get to know the UK {{ triage_data.get_sector_display | lower }} market</h3>
         <p class="govuk-body">Based on the information that you provided earlier</p>
     </div>
 </div>
+<div class="govuk-grid-row govuk-!-margin-bottom-6">
+    {% if get_to_know_market_articles %}
+        <div class="govuk-grid-column-full">
+            {% for page in get_to_know_market_articles %}
+                {% image page.article_image original as rendition %}
+                <div class="article-list-item">
+                    <a href="{{ page.url }}">
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-one-third">
+                                <div class="image-container" style="background-image: url({{ rendition.url }});"></div>
+                            </div>
+                            <div class="govuk-grid-column-two-thirds">
+                                <h4 class="govuk-heading-m">{{ page.article_title }}</h4>
+                                <p class="govuk-body">{{ page.article_teaser }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="govuk-grid-column-full">
+            <div class="govuk-warning-text">
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text">
+                  <span class="govuk-warning-text__assistive">Warning</span>
+                  There are currently no related articles
+                </strong>
+            </div>
+        </div>
+    {% endif %}
+</div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        {% for page in get_to_know_market_articles %}
-            {% image page.article_image original as rendition %}
-            <div class="article-list-item">
-                <a href="{{ page.url }}">
-                    <div class="govuk-grid-row">
-                        <div class="govuk-grid-column-one-third">
-                            <div class="image-container" style="background-image: url({{ rendition.url }});"></div>
+        <h2 class="govuk-heading-m">Get support and incentives</h3>
+        <p class="govuk-body">Based on the information that you provided earlier</p>
+    </div>
+</div>
+<div class="govuk-grid-row govuk-!-margin-bottom-6">
+    {% if support_and_incentives_articles %}
+        <div class="govuk-grid-column-full">
+            {% for page in support_and_incentives_articles %}
+                {% image page.article_image original as rendition %}
+                <div class="article-list-item">
+                    <a href="{{ page.url }}">
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-one-third">
+                                <div class="image-container" style="background-image: url({{ rendition.url }});"></div>
+                            </div>
+                            <div class="govuk-grid-column-two-thirds">
+                                <h4 class="govuk-heading-m">{{ page.article_title }}</h4>
+                                <p class="govuk-body">{{ page.article_teaser }}</p>
+                            </div>
                         </div>
-                        <div class="govuk-grid-column-two-thirds">
-                            <h4 class="govuk-heading-m">{{ page.article_title }}</h4>
-                            <p class="govuk-body">{{ page.article_teaser }}</p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="govuk-grid-column-full">
+            <div class="govuk-warning-text">
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text">
+                  <span class="govuk-warning-text__assistive">Warning</span>
+                  There are currently no related support and incentives articles
+                </strong>
+            </div>
+        </div>
+    {% endif %}
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Opportunities across the UK</h3>
+        <p class="govuk-body">Based on the your sector information</p>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    {% if opportunities_articles %}
+        {% for page in opportunities_articles %}
+            <div class="govuk-grid-column-one-third govuk-!-padding-0">
+                {% image page.article_image original as rendition %}
+                <div class="article-list-item-vertical">
+                    <a href="{{ page.url }}">
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full">
+                                <div class="image-container" style="background-image: url({{ rendition.url }});"></div>
+                            </div>
                         </div>
-                    </div>
-                </a>
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full">
+                                <p class="govuk-body">{{ page.article_title }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
         {% endfor %}
-    </div>
+    {% else %}
+        <div class="govuk-grid-column-full">
+            <div class="govuk-warning-text">
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text">
+                  <span class="govuk-warning-text__assistive">Warning</span>
+                  There are currently no related opportunities
+                </strong>
+              </div>
+        </div>
+    {% endif %}
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -573,9 +651,5 @@
   <script type="text/javascript">
     var $element = document.querySelector('#step-by-step-navigation')
     var stepByStepNavigation = new GOVUK.Modules.AppStepNav($element).init()
-  </script>
-  <script type="text/javascript">
-    hideMessagesToCompleteContactFormIfPreviouslySelected();
-    saveIfContactFormSuccess();
   </script>
 {% endblock %}

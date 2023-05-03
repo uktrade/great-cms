@@ -3,17 +3,37 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from international_online_offer import forms
+from international_online_offer.core import scorecard
 from international_online_offer.models import (
     TriageData,
     UserData,
     get_triage_data,
+    get_triage_data_from_db_or_session,
     get_user_data,
+    get_user_data_from_db_or_session,
 )
 
 LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = 'Complete the contact form to keep up to date with our personalised service.'
 HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = """Your business qualifies for 1 to 1 support from specialist UK government
  advisors. Complete the form to access this and keep up to date with our personalised service."""
 COMPLETED_CONTACT_FORM_MESSAGE = 'Thank you for completing the contact form.'
+
+
+def calculate_and_store_is_high_value(request):
+    existing_triage_data = get_triage_data_from_db_or_session(request)
+    is_high_value = scorecard.score_is_high_value(
+        existing_triage_data.sector,
+        existing_triage_data.location,
+        existing_triage_data.hiring,
+        existing_triage_data.spend,
+        existing_triage_data.spend_other,
+    )
+    if request.user.is_authenticated:
+        TriageData.objects.update_or_create(
+            hashed_uuid=request.user.hashed_uuid, defaults={'is_high_value': is_high_value}
+        )
+    else:
+        request.session['is_high_value'] = is_high_value
 
 
 class IOOIndex(TemplateView):
@@ -23,12 +43,23 @@ class IOOIndex(TemplateView):
 class IOOSector(FormView):
     form_class = forms.SectorForm
     template_name = 'ioo/triage/sector.html'
-    success_url = reverse_lazy('international_online_offer:intent')
+
+    def get_back_url(self):
+        back_url = 'international_online_offer:index'
+        if self.request.GET.get('next'):
+            back_url = 'international_online_offer:' + self.request.GET.get('next')
+        return back_url
+
+    def get_success_url(self):
+        next_url = reverse_lazy('international_online_offer:intent')
+        if self.request.GET.get('next'):
+            next_url = reverse_lazy('international_online_offer:' + self.request.GET.get('next'))
+        return next_url
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
-            back_url='international_online_offer:index',
+            back_url=self.get_back_url(),
             step_text='Step 1 of 5',
             question_text='What is your business sector?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
@@ -46,22 +77,37 @@ class IOOSector(FormView):
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
-                hashed_uuid=self.request.user.hashed_uuid, defaults={'sector': form.cleaned_data['sector']}
+                hashed_uuid=self.request.user.hashed_uuid,
+                defaults={
+                    'sector': form.cleaned_data['sector'],
+                },
             )
         else:
             self.request.session['sector'] = form.cleaned_data['sector']
+        calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
 
 class IOOIntent(FormView):
     form_class = forms.IntentForm
     template_name = 'ioo/triage/intent.html'
-    success_url = reverse_lazy('international_online_offer:location')
+
+    def get_back_url(self):
+        back_url = 'international_online_offer:sector'
+        if self.request.GET.get('next'):
+            back_url = 'international_online_offer:' + self.request.GET.get('next')
+        return back_url
+
+    def get_success_url(self):
+        next_url = reverse_lazy('international_online_offer:location')
+        if self.request.GET.get('next'):
+            next_url = reverse_lazy('international_online_offer:' + self.request.GET.get('next'))
+        return next_url
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
-            back_url='international_online_offer:sector',
+            back_url=self.get_back_url(),
             step_text='Step 2 of 5',
             question_text='How do you plan to expand your business in the UK?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
@@ -80,23 +126,38 @@ class IOOIntent(FormView):
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
                 hashed_uuid=self.request.user.hashed_uuid,
-                defaults={'intent': form.cleaned_data['intent'], 'intent_other': form.cleaned_data['intent_other']},
+                defaults={
+                    'intent': form.cleaned_data['intent'],
+                    'intent_other': form.cleaned_data['intent_other'],
+                },
             )
         else:
             self.request.session['intent'] = form.cleaned_data['intent']
             self.request.session['intent_other'] = form.cleaned_data['intent_other']
+        calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
 
 class IOOLocation(FormView):
     form_class = forms.LocationForm
     template_name = 'ioo/triage/location.html'
-    success_url = reverse_lazy('international_online_offer:hiring')
+
+    def get_back_url(self):
+        back_url = 'international_online_offer:intent'
+        if self.request.GET.get('next'):
+            back_url = 'international_online_offer:' + self.request.GET.get('next')
+        return back_url
+
+    def get_success_url(self):
+        next_url = reverse_lazy('international_online_offer:hiring')
+        if self.request.GET.get('next'):
+            next_url = reverse_lazy('international_online_offer:' + self.request.GET.get('next'))
+        return next_url
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
-            back_url='international_online_offer:intent',
+            back_url=self.get_back_url(),
             step_text='Step 3 of 5',
             question_text='Where in the UK would you like to expand your business?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
@@ -126,18 +187,30 @@ class IOOLocation(FormView):
         else:
             self.request.session['location'] = form.cleaned_data['location']
             self.request.session['location_none'] = form.cleaned_data['location_none']
+        calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
 
 class IOOHiring(FormView):
     form_class = forms.HiringForm
     template_name = 'ioo/triage/hiring.html'
-    success_url = reverse_lazy('international_online_offer:spend')
+
+    def get_back_url(self):
+        back_url = 'international_online_offer:location'
+        if self.request.GET.get('next'):
+            back_url = 'international_online_offer:' + self.request.GET.get('next')
+        return back_url
+
+    def get_success_url(self):
+        next_url = reverse_lazy('international_online_offer:spend')
+        if self.request.GET.get('next'):
+            next_url = reverse_lazy('international_online_offer:' + self.request.GET.get('next'))
+        return next_url
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
-            back_url='international_online_offer:location',
+            back_url=self.get_back_url(),
             step_text='Step 4 of 5',
             question_text='How many people are you looking to hire in the UK?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
@@ -155,22 +228,37 @@ class IOOHiring(FormView):
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
-                hashed_uuid=self.request.user.hashed_uuid, defaults={'hiring': form.cleaned_data['hiring']}
+                hashed_uuid=self.request.user.hashed_uuid,
+                defaults={
+                    'hiring': form.cleaned_data['hiring'],
+                },
             )
         else:
             self.request.session['hiring'] = form.cleaned_data['hiring']
+        calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
 
 class IOOSpend(FormView):
     form_class = forms.SpendForm
     template_name = 'ioo/triage/spend.html'
-    success_url = '/international/expand-your-business-in-the-uk/guide/'
+
+    def get_back_url(self):
+        back_url = 'international_online_offer:hiring'
+        if self.request.GET.get('next'):
+            back_url = 'international_online_offer:' + self.request.GET.get('next')
+        return back_url
+
+    def get_success_url(self):
+        next_url = '/international/expand-your-business-in-the-uk/guide/'
+        if self.request.GET.get('next'):
+            next_url = reverse_lazy('international_online_offer:' + self.request.GET.get('next'))
+        return next_url
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
-            back_url='international_online_offer:hiring',
+            back_url=self.get_back_url(),
             step_text='Step 5 of 5',
             question_text='What is your planned spend for UK entry or expansion?',
             why_we_ask_this_question_text="""We'll use this information to provide customised content
@@ -189,18 +277,22 @@ class IOOSpend(FormView):
         if self.request.user.is_authenticated:
             TriageData.objects.update_or_create(
                 hashed_uuid=self.request.user.hashed_uuid,
-                defaults={'spend': form.cleaned_data['spend'], 'spend_other': form.cleaned_data['spend_other']},
+                defaults={
+                    'spend': form.cleaned_data['spend'],
+                    'spend_other': form.cleaned_data['spend_other'],
+                },
             )
         else:
             self.request.session['spend'] = form.cleaned_data['spend']
             self.request.session['spend_other'] = form.cleaned_data['spend_other']
+        calculate_and_store_is_high_value(self.request)
         return super().form_valid(form)
 
 
 class IOOContact(FormView):
     form_class = forms.ContactForm
     template_name = 'ioo/contact.html'
-    success_url = '/international/expand-your-business-in-the-uk/guide/?success=true'
+    success_url = '/international/expand-your-business-in-the-uk/guide/'
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
@@ -270,9 +362,23 @@ class IOOLogin(FormView):
 class IOOSignUp(FormView):
     form_class = forms.SignUpForm
     template_name = 'ioo/signup.html'
-    success_url = reverse_lazy('international_online_offer:login')
+    success_url = reverse_lazy('international_online_offer:contact')
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
+        )
+
+
+class IOOEditYourAnswers(TemplateView):
+    template_name = 'ioo/edit_your_answers.html'
+
+    def get_context_data(self, **kwargs):
+        triage_data = get_triage_data_from_db_or_session(self.request)
+        user_data = get_user_data_from_db_or_session(self.request)
+        return super().get_context_data(
+            **kwargs,
+            triage_data=triage_data,
+            user_data=user_data,
+            back_url='/international/expand-your-business-in-the-uk/guide/',
         )

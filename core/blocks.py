@@ -480,6 +480,14 @@ class LinkWithImageAndContentBlockNoSource(blocks.StructBlock):
     )
 
 
+class SliceBlock(blocks.StructBlock):
+    title = blocks.CharBlock()
+    url = blocks.CharBlock()
+    source = blocks.CharBlock(help_text='The source or the type of the link, e.g. GOV.UK/Advice', required=False)
+    image = ImageChooserBlock()
+    summary = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False)
+
+
 class VideoChooserBlock(AbstractMediaChooserBlock):
     def render_basic(self, value, context=None):
         """We don't need any HTML rendering"""
@@ -522,6 +530,13 @@ class ColumnsBlock(blocks.StructBlock):
     image = ImageChooserBlock(required=False, label='Hero Image')
     description = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label='Description')
     link = blocks.URLBlock(required=False, label='Title link')
+
+
+class MicrositeColumnBlock(blocks.StructBlock):
+    image = ImageChooserBlock(required=False, label='Hero Image')
+    text = blocks.RichTextBlock(features=RICHTEXT_FEATURES__REDUCED, required=False, label='Description')
+    button_label = blocks.CharBlock(required=False)
+    button_url = blocks.URLBlock(required=False)
 
 
 class SingleRichTextBlock(blocks.StructBlock):

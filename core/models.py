@@ -45,7 +45,7 @@ from wagtailmedia.models import Media
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cms_panels, mixins, snippet_slugs
-from core.blocks import CampaignFormBlock, ColumnsBlock, LinksBlock
+from core.blocks import CampaignFormBlock, LinksBlock, MicrositeColumnBlock
 from core.case_study_index import delete_cs_index, update_cs_index
 from core.cms_snippets import NonPageContentSEOMixin, NonPageContentSnippetBase
 from core.constants import (
@@ -81,6 +81,11 @@ class GreatMedia(Media):
         'transcript',
         'subtitles_en',
     )
+
+    def save(self, *args, **kwargs):
+        self.file._committed = True
+        self.file.name = f'media/{self.file.name}'
+        return super().save(*args, **kwargs)
 
     @property
     def sources(self):
@@ -1399,7 +1404,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 'columns',
                 StreamBlock(
                     [
-                        ('column', ColumnsBlock()),
+                        ('column', MicrositeColumnBlock()),
                     ],
                     help_text='Add two or three columns text',
                     min_num=2,
@@ -1527,7 +1532,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     def get_menu_items(self):
         parent_page = self.get_parent_page()
         if parent_page:
-            return [{'url': parent_page.get_url(), 'title': 'Home'}] + [
+            return [{'url': parent_page.get_url(), 'title': _('Home')}] + [
                 {
                     'url': child.get_url(),
                     'title': child.title,

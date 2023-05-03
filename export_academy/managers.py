@@ -1,6 +1,7 @@
-import datetime
+from datetime import timedelta
 
 from django.db import models
+from django.utils import timezone
 
 
 class EventQuerySet(models.QuerySet):
@@ -8,7 +9,7 @@ class EventQuerySet(models.QuerySet):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.current_date = datetime.datetime.now().date()
+        self.current_date = timezone.now().date()
         self.current_isodate = self.current_date.isocalendar()
 
     #####################################
@@ -22,7 +23,7 @@ class EventQuerySet(models.QuerySet):
         return self.filter(start_date__date=self.current_date)
 
     def tomorrow(self):
-        return self.filter(start_date__date=self.current_date + datetime.timedelta(days=1))
+        return self.filter(start_date__date=self.current_date + timedelta(days=1))
 
     def this_week(self):
         return self.filter(start_date__year=self.current_date.year, start_date__week=self.current_isodate.week)
@@ -45,6 +46,6 @@ class EventManager(models.Manager):
             super()
             .get_queryset()
             .exclude(live__isnull=True)
-            .exclude(end_date__lt=datetime.datetime.now())
+            .exclude(end_date__lt=timezone.now())
             .order_by('start_date')
         )

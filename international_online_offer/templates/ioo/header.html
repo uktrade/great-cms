@@ -46,6 +46,10 @@
                         <li>
                             <a class="atlas-nav__item" style="cursor: pointer;" onclick="signOut()">Sign out</a>
                         </li>
+                    {% else %}
+                        <li>
+                            <a class="atlas-nav__item" style="cursor: pointer;" href="{% url 'international_online_offer:login' %}">Sign in</a>
+                        </li>
                     {% endif %}
                 </ul>
             </nav>

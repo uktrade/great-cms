@@ -1,0 +1,56 @@
+{% load add_govuk_classes from content_tags %}
+
+{% for block in streamfield_content %}
+
+    {% if block.block_type == 'form' %}
+     {% filter add_govuk_classes %}
+        {% if form %}
+            <div class="form-container {{form_class}}">
+                <hr/>
+                {% if form_success %}
+                    <div class="success-message-container">
+                        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
+                              rel="stylesheet">
+                        <i class="fa fa-check"></i>
+                        <p>Information has been submitted successfully</p>
+                    </div>
+                {% else %}
+                    <form action="" method="post" autocomplete="off">
+                        {% csrf_token %}
+                        {{ form }}
+                        <button type="submit" class="primary-button">Submit</button>
+                    </form>
+                {% endif %}
+                <hr/>
+            </div>
+        {% endif %}
+        {% endfilter %}
+    {% else %}
+        {{ block }}
+    {% endif %}
+{% endfor %}
+
+{% block body_js %}
+    <script type="text/javascript">
+      const elements = document.getElementsByClassName("success-message-container");
+      if(elements.length){
+         const yOffset = -100;
+         const y = elements[0].getBoundingClientRect().top + window.pageYOffset + yOffset;
+         window.scrollTo({top: y, behavior: 'smooth'});
+      }
+
+      const error_list = document.getElementsByClassName("form-group-error ")
+      if(error_list.length){
+         const yOffset = -100;
+         const y = error_list[0].getBoundingClientRect().top + window.pageYOffset + yOffset;
+         window.scrollTo({top: y, behavior: 'smooth'});
+      }
+
+    const govuk_error_list = document.getElementsByClassName("govuk-form-group-error ")
+      if(govuk_error_list.length){
+         const yOffset = -100;
+         const y = govuk_error_list[0].getBoundingClientRect().top + window.pageYOffset + yOffset;
+         window.scrollTo({top: y, behavior: 'smooth'});
+      }
+    </script>
+{% endblock %}

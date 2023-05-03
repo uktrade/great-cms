@@ -217,51 +217,51 @@ function customIOOLocationSuggest (query, populateResults) {
   const locationJson = [
     {
       "en":"Wales",
-      "tags":["Aberyswyth","Aberaeron","Ceredigion","Cardiff","Swansea","Bangor","Newport (Wales)","Gwent","Glamorgan","Carmarthen","Powys","Newquay (Wales)"]
+      "tags":["Isle of Anglesey","Gwynedd","Conwy","Denbighshire","Flintshire","Wrexham","Ceredigion","Pembrokeshire","Carmarthenshire","Swansea","Neath Port Talbot","Bridgend","Vale of Glamorgan","Cardiff","Rhondda Cynon Taf","Caerphilly","Blaenau Gwent","Torfaen","Monmouthshire","Newport","Powys","Merthyr Tydfil"]
     },
     {
       "en":"South West",
-      "tags":["Devon","Cornwall","Saint Austell","Somerset","Dorset","Wiltshire","Newquay","Plymouth","Exmoor","Poole","Southampton","Exmouth","Bristol","Gloucestershire","Newquay (South West)"]
+      "tags":["Bath and North East Somerset","Bristol","North Somerset","South Gloucestershire","Plymouth","Torbay","Swindon","Cornwall","Isles of Scilly","Wiltshire","Bournemouth, Christchurch and Poole","Dorset","East Devon","Exeter","Mid Devon","North Devon","South Hams","Teignbridge","Torridge","West Devon","Cheltenham","Cotswold","Forest of Dean","Gloucester","Stroud","Tewkesbury","Mendip","Sedgemoor","South Somerset","Somerset West and Taunton"]
     },
     {
       "en":"Scotland",
-      "tags":["Glasgow","Edinburgh","Highlands","Aberdeen","Inverness"]
+      "tags":["Glasgow","Edinburgh","Aberdeen","Dundee","Paisley","East Kilbride","Livingston","Dunfermline","Hamilton","Inverness","Cumbernauld","Kirkcaldy","Perth","Kilmarnock","Dumfries","Ayr","Coatbridge","Greenock","Glenrothes","Stirling","Airdrie","Falkirk","Irvine","Motherwell","Rutherglen","Cambuslang","Wishaw","Bearsden","Newton Mearns","Clydebank","Elgin","Renfrew","Bishopbriggs","Bathgate","Arbroath","Kirkintilloch","Musselburgh","Dumbarton","Bellshill","Peterhead","St Andrews","Bonnyrigg","Barrhead","Blantyre","Penicuik","Grangemouth","Kilwinning","Broxburn","Johnstone","Viewpark","Larkhall","Erskine"]
     },
     {
       "en":"West Midlands",
-      "tags":["Staffs","Staffordshire","Herefordshire","Worcs","Warwickshire","Birmingham","Solihull","Coventry","Dudley","Sandwell","Walsall","Wolverhampton"]
+      "tags":["Herefordshire, County of","Telford and Wrekin","Stoke-on-Trent","Shropshire","Cannock Chase","East Staffordshire","Lichfield","Newcastle-under-Lyme","South Staffordshire","Stafford","Staffordshire Moorlands","Tamworth","North Warwickshire","Nuneaton and Bedworth","Rugby","Stratford-on-Avon","Warwick","Bromsgrove","Malvern Hills","Redditch","Worcester","Wychavon","Wyre Forest","Birmingham","Coventry","Dudley","Sandwell","Solihull","Walsall","Wolverhampton"]
     },
     {
       "en":"London",
-      "tags":["Westminster","Islington","Brixton","Lambeth","Chelsea","City","Clerkenwell","Covent Garden","Docklands","Hackney","Greater London"]
+      "tags":["City of London","Barking and Dagenham","Barnet","Bexley","Brent","Bromley","Camden","Croydon","Ealing","Enfield","Greenwich","Hackney","Hammersmith and Fulham","Haringey","Harrow","Havering","Hillingdon","Hounslow","Islington","Kensington and Chelsea","Kingston upon Thames","Lambeth","Lewisham","Merton","Newham","Redbridge","Richmond upon Thames","Southwark","Sutton","Tower Hamlets","Waltham Forest","Wandsworth","Westminster","Park Royal","Canning Town","Acton","Greenford","Staples Corner","Heathrow","Hayes","Tottenham","Wembley","Woolwich","Uxbridge","Barking","Dagenham","London (City)","London (West End – Bond Street)","London (West End – Oxford Street)","London (West End)","London (East)","London - New Bond Street","Greater London","London"]
     },
     {
       "en":"East Midlands",
-      "tags":[]
+      "tags":["Derby","Leicester","Rutland","Nottingham","North Northamptonshire ","West Northamptonshire ","Amber Valley","Bolsover","Chesterfield","Derbyshire Dales","Erewash","High Peak","North East Derbyshire","South Derbyshire","Blaby","Charnwood","Harborough","Hinckley and Bosworth","Melton","North West Leicestershire","Oadby and Wigston","Boston","East Lindsey","Lincoln","North Kesteven","South Holland","South Kesteven","West Lindsey","Ashfield","Bassetlaw","Broxtowe","Gedling","Mansfield","Newark and Sherwood","Rushcliffe"]
     },
     {
       "en":"North East",
-      "tags":[]
+      "tags":["Hartlepool","Middlesbrough","Redcar and Cleveland","Stockton-on-Tees","Darlington","County Durham","Northumberland","Newcastle upon Tyne","North Tyneside","South Tyneside","Sunderland","Gateshead"]
     },
     {
       "en":"North West",
-      "tags":[]
+      "tags":["Halton","Warrington","Blackburn with Darwen","Blackpool","Cheshire East","Cheshire West and Chester","Allerdale","Barrow-in-Furness","Carlisle","Copeland","Eden","South Lakeland","Burnley","Chorley","Fylde","Hyndburn","Lancaster","Pendle","Preston","Ribble Valley","Rossendale","South Ribble","West Lancashire","Wyre","Bolton","Bury","Manchester","Oldham","Rochdale","Salford","Stockport","Tameside","Trafford","Wigan","Knowsley","Liverpool","St. Helens","Sefton","Wirral"]
     },
     {
       "en":"Yorkshire and the Humber",
-      "tags":[]
+      "tags":["Kingston upon Hull","East Riding of Yorkshire","North East Lincolnshire","North Lincolnshire","York","Craven","Hambleton","Harrogate","Richmondshire","Ryedale","Scarborough","Selby","Barnsley","Doncaster","Rotherham","Sheffield","Bradford","Calderdale","Kirklees","Leeds","Wakefield"]
     },
     {
       "en":"East",
-      "tags":[]
+      "tags":["Peterborough","Luton","Southend-on-Sea","Thurrock","Bedford","Central Bedfordshire","Cambridge","East Cambridgeshire","Fenland","Huntingdonshire","South Cambridgeshire","Basildon","Braintree","Brentwood","Castle Point","Chelmsford","Colchester","Epping Forest","Harlow","Maldon","Rochford","Tendring","Uttlesford","Broxbourne","Dacorum","Hertsmere","North Hertfordshire","Three Rivers","Watford","Breckland","Broadland","Great Yarmouth","King's Lynn and West Norfolk","North Norfolk","Norwich","South Norfolk","Babergh","Ipswich","Mid Suffolk","St Albans","Welwyn Hatfield","East Hertfordshire","Stevenage","East Suffolk","West Suffolk","Borehamwood","Welwyn Garden City","Hemel Hempstead","Dunstable","West Thurrock"]
     },
     {
       "en":"South East",
-      "tags":[]
+      "tags":["Medway","Bracknell Forest","West Berkshire","Reading","Slough","Windsor and Maidenhead","Wokingham","Milton Keynes","Brighton and Hove","Portsmouth","Southampton","Isle of Wight","Buckinghamshire","Eastbourne","Hastings","Lewes","Rother","Wealden","Basingstoke and Deane","East Hampshire","Eastleigh","Fareham","Gosport","Hart","Havant","New Forest","Rushmoor","Test Valley","Winchester","Ashford","Canterbury","Dartford","Dover","Gravesham","Maidstone","Sevenoaks","Folkestone and Hythe","Swale","Thanet","Tonbridge and Malling","Tunbridge Wells","Cherwell","Oxford","South Oxfordshire","Vale of White Horse","West Oxfordshire","Elmbridge","Epsom and Ewell","Guildford","Mole Valley","Reigate and Banstead","Runnymede","Spelthorne","Surrey Heath","Tandridge","Waverley","Woking","Adur","Arun","Chichester","Crawley","Horsham","Mid Sussex","Worthing","Sunbury","Weybridge","Brighton","Camberley","High Wycombe","Redhill","Bracknell","Basingstoke","Aylesbury","Newbury","Andover"]
     },
     {
       "en":"Northern Ireland",
-      "tags":[]
+      "tags":["Belfast","Derry","Craigavon","Newtownabbey","Bangor","Lisburn","Ballymena","Newtownards","Newry","Carrickfergus"]
     }
   ];
   const locations = parseJsonForAutoComplete(locationJson);
@@ -322,20 +322,4 @@ function getContactFormIfPreviouslySelected() {
 function getContactFormCompanyLocationIfPreviouslySelected() {
   const iooFormData = getIooFormData();
   return iooFormData.contactInformation.companyLocation;
-}
-
-function hideMessagesToCompleteContactFormIfPreviouslySelected() {
-  const iooFormData = getIooFormData();
-  if (iooFormData.contactFormComplete) {
-    if (document.getElementById('completed_contact_form_message')) document.getElementById('completed_contact_form_message').style.display = 'none';
-    if (document.getElementById('complete_contact_form_message')) document.getElementById('complete_contact_form_message').style.display = 'none';
-  }
-}
-
-function saveIfContactFormSuccess() {
-  const iooFormData = getIooFormData();
-  if (document.getElementById('completed_contact_form_message')) {
-    iooFormData.contactFormComplete = true;
-    setIooFormData(iooFormData);
-  }
 }
