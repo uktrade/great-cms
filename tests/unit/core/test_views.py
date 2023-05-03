@@ -1038,6 +1038,9 @@ def test_get_survey_view_api_view(client, mock_get_survey):
     assert mock_get_survey.call_args == mock.call(id='123')
 
 
+@pytest.mark.skipif(
+    not settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE, reason="Multiple translations not enabled"
+)
 class TestMicrositeLocales(TestCase):
     def setUp(self):
         self.client = Client()

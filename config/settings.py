@@ -208,15 +208,10 @@ if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
     # we have proven one non-English language.
     WAGTAIL_I18N_ENABLED = True
 
-    # list of tuples of form, lang short code, description, wagtail localize locale IDs
-    ENABLED_LANGUAGES = [
-        ('ar', 'Arabic', 5),
-        ('en-gb', 'English', 1),
-        ('es', 'Spanish', 4),
-    ]
-
     WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
-        (short_code, description) for short_code, description, _ in ENABLED_LANGUAGES
+        ('ar', 'Arabic'),
+        ('en-gb', 'English'),
+        ('es', 'Spanish'),
     ]
 
     INSTALLED_APPS += [
