@@ -19,8 +19,8 @@
                 <li><a href="{{ view.delete_url }}" class="shortcut">{% trans "Delete" %}</a></li>
                 <li>
                     {% if instance.live %}
-                    <button type="submit" class="button button-longrunning" name="live" value="" data-clicked-text="{% trans 'Unublishing...' %}">
-                        {% icon name="spinner" %}<em>{% trans 'Unublish' %}</em>
+                    <button type="submit" class="button button-longrunning" name="live" value="" data-clicked-text="{% trans 'UnPublishing...' %}">
+                        {% icon name="spinner" %}<em>{% trans 'UnPublish' %}</em>
                     </button>
                     {% else %}
                     <button type="submit" class="button button-longrunning" name="live" value="on" data-clicked-text="{% trans 'Publishing...' %}">

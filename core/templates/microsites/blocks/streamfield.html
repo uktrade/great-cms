@@ -1,5 +1,9 @@
+{% load add_govuk_classes from content_tags %}
+
 {% for block in streamfield_content %}
+
     {% if block.block_type == 'form' %}
+     {% filter add_govuk_classes %}
         {% if form %}
             <div class="form-container {{form_class}}">
                 <hr/>
@@ -20,10 +24,9 @@
                 <hr/>
             </div>
         {% endif %}
+        {% endfilter %}
     {% else %}
-        <div class="block-text">
-            {{ block }}
-        </div>
+        {{ block }}
     {% endif %}
 {% endfor %}
 

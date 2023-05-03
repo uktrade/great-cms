@@ -51,6 +51,7 @@ urlpatterns += [
     path('', include(domestic.urls, namespace='domestic')),
     path('', include(core.urls, namespace='core')),
     path('', include(contact.urls)),  # No prefix because not all of them start with /contact/
+    path('export-academy/', include(export_academy.urls, namespace='export_academy')),
 ]
 
 urlpatterns += [
@@ -79,6 +80,3 @@ if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
     urlpatterns = [
         path('international/expand-your-business-in-the-uk/', include(international_online_offer.urls))
     ] + urlpatterns
-
-if settings.FEATURE_EXPORT_ACADEMY:
-    urlpatterns = [path('export-academy/', include(export_academy.urls, namespace='export_academy'))] + urlpatterns

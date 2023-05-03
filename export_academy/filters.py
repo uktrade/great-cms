@@ -3,7 +3,6 @@ from django_filters import FilterSet, filters
 from great_components import forms
 
 from export_academy import models
-from export_academy.forms import ChoiceSubmitButtonWidget
 from export_academy.helpers import is_export_academy_registered
 
 
@@ -31,9 +30,9 @@ class EventFilter(FilterSet):
     PAST = 'past'
 
     NAVIGATION_CHOICES = [
-        [ALL, 'All events'],
-        [BOOKED, 'Booked events'],
-        [PAST, 'Past events'],
+        [ALL, 'All'],
+        [BOOKED, 'Current bookings'],
+        [PAST, 'Past bookings'],
     ]
 
     type = filters.ModelMultipleChoiceFilter(
@@ -59,16 +58,16 @@ class EventFilter(FilterSet):
     )
 
     navigation = filters.ChoiceFilter(
-        label='period',
+        label='Events',
         empty_label=None,
         choices=NAVIGATION_CHOICES,
         method='filter_navigation',
-        widget=ChoiceSubmitButtonWidget(attrs={'form': 'events-form', 'class': 'button primary-button'}),
+        widget=forms.RadioSelect,
     )
 
     class Meta:
         model = models.Event
-        fields = ['type', 'format', 'period']
+        fields = ['navigation', 'type', 'format', 'period']
 
     def filter_period(self, queryset, _name, value):
         for param, _ in self.PERIOD_CHOICES:
@@ -82,7 +81,8 @@ class EventFilter(FilterSet):
         if is_export_academy_registered(self.request.user):  # type: ignore
             if value == self.BOOKED:
                 queryset = queryset.exclude(live__isnull=True).filter(
-                    bookings__registration=self.request.user.email  # type: ignore
+                    bookings__registration=self.request.user.email,  # type: ignore
+                    bookings__status=models.Booking.CONFIRMED,
                 )
 
             if value == self.PAST:

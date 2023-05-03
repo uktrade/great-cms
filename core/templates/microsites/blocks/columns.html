@@ -8,21 +8,24 @@
 <div class="govuk-grid-row">
 {% for item in value %}
 <div class="govuk-grid-column-one-{% if value|length == 3 %}third{% else %}half{% endif %}">
-    <div class="govuk-!-margin-bottom-6 great-ratio-16-9">
-        {% image item.value.image width-700 %}
-    </div>
-    <h3 class="govuk-heading-m great-font-size-28">{{ item.value.title }}</h3>
+    {%if item.value.image%}
+        <div class="govuk-!-margin-bottom-6 great-ratio-16-9">
+            {% image item.value.image width-700 %}
+        </div>
+    {%endif%}
     {% filter add_govuk_classes %}
-        {{ item.value.description }}
+        {{ item.value.text }}
     {% endfilter %}
-    <a href="{{ item.value.link }}" class="govuk-button">
-        {% comment %} I'm assuming this will change but including for completeness {% endcomment %}
-        {% if TRANSLATE_TEXT %}
-            {% translate "Button Label" %}
-        {% else %}
-            Button Label
-        {% endif %}
-    </a>
+    {%if item.value.button_url%}
+        <a href="{{ item.value.button_url }}" class="govuk-button">
+            {% comment %} I'm assuming this will change but including for completeness {% endcomment %}
+            {% if TRANSLATE_TEXT %}
+                {% translate item.value.button_label %}
+            {% else %}
+                {{item.value.button_label}}
+            {% endif %}
+        </a>
+    {%endif%}
 </div>
 {% endfor %}
 </div>
