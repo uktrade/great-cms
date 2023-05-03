@@ -1076,7 +1076,7 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
                     'type': 'text',
                     'value': '<p data-block-key="r0g5h">dssdsdds</p>',
                     'id': '55d0ff59-bcfd-46d9-9c02-b1977eed3f80',
-                }
+                },
             ]
         )
 
