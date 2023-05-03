@@ -1,6 +1,7 @@
 import datetime
 import json
 import logging
+import uuid
 from urllib.parse import urlparse
 
 import boto3
@@ -26,6 +27,7 @@ from wagtail_transfer.files import File as WTFile, FileTransferError
 from wagtail_transfer.models import ImportedFile
 
 from core import constants, mixins, views
+from core.models import MicrositePage
 from domestic.models import ArticlePage
 
 logger = logging.getLogger(__name__)
@@ -334,10 +336,10 @@ def global_admin_css():
 
 @hooks.register('register_bulk_action')
 class MigratePage(PageBulkAction):
-    display_name = _("Migrate")
-    aria_label = _("Create page from page")
-    action_type = "migrate"
-    template_name = "wagtailadmin/microsite_migrate.html"
+    display_name = _('Migrate')
+    aria_label = _('Create page from page')
+    action_type = 'migrate'
+    template_name = 'wagtailadmin/microsite_migrate.html'
 
     # Only gives permission to change pages of the ArticlePage type currently
     def check_perm(self, page):
@@ -347,4 +349,141 @@ class MigratePage(PageBulkAction):
     # Collect target page from the form in the template and append new pages as the children of that page
     @classmethod
     def execute_action(cls, objects, **kwargs):
-        return NotImplementedError("execute_action needs to be implemented")
+        if all(type(object.specific) == ArticlePage for object in objects):
+            return len(objects), len([migrate_article_page_to_microsite(object.specific) for object in objects])
+        else:
+            return NotImplementedError('execute_action needs to be implemented')
+
+
+def migrate_article_page_to_microsite(page):
+    slug = page.slug
+    parent_page = page.get_parent()
+    microsite_page = MicrositePage(
+        title=page.title,
+        page_title=page.article_title,
+        page_subheading=page.article_subheading,
+        page_teaser=page.article_teaser,
+        hero_image=page.article_image,
+        hero_video=page.article_video,
+        hero_video_transcript=page.article_video_transcript,
+        page_body=get_microsite_page_body(page.article_body),
+        cta_title=page.cta_title,
+        cta_teaser=page.cta_teaser,
+        cta_link_label=page.cta_link_label,
+        cta_link=page.cta_link,
+        related_links=json.dumps(convert_related_links(page)),
+    )
+    page.delete()
+    microsite_page.slug = slug
+    parent_page.add_child(instance=microsite_page)
+    microsite_page.save()
+
+
+def convert_block_based_on_type(block):
+    block_type_conversion_dict = {
+        'form': convert_form,
+        'text': convert_text,
+        'cta': convert_cta,
+        'Columns': convert_all_columns,
+        'Video': convert_video,
+        'pull_quote': convert_quote,
+        'image': convert_image,
+    }
+    return block_type_conversion_dict[block.block_type](block)
+
+
+def get_microsite_page_body(article_page):
+    page_body = []
+    [page_body.append(convert_block_based_on_type(block)) for block in article_page]
+    return json.dumps(page_body)
+
+
+def convert_image(block):
+    return {'type': 'image', 'value': block.value.id, 'id': block.value.file_hash}
+
+
+def convert_text(block):
+    return {'type': 'text', 'value': block.value.source}
+
+
+def convert_all_columns(block):
+    return {
+        'type': 'columns',
+        'value': [convert_column(value.value) for value in block.value],
+    }
+
+
+def convert_column(block):
+    return {
+        'type': 'column',
+        'value': {
+            'title': block.get('title'),
+            'description': block.get('description').source,
+        },
+        'image': block.get('image').id if block.get('image') else None,
+        'link': block.get('link'),
+    }
+
+
+def convert_form(block):
+    return {
+        'type': 'form',
+        'value': {
+            'type': block.value.get('type'),
+            'email_title': block.value.get('email_title'),
+            'email_subject': block.value.get('email_subject'),
+            'email_body': block.value.get('email_body'),
+        },
+    }
+
+
+def convert_cta(block):
+    return {
+        'type': 'cta',
+        'title': block.value.get('title'),
+        'teaser': block.value.get('teaser'),
+        'link_label': block.value.get('link_label'),
+        'link': block.value.get('link'),
+    }
+
+
+def convert_video(block):
+    return {'type': 'video', 'value': {'video': block.value.get('video').id}, 'id': str(uuid.uuid4())}
+
+
+def convert_quote(block):
+    return {
+        'type': 'pull_quote',
+        'value': {
+            'quote': block.value.get('quote'),
+            'attribution': block.value.get('attribution'),
+            'organisation': block.value.get('organisation'),
+            'organisation_link': block.value.get('organisation_link'),
+        },
+    }
+
+
+def convert_related_links(page):
+    def make_related_link(item):
+        return {'type': 'link', 'value': {'title': item['title'], 'full_url': item['link']}, 'id': str(uuid.uuid4())}
+
+    def make_related_page(item):
+        {'type': 'page', 'value': item['id'], 'id': str(uuid.uuid4())}
+
+    def get_related_link_conversion(item):
+        if item['link'] is not None:
+            return make_related_link(item)
+        return make_related_page(item)
+
+    related_links = [
+        {'id': page.related_page_one_id, 'title': page.related_page_one_title, 'link': page.related_page_one_title},
+        {'id': page.related_page_two_id, 'title': page.related_page_two_title, 'link': page.related_page_two_title},
+        {
+            'id': page.related_page_three_id,
+            'title': page.related_page_three_title,
+            'link': page.related_page_three_title,
+        },
+        {'id': page.related_page_four_id, 'title': page.related_page_four_title, 'link': page.related_page_four_title},
+        {'id': page.related_page_five_id, 'title': page.related_page_five_title, 'link': page.related_page_five_title},
+    ]
+    return [get_related_link_conversion(item) for item in related_links if item['id'] is not None or item['link'] != '']

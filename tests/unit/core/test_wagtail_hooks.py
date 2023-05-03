@@ -7,20 +7,24 @@ from boto3.exceptions import RetriesExceededError, S3UploadFailedError
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.db.models import FileField
-from django.test import override_settings
+from django.test import TestCase, override_settings
 from wagtail.core.rich_text import RichText
+from wagtail.tests.utils import WagtailPageTests
 
 from core import cms_slugs, wagtail_hooks
-from core.models import DetailPage
+from core.models import DetailPage, MicrositePage
 from core.wagtail_hooks import (
     FileTransferError,
     S3FileFieldAdapter,
     S3WagtailTransferFile,
     editor_css,
+    migrate_article_page_to_microsite,
     register_s3_media_file_adapter,
 )
 from tests.helpers import make_test_video
 from tests.unit.core import factories
+from tests.unit.core.factories import StructurePageFactory
+from tests.unit.domestic.factories import ArticlePageFactory
 from tests.unit.learn.factories import LessonPageFactory
 
 LOREM_IPSUM = (
@@ -997,3 +1001,124 @@ def test_authenticated_user_required__sets_next_param(rf, request_path):
 
     assert output.status_code == 302
     assert output.headers['Location'] == f'{cms_slugs.SIGNUP_URL}?next={request_path}'
+
+
+class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
+    @pytest.fixture(autouse=True)
+    def domestic_homepage_fixture(self, domestic_homepage):
+        self.domestic_homepage = domestic_homepage
+
+    def setUp(self):
+        self.parent_page = StructurePageFactory(parent=self.domestic_homepage, title='campaigns', slug='campaigns')
+        article_body1 = json.dumps(
+            [
+                {
+                    'type': 'form',
+                    'value': {
+                        'type': 'Short',
+                        'email_title': 'title1',
+                        'email_subject': 'subject1',
+                        'email_body': 'body1',
+                    },
+                },
+                {
+                    'type': 'Video',
+                    'value': {'video': 44},
+                    'id': 'b965f2ea-c030-41ff-b121-32895a0b7cb0',
+                },
+                {
+                    'type': 'pull_quote',
+                    'value': {
+                        'quote': 'my quote',
+                        'attribution': 'random guy',
+                        'role': 'head',
+                        'organisation': 'dit',
+                        'organisation_link': 'http://www.google.com',
+                    },
+                    'id': 'e5632d7b-04f2-44ec-ae40-31e7c2e52c21',
+                },
+                {
+                    'type': 'Columns',
+                    'value': [
+                        {
+                            'type': 'column',
+                            'value': {
+                                'title': 'col1',
+                                'image': None,
+                                'description': '<p data-block-key=\"8vbdd9\">sddsds</p>',
+                                'link': 'www.google.com',
+                            },
+                            'id': '40839277-ef3d-461d-abbd-6506b08c80b6',
+                        },
+                        {
+                            'type': 'column',
+                            'value': {
+                                'title': 'col2',
+                                'image': None,
+                                'description': '<p data-block-key=\"8vbd9\">sddsds</p>',
+                                'link': 'www.google.com',
+                            },
+                            'id': '40839277-ef3d-461d-abbd-6506b08c80b6',
+                        },
+                        {
+                            'type': 'column',
+                            'value': {
+                                'title': 'col3',
+                                'image': None,
+                                'description': '<p data-block-key=\"8vdbd9\">col3</p>',
+                                'link': 'www.google.com',
+                            },
+                            'id': '40839277-ef3d-461d-abbd-6506b08c80b6',
+                        },
+                    ],
+                },
+            ],
+            {
+                'type': 'text',
+                'value': '<p data-block-key="r0g5h">dssdsdds</p>',
+                'id': '55d0ff59-bcfd-46d9-9c02-b1977eed3f80',
+            },
+        )
+
+        self.article1 = ArticlePageFactory(
+            slug='test-article-one',
+            article_body=article_body1,
+            parent=self.parent_page,
+            article_title='test',
+            article_subheading='subheading',
+            article_teaser='teaser',
+        )
+
+        self.new_page = migrate_article_page_to_microsite(self.article1)
+
+    def test_new_microsite_data(self):
+        type(self.new_page.specific) == MicrositePage
+        self.assertEqual(self.new_page.slug, 'test-article-one')
+        self.assertEqual(self.new_page.title, 'test')
+        self.assertEqual(self.new_page.title, 'test')
+        self.assertEqual(
+            [block for block in self.new_page.page_body if block.block_type == 'form'][0].value.get('type'),
+            'Long',
+        )
+        self.assertEqual(
+            [block for block in self.new_page.page_body if block.block_type == 'text'][0].value.get('source'),
+            '<p data-block-key="r0g5h">dssdsdds</p>',
+        )
+        self.assertEqual(
+            [block for block in self.new_page.page_body if block.block_type == 'pull_quote'][0].value.get('quote'),
+            'my quote',
+        )
+        self.assertEqual(
+            [block for block in [block for block in self.new_page.page_body if block.block_type == 'columns'][0].value][
+                0
+            ].value.get('title'),
+            'col1',
+        ),
+        self.assertEqual(
+            [block for block in [block for block in self.new_page.page_body if block.block_type == 'columns'][0].value][
+                0
+            ]
+            .value.get('description')
+            .source,
+            '<p data-block-key=\"8vdbd9\">col3</p>',
+        )
