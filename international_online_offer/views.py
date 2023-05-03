@@ -289,9 +289,9 @@ class IOOSpend(FormView):
         return super().form_valid(form)
 
 
-class IOOContact(FormView):
-    form_class = forms.ContactForm
-    template_name = 'ioo/contact.html'
+class IOOProfile(FormView):
+    form_class = forms.ProfileForm
+    template_name = 'ioo/profile.html'
     success_url = '/international/expand-your-business-in-the-uk/guide/'
 
     def get_context_data(self, **kwargs):
@@ -302,15 +302,17 @@ class IOOContact(FormView):
         )
 
     def get_initial(self):
+        email = self.request.session.get('email')
         if self.request.user.is_authenticated:
             user_data = get_user_data(self.request.user.hashed_uuid)
+            email = self.request.user.email
             if user_data:
                 return {
                     'company_name': user_data.company_name,
                     'company_location': user_data.company_location,
                     'full_name': user_data.full_name,
                     'role': user_data.role,
-                    'email': user_data.email,
+                    'email': email,
                     'telephone_number': user_data.telephone_number,
                     'agree_terms': user_data.agree_terms,
                     'agree_info_email': user_data.agree_info_email,
@@ -322,7 +324,7 @@ class IOOContact(FormView):
             'company_location': self.request.session.get('company_location'),
             'full_name': self.request.session.get('full_name'),
             'role': self.request.session.get('role'),
-            'email': self.request.session.get('email'),
+            'email': email,
             'telephone_number': self.request.session.get('telephone_number'),
             'agree_terms': self.request.session.get('agree_terms'),
             'agree_info_email': self.request.session.get('agree_info_email'),
@@ -362,7 +364,7 @@ class IOOLogin(FormView):
 class IOOSignUp(FormView):
     form_class = forms.SignUpForm
     template_name = 'ioo/signup.html'
-    success_url = reverse_lazy('international_online_offer:contact')
+    success_url = reverse_lazy('international_online_offer:profile')
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(

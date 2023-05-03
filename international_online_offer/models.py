@@ -33,9 +33,10 @@ def get_user_data(hashed_uuid):
 
 def get_triage_data_from_db_or_session(request):
     if hasattr(request, 'user') and request.user.is_authenticated:
-        triage_data = get_triage_data(request.user.hashed_uuid)
-        if triage_data:
-            return triage_data
+        if hasattr(request.user, 'hashed_uuid'):
+            triage_data = get_triage_data(request.user.hashed_uuid)
+            if triage_data:
+                return triage_data
     if hasattr(request, 'session'):
         return TriageData(
             sector=request.session.get('sector'),
@@ -52,9 +53,10 @@ def get_triage_data_from_db_or_session(request):
 
 def get_user_data_from_db_or_session(request):
     if hasattr(request, 'user') and request.user.is_authenticated:
-        user_data = get_user_data(request.user.hashed_uuid)
-        if user_data:
-            return user_data
+        if hasattr(request.user, 'hashed_uuid'):
+            user_data = get_user_data(request.user.hashed_uuid)
+            if user_data:
+                return user_data
 
     if hasattr(request, 'session'):
         return UserData(
@@ -81,12 +83,9 @@ class IOOIndexPage(BaseContentPage):
 
 
 class IOOGuidePage(BaseContentPage):
-    LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = (
-        'Complete the contact form to keep up to date with our personalised service.'
-    )
+    LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = 'Sign up to keep up to date with our personalised service.'
     HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = """Your business qualifies for 1 to 1 support from specialist UK
-        government advisors. Complete the form to access this and keep up to date with our
-        personalised service."""
+        government advisors. Sign up to access this and your full personalised online guides."""
     parent_page_types = ['international_online_offer.IOOIndexPage']
     subpage_types = ['international_online_offer.IOOArticlePage']
     template = 'ioo/guide.html'
@@ -110,7 +109,7 @@ class IOOGuidePage(BaseContentPage):
         context.update(
             complete_contact_form_message=complete_contact_form_message,
             complete_contact_form_link='international_online_offer:signup',
-            complete_contact_form_link_text='Complete form',
+            complete_contact_form_link_text='Sign up',
             triage_data=triage_data,
             user_data=user_data,
             get_to_know_market_articles=get_to_know_market_articles,

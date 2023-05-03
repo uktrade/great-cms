@@ -97,7 +97,7 @@ class SpendForm(forms.Form):
             return cleaned_data
 
 
-class ContactForm(forms.Form):
+class ProfileForm(forms.Form):
     company_name = forms.CharField(
         label='',
         required=True,

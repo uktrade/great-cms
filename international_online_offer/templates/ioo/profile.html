@@ -29,33 +29,7 @@
       <p class="govuk-body">{{ complete_contact_form_message }}</p>
     </div>
   </div>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <form method="post">
-        {% csrf_token %}
-        <label class="govuk-label govuk-label--s" for="full_name">Full name</label>
-        {% include 'core/includes/form_field.html' with field=form.full_name %}
-        <label class="govuk-label govuk-label--s" for="role">Role</label>
-        <div class="govuk-hint">Your role within the company</div>
-        {% include 'core/includes/form_field.html' with field=form.role %}
-        <label class="govuk-label govuk-label--s" for="email">Email</label>
-        {% include 'core/includes/form_field.html' with field=form.email %}
-        <label class="govuk-label govuk-label--s" for="telephone_number">Telephone number</label>
-        <div class="govuk-hint">Please include the country code</div>
-        {% include 'core/includes/form_field.html' with field=form.telephone_number %}
-        <label class="govuk-label govuk-label--s" for="company_name">Company name</label>
-        {% include 'core/includes/form_field.html' with field=form.company_name %}
-        <label class="govuk-label govuk-label--s" for="company_location">Company headquarters</label>
-        <div class="govuk-hint">Type to search and choose from the list</div>
-        {% include 'core/includes/form_field.html' with field=form.company_location %}
-        <br/>
-        {% include 'core/includes/form_field.html' with field=form.agree_terms %}
-        {% include 'core/includes/form_field.html' with field=form.agree_info_email %}
-        {% include 'core/includes/form_field.html' with field=form.agree_info_telephone %}
-        {% include './includes/submit_button.html' with button_text='Submit'  %}
-      </form>
-    </div>
-  </div>
+  {% include './includes/profile_form.html' %}
 {% endblock %}
 
 {% block body_js %}

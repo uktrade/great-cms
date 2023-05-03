@@ -50,7 +50,6 @@
       <label class="govuk-label" for="email">Email</label>
       {% include 'core/includes/form_field.html' with field=form.email %}
       <label class="govuk-label" for="password">Password</label>
-      {% comment %} <div class="govuk-hint">Type to search and choose from the list</div> {% endcomment %}
       {% include 'core/includes/form_field.html' with field=form.password %}
       <button class="atlas-button govuk-!-margin-bottom-3" onclick="onSubmitSignUp()">Sign up</button>
     </div>
@@ -77,6 +76,11 @@
 
     let uidb64 = '{{request.GET.uidb64}}';
     let token = '{{request.GET.token}}';
+    let prepopulated_email = '{{request.GET.email}}'
+
+    if (prepopulated_email) {
+      document.getElementById('id_email').value = prepopulated_email;
+    }
 
     const initForm = () => {
       if (hasQueryParamsForValidateCode()) {
@@ -133,7 +137,7 @@
       checkVerificationCode(data)
       .then((response) => response.json())
       .then((data) => {
-        location.assign("/international/expand-your-business-in-the-uk/contact/")
+        location.assign("/international/expand-your-business-in-the-uk/profile/")
       })
       .catch((errors) => {
         handleErrors(errors);

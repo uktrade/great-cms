@@ -292,9 +292,9 @@ def test_triage_spend_session(client, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_contact(client, settings):
+def test_ioo_profile(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:contact')
+    url = reverse('international_online_offer:profile')
     response = client.get(url)
     assert response.status_code == 200
 
