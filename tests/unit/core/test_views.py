@@ -1052,17 +1052,19 @@ class TestMicrositeLocales(TestCase):
     def domestic_homepage_fixture(self, domestic_homepage):
         self.domestic_homepage = domestic_homepage
 
-    def test_correct_translation_for_multiple_pages(self):
+    @pytest.fixture(autouse=True)
+    def en_microsite(self):
         root = MicrositeFactory(title='root', slug='microsites', parent=self.domestic_homepage)
 
-        site_en = MicrositePageFactory(
+        self.en_microsite = MicrositePageFactory(
             page_title='microsite home title en-gb',
             page_subheading='a microsite subheading en-gb',
             slug='microsite-page-home',
             parent=root,
         )
 
-        site_es = site_en.copy_for_translation(self.es_locale[0], copy_parents=True, alias=True)
+    def test_correct_translation_for_multiple_pages(self):
+        site_es = self.en_microsite.copy_for_translation(self.es_locale[0], copy_parents=True, alias=True)
         site_es.page_title = 'página de inicio del micrositio'
         site_es.page_subheading = 'Subtítulo de la Página de Inicio del Micrositio'
         site_es.save()
@@ -1081,15 +1083,6 @@ class TestMicrositeLocales(TestCase):
         )
 
     def test_fall_back_to_english_for_unimplemented_enabled_language(self):
-        root = MicrositeFactory(title='root', slug='microsites')
-
-        MicrositePageFactory(
-            page_title='microsite home title en-gb',
-            page_subheading='a microsite subheading en-gb',
-            slug='microsite-page-home',
-            parent=root,
-        )
-
         url = reverse_lazy('core:microsites', kwargs={'page_slug': '/microsite-page-home'})
 
         url_arabic = url + '?lang=ar'
@@ -1098,15 +1091,6 @@ class TestMicrositeLocales(TestCase):
         assert 'microsite home title en-gb' in html_response and 'a microsite subheading en-gb' in html_response
 
     def test_fall_back_to_english_for_unimplemented_language(self):
-        root = MicrositeFactory(title='root', slug='microsites')
-
-        MicrositePageFactory(
-            page_title='microsite home title en-gb',
-            page_subheading='a microsite subheading en-gb',
-            slug='microsite-page-home',
-            parent=root,
-        )
-
         url = reverse_lazy('core:microsites', kwargs={'page_slug': '/microsite-page-home'})
         url_za = url + '?lang=za'
 
