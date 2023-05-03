@@ -1,4 +1,4 @@
-from international_online_offer.core import helpers
+from international_online_offer.core import filter_tags, helpers
 
 
 def test_find_articles_based_on_tags():
@@ -16,13 +16,13 @@ def test_find_articles_based_on_tags():
     tag3 = type(
         'obj',
         (object,),
-        {'name': 'Support and Incentives'},
+        {'name': filter_tags.SUPPORT_AND_INCENTIVES},
     )
 
     tag4 = type(
         'obj',
         (object,),
-        {'name': 'Opportunity'},
+        {'name': filter_tags.OPPORTUNITY},
     )
 
     specific = type(

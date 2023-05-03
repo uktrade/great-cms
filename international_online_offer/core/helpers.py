@@ -1,9 +1,14 @@
+from international_online_offer.core import filter_tags
+
+
 def concat_filters(*filters):
     filters_out = []
-    for filter in filters:
-        if type(filter) is str:
-            filter = [filter]
-        filters_out = filters_out + filter
+    if filters:
+        for filter in filters:
+            if type(filter) is str:
+                filter = [filter]
+            if filter is not None:
+                filters_out = filters_out + filter
     return filters_out
 
 
@@ -25,7 +30,7 @@ def find_get_to_know_market_articles(articles, sector_filter, intent_filters):
 
 
 def find_get_support_and_incentives_articles(articles):
-    filters = ['Support and Incentives']
+    filters = [filter_tags.SUPPORT_AND_INCENTIVES]
     filtered_pages = []
     for page in articles:
         all_tags = page.specific.tags.all() if hasattr(page.specific.tags, 'all') else page.specific.tags
@@ -42,7 +47,7 @@ def find_get_support_and_incentives_articles(articles):
 
 
 def find_opportunities_articles(articles, sector_filter):
-    filters = concat_filters(sector_filter, ['Opportunity'])
+    filters = concat_filters(sector_filter, filter_tags.OPPORTUNITY)
     filtered_pages = []
     for page in articles:
         all_tags = page.specific.tags.all() if hasattr(page.specific.tags, 'all') else page.specific.tags

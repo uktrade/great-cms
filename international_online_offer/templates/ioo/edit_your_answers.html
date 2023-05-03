@@ -17,8 +17,8 @@
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l">Edit your answers</h1>
-      <p class="govuk-body">Use this page to amend the information of how your business is planning to expand to the UK</p>
+      <h1 class="govuk-heading-l">Change your answers</h1>
+      <p class="govuk-body">Use the options below to change any of the information you've given us about your UK expansion plans.</p>
       <p class="govuk-body">
         <span class="govuk-!-font-weight-bold">For your company:</span> {{ user_data.company_name | default:'-' }}
         <a class="govuk-link" href="{% url 'international_online_offer:contact' %}">
@@ -28,7 +28,7 @@
     </div>
   </div>
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-column-full">
       <div class="govuk-summary-card">
         <div class="govuk-summary-card__content">
           <dl class="govuk-summary-list">
@@ -37,7 +37,7 @@
                 Sector
               </dt>
               <dd class="govuk-summary-list__value">
-                {{ triage_data.sector | default:'-' }}
+                {{ triage_data.get_sector_display | default:'-' }}
               </dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="{% url 'international_online_offer:sector' %}?next=edit-your-answers">
@@ -50,15 +50,17 @@
                 Explansion plans
               </dt>
               <dd class="govuk-summary-list__value">
-                {% if not triage_data.intent %}
+                {% if triage_data.get_intent_display %}
+                  <ol class="govuk-list govuk-list--bullet">
+                    {% for intent in triage_data.get_intent_display %}
+                      <li>
+                        {{intent}}{% if intent == 'Other' %}: {{ triage_data.intent_other }}{% endif %}
+                      </li>
+                    {% endfor %}
+                  </ol>
+                {% else %}
                   -
                 {% endif %}
-                {% for i in triage_data.intent %}
-                  <p>
-                    {{i}}{% if i == 'Other' %}: {{ triage_data.intent_other }}{% endif %}
-                  </p>
-                {% endfor %}
-
               </dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="{% url 'international_online_offer:intent' %}?next=edit-your-answers">
@@ -68,11 +70,11 @@
             </div>
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-                Location
+                Preferred location
               </dt>
               <dd class="govuk-summary-list__value">
-                {% if triage_data.location %}
-                  {{ triage_data.location }}
+                {% if triage_data.get_location_display %}
+                  {{ triage_data.get_location_display }}
                 {% elif triage_data.location_none %}
                   I have not decided on a location yet
                 {% else %}
@@ -87,16 +89,10 @@
             </div>
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-                Hiring estimate (within first 3 years)
+                UK staff you’ll hire (within first 3 years)
               </dt>
               <dd class="govuk-summary-list__value">
-                {% if triage_data.get_hiring_display %}
-                  {{ triage_data.get_hiring_display }}
-                {% elif triage_data.hiring %}
-                  {{ triage_data.hiring }}
-                {% else %}
-                  -
-                {% endif %}
+                {{ triage_data.get_hiring_display | default:"-" }}
               </dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="{% url 'international_online_offer:hiring' %}?next=edit-your-answers">
@@ -106,14 +102,11 @@
             </div>
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-                Planned spend for UK entry or expansion
+                Planned spend for UK expansion
               </dt>
               <dd class="govuk-summary-list__value">
                 {% if triage_data.get_spend_display %}
                   {{ triage_data.get_spend_display }}{% if triage_data.get_spend_display == 'Specific amount' %}: £{{ triage_data.spend_other }}{% endif %}
-                {% elif triage_data.spend %}
-                  {% if triage_data.spend != 'Specific amount'%}£{% endif %}
-                  {{ triage_data.spend }}{% if triage_data.spend == 'Specific amount' %}: £{{ triage_data.spend_other }}{% endif %}
                 {% else %}
                   -
                 {% endif %}
