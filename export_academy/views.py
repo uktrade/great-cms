@@ -18,7 +18,11 @@ from rest_framework.generics import GenericAPIView
 from config import settings
 from core import mixins as core_mixins
 from export_academy import filters, forms, helpers, models
-from export_academy.helpers import calender_content, get_buttons_for_event, get_badges_for_event
+from export_academy.helpers import (
+    calender_content,
+    get_badges_for_event,
+    get_buttons_for_event,
+)
 from export_academy.mixins import BookingMixin
 from export_academy.models import ExportAcademyHomePage
 

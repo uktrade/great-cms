@@ -1041,9 +1041,9 @@ def test_get_survey_view_api_view(client, mock_get_survey):
 class TestMicrositeLocales(TestCase):
     def setUp(self):
         self.client = Client()
-        self.en_locale = Locale.objects.get_or_create(language_code="en-gb")
-        self.es_locale = Locale.objects.get_or_create(language_code="es")
-        self.ar_locale = Locale.objects.get_or_create(language_code="ar")
+        self.en_locale = Locale.objects.get_or_create(language_code='en-gb')
+        self.es_locale = Locale.objects.get_or_create(language_code='es')
+        self.ar_locale = Locale.objects.get_or_create(language_code='ar')
 
     @pytest.fixture(autouse=True)
     def domestic_homepage_fixture(self, domestic_homepage):
