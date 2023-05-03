@@ -1095,7 +1095,6 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
         type(self.new_page.specific) == MicrositePage
         self.assertEqual(self.new_page.slug, 'test-article-one')
         self.assertEqual(self.new_page.title, 'test')
-        self.assertEqual(self.new_page.title, 'test')
         self.assertEqual(
             [block for block in self.new_page.page_body if block.block_type == 'form'][0].value.get('type'),
             'Long',
