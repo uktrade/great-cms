@@ -3,6 +3,7 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from wagtail.tests.utils import WagtailPageTests
 
 from domestic.models import StructuralPage
+from international_online_offer.core import constants
 from international_online_offer.models import (
     IOOArticlePage,
     IOOGuidePage,
@@ -55,7 +56,7 @@ def test_ioo_guide_page_content(rf):
     guide_page = IOOGuidePage(title='Guide')
     request = rf.get(guide_page.url)
     context = guide_page.get_context(request)
-    assert context['complete_contact_form_message'] == IOOGuidePage.LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE
+    assert context['complete_contact_form_message'] == constants.LOW_VALUE_INVESTOR_SIGNUP_MESSAGE
     assert context['complete_contact_form_link_text'] == 'Sign up'
     assert context['complete_contact_form_link'] == 'international_online_offer:signup'
     assert context['get_to_know_market_articles'] == []
