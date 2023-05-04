@@ -12,14 +12,18 @@ from wagtail.core.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
 
 from core import cms_slugs, wagtail_hooks
-from core.models import DetailPage, MicrositePage
+from core.models import DetailPage
 from core.wagtail_hooks import (
     FileTransferError,
     S3FileFieldAdapter,
     S3WagtailTransferFile,
     editor_css,
-    migrate_article_page_to_microsite,
+    convert_all_columns,
+    convert_text,
+    convert_quote,
     register_s3_media_file_adapter,
+    convert_form,
+    convert_related_links
 )
 from tests.helpers import make_test_video
 from tests.unit.core import factories
@@ -1012,6 +1016,9 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
         self.parent_page = StructurePageFactory(parent=self.domestic_homepage, title='campaigns', slug='campaigns')
         article_body1 = json.dumps(
             [
+                {'type': 'image',
+                 'value': 229,
+                 'id': 'e35b63c4-0c71-4a01-91e8-1ca0a3dbdea2'},
                 {
                     'type': 'form',
                     'value': {
@@ -1082,37 +1089,49 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
             article_title='test',
             article_subheading='subheading',
             article_teaser='teaser',
+            related_page_two_title='test title',
+            related_page_two_link='www.google.ocm'
         )
 
-        self.new_page = migrate_article_page_to_microsite(self.article1)
+    def test_convert_quote(self):
+        converted_quote = convert_quote
+        (
+            [block for block in self.article1.article_body if block.block_type == 'pull_quote'][0]
+        )
+        self.assertEqual(converted_quote['value']['quote'], 'my quote')
+        self.assertEqual(converted_quote['type'], 'pull_quote')
+        self.assertEqual(converted_quote['value']['attribution'], 'random guy')
+        self.assertEqual(converted_quote['value']['role'], 'head')
+        self.assertEqual(converted_quote['value']['organisation'], 'dit')
+        self.assertEqual(converted_quote['value']['organisation_link'], 'http://www.google.com')
 
-    def test_new_microsite_data(self):
-        type(self.new_page.specific) == MicrositePage
-        self.assertEqual(self.new_page.slug, 'test-article-one')
-        self.assertEqual(self.new_page.title, 'test')
-        self.assertEqual(
-            [block for block in self.new_page.page_body if block.block_type == 'form'][0].value.get('type'),
-            'Long',
+    def test_convert_text(self):
+
+        text_block = convert_text([block for block in self.article1.article_body if block.block_type == 'text'][0])
+        self.assertEqual(text_block['type'], 'text')
+        self.assertEqual(text_block['value'], '<p data-block-key="r0g5h">dssdsdds</p>')
+
+    def test_convert_form(self):
+        form = convert_form([block for block in self.article1.article_body if block.block_type == 'form'][0])
+        self.assertEqual(form['type'], 'form')
+        self.assertEqual(form['value']['type'], 'Short')
+        self.assertEqual(form['value']['email_title'], 'title1')
+        self.assertEqual(form['value']['email_subject'], 'subject1')
+        self.assertEqual(form['value']['email_body'], 'body1')
+
+    def test_convert_columns(self):
+        columns = convert_all_columns
+        (
+            [block for block in self.article1.article_body if block.block_type == 'Columns'][0]
         )
-        self.assertEqual(
-            [block for block in self.new_page.page_body if block.block_type == 'text'][0].value.get('source'),
-            '<p data-block-key="r0g5h">dssdsdds</p>',
-        )
-        self.assertEqual(
-            [block for block in self.new_page.page_body if block.block_type == 'pull_quote'][0].value.get('quote'),
-            'my quote',
-        )
-        self.assertEqual(
-            [block for block in [block for block in self.new_page.page_body if block.block_type == 'columns'][0].value][
-                0
-            ].value.get('title'),
-            'col1',
-        ),
-        self.assertEqual(
-            [block for block in [block for block in self.new_page.page_body if block.block_type == 'columns'][0].value][
-                0
-            ]
-            .value.get('description')
-            .source,
-            '<p data-block-key=\"8vdbd9\">col3</p>',
-        )
+        self.assertEqual(len(columns['value']), 3)
+        self.assertEqual(columns['value'][0]['type'], 'column')
+        self.assertEqual(columns['value'][0]['value']['description'], '<p data-block-key="8vbdd9">sddsds</p>')
+        self.assertEqual(columns['value'][0]['value']['button_label'], None)
+        self.assertEqual(columns['value'][0]['value']['button_url'], 'www.google.com')
+
+    def test_convert_related_links(self):
+        related_links = convert_related_links(self.article1)
+        self.assertEqual(len(related_links, 1))
+        self.assertEqual(related_links[0]['type'], 'link')
+        self.assertEqual(related_links[0]['value']['title'], 'test title')

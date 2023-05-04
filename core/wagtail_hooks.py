@@ -375,8 +375,7 @@ def migrate_article_page_to_microsite(page):
     )
     page.delete()
     microsite_page.slug = slug
-    # parent_page.add_child(instance=microsite_page)
-    # microsite_page.save()
+    parent_page.add_child(instance=microsite_page)
 
 
 def convert_block_based_on_type(block):
@@ -417,11 +416,12 @@ def convert_column(block):
     return {
         'type': 'column',
         'value': {
-            'title': block.get('title'),
             'description': block.get('description').source,
+            'image': block.get('image').id if block.get('image') else None,
+            'button_url': block.get('link'),
+            'button_label': None
         },
-        'image': block.get('image').id if block.get('image') else None,
-        'link': block.get('link'),
+
     }
 
 
@@ -456,6 +456,7 @@ def convert_quote(block):
         'type': 'pull_quote',
         'value': {
             'quote': block.value.get('quote'),
+            'role': block.value.get('role'),
             'attribution': block.value.get('attribution'),
             'organisation': block.value.get('organisation'),
             'organisation_link': block.value.get('organisation_link'),
