@@ -298,9 +298,12 @@ class IOOProfile(FormView):
 
     def get_initial(self):
         email = self.request.session.get('email')
+        agree_terms = self.request.session.get('agree_terms')
         if self.request.user.is_authenticated:
             user_data = get_user_data(self.request.user.hashed_uuid)
             email = self.request.user.email
+            # agreed terms if signed up already
+            agree_terms = True
             if user_data:
                 return {
                     'company_name': user_data.company_name,
@@ -309,7 +312,7 @@ class IOOProfile(FormView):
                     'role': user_data.role,
                     'email': email,
                     'telephone_number': user_data.telephone_number,
-                    'agree_terms': user_data.agree_terms,
+                    'agree_terms': agree_terms,
                     'agree_info_email': user_data.agree_info_email,
                     'agree_info_telephone': user_data.agree_info_telephone,
                 }
@@ -321,7 +324,7 @@ class IOOProfile(FormView):
             'role': self.request.session.get('role'),
             'email': email,
             'telephone_number': self.request.session.get('telephone_number'),
-            'agree_terms': self.request.session.get('agree_terms'),
+            'agree_terms': agree_terms,
             'agree_info_email': self.request.session.get('agree_info_email'),
             'agree_info_telephone': self.request.session.get('agree_info_telephone'),
         }

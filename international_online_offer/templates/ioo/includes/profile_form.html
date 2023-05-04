@@ -24,7 +24,13 @@
         <div class="govuk-hint">Type to search and choose from the list</div>
         {% include 'core/includes/form_field.html' with field=form.company_location %}
         <br/>
+        {% if not request.user.is_authenticated %}
         {% include 'core/includes/form_field.html' with field=form.agree_terms %}
+        {% else %}
+        <div style="display: none;">
+          {% include 'core/includes/form_field.html' with field=form.agree_terms %}
+        </div>
+        {% endif %}
         {% include 'core/includes/form_field.html' with field=form.agree_info_email %}
         {% include 'core/includes/form_field.html' with field=form.agree_info_telephone %}
         {% include './submit_button.html' with button_text='Submit'  %}
