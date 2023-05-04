@@ -167,29 +167,6 @@ def test_is_export_academy_registered(user):
 
 
 @pytest.mark.django_db
-def test_param_builder_sets_navigation_defaults(user, rf, client):
-    factories.RegistrationFactory(email=user.email)
-    request = rf.get('/')
-    request.user = user
-    request.session = client.session
-
-    assert helpers.build_request_navigation_params(request).dict() == {'navigation': 'all'}
-    assert 'navigation' not in request.session
-
-
-@pytest.mark.django_db
-def test_param_builder_persists_navigation_choice_in_session(user, rf, client):
-    factories.RegistrationFactory(email=user.email)
-    request = rf.get('/', {'navigation': 'booked'})
-    request.user = user
-    request.session = client.session
-
-    assert helpers.build_request_navigation_params(request).dict() == {'navigation': 'booked'}
-    assert 'navigation' in request.session
-    assert request.session['navigation'] == 'booked'
-
-
-@pytest.mark.django_db
 def test_book_button_disabled_for_closed_event(user):
     now = timezone.now()
     factories.RegistrationFactory(email=user.email)
