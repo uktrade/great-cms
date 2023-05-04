@@ -546,19 +546,10 @@
                     </div>
                 </div>
                 <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-two-thirds">
-                        <input class="govuk-input" style="height: 46px; margin-bottom: 5px;" id="sign-up-email" name="sign-up-email" type="text" placeholder="Enter your email address">
-                    </div>
-                    <div class="govuk-grid-column-one-third">
-                        <a href="{% url 'international_online_offer:signup' %}" id="sign-up-email-btn" onclick="return goToSignUpWithEmail()" role="button" draggable="false" class="atlas-button" data-module="button">
+                    <div class="govuk-grid-column-full">
+                        <a href="{% url 'international_online_offer:signup' %}" class="govuk-link">
                             Sign up
-                            <span class="atlas-button__icon">
-                              <svg viewBox="0 0 13 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <path fill="currentColor" d="M2.893 20l9.834-10L2.893 0 0 2.921 6.976 10 0 17.079z"></path>
-                              </svg>
-                            </span>
                         </a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -580,7 +571,7 @@
                     {% if request.user.is_authenticated %}
                     <a href="{{ page.url }}">
                     {% else %}
-                    <a href="#sign-up-banner">
+                    <a href="{% url 'international_online_offer:signup' %}">
                     {% endif %}
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-one-third">
@@ -635,7 +626,7 @@
                     {% if request.user.is_authenticated %}
                     <a href="{{ page.url }}">
                     {% else %}
-                    <a href="#sign-up-banner">
+                    <a href="{% url 'international_online_offer:signup' %}">
                     {% endif %}
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-one-third">
@@ -690,7 +681,7 @@
                     {% if request.user.is_authenticated %}
                     <a href="{{ page.url }}">
                     {% else %}
-                    <a href="#sign-up-banner">
+                    <a href="{% url 'international_online_offer:signup' %}">
                     {% endif %}
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full">
@@ -750,13 +741,5 @@
   <script type="text/javascript">
     var $element = document.querySelector('#step-by-step-navigation')
     var stepByStepNavigation = new GOVUK.Modules.AppStepNav($element).init()
-
-    function goToSignUpWithEmail() {
-        debugger;
-        const emailField = document.getElementById('sign-up-email');
-        const signUpEmailBtn = document.getElementById('sign-up-email-btn');
-        signUpEmailBtn.href += `?email=${emailField.value}`;
-        return true;
-    }
   </script>
 {% endblock %}

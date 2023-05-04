@@ -70,17 +70,10 @@
   {{ block.super }}
   <script src="{% static 'javascript/international-online-offer.api.js' %}"></script>
   <script type="text/javascript">
-
     const signUpVerifyCodeContainer = document.getElementById('sign-up-confirm');
     const signUpContainer = document.getElementById('sign-up');
-
     let uidb64 = '{{request.GET.uidb64}}';
     let token = '{{request.GET.token}}';
-    let prepopulated_email = '{{request.GET.email}}'
-
-    if (prepopulated_email) {
-      document.getElementById('id_email').value = prepopulated_email;
-    }
 
     const initForm = () => {
       if (hasQueryParamsForValidateCode()) {
@@ -169,7 +162,6 @@
         errorListContainer.appendChild(li);
       });
     };
-
 
     initForm();
   </script>

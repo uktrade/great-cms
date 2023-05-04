@@ -14,7 +14,7 @@ from core.blocks import ColumnsBlock
 from core.models import CMSGenericPage
 from directory_constants.choices import COUNTRY_CHOICES
 from domestic.models import BaseContentPage
-from international_online_offer.core import choices, helpers
+from international_online_offer.core import choices, constants, helpers
 
 
 def get_triage_data(hashed_uuid):
@@ -87,9 +87,6 @@ class IOOIndexPage(BaseContentPage):
 
 
 class IOOGuidePage(BaseContentPage):
-    LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = 'Sign up to keep up to date with our personalised service.'
-    HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = """Your business qualifies for 1 to 1 support from specialist UK
-        government advisors. Sign up to access this and your full personalised online guides."""
     parent_page_types = ['international_online_offer.IOOIndexPage']
     subpage_types = ['international_online_offer.IOOArticlePage']
     template = 'ioo/guide.html'
@@ -101,10 +98,10 @@ class IOOGuidePage(BaseContentPage):
         all_articles = self.get_children().live()
         get_to_know_market_articles = []
         opportunities_articles = []
-        complete_contact_form_message = self.LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE
+        complete_contact_form_message = constants.LOW_VALUE_INVESTOR_SIGNUP_MESSAGE
         if triage_data:
             if triage_data.is_high_value:
-                complete_contact_form_message = self.HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE
+                complete_contact_form_message = constants.HIGH_VALUE_INVESTOR_SIGNUP_MESSAGE
             get_to_know_market_articles = helpers.find_get_to_know_market_articles(
                 all_articles, triage_data.sector, triage_data.intent
             )

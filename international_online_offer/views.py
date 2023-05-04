@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from international_online_offer import forms
-from international_online_offer.core import scorecard
+from international_online_offer.core import constants, scorecard
 from international_online_offer.models import (
     TriageData,
     UserData,
@@ -12,11 +12,6 @@ from international_online_offer.models import (
     get_user_data,
     get_user_data_from_db_or_session,
 )
-
-LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = 'Complete the contact form to keep up to date with our personalised service.'
-HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = """Your business qualifies for 1 to 1 support from specialist UK government
- advisors. Complete the form to access this and keep up to date with our personalised service."""
-COMPLETED_CONTACT_FORM_MESSAGE = 'Thank you for completing the contact form.'
 
 
 def calculate_and_store_is_high_value(request):
@@ -297,7 +292,7 @@ class IOOProfile(FormView):
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
-            complete_contact_form_message=LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE,
+            complete_contact_form_message=constants.LOW_VALUE_INVESTOR_SIGNUP_MESSAGE,
             back_url='/international/expand-your-business-in-the-uk/guide/',
         )
 
