@@ -419,9 +419,8 @@ def convert_column(block):
             'description': block.get('description').source,
             'image': block.get('image').id if block.get('image') else None,
             'button_url': block.get('link'),
-            'button_label': None
+            'button_label': None,
         },
-
     }
 
 

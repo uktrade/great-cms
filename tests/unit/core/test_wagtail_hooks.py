@@ -17,13 +17,13 @@ from core.wagtail_hooks import (
     FileTransferError,
     S3FileFieldAdapter,
     S3WagtailTransferFile,
-    editor_css,
     convert_all_columns,
-    convert_text,
-    convert_quote,
-    register_s3_media_file_adapter,
     convert_form,
-    convert_related_links
+    convert_quote,
+    convert_related_links,
+    convert_text,
+    editor_css,
+    register_s3_media_file_adapter,
 )
 from tests.helpers import make_test_video
 from tests.unit.core import factories
@@ -1016,9 +1016,7 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
         self.parent_page = StructurePageFactory(parent=self.domestic_homepage, title='campaigns', slug='campaigns')
         article_body1 = json.dumps(
             [
-                {'type': 'image',
-                 'value': 229,
-                 'id': 'e35b63c4-0c71-4a01-91e8-1ca0a3dbdea2'},
+                {'type': 'image', 'value': 229, 'id': 'e35b63c4-0c71-4a01-91e8-1ca0a3dbdea2'},
                 {
                     'type': 'form',
                     'value': {
@@ -1090,14 +1088,12 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
             article_subheading='subheading',
             article_teaser='teaser',
             related_page_two_title='test title',
-            related_page_two_link='www.google.ocm'
+            related_page_two_link='www.google.ocm',
         )
 
     def test_convert_quote(self):
         converted_quote = convert_quote
-        (
-            [block for block in self.article1.article_body if block.block_type == 'pull_quote'][0]
-        )
+        ([block for block in self.article1.article_body if block.block_type == 'pull_quote'][0])
         self.assertEqual(converted_quote['value']['quote'], 'my quote')
         self.assertEqual(converted_quote['type'], 'pull_quote')
         self.assertEqual(converted_quote['value']['attribution'], 'random guy')
@@ -1106,7 +1102,6 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
         self.assertEqual(converted_quote['value']['organisation_link'], 'http://www.google.com')
 
     def test_convert_text(self):
-
         text_block = convert_text([block for block in self.article1.article_body if block.block_type == 'text'][0])
         self.assertEqual(text_block['type'], 'text')
         self.assertEqual(text_block['value'], '<p data-block-key="r0g5h">dssdsdds</p>')
@@ -1121,9 +1116,7 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
 
     def test_convert_columns(self):
         columns = convert_all_columns
-        (
-            [block for block in self.article1.article_body if block.block_type == 'Columns'][0]
-        )
+        ([block for block in self.article1.article_body if block.block_type == 'Columns'][0])
         self.assertEqual(len(columns['value']), 3)
         self.assertEqual(columns['value'][0]['type'], 'column')
         self.assertEqual(columns['value'][0]['value']['description'], '<p data-block-key="8vbdd9">sddsds</p>')
