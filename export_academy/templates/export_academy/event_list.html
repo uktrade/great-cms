@@ -33,7 +33,7 @@
                                             <input type="checkbox" id="{{ field.label }}" class="filter-section-toggle" />
                                             <label class="govuk-body-l arrows-left govuk-!-padding-left-2" for="{{ field.label }}" role="button">{{ field.label }}</label>
                                             <div class="options checkbox-small">
-                                                {% if request.GET.navigation == 'booked' or request.GET.navigation == 'past' %}
+                                                {% if request.GET.booking_period == 'upcoming' or request.GET.booking_period == 'past' %}
                                                     {% filter disable_period_radios %}
                                                         {{ field }}
                                                     {% endfilter %}
