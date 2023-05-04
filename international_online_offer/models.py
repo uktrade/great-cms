@@ -32,11 +32,13 @@ def get_user_data(hashed_uuid):
 
 
 def get_triage_data_from_db_or_session(request):
-    if hasattr(request, 'user') and request.user.is_authenticated:
-        if hasattr(request.user, 'hashed_uuid'):
-            triage_data = get_triage_data(request.user.hashed_uuid)
-            if triage_data:
-                return triage_data
+    if hasattr(request, 'user'):
+        if hasattr(request.user, 'is_authenticated'):
+            if request.user.is_authenticated:
+                if hasattr(request.user, 'hashed_uuid'):
+                    triage_data = get_triage_data(request.user.hashed_uuid)
+                    if triage_data:
+                        return triage_data
     if hasattr(request, 'session'):
         return TriageData(
             sector=request.session.get('sector'),
@@ -52,11 +54,13 @@ def get_triage_data_from_db_or_session(request):
 
 
 def get_user_data_from_db_or_session(request):
-    if hasattr(request, 'user') and request.user.is_authenticated:
-        if hasattr(request.user, 'hashed_uuid'):
-            user_data = get_user_data(request.user.hashed_uuid)
-            if user_data:
-                return user_data
+    if hasattr(request, 'user'):
+        if hasattr(request.user, 'is_authenticated'):
+            if request.user.is_authenticated:
+                if hasattr(request.user, 'hashed_uuid'):
+                    user_data = get_user_data(request.user.hashed_uuid)
+                    if user_data:
+                        return user_data
 
     if hasattr(request, 'session'):
         return UserData(
