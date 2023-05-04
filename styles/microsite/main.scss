@@ -36,4 +36,23 @@
       height: auto;
     }
   }
+  .great-rtl {
+
+    .govuk-grid-row {
+      display: block;
+
+      > div {
+        float: right;
+      }
+
+      #related-content {
+          float: left;
+          position: relative;
+      }
+
+      a {
+        text-decoration: none;
+      }
+    }
+  }
 }
