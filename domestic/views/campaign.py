@@ -2,7 +2,10 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from django.utils.http import urlencode
+from django.utils.translation import get_language
+from wagtail.core.models import Locale
 
+from config.settings import FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE
 from contact.views import BaseNotifyUserFormView
 from core.datastructures import NotifySettings
 from core.models import MicrositePage
@@ -35,7 +38,25 @@ class CampaignView(BaseNotifyUserFormView):
         if self.page_slug is None:
             return None
         try:
-            return self.page_class.objects.live().get(slug=self.page_slug)
+            if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
+                from config.settings import LANGUAGE_CODE
+
+                current_language_code = get_language()
+                current_locale = Locale.objects.get(language_code=current_language_code)
+
+                if self.page_class.objects.live().filter(slug=self.page_slug).count() > 0:
+                    if (
+                        self.page_class.objects.live().filter(slug=self.page_slug, locale_id=current_locale).count()
+                        == 1  # noqa: W503
+                    ):
+                        return self.page_class.objects.live().get(slug=self.page_slug, locale_id=current_locale)
+                    else:
+                        default_locale = Locale.objects.get(language_code=LANGUAGE_CODE)
+                        return self.page_class.objects.live().get(slug=self.page_slug, locale_id=default_locale)
+                else:
+                    return self.page_class.objects.live().get(slug=self.page_slug)
+            else:
+                return self.page_class.objects.live().get(slug=self.page_slug)
         except ObjectDoesNotExist:
             return None
 
