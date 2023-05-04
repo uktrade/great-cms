@@ -375,8 +375,8 @@ def migrate_article_page_to_microsite(page):
     )
     page.delete()
     microsite_page.slug = slug
-    parent_page.add_child(instance=microsite_page)
-    microsite_page.save()
+    # parent_page.add_child(instance=microsite_page)
+    # microsite_page.save()
 
 
 def convert_block_based_on_type(block):
