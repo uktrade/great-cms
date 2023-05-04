@@ -375,9 +375,7 @@ def migrate_article_page_to_microsite(page):
     )
     page.delete()
     microsite_page.slug = slug
-    print('/n microsite_created line 378', microsite_page)
     parent_page.add_child(instance=microsite_page)
-    print('added page lLlllllllllllllll')
     microsite_page.save()
 
 

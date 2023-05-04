@@ -1076,16 +1076,13 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
         )
 
         self.article1 = ArticlePageFactory(
-            slug='test-article-one',
+            slug='test-article-bulk-action',
             article_body=article_body1,
             parent=self.parent_page,
             article_title='test',
             article_subheading='subheading',
             article_teaser='teaser',
         )
-        
-        self.parent_page.add_child(instance=self.article1)
-        print('added child dsdsdsdssddsdsdssdsd')
         self.new_page = migrate_article_page_to_microsite(self.article1)
 
     def test_new_microsite_data(self):
