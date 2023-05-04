@@ -1092,8 +1092,13 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
         )
 
     def test_convert_quote(self):
-        converted_quote = convert_quote
-        ([block for block in self.article1.article_body if block.block_type == 'pull_quote'][0])
+        converted_quote = convert_quote(
+            [
+                block
+                for block in self.article1.article_body
+                if block.block_type == 'pull_quote'
+            ][0]
+        )
         self.assertEqual(converted_quote['value']['quote'], 'my quote')
         self.assertEqual(converted_quote['type'], 'pull_quote')
         self.assertEqual(converted_quote['value']['attribution'], 'random guy')
@@ -1115,8 +1120,13 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
         self.assertEqual(form['value']['email_body'], 'body1')
 
     def test_convert_columns(self):
-        columns = convert_all_columns
-        ([block for block in self.article1.article_body if block.block_type == 'Columns'][0])
+        columns = convert_all_columns(
+            [
+                block
+                for block in self.article1.article_body
+                if block.block_type == 'Columns'
+            ][0]
+        )
         self.assertEqual(len(columns['value']), 3)
         self.assertEqual(columns['value'][0]['type'], 'column')
         self.assertEqual(columns['value'][0]['value']['description'], '<p data-block-key="8vbdd9">sddsds</p>')
@@ -1125,6 +1135,6 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
 
     def test_convert_related_links(self):
         related_links = convert_related_links(self.article1)
-        self.assertEqual(len(related_links, 1))
+        self.assertEqual(len(related_links), 1)
         self.assertEqual(related_links[0]['type'], 'link')
         self.assertEqual(related_links[0]['value']['title'], 'test title')
