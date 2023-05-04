@@ -1093,11 +1093,7 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
 
     def test_convert_quote(self):
         converted_quote = convert_quote(
-            [
-                block
-                for block in self.article1.article_body
-                if block.block_type == 'pull_quote'
-            ][0]
+            [block for block in self.article1.article_body if block.block_type == 'pull_quote'][0]
         )
         self.assertEqual(converted_quote['value']['quote'], 'my quote')
         self.assertEqual(converted_quote['type'], 'pull_quote')
@@ -1121,11 +1117,7 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
 
     def test_convert_columns(self):
         columns = convert_all_columns(
-            [
-                block
-                for block in self.article1.article_body
-                if block.block_type == 'Columns'
-            ][0]
+            [block for block in self.article1.article_body if block.block_type == 'Columns'][0]
         )
         self.assertEqual(len(columns['value']), 3)
         self.assertEqual(columns['value'][0]['type'], 'column')
