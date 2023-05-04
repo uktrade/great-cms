@@ -12,17 +12,20 @@ from wagtail.core.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
 
 from core import cms_slugs, wagtail_hooks
-from core.models import DetailPage
+from core.models import DetailPage, MicrositePage
 from core.wagtail_hooks import (
     FileTransferError,
+    MigratePage,
     S3FileFieldAdapter,
     S3WagtailTransferFile,
     convert_all_columns,
+    convert_cta,
     convert_form,
     convert_quote,
     convert_related_links,
     convert_text,
     editor_css,
+    get_microsite_page_body,
     register_s3_media_file_adapter,
 )
 from tests.helpers import make_test_video
@@ -1016,7 +1019,6 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
         self.parent_page = StructurePageFactory(parent=self.domestic_homepage, title='campaigns', slug='campaigns')
         article_body1 = json.dumps(
             [
-                {'type': 'image', 'value': 229, 'id': 'e35b63c4-0c71-4a01-91e8-1ca0a3dbdea2'},
                 {
                     'type': 'form',
                     'value': {
@@ -1045,7 +1047,7 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
                             'value': {
                                 'title': 'col1',
                                 'image': None,
-                                'description': '<p data-block-key=\"8vbdd9\">sddsds</p>',
+                                'description': '<p data-block-key="8vbdd9">sddsds</p>',
                                 'link': 'www.google.com',
                             },
                             'id': '40839277-ef3d-461d-abbd-6506b08c80b6',
@@ -1055,7 +1057,7 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
                             'value': {
                                 'title': 'col2',
                                 'image': None,
-                                'description': '<p data-block-key=\"8vbd9\">sddsds</p>',
+                                'description': '<p data-block-key="8vbd9">sddsds</p>',
                                 'link': 'www.google.com',
                             },
                             'id': '40839277-ef3d-461d-abbd-6506b08c80b6',
@@ -1065,7 +1067,7 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
                             'value': {
                                 'title': 'col3',
                                 'image': None,
-                                'description': '<p data-block-key=\"8vdbd9\">col3</p>',
+                                'description': '<p data-block-key="8vdbd9">col3</p>',
                                 'link': 'www.google.com',
                             },
                             'id': '40839277-ef3d-461d-abbd-6506b08c80b6',
@@ -1076,6 +1078,16 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
                     'type': 'text',
                     'value': '<p data-block-key="r0g5h">dssdsdds</p>',
                     'id': '55d0ff59-bcfd-46d9-9c02-b1977eed3f80',
+                },
+                {
+                    'type': 'cta',
+                    'value': {
+                        'title': 'cta title',
+                        'teaser': 'cta teaser',
+                        'link_label': 'cta button',
+                        'link': 'www.google.com',
+                    },
+                    'id': 'a5fc7270-aa4c-4057-9a12-2c4c3e69c19f',
                 },
             ]
         )
@@ -1090,6 +1102,9 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
             related_page_two_title='test title',
             related_page_two_link='www.google.ocm',
         )
+
+        self.microsite_page = MicrositePage(slug='wrong-type', title='wrong page', page_title='test')
+        self.parent_page.add_child(instance=self.microsite_page)
 
     def test_convert_quote(self):
         converted_quote = convert_quote(
@@ -1130,3 +1145,25 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
         self.assertEqual(len(related_links), 1)
         self.assertEqual(related_links[0]['type'], 'link')
         self.assertEqual(related_links[0]['value']['title'], 'test title')
+
+    def test_convert_cta(self):
+        cta = convert_cta([block for block in self.article1.article_body if block.block_type == 'cta'][0])
+        self.assertEqual(cta['type'], 'cta')
+        self.assertEqual(cta['title'], 'cta title')
+        self.assertEqual(cta['teaser'], 'cta teaser')
+        self.assertEqual(cta['link_label'], 'cta button')
+        self.assertEqual(cta['link'], 'www.google.com')
+
+    def test_get_microsite_page_body(self):
+        page_body = get_microsite_page_body(self.article1.article_body)
+        self.assertEqual(len(page_body), 5)
+        self.assertEqual(len([item for item in page_body if item['type'] == 'form']), 1)
+        self.assertEqual(len([item for item in page_body if item['type'] == 'pull_quote']), 1)
+        self.assertEqual(len([item for item in page_body if item['type'] == 'cta']), 1)
+        self.assertEqual(len([item for item in page_body if item['type'] == 'columns']), 1)
+        self.assertEqual(len([item for item in page_body if item['type'] == 'text']), 1)
+
+    def test_migrating_wrong_page_type(self):
+        with self.assertRaises(NotImplementedError) as context:
+            MigratePage.execute_action([self.microsite_page])
+            self.assertTrue(context.msg is None)

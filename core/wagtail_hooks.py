@@ -352,7 +352,7 @@ class MigratePage(PageBulkAction):
         if all(type(object.specific) == ArticlePage for object in objects):
             return len(objects), len([migrate_article_page_to_microsite(object.specific) for object in objects])
         else:
-            return NotImplementedError('execute_action needs to be implemented')
+            raise NotImplementedError('execute_action needs to be implemented')
 
 
 def migrate_article_page_to_microsite(page):
@@ -366,7 +366,7 @@ def migrate_article_page_to_microsite(page):
         hero_image=page.article_image,
         hero_video=page.article_video,
         hero_video_transcript=page.article_video_transcript,
-        page_body=get_microsite_page_body(page.article_body),
+        page_body=json.dumps(get_microsite_page_body(page.article_body)),
         cta_title=page.cta_title,
         cta_teaser=page.cta_teaser,
         cta_link_label=page.cta_link_label,
@@ -394,11 +394,15 @@ def convert_block_based_on_type(block):
 def get_microsite_page_body(article_page):
     page_body = []
     [page_body.append(convert_block_based_on_type(block)) for block in article_page]
-    return json.dumps(page_body)
+    return page_body
 
 
 def convert_image(block):
-    return {'type': 'image', 'value': block.value.id, 'id': block.value.file_hash}
+    return {
+        'type': 'image',
+        'value': block.value.id if block.value else None,
+        'id': block.value.file_hash if block.value else None,
+    }
 
 
 def convert_text(block):
@@ -447,7 +451,11 @@ def convert_cta(block):
 
 
 def convert_video(block):
-    return {'type': 'video', 'value': {'video': block.value.get('video').id}, 'id': str(uuid.uuid4())}
+    return {
+        'type': 'video',
+        'value': {'video': block.value.get('video').id if block.value.get('video') else None},
+        'id': str(uuid.uuid4()),
+    }
 
 
 def convert_quote(block):
