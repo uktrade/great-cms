@@ -3,7 +3,6 @@ from django_filters import FilterSet, filters
 from great_components import forms
 
 from export_academy import models
-from export_academy.forms import ChoiceSubmitButtonWidget
 from export_academy.helpers import is_export_academy_registered
 
 
@@ -27,13 +26,13 @@ class EventFilter(FilterSet):
         [NEXT_MONTH, 'Next Month'],
     ]
 
-    BOOKED = 'booked'
+    UPCOMING = 'upcoming'
     PAST = 'past'
 
-    NAVIGATION_CHOICES = [
-        [ALL, 'All events'],
-        [BOOKED, 'Booked events'],
-        [PAST, 'Past events'],
+    BOOKING_PERIOD_CHOICES = [
+        [ALL, 'All'],
+        [UPCOMING, 'Current bookings'],
+        [PAST, 'Past bookings'],
     ]
 
     type = filters.ModelMultipleChoiceFilter(
@@ -58,17 +57,17 @@ class EventFilter(FilterSet):
         widget=forms.RadioSelect,
     )
 
-    navigation = filters.ChoiceFilter(
-        label='period',
+    booking_period = filters.ChoiceFilter(
+        label='Events',
         empty_label=None,
-        choices=NAVIGATION_CHOICES,
-        method='filter_navigation',
-        widget=ChoiceSubmitButtonWidget(attrs={'form': 'events-form', 'class': 'button primary-button'}),
+        choices=BOOKING_PERIOD_CHOICES,
+        method='filter_booking_period',
+        widget=forms.RadioSelect,
     )
 
     class Meta:
         model = models.Event
-        fields = ['type', 'format', 'period']
+        fields = ['booking_period', 'type', 'format', 'period']
 
     def filter_period(self, queryset, _name, value):
         for param, _ in self.PERIOD_CHOICES:
@@ -78,11 +77,12 @@ class EventFilter(FilterSet):
 
         return queryset
 
-    def filter_navigation(self, queryset, _name, value):
+    def filter_booking_period(self, queryset, _name, value):
         if is_export_academy_registered(self.request.user):  # type: ignore
-            if value == self.BOOKED:
+            if value == self.UPCOMING:
                 queryset = queryset.exclude(live__isnull=True).filter(
-                    bookings__registration=self.request.user.email  # type: ignore
+                    bookings__registration=self.request.user.email,  # type: ignore
+                    bookings__status=models.Booking.CONFIRMED,
                 )
 
             if value == self.PAST:

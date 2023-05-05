@@ -50,7 +50,6 @@
       <label class="govuk-label" for="email">Email</label>
       {% include 'core/includes/form_field.html' with field=form.email %}
       <label class="govuk-label" for="password">Password</label>
-      {% comment %} <div class="govuk-hint">Type to search and choose from the list</div> {% endcomment %}
       {% include 'core/includes/form_field.html' with field=form.password %}
       <button class="atlas-button govuk-!-margin-bottom-3" onclick="onSubmitSignUp()">Sign up</button>
     </div>
@@ -71,10 +70,8 @@
   {{ block.super }}
   <script src="{% static 'javascript/international-online-offer.api.js' %}"></script>
   <script type="text/javascript">
-
     const signUpVerifyCodeContainer = document.getElementById('sign-up-confirm');
     const signUpContainer = document.getElementById('sign-up');
-
     let uidb64 = '{{request.GET.uidb64}}';
     let token = '{{request.GET.token}}';
 
@@ -133,7 +130,7 @@
       checkVerificationCode(data)
       .then((response) => response.json())
       .then((data) => {
-        location.assign("/international/expand-your-business-in-the-uk/contact/")
+        location.assign("/international/expand-your-business-in-the-uk/profile/")
       })
       .catch((errors) => {
         handleErrors(errors);
@@ -165,7 +162,6 @@
         errorListContainer.appendChild(li);
       });
     };
-
 
     initForm();
   </script>

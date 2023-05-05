@@ -86,6 +86,7 @@ class EventPanel:
             ],
         ),
         FieldPanel('live'),
+        FieldPanel('closed', heading='closed for bookings'),
     ]
 
     attendance_panel = [InlinePanel('bookings', label='Bookings')]

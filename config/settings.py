@@ -143,6 +143,7 @@ TEMPLATES = [
                 'great_components.context_processors.analytics',
                 'wagtail.contrib.settings.context_processors.settings',
                 'core.context_processors.services_home_links',
+                'international_online_offer.context_processors.eyb_user',
             ],
         },
     },
@@ -200,19 +201,18 @@ USE_L10N = True
 
 USE_TZ = True
 
-if env.bool('FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False):
+FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE = env.bool('FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False)
+
+if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
     # below assignments behind feature flag temporarily while we experiment with
     # additional language support. They will be promoted to main initilisation once
     # we have proven one non-English language.
-
     WAGTAIL_I18N_ENABLED = True
 
     WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
         ('ar', 'Arabic'),
         ('en-gb', 'English'),
         ('es', 'Spanish'),
-        ('ko', 'Korean'),
-        ('fr', 'French'),
     ]
 
     INSTALLED_APPS += [
@@ -813,7 +813,7 @@ FEATURE_SHOW_MAGNA_LINKS_IN_HEADER = env.bool('FEATURE_SHOW_MAGNA_LINKS_IN_HEADE
 FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK = env.bool('FEATURE_SHOW_INTERNATIONAL_FOOTER_LINK', False)
 FEATURE_SHOW_CASE_STUDY_RANKINGS = env.bool('FEATURE_SHOW_CASE_STUDY_RANKINGS', False)
 FEATURE_INTERNATIONAL_ONLINE_OFFER = env.bool('FEATURE_INTERNATIONAL_ONLINE_OFFER', False)
-FEATURE_EXPORT_ACADEMY = env.bool('FEATURE_EXPORT_ACADEMY', False)
+FEATURE_EXPORT_ACADEMY_RELEASE_2 = env.bool('FEATURE_EXPORT_ACADEMY_RELEASE_2', False)
 FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION = env.bool('FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION', False)
 
 MAX_COMPARE_PLACES_ALLOWED = env.int('MAX_COMPARE_PLACES_ALLOWED', 10)

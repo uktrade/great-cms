@@ -3,10 +3,10 @@ import pytest
 from directory_constants import sectors as directory_constants_sectors
 from international_online_offer.core import hirings, intents, regions, spends
 from international_online_offer.forms import (
-    ContactForm,
     HiringForm,
     IntentForm,
     LocationForm,
+    ProfileForm,
     SectorForm,
     SpendForm,
 )
@@ -162,7 +162,7 @@ def test_triage_spend_form_validation(form_data, is_valid):
     ),
 )
 @pytest.mark.django_db
-def test_contact_form_validation(form_data, is_valid):
+def test_profile_form_validation(form_data, is_valid):
     data = form_data
-    form = ContactForm(data)
+    form = ProfileForm(data)
     assert form.is_valid() == is_valid

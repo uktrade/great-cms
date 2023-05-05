@@ -155,3 +155,43 @@
     height: 4px;
     width: 100%;
 }
+
+.great-badge {
+    background: $great-green;
+    color: $great-white;
+    display: inline-block;
+    font-size: 18px;
+    font-family: $great-font-bold;
+    padding: 1px 20px 1px 15px;
+    line-height: 20px;
+
+    i {
+        font-size: inherit;
+        display: inline-block;
+        margin-right: 7px;
+        position: relative;
+        top: 1px;
+    }
+}
+
+.great-info-text {
+    @include govuk-media-query($until: tablet) {
+        display: flex;
+    }
+
+    i {
+        @include govuk-media-query($until: tablet) {
+            margin-top: 2px;
+        }
+
+        position: relative;
+        bottom: -3px;
+        margin-right: 10px;
+    }
+
+    span {
+        @include govuk-media-query($until: tablet) {
+            line-height: 1;
+        }
+    }
+}
