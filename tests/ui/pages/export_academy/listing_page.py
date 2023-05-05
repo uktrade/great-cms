@@ -83,10 +83,13 @@ class ListingPage(BaseEAPage):
             el = self.driver.find_element(By.XPATH, f"//input[@value='{value}']")
             el.click()
             # wait until page has been refreshed before continuing
-            self.wait_for_stale(el)
+            if self.device_type is not MOBILE_DEVICE and js_enabled:
+                self.wait_for_refresh(el)
 
         if self.device_type is MOBILE_DEVICE and js_enabled:
-            self.do_click((By.LINK_TEXT, 'Apply filters'))
+            el = self.find_element((By.LINK_TEXT, 'Apply filters'))
+            el.click()
+            self.wait_for_refresh(el)
 
     def click_update_results(self):
         self.do_click((By.XPATH, '//input[@value="Update results"]'))
