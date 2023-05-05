@@ -28,9 +28,13 @@ platforms:
   #   osVersion: Ventura
   #   browserName: Firefox
   #   browserVersion: latest
+  # - deviceName: iPhone 14 Pro Max
+  #   osVersion: 16
+  #   browserName: safari
+  #   deviceOrientation: portrait
   - deviceName: iPhone 14 Pro Max
     osVersion: 16
-    browserName: safari
+    browserName: chrome
     deviceOrientation: portrait
   # - deviceName: Google Pixel 7
   #   osVersion: 13.0
@@ -44,7 +48,7 @@ parallelsPerPlatform: 3
 browserstackLocal: true
 browserStackLocalOptions:
   forceLocal: true
-buildName: great-cms-ios-16-safari
+buildName: great-cms-ios-16-chrome
 buildIdentifier: ${DATE_TIME}
 projectName: great-cms
 debug: false
