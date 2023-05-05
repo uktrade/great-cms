@@ -59,7 +59,7 @@ number of extra CSS styles that were once sensible defaults:
 {% endblock %}
 
 {% block body_header %}
-    {% include './header.html' with site_section=header_section site_sub_section=header_sub_section %}
+    {% include './header.html' with user=user %}
 {% endblock %}
 
 {% block body_content_container %}
