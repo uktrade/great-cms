@@ -1,11 +1,14 @@
 import json
+from typing import Dict
 
 import pytest
+from pytest import CollectReport, StashKey
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.remote.errorhandler import JavascriptException
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 
@@ -15,6 +18,49 @@ def pytest_addoption(parser):
     parser.addoption('--baseurl', '-U')
     parser.addoption('--browser', '-B', help='Options: chrome, firefox')
     parser.addoption('--headless', '-H', help='true or false')
+
+
+phase_report_key = StashKey[Dict[str, CollectReport]]()
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    # execute all other hooks to obtain the report object
+    outcome = yield
+    rep = outcome.get_result()
+
+    # store test results for each phase of a call, which can
+    # be "setup", "call", "teardown"
+    item.stash.setdefault(phase_report_key, {})[rep.when] = rep
+
+
+@pytest.fixture(autouse=True)
+def label_test_in_browserstack_console(request, driver):
+    yield
+    # request.node is an "item" because we use the default
+    # "function" scope
+    report = request.node.stash[phase_report_key]
+    if report["setup"].failed:
+        send_test_label(driver, 'failed', f"{report['call'].head_line} - Setup failed")
+    elif ("call" not in report) or report["call"].failed:
+        send_test_label(driver, 'failed', f"{report['call'].head_line} {report['call'].longrepr.reprcrash.message}")
+    elif ("call" in report) and not report["call"].failed:
+        send_test_label(driver, 'passed', f"{report['call'].head_line}")
+    elif ("call" in report) and report["call"].skipped:
+        send_test_label(driver, 'passed', f"Skipped - {report['call'].head_line}")
+
+
+def send_test_label(driver, outcome, reason):
+    try:
+        executor_object = {
+            'action': 'setSessionStatus',
+            'arguments': {'status': outcome, 'reason': reason},
+        }
+        browserstack_executor = f'browserstack_executor: {json.dumps(executor_object)}'
+        driver.execute_script(browserstack_executor)
+    except JavascriptException:
+        # this happens when we try and label tests that are not using browserstack-sdk. i.e. just pytest
+        pass
 
 
 # this will immediately get messy so will need extra functions to read in from config and perform

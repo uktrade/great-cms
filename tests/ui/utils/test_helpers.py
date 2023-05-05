@@ -1,8 +1,5 @@
-import json
-
 from conftest import base_url
 from faker import Faker
-from selenium.webdriver.remote.errorhandler import JavascriptException
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
@@ -12,9 +9,6 @@ from selenium.webdriver.support.ui import Select, WebDriverWait
 
 DESKTOP = 1
 MOBILE_DEVICE = 2
-# give the browser some time to respond to the click before checking the url
-# see here https://www.browserstack.com/guide/thread-sleep-in-selenium
-SLEEP_TIME_BEFORE_CHECKING_URL_SECS = 2
 
 
 class TestHelper:
@@ -77,14 +71,5 @@ class TestHelper:
         select = Select(select_element)
         return select.all_selected_options[0].text
 
-    def label_test_in_browserstack_console(self, test_status, test_reason):
-        try:
-            executor_object = {
-                'action': 'setSessionStatus',
-                'arguments': {'status': test_status, 'reason': test_reason},
-            }
-            browserstack_executor = f'browserstack_executor: {json.dumps(executor_object)}'
-            self.driver.execute_script(browserstack_executor)
-        except JavascriptException:
-            # this happens when we try and label tests that are not using browserstack-sdk. i.e. just pytest
-            pass
+    def wait_for_url(self, url):
+        return self._wait.until(ec.url_to_be(url))

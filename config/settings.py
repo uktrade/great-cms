@@ -212,6 +212,7 @@ if env.bool('FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False):
         ('en-gb', 'English'),
         ('es', 'Spanish'),
         ('ko', 'Korean'),
+        ('fr', 'French'),
     ]
 
     INSTALLED_APPS += [
