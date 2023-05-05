@@ -82,6 +82,8 @@ class ListingPage(BaseEAPage):
         for value in filter_values:
             el = self.driver.find_element(By.XPATH, f"//input[@value='{value}']")
             el.click()
+            # wait until page has been refreshed before continuing
+            self.wait_for_stale(el)
 
         if self.device_type is MOBILE_DEVICE and js_enabled:
             self.do_click((By.LINK_TEXT, 'Apply filters'))

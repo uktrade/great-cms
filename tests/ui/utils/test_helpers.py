@@ -73,3 +73,6 @@ class TestHelper:
 
     def wait_for_url(self, url):
         return self._wait.until(ec.url_to_be(url))
+
+    def wait_for_stale(self, element):
+        return self._wait.until(ec.staleness_of(element))

@@ -1,9 +1,9 @@
 # NOTE: testing more than one platform at once resulted in an error
 platforms:
-  - os: Windows
-    osVersion: 11
-    browserName: Chrome
-    browserVersion: latest
+  # - os: Windows
+  #   osVersion: 11
+  #   browserName: Chrome
+  #   browserVersion: latest
   # - os: Windows
   #   osVersion: 10
   #   browserName: Chrome
@@ -20,10 +20,10 @@ platforms:
   #   osVersion: Ventura
   #   browserName: Chrome
   #   browserVersion: latest
-  # - os: OS X
-  #   osVersion: Ventura
-  #   browserName: Safari
-  #   browserVersion: latest
+  - os: OS X
+    osVersion: Ventura
+    browserName: Safari
+    browserVersion: latest
   # - os: OS X
   #   osVersion: Ventura
   #   browserName: Firefox
@@ -44,7 +44,7 @@ parallelsPerPlatform: 3
 browserstackLocal: true
 browserStackLocalOptions:
   forceLocal: true
-buildName: great-cms-win-11-chrome
+buildName: great-cms-osx-ventura-safari
 buildIdentifier: ${DATE_TIME}
 projectName: great-cms
 debug: false
