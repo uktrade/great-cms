@@ -40,13 +40,13 @@ def label_test_in_browserstack_console(request, driver):
     # request.node is an "item" because we use the default
     # "function" scope
     report = request.node.stash[phase_report_key]
-    if report["setup"].failed:
+    if report['setup'].failed:
         send_test_label(driver, 'failed', f"{report['call'].head_line} - Setup failed")
-    elif ("call" not in report) or report["call"].failed:
+    elif ('call' not in report) or report['call'].failed:
         send_test_label(driver, 'failed', f"{report['call'].head_line} {report['call'].longrepr.reprcrash.message}")
-    elif ("call" in report) and not report["call"].failed:
+    elif ('call' in report) and not report['call'].failed:
         send_test_label(driver, 'passed', f"{report['call'].head_line}")
-    elif ("call" in report) and report["call"].skipped:
+    elif ('call' in report) and report['call'].skipped:
         send_test_label(driver, 'passed', f"Skipped - {report['call'].head_line}")
 
 
