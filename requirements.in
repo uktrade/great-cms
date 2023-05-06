@@ -58,8 +58,7 @@ cryptography>=38.0.3
 pillow>=7.1.0
 factory-boy==2.12.*
 dateparser==0.7.2
-xhtml2pdf==0.2.*
-pisa==3.0.*
+xhtml2pdf==0.2.8
 lxml>=4.6.3
 sigauth==4.3.0
 elastic-apm==6.1.*
@@ -74,3 +73,4 @@ celery[redis]==5.2.7
 django-celery-beat==2.2.1
 wagtail-localize==1.4
 icalendar
+reportlab==3.6.13
