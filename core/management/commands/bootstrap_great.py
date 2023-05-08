@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.core.management import BaseCommand
-from wagtail.core.models import Page, Site
+from wagtail.models import Page, Site
 
 from tests.unit.domestic.factories import DomesticHomePageFactory
 

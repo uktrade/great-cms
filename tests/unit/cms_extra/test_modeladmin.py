@@ -61,13 +61,23 @@ def test_casestudyadminbuttonhelper(rf, django_user_model, mock_elasticsearch_ge
     }
 
     assert helper.get_buttons_for_obj(obj) == [
-        {'classname': 'button', 'label': 'Inspect', 'title': 'Inspect this case study', 'url': '/admin/mock-url/path/'},
-        {'classname': 'button', 'label': 'Edit', 'title': 'Edit this case study', 'url': '/admin/mock-url/path/'},
         {
-            'classname': 'button no',
-            'label': 'Delete',
-            'title': 'Delete this case study',
             'url': '/admin/mock-url/path/',
+            'label': 'Inspect',
+            'classname': 'button button-secondary',
+            'title': 'Inspect this case study',
+        },
+        {
+            'url': '/admin/mock-url/path/',
+            'label': 'Edit',
+            'classname': 'button button-secondary',
+            'title': 'Edit this case study',
+        },
+        {
+            'url': '/admin/mock-url/path/',
+            'label': 'Delete',
+            'classname': 'button no',
+            'title': 'Delete this case study',
         },
         {
             'classname': 'button button-small icon icon-doc',

@@ -8,12 +8,12 @@ from django.db import IntegrityError
 from django.http import Http404
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
-from wagtail.admin.edit_handlers import ObjectList
-from wagtail.core.blocks.stream_block import StreamBlockValidationError
-from wagtail.core.models import Collection
+from wagtail.admin.panels import ObjectList
+from wagtail.blocks.stream_block import StreamBlockValidationError
 from wagtail.images import get_image_model
 from wagtail.images.tests.utils import get_test_image_file
-from wagtail.tests.utils import WagtailPageTests, WagtailTestUtils
+from wagtail.models import Collection
+from wagtail.test.utils import WagtailPageTests, WagtailTestUtils
 from wagtail_factories import ImageFactory
 
 from core.mixins import AuthenticatedUserRequired
@@ -769,7 +769,7 @@ class TestMagnaPageChooserPanel(SetUpLocaleMixin, TestCase):
         # a MagnaPageChooserPanel class that works on CaseStudyRelatedPages's 'page' field
         self.edit_handler = ObjectList(
             [MagnaPageChooserPanel('page', [DetailPage, CuratedListPage, TopicPage])]
-        ).bind_to(model=model, request=self.request)
+        ).bind_to_model(model=model)
         self.my_page_chooser_panel = self.edit_handler.children[0]
 
         # build a form class containing the fields that MyPageChooserPanel wants
@@ -780,23 +780,25 @@ class TestMagnaPageChooserPanel(SetUpLocaleMixin, TestCase):
         self.test_instance = model.objects.create(page=self.detail_page)
 
         self.form = self.PageChooserForm(instance=self.test_instance)
-        self.page_chooser_panel = self.my_page_chooser_panel.bind_to(instance=self.test_instance, form=self.form)
+        self.page_chooser_panel = self.my_page_chooser_panel.get_bound_panel(
+            instance=self.test_instance, form=self.form
+        )
 
     def test_magna_page_chooser_panel_target_models(self):
-        result = (
-            MagnaPageChooserPanel('page', [DetailPage, CuratedListPage, TopicPage])
-            .bind_to(model=MagnaPageChooserPanel)
-            .target_models()
+        result = MagnaPageChooserPanel('page', [DetailPage, CuratedListPage, TopicPage]).bind_to_model(
+            model=MagnaPageChooserPanel
         )
-        self.assertEqual(result, [DetailPage, CuratedListPage, TopicPage])
+        self.assertEqual(result.page_type, [DetailPage, CuratedListPage, TopicPage])
 
     def test_magna_page_chooser_panel_render_as_empty_field(self):
         test_instance = CaseStudyRelatedPages()
         form = self.PageChooserForm(instance=test_instance)
-        page_chooser_panel = self.my_page_chooser_panel.bind_to(instance=test_instance, form=form, request=self.request)
-        result = page_chooser_panel.render_as_field()
+        page_chooser_panel = self.my_page_chooser_panel.get_bound_panel(
+            instance=test_instance, form=form, request=self.request
+        )
+        result = page_chooser_panel.render_html()
 
-        self.assertIn('<span class="title"></span>', result)
+        self.assertIn('<div class="chooser__title" data-chooser-title id="id_page-title"></div>', result)
         self.assertIn('Choose a page', result)
 
 

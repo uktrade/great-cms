@@ -19,26 +19,24 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ClusterableModel, ParentalKey
 from taggit.managers import TaggableManager
 from taggit.models import ItemBase, TagBase, TaggedItemBase
-from wagtail.admin.edit_handlers import (
+from wagtail import blocks
+from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
     PageChooserPanel,
-    StreamFieldPanel,
     TabbedInterface,
 )
+from wagtail.blocks.field_block import RichTextBlock
+from wagtail.blocks.stream_block import StreamBlock, StreamBlockValidationError
 from wagtail.contrib.redirects.models import Redirect
-from wagtail.contrib.settings.models import BaseSetting, register_setting
-from wagtail.core import blocks
-from wagtail.core.blocks.field_block import RichTextBlock
-from wagtail.core.blocks.stream_block import StreamBlock, StreamBlockValidationError
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable, Page
+from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
+from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
-from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
+from wagtail.models import Orderable, Page
 from wagtail.snippets.models import register_snippet
 from wagtail.utils.decorators import cached_classmethod
 from wagtailmedia.models import Media
@@ -270,7 +268,7 @@ class IndustryTag(models.Model):
         related_name='+',
     )
 
-    panels = [FieldPanel('name'), ImageChooserPanel('icon')]
+    panels = [FieldPanel('name'), FieldPanel('icon')]
 
     class Meta:
         ordering = ('name',)
@@ -353,7 +351,7 @@ class CMSGenericPage(
             ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
         ]
 
-        return TabbedInterface(panels).bind_to(model=cls)
+        return TabbedInterface(panels).bind_to_model(model=cls)
 
     def get_template(self, request, *args, **kwargs):
         return self.template
@@ -394,7 +392,7 @@ class LandingPage(CMSGenericPage):
     # Content fields
     ################
     description = RichTextField()
-    button = StreamField([('button', core_blocks.ButtonBlock(icon='cog'))], null=True, blank=True)
+    button = StreamField([('button', core_blocks.ButtonBlock(icon='cog'))], use_json_field=True, null=True, blank=True)
     image = models.ForeignKey(
         get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
     )
@@ -406,6 +404,7 @@ class LandingPage(CMSGenericPage):
             ('text', blocks.RichTextBlock(icon='openquote', helptext='Add a textblock')),
             ('image', core_blocks.ImageBlock()),
         ],
+        use_json_field=True,
         null=True,
         blank=True,
     )
@@ -414,6 +413,7 @@ class LandingPage(CMSGenericPage):
         [
             ('route', core_blocks.RouteSectionBlock()),
         ],
+        use_json_field=True,
         null=True,
         blank=True,
     )
@@ -423,10 +423,10 @@ class LandingPage(CMSGenericPage):
     #########
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('description'),
-        StreamFieldPanel('button'),
-        ImageChooserPanel('image'),
-        StreamFieldPanel('components'),
-        StreamFieldPanel('body'),
+        FieldPanel('button'),
+        FieldPanel('image'),
+        FieldPanel('components'),
+        FieldPanel('body'),
     ]
 
 
@@ -437,13 +437,13 @@ class InterstitialPage(CMSGenericPage):
     ################
     # Content fields
     ################
-    button = StreamField([('button', core_blocks.ButtonBlock(icon='cog'))], null=True, blank=True)
+    button = StreamField([('button', core_blocks.ButtonBlock(icon='cog'))], use_json_field=True, null=True, blank=True)
 
     #########
     # Panels
     #########
     content_panels = CMSGenericPage.content_panels + [
-        StreamFieldPanel('button'),
+        FieldPanel('button'),
     ]
 
 
@@ -524,7 +524,7 @@ class CuratedListPage(CMSGenericPage):
     ########
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('heading'),
-        ImageChooserPanel('image'),
+        FieldPanel('image'),
     ]
 
     def get_topics(self, live=True) -> models.QuerySet:
@@ -653,6 +653,7 @@ class DetailPage(CMSGenericPage):
             ('Image', core_blocks.ImageBlock(template='core/includes/_hero_image.html')),
             ('Video', core_blocks.SimpleVideoBlock(template='core/includes/_hero_video.html')),
         ],
+        use_json_field=True,
         null=True,
         blank=True,
         validators=[hero_singular_validation],
@@ -664,7 +665,8 @@ class DetailPage(CMSGenericPage):
                 blocks.RichTextBlock(options={'class': 'objectives'}),
             ),
             ('ListItem', core_blocks.Item()),
-        ]
+        ],
+        use_json_field=True,
     )
     body = StreamField(
         [
@@ -747,7 +749,8 @@ class DetailPage(CMSGenericPage):
                     help_text='Video displayed within a full-page-width block',
                 ),
             ),
-        ]
+        ],
+        use_json_field=True,
     )
     recap = StreamField(
         [
@@ -772,17 +775,18 @@ class DetailPage(CMSGenericPage):
                     icon='fa-commenting-o',
                 ),
             )
-        ]
+        ],
+        use_json_field=True,
     )
 
     #########
     # Panels
     ##########
     content_panels = Page.content_panels + [
-        StreamFieldPanel('hero'),
-        StreamFieldPanel('objective'),
-        StreamFieldPanel('body'),
-        StreamFieldPanel('recap'),
+        FieldPanel('hero'),
+        FieldPanel('objective'),
+        FieldPanel('body'),
+        FieldPanel('recap'),
     ]
 
     def handle_page_view(self, request):
@@ -1064,13 +1068,13 @@ class MagnaPageChooserPanel(PageChooserPanel):
 
     field_template = 'admin/wagtailadmin/edit_handlers/field_panel_field.html'
 
-    def render_as_field(self):
+    def render_html(self):
         instance_obj = self.get_chosen_item()
         context = {
             'field': self.bound_field,
             self.object_type_name: instance_obj,
             'is_chosen': bool(instance_obj),  # DEPRECATED - passed to templates for backwards compatibility only
-            # Added obj_type on base class method render_as_field
+            # Added obj_type on base class method render_html
             'obj_type': instance_obj.specific.__class__.__name__ if instance_obj else None,
         }
         return mark_safe(render_to_string(self.field_template, context))
@@ -1144,6 +1148,7 @@ class CaseStudy(ClusterableModel):
                 core_blocks.CaseStudyQuoteBlock(),
             ),
         ],
+        use_json_field=True,
         validators=[case_study_body_validation],
         help_text=(
             'This block must contain one Media section (with one or two items in it) '
@@ -1174,7 +1179,7 @@ class CaseStudy(ClusterableModel):
                 FieldPanel('title'),
                 FieldPanel('lead_title'),
                 FieldPanel('summary_context'),
-                StreamFieldPanel('body'),
+                FieldPanel('body'),
             ],
             heading='Case Study content',
         ),
@@ -1222,7 +1227,7 @@ class CaseStudy(ClusterableModel):
 
 
 @register_setting
-class CaseStudyScoringSettings(BaseSetting):
+class CaseStudyScoringSettings(BaseSiteSetting):
     threshold = models.DecimalField(
         help_text='This is the minimum score which a case study needs to have to be '
         'considered before being presented to users. ',
@@ -1454,6 +1459,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 ),
             ),
         ],
+        use_json_field=True,
         null=True,
         blank=True,
     )
@@ -1504,6 +1510,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 ),
             ),
         ],
+        use_json_field=True,
         max_num=5,
         null=True,
         blank=True,
@@ -1588,5 +1595,5 @@ class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
         ),
         FieldPanel('title'),
         FieldPanel('text'),
-        ImageChooserPanel('image'),
+        FieldPanel('image'),
     ]

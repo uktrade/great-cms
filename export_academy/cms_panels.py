@@ -1,13 +1,10 @@
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
-    StreamFieldPanel,
     TabbedInterface,
 )
-from wagtail.documents.edit_handlers import DocumentChooserPanel
-from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailmedia.widgets import AdminMediaChooser
 
 
@@ -18,9 +15,9 @@ class ExportAcademyPagePanels:
             heading='Hero',
             classname='collapsible',
             children=[
-                ImageChooserPanel('hero_image'),
+                FieldPanel('hero_image'),
                 FieldPanel('hero_text'),
-                StreamFieldPanel('hero_cta'),
+                FieldPanel('hero_cta'),
             ],
         ),
         MultiFieldPanel(
@@ -37,7 +34,7 @@ class ExportAcademyPagePanels:
             classname='collapsible',
             children=[
                 FieldPanel('steps_heading'),
-                StreamFieldPanel('steps'),
+                FieldPanel('steps'),
             ],
         ),
         MultiFieldPanel(
@@ -45,10 +42,10 @@ class ExportAcademyPagePanels:
             classname='collapsible',
             children=[
                 FieldPanel('panel_description'),
-                StreamFieldPanel('panels'),
+                FieldPanel('panels'),
             ],
         ),
-        StreamFieldPanel(
+        FieldPanel(
             'next_cta',
         ),
     ]
@@ -80,7 +77,7 @@ class EventPanel:
         MultiFieldPanel(
             heading='Event Complete Actions',
             children=[
-                DocumentChooserPanel('document'),
+                FieldPanel('document'),
                 FieldPanel('video_recording', widget=AdminMediaChooser),
                 FieldPanel('completed'),
             ],

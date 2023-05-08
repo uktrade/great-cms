@@ -5,7 +5,7 @@ from unittest import mock
 
 import pytest
 from django.test.client import RequestFactory
-from wagtail.core.models import Locale, Page
+from wagtail.models import Locale, Page
 from wagtail_factories import PageFactory, SiteFactory
 
 import tests.unit.domestic.factories

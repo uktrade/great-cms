@@ -9,22 +9,20 @@ from django.http import Http404
 from django.utils.functional import cached_property
 from great_components.mixins import GA360Mixin
 from modelcluster.fields import ParentalManyToManyField
-from wagtail.admin.edit_handlers import (
+from wagtail import blocks
+from wagtail.admin.panels import (
     FieldPanel,
     ObjectList,
-    StreamFieldPanel,
     TabbedInterface,
     cached_classmethod,
 )
+from wagtail.blocks.field_block import RichTextBlock
+from wagtail.blocks.stream_block import StreamBlock, StreamBlockValidationError
 from wagtail.contrib.table_block.blocks import TableBlock
-from wagtail.core import blocks
-from wagtail.core.blocks.field_block import RichTextBlock
-from wagtail.core.blocks.stream_block import StreamBlock, StreamBlockValidationError
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Page
+from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.models import Page
 from wagtailseo.models import SeoMixin
 
 from core import blocks as core_blocks, cache_keys, helpers, mixins, service_urls
@@ -94,7 +92,7 @@ class BaseContentPage(
             ObjectList(SeoMixin.seo_meta_panels, heading='SEO', classname='seo'),
             ObjectList(cls.settings_panels, heading='Settings', classname='settings'),
         ]
-        return TabbedInterface(panels).bind_to(model=cls)
+        return TabbedInterface(panels).bind_to_model(model=cls)
 
     def get_ancestors_in_app(self):
         """
@@ -164,7 +162,7 @@ class DomesticHomePage(
         null=True,
         blank=True,
     )
-    button = StreamField([('button', core_blocks.ButtonBlock(icon='cog'))], null=True, blank=True)
+    button = StreamField([('button', core_blocks.ButtonBlock(icon='cog'))], use_json_field=True, null=True, blank=True)
     image = models.ForeignKey(
         get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
     )
@@ -174,8 +172,8 @@ class DomesticHomePage(
     #########
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('body'),
-        StreamFieldPanel('button'),
-        ImageChooserPanel('image'),
+        FieldPanel('button'),
+        FieldPanel('image'),
     ]
 
 
@@ -187,7 +185,9 @@ class DomesticDashboard(
     DataLayerMixin,
     Page,
 ):
-    components = StreamField([('route', core_blocks.RouteSectionBlock(icon='pick'))], null=True, blank=True)
+    components = StreamField(
+        [('route', core_blocks.RouteSectionBlock(icon='pick'))], use_json_field=True, null=True, blank=True
+    )
 
     def get_context(self, request):
         user = request.user
@@ -203,7 +203,7 @@ class DomesticDashboard(
     #########
     # Panels
     #########
-    content_panels = CMSGenericPage.content_panels + [StreamFieldPanel('components')]
+    content_panels = CMSGenericPage.content_panels + [FieldPanel('components')]
 
 
 class StructuralPage(BaseContentPage):
@@ -390,7 +390,7 @@ class GreatDomesticHomePage(
 
     def get_sector_list(self, request):
         # We don't want to go near the cache if we're previewing, so that we don't poison it
-        if getattr(request, 'is_preview', False) is True:  # set by wagtail.core.models.Page.serve_preview()
+        if getattr(request, 'is_preview', False) is True:  # set by wagtail.models.Page.serve_preview()
             return self._get_sector_list_uncached()
 
         # But we do want to leverage the cache if we're in proper servign mode
@@ -741,6 +741,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
                 ),
             )
         ],
+        use_json_field=True,
         null=True,
         blank=True,
         validators=[main_statistics_validation],
@@ -761,6 +762,7 @@ class CountryGuidePage(cms_panels.CountryGuidePagePanels, BaseContentPage):
     # These have been moved to StreamField for flexibility without repetition
     accordions = StreamField(
         [('industries', core_blocks.CountryGuideIndustryBlock())],
+        use_json_field=True,
         null=True,
         blank=True,
         validators=[industry_accordions_validation],
@@ -1071,6 +1073,7 @@ class ArticlePage(
                 ),
             ),
         ],
+        use_json_field=True,
         null=True,
         blank=True,
     )
@@ -1271,7 +1274,8 @@ class GuidancePage(cms_panels.GuidancePagePanels, BaseContentPage):
                 ),
             ),
             ('table', TableBlock(table_options=TABLEBLOCK_OPTIONS)),
-        ]
+        ],
+        use_json_field=True,
     )
 
 
@@ -1299,9 +1303,11 @@ class PerformanceDashboardPage(
                     core_blocks.PerformanceDashboardDataBlock(),
                 ),
             ],
+            use_json_field=-True,
             min_num=1,
             max_num=4,
-        )
+        ),
+        use_json_field=True,
     )
 
     guidance_notes = RichTextField(
@@ -1422,9 +1428,11 @@ class TradeFinancePage(
                     AdvantageBlock(),
                 ),
             ],
+            use_json_field=True,
             min_num=3,
             max_num=3,
-        )
+        ),
+        use_json_field=True,
     )
 
     evidence = RichTextField(

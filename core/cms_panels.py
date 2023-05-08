@@ -1,5 +1,4 @@
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtailmedia.widgets import AdminMediaChooser
 
 
@@ -28,13 +27,13 @@ class MicrositePanels:
         MultiFieldPanel(
             heading='Media',
             children=[
-                ImageChooserPanel('hero_image'),
+                FieldPanel('hero_image'),
                 FieldPanel('hero_video', widget=AdminMediaChooser),
                 FieldPanel('hero_video_transcript'),
             ],
             help_text='If both video and image are specified, only the video will be shown',
         ),
-        StreamFieldPanel('page_body'),
+        FieldPanel('page_body'),
         MultiFieldPanel(
             heading='CTA fields',
             children=[
@@ -48,7 +47,7 @@ class MicrositePanels:
             heading='Social media',
             children=[FieldPanel('twitter'), FieldPanel('facebook'), FieldPanel('linkedin'), FieldPanel('email')],
         ),
-        StreamFieldPanel('related_links'),
+        FieldPanel('related_links'),
     ]
 
     settings_panels = [

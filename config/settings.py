@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'wagtail.documents',
     'wagtail.images',
     'wagtail.search',
-    'wagtail.core',
+    'wagtail',
     'wagtail.contrib.routable_page',
     'wagtail.contrib.settings',
     'wagtailmedia',
@@ -258,6 +258,7 @@ WAGTAIL_FRONTEND_LOGIN_URL = reverse_lazy('core:login')
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = env.str('BASE_URL')
+WAGTAILADMIN_BASE_URL = env.str('WAGTAILADMIN_BASE_URL')
 
 
 # Logging for development
@@ -500,7 +501,14 @@ PRIVACY_COOKIE_DOMAIN = env.str('PRIVACY_COOKIE_DOMAIN', UTM_COOKIE_DOMAIN)
 REST_FRAMEWORK = {'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',)}
 
 WAGTAILIMAGES_IMAGE_MODEL = 'core.AltTextImage'
-WAGTAILMEDIA_MEDIA_MODEL = 'core.GreatMedia'
+
+WAGTAILMEDIA = {
+    "MEDIA_MODEL": "core.GreatMedia",  # string, dotted-notation. Defaults to "wagtailmedia.Media"
+    "MEDIA_FORM_BASE": "",  # string, dotted-notation. Defaults to an empty string
+    "AUDIO_EXTENSIONS": [],  # list of extensions
+    "VIDEO_EXTENSIONS": [],  # list of extensions
+}
+
 
 # Google captcha
 RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY')

@@ -1,6 +1,6 @@
 import pytest
 from django.contrib.sessions.middleware import SessionMiddleware
-from wagtail.tests.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTests
 
 from domestic.models import StructuralPage
 from international_online_offer.models import (
