@@ -1047,6 +1047,8 @@ class TestMicrositeLocales(TestCase):
         self.en_locale = Locale.objects.get_or_create(language_code='en-gb')
         self.es_locale = Locale.objects.get_or_create(language_code='es')
         self.ar_locale = Locale.objects.get_or_create(language_code='ar')
+        self.fr_locale = Locale.objects.get_or_create(language_code='fr')
+        self.pt_locale = Locale.objects.get_or_create(language_code='pt')
 
     @pytest.fixture(autouse=True)
     def domestic_homepage_fixture(self, domestic_homepage):
@@ -1080,6 +1082,22 @@ class TestMicrositeLocales(TestCase):
         assert (
             'página de inicio del micrositio' in html_response
             and 'Subtítulo de la Página de Inicio del Micrositio' in html_response  # noqa: W503
+        )
+
+        url_french = url + '?lang=fr'
+        response = self.client.get(url_french)
+        html_response = response.content.decode('utf-8')
+        assert (
+            "page d'accueil du microsite" in html_response
+            and "Sous-titre de la page d'accueil du microsite" in html_response  # noqa: W503
+        )
+
+        url_portugeuse = url + '?lang=pt'
+        response = self.client.get(url_portugeuse)
+        html_response = response.content.decode('utf-8')
+        assert (
+            "página inicial do microsite" in html_response
+            and "Subtítulo da página inicial do microsite" in html_response  # noqa: W503
         )
 
     def test_fall_back_to_english_for_unimplemented_enabled_language(self):
