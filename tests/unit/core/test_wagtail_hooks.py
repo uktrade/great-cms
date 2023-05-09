@@ -21,9 +21,11 @@ from core.wagtail_hooks import (
     convert_all_columns,
     convert_cta,
     convert_form,
+    convert_image,
     convert_quote,
     convert_related_links,
     convert_text,
+    convert_video,
     editor_css,
     get_microsite_page_body,
     register_s3_media_file_adapter,
@@ -1028,6 +1030,8 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
                         'email_body': 'body1',
                     },
                 },
+                {'type': 'Video', 'value': {'video': 44}, 'id': 'b965f2ea-c030-41ff-b121-32895a0b7cb0'},
+                {'type': 'image', 'value': 682, 'id': '5a176e7e-4fa8-42b5-b89e-202d8946910c'},
                 {
                     'type': 'pull_quote',
                     'value': {
@@ -1156,14 +1160,23 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
 
     def test_get_microsite_page_body(self):
         page_body = get_microsite_page_body(self.article1.article_body)
-        self.assertEqual(len(page_body), 5)
+        self.assertEqual(len(page_body), 7)
         self.assertEqual(len([item for item in page_body if item['type'] == 'form']), 1)
         self.assertEqual(len([item for item in page_body if item['type'] == 'pull_quote']), 1)
         self.assertEqual(len([item for item in page_body if item['type'] == 'cta']), 1)
         self.assertEqual(len([item for item in page_body if item['type'] == 'columns']), 1)
         self.assertEqual(len([item for item in page_body if item['type'] == 'text']), 1)
+        self.assertEqual(len([item for item in page_body if item['type'] == 'video']), 1)
 
     def test_migrating_wrong_page_type(self):
         with self.assertRaises(NotImplementedError) as context:
             MigratePage.execute_action([self.microsite_page])
             self.assertTrue(context.msg is None)
+
+    def test_convert_video(self):
+        video = convert_video([block for block in self.article1.article_body if block.block_type == 'Video'][0])
+        self.assertEqual(video['type'], 'video')
+
+    def test_convert_image(self):
+        image = convert_image([block for block in self.article1.article_body if block.block_type == 'image'][0])
+        self.assertEqual(image['type'], 'image')
