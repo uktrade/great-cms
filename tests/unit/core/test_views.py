@@ -1085,16 +1085,16 @@ class TestMicrositeLocales(TestCase):
         )
 
         site_fr = self.en_microsite.copy_for_translation(self.fr_locale[0], copy_parents=True, alias=True)
-        site_fr.page_title = "page d'accueil du microsite"
-        site_fr.page_subheading = "Sous-titre de la page d'accueil du microsite"
+        site_fr.page_title = 'page d&amp;#x27;accueil du microsite'
+        site_fr.page_subheading = 'Sous-titre de la page d&#x27;accueil du microsite'
         site_fr.save()
 
         url_french = url + '?lang=fr'
         response = self.client.get(url_french)
         html_response = response.content.decode('utf-8')
         assert (
-            "page d&#x27;accueil du microsite" in html_response
-            and "Sous-titre de la page d'accueil du microsite" in html_response  # noqa: W503
+            'page d&amp;#x27;accueil du microsite' in html_response
+            and 'Sous-titre de la page d&amp;#x27;accueil du microsite' in html_response  # noqa: W503
         )
 
         site_pt = self.en_microsite.copy_for_translation(self.pt_locale[0], copy_parents=True, alias=True)
@@ -1105,7 +1105,7 @@ class TestMicrositeLocales(TestCase):
         response = self.client.get(url_portugeuse)
         html_response = response.content.decode('utf-8')
         assert (
-            'página inicial do microsite" in html_response'
+            'página inicial do microsite' in html_response
             and 'Subtítulo de la Página de Inicio del Micrositio' in html_response  # noqa: W503
         )
 
