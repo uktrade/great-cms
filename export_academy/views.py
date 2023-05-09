@@ -12,27 +12,37 @@ from django.views.generic import (
     UpdateView,
 )
 from django_filters.views import FilterView
+from great_components.mixins import GA360Mixin
 from icalendar import Alarm, Calendar, Event
 from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
 from export_academy import filters, forms, helpers, models
-from export_academy.helpers import calender_content, get_buttons_for_event, get_badges_for_event
+from export_academy.helpers import (
+    calender_content,
+    get_badges_for_event,
+    get_buttons_for_event,
+)
 from export_academy.mixins import BookingMixin
 from export_academy.models import ExportAcademyHomePage
 
 
-class EventListView(
-    core_mixins.GetSnippetContentMixin,
-    FilterView,
-    ListView,
-):
+class EventListView(GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, ListView):
     model = models.Event
     queryset = model.upcoming
     filterset_class = filters.EventFilter
     template_name = 'export_academy/event_list.html'
     paginate_by = 10
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(  # from GA360Mixin
+            page_id='MagnaPage',
+            business_unit=settings.GA360_BUSINESS_UNIT,
+            site_section='export-academy',
+            site_subsection="events",
+        )
 
     def get_buttons_for_event(self, event):
         user = self.request.user
