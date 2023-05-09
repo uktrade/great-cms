@@ -1180,3 +1180,6 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
     def test_convert_image(self):
         image = convert_image([block for block in self.article1.article_body if block.block_type == 'image'][0])
         self.assertEqual(image['type'], 'image')
+
+    def test_migrate_article_page(self):
+        self.assertEqual(MigratePage.execute_action([self.article1]), (1, 1))
