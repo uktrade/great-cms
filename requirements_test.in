@@ -18,6 +18,10 @@ pip-tools
 ipdb==0.13.*
 beautifulsoup4
 freezegun==1.1.0
+pytest-xdist
+webdriver-manager
+browserstack-sdk
+#pytest-selenium
 
 # Code quality
 # -------------
