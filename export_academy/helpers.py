@@ -93,8 +93,8 @@ def get_event_join_button(event):
 
 def get_ics_button(event):
     return {
-        'label': f"""<i class="fa fa-plus" aria-hidden="true"></i>Add
-                     <span class="great-visually-hidden">{event.name}</span> to calendar""",
+        'label': f'<i class="fa fa-plus" aria-hidden="true"></i>Add to calendar<span '
+        f'class="great-visually-hidden">{event.name}</span>',
         'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
         'value': 'Confirmed',
         'type': 'submit',

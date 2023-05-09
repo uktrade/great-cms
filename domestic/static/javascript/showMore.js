@@ -47,12 +47,11 @@ trackedElements.forEach((element) =>
 );
 
 function likeButtonClick(element) {
-  console.log(element);
+  const eventInfo = element.target.innerText.split('\n',1);
   const eventTitle = findEventTitle(element.target);
-  const action = element.target.innerText.replace(eventTitle, '');
   (window.dataLayer = window.dataLayer || []).push({
     event: 'lessontitle',
     eventTitle: eventTitle,
-    action: action
+    action: eventInfo[0]
   });
 }
