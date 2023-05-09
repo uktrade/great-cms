@@ -7,6 +7,20 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Noto Regular';
+  src: url('/static/fonts/NotoSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Noto SemiBold';
+  src: url('/static/fonts/NotoSans-SemiBold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 // sass-lint:disable-all
 @font-face {
   font-family: 'FS Lucas SemiBold';
@@ -39,8 +53,8 @@
 }
 
 
-$main-text-font: "FS Lucas", Arial, Helvetica, Verdana;
-$header-font: "FS Lucas SemiBold", Arial, Helvetica, Verdana;
+$main-text-font: "Noto Regular", Arial, Helvetica, Verdana;
+$header-font: "Noto SemiBold", Arial, Helvetica, Verdana;
 
 //font-weight
 $font-weight-standard: 400;
