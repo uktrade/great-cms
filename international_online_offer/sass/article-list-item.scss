@@ -1,3 +1,33 @@
+.article-lock {
+    background-image: url('/static/images/lock.svg');
+    width: 24px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.image-container-lock-overlay {
+    @media (max-width: 640px) {
+        margin-bottom: 15px;
+    }
+    width: 100%;
+    height: 150px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    margin: 0px;
+    background-color: rgba(33, 36, 39, 0.7);
+}
+
+.article-lock-text {
+    margin-top: 15px;
+}
+
 .article-list-item {
 
     margin-bottom: 15px;
@@ -33,6 +63,7 @@
     }
 
     .image-container {
+        position: relative;
         @media (max-width: 640px) {
             margin-bottom: 15px;
         }
@@ -68,6 +99,7 @@
     }
 
     .image-container {
+        position: relative;
         @media (max-width: 640px) {
             margin-bottom: 15px;
         }

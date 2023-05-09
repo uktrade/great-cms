@@ -263,7 +263,7 @@ factory-boy==3.2.1
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==18.6.2
+faker==18.7.0
     # via factory-boy
 filelock==3.12.0
     # via virtualenv
@@ -287,6 +287,7 @@ flake8-string-format==0.3.0
     # via -r requirements_test.in
 flask==2.3.2
     # via
+    #   -r requirements_test.in
     #   flask-basicauth
     #   flask-cors
     #   locust
@@ -322,6 +323,8 @@ html5lib==1.1
     # via
     #   wagtail
     #   xhtml2pdf
+icalendar==5.0.5
+    # via -r requirements.in
 identify==2.5.24
     # via pre-commit
 idna==3.4
@@ -535,6 +538,7 @@ python-dateutil==2.8.2
     #   elasticsearch-dsl
     #   faker
     #   freezegun
+    #   icalendar
     #   python-crontab
 python-magic==0.4.27
     # via -r requirements.in
@@ -547,6 +551,7 @@ pytz==2021.3
     #   django-modelcluster
     #   django-timezone-field
     #   djangorestframework
+    #   icalendar
     #   l18n
 pytz-deprecation-shim==0.1.0.post0
     # via tzlocal
@@ -749,7 +754,7 @@ webencodings==0.5.1
     #   cssselect2
     #   html5lib
     #   tinycss2
-werkzeug==2.3.3
+werkzeug==2.3.4
     # via
     #   -r requirements_test.in
     #   flask

@@ -40,4 +40,9 @@ urlpatterns = [
         views.EventDetailsView.as_view(),
         name='event-details',
     ),
+    path(
+        'calendar/',
+        views.DownloadCalendarView.as_view(),
+        name='calendar',
+    ),
 ]

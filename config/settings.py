@@ -143,6 +143,7 @@ TEMPLATES = [
                 'great_components.context_processors.analytics',
                 'wagtail.contrib.settings.context_processors.settings',
                 'core.context_processors.services_home_links',
+                'international_online_offer.context_processors.eyb_user',
             ],
         },
     },
@@ -200,18 +201,18 @@ USE_L10N = True
 
 USE_TZ = True
 
-if env.bool('FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False):
+FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE = env.bool('FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE', False)
+
+if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
     # below assignments behind feature flag temporarily while we experiment with
     # additional language support. They will be promoted to main initilisation once
     # we have proven one non-English language.
-
     WAGTAIL_I18N_ENABLED = True
 
     WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
         ('ar', 'Arabic'),
         ('en-gb', 'English'),
         ('es', 'Spanish'),
-        ('ko', 'Korean'),
     ]
 
     INSTALLED_APPS += [
