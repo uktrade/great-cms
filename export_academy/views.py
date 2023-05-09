@@ -18,7 +18,7 @@ from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
-from export_academy import filters, forms, helpers, models
+from export_academy import filters, forms, models
 from export_academy.helpers import (
     calender_content,
     get_badges_for_event,
@@ -51,10 +51,6 @@ class EventListView(GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, 
     def get_badges_for_event(self, event):
         user = self.request.user
         return get_badges_for_event(user, event)
-
-    def get(self, request, *args, **kwargs):
-        request.GET = helpers.build_request_navigation_params(request)
-        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
