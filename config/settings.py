@@ -839,7 +839,7 @@ TRAVEL_ADVICE_FOREIGN = env.str('TRAVEL_ADVICE_FOREIGN', 'https://www.gov.uk/for
 # V1 to V2 migration settings
 # (These will be short-lived as we gradually cut over from V1 to V2 for all traffic)
 
-BREADCRUMBS_ROOT_URL = env.bool('BREADCRUMBS_ROOT_URL', 'https://great.gov.uk/')
+BREADCRUMBS_ROOT_URL = env.str('BREADCRUMBS_ROOT_URL', 'https://great.gov.uk/')
 
 
 # Setting up the the datascience s3 bucket to read files
