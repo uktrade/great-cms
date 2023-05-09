@@ -1,2 +1,5 @@
+{% load event_list_buttons %}
+
 <h4 class="event-title">{{ event.name }}</h4>
-<p class="great-font-size-18 great-text-light-grey">Duration: {{ event.start_date|timesince:event.end_date }}</p>
+{% user_is_booked_on_event request.user event as event_is_booked %}
+<p class="great-font-size-18 great-text-light-grey {% if event_is_booked %}govuk-!-margin-bottom-2{% endif %}">Duration: {{ event.start_date|timesince:event.end_date }}</p>
