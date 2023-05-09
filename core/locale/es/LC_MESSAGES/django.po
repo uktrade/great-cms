@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-09 11:39+0100\n"
+"POT-Creation-Date: 2023-05-10 10:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,6 +116,14 @@ msgstr "LinkedIn"
 #: templates/microsites/blocks/social_media.html:76
 msgid "Email"
 msgstr "Correo electrónico"
+
+#: templates/microsites/blocks/streamfield.html:17
+msgid "Information has been submitted successfully"
+msgstr "La información ha sido enviada con éxito"
+
+#: templates/microsites/blocks/streamfield.html:24
+msgid "Submit"
+msgstr "Entregar"
 
 #: templates/microsites/blocks/video.html:13
 #, python-format
