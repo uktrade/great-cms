@@ -13,7 +13,7 @@
             <div class="ea-listing-page">{% include 'components/hero.html' with image=hero.image hero_title=hero.title hero_text=hero.text hide_image_for_mobile=True %}</div>
         {% endwith %}
     {% endblock %}
-    <div class="great-display-from-tablet">
+    <div id="breadcrumbs" class="great-display-from-tablet">
         {% breadcrumbs 'Events' %}
             <a href="/">great.gov.uk</a>
             <a href="{% pageurl landing_page %}">UK Export Academy</a>
@@ -59,7 +59,6 @@
                             <p>There are currently no events available for the filters you have chosen.</p>
                             <p>Remove one or more of your filter choices to broaden your search.</p>
                         {% else %}
-
                             {% for event in page_obj %}
                             <div class="govuk-grid-row event-list-card">
                                 <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
@@ -121,9 +120,9 @@
 {{ block.super }}
 <script src="{% static 'javascript/eventFilters.js' %}"></script>
 <script src="{% static 'javascript/showMore.js'%}"></script>
-<script>
-  $(function() {
-    eventFilters.init();
-  });
+<script type="text/javascript">
+    $(function() {
+        eventFilters.init();
+    });
 </script>
 {% endblock %}
