@@ -41,8 +41,8 @@ def update_booked_user_buttons(event, result):
     result['form_event_booking_buttons'] += [
         {
             'label': f'Cancel booking<span class="great-visually-hidden"> for {event.name}</span>',
-            'classname': 'govuk-button govuk-button--secondary',
-            'value': 'Cancelled',
+            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
+            'value': 'Cancelled1',
             'type': 'submit',
         },
     ]
@@ -72,7 +72,7 @@ def get_event_booking_button(user, event):
             result += [
                 {
                     'label': f'Book<span class="great-visually-hidden"> {event.name}</span>',
-                    'classname': 'govuk-button govuk-!-margin-bottom-0',
+                    'classname': 'govuk-button govuk-!-margin-bottom-0 ukea-ga-tracking',
                     'value': 'Confirmed',
                     'type': 'submit',
                 },
@@ -85,7 +85,7 @@ def get_event_join_button(event):
         {
             'url': event.link,
             'label': f'Join<span class="great-visually-hidden"> {event.name}</span>',
-            'classname': 'govuk-button govuk-button--secondary',
+            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
             'title': f'Join {event.name}',
         },
     ]
@@ -95,7 +95,7 @@ def get_ics_button(event):
     return {
         'label': f"""<i class="fa fa-plus" aria-hidden="true"></i>Add
                      <span class="great-visually-hidden">{event.name}</span> to calendar""",
-        'classname': 'govuk-button govuk-button--secondary',
+        'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
         'value': 'Confirmed',
         'type': 'submit',
     }
@@ -110,7 +110,7 @@ def get_event_completed_buttons(event):
                 'url': reverse_lazy('export_academy:event-details', kwargs=dict(pk=event.pk)),
                 'label': f"""<i class="fa fa-play" aria-hidden="true"></i>Play
                              <span class="great-visually-hidden"> recording of {event.name}</span>""",
-                'classname': 'govuk-button',
+                'classname': 'govuk-button ukea-ga-tracking',
                 'title': f'Play recording of {event.name}',
             },
         ]
@@ -120,7 +120,7 @@ def get_event_completed_buttons(event):
                 'url': event.document.url,
                 'label': f"""<i class="fa fa-download" aria-hidden="true"></i>
                              Download PDF<span class="great-visually-hidden"> for {event.name}</span>""",
-                'classname': 'govuk-button govuk-button--secondary',
+                'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
                 'title': f'Download PDF for {event.name}',
             },
         ]

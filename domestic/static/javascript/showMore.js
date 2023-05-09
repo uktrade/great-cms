@@ -28,9 +28,9 @@ const handleToggle = (element) => {
   const eventTitle = findEventTitle(element);
 
   (window.dataLayer = window.dataLayer || []).push({
-  event: 'newRandomEvent',
-  eventTitle: eventTitle,
-    summaryText: summaryText
+    event: 'lessontitle',
+    eventTitle: eventTitle,
+    action: action
 });
 
   return text.classList.toggle('details-text-open')
@@ -40,3 +40,19 @@ const detailsElements = document.querySelectorAll('[data-show-more]')
 detailsElements.forEach((element) =>
   element.addEventListener('toggle', () => handleToggle(element))
 )
+
+const trackedElements = document.querySelectorAll('.ukea-ga-tracking')
+trackedElements.forEach((element) =>
+    element.addEventListener('click', likeButtonClick, true)
+);
+
+function likeButtonClick(element) {
+  console.log(element);
+  const eventTitle = findEventTitle(element.target);
+  const action = element.target.innerText.replace(eventTitle, '');
+  (window.dataLayer = window.dataLayer || []).push({
+    event: 'lessontitle',
+    eventTitle: eventTitle,
+    action: action
+  });
+}

@@ -41,7 +41,7 @@ class EventListView(GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, 
             page_id='MagnaPage',
             business_unit=settings.GA360_BUSINESS_UNIT,
             site_section='export-academy',
-            site_subsection="events",
+            site_subsection='events',
         )
 
     def get_buttons_for_event(self, event):
