@@ -1093,7 +1093,7 @@ class TestMicrositeLocales(TestCase):
         response = self.client.get(url_french)
         html_response = response.content.decode('utf-8')
         assert (
-            "page d'accueil du microsite" in html_response
+            "page d&#x27;accueil du microsite" in html_response
             and "Sous-titre de la page d'accueil du microsite" in html_response  # noqa: W503
         )
 
