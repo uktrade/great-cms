@@ -42,7 +42,7 @@ def update_booked_user_buttons(event, result):
         {
             'label': f'Cancel booking<span class="great-visually-hidden"> for {event.name}</span>',
             'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
-            'value': 'Cancelled1',
+            'value': 'Cancelled',
             'type': 'submit',
         },
     ]
