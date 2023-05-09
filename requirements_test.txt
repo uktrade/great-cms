@@ -650,6 +650,8 @@ stack-data==0.6.2
     # via ipython
 svglib==1.5.1
     # via xhtml2pdf
+tablib==3.4.0
+    # via -r requirements.in
 telepath==0.3
     # via wagtail
 termcolor==2.3.0

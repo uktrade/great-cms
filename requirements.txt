@@ -389,6 +389,8 @@ sqlparse==0.4.4
     # via django
 svglib==1.5.1
     # via xhtml2pdf
+tablib==3.4.0
+    # via -r requirements.in
 telepath==0.3
     # via wagtail
 tinycss2==1.2.1

@@ -74,3 +74,4 @@ celery[redis]==5.2.7
 django-celery-beat==2.2.1
 wagtail-localize==1.4
 icalendar
+tablib
