@@ -504,10 +504,10 @@ REST_FRAMEWORK = {'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRen
 WAGTAILIMAGES_IMAGE_MODEL = 'core.AltTextImage'
 
 WAGTAILMEDIA = {
-    "MEDIA_MODEL": "core.GreatMedia",  # string, dotted-notation. Defaults to "wagtailmedia.Media"
-    "MEDIA_FORM_BASE": "",  # string, dotted-notation. Defaults to an empty string
-    "AUDIO_EXTENSIONS": [],  # list of extensions
-    "VIDEO_EXTENSIONS": [],  # list of extensions
+    'MEDIA_MODEL': 'core.GreatMedia',  # string, dotted-notation. Defaults to "wagtailmedia.Media"
+    'MEDIA_FORM_BASE': '',  # string, dotted-notation. Defaults to an empty string
+    'AUDIO_EXTENSIONS': [],  # list of extensions
+    'VIDEO_EXTENSIONS': [],  # list of extensions
 }
 
 
