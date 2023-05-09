@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from international_online_offer import forms
-from international_online_offer.core import scorecard
+from international_online_offer.core import constants, scorecard
 from international_online_offer.models import (
     TriageData,
     UserData,
@@ -12,11 +12,6 @@ from international_online_offer.models import (
     get_user_data,
     get_user_data_from_db_or_session,
 )
-
-LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = 'Complete the contact form to keep up to date with our personalised service.'
-HIGH_VALUE_INVESTOR_CONTACT_FORM_MESSAGE = """Your business qualifies for 1 to 1 support from specialist UK government
- advisors. Complete the form to access this and keep up to date with our personalised service."""
-COMPLETED_CONTACT_FORM_MESSAGE = 'Thank you for completing the contact form.'
 
 
 def calculate_and_store_is_high_value(request):
@@ -289,30 +284,35 @@ class IOOSpend(FormView):
         return super().form_valid(form)
 
 
-class IOOContact(FormView):
-    form_class = forms.ContactForm
-    template_name = 'ioo/contact.html'
+class IOOProfile(FormView):
+    form_class = forms.ProfileForm
+    template_name = 'ioo/profile.html'
     success_url = '/international/expand-your-business-in-the-uk/guide/'
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
-            complete_contact_form_message=LOW_VALUE_INVESTOR_CONTACT_FORM_MESSAGE,
+            complete_contact_form_message=constants.LOW_VALUE_INVESTOR_SIGNUP_MESSAGE,
             back_url='/international/expand-your-business-in-the-uk/guide/',
         )
 
     def get_initial(self):
+        email = self.request.session.get('email')
+        agree_terms = self.request.session.get('agree_terms')
         if self.request.user.is_authenticated:
             user_data = get_user_data(self.request.user.hashed_uuid)
+            email = self.request.user.email
+            # agreed terms if signed up already
+            agree_terms = True
             if user_data:
                 return {
                     'company_name': user_data.company_name,
                     'company_location': user_data.company_location,
                     'full_name': user_data.full_name,
                     'role': user_data.role,
-                    'email': user_data.email,
+                    'email': email,
                     'telephone_number': user_data.telephone_number,
-                    'agree_terms': user_data.agree_terms,
+                    'agree_terms': agree_terms,
                     'agree_info_email': user_data.agree_info_email,
                     'agree_info_telephone': user_data.agree_info_telephone,
                 }
@@ -322,9 +322,9 @@ class IOOContact(FormView):
             'company_location': self.request.session.get('company_location'),
             'full_name': self.request.session.get('full_name'),
             'role': self.request.session.get('role'),
-            'email': self.request.session.get('email'),
+            'email': email,
             'telephone_number': self.request.session.get('telephone_number'),
-            'agree_terms': self.request.session.get('agree_terms'),
+            'agree_terms': agree_terms,
             'agree_info_email': self.request.session.get('agree_info_email'),
             'agree_info_telephone': self.request.session.get('agree_info_telephone'),
         }
@@ -362,7 +362,7 @@ class IOOLogin(FormView):
 class IOOSignUp(FormView):
     form_class = forms.SignUpForm
     template_name = 'ioo/signup.html'
-    success_url = reverse_lazy('international_online_offer:contact')
+    success_url = reverse_lazy('international_online_offer:profile')
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(

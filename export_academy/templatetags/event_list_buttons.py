@@ -1,6 +1,6 @@
 from django import template
 
-from export_academy.helpers import is_export_academy_registered
+from export_academy import helpers
 
 register = template.Library()
 
@@ -24,7 +24,7 @@ def event_list_badges(context, event):
 @register.simple_tag(takes_context=True)
 def is_logged_in(context):
     request = context['request']
-    if is_export_academy_registered(request.user):
+    if helpers.is_export_academy_registered(request.user):
         return True
 
     return False
@@ -42,7 +42,12 @@ def set_all_events(value):
 
 @register.filter
 def get_filters(list_of_filters, user):
-    if is_export_academy_registered(user):
+    if helpers.is_export_academy_registered(user):
         return list_of_filters
     else:
         return [field for field in list_of_filters if field.name != 'booking_period']
+
+
+@register.simple_tag
+def user_is_booked_on_event(user, event):
+    return helpers.user_booked_on_event(user, event)

@@ -36,9 +36,9 @@ urlpatterns = [
         name='spend',
     ),
     path(
-        'contact/',
-        views.IOOContact.as_view(),
-        name='contact',
+        'profile/',
+        views.IOOProfile.as_view(),
+        name='profile',
     ),
     path(
         'login/',

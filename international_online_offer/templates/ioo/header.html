@@ -1,6 +1,5 @@
 {% load static %}
 {% load ga360_data from directory_components %}
-
 <header data-ga-section="header">
     <div class="atlas-header__global">
         <div class="atlas-container atlas-container--wide">
@@ -11,8 +10,8 @@
     <div class="atlas-header__main">
         <div class="atlas-container atlas-container--wide atlas-header__main-inner">
             {% ga360_data "a" value="logo" %}
-                <a class="atlas-header__logo">
-                    <img src="{% static 'images/great.png' %}" width="217" height="81"
+                <a class="atlas-header__logo" href="{% url 'international_online_offer:index' %}">
+                    <img src="{% static 'images/great.png' %}"
                          alt="Great Britain and Northern Ireland"/>
                 </a>
             {% end_ga360_data %}
@@ -22,6 +21,16 @@
                 Menu
                 <span class="atlas-menu-button__icon"></span>
             </button>
+            {% endif %}
+
+            {% if not request.user.is_authenticated %}
+            <nav id="atlas-nav-flat" class="atlas-nav-flat" aria-label="Main menu">
+                <ul class="atlas-nav__list-flat">
+                    <li>
+                        <a class="atlas-nav__item" style="cursor: pointer;" href="{% url 'international_online_offer:login' %}">Sign in</a>
+                    </li>
+                </ul>
+            </nav>
             {% endif %}
 
             <nav id="atlas-nav" class="atlas-nav" aria-label="Main menu" aria-expanded="false">
@@ -39,17 +48,29 @@
                                 },
                                 body: JSON.stringify({})
                             }).then(function() {
-                                window.location = '/international/expand-your-business-in-the-uk/guide';
+                                window.location = '/international/expand-your-business-in-the-uk/login';
                             });
                             }
                         </script>
+                        {% if eyb_user.full_name %}
+                        <li class="atlas-nav__list-header">
+                            Hi {{eyb_user.full_name}}
+                        </li>
+                        {% endif %}
+                        <li>
+                            <a class="atlas-nav__item" href="/international/expand-your-business-in-the-uk/guide" style="cursor: pointer;">UK Expansion guide</a>
+                        </li>
+                        <li>
+                            <a class="atlas-nav__item" href="{% url 'international_online_offer:profile' %}" style="cursor: pointer;">Edit profile</a>
+                        </li>
+                        <li>
+                            <a class="atlas-nav__item" href="{% url 'international_online_offer:edit-your-answers' %}" style="cursor: pointer;">Edit answers</a>
+                        </li>
                         <li>
                             <a class="atlas-nav__item" style="cursor: pointer;" onclick="signOut()">Sign out</a>
                         </li>
                     {% else %}
-                        <li>
-                            <a class="atlas-nav__item" style="cursor: pointer;" href="{% url 'international_online_offer:login' %}">Sign in</a>
-                        </li>
+
                     {% endif %}
                 </ul>
             </nav>
