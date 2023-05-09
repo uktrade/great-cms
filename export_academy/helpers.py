@@ -134,23 +134,6 @@ def is_export_academy_registered(user):
     return Registration.objects.filter(pk=user.email).exists()
 
 
-def build_request_navigation_params(request):
-    params = request.GET
-
-    if is_export_academy_registered(request.user):
-        key = 'navigation'
-        default_navigation_choice = 'all'
-        navigation = params.get(key)
-
-        if navigation:
-            request.session[key] = navigation
-        else:
-            params = request.GET.copy()
-            params[key] = request.session.get(key, default_navigation_choice)
-
-    return params
-
-
 def check_registration(function):
     @wraps(function)
     def _wrapped_view_function(request, *args, **kwargs):

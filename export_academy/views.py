@@ -17,8 +17,12 @@ from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
-from export_academy import filters, forms, helpers, models
-from export_academy.helpers import calender_content, get_buttons_for_event, get_badges_for_event
+from export_academy import filters, forms, models
+from export_academy.helpers import (
+    calender_content,
+    get_badges_for_event,
+    get_buttons_for_event,
+)
 from export_academy.mixins import BookingMixin
 from export_academy.models import ExportAcademyHomePage
 
@@ -41,10 +45,6 @@ class EventListView(
     def get_badges_for_event(self, event):
         user = self.request.user
         return get_badges_for_event(user, event)
-
-    def get(self, request, *args, **kwargs):
-        request.GET = helpers.build_request_navigation_params(request)
-        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)

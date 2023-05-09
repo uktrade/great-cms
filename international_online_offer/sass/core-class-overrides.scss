@@ -14,17 +14,17 @@
     }
 
     h2 {
-        @extend %govuk-heading-m;
+        @extend %govuk-heading-l;
         color: $atlas-dark-blue;
     }
 
     h3 {
-        @extend %govuk-heading-s;
+        @extend %govuk-heading-m;
         color: $atlas-dark-blue;
     }
 
     h4 {
-        @extend %govuk-body-m;
+        @extend %govuk-heading-s;
         color: $atlas-dark-blue;
     }
 
