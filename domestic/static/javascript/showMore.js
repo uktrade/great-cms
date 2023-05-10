@@ -43,7 +43,7 @@ detailsElements.forEach((element) =>
 
 const trackedElements = document.querySelectorAll('.ukea-ga-tracking')
 trackedElements.forEach((element) =>
-    element.addEventListener('click', trackButtonClick, true)
+    element.addEventListener('click', trackButtonClick, false)
 );
 
 function trackButtonClick(element) {
