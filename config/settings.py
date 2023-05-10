@@ -213,6 +213,8 @@ if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
         ('ar', 'Arabic'),
         ('en-gb', 'English'),
         ('es', 'Spanish'),
+        ('fr', 'French'),
+        ('pt', 'Portuguese'),
     ]
 
     INSTALLED_APPS += [
