@@ -195,7 +195,7 @@ elasticsearch-dsl==7.4.1
     # via -r requirements.in
 et-xmlfile==1.1.0
     # via openpyxl
-factory-boy==3.2.1
+factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
@@ -246,7 +246,7 @@ markdown2==2.4.0
     #   readtime
 markupsafe==2.1.2
     # via jinja2
-maxminddb==2.2.0
+maxminddb==2.3.0
     # via geoip2
 mohawk==1.1.0
     # via sigauth
@@ -441,7 +441,7 @@ wagtail==4.2.2
     #   wagtailmedia
 wagtail-cache==2.2.0
     # via -r requirements.in
-wagtail-factories==4.0.0
+wagtail-factories==2.0.1
     # via -r requirements.in
 wagtail-localize==1.4
     # via -r requirements.in

@@ -259,7 +259,7 @@ exceptiongroup==1.1.1
     #   trio-websocket
 executing==1.2.0
     # via stack-data
-factory-boy==3.2.1
+factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
@@ -386,7 +386,7 @@ markupsafe==2.1.2
     #   werkzeug
 matplotlib-inline==0.1.6
     # via ipython
-maxminddb==2.2.0
+maxminddb==2.3.0
     # via geoip2
 mccabe==0.7.0
     # via
@@ -596,7 +596,7 @@ requests-oauthlib==1.3.1
     # via django-staff-sso-client
 roundrobin==0.0.4
     # via locust
-ruamel-yaml==0.17.24
+ruamel-yaml==0.17.26
     # via pre-commit-hooks
 ruamel-yaml-clib==0.2.7
     # via ruamel-yaml
@@ -735,7 +735,7 @@ wagtail==4.2.2
     #   wagtailmedia
 wagtail-cache==2.2.0
     # via -r requirements.in
-wagtail-factories==4.0.0
+wagtail-factories==2.0.1
     # via -r requirements.in
 wagtail-localize==1.4
     # via -r requirements.in
