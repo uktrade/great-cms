@@ -1047,6 +1047,8 @@ class TestMicrositeLocales(TestCase):
         self.en_locale = Locale.objects.get_or_create(language_code='en-gb')
         self.es_locale = Locale.objects.get_or_create(language_code='es')
         self.ar_locale = Locale.objects.get_or_create(language_code='ar')
+        self.fr_locale = Locale.objects.get_or_create(language_code='fr')
+        self.pt_locale = Locale.objects.get_or_create(language_code='pt')
 
     @pytest.fixture(autouse=True)
     def domestic_homepage_fixture(self, domestic_homepage):
@@ -1062,23 +1064,51 @@ class TestMicrositeLocales(TestCase):
             slug='microsite-page-home',
             parent=root,
         )
+        self.url = reverse_lazy('core:microsites', kwargs={'page_slug': '/microsite-page-home'})
 
-    def test_correct_translation_for_multiple_pages(self):
+    def test_correct_translation_english(self):
+        response = self.client.get(self.url)
+        html_response = response.content.decode('utf-8')
+        assert 'microsite home title en-gb' in html_response and 'a microsite subheading en-gb' in html_response
+
+    def test_correct_translation_for_spanish(self):
         site_es = self.en_microsite.copy_for_translation(self.es_locale[0], copy_parents=True, alias=True)
         site_es.page_title = 'página de inicio del micrositio'
         site_es.page_subheading = 'Subtítulo de la Página de Inicio del Micrositio'
         site_es.save()
 
-        url = reverse_lazy('core:microsites', kwargs={'page_slug': '/microsite-page-home'})
-        response = self.client.get(url)
-        html_response = response.content.decode('utf-8')
-        assert 'microsite home title en-gb' in html_response and 'a microsite subheading en-gb' in html_response
-
-        url_spanish = url + '?lang=es'
+        url_spanish = self.url + '?lang=es'
         response = self.client.get(url_spanish)
         html_response = response.content.decode('utf-8')
         assert (
             'página de inicio del micrositio' in html_response
+            and 'Subtítulo de la Página de Inicio del Micrositio' in html_response  # noqa: W503
+        )
+
+    def test_correct_translation_french(self):
+        site_fr = self.en_microsite.copy_for_translation(self.fr_locale[0], copy_parents=True, alias=True)
+        site_fr.page_title = 'page d&amp;#x27;accueil du microsite'
+        site_fr.page_subheading = 'Sous-titre de la page d&#x27;accueil du microsite'
+        site_fr.save()
+
+        url_french = self.url + '?lang=fr'
+        response = self.client.get(url_french)
+        html_response = response.content.decode('utf-8')
+        assert (
+            'page d&amp;#x27;accueil du microsite' in html_response
+            and 'Sous-titre de la page d&amp;#x27;accueil du microsite' in html_response  # noqa: W503
+        )
+
+    def test_correct_translation_portguese(self):
+        site_pt = self.en_microsite.copy_for_translation(self.pt_locale[0], copy_parents=True, alias=True)
+        site_pt.page_title = 'página inicial do microsite'
+        site_pt.page_subheading = 'Subtítulo de la Página de Inicio del Micrositio'
+        site_pt.save()
+        url_portugeuse = self.url + '?lang=pt'
+        response = self.client.get(url_portugeuse)
+        html_response = response.content.decode('utf-8')
+        assert (
+            'página inicial do microsite' in html_response
             and 'Subtítulo de la Página de Inicio del Micrositio' in html_response  # noqa: W503
         )
 
