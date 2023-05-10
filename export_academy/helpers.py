@@ -14,7 +14,7 @@ def get_register_button():
     return dict(register=True)
 
 
-def get_buttons_for_event(user, event):
+def get_buttons_for_event(user, event, on_confirmation=False):
     if not settings.FEATURE_EXPORT_ACADEMY_RELEASE_2:
         return get_register_button()
 
@@ -28,7 +28,7 @@ def get_buttons_for_event(user, event):
                 # buttons to be shown if the event has finished but not marked as complete
                 pass
             else:
-                update_booked_user_buttons(event, result)
+                update_booked_user_buttons(event, result, on_confirmation)
         else:
             if event.closed:
                 result['disable_text'] = 'Closed for booking'
@@ -37,7 +37,7 @@ def get_buttons_for_event(user, event):
     return result
 
 
-def update_booked_user_buttons(event, result):
+def update_booked_user_buttons(event, result, on_confirmation):
     result['form_event_booking_buttons'] += [
         {
             'label': f'Cancel booking<span class="great-visually-hidden"> for {event.name}</span>',
@@ -47,8 +47,9 @@ def update_booked_user_buttons(event, result):
         },
     ]
     if event.format == event.ONLINE:
-        result['event_action_buttons'] += get_event_join_button(event)
-        result['calendar_button'] = get_ics_button(event)
+        if not on_confirmation:
+            result['event_action_buttons'] += get_event_join_button(event)
+        result['calendar_button'] = get_ics_button(event, on_confirmation)
 
 
 def get_badges_for_event(user, event):
@@ -96,11 +97,13 @@ def get_event_join_button(event):
     ]
 
 
-def get_ics_button(event):
+def get_ics_button(event, on_confirmation):
     return {
         'label': f"""<i class="fa fa-plus" aria-hidden="true"></i>Add
                      <span class="great-visually-hidden">{event.name}</span> to calendar""",
-        'classname': 'govuk-button govuk-button--secondary',
+        'classname': 'govuk-button govuk-button--primary'
+        if on_confirmation
+        else 'govuk-button govuk-button--secondary',
         'value': 'Confirmed',
         'type': 'submit',
     }

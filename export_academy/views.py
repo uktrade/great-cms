@@ -24,7 +24,6 @@ from export_academy.helpers import (
     get_buttons_for_event,
 )
 from export_academy.mixins import BookingMixin
-from export_academy.models import ExportAcademyHomePage
 
 
 class EventListView(
@@ -48,13 +47,12 @@ class EventListView(
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx['landing_page'] = ExportAcademyHomePage.objects.first()
+        ctx['landing_page'] = models.ExportAcademyHomePage.objects.first()
         return ctx
 
 
 class BookingUpdateView(BookingMixin, UpdateView):
     booking_model = models.Booking
-    success_url = reverse_lazy('export_academy:booking-success')
     fields = ['status']
     notify_template = None
 
@@ -63,6 +61,9 @@ class BookingUpdateView(BookingMixin, UpdateView):
         booking_object = self.register_booking(post_data)
         self.send_email_confirmation(booking_object, post_data)
         return booking_object
+
+    def get_success_url(self):
+        return reverse_lazy('export_academy:booking-success', kwargs={"booking_id": self.object.id})
 
 
 class RegistrationFormView(BookingMixin, FormView):
@@ -96,8 +97,16 @@ class RegistrationFormView(BookingMixin, FormView):
         return super().form_valid(form)
 
 
-class SuccessPageView(TemplateView):
-    pass
+class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
+    def get_buttons_for_event(self, event):
+        user = self.request.user
+        return get_buttons_for_event(user, event, on_confirmation=True)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['landing_page'] = models.ExportAcademyHomePage.objects.first()
+        ctx['booking'] = models.Booking.objects.get(id=ctx['booking_id'])
+        return ctx
 
 
 class EventDetailsView(DetailView):

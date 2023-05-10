@@ -1,7 +1,11 @@
-{% extends 'core/base.html' %}
+{% extends 'domestic/base.html' %}
 
 {% load static %}
+{% load wagtailcore_tags %}
 {% load breadcrumbs from component_tags %}
+{% load event_list_buttons %}
+
+{% block head_title %}UK Export Academy{% endblock %}
 
 {% block head_css %}
 {{ block.super }}
@@ -12,19 +16,42 @@
 {% block css_layout_class %}uk-export-contact-form-success{% endblock %}
 
 {% block content %}
-
-<section id="thank-you-section" class="thank-you-section padding-bottom-45">
-    <div class="container">
-        <div class="grid-row">
-            <div class="column-two-thirds">
-                {% with "Booking confirmation page" as success_message  %}
-                  {% include 'components/message_box.html' with heading="Thank you" description=success_message %}
-                {% endwith %}
+    {% block hero %}
+        {% with content_snippet as hero %}
+            <div class="ea-listing-page">{% include 'components/hero.html' with image=hero.image hero_title=hero.title hero_text=hero.text hide_image_for_mobile=True %}</div>
+        {% endwith %}
+    {% endblock %}
+    {% breadcrumbs 'Events' %}
+        <a href="/">great.gov.uk</a>
+        <a href="{% pageurl landing_page %}">UK Export Academy</a>
+    {% endbreadcrumbs %}
+    <div class="great">
+        <section class="govuk-!-padding-top-3 background-white clearfix">
+            <div class="container">
+                <div class="govuk-grid-column-two-thirds">
+                    <div class="govuk-notification-banner govuk-notification-banner--success govuk-!-margin-top-7" role="alert"
+                        aria-labelledby="govuk-notification-banner-title"
+                        data-module="govuk-notification-banner">
+                        <div class="govuk-notification-banner__header">
+                            <h2 class="great-text-white">
+                                Booking confirmed
+                            </h2>
+                        </div>
+                        <div class="govuk-notification-banner__content">
+                            <p class="govuk-!-font-size-24">Event details:</p>
+                            <div class="informative-banner govuk-!-margin-bottom-4">
+                                <p class="govuk-heading-m">{{ booking.event.name }}</p><br>
+                                <p class="govuk-!-font-size-24">
+                                    On {{ booking.event.start_date|date:"D, j M" }} at {{ booking.event.start_date|date:"g:iA"|lower }}
+                                </p>
+                            </div>
+                            <span><p class="govuk-!-margin-right-7">We have emailed a booking confirmation to {{ booking.registration.email }}</p></span>
+                            {% event_list_buttons booking.event %}
+                        </div>
+                    </div>
+                    <a href="{% url 'export_academy:upcoming-events' %}" class="link block margin-top-30 margin-bottom-60">See all events</a>
+                </div>
             </div>
-        </div>
+        </section>
     </div>
-</section>
-<div class="container">
-    <a href="{% url 'export_academy:upcoming-events' %}" class="link block margin-top-30 margin-bottom-60">Continue to upcoming events</a>
-</div>
 {% endblock content %}
