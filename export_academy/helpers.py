@@ -56,7 +56,12 @@ def get_badges_for_event(user, event):
 
     if is_export_academy_registered(user):
         if user_booked_on_event(user, event):
-            result += [{'label': '<i class="fa fa-check" aria-hidden="true"></i>Booked', 'classname': 'great-badge'}]
+            result += [
+                {
+                    'label': '<i class="fa fa-check" aria-hidden="true"></i>Booked',
+                    'classname': 'great-badge govuk-!-margin-bottom-3',
+                }
+            ]
 
     return result
 

@@ -57,7 +57,9 @@ describe('CookiesModal', () => {
   describe.each([
     ['en', 'Tell us whether you accept cookies'],
     ['es', 'Dinos si aceptas cookies'],
-    ['ar', "أخبرنا ما إذا كنت توافق على ملفات تعريف الارتباط"]
+    ['ar', "أخبرنا ما إذا كنت توافق على ملفات تعريف الارتباط"],
+    ['fr', 'Dites-nous si vous acceptez les cookies'],
+    ['pt', 'Diga-nos se você aceita cookies']
   ])('displays translated header on cookie modal', (lang, expectedString)=>{
     test(`lang ${lang} displays ${expectedString}`, ()=>{
       CookiesManager.getPreferencesCookie.mockImplementation(() => null)
