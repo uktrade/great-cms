@@ -30,7 +30,7 @@ const handleToggle = (element) => {
   (window.dataLayer = window.dataLayer || []).push({
     event: 'lessontitle',
     eventTitle: eventTitle,
-    action: action
+    action: summaryText
 });
 
   return text.classList.toggle('details-text-open')
@@ -43,10 +43,10 @@ detailsElements.forEach((element) =>
 
 const trackedElements = document.querySelectorAll('.ukea-ga-tracking')
 trackedElements.forEach((element) =>
-    element.addEventListener('click', likeButtonClick, true)
+    element.addEventListener('click', trackButtonClick, true)
 );
 
-function likeButtonClick(element) {
+function trackButtonClick(element) {
   const eventInfo = element.target.innerText.split('\n',1);
   const eventTitle = findEventTitle(element.target);
   (window.dataLayer = window.dataLayer || []).push({
