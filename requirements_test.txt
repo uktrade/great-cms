@@ -74,6 +74,10 @@ botocore==1.27.96
     #   s3transfer
 brotli==1.0.9
     # via geventhttpclient
+browserstack-local==1.2.4
+    # via browserstack-sdk
+browserstack-sdk==1.7.4
+    # via -r requirements_test.in
 build==0.10.0
     # via pip-tools
 celery[redis]==5.2.7
@@ -257,6 +261,8 @@ exceptiongroup==1.1.1
     #   pytest
     #   trio
     #   trio-websocket
+execnet==1.9.0
+    # via pytest-xdist
 executing==1.2.0
     # via stack-data
 factory-boy==2.12.0
@@ -419,10 +425,12 @@ outcome==1.2.0
 packaging==23.1
     # via
     #   black
+    #   browserstack-sdk
     #   build
     #   pytest
     #   pytest-sugar
     #   sphinx
+    #   webdriver-manager
 parso==0.8.3
     # via jedi
 pathspec==0.11.1
@@ -463,7 +471,10 @@ prompt-toolkit==3.0.38
     #   click-repl
     #   ipython
 psutil==5.9.5
-    # via locust
+    # via
+    #   browserstack-local
+    #   browserstack-sdk
+    #   locust
 psycopg2==2.9.6
     # via -r requirements.in
 ptyprocess==0.7.0
@@ -517,6 +528,7 @@ pytest==7.3.1
     #   pytest-cov
     #   pytest-django
     #   pytest-sugar
+    #   pytest-xdist
 pytest-codecov==0.5.1
     # via -r requirements_test.in
 pytest-cov==4.0.0
@@ -526,6 +538,8 @@ pytest-cov==4.0.0
 pytest-django==4.5.2
     # via -r requirements_test.in
 pytest-sugar==0.9.7
+    # via -r requirements_test.in
+pytest-xdist==3.2.1
     # via -r requirements_test.in
 python-bidi==0.4.2
     # via xhtml2pdf
@@ -540,6 +554,8 @@ python-dateutil==2.8.2
     #   freezegun
     #   icalendar
     #   python-crontab
+python-dotenv==1.0.0
+    # via webdriver-manager
 python-magic==0.4.27
     # via -r requirements.in
 pytz==2021.3
@@ -557,6 +573,7 @@ pytz-deprecation-shim==0.1.0.post0
     # via tzlocal
 pyyaml==6.0
     # via
+    #   browserstack-sdk
     #   pre-commit
     #   pyhanko
 pyzmq==25.0.2
@@ -578,6 +595,7 @@ reportlab==3.6.13
 requests==2.30.0
     # via
     #   airtable-python-wrapper
+    #   browserstack-sdk
     #   directory-api-client
     #   directory-ch-client
     #   directory-client-core
@@ -588,12 +606,16 @@ requests==2.30.0
     #   pytest-codecov
     #   requests-mock
     #   requests-oauthlib
+    #   requests-toolbelt
     #   sphinx
     #   wagtail
+    #   webdriver-manager
 requests-mock==1.10.0
     # via -r requirements_test.in
 requests-oauthlib==1.3.1
     # via django-staff-sso-client
+requests-toolbelt==1.0.0
+    # via browserstack-sdk
 roundrobin==0.0.4
     # via locust
 ruamel-yaml==0.17.26
@@ -673,6 +695,8 @@ tomli==2.0.1
     #   pytest
 tomlkit==0.11.8
     # via pylint
+tqdm==4.65.0
+    # via webdriver-manager
 traitlets==5.9.0
     # via
     #   ipython
@@ -751,6 +775,8 @@ wagtailmedia==0.14.0
     # via -r requirements.in
 wcwidth==0.2.6
     # via prompt-toolkit
+webdriver-manager==3.8.6
+    # via -r requirements_test.in
 webencodings==0.5.1
     # via
     #   cssselect2

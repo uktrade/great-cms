@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-17 11:31+0100\n"
+"POT-Creation-Date: 2023-05-09 11:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr "Transcripción"
 msgid "English subtitles"
 msgstr "Subtítulos en inglés"
 
-#: models.py:1530
+#: models.py:1535
 msgid "Home"
 msgstr "Inicio"
 
@@ -93,31 +93,27 @@ msgstr "Para empresas internacionales"
 msgid "Skip to main content"
 msgstr "Ir al contenido principal"
 
-#: templates/microsites/blocks/columns.html:22
-msgid "Button Label"
-msgstr "Etiqueta de botón"
-
-#: templates/microsites/blocks/social_media.html:9
+#: templates/microsites/blocks/social_media.html:10
 msgid "Share this page"
 msgstr "Compartir esta página"
 
-#: templates/microsites/blocks/social_media.html:16
+#: templates/microsites/blocks/social_media.html:17
 msgid "Sharing will open the page in a new tab."
 msgstr "Compartir abrirá la página en una nueva pestaña"
 
-#: templates/microsites/blocks/social_media.html:30
+#: templates/microsites/blocks/social_media.html:31
 msgid "Twitter"
 msgstr "Twitter"
 
-#: templates/microsites/blocks/social_media.html:45
+#: templates/microsites/blocks/social_media.html:46
 msgid "Facebook"
 msgstr "Facebook"
 
-#: templates/microsites/blocks/social_media.html:60
+#: templates/microsites/blocks/social_media.html:61
 msgid "LinkedIn"
 msgstr "LinkedIn"
 
-#: templates/microsites/blocks/social_media.html:75
+#: templates/microsites/blocks/social_media.html:76
 msgid "Email"
 msgstr "Correo electrónico"
 
@@ -138,7 +134,7 @@ msgstr ""
 msgid "View video transcript"
 msgstr "Ver transcripción del video"
 
-#: templates/microsites/includes/microsite_detail_content.html:32
+#: templates/microsites/includes/microsite_detail_content.html:31
 msgid "Last updated:"
 msgstr "Última actualización:"
 
@@ -157,6 +153,9 @@ msgstr "Descargar CSV"
 #: validators.py:11
 msgid "Please enter a UK postcode"
 msgstr "Por favor, introduzca un código postal del Reino Unido"
+
+#~ msgid "Button Label"
+#~ msgstr "Etiqueta de botón"
 
 #~ msgid "export support for UK businesses"
 #~ msgstr "apoyo a la exportación para empresas del Reino Unido"

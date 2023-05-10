@@ -1,0 +1,154 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-09 11:39+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: context_processors.py:81
+msgid "great.gov.uk international"
+msgstr ""
+
+#: models.py:70
+msgid "Transcript"
+msgstr "Transcription"
+
+#: models.py:74
+msgid "English subtitles"
+msgstr "sous-titres anglais"
+
+#: models.py:1535
+msgid "Home"
+msgstr "Accueil "
+
+#: templates/components/card.html:13 templates/components/cta_card.html:6
+msgid "Opens in a new window"
+msgstr "Ouvre dans une nouvelle fenêtre"
+
+#: templates/components/cookie_notice.html:8
+msgid "Tell us whether you accept cookies"
+msgstr "Dites-nous si vous acceptez les cookies"
+
+#: templates/components/cookie_notice.html:10
+msgid "We use "
+msgstr "Nous utilisons"
+
+#: templates/components/cookie_notice.html:10
+msgid "cookies to collect information"
+msgstr "cookies pour collecter des informations"
+
+#: templates/components/cookie_notice.html:10
+msgid ""
+"about how you use great.gov.uk. We use this information to make the website "
+"work as well as possible and improve government services."
+msgstr ""
+"sur la façon dont vous utilisez great.gov.uk. Nous utilisons ces "
+"informations pour rendre le site Web travailler au mieux et améliorer les "
+"services gouvernementaux."
+
+#: templates/components/cookie_notice.html:14
+msgid "Accept all cookies"
+msgstr "Accepter tous les cookies"
+
+#: templates/components/cookie_notice.html:15
+msgid "Set cookie preferences"
+msgstr "Définir les préférences en matière de cookies"
+
+#: templates/components/cookie_notice.html:20
+msgid "You've accepted all cookies.  You can "
+msgstr "Vous avez accepté tous les cookies. Tu peux"
+
+#: templates/components/cookie_notice.html:20
+msgid "change your settings"
+msgstr "modifier vos paramètres"
+
+#: templates/components/cookie_notice.html:20
+msgid "at any time."
+msgstr "à tout moment"
+
+#: templates/components/header_footer/global_header.html:7
+msgid "For UK businesses"
+msgstr "Pour les entreprises britanniques"
+
+#: templates/components/header_footer/global_header.html:8
+msgid "For international businesses"
+msgstr "Pour les entreprises internationales"
+
+#: templates/microsites/base.html:173
+msgid "Skip to main content"
+msgstr "Passer au contenu principal"
+
+#: templates/microsites/blocks/social_media.html:10
+msgid "Share this page"
+msgstr "Partager cette page"
+
+#: templates/microsites/blocks/social_media.html:17
+msgid "Sharing will open the page in a new tab."
+msgstr "Le partage ouvrira la page dans un nouvel onglet"
+
+#: templates/microsites/blocks/social_media.html:31
+msgid "Twitter"
+msgstr "Twitter"
+
+#: templates/microsites/blocks/social_media.html:46
+msgid "Facebook"
+msgstr "Facebook"
+
+#: templates/microsites/blocks/social_media.html:61
+msgid "LinkedIn"
+msgstr "LinkedIn"
+
+#: templates/microsites/blocks/social_media.html:76
+msgid "Email"
+msgstr "E-mail"
+
+#: templates/microsites/blocks/video.html:13
+#, python-format
+msgid ""
+"\n"
+"                    <p>Your browser doesn't support HTML5 video. Here is a "
+"<a class=\"link\" href=\"%(video_url)s\">link to the video</a> instead.</p>\n"
+"                  "
+msgstr ""
+"\n"
+"                    <p>Votre navigateur ne prend pas en charge la vidéo "
+"HTML5. Voici une <a class=\"link\" href=\"%(video_url)s\">llien vers la "
+"vidéo</a> plutôt.</p>\n"
+"                  "
+
+#: templates/microsites/blocks/video.html:26
+msgid "View video transcript"
+msgstr "Voir la transcription de la vidéo"
+
+#: templates/microsites/includes/microsite_detail_content.html:31
+msgid "Last updated:"
+msgstr "Dernière mise à jour"
+
+#: templates/microsites/includes/microsite_menu_button.html:12
+msgid "Menu"
+msgstr "Menu"
+
+#: templates/microsites/includes/microsite_related_content_list.html:9
+msgid "Related content"
+msgstr "Contenu connexe"
+
+#: templates/modeladmin/index.html:16
+msgid "Download CSV"
+msgstr "Télécharger CSV"
+
+#: validators.py:11
+msgid "Please enter a UK postcode"
+msgstr "Veuillez saisir un code postal britannique"
