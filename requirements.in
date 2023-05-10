@@ -14,7 +14,6 @@ django-treebeard==4.7
 # Wagtail
 # ------------
 wagtail==4.2.2
-#wagtail-factories==4.0.0
 wagtail-factories==2.0.*
 wagtail-cache==2.2.0
 wagtailmedia==0.14.0
@@ -22,6 +21,7 @@ wagtailfontawesome==1.2.1
 wagtail-transfer==0.9.1
 wagtail-seo==2.3.0
 wagtail-trash==1.0.0
+
 
 # Prod tools
 # ------------
@@ -57,11 +57,9 @@ sphinx==1.8.*
 readtime==1.*
 cryptography>=38.0.3
 pillow>=7.1.0
-#factory-boy==3.2.*
 factory-boy==2.12.*
 dateparser==0.7.2
 xhtml2pdf==0.2.*
-#§pisa==3.0.*
 lxml>=4.6.3
 sigauth==4.3.0
 elastic-apm==6.1.*
