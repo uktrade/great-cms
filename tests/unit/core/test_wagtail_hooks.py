@@ -1140,7 +1140,7 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
         )
         self.assertEqual(len(columns['value']), 3)
         self.assertEqual(columns['value'][0]['type'], 'column')
-        self.assertEqual(columns['value'][0]['value']['description'], '<p data-block-key="8vbdd9">sddsds</p>')
+        self.assertEqual(columns['value'][0]['value']['text'], '<p data-block-key="8vbdd9">sddsds</p>')
         self.assertEqual(columns['value'][0]['value']['button_label'], None)
         self.assertEqual(columns['value'][0]['value']['button_url'], 'www.google.com')
 
@@ -1153,10 +1153,10 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
     def test_convert_cta(self):
         cta = convert_cta([block for block in self.article1.article_body if block.block_type == 'cta'][0])
         self.assertEqual(cta['type'], 'cta')
-        self.assertEqual(cta['title'], 'cta title')
-        self.assertEqual(cta['teaser'], 'cta teaser')
-        self.assertEqual(cta['link_label'], 'cta button')
-        self.assertEqual(cta['link'], 'www.google.com')
+        self.assertEqual(cta['value']['title'], 'cta title')
+        self.assertEqual(cta['value']['teaser'], 'cta teaser')
+        self.assertEqual(cta['value']['link_label'], 'cta button')
+        self.assertEqual(cta['value']['link'], 'www.google.com')
 
     def test_get_microsite_page_body(self):
         page_body = get_microsite_page_body(self.article1.article_body)

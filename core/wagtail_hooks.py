@@ -388,6 +388,7 @@ def convert_block_based_on_type(block):
         'pull_quote': convert_quote,
         'image': convert_image,
     }
+
     return block_type_conversion_dict[block.block_type](block)
 
 
@@ -420,7 +421,7 @@ def convert_column(block):
     return {
         'type': 'column',
         'value': {
-            'description': block.get('description').source,
+            'text': block.get('description').source,
             'image': block.get('image').id if block.get('image') else None,
             'button_url': block.get('link'),
             'button_label': None,
@@ -443,10 +444,12 @@ def convert_form(block):
 def convert_cta(block):
     return {
         'type': 'cta',
-        'title': block.value.get('title'),
-        'teaser': block.value.get('teaser'),
-        'link_label': block.value.get('link_label'),
-        'link': block.value.get('link'),
+        'value': {
+            'title': block.value.get('title'),
+            'teaser': block.value.get('teaser'),
+            'link_label': block.value.get('link_label'),
+            'link': block.value.get('link'),
+        },
     }
 
 
