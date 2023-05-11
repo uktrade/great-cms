@@ -20,7 +20,7 @@
             {% for item in menu_items %}
                 <li>
                     <a class="{% if active_url == item.url %}active {% endif %} "
-                       href="{{ item.url }}">{{ item.title }}</a>
+                       href="{{ item.url }}?lang={{request.LANGUAGE_CODE}}">{{ item.title }}</a>
                 </li>
             {% endfor %}
         </ul>

@@ -69,7 +69,7 @@ $menu-border: 5px solid $color-alternative-text;
       margin-left: auto;
     }
     @media only screen and (max-width: $mobile-size) {
-      display: block;
+        display: grid;
     }
     .magna-header__menu-items {
       padding: 0px;
