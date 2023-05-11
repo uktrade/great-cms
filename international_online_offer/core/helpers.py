@@ -1,3 +1,6 @@
+from directory_forms_api_client import actions
+from django.conf import settings
+
 from international_online_offer.core import filter_tags
 
 
@@ -61,3 +64,33 @@ def find_opportunities_articles(articles, sector_filter):
             filtered_pages.append(page.specific)
 
     return filtered_pages
+
+
+def send_verification_code_email(email, verification_code, form_url, verification_link, resend_verification_link):
+    action = actions.GovNotifyEmailAction(
+        template_id=settings.CONFIRM_VERIFICATION_CODE_TEMPLATE_ID,
+        email_address=email,
+        form_url=form_url,
+    )
+
+    response = action.save(
+        {
+            'code': verification_code['code'],
+            'verification_link': verification_link,
+            'resend_verification_link': resend_verification_link,
+        }
+    )
+
+    response.raise_for_status()
+    return response
+
+
+def send_welcome_notification(email, form_url):
+    action = actions.GovNotifyEmailAction(
+        template_id=settings.EYB_ENROLMENT_WELCOME_TEMPLATE_ID,
+        email_address=email,
+        form_url=form_url,
+    )
+    response = action.save({})
+    response.raise_for_status()
+    return response
