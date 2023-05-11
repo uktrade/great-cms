@@ -2,7 +2,7 @@ from datetime import timedelta
 from uuid import uuid4
 
 from django.http import HttpResponse
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.utils.text import get_valid_filename
 from django.views.generic import (
     DetailView,
@@ -69,7 +69,6 @@ class BookingUpdateView(BookingMixin, UpdateView):
 class RegistrationFormView(BookingMixin, FormView):
     template_name = 'export_academy/registration_form.html'
     form_class = forms.EARegistration
-    success_url = reverse_lazy('export_academy:registration-success')
     model = models.Registration
     booking_model = models.Booking
     notify_template = settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID
@@ -96,6 +95,10 @@ class RegistrationFormView(BookingMixin, FormView):
         self.confirm_booking(booking_id)
         return super().form_valid(form)
 
+    def get_success_url(self):
+        booking_id = self.kwargs.get('booking_id')
+        return reverse_lazy('export_academy:registration-success', kwargs={"booking_id": booking_id})
+
 
 class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
     def get_buttons_for_event(self, event):
@@ -105,7 +108,12 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['landing_page'] = models.ExportAcademyHomePage.objects.first()
-        ctx['booking'] = models.Booking.objects.get(id=ctx['booking_id'])
+        booking = models.Booking.objects.get(id=ctx['booking_id'])
+        ctx['booking'] = booking
+        ctx['event'] = booking.event
+        ctx['just_registered'] = self.request.path == reverse(
+            'export_academy:registration-success', kwargs={"booking_id": booking.id}
+        )
         return ctx
 
 

@@ -34,21 +34,34 @@
                         data-module="govuk-notification-banner">
                         <div class="govuk-notification-banner__header">
                             <h2 class="great-text-white">
-                                Booking confirmed
+                                {% if booking.status == 'Confirmed' %}Booking{% elif just_registered %}Registration{% else %}Cancellation{% endif %} confirmed
                             </h2>
                         </div>
                         <div class="govuk-notification-banner__content">
                             <p class="govuk-!-font-size-24">Event details:</p>
                             <div class="informative-banner govuk-!-margin-bottom-4">
-                                <p class="govuk-heading-m">{{ booking.event.name }}</p><br>
+                                <p class="govuk-heading-m">{{ event.name }}</p><br>
                                 <p class="govuk-!-font-size-24">
-                                    On {{ booking.event.start_date|date:"D, j M" }} at {{ booking.event.start_date|date:"g:iA"|lower }}
+                                    On {{ event.start_date|date:"D, j M" }} at {{ event.start_date|date:"g:iA"|lower }}
                                 </p>
                             </div>
-                            <span><p class="govuk-!-margin-right-7">We have emailed a booking confirmation to {{ booking.registration.email }}</p></span>
-                            {% event_list_buttons booking.event %}
+                            <span>
+                                <p class="govuk-!-margin-right-7">
+                                    We've emailed a {% if booking.status == 'Cancelled' %}cancellation{% else %}booking{% endif %} confirmation to {{ booking.registration.email }}
+                                </p>
+                            </span>
+                            {% if booking.status == 'Confirmed' %}
+                                {% event_list_buttons event %}
+                            {% endif %}
                         </div>
                     </div>
+                    {% if just_registered %}
+                        <h4 class="govuk-!-margin-bottom-3">What happens next</h4>
+                        <p>
+                            You are now able to book a place on any of our Export Academy events,
+                            watch recordings of past events you’ve booked and cancel any events you can no longer attend.
+                        </p>
+                    {% endif %}
                     <a href="{% url 'export_academy:upcoming-events' %}" class="link block margin-top-30 margin-bottom-60">See all events</a>
                 </div>
             </div>
