@@ -282,6 +282,7 @@ def test_set_lesson_completed(
     en_locale,
 ):
     lesson = DetailPageFactory()
+
     client.force_login(user)
     mock_set_user_lesson_completed.return_value = create_response()
     data = {'lesson': lesson.pk, 'sso_session_id': user.session_id}

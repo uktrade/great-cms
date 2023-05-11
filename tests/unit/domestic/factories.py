@@ -18,17 +18,6 @@ from domestic.models import (
 )
 
 
-class RouteSectionFactory(wagtail_factories.StructBlockFactory):
-    title = 'Title'
-    route_type = 'learn'
-    body = factory.fuzzy.FuzzyText(length=60)
-    image = None
-    button = None
-
-    class Meta:
-        model = core_blocks.RouteSectionBlock
-
-
 class DomesticHomePageFactory(wagtail_factories.PageFactory):
     # This is the MVP Magna homepage for private beta
     title = 'homepage'
@@ -38,6 +27,17 @@ class DomesticHomePageFactory(wagtail_factories.PageFactory):
 
     class Meta:
         model = DomesticHomePage
+
+
+class RouteSectionFactory(wagtail_factories.StructBlockFactory):
+    title = 'Title'
+    route_type = 'learn'
+    body = factory.fuzzy.FuzzyText(length=60)
+    image = None
+    button = None
+
+    class Meta:
+        model = core_blocks.RouteSectionBlock
 
 
 class GreatDomesticHomePageFactory(wagtail_factories.PageFactory):

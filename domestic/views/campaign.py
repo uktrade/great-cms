@@ -3,7 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils.translation import get_language
-from wagtail.core.models import Locale
+from wagtail.models import Locale
 
 from config.settings import FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE
 from contact.views import BaseNotifyUserFormView

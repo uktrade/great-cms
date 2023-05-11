@@ -17,8 +17,8 @@ from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.html import format_html
 from great_components.helpers import add_next
-from wagtail.core import hooks
-from wagtail.core.models import Page
+from wagtail import hooks
+from wagtail.models import Page
 from wagtail_transfer.field_adapters import FieldAdapter
 from wagtail_transfer.files import File as WTFile, FileTransferError
 from wagtail_transfer.models import ImportedFile
@@ -79,9 +79,13 @@ def _update_data_for_appropriate_version(page: Page, force_page_update: bool, da
     (eg, because the Live page has just been created so has no
     unpublished changes, but we still want to update it with data_to_update)
     """
-
     latest_revision = page.get_latest_revision()
-    latest_revision_json = json.loads(latest_revision.content_json)
+
+    if isinstance(latest_revision.content, str):
+        json_object = json.loads(latest_revision.content)
+        latest_revision.content = json_object
+
+    latest_revision_json = latest_revision.content
 
     for key, value in data_to_update.items():
         # We need to watch out for the timedelta, because it serialises to
@@ -90,7 +94,7 @@ def _update_data_for_appropriate_version(page: Page, force_page_update: bool, da
             value = str(value)
         latest_revision_json[key] = value
 
-    latest_revision.content_json = json.dumps(latest_revision_json, cls=DjangoJSONEncoder)
+    latest_revision.content = json.dumps(latest_revision_json, cls=DjangoJSONEncoder)
     latest_revision.save()
 
     if force_page_update or (not page.has_unpublished_changes):
@@ -121,7 +125,9 @@ def _set_read_time(request, page, is_post_creation=False):
         # Get the readtime of the main content section of the page (excluding header/footer)
         reading_seconds = readtime.of_html(str(soup.find('main'))).seconds
         video_nodes = soup.find_all('video', attrs={constants.VIDEO_DURATION_DATA_ATTR_NAME: True})
-        watching_seconds = sum([int(node.get(constants.VIDEO_DURATION_DATA_ATTR_NAME, 0)) for node in video_nodes])
+        watching_seconds = sum(
+            [int(node.get(constants.VIDEO_DURATION_DATA_ATTR_NAME, 0).replace('.0', '')) for node in video_nodes]
+        )
         seconds = reading_seconds + watching_seconds
 
         _update_data_for_appropriate_version(

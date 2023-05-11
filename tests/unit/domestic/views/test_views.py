@@ -5,7 +5,7 @@ import pytest
 from django.conf import settings
 from django.test import Client, TestCase
 from django.urls import reverse, reverse_lazy
-from wagtail.tests.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTests
 
 import domestic.forms
 import domestic.views.campaign

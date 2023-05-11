@@ -1,7 +1,7 @@
 from django.db import models
 from django.forms import Select
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
-from wagtail.core.fields import RichTextField
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.fields import RichTextField
 from wagtail.snippets.models import register_snippet
 
 from core import snippet_slugs

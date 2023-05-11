@@ -29,14 +29,24 @@ def test_event_admin_button_helper(rf, django_user_model):
     }
 
     assert helper.get_buttons_for_obj(obj) == [
-        {'url': '/admin/mock-url/path/', 'label': 'Inspect', 'classname': 'button', 'title': 'Inspect this event'},
+        {
+            'url': '/admin/mock-url/path/',
+            'label': 'Inspect',
+            'classname': 'button button-secondary',
+            'title': 'Inspect this event',
+        },
         {
             'url': '/admin/mock-url/path/',
             'label': 'Clone',
             'classname': 'button button-small button-secondary',
             'title': 'Clone a new event',
         },
-        {'url': '/admin/mock-url/path/', 'label': 'Edit', 'classname': 'button', 'title': 'Edit this event'},
+        {
+            'url': '/admin/mock-url/path/',
+            'label': 'Edit',
+            'classname': 'button button-secondary',
+            'title': 'Edit this event',
+        },
         {'url': '/admin/mock-url/path/', 'label': 'Delete', 'classname': 'button no', 'title': 'Delete this event'},
     ]
 

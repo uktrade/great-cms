@@ -2,8 +2,8 @@
 
 import django.db.models.deletion
 import great_components.mixins
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 import wagtail.images.blocks
 from django.db import migrations, models
 
@@ -12,7 +12,6 @@ import domestic.cms_panels
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('wagtailcore', '0059_apply_collection_ordering'),
         ('core', '0065_delete_wagtail_personalisation_migration_references'),
@@ -35,22 +34,22 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ('breadcrumbs_label', models.CharField(max_length=50)),
-                ('hero_text', wagtail.core.fields.RichTextField()),
-                ('contact_proposition', wagtail.core.fields.RichTextField()),
+                ('hero_text', wagtail.fields.RichTextField()),
+                ('contact_proposition', wagtail.fields.RichTextField()),
                 ('contact_button', models.CharField(max_length=500)),
                 ('advantages_title', models.CharField(max_length=500)),
                 (
                     'advantages',
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 'advantage',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
                                         ('icon', wagtail.images.blocks.ImageChooserBlock()),
                                         (
                                             'content',
-                                            wagtail.core.blocks.RichTextBlock(
+                                            wagtail.blocks.RichTextBlock(
                                                 features=[
                                                     'h2',
                                                     'h3',
@@ -68,10 +67,11 @@ class Migration(migrations.Migration):
                                     ]
                                 ),
                             )
-                        ]
+                        ],
+                        use_json_field=True,
                     ),
                 ),
-                ('evidence', wagtail.core.fields.RichTextField()),
+                ('evidence', wagtail.fields.RichTextField()),
                 (
                     'evidence_video',
                     models.ForeignKey(

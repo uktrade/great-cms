@@ -1,0 +1,57 @@
+# NOTE: testing more than one platform at once resulted in an error
+platforms:
+  # - os: Windows
+  #   osVersion: 11
+  #   browserName: Chrome
+  #   browserVersion: latest
+  # - os: Windows
+  #   osVersion: 10
+  #   browserName: Chrome
+  #   browserVersion: latest
+  # - os: Windows
+  #   osVersion: 11
+  #   browserName: Edge
+  #   browserVersion: latest
+  # - os: Windows
+  #   osVersion: 11
+  #   browserName: Firefox
+  #   browserVersion: latest
+  # - os: OS X
+  #   osVersion: Ventura
+  #   browserName: Chrome
+  #   browserVersion: latest
+  # - os: OS X
+  #   osVersion: Ventura
+  #   browserName: Safari
+  #   browserVersion: latest
+  # - os: OS X
+  #   osVersion: Ventura
+  #   browserName: Firefox
+  #   browserVersion: latest
+  # - deviceName: iPhone 14 Pro Max
+  #   osVersion: 16
+  #   browserName: safari
+  #   deviceOrientation: portrait
+  - deviceName: iPhone 14 Pro Max
+    osVersion: 16
+    browserName: chrome
+    deviceOrientation: portrait
+  # - deviceName: Google Pixel 7
+  #   osVersion: 13.0
+  #   browserName: chrome
+  #   deviceOrientation: portrait
+  # - deviceName: Samsung Galaxy S23 Ultra
+  #   osVersion: 13.0
+  #   browserName: samsung
+  #   deviceOrientation: portrait
+parallelsPerPlatform: 3
+browserstackLocal: true
+browserStackLocalOptions:
+  forceLocal: true
+buildName: great-cms-ios-16-chrome
+buildIdentifier: ${DATE_TIME}
+projectName: great-cms
+debug: false
+networkLogs: false
+consoleLogs: verbose
+framework: pytest

@@ -1,6 +1,6 @@
 import pytest
-from wagtail.core import blocks
-from wagtail.core.fields import StreamField
+from wagtail import blocks
+from wagtail.fields import StreamField
 
 from core import fields
 
