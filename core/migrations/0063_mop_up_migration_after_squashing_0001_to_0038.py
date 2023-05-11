@@ -8,13 +8,12 @@ reflected in the real model code. (This implies some editing of migrations
 might have taken place in the past.) They don't look like problematic changes.
 """
 
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('core', '0062_add_case_study_context_field_default_text'),
     ]
@@ -23,14 +22,15 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='detailpage',
             name='objective',
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
-                    ('paragraph', wagtail.core.blocks.RichTextBlock(options={'class': 'objectives'})),
+                    ('paragraph', wagtail.blocks.RichTextBlock(options={'class': 'objectives'})),
                     (
                         'ListItem',
-                        wagtail.core.blocks.StructBlock([('item', wagtail.core.blocks.CharBlock(max_length=255))]),
+                        wagtail.blocks.StructBlock([('item', wagtail.blocks.CharBlock(max_length=255))]),
                     ),
-                ]
+                ],
+                use_json_field=True,
             ),
         ),
         migrations.AlterField(
@@ -46,6 +46,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='listpage',
             name='description',
-            field=wagtail.core.fields.RichTextField(),
+            field=wagtail.fields.RichTextField(),
         ),
     ]

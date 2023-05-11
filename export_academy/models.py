@@ -8,7 +8,7 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from taggit.models import ItemBase, TagBase
-from wagtail.core.fields import RichTextField, StreamField
+from wagtail.fields import RichTextField, StreamField
 
 from config import settings
 from core.blocks import ButtonBlock, SingleRichTextBlock, TopicPageCardBlockRichText
@@ -174,7 +174,7 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
         null=True,
         blank=True,
     )
-    hero_cta = StreamField([('button', ButtonBlock(icon='cog'))], null=True, blank=True)
+    hero_cta = StreamField([('button', ButtonBlock(icon='cog'))], use_json_field=True, null=True, blank=True)
 
     banner_label = models.CharField(
         null=True,
@@ -222,4 +222,4 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
         blank=True,
     )
 
-    next_cta = StreamField([('button', ButtonBlock())], null=True, blank=True)
+    next_cta = StreamField([('button', ButtonBlock())], use_json_field=True, null=True, blank=True)

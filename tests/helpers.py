@@ -6,7 +6,7 @@ from django.conf import settings
 from django.core.files import File
 from django.core.files.base import ContentFile
 from django.urls import clear_url_caches
-from wagtail.core.models import Collection, Locale
+from wagtail.models import Collection, Locale
 from wagtailmedia import models as wagtailmedia_models
 
 

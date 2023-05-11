@@ -3,8 +3,8 @@ from io import BytesIO
 import PIL.Image
 from django.core.files.images import ImageFile
 from django.test import TestCase
-from wagtail.core.models import Collection
-from wagtail.tests.utils.wagtail_tests import WagtailTestUtils
+from wagtail.models import Collection
+from wagtail.test.utils.wagtail_tests import WagtailTestUtils
 
 from core import models
 from core.admin import ImageAdmin

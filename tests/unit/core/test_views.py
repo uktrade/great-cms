@@ -12,7 +12,7 @@ from django.urls import reverse, reverse_lazy
 from formtools.wizard.views import normalize_name
 from pytest_django.asserts import assertTemplateUsed
 from rest_framework import status
-from wagtail.core.models import Locale
+from wagtail.models import Locale
 
 from core import cms_slugs, forms, helpers, serializers, views
 from directory_api_client import api_client

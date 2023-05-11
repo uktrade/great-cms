@@ -1,13 +1,11 @@
 from django.forms import CheckboxSelectMultiple, Select
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     FieldRowPanel,
     HelpPanel,
     MultiFieldPanel,
     PageChooserPanel,
-    StreamFieldPanel,
 )
-from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtailmedia.widgets import AdminMediaChooser
 
 ACCORDION_FIELDS_HELP_TEXT = (
@@ -23,10 +21,10 @@ class GreatDomesticHomePagePanels:
             heading='Hero',
             classname='collapsible',
             children=[
-                ImageChooserPanel('hero_image'),
-                ImageChooserPanel('hero_mobile_image'),
-                ImageChooserPanel('hero_ipad_image'),
-                ImageChooserPanel('hero_smalldesktop_image'),
+                FieldPanel('hero_image'),
+                FieldPanel('hero_mobile_image'),
+                FieldPanel('hero_ipad_image'),
+                FieldPanel('hero_smalldesktop_image'),
                 FieldPanel('hero_text'),
                 FieldPanel('hero_subtitle'),
                 FieldPanel('hero_cta_text'),
@@ -41,24 +39,24 @@ class GreatDomesticHomePagePanels:
         MultiFieldPanel(
             heading='Optional Slice',
             classname='collapsible',
-            children=[FieldPanel('slice_title'), StreamFieldPanel('slice_columns')],
+            children=[FieldPanel('slice_title'), FieldPanel('slice_columns')],
         ),
         MultiFieldPanel(
             heading='Top-of-page CTAs',
             classname='collapsible',
-            children=[FieldPanel('magna_ctas_title'), StreamFieldPanel('magna_ctas_columns')],
+            children=[FieldPanel('magna_ctas_title'), FieldPanel('magna_ctas_columns')],
         ),
         MultiFieldPanel(
             heading='How DBT helps',
             classname='collapsible',
-            children=[FieldPanel('how_dit_helps_title'), StreamFieldPanel('how_dit_helps_columns')],
+            children=[FieldPanel('how_dit_helps_title'), FieldPanel('how_dit_helps_columns')],
         ),
         MultiFieldPanel(
             heading='Export goods from the UK',
             classname='collapsible',
             children=[
                 FieldPanel('madb_title'),
-                ImageChooserPanel('madb_image'),
+                FieldPanel('madb_image'),
                 FieldPanel('madb_content'),
                 FieldPanel('madb_cta_text'),
                 FieldPanel('madb_cta_url'),
@@ -68,9 +66,9 @@ class GreatDomesticHomePagePanels:
             heading="What's new",
             classname='collapsible',
             children=[
-                StreamFieldPanel('campaign'),
+                FieldPanel('campaign'),
                 FieldPanel('what_is_new_title'),
-                StreamFieldPanel('what_is_new_pages'),
+                FieldPanel('what_is_new_pages'),
             ],
         ),
     ]
@@ -96,7 +94,7 @@ class ArticleListingPagePanels:
                 'If in doubt, make them both the same.'
             ),
         ),
-        MultiFieldPanel(heading='Hero', children=[ImageChooserPanel('hero_image'), FieldPanel('hero_teaser')]),
+        MultiFieldPanel(heading='Hero', children=[FieldPanel('hero_image'), FieldPanel('hero_teaser')]),
         FieldPanel('list_teaser'),
     ]
 
@@ -118,13 +116,13 @@ class ArticlePagePanels:
         MultiFieldPanel(
             heading='Media',
             children=[
-                ImageChooserPanel('article_image'),
+                FieldPanel('article_image'),
                 FieldPanel('article_video', widget=AdminMediaChooser),
                 FieldPanel('article_video_transcript'),
             ],
             help_text='If both video and image are specified, only the video will be shown',
         ),
-        StreamFieldPanel('article_body'),
+        FieldPanel('article_body'),
         MultiFieldPanel(
             heading='CTA fields',
             children=[
@@ -192,7 +190,7 @@ class CountryGuidePagePanels:
             children=[
                 FieldPanel('heading'),
                 FieldPanel('sub_heading'),
-                ImageChooserPanel('hero_image'),
+                FieldPanel('hero_image'),
                 FieldPanel('heading_teaser'),
                 FieldRowPanel(
                     [
@@ -233,7 +231,7 @@ class CountryGuidePagePanels:
                         FieldPanel('section_one_body'),
                         MultiFieldPanel(
                             [
-                                ImageChooserPanel('section_one_image'),
+                                FieldPanel('section_one_image'),
                                 FieldPanel('section_one_image_caption'),
                                 FieldPanel('section_one_image_caption_company'),
                             ]
@@ -244,7 +242,7 @@ class CountryGuidePagePanels:
         ),
         MultiFieldPanel(
             heading='Statistics',
-            children=[StreamFieldPanel('main_statistics')],
+            children=[FieldPanel('main_statistics')],
             classname='collapsible collapsed',
         ),
         MultiFieldPanel(
@@ -261,7 +259,7 @@ class CountryGuidePagePanels:
                     content=ACCORDION_FIELDS_HELP_TEXT,
                     classname='help-panel-font-large',
                 ),
-                StreamFieldPanel('accordions'),
+                FieldPanel('accordions'),
             ],
             classname='collapsible collapsed',
         ),
@@ -333,7 +331,7 @@ class TopicLandingPagePanels:
         MultiFieldPanel(
             heading='Hero',
             children=[
-                ImageChooserPanel('hero_image'),
+                FieldPanel('hero_image'),
                 FieldPanel('hero_teaser'),
             ],
         ),
@@ -359,7 +357,7 @@ class ManuallyConfigurableTopicLandingPagePanels(TopicLandingPagePanels):
         MultiFieldPanel(
             heading='Hero',
             children=[
-                ImageChooserPanel('hero_image'),
+                FieldPanel('hero_image'),
                 FieldPanel('hero_teaser'),
             ],
         ),
@@ -375,7 +373,7 @@ class ManuallyConfigurableTopicLandingPagePanels(TopicLandingPagePanels):
                 'to PANELS, below:'
             ),
         ),
-        StreamFieldPanel(
+        FieldPanel(
             'panels',
         ),
     ]
@@ -387,7 +385,7 @@ class ManuallyConfigurableTopicLandingPagePanels(TopicLandingPagePanels):
 
 class GuidancePagePanels:
     content_panels = [
-        StreamFieldPanel('body'),
+        FieldPanel('body'),
     ]
     settings_panels = [
         MultiFieldPanel(
@@ -412,7 +410,7 @@ class PerformanceDashboardPagePanels:
                 FieldPanel('product_link'),
             ],
         ),
-        StreamFieldPanel(
+        FieldPanel(
             'body',
             heading='Data columns',
         ),
@@ -427,9 +425,9 @@ class TradeFinancePagePanels:
         MultiFieldPanel(
             heading='Banner',
             children=[
-                ImageChooserPanel('hero_image'),
+                FieldPanel('hero_image'),
                 FieldPanel('hero_text'),
-                ImageChooserPanel('ukef_logo'),
+                FieldPanel('ukef_logo'),
             ],
         ),
         MultiFieldPanel(
@@ -447,7 +445,7 @@ class TradeFinancePagePanels:
             heading='Advantages',
             children=[
                 FieldPanel('advantages_title'),
-                StreamFieldPanel('advantages'),
+                FieldPanel('advantages'),
             ],
         ),
         MultiFieldPanel(

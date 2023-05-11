@@ -2,8 +2,8 @@
 
 import django.db.models.deletion
 import great_components.mixins
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 import wagtail.images.blocks
 from django.db import migrations, models
 
@@ -12,7 +12,6 @@ import domestic.cms_panels
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('wagtailcore', '0059_apply_collection_ordering'),
         ('core', '0065_delete_wagtail_personalisation_migration_references'),
@@ -35,24 +34,25 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ('hero_teaser', models.CharField(blank=True, max_length=255, null=True)),
-                ('banner_text', wagtail.core.fields.RichTextField(blank=True)),
+                ('banner_text', wagtail.fields.RichTextField(blank=True)),
                 ('teaser', models.TextField(blank=True)),
                 (
                     'panels',
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 'panel',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
-                                        ('link_text', wagtail.core.blocks.CharBlock()),
-                                        ('link_url', wagtail.core.blocks.CharBlock()),
+                                        ('link_text', wagtail.blocks.CharBlock()),
+                                        ('link_url', wagtail.blocks.CharBlock()),
                                         ('image', wagtail.images.blocks.ImageChooserBlock(required=False)),
-                                        ('description', wagtail.core.blocks.TextBlock()),
+                                        ('description', wagtail.blocks.TextBlock()),
                                     ]
                                 ),
                             )
                         ],
+                        use_json_field=True,
                         blank=True,
                         null=True,
                     ),

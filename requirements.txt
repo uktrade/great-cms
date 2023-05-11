@@ -29,7 +29,7 @@ attrs==23.1.0
     # via jsonschema
 babel==2.12.1
     # via sphinx
-beautifulsoup4==4.9.3
+beautifulsoup4==4.11.2
     # via
     #   directory-components
     #   great-components
@@ -102,7 +102,7 @@ directory-constants==22.0.2
     #   great-components
 directory-forms-api-client==7.1.1
     # via -r requirements.in
-directory-healthcheck==3.0.0
+directory-healthcheck==3.0.4
     # via -r requirements.in
 directory-sso-api-client==7.1.2
     # via -r requirements.in
@@ -124,6 +124,8 @@ django==3.2.18
     #   django-filter
     #   django-formtools
     #   django-health-check
+    #   django-modelcluster
+    #   django-permissionedforms
     #   django-recaptcha
     #   django-redis
     #   django-staff-sso-client
@@ -137,6 +139,7 @@ django==3.2.18
     #   wagtail
     #   wagtail-localize
     #   wagtailfontawesome
+    #   wagtailmedia
 django-celery-beat==2.2.1
     # via -r requirements.in
 django-decorator-include==3.0
@@ -145,7 +148,7 @@ django-environ==0.4.5
     # via -r requirements.in
 django-extensions==3.1.5
     # via -r requirements.in
-django-filter==21.1
+django-filter==22.1
     # via wagtail
 django-formtools==2.3
     # via -r requirements.in
@@ -153,7 +156,9 @@ django-health-check==3.16.5
     # via directory-healthcheck
 django-ipware==2.1.0
     # via -r requirements.in
-django-modelcluster==5.3
+django-modelcluster==6.0
+    # via wagtail
+django-permissionedforms==0.1
     # via wagtail
 django-recaptcha==3.0.0
     # via -r requirements.in
@@ -161,17 +166,17 @@ django-redis==5.2.0
     # via -r requirements.in
 django-staff-sso-client==4.0.1
     # via -r requirements.in
-django-storages[boto3]==1.8
+django-storages[boto3]==1.13.2
     # via -r requirements.in
-django-taggit==1.5.1
+django-taggit==3.1.0
     # via wagtail
 django-timezone-field==4.2.3
     # via django-celery-beat
-django-treebeard==4.4
+django-treebeard==4.7
     # via
     #   -r requirements.in
     #   wagtail
-djangorestframework==3.11.2
+djangorestframework==3.14.0
     # via
     #   -r requirements.in
     #   sigauth
@@ -241,7 +246,7 @@ markdown2==2.4.0
     #   readtime
 markupsafe==2.1.2
     # via jinja2
-maxminddb==2.2.0
+maxminddb==2.3.0
     # via geoip2
 mohawk==1.1.0
     # via sigauth
@@ -256,7 +261,7 @@ oauthlib==3.2.2
 olefile==0.46
     # via directory-validators
 openpyxl==3.1.2
-    # via tablib
+    # via wagtail
 oscrypto==1.3.0
     # via pyhanko-certvalidator
 packaging==23.1
@@ -314,6 +319,7 @@ pytz==2021.3
     #   django
     #   django-modelcluster
     #   django-timezone-field
+    #   djangorestframework
     #   icalendar
     #   l18n
 pytz-deprecation-shim==0.1.0.post0
@@ -383,8 +389,8 @@ sqlparse==0.4.4
     # via django
 svglib==1.5.1
     # via xhtml2pdf
-tablib[xls,xlsx]==3.4.0
-    # via wagtail
+tablib==3.4.0
+    # via -r requirements.in
 telepath==0.3
     # via wagtail
 tinycss2==1.2.1
@@ -422,31 +428,32 @@ vine==5.0.0
     #   kombu
 w3lib==1.22.0
     # via directory-client-core
-wagtail==2.15.6
+wagtail==4.2.2
     # via
     #   -r requirements.in
     #   wagtail-cache
     #   wagtail-factories
     #   wagtail-localize
     #   wagtail-seo
+    #   wagtail-transfer
     #   wagtail-trash
     #   wagtailfontawesome
     #   wagtailmedia
-wagtail-cache==1.0.2
+wagtail-cache==2.2.0
     # via -r requirements.in
 wagtail-factories==2.0.1
     # via -r requirements.in
 wagtail-localize==1.4
     # via -r requirements.in
-wagtail-seo==1.0.0
+wagtail-seo==2.3.0
     # via -r requirements.in
-wagtail-transfer==0.7.1
+wagtail-transfer==0.9.1
     # via -r requirements.in
-wagtail-trash==0.1.1
+wagtail-trash==1.0.0
     # via -r requirements.in
 wagtailfontawesome==1.2.1
     # via -r requirements.in
-wagtailmedia==0.5.0
+wagtailmedia==0.14.0
     # via -r requirements.in
 wcwidth==0.2.6
     # via prompt-toolkit
@@ -461,12 +468,6 @@ willow==1.4.1
     # via wagtail
 xhtml2pdf==0.2.11
     # via -r requirements.in
-xlrd==2.0.1
-    # via tablib
-xlsxwriter==3.1.0
-    # via wagtail
-xlwt==1.3.0
-    # via tablib
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools

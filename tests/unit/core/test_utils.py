@@ -4,10 +4,10 @@ from django.http import HttpRequest
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
-from wagtail.core.models import Collection
 from wagtail.documents import models
 from wagtail.documents.tests.utils import get_test_document_file
-from wagtail.tests.utils import WagtailTestUtils
+from wagtail.models import Collection
+from wagtail.test.utils import WagtailTestUtils
 
 from core.utils import (  # get_personalised_case_study_orm_filter_args,
     PageTopicHelper,

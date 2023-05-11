@@ -1,6 +1,6 @@
 from django.db.models import TextField
-from wagtail.core import blocks
-from wagtail.core.fields import StreamField
+from wagtail import blocks
+from wagtail.fields import StreamField
 
 
 def single_struct_block_stream_field_factory(
@@ -18,6 +18,7 @@ def single_struct_block_stream_field_factory(
             min_num=min_num,
             required=required,
         ),
+        use_json_field=True,
         **kwargs,
     )
     return field

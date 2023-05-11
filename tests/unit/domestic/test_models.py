@@ -7,10 +7,10 @@ from bs4 import BeautifulSoup
 from django.core.cache import cache
 from django.test import RequestFactory, override_settings
 from django.utils.timezone import now as tz_now
-from wagtail.core.blocks.stream_block import StreamBlockValidationError
-from wagtail.core.models import Page
-from wagtail.core.rich_text import RichText
-from wagtail.tests.utils import WagtailPageTests
+from wagtail.blocks.stream_block import StreamBlockValidationError
+from wagtail.models import Page
+from wagtail.rich_text import RichText
+from wagtail.test.utils import WagtailPageTests
 from wagtail_factories import SiteFactory
 
 from core import cache_keys, mixins, models as core_models, service_urls
@@ -1809,7 +1809,7 @@ class GreatDomesticHomePageTests(SetUpLocaleMixin, WagtailPageTests):
         mocked_retval = [{'test': 'data'}]
         mock_get_sector_list_uncached.return_value = mocked_retval
         request = RequestFactory().get('/')
-        request.is_preview = True  # set by wagtail.core.models.Page.serve_preview()
+        request.is_preview = True  # set by wagtail.models.Page.serve_preview()
 
         self.assertEqual(mock_get_sector_list_uncached.call_count, 0)
 

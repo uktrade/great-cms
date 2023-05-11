@@ -389,6 +389,20 @@ def serve_subtitles(request, great_media_id, language):
     return response
 
 
+class ItemsIterator:
+    def __init__(self, items):
+        self.items = items
+
+    def iterator(self):
+        return iter(self.items)
+
+    def __len__(self):
+        return len(self.items)
+
+    def __getitem__(self, key):
+        return ItemsIterator(self.items[key])
+
+
 class CMSPagesSitemap(WagtailSitemap):
     """Extend the default Wagtail sitemap generator to skip over pages
     which use our custom authentication-required mixin.
@@ -402,7 +416,7 @@ class CMSPagesSitemap(WagtailSitemap):
 
         items = [instance for instance in items_qs if AuthenticatedUserRequired not in instance.__class__.mro()]
 
-        return items
+        return ItemsIterator(items)
 
 
 class StaticViewSitemap(DjangoSitemap):

@@ -116,7 +116,7 @@ class StructurePageFactory(wagtail_factories.PageFactory):
 class DetailPageFactory(wagtail_factories.PageFactory):
     title = 'Detail page'
     live = True
-    body = factory.fuzzy.FuzzyText(length=200)
+    body = wagtail_factories.StreamFieldFactory({'body': factory.fuzzy.FuzzyText(length=90)})
     template = factory.fuzzy.FuzzyChoice(models.DetailPage.template_choices, getter=lambda choice: choice[0])
     parent = factory.SubFactory(TopicPageFactory)
 

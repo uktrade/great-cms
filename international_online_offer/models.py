@@ -3,12 +3,11 @@ from django.db import models
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
 from taggit.models import TagBase, TaggedItemBase
-from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
-from wagtail.core.blocks.field_block import RichTextBlock
-from wagtail.core.blocks.stream_block import StreamBlock
-from wagtail.core.fields import StreamField
+from wagtail.admin.panels import FieldPanel
+from wagtail.blocks.field_block import RichTextBlock
+from wagtail.blocks.stream_block import StreamBlock
+from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
-from wagtail.images.edit_handlers import ImageChooserPanel
 
 from core.blocks import ColumnsBlock
 from core.models import CMSGenericPage
@@ -147,6 +146,7 @@ class IOOArticlePage(BaseContentPage):
                 RichTextBlock(),
             ),
         ],
+        use_json_field=True,
         null=True,
         blank=True,
     )
@@ -182,16 +182,17 @@ class IOOArticlePage(BaseContentPage):
                 ),
             ),
         ],
+        use_json_field=True,
         null=True,
         blank=True,
     )
     tags = ClusterTaggableManager(through=IOOArticlePageTag, blank=True, verbose_name='Article Tags')
     content_panels = CMSGenericPage.content_panels + [
         FieldPanel('article_title'),
-        StreamFieldPanel('article_subheading'),
+        FieldPanel('article_subheading'),
         FieldPanel('article_teaser'),
-        ImageChooserPanel('article_image'),
-        StreamFieldPanel('article_body'),
+        FieldPanel('article_image'),
+        FieldPanel('article_body'),
         FieldPanel('tags'),
     ]
 
