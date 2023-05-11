@@ -20,6 +20,11 @@
   font-weight: normal;
 }
 
+:root[dir="rtl"] .button {
+  line-height: 25px;
+  text-align: right;
+}
+
 :global .ReactModal__Overlay {
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.5)!important;
