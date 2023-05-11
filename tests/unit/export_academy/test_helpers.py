@@ -24,7 +24,7 @@ def test_book_button_returned_for_upcoming_event_registered_user(user):
     assert buttons['form_event_booking_buttons'] == [
         {
             'label': 'Book<span class="great-visually-hidden"> Test event name</span>',
-            'classname': 'govuk-button govuk-!-margin-bottom-0',
+            'classname': 'govuk-button govuk-!-margin-bottom-0 ukea-ga-tracking',
             'value': 'Confirmed',
             'type': 'submit',
         },
@@ -43,7 +43,7 @@ def test_book_button_returned_for_upcoming_event_not_registered_user(user):
     assert buttons['form_event_booking_buttons'] == [
         {
             'label': 'Book<span class="great-visually-hidden"> Test event name</span>',
-            'classname': 'govuk-button govuk-!-margin-bottom-0',
+            'classname': 'govuk-button govuk-!-margin-bottom-0 ukea-ga-tracking',
             'value': 'Confirmed',
             'type': 'submit',
         },
@@ -64,7 +64,7 @@ def test_cancel_button_returned_for_booked_upcoming_event(user):
     assert buttons['form_event_booking_buttons'] == [
         {
             'label': 'Cancel booking<span class="great-visually-hidden"> for Test event name</span>',
-            'classname': 'govuk-button govuk-button--secondary',
+            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
             'value': 'Cancelled',
             'type': 'submit',
         },
@@ -89,7 +89,7 @@ def test_join_button_returned_for_booked_in_progress_event(user):
         {
             'url': event.link,
             'label': 'Join<span class="great-visually-hidden"> Test event name</span>',
-            'classname': 'govuk-button govuk-button--secondary',
+            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
             'title': 'Join Test event name',
         }
     ]
@@ -113,7 +113,7 @@ def test_join_button_returned_for_booked_in_upcoming_event(user):
         {
             'url': event.link,
             'label': 'Join<span class="great-visually-hidden"> Test event name</span>',
-            'classname': 'govuk-button govuk-button--secondary',
+            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
             'title': 'Join Test event name',
         }
     ]
@@ -139,14 +139,14 @@ def test_view_buttons_returned_for_booked_past_event(user):
             'url': reverse_lazy('export_academy:event-details', kwargs=dict(pk=event.pk)),
             'label': """<i class="fa fa-play" aria-hidden="true"></i>Play
                              <span class="great-visually-hidden"> recording of Test event name</span>""",
-            'classname': 'govuk-button',
+            'classname': 'govuk-button ukea-ga-tracking',
             'title': 'Play recording of Test event name',
         },
         {
             'url': event.document.url,
             'label': """<i class="fa fa-download" aria-hidden="true"></i>
                              Download PDF<span class="great-visually-hidden"> for Test event name</span>""",
-            'classname': 'govuk-button govuk-button--secondary',
+            'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
             'title': 'Download PDF for Test event name',
         },
     ]

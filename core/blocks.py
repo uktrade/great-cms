@@ -3,9 +3,9 @@ import logging
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from elasticsearch.exceptions import ConnectionError, NotFoundError
-from wagtail.core import blocks
-from wagtail.core.blocks.field_block import RichTextBlock
-from wagtail.core.blocks.stream_block import StreamBlockValidationError
+from wagtail import blocks
+from wagtail.blocks.field_block import RichTextBlock
+from wagtail.blocks.stream_block import StreamBlockValidationError
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmedia.blocks import AbstractMediaChooserBlock
 

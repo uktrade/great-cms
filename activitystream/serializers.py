@@ -1,7 +1,7 @@
 import logging
 
 from rest_framework import serializers
-from wagtail.core.rich_text import RichText, get_text_for_indexing
+from wagtail.rich_text import RichText, get_text_for_indexing
 
 from domestic.models import ArticlePage
 

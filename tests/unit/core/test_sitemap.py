@@ -231,7 +231,7 @@ def test_sitemap_excludes_wagtail_pages_that_require_auth(  # noqa: C901
 
     url = reverse('core:sitemap')
     response = client.get(url)
-    sitemap_soup = BeautifulSoup(response.content)
+    sitemap_soup = BeautifulSoup(response.content, features='xml')
 
     locs = [x.text for x in sitemap_soup.find_all('loc')]
 
@@ -281,7 +281,9 @@ def test_sitemap_excludes_wagtail_pages_that_require_auth(  # noqa: C901
     # hold if it is simply to get it from the sitemap, dropping its trailing slash
     testserver_host = locs[0][:-1]
     for path_ in expected_in_map:
-        assert f'{testserver_host}{path_}' in locs
+        expected = f'{testserver_host}{path_}'
+        assert expected in locs
 
     for path_ in not_expected_in_map:
-        assert f'{testserver_host}{path_}' not in locs
+        not_expected = f'{testserver_host}{path_}'
+        assert not_expected not in locs

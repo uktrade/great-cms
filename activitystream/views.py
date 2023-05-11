@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 from activitystream.authentication import (
     ActivityStreamAuthentication,

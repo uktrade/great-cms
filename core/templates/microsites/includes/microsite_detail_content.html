@@ -3,6 +3,7 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 {% load i18n %}
 {% load get_template_translation_enabled from content_tags %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
 
 <div class="microsite-main {{ view.slug }}-microsite">
@@ -14,8 +15,12 @@
   <div class="great-full-width-header-image" style="background-image: url({{ hero_image.url }})"></div>
   {% endif %}
 
-  <div class="container govuk-!-padding-top-7">
-    <div class="govuk-grid-row great-floating-right-column">
+  <div class="container govuk-!-padding-top-7
+    {% if LANGUAGE_BIDI  and TRANSLATE_TEXT %}
+      great-rtl
+    {% endif %}
+  ">
+  <div class="govuk-grid-row great-floating-right-column">
       <div class="govuk-grid-column-three-quarters govuk-!-margin-bottom-7">
         {% if page.page_title %}
           <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">{{ page.page_title }}</h1>
@@ -36,7 +41,7 @@
           </p>
         {% endif %}
       </div>
-      <div class="govuk-grid-column-one-quarter">
+      <div class="govuk-grid-column-one-quarter" id="related-content">
         {% block related_content %}
           {% include 'microsites/includes/microsite_related_content_list.html' %}
         {% endblock %}

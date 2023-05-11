@@ -2,8 +2,8 @@
 
 import django.db.models.deletion
 import great_components.mixins
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 from django.db import migrations, models
 
 import core.mixins
@@ -318,15 +318,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'struct_org_hours',
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 'hours',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
                                         (
                                             'days',
-                                            wagtail.core.blocks.MultipleChoiceBlock(
+                                            wagtail.blocks.MultipleChoiceBlock(
                                                 choices=[
                                                     ('Monday', 'Monday'),
                                                     ('Tuesday', 'Tuesday'),
@@ -340,27 +340,28 @@ class Migration(migrations.Migration):
                                                 verbose_name='Days',
                                             ),
                                         ),
-                                        ('start_time', wagtail.core.blocks.TimeBlock(verbose_name='Opening time')),
-                                        ('end_time', wagtail.core.blocks.TimeBlock(verbose_name='Closing time')),
+                                        ('start_time', wagtail.blocks.TimeBlock(verbose_name='Opening time')),
+                                        ('end_time', wagtail.blocks.TimeBlock(verbose_name='Closing time')),
                                     ]
                                 ),
                             )
                         ],
+                        use_json_field=True,
                         blank=True,
                         verbose_name='Hours of operation',
                     ),
                 ),
                 (
                     'struct_org_actions',
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 'actions',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
                                         (
                                             'action_type',
-                                            wagtail.core.blocks.ChoiceBlock(
+                                            wagtail.blocks.ChoiceBlock(
                                                 choices=[
                                                     ('OrderAction', 'OrderAction'),
                                                     ('ReserveAction', 'ReserveAction'),
@@ -368,10 +369,10 @@ class Migration(migrations.Migration):
                                                 verbose_name='Action Type',
                                             ),
                                         ),
-                                        ('target', wagtail.core.blocks.URLBlock(verbose_name='Target URL')),
+                                        ('target', wagtail.blocks.URLBlock(verbose_name='Target URL')),
                                         (
                                             'language',
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 default='en-US',
                                                 help_text='If the action is offered in multiple languages, create separate actions for each language.',
                                                 verbose_name='Language',
@@ -379,7 +380,7 @@ class Migration(migrations.Migration):
                                         ),
                                         (
                                             'result_type',
-                                            wagtail.core.blocks.ChoiceBlock(
+                                            wagtail.blocks.ChoiceBlock(
                                                 choices=[
                                                     ('Reservation', 'Reservation'),
                                                     ('BusReservation', 'BusReservation'),
@@ -399,7 +400,7 @@ class Migration(migrations.Migration):
                                         ),
                                         (
                                             'result_name',
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 help_text='Example: "Reserve a table", "Book an appointment", etc.',
                                                 required=False,
                                                 verbose_name='Result Name',
@@ -407,7 +408,7 @@ class Migration(migrations.Migration):
                                         ),
                                         (
                                             'extra_json',
-                                            wagtail.core.blocks.RawHTMLBlock(
+                                            wagtail.blocks.RawHTMLBlock(
                                                 form_classname='monospace',
                                                 help_text='Additional JSON-LD inserted into the Action dictionary. Must be properties of https://schema.org/Action.',
                                                 required=False,
@@ -418,6 +419,7 @@ class Migration(migrations.Migration):
                                 ),
                             )
                         ],
+                        use_json_field=True,
                         blank=True,
                         verbose_name='Actions',
                     ),
@@ -779,15 +781,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'struct_org_hours',
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 'hours',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
                                         (
                                             'days',
-                                            wagtail.core.blocks.MultipleChoiceBlock(
+                                            wagtail.blocks.MultipleChoiceBlock(
                                                 choices=[
                                                     ('Monday', 'Monday'),
                                                     ('Tuesday', 'Tuesday'),
@@ -801,27 +803,28 @@ class Migration(migrations.Migration):
                                                 verbose_name='Days',
                                             ),
                                         ),
-                                        ('start_time', wagtail.core.blocks.TimeBlock(verbose_name='Opening time')),
-                                        ('end_time', wagtail.core.blocks.TimeBlock(verbose_name='Closing time')),
+                                        ('start_time', wagtail.blocks.TimeBlock(verbose_name='Opening time')),
+                                        ('end_time', wagtail.blocks.TimeBlock(verbose_name='Closing time')),
                                     ]
                                 ),
                             )
                         ],
+                        use_json_field=True,
                         blank=True,
                         verbose_name='Hours of operation',
                     ),
                 ),
                 (
                     'struct_org_actions',
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 'actions',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
                                         (
                                             'action_type',
-                                            wagtail.core.blocks.ChoiceBlock(
+                                            wagtail.blocks.ChoiceBlock(
                                                 choices=[
                                                     ('OrderAction', 'OrderAction'),
                                                     ('ReserveAction', 'ReserveAction'),
@@ -829,10 +832,10 @@ class Migration(migrations.Migration):
                                                 verbose_name='Action Type',
                                             ),
                                         ),
-                                        ('target', wagtail.core.blocks.URLBlock(verbose_name='Target URL')),
+                                        ('target', wagtail.blocks.URLBlock(verbose_name='Target URL')),
                                         (
                                             'language',
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 default='en-US',
                                                 help_text='If the action is offered in multiple languages, create separate actions for each language.',
                                                 verbose_name='Language',
@@ -840,7 +843,7 @@ class Migration(migrations.Migration):
                                         ),
                                         (
                                             'result_type',
-                                            wagtail.core.blocks.ChoiceBlock(
+                                            wagtail.blocks.ChoiceBlock(
                                                 choices=[
                                                     ('Reservation', 'Reservation'),
                                                     ('BusReservation', 'BusReservation'),
@@ -860,7 +863,7 @@ class Migration(migrations.Migration):
                                         ),
                                         (
                                             'result_name',
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 help_text='Example: "Reserve a table", "Book an appointment", etc.',
                                                 required=False,
                                                 verbose_name='Result Name',
@@ -868,7 +871,7 @@ class Migration(migrations.Migration):
                                         ),
                                         (
                                             'extra_json',
-                                            wagtail.core.blocks.RawHTMLBlock(
+                                            wagtail.blocks.RawHTMLBlock(
                                                 form_classname='monospace',
                                                 help_text='Additional JSON-LD inserted into the Action dictionary. Must be properties of https://schema.org/Action.',
                                                 required=False,
@@ -879,6 +882,7 @@ class Migration(migrations.Migration):
                                 ),
                             )
                         ],
+                        use_json_field=True,
                         blank=True,
                         verbose_name='Actions',
                     ),

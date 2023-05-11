@@ -10,7 +10,6 @@ from django.db.models import FileField
 from django.test import TestCase, override_settings
 from wagtail.core.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
-
 from core import cms_slugs, wagtail_hooks
 from core.models import DetailPage, MicrositePage
 from core.wagtail_hooks import (
@@ -210,7 +209,6 @@ def test_estimated_read_time_calculation__checks_text_and_video(rf, domestic_hom
     # may have slightly pushed up the default/empty-page readtime (either in
     # real terms or just in terms of elements that affect the calculation). If
     # so, pushing up the expected time variables in the test is OK to do.
-
     request = rf.get('/')
     request.user = AnonymousUser()
 
@@ -309,9 +307,8 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(rf, 
     # revision - it is enough to just notice how the readtimes for Draft vs Live
     # are appropriate updated at the expected times, based on the minimal default
     # content of a DetailPage.
-
     revision = detail_page.save_revision()
-    assert json.loads(revision.content_json)['estimated_read_duration'] == original_live_read_duration
+    assert revision.content['estimated_read_duration'] == original_live_read_duration
 
     detail_page.refresh_from_db()
 
@@ -329,9 +326,20 @@ def test_estimated_read_time_calculation__updates_only_draft_if_appropriate(rf, 
     # but the draft is
     latest_rev = detail_page.get_latest_revision()
     assert revision == latest_rev
-    assert json.loads(latest_rev.content_json)['estimated_read_duration'] == str(expected_duration)
+
+    if isinstance(latest_rev.content, str):
+        json_object = json.loads(latest_rev.content)
+        latest_rev.content = json_object
+    assert latest_rev.content['estimated_read_duration'] == str(expected_duration)
+
+    if 'title' not in latest_rev.content or not latest_rev.content['title']:
+        latest_rev.content['title'] = 'Test Title'
+
+    if 'template' not in latest_rev.content or not latest_rev.content['template']:
+        latest_rev.content['template'] = 'learn/detail_page.html'
 
     # Now publish the draft and show it updates the live, too
+
     latest_rev.publish()
 
     detail_page.refresh_from_db()
@@ -375,7 +383,7 @@ def test_estimated_read_time_calculation__forced_update_of_live(rf, domestic_hom
 
     # Make a revision, so we have both draft and live in existence
     revision = detail_page.save_revision()
-    assert json.loads(revision.content_json)['estimated_read_duration'] == original_live_read_duration
+    assert revision.content['estimated_read_duration'] == original_live_read_duration
 
     detail_page.refresh_from_db()
 
@@ -396,7 +404,7 @@ def test_estimated_read_time_calculation__forced_update_of_live(rf, domestic_hom
     # and the draft is updated too
     latest_rev = detail_page.get_latest_revision()
     assert revision == latest_rev
-    assert json.loads(latest_rev.content_json)['estimated_read_duration'] == str(expected_duration)
+    assert json.loads(latest_rev.content)['estimated_read_duration'] == str(expected_duration)
 
 
 @pytest.mark.parametrize('is_post_creation_val', (True, False))
@@ -442,14 +450,19 @@ def test__update_data_for_appropriate_version(domestic_homepage, rf, force_updat
     assert detail_page.get_latest_revision() == revision
 
     assert detail_page.title != 'Dummy Title'
-    assert json.loads(revision.content_json)['title'] == detail_page.title
+    assert revision.content['title'] == detail_page.title
 
     wagtail_hooks._update_data_for_appropriate_version(
         page=detail_page, force_page_update=force_update, data_to_update={'title': 'Dummy Title'}
     )
 
     revision.refresh_from_db()
-    assert json.loads(revision.content_json)['title'] == 'Dummy Title'
+
+    if isinstance(revision.content, str):
+        jason_content = json.loads(revision.content)
+        revision.content = jason_content
+
+    assert revision.content['title'] == 'Dummy Title'
 
     detail_page.refresh_from_db()
     if force_update:

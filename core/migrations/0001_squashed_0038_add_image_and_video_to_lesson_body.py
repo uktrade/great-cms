@@ -5,11 +5,11 @@ import django_extensions.db.fields
 import modelcluster.contrib.taggit
 import modelcluster.fields
 import taggit.managers
-import wagtail.core.blocks
-import wagtail.core.fields
-import wagtail.core.models
+import wagtail.blocks
+import wagtail.fields
 import wagtail.images.blocks
 import wagtail.images.models
+import wagtail.models
 import wagtail.search.index
 from django.conf import settings
 from django.db import migrations, models
@@ -24,7 +24,6 @@ import core.models
 
 
 class Migration(migrations.Migration):
-
     run_before = [
         ('wagtailcore', '0053_locale_model'),  # added for Wagtail 2.11 compatibility
     ]
@@ -117,7 +116,7 @@ class Migration(migrations.Migration):
                 (
                     'collection',
                     models.ForeignKey(
-                        default=wagtail.core.models.get_root_collection_id,
+                        default=wagtail.models.get_root_collection_id,
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name='+',
                         to='wagtailcore.Collection',
@@ -397,23 +396,23 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'body',
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 'paragraph',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
                                         # DELIBERATELY OMITTED AS PART OF CONTROLLED REMOVAL
                                         # (
                                         #     'segment',
-                                        #     wagtail.core.blocks.ChoiceBlock(
+                                        #     wagtail.blocks.ChoiceBlock(
                                         #         choices=wagtail_personalisation.blocks.list_segment_choices,
                                         #         help_text='Only show this content block for users in this segment',
                                         #         label='Personalisation segment',
                                         #         required=False,
                                         #     ),
                                         # ),
-                                        ('paragraph', wagtail.core.blocks.RichTextBlock()),
+                                        ('paragraph', wagtail.blocks.RichTextBlock()),
                                     ],
                                     icon='fa-font',
                                     template='core/personalised_page_struct_paragraph_block.html',
@@ -421,7 +420,7 @@ class Migration(migrations.Migration):
                             ),
                             (
                                 'video',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [('video', core.blocks.MediaChooserBlock())],
                                     help_text='Video displayed within a full-page-width block',
                                     template='core/includes/_video_full_width.html',
@@ -430,10 +429,10 @@ class Migration(migrations.Migration):
                             ('case_study', core.blocks.CaseStudyStaticBlock(icon='fa-book')),
                             (
                                 'Step',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
-                                        ('title', wagtail.core.blocks.CharBlock(max_length=255)),
-                                        ('body', wagtail.core.blocks.RichTextBlock()),
+                                        ('title', wagtail.blocks.CharBlock(max_length=255)),
+                                        ('body', wagtail.blocks.RichTextBlock()),
                                         ('image', wagtail.images.blocks.ImageChooserBlock(required=False)),
                                     ],
                                     icon='cog',
@@ -441,34 +440,34 @@ class Migration(migrations.Migration):
                             ),
                             (
                                 'fictional_example',
-                                wagtail.core.blocks.StructBlock(
-                                    [('fiction_body', wagtail.core.blocks.RichTextBlock(icon='openquote'))],
+                                wagtail.blocks.StructBlock(
+                                    [('fiction_body', wagtail.blocks.RichTextBlock(icon='openquote'))],
                                     icon='fa-commenting-o',
                                     template='learn/fictional_company_example.html',
                                 ),
                             ),
                             (
                                 'ITA_Quote',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
-                                        ('quote', wagtail.core.blocks.RichTextBlock()),
-                                        ('author', wagtail.core.blocks.CharBlock(max_length=255)),
+                                        ('quote', wagtail.blocks.RichTextBlock()),
+                                        ('author', wagtail.blocks.CharBlock(max_length=255)),
                                     ],
                                     icon='fa-quote-left',
                                 ),
                             ),
                             (
                                 'pros_cons',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
                                         (
                                             'pros',
-                                            wagtail.core.blocks.StreamBlock(
+                                            wagtail.blocks.StreamBlock(
                                                 [
                                                     (
                                                         'item',
-                                                        wagtail.core.blocks.StructBlock(
-                                                            [('item', wagtail.core.blocks.CharBlock(max_length=255))],
+                                                        wagtail.blocks.StructBlock(
+                                                            [('item', wagtail.blocks.CharBlock(max_length=255))],
                                                             icon='fa-arrow-right',
                                                         ),
                                                     )
@@ -477,12 +476,12 @@ class Migration(migrations.Migration):
                                         ),
                                         (
                                             'cons',
-                                            wagtail.core.blocks.StreamBlock(
+                                            wagtail.blocks.StreamBlock(
                                                 [
                                                     (
                                                         'item',
-                                                        wagtail.core.blocks.StructBlock(
-                                                            [('item', wagtail.core.blocks.CharBlock(max_length=255))],
+                                                        wagtail.blocks.StructBlock(
+                                                            [('item', wagtail.blocks.CharBlock(max_length=255))],
                                                             icon='fa-arrow-right',
                                                         ),
                                                     )
@@ -496,12 +495,12 @@ class Migration(migrations.Migration):
                             ),
                             (
                                 'choose_do_not_choose',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
-                                        ('choose_title', wagtail.core.blocks.CharBlock(max_length=255)),
-                                        ('choose_body', wagtail.core.blocks.RichTextBlock(features=())),
-                                        ('do_not_choose_title', wagtail.core.blocks.CharBlock(max_length=255)),
-                                        ('do_not_choose_body', wagtail.core.blocks.RichTextBlock(features=())),
+                                        ('choose_title', wagtail.blocks.CharBlock(max_length=255)),
+                                        ('choose_body', wagtail.blocks.RichTextBlock(features=())),
+                                        ('do_not_choose_title', wagtail.blocks.CharBlock(max_length=255)),
+                                        ('do_not_choose_body', wagtail.blocks.RichTextBlock(features=())),
                                     ]
                                 ),
                             ),
@@ -512,43 +511,43 @@ class Migration(migrations.Migration):
                                     template='core/includes/_image_full_width.html',
                                 ),
                             ),
-                        ]
+                        ],
+                        use_json_field=True,
                     ),
                 ),
                 ('template', models.CharField(default='', max_length=255)),
                 ('estimated_read_duration', models.DurationField(blank=True, null=True)),
                 (
                     'objective',
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
-                            ('paragraph', wagtail.core.blocks.RichTextBlock(options={'class': 'objectives'})),
+                            ('paragraph', wagtail.blocks.RichTextBlock(options={'class': 'objectives'})),
                             (
                                 'ListItem',
-                                wagtail.core.blocks.StructBlock(
-                                    [('item', wagtail.core.blocks.CharBlock(max_length=255))]
-                                ),
+                                wagtail.blocks.StructBlock([('item', wagtail.blocks.CharBlock(max_length=255))]),
                             ),
                         ],
+                        use_json_field=True,
                         default=None,
                     ),
                 ),
                 (
                     'recap',
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 'recap_item',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
-                                        ('title', wagtail.core.blocks.CharBlock(icon='fa-header')),
+                                        ('title', wagtail.blocks.CharBlock(icon='fa-header')),
                                         (
                                             'item',
-                                            wagtail.core.blocks.StreamBlock(
+                                            wagtail.blocks.StreamBlock(
                                                 [
                                                     (
                                                         'item',
-                                                        wagtail.core.blocks.StructBlock(
-                                                            [('item', wagtail.core.blocks.CharBlock(max_length=255))]
+                                                        wagtail.blocks.StructBlock(
+                                                            [('item', wagtail.blocks.CharBlock(max_length=255))]
                                                         ),
                                                     )
                                                 ]
@@ -559,22 +558,24 @@ class Migration(migrations.Migration):
                                     template='learn/recap.html',
                                 ),
                             )
-                        ]
+                        ],
+                        use_json_field=True,
                     ),
                 ),
                 (
                     'hero',
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             ('Image', core.blocks.ImageBlock(template='core/includes/_hero_image.html')),
                             (
                                 'Video',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [('video', core.blocks.MediaChooserBlock())],
                                     template='core/includes/_hero_video.html',
                                 ),
                             ),
                         ],
+                        use_json_field=True,
                         null=True,
                         validators=[core.models.hero_singular_validation],
                     ),
@@ -608,7 +609,7 @@ class Migration(migrations.Migration):
                 ),
                 ('template', models.CharField(max_length=255)),
                 ('button_label', models.CharField(default='', max_length=100)),
-                ('description', wagtail.core.fields.RichTextField(default='')),
+                ('description', wagtail.fields.RichTextField(default='')),
                 (
                     'record_read_progress',
                     models.BooleanField(
@@ -642,20 +643,20 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ('template', models.CharField(max_length=255)),
-                ('heading', wagtail.core.fields.RichTextField()),
+                ('heading', wagtail.fields.RichTextField()),
                 (
                     'topics',
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 'topic',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
-                                        ('title', wagtail.core.blocks.CharBlock(max_length=255)),
+                                        ('title', wagtail.blocks.CharBlock(max_length=255)),
                                         (
                                             'pages',
-                                            wagtail.core.blocks.ListBlock(
-                                                wagtail.core.blocks.PageChooserBlock(label='Detail page')
+                                            wagtail.blocks.ListBlock(
+                                                wagtail.blocks.PageChooserBlock(label='Detail page')
                                             ),
                                         ),
                                     ],
@@ -663,6 +664,7 @@ class Migration(migrations.Migration):
                                 ),
                             )
                         ],
+                        use_json_field=True,
                         blank=True,
                         null=True,
                     ),
@@ -705,26 +707,26 @@ class Migration(migrations.Migration):
                 ('template', models.CharField(max_length=255)),
                 (
                     'button',
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 'button',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
-                                        ('label', wagtail.core.blocks.CharBlock(max_length=255)),
+                                        ('label', wagtail.blocks.CharBlock(max_length=255)),
                                         (
                                             'link',
-                                            wagtail.core.blocks.StructBlock(
+                                            wagtail.blocks.StructBlock(
                                                 [
                                                     (
                                                         'internal_link',
-                                                        wagtail.core.blocks.PageChooserBlock(
+                                                        wagtail.blocks.PageChooserBlock(
                                                             label='Internal link', required=False
                                                         ),
                                                     ),
                                                     (
                                                         'external_link',
-                                                        wagtail.core.blocks.CharBlock(
+                                                        wagtail.blocks.CharBlock(
                                                             label='External link', max_length=255, required=False
                                                         ),
                                                     ),
@@ -737,6 +739,7 @@ class Migration(migrations.Migration):
                                 ),
                             )
                         ],
+                        use_json_field=True,
                         blank=True,
                         null=True,
                     ),
@@ -757,7 +760,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=255)),
-                ('content', wagtail.core.fields.RichTextField()),
+                ('content', wagtail.fields.RichTextField()),
             ],
             options={
                 'abstract': False,
@@ -849,29 +852,29 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ('template', models.CharField(max_length=255)),
-                ('description', wagtail.core.fields.RichTextField()),
+                ('description', wagtail.fields.RichTextField()),
                 (
                     'button',
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 'button',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
-                                        ('label', wagtail.core.blocks.CharBlock(max_length=255)),
+                                        ('label', wagtail.blocks.CharBlock(max_length=255)),
                                         (
                                             'link',
-                                            wagtail.core.blocks.StructBlock(
+                                            wagtail.blocks.StructBlock(
                                                 [
                                                     (
                                                         'internal_link',
-                                                        wagtail.core.blocks.PageChooserBlock(
+                                                        wagtail.blocks.PageChooserBlock(
                                                             label='Internal link', required=False
                                                         ),
                                                     ),
                                                     (
                                                         'external_link',
-                                                        wagtail.core.blocks.CharBlock(
+                                                        wagtail.blocks.CharBlock(
                                                             label='External link', max_length=255, required=False
                                                         ),
                                                     ),
@@ -884,6 +887,7 @@ class Migration(migrations.Migration):
                                 ),
                             )
                         ],
+                        use_json_field=True,
                         blank=True,
                         null=True,
                     ),
@@ -900,38 +904,36 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'body',
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 'section',
-                                wagtail.core.blocks.StreamBlock(
+                                wagtail.blocks.StreamBlock(
                                     [
                                         ('title', core.blocks.TitleBlock()),
                                         (
                                             'text_block',
-                                            wagtail.core.blocks.RichTextBlock(
-                                                helptext='Add a textblock', icon='openquote'
-                                            ),
+                                            wagtail.blocks.RichTextBlock(helptext='Add a textblock', icon='openquote'),
                                         ),
                                         ('image', core.blocks.ImageBlock()),
                                         ('hr', core.blocks.HrBlock()),
                                         (
                                             'side_link',
-                                            wagtail.core.blocks.StructBlock(
+                                            wagtail.blocks.StructBlock(
                                                 [
                                                     (
                                                         'link',
-                                                        wagtail.core.blocks.StructBlock(
+                                                        wagtail.blocks.StructBlock(
                                                             [
                                                                 (
                                                                     'internal_link',
-                                                                    wagtail.core.blocks.PageChooserBlock(
+                                                                    wagtail.blocks.PageChooserBlock(
                                                                         label='Internal link', required=False
                                                                     ),
                                                                 ),
                                                                 (
                                                                     'external_link',
-                                                                    wagtail.core.blocks.CharBlock(
+                                                                    wagtail.blocks.CharBlock(
                                                                         label='External link',
                                                                         max_length=255,
                                                                         required=False,
@@ -943,11 +945,11 @@ class Migration(migrations.Migration):
                                                     ),
                                                     (
                                                         'title_override',
-                                                        wagtail.core.blocks.CharBlock(max_length=255, required=False),
+                                                        wagtail.blocks.CharBlock(max_length=255, required=False),
                                                     ),
                                                     (
                                                         'lede_override',
-                                                        wagtail.core.blocks.CharBlock(max_length=255, required=False),
+                                                        wagtail.blocks.CharBlock(max_length=255, required=False),
                                                     ),
                                                 ]
                                             ),
@@ -957,24 +959,25 @@ class Migration(migrations.Migration):
                                 ),
                             ),
                             ('title', core.blocks.TitleBlock()),
-                            ('text', wagtail.core.blocks.RichTextBlock(helptext='Add a textblock', icon='openquote')),
+                            ('text', wagtail.blocks.RichTextBlock(helptext='Add a textblock', icon='openquote')),
                             ('image', core.blocks.ImageBlock()),
                         ],
+                        use_json_field=True,
                         blank=True,
                         null=True,
                     ),
                 ),
                 (
                     'components',
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 'route',
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
                                         (
                                             'route_type',
-                                            wagtail.core.blocks.ChoiceBlock(
+                                            wagtail.blocks.ChoiceBlock(
                                                 choices=[
                                                     ('learn', 'Learning'),
                                                     ('plan', 'Export plan'),
@@ -983,27 +986,27 @@ class Migration(migrations.Migration):
                                                 icon='redirect',
                                             ),
                                         ),
-                                        ('title', wagtail.core.blocks.CharBlock(max_length=255)),
-                                        ('body', wagtail.core.blocks.TextBlock(max_length=4096)),
+                                        ('title', wagtail.blocks.CharBlock(max_length=255)),
+                                        ('body', wagtail.blocks.TextBlock(max_length=4096)),
                                         ('image', wagtail.images.blocks.ImageChooserBlock()),
                                         (
                                             'button',
-                                            wagtail.core.blocks.StructBlock(
+                                            wagtail.blocks.StructBlock(
                                                 [
-                                                    ('label', wagtail.core.blocks.CharBlock(max_length=255)),
+                                                    ('label', wagtail.blocks.CharBlock(max_length=255)),
                                                     (
                                                         'link',
-                                                        wagtail.core.blocks.StructBlock(
+                                                        wagtail.blocks.StructBlock(
                                                             [
                                                                 (
                                                                     'internal_link',
-                                                                    wagtail.core.blocks.PageChooserBlock(
+                                                                    wagtail.blocks.PageChooserBlock(
                                                                         label='Internal link', required=False
                                                                     ),
                                                                 ),
                                                                 (
                                                                     'external_link',
-                                                                    wagtail.core.blocks.CharBlock(
+                                                                    wagtail.blocks.CharBlock(
                                                                         label='External link',
                                                                         max_length=255,
                                                                         required=False,
@@ -1022,6 +1025,7 @@ class Migration(migrations.Migration):
                                 ),
                             )
                         ],
+                        use_json_field=True,
                         blank=True,
                         null=True,
                     ),
@@ -1045,15 +1049,15 @@ class Migration(migrations.Migration):
                 ('summary', models.TextField()),
                 (
                     'body',
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 'media',
-                                wagtail.core.blocks.StreamBlock(
+                                wagtail.blocks.StreamBlock(
                                     [
                                         (
                                             'video',
-                                            wagtail.core.blocks.StructBlock(
+                                            wagtail.blocks.StructBlock(
                                                 [('video', core.blocks.MediaChooserBlock())],
                                                 template='core/includes/_case_study_video.html',
                                             ),
@@ -1064,8 +1068,9 @@ class Migration(migrations.Migration):
                                     min_num=1,
                                 ),
                             ),
-                            ('text', wagtail.core.blocks.RichTextBlock(features=())),
+                            ('text', wagtail.blocks.RichTextBlock(features=())),
                         ],
+                        use_json_field=True,
                         help_text='This block must contain one Media section (with one or two items in it) and one Text section.',
                         validators=[core.models.case_study_body_validation],
                     ),
