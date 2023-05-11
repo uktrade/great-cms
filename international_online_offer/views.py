@@ -372,7 +372,7 @@ class IOOLogin(ResendVerificationMixin, TemplateView):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {"form": form})
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = forms.LoginForm(request.POST)
@@ -414,7 +414,7 @@ class IOOLogin(ResendVerificationMixin, TemplateView):
                 # 200 from sso indicate the credentials were not correct
                 form.add_error('__all__', 'Invalid email / password')
 
-        return render(request, self.template_name, {"form": form})
+        return render(request, self.template_name, {'form': form})
 
 
 class IOOSignUp(ResendVerificationMixin, TemplateView):
@@ -425,7 +425,7 @@ class IOOSignUp(ResendVerificationMixin, TemplateView):
         form = forms.SignUpForm
         if self.is_validate_code_flow():
             form = forms.CodeConfirmForm
-        return render(request, self.template_name, {"form": form})
+        return render(request, self.template_name, {'form': form})
 
     def get_login_url(self):
         return self.request.build_absolute_uri(reverse_lazy('international_online_offer:login'))
@@ -468,7 +468,7 @@ class IOOSignUp(ResendVerificationMixin, TemplateView):
                 )
                 return response
 
-        return render(request, self.template_name, {"form": form})
+        return render(request, self.template_name, {'form': form})
 
     def do_sign_up_flow(self, request):
         form = forms.SignUpForm(request.POST)
@@ -515,7 +515,7 @@ class IOOSignUp(ResendVerificationMixin, TemplateView):
                     reverse_lazy('international_online_offer:signup') + '?uidb64=' + uidb64 + '&token=' + token
                 )
 
-        return render(request, self.template_name, {"form": form})
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
         if self.is_validate_code_flow():
