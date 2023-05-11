@@ -82,8 +82,8 @@ def _update_data_for_appropriate_version(page: Page, force_page_update: bool, da
     latest_revision = page.get_latest_revision()
 
     if isinstance(latest_revision.content, str):
-        jason_object = json.loads(latest_revision.content)
-        latest_revision.content = jason_object
+        json_object = json.loads(latest_revision.content)
+        latest_revision.content = json_object
 
     latest_revision_json = latest_revision.content
 
