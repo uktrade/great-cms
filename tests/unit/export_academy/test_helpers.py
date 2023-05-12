@@ -11,15 +11,21 @@ from export_academy import helpers
 from tests.unit.export_academy import factories
 
 
-@pytest.mark.django_db
-def test_book_button_returned_for_upcoming_event_registered_user(user):
+@pytest.fixture
+def test_future_event():
     now = timezone.now()
+    return factories.EventFactory(
+        start_date=now + timedelta(hours=6),
+        end_date=now + timedelta(hours=7),
+        completed=None,
+        name='Test event name',
+    )
+
+
+@pytest.mark.django_db
+def test_book_button_returned_for_upcoming_event_registered_user(user, test_future_event):
     factories.RegistrationFactory(email=user.email)
-    event = factories.EventFactory(
-        start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7), completed=None, name='Test event name'
-    )
-
-    buttons = helpers.get_buttons_for_event(user, event)
+    buttons = helpers.get_buttons_for_event(user, test_future_event)
 
     assert buttons['form_event_booking_buttons'] == [
         {
@@ -32,13 +38,8 @@ def test_book_button_returned_for_upcoming_event_registered_user(user):
 
 
 @pytest.mark.django_db
-def test_book_button_returned_for_upcoming_event_not_registered_user(user):
-    now = timezone.now()
-    event = factories.EventFactory(
-        start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7), completed=None, name='Test event name'
-    )
-
-    buttons = helpers.get_buttons_for_event(user, event)
+def test_book_button_returned_for_upcoming_event_not_registered_user(user, test_future_event):
+    buttons = helpers.get_buttons_for_event(user, test_future_event)
 
     assert buttons['form_event_booking_buttons'] == [
         {
@@ -51,15 +52,11 @@ def test_book_button_returned_for_upcoming_event_not_registered_user(user):
 
 
 @pytest.mark.django_db
-def test_cancel_button_returned_for_booked_upcoming_event(user):
-    now = timezone.now()
-    event = factories.EventFactory(
-        start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7), completed=None, name='Test event name'
-    )
+def test_cancel_button_returned_for_booked_upcoming_event(user, test_future_event):
     registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
-    factories.BookingFactory(event=event, registration=registration, status='Confirmed')
+    factories.BookingFactory(event=test_future_event, registration=registration, status='Confirmed')
 
-    buttons = helpers.get_buttons_for_event(user, event)
+    buttons = helpers.get_buttons_for_event(user, test_future_event)
 
     assert buttons['form_event_booking_buttons'] == [
         {
