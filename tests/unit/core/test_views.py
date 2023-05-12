@@ -1049,6 +1049,7 @@ class TestMicrositeLocales(TestCase):
         self.ar_locale = Locale.objects.get_or_create(language_code='ar')
         self.fr_locale = Locale.objects.get_or_create(language_code='fr')
         self.pt_locale = Locale.objects.get_or_create(language_code='pt')
+        self.ko_locale = Locale.objects.get_or_create(language_code='ko')
 
     @pytest.fixture(autouse=True)
     def domestic_homepage_fixture(self, domestic_homepage):
@@ -1110,6 +1111,19 @@ class TestMicrositeLocales(TestCase):
         assert (
             'página inicial do microsite' in html_response
             and 'Subtítulo de la Página de Inicio del Micrositio' in html_response  # noqa: W503
+        )
+
+    def test_correct_translation_korean(self):
+        site_ko = self.en_microsite.copy_for_translation(self.ko_locale[0], copy_parents=True, alias=True)
+        site_ko.page_title = '페이지 제목: 무역 기회 창출: 영국-대한민국 수출 포럼'
+        site_ko.page_subheading = '부제: 국제 무역과 경제 성장을 위한 강력한 동반자관계 구축'
+        site_ko.save()
+        url_korean = self.url + '?lang=ko'
+        response = self.client.get(url_korean)
+        html_response = response.content.decode('utf-8')
+        assert (
+            '페이지 제목: 무역 기회 창출: 영국-대한민국 수출 포럼' in html_response
+            and '부제: 국제 무역과 경제 성장을 위한 강력한 동반자관계 구축' in html_response  # noqa: W503
         )
 
     def test_fall_back_to_english_for_unimplemented_enabled_language(self):

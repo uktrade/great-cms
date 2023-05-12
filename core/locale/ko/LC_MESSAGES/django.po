@@ -1,0 +1,150 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-11 11:15+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: context_processors.py:81
+msgid "great.gov.uk international"
+msgstr "great.gov.uk 국제"
+
+#: models.py:70
+msgid "Transcript"
+msgstr "트랜스크립트"
+
+#: models.py:74
+msgid "English subtitles"
+msgstr "영어 자막"
+
+#: models.py:1535
+msgid "Home"
+msgstr "홈"
+
+#: templates/components/card.html:13 templates/components/cta_card.html:6
+msgid "Opens in a new window"
+msgstr "새 창에서 열기"
+
+#: templates/components/cookie_notice.html:8
+msgid "Tell us whether you accept cookies"
+msgstr "쿠키 사용 여부 알려주세요"
+
+#: templates/components/cookie_notice.html:10
+msgid "We use "
+msgstr "저희는 "
+
+#: templates/components/cookie_notice.html:10
+msgid "cookies to collect information"
+msgstr "정보를 수집하기 위해 쿠키를 사용합니다"
+
+#: templates/components/cookie_notice.html:10
+msgid ""
+"about how you use great.gov.uk. We use this information to make the website "
+"work as well as possible and improve government services."
+msgstr ""
+"great.gov.uk의 사용 방법에 대한 정보를 수집합니다. 이 정보는 웹 사이트가 최대한 잘 작동하고 정부 서비스를 개선하기 위해 사용됩니다."
+
+#: templates/components/cookie_notice.html:14
+msgid "Accept all cookies"
+msgstr "모든 쿠키 허용"
+
+#: templates/components/cookie_notice.html:15
+msgid "Set cookie preferences"
+msgstr "쿠키 설정 변경"
+
+#: templates/components/cookie_notice.html:20
+msgid "You've accepted all cookies. You can "
+msgstr "모든 쿠키를 허용하셨습니다. 언제든지"
+
+#: templates/components/cookie_notice.html:20
+msgid "change your settings"
+msgstr "설정을 변경할 수 있습니다."
+
+#: templates/components/cookie_notice.html:20
+msgid "at any time."
+msgstr ""
+
+#: templates/components/header_footer/global_header.html:7
+msgid "For UK businesses"
+msgstr "영국 기업을 위해"
+
+#: templates/components/header_footer/global_header.html:8
+msgid "For international businesses"
+msgstr "국제 기업을 위해"
+
+#: templates/microsites/base.html:173
+msgid "Skip to main content"
+msgstr "주 콘텐츠로 건너뛰기"
+
+#: templates/microsites/blocks/social_media.html:10
+msgid "Share this page"
+msgstr "이 페이지 공유하기"
+
+#: templates/microsites/blocks/social_media.html:17
+msgid "Sharing will open the page in a new tab."
+msgstr "공유는 새 탭에서 페이지가 열립니다."
+
+#: templates/microsites/blocks/social_media.html:31
+msgid "Twitter"
+msgstr "Twitter"
+
+#: templates/microsites/blocks/social_media.html:46
+msgid "Facebook"
+msgstr "Facebook"
+
+#: templates/microsites/blocks/social_media.html:61
+msgid "LinkedIn"
+msgstr "LinkedIn"
+
+#: templates/microsites/blocks/social_media.html:76
+msgid "Email"
+msgstr "이메일"
+
+#: templates/microsites/blocks/video.html:13
+#, python-format
+msgid ""
+"\n"
+" <p>Your browser doesn't support HTML5 video. Here is a "
+"<a class=\"link\" href=\"%(video_url)s\">link to the video</a> instead.</p>\n"
+" "
+msgstr ""
+"\n"
+" <p>귀하의 브라우저는 HTML5 비디오를 지원하지 않습니다. 대신 비디오에 대한 <a class=\"link\" href=\"%(video_url)s\">링크</a>를 제공합니다.</p>\n"
+" "
+
+#: templates/microsites/blocks/video.html:26
+msgid "View video transcript"
+msgstr "비디오 텍스트 보기"
+
+#: templates/microsites/includes/microsite_detail_content.html:31
+msgid "Last updated:"
+msgstr "최근 업데이트:"
+
+#: templates/microsites/includes/microsite_menu_button.html:12
+msgid "Menu"
+msgstr "메뉴"
+
+#: templates/microsites/includes/microsite_related_content_list.html:9
+msgid "Related content"
+msgstr "관련 콘텐츠"
+
+#: templates/modeladmin/index.html:16
+msgid "Download CSV"
+msgstr "CSV 파일 다운로드"
+
+#: validators.py:11
+msgid "Please enter a UK postcode"
+msgstr "영국 우편번호를 입력해주세요"
