@@ -38,5 +38,13 @@
 		"about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services.": "sobre como você usa great.gov.uk. Usamos essas informações para fazer o site funcionar da melhor maneira possível e melhorar os serviços do governo.",
 		"Accept all cookies": "Aceitar todos os cookies",
 		"Set cookie preferences": "Definir preferências de cookies"
+	},
+	"ko": {
+		"Tell us whether you accept cookies": "쿠키 사용 여부 알려주세요",
+		"We use": "저희는",
+		"cookies to collect information": "정보를 수집하기 위해 쿠키를 사용합니다",
+		"about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services.": "great.gov.uk의 사용 방법에 대한 정보를 수집합니다. 이 정보는 웹 사이트가 최대한 잘 작동하고 정부 서비스를 개선하기 위해 사용됩니다.",
+		"Accept all cookies": "모든 쿠키 허용",
+		"Set cookie preferences": "쿠키 설정 변경"
 	}
 }
