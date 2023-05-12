@@ -7,20 +7,32 @@ from boto3.exceptions import RetriesExceededError, S3UploadFailedError
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.db.models import FileField
-from django.test import override_settings
-from wagtail.rich_text import RichText
-
+from django.test import TestCase, override_settings
+from wagtail.core.rich_text import RichText
+from wagtail.tests.utils import WagtailPageTests
 from core import cms_slugs, wagtail_hooks
-from core.models import DetailPage
+from core.models import DetailPage, MicrositePage
 from core.wagtail_hooks import (
     FileTransferError,
+    MigratePage,
     S3FileFieldAdapter,
     S3WagtailTransferFile,
+    convert_all_columns,
+    convert_cta,
+    convert_form,
+    convert_image,
+    convert_quote,
+    convert_related_links,
+    convert_text,
+    convert_video,
     editor_css,
+    get_microsite_page_body,
     register_s3_media_file_adapter,
 )
 from tests.helpers import make_test_video
 from tests.unit.core import factories
+from tests.unit.core.factories import StructurePageFactory
+from tests.unit.domestic.factories import ArticlePageFactory
 from tests.unit.learn.factories import LessonPageFactory
 
 LOREM_IPSUM = (
@@ -1011,3 +1023,176 @@ def test_authenticated_user_required__sets_next_param(rf, request_path):
 
     assert output.status_code == 302
     assert output.headers['Location'] == f'{cms_slugs.SIGNUP_URL}?next={request_path}'
+
+
+class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
+    @pytest.fixture(autouse=True)
+    def domestic_homepage_fixture(self, domestic_homepage):
+        self.domestic_homepage = domestic_homepage
+
+    def setUp(self):
+        self.parent_page = StructurePageFactory(parent=self.domestic_homepage, title='campaigns', slug='campaigns')
+        article_body1 = json.dumps(
+            [
+                {
+                    'type': 'form',
+                    'value': {
+                        'type': 'Short',
+                        'email_title': 'title1',
+                        'email_subject': 'subject1',
+                        'email_body': 'body1',
+                    },
+                },
+                {'type': 'Video', 'value': {'video': 44}, 'id': 'b965f2ea-c030-41ff-b121-32895a0b7cb0'},
+                {'type': 'image', 'value': 682, 'id': '5a176e7e-4fa8-42b5-b89e-202d8946910c'},
+                {
+                    'type': 'pull_quote',
+                    'value': {
+                        'quote': 'my quote',
+                        'attribution': 'random guy',
+                        'role': 'head',
+                        'organisation': 'dit',
+                        'organisation_link': 'http://www.google.com',
+                    },
+                    'id': 'e5632d7b-04f2-44ec-ae40-31e7c2e52c21',
+                },
+                {
+                    'type': 'Columns',
+                    'value': [
+                        {
+                            'type': 'column',
+                            'value': {
+                                'title': 'col1',
+                                'image': None,
+                                'description': '<p data-block-key="8vbdd9">sddsds</p>',
+                                'link': 'www.google.com',
+                            },
+                            'id': '40839277-ef3d-461d-abbd-6506b08c80b6',
+                        },
+                        {
+                            'type': 'column',
+                            'value': {
+                                'title': 'col2',
+                                'image': None,
+                                'description': '<p data-block-key="8vbd9">sddsds</p>',
+                                'link': 'www.google.com',
+                            },
+                            'id': '40839277-ef3d-461d-abbd-6506b08c80b6',
+                        },
+                        {
+                            'type': 'column',
+                            'value': {
+                                'title': 'col3',
+                                'image': None,
+                                'description': '<p data-block-key="8vdbd9">col3</p>',
+                                'link': 'www.google.com',
+                            },
+                            'id': '40839277-ef3d-461d-abbd-6506b08c80b6',
+                        },
+                    ],
+                },
+                {
+                    'type': 'text',
+                    'value': '<p data-block-key="r0g5h">dssdsdds</p>',
+                    'id': '55d0ff59-bcfd-46d9-9c02-b1977eed3f80',
+                },
+                {
+                    'type': 'cta',
+                    'value': {
+                        'title': 'cta title',
+                        'teaser': 'cta teaser',
+                        'link_label': 'cta button',
+                        'link': 'www.google.com',
+                    },
+                    'id': 'a5fc7270-aa4c-4057-9a12-2c4c3e69c19f',
+                },
+            ]
+        )
+
+        self.article1 = ArticlePageFactory(
+            slug='test-article-bulk-action',
+            article_body=article_body1,
+            parent=self.parent_page,
+            article_title='test',
+            article_subheading='subheading',
+            article_teaser='teaser',
+            related_page_two_title='test title',
+            related_page_two_link='www.google.ocm',
+        )
+
+        self.microsite_page = MicrositePage(slug='wrong-type', title='wrong page', page_title='test')
+        self.parent_page.add_child(instance=self.microsite_page)
+
+    def test_convert_quote(self):
+        converted_quote = convert_quote(
+            [block for block in self.article1.article_body if block.block_type == 'pull_quote'][0]
+        )
+        self.assertEqual(converted_quote['value']['quote'], 'my quote')
+        self.assertEqual(converted_quote['type'], 'pull_quote')
+        self.assertEqual(converted_quote['value']['attribution'], 'random guy')
+        self.assertEqual(converted_quote['value']['role'], 'head')
+        self.assertEqual(converted_quote['value']['organisation'], 'dit')
+        self.assertEqual(converted_quote['value']['organisation_link'], 'http://www.google.com')
+
+    def test_convert_text(self):
+        text_block = convert_text([block for block in self.article1.article_body if block.block_type == 'text'][0])
+        self.assertEqual(text_block['type'], 'text')
+        self.assertEqual(text_block['value'], '<p data-block-key="r0g5h">dssdsdds</p>')
+
+    def test_convert_form(self):
+        form = convert_form([block for block in self.article1.article_body if block.block_type == 'form'][0])
+        self.assertEqual(form['type'], 'form')
+        self.assertEqual(form['value']['type'], 'Short')
+        self.assertEqual(form['value']['email_title'], 'title1')
+        self.assertEqual(form['value']['email_subject'], 'subject1')
+        self.assertEqual(form['value']['email_body'], 'body1')
+
+    def test_convert_columns(self):
+        columns = convert_all_columns(
+            [block for block in self.article1.article_body if block.block_type == 'Columns'][0]
+        )
+        self.assertEqual(len(columns['value']), 3)
+        self.assertEqual(columns['value'][0]['type'], 'column')
+        self.assertEqual(columns['value'][0]['value']['text'], '<p data-block-key="8vbdd9">sddsds</p>')
+        self.assertEqual(columns['value'][0]['value']['button_label'], None)
+        self.assertEqual(columns['value'][0]['value']['button_url'], 'www.google.com')
+
+    def test_convert_related_links(self):
+        related_links = convert_related_links(self.article1)
+        self.assertEqual(len(related_links), 1)
+        self.assertEqual(related_links[0]['type'], 'link')
+        self.assertEqual(related_links[0]['value']['title'], 'test title')
+
+    def test_convert_cta(self):
+        cta = convert_cta([block for block in self.article1.article_body if block.block_type == 'cta'][0])
+        self.assertEqual(cta['type'], 'cta')
+        self.assertEqual(cta['value']['title'], 'cta title')
+        self.assertEqual(cta['value']['teaser'], 'cta teaser')
+        self.assertEqual(cta['value']['link_label'], 'cta button')
+        self.assertEqual(cta['value']['link'], 'www.google.com')
+
+    def test_get_microsite_page_body(self):
+        page_body = get_microsite_page_body(self.article1.article_body)
+        self.assertEqual(len(page_body), 7)
+        self.assertEqual(len([item for item in page_body if item['type'] == 'form']), 1)
+        self.assertEqual(len([item for item in page_body if item['type'] == 'pull_quote']), 1)
+        self.assertEqual(len([item for item in page_body if item['type'] == 'cta']), 1)
+        self.assertEqual(len([item for item in page_body if item['type'] == 'columns']), 1)
+        self.assertEqual(len([item for item in page_body if item['type'] == 'text']), 1)
+        self.assertEqual(len([item for item in page_body if item['type'] == 'video']), 1)
+
+    def test_migrating_wrong_page_type(self):
+        with self.assertRaises(NotImplementedError) as context:
+            MigratePage.execute_action([self.microsite_page])
+            self.assertTrue(context.msg is None)
+
+    def test_convert_video(self):
+        video = convert_video([block for block in self.article1.article_body if block.block_type == 'Video'][0])
+        self.assertEqual(video['type'], 'video')
+
+    def test_convert_image(self):
+        image = convert_image([block for block in self.article1.article_body if block.block_type == 'image'][0])
+        self.assertEqual(image['type'], 'image')
+
+    def test_migrate_article_page(self):
+        self.assertEqual(MigratePage.execute_action([self.article1]), (1, 1))
