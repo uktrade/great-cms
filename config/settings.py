@@ -214,6 +214,7 @@ if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
         ('en-gb', 'English'),
         ('es', 'Spanish'),
         ('fr', 'French'),
+        ('ko', 'Korean'),
         ('pt', 'Portuguese'),
     ]
 
