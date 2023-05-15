@@ -1,9 +1,11 @@
+from datetime import timedelta
 from unittest import mock
 
 import pytest
 from directory_forms_api_client import actions
 from django.test import override_settings
 from django.urls import reverse
+from django.utils import timezone
 
 from config import settings
 from core.models import HeroSnippet
@@ -27,8 +29,12 @@ def test_export_academy_landing_page(client, export_academy_landing_page, export
 
 
 @pytest.mark.django_db
-def test_export_academy_event_list_page(client, export_academy_landing_page, test_event_list_hero):
-    # Listing page needs a hero snippet instance to work
+# Listing page needs a hero snippet instance to work
+def test_export_academy_event_list_page_logged_out(client, export_academy_landing_page, test_event_list_hero):
+    now = timezone.now()
+    factories.EventFactory.create_batch(
+        5, start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7), completed=None
+    )
     url = reverse('export_academy:upcoming-events')
     response = client.get(url)
     assert response.status_code == 200
