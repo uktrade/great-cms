@@ -7,6 +7,7 @@
       <div class="grid">
       {% if lessons_in_progress and exportplan_list %}
           <div class="c-1-2-xl">
+              {% include './dashboard_cards/uk_export_academy.html' %}
               {% include './dashboard_cards/learning_progress.html' %}
           </div>
           <div class="c-1-2-xl">
@@ -15,6 +16,7 @@
           </div>
         {% elif exportplan_list %}
             <div class="c-1-2-xl">
+                {% include './dashboard_cards/uk_export_academy.html' %}
                 {% include './dashboard_cards/exportplan_progress.html' %}
             </div>
             <div class="c-1-2-xl">
@@ -23,6 +25,7 @@
             </div>
         {% elif lessons_in_progress  %}
             <div class="c-1-2-xl">
+                {% include './dashboard_cards/uk_export_academy.html' %}
                 {% include './dashboard_cards/learning_progress.html' %}
             </div>
             <div class="c-1-2-xl">
