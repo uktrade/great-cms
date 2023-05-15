@@ -24,6 +24,7 @@
     h6 {
         font-family: $great-font-bold;
         color: $great-dark-grey;
+        -webkit-font-smoothing: auto;
     }
 
     h2 {
@@ -56,6 +57,7 @@
         font-size: 20px;
         min-height: 50px;
         line-height: 34px;
+        -webkit-font-smoothing: auto;
 
         &:hover,
         &:focus {
@@ -142,6 +144,10 @@
 
 .great-text-blue {
     color: $govuk-brand-colour;
+}
+
+.great-max-width-100 {
+    max-width: 100%;
 }
 
 .great-max-width-75 {
@@ -257,4 +263,16 @@
 
 .great-break-word {
     word-wrap: break-word;
+}
+
+.great-padding-top-35 {
+    padding-top: 30px !important;
+
+    @include govuk-media-query($from: tablet) {
+        padding-top: 35px !important;
+    }
+}
+
+.great-margin-bottom-30 {
+    margin-bottom: 30px !important;
 }
