@@ -5,6 +5,10 @@
     color: $great-grey;
 }
 
+%great-text-light-grey {
+    color: $great-light-grey;
+}
+
 .great {
     overflow-x: hidden;
 
@@ -90,6 +94,10 @@
     .great-text-grey {
         @extend %great-text-grey;
     }
+
+    .great-text-light-grey {
+        @extend %great-text-light-grey;
+    }
 }
 
 .great-container {
@@ -121,7 +129,7 @@
 }
 
 .great-text-light-grey {
-    color: $great-light-grey;
+    @extend %great-text-light-grey;
 }
 
 .great-text-blue {
@@ -200,7 +208,7 @@
 }
 
 .great-actions-group {
-    > * {
+    >* {
         @include govuk-media-query($from: tablet) {
             display: inline-block;
             margin-right: 20px;
