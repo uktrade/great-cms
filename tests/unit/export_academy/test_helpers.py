@@ -175,3 +175,19 @@ def test_book_button_disabled_for_closed_event(user):
 
     assert buttons['form_event_booking_buttons'] == []
     assert buttons['disable_text'] == 'Closed for booking'
+
+
+@pytest.mark.django_db
+def test_no_join_button_when_on_confirmation(user, test_future_event):
+    buttons = helpers.get_buttons_for_event(user, test_future_event, on_confirmation=True)
+
+    assert buttons.get('event_action_buttons') == []
+
+
+@pytest.mark.django_db
+def test_ics_button_is_primary_on_confirmation(user, test_future_event):
+    registration = factories.RegistrationFactory(email=user.email)
+    factories.BookingFactory(event=test_future_event, registration=registration, status='Confirmed')
+    buttons = helpers.get_buttons_for_event(user, test_future_event, on_confirmation=True)
+
+    assert 'govuk-button--secondary' not in buttons['calendar_button']['classname']

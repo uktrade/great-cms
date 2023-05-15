@@ -9,6 +9,10 @@
     color: $great-light-grey;
 }
 
+%great-text-white {
+    color: white;
+}
+
 .great {
     overflow-x: hidden;
 
@@ -98,10 +102,10 @@
     .great-text-light-grey {
         @extend %great-text-light-grey;
     }
-}
 
-.great-container {
-    max-width: 1230px;
+    .great-text-white {
+        @extend %great-text-white;
+    }
 }
 
 .great-container {
@@ -132,6 +136,10 @@
     @extend %great-text-light-grey;
 }
 
+.great-text-white {
+    @extend %great-text-white;
+}
+
 .great-text-blue {
     color: $govuk-brand-colour;
 }
@@ -152,6 +160,18 @@
 
 .great-font-size-18 {
     font-size: 18px;
+}
+
+.great-font-size-mobile-18 {
+    @media (max-width: 640px) {
+        font-size: 18px;
+    }
+}
+
+.great-font-size-desktop-24 {
+    @media (min-width: 641px) {
+        font-size: 24px;
+    }
 }
 
 .great-font-size-28 {
@@ -233,4 +253,8 @@
     display: block;
     content: '';
     clear: both;
+}
+
+.great-break-word {
+    word-wrap: break-word;
 }
