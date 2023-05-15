@@ -117,12 +117,13 @@ def test_join_button_returned_for_booked_in_upcoming_event(user):
 
 
 @pytest.mark.django_db
-def test_view_buttons_returned_for_booked_past_event(user):
+def test_view_buttons_returned_for_booked_online_past_event(user):
     now = timezone.now()
     event = factories.EventFactory(
         start_date=now - timedelta(days=2, hours=1),
         end_date=now - timedelta(days=2),
         completed=now,
+        format='online',
         name='Test event name',
     )
     event.document = DocumentFactory()
@@ -135,18 +136,37 @@ def test_view_buttons_returned_for_booked_past_event(user):
         {
             'url': reverse_lazy('export_academy:event-details', kwargs=dict(pk=event.pk)),
             'label': """<i class="fa fa-play" aria-hidden="true"></i>Play
-                             <span class="great-visually-hidden"> recording of Test event name</span>""",
+                            <span class="great-visually-hidden"> recording of Test event name</span>""",
             'classname': 'govuk-button ukea-ga-tracking',
             'title': 'Play recording of Test event name',
         },
         {
             'url': event.document.url,
             'label': """<i class="fa fa-download" aria-hidden="true"></i>
-                             Download PDF<span class="great-visually-hidden"> for Test event name</span>""",
+                            Download PDF<span class="great-visually-hidden"> for Test event name</span>""",
             'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
             'title': 'Download PDF for Test event name',
         },
     ]
+
+
+@pytest.mark.django_db
+def test_no_action_buttons_returned_for_booked_in_person_past_event(user):
+    now = timezone.now()
+    event = factories.EventFactory(
+        start_date=now - timedelta(days=2, hours=1),
+        end_date=now - timedelta(days=2),
+        completed=now,
+        format='in_person',
+        name='Test event name',
+    )
+    event.document = DocumentFactory()
+    registration = factories.RegistrationFactory(email=user.email, first_name=user.first_name)
+    factories.BookingFactory(event=event, registration=registration, status='Confirmed')
+
+    buttons = helpers.get_buttons_for_event(user, event)
+
+    assert buttons['event_action_buttons'] == []
 
 
 @pytest.mark.django_db
