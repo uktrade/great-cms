@@ -27,49 +27,95 @@ def get_wagtail_transfer_configuration() -> dict:
 
     active_environment = env.str(ENV_IDENTIFICATION_KEY)
 
-    _configs = {
-        PRODUCTION: {
-            UAT: {
-                'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_UAT'),
-                'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_UAT'),
+    def _get_config(
+        env,
+        uat_base_url=None,
+        uat_secret=None,
+        staging_base_url=None,
+        staging_secret=None,
+        prod_base_url=None,
+        prod_secret=None,
+    ):
+        _configs = {
+            PRODUCTION: {
+                UAT: {
+                    'BASE_URL': uat_base_url,
+                    'SECRET_KEY': uat_secret,
+                },
             },
-        },
-        DEV: {
-            UAT: {
-                'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_UAT'),
-                'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_UAT'),
+            DEV: {
+                UAT: {
+                    'BASE_URL': uat_base_url,
+                    'SECRET_KEY': uat_secret,
+                },
+                STAGING: {
+                    'BASE_URL': staging_base_url,
+                    'SECRET_KEY': staging_secret,
+                },
             },
             STAGING: {
-                'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_STAGING'),
-                'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_STAGING'),
+                PRODUCTION: {
+                    'BASE_URL': prod_base_url,
+                    'SECRET_KEY': prod_secret,
+                }
             },
-        },
-        STAGING: {
-            PRODUCTION: {
-                'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_PRODUCTION'),
-                'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_PRODUCTION'),
-            }
-        },
-        UAT: {
-            PRODUCTION: {
-                'BASE_URL': env.str('WAGTAILTRANSFER_BASE_URL_PRODUCTION'),
-                'SECRET_KEY': env.str('WAGTAILTRANSFER_SECRET_KEY_PRODUCTION'),
-            }
-        },
-    }
+            UAT: {
+                PRODUCTION: {
+                    'BASE_URL': prod_base_url,
+                    'SECRET_KEY': prod_secret,
+                }
+            },
+        }
+        return _configs[env]
 
     if active_environment == PRODUCTION:
         # Prod needs to know about UAT to import FROM it
-        config.update(_configs(active_environment))
+        uat_base_url = env.str('WAGTAILTRANSFER_BASE_URL_UAT')
+        uat_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_UAT')
+        config.update(
+            _get_config(
+                active_environment,
+                uat_base_url=uat_base_url,
+                uat_secret=uat_secret,
+            )
+        )
     elif active_environment == DEV:
         # Dev needs to know about Staging and UAT to import FROM them
-        config.update(_configs(active_environment))
+        uat_base_url = env.str('WAGTAILTRANSFER_BASE_URL_UAT')
+        uat_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_UAT')
+        staging_base_url = env.str('WAGTAILTRANSFER_BASE_URL_STAGING')
+        staging_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_STAGING')
+        config.update(
+            _get_config(
+                active_environment,
+                uat_base_url=uat_base_url,
+                uat_secret=uat_secret,
+                staging_base_url=staging_base_url,
+                staging_secret=staging_secret,
+            )
+        )
     elif active_environment == STAGING:
         # Staging needs to know about production, to import FROM it
-        config.update(_configs(active_environment))
+        prod_base_url = env.str('WAGTAILTRANSFER_BASE_URL_PRODUCTION')
+        prod_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_PRODUCTION')
+        config.update(
+            _get_config(
+                active_environment,
+                prod_base_url=prod_base_url,
+                prod_secret=prod_secret,
+            )
+        )
     elif active_environment == UAT:
         # UAT needs to know about production, to import FROM it
-        config.update(_configs(active_environment))
+        prod_base_url = env.str('WAGTAILTRANSFER_BASE_URL_PRODUCTION')
+        prod_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_PRODUCTION')
+        config.update(
+            _get_config(
+                active_environment,
+                prod_base_url=prod_base_url,
+                prod_secret=prod_secret,
+            )
+        )
     elif active_environment == LOCAL and env.bool('WAGTAIL_TRANSFER_LOCAL_DEV', default=False):
         # Local needs to know about Dev and Staging and UAT to import FROM them
         _get_local_config(config)
