@@ -28,7 +28,10 @@ article > p {
   padding-bottom: $standard-padding;
 }
 
-.bold, .results.title, #search-results-information p, .heading-small {
+.bold,
+.results.title,
+#search-results-information p,
+.heading-small {
   font-family: $header-font;
 }
 
@@ -37,7 +40,9 @@ article > p {
   line-height: $p-line-height;
 }
 
-.font-xsmall, .subheading, .heading-small  {
+.font-xsmall,
+.subheading,
+.heading-small {
   font-family: $main-text-font;
 }
 
@@ -70,13 +75,13 @@ p.lede {
   color: $color-main-text;
 }
 
-
-.big-number-list li:before{
-  font-family: $header-font!important;
-  color: $color-main-text!important
+.big-number-list li:before {
+  font-family: $header-font !important;
+  color: $color-main-text !important;
 }
 
-.font-xsmall, p.lede {
+.font-xsmall,
+p.lede {
   font-family: $main-text-font;
 }
 
@@ -145,7 +150,6 @@ label.body-l,
   color: $color-main-text;
 }
 
-
 //override font-family
 .h-m,
 .h-s,
@@ -155,17 +159,30 @@ label.body-l,
 .heading-xlarge,
 .heading-small,
 .heading-medium,
-.body-l-b
-{
-font-family: $header-font;
-font-weight: $regular-font-weight;
-}
-
-.link, .form-control, .body-m, .body-s, .body-l, .great-checkbox label, .multiple-choice label {
-  font-family: $main-text-font!important;
+.body-l-b {
+  font-family: $header-font;
   font-weight: $regular-font-weight;
 }
 
-.body-l-b{
+.link,
+.form-control,
+.body-m,
+.body-s,
+.body-l,
+.great-checkbox label,
+.multiple-choice label {
+  font-family: $main-text-font !important;
+  font-weight: $regular-font-weight;
+}
+
+.body-l-b {
   font-size: $font-size-p;
+}
+
+.magna-header__menu-items button,
+.magna-header__search input,
+select.form-control,
+.breadcrumbs li {
+  font-size: $font-size-button;
+  font-family: $main-text-font;
 }
