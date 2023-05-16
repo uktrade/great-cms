@@ -344,3 +344,48 @@ def test_business_eyb_sso_login_success(client, requests_mock):
         reverse_lazy('international_online_offer:login'), {'email': 'test@test.com', 'password': 'passwor1234'}
     )
     assert response.status_code == 302
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_helpers, 'send_verification_code_email')
+def test_business_eyb_sso_signup_success(mock_send_code, client, requests_mock):
+    requests_mock.post(
+        settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/user/',
+        text='{"uidb64": "133", "verification_token" : "344", "verification_code" : "54322"}',
+        status_code=201,
+    )
+    response = client.post(
+        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
+    )
+    assert mock_send_code.call_count == 1
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_business_eyb_sso_signup_fail(client, requests_mock):
+    requests_mock.post(
+        settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/user/',
+        text='{"email": "Incorrect email"}',
+        status_code=400,
+    )
+    response = client.post(
+        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
+    )
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_helpers, 'regenerate_verification_code')
+@mock.patch.object(sso_helpers, 'send_verification_code_email')
+def test_business_eyb_sso_signup_regen_code(mock_send_code, mock_regenerate_code, client, requests_mock):
+    requests_mock.post(
+        settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/user/',
+        text='{"uidb64": "133", "verification_token" : "344", "verification_code" : "54322"}',
+        status_code=409,
+    )
+    response = client.post(
+        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
+    )
+    assert mock_regenerate_code.call_count == 1
+    assert mock_send_code.call_count == 1
+    assert response.status_code == 200

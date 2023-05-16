@@ -418,7 +418,7 @@ class IOOLogin(ResendVerificationMixin, TemplateView):
 
 
 class IOOSignUp(ResendVerificationMixin, TemplateView):
-    template_name = 'ioo/signup-new.html'
+    template_name = 'ioo/signup.html'
     success_url = '/international/expand-your-business-in-the-uk/guide/'
 
     def get(self, request, *args, **kwargs):
