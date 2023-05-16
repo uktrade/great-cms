@@ -8,7 +8,7 @@ from django.views.generic.edit import FormView
 
 from directory_sso_api_client import sso_api_client
 from international_online_offer import forms
-from international_online_offer.core import constants, helpers, scorecard
+from international_online_offer.core import helpers, scorecard
 from international_online_offer.models import (
     TriageData,
     UserData,
@@ -294,11 +294,31 @@ class IOOProfile(FormView):
     form_class = forms.ProfileForm
     template_name = 'ioo/profile.html'
     success_url = '/international/expand-your-business-in-the-uk/guide/'
+    COMPLETE_SIGN_UP_TITLE = 'Complete sign up'
+    COMPLETE_SIGN_UP_LOW_VALUE_SUB_TITLE = 'Complete the sign up form to access your full personalised guide.'
+    COMPLETE_SIGN_UP_HIGH_VALUE_SUB_TITLE = (
+        'Complete the sign up form to access 1 to 1 support and your full personalised guide.'
+    )
+
+    PROFILE_DETAILS_TITLE = 'Profile details'
+    PROFILE_DETAILS_SUB_TITLE = 'Update your profile information below.'
 
     def get_context_data(self, **kwargs):
+        title = self.COMPLETE_SIGN_UP_TITLE
+        sub_title = self.COMPLETE_SIGN_UP_LOW_VALUE_SUB_TITLE
+        user_data = get_user_data_from_db_or_session(self.request)
+        triage_data = get_triage_data_from_db_or_session(self.request)
+        # if full_name has been provided then the user has setup a profile before
+        if user_data.full_name:
+            title = self.PROFILE_DETAILS_TITLE
+            sub_title = self.PROFILE_DETAILS_SUB_TITLE
+        elif triage_data.is_high_value:
+            sub_title = self.COMPLETE_SIGN_UP_HIGH_VALUE_SUB_TITLE
+
         return super().get_context_data(
             **kwargs,
-            complete_contact_form_message=constants.LOW_VALUE_INVESTOR_SIGNUP_MESSAGE,
+            title=title,
+            sub_title=sub_title,
             back_url='/international/expand-your-business-in-the-uk/guide/',
         )
 
