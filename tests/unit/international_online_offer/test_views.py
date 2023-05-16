@@ -248,6 +248,22 @@ def test_ioo_spend(client, settings):
 
 
 @pytest.mark.django_db
+def test_ioo_login(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:login')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_ioo_signup(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:signup')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_ioo_spend_next(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     response = client.get(reverse('international_online_offer:spend') + '?next=edit-your-answers')
