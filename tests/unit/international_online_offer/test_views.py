@@ -5,7 +5,7 @@ from django.conf import settings
 from django.urls import reverse, reverse_lazy
 
 from directory_constants import sectors as directory_constants_sectors
-from international_online_offer.core import hirings, intents, regions, spends
+from international_online_offer.core import helpers, hirings, intents, regions, spends
 from international_online_offer.models import TriageData
 from sso import helpers as sso_helpers
 
@@ -389,3 +389,18 @@ def test_business_eyb_sso_signup_regen_code(mock_send_code, mock_regenerate_code
     assert mock_regenerate_code.call_count == 1
     assert mock_send_code.call_count == 1
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'send_welcome_notification')
+def test_business_eyb_sso_signup_verify_code_success(mock_send_welcome_notification, client, requests_mock):
+    requests_mock.post(
+        settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/verification-code/verify/',
+        text='{"uidb64": "133", "token" : "344", "code" : "54322", "email" : "test@test.com"}',
+        status_code=201,
+    )
+    response = client.post(
+        reverse_lazy('international_online_offer:signup') + '?uidb64=133&token=344', {'code_confirm': '54322'}
+    )
+    assert mock_send_welcome_notification.call_count == 1
+    assert response.status_code == 302
