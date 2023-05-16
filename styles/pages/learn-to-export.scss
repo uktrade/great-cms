@@ -150,7 +150,7 @@ $breakpoint-size: 900px;
 }
 
 .learning-link {
-  font-family: 'FS Lucas';
+  font-family: $main-text-font;
   color: $color-main-text;
   font-size: $font-size-p;
   line-height: 25px;

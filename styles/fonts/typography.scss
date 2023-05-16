@@ -1,11 +1,5 @@
-@font-face {
-  font-family: 'FS Lucas';
-  src: url('/static/fonts/FSLucas-Regular.woff2') format('woff2'),
-    url('/static/fonts/FSLucas-Regular.woff') format('woff'),
-    url('/static/fonts/FSLucas-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+@import '../sizes/sizes.scss';
+@import '../colors/colors.scss';
 
 @font-face {
   font-family: 'Noto Regular';
@@ -20,18 +14,6 @@
   font-weight: normal;
   font-style: normal;
 }
-
-// sass-lint:disable-all
-@font-face {
-  font-family: 'FS Lucas SemiBold';
-  src: url('/static/fonts/FSLucas-SemiBold.eot'),
-    url('/static/fonts/FSLucas-SemiBold.eot?#iefix') format('embedded-opentype'),
-    url('/static/fonts/FSLucas-SemiBold.woff2') format('woff2'),
-    url('/static/fonts/FSLucas-SemiBold.woff') format('woff'),
-    url('/static/fonts/FSLucas-SemiBold.ttf') format('truetype'),
-    url('/static/fonts/FSLucas-SemiBold.svg#UbuntuBold') format('svg');
-}
-
 
 @font-face {
   font-family: 'Font Awesome 5 Free';
@@ -62,17 +44,92 @@ $font-weight-semi-bold: 500;
 
 
 //font-size
-$font-size-h1: 48px;
+$font-size-h1: 44px;
+$h1-line-height: 60px;
+
 $font-size-h2: 36px;
+$h2-line-height: 50px;
+
 $font-size-h3: 28px;
+$h3-line-height: 40px;
+
 $font-size-h4: 24px;
+$h4-line-height: 34px;
+
 $font-size-h5: 20px;
+$h5-line-height: 30px;
 
 $font-size-p-large: 28px;
-$font-size-p: 20px;
-$font-size-p-small: 13px;
-
-$font-size-button: 20px;
-
-
+$p-large-line-height: 40px;
+$font-size-p: 18px;
 $p-line-height: 30px;
+$font-size-p-small: 16px;
+$p-small-line-height: 25px;
+
+$font-size-button: $font-size-p;
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $header-font;
+  margin: 0;
+  color: $color-main-text;
+}
+
+h1 {
+  font-size: $font-size-h1;
+  line-height: $h1-line-height;
+  letter-spacing: -0.03rem;
+  @media screen and (max-width: $mobile-size) {
+    font-size: $font-size-h2;
+    line-height: $h2-line-height;
+    letter-spacing: normal;
+  }
+}
+
+h2 {
+  font-size: $font-size-h2;
+  line-height: $h2-line-height;
+  @media screen and (max-width: $mobile-size) {
+    font-size: $font-size-h3;
+    line-height: $h3-line-height
+  }
+}
+
+h3 {
+  font-size: $font-size-h3;
+  line-height: $font-size-h3;
+  @media screen and (max-width: $mobile-size) {
+    font-size: $font-size-h4;
+    line-height: $h4-line-height;
+  }
+}
+
+h4 {
+  font-size: $font-size-h4;
+  line-height: $font-size-h4;
+  @media screen and (max-width: $mobile-size) {
+    font-size: $font-size-h5;
+    line-height: $h5-line-height;
+  }
+}
+
+h5 {
+  font-size: $font-size-h5;
+  line-height: $h5-line-height;
+}
+
+body,
+div,
+p {
+  font-family: $main-text-font;
+  font-size: $font-size-p;
+  color: $color-main-text;
+  line-height: $p-line-height;
+}
+
+$regular-font-weight: 400;
+$bold-font-weight: 600;

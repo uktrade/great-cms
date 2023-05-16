@@ -14,3 +14,9 @@ a:active,
 .personalization-menu-button.tag--icon:active {
     @include focus-state()
 }
+
+
+.magna-header__menu-items button, .magna-header__search input, select.form-control, .breadcrumbs li {
+    font-size: $font-size-button;
+    font-family: $main-text-font;
+}

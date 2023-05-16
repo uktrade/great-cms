@@ -48,6 +48,7 @@ button {
   font-size: $font-size-button;
   line-height: revert;
   color: $color-gov-link;
+  font-family: $main-text-font;
 
   span + i,
   i + span {
