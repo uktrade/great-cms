@@ -448,7 +448,7 @@ class IOOSignUp(ResendVerificationMixin, TemplateView):
                 # Resend verification code if it has expired.
                 email = upstream_response.json()['email']
                 verification_code = sso_helpers.regenerate_verification_code(email)
-                helpers.send_verification_code_email(
+                sso_helpers.send_verification_code_email(
                     email=email,
                     verification_code=verification_code,
                     form_url=request.path,
@@ -486,7 +486,7 @@ class IOOSignUp(ResendVerificationMixin, TemplateView):
                 if verification_code:
                     uidb64 = verification_code.pop('user_uidb64')
                     token = verification_code.pop('verification_token')
-                    helpers.send_verification_code_email(
+                    sso_helpers.send_verification_code_email(
                         email=email,
                         verification_code=verification_code,
                         form_url=self.request.path,
@@ -504,7 +504,7 @@ class IOOSignUp(ResendVerificationMixin, TemplateView):
                 uidb64 = user_details['uidb64']
                 token = user_details['verification_token']
 
-                helpers.send_verification_code_email(
+                sso_helpers.send_verification_code_email(
                     email=form.cleaned_data['email'],
                     verification_code=user_details['verification_code'],
                     form_url=self.request.path,
