@@ -147,11 +147,14 @@ class ProfileForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(label='')
-    password = forms.CharField(label='', widget=PasswordInput)
+    email = forms.EmailField(label='', required=True)
+    password = forms.CharField(label='', required=True, widget=PasswordInput)
 
 
 class SignUpForm(forms.Form):
-    email = forms.EmailField(label='')
-    password = forms.CharField(label='', widget=PasswordInput)
+    email = forms.EmailField(label='', required=True)
+    password = forms.CharField(label='', required=True, widget=PasswordInput)
+
+
+class CodeConfirmForm(forms.Form):
     code_confirm = forms.CharField(label='')

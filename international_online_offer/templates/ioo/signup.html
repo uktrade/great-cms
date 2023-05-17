@@ -19,18 +19,22 @@
     <h2 class="govuk-body-m">Already have an account? <a href="{% url 'international_online_offer:login' %}" class="govuk-link">Sign in</a></h2>
   </div>
 </div>
+{% if form.non_field_errors %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <div id="error-summary-container" class="govuk-error-summary govuk-!-display-none" data-module="govuk-error-summary">
+    <div id="error-summary-container" class="govuk-error-summary" data-module="govuk-error-summary">
       <div role="alert">
         <div class="govuk-error-summary__body">
           <ul class="govuk-list govuk-error-summary__list" id="errors-list">
+            {{ form.non_field_errors }}
           </ul>
         </div>
       </div>
     </div>
   </div>
 </div>
+{% endif %}
+{% if form.code_confirm %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
       <div id="sign-up-confirm">
@@ -38,21 +42,26 @@
         <p class="govuk-body">We've sent a code to your email address.
           Don't forget to check your spam folder if you can't see it.
           Enter the code below to complete registration:</p>
-        <label class="govuk-label" for="code_confirm">Confirmation code</label>
-        {% include 'core/includes/form_field.html' with field=form.code_confirm %}
-        <button class="atlas-button govuk-!-margin-bottom-3" onclick="onVerifyCode()">Continue</button>
+          <form method="post">
+            {% csrf_token %}
+            <label class="govuk-label" for="code_confirm">Confirmation code</label>
+            {% include 'core/includes/form_field.html' with field=form.code_confirm %}
+            {% include './includes/submit_button.html' with button_text='Continue'  %}
+          </form>
       </div>
   </div>
 </div>
+{% else %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <div id="sign-up">
+    <form method="post">
+      {% csrf_token %}
       <label class="govuk-label" for="email">Email</label>
       {% include 'core/includes/form_field.html' with field=form.email %}
       <label class="govuk-label" for="password">Password</label>
       {% include 'core/includes/form_field.html' with field=form.password %}
-      <button class="atlas-button govuk-!-margin-bottom-3" onclick="onSubmitSignUp()">Sign up</button>
-    </div>
+      {% include './includes/submit_button.html' with button_text='Sign up'  %}
+    </form>
   </div>
 </div>
 <div class="govuk-grid-row">
@@ -63,6 +72,7 @@
     </p>
   </div>
 </div>
+{% endif %}
 
 {% endblock %}
 
@@ -70,35 +80,10 @@
   {{ block.super }}
   <script src="{% static 'javascript/international-online-offer.api.js' %}"></script>
   <script type="text/javascript">
-    const signUpVerifyCodeContainer = document.getElementById('sign-up-confirm');
-    const signUpContainer = document.getElementById('sign-up');
     let uidb64 = '{{request.GET.uidb64}}';
     let token = '{{request.GET.token}}';
 
-    const initForm = () => {
-      if (hasQueryParamsForValidateCode()) {
-        setVerifyCodeMode();
-      } else {
-        setDefaultMode();
-      }
-    }
-
-    const hasQueryParamsForValidateCode = () => {
-      return (uidb64 && token);
-    }
-
-    const setDefaultMode = () => {
-      signUpContainer.classList.remove('govuk-!-display-none')
-      signUpVerifyCodeContainer.classList.add('govuk-!-display-none')
-    }
-
-    const setVerifyCodeMode = () => {
-      signUpContainer.classList.add('govuk-!-display-none')
-      signUpVerifyCodeContainer.classList.remove('govuk-!-display-none')
-    }
-
     const onSubmitSignUp = () => {
-      document.getElementById('error-summary-container').classList.add('govuk-!-display-none');
       const data = {
         email: document.getElementById('id_email').value,
         password: document.getElementById('id_password').value,
@@ -121,7 +106,6 @@
     }
 
     const onVerifyCode = () => {
-      document.getElementById('error-summary-container').classList.add('govuk-!-display-none');
       const data = {
         uidb64: uidb64,
         token: token,
@@ -163,6 +147,5 @@
       });
     };
 
-    initForm();
   </script>
 {% endblock %}

@@ -1,3 +1,7 @@
+from unittest import mock
+
+from directory_forms_api_client import actions
+
 from international_online_offer.core import filter_tags, helpers
 
 
@@ -83,3 +87,16 @@ def test_find_articles_based_on_tags():
 
 def test_concat_filters():
     assert helpers.concat_filters('test', ['test']) == ['test', 'test']
+
+
+@mock.patch.object(actions, 'GovNotifyEmailAction')
+def test_send_eyb_welcome_notification(mock_action_class, settings):
+    helpers.send_welcome_notification(email='jim@example.com', form_url='foo')
+
+    assert mock_action_class.call_count == 1
+    assert mock_action_class.call_args == mock.call(
+        template_id=settings.EYB_ENROLMENT_WELCOME_TEMPLATE_ID,
+        email_address='jim@example.com',
+        form_url='foo',
+    )
+    assert mock_action_class().save.call_count == 1

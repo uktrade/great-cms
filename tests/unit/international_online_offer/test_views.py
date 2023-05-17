@@ -1,9 +1,13 @@
+from unittest import mock
+
 import pytest
-from django.urls import reverse
+from django.conf import settings
+from django.urls import reverse, reverse_lazy
 
 from directory_constants import sectors as directory_constants_sectors
-from international_online_offer.core import hirings, intents, regions, spends
+from international_online_offer.core import helpers, hirings, intents, regions, spends
 from international_online_offer.models import TriageData
+from sso import helpers as sso_helpers
 
 
 @pytest.mark.django_db
@@ -244,6 +248,22 @@ def test_ioo_spend(client, settings):
 
 
 @pytest.mark.django_db
+def test_ioo_login(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:login')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_ioo_signup(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:signup')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_ioo_spend_next(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     response = client.get(reverse('international_online_offer:spend') + '?next=edit-your-answers')
@@ -305,3 +325,98 @@ def test_ioo_edit_your_answers(client, settings):
     url = reverse('international_online_offer:edit-your-answers')
     response = client.get(url)
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_helpers, 'regenerate_verification_code')
+@mock.patch.object(sso_helpers, 'send_verification_code_email')
+def test_business_eyb_sso_login(mock_send_code, mock_regenerate_code, client, requests_mock):
+    mock_regenerate_code.return_value = {'code': '12345', 'user_uidb64': 'aBcDe', 'verification_token': '1ab-123abc'}
+    requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=401)
+
+    response = client.post(
+        reverse_lazy('international_online_offer:login'), {'email': 'test@test.com', 'password': 'passwor1234'}
+    )
+
+    assert mock_send_code.call_count == 1
+    assert mock_regenerate_code.call_count == 1
+
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_business_eyb_sso_login_fail(client, requests_mock):
+    requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=200)
+    response = client.post(
+        reverse_lazy('international_online_offer:login'), {'email': 'test@test.com', 'password': 'passwor1234'}
+    )
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_business_eyb_sso_login_success(client, requests_mock):
+    requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=302)
+    response = client.post(
+        reverse_lazy('international_online_offer:login'), {'email': 'test@test.com', 'password': 'passwor1234'}
+    )
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_helpers, 'send_verification_code_email')
+def test_business_eyb_sso_signup_success(mock_send_code, client, requests_mock):
+    requests_mock.post(
+        settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/user/',
+        text='{"uidb64": "133", "verification_token" : "344", "verification_code" : "54322"}',
+        status_code=201,
+    )
+    response = client.post(
+        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
+    )
+    assert mock_send_code.call_count == 1
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_business_eyb_sso_signup_fail(client, requests_mock):
+    requests_mock.post(
+        settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/user/',
+        text='{"email": "Incorrect email"}',
+        status_code=400,
+    )
+    response = client.post(
+        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
+    )
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_helpers, 'regenerate_verification_code')
+@mock.patch.object(sso_helpers, 'send_verification_code_email')
+def test_business_eyb_sso_signup_regen_code(mock_send_code, mock_regenerate_code, client, requests_mock):
+    requests_mock.post(
+        settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/user/',
+        text='{"uidb64": "133", "verification_token" : "344", "verification_code" : "54322"}',
+        status_code=409,
+    )
+    response = client.post(
+        reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
+    )
+    assert mock_regenerate_code.call_count == 1
+    assert mock_send_code.call_count == 1
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+@mock.patch.object(helpers, 'send_welcome_notification')
+def test_business_eyb_sso_signup_verify_code_success(mock_send_welcome_notification, client, requests_mock):
+    requests_mock.post(
+        settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/verification-code/verify/',
+        text='{"uidb64": "133", "token" : "344", "code" : "54322", "email" : "test@test.com"}',
+        status_code=201,
+    )
+    response = client.post(
+        reverse_lazy('international_online_offer:signup') + '?uidb64=133&token=344', {'code_confirm': '54322'}
+    )
+    assert mock_send_welcome_notification.call_count == 1
+    assert response.status_code == 302
