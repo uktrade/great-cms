@@ -570,9 +570,9 @@
                 {% image page.article_image original as rendition %}
                 <div class="article-list-item">
                     {% if request.user.is_authenticated %}
-                    <a href="{{ page.url }}">
+                    <a class="article-list-item-a" href="{{ page.url }}">
                     {% else %}
-                    <a href="{% url 'international_online_offer:signup' %}">
+                    <a class="article-list-item-a" href="{% url 'international_online_offer:signup' %}">
                     {% endif %}
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-one-third">
@@ -585,8 +585,8 @@
                                 </div>
                             </div>
                             <div class="govuk-grid-column-two-thirds">
-                                <h4 class="govuk-heading-m">{{ page.article_title }}</h4>
-                                <p class="govuk-body">{{ page.article_teaser }}</p>
+                                <h4 class="govuk-heading-m article-list-item-title">{{ page.article_title }}</h4>
+                                <p class="govuk-body article-list-item-teaser">{{ page.article_teaser }}</p>
                                 {% if not request.user.is_authenticated %}
                                 <div class="article-lock-text">
                                     <strong class="govuk-tag govuk-tag--blue">
@@ -640,8 +640,8 @@
                                 </div>
                             </div>
                             <div class="govuk-grid-column-two-thirds">
-                                <h4 class="govuk-heading-m">{{ page.article_title }}</h4>
-                                <p class="govuk-body">{{ page.article_teaser }}</p>
+                                <h4 class="govuk-heading-m article-list-item-title">{{ page.article_title }}</h4>
+                                <p class="govuk-body article-list-item-teaser">{{ page.article_teaser }}</p>
                                 {% if not request.user.is_authenticated %}
                                 <div class="article-lock-text">
                                     <strong class="govuk-tag govuk-tag--blue">
@@ -697,7 +697,7 @@
                         </div>
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full">
-                                <p class="govuk-body">{{ page.article_title }}</p>
+                                <p class="govuk-body article-list-item-title">{{ page.article_title }}</p>
                                 {% if not request.user.is_authenticated %}
                                 <div class="article-lock-text">
                                     <strong class="govuk-tag govuk-tag--blue">
