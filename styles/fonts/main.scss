@@ -28,51 +28,9 @@ article > p {
   padding-bottom: $standard-padding;
 }
 
-.bold,
-.results.title,
-#search-results-information p,
-.heading-small {
-  font-family: $header-font;
-}
-
 #great-footer-copyright {
   font-size: $font-size-p-small;
   line-height: $p-line-height;
-}
-
-.font-xsmall,
-.subheading,
-.heading-small {
-  font-family: $main-text-font;
-}
-
-//just overidde colors
-.h-m,
-.h-s,
-a.learn__category-link,
-.body-m,
-.body-l,
-.h-l,
-.body-l-b,
-.h-xs,
-.body-l,
-.body-s,
-div,
-label.body-l,
-.body-m-b,
-.body-s-b,
-.heading-large,
-.heading-xlarge,
-.heading-small,
-.heading-medium,
-.multiple-choice label,
-.select__button i,
-.great-checkbox label,
-.great-checkbox label::before,
-.learn__lesson-item-link:visited,
-.learning-link:visited,
-p.lede {
-  color: $color-main-text;
 }
 
 .big-number-list li:before {
@@ -80,46 +38,9 @@ p.lede {
   color: $color-main-text !important;
 }
 
-.font-xsmall,
-p.lede {
-  font-family: $main-text-font;
-}
-
-//just overidde colors
-.h-m,
-.h-s,
-a.learn__category-link,
-.body-m,
-.body-l,
-.h-l,
-.body-l-b,
-.h-xs,
-.body-l,
-.body-s,
-div,
-label.body-l,
-.body-m-b,
-.body-s-b,
-.heading-large,
-.heading-xlarge,
-.heading-small,
-.heading-medium,
-.multiple-choice label,
-.select__button i,
-.great-checkbox label,
-.great-checkbox label::before,
-.learn__lesson-item-link:visited,
-.learning-link:visited {
-  color: $color-main-text;
-}
-
 #great-footer-copyright {
   font-size: $font-size-p-small;
   line-height: $p-line-height;
-}
-
-.font-xsmall {
-  font-family: $main-text-font;
 }
 
 //just overidde colors
@@ -159,9 +80,12 @@ label.body-l,
 .heading-xlarge,
 .heading-small,
 .heading-medium,
-.body-l-b {
+p.lede,
+.results.title,
+#search-results-information p,
+.heading-small {
   font-family: $header-font;
-  font-weight: $regular-font-weight;
+  font-weight: $font-weight-semi-bold;
 }
 
 .link,
@@ -170,7 +94,9 @@ label.body-l,
 .body-s,
 .body-l,
 .great-checkbox label,
-.multiple-choice label {
+.multiple-choice label,
+.font-xsmall,
+.subheading{
   font-family: $main-text-font !important;
   font-weight: $regular-font-weight;
 }
@@ -185,4 +111,25 @@ select.form-control,
 .breadcrumbs li {
   font-size: $font-size-button;
   font-family: $main-text-font;
+}
+
+.bold,
+.bold-large,
+.bold-medium,
+.bold-small,
+.rich-text h1,
+.rich-text h2,
+.rich-text h3,
+.rich-text h4,
+.rich-text h5,
+.block-text:not(.microsite .block-text) h1,
+.block-text:not(.microsite .block-text) h2,
+.block-text:not(.microsite .block-text) h3,
+.block-text:not(.microsite .block-text) h4,
+#search-results-information p, .body-l-b {
+  font-weight: 600;
+}
+
+.rich-text i {
+  font-size: inherit;
 }

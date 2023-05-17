@@ -40,7 +40,7 @@ $header-font: "Noto SemiBold", Arial, Helvetica, Verdana;
 
 //font-weight
 $font-weight-standard: 400;
-$font-weight-semi-bold: 500;
+$font-weight-semi-bold: 600;
 
 
 //font-size
@@ -77,6 +77,7 @@ h6 {
   font-family: $header-font;
   margin: 0;
   color: $color-main-text;
+  font-weight: $font-weight-semi-bold;
 }
 
 h1 {
@@ -132,4 +133,3 @@ p {
 }
 
 $regular-font-weight: 400;
-$bold-font-weight: 600;
