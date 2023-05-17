@@ -29,7 +29,7 @@ export const largeVideoUpload = () => {
       isLargeVideo = true
       utils.showHideElements(
         '#large_video_submit',
-        '.fields input[type="submit"]',
+        '.fields button[type="submit"]:not(#large_video_submit)',
         'inline-block'
       )
     }
