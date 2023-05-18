@@ -52,8 +52,6 @@ def update_booked_user_buttons(event, result, on_confirmation):
         },
     ]
     result['calendar_button'] = get_ics_button(event, on_confirmation)
-    if event.format == event.ONLINE:
-        result['event_action_buttons'] += get_event_join_button(event)
 
 
 def get_badges_for_event(user, event):
