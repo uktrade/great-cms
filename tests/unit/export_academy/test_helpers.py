@@ -84,10 +84,10 @@ def test_join_button_returned_for_booked_in_progress_event(user):
 
     assert buttons['event_action_buttons'] == [
         {
-            'url': event.link,
-            'label': 'Join<span class="great-visually-hidden"> Test event name</span>',
             'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
+            'label': 'Join<span class="great-visually-hidden"> Test event name</span>',
             'title': 'Join Test event name',
+            'url': event.link,
         }
     ]
 
@@ -108,10 +108,10 @@ def test_join_button_returned_for_booked_in_upcoming_event(user):
 
     assert buttons['event_action_buttons'] == [
         {
-            'url': event.link,
-            'label': 'Join<span class="great-visually-hidden"> Test event name</span>',
             'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
+            'label': 'Join<span class="great-visually-hidden"> Test event name</span>',
             'title': 'Join Test event name',
+            'url': event.link,
         }
     ]
 

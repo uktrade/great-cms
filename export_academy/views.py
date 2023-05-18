@@ -19,6 +19,7 @@ from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
+from core.templatetags.content_tags import format_timedelta
 from export_academy import filters, forms, models
 from export_academy.helpers import (
     calender_content,
@@ -107,6 +108,7 @@ class EventDetailsView(DetailView):
         event: models.Event = kwargs.get('object', {})
         video = event.video_recording
         ctx.update(event_video={'video': video})
+        ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
 
         return ctx
 
@@ -126,7 +128,7 @@ class DownloadCalendarView(GenericAPIView):
         meeting.add('SUMMARY', f'UK Export Academy event - {event.name}')
         meeting.add('DTSTART', event.start_date)
         meeting.add('DTEND', event.end_date)
-        meeting['LOCATION'] = 'MS Teams'
+        meeting['LOCATION'] = event.location if event.format == event.IN_PERSON else 'MS Teams'
         meeting['UID'] = uuid4()
 
         description = f'{event.name}\n\n{event.description}{calender_content()}'

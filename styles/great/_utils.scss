@@ -40,12 +40,17 @@
     }
 
     p,
-    span:not(.great-badge),
+    span:not(.great-badge, .great-text-darker-grey),
     ol,
     ul,
     a {
         font-family: $great-font;
         color: $great-dark-grey;
+    }
+
+    .govuk-body {
+        font-size: 20px;
+        -webkit-font-smoothing: auto;
     }
 
     .govuk-button {
@@ -128,6 +133,10 @@
 
 .great-bg-light-blue {
     background-color: $great-light-blue;
+}
+
+.great-text-darker-grey {
+    color: $great-darker-grey;
 }
 
 .great-text-grey {
@@ -275,4 +284,11 @@
 
 .great-margin-bottom-30 {
     margin-bottom: 30px !important;
+}
+
+.great-media-container {
+    > * {
+        display: block;
+        width: 100%;
+    }
 }

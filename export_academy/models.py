@@ -75,6 +75,7 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     format = models.CharField(max_length=15, choices=FORMAT_CHOICES, default=ONLINE)
     link = models.URLField(blank=True, null=True, max_length=255)
     types = ClusterTaggableManager(through=TaggedEventType)
+    location = models.CharField(blank=True, null=True, max_length=255)
     document = models.ForeignKey(
         'wagtaildocs.Document',
         null=True,
