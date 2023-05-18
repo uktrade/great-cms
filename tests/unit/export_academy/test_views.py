@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 from unittest import mock
 
 import pytest
@@ -216,6 +216,54 @@ def test_export_academy_registration_form_pages(
     response = client.post(page_url, form_data)
     assert response.status_code == 302
     assert response.url == reverse('export_academy:registration-confirm')
+
+
+@mock.patch.object(actions, 'GovNotifyEmailAction')
+@pytest.mark.django_db
+def test_export_academy_registration_success(
+    mock_action_class,
+    client,
+    user,
+    valid_registration_form_data,
+    test_registration_hero,
+    export_academy_landing_page,
+):
+    client.force_login(user)
+
+    event = factories.EventFactory()
+    registration = factories.RegistrationFactory(email=user.email)
+    booking = factories.BookingFactory(event=event, registration=registration, status='Confirmed')
+    url = reverse('export_academy:registration-confirm')
+
+    client.post(
+        reverse('export_academy:registration', kwargs={'booking_id': event.id}),
+        valid_registration_form_data,
+    )
+
+    assert client.session['booking_id'] == event.id
+
+    response = client.post(
+        url,
+        {
+            'completed': datetime.now(),
+        },
+    )
+
+    assert response.status_code == 302
+    assert response.url == reverse('export_academy:registration-success', kwargs={'booking_id': booking.id})
+
+    assert mock_action_class.call_count == 2
+    assert mock_action_class.call_args_list[0] == mock.call(
+        template_id=settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID,
+        email_address=user.email,
+        form_url=url,
+    )
+    assert mock_action_class.call_args_list[1] == mock.call(
+        email_address=user.email,
+        template_id=settings.EXPORT_ACADEMY_NOTIFY_BOOKING_TEMPLATE_ID,
+        form_url=url,
+    )
+    assert mock_action_class().save.call_count == 2
 
 
 @pytest.mark.django_db
