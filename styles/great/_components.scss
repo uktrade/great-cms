@@ -195,3 +195,18 @@
         }
     }
 }
+
+.great-time-and-duration {
+    @include govuk-media-query($from: tablet) {
+        display: flex;
+    }
+
+    span {
+        display: block;
+
+        @include govuk-media-query($from: tablet) {
+            display: list-item;
+            margin-left: 25px;
+        }
+    }
+}

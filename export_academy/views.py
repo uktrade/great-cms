@@ -18,6 +18,7 @@ from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
+from core.templatetags.content_tags import format_timedelta
 from export_academy import filters, forms, models
 from export_academy.helpers import (
     calender_content,
@@ -25,7 +26,6 @@ from export_academy.helpers import (
     get_buttons_for_event,
 )
 from export_academy.mixins import BookingMixin
-from export_academy.models import ExportAcademyHomePage
 
 
 class EventListView(GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, ListView):
@@ -54,13 +54,12 @@ class EventListView(GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, 
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx['landing_page'] = ExportAcademyHomePage.objects.first()
+        ctx['landing_page'] = models.ExportAcademyHomePage.objects.first()
         return ctx
 
 
 class BookingUpdateView(BookingMixin, UpdateView):
     booking_model = models.Booking
-    success_url = reverse_lazy('export_academy:booking-success')
     fields = ['status']
     notify_template = None
 
@@ -69,6 +68,9 @@ class BookingUpdateView(BookingMixin, UpdateView):
         booking_object = self.register_booking(post_data)
         self.send_email_confirmation(booking_object, post_data)
         return booking_object
+
+    def get_success_url(self):
+        return reverse_lazy('export_academy:booking-success', kwargs={'booking_id': self.object.id})
 
 
 class RegistrationFormView(BookingMixin, FormView):
@@ -102,8 +104,23 @@ class RegistrationFormView(BookingMixin, FormView):
         return super().form_valid(form)
 
 
-class SuccessPageView(TemplateView):
+# TODO remove once registration flow merged
+class RegistrationSuccessPageView(TemplateView):
     pass
+
+
+class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
+    def get_buttons_for_event(self, event):
+        user = self.request.user
+        return get_buttons_for_event(user, event, on_confirmation=True)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['landing_page'] = models.ExportAcademyHomePage.objects.first()
+        booking = models.Booking.objects.get(id=ctx['booking_id'])
+        ctx['booking'] = booking
+        ctx['event'] = booking.event
+        return ctx
 
 
 class EventDetailsView(DetailView):
@@ -118,6 +135,7 @@ class EventDetailsView(DetailView):
         event: models.Event = kwargs.get('object', {})
         video = event.video_recording
         ctx.update(event_video={'video': video})
+        ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
 
         return ctx
 

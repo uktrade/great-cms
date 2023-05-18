@@ -1,9 +1,14 @@
+import requests
+from django.conf import settings
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
+from directory_sso_api_client import sso_api_client
 from international_online_offer import forms
-from international_online_offer.core import constants, scorecard
+from international_online_offer.core import helpers, scorecard
 from international_online_offer.models import (
     TriageData,
     UserData,
@@ -12,6 +17,7 @@ from international_online_offer.models import (
     get_user_data,
     get_user_data_from_db_or_session,
 )
+from sso import helpers as sso_helpers
 
 
 def calculate_and_store_is_high_value(request):
@@ -288,11 +294,31 @@ class IOOProfile(FormView):
     form_class = forms.ProfileForm
     template_name = 'ioo/profile.html'
     success_url = '/international/expand-your-business-in-the-uk/guide/'
+    COMPLETE_SIGN_UP_TITLE = 'Complete sign up'
+    COMPLETE_SIGN_UP_LOW_VALUE_SUB_TITLE = 'Complete the sign up form to access your full personalised guide.'
+    COMPLETE_SIGN_UP_HIGH_VALUE_SUB_TITLE = (
+        'Complete the sign up form to access 1 to 1 support and your full personalised guide.'
+    )
+
+    PROFILE_DETAILS_TITLE = 'Profile details'
+    PROFILE_DETAILS_SUB_TITLE = 'Update your profile information below.'
 
     def get_context_data(self, **kwargs):
+        title = self.COMPLETE_SIGN_UP_TITLE
+        sub_title = self.COMPLETE_SIGN_UP_LOW_VALUE_SUB_TITLE
+        user_data = get_user_data_from_db_or_session(self.request)
+        triage_data = get_triage_data_from_db_or_session(self.request)
+        # if full_name has been provided then the user has setup a profile before
+        if user_data.full_name:
+            title = self.PROFILE_DETAILS_TITLE
+            sub_title = self.PROFILE_DETAILS_SUB_TITLE
+        elif triage_data.is_high_value:
+            sub_title = self.COMPLETE_SIGN_UP_HIGH_VALUE_SUB_TITLE
+
         return super().get_context_data(
             **kwargs,
-            complete_contact_form_message=constants.LOW_VALUE_INVESTOR_SIGNUP_MESSAGE,
+            title=title,
+            sub_title=sub_title,
             back_url='/international/expand-your-business-in-the-uk/guide/',
         )
 
@@ -348,26 +374,174 @@ class IOOProfile(FormView):
         return super().form_valid(form)
 
 
-class IOOLogin(FormView):
+class ResendVerificationMixin:
+    def get_verification_link(self, uidb64, token):
+        verification_params = f'?uidb64={uidb64}&token={token}'
+        return self.request.build_absolute_uri(reverse_lazy('international_online_offer:signup')) + verification_params
+
+    def get_resend_verification_link(self):
+        return self.request.build_absolute_uri(
+            reverse_lazy('sso_profile:resend-verification', kwargs={'step': 'resend'})
+        )
+
+
+class IOOLogin(ResendVerificationMixin, TemplateView):
     form_class = forms.LoginForm
     template_name = 'ioo/login.html'
-    success_url = reverse_lazy('international_online_offer:signup')
+    success_url = '/international/expand-your-business-in-the-uk/guide/'
 
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            **kwargs,
-        )
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = forms.LoginForm(request.POST)
+        if form.is_valid():
+            data = {
+                'password': form.cleaned_data['password'],
+                'login': form.cleaned_data['email'],
+            }
+            upstream_response = requests.post(url=settings.SSO_PROXY_LOGIN_URL, data=data, allow_redirects=False)
+
+            # 401 means credentials are correct, but user is unverified
+            if upstream_response.status_code == 401:
+                email = form.cleaned_data['email']
+                verification_code = sso_helpers.regenerate_verification_code(email)
+                uidb64 = verification_code.pop('user_uidb64')
+                token = verification_code.pop('verification_token')
+                sso_helpers.send_verification_code_email(
+                    email=email,
+                    verification_code=verification_code,
+                    form_url=request.path,
+                    verification_link=self.get_verification_link(uidb64, token),
+                    resend_verification_link=self.get_resend_verification_link(),
+                )
+                form.add_error(
+                    '__all__',
+                    'Email unverified: we have re-sent you an email containing a link to verify your email address',
+                )
+            elif upstream_response.status_code == 302:
+                # 302 from sso indicate successful login
+                cookie_jar = sso_helpers.get_cookie_jar(upstream_response)
+                response = HttpResponseRedirect(self.success_url)
+                sso_helpers.set_cookies_from_cookie_jar(
+                    cookie_jar=cookie_jar,
+                    response=response,
+                    whitelist=[settings.SSO_SESSION_COOKIE, settings.SSO_DISPLAY_LOGGED_IN_COOKIE],
+                )
+                return response
+            elif upstream_response.status_code == 200:
+                # 200 from sso indicate the credentials were not correct
+                form.add_error('__all__', 'Invalid email / password')
+
+        return render(request, self.template_name, {'form': form})
 
 
-class IOOSignUp(FormView):
-    form_class = forms.SignUpForm
+class IOOSignUp(ResendVerificationMixin, TemplateView):
     template_name = 'ioo/signup.html'
-    success_url = reverse_lazy('international_online_offer:profile')
+    success_url = '/international/expand-your-business-in-the-uk/guide/'
 
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            **kwargs,
-        )
+    def get(self, request, *args, **kwargs):
+        form = forms.SignUpForm
+        if self.is_validate_code_flow():
+            form = forms.CodeConfirmForm
+        return render(request, self.template_name, {'form': form})
+
+    def get_login_url(self):
+        return self.request.build_absolute_uri(reverse_lazy('international_online_offer:login'))
+
+    def is_validate_code_flow(self):
+        return self.request.GET.get('uidb64') is not None and self.request.GET.get('token') is not None
+
+    def do_validate_code_flow(self, request):
+        form = forms.CodeConfirmForm(request.POST)
+        if form.is_valid():
+            uidb64 = self.request.GET.get('uidb64')
+            token = self.request.GET.get('token')
+            code_confirm = form.cleaned_data['code_confirm']
+            upstream_response = sso_api_client.user.verify_verification_code(
+                {'uidb64': uidb64, 'token': token, 'code': code_confirm}
+            )
+            if upstream_response.status_code in [400, 404]:
+                form.add_error('__all__', 'Invalid code')
+            elif upstream_response.status_code == 422:
+                # Resend verification code if it has expired.
+                email = upstream_response.json()['email']
+                verification_code = sso_helpers.regenerate_verification_code(email)
+                sso_helpers.send_verification_code_email(
+                    email=email,
+                    verification_code=verification_code,
+                    form_url=request.path,
+                    verification_link=self.get_verification_link(uidb64, token),
+                    resend_verification_link=self.get_resend_verification_link(),
+                )
+                form.add_error('__all__', 'Code has expired: we have emailed you a new code')
+            else:
+                email = upstream_response.json()['email']
+                helpers.send_welcome_notification(email=email, form_url=self.request.path)
+                cookie_jar = sso_helpers.get_cookie_jar(upstream_response)
+                response = HttpResponseRedirect(reverse_lazy('international_online_offer:profile'))
+                sso_helpers.set_cookies_from_cookie_jar(
+                    cookie_jar=cookie_jar,
+                    response=response,
+                    whitelist=[settings.SSO_SESSION_COOKIE, settings.SSO_DISPLAY_LOGGED_IN_COOKIE],
+                )
+                return response
+
+        return render(request, self.template_name, {'form': form})
+
+    def do_sign_up_flow(self, request):
+        form = forms.SignUpForm(request.POST)
+        if form.is_valid():
+            response = sso_api_client.user.create_user(
+                email=form.cleaned_data['email'].lower(), password=form.cleaned_data['password']
+            )
+            if response.status_code == 400:
+                server_errors = response.json()
+                for attribute, value in server_errors.items():
+                    form.add_error(attribute, value)
+            elif response.status_code == 409:
+                email = form.cleaned_data['email'].lower()
+                verification_code = sso_helpers.regenerate_verification_code(email)
+                if verification_code:
+                    uidb64 = verification_code.pop('user_uidb64')
+                    token = verification_code.pop('verification_token')
+                    sso_helpers.send_verification_code_email(
+                        email=email,
+                        verification_code=verification_code,
+                        form_url=self.request.path,
+                        verification_link=self.get_verification_link(uidb64, token),
+                        resend_verification_link=self.get_resend_verification_link(),
+                    )
+                    form.add_error('__all__', 'We have sent you an email containing a code to verify your account')
+                else:
+                    sso_helpers.notify_already_registered(
+                        email=email, form_url=self.request.path, login_url=self.get_login_url()
+                    )
+                    form.add_error('__all__', 'Already registered: we have sent you an email regarding your account')
+            elif response.status_code == 201:
+                user_details = response.json()
+                uidb64 = user_details['uidb64']
+                token = user_details['verification_token']
+
+                sso_helpers.send_verification_code_email(
+                    email=form.cleaned_data['email'],
+                    verification_code=user_details['verification_code'],
+                    form_url=self.request.path,
+                    verification_link=self.get_verification_link(uidb64, token),
+                    resend_verification_link=self.get_resend_verification_link(),
+                )
+                return HttpResponseRedirect(
+                    reverse_lazy('international_online_offer:signup') + '?uidb64=' + uidb64 + '&token=' + token
+                )
+
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        if self.is_validate_code_flow():
+            return self.do_validate_code_flow(request)
+        else:
+            return self.do_sign_up_flow(request)
 
 
 class IOOEditYourAnswers(TemplateView):

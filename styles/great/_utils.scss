@@ -5,6 +5,14 @@
     color: $great-grey;
 }
 
+%great-text-light-grey {
+    color: $great-light-grey;
+}
+
+%great-text-white {
+    color: white;
+}
+
 .great {
     overflow-x: hidden;
 
@@ -16,6 +24,7 @@
     h6 {
         font-family: $great-font-bold;
         color: $great-dark-grey;
+        -webkit-font-smoothing: auto;
     }
 
     h2 {
@@ -31,12 +40,17 @@
     }
 
     p,
-    span:not(.great-badge),
+    span:not(.great-badge, .great-text-darker-grey),
     ol,
     ul,
     a {
         font-family: $great-font;
         color: $great-dark-grey;
+    }
+
+    .govuk-body {
+        font-size: 20px;
+        -webkit-font-smoothing: auto;
     }
 
     .govuk-button {
@@ -48,6 +62,7 @@
         font-size: 20px;
         min-height: 50px;
         line-height: 34px;
+        -webkit-font-smoothing: auto;
 
         &:hover,
         &:focus {
@@ -90,10 +105,14 @@
     .great-text-grey {
         @extend %great-text-grey;
     }
-}
 
-.great-container {
-    max-width: 1230px;
+    .great-text-light-grey {
+        @extend %great-text-light-grey;
+    }
+
+    .great-text-white {
+        @extend %great-text-white;
+    }
 }
 
 .great-container {
@@ -116,16 +135,28 @@
     background-color: $great-light-blue;
 }
 
+.great-text-darker-grey {
+    color: $great-darker-grey;
+}
+
 .great-text-grey {
     @extend %great-text-grey;
 }
 
 .great-text-light-grey {
-    color: $great-light-grey;
+    @extend %great-text-light-grey;
+}
+
+.great-text-white {
+    @extend %great-text-white;
 }
 
 .great-text-blue {
     color: $govuk-brand-colour;
+}
+
+.great-max-width-100 {
+    max-width: 100%;
 }
 
 .great-max-width-75 {
@@ -144,6 +175,18 @@
 
 .great-font-size-18 {
     font-size: 18px;
+}
+
+.great-font-size-mobile-18 {
+    @media (max-width: 640px) {
+        font-size: 18px;
+    }
+}
+
+.great-font-size-desktop-24 {
+    @media (min-width: 641px) {
+        font-size: 24px;
+    }
 }
 
 .great-font-size-28 {
@@ -200,7 +243,7 @@
 }
 
 .great-actions-group {
-    > * {
+    >* {
         @include govuk-media-query($from: tablet) {
             display: inline-block;
             margin-right: 20px;
@@ -225,4 +268,27 @@
     display: block;
     content: '';
     clear: both;
+}
+
+.great-break-word {
+    word-wrap: break-word;
+}
+
+.great-padding-top-35 {
+    padding-top: 30px !important;
+
+    @include govuk-media-query($from: tablet) {
+        padding-top: 35px !important;
+    }
+}
+
+.great-margin-bottom-30 {
+    margin-bottom: 30px !important;
+}
+
+.great-media-container {
+    > * {
+        display: block;
+        width: 100%;
+    }
 }

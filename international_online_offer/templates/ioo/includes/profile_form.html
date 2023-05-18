@@ -2,6 +2,11 @@
     <div class="govuk-grid-column-two-thirds">
       <form method="post">
         {% csrf_token %}
+        <label class="govuk-label govuk-label--s" for="company_name">Company name</label>
+        {% include 'core/includes/form_field.html' with field=form.company_name %}
+        <label class="govuk-label govuk-label--s" for="company_location">Company headquarters</label>
+        <div class="govuk-hint">Type to search and choose from the list</div>
+        {% include 'core/includes/form_field.html' with field=form.company_location %}
         <label class="govuk-label govuk-label--s" for="full_name">Full name</label>
         {% include 'core/includes/form_field.html' with field=form.full_name %}
         <label class="govuk-label govuk-label--s" for="role">Role</label>
@@ -18,12 +23,6 @@
         <label class="govuk-label govuk-label--s" for="telephone_number">Telephone number</label>
         <div class="govuk-hint">Please include the country code</div>
         {% include 'core/includes/form_field.html' with field=form.telephone_number %}
-        <label class="govuk-label govuk-label--s" for="company_name">Company name</label>
-        {% include 'core/includes/form_field.html' with field=form.company_name %}
-        <label class="govuk-label govuk-label--s" for="company_location">Company headquarters</label>
-        <div class="govuk-hint">Type to search and choose from the list</div>
-        {% include 'core/includes/form_field.html' with field=form.company_location %}
-        <br/>
         {% if not request.user.is_authenticated %}
         {% include 'core/includes/form_field.html' with field=form.agree_terms %}
         {% else %}
@@ -31,6 +30,7 @@
           {% include 'core/includes/form_field.html' with field=form.agree_terms %}
         </div>
         {% endif %}
+        <div class='govuk-!-margin-bottom-5'></div>
         {% include 'core/includes/form_field.html' with field=form.agree_info_email %}
         {% include 'core/includes/form_field.html' with field=form.agree_info_telephone %}
         {% include './submit_button.html' with button_text='Submit'  %}

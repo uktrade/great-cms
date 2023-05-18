@@ -21,23 +21,29 @@
         </div>
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-two-thirds">
-            <div id="error-summary-container" class="govuk-error-summary govuk-!-display-none" data-module="govuk-error-summary">
+            {% if form.non_field_errors %}
+            <div id="error-summary-container" class="govuk-error-summary" data-module="govuk-error-summary">
               <div role="alert">
                 <div class="govuk-error-summary__body">
                   <ul class="govuk-list govuk-error-summary__list" id="errors-list">
+                    {{ form.non_field_errors }}
                   </ul>
                 </div>
               </div>
             </div>
+            {% endif %}
             {% comment %} <form action="{% url 'sso:business-sso-login-api' %}" method="post"> {% endcomment %}
             <div id="login">
-              <label class="govuk-label" for="company_location">Email</label>
-              {% include 'core/includes/form_field.html' with field=form.email %}
-              <label class="govuk-label" for="company_location">Password</label>
-              {% comment %} <div class="govuk-hint">Type to search and choose from the list</div> {% endcomment %}
-              {% include 'core/includes/form_field.html' with field=form.password %}
-              <p><a class="govuk-link" href="{{ javascript_components.password_reset_url }}">Forgotten password?</a></p>
-              <button class="atlas-button" onclick="onSubmitLogin()">Sign in</button>
+              <form method="post">
+                {% csrf_token %}
+                <label class="govuk-label" for="company_location">Email</label>
+                {% include 'core/includes/form_field.html' with field=form.email %}
+                <label class="govuk-label" for="company_location">Password</label>
+                {% comment %} <div class="govuk-hint">Type to search and choose from the list</div> {% endcomment %}
+                {% include 'core/includes/form_field.html' with field=form.password %}
+                <p><a class="govuk-link" href="{{ javascript_components.password_reset_url }}">Forgotten password?</a></p>
+                {% include './includes/submit_button.html' with button_text='Sign in'  %}
+              </form>
             </div>
           </div>
         </div>
@@ -45,45 +51,4 @@
 
 {% block body_js %}
   {{ block.super }}
-  <script src="{% static 'javascript/international-online-offer.api.js' %}"></script>
-  <script type="text/javascript">
-  document.getElementById('id_password').addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-      onSubmitLogin();
-    }
-  });
-
-  const onSubmitLogin = () => {
-    const data = {
-      email: document.getElementById('id_email').value,
-      password: document.getElementById('id_password').value
-    };
-    checkCredentials(data)
-      .then((response) => response.json())
-      .then((data) => { location.assign('/international/expand-your-business-in-the-uk/guide/') })
-      .catch((errors) => {
-        handleErrors(errors);
-    });
-  }
-
-  const handleErrors = (errors) => {
-    const errorContainer = document.getElementById('error-summary-container');
-    const errorList = document.getElementById('errors-list');
-    let errorsClean = [];
-    if (Object.hasOwn(errors, '__all__')) {
-      errorsClean = errors.__all__;
-    } else {
-      Object.keys(errors).forEach((errorKey) => {
-        errorsClean.push(`${errorKey}: ${errors[errorKey]}`);
-      })
-    }
-    errorContainer.classList.remove('govuk-!-display-none');
-    errorList.innerHTML = '';
-    errorsClean.forEach((error, index) => {
-      let li = document.createElement('li');
-      li.innerText = error.charAt(0).toUpperCase() + error.substring(1);
-      errorList.appendChild(li);
-    });
-  };
-</script>
 {% endblock %}
