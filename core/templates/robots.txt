@@ -3,4 +3,8 @@ User-agent: *
 Disallow: /api/
 Disallow: /activity-stream/
 
+User-agent: MJ12bot
+
+Disallow: /
+
 Sitemap: {{base_url}}/sitemap.xml
