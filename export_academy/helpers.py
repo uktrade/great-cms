@@ -51,7 +51,6 @@ def update_booked_user_buttons(event, result, on_confirmation):
             'type': 'submit',
         },
     ]
-    result['calendar_button'] = get_ics_button(event, on_confirmation)
 
 
 def get_badges_for_event(user, event):
