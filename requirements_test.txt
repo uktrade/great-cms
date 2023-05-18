@@ -29,7 +29,7 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
-astroid==2.15.4
+astroid==2.15.5
     # via pylint
 asttokens==2.2.1
     # via stack-data
@@ -149,9 +149,9 @@ directory-client-core==7.1.1
     #   directory-ch-client
     #   directory-forms-api-client
     #   directory-sso-api-client
-directory-components==38.2.0
+directory-components==39.0.3
     # via -r requirements.in
-directory-constants==22.0.2
+directory-constants==23.0.2
     # via
     #   -r requirements.in
     #   directory-components
@@ -166,7 +166,7 @@ directory-validators==9.2.2
     # via -r requirements.in
 distlib==0.3.6
     # via virtualenv
-django==3.2.18
+django==3.2.19
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -269,7 +269,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==18.7.0
+faker==18.9.0
     # via factory-boy
 filelock==3.12.0
     # via virtualenv
@@ -315,7 +315,7 @@ gitdb==4.0.10
     # via gitpython
 gitpython==3.1.31
     # via -r requirements_test.in
-great-components==2.1.3
+great-components==2.2.1
     # via -r requirements.in
 greenlet==2.0.2
     # via gevent
@@ -408,7 +408,7 @@ msgpack==1.0.5
     # via locust
 mypy-extensions==1.0.0
     # via black
-nodeenv==1.7.0
+nodeenv==1.8.0
     # via pre-commit
 oauthlib==3.2.2
     # via
@@ -451,7 +451,7 @@ pillow==9.5.0
     #   xhtml2pdf
 pip-tools==6.13.0
     # via -r requirements_test.in
-platformdirs==3.5.0
+platformdirs==3.5.1
     # via
     #   black
     #   pylint
@@ -462,7 +462,7 @@ pluggy==1.0.0
     #   pytest
 polib==1.2.0
     # via wagtail-localize
-pre-commit==3.3.1
+pre-commit==3.3.2
     # via -r requirements_test.in
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
@@ -506,7 +506,7 @@ pylint==2.17.4
     #   pylint-plugin-utils
 pylint-django==2.5.3
     # via -r requirements_test.in
-pylint-plugin-utils==0.7
+pylint-plugin-utils==0.8.1
     # via pylint-django
 pypdf==3.8.1
     # via xhtml2pdf
@@ -539,7 +539,7 @@ pytest-django==4.5.2
     # via -r requirements_test.in
 pytest-sugar==0.9.7
     # via -r requirements_test.in
-pytest-xdist==3.2.1
+pytest-xdist==3.3.0
     # via -r requirements_test.in
 python-bidi==0.4.2
     # via xhtml2pdf
@@ -569,8 +569,6 @@ pytz==2021.3
     #   djangorestframework
     #   icalendar
     #   l18n
-pytz-deprecation-shim==0.1.0.post0
-    # via tzlocal
 pyyaml==6.0
     # via
     #   browserstack-sdk
@@ -717,9 +715,7 @@ typing-extensions==4.5.0
     #   pypdf
     #   qrcode
     #   wagtail-localize
-tzdata==2023.3
-    # via pytz-deprecation-shim
-tzlocal==4.3
+tzlocal==5.0.1
     # via
     #   dateparser
     #   pyhanko
