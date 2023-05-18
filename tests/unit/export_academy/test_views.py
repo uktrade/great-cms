@@ -217,12 +217,19 @@ def test_export_academy_booking_cancellation_success(mock_notify_cancellation, c
 
 @pytest.mark.django_db
 def test_event_detail_views(client, user):
-    event = factories.EventFactory()
+    event = factories.EventFactory(name='Test event name', description='Test description')
     url = reverse('export_academy:event-details', kwargs=dict(pk=event.id))
     response = client.get(url)
 
     assert response.status_code == 200
     assert '/subtitles/' in str(response.rendered_content)
+    assert '<a href="/export-academy/events/?booking_period=past" class="govuk-link">Back</a>' in str(
+        response.rendered_content
+    )
+    assert 'time' in str(response.rendered_content)
+    assert 'Duration:' in str(response.rendered_content)
+    assert 'Test event name' in str(response.rendered_content)
+    assert 'Test description' in str(response.rendered_content)
 
 
 @pytest.mark.django_db

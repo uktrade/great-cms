@@ -4,10 +4,27 @@
 {% load video_tags %}
 
 {% block head_title %}{{ object.name }}{% endblock %}
+{% block css_layout_class %}great-bg-white{% endblock %}
 
 {% block content %}
-    {% render_video event_video %}
-    <div class="container">
-        <a href="{{request.META.HTTP_REFERER|escape}}">Back</a>
+    <div class="container great">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-three-quarters govuk-!-margin-top-9 govuk-!-margin-bottom-6">
+                <a href="{% url 'export_academy:upcoming-events' %}?booking_period=past" class="govuk-link">Back</a>
+                <div class="govuk-!-margin-top-4 govuk-!-margin-bottom-7 great-media-container">
+                    {% render_video event_video %}
+                </div>
+                <h1 class="govuk-heading-l govuk-!-margin-bottom-6">{{event.name}}</h1>
+                <p class="govuk-body govuk-!-margin-bottom-6 great-time-and-duration">
+                    <time class="great-text-darker-grey">
+                        {{ event.start_date|date:"D" }} {{ event.start_date|date:"j M" }} at {{ event.start_date|date:"g:iA"|lower }}
+                    </time>
+                    <span class="great-text-darker-grey">
+                        Duration: {{ video_duration }}
+                    </span>
+                </p>
+                <p class="govuk-body">{{event.description}}</p>
+            </div>
+        </div>
     </div>
 {% endblock %}

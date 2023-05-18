@@ -29,7 +29,7 @@ export const largeVideoUpload = () => {
       isLargeVideo = true
       utils.showHideElements(
         '#large_video_submit',
-        '.fields input[type="submit"]',
+        '.fields button[type="submit"]:not(#large_video_submit)',
         'inline-block'
       )
     }
@@ -71,10 +71,8 @@ export const largeVideoUpload = () => {
       progressBar.style.display = 'block'
 
       const status = document.querySelector('#status')
-
-      const formdata = new FormData()
-      formdata.append('file', file)
       const ajax = new XMLHttpRequest()
+
       ajax.upload.addEventListener(
         'progress',
         (event) => {
@@ -109,7 +107,7 @@ export const largeVideoUpload = () => {
       )
       ajax.open('PUT', signedUrl)
       ajax.setRequestHeader('Content-Type', 'binary/octet-stream')
-      ajax.send(formdata)
+      ajax.send(file)
     }
 
     const handleSubmit = async () => {

@@ -18,6 +18,7 @@ from rest_framework.generics import GenericAPIView
 
 from config import settings
 from core import mixins as core_mixins
+from core.templatetags.content_tags import format_timedelta
 from export_academy import filters, forms, models
 from export_academy.helpers import (
     calender_content,
@@ -134,6 +135,7 @@ class EventDetailsView(DetailView):
         event: models.Event = kwargs.get('object', {})
         video = event.video_recording
         ctx.update(event_video={'video': video})
+        ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
 
         return ctx
 
