@@ -7,6 +7,7 @@ from requests.exceptions import HTTPError
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.views import APIView
 
 from core.cms_slugs import DASHBOARD_URL
 from sso import helpers, serializers
@@ -67,7 +68,7 @@ class SSOBusinessUserLoginView(ResendVerificationMixin, generics.GenericAPIView)
         upstream_response.raise_for_status()
 
 
-class SSOBusinessUserLogoutView(generics.GenericAPIView):
+class SSOBusinessUserLogoutView(APIView):
     def post(self, request):
         # Construct a cookie with the session key.
         session_cookie = {'session_key': request.COOKIES.get(settings.SSO_SESSION_COOKIE)}
