@@ -93,17 +93,37 @@ def test_export_academy_registration_page_redirect(client):
     assert response.url.startswith(reverse('core:signup'))
 
 
+@mock.patch.object(actions, 'GovNotifyEmailAction')
+# @mock.patch('export_academy.views.SuccessPageView.user_just_registered')
 @pytest.mark.django_db
-def test_export_academy_registration_success_view(client, user):
+def test_registration_success_view(
+    mock_user_just_registered,
+    valid_registration_form_data,
+    client,
+    user,
+    export_academy_landing_page,
+    test_registration_hero,
+):
     client.force_login(user)
-    registration = factories.RegistrationFactory(email=user.email)
     event = factories.EventFactory()
-    booking = factories.BookingFactory(event=event, status=Booking.CONFIRMED, registration=registration)
+    url = reverse('export_academy:registration-confirm')
 
-    response = client.get(reverse('export_academy:registration-success', kwargs={'booking_id': booking.id}))
+    client.post(
+        reverse('export_academy:registration', kwargs={'booking_id': event.id}),
+        valid_registration_form_data,
+    )
+
+    response = client.post(
+        url,
+        {
+            'completed': datetime.now(),
+        },
+        follow=True,
+    )
 
     assert response.status_code == 200
-    assert 'We&#x27;ve received your registration form' in str(response.rendered_content)
+    assert response.context['just_registered']
+    assert 'Registration confirmed' in response.rendered_content
 
 
 @pytest.mark.parametrize(
@@ -238,7 +258,7 @@ def test_export_academy_registration_success(
 
     event = factories.EventFactory()
     registration = factories.RegistrationFactory(email=user.email)
-    booking = factories.BookingFactory(event=event, registration=registration, status='Confirmed')
+    booking = factories.BookingFactory(event=event, registration=registration, status=Booking.CANCELLED)
     url = reverse('export_academy:registration-confirm')
 
     client.post(

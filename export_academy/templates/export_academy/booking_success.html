@@ -21,7 +21,7 @@
             <div class="ea-listing-page">{% include 'components/hero.html' with image=hero.image hero_title=hero.title hero_text=hero.text hide_image_for_mobile=True %}</div>
         {% endwith %}
     {% endblock %}
-    {% breadcrumbs 'Events' %}
+        {% breadcrumbs current_page_breadcrumb %}
         <a href="/">great.gov.uk</a>
         <a href="{% pageurl landing_page %}">UK Export Academy</a>
     {% endbreadcrumbs %}
@@ -34,7 +34,7 @@
                         data-module="govuk-notification-banner">
                         <div class="govuk-notification-banner__header">
                             <h2 class="great-text-white">
-                                {% if booking.status == 'Confirmed' %}Booking{% else %}Cancellation{% endif %} confirmed
+                                {% if just_registered %}Registration{% elif booking.status == 'Confirmed' %}Booking{% else %}Cancellation{% endif %} confirmed
                             </h2>
                         </div>
                         <div class="govuk-notification-banner__content">
@@ -51,6 +51,13 @@
                             {% endif %}
                         </div>
                     </div>
+                    {% if just_registered %}
+                        <h4 class="govuk-!-margin-bottom-3">What happens next</h4>
+                        <p class="great-font-size-mobile-18">
+                            You are now able to book a place on any of our Export Academy events,
+                            watch recordings of past events you’ve booked and cancel any events you can no longer attend.
+                        </p>
+                    {% endif %}
                     <a href="{% url 'export_academy:upcoming-events' %}" class="link block margin-top-30 margin-bottom-60">See all events</a>
                 </div>
             </div>

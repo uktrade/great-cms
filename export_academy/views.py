@@ -85,12 +85,22 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
         user = self.request.user
         return get_buttons_for_event(user, event, on_confirmation=True)
 
+    def user_just_registered(self, booking):
+        return self.request.path == reverse_lazy(
+            'export_academy:registration-success', kwargs={'booking_id': booking.id}
+        )
+
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['landing_page'] = models.ExportAcademyHomePage.objects.first()
+
         booking = models.Booking.objects.get(id=ctx['booking_id'])
         ctx['booking'] = booking
         ctx['event'] = booking.event
+
+        just_registered = self.user_just_registered(booking)
+        ctx['just_registered'] = just_registered
+        ctx['current_page_breadcrumb'] = 'Registration' if just_registered else 'Events'
         return ctx
 
 
