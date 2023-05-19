@@ -28,9 +28,8 @@ article > p {
   padding-bottom: $standard-padding;
 }
 
-#great-footer-copyright {
-  font-size: $font-size-p-small;
-  line-height: $p-line-height;
+#great-footer-copyright, .subheading  {
+@include p-mixin
 }
 
 .big-number-list li:before {
@@ -146,4 +145,31 @@ a.labelled-image-card .card-inner h6 {
 
 .rich-text i {
   font-size: inherit;
+}
+
+
+.article-list-page ul.content-list li h3{
+ @include h3-mixin;
+}
+
+.rich-text h1{
+  @include h1-mixin
+}
+
+.heading-xlarge,
+.govuk-heading-xlarge,
+.rich-text h1 {
+  @include h1-mixin;
+}
+
+.rich-text h2{
+  @include h2-mixin
+}
+
+.rich-text h3{
+  @include h3-mixin
+}
+
+.rich-text h4{
+  @include h4-mixin
 }

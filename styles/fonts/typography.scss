@@ -34,14 +34,12 @@
   font-weight: 900;
 }
 
-
-$main-text-font: "Noto Regular", Arial, Helvetica, Verdana;
-$header-font: "Noto SemiBold", Arial, Helvetica, Verdana;
+$main-text-font: 'Noto Regular', Arial, Helvetica, Verdana;
+$header-font: 'Noto SemiBold', Arial, Helvetica, Verdana;
 
 //font-weight
 $font-weight-standard: 400;
 $font-weight-semi-bold: 600;
-
 
 //font-size
 $font-size-h1: 44px;
@@ -80,7 +78,7 @@ h6 {
   font-weight: $font-weight-semi-bold;
 }
 
-h1 {
+@mixin h1-mixin {
   font-size: $font-size-h1;
   line-height: $h1-line-height;
   letter-spacing: -0.03rem;
@@ -91,16 +89,24 @@ h1 {
   }
 }
 
-h2 {
+h1 {
+  @include h1-mixin;
+}
+
+@mixin h2-mixin {
   font-size: $font-size-h2;
   line-height: $h2-line-height;
   @media screen and (max-width: $mobile-size) {
     font-size: $font-size-h3;
-    line-height: $h3-line-height
+    line-height: $h3-line-height;
   }
 }
 
-h3 {
+h2 {
+  @include h2-mixin();
+}
+
+@mixin h3-mixin {
   font-size: $font-size-h3;
   line-height: $font-size-h3;
   @media screen and (max-width: $mobile-size) {
@@ -109,7 +115,11 @@ h3 {
   }
 }
 
-h4 {
+h3 {
+  @include h3-mixin;
+}
+
+@mixin h4-mixin {
   font-size: $font-size-h4;
   line-height: $font-size-h4;
   @media screen and (max-width: $mobile-size) {
@@ -118,9 +128,22 @@ h4 {
   }
 }
 
-h5 {
+h4 {
+  @include h4-mixin;
+}
+
+@mixin h5-mixin {
   font-size: $font-size-h5;
   line-height: $h5-line-height;
+}
+
+h5 {
+  @include h5-mixin;
+}
+
+@mixin p-mixin {
+  font-size: $font-size-p;
+  line-height: $p-line-height;
 }
 
 body,
