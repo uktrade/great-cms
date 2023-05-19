@@ -36,6 +36,7 @@ article > p {
 .big-number-list li:before {
   font-family: $header-font !important;
   color: $color-main-text !important;
+  font-weight: $font-weight-semi-bold;
 }
 
 #great-footer-copyright {
@@ -96,7 +97,7 @@ p.lede,
 .great-checkbox label,
 .multiple-choice label,
 .font-xsmall,
-.subheading{
+.subheading {
   font-family: $main-text-font !important;
   font-weight: $regular-font-weight;
 }
@@ -126,7 +127,20 @@ select.form-control,
 .block-text:not(.microsite .block-text) h2,
 .block-text:not(.microsite .block-text) h3,
 .block-text:not(.microsite .block-text) h4,
-#search-results-information p, .body-l-b {
+#search-results-information p,
+.body-l-b,
+.card .card-inner h3,
+a.labelled-card .card-inner h3,
+a.labelled-image-card .card-inner h3,
+.card .card-inner h4,
+a.labelled-card .card-inner h4,
+a.labelled-image-card .card-inner h4,
+.card .card-inner h5,
+a.labelled-card .card-inner h5,
+a.labelled-image-card .card-inner h5,
+.card .card-inner h6,
+a.labelled-card .card-inner h6,
+a.labelled-image-card .card-inner h6 {
   font-weight: 600;
 }
 
