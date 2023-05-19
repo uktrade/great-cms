@@ -1568,6 +1568,10 @@ class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
             'title': 'Hero for the Export Academy listing page',
             'page_path': '/export_academy/events/',
         },
+        snippet_slugs.EA_REGISTRATION_PAGE_HERO: {
+            'title': 'Hero for the Export Academy registration page',
+            'page_path': '/export-academy/registration/',
+        },
     }
     title = models.CharField(
         max_length=255,

@@ -10,6 +10,7 @@ from django.db.models import FileField
 from django.test import TestCase, override_settings
 from wagtail.core.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
+
 from core import cms_slugs, wagtail_hooks
 from core.models import DetailPage, MicrositePage
 from core.wagtail_hooks import (

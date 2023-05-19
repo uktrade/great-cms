@@ -1,3 +1,4 @@
+import logging
 from datetime import timedelta
 from uuid import uuid4
 
@@ -25,7 +26,10 @@ from export_academy.helpers import (
     get_badges_for_event,
     get_buttons_for_event,
 )
-from export_academy.mixins import BookingMixin
+from export_academy.mixins import BookingMixin, RegistrationMixin
+from export_academy.models import Booking, ExportAcademyHomePage, Registration
+
+logger = logging.getLogger(__name__)
 
 
 class EventListView(GA360Mixin, core_mixins.GetSnippetContentMixin, FilterView, ListView):
@@ -71,37 +75,6 @@ class BookingUpdateView(BookingMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('export_academy:booking-success', kwargs={'booking_id': self.object.id})
-
-
-class RegistrationFormView(BookingMixin, FormView):
-    template_name = 'export_academy/registration_form.html'
-    form_class = forms.EARegistration
-    success_url = reverse_lazy('export_academy:registration-success')
-    model = models.Registration
-    booking_model = models.Booking
-    notify_template = settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID
-
-    def save_registration(self, form):
-        cleaned_data = form.cleaned_data
-        reg_data = dict(
-            first_name=cleaned_data.get('first_name'),
-            last_name=cleaned_data.get('last_name'),
-            email=self.request.user.email,  # type: ignore
-            data=cleaned_data,
-        )
-        self.save_model(reg_data)
-
-    def confirm_booking(self, booking_id):
-        booking_data = dict(event_id=booking_id, status=models.Booking.CONFIRMED)
-        booking_object = self.register_booking(booking_data)
-        self.send_email_confirmation(booking_object, booking_data)
-
-    def form_valid(self, form):
-        self.save_registration(form)
-        self.send_gov_notify(form.cleaned_data)
-        booking_id = self.kwargs.get('booking_id')
-        self.confirm_booking(booking_id)
-        return super().form_valid(form)
 
 
 # TODO remove once registration flow merged
@@ -174,3 +147,178 @@ class DownloadCalendarView(GenericAPIView):
         response = HttpResponse(cal.to_ical(), content_type='text/calendar')
         response['Content-Disposition'] = f'inline; filename={file_name}.ics'
         return response
+
+
+class RegistrationPersonalDetails(core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView):
+    form_class = forms.PersonalDetails
+    model = models.Registration
+    template_name = 'export_academy/registration_form.html'
+
+    def get_context_data(self, **kwargs):
+        button_text = 'Continue'
+        back_url = 'export_academy:upcoming-events'
+        if self.kwargs.get('edit'):
+            button_text = 'Save'
+            back_url = 'export_academy:registration-confirm'
+        return super().get_context_data(
+            **kwargs,
+            button_text=button_text,
+            back_url=back_url,
+            step_text='Step 1 of 4',
+            landing_page=ExportAcademyHomePage.objects.first(),
+            title='About you',
+            email=self.request.user.email,
+        )
+
+    def get_success_url(self):
+        if self.kwargs.get('edit'):
+            return reverse_lazy('export_academy:registration-confirm')
+        return reverse_lazy('export_academy:registration-experience')
+
+    def form_valid(self, form):
+        self.save_registration(form)
+        return super().form_valid(form)
+
+
+class RegistrationExportExperience(core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView):
+    form_class = forms.ExportExperience
+    model = models.Registration
+    template_name = 'export_academy/registration_form.html'
+
+    def get_context_data(self, **kwargs):
+        button_text = 'Continue'
+        back_url = 'export_academy:registration-details'
+        if self.kwargs.get('edit'):
+            button_text = 'Save'
+            back_url = 'export_academy:registration-confirm'
+        return super().get_context_data(
+            **kwargs,
+            button_text=button_text,
+            back_url=back_url,
+            step_text='Step 2 of 4',
+            landing_page=ExportAcademyHomePage.objects.first(),
+            title='About your export experience',
+        )
+
+    def get_success_url(self):
+        if self.kwargs.get('edit'):
+            return reverse_lazy('export_academy:registration-confirm')
+        return reverse_lazy('export_academy:registration-business')
+
+    def form_valid(self, form):
+        self.save_registration(form)
+        return super().form_valid(form)
+
+
+class RegistrationBusinessDetails(core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView):
+    form_class = forms.BusinessDetails
+    model = models.Registration
+    template_name = 'export_academy/registration_form.html'
+
+    def get_context_data(self, **kwargs):
+        button_text = 'Continue'
+        back_url = 'export_academy:registration-experience'
+        if self.kwargs.get('edit'):
+            button_text = 'Save'
+            back_url = 'export_academy:registration-confirm'
+        return super().get_context_data(
+            **kwargs,
+            button_text=button_text,
+            back_url=back_url,
+            step_text='Step 3 of 4',
+            landing_page=ExportAcademyHomePage.objects.first(),
+            title='About your business',
+        )
+
+    def get_success_url(self):
+        if self.kwargs.get('edit'):
+            return reverse_lazy('export_academy:registration-confirm')
+        return reverse_lazy('export_academy:registration-marketing')
+
+    def form_valid(self, form):
+        self.save_registration(form)
+        return super().form_valid(form)
+
+
+class RegistrationMarketingSources(
+    core_mixins.GetSnippetContentMixin,
+    RegistrationMixin,
+    FormView,
+):
+    form_class = forms.MarketingSources
+    model = models.Registration
+    template_name = 'export_academy/registration_form.html'
+    notify_template = settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID
+
+    def get_context_data(self, **kwargs):
+        button_text = 'Continue'
+        back_url = 'export_academy:registration-business'
+        if self.kwargs.get('edit'):
+            button_text = 'Save'
+            back_url = 'export_academy:registration-confirm'
+        return super().get_context_data(
+            **kwargs,
+            button_text=button_text,
+            back_url=back_url,
+            step_text='Step 4 of 4',
+            landing_page=ExportAcademyHomePage.objects.first(),
+            title='And finally...',
+        )
+
+    def get_success_url(self):
+        return reverse_lazy('export_academy:registration-confirm')
+
+    def form_valid(self, form):
+        self.save_registration(form)
+        return super().form_valid(form)
+
+
+class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixin, RegistrationMixin, FormView):
+    template_name = 'export_academy/registration_form_confirm.html'
+    model = models.Registration
+    booking_model = models.Booking
+    form_class = forms.RegistrationConfirm
+    notify_template = settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID
+
+    def submit_registration(self):
+        reg_data = {
+            'email': self.request.user.email,
+            'first_name': self.initial_data['first_name'],
+            'last_name': self.initial_data['last_name'],
+            'data': self.initial_data,
+        }
+
+        if Registration.objects.filter(email=self.request.user.email).exists():
+            registration = Registration.objects.get(email=self.request.user.email)
+            registration.__dict__.update(**reg_data)
+            registration.save()
+            return
+
+        self.model(**reg_data).save()
+
+    def confirm_booking(self, booking_id):
+        booking_data = dict(event_id=booking_id, status=models.Booking.CONFIRMED)
+        booking_object = self.register_booking(booking_data)
+        self.success_url = reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking_object.id})
+        self.send_email_confirmation(booking_object, booking_data)
+
+    def form_valid(self, form):
+        self.submit_registration()
+        self.send_gov_notify(self.initial_data)
+        booking_id = self.request.session.get('booking_id')
+        self.confirm_booking(booking_id)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        self.get_initial()
+        return super().get_context_data(
+            **kwargs,
+            back_url='export_academy:registration-marketing',
+            landing_page=ExportAcademyHomePage.objects.first(),
+            form_data=self.initial_data,
+            email=self.request.user.email,
+        )
+
+    def get_success_url(self):
+        booking_id = getattr(Booking.objects.get(event_id=self.request.session.get('booking_id')), 'id')
+        return reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking_id})

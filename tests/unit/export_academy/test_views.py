@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 from unittest import mock
 
 import pytest
@@ -9,7 +9,10 @@ from django.utils import timezone
 
 from config import settings
 from core.models import HeroSnippet
-from core.snippet_slugs import EXPORT_ACADEMY_LISTING_PAGE_HERO
+from core.snippet_slugs import (
+    EA_REGISTRATION_PAGE_HERO,
+    EXPORT_ACADEMY_LISTING_PAGE_HERO,
+)
 from export_academy.filters import EventFilter
 from export_academy.models import Booking
 from tests.unit.export_academy import factories
@@ -18,6 +21,13 @@ from tests.unit.export_academy import factories
 @pytest.fixture
 def test_event_list_hero():
     snippet = HeroSnippet(slug=EXPORT_ACADEMY_LISTING_PAGE_HERO)
+    snippet.save()
+    return snippet
+
+
+@pytest.fixture
+def test_registration_hero():
+    snippet = HeroSnippet(slug=EA_REGISTRATION_PAGE_HERO)
     snippet.save()
     return snippet
 
@@ -58,7 +68,12 @@ def test_export_academy_event_list_page_context(client, user, export_academy_lan
 
 
 @pytest.mark.django_db
-def test_export_academy_registration_page(client, user):
+def test_export_academy_registration_page(
+    client,
+    user,
+    test_registration_hero,
+    export_academy_landing_page,
+):
     event = factories.EventFactory()
     client.force_login(user)
 
@@ -66,7 +81,6 @@ def test_export_academy_registration_page(client, user):
     response = client.get(url)
 
     assert response.status_code == 200
-    assert 'Please enter your details to register for Export Academy' in str(response.rendered_content)
 
 
 @pytest.mark.django_db
@@ -82,7 +96,11 @@ def test_export_academy_registration_page_redirect(client):
 @pytest.mark.django_db
 def test_export_academy_registration_success_view(client, user):
     client.force_login(user)
-    response = client.get(reverse('export_academy:registration-success'))
+    registration = factories.RegistrationFactory(email=user.email)
+    event = factories.EventFactory()
+    booking = factories.BookingFactory(event=event, status=Booking.CONFIRMED, registration=registration)
+
+    response = client.get(reverse('export_academy:registration-success', kwargs={'booking_id': booking.id}))
 
     assert response.status_code == 200
     assert 'We&#x27;ve received your registration form' in str(response.rendered_content)
@@ -104,18 +122,136 @@ def test_booking_success_view(export_academy_landing_page, test_event_list_hero,
     assert text in response.rendered_content
 
 
+@pytest.mark.parametrize(
+    'page_url,form_data,redirect_url,error_messages',
+    (
+        (
+            reverse('export_academy:registration-details'),
+            {
+                'first_name': 'Test name',
+                'last_name': 'Test last',
+                'job_title': 'Astronaut',
+                'phone_number': '072345678910',
+            },
+            reverse('export_academy:registration-experience'),
+            {
+                'first_name': 'Enter your name',
+                'last_name': 'Enter your family name',
+                'job_title': 'Enter your job title',
+                'phone_number': 'Please enter a valid UK phone number',
+            },
+        ),
+        (
+            reverse('export_academy:registration-experience'),
+            {
+                'export_experience': 'I do not have a product for export',
+                'sector': 'Agriculture, horticulture, fisheries and pets',
+                'export_product': 'Goods',
+            },
+            reverse('export_academy:registration-business'),
+            {
+                'export_experience': 'Please answer this question',
+                'sector': 'Please answer this question',
+                'export_product': 'Please answer this question',
+            },
+        ),
+        (
+            reverse('export_academy:registration-business'),
+            {
+                'business_name': 'Test Business',
+                'business_postcode': 'SW1A 1AA',
+                'annual_turnover': 'Up to £85,000',
+                'employee_count': '10 to 49',
+            },
+            reverse('export_academy:registration-marketing'),
+            {
+                'business_name': 'Enter your business name',
+                'business_postcode': 'Enter your business postcode',
+                'annual_turnover': 'Please answer this question',
+                'employee_count': 'Please answer this question',
+            },
+        ),
+        (
+            reverse('export_academy:registration-marketing'),
+            {
+                'marketing_sources': 'Other',
+            },
+            reverse('export_academy:registration-confirm'),
+            {
+                'marketing_sources': 'Please answer this question',
+            },
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_export_academy_registration_form_pages(
+    page_url,
+    form_data,
+    redirect_url,
+    error_messages,
+    client,
+    user,
+    test_registration_hero,
+    export_academy_landing_page,
+):
+    client.force_login(user)
+
+    #   Redirect fails when any of the fields in the form are missing
+    invalid_form_data = form_data.copy()
+    for key in form_data:
+        invalid_form_data.pop(key)
+        response = client.post(page_url, invalid_form_data)
+        assert response.status_code == 200
+        assert error_messages[key] in str(response.rendered_content)
+        invalid_form_data = form_data.copy()
+
+    #   Redirect succeeds with valid data
+    response = client.post(page_url, form_data)
+    assert response.status_code == 302
+    assert response.url == redirect_url
+
+    #   When editing registration details the redirect returns to the confirm page
+    page_url += 'edit/'
+    assert client.get(page_url).context['button_text'] == 'Save'
+    response = client.post(page_url, form_data)
+    assert response.status_code == 302
+    assert response.url == reverse('export_academy:registration-confirm')
+
+
 @mock.patch.object(actions, 'GovNotifyEmailAction')
 @pytest.mark.django_db
-def test_export_academy_registration_success(mock_action_class, client, user, valid_registration_form_data):
+def test_export_academy_registration_success(
+    mock_action_class,
+    client,
+    user,
+    valid_registration_form_data,
+    test_registration_hero,
+    export_academy_landing_page,
+):
     client.force_login(user)
 
     event = factories.EventFactory()
-    url = reverse('export_academy:registration', kwargs=dict(booking_id=event.id))
+    registration = factories.RegistrationFactory(email=user.email)
+    booking = factories.BookingFactory(event=event, registration=registration, status='Confirmed')
+    url = reverse('export_academy:registration-confirm')
 
-    response = client.post(url, valid_registration_form_data)
+    client.post(
+        reverse('export_academy:registration', kwargs={'booking_id': event.id}),
+        valid_registration_form_data,
+    )
+
+    assert client.session['booking_id'] == event.id
+
+    response = client.post(
+        url,
+        {
+            'completed': datetime.now(),
+        },
+    )
 
     assert response.status_code == 302
-    assert response.url == reverse('export_academy:registration-success')
+    assert response.url == reverse('export_academy:registration-success', kwargs={'booking_id': booking.id})
+
     assert mock_action_class.call_count == 2
     assert mock_action_class.call_args_list[0] == mock.call(
         template_id=settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID,
