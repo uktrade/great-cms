@@ -11,8 +11,6 @@ number of extra CSS styles that were once sensible defaults:
 
 {% block head_title %}{{ international_home_link.label }}{% endblock %}
 
-{% load static_absolute international_header from directory_components %}
-
 {% block header_js %}{% endblock %}
 
 {% block head_js %}
@@ -36,19 +34,10 @@ number of extra CSS styles that were once sensible defaults:
     <meta name="msvalidate.01" content="76D322F181AE9F91C43419E5CD511BBC"/>
 {% endblock %}
 
-{% block head_sharing_metadata %}
-    {% if request %}
-        <meta property="og:image" content="{% spaceless %}
-            {% block meta_sharing_thumbnail %}
-                {% static_absolute 'directory_components/images/opengraph-image.png' %}
-            {% endblock %}
-        {% endspaceless %}">
-        <meta property="og:url" content="{{ request.build_absolute_uri }}"/>
-    {% endif %}
-{% endblock %}
-
 {% block body_header %}
-    {% include './header.html' with user=user %}
+    {% block skip_link %}{% endblock %}
+    {% block cookie_notice %}{% endblock %}
+    {% include './header.html' %}
 {% endblock %}
 
 {% block body_content_container %}
