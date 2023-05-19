@@ -74,12 +74,10 @@ class BookingUpdateView(BookingMixin, UpdateView):
         return booking_object
 
     def get_success_url(self):
-        return reverse_lazy('export_academy:booking-success', kwargs={'booking_id': self.object.id})
-
-
-# TODO remove once registration flow merged
-class RegistrationSuccessPageView(TemplateView):
-    pass
+        success_url = (
+            'export_academy:cancellation-success' if self.object.is_cancelled else 'export_academy:booking-success'
+        )
+        return reverse_lazy(success_url, kwargs={'booking_id': self.object.id})
 
 
 class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):

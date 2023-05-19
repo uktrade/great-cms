@@ -107,10 +107,16 @@ def test_export_academy_registration_success_view(client, user):
 
 
 @pytest.mark.parametrize(
-    'booking_status,text', ((Booking.CONFIRMED, 'Booking confirmed'), (Booking.CANCELLED, 'Cancellation confirmed'))
+    'booking_status,success_url,text',
+    (
+        (Booking.CONFIRMED, 'export_academy:booking-success', 'Booking confirmed'),
+        (Booking.CANCELLED, 'export_academy:cancellation-success', 'Cancellation confirmed'),
+    ),
 )
 @pytest.mark.django_db
-def test_booking_success_view(export_academy_landing_page, test_event_list_hero, client, user, booking_status, text):
+def test_booking_success_view(
+    export_academy_landing_page, test_event_list_hero, client, user, booking_status, success_url, text
+):
     client.force_login(user)
     registration = factories.RegistrationFactory(email=user.email)
     event = factories.EventFactory()
@@ -340,7 +346,7 @@ def test_export_academy_booking_cancellation_success(mock_notify_cancellation, c
     assert len(factories.Booking.objects.all()) == 1
     assert factories.Booking.objects.get(pk=booking.id).status == 'Cancelled'
     assert response.status_code == 302
-    assert response.url == reverse('export_academy:booking-success', kwargs={'booking_id': booking.id})
+    assert response.url == reverse('export_academy:cancellation-success', kwargs={'booking_id': booking.id})
     assert mock_notify_cancellation.call_count == 1
     assert mock_notify_cancellation.call_args_list == [
         mock.call(
