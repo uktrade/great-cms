@@ -1327,9 +1327,7 @@ class CaseStudyScoringSettings(BaseSiteSetting):
 
 class Microsite(Page):
     folder_page = True
-    settings_panels = [
-        FieldPanel('slug'),
-    ]
+    settings_panels = [FieldPanel('slug'), FieldPanel('use_domestic_logo')]
 
     parent_page_types = [
         'domestic.DomesticHomePage',
@@ -1337,6 +1335,14 @@ class Microsite(Page):
     ]
 
     subpage_types = ['core.MicrositePage']
+
+    use_domestic_logo = models.BooleanField(
+        default=True,
+        help_text=(
+            'If selected the great logo will be displayed, otherwise the department',
+            'for business and trade logo will be displayed',
+        ),
+    )
 
     class Meta:
         verbose_name = 'Microsite'
@@ -1547,6 +1553,13 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 for child in parent_page.get_children().live()
             ]
         return []
+
+    def use_domestic_logo(self):
+        parent_page = self.get_parent_page()
+        if parent_page and type(parent_page.get_parent().specific) == Microsite:
+            return parent_page.get_parent().specific.use_domestic_logo
+        else:
+            return False
 
     # Return the children of a child or grandchild page
     def get_related_pages(self):
