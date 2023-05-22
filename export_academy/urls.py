@@ -20,7 +20,7 @@ urlpatterns = [
         name='upcoming-events',
     ),
     path(
-        'registration/<uuid:booking_id>',
+        'registration/<uuid:event_id>',
         login_required(views.RegistrationPersonalDetails.as_view(), login_url=SIGNUP_URL),
         {
             'slug': snippet_slugs.EA_REGISTRATION_PAGE_HERO,

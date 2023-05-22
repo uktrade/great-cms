@@ -154,7 +154,7 @@ def check_registration(function):
                 return function(request, *args, **kwargs)
             else:
                 event_id = request.POST['event_id']
-                return redirect(reverse_lazy('export_academy:registration', kwargs=dict(booking_id=event_id)))
+                return redirect(reverse_lazy('export_academy:registration', kwargs=dict(event_id=event_id)))
         else:
             return redirect_to_login(referer, SIGNUP_URL, REDIRECT_FIELD_NAME)
 

@@ -304,8 +304,8 @@ class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixi
 
         self.model(**reg_data).save()
 
-    def confirm_booking(self, booking_id):
-        booking_data = dict(event_id=booking_id, status=models.Booking.CONFIRMED)
+    def confirm_booking(self, event_id):
+        booking_data = dict(event_id=event_id, status=models.Booking.CONFIRMED)
         booking_object = self.register_booking(booking_data)
         self.success_url = reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking_object.id})
         self.send_email_confirmation(booking_object, booking_data)
@@ -313,8 +313,8 @@ class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixi
     def form_valid(self, form):
         self.submit_registration()
         self.send_gov_notify(self.initial_data)
-        booking_id = self.request.session.get('booking_id')
-        self.confirm_booking(booking_id)
+        event_id = self.request.session.get('event_id')
+        self.confirm_booking(event_id)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -328,5 +328,7 @@ class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixi
         )
 
     def get_success_url(self):
-        booking_id = getattr(Booking.objects.get(event_id=self.request.session.get('booking_id')), 'id')
-        return reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking_id})
+        booking = Booking.objects.get(
+            event_id=self.request.session.get('event_id'), registration_id=self.request.user.email
+        )
+        return reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking.id})
