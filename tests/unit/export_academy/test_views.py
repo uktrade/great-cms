@@ -261,6 +261,8 @@ def test_export_academy_registration_success(
     event = factories.EventFactory()
     registration = factories.RegistrationFactory(email=user.email)
     booking = factories.BookingFactory(event=event, registration=registration, status=Booking.CANCELLED)
+    # creates bookings for the same event to ensure correct booking is fetched
+    factories.BookingFactory.create_batch(3, event=event)
     url = reverse('export_academy:registration-confirm')
 
     client.post(

@@ -328,5 +328,7 @@ class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixi
         )
 
     def get_success_url(self):
-        booking_id = getattr(Booking.objects.get(event_id=self.request.session.get('event_id')), 'id')
-        return reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking_id})
+        booking = Booking.objects.get(
+            event_id=self.request.session.get('event_id'), registration_id=self.request.user.email
+        )
+        return reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking.id})
