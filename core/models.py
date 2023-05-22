@@ -1376,7 +1376,8 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
     use_domestic_logo = models.BooleanField(
         default=True,
         help_text='If selected the great logo will be displayed, otherwise the department'
-        ' for business and trade logo will be displayed',
+        ' for business and trade logo will be displayed. '
+        'Note this checkbox only works on the root page',
     )
 
     hero_image = models.ForeignKey(
@@ -1552,6 +1553,13 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 for child in parent_page.get_children().live()
             ]
         return []
+
+    def get_use_domestic_logo(self):
+        parent_page = self.get_parent_page()
+        if parent_page and type(parent_page.specific) == MicrositePage:
+            return parent_page.specific.use_domestic_logo
+        else:
+            return False
 
     # Return the children of a child or grandchild page
     def get_related_pages(self):
