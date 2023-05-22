@@ -93,24 +93,50 @@ def test_export_academy_registration_page_redirect(client):
     assert response.url.startswith(reverse('core:signup'))
 
 
+@mock.patch.object(actions, 'GovNotifyEmailAction')
+# @mock.patch('export_academy.views.SuccessPageView.user_just_registered')
 @pytest.mark.django_db
-def test_export_academy_registration_success_view(client, user):
+def test_registration_success_view(
+    mock_user_just_registered,
+    valid_registration_form_data,
+    client,
+    user,
+    export_academy_landing_page,
+    test_registration_hero,
+):
     client.force_login(user)
-    registration = factories.RegistrationFactory(email=user.email)
     event = factories.EventFactory()
-    booking = factories.BookingFactory(event=event, status=Booking.CONFIRMED, registration=registration)
+    url = reverse('export_academy:registration-confirm')
 
-    response = client.get(reverse('export_academy:registration-success', kwargs={'booking_id': booking.id}))
+    client.post(
+        reverse('export_academy:registration', kwargs={'booking_id': event.id}),
+        valid_registration_form_data,
+    )
+
+    response = client.post(
+        url,
+        {
+            'completed': datetime.now(),
+        },
+        follow=True,
+    )
 
     assert response.status_code == 200
-    assert 'We&#x27;ve received your registration form' in str(response.rendered_content)
+    assert response.context['just_registered']
+    assert 'Registration confirmed' in response.rendered_content
 
 
 @pytest.mark.parametrize(
-    'booking_status,text', ((Booking.CONFIRMED, 'Booking confirmed'), (Booking.CANCELLED, 'Cancellation confirmed'))
+    'booking_status,success_url,text',
+    (
+        (Booking.CONFIRMED, 'export_academy:booking-success', 'Booking confirmed'),
+        (Booking.CANCELLED, 'export_academy:cancellation-success', 'Cancellation confirmed'),
+    ),
 )
 @pytest.mark.django_db
-def test_booking_success_view(export_academy_landing_page, test_event_list_hero, client, user, booking_status, text):
+def test_booking_success_view(
+    export_academy_landing_page, test_event_list_hero, client, user, booking_status, success_url, text
+):
     client.force_login(user)
     registration = factories.RegistrationFactory(email=user.email)
     event = factories.EventFactory()
@@ -232,7 +258,7 @@ def test_export_academy_registration_success(
 
     event = factories.EventFactory()
     registration = factories.RegistrationFactory(email=user.email)
-    booking = factories.BookingFactory(event=event, registration=registration, status='Confirmed')
+    booking = factories.BookingFactory(event=event, registration=registration, status=Booking.CANCELLED)
     url = reverse('export_academy:registration-confirm')
 
     client.post(
@@ -340,7 +366,7 @@ def test_export_academy_booking_cancellation_success(mock_notify_cancellation, c
     assert len(factories.Booking.objects.all()) == 1
     assert factories.Booking.objects.get(pk=booking.id).status == 'Cancelled'
     assert response.status_code == 302
-    assert response.url == reverse('export_academy:booking-success', kwargs={'booking_id': booking.id})
+    assert response.url == reverse('export_academy:cancellation-success', kwargs={'booking_id': booking.id})
     assert mock_notify_cancellation.call_count == 1
     assert mock_notify_cancellation.call_args_list == [
         mock.call(
