@@ -159,6 +159,10 @@ class Booking(TimeStampedModel):
     registration = models.ForeignKey(Registration, on_delete=models.CASCADE)
     status = models.CharField(choices=STATUSES, default=CONFIRMED, max_length=15)
 
+    @property
+    def is_cancelled(self):
+        return self.status == self.CANCELLED
+
 
 class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
     template = 'export_academy/landing_page.html'

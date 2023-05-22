@@ -115,8 +115,12 @@ urlpatterns = [
     ),
     path('booking/', check_registration(views.BookingUpdateView.as_view()), name='booking'),
     path(
-        'registration/success/<uuid:booking_id>',
-        views.RegistrationSuccessPageView.as_view(template_name='export_academy/registration_form_success.html'),
+        'registration/booking/<uuid:booking_id>/success/',
+        views.SuccessPageView.as_view(template_name='export_academy/booking_success.html'),
+        {
+            'slug': snippet_slugs.EA_REGISTRATION_PAGE_HERO,
+            'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
         name='registration-success',
     ),
     path(
@@ -127,6 +131,15 @@ urlpatterns = [
             'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
         },
         name='booking-success',
+    ),
+    path(
+        'booking/<uuid:booking_id>/cancellation/success',
+        views.SuccessPageView.as_view(template_name='export_academy/booking_success.html'),
+        {
+            'slug': snippet_slugs.EXPORT_ACADEMY_LISTING_PAGE_HERO,
+            'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='cancellation-success',
     ),
     path(
         'event/<uuid:pk>/',
