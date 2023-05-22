@@ -1373,10 +1373,10 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         help_text='This is a subheading that displays when the microsite is featured on another page',
     )
 
-    use_domestic_logo = models.BooleanField(
+    use_domestic_header_logo = models.BooleanField(
         default=True,
-        help_text='If selected the great logo will be displayed, otherwise the department'
-        ' for business and trade logo will be displayed. '
+        help_text='If selected the dbt logo will be displayed in the header.'
+        ' Otherwise the UK Gov logo will be shown. '
         'Note this checkbox only works on the root page',
     )
 
@@ -1554,10 +1554,10 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
             ]
         return []
 
-    def get_use_domestic_logo(self):
+    def get_use_domestic_header_logo(self):
         parent_page = self.get_parent_page()
         if parent_page and type(parent_page.specific) == MicrositePage:
-            return parent_page.specific.use_domestic_logo
+            return parent_page.specific.use_domestic_header_logo
         else:
             return False
 
