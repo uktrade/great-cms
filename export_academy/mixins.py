@@ -45,8 +45,8 @@ class RegistrationMixin:
 
     def get_initial(self):
         initial = super().get_initial()
-        if self.kwargs.get('booking_id'):
-            self.request.session['booking_id'] = str(self.kwargs.get('booking_id'))
+        if self.kwargs.get('event_id'):
+            self.request.session['event_id'] = str(self.kwargs.get('event_id'))
         data = self.request.session.get('form_data')
         if data is not None:
             self.initial_data = initial = pickle.loads(bytes.fromhex(data))[0]

@@ -77,7 +77,7 @@ def test_export_academy_registration_page(
     event = factories.EventFactory()
     client.force_login(user)
 
-    url = reverse('export_academy:registration', kwargs=dict(booking_id=event.id))
+    url = reverse('export_academy:registration', kwargs=dict(event_id=event.id))
     response = client.get(url)
 
     assert response.status_code == 200
@@ -86,7 +86,7 @@ def test_export_academy_registration_page(
 @pytest.mark.django_db
 def test_export_academy_registration_page_redirect(client):
     event = factories.EventFactory()
-    url = reverse('export_academy:registration', kwargs=dict(booking_id=event.id))
+    url = reverse('export_academy:registration', kwargs=dict(event_id=event.id))
     response = client.get(url)
 
     assert response.status_code == 302
@@ -106,10 +106,12 @@ def test_registration_success_view(
 ):
     client.force_login(user)
     event = factories.EventFactory()
+    registration = factories.RegistrationFactory(email=user.email)
+    factories.BookingFactory(event=event, registration=registration)
     url = reverse('export_academy:registration-confirm')
 
     client.post(
-        reverse('export_academy:registration', kwargs={'booking_id': event.id}),
+        reverse('export_academy:registration', kwargs={'event_id': event.id}),
         valid_registration_form_data,
     )
 
@@ -262,11 +264,11 @@ def test_export_academy_registration_success(
     url = reverse('export_academy:registration-confirm')
 
     client.post(
-        reverse('export_academy:registration', kwargs={'booking_id': event.id}),
+        reverse('export_academy:registration', kwargs={'event_id': event.id}),
         valid_registration_form_data,
     )
 
-    assert client.session['booking_id'] == event.id
+    assert client.session['event_id'] == event.id
 
     response = client.post(
         url,
@@ -312,7 +314,7 @@ def test_export_academy_booking_redirect(client, user):
     response = client.post(url, form_data)
 
     assert response.status_code == 302
-    assert response.url == reverse('export_academy:registration', kwargs=dict(booking_id=event.id))
+    assert response.url == reverse('export_academy:registration', kwargs=dict(event_id=event.id))
 
 
 @mock.patch.object(actions, 'GovNotifyEmailAction')
