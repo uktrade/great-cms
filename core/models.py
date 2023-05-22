@@ -1338,10 +1338,8 @@ class Microsite(Page):
 
     use_domestic_logo = models.BooleanField(
         default=True,
-        help_text=(
-            'If selected the great logo will be displayed, otherwise the department',
-            'for business and trade logo will be displayed',
-        ),
+        help_text='If selected the great logo will be displayed, otherwise the department'
+        ' for business and trade logo will be displayed',
     )
 
     class Meta:
