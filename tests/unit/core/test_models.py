@@ -871,3 +871,8 @@ class MicrositePageTests(SetUpLocaleMixin, WagtailPageTests):
         home_child = MicrositePageFactory(page_title='home-child', title='home-child', parent=home)
         home_grandchild = MicrositePageFactory(page_title='home-grandchild', title='home-grandchild', parent=home_child)
         self.assertEqual(home_grandchild.get_parent_page(), home)
+
+    def test_get_use_domestic_logo(self):
+        root = MicrositeFactory(title='root', use_domestic_logo=True)
+        home = MicrositePageFactory(page_title='home', title='microsite-title', parent=root)
+        self.assertEqual(home.use_domestic_logo(), True)
