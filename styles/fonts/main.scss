@@ -83,7 +83,7 @@ label.body-l,
 p.lede,
 .results.title,
 #search-results-information p,
-.heading-small {
+.heading-small{
   font-family: $header-font;
   font-weight: $font-weight-semi-bold;
 }
@@ -172,4 +172,8 @@ a.labelled-image-card .card-inner h6 {
 
 .rich-text h4{
   @include h4-mixin
+}
+
+.exred-triage-form .heading-medium{
+  font-family: $header-font!important;
 }

@@ -3,6 +3,7 @@
 @import '../fonts/main.scss';
 @import '../sizes/sizes.scss';
 
+
 #sectors-form {
   margin-top: $standard-padding;
 }
@@ -70,8 +71,7 @@
 
 #stats-tabs {
   h2 {
-    font-size: $font-size-p;
-    font-family: $main-text-font;
+    @include p-mixin;
   }
 }
 
