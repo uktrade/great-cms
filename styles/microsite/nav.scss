@@ -37,14 +37,10 @@ $menu-border: 5px solid $color-alternative-text;
     img {
       height: 83px;
       //img has some white space to the left and bottom
-      &.domestic-logo {
-        margin-left: -25px;
-      }
+      margin-left: -25px;
       @media only screen and (max-width: $mobile-size) {
         height: 63px;
-        &.domestic-logo {
-          margin-left: -18px;
-        }
+        margin-left: -18px;
       }
     }
 
@@ -73,7 +69,7 @@ $menu-border: 5px solid $color-alternative-text;
       margin-left: auto;
     }
     @media only screen and (max-width: $mobile-size) {
-      display: grid;
+        display: grid;
     }
     .magna-header__menu-items {
       padding: 0px;
