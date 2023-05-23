@@ -144,6 +144,8 @@ h5 {
 @mixin p-mixin {
   font-size: $font-size-p;
   line-height: $p-line-height;
+  font-weight: $font-weight-standard;
+  font-family: $main-text-font;
 }
 
 body,

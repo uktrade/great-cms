@@ -72,6 +72,7 @@
 #stats-tabs {
   h2 {
     @include p-mixin;
+    margin-bottom: $standard-padding;
   }
 }
 
