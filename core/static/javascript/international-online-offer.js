@@ -53,7 +53,7 @@ function customIOOSectorSuggest (query, populateResults) {
     },
     {
       "en":"Food and Drink",
-      "tags":["casual dining","dining","alcoholic drinks","bakery products","brewing","dairy products","food and drink manufacturing","free from","allergen free food","frozen and chilled foods","fruit and vegetables","meat products","non-alcoholic drinks","cordial","juice drinks","organic food","pet food","ready meals","secondary food processing","bread","baking"]
+      "tags":["casual dining","dining","alcoholic drinks","bakery products","brewing","dairy products","food and drink manufacturing","free from","allergen free food","frozen and chilled foods","fruit and vegetables","meat products","non-alcoholic drinks","cordial","juice drinks","organic food","pet food","ready meals","secondary food processing","bread","baking","food and beverage","food & beverage","beverage"]
     },
     {
       "en":"Technology and Smart Cities",
