@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: context_processors.py:81
 msgid "great.gov.uk international"
@@ -151,7 +151,11 @@ msgstr "下载 CSV"
 #, python-format
 msgid "Migrate 1 item"
 msgid_plural "Migrate %(counter)s items"
-msgstr[0] "迁移 1 项"
+msgstr[0] "Pindahkan 1 item"
+msgstr[1] "Pindahkan %(counter)s item"
+msgid "Migrate %(counter)s item"
+msgid_plural "Migrate %(counter)s items"
+msgstr[0] "迁移 %(counter)s 项"
 msgstr[1] "迁移 %(counter)s 项"
 
 #: templates/wagtailadmin/microsite_migrate.html:7 wagtail_hooks.py:345
