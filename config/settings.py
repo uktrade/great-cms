@@ -217,7 +217,7 @@ if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
         ('ko', 'Korean'),
         ('pt', 'Portuguese'),
         ('zh', 'Mandarin'),
-        ('ms', 'Maylay'),
+        ('ms', 'Malay'),
     ]
 
     INSTALLED_APPS += [
