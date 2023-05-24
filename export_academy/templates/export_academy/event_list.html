@@ -30,9 +30,9 @@
                                 <ul>
                                     {% for field in filter.form|get_filters:request.user %}
                                         <li class="filter-section">
-                                            <input type="checkbox" id="{{ field.label }}" class="filter-section-toggle" />
-                                            <label class="govuk-body-l arrows-left govuk-!-padding-left-2" for="{{ field.label }}" role="button">{{ field.label }}</label>
-                                            <div class="options checkbox-small">
+                                            <input type="checkbox" id="{{ field.label }}" class="filter-section-toggle" aria-expanded="false" aria-controls="{{ field.label }}_fields" />
+                                            <label class="govuk-body-l arrows-left govuk-!-padding-left-2" for="{{ field.label }}">{{ field.label }}</label>
+                                            <div id="{{ field.label }}_fields" class="options checkbox-small">
                                                 {% if request.GET.booking_period == 'upcoming' or request.GET.booking_period == 'past' %}
                                                     {% filter disable_period_radios %}
                                                         {{ field }}
