@@ -3,7 +3,9 @@
 <section class="microsite-nav-container">
     <div>
         <div>
+            {%if menu_items | length > 1%}
                {% include 'microsites/includes/microsite_menu_button.html' with menu_items=page.get_menu_items active_url=active_url %}
+            {%endif%}
             <div>
                 <img src="/static/images/great-logo.svg"/>
 
