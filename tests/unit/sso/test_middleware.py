@@ -1,6 +1,7 @@
 from unittest import mock
 
 import pytest
+from django.http import HttpResponse
 from django.test import override_settings
 from django.urls import reverse
 from oauthlib.oauth2.rfc6749.errors import TokenExpiredError
@@ -19,7 +20,10 @@ from sso.middleware import AuthenticationMiddleware
     ),
 )
 def test_authentication_middleware__token_expiry(rf, path, expected_redirect_dest):
-    middleware = AuthenticationMiddleware()
+    def get_response(request):
+        return HttpResponse()
+
+    middleware = AuthenticationMiddleware(get_response)
 
     request = rf.get(path)
 

@@ -1,6 +1,6 @@
-# Django
+Django
 # ------------
-django==3.2.19
+django==4.1.9
 django-environ==0.4.*
 django-redis==5.2.*
 django_storages[boto3]==1.13.2
@@ -31,21 +31,20 @@ sentry-sdk==1.14.*
 
 # DIT packages
 # ------------
-great-components==2.2.1
-directory-api-client>=26.*
-directory-constants==23.0.2
-directory-healthcheck==3.0.*
-directory-forms-api-client==7.1.*
-directory-sso-api-client>=7.1.1
-django-staff-sso-client==4.0.*
-directory-ch-client==3.0.*
-directory-validators==9.2.*
-django-recaptcha==3.0.*
-directory-components==39.0.3
+great-components==2.3.0
+directory-constants==23.1.0
+directory-healthcheck==3.1.0
+directory-validators==9.3.0
+directory-components==39.1.0
+directory-api-client==26.3.0
+directory-ch-client==3.1.0
+django-staff-sso-client==4.2.0
+directory-forms-api-client==7.2.0
+directory-sso-api-client==7.2.1
 
 # Other Python deps
 # -----------------
-
+django-recaptcha==3.0.0
 whitenoise==6.*
 psycopg2==2.9.* --no-binary psycopg2
 boto3==1.24.*
@@ -61,7 +60,7 @@ factory-boy==2.12.*
 dateparser==0.7.2
 xhtml2pdf==0.2.*
 lxml>=4.6.3
-sigauth==4.3.0
+sigauth==5.2.0
 elastic-apm==6.1.*
 uk-postcode-utils==1.1
 urllib3>=1.26.5<2.0.0
@@ -71,7 +70,7 @@ elasticsearch-dsl>=7.0.0,<8.0.0
 python-magic==0.4.27
 oauthlib==3.2.2
 celery[redis]==5.2.7
-django-celery-beat==2.2.1
+django-celery-beat==2.5.0
 wagtail-localize==1.4
 icalendar
 tablib
