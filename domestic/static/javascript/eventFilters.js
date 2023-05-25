@@ -31,26 +31,6 @@ var eventFilters = (function () {
   }
 
   function bindEvents() {
-    if (checks) {
-      checks.forEach((check) =>
-        check.addEventListener('change', () => {
-          if (window.innerWidth >= 641) {
-            submitForm()
-          }
-        })
-      )
-    }
-
-    if (radios) {
-      radios.forEach((radio) =>
-        radio.addEventListener('change', () => {
-          if (window.innerWidth >= 641) {
-            submitForm()
-          }
-        })
-      )
-    }
-
     filterSectionToggles.forEach((toggle) =>
       toggle.addEventListener('change', () => {
         toggle.setAttribute('aria-expanded', toggle.checked)
