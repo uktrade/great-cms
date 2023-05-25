@@ -11,11 +11,6 @@ from core.middleware import GADataMissingException, TimedAccessMiddleware
 from tests.unit.core import factories
 
 
-@pytest.fixture(name='get_response')
-def get_response(request):
-    return HttpResponse()
-
-
 @pytest.fixture(autouse=True)
 def mock_company_profile(mock_get_company_profile):
     mock_get_company_profile.return_value = {

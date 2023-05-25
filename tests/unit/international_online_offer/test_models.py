@@ -1,6 +1,5 @@
 import pytest
 from django.contrib.sessions.middleware import SessionMiddleware
-from django.http import HttpResponse
 from wagtail.test.utils import WagtailPageTests
 
 from domestic.models import StructuralPage
@@ -16,11 +15,6 @@ from international_online_offer.models import (
     get_user_data,
     get_user_data_from_db_or_session,
 )
-
-
-@pytest.fixture(name='get_response')
-def get_response(request):
-    return HttpResponse()
 
 
 class IOOIndexPageTests(WagtailPageTests):

@@ -7,7 +7,6 @@ from boto3.exceptions import RetriesExceededError, S3UploadFailedError
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.db.models import FileField
-from django.http import HttpResponse
 from django.test import TestCase, override_settings
 from wagtail.core.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
@@ -81,11 +80,6 @@ def test_anonymous_user_required_handles_authenticated_users(rf, domestic_homepa
 
     assert response.status_code == 302
     assert response.url == domestic_homepage.anonymous_user_required_redirect_url
-
-
-@pytest.fixture(name='get_response')
-def get_response(request):
-    return HttpResponse()
 
 
 @pytest.mark.django_db
