@@ -532,7 +532,7 @@ pytest==7.3.1
     #   pytest-xdist
 pytest-codecov==0.5.1
     # via -r requirements_test.in
-pytest-cov==4.0.0
+pytest-cov==4.1.0
     # via
     #   -r requirements_test.in
     #   pytest-codecov

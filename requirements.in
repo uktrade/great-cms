@@ -1,4 +1,4 @@
-Django
+# Django
 # ------------
 django==4.1.9
 django-environ==0.4.*
