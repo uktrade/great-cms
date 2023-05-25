@@ -22,22 +22,22 @@ def mock_company_profile(mock_get_company_profile):
 
 
 @mock.patch.object(helpers, 'store_user_location')
-def test_stores_user_location(mock_store_user_location, rf, user):
+def test_stores_user_location(mock_store_user_location, rf, user, get_response):
     request = rf.get('/')
     request.user = user
 
-    middleware.UserLocationStoreMiddleware().process_request(request)
+    middleware.UserLocationStoreMiddleware(get_response).process_request(request)
 
     assert mock_store_user_location.call_count == 1
     assert mock_store_user_location.call_args == mock.call(request)
 
 
 @mock.patch.object(helpers, 'store_user_location')
-def test_stores_user_location_anon_user(mock_store_user_location, rf):
+def test_stores_user_location_anon_user(mock_store_user_location, rf, get_response):
     request = rf.get('/')
     request.user = AnonymousUser()
 
-    middleware.UserLocationStoreMiddleware().process_request(request)
+    middleware.UserLocationStoreMiddleware(get_response).process_request(request)
 
     assert mock_store_user_location.call_count == 0
 
@@ -162,7 +162,11 @@ def dummy_valid_ga_360_response():
 
 def test_check_ga_360_tags_allows_valid_response():
     response = dummy_valid_ga_360_response()
-    instance = middleware.CheckGATags()
+
+    def get_response(request):
+        return response
+
+    instance = middleware.CheckGATags(get_response)
 
     processed_response = instance.process_response({}, response)
 
@@ -172,7 +176,11 @@ def test_check_ga_360_tags_allows_valid_response():
 def test_check_ga_360_allows_redirects():
     response = HttpResponse()
     response.status_code = 301
-    instance = middleware.CheckGATags()
+
+    def get_response(request):
+        return response
+
+    instance = middleware.CheckGATags(get_response)
 
     processed_response = instance.process_response({}, response)
 
@@ -183,7 +191,11 @@ def test_check_ga_360_allows_responses_marked_as_skip_ga360():
     response = HttpResponse()
     response.status_code = 200
     response.skip_ga360 = True
-    instance = middleware.CheckGATags()
+
+    def get_response(request):
+        return response
+
+    instance = middleware.CheckGATags(get_response)
 
     processed_response = instance.process_response({}, response)
 
@@ -193,7 +205,11 @@ def test_check_ga_360_allows_responses_marked_as_skip_ga360():
 def test_check_ga_360_rejects_responses_missing_a_required_field():
     response = dummy_valid_ga_360_response()
     response.context_data['ga360'] = {}
-    instance = middleware.CheckGATags()
+
+    def get_response(request):
+        return response
+
+    instance = middleware.CheckGATags(get_response)
 
     with pytest.raises(GADataMissingException) as exception:
         instance.process_response({}, response)
@@ -204,7 +220,11 @@ def test_check_ga_360_rejects_responses_missing_a_required_field():
 def test_check_ga_360_rejects_responses_where_a_required_field_is_null():
     response = dummy_valid_ga_360_response()
     response.context_data['ga360']['business_unit'] = None
-    instance = middleware.CheckGATags()
+
+    def get_response(request):
+        return response
+
+    instance = middleware.CheckGATags(get_response)
 
     with pytest.raises(GADataMissingException) as exception:
         instance.process_response({}, response)
@@ -215,7 +235,11 @@ def test_check_ga_360_rejects_responses_where_a_required_field_is_null():
 def test_check_ga_360_allows_null_values_for_nullable_fields():
     response = dummy_valid_ga_360_response()
     response.context_data['ga360']['user_id'] = None
-    instance = middleware.CheckGATags()
+
+    def get_response(request):
+        return response
+
+    instance = middleware.CheckGATags(get_response)
 
     processed_response = instance.process_response({}, response)
 

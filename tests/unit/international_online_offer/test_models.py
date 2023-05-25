@@ -103,7 +103,7 @@ def test_ioo_guide_get_user_data(rf):
 
 
 @pytest.mark.django_db
-def test_ioo_guide_get_triage_from_db_not_session(rf, user):
+def test_ioo_guide_get_triage_from_db_not_session(rf, user, get_response):
     TriageData.objects.update_or_create(
         hashed_uuid='123',
         defaults={'sector': 'sector'},
@@ -112,7 +112,7 @@ def test_ioo_guide_get_triage_from_db_not_session(rf, user):
     request = rf.get(guide_page.url)
     request.user = user
     request.user.hashed_uuid = '123'
-    middleware = SessionMiddleware()
+    middleware = SessionMiddleware(get_response)
     middleware.process_request(request)
     request.session.save()
     triage_data = get_triage_data_from_db_or_session(request)
@@ -121,10 +121,10 @@ def test_ioo_guide_get_triage_from_db_not_session(rf, user):
 
 
 @pytest.mark.django_db
-def test_ioo_guide_get_triage_from_session_not_db(rf):
+def test_ioo_guide_get_triage_from_session_not_db(rf, get_response):
     guide_page = IOOGuidePage(title='Guide')
     request = rf.get(guide_page.url)
-    middleware = SessionMiddleware()
+    middleware = SessionMiddleware(get_response)
     middleware.process_request(request)
     request.session.save()
     request.session['sector'] = 'sector'
@@ -134,10 +134,10 @@ def test_ioo_guide_get_triage_from_session_not_db(rf):
 
 
 @pytest.mark.django_db
-def test_ioo_guide_get_user_from_session_not_db(rf):
+def test_ioo_guide_get_user_from_session_not_db(rf, get_response):
     guide_page = IOOGuidePage(title='Guide')
     request = rf.get(guide_page.url)
-    middleware = SessionMiddleware()
+    middleware = SessionMiddleware(get_response)
     middleware.process_request(request)
     request.session.save()
     request.session['full_name'] = 'full_name'
