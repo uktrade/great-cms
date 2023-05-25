@@ -7,7 +7,7 @@ allure-pytest
 pillow>=7.1.0
 selenium
 flask
-locust
+locust==2.15.1
 pytest
 pytest-cov
 pytest-django
@@ -15,7 +15,7 @@ pytest-sugar
 django-debug-toolbar==3.2.4
 requests-mock
 pip-tools
-ipdb==0.13.*
+ipdb==0.13.13
 beautifulsoup4
 freezegun==1.1.0
 pytest-xdist

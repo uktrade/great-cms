@@ -40,7 +40,7 @@
 
     a:hover {
         .article-list-item-title,.article-list-item-teaser {
-            text-decoration: underline;
+            @extend %govuk-link;
         }
     }
 
@@ -109,9 +109,10 @@
 
     a:hover {
         .article-list-item-title {
-            text-decoration: underline;
+            @extend %govuk-link;
         }
     }
+
 
     .image-container {
         position: relative;

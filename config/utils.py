@@ -33,6 +33,8 @@ def get_wagtail_transfer_configuration() -> dict:
         uat_secret=None,
         staging_base_url=None,
         staging_secret=None,
+        dev_base_url=None,
+        dev_secret=None,
         prod_base_url=None,
         prod_secret=None,
     ):
@@ -63,7 +65,15 @@ def get_wagtail_transfer_configuration() -> dict:
                 PRODUCTION: {
                     'BASE_URL': prod_base_url,
                     'SECRET_KEY': prod_secret,
-                }
+                },
+                STAGING: {
+                    'BASE_URL': staging_base_url,
+                    'SECRET_KEY': staging_secret,
+                },
+                DEV: {
+                    'BASE_URL': dev_base_url,
+                    'SECRET_KEY': dev_secret,
+                },
             },
         }
         return _configs[env]
@@ -109,11 +119,19 @@ def get_wagtail_transfer_configuration() -> dict:
         # UAT needs to know about production, to import FROM it
         prod_base_url = env.str('WAGTAILTRANSFER_BASE_URL_PRODUCTION')
         prod_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_PRODUCTION')
+        staging_base_url = env.str('WAGTAILTRANSFER_BASE_URL_STAGING')
+        staging_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_STAGING')
+        dev_base_url = env.str('WAGTAILTRANSFER_BASE_URL_DEV')
+        dev_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_DEV')
         config.update(
             _get_config(
                 active_environment,
                 prod_base_url=prod_base_url,
                 prod_secret=prod_secret,
+                staging_base_url=staging_base_url,
+                staging_secret=staging_secret,
+                dev_base_url=dev_base_url,
+                dev_secret=dev_secret,
             )
         )
     elif active_environment == LOCAL and env.bool('WAGTAIL_TRANSFER_LOCAL_DEV', default=False):

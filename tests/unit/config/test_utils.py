@@ -20,6 +20,14 @@ from config.utils import get_wagtail_transfer_configuration
                     'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_PRODUCTION',
                     'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_PRODUCTION',
                 },
+                'staging': {
+                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_STAGING',
+                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_STAGING',
+                },
+                'dev': {
+                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_DEV',
+                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_DEV',
+                },
             },
         ),
         (

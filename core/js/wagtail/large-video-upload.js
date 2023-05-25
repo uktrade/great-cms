@@ -3,8 +3,9 @@ import * as utils from './utils'
 export const largeVideoUpload = () => {
   const isAddVideoPage = utils.isAddVideoPage(window.location.pathname)
   const isEditVideoPage = utils.isEditVideoPage(window.location.pathname)
+  const isMediaChooserPage = utils.isMediaChooserPage(window.document)
 
-  if (isAddVideoPage || isEditVideoPage) {
+  if (isAddVideoPage || isEditVideoPage || isMediaChooserPage) {
     const uploadFileInput = document.querySelector('#id_file')
 
     let file
@@ -21,7 +22,7 @@ export const largeVideoUpload = () => {
       isLargeVideo = true
       utils.showHideElements(
         '#large_video_submit',
-        '.fields button[type="submit"]'
+        '.fields button[type="submit"]:not(#large_video_submit)'
       )
     }
 
@@ -158,7 +159,10 @@ export const largeVideoUpload = () => {
         { key: 'type', val: 'submit' },
         { key: 'id', val: 'large_video_submit' },
         { key: 'classList', val: 'button' },
-        { key: 'innerHTML', val: isAddVideoPage ? 'Upload' : 'Save' },
+        {
+          key: 'innerHTML',
+          val: isAddVideoPage ? 'Upload' : 'Save',
+        },
       ])
 
       submit.style.display = 'none'
@@ -201,25 +205,45 @@ export const largeVideoUpload = () => {
     }
 
     function setup() {
-      uploadFileInput.addEventListener('change', (event) => {
-        file = event.target.files[0]
+      if (isMediaChooserPage) {
+        const mediaChooserButton = document.querySelector(
+          '.chooser.media-chooser'
+        )
 
-        if (!isInitialised) {
-          createLargeVideoSubmitButton()
-          createStatusMessage()
-          createProgressBar()
+        if (mediaChooserButton) {
+          mediaChooserButton.addEventListener('click', (e) => {
+            setTimeout(() => {
+              const uploadVideoTab = document.querySelector(
+                '#tab-label-upload-video'
+              )
 
-          if (isAddVideoPage) {
-            enableLargeVideoUpload()
-          }
-
-          if (isEditVideoPage) {
-            enableLargeVideoSave()
-          }
-
-          isInitialised = true
+              if (uploadVideoTab) {
+                uploadVideoTab.style.display = 'none'
+              }
+            }, 500)
+          })
         }
-      })
+      } else {
+        uploadFileInput.addEventListener('change', (event) => {
+          file = event.target.files[0]
+
+          if (!isInitialised) {
+            createLargeVideoSubmitButton()
+            createStatusMessage()
+            createProgressBar()
+
+            if (isAddVideoPage) {
+              enableLargeVideoUpload()
+            }
+
+            if (isEditVideoPage) {
+              enableLargeVideoSave()
+            }
+
+            isInitialised = true
+          }
+        })
+      }
     }
 
     window.addEventListener('DOMContentLoaded', () => setup())

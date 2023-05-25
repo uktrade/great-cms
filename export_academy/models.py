@@ -75,6 +75,7 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     format = models.CharField(max_length=15, choices=FORMAT_CHOICES, default=ONLINE)
     link = models.URLField(blank=True, null=True, max_length=255)
     types = ClusterTaggableManager(through=TaggedEventType)
+    location = models.CharField(blank=True, null=True, max_length=255)
     document = models.ForeignKey(
         'wagtaildocs.Document',
         null=True,
@@ -157,6 +158,10 @@ class Booking(TimeStampedModel):
     event = ParentalKey(Event, on_delete=models.CASCADE, related_name='bookings')
     registration = models.ForeignKey(Registration, on_delete=models.CASCADE)
     status = models.CharField(choices=STATUSES, default=CONFIRMED, max_length=15)
+
+    @property
+    def is_cancelled(self):
+        return self.status == self.CANCELLED
 
 
 class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):

@@ -20,14 +20,107 @@ urlpatterns = [
         name='upcoming-events',
     ),
     path(
-        'registration/<uuid:booking_id>',
-        login_required(views.RegistrationFormView.as_view(), login_url=SIGNUP_URL),
+        'registration/<uuid:event_id>',
+        login_required(views.RegistrationPersonalDetails.as_view(), login_url=SIGNUP_URL),
+        {
+            'slug': snippet_slugs.EA_REGISTRATION_PAGE_HERO,
+            'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
         name='registration',
+    ),
+    path(
+        'registration/details/',
+        login_required(views.RegistrationPersonalDetails.as_view(), login_url=SIGNUP_URL),
+        {
+            'slug': snippet_slugs.EA_REGISTRATION_PAGE_HERO,
+            'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='registration-details',
+    ),
+    path(
+        'registration/details/edit/',
+        login_required(views.RegistrationPersonalDetails.as_view(), login_url=SIGNUP_URL),
+        {
+            'slug': snippet_slugs.EA_REGISTRATION_PAGE_HERO,
+            'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
+            'edit': True,
+        },
+        name='registration-details-edit',
+    ),
+    path(
+        'registration/experience/',
+        login_required(views.RegistrationExportExperience.as_view(), login_url=SIGNUP_URL),
+        {
+            'slug': snippet_slugs.EA_REGISTRATION_PAGE_HERO,
+            'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='registration-experience',
+    ),
+    path(
+        'registration/experience/edit/',
+        login_required(views.RegistrationExportExperience.as_view(), login_url=SIGNUP_URL),
+        {
+            'slug': snippet_slugs.EA_REGISTRATION_PAGE_HERO,
+            'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
+            'edit': True,
+        },
+        name='registration-experience-edit',
+    ),
+    path(
+        'registration/business/',
+        login_required(views.RegistrationBusinessDetails.as_view(), login_url=SIGNUP_URL),
+        {
+            'slug': snippet_slugs.EA_REGISTRATION_PAGE_HERO,
+            'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='registration-business',
+    ),
+    path(
+        'registration/business/edit/',
+        login_required(views.RegistrationBusinessDetails.as_view(), login_url=SIGNUP_URL),
+        {
+            'slug': snippet_slugs.EA_REGISTRATION_PAGE_HERO,
+            'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
+            'edit': True,
+        },
+        name='registration-business-edit',
+    ),
+    path(
+        'registration/finally/',
+        login_required(views.RegistrationMarketingSources.as_view(), login_url=SIGNUP_URL),
+        {
+            'slug': snippet_slugs.EA_REGISTRATION_PAGE_HERO,
+            'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='registration-marketing',
+    ),
+    path(
+        'registration/finally/edit/',
+        login_required(views.RegistrationMarketingSources.as_view(), login_url=SIGNUP_URL),
+        {
+            'slug': snippet_slugs.EA_REGISTRATION_PAGE_HERO,
+            'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
+            'edit': True,
+        },
+        name='registration-marketing-edit',
+    ),
+    path(
+        'registration/confirm/',
+        login_required(views.RegistrationConfirmChoices.as_view(), login_url=SIGNUP_URL),
+        {
+            'slug': snippet_slugs.EA_REGISTRATION_PAGE_HERO,
+            'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='registration-confirm',
     ),
     path('booking/', check_registration(views.BookingUpdateView.as_view()), name='booking'),
     path(
-        'registration/success/',
-        views.RegistrationSuccessPageView.as_view(template_name='export_academy/registration_form_success.html'),
+        'registration/booking/<uuid:booking_id>/success/',
+        views.SuccessPageView.as_view(template_name='export_academy/booking_success.html'),
+        {
+            'slug': snippet_slugs.EA_REGISTRATION_PAGE_HERO,
+            'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
         name='registration-success',
     ),
     path(
@@ -38,6 +131,15 @@ urlpatterns = [
             'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
         },
         name='booking-success',
+    ),
+    path(
+        'booking/<uuid:booking_id>/cancellation/success',
+        views.SuccessPageView.as_view(template_name='export_academy/booking_success.html'),
+        {
+            'slug': snippet_slugs.EXPORT_ACADEMY_LISTING_PAGE_HERO,
+            'snippet_import_path': 'core.models.HeroSnippet',  # see core.mixins.GetSnippetContentMixin
+        },
+        name='cancellation-success',
     ),
     path(
         'event/<uuid:pk>/',

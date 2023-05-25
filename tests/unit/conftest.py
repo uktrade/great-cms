@@ -3,6 +3,7 @@ from unittest import mock
 
 import pytest
 from captcha.client import RecaptchaResponse
+from django.http import HttpResponse
 
 from directory_api_client import api_client
 from tests.helpers import create_response
@@ -212,3 +213,8 @@ def mock_free_trade_agreements():
             json_body={'data': ['FTA 1', 'FTA 2', 'FTA 3']},
         ),
     ).start()
+
+
+@pytest.fixture(name='get_response')
+def get_response(request):
+    return HttpResponse()

@@ -1,7 +1,10 @@
+import pickle
+
 from directory_forms_api_client import actions
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 
 from config import settings
+from export_academy.models import Registration
 
 
 class BookingMixin(GovNotifyEmailActionMixin):
@@ -35,3 +38,29 @@ class BookingMixin(GovNotifyEmailActionMixin):
         )
         response = action.save(data)
         response.raise_for_status()
+
+
+class RegistrationMixin:
+    initial_data = {}
+
+    def get_initial(self):
+        initial = super().get_initial()
+        if self.kwargs.get('event_id'):
+            self.request.session['event_id'] = str(self.kwargs.get('event_id'))
+        data = self.request.session.get('form_data')
+        if data is not None:
+            self.initial_data = initial = pickle.loads(bytes.fromhex(data))[0]
+        if Registration.objects.filter(email=self.request.user.email).exists():
+            self.initial_data = {
+                **getattr(Registration.objects.get(email=self.request.user.email), 'data'),
+                **self.initial_data,
+            }
+        return initial
+
+    def save_registration(self, form):
+        cleaned_data = form.cleaned_data
+
+        reg_data = ({**self.initial_data, **cleaned_data},)
+
+        reg_data = pickle.dumps(reg_data).hex()
+        self.request.session['form_data'] = reg_data

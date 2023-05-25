@@ -99,6 +99,7 @@ CONTACT_FORM_INDUSTRIES = [
 ]
 
 INDUSTRY_CHOICES = [('', 'Please select')] + [(item, item) for item in CONTACT_FORM_INDUSTRIES] + [('OTHER', 'Other')]
+MARKETING_SOURCES_CHOICES = [('', 'Please select')] + [(item, item) for (key, item) in MARKETING_SOURCES]
 
 INDUSTRY_MAP = dict(INDUSTRY_CHOICES)
 

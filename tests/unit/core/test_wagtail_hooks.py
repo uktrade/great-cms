@@ -10,6 +10,7 @@ from django.db.models import FileField
 from django.test import TestCase, override_settings
 from wagtail.core.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
+
 from core import cms_slugs, wagtail_hooks
 from core.models import DetailPage, MicrositePage
 from core.wagtail_hooks import (
@@ -62,11 +63,11 @@ def test_anonymous_user_required_handles_anonymous_users(rf, domestic_homepage):
 
 
 @pytest.mark.django_db
-def test_anonymous_user_required_handles_authenticated_users(rf, domestic_homepage, user):
+def test_anonymous_user_required_handles_authenticated_users(rf, domestic_homepage, user, get_response):
     request = rf.get('/')
     request.user = user
 
-    middleware = SessionMiddleware()
+    middleware = SessionMiddleware(get_response)
     middleware.process_request(request)
     request.session.save()
 
@@ -97,12 +98,12 @@ def test_login_required_signup_wizard_ignores_irrelevant_pages(rf, domestic_home
 
 
 @pytest.mark.django_db
-def test_login_required_signup_wizard_handles_anonymous_users(rf, domestic_homepage):
+def test_login_required_signup_wizard_handles_anonymous_users(rf, domestic_homepage, get_response):
     page = LessonPageFactory(parent=domestic_homepage)
 
     request = rf.get('/foo/bar/')
     request.user = AnonymousUser()
-    middleware = SessionMiddleware()
+    middleware = SessionMiddleware(get_response)
     middleware.process_request(request)
     request.session.save()
 
@@ -118,13 +119,13 @@ def test_login_required_signup_wizard_handles_anonymous_users(rf, domestic_homep
 
 
 @pytest.mark.django_db
-def test_login_required_signup_wizard_handles_anonymous_users_opting_out(rf, domestic_homepage, user):
+def test_login_required_signup_wizard_handles_anonymous_users_opting_out(rf, domestic_homepage, user, get_response):
     page = LessonPageFactory(parent=domestic_homepage)
 
     first_request = rf.get('/foo/bar/', {'show-generic-content': True})
     first_request.user = AnonymousUser()
 
-    middleware = SessionMiddleware()
+    middleware = SessionMiddleware(get_response)
     middleware.process_request(first_request)
     first_request.session.save()
 

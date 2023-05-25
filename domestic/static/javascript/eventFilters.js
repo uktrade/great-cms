@@ -52,9 +52,10 @@ var eventFilters = (function () {
     }
 
     filterSectionToggles.forEach((toggle) =>
-      toggle.addEventListener('change', () =>
+      toggle.addEventListener('change', () => {
+        toggle.setAttribute('aria-expanded', toggle.checked)
         window.localStorage.setItem(toggle.id, toggle.checked)
-      )
+      })
     )
 
     if (stickyFooter) {

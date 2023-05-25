@@ -1,24 +1,124 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 
+import pytest
 from django.utils import timezone
 from freezegun import freeze_time
 
 from export_academy.forms import (
     BoolToDateTimeField,
-    EARegistration,
+    BusinessDetails,
     EventAdminModelForm,
+    ExportExperience,
+    MarketingSources,
+    PersonalDetails,
+    RegistrationConfirm,
 )
 from export_academy.models import Event
 
 
-def test_registration_form_validations(valid_registration_form_data):
-    form = EARegistration(data=valid_registration_form_data)
-
+@pytest.mark.parametrize(
+    'form, form_empty, error_messages',
+    (
+        (
+            PersonalDetails(
+                {
+                    'first_name': 'Test name',
+                    'last_name': 'Test last',
+                    'job_title': 'Astronaut',
+                    'phone_number': '072345678910',
+                },
+            ),
+            PersonalDetails(
+                {
+                    'first_name': '',
+                    'last_name': '',
+                    'job_title': '',
+                    'phone_number': '',
+                },
+            ),
+            {
+                'first_name': 'Enter your name',
+                'phone_number': 'Please enter a valid UK phone number',
+                'last_name': 'Enter your family name',
+                'job_title': 'Enter your job title',
+            },
+        ),
+        (
+            ExportExperience(
+                {
+                    'export_experience': 'I do not have a product for export',
+                    'sector': 'Agriculture, horticulture, fisheries and pets',
+                    'export_product': 'Goods',
+                },
+            ),
+            ExportExperience(
+                {
+                    'export_experience': '',
+                    'sector': '',
+                    'export_product': '',
+                },
+            ),
+            {
+                'export_experience': 'Please answer this question',
+                'sector': 'Please answer this question',
+                'export_product': 'Please answer this question',
+            },
+        ),
+        (
+            BusinessDetails(
+                {
+                    'business_name': 'Test Business',
+                    'business_postcode': 'SW1A 1AA',
+                    'annual_turnover': 'Up to £85,000',
+                    'employee_count': '10 to 49',
+                },
+            ),
+            BusinessDetails(
+                {
+                    'business_name': '',
+                    'business_postcode': '',
+                    'annual_turnover': '',
+                    'employee_count': '',
+                },
+            ),
+            {
+                'business_name': 'Enter your business name',
+                'business_postcode': 'Enter your business postcode',
+                'annual_turnover': 'Please answer this question',
+                'employee_count': 'Please answer this question',
+            },
+        ),
+        (
+            MarketingSources(
+                {
+                    'marketing_sources': 'Other',
+                },
+            ),
+            MarketingSources(
+                {
+                    'marketing_sources': '',
+                },
+            ),
+            {
+                'marketing_sources': 'Please answer this question',
+            },
+        ),
+        (
+            RegistrationConfirm({'completed': datetime.now()}),
+            RegistrationConfirm(),
+            {},
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_registration_form_validation(form, form_empty, error_messages):
+    # Checks is_valid returns true for the given form data
     assert form.is_valid()
-    assert form.cleaned_data['first_name'] == valid_registration_form_data['first_name']
-    assert form.cleaned_data['business_name'] == valid_registration_form_data['business_name']
-    assert form.cleaned_data.items() <= form.serialized_data.items()
-    assert form.serialized_data['like_to_discuss_country'] == 'Italy'
+
+    # Checks for the presence of each error message in the event of an invalid form
+    for key in error_messages:
+        assert not form_empty.is_valid()
+        assert error_messages[key] in form_empty.errors[key]
 
 
 @freeze_time('2023-01-01 01:00:00')

@@ -4,6 +4,9 @@ export const isAddVideoPage = (pathname) =>
 export const isEditVideoPage = (pathname) =>
   pathname.includes('/admin/media/edit/')
 
+export const isMediaChooserPage = (document) =>
+  document.querySelector("[data-chooser-url='/admin/media/chooser/']")
+
 export const showHideElements = (show, hide, display = 'block') => {
   document.querySelector(show).style.display = display
   document.querySelector(hide).style.display = 'none'

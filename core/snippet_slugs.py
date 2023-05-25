@@ -43,3 +43,4 @@ EUEXIT_FORM_SUCCESS = 'eu-exit-form-success'
 
 # hero snippets
 EXPORT_ACADEMY_LISTING_PAGE_HERO = 'export-academy-listing-page-hero'
+EA_REGISTRATION_PAGE_HERO = 'export-academy-registration-page-hero'
