@@ -46,5 +46,21 @@
 		"about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services.": "great.gov.uk의 사용 방법에 대한 정보를 수집합니다. 이 정보는 웹 사이트가 최대한 잘 작동하고 정부 서비스를 개선하기 위해 사용됩니다.",
 		"Accept all cookies": "모든 쿠키 허용",
 		"Set cookie preferences": "쿠키 설정 변경"
+	},
+	"zh":{
+		"Tell us whether you accept cookies": "告诉我们您是否接受 cookie",
+		"We use": "我们用",
+		"cookies to collect information": "用于收集信息的 cookie",
+		"about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services.": "关于您如何使用 great.gov.uk。我们使用这些信息来使网站尽可能地正常运行并改善政府服务。",
+		"Accept all cookies": "接受所有 cookie",
+		"Set cookie preferences": "等 cookie 偏好"
+	},
+	"ms":{
+		"Tell us whether you accept cookies": "Beritahu kami sama ada anda menerima kuki",
+		"We use": "Kami guna",
+		"cookies to collect information": "kuki untuk mengumpul maklumat",
+		"about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services.": "tentang cara anda menggunakan great.gov.uk. Kami menggunakan maklumat ini untuk menjadikan tapak web berfungsi sebaik mungkin dan meningkatkan perkhidmatan kerajaan.",
+		"Accept all cookies": "Terima semua kuki",
+		"Set cookie preferences": "Tetapkan pilihan kuki"
 	}
 }
