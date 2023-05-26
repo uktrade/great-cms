@@ -50,7 +50,4 @@ class MicrositePanels:
         FieldPanel('related_links'),
     ]
 
-    settings_panels = [
-        FieldPanel('title'),
-        FieldPanel('slug'),
-    ]
+    settings_panels = [FieldPanel('title'), FieldPanel('slug'), FieldPanel('use_domestic_header_logo')]

@@ -1,4 +1,4 @@
-{% include 'microsites/includes/microsite_header.html' %}
+{% include 'microsites/includes/microsite_header.html' with use_domestic_logo=use_domestic_logo %}
 {% load wagtailcore_tags %}
 <section class="microsite-nav-container">
     <div>
@@ -6,7 +6,6 @@
                {% include 'microsites/includes/microsite_menu_button.html' with menu_items=page.get_menu_items active_url=active_url %}
             <div>
                 <img src="/static/images/great-logo.svg"/>
-
             </div>
             <h3>{{ title }}</h3>
         </div>

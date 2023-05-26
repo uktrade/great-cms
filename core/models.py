@@ -1327,9 +1327,7 @@ class CaseStudyScoringSettings(BaseSiteSetting):
 
 class Microsite(Page):
     folder_page = True
-    settings_panels = [
-        FieldPanel('slug'),
-    ]
+    settings_panels = [FieldPanel('slug')]
 
     parent_page_types = [
         'domestic.DomesticHomePage',
@@ -1374,6 +1372,14 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         null=True,
         help_text='This is a subheading that displays when the microsite is featured on another page',
     )
+
+    use_domestic_header_logo = models.BooleanField(
+        default=True,
+        help_text='If selected the dbt logo will be displayed in the header.'
+        ' Otherwise the UK Gov logo will be shown. '
+        'Note this checkbox only works on the root page',
+    )
+
     hero_image = models.ForeignKey(
         'core.AltTextImage',
         null=True,
@@ -1547,6 +1553,13 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 for child in parent_page.get_children().live()
             ]
         return []
+
+    def get_use_domestic_header_logo(self):
+        parent_page = self.get_parent_page()
+        if parent_page and type(parent_page.specific) == MicrositePage:
+            return parent_page.specific.use_domestic_header_logo
+        else:
+            return False
 
     # Return the children of a child or grandchild page
     def get_related_pages(self):
