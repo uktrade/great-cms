@@ -1056,6 +1056,8 @@ class TestMicrositeLocales(TestCase):
         self.fr_locale = Locale.objects.get_or_create(language_code='fr')
         self.pt_locale = Locale.objects.get_or_create(language_code='pt')
         self.ko_locale = Locale.objects.get_or_create(language_code='ko')
+        self.zh_locale = Locale.objects.get_or_create(language_code='zh')
+        self.ms_locale = Locale.objects.get_or_create(language_code='ms')
 
     @pytest.fixture(autouse=True)
     def domestic_homepage_fixture(self, domestic_homepage):
@@ -1131,6 +1133,26 @@ class TestMicrositeLocales(TestCase):
             '페이지 제목: 무역 기회 창출: 영국-대한민국 수출 포럼' in html_response
             and '부제: 국제 무역과 경제 성장을 위한 강력한 동반자관계 구축' in html_response  # noqa: W503
         )
+
+    def test_correct_translation_mandarin(self):
+        site_zh = self.en_microsite.copy_for_translation(self.zh_locale[0], copy_parents=True, alias=True)
+        site_zh.page_title = '微型网站首页'
+        site_zh.page_subheading = '微型网站主页字幕'
+        site_zh.save()
+        url_mandarin = self.url + '?lang=zh'
+        response = self.client.get(url_mandarin)
+        html_response = response.content.decode('utf-8')
+        assert site_zh.page_title in html_response and site_zh.page_subheading in html_response  # noqa: W503
+
+    def test_correct_translation_malay(self):
+        site_ms = self.en_microsite.copy_for_translation(self.ms_locale[0], copy_parents=True, alias=True)
+        site_ms.page_title = 'laman utama laman mikro'
+        site_ms.page_subheading = 'Sarikata Halaman Utama Microsite'
+        site_ms.save()
+        url_malay = self.url + '?lang=ms'
+        response = self.client.get(url_malay)
+        html_response = response.content.decode('utf-8')
+        assert site_ms.page_title in html_response and site_ms.page_subheading in html_response  # noqa: W503
 
     def test_fall_back_to_english_for_unimplemented_enabled_language(self):
         url = reverse_lazy('core:microsites', kwargs={'page_slug': '/microsite-page-home'})

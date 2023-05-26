@@ -160,7 +160,7 @@ directory-constants==23.1.0
     #   great-components
 directory-forms-api-client==7.2.0
     # via -r requirements.in
-directory-healthcheck==3.1.0
+directory-healthcheck==3.1.1
     # via -r requirements.in
 directory-sso-api-client==7.2.1
     # via -r requirements.in
@@ -616,7 +616,7 @@ requests-toolbelt==1.0.0
     # via browserstack-sdk
 roundrobin==0.0.4
     # via locust
-ruamel-yaml==0.17.26
+ruamel-yaml==0.17.28
     # via pre-commit-hooks
 ruamel-yaml-clib==0.2.7
     # via ruamel-yaml
@@ -705,7 +705,7 @@ trio==0.22.0
     #   trio-websocket
 trio-websocket==0.10.2
     # via selenium
-typing-extensions==4.6.1
+typing-extensions==4.6.2
     # via
     #   asgiref
     #   astroid

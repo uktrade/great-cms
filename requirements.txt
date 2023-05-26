@@ -104,7 +104,7 @@ directory-constants==23.1.0
     #   great-components
 directory-forms-api-client==7.2.0
     # via -r requirements.in
-directory-healthcheck==3.1.0
+directory-healthcheck==3.1.1
     # via -r requirements.in
 directory-sso-api-client==7.2.1
     # via -r requirements.in
@@ -395,7 +395,7 @@ tinycss2==1.2.1
     # via
     #   cssselect2
     #   svglib
-typing-extensions==4.6.1
+typing-extensions==4.6.2
     # via
     #   asgiref
     #   pypdf

@@ -1,0 +1,5 @@
+@import '../sizes/sizes.scss';
+
+.ReactModal__Content.ReactModal__Content--after-open{
+    max-width: $mobile-size!important;
+}
