@@ -69,13 +69,19 @@ $menu-border: 5px solid $color-alternative-text;
       margin-left: auto;
     }
     @media only screen and (max-width: $mobile-size) {
-        display: grid;
+      display: grid;
     }
     .magna-header__menu-items {
+
       padding: 0px;
       li {
         list-style: none;
+          & button {
+          font-family: $main-text-font!important;
+          font-size: $font-size-button!important;
+        }
         a {
+          font-size: $font-size-button;
           padding-left: govuk-spacing(4);
           @media only screen and (max-width: $mobile-size) {
             padding-left: govuk-spacing(2);
