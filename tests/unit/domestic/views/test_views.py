@@ -12,10 +12,14 @@ import domestic.views.campaign
 import domestic.views.ukef
 from core import cms_slugs
 from core.constants import CONSENT_EMAIL
-from core.factories import MicrositeFactory, MicrositePageFactory, StructurePageFactory
 from domestic import forms
 from domestic.forms import CampaignLongForm, CampaignShortForm
 from domestic.views.ukef import GetFinanceLeadGenerationFormView
+from tests.unit.core.factories import (
+    MicrositeFactory,
+    MicrositePageFactory,
+    StructurePageFactory,
+)
 from tests.unit.domestic.factories import ArticlePageFactory
 
 pytestmark = [
