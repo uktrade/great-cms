@@ -4,63 +4,6 @@
 @import './icons.scss';
 @import '../sizes/sizes.scss';
 
-body,
-div,
-p {
-  font-family: $main-text-font;
-  font-size: $font-size-p;
-  color: $color-main-text;
-  line-height: $p-line-height;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: $header-font;
-  margin: 0;
-  color: $color-main-text;
-}
-
-h1 {
-  font-size: $font-size-h1;
-  line-height: 54px;
-  @media screen and (max-width: $mobile-size) {
-    font-size: $font-size-h2;
-  }
-}
-
-h2 {
-  font-size: $font-size-h2;
-  line-height: $font-size-h2;
-  @media screen and (max-width: $mobile-size) {
-    font-size: $font-size-h3;
-  }
-}
-
-h3 {
-  font-size: $font-size-h3;
-  line-height: $font-size-h3;
-  @media screen and (max-width: $mobile-size) {
-    font-size: $font-size-h4;
-  }
-}
-
-h4 {
-  font-size: $font-size-h4;
-  line-height: $font-size-h4;
-  @media screen and (max-width: $mobile-size) {
-    font-size: $font-size-h5;
-  }
-}
-
-h5 {
-  font-size: $font-size-h5;
-  line-height: $font-size-h5;
-}
-
 .page-title {
   padding: $x-large-padding 0 $large-padding 0;
 }
@@ -85,119 +28,152 @@ article > p {
   padding-bottom: $standard-padding;
 }
 
-.bold, .results.title, #search-results-information p, .heading-small {
+#great-footer-copyright, .subheading  {
+@include p-mixin
+}
+
+.big-number-list li:before {
+  font-family: $header-font !important;
+  color: $color-main-text !important;
+  font-weight: $font-weight-semi-bold;
+}
+
+#great-footer-copyright {
+  font-size: $font-size-p-small;
+  line-height: $p-line-height;
+}
+
+//just overidde colors
+.h-m,
+.h-s,
+a.learn__category-link,
+.body-m,
+.body-l,
+.h-l,
+.body-l-b,
+.h-xs,
+.body-l,
+.body-s,
+div,
+label.body-l,
+.body-m-b,
+.body-s-b,
+.heading-large,
+.heading-xlarge,
+.heading-small,
+.heading-medium,
+.multiple-choice label,
+.select__button i,
+.great-checkbox label,
+.great-checkbox label::before,
+.learn__lesson-item-link:visited,
+.learning-link:visited {
+  color: $color-main-text;
+}
+
+//override font-family
+.h-m,
+.h-s,
+.h-l,
+.h-xs,
+.heading-large,
+.heading-xlarge,
+.heading-small,
+.heading-medium,
+p.lede,
+.results.title,
+#search-results-information p,
+.heading-small{
   font-family: $header-font;
+  font-weight: $font-weight-semi-bold;
 }
 
-#great-footer-copyright {
-  font-size: $font-size-p-small;
-  line-height: $p-line-height;
+.link,
+.form-control,
+.body-m,
+.body-s,
+.body-l,
+.great-checkbox label,
+.multiple-choice label,
+.font-xsmall,
+.subheading {
+  font-family: $main-text-font !important;
+  font-weight: $regular-font-weight;
 }
 
-.font-xsmall, .subheading, .heading-small  {
+.body-l-b {
+  font-size: $font-size-p;
+}
+
+.magna-header__menu-items button,
+.magna-header__search input,
+select.form-control,
+.breadcrumbs li {
+  font-size: $font-size-button;
   font-family: $main-text-font;
 }
 
-//just overidde colors
-.h-m,
-.h-s,
-a.learn__category-link,
-.body-m,
-.body-l,
-.h-l,
+.bold,
+.bold-large,
+.bold-medium,
+.bold-small,
+.rich-text h1,
+.rich-text h2,
+.rich-text h3,
+.rich-text h4,
+.rich-text h5,
+.block-text:not(.microsite .block-text) h1,
+.block-text:not(.microsite .block-text) h2,
+.block-text:not(.microsite .block-text) h3,
+.block-text:not(.microsite .block-text) h4,
+#search-results-information p,
 .body-l-b,
-.h-xs,
-.body-l,
-.body-s,
-div,
-label.body-l,
-.body-m-b,
-.body-s-b,
-.heading-large,
-.heading-xlarge,
-.heading-small,
-.heading-medium,
-.multiple-choice label,
-.select__button i,
-.great-checkbox label,
-.great-checkbox label::before,
-.learn__lesson-item-link:visited,
-.learning-link:visited,
-p.lede {
-  color: $color-main-text;
+.card .card-inner h3,
+a.labelled-card .card-inner h3,
+a.labelled-image-card .card-inner h3,
+.card .card-inner h4,
+a.labelled-card .card-inner h4,
+a.labelled-image-card .card-inner h4,
+.card .card-inner h5,
+a.labelled-card .card-inner h5,
+a.labelled-image-card .card-inner h5,
+.card .card-inner h6,
+a.labelled-card .card-inner h6,
+a.labelled-image-card .card-inner h6 {
+  font-weight: 600;
+}
+
+.rich-text i {
+  font-size: inherit;
 }
 
 
-.big-number-list li:before{
+.article-list-page ul.content-list li h3{
+ @include h3-mixin;
+}
+
+.rich-text h1{
+  @include h1-mixin
+}
+
+.heading-xlarge,
+.govuk-heading-xlarge,
+.rich-text h1 {
+  @include h1-mixin;
+}
+
+.rich-text h2{
+  @include h2-mixin
+}
+
+.rich-text h3{
+  @include h3-mixin
+}
+
+.rich-text h4{
+  @include h4-mixin
+}
+
+.exred-triage-form .heading-medium{
   font-family: $header-font!important;
-  color: $color-main-text!important
-}
-
-.font-xsmall, p.lede {
-  font-family: $main-text-font;
-}
-
-//just overidde colors
-.h-m,
-.h-s,
-a.learn__category-link,
-.body-m,
-.body-l,
-.h-l,
-.body-l-b,
-.h-xs,
-.body-l,
-.body-s,
-div,
-label.body-l,
-.body-m-b,
-.body-s-b,
-.heading-large,
-.heading-xlarge,
-.heading-small,
-.heading-medium,
-.multiple-choice label,
-.select__button i,
-.great-checkbox label,
-.great-checkbox label::before,
-.learn__lesson-item-link:visited,
-.learning-link:visited {
-  color: $color-main-text;
-}
-
-#great-footer-copyright {
-  font-size: $font-size-p-small;
-  line-height: $p-line-height;
-}
-
-.font-xsmall {
-  font-family: $main-text-font;
-}
-
-//just overidde colors
-.h-m,
-.h-s,
-a.learn__category-link,
-.body-m,
-.body-l,
-.h-l,
-.body-l-b,
-.h-xs,
-.body-l,
-.body-s,
-div,
-label.body-l,
-.body-m-b,
-.body-s-b,
-.heading-large,
-.heading-xlarge,
-.heading-small,
-.heading-medium,
-.multiple-choice label,
-.select__button i,
-.great-checkbox label,
-.great-checkbox label::before,
-.learn__lesson-item-link:visited,
-.learning-link:visited {
-  color: $color-main-text;
 }

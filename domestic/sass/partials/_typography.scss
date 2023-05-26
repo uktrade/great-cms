@@ -6,8 +6,8 @@
 
 @import "../../../styles/fonts/main.scss";
 
-$brand-font-standard: 'FS Lucas' Arial, Helvetica, Verdana;;
-$brand-font-alternative: 'FS Lucas SemiBold' Arial, Helvetica, Verdana;;
+$brand-font-standard: $main-text-font;
+$brand-font-alternative: $header-font;
 $brand-font-serif: georgia, verdana, serif;
 
 

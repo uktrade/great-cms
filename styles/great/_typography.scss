@@ -1,2 +1,4 @@
-$great-font: "FS Lucas", Arial, Helvetica, Verdana;
-$great-font-bold: "FS Lucas SemiBold", Arial, Helvetica, Verdana;
+@import '../fonts/main.scss';
+
+$great-font: $main-text-font;
+$great-font-bold: $header-font;
