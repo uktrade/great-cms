@@ -401,11 +401,8 @@ typing-extensions==4.6.2
     #   pypdf
     #   qrcode
     #   wagtail-localize
-<<<<<<< HEAD
 tzdata==2023.3
     # via django-celery-beat
-=======
->>>>>>> 4883829b1 (french and portgugese translations working)
 tzlocal==5.0.1
     # via
     #   dateparser
