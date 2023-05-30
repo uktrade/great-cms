@@ -1,0 +1,187 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-23 09:46+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: context_processors.py:81
+msgid "great.gov.uk international"
+msgstr "great.gov.uk antarabangsa"
+
+#: models.py:68
+msgid "Transcript"
+msgstr "Transkrip"
+
+#: models.py:72
+msgid "English subtitles"
+msgstr "sarikata Bahasa Inggeris"
+
+#: models.py:1542
+msgid "Home"
+msgstr "Rumah"
+
+#: templates/components/card.html:13 templates/components/cta_card.html:6
+msgid "Opens in a new window"
+msgstr "Dibuka dalam tetingkap baharu"
+
+#: templates/components/cookie_notice.html:8
+msgid "Tell us whether you accept cookies"
+msgstr "Beritahu kami sama ada anda menerima kuki"
+
+#: templates/components/cookie_notice.html:10
+msgid "We use "
+msgstr "Kami guna "
+
+#: templates/components/cookie_notice.html:10
+msgid "cookies to collect information"
+msgstr "kuki untuk mengumpul maklumat "
+
+#: templates/components/cookie_notice.html:10
+msgid ""
+"about how you use great.gov.uk. We use this information to make the website "
+"work as well as possible and improve government services."
+msgstr ""
+"tentang cara anda menggunakan great.gov.uk. Kami menggunakan maklumat ini "
+"untuk membuat laman web bekerja sebaik mungkin dan meningkatkan perkhidmatan "
+"kerajaan."
+
+#: templates/components/cookie_notice.html:14
+msgid "Accept all cookies"
+msgstr "Terima semua kuki"
+
+#: templates/components/cookie_notice.html:15
+msgid "Set cookie preferences"
+msgstr "Tetapkan pilihan kuki"
+
+#: templates/components/cookie_notice.html:20
+msgid "You've accepted all cookies.  You can "
+msgstr "Anda telah menerima semua kuki. Awak boleh "
+
+#: templates/components/cookie_notice.html:20
+msgid "change your settings"
+msgstr "tukar tetapan anda"
+
+#: templates/components/cookie_notice.html:20
+msgid "at any time."
+msgstr "pada bila bila masa"
+
+#: templates/components/header_footer/global_header.html:7
+msgid "For UK businesses"
+msgstr "pada bila bila masa."
+
+#: templates/components/header_footer/global_header.html:8
+msgid "For international businesses"
+msgstr "Untuk perniagaan antarabangsa"
+
+#: templates/microsites/base.html:173
+msgid "Skip to main content"
+msgstr "Langkau ke kandungan utama"
+
+#: templates/microsites/blocks/social_media.html:10
+msgid "Share this page"
+msgstr "Kongsi halaman ini"
+
+#: templates/microsites/blocks/social_media.html:17
+msgid "Sharing will open the page in a new tab."
+msgstr "Perkongsian akan membuka halaman dalam tab baharu."
+
+#: templates/microsites/blocks/social_media.html:31
+msgid "Twitter"
+msgstr "Twitter"
+
+#: templates/microsites/blocks/social_media.html:46
+msgid "Facebook"
+msgstr "Facebook"
+
+#: templates/microsites/blocks/social_media.html:61
+msgid "LinkedIn"
+msgstr "LinkedIn"
+
+#: templates/microsites/blocks/social_media.html:76
+msgid "Email"
+msgstr "E-mel"
+
+#: templates/microsites/blocks/video.html:13
+#, python-format
+msgid ""
+"\n"
+"                    <p>Your browser doesn't support HTML5 video. Here is a "
+"<a class=\"link\" href=\"%(video_url)s\">link to the video</a> instead.</p>\n"
+"                  "
+msgstr ""
+"\n"
+"                    <p>YPenyemak imbas anda tidak menyokong video HTML5. "
+"Berikut ialah  <a class=\"link\" href=\"%(video_url)s\">pautan ke video</a> "
+"sebaliknya.</p>\n"
+"                  "
+
+#: templates/microsites/blocks/video.html:26
+msgid "View video transcript"
+msgstr "Lihat transkrip video"
+
+#: templates/microsites/includes/microsite_detail_content.html:36
+msgid "Last updated:"
+msgstr "Kemas kini terakhir:"
+
+#: templates/microsites/includes/microsite_menu_button.html:12
+msgid "Menu"
+msgstr "Menu"
+
+#: templates/microsites/includes/microsite_related_content_list.html:9
+msgid "Related content"
+msgstr "Kandungan berkaitan"
+
+#: templates/modeladmin/index.html:16
+msgid "Download CSV"
+msgstr "Muat turun CSV"
+
+#: templates/wagtailadmin/microsite_migrate.html:4
+#, python-format
+msgid "Migrate 1 item"
+msgid_plural "Migrate %(counter)s items"
+msgstr[0] "Pindahkan 1 item"
+msgstr[1] "Pindahkan %(counter)s item"
+
+#: templates/wagtailadmin/microsite_migrate.html:7 wagtail_hooks.py:345
+msgid "Migrate"
+msgstr "Berhijrah"
+
+#: templates/wagtailadmin/microsite_migrate.html:13
+msgid "Are you sure you want to migrate these items?"
+msgstr "Adakah anda pasti mahu memindahkan item ini?"
+
+#: templates/wagtailadmin/microsite_migrate.html:26
+msgid "You don't have permission to migrate this item"
+msgid_plural "You don't have permission to migrate these items"
+msgstr[0] "Anda tiada kebenaran untuk memindahkan item ini"
+msgstr[1] "Anda tidak mempunyai kebenaran untuk memindahkan item ini"
+
+#: templates/wagtailadmin/microsite_migrate.html:33
+msgid "Yes, migrate"
+msgstr "Ya, berhijrah"
+
+#: templates/wagtailadmin/microsite_migrate.html:34
+msgid "No, don't migrate"
+msgstr "Tidak, jangan berhijrah"
+
+#: validators.py:11
+msgid "Please enter a UK postcode"
+msgstr "Sila masukkan poskod UK"
+
+#: wagtail_hooks.py:346
+msgid "Create page from page"
+msgstr "Buat halaman dari halaman"

@@ -216,6 +216,8 @@ if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
         ('fr', 'French'),
         ('ko', 'Korean'),
         ('pt', 'Portuguese'),
+        ('zh', 'Mandarin'),
+        ('ms', 'Malay'),
     ]
 
     INSTALLED_APPS += [
@@ -245,7 +247,7 @@ STATICFILES_DIRS = [
     str(ROOT_DIR('sso_profile/static')),
 ]
 
-STATICFILES_STORAGE = env.str('STATICFILES_STORAGE', 'whitenoise.storage.CompressedManifestStaticFilesStorage')
+STATICFILES_STORAGE = env.str('STATICFILES_STORAGE', 'whitenoise.storage.CompressedStaticFilesStorage')
 DEFAULT_FILE_STORAGE = env.str('DEFAULT_FILE_STORAGE', 'storages.backends.s3boto3.S3Boto3Storage')
 
 STATIC_ROOT = str(ROOT_DIR('staticfiles'))
