@@ -42,7 +42,7 @@ def set_all_events(value):
 
 @register.filter
 def get_filters(list_of_filters, user):
-    if helpers.is_export_academy_registered(user):
+    if user.is_authenticated:
         return list_of_filters
     else:
         return [field for field in list_of_filters if field.name != 'booking_period']
