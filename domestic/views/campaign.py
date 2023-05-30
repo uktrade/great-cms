@@ -59,10 +59,9 @@ class CampaignView(BaseNotifyUserFormView):
                         return self.page_class.objects.live().get(
                             slug=self.page_slug, locale_id=default_locale, url_path__endswith=self.path
                         )
-                else:
-                    return self.page_class.objects.live().get(slug=self.page_slug, url_path__endswith=self.path)
-            else:
-                return self.page_class.objects.live().get(slug=self.page_slug, url_path__endswith=self.path)
+
+            return self.page_class.objects.live().get(slug=self.page_slug, url_path__endswith=self.path)
+
         except ObjectDoesNotExist:
             return None
 
