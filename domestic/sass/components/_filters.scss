@@ -107,6 +107,16 @@
     >h2 span,
     .filters-sticky-footer {
         display: none;
+
+        @media (min-width: 641px) {
+            display: block;
+        }
+
+        .cancel {
+            @media (min-width: 641px) {
+                display: none;
+            }
+        }
     }
 
     .mobile-filter-toggle {
