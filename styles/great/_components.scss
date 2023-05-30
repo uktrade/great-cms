@@ -106,6 +106,10 @@
             .options {
                 overflow-y: auto;
             }
+
+            &:last-child {
+                border-bottom: 1px solid $great-dark-grey;
+            }
         }
 
         .filter-section-toggle {
