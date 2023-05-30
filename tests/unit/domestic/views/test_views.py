@@ -15,12 +15,8 @@ from core.constants import CONSENT_EMAIL
 from domestic import forms
 from domestic.forms import CampaignLongForm, CampaignShortForm
 from domestic.views.ukef import GetFinanceLeadGenerationFormView
-from tests.unit.core.factories import (
-    MicrositeFactory,
-    MicrositePageFactory,
-    StructurePageFactory,
-)
-from tests.unit.domestic.factories import ArticlePageFactory
+from tests.unit.core.factories import StructurePageFactory
+from tests.unit.domestic.factories import ArticleListingPageFactory, ArticlePageFactory
 
 pytestmark = [
     pytest.mark.django_db,
@@ -453,15 +449,12 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         self.assertEqual(current_page, None)
 
     def test_get_current_page(self):
-        root = MicrositeFactory(title='root', slug='microsites')
-        home = MicrositePageFactory(page_title='home', title='home', parent=root, slug='child')
-        home_child = MicrositePageFactory(page_title='home-child', title='home-child', parent=home, slug='child')
-        home_child = MicrositePageFactory(page_title='home-child', title='home-child', parent=home, slug='test')
-        MicrositePageFactory(page_title='home-grandchild', title='home-grandchild', parent=home_child, slug='test')
+        self.listing_page = ArticleListingPageFactory(slug='test-listing', title='test', landing_page_title='test')
+        ArticlePageFactory(slug='test-article-one', parent=self.listing_page, article_title='test')
         client = Client()
-        url = '/microsites/child/test'
+        url = '/campaigns/test-article-one/'
         request = client.get(url)
-        view = domestic.views.campaign.MicrositeView(request=request)
+        view = domestic.views.campaign.CampaignView(request=request)
         path = view.request.context_data['view'].path
         current_page = view.request.context_data['view'].current_page
         self.assertEqual(path, url)
