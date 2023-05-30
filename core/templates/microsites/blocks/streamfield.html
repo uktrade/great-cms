@@ -1,4 +1,5 @@
 {% load add_govuk_classes from content_tags %}
+{% load replace_i_with_em from content_tags %}
 
 {% for block in streamfield_content %}
 
@@ -26,7 +27,7 @@
         {% endif %}
         {% endfilter %}
     {% else %}
-        {{ block }}
+        {{ block|replace_i_with_em }}
     {% endif %}
 {% endfor %}
 

@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 from django import template
 from django.conf import settings
 from django.utils.dateparse import parse_datetime
+from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 
@@ -249,3 +250,13 @@ def get_text_blocks(list_of_blocks):
 @register.simple_tag
 def get_template_translation_enabled():
     return getattr(settings, 'FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION', False)
+
+
+@register.filter
+def replace_i_with_em(content):
+    modified_content = content
+    # Find <p> tags with class 'govuk-body' and replace <i> tags with <em> tags
+    modified_content = modified_content.replace('<p class="govuk-body"><i>', '<p class="govuk-body"><em>').replace(
+        '</i></p>', '</em></p>'
+    )
+    return format_html(modified_content)

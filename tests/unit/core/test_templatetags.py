@@ -692,3 +692,28 @@ def test_get_text_blocks(input, expected_instances):
 
 def test_get_template_translation_enabled_matches_settings():
     assert get_template_translation_enabled() == settings.FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION
+
+
+def test_replace_i_with_em_filter():
+    template = Template('{% load replace_i_with_em from content_tags %}' '{{ content|replace_i_with_em }}')
+
+    # Test case 1: <i> tag inside <p class="govuk-body">
+    content = '<p class="govuk-body"><i>Some content</i></p>'
+    expected_output = '<p class="govuk-body"><em>Some content</em></p>'
+    context = Context({'content': content})
+    rendered = template.render(context)
+    assert rendered.strip() == expected_output
+
+    # Test case 2: <i> tag inside <p> without class="govuk-body"
+    content = '<p><i>Some content</i></p>'
+    expected_output = '<p><i>Some content</i></p>'
+    context = Context({'content': content})
+    rendered = template.render(context)
+    assert rendered.strip() == expected_output
+
+    # Test case 3: No <p> tag
+    content = '<i>Some content</i>'
+    expected_output = '<i>Some content</i>'
+    context = Context({'content': content})
+    rendered = template.render(context)
+    assert rendered.strip() == expected_output
