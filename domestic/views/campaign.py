@@ -82,7 +82,7 @@ class CampaignView(BaseNotifyUserFormView):
     def setup(self, request, *args, **kwargs):
         self.page_slug = kwargs['page_slug'] if 'page_slug' in kwargs else None
 
-        self.form_success = True if request.get_full_path().endswith('?form_success=True') else False
+        self.form_success = True if 'form_success=True' in request.get_full_path() else False
 
         self.success_url = self.get_success_url()
         self.path = request.path
@@ -118,10 +118,14 @@ class CampaignView(BaseNotifyUserFormView):
 
 
 class MicrositeView(CampaignView):
-    success_url_path = '?form_success=True'
     page_class = MicrositePage
     template_name = '../../core/templates/microsites/micro_site_page.html'
     streamfield_name = 'page_body'
 
     def get_success_url(self):
-        return self.success_url_path
+        query_params = {'form_success': True}
+
+        if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
+            query_params['lang'] = get_language()
+
+        return reverse_querystring('core:microsites', kwargs={'page_slug': self.page_slug}, query_kwargs=query_params)
