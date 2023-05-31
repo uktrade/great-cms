@@ -254,9 +254,13 @@ def get_template_translation_enabled():
 
 @register.filter
 def replace_i_with_em(content):
-    modified_content = content
-    # Find <p> tags with class 'govuk-body' and replace <i> tags with <em> tags
-    modified_content = modified_content.replace('<p class="govuk-body"><i>', '<p class="govuk-body"><em>').replace(
-        '</i></p>', '</em></p>'
-    )
-    return format_html(modified_content)
+    soup = BeautifulSoup(content, 'html.parser')
+
+    # Find <p> tags with class 'govuk-body'
+    for p_tag in soup.find_all('p', class_='govuk-body'):
+        # Find <i> tags inside <p> tag
+        for i_tag in p_tag.find_all('i'):
+            # Replace <i> tag with <em> tag
+            i_tag.name = 'em'
+
+    return format_html(str(soup))
