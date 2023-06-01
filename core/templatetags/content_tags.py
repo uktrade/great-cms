@@ -205,6 +205,14 @@ def get_css_class_from_string(string):
     return string.replace(',', '').replace(' ', '-').lower()
 
 
+def wrap_tag_in_div(soup, tag_name, wrapper_class):
+    wrapper = soup.new_tag('div')
+    wrapper.attrs['class'] = wrapper_class
+
+    for element in soup.findAll(tag_name['tag']):
+        element.wrap(wrapper)
+
+
 @register.filter
 def add_govuk_classes(value):
     soup = BeautifulSoup(value, 'html.parser')
@@ -228,11 +236,7 @@ def add_govuk_classes(value):
     ]
     for tag_name, class_name in mapping:
         if 'wrap' in tag_name:
-            wrapper = soup.new_tag('div')
-            wrapper.attrs['class'] = class_name
-
-            for element in soup.findAll(tag_name['tag']):
-                element.wrap(wrapper)
+            wrap_tag_in_div(soup, tag_name, class_name)
         elif 'class' in tag_name:
             for element in soup.find_all(tag_name['tag'], {'class': tag_name['class']}):
                 element.attrs['class'] = [
