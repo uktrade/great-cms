@@ -978,6 +978,9 @@ def test_robots_txt(client, base_url, expected_sitemap_url):
                 b'User-agent: PetalBot\n',
                 b'Disallow: /\n',
                 b'\n',
+                b'User-agent: Bytespider\n',
+                b'Disallow: /\n',
+                b'\n',
                 f'Sitemap: {expected_sitemap_url}\n'.encode(),
             ]
         )
