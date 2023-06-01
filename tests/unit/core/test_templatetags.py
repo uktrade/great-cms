@@ -657,6 +657,10 @@ def test_reference_period(resolution, period, year, capitalise, expected):
         ('<div class="form-group-error">test</div>', '<div class="govuk-form-group-error">test</div>'),
         ('<input class="form-control"/>', '<input class="govuk-form-control"/>'),
         ('<label class="form-label">test</label>', '<label class="govuk-form-label">test</label>'),
+        (
+            '<iframe src="" title=""></iframe>',
+            '<div class="great-video-embed-16-9"><iframe src="" title=""></iframe></div>',
+        ),
     ),
 )
 def test_add_govuk_classes(input_html, expected_html):
