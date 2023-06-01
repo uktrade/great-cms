@@ -253,14 +253,13 @@ def get_template_translation_enabled():
 
 
 @register.filter
-def replace_i_with_em(content):
+def replace_emphasis_tags(content):
+    replacements = {'i': 'em', 'b': 'strong'}
     soup = BeautifulSoup(content, 'html.parser')
 
-    # Find <p> tags with class 'govuk-body'
     for p_tag in soup.find_all('p', class_='govuk-body'):
-        # Find <i> tags inside <p> tag
-        for i_tag in p_tag.find_all('i'):
-            # Replace <i> tag with <em> tag
-            i_tag.name = 'em'
+        for tag, replacement in replacements.items():
+            for found_tag in p_tag.find_all(tag):
+                found_tag.name = replacement
 
     return format_html(str(soup))
