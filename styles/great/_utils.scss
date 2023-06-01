@@ -210,6 +210,16 @@
     }
 }
 
+.great-video-embed-16-9 {
+    aspect-ratio: 16/9;
+    width: 100%;
+
+    > iframe {
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
+
 .great-full-width-bar {
     margin: 0 -9999rem;
     padding: 0 9999rem;
