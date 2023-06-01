@@ -105,9 +105,9 @@ def test_campaign_long_form_translation_fr(valid_campaign_long_form_data):
         'first_name': ('Prénom', 'Entrez votre prénom'),
         'last_name': ('Nom de famille', 'Entrez votre nom de famille'),
         'email': ('Votre adresse e-mail', 'Entrez votre adresse e-mail'),
-        'company_name': ('Nom de l\'entreprise', 'Ce champ est requis.'),
+        'company_name': ("Nom de l'entreprise', 'Ce champ est requis."),
         'phone': ('Numéro de téléphone', 'Entrez votre numéro de téléphone'),
-        'position': ('Poste dans l\'entreprise', 'Ce champ est requis.'),
+        'position': ("Poste dans l'entreprise', 'Ce champ est requis."),
         'already_export': (
             'Avez-vous un projet ou une proposition spécifique que vous souhaitez discuter ?',
             'Veuillez répondre à cette question',
