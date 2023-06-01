@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-30 16:20+0100\n"
+"POT-Creation-Date: 2023-06-01 12:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms.py:16
+#, fuzzy
+#| msgid "Select a region"
+msgid "Select a country"
+msgstr "Selecione uma região"
+
 #: forms.py:21
 msgid "Full name"
 msgstr "Nome completo"
@@ -58,8 +65,8 @@ msgid ""
 "Enter a website address in the correct format, like https://www.example.com "
 "or www.company.com"
 msgstr ""
-"Digite um endereço de website no formato correto, como https://www.example.com "
-"ou www.company.com"
+"Digite um endereço de website no formato correto, como https://www.example."
+"com ou www.company.com"
 
 #: forms.py:63
 msgid "Which country are you based in?"
@@ -83,7 +90,8 @@ msgstr "Como podemos ajudar?"
 
 #: forms.py:84
 msgid "Please tell us briefly what type of support you’re looking for"
-msgstr "Por favor, diga-nos brevemente que tipo de suporte você está procurando"
+msgstr ""
+"Por favor, diga-nos brevemente que tipo de suporte você está procurando"
 
 #: forms.py:90
 msgid "You must agree to the terms and conditions before registering"

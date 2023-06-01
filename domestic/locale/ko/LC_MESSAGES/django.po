@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-30 16:20+0100\n"
+"POT-Creation-Date: 2023-06-01 12:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: forms.py:16
+#, fuzzy
+#| msgid "Select a region"
+msgid "Select a country"
+msgstr "지역 선택"
+
 #: forms.py:21
 msgid "Full name"
 msgstr "전체 이름"
@@ -58,7 +65,8 @@ msgid ""
 "Enter a website address in the correct format, like https://www.example.com "
 "or www.company.com"
 msgstr ""
-"https://www.example.com 또는 www.company.com과 같은 올바른 형식의 웹사이트 주소를 입력하세요"
+"https://www.example.com 또는 www.company.com과 같은 올바른 형식의 웹사이트 주"
+"소를 입력하세요"
 
 #: forms.py:63
 msgid "Which country are you based in?"

@@ -1,4 +1,5 @@
 import pytest
+from django.utils import translation
 
 from directory_constants.choices import COUNTRY_CHOICES
 from domestic.forms import (
@@ -92,3 +93,51 @@ def test_campaign_short_form(valid_campaign_short_form_data):
     assert form.cleaned_data['first_name'] == valid_campaign_short_form_data['first_name']
     assert form.cleaned_data['last_name'] == valid_campaign_short_form_data['last_name']
     assert form.cleaned_data['email'] == valid_campaign_short_form_data['email']
+
+
+@pytest.mark.django_db
+def test_campaign_long_form_translation_fr(valid_campaign_long_form_data):
+    translation.activate('fr')
+    form = CampaignLongForm(data=valid_campaign_long_form_data)
+
+    # dict. item key is form key. tuple[0] is label, tuple[1] is required error message
+    test_data = {
+        'first_name': ('Prénom', 'Entrez votre prénom'),
+        'last_name': ('Nom de famille', 'Entrez votre nom de famille'),
+        'email': ('Votre adresse e-mail', 'Entrez votre adresse e-mail'),
+        'company_name': ('Nom de l\'entreprise', 'Ce champ est requis.'),
+        'phone': ('Numéro de téléphone', 'Entrez votre numéro de téléphone'),
+        'position': ('Poste dans l\'entreprise', 'Ce champ est requis.'),
+        'already_export': (
+            'Avez-vous un projet ou une proposition spécifique que vous souhaitez discuter ?',
+            'Veuillez répondre à cette question',
+        ),
+        'region': ('Sélectionnez une région', 'Ce champ est requis.'),
+        'sector': ('Secteur', 'Ce champ est requis.'),
+    }
+
+    for field_name, translations in test_data.items():
+        assert form.fields[field_name].label == translations[0]
+
+        if form.fields[field_name].required:
+            assert form.fields[field_name].error_messages['required'] == translations[1]
+
+
+@pytest.mark.django_db
+def test_campaign_short_form_translation_ar(valid_campaign_short_form_data):
+    translation.activate('ar')
+    form = CampaignShortForm(data=valid_campaign_short_form_data)
+
+    # dict. item key is form key. tuple[0] is label, tuple[1] is required error message
+    test_data = {
+        'first_name': ('الاسم الأول', 'أدخل اسمك الأول'),
+        'last_name': ('الاسم الأخير', 'أدخل الاسم الأخير الخاص بك'),
+        'email': ('عنوان بريدك الإلكتروني', 'أدخل عنوان بريدك الإلكتروني'),
+        'company_name': ('اسم الشركة', ''),
+    }
+
+    for field_name, translations in test_data.items():
+        assert form.fields[field_name].label == translations[0]
+
+        if form.fields[field_name].required:
+            assert form.fields[field_name].error_messages['required'] == translations[1]

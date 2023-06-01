@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-30 16:20+0100\n"
+"POT-Creation-Date: 2023-06-01 12:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: forms.py:16
+#, fuzzy
+#| msgid "Select a region"
+msgid "Select a country"
+msgstr "選擇地區"
+
 #: forms.py:21
 msgid "Full name"
 msgstr "全名"
@@ -57,8 +64,7 @@ msgid ""
 "Enter a website address in the correct format, like https://www.example.com "
 "or www.company.com"
 msgstr ""
-"輸入正確格式的網站地址，例如 https://www.example.com "
-"或 www.company.com"
+"輸入正確格式的網站地址，例如 https://www.example.com 或 www.company.com"
 
 #: forms.py:63
 msgid "Which country are you based in?"

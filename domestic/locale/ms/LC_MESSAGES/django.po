@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-30 16:20+0100\n"
+"POT-Creation-Date: 2023-06-01 12:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: forms.py:16
+#, fuzzy
+#| msgid "Select a region"
+msgid "Select a country"
+msgstr "Pilih kawasan"
+
 #: forms.py:21
 msgid "Full name"
 msgstr "Nama penuh"
@@ -39,7 +46,8 @@ msgstr "Alamat e-mel perniagaan"
 
 #: forms.py:38 forms.py:39
 msgid "Enter an email address in the correct format, like name@example.com"
-msgstr "Masukkan alamat e-mel dalam format yang betul, seperti name@example.com"
+msgstr ""
+"Masukkan alamat e-mel dalam format yang betul, seperti name@example.com"
 
 #: forms.py:43
 msgid "Business name"
@@ -58,8 +66,8 @@ msgid ""
 "Enter a website address in the correct format, like https://www.example.com "
 "or www.company.com"
 msgstr ""
-"Masukkan alamat laman web dalam format yang betul, seperti https://www.example.com "
-"atau www.company.com"
+"Masukkan alamat laman web dalam format yang betul, seperti https://www."
+"example.com atau www.company.com"
 
 #: forms.py:63
 msgid "Which country are you based in?"
@@ -67,7 +75,8 @@ msgstr "Di negara mana anda berpangkalan?"
 
 #: forms.py:68 forms.py:469
 msgid "Do you have a specific project or proposal you’d like to discuss?"
-msgstr "Adakah anda mempunyai projek atau cadangan tertentu yang ingin dibincangkan?"
+msgstr ""
+"Adakah anda mempunyai projek atau cadangan tertentu yang ingin dibincangkan?"
 
 #: forms.py:74 forms.py:475
 msgid "Please answer this question"
