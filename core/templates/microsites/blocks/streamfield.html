@@ -27,7 +27,9 @@
         {% endif %}
         {% endfilter %}
     {% else %}
-        {{ block|replace_emphasis_tags }}
+        {% filter replace_emphasis_tags %}
+            {{ block }}
+        {%endfilter%}
     {% endif %}
 {% endfor %}
 
