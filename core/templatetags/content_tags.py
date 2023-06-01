@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 from django import template
 from django.conf import settings
 from django.utils.dateparse import parse_datetime
+from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 
@@ -249,3 +250,16 @@ def get_text_blocks(list_of_blocks):
 @register.simple_tag
 def get_template_translation_enabled():
     return getattr(settings, 'FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION', False)
+
+
+@register.filter
+def replace_emphasis_tags(content):
+    replacements = {'i': 'em', 'b': 'strong'}
+    soup = BeautifulSoup(content, 'html.parser')
+
+    for p_tag in soup.find_all('p', class_='govuk-body'):
+        for tag, replacement in replacements.items():
+            for found_tag in p_tag.find_all(tag):
+                found_tag.name = replacement
+
+    return format_html(str(soup))
