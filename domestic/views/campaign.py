@@ -125,6 +125,6 @@ class MicrositeView(CampaignView):
 
     def get_success_url(self):
         if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
-            self.success_url_path += f"&lang={get_language()}"
+            self.success_url_path += f'&lang={get_language()}'
 
         return self.success_url_path

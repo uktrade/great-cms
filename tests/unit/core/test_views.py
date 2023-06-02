@@ -1177,14 +1177,14 @@ class TestMicrositeLocales(TestCase):
         site_fr = self.en_microsite.copy_for_translation(self.fr_locale[0], copy_parents=True, alias=True)
         site_fr.page_body = [
             {
-                "type": "form",
-                "value": {
-                    "type": "Short",
-                    "email_subject": "french subject",
-                    "email_title": "french title",
-                    "email_body": "thanks for registering",
+                'type': 'form',
+                'value': {
+                    'type': 'Short',
+                    'email_subject': 'french subject',
+                    'email_title': 'french title',
+                    'email_body': 'thanks for registering',
                 },
-                "id": "97497ef4-2ecf-4e9f-a92b-4824f50acc52",
+                'id': '97497ef4-2ecf-4e9f-a92b-4824f50acc52',
             }
         ]
         site_fr.save()
