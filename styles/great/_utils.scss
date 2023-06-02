@@ -220,6 +220,13 @@
     }
 }
 
+.great-scaled-full-img {
+    >img {
+        width: 100%;
+        height: auto;
+    }
+}
+
 .great-full-width-bar {
     margin: 0 -9999rem;
     padding: 0 9999rem;
