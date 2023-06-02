@@ -59,6 +59,9 @@ nav {
   @media only screen and (max-width: $mobile-size) {
     margin-top: 9px;
   }
+  .button:visited {
+    background-color: $color-gov-link;
+  }
 }
 
 nav.breadcrumbs {
