@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-11 11:15+0100\n"
+"POT-Creation-Date: 2023-05-31 16:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,15 +22,15 @@ msgstr ""
 msgid "great.gov.uk international"
 msgstr "great.gov.uk 국제"
 
-#: models.py:70
+#: models.py:68
 msgid "Transcript"
 msgstr "트랜스크립트"
 
-#: models.py:74
+#: models.py:72
 msgid "English subtitles"
 msgstr "영어 자막"
 
-#: models.py:1535
+#: models.py:1548
 msgid "Home"
 msgstr "홈"
 
@@ -55,7 +55,8 @@ msgid ""
 "about how you use great.gov.uk. We use this information to make the website "
 "work as well as possible and improve government services."
 msgstr ""
-"great.gov.uk의 사용 방법에 대한 정보를 수집합니다. 이 정보는 웹 사이트가 최대한 잘 작동하고 정부 서비스를 개선하기 위해 사용됩니다."
+"great.gov.uk의 사용 방법에 대한 정보를 수집합니다. 이 정보는 웹 사이트가 최대"
+"한 잘 작동하고 정부 서비스를 개선하기 위해 사용됩니다."
 
 #: templates/components/cookie_notice.html:14
 msgid "Accept all cookies"
@@ -66,7 +67,9 @@ msgid "Set cookie preferences"
 msgstr "쿠키 설정 변경"
 
 #: templates/components/cookie_notice.html:20
-msgid "You've accepted all cookies. You can "
+#, fuzzy
+#| msgid "You've accepted all cookies. You can "
+msgid "You've accepted all cookies.  You can "
 msgstr "모든 쿠키를 허용하셨습니다. 언제든지"
 
 #: templates/components/cookie_notice.html:20
@@ -113,27 +116,41 @@ msgstr "LinkedIn"
 msgid "Email"
 msgstr "이메일"
 
+#: templates/microsites/blocks/streamfield.html:17
+msgid "Information has been submitted successfully"
+msgstr ""
+
+#: templates/microsites/blocks/streamfield.html:24
+msgid "Submit"
+msgstr ""
+
 #: templates/microsites/blocks/video.html:13
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| " <p>Your browser doesn't support HTML5 video. Here is a <a class=\"link\" "
+#| "href=\"%(video_url)s\">link to the video</a> instead.</p>\n"
+#| " "
 msgid ""
 "\n"
-" <p>Your browser doesn't support HTML5 video. Here is a "
+"                    <p>Your browser doesn't support HTML5 video. Here is a "
 "<a class=\"link\" href=\"%(video_url)s\">link to the video</a> instead.</p>\n"
-" "
+"                  "
 msgstr ""
 "\n"
-" <p>귀하의 브라우저는 HTML5 비디오를 지원하지 않습니다. 대신 비디오에 대한 <a class=\"link\" href=\"%(video_url)s\">링크</a>를 제공합니다.</p>\n"
+" <p>귀하의 브라우저는 HTML5 비디오를 지원하지 않습니다. 대신 비디오에 대한 "
+"<a class=\"link\" href=\"%(video_url)s\">링크</a>를 제공합니다.</p>\n"
 " "
 
 #: templates/microsites/blocks/video.html:26
 msgid "View video transcript"
 msgstr "비디오 텍스트 보기"
 
-#: templates/microsites/includes/microsite_detail_content.html:31
+#: templates/microsites/includes/microsite_detail_content.html:37
 msgid "Last updated:"
 msgstr "최근 업데이트:"
 
-#: templates/microsites/includes/microsite_menu_button.html:12
+#: templates/microsites/includes/microsite_menu_button.html:13
 msgid "Menu"
 msgstr "메뉴"
 

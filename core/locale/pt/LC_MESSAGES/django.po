@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-09 11:39+0100\n"
+"POT-Creation-Date: 2023-05-31 16:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,15 +22,15 @@ msgstr ""
 msgid "great.gov.uk international"
 msgstr "great.gov.uk internacional"
 
-#: models.py:70
+#: models.py:68
 msgid "Transcript"
 msgstr "Transcrição"
 
-#: models.py:74
+#: models.py:72
 msgid "English subtitles"
 msgstr "Legendas em inglês"
 
-#: models.py:1535
+#: models.py:1548
 msgid "Home"
 msgstr "Inicial"
 
@@ -114,6 +114,14 @@ msgstr "LinkedIn"
 msgid "Email"
 msgstr "E-mail"
 
+#: templates/microsites/blocks/streamfield.html:17
+msgid "Information has been submitted successfully"
+msgstr "As informações foram enviadas com sucesso"
+
+#: templates/microsites/blocks/streamfield.html:24
+msgid "Submit"
+msgstr "Enviar"
+
 #: templates/microsites/blocks/video.html:13
 #, python-format
 msgid ""
@@ -132,11 +140,11 @@ msgstr ""
 msgid "View video transcript"
 msgstr "Ver transcrição do vídeo"
 
-#: templates/microsites/includes/microsite_detail_content.html:31
+#: templates/microsites/includes/microsite_detail_content.html:37
 msgid "Last updated:"
 msgstr "Ultima atualização"
 
-#: templates/microsites/includes/microsite_menu_button.html:12
+#: templates/microsites/includes/microsite_menu_button.html:13
 msgid "Menu"
 msgstr ""
 

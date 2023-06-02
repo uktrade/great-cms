@@ -1,0 +1,163 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-06-01 12:17+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: forms.py:16
+#, fuzzy
+#| msgid "Select a region"
+msgid "Select a country"
+msgstr "Pilih kawasan"
+
+#: forms.py:21
+msgid "Full name"
+msgstr "Nama penuh"
+
+#: forms.py:25
+msgid "Enter your full name"
+msgstr "Masukkan nama penuh anda"
+
+#: forms.py:29
+msgid "Job title"
+msgstr "Jawatan"
+
+#: forms.py:32
+msgid "Enter your job title"
+msgstr "Masukkan jawatan anda"
+
+#: forms.py:36
+msgid "Business email address"
+msgstr "Alamat e-mel perniagaan"
+
+#: forms.py:38 forms.py:39
+msgid "Enter an email address in the correct format, like name@example.com"
+msgstr ""
+"Masukkan alamat e-mel dalam format yang betul, seperti name@example.com"
+
+#: forms.py:43
+msgid "Business name"
+msgstr "Nama perniagaan"
+
+#: forms.py:46
+msgid "Enter your business name"
+msgstr "Masukkan nama perniagaan anda"
+
+#: forms.py:50
+msgid "Business website"
+msgstr "Laman web perniagaan"
+
+#: forms.py:54 forms.py:57
+msgid ""
+"Enter a website address in the correct format, like https://www.example.com "
+"or www.company.com"
+msgstr ""
+"Masukkan alamat laman web dalam format yang betul, seperti https://www."
+"example.com atau www.company.com"
+
+#: forms.py:63
+msgid "Which country are you based in?"
+msgstr "Di negara mana anda berpangkalan?"
+
+#: forms.py:68 forms.py:469
+msgid "Do you have a specific project or proposal you’d like to discuss?"
+msgstr ""
+"Adakah anda mempunyai projek atau cadangan tertentu yang ingin dibincangkan?"
+
+#: forms.py:74 forms.py:475
+msgid "Please answer this question"
+msgstr "Sila jawab soalan ini"
+
+#: forms.py:77
+msgid "Which country is the project located in?"
+msgstr "Di negara mana projek ini berada?"
+
+#: forms.py:83
+msgid "How can we help?"
+msgstr "Bagaimana kami boleh membantu?"
+
+#: forms.py:84
+msgid "Please tell us briefly what type of support you’re looking for"
+msgstr "Sila beritahu kami secara ringkas jenis sokongan yang anda cari"
+
+#: forms.py:90
+msgid "You must agree to the terms and conditions before registering"
+msgstr "Anda perlu bersetuju dengan terma dan syarat sebelum mendaftar"
+
+#: forms.py:417
+msgid "First name"
+msgstr "Nama pertama"
+
+#: forms.py:422
+msgid "Enter your first name"
+msgstr "Masukkan nama pertama anda"
+
+#: forms.py:426
+msgid "Last name"
+msgstr "Nama belakang"
+
+#: forms.py:431
+msgid "Enter your last name"
+msgstr "Masukkan nama belakang anda"
+
+#: forms.py:435
+msgid "Your email address"
+msgstr "Alamat emel anda"
+
+#: forms.py:437
+msgid "Enter your email address"
+msgstr "Masukkan alamat emel anda"
+
+#: forms.py:442
+msgid "Company name"
+msgstr "Nama syarikat"
+
+#: forms.py:451
+msgid "Select your sector"
+msgstr "Pilih sektor anda"
+
+#: forms.py:456
+msgid "Telephone number"
+msgstr "Nombor telefon"
+
+#: forms.py:458
+msgid "Enter your telephone number"
+msgstr "Masukkan nombor telefon anda"
+
+#: forms.py:462
+msgid "Position at company"
+msgstr "Jawatan di syarikat"
+
+#: forms.py:471
+msgid "My company already exports "
+msgstr "Syarikat saya sudah mengeksport"
+
+#: forms.py:472
+msgid "My company does not export yet"
+msgstr "Syarikat saya belum mengeksport lagi"
+
+#: forms.py:480
+msgid "Select a region"
+msgstr "Pilih kawasan"
+
+#: forms.py:487
+msgid "Sector"
+msgstr "Sektor"
+
+#: templates/domestic/ukef/includes/card.html:11
+msgid "Opens in a new window"
+msgstr "Buka dalam tetingkap baru"
