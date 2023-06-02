@@ -432,9 +432,9 @@ class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
         },
     )
     email = forms.EmailField(
-        label='Your email address',
+        label=_('Your email address'),
         error_messages={
-            'required': 'Enter your email address',
+            'required': _('Enter your email address'),
         },
         required=True,
     )
@@ -443,19 +443,19 @@ class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
 
 
 def get_sector_names():
-    return [tag.name for tag in IndustryTag.objects.all()]
+    return [_(tag.name) for tag in IndustryTag.objects.all()]
 
 
 class CampaignLongForm(CampaignShortForm):
     def get_sector_choices():
-        base_choice = [('', 'Select your sector')]
+        base_choice = [('', _('Select your sector'))]
         choices = get_sector_names()
         return base_choice + [(c, c) for c in choices]
 
     phone = forms.CharField(
-        label='Telephone number',
+        label=_('Telephone number'),
         required=True,
-        error_messages={'required': 'Enter your telephone number'},
+        error_messages={'required': _('Enter your telephone number')},
     )
 
     position = forms.CharField(
@@ -468,8 +468,8 @@ class CampaignLongForm(CampaignShortForm):
     already_export = forms.ChoiceField(
         label=_('Do you have a specific project or proposal you’d like to discuss?'),
         choices=(
-            ('yes', 'My company already exports '),
-            ('no', 'My company does not export yet'),
+            ('yes', _('My company already exports ')),
+            ('no', _('My company does not export yet')),
         ),
         widget=forms.RadioSelect,
         error_messages={'required': _('Please answer this question')},
@@ -484,7 +484,7 @@ class CampaignLongForm(CampaignShortForm):
     )
 
     sector = forms.ChoiceField(
-        label='Sector',
+        label=_('Sector'),
         choices=get_sector_choices,
         required=True,
     )

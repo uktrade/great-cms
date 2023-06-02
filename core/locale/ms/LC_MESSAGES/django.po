@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-23 09:46+0100\n"
+"POT-Creation-Date: 2023-05-31 16:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr "Transkrip"
 msgid "English subtitles"
 msgstr "sarikata Bahasa Inggeris"
 
-#: models.py:1542
+#: models.py:1548
 msgid "Home"
 msgstr "Rumah"
 
@@ -115,6 +115,14 @@ msgstr "LinkedIn"
 msgid "Email"
 msgstr "E-mel"
 
+#: templates/microsites/blocks/streamfield.html:17
+msgid "Information has been submitted successfully"
+msgstr "Maklumat telah berjaya dihantar"
+
+#: templates/microsites/blocks/streamfield.html:24
+msgid "Submit"
+msgstr "Hantar"
+
 #: templates/microsites/blocks/video.html:13
 #, python-format
 msgid ""
@@ -133,11 +141,11 @@ msgstr ""
 msgid "View video transcript"
 msgstr "Lihat transkrip video"
 
-#: templates/microsites/includes/microsite_detail_content.html:36
+#: templates/microsites/includes/microsite_detail_content.html:37
 msgid "Last updated:"
 msgstr "Kemas kini terakhir:"
 
-#: templates/microsites/includes/microsite_menu_button.html:12
+#: templates/microsites/includes/microsite_menu_button.html:13
 msgid "Menu"
 msgstr "Menu"
 
