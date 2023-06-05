@@ -28,7 +28,9 @@
                     View video transcript
                 {% endif %}
             </span></summary>
-            <div class="govuk-details__text">{{ value.video.transcript|richtext }}</div>
+            <div class="govuk-details__text">{{ value.video.transcript|richtext }}
+                {{value.video}}
+            </div>
         </details>
         {% endif %}
     {% endif %}
