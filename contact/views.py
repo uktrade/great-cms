@@ -14,7 +14,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from formtools.wizard.views import NamedUrlSessionWizardView
 
-from contact import constants, forms as contact_forms, helpers
+from contact import constants, forms as contact_forms, helpers, mixins as contact_mixins
 from core import mixins as core_mixins, snippet_slugs
 from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
 from core.datastructures import NotifySettings
@@ -190,6 +190,35 @@ class DomesticEnquiriesFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
 
 class DomesticSuccessView(BaseSuccessView):
     template_name = 'domestic/contact/submit-success-domestic.html'
+
+
+class DomesticExportSupportFormStep1View(contact_mixins.ExportSupportFormMixin, FormView):
+    form_class = contact_forms.DomesticExportSupportStep1Form
+    template_name = 'domestic/contact/export-support/step-1.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs, button_text='Continue', step_text='Step 1 of 7', show_form=settings.FEATURE_DIGITAL_POINT_OF_ENTRY
+        )
+
+    def get_success_url(self):
+        return reverse_lazy('contact:export-support-step-2')
+
+    def form_valid(self, form):
+        self.save_data(form)
+        return super().form_valid(form)
+
+
+class DomesticExportSupportFormStep2View(contact_mixins.ExportSupportFormMixin, FormView):
+    form_class = contact_forms.DomesticExportSupportStep1Form
+    template_name = 'domestic/contact/export-support/step-2.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            button_text='Continue',
+            step_text='Step 2 of 7',
+        )
 
 
 class InternationalFormView(

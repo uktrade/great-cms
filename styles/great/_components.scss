@@ -214,3 +214,43 @@
         }
     }
 }
+
+.great-text-input {
+    height: 40px;
+    padding-left: 15px;
+
+    &::placeholder {
+        color: $great-dark-grey;
+    }
+
+    @include govuk-media-query($from: tablet) {
+        height: 50px;
+    }
+}
+
+.great-text-input--search {
+    position: relative;
+
+    &::after {
+        display: inline-block;
+        content: "";
+        height: 35px;
+        width: 51px;
+        background-repeat: no-repeat;
+        background-position: 50%;
+        background-color: initial;
+        background-image: url(/static/images/search-black.svg);
+        background-size: 20px;
+        border: 0;
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        pointer-events: none;
+
+        @include govuk-media-query($from: tablet) {
+            background-size: 24px;
+            height: 45px;
+            width: 60px;
+        }
+    }
+}

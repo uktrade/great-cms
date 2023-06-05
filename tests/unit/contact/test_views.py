@@ -1435,3 +1435,45 @@ def test_fta_form_submit_success(mock_form_session, client, settings):
 def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements):
     response = client.get(reverse('contact:contact-free-trade-agreements'))
     assert response.context['privacy_url'] == PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
+
+
+@pytest.mark.parametrize(
+    'page_url,form_data,redirect_url,error_messages',
+    (
+        (
+            reverse('contact:export-support'),
+            {
+                'business_type': 'limitedcompany',
+                'business_name': 'Test business ltd',
+                'business_postcode': 'SW1A 1AA',
+            },
+            reverse('contact:export-support-step-2'),
+            {
+                'business_type': 'Choose a business type',
+                'business_name': 'Enter your business name',
+                'business_postcode': 'Enter your business postcode',
+            },
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_domestic_export_support_form_pages(
+    page_url,
+    form_data,
+    redirect_url,
+    error_messages,
+    client,
+):
+    #   Redirect fails when any of the fields in the form are missing
+    invalid_form_data = form_data.copy()
+    for key in form_data:
+        invalid_form_data.pop(key)
+        response = client.post(page_url, invalid_form_data)
+        assert response.status_code == 200
+        assert error_messages[key] in str(response.rendered_content)
+        invalid_form_data = form_data.copy()
+
+    #   Redirect succeeds with valid data
+    response = client.post(page_url, form_data)
+    assert response.status_code == 302
+    assert response.url == redirect_url
