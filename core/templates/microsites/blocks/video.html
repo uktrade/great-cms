@@ -18,13 +18,13 @@
                 {% endif %}
             </video>
         </div>
-        {%if value.title%}
-            <h4>{{value.title}}</h4>
+        {%if value.video.title%}
+            <h4>{{value.video.title}}</h4>
         {%endif%}
-        {%if value.description%}
-        <p>{{value.description}}</p>
+        {%if value.video.description%}
+            <p>{{value.video.description}}</p>
         {%endif%}
-        {% if value.video.transcript or value.transcript %}
+        {% if value.video.transcript %}
         <details closed class="govuk-details govuk-!-margin-bottom-5">
             <summary  class="govuk-details__summary"><span class="govuk-details__summary-text">
                 {% if TRANSLATE_TEXT %}
@@ -34,11 +34,7 @@
                 {% endif %}
             </span></summary>
             <div class="govuk-details__text">
-                {%if value.transcript%}
-                    {{value.transcript}}
-                {%else%}
                     {{ value.video.transcript|richtext }}
-                {%endif%}
             </div>
         </details>
         {% endif %}

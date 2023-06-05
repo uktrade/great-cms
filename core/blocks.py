@@ -112,18 +112,6 @@ class SimpleVideoBlock(blocks.StructBlock):
         icon = 'fa-play'
 
 
-class VideoBlockWithDescriptionAndTranscript(blocks.StructBlock):
-    video = MediaChooserBlock()
-    title = blocks.CharBlock(max_length=255, required=False)
-    transcript = blocks.TextBlock(required=False)
-    description = blocks.TextBlock(required=False)
-
-    class Meta:
-        help_text = 'Include a video'
-        template = 'microsites/blocks/video.html'
-        icon = 'fa-play'
-
-
 class ButtonBlock(blocks.StructBlock):
     label = blocks.CharBlock(max_length=255)
     link = LinkBlock(required=False)
