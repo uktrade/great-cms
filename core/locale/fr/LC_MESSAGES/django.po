@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-09 11:39+0100\n"
+"POT-Creation-Date: 2023-05-31 16:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,15 +22,15 @@ msgstr ""
 msgid "great.gov.uk international"
 msgstr ""
 
-#: models.py:70
+#: models.py:68
 msgid "Transcript"
 msgstr "Transcription"
 
-#: models.py:74
+#: models.py:72
 msgid "English subtitles"
 msgstr "sous-titres anglais"
 
-#: models.py:1535
+#: models.py:1548
 msgid "Home"
 msgstr "Accueil "
 
@@ -44,7 +44,7 @@ msgstr "Dites-nous si vous acceptez les cookies"
 
 #: templates/components/cookie_notice.html:10
 msgid "We use "
-msgstr "Nous utilisons"
+msgstr "Nous utilisons des"
 
 #: templates/components/cookie_notice.html:10
 msgid "cookies to collect information"
@@ -56,7 +56,7 @@ msgid ""
 "work as well as possible and improve government services."
 msgstr ""
 "sur la façon dont vous utilisez great.gov.uk. Nous utilisons ces "
-"informations pour rendre le site Web travailler au mieux et améliorer les "
+"informations pour optimiser le fonctionnement du site web et améliorer les "
 "services gouvernementaux."
 
 #: templates/components/cookie_notice.html:14
@@ -89,7 +89,7 @@ msgstr "Pour les entreprises internationales"
 
 #: templates/microsites/base.html:173
 msgid "Skip to main content"
-msgstr "Passer au contenu principal"
+msgstr "Aller au contenu principal"
 
 #: templates/microsites/blocks/social_media.html:10
 msgid "Share this page"
@@ -113,7 +113,15 @@ msgstr "LinkedIn"
 
 #: templates/microsites/blocks/social_media.html:76
 msgid "Email"
-msgstr "E-mail"
+msgstr "Email"
+
+#: templates/microsites/blocks/streamfield.html:17
+msgid "Information has been submitted successfully"
+msgstr "Les informations ont été envoyées avec succès"
+
+#: templates/microsites/blocks/streamfield.html:24
+msgid "Submit"
+msgstr "Envoyer"
 
 #: templates/microsites/blocks/video.html:13
 #, python-format
@@ -124,20 +132,20 @@ msgid ""
 "                  "
 msgstr ""
 "\n"
-"                    <p>Votre navigateur ne prend pas en charge la vidéo "
-"HTML5. Voici une <a class=\"link\" href=\"%(video_url)s\">llien vers la "
-"vidéo</a> plutôt.</p>\n"
+"                    <p>Votre navigateur ne supporte pas la vidéo "
+"HTML5. Voici une <a class=\"link\" href=\"%(video_url)s\">lien vers la "
+"vidéo</a> à la place.</p>\n"
 "                  "
 
 #: templates/microsites/blocks/video.html:26
 msgid "View video transcript"
 msgstr "Voir la transcription de la vidéo"
 
-#: templates/microsites/includes/microsite_detail_content.html:31
+#: templates/microsites/includes/microsite_detail_content.html:37
 msgid "Last updated:"
-msgstr "Dernière mise à jour"
+msgstr "Dernière mise à jour:"
 
-#: templates/microsites/includes/microsite_menu_button.html:12
+#: templates/microsites/includes/microsite_menu_button.html:13
 msgid "Menu"
 msgstr "Menu"
 
@@ -147,7 +155,7 @@ msgstr "Contenu connexe"
 
 #: templates/modeladmin/index.html:16
 msgid "Download CSV"
-msgstr "Télécharger CSV"
+msgstr "Télécharger le CSV"
 
 #: validators.py:11
 msgid "Please enter a UK postcode"

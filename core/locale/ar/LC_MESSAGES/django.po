@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-09 11:39+0100\n"
+"POT-Creation-Date: 2023-05-31 16:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,15 +23,15 @@ msgstr ""
 msgid "great.gov.uk international"
 msgstr ""
 
-#: models.py:70
+#: models.py:68
 msgid "Transcript"
 msgstr "النص المحول"
 
-#: models.py:74
+#: models.py:72
 msgid "English subtitles"
 msgstr "ترجمة باللغة الإنجليزية"
 
-#: models.py:1535
+#: models.py:1548
 msgid "Home"
 msgstr "الصفحة الرئيسية"
 
@@ -117,6 +117,14 @@ msgstr "لينكد إن"
 msgid "Email"
 msgstr "البريد الإلكتروني"
 
+#: templates/microsites/blocks/streamfield.html:17
+msgid "Information has been submitted successfully"
+msgstr "تم إرسال المعلومات بنجاح"
+
+#: templates/microsites/blocks/streamfield.html:24
+msgid "Submit"
+msgstr "إرسال"
+
 #: templates/microsites/blocks/video.html:13
 #, fuzzy, python-format
 #| msgid ""
@@ -139,11 +147,11 @@ msgstr ""
 msgid "View video transcript"
 msgstr "عرض نص الفيديو"
 
-#: templates/microsites/includes/microsite_detail_content.html:31
+#: templates/microsites/includes/microsite_detail_content.html:37
 msgid "Last updated:"
 msgstr "آخر تحديث:"
 
-#: templates/microsites/includes/microsite_menu_button.html:12
+#: templates/microsites/includes/microsite_menu_button.html:13
 msgid "Menu"
 msgstr "القائمة"
 
@@ -158,9 +166,3 @@ msgstr "تحميل CSV"
 #: validators.py:11
 msgid "Please enter a UK postcode"
 msgstr "الرجاء إدخال الرمز البريدي للمملكة المتحدة"
-
-#~ msgid "Button Label"
-#~ msgstr "تسمية الزر"
-
-#~ msgid "export support for UK businesses"
-#~ msgstr "دعم التصدير للشركات البريطانية"

@@ -59,7 +59,9 @@ $menu-border: 5px solid $color-alternative-text;
 
   h3 {
     color: $color-alternative-text;
-    text-transform: capitalize;
+    &::first-letter{
+      text-transform: capitalize;
+    }
   }
 
   .magna-header__menu {

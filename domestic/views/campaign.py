@@ -46,17 +46,22 @@ class CampaignView(BaseNotifyUserFormView):
 
                 if self.page_class.objects.live().filter(slug=self.page_slug).count() > 0:
                     if (
-                        self.page_class.objects.live().filter(slug=self.page_slug, locale_id=current_locale).count()
+                        self.page_class.objects.live()
+                        .filter(slug=self.page_slug, locale_id=current_locale, url_path__endswith=self.path)
+                        .count()
                         == 1  # noqa: W503
                     ):
-                        return self.page_class.objects.live().get(slug=self.page_slug, locale_id=current_locale)
+                        return self.page_class.objects.live().get(
+                            slug=self.page_slug, locale_id=current_locale, url_path__endswith=self.path
+                        )
                     else:
                         default_locale = Locale.objects.get(language_code=LANGUAGE_CODE)
-                        return self.page_class.objects.live().get(slug=self.page_slug, locale_id=default_locale)
-                else:
-                    return self.page_class.objects.live().get(slug=self.page_slug)
-            else:
-                return self.page_class.objects.live().get(slug=self.page_slug)
+                        return self.page_class.objects.live().get(
+                            slug=self.page_slug, locale_id=default_locale, url_path__endswith=self.path
+                        )
+
+            return self.page_class.objects.live().get(slug=self.page_slug, url_path__endswith=self.path)
+
         except ObjectDoesNotExist:
             return None
 
@@ -77,9 +82,10 @@ class CampaignView(BaseNotifyUserFormView):
     def setup(self, request, *args, **kwargs):
         self.page_slug = kwargs['page_slug'] if 'page_slug' in kwargs else None
 
-        self.form_success = True if request.get_full_path().endswith('?form_success=True') else False
+        self.form_success = True if 'form_success=True' in request.get_full_path() else False
 
         self.success_url = self.get_success_url()
+        self.path = request.path
         self.current_page = self.get_current_page()
         self.form_config = self.get_form_value() if self.current_page else None
         self.form_type = self.form_config['type'] if self.form_config else None
@@ -118,4 +124,7 @@ class MicrositeView(CampaignView):
     streamfield_name = 'page_body'
 
     def get_success_url(self):
+        if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
+            self.success_url_path += f'&lang={get_language()}'
+
         return self.success_url_path

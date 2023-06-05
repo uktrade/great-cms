@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 from django import template
 from django.conf import settings
 from django.utils.dateparse import parse_datetime
+from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 
@@ -204,6 +205,14 @@ def get_css_class_from_string(string):
     return string.replace(',', '').replace(' ', '-').lower()
 
 
+def wrap_tag_in_div(soup, tag_name, wrapper_class):
+    wrapper = soup.new_tag('div')
+    wrapper.attrs['class'] = wrapper_class
+
+    for element in soup.findAll(tag_name['tag']):
+        element.wrap(wrapper)
+
+
 @register.filter
 def add_govuk_classes(value):
     soup = BeautifulSoup(value, 'html.parser')
@@ -223,9 +232,12 @@ def add_govuk_classes(value):
         ({'tag': 'input', 'class': 'form-control'}, 'govuk-form-control'),
         ({'tag': 'label', 'class': 'form-label'}, 'govuk-form-label'),
         ({'tag': 'div', 'class': 'form-group-error'}, 'govuk-form-group-error'),
+        ({'tag': 'iframe', 'wrap': True}, 'great-video-embed-16-9'),
     ]
     for tag_name, class_name in mapping:
-        if 'class' in tag_name:
+        if 'wrap' in tag_name:
+            wrap_tag_in_div(soup, tag_name, class_name)
+        elif 'class' in tag_name:
             for element in soup.find_all(tag_name['tag'], {'class': tag_name['class']}):
                 element.attrs['class'] = [
                     class_name if classname == tag_name['class'] else classname for classname in element.attrs['class']
@@ -249,3 +261,16 @@ def get_text_blocks(list_of_blocks):
 @register.simple_tag
 def get_template_translation_enabled():
     return getattr(settings, 'FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION', False)
+
+
+@register.filter
+def replace_emphasis_tags(content):
+    replacements = {'i': 'em', 'b': 'strong'}
+    soup = BeautifulSoup(content, 'html.parser')
+
+    for p_tag in soup.find_all('p', class_='govuk-body'):
+        for tag, replacement in replacements.items():
+            for found_tag in p_tag.find_all(tag):
+                found_tag.name = replacement
+
+    return format_html(str(soup))

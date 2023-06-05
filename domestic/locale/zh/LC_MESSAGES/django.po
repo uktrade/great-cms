@@ -1,0 +1,159 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-06-01 12:18+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: forms.py:16
+#, fuzzy
+#| msgid "Select a region"
+msgid "Select a country"
+msgstr "選擇地區"
+
+#: forms.py:21
+msgid "Full name"
+msgstr "全名"
+
+#: forms.py:25
+msgid "Enter your full name"
+msgstr "輸入您的全名"
+
+#: forms.py:29
+msgid "Job title"
+msgstr "職稱"
+
+#: forms.py:32
+msgid "Enter your job title"
+msgstr "輸入您的職稱"
+
+#: forms.py:36
+msgid "Business email address"
+msgstr "商務電子郵件地址"
+
+#: forms.py:38 forms.py:39
+msgid "Enter an email address in the correct format, like name@example.com"
+msgstr "輸入正確格式的電子郵件地址，例如 name@example.com"
+
+#: forms.py:43
+msgid "Business name"
+msgstr "商家名稱"
+
+#: forms.py:46
+msgid "Enter your business name"
+msgstr "輸入您的商家名稱"
+
+#: forms.py:50
+msgid "Business website"
+msgstr "商家網站"
+
+#: forms.py:54 forms.py:57
+msgid ""
+"Enter a website address in the correct format, like https://www.example.com "
+"or www.company.com"
+msgstr ""
+"輸入正確格式的網站地址，例如 https://www.example.com 或 www.company.com"
+
+#: forms.py:63
+msgid "Which country are you based in?"
+msgstr "您所在的國家是哪個？"
+
+#: forms.py:68 forms.py:469
+msgid "Do you have a specific project or proposal you’d like to discuss?"
+msgstr "您是否有特定的項目或建議要討論？"
+
+#: forms.py:74 forms.py:475
+msgid "Please answer this question"
+msgstr "請回答這個問題"
+
+#: forms.py:77
+msgid "Which country is the project located in?"
+msgstr "該項目位於哪個國家？"
+
+#: forms.py:83
+msgid "How can we help?"
+msgstr "我們如何幫助您？"
+
+#: forms.py:84
+msgid "Please tell us briefly what type of support you’re looking for"
+msgstr "請簡要告訴我們您需要哪種類型的支持"
+
+#: forms.py:90
+msgid "You must agree to the terms and conditions before registering"
+msgstr "在註冊之前，您必須同意條款和條件"
+
+#: forms.py:417
+msgid "First name"
+msgstr "名字"
+
+#: forms.py:422
+msgid "Enter your first name"
+msgstr "輸入您的名字"
+
+#: forms.py:426
+msgid "Last name"
+msgstr "姓氏"
+
+#: forms.py:431
+msgid "Enter your last name"
+msgstr "輸入您的姓氏"
+
+#: forms.py:435
+msgid "Your email address"
+msgstr "您的電子郵件地址"
+
+#: forms.py:437
+msgid "Enter your email address"
+msgstr "輸入您的電子郵件地址"
+
+#: forms.py:442
+msgid "Company name"
+msgstr "公司名稱"
+
+#: forms.py:451
+msgid "Select your sector"
+msgstr "選擇您的行業"
+
+#: forms.py:456
+msgid "Telephone number"
+msgstr "電話號碼"
+
+#: forms.py:458
+msgid "Enter your telephone number"
+msgstr "輸入您的電話號碼"
+
+#: forms.py:462
+msgid "Position at company"
+msgstr "職位"
+
+#: forms.py:471
+msgid "My company already exports "
+msgstr "我的公司已經出口"
+
+#: forms.py:472
+msgid "My company does not export yet"
+msgstr "我的公司尚未出口"
+
+#: forms.py:480
+msgid "Select a region"
+msgstr "選擇地區"
+
+#: forms.py:487
+msgid "Sector"
+msgstr "行業"
+
+#: templates/domestic/ukef/includes/card.html:11
+msgid "Opens in a new window"
+msgstr "在新視窗中打開"

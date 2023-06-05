@@ -16,7 +16,7 @@ from domestic import forms
 from domestic.forms import CampaignLongForm, CampaignShortForm
 from domestic.views.ukef import GetFinanceLeadGenerationFormView
 from tests.unit.core.factories import StructurePageFactory
-from tests.unit.domestic.factories import ArticlePageFactory
+from tests.unit.domestic.factories import ArticleListingPageFactory, ArticlePageFactory
 
 pytestmark = [
     pytest.mark.django_db,
@@ -447,3 +447,15 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         view = domestic.views.campaign.CampaignView(request=request)
         current_page = view.request.context_data['view'].current_page
         self.assertEqual(current_page, None)
+
+    def test_get_current_page(self):
+        self.listing_page = ArticleListingPageFactory(slug='test-listing', title='test', landing_page_title='test')
+        ArticlePageFactory(slug='test-article-one', parent=self.listing_page, article_title='test')
+        client = Client()
+        url = '/campaigns/test-article-one/'
+        request = client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        path = view.request.context_data['view'].path
+        current_page = view.request.context_data['view'].current_page
+        self.assertEqual(path, url)
+        self.assertNotEqual(current_page, None)

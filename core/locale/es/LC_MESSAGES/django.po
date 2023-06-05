@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-09 11:39+0100\n"
+"POT-Creation-Date: 2023-05-31 16:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,15 +22,15 @@ msgstr ""
 msgid "great.gov.uk international"
 msgstr "great.gov.uk Internacional"
 
-#: models.py:70
+#: models.py:68
 msgid "Transcript"
 msgstr "Transcripción"
 
-#: models.py:74
+#: models.py:72
 msgid "English subtitles"
 msgstr "Subtítulos en inglés"
 
-#: models.py:1535
+#: models.py:1548
 msgid "Home"
 msgstr "Inicio"
 
@@ -117,6 +117,14 @@ msgstr "LinkedIn"
 msgid "Email"
 msgstr "Correo electrónico"
 
+#: templates/microsites/blocks/streamfield.html:17
+msgid "Information has been submitted successfully"
+msgstr "La información ha sido enviada con éxito"
+
+#: templates/microsites/blocks/streamfield.html:24
+msgid "Submit"
+msgstr "Entregar"
+
 #: templates/microsites/blocks/video.html:13
 #, python-format
 msgid ""
@@ -134,11 +142,11 @@ msgstr ""
 msgid "View video transcript"
 msgstr "Ver transcripción del video"
 
-#: templates/microsites/includes/microsite_detail_content.html:31
+#: templates/microsites/includes/microsite_detail_content.html:37
 msgid "Last updated:"
 msgstr "Última actualización:"
 
-#: templates/microsites/includes/microsite_menu_button.html:12
+#: templates/microsites/includes/microsite_menu_button.html:13
 msgid "Menu"
 msgstr "Menú"
 
@@ -150,9 +158,42 @@ msgstr "Contenido relacionado"
 msgid "Download CSV"
 msgstr "Descargar CSV"
 
+#: templates/wagtailadmin/microsite_migrate.html:4
+#, python-format
+msgid "Migrate 1 item"
+msgid_plural "Migrate %(counter)s items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/wagtailadmin/microsite_migrate.html:7 wagtail_hooks.py:345
+msgid "Migrate"
+msgstr ""
+
+#: templates/wagtailadmin/microsite_migrate.html:13
+msgid "Are you sure you want to migrate these items?"
+msgstr ""
+
+#: templates/wagtailadmin/microsite_migrate.html:26
+msgid "You don't have permission to migrate this item"
+msgid_plural "You don't have permission to migrate these items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/wagtailadmin/microsite_migrate.html:33
+msgid "Yes, migrate"
+msgstr ""
+
+#: templates/wagtailadmin/microsite_migrate.html:34
+msgid "No, don't migrate"
+msgstr ""
+
 #: validators.py:11
 msgid "Please enter a UK postcode"
 msgstr "Por favor, introduzca un código postal del Reino Unido"
+
+#: wagtail_hooks.py:346
+msgid "Create page from page"
+msgstr ""
 
 #~ msgid "Button Label"
 #~ msgstr "Etiqueta de botón"
