@@ -1410,7 +1410,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 ),
             ),
             ('image', ImageChooserBlock(required=False, template='microsites/blocks/image.html')),
-            ('video', core_blocks.SimpleVideoBlock(template='microsites/blocks/video.html')),
+            ('video', core_blocks.VideoBlockWithDescriptionAndTranscript(template='microsites/blocks/video.html')),
             (
                 'columns',
                 StreamBlock(
