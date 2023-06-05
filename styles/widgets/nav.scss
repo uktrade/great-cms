@@ -59,6 +59,7 @@ nav {
   @media only screen and (max-width: $mobile-size) {
     margin-top: 9px;
   }
+  .button,
   .button:visited {
     background: $color-gov-link;
   }
