@@ -60,7 +60,9 @@ nav {
     margin-top: 9px;
   }
   .button,
-  .button:visited {
+  .button:visited,
+  .button:hover,
+  .button:active {
     background: $color-gov-link;
   }
 }
