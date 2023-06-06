@@ -43,10 +43,10 @@
         {% if description %}
           <p>{{ description }}</p>
         {% endif %}
-        {% if url %}
-          <a class="button primary-button" href="{{ url }}">
+        {% if url and not show_sign_in_required  %}
+          <button class="button primary-button">
             View
-          </a>
+          </button>
         {% endif %}
         {% if show_sign_in_required and not request.user.is_authenticated %}
           {% if request.path == '/' %}
