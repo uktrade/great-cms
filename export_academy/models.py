@@ -1,7 +1,7 @@
 import uuid
 from datetime import timedelta
 
-from directory_forms_api_client import actions
+from directory_forms_api_client import actions, client
 from django.db import models
 from django.utils import timezone
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -116,9 +116,38 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     def __str__(self):
         return f'{self.id}:{self.name}'
 
+    @property
+    def serialized_event(self):
+        return {
+            'data': {
+                'id': str(self.id),
+                'name': self.name,
+                'description': self.description,
+                'start_date': str(self.start_date),
+                'end_date': str(self.end_date),
+                'format': self.format,
+                'link': self.link,
+                # TODO - Custom serialization of types
+                # 'types': self.types,
+                'location': self.location,
+                'completed': str(self.completed),
+                'live': str(self.live),
+                'closed': self.closed,
+            },
+            'meta': {'form_url': 'export-academy/event', 'action_name': 'save-only-in-db'},
+        }
+
     def save(self, **kwargs):
         send_notifications_for_all_bookings(self, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
-        return super().save(**kwargs)
+        super().save(**kwargs)
+        forms_api_client = client.APIFormsClient(
+            base_url=settings.DIRECTORY_FORMS_API_BASE_URL,
+            api_key=settings.DIRECTORY_FORMS_API_API_KEY,
+            sender_id=settings.DIRECTORY_FORMS_API_SENDER_ID,
+            timeout=settings.DIRECTORY_FORMS_API_DEFAULT_TIMEOUT,
+        )
+        forms_api_client.submit_generic(data=self.serialized_event)
+        return
 
 
 class Registration(TimeStampedModel):

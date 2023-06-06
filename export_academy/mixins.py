@@ -4,7 +4,7 @@ from directory_forms_api_client import actions
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 
 from config import settings
-from export_academy.models import Registration
+from export_academy.models import Booking, Registration
 
 
 class BookingMixin(GovNotifyEmailActionMixin):
@@ -16,12 +16,24 @@ class BookingMixin(GovNotifyEmailActionMixin):
         return booking_object
 
     def send_email_confirmation(self, booking_object, post_data):
+        from export_academy.serializers import BookingSerializer, RegistrationSerializer
+
         if post_data['status'] == booking_object.CONFIRMED:
             self.notify_template = settings.EXPORT_ACADEMY_NOTIFY_BOOKING_TEMPLATE_ID
         else:
             self.notify_template = settings.EXPORT_ACADEMY_NOTIFY_CANCELLATION_TEMPLATE_ID
 
-        notify_data = dict(first_name=booking_object.registration.first_name, event_names=booking_object.event.name)
+        serialized_booking = BookingSerializer(Booking.objects.get(pk=booking_object.id)).data
+        serialized_registration = RegistrationSerializer(
+            Registration.objects.get(pk=booking_object.registration_id)
+        ).data
+
+        notify_data = dict(
+            first_name=booking_object.registration.first_name,
+            event_names=booking_object.event.name,
+            booking=serialized_booking,
+            registration=serialized_registration,
+        )
         self.send_gov_notify(notify_data)
 
     def save_model(self, data):
