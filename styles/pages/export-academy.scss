@@ -190,8 +190,12 @@
 }
 
 .event-title {
+    font-size: 36px;
+    line-height: 50px;
+
     @media screen and (max-width: 640px) {
         font-size: 24px;
+        line-height: 24px;
     }
 }
 
