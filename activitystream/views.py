@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import django_filters.rest_framework
 from django.conf import settings
 from django.http import Http404
@@ -14,14 +16,19 @@ from activitystream.authentication import (
     ActivityStreamHawkResponseMiddleware,
 )
 from activitystream.filters import PageFilter
-from activitystream.serializers import PageSerializer
+from activitystream.serializers import (
+    ExportAcademyBookingSerializer,
+    ExportAcademyEventSerializer,
+    PageSerializer,
+)
 from domestic.models import ArticlePage, CountryGuidePage
-
-MAX_PER_PAGE = 25
+from export_academy.models import Booking, Event
 
 
 class ActivityStreamView(ListAPIView):
     """List-only view set to publish CMS content to the ActivityStream service"""
+
+    MAX_PER_PAGE = 25
 
     authentication_classes = (ActivityStreamAuthentication,)
     permission_classes = ()
@@ -51,7 +58,7 @@ class ActivityStreamView(ListAPIView):
                 )
             ).filter(live=True),
         )
-        page_qs = filter.qs.specific().order_by('last_published_at', 'id')[:MAX_PER_PAGE]
+        page_qs = filter.qs.specific().order_by('last_published_at', 'id')[: self.MAX_PER_PAGE]
 
         items = {
             '@context': 'https://www.w3.org/ns/activitystreams',
@@ -136,3 +143,73 @@ class TestSearchAPIView(TemplateView):
         if not settings.FEATURE_FLAG_TEST_SEARCH_API_PAGES_ON:
             raise Http404()
         return super().dispatch(*args, **kwargs)
+
+
+class BaseActivityStreamView(ListAPIView):
+    MAX_PER_PAGE = 500
+
+    authentication_classes = (ActivityStreamAuthentication,)
+    permission_classes = ()
+
+    @staticmethod
+    def _parse_after(request):
+        after = request.GET.get('after', '0.000000_0')
+        after_ts_str, after_id_str = after.split('_')
+        after_ts = datetime.fromtimestamp(float(after_ts_str))
+        after_id = int(after_id_str)
+        return after_ts, after_id
+
+    @staticmethod
+    def _build_after(request, after_ts, after_id):
+        return f'{request.build_absolute_uri(request.path)}?after={after_ts.timestamp()}_{after_id}'
+
+    def list(self, request):
+        raise NotImplementedError('subclasses of BaseActivityStreamView must provide a list() method')
+
+    @staticmethod
+    def _generate_response(items, next_page_url):
+        """Put together a response in the format required by activity stream"""
+        next_page = {'next': next_page_url} if next_page_url else {}
+        return Response(
+            {
+                '@context': [
+                    'https://www.w3.org/ns/activitystreams',
+                    {
+                        'dit': 'https://www.trade.gov.uk/ns/activitystreams/v1',
+                    },
+                ],
+                'type': 'Collection',
+                'orderedItems': items,
+                **next_page,
+            }
+        )
+
+
+class ExportAcademyEventActivityStreamView(BaseActivityStreamView):
+    @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
+    def list(self, request):
+        """A single page of events to be consumed by activity stream."""
+        after_ts, after_id = self._parse_after(request)
+        events = list(
+            Event.objects.filter(modified=after_ts, id__gt=after_id).order_by('modified', 'id')[: self.MAX_PER_PAGE]
+        )
+
+        return self._generate_response(
+            ExportAcademyEventSerializer(events, many=True).data,
+            self._build_after(request, events[-1].modified, events[-1].id) if events else None,
+        )
+
+
+class ExportAcademyBookingActivityStreamView(BaseActivityStreamView):
+    @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
+    def list(self, request):
+        """A single page of bookings to be consumed by activity stream."""
+        after_ts, after_id = self._parse_after(request)
+        bookings = list(
+            Booking.objects.filter(modified=after_ts, id__gt=after_id).order_by('modified', 'id')[: self.MAX_PER_PAGE]
+        )
+
+        return self._generate_response(
+            ExportAcademyBookingSerializer(bookings, many=True).data,
+            self._build_after(request, bookings[-1].modified, bookings[-1].id) if bookings else None,
+        )

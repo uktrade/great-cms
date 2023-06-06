@@ -110,6 +110,10 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
         else:
             return self.STATUS_FINISHED
 
+    @property
+    def timezone(self):
+        return timezone.get_current_timezone_name()
+
     class Meta:
         ordering = ('-start_date', '-end_date')
 

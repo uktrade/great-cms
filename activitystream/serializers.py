@@ -1,9 +1,11 @@
 import logging
 
 from rest_framework import serializers
+from taggit.serializers import TagListSerializerField
 from wagtail.rich_text import RichText, get_text_for_indexing
 
 from domestic.models import ArticlePage
+from export_academy.models import Booking, Event
 
 logger = logging.getLogger(__name__)
 
@@ -87,3 +89,59 @@ class PageSerializer(serializers.Serializer):
             return ArticlePageSerializer(obj).data
         else:
             return CountryGuidePageSerializer(obj).data
+
+
+class ExportAcademyEventSerializer(serializers.ModelSerializer):
+    """
+    UKEA's Event serializer for Activity Stream.
+    """
+
+    types = TagListSerializerField()
+
+    class Meta:
+        model = Event
+        fields = [
+            'id',
+            'name',
+            'description',
+            'format',
+            'types',
+            'link',
+            'timezone',
+            'start_date',
+            'end_date',
+            'live',
+            'completed',
+        ]
+
+    def to_representation(self, instance):
+        """
+        Prefix field names to match activity stream format
+        """
+        prefix = 'dit:ExportAcademy:Event'
+        return {
+            'object': {
+                **{f'{prefix}:{k}': v for k, v in super().to_representation(instance).items()},
+            },
+        }
+
+
+class ExportAcademyBookingSerializer(serializers.ModelSerializer):
+    """
+    UKEA's Booking serializer for Activity Stream.
+    """
+
+    class Meta:
+        model = Booking
+        fields = ['id', 'event_id', 'registration_id', 'status']
+
+    def to_representation(self, instance):
+        """
+        Prefix field names to match activity stream format
+        """
+        prefix = 'dit:ExportAcademy:Booking'
+        return {
+            'object': {
+                **{f'{prefix}:{k}': v for k, v in super().to_representation(instance).items()},
+            },
+        }
