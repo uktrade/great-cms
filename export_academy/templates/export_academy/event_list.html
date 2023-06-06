@@ -64,8 +64,9 @@
                         {% else %}
                             {% for event in page_obj %}
                             <div class="govuk-grid-row event-list-card">
+                                <h4 class="govuk-!-padding-left-3 govuk-!-padding-right-3 event-title">{{ event.name }}</h4>
                                 <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
-                                    {% include 'export_academy/includes/event_name_duration.html' %}
+                                    {% include 'export_academy/includes/event_duration.html' %}
 
                                     {% is_logged_in as show_logged_in_features %}
                                     {% if show_logged_in_features  %}
@@ -79,7 +80,7 @@
                                     <div class="great-background-light-blue event-date-container">
                                         <p class="weekday">{{ event.start_date|date:"D" }}</p>
                                         <p class="date">{{ event.start_date|date:"j M" }}</p>
-                                        <p class="time">at {{ event.start_date|date:"g:iA"|lower }}</p>
+                                        <p class="time">{{ event.start_date|date:"g:iA"|lower }}</p>
                                     </div>
                                     <div class="event-tags">
                                         {% for type in event.types.all %}
@@ -90,7 +91,7 @@
                                 </div>
                                 <div class="govuk-grid-column-three-quarters">
                                     <div class="great-display-from-tablet">
-                                        {% include 'export_academy/includes/event_name_duration.html' %}
+                                        {% include 'export_academy/includes/event_duration.html' %}
                                     </div>
 
                                     {% is_logged_in as show_logged_in_features %}
@@ -100,10 +101,7 @@
                                     </div>
                                     {% endif %}
 
-                                    <div class='js-enabled-only event-description'>
-                                        {% include 'components/show_more.html' with text=event.description index=forloop.counter %}
-                                    </div>
-                                    <p class='js-disabled-only event-description'>{{event.description}}</p>
+                                    <p class='event-description'>{{event.description}}</p>
 
                                     {% event_list_buttons event %}
                                 </div>
