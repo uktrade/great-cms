@@ -3,9 +3,15 @@ import json
 import pytest
 from django.utils import timezone
 
-from activitystream.serializers import ArticlePageSerializer, CountryGuidePageSerializer
+from activitystream.serializers import (
+    ArticlePageSerializer,
+    CountryGuidePageSerializer,
+    ExportAcademyBookingSerializer,
+    ExportAcademyEventSerializer,
+)
 from domestic.models import ArticlePage
 from tests.unit.domestic.factories import ArticlePageFactory, CountryGuidePageFactory
+from tests.unit.export_academy.factories import BookingFactory, EventFactory
 
 
 @pytest.mark.django_db
@@ -245,5 +251,46 @@ def test_countryguidepageserializer(domestic_homepage):
             'content': '<h2>header here</h2> <p>Para content here.</p>',
             'url': instance.get_absolute_url(),
             'keywords': '',
+        },
+    }
+
+
+@pytest.mark.django_db
+def test_ukea_event_serializer():
+    instance = EventFactory()
+
+    serializer = ExportAcademyEventSerializer()
+
+    output = serializer.to_representation(instance)
+    assert output == {
+        'object': {
+            'dit:ExportAcademy:Event:completed': instance.completed.isoformat(),
+            'dit:ExportAcademy:Event:description': instance.description,
+            'dit:ExportAcademy:Event:end_date': instance.end_date.isoformat(),
+            'dit:ExportAcademy:Event:format': instance.format,
+            'dit:ExportAcademy:Event:id': instance.id,
+            'dit:ExportAcademy:Event:link': instance.link,
+            'dit:ExportAcademy:Event:live': instance.live.isoformat(),
+            'dit:ExportAcademy:Event:name': instance.name,
+            'dit:ExportAcademy:Event:start_date': instance.start_date.isoformat(),
+            'dit:ExportAcademy:Event:timezone': instance.timezone,
+            'dit:ExportAcademy:Event:types': [type.name for type in instance.types.all()],
+        },
+    }
+
+
+@pytest.mark.django_db
+def test_ukea_booking_serializer():
+    instance = BookingFactory()
+
+    serializer = ExportAcademyBookingSerializer()
+
+    output = serializer.to_representation(instance)
+    assert output == {
+        'object': {
+            'dit:ExportAcademy:Booking:id': instance.id,
+            'dit:ExportAcademy:Booking:event_id': instance.event_id,
+            'dit:ExportAcademy:Booking:registration_id': instance.registration_id,
+            'dit:ExportAcademy:Booking:status': instance.status,
         },
     }
