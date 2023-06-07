@@ -64,6 +64,10 @@ register_snippet(Redirect)
 
 
 class GreatMedia(Media):
+    description = models.TextField(
+        verbose_name=_('Description'), blank=True, null=True  # left null because was an existing field
+    )
+
     transcript = models.TextField(
         verbose_name=_('Transcript'), blank=False, null=True  # left null because was an existing field
     )
@@ -75,10 +79,7 @@ class GreatMedia(Media):
         help_text='English-language subtitles for this video, in VTT format',
     )
 
-    admin_form_fields = Media.admin_form_fields + (
-        'transcript',
-        'subtitles_en',
-    )
+    admin_form_fields = Media.admin_form_fields + ('transcript', 'subtitles_en', 'description')
 
     def save(self, *args, **kwargs):
         self.file._committed = True
