@@ -96,32 +96,43 @@ class ExportAcademyEventSerializer(serializers.ModelSerializer):
     UKEA's Event serializer for Activity Stream.
     """
 
+    startDate = serializers.DateTimeField(source='start_date')  # noqa: N815
+    endDate = serializers.DateTimeField(source='end_date')  # noqa: N815
+    liveDate = serializers.DateTimeField(source='live')  # noqa: N815
+    completeDate = serializers.DateTimeField(source='completed')  # noqa: N815
     types = TagListSerializerField()
 
     class Meta:
         model = Event
         fields = [
-            'id',
             'name',
             'description',
             'format',
             'types',
             'link',
             'timezone',
-            'start_date',
-            'end_date',
-            'live',
-            'completed',
+            'startDate',
+            'endDate',
+            'liveDate',
+            'completeDate',
         ]
 
     def to_representation(self, instance):
         """
         Prefix field names to match activity stream format
         """
-        prefix = 'dit:ExportAcademy:Event'
+        prefix = 'dit:exportAcademy:event'
+        type = 'Update'
         return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'published': instance.modified.isoformat(),
             'object': {
-                **{f'{prefix}:{k}': v for k, v in super().to_representation(instance).items()},
+                'id': f'{prefix}:{instance.id}',
+                'type': prefix,
+                'created': instance.created.isoformat(),
+                'modified': instance.modified.isoformat(),
+                **{f'{k}': v for k, v in super().to_representation(instance).items()},
             },
         }
 
@@ -131,17 +142,28 @@ class ExportAcademyBookingSerializer(serializers.ModelSerializer):
     UKEA's Booking serializer for Activity Stream.
     """
 
+    eventId = serializers.UUIDField(source='event_id')  # noqa: N815
+    registrationId = serializers.UUIDField(source='registration_id')  # noqa: N815
+
     class Meta:
         model = Booking
-        fields = ['id', 'event_id', 'registration_id', 'status']
+        fields = ['eventId', 'registrationId', 'status']
 
     def to_representation(self, instance):
         """
         Prefix field names to match activity stream format
         """
-        prefix = 'dit:ExportAcademy:Booking'
+        prefix = 'dit:exportAcademy:booking'
+        type = 'Update'
         return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'published': instance.modified.isoformat(),
             'object': {
-                **{f'{prefix}:{k}': v for k, v in super().to_representation(instance).items()},
+                'id': f'{prefix}:{instance.id}',
+                'type': prefix,
+                'created': instance.created.isoformat(),
+                'modified': instance.modified.isoformat(),
+                **{f'{k}': v for k, v in super().to_representation(instance).items()},
             },
         }

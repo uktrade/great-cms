@@ -263,18 +263,24 @@ def test_ukea_event_serializer():
 
     output = serializer.to_representation(instance)
     assert output == {
+        'id': f'dit:exportAcademy:event:{instance.id}:Update',
+        'type': 'Update',
+        'published': instance.modified.isoformat(),
         'object': {
-            'dit:ExportAcademy:Event:completed': instance.completed.isoformat(),
-            'dit:ExportAcademy:Event:description': instance.description,
-            'dit:ExportAcademy:Event:end_date': instance.end_date.isoformat(),
-            'dit:ExportAcademy:Event:format': instance.format,
-            'dit:ExportAcademy:Event:id': instance.id,
-            'dit:ExportAcademy:Event:link': instance.link,
-            'dit:ExportAcademy:Event:live': instance.live.isoformat(),
-            'dit:ExportAcademy:Event:name': instance.name,
-            'dit:ExportAcademy:Event:start_date': instance.start_date.isoformat(),
-            'dit:ExportAcademy:Event:timezone': instance.timezone,
-            'dit:ExportAcademy:Event:types': [type.name for type in instance.types.all()],
+            'id': f'dit:exportAcademy:event:{instance.id}',
+            'type': 'dit:exportAcademy:event',
+            'created': instance.created.isoformat(),
+            'modified': instance.modified.isoformat(),
+            'completeDate': instance.completed.isoformat(),
+            'description': instance.description,
+            'endDate': instance.end_date.isoformat(),
+            'format': instance.format,
+            'link': instance.link,
+            'liveDate': instance.live.isoformat(),
+            'name': instance.name,
+            'startDate': instance.start_date.isoformat(),
+            'timezone': instance.timezone,
+            'types': [type.name for type in instance.types.all()],
         },
     }
 
@@ -287,10 +293,16 @@ def test_ukea_booking_serializer():
 
     output = serializer.to_representation(instance)
     assert output == {
+        'id': f'dit:exportAcademy:booking:{instance.id}:Update',
+        'type': 'Update',
+        'published': instance.modified.isoformat(),
         'object': {
-            'dit:ExportAcademy:Booking:id': instance.id,
-            'dit:ExportAcademy:Booking:event_id': instance.event_id,
-            'dit:ExportAcademy:Booking:registration_id': instance.registration_id,
-            'dit:ExportAcademy:Booking:status': instance.status,
+            'id': f'dit:exportAcademy:booking:{instance.id}',
+            'type': 'dit:exportAcademy:booking',
+            'created': instance.created.isoformat(),
+            'modified': instance.modified.isoformat(),
+            'eventId': instance.event_id,
+            'registrationId': instance.registration_id,
+            'status': instance.status,
         },
     }
