@@ -1,5 +1,6 @@
 import os
 import sys
+from pathlib import Path
 
 import directory_healthcheck.backends
 import environ
@@ -13,8 +14,8 @@ from sentry_sdk.integrations.django import DjangoIntegration
 import healthcheck.backends
 from .utils import get_wagtail_transfer_configuration
 
-ROOT_DIR = environ.Path(__file__) - 2
-CORE_APP_DIR = ROOT_DIR.path('core')
+ROOT_DIR = Path(__file__).resolve().parents[1]
+CORE_APP_DIR = ROOT_DIR / 'core'
 
 env = environ.Env()
 
@@ -116,11 +117,11 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            CORE_APP_DIR.path('templates'),
-            ROOT_DIR.path('templates'),  # For overriding templates in dependencies, such as great-components
-            ROOT_DIR.path('sso_profile', 'templates'),
-            ROOT_DIR.path('sso_profile', 'common', 'templates'),
-            ROOT_DIR.path('sso_profile', 'enrolment', 'templates'),
+            CORE_APP_DIR / 'templates',
+            ROOT_DIR / 'templates',  # For overriding templates in dependencies, such as great-components
+            ROOT_DIR / 'sso_profile' / 'templates',
+            ROOT_DIR / 'sso_profile' / 'common' / 'templates',
+            ROOT_DIR / 'sso_profile' / 'enrolment' / 'templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -239,21 +240,21 @@ STATICFILES_FINDERS = [
 ]
 
 STATICFILES_DIRS = [
-    str(ROOT_DIR('core/static')),
-    str(ROOT_DIR('core/components/static')),
-    str(ROOT_DIR('domestic/static')),
-    str(ROOT_DIR('react-components/dist')),
-    str(ROOT_DIR('sso_profile/common/static')),
-    str(ROOT_DIR('sso_profile/static')),
+    str(ROOT_DIR / 'core' / 'static'),
+    str(ROOT_DIR / 'core' / 'components/static'),
+    str(ROOT_DIR / 'domestic' / 'static'),
+    str(ROOT_DIR / 'react-components' / 'dist'),
+    str(ROOT_DIR / 'sso_profile' / 'common' / 'static'),
+    str(ROOT_DIR / 'sso_profile' / 'static'),
 ]
 
 STATICFILES_STORAGE = env.str('STATICFILES_STORAGE', 'whitenoise.storage.CompressedStaticFilesStorage')
 DEFAULT_FILE_STORAGE = env.str('DEFAULT_FILE_STORAGE', 'storages.backends.s3boto3.S3Boto3Storage')
 
-STATIC_ROOT = str(ROOT_DIR('staticfiles'))
+STATIC_ROOT = str(ROOT_DIR / 'staticfiles')
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = str(ROOT_DIR('media'))
+MEDIA_ROOT = str(ROOT_DIR / 'media')
 MEDIA_URL = '/media/'  # NB: this is overriden later, if/when AWS is set up
 PDF_STATIC_URL = ''  # NB: overriiden by AWS public s3 if setup
 

@@ -282,7 +282,7 @@ def ccce_import_schedule(hs_code, origin_country='CA', destination_country='GB')
 @functools.lru_cache(maxsize=None)
 def get_popular_export_destinations(sector_label):
     export_destinations = Counter()
-    with open(settings.ROOT_DIR + 'core/fixtures/countries-sectors-export.csv', 'r') as f:
+    with open(settings.ROOT_DIR / 'core/fixtures/countries-sectors-export.csv', 'r') as f:
         for row in csv.DictReader(StringIO(f.read()), delimiter=','):
             row_sector_label = row['sector'].split(' :')[0]  # row has multi level delimited by ' :'. Get top level.
             if is_fuzzy_match(label_a=row_sector_label, label_b=sector_label):
