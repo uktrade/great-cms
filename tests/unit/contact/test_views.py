@@ -1447,11 +1447,55 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
                 'business_name': 'Test business ltd',
                 'business_postcode': 'SW1A 1AA',
             },
-            reverse('contact:export-support-step-2'),
+            reverse('contact:export-support-step-2a'),
             {
                 'business_type': 'Choose a business type',
                 'business_name': 'Enter your business name',
                 'business_postcode': 'Enter your business postcode',
+            },
+        ),
+        (
+            reverse('contact:export-support'),
+            {
+                'business_type': 'other',
+                'business_name': 'Test business ltd',
+                'business_postcode': 'SW1A 1AA',
+            },
+            reverse('contact:export-support-step-2b'),
+            {
+                'business_type': 'Choose a business type',
+                'business_name': 'Enter your business name',
+                'business_postcode': 'Enter your business postcode',
+            },
+        ),
+        (
+            reverse('contact:export-support'),
+            {
+                'business_type': 'soletrader',
+                'business_name': 'Test business ltd',
+                'business_postcode': 'SW1A 1AA',
+            },
+            reverse('contact:export-support-step-2c'),
+            {
+                'business_type': 'Choose a business type',
+                'business_name': 'Enter your business name',
+                'business_postcode': 'Enter your business postcode',
+            },
+        ),
+        (
+            reverse('contact:export-support-step-2a'),
+            {
+                'type': 'publiclimitedcompany',
+                'annual_turnover': '<85k',
+                'number_of_employees': '1-9',
+                'sector_primary': 'Aerospace',
+            },
+            reverse('contact:export-support-step-3'),
+            {
+                'type': 'Choose a type of UK limited company',
+                'annual_turnover': 'Please enter a turnover amount',
+                'number_of_employees': 'Choose number of employees',
+                'sector_primary': 'Choose a sector',
             },
         ),
     ),
