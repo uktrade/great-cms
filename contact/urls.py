@@ -5,6 +5,8 @@ from great_components.decorators import skip_ga360
 from contact.views import (
     DefenceAndSecurityOrganisationFormView,
     DomesticEnquiriesFormView,
+    DomesticExportSupportFormStep1View,
+    DomesticExportSupportFormStep2View,
     DomesticFormView,
     DomesticSuccessView,
     EcommerceSupportFormPageView,
@@ -85,6 +87,16 @@ urlpatterns = [
             'snippet_import_path': 'contact.models.ContactSuccessSnippet',  # see core.mixins.GetSnippetContentMixin
         },
         name='contact-us-domestic-success',
+    ),
+    path(
+        'contact/domestic/export-support/',
+        skip_ga360(DomesticExportSupportFormStep1View.as_view()),
+        name='export-support',
+    ),
+    path(
+        'contact/domestic/export-support/step2/',
+        skip_ga360(DomesticExportSupportFormStep2View.as_view()),
+        name='export-support-step-2',
     ),
     # The following are views served by the contact app but which are NOT prefixed '/contact/'
     path(

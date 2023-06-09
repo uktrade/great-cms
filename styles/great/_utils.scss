@@ -39,7 +39,7 @@
         }
     }
 
-    p,
+    p:not(.govuk-error-message),
     span:not(.great-badge, .great-text-darker-grey),
     ol,
     ul,
@@ -51,6 +51,26 @@
     .govuk-body {
         font-size: 20px;
         -webkit-font-smoothing: auto;
+    }
+
+    .govuk-hint {
+        font-family: $great-font;
+        color: $great-grey;
+    }
+
+    .govuk-error-message,
+    .govuk-radios__label {
+        font-family: $great-font;
+    }
+
+    .govuk-form-group--error {
+        input[type=text] {
+            border-color: govuk-colour("red");
+
+            &:focus {
+                border-color: govuk-colour("black");
+            }
+        }
     }
 
     .govuk-button {
@@ -113,10 +133,22 @@
     .great-text-white {
         @extend %great-text-white;
     }
+
+    // govuk elements overides
+    .form-control:focus {
+        border-width: 2px;
+        margin: 0;
+    }
 }
 
 .great-container {
     max-width: 1230px;
+    margin: auto;
+    padding: 0 15px;
+
+    @include govuk-media-query($from: desktop) {
+        padding: 0;
+    }
 }
 
 .great-border-top-blue {
@@ -167,10 +199,20 @@
     max-width: 80%;
 }
 
+.great-min-width-250-desktop {
+    @include govuk-media-query($from: tablet) {
+        min-width: 250px;
+    }
+}
+
 .great-height-100-desktop {
     @include govuk-media-query($from: tablet) {
         height: 100%;
     }
+}
+
+.great-font-bold {
+    font-family: $great-font-bold;
 }
 
 .great-font-size-18 {
@@ -307,5 +349,11 @@
     > * {
         display: block;
         width: 100%;
+    }
+}
+
+.great-grid-column-seven-twelfths {
+    @include govuk-media-query($from: desktop) {
+        width: calc(58.333% + 30px);
     }
 }
