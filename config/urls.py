@@ -2,8 +2,14 @@ from decorator_include import decorator_include
 from django.conf import settings
 from django.conf.urls import include
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 from great_components.decorators import skip_ga360
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
@@ -80,3 +86,18 @@ if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
     urlpatterns = [
         path('international/expand-your-business-in-the-uk/', include(international_online_offer.urls))
     ] + urlpatterns
+
+# if settings.FEATURE_GREAT_CMS_OPENAPI_ENABLED:
+urlpatterns = [
+    path('openapi/', SpectacularAPIView.as_view(), name='schema'),
+    path(
+        'openapi/ui/',
+        login_required(SpectacularSwaggerView.as_view(url_name='schema'), login_url='admin:login'),
+        name='swagger-ui',
+    ),
+    path(
+        'openapi/ui/redoc/',
+        login_required(SpectacularRedocView.as_view(url_name='schema'), login_url='admin:login'),
+        name='redoc',
+    ),
+] + urlpatterns
