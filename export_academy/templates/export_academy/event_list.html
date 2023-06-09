@@ -11,7 +11,7 @@
     {% block hero %}
         {% with content_snippet as hero %}
             <div class="ea-listing-page">
-                    {% include 'components/export_academy_hero.html' with hero=hero hide_image_for_mobile=True state=state %}
+                    {% include 'components/export_academy_hero.html' with hero=hero hide_image_for_mobile=True %}
             </div>
         {% endwith %}
     {% endblock %}
