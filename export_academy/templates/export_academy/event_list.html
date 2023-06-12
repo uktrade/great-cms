@@ -4,6 +4,8 @@
 {% load wagtailcore_tags %}
 {% load breadcrumbs from component_tags %}
 {% load pagination from component_tags %}
+{% load append_past_year_seperator from component_tags %}
+
 
 {% block head_title %}UKEA Events{% endblock %}
 
@@ -64,9 +66,13 @@
                             <p>There are currently no events available for the filters you have chosen.</p>
                             <p>Remove one or more of your filter choices to broaden your search.</p>
                         {% else %}
-                            {% for event in page_obj %}
+                            {% for event in page_obj|append_past_year_seperator%}
+
                             <div class="govuk-grid-row event-list-card">
-                                <h4 class="govuk-!-padding-left-3 govuk-!-padding-right-3 event-title">{{ event.name }}</h4>
+                                {%if event.past_year_seperator %}
+                                    <h2 class="past-year-seperator govuk-!-padding-left-3 govuk-!-padding-bottom-30">{{event.past_year_seperator}}</h2>
+                                {%endif%}
+                                 <h4 class="govuk-!-padding-left-3 govuk-!-padding-right-3 event-title">{{ event.name }}</h4>
                                 <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
                                     {% include 'export_academy/includes/event_duration.html' %}
 

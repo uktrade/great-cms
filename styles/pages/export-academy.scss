@@ -75,6 +75,10 @@
 
 .event-list-card {
     padding: 30px 15px 0px;
+    h2.past-year-seperator{
+        padding-bottom: $large-padding;
+        color: #AEAEAE;
+    }
 }
 
 .event-list-card::after {
