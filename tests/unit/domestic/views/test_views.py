@@ -5,6 +5,7 @@ import pytest
 from django.conf import settings
 from django.test import Client, TestCase
 from django.urls import reverse, reverse_lazy
+from wagtail.models import Locale
 from wagtail.test.utils import WagtailPageTests
 
 import domestic.forms
@@ -358,6 +359,7 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
 
     def setUp(self):
         self.parent_page = StructurePageFactory(parent=self.domestic_homepage, title='campaigns', slug='campaigns')
+        self.fr_locale = Locale.objects.get_or_create(language_code='fr')
         article_body1 = json.dumps(
             [
                 {
@@ -459,3 +461,24 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         current_page = view.request.context_data['view'].current_page
         self.assertEqual(path, url)
         self.assertNotEqual(current_page, None)
+
+    def test_get_languages_with_only_one_language(self):
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
+        request = self.client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        current_page = view.request.context_data['view']
+        self.assertEqual(current_page.current_language, 'en-gb')
+        self.assertEqual([language['language_code'] for language in current_page.available_languages], ['en-gb'])
+
+    def test_get_language_with_two_or_more_languages(self):
+        site_fr = self.article1.copy_for_translation(self.fr_locale[0], copy_parents=True, alias=True)
+        site_fr.save()
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'}) + '?lang=fr'
+        request = self.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        current_page = view.request.context_data['view']
+        self.assertEqual(current_page.current_language, 'fr')
+        self.assertEqual(
+            current_page.avaiable_languages,
+            [{'display_name': 'English', 'language_code': 'en-gb'}, {'display_name': 'French', 'language_code': 'fr'}],
+        )
