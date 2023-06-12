@@ -4,155 +4,245 @@
 
 $color-inactive-nav-item: #dde5ed;
 $menu-border: 5px solid $color-alternative-text;
+.microsite {
+  .microsite-nav-container {
+    padding: 0;
+    align-items: center;
 
-.microsite-nav-container {
-  padding: 0;
-  align-items: center;
-
-  > div:first-of-type {
-    display: flex;
-    @include width-container();
-    padding: govuk-spacing(4) 0;
-    @media only screen and (max-width: $mobile-size) {
-      padding: $mobile-container-padding 0;
-    }
-
-    > div {
-      position: relative;
-      width: 100%;
-      display: inline-flex;
-      align-items: center;
-
+    > div:first-of-type {
+      display: flex;
+      @include width-container();
+      padding: govuk-spacing(4) 0;
       @media only screen and (max-width: $mobile-size) {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+        padding: $mobile-container-padding 0;
+      }
 
-        h3 {
-          padding-top: govuk-spacing(4);
-          font-size: $font-size-h3;
+      > div {
+        position: relative;
+        @media only screen and (max-width: $mobile-size) {
+          width: 100%;
         }
-      }
-    }
-    img {
-      height: 83px;
-      //img has some white space to the left and bottom
-      margin-left: -25px;
-      @media only screen and (max-width: $mobile-size) {
-        height: 63px;
-        margin-left: -18px;
-      }
-    }
+        display: inline-flex;
+        align-items: center;
 
-    div + h3 {
-      @media only screen and (min-width: $mobile-size) {
-        padding-left: 35px;
-      }
-    }
-  }
+        @media only screen and (max-width: $mobile-size) {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
 
-  > div:nth-of-type(2) {
-    display: flex;
-    border-top: 1px solid #615b7c;
-  }
-  background-color: $color-footer;
-
-  h3 {
-    color: $color-alternative-text;
-    &::first-letter {
-      text-transform: capitalize;
-    }
-  }
-
-  .magna-header__menu {
-    position: absolute;
-    display: none;
-    button {
-      margin-left: auto;
-    }
-    @media only screen and (max-width: $mobile-size) {
-      display: grid;
-    }
-    .magna-header__menu-items {
-      padding: 0px;
-      li {
-        list-style: none;
-        & button {
-          font-family: $main-text-font !important;
-          font-size: $font-size-button !important;
-        }
-        a {
-          font-size: $font-size-button;
-          padding-left: govuk-spacing(4);
-          @media only screen and (max-width: $mobile-size) {
-            padding-left: govuk-spacing(2);
-          }
-
-          &::first-letter {
-            text-transform: capitalize;
-          }
-          color: $color-inactive-nav-item;
-          border-left: 5px solid transparent;
-          text-decoration: none;
-
-          &.active,
-          &:active,
-          &:hover {
-            color: $color-alternative-text;
-            border-left: $menu-border;
+          h3 {
+            padding-top: govuk-spacing(4);
+            font-size: $font-size-h3;
           }
         }
       }
+      img {
+        height: 83px;
+        //img has some white space to the left and bottom
+        margin-left: -25px;
+        @media only screen and (max-width: $mobile-size) {
+          height: 63px;
+          margin-left: -18px;
+        }
+      }
 
-      .button:visited{
-        background-color: $color-gov-link;
+      div + h3 {
+        @media only screen and (min-width: $mobile-size) {
+          padding-left: 35px;
+        }
       }
     }
-  }
 
-  nav {
-    width: 100%;
+    > div:nth-of-type(2) {
+      display: flex;
+      border-top: 1px solid #615b7c;
+    }
+    background-color: $color-footer;
 
-    @include width-container();
-    padding: 0 0 3px 0;
-    @media only screen and (max-width: $mobile-size) {
-      display: none;
-    }
-
-    ul {
-      padding: govuk-spacing(2) 0 0 0;
-      gap: 45px;
-      margin: 0;
-      display: inline-flex;
-    }
-    li {
-      list-style-type: none;
-    }
-    a {
-      text-decoration: none;
+    h3 {
+      width: max-content;
+      color: $color-alternative-text;
       &::first-letter {
         text-transform: capitalize;
       }
-      font-weight: 400;
-      border-bottom: 5px solid transparent;
-      padding-bottom: 4px;
-      color: $color-inactive-nav-item;
+    }
 
-      &.active,
-      &:hover {
-        color: $color-alternative-text;
-        font-weight: 600;
-        border-bottom: $menu-border;
+    .magna-header__menu {
+      position: absolute;
+      display: none;
+      button {
+        margin-left: auto;
+      }
+      @media only screen and (max-width: $mobile-size) {
+        display: grid;
+      }
+      .magna-header__menu-items {
+        padding: 0px;
+        li {
+          list-style: none;
+          & button {
+            font-family: $main-text-font !important;
+            font-size: $font-size-button !important;
+          }
+          a {
+            font-size: $font-size-button;
+            padding-left: govuk-spacing(4);
+            @media only screen and (max-width: $mobile-size) {
+              padding-left: govuk-spacing(2);
+            }
+
+            &::first-letter {
+              text-transform: capitalize;
+            }
+            color: $color-inactive-nav-item;
+            border-left: 5px solid transparent;
+            text-decoration: none;
+
+            &.active,
+            &:active,
+            &:hover {
+              color: $color-alternative-text;
+              border-left: $menu-border;
+            }
+          }
+        }
+
+        .button:visited {
+          background-color: $color-gov-link;
+        }
       }
     }
+
+    nav {
+      width: 100%;
+
+      @include width-container();
+      padding: 0 0 3px 0;
+      @media only screen and (max-width: $mobile-size) {
+        display: none;
+      }
+
+      ul {
+        padding: govuk-spacing(2) 0 0 0;
+        gap: 45px;
+        margin: 0;
+        display: inline-flex;
+      }
+      li {
+        list-style-type: none;
+      }
+      a {
+        text-decoration: none;
+        &::first-letter {
+          text-transform: capitalize;
+        }
+        font-weight: 400;
+        border-bottom: 5px solid transparent;
+        padding-bottom: 4px;
+        color: $color-inactive-nav-item;
+
+        &.active,
+        &:hover {
+          color: $color-alternative-text;
+          font-weight: 600;
+          border-bottom: $menu-border;
+        }
+      }
+    }
+    .magna-header__dropdown-button[aria-expanded='true'],
+    .magna-header__dropdown-button,
+    .magna-header__dropdown {
+      background: $color-footer;
+    }
+    .magna-header__dropdown {
+      top: 59px;
+      left: 7px;
+    }
   }
-  .magna-header__dropdown-button[aria-expanded='true'],
-  .magna-header__dropdown-button,
-  .magna-header__dropdown {
-    background: $color-footer;
+
+  .desktop-language-selector,
+  .mobile-single-language-toggle {
+    margin: 0;
+    margin-left: auto;
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: $standard-padding;
+    li {
+      list-style: none;
+      a {
+        color: $color-alternative-text;
+        text-decoration: none;
+      }
+      &.active {
+        a {
+          text-decoration: underline;
+          text-underline-offset: 5px;
+          text-decoration-thickness: 5px;
+        }
+      }
+    }
+    li + li::before {
+      content: ' | ';
+      color: $color-alternative-text;
+    }
+
+    @media only screen and (max-width: $mobile-size) {
+      display: none;
+    }
   }
-  .magna-header__dropdown {
-    top: 59px;
-    left: 7px;
+
+  .mobile-single-language-toggle {
+    display: none;
+    @media only screen and (max-width: $mobile-size) {
+      display: block;
+    }
+  }
+
+  .mobile-nav-buttons {
+    width: 100%;
+    float: right;
+    display: none;
+    justify-content: flex-end;
+    position: absolute;
+
+    .magna-header__menu {
+      display: block;
+      position: unset;
+      width: initial;
+    }
+
+    .magna-header__menu {
+      margin-left: $standard-padding;
+    }
+
+    @media only screen and (max-width: $mobile-size) {
+      display: inline-flex;
+    }
+  }
+
+  .language_button {
+    &:not(:active):not(:hover):not(:focus) {
+      border: none;
+    }
+    i {
+      pointer-events: none;
+    }
+    a.active {
+      font-family: $header-font;
+    }
+  }
+
+  .magna-header__overlay {
+    background-color: rgba($color: white, $alpha: 0.8);
+    z-index: 2;
+  }
+
+  .magna-header__dropdown-button[aria-expanded='false'] {
+    z-index: 1;
+  }
+
+  .mobile-single-language-toggle {
+    margin-top: $standard-padding;
   }
 }
