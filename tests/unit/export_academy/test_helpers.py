@@ -87,7 +87,7 @@ def test_join_button_returned_for_booked_in_progress_event(user):
             'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
             'label': 'Join<span class="great-visually-hidden"> Test event name</span>',
             'title': 'Join Test event name',
-            'url': event.link,
+            'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.id)),
         }
     ]
 
@@ -111,7 +111,7 @@ def test_join_button_returned_for_booked_in_upcoming_event(user):
             'classname': 'govuk-button govuk-button--secondary ukea-ga-tracking',
             'label': 'Join<span class="great-visually-hidden"> Test event name</span>',
             'title': 'Join Test event name',
-            'url': event.link,
+            'url': reverse_lazy('export_academy:join', kwargs=dict(event_id=event.id)),
         }
     ]
 
