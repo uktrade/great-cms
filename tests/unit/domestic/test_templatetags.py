@@ -451,10 +451,13 @@ def test_pagination(count, current, expected, rf):
     if soup.findAll('a', {'id': 'pagination-previous'}):
         items.append('P')
     for element in soup.find_all('li'):
-        if element.find('span'):
+        if element.find('span', class_=None):
             items.append('...')
         else:
             button = element.find('a')
+            if button.find('span', class_='govuk-visually-hidden'):
+                button.find('span', class_='govuk-visually-hidden').decompose()
+
             if 'primary-button' in button['class']:
                 items.append(f'[{button.string}]')
             else:

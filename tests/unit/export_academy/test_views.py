@@ -117,15 +117,23 @@ def test_registration_success_view(
 
     response = client.post(
         url,
-        {
-            'completed': datetime.now(),
-        },
+        {'completed': datetime.now()},
         follow=True,
     )
 
     assert response.status_code == 200
     assert response.context['just_registered']
     assert 'Registration confirmed' in response.rendered_content
+
+    response = client.post(
+        url,
+        {'completed': datetime.now()},
+        follow=True,
+    )
+
+    assert response.status_code == 200
+    assert response.context['editing_registration']
+    assert 'Registration update confirmed' in response.rendered_content
 
 
 @pytest.mark.parametrize(
@@ -259,8 +267,6 @@ def test_export_academy_registration_success(
     client.force_login(user)
 
     event = factories.EventFactory()
-    registration = factories.RegistrationFactory(email=user.email)
-    booking = factories.BookingFactory(event=event, registration=registration, status=Booking.CANCELLED)
     # creates bookings for the same event to ensure correct booking is fetched
     factories.BookingFactory.create_batch(3, event=event)
     url = reverse('export_academy:registration-confirm')
@@ -274,10 +280,10 @@ def test_export_academy_registration_success(
 
     response = client.post(
         url,
-        {
-            'completed': datetime.now(),
-        },
+        {'completed': datetime.now()},
     )
+
+    booking = Booking.objects.get(event_id=event.id, registration_id=user.email)
 
     assert response.status_code == 302
     assert response.url == reverse('export_academy:registration-success', kwargs={'booking_id': booking.id})
@@ -294,6 +300,14 @@ def test_export_academy_registration_success(
         form_url=url,
     )
     assert mock_action_class().save.call_count == 2
+
+    response = client.post(
+        url,
+        {'completed': datetime.now()},
+    )
+
+    assert response.status_code == 302
+    assert response.url == reverse('export_academy:registration-edit-success')
 
 
 @pytest.mark.django_db

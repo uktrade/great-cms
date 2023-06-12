@@ -1,4 +1,4 @@
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/test_greatcms
+DATABASE_URL=postgres://debug:debug@localhost:5432/greatcms
 API_CACHE_DISABLED=true
 STATICFILES_STORAGE=django.contrib.staticfiles.storage.StaticFilesStorage
 DEBUG=false
@@ -38,3 +38,4 @@ HASHIDS_SALT=c489472d-3fbc-4009-a022-08b68bfc7b77
 FEATURE_EXPORT_ACADEMY_RELEASE_2=True
 FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE=True
 FEATURE_MICROSITE_ENABLE_TEMPLATE_TRANSLATION=True
+FEATURE_DIGITAL_POINT_OF_ENTRY=True

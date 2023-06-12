@@ -1,0 +1,52 @@
+{% extends 'domestic/contact/export-support/base.html' %}
+{% load static %}
+
+{% block body_js %}
+  <script src="{% static 'javascript/company-lookup.js' %}"></script>
+  <script type="text/javascript">
+    var companyName = document.getElementById('id_business_name');
+    var companyNumber = document.getElementById('id_company_registration_number');
+
+    $(companyName).on("keydown.SelectiveLookup", function(event) {
+      if (event.keyCode == 13) {
+        event.stopImmediatePropagation();
+        return false;
+      }
+    });
+
+    $(document.body).on(
+      "click.SelectiveLookupCloseAll",
+      GOVUK.components.SelectiveLookup.closeAll
+    );
+    new GOVUK.components.CompaniesHouseNameLookup(
+      $(companyName),
+      $(companyNumber),
+      '{% url "sso_profile:api:companies-house-search" %}'
+     );
+  </script>
+{% endblock %}
+
+{% block form_fields %}
+    {% for field in form.visible_fields %}
+        {% if field.name == 'company_registration_number' %}
+            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field optional=True %}
+            </div>
+        {% elif field.name == 'business_type' %}
+            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %} govuk-!-margin-bottom-2">
+                <fieldset class="govuk-fieldset">
+                    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+                </fieldset>
+            </div>
+            <hr class="govuk-!-margin-top-5 govuk-!-margin-bottom-7" />
+        {% elif field.name == 'business_name' %}
+            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-input--search' %}
+            </div>
+        {% else %}
+            <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+                {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

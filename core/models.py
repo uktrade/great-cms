@@ -1604,6 +1604,21 @@ class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
         on_delete=models.SET_NULL,
         related_name='+',
     )
+    logged_out_text = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+    logged_in_text = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+    ea_registered_text = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
     panels = [
         MultiFieldPanel(
             heading='Purpose',
@@ -1614,4 +1629,12 @@ class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
         FieldPanel('title'),
         FieldPanel('text'),
         FieldPanel('image'),
+        MultiFieldPanel(
+            heading='Logged in, logged out and EA registered CTA text (Optional)',
+            children=[
+                FieldPanel('logged_out_text'),
+                FieldPanel('logged_in_text'),
+                FieldPanel('ea_registered_text'),
+            ],
+        ),
     ]

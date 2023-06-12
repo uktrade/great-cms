@@ -107,7 +107,7 @@ class ExportExperience(forms.Form):
             ('I have exported in the last 12 months', 'I have exported in the last 12 months'),
             ('I do not have a product for export', 'I do not have a product for export'),
         ),
-        widget=forms.RadioSelect,
+        widget=forms.RadioSelect(attrs={'id': 'hiring-select'}),
         error_messages={'required': _('Please answer this question')},
     )
 

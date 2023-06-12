@@ -27,7 +27,7 @@ from export_academy.helpers import (
     get_buttons_for_event,
 )
 from export_academy.mixins import BookingMixin, RegistrationMixin
-from export_academy.models import Booking, ExportAcademyHomePage, Registration
+from export_academy.models import ExportAcademyHomePage, Registration
 
 logger = logging.getLogger(__name__)
 
@@ -90,11 +90,29 @@ class SuccessPageView(core_mixins.GetSnippetContentMixin, TemplateView):
             'export_academy:registration-success', kwargs={'booking_id': booking.id}
         )
 
+    def user_editing_registration(self):
+        return self.request.path == reverse_lazy('export_academy:registration-edit-success')
+
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['landing_page'] = models.ExportAcademyHomePage.objects.first()
 
+        editing_registration = self.user_editing_registration()
+
+        if editing_registration:
+            ctx['heading'] = 'Registration update'
+            ctx['editing_registration'] = editing_registration
+            ctx['current_page_breadcrumb'] = 'Registration'
+            return ctx
+
         booking = models.Booking.objects.get(id=ctx['booking_id'])
+        if self.user_just_registered(booking):
+            ctx['heading'] = 'Registration'
+        elif booking.status == 'Confirmed':
+            ctx['heading'] = 'Booking'
+        else:
+            ctx['heading'] = 'Cancellation'
+
         ctx['booking'] = booking
         ctx['event'] = booking.event
 
@@ -287,6 +305,7 @@ class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixi
     booking_model = models.Booking
     form_class = forms.RegistrationConfirm
     notify_template = settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID
+    booking_id = ''
 
     def submit_registration(self):
         reg_data = {
@@ -303,18 +322,20 @@ class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixi
             return
 
         self.model(**reg_data).save()
+        self.send_gov_notify(self.initial_data)
 
     def confirm_booking(self, event_id):
         booking_data = dict(event_id=event_id, status=models.Booking.CONFIRMED)
         booking_object = self.register_booking(booking_data)
-        self.success_url = reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking_object.id})
+        del self.request.session['event_id']
+        self.booking_id = booking_object.id
         self.send_email_confirmation(booking_object, booking_data)
 
     def form_valid(self, form):
         self.submit_registration()
-        self.send_gov_notify(self.initial_data)
         event_id = self.request.session.get('event_id')
-        self.confirm_booking(event_id)
+        if event_id is not None:
+            self.confirm_booking(event_id)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -328,7 +349,6 @@ class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixi
         )
 
     def get_success_url(self):
-        booking = Booking.objects.get(
-            event_id=self.request.session.get('event_id'), registration_id=self.request.user.email
-        )
-        return reverse_lazy('export_academy:registration-success', kwargs={'booking_id': booking.id})
+        if self.booking_id != '':
+            return reverse_lazy('export_academy:registration-success', kwargs={'booking_id': self.booking_id})
+        return reverse_lazy('export_academy:registration-edit-success')
