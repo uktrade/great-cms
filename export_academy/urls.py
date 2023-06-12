@@ -160,4 +160,5 @@ urlpatterns = [
         views.DownloadCalendarView.as_view(),
         name='calendar',
     ),
+    path('join/<uuid:event_id>', views.JoinBookingView.as_view(), name='join'),
 ]

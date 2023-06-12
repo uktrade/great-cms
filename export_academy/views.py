@@ -9,6 +9,7 @@ from django.views.generic import (
     DetailView,
     FormView,
     ListView,
+    RedirectView,
     TemplateView,
     UpdateView,
 )
@@ -352,3 +353,18 @@ class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixi
         if self.booking_id != '':
             return reverse_lazy('export_academy:registration-success', kwargs={'booking_id': self.booking_id})
         return reverse_lazy('export_academy:registration-edit-success')
+
+
+class JoinBookingView(RedirectView):
+    def get(self, request, *args, **kwargs):
+        # Update redirect url
+        event_id = kwargs.get('event_id')
+        event = models.Event.objects.get(id=event_id)
+        self.url = event.link
+
+        # Update booking status to Joined
+        booking = event.bookings.get(registration_id=self.request.user.email)
+        booking.status = models.Booking.JOINED
+        booking.save()
+
+        return super().get(request, *args, **kwargs)
