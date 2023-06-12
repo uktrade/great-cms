@@ -474,7 +474,7 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         site_fr = self.article1.copy_for_translation(self.fr_locale[0], copy_parents=True, alias=True)
         site_fr.save()
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'}) + '?lang=fr'
-        request = self.get(url)
+        request = self.client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
         current_page = view.request.context_data['view']
         self.assertEqual(current_page.current_language, 'fr')
