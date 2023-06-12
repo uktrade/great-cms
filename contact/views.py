@@ -1,3 +1,4 @@
+import pickle
 from urllib.parse import urlparse
 
 from directory_forms_api_client import actions
@@ -198,26 +199,97 @@ class DomesticExportSupportFormStep1View(contact_mixins.ExportSupportFormMixin, 
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
-            **kwargs, button_text='Continue', step_text='Step 1 of 7', show_form=settings.FEATURE_DIGITAL_POINT_OF_ENTRY
+            **kwargs,
+            heading_text='Contact us',
+            button_text='Continue',
+            step_text='Step 1 of 7',
+            show_form=settings.FEATURE_DIGITAL_POINT_OF_ENTRY,
         )
 
     def get_success_url(self):
-        return reverse_lazy('contact:export-support-step-2')
+        business_type = self.request.POST.get('business_type')
+
+        if business_type == 'other':
+            return reverse_lazy('contact:export-support-step-2b')
+        elif business_type == 'soletrader':
+            return reverse_lazy('contact:export-support-step-2c')
+        else:
+            return reverse_lazy('contact:export-support-step-2a')
 
     def form_valid(self, form):
         self.save_data(form)
         return super().form_valid(form)
 
 
-class DomesticExportSupportFormStep2View(contact_mixins.ExportSupportFormMixin, FormView):
-    form_class = contact_forms.DomesticExportSupportStep1Form
+class DomesticExportSupportFormStep2AView(contact_mixins.ExportSupportFormMixin, FormView):
+    form_class = contact_forms.DomesticExportSupportStep2AForm
     template_name = 'domestic/contact/export-support/step-2.html'
+    success_url = reverse_lazy('contact:export-support-step-3')
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
             **kwargs,
+            heading_text='About your business',
             button_text='Continue',
             step_text='Step 2 of 7',
+            show_form=settings.FEATURE_DIGITAL_POINT_OF_ENTRY,
+        )
+
+    def form_valid(self, form):
+        self.save_data(form)
+        return super().form_valid(form)
+
+
+class DomesticExportSupportFormStep2BView(contact_mixins.ExportSupportFormMixin, FormView):
+    form_class = contact_forms.DomesticExportSupportStep2BForm
+    template_name = 'domestic/contact/export-support/step-2.html'
+    success_url = reverse_lazy('contact:export-support-step-3')
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            heading_text='About your business',
+            button_text='Continue',
+            step_text='Step 2 of 7',
+            show_form=settings.FEATURE_DIGITAL_POINT_OF_ENTRY,
+        )
+
+    def form_valid(self, form):
+        self.save_data(form)
+        return super().form_valid(form)
+
+
+class DomesticExportSupportFormStep2CView(contact_mixins.ExportSupportFormMixin, FormView):
+    form_class = contact_forms.DomesticExportSupportStep2CForm
+    template_name = 'domestic/contact/export-support/step-2.html'
+    success_url = reverse_lazy('contact:export-support-step-3')
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            heading_text='About your business',
+            button_text='Continue',
+            step_text='Step 2 of 7',
+            show_form=settings.FEATURE_DIGITAL_POINT_OF_ENTRY,
+        )
+
+    def form_valid(self, form):
+        self.save_data(form)
+        return super().form_valid(form)
+
+
+class DomesticExportSupportFormStep3View(contact_mixins.ExportSupportFormMixin, FormView):
+    form_class = contact_forms.DomesticExportSupportStep3Form
+    template_name = 'domestic/contact/export-support/step-3.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            heading_text='About you',
+            button_text='Continue',
+            step_text='Step 3 of 7',
+            show_form=settings.FEATURE_DIGITAL_POINT_OF_ENTRY,
+            form_data=pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0],
         )
 
 
