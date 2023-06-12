@@ -301,3 +301,29 @@
         }
     }
 }
+
+.great-back-link {
+    color: $govuk-brand-colour;
+    padding-left: 20px;
+    position: relative;
+
+    &:visited {
+        color: $govuk-brand-colour;
+    }
+
+    &::before {
+        background-image: url(/static/icons/arrow.svg);
+        background-size: 11px;
+        background-repeat: no-repeat;
+        background-position: 50%;
+        position: absolute;
+        display: inline-block;
+        content: "";
+        pointer-events: none;
+        height: 20px;
+        width: 12px;
+        top: 3px;
+        left: 0;
+        transform: rotate(180deg);
+    }
+}

@@ -203,7 +203,6 @@ class DomesticExportSupportFormStep1View(contact_mixins.ExportSupportFormMixin, 
             heading_text='Contact us',
             button_text='Continue',
             step_text='Step 1 of 7',
-            show_form=settings.FEATURE_DIGITAL_POINT_OF_ENTRY,
         )
 
     def get_success_url(self):
@@ -232,7 +231,7 @@ class DomesticExportSupportFormStep2AView(contact_mixins.ExportSupportFormMixin,
             heading_text='About your business',
             button_text='Continue',
             step_text='Step 2 of 7',
-            show_form=settings.FEATURE_DIGITAL_POINT_OF_ENTRY,
+            back_link=reverse_lazy('contact:export-support'),
         )
 
     def form_valid(self, form):
@@ -251,7 +250,7 @@ class DomesticExportSupportFormStep2BView(contact_mixins.ExportSupportFormMixin,
             heading_text='About your business',
             button_text='Continue',
             step_text='Step 2 of 7',
-            show_form=settings.FEATURE_DIGITAL_POINT_OF_ENTRY,
+            back_link=reverse_lazy('contact:export-support'),
         )
 
     def form_valid(self, form):
@@ -270,7 +269,7 @@ class DomesticExportSupportFormStep2CView(contact_mixins.ExportSupportFormMixin,
             heading_text='About your business',
             button_text='Continue',
             step_text='Step 2 of 7',
-            show_form=settings.FEATURE_DIGITAL_POINT_OF_ENTRY,
+            back_link=reverse_lazy('contact:export-support'),
         )
 
     def form_valid(self, form):
@@ -281,16 +280,28 @@ class DomesticExportSupportFormStep2CView(contact_mixins.ExportSupportFormMixin,
 class DomesticExportSupportFormStep3View(contact_mixins.ExportSupportFormMixin, FormView):
     form_class = contact_forms.DomesticExportSupportStep3Form
     template_name = 'domestic/contact/export-support/step-3.html'
+    success_url = reverse_lazy('contact:export-support-step-4')
 
     def get_context_data(self, **kwargs):
+        form_data = {}
+
+        if self.request.session.get('form_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0]
+
         return super().get_context_data(
             **kwargs,
             heading_text='About you',
+            strapline_text='This information will allow us to contact you about your enquiry.',
             button_text='Continue',
             step_text='Step 3 of 7',
-            show_form=settings.FEATURE_DIGITAL_POINT_OF_ENTRY,
-            form_data=pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0],
+            form_data=form_data,
+            back_link=reverse_lazy('contact:export-support-step-2a'),
         )
+
+
+class DomesticExportSupportFormStep4View(contact_mixins.ExportSupportFormMixin, FormView):
+    form_class = contact_forms.DomesticExportSupportStep3Form
+    template_name = 'domestic/contact/export-support/step-4.html'
 
 
 class InternationalFormView(
