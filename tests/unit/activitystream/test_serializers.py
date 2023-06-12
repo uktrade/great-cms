@@ -3,9 +3,15 @@ import json
 import pytest
 from django.utils import timezone
 
-from activitystream.serializers import ArticlePageSerializer, CountryGuidePageSerializer
+from activitystream.serializers import (
+    ArticlePageSerializer,
+    CountryGuidePageSerializer,
+    ExportAcademyBookingSerializer,
+    ExportAcademyEventSerializer,
+)
 from domestic.models import ArticlePage
 from tests.unit.domestic.factories import ArticlePageFactory, CountryGuidePageFactory
+from tests.unit.export_academy.factories import BookingFactory, EventFactory
 
 
 @pytest.mark.django_db
@@ -245,5 +251,58 @@ def test_countryguidepageserializer(domestic_homepage):
             'content': '<h2>header here</h2> <p>Para content here.</p>',
             'url': instance.get_absolute_url(),
             'keywords': '',
+        },
+    }
+
+
+@pytest.mark.django_db
+def test_ukea_event_serializer():
+    instance = EventFactory()
+
+    serializer = ExportAcademyEventSerializer()
+
+    output = serializer.to_representation(instance)
+    assert output == {
+        'id': f'dit:exportAcademy:event:{instance.id}:Update',
+        'type': 'Update',
+        'published': instance.modified.isoformat(),
+        'object': {
+            'id': f'dit:exportAcademy:event:{instance.id}',
+            'type': 'dit:exportAcademy:event',
+            'created': instance.created.isoformat(),
+            'modified': instance.modified.isoformat(),
+            'completeDate': instance.completed.isoformat(),
+            'description': instance.description,
+            'endDate': instance.end_date.isoformat(),
+            'format': instance.format,
+            'link': instance.link,
+            'liveDate': instance.live.isoformat(),
+            'name': instance.name,
+            'startDate': instance.start_date.isoformat(),
+            'timezone': instance.timezone,
+            'types': [type.name for type in instance.types.all()],
+        },
+    }
+
+
+@pytest.mark.django_db
+def test_ukea_booking_serializer():
+    instance = BookingFactory()
+
+    serializer = ExportAcademyBookingSerializer()
+
+    output = serializer.to_representation(instance)
+    assert output == {
+        'id': f'dit:exportAcademy:booking:{instance.id}:Update',
+        'type': 'Update',
+        'published': instance.modified.isoformat(),
+        'object': {
+            'id': f'dit:exportAcademy:booking:{instance.id}',
+            'type': 'dit:exportAcademy:booking',
+            'created': instance.created.isoformat(),
+            'modified': instance.modified.isoformat(),
+            'eventId': instance.event_id,
+            'registrationId': instance.registration_id,
+            'status': instance.status,
         },
     }
