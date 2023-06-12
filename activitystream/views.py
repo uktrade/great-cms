@@ -172,12 +172,7 @@ class BaseActivityStreamView(ListAPIView):
         next_page = {'next': next_page_url} if next_page_url else {}
         return Response(
             {
-                '@context': [
-                    'https://www.w3.org/ns/activitystreams',
-                    {
-                        'dit': 'https://www.trade.gov.uk/ns/activitystreams/v1',
-                    },
-                ],
+                '@context': 'https://www.w3.org/ns/activitystreams',
                 'type': 'Collection',
                 'orderedItems': items,
                 **next_page,

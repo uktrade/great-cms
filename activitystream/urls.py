@@ -21,4 +21,14 @@ urlpatterns = [
         skip_ga360(activitystream.views.ActivityStreamView.as_view()),
         name='cms-content',
     ),
+    path(
+        'ukea-events/',
+        skip_ga360(activitystream.views.ExportAcademyEventActivityStreamView.as_view()),
+        name='ukea-events',
+    ),
+    path(
+        'ukea-bookings/',
+        skip_ga360(activitystream.views.ExportAcademyBookingActivityStreamView.as_view()),
+        name='ukea-bookings',
+    ),
 ]
