@@ -75,6 +75,10 @@
 
 .event-list-card {
     padding: 30px 15px 0px;
+    h2.past-year-seperator{
+        padding-bottom: $large-padding;
+        color: #AEAEAE;
+    }
 }
 
 .event-list-card::after {
@@ -190,9 +194,9 @@
 }
 
 .event-title {
-    @media screen and (max-width: 640px) {
-        font-size: 24px;
-    }
+    font-size: 24px;
+    line-height: 30px;
+    margin-bottom: 10px;
 }
 
 .event-description,

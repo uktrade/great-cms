@@ -16,7 +16,7 @@ from django.forms import (
 )
 from great_components import forms
 
-from contact import constants
+from contact import constants, mixins as contact_mixins, widgets as contact_widgets
 from contact.helpers import get_free_trade_agreements, retrieve_regional_office
 from core.forms import TERMS_LABEL, ConsentFieldMixin
 from core.validators import is_valid_uk_postcode
@@ -137,6 +137,109 @@ class DomesticForm(ConsentFieldMixin, ShortZendeskForm):
 
 class DomesticEnquiriesForm(ConsentFieldMixin, ShortNotifyForm):
     pass
+
+
+class DomesticExportSupportStep1Form(forms.Form):
+    business_type = forms.ChoiceField(
+        label='Business type',
+        help_text='Understanding the business type will help us provide you with a better service',
+        choices=(
+            ('limitedcompany', 'UK private or public limited company'),
+            ('other', 'Other type of UK organisation'),
+            ('soletrader', 'Sole trader or private individual'),
+        ),
+        widget=contact_widgets.GreatRadioSelect,
+        error_messages={
+            'required': 'Choose a business type',
+        },
+    )
+    business_name = forms.CharField(
+        label='Business name',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input', 'placeholder': 'Search...'}),
+        help_text="""Start typing your business name into the search.
+        If the business name is not shown in the search results, please enter manually.""",
+        max_length=160,
+        error_messages={
+            'required': 'Enter your business name',
+        },
+    )
+    company_registration_number = forms.CharField(
+        label='Company registration number',
+        help_text='Information about the company helps us to improve how we answer your query.',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
+        required=False,
+    )
+    business_postcode = forms.CharField(
+        label='Business postcode',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input govuk-!-width-one-half'}),
+        max_length=50,
+        error_messages={'required': 'Enter your business postcode', 'invalid': 'Please enter a UK postcode'},
+        validators=[is_valid_uk_postcode],
+    )
+
+
+class DomesticExportSupportStep2AForm(contact_mixins.DomesticExportSupportStep2Mixin):
+    type = forms.ChoiceField(
+        label='Type of UK limited company',
+        widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
+        choices=(
+            ('', 'Please select'),
+            ('privatelimitedcompany', 'Private limited company'),
+            ('publiclimitedcompany', 'Public limited company'),
+            ('limitedliability', 'Limited liability partnership'),
+            ('notcurrentlytrading', 'Not currently trading'),
+            ('closedbusiness', 'Close business'),
+            ('other', 'Other'),
+        ),
+        error_messages={
+            'required': 'Choose a type of UK limited company',
+        },
+    )
+
+
+class DomesticExportSupportStep2BForm(contact_mixins.DomesticExportSupportStep2Mixin):
+    type = forms.ChoiceField(
+        label='Type of Organisation',
+        widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
+        choices=(
+            ('', 'Please select'),
+            ('cse', 'Charity / Social enterprise'),
+            ('university', 'University'),
+            ('othereduinst', 'Other educational institute'),
+            ('partnership', 'Partnership'),
+            ('other', 'Other'),
+        ),
+        error_messages={
+            'required': 'Choose a type of organisation',
+        },
+    )
+
+
+class DomesticExportSupportStep2CForm(contact_mixins.DomesticExportSupportStep2Mixin):
+    type = forms.ChoiceField(
+        label='Type of Exporter',
+        widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
+        choices=(
+            ('', 'Please select'),
+            ('soletrader', 'Sole trader'),
+            ('privateindividual', 'Private individual'),
+            ('other', 'Other'),
+        ),
+        error_messages={
+            'required': 'Choose a type of organisation',
+        },
+    )
+    number_of_employees = None
+
+
+class DomesticExportSupportStep3Form(forms.Form):
+    first_name = forms.CharField(
+        label='First name',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
+        error_messages={
+            'required': 'Enter your first name',
+        },
+    )
 
 
 class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):

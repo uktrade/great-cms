@@ -1,0 +1,37 @@
+{% extends 'domestic/base.html' %}
+{% load breadcrumbs from component_tags %}
+{% load wagtailcore_tags %}
+{% load static %}
+
+{% block head_title %}Contact{% endblock %}
+
+{% block body_js %}
+  {{ block.super }}
+{% endblock %}
+
+{% block content %}
+  <div class="great great-bg-white">
+    <div class="great-container govuk-!-padding-top-7">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full great-grid-column-seven-twelfths">
+                <p class="govuk-body">{{step_text}}</p>
+                <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">{{heading_text}}</h1>
+                <p class="govuk-body govuk-!-margin-bottom-7">This information will help us direct you to the right support for your business.</p>
+                {% if show_form %}
+                <form method="post" autocomplete="off">
+                    {% csrf_token %}
+
+                    {% for hidden_field in form.hidden_fields %}
+                        {{ hidden_field }}
+                    {% endfor %}
+
+                    {% block form_fields %}{% endblock %}
+
+                    <button type="submit" class="govuk-button great-min-width-250-desktop">{{button_text}}</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+  </div>
+{% endblock %}

@@ -51,7 +51,7 @@ class RegistrationMixin:
         if data is not None:
             self.initial_data = initial = pickle.loads(bytes.fromhex(data))[0]
         if Registration.objects.filter(email=self.request.user.email).exists():
-            self.initial_data = {
+            self.initial_data = initial = {
                 **getattr(Registration.objects.get(email=self.request.user.email), 'data'),
                 **self.initial_data,
             }

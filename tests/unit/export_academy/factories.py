@@ -21,11 +21,12 @@ class EventFactory(factory.django.DjangoModelFactory):
     id = factory.Faker('uuid4')
     name = factory.fuzzy.FuzzyText(length=15)
     description = factory.fuzzy.FuzzyText(length=60)
-    start_date = timezone.now()
+    start_date = timezone.localtime()
     link = factory.LazyAttribute(lambda event: 'https://example.com/%s' % event.id)
     video_recording = factory.SubFactory(GreatMediaFactory)
-    completed = timezone.now()
-    live = timezone.now()
+    # completed = timezone.make_aware(datetime.now(), timezone.get_default_timezone())
+    completed = timezone.localtime()
+    live = timezone.localtime()
 
     @factory.lazy_attribute
     def end_date(self):

@@ -1,0 +1,39 @@
+{% comment %}
+
+Optional params
+
+    * image_url:string -  absolute URL for an image (eg from /static/)
+    * image:Image - Wagtail image instance, from which we need to make a rendition
+
+If both are available, `image_url` will be used over `image`
+
+{% endcomment %}
+
+{% load wagtailimages_tags %}
+{% load wagtailcore_tags %}
+{% load event_list_buttons %}
+{% if not image_url %}
+{% image hero.image original as rendition %}
+{% endif %}
+{% firstof image_url rendition.url as image_url %}
+
+<div class="page-header article-header" id="hero">
+    <div class="inner-header">
+    <div>
+        <h1>{{ hero.title }}</h1>
+        <p>{{ hero.text|richtext }}</p>
+        <p>
+            {% is_logged_in as user_is_registered %}
+            {% if user_is_registered %}
+                {{ hero.ea_registered_text|richtext }}
+            {% elif not request.user.is_anoymous %}
+                {{ hero.logged_in_text|richtext }}
+            {% else %}
+                {{ hero.logged_out_text|richtext }}
+            {% endif %}
+        </p>
+    </div>
+    <div class="image-container {% if hide_image_for_mobile %}great-display-from-tablet{% endif %}" style="background: url({{ image_url }})">
+    </div>
+    </div>
+</div>
