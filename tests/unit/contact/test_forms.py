@@ -830,6 +830,24 @@ def test_selling_online_overseas_contact_details_form__editable_fields():
                 'email': 'Enter an email address in the correct format, like name@example.com',
             },
         ),
+        (
+            forms.DomesticExportSupportStep4Form,
+            {
+                'product_or_service_1': 'Test product 1',
+            },
+            True,
+            {},
+        ),
+        (
+            forms.DomesticExportSupportStep4Form,
+            {
+                'product_or_service_1': '',
+            },
+            False,
+            {
+                'product_or_service_1': 'Enter a product or service',
+            },
+        ),
     ),
 )
 @pytest.mark.django_db
