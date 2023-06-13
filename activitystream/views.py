@@ -17,12 +17,15 @@ from activitystream.authentication import (
 )
 from activitystream.filters import PageFilter
 from activitystream.serializers import (
+    ActivityStreamExpandYourBusinessTriageDataSerializer,
+    ActivityStreamExpandYourBusinessUserDataSerializer,
     ExportAcademyBookingSerializer,
     ExportAcademyEventSerializer,
     PageSerializer,
 )
 from domestic.models import ArticlePage, CountryGuidePage
 from export_academy.models import Booking, Event
+from international_online_offer.models import TriageData, UserData
 
 
 class ActivityStreamView(ListAPIView):
@@ -207,4 +210,36 @@ class ExportAcademyBookingActivityStreamView(BaseActivityStreamView):
         return self._generate_response(
             ExportAcademyBookingSerializer(bookings, many=True).data,
             self._build_after(request, bookings[-1].modified, bookings[-1].id) if bookings else None,
+        )
+
+
+class ActivityStreamExpandYourBusinessUserDataViewSet(BaseActivityStreamView):
+    """View set to list expand your business user data for the activity stream"""
+
+    @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
+    def list(self, request):
+        """A single page of expand your business users to be consumed by activity stream."""
+        _after_ts, after_id = self._parse_after(request)
+
+        users = list(UserData.objects.filter(id__gt=after_id).order_by('id')[: self.MAX_PER_PAGE])
+
+        return self._generate_response(
+            ActivityStreamExpandYourBusinessUserDataSerializer(users, many=True).data,
+            self._build_after(request, users[-1]['id']) if users else None,
+        )
+
+
+class ActivityStreamExpandYourBusinessTriageDataViewSet(BaseActivityStreamView):
+    """View set to list expand your business triage data for the activity stream"""
+
+    @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
+    def list(self, request):
+        """A single page of expand your business triage data to be consumed by activity stream."""
+        _after_ts, after_id = self._parse_after(request)
+
+        triage_data = list(TriageData.objects.filter(id__gt=after_id).order_by('id')[: self.MAX_PER_PAGE])
+
+        return self._generate_response(
+            ActivityStreamExpandYourBusinessTriageDataSerializer(triage_data, many=True).data,
+            self._build_after(request, triage_data[-1]['id']) if triage_data else None,
         )

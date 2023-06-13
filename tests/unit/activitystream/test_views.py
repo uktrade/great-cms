@@ -431,3 +431,25 @@ def test_activity_stream_ukea_views(api_client, resource, factory, expected_coun
 
     assert response.status_code == 200
     assert response.json() == EMPTY_COLLECTION
+
+
+@pytest.mark.parametrize(
+    'resource,expected_count',
+    (
+        ('triages', 0),
+        ('users', 0),
+    ),
+)
+@pytest.mark.django_db
+def test_activity_stream_eyb_views(api_client, resource, expected_count):
+    url = 'http://testserver' + reverse(f'activitystream:eyb-{resource}')
+    sender = auth_sender(url=url)
+    response = api_client.get(
+        url,
+        content_type='',
+        HTTP_AUTHORIZATION=sender.request_header,
+        HTTP_X_FORWARDED_FOR='1.2.3.4, 123.123.123.123',
+    )
+
+    assert response.status_code == 200
+    assert response.json() == EMPTY_COLLECTION
