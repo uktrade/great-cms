@@ -31,4 +31,14 @@ urlpatterns = [
         skip_ga360(activitystream.views.ExportAcademyBookingActivityStreamView.as_view()),
         name='ukea-bookings',
     ),
+    path(
+        'eyb-triages/',
+        skip_ga360(activitystream.views.ActivityStreamExpandYourBusinessTriageDataViewSet.as_view()),
+        name='eyb-triages',
+    ),
+    path(
+        'eyb-users/',
+        skip_ga360(activitystream.views.ActivityStreamExpandYourBusinessUserDataViewSet.as_view()),
+        name='eyb-users',
+    ),
 ]

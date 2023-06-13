@@ -289,44 +289,6 @@ def test_ukea_event_serializer():
 
 
 @pytest.mark.django_db
-def test_eyb_user_serializer():
-    instance = UserData()
-    instance.id = 123
-    instance.hashed_uuid = '456'
-    instance.company_name = 'DBT'
-    instance.company_location = 'UK'
-    instance.full_name = 'Name'
-    instance.role = 'Director'
-    instance.email = 'email@email.com'
-    instance.telephone_number = '07123567896'
-    instance.agree_terms = True
-    instance.agree_info_email = False
-    instance.agree_info_telephone = False
-
-    serializer = ActivityStreamExpandYourBusinessUserDataSerializer()
-
-    output = serializer.to_representation(instance)
-    assert output == {
-        'id': f'dit:expandYourBusiness:userData:{instance.id}:Update',
-        'type': 'Update',
-        'object': {
-            'id': f'dit:expandYourBusiness:userData:{instance.id}',
-            'type': 'dit:expandYourBusiness:userData',
-            'hashedUuid': instance.hashed_uuid,
-            'companyName': instance.hashed_uuid,
-            'companyLocation': instance.company_location,
-            'fullName': instance.full_name,
-            'role': instance.role,
-            'email': instance.email,
-            'telephoneNumber': instance.telephone_number,
-            'agreeTerms': instance.agree_terms,
-            'agreeInfoEmail': instance.agree_info_email,
-            'agreeInfoTelephone': instance.agree_info_telephone,
-        },
-    }
-
-
-@pytest.mark.django_db
 def test_ukea_booking_serializer():
     instance = BookingFactory()
 
@@ -350,13 +312,52 @@ def test_ukea_booking_serializer():
 
 
 @pytest.mark.django_db
+def test_eyb_user_serializer():
+    instance = UserData()
+    instance.id = 123
+    instance.hashed_uuid = '456'
+    instance.company_name = 'DBT'
+    instance.company_location = 'UK'
+    instance.full_name = 'Name'
+    instance.role = 'Director'
+    instance.email = 'email@email.com'
+    instance.telephone_number = '07123567896'
+    instance.agree_terms = True
+    instance.agree_info_email = False
+    instance.agree_info_telephone = False
+
+    serializer = ActivityStreamExpandYourBusinessUserDataSerializer()
+
+    output = serializer.to_representation(instance)
+    expected = {
+        'id': f'dit:expandYourBusiness:userData:{instance.id}:Update',
+        'type': 'Update',
+        'object': {
+            'id': instance.id,
+            'type': 'dit:expandYourBusiness:userData',
+            'hashedUuid': instance.hashed_uuid,
+            'companyName': instance.company_name,
+            'companyLocation': instance.company_location,
+            'fullName': instance.full_name,
+            'role': instance.role,
+            'email': instance.email,
+            'telephoneNumber': instance.telephone_number,
+            'agreeTerms': instance.agree_terms,
+            'agreeInfoEmail': instance.agree_info_email,
+            'agreeInfoTelephone': instance.agree_info_telephone,
+        },
+    }
+    assert output == expected
+
+
+@pytest.mark.django_db
 def test_eyb_triage_serializer():
     instance = TriageData()
 
     instance.id = 123
     instance.hashed_uuid = '456'
     instance.sector = 'FOOD_AND_DRINK'
-    instance.intent = 'SET_UP_NEW_PREMISES'
+    instance.intent = [['SET_UP_NEW_PREMISES']]
     instance.intent_other = 'OTHER'
     instance.location = 'WALES'
     instance.location_none = True
@@ -367,12 +368,11 @@ def test_eyb_triage_serializer():
 
     serializer = ActivityStreamExpandYourBusinessTriageDataSerializer()
     output = serializer.to_representation(instance)
-
-    assert output == {
+    expected = {
         'id': f'dit:expandYourBusiness:triageData:{instance.id}:Update',
         'type': 'Update',
         'object': {
-            'id': f'dit:expandYourBusiness:triageData:{instance.id}',
+            'id': instance.id,
             'type': 'dit:expandYourBusiness:triageData',
             'hashedUuid': instance.hashed_uuid,
             'sector': instance.sector,
@@ -386,3 +386,4 @@ def test_eyb_triage_serializer():
             'isHighValue': instance.is_high_value,
         },
     }
+    assert output == expected
