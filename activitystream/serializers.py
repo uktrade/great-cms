@@ -178,14 +178,14 @@ class ActivityStreamExpandYourBusinessUserDataSerializer(serializers.ModelSerial
     - Adds the required prefix to field names
     """
 
-    hashedUuid = serializers.CharField(source='hashed_uuid')
-    companyName = serializers.CharField(source='company_name')
-    companyLocation = serializers.CharField(source='company_location')
-    fullName = serializers.CharField(source='full_name')
-    telephoneNumber = serializers.CharField(source='telephone_number')
-    agreeTerms = serializers.BooleanField(source='agree_terms')
-    agreeInfoEmail = serializers.BooleanField(source='agree_info_email')
-    agreeInfoTelephone = serializers.BooleanField(source='agree_info_telephone')
+    hashedUuid = serializers.CharField(source='hashed_uuid')  # noqa: N815
+    companyName = serializers.CharField(source='company_name')  # noqa: N815
+    companyLocation = serializers.CharField(source='company_location')  # noqa: N815
+    fullName = serializers.CharField(source='full_name')  # noqa: N815
+    telephoneNumber = serializers.CharField(source='telephone_number')  # noqa: N815
+    agreeTerms = serializers.BooleanField(source='agree_terms')  # noqa: N815
+    agreeInfoEmail = serializers.BooleanField(source='agree_info_email')  # noqa: N815
+    agreeInfoTelephone = serializers.BooleanField(source='agree_info_telephone')  # noqa: N815
 
     class Meta:
         model = UserData
@@ -229,11 +229,11 @@ class ActivityStreamExpandYourBusinessTriageDataSerializer(serializers.ModelSeri
     - Adds the required prefix to field names
     """
 
-    hashedUuid = serializers.CharField(source='hashed_uuid')
-    intentOther = serializers.CharField(source='intent_other')
-    locationNone = serializers.BooleanField(source='location_none')
-    spendOther = serializers.CharField(source='spend_other')
-    isHighValue = serializers.BooleanField(source='is_high_value')
+    hashedUuid = serializers.CharField(source='hashed_uuid')  # noqa: N815
+    intentOther = serializers.CharField(source='intent_other')  # noqa: N815
+    locationNone = serializers.BooleanField(source='location_none')  # noqa: N815
+    spendOther = serializers.CharField(source='spend_other')  # noqa: N815
+    isHighValue = serializers.BooleanField(source='is_high_value')  # noqa: N815
 
     class Meta:
         model = TriageData
