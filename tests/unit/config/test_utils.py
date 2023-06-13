@@ -38,12 +38,24 @@ from config.utils import get_wagtail_transfer_configuration
                     'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_PRODUCTION',
                     'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_PRODUCTION',
                 },
+                'uat': {
+                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_UAT',
+                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_UAT',
+                },
+                'dev': {
+                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_DEV',
+                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_DEV',
+                },
             },
         ),
         (
             'dev',  # can pull from UAT or staging
             False,
             {
+                'production': {
+                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_PRODUCTION',
+                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_PRODUCTION',
+                },
                 'uat': {
                     'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_UAT',
                     'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_UAT',
@@ -88,6 +100,14 @@ from config.utils import get_wagtail_transfer_configuration
                 'production': {
                     'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_PRODUCTION',
                     'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_PRODUCTION',
+                },
+                'uat': {
+                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_UAT',
+                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_UAT',
+                },
+                'dev': {
+                    'BASE_URL': 'value_of_WAGTAILTRANSFER_BASE_URL_DEV',
+                    'SECRET_KEY': 'value_of_WAGTAILTRANSFER_SECRET_KEY_DEV',
                 },
             },
         ),

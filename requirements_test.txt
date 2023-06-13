@@ -470,7 +470,7 @@ pluggy==1.0.0
     #   pytest
 polib==1.2.0
     # via wagtail-localize
-pre-commit==3.3.2
+pre-commit==3.3.3
     # via -r requirements_test.in
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
