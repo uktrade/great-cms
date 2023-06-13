@@ -23,7 +23,7 @@
                 {%if available_languages|length == 2%}
             <ul class="mobile-single-language-toggle">
             {%for language in available_languages%}
-                {%if current_language == language.language_code %}
+                {%if current_language != language.language_code %}
                     <li><a href="?lang={{language.language_code}}">{{language.display_name}}</a></li>
                     {%endif%}
 
