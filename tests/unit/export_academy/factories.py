@@ -5,7 +5,13 @@ import wagtail_factories
 from django.utils import timezone
 
 from core.models import GreatMedia
-from export_academy.models import Booking, Event, ExportAcademyHomePage, Registration
+from export_academy.models import (
+    Booking,
+    Event,
+    EventTypeTag,
+    ExportAcademyHomePage,
+    Registration,
+)
 
 
 class GreatMediaFactory(wagtail_factories.DocumentFactory):
@@ -63,3 +69,11 @@ class ExportAcademyHomePageFactory(wagtail_factories.PageFactory):
 
     class Meta:
         model = ExportAcademyHomePage
+
+
+class EventTypeTagFactory(factory.django.DjangoModelFactory):
+    name = 'Essentials'
+    slug = 'essentials'
+
+    class Meta:
+        model = EventTypeTag

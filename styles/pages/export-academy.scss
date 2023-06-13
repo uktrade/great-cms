@@ -235,3 +235,20 @@
         }
     }
 }
+
+.ea-filter-summary::after {
+    content: "";
+    display: block;
+    border-bottom: solid 4px $color-thematic-break;
+    padding-bottom: 30px;
+}
+
+.ea-filter-summary,
+.ea-filters-no-results {
+
+    >p,
+    a {
+        font-size: 20px;
+        line-height: 20px;
+    }
+}

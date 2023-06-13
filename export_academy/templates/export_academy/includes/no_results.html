@@ -1,0 +1,12 @@
+{% load event_list_buttons %}
+<div class="ea-filters-no-results govuk-!-margin-left-3 govuk-!-margin-top-5">
+    {% all_booking_periods_showing request.GET as all_booking_periods_showing %}
+    {% if all_booking_periods_showing %}
+        <p>There are currently no events available for the filters you have chosen.</p>
+        <p>Remove one or more of your filter choices to broaden your search.</p>
+    {% elif request.GET.booking_period == 'upcoming' %}
+        <p>You do not currently have any events booked.</p>
+    {% elif request.GET.booking_period == 'past' %}
+        <p>You do not have any past events to display.</p>
+    {% endif %}
+</div>
