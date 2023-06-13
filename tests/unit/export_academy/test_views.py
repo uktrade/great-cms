@@ -273,7 +273,7 @@ def test_export_academy_registration_success(
         {'completed': datetime.now()},
     )
 
-    booking = Booking.objects.get(event_id=event.id, registration_id=user.email)
+    booking = Booking.objects.get(event_id=event.id, registration__email=user.email)
 
     assert response.status_code == 302
     assert response.url == reverse('export_academy:registration-success', kwargs={'booking_id': booking.id})

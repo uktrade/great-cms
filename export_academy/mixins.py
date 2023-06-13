@@ -9,9 +9,8 @@ from export_academy.models import Registration
 
 class BookingMixin(GovNotifyEmailActionMixin):
     def register_booking(self, data):
-        booking_data = dict(
-            event_id=data['event_id'], registration_id=self.request.user.email, defaults={'status': data['status']}
-        )
+        registration = Registration.objects.get(email=self.request.user.email)
+        booking_data = dict(event_id=data['event_id'], registration=registration, defaults={'status': data['status']})
         booking_object, _created = self.get_or_save_object(booking_data)
         return booking_object
 
