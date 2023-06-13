@@ -482,3 +482,19 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
             [language['language_code'] for language in current_page.available_languages],
             ['en-gb', 'fr'],
         )
+
+    def test_get_language_default_value(self):
+        settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE = False
+        request = self.client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        current_page = view.request.context_data['view']
+        self.assertEqual(current_page.current_language, 'en-gb')
+        self.assertEqual([language['language_code'] for language in current_page.available_languages], ['en-gb'])
+        settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE = True
+
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'page_that_does_not_exist'})
+        request = self.client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        current_page = view.request.context_data['view'].current_page
+        self.assertEqual(current_page.current_language, 'en-gb')
+        self.assertEqual([language['language_code'] for language in current_page.available_languages], ['en-gb'])
