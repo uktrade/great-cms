@@ -3,7 +3,7 @@ from unittest import mock
 
 import pytest
 from django.conf import settings
-from django.test import Client, TestCase
+from django.test import Client, TestCase, override_settings
 from django.urls import reverse, reverse_lazy
 from wagtail.models import Locale
 from wagtail.test.utils import WagtailPageTests
@@ -477,12 +477,11 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
             ['en-gb', 'fr'],
         )
 
+    @override_settings(FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE=False)
     def test_get_language_default_value(self):
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
-        settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE = False
         request = self.client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
         current_page = view.request.context_data['view']
         self.assertEqual(current_page.current_language, 'en-gb')
         self.assertEqual([language['language_code'] for language in current_page.available_languages], ['en-gb'])
-        settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE = True
