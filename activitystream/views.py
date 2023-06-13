@@ -27,8 +27,6 @@ from domestic.models import ArticlePage, CountryGuidePage
 from export_academy.models import Booking, Event
 from international_online_offer.models import TriageData, UserData
 
-MAX_PER_PAGE = 25
-
 
 class ActivityStreamView(ListAPIView):
     """List-only view set to publish CMS content to the ActivityStream service"""
