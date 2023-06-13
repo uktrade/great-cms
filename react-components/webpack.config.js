@@ -9,7 +9,7 @@ module.exports = {
     magna: './react-components/src/bundle.js',
     magna_styles: './core/sass/main.scss',
     common: './core/js/common.js',
-    wagtail: './core/js/wagtail.js',
+    largevideoupload: './core/js/largevideoupload.js',
     loggedout_styles: './domestic/sass/main.scss',
     components: './react-components/src/bundle-components.js',
     components_styles:
