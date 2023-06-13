@@ -1,18 +1,26 @@
 {% include 'microsites/includes/microsite_header.html' with use_domestic_logo=use_domestic_logo %}
 {% load wagtailcore_tags %}
+<<<<<<< HEAD
 {% load persist_language from component_tags %}
+=======
+{% load i18n %}
+{% get_current_language as current_language %}
+{% get_language_info for current_language as lang_info %}
+
+>>>>>>> a4a564718 (fix test)
 <section class="microsite-nav-container">
+
     <div>
         <div>
             <div class="mobile-nav-buttons">
-             {% include 'microsites/includes/microsite_language_mobile_menu.html' with current_language=current_language available_languages=available_languages %}
-                {% include 'microsites/includes/microsite_menu_button.html' with menu_items=page.get_menu_items active_url=active_url %}
+                {% include 'microsites/includes/microsite_language_mobile_menu.html' with current_language=current_language available_languages=available_languages rtl_language=lang_info.bidi%}
+                {% include 'microsites/includes/microsite_menu_button.html' with menu_items=page.get_menu_items active_url=active_url rtl_language=lang_info.bidi %}
             </div>
-               <div>
+                <div>
                 <img src="/static/images/great-logo.svg"/>
             </div>
             <h3>{{ title }}</h3>
-             {%if available_languages|length == 2%}
+                {%if available_languages|length == 2%}
             <ul class="mobile-single-language-toggle">
             {%for language in available_languages%}
                 {%if current_language == language.language_code %}

@@ -75,6 +75,7 @@ $menu-border: 5px solid $color-alternative-text;
       }
       @media only screen and (max-width: $mobile-size) {
         display: grid;
+        padding-left: 0;
       }
       .magna-header__menu-items {
         padding: 0px;
@@ -87,6 +88,10 @@ $menu-border: 5px solid $color-alternative-text;
           a {
             font-size: $font-size-button;
             padding-left: govuk-spacing(4);
+            &.rtl {
+              margin-right: 8px;
+              padding-right: 10px;
+            }
             @media only screen and (max-width: $mobile-size) {
               padding-left: govuk-spacing(2);
             }
@@ -103,6 +108,10 @@ $menu-border: 5px solid $color-alternative-text;
             &:hover {
               color: $color-alternative-text;
               border-left: $menu-border;
+              &.rtl {
+                border-left: none;
+                border-right: $menu-border;
+              }
             }
           }
         }
@@ -178,7 +187,7 @@ $menu-border: 5px solid $color-alternative-text;
         a {
           text-decoration: underline;
           text-underline-offset: 5px;
-          text-decoration-thickness: 5px;
+          text-decoration-thickness: 3px;
         }
       }
     }
@@ -223,7 +232,7 @@ $menu-border: 5px solid $color-alternative-text;
 
   .language_button {
     &:not(:active):not(:hover):not(:focus) {
-      border: none;
+      border: 2px solid transparent;
     }
     i {
       pointer-events: none;

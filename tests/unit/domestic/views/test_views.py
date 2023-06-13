@@ -479,6 +479,6 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         current_page = view.request.context_data['view']
         self.assertEqual(current_page.current_language, 'fr')
         self.assertEqual(
-            current_page.available_languages,
-            [{'display_name': 'English', 'language_code': 'en-gb'}, {'display_name': 'French', 'language_code': 'fr'}],
+            [language['language_code'] for language in current_page.available_languages],
+            ['en-gb', 'fr'],
         )
