@@ -84,24 +84,19 @@ class CampaignView(BaseNotifyUserFormView):
             'available_languages': [{'language_code': 'en-gb', 'display_name': 'English'}],
             'current_language': 'en-gb',
         }
-        if self.page_slug is None:
-            return default_value
-        try:
-            if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
-                current_language_code = get_language()
-                return {
-                    'available_languages': [
-                        {
-                            'language_code': Locale.objects.get(id=page.locale_id).language_code,
-                            'display_name': Locale.objects.get(id=page.locale_id),
-                        }
-                        for page in self.page_class.objects.live().filter(slug=self.page_slug)
-                    ],
-                    'current_language': current_language_code,
-                }
-        except ObjectDoesNotExist:
-            return default_value
 
+        if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
+            current_language_code = get_language()
+            return {
+                'available_languages': [
+                    {
+                        'language_code': Locale.objects.get(id=page.locale_id).language_code,
+                        'display_name': Locale.objects.get(id=page.locale_id),
+                    }
+                    for page in self.page_class.objects.live().filter(slug=self.page_slug)
+                ],
+                'current_language': current_language_code,
+            }
         return default_value
 
     def setup(self, request, *args, **kwargs):
@@ -110,8 +105,8 @@ class CampaignView(BaseNotifyUserFormView):
         self.success_url = self.get_success_url()
         self.path = request.path
         self.current_page = self.get_current_page()
-        self.available_languages = self.get_languages()['available_languages']
-        self.current_language = self.get_languages()['current_language']
+        self.available_languages = self.get_languages()['available_languages'] if self.current_page else None
+        self.current_language = self.get_languages()['current_language'] if self.current_page else None
         self.form_config = self.get_form_value() if self.current_page else None
         self.form_type = self.form_config['type'] if self.form_config else None
         self.email_title = self.form_config['email_title'] if self.form_type else None

@@ -491,5 +491,5 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         request = self.client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
         current_page = view.request.context_data['view'].current_page
-        self.assertEqual(current_page.current_language, 'en-gb')
-        self.assertEqual([language['language_code'] for language in current_page.available_languages], ['en-gb'])
+        self.assertIsNone(current_page.current_language)
+        self.assertIsNone(current_page.available_languages)
