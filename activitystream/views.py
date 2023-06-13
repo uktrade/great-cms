@@ -219,7 +219,7 @@ class ActivityStreamExpandYourBusinessUserDataViewSet(BaseActivityStreamView):
     @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
     def list(self, request):
         """A single page of expand your business users to be consumed by activity stream."""
-        after_id = self._parse_after(request)
+        _after_ts, after_id = self._parse_after(request)
 
         users = list(UserData.objects.filter(id__gt=after_id).order_by('id')[: self.MAX_PER_PAGE])
 
@@ -235,7 +235,7 @@ class ActivityStreamExpandYourBusinessTriageDataViewSet(BaseActivityStreamView):
     @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
     def list(self, request):
         """A single page of expand your business triage data to be consumed by activity stream."""
-        after_id = self._parse_after(request)
+        _after_ts, after_id = self._parse_after(request)
 
         triage_data = list(TriageData.objects.filter(id__gt=after_id).order_by('id')[: self.MAX_PER_PAGE])
 
