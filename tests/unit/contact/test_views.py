@@ -1498,6 +1498,24 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
                 'sector_primary': 'Choose a sector',
             },
         ),
+        (
+            reverse('contact:export-support-step-3'),
+            {
+                'first_name': 'Test',
+                'last_name': 'Name',
+                'job_title': 'Test job title',
+                'uk_telephone_number': '07171771717',
+                'email': 'name@example.com',
+            },
+            reverse('contact:export-support-step-4'),
+            {
+                'first_name': 'Enter your first name',
+                'last_name': 'Enter your last name',
+                'job_title': 'Enter your job title',
+                'uk_telephone_number': 'Enter your telephone number',
+                'email': 'Enter an email address in the correct format, like name@example.com',
+            },
+        ),
     ),
 )
 @pytest.mark.django_db

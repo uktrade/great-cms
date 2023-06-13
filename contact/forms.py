@@ -240,6 +240,37 @@ class DomesticExportSupportStep3Form(forms.Form):
             'required': 'Enter your first name',
         },
     )
+    last_name = forms.CharField(
+        label='Last name',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
+        error_messages={
+            'required': 'Enter your last name',
+        },
+    )
+    job_title = forms.CharField(
+        label='Job title',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
+        error_messages={
+            'required': 'Enter your job title',
+        },
+    )
+    uk_telephone_number = forms.CharField(
+        label='UK telephone number',
+        help_text='This can be a landline or mobile number.',
+        min_length=8,
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
+        error_messages={
+            'required': 'Enter your telephone number',
+        },
+    )
+    email = forms.EmailField(
+        label='Email address',
+        widget=django_widgets.EmailInput(attrs={'class': 'govuk-input great-text-input'}),
+        error_messages={
+            'required': 'Enter an email address in the correct format, like name@example.com',
+            'invalid': 'Enter an email address in the correct format, like name@example.com',
+        },
+    )
 
 
 class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):

@@ -800,6 +800,36 @@ def test_selling_online_overseas_contact_details_form__editable_fields():
                 'sector_primary': 'Choose a sector',
             },
         ),
+        (
+            forms.DomesticExportSupportStep3Form,
+            {
+                'first_name': 'Test',
+                'last_name': 'Name',
+                'job_title': 'Test job title',
+                'uk_telephone_number': '07171771717',
+                'email': 'name@example.com',
+            },
+            True,
+            {},
+        ),
+        (
+            forms.DomesticExportSupportStep3Form,
+            {
+                'first_name': '',
+                'last_name': '',
+                'job_title': '',
+                'uk_telephone_number': '',
+                'email': '',
+            },
+            False,
+            {
+                'first_name': 'Enter your first name',
+                'last_name': 'Enter your last name',
+                'job_title': 'Enter your job title',
+                'uk_telephone_number': 'Enter your telephone number',
+                'email': 'Enter an email address in the correct format, like name@example.com',
+            },
+        ),
     ),
 )
 @pytest.mark.django_db
