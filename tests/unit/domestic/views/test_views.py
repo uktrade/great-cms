@@ -403,25 +403,22 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         )
 
     def test_get_form_class_is_short(self):
-        client = Client()
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
-        request = client.get(url)
+        request = self.client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
         form_class = view.request.context_data['view'].get_form_class()
         self.assertEqual(form_class, CampaignShortForm)
 
     def test_get_form_class_is_none(self):
-        client = Client()
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-two'})
-        request = client.get(url)
+        request = self.client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
         form_class = view.request.context_data['view'].get_form_class()
         self.assertEqual(form_class, None)
 
     def test_get_form_class_is_long(self):
-        client = Client()
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-three'})
-        request = client.get(url)
+        request = self.client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
         form_class = view.request.context_data['view'].get_form_class()
         self.assertEqual(form_class, CampaignLongForm)
@@ -435,17 +432,15 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         assert response.status_code == 200
 
     def test_no_page_slug(self):
-        client = Client()
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': None})
-        request = client.get(url)
+        request = self.client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
         current_page = view.request.context_data['view'].current_page
         self.assertEqual(current_page, None)
 
     def test_page_does_not_exist(self):
-        client = Client()
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'page_that_does_not_exist'})
-        request = client.get(url)
+        request = self.client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
         current_page = view.request.context_data['view'].current_page
         self.assertEqual(current_page, None)
@@ -453,9 +448,8 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
     def test_get_current_page(self):
         self.listing_page = ArticleListingPageFactory(slug='test-listing', title='test', landing_page_title='test')
         ArticlePageFactory(slug='test-article-one', parent=self.listing_page, article_title='test')
-        client = Client()
         url = '/campaigns/test-article-one/'
-        request = client.get(url)
+        request = self.client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
         path = view.request.context_data['view'].path
         current_page = view.request.context_data['view'].current_page
@@ -484,6 +478,7 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         )
 
     def test_get_language_default_value(self):
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
         settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE = False
         request = self.client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
