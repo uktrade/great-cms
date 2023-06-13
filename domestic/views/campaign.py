@@ -5,7 +5,6 @@ from django.utils.http import urlencode
 from django.utils.translation import get_language
 from wagtail.models import Locale
 
-from config.settings import FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE
 from contact.views import BaseNotifyUserFormView
 from core.datastructures import NotifySettings
 from core.models import MicrositePage
@@ -38,7 +37,7 @@ class CampaignView(BaseNotifyUserFormView):
         if self.page_slug is None:
             return None
         try:
-            if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
+            if settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
                 from config.settings import LANGUAGE_CODE
 
                 current_language_code = get_language()
@@ -85,7 +84,7 @@ class CampaignView(BaseNotifyUserFormView):
             'current_language': 'en-gb',
         }
 
-        if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
+        if settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
             current_language_code = get_language()
             return {
                 'available_languages': [
@@ -148,7 +147,7 @@ class MicrositeView(CampaignView):
     streamfield_name = 'page_body'
 
     def get_success_url(self):
-        if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
+        if settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
             self.success_url_path += f'&lang={get_language()}'
 
         return self.success_url_path
