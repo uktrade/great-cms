@@ -1,0 +1,35 @@
+FROM python:3.9.2
+
+### 1. Set environment variables
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV DOCKERIZE_VERSION v0.6.1
+
+### 2. Setup GDAL
+RUN apt-get update &&\
+    apt-get -y install gettext ;\
+    apt-get -y  install httpie; \
+    apt-get install -y binutils libproj-dev gdal-bin python3-gdal
+
+
+### 3. Add dockerize to allow waiting for the DB to load.
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
+### 4. Create working directory
+RUN mkdir /app
+COPY . /app/
+WORKDIR /app
+
+### 5. Install packages
+RUN set -e; \
+    /usr/local/bin/python -m pip install --upgrade pip ;\
+    python -m pip install pip-tools ;
+RUN set -e; \
+    pip-compile requirements.in ;\
+	pip-compile requirements_test.in ;\
+    python -m pip install -r /app/requirements_test.txt ;
+
+### 6. Expose port
+EXPOSE 8020
