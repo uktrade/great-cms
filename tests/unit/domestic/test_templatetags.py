@@ -16,6 +16,7 @@ from domestic.templatetags.component_tags import (
     get_projected_or_actual,
     industry_accordion_case_study_is_viable,
     industry_accordion_is_viable,
+    persist_language
 )
 from tests.unit.export_academy.factories import EventFactory
 
@@ -490,3 +491,12 @@ def test_append_past_year_seperator():
     ]
     filtered_objects = append_past_year_seperator(objects)
     assert [x.past_year_seperator for x in filtered_objects] == [None, '2023', None, '2022']
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'url, language, expected_output',
+    (('http://dummy.com', 'fr', 'http://dummy.com?lang=fr'), ('http://dummy.com', None, 'http://dummy.com')),
+)
+def test_persist_language(url, language, expected_output):
+    assert persist_language(url, language) == expected_output
