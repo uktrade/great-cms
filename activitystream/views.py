@@ -21,10 +21,11 @@ from activitystream.serializers import (
     ActivityStreamExpandYourBusinessUserDataSerializer,
     ExportAcademyBookingSerializer,
     ExportAcademyEventSerializer,
+    ExportAcademyRegistrationSerializer,
     PageSerializer,
 )
 from domestic.models import ArticlePage, CountryGuidePage
-from export_academy.models import Booking, Event
+from export_academy.models import Booking, Event, Registration
 from international_online_offer.models import TriageData, UserData
 
 
@@ -195,6 +196,23 @@ class ExportAcademyEventActivityStreamView(BaseActivityStreamView):
         return self._generate_response(
             ExportAcademyEventSerializer(events, many=True).data,
             self._build_after(request, events[-1].modified, events[-1].id) if events else None,
+        )
+
+
+class ExportAcademyRegistrationActivityStreamView(BaseActivityStreamView):
+    @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
+    def list(self, request):
+        """A single page of registrations to be consumed by activity stream."""
+        after_ts, after_id = self._parse_after(request)
+        registrations = list(
+            Registration.objects.filter(modified=after_ts, id__gt=after_id).order_by('modified', 'id')[
+                : self.MAX_PER_PAGE
+            ]
+        )
+
+        return self._generate_response(
+            ExportAcademyRegistrationSerializer(registrations, many=True).data,
+            self._build_after(request, registrations[-1].modified, registrations[-1].id) if registrations else None,
         )
 
 
