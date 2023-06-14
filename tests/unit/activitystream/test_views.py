@@ -13,7 +13,11 @@ from rest_framework.test import APIClient
 
 from tests.unit.core.factories import IndustryTagFactory
 from tests.unit.domestic.factories import ArticlePageFactory, CountryGuidePageFactory
-from tests.unit.export_academy.factories import BookingFactory, EventFactory
+from tests.unit.export_academy.factories import (
+    BookingFactory,
+    EventFactory,
+    RegistrationFactory,
+)
 
 URL = 'http://testserver' + reverse('activitystream:cms-content')
 URL_INCORRECT_DOMAIN = 'http://incorrect' + reverse('activitystream:cms-content')
@@ -413,10 +417,7 @@ def test_search_test_api_view__disabled(client):
 
 @pytest.mark.parametrize(
     'resource,factory,expected_count',
-    (
-        ('events', EventFactory, 0),
-        ('bookings', BookingFactory, 0),
-    ),
+    (('events', EventFactory, 0), ('bookings', BookingFactory, 0), ('registrations', RegistrationFactory, 0)),
 )
 @pytest.mark.django_db
 def test_activity_stream_ukea_views(api_client, resource, factory, expected_count):
