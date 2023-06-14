@@ -2,6 +2,7 @@
 {% load wagtailimages_tags %}
 {% load i18n %}
 {% load add_govuk_classes from content_tags %}
+{% load persist_language from component_tags %}
 {% load get_template_translation_enabled from content_tags %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
 
@@ -17,7 +18,7 @@
         {{ item.value.text }}
     {% endfilter %}
     {%if item.value.button_url%}
-        <a href="{{ item.value.button_url }}" class="govuk-button">
+        <a href="{% persist_language item.value.button_url request.GET.lang %}" class="govuk-button">
             {% comment %} I'm assuming this will change but including for completeness {% endcomment %}
             {% if TRANSLATE_TEXT %}
                 {% translate item.value.button_label %}

@@ -269,3 +269,10 @@ def append_past_year_seperator(events):
             event.past_year_seperator = None
 
     return events
+
+
+@register.filter
+def persist_language(url, language=None):
+    if language:
+        return f'{url}?lang={language}'
+    return url
