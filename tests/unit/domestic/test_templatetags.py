@@ -16,7 +16,7 @@ from domestic.templatetags.component_tags import (
     get_projected_or_actual,
     industry_accordion_case_study_is_viable,
     industry_accordion_is_viable,
-    persist_language
+    persist_language,
 )
 from tests.unit.export_academy.factories import EventFactory
 
