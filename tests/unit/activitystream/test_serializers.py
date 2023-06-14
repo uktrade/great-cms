@@ -10,11 +10,16 @@ from activitystream.serializers import (
     CountryGuidePageSerializer,
     ExportAcademyBookingSerializer,
     ExportAcademyEventSerializer,
+    ExportAcademyRegistrationSerializer,
 )
 from domestic.models import ArticlePage
 from international_online_offer.models import TriageData, UserData
 from tests.unit.domestic.factories import ArticlePageFactory, CountryGuidePageFactory
-from tests.unit.export_academy.factories import BookingFactory, EventFactory
+from tests.unit.export_academy.factories import (
+    BookingFactory,
+    EventFactory,
+    RegistrationFactory,
+)
 
 
 @pytest.mark.django_db
@@ -284,6 +289,30 @@ def test_ukea_event_serializer():
             'startDate': instance.start_date.isoformat(),
             'timezone': instance.timezone,
             'types': [type.name for type in instance.types.all()],
+        },
+    }
+
+
+@pytest.mark.django_db
+def test_ukea_registration_serializer():
+    instance = RegistrationFactory()
+
+    serializer = ExportAcademyRegistrationSerializer()
+
+    output = serializer.to_representation(instance)
+    assert output == {
+        'id': f'dit:exportAcademy:registration:{instance.id}:Update',
+        'type': 'Update',
+        'published': instance.modified.isoformat(),
+        'object': {
+            'id': f'dit:exportAcademy:registration:{instance.id}',
+            'type': 'dit:exportAcademy:registration',
+            'created': instance.created.isoformat(),
+            'modified': instance.modified.isoformat(),
+            'email': instance.email,
+            'firstName': instance.first_name,
+            'lastName': instance.last_name,
+            'data': instance.data,
         },
     }
 

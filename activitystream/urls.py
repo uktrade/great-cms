@@ -27,6 +27,11 @@ urlpatterns = [
         name='ukea-events',
     ),
     path(
+        'ukea-registrations/',
+        skip_ga360(activitystream.views.ExportAcademyRegistrationActivityStreamView.as_view()),
+        name='ukea-registrations',
+    ),
+    path(
         'ukea-bookings/',
         skip_ga360(activitystream.views.ExportAcademyBookingActivityStreamView.as_view()),
         name='ukea-bookings',
