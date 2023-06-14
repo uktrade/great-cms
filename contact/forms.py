@@ -303,6 +303,24 @@ class DomesticExportSupportStep4Form(forms.Form):
     )
 
 
+class DomesticExportSupportStep5Form(forms.Form):
+    search = forms.CharField(
+        label='Search the list',
+        widget=django_widgets.TextInput(
+            attrs={'class': 'govuk-input great-text-input', 'placeholder': 'Search the list'}
+        ),
+        required=False,
+    )
+    markets = forms.ChoiceField(
+        label='Select all markets that apply',
+        widget=contact_widgets.GreatCheckboxes,
+        choices=COUNTRY_CHOICES + [('notspecificcountry', 'My query is not related to a specific country')],
+        error_messages={
+            'required': 'Enter a market',
+        },
+    )
+
+
 class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
     EMPLOYEES_NUMBER_CHOICES = (
         ('1-9', '1 to 9'),
