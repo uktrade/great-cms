@@ -26,3 +26,8 @@ class UserDataSerializer(serializers.Serializer):
 class UserProductsSerializer(serializers.Serializer):
     commodity_name = serializers.CharField(validators=[no_html])
     commodity_code = serializers.CharField(validators=[no_html])
+
+
+class QuestionnaireSerializer(serializers.Serializer):
+    questionId = serializers.IntegerField()
+    answer = serializers.CharField()

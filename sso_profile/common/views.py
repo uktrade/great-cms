@@ -2,6 +2,7 @@ import requests
 from directory_ch_client.client import ch_search_api_client
 from django.conf import settings
 from django.views.generic import RedirectView, TemplateView
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from requests.auth import HTTPBasicAuth
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -9,6 +10,11 @@ from rest_framework.response import Response
 from sso_profile.common import serializers
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(name='term', description='Term', required=True, type=str),
+    ]
+)
 class CompaniesHouseSearchAPIView(GenericAPIView):
     serializer_class = serializers.CompaniesHouseSearchSerializer
     permission_classes = []
@@ -22,6 +28,11 @@ class CompaniesHouseSearchAPIView(GenericAPIView):
         return Response(response.json()['items'])
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(name='postcode', description='Postcode', required=True, type=str),
+    ],
+)
 class AddressSearchAPIView(GenericAPIView):
     serializer_class = serializers.AddressSearchSerializer
     permission_classes = []

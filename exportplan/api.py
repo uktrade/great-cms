@@ -1,6 +1,7 @@
 import importlib
 import re
 
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
@@ -11,6 +12,11 @@ from exportplan.core import helpers, serializers
 from exportplan.core.processor import ExportPlanProcessor
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(name='countries', description='Countries (comma separated)', required=True, type=str),
+    ],
+)
 class ExportPlanSocietyDataByCountryView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -91,6 +97,11 @@ class DeleteExportPlanAPIView(generics.GenericAPIView):
         return Response(data)
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(name='model_name', description='Model Name', required=True, type=str),
+    ],
+)
 class ModelObjectManageAPIView(generics.UpdateAPIView, generics.GenericAPIView):
     serializer_name_map = {
         'businesstrips': 'BusinessTrips',
