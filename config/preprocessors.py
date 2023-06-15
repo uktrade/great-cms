@@ -7,6 +7,6 @@ def preprocessing_filter_admin_spec(endpoints):
     filtered = []
     for path, path_regex, method, callback in endpoints:
         # Remove all Wagtail admin endpoints
-        if not path.startswith("/admin/"):
+        if not path.startswith('/admin/'):
             filtered.append((path, path_regex, method, callback))
     return filtered

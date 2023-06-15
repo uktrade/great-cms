@@ -29,5 +29,5 @@ class UserProductsSerializer(serializers.Serializer):
 
 
 class QuestionnaireSerializer(serializers.Serializer):
-    questionId = serializers.IntegerField()
+    question_id = serializers.IntegerField()
     answer = serializers.CharField()

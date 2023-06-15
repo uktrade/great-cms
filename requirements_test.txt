@@ -76,7 +76,7 @@ brotli==1.0.9
     # via geventhttpclient
 browserstack-local==1.2.5
     # via browserstack-sdk
-browserstack-sdk==1.10.0
+browserstack-sdk==1.10.1
     # via -r requirements_test.in
 build==0.10.0
     # via pip-tools

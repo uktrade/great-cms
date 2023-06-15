@@ -955,12 +955,12 @@ EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES = env.int('EXPORT_ACADEMY_AUT
 EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_AFTER_DAYS = env.int('EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_AFTER_DAYS', 14)
 
 # OpenAPI
-FEATURE_GREAT_CMS_OPENAPI_ENABLED = env.bool("FEATURE_GREAT_CMS_OPENAPI_ENABLED", False)
+FEATURE_GREAT_CMS_OPENAPI_ENABLED = env.bool('FEATURE_GREAT_CMS_OPENAPI_ENABLED', False)
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Great CMS API',
     'DESCRIPTION': 'Great CMS API - the Department for Business and Trade (DBT)',
     'VERSION': os.environ.get('GIT_TAG', 'dev'),
     'SERVE_INCLUDE_SCHEMA': False,
-    "PREPROCESSING_HOOKS": ["config.preprocessors.preprocessing_filter_admin_spec"],
+    'PREPROCESSING_HOOKS': ['config.preprocessors.preprocessing_filter_admin_spec'],
 }
