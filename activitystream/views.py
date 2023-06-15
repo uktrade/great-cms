@@ -243,7 +243,7 @@ class ActivityStreamExpandYourBusinessUserDataViewSet(BaseActivityStreamView):
 
         return self._generate_response(
             ActivityStreamExpandYourBusinessUserDataSerializer(users, many=True).data,
-            self._build_after(request, users[-1].id) if users else None,
+            self._build_after(request, datetime.now(), users[-1].id) if users else None,
         )
 
 
@@ -259,5 +259,5 @@ class ActivityStreamExpandYourBusinessTriageDataViewSet(BaseActivityStreamView):
 
         return self._generate_response(
             ActivityStreamExpandYourBusinessTriageDataSerializer(triage_data, many=True).data,
-            self._build_after(request, triage_data[-1].id) if triage_data else None,
+            self._build_after(request, datetime.now(), triage_data[-1].id) if triage_data else None,
         )
