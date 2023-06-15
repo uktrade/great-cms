@@ -6,7 +6,7 @@
             <h3 class="govuk-heading-m great-font-size-28">{% if value.title %}{{ value.title }}{% else %}{{ title }}{% endif %}</h3>
             <p class="govuk-body">{% if value.teaser %}{{ value.teaser }}{% else %}{{ teaser }}{% endif %}</p>
             <div>
-                <a href="{% if value.link %}{% persist_language value.link request.GET.lang %}{% else %}{% persist_language link request.GET.lang %}{% endif %}" class="govuk-button govuk-!-margin-bottom-0">
+                <a href="{{ if value.link %}{% value.link|persist_language:request.GET }}{% else %}{{ link|persist_language:request.GET }}{% endif %}" class="govuk-button govuk-!-margin-bottom-0">
                     {% if value.teaser %}{{ value.link_label }}{% else %}{{ link_label }}{% endif %}
                 </a>
             </div>

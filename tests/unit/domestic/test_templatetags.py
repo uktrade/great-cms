@@ -5,6 +5,7 @@ import pytest
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core.paginator import Paginator
+from django.http import QueryDict
 from django.template import Context, Template
 from django.test import override_settings
 from django.utils import timezone
@@ -496,7 +497,10 @@ def test_append_past_year_seperator():
 @pytest.mark.django_db
 @pytest.mark.parametrize(
     'url, language, expected_output',
-    (('http://dummy.com', 'fr', 'http://dummy.com?lang=fr'), ('http://dummy.com', None, 'http://dummy.com')),
+    (
+        ('http://dummy.com', QueryDict("lang=fr"), 'http://dummy.com?lang=fr'),
+        ('http://dummy.com', QueryDict(""), 'http://dummy.com'),
+    ),
 )
 def test_persist_language(url, language, expected_output):
     assert persist_language(url, language) == expected_output

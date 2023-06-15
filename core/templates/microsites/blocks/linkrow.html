@@ -11,7 +11,7 @@
             {% filter add_govuk_classes %}
                 {{ item.value.description }}
             {% endfilter %}
-            <a href="{% persist_language link.value.link_url request.GET.lang %}" class="govuk-button govuk-!-margin-bottom-0">{{ item.value.link_text }}</a>
+            <a href="{{ link.value.link_url|persist_language:request.GET }}" class="govuk-button govuk-!-margin-bottom-0">{{ item.value.link_text }}</a>
         </div>
     </div>
     {% if forloop.counter|divisibleby:"2" or value|length == 1 or forloop.last %}

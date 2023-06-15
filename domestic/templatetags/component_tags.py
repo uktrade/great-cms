@@ -271,8 +271,8 @@ def append_past_year_seperator(events):
     return events
 
 
-@register.simple_tag
-def persist_language(url, language=None):
-    if language:
-        return f'{url}?lang={language}'
+@register.filter
+def persist_language(url, query_params=None):
+    if query_params.get("lang"):
+        return f'{url}?lang={query_params.get("lang")}'
     return url
