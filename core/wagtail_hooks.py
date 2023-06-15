@@ -378,6 +378,7 @@ def migrate_article_page_to_microsite(page):
         cta_link_label=page.cta_link_label,
         cta_link=page.cta_link,
         related_links=json.dumps(convert_related_links(page)),
+        use_domestic_header_logo=True,
     )
     page.delete()
     microsite_page.slug = slug

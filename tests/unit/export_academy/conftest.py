@@ -1,5 +1,8 @@
 import pytest
 
+from core.models import HeroSnippet
+from core.snippet_slugs import EXPORT_ACADEMY_LISTING_PAGE_HERO
+
 
 @pytest.fixture
 def valid_registration_form_data():
@@ -29,3 +32,10 @@ def valid_registration_details_form_data():
         'job_title': 'Astronaut',
         'phone_number': '072345678910',
     }
+
+
+@pytest.fixture
+def test_event_list_hero():
+    snippet = HeroSnippet(slug=EXPORT_ACADEMY_LISTING_PAGE_HERO)
+    snippet.save()
+    return snippet

@@ -16,7 +16,7 @@ from django.forms import (
 )
 from great_components import forms
 
-from contact import constants, widgets as contact_widgets
+from contact import constants, mixins as contact_mixins, widgets as contact_widgets
 from contact.helpers import get_free_trade_agreements, retrieve_regional_office
 from core.forms import TERMS_LABEL, ConsentFieldMixin
 from core.validators import is_valid_uk_postcode
@@ -177,10 +177,100 @@ class DomesticExportSupportStep1Form(forms.Form):
         validators=[is_valid_uk_postcode],
     )
 
-    @property
-    def serialized_data(self):
-        data = super().serialized_data
-        return data
+
+class DomesticExportSupportStep2AForm(contact_mixins.DomesticExportSupportStep2Mixin):
+    type = forms.ChoiceField(
+        label='Type of UK limited company',
+        widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
+        choices=(
+            ('', 'Please select'),
+            ('privatelimitedcompany', 'Private limited company'),
+            ('publiclimitedcompany', 'Public limited company'),
+            ('limitedliability', 'Limited liability partnership'),
+            ('notcurrentlytrading', 'Not currently trading'),
+            ('closedbusiness', 'Close business'),
+            ('other', 'Other'),
+        ),
+        error_messages={
+            'required': 'Choose a type of UK limited company',
+        },
+    )
+
+
+class DomesticExportSupportStep2BForm(contact_mixins.DomesticExportSupportStep2Mixin):
+    type = forms.ChoiceField(
+        label='Type of Organisation',
+        widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
+        choices=(
+            ('', 'Please select'),
+            ('cse', 'Charity / Social enterprise'),
+            ('university', 'University'),
+            ('othereduinst', 'Other educational institute'),
+            ('partnership', 'Partnership'),
+            ('other', 'Other'),
+        ),
+        error_messages={
+            'required': 'Choose a type of organisation',
+        },
+    )
+
+
+class DomesticExportSupportStep2CForm(contact_mixins.DomesticExportSupportStep2Mixin):
+    type = forms.ChoiceField(
+        label='Type of Exporter',
+        widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
+        choices=(
+            ('', 'Please select'),
+            ('soletrader', 'Sole trader'),
+            ('privateindividual', 'Private individual'),
+            ('other', 'Other'),
+        ),
+        error_messages={
+            'required': 'Choose a type of organisation',
+        },
+    )
+    number_of_employees = None
+
+
+class DomesticExportSupportStep3Form(forms.Form):
+    first_name = forms.CharField(
+        label='First name',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
+        error_messages={
+            'required': 'Enter your first name',
+        },
+    )
+    last_name = forms.CharField(
+        label='Last name',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
+        error_messages={
+            'required': 'Enter your last name',
+        },
+    )
+    job_title = forms.CharField(
+        label='Job title',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
+        error_messages={
+            'required': 'Enter your job title',
+        },
+    )
+    uk_telephone_number = forms.CharField(
+        label='UK telephone number',
+        help_text='This can be a landline or mobile number.',
+        min_length=8,
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
+        error_messages={
+            'required': 'Enter your telephone number',
+        },
+    )
+    email = forms.EmailField(
+        label='Email address',
+        widget=django_widgets.EmailInput(attrs={'class': 'govuk-input great-text-input'}),
+        error_messages={
+            'required': 'Enter an email address in the correct format, like name@example.com',
+            'invalid': 'Enter an email address in the correct format, like name@example.com',
+        },
+    )
 
 
 class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):

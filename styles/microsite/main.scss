@@ -10,6 +10,10 @@
 @import './video-block.scss';
 
 .microsite {
+  hr {
+    border: none;
+  }
+
   .block-text {
     i {
       font-size: inherit;
@@ -38,7 +42,6 @@
     }
   }
   .great-rtl {
-
     .govuk-grid-row {
       display: block;
 
@@ -47,8 +50,8 @@
       }
 
       #related-content {
-          float: left;
-          position: relative;
+        float: left;
+        position: relative;
       }
 
       a {

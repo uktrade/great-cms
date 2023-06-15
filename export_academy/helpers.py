@@ -69,7 +69,7 @@ def get_badges_for_event(user, event):
 
 
 def user_booked_on_event(user, event):
-    return event.bookings.filter(registration_id=user.email, status='Confirmed').exists()
+    return event.bookings.filter(registration__email=user.email, status='Confirmed').exists()
 
 
 def get_event_booking_button(user, event):
@@ -142,7 +142,7 @@ def is_export_academy_registered(user):
     if not user.is_authenticated:
         return False
 
-    return Registration.objects.filter(pk=user.email).exists()
+    return Registration.objects.filter(email=user.email).exists()
 
 
 def check_registration(function):

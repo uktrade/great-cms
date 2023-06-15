@@ -1,6 +1,7 @@
 from django import template
 
 from export_academy import helpers
+from export_academy.filters import EventFilter
 
 register = template.Library()
 
@@ -51,3 +52,30 @@ def get_filters(list_of_filters, user):
 @register.simple_tag
 def user_is_booked_on_event(user, event):
     return helpers.user_booked_on_event(user, event)
+
+
+def _get_display_text_for_filter_choices(filter_choices, filter_form, filter_type):
+    filters = []
+    for filter_choice in filter_choices:
+        for value, text in filter_form.fields[filter_type].choices:
+            if value == filter_choice and value != EventFilter.ALL:
+                filters.append(text)
+    return filters
+
+
+@register.simple_tag
+def get_applied_filters(filter_form):
+    """Get selected filters from form data, get their display text
+    from the field choices and add them to applied_filters.
+    """
+    applied_filters = []
+    for filter_type, filter_choices in filter_form.data.lists():
+        if filter_type != 'booking_period':
+            applied_filters += _get_display_text_for_filter_choices(filter_choices, filter_form, filter_type)
+    return applied_filters
+
+
+@register.simple_tag
+def all_booking_periods_showing(query_params):
+    booking_period = query_params.get('booking_period')
+    return booking_period == 'all' or not booking_period

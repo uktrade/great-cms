@@ -228,29 +228,102 @@
     }
 }
 
+.great-text-input--search,
+.great-text-select--arrow {
+    &::after {
+        display: inline-block;
+        content: "";
+        background-repeat: no-repeat;
+        background-position: 50%;
+        background-color: initial;
+        border: 0;
+        position: absolute;
+        pointer-events: none;
+    }
+}
+
 .great-text-input--search {
     position: relative;
 
     &::after {
-        display: inline-block;
-        content: "";
         height: 35px;
         width: 51px;
-        background-repeat: no-repeat;
-        background-position: 50%;
-        background-color: initial;
         background-image: url(/static/images/search-black.svg);
         background-size: 20px;
-        border: 0;
-        position: absolute;
         top: 2px;
         right: 2px;
-        pointer-events: none;
 
         @include govuk-media-query($from: tablet) {
             background-size: 24px;
             height: 45px;
             width: 60px;
         }
+    }
+}
+
+.great-text-select--arrow {
+    position: relative;
+
+    &::after {
+        height: 39px;
+        width: 31px;
+        background-image: url(/static/icons/arrow-black.svg);
+        background-size: 15px;
+        top: 2px;
+        right: 17px;
+        transform: rotate(90deg);
+
+        @include govuk-media-query($from: tablet) {
+            top: 7px;
+        }
+    }
+}
+
+.great {
+    select.great-select {
+        background: none;
+        font-size: 16px;
+        height: 40px;
+        padding-left: 15px;
+        width: 100%;
+
+        &::placeholder {
+            color: $great-dark-grey;
+        }
+
+        @include govuk-media-query($until: tablet) {
+            padding-top: 8px;
+        }
+
+        @include govuk-media-query($from: tablet) {
+            font-size: 18px;
+            height: 50px;
+        }
+    }
+}
+
+.great-back-link {
+    color: $govuk-brand-colour;
+    padding-left: 20px;
+    position: relative;
+
+    &:visited {
+        color: $govuk-brand-colour;
+    }
+
+    &::before {
+        background-image: url(/static/icons/arrow.svg);
+        background-size: 11px;
+        background-repeat: no-repeat;
+        background-position: 50%;
+        position: absolute;
+        display: inline-block;
+        content: "";
+        pointer-events: none;
+        height: 20px;
+        width: 12px;
+        top: 3px;
+        left: 0;
+        transform: rotate(180deg);
     }
 }

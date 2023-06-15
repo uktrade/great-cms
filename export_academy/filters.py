@@ -81,13 +81,13 @@ class EventFilter(FilterSet):
         if is_export_academy_registered(self.request.user):  # type: ignore
             if value == self.UPCOMING:
                 queryset = queryset.exclude(live__isnull=True).filter(
-                    bookings__registration=self.request.user.email,  # type: ignore
+                    bookings__registration__email=self.request.user.email,  # type: ignore
                     bookings__status=models.Booking.CONFIRMED,
                 )
 
             if value == self.PAST:
                 queryset = self.Meta.model.objects.exclude(live__isnull=True).filter(
-                    bookings__registration=self.request.user.email, end_date__lt=timezone.now()  # type: ignore
+                    bookings__registration__email=self.request.user.email, end_date__lt=timezone.now()  # type: ignore
                 )
 
         return queryset
