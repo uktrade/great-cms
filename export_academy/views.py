@@ -363,7 +363,7 @@ class JoinBookingView(RedirectView):
         self.url = event.link
 
         # Update booking status to Joined
-        booking = event.bookings.get(registration_id=self.request.user.email)
+        booking = event.bookings.get(registration__email=self.request.user.email)
         booking.status = models.Booking.JOINED
         booking.save()
 
