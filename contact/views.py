@@ -20,6 +20,7 @@ from core import mixins as core_mixins, snippet_slugs
 from core.cms_slugs import PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
 from core.datastructures import NotifySettings
 from directory_constants import urls
+from directory_constants.choices import COUNTRY_CHOICES
 from sso.helpers import update_user_profile
 
 SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
@@ -330,6 +331,11 @@ class DomesticExportSupportFormStep5View(contact_mixins.ExportSupportFormMixin, 
     success_url = reverse_lazy('contact:export-support-step-6')
 
     def get_context_data(self, **kwargs):
+        form_data = {}
+
+        if self.request.session.get('form_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0]
+
         return super().get_context_data(
             **kwargs,
             heading_text='About your export markets',
@@ -337,6 +343,7 @@ class DomesticExportSupportFormStep5View(contact_mixins.ExportSupportFormMixin, 
             button_text='Continue',
             step_text='Step 5 of 6',
             back_link=reverse_lazy('contact:export-support-step-4'),
+            form_data=form_data,
         )
 
     def form_valid(self, form):
@@ -345,8 +352,50 @@ class DomesticExportSupportFormStep5View(contact_mixins.ExportSupportFormMixin, 
 
 
 class DomesticExportSupportFormStep6View(contact_mixins.ExportSupportFormMixin, FormView):
-    form_class = contact_forms.DomesticExportSupportStep5Form
+    form_class = contact_forms.DomesticExportSupportStep6Form
     template_name = 'domestic/contact/export-support/step-6.html'
+    success_url = reverse_lazy('contact:export-support-step-7')
+
+    def get_context_data(self, **kwargs):
+        countries_mapping = dict(COUNTRY_CHOICES + [('notspecificcountry', '')])
+        form_data = {}
+        markets = []
+
+        if self.request.session.get('form_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0]
+
+        if form_data.get('markets'):
+            markets = [countries_mapping[market] for market in form_data.get('markets') if countries_mapping[market]]
+
+        return super().get_context_data(
+            **kwargs,
+            heading_text='About your enquiry',
+            strapline_text='This information will help us direct you to the right support for your business.',
+            button_text='Continue',
+            step_text='Step 6 of 6',
+            markets=markets,
+            products_and_services=[
+                product_or_service
+                for product_or_service in [
+                    form_data.get('product_or_service_1'),
+                    form_data.get('product_or_service_2'),
+                    form_data.get('product_or_service_3'),
+                    form_data.get('product_or_service_4'),
+                    form_data.get('product_or_service_5'),
+                ]
+                if product_or_service
+            ],
+            back_link=reverse_lazy('contact:export-support-step-5'),
+        )
+
+    def form_valid(self, form):
+        self.save_data(form)
+        return super().form_valid(form)
+
+
+class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, FormView):
+    form_class = contact_forms.DomesticExportSupportStep6Form
+    template_name = 'domestic/contact/export-support/cya.html'
 
 
 class InternationalFormView(

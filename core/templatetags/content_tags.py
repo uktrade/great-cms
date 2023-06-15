@@ -279,3 +279,17 @@ def replace_emphasis_tags(content):
 @register.filter
 def make_bold(text):
     return mark_safe(f'<span class="govuk-!-font-weight-bold">{text}</span>')
+
+
+@register.filter
+def highlighted_text(elems):
+    s = ''
+    for elem in elems:
+        text = elem
+
+        if elem != elems[-1]:
+            text = f'{elem}, '
+
+        s += f'<span class="great-highlighted-text">{text}</span>'
+
+    return mark_safe(s)
