@@ -8,8 +8,14 @@
 @import './forms.scss';
 @import './social-media.scss';
 @import './video-block.scss';
+@import '../fonts/main.scss';
 
 .microsite {
+
+  .govuk-list, .govuk-body {
+    font-size: $font-size-p;
+  }
+
   hr {
     border: none;
   }
