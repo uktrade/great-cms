@@ -1,9 +1,51 @@
 {% extends 'domestic/contact/export-support/base.html' %}
 
+{% block body_js %}
+<script type="text/javascript">
+  const add_another_product_or_service_button = document.getElementById('add_another_product_or_service');
+
+  document.querySelectorAll('[data-hidden]').forEach(el => el.style.display = 'none');
+
+  let hiddenFields = document.querySelectorAll('[data-hidden]');
+
+  if (hiddenFields && hiddenFields.length === 0) {
+    add_another_product_or_service_button.style.display = 'none'
+  }
+
+  $(add_another_product_or_service_button).on("click", (e) => {
+    e.preventDefault();
+
+    hiddenFields = document.querySelectorAll('[data-hidden]');
+
+    if (hiddenFields && hiddenFields.length >= 1) {
+        hiddenFields.forEach((el, index) =>  {
+            if (index === 0) {
+                el.removeAttribute('data-hidden');
+                el.style.removeProperty('display');
+            }
+        })
+
+        if (hiddenFields.length === 1) {
+            add_another_product_or_service_button.style.display = 'none';
+        }
+    }
+  });
+</script>
+{% endblock %}
+
 {% block form_fields %}
     {% for field in form.visible_fields %}
-    <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
-        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+    {% if field.name == 'product_or_service_1' %}
+        <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+        </div>
+    {% else %}
+    <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}" {% if not field.value %}data-hidden{% endif %}>
+        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field  %}
     </div>
+    {% endif %}
     {% endfor %}
+    <div class="govuk-!-margin-bottom-7">
+        <a href="" class="govuk-link" role="button" id="add_another_product_or_service">Add another product or service</a>
+    </div>
 {% endblock %}

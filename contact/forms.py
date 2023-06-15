@@ -273,6 +273,36 @@ class DomesticExportSupportStep3Form(forms.Form):
     )
 
 
+class DomesticExportSupportStep4Form(forms.Form):
+    product_or_service_1 = forms.CharField(
+        label='Product or service',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input govuk-!-width-one-half great-text-input'}),
+        error_messages={
+            'required': 'Enter a product or service',
+        },
+    )
+    product_or_service_2 = forms.CharField(
+        label='Second product or service',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input govuk-!-width-one-half great-text-input'}),
+        required=False,
+    )
+    product_or_service_3 = forms.CharField(
+        label='Third product or service',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input govuk-!-width-one-half great-text-input'}),
+        required=False,
+    )
+    product_or_service_4 = forms.CharField(
+        label='Fourth product or service',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input govuk-!-width-one-half great-text-input'}),
+        required=False,
+    )
+    product_or_service_5 = forms.CharField(
+        label='Fifth product or service',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input govuk-!-width-one-half great-text-input'}),
+        required=False,
+    )
+
+
 class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
     EMPLOYEES_NUMBER_CHOICES = (
         ('1-9', '1 to 9'),

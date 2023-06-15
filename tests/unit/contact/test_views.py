@@ -1516,6 +1516,16 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
                 'email': 'Enter an email address in the correct format, like name@example.com',
             },
         ),
+        (
+            reverse('contact:export-support-step-4'),
+            {
+                'product_or_service_1': 'Test product 1',
+            },
+            reverse('contact:export-support-step-5'),
+            {
+                'product_or_service_1': 'Enter a product or service',
+            },
+        ),
     ),
 )
 @pytest.mark.django_db
