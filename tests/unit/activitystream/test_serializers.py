@@ -386,7 +386,7 @@ def test_eyb_triage_serializer():
     instance.id = 123
     instance.hashed_uuid = '456'
     instance.sector = 'FOOD_AND_DRINK'
-    instance.intent = [['SET_UP_NEW_PREMISES']]
+    instance.intent = ['SET_UP_NEW_PREMISES', 'SET_UP_A_NEW_DISTRIBUTION_CENTRE']
     instance.intent_other = 'OTHER'
     instance.location = 'WALES'
     instance.location_none = True
@@ -415,4 +415,6 @@ def test_eyb_triage_serializer():
             'isHighValue': instance.is_high_value,
         },
     }
+    print(output)
+    print(output)
     assert output == expected
