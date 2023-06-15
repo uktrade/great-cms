@@ -498,8 +498,8 @@ def test_append_past_year_seperator():
 @pytest.mark.parametrize(
     'url, language, expected_output',
     (
-        ('http://dummy.com', QueryDict("lang=fr"), 'http://dummy.com?lang=fr'),
-        ('http://dummy.com', QueryDict(""), 'http://dummy.com'),
+        ('http://dummy.com', QueryDict('lang=fr'), 'http://dummy.com?lang=fr'),
+        ('http://dummy.com', QueryDict(''), 'http://dummy.com'),
     ),
 )
 def test_persist_language(url, language, expected_output):
