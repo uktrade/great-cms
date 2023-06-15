@@ -415,6 +415,4 @@ def test_eyb_triage_serializer():
             'isHighValue': instance.is_high_value,
         },
     }
-    print(output)
-    print(output)
     assert output == expected
