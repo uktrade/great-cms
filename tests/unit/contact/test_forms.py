@@ -851,7 +851,7 @@ def test_selling_online_overseas_contact_details_form__editable_fields():
         (
             forms.DomesticExportSupportStep5Form,
             {
-                'markets': 'AU',
+                'markets': ['AU'],
             },
             True,
             {},
@@ -859,11 +859,25 @@ def test_selling_online_overseas_contact_details_form__editable_fields():
         (
             forms.DomesticExportSupportStep5Form,
             {
-                'markets': '',
+                'markets': [],
             },
             False,
             {
                 'markets': 'Enter a market',
+            },
+        ),
+        (
+            forms.DomesticExportSupportStep6Form,
+            {'enquiry': 'n/a', 'about_your_experience': 'neverexported'},
+            True,
+            {},
+        ),
+        (
+            forms.DomesticExportSupportStep6Form,
+            {'enquiry': '', 'about_your_experience': ''},
+            False,
+            {
+                'about_your_experience': 'Choose your export experience',
             },
         ),
     ),

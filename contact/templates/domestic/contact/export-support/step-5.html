@@ -33,7 +33,7 @@
     {% else %}
     <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
         <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field labelForId='id_markets_0' %}
         </div>
     </div>
     {% endif %}
