@@ -13,6 +13,7 @@ from django.views.generic import (
     UpdateView,
 )
 from django_filters.views import FilterView
+from drf_spectacular.utils import extend_schema
 from great_components.mixins import GA360Mixin
 from icalendar import Alarm, Calendar, Event
 from rest_framework.generics import GenericAPIView
@@ -139,6 +140,7 @@ class EventDetailsView(DetailView):
         return ctx
 
 
+@extend_schema(exclude=True)
 class DownloadCalendarView(GenericAPIView):
     event_model = models.Event
 

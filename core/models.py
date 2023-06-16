@@ -1445,7 +1445,9 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                         ),
                         (
                             'teaser',
-                            blocks.TextBlock(required=True, max_length=255, label='Teaser'),
+                            blocks.RichTextBlock(
+                                template='microsites/blocks/text.html',
+                            ),
                         ),
                         (
                             'link_label',
@@ -1476,7 +1478,8 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         blank=True,
         verbose_name='CTA title',
     )
-    cta_teaser = models.TextField(
+    cta_teaser = RichTextField(
+        null=True,
         blank=True,
         verbose_name='CTA teaser',
     )
