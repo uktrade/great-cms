@@ -18,7 +18,7 @@
         {{ item.value.text }}
     {% endfilter %}
     {%if item.value.button_url%}
-        <a href="{{ item.value.button_url|persist_language:request.GET }}" class="govuk-button">
+        <a href="{{ item.value.button_url }}" class="govuk-button">
             {% comment %} I'm assuming this will change but including for completeness {% endcomment %}
             {% if TRANSLATE_TEXT %}
                 {% translate item.value.button_label %}
