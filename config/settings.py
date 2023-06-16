@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     'directory_components',
     'export_academy.apps.ExportAcademyConfig',
     'django_celery_beat',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -505,7 +506,10 @@ GA360_BUSINESS_UNIT = 'GreatMagna'
 
 PRIVACY_COOKIE_DOMAIN = env.str('PRIVACY_COOKIE_DOMAIN', UTM_COOKIE_DOMAIN)
 
-REST_FRAMEWORK = {'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',)}
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',),
+}
 
 WAGTAILIMAGES_IMAGE_MODEL = 'core.AltTextImage'
 
@@ -951,3 +955,14 @@ CELERY_TASK_ALWAYS_EAGER = env.bool('CELERY_TASK_ALWAYS_EAGER', True)
 
 EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES = env.int('EXPORT_ACADEMY_AUTOMATED_NOTIFY_TIME_DELAY_MINUTES', 30)
 EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_AFTER_DAYS = env.int('EXPORT_ACADEMY_REMOVE_EVENT_MEDIA_AFTER_DAYS', 14)
+
+# OpenAPI
+FEATURE_GREAT_CMS_OPENAPI_ENABLED = env.bool('FEATURE_GREAT_CMS_OPENAPI_ENABLED', False)
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Great CMS API',
+    'DESCRIPTION': 'Great CMS API - the Department for Business and Trade (DBT)',
+    'VERSION': os.environ.get('GIT_TAG', 'dev'),
+    'SERVE_INCLUDE_SCHEMA': False,
+    'PREPROCESSING_HOOKS': ['config.preprocessors.preprocessing_filter_admin_spec'],
+}

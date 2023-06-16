@@ -4,6 +4,8 @@ import math
 
 from directory_ch_client.client import ch_search_api_client
 from django.conf import settings
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiExample, OpenApiParameter, extend_schema
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -16,6 +18,11 @@ from directory_constants import choices
 logger = logging.getLogger(__name__)
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(name='path', description='Path', required=False, type=str),
+    ],
+)
 class CreateTokenView(generics.GenericAPIView):
     permission_classes = []
 
@@ -39,6 +46,16 @@ class CreateTokenView(generics.GenericAPIView):
         return Response(response)
 
 
+@extend_schema(
+    responses=OpenApiTypes.OBJECT,
+    examples=[
+        OpenApiExample(
+            'GET Request 200 Example',
+            value={'status': 'int', 'CCCE_AP': {'status': 'int', 'response_body': 'int', 'elapsed_time': 'int'}},
+            response_only=True,
+        ),
+    ],
+)
 class CheckView(generics.GenericAPIView):
     def get(self, request):
         try:
@@ -73,6 +90,11 @@ class ProductLookupView(generics.GenericAPIView):
         return Response(data)
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(name='hs_code', description='HS Code', required=True, type=str),
+    ],
+)
 class ProductLookupScheduleView(generics.GenericAPIView):
     def get(self, request):
         hs_code = request.GET.get('hs_code')
@@ -85,6 +107,11 @@ class CountriesView(generics.GenericAPIView):
         return Response([c for c in choices.COUNTRIES_AND_TERRITORIES_REGION if c.get('type') == 'Country'])
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(name='hs_code', description='HS Code', required=True, type=str),
+    ],
+)
 class SuggestedCountriesView(generics.GenericAPIView):
     def get(self, request):
         hs_code = request.GET.get('hs_code')
@@ -107,6 +134,12 @@ class UpdateCompanyAPIView(generics.GenericAPIView):
         return Response(status=200)
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(name='countries', description='Countries (comma separated)', required=True, type=str),
+        OpenApiParameter(name='commodity_code', description='Commodity Code', required=True, type=str),
+    ],
+)
 class ComTradeDataView(generics.GenericAPIView):
     permission_classes = []
 
@@ -119,6 +152,12 @@ class ComTradeDataView(generics.GenericAPIView):
         return Response(response_data)
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(name='countries', description='Countries (comma separated)', required=True, type=str),
+        OpenApiParameter(name='fields', description='Fields', required=True, type=str),
+    ],
+)
 class CountryDataView(generics.GenericAPIView):
     def get(self, request):
         countries = request.GET.get('countries', '').split(',')
@@ -127,6 +166,12 @@ class CountryDataView(generics.GenericAPIView):
         return Response(response_data)
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(name='countries', description='Countries (comma separated)', required=False, type=str),
+        OpenApiParameter(name='sectors', description='Sectors (comma separated)', required=False, type=str),
+    ],
+)
 class TradeBarrierDataView(generics.GenericAPIView):
     permission_classes = []
 
@@ -137,6 +182,12 @@ class TradeBarrierDataView(generics.GenericAPIView):
         return Response(response_data)
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(name='service', description='Service', required=False, type=str),
+        OpenApiParameter(name='term', description='Term', required=True, type=str),
+    ],
+)
 class CompaniesHouseAPIView(generics.GenericAPIView):
     permission_classes = []
 
