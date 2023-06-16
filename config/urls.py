@@ -87,17 +87,17 @@ if settings.FEATURE_INTERNATIONAL_ONLINE_OFFER:
         path('international/expand-your-business-in-the-uk/', include(international_online_offer.urls))
     ] + urlpatterns
 
-# if settings.FEATURE_GREAT_CMS_OPENAPI_ENABLED:
-urlpatterns = [
-    path('openapi/', SpectacularAPIView.as_view(), name='schema'),
-    path(
-        'openapi/ui/',
-        login_required(SpectacularSwaggerView.as_view(url_name='schema'), login_url='admin:login'),
-        name='swagger-ui',
-    ),
-    path(
-        'openapi/ui/redoc/',
-        login_required(SpectacularRedocView.as_view(url_name='schema'), login_url='admin:login'),
-        name='redoc',
-    ),
-] + urlpatterns
+if settings.FEATURE_GREAT_CMS_OPENAPI_ENABLED:
+    urlpatterns = [
+        path('openapi/', SpectacularAPIView.as_view(), name='schema'),
+        path(
+            'openapi/ui/',
+            login_required(SpectacularSwaggerView.as_view(url_name='schema'), login_url='admin:login'),
+            name='swagger-ui',
+        ),
+        path(
+            'openapi/ui/redoc/',
+            login_required(SpectacularRedocView.as_view(url_name='schema'), login_url='admin:login'),
+            name='redoc',
+        ),
+    ] + urlpatterns
