@@ -681,3 +681,179 @@ def test_selling_online_overseas_contact_details_form__editable_fields():
     assert form_5.fields['phone'].disabled is False
     assert form_5.fields['phone'].required is True
     assert form_5.fields['phone'].container_css_classes == 'form-group '
+
+
+@pytest.mark.parametrize(
+    'form, form_data, form_is_valid, error_messages',
+    (
+        (
+            forms.DomesticExportSupportStep1Form,
+            {
+                'business_type': 'limitedcompany',
+                'business_name': 'Test business ltd',
+                'business_postcode': 'SW1A 1AA',
+            },
+            True,
+            {},
+        ),
+        (
+            forms.DomesticExportSupportStep1Form,
+            {
+                'business_type': '',
+                'business_name': '',
+                'business_postcode': '',
+            },
+            False,
+            {
+                'business_type': 'Choose a business type',
+                'business_name': 'Enter your business name',
+                'business_postcode': 'Enter your business postcode',
+            },
+        ),
+        (
+            forms.DomesticExportSupportStep2AForm,
+            {
+                'type': 'publiclimitedcompany',
+                'annual_turnover': '<85k',
+                'number_of_employees': '1-9',
+                'sector_primary': 'Aerospace',
+                'sector_secondary': '',
+                'sector_tertiary': '',
+            },
+            True,
+            {},
+        ),
+        (
+            forms.DomesticExportSupportStep2AForm,
+            {
+                'type': '',
+                'annual_turnover': '',
+                'number_of_employees': '',
+                'sector_primary': '',
+                'sector_secondary': '',
+                'sector_tertiary': '',
+            },
+            False,
+            {
+                'type': 'Choose a type of UK limited company',
+                'annual_turnover': 'Please enter a turnover amount',
+                'number_of_employees': 'Choose number of employees',
+                'sector_primary': 'Choose a sector',
+            },
+        ),
+        (
+            forms.DomesticExportSupportStep2BForm,
+            {
+                'type': 'university',
+                'annual_turnover': '<85k',
+                'number_of_employees': '1-9',
+                'sector_primary': 'Aerospace',
+                'sector_secondary': '',
+                'sector_tertiary': '',
+            },
+            True,
+            {},
+        ),
+        (
+            forms.DomesticExportSupportStep2BForm,
+            {
+                'type': '',
+                'annual_turnover': '',
+                'number_of_employees': '',
+                'sector_primary': '',
+                'sector_secondary': '',
+                'sector_tertiary': '',
+            },
+            False,
+            {
+                'type': 'Choose a type of organisation',
+                'annual_turnover': 'Please enter a turnover amount',
+                'number_of_employees': 'Choose number of employees',
+                'sector_primary': 'Choose a sector',
+            },
+        ),
+        (
+            forms.DomesticExportSupportStep2CForm,
+            {
+                'type': 'soletrader',
+                'annual_turnover': '<85k',
+                'sector_primary': 'Aerospace',
+                'sector_secondary': '',
+                'sector_tertiary': '',
+            },
+            True,
+            {},
+        ),
+        (
+            forms.DomesticExportSupportStep2CForm,
+            {
+                'type': '',
+                'annual_turnover': '',
+                'sector_primary': '',
+                'sector_secondary': '',
+                'sector_tertiary': '',
+            },
+            False,
+            {
+                'type': 'Choose a type of organisation',
+                'annual_turnover': 'Please enter a turnover amount',
+                'sector_primary': 'Choose a sector',
+            },
+        ),
+        (
+            forms.DomesticExportSupportStep3Form,
+            {
+                'first_name': 'Test',
+                'last_name': 'Name',
+                'job_title': 'Test job title',
+                'uk_telephone_number': '07171771717',
+                'email': 'name@example.com',
+            },
+            True,
+            {},
+        ),
+        (
+            forms.DomesticExportSupportStep3Form,
+            {
+                'first_name': '',
+                'last_name': '',
+                'job_title': '',
+                'uk_telephone_number': '',
+                'email': '',
+            },
+            False,
+            {
+                'first_name': 'Enter your first name',
+                'last_name': 'Enter your last name',
+                'job_title': 'Enter your job title',
+                'uk_telephone_number': 'Enter your telephone number',
+                'email': 'Enter an email address in the correct format, like name@example.com',
+            },
+        ),
+        (
+            forms.DomesticExportSupportStep4Form,
+            {
+                'product_or_service_1': 'Test product 1',
+            },
+            True,
+            {},
+        ),
+        (
+            forms.DomesticExportSupportStep4Form,
+            {
+                'product_or_service_1': '',
+            },
+            False,
+            {
+                'product_or_service_1': 'Enter a product or service',
+            },
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_domestic_export_support_form_validation(form, form_data, form_is_valid, error_messages):
+    form = form(form_data)
+    assert form.is_valid() is form_is_valid
+    if not form_is_valid:
+        for key in error_messages:
+            assert error_messages[key] in form.errors[key]

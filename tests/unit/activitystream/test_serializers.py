@@ -3,9 +3,23 @@ import json
 import pytest
 from django.utils import timezone
 
-from activitystream.serializers import ArticlePageSerializer, CountryGuidePageSerializer
+from activitystream.serializers import (
+    ActivityStreamExpandYourBusinessTriageDataSerializer,
+    ActivityStreamExpandYourBusinessUserDataSerializer,
+    ArticlePageSerializer,
+    CountryGuidePageSerializer,
+    ExportAcademyBookingSerializer,
+    ExportAcademyEventSerializer,
+    ExportAcademyRegistrationSerializer,
+)
 from domestic.models import ArticlePage
+from international_online_offer.models import TriageData, UserData
 from tests.unit.domestic.factories import ArticlePageFactory, CountryGuidePageFactory
+from tests.unit.export_academy.factories import (
+    BookingFactory,
+    EventFactory,
+    RegistrationFactory,
+)
 
 
 @pytest.mark.django_db
@@ -247,3 +261,158 @@ def test_countryguidepageserializer(domestic_homepage):
             'keywords': '',
         },
     }
+
+
+@pytest.mark.django_db
+def test_ukea_event_serializer():
+    instance = EventFactory()
+
+    serializer = ExportAcademyEventSerializer()
+
+    output = serializer.to_representation(instance)
+    assert output == {
+        'id': f'dit:exportAcademy:event:{instance.id}:Update',
+        'type': 'Update',
+        'published': instance.modified.isoformat(),
+        'object': {
+            'id': f'dit:exportAcademy:event:{instance.id}',
+            'type': 'dit:exportAcademy:event',
+            'created': instance.created.isoformat(),
+            'modified': instance.modified.isoformat(),
+            'completeDate': instance.completed.isoformat(),
+            'description': instance.description,
+            'endDate': instance.end_date.isoformat(),
+            'format': instance.format,
+            'link': instance.link,
+            'liveDate': instance.live.isoformat(),
+            'name': instance.name,
+            'startDate': instance.start_date.isoformat(),
+            'timezone': instance.timezone,
+            'types': [type.name for type in instance.types.all()],
+        },
+    }
+
+
+@pytest.mark.django_db
+def test_ukea_registration_serializer():
+    instance = RegistrationFactory()
+
+    serializer = ExportAcademyRegistrationSerializer()
+
+    output = serializer.to_representation(instance)
+    assert output == {
+        'id': f'dit:exportAcademy:registration:{instance.id}:Update',
+        'type': 'Update',
+        'published': instance.modified.isoformat(),
+        'object': {
+            'id': f'dit:exportAcademy:registration:{instance.id}',
+            'type': 'dit:exportAcademy:registration',
+            'created': instance.created.isoformat(),
+            'modified': instance.modified.isoformat(),
+            'email': instance.email,
+            'firstName': instance.first_name,
+            'lastName': instance.last_name,
+            'data': instance.data,
+        },
+    }
+
+
+@pytest.mark.django_db
+def test_ukea_booking_serializer():
+    instance = BookingFactory()
+
+    serializer = ExportAcademyBookingSerializer()
+
+    output = serializer.to_representation(instance)
+    assert output == {
+        'id': f'dit:exportAcademy:booking:{instance.id}:Update',
+        'type': 'Update',
+        'published': instance.modified.isoformat(),
+        'object': {
+            'id': f'dit:exportAcademy:booking:{instance.id}',
+            'type': 'dit:exportAcademy:booking',
+            'created': instance.created.isoformat(),
+            'modified': instance.modified.isoformat(),
+            'eventId': instance.event_id,
+            'registrationId': instance.registration_id,
+            'status': instance.status,
+        },
+    }
+
+
+@pytest.mark.django_db
+def test_eyb_user_serializer():
+    instance = UserData()
+    instance.id = 123
+    instance.hashed_uuid = '456'
+    instance.company_name = 'DBT'
+    instance.company_location = 'UK'
+    instance.full_name = 'Name'
+    instance.role = 'Director'
+    instance.email = 'email@email.com'
+    instance.telephone_number = '07123567896'
+    instance.agree_terms = True
+    instance.agree_info_email = False
+    instance.agree_info_telephone = False
+
+    serializer = ActivityStreamExpandYourBusinessUserDataSerializer()
+
+    output = serializer.to_representation(instance)
+    expected = {
+        'id': f'dit:expandYourBusiness:userData:{instance.id}:Update',
+        'type': 'Update',
+        'object': {
+            'id': instance.id,
+            'type': 'dit:expandYourBusiness:userData',
+            'hashedUuid': instance.hashed_uuid,
+            'companyName': instance.company_name,
+            'companyLocation': instance.company_location,
+            'fullName': instance.full_name,
+            'role': instance.role,
+            'email': instance.email,
+            'telephoneNumber': instance.telephone_number,
+            'agreeTerms': instance.agree_terms,
+            'agreeInfoEmail': instance.agree_info_email,
+            'agreeInfoTelephone': instance.agree_info_telephone,
+        },
+    }
+    assert output == expected
+
+
+@pytest.mark.django_db
+def test_eyb_triage_serializer():
+    instance = TriageData()
+
+    instance.id = 123
+    instance.hashed_uuid = '456'
+    instance.sector = 'FOOD_AND_DRINK'
+    instance.intent = ['SET_UP_NEW_PREMISES', 'SET_UP_A_NEW_DISTRIBUTION_CENTRE']
+    instance.intent_other = 'OTHER'
+    instance.location = 'WALES'
+    instance.location_none = True
+    instance.hiring = '1-10'
+    instance.spend = '5000001-10000000'
+    instance.spend_other = '456774'
+    instance.is_high_value = True
+
+    serializer = ActivityStreamExpandYourBusinessTriageDataSerializer()
+    output = serializer.to_representation(instance)
+    expected = {
+        'id': f'dit:expandYourBusiness:triageData:{instance.id}:Update',
+        'type': 'Update',
+        'object': {
+            'id': instance.id,
+            'type': 'dit:expandYourBusiness:triageData',
+            'hashedUuid': instance.hashed_uuid,
+            'sector': instance.sector,
+            'intent': instance.intent,
+            'intentOther': instance.intent_other,
+            'location': instance.location,
+            'locationNone': instance.location_none,
+            'hiring': instance.hiring,
+            'spend': instance.spend,
+            'spendOther': instance.spend_other,
+            'isHighValue': instance.is_high_value,
+        },
+    }
+    assert output == expected

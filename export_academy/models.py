@@ -110,6 +110,10 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
         else:
             return self.STATUS_FINISHED
 
+    @property
+    def timezone(self):
+        return timezone.get_current_timezone_name()
+
     class Meta:
         ordering = ('-start_date', '-end_date')
 
@@ -128,7 +132,8 @@ class Registration(TimeStampedModel):
     Captures data submitted via the Export Academy registration form.
     """
 
-    email = models.EmailField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     data = models.JSONField(blank=True, default=dict)

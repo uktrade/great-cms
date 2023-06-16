@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.urls import path, reverse_lazy
 from great_components.decorators import skip_ga360
@@ -5,6 +6,13 @@ from great_components.decorators import skip_ga360
 from contact.views import (
     DefenceAndSecurityOrganisationFormView,
     DomesticEnquiriesFormView,
+    DomesticExportSupportFormStep1View,
+    DomesticExportSupportFormStep2AView,
+    DomesticExportSupportFormStep2BView,
+    DomesticExportSupportFormStep2CView,
+    DomesticExportSupportFormStep3View,
+    DomesticExportSupportFormStep4View,
+    DomesticExportSupportFormStep5View,
     DomesticFormView,
     DomesticSuccessView,
     EcommerceSupportFormPageView,
@@ -257,3 +265,42 @@ urlpatterns = [
         name='contact-free-trade-agreements-success',
     ),
 ]
+
+if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
+    urlpatterns += [
+        path(
+            'contact/domestic/export-support/',
+            skip_ga360(DomesticExportSupportFormStep1View.as_view()),
+            name='export-support',
+        ),
+        path(
+            'contact/domestic/export-support/step2a/',
+            skip_ga360(DomesticExportSupportFormStep2AView.as_view()),
+            name='export-support-step-2a',
+        ),
+        path(
+            'contact/domestic/export-support/step2b/',
+            skip_ga360(DomesticExportSupportFormStep2BView.as_view()),
+            name='export-support-step-2b',
+        ),
+        path(
+            'contact/domestic/export-support/step2c/',
+            skip_ga360(DomesticExportSupportFormStep2CView.as_view()),
+            name='export-support-step-2c',
+        ),
+        path(
+            'contact/domestic/export-support/step3/',
+            skip_ga360(DomesticExportSupportFormStep3View.as_view()),
+            name='export-support-step-3',
+        ),
+        path(
+            'contact/domestic/export-support/step4/',
+            skip_ga360(DomesticExportSupportFormStep4View.as_view()),
+            name='export-support-step-4',
+        ),
+        path(
+            'contact/domestic/export-support/step5/',
+            skip_ga360(DomesticExportSupportFormStep5View.as_view()),
+            name='export-support-step-5',
+        ),
+    ]

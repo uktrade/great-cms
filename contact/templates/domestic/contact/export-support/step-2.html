@@ -1,0 +1,67 @@
+{% extends 'domestic/contact/export-support/base.html' %}
+
+{% block body_js %}
+<script type="text/javascript">
+  const add_another_sector_button = document.getElementById('add_another_sector');
+
+  document.querySelectorAll('[data-hidden]').forEach(el => el.style.display = 'none');
+
+  $(add_another_sector_button).on("click", (e) => {
+    e.preventDefault();
+
+    const hiddenSectors = document.querySelectorAll('[data-hidden]');
+
+    if (hiddenSectors && hiddenSectors.length >= 1) {
+        hiddenSectors.forEach((el, index) =>  {
+            if (index === 0) {
+                el.removeAttribute('data-hidden');
+                el.style.removeProperty('display');
+            }
+        })
+
+        if (hiddenSectors.length === 1) {
+            add_another_sector_button.style.display = 'none'
+        }
+    }
+  });
+
+  function sectorSelects() {
+    const sector_select = document.getElementById('id_sector_primary');
+
+    document.querySelectorAll('[data-other-field]').forEach(el => el.style.display = 'none');
+
+    if (sector_select) {
+        sector_select.addEventListener('change', (e) => {
+            if (e.target.value === 'OTHER') {
+                document.querySelector('[data-other-field]').style.display = 'block';
+            } else {
+                document.querySelector('[data-other-field]').style.display = 'none';
+            }
+        })
+    }
+  }
+
+  sectorSelects();
+</script>
+{% endblock %}
+
+{% block form_fields %}
+    {% for field in form.visible_fields %}
+    {% if field.name == 'sector_secondary' or field.name == 'sector_tertiary' %}
+        <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}" {% if not field.value %}data-hidden{% endif %}>
+            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
+        </div>
+    {% elif field.name == 'sector_primary_other' %}
+        <div class="govuk-form-group govuk-!-margin-bottom-7" data-other-field>
+            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+        </div>
+    {% else %}
+    <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
+    </div>
+    {% endif %}
+    {% endfor %}
+    <div class="govuk-!-margin-bottom-7">
+        <a href="" class="govuk-link" role="button" id="add_another_sector">Add another sector</a>
+    </div>
+{% endblock %}

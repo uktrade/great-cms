@@ -59,7 +59,7 @@ $menu-border: 5px solid $color-alternative-text;
 
   h3 {
     color: $color-alternative-text;
-    &::first-letter{
+    &::first-letter {
       text-transform: capitalize;
     }
   }
@@ -74,13 +74,12 @@ $menu-border: 5px solid $color-alternative-text;
       display: grid;
     }
     .magna-header__menu-items {
-
       padding: 0px;
       li {
         list-style: none;
-          & button {
-          font-family: $main-text-font!important;
-          font-size: $font-size-button!important;
+        & button {
+          font-family: $main-text-font !important;
+          font-size: $font-size-button !important;
         }
         a {
           font-size: $font-size-button;
@@ -89,7 +88,9 @@ $menu-border: 5px solid $color-alternative-text;
             padding-left: govuk-spacing(2);
           }
 
-          text-transform: capitalize;
+          &::first-letter {
+            text-transform: capitalize;
+          }
           color: $color-inactive-nav-item;
           border-left: 5px solid transparent;
           text-decoration: none;
@@ -101,6 +102,10 @@ $menu-border: 5px solid $color-alternative-text;
             border-left: $menu-border;
           }
         }
+      }
+
+      .button:visited{
+        background-color: $color-gov-link;
       }
     }
   }
@@ -125,7 +130,9 @@ $menu-border: 5px solid $color-alternative-text;
     }
     a {
       text-decoration: none;
-      text-transform: capitalize;
+      &::first-letter {
+        text-transform: capitalize;
+      }
       font-weight: 400;
       border-bottom: 5px solid transparent;
       padding-bottom: 4px;

@@ -64,6 +64,10 @@ register_snippet(Redirect)
 
 
 class GreatMedia(Media):
+    description = models.TextField(
+        verbose_name=_('Description'), blank=True, null=True  # left null because was an existing field
+    )
+
     transcript = models.TextField(
         verbose_name=_('Transcript'), blank=False, null=True  # left null because was an existing field
     )
@@ -75,10 +79,7 @@ class GreatMedia(Media):
         help_text='English-language subtitles for this video, in VTT format',
     )
 
-    admin_form_fields = Media.admin_form_fields + (
-        'transcript',
-        'subtitles_en',
-    )
+    admin_form_fields = Media.admin_form_fields + ('transcript', 'subtitles_en', 'description')
 
     def save(self, *args, **kwargs):
         self.file._committed = True
@@ -1444,7 +1445,9 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                         ),
                         (
                             'teaser',
-                            blocks.TextBlock(required=True, max_length=255, label='Teaser'),
+                            blocks.RichTextBlock(
+                                template='microsites/blocks/text.html',
+                            ),
                         ),
                         (
                             'link_label',
@@ -1475,7 +1478,8 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
         blank=True,
         verbose_name='CTA title',
     )
-    cta_teaser = models.TextField(
+    cta_teaser = RichTextField(
+        null=True,
         blank=True,
         verbose_name='CTA teaser',
     )
@@ -1603,6 +1607,21 @@ class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
         on_delete=models.SET_NULL,
         related_name='+',
     )
+    logged_out_text = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+    logged_in_text = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+    ea_registered_text = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
     panels = [
         MultiFieldPanel(
             heading='Purpose',
@@ -1613,4 +1632,12 @@ class HeroSnippet(NonPageContentSnippetBase, NonPageContentSEOMixin):
         FieldPanel('title'),
         FieldPanel('text'),
         FieldPanel('image'),
+        MultiFieldPanel(
+            heading='Logged in, logged out and EA registered CTA text (Optional)',
+            children=[
+                FieldPanel('logged_out_text'),
+                FieldPanel('logged_in_text'),
+                FieldPanel('ea_registered_text'),
+            ],
+        ),
     ]

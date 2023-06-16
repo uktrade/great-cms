@@ -1,0 +1,16 @@
+{% if field %}
+<label class="govuk-label govuk-!-margin-bottom-2 great-font-bold" for="{{field.id_for_label}}">
+    {{field.label}} {% if optional %}<span>(Optional)</span>{% endif %}{% if dynamicText %}{{dynamicText}}{% endif %}
+</label>
+<div class="govuk-hint govuk-!-margin-bottom-4">{{field.help_text}}</div>
+{% for error in field.errors %}
+    <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>
+{% endfor %}
+{% if inputWrapperClass %}
+<div class="{{inputWrapperClass}}">
+{% endif %}
+{{field}}
+{% if inputWrapperClass %}
+</div>
+{% endif %}
+{% endif %}

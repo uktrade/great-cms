@@ -2,6 +2,7 @@
 from bs4 import BeautifulSoup
 from django import template
 from django.templatetags import static
+from django.utils import timezone
 
 register = template.Library()
 
@@ -253,3 +254,25 @@ def get_projected_or_actual(is_projected, capitalise=False):
         return projected_or_actual.title()
     else:
         return projected_or_actual
+
+
+@register.filter
+def append_past_year_seperator(events):
+    years = set()
+    for event in events:
+        start_date = event.start_date
+        year = start_date.strftime('%Y')
+        if year not in years and start_date < timezone.now():
+            event.past_year_seperator = year
+            years.add(year)
+        else:
+            event.past_year_seperator = None
+
+    return events
+
+
+@register.filter
+def persist_language(url, query_params=None):
+    if query_params.get('lang'):
+        return f"{url}?lang={query_params.get('lang')}"
+    return url

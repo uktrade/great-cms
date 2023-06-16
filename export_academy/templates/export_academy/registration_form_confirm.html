@@ -28,171 +28,173 @@
   {% endbreadcrumbs %}
 
   <section class="background-white">
-    <div class="width-two-thirds padding-left-90">
-      <h2 class="heading padding-top-60 padding-bottom-60">Check your answers before submitting your registration</h2>
-      <dl class="govuk-summary-list govuk-summary-list--no-border">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            <h3>About you</h3>
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            <a class="govuk-link govuk-float-left" href="{% url 'export_academy:registration-details-edit' %}">Change
-              <span class="govuk-visually-hidden"> About you</span>
-            </a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            First Name
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            {{ form_data.first_name }}
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Last Name
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            {{ form_data.last_name }}
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Telephone number
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            {{ form_data.phone_number }}
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key width-quarter">
-            Email address
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            {{ email }}
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key width-quarter">
-            Job title
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            {{ form_data.job_title }}
-          </dd>
-        </div>
-      </dl>
-      <hr class="hr" />
-      <dl class="govuk-summary-list govuk-summary-list--no-border">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            <h3>About your export experience</h3>
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            <a class="govuk-link govuk-float-left" href="{% url 'export_academy:registration-experience-edit' %}">
-              Change<span class="govuk-visually-hidden"> About your export experience</span>
-            </a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Your export experience
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            {{ form_data.export_experience }}
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Your sector
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            {{ form_data.sector }}
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Exporting goods or services
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            {{ form_data.export_product }}
-          </dd>
-        </div>
-      </dl>
-      <hr class="hr" />
-      <dl class="govuk-summary-list govuk-summary-list--no-border">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            <h3>About your business</h3>
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            <a class="govuk-link" href="{% url 'export_academy:registration-business-edit' %}">
-              Change<span class="govuk-visually-hidden"> About your business</span>
-            </a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Business name
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            {{ form_data.business_name }}
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Postcode
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            {{ form_data.business_postcode }}
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Annual turnover
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            {{ form_data.annual_turnover }}
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Number of employees
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            {{ form_data.employee_count }}
-          </dd>
-        </div>
-      </dl>
-      <hr class="hr" />
-      <dl class="govuk-summary-list govuk-summary-list--no-border">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            <h3>Finally</h3>
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            <a class="govuk-link" href="{% url 'export_academy:registration-marketing-edit' %}">
-              Change<span class="govuk-visually-hidden"> Finally</span>
-            </a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            How you heard of us
-          </dt>
-          <dd class="govuk-summary-list__value width-quarter">
-            {{ form_data.marketing_sources }}
-          </dd>
-        </div>
-      </dl>
-      <div class="question padding-top-30">
-        <form action="" method="post" autocomplete="off">
-          {% csrf_token %}
-          {{form}}
-          <button type="submit" class="button primary-button">Submit</button>
-        </form>
+    <div class="container">
+      <div class="width-two-thirds">
+       <h2 class="heading padding-top-60 padding-bottom-60">Check your answers before submitting your registration</h2>
+       <dl class="govuk-summary-list govuk-summary-list--no-border">
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key">
+                <h3>About you</h3>
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                <a class="govuk-link govuk-float-left" href="{% url 'export_academy:registration-details-edit' %}">Change
+                <span class="govuk-visually-hidden"> About you</span>
+                </a>
+             </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key">
+                First Name
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                {{ form_data.first_name }}
+             </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key">
+                Last Name
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                {{ form_data.last_name }}
+             </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key">
+                Telephone number
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                {{ form_data.phone_number }}
+             </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key width-quarter">
+                Email address
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                {{ email }}
+             </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key width-quarter">
+                Job title
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                {{ form_data.job_title }}
+             </dd>
+          </div>
+       </dl>
+       <hr class="hr" />
+       <dl class="govuk-summary-list govuk-summary-list--no-border">
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key">
+                <h3>About your export experience</h3>
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                <a class="govuk-link govuk-float-left" href="{% url 'export_academy:registration-experience-edit' %}">
+                Change<span class="govuk-visually-hidden"> About your export experience</span>
+                </a>
+             </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key">
+                Your export experience
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                {{ form_data.export_experience }}
+             </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key">
+                Your sector
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                {{ form_data.sector }}
+             </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key">
+                Exporting goods or services
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                {{ form_data.export_product }}
+             </dd>
+          </div>
+       </dl>
+       <hr class="hr" />
+       <dl class="govuk-summary-list govuk-summary-list--no-border">
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key">
+                <h3>About your business</h3>
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                <a class="govuk-link" href="{% url 'export_academy:registration-business-edit' %}">
+                Change<span class="govuk-visually-hidden"> About your business</span>
+                </a>
+             </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key">
+                Business name
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                {{ form_data.business_name }}
+             </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key">
+                Postcode
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                {{ form_data.business_postcode }}
+             </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key">
+                Annual turnover
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                {{ form_data.annual_turnover }}
+             </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key">
+                Number of employees
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                {{ form_data.employee_count }}
+             </dd>
+          </div>
+       </dl>
+       <hr class="hr" />
+       <dl class="govuk-summary-list govuk-summary-list--no-border">
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key">
+                <h3>Finally</h3>
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                <a class="govuk-link" href="{% url 'export_academy:registration-marketing-edit' %}">
+                Change<span class="govuk-visually-hidden"> Finally</span>
+                </a>
+             </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+             <dt class="govuk-summary-list__key">
+                How you heard of us
+             </dt>
+             <dd class="govuk-summary-list__value width-quarter">
+                {{ form_data.marketing_sources }}
+             </dd>
+          </div>
+       </dl>
+       <div class="question padding-top-30">
+          <form action="" method="post" autocomplete="off">
+             {% csrf_token %}
+             {{form}}
+             <button type="submit" class="button primary-button">Submit</button>
+          </form>
+       </div>
       </div>
     </div>
-  </section>
+ </section>
 
 {% endblock %}

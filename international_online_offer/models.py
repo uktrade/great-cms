@@ -201,11 +201,8 @@ class TriageData(models.Model):
     hashed_uuid = models.CharField(max_length=200)
     sector = models.CharField(max_length=255, choices=choices.SECTOR_CHOICES)
     intent = ArrayField(
-        ArrayField(
-            models.CharField(max_length=255, choices=choices.INTENT_CHOICES),
-            size=6,
-        ),
-        size=1,
+        models.CharField(max_length=255, choices=choices.INTENT_CHOICES),
+        size=6,
         default=list,
     )
 

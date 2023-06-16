@@ -1435,3 +1435,117 @@ def test_fta_form_submit_success(mock_form_session, client, settings):
 def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements):
     response = client.get(reverse('contact:contact-free-trade-agreements'))
     assert response.context['privacy_url'] == PRIVACY_POLICY_URL__CONTACT_TRIAGE_FORMS_SPECIAL_PAGE
+
+
+@pytest.mark.parametrize(
+    'page_url,form_data,redirect_url,error_messages',
+    (
+        (
+            reverse('contact:export-support'),
+            {
+                'business_type': 'limitedcompany',
+                'business_name': 'Test business ltd',
+                'business_postcode': 'SW1A 1AA',
+            },
+            reverse('contact:export-support-step-2a'),
+            {
+                'business_type': 'Choose a business type',
+                'business_name': 'Enter your business name',
+                'business_postcode': 'Enter your business postcode',
+            },
+        ),
+        (
+            reverse('contact:export-support'),
+            {
+                'business_type': 'other',
+                'business_name': 'Test business ltd',
+                'business_postcode': 'SW1A 1AA',
+            },
+            reverse('contact:export-support-step-2b'),
+            {
+                'business_type': 'Choose a business type',
+                'business_name': 'Enter your business name',
+                'business_postcode': 'Enter your business postcode',
+            },
+        ),
+        (
+            reverse('contact:export-support'),
+            {
+                'business_type': 'soletrader',
+                'business_name': 'Test business ltd',
+                'business_postcode': 'SW1A 1AA',
+            },
+            reverse('contact:export-support-step-2c'),
+            {
+                'business_type': 'Choose a business type',
+                'business_name': 'Enter your business name',
+                'business_postcode': 'Enter your business postcode',
+            },
+        ),
+        (
+            reverse('contact:export-support-step-2a'),
+            {
+                'type': 'publiclimitedcompany',
+                'annual_turnover': '<85k',
+                'number_of_employees': '1-9',
+                'sector_primary': 'Aerospace',
+            },
+            reverse('contact:export-support-step-3'),
+            {
+                'type': 'Choose a type of UK limited company',
+                'annual_turnover': 'Please enter a turnover amount',
+                'number_of_employees': 'Choose number of employees',
+                'sector_primary': 'Choose a sector',
+            },
+        ),
+        (
+            reverse('contact:export-support-step-3'),
+            {
+                'first_name': 'Test',
+                'last_name': 'Name',
+                'job_title': 'Test job title',
+                'uk_telephone_number': '07171771717',
+                'email': 'name@example.com',
+            },
+            reverse('contact:export-support-step-4'),
+            {
+                'first_name': 'Enter your first name',
+                'last_name': 'Enter your last name',
+                'job_title': 'Enter your job title',
+                'uk_telephone_number': 'Enter your telephone number',
+                'email': 'Enter an email address in the correct format, like name@example.com',
+            },
+        ),
+        (
+            reverse('contact:export-support-step-4'),
+            {
+                'product_or_service_1': 'Test product 1',
+            },
+            reverse('contact:export-support-step-5'),
+            {
+                'product_or_service_1': 'Enter a product or service',
+            },
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_domestic_export_support_form_pages(
+    page_url,
+    form_data,
+    redirect_url,
+    error_messages,
+    client,
+):
+    #   Redirect fails when any of the fields in the form are missing
+    invalid_form_data = form_data.copy()
+    for key in form_data:
+        invalid_form_data.pop(key)
+        response = client.post(page_url, invalid_form_data)
+        assert response.status_code == 200
+        assert error_messages[key] in str(response.rendered_content)
+        invalid_form_data = form_data.copy()
+
+    #   Redirect succeeds with valid data
+    response = client.post(page_url, form_data)
+    assert response.status_code == 302
+    assert response.url == redirect_url

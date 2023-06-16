@@ -209,7 +209,7 @@ django-decorator-include==3.0
     # via -r requirements.in
 django-environ==0.4.5
     # via -r requirements.in
-django-extensions==3.2.1
+django-extensions==3.2.3
     # via -r requirements.in
 django-filter==22.1
     # via wagtail
@@ -276,7 +276,7 @@ factory-boy==2.12.0
     #   wagtail-factories
 faker==18.10.1
     # via factory-boy
-filelock==3.12.0
+filelock==3.12.2
     # via virtualenv
 flake8==6.0.0
     # via
@@ -459,7 +459,7 @@ pillow==9.5.0
     #   xhtml2pdf
 pip-tools==6.13.0
     # via -r requirements_test.in
-platformdirs==3.5.1
+platformdirs==3.5.3
     # via
     #   black
     #   pylint
@@ -528,7 +528,7 @@ pyrsistent==0.19.3
     # via jsonschema
 pysocks==1.7.1
     # via urllib3
-pytest==7.3.1
+pytest==7.3.2
     # via
     #   -r requirements_test.in
     #   allure-pytest
@@ -678,9 +678,9 @@ stack-data==0.6.2
     # via ipython
 svglib==1.5.1
     # via xhtml2pdf
-tablib==3.4.0
+tablib==3.5.0
     # via -r requirements.in
-telepath==0.3
+telepath==0.3.1
     # via wagtail
 termcolor==2.3.0
     # via pytest-sugar

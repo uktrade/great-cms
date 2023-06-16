@@ -20,6 +20,7 @@ from core.templatetags.content_tags import (
     get_topic_title_for_lesson,
     is_lesson_page,
     is_placeholder_page,
+    make_bold,
     str_to_datetime,
 )
 from core.templatetags.object_tags import get_item
@@ -728,3 +729,9 @@ def test_replace_emphasis_tags():
     context = Context({'content': content})
     rendered = template.render(context)
     assert rendered.strip() == expected_output
+
+
+def test_make_bold_tag():
+    text = 'Hello'
+    expected_output = make_bold(text)
+    assert expected_output == '<span class="govuk-!-font-weight-bold">Hello</span>'

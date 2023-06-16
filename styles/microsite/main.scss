@@ -7,8 +7,19 @@
 @import '../widgets/forms.scss';
 @import './forms.scss';
 @import './social-media.scss';
+@import './video-block.scss';
+@import '../fonts/main.scss';
 
 .microsite {
+
+  .govuk-list, .govuk-body {
+    font-size: $font-size-p;
+  }
+
+  hr {
+    border: none;
+  }
+
   .block-text {
     i {
       font-size: inherit;
@@ -37,7 +48,6 @@
     }
   }
   .great-rtl {
-
     .govuk-grid-row {
       display: block;
 
@@ -46,8 +56,8 @@
       }
 
       #related-content {
-          float: left;
-          position: relative;
+        float: left;
+        position: relative;
       }
 
       a {

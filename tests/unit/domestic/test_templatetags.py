@@ -1,19 +1,25 @@
+import datetime
 from unittest import mock
 
 import pytest
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core.paginator import Paginator
+from django.http import QueryDict
 from django.template import Context, Template
 from django.test import override_settings
+from django.utils import timezone
 
 from domestic.templatetags.component_tags import (
+    append_past_year_seperator,
     get_meta_description,
     get_pagination_url,
     get_projected_or_actual,
     industry_accordion_case_study_is_viable,
     industry_accordion_is_viable,
+    persist_language,
 )
+from tests.unit.export_academy.factories import EventFactory
 
 
 def test_static_absolute(rf):
@@ -451,10 +457,13 @@ def test_pagination(count, current, expected, rf):
     if soup.findAll('a', {'id': 'pagination-previous'}):
         items.append('P')
     for element in soup.find_all('li'):
-        if element.find('span'):
+        if element.find('span', class_=None):
             items.append('...')
         else:
             button = element.find('a')
+            if button.find('span', class_='govuk-visually-hidden'):
+                button.find('span', class_='govuk-visually-hidden').decompose()
+
             if 'primary-button' in button['class']:
                 items.append(f'[{button.string}]')
             else:
@@ -471,3 +480,27 @@ def test_pagination(count, current, expected, rf):
 )
 def test_get_projected_or_actual(is_projected, capitalize, expected_output):
     assert get_projected_or_actual(is_projected, capitalize) == expected_output
+
+
+@pytest.mark.django_db
+def test_append_past_year_seperator():
+    objects = [
+        EventFactory(start_date=timezone.make_aware(datetime.datetime(2023, 10, 24, 15, 0))),
+        EventFactory(start_date=timezone.make_aware(datetime.datetime(2023, 1, 24, 15, 0))),
+        EventFactory(start_date=timezone.make_aware(datetime.datetime(2023, 1, 24, 15, 0))),
+        EventFactory(start_date=timezone.make_aware(datetime.datetime(2022, 1, 24, 15, 0))),
+    ]
+    filtered_objects = append_past_year_seperator(objects)
+    assert [x.past_year_seperator for x in filtered_objects] == [None, '2023', None, '2022']
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'url, language, expected_output',
+    (
+        ('http://dummy.com', QueryDict('lang=fr'), 'http://dummy.com?lang=fr'),
+        ('http://dummy.com', QueryDict(''), 'http://dummy.com'),
+    ),
+)
+def test_persist_language(url, language, expected_output):
+    assert persist_language(url, language) == expected_output

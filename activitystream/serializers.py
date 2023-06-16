@@ -1,9 +1,12 @@
 import logging
 
 from rest_framework import serializers
+from taggit.serializers import TagListSerializerField
 from wagtail.rich_text import RichText, get_text_for_indexing
 
 from domestic.models import ArticlePage
+from export_academy.models import Booking, Event, Registration
+from international_online_offer.models import TriageData, UserData
 
 logger = logging.getLogger(__name__)
 
@@ -87,3 +90,212 @@ class PageSerializer(serializers.Serializer):
             return ArticlePageSerializer(obj).data
         else:
             return CountryGuidePageSerializer(obj).data
+
+
+class ExportAcademyEventSerializer(serializers.ModelSerializer):
+    """
+    UKEA's Event serializer for Activity Stream.
+    """
+
+    startDate = serializers.DateTimeField(source='start_date')  # noqa: N815
+    endDate = serializers.DateTimeField(source='end_date')  # noqa: N815
+    liveDate = serializers.DateTimeField(source='live')  # noqa: N815
+    completeDate = serializers.DateTimeField(source='completed')  # noqa: N815
+    types = TagListSerializerField()
+
+    class Meta:
+        model = Event
+        fields = [
+            'name',
+            'description',
+            'format',
+            'types',
+            'link',
+            'timezone',
+            'startDate',
+            'endDate',
+            'liveDate',
+            'completeDate',
+        ]
+
+    def to_representation(self, instance):
+        """
+        Prefix field names to match activity stream format
+        """
+        prefix = 'dit:exportAcademy:event'
+        type = 'Update'
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'published': instance.modified.isoformat(),
+            'object': {
+                'id': f'{prefix}:{instance.id}',
+                'type': prefix,
+                'created': instance.created.isoformat(),
+                'modified': instance.modified.isoformat(),
+                **{f'{k}': v for k, v in super().to_representation(instance).items()},
+            },
+        }
+
+
+class ExportAcademyRegistrationSerializer(serializers.ModelSerializer):
+    """
+    UKEA's Registration serializer for Activity Stream.
+    """
+
+    firstName = serializers.CharField(source='first_name')  # noqa: N815
+    lastName = serializers.CharField(source='last_name')  # noqa: N815
+
+    class Meta:
+        model = Registration
+        fields = ['email', 'firstName', 'lastName', 'data']
+
+    def to_representation(self, instance):
+        """
+        Prefix field names to match activity stream format
+        """
+        prefix = 'dit:exportAcademy:registration'
+        type = 'Update'
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'published': instance.modified.isoformat(),
+            'object': {
+                'id': f'{prefix}:{instance.id}',
+                'type': prefix,
+                'created': instance.created.isoformat(),
+                'modified': instance.modified.isoformat(),
+                **{f'{k}': v for k, v in super().to_representation(instance).items()},
+            },
+        }
+
+
+class ExportAcademyBookingSerializer(serializers.ModelSerializer):
+    """
+    UKEA's Booking serializer for Activity Stream.
+    """
+
+    eventId = serializers.UUIDField(source='event_id')  # noqa: N815
+    registrationId = serializers.UUIDField(source='registration_id')  # noqa: N815
+
+    class Meta:
+        model = Booking
+        fields = ['eventId', 'registrationId', 'status']
+
+    def to_representation(self, instance):
+        """
+        Prefix field names to match activity stream format
+        """
+        prefix = 'dit:exportAcademy:booking'
+        type = 'Update'
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'published': instance.modified.isoformat(),
+            'object': {
+                'id': f'{prefix}:{instance.id}',
+                'type': prefix,
+                'created': instance.created.isoformat(),
+                'modified': instance.modified.isoformat(),
+                **{f'{k}': v for k, v in super().to_representation(instance).items()},
+            },
+        }
+
+
+class ActivityStreamExpandYourBusinessUserDataSerializer(serializers.ModelSerializer):
+    """
+    Expand Your Business User Data serializer for activity stream.
+
+    - Adds extra response fields required by activity stream.
+    - Adds the required prefix to field names
+    """
+
+    hashedUuid = serializers.CharField(source='hashed_uuid')  # noqa: N815
+    companyName = serializers.CharField(source='company_name')  # noqa: N815
+    companyLocation = serializers.CharField(source='company_location')  # noqa: N815
+    fullName = serializers.CharField(source='full_name')  # noqa: N815
+    telephoneNumber = serializers.CharField(source='telephone_number')  # noqa: N815
+    agreeTerms = serializers.BooleanField(source='agree_terms')  # noqa: N815
+    agreeInfoEmail = serializers.BooleanField(source='agree_info_email')  # noqa: N815
+    agreeInfoTelephone = serializers.BooleanField(source='agree_info_telephone')  # noqa: N815
+
+    class Meta:
+        model = UserData
+        fields = [
+            'id',
+            'hashedUuid',
+            'companyName',
+            'companyLocation',
+            'fullName',
+            'role',
+            'email',
+            'telephoneNumber',
+            'agreeTerms',
+            'agreeInfoEmail',
+            'agreeInfoTelephone',
+        ]
+
+    def to_representation(self, instance):
+        """
+        Prefix field names to match activity stream format
+        """
+        prefix = 'dit:expandYourBusiness:userData'
+        type = 'Update'
+
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'object': {
+                'id': f'{prefix}:{instance.id}',
+                'type': prefix,
+                **{f'{k}': v for k, v in super().to_representation(instance).items()},
+            },
+        }
+
+
+class ActivityStreamExpandYourBusinessTriageDataSerializer(serializers.ModelSerializer):
+    """
+    Expand Your Business Triage Data serializer for activity stream.
+
+    - Adds extra response fields required by activity stream.
+    - Adds the required prefix to field names
+    """
+
+    hashedUuid = serializers.CharField(source='hashed_uuid')  # noqa: N815
+    intentOther = serializers.CharField(source='intent_other')  # noqa: N815
+    locationNone = serializers.BooleanField(source='location_none')  # noqa: N815
+    spendOther = serializers.CharField(source='spend_other')  # noqa: N815
+    isHighValue = serializers.BooleanField(source='is_high_value')  # noqa: N815
+
+    class Meta:
+        model = TriageData
+        fields = [
+            'id',
+            'hashedUuid',
+            'sector',
+            'intent',
+            'intentOther',
+            'location',
+            'locationNone',
+            'hiring',
+            'spend',
+            'spendOther',
+            'isHighValue',
+        ]
+
+    def to_representation(self, instance):
+        """
+        Prefix field names to match activity stream format
+        """
+        prefix = 'dit:expandYourBusiness:triageData'
+        type = 'Update'
+
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'object': {
+                'id': f'{prefix}:{instance.id}',
+                'type': prefix,
+                **{f'{k}': v for k, v in super().to_representation(instance).items()},
+            },
+        }

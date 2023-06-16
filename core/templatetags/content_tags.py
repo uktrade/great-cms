@@ -274,3 +274,8 @@ def replace_emphasis_tags(content):
                 found_tag.name = replacement
 
     return format_html(str(soup))
+
+
+@register.filter
+def make_bold(text):
+    return mark_safe(f'<span class="govuk-!-font-weight-bold">{text}</span>')

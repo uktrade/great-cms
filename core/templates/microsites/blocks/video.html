@@ -3,7 +3,7 @@
 {% load get_template_translation_enabled from content_tags %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row microsite-video-wrapper">
     <div class="govuk-grid-column-three-quarters">
         {% if value.video %}
         <div class=" great-ratio-16-9">
@@ -18,9 +18,14 @@
                 {% endif %}
             </video>
         </div>
-
+        {%if value.video.title%}
+            <h4>{{value.video.title}}</h4>
+        {%endif%}
+        {%if value.video.description%}
+            <p>{{value.video.description}}</p>
+        {%endif%}
         {% if value.video.transcript %}
-        <details closed class="govuk-details govuk-!-margin-top-5 govuk-!-margin-bottom-5">
+        <details closed class="govuk-details govuk-!-margin-bottom-5">
             <summary  class="govuk-details__summary"><span class="govuk-details__summary-text">
                 {% if TRANSLATE_TEXT %}
                     {% translate "View video transcript" %}
@@ -28,7 +33,9 @@
                     View video transcript
                 {% endif %}
             </span></summary>
-            <div class="govuk-details__text">{{ value.video.transcript|richtext }}</div>
+            <div class="govuk-details__text">
+                    {{ value.video.transcript|richtext }}
+            </div>
         </details>
         {% endif %}
     {% endif %}
