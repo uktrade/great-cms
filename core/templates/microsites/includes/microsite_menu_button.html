@@ -17,7 +17,7 @@
                 {% endif %}
             <span class="magna-header__dropdown-button__icon"></span>
         </button>
-        <div id="main-menu" class="magna-header__dropdown">
+        <div id="main-menu" class="magna-header__dropdown {%if rtl_language%}rtl-page{%endif%}">
             <ul class="magna-header__menu-items">
                 {% for item in menu_items %}
                     <li>
