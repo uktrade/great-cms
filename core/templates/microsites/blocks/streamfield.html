@@ -2,6 +2,7 @@
 
 {% load add_govuk_classes from content_tags %}
 {% load replace_emphasis_tags from content_tags %}
+{% load wagtailcore_tags %}
 
 {% for block in streamfield_content %}
 
@@ -32,7 +33,7 @@
         {% endfilter %}
     {% else %}
         {% filter replace_emphasis_tags %}
-            {{ block }}
+            {% include_block block %}
         {%endfilter%}
     {% endif %}
 {% endfor %}

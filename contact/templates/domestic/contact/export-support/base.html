@@ -11,13 +11,21 @@
 
 {% block content %}
   <div class="great great-bg-white">
-    <div class="great-container govuk-!-padding-top-7">
+    <div class="great-container govuk-!-padding-top-4">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full great-grid-column-seven-twelfths">
-                <p class="govuk-body">{{step_text}}</p>
+                {% if back_link %}
+                <a href="{{back_link}}" class="govuk-link great-back-link">Back</a>
+                {% endif %}
+                <p class="govuk-body govuk-!-margin-top-4">{{step_text}}</p>
                 <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">{{heading_text}}</h1>
-                <p class="govuk-body govuk-!-margin-bottom-7">This information will help us direct you to the right support for your business.</p>
-                {% if show_form %}
+                <p class="govuk-body govuk-!-margin-bottom-7">
+                  {% if strapline_text %}
+                    {{strapline_text}}
+                  {% else %}
+                    This information will help us direct you to the right support for your business.
+                  {% endif %}
+                </p>
                 <form method="post" autocomplete="off">
                     {% csrf_token %}
 
@@ -29,7 +37,6 @@
 
                     <button type="submit" class="govuk-button great-min-width-250-desktop">{{button_text}}</button>
                 </form>
-                {% endif %}
             </div>
         </div>
     </div>

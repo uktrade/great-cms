@@ -132,7 +132,8 @@ class Registration(TimeStampedModel):
     Captures data submitted via the Export Academy registration form.
     """
 
-    email = models.EmailField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     data = models.JSONField(blank=True, default=dict)

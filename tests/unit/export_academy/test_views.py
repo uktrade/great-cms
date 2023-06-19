@@ -9,20 +9,10 @@ from django.utils import timezone
 
 from config import settings
 from core.models import HeroSnippet
-from core.snippet_slugs import (
-    EA_REGISTRATION_PAGE_HERO,
-    EXPORT_ACADEMY_LISTING_PAGE_HERO,
-)
+from core.snippet_slugs import EA_REGISTRATION_PAGE_HERO
 from export_academy.filters import EventFilter
 from export_academy.models import Booking
 from tests.unit.export_academy import factories
-
-
-@pytest.fixture
-def test_event_list_hero():
-    snippet = HeroSnippet(slug=EXPORT_ACADEMY_LISTING_PAGE_HERO)
-    snippet.save()
-    return snippet
 
 
 @pytest.fixture
@@ -283,7 +273,7 @@ def test_export_academy_registration_success(
         {'completed': datetime.now()},
     )
 
-    booking = Booking.objects.get(event_id=event.id, registration_id=user.email)
+    booking = Booking.objects.get(event_id=event.id, registration__email=user.email)
 
     assert response.status_code == 302
     assert response.url == reverse('export_academy:registration-success', kwargs={'booking_id': booking.id})

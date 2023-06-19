@@ -53,7 +53,7 @@
         </div>
     {% elif field.name == 'sector_primary_other' %}
         <div class="govuk-form-group govuk-!-margin-bottom-7" data-other-field>
-            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
+            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
         </div>
     {% else %}
     <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">

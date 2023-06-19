@@ -62,9 +62,9 @@
                         </form>
                     </div>
                     <div id="event-list" class="govuk-grid-column-three-quarters">
+                        {% include 'export_academy/includes/filter_summary.html' %}
                         {% if not page_obj %}
-                            <p>There are currently no events available for the filters you have chosen.</p>
-                            <p>Remove one or more of your filter choices to broaden your search.</p>
+                            {% include 'export_academy/includes/no_results.html' %}
                         {% else %}
                             {% for event in page_obj|append_past_year_seperator%}
 

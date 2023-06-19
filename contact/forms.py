@@ -240,6 +240,85 @@ class DomesticExportSupportStep3Form(forms.Form):
             'required': 'Enter your first name',
         },
     )
+    last_name = forms.CharField(
+        label='Last name',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
+        error_messages={
+            'required': 'Enter your last name',
+        },
+    )
+    job_title = forms.CharField(
+        label='Job title',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
+        error_messages={
+            'required': 'Enter your job title',
+        },
+    )
+    uk_telephone_number = forms.CharField(
+        label='UK telephone number',
+        help_text='This can be a landline or mobile number.',
+        min_length=8,
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
+        error_messages={
+            'required': 'Enter your telephone number',
+        },
+    )
+    email = forms.EmailField(
+        label='Email address',
+        widget=django_widgets.EmailInput(attrs={'class': 'govuk-input great-text-input'}),
+        error_messages={
+            'required': 'Enter an email address in the correct format, like name@example.com',
+            'invalid': 'Enter an email address in the correct format, like name@example.com',
+        },
+    )
+
+
+class DomesticExportSupportStep4Form(forms.Form):
+    product_or_service_1 = forms.CharField(
+        label='Product or service',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input govuk-!-width-one-half great-text-input'}),
+        error_messages={
+            'required': 'Enter a product or service',
+        },
+    )
+    product_or_service_2 = forms.CharField(
+        label='Second product or service',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input govuk-!-width-one-half great-text-input'}),
+        required=False,
+    )
+    product_or_service_3 = forms.CharField(
+        label='Third product or service',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input govuk-!-width-one-half great-text-input'}),
+        required=False,
+    )
+    product_or_service_4 = forms.CharField(
+        label='Fourth product or service',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input govuk-!-width-one-half great-text-input'}),
+        required=False,
+    )
+    product_or_service_5 = forms.CharField(
+        label='Fifth product or service',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input govuk-!-width-one-half great-text-input'}),
+        required=False,
+    )
+
+
+class DomesticExportSupportStep5Form(forms.Form):
+    search = forms.CharField(
+        label='Search the list',
+        widget=django_widgets.TextInput(
+            attrs={'class': 'govuk-input great-text-input', 'placeholder': 'Search the list'}
+        ),
+        required=False,
+    )
+    markets = forms.ChoiceField(
+        label='Select all markets that apply',
+        widget=contact_widgets.GreatCheckboxes,
+        choices=COUNTRY_CHOICES + [('notspecificcountry', 'My query is not related to a specific country')],
+        error_messages={
+            'required': 'Enter a market',
+        },
+    )
 
 
 class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):

@@ -5,7 +5,13 @@ import wagtail_factories
 from django.utils import timezone
 
 from core.models import GreatMedia
-from export_academy.models import Booking, Event, ExportAcademyHomePage, Registration
+from export_academy.models import (
+    Booking,
+    Event,
+    EventTypeTag,
+    ExportAcademyHomePage,
+    Registration,
+)
 
 
 class GreatMediaFactory(wagtail_factories.DocumentFactory):
@@ -37,6 +43,7 @@ class EventFactory(factory.django.DjangoModelFactory):
 
 
 class RegistrationFactory(factory.django.DjangoModelFactory):
+    id = factory.Faker('uuid4')
     email = factory.Sequence(lambda n: '%d@example.com' % n)
     first_name = factory.fuzzy.FuzzyText(length=10)
     last_name = factory.fuzzy.FuzzyText(length=10)
@@ -63,3 +70,11 @@ class ExportAcademyHomePageFactory(wagtail_factories.PageFactory):
 
     class Meta:
         model = ExportAcademyHomePage
+
+
+class EventTypeTagFactory(factory.django.DjangoModelFactory):
+    name = 'Essentials'
+    slug = 'essentials'
+
+    class Meta:
+        model = EventTypeTag

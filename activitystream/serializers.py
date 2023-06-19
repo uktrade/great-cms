@@ -5,7 +5,7 @@ from taggit.serializers import TagListSerializerField
 from wagtail.rich_text import RichText, get_text_for_indexing
 
 from domestic.models import ArticlePage
-from export_academy.models import Booking, Event
+from export_academy.models import Booking, Event, Registration
 from international_online_offer.models import TriageData, UserData
 
 logger = logging.getLogger(__name__)
@@ -92,7 +92,7 @@ class PageSerializer(serializers.Serializer):
             return CountryGuidePageSerializer(obj).data
 
 
-class ExportAcademyEventSerializer(serializers.ModelSerializer):
+class ActivityStreamExportAcademyEventSerializer(serializers.ModelSerializer):
     """
     UKEA's Event serializer for Activity Stream.
     """
@@ -138,7 +138,39 @@ class ExportAcademyEventSerializer(serializers.ModelSerializer):
         }
 
 
-class ExportAcademyBookingSerializer(serializers.ModelSerializer):
+class ActivityStreamExportAcademyRegistrationSerializer(serializers.ModelSerializer):
+    """
+    UKEA's Registration serializer for Activity Stream.
+    """
+
+    firstName = serializers.CharField(source='first_name')  # noqa: N815
+    lastName = serializers.CharField(source='last_name')  # noqa: N815
+
+    class Meta:
+        model = Registration
+        fields = ['email', 'firstName', 'lastName', 'data']
+
+    def to_representation(self, instance):
+        """
+        Prefix field names to match activity stream format
+        """
+        prefix = 'dit:exportAcademy:registration'
+        type = 'Update'
+        return {
+            'id': f'{prefix}:{instance.id}:{type}',
+            'type': f'{type}',
+            'published': instance.modified.isoformat(),
+            'object': {
+                'id': f'{prefix}:{instance.id}',
+                'type': prefix,
+                'created': instance.created.isoformat(),
+                'modified': instance.modified.isoformat(),
+                **{f'{k}': v for k, v in super().to_representation(instance).items()},
+            },
+        }
+
+
+class ActivityStreamExportAcademyBookingSerializer(serializers.ModelSerializer):
     """
     UKEA's Booking serializer for Activity Stream.
     """

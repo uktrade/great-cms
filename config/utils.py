@@ -54,12 +54,24 @@ def get_wagtail_transfer_configuration() -> dict:
                     'BASE_URL': staging_base_url,
                     'SECRET_KEY': staging_secret,
                 },
+                PRODUCTION: {
+                    'BASE_URL': prod_base_url,
+                    'SECRET_KEY': prod_secret,
+                },
             },
             STAGING: {
                 PRODUCTION: {
                     'BASE_URL': prod_base_url,
                     'SECRET_KEY': prod_secret,
-                }
+                },
+                UAT: {
+                    'BASE_URL': uat_base_url,
+                    'SECRET_KEY': uat_secret,
+                },
+                DEV: {
+                    'BASE_URL': dev_base_url,
+                    'SECRET_KEY': dev_secret,
+                },
             },
             UAT: {
                 PRODUCTION: {
@@ -95,9 +107,13 @@ def get_wagtail_transfer_configuration() -> dict:
         uat_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_UAT')
         staging_base_url = env.str('WAGTAILTRANSFER_BASE_URL_STAGING')
         staging_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_STAGING')
+        prod_base_url = env.str('WAGTAILTRANSFER_BASE_URL_PRODUCTION')
+        prod_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_PRODUCTION')
         config.update(
             _get_config(
                 active_environment,
+                prod_base_url=prod_base_url,
+                prod_secret=prod_secret,
                 uat_base_url=uat_base_url,
                 uat_secret=uat_secret,
                 staging_base_url=staging_base_url,
@@ -108,11 +124,19 @@ def get_wagtail_transfer_configuration() -> dict:
         # Staging needs to know about production, to import FROM it
         prod_base_url = env.str('WAGTAILTRANSFER_BASE_URL_PRODUCTION')
         prod_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_PRODUCTION')
+        dev_base_url = env.str('WAGTAILTRANSFER_BASE_URL_DEV')
+        dev_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_DEV')
+        uat_base_url = env.str('WAGTAILTRANSFER_BASE_URL_UAT')
+        uat_secret = env.str('WAGTAILTRANSFER_SECRET_KEY_UAT')
         config.update(
             _get_config(
                 active_environment,
                 prod_base_url=prod_base_url,
                 prod_secret=prod_secret,
+                uat_base_url=uat_base_url,
+                uat_secret=uat_secret,
+                dev_base_url=dev_base_url,
+                dev_secret=dev_secret,
             )
         )
     elif active_environment == UAT:
