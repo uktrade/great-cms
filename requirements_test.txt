@@ -76,7 +76,7 @@ brotli==1.0.9
     # via geventhttpclient
 browserstack-local==1.2.5
     # via browserstack-sdk
-browserstack-sdk==1.10.1
+browserstack-sdk==1.10.2
     # via -r requirements_test.in
 build==0.10.0
     # via pip-tools
@@ -112,7 +112,7 @@ click-didyoumean==0.3.0
     # via celery
 click-plugins==1.1.1
     # via celery
-click-repl==0.2.0
+click-repl==0.3.0
     # via celery
 configargparse==1.5.3
     # via locust
@@ -192,6 +192,7 @@ django==4.1.9
     #   django-staff-sso-client
     #   django-storages
     #   django-taggit
+    #   django-timezone-field
     #   django-treebeard
     #   djangorestframework
     #   drf-spectacular
@@ -233,7 +234,7 @@ django-storages[boto3]==1.13.2
     # via -r requirements.in
 django-taggit==3.1.0
     # via wagtail
-django-timezone-field==5.0
+django-timezone-field==5.1
     # via django-celery-beat
 django-treebeard==4.7
     # via
@@ -344,7 +345,7 @@ idna==3.4
     #   trio
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==6.6.0
+importlib-metadata==6.7.0
     # via flask
 inflection==0.5.1
     # via drf-spectacular
@@ -377,7 +378,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.3.0
+kombu==5.3.1
     # via celery
 l18n==2021.3
     # via wagtail
@@ -459,7 +460,7 @@ pillow==9.5.0
     #   xhtml2pdf
 pip-tools==6.13.0
     # via -r requirements_test.in
-platformdirs==3.5.3
+platformdirs==3.6.0
     # via
     #   black
     #   pylint
@@ -502,9 +503,9 @@ pygments==2.15.1
     # via
     #   ipython
     #   sphinx
-pyhanko==0.18.1
+pyhanko==0.19.0
     # via xhtml2pdf
-pyhanko-certvalidator==0.22.0
+pyhanko-certvalidator==0.23.0
     # via
     #   pyhanko
     #   xhtml2pdf
@@ -516,7 +517,7 @@ pylint-django==2.5.3
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pypdf==3.9.1
+pypdf==3.10.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -624,7 +625,7 @@ requests-toolbelt==1.0.0
     # via browserstack-sdk
 roundrobin==0.0.4
     # via locust
-ruamel-yaml==0.17.31
+ruamel-yaml==0.17.32
     # via pre-commit-hooks
 ruamel-yaml-clib==0.2.7
     # via ruamel-yaml
@@ -641,7 +642,6 @@ sigauth==5.2.0
 six==1.16.0
     # via
     #   airtable-python-wrapper
-    #   click-repl
     #   elasticsearch-dsl
     #   flask-cors
     #   geventhttpclient
@@ -752,7 +752,7 @@ vine==5.0.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.23.0
+virtualenv==20.23.1
     # via pre-commit
 w3lib==1.22.0
     # via directory-client-core
@@ -799,7 +799,7 @@ werkzeug==2.3.6
     #   locust
 wheel==0.40.0
     # via pip-tools
-whitenoise==6.4.0
+whitenoise==6.5.0
     # via -r requirements.in
 willow==1.4.1
     # via wagtail
