@@ -1,5 +1,3 @@
-from datetime import datetime
-
 import django_filters.rest_framework
 from django.conf import settings
 from django.http import Http404
@@ -15,13 +13,21 @@ from activitystream.authentication import (
     ActivityStreamAuthentication,
     ActivityStreamHawkResponseMiddleware,
 )
-from activitystream.filters import PageFilter
+from activitystream.filters import (
+    ActivityStreamExpandYourBusinessFilter,
+    ActivityStreamExportAcademyFilter,
+    PageFilter,
+)
+from activitystream.pagination import (
+    ActivityStreamExpandYourBusinessPagination,
+    ActivityStreamExportAcademyPagination,
+)
 from activitystream.serializers import (
     ActivityStreamExpandYourBusinessTriageDataSerializer,
     ActivityStreamExpandYourBusinessUserDataSerializer,
-    ExportAcademyBookingSerializer,
-    ExportAcademyEventSerializer,
-    ExportAcademyRegistrationSerializer,
+    ActivityStreamExportAcademyBookingSerializer,
+    ActivityStreamExportAcademyEventSerializer,
+    ActivityStreamExportAcademyRegistrationSerializer,
     PageSerializer,
 )
 from domestic.models import ArticlePage, CountryGuidePage
@@ -149,115 +155,60 @@ class TestSearchAPIView(TemplateView):
         return super().dispatch(*args, **kwargs)
 
 
-class BaseActivityStreamView(ListAPIView):
-    MAX_PER_PAGE = 500
-
-    authentication_classes = (ActivityStreamAuthentication,)
+class ActivityStreamBaseView(ListAPIView):
+    # authentication_classes = (ActivityStreamAuthentication,)
     permission_classes = ()
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
 
-    @staticmethod
-    def _parse_after(request):
-        after = request.GET.get('after', '0.000000_0')
-        after_ts_str, after_id_str = after.split('_')
-        after_ts = datetime.fromtimestamp(float(after_ts_str))
-        after_id = int(after_id_str)
-        return after_ts, after_id
-
-    @staticmethod
-    def _build_after(request, after_ts, after_id):
-        return f'{request.build_absolute_uri(request.path)}?after={after_ts.timestamp()}_{after_id}'
-
-    def list(self, request):
-        raise NotImplementedError('subclasses of BaseActivityStreamView must provide a list() method')
-
-    @staticmethod
-    def _generate_response(items, next_page_url):
-        """Put together a response in the format required by activity stream"""
-        next_page = {'next': next_page_url} if next_page_url else {}
-        return Response(
-            {
-                '@context': 'https://www.w3.org/ns/activitystreams',
-                'type': 'Collection',
-                'orderedItems': items,
-                **next_page,
-            }
-        )
+    # @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
+    def list(self, request, *args, **kwargs):
+        """A single page of activities to be consumed by activity stream."""
+        return super().list(request, *args, **kwargs)
 
 
-class ExportAcademyEventActivityStreamView(BaseActivityStreamView):
-    @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
-    def list(self, request):
-        """A single page of events to be consumed by activity stream."""
-        after_ts, after_id = self._parse_after(request)
-        events = list(
-            Event.objects.filter(modified=after_ts, id__gt=after_id).order_by('modified', 'id')[: self.MAX_PER_PAGE]
-        )
+class ActivityStreamExportAcademyBaseView(ActivityStreamBaseView):
+    filterset_class = ActivityStreamExportAcademyFilter
+    pagination_class = ActivityStreamExportAcademyPagination
 
-        return self._generate_response(
-            ExportAcademyEventSerializer(events, many=True).data,
-            self._build_after(request, events[-1].modified, events[-1].id) if events else None,
-        )
+    def get_queryset(self):
+        return self.queryset.order_by('modified')
 
 
-class ExportAcademyRegistrationActivityStreamView(BaseActivityStreamView):
-    @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
-    def list(self, request):
-        """A single page of registrations to be consumed by activity stream."""
-        after_ts, after_id = self._parse_after(request)
-        registrations = list(
-            Registration.objects.filter(modified=after_ts, id__gt=after_id).order_by('modified', 'id')[
-                : self.MAX_PER_PAGE
-            ]
-        )
+class ActivityStreamExpandYourBusinessBaseView(ActivityStreamBaseView):
+    filterset_class = ActivityStreamExpandYourBusinessFilter
+    pagination_class = ActivityStreamExpandYourBusinessPagination
 
-        return self._generate_response(
-            ExportAcademyRegistrationSerializer(registrations, many=True).data,
-            self._build_after(request, registrations[-1].modified, registrations[-1].id) if registrations else None,
-        )
+    def get_queryset(self):
+        return self.queryset.order_by('id')
 
 
-class ExportAcademyBookingActivityStreamView(BaseActivityStreamView):
-    @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
-    def list(self, request):
-        """A single page of bookings to be consumed by activity stream."""
-        after_ts, after_id = self._parse_after(request)
-        bookings = list(
-            Booking.objects.filter(modified=after_ts, id__gt=after_id).order_by('modified', 'id')[: self.MAX_PER_PAGE]
-        )
+class ActivityStreamExportAcademyEventView(ActivityStreamExportAcademyBaseView):
+    queryset = Event.objects.all()
+    serializer_class = ActivityStreamExportAcademyEventSerializer
 
-        return self._generate_response(
-            ExportAcademyBookingSerializer(bookings, many=True).data,
-            self._build_after(request, bookings[-1].modified, bookings[-1].id) if bookings else None,
-        )
+    def get_queryset(self):
+        return self.queryset.exclude(live__isnull=True).order_by('modified')
 
 
-class ActivityStreamExpandYourBusinessUserDataViewSet(BaseActivityStreamView):
-    """View set to list expand your business user data for the activity stream"""
-
-    @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
-    def list(self, request):
-        """A single page of expand your business users to be consumed by activity stream."""
-        _after_ts, after_id = self._parse_after(request)
-
-        users = list(UserData.objects.filter(id__gt=after_id).order_by('id')[: self.MAX_PER_PAGE])
-
-        return self._generate_response(
-            ActivityStreamExpandYourBusinessUserDataSerializer(users, many=True).data,
-            self._build_after(request, datetime.now(), users[-1].id) if users else None,
-        )
+class ActivityStreamExportAcademyRegistrationView(ActivityStreamExportAcademyBaseView):
+    queryset = Registration.objects.all()
+    serializer_class = ActivityStreamExportAcademyRegistrationSerializer
 
 
-class ActivityStreamExpandYourBusinessTriageDataViewSet(BaseActivityStreamView):
-    """View set to list expand your business triage data for the activity stream"""
+class ActivityStreamExportAcademyBookingView(ActivityStreamExportAcademyBaseView):
+    queryset = Booking.objects.all()
+    serializer_class = ActivityStreamExportAcademyBookingSerializer
 
-    @decorator_from_middleware(ActivityStreamHawkResponseMiddleware)
-    def list(self, request):
-        """A single page of expand your business triage data to be consumed by activity stream."""
-        _after_ts, after_id = self._parse_after(request)
 
-        triage_data = list(TriageData.objects.filter(id__gt=after_id).order_by('id')[: self.MAX_PER_PAGE])
+class ActivityStreamExpandYourBusinessUserDataView(ActivityStreamExpandYourBusinessBaseView):
+    """View to list expand your business user data for the activity stream"""
 
-        return self._generate_response(
-            ActivityStreamExpandYourBusinessTriageDataSerializer(triage_data, many=True).data,
-            self._build_after(request, datetime.now(), triage_data[-1].id) if triage_data else None,
-        )
+    queryset = UserData.objects.all()
+    serializer_class = ActivityStreamExpandYourBusinessUserDataSerializer
+
+
+class ActivityStreamExpandYourBusinessTriageDataView(ActivityStreamExpandYourBusinessBaseView):
+    """View to list expand your business triage data for the activity stream"""
+
+    queryset = TriageData.objects.all()
+    serializer_class = ActivityStreamExpandYourBusinessTriageDataSerializer

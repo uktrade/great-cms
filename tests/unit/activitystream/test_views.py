@@ -1,5 +1,6 @@
 import datetime
 import json
+from unittest import mock
 
 import mohawk
 import pytest
@@ -416,22 +417,78 @@ def test_search_test_api_view__disabled(client):
 
 
 @pytest.mark.parametrize(
-    'resource,factory,expected_count',
-    (('events', EventFactory, 0), ('bookings', BookingFactory, 0), ('registrations', RegistrationFactory, 0)),
+    'resource,factory',
+    (('events', EventFactory), ('bookings', BookingFactory), ('registrations', RegistrationFactory)),
 )
 @pytest.mark.django_db
-def test_activity_stream_ukea_views(api_client, resource, factory, expected_count):
+def test_activity_stream_ukea_views(api_client, resource, factory):
+    records_count = 10
     url = 'http://testserver' + reverse(f'activitystream:ukea-{resource}')
     sender = auth_sender(url=url)
-    response = api_client.get(
-        url,
-        content_type='',
-        HTTP_AUTHORIZATION=sender.request_header,
-        HTTP_X_FORWARDED_FOR='1.2.3.4, 123.123.123.123',
-    )
+    auth_headers = {
+        'content_type': '',
+        'HTTP_AUTHORIZATION': sender.request_header,
+        'HTTP_X_FORWARDED_FOR': '1.2.3.4, 123.123.123.123',
+    }
+
+    response = api_client.get(url, **auth_headers)
 
     assert response.status_code == 200
     assert response.json() == EMPTY_COLLECTION
+    assert len(response.json()['orderedItems']) == 0
+
+    factory.create_batch(records_count)
+
+    response = api_client.get(url, **auth_headers)
+
+    assert response.status_code == 200
+    assert len(response.json()['orderedItems']) == records_count
+
+
+@pytest.mark.parametrize(
+    'resource,factory',
+    (('events', EventFactory), ('bookings', BookingFactory), ('registrations', RegistrationFactory)),
+)
+@mock.patch('activitystream.pagination.ActivityStreamExportAcademyPagination.page_size', 5)
+@pytest.mark.django_db
+def test_activity_stream_ukea_views_pagination(api_client, resource, factory):
+    url = 'http://testserver' + reverse(f'activitystream:ukea-{resource}')
+    sender = auth_sender(url=url)
+    auth_headers = {
+        'content_type': '',
+        'HTTP_AUTHORIZATION': sender.request_header,
+        'HTTP_X_FORWARDED_FOR': '1.2.3.4, 123.123.123.123',
+    }
+
+    factory.create_batch(10)
+
+    response = api_client.get(url, **auth_headers)
+
+    payload = response.json()
+    items = payload['orderedItems']
+    next_url = payload['next']
+    after_ts_str = next_url.split('=')[1]
+    after_ts = datetime.datetime.fromtimestamp(float(after_ts_str), tz=datetime.timezone.utc)
+
+    assert response.status_code == 200
+    assert len(items) == 5
+    assert datetime.datetime.fromisoformat(items[-1]['object']['modified']) == after_ts
+
+    sender = auth_sender(url=next_url)
+    auth_headers = {
+        'content_type': '',
+        'HTTP_AUTHORIZATION': sender.request_header,
+        'HTTP_X_FORWARDED_FOR': '1.2.3.4, 123.123.123.123',
+    }
+
+    response = api_client.get(next_url, **auth_headers)
+
+    payload = response.json()
+    new_items = payload['orderedItems']
+
+    assert response.status_code == 200
+    assert len(new_items) == 5
+    assert new_items != items
 
 
 @pytest.mark.parametrize(
