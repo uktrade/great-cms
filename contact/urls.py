@@ -13,6 +13,7 @@ from contact.views import (
     DomesticExportSupportFormStep3View,
     DomesticExportSupportFormStep4View,
     DomesticExportSupportFormStep5View,
+    DomesticExportSupportFormStep6View,
     DomesticFormView,
     DomesticSuccessView,
     EcommerceSupportFormPageView,
@@ -302,5 +303,10 @@ if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
             'contact/domestic/export-support/step5/',
             skip_ga360(DomesticExportSupportFormStep5View.as_view()),
             name='export-support-step-5',
+        ),
+        path(
+            'contact/domestic/export-support/step6/',
+            skip_ga360(DomesticExportSupportFormStep6View.as_view()),
+            name='export-support-step-6',
         ),
     ]

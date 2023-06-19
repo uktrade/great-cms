@@ -325,8 +325,28 @@ class DomesticExportSupportFormStep4View(contact_mixins.ExportSupportFormMixin, 
 
 
 class DomesticExportSupportFormStep5View(contact_mixins.ExportSupportFormMixin, FormView):
-    form_class = contact_forms.DomesticExportSupportStep4Form
+    form_class = contact_forms.DomesticExportSupportStep5Form
     template_name = 'domestic/contact/export-support/step-5.html'
+    success_url = reverse_lazy('contact:export-support-step-6')
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            heading_text='About your export markets',
+            strapline_text='This information will help us provide support for your specific product or service.',
+            button_text='Continue',
+            step_text='Step 5 of 6',
+            back_link=reverse_lazy('contact:export-support-step-4'),
+        )
+
+    def form_valid(self, form):
+        self.save_data(form)
+        return super().form_valid(form)
+
+
+class DomesticExportSupportFormStep6View(contact_mixins.ExportSupportFormMixin, FormView):
+    form_class = contact_forms.DomesticExportSupportStep5Form
+    template_name = 'domestic/contact/export-support/step-6.html'
 
 
 class InternationalFormView(

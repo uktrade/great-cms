@@ -1,0 +1,7 @@
+{% for group, options, index in widget.optgroups %}
+    {% for option in options %}
+    <div class="govuk-checkboxes__item govuk-!-margin-bottom-3 great-checkbox" data-value="{{option.value}}" data-label="{{option.label}}">
+        {% include option.template_name with widget=option %}
+    </div>
+    {% endfor %}
+{% endfor %}

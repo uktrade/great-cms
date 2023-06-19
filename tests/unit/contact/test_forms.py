@@ -848,6 +848,24 @@ def test_selling_online_overseas_contact_details_form__editable_fields():
                 'product_or_service_1': 'Enter a product or service',
             },
         ),
+        (
+            forms.DomesticExportSupportStep5Form,
+            {
+                'markets': 'AU',
+            },
+            True,
+            {},
+        ),
+        (
+            forms.DomesticExportSupportStep5Form,
+            {
+                'markets': '',
+            },
+            False,
+            {
+                'markets': 'Enter a market',
+            },
+        ),
     ),
 )
 @pytest.mark.django_db

@@ -1526,6 +1526,16 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
                 'product_or_service_1': 'Enter a product or service',
             },
         ),
+        (
+            reverse('contact:export-support-step-5'),
+            {
+                'markets': 'AU',
+            },
+            reverse('contact:export-support-step-6'),
+            {
+                'markets': 'Enter a market',
+            },
+        ),
     ),
 )
 @pytest.mark.django_db
