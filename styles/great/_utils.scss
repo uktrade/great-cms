@@ -40,7 +40,7 @@
     }
 
     p:not(.govuk-error-message),
-    span:not(.great-badge, .great-text-darker-grey),
+    span:not(.great-badge, .great-text-darker-grey, .govuk-details__summary-text),
     ol,
     ul,
     a {
@@ -54,12 +54,14 @@
     }
 
     .govuk-hint {
-        font-family: $great-font;
         color: $great-grey;
     }
 
+    .govuk-hint,
     .govuk-error-message,
-    .govuk-radios__label {
+    .govuk-radios__label,
+    .govuk-details,
+    .govuk-link {
         font-family: $great-font;
     }
 
@@ -153,6 +155,10 @@
 
 .great-border-top-blue {
     border-top: 6px solid $great-blue;
+}
+
+.great-border-left-blue {
+    border-left: 6px solid $great-blue;
 }
 
 .great-bg-white {

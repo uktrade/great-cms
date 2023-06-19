@@ -1,4 +1,5 @@
 from django.forms import widgets
+from great_components import forms
 
 
 class GreatRadioSelect(widgets.ChoiceWidget):
@@ -7,7 +8,7 @@ class GreatRadioSelect(widgets.ChoiceWidget):
     input_type = 'radio'
 
 
-class GreatCheckboxes(widgets.ChoiceWidget):
+class GreatCheckboxes(forms.CheckboxSelectInlineLabelMultiple):
     template_name = 'components/great/checkboxes.html'
     option_template_name = 'components/great/checkbox-option.html'
     input_type = 'checkbox'
