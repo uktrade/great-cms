@@ -92,7 +92,7 @@ class PageSerializer(serializers.Serializer):
             return CountryGuidePageSerializer(obj).data
 
 
-class ExportAcademyEventSerializer(serializers.ModelSerializer):
+class ActivityStreamExportAcademyEventSerializer(serializers.ModelSerializer):
     """
     UKEA's Event serializer for Activity Stream.
     """
@@ -138,7 +138,7 @@ class ExportAcademyEventSerializer(serializers.ModelSerializer):
         }
 
 
-class ExportAcademyRegistrationSerializer(serializers.ModelSerializer):
+class ActivityStreamExportAcademyRegistrationSerializer(serializers.ModelSerializer):
     """
     UKEA's Registration serializer for Activity Stream.
     """
@@ -170,7 +170,7 @@ class ExportAcademyRegistrationSerializer(serializers.ModelSerializer):
         }
 
 
-class ExportAcademyBookingSerializer(serializers.ModelSerializer):
+class ActivityStreamExportAcademyBookingSerializer(serializers.ModelSerializer):
     """
     UKEA's Booking serializer for Activity Stream.
     """

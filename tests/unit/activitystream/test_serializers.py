@@ -6,11 +6,11 @@ from django.utils import timezone
 from activitystream.serializers import (
     ActivityStreamExpandYourBusinessTriageDataSerializer,
     ActivityStreamExpandYourBusinessUserDataSerializer,
+    ActivityStreamExportAcademyBookingSerializer,
+    ActivityStreamExportAcademyEventSerializer,
+    ActivityStreamExportAcademyRegistrationSerializer,
     ArticlePageSerializer,
     CountryGuidePageSerializer,
-    ExportAcademyBookingSerializer,
-    ExportAcademyEventSerializer,
-    ExportAcademyRegistrationSerializer,
 )
 from domestic.models import ArticlePage
 from international_online_offer.models import TriageData, UserData
@@ -267,7 +267,7 @@ def test_countryguidepageserializer(domestic_homepage):
 def test_ukea_event_serializer():
     instance = EventFactory()
 
-    serializer = ExportAcademyEventSerializer()
+    serializer = ActivityStreamExportAcademyEventSerializer()
 
     output = serializer.to_representation(instance)
     assert output == {
@@ -297,7 +297,7 @@ def test_ukea_event_serializer():
 def test_ukea_registration_serializer():
     instance = RegistrationFactory()
 
-    serializer = ExportAcademyRegistrationSerializer()
+    serializer = ActivityStreamExportAcademyRegistrationSerializer()
 
     output = serializer.to_representation(instance)
     assert output == {
@@ -321,7 +321,7 @@ def test_ukea_registration_serializer():
 def test_ukea_booking_serializer():
     instance = BookingFactory()
 
-    serializer = ExportAcademyBookingSerializer()
+    serializer = ActivityStreamExportAcademyBookingSerializer()
 
     output = serializer.to_representation(instance)
     assert output == {
