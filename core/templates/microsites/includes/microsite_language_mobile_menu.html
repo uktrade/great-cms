@@ -3,20 +3,21 @@
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
 
 {%if available_languages|length > 2%}
-    <div class="magna-header__menu">
+    <div class="magna-header__menu language_menu">
         <button type="button"
                 class="magna-header__dropdown-button language_button"
                 data-reveal-button
                 data-reveal-modal
                 aria-controls="language-button">
-           <i class="fa fa-globe"></i>
+           <img src="/static/images/icon-globe.svg" alt="Open language menu">
         </button>
         <div id="language-button" class="magna-header__dropdown">
             <ul class="magna-header__menu-items">
                 {% for item in available_languages %}
                     <li>
-                        <a class="{% if current_language == item.language_code %}active {% endif %}{% if rtl_language %}rtl {% endif %}"
+                        <a class="{% if current_language == item.language_code %}active {% endif %}{% if item.is_rtl_language %}rtl {% endif %}{%if rtl_language%}rtl_page{%endif%}"
                         href="?lang={{item.language_code}}">{{ item.display_name }}</a>
+
                     </li>
                 {% endfor %}
             </ul>
