@@ -70,7 +70,7 @@ click-didyoumean==0.3.0
     # via celery
 click-plugins==1.1.1
     # via celery
-click-repl==0.2.0
+click-repl==0.3.0
     # via celery
 cron-descriptor==1.4.0
     # via django-celery-beat
@@ -133,6 +133,7 @@ django==4.1.9
     #   django-staff-sso-client
     #   django-storages
     #   django-taggit
+    #   django-timezone-field
     #   django-treebeard
     #   djangorestframework
     #   drf-spectacular
@@ -172,7 +173,7 @@ django-storages[boto3]==1.13.2
     # via -r requirements.in
 django-taggit==3.1.0
     # via wagtail
-django-timezone-field==5.0
+django-timezone-field==5.1
     # via django-celery-beat
 django-treebeard==4.7
     # via
@@ -239,7 +240,7 @@ jsonschema==3.2.0
     #   directory-components
     #   drf-spectacular
     #   great-components
-kombu==5.3.0
+kombu==5.3.1
     # via celery
 l18n==2021.3
     # via wagtail
@@ -291,13 +292,13 @@ pycparser==2.21
     # via cffi
 pygments==2.15.1
     # via sphinx
-pyhanko==0.18.1
+pyhanko==0.19.0
     # via xhtml2pdf
-pyhanko-certvalidator==0.22.0
+pyhanko-certvalidator==0.23.0
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.9.1
+pypdf==3.10.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -372,7 +373,6 @@ sigauth==5.2.0
 six==1.16.0
     # via
     #   airtable-python-wrapper
-    #   click-repl
     #   elasticsearch-dsl
     #   html5lib
     #   jsonschema
@@ -473,7 +473,7 @@ webencodings==0.5.1
     #   cssselect2
     #   html5lib
     #   tinycss2
-whitenoise==6.4.0
+whitenoise==6.5.0
     # via -r requirements.in
 willow==1.4.1
     # via wagtail
