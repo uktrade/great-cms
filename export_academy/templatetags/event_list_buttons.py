@@ -70,7 +70,7 @@ def get_applied_filters(filter_form):
     """
     applied_filters = []
     for filter_type, filter_choices in filter_form.data.lists():
-        if filter_type != 'booking_period':
+        if filter_type != 'booking_period' and filter_type != 'page':
             applied_filters += _get_display_text_for_filter_choices(filter_choices, filter_form, filter_type)
     return applied_filters
 
