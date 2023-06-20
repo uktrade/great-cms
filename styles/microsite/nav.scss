@@ -98,6 +98,7 @@ $menu-border: 5px solid $color-alternative-text;
           }
           a {
             font-size: $font-size-button;
+            text-transform: capitalize;
             padding-left: govuk-spacing(4);
             &.rtl {
               padding-right: 10px;
