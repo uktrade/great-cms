@@ -8,6 +8,7 @@ from contact import constants
 
 class ExportSupportFormMixin:
     initial_data = {}
+    has_business_type_changed = False
 
     def get_initial(self):
         initial = super().get_initial()
