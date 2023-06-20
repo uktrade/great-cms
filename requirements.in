@@ -74,3 +74,4 @@ django-celery-beat==2.5.0
 icalendar
 tablib
 drf-spectacular==0.26.2
+Babel==2.12.1

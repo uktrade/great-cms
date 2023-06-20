@@ -28,7 +28,9 @@ async-timeout==4.0.2
 attrs==23.1.0
     # via jsonschema
 babel==2.12.1
-    # via sphinx
+    # via
+    #   -r requirements.in
+    #   sphinx
 beautifulsoup4==4.11.2
     # via
     #   directory-components
@@ -298,7 +300,11 @@ pyhanko-certvalidator==0.23.0
     # via
     #   pyhanko
     #   xhtml2pdf
+<<<<<<< HEAD
 pypdf==3.10.0
+=======
+pypdf==3.9.1
+>>>>>>> 297fbb0bc (saving changes)
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode

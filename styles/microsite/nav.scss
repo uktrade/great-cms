@@ -8,6 +8,7 @@ $menu-border: 5px solid $color-alternative-text;
   .microsite-nav-container {
     padding: 0;
     align-items: center;
+    position: relative;
 
     > div:first-of-type {
       display: flex;
@@ -18,31 +19,36 @@ $menu-border: 5px solid $color-alternative-text;
       }
 
       > div {
-        position: relative;
-        @media only screen and (max-width: $mobile-size) {
-          width: 100%;
-        }
         display: inline-flex;
-        align-items: center;
+        width: 100%;
 
-        @media only screen and (max-width: $mobile-size) {
+        .nav-content {
           display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-
-          h3 {
-            padding-top: govuk-spacing(4);
-            font-size: $font-size-h3;
+          gap: 20px 50px;
+          flex-wrap: wrap;
+          flex: 1;
+          align-items: center;
+          @media only screen and (max-width: $mobile-size) {
+            gap: $large-padding;
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          img {
+            height: 83px;
+            //img has some white space to the left and bottom
+            margin-left: -25px;
+            @media only screen and (max-width: $mobile-size) {
+              height: 63px;
+              margin-left: -18px;
+            }
           }
         }
-      }
-      img {
-        height: 83px;
-        //img has some white space to the left and bottom
-        margin-left: -25px;
+
         @media only screen and (max-width: $mobile-size) {
-          height: 63px;
-          margin-left: -18px;
+          h3 {
+            padding-top: 0;
+            font-size: $font-size-h3;
+          }
         }
       }
 
@@ -60,7 +66,6 @@ $menu-border: 5px solid $color-alternative-text;
     background-color: $color-footer;
 
     h3 {
-      width: max-content;
       color: $color-alternative-text;
       &::first-letter {
         text-transform: capitalize;
@@ -68,15 +73,21 @@ $menu-border: 5px solid $color-alternative-text;
     }
 
     .magna-header__menu {
-      position: absolute;
+      padding-left: 0;
       display: none;
-      button {
-        margin-left: auto;
+      &.language_menu {
+        display: block;
       }
       @media only screen and (max-width: $mobile-size) {
         display: grid;
         padding-left: 0;
+        position: initial;
       }
+
+      button {
+        margin-left: auto;
+      }
+
       .magna-header__menu-items {
         padding: 0px;
         li {
@@ -89,8 +100,15 @@ $menu-border: 5px solid $color-alternative-text;
             font-size: $font-size-button;
             padding-left: govuk-spacing(4);
             &.rtl {
-              margin-right: 8px;
               padding-right: 10px;
+              &:not(.rtl_page) {
+                display: flex;
+                justify-content: flex-end;
+              }
+            }
+            &.rtl_page:not(.rtl) {
+              display: flex;
+              justify-content: flex-end;
             }
             @media only screen and (max-width: $mobile-size) {
               padding-left: govuk-spacing(2);
@@ -164,8 +182,19 @@ $menu-border: 5px solid $color-alternative-text;
       background: $color-footer;
     }
     .magna-header__dropdown {
-      top: 59px;
-      left: 7px;
+      top: 50px;
+
+      &.rtl-page{
+        left: 0px;
+        right: initial
+      }
+
+      @media only screen and (max-width: $mobile-size) {
+        top: 64px;
+        width: 100vw;
+        left: 15px;
+        margin:0;
+      }
     }
   }
 
@@ -195,7 +224,11 @@ $menu-border: 5px solid $color-alternative-text;
       content: ' | ';
       color: $color-alternative-text;
     }
+  }
 
+  .desktop-language-selector {
+    display: inline-flex;
+    min-width: fit-content;
     @media only screen and (max-width: $mobile-size) {
       display: none;
     }
@@ -203,35 +236,30 @@ $menu-border: 5px solid $color-alternative-text;
 
   .mobile-single-language-toggle {
     display: none;
+    margin-top: $large-padding;
+    li {
+      position: absolute;
+      right: $standard-padding;
+      bottom: $standard-padding;
+    }
     @media only screen and (max-width: $mobile-size) {
-      display: block;
+      display: inline-flex;
     }
   }
 
   .mobile-nav-buttons {
-    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: $standard-padding;
     float: right;
-    display: none;
-    justify-content: flex-end;
-    position: absolute;
-
-    .magna-header__menu {
-      display: block;
-      position: unset;
-      width: initial;
-    }
-
-    .magna-header__menu {
-      margin-left: $standard-padding;
-    }
-
     @media only screen and (max-width: $mobile-size) {
       display: inline-flex;
     }
   }
 
   .language_button {
-    &:not(:active):not(:hover):not(:focus) {
+    &:not(:active):not(:hover):not(:focus):not([aria-expanded='true']) {
       border: 2px solid transparent;
     }
     i {
@@ -240,18 +268,24 @@ $menu-border: 5px solid $color-alternative-text;
     a.active {
       font-family: $header-font;
     }
+    img {
+      margin: 0;
+      height: 20px;
+      pointer-events: none;
+    }
   }
 
   .magna-header__overlay {
-    background-color: rgba($color: white, $alpha: 0.8);
     z-index: 2;
+     @media only screen and (max-width: $mobile-size) {
+      background-color:  rgba($color: white, $alpha: 0.8)
+    }
   }
 
   .magna-header__dropdown-button[aria-expanded='false'] {
     z-index: 1;
   }
-
-  .mobile-single-language-toggle {
-    margin-top: $standard-padding;
+  .magna-header__dropdown-button{
+    margin-top: 0;
   }
 }
