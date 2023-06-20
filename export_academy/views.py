@@ -2,8 +2,7 @@ import logging
 from datetime import timedelta
 from uuid import uuid4
 
-from django.http import HttpResponse
-from django.urls import reverse_lazy
+from directory_forms_api_client import actions
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.utils.text import get_valid_filename
@@ -30,7 +29,11 @@ from export_academy.helpers import (
     get_badges_for_event,
     get_buttons_for_event,
 )
-from export_academy.mixins import BookingMixin, RegistrationMixin, VerificationLinksMixin
+from export_academy.mixins import (
+    BookingMixin,
+    RegistrationMixin,
+    VerificationLinksMixin,
+)
 from export_academy.models import ExportAcademyHomePage, Registration
 from sso import helpers as sso_helpers, mixins as sso_mixins
 
@@ -417,5 +420,46 @@ class SignUpView(VerificationLinksMixin, sso_mixins.SignUpMixin, FormView):
         return self.do_sign_up_flow(request)
 
 
-class VerificationCodeView(FormView):
+class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, FormView):
+    template_name = 'export_academy/accounts/verification_code.html'
     form_class = forms.CodeConfirmForm
+
+    def __init__(self):
+        code_expired_error = {
+            'field': 'code_confirm',
+            'error_message': 'This code has expired. We have emailed you a new code',
+        }
+        super().__init__(code_expired_error)
+
+    def send_welcome_notification(self, email, form_url):
+        action = actions.GovNotifyEmailAction(
+            template_id=settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID,
+            email_address=email,
+            form_url=form_url,
+        )
+        response = action.save({})
+        response.raise_for_status()
+        return response
+
+    def do_validate_code_flow(self, request):
+        form = forms.CodeConfirmForm(request.POST)
+        if form.is_valid():
+            uidb64 = self.request.GET.get('uidb64')
+            token = self.request.GET.get('token')
+            code_confirm = form.cleaned_data['code_confirm']
+            upstream_response = sso_api_client.user.verify_verification_code(
+                {'uidb64': uidb64, 'token': token, 'code': code_confirm}
+            )
+            if upstream_response.status_code in [400, 404]:
+                form.add_error('code_confirm', 'This code is incorrect. Please try again.')
+            elif upstream_response.status_code == 422:
+                # Resend verification code if it has expired.
+                self.handle_code_expired(upstream_response, request, uidb64, token, form)
+            else:
+                return self.handle_verification_code_success(
+                    upstream_response=upstream_response, redirect_url='export_academy:upcoming-events'
+                )
+        return self.form_invalid(form)
+
+    def post(self, request, *args, **kwargs):
+        return self.do_validate_code_flow(request)

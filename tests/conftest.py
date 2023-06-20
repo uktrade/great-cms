@@ -763,3 +763,14 @@ def mock_send_verification_code_email():
     patch.stop()
 
 
+@pytest.fixture
+def mock_regenerate_verification_code():
+    body = {
+        'user_uidb64': 'MjE1ODk1',
+        'verification_token': 'bq1ftj-e82fb7b694d200b144012bfac0c866b2',
+        'code': '19507',
+        'expiration_date': '2023-06-19T11:00:00Z',
+    }
+    patch = mock.patch.object(sso_helpers, 'regenerate_verification_code', return_value=body)
+    yield patch.start()
+    patch.stop()
