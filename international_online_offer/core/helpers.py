@@ -98,6 +98,6 @@ def get_trade_page(all_trade_pages):
     filtered_pages = []
     for page in all_trade_pages:
         filtered_pages.append(page.specific)
-    if len(filtered_pages) == 1:
+    if len(filtered_pages) > 0:
         return filtered_pages[0]
     return None
