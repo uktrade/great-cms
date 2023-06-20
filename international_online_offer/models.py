@@ -94,7 +94,7 @@ class IOOGuidePage(BaseContentPage):
         context = super().get_context(request, *args, **kwargs)
         triage_data = get_triage_data_from_db_or_session(request)
         user_data = get_user_data_from_db_or_session(request)
-        trade_page = self.get_children().live().type(IOOTradePage)[0].specific
+        trade_page = helpers.get_trade_page(self.get_children().live().type(IOOTradePage))
         all_articles = self.get_children().live().type(IOOArticlePage)
         get_to_know_market_articles = []
         opportunities_articles = []

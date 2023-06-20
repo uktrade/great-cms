@@ -92,3 +92,12 @@ def find_trade_shows_for_sector(all_trade_shows, sector_filter):
             filtered_pages.append(page.specific)
 
     return filtered_pages
+
+
+def get_trade_page(all_trade_pages):
+    filtered_pages = []
+    for page in all_trade_pages:
+        filtered_pages.append(page.specific)
+    if len(filtered_pages) == 1:
+        return filtered_pages[0]
+    return None
