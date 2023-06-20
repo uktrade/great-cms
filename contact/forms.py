@@ -348,6 +348,46 @@ class DomesticExportSupportStep6Form(forms.Form):
     )
 
 
+class DomesticExportSupportStep7Form(forms.Form):
+    received_support = forms.ChoiceField(
+        label='Have you previously received export support?',
+        widget=contact_widgets.GreatRadioSelect,
+        choices=(
+            (
+                'yes',
+                'Yes, I have previously received export support',
+            ),
+            ('no', 'No, I have not previously received export support'),
+        ),
+        error_messages={
+            'required': 'Choose an option',
+        },
+    )
+    contacted_gov_departments = forms.ChoiceField(
+        label='Have you previously received export support?',
+        widget=contact_widgets.GreatRadioSelect,
+        choices=(
+            (
+                'yes',
+                'Yes, I have contacted other government departments',
+            ),
+            ('no', 'No, I have not contacted other government departments'),
+        ),
+        error_messages={
+            'required': 'Choose an option',
+        },
+    )
+    find_out_about = forms.ChoiceField(
+        label='How did you find out about this service?',
+        widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
+        choices=(
+            ('', 'Please select'),
+            ('google', 'Google'),
+        ),
+        required=False,
+    )
+
+
 class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
     EMPLOYEES_NUMBER_CHOICES = (
         ('1-9', '1 to 9'),

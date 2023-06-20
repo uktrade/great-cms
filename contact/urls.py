@@ -276,9 +276,21 @@ if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
             name='export-support',
         ),
         path(
+            'contact/domestic/export-support/edit',
+            skip_ga360(DomesticExportSupportFormStep1View.as_view()),
+            {'edit': True},
+            name='export-support-edit',
+        ),
+        path(
             'contact/domestic/export-support/step2a/',
             skip_ga360(DomesticExportSupportFormStep2AView.as_view()),
             name='export-support-step-2a',
+        ),
+        path(
+            'contact/domestic/export-support/step2a/edit',
+            skip_ga360(DomesticExportSupportFormStep2AView.as_view()),
+            {'edit': True},
+            name='export-support-step-2a-edit',
         ),
         path(
             'contact/domestic/export-support/step2b/',
@@ -286,9 +298,21 @@ if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
             name='export-support-step-2b',
         ),
         path(
+            'contact/domestic/export-support/step2b/edit',
+            skip_ga360(DomesticExportSupportFormStep2BView.as_view()),
+            {'edit': True},
+            name='export-support-step-2b-edit',
+        ),
+        path(
             'contact/domestic/export-support/step2c/',
             skip_ga360(DomesticExportSupportFormStep2CView.as_view()),
             name='export-support-step-2c',
+        ),
+        path(
+            'contact/domestic/export-support/step2c/edit',
+            skip_ga360(DomesticExportSupportFormStep2CView.as_view()),
+            {'edit': True},
+            name='export-support-step-2c-edit',
         ),
         path(
             'contact/domestic/export-support/step3/',
@@ -296,9 +320,21 @@ if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
             name='export-support-step-3',
         ),
         path(
+            'contact/domestic/export-support/step3/edit',
+            skip_ga360(DomesticExportSupportFormStep3View.as_view()),
+            {'edit': True},
+            name='export-support-step-3-edit',
+        ),
+        path(
             'contact/domestic/export-support/step4/',
             skip_ga360(DomesticExportSupportFormStep4View.as_view()),
             name='export-support-step-4',
+        ),
+        path(
+            'contact/domestic/export-support/step4/edit',
+            skip_ga360(DomesticExportSupportFormStep4View.as_view()),
+            {'edit': True},
+            name='export-support-step-4-edit',
         ),
         path(
             'contact/domestic/export-support/step5/',
@@ -306,9 +342,21 @@ if settings.FEATURE_DIGITAL_POINT_OF_ENTRY:
             name='export-support-step-5',
         ),
         path(
+            'contact/domestic/export-support/step5/edit',
+            skip_ga360(DomesticExportSupportFormStep5View.as_view()),
+            {'edit': True},
+            name='export-support-step-5-edit',
+        ),
+        path(
             'contact/domestic/export-support/step6/',
             skip_ga360(DomesticExportSupportFormStep6View.as_view()),
             name='export-support-step-6',
+        ),
+        path(
+            'contact/domestic/export-support/step6/edit',
+            skip_ga360(DomesticExportSupportFormStep6View.as_view()),
+            {'edit': True},
+            name='export-support-step-6-edit',
         ),
         path(
             'contact/domestic/export-support/step7/',

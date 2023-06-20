@@ -285,9 +285,15 @@
     }
 }
 
+.great-radios {
+    .govuk-radios__label:before {
+        background-color: $great-white;
+    }
+}
+
 .great {
     select.great-select {
-        background: none;
+        background: $great-white;
         font-size: 16px;
         height: 40px;
         padding-left: 15px;
@@ -354,5 +360,19 @@
     .govuk-details__text {
         border-left-color: $great-blue;
         margin-top: 15px;
+    }
+}
+
+.great-summary-list {
+    position: relative;
+
+    .govuk-summary-list__row {
+        border-bottom: none;
+    }
+
+    a {
+        position :absolute;
+        top: 5px;
+        right: 0;
     }
 }

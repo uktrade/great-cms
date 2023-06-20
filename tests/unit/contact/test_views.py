@@ -1569,3 +1569,109 @@ def test_domestic_export_support_form_pages(
     response = client.post(page_url, form_data)
     assert response.status_code == 302
     assert response.url == redirect_url
+
+
+@pytest.mark.parametrize(
+    'page_url,form_data,redirect_url,error_messages',
+    (
+        (
+            reverse('contact:export-support-edit'),
+            {
+                'business_type': 'soletrader',
+                'business_name': 'Test business ltd',
+                'business_postcode': 'SW1A 1AA',
+            },
+            reverse('contact:export-support-step-7'),
+            {
+                'business_type': 'Choose a business type',
+                'business_name': 'Enter your business name',
+                'business_postcode': 'Enter your business postcode',
+            },
+        ),
+        (
+            reverse('contact:export-support-step-2b-edit'),
+            {
+                'type': 'university',
+                'annual_turnover': '<85k',
+                'number_of_employees': '1-9',
+                'sector_primary': 'Aerospace',
+            },
+            reverse('contact:export-support-step-7'),
+            {
+                'type': 'Choose a type of organisation',
+                'annual_turnover': 'Please enter a turnover amount',
+                'number_of_employees': 'Choose number of employees',
+                'sector_primary': 'Choose a sector',
+            },
+        ),
+        (
+            reverse('contact:export-support-step-3-edit'),
+            {
+                'first_name': 'Test',
+                'last_name': 'Name',
+                'job_title': 'Test job title',
+                'uk_telephone_number': '07171771717',
+                'email': 'name@example.com',
+            },
+            reverse('contact:export-support-step-7'),
+            {
+                'first_name': 'Enter your first name',
+                'last_name': 'Enter your last name',
+                'job_title': 'Enter your job title',
+                'uk_telephone_number': 'Enter your telephone number',
+                'email': 'Enter an email address in the correct format, like name@example.com',
+            },
+        ),
+        (
+            reverse('contact:export-support-step-4-edit'),
+            {
+                'product_or_service_1': 'Test product 1',
+            },
+            reverse('contact:export-support-step-7'),
+            {
+                'product_or_service_1': 'Enter a product or service',
+            },
+        ),
+        (
+            reverse('contact:export-support-step-5-edit'),
+            {
+                'markets': ['AU'],
+            },
+            reverse('contact:export-support-step-7'),
+            {
+                'markets': 'Enter a market',
+            },
+        ),
+        (
+            reverse('contact:export-support-step-6-edit'),
+            {
+                'about_your_experience': 'neverexported',
+            },
+            reverse('contact:export-support-step-7'),
+            {
+                'about_your_experience': 'Choose your export experience',
+            },
+        ),
+    ),
+)
+@pytest.mark.django_db
+def test_domestic_export_support_edit_form_pages(
+    page_url,
+    form_data,
+    redirect_url,
+    error_messages,
+    client,
+):
+    #   Redirect fails when any of the fields in the form are missing
+    invalid_form_data = form_data.copy()
+    for key in form_data:
+        invalid_form_data.pop(key)
+        response = client.post(page_url, invalid_form_data)
+        assert response.status_code == 200
+        assert error_messages[key] in str(response.rendered_content)
+        invalid_form_data = form_data.copy()
+
+    #   Redirect succeeds with valid data
+    response = client.post(page_url, form_data)
+    assert response.status_code == 302
+    assert response.url == redirect_url

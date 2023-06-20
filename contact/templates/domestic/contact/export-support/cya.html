@@ -1,5 +1,45 @@
 {% extends 'domestic/contact/export-support/base.html' %}
 
 {% block form_fields %}
-    {{completed_form_data}}
+
+    {% for step in steps %}
+    <div class="great-summary-list">
+        <h2>{{step.title}}</h2>
+
+        <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+            {% for key, val in step.answers %}
+                {% if val %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">{{key}}</dt>
+                    <dd class="govuk-summary-list__value">{{val}}</dd>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </dl>
+        {% if step.change_url %}
+            <a href="{{step.change_url}}" class="govuk-link">Change</a>
+        {% endif %}
+        <hr />
+    </div>
+    {% endfor %}
+
+    <div class="govuk-!-margin-bottom-7 govuk-!-padding-6 great-bg-light-blue">
+    <h2 class="govuk-heading-m">Before you go...</h2>
+    {% for field in form.visible_fields %}
+        {% if field.name == 'find_out_about' %}
+        <div class="govuk-form-group govuk-!-margin-bottom-0 {% if field.errors %}govuk-form-group--error{% endif %}">
+            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
+        </div>
+        {% else %}
+        <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-0">How we use your information</h3>
+    <p class="govuk-body-s govuk-!-margin-bottom-7">The Department for Business and Trade will use the information provided in this form to respond to your enquiry.
+        You can read about how we protect your data in our <a href="" class="govuk-link">privacy notice</a>.
+    </p>
 {% endblock %}

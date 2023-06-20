@@ -199,24 +199,46 @@ class DomesticExportSupportFormStep1View(contact_mixins.ExportSupportFormMixin, 
     template_name = 'domestic/contact/export-support/step-1.html'
 
     def get_context_data(self, **kwargs):
+        button_text = 'Continue'
+
+        if self.kwargs.get('edit'):
+            button_text = 'Save'
+
         return super().get_context_data(
             **kwargs,
             heading_text='Contact us',
-            button_text='Continue',
+            button_text=button_text,
             step_text='Step 1 of 6',
         )
 
     def get_success_url(self):
         business_type = self.request.POST.get('business_type')
 
-        if business_type == 'other':
-            return reverse_lazy('contact:export-support-step-2b')
-        elif business_type == 'soletrader':
-            return reverse_lazy('contact:export-support-step-2c')
+        if self.kwargs.get('edit'):
+            if self.has_business_type_changed:
+                if business_type == 'other':
+                    return reverse_lazy('contact:export-support-step-2b-edit')
+                elif business_type == 'soletrader':
+                    return reverse_lazy('contact:export-support-step-2c-edit')
+                else:
+                    return reverse_lazy('contact:export-support-step-2a-edit')
+            else:
+                return reverse_lazy('contact:export-support-step-7')
         else:
-            return reverse_lazy('contact:export-support-step-2a')
+            if business_type == 'other':
+                return reverse_lazy('contact:export-support-step-2b')
+            elif business_type == 'soletrader':
+                return reverse_lazy('contact:export-support-step-2c')
+            else:
+                return reverse_lazy('contact:export-support-step-2a')
 
     def form_valid(self, form):
+        form_data = {}
+
+        if self.request.session.get('form_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0]
+            self.has_business_type_changed = form_data.get('business_type') != self.request.POST.get('business_type')
+
         self.save_data(form)
         return super().form_valid(form)
 
@@ -224,16 +246,28 @@ class DomesticExportSupportFormStep1View(contact_mixins.ExportSupportFormMixin, 
 class DomesticExportSupportFormStep2AView(contact_mixins.ExportSupportFormMixin, FormView):
     form_class = contact_forms.DomesticExportSupportStep2AForm
     template_name = 'domestic/contact/export-support/step-2.html'
-    success_url = reverse_lazy('contact:export-support-step-3')
 
     def get_context_data(self, **kwargs):
+        button_text = 'Continue'
+        back_link = reverse_lazy('contact:export-support')
+
+        if self.kwargs.get('edit'):
+            button_text = 'Save'
+            back_link = reverse_lazy('contact:export-support-step-7')
+
         return super().get_context_data(
             **kwargs,
             heading_text='About your business',
-            button_text='Continue',
+            button_text=button_text,
             step_text='Step 2 of 6',
-            back_link=reverse_lazy('contact:export-support'),
+            back_link=back_link,
         )
+
+    def get_success_url(self):
+        if self.kwargs.get('edit'):
+            return reverse_lazy('contact:export-support-step-7')
+        else:
+            return reverse_lazy('contact:export-support-step-3')
 
     def form_valid(self, form):
         self.save_data(form)
@@ -243,16 +277,28 @@ class DomesticExportSupportFormStep2AView(contact_mixins.ExportSupportFormMixin,
 class DomesticExportSupportFormStep2BView(contact_mixins.ExportSupportFormMixin, FormView):
     form_class = contact_forms.DomesticExportSupportStep2BForm
     template_name = 'domestic/contact/export-support/step-2.html'
-    success_url = reverse_lazy('contact:export-support-step-3')
 
     def get_context_data(self, **kwargs):
+        button_text = 'Continue'
+        back_link = reverse_lazy('contact:export-support')
+
+        if self.kwargs.get('edit'):
+            button_text = 'Save'
+            back_link = reverse_lazy('contact:export-support-step-7')
+
         return super().get_context_data(
             **kwargs,
             heading_text='About your business',
-            button_text='Continue',
+            button_text=button_text,
             step_text='Step 2 of 6',
-            back_link=reverse_lazy('contact:export-support'),
+            back_link=back_link,
         )
+
+    def get_success_url(self):
+        if self.kwargs.get('edit'):
+            return reverse_lazy('contact:export-support-step-7')
+        else:
+            return reverse_lazy('contact:export-support-step-3')
 
     def form_valid(self, form):
         self.save_data(form)
@@ -262,16 +308,28 @@ class DomesticExportSupportFormStep2BView(contact_mixins.ExportSupportFormMixin,
 class DomesticExportSupportFormStep2CView(contact_mixins.ExportSupportFormMixin, FormView):
     form_class = contact_forms.DomesticExportSupportStep2CForm
     template_name = 'domestic/contact/export-support/step-2.html'
-    success_url = reverse_lazy('contact:export-support-step-3')
 
     def get_context_data(self, **kwargs):
+        button_text = 'Continue'
+        back_link = reverse_lazy('contact:export-support')
+
+        if self.kwargs.get('edit'):
+            button_text = 'Save'
+            back_link = reverse_lazy('contact:export-support-step-7')
+
         return super().get_context_data(
             **kwargs,
             heading_text='About your business',
-            button_text='Continue',
+            button_text=button_text,
             step_text='Step 2 of 6',
-            back_link=reverse_lazy('contact:export-support'),
+            back_link=back_link,
         )
+
+    def get_success_url(self):
+        if self.kwargs.get('edit'):
+            return reverse_lazy('contact:export-support-step-7')
+        else:
+            return reverse_lazy('contact:export-support-step-3')
 
     def form_valid(self, form):
         self.save_data(form)
@@ -285,19 +343,37 @@ class DomesticExportSupportFormStep3View(contact_mixins.ExportSupportFormMixin, 
 
     def get_context_data(self, **kwargs):
         form_data = {}
+        button_text = 'Continue'
+        back_link = reverse_lazy('contact:export-support-step-2a')
+        business_type = self.request.POST.get('business_type')
+
+        if business_type == 'other':
+            back_link = reverse_lazy('contact:export-support-step-2b')
+        elif business_type == 'soletrader':
+            back_link = reverse_lazy('contact:export-support-step-2c')
 
         if self.request.session.get('form_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0]
+
+        if self.kwargs.get('edit'):
+            button_text = 'Save'
+            back_link = reverse_lazy('contact:export-support-step-7')
 
         return super().get_context_data(
             **kwargs,
             heading_text='About you',
             strapline_text='This information will allow us to contact you about your enquiry.',
-            button_text='Continue',
+            button_text=button_text,
             step_text='Step 3 of 6',
             form_data=form_data,
-            back_link=reverse_lazy('contact:export-support-step-2a'),
+            back_link=back_link,
         )
+
+    def get_success_url(self):
+        if self.kwargs.get('edit'):
+            return reverse_lazy('contact:export-support-step-7')
+        else:
+            return reverse_lazy('contact:export-support-step-4')
 
     def form_valid(self, form):
         self.save_data(form)
@@ -310,15 +386,28 @@ class DomesticExportSupportFormStep4View(contact_mixins.ExportSupportFormMixin, 
     success_url = reverse_lazy('contact:export-support-step-5')
 
     def get_context_data(self, **kwargs):
+        button_text = 'Continue'
+        back_link = reverse_lazy('contact:export-support-step-3')
+
+        if self.kwargs.get('edit'):
+            button_text = 'Save'
+            back_link = reverse_lazy('contact:export-support-step-7')
+
         return super().get_context_data(
             **kwargs,
             heading_text='About your product or service',
             strapline_text="""This information will help us provide support for your specific product or service.
              Try to keep your descriptions short (2-3 words) and use the link to add up to 5 products or services.""",
-            button_text='Continue',
+            button_text=button_text,
             step_text='Step 4 of 6',
-            back_link=reverse_lazy('contact:export-support-step-3'),
+            back_link=back_link,
         )
+
+    def get_success_url(self):
+        if self.kwargs.get('edit'):
+            return reverse_lazy('contact:export-support-step-7')
+        else:
+            return reverse_lazy('contact:export-support-step-5')
 
     def form_valid(self, form):
         self.save_data(form)
@@ -328,23 +417,34 @@ class DomesticExportSupportFormStep4View(contact_mixins.ExportSupportFormMixin, 
 class DomesticExportSupportFormStep5View(contact_mixins.ExportSupportFormMixin, FormView):
     form_class = contact_forms.DomesticExportSupportStep5Form
     template_name = 'domestic/contact/export-support/step-5.html'
-    success_url = reverse_lazy('contact:export-support-step-6')
 
     def get_context_data(self, **kwargs):
         form_data = {}
+        button_text = 'Continue'
+        back_link = reverse_lazy('contact:export-support-step-4')
 
         if self.request.session.get('form_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0]
+
+        if self.kwargs.get('edit'):
+            button_text = 'Save'
+            back_link = reverse_lazy('contact:export-support-step-7')
 
         return super().get_context_data(
             **kwargs,
             heading_text='About your export markets',
             strapline_text='This information will help us provide support for your specific product or service.',
-            button_text='Continue',
+            button_text=button_text,
             step_text='Step 5 of 6',
-            back_link=reverse_lazy('contact:export-support-step-4'),
+            back_link=back_link,
             form_data=form_data,
         )
+
+    def get_success_url(self):
+        if self.kwargs.get('edit'):
+            return reverse_lazy('contact:export-support-step-7')
+        else:
+            return reverse_lazy('contact:export-support-step-6')
 
     def form_valid(self, form):
         self.save_data(form)
@@ -360,6 +460,12 @@ class DomesticExportSupportFormStep6View(contact_mixins.ExportSupportFormMixin, 
         countries_mapping = dict(COUNTRY_CHOICES + [('notspecificcountry', '')])
         form_data = {}
         markets = []
+        button_text = 'Continue'
+        back_link = reverse_lazy('contact:export-support-step-5')
+
+        if self.kwargs.get('edit'):
+            button_text = 'Save'
+            back_link = reverse_lazy('contact:export-support-step-7')
 
         if self.request.session.get('form_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0]
@@ -371,7 +477,7 @@ class DomesticExportSupportFormStep6View(contact_mixins.ExportSupportFormMixin, 
             **kwargs,
             heading_text='About your enquiry',
             strapline_text='This information will help us direct you to the right support for your business.',
-            button_text='Continue',
+            button_text=button_text,
             step_text='Step 6 of 6',
             markets=markets,
             products_and_services=[
@@ -385,7 +491,7 @@ class DomesticExportSupportFormStep6View(contact_mixins.ExportSupportFormMixin, 
                 ]
                 if product_or_service
             ],
-            back_link=reverse_lazy('contact:export-support-step-5'),
+            back_link=back_link,
         )
 
     def form_valid(self, form):
@@ -394,8 +500,151 @@ class DomesticExportSupportFormStep6View(contact_mixins.ExportSupportFormMixin, 
 
 
 class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, FormView):
-    form_class = contact_forms.DomesticExportSupportStep6Form
+    form_class = contact_forms.DomesticExportSupportStep7Form
     template_name = 'domestic/contact/export-support/cya.html'
+
+    def get_context_data(self, **kwargs):
+        form_data = {}
+        field_value_mappings = {
+            'business_type': {
+                'limitedcompany': 'UK private or public limited company',
+                'other': 'Other type of UK organisation',
+                'soletrader': 'Sole trader or private individual',
+            },
+            'type': {
+                'privatelimitedcompany': 'Private limited company',
+                'publiclimitedcompany': 'Public limited company',
+                'soletrader': 'Sole trader',
+                'limitedliability': 'Limited liability partnership',
+                'notcurrentlytrading': 'Not currently trading',
+                'closedbusiness': 'Close business',
+                'other': 'Other',
+                'cse': 'Charity / Social enterprise',
+                'university': 'University',
+                'othereduinst': 'Other educational institute',
+                'partnership': 'Partnership',
+                'privateindividual': 'Private individual',
+            },
+            'annual_turnover': {
+                '<85k': 'Below £85,000 (Below VAT threshold)',
+                '85k-499.000k': '£85,000 up to £499,000',
+                '50k-1999.999k': '£500,000 up to £1,999,999',
+                '2m-4999.999k': '£2 million up to £4,999,999',
+                '5m-9999.999k': '£5 million up to £9,999,999',
+                '10m': 'Over £10,000,000',
+                'dontknow': "I don't know",
+                'prefernottosay': "I'd prefer not to say",
+            },
+            'number_of_employees': {
+                '1-9': '1 to 9',
+                '10-49': '10 to 49',
+                '50-249': '50 to 249',
+                '250-499': '250 to 499',
+                '500plus': 'More than 500',
+            },
+            'about_your_experience': {
+                'neverexported': """I have never exported but have a product suitable or that
+                could be developed for export""",
+                'notinlast12months': 'I have exported before but not in the last 12 months',
+                'last12months': 'I have exported in the last 12 months',
+                'noproduct': 'I do not have a product for export',
+            },
+        }
+        second_step_edit_page = reverse_lazy('contact:export-support-step-2a-edit')
+
+        def get_mapped_value(key):
+            return field_value_mappings.get(key).get(form_data.get(key))
+
+        if self.request.session.get('form_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0]
+
+            business_type = form_data.get('business_type')
+
+            if business_type == 'other':
+                second_step_edit_page = reverse_lazy('contact:export-support-step-2b-edit')
+            elif business_type == 'soletrader':
+                second_step_edit_page = reverse_lazy('contact:export-support-step-2c-edit')
+
+        return super().get_context_data(
+            **kwargs,
+            heading_text='Your enquiry',
+            strapline_text="Check the information you've provided before you submit your enquiry.",
+            button_text='Continue',
+            steps=[
+                {
+                    'title': 'Get started',
+                    'answers': [
+                        ('Business type', get_mapped_value('business_type')),
+                        ('Business name', form_data.get('business_name')),
+                        ('Company registration number (optional)', form_data.get('company_registration_number')),
+                        ('Business postcode', form_data.get('business_postcode')),
+                    ],
+                    'change_url': reverse_lazy('contact:export-support-edit'),
+                },
+                {
+                    'title': 'About your business',
+                    'answers': [
+                        ('Type of company', get_mapped_value('type')),
+                        ('Annual turnover', get_mapped_value('annual_turnover')),
+                        ('Number of employees', get_mapped_value('number_of_employees')),
+                        (
+                            'What is your sector?',
+                            ', '.join(
+                                [
+                                    sector
+                                    for sector in [
+                                        form_data.get('sector_primary'),
+                                        form_data.get('sector_primary_other '),
+                                        form_data.get('sector_secondary'),
+                                        form_data.get('sector_tertiary'),
+                                    ]
+                                    if sector
+                                ]
+                            ),
+                        ),
+                    ],
+                    'change_url': second_step_edit_page,
+                },
+                {
+                    'title': 'Your contact details',
+                    'answers': [
+                        ('First name', form_data.get('first_name')),
+                        ('Last name', form_data.get('last_name')),
+                        ('Job title', form_data.get('job_title')),
+                        ('UK telephone number', form_data.get('uk_telephone_number')),
+                        ('Email address', form_data.get('email')),
+                    ],
+                    'change_url': reverse_lazy('contact:export-support-step-3-edit'),
+                },
+                {
+                    'title': 'Your product or service',
+                    'answers': [
+                        ('Product or service', form_data.get('product_or_service_1')),
+                        ('Second product or service', form_data.get('product_or_service_2')),
+                        ('Third product or service', form_data.get('product_or_service_3')),
+                        ('Fourth product or service', form_data.get('product_or_service_4')),
+                        ('Fifth product or service', form_data.get('product_or_service_5')),
+                    ],
+                    'change_url': reverse_lazy('contact:export-support-step-4-edit'),
+                },
+                {
+                    'title': 'About your export markets',
+                    'answers': [
+                        ('Export markets', ', '.join([market for market in form_data.get('markets')])),
+                    ],
+                    'change_url': reverse_lazy('contact:export-support-step-5-edit'),
+                },
+                {
+                    'title': 'About your enquiry',
+                    'answers': [
+                        ('Your enquiry', form_data.get('enquiry')),
+                        ('About your export experience', get_mapped_value('about_your_experience')),
+                    ],
+                    'change_url': reverse_lazy('contact:export-support-step-6-edit'),
+                },
+            ],
+            back_link=reverse_lazy('contact:export-support-step-5'),
+        )
 
 
 class InternationalFormView(
