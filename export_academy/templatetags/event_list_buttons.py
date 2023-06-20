@@ -68,9 +68,10 @@ def get_applied_filters(filter_form):
     """Get selected filters from form data, get their display text
     from the field choices and add them to applied_filters.
     """
+    filters_to_display = [filter for filter in filter_form.fields.keys() if filter != 'booking_period']
     applied_filters = []
     for filter_type, filter_choices in filter_form.data.lists():
-        if filter_type != 'booking_period' and filter_type != 'page':
+        if filter_type in filters_to_display:
             applied_filters += _get_display_text_for_filter_choices(filter_choices, filter_form, filter_type)
     return applied_filters
 
