@@ -41,6 +41,21 @@ def test_export_academy_event_list_page_logged_out(client, export_academy_landin
     assert response.status_code == 200
 
 
+@pytest.mark.parametrize('page_query, num_events_on_page', (('', 10), ('?page=1', 10), ('?page=2', 5)))
+@pytest.mark.django_db
+def test_export_academy_event_list_pagination(
+    client, page_query, num_events_on_page, export_academy_landing_page, test_event_list_hero
+):
+    now = timezone.now()
+    factories.EventFactory.create_batch(
+        15, start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7), completed=None
+    )
+    url = f"{reverse('export_academy:upcoming-events')}{page_query}"
+    response = client.get(url)
+    assert response.status_code == 200
+    assert len(response.context['page_obj']) == num_events_on_page
+
+
 @pytest.mark.django_db
 def test_export_academy_event_list_page_context(client, user, export_academy_landing_page, test_event_list_hero):
     event = factories.EventFactory()
