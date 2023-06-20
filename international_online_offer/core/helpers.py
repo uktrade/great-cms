@@ -75,3 +75,20 @@ def send_welcome_notification(email, form_url):
     response = action.save({})
     response.raise_for_status()
     return response
+
+
+def find_trade_shows_for_sector(all_trade_shows, sector_filter):
+    filters = concat_filters(sector_filter)
+    filtered_pages = []
+    for page in all_trade_shows:
+        all_tags = page.specific.tags.all() if hasattr(page.specific.tags, 'all') else page.specific.tags
+        tag_match_count = 0
+        for tag in all_tags:
+            for filter in filters:
+                if tag.name == filter:
+                    tag_match_count += 1
+
+        if len(all_tags) == tag_match_count and tag_match_count > 0:
+            filtered_pages.append(page.specific)
+
+    return filtered_pages
