@@ -1,3 +1,4 @@
+from babel import Locale as BabelLocale
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
@@ -10,7 +11,7 @@ from core.datastructures import NotifySettings
 from core.models import MicrositePage
 from domestic.forms import CampaignLongForm, CampaignShortForm
 from domestic.models import ArticlePage
-from babel import Locale as BabelLocale
+
 
 def reverse_querystring(view, urlconf=None, args=None, kwargs=None, current_app=None, query_kwargs=None):
     """Custom reverse to handle query strings.
@@ -77,18 +78,18 @@ class CampaignView(BaseNotifyUserFormView):
         return reverse_querystring(
             self.success_url_path, kwargs={'page_slug': self.page_slug}, query_kwargs={'form_success': True}
         )
-        
+
     def get_language_display_name(self, language_code):
         locale = BabelLocale.parse(language_code, sep='-')
         display_name = locale.get_display_name()
-        return display_name  
+        return display_name
 
     def get_languages(self):
         default_value = {
             'available_languages': [{'language_code': 'en-gb', 'display_name': 'English'}],
             'current_language': 'en-gb',
         }
-        
+
         rtl_languages = set()
         rtl_languages.add('ar')
         if settings.FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
@@ -97,8 +98,10 @@ class CampaignView(BaseNotifyUserFormView):
                 'available_languages': [
                     {
                         'language_code': Locale.objects.get(id=page.locale_id).language_code,
-                        'display_name': self.get_language_display_name(Locale.objects.get(id=page.locale_id).language_code),
-                        'is_rtl_language': Locale.objects.get(id=page.locale_id).language_code in rtl_languages
+                        'display_name': self.get_language_display_name(
+                            Locale.objects.get(id=page.locale_id).language_code
+                        ),
+                        'is_rtl_language': Locale.objects.get(id=page.locale_id).language_code in rtl_languages,
                     }
                     for page in self.page_class.objects.live().filter(slug=self.page_slug)
                 ],
