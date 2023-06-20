@@ -78,7 +78,7 @@ brotli==1.0.9
     # via geventhttpclient
 browserstack-local==1.2.5
     # via browserstack-sdk
-browserstack-sdk==1.10.2
+browserstack-sdk==1.10.3
     # via -r requirements_test.in
 build==0.10.0
     # via pip-tools
@@ -462,11 +462,7 @@ pillow==9.5.0
     #   xhtml2pdf
 pip-tools==6.13.0
     # via -r requirements_test.in
-<<<<<<< HEAD
 platformdirs==3.6.0
-=======
-platformdirs==3.5.3
->>>>>>> 297fbb0bc (saving changes)
     # via
     #   black
     #   pylint
@@ -523,11 +519,7 @@ pylint-django==2.5.3
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
-<<<<<<< HEAD
 pypdf==3.10.0
-=======
-pypdf==3.9.1
->>>>>>> 297fbb0bc (saving changes)
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -635,11 +627,7 @@ requests-toolbelt==1.0.0
     # via browserstack-sdk
 roundrobin==0.0.4
     # via locust
-<<<<<<< HEAD
 ruamel-yaml==0.17.32
-=======
-ruamel-yaml==0.17.31
->>>>>>> 297fbb0bc (saving changes)
     # via pre-commit-hooks
 ruamel-yaml-clib==0.2.7
     # via ruamel-yaml

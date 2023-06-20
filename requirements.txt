@@ -300,11 +300,7 @@ pyhanko-certvalidator==0.23.0
     # via
     #   pyhanko
     #   xhtml2pdf
-<<<<<<< HEAD
 pypdf==3.10.0
-=======
-pypdf==3.9.1
->>>>>>> 297fbb0bc (saving changes)
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
