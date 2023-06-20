@@ -121,6 +121,10 @@ $menu-border: 5px solid $color-alternative-text;
             border-left: 5px solid transparent;
             text-decoration: none;
 
+            &.rtl{
+              border-right: 5px solid transparent;
+            }
+
             &.active,
             &:active,
             &:hover {
