@@ -8,6 +8,8 @@ from international_online_offer.models import (
     IOOArticlePage,
     IOOGuidePage,
     IOOIndexPage,
+    IOOTradePage,
+    IOOTradeShowPage,
     TriageData,
     UserData,
     get_triage_data,
@@ -47,7 +49,33 @@ class IOOGuidePageTests(WagtailPageTests):
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
             IOOGuidePage,
-            {IOOArticlePage},
+            {IOOArticlePage, IOOTradePage},
+        )
+
+
+class IOOTradePageTests(WagtailPageTests):
+    def test_allowed_parents(self):
+        self.assertAllowedParentPageTypes(
+            IOOTradePage,
+            {
+                IOOGuidePage,
+            },
+        )
+
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(
+            IOOTradePage,
+            {IOOTradeShowPage},
+        )
+
+
+class IOOTradeShowPageTests(WagtailPageTests):
+    def test_allowed_parents(self):
+        self.assertAllowedParentPageTypes(
+            IOOTradeShowPage,
+            {
+                IOOTradePage,
+            },
         )
 
 
