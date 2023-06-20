@@ -156,7 +156,7 @@
     margin: auto;
     padding: 0 15px;
 
-    @include govuk-media-query($from: desktop) {
+    @media (min-width: 1231px) {
         padding: 0;
     }
 }
