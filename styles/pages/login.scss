@@ -5,6 +5,8 @@
 $login-image: url(/static/images/signin-image.png);
 $signup-image: url(/static/images/signup-image.png);
 $banner: url(/static/images/great-banner-large.png);
+$ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
+
 #sign-up,
 #login {
   h1 {
@@ -16,28 +18,38 @@ $banner: url(/static/images/great-banner-large.png);
     color: $color-main-text;
   }
 
-  p {
-    font-size: $font-size-p;
-    color: $color-main-text;
-  }
 
-  .signup__form-panel {
+  .signup__form-panel,
+  .great-signup__form-panel {
     max-height: 100vh;
     overflow: auto;
+
+    #get-in-touch {
+      font-size: $font-size-p;
+      color: $color-main-text;
+    }
+
     @media only screen and (max-width: 900px) {
       width: 100%;
     }
   }
+
+  .great-signup__info-panel,
   .signup__info-panel {
     padding: 0;
     background-position: center 100% !important;
-    background-size: auto 55vh !important;
     background-repeat: no-repeat !important;
     position: relative;
     overflow-x: hidden;
+
     @media only screen and (max-width: 900px) {
       display: none;
     }
+
+    .signup__info-panel {
+      background-size: auto 55vh !important;
+    }
+
     .great-logo {
       position: absolute;
       height: 129px;
@@ -49,9 +61,9 @@ $banner: url(/static/images/great-banner-large.png);
       right: -50px;
 
       @media only screen and (max-width: 1200px) {
-       height: 104px;
-      width: 308px;
-    }
+        height: 104px;
+        width: 308px;
+      }
     }
 
     &.login-panel {
@@ -60,6 +72,15 @@ $banner: url(/static/images/great-banner-large.png);
 
     &.signup-panel {
       background: $signup-image;
+    }
+
+    &.ea-login-panel {
+      background: $ea-signup-image;
+    }
+
+    &.ea-signup-panel {
+      background: $ea-signup-image;
+      background-size: auto 40%;
     }
   }
 

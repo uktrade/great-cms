@@ -6,6 +6,7 @@ from captcha.client import RecaptchaResponse
 from django.http import HttpResponse
 
 from directory_api_client import api_client
+from directory_sso_api_client import sso_api_client
 from tests.helpers import create_response
 from tests.unit.core.factories import (
     CuratedListPageFactory,
@@ -218,3 +219,20 @@ def mock_free_trade_agreements():
 @pytest.fixture(name='get_response')
 def get_response(request):
     return HttpResponse()
+
+
+@pytest.fixture
+def mock_create_user_success():
+    yield mock.patch.object(
+        sso_api_client.user,
+        'create_user',
+        return_value=create_response(
+            status_code=201,
+            json_body={
+                'email': 'test@example.com',
+                'uidb64': 'MjE1ODk1',
+                'verification_token': 'bq1ftj-e82fb7b694d200b144012bfac0c866b2',
+                'verification_code': {'code': '19507', 'expiration_date': '2023-06-19T11:00:00Z'},
+            },
+        ),
+    ).start()
