@@ -87,14 +87,15 @@ class IOOIndexPage(BaseContentPage):
 
 class IOOGuidePage(BaseContentPage):
     parent_page_types = ['international_online_offer.IOOIndexPage']
-    subpage_types = ['international_online_offer.IOOArticlePage']
+    subpage_types = ['international_online_offer.IOOArticlePage', 'international_online_offer.IOOTradePage']
     template = 'ioo/guide.html'
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         triage_data = get_triage_data_from_db_or_session(request)
         user_data = get_user_data_from_db_or_session(request)
-        all_articles = self.get_children().live()
+        trade_page = helpers.get_trade_page(self.get_children().live().type(IOOTradePage))
+        all_articles = self.get_children().live().type(IOOArticlePage)
         get_to_know_market_articles = []
         opportunities_articles = []
         complete_contact_form_message = constants.LOW_VALUE_INVESTOR_SIGNUP_MESSAGE
@@ -115,6 +116,7 @@ class IOOGuidePage(BaseContentPage):
             get_to_know_market_articles=get_to_know_market_articles,
             support_and_incentives_articles=support_and_incentives_articles,
             opportunities_articles=opportunities_articles,
+            trade_page=trade_page,
         )
         return context
 
@@ -233,3 +235,53 @@ class UserData(models.Model):
     agree_terms = models.BooleanField(default=False)
     agree_info_email = models.BooleanField(default=False)
     agree_info_telephone = models.BooleanField(default=False)
+
+
+class IOOTradePage(BaseContentPage):
+    parent_page_types = ['international_online_offer.IOOGuidePage']
+    subpage_types = ['international_online_offer.IOOTradeShowPage']
+    template = 'ioo/trade.html'
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        triage_data = get_triage_data_from_db_or_session(request)
+        all_tradeshows = (
+            helpers.find_trade_shows_for_sector(self.get_children().live().type(IOOTradeShowPage), triage_data.sector)
+            if triage_data
+            else []
+        )
+        context.update(triage_data=triage_data, all_tradeshows=all_tradeshows)
+        return context
+
+
+class IOOTradeShowPageTag(TaggedItemBase):
+    tag = models.ForeignKey(IOOArticleTag, related_name='ioo_tagged_tradeshows', on_delete=models.CASCADE)
+    content_object = ParentalKey(
+        'international_online_offer.IOOTradeShowPage', related_name='ioo_tradeshow_tagged_items'
+    )
+
+
+class IOOTradeShowPage(BaseContentPage):
+    parent_page_types = ['international_online_offer.IOOTradePage']
+    subpage_types = []
+    template = 'ioo/trade.html'
+    tradeshow_title = models.TextField()
+    tradeshow_subheading = StreamField(
+        [
+            (
+                'text',
+                RichTextBlock(),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+    tradeshow_link = models.URLField(blank=True, max_length=255, null=True)
+    tags = ClusterTaggableManager(through=IOOTradeShowPageTag, blank=True, verbose_name='Trade Show Tags')
+    content_panels = CMSGenericPage.content_panels + [
+        FieldPanel('tradeshow_title'),
+        FieldPanel('tradeshow_subheading'),
+        FieldPanel('tradeshow_link'),
+        FieldPanel('tags'),
+    ]
