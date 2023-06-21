@@ -48,6 +48,11 @@
         color: $great-dark-grey;
     }
 
+    .govuk-label {
+        font-family: $great-font-bold;
+        font-size: 18px;
+    }
+
     .govuk-body {
         font-size: 20px;
         -webkit-font-smoothing: auto;
@@ -141,6 +146,9 @@
         border-width: 2px;
         margin: 0;
     }
+    .great-font-bold {
+        font-family: $great-font-bold;
+    }
 }
 
 .great-container {
@@ -215,10 +223,6 @@
     @include govuk-media-query($from: tablet) {
         height: 100%;
     }
-}
-
-.great-font-bold {
-    font-family: $great-font-bold;
 }
 
 .great-font-size-18 {
