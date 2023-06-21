@@ -94,6 +94,14 @@ def test_ioo_guide_page_content(rf):
 
 
 @pytest.mark.django_db
+def test_ioo_trade_page_content(rf):
+    guide_page = IOOTradePage(title='Trade')
+    request = rf.get(guide_page.url)
+    context = guide_page.get_context(request)
+    assert context['all_tradeshows'] == []
+
+
+@pytest.mark.django_db
 def test_ioo_guide_get_triage_data_none(rf):
     data = get_triage_data('testId')
     assert data is None

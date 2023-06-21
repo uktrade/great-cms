@@ -245,8 +245,11 @@ class IOOTradePage(BaseContentPage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         triage_data = get_triage_data_from_db_or_session(request)
-        all_tradeshows = self.get_children().live().type(IOOTradeShowPage)
-        all_tradeshows = helpers.find_trade_shows_for_sector(all_tradeshows, triage_data.sector)
+        all_tradeshows = (
+            helpers.find_trade_shows_for_sector(self.get_children().live().type(IOOTradeShowPage), triage_data.sector)
+            if triage_data
+            else []
+        )
         context.update(triage_data=triage_data, all_tradeshows=all_tradeshows)
         return context
 
