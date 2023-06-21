@@ -11,7 +11,7 @@
                 aria-controls="language-button">
            <img src="/static/images/icon-globe.svg" alt="Open language menu">
         </button>
-        <nav id="language-button" class="magna-header__dropdown {%if rtl_language%}rtl-page{%endif%}">
+        <nav id="language-button" class="magna-header__dropdown {%if rtl_language%}rtl-page{%endif%}" aria-label="Langugages">
             <ul class="magna-header__menu-items">
                 {% for item in available_languages %}
                     <li>
