@@ -463,3 +463,42 @@ class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, F
 
     def post(self, request, *args, **kwargs):
         return self.do_validate_code_flow(request)
+
+
+class SignInView(sso_mixins.SignInMixin, FormView):
+    template_name = 'export_academy/accounts/signin.html'
+    form_class = forms.SignUpForm
+    success_url = 'export_academy:upcoming-events'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        user = Registration.objects.get(pk=self.request.GET.get('registration-id'))
+        initial['email'] = user.email
+        return initial
+
+    def get_login_url(self):
+        return self.request.build_absolute_uri(reverse('core:login'))
+
+    def do_sign_in_flow(self, request):
+        form = forms.SignInForm(request.POST)
+        if form.is_valid():
+            data = {
+                'password': form.cleaned_data['password'],
+                'login': form.cleaned_data['email'],
+            }
+            response = self.handle_post_request(
+                data,
+                form,
+                request,
+                self.success_url,
+            )
+            if isinstance(response, HttpResponseRedirect):
+                return response
+            form.add_error('password', response)
+        # form.add_error('password', 'error')
+        # Ensure email address is always added to initial data
+        form.initial = self.get_initial()
+        return self.form_invalid(form)
+
+    def post(self, request, *args, **kwargs):
+        return self.do_sign_in_flow(request)

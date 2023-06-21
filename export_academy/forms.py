@@ -263,6 +263,10 @@ class SignUpForm(forms.Form):
     )
 
 
+class SignInForm(SignUpForm):
+    pass
+
+
 class CodeConfirmForm(forms.Form):
     code_confirm = forms.CharField(
         label='Confirmation code', error_messages={'required': 'Enter your confirmation code'}
