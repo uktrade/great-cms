@@ -37,12 +37,12 @@ def signup_form_post_request(client):
 
 
 @pytest.fixture
-def test_uidb64():
+def uidb64():
     return 'MjE1ODk1'
 
 
 @pytest.fixture
-def test_token():
+def token():
     return 'bq1ftj-e82fb7b694d200b144012bfac0c866b2'
 
 
@@ -517,7 +517,7 @@ def test_sign_up_400_error(mock_create_user, signup_form_post_request):
 
 @pytest.mark.django_db
 def test_signup_create_password_success(
-    mock_create_user_success, mock_send_verification_code_email, signup_form_post_request, test_uidb64, test_token
+    mock_create_user_success, mock_send_verification_code_email, signup_form_post_request, uidb64, token
 ):
     response = signup_form_post_request()
 
@@ -529,16 +529,11 @@ def test_signup_create_password_success(
             'expiration_date': '2023-06-19T11:00:00Z',
         },
         form_url='/export-academy/signup',
-        verification_link=f'''
-            http://testserver/export-academy/signup/verification?uidb64={test_uidb64}&token={test_token}
-        ''',
+        verification_link=f'http://testserver/export-academy/signup/verification?uidb64={uidb64}&token={token}',
         resend_verification_link='http://testserver/profile/enrol/resend-verification/resend/',
     )
     assert response.status_code == 302
-    assert (
-        response['Location']
-        == f"""{reverse('export_academy:signup-verification')}?uidb64={test_uidb64}&token={test_token}"""
-    )
+    assert response['Location'] == f"{reverse('export_academy:signup-verification')}?uidb64={uidb64}&token={token}"
 
 
 @mock.patch.object(sso_api_client.user, 'create_user')
@@ -577,26 +572,24 @@ def test_sign_up_already_registered(
 
 
 @pytest.mark.django_db
-def test_verification_page(client, test_uidb64, test_token):
-    response = client.get(reverse('export_academy:signup-verification') + f'?uidb64={test_uidb64}&token={test_token}')
+def test_verification_page(client, uidb64, token):
+    response = client.get(reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}')
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_verification_page_no_code(client, test_uidb64, test_token):
-    response = client.post(
-        reverse('export_academy:signup-verification') + f'?uidb64={test_uidb64}&token={test_token}', data={}
-    )
+def test_verification_page_no_code(client, uidb64, token):
+    response = client.post(reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}', data={})
     assert response.status_code == 200
     assert response.context['form'].errors['code_confirm'] == ['Enter your confirmation code']
 
 
 @mock.patch.object(sso_api_client.user, 'verify_verification_code')
 @pytest.mark.django_db
-def test_verification_page_incorrect_code(mock_verify_verification_code, client, test_uidb64, test_token):
+def test_verification_page_incorrect_code(mock_verify_verification_code, client, uidb64, token):
     mock_verify_verification_code.return_value = create_response(status_code=400)
     response = client.post(
-        reverse('export_academy:signup-verification') + f'?uidb64={test_uidb64}&token={test_token}',
+        reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}',
         data={'code_confirm': '1234'},
     )
     assert response.status_code == 200
@@ -610,14 +603,14 @@ def test_verification_page_code_expired(
     mock_regenerate_verification_code,
     mock_send_verification_code_email,
     client,
-    test_uidb64,
-    test_token,
+    uidb64,
+    token,
 ):
     mock_verify_verification_code.return_value = create_response(
         status_code=422, json_body={'email': 'test@example.com'}
     )
     response = client.post(
-        reverse('export_academy:signup-verification') + f'?uidb64={test_uidb64}&token={test_token}',
+        reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}',
         data={'code_confirm': '1234'},
     )
     assert response.status_code == 200
@@ -632,9 +625,7 @@ def test_verification_page_code_expired(
             'expiration_date': '2023-06-19T11:00:00Z',
         },
         form_url='/export-academy/signup/verification',
-        verification_link=f'''
-            http://testserver/export-academy/signup/verification?uidb64={test_uidb64}&token={test_token}
-        ''',
+        verification_link=f'http://testserver/export-academy/signup/verification?uidb64={uidb64}&token={token}',
         resend_verification_link='http://testserver/profile/enrol/resend-verification/resend/',
     )
     assert response.context['form'].errors['code_confirm'] == ['This code has expired. We have emailed you a new code']
@@ -652,7 +643,7 @@ def test_verification_page_success(
         status_code=200, json_body={'email': 'test@example.com'}
     )
     response = client.post(
-        reverse('export_academy:signup-verification') + f'?uidb64={test_uidb64}&token={test_token}',
+        reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}',
         data={'code_confirm': '1234'},
     )
     assert mock_action_class.call_count == 1
