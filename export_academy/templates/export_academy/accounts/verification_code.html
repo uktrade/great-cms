@@ -1,0 +1,22 @@
+{% extends 'export_academy/accounts/base.html' %}
+{% block form %}
+    <h3 class="govuk-!-margin-top-3">Check your email</h3>
+    <p class="govuk-!-margin-bottom-3">
+        We’ve sent a code to your email address. Don’t forget to check your spam folder if you can’t see it.
+    </p>
+    <p class="govuk-!-margin-bottom-0">Enter the code below to complete registration.</p>
+    {% csrf_token %}
+    {% comment %} {{ form }} {% endcomment %}
+    {% for field in form.visible_fields %}
+    <div class="govuk-form-group govuk-!-margin-top-6 {% if field.errors %}govuk-form-group--error{% endif %}">
+        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="button primary-button govuk-!-margin-top-6 great-full-width-button">Submit</button>
+{% endblock %}
+{% block left_panel_heading %}Set password for UK Export Academy{% endblock %}
+{% block left_panel_content %}
+    <p>We’ve upgraded the UK Export Academy website and it has now joined all our other services on great.gov.uk.</p>
+    <p>Please create a great.gov.uk password to continue to access your bookings.</p>
+    <p>If you have any questions or feedback please <a class="govuk-link" href={% url 'contact:contact-us-feedback' %}>get in touch</a>.</p>
+{% endblock %}

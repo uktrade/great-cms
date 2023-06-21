@@ -17,7 +17,7 @@ from international_online_offer.models import (
     get_user_data,
     get_user_data_from_db_or_session,
 )
-from sso import helpers as sso_helpers
+from sso import helpers as sso_helpers, mixins as sso_mixins
 
 
 def calculate_and_store_is_high_value(request):
@@ -437,9 +437,16 @@ class IOOLogin(ResendVerificationMixin, TemplateView):
         return render(request, self.template_name, {'form': form})
 
 
-class IOOSignUp(ResendVerificationMixin, TemplateView):
+class IOOSignUp(ResendVerificationMixin, sso_mixins.VerifyCodeMixin, sso_mixins.SignUpMixin, TemplateView):
     template_name = 'ioo/signup.html'
     success_url = '/international/expand-your-business-in-the-uk/guide/'
+
+    def __init__(self):
+        code_expired_error = {'field': '__all__', 'error_message': 'Code has expired: we have emailed you a new code'}
+        super().__init__(code_expired_error)
+
+    def send_welcome_notification(self, email, form_url):
+        return helpers.send_welcome_notification(email, form_url)
 
     def get(self, request, *args, **kwargs):
         form = forms.SignUpForm
@@ -466,28 +473,11 @@ class IOOSignUp(ResendVerificationMixin, TemplateView):
                 form.add_error('__all__', 'Invalid code')
             elif upstream_response.status_code == 422:
                 # Resend verification code if it has expired.
-                email = upstream_response.json()['email']
-                verification_code = sso_helpers.regenerate_verification_code(email)
-                sso_helpers.send_verification_code_email(
-                    email=email,
-                    verification_code=verification_code,
-                    form_url=request.path,
-                    verification_link=self.get_verification_link(uidb64, token),
-                    resend_verification_link=self.get_resend_verification_link(),
-                )
-                form.add_error('__all__', 'Code has expired: we have emailed you a new code')
+                self.handle_code_expired(upstream_response, request, uidb64, token, form)
             else:
-                email = upstream_response.json()['email']
-                helpers.send_welcome_notification(email=email, form_url=self.request.path)
-                cookie_jar = sso_helpers.get_cookie_jar(upstream_response)
-                response = HttpResponseRedirect(reverse_lazy('international_online_offer:profile'))
-                sso_helpers.set_cookies_from_cookie_jar(
-                    cookie_jar=cookie_jar,
-                    response=response,
-                    whitelist=[settings.SSO_SESSION_COOKIE, settings.SSO_DISPLAY_LOGGED_IN_COOKIE],
+                return self.handle_verification_code_success(
+                    upstream_response=upstream_response, redirect_url='international_online_offer:profile'
                 )
-                return response
-
         return render(request, self.template_name, {'form': form})
 
     def do_sign_up_flow(self, request):
@@ -497,9 +487,7 @@ class IOOSignUp(ResendVerificationMixin, TemplateView):
                 email=form.cleaned_data['email'].lower(), password=form.cleaned_data['password']
             )
             if response.status_code == 400:
-                server_errors = response.json()
-                for attribute, value in server_errors.items():
-                    form.add_error(attribute, value)
+                self.handle_400_response(response, form)
             elif response.status_code == 409:
                 email = form.cleaned_data['email'].lower()
                 verification_code = sso_helpers.regenerate_verification_code(email)
@@ -520,20 +508,7 @@ class IOOSignUp(ResendVerificationMixin, TemplateView):
                     )
                     form.add_error('__all__', 'Already registered: we have sent you an email regarding your account')
             elif response.status_code == 201:
-                user_details = response.json()
-                uidb64 = user_details['uidb64']
-                token = user_details['verification_token']
-
-                sso_helpers.send_verification_code_email(
-                    email=form.cleaned_data['email'],
-                    verification_code=user_details['verification_code'],
-                    form_url=self.request.path,
-                    verification_link=self.get_verification_link(uidb64, token),
-                    resend_verification_link=self.get_resend_verification_link(),
-                )
-                return HttpResponseRedirect(
-                    reverse_lazy('international_online_offer:signup') + '?uidb64=' + uidb64 + '&token=' + token
-                )
+                return self.handle_signup_success(response, form, 'international_online_offer:signup')
 
         return render(request, self.template_name, {'form': form})
 
