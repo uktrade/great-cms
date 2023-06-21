@@ -218,7 +218,7 @@ if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
         ('fr', 'French'),
         ('ko', 'Korean'),
         ('pt', 'Portuguese'),
-        ('zh', 'Mandarin'),
+        ('zh-cn', 'Mandarin'),
         ('ms', 'Malay'),
     ]
 

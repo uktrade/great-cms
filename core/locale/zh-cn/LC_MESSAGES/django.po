@@ -24,7 +24,7 @@ msgstr "great.gov.uk 国际"
 
 #: models.py:68
 msgid "Transcript"
-msgstr "成绩单"
+msgstr "文字稿"
 
 #: models.py:72
 msgid "English subtitles"
@@ -32,39 +32,39 @@ msgstr "英文字幕"
 
 #: models.py:1548
 msgid "Home"
-msgstr "家"
+msgstr "首頁"
 
 #: templates/components/card.html:13 templates/components/cta_card.html:6
 msgid "Opens in a new window"
-msgstr "在新窗口中打开"
+msgstr "在新視窗中開啟"
 
 #: templates/components/cookie_notice.html:8
 msgid "Tell us whether you accept cookies"
-msgstr "告诉我们您是否接受 cookie"
+msgstr "請告訴我們是否接受cookies"
 
 #: templates/components/cookie_notice.html:10
 msgid "We use "
-msgstr "我们用 "
+msgstr "我們使用 "
 
 #: templates/components/cookie_notice.html:10
 msgid "cookies to collect information"
-msgstr "用于收集信息的 cookie"
+msgstr "cookies收集資訊"
 
 #: templates/components/cookie_notice.html:10
 msgid ""
 "about how you use great.gov.uk. We use this information to make the website "
 "work as well as possible and improve government services."
 msgstr ""
-"关于您如何使用 great.gov.uk。我们使用这些信息来制作网站 尽可能做好工作，改善"
-"政府服务."
+"以了解您如何使用great.gov.uk 網站。這些資訊將用於改善網站運作及政府服務。"
+""
 
 #: templates/components/cookie_notice.html:14
 msgid "Accept all cookies"
-msgstr "接受所有 cookie"
+msgstr "接受所有cookies"
 
 #: templates/components/cookie_notice.html:15
 msgid "Set cookie preferences"
-msgstr "设置 cookie 首选项"
+msgstr "設定cookies偏好"
 
 #: templates/components/cookie_notice.html:20
 msgid "You've accepted all cookies.  You can "
@@ -80,23 +80,23 @@ msgstr "随时。"
 
 #: templates/components/header_footer/global_header.html:7
 msgid "For UK businesses"
-msgstr "对于英国企业"
+msgstr "英國企業請點選"
 
 #: templates/components/header_footer/global_header.html:8
 msgid "For international businesses"
-msgstr "对于英国企业"
+msgstr "國際企業請點選"
 
 #: templates/microsites/base.html:173
 msgid "Skip to main content"
-msgstr "跳到主要内容"
+msgstr "跳到主要頁面"
 
 #: templates/microsites/blocks/social_media.html:10
 msgid "Share this page"
-msgstr "分享此页面"
+msgstr "分享此頁面"
 
 #: templates/microsites/blocks/social_media.html:17
 msgid "Sharing will open the page in a new tab."
-msgstr "共享将在新选项卡中打开页面。"
+msgstr "將在新標籤頁中開啟分享頁面。"
 
 #: templates/microsites/blocks/social_media.html:31
 msgid "Twitter"
@@ -104,19 +104,19 @@ msgstr "推特"
 
 #: templates/microsites/blocks/social_media.html:46
 msgid "Facebook"
-msgstr "Facebook"
+msgstr "臉書"
 
 #: templates/microsites/blocks/social_media.html:61
 msgid "LinkedIn"
-msgstr "领英"
+msgstr "LinkedIn"
 
 #: templates/microsites/blocks/social_media.html:76
 msgid "Email"
-msgstr "电子邮件"
+msgstr "電子郵件"
 
 #: templates/microsites/blocks/streamfield.html:17
 msgid "Information has been submitted successfully"
-msgstr "信息已成功提交"
+msgstr "資料已經成功提交"
 
 #: templates/microsites/blocks/streamfield.html:24
 msgid "Submit"
@@ -131,21 +131,21 @@ msgid ""
 "                  "
 msgstr ""
 "\n"
-"                    <p>Y您的浏览器不支持 HTML5 视频。这里有一个 <a "
-"class=\"link\" href=\"%(video_url)s\">链接到视频</a> 反而.</p>\n"
+"                    <p>你的瀏覽器不支援HTML5影片。這裡是替代的 "
+"<a class=\"link\" href=\"%(video_url)s\">影片連結</a></p>\n"
 "                  "
 
 #: templates/microsites/blocks/video.html:26
 msgid "View video transcript"
-msgstr "查看视频成绩单"
+msgstr "查看影片文字稿"
 
 #: templates/microsites/includes/microsite_detail_content.html:37
 msgid "Last updated:"
-msgstr "最近更新时间："
+msgstr "最後更新："
 
 #: templates/microsites/includes/microsite_menu_button.html:13
 msgid "Menu"
-msgstr "菜单"
+msgstr "選單"
 
 #: templates/microsites/includes/microsite_related_content_list.html:9
 msgid "Related content"
@@ -153,7 +153,7 @@ msgstr "相关内容"
 
 #: templates/modeladmin/index.html:16
 msgid "Download CSV"
-msgstr "下载 CSV"
+msgstr "下載CSV"
 
 #: templates/wagtailadmin/microsite_migrate.html:4
 #, python-format
@@ -186,7 +186,7 @@ msgstr "不，不迁移"
 
 #: validators.py:11
 msgid "Please enter a UK postcode"
-msgstr "请输入英国邮政编码"
+msgstr "請輸入英國郵政編碼"
 
 #: wagtail_hooks.py:346
 msgid "Create page from page"
