@@ -1416,7 +1416,12 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 'columns',
                 StreamBlock(
                     [
-                        ('column', MicrositeColumnBlock()),
+                        (
+                            'column',
+                            MicrositeColumnBlock(
+                                required=False,
+                            ),
+                        ),
                     ],
                     help_text='Add two or three columns text',
                     min_num=2,
