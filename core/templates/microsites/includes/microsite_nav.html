@@ -12,7 +12,8 @@
                 <img src="/static/images/great-logo.svg" />
                 <h3>{{ title }}</h3>
                 {% if available_languages|length == 2 %}
-                    <ul class="mobile-single-language-toggle">
+                <nav aria-label="Langugages" class="mobile-single-language-toggle">
+                    <ul>
                         {% for language in available_languages %}
                             {% if current_language != language.language_code %}
                                 <li>
@@ -21,6 +22,7 @@
                             {% endif %}
                         {% endfor %}
                     </ul>
+                </nav>
                 {% endif %}
             </div>
             <div class="mobile-nav-buttons">
@@ -31,13 +33,15 @@
             </div>
         </div>
         {% if available_languages|length == 2 %}
-            <ul class="desktop-language-selector">
-                {% for language in available_languages %}
-                    <li class="{% if current_language == language.language_code %}active{% endif %}">
-                        <a href="?lang={{ language.language_code }}">{{ language.display_name }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
+          <nav aria-label="Langugages" class="desktop-language-selector">
+                <ul>
+                    {% for language in available_languages %}
+                        <li class="{% if current_language == language.language_code %}active{% endif %}">
+                            <a href="?lang={{ language.language_code }}">{{ language.display_name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+           </nav>
         {% endif %}
     </div>
     <div>

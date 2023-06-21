@@ -145,7 +145,7 @@ $menu-border: 5px solid $color-alternative-text;
       }
     }
 
-    nav:not(.magna-header__dropdown) {
+    nav:not([aria-label="Langugages"]) {
       width: 100%;
 
       @include width-container();
@@ -235,6 +235,12 @@ $menu-border: 5px solid $color-alternative-text;
   .desktop-language-selector {
     display: inline-flex;
     min-width: fit-content;
+    ul{
+      display: inline-flex;
+      li:not(:last-of-type){
+        margin-right: 5px;
+      }
+    }
     @media only screen and (max-width: $mobile-size) {
       display: none;
     }
@@ -242,7 +248,6 @@ $menu-border: 5px solid $color-alternative-text;
 
   .mobile-single-language-toggle {
     display: none;
-    margin-top: $large-padding;
     li {
       position: absolute;
       right: $standard-padding;
