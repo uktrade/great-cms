@@ -73,7 +73,8 @@ class EventFilter(FilterSet):
         for param, _ in self.PERIOD_CHOICES:
             # there must be a matching method for 'period' choices in the queryset manager (./managers.py)
             if param in value:
-                queryset = getattr(queryset, '%s' % param)()
+                if hasattr(queryset, '%s' % param):
+                    queryset = getattr(queryset, '%s' % param)()
 
         return queryset
 
