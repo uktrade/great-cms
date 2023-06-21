@@ -362,12 +362,12 @@ else:
             },
             'mohawk': {
                 'handlers': ['console'],
-                'level': 'WARNING',
+                'level': 'ERROR',
                 'propagate': False,
             },
             'requests': {
                 'handlers': ['console'],
-                'level': 'WARNING',
+                'level': 'ERROR',
                 'propagate': False,
             },
         },
