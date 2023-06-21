@@ -46,10 +46,6 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
       display: none;
     }
 
-    .signup__info-panel {
-      background-size: auto 55vh !important;
-    }
-
     .great-logo {
       position: absolute;
       height: 129px;
@@ -68,10 +64,12 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
 
     &.login-panel {
       background: $login-image;
+      background-size: auto 55vh !important;
     }
 
     &.signup-panel {
       background: $signup-image;
+      background-size: auto 55vh !important;
     }
 
     &.ea-login-panel {
