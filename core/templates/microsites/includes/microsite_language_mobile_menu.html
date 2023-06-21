@@ -11,17 +11,17 @@
                 aria-controls="language-button">
            <img src="/static/images/icon-globe.svg" alt="Open language menu">
         </button>
-        <div id="language-button" class="magna-header__dropdown {%if rtl_language%}rtl-page{%endif%}">
+        <nav id="language-button" class="magna-header__dropdown {%if rtl_language%}rtl-page{%endif%}">
             <ul class="magna-header__menu-items">
                 {% for item in available_languages %}
                     <li>
                         <a class="{% if current_language == item.language_code %}active {% endif %}{% if item.is_rtl_language %}rtl {% endif %}{%if rtl_language%}rtl_page{%endif%}"
-                        href="?lang={{item.language_code}}">{{ item.display_name }}</a>
+                        href="?lang={{item.language_code}}" lang="{{item.language_code}}" aria-current="{% if current_language == item.language_code %}true{%else%}false{%endif%}">{{ item.display_name }}</a>
 
                     </li>
                 {% endfor %}
             </ul>
-        </div>
+        </nav>
         <div class="magna-header__overlay"></div>
     </div>
 {%endif%}
