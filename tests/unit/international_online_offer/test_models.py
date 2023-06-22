@@ -8,6 +8,8 @@ from international_online_offer.models import (
     IOOArticlePage,
     IOOGuidePage,
     IOOIndexPage,
+    IOOTradePage,
+    IOOTradeShowPage,
     TriageData,
     UserData,
     get_triage_data,
@@ -47,7 +49,33 @@ class IOOGuidePageTests(WagtailPageTests):
     def test_allowed_children(self):
         self.assertAllowedSubpageTypes(
             IOOGuidePage,
-            {IOOArticlePage},
+            {IOOArticlePage, IOOTradePage},
+        )
+
+
+class IOOTradePageTests(WagtailPageTests):
+    def test_allowed_parents(self):
+        self.assertAllowedParentPageTypes(
+            IOOTradePage,
+            {
+                IOOGuidePage,
+            },
+        )
+
+    def test_allowed_children(self):
+        self.assertAllowedSubpageTypes(
+            IOOTradePage,
+            {IOOTradeShowPage},
+        )
+
+
+class IOOTradeShowPageTests(WagtailPageTests):
+    def test_allowed_parents(self):
+        self.assertAllowedParentPageTypes(
+            IOOTradeShowPage,
+            {
+                IOOTradePage,
+            },
         )
 
 
@@ -62,6 +90,15 @@ def test_ioo_guide_page_content(rf):
     assert context['get_to_know_market_articles'] == []
     assert context['support_and_incentives_articles'] == []
     assert context['opportunities_articles'] == []
+    assert context['trade_page'] is None
+
+
+@pytest.mark.django_db
+def test_ioo_trade_page_content(rf):
+    guide_page = IOOTradePage(title='Trade')
+    request = rf.get(guide_page.url)
+    context = guide_page.get_context(request)
+    assert context['all_tradeshows'] == []
 
 
 @pytest.mark.django_db

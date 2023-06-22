@@ -341,3 +341,18 @@
     margin-bottom: 40px;
     padding: 3px 0 0 3px;
 }
+
+.great-highlighted-text {
+    background: $great-light-yellow;
+    border-bottom: 3px solid black;
+    display: inline-block;
+    padding: 3px;
+    margin: 0 5px 5px 0;
+}
+
+.great-details {
+    .govuk-details__text {
+        border-left-color: $great-blue;
+        margin-top: 15px;
+    }
+}

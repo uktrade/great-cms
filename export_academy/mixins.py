@@ -2,9 +2,11 @@ import pickle
 
 from directory_forms_api_client import actions
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
+from django.urls import reverse
 
 from config import settings
 from export_academy.models import Registration
+from sso_profile.enrolment.constants import RESEND_VERIFICATION
 
 
 class BookingMixin(GovNotifyEmailActionMixin):
@@ -63,3 +65,23 @@ class RegistrationMixin:
 
         reg_data = pickle.dumps(reg_data).hex()
         self.request.session['form_data'] = reg_data
+
+
+class VerificationLinksMixin:
+    def get_verification_link(self, uidb64, token, next_param=None):
+        if next_param is None:
+            next_param = self.request.GET.get('next', '')
+        verification_params = f'?uidb64={uidb64}&token={token}'
+
+        if next_param:
+            next_param = f'&next={next_param}'
+        return (
+            self.request.build_absolute_uri(reverse('export_academy:signup-verification'))
+            + verification_params
+            + next_param
+        )
+
+    def get_resend_verification_link(self):
+        return self.request.build_absolute_uri(
+            reverse('sso_profile:resend-verification', kwargs={'step': RESEND_VERIFICATION})
+        )

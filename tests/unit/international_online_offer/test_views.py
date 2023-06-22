@@ -5,9 +5,11 @@ from django.conf import settings
 from django.urls import reverse, reverse_lazy
 
 from directory_constants import sectors as directory_constants_sectors
+from directory_sso_api_client import sso_api_client
 from international_online_offer.core import helpers, hirings, intents, regions, spends
 from international_online_offer.models import TriageData
 from sso import helpers as sso_helpers
+from tests.helpers import create_response
 
 
 @pytest.mark.django_db
@@ -377,13 +379,10 @@ def test_business_eyb_sso_signup_success(mock_send_code, client, requests_mock):
     assert response.status_code == 302
 
 
+@mock.patch.object(sso_api_client.user, 'create_user')
 @pytest.mark.django_db
-def test_business_eyb_sso_signup_fail(client, requests_mock):
-    requests_mock.post(
-        settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/user/',
-        text='{"email": "Incorrect email"}',
-        status_code=400,
-    )
+def test_business_eyb_sso_signup_fail(mock_create_user, client):
+    mock_create_user.return_value = create_response(status_code=400, json_body={'email': ['Incorrect email']})
     response = client.post(
         reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
     )
@@ -393,12 +392,11 @@ def test_business_eyb_sso_signup_fail(client, requests_mock):
 @pytest.mark.django_db
 @mock.patch.object(sso_helpers, 'regenerate_verification_code')
 @mock.patch.object(sso_helpers, 'send_verification_code_email')
-def test_business_eyb_sso_signup_regen_code(mock_send_code, mock_regenerate_code, client, requests_mock):
-    requests_mock.post(
-        settings.DIRECTORY_SSO_API_CLIENT_BASE_URL + 'api/v1/user/',
-        text='{"uidb64": "133", "verification_token" : "344", "verification_code" : "54322"}',
-        status_code=409,
-    )
+@mock.patch.object(sso_api_client.user, 'create_user')
+def test_business_eyb_sso_signup_regen_code(
+    mock_create_user, mock_send_code, mock_regenerate_code, client, requests_mock
+):
+    mock_create_user.return_value = create_response(status_code=409)
     response = client.post(
         reverse_lazy('international_online_offer:signup'), {'email': 'test@test.com', 'password': 'passwor1234'}
     )

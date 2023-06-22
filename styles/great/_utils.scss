@@ -40,12 +40,17 @@
     }
 
     p:not(.govuk-error-message),
-    span:not(.great-badge, .great-text-darker-grey),
+    span:not(.great-badge, .great-text-darker-grey, .govuk-details__summary-text),
     ol,
     ul,
     a {
         font-family: $great-font;
         color: $great-dark-grey;
+    }
+
+    .govuk-label {
+        font-family: $great-font-bold;
+        font-size: 18px;
     }
 
     .govuk-body {
@@ -54,12 +59,14 @@
     }
 
     .govuk-hint {
-        font-family: $great-font;
         color: $great-grey;
     }
 
+    .govuk-hint,
     .govuk-error-message,
-    .govuk-radios__label {
+    .govuk-radios__label,
+    .govuk-details,
+    .govuk-link {
         font-family: $great-font;
     }
 
@@ -139,6 +146,9 @@
         border-width: 2px;
         margin: 0;
     }
+    .great-font-bold {
+        font-family: $great-font-bold;
+    }
 }
 
 .great-container {
@@ -153,6 +163,10 @@
 
 .great-border-top-blue {
     border-top: 6px solid $great-blue;
+}
+
+.great-border-left-blue {
+    border-left: 6px solid $great-blue;
 }
 
 .great-bg-white {
@@ -209,10 +223,6 @@
     @include govuk-media-query($from: tablet) {
         height: 100%;
     }
-}
-
-.great-font-bold {
-    font-family: $great-font-bold;
 }
 
 .great-font-size-18 {
@@ -356,4 +366,8 @@
     @include govuk-media-query($from: desktop) {
         width: calc(58.333% + 30px);
     }
+}
+
+.great-full-width-button {
+    width: 100%;
 }

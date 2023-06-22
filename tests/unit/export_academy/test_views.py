@@ -10,8 +10,11 @@ from django.utils import timezone
 from config import settings
 from core.models import HeroSnippet
 from core.snippet_slugs import EA_REGISTRATION_PAGE_HERO
+from directory_sso_api_client import sso_api_client
 from export_academy.filters import EventFilter
 from export_academy.models import Booking
+from sso import helpers as sso_helpers
+from tests.helpers import create_response
 from tests.unit.export_academy import factories
 
 
@@ -20,6 +23,27 @@ def test_registration_hero():
     snippet = HeroSnippet(slug=EA_REGISTRATION_PAGE_HERO)
     snippet.save()
     return snippet
+
+
+@pytest.fixture
+def signup_form_post_request(client):
+    registration = factories.RegistrationFactory(email='test@example.com')
+    form_data = {'email': 'test@example.com', 'password': 'newPassword'}
+
+    def post_request():
+        return client.post(reverse('export_academy:signup') + f'?registration-id={registration.id}', data=form_data)
+
+    return post_request
+
+
+@pytest.fixture
+def uidb64():
+    return 'MjE1ODk1'
+
+
+@pytest.fixture
+def token():
+    return 'bq1ftj-e82fb7b694d200b144012bfac0c866b2'
 
 
 @pytest.mark.django_db
@@ -39,6 +63,21 @@ def test_export_academy_event_list_page_logged_out(client, export_academy_landin
     url = reverse('export_academy:upcoming-events')
     response = client.get(url)
     assert response.status_code == 200
+
+
+@pytest.mark.parametrize('page_query, num_events_on_page', (('', 10), ('?page=1', 10), ('?page=2', 5)))
+@pytest.mark.django_db
+def test_export_academy_event_list_pagination(
+    client, page_query, num_events_on_page, export_academy_landing_page, test_event_list_hero
+):
+    now = timezone.now()
+    factories.EventFactory.create_batch(
+        15, start_date=now + timedelta(hours=6), end_date=now + timedelta(hours=7), completed=None
+    )
+    url = f"{reverse('export_academy:upcoming-events')}{page_query}"
+    response = client.get(url)
+    assert response.status_code == 200
+    assert len(response.context['page_obj']) == num_events_on_page
 
 
 @pytest.mark.django_db
@@ -84,7 +123,6 @@ def test_export_academy_registration_page_redirect(client):
 
 
 @mock.patch.object(actions, 'GovNotifyEmailAction')
-# @mock.patch('export_academy.views.SuccessPageView.user_just_registered')
 @pytest.mark.django_db
 def test_registration_success_view(
     mock_user_just_registered,
@@ -445,3 +483,175 @@ def test_release_1_views(client, user, export_academy_landing_page, test_event_l
     response = client.get(url)
 
     assert 'www.events.great.gov.uk' in response.rendered_content
+
+
+@pytest.mark.django_db
+def test_sign_up_page(client):
+    registration = factories.RegistrationFactory(email='test@example.com')
+    response = client.get(reverse('export_academy:signup') + f'?registration-id={registration.id}')
+    assert response.status_code == 200
+    assert response.context['form'].initial['email'] == 'test@example.com'
+
+
+@pytest.mark.django_db
+def test_sign_up_empty_password(client):
+    registration = factories.RegistrationFactory(email='test@example.com')
+    form_data = {'email': 'test@example.com'}
+    response = client.post(reverse('export_academy:signup') + f'?registration-id={registration.id}', data=form_data)
+    assert response.context['form'].errors['password'] == ['Enter a password']
+    assert response.status_code == 200
+    assert response.context['form'].initial['email'] == 'test@example.com'
+
+
+@mock.patch.object(sso_api_client.user, 'create_user')
+@pytest.mark.django_db
+def test_sign_up_400_error(mock_create_user, signup_form_post_request):
+    mock_create_user.return_value = create_response(
+        status_code=400, json_body={'password': ["This password contains the word 'password'"]}
+    )
+    response = signup_form_post_request()
+    assert response.context['form'].errors['password'] == ["This password contains the word 'password'"]
+    assert response.status_code == 200
+    assert response.context['form'].initial['email'] == 'test@example.com'
+
+
+@pytest.mark.django_db
+def test_signup_create_password_success(
+    mock_create_user_success, mock_send_verification_code_email, signup_form_post_request, uidb64, token
+):
+    response = signup_form_post_request()
+
+    assert mock_send_verification_code_email.call_count == 1
+    assert mock_send_verification_code_email.call_args == mock.call(
+        email='test@example.com',
+        verification_code={
+            'code': '19507',
+            'expiration_date': '2023-06-19T11:00:00Z',
+        },
+        form_url='/export-academy/signup',
+        verification_link=f'http://testserver/export-academy/signup/verification?uidb64={uidb64}&token={token}',
+        resend_verification_link='http://testserver/profile/enrol/resend-verification/resend/',
+    )
+    assert response.status_code == 302
+    assert response['Location'] == f"{reverse('export_academy:signup-verification')}?uidb64={uidb64}&token={token}"
+
+
+@mock.patch.object(sso_api_client.user, 'create_user')
+@pytest.mark.django_db
+def test_sign_up_code_already_sent(
+    mock_create_user, mock_regenerate_verification_code, mock_send_verification_code_email, signup_form_post_request
+):
+    uidb64 = 'MjE1ODk1'
+    token = 'bq1ftj-e82fb7b694d200b144012bfac0c866b2'
+    mock_create_user.return_value = create_response(status_code=409)
+
+    response = signup_form_post_request()
+
+    assert mock_send_verification_code_email.call_count == 1
+    assert response.status_code == 302
+    assert response['Location'] == f"{reverse('export_academy:signup-verification')}?uidb64={uidb64}&token={token}"
+
+
+@mock.patch.object(sso_api_client.user, 'create_user')
+@mock.patch.object(sso_helpers, 'regenerate_verification_code')
+@mock.patch.object(sso_helpers, 'notify_already_registered')
+@pytest.mark.django_db
+def test_sign_up_already_registered(
+    mock_notify_already_registered, mock_regenerate_verification_code, mock_create_user, signup_form_post_request
+):
+    mock_create_user.return_value = create_response(status_code=409)
+    mock_regenerate_verification_code.return_value = None
+    response = signup_form_post_request()
+
+    assert mock_notify_already_registered.call_count == 1
+    assert mock_notify_already_registered.call_args == mock.call(
+        email='test@example.com', form_url='/export-academy/signup', login_url='http://testserver/login/'
+    )
+    assert response.status_code == 302
+    assert response['Location'].startswith(reverse('export_academy:signup-verification'))
+
+
+@pytest.mark.django_db
+def test_verification_page(client, uidb64, token):
+    response = client.get(reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_verification_page_no_code(client, uidb64, token):
+    response = client.post(reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}', data={})
+    assert response.status_code == 200
+    assert response.context['form'].errors['code_confirm'] == ['Enter your confirmation code']
+
+
+@mock.patch.object(sso_api_client.user, 'verify_verification_code')
+@pytest.mark.django_db
+def test_verification_page_incorrect_code(mock_verify_verification_code, client, uidb64, token):
+    mock_verify_verification_code.return_value = create_response(status_code=400)
+    response = client.post(
+        reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}',
+        data={'code_confirm': '1234'},
+    )
+    assert response.status_code == 200
+    assert response.context['form'].errors['code_confirm'] == ['This code is incorrect. Please try again.']
+
+
+@mock.patch.object(sso_api_client.user, 'verify_verification_code')
+@pytest.mark.django_db
+def test_verification_page_code_expired(
+    mock_verify_verification_code,
+    mock_regenerate_verification_code,
+    mock_send_verification_code_email,
+    client,
+    uidb64,
+    token,
+):
+    mock_verify_verification_code.return_value = create_response(
+        status_code=422, json_body={'email': 'test@example.com'}
+    )
+    response = client.post(
+        reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}',
+        data={'code_confirm': '1234'},
+    )
+    assert response.status_code == 200
+    assert mock_regenerate_verification_code.call_count == 1
+    assert mock_send_verification_code_email.call_count == 1
+    assert mock_send_verification_code_email.call_args == mock.call(
+        email='test@example.com',
+        verification_code={
+            'user_uidb64': 'MjE1ODk1',
+            'verification_token': 'bq1ftj-e82fb7b694d200b144012bfac0c866b2',
+            'code': '19507',
+            'expiration_date': '2023-06-19T11:00:00Z',
+        },
+        form_url='/export-academy/signup/verification',
+        verification_link=f'http://testserver/export-academy/signup/verification?uidb64={uidb64}&token={token}',
+        resend_verification_link='http://testserver/profile/enrol/resend-verification/resend/',
+    )
+    assert response.context['form'].errors['code_confirm'] == ['This code has expired. We have emailed you a new code']
+
+
+@mock.patch.object(sso_helpers, 'set_cookies_from_cookie_jar')
+@mock.patch.object(sso_helpers, 'get_cookie_jar')
+@mock.patch.object(actions, 'GovNotifyEmailAction')
+@mock.patch.object(sso_api_client.user, 'verify_verification_code')
+@pytest.mark.django_db
+def test_verification_page_success(
+    mock_verify_verification_code, mock_action_class, mock_get_cookie_jar, mock_set_cookies_from_cookie_jar, client
+):
+    mock_verify_verification_code.return_value = create_response(
+        status_code=200, json_body={'email': 'test@example.com'}
+    )
+    response = client.post(
+        reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}',
+        data={'code_confirm': '1234'},
+    )
+    assert mock_action_class.call_count == 1
+    assert mock_action_class.call_args == mock.call(
+        template_id=settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID,
+        email_address='test@example.com',
+        form_url='/export-academy/signup/verification',
+    )
+    assert mock_set_cookies_from_cookie_jar.call_count == 1
+    assert response.status_code == 302
+    assert response['Location'] == reverse('export_academy:upcoming-events')
