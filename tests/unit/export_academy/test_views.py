@@ -695,7 +695,7 @@ def test_sign_success(client, requests_mock):
     response = client.post(reverse('export_academy:signin') + f'?registration-id={registration.id}', data=form_data)
     assert isinstance(response, HttpResponseRedirect)
     assert response.status_code == 302
-    assert response.url == 'export_academy:upcoming-events'
+    assert response.url == reverse('export_academy:upcoming-events')
 
 
 @pytest.mark.django_db
