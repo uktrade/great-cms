@@ -655,8 +655,17 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
 
 
 class DomesticExportSupportFormStep8View(contact_mixins.ExportSupportFormMixin, FormView):
-    form_class = contact_forms.DomesticExportSupportStep7Form
-    template_name = 'domestic/contact/export-support/cya.html'
+    form_class = contact_forms.DomesticExportSupportStep8Form
+    template_name = 'domestic/contact/export-support/confirmation.html'
+    success_url = reverse_lazy('contact:export-support-step-8')
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            heading_text='Thank you for your enquiry',
+            strapline_text="We've sent a confirmation email to the email address you provided.",
+            button_text='Submit feedback',
+        )
 
 
 class InternationalFormView(

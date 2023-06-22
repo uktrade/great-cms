@@ -901,6 +901,24 @@ def test_selling_online_overseas_contact_details_form__editable_fields():
                 'contacted_gov_departments': 'Choose an option',
             },
         ),
+        (
+            forms.DomesticExportSupportStep8Form,
+            {
+                'help_us_improve': 'easy',
+            },
+            True,
+            {},
+        ),
+        (
+            forms.DomesticExportSupportStep8Form,
+            {
+                'help_us_improve': '',
+            },
+            False,
+            {
+                'help_us_improve': 'Choose an option',
+            },
+        ),
     ),
 )
 @pytest.mark.django_db

@@ -1588,6 +1588,16 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
                 'contacted_gov_departments': 'Choose an option',
             },
         ),
+        (
+            reverse('contact:export-support-step-8'),
+            {
+                'help_us_improve': 'easy',
+            },
+            reverse('contact:export-support-step-8'),
+            {
+                'help_us_improve': 'Choose an option',
+            },
+        ),
     ),
 )
 @pytest.mark.django_db

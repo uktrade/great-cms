@@ -388,6 +388,33 @@ class DomesticExportSupportStep7Form(forms.Form):
     )
 
 
+class DomesticExportSupportStep8Form(forms.Form):
+    help_us_improve = forms.ChoiceField(
+        label='Help us improve',
+        help_text='Overall, how easy did you feel the form was to understand and complete?',
+        widget=contact_widgets.GreatRadioSelect,
+        choices=(
+            ('easy', 'Easy'),
+            ('neither', 'Neither easy or difficult'),
+            ('difficult', 'Difficult'),
+        ),
+        error_messages={
+            'required': 'Choose an option',
+        },
+    )
+    help_us_further = forms.ChoiceField(
+        label='Would you be interested in helping us further?',
+        help_text="""We regularly conduct user research sessions and are looking for participants
+         , if you're interested in being contacted please confirm below.""",
+        widget=contact_widgets.GreatRadioSelect,
+        choices=(
+            ('yes', 'Yes, I am interested in helping with user research'),
+            ('no', 'No, I am not interested in helping with user research'),
+        ),
+        required=False,
+    )
+
+
 class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
     EMPLOYEES_NUMBER_CHOICES = (
         ('1-9', '1 to 9'),
