@@ -40,7 +40,7 @@
                     {% for language in available_languages %}
                         <li class="{% if current_language == language.language_code %}active{% endif %}">
                             <a href="?lang={{ language.language_code }}"
-                            aria-current="{% if current_language == item.language_code %}true{%else%}false{%endif%}"
+                            aria-current="{% if current_language == language.language_code %}true{%else%}false{%endif%}"
                             >{{ language.display_name }}</a>
                         </li>
                     {% endfor %}
