@@ -17,13 +17,6 @@
         }
     }
 
-    .form-label {
-        font-weight: bold;
-        font-size: 18px;
-        color: $color-main-text;
-        font-family: $header-font;
-    }
-
     &__form-panel {
         color: #4c436e;
         min-height: 100vh;
@@ -132,10 +125,6 @@
                     font-size: 1.5em;
                 }
             }
-        }
-
-        .button {
-            min-width: 230px;
         }
 
         &__confirmation {

@@ -396,7 +396,8 @@ class IOOLogin(sso_mixins.SignInMixin, TemplateView):
             )
             if isinstance(response, HttpResponseRedirect):
                 return response
-            form.add_error('__all__', response)
+            if response:
+                form.add_error('__all__', response)
 
         return render(request, self.template_name, {'form': form})
 

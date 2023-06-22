@@ -3,6 +3,7 @@ from unittest import mock
 
 import pytest
 from directory_forms_api_client import actions
+from django.http import HttpResponseRedirect
 from django.test import override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -44,6 +45,17 @@ def uidb64():
 @pytest.fixture
 def token():
     return 'bq1ftj-e82fb7b694d200b144012bfac0c866b2'
+
+
+@pytest.fixture
+def signin_form_post_request(client):
+    registration = factories.RegistrationFactory(email='test@example.com')
+    form_data = {'email': 'test@example.com', 'password': 'mypassword'}
+
+    def post_request():
+        return client.post(reverse('export_academy:signin') + f'?registration-id={registration.id}', data=form_data)
+
+    return post_request
 
 
 @pytest.mark.django_db
@@ -655,3 +667,58 @@ def test_verification_page_success(
     assert mock_set_cookies_from_cookie_jar.call_count == 1
     assert response.status_code == 302
     assert response['Location'] == reverse('export_academy:upcoming-events')
+
+
+@pytest.mark.django_db
+def test_sign_in_page(client):
+    registration = factories.RegistrationFactory(email='test@example.com')
+    response = client.get(reverse('export_academy:signin') + f'?registration-id={registration.id}')
+    assert response.status_code == 200
+    assert response.context['form'].initial['email'] == 'test@example.com'
+
+
+@pytest.mark.django_db
+def test_sign_in_empty_password(client):
+    registration = factories.RegistrationFactory(email='test@example.com')
+    form_data = {'email': 'test@example.com'}
+    response = client.post(reverse('export_academy:signin') + f'?registration-id={registration.id}', data=form_data)
+    assert response.context['form'].errors['password'] == ['Enter a password']
+    assert response.status_code == 200
+    assert response.context['form'].initial['email'] == 'test@example.com'
+
+
+@pytest.mark.django_db
+def test_sign_success(client, requests_mock):
+    requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=302)
+    registration = factories.RegistrationFactory(email='test@example.com')
+    form_data = {'email': 'test@example.com', 'password': 'test-password'}
+    response = client.post(reverse('export_academy:signin') + f'?registration-id={registration.id}', data=form_data)
+    assert isinstance(response, HttpResponseRedirect)
+    assert response.status_code == 302
+    assert response.url == 'export_academy:upcoming-events'
+
+
+@pytest.mark.django_db
+@mock.patch.object(sso_helpers, 'regenerate_verification_code')
+@mock.patch.object(sso_helpers, 'send_verification_code_email')
+def test_signin_send_verification(mock_send_code, mock_regenerate_code, client, requests_mock):
+    mock_regenerate_code.return_value = {'code': '12345', 'user_uidb64': 'aBcDe', 'verification_token': '1ab-123abc'}
+    requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=401)
+    registration = factories.RegistrationFactory(email='test@example.com')
+    form_data = {'email': 'test@example.com', 'password': 'test-password'}
+    response = client.post(reverse('export_academy:signin') + f'?registration-id={registration.id}', data=form_data)
+
+    assert mock_send_code.call_count == 1
+    assert mock_regenerate_code.call_count == 1
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_sign_invalid_password(client, requests_mock):
+    requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=200)
+    registration = factories.RegistrationFactory(email='test@example.com')
+    form_data = {'email': 'test@example.com', 'password': 'test-password'}
+    response = client.post(reverse('export_academy:signin') + f'?registration-id={registration.id}', data=form_data)
+    assert response.context['form'].errors['password'] == ['Invalid email / password']
+    assert response.status_code == 200
+    assert response.context['form'].initial['email'] == 'test@example.com'

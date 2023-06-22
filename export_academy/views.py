@@ -468,7 +468,7 @@ class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, F
 class SignInView(sso_mixins.SignInMixin, FormView):
     template_name = 'export_academy/accounts/signin.html'
     form_class = forms.SignUpForm
-    success_url = 'export_academy:upcoming-events'
+    success_url = reverse_lazy('export_academy:upcoming-events')
 
     def get_initial(self):
         initial = super().get_initial()
@@ -494,8 +494,10 @@ class SignInView(sso_mixins.SignInMixin, FormView):
             )
             if isinstance(response, HttpResponseRedirect):
                 return response
-            form.add_error('password', response)
-        # form.add_error('password', 'error')
+
+            if response:
+                form.add_error('password', response)
+
         # Ensure email address is always added to initial data
         form.initial = self.get_initial()
         return self.form_invalid(form)

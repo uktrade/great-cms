@@ -71,11 +71,6 @@ class ResendVerificationMixin:
 
 
 class SignInMixin(ResendVerificationMixin):
-    def handle_400_response(self, response, form):
-        server_errors = response.json()
-        for attribute, value in server_errors.items():
-            form.add_error(attribute, value)
-
     def handle_post_request(
         self,
         data,

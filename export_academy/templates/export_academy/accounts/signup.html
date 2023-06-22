@@ -1,13 +1,16 @@
 {% extends 'export_academy/accounts/base.html' %}
+{% load wagtailcore_tags %}
+
 {% block form %}
     <h3 class="govuk-!-margin-top-3">Choose a password</h3>
+
     <p class="govuk-!-margin-bottom-3">This is your UK Export Academy registered email address.</p>
     {% include 'export_academy/includes/upgrade_form_fields.html' %}
     <p class="govuk-!-margin-bottom-2">By signing up, you agree to our
-        <a class="govuk-link" href="/terms-and-conditions/">terms and conditions</a> and
-        <a class="govuk-link" href="/privacy-and-cookies/">privacy notice</a>
+        <a class="govuk-link" href="{% slugurl 'terms-and-conditions' %}">terms and conditions</a> and
+        <a class="govuk-link" href="{% slugurl 'privacy-and-cookies' %}">privacy notice</a>
     </p>
-    <button type="submit" class="button primary-button govuk-!-margin-top-6 great-full-width-button">Sign up</button>
+    <button type="submit" class="govuk-button govuk-!-margin-top-6 great-full-width-button">Sign up</button>
 {% endblock %}
 {% block left_panel_heading %}Set password for UK Export Academy{% endblock %}
 {% block left_panel_content %}
