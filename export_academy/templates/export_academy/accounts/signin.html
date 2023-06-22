@@ -1,7 +1,6 @@
 {% extends 'export_academy/accounts/base.html' %}
 {% block form %}
     <h3 class="govuk-!-margin-top-3 govuk-!-margin-bottom-6">Sign in</h3>
-    {% csrf_token %}
     {% include 'export_academy/includes/upgrade_form_fields.html' %}
     <p class="govuk-!-margin-bottom-2">
         <a class="govuk-link" href="{{ javascript_components.password_reset_url }}">Forgotten password?</a>
