@@ -355,6 +355,16 @@ else:
                 'handlers': ['console'],
                 'propagate': False,
             },
+            'django.request': {
+                'handlers': ['console'],
+                'level': 'ERROR',
+                'propagate': True,
+            },
+            'requests': {
+                'handlers': ['console'],
+                'level': 'ERROR',
+                'propagate': False,
+            },
         },
     }
 
