@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.utils import timezone
 from django_filters import FilterSet, filters
 from great_components import forms
@@ -82,8 +83,14 @@ class EventFilter(FilterSet):
         if is_export_academy_registered(self.request.user):  # type: ignore
             if value == self.UPCOMING:
                 queryset = queryset.exclude(live__isnull=True).filter(
-                    bookings__registration__email=self.request.user.email,  # type: ignore
-                    bookings__status=models.Booking.CONFIRMED,
+                    Q(
+                        bookings__registration__email=self.request.user.email,  # type: ignore
+                        bookings__status=models.Booking.CONFIRMED,
+                    )
+                    | Q(
+                        bookings__registration__email=self.request.user.email,  # type: ignore
+                        bookings__status=models.Booking.JOINED,
+                    )
                 )
 
             if value == self.PAST:
