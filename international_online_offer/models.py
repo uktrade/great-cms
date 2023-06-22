@@ -208,19 +208,20 @@ class IOOTradePage(BaseContentPage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         triage_data = get_triage_data_from_db_or_session(request)
-        all_tradeshows = (
-            helpers.find_trade_shows_for_sector(self.get_children().live().type(IOOTradeShowPage), triage_data.sector)
-            if triage_data
-            else []
-        )
-        # Given the sector selected we need to get mapped trade association sectors to query
-        # with due to misalignment of sector names across DBT
-        trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
-        all_trade_associations = TradeAssociation.objects.filter(sector__in=trade_association_sectors)
-        # if we still have no matching trade associations then we'll
-        # try a search based a sector display name that we might not have mapped yet
-        if len(all_trade_associations) == 0:
-            all_trade_associations = TradeAssociation.objects.filter(sector=triage_data.get_sector_display())
+        all_tradeshows = []
+        all_trade_associations = []
+        if triage_data:
+            all_tradeshows = helpers.find_trade_shows_for_sector(
+                self.get_children().live().type(IOOTradeShowPage), triage_data.sector
+            )
+            # Given the sector selected we need to get mapped trade association sectors to query
+            # with due to misalignment of sector names across DBT
+            trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
+            all_trade_associations = TradeAssociation.objects.filter(sector__in=trade_association_sectors)
+            # if we still have no matching trade associations then we'll
+            # try a search based a sector display name that we might not have mapped yet
+            if len(all_trade_associations) == 0:
+                all_trade_associations = TradeAssociation.objects.filter(sector=triage_data.get_sector_display())
 
         page = request.GET.get('page', 1)
         paginator = Paginator(all_trade_associations, 10)

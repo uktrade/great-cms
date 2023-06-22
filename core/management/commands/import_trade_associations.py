@@ -17,7 +17,6 @@ class Command(BaseCommand):
         )
         data = tablib.import_set(file, format='csv', headers=True)
         for item in data:
-            print(item[0])
             if not TradeAssociation.objects.filter(trade_association_id=item[0]).exists():
                 TradeAssociation.objects.create(
                     trade_association_id=item[0],
