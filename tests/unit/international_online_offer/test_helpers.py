@@ -2,6 +2,7 @@ from unittest import mock
 
 from directory_forms_api_client import actions
 
+from directory_constants import sectors as directory_constants_sectors
 from international_online_offer.core import filter_tags, helpers
 
 
@@ -87,6 +88,16 @@ def test_find_articles_based_on_tags():
     assert len(helpers.find_trade_shows_for_sector(articles, 'tag1')) == 0
     assert helpers.get_trade_page([]) is None
     assert helpers.get_trade_page(articles) is not None
+
+
+def test_get_trade_assoication_sectors_from_sector():
+    assert helpers.get_trade_assoication_sectors_from_sector(directory_constants_sectors.AEROSPACE) == []
+    assert helpers.get_trade_assoication_sectors_from_sector(directory_constants_sectors.FOOD_AND_DRINK) == [
+        'Food and Drink'
+    ]
+    assert helpers.get_trade_assoication_sectors_from_sector(directory_constants_sectors.CONSUMER_AND_RETAIL) == [
+        'Retail'
+    ]
 
 
 def test_concat_filters():

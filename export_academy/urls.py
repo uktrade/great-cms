@@ -160,4 +160,6 @@ urlpatterns = [
         views.DownloadCalendarView.as_view(),
         name='calendar',
     ),
+    path('signup', views.SignUpView.as_view(), name='signup'),
+    path('signup/verification', views.VerificationCodeView.as_view(), name='signup-verification'),
 ]
