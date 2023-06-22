@@ -106,6 +106,7 @@ class ActivityStreamExportAcademyEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = [
+            'external_id',
             'name',
             'description',
             'format',
@@ -148,7 +149,7 @@ class ActivityStreamExportAcademyRegistrationSerializer(serializers.ModelSeriali
 
     class Meta:
         model = Registration
-        fields = ['email', 'firstName', 'lastName', 'data']
+        fields = ['external_id', 'email', 'firstName', 'lastName', 'data']
 
     def to_representation(self, instance):
         """

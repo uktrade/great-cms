@@ -1,7 +1,8 @@
 from directory_forms_api_client import actions
 from django.conf import settings
 
-from international_online_offer.core import filter_tags
+from directory_constants import sectors as directory_constants_sectors
+from international_online_offer.core import filter_tags, sectors as sectors
 
 
 def concat_filters(*filters):
@@ -101,3 +102,58 @@ def get_trade_page(all_trade_pages):
     if len(filtered_pages) > 0:
         return filtered_pages[0]
     return None
+
+
+def get_trade_assoication_sectors_from_sector(sector):
+    mappings = {
+        directory_constants_sectors.FOOD_AND_DRINK: [
+            'Food and Drink',
+        ],
+        sectors.TECHNOLOGY_AND_SMART_CITIES: [
+            'Artificial Intelligence',
+            'Automation',
+            'Cyber Security',
+            'Electronics and IT Hardware',
+            'Engineering',
+            'Research',
+            'Robotics',
+            'Software and IT Services',
+            'Solar Energy',
+            'Technology',
+            'Transport',
+        ],
+        directory_constants_sectors.FINANCIAL_AND_PROFESSIONAL_SERVICES: [
+            'Accounting',
+            'Advertising',
+            'Financial Services',
+            'FinTech',
+            'Human Resource Outsourcing',
+            'Insurance',
+            'Legal Services',
+            'Mortgage',
+            'Professional Services',
+            'Property',
+            'Recruitment',
+            'Tax',
+            'Venture Capital',
+        ],
+        directory_constants_sectors.CONSUMER_AND_RETAIL: ['Retail'],
+        sectors.CREATIVE_INDUSTRIES: [
+            'Advertising',
+            'Branding',
+            'Architecture',
+            'Communications',
+            'Creative Media',
+            'Creative Media/Sports',
+            'Design',
+            'Education',
+            'Electronics and IT Hardware',
+            'Fashion',
+            'Interior Design',
+            'Leisure',
+            'Sports',
+            'Tourism',
+        ],
+    }
+    mapping = mappings.get(sector)
+    return mapping if mapping else []
