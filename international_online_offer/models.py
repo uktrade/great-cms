@@ -1,4 +1,5 @@
 from django.contrib.postgres.fields import ArrayField
+from django.core.paginator import Paginator
 from django.db import models
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
@@ -87,14 +88,15 @@ class IOOIndexPage(BaseContentPage):
 
 class IOOGuidePage(BaseContentPage):
     parent_page_types = ['international_online_offer.IOOIndexPage']
-    subpage_types = ['international_online_offer.IOOArticlePage']
+    subpage_types = ['international_online_offer.IOOArticlePage', 'international_online_offer.IOOTradePage']
     template = 'ioo/guide.html'
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         triage_data = get_triage_data_from_db_or_session(request)
         user_data = get_user_data_from_db_or_session(request)
-        all_articles = self.get_children().live()
+        trade_page = helpers.get_trade_page(self.get_children().live().type(IOOTradePage))
+        all_articles = self.get_children().live().type(IOOArticlePage)
         get_to_know_market_articles = []
         opportunities_articles = []
         complete_contact_form_message = constants.LOW_VALUE_INVESTOR_SIGNUP_MESSAGE
@@ -115,6 +117,7 @@ class IOOGuidePage(BaseContentPage):
             get_to_know_market_articles=get_to_know_market_articles,
             support_and_incentives_articles=support_and_incentives_articles,
             opportunities_articles=opportunities_articles,
+            trade_page=trade_page,
         )
         return context
 
@@ -197,15 +200,77 @@ class IOOArticlePage(BaseContentPage):
     ]
 
 
+class IOOTradePage(BaseContentPage):
+    parent_page_types = ['international_online_offer.IOOGuidePage']
+    subpage_types = ['international_online_offer.IOOTradeShowPage']
+    template = 'ioo/trade.html'
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        triage_data = get_triage_data_from_db_or_session(request)
+        all_tradeshows = []
+        all_trade_associations = []
+        if triage_data:
+            all_tradeshows = helpers.find_trade_shows_for_sector(
+                self.get_children().live().type(IOOTradeShowPage), triage_data.sector
+            )
+            # Given the sector selected we need to get mapped trade association sectors to query
+            # with due to misalignment of sector names across DBT
+            trade_association_sectors = helpers.get_trade_assoication_sectors_from_sector(triage_data.sector)
+            all_trade_associations = TradeAssociation.objects.filter(sector__in=trade_association_sectors)
+            # if we still have no matching trade associations then we'll
+            # try a search based a sector display name that we might not have mapped yet
+            if len(all_trade_associations) == 0:
+                all_trade_associations = TradeAssociation.objects.filter(sector=triage_data.get_sector_display())
+
+        page = request.GET.get('page', 1)
+        paginator = Paginator(all_trade_associations, 10)
+        all_trade_associations = paginator.page(page)
+        context.update(
+            triage_data=triage_data, all_tradeshows=all_tradeshows, all_trade_associations=all_trade_associations
+        )
+        return context
+
+
+class IOOTradeShowPageTag(TaggedItemBase):
+    tag = models.ForeignKey(IOOArticleTag, related_name='ioo_tagged_tradeshows', on_delete=models.CASCADE)
+    content_object = ParentalKey(
+        'international_online_offer.IOOTradeShowPage', related_name='ioo_tradeshow_tagged_items'
+    )
+
+
+class IOOTradeShowPage(BaseContentPage):
+    parent_page_types = ['international_online_offer.IOOTradePage']
+    subpage_types = []
+    template = 'ioo/trade.html'
+    tradeshow_title = models.TextField()
+    tradeshow_subheading = StreamField(
+        [
+            (
+                'text',
+                RichTextBlock(),
+            ),
+        ],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+    tradeshow_link = models.URLField(blank=True, max_length=255, null=True)
+    tags = ClusterTaggableManager(through=IOOTradeShowPageTag, blank=True, verbose_name='Trade Show Tags')
+    content_panels = CMSGenericPage.content_panels + [
+        FieldPanel('tradeshow_title'),
+        FieldPanel('tradeshow_subheading'),
+        FieldPanel('tradeshow_link'),
+        FieldPanel('tags'),
+    ]
+
+
 class TriageData(models.Model):
     hashed_uuid = models.CharField(max_length=200)
     sector = models.CharField(max_length=255, choices=choices.SECTOR_CHOICES)
     intent = ArrayField(
-        ArrayField(
-            models.CharField(max_length=255, choices=choices.INTENT_CHOICES),
-            size=6,
-        ),
-        size=1,
+        models.CharField(max_length=255, choices=choices.INTENT_CHOICES),
+        size=6,
         default=list,
     )
 
@@ -236,3 +301,12 @@ class UserData(models.Model):
     agree_terms = models.BooleanField(default=False)
     agree_info_email = models.BooleanField(default=False)
     agree_info_telephone = models.BooleanField(default=False)
+
+
+class TradeAssociation(models.Model):
+    trade_association_id = models.CharField(max_length=255)
+    sector_grouping = models.CharField(max_length=255)
+    association_name = models.CharField(max_length=255)
+    website_link = models.CharField(max_length=255)
+    sector = models.CharField(max_length=255)
+    brief_description = models.CharField(max_length=255)

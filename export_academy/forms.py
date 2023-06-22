@@ -3,6 +3,7 @@ from django.forms import (
     CheckboxInput,
     DateTimeField,
     HiddenInput,
+    PasswordInput,
     Select,
     ValidationError,
 )
@@ -249,3 +250,20 @@ class EventAdminModelForm(WagtailAdminModelForm):
 
     def clean_live(self):
         return self._clean_field('live')
+
+
+class SignUpForm(forms.Form):
+    email = forms.EmailField(label='Email address', required=True, widget=HiddenInput)
+    password = forms.CharField(
+        widget=PasswordInput,
+        label='Password',
+        error_messages={
+            'required': 'Enter a password',
+        },
+    )
+
+
+class CodeConfirmForm(forms.Form):
+    code_confirm = forms.CharField(
+        label='Confirmation code', error_messages={'required': 'Enter your confirmation code'}
+    )

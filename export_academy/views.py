@@ -2,8 +2,9 @@ import logging
 from datetime import timedelta
 from uuid import uuid4
 
-from django.http import HttpResponse
-from django.urls import reverse_lazy
+from directory_forms_api_client import actions
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse, reverse_lazy
 from django.utils.text import get_valid_filename
 from django.views.generic import (
     DetailView,
@@ -14,6 +15,7 @@ from django.views.generic import (
     UpdateView,
 )
 from django_filters.views import FilterView
+from drf_spectacular.utils import extend_schema
 from great_components.mixins import GA360Mixin
 from icalendar import Alarm, Calendar, Event
 from rest_framework.generics import GenericAPIView
@@ -21,14 +23,20 @@ from rest_framework.generics import GenericAPIView
 from config import settings
 from core import mixins as core_mixins
 from core.templatetags.content_tags import format_timedelta
+from directory_sso_api_client import sso_api_client
 from export_academy import filters, forms, models
 from export_academy.helpers import (
     calender_content,
     get_badges_for_event,
     get_buttons_for_event,
 )
-from export_academy.mixins import BookingMixin, RegistrationMixin
+from export_academy.mixins import (
+    BookingMixin,
+    RegistrationMixin,
+    VerificationLinksMixin,
+)
 from export_academy.models import ExportAcademyHomePage, Registration
+from sso import helpers as sso_helpers, mixins as sso_mixins
 
 logger = logging.getLogger(__name__)
 
@@ -140,6 +148,7 @@ class EventDetailsView(DetailView):
         return ctx
 
 
+@extend_schema(exclude=True)
 class DownloadCalendarView(GenericAPIView):
     event_model = models.Event
 
@@ -368,3 +377,105 @@ class JoinBookingView(RedirectView):
         booking.save()
 
         return super().get(request, *args, **kwargs)
+
+
+class SignUpView(VerificationLinksMixin, sso_mixins.SignUpMixin, FormView):
+    template_name = 'export_academy/accounts/signup.html'
+    form_class = forms.SignUpForm
+
+    def get_initial(self):
+        initial = super().get_initial()
+        user = Registration.objects.get(pk=self.request.GET.get('registration-id'))
+        initial['email'] = user.email
+        return initial
+
+    def get_login_url(self):
+        return self.request.build_absolute_uri(reverse('core:login'))
+
+    def handle_code_expired(self, verification_code, email):
+        uidb64 = verification_code.pop('user_uidb64')
+        token = verification_code.pop('verification_token')
+        sso_helpers.send_verification_code_email(
+            email=email,
+            verification_code=verification_code,
+            form_url=self.request.path,
+            verification_link=self.get_verification_link(uidb64, token),
+            resend_verification_link=self.get_resend_verification_link(),
+        )
+        return HttpResponseRedirect(
+            reverse_lazy('export_academy:signup-verification') + '?uidb64=' + uidb64 + '&token=' + token
+        )
+
+    def handle_already_registered(self, email):
+        sso_helpers.notify_already_registered(email=email, form_url=self.request.path, login_url=self.get_login_url())
+        return HttpResponseRedirect(reverse_lazy('export_academy:signup-verification'))
+
+    def do_sign_up_flow(self, request):
+        form = forms.SignUpForm(request.POST)
+        if form.is_valid():
+            response = sso_api_client.user.create_user(
+                email=form.cleaned_data['email'].lower(), password=form.cleaned_data['password']
+            )
+            if response.status_code == 400:
+                self.handle_400_response(response, form)
+            elif response.status_code == 409:
+                email = form.cleaned_data['email'].lower()
+                verification_code = sso_helpers.regenerate_verification_code(email)
+                if verification_code:
+                    return self.handle_code_expired(verification_code, email)
+                else:
+                    return self.handle_already_registered(email)
+            elif response.status_code == 201:
+                return self.handle_signup_success(response, form, 'export_academy:signup-verification')
+
+        # Ensure email address is always added to initial data
+        form.initial = self.get_initial()
+        return self.form_invalid(form)
+
+    def post(self, request, *args, **kwargs):
+        return self.do_sign_up_flow(request)
+
+
+class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, FormView):
+    template_name = 'export_academy/accounts/verification_code.html'
+    form_class = forms.CodeConfirmForm
+
+    def __init__(self):
+        code_expired_error = {
+            'field': 'code_confirm',
+            'error_message': 'This code has expired. We have emailed you a new code',
+        }
+        super().__init__(code_expired_error)
+
+    def send_welcome_notification(self, email, form_url):
+        action = actions.GovNotifyEmailAction(
+            template_id=settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID,
+            email_address=email,
+            form_url=form_url,
+        )
+        response = action.save({})
+        response.raise_for_status()
+        return response
+
+    def do_validate_code_flow(self, request):
+        form = forms.CodeConfirmForm(request.POST)
+        if form.is_valid():
+            uidb64 = self.request.GET.get('uidb64')
+            token = self.request.GET.get('token')
+            code_confirm = form.cleaned_data['code_confirm']
+            upstream_response = sso_api_client.user.verify_verification_code(
+                {'uidb64': uidb64, 'token': token, 'code': code_confirm}
+            )
+            if upstream_response.status_code in [400, 404]:
+                form.add_error('code_confirm', 'This code is incorrect. Please try again.')
+            elif upstream_response.status_code == 422:
+                # Resend verification code if it has expired.
+                self.handle_code_expired(upstream_response, request, uidb64, token, form)
+            else:
+                return self.handle_verification_code_success(
+                    upstream_response=upstream_response, redirect_url='export_academy:upcoming-events'
+                )
+        return self.form_invalid(form)
+
+    def post(self, request, *args, **kwargs):
+        return self.do_validate_code_flow(request)

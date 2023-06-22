@@ -273,6 +273,81 @@ class DomesticExportSupportStep3Form(forms.Form):
     )
 
 
+class DomesticExportSupportStep4Form(forms.Form):
+    product_or_service_1 = forms.CharField(
+        label='Product or service',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input govuk-!-width-one-half great-text-input'}),
+        error_messages={
+            'required': 'Enter a product or service',
+        },
+    )
+    product_or_service_2 = forms.CharField(
+        label='Second product or service',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input govuk-!-width-one-half great-text-input'}),
+        required=False,
+    )
+    product_or_service_3 = forms.CharField(
+        label='Third product or service',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input govuk-!-width-one-half great-text-input'}),
+        required=False,
+    )
+    product_or_service_4 = forms.CharField(
+        label='Fourth product or service',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input govuk-!-width-one-half great-text-input'}),
+        required=False,
+    )
+    product_or_service_5 = forms.CharField(
+        label='Fifth product or service',
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input govuk-!-width-one-half great-text-input'}),
+        required=False,
+    )
+
+
+class DomesticExportSupportStep5Form(forms.Form):
+    search = forms.CharField(
+        label='Search the list',
+        widget=django_widgets.TextInput(
+            attrs={'class': 'govuk-input great-text-input', 'placeholder': 'Search the list'}
+        ),
+        required=False,
+    )
+    markets = forms.MultipleChoiceField(
+        label='Select all markets that apply',
+        widget=contact_widgets.GreatCheckboxes,
+        choices=COUNTRY_CHOICES + [('notspecificcountry', 'My query is not related to a specific country')],
+        error_messages={
+            'required': 'Enter a market',
+        },
+        required=True,
+    )
+
+
+class DomesticExportSupportStep6Form(forms.Form):
+    enquiry = forms.CharField(
+        label='Your enquiry',
+        help_text="""Provide as much information as possible to help us better understand your enquiry.
+        <strong class='great-font-bold'>Do not share any commercially sensitive information.</strong>""",
+        widget=django_widgets.Textarea(attrs={'class': 'govuk-textarea'}),
+        required=False,
+    )
+    about_your_experience = forms.ChoiceField(
+        label='About your export experience',
+        widget=contact_widgets.GreatRadioSelect,
+        choices=(
+            (
+                'neverexported',
+                'I have never exported but have a product suitable or that could be developed for export',
+            ),
+            ('notinlast12months', 'I have exported before but not in the last 12 months'),
+            ('last12months', 'I have exported in the last 12 months'),
+            ('noproduct', 'I do not have a product for export'),
+        ),
+        error_messages={
+            'required': 'Choose your export experience',
+        },
+    )
+
+
 class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
     EMPLOYEES_NUMBER_CHOICES = (
         ('1-9', '1 to 9'),

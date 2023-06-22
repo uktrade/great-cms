@@ -3,6 +3,7 @@ from functools import wraps
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import redirect_to_login
+from django.db.models import Q
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
@@ -69,7 +70,9 @@ def get_badges_for_event(user, event):
 
 
 def user_booked_on_event(user, event):
-    return event.bookings.filter(registration__email=user.email, status='Confirmed').exists()
+    return event.bookings.filter(
+        Q(registration__email=user.email, status='Confirmed') | Q(registration__email=user.email, status='Joined')
+    ).exists()
 
 
 def get_event_booking_button(user, event):

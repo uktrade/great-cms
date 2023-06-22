@@ -6,11 +6,11 @@ from django.utils import timezone
 from activitystream.serializers import (
     ActivityStreamExpandYourBusinessTriageDataSerializer,
     ActivityStreamExpandYourBusinessUserDataSerializer,
+    ActivityStreamExportAcademyBookingSerializer,
+    ActivityStreamExportAcademyEventSerializer,
+    ActivityStreamExportAcademyRegistrationSerializer,
     ArticlePageSerializer,
     CountryGuidePageSerializer,
-    ExportAcademyBookingSerializer,
-    ExportAcademyEventSerializer,
-    ExportAcademyRegistrationSerializer,
 )
 from domestic.models import ArticlePage
 from international_online_offer.models import TriageData, UserData
@@ -267,7 +267,7 @@ def test_countryguidepageserializer(domestic_homepage):
 def test_ukea_event_serializer():
     instance = EventFactory()
 
-    serializer = ExportAcademyEventSerializer()
+    serializer = ActivityStreamExportAcademyEventSerializer()
 
     output = serializer.to_representation(instance)
     assert output == {
@@ -286,6 +286,7 @@ def test_ukea_event_serializer():
             'link': instance.link,
             'liveDate': instance.live.isoformat(),
             'name': instance.name,
+            'external_id': instance.external_id,
             'startDate': instance.start_date.isoformat(),
             'timezone': instance.timezone,
             'types': [type.name for type in instance.types.all()],
@@ -297,7 +298,7 @@ def test_ukea_event_serializer():
 def test_ukea_registration_serializer():
     instance = RegistrationFactory()
 
-    serializer = ExportAcademyRegistrationSerializer()
+    serializer = ActivityStreamExportAcademyRegistrationSerializer()
 
     output = serializer.to_representation(instance)
     assert output == {
@@ -310,6 +311,7 @@ def test_ukea_registration_serializer():
             'created': instance.created.isoformat(),
             'modified': instance.modified.isoformat(),
             'email': instance.email,
+            'external_id': instance.external_id,
             'firstName': instance.first_name,
             'lastName': instance.last_name,
             'data': instance.data,
@@ -321,7 +323,7 @@ def test_ukea_registration_serializer():
 def test_ukea_booking_serializer():
     instance = BookingFactory()
 
-    serializer = ExportAcademyBookingSerializer()
+    serializer = ActivityStreamExportAcademyBookingSerializer()
 
     output = serializer.to_representation(instance)
     assert output == {
@@ -386,7 +388,7 @@ def test_eyb_triage_serializer():
     instance.id = 123
     instance.hashed_uuid = '456'
     instance.sector = 'FOOD_AND_DRINK'
-    instance.intent = [['SET_UP_NEW_PREMISES']]
+    instance.intent = ['SET_UP_NEW_PREMISES', 'SET_UP_A_NEW_DISTRIBUTION_CENTRE']
     instance.intent_other = 'OTHER'
     instance.location = 'WALES'
     instance.location_none = True

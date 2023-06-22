@@ -91,6 +91,8 @@ EXPORTING_OPPORTUNITIES_API_SECRET=debug
 EXPORTING_OPPORTUNITIES_SEARCH_URL=debug
 GET_ADDRESS_API_KEY=debug
 
+FEATURE_GREAT_CMS_OPENAPI_ENABLED=true
+
 #####################################################################
 # Needed for Wagtail-Transfer local development. Also see env/config/dev-transfer-target
 WAGTAILTRANSFER_SECRET_KEY=local-one

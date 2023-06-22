@@ -279,6 +279,12 @@
     }
 }
 
+.great-checkbox {
+    .govuk-checkboxes__label:before {
+        border-radius: 5px;
+    }
+}
+
 .great {
     select.great-select {
         background: none;
@@ -325,5 +331,28 @@
         top: 3px;
         left: 0;
         transform: rotate(180deg);
+    }
+}
+
+.great-checkboxes-wrapper {
+    max-height: 463px;
+    overflow: auto;
+    border-bottom: 2px solid $great-lighter-grey;
+    margin-bottom: 40px;
+    padding: 3px 0 0 3px;
+}
+
+.great-highlighted-text {
+    background: $great-light-yellow;
+    border-bottom: 3px solid black;
+    display: inline-block;
+    padding: 3px;
+    margin: 0 5px 5px 0;
+}
+
+.great-details {
+    .govuk-details__text {
+        border-left-color: $great-blue;
+        margin-top: 15px;
     }
 }

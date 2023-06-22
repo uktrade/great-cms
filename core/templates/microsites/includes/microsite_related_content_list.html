@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load get_template_translation_enabled from content_tags %}
+{% load persist_language from component_tags %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
 
 {% if page.related_links %}
@@ -14,7 +15,7 @@
     <ul class="govuk-list govuk-!-padding-top-6 great-border-top-blue">
       {% for link in page.related_links %}
         <li>
-          <a href="{{ link.value.full_url }}" class="govuk-link govuk-heading-s govuk-!-margin-bottom-3">{{ link.value.title }}</a>
+          <a href="{{ link.value.full_url|persist_language:request.GET }}" class="govuk-link govuk-heading-s govuk-!-margin-bottom-3">{{ link.value.title }}</a>
         </li>
       {% endfor %}
     </ul>

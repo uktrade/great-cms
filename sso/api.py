@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -43,6 +44,7 @@ class QuestionnaireAPIView(generics.GenericAPIView):
         response = request.user.get_user_questionnaire()
         return Response(status=200, data=response)
 
+    @extend_schema(request=serializers.QuestionnaireSerializer)
     def post(self, request, *args, **kwargs):
         response = request.user.set_user_questionnaire_answer(
             question_id=request.data.get('questionId'), answer=request.data.get('answer')

@@ -161,4 +161,6 @@ urlpatterns = [
         name='calendar',
     ),
     path('event/join/<uuid:event_id>', views.JoinBookingView.as_view(), name='join'),
+    path('signup', views.SignUpView.as_view(), name='signup'),
+    path('signup/verification', views.VerificationCodeView.as_view(), name='signup-verification'),
 ]

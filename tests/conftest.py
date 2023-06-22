@@ -13,6 +13,7 @@ import tests.unit.export_academy.factories
 from core.case_study_index import case_study_to_index
 from core.models import CaseStudy
 from directory_api_client import api_client
+from sso import helpers as sso_helpers
 from sso.models import BusinessSSOUser
 from tests.helpers import create_response
 
@@ -753,3 +754,23 @@ def mock_elasticsearch_scan():
             yield case_study_to_index(cs)
 
     yield mock.patch('elasticsearch_dsl.Search.scan', return_value=_scan()).start()
+
+
+@pytest.fixture
+def mock_send_verification_code_email():
+    patch = mock.patch.object(sso_helpers, 'send_verification_code_email')
+    yield patch.start()
+    patch.stop()
+
+
+@pytest.fixture
+def mock_regenerate_verification_code():
+    body = {
+        'user_uidb64': 'MjE1ODk1',
+        'verification_token': 'bq1ftj-e82fb7b694d200b144012bfac0c866b2',
+        'code': '19507',
+        'expiration_date': '2023-06-19T11:00:00Z',
+    }
+    patch = mock.patch.object(sso_helpers, 'regenerate_verification_code', return_value=body)
+    yield patch.start()
+    patch.stop()

@@ -18,6 +18,7 @@ from core.templatetags.content_tags import (
     get_template_translation_enabled,
     get_text_blocks,
     get_topic_title_for_lesson,
+    highlighted_text,
     is_lesson_page,
     is_placeholder_page,
     make_bold,
@@ -735,3 +736,9 @@ def test_make_bold_tag():
     text = 'Hello'
     expected_output = make_bold(text)
     assert expected_output == '<span class="govuk-!-font-weight-bold">Hello</span>'
+
+
+def test_highlighted_text():
+    result = highlighted_text(['a', 'b'])
+    expected_output = '<span class="great-highlighted-text">a, </span><span class="great-highlighted-text">b</span>'
+    assert result == expected_output

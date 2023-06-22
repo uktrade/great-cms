@@ -1,5 +1,6 @@
 {% include 'microsites/includes/microsite_header.html' with use_domestic_logo=use_domestic_logo %}
 {% load wagtailcore_tags %}
+{% load persist_language from component_tags %}
 <section class="microsite-nav-container">
     <div>
         <div>
@@ -17,7 +18,7 @@
                     {% for item in menu_items %}
                         <li>
                             <a class="{% if active_url == item.url %} active{% endif %}"
-                            href="{{ item.url }}">{{ item.title }}</a>
+                            href="{{ item.url|persist_language:request.GET }}">{{ item.title }}</a>
                         </li>
                     {% endfor %}
                 </ul>
