@@ -94,7 +94,7 @@ def test_ioo_guide_page_content(rf):
 
 
 @pytest.mark.django_db
-def test_ioo_trade_page_content(rf):
+def test_ioo_trade_page_content(rf, sector):
     guide_page = IOOTradePage(title='Trade')
     request = rf.get(guide_page.url)
     context = guide_page.get_context(request)
