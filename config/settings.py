@@ -360,11 +360,6 @@ else:
                 'level': 'ERROR',
                 'propagate': True,
             },
-            'mohawk': {
-                'handlers': ['console'],
-                'level': 'ERROR',
-                'propagate': False,
-            },
             'requests': {
                 'handlers': ['console'],
                 'level': 'ERROR',
