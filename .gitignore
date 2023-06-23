@@ -152,3 +152,6 @@ core/components/static/stylesheets/maps/
 
 # Pre-commit hooks
 .pii-secret-hook/
+
+#Docker config file
+Dockerfile.dev

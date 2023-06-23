@@ -1,15 +1,52 @@
 {% include 'microsites/includes/microsite_header.html' with use_domestic_logo=use_domestic_logo %}
 {% load wagtailcore_tags %}
 {% load persist_language from component_tags %}
+{% load i18n %}
+{% get_current_language as current_language %}
+{% get_language_info for current_language as lang_info %}
+
 <section class="microsite-nav-container">
     <div>
         <div>
-               {% include 'microsites/includes/microsite_menu_button.html' with menu_items=page.get_menu_items active_url=active_url %}
-            <div>
-                <img src="/static/images/great-logo.svg"/>
+            <div class="nav-content">
+                <img src="/static/images/great-logo.svg" />
+                <h3>{{ title }}</h3>
+                {% if available_languages|length == 2 %}
+                <nav aria-label="Langugages" class="mobile-single-language-toggle">
+                    <ul>
+                        {% for language in available_languages %}
+                            {% if current_language != language.language_code %}
+                                <li>
+                                    <a href="?lang={{ language.language_code }}"
+                                    aria-current="false"
+                                    >{{ language.display_name }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </nav>
+                {% endif %}
             </div>
-            <h3>{{ title }}</h3>
+            <div class="mobile-nav-buttons">
+                {% if available_languages|length > 2 %}
+                    {% include 'microsites/includes/microsite_language_mobile_menu.html' with current_language=current_language available_languages=available_languages  rtl_language=lang_info.bidi %}
+                {% endif %}
+                {% include 'microsites/includes/microsite_menu_button.html' with menu_items=page.get_menu_items active_url=active_url rtl_language=lang_info.bidi %}
+            </div>
         </div>
+        {% if available_languages|length == 2 %}
+          <nav aria-label="Langugages" class="desktop-language-selector">
+                <ul>
+                    {% for language in available_languages %}
+                        <li class="{% if current_language == language.language_code %}active{% endif %}">
+                            <a href="?lang={{ language.language_code }}"
+                            aria-current="{% if current_language == language.language_code %}true{%else%}false{%endif%}"
+                            >{{ language.display_name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+           </nav>
+        {% endif %}
     </div>
     <div>
         {% if menu_items|length > 1 %}
@@ -18,7 +55,7 @@
                     {% for item in menu_items %}
                         <li>
                             <a class="{% if active_url == item.url %} active{% endif %}"
-                            href="{{ item.url|persist_language:request.GET }}">{{ item.title }}</a>
+                               href="{{ item.url|persist_language:request.GET }}">{{ item.title }}</a>
                         </li>
                     {% endfor %}
                 </ul>

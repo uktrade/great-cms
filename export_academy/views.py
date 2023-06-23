@@ -10,6 +10,7 @@ from django.views.generic import (
     DetailView,
     FormView,
     ListView,
+    RedirectView,
     TemplateView,
     UpdateView,
 )
@@ -363,6 +364,21 @@ class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixi
         return reverse_lazy('export_academy:registration-edit-success')
 
 
+class JoinBookingView(RedirectView):
+    def get(self, request, *args, **kwargs):
+        # Update redirect url
+        event_id = kwargs.get('event_id')
+        event = models.Event.objects.get(id=event_id)
+        self.url = event.link
+
+        # Update booking status to Joined
+        booking = event.bookings.get(registration__email=self.request.user.email)
+        booking.status = models.Booking.JOINED
+        booking.save()
+
+        return super().get(request, *args, **kwargs)
+
+
 class SignUpView(VerificationLinksMixin, sso_mixins.SignUpMixin, FormView):
     template_name = 'export_academy/accounts/signup.html'
     form_class = forms.SignUpForm
@@ -463,3 +479,41 @@ class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, F
 
     def post(self, request, *args, **kwargs):
         return self.do_validate_code_flow(request)
+
+
+class SignInView(sso_mixins.SignInMixin, FormView):
+    template_name = 'export_academy/accounts/signin.html'
+    form_class = forms.SignUpForm
+    success_url = reverse_lazy('export_academy:upcoming-events')
+
+    def get_initial(self):
+        initial = super().get_initial()
+        user = Registration.objects.get(pk=self.request.GET.get('registration-id'))
+        initial['email'] = user.email
+        return initial
+
+    def do_sign_in_flow(self, request):
+        form = self.get_form()
+        if form.is_valid():
+            data = {
+                'password': form.cleaned_data['password'],
+                'login': form.cleaned_data['email'],
+            }
+            response = self.handle_post_request(
+                data,
+                form,
+                request,
+                self.success_url,
+            )
+            if isinstance(response, HttpResponseRedirect):
+                return response
+
+            if response:
+                form.add_error('password', response)
+
+        # Ensure email address is always added to initial data
+        form.initial = self.get_initial()
+        return self.form_invalid(form)
+
+    def post(self, request, *args, **kwargs):
+        return self.do_sign_in_flow(request)

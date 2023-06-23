@@ -44,7 +44,9 @@ attrs==23.1.0
     #   outcome
     #   trio
 babel==2.12.1
-    # via sphinx
+    # via
+    #   -r requirements.in
+    #   sphinx
 backcall==0.2.0
     # via ipython
 beautifulsoup4==4.11.2
@@ -76,7 +78,7 @@ brotli==1.0.9
     # via geventhttpclient
 browserstack-local==1.2.5
     # via browserstack-sdk
-browserstack-sdk==1.10.2
+browserstack-sdk==1.10.3
     # via -r requirements_test.in
 build==0.10.0
     # via pip-tools

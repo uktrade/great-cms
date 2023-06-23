@@ -1,3 +1,4 @@
+import string
 from datetime import timedelta
 
 import factory.fuzzy
@@ -25,7 +26,7 @@ class GreatMediaFactory(wagtail_factories.DocumentFactory):
 
 class EventFactory(factory.django.DjangoModelFactory):
     id = factory.Faker('uuid4')
-    external_id = factory.fuzzy.FuzzyInteger(100000000, 999999999)
+    external_id = factory.fuzzy.FuzzyText(length=9, chars=string.digits)
     name = factory.fuzzy.FuzzyText(length=15)
     description = factory.fuzzy.FuzzyText(length=60)
     start_date = timezone.localtime()
@@ -44,7 +45,7 @@ class EventFactory(factory.django.DjangoModelFactory):
 
 class RegistrationFactory(factory.django.DjangoModelFactory):
     id = factory.Faker('uuid4')
-    external_id = factory.fuzzy.FuzzyInteger(100000000, 999999999)
+    external_id = factory.fuzzy.FuzzyText(length=9, chars=string.digits)
     email = factory.Sequence(lambda n: '%d@example.com' % n)
     first_name = factory.fuzzy.FuzzyText(length=10)
     last_name = factory.fuzzy.FuzzyText(length=10)

@@ -218,7 +218,7 @@ if FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE:
         ('fr', 'French'),
         ('ko', 'Korean'),
         ('pt', 'Portuguese'),
-        ('zh', 'Mandarin'),
+        ('zh-cn', 'Mandarin'),
         ('ms', 'Malay'),
     ]
 
@@ -353,6 +353,16 @@ else:
             'django.security.DisallowedHost': {
                 'level': 'ERROR',
                 'handlers': ['console'],
+                'propagate': False,
+            },
+            'django.request': {
+                'handlers': ['console'],
+                'level': 'ERROR',
+                'propagate': True,
+            },
+            'requests': {
+                'handlers': ['console'],
+                'level': 'ERROR',
                 'propagate': False,
             },
         },

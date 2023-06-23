@@ -1,0 +1,13 @@
+{% extends 'export_academy/accounts/base.html' %}
+{% block form %}
+    <h3 class="govuk-!-margin-top-3 govuk-!-margin-bottom-6">Sign in</h3>
+    {% include 'export_academy/includes/existing_user_form_fields.html' %}
+    <p class="govuk-!-margin-bottom-2">
+        <a class="govuk-link" href="{{ javascript_components.password_reset_url }}">Forgotten password?</a>
+    </p>
+    <button type="submit" class="govuk-button govuk-!-margin-top-6 great-full-width-button">Sign in</button>
+{% endblock %}
+{% block left_panel_heading %}UK Export Academy on Great.gov.uk{% endblock %}
+{% block left_panel_content %}
+   {% include 'export_academy/includes/existing_user_body_text.html' %}
+{% endblock %}
