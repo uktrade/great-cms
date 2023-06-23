@@ -22,6 +22,7 @@
   h4,
   h5,
   h6 {
+    font-family: $great-font-bold;
     color: $great-dark-grey;
     -webkit-font-smoothing: auto;
   }
@@ -45,6 +46,11 @@
   a {
     font-family: $great-font;
     color: $great-dark-grey;
+  }
+
+  .govuk-label {
+    font-family: $great-font-bold;
+    font-size: 18px;
   }
 
   .govuk-body {
@@ -140,6 +146,9 @@
     border-width: 2px;
     margin: 0;
   }
+  .great-font-bold {
+    font-family: $great-font-bold;
+  }
 
   .arabic {
     h1,
@@ -148,7 +157,9 @@
     h4,
     h5,
     h6,
-    .govuk-button {
+    .govuk-button,
+    .great-font-bold
+     {
       font-family: $arabic-header-text-font;
     }
 
@@ -156,29 +167,7 @@
     span:not(.great-badge, .great-text-darker-grey, .govuk-details__summary-text),
     ol,
     ul,
-<<<<<<< HEAD
-    a {
-        font-family: $great-font;
-        color: $great-dark-grey;
-    }
-
-    .govuk-label {
-        font-family: $great-font-bold;
-        font-size: 18px;
-    }
-
-    .govuk-body {
-        font-size: 20px;
-        -webkit-font-smoothing: auto;
-    }
-
-    .govuk-hint {
-        color: $great-grey;
-    }
-
-=======
     a,
->>>>>>> 8de1a31eb (added arabic font if current language is arabic)
     .govuk-hint,
     .govuk-error-message,
     .govuk-radios__label,
@@ -186,87 +175,7 @@
     .govuk-link {
       font-family: $arabic-main-text-font;
     }
-
-    .great-font-bold {
-      font-family: $arabic-header-text-font;
-    }
   }
-}
-
-<<<<<<< HEAD
-    .govuk-button {
-        background-color: $govuk-brand-colour;
-        box-shadow: none;
-        box-shadow: none;
-        font-family: $great-font-bold;
-        padding: 8px 20px;
-        font-size: 20px;
-        min-height: 50px;
-        line-height: 34px;
-        -webkit-font-smoothing: auto;
-
-        &:hover,
-        &:focus {
-            background-color: $great-white;
-            border-color: $govuk-brand-colour;
-            color: $govuk-brand-colour;
-        }
-
-        &:focus:not(:active):not(:hover) {
-            background-color: $great-white;
-            border-color: $govuk-brand-colour;
-            box-shadow: none;
-            color: $govuk-brand-colour;
-        }
-
-        &:focus {
-            outline: 3px solid $great-yellow;
-            outline-offset: 0;
-        }
-
-        i {
-            font-size: inherit;
-            margin-right: 8px;
-        }
-    }
-
-    .govuk-button--secondary {
-        background-color: $great-white;
-        border-color: $govuk-brand-colour;
-        color: $govuk-brand-colour;
-
-        &:hover,
-        &:focus {
-            background-color: $govuk-brand-colour;
-            border-color: $govuk-brand-colour;
-            color: $great-white;
-        }
-    }
-
-    .great-text-grey {
-        @extend %great-text-grey;
-    }
-
-    .great-text-light-grey {
-        @extend %great-text-light-grey;
-    }
-
-    .great-text-white {
-        @extend %great-text-white;
-    }
-
-    // govuk elements overides
-    .form-control:focus {
-        border-width: 2px;
-        margin: 0;
-    }
-    .great-font-bold {
-        font-family: $great-font-bold;
-    }
-=======
-.microsite .arabic .govuk-form-label {
-  font-family: $arabic-header-text-font;
->>>>>>> 8de1a31eb (added arabic font if current language is arabic)
 }
 
 .great-container {
@@ -349,13 +258,6 @@
   }
 }
 
-<<<<<<< HEAD
-=======
-.great-font-bold {
-  font-family: $great-font-bold;
-}
-
->>>>>>> 8de1a31eb (added arabic font if current language is arabic)
 .great-font-size-18 {
   font-size: 18px;
 }
@@ -493,6 +395,10 @@
   }
 }
 
+.microsite .arabic .govuk-form-label {
+  font-family: $arabic-header-text-font;
+}
+
 .great-grid-column-seven-twelfths {
   @include govuk-media-query($from: desktop) {
     width: calc(58.333% + 30px);
@@ -500,5 +406,5 @@
 }
 
 .great-full-width-button {
-    width: 100%;
+  width: 100%;
 }
