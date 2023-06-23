@@ -486,6 +486,37 @@ def test_release_1_views(client, user, export_academy_landing_page, test_event_l
 
 
 @pytest.mark.django_db
+def test_join_redirect(client, user):
+    event = factories.EventFactory()
+    registration = factories.RegistrationFactory(email=user.email)
+    client.force_login(user)
+    booking = factories.BookingFactory(event=event, registration=registration, status='Confirmed')
+    url = reverse('export_academy:join', kwargs=dict(event_id=event.pk))
+    response = client.get(url)
+
+    assert response.status_code == 302
+    assert response.url == event.link
+
+    booking = Booking.objects.get(id=booking.id)
+    assert booking.status == Booking.JOINED
+
+
+@pytest.mark.django_db
+def test_event_list_for_joined_event(client, user, export_academy_landing_page, test_event_list_hero):
+    event = factories.EventFactory()
+    registration = factories.RegistrationFactory(email=user.email)
+    url = reverse('export_academy:upcoming-events')
+
+    client.force_login(user)
+
+    factories.BookingFactory(event=event, registration=registration, status='Joined')
+
+    response = client.get(url)
+    assert response.status_code == 200
+    assert event.name in response.rendered_content
+
+
+@pytest.mark.django_db
 def test_sign_up_page(client):
     registration = factories.RegistrationFactory(email='test@example.com')
     response = client.get(reverse('export_academy:signup') + f'?registration-id={registration.id}')
