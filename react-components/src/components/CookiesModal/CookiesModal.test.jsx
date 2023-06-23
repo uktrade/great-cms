@@ -61,7 +61,7 @@ describe('CookiesModal', () => {
     ['fr', 'Dites-nous si vous acceptez les cookies'],
     ['pt', 'Diga-nos se você aceita cookies'],
     ['ko', '쿠키 사용 여부 알려주세요'],
-    ['zh', '告诉我们您是否接受 cookie'],
+    ['zh', '請告訴我們是否接受cookies'],
     ['ms', 'Beritahu kami sama ada anda menerima kuki']
   ])('displays translated header on cookie modal', (lang, expectedString)=>{
     test(`lang ${lang} displays ${expectedString}`, ()=>{
