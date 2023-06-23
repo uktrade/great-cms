@@ -156,9 +156,11 @@ class Booking(TimeStampedModel):
 
     CONFIRMED = 'Confirmed'
     CANCELLED = 'Cancelled'
+    JOINED = 'Joined'
     STATUSES = (
         (CONFIRMED, CONFIRMED),
         (CANCELLED, CANCELLED),
+        (JOINED, JOINED),
     )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
