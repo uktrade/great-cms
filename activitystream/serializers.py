@@ -97,6 +97,7 @@ class ActivityStreamExportAcademyEventSerializer(serializers.ModelSerializer):
     UKEA's Event serializer for Activity Stream.
     """
 
+    externalId = serializers.CharField(source='external_id')  # noqa: N815
     startDate = serializers.DateTimeField(source='start_date')  # noqa: N815
     endDate = serializers.DateTimeField(source='end_date')  # noqa: N815
     liveDate = serializers.DateTimeField(source='live')  # noqa: N815
@@ -106,7 +107,7 @@ class ActivityStreamExportAcademyEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = [
-            'external_id',
+            'externalId',
             'name',
             'description',
             'format',
@@ -144,12 +145,13 @@ class ActivityStreamExportAcademyRegistrationSerializer(serializers.ModelSeriali
     UKEA's Registration serializer for Activity Stream.
     """
 
+    externalId = serializers.CharField(source='external_id')  # noqa: N815
     firstName = serializers.CharField(source='first_name')  # noqa: N815
     lastName = serializers.CharField(source='last_name')  # noqa: N815
 
     class Meta:
         model = Registration
-        fields = ['external_id', 'email', 'firstName', 'lastName', 'data']
+        fields = ['externalId', 'email', 'firstName', 'lastName', 'data']
 
     def to_representation(self, instance):
         """
