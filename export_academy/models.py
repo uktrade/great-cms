@@ -68,7 +68,7 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     base_form_class = EventAdminModelForm
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    external_id = models.PositiveIntegerField(blank=True, null=True)
+    external_id = models.CharField(blank=True, null=True, max_length=255)
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000)
     start_date = models.DateTimeField()
@@ -134,7 +134,7 @@ class Registration(TimeStampedModel):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    external_id = models.PositiveIntegerField(blank=True, null=True)
+    external_id = models.CharField(blank=True, null=True, max_length=255)
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -156,9 +156,11 @@ class Booking(TimeStampedModel):
 
     CONFIRMED = 'Confirmed'
     CANCELLED = 'Cancelled'
+    JOINED = 'Joined'
     STATUSES = (
         (CONFIRMED, CONFIRMED),
         (CANCELLED, CANCELLED),
+        (JOINED, JOINED),
     )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
