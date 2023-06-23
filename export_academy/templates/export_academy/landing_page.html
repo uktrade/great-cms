@@ -3,6 +3,7 @@
 {% load wagtailcore_tags %}
 {% load static %}
 {% load wagtailimages_tags %}
+{% load event_list_buttons %}
 
 {% block content %}
     {% image page.hero_image original as rendition %}
@@ -11,7 +12,20 @@
             <div>
                 <h1>{{ page.title }}</h1>
                 <p>{{ page.hero_text | richtext }}</p>
-                {% include_block page.hero_cta %}
+
+                {% feature_ea_release_two_enabled as ea_release_two_enabled %}
+                {% if ea_release_two_enabled %}
+                    {% is_logged_in as ea_user_logged_in %}
+                    {% if ea_user_logged_in %}
+                        {% include_block page.hero_cta %}
+                    {% else %}
+                        {% include_block page.hero_cta_logged_out %}
+                        <p>{{ page.hero_text_below_cta_logged_out | richtext }}</p>
+                    {% endif %}
+                {% else %}
+                    {% include_block page.hero_cta %}
+                {% endif %}
+
             </div>
             <div class="image-container image-full-width great-display-from-tablet" style="background: url({{ rendition.url }})">
                 <img class='ea-logo' src='/static/images/uk-export-academy-logo.svg' />
