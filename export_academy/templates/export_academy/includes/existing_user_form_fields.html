@@ -1,0 +1,12 @@
+{% csrf_token %}
+<label class="govuk-label">Email address
+    <p class="govuk-!-margin-top-3 govuk-!-margin-bottom-6">{{ form.initial.email }}</p>
+</label>
+{% for field in form.visible_fields %}
+<div class="govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
+    {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+</div>
+{% endfor %}
+{% for field in form.hidden_fields %}
+    {{ field }}
+{% endfor %}

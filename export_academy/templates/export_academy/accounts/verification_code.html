@@ -15,7 +15,5 @@
 {% endblock %}
 {% block left_panel_heading %}Set password for UK Export Academy{% endblock %}
 {% block left_panel_content %}
-    <p>We’ve upgraded the UK Export Academy website and it has now joined all our other services on great.gov.uk.</p>
-    <p>Please create a great.gov.uk password to continue to access your bookings.</p>
-    <p>If you have any questions or feedback please <a class="govuk-link" href={% url 'contact:contact-us-feedback' %}>get in touch</a>.</p>
+    {% include 'export_academy/includes/existing_user_body_text.html' %}
 {% endblock %}
