@@ -28,11 +28,30 @@
     url('/static/fonts/fa-solid-900.svg#fontawesome') format('svg');
 }
 
+@font-face {
+  font-family: 'Font Awesome 5 Free Regular';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('/static/fonts/fa-regular-400.eot');
+  src: url('/static/fonts/fa-regular-400.eot?#iefix') format('embedded-opentype'),
+    url('/static/fonts/fa-regular-400.woff2') format('woff2'),
+    url('/static/fonts/fa-regular-400.woff') format('woff'),
+    url('/static/fonts/fa-regular-400.ttf') format('truetype'),
+    url('/static/fonts/fa-regular-4000.svg#fontawesome') format('svg');
+}
+
 .fa,
 .fas {
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
 }
+
+.fa-regular{
+  font-family: 'Font Awesome 5 Free Regular';
+  font-weight: 400;
+}
+
 
 $main-text-font: 'Noto Regular', Arial, Helvetica, Verdana;
 $header-font: 'Noto SemiBold', Arial, Helvetica, Verdana;

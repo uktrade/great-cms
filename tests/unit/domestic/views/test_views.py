@@ -3,8 +3,9 @@ from unittest import mock
 
 import pytest
 from django.conf import settings
-from django.test import Client, TestCase
+from django.test import Client, TestCase, override_settings
 from django.urls import reverse, reverse_lazy
+from wagtail.models import Locale
 from wagtail.test.utils import WagtailPageTests
 
 import domestic.forms
@@ -358,6 +359,7 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
 
     def setUp(self):
         self.parent_page = StructurePageFactory(parent=self.domestic_homepage, title='campaigns', slug='campaigns')
+        self.fr_locale = Locale.objects.get_or_create(language_code='fr')
         article_body1 = json.dumps(
             [
                 {
@@ -401,25 +403,22 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         )
 
     def test_get_form_class_is_short(self):
-        client = Client()
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
-        request = client.get(url)
+        request = self.client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
         form_class = view.request.context_data['view'].get_form_class()
         self.assertEqual(form_class, CampaignShortForm)
 
     def test_get_form_class_is_none(self):
-        client = Client()
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-two'})
-        request = client.get(url)
+        request = self.client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
         form_class = view.request.context_data['view'].get_form_class()
         self.assertEqual(form_class, None)
 
     def test_get_form_class_is_long(self):
-        client = Client()
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-three'})
-        request = client.get(url)
+        request = self.client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
         form_class = view.request.context_data['view'].get_form_class()
         self.assertEqual(form_class, CampaignLongForm)
@@ -433,17 +432,15 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
         assert response.status_code == 200
 
     def test_no_page_slug(self):
-        client = Client()
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': None})
-        request = client.get(url)
+        request = self.client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
         current_page = view.request.context_data['view'].current_page
         self.assertEqual(current_page, None)
 
     def test_page_does_not_exist(self):
-        client = Client()
         url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'page_that_does_not_exist'})
-        request = client.get(url)
+        request = self.client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
         current_page = view.request.context_data['view'].current_page
         self.assertEqual(current_page, None)
@@ -451,11 +448,40 @@ class CampaignViewTestCase(WagtailPageTests, TestCase):
     def test_get_current_page(self):
         self.listing_page = ArticleListingPageFactory(slug='test-listing', title='test', landing_page_title='test')
         ArticlePageFactory(slug='test-article-one', parent=self.listing_page, article_title='test')
-        client = Client()
         url = '/campaigns/test-article-one/'
-        request = client.get(url)
+        request = self.client.get(url)
         view = domestic.views.campaign.CampaignView(request=request)
         path = view.request.context_data['view'].path
         current_page = view.request.context_data['view'].current_page
         self.assertEqual(path, url)
         self.assertNotEqual(current_page, None)
+
+    def test_get_languages_with_only_one_language(self):
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
+        request = self.client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        current_page = view.request.context_data['view']
+        self.assertEqual(current_page.current_language, 'en-gb')
+        self.assertEqual([language['language_code'] for language in current_page.available_languages], ['en-gb'])
+
+    def test_get_language_with_two_or_more_languages(self):
+        site_fr = self.article1.copy_for_translation(self.fr_locale[0], copy_parents=True, alias=True)
+        site_fr.save()
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'}) + '?lang=fr'
+        request = self.client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        current_page = view.request.context_data['view']
+        self.assertEqual(current_page.current_language, 'fr')
+        self.assertEqual(
+            [language['language_code'] for language in current_page.available_languages],
+            ['en-gb', 'fr'],
+        )
+
+    @override_settings(FEATURE_MICROSITE_ENABLE_EXPERIMENTAL_LANGUAGE=False)
+    def test_get_language_default_value(self):
+        url = reverse_lazy('domestic:campaigns', kwargs={'page_slug': 'test-article-one'})
+        request = self.client.get(url)
+        view = domestic.views.campaign.CampaignView(request=request)
+        current_page = view.request.context_data['view']
+        self.assertEqual(current_page.current_language, 'en-gb')
+        self.assertEqual([language['language_code'] for language in current_page.available_languages], ['en-gb'])
