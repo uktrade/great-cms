@@ -5,7 +5,7 @@
     <h3 class="govuk-!-margin-top-3">Choose a password</h3>
 
     <p class="govuk-!-margin-bottom-3">This is your UK Export Academy registered email address.</p>
-    {% include 'export_academy/includes/upgrade_form_fields.html' %}
+    {% include 'export_academy/includes/existing_user_form_fields.html' %}
     <p class="govuk-!-margin-bottom-2">By signing up, you agree to our
         <a class="govuk-link" href="{% slugurl 'terms-and-conditions' %}">terms and conditions</a> and
         <a class="govuk-link" href="{% slugurl 'privacy-and-cookies' %}">privacy notice</a>
@@ -14,5 +14,5 @@
 {% endblock %}
 {% block left_panel_heading %}Set password for UK Export Academy{% endblock %}
 {% block left_panel_content %}
-    {% include 'export_academy/includes/upgrade_body_text.html' %}
+    {% include 'export_academy/includes/existing_user_body_text.html' %}
 {% endblock %}

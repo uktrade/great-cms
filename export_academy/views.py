@@ -476,11 +476,8 @@ class SignInView(sso_mixins.SignInMixin, FormView):
         initial['email'] = user.email
         return initial
 
-    def get_login_url(self):
-        return self.request.build_absolute_uri(reverse('core:login'))
-
     def do_sign_in_flow(self, request):
-        form = forms.SignInForm(request.POST)
+        form = self.get_form()
         if form.is_valid():
             data = {
                 'password': form.cleaned_data['password'],
