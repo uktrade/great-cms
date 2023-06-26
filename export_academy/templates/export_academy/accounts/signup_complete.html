@@ -1,0 +1,21 @@
+{% extends 'export_academy/accounts/base.html' %}
+
+{% block form %}
+    <h3 class="govuk-!-margin-top-3 govuk-!-margin-bottom-7">Sign up Complete</h3>
+    <p class="govuk-!-margin-bottom-2">Your account has been created.</p>
+    <a href={% url "export_academy:upcoming-events" %} class="govuk-button govuk-!-margin-top-6 great-full-width-button">Continue</a>
+{% endblock %}
+{% block left_panel_heading %}
+    {% if existing_ea_user %}
+        Set password for UK Export Academy
+    {% else %}
+        Join the UK Export Academy
+    {% endif %}
+{% endblock %}
+{% block left_panel_content %}
+    {% if existing_ea_user %}
+        {% include 'export_academy/accounts/includes/existing_user_body_text.html' %}
+    {% else %}
+        {% include 'export_academy/accounts/includes/sign_up_paragraph_text.html' %}
+    {% endif %}
+{% endblock %}
