@@ -40,10 +40,10 @@
 		"Set cookie preferences": "Definir preferências de cookies"
 	},
 	"ko": {
-		"Tell us whether you accept cookies": "쿠키 사용 여부 알려주세요",
-		"We use": "저희는",
-		"cookies to collect information": "정보를 수집하기 위해 쿠키를 사용합니다",
-		"about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services.": "great.gov.uk의 사용 방법에 대한 정보를 수집합니다. 이 정보는 웹 사이트가 최대한 잘 작동하고 정부 서비스를 개선하기 위해 사용됩니다.",
+		"Tell us whether you accept cookies": "쿠키 허용에 동의하는 지 확인해주세요",
+		"We use": "우리는 귀하가 great.gov.uk를 어떻게 사용하는 지 정보 취합을 위해 쿠키를 활용합니다.",
+		"cookies to collect information": "",
+		"about how you use great.gov.uk. We use this information to make the website work as well as possible and improve government services.": "우리는 웹사이트를 운영하고, 정부 서비스를 개선하기 위해 정보를 활용합니다.",
 		"Accept all cookies": "모든 쿠키 허용",
 		"Set cookie preferences": "쿠키 설정 변경"
 	},
