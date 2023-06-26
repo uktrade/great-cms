@@ -880,6 +880,27 @@ def test_selling_online_overseas_contact_details_form__editable_fields():
                 'about_your_experience': 'Choose your export experience',
             },
         ),
+        (
+            forms.DomesticExportSupportStep7Form,
+            {
+                'received_support': 'yes',
+                'contacted_gov_departments': 'no',
+            },
+            True,
+            {},
+        ),
+        (
+            forms.DomesticExportSupportStep7Form,
+            {
+                'received_support': '',
+                'contacted_gov_departments': '',
+            },
+            False,
+            {
+                'received_support': 'Choose an option',
+                'contacted_gov_departments': 'Choose an option',
+            },
+        ),
     ),
 )
 @pytest.mark.django_db
