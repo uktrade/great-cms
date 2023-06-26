@@ -24,7 +24,6 @@ postgres: &postgres
 postgres_url: &postgres_url
   DATABASE_URL: postgresql://debug:debug@localhost/greatcms
 
-
 ###############################################################################
 # Steps
 ###############################################################################
@@ -36,7 +35,8 @@ install_postgresql_client: &install_postgresql_client
       sudo apt-get update
       sudo apt-get install postgresql-client
 
-create_virtualenv_and_install_dependencies: &create_virtualenv_and_install_dependencies
+create_virtualenv_and_install_dependencies:
+  &create_virtualenv_and_install_dependencies
   run:
     name: Create virtualenv and install dependencies
     command: |
@@ -61,20 +61,39 @@ setup_db: &setup_db
       make ARGUMENTS=migrate manage
       make ARGUMENTS=bootstrap_great manage
 
-
 ###############################################################################
 # Jobs
 ###############################################################################
 
 jobs:
+  build:
+    docker:
+      - image: node:16.13.0 # Specify the desired Node.js version here
+    steps:
+      - checkout
+
+      - run:
+          name: Install Node.js
+          command: nvm install 16.13.0 # Specify the desired Node.js version here
+
+      - run:
+          name: Install NPM
+          command: npm install -g npm@8.15.1 # Specify the desired npm version here
+
+      - run:
+          name: Install dependencies
+          command: npm ci
+
+      - run:
+          name: Build project
+          command: npm run build
 
   test:
     working_directory: ~/greatcms
     docker:
       - <<: *python_node_browsers
       - <<: *postgres
-    environment:
-      *postgres_url
+    environment: *postgres_url
     steps:
       - checkout
       - *install_postgresql_client
@@ -85,7 +104,7 @@ jobs:
       - save_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
           paths:
-            - "venv"
+            - 'venv'
       - run:
           name: Run Unit tests
           command: |
@@ -99,8 +118,7 @@ jobs:
     docker:
       - <<: *python_node_browsers
       - <<: *postgres
-    environment:
-      *postgres_url
+    environment: *postgres_url
     steps:
       - checkout
       - *install_postgresql_client
@@ -121,7 +139,7 @@ jobs:
       - save_cache:
           key: v1-deps-{{ checksum "requirements_test.txt" }}
           paths:
-            - "venv"
+            - 'venv'
       - run:
           name: Run Browser tests
           command: |
@@ -181,7 +199,7 @@ jobs:
       - save_cache:
           key: v1-deps-{{ checksum "package-lock.json" }}
           paths:
-            - "node_modules"
+            - 'node_modules'
       - run:
           name: Run Javascript tests
           command: npm test -- --maxWorkers=1
@@ -217,6 +235,7 @@ workflows:
   version: 2
   test_and_checks:
     jobs:
+      - build
       - test
       - test_browser
       - test_javascript

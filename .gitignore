@@ -125,10 +125,7 @@ domestic/migrations/__pycache__/__init__.cpython-36.pyc
 storybook-static/
 
 # webpack generated files not needed
-react-components/dist/magna.css
-react-components/dist/magna.css.map
-react-components/dist/styles.js
-react-components/dist/styles.js.map
+react-components/dist/
 
 #BAU generated files not needed
 core/components/static/stylesheets/elements-documentation-ie6.css
