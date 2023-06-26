@@ -73,10 +73,6 @@ jobs:
       - checkout
 
       - run:
-          name: Install Node.js
-          command: nvm install 16.13.0 # Specify the desired Node.js version here
-
-      - run:
           name: Install NPM
           command: npm install -g npm@8.15.1 # Specify the desired npm version here
 
