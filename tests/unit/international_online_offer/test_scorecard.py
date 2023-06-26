@@ -46,13 +46,13 @@ def test_score_is_high_value():
     assert scorecard.score_is_high_value(
         directory_constants_sectors.FOOD_AND_DRINK, regions.LONDON, hirings.ONE_HUNDRED_ONE_PLUS, None
     )
-    assert scorecard.score_is_high_value(
+    assert not scorecard.score_is_high_value(
         directory_constants_sectors.FOOD_AND_DRINK, regions.LONDON, hirings.ONE_TO_TEN, '1000001-3000000'
     )
     assert not scorecard.score_is_high_value(
         directory_constants_sectors.FOOD_AND_DRINK, regions.LONDON, hirings.ONE_TO_TEN, spends.SPECIFIC_AMOUNT, '99'
     )
-    assert scorecard.score_is_high_value(
+    assert not scorecard.score_is_high_value(
         directory_constants_sectors.FOOD_AND_DRINK,
         regions.LONDON,
         hirings.ONE_TO_TEN,

@@ -24,11 +24,8 @@ def get_upper_value(value_in):
 
 def is_capex_spend(sector, spend, spend_other=0):
     capex_sector_spend = [
-        {directory_constants_sectors.FOOD_AND_DRINK: 100},
         {sectors.TECHNOLOGY_AND_SMART_CITIES: 2400000},
-        {directory_constants_sectors.FINANCIAL_AND_PROFESSIONAL_SERVICES: 100},
         {directory_constants_sectors.CONSUMER_AND_RETAIL: 848513},
-        {sectors.CREATIVE_INDUSTRIES: 100},
     ]
     if spend == spends.SPECIFIC_AMOUNT:
         spend_upper_value = spend_other
