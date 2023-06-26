@@ -21,9 +21,15 @@
       <p class="govuk-body">Use the options below to change any of the information you've given us about your UK expansion plans.</p>
       <p class="govuk-body">
         <span class="govuk-!-font-weight-bold">For your company:</span> {{ user_data.company_name | default:'-' }}
+        {% if request.user.is_authenticated %}
         <a class="govuk-link" href="{% url 'international_online_offer:profile' %}">
           Change
         </a>
+        {% else %}
+        <a class="govuk-link" href="{% url 'international_online_offer:signup' %}">
+          Sign up
+        </a>
+        {% endif %}
       </p>
     </div>
   </div>
