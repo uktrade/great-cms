@@ -3,18 +3,19 @@
     <ul class="signup__info-panel__subheadings">
         <li>
             <i class="fas fa-check-circle" aria-hidden="true"></i>
-            {% comment %} TODO Replace with Export academy sign in link once created {% endcomment %}
-            <span>Sign up to great.gov.uk, or if you have an account already, <a class="govuk-link" href={% url 'core:login' %}>sign in</a></span>
+            {% if is_signin %}
+                <span>Sign in to great.gov.uk, or if you don't have an account already, <a class="govuk-link" href={% url 'export_academy:signup' %}>sign up</a></span>
+            {% else %}
+                <span>Sign up to great.gov.uk, or if you have an account already, <a class="govuk-link" href={% url 'export_academy:signin' %}>sign in</a></span>
+            {% endif %}
         </li>
         <li>
             <i class="fas fa-check-circle" aria-hidden="true"></i>
-            {% comment %} TODO Replace with Export academy sign in link once created {% endcomment %}
             <span>Book an event. You can <a class="govuk-link" href={% url 'export_academy:upcoming-events' %}>see what’s currently on offer here</a></span>
         </li>
         <li>
             <i class="fas fa-check-circle" aria-hidden="true"></i>
-            {% comment %} TODO Replace with Export academy sign in link once created {% endcomment %}
-            <span>Answer a few questions about your business. That’s it. You only need to do this once, just sign in with your great.gov.uk password every time you visit. </span>
+            <span>Answer a few questions about your business. That’s it. You only need to do this once, just sign in with your great.gov.uk password every time you visit.</span>
         </li>
     </ul>
     <p>If you have any questions or feedback please <a class="govuk-link" href={% url 'contact:contact-us-feedback' %}>get in touch</a>.</p>
