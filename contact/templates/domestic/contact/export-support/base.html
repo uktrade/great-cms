@@ -18,6 +18,7 @@
                 <a href="{{back_link}}" class="govuk-link great-back-link">Back</a>
                 {% endif %}
                 <p class="govuk-body govuk-!-margin-top-4">{{step_text}}</p>
+                {% block content_top %}{% endblock %}
                 <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">{{heading_text}}</h1>
                 <p class="govuk-body govuk-!-margin-bottom-7">
                   {% if strapline_text %}

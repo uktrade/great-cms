@@ -1,11 +1,11 @@
 {% if field %}
 <label
-    class="govuk-label govuk-!-margin-bottom-2 great-font-bold{% if hideLabel %} great-visually-hidden{% endif %}"
+    class="govuk-label great-font-bold{% if hideLabel %} great-visually-hidden{% endif %}"
     for="{%if labelForId %}{{labelForId}}{% else %}{{field.id_for_label}}{% endif %}">
     {{field.label}} {% if optional %}<span>(Optional)</span>{% endif %}{% if dynamicText %}{{dynamicText}}{% endif %}
 </label>
 {% if field.help_text %}
-<div class="govuk-hint govuk-!-margin-bottom-4">{{field.help_text|safe }}</div>
+<div class="govuk-hint govuk-!-margin-bottom-2">{{field.help_text|safe }}</div>
 {% endif %}
 {% for error in field.errors %}
     <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>

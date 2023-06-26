@@ -1523,7 +1523,7 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
             },
             reverse('contact:export-support-step-3'),
             {
-                'type': 'Choose a type of organisation',
+                'type': 'Choose a type of exporter',
                 'annual_turnover': 'Please enter a turnover amount',
                 'sector_primary': 'Choose a sector',
             },
@@ -1586,6 +1586,16 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
             {
                 'received_support': 'Choose an option',
                 'contacted_gov_departments': 'Choose an option',
+            },
+        ),
+        (
+            reverse('contact:export-support-step-8'),
+            {
+                'help_us_improve': 'easy',
+            },
+            reverse('contact:export-support-step-8'),
+            {
+                'help_us_improve': 'Choose an option',
             },
         ),
     ),
@@ -1671,7 +1681,7 @@ def test_domestic_export_support_form_pages(
             },
             reverse('contact:export-support-step-7'),
             {
-                'type': 'Choose a type of organisation',
+                'type': 'Choose a type of exporter',
                 'annual_turnover': 'Please enter a turnover amount',
                 'sector_primary': 'Choose a sector',
             },

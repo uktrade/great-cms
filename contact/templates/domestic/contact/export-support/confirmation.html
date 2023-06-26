@@ -1,0 +1,26 @@
+{% extends 'domestic/contact/export-support/base.html' %}
+
+{% block content_top %}
+<div class="great-icon-tick-in-circle govuk-!-margin-bottom-6"></div>
+{% endblock %}
+
+{% block form_fields %}
+    <hr class="great-hr-blue great-hr-blue--thin" />
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-6">What happens next?</h2>
+    <p class="govuk-body">We will aim to respond within 3 working days, however it may take longer
+        for complex enquiries.
+    </p>
+    <p class="govuk-body">We will let you know within 3 working days, if we need:</p>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>longer to reply to your enquiry</li>
+        <li>more information to answer your enquiry</li>
+    </ul>
+    <hr class="great-hr-blue great-hr-blue--thin" />
+
+    {% for field in form.visible_fields %}
+        <div class="govuk-form-group govuk-!-margin-bottom-8 {% if field.errors %}govuk-form-group--error{% endif %}">
+            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field optional=field.field.required|yesno:",True" %}
+        </div>
+        <hr class="great-hr-blue great-hr-blue--thin" />
+    {% endfor %}
+{% endblock %}
