@@ -512,16 +512,9 @@ class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, F
         return self.do_validate_code_flow(request)
 
 
-class SignInView(sso_mixins.SignInMixin, FormView):
+class SignInView(HandleNewAndExistingUsersMixin, sso_mixins.SignInMixin, FormView):
     template_name = 'export_academy/accounts/signin.html'
-    form_class = forms.ChoosePasswordForm
     success_url = reverse_lazy('export_academy:upcoming-events')
-
-    def get_initial(self):
-        initial = super().get_initial()
-        user = Registration.objects.get(pk=self.request.GET.get('registration-id'))
-        initial['email'] = user.email
-        return initial
 
     def do_sign_in_flow(self, request):
         form = self.get_form()
