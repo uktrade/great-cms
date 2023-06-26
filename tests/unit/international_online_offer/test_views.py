@@ -7,7 +7,7 @@ from django.urls import reverse, reverse_lazy
 from directory_constants import sectors as directory_constants_sectors
 from directory_sso_api_client import sso_api_client
 from international_online_offer.core import helpers, hirings, intents, regions, spends
-from international_online_offer.models import TriageData
+from international_online_offer.models import TriageData, UserData
 from sso import helpers as sso_helpers
 from tests.helpers import create_response
 
@@ -314,9 +314,33 @@ def test_triage_spend_session(client, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_profile(client, settings):
+def test_ioo_profile(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:profile')
+    user.email = 'test@test.com'
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_ioo_profile_initial(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    UserData.objects.create(
+        hashed_uuid='123',
+        company_name='DBT',
+        company_location='France',
+        full_name='Joe Bloggs',
+        role='Director',
+        email='test@test.com',
+        telephone_number='07923456787',
+        agree_terms=True,
+        agree_info_email=False,
+        agree_info_telephone=False,
+    )
+    url = reverse('international_online_offer:spend')
+    user.hashed_uuid = '123'
+    client.force_login(user)
     response = client.get(url)
     assert response.status_code == 200
 

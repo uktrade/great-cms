@@ -23,7 +23,7 @@ class IntentForm(forms.Form):
     intent = forms.fields.MultipleChoiceField(
         label='',
         required=True,
-        widget=forms.CheckboxSelectInlineLabelMultiple(attrs={'id': 'intent-select'}),
+        widget=forms.CheckboxSelectInlineLabelMultiple(attrs={'id': 'intent-select'}, use_nice_ids=True),
         choices=choices.INTENT_CHOICES,
     )
     intent_other = forms.CharField(label='', min_length=2, max_length=50, required=False)
