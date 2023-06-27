@@ -32,6 +32,7 @@ from export_academy.helpers import (
 )
 from export_academy.mixins import (
     BookingMixin,
+    HandleNewAndExistingUsersMixin,
     RegistrationMixin,
     VerificationLinksMixin,
 )
@@ -379,44 +380,15 @@ class JoinBookingView(RedirectView):
         return super().get(request, *args, **kwargs)
 
 
-class SignUpView(VerificationLinksMixin, sso_mixins.SignUpMixin, FormView):
-    def user_ea_registered(self):
-        # TODO update to handle unique token
-        registration_id = self.request.GET.get('registration-id')
-        if registration_id:
-            try:
-                if Registration.objects.get(pk=registration_id):
-                    return True
-            except Exception:
-                return False
-        return False
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['existing_ea_user'] = self.user_ea_registered()
-        return context
-
-    def get_form_class(self):
-        if self.user_ea_registered():
-            return forms.ChoosePasswordForm
-        else:
-            return forms.SignUpForm
-
+class SignUpView(HandleNewAndExistingUsersMixin, VerificationLinksMixin, sso_mixins.SignUpMixin, FormView):
     def get_template_names(self):
         if self.user_ea_registered():
             return ['export_academy/accounts/create_password.html']
         else:
             return ['export_academy/accounts/signup.html']
 
-    def get_initial(self):
-        initial = super().get_initial()
-        if self.user_ea_registered():
-            user = Registration.objects.get(pk=self.request.GET.get('registration-id'))
-            initial['email'] = user.email
-        return initial
-
     def get_login_url(self):
-        return self.request.build_absolute_uri(reverse('core:login'))
+        return self.request.build_absolute_uri(reverse('export_academy:signin'))
 
     def handle_code_expired(self, verification_code, email):
         uidb64 = verification_code.pop('user_uidb64')
@@ -540,16 +512,9 @@ class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, F
         return self.do_validate_code_flow(request)
 
 
-class SignInView(sso_mixins.SignInMixin, FormView):
+class SignInView(HandleNewAndExistingUsersMixin, sso_mixins.SignInMixin, FormView):
     template_name = 'export_academy/accounts/signin.html'
-    form_class = forms.ChoosePasswordForm
     success_url = reverse_lazy('export_academy:upcoming-events')
-
-    def get_initial(self):
-        initial = super().get_initial()
-        user = Registration.objects.get(pk=self.request.GET.get('registration-id'))
-        initial['email'] = user.email
-        return initial
 
     def do_sign_in_flow(self, request):
         form = self.get_form()

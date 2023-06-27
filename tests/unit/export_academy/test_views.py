@@ -711,7 +711,7 @@ def test_sign_up_already_registered(
 
     assert mock_notify_already_registered.call_count == 1
     assert mock_notify_already_registered.call_args == mock.call(
-        email='test@example.com', form_url='/export-academy/signup', login_url='http://testserver/login/'
+        email='test@example.com', form_url='/export-academy/signup', login_url='http://testserver/export-academy/signin'
     )
     assert response.status_code == 302
     assert response['Location'].startswith(reverse('export_academy:signup-verification'))
@@ -853,30 +853,54 @@ def test_signup_complete_page(client, query_params, user_ea_registered, expected
     assert expected_page_heading in response.content.decode()
 
 
+@pytest.mark.parametrize(
+    'query_params, has_initial_email_value, expected_page_heading',
+    (
+        ('?registration-id=edb85922-2aea-4e0e-9df7-c74e5cf5ec78', True, 'UK Export Academy on Great.gov.uk'),
+        ('', False, 'Join the UK Export Academy'),
+    ),
+)
 @pytest.mark.django_db
-def test_sign_in_page(client):
-    registration = factories.RegistrationFactory(email='test@example.com')
-    response = client.get(reverse('export_academy:signin') + f'?registration-id={registration.id}')
+def test_signin_page(client, test_uuid, query_params, has_initial_email_value, expected_page_heading):
+    factories.RegistrationFactory(email='test@example.com', id=test_uuid)
+    response = client.get(reverse('export_academy:signin') + query_params)
     assert response.status_code == 200
-    assert response.context['form'].initial['email'] == 'test@example.com'
+    if has_initial_email_value:
+        assert response.context['form'].initial['email'] == 'test@example.com'
+    assert expected_page_heading in response.content.decode()
 
 
+@pytest.mark.parametrize(
+    'query_params, has_initial_email_value',
+    (
+        ('?registration-id=edb85922-2aea-4e0e-9df7-c74e5cf5ec78', True),
+        ('', False),
+    ),
+)
 @pytest.mark.django_db
-def test_sign_in_empty_password(client):
-    registration = factories.RegistrationFactory(email='test@example.com')
+def test_signin_empty_password(client, query_params, has_initial_email_value, test_uuid):
+    factories.RegistrationFactory(email='test@example.com', id=test_uuid)
     form_data = {'email': 'test@example.com'}
-    response = client.post(reverse('export_academy:signin') + f'?registration-id={registration.id}', data=form_data)
+    response = client.post(reverse('export_academy:signin') + query_params, data=form_data)
     assert response.context['form'].errors['password'] == ['Enter a password']
     assert response.status_code == 200
-    assert response.context['form'].initial['email'] == 'test@example.com'
+    if has_initial_email_value:
+        assert response.context['form'].initial['email'] == 'test@example.com'
 
 
+@pytest.mark.parametrize(
+    'query_params',
+    (
+        ('?registration-id=edb85922-2aea-4e0e-9df7-c74e5cf5ec78'),
+        (''),
+    ),
+)
 @pytest.mark.django_db
-def test_sign_success(client, requests_mock):
+def test_signin_success(client, requests_mock, query_params):
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=302)
-    registration = factories.RegistrationFactory(email='test@example.com')
+    factories.RegistrationFactory(email='test@example.com')
     form_data = {'email': 'test@example.com', 'password': 'test-password'}
-    response = client.post(reverse('export_academy:signin') + f'?registration-id={registration.id}', data=form_data)
+    response = client.post(reverse('export_academy:signin') + query_params, data=form_data)
     assert isinstance(response, HttpResponseRedirect)
     assert response.status_code == 302
     assert response.url == reverse('export_academy:upcoming-events')
@@ -898,7 +922,7 @@ def test_signin_send_verification(mock_send_code, mock_regenerate_code, client, 
 
 
 @pytest.mark.django_db
-def test_sign_invalid_password(client, requests_mock):
+def test_signin_invalid_password(client, requests_mock):
     requests_mock.post(settings.SSO_PROXY_LOGIN_URL, status_code=200)
     registration = factories.RegistrationFactory(email='test@example.com')
     form_data = {'email': 'test@example.com', 'password': 'test-password'}

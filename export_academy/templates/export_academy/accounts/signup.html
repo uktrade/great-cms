@@ -2,7 +2,7 @@
 {% load wagtailcore_tags %}
 
 {% block form %}
-    <h3 class="govuk-!-margin-top-3 govuk-!-margin-bottom-7">Sign up</h3>
+    <h3 class="govuk-!-margin-top-3 govuk-!-margin-bottom-6">Sign up</h3>
     {% csrf_token %}
     {% for field in form.visible_fields %}
     <div class="govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
@@ -17,5 +17,5 @@
 {% endblock %}
 {% block left_panel_heading %}Join the UK Export Academy{% endblock %}
 {% block left_panel_content %}
-    {% include 'export_academy/accounts/includes/sign_up_paragraph_text.html' %}
+    {% include 'export_academy/accounts/includes/new_user_body_text.html' %}
 {% endblock %}
