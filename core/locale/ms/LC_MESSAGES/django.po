@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-31 16:11+0100\n"
+"POT-Creation-Date: 2023-06-27 15:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,14 +23,18 @@ msgid "great.gov.uk international"
 msgstr "great.gov.uk antarabangsa"
 
 #: models.py:68
+msgid "Description"
+msgstr ""
+
+#: models.py:72
 msgid "Transcript"
 msgstr "Transkrip"
 
-#: models.py:72
+#: models.py:76
 msgid "English subtitles"
 msgstr "sarikata Bahasa Inggeris"
 
-#: models.py:1548
+#: models.py:1552
 msgid "Home"
 msgstr "Rumah"
 
@@ -115,11 +119,11 @@ msgstr "LinkedIn"
 msgid "Email"
 msgstr "E-mel"
 
-#: templates/microsites/blocks/streamfield.html:17
+#: templates/microsites/blocks/streamfield.html:19
 msgid "Information has been submitted successfully"
 msgstr "Maklumat telah berjaya dihantar"
 
-#: templates/microsites/blocks/streamfield.html:24
+#: templates/microsites/blocks/streamfield.html:26
 msgid "Submit"
 msgstr "Hantar"
 
@@ -137,7 +141,7 @@ msgstr ""
 "sebaliknya.</p>\n"
 "                  "
 
-#: templates/microsites/blocks/video.html:26
+#: templates/microsites/blocks/video.html:31
 msgid "View video transcript"
 msgstr "Lihat transkrip video"
 
@@ -145,11 +149,11 @@ msgstr "Lihat transkrip video"
 msgid "Last updated:"
 msgstr "Kemas kini terakhir:"
 
-#: templates/microsites/includes/microsite_menu_button.html:13
+#: templates/microsites/includes/microsite_menu_button.html:14
 msgid "Menu"
 msgstr "Menu"
 
-#: templates/microsites/includes/microsite_related_content_list.html:9
+#: templates/microsites/includes/microsite_related_content_list.html:10
 msgid "Related content"
 msgstr "Kandungan berkaitan"
 
