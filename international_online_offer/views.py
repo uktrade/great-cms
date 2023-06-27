@@ -321,37 +321,31 @@ class IOOProfile(FormView):
         )
 
     def get_initial(self):
-        email = self.request.session.get('email')
-        agree_terms = self.request.session.get('agree_terms')
+        init_user_form_data = {
+            'company_name': '',
+            'company_location': '',
+            'full_name': '',
+            'role': '',
+            'email': self.request.user.email,
+            'telephone_number': '',
+            'agree_terms': True,
+            'agree_info_email': '',
+            'agree_info_telephone': '',
+        }
         if self.request.user.is_authenticated:
             user_data = get_user_data(self.request.user.hashed_uuid)
-            email = self.request.user.email
-            # agreed terms if signed up already
-            agree_terms = True
             if user_data:
-                return {
-                    'company_name': user_data.company_name,
-                    'company_location': user_data.company_location,
-                    'full_name': user_data.full_name,
-                    'role': user_data.role,
-                    'email': email,
-                    'telephone_number': user_data.telephone_number,
-                    'agree_terms': agree_terms,
-                    'agree_info_email': user_data.agree_info_email,
-                    'agree_info_telephone': user_data.agree_info_telephone,
-                }
+                init_user_form_data['email'] = user_data.email
+                init_user_form_data['company_name'] = user_data.company_name
+                init_user_form_data['company_location'] = user_data.company_location
+                init_user_form_data['full_name'] = user_data.full_name
+                init_user_form_data['role'] = user_data.role
+                init_user_form_data['telephone_number'] = user_data.telephone_number
+                init_user_form_data['agree_terms'] = user_data.agree_terms
+                init_user_form_data['agree_info_email'] = user_data.agree_info_email
+                init_user_form_data['agree_info_telephone'] = user_data.agree_info_telephone
 
-        return {
-            'company_name': self.request.session.get('company_name'),
-            'company_location': self.request.session.get('company_location'),
-            'full_name': self.request.session.get('full_name'),
-            'role': self.request.session.get('role'),
-            'email': email,
-            'telephone_number': self.request.session.get('telephone_number'),
-            'agree_terms': agree_terms,
-            'agree_info_email': self.request.session.get('agree_info_email'),
-            'agree_info_telephone': self.request.session.get('agree_info_telephone'),
-        }
+        return init_user_form_data
 
     def form_valid(self, form):
         if self.request.user.is_authenticated:
@@ -359,16 +353,28 @@ class IOOProfile(FormView):
                 hashed_uuid=self.request.user.hashed_uuid,
                 defaults=form.cleaned_data,
             )
-        else:
-            self.request.session['company_name'] = form.cleaned_data['company_name']
-            self.request.session['company_location'] = form.cleaned_data['company_location']
-            self.request.session['full_name'] = form.cleaned_data['full_name']
-            self.request.session['role'] = form.cleaned_data['role']
-            self.request.session['email'] = form.cleaned_data['email']
-            self.request.session['telephone_number'] = form.cleaned_data['telephone_number']
-            self.request.session['agree_terms'] = form.cleaned_data['agree_terms']
-            self.request.session['agree_info_email'] = form.cleaned_data['agree_info_email']
-            self.request.session['agree_info_telephone'] = form.cleaned_data['agree_info_telephone']
+
+            session_data_triage_object = {}
+            for key in [
+                'sector',
+                'intent',
+                'intent_other',
+                'location',
+                'location_none',
+                'hiring',
+                'spend',
+                'spend_other',
+                'is_high_value',
+            ]:
+                if self.request.session.get(key):
+                    session_data_triage_object[key] = self.request.session.get(key)
+                    del self.request.session[key]
+
+            TriageData.objects.update_or_create(
+                hashed_uuid=self.request.user.hashed_uuid,
+                defaults=session_data_triage_object,
+            )
+
         return super().form_valid(form)
 
 
@@ -438,10 +444,12 @@ class IOOSignUp(sso_mixins.ResendVerificationMixin, sso_mixins.VerifyCodeMixin, 
                 form.add_error('__all__', 'Invalid code')
             elif upstream_response.status_code == 422:
                 # Resend verification code if it has expired.
-                self.handle_code_expired(upstream_response, request, uidb64, token, form)
+                self.handle_code_expired(
+                    upstream_response, request, form, verification_link=self.get_verification_link(uidb64, token)
+                )
             else:
                 return self.handle_verification_code_success(
-                    upstream_response=upstream_response, redirect_url='international_online_offer:profile'
+                    upstream_response=upstream_response, redirect_url=reverse_lazy('international_online_offer:profile')
                 )
         return render(request, self.template_name, {'form': form})
 
@@ -473,7 +481,15 @@ class IOOSignUp(sso_mixins.ResendVerificationMixin, sso_mixins.VerifyCodeMixin, 
                     )
                     form.add_error('__all__', 'Already registered: we have sent you an email regarding your account')
             elif response.status_code == 201:
-                return self.handle_signup_success(response, form, 'international_online_offer:signup')
+                user_details = response.json()
+                uidb64 = user_details['uidb64']
+                token = user_details['verification_token']
+                redirect_url = (
+                    reverse_lazy('international_online_offer:signup') + '?uidb64=' + uidb64 + '&token=' + token
+                )
+                return self.handle_signup_success(
+                    response, form, redirect_url, verification_link=self.get_verification_link(uidb64, token)
+                )
 
         return render(request, self.template_name, {'form': form})
 

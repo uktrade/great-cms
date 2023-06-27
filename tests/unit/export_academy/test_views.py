@@ -27,12 +27,27 @@ def test_registration_hero():
 
 
 @pytest.fixture
-def signup_form_post_request(client):
+def test_uuid():
+    return 'edb85922-2aea-4e0e-9df7-c74e5cf5ec78'
+
+
+@pytest.fixture
+def signup_form_post_request_existing_user(client):
     registration = factories.RegistrationFactory(email='test@example.com')
     form_data = {'email': 'test@example.com', 'password': 'newPassword'}
 
     def post_request():
         return client.post(reverse('export_academy:signup') + f'?registration-id={registration.id}', data=form_data)
+
+    return post_request
+
+
+@pytest.fixture
+def signup_form_post_request_new_user(client):
+    form_data = {'email': 'test@example.com', 'password': 'newPassword'}
+
+    def post_request():
+        return client.post(reverse('export_academy:signup'), data=form_data)
 
     return post_request
 
@@ -528,41 +543,88 @@ def test_event_list_for_joined_event(client, user, export_academy_landing_page, 
     assert event.name in response.rendered_content
 
 
+@pytest.mark.parametrize(
+    'query_params, has_initial_email_value, expected_page_heading',
+    (
+        ('?registration-id=edb85922-2aea-4e0e-9df7-c74e5cf5ec78', True, 'Set password for UK Export Academy'),
+        ('', False, 'Join the UK Export Academy'),
+    ),
+)
 @pytest.mark.django_db
-def test_sign_up_page(client):
-    registration = factories.RegistrationFactory(email='test@example.com')
-    response = client.get(reverse('export_academy:signup') + f'?registration-id={registration.id}')
+def test_sign_up_page(client, query_params, has_initial_email_value, expected_page_heading, test_uuid):
+    factories.RegistrationFactory(email='test@example.com', id=test_uuid)
+    response = client.get(reverse('export_academy:signup') + query_params)
     assert response.status_code == 200
-    assert response.context['form'].initial['email'] == 'test@example.com'
+    if has_initial_email_value:
+        assert response.context['form'].initial['email'] == 'test@example.com'
+    assert expected_page_heading in response.content.decode()
 
 
+@pytest.mark.parametrize(
+    'query_params,has_initial_email_value',
+    (
+        ('?registration-id=edb85922-2aea-4e0e-9df7-c74e5cf5ec78', True),
+        ('', False),
+    ),
+)
 @pytest.mark.django_db
-def test_sign_up_empty_password(client):
-    registration = factories.RegistrationFactory(email='test@example.com')
+def test_sign_up_empty_password(client, query_params, has_initial_email_value, test_uuid):
+    factories.RegistrationFactory(email='test@example.com', id=test_uuid)
     form_data = {'email': 'test@example.com'}
-    response = client.post(reverse('export_academy:signup') + f'?registration-id={registration.id}', data=form_data)
+    response = client.post(reverse('export_academy:signup') + query_params, data=form_data)
     assert response.context['form'].errors['password'] == ['Enter a password']
     assert response.status_code == 200
-    assert response.context['form'].initial['email'] == 'test@example.com'
+    if has_initial_email_value:
+        assert response.context['form'].initial['email'] == 'test@example.com'
 
 
+@pytest.mark.parametrize(
+    'user_ea_registered',
+    (
+        (True),
+        (False),
+    ),
+)
 @mock.patch.object(sso_api_client.user, 'create_user')
 @pytest.mark.django_db
-def test_sign_up_400_error(mock_create_user, signup_form_post_request):
+def test_sign_up_400_error(
+    mock_create_user, user_ea_registered, signup_form_post_request_existing_user, signup_form_post_request_new_user
+):
     mock_create_user.return_value = create_response(
         status_code=400, json_body={'password': ["This password contains the word 'password'"]}
     )
-    response = signup_form_post_request()
+    if user_ea_registered:
+        response = signup_form_post_request_existing_user()
+    else:
+        response = signup_form_post_request_new_user()
     assert response.context['form'].errors['password'] == ["This password contains the word 'password'"]
     assert response.status_code == 200
-    assert response.context['form'].initial['email'] == 'test@example.com'
+    if user_ea_registered:
+        assert response.context['form'].initial['email'] == 'test@example.com'
 
 
+@pytest.mark.parametrize(
+    'user_ea_registered, expected_query_params',
+    (
+        (True, '&existing-ea-user=true'),
+        (False, ''),
+    ),
+)
 @pytest.mark.django_db
 def test_signup_create_password_success(
-    mock_create_user_success, mock_send_verification_code_email, signup_form_post_request, uidb64, token
+    mock_create_user_success,
+    mock_send_verification_code_email,
+    signup_form_post_request_existing_user,
+    signup_form_post_request_new_user,
+    uidb64,
+    token,
+    user_ea_registered,
+    expected_query_params,
 ):
-    response = signup_form_post_request()
+    if user_ea_registered:
+        response = signup_form_post_request_existing_user()
+    else:
+        response = signup_form_post_request_new_user()
 
     assert mock_send_verification_code_email.call_count == 1
     assert mock_send_verification_code_email.call_args == mock.call(
@@ -572,39 +634,80 @@ def test_signup_create_password_success(
             'expiration_date': '2023-06-19T11:00:00Z',
         },
         form_url='/export-academy/signup',
-        verification_link=f'http://testserver/export-academy/signup/verification?uidb64={uidb64}&token={token}',
-        resend_verification_link='http://testserver/profile/enrol/resend-verification/resend/',
+        verification_link=(
+            f'http://testserver/export-academy/signup/verification?uidb64={uidb64}&token={token}{expected_query_params}'
+        ),
+        resend_verification_link=('http://testserver/profile/enrol/resend-verification/resend/'),
     )
     assert response.status_code == 302
-    assert response['Location'] == f"{reverse('export_academy:signup-verification')}?uidb64={uidb64}&token={token}"
+    assert (
+        response['Location']
+        == f"{reverse('export_academy:signup-verification')}?uidb64={uidb64}&token={token}{expected_query_params}"
+    )
 
 
+@pytest.mark.parametrize(
+    'user_ea_registered, expected_query_params',
+    (
+        (True, '&existing-ea-user=true'),
+        (False, ''),
+    ),
+)
 @mock.patch.object(sso_api_client.user, 'create_user')
 @pytest.mark.django_db
 def test_sign_up_code_already_sent(
-    mock_create_user, mock_regenerate_verification_code, mock_send_verification_code_email, signup_form_post_request
+    mock_create_user,
+    mock_regenerate_verification_code,
+    mock_send_verification_code_email,
+    signup_form_post_request_existing_user,
+    signup_form_post_request_new_user,
+    user_ea_registered,
+    expected_query_params,
 ):
     uidb64 = 'MjE1ODk1'
     token = 'bq1ftj-e82fb7b694d200b144012bfac0c866b2'
     mock_create_user.return_value = create_response(status_code=409)
 
-    response = signup_form_post_request()
+    if user_ea_registered:
+        response = signup_form_post_request_existing_user()
+    else:
+        response = signup_form_post_request_new_user()
 
     assert mock_send_verification_code_email.call_count == 1
     assert response.status_code == 302
-    assert response['Location'] == f"{reverse('export_academy:signup-verification')}?uidb64={uidb64}&token={token}"
+    assert (
+        response['Location']
+        == f"{reverse('export_academy:signup-verification')}?uidb64={uidb64}&token={token}{expected_query_params}"
+    )
 
 
+@pytest.mark.parametrize(
+    'user_ea_registered, expected_query_params',
+    (
+        (True, 'existing-ea-user=true'),
+        (False, ''),
+    ),
+)
 @mock.patch.object(sso_api_client.user, 'create_user')
 @mock.patch.object(sso_helpers, 'regenerate_verification_code')
 @mock.patch.object(sso_helpers, 'notify_already_registered')
 @pytest.mark.django_db
 def test_sign_up_already_registered(
-    mock_notify_already_registered, mock_regenerate_verification_code, mock_create_user, signup_form_post_request
+    mock_notify_already_registered,
+    mock_regenerate_verification_code,
+    mock_create_user,
+    signup_form_post_request_existing_user,
+    signup_form_post_request_new_user,
+    user_ea_registered,
+    expected_query_params,
 ):
     mock_create_user.return_value = create_response(status_code=409)
     mock_regenerate_verification_code.return_value = None
-    response = signup_form_post_request()
+
+    if user_ea_registered:
+        response = signup_form_post_request_existing_user()
+    else:
+        response = signup_form_post_request_new_user()
 
     assert mock_notify_already_registered.call_count == 1
     assert mock_notify_already_registered.call_args == mock.call(
@@ -612,12 +715,24 @@ def test_sign_up_already_registered(
     )
     assert response.status_code == 302
     assert response['Location'].startswith(reverse('export_academy:signup-verification'))
+    assert expected_query_params in response['Location']
 
 
+@pytest.mark.parametrize(
+    'query_params, user_ea_registered, expected_page_heading',
+    (
+        ('&existing-ea-user=true', 'true', 'Set password for UK Export Academy'),
+        ('', None, 'Join the UK Export Academy'),
+    ),
+)
 @pytest.mark.django_db
-def test_verification_page(client, uidb64, token):
-    response = client.get(reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}')
+def test_verification_page(client, uidb64, token, query_params, user_ea_registered, expected_page_heading):
+    response = client.get(
+        reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}{query_params}'
+    )
     assert response.status_code == 200
+    assert response.context.get('existing_ea_user') == user_ea_registered
+    assert expected_page_heading in response.content.decode()
 
 
 @pytest.mark.django_db
@@ -639,6 +754,13 @@ def test_verification_page_incorrect_code(mock_verify_verification_code, client,
     assert response.context['form'].errors['code_confirm'] == ['This code is incorrect. Please try again.']
 
 
+@pytest.mark.parametrize(
+    'query_params',
+    (
+        ('&existing-ea-user=true'),
+        (''),
+    ),
+)
 @mock.patch.object(sso_api_client.user, 'verify_verification_code')
 @pytest.mark.django_db
 def test_verification_page_code_expired(
@@ -648,12 +770,13 @@ def test_verification_page_code_expired(
     client,
     uidb64,
     token,
+    query_params,
 ):
     mock_verify_verification_code.return_value = create_response(
         status_code=422, json_body={'email': 'test@example.com'}
     )
     response = client.post(
-        reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}',
+        reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}{query_params}',
         data={'code_confirm': '1234'},
     )
     assert response.status_code == 200
@@ -668,25 +791,39 @@ def test_verification_page_code_expired(
             'expiration_date': '2023-06-19T11:00:00Z',
         },
         form_url='/export-academy/signup/verification',
-        verification_link=f'http://testserver/export-academy/signup/verification?uidb64={uidb64}&token={token}',
+        verification_link=(
+            f'http://testserver/export-academy/signup/verification?uidb64={uidb64}&token={token}{query_params}'
+        ),
         resend_verification_link='http://testserver/profile/enrol/resend-verification/resend/',
     )
     assert response.context['form'].errors['code_confirm'] == ['This code has expired. We have emailed you a new code']
 
 
+@pytest.mark.parametrize(
+    'query_params',
+    (
+        ('existing-ea-user=true'),
+        (''),
+    ),
+)
 @mock.patch.object(sso_helpers, 'set_cookies_from_cookie_jar')
 @mock.patch.object(sso_helpers, 'get_cookie_jar')
 @mock.patch.object(actions, 'GovNotifyEmailAction')
 @mock.patch.object(sso_api_client.user, 'verify_verification_code')
 @pytest.mark.django_db
 def test_verification_page_success(
-    mock_verify_verification_code, mock_action_class, mock_get_cookie_jar, mock_set_cookies_from_cookie_jar, client
+    mock_verify_verification_code,
+    mock_action_class,
+    mock_get_cookie_jar,
+    mock_set_cookies_from_cookie_jar,
+    client,
+    query_params,
 ):
     mock_verify_verification_code.return_value = create_response(
         status_code=200, json_body={'email': 'test@example.com'}
     )
     response = client.post(
-        reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}',
+        reverse('export_academy:signup-verification') + f'?uidb64={uidb64}&token={token}&{query_params}',
         data={'code_confirm': '1234'},
     )
     assert mock_action_class.call_count == 1
@@ -697,7 +834,23 @@ def test_verification_page_success(
     )
     assert mock_set_cookies_from_cookie_jar.call_count == 1
     assert response.status_code == 302
-    assert response['Location'] == reverse('export_academy:upcoming-events')
+    assert response['Location'].startswith(reverse('export_academy:signup-complete'))
+    assert query_params in response['Location']
+
+
+@pytest.mark.parametrize(
+    'query_params, user_ea_registered, expected_page_heading',
+    (
+        ('?existing-ea-user=true', 'true', 'Set password for UK Export Academy'),
+        ('', None, 'Join the UK Export Academy'),
+    ),
+)
+@pytest.mark.django_db
+def test_signup_complete_page(client, query_params, user_ea_registered, expected_page_heading):
+    response = client.get(reverse('export_academy:signup-complete') + query_params)
+    assert response.status_code == 200
+    assert response.context.get('existing_ea_user') == user_ea_registered
+    assert expected_page_heading in response.content.decode()
 
 
 @pytest.mark.django_db

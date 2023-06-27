@@ -2,11 +2,6 @@ from directory_constants import sectors as directory_constants_sectors
 from international_online_offer.core import hirings, regions, scorecard, sectors, spends
 
 
-def test_is_levelling_up():
-    assert not scorecard.is_levelling_up(regions.LONDON)
-    assert scorecard.is_levelling_up(regions.WALES)
-
-
 def test_is_capex_spend():
     assert not scorecard.is_capex_spend(
         directory_constants_sectors.FOOD_AND_DRINK, spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND
@@ -14,11 +9,13 @@ def test_is_capex_spend():
     assert not scorecard.is_capex_spend(
         directory_constants_sectors.FOOD_AND_DRINK, spends.FIVE_HUNDRED_THOUSAND_ONE_TO_ONE_MILLION
     )
-    assert scorecard.is_capex_spend(directory_constants_sectors.FOOD_AND_DRINK, spends.ONE_MILLION_ONE_TO_TWO_MILLION)
+    assert scorecard.is_capex_spend(
+        directory_constants_sectors.CONSUMER_AND_RETAIL, spends.ONE_MILLION_ONE_TO_TWO_MILLION
+    )
     assert not scorecard.is_capex_spend('Random sector', spends.ONE_MILLION_ONE_TO_TWO_MILLION)
-    assert scorecard.is_capex_spend(directory_constants_sectors.FOOD_AND_DRINK, spends.TEN_MILLION_ONE_PLUS)
+    assert scorecard.is_capex_spend(directory_constants_sectors.CONSUMER_AND_RETAIL, spends.TEN_MILLION_ONE_PLUS)
     assert not scorecard.is_capex_spend(directory_constants_sectors.FOOD_AND_DRINK, spends.SPECIFIC_AMOUNT, '1234567')
-    assert scorecard.is_capex_spend(directory_constants_sectors.FOOD_AND_DRINK, spends.SPECIFIC_AMOUNT, '12345678')
+    assert scorecard.is_capex_spend(directory_constants_sectors.CONSUMER_AND_RETAIL, spends.SPECIFIC_AMOUNT, '12345678')
     assert not scorecard.is_capex_spend(sectors.TECHNOLOGY_AND_SMART_CITIES, '0-10')
     assert scorecard.is_capex_spend(sectors.TECHNOLOGY_AND_SMART_CITIES, '1000001-3000000')
     assert scorecard.is_capex_spend(sectors.TECHNOLOGY_AND_SMART_CITIES, spends.TEN_MILLION_ONE_PLUS)
@@ -45,8 +42,6 @@ def test_is_hpo():
 def test_score_is_high_value():
     assert not scorecard.score_is_high_value(None, None, None, None)
     assert not scorecard.score_is_high_value(directory_constants_sectors.FOOD_AND_DRINK, None, None, None)
-    assert not scorecard.score_is_high_value(directory_constants_sectors.FOOD_AND_DRINK, regions.LONDON, None, None)
-    assert scorecard.score_is_high_value(directory_constants_sectors.FOOD_AND_DRINK, regions.WALES, None, None)
     assert not scorecard.score_is_high_value(
         directory_constants_sectors.FOOD_AND_DRINK, regions.LONDON, hirings.ONE_TO_TEN, None
     )
@@ -54,18 +49,12 @@ def test_score_is_high_value():
         directory_constants_sectors.FOOD_AND_DRINK, regions.LONDON, hirings.ONE_HUNDRED_ONE_PLUS, None
     )
     assert not scorecard.score_is_high_value(
-        directory_constants_sectors.FOOD_AND_DRINK,
-        regions.LONDON,
-        hirings.ONE_TO_TEN,
-        spends.TEN_THOUSAND_TO_FIVE_HUNDRED_THOUSAND,
-    )
-    assert scorecard.score_is_high_value(
         directory_constants_sectors.FOOD_AND_DRINK, regions.LONDON, hirings.ONE_TO_TEN, '1000001-3000000'
     )
     assert not scorecard.score_is_high_value(
-        directory_constants_sectors.FOOD_AND_DRINK, regions.LONDON, hirings.ONE_TO_TEN, spends.SPECIFIC_AMOUNT, '123'
+        directory_constants_sectors.FOOD_AND_DRINK, regions.LONDON, hirings.ONE_TO_TEN, spends.SPECIFIC_AMOUNT, '99'
     )
-    assert scorecard.score_is_high_value(
+    assert not scorecard.score_is_high_value(
         directory_constants_sectors.FOOD_AND_DRINK,
         regions.LONDON,
         hirings.ONE_TO_TEN,

@@ -252,8 +252,24 @@ class EventAdminModelForm(WagtailAdminModelForm):
         return self._clean_field('live')
 
 
+class ChoosePasswordForm(forms.Form):
+    email = forms.EmailField(label='Email address choose password', required=True, widget=HiddenInput)
+    password = forms.CharField(
+        widget=PasswordInput,
+        label='Password',
+        error_messages={
+            'required': 'Enter a password',
+        },
+    )
+
+
 class SignUpForm(forms.Form):
-    email = forms.EmailField(label='Email address', required=True, widget=HiddenInput)
+    email = forms.EmailField(
+        label='Email address',
+        error_messages={
+            'required': 'Enter an email address',
+        },
+    )
     password = forms.CharField(
         widget=PasswordInput,
         label='Password',

@@ -42,7 +42,7 @@
                 {% if user_data.company_location %}
                 <h2 class="govuk-heading-m">{{ user_data.get_company_location_display }}</h2>
                 {% else %}
-                <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:profile' %}">Add details</a></p>
+                <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:signup' %}">Sign up</a></p>
                 {% endif %}
             </div>
             <div class="govuk-grid-column-one-quarter">
@@ -50,7 +50,7 @@
                 {% if user_data.company_name %}
                 <h2 class="govuk-heading-m">{{ user_data.company_name }}</h2>
                 {% else %}
-                <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:profile' %}">Add details</a></p>
+                <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:signup' %}">Sign up</a></p>
                 {% endif %}
             </div>
             <div class="govuk-grid-column-one-quarter">
