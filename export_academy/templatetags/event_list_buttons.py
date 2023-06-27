@@ -1,4 +1,5 @@
 from django import template
+from django.conf import settings
 
 from export_academy import helpers
 from export_academy.filters import EventFilter
@@ -80,3 +81,8 @@ def get_applied_filters(filter_form):
 def all_booking_periods_showing(query_params):
     booking_period = query_params.get('booking_period')
     return booking_period == 'all' or not booking_period
+
+
+@register.simple_tag
+def feature_ea_release_two_enabled():
+    return getattr(settings, 'FEATURE_EXPORT_ACADEMY_RELEASE_2')
