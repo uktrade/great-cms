@@ -68,18 +68,17 @@ class RegistrationMixin:
 
 
 class VerificationLinksMixin:
-    def get_verification_link(self, uidb64, token, next_param=None):
+    def get_verification_link(self, uidb64, token, user_registered, next_param=None):
+        verification_params = f'?uidb64={uidb64}&token={token}'
+        url = self.request.build_absolute_uri(reverse('export_academy:signup-verification')) + verification_params
+
         if next_param is None:
             next_param = self.request.GET.get('next', '')
-        verification_params = f'?uidb64={uidb64}&token={token}'
-
         if next_param:
-            next_param = f'&next={next_param}'
-        return (
-            self.request.build_absolute_uri(reverse('export_academy:signup-verification'))
-            + verification_params
-            + next_param
-        )
+            url += f'&next={next_param}'
+        if user_registered:
+            url += '&existing-ea-user=true'
+        return url
 
     def get_resend_verification_link(self):
         return self.request.build_absolute_uri(

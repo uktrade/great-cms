@@ -380,13 +380,39 @@ class JoinBookingView(RedirectView):
 
 
 class SignUpView(VerificationLinksMixin, sso_mixins.SignUpMixin, FormView):
-    template_name = 'export_academy/accounts/signup.html'
-    form_class = forms.SignUpForm
+    def user_ea_registered(self):
+        # TODO update to handle unique token
+        registration_id = self.request.GET.get('registration-id')
+        if registration_id:
+            try:
+                if Registration.objects.get(pk=registration_id):
+                    return True
+            except Exception:
+                return False
+        return False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['existing_ea_user'] = self.user_ea_registered()
+        return context
+
+    def get_form_class(self):
+        if self.user_ea_registered():
+            return forms.ChoosePasswordForm
+        else:
+            return forms.SignUpForm
+
+    def get_template_names(self):
+        if self.user_ea_registered():
+            return ['export_academy/accounts/create_password.html']
+        else:
+            return ['export_academy/accounts/signup.html']
 
     def get_initial(self):
         initial = super().get_initial()
-        user = Registration.objects.get(pk=self.request.GET.get('registration-id'))
-        initial['email'] = user.email
+        if self.user_ea_registered():
+            user = Registration.objects.get(pk=self.request.GET.get('registration-id'))
+            initial['email'] = user.email
         return initial
 
     def get_login_url(self):
@@ -399,19 +425,29 @@ class SignUpView(VerificationLinksMixin, sso_mixins.SignUpMixin, FormView):
             email=email,
             verification_code=verification_code,
             form_url=self.request.path,
-            verification_link=self.get_verification_link(uidb64, token),
+            verification_link=self.get_verification_link(uidb64, token, user_registered=self.user_ea_registered()),
             resend_verification_link=self.get_resend_verification_link(),
         )
         return HttpResponseRedirect(
-            reverse_lazy('export_academy:signup-verification') + '?uidb64=' + uidb64 + '&token=' + token
+            self.get_redirect_url(user_registered=self.user_ea_registered(), uidb64=uidb64, token=token)
         )
+
+    def get_redirect_url(self, uidb64=None, token=None, user_registered=False):
+        redirect_url = reverse_lazy('export_academy:signup-verification')
+        if uidb64 and token:
+            redirect_url += f'?uidb64={uidb64}&token={token}'
+            if user_registered:
+                redirect_url += '&existing-ea-user=true'
+        elif not (uidb64 or token) and user_registered:
+            redirect_url += '?existing-ea-user=true'
+        return redirect_url
 
     def handle_already_registered(self, email):
         sso_helpers.notify_already_registered(email=email, form_url=self.request.path, login_url=self.get_login_url())
-        return HttpResponseRedirect(reverse_lazy('export_academy:signup-verification'))
+        return HttpResponseRedirect(self.get_redirect_url(user_registered=self.user_ea_registered()))
 
     def do_sign_up_flow(self, request):
-        form = forms.SignUpForm(request.POST)
+        form = self.get_form()
         if form.is_valid():
             response = sso_api_client.user.create_user(
                 email=form.cleaned_data['email'].lower(), password=form.cleaned_data['password']
@@ -426,7 +462,17 @@ class SignUpView(VerificationLinksMixin, sso_mixins.SignUpMixin, FormView):
                 else:
                     return self.handle_already_registered(email)
             elif response.status_code == 201:
-                return self.handle_signup_success(response, form, 'export_academy:signup-verification')
+                user_details = response.json()
+                uidb64 = user_details['uidb64']
+                token = user_details['verification_token']
+                return self.handle_signup_success(
+                    response,
+                    form,
+                    self.get_redirect_url(user_registered=self.user_ea_registered(), uidb64=uidb64, token=token),
+                    verification_link=self.get_verification_link(
+                        uidb64, token, user_registered=self.user_ea_registered()
+                    ),
+                )
 
         # Ensure email address is always added to initial data
         form.initial = self.get_initial()
@@ -440,12 +486,20 @@ class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, F
     template_name = 'export_academy/accounts/verification_code.html'
     form_class = forms.CodeConfirmForm
 
+    def user_ea_registered(self):
+        return self.request.GET.get('existing-ea-user')
+
     def __init__(self):
         code_expired_error = {
             'field': 'code_confirm',
             'error_message': 'This code has expired. We have emailed you a new code',
         }
         super().__init__(code_expired_error)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['existing_ea_user'] = self.user_ea_registered()
+        return context
 
     def send_welcome_notification(self, email, form_url):
         action = actions.GovNotifyEmailAction(
@@ -470,10 +524,15 @@ class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, F
                 form.add_error('code_confirm', 'This code is incorrect. Please try again.')
             elif upstream_response.status_code == 422:
                 # Resend verification code if it has expired.
-                self.handle_code_expired(upstream_response, request, uidb64, token, form)
+                verification_link = self.get_verification_link(uidb64, token, user_registered=self.user_ea_registered())
+                upstream_response, request, verification_link, form
+                self.handle_code_expired(upstream_response, request, form, verification_link)
             else:
+                redirect_url = reverse_lazy('export_academy:signup-complete')
+                if self.request.GET.get('existing-ea-user'):
+                    redirect_url += '?existing-ea-user=true'
                 return self.handle_verification_code_success(
-                    upstream_response=upstream_response, redirect_url='export_academy:upcoming-events'
+                    upstream_response=upstream_response, redirect_url=redirect_url
                 )
         return self.form_invalid(form)
 
@@ -483,7 +542,7 @@ class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, F
 
 class SignInView(sso_mixins.SignInMixin, FormView):
     template_name = 'export_academy/accounts/signin.html'
-    form_class = forms.SignUpForm
+    form_class = forms.ChoosePasswordForm
     success_url = reverse_lazy('export_academy:upcoming-events')
 
     def get_initial(self):
@@ -517,3 +576,12 @@ class SignInView(sso_mixins.SignInMixin, FormView):
 
     def post(self, request, *args, **kwargs):
         return self.do_sign_in_flow(request)
+
+
+class SignUpCompleteView(TemplateView):
+    template_name = 'export_academy/accounts/signup_complete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['existing_ea_user'] = self.request.GET.get('existing-ea-user')
+        return context

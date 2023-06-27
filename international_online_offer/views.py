@@ -444,10 +444,12 @@ class IOOSignUp(sso_mixins.ResendVerificationMixin, sso_mixins.VerifyCodeMixin, 
                 form.add_error('__all__', 'Invalid code')
             elif upstream_response.status_code == 422:
                 # Resend verification code if it has expired.
-                self.handle_code_expired(upstream_response, request, uidb64, token, form)
+                self.handle_code_expired(
+                    upstream_response, request, form, verification_link=self.get_verification_link(uidb64, token)
+                )
             else:
                 return self.handle_verification_code_success(
-                    upstream_response=upstream_response, redirect_url='international_online_offer:profile'
+                    upstream_response=upstream_response, redirect_url=reverse_lazy('international_online_offer:profile')
                 )
         return render(request, self.template_name, {'form': form})
 
@@ -479,7 +481,15 @@ class IOOSignUp(sso_mixins.ResendVerificationMixin, sso_mixins.VerifyCodeMixin, 
                     )
                     form.add_error('__all__', 'Already registered: we have sent you an email regarding your account')
             elif response.status_code == 201:
-                return self.handle_signup_success(response, form, 'international_online_offer:signup')
+                user_details = response.json()
+                uidb64 = user_details['uidb64']
+                token = user_details['verification_token']
+                redirect_url = (
+                    reverse_lazy('international_online_offer:signup') + '?uidb64=' + uidb64 + '&token=' + token
+                )
+                return self.handle_signup_success(
+                    response, form, redirect_url, verification_link=self.get_verification_link(uidb64, token)
+                )
 
         return render(request, self.template_name, {'form': form})
 
