@@ -13,10 +13,12 @@
 
 {% block content %}
 
+
+
 <section id="thank-you-section" class="thank-you-section padding-bottom-45">
-    <div class="container">
-        <div class="grid-row">
-            <div class="column-two-thirds">
+    <div class="great great-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full great-grid-column-column-two-thirds">
                 {% with "We've received your registration form and have sent an email to "|add:request.user.email as success_message %}
                   {% include 'components/message_box.html' with heading="Thank you" description=success_message %}
                 {% endwith %}
@@ -24,20 +26,20 @@
         </div>
     </div>
 </section>
-    <section id="thank-you-section" class="thank-you-section padding-bottom-45">
-        <div class="container">
-            <div class="grid-row">
-                <div class="column-two-thirds">
-                    {% with "Booking confirmation page" as success_message  %}
-                      {% include 'components/message_box.html' with heading="Thank you" description=success_message %}
-                    {% endwith %}
-                </div>
+<section id="thank-you-section" class="thank-you-section padding-bottom-45">
+    <div class="great great-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full great-grid-column-column-two-thirds">
+                {% with "Booking confirmation page" as success_message  %}
+                {% include 'components/message_box.html' with heading="Thank you" description=success_message %}
+                {% endwith %}
             </div>
         </div>
-    </section>
-<div class="container">
-    <div class="grid-row">
-        <div class="column-two-thirds">
+    </div>
+</section>
+<div class="great great-container">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full great-grid-column-column-two-thirds">
             <h1 class="heading-large margin-top-0">What happens next</h1>
             <ul class="list list-bullet">
                 <li>Why not book another event now</li>
@@ -45,6 +47,6 @@
             </ul>
         </div>
     </div>
-    <a href="/export-academy/events" class="link block margin-top-30 margin-bottom-60">Continue to upcoming events</a>
+    <a href="/export-academy/events" class="govuk-link block govuk-!-margin-top-30 govuk-!-margin-bottom-60">Continue to upcoming events</a>
 </div>
 {% endblock content %}

@@ -205,6 +205,7 @@ class RegistrationPersonalDetails(core_mixins.GetSnippetContentMixin, Registrati
             landing_page=ExportAcademyHomePage.objects.first(),
             title='About you',
             email=self.request.user.email,
+            current_page_breadcrumb='About you',
         )
 
     def get_success_url(self):
@@ -220,7 +221,7 @@ class RegistrationPersonalDetails(core_mixins.GetSnippetContentMixin, Registrati
 class RegistrationExportExperience(core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView):
     form_class = forms.ExportExperience
     model = models.Registration
-    template_name = 'export_academy/registration_form.html'
+    template_name = 'export_academy/registration_form_step2.html'
 
     def get_context_data(self, **kwargs):
         button_text = 'Continue'
@@ -235,6 +236,7 @@ class RegistrationExportExperience(core_mixins.GetSnippetContentMixin, Registrat
             step_text='Step 2 of 4',
             landing_page=ExportAcademyHomePage.objects.first(),
             title='About your export experience',
+            current_page_breadcrumb='About your export experience',
         )
 
     def get_success_url(self):
@@ -265,6 +267,7 @@ class RegistrationBusinessDetails(core_mixins.GetSnippetContentMixin, Registrati
             step_text='Step 3 of 4',
             landing_page=ExportAcademyHomePage.objects.first(),
             title='About your business',
+            current_page_breadcrumb='About your business',
         )
 
     def get_success_url(self):
@@ -300,6 +303,7 @@ class RegistrationMarketingSources(
             step_text='Step 4 of 4',
             landing_page=ExportAcademyHomePage.objects.first(),
             title='And finally...',
+            current_page_breadcrumb='And finally...',
         )
 
     def get_success_url(self):

@@ -17,33 +17,40 @@
 {% block content %}
   {% block hero %}
     {% with content_snippet as hero %}
-        {% include 'components/hero.html' with image=hero.image hero_title=hero.title hero_text=hero.text %}
+        {% include 'components/hero.html' with image=hero.image hero_title='' hero_text=hero.text %}
     {% endwith %}
   {% endblock %}
 
-  {% breadcrumbs 'Registration' %}
+  {% breadcrumbs current_page_breadcrumb %}
         <a href="/">great.gov.uk</a>
         <a href="{% pageurl landing_page %}">Export Academy</a>
         <a href="{% url 'export_academy:upcoming-events' %}">Events</a>
   {% endbreadcrumbs %}
 
-  <section class="background-white">
-    <div class="container">
-      <p class="padding-bottom-30 padding-top-30">{{step_text}}</p>
-      <h2 class="heading govuk-padding-top-20 margin-bottom-30">{{ title }}</h2>
-      {% if email %}
-      <p class="govuk-padding-top-30 margin-bottom-30">Your registered email is <span class='bold'>{{ email }}</span></p>
-      {% endif %}
-      <div class="question">
-        <form action="" method="post" autocomplete="off">
-          {% csrf_token %}
-          {{ form }}
-          <button type="submit" class="button primary-button margin-top-30">{{button_text}}</button>
-        </form>
-      </div>
-      <div class="padding-top-30">
-        <a class="govuk-link" href="{% url back_url %}">Back</a>
-      </div>
+
+  <div class="great great-bg-white">
+    <div class="great-container govuk-!-padding-top-4">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full great-grid-column-column-two-thirds">
+              <div class="govuk-padding-top-30">
+                <a href="{% url back_url %}" class="govuk-link great-back-link">Back</a>
+              </div>
+              <p class="govuk-body govuk-!-margin-top-4">{{step_text}}</p>
+              <h1 class="govuk-heading-l govuk-!-margin-bottom-6">{{title}}</h1>
+              {% if email %}
+              <p class="govuk-padding-top-30 govuk-!-margin-bottom-30">Your registered email is <span class='bold'>{{ email }}</span></p>
+              {% endif %}
+              <div class="govuk-heading-l">
+                <form action="" method="post" autocomplete="off">
+                  {% csrf_token %}
+                  {{ form }}
+                  <button type="submit" class="govuk-button great-min-width-250-desktop">{{button_text}}</button>
+                </form>
+              </div>
+
+            </div>
+        </div>
     </div>
-  </section>
+  </div>
+
 {% endblock %}
