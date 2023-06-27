@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-27 15:19+0100\n"
+"POT-Creation-Date: 2023-06-27 17:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,8 +116,6 @@ msgid "Enter your email address"
 msgstr "Digite seu endereço de e-mail"
 
 #: forms.py:442
-#, fuzzy
-#| msgid "Company name"
 msgid "Company name (Optional)"
 msgstr "Nome da empresa"
 
@@ -134,8 +132,6 @@ msgid "Enter your telephone number"
 msgstr "Digite seu número de telefone"
 
 #: forms.py:462
-#, fuzzy
-#| msgid "Position at company"
 msgid "Position at company (Optional)"
 msgstr "Cargo na empresa"
 
