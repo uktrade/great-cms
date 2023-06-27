@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-01 12:17+0100\n"
+"POT-Creation-Date: 2023-06-27 15:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,12 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-
-#: forms.py:16
-#, fuzzy
-#| msgid "Select a region"
-msgid "Select a country"
-msgstr "حدد منطقة"
 
 #: forms.py:21
 msgid "Full name"
@@ -122,7 +116,9 @@ msgid "Enter your email address"
 msgstr "أدخل عنوان بريدك الإلكتروني"
 
 #: forms.py:442
-msgid "Company name"
+#, fuzzy
+#| msgid "Company name"
+msgid "Company name (Optional)"
 msgstr "اسم الشركة"
 
 #: forms.py:451
@@ -138,7 +134,9 @@ msgid "Enter your telephone number"
 msgstr "أدخل رقم هاتفك"
 
 #: forms.py:462
-msgid "Position at company"
+#, fuzzy
+#| msgid "Position at company"
+msgid "Position at company (Optional)"
 msgstr "المنصب في الشركة"
 
 #: forms.py:471
@@ -160,3 +158,8 @@ msgstr "القطاع"
 #: templates/domestic/ukef/includes/card.html:11
 msgid "Opens in a new window"
 msgstr "يفتح في نافذة جديدة"
+
+#, fuzzy
+#~| msgid "Select a region"
+#~ msgid "Select a country"
+#~ msgstr "حدد منطقة"

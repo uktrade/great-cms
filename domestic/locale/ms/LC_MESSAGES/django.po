@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-01 12:17+0100\n"
+"POT-Creation-Date: 2023-06-27 15:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-#: forms.py:16
-#, fuzzy
-#| msgid "Select a region"
-msgid "Select a country"
-msgstr "Pilih kawasan"
 
 #: forms.py:21
 msgid "Full name"
@@ -123,7 +117,9 @@ msgid "Enter your email address"
 msgstr "Masukkan alamat emel anda"
 
 #: forms.py:442
-msgid "Company name"
+#, fuzzy
+#| msgid "Company name"
+msgid "Company name (Optional)"
 msgstr "Nama syarikat"
 
 #: forms.py:451
@@ -139,7 +135,9 @@ msgid "Enter your telephone number"
 msgstr "Masukkan nombor telefon anda"
 
 #: forms.py:462
-msgid "Position at company"
+#, fuzzy
+#| msgid "Position at company"
+msgid "Position at company (Optional)"
 msgstr "Jawatan di syarikat"
 
 #: forms.py:471
@@ -161,3 +159,8 @@ msgstr "Sektor"
 #: templates/domestic/ukef/includes/card.html:11
 msgid "Opens in a new window"
 msgstr "Buka dalam tetingkap baru"
+
+#, fuzzy
+#~| msgid "Select a region"
+#~ msgid "Select a country"
+#~ msgstr "Pilih kawasan"
