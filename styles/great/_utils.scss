@@ -179,19 +179,13 @@
 }
 
 .great-container {
-  max-width: 1230px;
-  margin: auto;
-  padding: 0 15px;
+    max-width: 1230px;
+    margin: auto;
+    padding: 0 15px;
 
-<<<<<<< HEAD
     @media (min-width: 1231px) {
         padding: 0;
     }
-=======
-  @include govuk-media-query($from: desktop) {
-    padding: 0;
-  }
->>>>>>> 225c12457 (added arabic font if current language is arabic)
 }
 
 .great-border-top-blue {
