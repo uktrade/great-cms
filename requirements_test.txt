@@ -78,7 +78,7 @@ brotli==1.0.9
     # via geventhttpclient
 browserstack-local==1.2.5
     # via browserstack-sdk
-browserstack-sdk==1.10.3
+browserstack-sdk==1.10.4
     # via -r requirements_test.in
 build==0.10.0
     # via pip-tools
@@ -277,7 +277,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==18.10.1
+faker==18.11.1
     # via factory-boy
 filelock==3.12.2
     # via virtualenv
@@ -307,7 +307,7 @@ flask==2.3.2
     #   locust
 flask-basicauth==0.2.0
     # via locust
-flask-cors==3.0.10
+flask-cors==4.0.0
     # via locust
 freezegun==1.1.0
     # via -r requirements_test.in
@@ -462,12 +462,12 @@ pillow==9.5.0
     #   xhtml2pdf
 pip-tools==6.13.0
     # via -r requirements_test.in
-platformdirs==3.6.0
+platformdirs==3.8.0
     # via
     #   black
     #   pylint
     #   virtualenv
-pluggy==1.0.0
+pluggy==1.2.0
     # via
     #   allure-python-commons
     #   pytest
@@ -519,7 +519,7 @@ pylint-django==2.5.3
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pypdf==3.10.0
+pypdf==3.11.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -531,7 +531,7 @@ pyrsistent==0.19.3
     # via jsonschema
 pysocks==1.7.1
     # via urllib3
-pytest==7.3.2
+pytest==7.4.0
     # via
     #   -r requirements_test.in
     #   allure-pytest
@@ -591,7 +591,7 @@ qrcode==7.4.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==4.5.5
+redis==4.6.0
     # via
     #   celery
     #   django-redis
@@ -645,7 +645,6 @@ six==1.16.0
     # via
     #   airtable-python-wrapper
     #   elasticsearch-dsl
-    #   flask-cors
     #   geventhttpclient
     #   html5lib
     #   jsonschema
@@ -813,7 +812,7 @@ xhtml2pdf==0.2.11
     # via -r requirements.in
 zipp==3.15.0
     # via importlib-metadata
-zope-event==4.6
+zope-event==5.0
     # via gevent
 zope-interface==6.0
     # via gevent
