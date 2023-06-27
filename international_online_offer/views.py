@@ -321,12 +321,15 @@ class IOOProfile(FormView):
         )
 
     def get_initial(self):
+        email = ''
+        if self.request.user.email:
+            email = self.request.user.email
         init_user_form_data = {
             'company_name': '',
             'company_location': '',
             'full_name': '',
             'role': '',
-            'email': self.request.user.email,
+            'email': email,
             'telephone_number': '',
             'agree_terms': True,
             'agree_info_email': '',

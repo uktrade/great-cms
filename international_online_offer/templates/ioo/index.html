@@ -9,51 +9,53 @@
 {% endblock %}
 
 {% block content %}
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-l">Expand your business in the UK</h1>
-          </div>
-        </div>
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body">
-              Whatever your size and type of business, our online self-service tool can help you set up and grow in the UK. You can use it to:
-            </p>
-            <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
-              <li>guide you through the practicalities, like setting up a company and  opening a bank account, in an easy checklist format</li>
-              <li>find the right location and staff for your business</li>
-              <li>connect with clients, partners and the right expert contacts to support your UK expansion</li>
-              <li>find funding, grants and incentives</li>
-              <li>understand UK regulations on employment, visas and tax</li>
-            </ul>
-          </div>
-        </div>
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-two-thirds">
-            <div class="govuk-inset-text">
-              Tell us a little bit about your company to access guides and contacts matched to your needs. It’s a 2 minute step by step process, free of charge, with immediate results.
-            </div>
-          </div>
-        </div>
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-two-thirds">
-            <a href="{% url 'international_online_offer:sector' %}" role="button" draggable="false" class="atlas-button" data-module="button">
-              Start now
-              <span class="atlas-button__icon">
-                <svg viewBox="0 0 13 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <path fill="currentColor" d="M2.893 20l9.834-10L2.893 0 0 2.921 6.976 10 0 17.079z"></path>
-                </svg>
-              </span>
-            </a>
-          </div>
-        </div>
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-two-thirds">
-            <h3 class="govuk-heading-m govuk-!-margin-top-4 govuk-!-margin-bottom-2">Personal Data</h3>
-            <p class="govuk-body">
-              We’ll never share your data with third parties. <a class="govuk-link" id="footer-terms-and-conditions"
-              href="{{ header_footer_urls.terms_and_conditions }}">View our website’s Terms and conditions</a>
-            </p>
-          </div>
-        </div>
+<div class="govuk-width-container">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Expand your business in the UK</h1>
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <p class="govuk-body">
+        Whatever your size and type of business, our online self-service tool can help you set up and grow in the UK. You can use it to:
+      </p>
+      <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+        <li>guide you through the practicalities, like setting up a company and  opening a bank account, in an easy checklist format</li>
+        <li>find the right location and staff for your business</li>
+        <li>connect with clients, partners and the right expert contacts to support your UK expansion</li>
+        <li>find funding, grants and incentives</li>
+        <li>understand UK regulations on employment, visas and tax</li>
+      </ul>
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-inset-text">
+        Tell us a little bit about your company to access guides and contacts matched to your needs. It’s a 2 minute step by step process, free of charge, with immediate results.
+      </div>
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <a href="{% url 'international_online_offer:sector' %}" role="button" draggable="false" class="atlas-button" data-module="button">
+        Start now
+        <span class="atlas-button__icon">
+          <svg viewBox="0 0 13 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <path fill="currentColor" d="M2.893 20l9.834-10L2.893 0 0 2.921 6.976 10 0 17.079z"></path>
+          </svg>
+        </span>
+      </a>
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h3 class="govuk-heading-m govuk-!-margin-top-4 govuk-!-margin-bottom-2">Personal Data</h3>
+      <p class="govuk-body">
+        We’ll never share your data with third parties. <a class="govuk-link" id="footer-terms-and-conditions"
+        href="{{ header_footer_urls.terms_and_conditions }}">View our website’s Terms and conditions</a>
+      </p>
+    </div>
+  </div>
+</div>
 {% endblock %}

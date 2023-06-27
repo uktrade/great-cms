@@ -78,10 +78,8 @@ number of extra CSS styles that were once sensible defaults:
 {% endblock %}
 
 {% block body_content_container %}
-    <div class="govuk-width-container govuk-!-padding-top-3">
-        {% include './includes/govuk/phase_banner.html' %}
-        {{ block.super }}
-    </div>
+    {% include './includes/govuk/phase_banner.html' %}
+    {{ block.super }}
 {% endblock %}
 
 {% block body_footer %}
