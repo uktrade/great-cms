@@ -17,9 +17,9 @@
                 {% if ea_release_two_enabled %}
                     {% is_logged_in as ea_user_logged_in %}
                     {% if ea_user_logged_in %}
-                        {% include_block page.hero_cta %}
+                        {% include_block page.hero_cta_logged_in %}
                     {% else %}
-                        {% include_block page.hero_cta_logged_out %}
+                        {% include_block page.hero_cta %}
                         <p>{{ page.hero_text_below_cta_logged_out | richtext }}</p>
                     {% endif %}
                 {% else %}

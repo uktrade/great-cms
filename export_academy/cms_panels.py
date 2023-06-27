@@ -7,8 +7,6 @@ from wagtail.admin.panels import (
 )
 from wagtailmedia.widgets import AdminMediaChooser
 
-from config import settings
-
 
 class ExportAcademyPagePanels:
     content_panels = [
@@ -20,6 +18,13 @@ class ExportAcademyPagePanels:
                 FieldPanel('hero_image'),
                 FieldPanel('hero_text'),
                 FieldPanel('hero_cta'),
+                FieldPanel('hero_text_below_cta_logged_out'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Logged in variations',
+            children=[
+                FieldPanel('hero_cta_logged_in'),
             ],
         ),
         MultiFieldPanel(
@@ -51,18 +56,6 @@ class ExportAcademyPagePanels:
             'next_cta',
         ),
     ]
-
-    if settings.FEATURE_EXPORT_ACADEMY_RELEASE_2:
-        content_panels.insert(
-            2,
-            MultiFieldPanel(
-                heading='Logged out variations',
-                children=[
-                    FieldPanel('hero_cta_logged_out'),
-                    FieldPanel('hero_text_below_cta_logged_out'),
-                ],
-            ),
-        )
 
     settings_panels = [
         FieldPanel('slug'),
