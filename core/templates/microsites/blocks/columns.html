@@ -8,9 +8,9 @@
 
 <div class="govuk-grid-row">
 {% for item in value %}
-<div class="govuk-grid-column-one-{% if value|length == 3 %}third{% else %}half{% endif %}">
+<div class="microsite-column govuk-grid-column-one-{% if value|length == 3 %}third{% else %}half{% endif %}">
     {%if item.value.image%}
-        <div class="govuk-!-margin-bottom-6 govuk-!-margin-top-6 great-scaled-full-img">
+        <div class="govuk-!-margin-bottom-6 {% if forloop.counter0 != 0 %}govuk-!-margin-top-6{% endif %} great-scaled-full-img">
             {% image item.value.image width-700 %}
         </div>
     {%endif%}
