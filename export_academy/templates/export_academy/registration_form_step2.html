@@ -1,21 +1,21 @@
-{% extends 'domestic/base.html' %}
+{% extends 'export_academy/registration_base.html' %}
 {% load breadcrumbs from component_tags %}
 {% load wagtailcore_tags %}
 {% load static %}
 
 {% block body_js %}
   {{ block.super }}
-  <script type="text/javascript" src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
-  <script type="text/javascript">
-    var likeToDiscussInputYes = document.getElementById('id_like_to_discuss_1');
-    var likeToDiscussOther = document.getElementById('id_like_to_discuss_other-container');
-    GOVUK.utils.toggleRadioOtherOnClick(likeToDiscussInputYes, likeToDiscussOther);
-  </script>
 
   <script type="text/javascript">
     const add_another_sector_button = document.getElementById('add_another_sector');
 
     document.querySelectorAll('[data-hidden]').forEach(el => el.style.display = 'none');
+
+    let hiddenFields = document.querySelectorAll('[data-hidden]');
+
+    if (hiddenFields && hiddenFields.length === 0) {
+        add_another_sector_button.style.display = 'none'
+    }
 
     $(add_another_sector_button).on("click", (e) => {
       e.preventDefault();
@@ -35,83 +35,33 @@
           }
       }
     });
-
-    function sectorSelects() {
-      const sector_select = document.getElementById('primary_sector_id');
-
-      document.querySelectorAll('[data-other-field]').forEach(el => el.style.display = 'none');
-
-      if (sector_select) {
-          sector_select.addEventListener('change', (e) => {
-              if (e.target.value === 'OTHER') {
-                  document.querySelector('[data-other-field]').style.display = 'block';
-              } else {
-                  document.querySelector('[data-other-field]').style.display = 'none';
-              }
-          })
-      }
-    }
-
-    sectorSelects();
   </script>
-
 
 {% endblock %}
 
-{% block content %}
-  {% block hero %}
-    {% with content_snippet as hero %}
-        {% include 'components/hero.html' with image=hero.image hero_title='' hero_text=hero.text %}
-    {% endwith %}
-  {% endblock %}
+{% block form_fields %}
 
-  {% breadcrumbs current_page_breadcrumb %}
-        <a href="/">great.gov.uk</a>
-        <a href="{% pageurl landing_page %}">Export Academy</a>
-        <a href="{% url 'export_academy:upcoming-events' %}">Events</a>
-  {% endbreadcrumbs %}
-
-
-  <div class="great great-bg-white">
-    <div class="great-container govuk-!-padding-top-4">
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full great-grid-column-column-two-thirds">
-              <div class="govuk-padding-top-30">
-                <a href="{% url back_url %}" class="govuk-link great-back-link">Back</a>
-              </div>
-              <p class="govuk-body govuk-!-margin-top-4">{{step_text}}</p>
-              <h1 class="govuk-heading-l govuk-!-margin-bottom-6">{{title}}</h1>
-              {% if email %}
-              <p class="govuk-padding-top-30 govuk-!-margin-bottom-30">Your registered email is <span class='bold'>{{ email }}</span></p>
-              {% endif %}
-              <div class="govuk-heading-l">
-                <form action="" method="post" autocomplete="off">
-                  {% csrf_token %}
-
-                  {% for field in form.visible_fields %}
-                    {% if field.name == 'sector' or field.name == 'second_sector' or field.name == 'third_sector' %}
-                      <div class="govuk-form-group govuk-!-margin-bottom-7 data-other-field {% if field.errors %}govuk-form-group--error{% endif %}" {% if not field.value %}data-hidden{% endif %}>
-                        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
-                      </div>
-                    {% elif field.name == 'export_product' %}
-                      <div class="govuk-!-margin-bottom-7">
-                        <a href="" class="govuk-link" role="button" id="add_another_sector">Add another sector</a>
-                      </div>
-                      <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
-                        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='govuk-radios great-radios' %}
-                      </div>
-                    {% else %}
-                      <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
-                          {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='govuk-radios great-radios' %}
-                      </div>
-                    {% endif %}
-                 {% endfor %}
-                  <button type="submit" class="govuk-button great-min-width-250-desktop">{{button_text}}</button>
-                </form>
-              </div>
-            </div>
-        </div>
-    </div>
-  </div>
+  {% for field in form.visible_fields %}
+    {% if field.name == 'sector' %}
+      <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+          {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
+      </div>
+    {% elif field.name == 'second_sector' or field.name == 'third_sector' %}
+      <div class="govuk-form-group govuk-!-margin-bottom-7 data-other-field {% if field.errors %}govuk-form-group--error{% endif %}" {% if not field.value %}data-hidden{% endif %}>
+          {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='great-text-select--arrow' %}
+      </div>
+    {% elif field.name == 'export_product' %}
+      <div class="govuk-!-margin-bottom-7">
+        <a href="" class="govuk-link" role="button" id="add_another_sector">Add another sector</a>
+      </div>
+      <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='govuk-radios great-radios' %}
+      </div>
+    {% else %}
+      <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='govuk-radios great-radios' %}
+      </div>
+    {% endif %}
+  {% endfor %}
 
 {% endblock %}
