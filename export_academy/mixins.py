@@ -5,6 +5,7 @@ from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.urls import reverse
 
 from config import settings
+from export_academy import forms
 from export_academy.models import Registration
 from sso_profile.enrolment.constants import RESEND_VERIFICATION
 
@@ -68,20 +69,50 @@ class RegistrationMixin:
 
 
 class VerificationLinksMixin:
-    def get_verification_link(self, uidb64, token, next_param=None):
+    def get_verification_link(self, uidb64, token, user_registered, next_param=None):
+        verification_params = f'?uidb64={uidb64}&token={token}'
+        url = self.request.build_absolute_uri(reverse('export_academy:signup-verification')) + verification_params
+
         if next_param is None:
             next_param = self.request.GET.get('next', '')
-        verification_params = f'?uidb64={uidb64}&token={token}'
-
         if next_param:
-            next_param = f'&next={next_param}'
-        return (
-            self.request.build_absolute_uri(reverse('export_academy:signup-verification'))
-            + verification_params
-            + next_param
-        )
+            url += f'&next={next_param}'
+        if user_registered:
+            url += '&existing-ea-user=true'
+        return url
 
     def get_resend_verification_link(self):
         return self.request.build_absolute_uri(
             reverse('sso_profile:resend-verification', kwargs={'step': RESEND_VERIFICATION})
         )
+
+
+class HandleNewAndExistingUsersMixin:
+    def user_ea_registered(self):
+        # TODO update to handle unique token
+        registration_id = self.request.GET.get('registration-id')
+        if registration_id:
+            try:
+                if Registration.objects.get(pk=registration_id):
+                    return True
+            except Exception:
+                return False
+        return False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['existing_ea_user'] = self.user_ea_registered()
+        return context
+
+    def get_form_class(self):
+        if self.user_ea_registered():
+            return forms.ChoosePasswordForm
+        else:
+            return forms.SignUpForm
+
+    def get_initial(self):
+        initial = super().get_initial()
+        if self.user_ea_registered():
+            user = Registration.objects.get(pk=self.request.GET.get('registration-id'))
+            initial['email'] = user.email
+        return initial

@@ -7,6 +7,7 @@ $signup-image: url(/static/images/signup-image.png);
 $banner: url(/static/images/great-banner-large.png);
 $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
 
+
 #sign-up,
 #login {
   h1 {
@@ -78,7 +79,14 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
 
     &.ea-signup-panel {
       background: $ea-signup-image;
-      background-size: auto 40%;
+      background-size: auto 38%;
+
+
+      &.hide_image_below_1200 {
+        @media screen and (max-width: 1200px) {
+          background: none;
+        }
+      }
     }
   }
 
@@ -86,10 +94,12 @@ $ea-signup-image: url(/static/images/export-academy-lady-light-green.png);
     padding: 6vh 60px;
     height: 100%;
   }
+
   .signup__info-panel__subheadings {
     i {
       color: #2397d4;
     }
+
     li {
       font-size: $font-size-h4;
       margin-bottom: $large-padding;
