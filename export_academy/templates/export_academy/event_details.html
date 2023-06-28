@@ -14,7 +14,7 @@
                 <div class="govuk-!-margin-top-4 govuk-!-margin-bottom-7 great-media-container">
                     {% render_video event_video %}
                 </div>
-                <h1 class="govuk-heading-l govuk-!-margin-bottom-6 event-title">{{event.name}}</h1>
+                <h1 class="govuk-heading-l govuk-!-margin-bottom-6" data-ga-event-title={{event.name}}>{{event.name}}</h1>
                 <p class="govuk-body govuk-!-margin-bottom-6 great-time-and-duration">
                     <time class="great-text-darker-grey">
                         {{ event.start_date|date:"D" }} {{ event.start_date|date:"j M" }} at {{ event.start_date|date:"g:iA"|lower }}

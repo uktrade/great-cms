@@ -71,9 +71,9 @@ dit.tagging.base = new function() {
             if (video.length>0) {
                 videoEvent['currentTime'] = video[0].currentTime;
             }
-            const eventTitle = document.querySelector('.event-title');
+            const eventTitle = document.querySelector('[data-ga-event-title]');
             if (eventTitle) {
-                videoEvent['eventTitle'] = eventTitle.innerText;
+                videoEvent['eventTitle'] = eventTitle.getAttribute('data-ga-event-title');
             }
             sendEvent(videoEvent);
         }
