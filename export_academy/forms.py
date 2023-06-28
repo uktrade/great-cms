@@ -60,6 +60,7 @@ class PersonalDetails(forms.Form):
         error_messages={
             'required': _('Enter your family name'),
         },
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
     phone_number = forms.CharField(
         label='UK telephone number',

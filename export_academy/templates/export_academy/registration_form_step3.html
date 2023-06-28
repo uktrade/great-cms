@@ -1,0 +1,24 @@
+{% extends 'export_academy/registration_base.html' %}
+{% load breadcrumbs from component_tags %}
+{% load wagtailcore_tags %}
+{% load static %}
+
+{% block body_js %}
+  {{ block.super }}
+{% endblock %}
+
+{% block form_fields %}
+
+  {% for field in form.visible_fields %}
+    {% if field.name == 'annual_turnover' or field.name == 'employee_count' %}
+      <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='govuk-radios great-radios' %}
+      </div>
+    {% else %}
+      <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
+        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+      </div>
+    {% endif %}
+  {% endfor %}
+
+{% endblock %}

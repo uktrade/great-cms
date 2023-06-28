@@ -1,37 +1,23 @@
-{% extends 'domestic/base.html' %}
+{% extends 'export_academy/registration_base.html' %}
 {% load breadcrumbs from component_tags %}
 {% load wagtailcore_tags %}
 {% load static %}
 
 {% block body_js %}
   {{ block.super }}
-  <script type="text/javascript" src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>
-  <script type="text/javascript">
-    var likeToDiscussInputYes = document.getElementById('id_like_to_discuss_1');
-    var likeToDiscussOther = document.getElementById('id_like_to_discuss_other-container');
-    GOVUK.utils.toggleRadioOtherOnClick(likeToDiscussInputYes, likeToDiscussOther);
-  </script>
-
 {% endblock %}
 
 {% block content %}
-  {% block hero %}
-    {% with content_snippet as hero %}
-        {% include 'components/hero.html' with image=hero.image hero_title='' hero_text=hero.text %}
-    {% endwith %}
-  {% endblock %}
 
-  {% breadcrumbs 'Registration' %}
-        <a href="/">great.gov.uk</a>
-        <a href="{% pageurl landing_page %}">Export Academy</a>
-        <a href="{% url 'export_academy:upcoming-events' %}">Events</a>
-  {% endbreadcrumbs %}
+   {% block content_top %}
+      {{ block.super }}
+   {% endblock %}
 
   <div class="great great-bg-white">
       <div class="great-container govuk-!-padding-top-4">
          <div class="govuk-grid-row">
             <div class="govuk-grid-column-full great-grid-column-column-two-thirds"></div>
-            <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">{{heading_text}}</h1>
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-6">{{heading_text}}</h1>
                <h2 class="govuk-heading-m govuk-padding-top-60 govuk-padding-bottom-60">Check your answers before submitting your registration</h2>
                <dl class="govuk-summary-list govuk-summary-list--no-border">
                   <div class="govuk-summary-list__row">
@@ -107,10 +93,10 @@
                   </div>
                   <div class="govuk-summary-list__row">
                      <dt class="govuk-summary-list__key">
-                        Your sector
+                        What is your sector?
                      </dt>
                      <dd class="govuk-summary-list__value width-quarter">
-                        {{ form_data.sector }}
+                        {{ sectors }}
                      </dd>
                   </div>
                   <div class="govuk-summary-list__row">
@@ -171,7 +157,7 @@
                <dl class="govuk-summary-list govuk-summary-list--no-border">
                   <div class="govuk-summary-list__row">
                      <dt class="govuk-summary-list__key">
-                        <h3>Finally</h3>
+                        <h3>And finally...</h3>
                      </dt>
                      <dd class="govuk-summary-list__value width-quarter">
                         <a class="govuk-link" href="{% url 'export_academy:registration-marketing-edit' %}">

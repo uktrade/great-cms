@@ -178,3 +178,7 @@ def calender_content():
         'E: exportacademy@trade.gov.uk <mailto:exportacademy@trade.gov.uk>\n'
         'T: +44 (0) 2045 665 651'
     )
+
+
+def get_sectors_list(sector: str, second_sector: str, third_sector: str) -> str:
+    return ', '.join([sector.capitalize(), second_sector.capitalize(), third_sector.capitalize()])
