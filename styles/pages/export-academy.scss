@@ -75,7 +75,8 @@
 
 .event-list-card {
     padding: 30px 15px 0px;
-    h2.past-year-seperator{
+
+    h2.past-year-seperator {
         padding-bottom: $large-padding;
         color: #AEAEAE;
     }
@@ -124,7 +125,24 @@
 
         @media only screen and (min-width: 1400px) {
             right: 0;
-            left: calc(50% + 200px);
+            left: calc(50% + 180px);
+        }
+
+        &.hide-logo-below-1200 {
+            @media only screen and (max-width: 1200px) {
+                display: none;
+            }
+        }
+    }
+
+    .standard-ea-sign-in-text {
+
+        >p,
+        span,
+        a {
+            @media screen and (min-width:1200px) and (max-width: 1310px) {
+                font-size: 20px;
+            }
         }
     }
 }
@@ -198,7 +216,7 @@
 
 .ea-landing-page {
     &.page-header {
-        .inner-header > div:first-child {
+        .inner-header>div:first-child {
             @media screen and (max-width: 640px) {
                 min-width: auto;
             }
@@ -238,12 +256,12 @@
 }
 
 .ea-listing-page {
-    > .page-header {
+    >.page-header {
         @media screen and (max-width: 640px) {
             height: auto;
         }
 
-        .inner-header > div:first-child {
+        .inner-header>div:first-child {
             @media screen and (max-width: 640px) {
                 min-width: auto;
                 padding-bottom: 0;
