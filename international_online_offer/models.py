@@ -1,6 +1,7 @@
 from django.contrib.postgres.fields import ArrayField
 from django.core.paginator import Paginator
 from django.db import models
+from django.db.models import Avg
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
 from taggit.models import TagBase, TaggedItemBase
@@ -205,8 +206,37 @@ class IOOArticlePage(BaseContentPage):
         if helpers.is_expand_your_business_registered(request):
             triage_data = get_triage_data(request.user.hashed_uuid)
             location = request.GET.get('location', triage_data.location)
+            region = helpers.get_salary_region_from_region(location)
+            sector_display = triage_data.get_sector_display()
 
-        context.update(triage_data=triage_data, location_form=LocationSelectForm(initial={'location': location}))
+            entry_salary = SalaryData.objects.filter(
+                region=region, vertical__iexact=sector_display, professional_level='Entry-level'
+            ).aggregate(Avg('median_salary'))
+            mid_salary = SalaryData.objects.filter(
+                region=region, vertical__iexact=sector_display, professional_level='Middle/Senior Management'
+            ).aggregate(Avg('median_salary'))
+            executive_salary = SalaryData.objects.filter(
+                region=region, vertical__iexact=sector_display, professional_level='Director/Executive'
+            ).aggregate(Avg('median_salary'))
+
+            entry_salary = entry_salary.get('median_salary__avg')
+            mid_salary = mid_salary.get('median_salary__avg')
+            executive_salary = executive_salary.get('median_salary__avg')
+
+            if entry_salary:
+                entry_salary = int(entry_salary)
+            if mid_salary:
+                mid_salary = int(mid_salary)
+            if executive_salary:
+                executive_salary = int(executive_salary)
+
+        context.update(
+            triage_data=triage_data,
+            location_form=LocationSelectForm(initial={'location': location}),
+            entry_salary=entry_salary,
+            mid_salary=mid_salary,
+            executive_salary=executive_salary,
+        )
         return context
 
 
@@ -320,3 +350,17 @@ class TradeAssociation(models.Model):
     website_link = models.CharField(max_length=255)
     sector = models.CharField(max_length=255)
     brief_description = models.CharField(max_length=255)
+
+
+class SalaryData(models.Model):
+    region = models.CharField(max_length=255)
+    vertical = models.CharField(max_length=255)
+    professional_level = models.CharField(max_length=255)
+    occupation = models.CharField(max_length=255)
+    code = models.CharField(max_length=255, null=True)
+    year = models.IntegerField(null=True)
+    number_of_jobs_thousands = models.IntegerField(null=True)
+    median_salary = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    median_annual_percentage_change = models.IntegerField(null=True)
+    mean_salary = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    mean_annual_percentage_change = models.IntegerField(null=True)

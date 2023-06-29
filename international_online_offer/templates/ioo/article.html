@@ -48,7 +48,7 @@
 </div>
 
 {% if 'find-expert-talent' in request.path%}
-  {% include './includes/salary.html' with salary_location_form=location_form %}
+  {% include './includes/salary.html' with salary_location_form=location_form entry_salary=entry_salary mid_salary=mid_salary executive_salary=executive_salary %}
 {% endif %}
 
 {% if 'find-the-right-location-and-premises' in request.path %}

@@ -16,11 +16,13 @@
 {% block content %}
 <div class="govuk-width-container">
     {% if not request.user.is_authenticated %}
-    <div class="govuk-grid-row" id="complete_contact_form_message">
-        <div class="govuk-grid-column-full">
-            {% include './includes/govuk/notification_banner.html' with css_class="govuk-notification-banner" banner_title="Important" banner_heading=complete_contact_form_message banner_link=complete_contact_form_link banner_link_text=complete_contact_form_link_text %}
+        {% if triage_data.is_high_value %}
+        <div class="govuk-grid-row" id="complete_contact_form_message">
+            <div class="govuk-grid-column-full">
+                {% include './includes/govuk/notification_banner.html' with css_class="govuk-notification-banner" banner_title="Important" banner_heading=complete_contact_form_message banner_link=complete_contact_form_link banner_link_text=complete_contact_form_link_text %}
+            </div>
         </div>
-    </div>
+        {% endif %}
     {% endif %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -43,7 +45,7 @@
                     {% if user_data.company_location %}
                     <h2 class="govuk-heading-m">{{ user_data.get_company_location_display }}</h2>
                     {% else %}
-                    <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:signup' %}">Sign up</a></p>
+                    <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:signup' %}">Add details</a></p>
                     {% endif %}
                 </div>
                 <div class="govuk-grid-column-one-quarter">
@@ -51,7 +53,7 @@
                     {% if user_data.company_name %}
                     <h2 class="govuk-heading-m">{{ user_data.company_name }}</h2>
                     {% else %}
-                    <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:signup' %}">Sign up</a></p>
+                    <p class="govuk-body govuk-!-padding-top-2"><a class="govuk-link" href="{% url 'international_online_offer:signup' %}">Add details</a></p>
                     {% endif %}
                 </div>
                 <div class="govuk-grid-column-one-quarter">

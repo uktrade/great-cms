@@ -2,7 +2,12 @@ from directory_forms_api_client import actions
 from django.conf import settings
 
 from directory_constants import sectors as directory_constants_sectors
-from international_online_offer.core import filter_tags, sectors as sectors
+from international_online_offer.core import (
+    choices,
+    filter_tags,
+    regions,
+    sectors as sectors,
+)
 
 
 def concat_filters(*filters):
@@ -157,6 +162,17 @@ def get_trade_assoication_sectors_from_sector(sector):
     }
     mapping = mappings.get(sector)
     return mapping if mapping else []
+
+
+def get_salary_region_from_region(region):
+    # This is the only salary region (from statista, external dataset)
+    # that is not quite an exact match to the eyb regions
+    if region == regions.EASTERN:
+        return 'East'
+
+    for v, d in choices.REGION_CHOICES:
+        if v == region:
+            return d
 
 
 def is_expand_your_business_registered(request):
