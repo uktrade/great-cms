@@ -478,6 +478,29 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
     form_class = contact_forms.DomesticExportSupportStep7Form
     template_name = 'domestic/contact/export-support/cya.html'
     success_url = reverse_lazy('contact:export-support-step-8')
+    subject = 'DPE Contact form'
+
+    def submit_enquiry(self, form):
+        cleaned_data = form.cleaned_data
+
+        form_data = {**self.initial_data, **cleaned_data}
+
+        sender = Sender(
+            email_address=form_data.get('email'),
+            country_code=None,
+        )
+
+        action = actions.ZendeskAction(
+            full_name=f"{form_data.get('first_name')} {form_data.get('last_name')}",
+            email_address=form_data.get('email'),
+            subject=self.subject,
+            service_name='great',
+            form_url=self.request.get_full_path(),
+            sender=sender,
+        )
+
+        response = action.save(form_data)
+        response.raise_for_status()
 
     def get_context_data(self, **kwargs):
         form_data = {}
@@ -503,6 +526,11 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
             steps=helpers.get_steps(form_data, second_step_edit_page, markets),
             back_link=reverse_lazy('contact:export-support-step-5'),
         )
+
+    def form_valid(self, form):
+        self.save_data(form)
+        self.submit_enquiry(form)
+        return super().form_valid(form)
 
 
 class DomesticExportSupportFormStep8View(FormView):
