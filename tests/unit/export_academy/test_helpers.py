@@ -1,3 +1,5 @@
+import base64
+import hashlib
 from datetime import timedelta
 
 import pytest
@@ -7,7 +9,7 @@ from django.utils import timezone
 from wagtail_factories import DocumentFactory
 
 from config import settings
-from export_academy import helpers
+from export_academy import helpers, models
 from tests.unit.export_academy import factories
 
 
@@ -235,3 +237,25 @@ def test_get_3_sectors_list():
     third_sector = 'third sector'
     sectors = helpers.get_sectors_list(primary_sector, second_sector, third_sector)
     assert sectors == 'Primary sector, Second sector, Third sector'
+
+
+@pytest.mark.django_db
+def test_get_registration_from_unique_link_success(test_registration):
+    idb64 = base64.b64encode(bytes(test_registration.external_id, 'utf-8'))
+    token = hashlib.sha256(test_registration.email.encode('UTF-8')).hexdigest()
+    assert helpers.get_registration_from_unique_link(token=token, idb64=idb64) == test_registration
+
+
+@pytest.mark.parametrize(
+    'external_id,email',
+    (
+        ('None', 'test@example.com'),
+        ('123456789', 'another@email.com'),
+        ('987654321', 'test@example.com'),
+    ),
+)
+@pytest.mark.django_db
+def test_get_registration_from_unique_link_failure(test_registration, external_id, email):
+    idb64 = base64.b64encode(bytes(external_id, 'utf-8'))
+    token = hashlib.sha256(email.encode('UTF-8')).hexdigest()
+    assert helpers.get_registration_from_unique_link(token=token, idb64=idb64) is None

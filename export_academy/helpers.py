@@ -1,3 +1,5 @@
+import base64
+import hashlib
 from functools import wraps
 
 from django.conf import settings
@@ -187,3 +189,16 @@ def get_sectors_list(sector: str, second_sector: str, third_sector: str) -> str:
     if third_sector:
         sector_list.append(third_sector.capitalize())
     return ', '.join(sector_list)
+
+
+def get_registration_from_unique_link(idb64, token):
+    external_id = base64.b64decode(idb64).decode('utf-8')
+    try:
+        registration = Registration.objects.get(external_id=external_id)
+        email_hash = hashlib.sha256(registration.email.encode('UTF-8'))
+        if email_hash.hexdigest() == token:
+            return registration
+        else:
+            return None
+    except Exception:
+        return None
