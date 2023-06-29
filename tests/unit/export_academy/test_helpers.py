@@ -211,3 +211,27 @@ def test_ics_button_is_primary_on_confirmation(user, test_future_event):
     buttons = helpers.get_buttons_for_event(user, test_future_event, on_confirmation=True)
 
     assert 'govuk-button--secondary' not in buttons['calendar_button']['classname']
+
+
+def test_get_1_sectors_list():
+    primary_sector = 'primary sector'
+    second_sector = ''
+    third_sector = ''
+    sectors = helpers.get_sectors_list(primary_sector, second_sector, third_sector)
+    assert sectors == 'Primary sector'
+
+
+def test_get_2_sectors_list():
+    primary_sector = 'primary sector'
+    second_sector = 'second sector'
+    third_sector = ''
+    sectors = helpers.get_sectors_list(primary_sector, second_sector, third_sector)
+    assert sectors == 'Primary sector, Second sector'
+
+
+def test_get_3_sectors_list():
+    primary_sector = 'primary sector'
+    second_sector = 'second sector'
+    third_sector = 'third sector'
+    sectors = helpers.get_sectors_list(primary_sector, second_sector, third_sector)
+    assert sectors == 'Primary sector, Second sector, Third sector'

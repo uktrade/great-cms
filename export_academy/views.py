@@ -24,7 +24,7 @@ from config import settings
 from core import mixins as core_mixins
 from core.templatetags.content_tags import format_timedelta
 from directory_sso_api_client import sso_api_client
-from export_academy import filters, forms, models
+from export_academy import filters, forms, helpers, models
 from export_academy.helpers import (
     calender_content,
     get_badges_for_event,
@@ -189,7 +189,7 @@ class DownloadCalendarView(GenericAPIView):
 class RegistrationPersonalDetails(core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView):
     form_class = forms.PersonalDetails
     model = models.Registration
-    template_name = 'export_academy/registration_form.html'
+    template_name = 'export_academy/registration_form_step1.html'
 
     def get_context_data(self, **kwargs):
         button_text = 'Continue'
@@ -205,6 +205,7 @@ class RegistrationPersonalDetails(core_mixins.GetSnippetContentMixin, Registrati
             landing_page=ExportAcademyHomePage.objects.first(),
             title='About you',
             email=self.request.user.email,
+            current_page_breadcrumb='About you',
         )
 
     def get_success_url(self):
@@ -220,7 +221,7 @@ class RegistrationPersonalDetails(core_mixins.GetSnippetContentMixin, Registrati
 class RegistrationExportExperience(core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView):
     form_class = forms.ExportExperience
     model = models.Registration
-    template_name = 'export_academy/registration_form.html'
+    template_name = 'export_academy/registration_form_step2.html'
 
     def get_context_data(self, **kwargs):
         button_text = 'Continue'
@@ -235,6 +236,7 @@ class RegistrationExportExperience(core_mixins.GetSnippetContentMixin, Registrat
             step_text='Step 2 of 4',
             landing_page=ExportAcademyHomePage.objects.first(),
             title='About your export experience',
+            current_page_breadcrumb='About your export experience',
         )
 
     def get_success_url(self):
@@ -250,7 +252,7 @@ class RegistrationExportExperience(core_mixins.GetSnippetContentMixin, Registrat
 class RegistrationBusinessDetails(core_mixins.GetSnippetContentMixin, RegistrationMixin, FormView):
     form_class = forms.BusinessDetails
     model = models.Registration
-    template_name = 'export_academy/registration_form.html'
+    template_name = 'export_academy/registration_form_step3.html'
 
     def get_context_data(self, **kwargs):
         button_text = 'Continue'
@@ -265,6 +267,7 @@ class RegistrationBusinessDetails(core_mixins.GetSnippetContentMixin, Registrati
             step_text='Step 3 of 4',
             landing_page=ExportAcademyHomePage.objects.first(),
             title='About your business',
+            current_page_breadcrumb='About your business',
         )
 
     def get_success_url(self):
@@ -284,7 +287,7 @@ class RegistrationMarketingSources(
 ):
     form_class = forms.MarketingSources
     model = models.Registration
-    template_name = 'export_academy/registration_form.html'
+    template_name = 'export_academy/registration_form_step4.html'
     notify_template = settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID
 
     def get_context_data(self, **kwargs):
@@ -300,6 +303,7 @@ class RegistrationMarketingSources(
             step_text='Step 4 of 4',
             landing_page=ExportAcademyHomePage.objects.first(),
             title='And finally...',
+            current_page_breadcrumb='And finally...',
         )
 
     def get_success_url(self):
@@ -357,6 +361,12 @@ class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixi
             landing_page=ExportAcademyHomePage.objects.first(),
             form_data=self.initial_data,
             email=self.request.user.email,
+            sectors=helpers.get_sectors_list(
+                self.initial_data['sector'],
+                self.initial_data['second_sector'],
+                self.initial_data['third_sector'],
+            ),
+            current_page_breadcrumb='Your answers',
         )
 
     def get_success_url(self):

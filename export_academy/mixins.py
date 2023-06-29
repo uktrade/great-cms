@@ -89,7 +89,7 @@ class VerificationLinksMixin:
 
 class HandleNewAndExistingUsersMixin:
     def user_ea_registered(self):
-        # TODO update to handle unique token
+        # TODO update to handle unique token.
         registration_id = self.request.GET.get('registration-id')
         if registration_id:
             try:
