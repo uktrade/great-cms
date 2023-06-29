@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-01 12:17+0100\n"
+"POT-Creation-Date: 2023-06-27 17:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
-#: forms.py:16
-#, fuzzy
-#| msgid "Select a region"
-msgid "Select a country"
-msgstr "Sélectionnez une région"
 
 #: forms.py:21
 msgid "Full name"
@@ -125,7 +119,7 @@ msgid "Enter your email address"
 msgstr "Entrez votre adresse e-mail"
 
 #: forms.py:442
-msgid "Company name"
+msgid "Company name (Optional)"
 msgstr "Nom de l'entreprise"
 
 #: forms.py:451
@@ -141,7 +135,7 @@ msgid "Enter your telephone number"
 msgstr "Entrez votre numéro de téléphone"
 
 #: forms.py:462
-msgid "Position at company"
+msgid "Position at company (Optional)"
 msgstr "Poste dans l'entreprise"
 
 #: forms.py:471
@@ -163,3 +157,8 @@ msgstr "Secteur"
 #: templates/domestic/ukef/includes/card.html:11
 msgid "Opens in a new window"
 msgstr "S'ouvre dans une nouvelle fenêtre"
+
+#, fuzzy
+#~| msgid "Select a region"
+#~ msgid "Select a country"
+#~ msgstr "Sélectionnez une région"
