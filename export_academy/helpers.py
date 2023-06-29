@@ -181,4 +181,9 @@ def calender_content():
 
 
 def get_sectors_list(sector: str, second_sector: str, third_sector: str) -> str:
-    return ', '.join([sector.capitalize(), second_sector.capitalize(), third_sector.capitalize()])
+    sector_list = [sector.capitalize()]
+    if second_sector:
+        sector_list.append(second_sector.capitalize())
+    if third_sector:
+        sector_list.append(third_sector.capitalize())
+    return ', '.join(sector_list)

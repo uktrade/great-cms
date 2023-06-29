@@ -11,8 +11,10 @@
 
   {% for field in form.visible_fields %}
     {% if field.name == 'annual_turnover' or field.name == 'employee_count' %}
-      <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">
-        {% include 'domestic/contact/includes/govuk-form-field.html' with field=field inputWrapperClass='govuk-radios great-radios' %}
+      <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %} govuk-!-margin-bottom-2">
+        <fieldset class="govuk-fieldset">
+            {% include 'domestic/contact/includes/govuk-form-field.html' with field=field %}
+        </fieldset>
       </div>
     {% else %}
       <div class="govuk-form-group govuk-!-margin-bottom-7 {% if field.errors %}govuk-form-group--error{% endif %}">

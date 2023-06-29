@@ -41,11 +41,13 @@
                 <p class="govuk-padding-top-30 govuk-!-margin-bottom-30">Your registered email is <span class='bold'>{{ email }}</span></p>
                 {% endif %}
 
-                  <form action="" method="post" autocomplete="off">
-                    {% csrf_token %}
-                    {{ form }}
-                    <button type="submit" class="govuk-button great-min-width-250-desktop">{{button_text}}</button>
-                  </form>
+                <form method="post" autocomplete="off">
+                  {% csrf_token %}
+
+                  {% block form_fields %}{% endblock %}
+
+                  <button type="submit" class="govuk-button great-min-width-250-desktop">{{button_text}}</button>
+              </form>
 
                   <div class="govuk-padding-top-30">
                     <a href="{% url back_url %}" class="govuk-link great-back-link">Back</a>
