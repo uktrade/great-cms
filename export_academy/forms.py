@@ -44,7 +44,7 @@ PHONE_ERROR_MESSAGE = 'Please enter a valid UK phone number'
 
 class PersonalDetails(forms.Form):
     first_name = forms.CharField(
-        label=_('Given name'),
+        label=_('First name'),
         min_length=2,
         max_length=50,
         error_messages={
