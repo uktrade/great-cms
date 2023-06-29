@@ -6,6 +6,12 @@
 
   document.querySelectorAll('[data-hidden]').forEach(el => el.style.display = 'none');
 
+  const hiddenFields = document.querySelectorAll('[data-hidden]');
+
+  if (hiddenFields && hiddenFields.length === 0) {
+    add_another_sector_button.style.display = 'none';
+  }
+
   $(add_another_sector_button).on("click", (e) => {
     e.preventDefault();
 
