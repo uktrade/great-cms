@@ -495,6 +495,7 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
             email_address=form_data.get('email'),
             subject=self.subject,
             service_name='great',
+            subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
             form_url=self.request.get_full_path(),
             sender=sender,
         )
