@@ -19,7 +19,7 @@
   {% block content_top %}
     {% block hero %}
       {% with content_snippet as hero %}
-          {% include 'components/hero.html' with image=hero.image hero_title='' hero_text=hero.text %}
+          {% include 'components/hero.html' with image=hero.image hero_title=hero.title hero_text=hero.text %}
       {% endwith %}
     {% endblock %}
 
@@ -33,7 +33,7 @@
     <div class="great great-bg-white govuk-!-margin-top-4">
       <div class="great-container govuk-!-padding-top-4">
           <div class="govuk-grid-row">
-              <div class="govuk-grid-column-one-half">
+              <div class="ovuk-grid-column-full great-grid-column-column-two-thirds">
 
                 <p class="govuk-body govuk-!-margin-top-4">{{step_text}}</p>
                 <h1 class="govuk-heading-l govuk-!-margin-bottom-6">{{title}}</h1>
