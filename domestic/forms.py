@@ -439,7 +439,7 @@ class CampaignShortForm(GovNotifyEmailActionMixin, forms.Form):
         required=True,
     )
 
-    company_name = forms.CharField(label=_('Company name'), min_length=2, max_length=100, required=False)
+    company_name = forms.CharField(label=_('Company name (Optional)'), min_length=2, max_length=100, required=False)
 
 
 def get_sector_names():
@@ -459,7 +459,7 @@ class CampaignLongForm(CampaignShortForm):
     )
 
     position = forms.CharField(
-        label=_('Position at company'),
+        label=_('Position at company (Optional)'),
         min_length=2,
         max_length=100,
         required=True,

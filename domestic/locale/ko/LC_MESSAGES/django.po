@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-01 12:17+0100\n"
+"POT-Creation-Date: 2023-06-27 17:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-#: forms.py:16
-#, fuzzy
-#| msgid "Select a region"
-msgid "Select a country"
-msgstr "지역 선택"
 
 #: forms.py:21
 msgid "Full name"
@@ -121,7 +115,7 @@ msgid "Enter your email address"
 msgstr "이메일 주소를 입력하세요"
 
 #: forms.py:442
-msgid "Company name"
+msgid "Company name (Optional)"
 msgstr "회사명"
 
 #: forms.py:451
@@ -137,7 +131,8 @@ msgid "Enter your telephone number"
 msgstr "전화번호를 입력하세요"
 
 #: forms.py:462
-msgid "Position at company"
+
+msgid "Position at company (Optional)"
 msgstr "직위"
 
 #: forms.py:471
@@ -159,3 +154,8 @@ msgstr "산업 분야"
 #: templates/domestic/ukef/includes/card.html:11
 msgid "Opens in a new window"
 msgstr "새 창에서 열림"
+
+#, fuzzy
+#~| msgid "Select a region"
+#~ msgid "Select a country"
+#~ msgstr "지역 선택"
