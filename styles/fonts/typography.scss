@@ -69,8 +69,8 @@
 
 $main-text-font: 'Noto Regular', Arial, Helvetica, Verdana;
 $header-font: 'Noto SemiBold', Arial, Helvetica, Verdana;
-$arabic-main-text-font: 'Noto Arabic Regular', Arial, Helvetica, Verdana;
-$arabic-header-text-font: 'Noto Arabic SemiBold', Arial, Helvetica, Verdana;
+$arabic-main-text-font: 'Noto Arabic Regular', 'Noto Regular',  Arial, Helvetica, Verdana;
+$arabic-header-text-font: 'Noto Arabic SemiBold', 'Noto SemiBold', Arial, Helvetica, Verdana;
 
 //font-weight
 $font-weight-standard: 400;
