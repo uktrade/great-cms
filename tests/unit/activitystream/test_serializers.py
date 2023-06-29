@@ -312,6 +312,7 @@ def test_ukea_registration_serializer():
             'modified': instance.modified.isoformat(),
             'email': instance.email,
             'externalId': instance.external_id,
+            'hashedSsoId': instance.hashed_sso_id,
             'firstName': instance.first_name,
             'lastName': instance.last_name,
             'data': instance.data,
