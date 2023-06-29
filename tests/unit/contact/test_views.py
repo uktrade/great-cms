@@ -1523,7 +1523,7 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
             },
             reverse('contact:export-support-step-3'),
             {
-                'type': 'Choose a type of organisation',
+                'type': 'Choose a type of exporter',
                 'annual_turnover': 'Please enter a turnover amount',
                 'sector_primary': 'Choose a sector',
             },
@@ -1588,10 +1588,22 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
                 'contacted_gov_departments': 'Choose an option',
             },
         ),
+        (
+            reverse('contact:export-support-step-8'),
+            {
+                'help_us_improve': 'easy',
+            },
+            reverse('contact:export-support-step-8'),
+            {
+                'help_us_improve': 'Choose an option',
+            },
+        ),
     ),
 )
 @pytest.mark.django_db
+@mock.patch('directory_forms_api_client.actions.ZendeskAction')
 def test_domestic_export_support_form_pages(
+    mock_action_class,
     page_url,
     form_data,
     redirect_url,
@@ -1671,7 +1683,7 @@ def test_domestic_export_support_form_pages(
             },
             reverse('contact:export-support-step-7'),
             {
-                'type': 'Choose a type of organisation',
+                'type': 'Choose a type of exporter',
                 'annual_turnover': 'Please enter a turnover amount',
                 'sector_primary': 'Choose a sector',
             },
@@ -1727,7 +1739,9 @@ def test_domestic_export_support_form_pages(
     ),
 )
 @pytest.mark.django_db
+@mock.patch('directory_forms_api_client.actions.ZendeskAction')
 def test_domestic_export_support_edit_form_pages(
+    mock_action_class,
     page_url,
     form_data,
     redirect_url,

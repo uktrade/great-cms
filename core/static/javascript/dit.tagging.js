@@ -1,1 +1,208 @@
-Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector),Element.prototype.closest||(Element.prototype.closest=function(t){var e=this;do{if(Element.prototype.matches.call(e,t))return e;e=e.parentElement||e.parentNode}while(null!==e&&1===e.nodeType);return null}),dit=window.dit||{},dit.tagging=dit.tagging||{},dit.tagging.base=new function(){this.init=function(t){function e(t){var e=t.target.closest("a");e&&("click"===t.type||"keydown"===t.type&&"Enter"===t.key)&&function(t){o(function(t,e,n,r,a){var o=i(t,e,n,r);return o.destination=a,o}(t.getAttribute("data-ga-action")||"clickLink",t.getAttribute("data-ga-type")||function(t){return function(t){for(var e=["button","cta"],n=t.getAttribute("class")||"",r=0;r<e.length;r++)if(-1!==n.indexOf(e[r]))return!0;return!1}(t)?"CTA":"PageLink"}(t),t.getAttribute("data-ga-element")||a(t),t.getAttribute("data-ga-value")||function(t){return function(t){for(var e=["h1","h2","h3","h4","h5","span","p"],n=0;n<e.length;n++){var r=t.querySelector(e[n]);if(r)return r.textContent.trim()}return null}(t)||t.textContent.trim()}(t),t.getAttribute("href")))}(e)}function n(t){var e;e=t.target,o(i(t.type,e.getAttribute("data-ga-type")||"video",e.getAttribute("data-ga-element")||a(e),e.getAttribute("data-ga-value")||function(t){return t.querySelector("source").getAttribute("src")}(e)))}function r(t){var e,n,r,u,c,d,g;e=t.target,n=e.getAttribute("data-ga-action")||"submit",r=e.getAttribute("data-ga-type")||"form",u=e.getAttribute("data-ga-element")||a(e),c=e.getAttribute("data-ga-value")||function(t){return t.getAttribute("action")||""}(e),d=null,(g=e.getAttribute("data-ga-include-form-data"))&&"true"===g.toLowerCase()&&(d=Array.from(new FormData(e),(function(t){return t.map(encodeURIComponent).join("=")})).join("&")),o(function(t,e,n,r,a){var o=i(t,e,n,r);return a&&(o.formData=a),o}(n,r,u,c,d))}function a(t){var e=t.closest("[data-ga-section]"),n=e&&e.getAttribute("data-ga-section");if(n)return n;var r=t.closest("[id]");return r&&r.getAttribute("id")||""}function i(t,e,n,r){return{event:"gaEvent",action:t,type:e,element:n,value:r}}function o(e){t&&console.log(e),window.dataLayer.push(e)}window.addEventListener("DOMContentLoaded",(()=>{document.addEventListener("click",e),document.addEventListener("keydown",e),document.querySelectorAll("video").forEach((function(t){t.addEventListener("play",n),t.addEventListener("pause",n),t.addEventListener("ended",n)})),document.addEventListener("submit",r)}))}};
+// This tagging js is copied from components and now the home for tagging in great-cms
+// Polyfill for 'includes' in IE.
+if (!String.prototype.includes) {
+    String.prototype.includes = function(search, start) {
+        if (typeof start !== 'number') {
+          start = 0;
+        }
+
+        if (start + search.length > this.length) {
+          return false;
+        } else {
+          return this.indexOf(search, start) !== -1;
+        }
+    }
+}
+
+dit.tagging = dit.tagging || {};
+dit.tagging.base = new function() {
+    this.init = function(debug_mode) {
+        $(document).ready(function() {
+            addTaggingForLinks();
+            addTaggingForVideos();
+            addTaggingForForms();
+        });
+
+        function addTaggingForLinks() {
+            var leftMouseButton = 0;
+            var middleMouseButton = 1;
+            $('a')
+                .on('mouseup', function(event) {
+                    if (event.button === leftMouseButton || event.button === middleMouseButton) {
+                        sendLinkEvent($(this));
+                    }
+                })
+                .on('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        sendLinkEvent($(this));
+                    }
+                });
+        }
+
+        function addTaggingForVideos() {
+            $("#hero-campaign-section-watch-video-button").click(function() { sendVideoEvent($(this), 'play') });
+            $('video')
+                .on('play', function() { sendVideoEvent($(this), 'play') })
+                .on('pause', function() { sendVideoEvent($(this), 'pause') })
+                .on('ended', function() { sendVideoEvent($(this), 'ended') })
+        }
+
+        function addTaggingForForms() {
+            $('form').on('submit', function() { sendFormEvent($(this)) })
+        }
+
+        function sendLinkEvent(link) {
+            var action = link.data('ga-action') || 'clickLink';
+            var type = link.data('ga-type') || inferLinkType(link);
+            var element = link.data('ga-element') || inferElement(link);
+            var value = link.data('ga-value') || inferLinkValue(link);
+            var destination = link.attr('href');
+
+            sendEvent(linkEvent(action, type, element, value, destination));
+        }
+
+        function sendVideoEvent(video, action) {
+            var type = video.data('ga-type') || 'video';
+            var element = video.data('ga-element') || inferElement(video);
+            var value = video.data('ga-value') || inferVideoValue(video);
+
+            var videoEvent = event(action, type, element, value)
+
+            if (video.length>0) {
+                videoEvent['currentTime'] = video[0].currentTime;
+            }
+            const eventTitle = document.querySelector('[data-ga-event-title]');
+            if (eventTitle) {
+                videoEvent['eventTitle'] = eventTitle.getAttribute('data-ga-event-title');
+            }
+            sendEvent(videoEvent);
+        }
+
+        function sendFormEvent(form) {
+            var action = form.data('ga-action') || 'submit';
+            var type = form.data('ga-type') || 'form';
+            var element = form.data('ga-element') || inferElement(form);
+            var value = form.data('ga-value') || inferFormValue(form);
+
+            var includeFormData = form.data('ga-include-form-data');
+            var formData = includeFormData && includeFormData.toLowerCase() === "true" ? form.serialize() : null;
+
+            sendEvent(formEvent(action, type, element, value, formData));
+        }
+
+        function inferLinkType(link) {
+            if (isCta(link)) {
+                return 'CTA';
+            }
+
+            if (isCard(link)) {
+                return 'Card';
+            }
+
+            return 'PageLink';
+        }
+
+        function inferElement(domObject) {
+            var sectionTitle = domObject.closest('[data-ga-section]').data('ga-section');
+            if (sectionTitle) {
+                return sectionTitle;
+            }
+
+            var sectionId = domObject.closest('[id]').attr('id');
+            if (sectionId) {
+                return sectionId;
+            }
+
+            return '';
+        }
+
+        function inferLinkValue(link) {
+            var title = guessTitleFromLinkContents(link);
+            if (title) {
+                return title;
+            }
+            return link.text().trim();
+        }
+
+        function inferVideoValue(video) {
+            return video.find('source').attr('src');
+        }
+
+        function inferFormValue(form) {
+            return form.attr('action') || '';
+        }
+
+        function isCta(link) {
+            var ctaClasses = ['button', 'cta'];
+            var linkClasses = link.attr('class') || '';
+            for (var index=0; index < ctaClasses.length; index++) {
+                if (linkClasses.includes(ctaClasses[index])) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function isCard(link) {
+            if (link.text()) {
+                return false;
+            }
+
+            var cardClasses = ['card'];
+            var linkClasses = link.css();
+            for (var index=0; index < cardClasses.length; index++) {
+                if (linkClasses.includes(cardClasses[index])) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function guessTitleFromLinkContents(link) {
+            var titleElements = ['h1', 'h2', 'h3', 'h4', 'h5', 'span', 'p'];
+
+            for (var index=0; index < titleElements.length; index++) {
+                if (link.find(titleElements[index]).text()) {
+                    return link.find(titleElements[index]).text().trim();
+                }
+            }
+            return null;
+        }
+
+        function event(action, type, element, value) {
+            return {
+                'event': 'gaEvent',
+                'action': action,
+                'type': type,
+                'element': element,
+                'value': value
+            }
+        }
+
+        function linkEvent(action, type, element, value, destination) {
+            var linkEvent = event(action, type, element, value);
+            linkEvent['destination'] = destination;
+
+            return linkEvent;
+        }
+
+        function formEvent(action, type, element, value, data) {
+            var formEvent = event(action, type, element, value);
+
+            if (data) {
+                formEvent['formData'] = data;
+            }
+
+            return formEvent;
+        }
+
+        function sendEvent(event) {
+            if (debug_mode) {
+                console.log(event);
+            }
+
+            window.dataLayer.push(event);
+        }
+    }
+
+};

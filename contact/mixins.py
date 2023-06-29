@@ -65,6 +65,8 @@ class DomesticExportSupportStep2Mixin(forms.Form):
             ('50-249', '50 to 249'),
             ('250-499', '250 to 499'),
             ('500plus', 'More than 500'),
+            ('dontknow', "I don't know"),
+            ('prefernottosay', "I'd prefer not to say"),
         ),
         error_messages={
             'required': 'Choose number of employees',

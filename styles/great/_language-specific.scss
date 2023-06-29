@@ -1,0 +1,32 @@
+.great {
+    .arabic {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .govuk-button,
+        .great-font-bold
+         {
+          font-family: $arabic-header-text-font;
+        }
+    
+        p:not(.govuk-error-message),
+        span:not(.great-badge, .great-text-darker-grey, .govuk-details__summary-text),
+        ol,
+        ul,
+        a,
+        .govuk-hint,
+        .govuk-error-message,
+        .govuk-radios__label,
+        .govuk-details,
+        .govuk-link {
+          font-family: $arabic-main-text-font;
+        }
+      }
+}       
+
+.microsite .arabic .govuk-form-label {
+    font-family: $arabic-header-text-font;
+}

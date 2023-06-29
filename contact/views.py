@@ -478,6 +478,30 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
     form_class = contact_forms.DomesticExportSupportStep7Form
     template_name = 'domestic/contact/export-support/cya.html'
     success_url = reverse_lazy('contact:export-support-step-8')
+    subject = 'DPE Contact form'
+
+    def submit_enquiry(self, form):
+        cleaned_data = form.cleaned_data
+
+        form_data = {**self.initial_data, **cleaned_data}
+
+        sender = Sender(
+            email_address=form_data.get('email'),
+            country_code=None,
+        )
+
+        action = actions.ZendeskAction(
+            full_name=f"{form_data.get('first_name')} {form_data.get('last_name')}",
+            email_address=form_data.get('email'),
+            subject=self.subject,
+            service_name='great',
+            subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
+            form_url=self.request.get_full_path(),
+            sender=sender,
+        )
+
+        response = action.save(form_data)
+        response.raise_for_status()
 
     def get_context_data(self, **kwargs):
         form_data = {}
@@ -504,10 +528,24 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
             back_link=reverse_lazy('contact:export-support-step-5'),
         )
 
+    def form_valid(self, form):
+        self.save_data(form)
+        self.submit_enquiry(form)
+        return super().form_valid(form)
 
-class DomesticExportSupportFormStep8View(contact_mixins.ExportSupportFormMixin, FormView):
-    form_class = contact_forms.DomesticExportSupportStep7Form
-    template_name = 'domestic/contact/export-support/cya.html'
+
+class DomesticExportSupportFormStep8View(FormView):
+    form_class = contact_forms.DomesticExportSupportStep8Form
+    template_name = 'domestic/contact/export-support/confirmation.html'
+    success_url = reverse_lazy('contact:export-support-step-8')
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            heading_text='Thank you for your enquiry',
+            strapline_text="We've sent a confirmation email to the email address you provided.",
+            button_text='Submit feedback',
+        )
 
 
 class InternationalFormView(
