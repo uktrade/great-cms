@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-31 16:11+0100\n"
+"POT-Creation-Date: 2023-06-27 15:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,14 +23,18 @@ msgid "great.gov.uk international"
 msgstr "great.gov.uk Internacional"
 
 #: models.py:68
+msgid "Description"
+msgstr ""
+
+#: models.py:72
 msgid "Transcript"
 msgstr "Transcripción"
 
-#: models.py:72
+#: models.py:76
 msgid "English subtitles"
 msgstr "Subtítulos en inglés"
 
-#: models.py:1548
+#: models.py:1552
 msgid "Home"
 msgstr "Inicio"
 
@@ -117,11 +121,11 @@ msgstr "LinkedIn"
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: templates/microsites/blocks/streamfield.html:17
+#: templates/microsites/blocks/streamfield.html:19
 msgid "Information has been submitted successfully"
 msgstr "La información ha sido enviada con éxito"
 
-#: templates/microsites/blocks/streamfield.html:24
+#: templates/microsites/blocks/streamfield.html:26
 msgid "Submit"
 msgstr "Entregar"
 
@@ -138,7 +142,7 @@ msgstr ""
 "href=\"%(video_url)s\">enlace al video</a> en su lugar.</p>\n"
 "                  "
 
-#: templates/microsites/blocks/video.html:26
+#: templates/microsites/blocks/video.html:31
 msgid "View video transcript"
 msgstr "Ver transcripción del video"
 
@@ -146,11 +150,11 @@ msgstr "Ver transcripción del video"
 msgid "Last updated:"
 msgstr "Última actualización:"
 
-#: templates/microsites/includes/microsite_menu_button.html:13
+#: templates/microsites/includes/microsite_menu_button.html:14
 msgid "Menu"
 msgstr "Menú"
 
-#: templates/microsites/includes/microsite_related_content_list.html:9
+#: templates/microsites/includes/microsite_related_content_list.html:10
 msgid "Related content"
 msgstr "Contenido relacionado"
 
