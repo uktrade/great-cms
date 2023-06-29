@@ -15,6 +15,7 @@ from core.models import CMSGenericPage
 from directory_constants.choices import COUNTRY_CHOICES
 from domestic.models import BaseContentPage
 from international_online_offer.core import choices, constants, helpers
+from international_online_offer.forms import LocationSelectForm
 
 
 def get_triage_data(hashed_uuid):
@@ -198,6 +199,15 @@ class IOOArticlePage(BaseContentPage):
         FieldPanel('article_body'),
         FieldPanel('tags'),
     ]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        if helpers.is_expand_your_business_registered(request):
+            triage_data = get_triage_data(request.user.hashed_uuid)
+            location = request.GET.get('location', triage_data.location)
+
+        context.update(triage_data=triage_data, location_form=LocationSelectForm(initial={'location': location}))
+        return context
 
 
 class IOOTradePage(BaseContentPage):

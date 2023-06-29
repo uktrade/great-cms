@@ -157,3 +157,14 @@ def get_trade_assoication_sectors_from_sector(sector):
     }
     mapping = mappings.get(sector)
     return mapping if mapping else []
+
+
+def is_expand_your_business_registered(request):
+    if not hasattr(request, 'user'):
+        return False
+
+    if not request.user.is_authenticated:
+        return False
+
+    # Add check that email exists in eyb user db table
+    return True

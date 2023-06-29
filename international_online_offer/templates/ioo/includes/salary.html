@@ -1,0 +1,56 @@
+{% load wagtailcore_tags %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full govuk-!-padding-6 salary-component">
+      <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <h2 class="govuk-heading-l">{{ triage_data.get_sector_display }} salaries</h2>
+          </div>
+        </div>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <p class="govuk-body-l">
+              These figures show typical mid-point salaries from a range of jobs at a similar level. Choose a different location to compare salaries.
+            </p>
+          </div>
+        </div>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <form class="salary-location-form" action="" method="GET">
+              {{ salary_location_form }}
+              <button type="submit" class="atlas-button" id="salary-location-submit">Change</button>
+            </form>
+          </div>
+        </div>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full govuk-!-margin-3 govuk-!-padding-8 salary-component-body">
+            <div class="govuk-grid-row">
+              <div class="govuk-grid-column-one-third">
+                <p class="govuk-heading-m govuk-!-font-weight-regular">Entry level</p>
+                <p class="govuk-heading-m"><span class="govuk-heading-l salary-text">£30,000</span> per year</p>
+                <p class="govuk-body body-text">For professions like bartender, waitress, cook</p>
+              </div>
+              <div class="govuk-grid-column-one-third">
+                <p class="govuk-heading-m govuk-!-font-weight-regular">Mid level</p>
+                <p class="govuk-heading-m"><span class="govuk-heading-l salary-text">£60,000</span> per year</p>
+                <p class="govuk-body body-text">For professions like accountant, lawyer, software engineer</p>
+              </div>
+              <div class="govuk-grid-column-one-third">
+                <p class="govuk-heading-m govuk-!-font-weight-regular">Executive level</p>
+                <p class="govuk-heading-m"><span class="govuk-heading-l salary-text">£90,000</span> per year</p>
+                <p class="govuk-body body-text">For professions like director, vice presidents, chief executives</p>
+              </div>
+            </div>
+            <div class="govuk-grid-row">
+              <div class="govuk-grid-column-full">
+                <span class="govuk-body body-text source-text">
+                  Source: Statista full company name and year<br>
+                  Figures are reflecting 2023 Median Gross Salaries
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
