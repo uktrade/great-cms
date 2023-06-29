@@ -14,7 +14,7 @@ from django.utils.translation import gettext_lazy as _
 from great_components import forms
 from wagtail.admin.forms import WagtailAdminModelForm
 
-from contact import constants
+from contact import constants, widgets as contact_widgets
 from core.validators import is_valid_uk_postcode
 from directory_constants.choices import COUNTRY_CHOICES
 from regex import PHONE_NUMBER_REGEX
@@ -113,7 +113,7 @@ class ExportExperience(forms.Form):
             ('I have exported in the last 12 months', 'I have exported in the last 12 months'),
             ('I do not have a product for export', 'I do not have a product for export'),
         ),
-        widget=forms.RadioSelect(attrs={'id': 'hiring-select'}),
+        widget=contact_widgets.GreatRadioSelect(attrs={'id': 'hiring-select'}),
         error_messages={'required': _('Please answer this question')},
     )
 
@@ -151,7 +151,7 @@ class ExportExperience(forms.Form):
             ('Both', 'Both'),
             ("I don't know", "I don't know"),
         ),
-        widget=forms.RadioSelect,
+        widget=contact_widgets.GreatRadioSelect,
         error_messages={'required': _('Please answer this question')},
     )
 
@@ -188,7 +188,7 @@ class BusinessDetails(forms.Form):
             ("I don't know", "I don't know"),
             ("I'd prefer not to say", "I'd prefer not to say"),
         ),
-        widget=forms.RadioSelect,
+        widget=contact_widgets.GreatRadioSelect,
         error_messages={'required': _('Please answer this question')},
     )
 
@@ -201,7 +201,7 @@ class BusinessDetails(forms.Form):
             ('not sure', "I don't know"),
             ('prefer not to say', "I'd prefer not to say"),
         ),
-        widget=forms.RadioSelect,
+        widget=contact_widgets.GreatRadioSelect,
         error_messages={'required': _('Please answer this question')},
     )
 
@@ -260,24 +260,8 @@ class EventAdminModelForm(WagtailAdminModelForm):
         return self._clean_field('live')
 
 
-class ChoosePasswordForm(forms.Form):
-    email = forms.EmailField(label='Email address choose password', required=True, widget=HiddenInput)
-    password = forms.CharField(
-        widget=PasswordInput,
-        label='Password',
-        error_messages={
-            'required': 'Enter a password',
-        },
-    )
-
-
 class SignUpForm(forms.Form):
-    email = forms.EmailField(
-        label='Email address',
-        error_messages={
-            'required': 'Enter an email address',
-        },
-    )
+    email = forms.EmailField(label='Email address', required=True, widget=HiddenInput)
     password = forms.CharField(
         widget=PasswordInput,
         label='Password',
