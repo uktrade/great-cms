@@ -6,6 +6,7 @@ import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.utils.encoding import force_str
 from wagtail_factories import DocumentFactory
 
 from config import settings
@@ -22,6 +23,15 @@ def test_future_event():
         completed=None,
         name='Test event name',
     )
+
+
+@pytest.fixture
+def test_registration():
+    registration = models.Registration(
+        first_name='test', last_name='test', email='test@example.com', external_id='123456789'
+    )
+    registration.save()
+    return registration
 
 
 @pytest.mark.django_db
@@ -241,7 +251,7 @@ def test_get_3_sectors_list():
 
 @pytest.mark.django_db
 def test_get_registration_from_unique_link_success(test_registration):
-    idb64 = base64.b64encode(bytes(test_registration.external_id, 'utf-8'))
+    idb64 = force_str(base64.b64encode(bytes(test_registration.external_id, 'utf-8')))
     token = hashlib.sha256(test_registration.email.encode('UTF-8')).hexdigest()
     assert helpers.get_registration_from_unique_link(token=token, idb64=idb64) == test_registration
 
@@ -249,13 +259,13 @@ def test_get_registration_from_unique_link_success(test_registration):
 @pytest.mark.parametrize(
     'external_id,email',
     (
-        ('None', 'test@example.com'),
+        ('', 'test@example.com'),
         ('123456789', 'another@email.com'),
         ('987654321', 'test@example.com'),
     ),
 )
 @pytest.mark.django_db
 def test_get_registration_from_unique_link_failure(test_registration, external_id, email):
-    idb64 = base64.b64encode(bytes(external_id, 'utf-8'))
+    idb64 = force_str(base64.b64encode(bytes(external_id, 'utf-8')))
     token = hashlib.sha256(email.encode('UTF-8')).hexdigest()
     assert helpers.get_registration_from_unique_link(token=token, idb64=idb64) is None

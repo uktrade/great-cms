@@ -1,4 +1,3 @@
-import base64
 import hashlib
 from functools import wraps
 
@@ -8,6 +7,8 @@ from django.contrib.auth.views import redirect_to_login
 from django.db.models import Q
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.encoding import force_str
+from django.utils.http import urlsafe_base64_decode
 
 from core.urls import SIGNUP_URL
 from export_academy.models import Event, Registration
@@ -192,7 +193,7 @@ def get_sectors_list(sector: str, second_sector: str, third_sector: str) -> str:
 
 
 def get_registration_from_unique_link(idb64, token):
-    external_id = base64.b64decode(idb64).decode('utf-8')
+    external_id = force_str(urlsafe_base64_decode(idb64))
     try:
         registration = Registration.objects.get(external_id=external_id)
         email_hash = hashlib.sha256(registration.email.encode('UTF-8'))
@@ -200,5 +201,5 @@ def get_registration_from_unique_link(idb64, token):
             return registration
         else:
             return None
-    except Exception:
+    except Registration.DoesNotExist:
         return None
