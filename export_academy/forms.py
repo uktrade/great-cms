@@ -4,8 +4,8 @@ from django.forms import (
     DateTimeField,
     HiddenInput,
     PasswordInput,
-    Select,
     ValidationError,
+    widgets as django_widgets,
 )
 from django.forms.widgets import ChoiceWidget
 from django.utils import timezone
@@ -44,12 +44,13 @@ PHONE_ERROR_MESSAGE = 'Please enter a valid UK phone number'
 
 class PersonalDetails(forms.Form):
     first_name = forms.CharField(
-        label=_('Given name'),
+        label=_('First name'),
         min_length=2,
         max_length=50,
         error_messages={
             'required': _('Enter your name'),
         },
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
     last_name = forms.CharField(
         label=_('Surname'),
@@ -58,6 +59,7 @@ class PersonalDetails(forms.Form):
         error_messages={
             'required': _('Enter your family name'),
         },
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
     phone_number = forms.CharField(
         label='UK telephone number',
@@ -70,6 +72,7 @@ class PersonalDetails(forms.Form):
             'invalid': PHONE_ERROR_MESSAGE,
             'required': PHONE_ERROR_MESSAGE,
         },
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
     job_title = forms.CharField(
         label=_('Job title'),
@@ -77,6 +80,7 @@ class PersonalDetails(forms.Form):
         error_messages={
             'required': _('Enter your job title'),
         },
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
 
     def clean_phone_number(self):
@@ -117,7 +121,7 @@ class ExportExperience(forms.Form):
         help_text='Select at least one sector that applies to you',
         choices=constants.INDUSTRY_CHOICES,
         error_messages={'required': _('Please answer this question')},
-        widget=Select(attrs={'id': 'great-header-country-select'}),
+        widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
     )
 
     second_sector = forms.ChoiceField(
@@ -126,7 +130,7 @@ class ExportExperience(forms.Form):
         choices=constants.INDUSTRY_CHOICES,
         error_messages={'required': _('Please answer this question')},
         required=False,
-        widget=Select(attrs={'id': 'great-header-country-select'}),
+        widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
     )
 
     third_sector = forms.ChoiceField(
@@ -135,7 +139,7 @@ class ExportExperience(forms.Form):
         choices=constants.INDUSTRY_CHOICES,
         error_messages={'required': _('Please answer this question')},
         required=False,
-        widget=Select(attrs={'id': 'great-header-country-select'}),
+        widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
     )
 
     export_product = forms.ChoiceField(
@@ -163,12 +167,14 @@ class BusinessDetails(forms.Form):
         error_messages={
             'required': _('Enter your business name'),
         },
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input'}),
     )
     business_postcode = forms.CharField(
         label='Business unit postcode',
         max_length=8,
         error_messages={'required': 'Enter your business postcode', 'invalid': 'Please enter a UK postcode'},
         validators=[is_valid_uk_postcode],
+        widget=django_widgets.TextInput(attrs={'class': 'govuk-input great-text-input govuk-!-width-one-half'}),
     )
 
     annual_turnover = forms.ChoiceField(
@@ -209,6 +215,7 @@ class MarketingSources(forms.Form):
         label=_('How did you hear about the Export Academy?'),
         choices=constants.MARKETING_SOURCES_CHOICES,
         error_messages={'required': _('Please answer this question')},
+        widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
     )
 
     @property
@@ -252,8 +259,8 @@ class EventAdminModelForm(WagtailAdminModelForm):
         return self._clean_field('live')
 
 
-class SignUpForm(forms.Form):
-    email = forms.EmailField(label='Email address', required=True, widget=HiddenInput)
+class ChoosePasswordForm(forms.Form):
+    email = forms.EmailField(label='Email address choose password', required=True, widget=HiddenInput)
     password = forms.CharField(
         widget=PasswordInput,
         label='Password',
@@ -263,8 +270,20 @@ class SignUpForm(forms.Form):
     )
 
 
-class SignInForm(SignUpForm):
-    pass
+class SignUpForm(forms.Form):
+    email = forms.EmailField(
+        label='Email address',
+        error_messages={
+            'required': 'Enter an email address',
+        },
+    )
+    password = forms.CharField(
+        widget=PasswordInput,
+        label='Password',
+        error_messages={
+            'required': 'Enter a password',
+        },
+    )
 
 
 class CodeConfirmForm(forms.Form):

@@ -226,7 +226,7 @@ class DomesticExportSupportStep2CForm(contact_mixins.DomesticExportSupportStep2M
             ('other', 'Other'),
         ),
         error_messages={
-            'required': 'Choose a type of organisation',
+            'required': 'Choose a type of exporter',
         },
     )
     number_of_employees = None
@@ -345,6 +345,73 @@ class DomesticExportSupportStep6Form(forms.Form):
         error_messages={
             'required': 'Choose your export experience',
         },
+    )
+
+
+class DomesticExportSupportStep7Form(forms.Form):
+    received_support = forms.ChoiceField(
+        label='Have you previously received export support?',
+        widget=contact_widgets.GreatRadioSelect,
+        choices=(
+            (
+                'yes',
+                'Yes, I have previously received export support',
+            ),
+            ('no', 'No, I have not previously received export support'),
+        ),
+        error_messages={
+            'required': 'Choose an option',
+        },
+    )
+    contacted_gov_departments = forms.ChoiceField(
+        label='Have you previously received export support?',
+        widget=contact_widgets.GreatRadioSelect,
+        choices=(
+            (
+                'yes',
+                'Yes, I have contacted other government departments',
+            ),
+            ('no', 'No, I have not contacted other government departments'),
+        ),
+        error_messages={
+            'required': 'Choose an option',
+        },
+    )
+    find_out_about = forms.ChoiceField(
+        label='How did you find out about this service?',
+        widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
+        choices=(
+            ('', 'Please select'),
+            ('google', 'Google'),
+        ),
+        required=False,
+    )
+
+
+class DomesticExportSupportStep8Form(forms.Form):
+    help_us_improve = forms.ChoiceField(
+        label='Help us improve',
+        help_text='Overall, how easy did you feel the form was to understand and complete?',
+        widget=contact_widgets.GreatRadioSelect,
+        choices=(
+            ('easy', 'Easy'),
+            ('neither', 'Neither easy or difficult'),
+            ('difficult', 'Difficult'),
+        ),
+        error_messages={
+            'required': 'Choose an option',
+        },
+    )
+    help_us_further = forms.ChoiceField(
+        label='Would you be interested in helping us further?',
+        help_text="""We regularly conduct user research sessions and are looking for participants
+         , if you're interested in being contacted please confirm below.""",
+        widget=contact_widgets.GreatRadioSelect,
+        choices=(
+            ('yes', 'Yes, I am interested in helping with user research'),
+            ('no', 'No, I am not interested in helping with user research'),
+        ),
+        required=False,
     )
 
 

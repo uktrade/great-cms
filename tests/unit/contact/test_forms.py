@@ -795,7 +795,7 @@ def test_selling_online_overseas_contact_details_form__editable_fields():
             },
             False,
             {
-                'type': 'Choose a type of organisation',
+                'type': 'Choose a type of exporter',
                 'annual_turnover': 'Please enter a turnover amount',
                 'sector_primary': 'Choose a sector',
             },
@@ -878,6 +878,45 @@ def test_selling_online_overseas_contact_details_form__editable_fields():
             False,
             {
                 'about_your_experience': 'Choose your export experience',
+            },
+        ),
+        (
+            forms.DomesticExportSupportStep7Form,
+            {
+                'received_support': 'yes',
+                'contacted_gov_departments': 'no',
+            },
+            True,
+            {},
+        ),
+        (
+            forms.DomesticExportSupportStep7Form,
+            {
+                'received_support': '',
+                'contacted_gov_departments': '',
+            },
+            False,
+            {
+                'received_support': 'Choose an option',
+                'contacted_gov_departments': 'Choose an option',
+            },
+        ),
+        (
+            forms.DomesticExportSupportStep8Form,
+            {
+                'help_us_improve': 'easy',
+            },
+            True,
+            {},
+        ),
+        (
+            forms.DomesticExportSupportStep8Form,
+            {
+                'help_us_improve': '',
+            },
+            False,
+            {
+                'help_us_improve': 'Choose an option',
             },
         ),
     ),

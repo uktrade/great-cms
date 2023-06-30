@@ -202,21 +202,38 @@ class DomesticExportSupportFormStep1View(contact_mixins.ExportSupportFormMixin, 
         return super().get_context_data(
             **kwargs,
             heading_text='Contact us',
-            button_text='Continue',
             step_text='Step 1 of 6',
         )
 
     def get_success_url(self):
         business_type = self.request.POST.get('business_type')
+        url_map = {
+            'other': 'contact:export-support-step-2b-edit',
+            'soletrader': 'contact:export-support-step-2c-edit',
+        }
 
-        if business_type == 'other':
-            return reverse_lazy('contact:export-support-step-2b')
-        elif business_type == 'soletrader':
-            return reverse_lazy('contact:export-support-step-2c')
+        if self.kwargs.get('edit'):
+            if self.has_business_type_changed:
+                return reverse_lazy(
+                    url_map.get(business_type) if url_map.get(business_type) else 'contact:export-support-step-2a-edit'
+                )
+            else:
+                return reverse_lazy('contact:export-support-step-7')
         else:
-            return reverse_lazy('contact:export-support-step-2a')
+            if business_type == 'other':
+                return reverse_lazy('contact:export-support-step-2b')
+            elif business_type == 'soletrader':
+                return reverse_lazy('contact:export-support-step-2c')
+            else:
+                return reverse_lazy('contact:export-support-step-2a')
 
     def form_valid(self, form):
+        form_data = {}
+
+        if self.request.session.get('form_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0]
+            self.has_business_type_changed = form_data.get('business_type') != self.request.POST.get('business_type')
+
         self.save_data(form)
         return super().form_valid(form)
 
@@ -224,16 +241,25 @@ class DomesticExportSupportFormStep1View(contact_mixins.ExportSupportFormMixin, 
 class DomesticExportSupportFormStep2AView(contact_mixins.ExportSupportFormMixin, FormView):
     form_class = contact_forms.DomesticExportSupportStep2AForm
     template_name = 'domestic/contact/export-support/step-2.html'
-    success_url = reverse_lazy('contact:export-support-step-3')
 
     def get_context_data(self, **kwargs):
+        back_link = reverse_lazy('contact:export-support')
+
+        if self.kwargs.get('edit'):
+            back_link = reverse_lazy('contact:export-support-step-7')
+
         return super().get_context_data(
             **kwargs,
             heading_text='About your business',
-            button_text='Continue',
             step_text='Step 2 of 6',
-            back_link=reverse_lazy('contact:export-support'),
+            back_link=back_link,
         )
+
+    def get_success_url(self):
+        if self.kwargs.get('edit'):
+            return reverse_lazy('contact:export-support-step-7')
+        else:
+            return reverse_lazy('contact:export-support-step-3')
 
     def form_valid(self, form):
         self.save_data(form)
@@ -243,16 +269,25 @@ class DomesticExportSupportFormStep2AView(contact_mixins.ExportSupportFormMixin,
 class DomesticExportSupportFormStep2BView(contact_mixins.ExportSupportFormMixin, FormView):
     form_class = contact_forms.DomesticExportSupportStep2BForm
     template_name = 'domestic/contact/export-support/step-2.html'
-    success_url = reverse_lazy('contact:export-support-step-3')
 
     def get_context_data(self, **kwargs):
+        back_link = reverse_lazy('contact:export-support')
+
+        if self.kwargs.get('edit'):
+            back_link = reverse_lazy('contact:export-support-step-7')
+
         return super().get_context_data(
             **kwargs,
             heading_text='About your business',
-            button_text='Continue',
             step_text='Step 2 of 6',
-            back_link=reverse_lazy('contact:export-support'),
+            back_link=back_link,
         )
+
+    def get_success_url(self):
+        if self.kwargs.get('edit'):
+            return reverse_lazy('contact:export-support-step-7')
+        else:
+            return reverse_lazy('contact:export-support-step-3')
 
     def form_valid(self, form):
         self.save_data(form)
@@ -262,16 +297,25 @@ class DomesticExportSupportFormStep2BView(contact_mixins.ExportSupportFormMixin,
 class DomesticExportSupportFormStep2CView(contact_mixins.ExportSupportFormMixin, FormView):
     form_class = contact_forms.DomesticExportSupportStep2CForm
     template_name = 'domestic/contact/export-support/step-2.html'
-    success_url = reverse_lazy('contact:export-support-step-3')
 
     def get_context_data(self, **kwargs):
+        back_link = reverse_lazy('contact:export-support')
+
+        if self.kwargs.get('edit'):
+            back_link = reverse_lazy('contact:export-support-step-7')
+
         return super().get_context_data(
             **kwargs,
             heading_text='About your business',
-            button_text='Continue',
             step_text='Step 2 of 6',
-            back_link=reverse_lazy('contact:export-support'),
+            back_link=back_link,
         )
+
+    def get_success_url(self):
+        if self.kwargs.get('edit'):
+            return reverse_lazy('contact:export-support-step-7')
+        else:
+            return reverse_lazy('contact:export-support-step-3')
 
     def form_valid(self, form):
         self.save_data(form)
@@ -285,19 +329,35 @@ class DomesticExportSupportFormStep3View(contact_mixins.ExportSupportFormMixin, 
 
     def get_context_data(self, **kwargs):
         form_data = {}
+        business_type = self.request.POST.get('business_type')
+        url_map = {
+            'other': 'contact:export-support-step-2b',
+            'soletrader': 'contact:export-support-step-2c',
+        }
+        back_link = reverse_lazy(
+            url_map.get(business_type) if url_map.get(business_type) else 'contact:export-support-step-2a'
+        )
 
         if self.request.session.get('form_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0]
+
+        if self.kwargs.get('edit'):
+            back_link = reverse_lazy('contact:export-support-step-7')
 
         return super().get_context_data(
             **kwargs,
             heading_text='About you',
             strapline_text='This information will allow us to contact you about your enquiry.',
-            button_text='Continue',
             step_text='Step 3 of 6',
             form_data=form_data,
-            back_link=reverse_lazy('contact:export-support-step-2a'),
+            back_link=back_link,
         )
+
+    def get_success_url(self):
+        if self.kwargs.get('edit'):
+            return reverse_lazy('contact:export-support-step-7')
+        else:
+            return reverse_lazy('contact:export-support-step-4')
 
     def form_valid(self, form):
         self.save_data(form)
@@ -310,15 +370,25 @@ class DomesticExportSupportFormStep4View(contact_mixins.ExportSupportFormMixin, 
     success_url = reverse_lazy('contact:export-support-step-5')
 
     def get_context_data(self, **kwargs):
+        back_link = reverse_lazy('contact:export-support-step-3')
+
+        if self.kwargs.get('edit'):
+            back_link = reverse_lazy('contact:export-support-step-7')
+
         return super().get_context_data(
             **kwargs,
             heading_text='About your product or service',
             strapline_text="""This information will help us provide support for your specific product or service.
              Try to keep your descriptions short (2-3 words) and use the link to add up to 5 products or services.""",
-            button_text='Continue',
             step_text='Step 4 of 6',
-            back_link=reverse_lazy('contact:export-support-step-3'),
+            back_link=back_link,
         )
+
+    def get_success_url(self):
+        if self.kwargs.get('edit'):
+            return reverse_lazy('contact:export-support-step-7')
+        else:
+            return reverse_lazy('contact:export-support-step-5')
 
     def form_valid(self, form):
         self.save_data(form)
@@ -328,23 +398,31 @@ class DomesticExportSupportFormStep4View(contact_mixins.ExportSupportFormMixin, 
 class DomesticExportSupportFormStep5View(contact_mixins.ExportSupportFormMixin, FormView):
     form_class = contact_forms.DomesticExportSupportStep5Form
     template_name = 'domestic/contact/export-support/step-5.html'
-    success_url = reverse_lazy('contact:export-support-step-6')
 
     def get_context_data(self, **kwargs):
         form_data = {}
+        back_link = reverse_lazy('contact:export-support-step-4')
 
         if self.request.session.get('form_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0]
+
+        if self.kwargs.get('edit'):
+            back_link = reverse_lazy('contact:export-support-step-7')
 
         return super().get_context_data(
             **kwargs,
             heading_text='About your export markets',
             strapline_text='This information will help us provide support for your specific product or service.',
-            button_text='Continue',
             step_text='Step 5 of 6',
-            back_link=reverse_lazy('contact:export-support-step-4'),
+            back_link=back_link,
             form_data=form_data,
         )
+
+    def get_success_url(self):
+        if self.kwargs.get('edit'):
+            return reverse_lazy('contact:export-support-step-7')
+        else:
+            return reverse_lazy('contact:export-support-step-6')
 
     def form_valid(self, form):
         self.save_data(form)
@@ -360,6 +438,10 @@ class DomesticExportSupportFormStep6View(contact_mixins.ExportSupportFormMixin, 
         countries_mapping = dict(COUNTRY_CHOICES + [('notspecificcountry', '')])
         form_data = {}
         markets = []
+        back_link = reverse_lazy('contact:export-support-step-5')
+
+        if self.kwargs.get('edit'):
+            back_link = reverse_lazy('contact:export-support-step-7')
 
         if self.request.session.get('form_data'):
             form_data = pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0]
@@ -371,7 +453,6 @@ class DomesticExportSupportFormStep6View(contact_mixins.ExportSupportFormMixin, 
             **kwargs,
             heading_text='About your enquiry',
             strapline_text='This information will help us direct you to the right support for your business.',
-            button_text='Continue',
             step_text='Step 6 of 6',
             markets=markets,
             products_and_services=[
@@ -385,7 +466,7 @@ class DomesticExportSupportFormStep6View(contact_mixins.ExportSupportFormMixin, 
                 ]
                 if product_or_service
             ],
-            back_link=reverse_lazy('contact:export-support-step-5'),
+            back_link=back_link,
         )
 
     def form_valid(self, form):
@@ -394,8 +475,77 @@ class DomesticExportSupportFormStep6View(contact_mixins.ExportSupportFormMixin, 
 
 
 class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, FormView):
-    form_class = contact_forms.DomesticExportSupportStep6Form
+    form_class = contact_forms.DomesticExportSupportStep7Form
     template_name = 'domestic/contact/export-support/cya.html'
+    success_url = reverse_lazy('contact:export-support-step-8')
+    subject = 'DPE Contact form'
+
+    def submit_enquiry(self, form):
+        cleaned_data = form.cleaned_data
+
+        form_data = {**self.initial_data, **cleaned_data}
+
+        sender = Sender(
+            email_address=form_data.get('email'),
+            country_code=None,
+        )
+
+        action = actions.ZendeskAction(
+            full_name=f"{form_data.get('first_name')} {form_data.get('last_name')}",
+            email_address=form_data.get('email'),
+            subject=self.subject,
+            service_name='great',
+            subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
+            form_url=self.request.get_full_path(),
+            sender=sender,
+        )
+
+        response = action.save(form_data)
+        response.raise_for_status()
+
+    def get_context_data(self, **kwargs):
+        form_data = {}
+        second_step_edit_page = 'contact:export-support-step-2a-edit'
+        url_map = {
+            'other': 'contact:export-support-step-2b-edit',
+            'soletrader': 'contact:export-support-step-2c-edit',
+        }
+        markets = []
+
+        if self.request.session.get('form_data'):
+            form_data = pickle.loads(bytes.fromhex(self.request.session.get('form_data')))[0]
+            business_type = form_data.get('business_type')
+            second_step_edit_page = reverse_lazy(
+                url_map.get(business_type) if url_map.get(business_type) else second_step_edit_page
+            )
+            markets = form_data.get('markets')
+
+        return super().get_context_data(
+            **kwargs,
+            heading_text='Your enquiry',
+            strapline_text="Check the information you've provided before you submit your enquiry.",
+            steps=helpers.get_steps(form_data, second_step_edit_page, markets),
+            back_link=reverse_lazy('contact:export-support-step-5'),
+        )
+
+    def form_valid(self, form):
+        self.save_data(form)
+        self.submit_enquiry(form)
+        return super().form_valid(form)
+
+
+class DomesticExportSupportFormStep8View(FormView):
+    form_class = contact_forms.DomesticExportSupportStep8Form
+    template_name = 'domestic/contact/export-support/confirmation.html'
+    success_url = reverse_lazy('contact:export-support-step-8')
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            heading_text='Thank you for your enquiry',
+            strapline_text="We've sent a confirmation email to the email address you provided.",
+            button_text='Submit feedback',
+        )
 
 
 class InternationalFormView(

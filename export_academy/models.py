@@ -188,8 +188,23 @@ class ExportAcademyHomePage(ExportAcademyPagePanels, BaseContentPage):
         null=True,
         blank=True,
     )
-    hero_cta = StreamField([('button', ButtonBlock(icon='cog'))], use_json_field=True, null=True, blank=True)
-
+    hero_cta = StreamField(
+        [('button', ButtonBlock(icon='cog', verbose_name='CTA button for EA logged out users'))],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
+    hero_text_below_cta_logged_out = RichTextField(
+        features=RICHTEXT_FEATURES__REDUCED,
+        null=True,
+        blank=True,
+    )
+    hero_cta_logged_in = StreamField(
+        [('button', ButtonBlock(icon='cog', verbose_name='CTA button for EA logged in users'))],
+        use_json_field=True,
+        null=True,
+        blank=True,
+    )
     banner_label = models.CharField(
         null=True,
         blank=True,

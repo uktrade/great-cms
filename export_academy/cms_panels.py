@@ -18,6 +18,13 @@ class ExportAcademyPagePanels:
                 FieldPanel('hero_image'),
                 FieldPanel('hero_text'),
                 FieldPanel('hero_cta'),
+                FieldPanel('hero_text_below_cta_logged_out'),
+            ],
+        ),
+        MultiFieldPanel(
+            heading='Logged in variations',
+            children=[
+                FieldPanel('hero_cta_logged_in'),
             ],
         ),
         MultiFieldPanel(

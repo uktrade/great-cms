@@ -8,6 +8,7 @@ from contact import constants
 
 class ExportSupportFormMixin:
     initial_data = {}
+    has_business_type_changed = False
 
     def get_initial(self):
         initial = super().get_initial()
@@ -24,6 +25,14 @@ class ExportSupportFormMixin:
         form_data = pickle.dumps(form_data).hex()
 
         self.request.session['form_data'] = form_data
+
+    def get_context_data(self, **kwargs):
+        button_text = 'Continue'
+
+        if self.kwargs.get('edit'):
+            button_text = 'Save'
+
+        return super().get_context_data(**kwargs, button_text=button_text)
 
 
 class DomesticExportSupportStep2Mixin(forms.Form):
@@ -56,6 +65,8 @@ class DomesticExportSupportStep2Mixin(forms.Form):
             ('50-249', '50 to 249'),
             ('250-499', '250 to 499'),
             ('500plus', 'More than 500'),
+            ('dontknow', "I don't know"),
+            ('prefernottosay', "I'd prefer not to say"),
         ),
         error_messages={
             'required': 'Choose number of employees',
