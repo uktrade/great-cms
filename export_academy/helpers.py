@@ -183,13 +183,12 @@ def calender_content():
     )
 
 
-def get_sectors_list(sector: str, second_sector: str, third_sector: str) -> str:
-    sector_list = [sector.capitalize()]
-    if second_sector:
-        sector_list.append(second_sector.capitalize())
-    if third_sector:
-        sector_list.append(third_sector.capitalize())
-    return ', '.join(sector_list)
+def get_sectors_string(sectors_list: list) -> str:
+    sectors_string = ''
+    for item in sectors_list:
+        if item:
+            sectors_string += str(item).capitalize() + ', '
+    return sectors_string[:-2]
 
 
 def get_registration_from_unique_link(idb64, token):

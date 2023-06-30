@@ -361,10 +361,12 @@ class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixi
             landing_page=ExportAcademyHomePage.objects.first(),
             form_data=self.initial_data,
             email=self.request.user.email,
-            sectors=helpers.get_sectors_list(
-                self.initial_data['sector'],
-                self.initial_data['second_sector'],
-                self.initial_data['third_sector'],
+            sectors=helpers.get_sectors_string(
+                [
+                    self.initial_data.get('sector', None),
+                    self.initial_data.get('second_sector', None),
+                    self.initial_data.get('third_sector', None),
+                ]
             ),
             current_page_breadcrumb='Your answers',
         )
