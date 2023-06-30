@@ -215,7 +215,10 @@
   .govuk-label,
   .govuk-hint,
   .govuk-input,
-  .govuk-list {
+  .govuk-list,
+  .govuk-summary-list__key,
+  .govuk-summary-list__value,
+  .govuk-link {
       font-size: 16px;
       line-height: 24px;
 
@@ -354,7 +357,7 @@
     margin: auto;
     padding: 0 15px;
 
-    @media (min-width: 1231px) {
+    @media (min-width: 1400px) {
         padding: 0;
     }
 }
