@@ -392,7 +392,7 @@ class JoinBookingView(RedirectView):
 
 class SignUpView(HandleNewAndExistingUsersMixin, VerificationLinksMixin, sso_mixins.SignUpMixin, FormView):
     def get_template_names(self):
-        if self.user_ea_registered():
+        if self.get_ea_user():
             return ['export_academy/accounts/create_password.html']
         else:
             return ['export_academy/accounts/signup.html']
@@ -407,11 +407,11 @@ class SignUpView(HandleNewAndExistingUsersMixin, VerificationLinksMixin, sso_mix
             email=email,
             verification_code=verification_code,
             form_url=self.request.path,
-            verification_link=self.get_verification_link(uidb64, token, user_registered=self.user_ea_registered()),
+            verification_link=self.get_verification_link(uidb64, token, user_registered=self.get_ea_user()),
             resend_verification_link=self.get_resend_verification_link(),
         )
         return HttpResponseRedirect(
-            self.get_redirect_url(user_registered=self.user_ea_registered(), uidb64=uidb64, token=token)
+            self.get_redirect_url(user_registered=self.get_ea_user(), uidb64=uidb64, token=token)
         )
 
     def get_redirect_url(self, uidb64=None, token=None, user_registered=False):
@@ -426,7 +426,7 @@ class SignUpView(HandleNewAndExistingUsersMixin, VerificationLinksMixin, sso_mix
 
     def handle_already_registered(self, email):
         sso_helpers.notify_already_registered(email=email, form_url=self.request.path, login_url=self.get_login_url())
-        return HttpResponseRedirect(self.get_redirect_url(user_registered=self.user_ea_registered()))
+        return HttpResponseRedirect(self.get_redirect_url(user_registered=self.get_ea_user()))
 
     def do_sign_up_flow(self, request):
         form = self.get_form()
@@ -450,10 +450,8 @@ class SignUpView(HandleNewAndExistingUsersMixin, VerificationLinksMixin, sso_mix
                 return self.handle_signup_success(
                     response,
                     form,
-                    self.get_redirect_url(user_registered=self.user_ea_registered(), uidb64=uidb64, token=token),
-                    verification_link=self.get_verification_link(
-                        uidb64, token, user_registered=self.user_ea_registered()
-                    ),
+                    self.get_redirect_url(user_registered=self.get_ea_user(), uidb64=uidb64, token=token),
+                    verification_link=self.get_verification_link(uidb64, token, user_registered=self.get_ea_user()),
                 )
 
         # Ensure email address is always added to initial data
