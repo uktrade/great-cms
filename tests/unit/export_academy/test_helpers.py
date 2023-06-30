@@ -225,28 +225,34 @@ def test_ics_button_is_primary_on_confirmation(user, test_future_event):
     assert 'govuk-button--secondary' not in buttons['calendar_button']['classname']
 
 
+def test_get_empty_sectors_list():
+    sectors_list = []
+    sectors_string = helpers.get_sectors_string(sectors_list)
+    assert sectors_string == ''
+
+
+def test_get_blank_sectors_list():
+    sectors_list = [None, None, None]
+    sectors_string = helpers.get_sectors_string(sectors_list)
+    assert sectors_string == ''
+
+
 def test_get_1_sectors_list():
-    primary_sector = 'primary sector'
-    second_sector = ''
-    third_sector = ''
-    sectors = helpers.get_sectors_list(primary_sector, second_sector, third_sector)
-    assert sectors == 'Primary sector'
+    sectors_list = ['primary sector']
+    sectors_string = helpers.get_sectors_string(sectors_list)
+    assert sectors_string == 'Primary sector'
 
 
 def test_get_2_sectors_list():
-    primary_sector = 'primary sector'
-    second_sector = 'second sector'
-    third_sector = ''
-    sectors = helpers.get_sectors_list(primary_sector, second_sector, third_sector)
-    assert sectors == 'Primary sector, Second sector'
+    sectors_list = ['primary sector', 'second sector']
+    sectors_string = helpers.get_sectors_string(sectors_list)
+    assert sectors_string == 'Primary sector, Second sector'
 
 
 def test_get_3_sectors_list():
-    primary_sector = 'primary sector'
-    second_sector = 'second sector'
-    third_sector = 'third sector'
-    sectors = helpers.get_sectors_list(primary_sector, second_sector, third_sector)
-    assert sectors == 'Primary sector, Second sector, Third sector'
+    sectors_list = ['primary sector', 'second sector', 'third sector']
+    sectors_string = helpers.get_sectors_string(sectors_list)
+    assert sectors_string == 'Primary sector, Second sector, Third sector'
 
 
 @pytest.mark.django_db
