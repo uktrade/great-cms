@@ -21,7 +21,7 @@ new_snippet_spec = {
     'internal_title': 'Guidance - Verification code not delivered',
     'title': '',
     'body': (
-        '<div class="govuk-notification-banner" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">'
+        '<div class="govuk-notification-banner govuk-!-margin-bottom-3" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">'
         '<div class="govuk-notification-banner__header">'
         '<h2 class="govuk-heading-s govuk-!-margin-0 great-text-white">Resend confirmation code</h2>'
         '</div>'
