@@ -134,6 +134,7 @@ class Registration(TimeStampedModel):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    hashed_sso_id = models.CharField(null=True, max_length=128)
     external_id = models.CharField(blank=True, null=True, max_length=255)
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
