@@ -21,12 +21,9 @@ new_snippet_spec = {
     'internal_title': 'Guidance - Verification code not delivered',
     'title': '',
     'body': (
-        '<div class=“great”>'
-        '<div class="govuk-grid-row">'
-        '<div class="govuk-grid-column-three-quarters">'
         '<div class="govuk-notification-banner" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">'
         '<div class="govuk-notification-banner__header">'
-        '<h2 class="great-text-white">Resend confirmation code</h2>'
+        '<h2 class="govuk-heading-s govuk-!-margin-0 great-text-white">Resend confirmation code</h2>'
         '</div>'
         '<div class="govuk-notification-banner__content">'
         '<p class="govuk-body">'
@@ -35,10 +32,7 @@ new_snippet_spec = {
         '<p class="govuk-body">'
         'If your confirmation code has not arrived and is not in your junk folder, you can resend a new code.'
         '</p>'
-        '<a href="/profile/enrol/resend-verification/resend/" class="class="govuk-link" role="button">Resend my code</a>'
-        '</div>'
-        '</div>'
-        '</div>'
+        '<a href="/profile/enrol/resend-verification/resend/" class="govuk-link" role="button">Resend my code</a>'
         '</div>'
         '</div>'
     ),
