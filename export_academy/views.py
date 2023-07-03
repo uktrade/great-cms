@@ -325,6 +325,7 @@ class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixi
     def submit_registration(self):
         reg_data = {
             'email': self.request.user.email,
+            'hashed_sso_id': self.request.user.hashed_uuid,
             'first_name': self.initial_data['first_name'],
             'last_name': self.initial_data['last_name'],
             'data': self.initial_data,

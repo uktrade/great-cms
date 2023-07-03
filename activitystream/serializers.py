@@ -148,10 +148,11 @@ class ActivityStreamExportAcademyRegistrationSerializer(serializers.ModelSeriali
     externalId = serializers.CharField(source='external_id')  # noqa: N815
     firstName = serializers.CharField(source='first_name')  # noqa: N815
     lastName = serializers.CharField(source='last_name')  # noqa: N815
+    hashedSsoId = serializers.CharField(source='hashed_sso_id')  # noqa: N815
 
     class Meta:
         model = Registration
-        fields = ['externalId', 'email', 'firstName', 'lastName', 'data']
+        fields = ['externalId', 'hashedSsoId', 'email', 'firstName', 'lastName', 'data']
 
     def to_representation(self, instance):
         """
