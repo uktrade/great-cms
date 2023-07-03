@@ -22,10 +22,9 @@ new_snippet_spec = {
     'title': '',
     'body': (
         '<div class=“great”>'
-        '<section class="govuk-!-padding-top-3 clearfix" style="background-color=#f6f4f0;">'
         '<div class="govuk-grid-row">'
         '<div class="govuk-grid-column-three-quarters">'
-        '<div class="govuk-notification-banner govuk-!-margin-top-5" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">'
+        '<div class="govuk-notification-banner" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">'
         '<div class="govuk-notification-banner__header">'
         '<h2 class="great-text-white">Resend confirmation code</h2>'
         '</div>'
@@ -41,7 +40,6 @@ new_snippet_spec = {
         '</div>'
         '</div>'
         '</div>'
-        '</section>'
         '</div>'
     ),
 }
