@@ -19,7 +19,7 @@ previous_snippet_spec = (
 
 new_snippet_spec = {
     'internal_title': 'Guidance - Verification code not delivered',
-    'title': '',
+    'title': 'Resend confirmation code',
     'body': (
         '<div class="govuk-notification-banner govuk-!-margin-bottom-3" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">'
         '<div class="govuk-notification-banner__header">'
@@ -52,7 +52,6 @@ def backwards(apps, schema_editor):
         pass
     else:
         snippet.body = previous_snippet_spec['body']
-        snippet.title = previous_snippet_spec['title']
         snippet.save()
 
 
@@ -70,7 +69,6 @@ def forwards(apps, schema_editor):
         pass
     else:
         snippet.body = new_snippet_spec['body']
-        snippet.title = new_snippet_spec['title']
         snippet.save()
 
 
