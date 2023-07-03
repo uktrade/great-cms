@@ -207,7 +207,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==18.10.1
+faker==18.11.1
     # via factory-boy
 geoip2==2.9.0
     # via -r requirements.in
@@ -300,7 +300,7 @@ pyhanko-certvalidator==0.23.0
     # via
     #   pyhanko
     #   xhtml2pdf
-pypdf==3.10.0
+pypdf==3.11.0
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -340,7 +340,7 @@ qrcode==7.4.2
     # via pyhanko
 readtime==1.1.1
     # via -r requirements.in
-redis==4.5.5
+redis==4.6.0
     # via
     #   celery
     #   django-redis

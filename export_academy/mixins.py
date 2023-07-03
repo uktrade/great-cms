@@ -5,7 +5,7 @@ from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from django.urls import reverse
 
 from config import settings
-from export_academy import forms
+from export_academy import forms, helpers
 from export_academy.models import Registration
 from sso_profile.enrolment.constants import RESEND_VERIFICATION
 
@@ -88,31 +88,26 @@ class VerificationLinksMixin:
 
 
 class HandleNewAndExistingUsersMixin:
-    def user_ea_registered(self):
-        # TODO update to handle unique token
-        registration_id = self.request.GET.get('registration-id')
-        if registration_id:
-            try:
-                if Registration.objects.get(pk=registration_id):
-                    return True
-            except Exception:
-                return False
-        return False
+    def get_ea_user(self):
+        idb64 = self.request.GET.get('idb64')
+        token = self.request.GET.get('token')
+        if token and idb64:
+            return helpers.get_registration_from_unique_link(idb64, token)
+        return None
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['existing_ea_user'] = self.user_ea_registered()
+        context['existing_ea_user'] = self.get_ea_user() is not None
         return context
 
     def get_form_class(self):
-        if self.user_ea_registered():
+        if self.get_ea_user():
             return forms.ChoosePasswordForm
         else:
             return forms.SignUpForm
 
     def get_initial(self):
         initial = super().get_initial()
-        if self.user_ea_registered():
-            user = Registration.objects.get(pk=self.request.GET.get('registration-id'))
-            initial['email'] = user.email
+        if self.get_ea_user():
+            initial['email'] = self.get_ea_user().email
         return initial

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-31 16:11+0100\n"
+"POT-Creation-Date: 2023-06-27 15:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,14 +23,18 @@ msgid "great.gov.uk international"
 msgstr "great.gov.uk 국제"
 
 #: models.py:68
+msgid "Description"
+msgstr ""
+
+#: models.py:72
 msgid "Transcript"
 msgstr "대본"
 
-#: models.py:72
+#: models.py:76
 msgid "English subtitles"
 msgstr "영어 자막"
 
-#: models.py:1548
+#: models.py:1552
 msgid "Home"
 msgstr "홈페이지"
 
@@ -44,7 +48,9 @@ msgstr "쿠키 허용에 동의하는 지 확인해주세요"
 
 #: templates/components/cookie_notice.html:10
 msgid "We use "
-msgstr "우리는 귀하가 great.gov.uk를 어떻게 사용하는 지 정보 취합을 위해 쿠키를 활용합니다."
+msgstr ""
+"우리는 귀하가 great.gov.uk를 어떻게 사용하는 지 정보 취합을 위해 쿠키를 활용"
+"합니다."
 
 #: templates/components/cookie_notice.html:10
 msgid "cookies to collect information"
@@ -56,7 +62,6 @@ msgid ""
 "work as well as possible and improve government services."
 msgstr ""
 "우리는 웹사이트를 운영하고, 정부 서비스를 개선하기 위해 정보를 활용합니다."
-""
 
 #: templates/components/cookie_notice.html:14
 msgid "Accept all cookies"
@@ -116,11 +121,11 @@ msgstr "링크드인"
 msgid "Email"
 msgstr "이메일"
 
-#: templates/microsites/blocks/streamfield.html:17
+#: templates/microsites/blocks/streamfield.html:19
 msgid "Information has been submitted successfully"
 msgstr "정보가 성공적으로 제출되었습니다"
 
-#: templates/microsites/blocks/streamfield.html:24
+#: templates/microsites/blocks/streamfield.html:26
 msgid "Submit"
 msgstr "제출하기"
 
@@ -138,11 +143,11 @@ msgid ""
 "                  "
 msgstr ""
 "\n"
-" <p>해당 브라우저는 HTML5 비디오를 지원하지 않습니다. "
-"<a class=\"link\" href=\"%(video_url)s\">비디오로 연결되는 링크입니다.</p>\n"
+" <p>해당 브라우저는 HTML5 비디오를 지원하지 않습니다. <a class=\"link\" "
+"href=\"%(video_url)s\">비디오로 연결되는 링크입니다.</p>\n"
 " "
 
-#: templates/microsites/blocks/video.html:26
+#: templates/microsites/blocks/video.html:31
 msgid "View video transcript"
 msgstr "비디오 대본 보기"
 
@@ -150,11 +155,11 @@ msgstr "비디오 대본 보기"
 msgid "Last updated:"
 msgstr "최신 업데이트:"
 
-#: templates/microsites/includes/microsite_menu_button.html:13
+#: templates/microsites/includes/microsite_menu_button.html:14
 msgid "Menu"
 msgstr "메뉴"
 
-#: templates/microsites/includes/microsite_related_content_list.html:9
+#: templates/microsites/includes/microsite_related_content_list.html:10
 msgid "Related content"
 msgstr "관련 콘텐츠"
 
@@ -162,6 +167,37 @@ msgstr "관련 콘텐츠"
 msgid "Download CSV"
 msgstr "CSV 다운로드"
 
+#: templates/wagtailadmin/microsite_migrate.html:4
+#, python-format
+msgid "Migrate 1 item"
+msgid_plural "Migrate %(counter)s items"
+msgstr[0] ""
+
+#: templates/wagtailadmin/microsite_migrate.html:7 wagtail_hooks.py:345
+msgid "Migrate"
+msgstr ""
+
+#: templates/wagtailadmin/microsite_migrate.html:13
+msgid "Are you sure you want to migrate these items?"
+msgstr ""
+
+#: templates/wagtailadmin/microsite_migrate.html:26
+msgid "You don't have permission to migrate this item"
+msgid_plural "You don't have permission to migrate these items"
+msgstr[0] ""
+
+#: templates/wagtailadmin/microsite_migrate.html:33
+msgid "Yes, migrate"
+msgstr ""
+
+#: templates/wagtailadmin/microsite_migrate.html:34
+msgid "No, don't migrate"
+msgstr ""
+
 #: validators.py:11
 msgid "Please enter a UK postcode"
 msgstr "영국 우편번호를 입력해주세요"
+
+#: wagtail_hooks.py:346
+msgid "Create page from page"
+msgstr ""
