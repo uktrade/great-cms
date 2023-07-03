@@ -17,13 +17,12 @@
         <a href="/">great.gov.uk</a>
         <a href="{% url 'contact:contact-us-routing-form' step='location' %}">Contact us</a>
     {% endbreadcrumbs %}
-    <div class="container">
-        <section>
-            <h1 class='heading-xlarge'>{{ content_snippet.title }}</h1>
+    <div class="page-main-content-container">
+        <div class="inner-container">
             <div class='guidance-content'>
                 {{ content_snippet.body|richtext }}
             </div>
-        </section>
+        </div>
         <p id="further-help-link">Still need help? <a class="link" href="{% url 'contact:contact-us-domestic' %}">Submit an enquiry</a></p>
     </div>
 {% endblock %}
