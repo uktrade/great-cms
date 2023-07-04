@@ -38,20 +38,20 @@
     {% endblock %}
 
     {% if page.banner_label %}
-    <div class="padding-top-30 padding-bottom-30">
+    <div class="govuk-!-static-padding-top-6 govuk-!-static-padding-bottom-6">
         {% include 'components/informative_banner.html' with banner_label=page.banner_label banner_content=page.banner_content %}
     </div>
     {% endif %}
 
-    <section class="padding-bottom-15">
-        <div class="container">
-            <div class="grid-row {% if page.banner_label %} intro-text-container {% else %} margin-top-30 {% endif %}">
-                <div class="column-three-quarters">
+    <section class="govuk-!-static-padding-bottom-3">
+        <div class="great-container ">
+            <div class="govuk-grid-row {% if page.banner_label %} intro-text-container {% else %} govuk-!-static-margin-bottom-6 {% endif %}">
+                <div class="govuk-grid-column-three-quarters">
                     {{ page.intro_text | richtext }}
-                    <div class="padding-top-15">{{ page.steps_heading | richtext }}</div>
+                    <div class="govuk-!-static-padding-top-3">{{ page.steps_heading | richtext }}</div>
                 </div>
             </div>
-            <div class="grid-row">
+            <div class="govuk-grid-row">
                 <ol class="steps-list-container">
                 {% for step in page.steps %}
                     <li class="steps-list-item">
@@ -65,10 +65,10 @@
         </div>
     </section>
 
-    <section class="background-white panels-container">
-        <div class="container">
-            <div class="grid-row">
-                <div class="column-three-quarters">
+    <section class="great-bg-white panels-container">
+        <div class="great-container">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-three-quarters">
                     <p>{{ page.panel_description | richtext }}</p>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="container centre-children">
+        <div class="great-container centre-children">
             {% include_block page.next_cta %}
         </div>
     </section>
