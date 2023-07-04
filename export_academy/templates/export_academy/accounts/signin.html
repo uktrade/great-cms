@@ -25,8 +25,8 @@
 {% endblock %}
 {% block left_panel_content %}
 {% if existing_ea_user %}
-    {% include 'export_academy/accounts/includes/existing_user_body_text.html' %}
+    {% include 'export_academy/accounts/includes/existing_user_body_text.html' with is_signin=True %}
 {% else %}
-    {% include 'export_academy/accounts/includes/new_user_body_text.html' with is_signin=True%}
+    {% include 'export_academy/accounts/includes/new_user_body_text.html' with is_signin=True %}
 {% endif %}
 {% endblock %}

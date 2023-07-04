@@ -46,6 +46,7 @@ class EventFactory(factory.django.DjangoModelFactory):
 class RegistrationFactory(factory.django.DjangoModelFactory):
     id = factory.Faker('uuid4')
     external_id = factory.fuzzy.FuzzyText(length=9, chars=string.digits)
+    hashed_sso_id = factory.fuzzy.FuzzyText(length=32, chars=string.digits)
     email = factory.Sequence(lambda n: '%d@example.com' % n)
     first_name = factory.fuzzy.FuzzyText(length=10)
     last_name = factory.fuzzy.FuzzyText(length=10)

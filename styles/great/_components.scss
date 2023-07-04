@@ -254,13 +254,14 @@
         width: 51px;
         background-image: url(/static/images/search-black.svg);
         background-size: 20px;
-        top: 2px;
+        top: 4px;
         right: 2px;
 
         @include govuk-media-query($from: tablet) {
             background-size: 24px;
             height: 45px;
             width: 60px;
+            top: 2px;
         }
     }
 }
@@ -272,13 +273,15 @@
         height: 39px;
         width: 31px;
         background-image: url(/static/icons/arrow-black.svg);
-        background-size: 15px;
+        background-size: 12px;
         top: 2px;
-        right: 17px;
+        right: 10px;
         transform: rotate(90deg);
 
         @include govuk-media-query($from: tablet) {
+            background-size: 15px;
             top: 7px;
+            right: 17px;
         }
     }
 }
@@ -299,7 +302,7 @@
     select.great-select {
         background: $great-white;
         font-size: 16px;
-        height: 40px;
+        height: 44px;
         padding-left: 15px;
         width: 100%;
 
@@ -338,7 +341,7 @@
         pointer-events: none;
         height: 20px;
         width: 12px;
-        top: 3px;
+        top: 2px;
         left: 0;
         transform: rotate(180deg);
     }
@@ -377,14 +380,13 @@
     .govuk-summary-list__key,
     .govuk-summary-list__value {
         @include govuk-media-query($until: tablet) {
-            font-size: 14px;
             margin-bottom: 0;
         }
     }
 
     .govuk-link {
         position: absolute;
-        top: 0;
+        top: 6px;
         right: 0;
     }
 
