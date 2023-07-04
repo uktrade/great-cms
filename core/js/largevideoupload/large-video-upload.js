@@ -1,11 +1,11 @@
 import * as utils from './utils'
 
 export const largeVideoUpload = () => {
-  const isAddVideoPage = utils.isAddVideoPage(window.location.pathname)
+  const isAddMediaPage = utils.isAddMediaPage(window.location.pathname)
   const isEditVideoPage = utils.isEditVideoPage(window.location.pathname)
   const isMediaChooserPage = utils.isMediaChooserPage(window.document)
 
-  if (isAddVideoPage || isEditVideoPage || isMediaChooserPage) {
+  if (isAddMediaPage || isEditVideoPage || isMediaChooserPage) {
     const uploadFileInput = document.querySelector('#id_file')
 
     let file

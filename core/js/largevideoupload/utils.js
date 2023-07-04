@@ -1,5 +1,5 @@
-export const isAddVideoPage = (pathname) =>
-  pathname === '/admin/media/video/add/'
+export const isAddMediaPage = (pathname) =>
+  pathname === '/admin/media/video/add/' || '/admin/media/audio/add/'
 
 export const isEditVideoPage = (pathname) =>
   pathname.includes('/admin/media/edit/')
