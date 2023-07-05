@@ -70,18 +70,23 @@ class UserSpecificRedirectMiddleware(GA360Mixin, MiddlewareMixin):
         if redirect.link is None:
             return response
 
-        if "?" in path:
-            if "?" in redirect.link:
-                redirect_link = redirect.link + "&" + urlparse(path).query
-            else:
-                redirect_link = redirect.link + "?" + urlparse(path).query
-        else:
-            redirect_link = redirect.link
+        redirect_link = self.get_redirect_link(path, redirect)
 
         if redirect.is_permanent:
             return http.HttpResponsePermanentRedirect(redirect_link)
         else:
             return http.HttpResponseRedirect(redirect_link)
+
+    @staticmethod
+    def get_redirect_link(path, redirect):
+        if '?' in path:
+            if '?' in redirect.link:
+                redirect_link = redirect.link + '&' + urlparse(path).query
+            else:
+                redirect_link = redirect.link + '?' + urlparse(path).query
+        else:
+            redirect_link = redirect.link
+        return redirect_link
 
 
 class StoreUserExpertiseMiddleware(MiddlewareMixin):
