@@ -5,4 +5,4 @@ applications:
       - https://github.com/cloudfoundry/python-buildpack.git#v1.7.58
     timeout: 180
     env:
-      NODE_VERBOSE: 'true'
+      NODE_VERBOSE: true
