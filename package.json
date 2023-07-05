@@ -87,6 +87,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1",
-    "styled-components": "5.0.1"
+    "styled-components": "5.0.1",
+    "webpack": "^5.76.0"
   }
 }
