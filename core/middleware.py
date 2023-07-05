@@ -1,14 +1,18 @@
 import logging
 import os
 from datetime import datetime
+from urllib.parse import urlparse
 
 import jsonschema as jsonschema
+from django import http
 from django.conf import settings
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
 from django.utils.deprecation import MiddlewareMixin
 from great_components.mixins import GA360Mixin
 from jsonschema import ValidationError
+from wagtail.contrib.redirects import models
+from wagtail.contrib.redirects.middleware import get_redirect
 
 from core import helpers
 from core.fern import Fern
@@ -37,6 +41,47 @@ class UserSpecificRedirectMiddleware(GA360Mixin, MiddlewareMixin):
             return redirect('/learn/categories/')
         elif request.path == '/learn/introduction/':
             request.session[self.SESSION_KEY_LEARN] = True
+
+    # pinched from https://github.com/wagtail/wagtail/blob/main/wagtail/contrib/redirects/middleware.py
+    # to make redirects with querystring. Based on this bug https://github.com/wagtail/wagtail/issues/4414
+    # Original redirect middleware 'wagtail.contrib.redirects.middleware.RedirectMiddleware' is disabled
+    def process_response(self, request, response):
+        # No need to check for a redirect for non-404 responses.
+        if response.status_code != 404:
+            return response
+
+        # Get the path
+        path = models.Redirect.normalise_path(request.get_full_path())
+
+        # Find redirect
+        redirect = get_redirect(request, path)
+        if redirect is None:
+            # Get the path without the query string or params
+            path_without_query = urlparse(path).path
+
+            if path == path_without_query:
+                # don't try again if we know we will get the same response
+                return response
+
+            redirect = get_redirect(request, path_without_query)
+            if redirect is None:
+                return response
+
+        if redirect.link is None:
+            return response
+
+        if "?" in path:
+            if "?" in redirect.link:
+                redirect_link = redirect.link + "&" + urlparse(path).query
+            else:
+                redirect_link = redirect.link + "?" + urlparse(path).query
+        else:
+            redirect_link = redirect.link
+
+        if redirect.is_permanent:
+            return http.HttpResponsePermanentRedirect(redirect_link)
+        else:
+            return http.HttpResponseRedirect(redirect_link)
 
 
 class StoreUserExpertiseMiddleware(MiddlewareMixin):
