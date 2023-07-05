@@ -1,0 +1,19 @@
+// "great-" css classes
+@import "../../../../styles/great/main.scss";
+
+.components-list {
+    position: absolute;
+    left: 0;
+
+    ul {
+        list-style: none;
+    }
+
+    a:visited {
+        color: #1d70b8;
+    }
+}
+
+pre {
+    background-color: #f3f2f1;
+}

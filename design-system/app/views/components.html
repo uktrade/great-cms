@@ -1,0 +1,75 @@
+{% extends "govuk-prototype-kit/layouts/unbranded.html" %}
+
+{% set bodyClasses="great" %}
+
+{% block pageTitle %}
+  Great design system
+{% endblock %}
+
+{% block content %}
+  <h1 class="govuk-heading-xl">
+    GREAT Design System
+  </h1>
+  <nav class="components-list">
+    <ul>
+      <li><a class="govuk-link" href="#typography">Typography</a></li>
+      <li><a class="govuk-link" href="#buttons">Buttons</a></li>
+    </ul>
+  </nav>
+  <section id="typography">
+    <h2 class="govuk-heading-l">Typography</h2>
+    <div class="govuk-!-padding-5 great-bg-lighter-grey">
+      <h1 class="govuk-heading-xl">govuk-heading-xl</h1>
+      <h2 class="govuk-heading-l">govuk-heading-l</h2>
+      <h3 class="govuk-heading-m">govuk-heading-m</h3>
+      <h4 class="govuk-heading-s">govuk-heading-s</h4>
+      <h5 class="govuk-heading-xs">govuk-heading-xs</h5>
+      <p class="govuk-body-l">govuk-body-l</p>
+      <p class="govuk-body">govuk-body</p>
+      <p class="govuk-body-s">govuk-body-s</p>
+      <p class="govuk-body great-font-bold">great-font-bold</p>
+      <p class="govuk-body great-text-grey">great-text-grey</p>
+      <p class="govuk-body great-text-light-grey">great-text-light-grey</p>
+      <p class="govuk-body great-text-white">great-text-white</p>
+      <p class="govuk-body great-text-blue">great-text-blue</p>
+    </div>
+
+    <pre>
+      <code>
+        &lt;h1 class="govuk-heading-xl"&gt;govuk-heading-xl&lt;/h1&gt;
+        &lt;h2 class="govuk-heading-l"&gt;govuk-heading-l&lt;/h2&gt;
+        &lt;h3 class="govuk-heading-m"&gt;govuk-heading-m&lt;/h3&gt;
+        &lt;h4 class="govuk-heading-s"&gt;govuk-heading-s&lt;/h4&gt;
+        &lt;h5 class="govuk-heading-xs"&gt;govuk-heading-xl&lt;/h5&gt;
+        &lt;p class="govuk-body-l"&gt;govuk-body-l&lt;/p&gt;
+        &lt;p class="govuk-body"&gt;govuk-body&lt;/p&gt;
+        &lt;p class="govuk-body-s"&gt;govuk-body-s&lt;/p&gt;
+        &lt;p class="govuk-body great-font-bold"&gt;great-font-bold&lt;/p&gt;
+        &lt;p class="govuk-body great-text-grey"&gt;great-text-grey&lt;/p&gt;
+        &lt;p class="govuk-body great-text-light-grey"&gt;great-text-light-grey&lt;/p&gt;
+        &lt;p class="govuk-body great-text-white"&gt;great-text-white&lt;/p&gt;
+        &lt;p class="govuk-body great-text-blue"&gt;great-text-blue&lt;/p&gt;
+      </code>
+    </pre>
+  </section>
+
+  <section id="buttons" class="govuk-!-margin-top-9">
+    <h2 class="govuk-heading-l">Buttons</h2>
+    <button class="govuk-button">govuk-button</button>
+    <button class="govuk-button govuk-button--secondary">govuk-button--secondary</button>
+    <button class="govuk-button great-full-width-button">great-full-width-button</button>
+
+    <pre>
+      <code>
+        &lt;button class="govuk-button"&gt;govuk-button&lt;/button&gt;
+        &lt;button class="govuk-button govuk-button--secondary"&gt;
+          govuk-button--secondary
+        &lt;/button&gt;
+        &lt;button class="govuk-button great-full-width-button"&gt;
+          great-full-width-button
+        &lt;/button&gt;
+      </code>
+    </pre>
+  </section>
+
+{% endblock %}
