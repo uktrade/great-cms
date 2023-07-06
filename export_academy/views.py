@@ -142,9 +142,10 @@ class EventDetailsView(DetailView):
         # video_render tag which helps in adding subtitles
         # needs input in specific way as below
         event: models.Event = kwargs.get('object', {})
-        video = event.video_recording
-        ctx.update(event_video={'video': video})
-        ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
+        video = getattr(event, 'video_recording', None)
+        if video:
+            ctx['event_video'] = {'video': video}
+            ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
 
         return ctx
 
