@@ -32,6 +32,10 @@ pre {
     background-color: #f3f2f1;
 }
 
+code {
+    font-size: 14px;
+}
+
 
 .great-back-link {
     &::before {
@@ -43,4 +47,8 @@ pre {
     &::after {
         background-image: url(/public/images/arrow-black.svg);
     }
+}
+
+#spacing div {
+    border: 1px dotted grey;
 }
