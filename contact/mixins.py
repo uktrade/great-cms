@@ -29,6 +29,9 @@ class ExportSupportFormMixin:
     def get_context_data(self, **kwargs):
         button_text = 'Continue'
 
+        if kwargs.get('is_feedback_form'):
+            button_text = 'Submit feedback'
+
         if self.kwargs.get('edit'):
             button_text = 'Save'
 
