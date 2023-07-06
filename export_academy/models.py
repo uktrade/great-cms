@@ -74,7 +74,7 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     format = models.CharField(max_length=15, choices=FORMAT_CHOICES, default=ONLINE)
-    link = models.URLField(blank=True, null=True, max_length=255)
+    link = models.URLField(blank=False, null=True, max_length=255)
     types = ClusterTaggableManager(through=TaggedEventType)
     location = models.CharField(blank=True, null=True, max_length=255)
     document = models.ForeignKey(

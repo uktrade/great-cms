@@ -382,12 +382,9 @@ class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixi
 class JoinBookingView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         """
-        Override redirection method to adjust for the teams meeting url
+        Override redirection method to always return event link.
         """
-        if self.url:
-            return self.url
-
-        return super().get_redirect_url(*args, **kwargs)
+        return self.url
 
     def get(self, request, *args, **kwargs):
         # Update redirect url
