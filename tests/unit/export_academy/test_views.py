@@ -856,7 +856,7 @@ def test_verification_page_success(
     )
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
-        template_id=settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID,
+        template_id=settings.GOV_NOTIFY_WELCOME_TEMPLATE_ID,
         email_address='test@example.com',
         form_url='/export-academy/signup/verification',
     )
