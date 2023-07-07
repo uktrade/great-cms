@@ -44,10 +44,9 @@ def set_all_events(value):
 
 @register.filter
 def get_filters(list_of_filters, user):
-    if user.is_authenticated:
+    if user.is_authenticated and settings.FEATURE_EXPORT_ACADEMY_RELEASE_2:
         return list_of_filters
-    else:
-        return [field for field in list_of_filters if field.name != 'booking_period']
+    return [field for field in list_of_filters if field.name != 'booking_period']
 
 
 @register.simple_tag

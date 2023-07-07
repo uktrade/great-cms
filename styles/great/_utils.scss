@@ -2,15 +2,15 @@
 @import './typography.scss';
 
 %great-text-grey {
-  color: $great-grey;
+  color: $great-grey !important;
 }
 
 %great-text-light-grey {
-  color: $great-light-grey;
+  color: $great-light-grey !important;
 }
 
 %great-text-white {
-  color: white;
+  color: $great-white !important;
 }
 
 .great {
@@ -396,7 +396,7 @@
 }
 
 .great-text-blue {
-  color: $govuk-brand-colour;
+  color: $govuk-brand-colour !important;
 }
 
 .great-max-width-100 {
