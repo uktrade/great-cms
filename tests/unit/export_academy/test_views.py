@@ -461,20 +461,34 @@ def test_export_academy_booking_cancellation_success(mock_notify_cancellation, c
 
 
 @pytest.mark.django_db
-def test_event_detail_views(client, user):
+def test_event_detail_view_with_video(client, user):
     event = factories.EventFactory(name='Test event name', description='Test description')
     url = reverse('export_academy:event-details', kwargs=dict(pk=event.id))
     response = client.get(url)
 
     assert response.status_code == 200
+    assert response.context['event_video']
+    assert response.context['video_duration']
     assert '/subtitles/' in str(response.rendered_content)
-    assert '<a href="/export-academy/events/?booking_period=past" class="govuk-link">Back</a>' in str(
+    assert '<a href="/export-academy/events/?booking_period=past" class="govuk-link">Back to all events</a>' in str(
         response.rendered_content
     )
     assert 'time' in str(response.rendered_content)
     assert 'Duration:' in str(response.rendered_content)
     assert 'Test event name' in str(response.rendered_content)
     assert 'Test description' in str(response.rendered_content)
+
+
+@pytest.mark.django_db
+def test_event_detail_view_no_video(client, user):
+    event = factories.EventFactory(video_recording=None)
+    url = reverse('export_academy:event-details', kwargs=dict(pk=event.id))
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert not response.context.get('event_video')
+    assert not response.context.get('video_duration')
+    assert 'This video is no longer available.' in str(response.rendered_content)
 
 
 @pytest.mark.django_db
@@ -842,7 +856,7 @@ def test_verification_page_success(
     )
     assert mock_action_class.call_count == 1
     assert mock_action_class.call_args == mock.call(
-        template_id=settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID,
+        template_id=settings.GOV_NOTIFY_WELCOME_TEMPLATE_ID,
         email_address='test@example.com',
         form_url='/export-academy/signup/verification',
     )
