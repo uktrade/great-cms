@@ -184,3 +184,48 @@ def is_expand_your_business_registered(request):
 
     # Add check that email exists in eyb user db table
     return True
+
+
+def get_salary_data(entry_salary, mid_salary, executive_salary):
+    entry_salary = entry_salary.get('median_salary__avg')
+    mid_salary = mid_salary.get('median_salary__avg')
+    executive_salary = executive_salary.get('median_salary__avg')
+
+    if entry_salary:
+        entry_salary = int(entry_salary)
+    if mid_salary:
+        mid_salary = int(mid_salary)
+    if executive_salary:
+        executive_salary = int(executive_salary)
+
+    return entry_salary, mid_salary, executive_salary
+
+
+def get_rent_data(large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office):
+    large_warehouse_rent = large_warehouse_rent.get('value_converted__avg')
+    small_warehouse_rent = small_warehouse_rent.get('value_converted__avg')
+    shopping_centre = shopping_centre.get('value_converted__avg')
+    high_street_retail = high_street_retail.get('value_converted__avg')
+    work_office = work_office.get('value_converted__avg')
+
+    if large_warehouse_rent:
+        large_warehouse_rent = large_warehouse_rent * 340000
+        large_warehouse_rent = int(large_warehouse_rent)
+
+    if small_warehouse_rent:
+        small_warehouse_rent = small_warehouse_rent * 5000
+        small_warehouse_rent = int(small_warehouse_rent)
+
+    if shopping_centre:
+        shopping_centre = shopping_centre * 204
+        shopping_centre = int(shopping_centre)
+
+    if high_street_retail:
+        high_street_retail = high_street_retail * 204
+        high_street_retail = int(high_street_retail)
+
+    if work_office:
+        work_office = work_office * 16671
+        work_office = int(work_office)
+
+    return large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office

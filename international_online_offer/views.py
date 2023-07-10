@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
+from great_components.mixins import GA360Mixin
 
 from directory_sso_api_client import sso_api_client
 from international_online_offer import forms
@@ -35,13 +36,29 @@ def calculate_and_store_is_high_value(request):
         request.session['is_high_value'] = is_high_value
 
 
-class IOOIndex(TemplateView):
+class IOOIndex(GA360Mixin, TemplateView):
     template_name = 'ioo/index.html'
 
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='Index',
+            business_unit='ExpandYourBusiness',
+            site_section='index',
+        )
 
-class IOOSector(FormView):
+
+class IOOSector(GA360Mixin, FormView):
     form_class = forms.SectorForm
     template_name = 'ioo/triage/sector.html'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='Sector',
+            business_unit='ExpandYourBusiness',
+            site_section='sector',
+        )
 
     def get_back_url(self):
         back_url = 'international_online_offer:index'
@@ -87,9 +104,17 @@ class IOOSector(FormView):
         return super().form_valid(form)
 
 
-class IOOIntent(FormView):
+class IOOIntent(GA360Mixin, FormView):
     form_class = forms.IntentForm
     template_name = 'ioo/triage/intent.html'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='Intent',
+            business_unit='ExpandYourBusiness',
+            site_section='intent',
+        )
 
     def get_back_url(self):
         back_url = 'international_online_offer:sector'
@@ -137,9 +162,17 @@ class IOOIntent(FormView):
         return super().form_valid(form)
 
 
-class IOOLocation(FormView):
+class IOOLocation(GA360Mixin, FormView):
     form_class = forms.LocationForm
     template_name = 'ioo/triage/location.html'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='Location',
+            business_unit='ExpandYourBusiness',
+            site_section='location',
+        )
 
     def get_back_url(self):
         back_url = 'international_online_offer:intent'
@@ -190,9 +223,17 @@ class IOOLocation(FormView):
         return super().form_valid(form)
 
 
-class IOOHiring(FormView):
+class IOOHiring(GA360Mixin, FormView):
     form_class = forms.HiringForm
     template_name = 'ioo/triage/hiring.html'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='Hiring',
+            business_unit='ExpandYourBusiness',
+            site_section='hiring',
+        )
 
     def get_back_url(self):
         back_url = 'international_online_offer:location'
@@ -238,9 +279,17 @@ class IOOHiring(FormView):
         return super().form_valid(form)
 
 
-class IOOSpend(FormView):
+class IOOSpend(GA360Mixin, FormView):
     form_class = forms.SpendForm
     template_name = 'ioo/triage/spend.html'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='Spend',
+            business_unit='ExpandYourBusiness',
+            site_section='spend',
+        )
 
     def get_back_url(self):
         back_url = 'international_online_offer:hiring'
@@ -288,9 +337,18 @@ class IOOSpend(FormView):
         return super().form_valid(form)
 
 
-class IOOProfile(FormView):
+class IOOProfile(GA360Mixin, FormView):
     form_class = forms.ProfileForm
     template_name = 'ioo/profile.html'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='Profile',
+            business_unit='ExpandYourBusiness',
+            site_section='profile',
+        )
+
     success_url = '/international/expand-your-business-in-the-uk/guide/'
     COMPLETE_SIGN_UP_TITLE = 'Complete sign up'
     COMPLETE_SIGN_UP_LOW_VALUE_SUB_TITLE = 'Complete the sign up form to access your full personalised guide.'
@@ -381,10 +439,18 @@ class IOOProfile(FormView):
         return super().form_valid(form)
 
 
-class IOOLogin(sso_mixins.SignInMixin, TemplateView):
+class IOOLogin(GA360Mixin, sso_mixins.SignInMixin, TemplateView):
     form_class = forms.LoginForm
     template_name = 'ioo/login.html'
     success_url = '/international/expand-your-business-in-the-uk/guide/'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='Login',
+            business_unit='ExpandYourBusiness',
+            site_section='login',
+        )
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -411,11 +477,18 @@ class IOOLogin(sso_mixins.SignInMixin, TemplateView):
         return render(request, self.template_name, {'form': form})
 
 
-class IOOSignUp(sso_mixins.ResendVerificationMixin, sso_mixins.VerifyCodeMixin, sso_mixins.SignUpMixin, TemplateView):
+class IOOSignUp(
+    GA360Mixin, sso_mixins.ResendVerificationMixin, sso_mixins.VerifyCodeMixin, sso_mixins.SignUpMixin, TemplateView
+):
     template_name = 'ioo/signup.html'
     success_url = '/international/expand-your-business-in-the-uk/guide/'
 
     def __init__(self):
+        self.set_ga360_payload(
+            page_id='Signup',
+            business_unit='ExpandYourBusiness',
+            site_section='signup',
+        )
         code_expired_error = {'field': '__all__', 'error_message': 'Code has expired: we have emailed you a new code'}
         super().__init__(code_expired_error)
 
@@ -503,8 +576,16 @@ class IOOSignUp(sso_mixins.ResendVerificationMixin, sso_mixins.VerifyCodeMixin, 
             return self.do_sign_up_flow(request)
 
 
-class IOOEditYourAnswers(TemplateView):
+class IOOEditYourAnswers(GA360Mixin, TemplateView):
     template_name = 'ioo/edit_your_answers.html'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='EditYourAnswers',
+            business_unit='ExpandYourBusiness',
+            site_section='edit-your-answers',
+        )
 
     def get_context_data(self, **kwargs):
         triage_data = get_triage_data_from_db_or_session(self.request)

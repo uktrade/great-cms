@@ -121,6 +121,13 @@ class IOOGuidePage(BaseContentPage):
             opportunities_articles=opportunities_articles,
             trade_page=trade_page,
         )
+        self.set_ga360_payload(
+            page_id='Guide',
+            business_unit='ExpandYourBusiness',
+            site_section='guide',
+        )
+        self.add_ga360_data_to_payload(request)
+        context['ga360'] = self.ga360_payload
         return context
 
 
@@ -219,16 +226,35 @@ class IOOArticlePage(BaseContentPage):
                 region=region, vertical__iexact=sector_display, professional_level='Director/Executive'
             ).aggregate(Avg('median_salary'))
 
-            entry_salary = entry_salary.get('median_salary__avg')
-            mid_salary = mid_salary.get('median_salary__avg')
-            executive_salary = executive_salary.get('median_salary__avg')
+            entry_salary, mid_salary, executive_salary = helpers.get_salary_data(
+                entry_salary, mid_salary, executive_salary
+            )
 
-            if entry_salary:
-                entry_salary = int(entry_salary)
-            if mid_salary:
-                mid_salary = int(mid_salary)
-            if executive_salary:
-                executive_salary = int(executive_salary)
+            large_warehouse_rent = RentData.objects.filter(region=region, sub_vertical='Large Warehouses').aggregate(
+                Avg('value_converted')
+            )
+            small_warehouse_rent = RentData.objects.filter(region=region, sub_vertical='Small Warehouses').aggregate(
+                Avg('value_converted')
+            )
+            shopping_centre = RentData.objects.filter(region=region, sub_vertical='Prime Shopping Center').aggregate(
+                Avg('value_converted')
+            )
+            high_street_retail = RentData.objects.filter(region=region, sub_vertical='High Street Retail').aggregate(
+                Avg('value_converted')
+            )
+            work_office = RentData.objects.filter(region=region, sub_vertical='Work Office').aggregate(
+                Avg('value_converted')
+            )
+
+        (
+            large_warehouse_rent,
+            small_warehouse_rent,
+            shopping_centre,
+            high_street_retail,
+            work_office,
+        ) = helpers.get_rent_data(
+            large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office
+        )
 
         context.update(
             triage_data=triage_data,
@@ -236,7 +262,19 @@ class IOOArticlePage(BaseContentPage):
             entry_salary=entry_salary,
             mid_salary=mid_salary,
             executive_salary=executive_salary,
+            large_warehouse_rent=large_warehouse_rent,
+            small_warehouse_rent=small_warehouse_rent,
+            shopping_centre=shopping_centre,
+            high_street_retail=high_street_retail,
+            work_office=work_office,
         )
+        self.set_ga360_payload(
+            page_id='Article',
+            business_unit='ExpandYourBusiness',
+            site_section=str(self.url or '/').split('/')[4],
+        )
+        self.add_ga360_data_to_payload(request)
+        context['ga360'] = self.ga360_payload
         return context
 
 
@@ -269,6 +307,13 @@ class IOOTradePage(BaseContentPage):
         context.update(
             triage_data=triage_data, all_tradeshows=all_tradeshows, all_trade_associations=all_trade_associations
         )
+        self.set_ga360_payload(
+            page_id='TradeShowsAndAssociations',
+            business_unit='ExpandYourBusiness',
+            site_section='trade',
+        )
+        self.add_ga360_data_to_payload(request)
+        context['ga360'] = self.ga360_payload
         return context
 
 
@@ -364,3 +409,19 @@ class SalaryData(models.Model):
     median_annual_percentage_change = models.IntegerField(null=True)
     mean_salary = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     mean_annual_percentage_change = models.IntegerField(null=True)
+
+
+class RentData(models.Model):
+    country = models.CharField(max_length=255)
+    region = models.CharField(max_length=255)
+    city_or_region = models.CharField(max_length=255)
+    category = models.CharField(max_length=255)
+    vertical = models.CharField(max_length=255)
+    sub_vertical = models.CharField(max_length=255)
+    year = models.IntegerField(null=True)
+    metric_converted = models.CharField(max_length=255, null=True)
+    value_converted = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    title = models.CharField(max_length=255, null=True)
+    metric_original = models.CharField(max_length=255, null=True)
+    value_original = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    time_period = models.CharField(max_length=255, null=True)

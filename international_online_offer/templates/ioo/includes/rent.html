@@ -1,5 +1,6 @@
 {% load wagtailcore_tags %}
 {% load location_select_filters %}
+{% load humanize %}
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full govuk-!-padding-6 salary-component">
@@ -65,10 +66,10 @@
                 </div>
                 <div class="govuk-grid-row">
                   <div class="govuk-grid-column-one-half">
-                    <p class="govuk-heading-m"><span class="govuk-heading-l">£100,000</span> per calendar month for 2023</p>
+                    <p class="govuk-heading-m"><span class="govuk-heading-l">£{{large_warehouse_rent|default:'-'|intcomma}}</span> per calendar month for 2023</p>
                   </div>
                   <div class="govuk-grid-column-one-half">
-                    <p class="govuk-body">A large warehouse is a industrial unit that is 100,000 sq foot and over</p>
+                    <p class="govuk-body">A large warehouse is an industrial unit that is <strong class="govuk-!-font-weight-bold">340,000 sq foot</strong> on average in the UK.</p>
                   </div>
                 </div>
               </div>
@@ -80,10 +81,10 @@
                 </div>
                 <div class="govuk-grid-row">
                   <div class="govuk-grid-column-one-half">
-                    <p class="govuk-heading-m"><span class="govuk-heading-l">£5,000</span> per calendar month for 2023</p>
+                    <p class="govuk-heading-m"><span class="govuk-heading-l">£{{small_warehouse_rent|default:'-'|intcomma}}</span> per calendar month for 2023</p>
                   </div>
                   <div class="govuk-grid-column-one-half">
-                    <p class="govuk-body">A small warehouse is a industrial unit that is under 100,000 sq foot</p>
+                    <p class="govuk-body">A small warehouse is an industrial unit. Calculation based on a small warehouse being <strong class="govuk-!-font-weight-bold">5000 sq foot</strong></p>
                   </div>
                 </div>
               </div>
@@ -95,10 +96,10 @@
                 </div>
                 <div class="govuk-grid-row">
                   <div class="govuk-grid-column-one-half">
-                    <p class="govuk-heading-m"><span class="govuk-heading-l">£4,000</span> per calendar month for 2023</p>
+                    <p class="govuk-heading-m"><span class="govuk-heading-l">£{{shopping_centre|default:'-'|intcomma}}</span> per calendar month for 2023</p>
                   </div>
                   <div class="govuk-grid-column-one-half">
-                    <p class="govuk-body">A shopping centre is a unit near a group of shops, sometimes under one roof</p>
+                    <p class="govuk-body">A shopping centre unit is near a group of shops, sometimes under one roof. Calculation based on average UK unit being <strong class="govuk-!-font-weight-bold">204 sq foot</strong></p>
                   </div>
                 </div>
               </div>
@@ -110,10 +111,10 @@
                 </div>
                 <div class="govuk-grid-row">
                   <div class="govuk-grid-column-one-half">
-                    <p class="govuk-heading-m"><span class="govuk-heading-l">£3,000</span> per calendar month for 2023</p>
+                    <p class="govuk-heading-m"><span class="govuk-heading-l">£{{high_steet_retail|default:'-'|intcomma}}</span> per calendar month for 2023</p>
                   </div>
                   <div class="govuk-grid-column-one-half">
-                    <p class="govuk-body">High street retail is a concentration of shops in either urban or urban-like areas</p>
+                    <p class="govuk-body">High street retail is a concentration of shops in either urban or urban-like areas. Calculation based on average UK unit being <strong class="govuk-!-font-weight-bold">204 sq foot</strong></p>
                   </div>
                 </div>
               </div>
@@ -125,10 +126,10 @@
                 </div>
                 <div class="govuk-grid-row">
                   <div class="govuk-grid-column-one-half">
-                    <p class="govuk-heading-m"><span class="govuk-heading-l">£2,000</span> per calendar month for 2023</p>
+                    <p class="govuk-heading-m"><span class="govuk-heading-l">£{{work_office|default:'-'|intcomma}}</span> per calendar month for 2023</p>
                   </div>
                   <div class="govuk-grid-column-one-half">
-                    <p class="govuk-body">A work office is a room or set of rooms in which business, professional duties, clerical work, etc, are carried out.</p>
+                    <p class="govuk-body">A work office is a room or set of rooms in which business, professional duties, clerical work, etc, are carried out. Calculation based on average UK work office being <strong class="govuk-!-font-weight-bold">16,671 sq foot</strong></p>
                   </div>
                 </div>
               </div>
