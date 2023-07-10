@@ -536,7 +536,7 @@ class DomesticExportSupportFormStep7View(contact_mixins.ExportSupportFormMixin, 
 class DomesticExportSupportFormStep8View(contact_mixins.ExportSupportFormMixin, FormView):
     form_class = contact_forms.DomesticExportSupportStep8Form
     template_name = 'domestic/contact/export-support/confirmation.html'
-    success_url = reverse_lazy('contact:export-support-step-8')
+    success_url = reverse_lazy('contact:export-support-step-9')
     subject = 'DPE Feedback form'
 
     def submit_feedback(self, form):
@@ -572,6 +572,10 @@ class DomesticExportSupportFormStep8View(contact_mixins.ExportSupportFormMixin, 
     def form_valid(self, form):
         self.submit_feedback(form)
         return super().form_valid(form)
+
+
+class DomesticExportSupportFormStep9View(TemplateView):
+    template_name = 'domestic/contact/export-support/feedback-confirmation.html'
 
 
 class InternationalFormView(
