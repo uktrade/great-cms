@@ -20,7 +20,6 @@ coverage:
   ignore:
     - core/management/commands/import_*
 
-
 parsers:
   gcov:
     branch_detection:
