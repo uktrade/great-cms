@@ -4,35 +4,39 @@
 {% load static %}
 {% load wagtailimages_tags %}
 {% load event_list_buttons %}
+{% load add_govuk_classes from content_tags %}
 
 {% block content %}
+<div class="great">
     {% image page.hero_image original as rendition %}
-    <div class="page-header article-header stack-at-tablet-width ea-landing-page" id="hero">
-        <div class="inner-header">
-            <div>
-                <h1>{{ page.title }}</h1>
-                <p>{{ page.hero_text | richtext }}</p>
-
-                {% feature_ea_release_two_enabled as ea_release_two_enabled %}
-                {% if ea_release_two_enabled %}
-                    {% is_logged_in as ea_user_logged_in %}
-                    {% if ea_user_logged_in %}
-                        {% include_block page.hero_cta_logged_in %}
+    <section class="background-white govuk-!-padding-bottom-0">
+    <div class="container">
+        <div class="page-header article-header stack-at-tablet-width ea-landing-page govuk-!-padding-left-0" id="hero">
+            <div class="inner-header govuk-!-margin-left-0 govuk-!-static-padding-0">
+                <div>
+                    <h1>{{ page.title }}</h1>
+                    <p>{{ page.hero_text | richtext | add_govuk_classes }}</p>
+                    {% feature_ea_release_two_enabled as ea_release_two_enabled %}
+                    {% if ea_release_two_enabled %}
+                        {% is_logged_in as ea_user_logged_in %}
+                        {% if ea_user_logged_in %}
+                            {% include_block page.hero_cta_logged_in %}
+                        {% else %}
+                            {% include_block page.hero_cta %}
+                            <p>{{ page.hero_text_below_cta_logged_out | richtext | add_govuk_classes }}</p>
+                        {% endif %}
                     {% else %}
                         {% include_block page.hero_cta %}
-                        <p>{{ page.hero_text_below_cta_logged_out | richtext }}</p>
                     {% endif %}
-                {% else %}
-                    {% include_block page.hero_cta %}
-                {% endif %}
-
-            </div>
-            <div class="image-container image-full-width great-display-from-tablet" style="background: url({{ rendition.url }})">
-                <img class='ea-logo' src='/static/images/uk-export-academy-logo.svg' />
-            </div>
+                </div>
+                <div class="image-container image-full-width great-display-from-tablet" style="background: url({{ rendition.url }})">
+                    <img class='ea-logo' src='/static/images/uk-export-academy-logo.svg' alt='UK Export Academy logo' />
+                </div>
+                </div>
             </div>
         </div>
     </div>
+    </section>
     {% block breadcrumbs %}
       {% include 'components/breadcrumbs_cms.html' %}
     {% endblock %}
@@ -84,4 +88,5 @@
             {% include_block page.next_cta %}
         </div>
     </section>
+</div>
 {% endblock %}
