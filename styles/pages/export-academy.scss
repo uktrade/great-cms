@@ -115,9 +115,9 @@
 .ea-signup-panel {
     .ea-logo {
         position: absolute;
-        width: 250px;
-        bottom: 50px;
-        right: 10px;
+        width: 210px;
+        bottom: 65px;
+        right: 30px;
 
         @media only screen and (max-width: 900px) {
             width: 30%;
@@ -125,7 +125,7 @@
 
         @media only screen and (min-width: 1400px) {
             right: 0;
-            left: calc(50% + 180px);
+            left: calc(50% + 200px);
         }
 
         &.hide-logo-below-1200 {
