@@ -354,7 +354,11 @@
     margin: auto;
     padding: 0 15px;
 
-    @media (min-width: 1400px) {
+    @media (min-width: 1025px) {
+      padding: 0 30px;
+  }
+
+    @media (min-width: 1280px) {
         padding: 0;
     }
 }
