@@ -380,6 +380,12 @@ class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixi
 
 
 class JoinBookingView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        """
+        Override redirection method to always return event link.
+        """
+        return self.url
+
     def get(self, request, *args, **kwargs):
         # Update redirect url
         event_id = kwargs.get('event_id')
