@@ -115,9 +115,9 @@
 .ea-signup-panel {
     .ea-logo {
         position: absolute;
-        width: 250px;
-        bottom: 50px;
-        right: 10px;
+        width: 210px;
+        bottom: 65px;
+        right: 30px;
 
         @media only screen and (max-width: 900px) {
             width: 30%;
@@ -125,7 +125,7 @@
 
         @media only screen and (min-width: 1400px) {
             right: 0;
-            left: calc(50% + 180px);
+            left: calc(50% + 200px);
         }
 
         &.hide-logo-below-1200 {
@@ -228,29 +228,19 @@
     .ea-logo {
         position: absolute;
         bottom: 20px;
-        right: 20px;
-        width: 250px;
+        right: 0;
+        width: 200px;
 
         @media only screen and (max-width: 340px) {
             bottom: 10px;
-            right: 10px;
         }
 
         @media only screen and (min-width: 341px) and (max-width: 640px) {
             bottom: 15px;
-            right: 15px;
         }
 
         @media only screen and (max-width: 900px) {
             width: 30%;
-        }
-
-        @media only screen and (min-width: 1400px) and (max-width: 1640px) {
-            right: calc(20px + 5%);
-        }
-
-        @media only screen and (min-width: 1640px) {
-            right: calc(20px + 10%);
         }
     }
 }

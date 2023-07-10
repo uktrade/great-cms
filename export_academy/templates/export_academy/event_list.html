@@ -10,20 +10,20 @@
 {% block head_title %}UKEA Events{% endblock %}
 
 {% block content %}
-    {% block hero %}
-        {% with content_snippet as hero %}
-            <div class="ea-listing-page">
-                    {% include 'components/export_academy_hero.html' with hero=hero hide_image_for_mobile=True %}
-            </div>
-        {% endwith %}
-    {% endblock %}
-    <div id="breadcrumbs" class="great-display-from-tablet">
-        {% breadcrumbs 'Events' %}
-            <a href="/">great.gov.uk</a>
-            <a href="{% pageurl landing_page %}">UK Export Academy</a>
-        {% endbreadcrumbs %}
-    </div>
     <div class="great">
+        {% block hero %}
+            {% with content_snippet as hero %}
+                <div class="ea-listing-page">
+                    {% include 'components/export_academy_hero.html' with hero=hero hide_image_for_mobile=True %}
+                </div>
+            {% endwith %}
+        {% endblock %}
+        <div id="breadcrumbs" class="great-display-from-tablet">
+            {% breadcrumbs 'Events' %}
+                <a href="/">great.gov.uk</a>
+                <a href="{% pageurl landing_page %}">UK Export Academy</a>
+            {% endbreadcrumbs %}
+        </div>
         <section class="govuk-!-padding-top-3 background-white clearfix">
             <div class="container">
                 <div class="govuk-grid-row">
@@ -54,8 +54,8 @@
                                     {% endfor %}
                                 </ul>
                                 <div class="filters-sticky-footer govuk-!-margin-top-7" id="filters-sticky-footer">
-                                 <a href="#" class="button primary-button update" role="button">Apply filters<span class="verbose">With Javascript enabled, click this button to filter the results.</span></a>
-                                 <a href="#" class="cancel link">Cancel</a>
+                                    <a href="#" class="button primary-button update" role="button">Apply filters<span class="verbose">With Javascript enabled, click this button to filter the results.</span></a>
+                                    <a href="#" class="cancel link">Cancel</a>
                                 </div>
                                 <input type="submit" class="button primary-button govuk-!-margin-top-7" value="Update results">
                             </div>
@@ -72,7 +72,7 @@
                                 {%if event.past_year_seperator %}
                                     <h2 class="past-year-seperator govuk-!-padding-left-3 govuk-!-padding-bottom-30">{{event.past_year_seperator}}</h2>
                                 {%endif%}
-                                 <h4 class="govuk-!-padding-left-3 govuk-!-padding-right-3 event-title">{{ event.name }}</h4>
+                                    <h4 class="govuk-!-padding-left-3 govuk-!-padding-right-3 event-title">{{ event.name }}</h4>
                                 <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 great-display-until-tablet">
                                     {% include 'export_academy/includes/event_duration.html' %}
 
@@ -125,6 +125,7 @@
         </section>
     </div>
 {% endblock %}
+
 {% block body_js %}
 {{ block.super }}
 <script src="{% static 'javascript/eventFilters.js' %}"></script>
