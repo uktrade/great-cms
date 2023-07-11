@@ -8,10 +8,12 @@ from django.contrib.auth.models import AnonymousUser
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.db.models import FileField
 from django.test import TestCase, override_settings
+from wagtail.admin.menu import DismissibleMenuItem
 from wagtail.core.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
 
 from core import cms_slugs, wagtail_hooks
+from core.constants import MENU_ITEM_ADD_AN_EVENT_LINK
 from core.models import DetailPage, MicrositePage
 from core.wagtail_hooks import (
     FileTransferError,
@@ -28,6 +30,7 @@ from core.wagtail_hooks import (
     convert_video,
     editor_css,
     get_microsite_page_body,
+    register_help_link_menu_item,
     register_s3_media_file_adapter,
 )
 from tests.helpers import make_test_video
@@ -1197,3 +1200,11 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
 
     def test_migrate_article_page(self):
         self.assertEqual(MigratePage.execute_action([self.article1]), (1, 1))
+
+
+def test_register_help_link_menu_item():
+    menu_item = register_help_link_menu_item()
+    assert isinstance(menu_item, DismissibleMenuItem)
+    assert menu_item.url == MENU_ITEM_ADD_AN_EVENT_LINK
+    assert menu_item.name == 'help-link'
+    assert menu_item.order == 1200
