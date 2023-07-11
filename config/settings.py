@@ -102,7 +102,6 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'wagtail.contrib.legacy.sitemiddleware.SiteMiddleware',
-    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     'core.middleware.UserSpecificRedirectMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'core.middleware.CheckGATags',
@@ -670,6 +669,8 @@ CONTACT_SOO_ZENDESK_SUBJECT = env.str(
 SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID = env.str(
     'SUBSCRIBE_TO_FTA_UPDATES_NOTIFY_TEMPLATE_ID', 'cfa3b4b3-c232-4603-a3ce-e476ee8bab92'
 )
+
+GOV_NOTIFY_WELCOME_TEMPLATE_ID = env.str('GOV_NOTIFY_WELCOME_TEMPLATE_ID', '0a4ae7a9-7f67-4f5d-a536-54df2dee42df')
 
 
 GOV_NOTIFY_ALREADY_REGISTERED_TEMPLATE_ID = env.str(
