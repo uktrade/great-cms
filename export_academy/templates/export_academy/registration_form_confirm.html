@@ -3,6 +3,8 @@
 {% load wagtailcore_tags %}
 {% load static %}
 
+{% block head_title %}Check your answers before {% if is_editing %}updatings{% else %}submitting{% endif %} your registration – {% if is_editing %}Edit your details{% else %}Booking your first event{% endif %} – UK Export Academy{% endblock %}
+
 {% block body_js %}
   {{ block.super }}
 {% endblock %}
