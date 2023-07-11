@@ -782,6 +782,7 @@
             </div>
         {% endif %}
     </div>
+    {% if not request.user.is_authenticated %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <div class="govuk-inset-text">
@@ -792,6 +793,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
 
