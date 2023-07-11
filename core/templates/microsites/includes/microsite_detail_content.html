@@ -18,7 +18,7 @@
   <div class="great-full-width-header-image" style="background-image: url({{ hero_image.url }})"></div>
   {% endif %}
   </header>
-  <main id="content">
+  <main id="content" tabindex="-1" class="{% block css_layout_class %}{% endblock css_layout_class %}" role="main">
     <div class="container govuk-!-padding-top-7 {% if LANGUAGE_BIDI  and TRANSLATE_TEXT %} great-rtl {% endif %}">
       
         <div class="govuk-grid-row great-floating-right-column">

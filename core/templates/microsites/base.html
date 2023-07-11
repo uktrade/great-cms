@@ -181,13 +181,13 @@
 
 
 {% block body_content_container %}
-  <div tabindex="-1" class="{% block css_layout_class %}{% endblock css_layout_class %}">
+  
     {% block content %}{% endblock %}
     {% block feedback_reporter %}
       {% include 'components/error_reporting.html' %}
     {% endblock %}
     {% block content_after %}{% endblock %}
-  </div>
+  
 {% endblock %}
 
 {% block body_footer %}
