@@ -2,15 +2,15 @@
 @import './typography.scss';
 
 %great-text-grey {
-  color: $great-grey;
+  color: $great-grey !important;
 }
 
 %great-text-light-grey {
-  color: $great-light-grey;
+  color: $great-light-grey !important;
 }
 
 %great-text-white {
-  color: white;
+  color: $great-white !important;
 }
 
 .great {
@@ -354,7 +354,11 @@
     margin: auto;
     padding: 0 15px;
 
-    @media (min-width: 1400px) {
+    @media (min-width: 1025px) {
+      padding: 0 30px;
+  }
+
+    @media (min-width: 1280px) {
         padding: 0;
     }
 }
@@ -396,7 +400,7 @@
 }
 
 .great-text-blue {
-  color: $govuk-brand-colour;
+  color: $govuk-brand-colour !important;
 }
 
 .great-max-width-100 {
@@ -505,6 +509,14 @@
   display: block;
 
   @include govuk-media-query($from: tablet) {
+    display: none;
+  }
+}
+
+.great-display-until-desktop {
+  display: block;
+
+  @include govuk-media-query($from: 901px) {
     display: none;
   }
 }
