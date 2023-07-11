@@ -102,7 +102,6 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'wagtail.contrib.legacy.sitemiddleware.SiteMiddleware',
-    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     'core.middleware.UserSpecificRedirectMiddleware',
     'core.middleware.StoreUserExpertiseMiddleware',
     'core.middleware.CheckGATags',

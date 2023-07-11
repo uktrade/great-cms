@@ -1594,7 +1594,7 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
             {
                 'help_us_improve': 'easy',
             },
-            reverse('contact:export-support-step-8'),
+            reverse('contact:export-support-step-9'),
             {
                 'help_us_improve': 'Choose an option',
             },
@@ -1779,7 +1779,7 @@ def test_feedback_form_success(
     )
 
     assert response.status_code == 302
-    assert response.url == reverse('contact:export-support-step-8')
+    assert response.url == reverse('contact:export-support-step-9')
 
     assert mock_action_class().save.call_count == 1
 

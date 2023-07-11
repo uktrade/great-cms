@@ -382,7 +382,16 @@ class DomesticExportSupportStep7Form(forms.Form):
         widget=django_widgets.Select(attrs={'class': 'govuk-select great-select'}),
         choices=(
             ('', 'Please select'),
-            ('google', 'Google'),
+            ('search_engine', 'Search engine'),
+            ('linkedin', 'Linkedin'),
+            ('twitter', 'Twitter'),
+            ('facebook', 'Facebook'),
+            ('radio_advert', 'Radio advert'),
+            ('ngo', 'Non-government organisation - such as a trade body'),
+            ('news_article', 'News article'),
+            ('online_advert', 'Online advert'),
+            ('print_advert', 'Print advert'),
+            ('other', 'Other'),
         ),
         required=False,
     )
