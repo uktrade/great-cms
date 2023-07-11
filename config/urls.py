@@ -72,6 +72,8 @@ handler404 = 'core.views.handler404'
 
 handler500 = 'core.views.handler500'
 
+handler502 = 'core.views.handler502'
+
 if settings.DEBUG:
     import debug_toolbar
     from django.conf.urls.static import static

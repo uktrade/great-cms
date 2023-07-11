@@ -151,6 +151,10 @@ def handler500(request, *args, **kwargs):
     return TemplateResponse(request=request, template='core/500.html', context={}, status=500)
 
 
+def handler502(request, *args, **kwargs):
+    return TemplateResponse(request=request, template='core/500.html', context={}, status=502)
+
+
 class AbstractSignupWizardView(abc.ABC):
     step_labels = (
         'Get tailored content',
