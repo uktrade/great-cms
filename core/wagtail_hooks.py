@@ -19,6 +19,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import gettext as _
 from great_components.helpers import add_next
+from wagtail.admin.menu import DismissibleMenuItem
 from wagtail.admin.views.pages.bulk_actions.page_bulk_action import PageBulkAction
 from wagtail.core import hooks
 from wagtail.core.models import Page
@@ -27,6 +28,7 @@ from wagtail_transfer.files import File as WTFile, FileTransferError
 from wagtail_transfer.models import ImportedFile
 
 from core import constants, mixins, views
+from core.constants import MENU_ITEM_ADD_AN_EVENT_LINK
 from core.models import MicrositePage
 from domestic.models import ArticlePage
 
@@ -505,3 +507,15 @@ def convert_related_links(page):
         {'id': page.related_page_five_id, 'title': page.related_page_five_title, 'link': page.related_page_five_title},
     ]
     return [get_related_link_conversion(item) for item in related_links if item['id'] is not None or item['link'] != '']
+
+
+@hooks.register('register_help_menu_item')
+def register_help_link_menu_item():
+    return DismissibleMenuItem(
+        _('Add an Event'),
+        MENU_ITEM_ADD_AN_EVENT_LINK,
+        icon_name='help',
+        order=1200,
+        attrs={'target': '_blank', 'rel': 'noreferrer'},
+        name='help-link',
+    )

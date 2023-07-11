@@ -79,3 +79,7 @@ CONSENT_CHOICES = (
 USER_DATA_NAMES = {'ComparisonMarkets': 16384, 'UserProducts': 16384, 'UserMarkets': 16384, 'ActiveProduct': 256}
 
 COUNTRY_FACTSHEET_CTA_TITLE = 'View latest trade statistics'
+
+MENU_ITEM_ADD_AN_EVENT_LINK = (
+    'https://workspace.trade.gov.uk/working-at-dbt/how-do-i/add-an-event-to-our-events-platform/'
+)

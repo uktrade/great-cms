@@ -29,12 +29,10 @@ asn1crypto==1.5.1
     #   oscrypto
     #   pyhanko
     #   pyhanko-certvalidator
-astroid==2.15.5
+astroid==2.15.6
     # via pylint
 asttokens==2.2.1
     # via stack-data
-async-generator==1.10
-    # via trio
 async-timeout==4.0.2
     # via redis
 attrs==23.1.0
@@ -58,7 +56,7 @@ beautifulsoup4==4.11.2
     #   wagtail
 billiard==3.6.4.0
     # via celery
-black==23.3.0
+black==23.7.0
     # via
     #   -r requirements_test.in
     #   blacken-docs
@@ -78,7 +76,7 @@ brotli==1.0.9
     # via geventhttpclient
 browserstack-local==1.2.5
     # via browserstack-sdk
-browserstack-sdk==1.10.4
+browserstack-sdk==1.11.3
     # via -r requirements_test.in
 build==0.10.0
     # via pip-tools
@@ -98,9 +96,9 @@ cffi==1.15.1
     # via cryptography
 cfgv==3.3.1
     # via pre-commit
-charset-normalizer==3.1.0
+charset-normalizer==3.2.0
     # via requests
-click==8.1.3
+click==8.1.4
     # via
     #   black
     #   celery
@@ -116,7 +114,7 @@ click-plugins==1.1.1
     # via celery
 click-repl==0.3.0
     # via celery
-configargparse==1.5.3
+configargparse==1.5.5
     # via locust
 coverage[toml]==7.2.7
     # via
@@ -124,7 +122,7 @@ coverage[toml]==7.2.7
     #   pytest-cov
 cron-descriptor==1.4.0
     # via django-celery-beat
-cryptography==41.0.1
+cryptography==41.0.2
     # via
     #   -r requirements.in
     #   pyhanko
@@ -264,12 +262,12 @@ elasticsearch-dsl==7.4.1
     # via -r requirements.in
 et-xmlfile==1.1.0
     # via openpyxl
-exceptiongroup==1.1.1
+exceptiongroup==1.1.2
     # via
     #   pytest
     #   trio
     #   trio-websocket
-execnet==1.9.0
+execnet==2.0.2
     # via pytest-xdist
 executing==1.2.0
     # via stack-data
@@ -277,7 +275,7 @@ factory-boy==2.12.0
     # via
     #   -r requirements.in
     #   wagtail-factories
-faker==18.11.1
+faker==18.13.0
     # via factory-boy
 filelock==3.12.2
     # via virtualenv
@@ -321,7 +319,7 @@ geventhttpclient==2.0.9
     # via locust
 gitdb==4.0.10
     # via gitpython
-gitpython==3.1.31
+gitpython==3.1.32
     # via -r requirements_test.in
 great-components==2.3.0
     # via -r requirements.in
@@ -347,7 +345,7 @@ idna==3.4
     #   trio
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==6.7.0
+importlib-metadata==6.8.0
     # via flask
 inflection==0.5.1
     # via drf-spectacular
@@ -388,7 +386,7 @@ lazy-object-proxy==1.9.0
     # via astroid
 locust==2.15.1
     # via -r requirements_test.in
-lxml==4.9.2
+lxml==4.9.3
     # via
     #   -r requirements.in
     #   pyquery
@@ -403,7 +401,7 @@ markupsafe==2.1.3
     #   werkzeug
 matplotlib-inline==0.1.6
     # via ipython
-maxminddb==2.3.0
+maxminddb==2.4.0
     # via geoip2
 mccabe==0.7.0
     # via
@@ -460,9 +458,9 @@ pillow==9.5.0
     #   reportlab
     #   wagtail
     #   xhtml2pdf
-pip-tools==6.13.0
+pip-tools==6.14.0
     # via -r requirements_test.in
-platformdirs==3.8.0
+platformdirs==3.8.1
     # via
     #   black
     #   pylint
@@ -477,7 +475,7 @@ pre-commit==3.3.3
     # via -r requirements_test.in
 pre-commit-hooks==3.3.0
     # via -r requirements_test.in
-prompt-toolkit==3.0.38
+prompt-toolkit==3.0.39
     # via
     #   click-repl
     #   ipython
@@ -519,7 +517,7 @@ pylint-django==2.5.3
     # via -r requirements_test.in
 pylint-plugin-utils==0.8.2
     # via pylint-django
-pypdf==3.11.0
+pypdf==3.12.1
     # via xhtml2pdf
 pypng==0.20220715.0
     # via qrcode
@@ -697,6 +695,7 @@ tomli==2.0.1
     #   build
     #   coverage
     #   ipdb
+    #   pip-tools
     #   pylint
     #   pyproject-hooks
     #   pytest
@@ -708,13 +707,13 @@ traitlets==5.9.0
     # via
     #   ipython
     #   matplotlib-inline
-trio==0.22.0
+trio==0.22.1
     # via
     #   selenium
     #   trio-websocket
 trio-websocket==0.10.3
     # via selenium
-typing-extensions==4.6.3
+typing-extensions==4.7.1
     # via
     #   asgiref
     #   astroid
@@ -810,7 +809,7 @@ wsproto==1.2.0
     # via trio-websocket
 xhtml2pdf==0.2.11
     # via -r requirements.in
-zipp==3.15.0
+zipp==3.16.0
     # via importlib-metadata
 zope-event==5.0
     # via gevent
