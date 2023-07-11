@@ -23,25 +23,32 @@
         // border: 2px solid black;
     }
 
+    .govuk-form-group {
+        margin-bottom: 10px;
+    }
+
     .salary-location-form {
         display: inline-flex;
         flex-wrap: wrap;
 
-        .form-label {
-            @extend %govuk-body-l;
+        .govuk-form-label {
+            @extend %govuk-body-m;
             margin-bottom: 0px;
+            display: block;
         }
 
         .atlas-button {
             height: 49px;
-            margin-top: 36px;
+            margin-top: 25px;
             margin-left: 10px;
 
         }
 
-        .form-control {
+        .govuk-form-control {
             min-width: 280px;
             width: 286px;
+            height: 49px;
+            @extend %govuk-body-m;
         }
 
         @media (max-width: 640px) {

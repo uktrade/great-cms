@@ -1,5 +1,6 @@
 {% load wagtailcore_tags %}
 {% load location_select_filters %}
+{% load add_govuk_classes from content_tags %}
 {% load humanize %}
 
 <div class="govuk-grid-row">
@@ -20,7 +21,9 @@
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-full">
             <form class="salary-location-form" action="" method="GET">
-              {{ rent_location_form }}
+              {% filter add_govuk_classes %}
+                {{ rent_location_form }}
+              {% endfilter %}
               <button type="submit" class="atlas-button" id="rent-location-submit">Change</button>
             </form>
           </div>
