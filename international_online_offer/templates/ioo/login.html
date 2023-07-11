@@ -9,44 +9,46 @@
 {% endblock %}
 
 {% block content %}
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-l">Sign in</h1>
+<div class="govuk-width-container">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Sign in</h1>
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-body-m">Don't have an account? <a href="{% url 'international_online_offer:signup' %}" class="govuk-link">Sign up</a></h2>
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if form.non_field_errors %}
+      <div id="error-summary-container" class="govuk-error-summary" data-module="govuk-error-summary">
+        <div role="alert">
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list" id="errors-list">
+              {{ form.non_field_errors }}
+            </ul>
           </div>
         </div>
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-two-thirds">
-            <h2 class="govuk-body-m">Don't have an account? <a href="{% url 'international_online_offer:signup' %}" class="govuk-link">Sign up</a></h2>
-          </div>
-        </div>
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-two-thirds">
-            {% if form.non_field_errors %}
-            <div id="error-summary-container" class="govuk-error-summary" data-module="govuk-error-summary">
-              <div role="alert">
-                <div class="govuk-error-summary__body">
-                  <ul class="govuk-list govuk-error-summary__list" id="errors-list">
-                    {{ form.non_field_errors }}
-                  </ul>
-                </div>
-              </div>
-            </div>
-            {% endif %}
-            {% comment %} <form action="{% url 'sso:business-sso-login-api' %}" method="post"> {% endcomment %}
-            <div id="login">
-              <form method="post">
-                {% csrf_token %}
-                <label class="govuk-label" for="company_location">Email</label>
-                {% include 'core/includes/form_field.html' with field=form.email %}
-                <label class="govuk-label" for="company_location">Password</label>
-                {% comment %} <div class="govuk-hint">Type to search and choose from the list</div> {% endcomment %}
-                {% include 'core/includes/form_field.html' with field=form.password %}
-                <p><a class="govuk-link" href="{{ javascript_components.password_reset_url }}">Forgotten password?</a></p>
-                {% include './includes/submit_button.html' with button_text='Sign in'  %}
-              </form>
-            </div>
-          </div>
-        </div>
+      </div>
+      {% endif %}
+      {% comment %} <form action="{% url 'sso:business-sso-login-api' %}" method="post"> {% endcomment %}
+      <div id="login">
+        <form method="post">
+          {% csrf_token %}
+          <label class="govuk-label" for="company_location">Email</label>
+          {% include 'core/includes/form_field.html' with field=form.email %}
+          <label class="govuk-label" for="company_location">Password</label>
+          {% comment %} <div class="govuk-hint">Type to search and choose from the list</div> {% endcomment %}
+          {% include 'core/includes/form_field.html' with field=form.password %}
+          <p><a class="govuk-link" href="{{ javascript_components.password_reset_url }}">Forgotten password?</a></p>
+          {% include './includes/submit_button.html' with button_text='Sign in'  %}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block body_js %}

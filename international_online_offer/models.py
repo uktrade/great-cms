@@ -1,6 +1,7 @@
 from django.contrib.postgres.fields import ArrayField
 from django.core.paginator import Paginator
 from django.db import models
+from django.db.models import Avg
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey
 from taggit.models import TagBase, TaggedItemBase
@@ -15,6 +16,7 @@ from core.models import CMSGenericPage
 from directory_constants.choices import COUNTRY_CHOICES
 from domestic.models import BaseContentPage
 from international_online_offer.core import choices, constants, helpers
+from international_online_offer.forms import LocationSelectForm
 
 
 def get_triage_data(hashed_uuid):
@@ -119,6 +121,13 @@ class IOOGuidePage(BaseContentPage):
             opportunities_articles=opportunities_articles,
             trade_page=trade_page,
         )
+        self.set_ga360_payload(
+            page_id='Guide',
+            business_unit='ExpandYourBusiness',
+            site_section='guide',
+        )
+        self.add_ga360_data_to_payload(request)
+        context['ga360'] = self.ga360_payload
         return context
 
 
@@ -199,6 +208,75 @@ class IOOArticlePage(BaseContentPage):
         FieldPanel('tags'),
     ]
 
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        if helpers.is_expand_your_business_registered(request):
+            triage_data = get_triage_data(request.user.hashed_uuid)
+            location = request.GET.get('location', triage_data.location)
+            region = helpers.get_salary_region_from_region(location)
+            sector_display = triage_data.get_sector_display()
+
+            entry_salary = SalaryData.objects.filter(
+                region=region, vertical__iexact=sector_display, professional_level='Entry-level'
+            ).aggregate(Avg('median_salary'))
+            mid_salary = SalaryData.objects.filter(
+                region=region, vertical__iexact=sector_display, professional_level='Middle/Senior Management'
+            ).aggregate(Avg('median_salary'))
+            executive_salary = SalaryData.objects.filter(
+                region=region, vertical__iexact=sector_display, professional_level='Director/Executive'
+            ).aggregate(Avg('median_salary'))
+
+            entry_salary, mid_salary, executive_salary = helpers.get_salary_data(
+                entry_salary, mid_salary, executive_salary
+            )
+
+            large_warehouse_rent = RentData.objects.filter(region=region, sub_vertical='Large Warehouses').aggregate(
+                Avg('value_converted')
+            )
+            small_warehouse_rent = RentData.objects.filter(region=region, sub_vertical='Small Warehouses').aggregate(
+                Avg('value_converted')
+            )
+            shopping_centre = RentData.objects.filter(region=region, sub_vertical='Prime Shopping Center').aggregate(
+                Avg('value_converted')
+            )
+            high_street_retail = RentData.objects.filter(region=region, sub_vertical='High Street Retail').aggregate(
+                Avg('value_converted')
+            )
+            work_office = RentData.objects.filter(region=region, sub_vertical='Work Office').aggregate(
+                Avg('value_converted')
+            )
+
+        (
+            large_warehouse_rent,
+            small_warehouse_rent,
+            shopping_centre,
+            high_street_retail,
+            work_office,
+        ) = helpers.get_rent_data(
+            large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office
+        )
+
+        context.update(
+            triage_data=triage_data,
+            location_form=LocationSelectForm(initial={'location': location}),
+            entry_salary=entry_salary,
+            mid_salary=mid_salary,
+            executive_salary=executive_salary,
+            large_warehouse_rent=large_warehouse_rent,
+            small_warehouse_rent=small_warehouse_rent,
+            shopping_centre=shopping_centre,
+            high_street_retail=high_street_retail,
+            work_office=work_office,
+        )
+        self.set_ga360_payload(
+            page_id='Article',
+            business_unit='ExpandYourBusiness',
+            site_section=str(self.url or '/').split('/')[4],
+        )
+        self.add_ga360_data_to_payload(request)
+        context['ga360'] = self.ga360_payload
+        return context
+
 
 class IOOTradePage(BaseContentPage):
     parent_page_types = ['international_online_offer.IOOGuidePage']
@@ -229,6 +307,13 @@ class IOOTradePage(BaseContentPage):
         context.update(
             triage_data=triage_data, all_tradeshows=all_tradeshows, all_trade_associations=all_trade_associations
         )
+        self.set_ga360_payload(
+            page_id='TradeShowsAndAssociations',
+            business_unit='ExpandYourBusiness',
+            site_section='trade',
+        )
+        self.add_ga360_data_to_payload(request)
+        context['ga360'] = self.ga360_payload
         return context
 
 
@@ -310,3 +395,33 @@ class TradeAssociation(models.Model):
     website_link = models.CharField(max_length=255)
     sector = models.CharField(max_length=255)
     brief_description = models.CharField(max_length=255)
+
+
+class SalaryData(models.Model):
+    region = models.CharField(max_length=255)
+    vertical = models.CharField(max_length=255)
+    professional_level = models.CharField(max_length=255)
+    occupation = models.CharField(max_length=255)
+    code = models.CharField(max_length=255, null=True)
+    year = models.IntegerField(null=True)
+    number_of_jobs_thousands = models.IntegerField(null=True)
+    median_salary = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    median_annual_percentage_change = models.IntegerField(null=True)
+    mean_salary = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    mean_annual_percentage_change = models.IntegerField(null=True)
+
+
+class RentData(models.Model):
+    country = models.CharField(max_length=255)
+    region = models.CharField(max_length=255)
+    city_or_region = models.CharField(max_length=255)
+    category = models.CharField(max_length=255)
+    vertical = models.CharField(max_length=255)
+    sub_vertical = models.CharField(max_length=255)
+    year = models.IntegerField(null=True)
+    metric_converted = models.CharField(max_length=255, null=True)
+    value_converted = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    title = models.CharField(max_length=255, null=True)
+    metric_original = models.CharField(max_length=255, null=True)
+    value_original = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    time_period = models.CharField(max_length=255, null=True)

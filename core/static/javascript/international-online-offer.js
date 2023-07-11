@@ -1,40 +1,3 @@
-const iooFormData = {
-  triageInfromation: {
-    sector: '',
-    intent: [],
-    intentOther: '',
-    location: '',
-    locationOther: '',
-    hiring: '',
-    spend: '',
-    spendOther: '',
-  },
-  contactInformation: {
-    companyName: '',
-    companyLocation: '',
-    fullName: '',
-    role: '',
-    email: '',
-    telephoneNumber: '',
-    agreeTerms: false,
-    agreeInfoEmail: false,
-    agreeInfoTelephone: false,
-  },
-  contactFormComplete: false,
-}
-
-function getIooFormData() {
-  if (window.localStorage.getItem('iooFormData')) {
-    return JSON.parse(window.localStorage.getItem('iooFormData'));
-  } else {
-    return iooFormData;
-  }
-}
-
-function setIooFormData(newData) {
-  window.localStorage.setItem('iooFormData', JSON.stringify(newData));
-}
-
 function parseJsonForAutoComplete(json) {
   let out = [];
   for (let i = 0; i < json.length; i++) {
@@ -284,42 +247,4 @@ function handleSpendRadioClick(radio) {
   if (otherRadioElement.checked == false) {
     document.getElementById('id_spend_other').value = '';
   }
-}
-
-function onSubmitContact() {
-  const iooFormData = getIooFormData();
-  iooFormData.contactFormComplete = false;
-  const companyLocation = document.getElementById('js-company-location-select').value;
-  window.localStorage.removeItem('completedContactForm');
-  document.getElementById('js-company-location-select-select').value = companyLocation;
-  iooFormData.contactInformation.companyName = document.getElementById('id_company_name').value;
-  iooFormData.contactInformation.companyLocation = companyLocation;
-  iooFormData.contactInformation.fullName = document.getElementById('id_full_name').value;
-  iooFormData.contactInformation.role = document.getElementById('id_role').value;
-  iooFormData.contactInformation.email = document.getElementById('id_email').value;
-  iooFormData.contactInformation.telephoneNumber = document.getElementById('id_telephone_number').value;
-  iooFormData.contactInformation.agreeTerms = document.getElementById('id_agree_terms').checked;
-  iooFormData.contactInformation.agreeInfoEmail = document.getElementById('id_agree_info_email').checked;
-  iooFormData.contactInformation.agreeInfoTelephone = document.getElementById('id_agree_info_telephone').checked;
-  setIooFormData(iooFormData);
-}
-
-function getContactFormIfPreviouslySelected() {
-  const iooFormData = getIooFormData();
-  document.getElementById('id_company_name').value = iooFormData.contactInformation.companyName;
-  document.getElementById('id_full_name').value = iooFormData.contactInformation.fullName;
-  document.getElementById('id_role').value = iooFormData.contactInformation.role;
-  document.getElementById('id_email').value = iooFormData.contactInformation.email;
-  document.getElementById('id_telephone_number').value = iooFormData.contactInformation.telephoneNumber;
-  document.getElementById('id_agree_terms').checked = iooFormData.contactInformation.agreeTerms;
-  document.getElementById('id_agree_info_email').checked = iooFormData.contactInformation.agreeInfoEmail;
-  document.getElementById('id_agree_info_telephone').checked = iooFormData.contactInformation.agreeInfoTelephone;
-  setTimeout(function() {
-    document.getElementById('js-company-location-select-select').value = iooFormData.contactInformation.companyLocation;
-  }, 200);
-}
-
-function getContactFormCompanyLocationIfPreviouslySelected() {
-  const iooFormData = getIooFormData();
-  return iooFormData.contactInformation.companyLocation;
 }
