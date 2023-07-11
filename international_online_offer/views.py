@@ -484,13 +484,13 @@ class IOOSignUp(
     success_url = '/international/expand-your-business-in-the-uk/guide/'
 
     def __init__(self):
+        code_expired_error = {'field': '__all__', 'error_message': 'Code has expired: we have emailed you a new code'}
+        super().__init__(code_expired_error)
         self.set_ga360_payload(
             page_id='Signup',
             business_unit='ExpandYourBusiness',
             site_section='signup',
         )
-        code_expired_error = {'field': '__all__', 'error_message': 'Code has expired: we have emailed you a new code'}
-        super().__init__(code_expired_error)
 
     def send_welcome_notification(self, email, form_url):
         return helpers.send_welcome_notification(email, form_url)
