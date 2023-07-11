@@ -513,6 +513,14 @@
   }
 }
 
+.great-display-until-desktop {
+  display: block;
+
+  @include govuk-media-query($from: 901px) {
+    display: none;
+  }
+}
+
 .great-actions-group {
   > * {
     @include govuk-media-query($from: tablet) {
