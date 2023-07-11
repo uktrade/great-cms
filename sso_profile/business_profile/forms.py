@@ -114,6 +114,17 @@ class CaseStudyBasicInfoForm(forms.Form):
             directory_validators.string.no_html,
         ],
     )
+    IS_PUBLISHED_CASE_STUDY_CHOICES = [
+        (True, 'Published'),
+        (False, 'Not Published'),
+    ]
+    is_published_case_study = forms.ChoiceField(
+        label=(
+            'Published case studies will be publicly visible.'
+        ),
+        widget=forms.RadioSelect,
+        choices=IS_PUBLISHED_CASE_STUDY_CHOICES,
+    )
 
 
 class DynamicHelptextFieldsMixin:
