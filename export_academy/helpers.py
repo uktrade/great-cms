@@ -10,7 +10,6 @@ from django.urls import reverse_lazy
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 
-from core.urls import SIGNUP_URL
 from export_academy.models import Event, Registration
 
 
@@ -162,7 +161,7 @@ def check_registration(function):
                 event_id = request.POST['event_id']
                 return redirect(reverse_lazy('export_academy:registration', kwargs=dict(event_id=event_id)))
         else:
-            return redirect_to_login(referer, SIGNUP_URL, REDIRECT_FIELD_NAME)
+            return redirect_to_login(referer, 'export_academy:signup', REDIRECT_FIELD_NAME)
 
     return _wrapped_view_function
 

@@ -383,7 +383,7 @@ def test_export_academy_booking_redirect_to_login(client, user):
     response = client.post(url, form_data)
 
     assert response.status_code == 302
-    assert response.url.startswith(reverse('core:signup'))
+    assert response.url.startswith(reverse('export_academy:signup'))
 
 
 @pytest.mark.django_db
