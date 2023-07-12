@@ -175,15 +175,11 @@ def get_salary_region_from_region(region):
             return d
 
 
-def is_expand_your_business_registered(request):
+def is_authenticated(request):
     if not hasattr(request, 'user'):
         return False
 
-    if not request.user.is_authenticated:
-        return False
-
-    # Add check that email exists in eyb user db table
-    return True
+    return request.user.is_authenticated
 
 
 def get_salary_data(entry_salary, mid_salary, executive_salary):
