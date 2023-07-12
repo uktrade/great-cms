@@ -124,6 +124,7 @@ $menu-border: 5px solid $color-alternative-text;
 
             &.rtl {
               border-right: 5px solid transparent;
+              line-height: 2.35;
             }
 
             &.active,
@@ -147,7 +148,6 @@ $menu-border: 5px solid $color-alternative-text;
 
     nav:not([aria-label="Langugages"]) {
       width: 100%;
-      line-height: 2.36;
 
       @include width-container();
       padding: 0 0 3px 0;
