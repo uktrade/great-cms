@@ -121,8 +121,22 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     def __str__(self):
         return f'{self.id}:{self.name}'
 
+    @classmethod
+    def from_db(cls, db, field_names, values):
+        instance = super().from_db(db, field_names, values)
+
+        # save original values, when model is loaded from database,
+        # in a separate attribute on the model
+        instance._loaded_values = dict(zip(field_names, values))
+
+        return instance
+
     def save(self, **kwargs):
-        send_notifications_for_all_bookings(self, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
+        # Send notification when completed is updated
+        if not self._state.adding:
+            if self._loaded_values['completed'] is None and self.completed:
+                send_notifications_for_all_bookings(self, settings.EXPORT_ACADEMY_NOTIFY_FOLLOW_UP_TEMPLATE_ID)
+
         return super().save(**kwargs)
 
 
