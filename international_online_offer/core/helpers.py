@@ -2,7 +2,12 @@ from directory_forms_api_client import actions
 from django.conf import settings
 
 from directory_constants import sectors as directory_constants_sectors
-from international_online_offer.core import filter_tags, sectors as sectors
+from international_online_offer.core import (
+    choices,
+    filter_tags,
+    regions,
+    sectors as sectors,
+)
 
 
 def concat_filters(*filters):
@@ -157,3 +162,70 @@ def get_trade_assoication_sectors_from_sector(sector):
     }
     mapping = mappings.get(sector)
     return mapping if mapping else []
+
+
+def get_salary_region_from_region(region):
+    # This is the only salary region (from statista, external dataset)
+    # that is not quite an exact match to the eyb regions
+    if region == regions.EASTERN:
+        return 'East'
+
+    for v, d in choices.REGION_CHOICES:
+        if v == region:
+            return d
+
+
+def is_expand_your_business_registered(request):
+    if not hasattr(request, 'user'):
+        return False
+
+    if not request.user.is_authenticated:
+        return False
+
+    # Add check that email exists in eyb user db table
+    return True
+
+
+def get_salary_data(entry_salary, mid_salary, executive_salary):
+    entry_salary = entry_salary.get('median_salary__avg')
+    mid_salary = mid_salary.get('median_salary__avg')
+    executive_salary = executive_salary.get('median_salary__avg')
+
+    if entry_salary:
+        entry_salary = int(entry_salary)
+    if mid_salary:
+        mid_salary = int(mid_salary)
+    if executive_salary:
+        executive_salary = int(executive_salary)
+
+    return entry_salary, mid_salary, executive_salary
+
+
+def get_rent_data(large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office):
+    large_warehouse_rent = large_warehouse_rent.get('value_converted__avg')
+    small_warehouse_rent = small_warehouse_rent.get('value_converted__avg')
+    shopping_centre = shopping_centre.get('value_converted__avg')
+    high_street_retail = high_street_retail.get('value_converted__avg')
+    work_office = work_office.get('value_converted__avg')
+
+    if large_warehouse_rent:
+        large_warehouse_rent = large_warehouse_rent * 340000
+        large_warehouse_rent = int(large_warehouse_rent)
+
+    if small_warehouse_rent:
+        small_warehouse_rent = small_warehouse_rent * 5000
+        small_warehouse_rent = int(small_warehouse_rent)
+
+    if shopping_centre:
+        shopping_centre = shopping_centre * 204
+        shopping_centre = int(shopping_centre)
+
+    if high_street_retail:
+        high_street_retail = high_street_retail * 204
+        high_street_retail = int(high_street_retail)
+
+    if work_office:
+        work_office = work_office * 16671
+        work_office = int(work_office)
+
+    return large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office

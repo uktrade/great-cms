@@ -54,6 +54,7 @@ footer {
       display: inline-flex;
       gap: $large-padding;
       flex-wrap: wrap;
+      list-style-type: none;
 
       @media only screen and (max-width: $mobile-size) {
         flex-direction: column;

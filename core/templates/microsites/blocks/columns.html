@@ -6,7 +6,7 @@
 {% load get_template_translation_enabled from content_tags %}
 {% get_template_translation_enabled as TRANSLATE_TEXT %}
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row govuk-!-margin-top-6">
 {% for item in value %}
 <div class="microsite-column govuk-grid-column-one-{% if value|length == 3 %}third{% else %}half{% endif %}">
     {%if item.value.image%}
