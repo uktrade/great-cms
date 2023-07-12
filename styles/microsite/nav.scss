@@ -147,6 +147,7 @@ $menu-border: 5px solid $color-alternative-text;
 
     nav:not([aria-label="Langugages"]) {
       width: 100%;
+      line-height: 2.36;
 
       @include width-container();
       padding: 0 0 3px 0;
@@ -176,7 +177,7 @@ $menu-border: 5px solid $color-alternative-text;
         &.active,
         &:hover {
           color: $color-alternative-text;
-          font-weight: 600;
+          font-weight: 400;
           border-bottom: $menu-border;
         }
       }

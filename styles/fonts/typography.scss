@@ -198,9 +198,12 @@ $regular-font-weight: 400;
 .arabic {
   h1, h2, h3, h4, h5 {
     font-family: $arabic-header-text-font
+    font-weight: normal;
   };
 
   body, p, button, a, li {
     font-family: $arabic-main-text-font;
+    font-weight: normal;
+
   }
 }
