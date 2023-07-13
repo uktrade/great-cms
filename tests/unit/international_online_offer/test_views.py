@@ -358,7 +358,7 @@ def test_ioo_profile(client, user, settings):
 )
 @pytest.mark.django_db
 def test_ioo_profile_new_signup_vs_update(client, settings, form_data, expected_query_param):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = (True,)
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:profile') + expected_query_param
     response = client.post(
         url,
