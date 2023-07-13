@@ -211,7 +211,6 @@ class IOOArticlePage(BaseContentPage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         if helpers.is_authenticated(request):
-            print('IN HERE STU')
             triage_data = get_triage_data(request.user.hashed_uuid)
             location = request.GET.get('location', triage_data.location)
             region = helpers.get_salary_region_from_region(location)
