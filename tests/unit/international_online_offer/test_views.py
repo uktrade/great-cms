@@ -324,13 +324,45 @@ def test_ioo_profile(client, user, settings):
 
 
 @pytest.mark.django_db
-def test_ioo_profile_with_url_params(client, user, settings):
+def test_ioo_profile_get_success_url_signup(client, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     url = reverse('international_online_offer:profile') + '?signup=true'
-    user.email = 'test@test.com'
-    client.force_login(user)
-    response = client.get(url)
-    assert response.status_code == 200
+    response = client.post(
+        url,
+        {
+            'company_name': 'Department for Business and Trade',
+            'company_location': 'DE',
+            'full_name': 'Joe Bloggs',
+            'role': 'Director',
+            'email': 'joe@bloggs.com',
+            'telephone_number': '+447923456789',
+            'agree_terms': 'true',
+            'agree_info_email': '',
+            'agree_info_telephone': '',
+        },
+    )
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_ioo_profile_get_success_url_already_signed_up(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:profile')
+    response = client.post(
+        url,
+        {
+            'company_name': 'Department for Business and Trade',
+            'company_location': 'DE',
+            'full_name': 'Joe Bloggs',
+            'role': 'Director',
+            'email': 'joe@bloggs.com',
+            'telephone_number': '+447923456789',
+            'agree_terms': 'true',
+            'agree_info_email': '',
+            'agree_info_telephone': '',
+        },
+    )
+    assert response.status_code == 302
 
 
 @pytest.mark.django_db
