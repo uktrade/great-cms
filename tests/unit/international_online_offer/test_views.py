@@ -323,46 +323,49 @@ def test_ioo_profile(client, user, settings):
     assert response.status_code == 200
 
 
+@pytest.mark.parametrize(
+    'form_data,expected_query_param',
+    (
+        (
+            {
+                'company_name': 'Department for Business and Trade',
+                'company_location': 'DE',
+                'full_name': 'New Signup Joe Bloggs',
+                'role': 'Director',
+                'email': 'joe@bloggs.com',
+                'telephone_number': '+447923456789',
+                'agree_terms': 'true',
+                'agree_info_email': '',
+                'agree_info_telephone': '',
+            },
+            '?signup=true',
+        ),
+        (
+            {
+                'company_name': 'Department for Business and Trade',
+                'company_location': 'DE',
+                'full_name': 'Existing Joe Bloggs',
+                'role': 'Director',
+                'email': 'joe@bloggs.com',
+                'telephone_number': '+447923456789',
+                'agree_terms': 'true',
+                'agree_info_email': '',
+                'agree_info_telephone': '',
+            },
+            '',
+        ),
+    ),
+)
 @pytest.mark.django_db
-def test_ioo_profile_get_success_url_signup(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:profile') + '?signup=true'
+def test_ioo_profile_new_signup_vs_update(client, settings, form_data, expected_query_param):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = (True,)
+    url = reverse('international_online_offer:profile') + expected_query_param
     response = client.post(
         url,
-        {
-            'company_name': 'Department for Business and Trade',
-            'company_location': 'DE',
-            'full_name': 'Joe Bloggs',
-            'role': 'Director',
-            'email': 'joe@bloggs.com',
-            'telephone_number': '+447923456789',
-            'agree_terms': 'true',
-            'agree_info_email': '',
-            'agree_info_telephone': '',
-        },
+        form_data,
     )
     assert response.status_code == 302
-
-
-@pytest.mark.django_db
-def test_ioo_profile_get_success_url_already_signed_up(client, settings):
-    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
-    url = reverse('international_online_offer:profile')
-    response = client.post(
-        url,
-        {
-            'company_name': 'Department for Business and Trade',
-            'company_location': 'DE',
-            'full_name': 'Joe Bloggs',
-            'role': 'Director',
-            'email': 'joe@bloggs.com',
-            'telephone_number': '+447923456789',
-            'agree_terms': 'true',
-            'agree_info_email': '',
-            'agree_info_telephone': '',
-        },
-    )
-    assert response.status_code == 302
+    assert response['Location'] == f"{'/international/expand-your-business-in-the-uk/guide/'}" + expected_query_param
 
 
 @pytest.mark.django_db
