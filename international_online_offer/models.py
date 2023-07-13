@@ -246,32 +246,35 @@ class IOOArticlePage(BaseContentPage):
                 Avg('value_converted')
             )
 
-        (
-            large_warehouse_rent,
-            small_warehouse_rent,
-            shopping_centre,
-            high_street_retail,
-            work_office,
-        ) = helpers.get_rent_data(
-            large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office
-        )
+            (
+                large_warehouse_rent,
+                small_warehouse_rent,
+                shopping_centre,
+                high_street_retail,
+                work_office,
+            ) = helpers.get_rent_data(
+                large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office
+            )
 
-        context.update(
-            triage_data=triage_data,
-            location_form=LocationSelectForm(initial={'location': location}),
-            entry_salary=entry_salary,
-            mid_salary=mid_salary,
-            executive_salary=executive_salary,
-            large_warehouse_rent=large_warehouse_rent,
-            small_warehouse_rent=small_warehouse_rent,
-            shopping_centre=shopping_centre,
-            high_street_retail=high_street_retail,
-            work_office=work_office,
-        )
+            context.update(
+                triage_data=triage_data,
+                location_form=LocationSelectForm(initial={'location': location}),
+                entry_salary=entry_salary,
+                mid_salary=mid_salary,
+                executive_salary=executive_salary,
+                large_warehouse_rent=large_warehouse_rent,
+                small_warehouse_rent=small_warehouse_rent,
+                shopping_centre=shopping_centre,
+                high_street_retail=high_street_retail,
+                work_office=work_office,
+            )
+        site_section_url = ''
+        if self.url:
+            site_section_url = str(self.url or '/').split('/')[4]
         self.set_ga360_payload(
             page_id='Article',
             business_unit='ExpandYourBusiness',
-            site_section=str(self.url or '/').split('/')[4],
+            site_section=site_section_url,
         )
         self.add_ga360_data_to_payload(request)
         context['ga360'] = self.ga360_payload
