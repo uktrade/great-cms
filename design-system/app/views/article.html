@@ -4,6 +4,8 @@
   Content page template – {{ serviceName }} – GOV.UK Prototype Kit
 {% endblock %}
 
+{% from "macros/notification-banner.njk" import notificationBanner %}
+
 {% set bodyClasses="great" %}
 
 {% block content %}
@@ -16,6 +18,8 @@
       <p class="govuk-body">I can add govuk body</p>
 
       <a href="/" class="govuk-button">I can go back</a>
+
+      {{ notificationBanner("Thank you for your feedback", "Your feedback has been successfully submitted") }}
 
     </div>
   </div>

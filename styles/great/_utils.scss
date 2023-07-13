@@ -591,6 +591,12 @@
   width: 100%;
 }
 
+.great-min-300-button {
+  @include govuk-media-query($from: tablet) {
+    min-width: 300px;
+  }
+}
+
 .great-warning-text__icon {
   position: absolute;
   left: 0;

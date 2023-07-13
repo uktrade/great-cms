@@ -171,7 +171,7 @@
 }
 
 .great-badge {
-  background: $great-green;
+  background: $great-teal;
   color: $great-white;
   display: inline-block;
   font-size: 18px;
@@ -436,6 +436,22 @@
       width: 9px;
       border-bottom: 6px solid $great-white;
       border-right: 6px solid $great-white;
+    }
+  }
+}
+
+.great-notification-banner {
+  border-color: $great-green;
+  background-color: $great-green;
+  margin-bottom: 20px;
+
+  @include govuk-media-query($from: tablet) {
+    margin-bottom: 30px;
+  }
+
+  .govuk-notification-banner__content {
+    @include govuk-media-query($from: tablet) {
+      padding: 40px 30px;
     }
   }
 }
