@@ -324,6 +324,16 @@ def test_ioo_profile(client, user, settings):
 
 
 @pytest.mark.django_db
+def test_ioo_profile_with_url_params(client, user, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:profile') + '?signup=true'
+    user.email = 'test@test.com'
+    client.force_login(user)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_ioo_profile_initial(client, user, settings):
     settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
     UserData.objects.create(
@@ -441,4 +451,14 @@ def test_business_eyb_sso_signup_verify_code_success(mock_send_welcome_notificat
         reverse_lazy('international_online_offer:signup') + '?uidb64=133&token=344', {'code_confirm': '54322'}
     )
     assert mock_send_welcome_notification.call_count == 1
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_eyb_signup_partial_complete_signup_redirect(settings, client, user):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:signup')
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.get(url)
     assert response.status_code == 302
