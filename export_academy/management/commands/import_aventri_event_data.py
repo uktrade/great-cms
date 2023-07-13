@@ -49,12 +49,8 @@ class Command(AventriDataIngestionBaseCommand):
 
     def handle(self, *args, **options):
         data = self.load_data()
-        # prefix = 'Would create'
-        # count = len(data)
 
         if options['write'] and data:
-            # prefix = 'Created'
-            # model = data[0].__class__
             records_to_create = []
             records_to_update = []
 
@@ -78,33 +74,19 @@ class Command(AventriDataIngestionBaseCommand):
                 for record in records
             ]
 
-            # id is None in records_to_create so remove
-            [record.pop("id") for record in records_to_create]
+            attributes_to_update = [
+                "name",
+                "description",
+                "start_date",
+                "end_date",
+                "link",
+                "format",
+                "document_id",
+                "video_recording_id",
+                "completed",
+                "live",
+                "closed",
+                "location",
+            ]
 
-            created_records = Event.objects.bulk_create(
-                [Event(**values) for values in records_to_create], batch_size=1000
-            )
-
-            updated_records = Event.objects.bulk_update(
-                [Event(**values) for values in records_to_update],
-                [
-                    "name",
-                    "description",
-                    "start_date",
-                    "end_date",
-                    "link",
-                    "format",
-                    "document_id",
-                    "video_recording_id",
-                    "completed",
-                    "live",
-                    "closed",
-                    "location",
-                ],
-                batch_size=1000,
-            )
-
-            self.stdout.write(self.style.SUCCESS(f'Created {len(created_records)} records.'))
-            self.stdout.write(self.style.SUCCESS(f'Updated {updated_records} records.'))
-
-        # self.stdout.write(self.style.SUCCESS(f'{prefix} {count} records.'))
+            super().handle(data, records_to_create, records_to_update, attributes_to_update, *args, **options)
