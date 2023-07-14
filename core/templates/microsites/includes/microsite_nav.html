@@ -5,11 +5,11 @@
 {% get_current_language as current_language %}
 {% get_language_info for current_language as lang_info %}
 
-<section class="microsite-nav-container">
+<div class="microsite-nav-container">
     <div>
         <div>
             <div class="nav-content">
-                <img src="/static/images/great-logo.svg" />
+                <img alt="Great Britain and Northern Ireland" src="/static/images/great-logo.svg" />
                 <h3>{{ title }}</h3>
                 {% if available_languages|length == 2 %}
                 <nav aria-label="Langugages" class="mobile-single-language-toggle">
@@ -62,4 +62,4 @@
             </nav>
         {% endif %}
     </div>
-</section>
+</div>
