@@ -20,6 +20,7 @@
       <li><a class="govuk-link" href="#forms">Forms</a></li>
       <li><a class="govuk-link" href="#spacing">Spacing</a></li>
       <li><a class="govuk-link" href="#cards">Cards</a></li>
+      <li><a class="govuk-link" href="#notificationbanner">Notification Banner</a></li>
     </ul>
   </nav>
   <section id="typography">
@@ -64,6 +65,7 @@
     <button class="govuk-button">govuk-button</button>
     <button class="govuk-button govuk-button--secondary">govuk-button--secondary</button>
     <button class="govuk-button great-full-width-button">great-full-width-button</button>
+    <button class="govuk-button great-min-300-button">great-min-300-button</button>
 
     <pre>
       <code>
@@ -73,6 +75,9 @@
         &lt;/button&gt;
         &lt;button class="govuk-button great-full-width-button"&gt;
           great-full-width-button
+        &lt;/button&gt;
+        &lt;button class="govuk-button great-min-300-button"&gt;
+          great-min-300-button
         &lt;/button&gt;
       </code>
     </pre>
@@ -276,6 +281,34 @@
     <pre>
       <code>
         &#123;% include 'components/great/card.html' %&#125;
+      </code>
+    </pre>
+  </section>
+
+  <section id="notificationbanner" class="govuk-!-margin-top-9">
+    <h2 class="govuk-heading-l">Notification Banner</h2>
+
+    <div class="govuk-notification-banner great-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner__header govuk-!-padding-top-1 govuk-!-padding-bottom-2">
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-0 great-text-white" id="govuk-notification-banner-title">Thank you for your feedback</h1>
+        </div>
+        <div class="govuk-notification-banner__content">
+            <p class="govuk-body-l">Your feedback has been successfully submitted</p>
+        </div>
+    </div>
+
+    <h3>Jinja</h3>
+    <pre>
+      <code>
+        &#123;% include 'components/great/notification-banner.html' with title='Thank you for your feedback'
+        message='Your feedback has been successfully submitted' %&#125;
+      </code>
+    </pre>
+
+    <h3>Nunjucks</h3>
+    <pre>
+      <code>
+        &#123;&#123; notificationBanner("Thank you for your feedback", "Your feedback has been successfully submitted") &#125;&#125;
       </code>
     </pre>
   </section>

@@ -37,7 +37,7 @@
   {% endif %}
   {% if form.code_confirm %}
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
         <div id="sign-up-confirm">
           <h3 class="govuk-heading-m">Check your email</h3>
           <p class="govuk-body">We've sent a code to your email address.
@@ -60,6 +60,9 @@
         <label class="govuk-label" for="email">Email</label>
         {% include 'core/includes/form_field.html' with field=form.email %}
         <label class="govuk-label" for="password">Password</label>
+        <div id="password-hint" class="govuk-hint">
+          Your password should be a minimum of 10 characters and include letters, numbers or special characters
+        </div>
         {% include 'core/includes/form_field.html' with field=form.password %}
         {% include './includes/submit_button.html' with button_text='Sign up'  %}
       </form>
