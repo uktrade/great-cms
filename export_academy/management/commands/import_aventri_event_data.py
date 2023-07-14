@@ -22,6 +22,20 @@ class Command(AventriDataIngestionBaseCommand):
         WHERE
             event_id = 200236512;
     """
+    attributes_to_update = [
+        "name",
+        "description",
+        "start_date",
+        "end_date",
+        "link",
+        "format",
+        "document_id",
+        "video_recording_id",
+        "completed",
+        "live",
+        "closed",
+        "location",
+    ]
 
     def load_data(self):
         date = datetime.datetime.now().date()
@@ -47,46 +61,28 @@ class Command(AventriDataIngestionBaseCommand):
 
         return data
 
-    def handle(self, *args, **options):
-        data = self.load_data()
+    def assign_data_into_insert_update_lists(self, data):
+        records_to_create = []
+        records_to_update = []
 
-        if options['write'] and data:
-            records_to_create = []
-            records_to_update = []
+        records = [
+            {
+                "id": Event.objects.filter(external_id=record.external_id).first().id
+                if Event.objects.filter(external_id=record.external_id).first() is not None
+                else None,
+                "name": record.name,
+                # TODO - revisit length constraint on model
+                "description": record.description[:999],
+                "start_date": record.start_date,
+                "end_date": record.end_date,
+                "external_id": record.external_id,
+            }
+            for record in data
+        ]
 
-            records = [
-                {
-                    "id": Event.objects.filter(external_id=record.external_id).first().id
-                    if Event.objects.filter(external_id=record.external_id).first() is not None
-                    else None,
-                    # **record,
-                    "name": record.name,
-                    "description": record.description[:999],
-                    "start_date": record.start_date,
-                    "end_date": record.end_date,
-                    "external_id": record.external_id,
-                }
-                for record in data
-            ]
+        [
+            records_to_update.append(record) if record["id"] is not None else records_to_create.append(record)
+            for record in records
+        ]
 
-            [
-                records_to_update.append(record) if record["id"] is not None else records_to_create.append(record)
-                for record in records
-            ]
-
-            attributes_to_update = [
-                "name",
-                "description",
-                "start_date",
-                "end_date",
-                "link",
-                "format",
-                "document_id",
-                "video_recording_id",
-                "completed",
-                "live",
-                "closed",
-                "location",
-            ]
-
-            super().handle(data, records_to_create, records_to_update, attributes_to_update, *args, **options)
+        return dict(records_to_create=records_to_create, records_to_update=records_to_update)
