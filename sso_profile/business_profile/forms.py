@@ -119,9 +119,7 @@ class CaseStudyBasicInfoForm(forms.Form):
         (False, 'Not Published'),
     ]
     is_published_case_study = forms.ChoiceField(
-        label=(
-            'Published case studies will be publicly visible.'
-        ),
+        label=('Published case studies will be publicly visible.'),
         widget=forms.RadioSelect,
         choices=IS_PUBLISHED_CASE_STUDY_CHOICES,
     )
