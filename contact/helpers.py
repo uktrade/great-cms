@@ -2,6 +2,7 @@ import requests
 from django.urls import reverse_lazy
 
 from directory_api_client import api_client
+from directory_constants.choices import COUNTRY_CHOICES
 
 
 def get_free_trade_agreements():
@@ -121,6 +122,10 @@ def get_export_support_field_mappings(key, form_data):
 
 
 def get_steps(form_data, second_step_edit_page, markets):
+    markets_mapping = dict(
+        COUNTRY_CHOICES + [('not_specific_country', 'My query is not related to a specific country')]
+    )
+
     return [
         {
             'title': 'Get started',
@@ -182,7 +187,7 @@ def get_steps(form_data, second_step_edit_page, markets):
         {
             'title': 'About your export markets',
             'answers': [
-                ('Export markets', ', '.join([market for market in markets if market])),
+                ('Export markets', ', '.join([markets_mapping[market] for market in markets if market])),
             ],
             'change_url': reverse_lazy('contact:export-support-step-5-edit'),
         },

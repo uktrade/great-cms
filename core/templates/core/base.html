@@ -16,6 +16,14 @@
     <link href="{% static 'magna_styles.css' %}" media="all" rel="stylesheet" />
 {% endblock %}
 
+{% block head_other %}
+  {% with is_wagtail_page=page %}
+    {% if is_wagtail_page %}
+      {% include "wagtailseo/meta.html" %}
+    {% endif %}
+  {% endwith %}
+{% endblock %}
+
 {% block head_js %}
   {{ block.super }}
     <script src="{% static 'common.js' %}"></script>

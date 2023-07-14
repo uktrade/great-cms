@@ -142,9 +142,10 @@ class EventDetailsView(DetailView):
         # video_render tag which helps in adding subtitles
         # needs input in specific way as below
         event: models.Event = kwargs.get('object', {})
-        video = event.video_recording
-        ctx.update(event_video={'video': video})
-        ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
+        video = getattr(event, 'video_recording', None)
+        if video:
+            ctx['event_video'] = {'video': video}
+            ctx['video_duration'] = format_timedelta(timedelta(seconds=event.video_recording.duration))
 
         return ctx
 
@@ -194,11 +195,14 @@ class RegistrationPersonalDetails(core_mixins.GetSnippetContentMixin, Registrati
     def get_context_data(self, **kwargs):
         button_text = 'Continue'
         back_url = 'export_academy:upcoming-events'
+        is_editing = False
         if self.kwargs.get('edit'):
             button_text = 'Save'
             back_url = 'export_academy:registration-confirm'
+            is_editing = True
         return super().get_context_data(
             **kwargs,
+            is_editing=is_editing,
             button_text=button_text,
             back_url=back_url,
             step_text='Step 1 of 4',
@@ -226,11 +230,14 @@ class RegistrationExportExperience(core_mixins.GetSnippetContentMixin, Registrat
     def get_context_data(self, **kwargs):
         button_text = 'Continue'
         back_url = 'export_academy:registration-details'
+        is_editing = False
         if self.kwargs.get('edit'):
             button_text = 'Save'
             back_url = 'export_academy:registration-confirm'
+            is_editing = True
         return super().get_context_data(
             **kwargs,
+            is_editing=is_editing,
             button_text=button_text,
             back_url=back_url,
             step_text='Step 2 of 4',
@@ -257,11 +264,14 @@ class RegistrationBusinessDetails(core_mixins.GetSnippetContentMixin, Registrati
     def get_context_data(self, **kwargs):
         button_text = 'Continue'
         back_url = 'export_academy:registration-experience'
+        is_editing = False
         if self.kwargs.get('edit'):
             button_text = 'Save'
             back_url = 'export_academy:registration-confirm'
+            is_editing = True
         return super().get_context_data(
             **kwargs,
+            is_editing=is_editing,
             button_text=button_text,
             back_url=back_url,
             step_text='Step 3 of 4',
@@ -293,11 +303,14 @@ class RegistrationMarketingSources(
     def get_context_data(self, **kwargs):
         button_text = 'Continue'
         back_url = 'export_academy:registration-business'
+        is_editing = False
         if self.kwargs.get('edit'):
             button_text = 'Save'
             back_url = 'export_academy:registration-confirm'
+            is_editing = True
         return super().get_context_data(
             **kwargs,
+            is_editing=is_editing,
             button_text=button_text,
             back_url=back_url,
             step_text='Step 4 of 4',
@@ -356,8 +369,12 @@ class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixi
 
     def get_context_data(self, **kwargs):
         self.get_initial()
+        is_editing = False
+        if self.booking_id != '':
+            is_editing = True
         return super().get_context_data(
             **kwargs,
+            is_editing=is_editing,
             back_url='export_academy:registration-marketing',
             landing_page=ExportAcademyHomePage.objects.first(),
             form_data=self.initial_data,
@@ -379,6 +396,12 @@ class RegistrationConfirmChoices(core_mixins.GetSnippetContentMixin, BookingMixi
 
 
 class JoinBookingView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        """
+        Override redirection method to always return event link.
+        """
+        return self.url
+
     def get(self, request, *args, **kwargs):
         # Update redirect url
         event_id = kwargs.get('event_id')
@@ -464,6 +487,13 @@ class SignUpView(HandleNewAndExistingUsersMixin, VerificationLinksMixin, sso_mix
     def post(self, request, *args, **kwargs):
         return self.do_sign_up_flow(request)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['heading'] = (
+            'Set password for UK Export Academy' if self.get_ea_user() else 'Join the UK Export Academy'
+        )
+        return context
+
 
 class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, FormView):
     template_name = 'export_academy/accounts/verification_code.html'
@@ -482,11 +512,14 @@ class VerificationCodeView(VerificationLinksMixin, sso_mixins.VerifyCodeMixin, F
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['existing_ea_user'] = self.user_ea_registered()
+        context['heading'] = (
+            'Set password for UK Export Academy' if self.user_ea_registered() else 'Join the UK Export Academy'
+        )
         return context
 
     def send_welcome_notification(self, email, form_url):
         action = actions.GovNotifyEmailAction(
-            template_id=settings.EXPORT_ACADEMY_NOTIFY_REGISTRATION_TEMPLATE_ID,
+            template_id=settings.GOV_NOTIFY_WELCOME_TEMPLATE_ID,
             email_address=email,
             form_url=form_url,
         )
@@ -552,6 +585,11 @@ class SignInView(HandleNewAndExistingUsersMixin, sso_mixins.SignInMixin, FormVie
 
     def post(self, request, *args, **kwargs):
         return self.do_sign_in_flow(request)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['heading'] = 'UK Export Academy on Great.gov.uk' if self.get_ea_user() else 'Join the UK Export Academy'
+        return ctx
 
 
 class SignUpCompleteView(TemplateView):

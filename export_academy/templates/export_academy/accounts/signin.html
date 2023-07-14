@@ -16,13 +16,8 @@
     </p>
     <button type="submit" class="govuk-button govuk-!-margin-top-6 great-full-width-button">Sign in</button>
 {% endblock %}
-{% block left_panel_heading %}
-{% if existing_ea_user %}
-        UK Export Academy on Great.gov.uk
-    {% else %}
-        Join the UK Export Academy
-    {% endif %}
-{% endblock %}
+{% block small_screen_heading %}{{ heading }}{% endblock %}
+{% block left_panel_heading %}{{ heading }}{% endblock %}
 {% block left_panel_content %}
 {% if existing_ea_user %}
     {% include 'export_academy/accounts/includes/existing_user_body_text.html' with is_signin=True %}

@@ -6,6 +6,81 @@
 @import 'article-list-item.scss';
 @import 'govuk-step-by-step.scss';
 
+.home-image {
+    width: 100%;
+}
+
 .guide-edit-panel {
     border: 1px solid #C7C7C7;
+}
+
+.salary-component {
+    background-color: #F4F4F4;
+
+    .govuk-tabs__list-item {
+        background-color: white;
+    }
+
+
+    .govuk-tabs__panel {
+        background-color: white;
+        // border: 2px solid black;
+    }
+
+    .govuk-form-group {
+        margin-bottom: 10px;
+    }
+
+    .salary-location-form {
+        display: inline-flex;
+        flex-wrap: wrap;
+
+        .govuk-form-label {
+            @extend %govuk-body-m;
+            margin-bottom: 0px;
+            display: block;
+        }
+
+        .atlas-button {
+            height: 49px;
+            margin-top: 25px;
+            margin-left: 10px;
+
+        }
+
+        .govuk-form-control {
+            min-width: 280px;
+            width: 286px;
+            height: 49px;
+            @extend %govuk-body-m;
+        }
+
+        @media (max-width: 640px) {
+            .atlas-button {
+                margin-left: 0px;
+                margin-top: 0px;
+                max-width: 286px;
+            }
+
+        }
+
+    }
+
+    .salary-component-body {
+        background-color: white;
+
+        .salary-text {
+            display: inline;
+        }
+
+        .body-text {
+            color: $atlas-grey-dark;
+        }
+
+        .source-text {
+            margin-top: 10px;
+            margin-bottom: 0px;
+        }
+    }
+
 }
