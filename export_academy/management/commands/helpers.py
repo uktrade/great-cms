@@ -42,15 +42,18 @@ class AventriDataIngestionBaseCommand(BaseCommand):
     def handle(self, *args, **options):
         data = self.load_data()
         upsert_lists = self.assign_data_into_insert_update_lists(data)
+        prefix = 'If ran with --write command would: '
+        num_create = len(upsert_lists['records_to_create'])
+        num_update = len(upsert_lists['records_to_update'])
 
         if options['write'] and data:
             self.model = data[0].__class__
             result = self.upsert(upsert_lists['records_to_create'], upsert_lists['records_to_update'])
-            print(f"created {result['num_created']}, updated {result['num_updated']} records")
-        else:
-            print(
-                f"would create {len(upsert_lists['records_to_create'])}, and update {len(upsert_lists['records_to_update'])} records"  # noqa
-            )
+            prefix = 'Command successfully executed the following: '
+            num_create = result['num_created']
+            num_update = result['num_updated']
+
+        self.stdout.write(self.style.SUCCESS(f'{prefix} create {num_create}, update {num_update} records.'))
 
     def upsert(self, records_to_create, records_to_update):
         # id is None in records_to_create so remove
