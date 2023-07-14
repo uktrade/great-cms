@@ -213,3 +213,14 @@ class IOOArticlePageTests(WagtailPageTests):
             IOOArticlePage,
             {},
         )
+
+
+@pytest.mark.django_db
+def test_article_page_context(client, user):
+    article_page = IOOArticlePage(title='test article')
+    article_page_url = article_page.url
+    user.hashed_uuid = '123'
+    client.force_login(user)
+    response = client.get(article_page_url)
+    article_page.get_context(response)
+    assert response.status_code == 404

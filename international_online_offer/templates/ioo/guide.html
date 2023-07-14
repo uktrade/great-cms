@@ -15,14 +15,21 @@
 
 {% block content %}
 <div class="govuk-width-container">
-    {% if not request.user.is_authenticated %}
+    {% if not eyb_user %}
         {% if triage_data.is_high_value %}
         <div class="govuk-grid-row" id="complete_contact_form_message">
             <div class="govuk-grid-column-full">
-                {% include './includes/govuk/notification_banner.html' with css_class="govuk-notification-banner" banner_title="Important" banner_heading=complete_contact_form_message banner_link=complete_contact_form_link banner_link_text=complete_contact_form_link_text %}
+                {% include './includes/govuk/notification_banner.html' with banner_heading=complete_contact_form_message banner_link=complete_contact_form_link banner_link_text=complete_contact_form_link_text %}
             </div>
         </div>
         {% endif %}
+    {% endif %}
+    {% if eyb_user and request.GET.signup %}
+    <div class="govuk-grid-row" id="complete_contact_form_message">
+        <div class="govuk-grid-column-full">
+            {% include './includes/govuk/notification_banner.html' with css_class="govuk-notification-banner--success" banner_title="Success" banner_heading='Your account has been created. You can now access your personalised guide tailored to your expansion plans.' %}
+        </div>
+    </div>
     {% endif %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
@@ -30,7 +37,7 @@
             <p class="govuk-body">
                 You’ll find a step by step guide with the most important things to consider when expanding your business in the UK.
             </p>
-            {% if not request.user.is_authenticated %}
+            {% if not eyb_user %}
             <p class="govuk-body">
                 <a class="govuk-link" href="{% url 'international_online_offer:signup' %}">Sign up to our free self-service tool</a> to access a personalised guide that’s tailored to your expansion plans.
             </p>
@@ -542,7 +549,7 @@
             </div>
         </div>
     </div>
-    {% if not request.user.is_authenticated %}
+    {% if not eyb_user %}
     <div class="govuk-grid-row" id="sign-up-banner">
         <div class="govuk-grid-column-full">
             <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
@@ -593,7 +600,7 @@
         {% if trade_page %}
         <div class="govuk-grid-column-full">
             <div class="article-list-item">
-                {% if request.user.is_authenticated %}
+                {% if eyb_user %}
                 <a class="article-list-item-a" href="{{ trade_page.url }}">
                 {% else %}
                 <a class="article-list-item-a" href="{% url 'international_online_offer:signup' %}">
@@ -601,7 +608,7 @@
                     <div class="govuk-grid-row">
                         <div class="govuk-grid-column-one-third">
                             <div class="image-container" style="background-image: url({% static 'images/ioo_networking.jpg' %});">
-                                {% if not request.user.is_authenticated %}
+                                {% if not eyb_user %}
                                 <div class="image-container-lock-overlay">
                                     <div class="article-lock"></div>
                                 </div>
@@ -611,7 +618,7 @@
                         <div class="govuk-grid-column-two-thirds">
                             <h4 class="govuk-heading-m article-list-item-title">Sector contacts and networking opportunities</h4>
                             <p class="govuk-body article-list-item-teaser">Find clients and partners through UK trade associations and industry events</p>
-                            {% if not request.user.is_authenticated %}
+                            {% if not eyb_user %}
                             <div class="article-lock-text">
                                 <strong class="govuk-tag govuk-tag--blue">
                                     SIGN UP TO UNLOCK
@@ -628,7 +635,7 @@
             {% for page in get_to_know_market_articles %}
                 {% image page.article_image original as rendition %}
                 <div class="article-list-item">
-                    {% if request.user.is_authenticated %}
+                    {% if eyb_user %}
                     <a class="article-list-item-a" href="{{ page.url }}">
                     {% else %}
                     <a class="article-list-item-a" href="{% url 'international_online_offer:signup' %}">
@@ -636,7 +643,7 @@
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-one-third">
                                 <div class="image-container" style="background-image: url({{ rendition.url }});">
-                                    {% if not request.user.is_authenticated %}
+                                    {% if not eyb_user %}
                                     <div class="image-container-lock-overlay">
                                         <div class="article-lock"></div>
                                     </div>
@@ -646,7 +653,7 @@
                             <div class="govuk-grid-column-two-thirds">
                                 <h4 class="govuk-heading-m article-list-item-title">{{ page.article_title }}</h4>
                                 <p class="govuk-body article-list-item-teaser">{{ page.article_teaser }}</p>
-                                {% if not request.user.is_authenticated %}
+                                {% if not eyb_user %}
                                 <div class="article-lock-text">
                                     <strong class="govuk-tag govuk-tag--blue">
                                         SIGN UP TO UNLOCK
@@ -673,7 +680,7 @@
             {% for page in support_and_incentives_articles %}
                 {% image page.article_image original as rendition %}
                 <div class="article-list-item">
-                    {% if request.user.is_authenticated %}
+                    {% if eyb_user %}
                     <a href="{{ page.url }}">
                     {% else %}
                     <a href="{% url 'international_online_offer:signup' %}">
@@ -681,7 +688,7 @@
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-one-third">
                                 <div class="image-container" style="background-image: url({{ rendition.url }});">
-                                    {% if not request.user.is_authenticated %}
+                                    {% if not eyb_user %}
                                     <div class="image-container-lock-overlay">
                                         <div class="article-lock"></div>
                                     </div>
@@ -691,7 +698,7 @@
                             <div class="govuk-grid-column-two-thirds">
                                 <h4 class="govuk-heading-m article-list-item-title">{{ page.article_title }}</h4>
                                 <p class="govuk-body article-list-item-teaser">{{ page.article_teaser }}</p>
-                                {% if not request.user.is_authenticated %}
+                                {% if not eyb_user %}
                                 <div class="article-lock-text">
                                     <strong class="govuk-tag govuk-tag--blue">
                                         SIGN UP TO UNLOCK
@@ -718,7 +725,7 @@
             <div class="govuk-grid-column-one-third govuk-!-padding-0">
                 {% image page.article_image original as rendition %}
                 <div class="article-list-item-vertical">
-                    {% if request.user.is_authenticated %}
+                    {% if eyb_user %}
                     <a href="{{ page.url }}">
                     {% else %}
                     <a href="{% url 'international_online_offer:signup' %}">
@@ -726,7 +733,7 @@
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full">
                                 <div class="image-container" style="background-image: url({{ rendition.url }});">
-                                    {% if not request.user.is_authenticated %}
+                                    {% if not eyb_user %}
                                     <div class="image-container-lock-overlay">
                                         <div class="article-lock"></div>
                                     </div>
@@ -737,7 +744,7 @@
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full">
                                 <p class="govuk-body article-list-item-title">{{ page.article_title }}</p>
-                                {% if not request.user.is_authenticated %}
+                                {% if not eyb_user %}
                                 <div class="article-lock-text">
                                     <strong class="govuk-tag govuk-tag--blue">
                                         SIGN UP TO UNLOCK
@@ -752,7 +759,7 @@
         {% endfor %}
     </div>
     {% endif %}
-    {% if not request.user.is_authenticated %}
+    {% if not eyb_user %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <div class="govuk-inset-text">
