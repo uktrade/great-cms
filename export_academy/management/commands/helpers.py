@@ -4,6 +4,9 @@ from django.core.management import BaseCommand
 
 
 class AventriDataIngestionBaseCommand(BaseCommand):
+    UKEA_EVENT_ID = 200236512
+    DATA_WORKSPACE_DATASETS_BASE_SCHEMA = 'dit'
+
     engine = sa.create_engine(settings.DATA_WORKSPACE_DATASETS_URL, execution_options={'stream_results': True})
     model = None
     attributes_to_update = []
