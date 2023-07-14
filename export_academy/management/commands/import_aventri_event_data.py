@@ -8,7 +8,8 @@ from .helpers import AventriDataIngestionBaseCommand
 
 
 class Command(AventriDataIngestionBaseCommand):
-    TABLE_NAME = 'aventri__event_sessions_v2'
+    # TODO: use v2 event_sessions table when appropriate. as of 14/07 contains circa 141k records
+    TABLE_NAME = 'aventri__event_sessions'
 
     help = 'Import Aventri event data (sessions) from Data Workspace'
     sql = f"""
@@ -17,8 +18,7 @@ class Command(AventriDataIngestionBaseCommand):
             name as event_name,
             description,
             start_time,
-            end_time,
-            created_date
+            end_time
         FROM
             {AventriDataIngestionBaseCommand.DATA_WORKSPACE_DATASETS_BASE_SCHEMA}.{TABLE_NAME}
         WHERE
@@ -50,15 +50,17 @@ class Command(AventriDataIngestionBaseCommand):
             for _idx, row in chunk.iterrows():
                 start_datetime = datetime.datetime.combine(date, row.start_time)
                 end_datetime = datetime.datetime.combine(date, row.end_time)
+                description = ''
+                if description:
+                    description = row.description[:999]
 
                 data.append(
                     Event(
                         external_id=row.session_id,
                         name=row.event_name,
-                        description=row.description,
+                        description=description,
                         start_date=start_datetime,
                         end_date=end_datetime,
-                        created=row.created_date,
                     )
                 )
 
@@ -75,7 +77,7 @@ class Command(AventriDataIngestionBaseCommand):
                 else None,
                 "name": record.name,
                 # TODO - revisit length constraint on model
-                "description": record.description[:999],
+                "description": record.description,
                 "start_date": record.start_date,
                 "end_date": record.end_date,
                 "external_id": record.external_id,

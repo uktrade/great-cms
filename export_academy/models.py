@@ -182,6 +182,7 @@ class Booking(TimeStampedModel):
     event = ParentalKey(Event, on_delete=models.CASCADE, related_name='bookings')
     registration = models.ForeignKey(Registration, on_delete=models.CASCADE)
     status = models.CharField(choices=STATUSES, default=CONFIRMED, max_length=15)
+    external_id = models.CharField(blank=True, null=True, max_length=255)
 
     @property
     def is_cancelled(self):

@@ -6,22 +6,35 @@ from .helpers import AventriDataIngestionBaseCommand
 
 
 class Command(AventriDataIngestionBaseCommand):
+    TABLE_NAME_ATTENDEES = 'aventri__event_attendees_v2'
+    TABLE_NAME_SSO_USERS = 'great_gov_uk__sso_users'
+
     help = 'Import Aventri registration data (attendees) from Data Workspace'
-    sql = """
+
+    # TODO attendees.attendee_questions not in v2 table
+    # TODO notice group by / max until we resolve duplicate email addresses
+    sql = f"""
         SELECT
-            sso_users.hashed_uuid,
-            attendees.id,
+            max(attendees.id) as id,
+            max(sso_users.hashed_uuid) as hashed_uuid,
             attendees.email,
             attendees.first_name,
-            attendees.last_name,
-            attendees.attendee_questions
+            attendees.last_name
         FROM
-            dit.aventri__event_attendees attendees
-            LEFT JOIN dit.great_gov_uk__sso_users sso_users ON attendees.email = sso_users.email
+            {AventriDataIngestionBaseCommand.DATA_WORKSPACE_DATASETS_BASE_SCHEMA}.{TABLE_NAME_ATTENDEES} attendees
+            LEFT JOIN {AventriDataIngestionBaseCommand.DATA_WORKSPACE_DATASETS_BASE_SCHEMA}.{TABLE_NAME_SSO_USERS} sso_users ON attendees.email = sso_users.email
         WHERE
-            event_id = 200236512
-            AND registration_status = 'Confirmed';
-    """
+            event_id = {AventriDataIngestionBaseCommand.UKEA_EVENT_ID}
+            AND registration_status = 'Confirmed'
+            AND attendees.first_name is not null
+        GROUP BY
+            attendees.email,
+            attendees.first_name,
+            attendees.last_name;
+
+    """  # noqa
+
+    attributes_to_update = ["email", "first_name", "last_name", "data"]
 
     def load_data(self):
         data = []
@@ -36,8 +49,32 @@ class Command(AventriDataIngestionBaseCommand):
                         email=row.email,
                         first_name=row.first_name,
                         last_name=row.last_name,
-                        data=row.attendee_questions,
                     )
                 )
 
         return data
+
+    def assign_data_into_insert_update_lists(self, data):
+        records_to_create = []
+        records_to_update = []
+
+        records = [
+            {
+                "id": Registration.objects.filter(external_id=record.external_id).first().id
+                if Registration.objects.filter(external_id=record.external_id).first() is not None
+                else None,
+                "email": record.email,
+                "first_name": record.first_name,
+                "last_name": record.last_name,
+                "external_id": record.external_id,
+                "data": [],
+            }
+            for record in data
+        ]
+
+        [
+            records_to_update.append(record) if record["id"] is not None else records_to_create.append(record)
+            for record in records
+        ]
+
+        return dict(records_to_create=records_to_create, records_to_update=records_to_update)

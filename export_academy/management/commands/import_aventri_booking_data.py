@@ -6,16 +6,20 @@ from .helpers import AventriDataIngestionBaseCommand
 
 
 class Command(AventriDataIngestionBaseCommand):
+    TABLE_NAME = 'aventri__event_session_registrations_v2'
+
     help = 'Import Aventri booking data (sessionRegistrations) from Data Workspace'
-    sql = """
+    sql = f"""
         SELECT
             *
         FROM
-            dit.aventri__event_session_registrations
+            {AventriDataIngestionBaseCommand.DATA_WORKSPACE_DATASETS_BASE_SCHEMA}.{TABLE_NAME}
         WHERE
-            event_id = 200236512
-            AND registration_status = 'Confirmed';
+            event_id = {AventriDataIngestionBaseCommand.UKEA_EVENT_ID}
+            AND registration_status = 'Confirmed'
+        LIMIT 1000
     """
+    attributes_to_update = ["status"]
 
     def load_data(self):
         data = []
@@ -24,18 +28,44 @@ class Command(AventriDataIngestionBaseCommand):
         for chunk in chunks:
             for _idx, row in chunk.iterrows():
                 try:
-                    event = models.Event.objects.get(external_id=row.session_id)
-                    registration = models.Registration.objects.get(external_id=row.attendee_id)
+                    # TODO: using .filter().first() until we can guarantee uniqueness of row.session_id in table
+                    event = models.Event.objects.filter(external_id=row.session_id).first()
+                    registration = models.Registration.objects.filter(external_id=row.attendee_id).first()
+
+                    if event and registration:
+                        data.append(
+                            models.Booking(
+                                external_id=row.session_id,
+                                event=event,
+                                registration=registration,
+                                status="Confirmed",
+                            )
+                        )
                 except (models.Event.DoesNotExist, models.Registration.DoesNotExist):
                     pass
 
-                data.append(
-                    models.Booking(
-                        external_id=row.session_id,
-                        event=event,
-                        registration=registration,
-                        status='Confirmed',
-                    )
-                )
-
         return data
+
+    def assign_data_into_insert_update_lists(self, data):
+        records_to_create = []
+        records_to_update = []
+
+        records = [
+            {
+                "id": models.Booking.objects.filter(external_id=record.external_id).first().id
+                if models.Booking.objects.filter(external_id=record.external_id).first() is not None
+                else None,
+                "event": 0,
+                "registration": 0,
+                "status": "a",
+                "external_id": 0,
+            }
+            for record in data
+        ]
+
+        [
+            records_to_update.append(record) if record["id"] is not None else records_to_create.append(record)
+            for record in records
+        ]
+
+        return dict(records_to_create=records_to_create, records_to_update=records_to_update)
