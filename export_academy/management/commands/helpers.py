@@ -60,7 +60,7 @@ class AventriDataIngestionBaseCommand(BaseCommand):
 
     def upsert(self, records_to_create, records_to_update):
         # id is None in records_to_create so remove
-        [record.pop("id") for record in records_to_create]
+        [record.pop('id') for record in records_to_create]
 
         created_records = self.model.objects.bulk_create(
             [self.model(**values) for values in records_to_create], batch_size=1000

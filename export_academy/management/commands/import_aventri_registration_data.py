@@ -31,10 +31,9 @@ class Command(AventriDataIngestionBaseCommand):
             attendees.email,
             attendees.first_name,
             attendees.last_name;
-
     """  # noqa
 
-    attributes_to_update = ["email", "first_name", "last_name", "data"]
+    attributes_to_update = ['email', 'first_name', 'last_name', 'data']
 
     def load_data(self):
         data = []
@@ -60,20 +59,20 @@ class Command(AventriDataIngestionBaseCommand):
 
         records = [
             {
-                "id": Registration.objects.filter(external_id=record.external_id).first().id
+                'id': Registration.objects.filter(external_id=record.external_id).first().id
                 if Registration.objects.filter(external_id=record.external_id).first() is not None
                 else None,
-                "email": record.email,
-                "first_name": record.first_name,
-                "last_name": record.last_name,
-                "external_id": record.external_id,
-                "data": [],
+                'email': record.email,
+                'first_name': record.first_name,
+                'last_name': record.last_name,
+                'external_id': record.external_id,
+                'data': [],
             }
             for record in data
         ]
 
         [
-            records_to_update.append(record) if record["id"] is not None else records_to_create.append(record)
+            records_to_update.append(record) if record['id'] is not None else records_to_create.append(record)
             for record in records
         ]
 

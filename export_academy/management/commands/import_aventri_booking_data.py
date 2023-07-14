@@ -8,6 +8,7 @@ from .helpers import AventriDataIngestionBaseCommand
 class Command(AventriDataIngestionBaseCommand):
     TABLE_NAME = 'aventri__event_session_registrations_v2'
 
+    # TODO: remove limit / offset before production. v2 data had circa 141k records
     help = 'Import Aventri booking data (sessionRegistrations) from Data Workspace'
     sql = f"""
         SELECT
@@ -17,9 +18,11 @@ class Command(AventriDataIngestionBaseCommand):
         WHERE
             event_id = {AventriDataIngestionBaseCommand.UKEA_EVENT_ID}
             AND registration_status = 'Confirmed'
-        LIMIT 1000
+        limit 10000
+        offset 20000
     """
-    attributes_to_update = ["status"]
+
+    attributes_to_update = ['status']
 
     def load_data(self):
         data = []
@@ -38,7 +41,7 @@ class Command(AventriDataIngestionBaseCommand):
                                 external_id=row.session_id,
                                 event=event,
                                 registration=registration,
-                                status="Confirmed",
+                                status='Confirmed',
                             )
                         )
                 except (models.Event.DoesNotExist, models.Registration.DoesNotExist):
@@ -52,19 +55,19 @@ class Command(AventriDataIngestionBaseCommand):
 
         records = [
             {
-                "id": models.Booking.objects.filter(external_id=record.external_id).first().id
+                'id': models.Booking.objects.filter(external_id=record.external_id).first().id
                 if models.Booking.objects.filter(external_id=record.external_id).first() is not None
                 else None,
-                "event": 0,
-                "registration": 0,
-                "status": "a",
-                "external_id": 0,
+                'event': record.event,
+                'registration': record.registration,
+                'status': record.status,
+                'external_id': record.external_id,
             }
             for record in data
         ]
 
         [
-            records_to_update.append(record) if record["id"] is not None else records_to_create.append(record)
+            records_to_update.append(record) if record['id'] is not None else records_to_create.append(record)
             for record in records
         ]
 

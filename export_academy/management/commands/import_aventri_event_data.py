@@ -23,22 +23,22 @@ class Command(AventriDataIngestionBaseCommand):
             {AventriDataIngestionBaseCommand.DATA_WORKSPACE_DATASETS_BASE_SCHEMA}.{TABLE_NAME}
         WHERE
             event_id = {AventriDataIngestionBaseCommand.UKEA_EVENT_ID}
-            AND (start_time IS NOT NULL and end_time IS NOT NULL);
-
+            AND (start_time IS NOT NULL and end_time IS NOT NULL)
     """
+
     attributes_to_update = [
-        "name",
-        "description",
-        "start_date",
-        "end_date",
-        "link",
-        "format",
-        "document_id",
-        "video_recording_id",
-        "completed",
-        "live",
-        "closed",
-        "location",
+        'name',
+        'description',
+        'start_date',
+        'end_date',
+        'link',
+        'format',
+        'document_id',
+        'video_recording_id',
+        'completed',
+        'live',
+        'closed',
+        'location',
     ]
 
     def load_data(self):
@@ -72,21 +72,21 @@ class Command(AventriDataIngestionBaseCommand):
 
         records = [
             {
-                "id": Event.objects.filter(external_id=record.external_id).first().id
+                'id': Event.objects.filter(external_id=record.external_id).first().id
                 if Event.objects.filter(external_id=record.external_id).first() is not None
                 else None,
-                "name": record.name,
+                'name': record.name,
                 # TODO - revisit length constraint on model
-                "description": record.description,
-                "start_date": record.start_date,
-                "end_date": record.end_date,
-                "external_id": record.external_id,
+                'description': record.description,
+                'start_date': record.start_date,
+                'end_date': record.end_date,
+                'external_id': record.external_id,
             }
             for record in data
         ]
 
         [
-            records_to_update.append(record) if record["id"] is not None else records_to_create.append(record)
+            records_to_update.append(record) if record['id'] is not None else records_to_create.append(record)
             for record in records
         ]
 
