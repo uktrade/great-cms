@@ -17,6 +17,7 @@ from django.template.loader import render_to_string
 from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from great_components.helpers import add_next
 from wagtail.admin.views.pages.bulk_actions.page_bulk_action import PageBulkAction
@@ -505,3 +506,16 @@ def convert_related_links(page):
         {'id': page.related_page_five_id, 'title': page.related_page_five_title, 'link': page.related_page_five_title},
     ]
     return [get_related_link_conversion(item) for item in related_links if item['id'] is not None or item['link'] != '']
+
+
+@hooks.register('insert_editor_js')
+def toolbar_sticky_by_default():
+    return mark_safe(
+        """
+        <script>
+            if (window.localStorage.getItem("wagtail:draftail-toolbar")==null) {
+                window.localStorage.setItem("wagtail:draftail-toolbar", "sticky");
+            };
+        </script>
+        """
+    )

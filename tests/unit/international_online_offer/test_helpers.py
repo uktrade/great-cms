@@ -1,9 +1,10 @@
 from unittest import mock
 
+import pytest
 from directory_forms_api_client import actions
 
 from directory_constants import sectors as directory_constants_sectors
-from international_online_offer.core import filter_tags, helpers
+from international_online_offer.core import filter_tags, helpers, regions
 
 
 def test_find_articles_based_on_tags():
@@ -115,3 +116,60 @@ def test_send_eyb_welcome_notification(mock_action_class, settings):
         form_url='foo',
     )
     assert mock_action_class().save.call_count == 1
+
+
+@pytest.mark.django_db
+def test_get_salary_region_from_region():
+    assert helpers.get_salary_region_from_region(regions.EASTERN) == 'East'
+    assert helpers.get_salary_region_from_region(regions.WALES) == 'Wales'
+
+
+@pytest.mark.django_db
+def test_is_authenticated():
+    assert helpers.is_authenticated(None) is False
+    user_not_logged_in = type(
+        'obj',
+        (object,),
+        {'is_authenticated': False},
+    )
+    request = type(
+        'obj',
+        (object,),
+        {'user': user_not_logged_in},
+    )
+    assert helpers.is_authenticated(request) is False
+    user_logged_in = type(
+        'obj',
+        (object,),
+        {'is_authenticated': True},
+    )
+    request.user = user_logged_in
+    assert helpers.is_authenticated(request) is True
+
+
+@pytest.mark.django_db
+def test_get_salary_data():
+    low_query = {'median_salary__avg': 10000}
+    mid_query = {'median_salary__avg': 15000}
+    high_query = {'median_salary__avg': 20000}
+    low, mid, high = helpers.get_salary_data(low_query, mid_query, high_query)
+    assert low == 10000
+    assert mid == 15000
+    assert high == 20000
+
+
+@pytest.mark.django_db
+def test_get_rent_data():
+    large_query = {'value_converted__avg': 1}
+    small_query = {'value_converted__avg': 1}
+    shopping_query = {'value_converted__avg': 1}
+    high_steet_query = {'value_converted__avg': 1}
+    office_query = {'value_converted__avg': 1}
+    large, small, shopping, high_steet, office = helpers.get_rent_data(
+        large_query, small_query, shopping_query, high_steet_query, office_query
+    )
+    assert large == 340000
+    assert small == 5000
+    assert shopping == 204
+    assert high_steet == 204
+    assert office == 16671

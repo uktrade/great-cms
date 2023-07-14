@@ -1411,6 +1411,7 @@ class MicrositePage(cms_panels.MicrositePanels, Page):
                 ),
             ),
             ('image', ImageChooserBlock(required=False, template='microsites/blocks/image.html')),
+            ('image_full_width', ImageChooserBlock(required=False, template='microsites/blocks/image_full_width.html')),
             ('video', core_blocks.SimpleVideoBlock(template='microsites/blocks/video.html')),
             (
                 'columns',

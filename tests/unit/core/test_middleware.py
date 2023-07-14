@@ -5,6 +5,8 @@ from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpResponse
 from django.test import override_settings
+from pytest_django.asserts import assertRedirects
+from wagtail.contrib.redirects import models
 
 from core import helpers, middleware
 from core.middleware import GADataMissingException, TimedAccessMiddleware
@@ -281,3 +283,50 @@ def test_timed_access_middleware__whitelisted_paths(mock_try_cookie, rf):
     fake_request = rf.get('/')
     output = middleware(fake_request)
     assert output == mock_response_for_whitelisted
+
+
+@pytest.mark.django_db
+def test_redirect_with_query_string(client):
+    redirect = models.Redirect(old_path='/redirectme', redirect_link='/redirectto/', is_permanent=True)
+    redirect.save()
+
+    # Navigate to it
+    response = client.get('/redirectme/?abc=123')
+
+    # Check that we were redirected correctly
+    assertRedirects(response, '/redirectto/?abc=123', status_code=301, fetch_redirect_response=False)
+
+
+@pytest.mark.django_db
+def test_redirect_with_query_string_in_request(client):
+    redirect = models.Redirect(old_path='/redirectme', redirect_link='/redirectto/?already=xyz', is_permanent=True)
+    redirect.save()
+
+    # Navigate to it
+    response = client.get('/redirectme/?abc=123')
+
+    # Check that we were redirected correctly
+    assertRedirects(response, '/redirectto/?abc=123&already=xyz', status_code=301, fetch_redirect_response=False)
+
+
+@pytest.mark.django_db
+def test_redirect_temporary(client):
+    redirect = models.Redirect(old_path='/redirectme', redirect_link='/redirectto/', is_permanent=False)
+    redirect.save()
+
+    # Navigate to it
+    response = client.get('/redirectme/')
+
+    # Check that we were redirected correctly
+    assertRedirects(response, '/redirectto/', status_code=302, fetch_redirect_response=False)
+
+
+@pytest.mark.django_db
+def test_redirect_edge_cases(client):
+    client.get('/redirectme/?abc=123')
+    redirect = models.Redirect(old_path='/redirectme', is_permanent=False)
+    redirect.save()
+
+    # Navigate to it
+    response = client.get('/redirectme/')
+    assert response.status_code == 404
