@@ -165,11 +165,11 @@ $menu-border: 5px solid $color-alternative-text;
       }
       a {
         text-decoration: none;
-        &::first-letter {
-          text-transform: capitalize;
-        }
         &.rtl {
           line-height: 2.35;
+        }
+        &::first-letter {
+          text-transform: capitalize;
         }
         font-weight: 400;
         border-bottom: 5px solid transparent;
