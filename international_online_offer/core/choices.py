@@ -1,5 +1,12 @@
 from directory_constants import sectors as directory_constants_sectors
-from international_online_offer.core import hirings, intents, regions, sectors, spends
+from international_online_offer.core import (
+    hirings,
+    intents,
+    landing_timeframes,
+    regions,
+    sectors,
+    spends,
+)
 
 # Mix of existing sectors in directory constants but also new ones passed on for this apps needs
 SECTOR_CHOICES = (
@@ -85,4 +92,11 @@ SPEND_CHOICES = (
     (spends.FIVE_MILLION_ONE_TO_TEN_MILLION, '£5,000,001 - £10,000,000'),
     (spends.TEN_MILLION_ONE_PLUS, 'More than £10 million'),
     (spends.SPECIFIC_AMOUNT, 'Specific amount'),
+)
+
+LANDING_TIMEFRAME_CHOICES = (
+    (landing_timeframes.UNDER_SIX_MONTHS, 'Under 6 months'),
+    (landing_timeframes.SIX_TO_TWELVE_MONTHS, '6 - 12 months'),
+    (landing_timeframes.ONE_TO_TWO_YEARS, '1 - 2 years'),
+    (landing_timeframes.OVER_TWO_YEARS, 'Over 2 years'),
 )

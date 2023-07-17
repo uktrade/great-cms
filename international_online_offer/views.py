@@ -397,6 +397,7 @@ class IOOProfile(GA360Mixin, FormView):
             'agree_terms': True,
             'agree_info_email': '',
             'agree_info_telephone': '',
+            'landing_timeframe': '',
         }
         if self.request.user.is_authenticated:
             user_data = get_user_data(self.request.user.hashed_uuid)
@@ -410,6 +411,7 @@ class IOOProfile(GA360Mixin, FormView):
                 init_user_form_data['agree_terms'] = user_data.agree_terms
                 init_user_form_data['agree_info_email'] = user_data.agree_info_email
                 init_user_form_data['agree_info_telephone'] = user_data.agree_info_telephone
+                init_user_form_data['landing_timeframe'] = user_data.landing_timeframe
 
         return init_user_form_data
 
