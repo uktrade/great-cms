@@ -3,6 +3,7 @@ from unittest import mock
 import django.forms
 import pytest
 import requests_mock
+from directory_forms_api_client import actions
 from django.conf import settings
 from django.core.cache import cache
 from django.test import override_settings
@@ -1593,7 +1594,7 @@ def test_privacy_url_passed_to_fta_form_view(client, mock_free_trade_agreements)
             {
                 'help_us_improve': 'easy',
             },
-            reverse('contact:export-support-step-8'),
+            reverse('contact:export-support-step-9'),
             {
                 'help_us_improve': 'Choose an option',
             },
@@ -1761,3 +1762,27 @@ def test_domestic_export_support_edit_form_pages(
     response = client.post(page_url, form_data)
     assert response.status_code == 302
     assert response.url == redirect_url
+
+
+@mock.patch.object(actions, 'ZendeskAction')
+@pytest.mark.django_db
+def test_feedback_form_success(
+    mock_action_class,
+    client,
+    user,
+):
+    client.force_login(user)
+
+    response = client.post(
+        reverse('contact:export-support-step-8'),
+        {'help_us_improve': 'easy', 'help_us_further': 'yes'},
+    )
+
+    assert response.status_code == 302
+    assert response.url == reverse('contact:export-support-step-9')
+
+    assert mock_action_class().save.call_count == 1
+
+    assert mock_action_class().save.call_args_list[0] == mock.call(
+        {'help_us_improve': 'easy', 'help_us_further': 'yes'}
+    )

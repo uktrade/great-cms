@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group Copy 3</title>
+    <defs>
+        <path d="M7.47216895,16.0834502 L0.322168945,8.9334502 C-0.107389648,8.5038916 -0.107389648,7.80741113 0.322168945,7.37780957 L1.8777666,5.82216895 C2.3073252,5.39256738 3.00384863,5.39256738 3.43340723,5.82216895 L8.24998926,10.638708 L18.5665713,0.322168945 C18.9961299,-0.107389648 19.6926533,-0.107389648 20.1222119,0.322168945 L21.6778096,1.87780957 C22.1073682,2.30736816 22.1073682,3.00384863 21.6778096,3.4334502 L9.02780957,16.0834932 C8.59820801,16.5130518 7.90172754,16.5130518 7.47216895,16.0834502 L7.47216895,16.0834502 Z" id="path-1"></path>
+    </defs>
+    <g id="UKEA-New-joiners" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="v01---Sign-in" transform="translate(-50, -243)">
+            <g id="Left-panel" transform="translate(-86, 0)">
+                <g id="Group-Copy-3" transform="translate(136, 243)">
+                    <circle id="Oval" fill="#2297D4" cx="18" cy="18" r="18"></circle>
+                    <g id="icons-and-images/icons/check" transform="translate(7, 10.7972)">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <use id="Mask" fill="#FFFFFF" xlink:href="#path-1"></use>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

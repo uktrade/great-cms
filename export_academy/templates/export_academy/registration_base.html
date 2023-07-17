@@ -3,6 +3,8 @@
 {% load wagtailcore_tags %}
 {% load static %}
 
+{% block head_title %}{{title}} – {% if is_editing %}Edit your details{% else %}Booking your first event{% endif %} – UK Export Academy{% endblock %}
+
 {% block body_js %}
   {{ block.super }}
   <script type="text/javascript" src="{% static 'javascript/dit.components.toggleOther.js' %}"></script>

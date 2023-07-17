@@ -8,6 +8,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.db.models import FileField
 from django.test import TestCase, override_settings
+from django.utils.safestring import mark_safe
 from wagtail.core.rich_text import RichText
 from wagtail.tests.utils import WagtailPageTests
 
@@ -29,6 +30,7 @@ from core.wagtail_hooks import (
     editor_css,
     get_microsite_page_body,
     register_s3_media_file_adapter,
+    toolbar_sticky_by_default,
 )
 from tests.helpers import make_test_video
 from tests.unit.core import factories
@@ -1197,3 +1199,18 @@ class MigrateArticeToMicrositeTestCase(WagtailPageTests, TestCase):
 
     def test_migrate_article_page(self):
         self.assertEqual(MigratePage.execute_action([self.article1]), (1, 1))
+
+
+class WagtailInsertEditorJsTestCase(TestCase):
+    def test_toolbar_sticky_by_default(self):
+        return_value = toolbar_sticky_by_default()
+        expected_value = mark_safe(
+            """
+        <script>
+            if (window.localStorage.getItem("wagtail:draftail-toolbar")==null) {
+                window.localStorage.setItem("wagtail:draftail-toolbar", "sticky");
+            };
+        </script>
+        """
+        )
+        assert return_value == expected_value
