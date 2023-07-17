@@ -217,6 +217,10 @@ class IOOArticlePageTests(WagtailPageTests):
 
 @pytest.mark.django_db
 def test_article_page_context(client, user):
+    TriageData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={'sector': 'FOOD_AND_DRINK'},
+    )
     article_page = IOOArticlePage(title='test article')
     article_page_url = article_page.url
     user.hashed_uuid = '123'
