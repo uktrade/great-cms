@@ -1,5 +1,6 @@
 import pytest
 from django.contrib.sessions.middleware import SessionMiddleware
+from django.test import RequestFactory
 from wagtail.test.utils import WagtailPageTests
 
 from domestic.models import StructuralPage
@@ -217,10 +218,19 @@ class IOOArticlePageTests(WagtailPageTests):
 
 @pytest.mark.django_db
 def test_article_page_context(client, user):
-    article_page = IOOArticlePage(title='test article')
-    article_page_url = article_page.url
+    TriageData.objects.update_or_create(
+        hashed_uuid='123',
+        defaults={'sector': 'FOOD_AND_DRINK', 'location': 'WALES'},
+    )
+
+    page = IOOArticlePage(
+        title='Test IOO Article Page',
+        article_title='Test Article',
+    )
+
+    request = RequestFactory().get('/any/')
     user.hashed_uuid = '123'
-    client.force_login(user)
-    response = client.get(article_page_url)
-    article_page.get_context(response)
-    assert response.status_code == 404
+    request.user = user
+
+    output = page.get_context(request=request)
+    assert output['professions_by_sector']['sector'] == 'FOOD_AND_DRINK'
