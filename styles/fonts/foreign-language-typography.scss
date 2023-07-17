@@ -13,15 +13,25 @@
   font-style: normal;
 }
 
-$arabic-main-text-font: 'Noto Arabic Regular', 'Noto Regular',  Arial, Helvetica, Verdana;
-$arabic-header-text-font: 'Noto Arabic SemiBold', 'Noto SemiBold', Arial, Helvetica, Verdana;
+$arabic-main-text-font: 'Noto Arabic Regular', 'Noto Regular', Arial, Helvetica,
+  Verdana;
+$arabic-header-text-font: 'Noto Arabic SemiBold', 'Noto SemiBold', Arial,
+  Helvetica, Verdana;
 
-*:lang(ar)  {
-  h1, h2, h3, h4, h5 {
-    font-family: $arabic-header-text-font
-  };
+*:lang(ar) {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: $arabic-header-text-font;
+  }
 
-  body, p, button, a, li {
+  body,
+  p,
+  button,
+  a,
+  li {
     font-family: $arabic-main-text-font;
   }
 }
@@ -30,27 +40,47 @@ $arabic-header-text-font: 'Noto Arabic SemiBold', 'Noto SemiBold', Arial, Helvet
 
 @font-face {
   font-family: 'Noto Korean Regular';
-  src: url('/static/fonts/NotoSansKR-Regular.otf') format("opentype");;
+  src: url('/static/fonts/NotoSansKR-Regular.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Noto Korean Bold';
-  src: url('/static/fonts/NotoSansKR-Bold.otf') format("opentype");;
+  src: url('/static/fonts/NotoSansKR-Bold.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }
 
-$korean-main-text-font: 'Noto Korean Regular', 'Noto Regular',  Arial, Helvetica, Verdana;
-$korean-header-text-font: 'Noto Korean Bold', 'Noto SemiBold', Arial, Helvetica, Verdana;
+$korean-main-text-font: 'Noto Korean Regular', 'Noto Regular', Arial, Helvetica,
+  Verdana;
+$korean-header-text-font: 'Noto Korean Bold', 'Noto SemiBold', Arial, Helvetica,
+  Verdana;
 
 *:lang(ko) {
-  h1, h2, h3, h4, h5 {
-    font-family: $korean-header-text-font
-  };
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: $korean-header-text-font;
+  }
 
-  body, p, button, a, li {
+  body,
+  p,
+  button,
+  a,
+  li {
     font-family: $korean-main-text-font;
+  }
+}
+
+.magna-header__menu-items a {
+  &:lang(ko) {
+    font-family: $korean-main-text-font;
+  }
+
+  &:lang(ar) {
+    font-family: $arabic-main-text-font;
   }
 }
