@@ -1,63 +1,70 @@
 .great {
-    *:lang(ar) {
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        .govuk-button,
-        .great-font-bold
-         {
-          font-family: $arabic-header-text-font;
-        }
+  *:lang(ar) {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .govuk-button,
+    .great-font-bold {
+      font-family: $arabic-header-text-font;
+    }
 
-        p:not(.govuk-error-message),
-        span:not(.great-badge, .great-text-darker-grey, .govuk-details__summary-text),
-        ol,
-        ul,
-        a,
-        .govuk-hint,
-        .govuk-error-message,
-        .govuk-radios__label,
-        .govuk-details,
-        .govuk-link {
-          font-family: $arabic-main-text-font;
-        }
-      }
+    p:not(.govuk-error-message),
+    span:not(.great-badge, .great-text-darker-grey, .govuk-details__summary-text),
+    ol,
+    ul,
+    a,
+    .govuk-hint,
+    .govuk-error-message,
+    .govuk-radios__label,
+    .govuk-details,
+    .govuk-link {
+      font-family: $arabic-main-text-font;
+    }
+  }
 
-      *:lang(ko) {
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        .govuk-button,
-        .great-font-bold
-         {
-          font-family: $korean-header-text-font;
-        }
+  *:lang(ko) {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .govuk-button,
+    .great-font-bold {
+      font-family: $korean-header-text-font;
+    }
 
-        p:not(.govuk-error-message),
-        span:not(.great-badge, .great-text-darker-grey, .govuk-details__summary-text),
-        ol,
-        ul,
-        a,
-        .govuk-hint,
-        .govuk-error-message,
-        .govuk-radios__label,
-        .govuk-details,
-        .govuk-link {
-          font-family: $korean-main-text-font;
-        }
-      }
+    p:not(.govuk-error-message),
+    span:not(.great-badge, .great-text-darker-grey, .govuk-details__summary-text),
+    ol,
+    ul,
+    a,
+    .govuk-hint,
+    .govuk-error-message,
+    .govuk-radios__label,
+    .govuk-details,
+    .govuk-link {
+      font-family: $korean-main-text-font;
+    }
+  }
+
+  a {
+    &[lang='ar'] {
+      font-family: $arabic-main-text-font;
+    }
+    &[lang='ko'] {
+      font-family: $korean-main-text-font;
+    }
+  }
 }
 
 .microsite *:lang(ar) .govuk-form-label {
-    font-family: $arabic-header-text-font;
+  font-family: $arabic-header-text-font;
 }
 
 .microsite *:lang(ko) .govuk-form-label {
-    font-family: $korean-header-text-font;
+  font-family: $korean-header-text-font;
 }

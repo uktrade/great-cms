@@ -74,13 +74,3 @@ $korean-header-text-font: 'Noto Korean Bold', 'Noto SemiBold', Arial, Helvetica,
     font-family: $korean-main-text-font;
   }
 }
-
-.magna-header__menu-items a {
-  &:lang(ko) {
-    font-family: $korean-main-text-font;
-  }
-
-  &:lang(ar) {
-    font-family: $arabic-main-text-font;
-  }
-}
