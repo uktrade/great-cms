@@ -7,7 +7,7 @@
 {% load append_past_year_seperator from component_tags %}
 
 
-{% block head_title %}UKEA Events{% endblock %}
+{% block head_title %}Events – UK Export Academy{% endblock %}
 
 {% block content %}
     <div class="great">
@@ -37,7 +37,7 @@
                                         <fieldset class="filter-section" aria-describedby="{{ field.label }}_label">
                                             <legend class="great-visually-hidden">{{ field.label }}</legend>
                                             <input type="checkbox" id="{{ field.label }}" class="filter-section-toggle" role="button" aria-expanded="false" aria-controls="{{ field.label }}_fields" />
-                                            <label class="govuk-body-l arrows-left govuk-!-padding-left-2" for="{{ field.label }}" id="{{ field.label }}_label">{{ field.label }}</label>
+                                            <label class="arrows-left govuk-!-padding-left-2" for="{{ field.label }}" id="{{ field.label }}_label">{{ field.label }}</label>
                                             <div id="{{ field.label }}_fields" class="options checkbox-small">
                                                 {% if request.GET.booking_period == 'upcoming' or request.GET.booking_period == 'past' %}
                                                     {% filter disable_period_radios %}

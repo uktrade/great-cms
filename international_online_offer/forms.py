@@ -158,3 +158,10 @@ class SignUpForm(forms.Form):
 
 class CodeConfirmForm(forms.Form):
     code_confirm = forms.CharField(label='')
+
+
+class LocationSelectForm(forms.Form):
+    location = forms.ChoiceField(
+        label='Select a location',
+        choices=choices.REGION_CHOICES,
+    )
