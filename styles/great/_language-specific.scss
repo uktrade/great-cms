@@ -1,5 +1,5 @@
 .great {
-    .arabic {
+    *:lang(ar) {
         h1,
         h2,
         h3,
@@ -26,7 +26,7 @@
         }
       }
 
-      .korean {
+      *:lang(ko) {
         h1,
         h2,
         h3,
@@ -54,10 +54,10 @@
       }
 }
 
-.microsite .arabic .govuk-form-label {
+.microsite *:lang(ar) .govuk-form-label {
     font-family: $arabic-header-text-font;
 }
 
-.microsite .korean .govuk-form-label {
+.microsite *:lang(ko) .govuk-form-label {
     font-family: $korean-header-text-font;
 }

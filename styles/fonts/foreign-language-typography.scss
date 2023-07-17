@@ -16,7 +16,7 @@
 $arabic-main-text-font: 'Noto Arabic Regular', 'Noto Regular',  Arial, Helvetica, Verdana;
 $arabic-header-text-font: 'Noto Arabic SemiBold', 'Noto SemiBold', Arial, Helvetica, Verdana;
 
-.arabic {
+*:lang(ar)  {
   h1, h2, h3, h4, h5 {
     font-family: $arabic-header-text-font
   };
@@ -45,7 +45,7 @@ $arabic-header-text-font: 'Noto Arabic SemiBold', 'Noto SemiBold', Arial, Helvet
 $korean-main-text-font: 'Noto Korean Regular', 'Noto Regular',  Arial, Helvetica, Verdana;
 $korean-header-text-font: 'Noto Korean Bold', 'Noto SemiBold', Arial, Helvetica, Verdana;
 
-.korean {
+*:lang(ko) {
   h1, h2, h3, h4, h5 {
     font-family: $korean-header-text-font
   };
