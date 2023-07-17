@@ -1,0 +1,56 @@
+//arabic
+@font-face {
+  font-family: 'Noto Arabic Regular';
+  src: url('/static/fonts/NotoSansArabic-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Noto Arabic SemiBold';
+  src: url('/static/fonts/NotoSansArabic-SemiBold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+$arabic-main-text-font: 'Noto Arabic Regular', 'Noto Regular',  Arial, Helvetica, Verdana;
+$arabic-header-text-font: 'Noto Arabic SemiBold', 'Noto SemiBold', Arial, Helvetica, Verdana;
+
+.arabic {
+  h1, h2, h3, h4, h5 {
+    font-family: $arabic-header-text-font
+  };
+
+  body, p, button, a, li {
+    font-family: $arabic-main-text-font;
+  }
+}
+
+//korean
+
+@font-face {
+  font-family: 'Noto Korean Regular';
+  src: url('/static/fonts/NotoSansKR-Regular.otf') format("opentype");;
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Noto Korean Bold';
+  src: url('/static/fonts/NotoSansKR-Bold.otf') format("opentype");;
+  font-weight: normal;
+  font-style: normal;
+}
+
+$korean-main-text-font: 'Noto Korean Regular', 'Noto Regular',  Arial, Helvetica, Verdana;
+$korean-header-text-font: 'Noto Korean Bold', 'Noto SemiBold', Arial, Helvetica, Verdana;
+
+.korean {
+  h1, h2, h3, h4, h5 {
+    font-family: $korean-header-text-font
+  };
+
+  body, p, button, a, li {
+    font-family: $korean-main-text-font;
+  }
+}

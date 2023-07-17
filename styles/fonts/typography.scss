@@ -16,20 +16,6 @@
 }
 
 @font-face {
-  font-family: 'Noto Arabic Regular';
-  src: url('/static/fonts/NotoSansArabic-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Noto Arabic SemiBold';
-  src: url('/static/fonts/NotoSansArabic-SemiBold.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
   font-family: 'Font Awesome 5 Free';
   font-style: normal;
   font-weight: 900;
@@ -69,8 +55,6 @@
 
 $main-text-font: 'Noto Regular', Arial, Helvetica, Verdana;
 $header-font: 'Noto SemiBold', Arial, Helvetica, Verdana;
-$arabic-main-text-font: 'Noto Arabic Regular', 'Noto Regular',  Arial, Helvetica, Verdana;
-$arabic-header-text-font: 'Noto Arabic SemiBold', 'Noto SemiBold', Arial, Helvetica, Verdana;
 
 //font-weight
 $font-weight-standard: 400;
@@ -193,14 +177,3 @@ p {
 }
 
 $regular-font-weight: 400;
-
-
-.arabic {
-  h1, h2, h3, h4, h5 {
-    font-family: $arabic-header-text-font
-  };
-
-  body, p, button, a, li {
-    font-family: $arabic-main-text-font;
-  }
-}
