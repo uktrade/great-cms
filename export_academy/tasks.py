@@ -37,4 +37,5 @@ def remove_past_events_media():
     )
     for event in events:
         if event.completed and event.video_recording:
-            event.video_recording.delete()
+            event.video_recording = None
+            event.save()
