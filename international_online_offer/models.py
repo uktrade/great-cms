@@ -210,68 +210,75 @@ class IOOArticlePage(BaseContentPage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        if helpers.is_expand_your_business_registered(request):
+        if helpers.is_authenticated(request):
             triage_data = get_triage_data(request.user.hashed_uuid)
-            location = request.GET.get('location', triage_data.location)
-            region = helpers.get_salary_region_from_region(location)
-            sector_display = triage_data.get_sector_display()
+            if triage_data:
+                location = request.GET.get('location', triage_data.location)
+                region = helpers.get_salary_region_from_region(location)
+                sector_display = triage_data.get_sector_display()
 
-            entry_salary = SalaryData.objects.filter(
-                region=region, vertical__iexact=sector_display, professional_level='Entry-level'
-            ).aggregate(Avg('median_salary'))
-            mid_salary = SalaryData.objects.filter(
-                region=region, vertical__iexact=sector_display, professional_level='Middle/Senior Management'
-            ).aggregate(Avg('median_salary'))
-            executive_salary = SalaryData.objects.filter(
-                region=region, vertical__iexact=sector_display, professional_level='Director/Executive'
-            ).aggregate(Avg('median_salary'))
+                entry_salary = SalaryData.objects.filter(
+                    region=region, vertical__iexact=sector_display, professional_level='Entry-level'
+                ).aggregate(Avg('median_salary'))
+                mid_salary = SalaryData.objects.filter(
+                    region=region, vertical__iexact=sector_display, professional_level='Middle/Senior Management'
+                ).aggregate(Avg('median_salary'))
+                executive_salary = SalaryData.objects.filter(
+                    region=region, vertical__iexact=sector_display, professional_level='Director/Executive'
+                ).aggregate(Avg('median_salary'))
 
-            entry_salary, mid_salary, executive_salary = helpers.get_salary_data(
-                entry_salary, mid_salary, executive_salary
-            )
+                entry_salary, mid_salary, executive_salary = helpers.get_salary_data(
+                    entry_salary, mid_salary, executive_salary
+                )
 
-            large_warehouse_rent = RentData.objects.filter(region=region, sub_vertical='Large Warehouses').aggregate(
-                Avg('value_converted')
-            )
-            small_warehouse_rent = RentData.objects.filter(region=region, sub_vertical='Small Warehouses').aggregate(
-                Avg('value_converted')
-            )
-            shopping_centre = RentData.objects.filter(region=region, sub_vertical='Prime Shopping Center').aggregate(
-                Avg('value_converted')
-            )
-            high_street_retail = RentData.objects.filter(region=region, sub_vertical='High Street Retail').aggregate(
-                Avg('value_converted')
-            )
-            work_office = RentData.objects.filter(region=region, sub_vertical='Work Office').aggregate(
-                Avg('value_converted')
-            )
+                large_warehouse_rent = RentData.objects.filter(
+                    region=region, sub_vertical='Large Warehouses'
+                ).aggregate(Avg('value_converted'))
+                small_warehouse_rent = RentData.objects.filter(
+                    region=region, sub_vertical='Small Warehouses'
+                ).aggregate(Avg('value_converted'))
+                shopping_centre = RentData.objects.filter(
+                    region=region, sub_vertical='Prime Shopping Center'
+                ).aggregate(Avg('value_converted'))
+                high_street_retail = RentData.objects.filter(
+                    region=region, sub_vertical='High Street Retail'
+                ).aggregate(Avg('value_converted'))
+                work_office = RentData.objects.filter(region=region, sub_vertical='Work Office').aggregate(
+                    Avg('value_converted')
+                )
 
-        (
-            large_warehouse_rent,
-            small_warehouse_rent,
-            shopping_centre,
-            high_street_retail,
-            work_office,
-        ) = helpers.get_rent_data(
-            large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office
-        )
+                (
+                    large_warehouse_rent,
+                    small_warehouse_rent,
+                    shopping_centre,
+                    high_street_retail,
+                    work_office,
+                ) = helpers.get_rent_data(
+                    large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office
+                )
 
-        context.update(
-            triage_data=triage_data,
-            location_form=LocationSelectForm(initial={'location': location}),
-            entry_salary=entry_salary,
-            mid_salary=mid_salary,
-            executive_salary=executive_salary,
-            large_warehouse_rent=large_warehouse_rent,
-            small_warehouse_rent=small_warehouse_rent,
-            shopping_centre=shopping_centre,
-            high_street_retail=high_street_retail,
-            work_office=work_office,
-        )
+                professions_by_sector = helpers.get_sector_professions_by_level(triage_data.sector)
+
+                context.update(
+                    triage_data=triage_data,
+                    location_form=LocationSelectForm(initial={'location': location}),
+                    entry_salary=entry_salary,
+                    mid_salary=mid_salary,
+                    executive_salary=executive_salary,
+                    large_warehouse_rent=large_warehouse_rent,
+                    small_warehouse_rent=small_warehouse_rent,
+                    shopping_centre=shopping_centre,
+                    high_street_retail=high_street_retail,
+                    work_office=work_office,
+                    professions_by_sector=professions_by_sector,
+                )
+        site_section_url = ''
+        if self.url:
+            site_section_url = str(self.url or '/').split('/')[4]
         self.set_ga360_payload(
             page_id='Article',
             business_unit='ExpandYourBusiness',
-            site_section=str(self.url or '/').split('/')[4],
+            site_section=site_section_url,
         )
         self.add_ga360_data_to_payload(request)
         context['ga360'] = self.ga360_payload
@@ -386,6 +393,9 @@ class UserData(models.Model):
     agree_terms = models.BooleanField(default=False)
     agree_info_email = models.BooleanField(default=False)
     agree_info_telephone = models.BooleanField(default=False)
+    landing_timeframe = models.CharField(
+        null=True, default=None, max_length=255, choices=choices.LANDING_TIMEFRAME_CHOICES
+    )
 
 
 class TradeAssociation(models.Model):

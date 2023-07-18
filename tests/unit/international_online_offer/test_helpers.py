@@ -125,8 +125,8 @@ def test_get_salary_region_from_region():
 
 
 @pytest.mark.django_db
-def test_is_expand_your_business_registered():
-    assert helpers.is_expand_your_business_registered(None) is False
+def test_is_authenticated():
+    assert helpers.is_authenticated(None) is False
     user_not_logged_in = type(
         'obj',
         (object,),
@@ -137,14 +137,14 @@ def test_is_expand_your_business_registered():
         (object,),
         {'user': user_not_logged_in},
     )
-    assert helpers.is_expand_your_business_registered(request) is False
+    assert helpers.is_authenticated(request) is False
     user_logged_in = type(
         'obj',
         (object,),
         {'is_authenticated': True},
     )
     request.user = user_logged_in
-    assert helpers.is_expand_your_business_registered(request) is True
+    assert helpers.is_authenticated(request) is True
 
 
 @pytest.mark.django_db
@@ -173,3 +173,9 @@ def test_get_rent_data():
     assert shopping == 204
     assert high_steet == 204
     assert office == 16671
+
+
+@pytest.mark.django_db
+def test_get_sector_professions_by_level():
+    food_drink_profession = helpers.get_sector_professions_by_level(directory_constants_sectors.FOOD_AND_DRINK)
+    assert food_drink_profession['entry_level'] == 'bartenders, waiting staff and cooks'

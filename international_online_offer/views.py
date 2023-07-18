@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -341,6 +341,11 @@ class IOOProfile(GA360Mixin, FormView):
     form_class = forms.ProfileForm
     template_name = 'ioo/profile.html'
 
+    def get_success_url(self) -> str:
+        if self.request.GET.get('signup'):
+            return '/international/expand-your-business-in-the-uk/guide/?signup=true'
+        return '/international/expand-your-business-in-the-uk/guide/'
+
     def __init__(self):
         super().__init__()
         self.set_ga360_payload(
@@ -349,7 +354,6 @@ class IOOProfile(GA360Mixin, FormView):
             site_section='profile',
         )
 
-    success_url = '/international/expand-your-business-in-the-uk/guide/'
     COMPLETE_SIGN_UP_TITLE = 'Complete sign up'
     COMPLETE_SIGN_UP_LOW_VALUE_SUB_TITLE = 'Complete the sign up form to access your full personalised guide.'
     COMPLETE_SIGN_UP_HIGH_VALUE_SUB_TITLE = (
@@ -380,8 +384,9 @@ class IOOProfile(GA360Mixin, FormView):
 
     def get_initial(self):
         email = ''
-        if self.request.user.email:
-            email = self.request.user.email
+        if hasattr(self.request, 'user'):
+            if hasattr(self.request.user, 'email'):
+                email = self.request.user.email
         init_user_form_data = {
             'company_name': '',
             'company_location': '',
@@ -392,6 +397,7 @@ class IOOProfile(GA360Mixin, FormView):
             'agree_terms': True,
             'agree_info_email': '',
             'agree_info_telephone': '',
+            'landing_timeframe': '',
         }
         if self.request.user.is_authenticated:
             user_data = get_user_data(self.request.user.hashed_uuid)
@@ -405,6 +411,7 @@ class IOOProfile(GA360Mixin, FormView):
                 init_user_form_data['agree_terms'] = user_data.agree_terms
                 init_user_form_data['agree_info_email'] = user_data.agree_info_email
                 init_user_form_data['agree_info_telephone'] = user_data.agree_info_telephone
+                init_user_form_data['landing_timeframe'] = user_data.landing_timeframe
 
         return init_user_form_data
 
@@ -496,6 +503,9 @@ class IOOSignUp(
         return helpers.send_welcome_notification(email, form_url)
 
     def get(self, request, *args, **kwargs):
+        if helpers.is_authenticated(request):
+            response = redirect(reverse_lazy('international_online_offer:profile') + '?signup=true')
+            return response
         form = forms.SignUpForm
         if self.is_validate_code_flow():
             form = forms.CodeConfirmForm
@@ -525,7 +535,8 @@ class IOOSignUp(
                 )
             else:
                 return self.handle_verification_code_success(
-                    upstream_response=upstream_response, redirect_url=reverse_lazy('international_online_offer:profile')
+                    upstream_response=upstream_response,
+                    redirect_url=reverse_lazy('international_online_offer:profile') + '?signup=true',
                 )
         return render(request, self.template_name, {'form': form})
 
