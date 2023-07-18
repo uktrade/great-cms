@@ -173,3 +173,9 @@ def test_get_rent_data():
     assert shopping == 204
     assert high_steet == 204
     assert office == 16671
+
+
+@pytest.mark.django_db
+def test_get_sector_professions_by_level():
+    food_drink_profession = helpers.get_sector_professions_by_level(directory_constants_sectors.FOOD_AND_DRINK)
+    assert food_drink_profession['entry_level'] == 'bartenders, waiting staff and cooks'
