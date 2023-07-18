@@ -378,7 +378,7 @@ def test_eyb_user_serializer():
             'agreeTerms': instance.agree_terms,
             'agreeInfoEmail': instance.agree_info_email,
             'agreeInfoTelephone': instance.agree_info_telephone,
-            'landing_timeframe': instance.landing_timeframe,
+            'landingTimeframe': instance.landing_timeframe,
         },
     }
     assert output == expected
