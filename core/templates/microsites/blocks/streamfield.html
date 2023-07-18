@@ -9,7 +9,7 @@
     {% if block.block_type == 'form' %}
      {% filter add_govuk_classes %}
         {% if form %}
-            <div class="form-container {{form_class}}">
+            <div class="form-container {{form_class}} govuk-!-static-padding-0">
                 <hr/>
                 {% if form_success %}
                     <div class="success-message-container">

@@ -1,3 +1,4 @@
+$color-error: #eb4f4d;
 .great {
   *:lang(ar) {
     h1,
@@ -7,7 +8,8 @@
     h5,
     h6,
     .govuk-button,
-    .great-font-bold {
+    .great-font-bold,
+    strong {
       font-family: $arabic-header-text-font;
     }
 
@@ -20,7 +22,9 @@
     .govuk-error-message,
     .govuk-radios__label,
     .govuk-details,
-    .govuk-link {
+    .govuk-link,
+    .govuk-form-control,
+    em {
       font-family: $arabic-main-text-font;
     }
   }
@@ -33,7 +37,8 @@
     h5,
     h6,
     .govuk-button,
-    .great-font-bold {
+    .great-font-bold,
+    strong {
       font-family: $korean-header-text-font;
     }
 
@@ -46,8 +51,16 @@
     .govuk-error-message,
     .govuk-radios__label,
     .govuk-details,
-    .govuk-link {
+    .govuk-link,
+    .govuk-form-control,
+    em {
       font-family: $korean-main-text-font;
+    }
+
+    &:dir(rtl) {
+      .govuk-grid-column-two-thirds {
+        float: right !important;
+      }
     }
   }
 
@@ -58,6 +71,27 @@
     &[lang='ko'] {
       font-family: $korean-main-text-font;
     }
+  }
+}
+
+*[dir='rtl'] {
+  .govuk-grid-column-two-thirds,
+  .govuk-grid-column-three-quarters {
+    float: right;
+  }
+
+  .microsite-header{
+    p{
+      margin-left: 0;
+      margin-right: auto;
+    }
+  }
+
+  .govuk-form-group-error {
+    padding-left: 0 !important;
+    padding-right: 15px;
+    border-left: none !important;
+    border-right: 5px solid $color-error;
   }
 }
 
