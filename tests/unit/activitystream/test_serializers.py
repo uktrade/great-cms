@@ -357,6 +357,7 @@ def test_eyb_user_serializer():
     instance.agree_terms = True
     instance.agree_info_email = False
     instance.agree_info_telephone = False
+    instance.landing_timeframe = 'UNDER_SIX_MONTHS'
 
     serializer = ActivityStreamExpandYourBusinessUserDataSerializer()
 
@@ -377,6 +378,7 @@ def test_eyb_user_serializer():
             'agreeTerms': instance.agree_terms,
             'agreeInfoEmail': instance.agree_info_email,
             'agreeInfoTelephone': instance.agree_info_telephone,
+            'landing_timeframe': instance.landing_timeframe,
         },
     }
     assert output == expected
