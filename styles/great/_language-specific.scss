@@ -1,4 +1,4 @@
-$color-error: #eb4f4d;
+$color-error: #d4351c;
 .great {
   *:lang(ar) {
     h1,
@@ -9,7 +9,8 @@ $color-error: #eb4f4d;
     h6,
     .govuk-button,
     .great-font-bold,
-    strong {
+    strong,
+    .govuk-form-group-error .error-message ul li {
       font-family: $arabic-header-text-font;
     }
 
@@ -38,7 +39,8 @@ $color-error: #eb4f4d;
     h6,
     .govuk-button,
     .great-font-bold,
-    strong {
+    strong,
+    .govuk-form-group-error .error-message ul li {
       font-family: $korean-header-text-font;
     }
 
@@ -80,8 +82,8 @@ $color-error: #eb4f4d;
     float: right;
   }
 
-  .microsite-header{
-    p{
+  .microsite-header {
+    p {
       margin-left: 0;
       margin-right: auto;
     }
