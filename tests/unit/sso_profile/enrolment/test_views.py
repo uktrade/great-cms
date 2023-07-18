@@ -375,8 +375,7 @@ def test_200_feature_on(url, client):
 @pytest.fixture
 def session_client_company_factory(client, settings):
     def session_client(company_choice):
-        session = signed_cookies.SessionStore()
-        session.save()
+        session = client.session
         session[constants.SESSION_KEY_COMPANY_CHOICE] = company_choice
         session.save()
         client.cookies[settings.SESSION_COOKIE_NAME] = session.session_key
