@@ -2,6 +2,7 @@
 {% load humanize %}
 {% load add_govuk_classes from content_tags %}
 
+{% if triage_data.sector %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full govuk-!-padding-6 salary-component">
       <div class="govuk-width-container">
@@ -33,17 +34,17 @@
               <div class="govuk-grid-column-one-third">
                 <p class="govuk-heading-m govuk-!-font-weight-regular">Entry level</p>
                 <p class="govuk-heading-m"><span class="govuk-heading-l salary-text">£{{entry_salary|default_if_none:'-'|intcomma}}</span> per year</p>
-                <p class="govuk-body body-text">For professions like bartender, waitress, cook</p>
+                <p class="govuk-body body-text">For professions like {{ professions_by_sector.entry_level|default:'-' }}</p>
               </div>
               <div class="govuk-grid-column-one-third">
                 <p class="govuk-heading-m govuk-!-font-weight-regular">Mid level</p>
                 <p class="govuk-heading-m"><span class="govuk-heading-l salary-text">£{{mid_salary|default:'-'|intcomma}}</span> per year</p>
-                <p class="govuk-body body-text">For professions like accountant, lawyer, software engineer</p>
+                <p class="govuk-body body-text">For professions like {{ professions_by_sector.mid_level|default:'-' }}</p>
               </div>
               <div class="govuk-grid-column-one-third">
                 <p class="govuk-heading-m govuk-!-font-weight-regular">Executive level</p>
                 <p class="govuk-heading-m"><span class="govuk-heading-l salary-text">£{{executive_salary|default:'-'|intcomma}}</span> per year</p>
-                <p class="govuk-body body-text">For professions like director, vice presidents, chief executives</p>
+                <p class="govuk-body body-text">For professions like {{ professions_by_sector.executive_level|default:'-' }}</p>
               </div>
             </div>
             <div class="govuk-grid-row">
@@ -59,3 +60,4 @@
       </div>
     </div>
   </div>
+  {% endif %}

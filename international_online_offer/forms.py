@@ -124,6 +124,11 @@ class ProfileForm(forms.Form):
         label='',
         required=True,
     )
+    landing_timeframe = forms.fields.ChoiceField(
+        label='',
+        required=True,
+        choices=(('', ''),) + choices.LANDING_TIMEFRAME_CHOICES,
+    )
     agree_terms = forms.BooleanField(
         required=True,
         label=TERMS_LABEL,

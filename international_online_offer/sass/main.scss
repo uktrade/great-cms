@@ -84,3 +84,11 @@
     }
 
 }
+
+.eyb-select {
+    .form-control {
+        height: 38px;
+        padding: 5px;
+        background-position: calc(100% - 20px) 0.75em, calc(100% - 10px) 0.75em;
+    }
+}

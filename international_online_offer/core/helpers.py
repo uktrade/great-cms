@@ -5,6 +5,7 @@ from directory_constants import sectors as directory_constants_sectors
 from international_online_offer.core import (
     choices,
     filter_tags,
+    professions,
     regions,
     sectors as sectors,
 )
@@ -225,3 +226,10 @@ def get_rent_data(large_warehouse_rent, small_warehouse_rent, shopping_centre, h
         work_office = int(work_office)
 
     return large_warehouse_rent, small_warehouse_rent, shopping_centre, high_street_retail, work_office
+
+
+def get_sector_professions_by_level(sector):
+    for profession_by_sector_and_level in professions.PROFESSIONS_BY_SECTOR_AND_LEVEL:
+        if profession_by_sector_and_level['sector'] == sector:
+            return profession_by_sector_and_level
+    return None

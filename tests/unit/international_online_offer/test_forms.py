@@ -114,6 +114,7 @@ def test_triage_spend_form_validation(form_data, is_valid):
                 'agree_terms': 'true',
                 'agree_info_email': '',
                 'agree_info_telephone': '',
+                'landing_timeframe': 'UNDER_SIX_MONTHS',
             },
             True,
         ),
