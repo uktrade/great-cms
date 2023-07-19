@@ -5,20 +5,13 @@
 
 {%if twitter or email or facebook or linkedin%}
     <div class="social-media-container">
-        <h3>
+        <h3 class="govuk-!-margin-bottom-4">
             {% if TRANSLATE_TEXT %}
-                {% translate "Share this page" %}
+                {% translate "Follow us" %}
             {% else %}
-                Share this page
+                Follow us
             {% endif %}
         </h3>
-        <p>
-            {% if TRANSLATE_TEXT %}
-            {% translate "Sharing will open the page in a new tab." %}
-            {% else %}
-                Sharing will open the page in a new tab.
-            {% endif %}
-        </p>
         <div class="social-media-items-wrapper">
             {% if twitter %}
                 <a href="{{ twitter }}">
