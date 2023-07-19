@@ -25,12 +25,6 @@ def test_find_articles_based_on_tags():
         {'name': filter_tags.SUPPORT_AND_INCENTIVES},
     )
 
-    tag4 = type(
-        'obj',
-        (object,),
-        {'name': filter_tags.OPPORTUNITY},
-    )
-
     specific = type(
         'obj',
         (object,),
@@ -46,7 +40,7 @@ def test_find_articles_based_on_tags():
     specific3 = type(
         'obj',
         (object,),
-        {'tags': [tag, tag4]},
+        {'tags': [tag]},
     )
 
     article = type(
