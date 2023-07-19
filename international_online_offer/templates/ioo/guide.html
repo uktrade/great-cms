@@ -44,6 +44,7 @@
             {% endif %}
         </div>
     </div>
+    {% if eyb_user %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
             <div class="govuk-grid-row govuk-!-padding-3 govuk-!-margin-0 govuk-!-margin-bottom-8 guide-edit-panel">
@@ -89,6 +90,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
             <h2 class="govuk-heading-l">Step by step guide</h2>
@@ -716,50 +718,46 @@
         </div>
     </div>
     {% endif %}
-    {% if opportunities_articles %}
+    {% if triage_data.is_high_value %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
             <h2 class="govuk-heading-l">Opportunities across the UK</h3>
             <p class="govuk-body">Find investment opportunities based on your sector.</p>
         </div>
     </div>
-    <div class="govuk-grid-row">
-        {% for page in opportunities_articles %}
-            <div class="govuk-grid-column-one-third govuk-!-padding-0">
-                {% image page.article_image original as rendition %}
-                <div class="article-list-item-vertical">
-                    {% if eyb_user %}
-                    <a href="{{ '/international/investment/opportunities/' }}">
-                    {% else %}
-                    <a href="{% url 'international_online_offer:signup' %}">
-                    {% endif %}
-                        <div class="govuk-grid-row">
-                            <div class="govuk-grid-column-full">
-                                <div class="image-container" style="background-image: url({{ rendition.url }});">
-                                    {% if not eyb_user %}
-                                    <div class="image-container-lock-overlay">
-                                        <div class="article-lock"></div>
-                                    </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="govuk-grid-row">
-                            <div class="govuk-grid-column-full">
-                                <p class="govuk-body article-list-item-title">{{ page.article_title }}</p>
+    <div class="govuk-grid-row govuk-!-margin-bottom-6">
+        <div class="govuk-grid-column-full">
+            <div class="article-list-item">
+                {% if eyb_user %}
+                <a class="article-list-item-a" href="{{ '/international/investment/opportunities/' }}">
+                {% else %}
+                <a class="article-list-item-a" href="{% url 'international_online_offer:signup' %}">
+                {% endif %}
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-one-third">
+                            <div class="image-container" style="background-image: url({% static 'images/ioo_networking.jpg' %});">
                                 {% if not eyb_user %}
-                                <div class="article-lock-text">
-                                    <strong class="govuk-tag govuk-tag--blue">
-                                        SIGN UP TO UNLOCK
-                                    </strong>
+                                <div class="image-container-lock-overlay">
+                                    <div class="article-lock"></div>
                                 </div>
                                 {% endif %}
                             </div>
                         </div>
-                    </a>
-                </div>
+                        <div class="govuk-grid-column-two-thirds">
+                            <h4 class="govuk-heading-m article-list-item-title">Opps title</h4>
+                            <p class="govuk-body article-list-item-teaser">Teaser text here for opps page view all</p>
+                            {% if not eyb_user %}
+                            <div class="article-lock-text">
+                                <strong class="govuk-tag govuk-tag--blue">
+                                    SIGN UP TO UNLOCK
+                                </strong>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
             </div>
-        {% endfor %}
+        </div>
     </div>
     {% endif %}
     {% if not eyb_user %}
