@@ -222,6 +222,7 @@ class ActivityStreamExpandYourBusinessUserDataSerializer(serializers.ModelSerial
     agreeTerms = serializers.BooleanField(source='agree_terms')  # noqa: N815
     agreeInfoEmail = serializers.BooleanField(source='agree_info_email')  # noqa: N815
     agreeInfoTelephone = serializers.BooleanField(source='agree_info_telephone')  # noqa: N815
+    landingTimeframe = serializers.CharField(source='landing_timeframe')  # noqa: N815
 
     class Meta:
         model = UserData
@@ -237,6 +238,7 @@ class ActivityStreamExpandYourBusinessUserDataSerializer(serializers.ModelSerial
             'agreeTerms',
             'agreeInfoEmail',
             'agreeInfoTelephone',
+            'landingTimeframe',
         ]
 
     def to_representation(self, instance):
