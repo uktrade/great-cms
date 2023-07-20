@@ -19,7 +19,7 @@
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-body-m">Already have an account? <a href="{% url 'international_online_offer:login' %}" class="govuk-link">Sign in</a></h2>
+      <p class="govuk-body-m">Already have an account? <a href="{% url 'international_online_offer:login' %}" class="govuk-link">Sign in</a></p>
     </div>
   </div>
   {% if form.non_field_errors %}
@@ -47,7 +47,7 @@
             Enter the code below to complete registration:</p>
             <form method="post">
               {% csrf_token %}
-              <label class="govuk-label" for="code_confirm">Confirmation code</label>
+              <label class="govuk-label" for="id_code_confirm">Confirmation code</label>
               {% include 'core/includes/form_field.html' with field=form.code_confirm %}
               {% include './includes/submit_button.html' with button_text='Continue'  %}
             </form>
@@ -59,9 +59,9 @@
     <div class="govuk-grid-column-two-thirds">
       <form method="post">
         {% csrf_token %}
-        <label class="govuk-label" for="email">Email</label>
+        <label class="govuk-label" for="id_email">Email</label>
         {% include 'core/includes/form_field.html' with field=form.email %}
-        <label class="govuk-label" for="password">Password</label>
+        <label class="govuk-label" for="id_password">Password</label>
         <div id="password-hint" class="govuk-hint">
           Your password should be a minimum of 10 characters and include letters, numbers or special characters
         </div>

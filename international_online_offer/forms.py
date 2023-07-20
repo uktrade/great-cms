@@ -135,11 +135,11 @@ class ProfileForm(forms.Form):
     )
     agree_info_email = forms.BooleanField(
         required=False,
-        label='I would like to additional receive information by email',
+        label='I would like to additional receive information by email (optional)',
     )
     agree_info_telephone = forms.BooleanField(
         required=False,
-        label='I would like to additional receive information by telephone',
+        label='I would like to additional receive information by telephone (optional)',
     )
 
     def clean(self):
