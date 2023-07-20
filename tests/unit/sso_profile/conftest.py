@@ -315,6 +315,7 @@ def case_study_data():
             'sector': 'AEROSPACE',
             'website': 'http://www.example.com',
             'keywords': 'good, great',
+            'is_published_case_study': 'True',
         },
         views.MEDIA: {
             'testimonial': 'Great',
