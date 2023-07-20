@@ -25,3 +25,89 @@ export const createElement = (el, options = []) => {
 
   return document.createElement('div')
 }
+
+export const isFormValid = (file) => {
+  const titleVal = document.querySelector('#id_title').value
+  const fileNameLength = file.name.length
+  const transcriptVal = document.querySelector('#id_transcript').value
+
+  const isTitleValid = titleVal !== ''
+  const isFileNameValid = fileNameLength <= 100
+  const isTranscriptValid = transcriptVal !== ''
+
+  const isValid = isTitleValid && isTranscriptValid && isFileNameValid
+
+  if (isValid) {
+    document.querySelector('.messages').innerHTML = ''
+    return true
+  }
+
+  const fields = [
+    {
+      isValid: isTitleValid,
+      field: 'title',
+      errorMessage: ' This field is required.',
+    },
+    {
+      isValid: isTranscriptValid,
+      field: 'transcript',
+      errorMessage: ' This field is required.',
+    },
+    {
+      isValid: isFileNameValid,
+      field: 'file',
+      errorMessage: ' Filename cannot exceed 100 characters.',
+    },
+  ]
+
+  fields.forEach(({ isValid, field, errorMessage }) => {
+    let errorMessageP = document.querySelector(
+      `[data-contentpath="${field}"] .w-field__errors p`
+    )
+    let errorMessageSVG = document.querySelector(
+      `[data-contentpath="${field}"] .w-field__errors svg`
+    )
+
+    if (isValid) {
+      document
+        .querySelector(`[data-contentpath="${field}"]`)
+        .classList.remove('w-field--error')
+
+      if (errorMessageP) {
+        errorMessageP.remove()
+      }
+
+      if (errorMessageSVG) {
+        errorMessageSVG.remove()
+      }
+    } else {
+      document
+        .querySelector(`[data-contentpath="${field}"]`)
+        .classList.add('w-field--error')
+
+      if (errorMessageP) {
+        errorMessageP.innerHTML = errorMessage
+      } else {
+        const p = document.createElement('p')
+        p.classList.add('error-message')
+        p.innerHTML = errorMessage
+        document
+          .querySelector(`[data-contentpath="${field}"] .w-field__errors`)
+          .append(p)
+      }
+    }
+  })
+
+  document.querySelector('.messages').innerHTML =
+    '<ul><li class="error"><svg class="icon icon-warning messages-icon" aria-hidden="true"><use href="#icon-warning"></use></svg>The media file could not be saved due to errors.</li></ul>'
+
+  return false
+}
+
+export const scrollToTopOfPage = (document) => {
+  document.querySelector('#main').scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  })
+}
