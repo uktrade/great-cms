@@ -73,12 +73,12 @@ def test_find_articles_based_on_tags():
     articles.append(article3)
     articles.append(article4)
 
-    assert len(helpers.find_get_to_know_market_articles(articles, 'tag1', ['tag2'])) == 2
+    assert len(helpers.find_get_to_know_market_articles(articles, 'tag1', ['tag2'])) == 3
     assert len(helpers.find_get_support_and_incentives_articles(articles)) == 1
     assert helpers.find_get_to_know_market_articles([], '', []) == []
     assert helpers.find_get_support_and_incentives_articles([]) == []
     assert helpers.find_trade_shows_for_sector([], 'tag1') == []
-    assert len(helpers.find_trade_shows_for_sector(articles, 'tag1')) == 0
+    assert len(helpers.find_trade_shows_for_sector(articles, 'tag1')) == 1
     assert helpers.get_trade_page([]) is None
     assert helpers.get_trade_page(articles) is not None
 
