@@ -393,6 +393,9 @@ class UserData(models.Model):
     agree_terms = models.BooleanField(default=False)
     agree_info_email = models.BooleanField(default=False)
     agree_info_telephone = models.BooleanField(default=False)
+    landing_timeframe = models.CharField(
+        null=True, default=None, max_length=255, choices=choices.LANDING_TIMEFRAME_CHOICES
+    )
 
 
 class TradeAssociation(models.Model):

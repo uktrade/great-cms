@@ -17,6 +17,7 @@ def sso_request(rf, settings, client):
     return request
 
 
+@pytest.mark.django_db
 @mock.patch.object(sso_api_client.user, 'get_session_user', wraps=sso_api_client.user.get_session_user)
 def test_auth_ok(mock_get_session_user, sso_request, requests_mock, settings):
     settings.AUTHENTICATION_BACKENDS = ['sso.backends.BusinessSSOUserBackend']
