@@ -192,7 +192,9 @@ class FeedbackForm(forms.Form):
             ('VERY_DISSATISFIED', 'Very dissatisfied'),
         ),
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
-        required=False,
+        error_messages={
+            'required': 'You must select a level of satisfaction',
+        },
     )
     experience = MultipleChoiceField(
         label='2. Did you experience any of the following issues?',
@@ -250,24 +252,3 @@ class FeedbackForm(forms.Form):
             'required': 'You must select one or more site use options',
         },
     )
-    csat_submission = forms.CharField()
-
-    def __init__(self, *args, **kwargs):
-        self.token = kwargs.pop('token', None)
-        super().__init__(*args, **kwargs)
-
-    def clean(self):
-        cleaned_data = super().clean()
-        satisfaction = cleaned_data.get('satisfaction', None)
-        csat_submission = cleaned_data.get('csat_submission', False)
-        if csat_submission == 'False' and (satisfaction is None or satisfaction == ''):
-            self.add_error('satisfaction', 'You must select a level of satisfaction')
-        if satisfaction != 'VERY_SATISFIED' and csat_submission == 'True':
-            # Request extra feedback if not very satisfied
-            #
-            # self.add_error('feedback_text', 'Tell us how we can improve')
-            raise forms.ValidationError('Let us know how we can improve')
-
-    # def save(self):
-    #     client = MarketAccessAPIClient(self.token)
-    #     client.feedback.send_feedback(token=self.token, **self.cleaned_data)

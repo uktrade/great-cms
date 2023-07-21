@@ -47,7 +47,6 @@
         {% endif %}
         <form method="post" novalidate action="{{ request.build_absolute_uri }}">
             {% csrf_token %}
-            <input type="hidden" name="csat_submission" value="False">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-half-from-desktop">
                     <div class="govuk-form-group{% if form.satisfaction.errors %} govuk-form-group--error{% endif %}">
