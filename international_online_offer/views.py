@@ -1,5 +1,4 @@
 from directory_forms_api_client import actions
-from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -642,13 +641,11 @@ class IOOFeedback(GA360Mixin, FormView):
     def submit_feedback(self, form):
         cleaned_data = form.cleaned_data
 
-        action = actions.ZendeskAction(
+        action = actions.SaveOnlyInDatabaseAction(
             full_name='EYB User',
             subject=self.subject,
             email_address='anonymous-user@expand-your-business.trade.gov.uk',
-            service_name='expand-your-business',
             form_url=self.request.get_full_path(),
-            subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
         )
 
         response = action.save(cleaned_data)
