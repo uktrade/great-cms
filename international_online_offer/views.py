@@ -607,3 +607,31 @@ class IOOEditYourAnswers(GA360Mixin, TemplateView):
             user_data=user_data,
             back_url='/international/expand-your-business-in-the-uk/guide/',
         )
+
+
+class IOOFeedback(GA360Mixin, FormView):
+    form_class = forms.FeedbackForm
+    template_name = 'ioo/feedback.html'
+
+    def __init__(self):
+        super().__init__()
+        self.set_ga360_payload(
+            page_id='Feedback',
+            business_unit='ExpandYourBusiness',
+            site_section='feedback',
+        )
+
+    def get_back_url(self):
+        back_url = '/international/expand-your-business-in-the-uk/guide/'
+        if self.request.GET.get('next'):
+            back_url = self.request.GET.get('next')
+        return back_url
+
+    def get_success_url(self):
+        success_url = reverse_lazy('international_online_offer:feedback') + '?success=true'
+        if self.request.GET.get('next'):
+            success_url = success_url + '&next=' + self.request.GET.get('next')
+        return success_url
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs, back_url=self.get_back_url())

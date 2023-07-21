@@ -1,4 +1,13 @@
-from django.forms import PasswordInput, Select
+from django.forms import (
+    CharField,
+    CheckboxSelectMultiple,
+    ChoiceField,
+    MultipleChoiceField,
+    PasswordInput,
+    RadioSelect,
+    Select,
+    Textarea,
+)
 from django.utils.html import mark_safe
 from great_components import forms
 
@@ -135,11 +144,11 @@ class ProfileForm(forms.Form):
     )
     agree_info_email = forms.BooleanField(
         required=False,
-        label='I would like to additional receive information by email (optional)',
+        label='I would like to receive additional information by email (optional)',
     )
     agree_info_telephone = forms.BooleanField(
         required=False,
-        label='I would like to additional receive information by telephone (optional)',
+        label='I would like to receive additional information by telephone (optional)',
     )
 
     def clean(self):
@@ -170,3 +179,95 @@ class LocationSelectForm(forms.Form):
         label='Select a location',
         choices=choices.REGION_CHOICES,
     )
+
+
+class FeedbackForm(forms.Form):
+    satisfaction = ChoiceField(
+        label="1. Overall, how do you feel about your use of the expand your business in the UK service today?",
+        choices=(
+            ("VERY_SATISFIED", "Very satisfied"),
+            ("SATISFIED", "Satisfied"),
+            ("NEITHER", "Neither satisfied nor dissatisfied"),
+            ("DISSATISFIED", "Dissatisfied"),
+            ("VERY_DISSATISFIED", "Very dissatisfied"),
+        ),
+        widget=RadioSelect(attrs={"class": "govuk-radios__input"}),
+        required=False,
+    )
+    experience = MultipleChoiceField(
+        label="2. Did you experience any of the following issues?",
+        help_text="Tick all that apply.",
+        choices=(
+            ("I_DID_NOT_EXPERIENCE_ANY_ISSUE", "I did not experience any issue"),
+            ("PROCESS_IS_NOT_CLEAR", "Process is not clear"),
+            ("NOT_ENOUGH_GUIDANCE", "Not enough guidance"),
+            ("I_WAS_ASKED_FOR_INFORMATION_I_DID_NOT_HAVE", "I was asked for information I did not have"),
+            ("I_DID_NOT_GET_THE_INFORMATION_I_EXPECTED", "I did not get the information I expected"),
+        ),
+        widget=CheckboxSelectMultiple(attrs={"class": "govuk-checkboxes__input"}),
+        error_messages={
+            "required": "You must select one or more issues",
+        },
+    )
+    feedback_text = CharField(
+        label="3. How could we improve the service?",
+        help_text="Don't include any personal information, like your name or email address. (optional)",
+        max_length=3000,
+        required=False,
+        widget=Textarea(attrs={"class": "govuk-textarea", "rows": 7}),
+    )
+    likelihood_of_return = ChoiceField(
+        label="4. What is the likelihood of you returning to this site?",
+        choices=(
+            ("EXTREMELY_LIKELY", "Extremely likely"),
+            ("LIKELY", "Likely"),
+            ("NEITHER_LIKELY_NOR_UNLIKELY", "Neither likely nor unlikely"),
+            ("UNLIKELY", "Unlikely"),
+            ("EXTREMELY_UNLIKELY", "Extremely unlikely"),
+            ("DONT_KNOW_OR_PREFER_NOT_TO_SAY", "Don't know / prefer not to say"),
+        ),
+        widget=RadioSelect(attrs={"class": "govuk-radios__input"}),
+        error_messages={
+            "required": "You must select one likelihood of returning options",
+        },
+    )
+    site_intentions = MultipleChoiceField(
+        label="5. What will your business use this site for?",
+        help_text="Tick all that apply.",
+        choices=(
+            ("DECIDE_IF_WE_SHOULD_SET_UP_IN_THE_UK", "Decide if we should set up in the UK"),
+            ("HELP_US_SET_UP_IN_THE_UK", "Help us set up in the UK"),
+            ("UNDERSTAND_THE_UK_LEGAL_SYSTEM", "Understand the UK legal system such as tax and employment regulations"),
+            ("PUT_US_IN_TOUCH_WITH_EXPERTS", "Put us in touch with experts to help us set up"),
+            ("ACCESS_TRUSTED_INFORMATION", "Access trusted information"),
+            ("LEARN_ABOUT_AVAILABLE_INCENTIVES", "Learn about available incentives"),
+            ("OTHER", "Other"),
+            ("DONT_KNOW_OR_PREFER_NOT_TO_SAY", "Don't know / prefer not to say"),
+            ("MY_BUSINESS_WILL_NOT_USE_THE_SITE", "My business will not use the site"),
+        ),
+        widget=CheckboxSelectMultiple(attrs={"class": "govuk-checkboxes__input"}),
+        error_messages={
+            "required": "You must select one or more site use options",
+        },
+    )
+    csat_submission = forms.CharField()
+
+    def __init__(self, *args, **kwargs):
+        self.token = kwargs.pop("token", None)
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        satisfaction = cleaned_data.get("satisfaction", None)
+        csat_submission = cleaned_data.get("csat_submission", False)
+        if csat_submission == "False" and (satisfaction is None or satisfaction == ""):
+            self.add_error("satisfaction", "You must select a level of satisfaction")
+        if satisfaction != "VERY_SATISFIED" and csat_submission == "True":
+            # Request extra feedback if not very satisfied
+            #
+            # self.add_error("feedback_text", "Tell us how we can improve")
+            raise forms.ValidationError("Let us know how we can improve")
+
+    # def save(self):
+    #     client = MarketAccessAPIClient(self.token)
+    #     client.feedback.send_feedback(token=self.token, **self.cleaned_data)
