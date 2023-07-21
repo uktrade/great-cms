@@ -401,6 +401,14 @@ def test_ioo_edit_your_answers(client, settings):
 
 
 @pytest.mark.django_db
+def test_ioo_feedback(client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:feedback')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 @mock.patch.object(sso_helpers, 'regenerate_verification_code')
 @mock.patch.object(sso_helpers, 'send_verification_code_email')
 def test_business_eyb_sso_login(mock_send_code, mock_regenerate_code, client, requests_mock):
