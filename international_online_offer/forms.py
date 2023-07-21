@@ -211,7 +211,7 @@ class FeedbackForm(forms.Form):
     )
     feedback_text = CharField(
         label='3. How could we improve the service?',
-        help_text='Don\'t include any personal information, like your name or email address. (optional)',
+        help_text="Don't include any personal information, like your name or email address. (optional)",
         max_length=3000,
         required=False,
         widget=Textarea(attrs={'class': 'govuk-textarea', 'rows': 7}),
@@ -224,7 +224,7 @@ class FeedbackForm(forms.Form):
             ('NEITHER_LIKELY_NOR_UNLIKELY', 'Neither likely nor unlikely'),
             ('UNLIKELY', 'Unlikely'),
             ('EXTREMELY_UNLIKELY', 'Extremely unlikely'),
-            ('DONT_KNOW_OR_PREFER_NOT_TO_SAY', 'Don\'t know / prefer not to say'),
+            ('DONT_KNOW_OR_PREFER_NOT_TO_SAY', "Don't know / prefer not to say"),
         ),
         widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
         error_messages={
@@ -242,7 +242,7 @@ class FeedbackForm(forms.Form):
             ('ACCESS_TRUSTED_INFORMATION', 'Access trusted information'),
             ('LEARN_ABOUT_AVAILABLE_INCENTIVES', 'Learn about available incentives'),
             ('OTHER', 'Other'),
-            ('DONT_KNOW_OR_PREFER_NOT_TO_SAY', 'Don\'t know / prefer not to say'),
+            ('DONT_KNOW_OR_PREFER_NOT_TO_SAY', "Don't know / prefer not to say"),
             ('MY_BUSINESS_WILL_NOT_USE_THE_SITE', 'My business will not use the site'),
         ),
         widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
