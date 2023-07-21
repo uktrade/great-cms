@@ -112,10 +112,14 @@ export const largeVideoUpload = () => {
     }
 
     const handleSubmit = async () => {
-      const signedUrl = await getSignedUrl()
+      if (utils.isFormValid(file)) {
+        const signedUrl = await getSignedUrl()
 
-      if (signedUrl) {
-        uploadFile(signedUrl)
+        if (signedUrl) {
+          uploadFile(signedUrl)
+        }
+      } else {
+        utils.scrollToTopOfPage(document)
       }
     }
 

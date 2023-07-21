@@ -21,7 +21,9 @@
   {% block content_top %}
     {% block hero %}
       {% with content_snippet as hero %}
-          {% include 'components/hero.html' with image=hero.image hero_title=hero.title hero_text=hero.text %}
+          <div class="ea-listing-page">
+              {% include 'components/export_academy_hero.html' with hero=hero hide_image_for_mobile=True %}
+          </div>
       {% endwith %}
     {% endblock %}
 

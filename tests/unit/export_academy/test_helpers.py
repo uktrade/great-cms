@@ -48,6 +48,18 @@ def test_book_button_returned_for_upcoming_event_registered_user(user, test_futu
         },
     ]
 
+    user = AnonymousUser()
+    buttons = helpers.get_buttons_for_event(user, test_future_event)
+
+    assert buttons['form_event_booking_buttons'] == [
+        {
+            'label': 'Sign up<span class="great-visually-hidden"> Test event name</span>',
+            'classname': 'govuk-button govuk-!-margin-bottom-0 ukea-ga-tracking',
+            'value': 'Confirmed',
+            'type': 'submit',
+        },
+    ]
+
 
 @pytest.mark.django_db
 def test_book_button_returned_for_upcoming_event_not_registered_user(user, test_future_event):
