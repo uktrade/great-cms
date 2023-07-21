@@ -408,6 +408,33 @@ def test_ioo_feedback(client, settings):
     assert response.status_code == 200
 
 
+@pytest.mark.parametrize(
+    'form_data',
+    (
+        (
+            {
+                'satisfaction': 'SATISFIED',
+                'experience': 'I_DID_NOT_EXPERIENCE_ANY_ISSUE',
+                'feedback_text': 'Some example feedback',
+                'likelihood_of_return': 'LIKELY',
+                'site_intentions': 'HELP_US_SET_UP_IN_THE_UK',
+            }
+        ),
+    ),
+)
+@mock.patch('directory_forms_api_client.actions.SaveOnlyInDatabaseAction')
+@pytest.mark.django_db
+def test_ioo_feedback_submit(mock_save_only_in_database_action, form_data, client, settings):
+    settings.FEATURE_INTERNATIONAL_ONLINE_OFFER = True
+    url = reverse('international_online_offer:feedback')
+    response = client.post(
+        url,
+        form_data,
+    )
+    assert mock_save_only_in_database_action.call_count == 1
+    assert response.status_code == 302
+
+
 @pytest.mark.django_db
 @mock.patch.object(sso_helpers, 'regenerate_verification_code')
 @mock.patch.object(sso_helpers, 'send_verification_code_email')
