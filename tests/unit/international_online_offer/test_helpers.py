@@ -152,19 +152,23 @@ def test_get_salary_data():
 
 @pytest.mark.django_db
 def test_get_rent_data():
-    large_query = {'value_converted__avg': 1}
-    small_query = {'value_converted__avg': 1}
-    shopping_query = {'value_converted__avg': 1}
-    high_steet_query = {'value_converted__avg': 1}
-    office_query = {'value_converted__avg': 1}
+    class RentQueryResult:
+        def __init__(self, gbp_per_month):
+            self.gbp_per_month = gbp_per_month
+
+    large_query = RentQueryResult(20000)
+    small_query = RentQueryResult(1000)
+    shopping_query = RentQueryResult(2000)
+    high_steet_query = RentQueryResult(3000)
+    office_query = RentQueryResult(4000)
     large, small, shopping, high_steet, office = helpers.get_rent_data(
         large_query, small_query, shopping_query, high_steet_query, office_query
     )
-    assert large == 340000
-    assert small == 5000
-    assert shopping == 204
-    assert high_steet == 204
-    assert office == 16671
+    assert large == 20000
+    assert small == 1000
+    assert shopping == 2000
+    assert high_steet == 3000
+    assert office == 4000
 
 
 @pytest.mark.django_db
