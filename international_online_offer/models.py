@@ -230,27 +230,27 @@ class IOOArticlePage(BaseContentPage):
                 )
 
                 try:
-                    large_warehouse_rent = RentData.objects.get(region=region, sub_vertical='Large Warehouses')
+                    large_warehouse_rent = RentData.objects.get(region__iexact=region, sub_vertical='Large Warehouses')
                 except RentData.DoesNotExist:
                     large_warehouse_rent = None
 
                 try:
-                    small_warehouse_rent = RentData.objects.get(region=region, sub_vertical='Small Warehouses')
+                    small_warehouse_rent = RentData.objects.get(region__iexact=region, sub_vertical='Small Warehouses')
                 except RentData.DoesNotExist:
                     small_warehouse_rent = None
 
                 try:
-                    shopping_centre = RentData.objects.get(region=region, sub_vertical='Prime shopping centre')
+                    shopping_centre = RentData.objects.get(region__iexact=region, sub_vertical='Prime shopping centre')
                 except RentData.DoesNotExist:
                     shopping_centre = None
 
                 try:
-                    high_street_retail = RentData.objects.get(region=region, sub_vertical='High Street Retail')
+                    high_street_retail = RentData.objects.get(region__iexact=region, sub_vertical='High Street Retail')
                 except RentData.DoesNotExist:
                     high_street_retail = None
 
                 try:
-                    work_office = RentData.objects.get(region=region, sub_vertical='Work Office')
+                    work_office = RentData.objects.get(region__iexact=region, sub_vertical='Work Office')
                 except RentData.DoesNotExist:
                     work_office = None
 
