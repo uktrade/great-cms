@@ -47,6 +47,11 @@
                   </a>
                 </li>
                 <li class="govuk-tabs__list-item">
+                  <a class="govuk-tabs__tab" href="#shopping-centre">
+                    Shopping centre
+                  </a>
+                </li>
+                <li class="govuk-tabs__list-item">
                   <a class="govuk-tabs__tab" href="#high-street-retail">
                     High street retail
                   </a>
@@ -87,6 +92,21 @@
                   </div>
                 </div>
               </div>
+              <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="shopping-centre">
+                <div class="govuk-grid-row">
+                  <div class="govuk-grid-column-full">
+                    <h2 class="govuk-heading-l">Shopping centre, average rent for {{ rent_location_form.location.value|get_location_display }}</h2>
+                  </div>
+                </div>
+                <div class="govuk-grid-row">
+                  <div class="govuk-grid-column-one-half">
+                    <p class="govuk-heading-m"><span class="govuk-heading-l">£{{shopping_centre|default:'-'|intcomma}}</span> per calendar month for 2023</p>
+                  </div>
+                  <div class="govuk-grid-column-one-half">
+                    <p class="govuk-body">A shopping centre unit is near a group of shops, sometimes under one roof. Calculation based on average UK unit being <strong class="govuk-!-font-weight-bold">204 sq foot</strong></p>
+                  </div>
+                </div>
+              </div>
               <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="high-street-retail">
                 <div class="govuk-grid-row">
                   <div class="govuk-grid-column-full">
@@ -98,7 +118,7 @@
                     <p class="govuk-heading-m"><span class="govuk-heading-l">£{{high_steet_retail|default:'-'|intcomma}}</span> per calendar month for 2023</p>
                   </div>
                   <div class="govuk-grid-column-one-half">
-                    <p class="govuk-body">High street retail is a concentration of shops in either urban or urban-like areas. Calculation based on average UK unit being <strong class="govuk-!-font-weight-bold">204 sq foot</strong></p>
+                    <p class="govuk-body">High street retail is a concentration of shops in either urban or urban-like areas. Calculation based on average UK unit being <strong class="govuk-!-font-weight-bold">2195 sq foot</strong></p>
                   </div>
                 </div>
               </div>
