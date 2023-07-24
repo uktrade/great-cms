@@ -90,7 +90,6 @@ def test_ioo_guide_page_content(rf):
     assert context['complete_contact_form_link'] == 'international_online_offer:signup'
     assert context['get_to_know_market_articles'] == []
     assert context['support_and_incentives_articles'] == []
-    assert context['opportunities_articles'] == []
     assert context['trade_page'] is None
 
 

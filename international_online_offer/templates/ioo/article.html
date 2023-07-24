@@ -3,6 +3,8 @@
 {% load wagtailimages_tags %}
 {% load static %}
 
+{% block head_title %}{{page.article_title}} article {{ block.super }}{% endblock %}
+
 {% block head_other %}
   <meta
     name="description"

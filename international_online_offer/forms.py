@@ -1,4 +1,13 @@
-from django.forms import PasswordInput, Select
+from django.forms import (
+    CharField,
+    CheckboxSelectMultiple,
+    ChoiceField,
+    MultipleChoiceField,
+    PasswordInput,
+    RadioSelect,
+    Select,
+    Textarea,
+)
 from django.utils.html import mark_safe
 from great_components import forms
 
@@ -135,11 +144,11 @@ class ProfileForm(forms.Form):
     )
     agree_info_email = forms.BooleanField(
         required=False,
-        label='I would like to additional receive information by email',
+        label='I would like to receive additional information by email (optional)',
     )
     agree_info_telephone = forms.BooleanField(
         required=False,
-        label='I would like to additional receive information by telephone',
+        label='I would like to receive additional information by telephone (optional)',
     )
 
     def clean(self):
@@ -169,4 +178,48 @@ class LocationSelectForm(forms.Form):
     location = forms.ChoiceField(
         label='Select a location',
         choices=choices.REGION_CHOICES,
+    )
+
+
+class FeedbackForm(forms.Form):
+    satisfaction = ChoiceField(
+        label='1. Overall, how do you feel about your use of the expand your business in the UK service today?',
+        choices=choices.SATISFACTION_CHOICES,
+        widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
+        error_messages={
+            'required': 'You must select a level of satisfaction',
+        },
+    )
+    experience = MultipleChoiceField(
+        label='2. Did you experience any of the following issues?',
+        help_text='Tick all that apply.',
+        choices=choices.EXPERIENCE_CHOICES,
+        widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
+        error_messages={
+            'required': 'You must select one or more issues',
+        },
+    )
+    feedback_text = CharField(
+        label='3. How could we improve the service?',
+        help_text="Don't include any personal information, like your name or email address. (optional)",
+        max_length=3000,
+        required=False,
+        widget=Textarea(attrs={'class': 'govuk-textarea', 'rows': 7}),
+    )
+    likelihood_of_return = ChoiceField(
+        label='4. What is the likelihood of you returning to this site?',
+        choices=choices.LIKELIHOOD_CHOICES,
+        widget=RadioSelect(attrs={'class': 'govuk-radios__input'}),
+        error_messages={
+            'required': 'You must select one likelihood of returning options',
+        },
+    )
+    site_intentions = MultipleChoiceField(
+        label='5. What will your business use this site for?',
+        help_text='Tick all that apply.',
+        choices=choices.INTENSION_CHOICES,
+        widget=CheckboxSelectMultiple(attrs={'class': 'govuk-checkboxes__input'}),
+        error_messages={
+            'required': 'You must select one or more site use options',
+        },
     )

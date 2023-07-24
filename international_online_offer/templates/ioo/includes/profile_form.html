@@ -2,28 +2,28 @@
     <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-3">
       <form method="post">
         {% csrf_token %}
-        <label class="govuk-label govuk-label--s" for="company_name">Company name</label>
+        <label class="govuk-label govuk-label--s" for="id_company_name">Company name</label>
         {% include 'core/includes/form_field.html' with field=form.company_name %}
-        <label class="govuk-label govuk-label--s" for="company_location">Company headquarters</label>
-        <div class="govuk-hint">Type to search and choose a country from the list</div>
+        <label class="govuk-label govuk-label--s" for="js-company-location-select">Company headquarters</label>
+        <div id="hint" class="govuk-hint">Type to search and choose a country from the list</div>
         {% include 'core/includes/form_field.html' with field=form.company_location %}
-        <label class="govuk-label govuk-label--s" for="full_name">Full name</label>
+        <label class="govuk-label govuk-label--s" for="id_full_name">Full name</label>
         {% include 'core/includes/form_field.html' with field=form.full_name %}
-        <label class="govuk-label govuk-label--s" for="role">Role</label>
+        <label class="govuk-label govuk-label--s" for="id_role">Role</label>
         <div class="govuk-hint">Your role within the company</div>
         {% include 'core/includes/form_field.html' with field=form.role %}
         {% if not request.user.is_authenticated %}
-          <label class="govuk-label govuk-label--s" for="email">Email</label>
+          <label class="govuk-label govuk-label--s" for="id_email">Email</label>
           {% include 'core/includes/form_field.html' with field=form.email %}
         {% else %}
           <div style="display: none;">
           {% include 'core/includes/form_field.html' with field=form.email %}
           </div>
         {% endif %}
-        <label class="govuk-label govuk-label--s" for="telephone_number">Telephone number</label>
+        <label class="govuk-label govuk-label--s" for="id_telephone_number">Telephone number</label>
         <div class="govuk-hint">Please include the country code</div>
         {% include 'core/includes/form_field.html' with field=form.telephone_number %}
-        <label class="govuk-label govuk-label--s" for="landing_timeframe">When do you expect to launch your new UK operation?</label>
+        <label class="govuk-label govuk-label--s" for="id_landing_timeframe">When do you expect to launch your new UK operation?</label>
         <div class="eyb-select">
           {% include 'core/includes/form_field.html' with field=form.landing_timeframe %}
         </div>
