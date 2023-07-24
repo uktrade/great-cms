@@ -1,280 +1,272 @@
+@import '../fonts/typography.scss';
+
 .intro-text-container {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 .steps-list-container {
-    margin-top: 20px;
+  margin-top: 20px;
+  gap: $large-padding;
+  margin-right: $large-padding;
 
-    // Display steps on a single line above tablet size
-    @media (min-width: $tablet-size) {
-        padding-left: 0;
-        display: grid;
-        grid-auto-flow: column;
-    }
+  // Display steps on a single line above tablet size
+  @media (min-width: $tablet-size) {
+    padding-left: 0;
+    display: grid;
+    grid-auto-flow: column;
+  }
 }
 
 .steps-list-item {
-    counter-increment: li;
-    list-style: none;
-    margin-bottom: 12px;
-    padding: 0 0 0 70px;
-    position: relative;
-    overflow: hidden;
+  list-style: none;
+  margin-bottom: 12px;
+  padding: 0 0 0 10px;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  height: min-content;
+  gap: $standard-padding;
+  > div:not(.steps-description) {
+    font-size: 90px;
+    font-family: $header-font;
+    line-height: 70px;
+  }
 
-    &:before {
-        content: counter(li);
-        font-size: 90px;
-        font-weight: bold;
-        line-height: 1em;
-        left: 0;
-        min-width: 70px;
-        position: absolute;
-        text-align: center;
+  @media (max-width: $tablet-size) {
+    > div:not(.steps-description) {
+      font-size: 76px;
     }
-}
-
-@media (max-width: $tablet-size) {
-    .steps-list-item {
-        margin-bottom: 30px;
-
-        &:last-child {
-            margin-bottom: 8px;
-        }
-
-        &:before {
-            font-size: 76px;
-        }
+    margin-bottom: 30px;
+    &:last-child {
+      margin-bottom: 8px;
     }
-
+  }
 }
 
 .steps-description {
-    width: 85%;
+  width: 85%;
 }
 
 .panels-container {
-    padding-top: 24px;
+  padding-top: 24px;
 }
 
 .filters .filter-section {
-    border-bottom: 1px solid $color-main-text;
+  border-bottom: 1px solid $color-main-text;
 
-    div.options {
-        max-height: none;
+  div.options {
+    max-height: none;
+  }
+
+  .multiple-choice {
+    label,
+    label:before,
+    label:after {
+      color: $color-main-text;
     }
-
-    .multiple-choice {
-
-        label,
-        label:before,
-        label:after {
-            color: $color-main-text;
-        }
-    }
+  }
 }
 
 .event-list-card {
-    padding: 30px 15px 0px;
+  padding: 30px 15px 0px;
 
-    h2.past-year-seperator {
-        padding-bottom: $large-padding;
-        color: #AEAEAE;
-    }
+  h2.past-year-seperator {
+    padding-bottom: $large-padding;
+    color: #aeaeae;
+  }
 }
 
 .event-list-card::after {
-    margin-left: 15px;
-    border-bottom: solid 4px $color-thematic-break;
-    padding-bottom: 30px;
+  margin-left: 15px;
+  border-bottom: solid 4px $color-thematic-break;
+  padding-bottom: 30px;
 }
 
 .event-tags {
-    @media screen and (max-width: 640px) {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 16px;
-        margin-top: 16px;
-    }
+  @media screen and (max-width: 640px) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+  }
 }
 
 .event-tag-item {
-    @media (max-width: $tablet-size) {
-        font-size: 18px;
-    }
+  @media (max-width: $tablet-size) {
+    font-size: 18px;
+  }
 
-    @media screen and (max-width: 640px) {
-        flex-basis: calc(50% - 8px);
-    }
+  @media screen and (max-width: 640px) {
+    flex-basis: calc(50% - 8px);
+  }
 
-    @media screen and (min-width: 641px) {
-        border-top: 1px solid #979797;
-    }
+  @media screen and (min-width: 641px) {
+    border-top: 1px solid #979797;
+  }
 }
 
 .ea-signup-panel {
-    .ea-logo {
-        position: absolute;
-        width: 210px;
-        bottom: 65px;
-        right: 30px;
+  .ea-logo {
+    position: absolute;
+    width: 210px;
+    bottom: 65px;
+    right: 30px;
 
-        @media only screen and (max-width: 900px) {
-            width: 30%;
-        }
-
-        @media only screen and (min-width: 1400px) {
-            right: 0;
-            left: calc(50% + 200px);
-        }
-
-        &.hide-logo-below-1200 {
-            @media only screen and (max-width: 1200px) {
-                display: none;
-            }
-        }
+    @media only screen and (max-width: 900px) {
+      width: 30%;
     }
 
-    .standard-ea-sign-in-text {
-
-        >p,
-        span,
-        a {
-            @media screen and (min-width:1200px) and (max-width: 1310px) {
-                font-size: 20px;
-            }
-        }
+    @media only screen and (min-width: 1400px) {
+      right: 0;
+      left: calc(50% + 200px);
     }
+
+    &.hide-logo-below-1200 {
+      @media only screen and (max-width: 1200px) {
+        display: none;
+      }
+    }
+  }
+
+  .standard-ea-sign-in-text {
+    > p,
+    span,
+    a {
+      @media screen and (min-width: 1200px) and (max-width: 1310px) {
+        font-size: 20px;
+      }
+    }
+  }
 }
 
 .event-date-container {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    >p {
-        font-weight: bold;
+  > p {
+    font-weight: bold;
 
-        @media screen and (min-width: 641px) {
-            margin: 0;
-        }
+    @media screen and (min-width: 641px) {
+      margin: 0;
     }
+  }
 
-    .weekday {
-        @media screen and (min-width: 641px) {
-            padding-top: 25px;
-        }
+  .weekday {
+    @media screen and (min-width: 641px) {
+      padding-top: 25px;
     }
+  }
 
-    .date {
-        @media screen and (max-width: 640px) {
-            &:before {
-                content: ',\a0';
-            }
-
-            &:after {
-                content: '\a0';
-            }
-        }
-
-        @media screen and (min-width: 641px) {
-            font-size: 24px;
-            padding: 10px 0;
-        }
-    }
-
-    .time {
-        @media screen and (min-width: 641px) {
-            font-size: 18px;
-            padding: 0 5px 20px;
-        }
-    }
-
+  .date {
     @media screen and (max-width: 640px) {
-        flex-direction: row;
-        justify-content: center;
+      &:before {
+        content: ',\a0';
+      }
 
-        >p {
-            font-size: 18px;
-            margin: 2px 0;
-        }
+      &:after {
+        content: '\a0';
+      }
     }
+
+    @media screen and (min-width: 641px) {
+      font-size: 24px;
+      padding: 10px 0;
+    }
+  }
+
+  .time {
+    @media screen and (min-width: 641px) {
+      font-size: 18px;
+      padding: 0 5px 20px;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    flex-direction: row;
+    justify-content: center;
+
+    > p {
+      font-size: 18px;
+      margin: 2px 0;
+    }
+  }
 }
 
 .event-title {
-    font-size: 24px;
-    line-height: 30px;
-    margin-bottom: 10px;
+  font-size: 24px;
+  line-height: 30px;
+  margin-bottom: 10px;
 }
 
 .event-description,
 .event-description p {
-    @media screen and (max-width: 640px) {
-        font-size: 18px;
-        margin-top: 10px;
-    }
+  @media screen and (max-width: 640px) {
+    font-size: 18px;
+    margin-top: 10px;
+  }
 }
 
 .ea-landing-page {
-    &.page-header {
-        .inner-header>div:first-child {
-            @media screen and (max-width: 640px) {
-                min-width: auto;
-            }
+  &.page-header {
+    .inner-header > div:first-child {
+      @media screen and (max-width: 640px) {
+        min-width: auto;
+      }
 
-            min-width: 480px;
-        }
+      min-width: 480px;
+    }
+  }
+
+  .ea-logo {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    width: 200px;
+
+    @media only screen and (max-width: 340px) {
+      bottom: 10px;
     }
 
-    .ea-logo {
-        position: absolute;
-        bottom: 20px;
-        right: 0;
-        width: 200px;
-
-        @media only screen and (max-width: 340px) {
-            bottom: 10px;
-        }
-
-        @media only screen and (min-width: 341px) and (max-width: 640px) {
-            bottom: 15px;
-        }
-
-        @media only screen and (max-width: 900px) {
-            width: 30%;
-        }
+    @media only screen and (min-width: 341px) and (max-width: 640px) {
+      bottom: 15px;
     }
+
+    @media only screen and (max-width: 900px) {
+      width: 30%;
+    }
+  }
 }
 
 .ea-listing-page {
-    >.page-header {
-        @media screen and (max-width: 640px) {
-            height: auto;
-        }
-
-        .inner-header>div:first-child {
-            @media screen and (max-width: 640px) {
-                min-width: auto;
-                padding-bottom: 0;
-            }
-
-            min-width: 480px;
-        }
+  > .page-header {
+    @media screen and (max-width: 640px) {
+      height: auto;
     }
+
+    .inner-header > div:first-child {
+      @media screen and (max-width: 640px) {
+        min-width: auto;
+        padding-bottom: 0;
+      }
+
+      min-width: 480px;
+    }
+  }
 }
 
 .ea-filter-summary::after {
-    content: "";
-    display: block;
-    border-bottom: solid 4px $color-thematic-break;
-    padding-bottom: 30px;
+  content: '';
+  display: block;
+  border-bottom: solid 4px $color-thematic-break;
+  padding-bottom: 30px;
 }
 
 .ea-filter-summary,
 .ea-filters-no-results {
-
-    >p,
-    a {
-        font-size: 20px;
-        line-height: 20px;
-    }
+  > p,
+  a {
+    font-size: 20px;
+    line-height: 20px;
+  }
 }
