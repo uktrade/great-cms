@@ -14,7 +14,7 @@
 }
 
 .steps-list-item {
-   list-style: none;
+  list-style: none;
   margin-bottom: 12px;
   padding: 0 0 0 10px;
   position: relative;
@@ -29,6 +29,7 @@
   }
 
   @media (max-width: $tablet-size) {
+
     > div:not(.steps-description) {
       font-size: 76px;
     }
