@@ -100,7 +100,6 @@ class IOOGuidePage(BaseContentPage):
         trade_page = helpers.get_trade_page(self.get_children().live().type(IOOTradePage))
         all_articles = self.get_children().live().type(IOOArticlePage)
         get_to_know_market_articles = []
-        opportunities_articles = []
         complete_contact_form_message = constants.LOW_VALUE_INVESTOR_SIGNUP_MESSAGE
         if triage_data:
             if triage_data.is_high_value:
@@ -108,7 +107,6 @@ class IOOGuidePage(BaseContentPage):
             get_to_know_market_articles = helpers.find_get_to_know_market_articles(
                 all_articles, triage_data.sector, triage_data.intent
             )
-            opportunities_articles = helpers.find_opportunities_articles(all_articles, triage_data.sector)
         support_and_incentives_articles = helpers.find_get_support_and_incentives_articles(all_articles)
         context.update(
             complete_contact_form_message=complete_contact_form_message,
@@ -118,7 +116,6 @@ class IOOGuidePage(BaseContentPage):
             user_data=user_data,
             get_to_know_market_articles=get_to_know_market_articles,
             support_and_incentives_articles=support_and_incentives_articles,
-            opportunities_articles=opportunities_articles,
             trade_page=trade_page,
         )
         self.set_ga360_payload(

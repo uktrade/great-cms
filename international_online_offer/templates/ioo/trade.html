@@ -3,6 +3,8 @@
 {% load wagtailimages_tags %}
 {% load static %}
 
+{% block head_title %}Trade associations and events {{ block.super }}{% endblock %}
+
 {% block head_other %}
   <meta
     name="description"
@@ -31,7 +33,7 @@
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <h3 class="govuk-heading-l">UK trade events for the {{ triage_data.get_sector_display|lower }} sector</h1>
+      <h2 class="govuk-heading-l">UK trade events for the {{ triage_data.get_sector_display|lower }} sector</h2>
     </div>
   </div>
 
@@ -48,7 +50,7 @@
                     {% endif %}
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full">
-                                <h4 class="govuk-heading-m article-list-item-title trade-show-link">{{ page.specific.tradeshow_title }}</h4>
+                                <h3 class="govuk-heading-m article-list-item-title trade-show-link">{{ page.specific.tradeshow_title }}</h3>
                                 <p class="govuk-body article-list-item-teaser">{{ page.specific.tradeshow_subheading }}</p>
                             </div>
                         </div>
@@ -71,7 +73,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <h3 class="govuk-heading-l">UK trade associations for the {{ triage_data.get_sector_display|lower }} sector</h1>
+      <h2 class="govuk-heading-l">UK trade associations for the {{ triage_data.get_sector_display|lower }} sector</h2>
     </div>
   </div>
 
@@ -87,7 +89,7 @@
                     {% endif %}
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full">
-                                <h4 class="govuk-heading-m article-list-item-title trade-show-link">{{ ass.association_name }}</h4>
+                                <h3 class="govuk-heading-m article-list-item-title trade-show-link">{{ ass.association_name }}</h3>
                                 <p class="govuk-body article-list-item-teaser">{{ ass.brief_description }}</p>
                             </div>
                         </div>

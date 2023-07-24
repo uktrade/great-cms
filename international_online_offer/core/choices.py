@@ -100,3 +100,40 @@ LANDING_TIMEFRAME_CHOICES = (
     (landing_timeframes.ONE_TO_TWO_YEARS, '1 - 2 years'),
     (landing_timeframes.OVER_TWO_YEARS, 'Over 2 years'),
 )
+
+SATISFACTION_CHOICES = (
+    ('VERY_SATISFIED', 'Very satisfied'),
+    ('SATISFIED', 'Satisfied'),
+    ('NEITHER', 'Neither satisfied nor dissatisfied'),
+    ('DISSATISFIED', 'Dissatisfied'),
+    ('VERY_DISSATISFIED', 'Very dissatisfied'),
+)
+
+EXPERIENCE_CHOICES = (
+    ('I_DID_NOT_EXPERIENCE_ANY_ISSUE', 'I did not experience any issue'),
+    ('PROCESS_IS_NOT_CLEAR', 'Process is not clear'),
+    ('NOT_ENOUGH_GUIDANCE', 'Not enough guidance'),
+    ('I_WAS_ASKED_FOR_INFORMATION_I_DID_NOT_HAVE', 'I was asked for information I did not have'),
+    ('I_DID_NOT_GET_THE_INFORMATION_I_EXPECTED', 'I did not get the information I expected'),
+)
+
+LIKELIHOOD_CHOICES = (
+    ('EXTREMELY_LIKELY', 'Extremely likely'),
+    ('LIKELY', 'Likely'),
+    ('NEITHER_LIKELY_NOR_UNLIKELY', 'Neither likely nor unlikely'),
+    ('UNLIKELY', 'Unlikely'),
+    ('EXTREMELY_UNLIKELY', 'Extremely unlikely'),
+    ('DONT_KNOW_OR_PREFER_NOT_TO_SAY', "Don't know / prefer not to say"),
+)
+
+INTENSION_CHOICES = (
+    ('DECIDE_IF_WE_SHOULD_SET_UP_IN_THE_UK', 'Decide if we should set up in the UK'),
+    ('HELP_US_SET_UP_IN_THE_UK', 'Help us set up in the UK'),
+    ('UNDERSTAND_THE_UK_LEGAL_SYSTEM', 'Understand the UK legal system such as tax and employment regulations'),
+    ('PUT_US_IN_TOUCH_WITH_EXPERTS', 'Put us in touch with experts to help us set up'),
+    ('ACCESS_TRUSTED_INFORMATION', 'Access trusted information'),
+    ('LEARN_ABOUT_AVAILABLE_INCENTIVES', 'Learn about available incentives'),
+    ('OTHER', 'Other'),
+    ('DONT_KNOW_OR_PREFER_NOT_TO_SAY', "Don't know / prefer not to say"),
+    ('MY_BUSINESS_WILL_NOT_USE_THE_SITE', 'My business will not use the site'),
+)

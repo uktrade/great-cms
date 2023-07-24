@@ -4,7 +4,7 @@
 <header data-ga-section="header">
     <div class="atlas-header__global">
         <div class="atlas-container atlas-container--wide">
-            <img height="30" alt="Department for Business and Trade"
+            <img height="30" alt="Expand your business in the UK, home page of service"
                  src="{% static 'images/dbt-red-footer-logo.93fc9e99b781.svg' %}">
         </div>
     </div>
@@ -75,7 +75,7 @@
                             <a class="atlas-nav__item" href="{% url 'international_online_offer:edit-your-answers' %}" style="cursor: pointer;">Edit answers</a>
                         </li>
                         <li>
-                            <a class="atlas-nav__item" style="cursor: pointer;" onclick="signOut()">Sign out</a>
+                            <a class="atlas-nav__item" tabindex="0" role="link" style="cursor: pointer;" onclick="signOut()">Sign out</a>
                         </li>
                     {% else %}
 
