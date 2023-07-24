@@ -4,6 +4,7 @@
     {% if existing_ea_user %}
         {% include 'export_academy/accounts/includes/existing_user_form_fields.html' %}
     {% else %}
+        <p class="govuk-body govuk-!-margin-top-6 govuk-!-margin-bottom-6">Don't have an account? <a class="govuk-link" href="{% url 'export_academy:signup' %}">Sign up</a>
         {% csrf_token %}
         {% for field in form.visible_fields %}
             <div class="govuk-form-group {% if field.errors %}govuk-form-group--error govuk-!-margin-top-6{% endif %}">
