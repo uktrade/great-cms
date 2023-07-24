@@ -4,7 +4,7 @@
 
 .steps-list-container {
     margin-top: 20px;
-
+    gap: $large-padding;
     // Display steps on a single line above tablet size
     @media (min-width: $tablet-size) {
         padding-left: 0;
@@ -14,38 +14,25 @@
 }
 
 .steps-list-item {
-    counter-increment: li;
-    list-style: none;
-    margin-bottom: 12px;
-    padding: 0 0 0 70px;
-    position: relative;
-    overflow: hidden;
+   list-style: none;
+  margin-bottom: 12px;
+  padding: 0 0 0 10px;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  height: min-content;
+  gap: $standard-padding;
+  > div:not(.steps-description) {
+    font-size: 90px;
+    font-family: $header-font;
+    line-height: 70px;
+  }
 
-    &:before {
-        content: counter(li);
-        font-size: 90px;
-        font-weight: bold;
-        line-height: 1em;
-        left: 0;
-        min-width: 70px;
-        position: absolute;
-        text-align: center;
+  @media (max-width: $tablet-size) {
+    > div:not(.steps-description) {
+      font-size: 76px;
     }
-}
-
-@media (max-width: $tablet-size) {
-    .steps-list-item {
-        margin-bottom: 30px;
-
-        &:last-child {
-            margin-bottom: 8px;
-        }
-
-        &:before {
-            font-size: 76px;
-        }
-    }
-
+  }
 }
 
 .steps-description {
