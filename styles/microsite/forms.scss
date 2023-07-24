@@ -1,6 +1,6 @@
 @import '../fonts/main.scss';
 
-$color-error: #eb4f4d;
+$color-error: #D4351C;
 .microsite {
   .govuk-form-control {
     width: 100%;
@@ -24,6 +24,7 @@ $color-error: #eb4f4d;
       ul {
         list-style-type: none;
         padding-left: 0;
+        padding-right: 0;
         margin-bottom: 0;
 
         li {
