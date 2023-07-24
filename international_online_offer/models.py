@@ -418,14 +418,8 @@ class SalaryData(models.Model):
     region = models.CharField(max_length=255)
     vertical = models.CharField(max_length=255)
     professional_level = models.CharField(max_length=255)
-    occupation = models.CharField(max_length=255)
-    code = models.CharField(max_length=255, null=True)
-    year = models.IntegerField(null=True)
-    number_of_jobs_thousands = models.IntegerField(null=True)
     median_salary = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    median_annual_percentage_change = models.IntegerField(null=True)
     mean_salary = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    mean_annual_percentage_change = models.IntegerField(null=True)
 
 
 class RentData(models.Model):
