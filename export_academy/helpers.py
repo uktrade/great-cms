@@ -79,16 +79,19 @@ def user_booked_on_event(user, event):
 
 def get_event_booking_button(user, event):
     result = []
-    if user.is_anonymous or not user_booked_on_event(user, event):
-        if event.status is not Event.STATUS_FINISHED and not event.completed and not event.closed:
-            result += [
-                {
-                    'label': f'Book<span class="great-visually-hidden"> {event.name}</span>',
-                    'classname': 'govuk-button govuk-!-margin-bottom-0 ukea-ga-tracking',
-                    'value': 'Confirmed',
-                    'type': 'submit',
-                },
-            ]
+    if event.status is not Event.STATUS_FINISHED and not event.completed and not event.closed:
+        button = {
+            'label': f'Book<span class="great-visually-hidden"> {event.name}</span>',
+            'classname': 'govuk-button govuk-!-margin-bottom-0 ukea-ga-tracking',
+            'value': 'Confirmed',
+            'type': 'submit',
+        }
+        if user.is_anonymous:
+            button['label'] = f'Sign up<span class="great-visually-hidden"> {event.name}</span>'
+            result += [button]
+        elif not user_booked_on_event(user, event):
+            button['label'] = f'Book<span class="great-visually-hidden"> {event.name}</span>'
+            result += [button]
     return result
 
 
