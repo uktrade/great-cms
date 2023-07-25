@@ -26,7 +26,7 @@ class GreatMediaFactory(wagtail_factories.DocumentFactory):
 
 class EventFactory(factory.django.DjangoModelFactory):
     id = factory.Faker('uuid4')
-    external_id = factory.fuzzy.FuzzyText(length=9, chars=string.digits)
+    external_id = factory.fuzzy.FuzzyInteger(200000000, 299999999)
     name = factory.fuzzy.FuzzyText(length=15)
     description = factory.fuzzy.FuzzyText(length=60)
     start_date = timezone.localtime()
@@ -45,7 +45,7 @@ class EventFactory(factory.django.DjangoModelFactory):
 
 class RegistrationFactory(factory.django.DjangoModelFactory):
     id = factory.Faker('uuid4')
-    external_id = factory.fuzzy.FuzzyText(length=9, chars=string.digits)
+    external_id = factory.fuzzy.FuzzyInteger(200000000, 299999999)
     hashed_sso_id = factory.fuzzy.FuzzyText(length=32, chars=string.digits)
     email = factory.Sequence(lambda n: '%d@example.com' % n)
     first_name = factory.fuzzy.FuzzyText(length=10)
