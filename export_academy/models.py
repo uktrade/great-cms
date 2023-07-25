@@ -68,9 +68,9 @@ class Event(TimeStampedModel, ClusterableModel, EventPanel):
     base_form_class = EventAdminModelForm
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    external_id = models.CharField(blank=True, null=True, max_length=255)
+    external_id = models.PositiveIntegerField(null=True)
     name = models.CharField(max_length=255)
-    description = models.CharField(max_length=1000)
+    description = models.CharField(max_length=2500)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     format = models.CharField(max_length=15, choices=FORMAT_CHOICES, default=ONLINE)
@@ -149,10 +149,10 @@ class Registration(TimeStampedModel):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     hashed_sso_id = models.CharField(null=True, max_length=128)
-    external_id = models.CharField(blank=True, null=True, max_length=255)
+    external_id = models.PositiveIntegerField(null=True)
     email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
     data = models.JSONField(blank=True, default=dict)
 
     class Meta:
