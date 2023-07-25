@@ -55,4 +55,9 @@ urlpatterns = [
         views.IOOEditYourAnswers.as_view(),
         name='edit-your-answers',
     ),
+    path(
+        'feedback/',
+        views.IOOFeedback.as_view(),
+        name='feedback',
+    ),
 ]

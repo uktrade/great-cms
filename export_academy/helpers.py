@@ -196,7 +196,7 @@ def get_sectors_string(sectors_list: list) -> str:
 def get_registration_from_unique_link(idb64, token):
     external_id = force_str(urlsafe_base64_decode(idb64))
     try:
-        registration = Registration.objects.get(external_id=external_id)
+        registration = Registration.objects.get(external_id=int(external_id or 0))
         email_hash = hashlib.sha256(registration.email.encode('UTF-8'))
         if email_hash.hexdigest() == token:
             return registration

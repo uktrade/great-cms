@@ -1,6 +1,8 @@
 {% extends './base.html' %}
 {% load static %}
 
+{% block head_title %}Sign in {{ block.super }}{% endblock %}
+
 {% block head_other %}
   <meta
     name="description"
@@ -33,14 +35,12 @@
         </div>
       </div>
       {% endif %}
-      {% comment %} <form action="{% url 'sso:business-sso-login-api' %}" method="post"> {% endcomment %}
       <div id="login">
         <form method="post">
           {% csrf_token %}
-          <label class="govuk-label" for="company_location">Email</label>
+          <label class="govuk-label" for="id_email">Email</label>
           {% include 'core/includes/form_field.html' with field=form.email %}
-          <label class="govuk-label" for="company_location">Password</label>
-          {% comment %} <div class="govuk-hint">Type to search and choose from the list</div> {% endcomment %}
+          <label class="govuk-label" for="id_password">Password</label>
           {% include 'core/includes/form_field.html' with field=form.password %}
           <p><a class="govuk-link" href="{{ javascript_components.password_reset_url }}">Forgotten password?</a></p>
           {% include './includes/submit_button.html' with button_text='Sign in'  %}

@@ -145,6 +145,7 @@ TEMPLATES = [
                 'wagtail.contrib.settings.context_processors.settings',
                 'core.context_processors.services_home_links',
                 'international_online_offer.context_processors.eyb_user',
+                'international_online_offer.context_processors.feedback_next_url',
             ],
         },
     },
@@ -832,13 +833,14 @@ WAGTAILTRANSFER_FOLLOWED_REVERSE_RELATIONS = [
     ('core.greatmedia', 'tagged_items', True),
 ]
 
-WAGTAILTRANSFER_NO_FOLLOW_MODELS = ['wagtailcore.page']
+WAGTAILTRANSFER_NO_FOLLOW_MODELS = ['wagtailcore.page', 'core.MicrositePage', 'auth.permission', 'wagtailcore.revision']
 
 WAGTAILTRANSFER_LOOKUP_FIELDS = {
     'taggit.tag': ['slug'],
     'core.personalisationhscodetag': ['slug'],
     'core.personalisationcountrytag': ['slug'],
     'auth.user': ['username'],
+    'auth.permission': ['content_type_id', 'id'],
 }
 
 # dit_helpdesk

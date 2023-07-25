@@ -97,7 +97,7 @@ class ActivityStreamExportAcademyEventSerializer(serializers.ModelSerializer):
     UKEA's Event serializer for Activity Stream.
     """
 
-    externalId = serializers.CharField(source='external_id')  # noqa: N815
+    externalId = serializers.IntegerField(source='external_id')  # noqa: N815
     startDate = serializers.DateTimeField(source='start_date')  # noqa: N815
     endDate = serializers.DateTimeField(source='end_date')  # noqa: N815
     liveDate = serializers.DateTimeField(source='live')  # noqa: N815
@@ -145,7 +145,7 @@ class ActivityStreamExportAcademyRegistrationSerializer(serializers.ModelSeriali
     UKEA's Registration serializer for Activity Stream.
     """
 
-    externalId = serializers.CharField(source='external_id')  # noqa: N815
+    externalId = serializers.IntegerField(source='external_id')  # noqa: N815
     firstName = serializers.CharField(source='first_name')  # noqa: N815
     lastName = serializers.CharField(source='last_name')  # noqa: N815
     hashedSsoId = serializers.CharField(source='hashed_sso_id')  # noqa: N815

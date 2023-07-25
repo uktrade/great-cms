@@ -1,6 +1,8 @@
 {% extends '../base.html' %}
 {% load static %}
 
+{% block head_title %}What is your business sector? {{ block.super }}{% endblock %}
+
 {% block head_other %}
   <meta
     name="description"
@@ -22,8 +24,8 @@
       <form method="post" onsubmit="return onSubmitSector()">
         {% csrf_token %}
         <div class="form-group" id="id_sector-container">
-          <label class="govuk-label govuk-label--m" for="sector">Enter a sector</label>
-          <div class="govuk-hint govuk-!-margin-bottom-3">Start searching for your sector and choose the best match from the suggested list</div>
+          <label class="govuk-label govuk-label--m" for="js-sector-select">Enter a sector</label>
+          <div id="hint" class="govuk-hint govuk-!-margin-bottom-3">Start searching for your sector and choose the best match from the suggested list</div>
           {% include 'core/includes/form_field.html' with field=form.sector %}
           {% include '../includes/submit_button.html' with button_text='Continue'  %}
         </div>
