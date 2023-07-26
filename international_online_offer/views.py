@@ -37,7 +37,7 @@ def calculate_and_store_is_high_value(request):
         request.session['is_high_value'] = is_high_value
 
 
-class IOOIndex(GA360Mixin, TemplateView):
+class ExpandYourBusinessIndex(GA360Mixin, TemplateView):
     template_name = 'eyb/index.html'
 
     def __init__(self):
@@ -49,7 +49,7 @@ class IOOIndex(GA360Mixin, TemplateView):
         )
 
 
-class IOOSector(GA360Mixin, FormView):
+class ExpandYourBusinessSector(GA360Mixin, FormView):
     form_class = forms.SectorForm
     template_name = 'eyb/triage/sector.html'
 
@@ -105,7 +105,7 @@ class IOOSector(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class IOOIntent(GA360Mixin, FormView):
+class ExpandYourBusinessIntent(GA360Mixin, FormView):
     form_class = forms.IntentForm
     template_name = 'eyb/triage/intent.html'
 
@@ -163,7 +163,7 @@ class IOOIntent(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class IOOLocation(GA360Mixin, FormView):
+class ExpandYourBusinessLocation(GA360Mixin, FormView):
     form_class = forms.LocationForm
     template_name = 'eyb/triage/location.html'
 
@@ -224,7 +224,7 @@ class IOOLocation(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class IOOHiring(GA360Mixin, FormView):
+class ExpandYourBusinessHiring(GA360Mixin, FormView):
     form_class = forms.HiringForm
     template_name = 'eyb/triage/hiring.html'
 
@@ -280,7 +280,7 @@ class IOOHiring(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class IOOSpend(GA360Mixin, FormView):
+class ExpandYourBusinessSpend(GA360Mixin, FormView):
     form_class = forms.SpendForm
     template_name = 'eyb/triage/spend.html'
 
@@ -338,7 +338,7 @@ class IOOSpend(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class IOOProfile(GA360Mixin, FormView):
+class ExpandYourBusinessProfile(GA360Mixin, FormView):
     form_class = forms.ProfileForm
     template_name = 'eyb/profile.html'
 
@@ -447,7 +447,7 @@ class IOOProfile(GA360Mixin, FormView):
         return super().form_valid(form)
 
 
-class IOOLogin(GA360Mixin, sso_mixins.SignInMixin, TemplateView):
+class ExpandYourBusinessLogin(GA360Mixin, sso_mixins.SignInMixin, TemplateView):
     form_class = forms.LoginForm
     template_name = 'eyb/login.html'
     success_url = '/international/expand-your-business-in-the-uk/guide/'
@@ -485,7 +485,7 @@ class IOOLogin(GA360Mixin, sso_mixins.SignInMixin, TemplateView):
         return render(request, self.template_name, {'form': form})
 
 
-class IOOSignUp(
+class ExpandYourBusinessSignUp(
     GA360Mixin, sso_mixins.ResendVerificationMixin, sso_mixins.VerifyCodeMixin, sso_mixins.SignUpMixin, TemplateView
 ):
     template_name = 'eyb/signup.html'
@@ -588,7 +588,7 @@ class IOOSignUp(
             return self.do_sign_up_flow(request)
 
 
-class IOOEditYourAnswers(GA360Mixin, TemplateView):
+class ExpandYourBusinessEditYourAnswers(GA360Mixin, TemplateView):
     template_name = 'eyb/edit_your_answers.html'
 
     def __init__(self):
@@ -610,7 +610,7 @@ class IOOEditYourAnswers(GA360Mixin, TemplateView):
         )
 
 
-class IOOFeedback(GA360Mixin, FormView):
+class ExpandYourBusinessFeedback(GA360Mixin, FormView):
     form_class = forms.FeedbackForm
     template_name = 'eyb/feedback.html'
     subject = 'EYB Feedback form'

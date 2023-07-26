@@ -7,57 +7,57 @@ app_name = 'international_online_offer'
 urlpatterns = [
     path(
         '',
-        views.IOOIndex.as_view(),
+        views.ExpandYourBusinessIndex.as_view(),
         name='index',
     ),
     path(
         'sector/',
-        views.IOOSector.as_view(),
+        views.ExpandYourBusinessSector.as_view(),
         name='sector',
     ),
     path(
         'intent/',
-        views.IOOIntent.as_view(),
+        views.ExpandYourBusinessIntent.as_view(),
         name='intent',
     ),
     path(
         'location/',
-        views.IOOLocation.as_view(),
+        views.ExpandYourBusinessLocation.as_view(),
         name='location',
     ),
     path(
         'hiring/',
-        views.IOOHiring.as_view(),
+        views.ExpandYourBusinessHiring.as_view(),
         name='hiring',
     ),
     path(
         'spend/',
-        views.IOOSpend.as_view(),
+        views.ExpandYourBusinessSpend.as_view(),
         name='spend',
     ),
     path(
         'profile/',
-        views.IOOProfile.as_view(),
+        views.ExpandYourBusinessProfile.as_view(),
         name='profile',
     ),
     path(
         'login/',
-        views.IOOLogin.as_view(),
+        views.ExpandYourBusinessLogin.as_view(),
         name='login',
     ),
     path(
         'signup/',
-        views.IOOSignUp.as_view(),
+        views.ExpandYourBusinessSignUp.as_view(),
         name='signup',
     ),
     path(
         'edit-your-answers/',
-        views.IOOEditYourAnswers.as_view(),
+        views.ExpandYourBusinessEditYourAnswers.as_view(),
         name='edit-your-answers',
     ),
     path(
         'feedback/',
-        views.IOOFeedback.as_view(),
+        views.ExpandYourBusinessFeedback.as_view(),
         name='feedback',
     ),
 ]
