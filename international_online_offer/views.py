@@ -38,7 +38,7 @@ def calculate_and_store_is_high_value(request):
 
 
 class IOOIndex(GA360Mixin, TemplateView):
-    template_name = 'ioo/index.html'
+    template_name = 'eyb/index.html'
 
     def __init__(self):
         super().__init__()
@@ -51,7 +51,7 @@ class IOOIndex(GA360Mixin, TemplateView):
 
 class IOOSector(GA360Mixin, FormView):
     form_class = forms.SectorForm
-    template_name = 'ioo/triage/sector.html'
+    template_name = 'eyb/triage/sector.html'
 
     def __init__(self):
         super().__init__()
@@ -107,7 +107,7 @@ class IOOSector(GA360Mixin, FormView):
 
 class IOOIntent(GA360Mixin, FormView):
     form_class = forms.IntentForm
-    template_name = 'ioo/triage/intent.html'
+    template_name = 'eyb/triage/intent.html'
 
     def __init__(self):
         super().__init__()
@@ -165,7 +165,7 @@ class IOOIntent(GA360Mixin, FormView):
 
 class IOOLocation(GA360Mixin, FormView):
     form_class = forms.LocationForm
-    template_name = 'ioo/triage/location.html'
+    template_name = 'eyb/triage/location.html'
 
     def __init__(self):
         super().__init__()
@@ -226,7 +226,7 @@ class IOOLocation(GA360Mixin, FormView):
 
 class IOOHiring(GA360Mixin, FormView):
     form_class = forms.HiringForm
-    template_name = 'ioo/triage/hiring.html'
+    template_name = 'eyb/triage/hiring.html'
 
     def __init__(self):
         super().__init__()
@@ -282,7 +282,7 @@ class IOOHiring(GA360Mixin, FormView):
 
 class IOOSpend(GA360Mixin, FormView):
     form_class = forms.SpendForm
-    template_name = 'ioo/triage/spend.html'
+    template_name = 'eyb/triage/spend.html'
 
     def __init__(self):
         super().__init__()
@@ -340,7 +340,7 @@ class IOOSpend(GA360Mixin, FormView):
 
 class IOOProfile(GA360Mixin, FormView):
     form_class = forms.ProfileForm
-    template_name = 'ioo/profile.html'
+    template_name = 'eyb/profile.html'
 
     def get_success_url(self) -> str:
         if self.request.GET.get('signup'):
@@ -449,7 +449,7 @@ class IOOProfile(GA360Mixin, FormView):
 
 class IOOLogin(GA360Mixin, sso_mixins.SignInMixin, TemplateView):
     form_class = forms.LoginForm
-    template_name = 'ioo/login.html'
+    template_name = 'eyb/login.html'
     success_url = '/international/expand-your-business-in-the-uk/guide/'
 
     def __init__(self):
@@ -488,7 +488,7 @@ class IOOLogin(GA360Mixin, sso_mixins.SignInMixin, TemplateView):
 class IOOSignUp(
     GA360Mixin, sso_mixins.ResendVerificationMixin, sso_mixins.VerifyCodeMixin, sso_mixins.SignUpMixin, TemplateView
 ):
-    template_name = 'ioo/signup.html'
+    template_name = 'eyb/signup.html'
     success_url = '/international/expand-your-business-in-the-uk/guide/'
 
     def __init__(self):
@@ -589,7 +589,7 @@ class IOOSignUp(
 
 
 class IOOEditYourAnswers(GA360Mixin, TemplateView):
-    template_name = 'ioo/edit_your_answers.html'
+    template_name = 'eyb/edit_your_answers.html'
 
     def __init__(self):
         super().__init__()
@@ -612,7 +612,7 @@ class IOOEditYourAnswers(GA360Mixin, TemplateView):
 
 class IOOFeedback(GA360Mixin, FormView):
     form_class = forms.FeedbackForm
-    template_name = 'ioo/feedback.html'
+    template_name = 'eyb/feedback.html'
     subject = 'EYB Feedback form'
 
     def __init__(self):

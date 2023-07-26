@@ -85,13 +85,13 @@ class IOOIndexPage(BaseContentPage):
     subpage_types = [
         'international_online_offer.IOOGuidePage',
     ]
-    template = 'ioo/index.html'
+    template = 'eyb/index.html'
 
 
 class IOOGuidePage(BaseContentPage):
     parent_page_types = ['international_online_offer.IOOIndexPage']
     subpage_types = ['international_online_offer.IOOArticlePage', 'international_online_offer.IOOTradePage']
-    template = 'ioo/guide.html'
+    template = 'eyb/guide.html'
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -146,7 +146,7 @@ class IOOArticlePage(BaseContentPage):
         'international_online_offer.IOOGuidePage',
     ]
     subpage_types = []
-    template = 'ioo/article.html'
+    template = 'eyb/article.html'
     article_title = models.TextField()
     article_subheading = StreamField(
         [
@@ -299,7 +299,7 @@ class IOOArticlePage(BaseContentPage):
 class IOOTradePage(BaseContentPage):
     parent_page_types = ['international_online_offer.IOOGuidePage']
     subpage_types = ['international_online_offer.IOOTradeShowPage']
-    template = 'ioo/trade.html'
+    template = 'eyb/trade.html'
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -345,7 +345,7 @@ class IOOTradeShowPageTag(TaggedItemBase):
 class IOOTradeShowPage(BaseContentPage):
     parent_page_types = ['international_online_offer.IOOTradePage']
     subpage_types = []
-    template = 'ioo/trade.html'
+    template = 'eyb/trade.html'
     tradeshow_title = models.TextField()
     tradeshow_subheading = StreamField(
         [
