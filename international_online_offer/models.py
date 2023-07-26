@@ -205,6 +205,7 @@ class IOOArticlePage(BaseContentPage):
         FieldPanel('tags'),
     ]
 
+    # flake8: noqa: C901
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         if helpers.is_authenticated(request):
@@ -228,21 +229,30 @@ class IOOArticlePage(BaseContentPage):
                     entry_salary, mid_salary, executive_salary
                 )
 
-                large_warehouse_rent = RentData.objects.filter(
-                    region=region, sub_vertical='Large Warehouses'
-                ).aggregate(Avg('value_converted'))
-                small_warehouse_rent = RentData.objects.filter(
-                    region=region, sub_vertical='Small Warehouses'
-                ).aggregate(Avg('value_converted'))
-                shopping_centre = RentData.objects.filter(
-                    region=region, sub_vertical='Prime Shopping Center'
-                ).aggregate(Avg('value_converted'))
-                high_street_retail = RentData.objects.filter(
-                    region=region, sub_vertical='High Street Retail'
-                ).aggregate(Avg('value_converted'))
-                work_office = RentData.objects.filter(region=region, sub_vertical='Work Office').aggregate(
-                    Avg('value_converted')
-                )
+                try:
+                    large_warehouse_rent = RentData.objects.get(region__iexact=region, sub_vertical='Large Warehouses')
+                except RentData.DoesNotExist:
+                    large_warehouse_rent = None
+
+                try:
+                    small_warehouse_rent = RentData.objects.get(region__iexact=region, sub_vertical='Small Warehouses')
+                except RentData.DoesNotExist:
+                    small_warehouse_rent = None
+
+                try:
+                    shopping_centre = RentData.objects.get(region__iexact=region, sub_vertical='Prime shopping centre')
+                except RentData.DoesNotExist:
+                    shopping_centre = None
+
+                try:
+                    high_street_retail = RentData.objects.get(region__iexact=region, sub_vertical='High Street Retail')
+                except RentData.DoesNotExist:
+                    high_street_retail = None
+
+                try:
+                    work_office = RentData.objects.get(region__iexact=region, sub_vertical='Work Office')
+                except RentData.DoesNotExist:
+                    work_office = None
 
                 (
                     large_warehouse_rent,
@@ -408,27 +418,13 @@ class SalaryData(models.Model):
     region = models.CharField(max_length=255)
     vertical = models.CharField(max_length=255)
     professional_level = models.CharField(max_length=255)
-    occupation = models.CharField(max_length=255)
-    code = models.CharField(max_length=255, null=True)
-    year = models.IntegerField(null=True)
-    number_of_jobs_thousands = models.IntegerField(null=True)
     median_salary = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    median_annual_percentage_change = models.IntegerField(null=True)
     mean_salary = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    mean_annual_percentage_change = models.IntegerField(null=True)
 
 
 class RentData(models.Model):
-    country = models.CharField(max_length=255)
     region = models.CharField(max_length=255)
-    city_or_region = models.CharField(max_length=255)
-    category = models.CharField(max_length=255)
-    vertical = models.CharField(max_length=255)
     sub_vertical = models.CharField(max_length=255)
-    year = models.IntegerField(null=True)
-    metric_converted = models.CharField(max_length=255, null=True)
-    value_converted = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    title = models.CharField(max_length=255, null=True)
-    metric_original = models.CharField(max_length=255, null=True)
-    value_original = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    time_period = models.CharField(max_length=255, null=True)
+    gbp_per_square_foot_per_month = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    square_feet = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    gbp_per_month = models.DecimalField(max_digits=10, decimal_places=2, null=True)
