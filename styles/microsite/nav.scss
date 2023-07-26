@@ -165,6 +165,9 @@ $menu-border: 5px solid $color-alternative-text;
       }
       a {
         text-decoration: none;
+        &.rtl {
+          line-height: 2.35;
+        }
         &::first-letter {
           text-transform: capitalize;
         }
